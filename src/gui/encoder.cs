@@ -5141,7 +5141,8 @@ public partial class ChronoJumpWindow
 		int graphHeight=encoder_capture_curves_bars_drawingarea.Allocation.Height;
 	
 		string eccon = findEccon(true);
-		ArrayList data = new ArrayList (data6Variables.Count);
+		ArrayList data = new ArrayList (data6Variables.Count); //data is related to mainVariable (barplot)
+		ArrayList dataSecondary = new ArrayList (data6Variables.Count); //dataSecondary is related to secondary variable (by default range)
 		int count = 0;
 		int showNRepetitions = preferences.encoderCaptureShowNRepetitions;
 		bool lastIsEcc = false;
@@ -5152,12 +5153,16 @@ public partial class ChronoJumpWindow
 			LogB.Information(string.Format("count: {0}, value: {1}", count, ebd.GetValue(mainVariable)));
 			//when capture ended, show all repetitions
 			if(showNRepetitions == -1 || ! capturing)
+			{
 				data.Add(ebd.GetValue(mainVariable));
+				dataSecondary.Add(ebd.GetValue(Constants.RangeAbsolute));
+			}
 			else {
 				if(eccon == "c" && ( data6Variables.Count <= showNRepetitions || 	//total repetitions are less than show repetitions threshold ||
 						count >= data6Variables.Count - showNRepetitions ) ) 	//count is from the last group of reps (reps that have to be shown)
 				{
 					data.Add(ebd.GetValue(mainVariable));
+					dataSecondary.Add(ebd.GetValue(Constants.RangeAbsolute));
 				}
 				else if(eccon != "c" && (
 						data6Variables.Count <= 2 * showNRepetitions ||
@@ -5167,11 +5172,13 @@ public partial class ChronoJumpWindow
 					{
 						LogB.Information("added ecc");
 						data.Add(ebd.GetValue(mainVariable));
+						dataSecondary.Add(ebd.GetValue(Constants.RangeAbsolute));
 						lastIsEcc = true;
 					} else {  			//it is "par"
 						if(lastIsEcc)
 						{
 							data.Add(ebd.GetValue(mainVariable));
+							dataSecondary.Add(ebd.GetValue(Constants.RangeAbsolute));
 							LogB.Information("added con");
 							lastIsEcc = false;
 						}
@@ -5236,6 +5243,12 @@ public partial class ChronoJumpWindow
 				maxAbsolute = maxPowerIntersession;
 		}
 
+		//calculate maxAbsoluteSecondary (will be secondary variable)
+		double maxAbsoluteSecondary = 0;
+		foreach(double d in dataSecondary)
+			if(d > maxAbsoluteSecondary)
+				maxAbsoluteSecondary = d;
+
 		repetitiveConditionsWin.ResetBestSetValue(RepetitiveConditionsWindow.BestSetValueEnum.CAPTURE_MAIN_VARIABLE);
 		repetitiveConditionsWin.UpdateBestSetValue(
 				RepetitiveConditionsWindow.BestSetValueEnum.CAPTURE_MAIN_VARIABLE, maxAbsolute);
@@ -5249,8 +5262,6 @@ public partial class ChronoJumpWindow
 		int bottom_margin = 8 + preferences.encoderCaptureBarplotFontSize;
 		//bars will be plotted here
 		int graphHeightSafe = graphHeight - (top_margin + bottom_margin);
-	
-			
 
 		//plot bars
 		int sep = 20;	//between reps
@@ -5338,6 +5349,7 @@ public partial class ChronoJumpWindow
 			encoder_capture_curves_bars_pixmap.DrawRectangle(pen_colors_background_encoder_capture, true, rect);
 		}
 		
+		Gdk.Point dSecondaryPreviousPoint = new Gdk.Point(0,0);
 		bool iterOk = encoderCaptureListStore.GetIterFirst(out iter);
 		foreach(double dFor in data)
 		{
@@ -5463,6 +5475,23 @@ public partial class ChronoJumpWindow
 			}
 			//paint black outline line on bar
 			encoder_capture_curves_bars_pixmap.DrawRectangle(pen_black_encoder_capture, false, rect);
+
+			//paint secondary variable circle and lines
+			double dSecondary = Convert.ToDouble(dataSecondary[count]);
+			int dSecondaryHeight = Convert.ToInt32(graphHeightSafe * dSecondary / maxAbsoluteSecondary * 1.0);
+			int dSecondaryTop = dBottom - dSecondaryHeight;
+			Gdk.Point dSecondaryCurrentPoint = new Gdk.Point(Convert.ToInt32(dLeft + (dWidth /2)), dSecondaryTop);
+			//LogB.Information(string.Format("dSecondaryHeight: {0}; dSecondaryTop: {1}", dSecondaryHeight, dSecondaryTop));
+
+			encoder_capture_curves_bars_pixmap.DrawArc(pen_yellow_encoder_capture, true,
+					dSecondaryCurrentPoint.X -6, dSecondaryCurrentPoint.Y -6,
+					12, 12, 90 * 64, 360 * 64);
+
+			if(dSecondaryPreviousPoint.X != 0 && dSecondaryPreviousPoint.Y != 0)
+				encoder_capture_curves_bars_pixmap.DrawLine(pen_yellow_encoder_capture,
+							dSecondaryPreviousPoint.X, dSecondaryPreviousPoint.Y, dSecondaryCurrentPoint.X, dSecondaryCurrentPoint.Y);
+
+			dSecondaryPreviousPoint = dSecondaryCurrentPoint;
 
 
 			//write the result	
@@ -6323,13 +6352,14 @@ public partial class ChronoJumpWindow
 			//LogB.Debug("encoderCaptureStringR");
 			//LogB.Debug(encoderCaptureStringR);
 
+			double range = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[3]));
 			double meanSpeed = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[4]));
 			double maxSpeed = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[5]));
 			double meanForce = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[11]));
 			double maxForce = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[12]));
 			double meanPower = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[7]));
 			double peakPower = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[8]));
-			captureCurvesBarsData.Add(new EncoderBarsData(meanSpeed, maxSpeed, meanForce, maxForce, meanPower, peakPower));
+			captureCurvesBarsData.Add(new EncoderBarsData(range, meanSpeed, maxSpeed, meanForce, maxForce, meanPower, peakPower));
 			
 			LogB.Information("activating needToRefreshTreeviewCapture");
 
@@ -6982,6 +7012,7 @@ public partial class ChronoJumpWindow
 					captureCurvesBarsData = new ArrayList();
 					foreach (EncoderCurve curve in encoderCaptureCurves) {
 						captureCurvesBarsData.Add(new EncoderBarsData(
+									Convert.ToDouble(curve.Height),
 									Convert.ToDouble(curve.MeanSpeed),
 									Convert.ToDouble(curve.MaxSpeed),
 									Convert.ToDouble(curve.MeanForce),

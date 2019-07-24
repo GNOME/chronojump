@@ -148,7 +148,7 @@ ssh to chronojump server
 su
 vi /etc/chronojump.conf
 
-Change: chronojump_stable_version (4 numbers, eg. 1.4.9.0)
+Change: chronojump_stable_version
 
 example for major version:
 chronojump_stable_version=1.8.1
@@ -163,8 +163,7 @@ curl http://api.chronojump.org:8080/version
 tell people stuff
 -------------
 twitters
-publish on website
-publish on forum
+publish on website en/es (change shortcode variables)
 Tell people to update wikipedia page
 twitters again with photos, changes, ...
 

@@ -125,6 +125,7 @@ class SqlitePreferences : Sqlite
 				Insert ("encoderCaptureTime", "60", dbcmdTr);
 				Insert ("encoderCaptureInactivityEndTime", "3", dbcmdTr);
 				Insert ("encoderCaptureMainVariable", Constants.EncoderVariablesCapture.MeanPower.ToString(), dbcmdTr);
+				Insert ("encoderCaptureSecondaryVariable", Constants.EncoderVariablesCapture.RangeAbsolute.ToString(), dbcmdTr);
 				Insert ("encoderCaptureMinHeightGravitatory", "20", dbcmdTr);
 				Insert ("encoderCaptureMinHeightInertial", "5", dbcmdTr);
 				Insert ("encoderCaptureInertialDiscardFirstN", "3", dbcmdTr);
@@ -318,6 +319,9 @@ class SqlitePreferences : Sqlite
 			else if(reader[0].ToString() == "encoderCaptureMainVariable")
 				preferences.encoderCaptureMainVariable = (Constants.EncoderVariablesCapture) 
 					Enum.Parse(typeof(Constants.EncoderVariablesCapture), reader[1].ToString()); 
+			else if(reader[0].ToString() == "encoderCaptureSecondaryVariable")
+				preferences.encoderCaptureSecondaryVariable = (Constants.EncoderVariablesCapture)
+					Enum.Parse(typeof(Constants.EncoderVariablesCapture), reader[1].ToString());
 			else if(reader[0].ToString() == "encoderCaptureMinHeightGravitatory")
 				preferences.encoderCaptureMinHeightGravitatory = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == "encoderCaptureMinHeightInertial")

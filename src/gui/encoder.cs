@@ -5495,7 +5495,7 @@ public partial class ChronoJumpWindow
 							dSecondaryPreviousPoint.X, dSecondaryPreviousPoint.Y, dSecondaryCurrentPoint.X, dSecondaryCurrentPoint.Y);
 */
 rect = new Rectangle(dLeft - Convert.ToInt32(sep/2), dSecondaryCurrentPoint.Y -3, dWidth + sep, 6);
-encoder_capture_curves_bars_pixmap.DrawRectangle(pen_red_dark_encoder_catpure, true, rect);
+encoder_capture_curves_bars_pixmap.DrawRectangle(pen_red_dark_encoder_capture, true, rect);
 
 
 			dSecondaryPreviousPoint = dSecondaryCurrentPoint;

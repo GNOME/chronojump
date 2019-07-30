@@ -5485,6 +5485,7 @@ public partial class ChronoJumpWindow
 			Gdk.Point dSecondaryCurrentPoint = new Gdk.Point(Convert.ToInt32(dLeft + (dWidth /2)), dSecondaryTop);
 			//LogB.Information(string.Format("dSecondaryHeight: {0}; dSecondaryTop: {1}", dSecondaryHeight, dSecondaryTop));
 
+/*
 			encoder_capture_curves_bars_pixmap.DrawArc(pen_yellow_encoder_capture, true,
 					dSecondaryCurrentPoint.X -6, dSecondaryCurrentPoint.Y -6,
 					12, 12, 90 * 64, 360 * 64);
@@ -5492,6 +5493,10 @@ public partial class ChronoJumpWindow
 			if(dSecondaryPreviousPoint.X != 0 && dSecondaryPreviousPoint.Y != 0)
 				encoder_capture_curves_bars_pixmap.DrawLine(pen_yellow_encoder_capture,
 							dSecondaryPreviousPoint.X, dSecondaryPreviousPoint.Y, dSecondaryCurrentPoint.X, dSecondaryCurrentPoint.Y);
+*/
+rect = new Rectangle(dLeft - Convert.ToInt32(sep/2), dSecondaryCurrentPoint.Y -3, dWidth + sep, 6);
+encoder_capture_curves_bars_pixmap.DrawRectangle(pen_red_dark_encoder_catpure, true, rect);
+
 
 			dSecondaryPreviousPoint = dSecondaryCurrentPoint;
 

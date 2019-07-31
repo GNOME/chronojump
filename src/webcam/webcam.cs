@@ -234,9 +234,12 @@ public class WebcamManage
 
 	public bool RecordStart (int ncams)
 	{
-		return recordStartDo (ref webcam);
-		if(ncams > 1)
+		if(ncams == 1)
+			return recordStartDo (ref webcam);
+		else if(ncams > 1)
 			return recordStartDo (ref webcam2);
+
+		return false;
 	}
 	private bool recordStartDo (ref Webcam webcam)
 	{

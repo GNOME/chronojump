@@ -1,13 +1,3 @@
-/*
-lo de canviar la sessio actual al networks, nomes va quan es admin, cosa que no te sentit, hauria de ser com lo de la foto
-i a mes es bloqueja i no hi ha els controls de seleccio de jugador o de analisi
-potser es pq aquell subjecte no te personsession en aquella sessio
-
-al barça a partir de la sessio 17 ? tots tenen alçada i pes 0
-fer consulta de alçada i pesos al servidor
-convertir-ho a un script sqlite i passar aixo a tots els clients amb el remote_scripts (fent còpia abans)
-*/
-
 //La camera 1 va mes rapid que la 0, provar de canviar i activatr primer la 1 a veure que tal
 
 //- Arreglar problema de no coincidencia entre imatge mini i imatge gran, per exemple session6, atleta 1

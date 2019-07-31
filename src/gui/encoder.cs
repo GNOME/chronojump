@@ -398,29 +398,10 @@ public partial class ChronoJumpWindow
 	
 	//for writing text
 	Pango.Layout layout_encoder_capture_signal;
-	Pango.Layout layout_encoder_capture_curves_bars;
-	Pango.Layout layout_encoder_capture_curves_bars_text; //e, c
-	Pango.Layout layout_encoder_capture_curves_bars_superbig; //PlaySounds wewillrockyou
 
- 
-	Gdk.GC pen_black_encoder_capture;
-	Gdk.GC pen_gray;
-
-	Gdk.GC pen_red_encoder_capture;
-	Gdk.GC pen_red_dark_encoder_capture;
-	Gdk.GC pen_red_light_encoder_capture;
-	Gdk.GC pen_green_encoder_capture;
-	Gdk.GC pen_green_dark_encoder_capture;
-	Gdk.GC pen_green_light_encoder_capture;
-	Gdk.GC pen_blue_encoder_capture;
-	Gdk.GC pen_blue_dark_encoder_capture;
-	Gdk.GC pen_blue_light_encoder_capture;
-	Gdk.GC pen_yellow_encoder_capture;
-	Gdk.GC pen_colors_foreground_encoder_capture;
-	Gdk.GC pen_colors_background_encoder_capture;
-	
-	Gdk.GC pen_white_encoder_capture;
-	Gdk.GC pen_selected_encoder_capture;
+	Gdk.GC pen_black_encoder_signal;
+	Gdk.GC pen_blue_encoder_signal;
+	Gdk.GC pen_gray_encoder_signal;
 	
 
 	//TODO:put zoom,unzoom (at side of delete curve)  in capture curves (for every curve)
@@ -496,6 +477,8 @@ public partial class ChronoJumpWindow
 		LogB.Information("after play 5");
 		showTriggerTab(false);
 		LogB.Information("after play 6");
+
+		encoderGraphDoPlot = null; 	//initialize
 	}
 
 	void on_button_encoder_select_clicked (object o, EventArgs args)
@@ -5074,10 +5057,10 @@ public partial class ChronoJumpWindow
 					}
 				}
 			}
-			encoder_capture_signal_pixmap.DrawPoints(pen_gray, paintPointsInertial);
+			encoder_capture_signal_pixmap.DrawPoints(pen_gray_encoder_signal, paintPointsInertial);
 		}
 		//paint this after the inertial because this should mask the other
-		encoder_capture_signal_pixmap.DrawPoints(pen_black_encoder_capture, paintPoints);
+		encoder_capture_signal_pixmap.DrawPoints(pen_black_encoder_signal, paintPoints);
 		
 
 		//write title
@@ -5094,7 +5077,7 @@ public partial class ChronoJumpWindow
 		layout_encoder_capture_signal.SetMarkup(title);
 		
 
-		encoder_capture_signal_pixmap.DrawLayout(pen_blue_encoder_capture, 5, 5, layout_encoder_capture_signal);
+		encoder_capture_signal_pixmap.DrawLayout(pen_blue_encoder_signal, 5, 5, layout_encoder_capture_signal);
 
 		if(refreshAreaOnly) {
 			/*			
@@ -5132,603 +5115,71 @@ public partial class ChronoJumpWindow
 
 	static List<string> encoderCaptureStringR;
 	static ArrayList captureCurvesBarsData;
-	
-	//if we are capturing, play sounds
-	void plotCurvesGraphDoPlot(string mainVariable, double mainVariableHigher, double mainVariableLower,
-			string secondaryVariable, ArrayList data6Variables, int discardFirstN, bool capturing)
+
+	private void callPlotCurvesGraphDoPlot()
 	{
-		UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
-
-		int graphWidth=encoder_capture_curves_bars_drawingarea.Allocation.Width;
-		int graphHeight=encoder_capture_curves_bars_drawingarea.Allocation.Height;
-	
-		string eccon = findEccon(true);
-		ArrayList data = new ArrayList (data6Variables.Count); //data is related to mainVariable (barplot)
-		ArrayList dataSecondary = new ArrayList (data6Variables.Count); //dataSecondary is related to secondary variable (by default range)
-		int count = 0;
-		int showNRepetitions = preferences.encoderCaptureShowNRepetitions;
-		bool lastIsEcc = false;
-
-		//discard repetitions according to showNRepetitions
-		foreach(EncoderBarsData ebd in data6Variables)
-		{
-			LogB.Information(string.Format("count: {0}, value: {1}", count, ebd.GetValue(mainVariable)));
-			//when capture ended, show all repetitions
-			if(showNRepetitions == -1 || ! capturing)
-			{
-				data.Add(ebd.GetValue(mainVariable));
-				dataSecondary.Add(ebd.GetValue(secondaryVariable));
-			}
-			else {
-				if(eccon == "c" && ( data6Variables.Count <= showNRepetitions || 	//total repetitions are less than show repetitions threshold ||
-						count >= data6Variables.Count - showNRepetitions ) ) 	//count is from the last group of reps (reps that have to be shown)
-				{
-					data.Add(ebd.GetValue(mainVariable));
-					dataSecondary.Add(ebd.GetValue(secondaryVariable));
-				}
-				else if(eccon != "c" && (
-						data6Variables.Count <= 2 * showNRepetitions ||
-						count >= data6Variables.Count - 2 * showNRepetitions) )
-				{
-					if(! Util.IsEven(count +1))  	//if it is "impar"
-					{
-						LogB.Information("added ecc");
-						data.Add(ebd.GetValue(mainVariable));
-						dataSecondary.Add(ebd.GetValue(secondaryVariable));
-						lastIsEcc = true;
-					} else {  			//it is "par"
-						if(lastIsEcc)
-						{
-							data.Add(ebd.GetValue(mainVariable));
-							dataSecondary.Add(ebd.GetValue(secondaryVariable));
-							LogB.Information("added con");
-							lastIsEcc = false;
-						}
-					}
-				}
-			}
-			count ++;
-		}
-		count = 0;
-
-		//Get max min avg values of this set
-		double maxThisSet = -100000;
-		double minThisSet = 100000;
-
-		//only used for loss. For loss only con phase is used
-		double maxThisSetValidAndCon = maxThisSet;
-		double minThisSetValidAndCon = minThisSet;
-		//know not-discarded phases
-		double countValid = 0;
-		double sumValid = 0;
-
-		foreach(double d in data)
-		{
-			if(d > maxThisSet)
-				maxThisSet = d;
-			if(d < minThisSet)
-				minThisSet = d;
-
-			if( encoderConfigurationCurrent.has_inertia && discardFirstN > 0 &&
-					  ((eccon == "c" && count < discardFirstN) || (eccon != "c" && count < discardFirstN * 2)) )
-				LogB.Information("Discarded phase");
-			else {
-				countValid ++;
-				sumValid += d;
-
-				if(eccon == "c" || Util.IsEven(count +1)) //par
-				{
-					if(d > maxThisSetValidAndCon)
-						maxThisSetValidAndCon = d;
-					if(d < minThisSetValidAndCon)
-						minThisSetValidAndCon = d;
-				}
-			}
-
-			count ++;
-		}
-		if(maxThisSet <= 0)
-			return;	
-
-		double maxAbsolute = maxThisSet;
-		if(! repetitiveConditionsWin.EncoderRelativeToSet)
-		{
-			//relative to historical of this person
-
-			/*
-			 *
-			 * if there's a set captured but without repetitions saved, maxPowerIntersession will be 0
-			 * and current set (loaded or captured) will have a power that will be out of the graph
-			 * for this reason use maxAbsolute or maxThisSet, whatever is higher
-			 */
-			if(maxPowerIntersession > maxAbsolute)
-				maxAbsolute = maxPowerIntersession;
-		}
-
-		//calculate maxAbsoluteSecondary (will be secondary variable)
-		double maxAbsoluteSecondary = 0;
-		foreach(double d in dataSecondary)
-			if(d > maxAbsoluteSecondary)
-				maxAbsoluteSecondary = d;
-
-		repetitiveConditionsWin.ResetBestSetValue(RepetitiveConditionsWindow.BestSetValueEnum.CAPTURE_MAIN_VARIABLE);
-		repetitiveConditionsWin.UpdateBestSetValue(
-				RepetitiveConditionsWindow.BestSetValueEnum.CAPTURE_MAIN_VARIABLE, maxAbsolute);
-
-		int textWidth = 1;
-		int textHeight = 1;
-
-		int left_margin = 10;
-		int right_margin = 0;
-		int top_margin = 20 + 3 * preferences.encoderCaptureBarplotFontSize;
-		int bottom_margin = 8 + preferences.encoderCaptureBarplotFontSize;
-		//bars will be plotted here
-		int graphHeightSafe = graphHeight - (top_margin + bottom_margin);
-
-		//plot bars
-		int sep = 20;	//between reps
-
-		if (data.Count >= 10 && data.Count < 20) {
-			sep = 10;
-			layout_encoder_capture_curves_bars.FontDescription =
-				Pango.FontDescription.FromString ("Courier " + (preferences.encoderCaptureBarplotFontSize -2).ToString());
-		} else if (data.Count >= 20) {
-			sep = 2;
-			layout_encoder_capture_curves_bars.FontDescription =
-				Pango.FontDescription.FromString ("Courier " + (preferences.encoderCaptureBarplotFontSize -4).ToString());
-			left_margin = 2;
-		}
-
-		if(configChronojump.PlaySoundsFromFile)
-		{
-			sep = 2;
-			layout_encoder_capture_curves_bars.FontDescription =
-				Pango.FontDescription.FromString ("Courier " + (preferences.encoderCaptureBarplotFontSize -4).ToString());
-			left_margin = 2;
-		}
-
-		layout_encoder_capture_curves_bars_text.FontDescription =
-			Pango.FontDescription.FromString ("Courier " + preferences.encoderCaptureBarplotFontSize.ToString());
-		layout_encoder_capture_curves_bars_text.FontDescription.Weight = Pango.Weight.Bold;
-		
-		Rectangle rect;
-
-		Gdk.GC my_pen_ecc_con_e; //ecc-con eccentric
-		Gdk.GC my_pen_ecc_con_c; //ecc-con concentric
-		Gdk.GC my_pen_con;	//concentric
-		Gdk.GC my_pen;		//pen we are going to use
-
-		int dLeft = 0;
-		count = 0;
-	
-		//to show saved curves on DoPlot	
-		TreeIter iter;
-		
-		//sum saved curves to do avg
-		double sumSaved = 0; 
-		double countSaved = 0;
-		
-		//draw line for person max intersession
-		if(! repetitiveConditionsWin.EncoderRelativeToSet)
-		{
-			layout_encoder_capture_curves_bars_text.SetMarkup("Person's best:");
-			layout_encoder_capture_curves_bars_text.GetPixelSize(out textWidth, out textHeight);
-			encoder_capture_curves_bars_pixmap.DrawLayout (pen_yellow_encoder_capture,
-						left_margin, top_margin - textHeight,
-						layout_encoder_capture_curves_bars_text);
-
-			encoder_capture_curves_bars_pixmap.DrawLine(pen_yellow_encoder_capture,
-					left_margin, top_margin,
-					graphWidth - right_margin, top_margin);
-
-			layout_encoder_capture_curves_bars_text.SetMarkup(Util.TrimDecimals(maxAbsolute, 1) + "W");
-			layout_encoder_capture_curves_bars_text.GetPixelSize(out textWidth, out textHeight);
-			encoder_capture_curves_bars_pixmap.DrawLayout (pen_yellow_encoder_capture,
-						graphWidth - (right_margin + textWidth),
-						top_margin - textHeight,
-						layout_encoder_capture_curves_bars_text);
-		}
-
-		if(configChronojump.PlaySoundsFromFile) //TODO: move this to another function/file
-		{
-			Gdk.Color col = new Gdk.Color();
-
-			//foreground
-			Gdk.Color.Parse(colorListFG[colorListPos], ref col);
-			colormap.AllocColor (ref col, true,true);
-			pen_colors_foreground_encoder_capture.Foreground = col;
-
-			//background
-			Gdk.Color.Parse(colorListBG[colorListPos], ref col);
-			colormap.AllocColor (ref col, true,true);
-			pen_colors_background_encoder_capture.Foreground = col;
-
-			colorListPos ++;
-			if (colorListPos >= colorListFG.Length || colorListPos >= colorListBG.Length)
-				colorListPos = 0;
-
-			rect = new Rectangle(0, 0, graphWidth, graphHeight);
-			encoder_capture_curves_bars_pixmap.DrawRectangle(pen_colors_background_encoder_capture, true, rect);
-		}
-		
-		Gdk.Point dSecondaryPreviousPoint = new Gdk.Point(0,0);
-		bool iterOk = encoderCaptureListStore.GetIterFirst(out iter);
-		foreach(double dFor in data)
-		{
-			int dWidth = 0;
-			int dHeight = 0;
-
-			//if values are negative, invert it
-			//this happens specially in the speeds in eccentric
-			//we use dFor because we cannot change the iteration variable
-			double d = dFor;
-			if(d < 0)
-				d *= -1;
-
-			dHeight = Convert.ToInt32(graphHeightSafe * d / maxAbsolute * 1.0);
-			int dBottom = graphHeight - bottom_margin;
-			int dTop = dBottom - dHeight;
-
-
-			if (data.Count == 1)	//do not fill all the screen with only one bar
-				dWidth = Convert.ToInt32((graphWidth - left_margin - right_margin) / 2.0); 
-			else
-				dWidth = Convert.ToInt32((graphWidth - left_margin - right_margin) / data.Count * 1.0);
-
-			dLeft = left_margin + dWidth * count;
-		
-			//dWidth = dWidth - sep to have separation between bars
-			//but if eccon != "c" then have like this: ec ec ec
-			if (eccon == "c") {
-				dWidth = dWidth - sep;
-			} else {
-				double sep_ec_mult = 1.2;
-				dWidth = Convert.ToInt32(dWidth - sep * sep_ec_mult);
-
-				if(Util.IsEven(count +1)) //par
-					dLeft = Convert.ToInt32(dLeft - sep * sep_ec_mult);
-			}
-			//just in case there are too much bars
-			if(dWidth < 1)
-				dWidth = 1;
-
-			//select pen color for bars and sounds
-			string myColor = repetitiveConditionsWin.AssignColorAutomatic(
-					RepetitiveConditionsWindow.BestSetValueEnum.CAPTURE_MAIN_VARIABLE, d);
-
-			bool discarded = false;
-			if(encoderConfigurationCurrent.has_inertia) {
-				if(eccon == "c" && discardFirstN > 0 && count < discardFirstN)
-					discarded = true;
-				else if(eccon != "c" && discardFirstN > 0 && count < discardFirstN * 2)
-					discarded = true;
-			}
-
-			if( ! discarded && ( myColor == UtilGtk.ColorGood || (mainVariableHigher != -1 && d >= mainVariableHigher) ) )
-			{
-				my_pen_ecc_con_e = pen_green_dark_encoder_capture;
-				my_pen_ecc_con_c = pen_green_light_encoder_capture;
-				my_pen_con = pen_green_encoder_capture;
-				//play sound if value is high, volumeOn == true, is last value, capturing
-				if(preferences.volumeOn && count == data.Count -1 && capturing)
-					Util.PlaySound(Constants.SoundTypes.GOOD, preferences.volumeOn, preferences.gstreamer);
-			}
-			else if( ! discarded && ( myColor == UtilGtk.ColorBad || (mainVariableLower != -1 && d <= mainVariableLower) ) )
-			{
-				my_pen_ecc_con_e = pen_red_dark_encoder_capture;
-				my_pen_ecc_con_c = pen_red_light_encoder_capture;
-				my_pen_con = pen_red_encoder_capture;
-				//play sound if value is low, volumeOn == true, is last value, capturing
-				if(preferences.volumeOn && count == data.Count -1 && capturing)
-					Util.PlaySound(Constants.SoundTypes.BAD, preferences.volumeOn, preferences.gstreamer);
-			}
-			else {
-				my_pen_ecc_con_e = pen_blue_dark_encoder_capture;
-				my_pen_ecc_con_c = pen_blue_light_encoder_capture;
-				my_pen_con = pen_blue_encoder_capture;
-			}
-			
-			//know if ecc or con to paint with dark or light pen
-			if (eccon == "ec" || eccon == "ecS") {
-				bool isEven = Util.IsEven(count +1);
-				
-				//on inertial if discardFirstN , they have to be gray
-				if( encoderConfigurationCurrent.has_inertia && discardFirstN > 0 &&
-						((eccon == "c" && count < discardFirstN) || (eccon != "c" && count < discardFirstN * 2)) )
-					my_pen = pen_gray;
-				else {
-					if(isEven) //par, concentric
-						my_pen = my_pen_ecc_con_c;
-					else
-						my_pen = my_pen_ecc_con_e;
-				}
-			} else {
-				if( encoderConfigurationCurrent.has_inertia && discardFirstN > 0 &&
-						((eccon == "c" && count < discardFirstN) || (eccon != "c" && count < discardFirstN * 2)) )
-					my_pen = pen_gray;
-				else
-					my_pen = my_pen_con;
-			}
-
-			if(configChronojump.PlaySoundsFromFile)
-				my_pen = pen_colors_foreground_encoder_capture;
-
-			//paint bar:	
-			rect = new Rectangle(dLeft, dTop, dWidth, dHeight);
-			encoder_capture_curves_bars_pixmap.DrawRectangle(my_pen, true, rect);
-
-			//paint diagonal line to distinguish eccentric-concentric
-			//line is painted before the black outline to fix graphical problems
-			if (eccon == "ec" || eccon == "ecS") {
-				bool isEven = Util.IsEven(count +1);
-
-				if(isEven) {
-					//to see if it is ok
-					//encoder_capture_curves_bars_pixmap.DrawPoint(pen_green_encoder_capture, dLeft +1, dBottom -2);
-					//encoder_capture_curves_bars_pixmap.DrawPoint(pen_yellow_encoder_capture, dLeft + dWidth -2, dTop +1);
-					encoder_capture_curves_bars_pixmap.DrawLine(pen_white_encoder_capture,
-							dLeft, dBottom -1, dLeft + dWidth -2, dTop +1);
-				} else {
-					//encoder_capture_curves_bars_pixmap.DrawPoint(pen_green_encoder_capture, dLeft +1, dTop +1);
-					//encoder_capture_curves_bars_pixmap.DrawPoint(pen_yellow_encoder_capture, dLeft + dWidth -2, dBottom -2);
-					encoder_capture_curves_bars_pixmap.DrawLine(pen_white_encoder_capture,
-							dLeft +1, dTop +1, dLeft + dWidth -2, dBottom -2);
-				}
-			}
-			//paint black outline line on bar
-			encoder_capture_curves_bars_pixmap.DrawRectangle(pen_black_encoder_capture, false, rect);
-
-			//paint secondary variable circle and lines
-			double dSecondary = Convert.ToDouble(dataSecondary[count]);
-			int dSecondaryHeight = Convert.ToInt32(graphHeightSafe * dSecondary / maxAbsoluteSecondary * 1.0);
-			int dSecondaryTop = dBottom - dSecondaryHeight;
-			Gdk.Point dSecondaryCurrentPoint = new Gdk.Point(Convert.ToInt32(dLeft + (dWidth /2)), dSecondaryTop);
-			//LogB.Information(string.Format("dSecondaryHeight: {0}; dSecondaryTop: {1}", dSecondaryHeight, dSecondaryTop));
-
-/*
-			encoder_capture_curves_bars_pixmap.DrawArc(pen_yellow_encoder_capture, true,
-					dSecondaryCurrentPoint.X -6, dSecondaryCurrentPoint.Y -6,
-					12, 12, 90 * 64, 360 * 64);
-
-			if(dSecondaryPreviousPoint.X != 0 && dSecondaryPreviousPoint.Y != 0)
-				encoder_capture_curves_bars_pixmap.DrawLine(pen_yellow_encoder_capture,
-							dSecondaryPreviousPoint.X, dSecondaryPreviousPoint.Y, dSecondaryCurrentPoint.X, dSecondaryCurrentPoint.Y);
-*/
-rect = new Rectangle(dLeft - Convert.ToInt32(sep/2), dSecondaryCurrentPoint.Y -3, dWidth + sep, 6);
-encoder_capture_curves_bars_pixmap.DrawRectangle(pen_red_dark_encoder_capture, true, rect);
-
-
-			dSecondaryPreviousPoint = dSecondaryCurrentPoint;
-
-
-			//write the result	
-			if(mainVariable == Constants.MeanSpeed || mainVariable == Constants.MaxSpeed)
-				layout_encoder_capture_curves_bars.SetMarkup(Util.TrimDecimals(d,2));
-			else //force and powers
-				layout_encoder_capture_curves_bars.SetMarkup(Util.TrimDecimals(d,0));
-			
-			textWidth = 1;
-			textHeight = 1;
-			layout_encoder_capture_curves_bars.GetPixelSize(out textWidth, out textHeight); 
-			encoder_capture_curves_bars_pixmap.DrawLayout (pen_black_encoder_capture, 
-					Convert.ToInt32( (dLeft + dWidth/2) - textWidth/2), 	//x
-					dTop - (5 + preferences.encoderCaptureBarplotFontSize), //y
-					layout_encoder_capture_curves_bars);
-			//end of: write the result
-
-			
-			bool curveSaved = false;	
-			if( iterOk && ((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record ) {
-				curveSaved = true;
-				sumSaved += dFor;
-				countSaved ++;
-			}
-			
-			//add text on the bottom
-			if (eccon == "c" || Util.IsEven(count +1)) //par
-			{
-				int startX = Convert.ToInt32(dLeft + dWidth/2);
-				string bottomText = (count +1).ToString();
-				if(showNRepetitions > 0 && capturing && data6Variables.Count > showNRepetitions)
-					bottomText = ( (data6Variables.Count - showNRepetitions) + count +1).ToString();
-
-				if (eccon != "c") {
-					startX = dLeft;
-					bottomText = ((count +1) / 2).ToString();
-				}
-
-				layout_encoder_capture_curves_bars.SetMarkup(bottomText);
-				textWidth = 1;
-				textHeight = 1;
-				layout_encoder_capture_curves_bars.GetPixelSize(out textWidth, out textHeight); 
-				int myX = Convert.ToInt32( startX - textWidth/2);
-				int myY = Convert.ToInt32(dTop + dHeight + (bottom_margin /2) - textHeight/2);
-			
-				if(curveSaved) {
-					rect = new Rectangle(myX -2, myY -1, textWidth +4, graphHeight - (myY -1) -1);
-					encoder_capture_curves_bars_pixmap.DrawRectangle(pen_selected_encoder_capture, false, rect);
-				}
-				
-				//write the text
-				encoder_capture_curves_bars_pixmap.DrawLayout (pen_black_encoder_capture, 
-						myX, myY,
-						layout_encoder_capture_curves_bars);
-			}
-
-			count ++;
-			iterOk = encoderCaptureListStore.IterNext (ref iter);
-		}
-		//end plot bars
-	
-
-		//plot title
-		string units = "";
-		int decimals;
-		
-		if(mainVariable == Constants.MeanSpeed || mainVariable == Constants.MaxSpeed) {
-			units = "m/s";
-			decimals = 2;
-		} else if(mainVariable == Constants.MeanForce || mainVariable == Constants.MaxForce) {
-			units = "N";
-			decimals = 1;
-		}
-		else { //powers
-			units =  "W";
-			decimals = 1;
-		}
-
-//LogB.Information(string.Format("sumValid: {0}, countValid: {1}, div: {2}", sumValid, countValid, sumValid / countValid));
-//LogB.Information(string.Format("sumSaved: {0}, countSaved: {1}, div: {2}", sumSaved, countSaved, sumSaved / countSaved));
-		
-		//add avg and avg of saved values
-		string title = mainVariable + " [X = " + 
-			Util.TrimDecimals( (sumValid / countValid), decimals) +
-			" " + units;
-
-		if(countSaved > 0)
-			title += "; X" + Catalog.GetString("saved") + " = " + 
-				Util.TrimDecimals( (sumSaved / countSaved), decimals) + 
-				" " + units;
-
-		string lossString = "; Loss: ";
-		if(eccon != "c")
-			lossString = "; Loss (con): "; //on ecc/con use only con for loss calculation
-
-		if(maxThisSetValidAndCon > 0)
-		{
-			title += lossString + Util.TrimDecimals(
-					100.0 * (maxThisSetValidAndCon - minThisSetValidAndCon) / maxThisSetValidAndCon, decimals) + "%";
-			LogB.Information(string.Format("Loss at plot: {0}", 100.0 * (maxThisSetValidAndCon - minThisSetValidAndCon) / maxThisSetValidAndCon));
-		}
-		title += "]";
-
-		layout_encoder_capture_curves_bars_text.SetMarkup(title);
-		textWidth = 1;
-		textHeight = 1;
-		layout_encoder_capture_curves_bars_text.GetPixelSize(out textWidth, out textHeight);
-		encoder_capture_curves_bars_pixmap.DrawLayout (pen_black_encoder_capture, 
-				Convert.ToInt32( (graphWidth/2) - textWidth/2), 0, //x, y 
-				layout_encoder_capture_curves_bars_text);
-
-		//end plot title	
-
-		//display We Will Rock You words
-		if( configChronojump.PlaySoundsFromFile && (Util.SoundIsPum() || Util.SoundIsPam()) ) //TODO: move this to another function/file
-		{
-			string titleSound = "PUM";
-			if(Util.SoundIsPam())
-				titleSound = "PAM";
-
-			layout_encoder_capture_curves_bars_superbig.SetMarkup(titleSound);
-			textWidth = 1;
-			textHeight = 1;
-			layout_encoder_capture_curves_bars_superbig.GetPixelSize(out textWidth, out textHeight);
-
-			//rect = new Rectangle(dLeft, dTop, dWidth, dHeight);
-			rect = new Rectangle(
-					Convert.ToInt32( (graphWidth/2) - (textWidth/2) -30),
-					Convert.ToInt32( (graphHeight/2) - (textHeight/2) ), //textHeight is too high on Courier font 300
-					textWidth + 60,
-					textHeight);
-			encoder_capture_curves_bars_pixmap.DrawRectangle(pen_black_encoder_capture, true, rect);
-
-			encoder_capture_curves_bars_pixmap.DrawLayout (pen_red_light_encoder_capture,
-					Convert.ToInt32( (graphWidth/2) - textWidth/2),
-					Convert.ToInt32( (graphHeight/2) - textHeight/2),
-					layout_encoder_capture_curves_bars_superbig);
-		}
-
-		encoder_capture_curves_bars_drawingarea.QueueDraw(); 			// -- refresh
-		encoder_capture_curves_bars_drawingarea.Visible = true;
-	}
-
-	private void callPlotCurvesGraphDoPlot() {
 		if(captureCurvesBarsData.Count > 0) {
 			string mainVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable);
 			string secondaryVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureSecondaryVariable);
 			double mainVariableHigher = repetitiveConditionsWin.GetMainVariableHigher(mainVariable);
 			double mainVariableLower = repetitiveConditionsWin.GetMainVariableLower(mainVariable);
-			plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower,
-					secondaryVariable, captureCurvesBarsData,
-					preferences.encoderCaptureInertialDiscardFirstN,
-					false);	//not capturing
+			encoderGraphDoPlot.Start(
+					mainVariable, mainVariableHigher, mainVariableLower,
+					secondaryVariable,
+					false, //not capturing
+					findEccon(true),
+					repetitiveConditionsWin,
+					encoderConfigurationCurrent.has_inertia,
+					configChronojump.PlaySoundsFromFile,
+					captureCurvesBarsData,
+					encoderCaptureListStore,
+					maxPowerIntersession);
 		} else if( ! ( radio_encoder_capture_cont.Active && ! firstSetOfCont) )
-			UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
-	}
-
-	private void plotCurvesGraphDoPlotMessage(string message) 
-	{
-		Pango.Layout layout_message = new Pango.Layout (encoder_capture_curves_bars_drawingarea.PangoContext);
-		layout_message.FontDescription = Pango.FontDescription.FromString ("Courier 10");
-		
-		int graphWidth=encoder_capture_curves_bars_drawingarea.Allocation.Width;
-		int graphHeight=encoder_capture_curves_bars_drawingarea.Allocation.Height;
-
-		layout_message.SetMarkup(message);
-		int textWidth = 1;
-		int textHeight = 1;
-		layout_message.GetPixelSize(out textWidth, out textHeight); 
-		
-		int xStart = Convert.ToInt32(graphWidth/2 - textWidth/2);
-		int yStart = Convert.ToInt32(graphHeight/2 - textHeight/2);
-
-		//draw horizontal line behind (across all graph)
-		Rectangle rect = new Rectangle(0, yStart + textHeight -1, graphWidth, 1);
-		encoder_capture_curves_bars_pixmap.DrawRectangle(pen_yellow_encoder_capture, true, rect);
-
-		//draw rectangle behind text
-		rect = new Rectangle(xStart -2, yStart -2, textWidth +2, textHeight +2);
-		encoder_capture_curves_bars_pixmap.DrawRectangle(pen_yellow_encoder_capture, true, rect);
-		
-		//write text inside
-		encoder_capture_curves_bars_pixmap.DrawLayout (pen_black_encoder_capture, xStart, yStart, layout_message);
+		{
+			//UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
+		}
 	}
 
 	int encoder_capture_curves_allocationXOld;
 	int encoder_capture_curves_allocationYOld;
 	bool encoder_capture_curves_sizeChanged;
-	public void on_encoder_capture_curves_bars_drawingarea_configure_event(object o, ConfigureEventArgs args)
+	/*
+	 * unused
+	public void on_encoder_capture_curves_bars_drawingarea_configure_event(object o, ExposeEventArgs args)
 	{
-		Gdk.EventConfigure ev = args.Event;
-		Gdk.Window window = ev.Window;
-		Gdk.Rectangle allocation = encoder_capture_curves_bars_drawingarea.Allocation;
-
-		LogB.Debug("CONFIGURE");
-
-		if(encoder_capture_curves_bars_pixmap == null || encoder_capture_curves_sizeChanged || 
-				allocation.Width != encoder_capture_curves_allocationXOld ||
-				allocation.Height != encoder_capture_curves_allocationYOld)
-		{
-			if(encoder_capture_curves_bars_pixmap == null || ! radio_encoder_capture_cont.Active || firstSetOfCont)
-				encoder_capture_curves_bars_pixmap = new Gdk.Pixmap (window, allocation.Width, allocation.Height, -1);
-
-			callPlotCurvesGraphDoPlot();
-		
-			encoder_capture_curves_sizeChanged = false;
-		}
-
-		encoder_capture_curves_allocationXOld = allocation.Width;
-		encoder_capture_curves_allocationYOld = allocation.Height;
 	}
-
+	*/
 	public void on_encoder_capture_curves_bars_drawingarea_expose_event(object o, ExposeEventArgs args)
 	{
 		/* in some mono installations, configure_event is not called, but expose_event yes. 
 		 * Do here the initialization
 		 */
 		LogB.Debug("EXPOSE");
+		bool encoderGraphDoPlotJustCreated = false;
 
 		Gdk.Rectangle allocation = encoder_capture_curves_bars_drawingarea.Allocation;
 		if(encoder_capture_curves_bars_pixmap == null || encoder_capture_curves_sizeChanged || 
 				allocation.Width != encoder_capture_curves_allocationXOld ||
 				allocation.Height != encoder_capture_curves_allocationYOld) 
 		{
+			encoder_capture_curves_bars_pixmap = new Gdk.Pixmap (encoder_capture_curves_bars_drawingarea.GdkWindow, allocation.Width, allocation.Height, -1);
+			if(encoder_capture_curves_bars_pixmap == null || ! radio_encoder_capture_cont.Active || firstSetOfCont)
+			{
+				if(encoderGraphDoPlot == null || ! encoderGraphDoPlot.GraphPrepared)
+				{
+					encoderGraphDoPlot = new EncoderGraphDoPlot(preferences, encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
+					encoderGraphDoPlotJustCreated = true;
+				}
+			}
 
-			encoder_capture_curves_bars_pixmap = new Gdk.Pixmap (
-					encoder_capture_curves_bars_drawingarea.GdkWindow, allocation.Width, allocation.Height, -1);
-			
+			if(! encoderGraphDoPlotJustCreated)
+			{
+				encoderGraphDoPlot.NewPreferences(preferences);
+				encoderGraphDoPlot.NewGraphicObjects(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap); //sense això no xuta
+			}
+
+			encoderGraphDoPlot.Erase();
 			callPlotCurvesGraphDoPlot();
-			
 			encoder_capture_curves_sizeChanged = false;
 		}
 
@@ -5817,6 +5268,7 @@ encoder_capture_curves_bars_pixmap.DrawRectangle(pen_red_dark_encoder_capture, t
 	
 	
 	/* thread stuff */
+	private static EncoderGraphDoPlot encoderGraphDoPlot;
 
 	private void encoderThreadStart(encoderActions action)
 	{
@@ -5868,7 +5320,8 @@ encoder_capture_curves_bars_pixmap.DrawRectangle(pen_red_dark_encoder_capture, t
 			//on continuous mode do not erase bars at beginning of capture in order to see last bars
 			if(action == encoderActions.CAPTURE && radio_encoder_capture_cont.Active) {
 				prepareEncoderGraphs(false, true); //bars, signal
-				plotCurvesGraphDoPlotMessage("Previous set");
+				//plotCurvesGraphDoPlotMessage("Previous set");
+				encoderGraphDoPlot.ShowMessage("Previous set");
 			} else
 				prepareEncoderGraphs(true, true);
 
@@ -6042,6 +5495,7 @@ encoder_capture_curves_bars_pixmap.DrawRectangle(pen_red_dark_encoder_capture, t
 				if(image_encoder_height < 100)
 					image_encoder_height = 100; //Not crash R with a png height of -1 or "figure margins too large"
 
+				LogB.Information("at load");
 				prepareEncoderGraphs(true, true);
 				
 				
@@ -6121,105 +5575,27 @@ encoder_capture_curves_bars_pixmap.DrawRectangle(pen_red_dark_encoder_capture, t
 	{
 		LogB.Debug("prepareEncoderGraphs() start (should be on first thread: GTK)");
 		
-		if(eraseBars && encoder_capture_curves_bars_pixmap != null)
-			UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
-
 		if(eraseSignal && encoder_capture_signal_pixmap != null)
 			UtilGtk.ErasePaint(encoder_capture_signal_drawingarea, encoder_capture_signal_pixmap);
-
 
 		layout_encoder_capture_signal = new Pango.Layout (encoder_capture_signal_drawingarea.PangoContext);
 		layout_encoder_capture_signal.FontDescription = Pango.FontDescription.FromString ("Courier 10");
 
-		layout_encoder_capture_curves_bars = new Pango.Layout (encoder_capture_curves_bars_drawingarea.PangoContext);
-		layout_encoder_capture_curves_bars.FontDescription =
-			Pango.FontDescription.FromString ("Courier " + preferences.encoderCaptureBarplotFontSize.ToString());
-		
-		layout_encoder_capture_curves_bars_text = new Pango.Layout (encoder_capture_curves_bars_drawingarea.PangoContext);
-		layout_encoder_capture_curves_bars_text.FontDescription = Pango.FontDescription.FromString ("Courier 10");
+		pen_black_encoder_signal = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
+		pen_blue_encoder_signal = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
+		pen_gray_encoder_signal = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
 
-		layout_encoder_capture_curves_bars_superbig = new Pango.Layout (encoder_capture_curves_bars_drawingarea.PangoContext);
-		layout_encoder_capture_curves_bars_superbig.FontDescription = Pango.FontDescription.FromString ("Courier 300");
+		pen_black_encoder_signal.Foreground = UtilGtk.BLACK;
+		pen_blue_encoder_signal.Foreground = UtilGtk.BLUE_PLOTS;
+		pen_gray_encoder_signal.Foreground = UtilGtk.GRAY;
 
-		//defined as encoder_capture_curves_bars_drawingarea instead of encoder_capture_signal_drawingarea
-		//because the 2nd is null if config.EncoderCaptureShowOnlyBars == TRUE
-		pen_black_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
-		pen_gray = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
-		pen_red_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
-		pen_red_light_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
-		pen_green_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
-		pen_blue_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
-		pen_white_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
-		pen_selected_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
-		pen_red_light_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
-		pen_red_dark_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
-		pen_green_light_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
-		pen_green_dark_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
-		pen_blue_dark_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
-		pen_blue_light_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
-		pen_yellow_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
-		pen_colors_foreground_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
-		pen_colors_background_encoder_capture = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
+		pen_black_encoder_signal.SetLineAttributes (
+				2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
 
 		colormap = Gdk.Colormap.System;
 		colormap.AllocColor (ref UtilGtk.BLACK,true,true);
 		colormap.AllocColor (ref UtilGtk.GRAY,true,true);
-		colormap.AllocColor (ref UtilGtk.RED_PLOTS,true,true);
-		colormap.AllocColor (ref UtilGtk.RED_DARK,true,true);
-		colormap.AllocColor (ref UtilGtk.RED_LIGHT,true,true);
-		colormap.AllocColor (ref UtilGtk.GREEN_PLOTS,true,true);
-		colormap.AllocColor (ref UtilGtk.GREEN_DARK,true,true);
-		colormap.AllocColor (ref UtilGtk.GREEN_LIGHT,true,true);
-		colormap.AllocColor (ref UtilGtk.BLUE_PLOTS,true,true);
-		colormap.AllocColor (ref UtilGtk.BLUE_DARK,true,true);
-		colormap.AllocColor (ref UtilGtk.BLUE_LIGHT,true,true);
-		colormap.AllocColor (ref UtilGtk.YELLOW,true,true);
-		colormap.AllocColor (ref UtilGtk.WHITE,true,true);
-		colormap.AllocColor (ref UtilGtk.SELECTED,true,true);
-
-		pen_black_encoder_capture.Foreground = UtilGtk.BLACK;
-		pen_gray.Foreground = UtilGtk.GRAY;
-		pen_red_encoder_capture.Foreground = UtilGtk.RED_PLOTS;
-		pen_red_dark_encoder_capture.Foreground = UtilGtk.RED_DARK;
-		pen_red_light_encoder_capture.Foreground = UtilGtk.RED_LIGHT;
-		pen_green_encoder_capture.Foreground = UtilGtk.GREEN_PLOTS;
-		pen_green_dark_encoder_capture.Foreground = UtilGtk.GREEN_DARK;
-		pen_green_light_encoder_capture.Foreground = UtilGtk.GREEN_LIGHT;
-		pen_blue_encoder_capture.Foreground = UtilGtk.BLUE_PLOTS;
-		pen_blue_dark_encoder_capture.Foreground = UtilGtk.BLUE_DARK;
-		pen_blue_light_encoder_capture.Foreground = UtilGtk.BLUE_LIGHT;
-		pen_yellow_encoder_capture.Foreground = UtilGtk.YELLOW;
-		pen_white_encoder_capture.Foreground = UtilGtk.WHITE;
-		pen_selected_encoder_capture.Foreground = UtilGtk.SELECTED;
-
-		pen_black_encoder_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
-		pen_selected_encoder_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
-		
-		LogB.Debug("prepareEncoderGraphs() end");
 	}
-
-	//R rainbow(30)
-	string [] colorListFG = {
-		"#4C00FF", "#2A00FF", "#0800FF", "#0019FF", "#003CFF",
-		"#005DFF", "#0080FF", "#00A2FF", "#00C3FF", "#00E5FF",
-		"#00FF4D", "#00FF2B", "#00FF08", "#1AFF00", "#3CFF00",
-		"#5DFF00", "#80FF00", "#A2FF00", "#C3FF00", "#E6FF00",
-		"#FFFF00", "#FFF514", "#FFEC28", "#FFE53C", "#FFE04F",
-		"#FFDC63", "#FFDB77", "#FFDB8B", "#FFDD9F", "#FFE0B3"
-	};
-
-	//R c(cm.colors(15), rev(cm.colors(15)))
-	string [] colorListBG = {
-		"#80FFFF", "#92FFFF", "#A4FFFF", "#B6FFFF", "#C8FFFF", "#DBFFFF",
-		"#EDFFFF", "#FFFFFF", "#FFEDFF", "#FFDBFF", "#FFC8FF", "#FFB6FF",
-		"#FFA4FF", "#FF92FF", "#FF80FF", "#FF80FF", "#FF92FF", "#FFA4FF",
-		"#FFB6FF", "#FFC8FF", "#FFDBFF", "#FFEDFF", "#FFFFFF", "#EDFFFF",
-		"#DBFFFF", "#C8FFFF", "#B6FFFF", "#A4FFFF", "#92FFFF", "#80FFFF"
-	};
-
-
-	int colorListPos = 0;
-
 
 
 	private void runEncoderCaptureNoRDotNetInitialize() 
@@ -6525,10 +5901,18 @@ encoder_capture_curves_bars_pixmap.DrawRectangle(pen_red_dark_encoder_capture, t
 				//captureCurvesBarsData.Add(new EncoderBarsData(meanSpeed, maxSpeed, meanPower, peakPower));
 				//captureCurvesBarsData.Add(new EncoderBarsData(20, 39, 10, 40));
 
-				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower,
-						secondaryVariable, captureCurvesBarsData,
-						preferences.encoderCaptureInertialDiscardFirstN,
-						true);	//capturing
+				encoderGraphDoPlot.NewPreferences(preferences);
+				encoderGraphDoPlot.Start(
+						mainVariable, mainVariableHigher, mainVariableLower,
+						secondaryVariable,
+						true, //capturing
+						findEccon(true),
+						repetitiveConditionsWin,
+						encoderConfigurationCurrent.has_inertia,
+						configChronojump.PlaySoundsFromFile,
+						captureCurvesBarsData,
+						encoderCaptureListStore,
+						maxPowerIntersession);
 				//}
 
 				needToRefreshTreeviewCapture = false;
@@ -7038,10 +6422,18 @@ encoder_capture_curves_bars_pixmap.DrawRectangle(pen_red_dark_encoder_capture, t
 
 				maxPowerIntersession = findMaxPowerIntersession();
 
-				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower,
-						secondaryVariable, captureCurvesBarsData,
-						preferences.encoderCaptureInertialDiscardFirstN,
-						false);	//not capturing
+				encoderGraphDoPlot.NewPreferences(preferences);
+				encoderGraphDoPlot.Start(
+						mainVariable, mainVariableHigher, mainVariableLower,
+						secondaryVariable,
+						false, //not capturing
+						findEccon(true),
+						repetitiveConditionsWin,
+						encoderConfigurationCurrent.has_inertia,
+						configChronojump.PlaySoundsFromFile,
+						captureCurvesBarsData,
+						encoderCaptureListStore,
+						maxPowerIntersession);
 		
 				button_encoder_signal_save_comment.Label = Catalog.GetString("Save comment");
 				button_encoder_signal_save_comment.Sensitive = false;

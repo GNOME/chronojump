@@ -13,6 +13,7 @@ SOURCES = \
 	gui/confirm.cs\
 	gui/cjCombo.cs\
 	gui/encoder.cs\
+	gui/encoderGraphObjects.cs\
 	gui/encoderTreeviews.cs\
 	gui/encoderConfiguration.cs\
 	gui/encoderSelectRepetitions.cs\

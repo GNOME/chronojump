@@ -1251,6 +1251,8 @@ public partial class ChronoJumpWindow
 
 	private void encoderUpdateTreeViewCapture(List<string> contents)
 	{
+		//LogB.Information("CONTENTS: " + Util.ListStringToString (contents));
+		//LogB.Information("CONTENTS count: " + contents.Count.ToString());
 		if (contents == null || contents.Count == 0) {
 			encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
 		} else {
@@ -1258,7 +1260,12 @@ public partial class ChronoJumpWindow
 			int curvesNum = createTreeViewEncoderCapture(contents);
 			if(curvesNum == 0) {
 				encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
-				if(configChronojump.EncoderCaptureShowOnlyBars)
+
+				//remove last set on cont if there is no data
+				if(radio_encoder_capture_cont.Active)
+					removeSignalFromGuiBecauseDeletedOrCancelled();
+
+				if(configChronojump.EncoderCaptureShowOnlyBars && ! radio_encoder_capture_cont.Active)
 					new DialogMessage(Constants.MessageTypes.WARNING,
 							Catalog.GetString("Sorry, no repetitions matched your criteria."));
 			}
@@ -5118,7 +5125,8 @@ public partial class ChronoJumpWindow
 
 	private void callPlotCurvesGraphDoPlot()
 	{
-		if(captureCurvesBarsData.Count > 0) {
+		if(captureCurvesBarsData.Count > 0)
+		{
 			string mainVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable);
 			string secondaryVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureSecondaryVariable);
 			double mainVariableHigher = repetitiveConditionsWin.GetMainVariableHigher(mainVariable);
@@ -5134,9 +5142,6 @@ public partial class ChronoJumpWindow
 					captureCurvesBarsData,
 					encoderCaptureListStore,
 					maxPowerIntersession);
-		} else if( ! ( radio_encoder_capture_cont.Active && ! firstSetOfCont) )
-		{
-			//UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 		}
 	}
 
@@ -5320,7 +5325,6 @@ public partial class ChronoJumpWindow
 			//on continuous mode do not erase bars at beginning of capture in order to see last bars
 			if(action == encoderActions.CAPTURE && radio_encoder_capture_cont.Active) {
 				prepareEncoderGraphs(false, true); //bars, signal
-				//plotCurvesGraphDoPlotMessage("Previous set");
 				encoderGraphDoPlot.ShowMessage("Previous set");
 			} else
 				prepareEncoderGraphs(true, true);
@@ -5336,7 +5340,7 @@ public partial class ChronoJumpWindow
 					webcamEncoderFileStarted = WebcamEncoderFileStarted.NOCAMERA;
 
 				//remove treeview columns
-				if( ! (action == encoderActions.CAPTURE && radio_encoder_capture_cont.Active) )
+				if( ! radio_encoder_capture_cont.Active || firstSetOfCont )
 					treeviewEncoderCaptureRemoveColumns();
 
 				encoderCaptureStringR = new List<string>();
@@ -5356,10 +5360,8 @@ public partial class ChronoJumpWindow
 				capturingCsharp = encoderCaptureProcess.CAPTURING;
 				if(compujumpAutologout != null)
 					compujumpAutologout.StartCapturingEncoder();
-			}
 
 
-			if(action == encoderActions.CAPTURE) {
 				captureCurvesBarsData = new ArrayList();
 
 				needToRefreshTreeviewCapture = false;
@@ -6338,7 +6340,8 @@ public partial class ChronoJumpWindow
 
 
 	bool captureContWithCurves = true;
-	private void finishPulsebar(encoderActions action) {
+	private void finishPulsebar(encoderActions action)
+	{
 		if(
 				action == encoderActions.CAPTURE || 
 				action == encoderActions.CAPTURE_IM || 

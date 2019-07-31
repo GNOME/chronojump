@@ -1691,6 +1691,21 @@ public class Util
 		return returnString;
 	}
 
+	public static string ListStringToString (List<string> l)
+	{
+		string str = "";
+		string sep = "";
+		if(l == null)
+			return str;
+
+		foreach (string s in l)
+		{
+			str += sep + s;
+			sep = "\n";
+		}
+
+		return str;
+	}
 	public static string [] ArrayListToString (ArrayList myArrayList) {
 		//if myArrayList is not defined, return with an empty string
 		try { 

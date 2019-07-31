@@ -1998,6 +1998,12 @@ public class Util
 		return val1 / val2;
 	}
 
+	public static int DivideSafeAndGetInt (double val1, double val2)
+	{
+		return Convert.ToInt32(DivideSafe(val1, val2));
+	}
+
+
 	/*
 	//converts all values to positive
 	public static string StringValuesAbsolute (string myString) {

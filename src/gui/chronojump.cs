@@ -6938,12 +6938,14 @@ LogB.Debug("mc finished 5");
 		
 	private void on_button_rj_bells_clicked(object o, EventArgs args) {
 		repetitiveConditionsWin.View(Constants.BellModes.JUMPS, preferences.volumeOn, preferences.gstreamer,
-				preferences.encoderCaptureMainVariable, preferences.encoderCaptureSecondaryVariable, encoderRhythm);
+				preferences.encoderCaptureMainVariable,
+				preferences.encoderCaptureSecondaryVariable, preferences.encoderCaptureSecondaryVariableShow, encoderRhythm);
 	}
 
 	private void on_button_time_bells_clicked(object o, EventArgs args) {
 		repetitiveConditionsWin.View(Constants.BellModes.RUNS, preferences.volumeOn, preferences.gstreamer,
-				preferences.encoderCaptureSecondaryVariable, preferences.encoderCaptureSecondaryVariable, encoderRhythm);
+				preferences.encoderCaptureMainVariable,
+				preferences.encoderCaptureSecondaryVariable, preferences.encoderCaptureSecondaryVariableShow, encoderRhythm);
 	}
 	
 	private void on_repetitive_conditions_closed(object o, EventArgs args)
@@ -6999,6 +7001,15 @@ LogB.Debug("mc finished 5");
 				preferences.encoderCaptureSecondaryVariable = secondaryVariable;
 			}
 			string secondaryVariableStr = Constants.GetEncoderVariablesCapture(secondaryVariable);
+
+			//secondaryVariableShow
+			bool secondaryVariableShow = repetitiveConditionsWin.GetSecondaryVariableShow;
+			if( preferences.encoderCaptureSecondaryVariableShow != secondaryVariableShow ) {
+				SqlitePreferences.Update("encoderCaptureSecondaryVariableShow", secondaryVariableShow.ToString(), false);
+				preferences.encoderCaptureSecondaryVariableShow = secondaryVariableShow;
+			}
+			if(! secondaryVariableShow)
+				secondaryVariableStr = "";
 
 			//treeview_encoder should be updated (to colorize some cells)
 			//only if there was data

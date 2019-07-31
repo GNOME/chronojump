@@ -125,7 +125,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.65";
+	static string lastChronojumpDatabaseVersion = "1.66";
 
 	public Sqlite() {
 	}
@@ -2411,6 +2411,14 @@ class Sqlite
 
 				currentVersion = updateVersion("1.65");
 			}
+			if(currentVersion == "1.65")
+			{
+				LogB.SQL("Added to preferences: encoderCaptureSecondaryVariableShow");
+
+				SqlitePreferences.Insert ("encoderCaptureSecondaryVariableShow", "True");
+
+				currentVersion = updateVersion("1.66");
+			}
 
 
 
@@ -2600,6 +2608,7 @@ class Sqlite
 		SqliteJson.createTableUploadExhibitionTestTemp ();
 
 		//changes [from - to - desc]
+		//1.65 - 1.66 Converted DB to 1.66 Added to preferences: encoderCaptureSecondaryVariableShow
 		//1.64 - 1.65 Converted DB to 1.65 Added to preferences: encoderCaptureSecondaryVariable
 		//1.63 - 1.64 Converted DB to 1.64 Added to preferences: videoDevicePixelFormat
 		//1.62 - 1.63 Converted DB to 1.63 Added to preferences: encoderCaptureInertialDiscardFirstN

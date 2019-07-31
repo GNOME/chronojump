@@ -617,13 +617,13 @@ public partial class ChronoJumpWindow
 		if(current_menuitem_mode == Constants.Menuitem_modes.POWERGRAVITATORY)
 			repetitiveConditionsWin.View(Constants.BellModes.ENCODERGRAVITATORY,
 					preferences.volumeOn, preferences.gstreamer,
-					preferences.encoderCaptureMainVariable, preferences.encoderCaptureSecondaryVariable,
-					encoderRhythm);
+					preferences.encoderCaptureMainVariable,
+					preferences.encoderCaptureSecondaryVariable, preferences.encoderCaptureSecondaryVariableShow, encoderRhythm);
 		else
 			repetitiveConditionsWin.View(Constants.BellModes.ENCODERINERTIAL,
 					preferences.volumeOn, preferences.gstreamer,
-					preferences.encoderCaptureMainVariable, preferences.encoderCaptureSecondaryVariable,
-					encoderRhythm);
+					preferences.encoderCaptureMainVariable,
+					preferences.encoderCaptureSecondaryVariable, preferences.encoderCaptureSecondaryVariableShow, encoderRhythm);
 	}
 
 	/*
@@ -5129,6 +5129,8 @@ public partial class ChronoJumpWindow
 		{
 			string mainVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable);
 			string secondaryVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureSecondaryVariable);
+			if(! preferences.encoderCaptureSecondaryVariableShow)
+				secondaryVariable = "";
 			double mainVariableHigher = repetitiveConditionsWin.GetMainVariableHigher(mainVariable);
 			double mainVariableLower = repetitiveConditionsWin.GetMainVariableLower(mainVariable);
 			encoderGraphDoPlot.Start(
@@ -5899,6 +5901,8 @@ public partial class ChronoJumpWindow
 				double mainVariableHigher = repetitiveConditionsWin.GetMainVariableHigher(mainVariable);
 				double mainVariableLower = repetitiveConditionsWin.GetMainVariableLower(mainVariable);
 				string secondaryVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureSecondaryVariable);
+				if(! preferences.encoderCaptureSecondaryVariableShow)
+					secondaryVariable = "";
 				//TODO:
 				//captureCurvesBarsData.Add(new EncoderBarsData(meanSpeed, maxSpeed, meanPower, peakPower));
 				//captureCurvesBarsData.Add(new EncoderBarsData(20, 39, 10, 40));
@@ -6392,6 +6396,8 @@ public partial class ChronoJumpWindow
 				double mainVariableHigher = repetitiveConditionsWin.GetMainVariableHigher(mainVariable);
 				double mainVariableLower = repetitiveConditionsWin.GetMainVariableLower(mainVariable);
 				string secondaryVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureSecondaryVariable);
+				if(! preferences.encoderCaptureSecondaryVariableShow)
+					secondaryVariable = "";
 
 				if(action == encoderActions.CURVES_AC && radio_encoder_capture_cont.Active && ! captureContWithCurves)
 				{

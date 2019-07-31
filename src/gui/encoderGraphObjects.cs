@@ -160,11 +160,11 @@ public class EncoderGraphDoPlot
 		graphWidth = drawingarea.Allocation.Width;
 		graphHeight = drawingarea.Allocation.Height;
 	
-		fillDataVaribles();
+		fillDataVariables();
 		plot();
 	}
 
-	private void fillDataVaribles()
+	private void fillDataVariables()
 	{
 		data = new ArrayList (data7Variables.Count); //data is related to mainVariable (barplot)
 		dataSecondary = new ArrayList (data7Variables.Count); //dataSecondary is related to secondary variable (by default range)
@@ -179,14 +179,16 @@ public class EncoderGraphDoPlot
 			if(showNRepetitions == -1 || ! capturing)
 			{
 				data.Add(ebd.GetValue(mainVariable));
-				dataSecondary.Add(ebd.GetValue(secondaryVariable));
+				if(secondaryVariable != "")
+					dataSecondary.Add(ebd.GetValue(secondaryVariable));
 			}
 			else {
 				if(eccon == "c" && ( data7Variables.Count <= showNRepetitions || 	//total repetitions are less than show repetitions threshold ||
 						count >= data7Variables.Count - showNRepetitions ) ) 	//count is from the last group of reps (reps that have to be shown)
 				{
 					data.Add(ebd.GetValue(mainVariable));
-					dataSecondary.Add(ebd.GetValue(secondaryVariable));
+					if(secondaryVariable != "")
+						dataSecondary.Add(ebd.GetValue(secondaryVariable));
 				}
 				else if(eccon != "c" && (
 						data7Variables.Count <= 2 * showNRepetitions ||
@@ -196,13 +198,15 @@ public class EncoderGraphDoPlot
 					{
 						LogB.Information("added ecc");
 						data.Add(ebd.GetValue(mainVariable));
-						dataSecondary.Add(ebd.GetValue(secondaryVariable));
+						if(secondaryVariable != "")
+							dataSecondary.Add(ebd.GetValue(secondaryVariable));
 						lastIsEcc = true;
 					} else {  			//it is "par"
 						if(lastIsEcc)
 						{
 							data.Add(ebd.GetValue(mainVariable));
-							dataSecondary.Add(ebd.GetValue(secondaryVariable));
+							if(secondaryVariable != "")
+								dataSecondary.Add(ebd.GetValue(secondaryVariable));
 							LogB.Information("added con");
 							lastIsEcc = false;
 						}
@@ -585,21 +589,25 @@ public class EncoderGraphDoPlot
 			pixmap.DrawRectangle(pen_black_encoder_capture, false, rect);
 
 			//paint secondary variable circle and lines
-			double dSecondary = Convert.ToDouble(dataSecondary[count]);
-			int dSecondaryHeight = Convert.ToInt32(graphHeightSafe * dSecondary / maxAbsoluteSecondary * 1.0);
-			int dSecondaryTop = dBottom - dSecondaryHeight;
-			Gdk.Point dSecondaryCurrentPoint = new Gdk.Point(Convert.ToInt32(dLeft + (dWidth /2)), dSecondaryTop);
-			//LogB.Information(string.Format("dSecondaryHeight: {0}; dSecondaryTop: {1}", dSecondaryHeight, dSecondaryTop));
+			//but do not do it if user do not want to show it from repetitiveConditionsWindow
+			if(dataSecondary.Count > 0)
+			{
+				double dSecondary = Convert.ToDouble(dataSecondary[count]);
+				int dSecondaryHeight = Util.DivideSafeAndGetInt(graphHeightSafe * dSecondary, maxAbsoluteSecondary * 1.0);
+				int dSecondaryTop = dBottom - dSecondaryHeight;
+				Gdk.Point dSecondaryCurrentPoint = new Gdk.Point(Convert.ToInt32(dLeft + (dWidth /2)), dSecondaryTop);
+				//LogB.Information(string.Format("dSecondaryHeight: {0}; dSecondaryTop: {1}", dSecondaryHeight, dSecondaryTop));
 
-			pixmap.DrawArc(pen_yellow_encoder_capture, true,
-					dSecondaryCurrentPoint.X -6, dSecondaryCurrentPoint.Y -6,
-					12, 12, 90 * 64, 360 * 64);
+				pixmap.DrawArc(pen_yellow_encoder_capture, true,
+						dSecondaryCurrentPoint.X -6, dSecondaryCurrentPoint.Y -6,
+						12, 12, 90 * 64, 360 * 64);
 
-			if(dSecondaryPreviousPoint.X != 0 && dSecondaryPreviousPoint.Y != 0)
-				pixmap.DrawLine(pen_yellow_encoder_capture,
+				if(dSecondaryPreviousPoint.X != 0 && dSecondaryPreviousPoint.Y != 0)
+					pixmap.DrawLine(pen_yellow_encoder_capture,
 							dSecondaryPreviousPoint.X, dSecondaryPreviousPoint.Y, dSecondaryCurrentPoint.X, dSecondaryCurrentPoint.Y);
 
-			dSecondaryPreviousPoint = dSecondaryCurrentPoint;
+				dSecondaryPreviousPoint = dSecondaryCurrentPoint;
+			}
 
 
 			//write the result	

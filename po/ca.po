@@ -2528,7 +2528,7 @@ msgstr "Esborra"
 
 #: ../glade/encoder_configuration.glade.h:28
 msgid "New"
-msgstr "Now"
+msgstr "Nou"
 
 #: ../glade/encoder_configuration.glade.h:29
 #: ../glade/evaluator_window.glade.h:4 ../glade/execute_auto.glade.h:20
@@ -3531,7 +3531,7 @@ msgstr "Forçar idioma"
 
 #: ../glade/preferences_win.glade.h:129
 msgid "Spreadsheet import and export format"
-msgstr "Format del full de importació i exportació"
+msgstr "Format del full d'importació i exportació"
 
 #: ../glade/preferences_win.glade.h:130
 msgid "Latin"
@@ -4424,7 +4424,7 @@ msgstr "Això es pot canviar a les preferències."
 
 #: ../src/constants.cs:268
 msgid "Please, perform the needed jumps marked in red above."
-msgstr "Siusplau, executeu el salts necessaris marcats en vermell més amunt."
+msgstr "Si us plau, executeu el salts necessaris marcats en vermell més amunt."
 
 #. OLD, check this
 #. public static string PotencyLewisCMJFormula = Catalog.GetString("Peak Power")+ " CMJ (Lewis) " +
@@ -4623,7 +4623,7 @@ msgstr "Revisi la pàgina web de Chronojump."
 
 #: ../src/constants.cs:547
 msgid "Error. Nothing has been captured."
-msgstr "Error. No s'ha capturar res."
+msgstr "Error. No s'ha capturat res."
 
 #: ../src/constants.cs:589
 msgid "Africa"
@@ -5815,7 +5815,7 @@ msgstr "A la captura d'encoder:"
 
 #: ../src/gui/chronojump.cs:6754
 msgid "Add weight"
-msgstr "Afegri pes"
+msgstr "Afegir pes"
 
 #: ../src/gui/chronojump.cs:6755
 msgid "Remove weight"
@@ -6300,7 +6300,7 @@ msgstr ""
 #: ../src/gui/encoder.cs:2651
 msgid "Please edit exercise parameters on capture tab."
 msgstr ""
-"Siusplau, editeu els paràmetres de l'exercici a la pestanya de captura."
+"Si us plau, editeu els paràmetres de l'exercici a la pestanya de captura."
 
 #. will not be translated
 #: ../src/gui/encoder.cs:2670 ../src/gui/encoder.cs:4045
@@ -7092,7 +7092,7 @@ msgstr "Nom complet en una columna"
 #: ../src/gui/person.cs:2080
 #, csharp-format
 msgid "Expected column separator character is '<b>{0}</b>'"
-msgstr "El caracter separador  de columna esperat és '<b>{0}</b>'"
+msgstr "El caràcter separador de columna esperat és '<b>{0}</b>'"
 
 #: ../src/gui/person.cs:2081
 msgid "You can change this on Preferences / Language."
@@ -7672,8 +7672,8 @@ msgstr "Finalitzant el vídeo"
 #: ../src/gui/webcam.cs:604 ../src/gui/webcam.cs:633
 msgid "Video device is not configured. Check Preferences / Multimedia."
 msgstr ""
-"El dispositiu de vídeo no està configurat. Comprobi les Preferències / "
-"Multimèdia"
+"El dispositiu de vídeo no està configurat. Comprovi les Preferències / "
+"Multimèdia."
 
 #: ../src/json/compujump.cs:315 ../src/json/compujump.cs:322
 msgid "Could not get tasks from other sessions."
@@ -7697,7 +7697,7 @@ msgid ""
 "It does not exist."
 msgstr ""
 "No s'ha pogut enviar l'arxiu.\n"
-" Aquest no existeix"
+" Aquest no existeix."
 
 #: ../src/json/json.cs:82 ../src/json/json.cs:93
 msgid "Could not send file."
@@ -8482,7 +8482,7 @@ msgstr ""
 "l'esquena reposant sobre el respatller de la cadira i amb els dos braços "
 "sobre les cames. Quan sentiu la paraula \"ja\", aixequeu-vos sense usar els "
 "braços, xuteu la pilota enfront vostre tan fort com sigui possible, usant "
-"l'empenya del peu amb el que us sentiu més segur. Seguidament camineu al "
+"l'empenya del peu amb què sentiu més segur. Seguidament camineu al "
 "vostre ritme normal comptant enrere des de 15 fins a 0 en veu alta. Gireu al "
 "voltant del con, sense tocar-lo, torneu al vostre seient, trepitjant dintre "
 "dels cercles intentant no tocar-ne cap. Finalment, torneu a seure intentant "

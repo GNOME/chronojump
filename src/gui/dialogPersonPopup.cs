@@ -56,7 +56,8 @@ public class DialogPersonPopup
 	private bool compujumpDjango;
 
 	public DialogPersonPopup (int personID, string name, string rfid,
-			List<Task> tasks, List<StationCount> stationsCount, bool serverConnected, bool Autologout, bool compujumpDjango)
+			List<Task> tasks, List<StationCount> stationsCount, bool serverConnected, bool Autologout,
+			bool compujumpDjango, bool compujumpHideTaskDone)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "dialog_person_popup.glade", "dialog_person_popup", null);
@@ -162,13 +163,16 @@ public class DialogPersonPopup
 			task_parametrized_exist = true;
 
 			//create button_done (shared on R,L)
-			Gtk.Button button_done = new Gtk.Button("Fet!");
-			button_done.Clicked += new EventHandler(button_done_clicked);
-			hboxRow.PackEnd(button_done, false, false, 0);
-			list_buttons_done.Add(button_done);
-			list_buttons_done_id.Add(t.Id);
-			list_hboxs_row.Add(hboxRow);
+			if(! compujumpHideTaskDone)
+			{
+				Gtk.Button button_done = new Gtk.Button("Fet!");
+				button_done.Clicked += new EventHandler(button_done_clicked);
+				hboxRow.PackEnd(button_done, false, false, 0);
+				list_buttons_done.Add(button_done);
+				list_buttons_done_id.Add(t.Id);
+			}
 
+			list_hboxs_row.Add(hboxRow);
 			vbox_tasks_parametrized.PackStart(hboxRow, false, false, 0);
 		}
 

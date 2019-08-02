@@ -40,6 +40,7 @@ public class Config
 	public bool Compujump;
 	public bool CompujumpDjango;
 	public string CompujumpServerURL = "";
+	public bool CompujumpHideTaskDone = false;
 
 	public int CompujumpStationID = -1;
 	public int CompujumpAdminID = -1; //undefined
@@ -98,6 +99,8 @@ public class Config
 						Compujump = true;
 					else if(parts[0] == "CompujumpDjango" && Util.StringToBool(parts[1]))
 						CompujumpDjango = true;
+					else if(parts[0] == "CompujumpHideTaskDone" && Util.StringToBool(parts[1]))
+						CompujumpHideTaskDone = true;
 					else if(parts[0] == "CompujumpServerURL" && parts[1] != "")
 						CompujumpServerURL = parts[1];
 					else if(parts[0] == "CompujumpStationID" && parts[1] != "" && Util.IsNumber(parts[1], false))

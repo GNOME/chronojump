@@ -133,15 +133,10 @@ public class EncoderGraphDoPlot
 
 	public void Start (
 			string mainVariable, double mainVariableHigher, double mainVariableLower,
-			string secondaryVariable,
-			bool capturing,
-			string eccon,
+			string secondaryVariable, bool capturing, string eccon,
 			RepetitiveConditionsWindow repetitiveConditionsWin,
-			bool hasInertia,
-			bool playSoundsFromFile,
-			ArrayList data7Variables,
-        		Gtk.ListStore encoderCaptureListStore,
-			double maxPowerIntersession)
+			bool hasInertia, bool playSoundsFromFile,
+			ArrayList data7Variables, Gtk.ListStore encoderCaptureListStore, double maxPowerIntersession)
 	{
 		this.mainVariable = mainVariable;
 		this.mainVariableHigher = mainVariableHigher;

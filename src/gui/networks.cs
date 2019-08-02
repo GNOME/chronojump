@@ -866,7 +866,7 @@ public partial class ChronoJumpWindow
 		dialogPersonPopup = new DialogPersonPopup(
 				currentPerson.UniqueID, currentPerson.Name, capturedRFID, tasks, stationsCount,
 				serverConnected, compujumpAutologout.Active,
-				configChronojump.CompujumpDjango);
+				configChronojump.CompujumpDjango, configChronojump.CompujumpHideTaskDone);
 
 		dialogPersonPopup.Fake_button_start_task.Clicked -= new EventHandler(compujumpTaskStart);
 		dialogPersonPopup.Fake_button_start_task.Clicked += new EventHandler(compujumpTaskStart);

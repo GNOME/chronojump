@@ -181,13 +181,13 @@ SOURCES = \
 	restTime.cs\
 	sprint.cs\
 	threshold.cs\
-	treeViewEvent.cs\
-	treeViewPerson.cs\
-	treeViewJump.cs\
-	treeViewRun.cs\
-	treeViewPulse.cs\
-	treeViewReactionTime.cs\
-	treeViewMultiChronopic.cs\
+	treeview/event.cs\
+	treeview/person.cs\
+	treeview/jump.cs\
+	treeview/run.cs\
+	treeview/pulse.cs\
+	treeview/reactionTime.cs\
+	treeview/multiChronopic.cs\
 	trigger.cs\
 	util.cs\
 	utilAll.cs\

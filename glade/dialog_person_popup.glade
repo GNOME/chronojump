@@ -50,17 +50,6 @@
                         <property name="can_focus">False</property>
                         <property name="spacing">20</property>
                         <child>
-                          <widget class="GtkLabel" id="label_rfid">
-                            <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">label</property>
-                          </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
                           <widget class="GtkHBox" id="hbox3">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
@@ -283,6 +272,17 @@
                             <property name="position">0</property>
                           </packing>
                         </child>
+                        <child>
+                          <widget class="GtkLabel" id="label_rfid">
+                            <property name="can_focus">False</property>
+                            <property name="label" translatable="yes">label</property>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
                       </widget>
                       <packing>
                         <property name="expand">True</property>
@@ -383,10 +383,33 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="label4">
+                  <widget class="GtkHBox" id="hbox7">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Other stations with assigned tasks</property>
+                    <property name="spacing">4</property>
+                    <child>
+                      <widget class="GtkLabel" id="label4">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Other stations with assigned tasks</property>
+                      </widget>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkImage" id="image_new_tasks_other_stations">
+                        <property name="can_focus">False</property>
+                        <property name="stock">gtk-missing-image</property>
+                      </widget>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
                   </widget>
                   <packing>
                     <property name="position">1</property>

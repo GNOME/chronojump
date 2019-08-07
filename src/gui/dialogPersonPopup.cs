@@ -31,6 +31,7 @@ public class DialogPersonPopup
 	[Widget] Gtk.Label label_name;
 	[Widget] Gtk.Image image_person;
 	[Widget] Gtk.Image image_person_logout;
+	[Widget] Gtk.Image image_new_tasks_other_stations;
 	[Widget] Gtk.CheckButton checkbutton_autologout;
 	[Widget] Gtk.Image image_close;
 	[Widget] Gtk.Label label_rfid;
@@ -80,6 +81,8 @@ public class DialogPersonPopup
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_logout.png");
 		image_person_logout.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "new.png");
+		image_new_tasks_other_stations.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gtk-apply.png");
 		image_server_connected_yes.Pixbuf = pixbuf;
@@ -196,8 +199,11 @@ public class DialogPersonPopup
 		if(stationsString == "")
 			label_other_stations.Text = "There are no tasks at other stations";
 		else
+		{
 			//label_other_stations.Text = "There are task at this stations:" + "\n\n" + stationsString;
 			label_other_stations.Text = stationsString;
+			image_new_tasks_other_stations.Visible = true;
+		}
 	}
 
 	private Gtk.HBox createHBoxStartAndLabel(Task t, Pixbuf pixbuf)

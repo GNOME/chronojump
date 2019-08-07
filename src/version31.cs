@@ -129,11 +129,12 @@ public class VersionCompare
 		get
 		{
 			if(Result == ResultType.EQUAL)
-				return Constants.SoftwareUpdated;
+				//return Constants.GetTranslated(Constants.SoftwareUpdated);
+				return Constants.SoftwareUpdatedStr();
 			else if(Result == ResultType.LOWER)
-				return Constants.SoftwareNeedUpdate;
+				return Constants.SoftwareNeedUpdateStr();
 			else
-				return Constants.SoftwareNewerThanPublised;
+				return Constants.SoftwareNewerThanPublisedStr();
 		}
 	}
 }

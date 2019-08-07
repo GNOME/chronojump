@@ -347,7 +347,7 @@ public class PulseExecute : EventExecute
 		
 		//string myStringPush =   Catalog.GetString("Last pulse") + ": " + personName + " " + type ;
 		if(simulated)
-			feedbackMessage = Catalog.GetString(Constants.SimulatedMessage);
+			feedbackMessage = Catalog.GetString(Constants.SimulatedMessage());
 		else
 			feedbackMessage = "";
 		needShowFeedbackMessage = true; 

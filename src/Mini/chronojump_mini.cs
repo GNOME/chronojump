@@ -92,7 +92,7 @@ class ChronoJumpMini {
 		//string messageDetected ="";
 
 		if(UtilAll.IsWindows()) {
-			messageInfo = Constants.PortNamesWindows;
+			messageInfo = Constants.PortNamesWindowsStr();
 			/*
 			messageDetected = Catalog.GetString("Detected ports:") + "\n";
 
@@ -103,7 +103,7 @@ class ChronoJumpMini {
 			}
 			*/
 		} else {
-			messageInfo = Constants.PortNamesLinux;
+			messageInfo = Constants.PortNamesLinuxStr();
 		}
 			
 		messageInfo += string.Format("\n" + Catalog.GetString("More information on Chronojump manual"));

@@ -28,52 +28,64 @@ public class Constants
 	//the strings created by Catalog cannot be const
 	
 	//public static string ReadmeTranslators = Catalog.GetString("Translator, there's a glossary that will help you in Chronojump translation:\n http://git.gnome.org/browse/chronojump/plain/glossary/chronojump_glossary_for_translators.html");
-	
-	public static string [] AuthorsCEO = {
-		"Xavier de Blas Foix (info@chronojump.org)\n",
-		"Josep Ma Padullés (jmpadulles@gmail.com)"	
-	};
-	public static string [] AuthorsSoftware = {
-		"Xavier de Blas Foix (xaviblas@gmail.com)\n\t" + 
-			Catalog.GetString("Main developer.") + "\n",
-		"Andoni Morales Alastruey (http://ylatuya.es)\n\t" + 
-			Catalog.GetString("Installation support: Autotools, packaging, bundle.") + "\n",
-		"Carles Pina i Estany (http://pinux.info)\n\t" + 
-			Catalog.GetString("Backend developer.")
-	};
-	public static string [] AuthorsChronopic = {
-		"Teng Wei Hua (wadedang@gmail.com)\n\t" + Catalog.GetString("Translation of Firmware to C.") + "\n\t" +
-			Catalog.GetString("New firmware features.") + " " + Catalog.GetString("Encoder hardware layer.") + "\n",
-		"Juan Gonzalez Gómez (http://www.iearobotics.com)\n\t" + Catalog.GetString("Skypic, Chronopic, connection between hardware and software.") + "\n", 
-		"Ferran Suárez Rodríguez (ferransuarez2@gmail.com)\n\t" + Catalog.GetString("Chronopic reaction time advanced implementation.") + "\n",
-		"Ricardo Gómez González (http://www.iearobotics.com)\n\t" + Catalog.GetString("Chronopic3 industrial prototype.") + "\n",
-		"Juan Fernando Pardo (juanfer@juanfer.com.ar)\n\t" + "Chronopic2."
-	};
-	public static string [] AuthorsDevices = {
-		"Josep Ma Padullés (jmpadulles@gmail.com)\n",
-		"Anna Padullés (hardware@chronojump.org)\n",
-		"Xavier Padullés (testing@chronojump.org)\n",
-		"Teng Wei Hua (wadedang@gmail.com)\n",
-		"Xavier de Blas Foix (info@chronojump.org)\n",
-		"Ferran Suárez Rodríguez (ferransuarez2@gmail.com)\n"
-	};
-	public static string [] AuthorsMath = {
-		"Carlos J. Gil Bellosta (http://www.datanalytics.com)\n",
-		"Aleix Ruiz de Villa (aleixrvr@gmail.com)\n",
-		"Xavier Padullés (testing@chronojump.org)"
-	};
-	public static string [] AuthorsOpenCV = {
-		"Sharad Shankar (http://www.logicbrick.com)\n", 
-		"Onkar Nath Mishra (http://www.logicbrick.com)\n"
-	};
 
-	public static string [] Documenters = {
-		"Xavier de Blas Foix (xaviblas@gmail.com)\n\t" +
-			Catalog.GetString("Chronojump Manual author."),
-		"Helena Olsson (hjolsson@gmail.com)\n\t" +
-			Catalog.GetString("Chronojump Manual English translation."),
-		"Xavier Padullés (testing@chronojump.org)",
-	};
+	public enum AuthorsEnum { CEO, SOFTWARE, CHRONOPIC, DEVICES, MATH, OPENCV, DOCUMENTERS }
+	public static string [] Authors(AuthorsEnum e)
+	{
+		if(e == AuthorsEnum.CEO)
+			return new String []{
+				"Xavier de Blas Foix (info@chronojump.org)\n",
+				"Josep Ma Padullés (jmpadulles@gmail.com)"
+			};
+		else if(e == AuthorsEnum.SOFTWARE)
+			return new String []{
+				"Xavier de Blas Foix (xaviblas@gmail.com)\n\t" +
+					Catalog.GetString("Main developer.") + "\n",
+					"Andoni Morales Alastruey (http://ylatuya.es)\n\t" +
+						Catalog.GetString("Installation support: Autotools, packaging, bundle.") + "\n",
+					"Carles Pina i Estany (http://pinux.info)\n\t" +
+						Catalog.GetString("Backend developer.")
+			};
+		else if(e == AuthorsEnum.CHRONOPIC)
+			return new String []{
+				"Teng Wei Hua (wadedang@gmail.com)\n\t" + Catalog.GetString("Translation of Firmware to C.") + "\n\t" +
+					Catalog.GetString("New firmware features.") + " " + Catalog.GetString("Encoder hardware layer.") + "\n",
+					"Juan Gonzalez Gómez (http://www.iearobotics.com)\n\t" + Catalog.GetString("Skypic, Chronopic, connection between hardware and software.") + "\n",
+					"Ferran Suárez Rodríguez (ferransuarez2@gmail.com)\n\t" + Catalog.GetString("Chronopic reaction time advanced implementation.") + "\n",
+					"Ricardo Gómez González (http://www.iearobotics.com)\n\t" + Catalog.GetString("Chronopic3 industrial prototype.") + "\n",
+					"Juan Fernando Pardo (juanfer@juanfer.com.ar)\n\t" + "Chronopic2."
+			};
+		else if(e == AuthorsEnum.DEVICES)
+			return new String []{
+				"Josep Ma Padullés (jmpadulles@gmail.com)\n",
+					"Anna Padullés (hardware@chronojump.org)\n",
+					"Xavier Padullés (testing@chronojump.org)\n",
+					"Teng Wei Hua (wadedang@gmail.com)\n",
+					"Xavier de Blas Foix (info@chronojump.org)\n",
+					"Ferran Suárez Rodríguez (ferransuarez2@gmail.com)\n"
+			};
+		else if(e == AuthorsEnum.MATH)
+			return new String []{
+				"Carlos J. Gil Bellosta (http://www.datanalytics.com)\n",
+					"Aleix Ruiz de Villa (aleixrvr@gmail.com)\n",
+					"Xavier Padullés (testing@chronojump.org)"
+			};
+		else if(e == AuthorsEnum.OPENCV)
+			return new String []{
+				"Sharad Shankar (http://www.logicbrick.com)\n",
+					"Onkar Nath Mishra (http://www.logicbrick.com)\n"
+			};
+		else if(e == AuthorsEnum.DOCUMENTERS)
+			return new String []{
+				"Xavier de Blas Foix (xaviblas@gmail.com)\n\t" +
+					Catalog.GetString("Chronojump Manual author."),
+					"Helena Olsson (hjolsson@gmail.com)\n\t" +
+						Catalog.GetString("Chronojump Manual English translation."),
+					"Xavier Padullés (testing@chronojump.org)",
+			};
+		else
+			return new String []{""};
+	}
 	
 	public static string ChronojumpWebsite = "http://www.chronojump.org";
 	
@@ -84,8 +96,11 @@ public class Constants
 	public static string DjIndexFormulaOnly = "(tv-tc)*100/(tc*1.0)"; //*1.0 for having double division
 	public static string QIndexFormulaOnly = "tv/(tc*1.0)"; //*1.0 for having double division
 	public static string DjPowerFormulaOnly = PersonSessionTable + ".weight * 9.81 * (fall/100.0 + 1.226 * (tv*tv) ) / ((tc+tv)*1.0)";
-	
-	public static string ChronojumpProfile = Catalog.GetString("Chronojump profile");
+
+	public static string ChronojumpProfileStr()
+	{
+		return Catalog.GetString("Chronojump profile");
+	}
 	public const string FvIndexFormula = "F/V sj+(100%)/sj *100";
 	public const string IeIndexFormula = "IE (cmj-sj)/sj *100";
 	public const string IRnaIndexFormula = "IRna (djna-cmj)/cmj *100";
@@ -196,24 +211,45 @@ public class Constants
 	
 	//simulated tests and SIMULATED session
 	public const string SessionSimulatedName = "SIMULATED"; //Do NOT translate this 
-	public static string SessionProtected = Catalog.GetString("Sorry, this session cannot be modified."); //SIMULATED session
-	public static string SimulatedTestsNotAllowed = Catalog.GetString("Chronopic is disconnected.") + "\n\n" + 
-		string.Format(Catalog.GetString("If you want to simulate tests, use {0} session."), "SIMULATED");
+	public static string SessionProtectedStr()
+	{
+		return Catalog.GetString("Sorry, this session cannot be modified."); //SIMULATED session
+	}
+	public static string SimulatedTestsNotAllowedStr()
+	{
+		return Catalog.GetString("Chronopic is disconnected.") + "\n\n" +
+			string.Format(Catalog.GetString("If you want to simulate tests, use {0} session."), "SIMULATED");
+	}
 
 	//Compujump strings
-	public static string RFIDDisconnectedMessage = Catalog.GetString("RFID cable has been disconnected!") + "\n\n" +
-		Catalog.GetString("Please, connect it and restart Chronojump.");
-	public static string RFIDNotInServerMessage = Catalog.GetString("This RFID is not registered on server.");
-	public static string ServerDisconnectedMessage = Catalog.GetString("Server is disconnected.");
+	public static string RFIDDisconnectedMessage()
+	{
+		return Catalog.GetString("RFID cable has been disconnected!") + "\n\n" +
+			Catalog.GetString("Please, connect it and restart Chronojump.");
+	}
+	public static string RFIDNotInServerMessage()
+	{
+		return Catalog.GetString("This RFID is not registered on server.");
+	}
+	public static string ServerDisconnectedMessage()
+	{
+		return Catalog.GetString("Server is disconnected.");
+	}
 
 	//server
 	public const string ServerPingTable = "SPing"; 
 	public const string ServerEvaluatorTable = "SEvaluator"; 
 	public const string IPUnknown = "Unknown"; 
 	public static int ServerUndefinedID = -1;
-	public static string ServerOnline = Catalog.GetString("Server is connected.");
-	public static string ServerOffline = Catalog.GetString("Sorry, server is currently offline. Try later.") + "\n" + 
-		Catalog.GetString("Or maybe you are not connected to the Internet or your firewall is restricting connections");
+	public static string ServerOnlineStr()
+	{
+		return Catalog.GetString("Server is connected.");
+	}
+	public static string ServerOfflineStr()
+	{
+		return Catalog.GetString("Sorry, server is currently offline. Try later.") + "\n" +
+			Catalog.GetString("Or maybe you are not connected to the Internet or your firewall is restricting connections");
+	}
 	public enum ServerSessionStates {
 		NOTHING, UPLOADINGSESSION, UPLOADINGDATA, DONE
 	}
@@ -236,23 +272,35 @@ public class Constants
 	public const string DeviceContactSteel = "Contact platform (steel)";
 	public const string DeviceContactCircuit = "Contact platform (circuit board)";
 	public const string DeviceInfrared = "Infrared";
-	public static string [] Devices = {
-		UndefinedDefault + ":" + Catalog.GetString(UndefinedDefault), 
-		DeviceContactSteel + ":" + Catalog.GetString(DeviceContactSteel),
-		DeviceContactCircuit + ":" + Catalog.GetString(DeviceContactCircuit),
-		DeviceInfrared + ":" + Catalog.GetString(DeviceInfrared),
-		"Other" + ":" + Catalog.GetString("Other"),
-	};
-	
+	public static string [] Devices ()
+	{
+		return new string[] {
+			UndefinedDefault + ":" + Catalog.GetString(UndefinedDefault),
+					 DeviceContactSteel + ":" + Catalog.GetString(DeviceContactSteel),
+					 DeviceContactCircuit + ":" + Catalog.GetString(DeviceContactCircuit),
+					 DeviceInfrared + ":" + Catalog.GetString(DeviceInfrared),
+					 "Other" + ":" + Catalog.GetString("Other"),
+		};
+	}
 	
 	public static string MultiChronopicName = "MultiChronopic";
 	public static string RunAnalysisName = "RunAnalysis"; //Josep Ma Padullés test
 	public static string TakeOffName = "TakeOff"; //translate (take off?)
 	public static string TakeOffWeightName = "TakeOffWeight"; //translate (take off?)
 
-	public static string SoftwareUpdated = Catalog.GetString("Your software is updated!");
-	public static string SoftwareNeedUpdate = Catalog.GetString("Update software at ") + "www.chronojump.org";
-	public static string SoftwareNewerThanPublised = "Your software is more updated than last published version.\n\nPlease, don't Update!";
+	public static string SoftwareUpdated = "Your software is updated!";
+	public static string SoftwareUpdatedStr()
+	{
+		return Catalog.GetString("Your software is updated!");
+	}
+	public static string SoftwareNeedUpdateStr()
+	{
+		return string.Format(Catalog.GetString("Update software at {0}"), "www.chronojump.org");
+	}
+	public static string SoftwareNewerThanPublisedStr()
+	{
+		return Catalog.GetString("Your software is more updated than last published version.\n\nPlease, don't Update!");
+	}
 
 	public static string GetSpreadsheetString(string CSVExportDecimalSeparator)
 	{
@@ -265,17 +313,25 @@ public class Constants
 			Catalog.GetString("This can be changed at preferences.");
 	}
 
-	public static string JumpsProfileNeededJumps = Catalog.GetString("Please, perform the needed jumps marked in red above.");
+	public static string JumpsProfileNeededJumpsStr()
+	{
+		return Catalog.GetString("Please, perform the needed jumps marked in red above.");
+	}
 
 /*	OLD, check this
 	public static string PotencyLewisCMJFormula = Catalog.GetString("Peak Power")+ " CMJ (Lewis) " +
 		"(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")*9.81*" +
 		"SQRT(2*9,81* " + Catalog.GetString("height") + "(m))";
 */
-	public static string PotencyLewisFormulaShort = Catalog.GetString("Peak power") + " (Lewis, 1974) " +
-		Catalog.GetString("(Watts)");
-	public static string PotencyLewisFormula = PotencyLewisFormulaShort + "\n" +
-		"(SQRT(4,9)*9,8*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ") * SQRT(" + Catalog.GetString("height") + "(m)))";
+	public static string PotencyLewisFormulaShortStr()
+	{
+		return Catalog.GetString("Peak power") + " (Lewis, 1974) " + Catalog.GetString("(Watts)");
+	}
+	public static string PotencyLewisFormulaStr()
+	{
+		return PotencyLewisFormulaShortStr() + "\n" +
+			"(SQRT(4,9)*9,8*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ") * SQRT(" + Catalog.GetString("height") + "(m)))";
+	}
 	//see: http://www.dtic.mil/cgi-bin/GetTRDoc?AD=ADA218194&Location=U2&doc=GetTRDoc.pdf
 	//Estimation of human power output from maximal vertical jump and body mass
 	//1988
@@ -306,77 +362,136 @@ public class Constants
 	//newtons, yielding power in watts (N.m/s).
 	//POWERw = (SQRT(4.9))(9.8)(BODY MASSkg)(SQRT(JUMP-REACH SCOREm)) (2)
 	
-	public static string PotencyHarmanFormulaShort = Catalog.GetString("Peak power") + " (Harman, 1991)";
-	public static string PotencyHarmanFormula = PotencyHarmanFormulaShort + "\n" +
-		"(61.9*" + Catalog.GetString("height") + "(cm))" +
-	        "+ (36*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -1822";
-	
-	public static string PotencySayersSJFormulaShort = Catalog.GetString("Peak power") + " SJ (Sayers, 1999)";
-	public static string PotencySayersSJFormula = PotencySayersSJFormulaShort + "\n" +
-		"(60.7*" + Catalog.GetString("height") + "(cm))" +
-	        "+ (45.3*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -2055";
-	
-	public static string PotencySayersCMJFormulaShort = Catalog.GetString("Peak power") + " CMJ (Sayers, 1999)";
-	public static string PotencySayersCMJFormula = PotencySayersCMJFormulaShort + "\n" +
-		"(51.9*" + Catalog.GetString("height") + "(cm))" +
-	        "+ (48.9*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -2007";
+	public static string PotencyHarmanFormulaShortStr()
+	{
+		return Catalog.GetString("Peak power") + " (Harman, 1991)";
+	}
+	public static string PotencyHarmanFormulaStr()
+	{
+		return PotencyHarmanFormulaShortStr() + "\n" +
+			"(61.9*" + Catalog.GetString("height") + "(cm))" +
+			"+ (36*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -1822";
+	}
+
+	public static string PotencySayersSJFormulaShortStr()
+	{
+		return Catalog.GetString("Peak power") + " SJ (Sayers, 1999)";
+	}
+	public static string PotencySayersSJFormulaStr()
+	{
+		return PotencySayersSJFormulaShortStr() + "\n" +
+			"(60.7*" + Catalog.GetString("height") + "(cm))" +
+			"+ (45.3*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -2055";
+	}
+
+	public static string PotencySayersCMJFormulaShortStr()
+	{
+		return Catalog.GetString("Peak power") + " CMJ (Sayers, 1999)";
+	}
+	public static string PotencySayersCMJFormulaStr()
+	{
+		return PotencySayersCMJFormulaShortStr() + "\n" +
+			"(51.9*" + Catalog.GetString("height") + "(cm))" +
+			"+ (48.9*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -2007";
+	}
 
 	//http://www.ncbi.nlm.nih.gov/pubmed/14658372	
-	public static string PotencyShettyFormulaShort = Catalog.GetString("Peak power") + " (Shetty, 2002)";
-	public static string PotencyShettyFormula = PotencyShettyFormulaShort + "\n" +
-		"(1925.72*" + Catalog.GetString("height") + "(m))" +
-	        "+ (14.74*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -666.3";
-	
-	public static string PotencyCanavanFormulaShort = Catalog.GetString("Peak power") + " (Canavan, 2004)";
-	public static string PotencyCanavanFormula = PotencyCanavanFormulaShort + "\n" +
-		"(65.1*" + Catalog.GetString("height") + "(cm))" +
-	        "+ (25.8*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -1413.1";
-	
+	public static string PotencyShettyFormulaShortStr()
+	{
+		return Catalog.GetString("Peak power") + " (Shetty, 2002)";
+	}
+	public static string PotencyShettyFormulaStr()
+	{
+		return PotencyShettyFormulaShortStr() + "\n" +
+			"(1925.72*" + Catalog.GetString("height") + "(m))" +
+			"+ (14.74*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -666.3";
+	}
+
+	public static string PotencyCanavanFormulaShortStr()
+	{
+		return Catalog.GetString("Peak power") + " (Canavan, 2004)";
+	}
+	public static string PotencyCanavanFormulaStr()
+	{
+		return PotencyCanavanFormulaShortStr() + "\n" +
+			"(65.1*" + Catalog.GetString("height") + "(cm))" +
+			"+ (25.8*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -1413.1";
+	}
+
 	/*
-	public static string PotencyBahamondeFormula = Catalog.GetString("Peak power") + " (Bahamonde, 2005) \n" +
-		"(78.5*" + Catalog.GetString("height") + "(cm))" +
-	        "+ (60.6*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + 
-		")) -(15.3*" + Catalog.GetString("height") + "(cm)) -1413.1";
-	*/ //what is this height?
+	   public static string PotencyBahamondeFormula = Catalog.GetString("Peak power") + " (Bahamonde, 2005) \n" +
+	   "(78.5*" + Catalog.GetString("height") + "(cm))" +
+	   "+ (60.6*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") +
+	   ")) -(15.3*" + Catalog.GetString("height") + "(cm)) -1413.1";
+	   */ //what is this height?
+
+	public static string PotencyLaraMaleApplicantsSCFormulaShortStr()
+	{
+		return Catalog.GetString("Peak power") + " (Lara, 2006, m)";
+	}
+	public static string PotencyLaraMaleApplicantsSCFormulaStr()
+	{
+		return PotencyLaraMaleApplicantsSCFormulaShortStr() +
+			" (" + Catalog.GetString("Male applicants to a Faculty of Sport Sciences") + ") \n" +
+			"(62.5*" + Catalog.GetString("height") + "(cm))" +
+			"+ (50.3*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -2184.7";
+	}
+
+	public static string PotencyLaraFemaleEliteVoleiFormulaShortStr()
+	{
+		return Catalog.GetString("Peak power") + " (Lara, 2006, fev)";
+	}
+	public static string PotencyLaraFemaleEliteVoleiFormulaStr()
+	{
+		return PotencyLaraFemaleEliteVoleiFormulaShortStr() +
+			" (" + Catalog.GetString("Female elite volleyball") + ") \n" +
+			"(83.1*" + Catalog.GetString("height") + "(cm))" +
+			"+ (42*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -2488";
+	}
 	
-	public static string PotencyLaraMaleApplicantsSCFormulaShort = 
-		Catalog.GetString("Peak power") + " (Lara, 2006, m)";
-	public static string PotencyLaraMaleApplicantsSCFormula = PotencyLaraMaleApplicantsSCFormulaShort + 
-		" (" + Catalog.GetString("Male applicants to a Faculty of Sport Sciences") + ") \n" +
-		"(62.5*" + Catalog.GetString("height") + "(cm))" +
-	        "+ (50.3*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -2184.7";
+	public static string PotencyLaraFemaleMediumVoleiFormulaShortStr()
+	{
+		return Catalog.GetString("Peak power") + " (Lara, 2006, fmv)";
+	}
+	public static string PotencyLaraFemaleMediumVoleiFormulaStr()
+	{
+		return PotencyLaraFemaleMediumVoleiFormulaShortStr() +
+			" (" + Catalog.GetString("Female medium volleyball") + ") \n" +
+			"(53.6*" + Catalog.GetString("height") + "(cm))" +
+			"+ (67.5*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -2624.1";
+	}
+
+	public static string PotencyLaraFemaleSCStudentsFormulaShortStr()
+	{
+		return Catalog.GetString("Peak power") + " (Lara, 2006, fsc)";
+	}
+	public static string PotencyLaraFemaleSCStudentsFormulaStr()
+	{
+		return PotencyLaraFemaleSCStudentsFormulaShortStr() +
+			" (" + Catalog.GetString("Peak power") + " (Lara, 2006, " +
+			Catalog.GetString("Female sports sciences students") + ") \n" +
+			"(56.7*" + Catalog.GetString("height") + "(cm))" +
+			"+ (47.2*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -1772.6";
+	}
 	
-	public static string PotencyLaraFemaleEliteVoleiFormulaShort = 
-		Catalog.GetString("Peak power") + " (Lara, 2006, fev)"; 
-	public static string PotencyLaraFemaleEliteVoleiFormula = PotencyLaraFemaleEliteVoleiFormulaShort + 
-		" (" + Catalog.GetString("Female elite volleyball") + ") \n" +
-		"(83.1*" + Catalog.GetString("height") + "(cm))" +
-	        "+ (42*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -2488";
-	
-	public static string PotencyLaraFemaleMediumVoleiFormulaShort = 
-		Catalog.GetString("Peak power") + " (Lara, 2006, fmv)";
-	public static string PotencyLaraFemaleMediumVoleiFormula = PotencyLaraFemaleMediumVoleiFormulaShort +
-		" (" + Catalog.GetString("Female medium volleyball") + ") \n" +
-		"(53.6*" + Catalog.GetString("height") + "(cm))" +
-	        "+ (67.5*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -2624.1";
-	
-	public static string PotencyLaraFemaleSCStudentsFormulaShort = 
-		Catalog.GetString("Peak power") + " (Lara, 2006, fsc)";
-	public static string PotencyLaraFemaleSCStudentsFormula = PotencyLaraFemaleSCStudentsFormulaShort +
-		" (" + Catalog.GetString("Peak power") + " (Lara, 2006, " + 
-		Catalog.GetString("Female sports sciences students") + ") \n" +
-		"(56.7*" + Catalog.GetString("height") + "(cm))" +
-	        "+ (47.2*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -1772.6";
-	
-	public static string PotencyLaraFemaleSedentaryFormulaShort = Catalog.GetString("Peak power") + " (Lara, 2006, fu)";
-	public static string PotencyLaraFemaleSedentaryFormula = PotencyLaraFemaleSedentaryFormulaShort +
-		" (" + Catalog.GetString("Peak power") + " (Lara, 2006, " + Catalog.GetString("Female university students") + ") \n" +
-		"(68.2*" + Catalog.GetString("height") + "(cm))" +
-	        "+ (40.8*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -1731.1";
+	public static string PotencyLaraFemaleSedentaryFormulaShortStr()
+	{
+		return Catalog.GetString("Peak power") + " (Lara, 2006, fu)";
+	}
+	public static string PotencyLaraFemaleSedentaryFormulaStr()
+	{
+		return PotencyLaraFemaleSedentaryFormulaShortStr() +
+			" (" + Catalog.GetString("Peak power") + " (Lara, 2006, " + Catalog.GetString("Female university students") + ") \n" +
+			"(68.2*" + Catalog.GetString("height") + "(cm))" +
+			"+ (40.8*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -1731.1";
+	}
 	
 	public static string RJPotencyBoscoFormula = "Peak Power" + " (Bosco)" + " 9.81^2*TF*TT / (4*jumps*(TT-TF))";
 	public static string RJPotencyBoscoFormulaOnly = "9.81*9.81 * tvavg*jumps * time / ( 4.0 * jumps * (time - tvavg*jumps) )"; //*4.0 for having double division
-	public static string RJPotencyBoscoName = Catalog.GetString("Peak Power") + " (Bosco)";
+	public static string RJPotencyBoscoNameStr()
+	{
+		return Catalog.GetString("Peak Power") + " (Bosco)";
+	}
 
 	public static string RjIndexName = "Rj Index";
 	public static string RjIndexFormulaOnly = "(tvavg-tcavg)*100/(tcavg * 1.0)";
@@ -388,18 +503,50 @@ public class Constants
 
 
 	//global stat types
-	public static string TypeSessionSummary = Catalog.GetString("Session summary");
-	public static string TypeJumperSummary = Catalog.GetString("Jumper summary");
-	public static string TypeJumpsSimple = Catalog.GetString("Simple");
-	public static string TypeJumpsSimpleWithTC = Catalog.GetString("Simple with TC");
-	public static string TypeJumpsReactive = Catalog.GetString("Jumps: Reactive");
-	public static string TypeRunsSimple = Catalog.GetString("Races: Simple");
-	public static string TypeRunsIntervallic = Catalog.GetString("Races: Intervallic");
+	public static string TypeSessionSummaryStr()
+	{
+		return Catalog.GetString("Session summary");
+	}
+	public static string TypeJumperSummaryStr()
+	{
+		return Catalog.GetString("Jumper summary");
+	}
+	public static string TypeJumpsSimpleStr()
+	{
+		return Catalog.GetString("Simple");
+	}
+	public static string TypeJumpsSimpleWithTCStr()
+	{
+		return Catalog.GetString("Simple with TC");
+	}
+	public static string TypeJumpsReactiveStr()
+	{
+		return Catalog.GetString("Jumps: Reactive");
+	}
+	public static string TypeRunsSimpleStr()
+	{
+		return Catalog.GetString("Races: Simple");
+	}
+
+	public static string TypeRunsIntervallicStr()
+	{
+		return Catalog.GetString("Races: Intervallic");
+	}
+
 
 	//strings
-	public static string AllJumpsName = Catalog.GetString("See all jumps");
-	public static string AllRunsName = Catalog.GetString("See all races");
-	public static string AllPulsesName = Catalog.GetString("See all pulses");
+	public static string AllJumpsNameStr()
+	{
+	       return Catalog.GetString("See all jumps");
+	}
+	public static string AllRunsNameStr()
+	{
+		return Catalog.GetString("See all races");
+	}
+	public static string AllPulsesNameStr()
+	{
+		return Catalog.GetString("See all pulses");
+	}
 
 	//fileNames
 	//public static string FileNameLogo = "chronojump-boscosystem_white_bg.png";
@@ -425,8 +572,11 @@ public class Constants
 		GraphTypeXY, GraphTypeDotchart, GraphTypeStripchart };
 	public static string [] GraphTypesMultisession = { GraphTypeBarplot, GraphTypeLines };
 	public static string GraphPaletteGray = "gray.colors";
-	public static string GraphPaletteBlack = Catalog.GetString("black only");
-	public static string [] GraphPalettes = { GraphPaletteBlack, GraphPaletteGray, "rainbow", 
+	public static string GraphPaletteBlackStr()
+	{
+		return Catalog.GetString("black only");
+	}
+	public static string [] GraphPalettes = { GraphPaletteBlackStr(), GraphPaletteGray, "rainbow",
 		"topo.colors", "heat.colors", "terrain.colors", "cm.colors"};
 
 
@@ -520,31 +670,64 @@ public class Constants
 	};
 
 
-	public static string PortNamesWindows = 
-		string.Format(Catalog.GetString("Typical serial and USB-serial ports on Windows:") + 
+	public static string PortNamesWindowsStr()
+	{
+		return string.Format(Catalog.GetString("Typical serial and USB-serial ports on Windows:") +
 				"\n\t<i>COM1\tCOM2</i>\n\n" + 
 				Catalog.GetString("Also, these are possible:") + 
 				"\t<i>COM3 ... COM27</i>");
-	
-	public static string PortNamesLinux = 
-		string.Format(Catalog.GetString("Typical serial ports on GNU/Linux:") + 
+	}
+
+
+	public static string PortNamesLinuxStr()
+	{
+		return string.Format(Catalog.GetString("Typical serial ports on GNU/Linux:") +
 				"\t<i>/dev/ttyS0\t/dev/ttyS1</i>\n" +
 				Catalog.GetString("Typical USB-serial ports on GNU/Linux:") +
 				"\t<i>/dev/ttyUSB0\t/dev/ttyUSB1</i>" + "\n" + 
 				Catalog.GetString("If you use Chronopic3, you will have an USB-serial port.")
 				);
+	}
 
-	public static string FoundSerialPortsString = Catalog.GetString("Serial ports found:"); 
-	public static string FoundUSBSerialPortsString = Catalog.GetString("USB-serial ports found:"); 
-	public static string NotFoundUSBSerialPortsString = Catalog.GetString("Not found any USB-serial ports.") + " " + Catalog.GetString("Is Chronopic connected?"); 
+	public static string FoundSerialPortsString()
+	{
+		return Catalog.GetString("Serial ports found:");
+	}
+	public static string FoundUSBSerialPortsString()
+	{
+		return Catalog.GetString("USB-serial ports found:");
+	}
+	public static string NotFoundUSBSerialPortsString()
+	{
+		return Catalog.GetString("Not found any USB-serial ports.") + " " + Catalog.GetString("Is Chronopic connected?");
+	}
 
-	public static string ChronopicDetecting = Catalog.GetString("Detecting ...");
-	public static string ChronopicNeedTouch = Catalog.GetString("Touch device.");
+	public static string ChronopicDetectingStr()
+	{
+		return Catalog.GetString("Detecting ...");
+	}
+	public static string ChronopicNeedTouchStr()
+	{
+		return Catalog.GetString("Touch device.");
+	}
 
-	public static string FindDriverNeed = Catalog.GetString("Chronopic driver has to be installed.");
-	public static string FindDriverWindows = Catalog.GetString("If you have problems connecting with Chronopic, ensure you have the <b>driver</b> installed at 'Windows Start Menu / Chronojump / Install Chronopic driver'."); 
-	public static string FindDriverOthers = Catalog.GetString("Check Chronojump software website.");
-	public static string VideoNothingCaptured = Catalog.GetString("Error. Nothing has been captured.");
+	public static string FindDriverNeedStr()
+	{
+		return Catalog.GetString("Chronopic driver has to be installed.");
+	}
+
+	public static string FindDriverWindowsStr()
+	{
+		return Catalog.GetString("If you have problems connecting with Chronopic, ensure you have the <b>driver</b> installed at 'Windows Start Menu / Chronojump / Install Chronopic driver'.");
+	}
+	public static string FindDriverOthersStr()
+	{
+		return Catalog.GetString("Check Chronojump software website.");
+	}
+	public static string VideoNothingCapturedStr()
+	{
+		return Catalog.GetString("Error. Nothing has been captured.");
+	}
 
 //	public static System.Media.SystemSound SoundCanStart = System.Media.SystemSounds.Question; 
 //	public static System.Media.SystemSounds SoundGood = System.Media.SystemSounds.Exclamation; 
@@ -584,25 +767,43 @@ public class Constants
 	public static int CountryUndefinedID = 1;
 	public static string CountryUndefined = "Undefined"; 
 	public static string ContinentUndefined = "Undefined"; 
-	public static string [] Continents = {
-		ContinentUndefined + ":" + Catalog.GetString(ContinentUndefined), 
-		"Africa" + ":" + Catalog.GetString("Africa"),
-		"Antarctica" + ":" + Catalog.GetString("Antarctica"),
-		"Asia" + ":" + Catalog.GetString("Asia"),
-		"Europe" + ":" + Catalog.GetString("Europe"),
-		"North America" + ":" + Catalog.GetString("North America"),
-		"Oceania" + ":" + Catalog.GetString("Oceania"),
-		"South America" + ":" + Catalog.GetString("South America"),
-	};
-	
-	public static int Simulated = -1; 
-	public static string SimulatedMessage = Catalog.GetString("Tests are <b>simulated</b> until Chronopic is connected.");
-	public static string SimulatedTreeview = " (" + Catalog.GetString("Simulated") + ")"; 
-	
-	public static string ChronopicOne = Catalog.GetString("All tests available except MultiChronopic.");
-	public static string ChronopicMore = Catalog.GetString("All tests available.");
+	public static string [] ContinentsStr()
+	{
+		return new string [] {
+			ContinentUndefined + ":" + Catalog.GetString(ContinentUndefined),
+					   "Africa" + ":" + Catalog.GetString("Africa"),
+					   "Antarctica" + ":" + Catalog.GetString("Antarctica"),
+					   "Asia" + ":" + Catalog.GetString("Asia"),
+					   "Europe" + ":" + Catalog.GetString("Europe"),
+					   "North America" + ":" + Catalog.GetString("North America"),
+					   "Oceania" + ":" + Catalog.GetString("Oceania"),
+					   "South America" + ":" + Catalog.GetString("South America"),
+		};
+	}
 
-	public static string DefaultString = Catalog.GetString("Default");
+	public static int Simulated = -1; 
+	public static string SimulatedMessage()
+	{
+		return Catalog.GetString("Tests are <b>simulated</b> until Chronopic is connected.");
+	}
+	public static string SimulatedTreeviewStr()
+	{
+		return " (" + Catalog.GetString("Simulated") + ")";
+	}
+
+	public static string ChronopicOneStr()
+	{
+		return Catalog.GetString("All tests available except MultiChronopic.");
+	}
+	public static string ChronopicMoreStr()
+	{
+		return Catalog.GetString("All tests available.");
+	}
+
+	public static string DefaultString()
+	{
+		return Catalog.GetString("Default");
+	}
 	
 	//levels of sport practice
 	//int will go into person database
@@ -611,13 +812,16 @@ public class Constants
 	public static string LevelUndefined = "Undefined"; 
 	public static int LevelSedentaryID = 0; 
 	public static string LevelSedentary = "Sedentary/Occasional practice"; 
-	public static string [] Levels = {
-		LevelUndefinedID.ToString() + ":" + Catalog.GetString(LevelUndefined), 
-		LevelSedentaryID.ToString() + ":" + Catalog.GetString(LevelSedentary), 
-		"1:" + Catalog.GetString("Regular practice"), 
-		"2:" + Catalog.GetString("Competition"), 
-		"3:" + Catalog.GetString("Elite"), 
-	};
+	public static string [] LevelsStr()
+	{
+		return new string [] {
+			LevelUndefinedID.ToString() + ":" + Catalog.GetString(LevelUndefined),
+				LevelSedentaryID.ToString() + ":" + Catalog.GetString(LevelSedentary),
+				"1:" + Catalog.GetString("Regular practice"),
+				"2:" + Catalog.GetString("Competition"),
+				"3:" + Catalog.GetString("Elite"),
+		};
+	}
 
 	public static string [] SplashMessages = {
 		"Initializing",			//0
@@ -633,12 +837,30 @@ public class Constants
 		"Starting main window", 	//10
 	};
 	
-	public static string DatabaseNotFound = Catalog.GetString("Error. Cannot find database.");
-	public static string WebsiteNotFound = Catalog.GetString("Sorry, cannot open website.");
-	public static string DirectoryCannotOpen = Catalog.GetString("Error. Cannot open directory.");
-	public static string FileNotFound = Catalog.GetString("Error. File not found.");
-	public static string FileCopyProblem = Catalog.GetString("Error. Cannot copy file.");
-	public static string FileCannotSave = Catalog.GetString("Error. File cannot be saved.");
+	public static string DatabaseNotFoundStr()
+	{
+		return Catalog.GetString("Error. Cannot find database.");
+	}
+	public static string WebsiteNotFoundStr()
+	{
+		return Catalog.GetString("Sorry, cannot open website.");
+	}
+	public static string DirectoryCannotOpenStr()
+	{
+		return Catalog.GetString("Error. Cannot open directory.");
+	}
+	public static string FileNotFoundStr()
+	{
+		return Catalog.GetString("Error. File not found.");
+	}
+	public static string FileCopyProblemStr()
+	{
+		return Catalog.GetString("Error. Cannot copy file.");
+	}
+	public static string FileCannotSaveStr()
+	{
+		return Catalog.GetString("Error. File cannot be saved.");
+	}
 
 	public static string ChronopicDefaultPortWindows = "COM?";
 	public static string ChronopicDefaultPortLinux = "/dev/ttyUSB?";
@@ -662,11 +884,22 @@ public class Constants
 		WARNING, INFO, HELP, INSPECT
 	}
 
-	public static string No = Catalog.GetString("No");
-	public static string Yes = Catalog.GetString("Yes");
-
-	public static string In = Catalog.GetString("In");
-	public static string Out = Catalog.GetString("Out");
+	public static string NoStr()
+	{
+		return Catalog.GetString("No");
+	}
+	public static string YesStr()
+	{
+		return Catalog.GetString("Yes");
+	}
+	public static string InStr()
+	{
+		return Catalog.GetString("In");
+	}
+	public static string OutStr()
+	{
+		return Catalog.GetString("Out");
+	}
 
 	//it's important they are two chars long
 	//public static string EqualThanCode = "= ";
@@ -682,36 +915,40 @@ public class Constants
 	}
 
 
-	public static string HelpPower =
-		Catalog.GetString("On jumps results tab, power is calculated depending on jump type:") + 
-		"\n\n" +
-		//Catalog.GetString("Jumps with TC & TF: Bosco Relative Power (W/Kg)") + 
-		//"\n" +
-		//Catalog.GetString("P = 24.6 * (Total time + Flight time) / Contact time") + 
-		Catalog.GetString("Jumps with TC and TF:") + " " + Catalog.GetString("Developed by Chronojump team") + 
-		"\n" +
-		Catalog.GetString("Calculate the potential energies on fall and after the jump.") + "\n" +
-		Catalog.GetString("Divide them by time during force is applied.") +
-		"\n\n" +
-		//P = mass * g * ( fallHeight + 1.226 * Math.Pow(tf,2) ) / (Double)tt;
-		"P = " + Catalog.GetString("mass") + " * g * ( " + 
-		Catalog.GetString("falling height") + " + 1.226 * " + Catalog.GetString("flight time") + " ^ 2 ) / " + 
-		Catalog.GetString("contact time") +
-		"\n\n" +
-		Catalog.GetString("Jumps without TC: Lewis Peak Power 1974 (W)") + 
-		"\n\n" +
-		Catalog.GetString("P = SQRT(4.9) * 9.8 * (body weight+extra weight) * SQRT(jump height in meters)") + 
-		"\n\n" +
-		Catalog.GetString("If you want to use other formulas, go to Analyze.");
-	
-	public static string HelpStiffness =
-		"M: " + Catalog.GetString("Mass") + "\n" +
-		"Tc: " + Catalog.GetString("Contact Time") + "\n" +
-		"Tf: " + Catalog.GetString("Flight Time") + "\n\n" +
-		Catalog.GetString("See:") + "\n" +
-		"Dalleau, G; Belli, A; Viale, F; Lacour, JR; and Bourdin, M. (2004). " + 
-		"A simple method for field measurements of leg stiffness in hopping. " +
-		"Int J Sports Med 25: 170–176";
+	public static string HelpPowerStr()
+	{
+		return Catalog.GetString("On jumps results tab, power is calculated depending on jump type:") +
+			"\n\n" +
+			//Catalog.GetString("Jumps with TC & TF: Bosco Relative Power (W/Kg)") +
+			//"\n" +
+			//Catalog.GetString("P = 24.6 * (Total time + Flight time) / Contact time") +
+			Catalog.GetString("Jumps with TC and TF:") + " " + Catalog.GetString("Developed by Chronojump team") +
+			"\n" +
+			Catalog.GetString("Calculate the potential energies on fall and after the jump.") + "\n" +
+			Catalog.GetString("Divide them by time during force is applied.") +
+			"\n\n" +
+			//P = mass * g * ( fallHeight + 1.226 * Math.Pow(tf,2) ) / (Double)tt;
+			"P = " + Catalog.GetString("mass") + " * g * ( " +
+			Catalog.GetString("falling height") + " + 1.226 * " + Catalog.GetString("flight time") + " ^ 2 ) / " +
+			Catalog.GetString("contact time") +
+			"\n\n" +
+			Catalog.GetString("Jumps without TC: Lewis Peak Power 1974 (W)") +
+			"\n\n" +
+			Catalog.GetString("P = SQRT(4.9) * 9.8 * (body weight+extra weight) * SQRT(jump height in meters)") +
+			"\n\n" +
+			Catalog.GetString("If you want to use other formulas, go to Analyze.");
+	}
+
+	public static string HelpStiffnessStr()
+	{
+		return "M: " + Catalog.GetString("Mass") + "\n" +
+			"Tc: " + Catalog.GetString("Contact Time") + "\n" +
+			"Tf: " + Catalog.GetString("Flight Time") + "\n\n" +
+			Catalog.GetString("See:") + "\n" +
+			"Dalleau, G; Belli, A; Viale, F; Lacour, JR; and Bourdin, M. (2004). " +
+			"A simple method for field measurements of leg stiffness in hopping. " +
+			"Int J Sports Med 25: 170–176";
+	}
 	
 	public const string PrefVersionAvailable = "versionAvailable";
 	
@@ -739,12 +976,24 @@ public class Constants
 	public static string PhotoSmallTemp = "chronojump-last-photo-small";
 	public static string VideoTemp = "chronojump-last-video";
 	
-	public static string RunStartInitialSpeedYes = Catalog.GetString("Running start. Started with initial speed.");
-	public static string RunStartInitialSpeedNo = Catalog.GetString("Standing start. Started without initial speed.");
-	
-	public static string CameraNotFound = Catalog.GetString("Sorry, no cameras found.");
-	public static string FfmpegNotInstalled = "Software ffmpeg is not installed, please check instructions on chronojump website (software page)";
-	
+	public static string RunStartInitialSpeedYesStr()
+	{
+		return Catalog.GetString("Running start. Started with initial speed.");
+	}
+	public static string RunStartInitialSpeedNoStr()
+	{
+		return Catalog.GetString("Standing start. Started without initial speed.");
+	}
+
+	public static string CameraNotFoundStr()
+	{
+		return Catalog.GetString("Sorry, no cameras found.");
+	}
+	public static string FfmpegNotInstalledStr()
+	{
+		return "Software ffmpeg is not installed, please check instructions on chronojump website (software page)";
+	}
+
 	public enum BellModes {
 		JUMPS, RUNS, ENCODERGRAVITATORY, ENCODERINERTIAL
 	}

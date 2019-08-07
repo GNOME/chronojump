@@ -59,7 +59,7 @@ public class TreeViewJumps : TreeViewEvent
 		treeviewHasTwoLevels = false;
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 4; //position of type in the data to be printed
-		allEventsName = Constants.AllJumpsName;
+		allEventsName = Constants.AllJumpsNameStr();
 		
 		if(preferences.weightStatsPercent)
 			weightName += "\n(%)";
@@ -175,7 +175,7 @@ public class TreeViewJumps : TreeViewEvent
 
 		string title = newJump.Type;
 		if(newJump.Simulated == Constants.Simulated)
-			title += Constants.SimulatedTreeview;
+			title += Constants.SimulatedTreeviewStr();
 
 		string [] myData = new String [getColsNum()];
 		int count = 0;
@@ -255,7 +255,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 		treeviewHasTwoLevels = true;
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 4; //position of type in the data to be printed
-		allEventsName = Constants.AllJumpsName;
+		allEventsName = Constants.AllJumpsNameStr();
 			
 		if(preferences.weightStatsPercent)
 			weightName += "\n(%)";
@@ -301,7 +301,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 
 		string title = newJumpRj.Type;
 		if(newJumpRj.Simulated == Constants.Simulated)
-			title += Constants.SimulatedTreeview + " ";
+			title += Constants.SimulatedTreeviewStr() + " ";
 
 		string myTypeComplet = "";
 		if(newJumpRj.Type == Constants.RunAnalysisName) 

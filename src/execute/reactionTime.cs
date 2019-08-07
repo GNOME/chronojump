@@ -278,7 +278,7 @@ public class ReactionTimeExecute : EventExecute
 		*/
 		
 		if(simulated)
-			feedbackMessage = Catalog.GetString(Constants.SimulatedMessage);
+			feedbackMessage = Constants.SimulatedMessage();
 		else
 			feedbackMessage = "";
 		needShowFeedbackMessage = true; 

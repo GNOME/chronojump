@@ -95,7 +95,7 @@ public class DialogPersonPopup
 			image_server_connected_yes.Visible = true;
 			image_server_connected_no.Visible = false;
 		} else {
-			label_server_connected.Text = Constants.ServerDisconnectedMessage;
+			label_server_connected.Text = Constants.ServerDisconnectedMessage();
 			image_server_connected_yes.Visible = false;
 			image_server_connected_no.Visible = true;
 		}

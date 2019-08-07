@@ -149,8 +149,8 @@ public class UtilEncoder
 							GetEncoderSessionDataSignalDir(sessionID) + 
 							Path.DirectorySeparatorChar + fileName, true);
 				} catch {
-					new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileCopyProblem);
-					LogB.Error(Constants.FileCopyProblem);
+					new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileCopyProblemStr());
+					LogB.Error(Constants.FileCopyProblemStr());
 					return "";
 				}
 //			}
@@ -166,15 +166,15 @@ public class UtilEncoder
 			try {
 				File.Copy(origin, dest, true);
 			} catch {
-				new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileCopyProblem);
-				LogB.Error(Constants.FileCopyProblem);
+				new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileCopyProblemStr());
+				LogB.Error(Constants.FileCopyProblemStr());
 				return false;
 			}
 			return true;
 		}
 
-		new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFound);
-		LogB.Error(Constants.FileNotFound);
+		new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFoundStr());
+		LogB.Error(Constants.FileNotFoundStr());
 		return false;
 	}
 

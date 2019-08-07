@@ -43,7 +43,7 @@ public class TreeViewRuns : TreeViewEvent
 		treeviewHasTwoLevels = false;
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 4; //position of type in the data to be printed
-		allEventsName = Constants.AllRunsName;
+		allEventsName = Constants.AllRunsNameStr();
 		eventIDColumn = 5; //column where the uniqueID of event will be (and will be hidden)
 	
 		string runnerName = Catalog.GetString("Runner");
@@ -82,7 +82,7 @@ public class TreeViewRuns : TreeViewEvent
 
 		string title = newRun.Type;
 		if(newRun.Simulated == Constants.Simulated)
-			title += Constants.SimulatedTreeview;
+			title += Constants.SimulatedTreeviewStr();
 
 		string [] myData = new String [getColsNum()];
 		int count = 0;
@@ -135,7 +135,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 		treeviewHasTwoLevels = true;
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 4; //position of type in the data to be printed
-		allEventsName = Constants.AllRunsName;
+		allEventsName = Constants.AllRunsNameStr();
 		eventIDColumn = 5; //column where the uniqueID of event will be (and will be hidden)
 		
 		columnsString = new string[]{runnerName, speedName, lapTimeName, splitTimeName, descriptionName};
@@ -169,7 +169,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 		
 		string title = newRunI.Type;
 		if(newRunI.Simulated == Constants.Simulated)
-			title += Constants.SimulatedTreeview + " ";
+			title += Constants.SimulatedTreeviewStr() + " ";
 
 		string myTypeComplet = title + "(" + newRunI.DistanceInterval + "x" + Util.GetLimitedRounded(newRunI.Limited, pDN) + ")";
 		

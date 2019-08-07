@@ -167,10 +167,10 @@ public class EvaluatorWindow
 	
 	private void createComboContinents() {
 		combo_continents = ComboBox.NewText ();
-		continents = Constants.Continents;
+		continents = Constants.ContinentsStr();
 
 		//create continentsTranslated, only with translated stuff
-		continentsTranslated = new String[Constants.Continents.Length];
+		continentsTranslated = new String[Constants.ContinentsStr().Length];
 		int i = 0;
 		foreach(string continent in continents) 
 			continentsTranslated[i++] = Util.FetchName(continent);

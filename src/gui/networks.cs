@@ -513,7 +513,7 @@ public partial class ChronoJumpWindow
 	{
 		if(shouldShowRFIDDisconnected)
 		{
-			new DialogMessage(Constants.MessageTypes.WARNING, Constants.RFIDDisconnectedMessage);
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.RFIDDisconnectedMessage());
 
 			if(dialogPersonPopup != null)
 				dialogPersonPopup.DestroyDialog();
@@ -624,7 +624,7 @@ public partial class ChronoJumpWindow
 				{
 					dialogMessageNotAtServer = new DialogMessage(
 							Constants.MessageTypes.WARNING,
-							Constants.ServerDisconnectedMessage
+							Constants.ServerDisconnectedMessage()
 							); //GTK
 
 					compujumpPersonLogoutDo();
@@ -634,7 +634,7 @@ public partial class ChronoJumpWindow
 				LogB.Information("Person NOT found on server!");
 				if(dialogMessageNotAtServer == null || ! dialogMessageNotAtServer.Visible)
 				{
-					dialogMessageNotAtServer = new DialogMessage(Constants.MessageTypes.WARNING, Constants.RFIDNotInServerMessage); //GTK
+					dialogMessageNotAtServer = new DialogMessage(Constants.MessageTypes.WARNING, Constants.RFIDNotInServerMessage()); //GTK
 
 					compujumpPersonLogoutDo();
 				}

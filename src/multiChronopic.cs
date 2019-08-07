@@ -299,7 +299,7 @@ public class MultiChronopic : Event
 
 				int pos=0;
 				double thisTime = 0;
-				string thisState = Constants.Out;
+				string thisState = Constants.OutStr();
 				iibefore = -1;
 				oobefore = -1;
 				pos = nextCp -1;

@@ -77,7 +77,7 @@ public static class JumpsProfileGraph
 		{
 			g.SetSourceRGB(0,0,0);
 			g.SetFontSize(16);
-			printText(100, 100, 24, textHeight, Constants.JumpsProfileNeededJumps, g, false);
+			printText(100, 100, 24, textHeight, Constants.JumpsProfileNeededJumpsStr(), g, false);
 			g.GetTarget().Dispose ();
 			g.Dispose ();
 			return;

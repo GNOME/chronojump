@@ -130,7 +130,7 @@ public class DialogMessage
 		try {
 			System.Diagnostics.Process.Start(button_go_link);
 		} catch {
-			label_message.Text = Constants.WebsiteNotFound;
+			label_message.Text = Constants.WebsiteNotFoundStr();
 		}
 	}
 

@@ -186,7 +186,7 @@ public class StatType {
 
 	public bool ChooseStat ()
 	{
-		if ( statisticType == Constants.TypeSessionSummary ) {
+		if ( statisticType == Constants.TypeSessionSummaryStr() ) {
 			int jumperID = -1; //all jumpers
 			string jumperName = ""; //all jumpers
 			if(graph) {
@@ -195,7 +195,7 @@ public class StatType {
 				myStat = new StatGlobal(myStatTypeStruct, treeview_stats, jumperID, jumperName);
 			}
 		}
-		else if (statisticType == Constants.TypeJumperSummary)
+		else if (statisticType == Constants.TypeJumperSummaryStr())
 		{
 			if(statisticApplyTo.Length == 0) {
 				LogB.Information("Jumper-ret");
@@ -215,7 +215,7 @@ public class StatType {
 						jumperID, jumperName);
 			}
 		}
-		else if(statisticType == Constants.TypeJumpsSimple)
+		else if(statisticType == Constants.TypeJumpsSimpleStr())
 		{
 			if(statisticApplyTo.Length == 0) {
 				LogB.Information("Simple-ret");
@@ -227,7 +227,7 @@ public class StatType {
 				string indexType = "";
 				if(statisticSubType == Catalog.GetString(Constants.SubtractionBetweenTests))
 					indexType = "subtraction";
-				else if(statisticSubType == Constants.ChronojumpProfile) 
+				else if(statisticSubType == Constants.ChronojumpProfileStr())
 					indexType = "ChronojumpProfile";
 				else if(statisticSubType == Constants.IeIndexFormula) 
 					indexType = "IE";
@@ -240,18 +240,18 @@ public class StatType {
 				else if(statisticSubType == Constants.FvIndexFormula) 
 					indexType = "F/V";
 				else if(
-						statisticSubType == Constants.PotencyLewisFormulaShort ||
-						statisticSubType == Constants.PotencyHarmanFormulaShort ||
-						statisticSubType == Constants.PotencySayersSJFormulaShort ||
-						statisticSubType == Constants.PotencySayersCMJFormulaShort ||
-						statisticSubType == Constants.PotencyShettyFormulaShort ||
-						statisticSubType == Constants.PotencyCanavanFormulaShort ||
+						statisticSubType == Constants.PotencyLewisFormulaShortStr() ||
+						statisticSubType == Constants.PotencyHarmanFormulaShortStr() ||
+						statisticSubType == Constants.PotencySayersSJFormulaShortStr() ||
+						statisticSubType == Constants.PotencySayersCMJFormulaShortStr() ||
+						statisticSubType == Constants.PotencyShettyFormulaShortStr() ||
+						statisticSubType == Constants.PotencyCanavanFormulaShortStr() ||
 						//statisticSubType == Constants.PotencyBahamondeFormula ||
-						statisticSubType == Constants.PotencyLaraMaleApplicantsSCFormulaShort ||
-						statisticSubType == Constants.PotencyLaraFemaleEliteVoleiFormulaShort ||
-						statisticSubType == Constants.PotencyLaraFemaleMediumVoleiFormulaShort ||
-						statisticSubType == Constants.PotencyLaraFemaleSCStudentsFormulaShort ||
-						statisticSubType == Constants.PotencyLaraFemaleSedentaryFormulaShort
+						statisticSubType == Constants.PotencyLaraMaleApplicantsSCFormulaShortStr() ||
+						statisticSubType == Constants.PotencyLaraFemaleEliteVoleiFormulaShortStr() ||
+						statisticSubType == Constants.PotencyLaraFemaleMediumVoleiFormulaShortStr() ||
+						statisticSubType == Constants.PotencyLaraFemaleSCStudentsFormulaShortStr() ||
+						statisticSubType == Constants.PotencyLaraFemaleSedentaryFormulaShortStr()
 						) {
 					indexType = statisticSubType;
 				}
@@ -291,7 +291,7 @@ public class StatType {
 
 				//manage all weight jumps and the AllJumpsName (simple)
 				if(myType.HasWeight || 
-						statisticApplyTo == Constants.AllJumpsName) 
+						statisticApplyTo == Constants.AllJumpsNameStr())
 				{
 					if(graph) 
 						myStat = new GraphSjCmjAbkPlus (myStatTypeStruct);
@@ -305,7 +305,7 @@ public class StatType {
 				}
 			}
 		}
-		else if(statisticType == Constants.TypeJumpsSimpleWithTC)
+		else if(statisticType == Constants.TypeJumpsSimpleWithTCStr())
 		{
 			if(statisticApplyTo.Length == 0) {
 				LogB.Information("WithTC-ret");
@@ -340,7 +340,7 @@ public class StatType {
 							//heightPreferred is not used, check this
 			}
 		}
-		else if(statisticType == Constants.TypeJumpsReactive) {
+		else if(statisticType == Constants.TypeJumpsReactiveStr()) {
 			if(statisticSubType == Catalog.GetString("Average Index"))
 			{
 				if(graph) 
@@ -377,7 +377,7 @@ public class StatType {
 					myStat = new StatRjAVGSD(myStatTypeStruct, treeview_stats, Constants.QIndexName);
 			}
 		}
-		else if(statisticType == Constants.TypeRunsSimple)
+		else if(statisticType == Constants.TypeRunsSimpleStr())
 		{
 			if(statisticApplyTo.Length == 0) {
 				LogB.Information("Simple-ret");
@@ -389,7 +389,7 @@ public class StatType {
 			else
 				myStat = new StatRunSimple (myStatTypeStruct, treeview_stats);
 		}
-		else if(statisticType == Constants.TypeRunsIntervallic)
+		else if(statisticType == Constants.TypeRunsIntervallicStr())
 		{
 			if(statisticApplyTo.Length == 0) {
 				LogB.Information("Simple-ret");

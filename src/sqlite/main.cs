@@ -2061,7 +2061,7 @@ class Sqlite
 				{
 					SqliteEncoderConfiguration.Insert(true,
 							new EncoderConfigurationSQLObject(
-								-1, Constants.EncoderGI.INERTIAL, true, Constants.DefaultString, econfOnPreferences, "")
+								-1, Constants.EncoderGI.INERTIAL, true, Constants.DefaultString(), econfOnPreferences, "")
 							);
 					SqliteEncoderConfiguration.insertDefault(Constants.EncoderGI.GRAVITATORY);
 				}
@@ -2069,7 +2069,7 @@ class Sqlite
 				{
 					SqliteEncoderConfiguration.Insert(true,
 							new EncoderConfigurationSQLObject(
-								-1, Constants.EncoderGI.GRAVITATORY, true, Constants.DefaultString, econfOnPreferences, "")
+								-1, Constants.EncoderGI.GRAVITATORY, true, Constants.DefaultString(), econfOnPreferences, "")
 							);
 					SqliteEncoderConfiguration.insertDefault(Constants.EncoderGI.INERTIAL);
 				}

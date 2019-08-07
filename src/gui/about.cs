@@ -68,17 +68,17 @@ public class About
 		dialog_about.ModifyBg(StateType.Normal, new Gdk.Color(0xff,0xff,0xff));
 		
 		//put authors
-		textLabel(Constants.AuthorsCEO, dialog_about_label_developers_CEO);
-		textLabel(Constants.AuthorsSoftware, dialog_about_label_developers_software);
-		textLabel(Constants.AuthorsChronopic, dialog_about_label_developers_chronopic);
-		textLabel(Constants.AuthorsDevices, dialog_about_label_developers_devices);
-		textLabel(Constants.AuthorsMath, dialog_about_label_developers_math);
-		textLabel(Constants.AuthorsOpenCV, dialog_about_label_developers_opencv);
+		textLabel(Constants.Authors(Constants.AuthorsEnum.CEO), dialog_about_label_developers_CEO);
+		textLabel(Constants.Authors(Constants.AuthorsEnum.SOFTWARE), dialog_about_label_developers_software);
+		textLabel(Constants.Authors(Constants.AuthorsEnum.CHRONOPIC), dialog_about_label_developers_chronopic);
+		textLabel(Constants.Authors(Constants.AuthorsEnum.DEVICES), dialog_about_label_developers_devices);
+		textLabel(Constants.Authors(Constants.AuthorsEnum.MATH), dialog_about_label_developers_math);
+		textLabel(Constants.Authors(Constants.AuthorsEnum.OPENCV), dialog_about_label_developers_opencv);
 
 		//put documenters separated by commas
 		string docsString = "";
 		string paragraph = "";
-		foreach (string doc in Constants.Documenters) {
+		foreach (string doc in Constants.Authors(Constants.AuthorsEnum.DOCUMENTERS)) {
 			docsString += paragraph;
 			docsString += doc;
 			paragraph = "\n";

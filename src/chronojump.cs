@@ -405,7 +405,7 @@ public class ChronoJump
 
 		//connect to server to Ping
 		versionAvailable = "";
-		versionAvailable = Constants.ServerOffline;
+		versionAvailable = Constants.ServerOfflineStr();
 	
 
 		//doing ping using json methods
@@ -431,7 +431,7 @@ public class ChronoJump
 //TODO: fix this to the new code
 
 		string versionAvailableKnown = SqlitePreferences.Select("versionAvailable", true);
-		if( versionAvailable != Constants.ServerOffline && new Version(versionAvailable) > new Version(progVersion) ) {
+		if( versionAvailable != Constants.ServerOfflineStr() && new Version(versionAvailable) > new Version(progVersion) ) {
 			//check if available version is higher than known available version
 			Version versionAvailableAsV = new Version(versionAvailable);
 
@@ -494,7 +494,7 @@ public class ChronoJump
 	}
 
 	private void on_find_version_cancelled(object o, EventArgs args) {
-		versionAvailable = Constants.ServerOffline;
+		versionAvailable = Constants.ServerOfflineStr();
 		//pingEnd = true;
 	}
 

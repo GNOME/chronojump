@@ -1311,7 +1311,7 @@ public partial class ChronoJumpWindow
 		if (canDoForceSensorAnalyzeAB())
 			checkFile(Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB);
 		else {
-			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFound);
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFoundStr());
 			return;
 		}
 	}

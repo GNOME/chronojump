@@ -160,7 +160,7 @@ public class WebcamFfmpegGetDevicesLinux : WebcamFfmpegGetDevices
 			found = true;
 		}
 		if(! found)
-			wd_list.Error = Constants.CameraNotFound;
+			wd_list.Error = Constants.CameraNotFoundStr();
 
 		return wd_list;
 	}
@@ -198,7 +198,7 @@ public abstract class WebcamFfmpegGetDevicesWinMac : WebcamFfmpegGetDevices
 			if( ! executableExists())
 			{
 				LogB.Information(string.Format("File {0} does not exists, but note execuble can be on path", executable));
-				wd_list.Error = Constants.FfmpegNotInstalled;
+				wd_list.Error = Constants.FfmpegNotInstalledStr();
 				return wd_list;
 			}
 
@@ -224,7 +224,7 @@ public abstract class WebcamFfmpegGetDevicesWinMac : WebcamFfmpegGetDevices
 				return wd_list;
 			}
 
-			wd_list.Error = Constants.CameraNotFound;
+			wd_list.Error = Constants.CameraNotFoundStr();
 		}
 		else
 			parse(execute_result.stdout);

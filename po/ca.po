@@ -181,7 +181,7 @@ msgstr "Comprovar la versió"
 
 #: ../glade/app1.glade.h:34
 msgid "_View"
-msgstr "_View"
+msgstr "_Veure"
 
 #: ../glade/app1.glade.h:35 ../glade/preferences_win.glade.h:4
 msgid "Persons on top"

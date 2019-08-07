@@ -132,7 +132,7 @@ public class SplashWindow
 		else if(file2.Exists)
 			System.Diagnostics.Process.Start(Util.GetDatabaseTempDir());
 		else
-			new DialogMessage(Constants.MessageTypes.WARNING, Constants.DatabaseNotFound);
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.DatabaseNotFoundStr());
 	}
 
 	public void Show_button_open_docs_folder () {

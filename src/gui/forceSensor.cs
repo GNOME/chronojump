@@ -1248,7 +1248,7 @@ LogB.Information(" re R ");
 	{
 		if(! Util.FileExists(lastForceSensorFullPath))
 		{
-			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFound);
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFoundStr());
 			return;
 		}
 
@@ -1654,7 +1654,7 @@ LogB.Information(" re R ");
 		if(dataDir != "")
 			System.Diagnostics.Process.Start(dataDir);
 		else
-			new DialogMessage(Constants.MessageTypes.WARNING, Constants.DirectoryCannotOpen);
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.DirectoryCannotOpenStr());
 	}
 
 	private void on_button_force_sensor_adjust_clicked (object o, EventArgs args)

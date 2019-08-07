@@ -1200,7 +1200,7 @@ public class Stat
 		}
 	
 		//black only has no sense on barplot	
-		if(gro.Palette == Constants.GraphPaletteBlack)
+		if(gro.Palette == Constants.GraphPaletteBlackStr())
 			gro.Palette="gray.colors";
 
 		string rG = //rGraphString
@@ -1256,7 +1256,7 @@ public class Stat
 		string colorsi="colors[i]";
 		string colors="colors";
 		bool changedPalette = false;
-		if(gro.Palette == Constants.GraphPaletteBlack) {
+		if(gro.Palette == Constants.GraphPaletteBlackStr()) {
 			colors1="'black'";
 			colorsi="'black'";
 			colors="'black'";
@@ -1279,7 +1279,7 @@ public class Stat
 			" legend('" + gro.Legend +"', legend=rownames(data), pch=c(1:length(rownames(data))), cex=.7, col="+ colors +")\n";
 			
 		if(changedPalette)
-			gro.Palette=Constants.GraphPaletteBlack;
+			gro.Palette=Constants.GraphPaletteBlackStr();
 		
 		//have an unique title for both graphs
 		string titStr = getTitle("Lines", "");
@@ -1332,7 +1332,7 @@ public class Stat
 		
 		string colors="colors";
 		bool changedPalette = false;
-		if(gro.Palette == Constants.GraphPaletteBlack) {
+		if(gro.Palette == Constants.GraphPaletteBlackStr()) {
 			colors="'black'";
 			gro.Palette="gray.colors";
 			changedPalette = true;
@@ -1363,7 +1363,7 @@ public class Stat
 			"text(newx[length(newx)],prd[length(newx),2],'90%', cex=0.6)\n";
 
 		if(changedPalette)
-			gro.Palette=Constants.GraphPaletteBlack;
+			gro.Palette=Constants.GraphPaletteBlackStr();
 
 		return allData + rG;
 	}

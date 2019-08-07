@@ -649,7 +649,7 @@ LogB.Information(" fc R ");
 		if(dataDir != "")
 			System.Diagnostics.Process.Start(dataDir);
 		else
-			new DialogMessage(Constants.MessageTypes.WARNING, Constants.DirectoryCannotOpen);
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.DirectoryCannotOpenStr());
 	}
 
 }

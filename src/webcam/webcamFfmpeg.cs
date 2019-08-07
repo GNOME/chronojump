@@ -445,7 +445,7 @@ public class WebcamFfmpeg : Webcam
 		//but only if the test has not been cancelled
 		if(testID != -1)
 			if (! Util.CopyTempVideo(sessionID, testType, testID))
-				return new Result (false, "", Constants.FileCopyProblem);
+				return new Result (false, "", Constants.FileCopyProblemStr());
 
 		//Delete temp video
 		deleteTempFiles();

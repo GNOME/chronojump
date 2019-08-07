@@ -49,7 +49,7 @@ public class HelpPorts
 		
 		
 		if(UtilAll.IsWindows()) {
-			messageInfo = Constants.PortNamesWindows;
+			messageInfo = Constants.PortNamesWindowsStr();
 
 			/*
 			 * autodetection disabled on Linux and windows because mono doesn't allow it
@@ -62,7 +62,7 @@ public class HelpPorts
 		
 			messageDetected = string.Format(Catalog.GetString("Auto-Detection currently disabled"));
 		} else {
-			messageInfo = Constants.PortNamesLinux;
+			messageInfo = Constants.PortNamesLinuxStr();
 			messageDetected = UtilAll.DetectPortsLinux(true); //formatting
 			button_check_port.Hide();
 			button_force_port.Hide();
@@ -75,12 +75,12 @@ public class HelpPorts
 	
 		if(UtilAll.IsWindows()) {
 			label_help_info.Text = 
-				Constants.FindDriverWindows + "\n\n" + 
+				Constants.FindDriverWindowsStr() + "\n\n" +
 				Catalog.GetString("Ports above COM4 may not work.") + "\n" + 
 				Catalog.GetString("If you want a safer port, press:") + "\n" +
 				Catalog.GetString("Force Chronopic to port <b>COM1 - COM4</b>'.");
 		} else
-			label_help_info.Text = Constants.FindDriverOthers; 
+			label_help_info.Text = Constants.FindDriverOthersStr();
 
 		label_help_info.UseMarkup = true;
 

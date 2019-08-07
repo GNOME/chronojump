@@ -185,7 +185,7 @@ public class RunTypeAddWindow
 
 		//check if this run type exists, and check it's name is not AllRunsName
 		bool runTypeExists = Sqlite.Exists (false, Constants.RunTypeTable, name);
-		if(name == Constants.AllRunsName)
+		if(name == Constants.AllRunsNameStr())
 			runTypeExists = true;
 		
 		if(runTypeExists) {

@@ -1196,7 +1196,7 @@ public class PreferencesWindow
 		else if(file2.Exists)
 			System.Diagnostics.Process.Start(Util.GetDatabaseTempDir()); 
 		else
-			new DialogMessage(Constants.MessageTypes.WARNING, Constants.DatabaseNotFound);
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.DatabaseNotFoundStr());
 	}
 	
 	void on_button_db_restore_clicked (object o, EventArgs args)
@@ -1241,7 +1241,7 @@ public class PreferencesWindow
 		}
 		catch {
 			new DialogMessage(Constants.MessageTypes.WARNING, 
-					Constants.DirectoryCannotOpen + "\n\n" + dir);
+					Constants.DirectoryCannotOpenStr() + "\n\n" + dir);
 		}
 	}
 	
@@ -1255,7 +1255,7 @@ public class PreferencesWindow
 				System.Diagnostics.Process.Start(dir);
 		} catch {
 			new DialogMessage(Constants.MessageTypes.WARNING, 
-					Constants.DirectoryCannotOpen + "\n\n" + dir);
+					Constants.DirectoryCannotOpenStr() + "\n\n" + dir);
 		}
 
 		LogB.Warning(dir);

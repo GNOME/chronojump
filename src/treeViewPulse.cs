@@ -40,7 +40,7 @@ public class TreeViewPulses : TreeViewEvent
 		treeviewHasTwoLevels = true;
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 4; //position of type in the data to be printed
-		allEventsName = Constants.AllPulsesName;
+		allEventsName = Constants.AllPulsesNameStr();
 		eventIDColumn = 5; //column where the uniqueID of event will be (and will be hidden)
 		
 		string jumperName = Catalog.GetString("Person");
@@ -74,7 +74,7 @@ public class TreeViewPulses : TreeViewEvent
 		string myTypeComplet = newPulse.Type;
 		
 		if(newPulse.Simulated == Constants.Simulated)
-			myTypeComplet += Constants.SimulatedTreeview + " ";
+			myTypeComplet += Constants.SimulatedTreeviewStr() + " ";
 		
 		if(newPulse.FixedPulse != -1) 
 			myTypeComplet += "(" + Util.TrimDecimals(newPulse.FixedPulse.ToString(), 3) + ")";

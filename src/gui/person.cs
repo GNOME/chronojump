@@ -1298,7 +1298,7 @@ public class PersonAddModifyWindow
 	
 	private void createComboLevels() {
 		combo_levels = ComboBox.NewText ();
-		levels = Constants.Levels;
+		levels = Constants.LevelsStr();
 		
 		UtilGtk.ComboUpdate(combo_levels, levels, "");
 		combo_levels.Active = UtilGtk.ComboMakeActive(levels, 
@@ -1314,10 +1314,10 @@ public class PersonAddModifyWindow
 		
 	private void createComboContinents() {
 		combo_continents = ComboBox.NewText ();
-		continents = Constants.Continents;
+		continents = Constants.ContinentsStr();
 
 		//create continentsTranslated, only with translated stuff
-		continentsTranslated = new String[Constants.Continents.Length];
+		continentsTranslated = new String[Constants.ContinentsStr().Length];
 		int i = 0;
 		foreach(string continent in continents) 
 			continentsTranslated[i++] = Util.FetchName(continent);
@@ -2175,7 +2175,7 @@ public class PersonAddMultipleWindow {
 			} catch {
 				LogB.Warning("Catched, maybe is used by another program");
 				new DialogMessage(Constants.MessageTypes.WARNING, 
-						Constants.FileCannotSave + "\n\n" +
+						Constants.FileCannotSaveStr() + "\n\n" +
 						Catalog.GetString("Maybe this file is opened by an SpreadSheet software like Excel. Please, close that program.")
 						);
 				fc.Destroy();

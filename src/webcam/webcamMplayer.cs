@@ -193,7 +193,7 @@ public class WebcamMplayer : Webcam
 		ExitCamera();
 
 		if(! findIfThereAreImagesToConvert())
-			return new Result (false, "", Constants.VideoNothingCaptured);
+			return new Result (false, "", Constants.VideoNothingCapturedStr());
 
 		//Convert video to the name and format expected
 		if(! convertImagesToVideo())
@@ -204,7 +204,7 @@ public class WebcamMplayer : Webcam
 
 		//Copy the video to expected place
 		if (! Util.CopyTempVideo(sessionID, testType, testID))
-			return new Result (false, "", Constants.FileCopyProblem);
+			return new Result (false, "", Constants.FileCopyProblemStr());
 
 		//Delete temp photos and video
 		deleteTempFiles();

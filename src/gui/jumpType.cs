@@ -145,7 +145,7 @@ public class JumpTypeAddWindow
 
 		//check if this jump type exists, and check it's name is not AllJumpsName
 		bool jumpTypeExists = Sqlite.Exists (false, Constants.JumpTypeTable, name);
-		if(name == Constants.AllJumpsName)
+		if(name == Constants.AllJumpsNameStr())
 			jumpTypeExists = true;
 		
 		if(jumpTypeExists) {

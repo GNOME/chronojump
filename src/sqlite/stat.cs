@@ -135,7 +135,7 @@ class SqliteStat : Sqlite
 		//manage allJumps
 		string fromString = " FROM jump, " + tp + ", " + tps + " ";
 		string jumpTypeString = " AND jump.type == \"" + jumpType + "\" ";
-		if(jumpType == Constants.AllJumpsName) {
+		if(jumpType == Constants.AllJumpsNameStr()) {
 			moreSelect = moreSelect + ", jump.type ";
 			fromString = " FROM jump, " + tp + ", " + tps + ", jumpType ";
 			jumpTypeString = " AND jumpType.startIn == 1 AND jump.Type == jumpType.name "; 
@@ -182,7 +182,7 @@ class SqliteStat : Sqlite
 			//manage allJumps (show jumpType beside name (and sex)) 
 			//but only if it's not an AVG of different jumps
 			//TODO:Catalog?
-			if(jumpType == Constants.AllJumpsName && operationString != "AVG") {
+			if(jumpType == Constants.AllJumpsNameStr() && operationString != "AVG") {
 				showJumpTypeString = " (" + reader[6].ToString() + ")";
 			}
 			
@@ -296,7 +296,7 @@ class SqliteStat : Sqlite
 		//manage allJumps
 		string fromString = " FROM jump, " + tp + sep + tps + " ";
 		string jumpTypeString = " AND jump.type == \"" + jumpType + "\" ";
-		if(jumpType == Constants.AllJumpsName) {
+		if(jumpType == Constants.AllJumpsNameStr()) {
 			moreSelect = moreSelect + ", jump.type ";
 			fromString = " FROM jump, " + tp + sep + tps + ", jumpType ";
 			jumpTypeString = " AND jumpType.startIn == 0 AND jump.Type == jumpType.name "; 
@@ -345,7 +345,7 @@ class SqliteStat : Sqlite
 			}
 			//manage allJumps (show jumpType beside name (and sex)) 
 			//but only if it's not an AVG of different jumps
-			if(jumpType == Constants.AllJumpsName && operationString != "AVG") {
+			if(jumpType == Constants.AllJumpsNameStr() && operationString != "AVG") {
 				showJumpTypeString = " (" + reader[7].ToString() + ")";
 			}
 			
@@ -403,7 +403,7 @@ class SqliteStat : Sqlite
 		//manage allJumps
 		string fromString = " FROM jumpRj, " + tp + " ";
 		string jumpTypeString = " AND jumpRj.type == \"" + jumpType + "\" ";
-		if(jumpType == Constants.AllJumpsName) {
+		if(jumpType == Constants.AllJumpsNameStr()) {
 			moreSelect = moreSelect + ", jumpRj.type ";
 			fromString = " FROM jumpRj, " + tp + ", jumpRjType ";
 			jumpTypeString = " AND jumpRj.Type == jumpRjType.name "; 
@@ -449,7 +449,7 @@ class SqliteStat : Sqlite
 			}
 			//manage allJumps (show jumpType beside name (and sex)) 
 			//but only if it's not an AVG of different jumps
-			if(jumpType == Constants.AllJumpsName && operationString != "AVG") {
+			if(jumpType == Constants.AllJumpsNameStr() && operationString != "AVG") {
 				showJumpTypeString = " (" + reader[7].ToString() + ")";
 			}
 			
@@ -500,7 +500,7 @@ class SqliteStat : Sqlite
 		//manage allJumps
 		string fromString = " FROM jumpRj, " + tp + " ";
 		string jumpTypeString = " AND jumpRj.type == \"" + jumpType + "\" ";
-		if(jumpType == Constants.AllJumpsName) {
+		if(jumpType == Constants.AllJumpsNameStr()) {
 			moreSelect = moreSelect + ", jumpRj.type ";
 			fromString = " FROM jumpRj, " + tp + ", jumpRjType ";
 			jumpTypeString = " AND jumpRj.Type == jumpRjType.name "; 
@@ -547,7 +547,7 @@ class SqliteStat : Sqlite
 			}
 			//manage allJumps (show jumpType beside name (and sex)) 
 			//but only if it's not an AVG of different jumps
-			if(jumpType == Constants.AllJumpsName && operationString != "AVG") {
+			if(jumpType == Constants.AllJumpsNameStr() && operationString != "AVG") {
 				showJumpTypeString = " (" + reader[9].ToString() + ")";
 			}
 			
@@ -686,7 +686,7 @@ class SqliteStat : Sqlite
 		//manage allJumps
 		string fromString = " FROM jumpRj, " + tp + " ";
 		string jumpTypeString = " AND jumpRj.type == \"" + jumpType + "\" ";
-		if(jumpType == Constants.AllJumpsName) {
+		if(jumpType == Constants.AllJumpsNameStr()) {
 			moreSelect = moreSelect + ", jumpRj.type ";
 			fromString = " FROM jumpRj, " + tp + ", jumpRjType ";
 			jumpTypeString = " AND jumpRj.Type == jumpRjType.name "; 
@@ -730,7 +730,7 @@ class SqliteStat : Sqlite
 			}
 			//manage allJumps (show jumpType beside name (and sex)) 
 			//but only if it's not an AVG of different jumps
-			if(jumpType == Constants.AllJumpsName && operationString != "AVG") {
+			if(jumpType == Constants.AllJumpsNameStr() && operationString != "AVG") {
 				showJumpTypeString = " (" + reader[7].ToString() + ")";
 			}
 	
@@ -793,7 +793,7 @@ class SqliteStat : Sqlite
 		string fromString = " FROM " + Constants.RunIntervalTable + ", " + 
 			tp + ", " + Constants.RunIntervalTypeTable + " ";
 		string runTypeString = " AND " + Constants.RunIntervalTable + ".type == \"" + runType + "\" ";
-		if(runType == Constants.AllRunsName) {
+		if(runType == Constants.AllRunsNameStr()) {
 			moreSelect = moreSelect + ", " + Constants.RunIntervalTable + ".type ";
 			runTypeString = ""; 
 		}
@@ -837,7 +837,7 @@ class SqliteStat : Sqlite
 			}
 			//manage allRuns (show runType beside name (and sex)) 
 			//but only if it's not an AVG of different jumps
-			if(runType == Constants.AllRunsName && operationString != "AVG") {
+			if(runType == Constants.AllRunsNameStr() && operationString != "AVG") {
 				showRunTypeString = " (" + reader[7].ToString() + ")";
 			}
 	
@@ -1136,28 +1136,28 @@ LogB.SQL(intervalSpeeds);
 		string extraWeight = "jump.weight*" + tps + ".weight/100.0"; 
 		string totalWeight = personWeight + " + " + extraWeight;
 
-		if(indexType == Constants.PotencyLewisFormulaShort) {
+		if(indexType == Constants.PotencyLewisFormulaShortStr()) {
 			moreSelect = 
 				ini + "2.21360 * 9.8 * (" + totalWeight + ") " + end + " AS indexPart1, " + 
 				ini + jumpHeightInM + end + " AS indexPart2WithoutSqrt, ";
 		}
-		else if (indexType == Constants.PotencyHarmanFormulaShort) {
+		else if (indexType == Constants.PotencyHarmanFormulaShortStr()) {
 			moreSelect = 
 				ini + "((61.9 * 100 * " + jumpHeightInM + ") + (36 * (" + totalWeight + ")) - 1822)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewis that needs to select two things
 		}
-		else if (indexType == Constants.PotencySayersSJFormulaShort) {
+		else if (indexType == Constants.PotencySayersSJFormulaShortStr()) {
 			moreSelect = 
 				ini + "((60.7 * 100 * " + jumpHeightInM + ") + (45.3 * (" + totalWeight + ")) - 2055)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewis that needs to select two things
 		}
-		else if (indexType == Constants.PotencySayersCMJFormulaShort) {
+		else if (indexType == Constants.PotencySayersCMJFormulaShortStr()) {
 			moreSelect = 
 				ini + "((51.9 * 100 * " + jumpHeightInM + ") + (48.9 * (" + totalWeight + ")) - 2007)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewis that needs to select two things
 		}
-		else if (indexType == Constants.PotencyShettyFormulaShort) {
+		else if (indexType == Constants.PotencyShettyFormulaShortStr()) {
 			moreSelect = 
 				ini + "((1925.72 * " + jumpHeightInM + ") + (14.74 * (" + totalWeight + ")) - 666.3)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewis that needs to select two things
 		}
-		else if (indexType == Constants.PotencyCanavanFormulaShort) {
+		else if (indexType == Constants.PotencyCanavanFormulaShortStr()) {
 			moreSelect = 
 				ini + "((65.1 * 100 * " + jumpHeightInM + ") + (25.8 * (" + totalWeight + ")) - 1413.1)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewis that needs to select two things
 		}
@@ -1165,23 +1165,23 @@ LogB.SQL(intervalSpeeds);
 		else if (indexType == Constants.PotencyBahamondeFormula) {
 		}
 		*/
-		else if (indexType == Constants.PotencyLaraMaleApplicantsSCFormulaShort) {
+		else if (indexType == Constants.PotencyLaraMaleApplicantsSCFormulaShortStr()) {
 			moreSelect = 
 				ini + "((62.5 * 100 * " + jumpHeightInM + ") + (50.3 * (" + totalWeight + ")) - 2184.7)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewis that needs to select two things
 		}
-		else if (indexType == Constants.PotencyLaraFemaleEliteVoleiFormulaShort) {
+		else if (indexType == Constants.PotencyLaraFemaleEliteVoleiFormulaShortStr()) {
 			moreSelect = 
 				ini + "((83.1 * 100 * " + jumpHeightInM + ") + (42 * (" + totalWeight + ")) - 2488)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewis that needs to select two things
 		}
-		else if (indexType == Constants.PotencyLaraFemaleMediumVoleiFormulaShort) {
+		else if (indexType == Constants.PotencyLaraFemaleMediumVoleiFormulaShortStr()) {
 			moreSelect = 
 				ini + "((53.6 * 100 * " + jumpHeightInM + ") + (67.5 * (" + totalWeight + ")) - 2624.1)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewis that needs to select two things
 		}
-		else if (indexType == Constants.PotencyLaraFemaleSCStudentsFormulaShort) {
+		else if (indexType == Constants.PotencyLaraFemaleSCStudentsFormulaShortStr()) {
 			moreSelect = 
 				ini + "((56.7 * 100 * " + jumpHeightInM + ") + (47.2 * (" + totalWeight + ")) - 1772.6)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewis that needs to select two things
 		}
-		else if (indexType == Constants.PotencyLaraFemaleSedentaryFormulaShort) {
+		else if (indexType == Constants.PotencyLaraFemaleSedentaryFormulaShortStr()) {
 			moreSelect = 
 				ini + "((68.2 * 100 * " + jumpHeightInM + ") + (40.8 * (" + totalWeight + ")) - 1731.1)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewis that needs to select two things
 		} 
@@ -1244,7 +1244,7 @@ LogB.SQL(intervalSpeeds);
 			}
 			
 			string indexValueString = "";
-			if(indexType == Constants.PotencyLewisFormulaShort) {
+			if(indexType == Constants.PotencyLewisFormulaShortStr()) {
 				indexValueString = 
 					(
 					 Convert.ToDouble(Util.ChangeDecimalSeparator(reader[3].ToString()))
@@ -1310,7 +1310,7 @@ LogB.SQL(intervalSpeeds);
 		
 		string fromString = " FROM run, " + tp + " ";
 		string runTypeString = " AND run.type == \"" + runType + "\" ";
-		if(runType == Constants.AllRunsName) {
+		if(runType == Constants.AllRunsNameStr()) {
 			moreSelect = moreSelect + ", run.type ";
 			fromString = " FROM run, " + tp + ", runType ";
 			runTypeString = " AND run.Type == runType.name "; 
@@ -1350,7 +1350,7 @@ LogB.SQL(intervalSpeeds);
 			if(showSex) {
 				showSexString = "." + reader[1].ToString() ;
 			}
-			if(runType == Constants.AllRunsName && operationString != "AVG") {
+			if(runType == Constants.AllRunsNameStr() && operationString != "AVG") {
 				showRunTypeString = " (" + reader[6].ToString() + ")";
 			}
 			

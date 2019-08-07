@@ -671,7 +671,7 @@ public class RunExecute : EventExecute
 			" " + Catalog.GetString("speed") + ": " + Util.TrimDecimals ( (distance/time).ToString(), pDN );
 		*/
 		if(simulated)
-			feedbackMessage = Catalog.GetString(Constants.SimulatedMessage);
+			feedbackMessage = Catalog.GetString(Constants.SimulatedMessage());
 		else
 			feedbackMessage = "";
 		needShowFeedbackMessage = true; 
@@ -1194,7 +1194,7 @@ public class RunIntervalExecute : RunExecute
 						, pDN ) ;
 			*/
 			if(simulated)
-				feedbackMessage = Catalog.GetString(Constants.SimulatedMessage);
+				feedbackMessage = Catalog.GetString(Constants.SimulatedMessage());
 			else
 				feedbackMessage = "";
 			needShowFeedbackMessage = true; 

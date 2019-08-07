@@ -63,7 +63,7 @@ class SqliteEncoderConfiguration : Sqlite
 		if(encoderGI == Constants.EncoderGI.GRAVITATORY)
 			Insert(true,
 					new EncoderConfigurationSQLObject(
-						-1 , encoderGI, true, Constants.DefaultString, new EncoderConfiguration(), "") //LINEAR, not inertial
+						-1 , encoderGI, true, Constants.DefaultString(), new EncoderConfiguration(), "") //LINEAR, not inertial
 					);
 		else if(encoderGI == Constants.EncoderGI.INERTIAL)
 		{
@@ -71,7 +71,7 @@ class SqliteEncoderConfiguration : Sqlite
 			ec.SetInertialDefaultOptions();
 			Insert(true,
 					new EncoderConfigurationSQLObject(
-						-1 , encoderGI, true, Constants.DefaultString, ec, "")
+						-1 , encoderGI, true, Constants.DefaultString(), ec, "")
 					);
 		}
 		else

@@ -58,7 +58,7 @@ public class GraphRjPotencyBosco : StatRjPotencyBosco
 			CurrentGraphData.GraphTitle = "";
 		} else {
 			//CurrentGraphData.GraphTitle = this.ToString();
-			CurrentGraphData.GraphTitle = Constants.RJPotencyBoscoName;
+			CurrentGraphData.GraphTitle = Constants.RJPotencyBoscoNameStr();
 			CurrentGraphData.GraphSubTitle = Constants.RJPotencyBoscoFormula;
 		}
 		

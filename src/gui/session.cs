@@ -358,7 +358,7 @@ public class SessionAddEditWindow {
 	
 	private void createComboLevels() {
 		combo_levels = ComboBox.NewText ();
-		levels = Constants.Levels;
+		levels = Constants.LevelsStr();
 		
 		UtilGtk.ComboUpdate(combo_levels, levels, "");
 		combo_levels.Active = UtilGtk.ComboMakeActive(levels, 

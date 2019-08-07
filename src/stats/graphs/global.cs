@@ -141,7 +141,7 @@ public class GraphGlobal : StatGlobal
 					myValueBefore = stringFullResults[0];
 				} else { 
 					if(myValueBefore.StartsWith("DjIndex") ||  
-							myValueBefore.StartsWith("RjIndex") || myValueBefore.StartsWith(Constants.RJPotencyBoscoName) || 
+							myValueBefore.StartsWith("RjIndex") || myValueBefore.StartsWith(Constants.RJPotencyBoscoNameStr()) ||
 							myValueBefore == "IE" || myValueBefore == Constants.ArmsUseIndexName) {
 						serieIndex.SerieData.Add(myValue);
 						//serieTv.SerieData.Add("-");
@@ -171,7 +171,7 @@ public class GraphGlobal : StatGlobal
 					string valueNoSex = stringFullResults[0];
 
 					if(valueNoSex.StartsWith("DjIndex") || valueNoSex.StartsWith("IndexQ") || 
-							valueNoSex.StartsWith("RjIndex") || valueNoSex.StartsWith(Constants.RJPotencyBoscoName) || 
+							valueNoSex.StartsWith("RjIndex") || valueNoSex.StartsWith(Constants.RJPotencyBoscoNameStr()) ||
 							valueNoSex == "IE" || valueNoSex == Constants.ArmsUseIndexName || valueNoSex == "FV" ) {
 						mySerie.IsLeftAxis = false;
 					} else {

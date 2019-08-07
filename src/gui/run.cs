@@ -109,9 +109,9 @@ public class EditRunWindow : EditEventWindow
 	protected override void fillRunStart(Event myEvent) {
 		Run myRun = (Run) myEvent;
 		if(myRun.InitialSpeed)
-			label_run_start_value.Text = Constants.RunStartInitialSpeedYes;
+			label_run_start_value.Text = Constants.RunStartInitialSpeedYesStr();
 		else
-			label_run_start_value.Text = Constants.RunStartInitialSpeedNo;
+			label_run_start_value.Text = Constants.RunStartInitialSpeedNoStr();
 	}
 	
 	protected override void fillDistance(Event myEvent) {
@@ -493,9 +493,9 @@ public class EditRunIntervalWindow : EditRunWindow
 	protected override void fillRunStart(Event myEvent) {
 		RunInterval myRun = (RunInterval) myEvent;
 		if(myRun.InitialSpeed)
-			label_run_start_value.Text = Constants.RunStartInitialSpeedYes;
+			label_run_start_value.Text = Constants.RunStartInitialSpeedYesStr();
 		else
-			label_run_start_value.Text = Constants.RunStartInitialSpeedNo;
+			label_run_start_value.Text = Constants.RunStartInitialSpeedNoStr();
 	}
 	
 	

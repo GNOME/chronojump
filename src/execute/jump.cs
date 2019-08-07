@@ -458,7 +458,7 @@ public class JumpExecute : EventExecute
 		}
 		*/
 		if(simulated)
-			feedbackMessage = Catalog.GetString(Constants.SimulatedMessage);
+			feedbackMessage = Catalog.GetString(Constants.SimulatedMessage());
 		else
 			feedbackMessage = "";
 		needShowFeedbackMessage = true; 
@@ -1061,7 +1061,7 @@ public class JumpRjExecute : JumpExecute
 				" " + Catalog.GetString("AVG TC") + ": " + Util.TrimDecimals( Util.GetAverage (tcString).ToString(), pDN ) ;
 			*/
 			if(simulated)
-				feedbackMessage = Catalog.GetString(Constants.SimulatedMessage);
+				feedbackMessage = Catalog.GetString(Constants.SimulatedMessage());
 			else
 				feedbackMessage = "";
 			needShowFeedbackMessage = true; 

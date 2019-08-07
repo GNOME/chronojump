@@ -1179,11 +1179,11 @@ public partial class ChronoJumpWindow
 
 		if(fill)
 		{
-			fillTreeView_jumps(Constants.AllJumpsName, true);
-			fillTreeView_jumps_rj(Constants.AllJumpsName, true);
-			fillTreeView_runs(Constants.AllRunsName, true);
-			fillTreeView_runs_interval(Constants.AllRunsName, true);
-			fillTreeView_pulses(Constants.AllPulsesName, true);
+			fillTreeView_jumps(Constants.AllJumpsNameStr(), true);
+			fillTreeView_jumps_rj(Constants.AllJumpsNameStr(), true);
+			fillTreeView_runs(Constants.AllRunsNameStr(), true);
+			fillTreeView_runs_interval(Constants.AllRunsNameStr(), true);
+			fillTreeView_pulses(Constants.AllPulsesNameStr(), true);
 			fillTreeView_reaction_times("reactionTime", true);
 			fillTreeView_multi_chronopic(true);
 		}
@@ -1959,7 +1959,7 @@ public partial class ChronoJumpWindow
 	private void createComboResultJumps() {
 		combo_result_jumps = ComboBox.NewText ();
 		UtilGtk.ComboUpdate(combo_result_jumps,
-				SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsName, "", true), //with alljumpsname, without filter, only select name
+				SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsNameStr(), "", true), //with alljumpsname, without filter, only select name
 			       	"");
 		
 		combo_result_jumps.Active = 0;
@@ -1972,7 +1972,7 @@ public partial class ChronoJumpWindow
 	
 	private void createComboResultJumpsRj() {
 		combo_result_jumps_rj = ComboBox.NewText();
-		UtilGtk.ComboUpdate(combo_result_jumps_rj, SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true), ""); //only select name
+		UtilGtk.ComboUpdate(combo_result_jumps_rj, SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsNameStr(), true), ""); //only select name
 		
 		combo_result_jumps_rj.Active = 0;
 		combo_result_jumps_rj.Changed += new EventHandler (on_combo_result_jumps_rj_changed);
@@ -1984,7 +1984,7 @@ public partial class ChronoJumpWindow
 	
 	private void createComboResultRuns() {
 		combo_result_runs = ComboBox.NewText();
-		UtilGtk.ComboUpdate(combo_result_runs, SqliteRunType.SelectRunTypes(Constants.AllRunsName, true), ""); //without filter, only select name
+		UtilGtk.ComboUpdate(combo_result_runs, SqliteRunType.SelectRunTypes(Constants.AllRunsNameStr(), true), ""); //without filter, only select name
 		
 		combo_result_runs.Active = 0;
 		combo_result_runs.Changed += new EventHandler (on_combo_result_runs_changed);
@@ -1996,7 +1996,7 @@ public partial class ChronoJumpWindow
 
 	private void createComboResultRunsInterval() {
 		combo_result_runs_interval = ComboBox.NewText();
-		UtilGtk.ComboUpdate(combo_result_runs_interval, SqliteRunIntervalType.SelectRunIntervalTypes(Constants.AllRunsName, true), ""); //without filter, only select name
+		UtilGtk.ComboUpdate(combo_result_runs_interval, SqliteRunIntervalType.SelectRunIntervalTypes(Constants.AllRunsNameStr(), true), ""); //without filter, only select name
 		
 		combo_result_runs_interval.Active = 0;
 		combo_result_runs_interval.Changed += new EventHandler (on_combo_result_runs_interval_changed);
@@ -2010,7 +2010,7 @@ public partial class ChronoJumpWindow
 
 	private void createComboPulses() {
 		combo_pulses = ComboBox.NewText();
-		UtilGtk.ComboUpdate(combo_pulses, SqlitePulseType.SelectPulseTypes(Constants.AllPulsesName, true), ""); //without filter, only select name
+		UtilGtk.ComboUpdate(combo_pulses, SqlitePulseType.SelectPulseTypes(Constants.AllPulsesNameStr(), true), ""); //without filter, only select name
 		
 		combo_pulses.Active = 0;
 		combo_pulses.Changed += new EventHandler (on_combo_pulses_changed);
@@ -2404,7 +2404,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("edit session");
 		
 		if(currentSession.Name == Constants.SessionSimulatedName)
-			new DialogMessage(Constants.MessageTypes.INFO, Constants.SessionProtected);
+			new DialogMessage(Constants.MessageTypes.INFO, Constants.SessionProtectedStr());
 		else {
 			sessionAddEditWin = SessionAddEditWindow.Show(app1, currentSession);
 			sessionAddEditWin.FakeButtonAccept.Clicked -= new EventHandler(on_edit_session_accepted);
@@ -2484,28 +2484,28 @@ public partial class ChronoJumpWindow
 			//1) simple jump
 			createComboSelectJumps(false);
 			UtilGtk.ComboUpdate(combo_result_jumps,
-					SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsName, "", true), ""); //without filter, only select name
+					SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsNameStr(), "", true), ""); //without filter, only select name
 			combo_select_jumps.Active = 0;
 			combo_result_jumps.Active = 0;
 
 			//2) reactive jump
 			createComboSelectJumpsRj(false);
 			UtilGtk.ComboUpdate(combo_result_jumps_rj,
-					SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true), ""); //without filter, only select name
+					SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsNameStr(), true), ""); //without filter, only select name
 			combo_select_jumps_rj.Active = 0;
 			combo_result_jumps_rj.Active = 0;
 
 			//3) simple run
 			createComboSelectRuns(false);
 			UtilGtk.ComboUpdate(combo_result_runs,
-					SqliteRunType.SelectRunTypes(Constants.AllRunsName, true), ""); //without filter, only select name
+					SqliteRunType.SelectRunTypes(Constants.AllRunsNameStr(), true), ""); //without filter, only select name
 			combo_select_runs.Active = 0;
 			combo_result_runs.Active = 0;
 
 			//4) intervallic run
 			createComboSelectRunsInterval(false);
 			UtilGtk.ComboUpdate(combo_result_runs_interval,
-					SqliteRunIntervalType.SelectRunIntervalTypes(Constants.AllRunsName, true), ""); //without filter, only select name
+					SqliteRunIntervalType.SelectRunIntervalTypes(Constants.AllRunsNameStr(), true), ""); //without filter, only select name
 			combo_select_runs_interval.Active = 0;
 			combo_result_runs_interval.Active = 0;
 
@@ -2587,7 +2587,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("--- delete session ---");
 		
 		if(currentSession.Name == Constants.SessionSimulatedName)
-			new DialogMessage(Constants.MessageTypes.INFO, Constants.SessionProtected);
+			new DialogMessage(Constants.MessageTypes.INFO, Constants.SessionProtectedStr());
 		else {
 			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to delete the current session"), "", Catalog.GetString("and all the session tests?"));
 			confirmWin.Button_accept.Clicked += new EventHandler(on_delete_session_accepted);
@@ -6280,7 +6280,7 @@ LogB.Debug("mc finished 5");
 			createComboSelectJumps(false);
 
 			UtilGtk.ComboUpdate(combo_result_jumps, 
-					SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsName, "", true), ""); //without filter, only select name
+					SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsNameStr(), "", true), ""); //without filter, only select name
 
 			combo_select_jumps.Active = UtilGtk.ComboMakeActive(combo_select_jumps, jumpTypeAddWin.Name);
 			combo_result_jumps.Active = UtilGtk.ComboMakeActive(combo_result_jumps, jumpTypeAddWin.Name);
@@ -6290,7 +6290,7 @@ LogB.Debug("mc finished 5");
 			createComboSelectJumpsRj(false);
 			
 			UtilGtk.ComboUpdate(combo_result_jumps_rj, 
-					SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true), ""); //without filter, only select name
+					SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsNameStr(), true), ""); //without filter, only select name
 
 			combo_select_jumps_rj.Active = UtilGtk.ComboMakeActive(combo_select_jumps_rj, jumpTypeAddWin.Name);
 			combo_result_jumps_rj.Active = UtilGtk.ComboMakeActive(combo_result_jumps_rj, jumpTypeAddWin.Name);
@@ -6320,7 +6320,7 @@ LogB.Debug("mc finished 5");
 			createComboSelectRuns(false);
 
 			UtilGtk.ComboUpdate(combo_result_runs, 
-					SqliteRunType.SelectRunTypes(Constants.AllRunsName, true), ""); //without filter, only select name
+					SqliteRunType.SelectRunTypes(Constants.AllRunsNameStr(), true), ""); //without filter, only select name
 
 			combo_select_runs.Active = UtilGtk.ComboMakeActive(combo_select_runs, runTypeAddWin.Name);
 			combo_result_runs.Active = UtilGtk.ComboMakeActive(combo_result_runs, runTypeAddWin.Name);
@@ -6330,7 +6330,7 @@ LogB.Debug("mc finished 5");
 			createComboSelectRunsInterval(false);
 			
 			UtilGtk.ComboUpdate(combo_result_runs_interval, 
-					SqliteRunIntervalType.SelectRunIntervalTypes(Constants.AllRunsName, true), ""); //without filter, only select name
+					SqliteRunIntervalType.SelectRunIntervalTypes(Constants.AllRunsNameStr(), true), ""); //without filter, only select name
 
 			combo_select_runs_interval.Active = UtilGtk.ComboMakeActive(combo_select_runs_interval, runTypeAddWin.Name);
 			combo_result_runs_interval.Active = UtilGtk.ComboMakeActive(combo_result_runs_interval, runTypeAddWin.Name);
@@ -6514,10 +6514,10 @@ LogB.Debug("mc finished 5");
 
 
 	private void on_button_jumps_jumpsRj_result_help_power_clicked (object o, EventArgs args) {
-		new DialogMessage(Constants.MessageTypes.INFO, Constants.HelpPower);
+		new DialogMessage(Constants.MessageTypes.INFO, Constants.HelpPowerStr());
 	}
 	private void on_button_jumps_jumpsRj_result_help_stiffness_clicked (object o, EventArgs args) {
-		new DialogMessage(Constants.MessageTypes.INFO, Constants.HelpStiffness,	"hbox_stiffness_formula");
+		new DialogMessage(Constants.MessageTypes.INFO, Constants.HelpStiffnessStr(), "hbox_stiffness_formula");
 	}
 
 	

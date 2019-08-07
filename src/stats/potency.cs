@@ -137,28 +137,28 @@ public class StatPotency : Stat
 		}
 
 		string indexTypePrint = indexType;
-		if(indexType == Constants.PotencyLewisFormulaShort)
-			indexTypePrint = Constants.PotencyLewisFormula;
-		else if(indexType == Constants.PotencyHarmanFormulaShort)
-			indexTypePrint = Constants.PotencyHarmanFormula;
-		else if(indexType == Constants.PotencySayersSJFormulaShort)
-			indexTypePrint = Constants.PotencySayersSJFormula;
-		else if(indexType == Constants.PotencySayersCMJFormulaShort)
-			indexTypePrint = Constants.PotencySayersCMJFormula;
-		else if(indexType == Constants.PotencyShettyFormulaShort)
-			indexTypePrint = Constants.PotencyShettyFormula;
-		else if(indexType == Constants.PotencyCanavanFormulaShort)
-			indexTypePrint = Constants.PotencyCanavanFormula;
-		else if(indexType == Constants.PotencyLaraMaleApplicantsSCFormulaShort)
-			indexTypePrint = Constants.PotencyLaraMaleApplicantsSCFormula;
-		else if(indexType == Constants.PotencyLaraFemaleEliteVoleiFormulaShort)
-			indexTypePrint = Constants.PotencyLaraFemaleEliteVoleiFormula;
-		else if(indexType == Constants.PotencyLaraFemaleMediumVoleiFormulaShort)
-			indexTypePrint = Constants.PotencyLaraFemaleMediumVoleiFormula;
-		else if(indexType == Constants.PotencyLaraFemaleSCStudentsFormulaShort)
-			indexTypePrint = Constants.PotencyLaraFemaleSCStudentsFormula;
-		else if(indexType == Constants.PotencyLaraFemaleSedentaryFormulaShort)
-			indexTypePrint = Constants.PotencyLaraFemaleSedentaryFormula;
+		if(indexType == Constants.PotencyLewisFormulaShortStr())
+			indexTypePrint = Constants.PotencyLewisFormulaStr();
+		else if(indexType == Constants.PotencyHarmanFormulaShortStr())
+			indexTypePrint = Constants.PotencyHarmanFormulaStr();
+		else if(indexType == Constants.PotencySayersSJFormulaShortStr())
+			indexTypePrint = Constants.PotencySayersSJFormulaStr();
+		else if(indexType == Constants.PotencySayersCMJFormulaShortStr())
+			indexTypePrint = Constants.PotencySayersCMJFormulaStr();
+		else if(indexType == Constants.PotencyShettyFormulaShortStr())
+			indexTypePrint = Constants.PotencyShettyFormulaStr();
+		else if(indexType == Constants.PotencyCanavanFormulaShortStr())
+			indexTypePrint = Constants.PotencyCanavanFormulaStr();
+		else if(indexType == Constants.PotencyLaraMaleApplicantsSCFormulaShortStr())
+			indexTypePrint = Constants.PotencyLaraMaleApplicantsSCFormulaStr();
+		else if(indexType == Constants.PotencyLaraFemaleEliteVoleiFormulaShortStr())
+			indexTypePrint = Constants.PotencyLaraFemaleEliteVoleiFormulaStr();
+		else if(indexType == Constants.PotencyLaraFemaleMediumVoleiFormulaShortStr())
+			indexTypePrint = Constants.PotencyLaraFemaleMediumVoleiFormulaStr();
+		else if(indexType == Constants.PotencyLaraFemaleSCStudentsFormulaShortStr())
+			indexTypePrint = Constants.PotencyLaraFemaleSCStudentsFormulaStr();
+		else if(indexType == Constants.PotencyLaraFemaleSedentaryFormulaShortStr())
+			indexTypePrint = Constants.PotencyLaraFemaleSedentaryFormulaStr();
 
 		return string.Format(Catalog.GetString("{0} in {1} applied to {2} on {3}"), selectedValuesString, indexTypePrint, jumpType, mySessionString);
 	}

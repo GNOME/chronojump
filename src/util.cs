@@ -1901,9 +1901,9 @@ public class Util
 
 	public static string BoolToInOut (bool areWeIn) {
 		if(areWeIn)
-			return Constants.In;
+			return Constants.InStr();
 		else
-			return Constants.Out;
+			return Constants.OutStr();
 	}
 
 	public static int BoolToInt (bool myBool) {
@@ -1933,7 +1933,7 @@ public class Util
 
 	public static string FindLevelName(int levelInt) {
 		string foundLevelName = "";
-		foreach(string level in Constants.Levels)
+		foreach(string level in Constants.LevelsStr())
 			if(FetchID(level) == levelInt)
 				foundLevelName = FetchName(level);
 
@@ -2028,16 +2028,16 @@ public class Util
 
 	public static string SimulatedTestNoYes(int num) {
 		if(num < 0)
-			return Constants.Yes;
+			return Constants.YesStr();
 		else
-			return Constants.No;
+			return Constants.NoStr();
 	}
 
 	public static string NoYes(bool b) {
 		if(! b)
-			return Constants.No;
+			return Constants.NoStr();
 		else
-			return Constants.Yes;
+			return Constants.YesStr();
 	}
 
 

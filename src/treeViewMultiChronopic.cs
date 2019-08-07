@@ -118,7 +118,7 @@ public class TreeViewMultiChronopic : TreeViewEvent
 		title = mc.Type + " " + typeExtra;
 		title += " " + array.Count.ToString() +"n";
 		if(mc.Simulated == Constants.Simulated)
-			title += Constants.SimulatedTreeview + " ";
+			title += Constants.SimulatedTreeviewStr() + " ";
 
 		string [] myData = new String [19+1];
 		int count = 0;

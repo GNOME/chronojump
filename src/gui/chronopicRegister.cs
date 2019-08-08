@@ -133,6 +133,7 @@ public class ChronopicRegisterWindow
 	public void Show()
 	{
 		chronopic_register_win.ShowAll();
+		list_labels_selected_show(); //hide some label_selected if they are UNKNOWN
 	}
 
 	private void createWindow(Gtk.Window app1)
@@ -158,6 +159,7 @@ public class ChronopicRegisterWindow
 	Gtk.Table table_main;
 
 	private List<Gtk.Image> list_images;
+	private List<Gtk.Label> list_labels_selected;
 	private List<Gtk.Label> list_labels_type;
 	private List<Gtk.Button> list_buttons_left;
 	private List<Gtk.Button> list_buttons_right;
@@ -177,13 +179,14 @@ public class ChronopicRegisterWindow
 
 		table_main = new Gtk.Table((uint) rows +1, 2, false); //not homogeneous
 		table_main.ColumnSpacing = 20;
-		table_main.RowSpacing = 6;
+		table_main.RowSpacing = 12;
 
 		table_main.Attach (label_device_title, (uint) 1, (uint) 2, 0, 1);
 		table_main.Attach (label_type_title, (uint) 2, (uint) 3, 0, 1);
 
 		list_buttons_left = new List<Gtk.Button>();
 		list_images = new List<Gtk.Image>();
+		list_labels_selected = new List<Gtk.Label>();
 		list_labels_type = new List<Gtk.Label>();
 		list_buttons_right = new List<Gtk.Button>();
 
@@ -195,7 +198,7 @@ public class ChronopicRegisterWindow
 			label_device.Show();
 
 			Gtk.HBox hbox_type = new Gtk.HBox(false, 6);
-			Button button_left = UtilGtk.CreateArrowButton(ArrowType.Left, ShadowType.In, 50, -1);
+			Button button_left = UtilGtk.CreateArrowButton(ArrowType.Left, ShadowType.In, 50, -1, UtilGtk.ArrowEnum.BACKWARD);
 			button_left.Sensitive = (listConnected[count-1].Type != TypePixList.l[0].Type);
 			button_left.CanFocus = false;
 			button_left.IsFocus = false;
@@ -210,7 +213,11 @@ public class ChronopicRegisterWindow
 			hbox_type.Add(image);
 			hbox_type.PackStart(image, false, false, 1);
 
-			Button button_right = UtilGtk.CreateArrowButton(ArrowType.Right, ShadowType.In, 50, -1);
+			UtilGtk.ArrowEnum arrowEnum = UtilGtk.ArrowEnum.FORWARD;
+			if(ChronopicRegisterPort.TypePrint(listConnected[count-1].Type) == ChronopicRegisterPort.TypePrint(ChronopicRegisterPort.Types.UNKNOWN))
+				arrowEnum = UtilGtk.ArrowEnum.FORWARD_EMPHASIS;
+			Button button_right = UtilGtk.CreateArrowButton(ArrowType.Right, ShadowType.In, 50, -1, arrowEnum);
+
 			button_right.CanFocus = false;
 			button_right.IsFocus = false;
 			button_right.Clicked += on_button_right_clicked;
@@ -219,17 +226,38 @@ public class ChronopicRegisterWindow
 
 			Gtk.VBox vbox = new Gtk.VBox(false, 2);
 			vbox.Add(hbox_type);
+
+			Gtk.HBox hbox_label_to_align = new Gtk.HBox(false, 0);
+			Gtk.HBox hbox_label = new Gtk.HBox(false, 6);
+			Gtk.Label label_selected = new Gtk.Label("<b>" + Catalog.GetString("Selected:") + "</b> ");
+			label_selected.UseMarkup = true;
+			label_selected.Visible = false; //but this will be visible by the chronopic_register_win.ShowAll();
+			hbox_label.PackStart(label_selected, false, false, 1);
 			Gtk.Label label_type = new Gtk.Label(ChronopicRegisterPort.TypePrint(listConnected[count-1].Type));
-			vbox.Add(label_type);
+			hbox_label.PackStart(label_type, false, false, 1);
+			hbox_label_to_align.PackStart(hbox_label, true, false, 1);
+
+			//vbox.Add(label_type);
+			vbox.Add(hbox_label_to_align);
 
 			table_main.Attach (vbox, (uint) 2, (uint) 3, (uint) count, (uint) count +1);
 
 			list_buttons_left.Add(button_left);
 			list_images.Add(image);
+			list_labels_selected.Add(label_selected);
 			list_labels_type.Add(label_type);
 			list_buttons_right.Add(button_right);
 		}
 		table_main.Show();
+	}
+
+	private void list_labels_selected_show()
+	{
+		int rows = listConnected.Count;
+		for (int count=1; count <= rows; count ++)
+		{
+			list_labels_selected[count-1].Visible = (ChronopicRegisterPort.TypePrint(listConnected[count-1].Type) != ChronopicRegisterPort.TypePrint(ChronopicRegisterPort.Types.UNKNOWN));
+		}
 	}
 
 	private void createContent(int connectedCount, int unknownCount)
@@ -349,6 +377,7 @@ public class ChronopicRegisterWindow
 				TypePix tp = TypePixList.GetPixPrevNext(listConnected[count].Type, "LEFT");
 				listConnected[count].Type = tp.Type;
 				list_images[count].Pixbuf = tp.Pix;
+				list_labels_selected[count].Visible = (ChronopicRegisterPort.TypePrint(listConnected[count].Type) != ChronopicRegisterPort.TypePrint(ChronopicRegisterPort.Types.UNKNOWN));
 				list_labels_type[count].Text = ChronopicRegisterPort.TypePrint(listConnected[count].Type);
 
 				buttons_sensitivity(button, list_buttons_right[count], tp.Type);
@@ -371,6 +400,7 @@ public class ChronopicRegisterWindow
 				TypePix tp = TypePixList.GetPixPrevNext(listConnected[count].Type, "RIGHT");
 				listConnected[count].Type = tp.Type;
 				list_images[count].Pixbuf = tp.Pix;
+				list_labels_selected[count].Visible = (ChronopicRegisterPort.TypePrint(listConnected[count].Type) != ChronopicRegisterPort.TypePrint(ChronopicRegisterPort.Types.UNKNOWN));
 				list_labels_type[count].Text = ChronopicRegisterPort.TypePrint(listConnected[count].Type);
 
 				buttons_sensitivity(list_buttons_left[count], button, tp.Type);
@@ -385,6 +415,14 @@ public class ChronopicRegisterWindow
 		left.Sensitive = (type != TypePixList.l[0].Type);
 		right.Sensitive = (type != TypePixList.l[TypePixList.l.Count -1].Type);
 		//LogB.Information("count + tplcount " + count + "," + TypePixList.l.Count);
+
+		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameArrowForward);
+		//show red image on button right if UNKNOWN
+		if(type == TypePixList.l[0].Type)
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameArrowForwardEmphasis);
+
+		Gtk.Image image = (Gtk.Image) right.Child;
+		image.Pixbuf = pixbuf;
 	}
 
 	private void updateSQL(string serialNumber, ChronopicRegisterPort.Types type)

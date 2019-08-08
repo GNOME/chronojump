@@ -86,6 +86,11 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_selector_start_other;
 	[Widget] Gtk.Image image_selector_start_cancel;
 
+	[Widget] Gtk.Image image_menuitem_mode_jumps_simple;
+	[Widget] Gtk.Image image_menuitem_mode_jumps_reactive;
+	[Widget] Gtk.Image image_menuitem_mode_runs_simple;
+	[Widget] Gtk.Image image_menuitem_mode_runs_intervallic;
+
 	//run
 	[Widget] Gtk.Image image_run_execute_running;
 	[Widget] Gtk.Image image_run_execute_photocell;
@@ -432,12 +437,16 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_simple.png");
 		image_mode_jumps_small.Pixbuf = pixbuf;
+		image_menuitem_mode_jumps_simple.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_reactive.png");
 		image_mode_jumps_reactive_small.Pixbuf = pixbuf;
+		image_menuitem_mode_jumps_reactive.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run_simple.png");
 		image_mode_runs_small.Pixbuf = pixbuf;
+		image_menuitem_mode_runs_simple.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run_multiple.png");
 		image_mode_runs_intervallic_small.Pixbuf = pixbuf;
+		image_menuitem_mode_runs_intervallic.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "run.png");
 		image_run_execute_running.Pixbuf = pixbuf;

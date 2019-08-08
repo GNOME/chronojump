@@ -67,6 +67,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_force_sensor;
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_rt;
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_other;
+	[Widget] Gtk.ImageMenuItem menuitem_mode_jumps_simple;
+	[Widget] Gtk.ImageMenuItem menuitem_mode_jumps_reactive;
+	[Widget] Gtk.ImageMenuItem menuitem_mode_runs_simple;
+	[Widget] Gtk.ImageMenuItem menuitem_mode_runs_intervallic;
 
 	[Widget] Gtk.Notebook notebook_start; 		//start window or program
 	[Widget] Gtk.Notebook notebook_start_selector; 	//use to display the start images to select different modes
@@ -820,15 +824,27 @@ public partial class ChronoJumpWindow
 
 	private void formatModeMenu()
 	{
+		/*
 		((Label) radio_menuitem_mode_jumps_simple.Child).Text =
 			"   " + ((Label) radio_menuitem_mode_jumps_simple.Child).Text;
 		((Label) radio_menuitem_mode_jumps_reactive.Child).Text =
 			"   " + ((Label) radio_menuitem_mode_jumps_reactive.Child).Text;
+		*/
+		((Label) menuitem_mode_jumps_simple.Child).Text =
+			"   " + ((Label) menuitem_mode_jumps_simple.Child).Text;
+		((Label) menuitem_mode_jumps_reactive.Child).Text =
+			"   " + ((Label) menuitem_mode_jumps_reactive.Child).Text;
 
+		/*
 		((Label) radio_menuitem_mode_runs_simple.Child).Text =
 			"   " + ((Label) radio_menuitem_mode_runs_simple.Child).Text;
 		((Label) radio_menuitem_mode_runs_intervallic.Child).Text =
 			"   " + ((Label) radio_menuitem_mode_runs_intervallic.Child).Text;
+			*/
+		((Label) menuitem_mode_runs_simple.Child).Text =
+			"   " + ((Label) menuitem_mode_runs_simple.Child).Text;
+		((Label) menuitem_mode_runs_intervallic.Child).Text =
+			"   " + ((Label) menuitem_mode_runs_intervallic.Child).Text;
 		((Label) radio_menuitem_mode_runs_encoder.Child).Text =
 			"   " + ((Label) radio_menuitem_mode_runs_encoder.Child).Text;
 
@@ -836,6 +852,7 @@ public partial class ChronoJumpWindow
 			"   " + ((Label) radio_menuitem_mode_power_gravitatory.Child).Text;
 		((Label) radio_menuitem_mode_power_inertial.Child).Text =
 			"   " + ((Label) radio_menuitem_mode_power_inertial.Child).Text;
+
 	}
 
 	//different than on_preferences_activate (opening preferences window)
@@ -3682,8 +3699,38 @@ public partial class ChronoJumpWindow
 		//http://stackoverflow.com/questions/10755541/mono-gtk-radiobutton-clicked-event-firing-twice
 		if( ! (o as Gtk.RadioMenuItem).Active )
 			return;
-		
+
 		select_menuitem_mode_toggled(getMenuItemMode());
+	}
+
+	private void on_menuitem_mode_activate(object o, EventArgs args)
+	{
+		Gtk.ImageMenuItem imi = o as Gtk.ImageMenuItem;
+		if (o == null)
+			return;
+
+		if(o == menuitem_mode_jumps_simple)
+			select_menuitem_mode_toggled(Constants.Menuitem_modes.JUMPSSIMPLE);
+		else if(o == menuitem_mode_jumps_reactive)
+			select_menuitem_mode_toggled(Constants.Menuitem_modes.JUMPSREACTIVE);
+		else if(o == menuitem_mode_runs_simple)
+			select_menuitem_mode_toggled(Constants.Menuitem_modes.RUNSSIMPLE);
+		else if(o == menuitem_mode_runs_intervallic)
+			select_menuitem_mode_toggled(Constants.Menuitem_modes.RUNSINTERVALLIC);
+
+		changeMenuitemModePixbuf(image_menuitem_mode_jumps_simple, o == menuitem_mode_jumps_simple, "image_jump_simple.png", "image_jump_simple_yellow.png");
+		changeMenuitemModePixbuf(image_menuitem_mode_jumps_reactive, o == menuitem_mode_jumps_reactive, "image_jump_reactive.png", "image_jump_reactive_yellow.png");
+		changeMenuitemModePixbuf(image_menuitem_mode_runs_simple, o == menuitem_mode_runs_simple, "image_run_simple.png", "image_run_simple_yellow.png");
+		changeMenuitemModePixbuf(image_menuitem_mode_runs_intervallic, o == menuitem_mode_runs_intervallic, "image_run_multiple.png", "image_run_multiple_yellow.png");
+	}
+
+	private void changeMenuitemModePixbuf(Gtk.Image image, bool active, string pathImageInactive, string pathImageActive)
+	{
+		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + pathImageInactive);
+		if(active)
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + pathImageActive);
+
+		image.Pixbuf = pixbuf;
 	}
 
 	private void on_button_selector_start_jumps_clicked(object o, EventArgs args) 
@@ -3699,6 +3746,8 @@ public partial class ChronoJumpWindow
 		}
 		else
 			radio_menuitem_mode_jumps_simple.Active = true;
+
+		changeMenuitemModePixbuf(image_menuitem_mode_jumps_simple, true, "image_jump_simple.png", "image_jump_simple_yellow.png");
 	}
 	private void on_button_selector_start_jumps_reactive_clicked(object o, EventArgs args) 
 	{
@@ -3706,6 +3755,8 @@ public partial class ChronoJumpWindow
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.JUMPSREACTIVE);
 		else
 			radio_menuitem_mode_jumps_reactive.Active = true;
+
+		changeMenuitemModePixbuf(image_menuitem_mode_jumps_reactive, true, "image_jump_reactive.png", "image_jump_reactive_yellow.png");
 	}
 	
 	private void on_button_selector_start_runs_clicked(object o, EventArgs args) 
@@ -3719,6 +3770,8 @@ public partial class ChronoJumpWindow
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.RUNSSIMPLE);
 		else
 			radio_menuitem_mode_runs_simple.Active = true;
+
+		changeMenuitemModePixbuf(image_menuitem_mode_runs_simple, true, "image_run_simple.png", "image_run_simple_yellow.png");
 	}
 	private void on_button_selector_start_runs_intervallic_clicked(object o, EventArgs args) 
 	{
@@ -3726,6 +3779,8 @@ public partial class ChronoJumpWindow
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.RUNSINTERVALLIC);
 		else
 			radio_menuitem_mode_runs_intervallic.Active = true;
+
+		changeMenuitemModePixbuf(image_menuitem_mode_runs_intervallic, true, "image_run_multiple.png", "image_run_multiple_yellow.png");
 	}
 	private void on_button_selector_start_runs_encoder_clicked(object o, EventArgs args)
 	{

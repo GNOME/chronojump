@@ -661,11 +661,12 @@ public class UtilGtk
 		l.TooltipText = Util.RemoveMarkup(s);
 	}
 
+	public enum ArrowEnum { NONE, FORWARD, BACKWARD, FORWARD_EMPHASIS }
 	public static Button CreateArrowButton(ArrowType arrow_type, ShadowType shadow_type)
 	{
-		return CreateArrowButton(arrow_type, shadow_type, -1, -1);
+		return CreateArrowButton(arrow_type, shadow_type, -1, -1, ArrowEnum.NONE);
 	}
-	public static Button CreateArrowButton(ArrowType arrow_type, ShadowType shadow_type, int width, int height)
+	public static Button CreateArrowButton(ArrowType arrow_type, ShadowType shadow_type, int width, int height, ArrowEnum customArrow)
 	{
 		Button button = new Button ();
 
@@ -674,12 +675,27 @@ public class UtilGtk
 		if(height > 0)
 			button.HeightRequest = height;
 
-		Arrow  arrow = new Arrow (arrow_type, shadow_type);
+		if(customArrow == ArrowEnum.NONE)
+		{
+			Arrow  arrow = new Arrow (arrow_type, shadow_type);
+			button.Add(arrow);
+		} else {
+			Pixbuf pixbuf;
+			if(customArrow == ArrowEnum.FORWARD)
+				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameArrowForward);
+			else if(customArrow == ArrowEnum.BACKWARD)
+				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameArrowBackward);
+			else if(customArrow == ArrowEnum.FORWARD_EMPHASIS)
+				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameArrowForwardEmphasis);
+			else
+				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameArrowForward); //default
 
-		button.Add(arrow);
+			Gtk.Image image = new Gtk.Image();
+			image.Pixbuf = pixbuf;
+			button.Add(image);
+		}
 
-		button.Show();
-		arrow.Show();
+		button.ShowAll();
 
 		return button;
 	}

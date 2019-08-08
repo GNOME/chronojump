@@ -67,7 +67,8 @@ public class ChronopicRegisterPort
 	public static string TypePrint(Types typeStatic)
 	{
 		if(typeStatic == Types.UNKNOWN)
-			return Catalog.GetString("Not configured");
+			//return Catalog.GetString("Not configured");
+			return Catalog.GetString("Click on right arrow!");
 		else if(typeStatic == Types.CONTACTS)
 			return Catalog.GetString("Jumps/Races");
 		else if(typeStatic == Types.ENCODER)
@@ -77,7 +78,7 @@ public class ChronopicRegisterPort
 		else if(typeStatic == Types.ARDUINO_FORCE)
 			return Catalog.GetString("Force sensor");
 		else if(typeStatic == Types.ARDUINO_RUN_ENCODER)
-			return "Run encoder (experimental)";
+			return "Race encoder";
 
 		return Catalog.GetString("Unknown");
 	}

@@ -1010,6 +1010,10 @@ public class Constants
 	public static string Invert = "Invert";
 	public static string Selected = "Selected";
 
+	public static string FileNameArrowForward = "arrow_forward.png";
+	public static string FileNameArrowBackward = "arrow_backward.png";
+	public static string FileNameArrowForwardEmphasis = "arrow_forward_emphasis.png";
+
 	/*
 	 * encoder storage
 	 * chronojump / encoder / sessionID / data

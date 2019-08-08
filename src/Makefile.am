@@ -459,6 +459,9 @@ RESOURCES = \
 	../images/md/ic_fitness_center_blue_24dp_1x.png,image_exercise.png \
 	../images/md/ic_keyboard_arrow_up_blue_24dp_1x.png,image_up.png \
 	../images/md/ic_keyboard_arrow_down_blue_24dp_1x.png,image_down.png \
+	../images/md/baseline_arrow_forward_blue_24dp.png,arrow_forward.png \
+	../images/md/baseline_arrow_backward_blue_24dp.png,arrow_backward.png \
+	../images/md/baseline_arrow_forward_red_yellow_24dp.png,arrow_forward_emphasis.png \
 	../images/md/inertial_rolled.png,inertial_rolled.png \
 	../images/md/inertial_half_rolled.png,inertial_half_rolled.png \
 	../images/md/inertial_extended.png,inertial_extended.png \

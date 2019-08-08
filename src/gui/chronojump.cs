@@ -57,10 +57,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Viewport viewport_chronojump_logo;
 	[Widget] Gtk.Image image_chronojump_logo;
 
-	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_jumps_simple;
-	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_jumps_reactive;
-	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_runs_simple;
-	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_runs_intervallic;
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_runs_encoder;
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_power_gravitatory;
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_power_inertial;
@@ -3671,15 +3667,7 @@ public partial class ChronoJumpWindow
 	 */
 	private Constants.Menuitem_modes getMenuItemMode() 
 	{
-		if(radio_menuitem_mode_jumps_simple.Active)
-			return Constants.Menuitem_modes.JUMPSSIMPLE;
-		else if(radio_menuitem_mode_jumps_reactive.Active)
-			return Constants.Menuitem_modes.JUMPSREACTIVE;
-		else if(radio_menuitem_mode_runs_simple.Active)
-			return Constants.Menuitem_modes.RUNSSIMPLE;
-		else if(radio_menuitem_mode_runs_intervallic.Active)
-			return Constants.Menuitem_modes.RUNSINTERVALLIC;
-		else if(radio_menuitem_mode_runs_encoder.Active)
+		if(radio_menuitem_mode_runs_encoder.Active)
 			return Constants.Menuitem_modes.RUNSENCODER;
 		else if(radio_menuitem_mode_power_gravitatory.Active)
 			return Constants.Menuitem_modes.POWERGRAVITATORY;
@@ -3740,23 +3728,11 @@ public partial class ChronoJumpWindow
 	}
 	private void on_button_selector_start_jumps_simple_clicked(object o, EventArgs args) 
 	{
-		if(radio_menuitem_mode_jumps_simple.Active) {
-			//needed if people select again the same option
-			select_menuitem_mode_toggled(Constants.Menuitem_modes.JUMPSSIMPLE);
-		}
-		else
-			radio_menuitem_mode_jumps_simple.Active = true;
-
-		changeMenuitemModePixbuf(image_menuitem_mode_jumps_simple, true, "image_jump_simple.png", "image_jump_simple_yellow.png");
+		on_menuitem_mode_activate(menuitem_mode_jumps_simple, new EventArgs());
 	}
 	private void on_button_selector_start_jumps_reactive_clicked(object o, EventArgs args) 
 	{
-		if(radio_menuitem_mode_jumps_reactive.Active)
-			select_menuitem_mode_toggled(Constants.Menuitem_modes.JUMPSREACTIVE);
-		else
-			radio_menuitem_mode_jumps_reactive.Active = true;
-
-		changeMenuitemModePixbuf(image_menuitem_mode_jumps_reactive, true, "image_jump_reactive.png", "image_jump_reactive_yellow.png");
+		on_menuitem_mode_activate(menuitem_mode_jumps_reactive, new EventArgs());
 	}
 	
 	private void on_button_selector_start_runs_clicked(object o, EventArgs args) 
@@ -3766,21 +3742,11 @@ public partial class ChronoJumpWindow
 	}
 	private void on_button_selector_start_runs_simple_clicked(object o, EventArgs args)
 	{
-		if(radio_menuitem_mode_runs_simple.Active)
-			select_menuitem_mode_toggled(Constants.Menuitem_modes.RUNSSIMPLE);
-		else
-			radio_menuitem_mode_runs_simple.Active = true;
-
-		changeMenuitemModePixbuf(image_menuitem_mode_runs_simple, true, "image_run_simple.png", "image_run_simple_yellow.png");
+		on_menuitem_mode_activate(menuitem_mode_runs_simple, new EventArgs());
 	}
 	private void on_button_selector_start_runs_intervallic_clicked(object o, EventArgs args) 
 	{
-		if(radio_menuitem_mode_runs_intervallic.Active)
-			select_menuitem_mode_toggled(Constants.Menuitem_modes.RUNSINTERVALLIC);
-		else
-			radio_menuitem_mode_runs_intervallic.Active = true;
-
-		changeMenuitemModePixbuf(image_menuitem_mode_runs_intervallic, true, "image_run_multiple.png", "image_run_multiple_yellow.png");
+		on_menuitem_mode_activate(menuitem_mode_runs_intervallic, new EventArgs());
 	}
 	private void on_button_selector_start_runs_encoder_clicked(object o, EventArgs args)
 	{
@@ -4070,24 +4036,24 @@ public partial class ChronoJumpWindow
 
 		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
 		{
-			LogB.Debug("radio_menuitem_mode_jumps_simple");
+			LogB.Debug("menuitem_mode_jumps_simple");
 			on_normal_jump_activate(canCaptureC);
 		}
 		else if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSREACTIVE)
 		{
-			LogB.Debug("radio_menuitem_mode_jumps_reactive");
+			LogB.Debug("menuitem_mode_jumps_reactive");
 			on_rj_activate(canCaptureC);
 		}
 		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSSIMPLE)
 		{
-			LogB.Debug("radio_menuitem_mode_runs_simple");
+			LogB.Debug("menuitem_mode_runs_simple");
 			extra_window_runs_distance = Convert.ToDouble(label_runs_simple_track_distance_value.Text);
 
 			on_normal_run_activate(canCaptureC);
 		}
 		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
 		{
-			LogB.Debug("radio_mode_runs_i_small");
+			LogB.Debug("menuitem_mode_runs_intevallic");
 			//RSA runs cannot be simulated because it's complicated to manage the countdown event...
 			if(currentRunIntervalType.IsRSA && ! canCaptureC) {
 				new DialogMessage(Constants.MessageTypes.WARNING, 

@@ -434,25 +434,15 @@ public partial class ChronoJumpWindow
 
 		if(m == Constants.Menuitem_modes.JUMPSSIMPLE)
 		{
-			if(radio_menuitem_mode_jumps_simple.Active) {
-				//needed if people select again the same option
-				select_menuitem_mode_toggled(Constants.Menuitem_modes.JUMPSSIMPLE);
-			} else
-				radio_menuitem_mode_jumps_simple.Active = true;
+			on_menuitem_mode_activate(menuitem_mode_jumps_simple, new EventArgs());
 		}
 		else if(m == Constants.Menuitem_modes.JUMPSREACTIVE)
 		{
-			if(radio_menuitem_mode_jumps_reactive.Active)
-				select_menuitem_mode_toggled(Constants.Menuitem_modes.JUMPSREACTIVE);
-			else
-				radio_menuitem_mode_jumps_reactive.Active = true;
+			on_menuitem_mode_activate(menuitem_mode_jumps_reactive, new EventArgs());
 		}
 		else if(m == Constants.Menuitem_modes.RUNSSIMPLE)
 		{
-			if(radio_menuitem_mode_runs_simple.Active)
-				select_menuitem_mode_toggled(Constants.Menuitem_modes.RUNSSIMPLE);
-			else
-				radio_menuitem_mode_runs_simple.Active = true;
+			on_menuitem_mode_activate(menuitem_mode_runs_simple, new EventArgs());
 		}
 		else if(m == Constants.Menuitem_modes.POWERGRAVITATORY)
 		{

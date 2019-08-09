@@ -92,6 +92,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_menuitem_mode_runs_intervallic;
 	[Widget] Gtk.Image image_menuitem_mode_power_gravitatory;
 	[Widget] Gtk.Image image_menuitem_mode_power_inertial;
+	[Widget] Gtk.Image image_menuitem_mode_force_sensor;
 
 	//run
 	[Widget] Gtk.Image image_run_execute_running;
@@ -269,6 +270,9 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_inertia.png");
 		image_mode_encoder_inertial.Pixbuf = pixbuf;
 		image_menuitem_mode_power_inertial.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "force_sensor_icon.png");
+		image_menuitem_mode_force_sensor.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_capture.png");
 		image_tests_capture.Pixbuf = pixbuf;

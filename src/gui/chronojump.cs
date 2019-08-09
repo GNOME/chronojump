@@ -58,9 +58,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_chronojump_logo;
 
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_runs_encoder;
-	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_power_gravitatory;
-	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_power_inertial;
-	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_force_sensor;
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_rt;
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_other;
 	[Widget] Gtk.ImageMenuItem menuitem_mode_jumps_simple;
@@ -69,6 +66,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ImageMenuItem menuitem_mode_runs_intervallic;
 	[Widget] Gtk.ImageMenuItem menuitem_mode_power_gravitatory;
 	[Widget] Gtk.ImageMenuItem menuitem_mode_power_inertial;
+	[Widget] Gtk.ImageMenuItem menuitem_mode_force_sensor;
 
 	[Widget] Gtk.Notebook notebook_start; 		//start window or program
 	[Widget] Gtk.Notebook notebook_start_selector; 	//use to display the start images to select different modes
@@ -3405,7 +3403,6 @@ public partial class ChronoJumpWindow
 		else if(m == Constants.Menuitem_modes.FORCESENSOR)
 		{
 			notebook_sup.CurrentPage = 0;
-			radio_menuitem_mode_force_sensor.Active = true;
 			notebooks_change(m);
 //			on_extra_window_reaction_times_test_changed(new object(), new EventArgs());
 
@@ -3656,15 +3653,7 @@ public partial class ChronoJumpWindow
 	 */
 	private Constants.Menuitem_modes getMenuItemMode() 
 	{
-		if(radio_menuitem_mode_runs_encoder.Active)
-			return Constants.Menuitem_modes.RUNSENCODER;
-		else if(radio_menuitem_mode_power_gravitatory.Active)
-			return Constants.Menuitem_modes.POWERGRAVITATORY;
-		else if(radio_menuitem_mode_power_inertial.Active)
-			return Constants.Menuitem_modes.POWERINERTIAL;
-		else if(radio_menuitem_mode_force_sensor.Active)
-			return Constants.Menuitem_modes.FORCESENSOR;
-		else if(radio_menuitem_mode_rt.Active)
+		if(radio_menuitem_mode_rt.Active)
 			return Constants.Menuitem_modes.RT;
 		else // if(radio_menuitem_mode_other.Active)
 			return Constants.Menuitem_modes.OTHER;
@@ -3698,6 +3687,8 @@ public partial class ChronoJumpWindow
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.POWERGRAVITATORY);
 		else if(o == menuitem_mode_power_inertial)
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.POWERINERTIAL);
+		else if(o == menuitem_mode_force_sensor)
+			select_menuitem_mode_toggled(Constants.Menuitem_modes.FORCESENSOR);
 
 		changeMenuitemModePixbuf(image_menuitem_mode_jumps_simple, o == menuitem_mode_jumps_simple, "image_jump_simple.png", "image_jump_simple_yellow.png");
 		changeMenuitemModePixbuf(image_menuitem_mode_jumps_reactive, o == menuitem_mode_jumps_reactive, "image_jump_reactive.png", "image_jump_reactive_yellow.png");
@@ -3705,6 +3696,7 @@ public partial class ChronoJumpWindow
 		changeMenuitemModePixbuf(image_menuitem_mode_runs_intervallic, o == menuitem_mode_runs_intervallic, "image_run_multiple.png", "image_run_multiple_yellow.png");
 		changeMenuitemModePixbuf(image_menuitem_mode_power_gravitatory, o == menuitem_mode_power_gravitatory, "image_gravity.png", "image_gravity_yellow.png");
 		changeMenuitemModePixbuf(image_menuitem_mode_power_inertial, o == menuitem_mode_power_inertial, "image_inertia.png", "image_inertia_yellow.png");
+		changeMenuitemModePixbuf(image_menuitem_mode_force_sensor, o == menuitem_mode_force_sensor, "force_sensor_icon.png", "force_sensor_icon_yellow.png");
 	}
 
 	private void changeMenuitemModePixbuf(Gtk.Image image, bool active, string pathImageInactive, string pathImageActive)
@@ -3768,10 +3760,7 @@ public partial class ChronoJumpWindow
 
 	private void on_button_selector_start_force_sensor_clicked(object o, EventArgs args)
 	{
-		if(radio_menuitem_mode_force_sensor.Active)
-			select_menuitem_mode_toggled(Constants.Menuitem_modes.FORCESENSOR);
-		else
-			radio_menuitem_mode_force_sensor.Active = true;
+		on_menuitem_mode_activate(menuitem_mode_force_sensor, new EventArgs());
 	}
 
 	private void on_button_selector_start_rt_clicked(object o, EventArgs args)

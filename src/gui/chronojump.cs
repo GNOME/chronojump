@@ -67,6 +67,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ImageMenuItem menuitem_mode_jumps_reactive;
 	[Widget] Gtk.ImageMenuItem menuitem_mode_runs_simple;
 	[Widget] Gtk.ImageMenuItem menuitem_mode_runs_intervallic;
+	[Widget] Gtk.ImageMenuItem menuitem_mode_power_gravitatory;
+	[Widget] Gtk.ImageMenuItem menuitem_mode_power_inertial;
 
 	[Widget] Gtk.Notebook notebook_start; 		//start window or program
 	[Widget] Gtk.Notebook notebook_start_selector; 	//use to display the start images to select different modes
@@ -820,23 +822,11 @@ public partial class ChronoJumpWindow
 
 	private void formatModeMenu()
 	{
-		/*
-		((Label) radio_menuitem_mode_jumps_simple.Child).Text =
-			"   " + ((Label) radio_menuitem_mode_jumps_simple.Child).Text;
-		((Label) radio_menuitem_mode_jumps_reactive.Child).Text =
-			"   " + ((Label) radio_menuitem_mode_jumps_reactive.Child).Text;
-		*/
 		((Label) menuitem_mode_jumps_simple.Child).Text =
 			"   " + ((Label) menuitem_mode_jumps_simple.Child).Text;
 		((Label) menuitem_mode_jumps_reactive.Child).Text =
 			"   " + ((Label) menuitem_mode_jumps_reactive.Child).Text;
 
-		/*
-		((Label) radio_menuitem_mode_runs_simple.Child).Text =
-			"   " + ((Label) radio_menuitem_mode_runs_simple.Child).Text;
-		((Label) radio_menuitem_mode_runs_intervallic.Child).Text =
-			"   " + ((Label) radio_menuitem_mode_runs_intervallic.Child).Text;
-			*/
 		((Label) menuitem_mode_runs_simple.Child).Text =
 			"   " + ((Label) menuitem_mode_runs_simple.Child).Text;
 		((Label) menuitem_mode_runs_intervallic.Child).Text =
@@ -844,11 +834,10 @@ public partial class ChronoJumpWindow
 		((Label) radio_menuitem_mode_runs_encoder.Child).Text =
 			"   " + ((Label) radio_menuitem_mode_runs_encoder.Child).Text;
 
-		((Label) radio_menuitem_mode_power_gravitatory.Child).Text =
-			"   " + ((Label) radio_menuitem_mode_power_gravitatory.Child).Text;
-		((Label) radio_menuitem_mode_power_inertial.Child).Text =
-			"   " + ((Label) radio_menuitem_mode_power_inertial.Child).Text;
-
+		((Label) menuitem_mode_power_gravitatory.Child).Text =
+			"   " + ((Label) menuitem_mode_power_gravitatory.Child).Text;
+		((Label) menuitem_mode_power_inertial.Child).Text =
+			"   " + ((Label) menuitem_mode_power_inertial.Child).Text;
 	}
 
 	//different than on_preferences_activate (opening preferences window)
@@ -3705,11 +3694,17 @@ public partial class ChronoJumpWindow
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.RUNSSIMPLE);
 		else if(o == menuitem_mode_runs_intervallic)
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.RUNSINTERVALLIC);
+		else if(o == menuitem_mode_power_gravitatory)
+			select_menuitem_mode_toggled(Constants.Menuitem_modes.POWERGRAVITATORY);
+		else if(o == menuitem_mode_power_inertial)
+			select_menuitem_mode_toggled(Constants.Menuitem_modes.POWERINERTIAL);
 
 		changeMenuitemModePixbuf(image_menuitem_mode_jumps_simple, o == menuitem_mode_jumps_simple, "image_jump_simple.png", "image_jump_simple_yellow.png");
 		changeMenuitemModePixbuf(image_menuitem_mode_jumps_reactive, o == menuitem_mode_jumps_reactive, "image_jump_reactive.png", "image_jump_reactive_yellow.png");
 		changeMenuitemModePixbuf(image_menuitem_mode_runs_simple, o == menuitem_mode_runs_simple, "image_run_simple.png", "image_run_simple_yellow.png");
 		changeMenuitemModePixbuf(image_menuitem_mode_runs_intervallic, o == menuitem_mode_runs_intervallic, "image_run_multiple.png", "image_run_multiple_yellow.png");
+		changeMenuitemModePixbuf(image_menuitem_mode_power_gravitatory, o == menuitem_mode_power_gravitatory, "image_gravity.png", "image_gravity_yellow.png");
+		changeMenuitemModePixbuf(image_menuitem_mode_power_inertial, o == menuitem_mode_power_inertial, "image_inertia.png", "image_inertia_yellow.png");
 	}
 
 	private void changeMenuitemModePixbuf(Gtk.Image image, bool active, string pathImageInactive, string pathImageActive)
@@ -3762,26 +3757,13 @@ public partial class ChronoJumpWindow
 		notebook_start_selector.CurrentPage = 1; //2nd selector
 	}
 
-	bool radiobutton_dont_follow_signals = false;
 	private void on_button_selector_start_encoder_gravitatory_clicked(object o, EventArgs args) 
 	{
-		if(radiobutton_dont_follow_signals)
-			return;
-
-		if(radio_menuitem_mode_power_gravitatory.Active)
-			select_menuitem_mode_toggled(Constants.Menuitem_modes.POWERGRAVITATORY);
-		else
-			radio_menuitem_mode_power_gravitatory.Active = true;
+		on_menuitem_mode_activate(menuitem_mode_power_gravitatory, new EventArgs());
 	}
 	private void on_button_selector_start_encoder_inertial_clicked(object o, EventArgs args) 
 	{
-		if(radiobutton_dont_follow_signals)
-			return;
-
-		if(radio_menuitem_mode_power_inertial.Active)
-			select_menuitem_mode_toggled(Constants.Menuitem_modes.POWERINERTIAL);
-		else
-			radio_menuitem_mode_power_inertial.Active = true;
+		on_menuitem_mode_activate(menuitem_mode_power_inertial, new EventArgs());
 	}
 
 	private void on_button_selector_start_force_sensor_clicked(object o, EventArgs args)

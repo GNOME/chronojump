@@ -1673,6 +1673,7 @@ LogB.Information(" re R ");
 
 		forceSensorCaptureAdjustSensitivity(false);
 		label_force_sensor_adjust.Text = Catalog.GetString("If you want to calibrate, please tare first.");
+		event_execute_label_message.Text = "";
 	}
 	private void on_button_force_sensor_adjust_close_clicked (object o, EventArgs args)
 	{

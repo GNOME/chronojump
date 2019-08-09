@@ -58,7 +58,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_chronojump_logo;
 
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_runs_encoder;
-	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_rt;
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_other;
 	[Widget] Gtk.ImageMenuItem menuitem_mode_jumps_simple;
 	[Widget] Gtk.ImageMenuItem menuitem_mode_jumps_reactive;
@@ -67,6 +66,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ImageMenuItem menuitem_mode_power_gravitatory;
 	[Widget] Gtk.ImageMenuItem menuitem_mode_power_inertial;
 	[Widget] Gtk.ImageMenuItem menuitem_mode_force_sensor;
+	[Widget] Gtk.ImageMenuItem menuitem_mode_reaction_time;
 
 	[Widget] Gtk.Notebook notebook_start; 		//start window or program
 	[Widget] Gtk.Notebook notebook_start_selector; 	//use to display the start images to select different modes
@@ -3442,7 +3442,6 @@ public partial class ChronoJumpWindow
 		else if(m == Constants.Menuitem_modes.RT)
 		{
 			notebook_sup.CurrentPage = 0;
-			radio_menuitem_mode_rt.Active = true;
 			notebooks_change(m);
 			on_extra_window_reaction_times_test_changed(new object(), new EventArgs());
 
@@ -3653,10 +3652,7 @@ public partial class ChronoJumpWindow
 	 */
 	private Constants.Menuitem_modes getMenuItemMode() 
 	{
-		if(radio_menuitem_mode_rt.Active)
-			return Constants.Menuitem_modes.RT;
-		else // if(radio_menuitem_mode_other.Active)
-			return Constants.Menuitem_modes.OTHER;
+		return Constants.Menuitem_modes.OTHER;
 	}
 
 	private void on_radio_menuitem_mode_activate(object o, EventArgs args) 
@@ -3689,6 +3685,8 @@ public partial class ChronoJumpWindow
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.POWERINERTIAL);
 		else if(o == menuitem_mode_force_sensor)
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.FORCESENSOR);
+		else if(o == menuitem_mode_reaction_time)
+			select_menuitem_mode_toggled(Constants.Menuitem_modes.RT);
 
 		changeMenuitemModePixbuf(image_menuitem_mode_jumps_simple, o == menuitem_mode_jumps_simple, "image_jump_simple.png", "image_jump_simple_yellow.png");
 		changeMenuitemModePixbuf(image_menuitem_mode_jumps_reactive, o == menuitem_mode_jumps_reactive, "image_jump_reactive.png", "image_jump_reactive_yellow.png");
@@ -3697,6 +3695,7 @@ public partial class ChronoJumpWindow
 		changeMenuitemModePixbuf(image_menuitem_mode_power_gravitatory, o == menuitem_mode_power_gravitatory, "image_gravity.png", "image_gravity_yellow.png");
 		changeMenuitemModePixbuf(image_menuitem_mode_power_inertial, o == menuitem_mode_power_inertial, "image_inertia.png", "image_inertia_yellow.png");
 		changeMenuitemModePixbuf(image_menuitem_mode_force_sensor, o == menuitem_mode_force_sensor, "force_sensor_icon.png", "force_sensor_icon_yellow.png");
+		changeMenuitemModePixbuf(image_menuitem_mode_reaction_time, o == menuitem_mode_reaction_time, "reaction_time_icon.png", "reaction_time_icon_yellow.png");
 	}
 
 	private void changeMenuitemModePixbuf(Gtk.Image image, bool active, string pathImageInactive, string pathImageActive)
@@ -3765,10 +3764,7 @@ public partial class ChronoJumpWindow
 
 	private void on_button_selector_start_rt_clicked(object o, EventArgs args)
 	{
-		if(radio_menuitem_mode_rt.Active)
-			select_menuitem_mode_toggled(Constants.Menuitem_modes.RT);
-		else
-			radio_menuitem_mode_rt.Active = true;
+		on_menuitem_mode_activate(menuitem_mode_reaction_time, new EventArgs());
 	}
 
 	private void on_button_selector_start_other_clicked(object o, EventArgs args)
@@ -3907,7 +3903,7 @@ public partial class ChronoJumpWindow
 	{
 		if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR)
 		{
-			LogB.Debug("radio_mode_force_sensor");
+			//LogB.Debug("radio_mode_force_sensor");
 			/*
 			 * force sensor is not FTDI
 			 on_force_sensor_activate(canCaptureC);
@@ -4040,7 +4036,7 @@ public partial class ChronoJumpWindow
 		}
 		else if(current_menuitem_mode == Constants.Menuitem_modes.RT)
 		{
-			LogB.Debug("radio_mode_rt");
+			LogB.Debug("menuitem_mode_rt");
 	
 			if(extra_window_radio_reaction_time_discriminative.Active)
 				reaction_time_discriminative_lights_prepare();

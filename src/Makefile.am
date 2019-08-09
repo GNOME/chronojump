@@ -499,6 +499,8 @@ RESOURCES = \
 	../images/force_sensor_menu.png,force_sensor_menu.png \
 	../images/force_sensor_icon.png,force_sensor_icon.png \
 	../images/force_sensor_icon_yellow.png,force_sensor_icon_yellow.png \
+	../images/reaction_time_icon.png,reaction_time_icon.png \
+	../images/reaction_time_icon_yellow.png,reaction_time_icon_yellow.png \
 	../images/gtk-apply.png,gtk-apply.png \
 	../images/gtk-cancel.png,gtk-cancel.png \
 	../images/gtk-zoom-fit.png,gtk-zoom-fit.png \

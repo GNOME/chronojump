@@ -501,6 +501,10 @@ RESOURCES = \
 	../images/force_sensor_icon_yellow.png,force_sensor_icon_yellow.png \
 	../images/reaction_time_icon.png,reaction_time_icon.png \
 	../images/reaction_time_icon_yellow.png,reaction_time_icon_yellow.png \
+	../images/other_icon.png,other_icon.png \
+	../images/other_icon_yellow.png,other_icon_yellow.png \
+	../images/md/ic_directions_race_encoder_blue_24dp_1x.png,race_encoder_icon.png \
+	../images/md/ic_directions_race_encoder_yellow_24dp_1x.png,race_encoder_icon_yellow.png \
 	../images/gtk-apply.png,gtk-apply.png \
 	../images/gtk-cancel.png,gtk-cancel.png \
 	../images/gtk-zoom-fit.png,gtk-zoom-fit.png \

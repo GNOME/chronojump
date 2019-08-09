@@ -57,16 +57,16 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Viewport viewport_chronojump_logo;
 	[Widget] Gtk.Image image_chronojump_logo;
 
-	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_runs_encoder;
-	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_other;
 	[Widget] Gtk.ImageMenuItem menuitem_mode_jumps_simple;
 	[Widget] Gtk.ImageMenuItem menuitem_mode_jumps_reactive;
 	[Widget] Gtk.ImageMenuItem menuitem_mode_runs_simple;
 	[Widget] Gtk.ImageMenuItem menuitem_mode_runs_intervallic;
+	[Widget] Gtk.ImageMenuItem menuitem_mode_race_encoder;
 	[Widget] Gtk.ImageMenuItem menuitem_mode_power_gravitatory;
 	[Widget] Gtk.ImageMenuItem menuitem_mode_power_inertial;
 	[Widget] Gtk.ImageMenuItem menuitem_mode_force_sensor;
 	[Widget] Gtk.ImageMenuItem menuitem_mode_reaction_time;
+	[Widget] Gtk.ImageMenuItem menuitem_mode_other;
 
 	[Widget] Gtk.Notebook notebook_start; 		//start window or program
 	[Widget] Gtk.Notebook notebook_start_selector; 	//use to display the start images to select different modes
@@ -829,8 +829,8 @@ public partial class ChronoJumpWindow
 			"   " + ((Label) menuitem_mode_runs_simple.Child).Text;
 		((Label) menuitem_mode_runs_intervallic.Child).Text =
 			"   " + ((Label) menuitem_mode_runs_intervallic.Child).Text;
-		((Label) radio_menuitem_mode_runs_encoder.Child).Text =
-			"   " + ((Label) radio_menuitem_mode_runs_encoder.Child).Text;
+		((Label) menuitem_mode_race_encoder.Child).Text =
+			"   " + ((Label) menuitem_mode_race_encoder.Child).Text;
 
 		((Label) menuitem_mode_power_gravitatory.Child).Text =
 			"   " + ((Label) menuitem_mode_power_gravitatory.Child).Text;
@@ -3422,7 +3422,6 @@ public partial class ChronoJumpWindow
 		else if(m == Constants.Menuitem_modes.RUNSENCODER)
 		{
 			notebook_sup.CurrentPage = 0;
-			radio_menuitem_mode_runs_encoder.Active = true;
 			notebooks_change(m);
 //			on_extra_window_reaction_times_test_changed(new object(), new EventArgs());
 
@@ -3645,26 +3644,6 @@ public partial class ChronoJumpWindow
 	*/
 		
 
-	/*
-	 * used after changing radio
-	 * for other uses, check:
-	 * current_menuitem_mode
-	 */
-	private Constants.Menuitem_modes getMenuItemMode() 
-	{
-		return Constants.Menuitem_modes.OTHER;
-	}
-
-	private void on_radio_menuitem_mode_activate(object o, EventArgs args) 
-	{
-		//togglebutton sends signal two times (deactivate/activate), just get the good signal
-		//http://stackoverflow.com/questions/10755541/mono-gtk-radiobutton-clicked-event-firing-twice
-		if( ! (o as Gtk.RadioMenuItem).Active )
-			return;
-
-		select_menuitem_mode_toggled(getMenuItemMode());
-	}
-
 	private void on_menuitem_mode_activate(object o, EventArgs args)
 	{
 		Gtk.ImageMenuItem imi = o as Gtk.ImageMenuItem;
@@ -3679,6 +3658,8 @@ public partial class ChronoJumpWindow
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.RUNSSIMPLE);
 		else if(o == menuitem_mode_runs_intervallic)
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.RUNSINTERVALLIC);
+		else if(o == menuitem_mode_race_encoder)
+			select_menuitem_mode_toggled(Constants.Menuitem_modes.RUNSENCODER);
 		else if(o == menuitem_mode_power_gravitatory)
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.POWERGRAVITATORY);
 		else if(o == menuitem_mode_power_inertial)
@@ -3687,15 +3668,19 @@ public partial class ChronoJumpWindow
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.FORCESENSOR);
 		else if(o == menuitem_mode_reaction_time)
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.RT);
+		else if(o == menuitem_mode_other)
+			select_menuitem_mode_toggled(Constants.Menuitem_modes.OTHER);
 
 		changeMenuitemModePixbuf(image_menuitem_mode_jumps_simple, o == menuitem_mode_jumps_simple, "image_jump_simple.png", "image_jump_simple_yellow.png");
 		changeMenuitemModePixbuf(image_menuitem_mode_jumps_reactive, o == menuitem_mode_jumps_reactive, "image_jump_reactive.png", "image_jump_reactive_yellow.png");
 		changeMenuitemModePixbuf(image_menuitem_mode_runs_simple, o == menuitem_mode_runs_simple, "image_run_simple.png", "image_run_simple_yellow.png");
 		changeMenuitemModePixbuf(image_menuitem_mode_runs_intervallic, o == menuitem_mode_runs_intervallic, "image_run_multiple.png", "image_run_multiple_yellow.png");
+		changeMenuitemModePixbuf(image_menuitem_mode_race_encoder, o == menuitem_mode_race_encoder, "race_encoder_icon.png", "race_encoder_icon_yellow.png");
 		changeMenuitemModePixbuf(image_menuitem_mode_power_gravitatory, o == menuitem_mode_power_gravitatory, "image_gravity.png", "image_gravity_yellow.png");
 		changeMenuitemModePixbuf(image_menuitem_mode_power_inertial, o == menuitem_mode_power_inertial, "image_inertia.png", "image_inertia_yellow.png");
 		changeMenuitemModePixbuf(image_menuitem_mode_force_sensor, o == menuitem_mode_force_sensor, "force_sensor_icon.png", "force_sensor_icon_yellow.png");
 		changeMenuitemModePixbuf(image_menuitem_mode_reaction_time, o == menuitem_mode_reaction_time, "reaction_time_icon.png", "reaction_time_icon_yellow.png");
+		changeMenuitemModePixbuf(image_menuitem_mode_other, o == menuitem_mode_other, "other_icon.png", "other_icon_yellow.png");
 	}
 
 	private void changeMenuitemModePixbuf(Gtk.Image image, bool active, string pathImageInactive, string pathImageActive)
@@ -3736,10 +3721,7 @@ public partial class ChronoJumpWindow
 	}
 	private void on_button_selector_start_runs_encoder_clicked(object o, EventArgs args)
 	{
-		if(radio_menuitem_mode_runs_encoder.Active)
-			select_menuitem_mode_toggled(Constants.Menuitem_modes.RUNSENCODER);
-		else
-			radio_menuitem_mode_runs_encoder.Active = true;
+		on_menuitem_mode_activate(menuitem_mode_race_encoder, new EventArgs());
 	}
 	
 	private void on_button_selector_start_encoder_clicked(object o, EventArgs args) 
@@ -3769,10 +3751,7 @@ public partial class ChronoJumpWindow
 
 	private void on_button_selector_start_other_clicked(object o, EventArgs args)
 	{
-		if(radio_menuitem_mode_other.Active)
-			select_menuitem_mode_toggled(Constants.Menuitem_modes.OTHER);
-		else
-			radio_menuitem_mode_other.Active = true;
+		on_menuitem_mode_activate(menuitem_mode_other, new EventArgs());
 	}
 
 	private void on_button_start_cancel_clicked(object o, EventArgs args)
@@ -3914,7 +3893,7 @@ public partial class ChronoJumpWindow
 		}
 		if(current_menuitem_mode == Constants.Menuitem_modes.RUNSENCODER)
 		{
-			LogB.Debug("radio_mode_runs_encoder");
+			LogB.Debug("runs_encoder");
 			/*
 			 * runs encoder is not FTDI
 			 */

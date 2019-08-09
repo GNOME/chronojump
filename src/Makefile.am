@@ -409,7 +409,9 @@ RESOURCES = \
 	../images/md/ic_close_blue_24dp_2x.png,image_close_big.png \
 	../images/md/ic_power_settings_new_blue_24dp_1x.png,image_quit.png \
 	../images/md/ic_gravity_1x.png,image_gravity.png \
+	../images/md/ic_gravity_1x_yellow.png,image_gravity_yellow.png \
 	../images/md/ic_settings_backup_restore_blue_24dp_1x.png,image_inertia.png \
+	../images/md/ic_settings_backup_restore_yellow_24dp_1x.png,image_inertia_yellow.png \
 	../images/md/ic_timer_blue_24dp_1x.png,image_capture.png \
 	../images/md/ic_timer_blue_24dp_2x.png,image_capture_big.png \
 	../images/md/ic_last_page_blue_24dp_1x.png,finish.png \

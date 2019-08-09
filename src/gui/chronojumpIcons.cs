@@ -90,10 +90,12 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_menuitem_mode_jumps_reactive;
 	[Widget] Gtk.Image image_menuitem_mode_runs_simple;
 	[Widget] Gtk.Image image_menuitem_mode_runs_intervallic;
+	[Widget] Gtk.Image image_menuitem_mode_race_encoder;
 	[Widget] Gtk.Image image_menuitem_mode_power_gravitatory;
 	[Widget] Gtk.Image image_menuitem_mode_power_inertial;
 	[Widget] Gtk.Image image_menuitem_mode_force_sensor;
 	[Widget] Gtk.Image image_menuitem_mode_reaction_time;
+	[Widget] Gtk.Image image_menuitem_mode_other;
 
 	//run
 	[Widget] Gtk.Image image_run_execute_running;
@@ -276,6 +278,8 @@ public partial class ChronoJumpWindow
 		image_menuitem_mode_force_sensor.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "reaction_time_icon.png");
 		image_menuitem_mode_reaction_time.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "other_icon.png");
+		image_menuitem_mode_other.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_capture.png");
 		image_tests_capture.Pixbuf = pixbuf;
@@ -458,6 +462,8 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run_multiple.png");
 		image_mode_runs_intervallic_small.Pixbuf = pixbuf;
 		image_menuitem_mode_runs_intervallic.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "race_encoder_icon.png");
+		image_menuitem_mode_race_encoder.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "run.png");
 		image_run_execute_running.Pixbuf = pixbuf;

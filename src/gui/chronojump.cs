@@ -97,23 +97,12 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_version;
 	[Widget] Gtk.Label label_version_hidden; //just to have logo aligned on the middle
 	//[Widget] Gtk.Image image_selector_start_encoder_inertial;
-	[Widget] Gtk.Label label_start_selector_jumps;
-	[Widget] Gtk.Label label_start_selector_races;
-	[Widget] Gtk.Label label_start_selector_encoder;
-	
+
 	[Widget] Gtk.RadioButton radio_mode_pulses_small;
 	[Widget] Gtk.RadioButton radio_mode_multi_chronopic_small;
 
 	[Widget] Gtk.RadioButton radio_mode_encoder_capture_small;
 	[Widget] Gtk.RadioButton radio_mode_encoder_analyze_small;
-	[Widget] Gtk.Image image_mode_jumps_small;
-	[Widget] Gtk.Image image_mode_jumps_reactive_small;
-	[Widget] Gtk.Image image_mode_runs_small;
-	[Widget] Gtk.Image image_mode_runs_intervallic_small;
-	[Widget] Gtk.Image image_mode_pulses_small;
-	[Widget] Gtk.Image image_mode_multi_chronopic_small;
-	[Widget] Gtk.Image image_mode_encoder_gravitatory;
-	[Widget] Gtk.Image image_mode_encoder_inertial;
 
 	[Widget] Gtk.Image image_persons_new_1;
 	[Widget] Gtk.Image image_persons_new_plus;
@@ -3728,6 +3717,11 @@ public partial class ChronoJumpWindow
 		notebook_start_selector2.CurrentPage = 1; //runs
 		notebook_start_selector.CurrentPage = 1; //2nd selector
 	}
+	private void on_button_selector_start_runs_photocell_clicked(object o, EventArgs args)
+	{
+		notebook_start_selector2.CurrentPage = 2; //runs photocell
+		notebook_start_selector.CurrentPage = 1; //2nd selector
+	}
 	private void on_button_selector_start_runs_simple_clicked(object o, EventArgs args)
 	{
 		on_menuitem_mode_activate(menuitem_mode_runs_simple, new EventArgs());
@@ -3736,14 +3730,14 @@ public partial class ChronoJumpWindow
 	{
 		on_menuitem_mode_activate(menuitem_mode_runs_intervallic, new EventArgs());
 	}
-	private void on_button_selector_start_runs_encoder_clicked(object o, EventArgs args)
+	private void on_button_selector_start_race_encoder_clicked(object o, EventArgs args)
 	{
 		on_menuitem_mode_activate(menuitem_mode_race_encoder, new EventArgs());
 	}
 	
 	private void on_button_selector_start_encoder_clicked(object o, EventArgs args) 
 	{
-		notebook_start_selector2.CurrentPage = 2; //encoder
+		notebook_start_selector2.CurrentPage = 3; //encoder
 		notebook_start_selector.CurrentPage = 1; //2nd selector
 	}
 

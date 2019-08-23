@@ -771,6 +771,7 @@
                                         <property name="tooltip" translatable="yes">Quit</property>
                                         <property name="relief">half</property>
                                         <signal name="clicked" handler="on_quit1_activate" swapped="no"/>
+                                        <accelerator key="q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                                         <child>
                                           <widget class="GtkImage" id="image_quit2">
                                             <property name="visible">True</property>

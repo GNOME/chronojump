@@ -97,6 +97,23 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_menuitem_mode_reaction_time;
 	[Widget] Gtk.Image image_menuitem_mode_other;
 
+	[Widget] Gtk.Image image_mode_jumps_small;
+	[Widget] Gtk.Image image_mode_jumps_reactive_small;
+	[Widget] Gtk.Image image_mode_runs_small;
+	[Widget] Gtk.Image image_mode_runs_small1;
+	[Widget] Gtk.Image image_mode_runs_intervallic_small;
+	[Widget] Gtk.Image image_mode_runs_intervallic_small1;
+	[Widget] Gtk.Image image_mode_race_encoder_small;
+	[Widget] Gtk.Image image_mode_pulses_small;
+	[Widget] Gtk.Image image_mode_multi_chronopic_small;
+	[Widget] Gtk.Image image_mode_encoder_gravitatory;
+	[Widget] Gtk.Image image_mode_encoder_inertial;
+
+	[Widget] Gtk.Label label_start_selector_jumps;
+	[Widget] Gtk.Label label_start_selector_races1;
+	[Widget] Gtk.Label label_start_selector_races;
+	[Widget] Gtk.Label label_start_selector_encoder;
+
 	//run
 	[Widget] Gtk.Image image_run_execute_running;
 	[Widget] Gtk.Image image_run_execute_photocell;
@@ -458,12 +475,15 @@ public partial class ChronoJumpWindow
 		image_menuitem_mode_jumps_reactive.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run_simple.png");
 		image_mode_runs_small.Pixbuf = pixbuf;
+		image_mode_runs_small1.Pixbuf = pixbuf;
 		image_menuitem_mode_runs_simple.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run_multiple.png");
 		image_mode_runs_intervallic_small.Pixbuf = pixbuf;
+		image_mode_runs_intervallic_small1.Pixbuf = pixbuf;
 		image_menuitem_mode_runs_intervallic.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "race_encoder_icon.png");
 		image_menuitem_mode_race_encoder.Pixbuf = pixbuf;
+		image_mode_race_encoder_small.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "run.png");
 		image_run_execute_running.Pixbuf = pixbuf;
@@ -476,9 +496,11 @@ public partial class ChronoJumpWindow
 		image_mode_multi_chronopic_small.Pixbuf = pixbuf;
 		
 		label_start_selector_jumps.Text = "<b>" + label_start_selector_jumps.Text + "</b>";
+		label_start_selector_races1.Text = "<b>" + label_start_selector_races1.Text + "</b>";
 		label_start_selector_races.Text = "<b>" + label_start_selector_races.Text + "</b>";
 		label_start_selector_encoder.Text = "<b>" + label_start_selector_encoder.Text + "</b>";
 		label_start_selector_jumps.UseMarkup = true;
+		label_start_selector_races1.UseMarkup = true;
 		label_start_selector_races.UseMarkup = true;
 		label_start_selector_encoder.UseMarkup = true;
 

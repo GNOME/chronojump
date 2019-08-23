@@ -3671,25 +3671,42 @@ public partial class ChronoJumpWindow
 		else if(o == menuitem_mode_other)
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.OTHER);
 
-		changeMenuitemModePixbuf(image_menuitem_mode_jumps_simple, o == menuitem_mode_jumps_simple, "image_jump_simple.png", "image_jump_simple_yellow.png");
-		changeMenuitemModePixbuf(image_menuitem_mode_jumps_reactive, o == menuitem_mode_jumps_reactive, "image_jump_reactive.png", "image_jump_reactive_yellow.png");
-		changeMenuitemModePixbuf(image_menuitem_mode_runs_simple, o == menuitem_mode_runs_simple, "image_run_simple.png", "image_run_simple_yellow.png");
-		changeMenuitemModePixbuf(image_menuitem_mode_runs_intervallic, o == menuitem_mode_runs_intervallic, "image_run_multiple.png", "image_run_multiple_yellow.png");
-		changeMenuitemModePixbuf(image_menuitem_mode_race_encoder, o == menuitem_mode_race_encoder, "race_encoder_icon.png", "race_encoder_icon_yellow.png");
-		changeMenuitemModePixbuf(image_menuitem_mode_power_gravitatory, o == menuitem_mode_power_gravitatory, "image_gravity.png", "image_gravity_yellow.png");
-		changeMenuitemModePixbuf(image_menuitem_mode_power_inertial, o == menuitem_mode_power_inertial, "image_inertia.png", "image_inertia_yellow.png");
-		changeMenuitemModePixbuf(image_menuitem_mode_force_sensor, o == menuitem_mode_force_sensor, "force_sensor_icon.png", "force_sensor_icon_yellow.png");
-		changeMenuitemModePixbuf(image_menuitem_mode_reaction_time, o == menuitem_mode_reaction_time, "reaction_time_icon.png", "reaction_time_icon_yellow.png");
-		changeMenuitemModePixbuf(image_menuitem_mode_other, o == menuitem_mode_other, "other_icon.png", "other_icon_yellow.png");
+		changeMenuitemModeWidgets(image_menuitem_mode_jumps_simple, o == menuitem_mode_jumps_simple,
+				"image_jump_simple.png", "image_jump_simple_yellow.png", (Label) menuitem_mode_jumps_simple.Child);
+		changeMenuitemModeWidgets(image_menuitem_mode_jumps_reactive, o == menuitem_mode_jumps_reactive,
+				"image_jump_reactive.png", "image_jump_reactive_yellow.png", (Label) menuitem_mode_jumps_reactive.Child);
+		changeMenuitemModeWidgets(image_menuitem_mode_runs_simple, o == menuitem_mode_runs_simple,
+				"image_run_simple.png", "image_run_simple_yellow.png", (Label) menuitem_mode_runs_simple.Child);
+		changeMenuitemModeWidgets(image_menuitem_mode_runs_intervallic, o == menuitem_mode_runs_intervallic,
+				"image_run_multiple.png", "image_run_multiple_yellow.png", (Label) menuitem_mode_runs_intervallic.Child);
+		changeMenuitemModeWidgets(image_menuitem_mode_race_encoder, o == menuitem_mode_race_encoder,
+				"race_encoder_icon.png", "race_encoder_icon_yellow.png", (Label) menuitem_mode_race_encoder.Child);
+		changeMenuitemModeWidgets(image_menuitem_mode_power_gravitatory, o == menuitem_mode_power_gravitatory,
+				"image_gravity.png", "image_gravity_yellow.png", (Label) menuitem_mode_power_gravitatory.Child);
+		changeMenuitemModeWidgets(image_menuitem_mode_power_inertial, o == menuitem_mode_power_inertial,
+				"image_inertia.png", "image_inertia_yellow.png", (Label) menuitem_mode_power_inertial.Child);
+		changeMenuitemModeWidgets(image_menuitem_mode_force_sensor, o == menuitem_mode_force_sensor,
+				"force_sensor_icon.png", "force_sensor_icon_yellow.png", (Label) menuitem_mode_force_sensor.Child);
+		changeMenuitemModeWidgets(image_menuitem_mode_reaction_time, o == menuitem_mode_reaction_time,
+				"reaction_time_icon.png", "reaction_time_icon_yellow.png", (Label) menuitem_mode_reaction_time.Child);
+		changeMenuitemModeWidgets(image_menuitem_mode_other, o == menuitem_mode_other,
+				"other_icon.png", "other_icon_yellow.png", (Label) menuitem_mode_other.Child);
 	}
 
-	private void changeMenuitemModePixbuf(Gtk.Image image, bool active, string pathImageInactive, string pathImageActive)
+	private void changeMenuitemModeWidgets(Gtk.Image image, bool active, string pathImageInactive, string pathImageActive, Gtk.Label label)
 	{
 		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + pathImageInactive);
 		if(active)
 			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + pathImageActive);
 
 		image.Pixbuf = pixbuf;
+
+		if(active)
+		{
+			label.Text = Util.AddBoldMarks(label.Text);
+			label.UseMarkup = true;
+		} else
+			label.Text = Util.RemoveBoldMarks(label.Text);
 	}
 
 	private void on_button_selector_start_jumps_clicked(object o, EventArgs args) 

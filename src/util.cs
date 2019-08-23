@@ -393,6 +393,17 @@ public class Util
 		return myStringBuilder.ToString();
 	}
 
+	public static string AddBoldMarks(string s)
+	{
+		return "<b>" + s + "</b>";
+	}
+	public static string RemoveBoldMarks(string s)
+	{
+		s.Replace("<b>", "");
+	        s.Replace("</b>", "");
+		return s;
+	}
+
 	//use this!!!	
 	public static string RemoveChar(string s, char c) 
 	{

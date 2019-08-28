@@ -148,21 +148,6 @@
                       </widget>
                     </child>
                     <child>
-                      <widget class="GtkImageMenuItem" id="menuitem_race_analyzer_open_folder">
-                        <property name="label">Race analyzer - Open data folder</property>
-                        <property name="can_focus">False</property>
-                        <property name="use_stock">False</property>
-                        <signal name="activate" handler="on_menuitem_race_analyzer_open_folder_activate" swapped="no"/>
-                        <child internal-child="image">
-                          <widget class="GtkImage" id="image7">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="stock">gtk-open</property>
-                          </widget>
-                        </child>
-                      </widget>
-                    </child>
-                    <child>
                       <widget class="GtkSeparatorMenuItem" id="separador6">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -544,6 +529,36 @@
                         <signal name="activate" handler="on_buttons_force_sensor_clicked" swapped="no"/>
                         <child internal-child="image">
                           <widget class="GtkImage" id="image_force_sensor_check_version">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="stock">gtk-missing-image</property>
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                  </widget>
+                </child>
+              </widget>
+            </child>
+            <child>
+              <widget class="GtkMenuItem" id="race_encoder_menuitem">
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Races with encoder</property>
+                <property name="use_underline">True</property>
+                <child>
+                  <widget class="GtkMenu" id="menu5">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <widget class="GtkImageMenuItem" id="menuitem_race_encoder_open_folder">
+                        <property name="label">Open data folder</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="use_stock">False</property>
+                        <property name="always_show_image">True</property>
+                        <signal name="activate" handler="on_menuitem_race_encoder_open_folder_activate" swapped="no"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image_race_encoder_open_folder">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="stock">gtk-missing-image</property>
@@ -21662,6 +21677,12 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -29148,6 +29169,12 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

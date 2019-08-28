@@ -177,6 +177,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_force_sensor_laterality_r;
 	[Widget] Gtk.Image image_force_sensor_laterality_l;
 
+	//race encoder
+	[Widget] Gtk.Image image_race_encoder_open_folder;
+
 	//video play icons
 	[Widget] Gtk.Image image_video_play_this_test;
 	[Widget] Gtk.Image image_video_play_this_test_encoder;
@@ -274,6 +277,7 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_check.png");
 		image_force_sensor_open_folder.Pixbuf = pixbuf;
+		image_race_encoder_open_folder.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "zoom.png");
 		image_force_sensor_check_version.Pixbuf = pixbuf;
 

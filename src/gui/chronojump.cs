@@ -47,6 +47,7 @@ public partial class ChronoJumpWindow
 	
 	[Widget] Gtk.MenuItem encoder_menuitem;
 	[Widget] Gtk.MenuItem force_sensor_menuitem;
+	[Widget] Gtk.MenuItem race_encoder_menuitem;
 
 	[Widget] Gtk.HBox hbox_gui_tests;
 	[Widget] Gtk.SpinButton spin_gui_tests;
@@ -3506,7 +3507,7 @@ public partial class ChronoJumpWindow
 
 		force_sensor_menuitem.Visible = (m == Constants.Menuitem_modes.FORCESENSOR);
 
-		menuitem_race_analyzer_open_folder.Visible = (m == Constants.Menuitem_modes.RUNSENCODER);
+		race_encoder_menuitem.Visible = (m == Constants.Menuitem_modes.RUNSENCODER);
 	}
 
 

@@ -32,7 +32,7 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
-	[Widget] Gtk.MenuItem menuitem_race_analyzer_open_folder;
+	[Widget] Gtk.MenuItem menuitem_race_encoder_open_folder;
 	[Widget] Gtk.SpinButton race_analyzer_spinbutton_distance;
 	[Widget] Gtk.SpinButton race_analyzer_spinbutton_temperature;
 	[Widget] Gtk.SpinButton race_analyzer_spinbutton_graph_width;
@@ -637,7 +637,7 @@ LogB.Information(" fc R ");
 				image_race_encoder_graph);
 	}
 
-	private void on_menuitem_race_analyzer_open_folder_activate (object o, EventArgs args)
+	private void on_menuitem_race_encoder_open_folder_activate (object o, EventArgs args)
 	{
 		if(currentSession == null || currentSession.UniqueID == -1)
 		{

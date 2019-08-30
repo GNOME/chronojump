@@ -37,12 +37,16 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton race_analyzer_spinbutton_temperature;
 	[Widget] Gtk.SpinButton race_analyzer_spinbutton_graph_width;
 	[Widget] Gtk.SpinButton race_analyzer_spinbutton_graph_height;
+	[Widget] Gtk.HBox hbox_race_analyzer_device;
+	[Widget] Gtk.RadioButton race_analyzer_radio_device_fishing;
 	[Widget] Gtk.Image image_race_encoder_graph;
 
 	int race_analyzer_distance;
 	int race_analyzer_temperature;
 	int race_analyzer_graph_width;
 	int race_analyzer_graph_height;
+	RunEncoderGraph.Devices race_analyzer_device;
+
 
 	Thread runEncoderCaptureThread;
 	static bool runEncoderProcessFinish;
@@ -207,6 +211,11 @@ public partial class ChronoJumpWindow
 		race_analyzer_temperature = Convert.ToInt32(race_analyzer_spinbutton_temperature.Value);
 		race_analyzer_graph_width = Convert.ToInt32(race_analyzer_spinbutton_graph_width.Value);
 		race_analyzer_graph_height = Convert.ToInt32(race_analyzer_spinbutton_graph_height.Value);
+
+		if(race_analyzer_radio_device_fishing.Active)
+			race_analyzer_device = RunEncoderGraph.Devices.FISHING;
+		else
+			race_analyzer_device = RunEncoderGraph.Devices.OTHER;
 	}
 
 	//TODO: do all this with an "other" thread like in force sensor to allow connecting messages to be displayed
@@ -419,7 +428,8 @@ public partial class ChronoJumpWindow
 				race_analyzer_distance,
 				currentPersonSession.Weight,  	//TODO: can be more if extra weight
 				currentPersonSession.Height,
-				race_analyzer_temperature);
+				race_analyzer_temperature,
+				race_analyzer_device);
 
 		reg.CallR(race_analyzer_graph_width, race_analyzer_graph_height);
 

@@ -24,17 +24,21 @@ using System.Collections.Generic; //List<T>
 
 public class RunEncoderGraph
 {
+	public enum Devices { FISHING, OTHER }
+
 	private int testLength;
 	private double mass;
 	private double personHeight;
 	private double tempC;
+	private Devices device;
 
-	public RunEncoderGraph(int testLength, double mass, double personHeight, double tempC)
+	public RunEncoderGraph(int testLength, double mass, double personHeight, double tempC, Devices device)
 	{
 		this.testLength = testLength;
 		this.mass = mass;
 		this.personHeight = personHeight;
 		this.tempC = tempC;
+		this.device = device;
 	}
 
 	public bool CallR(int graphWidth, int graphHeight)
@@ -62,7 +66,8 @@ public class RunEncoderGraph
 			"#testLength\n" + 		testLength.ToString() + "\n" +
 			"#os\n" + 			UtilEncoder.OperatingSystemForRGraphs() + "\n" +
 			"#graphWidth\n" + 		graphWidth.ToString() + "\n" +
-			"#graphHeight\n" + 		graphHeight.ToString();
+			"#graphHeight\n" + 		graphHeight.ToString() + "\n" +
+			"#device\n" + 			device.ToString();
 
 
 		TextWriter writer = File.CreateText(Path.GetTempPath() + "Roptions.txt");

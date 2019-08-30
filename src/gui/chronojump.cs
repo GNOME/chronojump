@@ -3206,6 +3206,8 @@ public partial class ChronoJumpWindow
 		notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.STATISTICS);
 		button_inspect_last_test.Visible = false;
 		vbox_force_capture_feedback.Visible = false;
+		button_force_sensor_adjust.Visible = false;
+		hbox_race_analyzer_device.Visible = false;
 
 		//on OSX R is not installed by default. Check if it's installed. Needed for encoder and force sensor
 		if(
@@ -3231,7 +3233,6 @@ public partial class ChronoJumpWindow
 			//notebook_capture_analyze.ShowTabs = true;
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
 			button_threshold.Visible = true;
-			button_force_sensor_adjust.Visible = false;
 			if(m == Constants.Menuitem_modes.JUMPSSIMPLE) 
 			{
 				notebooks_change(m);
@@ -3261,7 +3262,6 @@ public partial class ChronoJumpWindow
 			//notebook_capture_analyze.ShowTabs = true;
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
 			button_threshold.Visible = true;
-			button_force_sensor_adjust.Visible = false;
 			button_inspect_last_test.Visible = true;
 
 			if(m == Constants.Menuitem_modes.RUNSSIMPLE) 
@@ -3418,7 +3418,7 @@ public partial class ChronoJumpWindow
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
 			button_threshold.Visible = false;
-			button_force_sensor_adjust.Visible = false;
+			hbox_race_analyzer_device.Visible = true;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 			hbox_results_legend.Visible = false;
 
@@ -3438,7 +3438,6 @@ public partial class ChronoJumpWindow
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = false;
 			button_threshold.Visible = true;
-			button_force_sensor_adjust.Visible = false;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 		}
 		else {	//m == Constants.Menuitem_modes.OTHER (contacts / other)
@@ -3451,7 +3450,6 @@ public partial class ChronoJumpWindow
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = false;
 			button_threshold.Visible = true;
-			button_force_sensor_adjust.Visible = false;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 		}
 

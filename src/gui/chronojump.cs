@@ -71,7 +71,7 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.Notebook notebook_start; 		//start window or program
 	[Widget] Gtk.Notebook notebook_start_selector; 	//use to display the start images to select different modes
-	[Widget] Gtk.Notebook notebook_start_selector2; //for selection of jumps, runs, encoder
+	[Widget] Gtk.Notebook notebook_start_selector2; //for selection of jumps, runs, runs photocell, encoder
 	[Widget] Gtk.Notebook notebook_sup;
 	[Widget] Gtk.HBox hbox_other;
 	[Widget] Gtk.Notebook notebook_capture_analyze; //not encoder
@@ -3764,9 +3764,12 @@ public partial class ChronoJumpWindow
 		on_menuitem_mode_activate(menuitem_mode_other, new EventArgs());
 	}
 
-	private void on_button_start_cancel_clicked(object o, EventArgs args)
+	private void on_button_start_back_clicked(object o, EventArgs args)
 	{
-		notebook_start_selector.CurrentPage = 0;
+		if(notebook_start_selector2.CurrentPage == 2) //runs photocell
+			notebook_start_selector2.CurrentPage = 1; //runs
+		else
+			notebook_start_selector.CurrentPage = 0; //main
 	}
 
 	/*

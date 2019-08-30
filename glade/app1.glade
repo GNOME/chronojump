@@ -2750,11 +2750,11 @@
                                                     <property name="can_focus">False</property>
                                                     <property name="layout_style">center</property>
                                                     <child>
-                                                      <widget class="GtkButton" id="button_start_cancel">
+                                                      <widget class="GtkButton" id="button_start_back">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
-                                                        <signal name="clicked" handler="on_button_start_cancel_clicked" swapped="no"/>
+                                                        <signal name="clicked" handler="on_button_start_back_clicked" swapped="no"/>
                                                         <accelerator key="Escape" signal="clicked"/>
                                                         <child>
                                                           <widget class="GtkHBox" id="hbox38">
@@ -2762,7 +2762,7 @@
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">10</property>
                                                             <child>
-                                                            <widget class="GtkImage" id="image_selector_start_cancel">
+                                                            <widget class="GtkImage" id="image_selector_start_back">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>

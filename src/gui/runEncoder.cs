@@ -40,6 +40,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_race_analyzer_device;
 	[Widget] Gtk.RadioButton race_analyzer_radio_device_fishing;
 	[Widget] Gtk.Image image_race_encoder_graph;
+	[Widget] Gtk.Button button_run_encoder_recalculate;
 
 	int race_analyzer_distance;
 	int race_analyzer_temperature;
@@ -198,8 +199,9 @@ public partial class ChronoJumpWindow
 		}
 
 		forceSensorReadWidgets();
-
 		runEncoderButtonsSensitive(false);
+		button_run_encoder_recalculate.Sensitive = false;
+
 		bool connected = runEncoderCapturePre();
 		if(! connected)
 			runEncoderButtonsSensitive(true);
@@ -410,6 +412,7 @@ public partial class ChronoJumpWindow
 	private void on_button_run_encoder_recalculate_clicked (object o, EventArgs args)
 	{
 		forceSensorReadWidgets();
+		button_run_encoder_recalculate.Sensitive = false;
 
 		forceSensorCaptureGraphDo();
 
@@ -530,6 +533,7 @@ LogB.Information(" fc C finish");
 					runEncoderAnalyzeOpenImage();
 					notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RACEENCODER);
 					radio_mode_contacts_analyze.Active = true;
+					button_run_encoder_recalculate.Sensitive = true;
 
 					/*
 					fscPoints.InitRealWidthHeight();

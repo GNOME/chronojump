@@ -84,7 +84,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_selector_start_encoder;
 	[Widget] Gtk.Image image_selector_start_rt;
 	[Widget] Gtk.Image image_selector_start_other;
-	[Widget] Gtk.Image image_selector_start_cancel;
+	[Widget] Gtk.Image image_selector_start_back;
 
 	[Widget] Gtk.Image image_menuitem_mode_jumps_simple;
 	[Widget] Gtk.Image image_menuitem_mode_jumps_reactive;
@@ -310,7 +310,7 @@ public partial class ChronoJumpWindow
 		image_tests_sprint.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
-		image_selector_start_cancel.Pixbuf = pixbuf;
+		image_selector_start_back.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_pin.png");
 		image_manage_persons.Pixbuf = pixbuf;

@@ -42,14 +42,15 @@ assignOptions <- function(options) {
                 testLength = as.numeric(options[6]),
                 os 		= options[7],
                 graphWidth 	= as.numeric(options[8]),
-                graphHeight	= as.numeric(options[9])
+                graphHeight	= as.numeric(options[9]),
+                device  	= options[10]
         ))
 }
 
 #-------------- assign options -------------
 op <- assignOptions(options)
 
-getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, Height , Vw = 0)
+getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, Height , Vw = 0, device)
 {
         print("#####Entering in getSprintFromEncoder###############")
         # Constants for the air friction modeling
@@ -74,7 +75,13 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         #raceAnalyzer$displacement = raceAnalyzer$displacement * 2 * pi * diameter / 200
         #In 30m there are 12267 pulses.
         #TODO: measure this several times to have an accurate value
-        raceAnalyzer$displacement = 4 * raceAnalyzer$displacement * 30 / 12267
+	pulsesIn30m = NULL
+	if(device == "FISHING")
+		pulsesIn30m = 12267
+	else
+		pulsesIn30m = 12267 #TODO: change value
+
+        raceAnalyzer$displacement = 4 * raceAnalyzer$displacement * 30 / pulsesIn30m
         position = cumsum(raceAnalyzer$displacement)
         speed = raceAnalyzer$displacement / elapsedTime
         accel = (speed[3] - speed[1]) / (totalTime[3] - totalTime[1])
@@ -500,7 +507,7 @@ tryNLS <- function(data){
 
 testEncoderCJ <- function(filename, testLength, mass, personHeight, tempC)
 {
-        sprintRawDynamics = getSprintFromEncoder(filename, testLength, op$mass, op$tempC, op$personHeight)
+        sprintRawDynamics = getSprintFromEncoder(filename, testLength, op$mass, op$tempC, op$personHeight, op$device)
         # print("sprintRawDynamics:")
         # print(sprintRawDynamics)
         if (sprintRawDynamics$longEnough & sprintRawDynamics$regressionDone)

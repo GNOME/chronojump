@@ -309,7 +309,7 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_sprint.png");
 		image_tests_sprint.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "arrow_back.png");
 		image_selector_start_back.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_pin.png");

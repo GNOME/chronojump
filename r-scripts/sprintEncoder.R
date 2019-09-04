@@ -50,7 +50,7 @@ assignOptions <- function(options) {
 #-------------- assign options -------------
 op <- assignOptions(options)
 
-getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, Height , Vw = 0, device)
+getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, Height , Vw = 0, device = "FISHING")
 {
         print("#####Entering in getSprintFromEncoder###############")
         # Constants for the air friction modeling
@@ -68,20 +68,18 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         elapsedTime = diff(c(0,totalTime))      #The elapsed time between each sample
         
         #The encoder can be used with both loose ends of the rope. This means that the encoder can rotate
-        #in both directions. We considre always the speed as positive.
+        #in both directions. We consider always the speed as positive.
         if(mean(raceAnalyzer$displacement) < 0)
                 raceAnalyzer$displacement = -raceAnalyzer$displacement
-        diameter = 0.16         #Diameter of the pulley
-        #raceAnalyzer$displacement = raceAnalyzer$displacement * 2 * pi * diameter / 200
-        #In 30m there are 12267 pulses.
-        #TODO: measure this several times to have an accurate value
-	pulsesIn30m = NULL
-	if(device == "FISHING")
-		pulsesIn30m = 12267
-	else
-		pulsesIn30m = 12267 #TODO: change value
+        
+        #TODO: measure metersPerPulse several times to have an accurate value
+	metersPerPulse = NULL
+	if(device == "FISHING")                 #Hand device
+	        metersPerPulse = 0.003003
+	else                                    #sled device
+	        metersPerPulse = 30 / 12267 	#In 30m there are 12267 pulses.
 
-        raceAnalyzer$displacement = 4 * raceAnalyzer$displacement * 30 / pulsesIn30m
+        raceAnalyzer$displacement = raceAnalyzer$displacement * metersPerPulse
         position = cumsum(raceAnalyzer$displacement)
         speed = raceAnalyzer$displacement / elapsedTime
         accel = (speed[3] - speed[1]) / (totalTime[3] - totalTime[1])
@@ -507,7 +505,7 @@ tryNLS <- function(data){
 
 testEncoderCJ <- function(filename, testLength, mass, personHeight, tempC)
 {
-        sprintRawDynamics = getSprintFromEncoder(filename, testLength, op$mass, op$tempC, op$personHeight, op$device)
+        sprintRawDynamics = getSprintFromEncoder(filename, testLength, op$mass, op$tempC, op$personHeight, Vw = 0, device = op$device)
         # print("sprintRawDynamics:")
         # print(sprintRawDynamics)
         if (sprintRawDynamics$longEnough & sprintRawDynamics$regressionDone)

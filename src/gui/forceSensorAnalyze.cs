@@ -549,7 +549,9 @@ public partial class ChronoJumpWindow
 				lastForceSensorFullPath,
 				force_sensor_ai_drawingarea.Allocation.Width,
 				force_sensor_ai_drawingarea.Allocation.Height,
-				zoomA, zoomB, getForceSensorCaptureOptions());
+				zoomA, zoomB,
+				currentForceSensorExercise.PercentBodyWeight, currentPersonSession.Weight,
+				getForceSensorCaptureOptions());
 
 		/*
 		 * position the hscales on the left to avoid loading a csv

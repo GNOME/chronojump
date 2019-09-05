@@ -49,7 +49,9 @@ public class GenericWindow
 
 	[Widget] Gtk.SpinButton spin_double;
 	[Widget] Gtk.Box hbox_height_metric;
-	
+
+	[Widget] Gtk.CheckButton check1;
+
 	[Widget] Gtk.HButtonBox hbuttonbox_middle;
 	[Widget] Gtk.Button button_middle;
 
@@ -206,6 +208,7 @@ public class GenericWindow
 		spin_double.Hide();
 		hbox_spin_double2.Hide();
 		hbox_height_metric.Hide();
+		check1.Hide();
 		hbox_edit_row.Hide();
 		hbox_all_none_selected.Hide();
 		hbox_combo_all_none_selected.Hide();
@@ -262,6 +265,10 @@ public class GenericWindow
 		else if(stuff == Constants.GenericWindowShow.HEIGHTMETRIC) {
 			hbox_height_metric.Show();
 		}
+		else if(stuff == Constants.GenericWindowShow.CHECK1) {
+			check1.Active = (text == "TRUE");
+			check1.Show();
+		}
 		else if(stuff == Constants.GenericWindowShow.COMBO) {
 			/*
 			hbox_combo.Show();
@@ -302,6 +309,8 @@ public class GenericWindow
 			hbox_spin_double2.Show();
 		else if(stuff == Constants.GenericWindowShow.HEIGHTMETRIC)
 			hbox_height_metric.Show();
+		else if(stuff == Constants.GenericWindowShow.CHECK1)
+			check1.Show();
 		else if(stuff == Constants.GenericWindowShow.SPININT2)
 			hbox_spin_int2.Show();
 		else if(stuff == Constants.GenericWindowShow.SPININT3)
@@ -398,6 +407,9 @@ public class GenericWindow
 		hbox_edit_row.Visible = show;
 	}
 
+	public void SetCheck1Label(string s) {
+		check1.Label = s;
+	}
 	
 	private static string [] comboCheckBoxesOptionsDefault = {
 		Catalog.GetString("All"),
@@ -1029,6 +1041,10 @@ public class GenericWindow
 
 	public string GetComboSelected {
 		get { return UtilGtk.ComboGetActive(combo); }
+	}
+
+	public bool GetCheck1 {
+		get { return check1.Active; }
 	}
 
 

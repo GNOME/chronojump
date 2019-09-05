@@ -27,8 +27,11 @@ public class ForceSensor
 {
 	public enum CaptureOptions { NORMAL, ABS, INVERTED }
 
-	public static double ForceWithFlags(double force, CaptureOptions fsco)
+	public static double ForceWithCaptureOptionsAndBW (double force, CaptureOptions fsco, int percentBodyWeight, double personWeight)
 	{
+		if(percentBodyWeight > 0 && personWeight > 0)
+			force += 9.81 * percentBodyWeight * personWeight / 100.0;
+
 		if(fsco == CaptureOptions.ABS)
 			return Math.Abs(force);
 		if(fsco == CaptureOptions.INVERTED)
@@ -733,12 +736,13 @@ public class ForceSensorAnalyzeInstant
 	private int graphWidth;
 	private int graphHeight;
 
-	public ForceSensorAnalyzeInstant(string file, int graphWidth, int graphHeight, double start, double end, ForceSensor.CaptureOptions fsco)
+	public ForceSensorAnalyzeInstant(string file, int graphWidth, int graphHeight, double start, double end,
+			int exercisePercentBW, double personWeight, ForceSensor.CaptureOptions fsco)
 	{
 		this.graphWidth = graphWidth;
 		this.graphHeight = graphHeight;
 
-		readFile(file, start, end, fsco);
+		readFile(file, start, end, exercisePercentBW, personWeight, fsco);
 
 		//on zoom adjust width
 		if(start >= 0 || end >= 0)
@@ -752,7 +756,7 @@ public class ForceSensorAnalyzeInstant
 			fscAIPoints.Redo();
 	}
 
-	private void readFile(string file, double start, double end, ForceSensor.CaptureOptions fsco)
+	private void readFile(string file, double start, double end, int exercisePercentBW, double personWeight, ForceSensor.CaptureOptions fsco)
 	{
 		fscAIPoints = new ForceSensorCapturePoints(graphWidth, graphHeight);
 
@@ -795,7 +799,7 @@ public class ForceSensorAnalyzeInstant
 
 					int time = Convert.ToInt32(timeD);
 					double force = Convert.ToDouble(strFull[1]);
-					force = ForceSensor.ForceWithFlags(force, fsco);
+					force = ForceSensor.ForceWithCaptureOptionsAndBW(force, fsco, exercisePercentBW, personWeight);
 
 					fscAIPoints.Add(time, force);
 					fscAIPoints.NumCaptured ++;

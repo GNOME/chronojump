@@ -716,6 +716,13 @@ public partial class ChronoJumpWindow
 		//printDataRow(dataRow);
 	}
 
+	private ForceSensorExercise currentForceSensorExercise;
+	private void assignCurrentForceSensorExercise()
+	{
+		currentForceSensorExercise = (ForceSensorExercise) SqliteForceSensorExercise.Select (
+                                false, getExerciseIDFromAnyCombo(combo_force_sensor_exercise, forceSensorComboExercisesString, false), false)[0];
+	}
+
 	//non GTK on this method
 	private void forceSensorCaptureDo()
 	{
@@ -747,13 +754,16 @@ public partial class ChronoJumpWindow
 
 		Util.CreateForceSensorSessionDirIfNeeded (currentSession.UniqueID);
 
+		assignCurrentForceSensorExercise();
+
 		string fileNamePre = currentPerson.Name + "_" +
-			UtilGtk.ComboGetActive(combo_force_sensor_exercise) + "_" +
+			Catalog.GetString(currentForceSensorExercise.Name) + "_" +
 			getLaterality() + "_" +
 			getCaptureComment() + //includes "_" if it's no empty
 			UtilDate.ToFile(DateTime.Now);
 
 		ForceSensor.CaptureOptions forceSensorCaptureOption = getForceSensorCaptureOptions();
+
 
 		//fileName to save the csv
 		string fileName = Util.GetForceSensorSessionDir(currentSession.UniqueID) + Path.DirectorySeparatorChar + fileNamePre + ".csv";
@@ -816,19 +826,21 @@ public partial class ChronoJumpWindow
 			time -= firstTime;
 
 			LogB.Information(string.Format("time: {0}, force: {1}", time, force));
-			//forceWithFlags have abs or inverted
-			double forceWithFlags = ForceSensor.ForceWithFlags(force, forceSensorCaptureOption);
+			//forceWithCaptureOptionsAndBW have abs or inverted
+			double forceWithCaptureOptionsAndBW = ForceSensor.ForceWithCaptureOptionsAndBW(force, forceSensorCaptureOption,
+					currentForceSensorExercise.PercentBodyWeight, currentPersonSession.Weight);
+
 			if(forceSensorCaptureOption != ForceSensor.CaptureOptions.NORMAL)
-				LogB.Information(string.Format("with abs or inverted flag: time: {0}, force: {1}", time, forceWithFlags));
+				LogB.Information(string.Format("with abs or inverted flag: time: {0}, force: {1}", time, forceWithCaptureOptionsAndBW));
 
 			writer.WriteLine(time.ToString() + ";" + force.ToString()); //on file force is stored without flags
 
 			forceSensorValues.TimeLast = time;
-			forceSensorValues.ForceLast = forceWithFlags;
+			forceSensorValues.ForceLast = forceWithCaptureOptionsAndBW;
 
-			forceSensorValues.SetMaxMinIfNeeded(forceWithFlags, time);
+			forceSensorValues.SetMaxMinIfNeeded(forceWithCaptureOptionsAndBW, time);
 
-			fscPoints.Add(time, forceWithFlags);
+			fscPoints.Add(time, forceWithCaptureOptionsAndBW);
 			fscPoints.NumCaptured ++;
 			if(fscPoints.OutsideGraph())
 			{
@@ -1243,6 +1255,7 @@ LogB.Information(" re R ");
 			//when database is working the here the gui of ForceSensor.CaptureOptions will change, and graph will be done accordingly
 			combo_force_sensor_capture_options.Active = 0;
 
+			assignCurrentForceSensorExercise();
 			forceSensorCopyTempAndDoGraphs();
 
 			//if drawingarea has still not shown, don't paint graph because GC screen is not defined
@@ -1360,7 +1373,7 @@ LogB.Information(" re R ");
 				{
 					int time = Convert.ToInt32(strFull[0]);
 					double force = Convert.ToDouble(strFull[1]);
-					force = ForceSensor.ForceWithFlags(force, fsco);
+					force = ForceSensor.ForceWithCaptureOptionsAndBW(force, fsco, currentForceSensorExercise.PercentBodyWeight, currentPersonSession.Weight);
 
 					fscPoints.Add(time, force);
 					fscPoints.NumCaptured ++;
@@ -1811,7 +1824,7 @@ LogB.Information(" re R ");
 
 		genericWin = GenericWindow.Show(Catalog.GetString("Exercise"), false,	//don't show now
 				Catalog.GetString("Force sensor exercise:"), bigArray);
-		genericWin.LabelSpinInt = Catalog.GetString("Involved body weight") + " (%)" + "\nNote: this is not used on current version.";
+		genericWin.LabelSpinInt = Catalog.GetString("Involved body weight") + " (%)";
 		genericWin.SetSpinRange(0, 100);
 		genericWin.SetSpinValue(ex.PercentBodyWeight);
 
@@ -1861,7 +1874,7 @@ LogB.Information(" re R ");
 
 		genericWin = GenericWindow.Show(Catalog.GetString("Exercise"), false,	//don't show now
 				Catalog.GetString("Write the name of the force sensor exercise:"), bigArray);
-		genericWin.LabelSpinInt = Catalog.GetString("Involved body weight") + " (%)" + "\nNote: this is not used on current version.";
+		genericWin.LabelSpinInt = Catalog.GetString("Involved body weight") + " (%)";
 		genericWin.SetSpinRange(0, 100);
 		genericWin.LabelEntry2 = Catalog.GetString("Resistance");
 		genericWin.LabelEntry3 = Catalog.GetString("Description");
@@ -1954,7 +1967,6 @@ LogB.Information(" re R ");
 
 		new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Exercise deleted."));
 	}
-
 
 	// -------------------------------- end of exercise stuff --------------------
 

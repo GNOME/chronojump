@@ -46,8 +46,9 @@ assignOptions <- function(options)
                 drawRfdOptions          = drawRfdOptions,
                 drawImpulseOptions      = options[16],
 		testLength 		= as.numeric(options[17]),
-		title 	 		= options[18],
-                scriptsPath 		= options[19]
+		captureOptions 		= options[18],
+		title 	 		= options[19],
+                scriptsPath 		= options[20]
         ))
 }
 
@@ -87,12 +88,17 @@ getForceModel <- function(time, force, startTime, # startTime is the instant whe
         return(list(fmax = fmax, K = K, error =sum(abs(residuals(model)))))
 }
 
-getDynamicsFromLoadCellFile <- function(inputFile, averageLength = 0.1, percentChange = 5, bestFit = TRUE, testLength = -1)
+getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength = 0.1, percentChange = 5, bestFit = TRUE, testLength = -1)
 {
         originalTest = read.csv(inputFile, header = F, dec = op$decimalChar, sep = ";", skip = 2)
         colnames(originalTest) <- c("time", "force")
         originalTest$time = as.numeric(originalTest$time / 1000000)  # Time is converted from microseconds to seconds
-        
+
+	if(captureOptions == "ABS")
+		originalTest$force = abs(originalTest$force)
+	else if(captureOptions == "INVERTED")
+		originalTest$force = -1 * originalTest$force
+
         #Instantaneous RFD
         rfd = getRFD(originalTest)
         
@@ -195,7 +201,7 @@ getDynamicsFromLoadCellFile <- function(inputFile, averageLength = 0.1, percentC
 }
 
 drawDynamicsFromLoadCell <- function(
-        dynamics, vlineT0=T, vline50fmax.raw=F, vline50fmax.fitted=F,
+        dynamics, captureOptions, vlineT0=T, vline50fmax.raw=F, vline50fmax.fitted=F,
         hline50fmax.raw=F, hline50fmax.fitted=F,
         rfdDrawingOptions, xlimits = NA)
 {
@@ -619,7 +625,7 @@ getDynamicsFromLoadCellFolder <- function(folderName, resultFileName, export2Pdf
         
         for(i in 1:nFiles)
         {
-                dynamics = getDynamicsFromLoadCellFile(paste(folderName,originalFiles[i], sep = ""))
+                dynamics = getDynamicsFromLoadCellFile(op$captureOptions, paste(folderName,originalFiles[i], sep = ""))
                 
                 results[i, "fileName"] = dynamics$nameOfFile
                 results[i, "fmax.fitted"] = dynamics$fmax.fitted
@@ -768,8 +774,8 @@ readImpulseOptions <- function(optionsStr)
 
 prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
 
-dynamics = getDynamicsFromLoadCellFile(dataFile, op$averageLength, op$percentChange, bestFit = TRUE, testLength = -1)
-drawDynamicsFromLoadCell(dynamics, op$vlineT0, op$vline50fmax.raw, op$vline50fmax.fitted, op$hline50fmax.raw, op$hline50fmax.fitted,
+dynamics = getDynamicsFromLoadCellFile(op$captureOptions, dataFile, op$averageLength, op$percentChange, bestFit = TRUE, testLength = -1)
+drawDynamicsFromLoadCell(dynamics, op$captureOptions, op$vlineT0, op$vline50fmax.raw, op$vline50fmax.fitted, op$hline50fmax.raw, op$hline50fmax.fitted,
                          op$drawRfdOptions)
 #                         op$drawRfdOptions, xlimits = c(0.5, 1.5))
 endGraph()

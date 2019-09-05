@@ -23,6 +23,21 @@ using System.IO; 		//for detect OS
 using System.Collections.Generic; //List<T>
 using Mono.Unix;
 
+public class ForceSensor
+{
+	public enum CaptureOptions { NORMAL, ABS, INVERTED }
+
+	public static double ForceWithFlags(double force, CaptureOptions fsco)
+	{
+		if(fsco == CaptureOptions.ABS)
+			return Math.Abs(force);
+		if(fsco == CaptureOptions.INVERTED)
+			return -1 * force;
+
+		return force;
+	}
+}
+
 public class ForceSensorExercise
 {
 	private int uniqueID;
@@ -607,6 +622,7 @@ public class ForceSensorImpulse : ForceSensorRFD
 
 public class ForceSensorGraph
 {
+	ForceSensor.CaptureOptions fsco;
 	List<ForceSensorRFD> rfdList;
 	ForceSensorImpulse impulse;
 	double averageLength;
@@ -619,8 +635,10 @@ public class ForceSensorGraph
 	int testLength;
 	string title;
 
-	public ForceSensorGraph(List<ForceSensorRFD> rfdList, ForceSensorImpulse impulse, int testLength, string title)
+	public ForceSensorGraph(ForceSensor.CaptureOptions fsco, List<ForceSensorRFD> rfdList,
+			ForceSensorImpulse impulse, int testLength, string title)
 	{
+		this.fsco = fsco;
 		this.rfdList = rfdList;
 		this.impulse = impulse;
 		this.testLength = testLength;
@@ -678,6 +696,7 @@ public class ForceSensorGraph
 
 		scriptOptions +=
 			"\n#testLength\n" + 		testLength.ToString() + "\n" +
+			"#captureOptions\n" + 		fsco.ToString() + "\n" +
 			"#title\n" + 			title + "\n" +
 			"#scriptsPath\n" + 		UtilEncoder.GetScriptsPath() + "\n";
 
@@ -714,12 +733,12 @@ public class ForceSensorAnalyzeInstant
 	private int graphWidth;
 	private int graphHeight;
 
-	public ForceSensorAnalyzeInstant(string file, int graphWidth, int graphHeight, double start, double end)
+	public ForceSensorAnalyzeInstant(string file, int graphWidth, int graphHeight, double start, double end, ForceSensor.CaptureOptions fsco)
 	{
 		this.graphWidth = graphWidth;
 		this.graphHeight = graphHeight;
 
-		readFile(file, start, end);
+		readFile(file, start, end, fsco);
 
 		//on zoom adjust width
 		if(start >= 0 || end >= 0)
@@ -733,7 +752,7 @@ public class ForceSensorAnalyzeInstant
 			fscAIPoints.Redo();
 	}
 
-	private void readFile(string file, double start, double end)
+	private void readFile(string file, double start, double end, ForceSensor.CaptureOptions fsco)
 	{
 		fscAIPoints = new ForceSensorCapturePoints(graphWidth, graphHeight);
 
@@ -776,6 +795,7 @@ public class ForceSensorAnalyzeInstant
 
 					int time = Convert.ToInt32(timeD);
 					double force = Convert.ToDouble(strFull[1]);
+					force = ForceSensor.ForceWithFlags(force, fsco);
 
 					fscAIPoints.Add(time, force);
 					fscAIPoints.NumCaptured ++;
@@ -1030,7 +1050,7 @@ public class ForceSensorAnalyzeInstant
 
 }
 
-//we need this class because we started using foresensor without database (only text files)
+//we need this class because we started using forcesensor without database (only text files)
 public class ForceSensorLoadTryToAssignPersonAndMore
 {
 	private string filename; //filename comes without extension

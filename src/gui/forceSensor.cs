@@ -69,6 +69,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_force_capture_buttons;
 	[Widget] Gtk.HBox hbox_combo_force_sensor_exercise;
 	[Widget] Gtk.ComboBox combo_force_sensor_exercise;
+	[Widget] Gtk.ComboBox combo_force_sensor_capture_options;
 	[Widget] Gtk.RadioButton radio_force_sensor_laterality_both;
 	[Widget] Gtk.RadioButton radio_force_sensor_laterality_l;
 	[Widget] Gtk.RadioButton radio_force_sensor_laterality_r;
@@ -128,7 +129,6 @@ public partial class ChronoJumpWindow
 	bool forceSensorBinaryCapture;
 	int forceSensorTopRectangleAtOperationStart; //operation can be capture, load
 
-
 	Gdk.GC pen_black_force_capture;
 	Gdk.GC pen_red_force_capture;
 	Gdk.GC pen_white_force_capture;
@@ -149,6 +149,7 @@ public partial class ChronoJumpWindow
 	{
 		notebook_force_sensor_analyze.CurrentPage = 1; 	//start on 1: force_general_analysis
 		createForceExerciseCombo();
+		combo_force_sensor_capture_options.Active = 0;
 		createForceAnalyzeCombos();
 		setRFDValues();
 		setImpulseValue();
@@ -752,6 +753,8 @@ public partial class ChronoJumpWindow
 			getCaptureComment() + //includes "_" if it's no empty
 			UtilDate.ToFile(DateTime.Now);
 
+		ForceSensor.CaptureOptions forceSensorCaptureOption = getForceSensorCaptureOptions();
+
 		//fileName to save the csv
 		string fileName = Util.GetForceSensorSessionDir(currentSession.UniqueID) + Path.DirectorySeparatorChar + fileNamePre + ".csv";
 
@@ -813,14 +816,19 @@ public partial class ChronoJumpWindow
 			time -= firstTime;
 
 			LogB.Information(string.Format("time: {0}, force: {1}", time, force));
-			writer.WriteLine(time.ToString() + ";" + force.ToString());
+			//forceWithFlags have abs or inverted
+			double forceWithFlags = ForceSensor.ForceWithFlags(force, forceSensorCaptureOption);
+			if(forceSensorCaptureOption != ForceSensor.CaptureOptions.NORMAL)
+				LogB.Information(string.Format("with abs or inverted flag: time: {0}, force: {1}", time, forceWithFlags));
+
+			writer.WriteLine(time.ToString() + ";" + force.ToString()); //on file force is stored without flags
 
 			forceSensorValues.TimeLast = time;
-			forceSensorValues.ForceLast = force;
+			forceSensorValues.ForceLast = forceWithFlags;
 
-			forceSensorValues.SetMaxMinIfNeeded(force, time);
+			forceSensorValues.SetMaxMinIfNeeded(forceWithFlags, time);
 
-			fscPoints.Add(time, force);
+			fscPoints.Add(time, forceWithFlags);
 			fscPoints.NumCaptured ++;
 			if(fscPoints.OutsideGraph())
 			{
@@ -1231,6 +1239,10 @@ LogB.Information(" re R ");
 
 			lastForceSensorFullPath = filechooser.Filename; //used on recalculate
 
+			//on load, standard capture will be used.
+			//when database is working the here the gui of ForceSensor.CaptureOptions will change, and graph will be done accordingly
+			combo_force_sensor_capture_options.Active = 0;
+
 			forceSensorCopyTempAndDoGraphs();
 
 			//if drawingarea has still not shown, don't paint graph because GC screen is not defined
@@ -1281,7 +1293,7 @@ LogB.Information(" re R ");
 		else
 			title = Util.RemoveChar(title, '_');
 
-		ForceSensorGraph fsg = new ForceSensorGraph(rfdList, impulse, duration, title);
+		ForceSensorGraph fsg = new ForceSensorGraph(getForceSensorCaptureOptions(), rfdList, impulse, duration, title);
 
 		int imageWidth = UtilGtk.WidgetWidth(viewport_force_sensor_graph);
 		int imageHeight = UtilGtk.WidgetHeight(viewport_force_sensor_graph);
@@ -1314,10 +1326,10 @@ LogB.Information(" re R ");
 
 	void forceSensorDoSignalGraph()
 	{
-		forceSensorDoSignalGraphReadFile();
+		forceSensorDoSignalGraphReadFile(getForceSensorCaptureOptions());
 		forceSensorDoSignalGraphPlot();
 	}
-	void forceSensorDoSignalGraphReadFile()
+	void forceSensorDoSignalGraphReadFile(ForceSensor.CaptureOptions fsco)
 	{
 		fscPoints = new ForceSensorCapturePoints(
 				force_capture_drawingarea.Allocation.Width,
@@ -1348,6 +1360,7 @@ LogB.Information(" re R ");
 				{
 					int time = Convert.ToInt32(strFull[0]);
 					double force = Convert.ToDouble(strFull[1]);
+					force = ForceSensor.ForceWithFlags(force, fsco);
 
 					fscPoints.Add(time, force);
 					fscPoints.NumCaptured ++;
@@ -1945,7 +1958,18 @@ LogB.Information(" re R ");
 
 	// -------------------------------- end of exercise stuff --------------------
 
-	// -------------------------------- laterality and comment stuff -------------
+	// -------------------------------- options, laterality and comment stuff -------------
+
+	private ForceSensor.CaptureOptions getForceSensorCaptureOptions()
+	{
+		string option = UtilGtk.ComboGetActive(combo_force_sensor_capture_options);
+		if(option == Catalog.GetString("Absolute values"))
+			return ForceSensor.CaptureOptions.ABS;
+		else if(option == Catalog.GetString("Inverted values"))
+			return ForceSensor.CaptureOptions.INVERTED;
+		else
+			return ForceSensor.CaptureOptions.NORMAL;
+	}
 
 	private string getLaterality()
 	{
@@ -1975,7 +1999,7 @@ LogB.Information(" re R ");
 		return s;
 	}
 
-	// -------------------------------- end of laterality and comment stuff ------
+	// -------------------------------- end of options, laterality and comment stuff ------
 
 	// ------------------------------------------------ slides stuff for presentations
 

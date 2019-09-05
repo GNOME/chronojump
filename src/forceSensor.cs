@@ -49,6 +49,7 @@ public class ForceSensorExercise
 	private string resistance;
 	private int angleDefault;
 	private string description;
+	private bool tareBeforeCapture;
 
 	public ForceSensorExercise()
 	{
@@ -59,7 +60,8 @@ public class ForceSensorExercise
 		this.name = name;
 	}
 
-	public ForceSensorExercise(int uniqueID, string name, int percentBodyWeight, string resistance, int angleDefault, string description)
+	public ForceSensorExercise(int uniqueID, string name, int percentBodyWeight, string resistance, int angleDefault,
+			string description, bool tareBeforeCapture)
 	{
 		this.uniqueID = uniqueID;
 		this.name = name;
@@ -67,12 +69,13 @@ public class ForceSensorExercise
 		this.resistance = resistance;
 		this.angleDefault = angleDefault;
 		this.description = description;
+		this.tareBeforeCapture = tareBeforeCapture;
 	}
 
 	public override string ToString()
 	{
 		return uniqueID.ToString() + ":" + name + ":" + percentBodyWeight.ToString() + ":" +
-			resistance + ":" + angleDefault.ToString() + ":" + description;
+			resistance + ":" + angleDefault.ToString() + ":" + description + ":" + tareBeforeCapture.ToString();
 	}
 
 	public int UniqueID
@@ -98,6 +101,10 @@ public class ForceSensorExercise
 	public string Description
 	{
 		get { return description; }
+	}
+	public bool TareBeforeCapture
+	{
+		get { return tareBeforeCapture; }
 	}
 }
 

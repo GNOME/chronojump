@@ -125,7 +125,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.66";
+	static string lastChronojumpDatabaseVersion = "1.67";
 
 	public Sqlite() {
 	}
@@ -2419,8 +2419,11 @@ class Sqlite
 
 				currentVersion = updateVersion("1.66");
 			}
-
-
+			if(currentVersion == "1.66")
+			{
+				executeSQL("ALTER TABLE " + Constants.ForceSensorExerciseTable + " ADD COLUMN tareBeforeCapture INT NOT NULL DEFAULT 0;");
+				currentVersion = updateVersion("1.67");
+			}
 
 
 			// --- add more updates here
@@ -2608,6 +2611,7 @@ class Sqlite
 		SqliteJson.createTableUploadExhibitionTestTemp ();
 
 		//changes [from - to - desc]
+		//1.66 - 1.67 Converted DB to 1.67 ALTER TABLE Constants.ForceSensorExerciseTable ADD COLUMN tareBeforeCapture INT
 		//1.65 - 1.66 Converted DB to 1.66 Added to preferences: encoderCaptureSecondaryVariableShow
 		//1.64 - 1.65 Converted DB to 1.65 Added to preferences: encoderCaptureSecondaryVariable
 		//1.63 - 1.64 Converted DB to 1.64 Added to preferences: videoDevicePixelFormat

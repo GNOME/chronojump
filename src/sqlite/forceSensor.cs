@@ -46,14 +46,15 @@ class SqliteForceSensorExercise : Sqlite
 			"percentBodyWeight INT, " +
 			"resistance TEXT, " +
 			"angleDefault INT, " +
-			"description TEXT )";
+			"description TEXT, " +
+			"tareBeforeCapture INT)";
 		dbcmd.ExecuteNonQuery();
 	}
 
 	//undefined defaultAngle will be 1000
 	//note execution can have a different angle than the default angle
 	public static void Insert (bool dbconOpened, int uniqueID, string name, int percentBodyWeight,
-			string resistance, int angleDefault, string description)
+			string resistance, int angleDefault, string description, bool tareBeforeCapture)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -65,7 +66,8 @@ class SqliteForceSensorExercise : Sqlite
 		dbcmd.CommandText = "INSERT INTO " + table +
 				" (uniqueID, name, percentBodyWeight, resistance, angleDefault, description)" +
 				" VALUES (" + uniqueIDStr + ", \"" + name + "\", " + percentBodyWeight + ", \"" +
-				resistance + "\", " + angleDefault + ", \"" + description + "\")";
+				resistance + "\", " + angleDefault + ", \"" + description + "\", " +
+				Util.BoolToInt(tareBeforeCapture).ToString() + ")";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -90,7 +92,8 @@ class SqliteForceSensorExercise : Sqlite
 			", resistance = \"" + ex.Resistance +
 			"\", angleDefault = " + ex.AngleDefault +
 			", description = \"" + ex.Description +
-			"\" WHERE uniqueID = " + ex.UniqueID;
+			"\", tareBeforeCapture = " + Util.BoolToInt(ex.TareBeforeCapture).ToString() +
+			" WHERE uniqueID = " + ex.UniqueID;
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -137,7 +140,8 @@ class SqliteForceSensorExercise : Sqlite
 						Convert.ToInt32(reader[2].ToString()),	//percentBodyWeight
 						reader[3].ToString(),			//resistance
 						angleDefault,
-						reader[5].ToString()			//description
+						reader[5].ToString(),			//description
+						Util.IntToBool(Convert.ToInt32(reader[6].ToString()))	//tareBeforeCapture
 						);
 				array.Add(ex);
 			}

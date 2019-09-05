@@ -333,7 +333,7 @@ public partial class ChronoJumpWindow
 		return true;
 	}
 
-	enum forceSensorOtherModeEnum { TARE, CALIBRATE, CAPTURE_PRE, CHECK_VERSION }
+	enum forceSensorOtherModeEnum { TARE, CALIBRATE, CAPTURE_PRE, TARE_AND_CAPTURE_PRE, CHECK_VERSION }
 	static forceSensorOtherModeEnum forceSensorOtherMode;
 
 	//buttons: tare, calibrate, check version and capture (via on_button_execute_test_cicked) come here
@@ -367,8 +367,16 @@ public partial class ChronoJumpWindow
 		else if (o == (object) button_execute_test)
 		{
 			forceSensorButtonsSensitive(false);
-			forceSensorOtherMode = forceSensorOtherModeEnum.CAPTURE_PRE;
-			forceOtherThread = new Thread(new ThreadStart(forceSensorCapturePre));
+
+			assignCurrentForceSensorExercise();
+			if(currentForceSensorExercise.TareBeforeCapture)
+			{
+				forceSensorOtherMode = forceSensorOtherModeEnum.TARE_AND_CAPTURE_PRE;
+				forceOtherThread = new Thread(new ThreadStart(forceSensorTareAndCapturePre));
+			} else {
+				forceSensorOtherMode = forceSensorOtherModeEnum.CAPTURE_PRE;
+				forceOtherThread = new Thread(new ThreadStart(forceSensorCapturePre));
+			}
 		}
 		else { //if (o == (object) button_check_version)
 			forceSensorButtonsSensitive(false);
@@ -432,7 +440,7 @@ public partial class ChronoJumpWindow
 			}
 			else if(forceSensorOtherMode == forceSensorOtherModeEnum.CHECK_VERSION)
 				forceSensorButtonsSensitive(true);
-			else //if(forceSensorOtherMode == forceSensorOtherModeEnum.CAPTURE_PRE)
+			else if(forceSensorOtherMode == forceSensorOtherModeEnum.TARE_AND_CAPTURE_PRE || forceSensorOtherMode == forceSensorOtherModeEnum.CAPTURE_PRE)
 				forceSensorCapturePre2();
 
 			return false;
@@ -592,6 +600,12 @@ public partial class ChronoJumpWindow
 		return (str == "binary");
 	}
 
+	//Attention: no GTK here!!
+	private void forceSensorTareAndCapturePre()
+	{
+		forceSensorTare();
+		forceSensorCapturePre();
+	}
 	//Attention: no GTK here!!
 	private void forceSensorCapturePre()
 	{
@@ -754,7 +768,8 @@ public partial class ChronoJumpWindow
 
 		Util.CreateForceSensorSessionDirIfNeeded (currentSession.UniqueID);
 
-		assignCurrentForceSensorExercise();
+		//done at on_buttons_force_sensor_clicked()
+		//assignCurrentForceSensorExercise();
 
 		string fileNamePre = currentPerson.Name + "_" +
 			Catalog.GetString(currentForceSensorExercise.Name) + "_" +
@@ -1803,7 +1818,7 @@ LogB.Information(" re R ");
 		ArrayList a2 = new ArrayList();
 		ArrayList a3 = new ArrayList();
 		ArrayList a4 = new ArrayList();
-		//ArrayList a5 = new ArrayList();
+		ArrayList a5 = new ArrayList();
 
 		//0 is the widgget to show; 1 is the editable; 2 id default value
 		a1.Add(Constants.GenericWindowShow.ENTRY); a1.Add(true); a1.Add(ex.Name); //name can be changed (opposite to encoder), because we use always the uniqueID
@@ -1818,8 +1833,8 @@ LogB.Information(" re R ");
 		a4.Add(Constants.GenericWindowShow.ENTRY3); a4.Add(true); a4.Add(ex.Description);
 		bigArray.Add(a4);
 
-		//a5.Add(Constants.GenericWindowShow.SPININT2); a5.Add(true); a5.Add(ex.AngleDefault);
-		//bigArray.Add(a5);
+		a5.Add(Constants.GenericWindowShow.CHECK1); a5.Add(true); a5.Add(Util.BoolToRBool(ex.TareBeforeCapture));
+		bigArray.Add(a5);
 
 
 		genericWin = GenericWindow.Show(Catalog.GetString("Exercise"), false,	//don't show now
@@ -1832,6 +1847,7 @@ LogB.Information(" re R ");
 		genericWin.LabelEntry3 = Catalog.GetString("Description");
 		//genericWin.LabelSpinInt2 = Catalog.GetString("Default angle");
 		//genericWin.SetSpin2Range(0,180);
+		genericWin.SetCheck1Label(Catalog.GetString("Tare before capture"));
 
 		genericWin.ShowButtonCancel(false);
 
@@ -1853,7 +1869,7 @@ LogB.Information(" re R ");
 		ArrayList a2 = new ArrayList();
 		ArrayList a3 = new ArrayList();
 		ArrayList a4 = new ArrayList();
-		//ArrayList a5 = new ArrayList();
+		ArrayList a5 = new ArrayList();
 
 		//0 is the widgget to show; 1 is the editable; 2 id default value
 		a1.Add(Constants.GenericWindowShow.ENTRY); a1.Add(true); a1.Add("");
@@ -1868,8 +1884,8 @@ LogB.Information(" re R ");
 		a4.Add(Constants.GenericWindowShow.ENTRY3); a4.Add(true); a4.Add("");
 		bigArray.Add(a4);
 
-		//a5.Add(Constants.GenericWindowShow.SPININT2); a5.Add(true); a5.Add("");
-		//bigArray.Add(a5);
+		a5.Add(Constants.GenericWindowShow.CHECK1); a5.Add(true); a5.Add("False");
+		bigArray.Add(a5);
 
 
 		genericWin = GenericWindow.Show(Catalog.GetString("Exercise"), false,	//don't show now
@@ -1880,6 +1896,7 @@ LogB.Information(" re R ");
 		genericWin.LabelEntry3 = Catalog.GetString("Description");
 		//genericWin.LabelSpinInt2 = Catalog.GetString("Default angle");
 		//genericWin.SetSpin2Range(0,180);
+		genericWin.SetCheck1Label(Catalog.GetString("Tare before capture"));
 
 		genericWin.SetButtonAcceptLabel(Catalog.GetString("Add"));
 
@@ -1926,7 +1943,8 @@ LogB.Information(" re R ");
 				SqliteForceSensorExercise.Insert(false, -1, name, genericWin.SpinIntSelected,
 						genericWin.Entry2Selected,
 						genericWin.SpinInt2Selected,
-						genericWin.Entry3Selected
+						genericWin.Entry3Selected,
+						genericWin.GetCheck1
 						);
 			else {
 				ForceSensorExercise ex = new ForceSensorExercise(
@@ -1935,7 +1953,8 @@ LogB.Information(" re R ");
 						genericWin.SpinIntSelected,
 						genericWin.Entry2Selected,
 						genericWin.SpinInt2Selected,
-						genericWin.Entry3Selected
+						genericWin.Entry3Selected,
+						genericWin.GetCheck1
 						);
 				SqliteForceSensorExercise.Update(false, ex);
 			}

@@ -869,6 +869,24 @@ public class Util
 		return path;
 	}
 	
+	//url and videoURL stored path is relative to be able to move data between computers
+	//then SELECT: makes it abolute (addURLpath)
+	//INSERT and UPDATE: makes it relative (removeURLpath)
+	public static string MakeURLabsolute(string url) {
+		string parentDir = Util.GetParentDir(true); //add final '/' or '\'
+		if( ! url.StartsWith(parentDir) )
+			url = parentDir + url;
+
+		return url;
+	}
+	public static string MakeURLrelative(string url) {
+		string parentDir = Util.GetParentDir(true); //add final '/' or '\'
+		if( url.StartsWith(parentDir) )
+			url = url.Replace(parentDir, "");
+
+		return url;
+	}
+
 	/********** end of LocalApplicationData path ************/
 	
 	/********** start of database paths ************/

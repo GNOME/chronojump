@@ -172,9 +172,11 @@ class SqlitePersonSession : Sqlite
 		Sqlite.Close();
 	}
 
-	public static bool PersonSelectExistsInSession(int myPersonID, int mySessionID)
+	public static bool PersonSelectExistsInSession(bool dbconOpened, int myPersonID, int mySessionID)
 	{
-		Sqlite.Open();
+		if(! dbconOpened)
+			Sqlite.Open();
+
 		dbcmd.CommandText = "SELECT * FROM " + Constants.PersonSessionTable +
 			" WHERE personID == " + myPersonID + 
 			" AND sessionID == " + mySessionID ; 
@@ -190,7 +192,10 @@ class SqlitePersonSession : Sqlite
 			exists = true;
 
 		reader.Close();
-		Sqlite.Close();
+
+		if(! dbconOpened)
+			Sqlite.Close();
+
 		return exists;
 	}
 

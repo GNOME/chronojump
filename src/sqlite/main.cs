@@ -125,7 +125,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.67";
+	static string lastChronojumpDatabaseVersion = "1.69";
 
 	public Sqlite() {
 	}
@@ -2424,6 +2424,22 @@ class Sqlite
 				executeSQL("ALTER TABLE " + Constants.ForceSensorExerciseTable + " ADD COLUMN tareBeforeCapture INT NOT NULL DEFAULT 0;");
 				currentVersion = updateVersion("1.67");
 			}
+			if(currentVersion == "1.67")
+			{
+				LogB.SQL("Created table: ForceSensor");
+
+				SqliteForceSensor.createTable();
+
+				currentVersion = updateVersion("1.68");
+			}
+			if(currentVersion == "1.68")
+			{
+				LogB.SQL("Imported force sensor text files into SQL");
+
+				SqliteForceSensor.import_from_1_68_to_1_69();
+
+				currentVersion = updateVersion("1.69");
+			}
 
 
 			// --- add more updates here
@@ -2597,6 +2613,8 @@ class Sqlite
 		SqliteChronopicRegister.createTableChronopicRegister();
 		SqliteTrigger.createTableTrigger();
 
+		//forceSensor
+		SqliteForceSensor.createTable();
 		SqliteForceSensorExercise.createTable();
 		SqliteForceSensorRFD.createTable();
 		SqliteForceSensorRFD.InsertDefaultValues(true);
@@ -2611,6 +2629,8 @@ class Sqlite
 		SqliteJson.createTableUploadExhibitionTestTemp ();
 
 		//changes [from - to - desc]
+		//1.68 - 1.69 Converted DB to 1.69 Imported force sensor text files into SQL
+		//1.67 - 1.68 Converted DB to 1.68 Created table: ForceSensor
 		//1.66 - 1.67 Converted DB to 1.67 ALTER TABLE Constants.ForceSensorExerciseTable ADD COLUMN tareBeforeCapture INT
 		//1.65 - 1.66 Converted DB to 1.66 Added to preferences: encoderCaptureSecondaryVariableShow
 		//1.64 - 1.65 Converted DB to 1.65 Added to preferences: encoderCaptureSecondaryVariable

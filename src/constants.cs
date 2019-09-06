@@ -157,6 +157,7 @@ public class Constants
 	public const string Encoder1RMTable = "encoder1RM";
 	public const string ExecuteAutoTable = "executeAuto";
 	public const string TriggerTable = "trigger";
+	public const string ForceSensorTable = "forceSensor";
 	public const string ForceSensorExerciseTable = "forceSensorExercise";
 	public const string ForceRFDTable = "forceRFD";
 

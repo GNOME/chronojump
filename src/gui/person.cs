@@ -1720,7 +1720,7 @@ public class PersonAddModifyWindow
 				if(p.UniqueID != -1)
 				{
 					personLoadable = ! SqlitePersonSession.PersonSelectExistsInSession(
-							p.UniqueID, currentSession.UniqueID);
+							false, p.UniqueID, currentSession.UniqueID);
 					loadingPerson = p;
 				}
 			}

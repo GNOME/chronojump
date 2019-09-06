@@ -22,7 +22,126 @@ using System;
 //using System.Data;
 using System.Collections;
 using System.Collections.Generic; //List<T>
+using System.IO; //DirectoryInfo
 using Mono.Data.Sqlite;
+using System.Text.RegularExpressions; //Regex
+using Mono.Unix;
+
+class SqliteForceSensor : Sqlite
+{
+	private static string table = Constants.ForceSensorTable;
+
+	public SqliteForceSensor() {
+	}
+
+	~SqliteForceSensor() {}
+
+	/*
+	 * create and initialize tables
+	 */
+
+	protected internal static void createTable()
+	{
+		dbcmd.CommandText =
+			"CREATE TABLE " + table + " ( " +
+			"uniqueID INTEGER PRIMARY KEY, " +
+			"personID INT, " +
+			"sessionID INT, " +
+			"exerciseID INT, " +
+			"angle INT, " + 	//angle can be different than the defaultAngle on exercise
+			"laterality TEXT, " +	//"Both" "Right" "Left". stored in english
+			"filename TEXT, " +
+			"url TEXT, " +		//URL of data files. stored as relative
+			"datetime TEXT, " + 	//2019-07-11_15-01-44
+			"comments TEXT, " +
+			"videoURL TEXT)";	//URL of video of signals. stored as relative
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+	}
+
+	public static void Insert (bool dbconOpened, string insertString)
+	{
+		if(! dbconOpened)
+			Sqlite.Open();
+
+		dbcmd.CommandText = "INSERT INTO " + table +
+				" (uniqueID, personID, sessionID, exerciseID, angle, laterality, filename, url, dateTime, comments, videoURL)" +
+				" VALUES " + insertString;
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery(); //TODO uncomment this again
+
+		if(! dbconOpened)
+			Sqlite.Close();
+	}
+
+	protected internal static void import_from_1_68_to_1_69() //database is opened
+	{
+		LogB.PrintAllThreads = true; //TODO: remove this
+		LogB.Information("at import_from_1_68_to_1_69()");
+		//LogB.Information("Sqlite isOpened: " + Sqlite.IsOpened.ToString());
+
+		string forceSensorDir = Util.GetForceSensorDir();
+
+		int unknownExerciseID = Sqlite.ExistsAndGetUniqueID(true, Constants.ForceSensorExerciseTable, Catalog.GetString("Unknown"));
+
+		DirectoryInfo [] sessions = new DirectoryInfo(forceSensorDir).GetDirectories();
+		foreach (DirectoryInfo session in sessions) //session.Name will be the UniqueID
+		{
+			foreach (FileInfo file in session.GetFiles())
+			{
+				string fileWithoutExtension = Util.RemoveExtension(Util.GetLastPartOfPath(file.Name));
+				ForceSensorLoadTryToAssignPersonAndMore fslt =
+					new ForceSensorLoadTryToAssignPersonAndMore(true, fileWithoutExtension, Convert.ToInt32(session.Name));
+				//TODO: no se si session.ToString() és la manera de saber el nom del DirectoryInfo
+
+				Person p = fslt.GetPerson();
+				if(p.UniqueID == -1)
+					continue;
+
+				if(! Util.IsNumber(session.Name, false))
+					continue;
+
+				//at the beginning exercise was not written on the filename, because force sensor started without exercises on sql
+				//"person name_2017-11-11_19-35-55.csv"
+				//if cannot found exercise, assign to Unknown
+				int exerciseID = -1;
+				if(fslt.Exercise != "")
+					exerciseID = ExistsAndGetUniqueID(true, Constants.ForceSensorExerciseTable, fslt.Exercise);
+
+				if(fslt.Exercise == "" || exerciseID == -1)
+				{
+					if(unknownExerciseID == -1)
+						unknownExerciseID = SqliteForceSensorExercise.Insert (true, -1, Catalog.GetString("Unknown"), 0, "", 0, "", false);
+
+					exerciseID = unknownExerciseID;
+				}
+
+				//laterality (in English)
+				string lat = fslt.Laterality;
+				if(lat == Catalog.GetString(Constants.ForceSensorLateralityRight))
+					lat = Constants.ForceSensorLateralityRight;
+				else if(lat == Catalog.GetString(Constants.ForceSensorLateralityLeft))
+					lat = Constants.ForceSensorLateralityLeft;
+				else
+					lat = Constants.ForceSensorLateralityBoth;
+
+				string parsedDate = UtilDate.ToFile(DateTime.MinValue);
+				Match match = Regex.Match(file.Name, @"(\d+-\d+-\d+_\d+-\d+-\d+)");
+				if(match.Groups.Count == 2)
+					parsedDate = match.Value;
+
+				ForceSensor forceSensor = new ForceSensor(-1, p.UniqueID, Convert.ToInt32(session.Name), exerciseID, ForceSensor.AngleUndefined, lat,
+						//file.Name,
+						p.UniqueID + "_" + p.Name + "_" + parsedDate, //filename
+						Util.MakeURLrelative(Util.GetForceSensorSessionDir(Convert.ToInt32(session.Name))), //laterality, filename, url
+						parsedDate, fslt.Comment, "");
+				forceSensor.InsertSQL(true);
+			}
+		}
+
+		LogB.PrintAllThreads = false; //TODO: remove this
+	}
+}
 
 class SqliteForceSensorExercise : Sqlite
 {
@@ -48,12 +167,13 @@ class SqliteForceSensorExercise : Sqlite
 			"angleDefault INT, " +
 			"description TEXT, " +
 			"tareBeforeCapture INT)";
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}
 
 	//undefined defaultAngle will be 1000
 	//note execution can have a different angle than the default angle
-	public static void Insert (bool dbconOpened, int uniqueID, string name, int percentBodyWeight,
+	public static int Insert (bool dbconOpened, int uniqueID, string name, int percentBodyWeight,
 			string resistance, int angleDefault, string description, bool tareBeforeCapture)
 	{
 		if(! dbconOpened)
@@ -64,15 +184,21 @@ class SqliteForceSensorExercise : Sqlite
 			uniqueIDStr = uniqueID.ToString();
 
 		dbcmd.CommandText = "INSERT INTO " + table +
-				" (uniqueID, name, percentBodyWeight, resistance, angleDefault, description)" +
+				" (uniqueID, name, percentBodyWeight, resistance, angleDefault, description, tareBeforeCapture)" +
 				" VALUES (" + uniqueIDStr + ", \"" + name + "\", " + percentBodyWeight + ", \"" +
 				resistance + "\", " + angleDefault + ", \"" + description + "\", " +
 				Util.BoolToInt(tareBeforeCapture).ToString() + ")";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
+		string myString = @"select last_insert_rowid()";
+		dbcmd.CommandText = myString;
+		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
+
 		if(! dbconOpened)
 			Sqlite.Close();
+
+		return myLast;
 	}
 
 	public static void Update (bool dbconOpened, ForceSensorExercise ex)

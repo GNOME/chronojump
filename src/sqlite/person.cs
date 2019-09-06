@@ -94,8 +94,8 @@ class SqlitePerson : Sqlite
 	public static Person Select(int uniqueID) {
 		return Select(false, " WHERE uniqueID = " + uniqueID);
 	}
-	public static Person SelectByName(string name) {
-		return Select(false, " WHERE name = \"" + name + "\"");
+	public static Person SelectByName(bool dbconOpened, string name) {
+		return Select(dbconOpened, " WHERE name = \"" + name + "\"");
 	}
 	public static Person SelectByRFID(string rfid) {
 		return Select(false, " WHERE future1 = \"" + rfid + "\"");

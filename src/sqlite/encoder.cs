@@ -86,10 +86,10 @@ class SqliteEncoder : Sqlite
 			es.exerciseID + ", \"" + es.eccon + "\", \"" +
 			es.LateralityToEnglish() + "\", \"" + Util.ConvertToPoint(es.extraWeight) + "\", \"" +
 			es.signalOrCurve + "\", \"" + es.filename + "\", \"" +
-			removeURLpath(es.url) + "\", " + 
+			Util.MakeURLrelative(es.url) + "\", " +
 			es.time + ", " + es.minHeight + ", \"" + es.description + 
 			"\", \"" + es.status + "\", \"" + 
-			removeURLpath(es.videoURL) + "\", \"" + 
+			Util.MakeURLrelative(es.videoURL) + "\", \"" +
 			es.encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) + "\", \"" +
 			Util.ConvertToPoint(es.future1) + "\", \"" + es.future2 + "\", \"" + es.future3 + "\")";
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -134,12 +134,12 @@ class SqliteEncoder : Sqlite
 				"\", extraWeight = \"" + Util.ConvertToPoint(es.extraWeight) +
 				"\", signalOrCurve = \"" + es.signalOrCurve +
 				"\", filename = \"" + es.filename +
-				"\", url = \"" + removeURLpath(es.url) +
+				"\", url = \"" + Util.MakeURLrelative(es.url) +
 				"\", time = " + es.time +
 				", minHeight = " + es.minHeight +
 				", description = \"" + es.description + 
 				"\", status = \"" + es.status + 
-				"\", videoURL = \"" + removeURLpath(es.videoURL) + 
+				"\", videoURL = \"" + Util.MakeURLrelative(es.videoURL) +
 				"\", encoderConfiguration = \"" + es.encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) +
 				"\", future1 = \"" + Util.ConvertToPoint(es.future1) + 
 				"\", future2 = \"" + es.future2 + 
@@ -290,7 +290,7 @@ class SqliteEncoder : Sqlite
 			//if there's video, will be with full path
 			string videoURL = "";
 			if(reader[14].ToString() != "")
-				videoURL = addURLpath(fixOSpath(reader[14].ToString()));
+				videoURL = Util.MakeURLabsolute(fixOSpath(reader[14].ToString()));
 			
 			//LogB.SQL(econf.ToString(":", true));
 			eSQL = new EncoderSQL (
@@ -303,7 +303,7 @@ class SqliteEncoder : Sqlite
 					Util.ChangeDecimalSeparator(reader[6].ToString()),	//extraWeight
 					reader[7].ToString(),			//signalOrCurve
 					reader[8].ToString(),			//filename
-					addURLpath(fixOSpath(reader[9].ToString())),	//url
+					Util.MakeURLabsolute(fixOSpath(reader[9].ToString())),	//url
 					Convert.ToInt32(reader[10].ToString()),	//time
 					Convert.ToInt32(reader[11].ToString()),	//minHeight
 					reader[12].ToString(),			//description
@@ -697,23 +697,6 @@ class SqliteEncoder : Sqlite
 			return url.Replace("/","\\");
 		else
 			return url.Replace("\\","/");
-	}
-	//url and videoURL stored path is relative to be able to move data between computers
-	//then SELECT: makes it abolute (addURLpath)
-	//INSERT and UPDATE: makes it relative (removeURLpath)
-	private static string addURLpath(string url) {
-		string parentDir = Util.GetParentDir(true); //add final '/' or '\'
-		if( ! url.StartsWith(parentDir) )
-			url = parentDir + url; 
-
-		return url;
-	}
-	private static string removeURLpath(string url) {
-		string parentDir = Util.GetParentDir(true); //add final '/' or '\'
-		if( url.StartsWith(parentDir) )
-			url = url.Replace(parentDir, ""); 
-
-		return url;
 	}
 
 

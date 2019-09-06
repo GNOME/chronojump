@@ -898,7 +898,8 @@ public partial class ChronoJumpWindow
 				currentForceSensorExercise.UniqueID, ForceSensor.AngleUndefined, getLaterality(false),
 				Util.GetLastPartOfPath(fileName), //filename
 				Util.MakeURLrelative(Util.GetForceSensorSessionDir(currentSession.UniqueID)), //url
-				UtilDate.ToFile(forceSensorTimeStartCapture), captureComment, ""); //dateTime, comment, videoURL
+				UtilDate.ToFile(forceSensorTimeStartCapture), captureComment, "", //dateTime, comment, videoURL
+				currentForceSensorExercise.Name);
 		forceSensor.InsertSQL(false);
 
 		if(forceProcessCancel || forceProcessError)
@@ -1223,6 +1224,65 @@ LogB.Information(" re R ");
 		force_capture_allocationXOld = allocation.Width;
 	}
 
+	//this is called when user clicks on load signal
+	private void on_button_force_sensor_load_clicked (object o, EventArgs args)
+	{
+		ArrayList data = SqliteForceSensor.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID);
+
+		ArrayList dataPrint = new ArrayList();
+		int count = 1;
+		foreach(ForceSensor fs in data)
+			dataPrint.Add(fs.ToStringArray(count++));
+
+		string [] columnsString = {
+			Catalog.GetString("ID"),
+			Catalog.GetString("Set"),
+			Catalog.GetString("Exercise"),
+			Catalog.GetString("Laterality"),
+			Catalog.GetString("Date"),
+			Catalog.GetString("Video"),
+			Catalog.GetString("Comment")
+		};
+
+		ArrayList bigArray = new ArrayList();
+		ArrayList a1 = new ArrayList();
+		ArrayList a2 = new ArrayList();
+		//0 is the widgget to show; 1 is the editable; 2 id default value
+		a1.Add(Constants.GenericWindowShow.TREEVIEW); a1.Add(true); a1.Add("");
+		bigArray.Add(a1);
+
+		a2.Add(Constants.GenericWindowShow.COMBO); a2.Add(true); a2.Add("");
+		bigArray.Add(a2);
+
+		genericWin = GenericWindow.Show(Catalog.GetString("Load"), false,	//don't show now
+				string.Format(Catalog.GetString("Select set of athlete {0} on this session."),
+					currentPerson.Name)
+				//	+ "\n" +
+				//Catalog.GetString("If you want to edit or delete a row, right click on it.")
+				, bigArray);
+
+		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList(), Constants.ContextMenu.NONE, true);
+
+		//select row corresponding to current signal
+		//genericWin.SelectRowWithID(0, myEncoderSignalUniqueID); //colNum, id
+
+		genericWin.ShowButtonCancel(true);
+		genericWin.SetButtonAcceptLabel(Catalog.GetString("Load"));
+		genericWin.SetButtonCancelLabel(Catalog.GetString("Close"));
+		genericWin.SetButtonAcceptSensitive(false);
+		genericWin.Button_accept.Clicked += new EventHandler(on_force_sensor_load_signal_accepted);
+
+		genericWin.ShowNow();
+	}
+
+	private void on_force_sensor_load_signal_accepted (object o, EventArgs args)
+	{
+		new DialogMessage(Constants.MessageTypes.INFO, "TODO");
+	}
+
+	/*
+	 * OLD: load file
+	 * now using above methods that load from SQL
 	private void on_button_force_sensor_load_clicked (object o, EventArgs args)
 	{
 		if (currentSession == null)
@@ -1286,6 +1346,7 @@ LogB.Information(" re R ");
 		}
 		filechooser.Destroy ();
 	}
+	*/
 
 	private void on_button_force_sensor_capture_recalculate_clicked (object o, EventArgs args)
 	{

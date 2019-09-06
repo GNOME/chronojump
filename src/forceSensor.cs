@@ -40,9 +40,11 @@ public class ForceSensor
 	private string comments;
 	private string videoURL;
 
+	private string exerciseName;
+
 	//constructor
 	public ForceSensor(int uniqueID, int personID, int sessionID, int exerciseID, int angle,
-			string laterality, string filename, string url, string dateTime, string comments, string videoURL)
+			string laterality, string filename, string url, string dateTime, string comments, string videoURL, string exerciseName)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
@@ -55,6 +57,8 @@ public class ForceSensor
 		this.dateTime = dateTime;
 		this.comments = comments;
 		this.videoURL = videoURL;
+
+		this.exerciseName = exerciseName;
 	}
 
 	public void InsertSQL(bool dbconOpened)
@@ -72,6 +76,22 @@ public class ForceSensor
 			"(" + uniqueIDStr + ", " + personID + ", " + sessionID + ", " + exerciseID + ", " +
 			angle + ", \"" + laterality + "\", \"" + filename + "\", \"" + url + "\", \"" + dateTime + "\", \"" +
 			comments + "\", \"" + videoURL + "\")";
+	}
+
+	public string [] ToStringArray (int count)
+	{
+		int all = 7;
+		string [] str = new String [all];
+		int i=0;
+		str[i++] = uniqueID.ToString();
+		str[i++] = count.ToString();
+		str[i++] = exerciseName;
+		str[i++] = Catalog.GetString(laterality);
+		str[i++] = dateTime;
+		str[i++] = videoURL;
+		str[i++] = comments;
+
+		return str;
 	}
 
 	//static methods

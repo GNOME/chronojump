@@ -74,6 +74,63 @@ class SqliteForceSensor : Sqlite
 			Sqlite.Close();
 	}
 
+	//SELECT forceSensor.*, forceSensorExercise.Name FROM forceSensor, forceSensorExercise WHERE forceSensor.exerciseID = forceSensorExercise.UniqueID ORDER BY forceSensor.uniqueID;
+	public static ArrayList Select (bool dbconOpened, int uniqueID, int personID, int sessionID)
+	{
+		if(! dbconOpened)
+			Sqlite.Open();
+
+		string selectStr = "SELECT " + table + ".*, " + Constants.ForceSensorExerciseTable + ".Name FROM " + table + ", " + Constants.ForceSensorExerciseTable;
+		string whereStr = " WHERE " + table + ".exerciseID = " + Constants.ForceSensorExerciseTable + ".UniqueID ";
+
+		string uniqueIDStr = "";
+		if(uniqueID != -1)
+			uniqueIDStr = " AND " + table + ".uniqueID = " + uniqueID;
+
+		string personIDStr = "";
+		if(personID != -1)
+			personIDStr = " AND " + table + ".personID = " + personID;
+
+		string sessionIDStr = "";
+		if(sessionID != -1)
+			sessionIDStr = " AND " + table + ".sessionID = " + sessionID;
+
+		dbcmd.CommandText = selectStr + whereStr + uniqueIDStr + personIDStr + sessionIDStr + " Order BY " + table + ".uniqueID";
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		ArrayList array = new ArrayList(1);
+		ForceSensor fs;
+
+		while(reader.Read()) {
+			fs = new ForceSensor (
+					Convert.ToInt32(reader[0].ToString()),	//uniqueID
+					Convert.ToInt32(reader[1].ToString()),	//personID
+					Convert.ToInt32(reader[2].ToString()),	//sessionID
+					Convert.ToInt32(reader[3].ToString()),	//exerciseID
+					Convert.ToInt32(reader[4].ToString()),	//angle
+					reader[5].ToString(),			//laterality
+					reader[6].ToString(),			//filename
+					reader[7].ToString(),			//url
+					reader[8].ToString(),			//datetime
+					reader[9].ToString(),			//comments
+					reader[10].ToString(),			//videoURL
+					reader[11].ToString()			//exerciseName
+					);
+			array.Add(fs);
+		}
+
+		reader.Close();
+		if(! dbconOpened)
+			Sqlite.Close();
+
+		return array;
+	}
+
 	protected internal static void import_from_1_68_to_1_69() //database is opened
 	{
 		LogB.PrintAllThreads = true; //TODO: remove this
@@ -105,6 +162,7 @@ class SqliteForceSensor : Sqlite
 				//"person name_2017-11-11_19-35-55.csv"
 				//if cannot found exercise, assign to Unknown
 				int exerciseID = -1;
+				string exerciseName = fslt.Exercise;
 				if(fslt.Exercise != "")
 					exerciseID = ExistsAndGetUniqueID(true, Constants.ForceSensorExerciseTable, fslt.Exercise);
 
@@ -114,6 +172,7 @@ class SqliteForceSensor : Sqlite
 						unknownExerciseID = SqliteForceSensorExercise.Insert (true, -1, Catalog.GetString("Unknown"), 0, "", 0, "", false);
 
 					exerciseID = unknownExerciseID;
+					exerciseName = Catalog.GetString("Unknown");
 				}
 
 				//laterality (in English)
@@ -134,7 +193,7 @@ class SqliteForceSensor : Sqlite
 						//file.Name,
 						p.UniqueID + "_" + p.Name + "_" + parsedDate, //filename
 						Util.MakeURLrelative(Util.GetForceSensorSessionDir(Convert.ToInt32(session.Name))), //laterality, filename, url
-						parsedDate, fslt.Comment, "");
+						parsedDate, fslt.Comment, "", exerciseName);
 				forceSensor.InsertSQL(true);
 			}
 		}

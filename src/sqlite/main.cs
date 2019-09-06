@@ -2768,6 +2768,14 @@ class Sqlite
 
 	public static bool Exists(bool dbconOpened, string tableName, string findName)
 	{
+		return (ExistsDo(dbconOpened, tableName, findName) != -1);
+	}
+	public static int ExistsAndGetUniqueID(bool dbconOpened, string tableName, string findName)
+	{
+		return ExistsDo(dbconOpened, tableName, findName);
+	}
+	public static int ExistsDo(bool dbconOpened, string tableName, string findName)
+	{
 		if(!dbconOpened)
 			Sqlite.Open();
 
@@ -2778,19 +2786,20 @@ class Sqlite
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 	
-		bool exists = new bool();
-		exists = false;
+		int id = -1;
 		
 		if (reader.Read()) {
-			exists = true;
+			string s = reader[0].ToString();
+			if(Util.IsNumber(s, false))
+				id = Convert.ToInt32(s);
 		}
-		LogB.SQL(string.Format("name exists = {0}", exists.ToString()));
+		LogB.SQL(string.Format("SQL.ExistsDo... table: {0}; name: {1}; id: {2}.", tableName, findName, id.ToString()));
 
 		reader.Close();
 		if(!dbconOpened)
 			Sqlite.Close();
 
-		return exists;
+		return id;
 	}
 
 	public static string SQLBuildQueryString (string tableName, string test, string variable,

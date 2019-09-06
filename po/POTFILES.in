@@ -108,6 +108,7 @@ src/serverPing.cs
 src/sprint.cs
 src/sqlite/country.cs
 src/sqlite/encoder.cs
+src/sqlite/forceSensor.cs
 src/sqlite/main.cs
 src/sqlite/personSession.cs
 src/sqlite/server.cs

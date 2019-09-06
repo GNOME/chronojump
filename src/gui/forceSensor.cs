@@ -764,18 +764,16 @@ public partial class ChronoJumpWindow
 
 		forceCaptureStartMark = true;
 		forceSensorTimeStart = DateTime.Now; //to have an active count of capture time
+		DateTime forceSensorTimeStartCapture = forceSensorTimeStart; //to have same DateTime on filename and on sql datetime
 		capturingForce = arduinoCaptureStatus.CAPTURING;
+		string captureComment = getCaptureComment(); //includes "_" if it's no empty
 
 		Util.CreateForceSensorSessionDirIfNeeded (currentSession.UniqueID);
 
 		//done at on_buttons_force_sensor_clicked()
 		//assignCurrentForceSensorExercise();
 
-		string fileNamePre = currentPerson.Name + "_" +
-			Catalog.GetString(currentForceSensorExercise.Name) + "_" +
-			getLaterality() + "_" +
-			getCaptureComment() + //includes "_" if it's no empty
-			UtilDate.ToFile(DateTime.Now);
+		string fileNamePre = currentPerson.UniqueID + "_" + currentPerson.Name + "_" + UtilDate.ToFile(forceSensorTimeStartCapture);
 
 		ForceSensor.CaptureOptions forceSensorCaptureOption = getForceSensorCaptureOptions();
 
@@ -896,7 +894,12 @@ public partial class ChronoJumpWindow
 		((IDisposable)writer).Dispose();
 		capturingForce = arduinoCaptureStatus.STOP;
 
-		//port.Close();
+		ForceSensor forceSensor = new ForceSensor(-1, currentPerson.UniqueID, currentSession.UniqueID,
+				currentForceSensorExercise.UniqueID, ForceSensor.AngleUndefined, getLaterality(false),
+				Util.GetLastPartOfPath(fileName), //filename
+				Util.MakeURLrelative(Util.GetForceSensorSessionDir(currentSession.UniqueID)), //url
+				UtilDate.ToFile(forceSensorTimeStartCapture), captureComment, ""); //dateTime, comment, videoURL
+		forceSensor.InsertSQL(false);
 
 		if(forceProcessCancel || forceProcessError)
 			Util.FileDelete(fileName);
@@ -1241,7 +1244,7 @@ LogB.Information(" re R ");
 			lastForceSensorFile = Util.RemoveExtension(Util.GetLastPartOfPath(filechooser.Filename));
 
 			//try to change currentPerson on loading set
-			ForceSensorLoadTryToAssignPersonAndMore fslt = new ForceSensorLoadTryToAssignPersonAndMore(lastForceSensorFile, currentSession.UniqueID);
+			ForceSensorLoadTryToAssignPersonAndMore fslt = new ForceSensorLoadTryToAssignPersonAndMore(false, lastForceSensorFile, currentSession.UniqueID);
 			Person p = fslt.GetPerson();
 			if(p.UniqueID != -1)
 			{
@@ -1282,6 +1285,18 @@ LogB.Information(" re R ");
 			event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(filechooser.Filename);
 		}
 		filechooser.Destroy ();
+	}
+
+	private void on_button_force_sensor_capture_recalculate_clicked (object o, EventArgs args)
+	{
+		if(! Util.FileExists(lastForceSensorFullPath))
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFoundStr());
+			return;
+		}
+
+		if(lastForceSensorFullPath != null && lastForceSensorFullPath != "")
+			forceSensorCopyTempAndDoGraphs();
 	}
 
 	private void on_button_force_sensor_analyze_recalculate_clicked (object o, EventArgs args)
@@ -2002,14 +2017,20 @@ LogB.Information(" re R ");
 			return ForceSensor.CaptureOptions.NORMAL;
 	}
 
-	private string getLaterality()
+	private string getLaterality(bool translated)
 	{
+		string lat = "";
 		if(radio_force_sensor_laterality_both.Active)
-			return Catalog.GetString(Constants.ForceSensorLateralityBoth);
+			lat = Constants.ForceSensorLateralityBoth;
 		else if(radio_force_sensor_laterality_l.Active)
-			return Catalog.GetString(Constants.ForceSensorLateralityLeft);
+			lat = Constants.ForceSensorLateralityLeft;
 		else //if(radio_force_sensor_laterality_r.Active)
-			return Catalog.GetString(Constants.ForceSensorLateralityRight);
+			lat = Constants.ForceSensorLateralityRight;
+
+		if(translated)
+			return Catalog.GetString(lat);
+
+		return lat;
 	}
 	private void setLaterality(string s)
 	{
@@ -2024,9 +2045,6 @@ LogB.Information(" re R ");
 	private string getCaptureComment()
 	{
 		string s = Util.MakeValidSQL(textview_force_sensor_capture_comment.Buffer.Text);
-		if(s != "")
-			s += "_";
-
 		return s;
 	}
 

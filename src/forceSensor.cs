@@ -26,7 +26,55 @@ using Mono.Unix;
 public class ForceSensor
 {
 	public enum CaptureOptions { NORMAL, ABS, INVERTED }
+	public static int AngleUndefined = -1000;
 
+	private int uniqueID;
+	private int personID;
+	private int sessionID;
+	private int exerciseID;
+	private int angle;
+	private string laterality;
+	private string filename;
+	private string url;	//relative
+	private string dateTime;
+	private string comments;
+	private string videoURL;
+
+	//constructor
+	public ForceSensor(int uniqueID, int personID, int sessionID, int exerciseID, int angle,
+			string laterality, string filename, string url, string dateTime, string comments, string videoURL)
+	{
+		this.uniqueID = uniqueID;
+		this.personID = personID;
+		this.sessionID = sessionID;
+		this.exerciseID = exerciseID;
+		this.angle = angle;
+		this.laterality = laterality;
+		this.filename = filename;
+		this.url = url;
+		this.dateTime = dateTime;
+		this.comments = comments;
+		this.videoURL = videoURL;
+	}
+
+	public void InsertSQL(bool dbconOpened)
+	{
+		SqliteForceSensor.Insert(dbconOpened, toSQLInsertString());
+	}
+
+	private string toSQLInsertString()
+	{
+		string uniqueIDStr = "NULL";
+		if(uniqueID != -1)
+			uniqueIDStr = uniqueID.ToString();
+
+		return
+			"(" + uniqueIDStr + ", " + personID + ", " + sessionID + ", " + exerciseID + ", " +
+			angle + ", \"" + laterality + "\", \"" + filename + "\", \"" + url + "\", \"" + dateTime + "\", \"" +
+			comments + "\", \"" + videoURL + "\")";
+	}
+
+	//static methods
 	public static double ForceWithCaptureOptionsAndBW (double force, CaptureOptions fsco, int percentBodyWeight, double personWeight)
 	{
 		if(percentBodyWeight > 0 && personWeight > 0)
@@ -39,6 +87,7 @@ public class ForceSensor
 
 		return force;
 	}
+
 }
 
 public class ForceSensorExercise
@@ -333,6 +382,7 @@ public class ForceSensorCapturePoints
 			RealWidthG *= 2;
 			outsideGraph = true;
 		}
+
 		if(p.Y < 0)
 		{
 			RealHeightG *= 2;
@@ -343,6 +393,7 @@ public class ForceSensorCapturePoints
 			RealHeightGNeg *= 2;
 			outsideGraph = true;
 		}
+
 		return outsideGraph;
 	}
 	// this is called at load signal, checks if last X is outside the graph and max/min force
@@ -1064,14 +1115,16 @@ public class ForceSensorAnalyzeInstant
 //we need this class because we started using forcesensor without database (only text files)
 public class ForceSensorLoadTryToAssignPersonAndMore
 {
+	private bool dbconOpened;
 	private string filename; //filename comes without extension
 	private int currentSessionID; //we get a person if already exists on that session
 	public string Exercise;
 	public string Laterality;
 	public string Comment;
 
-	public ForceSensorLoadTryToAssignPersonAndMore(string filename, int currentSessionID)
+	public ForceSensorLoadTryToAssignPersonAndMore(bool dbconOpened, string filename, int currentSessionID)
 	{
+		this.dbconOpened = dbconOpened;
 		this.filename = filename;
 		this.currentSessionID = currentSessionID;
 
@@ -1086,8 +1139,8 @@ public class ForceSensorLoadTryToAssignPersonAndMore
 		if(personName == "")
 			return new Person(-1);
 
-		Person p = SqlitePerson.SelectByName(personName);
-		if(SqlitePersonSession.PersonSelectExistsInSession(p.UniqueID, currentSessionID))
+		Person p = SqlitePerson.SelectByName(dbconOpened, personName);
+		if(SqlitePersonSession.PersonSelectExistsInSession(dbconOpened, p.UniqueID, currentSessionID))
 			return p;
 
 		return new Person(-1);
@@ -1111,7 +1164,7 @@ public class ForceSensorLoadTryToAssignPersonAndMore
 		else if(strFull.Length >= 5)
 		{
 			//strFull[1] is the exercise, but check that it existst on database
-			if(Sqlite.Exists(false, Constants.ForceSensorExerciseTable, strFull[1]))
+			if(Sqlite.Exists(dbconOpened, Constants.ForceSensorExerciseTable, strFull[1]))
 				Exercise = strFull[1];
 
 			if(

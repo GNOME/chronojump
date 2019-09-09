@@ -50,7 +50,7 @@ assignOptions <- function(options) {
 #-------------- assign options -------------
 op <- assignOptions(options)
 
-getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, Height , Vw = 0, device = "FISHING")
+getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, Height , Vw = 0, device = "MANUAL")
 {
         print("#####Entering in getSprintFromEncoder###############")
         # Constants for the air friction modeling
@@ -74,9 +74,9 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         
         #TODO: measure metersPerPulse several times to have an accurate value
 	metersPerPulse = NULL
-	if(device == "FISHING")                 #Hand device
+	if(device == "MANUAL")                 #manual race analyzer - Hand device
 	        metersPerPulse = 0.003003
-	else                                    #sled device
+	else                                    #resisted race analyzer - sled device
 	        metersPerPulse = 30 / 12267 	#In 30m there are 12267 pulses.
 
         raceAnalyzer$displacement = raceAnalyzer$displacement * metersPerPulse

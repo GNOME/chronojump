@@ -24,7 +24,7 @@ using System.Collections.Generic; //List<T>
 
 public class RunEncoderGraph
 {
-	public enum Devices { FISHING, OTHER }
+	public enum Devices { MANUAL, RESISTED }
 
 	private int testLength;
 	private double mass;

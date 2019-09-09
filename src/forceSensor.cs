@@ -119,6 +119,10 @@ public class ForceSensor
 	{
 		get { return filename; }
 	}
+	public CaptureOptions CaptureOption
+	{
+		get { return captureOption; }
+	}
 	public string Laterality
 	{
 		get { return laterality; }

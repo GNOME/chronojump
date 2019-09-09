@@ -1277,7 +1277,44 @@ LogB.Information(" re R ");
 
 	private void on_force_sensor_load_signal_accepted (object o, EventArgs args)
 	{
-		new DialogMessage(Constants.MessageTypes.INFO, "TODO");
+		LogB.Information("on force sensor load signal accepted");
+		genericWin.Button_accept.Clicked -= new EventHandler(on_force_sensor_load_signal_accepted);
+
+		int uniqueID = genericWin.TreeviewSelectedRowID();
+
+		genericWin.HideAndNull();
+
+		ArrayList data = SqliteForceSensor.Select(false, uniqueID, currentPerson.UniqueID, currentSession.UniqueID);
+		ForceSensor fs = (ForceSensor) data[0];
+		if(fs == null)
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFoundStr());
+			return;
+		}
+
+		if(! Util.FileExists(fs.FullURL))
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFoundStr());
+			return;
+		}
+
+		lastForceSensorFile = Util.RemoveExtension(fs.Filename);
+		lastForceSensorFullPath = fs.FullURL;
+
+		combo_force_sensor_exercise.Active = UtilGtk.ComboMakeActive(combo_force_sensor_exercise, Catalog.GetString(fs.ExerciseName));
+		setLaterality(fs.Laterality);
+		textview_force_sensor_capture_comment.Buffer.Text = fs.Comments;
+
+		assignCurrentForceSensorExercise();
+		forceSensorCopyTempAndDoGraphs();
+
+		//if drawingarea has still not shown, don't paint graph because GC screen is not defined
+		if(force_sensor_ai_drawingareaShown)
+		{
+			forceSensorZoomDefaultValues();
+			forceSensorDoGraphAI();
+		}
+		//event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(filechooser.Filename);
 	}
 
 	/*

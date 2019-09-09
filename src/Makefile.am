@@ -279,6 +279,7 @@ RESOURCES = \
 	../images/board-arduino-rfid.png,board-arduino-rfid.png \
 	../images/board-arduino-force.png,board-arduino-force.png \
 	../images/board-arduino-run-encoder.png,board-arduino-run-encoder.png \
+	../images/board-accelerometer.png,board-accelerometer.png \
 	../images/chronojump-jumps-small.png,chronojump-jumps-small.png \
 	../images/chronojump-runs-small.png,chronojump-runs-small.png \
 	../images/chronojump-encoder-small.png,chronojump-encoder-small.png \

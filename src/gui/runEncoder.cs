@@ -38,7 +38,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton race_analyzer_spinbutton_graph_width;
 	[Widget] Gtk.SpinButton race_analyzer_spinbutton_graph_height;
 	[Widget] Gtk.HBox hbox_race_analyzer_device;
-	[Widget] Gtk.RadioButton race_analyzer_radio_device_fishing;
+	[Widget] Gtk.RadioButton race_analyzer_radio_device_manual;
 	[Widget] Gtk.Image image_race_encoder_graph;
 	[Widget] Gtk.Button button_run_encoder_recalculate;
 
@@ -214,10 +214,10 @@ public partial class ChronoJumpWindow
 		race_analyzer_graph_width = Convert.ToInt32(race_analyzer_spinbutton_graph_width.Value);
 		race_analyzer_graph_height = Convert.ToInt32(race_analyzer_spinbutton_graph_height.Value);
 
-		if(race_analyzer_radio_device_fishing.Active)
-			race_analyzer_device = RunEncoderGraph.Devices.FISHING;
+		if(race_analyzer_radio_device_manual.Active)
+			race_analyzer_device = RunEncoderGraph.Devices.MANUAL;
 		else
-			race_analyzer_device = RunEncoderGraph.Devices.OTHER;
+			race_analyzer_device = RunEncoderGraph.Devices.RESISTED;
 	}
 
 	//TODO: do all this with an "other" thread like in force sensor to allow connecting messages to be displayed

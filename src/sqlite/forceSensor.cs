@@ -194,7 +194,7 @@ class SqliteForceSensor : Sqlite
 					parsedDate = match.Value;
 
 				//filename will be this
-				string myFilename = p.UniqueID + "_" + p.Name + "_" + parsedDate;
+				string myFilename = p.UniqueID + "_" + p.Name + "_" + parsedDate + ".csv";
 				//try to move the file
 				try{
 					File.Move(file.FullName, Util.GetForceSensorSessionDir(Convert.ToInt32(session.Name)) + Path.DirectorySeparatorChar + myFilename);

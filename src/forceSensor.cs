@@ -108,6 +108,26 @@ public class ForceSensor
 		return force;
 	}
 
+	public string FullURL
+	{
+		get { return Util.GetForceSensorSessionDir(sessionID) + Path.DirectorySeparatorChar + filename; }
+	}
+	public string Filename
+	{
+		get { return filename; }
+	}
+	public string Laterality
+	{
+		get { return laterality; }
+	}
+	public string Comments
+	{
+		get { return comments; }
+	}
+	public string ExerciseName
+	{
+		get { return exerciseName; }
+	}
 }
 
 public class ForceSensorExercise

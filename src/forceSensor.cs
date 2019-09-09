@@ -119,21 +119,35 @@ public class ForceSensor
 	{
 		get { return filename; }
 	}
+
+	public int UniqueID
+	{
+		get { return uniqueID; }
+	}
+	public int ExerciseID
+	{
+		get { return exerciseID; }
+		set { exerciseID = value; }
+	}
 	public CaptureOptions CaptureOption
 	{
 		get { return captureOption; }
+		set { captureOption = value; }
 	}
 	public string Laterality
 	{
 		get { return laterality; }
+		set { laterality = value; }
 	}
 	public string Comments
 	{
 		get { return comments; }
+		set { comments = value; }
 	}
 	public string ExerciseName
 	{
 		get { return exerciseName; }
+		set { exerciseName = value; }
 	}
 }
 

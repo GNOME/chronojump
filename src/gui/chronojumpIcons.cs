@@ -348,6 +348,7 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_recalculate.png");
 		image_recalculate.Pixbuf = pixbuf;
+		image_race_encoder_capture_recalculate.Pixbuf = pixbuf;
 		image_force_sensor_capture_recalculate.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_build_24.png");

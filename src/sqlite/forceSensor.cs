@@ -75,6 +75,25 @@ class SqliteForceSensor : Sqlite
 			Sqlite.Close();
 	}
 
+	public static void Update (bool dbconOpened, ForceSensor fs)
+	{
+		if(! dbconOpened)
+			Sqlite.Open();
+
+		dbcmd.CommandText = "UPDATE " + table + " SET " +
+			" exerciseID = " + fs.ExerciseID +
+			", captureOption = \"" + fs.CaptureOption.ToString() +
+			"\", laterality = \"" + fs.Laterality +
+			"\", comments = \"" + fs.Comments +
+			"\" WHERE uniqueID = " + fs.UniqueID;
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		if(! dbconOpened)
+			Sqlite.Close();
+	}
+
 	//SELECT forceSensor.*, forceSensorExercise.Name FROM forceSensor, forceSensorExercise WHERE forceSensor.exerciseID = forceSensorExercise.UniqueID ORDER BY forceSensor.uniqueID;
 	public static ArrayList Select (bool dbconOpened, int uniqueID, int personID, int sessionID)
 	{

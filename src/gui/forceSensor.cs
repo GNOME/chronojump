@@ -80,6 +80,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_force_sensor_adjust;
 	[Widget] Gtk.Button button_force_sensor_tare;
 	[Widget] Gtk.Button button_force_sensor_calibrate;
+	[Widget] Gtk.Button button_force_sensor_capture_recalculate;
 	[Widget] Gtk.Label label_force_sensor_value_max;
 	[Widget] Gtk.Label label_force_sensor_value;
 	[Widget] Gtk.Label label_force_sensor_value_min;
@@ -108,6 +109,9 @@ public partial class ChronoJumpWindow
 
 	int usbDisconnectedCount;
 	int usbDisconnectedLastTime;
+
+	private ForceSensor currentForceSensor;
+	private ForceSensorExercise currentForceSensorExercise;
 
 	/*
 	 * arduinoCaptureStatus:
@@ -730,7 +734,6 @@ public partial class ChronoJumpWindow
 		//printDataRow(dataRow);
 	}
 
-	private ForceSensorExercise currentForceSensorExercise;
 	private void assignCurrentForceSensorExercise()
 	{
 		currentForceSensorExercise = (ForceSensorExercise) SqliteForceSensorExercise.Select (
@@ -894,14 +897,14 @@ public partial class ChronoJumpWindow
 		((IDisposable)writer).Dispose();
 		capturingForce = arduinoCaptureStatus.STOP;
 
-		ForceSensor forceSensor = new ForceSensor(-1, currentPerson.UniqueID, currentSession.UniqueID,
+		currentForceSensor = new ForceSensor(-1, currentPerson.UniqueID, currentSession.UniqueID,
 				currentForceSensorExercise.UniqueID, getForceSensorCaptureOptions(),
 				ForceSensor.AngleUndefined, getLaterality(false),
 				Util.GetLastPartOfPath(fileName), //filename
 				Util.MakeURLrelative(Util.GetForceSensorSessionDir(currentSession.UniqueID)), //url
 				UtilDate.ToFile(forceSensorTimeStartCapture), captureComment, "", //dateTime, comment, videoURL
 				currentForceSensorExercise.Name);
-		forceSensor.InsertSQL(false);
+		currentForceSensor.InsertSQL(false);
 
 		if(forceProcessCancel || forceProcessError)
 			Util.FileDelete(fileName);
@@ -950,6 +953,7 @@ LogB.Information(" re C ");
 						forceSensorZoomDefaultValues();
 						forceSensorDoGraphAI();
 					}
+					button_force_sensor_capture_recalculate.Sensitive = true;
 
 					if( configChronojump.Exhibition &&
 							( configChronojump.ExhibitionStationType == ExhibitionTest.testTypes.FORCE_ROPE ||
@@ -1300,6 +1304,7 @@ LogB.Information(" re R ");
 			return;
 		}
 
+		currentForceSensor = fs;
 		lastForceSensorFile = Util.RemoveExtension(fs.Filename);
 		lastForceSensorFullPath = fs.FullURL;
 
@@ -1318,6 +1323,7 @@ LogB.Information(" re R ");
 			forceSensorDoGraphAI();
 		}
 		//event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(filechooser.Filename);
+		button_force_sensor_capture_recalculate.Sensitive = true;
 	}
 
 	/*
@@ -1396,8 +1402,21 @@ LogB.Information(" re R ");
 			return;
 		}
 
+		//getForceSensorCaptureOptions is called on doing the graphs
+		//recalculate graphs will be different if exercise changed, so need to know the exercise
+		assignCurrentForceSensorExercise();
+
 		if(lastForceSensorFullPath != null && lastForceSensorFullPath != "")
 			forceSensorCopyTempAndDoGraphs();
+
+		//update SQL with exercise, captureOptions, laterality, comments
+		currentForceSensor.ExerciseID = currentForceSensorExercise.UniqueID;
+		currentForceSensor.ExerciseName = currentForceSensorExercise.Name; //just in case
+		currentForceSensor.CaptureOption = getForceSensorCaptureOptions();
+		currentForceSensor.Laterality = getLaterality(false);
+		currentForceSensor.Comments = getCaptureComment();
+
+		SqliteForceSensor.Update(false, currentForceSensor);
 	}
 
 	private void on_button_force_sensor_analyze_analyze_clicked (object o, EventArgs args)

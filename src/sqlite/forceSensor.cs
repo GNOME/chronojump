@@ -144,7 +144,8 @@ class SqliteForceSensor : Sqlite
 		DirectoryInfo [] sessions = new DirectoryInfo(forceSensorDir).GetDirectories();
 		foreach (DirectoryInfo session in sessions) //session.Name will be the UniqueID
 		{
-			foreach (FileInfo file in session.GetFiles())
+			FileInfo[] files = session.GetFiles();
+			foreach (FileInfo file in files)
 			{
 				string fileWithoutExtension = Util.RemoveExtension(Util.GetLastPartOfPath(file.Name));
 				ForceSensorLoadTryToAssignPersonAndMore fslt =
@@ -189,10 +190,20 @@ class SqliteForceSensor : Sqlite
 				if(match.Groups.Count == 2)
 					parsedDate = match.Value;
 
-				ForceSensor forceSensor = new ForceSensor(-1, p.UniqueID, Convert.ToInt32(session.Name), exerciseID, ForceSensor.AngleUndefined, lat,
-						//file.Name,
-						p.UniqueID + "_" + p.Name + "_" + parsedDate, //filename
-						Util.MakeURLrelative(Util.GetForceSensorSessionDir(Convert.ToInt32(session.Name))), //laterality, filename, url
+				//filename will be this
+				string myFilename = p.UniqueID + "_" + p.Name + "_" + parsedDate;
+				//try to move the file
+				try{
+					File.Move(file.FullName, Util.GetForceSensorSessionDir(Convert.ToInt32(session.Name)) + Path.DirectorySeparatorChar + myFilename);
+				} catch {
+					//if cannot, then use old filename
+					myFilename = file.FullName;
+				}
+
+				ForceSensor forceSensor = new ForceSensor(-1, p.UniqueID, Convert.ToInt32(session.Name), exerciseID,
+						ForceSensor.AngleUndefined, lat,
+						myFilename,
+						Util.MakeURLrelative(Util.GetForceSensorSessionDir(Convert.ToInt32(session.Name))),
 						parsedDate, fslt.Comment, "", exerciseName);
 				forceSensor.InsertSQL(true);
 			}

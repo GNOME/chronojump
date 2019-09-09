@@ -33,7 +33,7 @@ public partial class ChronoJumpWindow
 	//analyze tab
 	[Widget] Gtk.HBox hbox_force_sensor_analyze_modes;
 	[Widget] Gtk.Button button_force_sensor_analyze_load;
-	[Widget] Gtk.Button button_force_sensor_analyze_recalculate;
+	[Widget] Gtk.Button button_force_sensor_analyze_analyze;
 	[Widget] Gtk.Label label_force_sensor_analyze;
 	[Widget] Gtk.Image image_force_sensor_graph;
 	[Widget] Gtk.Viewport viewport_force_sensor_graph;
@@ -115,7 +115,7 @@ public partial class ChronoJumpWindow
 	 * analyze options -------------------------->
 	 */
 
-	private bool button_force_sensor_analyze_recalculate_was_sensitive; //needed this temp variable
+	private bool button_force_sensor_analyze_analyze_was_sensitive; //needed this temp variable
 	private void forceSensorAnalyzeOptionsSensitivity(bool s) //s for sensitive. When show options frame is ! s
 	{
 		button_force_sensor_analyze_options.Sensitive = s;
@@ -123,10 +123,10 @@ public partial class ChronoJumpWindow
 		hbox_force_sensor_analyze_modes.Sensitive = s;
 
 		if(s)
-			button_force_sensor_analyze_recalculate.Sensitive = button_force_sensor_analyze_recalculate_was_sensitive;
+			button_force_sensor_analyze_analyze.Sensitive = button_force_sensor_analyze_analyze_was_sensitive;
 		else {
-			button_force_sensor_analyze_recalculate_was_sensitive =	button_force_sensor_analyze_recalculate.Sensitive;
-			button_force_sensor_analyze_recalculate.Sensitive = false;
+			button_force_sensor_analyze_analyze_was_sensitive =	button_force_sensor_analyze_analyze.Sensitive;
+			button_force_sensor_analyze_analyze.Sensitive = false;
 		}
 
 		main_menu.Sensitive = s;

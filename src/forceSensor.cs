@@ -33,6 +33,7 @@ public class ForceSensor
 	private int sessionID;
 	private int exerciseID;
 	private int angle;
+	private CaptureOptions captureOption;
 	private string laterality;
 	private string filename;
 	private string url;	//relative
@@ -43,13 +44,14 @@ public class ForceSensor
 	private string exerciseName;
 
 	//constructor
-	public ForceSensor(int uniqueID, int personID, int sessionID, int exerciseID, int angle,
+	public ForceSensor(int uniqueID, int personID, int sessionID, int exerciseID, CaptureOptions captureOption, int angle,
 			string laterality, string filename, string url, string dateTime, string comments, string videoURL, string exerciseName)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
 		this.sessionID = sessionID;
 		this.exerciseID = exerciseID;
+		this.captureOption = captureOption;
 		this.angle = angle;
 		this.laterality = laterality;
 		this.filename = filename;
@@ -73,19 +75,20 @@ public class ForceSensor
 			uniqueIDStr = uniqueID.ToString();
 
 		return
-			"(" + uniqueIDStr + ", " + personID + ", " + sessionID + ", " + exerciseID + ", " +
+			"(" + uniqueIDStr + ", " + personID + ", " + sessionID + ", " + exerciseID + ", \"" + captureOption.ToString() + "\", " +
 			angle + ", \"" + laterality + "\", \"" + filename + "\", \"" + url + "\", \"" + dateTime + "\", \"" +
 			comments + "\", \"" + videoURL + "\")";
 	}
 
 	public string [] ToStringArray (int count)
 	{
-		int all = 7;
+		int all = 8;
 		string [] str = new String [all];
 		int i=0;
 		str[i++] = uniqueID.ToString();
 		str[i++] = count.ToString();
 		str[i++] = exerciseName;
+		str[i++] = Catalog.GetString(captureOption.ToString());
 		str[i++] = Catalog.GetString(laterality);
 		str[i++] = dateTime;
 		str[i++] = videoURL;

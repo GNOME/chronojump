@@ -895,7 +895,8 @@ public partial class ChronoJumpWindow
 		capturingForce = arduinoCaptureStatus.STOP;
 
 		ForceSensor forceSensor = new ForceSensor(-1, currentPerson.UniqueID, currentSession.UniqueID,
-				currentForceSensorExercise.UniqueID, ForceSensor.AngleUndefined, getLaterality(false),
+				currentForceSensorExercise.UniqueID, getForceSensorCaptureOptions(),
+				ForceSensor.AngleUndefined, getLaterality(false),
 				Util.GetLastPartOfPath(fileName), //filename
 				Util.MakeURLrelative(Util.GetForceSensorSessionDir(currentSession.UniqueID)), //url
 				UtilDate.ToFile(forceSensorTimeStartCapture), captureComment, "", //dateTime, comment, videoURL
@@ -1238,6 +1239,7 @@ LogB.Information(" re R ");
 			Catalog.GetString("ID"),
 			Catalog.GetString("Set"),
 			Catalog.GetString("Exercise"),
+			Catalog.GetString("Capture option"),
 			Catalog.GetString("Laterality"),
 			Catalog.GetString("Date"),
 			Catalog.GetString("Video"),

@@ -48,6 +48,7 @@ class SqliteForceSensor : Sqlite
 			"personID INT, " +
 			"sessionID INT, " +
 			"exerciseID INT, " +
+			"captureOption TEXT, " + //ForceSensor.CaptureOptions {NORMAL, ABS, INVERTED}
 			"angle INT, " + 	//angle can be different than the defaultAngle on exercise
 			"laterality TEXT, " +	//"Both" "Right" "Left". stored in english
 			"filename TEXT, " +
@@ -65,7 +66,7 @@ class SqliteForceSensor : Sqlite
 			Sqlite.Open();
 
 		dbcmd.CommandText = "INSERT INTO " + table +
-				" (uniqueID, personID, sessionID, exerciseID, angle, laterality, filename, url, dateTime, comments, videoURL)" +
+				" (uniqueID, personID, sessionID, exerciseID, captureOption, angle, laterality, filename, url, dateTime, comments, videoURL)" +
 				" VALUES " + insertString;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery(); //TODO uncomment this again
@@ -112,14 +113,16 @@ class SqliteForceSensor : Sqlite
 					Convert.ToInt32(reader[1].ToString()),	//personID
 					Convert.ToInt32(reader[2].ToString()),	//sessionID
 					Convert.ToInt32(reader[3].ToString()),	//exerciseID
-					Convert.ToInt32(reader[4].ToString()),	//angle
-					reader[5].ToString(),			//laterality
-					reader[6].ToString(),			//filename
-					reader[7].ToString(),			//url
-					reader[8].ToString(),			//datetime
-					reader[9].ToString(),			//comments
-					reader[10].ToString(),			//videoURL
-					reader[11].ToString()			//exerciseName
+					(ForceSensor.CaptureOptions) Enum.Parse(
+						typeof(ForceSensor.CaptureOptions), reader[4].ToString()), 	//captureOption
+					Convert.ToInt32(reader[5].ToString()),	//angle
+					reader[6].ToString(),			//laterality
+					reader[7].ToString(),			//filename
+					reader[8].ToString(),			//url
+					reader[9].ToString(),			//datetime
+					reader[10].ToString(),			//comments
+					reader[11].ToString(),			//videoURL
+					reader[12].ToString()			//exerciseName
 					);
 			array.Add(fs);
 		}
@@ -201,6 +204,7 @@ class SqliteForceSensor : Sqlite
 				}
 
 				ForceSensor forceSensor = new ForceSensor(-1, p.UniqueID, Convert.ToInt32(session.Name), exerciseID,
+						ForceSensor.CaptureOptions.NORMAL,
 						ForceSensor.AngleUndefined, lat,
 						myFilename,
 						Util.MakeURLrelative(Util.GetForceSensorSessionDir(Convert.ToInt32(session.Name))),

@@ -179,6 +179,7 @@ public partial class ChronoJumpWindow
 
 	//race encoder
 	[Widget] Gtk.Image image_race_encoder_open_folder;
+	[Widget] Gtk.Image image_race_encoder_capture_recalculate;
 
 	//video play icons
 	[Widget] Gtk.Image image_video_play_this_test;

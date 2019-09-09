@@ -623,7 +623,7 @@ public partial class ChronoJumpWindow
 		event_execute_button_finish.Sensitive = true;
 		event_execute_button_cancel.Sensitive = true;
 		button_force_sensor_image_save_signal.Sensitive = false;
-		button_force_sensor_analyze_recalculate.Sensitive = false;
+		button_force_sensor_analyze_analyze.Sensitive = false;
 		forceCaptureStartMark = false;
 		//vscale_force_sensor.Value = 0;
 		label_force_sensor_value_max.Text = "0";
@@ -964,7 +964,7 @@ LogB.Information(" re C ");
 					event_execute_label_message.Text = forceSensorNotConnectedString;
 
 				button_force_sensor_image_save_signal.Sensitive = false;
-				button_force_sensor_analyze_recalculate.Sensitive = false;
+				button_force_sensor_analyze_analyze.Sensitive = false;
 				button_force_sensor_image_save_rfd_auto.Sensitive = false;
 				button_force_sensor_image_save_rfd_manual.Sensitive = false;
 				checkbutton_force_sensor_ai_b.Sensitive = false;
@@ -992,7 +992,7 @@ LogB.Information(" re D ");
 
 			forceSensorButtonsSensitive(true);
 			button_force_sensor_image_save_signal.Sensitive = true;
-			button_force_sensor_analyze_recalculate.Sensitive = true;
+			button_force_sensor_analyze_analyze.Sensitive = true;
 
 			//finish, cancel: sensitive = false
 			hideButtons();
@@ -1397,7 +1397,7 @@ LogB.Information(" re R ");
 			forceSensorCopyTempAndDoGraphs();
 	}
 
-	private void on_button_force_sensor_analyze_recalculate_clicked (object o, EventArgs args)
+	private void on_button_force_sensor_analyze_analyze_clicked (object o, EventArgs args)
 	{
 		if(! Util.FileExists(lastForceSensorFullPath))
 		{
@@ -1562,7 +1562,7 @@ LogB.Information(" re R ");
 		label_force_sensor_value_max.Text = forceSensorValues.ForceMax.ToString();
 		label_force_sensor_value_min.Text = forceSensorValues.ForceMin.ToString();
 		button_force_sensor_image_save_signal.Sensitive = true;
-		button_force_sensor_analyze_recalculate.Sensitive = true;
+		button_force_sensor_analyze_analyze.Sensitive = true;
 	}
 
 	private void setForceSensorTopAtOperationStart()

@@ -1002,6 +1002,7 @@ LogB.Information(" re C ");
 				button_force_sensor_image_save_rfd_auto.Sensitive = false;
 				button_force_sensor_image_save_rfd_manual.Sensitive = false;
 				checkbutton_force_sensor_ai_b.Sensitive = false;
+				button_force_sensor_capture_recalculate.Sensitive = false;
 			}
 			else
 				event_execute_label_message.Text = "";

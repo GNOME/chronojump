@@ -3901,7 +3901,7 @@ public partial class ChronoJumpWindow
 			 on_force_sensor_activate(canCaptureC);
 			 */
 
-			on_button_execute_test_acceptedPre_start_camera(false);
+			on_buttons_force_sensor_clicked(button_execute_test, new EventArgs ());
 			return;
 		}
 		if(current_menuitem_mode == Constants.Menuitem_modes.RUNSENCODER)
@@ -3977,7 +3977,7 @@ public partial class ChronoJumpWindow
 			if(chronopic)
 				on_button_execute_test_accepted();
 			else
-				on_buttons_force_sensor_clicked(button_execute_test, new EventArgs ());
+				forceSensorCapturePre3_GTK();
 
 			return;
 		}
@@ -3988,7 +3988,7 @@ public partial class ChronoJumpWindow
 			if(chronopic)
 				on_button_execute_test_accepted();
 			else
-				on_buttons_force_sensor_clicked(button_execute_test, new EventArgs ());
+				forceSensorCapturePre3_GTK();
 		}
 	}
 

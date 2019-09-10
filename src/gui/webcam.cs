@@ -202,7 +202,7 @@ public partial class ChronoJumpWindow
 			}
 
 			if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR)
-				on_buttons_force_sensor_clicked(button_execute_test, new EventArgs ());
+				forceSensorCapturePre3_GTK();
 			else
 				on_button_execute_test_accepted ();
 

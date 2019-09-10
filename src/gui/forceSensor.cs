@@ -628,6 +628,11 @@ public partial class ChronoJumpWindow
 
 	private void forceSensorCapturePre2_GTK()
 	{
+		on_button_execute_test_acceptedPre_start_camera(false);
+	}
+
+	private void forceSensorCapturePre3_GTK()
+	{
 		button_execute_test.Sensitive = false;
 		event_execute_button_finish.Sensitive = true;
 		event_execute_button_cancel.Sensitive = true;

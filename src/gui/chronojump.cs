@@ -3501,7 +3501,7 @@ public partial class ChronoJumpWindow
 		hbox_capture_phases_time.Visible = (m != Constants.Menuitem_modes.FORCESENSOR && m != Constants.Menuitem_modes.RUNSENCODER);
 
 		if(! configChronojump.Compujump)
-			showWebcamCaptureContactsControls (m != Constants.Menuitem_modes.FORCESENSOR && m != Constants.Menuitem_modes.RUNSENCODER);
+			showWebcamCaptureContactsControls (m != Constants.Menuitem_modes.RUNSENCODER);
 
 		force_sensor_menuitem.Visible = (m == Constants.Menuitem_modes.FORCESENSOR);
 
@@ -3901,7 +3901,7 @@ public partial class ChronoJumpWindow
 			 on_force_sensor_activate(canCaptureC);
 			 */
 
-			on_buttons_force_sensor_clicked(button_execute_test, new EventArgs ());
+			on_button_execute_test_acceptedPre_start_camera(false);
 			return;
 		}
 		if(current_menuitem_mode == Constants.Menuitem_modes.RUNSENCODER)
@@ -3960,25 +3960,36 @@ public partial class ChronoJumpWindow
 
 				return;
 			}
-			on_button_execute_test_acceptedPre();
+			on_button_execute_test_acceptedPre_start_camera(true);
 		}
 	        UtilGtk.DeviceColors(viewport_chronopics, true);
 	}
 
 	// camera stuff if needed
-	private void on_button_execute_test_acceptedPre()
+	// true is chronopic
+	// false is arduino like force sensor
+	private void on_button_execute_test_acceptedPre_start_camera(bool chronopic)
 	{
 		button_video_play_this_test_sensitive (WebcamManage.GuiContactsEncoder.CONTACTS, false);
 		webcamManage = new WebcamManage();
 		if(! webcamStart (WebcamManage.GuiContactsEncoder.CONTACTS, 1))
 		{
-			on_button_execute_test_accepted();
+			if(chronopic)
+				on_button_execute_test_accepted();
+			else
+				on_buttons_force_sensor_clicked(button_execute_test, new EventArgs ());
+
 			return;
 		}
 
 		bool waitUntilRecording = true;
 		if(! waitUntilRecording)
-			on_button_execute_test_accepted();
+		{
+			if(chronopic)
+				on_button_execute_test_accepted();
+			else
+				on_buttons_force_sensor_clicked(button_execute_test, new EventArgs ());
+		}
 	}
 
 	void on_button_execute_test_accepted ()

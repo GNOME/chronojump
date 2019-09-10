@@ -60,7 +60,7 @@ class SqliteForceSensor : Sqlite
 		dbcmd.ExecuteNonQuery();
 	}
 
-	public static void Insert (bool dbconOpened, string insertString)
+	public static int Insert (bool dbconOpened, string insertString)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -71,8 +71,14 @@ class SqliteForceSensor : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery(); //TODO uncomment this again
 
+		string myString = @"select last_insert_rowid()";
+		dbcmd.CommandText = myString;
+		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
+
 		if(! dbconOpened)
 			Sqlite.Close();
+
+		return myLast;
 	}
 
 	public static void Update (bool dbconOpened, ForceSensor fs)
@@ -85,6 +91,7 @@ class SqliteForceSensor : Sqlite
 			", captureOption = \"" + fs.CaptureOption.ToString() +
 			"\", laterality = \"" + fs.Laterality +
 			"\", comments = \"" + fs.Comments +
+			"\", videoURL = \"" + Util.MakeURLrelative(fs.VideoURL) +
 			"\" WHERE uniqueID = " + fs.UniqueID;
 
 		LogB.SQL(dbcmd.CommandText.ToString());

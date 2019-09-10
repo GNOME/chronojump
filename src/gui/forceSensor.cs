@@ -112,6 +112,9 @@ public partial class ChronoJumpWindow
 
 	private ForceSensor currentForceSensor;
 	private ForceSensorExercise currentForceSensorExercise;
+	DateTime forceSensorTimeStartCapture;
+
+	//non GTK on this method
 
 	/*
 	 * arduinoCaptureStatus:
@@ -401,6 +404,8 @@ public partial class ChronoJumpWindow
 		hbox_force_sensor_lat_and_comments.Sensitive = sensitive;
 		button_execute_test.Sensitive = sensitive;
 		button_force_sensor_analyze_load.Sensitive = sensitive;
+
+		vbox_contacts_camera.Sensitive = sensitive;
 
 		//other gui buttons
 		main_menu.Sensitive = sensitive;
@@ -740,7 +745,6 @@ public partial class ChronoJumpWindow
                                 false, getExerciseIDFromAnyCombo(combo_force_sensor_exercise, forceSensorComboExercisesString, false), false)[0];
 	}
 
-	//non GTK on this method
 	private void forceSensorCaptureDo()
 	{
 		lastChangedTime = 0;
@@ -767,7 +771,7 @@ public partial class ChronoJumpWindow
 
 		forceCaptureStartMark = true;
 		forceSensorTimeStart = DateTime.Now; //to have an active count of capture time
-		DateTime forceSensorTimeStartCapture = forceSensorTimeStart; //to have same DateTime on filename and on sql datetime
+		forceSensorTimeStartCapture = forceSensorTimeStart; //to have same DateTime on filename and on sql datetime
 		capturingForce = arduinoCaptureStatus.CAPTURING;
 		string captureComment = getCaptureComment(); //includes "_" if it's no empty
 
@@ -897,15 +901,6 @@ public partial class ChronoJumpWindow
 		((IDisposable)writer).Dispose();
 		capturingForce = arduinoCaptureStatus.STOP;
 
-		currentForceSensor = new ForceSensor(-1, currentPerson.UniqueID, currentSession.UniqueID,
-				currentForceSensorExercise.UniqueID, getForceSensorCaptureOptions(),
-				ForceSensor.AngleUndefined, getLaterality(false),
-				Util.GetLastPartOfPath(fileName), //filename
-				Util.MakeURLrelative(Util.GetForceSensorSessionDir(currentSession.UniqueID)), //url
-				UtilDate.ToFile(forceSensorTimeStartCapture), captureComment, "", //dateTime, comment, videoURL
-				currentForceSensorExercise.Name);
-		currentForceSensor.InsertSQL(false);
-
 		if(forceProcessCancel || forceProcessError)
 			Util.FileDelete(fileName);
 		else {
@@ -940,6 +935,28 @@ LogB.Information(" re C ");
 				else
 				{
 					event_execute_label_message.Text = "Saved.";
+
+					currentForceSensor = new ForceSensor(-1, currentPerson.UniqueID, currentSession.UniqueID,
+							currentForceSensorExercise.UniqueID, getForceSensorCaptureOptions(),
+							ForceSensor.AngleUndefined, getLaterality(false),
+							Util.GetLastPartOfPath(lastForceSensorFile + ".csv"), //filename
+							Util.MakeURLrelative(Util.GetForceSensorSessionDir(currentSession.UniqueID)), //url
+							UtilDate.ToFile(forceSensorTimeStartCapture), getCaptureComment(), "", //dateTime, comment, videoURL
+							currentForceSensorExercise.Name);
+
+					currentForceSensor.UniqueID = currentForceSensor.InsertSQL(false);
+
+					//stop camera
+					if(webcamEnd (Constants.TestTypes.FORCESENSOR, currentForceSensor.UniqueID))
+					{
+						//add the videoURL to SQL
+						currentForceSensor.VideoURL = Util.GetVideoFileName(currentSession.UniqueID,
+								Constants.TestTypes.FORCESENSOR,
+								currentForceSensor.UniqueID);
+						SqliteForceSensor.Update(false, currentForceSensor);
+						label_video_feedback.Text = "";
+					}
+
 					Thread.Sleep (250); //Wait a bit to ensure is copied
 
 					fscPoints.InitRealWidthHeight();
@@ -963,6 +980,9 @@ LogB.Information(" re C ");
 				}
 			} else if(forceProcessCancel || forceProcessError)
 			{
+				//stop the camera (and do not save)
+				webcamEnd (Constants.TestTypes.FORCESENSOR, -1);
+
 				if(forceProcessCancel)
 					event_execute_label_message.Text = "Cancelled.";
 				else

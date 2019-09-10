@@ -66,8 +66,6 @@ public class EventExecute
 	protected string feedbackMessage;
 	protected bool needShowFeedbackMessage;
 
-	public bool WebcamStarted;
-
 	//instances with the info to create
 	public PrepareEventGraphJumpSimple PrepareEventGraphJumpSimpleObject; 
 	public PrepareEventGraphJumpReactive PrepareEventGraphJumpReactiveObject;

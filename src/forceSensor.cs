@@ -67,9 +67,9 @@ public class ForceSensor
 		this.exerciseName = exerciseName;
 	}
 
-	public void InsertSQL(bool dbconOpened)
+	public int InsertSQL(bool dbconOpened)
 	{
-		SqliteForceSensor.Insert(dbconOpened, toSQLInsertString());
+		return SqliteForceSensor.Insert(dbconOpened, toSQLInsertString());
 	}
 
 	private string toSQLInsertString()
@@ -145,6 +145,7 @@ public class ForceSensor
 	public int UniqueID
 	{
 		get { return uniqueID; }
+		set { uniqueID = value; }
 	}
 	public int ExerciseID
 	{
@@ -165,6 +166,11 @@ public class ForceSensor
 	{
 		get { return comments; }
 		set { comments = value; }
+	}
+	public string VideoURL
+	{
+		get { return videoURL; }
+		set { videoURL = value; }
 	}
 	public string ExerciseName
 	{

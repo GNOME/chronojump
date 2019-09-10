@@ -201,7 +201,10 @@ public partial class ChronoJumpWindow
 				label_video_feedback_text (WebcamManage.GuiContactsEncoder.CONTACTS, Catalog.GetString("Recording ..."));
 			}
 
-			on_button_execute_test_accepted ();
+			if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR)
+				on_buttons_force_sensor_clicked(button_execute_test, new EventArgs ());
+			else
+				on_button_execute_test_accepted ();
 
 			LogB.ThreadEnded();
 			return false;
@@ -303,11 +306,12 @@ public partial class ChronoJumpWindow
 
 
 	//can pass a -1 uniqueID if test is cancelled
-	private void webcamEnd (Constants.TestTypes testType, int uniqueID)
+	//returns false if not ended (maybe because did not started)
+	private bool webcamEnd (Constants.TestTypes testType, int uniqueID)
 	{
-		//on contacts tests, we have WebcamStarted. No need to stop camera because it is not recording
+		//on contacts tests, we have ReallyStarted. No need to stop camera because it is not recording
 		if(testType != Constants.TestTypes.ENCODER && ! webcamManage.ReallyStarted)
-			return;
+			return false;
 
 		WebcamManage.GuiContactsEncoder guiContactsEncoder = WebcamManage.GuiContactsEncoder.CONTACTS;
 		if(testType == Constants.TestTypes.ENCODER)
@@ -321,14 +325,14 @@ public partial class ChronoJumpWindow
 		}
 
 		if(! preferences.videoOn || webcamManage == null)
-			return;
+			return false;
 
 		Webcam.Result result = webcamManage.RecordEnd (1);
 
 		if(! result.success)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, result.error);
-			return;
+			return false;
 		}
 
 		webcamEndParams = new WebcamEndParams(1, currentSession.UniqueID, testType, uniqueID, guiContactsEncoder);
@@ -356,6 +360,8 @@ public partial class ChronoJumpWindow
 				GLib.Timeout.Add(50, new GLib.TimeoutHandler(webcamEndDo));
 			}
 		}
+
+		return true; //really ended
 	}
 
 	private bool webcamEndDo()

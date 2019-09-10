@@ -379,10 +379,10 @@ public partial class ChronoJumpWindow
 			if(currentForceSensorExercise.TareBeforeCapture)
 			{
 				forceSensorOtherMode = forceSensorOtherModeEnum.TARE_AND_CAPTURE_PRE;
-				forceOtherThread = new Thread(new ThreadStart(forceSensorTareAndCapturePre));
+				forceOtherThread = new Thread(new ThreadStart(forceSensorTareAndCapturePre_noGTK));
 			} else {
 				forceSensorOtherMode = forceSensorOtherModeEnum.CAPTURE_PRE;
-				forceOtherThread = new Thread(new ThreadStart(forceSensorCapturePre));
+				forceOtherThread = new Thread(new ThreadStart(forceSensorCapturePre_noGTK));
 			}
 		}
 		else { //if (o == (object) button_check_version)
@@ -450,7 +450,7 @@ public partial class ChronoJumpWindow
 			else if(forceSensorOtherMode == forceSensorOtherModeEnum.CHECK_VERSION)
 				forceSensorButtonsSensitive(true);
 			else if(forceSensorOtherMode == forceSensorOtherModeEnum.TARE_AND_CAPTURE_PRE || forceSensorOtherMode == forceSensorOtherModeEnum.CAPTURE_PRE)
-				forceSensorCapturePre2();
+				forceSensorCapturePre2_GTK();
 
 			return false;
 		}
@@ -610,13 +610,13 @@ public partial class ChronoJumpWindow
 	}
 
 	//Attention: no GTK here!!
-	private void forceSensorTareAndCapturePre()
+	private void forceSensorTareAndCapturePre_noGTK()
 	{
 		forceSensorTare();
-		forceSensorCapturePre();
+		forceSensorCapturePre_noGTK();
 	}
 	//Attention: no GTK here!!
-	private void forceSensorCapturePre()
+	private void forceSensorCapturePre_noGTK()
 	{
 		if(! portFSOpened)
 			if(! forceSensorConnect())
@@ -626,7 +626,7 @@ public partial class ChronoJumpWindow
 		capturingForce = arduinoCaptureStatus.STARTING;
 	}
 
-	private void forceSensorCapturePre2()
+	private void forceSensorCapturePre2_GTK()
 	{
 		button_execute_test.Sensitive = false;
 		event_execute_button_finish.Sensitive = true;

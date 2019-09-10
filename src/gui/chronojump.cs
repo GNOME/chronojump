@@ -7444,7 +7444,6 @@ LogB.Debug("mc finished 5");
 		hbox_other_mc.Sensitive = true;
 		hbox_other_pulses.Sensitive = true;
 		//hbox_multi_chronopic_buttons.Sensitive = true;
-		sensitiveLastTestButtons(true);
 		
 		button_activate_chronopics.Sensitive = true;
 		button_threshold.Sensitive = true;
@@ -7452,6 +7451,16 @@ LogB.Debug("mc finished 5");
 		button_auto_start.Sensitive = true;
 		notebook_options_top.Sensitive = true;
 		event_execute_button_update.Sensitive = true;
+
+		//forceSensor does not use currentEventExecute
+		if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR)
+		{
+			sensitiveLastTestButtons(! forceProcessCancel && ! forceProcessError);
+			LogB.Information(" sensitiveGuiEventDone end (forceSensor)");
+			return;
+		}
+
+		sensitiveLastTestButtons(true);
 
 		//allow repeat last jump or run (check also if it wasn't cancelled)
 		if(currentEventExecute != null && ! currentEventExecute.Cancel) {
@@ -7474,12 +7483,13 @@ LogB.Debug("mc finished 5");
 		else
 			sensitiveLastTestButtons(false);
 
-		LogB.Information(" sensitiveGuiEventDone end ");
+		LogB.Information(" sensitiveGuiEventDone end (not forceSensor)");
 	}
 
 	//to sensitive on and off the play_this_test and delete_this_test
 	private void sensitiveLastTestButtons(bool sensitive)
 	{
+		LogB.Information("sensitiveLastTestButtons: " + sensitive.ToString());
 		vbox_last_test_buttons.Sensitive = sensitive;
 	}
 	/*

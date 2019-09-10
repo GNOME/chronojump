@@ -925,6 +925,7 @@ LogB.Information(" re B ");
 		if(! forceCaptureThread.IsAlive || forceProcessFinish || forceProcessCancel || forceProcessError)
 		{
 LogB.Information(" re C ");
+			button_video_play_this_test.Sensitive = false;
 			if(forceProcessFinish)
 			{
 				if(capturingForce != arduinoCaptureStatus.COPIED_TO_TMP)
@@ -955,9 +956,11 @@ LogB.Information(" re C ");
 								currentForceSensor.UniqueID);
 						SqliteForceSensor.Update(false, currentForceSensor);
 						label_video_feedback.Text = "";
+						button_video_play_this_test.Sensitive = true;
 					}
 
 					Thread.Sleep (250); //Wait a bit to ensure is copied
+					sensitiveLastTestButtons(true);
 
 					fscPoints.InitRealWidthHeight();
 
@@ -982,6 +985,7 @@ LogB.Information(" re C ");
 			{
 				//stop the camera (and do not save)
 				webcamEnd (Constants.TestTypes.FORCESENSOR, -1);
+				sensitiveLastTestButtons(false);
 
 				if(forceProcessCancel)
 					event_execute_label_message.Text = "Cancelled.";
@@ -1335,6 +1339,9 @@ LogB.Information(" re R ");
 
 		assignCurrentForceSensorExercise();
 		forceSensorCopyTempAndDoGraphs();
+
+		button_video_play_this_test.Sensitive = (fs.VideoURL != "");
+		sensitiveLastTestButtons(true);
 
 		//if drawingarea has still not shown, don't paint graph because GC screen is not defined
 		if(force_sensor_ai_drawingareaShown)

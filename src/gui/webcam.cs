@@ -232,6 +232,7 @@ public partial class ChronoJumpWindow
 	}
 	private void button_video_play_this_test_sensitive (WebcamManage.GuiContactsEncoder guiContactsEncoder, bool s)
 	{
+		LogB.Information("button_video_play_this_test_sensitive: " + s.ToString());
 		if(guiContactsEncoder == WebcamManage.GuiContactsEncoder.CONTACTS)
 			button_video_play_this_test.Sensitive = s;
 		else
@@ -741,6 +742,16 @@ public partial class ChronoJumpWindow
 
 	private void on_video_play_last_test_clicked (object o, EventArgs args)
 	{
+		if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR)
+		{
+			if(currentForceSensor == null || currentForceSensor.UniqueID == -1)
+				new DialogMessage(Constants.MessageTypes.WARNING, "Sorry, file not found");
+			else
+				playVideo(Util.GetVideoFileName(currentSession.UniqueID, Constants.TestTypes.FORCESENSOR, currentForceSensor.UniqueID));
+
+			return;
+		}
+
 		Constants.TestTypes type = Constants.TestTypes.JUMP;
 		int id = 0;
 		switch (currentEventType.Type) {

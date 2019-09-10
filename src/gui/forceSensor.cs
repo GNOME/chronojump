@@ -2126,29 +2126,25 @@ LogB.Information(" re R ");
 
 	// -------------------------------- options, laterality and comment stuff -------------
 
-	//note: Standard capture, Absolute values, Inverted values are on glade: app1 combo_force_sensor_capture_options
+	//note: Standard capture, Absolute values, Inverted values are:
+	//- on glade: app1 combo_force_sensor_capture_options
+	//- on ForceSensorCaptureOptionsString...
 	private ForceSensor.CaptureOptions getForceSensorCaptureOptions()
 	{
 		string option = UtilGtk.ComboGetActive(combo_force_sensor_capture_options);
-		if(option == Catalog.GetString("Absolute values"))
+		if(option == Catalog.GetString(ForceSensor.CaptureOptionsStringABS))
 			return ForceSensor.CaptureOptions.ABS;
-		else if(option == Catalog.GetString("Inverted values"))
+		else if(option == Catalog.GetString(ForceSensor.CaptureOptionsStringINVERTED))
 			return ForceSensor.CaptureOptions.INVERTED;
-		else //"Standard capture"
+		else //ForceSensor.CaptureOptionsStringNORMAL
 			return ForceSensor.CaptureOptions.NORMAL;
 	}
 	private void setForceSensorCaptureOptions(ForceSensor.CaptureOptions co)
 	{
 		LogB.Information("setForceSensorCaptureOptions " + co.ToString());
-		if(co == ForceSensor.CaptureOptions.ABS)
-			combo_force_sensor_capture_options.Active = UtilGtk.ComboMakeActive(
-					combo_force_sensor_capture_options, Catalog.GetString("Absolute values"));
-		else if(co == ForceSensor.CaptureOptions.INVERTED)
-			combo_force_sensor_capture_options.Active = UtilGtk.ComboMakeActive(
-					combo_force_sensor_capture_options, Catalog.GetString("Inverted values"));
-		else
-			combo_force_sensor_capture_options.Active = UtilGtk.ComboMakeActive(
-					combo_force_sensor_capture_options, Catalog.GetString("Standard capture"));
+		combo_force_sensor_capture_options.Active = UtilGtk.ComboMakeActive(
+				combo_force_sensor_capture_options,
+				Catalog.GetString(ForceSensor.GetCaptureOptionsString(co)));
 	}
 
 	private string getLaterality(bool translated)

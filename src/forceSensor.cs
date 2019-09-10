@@ -26,6 +26,10 @@ using Mono.Unix;
 public class ForceSensor
 {
 	public enum CaptureOptions { NORMAL, ABS, INVERTED }
+	public static string CaptureOptionsStringNORMAL = "Standard capture";
+	public static string CaptureOptionsStringABS =  "Absolute values";
+	public static string CaptureOptionsStringINVERTED =  "Inverted values";
+
 	public static int AngleUndefined = -1000;
 
 	private int uniqueID;
@@ -88,10 +92,16 @@ public class ForceSensor
 		str[i++] = uniqueID.ToString();
 		str[i++] = count.ToString();
 		str[i++] = exerciseName;
-		str[i++] = Catalog.GetString(captureOption.ToString());
+		str[i++] = Catalog.GetString(ForceSensor.GetCaptureOptionsString(captureOption));
 		str[i++] = Catalog.GetString(laterality);
 		str[i++] = dateTime;
-		str[i++] = videoURL;
+
+		//str[i++] = videoURL;
+		if(videoURL != "")
+			str[i++] = Catalog.GetString("Yes");
+		else
+			str[i++] = Catalog.GetString("No");
+
 		str[i++] = comments;
 
 		return str;
@@ -110,6 +120,18 @@ public class ForceSensor
 
 		return force;
 	}
+
+	public static string GetCaptureOptionsString(CaptureOptions co)
+	{
+		if(co == ForceSensor.CaptureOptions.ABS)
+			return CaptureOptionsStringABS;
+		else if(co == ForceSensor.CaptureOptions.INVERTED)
+			return CaptureOptionsStringINVERTED;
+		else
+			return CaptureOptionsStringNORMAL;
+
+	}
+
 
 	public string FullURL
 	{

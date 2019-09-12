@@ -2143,23 +2143,55 @@ LogB.Information(" re R ");
 		return false;
 	}
 
+	//based on: on_button_encoder_exercise_delete
+	//maybe unify them on the future
 	void on_button_force_sensor_exercise_delete (object o, EventArgs args)
 	{
-		ForceSensorExercise ex = (ForceSensorExercise) SqliteForceSensorExercise.Select(
-				false, genericWin.uniqueID, false)[0];
+		int exerciseID = genericWin.uniqueID;
 
-		//TODO: when forceSensor records get in database, ensure to delete them if exercise is deleted
-		//see: on_button_encoder_exercise_delete
+		//1st find if there are sets with this exercise
+		ArrayList array = SqliteForceSensor.SelectRowsOfAnExercise(false, exerciseID);
 
-		//delete exercise
-		Sqlite.Delete(false, Constants.ForceSensorExerciseTable, genericWin.uniqueID);
+		if(array.Count > 0) {
+			//there are some records of this exercise on encoder table, do not delete
+			genericWin.SetTextview(
+					Catalog.GetString("Sorry, this exercise cannot be deleted until these tests are deleted:"));
 
+			ArrayList nonSensitiveRows = new ArrayList();
+			for(int i=0; i < array.Count; i ++)
+				nonSensitiveRows.Add(i);
+
+			genericWin.SetTreeview(
+					new string [] {
+					"count",	//not shown, unused
+					Catalog.GetString("Sets"), Catalog.GetString("Person"),
+					Catalog.GetString("Session"), Catalog.GetString("Date") },
+					false, array, nonSensitiveRows, Constants.ContextMenu.NONE, false);
+
+			genericWin.ShowTextview();
+			genericWin.ShowTreeview();
+			genericWin.ShowButtonDelete(false);
+			genericWin.DeletingExerciseHideSomeWidgets();
+
+			genericWin.Button_accept.Clicked -= new EventHandler(on_button_force_sensor_exercise_edit_accepted);
+			genericWin.Button_accept.Clicked += new EventHandler(on_button_force_sensor_exercise_do_not_delete);
+		} else {
+			//forceSensor table has not records of this exercise. Delete exercise
+			SqliteForceSensorExercise.Delete(false, exerciseID);
+
+			genericWin.HideAndNull();
+
+			fillForceSensorExerciseCombo("");
+			combo_force_sensor_exercise.Active = 0;
+
+			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Exercise deleted."));
+		}
+	}
+
+	//accept does not save changes, just closes window
+	void on_button_force_sensor_exercise_do_not_delete (object o, EventArgs args) {
+		genericWin.Button_accept.Clicked -= new EventHandler(on_button_force_sensor_exercise_do_not_delete);
 		genericWin.HideAndNull();
-
-		fillForceSensorExerciseCombo("");
-		combo_force_sensor_exercise.Active = 0;
-
-		new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Exercise deleted."));
 	}
 
 	// -------------------------------- end of exercise stuff --------------------

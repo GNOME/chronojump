@@ -101,6 +101,28 @@ class SqliteForceSensor : Sqlite
 			Sqlite.Close();
 	}
 
+	/* right now unused
+	public static void DeleteSQLAndFile (bool dbconOpened, int uniqueID)
+	{
+		ForceSensor fs = (ForceSensor) Select (dbconOpened, uniqueID, -1, -1)[0];
+		DeleteSQLAndFile (dbconOpened, fs);
+	}
+	*/
+	public static void DeleteSQLAndFile (bool dbconOpened, ForceSensor fs)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = "DELETE FROM " + table + " WHERE uniqueID = " + fs.UniqueID;
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		closeIfNeeded(dbconOpened);
+
+		//delete the file
+		Util.FileDelete(fs.FullURL);
+	}
+
 	//SELECT forceSensor.*, forceSensorExercise.Name FROM forceSensor, forceSensorExercise WHERE forceSensor.exerciseID = forceSensorExercise.UniqueID ORDER BY forceSensor.uniqueID;
 	public static ArrayList Select (bool dbconOpened, int uniqueID, int personID, int sessionID)
 	{
@@ -367,6 +389,19 @@ class SqliteForceSensorExercise : Sqlite
 		if(! dbconOpened)
 			Sqlite.Close();
 	}
+
+	public static void Delete (bool dbconOpened, int uniqueID)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = "DELETE FROM " + table + " WHERE uniqueID = " + uniqueID;
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		closeIfNeeded(dbconOpened);
+	}
+
 
 	public static ArrayList Select (bool dbconOpened, int uniqueID, bool onlyNames)
 	{

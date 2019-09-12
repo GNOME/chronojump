@@ -989,6 +989,7 @@ LogB.Information(" re C ");
 						forceSensorDoGraphAI();
 					}
 					button_force_sensor_capture_recalculate.Sensitive = true;
+					button_delete_last_test.Sensitive = true;
 
 					if( configChronojump.Exhibition &&
 							( configChronojump.ExhibitionStationType == ExhibitionTest.testTypes.FORCE_ROPE ||
@@ -1013,6 +1014,7 @@ LogB.Information(" re C ");
 				button_force_sensor_image_save_rfd_manual.Sensitive = false;
 				checkbutton_force_sensor_ai_b.Sensitive = false;
 				button_force_sensor_capture_recalculate.Sensitive = false;
+				button_delete_last_test.Sensitive = false;
 			}
 			else
 				event_execute_label_message.Text = "";
@@ -1489,6 +1491,27 @@ LogB.Information(" re R ");
 		forceSensorDoRFDGraph();
 	}
 
+	private void forceSensorDeleteTest()
+	{
+		if(preferences.askDeletion) {
+			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
+						"Are you sure you want to delete this set?"), "", "");
+			confirmWin.Button_accept.Clicked += new EventHandler(forceSensorDeleteTestAccepted);
+		} else
+			forceSensorDeleteTestAccepted(new object(), new EventArgs());
+	}
+	private void forceSensorDeleteTestAccepted(object o, EventArgs args)
+	{
+		//int uniqueID = currentForceSensor.UniqueID;
+		SqliteForceSensor.DeleteSQLAndFile (false, currentForceSensor); //deletes also the .csv
+
+		//empty currentForceSensor (assign -1)
+		currentForceSensor = new ForceSensor();
+
+		//empty forceSensor GUI
+		button_delete_last_test.Sensitive = false;
+		button_force_sensor_capture_recalculate.Sensitive = false;
+	}
 
 	void forceSensorDoRFDGraph()
 	{

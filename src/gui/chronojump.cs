@@ -5900,7 +5900,16 @@ LogB.Debug("mc finished 5");
 	 *  --------------------------------------------------------
 	 */
 	
-	private void on_delete_last_test_clicked (object o, EventArgs args) {
+	private void on_delete_last_test_clicked (object o, EventArgs args)
+	{
+		if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR)
+		{
+			//forceSensorDeleteTest(currentForceSensor.UniqueID);
+			forceSensorDeleteTest();
+
+			return;
+		}
+
 		switch (currentEventType.Type) {
 			case EventType.Types.JUMP:
 				if(lastJumpIsSimple) {

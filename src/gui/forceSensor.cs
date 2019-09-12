@@ -1442,6 +1442,13 @@ LogB.Information(" re R ");
 		if(lastForceSensorFullPath != null && lastForceSensorFullPath != "")
 			forceSensorCopyTempAndDoGraphs();
 
+		//if drawingarea has still not shown, don't paint graph because GC screen is not defined
+		if(force_sensor_ai_drawingareaShown)
+		{
+			forceSensorZoomDefaultValues();
+			forceSensorDoGraphAI();
+		}
+
 		//update SQL with exercise, captureOptions, laterality, comments
 		currentForceSensor.ExerciseID = currentForceSensorExercise.UniqueID;
 		currentForceSensor.ExerciseName = currentForceSensorExercise.Name; //just in case

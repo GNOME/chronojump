@@ -919,7 +919,7 @@ class SqliteEncoder : Sqlite
 		return l;
 	}
 
-	public static ArrayList SelectEncoderRowsOfAnExercise(bool dbconOpened, int exerciseID) 
+	public static ArrayList SelectEncoderSetsOfAnExercise(bool dbconOpened, int exerciseID)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -929,7 +929,8 @@ class SqliteEncoder : Sqlite
 			Constants.SessionTable + ".name, " + 
 			Constants.SessionTable + ".date " + 
 			" FROM " + Constants.EncoderTable + ", " + Constants.PersonTable + ", " + Constants.SessionTable +
-			" WHERE exerciseID == " + exerciseID + 
+			" WHERE exerciseID == " + exerciseID +
+		        " AND signalOrCurve = \"signal\" " +
 			" AND " + Constants.PersonTable + ".uniqueID == " + Constants.EncoderTable + ".personID " +
 		        " AND " + Constants.SessionTable + ".uniqueID == " + Constants.EncoderTable + ".sessionID " + 
 			" GROUP BY sessionID, personID";

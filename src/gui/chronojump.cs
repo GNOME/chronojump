@@ -1118,8 +1118,9 @@ public partial class ChronoJumpWindow
 		else if(current_menuitem_mode == Constants.Menuitem_modes.RT)
 			updateGraphReactionTimes();
 
-		//2) change on encoder
+		//2) changes on encoder and forceSensor
 		encoderPersonChanged();
+		forceSensorPersonChanged();
 	}
 
 	private void treeviewPersonsContextMenu(Person myPerson) {

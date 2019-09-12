@@ -47,6 +47,12 @@ public class ForceSensor
 
 	private string exerciseName;
 
+	//have a uniqueID -1 contructor, useful when set is deleted
+	public ForceSensor()
+	{
+		uniqueID = -1;
+	}
+
 	//constructor
 	public ForceSensor(int uniqueID, int personID, int sessionID, int exerciseID, CaptureOptions captureOption, int angle,
 			string laterality, string filename, string url, string dateTime, string comments, string videoURL, string exerciseName)

@@ -415,6 +415,16 @@ public partial class ChronoJumpWindow
 		hbox_chronopics_and_more.Sensitive = sensitive;
 	}
 
+	private void forceSensorPersonChanged()
+	{
+		blankForceSensorInterface();
+	}
+	private void blankForceSensorInterface()
+	{
+		currentForceSensor = new ForceSensor();
+		button_force_sensor_capture_recalculate.Sensitive = false;
+	}
+
 	private bool pulseGTKForceSensorOther ()
 	{
 		string secondsStr = "";

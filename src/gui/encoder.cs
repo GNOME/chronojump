@@ -4727,13 +4727,12 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		ArrayList array = SqliteEncoder.SelectEncoderRowsOfAnExercise(false, genericWin.uniqueID); //dbconOpened, exerciseID
+		ArrayList array = SqliteEncoder.SelectEncoderSetsOfAnExercise(false, genericWin.uniqueID); //dbconOpened, exerciseID
 
 		if(array.Count > 0) {
 			//there are some records of this exercise on encoder table, do not delete
 			genericWin.SetTextview(
-					Catalog.GetString("Sorry, this exercise cannot be deleted.") + "\n" +
-					Catalog.GetString("Please delete first the following repetitions:"));
+					Catalog.GetString("Sorry, this exercise cannot be deleted until these tests are deleted:"));
 
 			ArrayList nonSensitiveRows = new ArrayList();
 			for(int i=0; i < array.Count; i ++)
@@ -4742,7 +4741,7 @@ public partial class ChronoJumpWindow
 			genericWin.SetTreeview(
 					new string [] {
 					"count",	//not shown, unused
-					Catalog.GetString("Repetitions"), Catalog.GetString("Person"),
+					Catalog.GetString("Sets"), Catalog.GetString("Person"),
 					Catalog.GetString("Session"), Catalog.GetString("Date") }, 
 					false, array, nonSensitiveRows, Constants.ContextMenu.NONE, false);
 

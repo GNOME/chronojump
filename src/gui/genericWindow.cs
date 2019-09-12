@@ -839,14 +839,15 @@ public class GenericWindow
 		store.SetValue (iter, commentColumn, entry_edit_row.Text);
 	}
 
-	//this method is only used when try to delete an encoder exercise,
-	//and cannot because there are encoder rows done with this exercise.
+	//this method is only used when try to delete an encoder/forceSensor exercise,
+	//and cannot because there are rows done with this exercise.
 	//Just unsensitive some stuff now in order to not be able to change them
 	public void DeletingExerciseHideSomeWidgets() {
 		hbox_spin_int.Hide();
 		hbox_entry2.Hide();
 		hbox_entry3.Hide();
 		hbox_spin_double2.Hide();
+		check1.Hide();
 
 		SetButtonAcceptLabel(Catalog.GetString("Close"));
 	}	

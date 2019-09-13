@@ -1296,14 +1296,23 @@ public class Util
 		return false;
 	}
 	
-	public static bool FileMove(string path, string filenameOrigin, string filenameDestination) {
+	public static bool FileMove(string path, string filenameOrigin, string filenameDestination)
+	{
+		LogB.Information(string.Format("Going to move: {0} to {1}",
+					path + Path.DirectorySeparatorChar + filenameOrigin
+					path + Path.DirectorySeparatorChar + filenameDestination
+					));
 		try {
 			File.Move(
 					path + Path.DirectorySeparatorChar + filenameOrigin, 
 					path + Path.DirectorySeparatorChar + filenameDestination
 					);
+			LogB.Information("Moved ok");
 			return true;
-		} catch {}
+		} catch {
+			LogB.Information("Catched! cannot move");
+		}
+
 		return false;
 	}
 	

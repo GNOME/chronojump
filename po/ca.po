@@ -3224,13 +3224,13 @@ msgid ""
 "first platform or photocell.\n"
 "It starts before and arrives there with some speed."
 msgstr ""
-"\"Carrera llençada\" significa que l'atleta no comença amb un \"contacte\" a "
+"\"Cursa llançada\" significa que l'atleta no comença amb un \"contacte\" a "
 "la primera plataforma o fotocèl·lula.\n"
 "Comença abans i arriba amb certa velocitat."
 
 #: ../glade/preferences_win.glade.h:41
 msgid "What to do on speed start or reaction time measurement?"
-msgstr "Què fer en carrera llençada o mesures de temps de reacció?"
+msgstr "Què fer en cursa llançada o mesures de temps de reacció?"
 
 #: ../glade/preferences_win.glade.h:42
 msgid "Race time starts on arrival at first device or pressing push button"

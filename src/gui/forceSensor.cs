@@ -1236,7 +1236,7 @@ LogB.Information(" re R ");
 		/* in some mono installations, configure_event is not called, but expose_event yes.
 		 * Do here the initialization
 		 */
-		//LogB.Debug("EXPOSE");
+		LogB.Debug("capture drawing area EXPOSE");
 
 		Gdk.Rectangle allocation = force_capture_drawingarea.Allocation;
 		if(force_capture_pixmap == null || force_capture_sizeChanged ||
@@ -1276,6 +1276,7 @@ LogB.Information(" re R ");
 	}
 
 	//this is called when user clicks on load signal
+	//very based on: on_encoder_load_signal_clicked () future have some inheritance
 	private void on_button_force_sensor_load_clicked (object o, EventArgs args)
 	{
 		ArrayList data = SqliteForceSensor.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID);
@@ -1309,20 +1310,36 @@ LogB.Information(" re R ");
 		genericWin = GenericWindow.Show(Catalog.GetString("Load"), false,	//don't show now
 				string.Format(Catalog.GetString("Select set of athlete {0} on this session."),
 					currentPerson.Name)
-				//	+ "\n" +
-				//Catalog.GetString("If you want to edit or delete a row, right click on it.")
+					+ "\n" +
+				Catalog.GetString("If you want to edit or delete a row, right click on it.")
 				, bigArray);
 
-		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList(), Constants.ContextMenu.NONE, true);
+		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList(), Constants.ContextMenu.EDITDELETE, true);
+
+		//find all persons in current session
+		ArrayList personsPre = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID,
+				false); //means: do not returnPersonAndPSlist
+
+		string [] persons = new String[personsPre.Count];
+		count = 0;
+	        foreach	(Person p in personsPre)
+			persons[count++] = p.UniqueID.ToString() + ":" + p.Name;
+		genericWin.SetComboValues(persons, currentPerson.UniqueID + ":" + currentPerson.Name);
+		genericWin.SetComboLabel(Catalog.GetString("Change the owner of selected set") +
+				" (" + Catalog.GetString("code") + ":" + Catalog.GetString("name") + ")");
+		genericWin.ShowEditRow(false);
 
 		//select row corresponding to current signal
-		//genericWin.SelectRowWithID(0, myEncoderSignalUniqueID); //colNum, id
+		genericWin.SelectRowWithID(0, currentForceSensor.UniqueID); //colNum, id
 
 		genericWin.ShowButtonCancel(true);
 		genericWin.SetButtonAcceptLabel(Catalog.GetString("Load"));
 		genericWin.SetButtonCancelLabel(Catalog.GetString("Close"));
 		genericWin.SetButtonAcceptSensitive(false);
 		genericWin.Button_accept.Clicked += new EventHandler(on_force_sensor_load_signal_accepted);
+		genericWin.Button_row_edit.Clicked += new EventHandler(on_force_sensor_load_signal_row_edit);
+		genericWin.Button_row_edit_apply.Clicked += new EventHandler(on_force_sensor_load_signal_row_edit_apply);
+		genericWin.Button_row_delete.Clicked += new EventHandler(on_force_sensor_load_signal_row_delete_pre);
 
 		genericWin.ShowNow();
 	}
@@ -1373,6 +1390,34 @@ LogB.Information(" re R ");
 		}
 		//event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(filechooser.Filename);
 		button_force_sensor_capture_recalculate.Sensitive = true;
+		notebook_force_sensor_analyze.Sensitive = true;
+	}
+
+	protected void on_force_sensor_load_signal_row_edit (object o, EventArgs args) {
+		LogB.Information("row edit at load signal");
+		LogB.Information(genericWin.TreeviewSelectedUniqueID.ToString());
+		genericWin.ShowEditRow(true);
+	}
+
+	protected void on_force_sensor_load_signal_row_edit_apply (object o, EventArgs args)
+	{
+		LogB.Information("row edit apply at load signal. Opening db:");
+		new DialogMessage(Constants.MessageTypes.INFO, "TODO");
+	}
+
+	protected void on_force_sensor_load_signal_row_delete_pre (object o, EventArgs args)
+	{
+		if(preferences.askDeletion) {
+			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
+						"Are you sure you want to delete this set?"), "", "");
+			confirmWin.Button_accept.Clicked += new EventHandler(on_force_sensor_load_signal_row_delete);
+		} else
+			on_force_sensor_load_signal_row_delete (o, args);
+	}
+	protected void on_force_sensor_load_signal_row_delete (object o, EventArgs args)
+	{
+		LogB.Information("row delete at load signal");
+		new DialogMessage(Constants.MessageTypes.INFO, "TODO");
 	}
 
 	/*

@@ -423,6 +423,9 @@ public partial class ChronoJumpWindow
 	{
 		currentForceSensor = new ForceSensor();
 		button_force_sensor_capture_recalculate.Sensitive = false;
+		notebook_force_sensor_analyze.Sensitive = false;
+		button_force_sensor_analyze_analyze.Sensitive = false;
+		button_delete_last_test.Sensitive = false;
 	}
 
 	private bool pulseGTKForceSensorOther ()
@@ -990,6 +993,7 @@ LogB.Information(" re C ");
 					}
 					button_force_sensor_capture_recalculate.Sensitive = true;
 					button_delete_last_test.Sensitive = true;
+					notebook_force_sensor_analyze.Sensitive = true;
 
 					if( configChronojump.Exhibition &&
 							( configChronojump.ExhibitionStationType == ExhibitionTest.testTypes.FORCE_ROPE ||
@@ -1493,6 +1497,13 @@ LogB.Information(" re R ");
 
 	private void forceSensorDeleteTest()
 	{
+		//solve possible gui problems
+		if(currentForceSensor == null || currentForceSensor.UniqueID == -1)
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, "Test does not exists. Cannot be deleted");
+			return;
+		}
+
 		if(preferences.askDeletion) {
 			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
 						"Are you sure you want to delete this set?"), "", "");
@@ -1509,8 +1520,7 @@ LogB.Information(" re R ");
 		currentForceSensor = new ForceSensor();
 
 		//empty forceSensor GUI
-		button_delete_last_test.Sensitive = false;
-		button_force_sensor_capture_recalculate.Sensitive = false;
+		blankForceSensorInterface();
 	}
 
 	void forceSensorDoRFDGraph()

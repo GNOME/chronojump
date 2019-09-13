@@ -1776,6 +1776,7 @@ public partial class ChronoJumpWindow
 			EncoderSQL eSQLChangedPerson = eSQL_set.ChangePerson(idName);
 			SqliteEncoder.Update(true, eSQLChangedPerson);
 			genericWin.RemoveSelectedRow();
+			genericWin.SetButtonAcceptSensitive(false);
 
 			//select linkedReps (if any)
 			ArrayList linkedReps = SqliteEncoder.SelectSignalCurve(

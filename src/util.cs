@@ -1299,7 +1299,7 @@ public class Util
 	public static bool FileMove(string path, string filenameOrigin, string filenameDestination)
 	{
 		LogB.Information(string.Format("Going to move: {0} to {1}",
-					path + Path.DirectorySeparatorChar + filenameOrigin
+					path + Path.DirectorySeparatorChar + filenameOrigin,
 					path + Path.DirectorySeparatorChar + filenameDestination
 					));
 		try {

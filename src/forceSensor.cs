@@ -77,7 +77,6 @@ public class ForceSensor
 	{
 		return SqliteForceSensor.Insert(dbconOpened, toSQLInsertString());
 	}
-
 	private string toSQLInsertString()
 	{
 		string uniqueIDStr = "NULL";
@@ -88,6 +87,28 @@ public class ForceSensor
 			"(" + uniqueIDStr + ", " + personID + ", " + sessionID + ", " + exerciseID + ", \"" + captureOption.ToString() + "\", " +
 			angle + ", \"" + laterality + "\", \"" + filename + "\", \"" + url + "\", \"" + dateTime + "\", \"" +
 			comments + "\", \"" + videoURL + "\")";
+	}
+
+	public void UpdateSQL(bool dbconOpened)
+	{
+		SqliteForceSensor.Update(dbconOpened, toSQLUpdateString());
+	}
+	private string toSQLUpdateString()
+	{
+		return
+			" uniqueID = " + uniqueID +
+			", personID = " + personID +
+			", sessionID = " + sessionID +
+			", exerciseID = " + exerciseID +
+			", captureOption = \"" + captureOption.ToString() +
+			"\", angle = " + angle +
+			", laterality = \"" + laterality +
+			"\", filename = \"" + filename +
+			"\", url = \"" + url +
+			"\", dateTime = \"" + dateTime +
+			"\", comments = \"" + comments +
+			"\", videoURL = \"" + Util.MakeURLrelative(videoURL) +
+			"\" WHERE uniqueID = " + uniqueID;
 	}
 
 	public string [] ToStringArray (int count)
@@ -138,6 +159,24 @@ public class ForceSensor
 
 	}
 
+	//uniqueID:name
+	public ForceSensor ChangePerson(string newIDAndName)
+	{
+		int newPersonID = Util.FetchID(newIDAndName);
+		string newPersonName = Util.FetchName(newIDAndName);
+		string newFilename = filename;
+
+		personID = newPersonID;
+		newFilename = newPersonID + "-" + newPersonName + "-" + dateTime + ".txt";
+
+		bool success = false;
+		success = Util.FileMove(url, filename, newFilename);
+		if(success)
+			filename = newFilename;
+
+		//will update SqliteForceSensor
+		return (this);
+	}
 
 	public string FullURL
 	{

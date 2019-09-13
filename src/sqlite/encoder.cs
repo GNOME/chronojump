@@ -690,16 +690,6 @@ class SqliteEncoder : Sqlite
 			Sqlite.Close();
 	}
 	
-	//when select from database, ensure path separators are ok for this platform
-	//useful if person moved database between diff OS
-	private static string fixOSpath(string url) {
-		if(UtilAll.IsWindows())
-			return url.Replace("/","\\");
-		else
-			return url.Replace("\\","/");
-	}
-
-
 	/*
 	 * EncoderExercise stuff
 	 */

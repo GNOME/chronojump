@@ -62,8 +62,7 @@ class SqliteForceSensor : Sqlite
 
 	public static int Insert (bool dbconOpened, string insertString)
 	{
-		if(! dbconOpened)
-			Sqlite.Open();
+		openIfNeeded(dbconOpened);
 
 		dbcmd.CommandText = "INSERT INTO " + table +
 				" (uniqueID, personID, sessionID, exerciseID, captureOption, angle, laterality, filename, url, dateTime, comments, videoURL)" +
@@ -75,30 +74,21 @@ class SqliteForceSensor : Sqlite
 		dbcmd.CommandText = myString;
 		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 
-		if(! dbconOpened)
-			Sqlite.Close();
+		closeIfNeeded(dbconOpened);
 
 		return myLast;
 	}
 
-	public static void Update (bool dbconOpened, ForceSensor fs)
+	public static void Update (bool dbconOpened, string updateString)
 	{
-		if(! dbconOpened)
-			Sqlite.Open();
+		openIfNeeded(dbconOpened);
 
-		dbcmd.CommandText = "UPDATE " + table + " SET " +
-			" exerciseID = " + fs.ExerciseID +
-			", captureOption = \"" + fs.CaptureOption.ToString() +
-			"\", laterality = \"" + fs.Laterality +
-			"\", comments = \"" + fs.Comments +
-			"\", videoURL = \"" + Util.MakeURLrelative(fs.VideoURL) +
-			"\" WHERE uniqueID = " + fs.UniqueID;
+		dbcmd.CommandText = "UPDATE " + table + " SET " + updateString;
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		if(! dbconOpened)
-			Sqlite.Close();
+		closeIfNeeded(dbconOpened);
 	}
 
 	/* right now unused
@@ -126,8 +116,7 @@ class SqliteForceSensor : Sqlite
 	//SELECT forceSensor.*, forceSensorExercise.Name FROM forceSensor, forceSensorExercise WHERE forceSensor.exerciseID = forceSensorExercise.UniqueID ORDER BY forceSensor.uniqueID;
 	public static ArrayList Select (bool dbconOpened, int uniqueID, int personID, int sessionID)
 	{
-		if(! dbconOpened)
-			Sqlite.Open();
+		openIfNeeded(dbconOpened);
 
 		string selectStr = "SELECT " + table + ".*, " + Constants.ForceSensorExerciseTable + ".Name FROM " + table + ", " + Constants.ForceSensorExerciseTable;
 		string whereStr = " WHERE " + table + ".exerciseID = " + Constants.ForceSensorExerciseTable + ".UniqueID ";
@@ -166,7 +155,7 @@ class SqliteForceSensor : Sqlite
 					Convert.ToInt32(reader[5].ToString()),	//angle
 					reader[6].ToString(),			//laterality
 					reader[7].ToString(),			//filename
-					reader[8].ToString(),			//url
+					Util.MakeURLabsolute(fixOSpath(reader[8].ToString())),	//url
 					reader[9].ToString(),			//datetime
 					reader[10].ToString(),			//comments
 					reader[11].ToString(),			//videoURL
@@ -176,16 +165,14 @@ class SqliteForceSensor : Sqlite
 		}
 
 		reader.Close();
-		if(! dbconOpened)
-			Sqlite.Close();
+		closeIfNeeded(dbconOpened);
 
 		return array;
 	}
 
 	public static ArrayList SelectRowsOfAnExercise(bool dbconOpened, int exerciseID)
 	{
-		if(! dbconOpened)
-			Sqlite.Open();
+		openIfNeeded(dbconOpened);
 
 		dbcmd.CommandText = "select count(*), " +
 			Constants.PersonTable + ".name, " +
@@ -216,8 +203,7 @@ class SqliteForceSensor : Sqlite
 		}
 
 		reader.Close();
-		if(! dbconOpened)
-			Sqlite.Close();
+		closeIfNeeded(dbconOpened);
 
 		return array;
 	}

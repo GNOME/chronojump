@@ -972,7 +972,7 @@ LogB.Information(" re C ");
 						currentForceSensor.VideoURL = Util.GetVideoFileName(currentSession.UniqueID,
 								Constants.TestTypes.FORCESENSOR,
 								currentForceSensor.UniqueID);
-						SqliteForceSensor.Update(false, currentForceSensor);
+						currentForceSensor.UpdateSQL(false);
 						label_video_feedback.Text = "";
 						button_video_play_this_test.Sensitive = true;
 					}
@@ -1332,6 +1332,8 @@ LogB.Information(" re R ");
 		//select row corresponding to current signal
 		genericWin.SelectRowWithID(0, currentForceSensor.UniqueID); //colNum, id
 
+		genericWin.CommentColumn = 7;
+
 		genericWin.ShowButtonCancel(true);
 		genericWin.SetButtonAcceptLabel(Catalog.GetString("Load"));
 		genericWin.SetButtonCancelLabel(Catalog.GetString("Close"));
@@ -1402,7 +1404,45 @@ LogB.Information(" re R ");
 	protected void on_force_sensor_load_signal_row_edit_apply (object o, EventArgs args)
 	{
 		LogB.Information("row edit apply at load signal. Opening db:");
-		new DialogMessage(Constants.MessageTypes.INFO, "TODO");
+
+		Sqlite.Open();
+
+		//1) select set
+		int setID = genericWin.TreeviewSelectedUniqueID;
+		ForceSensor fs = (ForceSensor) SqliteForceSensor.Select(true, setID, -1, -1)[0];
+
+		//2) if changed comment, update SQL, and update treeview
+		//first remove conflictive characters
+		string comment = Util.RemoveTildeAndColonAndDot(genericWin.EntryEditRow);
+		if(comment != fs.Comments)
+		{
+			fs.Comments = comment;
+			fs.UpdateSQL(true);
+
+			//update treeview
+			genericWin.on_edit_selected_done_update_treeview();
+		}
+
+		//3) change the session param and the url of signal and curves (if any)
+		string idName = genericWin.GetComboSelected;
+		LogB.Information("new person: " + idName);
+		int newPersonID = Util.FetchID(idName);
+		if(newPersonID != currentPerson.UniqueID)
+		{
+			//change stuff on signal
+			ForceSensor fsChangedPerson = fs.ChangePerson(idName);
+			fsChangedPerson.UpdateSQL(true);
+			genericWin.RemoveSelectedRow();
+			genericWin.SetButtonAcceptSensitive(false);
+		}
+
+		genericWin.ShowEditRow(false);
+
+		//remove signal from gui just in case the edited signal is the same we have loaded
+		//removeSignalFromGuiBecauseDeletedOrCancelled();
+		blankForceSensorInterface();
+
+		Sqlite.Close();
 	}
 
 	protected void on_force_sensor_load_signal_row_delete_pre (object o, EventArgs args)
@@ -1517,7 +1557,7 @@ LogB.Information(" re R ");
 		currentForceSensor.Laterality = getLaterality(false);
 		currentForceSensor.Comments = getCaptureComment();
 
-		SqliteForceSensor.Update(false, currentForceSensor);
+		currentForceSensor.UpdateSQL(false);
 	}
 
 	private void on_button_force_sensor_analyze_analyze_clicked (object o, EventArgs args)

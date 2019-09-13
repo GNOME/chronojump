@@ -3481,6 +3481,16 @@ LogB.SQL("5" + tableName);
 
 	/* methods for different classes */
 	
+	//when select from database, ensure path separators are ok for this platform
+	//useful if person moved database between diff OS
+	protected static string fixOSpath(string url) {
+		if(UtilAll.IsWindows())
+			return url.Replace("/","\\");
+		else
+			return url.Replace("\\","/");
+	}
+
+
 	protected static double selectDouble (string sqlSelect) 
 	{
 		dbcmd.CommandText = sqlSelect;

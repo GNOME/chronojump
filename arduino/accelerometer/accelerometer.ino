@@ -28,6 +28,12 @@
    2015/AUG/27  - Added calibration and system status helpers
 */
 
+/* Functionalities of communication with Chronojump
+ * 2019-07        - Added Bluetooth comminication. x.padulles@gmail.com 
+ * 2019-08        - Added listening serial for receiving commands. x.padulles@gmail.com
+ * 2019-09        - Added time management. x.padulles@gmail.com
+ */
+
 String version = "Accelerometer-0.1";
 
 unsigned long lastTime = 0;

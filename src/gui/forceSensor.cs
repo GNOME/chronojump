@@ -1209,8 +1209,7 @@ LogB.Information(" re R ");
 		{
 			force_capture_pixmap = new Gdk.Pixmap (window, allocation.Width, allocation.Height, -1);
 
-			if(forceSensorOtherMode == forceSensorOtherModeEnum.CAPTURE_PRE)
-//			if(forceCaptureThread != null) //&& capturingCsharp == encoderCaptureProcess.CAPTURING)
+			if(forceCaptureThread != null && forceCaptureThread.IsAlive)
 				fscPoints.NumPainted = -1; //mark meaning screen should be erased and start painting from the beginning
 			else {
 				if(fscPoints == null)
@@ -1240,12 +1239,12 @@ LogB.Information(" re R ");
 
 		Gdk.Rectangle allocation = force_capture_drawingarea.Allocation;
 		if(force_capture_pixmap == null || force_capture_sizeChanged ||
-				allocation.Width != force_capture_allocationXOld) {
+				allocation.Width != force_capture_allocationXOld)
+		{
 			force_capture_pixmap = new Gdk.Pixmap (force_capture_drawingarea.GdkWindow,
 					allocation.Width, allocation.Height, -1);
 
-			if(forceSensorOtherMode == forceSensorOtherModeEnum.CAPTURE_PRE)
-			//if(forceCaptureThread != null) //&& capturingCsharp == encoderCaptureProcess.CAPTURING)
+			if(forceCaptureThread != null && forceCaptureThread.IsAlive)
 				fscPoints.NumPainted = -1; //mark meaning screen should be erased and start painting from the beginning
 			else {
 				if(fscPoints == null)

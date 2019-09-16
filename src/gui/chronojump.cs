@@ -5904,9 +5904,7 @@ LogB.Debug("mc finished 5");
 	{
 		if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR)
 		{
-			//forceSensorDeleteTest(currentForceSensor.UniqueID);
-			forceSensorDeleteTest();
-
+			force_sensor_delete_current_test_pre_question();
 			return;
 		}
 

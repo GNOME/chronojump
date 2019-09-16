@@ -1314,7 +1314,7 @@ LogB.Information(" re R ");
 				Catalog.GetString("If you want to edit or delete a row, right click on it.")
 				, bigArray);
 
-		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList(), Constants.ContextMenu.EDITDELETE, true);
+		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList(), GenericWindow.EditActions.EDITDELETE, true);
 
 		//find all persons in current session
 		ArrayList personsPre = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID,
@@ -2253,7 +2253,7 @@ LogB.Information(" re R ");
 					"count",	//not shown, unused
 					Catalog.GetString("Sets"), Catalog.GetString("Person"),
 					Catalog.GetString("Session"), Catalog.GetString("Date") },
-					false, array, nonSensitiveRows, Constants.ContextMenu.NONE, false);
+					false, array, nonSensitiveRows, GenericWindow.EditActions.NONE, false);
 
 			genericWin.ShowTextview();
 			genericWin.ShowTreeview();

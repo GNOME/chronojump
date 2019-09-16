@@ -1341,7 +1341,7 @@ LogB.Information(" re R ");
 		genericWin.Button_accept.Clicked += new EventHandler(on_force_sensor_load_signal_accepted);
 		genericWin.Button_row_edit.Clicked += new EventHandler(on_force_sensor_load_signal_row_edit);
 		genericWin.Button_row_edit_apply.Clicked += new EventHandler(on_force_sensor_load_signal_row_edit_apply);
-		genericWin.Button_row_delete.Clicked += new EventHandler(on_force_sensor_load_signal_row_delete_pre);
+		genericWin.Button_row_delete.Clicked += new EventHandler(on_force_sensor_load_signal_row_delete_prequestion);
 
 		genericWin.ShowNow();
 	}
@@ -1445,7 +1445,10 @@ LogB.Information(" re R ");
 		Sqlite.Close();
 	}
 
-	protected void on_force_sensor_load_signal_row_delete_pre (object o, EventArgs args)
+
+	// ----start of forceSensorDeleteTest stuff -------
+
+	protected void on_force_sensor_load_signal_row_delete_prequestion (object o, EventArgs args)
 	{
 		if(preferences.askDeletion) {
 			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
@@ -1456,77 +1459,59 @@ LogB.Information(" re R ");
 	}
 	protected void on_force_sensor_load_signal_row_delete (object o, EventArgs args)
 	{
-		LogB.Information("row delete at load signal");
-		new DialogMessage(Constants.MessageTypes.INFO, "TODO");
-	}
+		LogB.Information("row delete at load set");
 
-	/*
-	 * OLD: load file
-	 * now using above methods that load from SQL
-	private void on_button_force_sensor_load_clicked (object o, EventArgs args)
-	{
-		if (currentSession == null)
-			return;
+		int setID = genericWin.TreeviewSelectedUniqueID;
+		LogB.Information(setID.ToString());
 
-		Gtk.FileChooserDialog filechooser = new Gtk.FileChooserDialog ("Choose file",
-		                                                               app1, FileChooserAction.Open,
-		                                                               "Cancel",ResponseType.Cancel,
-		                                                               "Choose",ResponseType.Accept);
-		string dataDir = ForceSensorGraph.GetDataDir(currentSession.UniqueID);
-		filechooser.SetCurrentFolder(dataDir);
+		//if it's current set use the delete set from the gui interface that updates gui
+		if(currentForceSensor != null && setID == Convert.ToInt32(currentForceSensor.UniqueID))
+			force_sensor_delete_current_test_accepted(o, args);
+		else {
+			ForceSensor fs = (ForceSensor) SqliteForceSensor.Select(false, setID, -1, -1)[0];
+			forceSensorDeleteTestDo(fs);
 
-		FileFilter file_filter = new FileFilter();
-		file_filter.AddPattern ("*.csv");
-
-		lastForceSensorFile = "";
-		if (filechooser.Run () == (int)ResponseType.Accept)
-		{
-			lastForceSensorFile = Util.RemoveExtension(Util.GetLastPartOfPath(filechooser.Filename));
-
-			//try to change currentPerson on loading set
-			ForceSensorLoadTryToAssignPersonAndMore fslt = new ForceSensorLoadTryToAssignPersonAndMore(false, lastForceSensorFile, currentSession.UniqueID);
-			Person p = fslt.GetPerson();
-			if(p.UniqueID != -1)
-			{
-				currentPerson = p;
-				currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
-				if(fslt.Exercise != "")
-					combo_force_sensor_exercise.Active = UtilGtk.ComboMakeActive(combo_force_sensor_exercise, fslt.Exercise);
-				if(fslt.Laterality != "")
-					setLaterality(fslt.Laterality);
-				if(fslt.Comment != "")
-					textview_force_sensor_capture_comment.Buffer.Text = fslt.Comment;
-
-				int rowToSelect = myTreeViewPersons.FindRow(p.UniqueID);
-				if(rowToSelect != -1) {
-					//this will update also currentPerson
-					selectRowTreeView_persons(treeview_persons, rowToSelect);
-				}
-
-				label_person_change();
-				personChanged();
-			}
-
-			lastForceSensorFullPath = filechooser.Filename; //used on recalculate
-
-			//on load, standard capture will be used.
-			//when database is working the here the gui of ForceSensor.CaptureOptions will change, and graph will be done accordingly
-			combo_force_sensor_capture_options.Active = 0;
-
-			assignCurrentForceSensorExercise();
-			forceSensorCopyTempAndDoGraphs();
-
-			//if drawingarea has still not shown, don't paint graph because GC screen is not defined
-			if(force_sensor_ai_drawingareaShown)
-			{
-				forceSensorZoomDefaultValues();
-				forceSensorDoGraphAI();
-			}
-			event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(filechooser.Filename);
+			//genericWin selected row is deleted, unsensitive the "load" button
+			genericWin.SetButtonAcceptSensitive(false);
 		}
-		filechooser.Destroy ();
+		genericWin.Delete_row_accepted();
 	}
-	*/
+
+	private void force_sensor_delete_current_test_pre_question()
+	{
+		//solve possible gui problems
+		if(currentForceSensor == null || currentForceSensor.UniqueID == -1)
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, "Test does not exists. Cannot be deleted");
+			return;
+		}
+
+		if(preferences.askDeletion) {
+			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
+						"Are you sure you want to delete this set?"), "", "");
+			confirmWin.Button_accept.Clicked += new EventHandler(force_sensor_delete_current_test_accepted);
+		} else
+			force_sensor_delete_current_test_accepted(new object(), new EventArgs());
+	}
+	private void force_sensor_delete_current_test_accepted(object o, EventArgs args)
+	{
+		forceSensorDeleteTestDo(currentForceSensor);
+
+		//empty currentForceSensor (assign -1)
+		currentForceSensor = new ForceSensor();
+
+		//empty forceSensor GUI
+		blankForceSensorInterface();
+	}
+
+	private void forceSensorDeleteTestDo(ForceSensor fs)
+	{
+		//int uniqueID = currentForceSensor.UniqueID;
+		SqliteForceSensor.DeleteSQLAndFile (false, fs); //deletes also the .csv
+	}
+
+	// ---- end of forceSensorDeleteTest stuff -------
+
 
 	private void on_button_force_sensor_capture_recalculate_clicked (object o, EventArgs args)
 	{
@@ -1580,33 +1565,7 @@ LogB.Information(" re R ");
 		forceSensorDoRFDGraph();
 	}
 
-	private void forceSensorDeleteTest()
-	{
-		//solve possible gui problems
-		if(currentForceSensor == null || currentForceSensor.UniqueID == -1)
-		{
-			new DialogMessage(Constants.MessageTypes.WARNING, "Test does not exists. Cannot be deleted");
-			return;
-		}
 
-		if(preferences.askDeletion) {
-			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
-						"Are you sure you want to delete this set?"), "", "");
-			confirmWin.Button_accept.Clicked += new EventHandler(forceSensorDeleteTestAccepted);
-		} else
-			forceSensorDeleteTestAccepted(new object(), new EventArgs());
-	}
-	private void forceSensorDeleteTestAccepted(object o, EventArgs args)
-	{
-		//int uniqueID = currentForceSensor.UniqueID;
-		SqliteForceSensor.DeleteSQLAndFile (false, currentForceSensor); //deletes also the .csv
-
-		//empty currentForceSensor (assign -1)
-		currentForceSensor = new ForceSensor();
-
-		//empty forceSensor GUI
-		blankForceSensorInterface();
-	}
 
 	void forceSensorDoRFDGraph()
 	{

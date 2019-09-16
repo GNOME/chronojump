@@ -60,7 +60,7 @@ public class GenericWindow
 	[Widget] Gtk.Label hbox_combo_label;
 	[Widget] Gtk.Box hbox_combo;
 	[Widget] Gtk.ComboBox combo;
-	[Widget] Gtk.Button hbox_combo_button;
+	[Widget] Gtk.Button hbox_combo_button_apply;
 	[Widget] Gtk.Entry entry_edit_row;
 	
 	[Widget] Gtk.Box hbox_all_none_selected;
@@ -79,6 +79,9 @@ public class GenericWindow
 	//treeview fake buttons
 	[Widget] Gtk.Button button_row_edit;
 	[Widget] Gtk.Button button_row_delete;
+
+	[Widget] Gtk.Button button_treeviewload_row_edit;
+	[Widget] Gtk.Button button_treeviewload_row_delete;
 	
 	[Widget] Gtk.Box hbox_entry2;
 	[Widget] Gtk.Label label_entry2;
@@ -98,8 +101,9 @@ public class GenericWindow
 	static GenericWindow GenericWindowBox;
 	
 	private TreeStore store;
-	private Constants.ContextMenu genericWinContextMenu;
 	private bool textviewChanging = false;
+
+	public enum EditActions { NONE, EDITDELETE, DELETE }
 
 	//used to read data, see if it's ok, and print an error message.
 	//if all is ok, destroy it with HideAndNull()
@@ -210,6 +214,8 @@ public class GenericWindow
 		hbox_height_metric.Hide();
 		check1.Hide();
 		hbox_edit_row.Hide();
+		button_treeviewload_row_edit.Hide();
+		button_treeviewload_row_delete.Hide();
 		hbox_all_none_selected.Hide();
 		hbox_combo_all_none_selected.Hide();
 		hbuttonbox_middle.Hide();
@@ -532,7 +538,8 @@ public class GenericWindow
 	bool activateRowAcceptsWindow;
 	//data is an ArrayList of strings[], each string [] is a row, each of its strings is a column
 	public void SetTreeview(string [] columnsString, bool addCheckbox, 
-			ArrayList data, ArrayList myNonSensitiveRows, Constants.ContextMenu contextMenu,
+			ArrayList data, ArrayList myNonSensitiveRows,
+			EditActions editAction,
 			bool activateRowAcceptsWindow	//this param makes button_accept the window if 'enter' on a row or double click
 			) 
 	{
@@ -555,20 +562,24 @@ public class GenericWindow
 		}
 		LogB.Debug("aaaaaaaaaaaaaaaa2");	
 
-		genericWinContextMenu = contextMenu;
 		this.activateRowAcceptsWindow = activateRowAcceptsWindow;
 
-		treeview.CursorChanged += on_treeview_cursor_changed; 
-		if(contextMenu == Constants.ContextMenu.EDITDELETE) {
+		if(editAction == EditActions.EDITDELETE)
+		{
+			button_treeviewload_row_edit.Sensitive = false;
+			button_treeviewload_row_edit.Visible = true;
+			button_treeviewload_row_delete.Sensitive = false;
+			button_treeviewload_row_delete.Visible = true;
 			button_row_edit = new Gtk.Button();
 			button_row_delete = new Gtk.Button();
-			treeview.ButtonReleaseEvent -= on_treeview_button_release_event;
-			treeview.ButtonReleaseEvent += on_treeview_button_release_event;
-		} else if(contextMenu == Constants.ContextMenu.DELETE) {
+		} else if(editAction == EditActions.DELETE)
+		{
 			button_row_delete = new Gtk.Button();
-			treeview.ButtonReleaseEvent -= on_treeview_button_release_event;
-			treeview.ButtonReleaseEvent += on_treeview_button_release_event;
+			button_treeviewload_row_delete.Sensitive = false;
+			button_treeviewload_row_delete.Visible = true;
 		}
+
+		treeview.CursorChanged += on_treeview_cursor_changed;
 	}
 
 	public void SelectRowWithID(int colNum, int id) 
@@ -636,10 +647,18 @@ public class GenericWindow
 	{
 		TreeIter iter = new TreeIter();
 		TreeModel myModel = treeview.Model;
-		if (treeview.Selection.GetSelected (out myModel, out iter)) 
+		if (treeview.Selection.GetSelected (out myModel, out iter))
+		{
 			SetButtonAcceptSensitive(true);
+			button_treeviewload_row_edit.Sensitive = true;
+			button_treeviewload_row_delete.Sensitive = true;
+		}
 		else
+		{
 			SetButtonAcceptSensitive(false);
+			button_treeviewload_row_edit.Sensitive = false;
+			button_treeviewload_row_delete.Sensitive = false;
+		}
 
 		ShowEditRow(false);
 	}
@@ -772,58 +791,20 @@ public class GenericWindow
 			}
 		}
 	}
-	
-
-	private void on_treeview_button_release_event (object o, ButtonReleaseEventArgs args) {
-		//TreeviewSelectedUniqueID = -1;
-
-                Gdk.EventButton e = args.Event;
-                Gtk.TreeView tv = (Gtk.TreeView) o;
-		TreeModel model = treeview.Model;
-		if (e.Button == 3) {
-			TreeIter iter = new TreeIter();
-			if (tv.Selection.GetSelected (out model, out iter)) {
-				TreeviewSelectedUniqueID = Convert.ToInt32((string) store.GetValue (iter, 0));
-				treeviewContextMenu();
-			}
-		}
-		ShowEditRow(false);
-	}
-
-	Menu menuCtx;
-	private void treeviewContextMenu() {
-		menuCtx = new Menu ();
-		Gtk.MenuItem myItem;
-
-		if(genericWinContextMenu == Constants.ContextMenu.EDITDELETE) {
-			myItem = new MenuItem ( Catalog.GetString("Edit selected") );
-			myItem.Activated += on_edit_selected_clicked;
-			menuCtx.Attach( myItem, 0, 1, 0, 1 );
-
-			myItem = new MenuItem ( Catalog.GetString("Delete selected") );
-			myItem.Activated += on_delete_selected_clicked;
-			menuCtx.Attach( myItem, 0, 1, 1, 2 );
-		}
-		else if(genericWinContextMenu == Constants.ContextMenu.DELETE) {
-			myItem = new MenuItem ( Catalog.GetString("Delete selected") );
-			myItem.Activated += on_delete_selected_clicked;
-			menuCtx.Attach( myItem, 0, 1, 0, 1 );
-		} else {
-			//don't show nothing if there are no options
-			menuCtx.Popdown();
-			return; 
-		}
-
-		menuCtx.Popup();
-		menuCtx.ShowAll();
-	}
 
 	private void on_edit_selected_clicked (object o, EventArgs args) 
 	{
 		TreeModel model;
 		TreeIter iter = new TreeIter();
-		treeview.Selection.GetSelected (out model, out iter);
+		if(! treeview.Selection.GetSelected (out model, out iter))
+			return;
+
+		TreeviewSelectedUniqueID = Convert.ToInt32((string) store.GetValue (iter, 0));
+
 		entry_edit_row.Text = (string) model.GetValue (iter, commentColumn);
+
+		button_treeviewload_row_edit.Sensitive = false;
+		button_treeviewload_row_delete.Sensitive = false;
 
 		button_row_edit.Click();
 	}
@@ -837,6 +818,13 @@ public class GenericWindow
 		TreeIter iter = new TreeIter();
 		treeview.Selection.GetSelected (out model, out iter);
 		store.SetValue (iter, commentColumn, entry_edit_row.Text);
+	}
+
+	public void on_hbox_combo_button_cancel_clicked (object o, EventArgs args)
+	{
+		button_treeviewload_row_edit.Sensitive = true;
+		button_treeviewload_row_delete.Sensitive = true;
+		hbox_edit_row.Hide();
 	}
 
 	//this method is only used when try to delete an encoder/forceSensor exercise,
@@ -856,7 +844,17 @@ public class GenericWindow
 		store = UtilGtk.RemoveRow(treeview, store);
 	}
 
-	private void on_delete_selected_clicked (object o, EventArgs args) {
+	private void on_delete_selected_clicked (object o, EventArgs args)
+	{
+		TreeModel model;
+		TreeIter iter = new TreeIter();
+		if(! treeview.Selection.GetSelected (out model, out iter))
+			return;
+
+		TreeviewSelectedUniqueID = Convert.ToInt32((string) store.GetValue (iter, 0));
+		button_treeviewload_row_edit.Sensitive = false;
+		button_treeviewload_row_delete.Sensitive = false;
+
 		//activate button to manage on gui/encoder.cs in order to delete from SQL
 		button_row_delete.Click();
 	}
@@ -865,7 +863,6 @@ public class GenericWindow
 	public void Delete_row_accepted() {
 		//remove selected row from treeview
 		store = UtilGtk.RemoveRow(treeview, store);
-		menuCtx.Popdown();
 	}
 	
 	public void Row_add(string [] row) {
@@ -962,8 +959,8 @@ public class GenericWindow
 	}
 	
 	public Button Button_row_edit_apply {
-		set { hbox_combo_button = value; }
-		get { return hbox_combo_button; }
+		set { hbox_combo_button_apply = value; }
+		get { return hbox_combo_button_apply; }
 	}
 	
 	public int CommentColumn {

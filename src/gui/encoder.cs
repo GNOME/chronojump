@@ -1095,7 +1095,7 @@ public partial class ChronoJumpWindow
 				Catalog.GetString("If there is more than one value, top one will be used."),
 				bigArray);
 
-		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList(), Constants.ContextMenu.DELETE, false);
+		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList(), GenericWindow.EditActions.DELETE, false);
 		genericWin.LabelSpinDouble2 = Catalog.GetString("Manually add");
 		genericWin.SetSpinDouble2Increments(0.1,1);
 		genericWin.SetSpinDouble2Range(0,5000);
@@ -1590,7 +1590,7 @@ public partial class ChronoJumpWindow
 					currentPerson.Name) + "\n" + 
 				Catalog.GetString("If you want to edit or delete a row, right click on it."), bigArray);
 
-		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList(), Constants.ContextMenu.EDITDELETE, true);
+		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList(), GenericWindow.EditActions.EDITDELETE, true);
 	
 		//find all persons in current session
 		ArrayList personsPre = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID,
@@ -4744,7 +4744,7 @@ public partial class ChronoJumpWindow
 					"count",	//not shown, unused
 					Catalog.GetString("Sets"), Catalog.GetString("Person"),
 					Catalog.GetString("Session"), Catalog.GetString("Date") }, 
-					false, array, nonSensitiveRows, Constants.ContextMenu.NONE, false);
+					false, array, nonSensitiveRows, GenericWindow.EditActions.NONE, false);
 
 			genericWin.ShowTextview();
 			genericWin.ShowTreeview();

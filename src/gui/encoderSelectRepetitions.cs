@@ -257,7 +257,7 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 				Catalog.GetString("If you want to edit or delete a row, right click on it.") + "\n",
 				bigArray);
 
-		genericWinESR.SetTreeview(columnsString, true, dataPrint, new ArrayList(), Constants.ContextMenu.EDITDELETE, false);
+		genericWinESR.SetTreeview(columnsString, true, dataPrint, new ArrayList(), GenericWindow.EditActions.EDITDELETE, false);
 
 		genericWinESR.ResetComboCheckBoxesOptions();
 		//genericWinESR.AddOptionsToComboCheckBoxesOptions(encoderExercisesNames);
@@ -513,7 +513,7 @@ public class EncoderSelectRepetitionsIndividualAllSessions : EncoderSelectRepeti
 			dataConverted.Add(encPS.ToStringArray(true));
 		}
 
-		genericWinESR.SetTreeview(columnsString, true, dataConverted, nonSensitiveRows, Constants.ContextMenu.NONE, false);
+		genericWinESR.SetTreeview(columnsString, true, dataConverted, nonSensitiveRows, GenericWindow.EditActions.NONE, false);
 
 		genericWinESR.ResetComboCheckBoxesOptions();
 		genericWinESR.CreateComboCheckBoxes();
@@ -677,7 +677,7 @@ public class EncoderSelectRepetitionsGroupalCurrentSession : EncoderSelectRepeti
 		genericWinESR = GenericWindow.Show(Catalog.GetString("Persons compare"), false,	//don't show now
 				Catalog.GetString("Select persons to compare"), bigArray);
 
-		genericWinESR.SetTreeview(columnsString, true, data, nonSensitiveRows, Constants.ContextMenu.NONE, false);
+		genericWinESR.SetTreeview(columnsString, true, data, nonSensitiveRows, GenericWindow.EditActions.NONE, false);
 
 		//select this person row
 		genericWinESR.SelectRowWithID(0, currentPerson.UniqueID);

@@ -1199,7 +1199,7 @@ public class Constants
 	}
 		
 	public enum Encoder1RMMethod { NONWEIGHTED, WEIGHTED, WEIGHTED2, WEIGHTED3 }
-	public enum ContextMenu { NONE, EDITDELETE, DELETE }
+	//public enum ContextMenu { NONE, EDITDELETE, DELETE }
 
 	//on glade/app1 using the same names
 	public const string ForceSensorLateralityBoth = "Both";

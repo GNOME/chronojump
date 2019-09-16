@@ -179,6 +179,7 @@ public partial class ChronoJumpWindow
 
 	//race encoder
 	[Widget] Gtk.Image image_race_encoder_open_folder;
+	[Widget] Gtk.Image image_race_encoder_capture_load;
 	[Widget] Gtk.Image image_race_encoder_capture_recalculate;
 
 	//video play icons
@@ -375,6 +376,7 @@ public partial class ChronoJumpWindow
 		image_encoder_capture_open1.Pixbuf = pixbuf;
 		image_force_sensor_capture_load.Pixbuf = pixbuf;
 		image_force_sensor_analyze_load.Pixbuf = pixbuf;
+		image_race_encoder_capture_load.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "zero.png");
 		image_force_sensor_tare.Pixbuf = pixbuf;

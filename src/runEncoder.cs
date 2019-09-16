@@ -92,3 +92,46 @@ public class RunEncoderGraph
 			return "";
 	}
 }
+
+public class RaceEncoderLoadTryToAssignPerson
+{
+	private bool dbconOpened;
+	private string filename; //filename comes without extension
+	private int currentSessionID; //we get a person if already exists on that session
+
+	public RaceEncoderLoadTryToAssignPerson(bool dbconOpened, string filename, int currentSessionID)
+	{
+		this.dbconOpened = dbconOpened;
+		this.filename = filename;
+		this.currentSessionID = currentSessionID;
+	}
+
+	public Person GetPerson()
+	{
+		string personName = getName();
+		if(personName == "")
+			return new Person(-1);
+
+		Person p = SqlitePerson.SelectByName(dbconOpened, personName);
+		if(SqlitePersonSession.PersonSelectExistsInSession(dbconOpened, p.UniqueID, currentSessionID))
+			return p;
+
+		return new Person(-1);
+	}
+
+	private string getName()
+	{
+		string [] strFull = filename.Split(new char[] {'_'});
+
+		/*
+		 * first filename was: personName_date_hour
+		 * Later filename was: uniqueID_personName_date_hour
+		 */
+		if(strFull.Length == 3)
+			return strFull[0];
+		else if(strFull.Length == 4)
+			return strFull[1];
+
+		return "";
+	}
+}

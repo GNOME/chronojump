@@ -274,11 +274,6 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 		int count = 0;
 	        foreach	(Person p in personsPre)
 			persons[count++] = p.UniqueID.ToString() + ":" + p.Name;
-		genericWinESR.SetComboValues(persons, currentPerson.UniqueID + ":" + currentPerson.Name);
-		genericWinESR.SetComboLabel(Catalog.GetString("Change the owner of selected repetition") + 
-				" (" + Catalog.GetString("code") + ":" + Catalog.GetString("name") + ")");
-		genericWinESR.ShowEditRow(false);
-		genericWinESR.CommentColumn = 10;
 		
 		genericWinESR.ShowButtonCancel(false);
 		genericWinESR.SetButtonAcceptSensitive(true);

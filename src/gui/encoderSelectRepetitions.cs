@@ -254,10 +254,10 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 				string.Format(Catalog.GetString("Saved repetitions of athlete {0} on this session."), 
 					currentPerson.Name) + "\n" + 
 				Catalog.GetString("Activate the repetitions you want to use clicking on first column.") + "\n" +
-				Catalog.GetString("If you want to edit or delete a row, right click on it.") + "\n",
+				Catalog.GetString("If you want to delete a row, right click on it.") + "\n",
 				bigArray);
 
-		genericWinESR.SetTreeview(columnsString, true, dataPrint, new ArrayList(), GenericWindow.EditActions.EDITDELETE, false);
+		genericWinESR.SetTreeview(columnsString, true, dataPrint, new ArrayList(), GenericWindow.EditActions.DELETE, false);
 
 		genericWinESR.ResetComboCheckBoxesOptions();
 		//genericWinESR.AddOptionsToComboCheckBoxesOptions(encoderExercisesNames);
@@ -303,20 +303,12 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 		//manage selected, unselected curves
 		genericWinESR.Button_accept.Clicked -= new EventHandler(on_show_repetitions_done);
 		genericWinESR.Button_accept.Clicked += new EventHandler(on_show_repetitions_done);
-		
-		genericWinESR.Button_row_edit.Clicked -= new EventHandler(on_show_repetitions_row_edit);
-		genericWinESR.Button_row_edit.Clicked += new EventHandler(on_show_repetitions_row_edit);
 
-		genericWinESR.Button_row_edit_apply.Clicked -= new EventHandler(on_show_repetitions_row_edit_apply);
-		genericWinESR.Button_row_edit_apply.Clicked += new EventHandler(on_show_repetitions_row_edit_apply);
-		
 		genericWinESR.Button_row_delete.Clicked -= new EventHandler(on_show_repetitions_row_delete_pre);
 		genericWinESR.Button_row_delete.Clicked += new EventHandler(on_show_repetitions_row_delete_pre);
 	}
 	protected override void removeCallbacks() {
 		genericWinESR.Button_accept.Clicked -= new EventHandler(on_show_repetitions_done);
-		genericWinESR.Button_row_edit.Clicked -= new EventHandler(on_show_repetitions_row_edit);
-		genericWinESR.Button_row_edit_apply.Clicked -= new EventHandler(on_show_repetitions_row_edit_apply);
 		genericWinESR.Button_row_delete.Clicked -= new EventHandler(on_show_repetitions_row_delete_pre);
 	}
 	
@@ -344,7 +336,10 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 
 
 	// --------------- edit curves start ---------------
-	
+
+	/*
+	 * now cannot change the person who has done some repetitions. better like this.
+	 *
 	protected void on_show_repetitions_row_edit (object o, EventArgs args) {
 		LogB.Information(genericWinESR.TreeviewSelectedUniqueID.ToString());
 		genericWinESR.ShowEditRow(true);
@@ -382,6 +377,7 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 		genericWinESR.ShowEditRow(false);
 	}
 	
+	*/
 	// --------------- edit curves end ---------------
 	
 	

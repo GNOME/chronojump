@@ -55,7 +55,7 @@ public partial class ChronoJumpWindow
 	static bool runEncoderProcessError;
 	
 	static string lastRunEncoderFile = "";
-	static string lastRunEncoderFullPath = "";
+	//static string lastRunEncoderFullPath = "";
 
 	//int usbDisconnectedCount;
 	//int usbDisconnectedLastTime;
@@ -198,7 +198,7 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		forceSensorReadWidgets();
+		raceEncoderReadWidgets();
 		runEncoderButtonsSensitive(false);
 		button_run_encoder_recalculate.Sensitive = false;
 
@@ -207,7 +207,7 @@ public partial class ChronoJumpWindow
 			runEncoderButtonsSensitive(true);
 	}
 
-	private void forceSensorReadWidgets()
+	private void raceEncoderReadWidgets()
 	{
 		race_analyzer_distance = Convert.ToInt32(race_analyzer_spinbutton_distance.Value);
 		race_analyzer_temperature = Convert.ToInt32(race_analyzer_spinbutton_temperature.Value);
@@ -301,13 +301,13 @@ public partial class ChronoJumpWindow
 
 		Util.CreateRaceAnalyzerSessionDirIfNeeded (currentSession.UniqueID);
 
-		string nameDate = currentPerson.Name + "_" + UtilDate.ToFile(DateTime.Now);
+		string idNameDate = currentPerson.UniqueID + "_" + currentPerson.Name + "_" + UtilDate.ToFile(DateTime.Now);
 
 		//fileName to save the csv
-		string fileName = Util.GetRaceAnalyzerSessionDir(currentSession.UniqueID) + Path.DirectorySeparatorChar + nameDate + ".csv";
+		string fileName = Util.GetRaceAnalyzerSessionDir(currentSession.UniqueID) + Path.DirectorySeparatorChar + idNameDate + ".csv";
 
 		//lastRunEncoderFile to save the images
-		lastRunEncoderFile = nameDate;
+		lastRunEncoderFile = idNameDate;
 
 
 		TextWriter writer = File.CreateText(fileName);
@@ -401,20 +401,79 @@ public partial class ChronoJumpWindow
 		else {
 			//call graph. Prepare data
 			File.Copy(fileName, UtilEncoder.GetRaceAnalyzerCSVFileName(), true); //can be overwritten
-			lastRunEncoderFullPath = fileName;
+			//lastRunEncoderFullPath = fileName;
 
-			forceSensorCaptureGraphDo();
+			raceEncoderCaptureGraphDo();
 
 			capturingRunEncoder = arduinoCaptureStatus.COPIED_TO_TMP;
 		}
 	}
 
+	private void on_button_run_encoder_load_clicked (object o, EventArgs args)
+	{
+		if (currentSession == null)
+			return;
+
+		Gtk.FileChooserDialog filechooser = new Gtk.FileChooserDialog ("Choose file",
+		                                                               app1, FileChooserAction.Open,
+		                                                               "Cancel",ResponseType.Cancel,
+		                                                               "Choose",ResponseType.Accept);
+		string dataDir = RunEncoderGraph.GetDataDir(currentSession.UniqueID);
+		filechooser.SetCurrentFolder(dataDir);
+
+		filechooser.Filter = new FileFilter();
+		filechooser.Filter.AddPattern ("*.csv");
+
+		lastRunEncoderFile = "";
+		if (filechooser.Run () == (int)ResponseType.Accept)
+		{
+			lastRunEncoderFile = Util.RemoveExtension(Util.GetLastPartOfPath(filechooser.Filename));
+
+			//try to change currentPerson on loading set
+			RaceEncoderLoadTryToAssignPerson relt = new RaceEncoderLoadTryToAssignPerson(false, lastRunEncoderFile, currentSession.UniqueID);
+			Person p = relt.GetPerson();
+			if(p.UniqueID != -1)
+			{
+				currentPerson = p;
+				currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
+
+				int rowToSelect = myTreeViewPersons.FindRow(p.UniqueID);
+				if(rowToSelect != -1) {
+					//this will update also currentPerson
+					selectRowTreeView_persons(treeview_persons, rowToSelect);
+				}
+
+				label_person_change();
+				personChanged();
+			}
+
+			//lastRunEncoderFullPath = filechooser.Filename; //used on recalculate
+
+			//call graph. Prepare data
+			File.Copy(filechooser.Filename, UtilEncoder.GetRaceAnalyzerCSVFileName(), true); //can be overwritten
+
+			raceEncoderReadWidgets(); //needed to be able to do R graph
+			raceEncoderCaptureGraphDo();
+
+			Thread.Sleep (250); //Wait a bit to ensure is copied
+
+			runEncoderAnalyzeOpenImage();
+			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RACEENCODER);
+			radio_mode_contacts_analyze.Active = true;
+			button_run_encoder_recalculate.Sensitive = true;
+
+			event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(filechooser.Filename);
+		}
+		filechooser.Destroy ();
+	}
+
+
 	private void on_button_run_encoder_recalculate_clicked (object o, EventArgs args)
 	{
-		forceSensorReadWidgets();
-		button_run_encoder_recalculate.Sensitive = false;
+		button_run_encoder_recalculate.Sensitive = false; //to not be called two times
+		raceEncoderReadWidgets();
 
-		forceSensorCaptureGraphDo();
+		raceEncoderCaptureGraphDo();
 
 		event_execute_label_message.Text = "Recalculated.";
 		Thread.Sleep (250); //Wait a bit to ensure is copied
@@ -422,9 +481,10 @@ public partial class ChronoJumpWindow
 		runEncoderAnalyzeOpenImage();
 		notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RACEENCODER);
 		radio_mode_contacts_analyze.Active = true;
+		button_run_encoder_recalculate.Sensitive = true;
 	}
 
-	private void forceSensorCaptureGraphDo()
+	private void raceEncoderCaptureGraphDo()
 	{
 		//create graph
 		RunEncoderGraph reg = new RunEncoderGraph(
@@ -449,7 +509,7 @@ public partial class ChronoJumpWindow
 			try {
 				File.Copy(UtilEncoder.GetSprintEncoderImage(),
 						Util.GetRaceAnalyzerSessionDir(currentSession.UniqueID) + Path.DirectorySeparatorChar +
-						lastRunEncoderFile + 	//nameDate
+						lastRunEncoderFile + 	//idNameDate
 						".png",
 						true); //can be overwritten
 				captureEndedMessage += " (png too)";

@@ -399,7 +399,12 @@ public class GenericWindow
 	public void SetComboValues(string [] values, string current) {
 		combo = ComboBox.NewText ();
 		UtilGtk.ComboUpdate(combo, values, "");
-		
+
+		//if there hbox already has a combo (window has not been properly destroyed)
+		//remove that combo (to not have two combos)
+		if(hbox_combo.Children.Length > 0)
+			hbox_combo.Remove(combo);
+
 		hbox_combo.PackStart(combo, true, true, 0);
 		hbox_combo.ShowAll();
 		combo.Sensitive = true;

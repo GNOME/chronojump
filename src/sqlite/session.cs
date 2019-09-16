@@ -579,6 +579,20 @@ class SqliteSession : Sqlite
 
 		reader_enc.Close();
 
+		//select force sensor of each session
+		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.ForceSensorTable +
+			" GROUP BY sessionID ORDER BY sessionID";
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader_fs;
+		reader_fs = dbcmd.ExecuteReader();
+		ArrayList myArray_fs = new ArrayList(2);
+
+		while(reader_fs.Read()) {
+			myArray_fs.Add (reader_fs[0].ToString() + ":" + reader_fs[1].ToString() + ":" );
+		}
+		reader_fs.Close();
 
 
 		//mix nine arrayLists
@@ -711,6 +725,17 @@ class SqliteSession : Sqlite
 					result_enc_r = myStringFull[1];
 			}
 			lineNotReadOnly  = lineNotReadOnly + ":" + result_enc_s + " ; " + result_enc_r;
+
+			//add force sensor for each session
+			found = false;
+			foreach (string line_fs in myArray_fs) {
+				string [] myStringFull = line_fs.Split(new char[] {':'});
+				if(myStringFull[0] == mixingSessionID) {
+					lineNotReadOnly  = lineNotReadOnly + ":" + myStringFull[1];
+					found = true;
+				}
+			}
+			if (!found) { lineNotReadOnly  = lineNotReadOnly + ":0"; }
 
 
 			mySessions [count++] = lineNotReadOnly;

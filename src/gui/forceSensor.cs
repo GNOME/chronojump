@@ -1717,9 +1717,13 @@ LogB.Information(" re R ");
 
 	private void setForceSensorTopAtOperationStart()
 	{
-		forceSensorTopRectangleAtOperationStart =
-			Convert.ToInt32(spin_force_sensor_capture_feedback_at.Value +
-					spin_force_sensor_capture_feedback_range.Value /2);
+		int at = Convert.ToInt32(spin_force_sensor_capture_feedback_at.Value);
+		int range = Convert.ToInt32(spin_force_sensor_capture_feedback_range.Value);
+
+		if(at == 0 || range == 0)
+			forceSensorTopRectangleAtOperationStart = 0;
+		else
+			forceSensorTopRectangleAtOperationStart = Convert.ToInt32(at + range /2);
 	}
 	//This function calculates the max value between the sent force and the top of the feedback rectangle
 	private int getForceSensorMaxForceIncludingRectangle(double forceValue)

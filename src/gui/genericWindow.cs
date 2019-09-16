@@ -668,6 +668,17 @@ public class GenericWindow
 		ShowEditRow(false);
 	}
 
+	public void SensitiveEditDeleteIfSelected()
+	{
+		TreeIter iter = new TreeIter();
+		TreeModel myModel = treeview.Model;
+		if (treeview.Selection.GetSelected (out myModel, out iter))
+		{
+			button_treeviewload_row_edit.Sensitive = true;
+			button_treeviewload_row_delete.Sensitive = true;
+		}
+	}
+
 	//get the selected	
 	public int TreeviewSelectedRowID() {
 		TreeIter iter = new TreeIter();

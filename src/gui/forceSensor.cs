@@ -1437,6 +1437,7 @@ LogB.Information(" re R ");
 		}
 
 		genericWin.ShowEditRow(false);
+		genericWin.SensitiveEditDeleteIfSelected();
 
 		//remove signal from gui just in case the edited signal is the same we have loaded
 		//removeSignalFromGuiBecauseDeletedOrCancelled();

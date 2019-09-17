@@ -21,6 +21,7 @@
 using System;
 using System.IO; 		//for detect OS //TextWriter
 using System.Collections.Generic; //List<T>
+using Mono.Unix;
 
 public class RunEncoder
 {
@@ -115,18 +116,68 @@ public class RunEncoder
 			"\" WHERE uniqueID = " + uniqueID;
 	}
 
+	public string [] ToStringArray (int count)
+	{
+		int all = 7; //8;
+		string [] str = new String [all];
+		int i=0;
+		str[i++] = uniqueID.ToString();
+		str[i++] = count.ToString();
+		//str[i++] = exerciseName;
+		str[i++] = Catalog.GetString(GetDeviceString(device));
+		str[i++] = distance.ToString();
+		str[i++] = dateTime;
+
+		//str[i++] = videoURL;
+		if(videoURL != "")
+			str[i++] = Catalog.GetString("Yes");
+		else
+			str[i++] = Catalog.GetString("No");
+
+		str[i++] = comments;
+
+		return str;
+	}
+
+	public static string GetDeviceString(Devices d)
+	{
+		if(d == Devices.RESISTED)
+			return DevicesStringRESISTED;
+		else
+			return DevicesStringMANUAL;
+	}
+
 	public string FullURL
 	{
 		get { return Util.GetRaceAnalyzerSessionDir(sessionID) + Path.DirectorySeparatorChar + filename; }
 	}
+	public string Filename
+	{
+		get { return filename; }
+	}
+
 	public int UniqueID
 	{
 		get { return uniqueID; }
 	}
-
 	public int ExerciseID
 	{
 		get { return exerciseID; }
+	}
+	public Devices Device
+	{
+		get { return device; }
+		set { device = value; }
+	}
+	public int Distance
+	{
+		get { return distance; }
+		set { distance = value; }
+	}
+	public int Temperature
+	{
+		get { return temperature; }
+		set { temperature = value; }
 	}
 }
 

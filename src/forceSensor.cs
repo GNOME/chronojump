@@ -119,7 +119,7 @@ public class ForceSensor
 		str[i++] = uniqueID.ToString();
 		str[i++] = count.ToString();
 		str[i++] = exerciseName;
-		str[i++] = Catalog.GetString(ForceSensor.GetCaptureOptionsString(captureOption));
+		str[i++] = Catalog.GetString(GetCaptureOptionsString(captureOption));
 		str[i++] = Catalog.GetString(laterality);
 		str[i++] = dateTime;
 

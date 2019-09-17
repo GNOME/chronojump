@@ -26,6 +26,7 @@ using Gtk;
 using Gdk;
 using Glade;
 using System.Text; //StringBuilder
+using System.Collections;
 using System.Collections.Generic; //List<T>
 using Mono.Unix;
 
@@ -39,6 +40,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton race_analyzer_spinbutton_graph_height;
 	[Widget] Gtk.HBox hbox_race_analyzer_device;
 	[Widget] Gtk.RadioButton race_analyzer_radio_device_manual;
+	[Widget] Gtk.RadioButton race_analyzer_radio_device_other; //resisted
 	[Widget] Gtk.Image image_race_encoder_graph;
 	[Widget] Gtk.Button button_run_encoder_recalculate;
 
@@ -54,8 +56,10 @@ public partial class ChronoJumpWindow
 	static bool runEncoderProcessCancel;
 	static bool runEncoderProcessError;
 	
+	private RunEncoder currentRunEncoder;
+
 	static string lastRunEncoderFile = "";
-	//static string lastRunEncoderFullPath = "";
+	static string lastRunEncoderFullPath = "";
 
 	//int usbDisconnectedCount;
 	//int usbDisconnectedLastTime;
@@ -207,6 +211,15 @@ public partial class ChronoJumpWindow
 			runEncoderButtonsSensitive(true);
 	}
 
+	private void runEncoderPersonChanged()
+	{
+		blankRunEncoderInterface();
+	}
+	private void blankRunEncoderInterface()
+	{
+		currentRunEncoder = new RunEncoder();
+	}
+
 	private void raceEncoderReadWidgets()
 	{
 		race_analyzer_distance = Convert.ToInt32(race_analyzer_spinbutton_distance.Value);
@@ -218,6 +231,27 @@ public partial class ChronoJumpWindow
 			race_analyzer_device = RunEncoder.Devices.MANUAL;
 		else
 			race_analyzer_device = RunEncoder.Devices.RESISTED;
+	}
+
+	private RunEncoder.Devices raceEncoderGetDevice()
+	{
+		if(race_analyzer_radio_device_manual.Active)
+			return RunEncoder.Devices.MANUAL;
+		else
+			return RunEncoder.Devices.RESISTED;
+	}
+	private void raceEncoderSetDevice(RunEncoder.Devices d)
+	{
+		if(d == RunEncoder.Devices.RESISTED)
+			race_analyzer_radio_device_other.Active = true;
+		else
+			race_analyzer_radio_device_manual.Active = true;
+	}
+
+	private void raceEncoderSetDistanceAndTemp(int distance, int temp)
+	{
+		race_analyzer_spinbutton_distance.Value = distance;
+		race_analyzer_spinbutton_temperature.Value = temp;
 	}
 
 	//TODO: do all this with an "other" thread like in force sensor to allow connecting messages to be displayed
@@ -411,6 +445,118 @@ public partial class ChronoJumpWindow
 
 	private void on_button_run_encoder_load_clicked (object o, EventArgs args)
 	{
+		ArrayList data = SqliteRunEncoder.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID);
+
+		ArrayList dataPrint = new ArrayList();
+		int count = 1;
+		foreach(RunEncoder re in data)
+			dataPrint.Add(re.ToStringArray(count++));
+
+		string [] columnsString = {
+			Catalog.GetString("ID"),
+			Catalog.GetString("Set"),
+			//Catalog.GetString("Exercise"), //if this is uncommented, then change CommentColumn below to 7
+			Catalog.GetString("Device"),
+			Catalog.GetString("Distance"),
+			Catalog.GetString("Date"),
+			Catalog.GetString("Video"),
+			Catalog.GetString("Comment")
+		};
+
+		ArrayList bigArray = new ArrayList();
+		ArrayList a1 = new ArrayList();
+		ArrayList a2 = new ArrayList();
+		//0 is the widgget to show; 1 is the editable; 2 id default value
+		a1.Add(Constants.GenericWindowShow.TREEVIEW); a1.Add(true); a1.Add("");
+		bigArray.Add(a1);
+
+		a2.Add(Constants.GenericWindowShow.COMBO); a2.Add(true); a2.Add("");
+		bigArray.Add(a2);
+
+		genericWin = GenericWindow.Show(Catalog.GetString("Load"), false,	//don't show now
+				string.Format(Catalog.GetString("Select set of athlete {0} on this session."),
+					currentPerson.Name)
+					+ "\n" +
+				Catalog.GetString("If you want to edit or delete a row, right click on it.")
+				, bigArray);
+
+		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList(), GenericWindow.EditActions.EDITDELETE, true);
+
+		//find all persons in current session
+		ArrayList personsPre = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID,
+				false); //means: do not returnPersonAndPSlist
+
+		string [] persons = new String[personsPre.Count];
+		count = 0;
+	        foreach	(Person p in personsPre)
+			persons[count++] = p.UniqueID.ToString() + ":" + p.Name;
+		genericWin.SetComboValues(persons, currentPerson.UniqueID + ":" + currentPerson.Name);
+		genericWin.SetComboLabel(Catalog.GetString("Change the owner of selected set") +
+				" (" + Catalog.GetString("code") + ":" + Catalog.GetString("name") + ")");
+		genericWin.ShowEditRow(false);
+
+		//select row corresponding to current signal
+		genericWin.SelectRowWithID(0, currentRunEncoder.UniqueID); //colNum, id
+
+		genericWin.CommentColumn = 6;
+
+		genericWin.ShowButtonCancel(true);
+		genericWin.SetButtonAcceptLabel(Catalog.GetString("Load"));
+		genericWin.SetButtonCancelLabel(Catalog.GetString("Close"));
+		genericWin.SetButtonAcceptSensitive(false);
+		genericWin.Button_accept.Clicked += new EventHandler(on_run_encoder_load_accepted);
+		/*
+		genericWin.Button_row_edit.Clicked += new EventHandler(on_run_encoder_load_signal_row_edit);
+		genericWin.Button_row_edit_apply.Clicked += new EventHandler(on_run_encoder_load_signal_row_edit_apply);
+		genericWin.Button_row_delete.Clicked += new EventHandler(on_run_encoder_load_signal_row_delete_prequestion);
+		*/
+
+		genericWin.ShowNow();
+	}
+
+	private void on_run_encoder_load_accepted (object o, EventArgs args)
+	{
+		LogB.Information("on run encoder load accepted");
+		genericWin.Button_accept.Clicked -= new EventHandler(on_run_encoder_load_accepted);
+
+		int uniqueID = genericWin.TreeviewSelectedRowID();
+
+		genericWin.HideAndNull();
+
+		ArrayList data = SqliteRunEncoder.Select(false, uniqueID, currentPerson.UniqueID, currentSession.UniqueID);
+		RunEncoder re = (RunEncoder) data[0];
+		if(re == null)
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFoundStr());
+			return;
+		}
+
+		if(! Util.FileExists(re.FullURL))
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFoundStr());
+			return;
+		}
+
+		currentRunEncoder = re;
+		lastRunEncoderFile = Util.RemoveExtension(re.Filename);
+		lastRunEncoderFullPath = re.FullURL;
+
+		raceEncoderSetDevice(re.Device);
+		raceEncoderSetDistanceAndTemp(re.Distance, re.Temperature);
+		raceEncoderReadWidgets(); //needed to be able to do R graph
+
+		raceEncoderCopyTempAndDoGraphs();
+
+		button_run_encoder_recalculate.Sensitive = true;
+
+		event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(re.Filename);
+	}
+
+	/*
+	 * old method load from file
+	 *
+	private void on_button_run_encoder_load_clicked (object o, EventArgs args)
+	{
 		if (currentSession == null)
 			return;
 
@@ -466,22 +612,47 @@ public partial class ChronoJumpWindow
 		}
 		filechooser.Destroy ();
 	}
+	*/
 
 
 	private void on_button_run_encoder_recalculate_clicked (object o, EventArgs args)
 	{
-		button_run_encoder_recalculate.Sensitive = false; //to not be called two times
+		if(! Util.FileExists(lastRunEncoderFullPath))
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFoundStr());
+			return;
+		}
+
 		raceEncoderReadWidgets();
+		if(lastRunEncoderFullPath != null && lastRunEncoderFullPath != "")
+			raceEncoderCopyTempAndDoGraphs();
+
+		button_run_encoder_recalculate.Sensitive = false; //to not be called two times
+
+		event_execute_label_message.Text = "Recalculated.";
+
+		radio_mode_contacts_analyze.Active = true;
+		button_run_encoder_recalculate.Sensitive = true;
+
+		//update SQL with device, distance, temperature
+		currentRunEncoder.Device = raceEncoderGetDevice();
+		currentRunEncoder.Distance = Convert.ToInt32(race_analyzer_spinbutton_distance.Value);
+		currentRunEncoder.Temperature = Convert.ToInt32(race_analyzer_spinbutton_temperature.Value);
+
+		currentRunEncoder.UpdateSQL(false);
+	}
+
+	private void raceEncoderCopyTempAndDoGraphs()
+	{
+		File.Copy(lastRunEncoderFullPath, UtilEncoder.GetRaceAnalyzerCSVFileName(), true); //can be overwritten
 
 		raceEncoderCaptureGraphDo();
 
-		event_execute_label_message.Text = "Recalculated.";
 		Thread.Sleep (250); //Wait a bit to ensure is copied
 
 		runEncoderAnalyzeOpenImage();
 		notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RACEENCODER);
 		radio_mode_contacts_analyze.Active = true;
-		button_run_encoder_recalculate.Sensitive = true;
 	}
 
 	private void raceEncoderCaptureGraphDo()

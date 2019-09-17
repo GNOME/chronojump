@@ -167,6 +167,44 @@ class SqliteRunEncoder : Sqlite
 		return array;
 	}
 
+	public static ArrayList SelectRowsOfAnExercise(bool dbconOpened, int exerciseID)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = "select count(*), " +
+			Constants.PersonTable + ".name, " +
+			Constants.SessionTable + ".name, " +
+			Constants.SessionTable + ".date " +
+			" FROM " + table + ", " + Constants.PersonTable + ", " + Constants.SessionTable +
+			" WHERE exerciseID == " + exerciseID +
+			" AND " + Constants.PersonTable + ".uniqueID == " + table + ".personID " +
+		        " AND " + Constants.SessionTable + ".uniqueID == " + table + ".sessionID " +
+			" GROUP BY sessionID, personID";
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		ArrayList array = new ArrayList();
+		int count = 0;
+		while(reader.Read()) {
+			array.Add(new string [] {
+					count.ToString(),
+					reader[0].ToString(), //count
+					reader[1].ToString(), //person name
+					reader[2].ToString(), //session name
+					reader[3].ToString()  //session date
+			});
+			count ++;
+		}
+
+		reader.Close();
+		closeIfNeeded(dbconOpened);
+
+		return array;
+	}
+
 	protected internal static void import_from_1_70_to_1_71() //database is opened
 	{
 		LogB.PrintAllThreads = true; //TODO: remove this

@@ -7142,6 +7142,7 @@ EncoderInertialCapture</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
                                                             <property name="tooltip" translatable="yes">Edit exercise type</property>
+                                                            <signal name="clicked" handler="on_button_run_encoder_exercise_edit_clicked" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkImage" id="image_run_encoder_exercise_edit">
                                                             <property name="visible">True</property>

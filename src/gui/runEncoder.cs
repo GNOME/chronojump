@@ -932,6 +932,8 @@ LogB.Information(" fc R ");
 		if(runEncoderExercises.Count == 0)
 		{
 			runEncoderComboExercisesString = new String [0];
+			UtilGtk.ComboUpdate(combo_run_encoder_exercise, new String[0], "");
+
 			return;
 		}
 
@@ -950,6 +952,48 @@ LogB.Information(" fc R ");
 			combo_run_encoder_exercise.Active = 0;
 		else
 			combo_run_encoder_exercise.Active = UtilGtk.ComboMakeActive(combo_run_encoder_exercise, name);
+	}
+
+	//info is now info and edit (all values can be changed), and detete (there's delete button)
+	void on_button_run_encoder_exercise_edit_clicked (object o, EventArgs args)
+	{
+		if(UtilGtk.ComboGetActive(combo_run_encoder_exercise) == "")
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Need to create/select an exercise."));
+			return;
+		}
+
+		RunEncoderExercise ex = (RunEncoderExercise) SqliteRunEncoderExercise.Select (
+                                false, getExerciseIDFromAnyCombo(combo_run_encoder_exercise, forceSensorComboExercisesString, false), false)[0];
+
+		LogB.Information("selected exercise: " + ex.ToString());
+
+		ArrayList bigArray = new ArrayList();
+
+		ArrayList a1 = new ArrayList();
+		ArrayList a2 = new ArrayList();
+
+		//0 is the widgget to show; 1 is the editable; 2 id default value
+		a1.Add(Constants.GenericWindowShow.ENTRY); a1.Add(true); a1.Add(ex.Name); //name can be changed (opposite to encoder), because we use always the uniqueID
+		bigArray.Add(a1);
+
+		a2.Add(Constants.GenericWindowShow.ENTRY2); a2.Add(true); a2.Add(ex.Description);
+		bigArray.Add(a2);
+
+		genericWin = GenericWindow.Show(Catalog.GetString("Exercise"), false,	//don't show now
+				Catalog.GetString("Force sensor exercise:"), bigArray);
+		genericWin.LabelEntry2 = Catalog.GetString("Description");
+
+		genericWin.ShowButtonCancel(false);
+
+		genericWin.ShowButtonDelete(true);
+		genericWin.Button_delete.Clicked += new EventHandler(on_button_run_encoder_exercise_delete);
+
+		genericWin.nameUntranslated = ex.Name;
+		genericWin.uniqueID = ex.UniqueID;
+
+		genericWin.Button_accept.Clicked += new EventHandler(on_button_run_encoder_exercise_edit_accepted);
+		genericWin.ShowNow();
 	}
 
 	private void on_button_run_encoder_exercise_add_clicked (object o, EventArgs args)
@@ -978,6 +1022,14 @@ LogB.Information(" fc R ");
 		genericWin.ShowNow();
 	}
 
+	void on_button_run_encoder_exercise_edit_accepted (object o, EventArgs args)
+	{
+		if(run_encoder_exercise_do_add_or_edit(false))
+		{
+			genericWin.Button_accept.Clicked -= new EventHandler(on_button_run_encoder_exercise_edit_accepted);
+			genericWin.HideAndNull();
+		}
+	}
 	void on_button_run_encoder_exercise_add_accepted (object o, EventArgs args)
 	{
 		if(run_encoder_exercise_do_add_or_edit(true))
@@ -1019,6 +1071,56 @@ LogB.Information(" fc R ");
 		return false;
 	}
 
+	//based on: on_button_encoder_exercise_delete
+	//maybe unify them on the future
+	void on_button_run_encoder_exercise_delete (object o, EventArgs args)
+	{
+		int exerciseID = genericWin.uniqueID;
+
+		//1st find if there are sets with this exercise
+		ArrayList array = SqliteRunEncoder.SelectRowsOfAnExercise(false, exerciseID);
+
+		if(array.Count > 0) {
+			//there are some records of this exercise on encoder table, do not delete
+			genericWin.SetTextview(
+					Catalog.GetString("Sorry, this exercise cannot be deleted until these tests are deleted:"));
+
+			ArrayList nonSensitiveRows = new ArrayList();
+			for(int i=0; i < array.Count; i ++)
+				nonSensitiveRows.Add(i);
+
+			genericWin.SetTreeview(
+					new string [] {
+					"count",	//not shown, unused
+					Catalog.GetString("Sets"), Catalog.GetString("Person"),
+					Catalog.GetString("Session"), Catalog.GetString("Date") },
+					false, array, nonSensitiveRows, GenericWindow.EditActions.NONE, false);
+
+			genericWin.ShowTextview();
+			genericWin.ShowTreeview();
+			genericWin.ShowButtonDelete(false);
+			genericWin.DeletingExerciseHideSomeWidgets();
+
+			genericWin.Button_accept.Clicked -= new EventHandler(on_button_run_encoder_exercise_edit_accepted);
+			genericWin.Button_accept.Clicked += new EventHandler(on_button_run_encoder_exercise_do_not_delete);
+		} else {
+			//forceSensor table has not records of this exercise. Delete exercise
+			SqliteRunEncoderExercise.Delete(false, exerciseID);
+
+			genericWin.HideAndNull();
+
+			fillRunEncoderExerciseCombo("");
+			combo_run_encoder_exercise.Active = 0;
+
+			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Exercise deleted."));
+		}
+	}
+
+	//accept does not save changes, just closes window
+	void on_button_run_encoder_exercise_do_not_delete (object o, EventArgs args) {
+		genericWin.Button_accept.Clicked -= new EventHandler(on_button_run_encoder_exercise_do_not_delete);
+		genericWin.HideAndNull();
+	}
 	// -------------------------------- end of exercise stuff --------------------
 
 }

@@ -191,7 +191,7 @@ class SqliteRunEncoder : Sqlite
 		LogB.Information("at import_from_1_70_to_1_71()");
 		//LogB.Information("Sqlite isOpened: " + Sqlite.IsOpened.ToString());
 
-		string raceAnalyzerDir = Util.GetRaceAnalyzerDir();
+		string raceAnalyzerDir = Util.GetRunEncoderDir();
 		DirectoryInfo [] sessions = new DirectoryInfo(raceAnalyzerDir).GetDirectories();
 		foreach (DirectoryInfo session in sessions) //session.Name will be the UniqueID
 		{
@@ -203,8 +203,8 @@ class SqliteRunEncoder : Sqlite
 					continue;
 
 				string fileWithoutExtension = Util.RemoveExtension(Util.GetLastPartOfPath(file.Name));
-				RaceEncoderLoadTryToAssignPerson relt =
-					new RaceEncoderLoadTryToAssignPerson(true, fileWithoutExtension, Convert.ToInt32(session.Name));
+				RunEncoderLoadTryToAssignPerson relt =
+					new RunEncoderLoadTryToAssignPerson(true, fileWithoutExtension, Convert.ToInt32(session.Name));
 
 				Person p = relt.GetPerson();
 				if(p.UniqueID == -1)
@@ -222,7 +222,7 @@ class SqliteRunEncoder : Sqlite
 				string myFilename = p.UniqueID + "_" + p.Name + "_" + parsedDate + ".csv";
 				//try to move the file
 				try{
-					File.Move(file.FullName, Util.GetRaceAnalyzerSessionDir(Convert.ToInt32(session.Name)) + Path.DirectorySeparatorChar + myFilename);
+					File.Move(file.FullName, Util.GetRunEncoderSessionDir(Convert.ToInt32(session.Name)) + Path.DirectorySeparatorChar + myFilename);
 				} catch {
 					//if cannot, then use old filename
 					myFilename = file.FullName;
@@ -234,7 +234,7 @@ class SqliteRunEncoder : Sqlite
 				RunEncoder runEncoder = new RunEncoder(-1, p.UniqueID, Convert.ToInt32(session.Name), exerciseID,
 						RunEncoder.Devices.MANUAL, distance, temperature,
 						myFilename,
-						Util.MakeURLrelative(Util.GetRaceAnalyzerSessionDir(Convert.ToInt32(session.Name))),
+						Util.MakeURLrelative(Util.GetRunEncoderSessionDir(Convert.ToInt32(session.Name))),
 						parsedDate, "", "");
 				runEncoder.InsertSQL(true);
 			}

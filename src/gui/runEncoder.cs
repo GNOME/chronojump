@@ -34,6 +34,9 @@ using Mono.Unix;
 public partial class ChronoJumpWindow 
 {
 	[Widget] Gtk.MenuItem menuitem_race_encoder_open_folder;
+
+	[Widget] Gtk.HBox hbox_combo_run_encoder_exercise;
+	[Widget] Gtk.ComboBox combo_run_encoder_exercise;
 	[Widget] Gtk.SpinButton race_analyzer_spinbutton_distance;
 	[Widget] Gtk.SpinButton race_analyzer_spinbutton_temperature;
 	[Widget] Gtk.SpinButton race_analyzer_spinbutton_graph_width;
@@ -219,6 +222,11 @@ public partial class ChronoJumpWindow
 	private void blankRunEncoderInterface()
 	{
 		currentRunEncoder = new RunEncoder();
+	}
+
+	private void initRunEncoder ()
+	{
+		createRunEncoderExerciseCombo();
 	}
 
 	private void raceEncoderReadWidgets()
@@ -901,4 +909,46 @@ LogB.Information(" fc R ");
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.DirectoryCannotOpenStr());
 	}
 
+	// -------------------------------- exercise stuff --------------------
+
+
+	string [] runEncoderComboExercisesString; //id:name (no translations, use user language)
+
+	private void createRunEncoderExerciseCombo ()
+	{
+		//run_encoder_exercise
+
+		combo_run_encoder_exercise = ComboBox.NewText ();
+		fillRunEncoderExerciseCombo("");
+
+//		combo_run_encoder_exercise.Changed += new EventHandler (on_combo_run_encoder_exercise_changed);
+		hbox_combo_run_encoder_exercise.PackStart(combo_run_encoder_exercise, true, true, 0);
+		hbox_combo_run_encoder_exercise.ShowAll();
+	}
+
+	private void fillRunEncoderExerciseCombo(string name)
+	{
+		ArrayList runEncoderExercises = SqliteRunEncoderExercise.Select (false, -1, false);
+		if(runEncoderExercises.Count == 0)
+		{
+			runEncoderComboExercisesString = new String [0];
+			return;
+		}
+
+		runEncoderComboExercisesString = new String [runEncoderExercises.Count];
+		string [] exerciseNamesToCombo = new String [runEncoderExercises.Count];
+		int i =0;
+		foreach(RunEncoderExercise ex in runEncoderExercises)
+		{
+			exerciseNamesToCombo[i] = ex.Name;
+			runEncoderComboExercisesString[i] = ex.UniqueID + ":" + ex.Name;
+			i++;
+		}
+
+		UtilGtk.ComboUpdate(combo_run_encoder_exercise, exerciseNamesToCombo, "");
+		if(name == "")
+			combo_run_encoder_exercise.Active = 0;
+		else
+			combo_run_encoder_exercise.Active = UtilGtk.ComboMakeActive(combo_run_encoder_exercise, name);
+	}
 }

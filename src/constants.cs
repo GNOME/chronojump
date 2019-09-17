@@ -161,7 +161,7 @@ public class Constants
 	public const string ForceSensorExerciseTable = "forceSensorExercise";
 	public const string ForceRFDTable = "forceRFD";
 	public const string RunEncoderTable = "runEncoder";
-	//public const string RunEncoderExerciseTable = "runEncoderExercise";
+	public const string RunEncoderExerciseTable = "runEncoderExercise";
 
 	// Dummy variables that exists for translating purposes
 	// pragma warning is to avoid warnings of "defined and not used" for these variables.

@@ -197,6 +197,47 @@ public class RunEncoder
 	}
 }
 
+public class RunEncoderExercise
+{
+	private int uniqueID;
+	private string name;
+	private string description;
+
+	public RunEncoderExercise()
+	{
+	}
+
+	public RunEncoderExercise(string name)
+	{
+		this.name = name;
+	}
+
+	public RunEncoderExercise(int uniqueID, string name, string description)
+	{
+		this.uniqueID = uniqueID;
+		this.name = name;
+		this.description = description;
+	}
+
+	public override string ToString()
+	{
+		return uniqueID.ToString() + ":" + name + ":" + description + ":";
+	}
+
+	public int UniqueID
+	{
+		get { return uniqueID; }
+	}
+	public string Name
+	{
+		get { return name; }
+	}
+	public string Description
+	{
+		get { return description; }
+	}
+}
+
 public class RunEncoderGraph
 {
 	private int testLength;
@@ -266,22 +307,26 @@ public class RunEncoderGraph
 	}
 }
 
-public class RunEncoderLoadTryToAssignPerson
+public class RunEncoderLoadTryToAssignPersonAndComment
 {
 	private bool dbconOpened;
 	private string filename; //filename comes without extension
 	private int currentSessionID; //we get a person if already exists on that session
 
-	public RunEncoderLoadTryToAssignPerson(bool dbconOpened, string filename, int currentSessionID)
+	public string Comment;
+
+	public RunEncoderLoadTryToAssignPersonAndComment(bool dbconOpened, string filename, int currentSessionID)
 	{
 		this.dbconOpened = dbconOpened;
 		this.filename = filename;
 		this.currentSessionID = currentSessionID;
+
+		Comment = "";
 	}
 
 	public Person GetPerson()
 	{
-		string personName = getName();
+		string personName = getNameAndComment();
 		if(personName == "")
 			return new Person(-1);
 
@@ -292,19 +337,36 @@ public class RunEncoderLoadTryToAssignPerson
 		return new Person(-1);
 	}
 
-	private string getName()
+	private string getNameAndComment()
 	{
+		string name = "";
+
 		string [] strFull = filename.Split(new char[] {'_'});
 
 		/*
 		 * first filename was: personName_date_hour
-		 * Later filename was: uniqueID_personName_date_hour
+		 * but we have lots of files with comments added manually like:
+		 * first filename was: personName_date_hour_comment
+		 * first filename was: personName_date_hour_comment_long_with_underscores
 		 */
-		if(strFull.Length == 3)
-			return strFull[0];
-		else if(strFull.Length == 4)
-			return strFull[1];
+		if(strFull.Length >= 3)
+			name = strFull[0];
 
-		return "";
+		if(strFull.Length == 4) //with one comment
+			Comment = strFull[3];
+		else if(strFull.Length > 4) //with comments separated by underscores
+		{
+			string myComment = "";
+			string sep = "";
+			for(int i = 3; i <= strFull.Length -3; i ++)
+			{
+				myComment += sep + strFull[i];
+				sep = "_";
+			}
+
+			Comment = myComment;
+		}
+
+		return name;
 	}
 }

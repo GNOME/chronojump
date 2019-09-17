@@ -621,6 +621,7 @@ public partial class ChronoJumpWindow
 		rfdList = SqliteForceSensorRFD.SelectAll(false);
 		impulse = SqliteForceSensorRFD.SelectImpulse(false);
 		initForceSensor();
+		initRunEncoder();
 
 
 		createComboSelectJumps(true);

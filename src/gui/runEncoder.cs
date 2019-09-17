@@ -61,6 +61,7 @@ public partial class ChronoJumpWindow
 	static bool runEncoderProcessError;
 	
 	private RunEncoder currentRunEncoder;
+	private RunEncoderExercise currentRunEncoderExercise;
 
 	static string lastRunEncoderFile = "";
 	static string lastRunEncoderFullPath = "";
@@ -261,6 +262,12 @@ public partial class ChronoJumpWindow
 	{
 		race_analyzer_spinbutton_distance.Value = distance;
 		race_analyzer_spinbutton_temperature.Value = temp;
+	}
+
+	private void assignCurrentRunEncoderExercise()
+	{
+		currentRunEncoderExercise = (RunEncoderExercise) SqliteRunEncoderExercise.Select (
+                                false, getExerciseIDFromAnyCombo(combo_run_encoder_exercise, runEncoderComboExercisesString, false), false)[0];
 	}
 
 	//TODO: do all this with an "other" thread like in force sensor to allow connecting messages to be displayed
@@ -550,6 +557,9 @@ public partial class ChronoJumpWindow
 		lastRunEncoderFile = Util.RemoveExtension(re.Filename);
 		lastRunEncoderFullPath = re.FullURL;
 
+		combo_run_encoder_exercise.Active = UtilGtk.ComboMakeActive(combo_run_encoder_exercise, Catalog.GetString(re.ExerciseName));
+		assignCurrentRunEncoderExercise();
+
 		raceEncoderSetDevice(re.Device);
 		raceEncoderSetDistanceAndTemp(re.Distance, re.Temperature);
 		textview_race_analyzer_comment.Buffer.Text = re.Comments;
@@ -634,6 +644,8 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
+		assignCurrentRunEncoderExercise();
+
 		raceEncoderReadWidgets();
 		if(lastRunEncoderFullPath != null && lastRunEncoderFullPath != "")
 			raceEncoderCopyTempAndDoGraphs();
@@ -645,7 +657,9 @@ public partial class ChronoJumpWindow
 		radio_mode_contacts_analyze.Active = true;
 		button_run_encoder_recalculate.Sensitive = true;
 
-		//update SQL with device, distance, temperature, comments
+		//update SQL with exercise, device, distance, temperature, comments
+		currentRunEncoder.ExerciseID = currentRunEncoderExercise.UniqueID;
+		currentRunEncoder.ExerciseName = currentRunEncoderExercise.Name; //just in case
 		currentRunEncoder.Device = raceEncoderGetDevice();
 		currentRunEncoder.Distance = Convert.ToInt32(race_analyzer_spinbutton_distance.Value);
 		currentRunEncoder.Temperature = Convert.ToInt32(race_analyzer_spinbutton_temperature.Value);

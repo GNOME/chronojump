@@ -172,6 +172,7 @@ public class RunEncoder
 	public int ExerciseID
 	{
 		get { return exerciseID; }
+		set { exerciseID = value; }
 	}
 	public Devices Device
 	{
@@ -192,6 +193,11 @@ public class RunEncoder
 	{
 		get { return comments; }
 		set { comments = value; }
+	}
+	public string ExerciseName
+	{
+		get { return exerciseName; }
+		set { exerciseName = value; }
 	}
 }
 

@@ -301,7 +301,7 @@ class SqliteRunEncoderExercise : Sqlite
 		dbcmd.CommandText = "UPDATE " + table + " SET " +
 			" name = \"" + ex.Name +
 			"\", description = \"" + ex.Description +
-			"\", WHERE uniqueID = " + ex.UniqueID;
+			"\" WHERE uniqueID = " + ex.UniqueID;
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

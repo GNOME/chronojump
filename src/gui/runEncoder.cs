@@ -464,7 +464,7 @@ public partial class ChronoJumpWindow
 		string [] columnsString = {
 			Catalog.GetString("ID"),
 			Catalog.GetString("Set"),
-			//Catalog.GetString("Exercise"), //if this is uncommented, then change CommentColumn below to 7
+			Catalog.GetString("Exercise"),
 			Catalog.GetString("Device"),
 			Catalog.GetString("Distance"),
 			Catalog.GetString("Date"),
@@ -507,7 +507,7 @@ public partial class ChronoJumpWindow
 		//select row corresponding to current signal
 		genericWin.SelectRowWithID(0, currentRunEncoder.UniqueID); //colNum, id
 
-		genericWin.CommentColumn = 6;
+		genericWin.CommentColumn = 7;
 
 		genericWin.ShowButtonCancel(true);
 		genericWin.SetButtonAcceptLabel(Catalog.GetString("Load"));
@@ -951,4 +951,74 @@ LogB.Information(" fc R ");
 		else
 			combo_run_encoder_exercise.Active = UtilGtk.ComboMakeActive(combo_run_encoder_exercise, name);
 	}
+
+	private void on_button_run_encoder_exercise_add_clicked (object o, EventArgs args)
+	{
+		ArrayList bigArray = new ArrayList();
+
+		ArrayList a1 = new ArrayList();
+		ArrayList a2 = new ArrayList();
+
+		//0 is the widgget to show; 1 is the editable; 2 id default value
+		a1.Add(Constants.GenericWindowShow.ENTRY); a1.Add(true); a1.Add("");
+		bigArray.Add(a1);
+
+		a2.Add(Constants.GenericWindowShow.ENTRY2); a2.Add(true); a2.Add("");
+		bigArray.Add(a2);
+
+		genericWin = GenericWindow.Show(Catalog.GetString("Exercise"), false,	//don't show now
+				Catalog.GetString("Write the name of the exercise:"), bigArray);
+		genericWin.LabelEntry2 = Catalog.GetString("Description");
+
+		genericWin.SetButtonAcceptLabel(Catalog.GetString("Add"));
+
+		genericWin.HideOnAccept = false;
+
+		genericWin.Button_accept.Clicked += new EventHandler(on_button_run_encoder_exercise_add_accepted);
+		genericWin.ShowNow();
+	}
+
+	void on_button_run_encoder_exercise_add_accepted (object o, EventArgs args)
+	{
+		if(run_encoder_exercise_do_add_or_edit(true))
+		{
+			genericWin.Button_accept.Clicked -= new EventHandler(on_button_run_encoder_exercise_add_accepted);
+			genericWin.HideAndNull();
+		}
+	}
+
+	bool run_encoder_exercise_do_add_or_edit (bool adding)
+	{
+		string name = Util.MakeValidSQLAndFileName(Util.RemoveTildeAndColonAndDot(genericWin.EntrySelected));
+		name = Util.RemoveChar(name, '"');
+
+		if(adding)
+			LogB.Information("run_encoder_exercise_do - Trying to insert: " + name);
+		else
+			LogB.Information("run_encoder_exercise_do - Trying to edit: " + name);
+
+		if(name == "")
+			genericWin.SetLabelError(Catalog.GetString("Error: Missing name of exercise."));
+		else if (adding && Sqlite.Exists(false, Constants.RunEncoderExerciseTable, name))
+			genericWin.SetLabelError(string.Format(Catalog.GetString(
+							"Error: An exercise named '{0}' already exists."), name));
+		else {
+			if(adding)
+				SqliteRunEncoderExercise.Insert(false, -1, name, genericWin.Entry2Selected);
+			else {
+				RunEncoderExercise ex = new RunEncoderExercise(genericWin.uniqueID, name, genericWin.Entry2Selected);
+				SqliteRunEncoderExercise.Update(false, ex);
+			}
+
+			fillRunEncoderExerciseCombo(name);
+
+			LogB.Information("done");
+			return true;
+		}
+
+		return false;
+	}
+
+	// -------------------------------- end of exercise stuff --------------------
+
 }

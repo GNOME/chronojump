@@ -4618,7 +4618,7 @@ public partial class ChronoJumpWindow
 		
 		
 		genericWin = GenericWindow.Show(Catalog.GetString("Exercise"), false,	//don't show now
-				Catalog.GetString("Write the name of the encoder exercise:"), bigArray);
+				Catalog.GetString("Write the name of the exercise:"), bigArray);
 		genericWin.LabelSpinInt = Catalog.GetString("Displaced body weight") + " (%)";
 		genericWin.SetSpinRange(0, 100);
 		genericWin.LabelEntry2 = Catalog.GetString("Resistance");

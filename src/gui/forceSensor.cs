@@ -791,7 +791,7 @@ public partial class ChronoJumpWindow
 		forceSensorTimeStart = DateTime.Now; //to have an active count of capture time
 		forceSensorTimeStartCapture = forceSensorTimeStart; //to have same DateTime on filename and on sql datetime
 		capturingForce = arduinoCaptureStatus.CAPTURING;
-		string captureComment = getCaptureComment(); //includes "_" if it's no empty
+		string captureComment = UtilGtk.TextViewGetCommentValidSQL(textview_force_sensor_capture_comment);
 
 		Util.CreateForceSensorSessionDirIfNeeded (currentSession.UniqueID);
 
@@ -960,7 +960,9 @@ LogB.Information(" re C ");
 							ForceSensor.AngleUndefined, getLaterality(false),
 							Util.GetLastPartOfPath(lastForceSensorFile + ".csv"), //filename
 							Util.MakeURLrelative(Util.GetForceSensorSessionDir(currentSession.UniqueID)), //url
-							UtilDate.ToFile(forceSensorTimeStartCapture), getCaptureComment(), "", //dateTime, comment, videoURL
+							UtilDate.ToFile(forceSensorTimeStartCapture),
+							UtilGtk.TextViewGetCommentValidSQL(textview_force_sensor_capture_comment),
+							"", //videoURL
 							currentForceSensorExercise.Name);
 
 					currentForceSensor.UniqueID = currentForceSensor.InsertSQL(false);
@@ -1540,7 +1542,7 @@ LogB.Information(" re R ");
 		currentForceSensor.ExerciseName = currentForceSensorExercise.Name; //just in case
 		currentForceSensor.CaptureOption = getForceSensorCaptureOptions();
 		currentForceSensor.Laterality = getLaterality(false);
-		currentForceSensor.Comments = getCaptureComment();
+		currentForceSensor.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_force_sensor_capture_comment);
 
 		currentForceSensor.UpdateSQL(false);
 	}
@@ -2333,12 +2335,6 @@ LogB.Information(" re R ");
 			radio_force_sensor_laterality_l.Active = true;
 		else if(s == Catalog.GetString(Constants.ForceSensorLateralityRight))
 			radio_force_sensor_laterality_r.Active = true;
-	}
-
-	private string getCaptureComment()
-	{
-		string s = Util.MakeValidSQL(textview_force_sensor_capture_comment.Buffer.Text);
-		return s;
 	}
 
 	// -------------------------------- end of options, laterality and comment stuff ------

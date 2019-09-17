@@ -147,9 +147,20 @@ public class RunEncoder
 			return DevicesStringMANUAL;
 	}
 
+	public static string GetScript() {
+		return System.IO.Path.Combine(UtilEncoder.GetSprintPath(), "sprintEncoder.R");
+	}
+	public static string GetCSVFileName() {
+		return Path.Combine(Path.GetTempPath(), "cj_race_analyzer_data.csv");
+	}
+	public static string GetTempFileName() {
+		return Path.Combine(Path.GetTempPath(), "cj_race_analyzer_graph.png");
+	}
+
+
 	public string FullURL
 	{
-		get { return Util.GetRaceAnalyzerSessionDir(sessionID) + Path.DirectorySeparatorChar + filename; }
+		get { return Util.GetRunEncoderSessionDir(sessionID) + Path.DirectorySeparatorChar + filename; }
 	}
 	public string Filename
 	{
@@ -202,7 +213,7 @@ public class RunEncoderGraph
 	{
 		LogB.Information("\nrunEncoder CallR ----->");
 		writeOptionsFile(graphWidth, graphHeight);
-		return ExecuteProcess.CallR(UtilEncoder.GetRaceAnalyzerScript());
+		return ExecuteProcess.CallR(RunEncoder.GetScript());
 	}
 
 	private void writeOptionsFile(int graphWidth, int graphHeight)
@@ -216,7 +227,7 @@ public class RunEncoderGraph
 
 		string scriptOptions =
 			"#scriptsPath\n" + 		UtilEncoder.GetScriptsPath() + "\n" +
-			"#filename\n" + 		UtilEncoder.GetRaceAnalyzerCSVFileName() + "\n" +
+			"#filename\n" + 		RunEncoder.GetCSVFileName() + "\n" +
 			"#mass\n" + 			Util.ConvertToPoint(mass) + "\n" +
 			"#personHeight\n" + 		Util.ConvertToPoint(personHeight / 100.0) + "\n" + //send it in meters
 			"#tempC\n" + 			tempC + "\n" +
@@ -237,26 +248,26 @@ public class RunEncoderGraph
 	public static string GetDataDir(int sessionID)
 	{
 		System.IO.DirectoryInfo folderSession =
-			new System.IO.DirectoryInfo(Util.GetRaceAnalyzerSessionDir(sessionID));
+			new System.IO.DirectoryInfo(Util.GetRunEncoderSessionDir(sessionID));
 		System.IO.DirectoryInfo folderGeneric =
-			new System.IO.DirectoryInfo(Util.GetRaceAnalyzerDir());
+			new System.IO.DirectoryInfo(Util.GetRunEncoderDir());
 
 		if(folderSession.Exists)
-			return Util.GetRaceAnalyzerSessionDir(sessionID);
+			return Util.GetRunEncoderSessionDir(sessionID);
 		else if(folderGeneric.Exists)
-			return Util.GetRaceAnalyzerDir();
+			return Util.GetRunEncoderDir();
 		else
 			return "";
 	}
 }
 
-public class RaceEncoderLoadTryToAssignPerson
+public class RunEncoderLoadTryToAssignPerson
 {
 	private bool dbconOpened;
 	private string filename; //filename comes without extension
 	private int currentSessionID; //we get a person if already exists on that session
 
-	public RaceEncoderLoadTryToAssignPerson(bool dbconOpened, string filename, int currentSessionID)
+	public RunEncoderLoadTryToAssignPerson(bool dbconOpened, string filename, int currentSessionID)
 	{
 		this.dbconOpened = dbconOpened;
 		this.filename = filename;

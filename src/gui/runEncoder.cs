@@ -333,12 +333,12 @@ public partial class ChronoJumpWindow
 		//forceCaptureStartMark = true;
 		capturingRunEncoder = arduinoCaptureStatus.CAPTURING;
 
-		Util.CreateRaceAnalyzerSessionDirIfNeeded (currentSession.UniqueID);
+		Util.CreateRunEncoderSessionDirIfNeeded (currentSession.UniqueID);
 
 		string idNameDate = currentPerson.UniqueID + "_" + currentPerson.Name + "_" + UtilDate.ToFile(DateTime.Now);
 
 		//fileName to save the csv
-		string fileName = Util.GetRaceAnalyzerSessionDir(currentSession.UniqueID) + Path.DirectorySeparatorChar + idNameDate + ".csv";
+		string fileName = Util.GetRunEncoderSessionDir(currentSession.UniqueID) + Path.DirectorySeparatorChar + idNameDate + ".csv";
 
 		//lastRunEncoderFile to save the images
 		lastRunEncoderFile = idNameDate;
@@ -434,7 +434,7 @@ public partial class ChronoJumpWindow
 			Util.FileDelete(fileName);
 		else {
 			//call graph. Prepare data
-			File.Copy(fileName, UtilEncoder.GetRaceAnalyzerCSVFileName(), true); //can be overwritten
+			File.Copy(fileName, RunEncoder.GetCSVFileName(), true); //can be overwritten
 			//lastRunEncoderFullPath = fileName;
 
 			raceEncoderCaptureGraphDo();
@@ -576,7 +576,7 @@ public partial class ChronoJumpWindow
 			lastRunEncoderFile = Util.RemoveExtension(Util.GetLastPartOfPath(filechooser.Filename));
 
 			//try to change currentPerson on loading set
-			RaceEncoderLoadTryToAssignPerson relt = new RaceEncoderLoadTryToAssignPerson(false, lastRunEncoderFile, currentSession.UniqueID);
+			RunEncoderLoadTryToAssignPerson relt = new RunEncoderLoadTryToAssignPerson(false, lastRunEncoderFile, currentSession.UniqueID);
 			Person p = relt.GetPerson();
 			if(p.UniqueID != -1)
 			{
@@ -596,7 +596,7 @@ public partial class ChronoJumpWindow
 			//lastRunEncoderFullPath = filechooser.Filename; //used on recalculate
 
 			//call graph. Prepare data
-			File.Copy(filechooser.Filename, UtilEncoder.GetRaceAnalyzerCSVFileName(), true); //can be overwritten
+			File.Copy(filechooser.Filename, UtilEncoder.GetRunEncoderCSVFileName(), true); //can be overwritten
 
 			raceEncoderReadWidgets(); //needed to be able to do R graph
 			raceEncoderCaptureGraphDo();
@@ -644,7 +644,7 @@ public partial class ChronoJumpWindow
 
 	private void raceEncoderCopyTempAndDoGraphs()
 	{
-		File.Copy(lastRunEncoderFullPath, UtilEncoder.GetRaceAnalyzerCSVFileName(), true); //can be overwritten
+		File.Copy(lastRunEncoderFullPath, RunEncoder.GetCSVFileName(), true); //can be overwritten
 
 		raceEncoderCaptureGraphDo();
 
@@ -679,7 +679,7 @@ public partial class ChronoJumpWindow
 			LogB.Information("File exists on png, trying to copy");
 			try {
 				File.Copy(UtilEncoder.GetSprintEncoderImage(),
-						Util.GetRaceAnalyzerSessionDir(currentSession.UniqueID) + Path.DirectorySeparatorChar +
+						Util.GetRunEncoderSessionDir(currentSession.UniqueID) + Path.DirectorySeparatorChar +
 						lastRunEncoderFile + 	//idNameDate
 						".png",
 						true); //can be overwritten

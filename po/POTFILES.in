@@ -104,6 +104,7 @@ src/old/server.cs
 src/pulseType.cs
 src/report.cs
 src/runType.cs
+src/runEncoder.cs
 src/serverPing.cs
 src/sprint.cs
 src/sqlite/country.cs

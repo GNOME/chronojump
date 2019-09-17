@@ -163,7 +163,7 @@ class SqliteRunEncoder : Sqlite
 					Convert.ToInt32(reader[2].ToString()),	//sessionID
 					Convert.ToInt32(reader[3].ToString()),	//exerciseID
 					(RunEncoder.Devices) Enum.Parse(
-						typeof(RunEncoder.Devices), reader[4].ToString()), 	//captureOption
+						typeof(RunEncoder.Devices), reader[4].ToString()), 	//device
 					Convert.ToInt32(reader[5].ToString()),	//distance
 					Convert.ToInt32(reader[6].ToString()),	//temperature
 					reader[7].ToString(),			//filename

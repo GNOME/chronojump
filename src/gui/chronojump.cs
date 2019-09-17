@@ -1121,6 +1121,7 @@ public partial class ChronoJumpWindow
 		//2) changes on encoder and forceSensor
 		encoderPersonChanged();
 		forceSensorPersonChanged();
+		runEncoderPersonChanged();
 	}
 
 	private void treeviewPersonsContextMenu(Person myPerson) {

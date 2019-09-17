@@ -1914,6 +1914,16 @@ public class Util
 		return myFile + extension;
 	}
 
+	//this includes the '.', eg: returns ".csv"
+	public static string GetExtension(string myFile)
+	{
+		int posOfDot = myFile.LastIndexOf('.');
+		if (posOfDot > 0)
+			return myFile.Substring(posOfDot);
+
+		return "";
+	}
+
 	public static string RemoveExtension(string myFile)
 	{
 		int posOfDot = myFile.LastIndexOf('.');

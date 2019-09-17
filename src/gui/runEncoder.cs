@@ -46,7 +46,7 @@ public partial class ChronoJumpWindow
 	int race_analyzer_temperature;
 	int race_analyzer_graph_width;
 	int race_analyzer_graph_height;
-	RunEncoderGraph.Devices race_analyzer_device;
+	RunEncoder.Devices race_analyzer_device;
 
 
 	Thread runEncoderCaptureThread;
@@ -215,9 +215,9 @@ public partial class ChronoJumpWindow
 		race_analyzer_graph_height = Convert.ToInt32(race_analyzer_spinbutton_graph_height.Value);
 
 		if(race_analyzer_radio_device_manual.Active)
-			race_analyzer_device = RunEncoderGraph.Devices.MANUAL;
+			race_analyzer_device = RunEncoder.Devices.MANUAL;
 		else
-			race_analyzer_device = RunEncoderGraph.Devices.RESISTED;
+			race_analyzer_device = RunEncoder.Devices.RESISTED;
 	}
 
 	//TODO: do all this with an "other" thread like in force sensor to allow connecting messages to be displayed

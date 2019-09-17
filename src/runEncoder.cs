@@ -15,24 +15,130 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2018   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2018-2019   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
-using System.IO; 		//for detect OS
+using System.IO; 		//for detect OS //TextWriter
 using System.Collections.Generic; //List<T>
+
+public class RunEncoder
+{
+	public enum Devices { MANUAL, RESISTED } //RESISTED will have two columns on the CSV (encoder, forecSensor)
+	public static string DevicesStringMANUAL = "Manual race analyzer";
+	public static string DevicesStringRESISTED = "Resisted race analyzer";
+
+	private int uniqueID;
+	private int personID;
+	private int sessionID;
+	private int exerciseID; //until runEncoderExercise table is not created, all will be 0
+	private int angle;
+	private Devices device;
+	private int distance;
+	private int temperature;
+	private string filename;
+	private string url;	//relative
+	private string dateTime;
+	private string comments;
+	private string videoURL;
+
+	//private string exerciseName;
+
+	/* constructors */
+
+	//have a uniqueID -1 contructor, useful when set is deleted
+	public RunEncoder()
+	{
+		uniqueID = -1;
+	}
+
+	//constructor
+	public RunEncoder(int uniqueID, int personID, int sessionID, int exerciseID, Devices device,
+			int distance, int temperature, string filename, string url,
+			string dateTime, string comments, string videoURL
+			//, string exerciseName
+			)
+	{
+		this.uniqueID = uniqueID;
+		this.personID = personID;
+		this.sessionID = sessionID;
+		this.exerciseID = exerciseID;
+		this.device = device;
+		this.distance = distance;
+		this.temperature = temperature;
+		this.filename = filename;
+		this.url = url;
+		this.dateTime = dateTime;
+		this.comments = comments;
+		this.videoURL = videoURL;
+
+		//this.exerciseName = exerciseName;
+	}
+
+	/* methods */
+
+	public int InsertSQL(bool dbconOpened)
+	{
+		return SqliteRunEncoder.Insert(dbconOpened, toSQLInsertString());
+	}
+	private string toSQLInsertString()
+	{
+		string uniqueIDStr = "NULL";
+		if(uniqueID != -1)
+			uniqueIDStr = uniqueID.ToString();
+
+		return
+			"(" + uniqueIDStr + ", " + personID + ", " + sessionID + ", " + exerciseID + ", \"" + device.ToString() + "\", " +
+			distance + ", " + temperature + ", \"" + filename + "\", \"" + url + "\", \"" + dateTime + "\", \"" +
+			comments + "\", \"" + videoURL + "\")";
+	}
+
+	public void UpdateSQL(bool dbconOpened)
+	{
+		SqliteRunEncoder.Update(dbconOpened, toSQLUpdateString());
+	}
+	private string toSQLUpdateString()
+	{
+		return
+			" uniqueID = " + uniqueID +
+			", personID = " + personID +
+			", sessionID = " + sessionID +
+			", exerciseID = " + exerciseID +
+			", device = \"" + device.ToString() +
+			"\", distance = " + distance +
+			", temperature = " + temperature +
+			", filename = \"" + filename +
+			"\", url = \"" + url +
+			"\", dateTime = \"" + dateTime +
+			"\", comments = \"" + comments +
+			"\", videoURL = \"" + Util.MakeURLrelative(videoURL) +
+			"\" WHERE uniqueID = " + uniqueID;
+	}
+
+	public string FullURL
+	{
+		get { return Util.GetRaceAnalyzerSessionDir(sessionID) + Path.DirectorySeparatorChar + filename; }
+	}
+	public int UniqueID
+	{
+		get { return uniqueID; }
+	}
+
+	public int ExerciseID
+	{
+		get { return exerciseID; }
+	}
+}
 
 public class RunEncoderGraph
 {
-	public enum Devices { MANUAL, RESISTED }
-
 	private int testLength;
 	private double mass;
 	private double personHeight;
 	private double tempC;
-	private Devices device;
+	private RunEncoder.Devices device;
 
-	public RunEncoderGraph(int testLength, double mass, double personHeight, double tempC, Devices device)
+	public RunEncoderGraph(int testLength, double mass, double personHeight, double tempC, RunEncoder.Devices device)
 	{
 		this.testLength = testLength;
 		this.mass = mass;

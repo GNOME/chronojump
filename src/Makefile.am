@@ -122,6 +122,7 @@ SOURCES = \
 	sqlite/stat.cs\
 	sqlite/pulse.cs\
 	sqlite/pulseType.cs\
+	sqlite/runEncoder.cs\
 	sqlite/reactionTime.cs\
 	sqlite/multiChronopic.cs\
 	sqlite/event.cs\

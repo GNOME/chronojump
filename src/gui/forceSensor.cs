@@ -2046,6 +2046,8 @@ LogB.Information(" re R ");
 		if(forceSensorExercises.Count == 0)
 		{
 			forceSensorComboExercisesString = new String [0];
+			UtilGtk.ComboUpdate(combo_force_sensor_exercise, new String[0], "");
+
 			return;
 		}
 

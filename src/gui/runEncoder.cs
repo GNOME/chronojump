@@ -38,6 +38,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton race_analyzer_spinbutton_temperature;
 	[Widget] Gtk.SpinButton race_analyzer_spinbutton_graph_width;
 	[Widget] Gtk.SpinButton race_analyzer_spinbutton_graph_height;
+	[Widget] Gtk.TextView textview_race_analyzer_comment;
 	[Widget] Gtk.HBox hbox_race_analyzer_device;
 	[Widget] Gtk.RadioButton race_analyzer_radio_device_manual;
 	[Widget] Gtk.RadioButton race_analyzer_radio_device_other; //resisted
@@ -543,6 +544,8 @@ public partial class ChronoJumpWindow
 
 		raceEncoderSetDevice(re.Device);
 		raceEncoderSetDistanceAndTemp(re.Distance, re.Temperature);
+		textview_race_analyzer_comment.Buffer.Text = re.Comments;
+
 		raceEncoderReadWidgets(); //needed to be able to do R graph
 
 		raceEncoderCopyTempAndDoGraphs();
@@ -634,10 +637,11 @@ public partial class ChronoJumpWindow
 		radio_mode_contacts_analyze.Active = true;
 		button_run_encoder_recalculate.Sensitive = true;
 
-		//update SQL with device, distance, temperature
+		//update SQL with device, distance, temperature, comments
 		currentRunEncoder.Device = raceEncoderGetDevice();
 		currentRunEncoder.Distance = Convert.ToInt32(race_analyzer_spinbutton_distance.Value);
 		currentRunEncoder.Temperature = Convert.ToInt32(race_analyzer_spinbutton_temperature.Value);
+		currentRunEncoder.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_race_analyzer_comment);
 
 		currentRunEncoder.UpdateSQL(false);
 	}

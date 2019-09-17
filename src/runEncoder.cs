@@ -190,6 +190,11 @@ public class RunEncoder
 		get { return temperature; }
 		set { temperature = value; }
 	}
+	public string Comments
+	{
+		get { return comments; }
+		set { comments = value; }
+	}
 }
 
 public class RunEncoderGraph

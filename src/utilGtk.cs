@@ -623,6 +623,13 @@ public class UtilGtk
 	}
 
 
+	public static string TextViewGetCommentValidSQL (Gtk.TextView tv)
+	{
+		//string s = Util.MakeValidSQL(textview_force_sensor_capture_comment.Buffer.Text);
+		string s = Util.MakeValidSQL(tv.Buffer.Text);
+		return s;
+	}
+
 	
 	public static TextBuffer TextViewPrint(string message) {
 		TextBuffer tb = new TextBuffer (new TextTagTable());

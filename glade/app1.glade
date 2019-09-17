@@ -10527,6 +10527,37 @@ Inverted values</property>
                                                             <property name="position">3</property>
                                                             </packing>
                                                             </child>
+                                                            <child>
+                                                            <widget class="GtkFrame" id="frame_race_analyzer_comment">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label_xalign">0</property>
+                                                            <property name="shadow_type">in</property>
+                                                            <child>
+                                                            <widget class="GtkTextView" id="textview_race_analyzer_comment">
+                                                            <property name="width_request">200</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            </widget>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label411">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Comments</property>
+                                                            <property name="use_markup">True</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="type">label_item</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">4</property>
+                                                            </packing>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="position">8</property>

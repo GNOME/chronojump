@@ -191,6 +191,7 @@ class SqliteRunEncoder : Sqlite
 		LogB.Information("at import_from_1_70_to_1_71()");
 		//LogB.Information("Sqlite isOpened: " + Sqlite.IsOpened.ToString());
 
+		bool importedSomething = false;
 		string raceAnalyzerDir = Util.GetRunEncoderDir();
 		DirectoryInfo [] sessions = new DirectoryInfo(raceAnalyzerDir).GetDirectories();
 		foreach (DirectoryInfo session in sessions) //session.Name will be the UniqueID
@@ -235,10 +236,17 @@ class SqliteRunEncoder : Sqlite
 						RunEncoder.Devices.MANUAL, distance, temperature,
 						myFilename,
 						Util.MakeURLrelative(Util.GetRunEncoderSessionDir(Convert.ToInt32(session.Name))),
-						parsedDate, relt.Comment, "");
+						parsedDate, relt.Comment,
+						"", ""); //import without video and without name on comment
+
 				runEncoder.InsertSQL(true);
+				importedSomething = true;
 			}
 		}
+
+		//need to create an exercise to assign to the imported files
+		if(importedSomething)
+			SqliteRunEncoderExercise.Insert(true, 0, "Sprint", "");
 
 		LogB.Information("end of import_from_1_70_to_1_71()");
 		LogB.PrintAllThreads = false; //TODO: remove this

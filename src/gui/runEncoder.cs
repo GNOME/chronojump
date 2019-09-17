@@ -573,69 +573,6 @@ public partial class ChronoJumpWindow
 		event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(re.Filename);
 	}
 
-	/*
-	 * old method load from file
-	 *
-	private void on_button_run_encoder_load_clicked (object o, EventArgs args)
-	{
-		if (currentSession == null)
-			return;
-
-		Gtk.FileChooserDialog filechooser = new Gtk.FileChooserDialog ("Choose file",
-		                                                               app1, FileChooserAction.Open,
-		                                                               "Cancel",ResponseType.Cancel,
-		                                                               "Choose",ResponseType.Accept);
-		string dataDir = RunEncoderGraph.GetDataDir(currentSession.UniqueID);
-		filechooser.SetCurrentFolder(dataDir);
-
-		filechooser.Filter = new FileFilter();
-		filechooser.Filter.AddPattern ("*.csv");
-
-		lastRunEncoderFile = "";
-		if (filechooser.Run () == (int)ResponseType.Accept)
-		{
-			lastRunEncoderFile = Util.RemoveExtension(Util.GetLastPartOfPath(filechooser.Filename));
-
-			//try to change currentPerson on loading set
-			RunEncoderLoadTryToAssignPerson relt = new RunEncoderLoadTryToAssignPerson(false, lastRunEncoderFile, currentSession.UniqueID);
-			Person p = relt.GetPerson();
-			if(p.UniqueID != -1)
-			{
-				currentPerson = p;
-				currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
-
-				int rowToSelect = myTreeViewPersons.FindRow(p.UniqueID);
-				if(rowToSelect != -1) {
-					//this will update also currentPerson
-					selectRowTreeView_persons(treeview_persons, rowToSelect);
-				}
-
-				label_person_change();
-				personChanged();
-			}
-
-			//lastRunEncoderFullPath = filechooser.Filename; //used on recalculate
-
-			//call graph. Prepare data
-			File.Copy(filechooser.Filename, UtilEncoder.GetRunEncoderCSVFileName(), true); //can be overwritten
-
-			raceEncoderReadWidgets(); //needed to be able to do R graph
-			raceEncoderCaptureGraphDo();
-
-			Thread.Sleep (250); //Wait a bit to ensure is copied
-
-			runEncoderAnalyzeOpenImage();
-			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RACEENCODER);
-			radio_mode_contacts_analyze.Active = true;
-			button_run_encoder_recalculate.Sensitive = true;
-
-			event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(filechooser.Filename);
-		}
-		filechooser.Destroy ();
-	}
-	*/
-
-
 	private void on_button_run_encoder_recalculate_clicked (object o, EventArgs args)
 	{
 		if(! Util.FileExists(lastRunEncoderFullPath))

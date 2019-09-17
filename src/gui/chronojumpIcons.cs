@@ -181,6 +181,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_race_encoder_open_folder;
 	[Widget] Gtk.Image image_race_encoder_capture_load;
 	[Widget] Gtk.Image image_race_encoder_capture_recalculate;
+	[Widget] Gtk.Image image_run_encoder_exercise_edit;
+	[Widget] Gtk.Image image_run_encoder_exercise_add;
 
 	//video play icons
 	[Widget] Gtk.Image image_video_play_this_test;
@@ -339,6 +341,7 @@ public partial class ChronoJumpWindow
 		image_add_test3.Pixbuf = pixbuf;
 		image_add_test4.Pixbuf = pixbuf;
 		image_add_test5.Pixbuf = pixbuf;
+		image_run_encoder_exercise_add.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_test_inspect.png");
 		image_test_inspect.Pixbuf = pixbuf;
@@ -394,6 +397,7 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_edit.png");
 		image_encoder_exercise_edit.Pixbuf = pixbuf;
 		image_force_sensor_exercise_edit.Pixbuf = pixbuf;
+		image_run_encoder_exercise_edit.Pixbuf = pixbuf;
 		image_edit_current_person.Pixbuf = pixbuf;
 		image_edit_current_person_h.Pixbuf = pixbuf;
 		image_session_edit.Pixbuf = pixbuf;

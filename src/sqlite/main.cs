@@ -2442,9 +2442,10 @@ class Sqlite
 			}
 			if(currentVersion == "1.69")
 			{
-				LogB.SQL("Created table: RunEncoder");
+				LogB.SQL("Created tables: RunEncoder, RunEncoderExercise");
 
 				SqliteRunEncoder.createTable();
+				SqliteRunEncoderExercise.createTable();
 
 				currentVersion = updateVersion("1.70");
 			}
@@ -2637,6 +2638,7 @@ class Sqlite
 
 		//runEncoder
 		SqliteRunEncoder.createTable();
+		SqliteRunEncoderExercise.createTable();
 
 		creationRate ++;
 		SqlitePreferences.createTable();
@@ -2649,7 +2651,7 @@ class Sqlite
 
 		//changes [from - to - desc]
 		//1.70 - 1.71 Converted DB to 1.71 Imported run encoder text files into SQL
-		//1.69 - 1.70 Converted DB to 1.70 Created table: RunEncoder
+		//1.69 - 1.70 Converted DB to 1.70 Created tables: RunEncoder, RunEncoderExercise
 		//1.68 - 1.69 Converted DB to 1.69 Imported force sensor text files into SQL
 		//1.67 - 1.68 Converted DB to 1.68 Created table: ForceSensor
 		//1.66 - 1.67 Converted DB to 1.67 ALTER TABLE Constants.ForceSensorExerciseTable ADD COLUMN tareBeforeCapture INT

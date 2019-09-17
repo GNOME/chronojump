@@ -203,8 +203,8 @@ class SqliteRunEncoder : Sqlite
 					continue;
 
 				string fileWithoutExtension = Util.RemoveExtension(Util.GetLastPartOfPath(file.Name));
-				RunEncoderLoadTryToAssignPerson relt =
-					new RunEncoderLoadTryToAssignPerson(true, fileWithoutExtension, Convert.ToInt32(session.Name));
+				RunEncoderLoadTryToAssignPersonAndComment relt =
+					new RunEncoderLoadTryToAssignPersonAndComment(true, fileWithoutExtension, Convert.ToInt32(session.Name));
 
 				Person p = relt.GetPerson();
 				if(p.UniqueID == -1)
@@ -235,13 +235,150 @@ class SqliteRunEncoder : Sqlite
 						RunEncoder.Devices.MANUAL, distance, temperature,
 						myFilename,
 						Util.MakeURLrelative(Util.GetRunEncoderSessionDir(Convert.ToInt32(session.Name))),
-						parsedDate, "", "");
+						parsedDate, relt.Comment, "");
 				runEncoder.InsertSQL(true);
 			}
 		}
 
 		LogB.Information("end of import_from_1_70_to_1_71()");
 		LogB.PrintAllThreads = false; //TODO: remove this
+	}
+
+}
+
+class SqliteRunEncoderExercise : Sqlite
+{
+	private static string table = Constants.RunEncoderExerciseTable;
+
+	public SqliteRunEncoderExercise() {
+	}
+
+	~SqliteRunEncoderExercise() {}
+
+	/*
+	 * create and initialize tables
+	 */
+
+	protected internal static void createTable()
+	{
+		dbcmd.CommandText =
+			"CREATE TABLE " + table + " ( " +
+			"uniqueID INTEGER PRIMARY KEY, " +
+			"name TEXT, " +
+			"description TEXT)";
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+	}
+
+	//undefined defaultAngle will be 1000
+	//note execution can have a different angle than the default angle
+	public static int Insert (bool dbconOpened, int uniqueID, string name, string description)
+	{
+		if(! dbconOpened)
+			Sqlite.Open();
+
+		string uniqueIDStr = "NULL";
+		if(uniqueID != -1)
+			uniqueIDStr = uniqueID.ToString();
+
+		dbcmd.CommandText = "INSERT INTO " + table +
+				" (uniqueID, name, description) VALUES (" +
+				uniqueIDStr + ", \"" + name + "\", \"" + description + "\")";
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		string myString = @"select last_insert_rowid()";
+		dbcmd.CommandText = myString;
+		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
+
+		if(! dbconOpened)
+			Sqlite.Close();
+
+		return myLast;
+	}
+
+	public static void Update (bool dbconOpened, RunEncoderExercise ex)
+	{
+		if(! dbconOpened)
+			Sqlite.Open();
+
+		/*
+		   string uniqueIDStr = "NULL";
+		   if(ex.UniqueID != -1)
+			   uniqueIDStr = ex.UniqueID.ToString();
+		   */
+
+		dbcmd.CommandText = "UPDATE " + table + " SET " +
+			" name = \"" + ex.Name +
+			"\", description = \"" + ex.Description +
+			"\", WHERE uniqueID = " + ex.UniqueID;
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		if(! dbconOpened)
+			Sqlite.Close();
+	}
+
+	public static void Delete (bool dbconOpened, int uniqueID)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = "DELETE FROM " + table + " WHERE uniqueID = " + uniqueID;
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		closeIfNeeded(dbconOpened);
+	}
+
+
+	public static ArrayList Select (bool dbconOpened, int uniqueID, bool onlyNames)
+	{
+		if(! dbconOpened)
+			Sqlite.Open();
+
+		string uniqueIDStr = "";
+		if(uniqueID != -1)
+			uniqueIDStr = " WHERE " + table + ".uniqueID = " + uniqueID;
+
+		if(onlyNames)
+			dbcmd.CommandText = "SELECT name FROM " + table + uniqueIDStr;
+		else
+			dbcmd.CommandText = "SELECT * FROM " + table + uniqueIDStr;
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		ArrayList array = new ArrayList(1);
+		RunEncoderExercise ex = new RunEncoderExercise();
+
+		if(onlyNames) {
+			while(reader.Read()) {
+				ex = new RunEncoderExercise (reader[0].ToString());
+				array.Add(ex);
+			}
+		} else {
+			while(reader.Read()) {
+				int angleDefault = 0;
+
+				ex = new RunEncoderExercise (
+						Convert.ToInt32(reader[0].ToString()),	//uniqueID
+						reader[1].ToString(),			//name
+						reader[2].ToString()			//description
+						);
+				array.Add(ex);
+			}
+		}
+
+		reader.Close();
+		if(! dbconOpened)
+			Sqlite.Close();
+
+		return array;
 	}
 
 }

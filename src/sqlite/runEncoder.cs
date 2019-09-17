@@ -115,37 +115,22 @@ class SqliteRunEncoder : Sqlite
 	{
 		openIfNeeded(dbconOpened);
 
-		/*
-		 * future: when we have RunEncoderExerciseTable
 		string selectStr = "SELECT " + table + ".*, " + Constants.RunEncoderExerciseTable + ".Name FROM " + table + ", " + Constants.RunEncoderExerciseTable;
 		string whereStr = " WHERE " + table + ".exerciseID = " + Constants.RunEncoderExerciseTable + ".UniqueID ";
-		*/
-		string selectStr = "SELECT * FROM " + table;
-		string connector = " WHERE ";
 
 		string uniqueIDStr = "";
 		if(uniqueID != -1)
-		{
-			uniqueIDStr = connector + table + ".uniqueID = " + uniqueID;
-			connector = " AND ";
-		}
+			uniqueIDStr = " AND " + table + ".uniqueID = " + uniqueID;
 
 		string personIDStr = "";
 		if(personID != -1)
-		{
-			personIDStr = connector + table + ".personID = " + personID;
-			connector = " AND ";
-		}
+			personIDStr = " AND " + table + ".personID = " + personID;
 
 		string sessionIDStr = "";
 		if(sessionID != -1)
-		{
-			sessionIDStr = connector + table + ".sessionID = " + sessionID;
-			connector = " AND ";
-		}
+			sessionIDStr = " AND " + table + ".sessionID = " + sessionID;
 
-		//dbcmd.CommandText = selectStr + whereStr + uniqueIDStr + personIDStr + sessionIDStr + " Order BY " + table + ".uniqueID";
-		dbcmd.CommandText = selectStr + uniqueIDStr + personIDStr + sessionIDStr + " Order BY " + table + ".uniqueID";
+		dbcmd.CommandText = selectStr + whereStr + uniqueIDStr + personIDStr + sessionIDStr + " Order BY " + table + ".uniqueID";
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -170,11 +155,8 @@ class SqliteRunEncoder : Sqlite
 					Util.MakeURLabsolute(fixOSpath(reader[8].ToString())),	//url
 					reader[9].ToString(),			//datetime
 					reader[10].ToString(),			//comments
-					reader[11].ToString()			//videoURL
-					/*
 					reader[11].ToString(),			//videoURL
 					reader[12].ToString()			//exerciseName
-					*/
 					);
 			array.Add(fs);
 		}

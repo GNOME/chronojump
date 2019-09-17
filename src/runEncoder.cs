@@ -43,7 +43,7 @@ public class RunEncoder
 	private string comments;
 	private string videoURL;
 
-	//private string exerciseName;
+	private string exerciseName;
 
 	/* constructors */
 
@@ -56,9 +56,7 @@ public class RunEncoder
 	//constructor
 	public RunEncoder(int uniqueID, int personID, int sessionID, int exerciseID, Devices device,
 			int distance, int temperature, string filename, string url,
-			string dateTime, string comments, string videoURL
-			//, string exerciseName
-			)
+			string dateTime, string comments, string videoURL, string exerciseName)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
@@ -73,7 +71,7 @@ public class RunEncoder
 		this.comments = comments;
 		this.videoURL = videoURL;
 
-		//this.exerciseName = exerciseName;
+		this.exerciseName = exerciseName;
 	}
 
 	/* methods */
@@ -118,12 +116,12 @@ public class RunEncoder
 
 	public string [] ToStringArray (int count)
 	{
-		int all = 7; //8;
+		int all = 8;
 		string [] str = new String [all];
 		int i=0;
 		str[i++] = uniqueID.ToString();
 		str[i++] = count.ToString();
-		//str[i++] = exerciseName;
+		str[i++] = exerciseName;
 		str[i++] = Catalog.GetString(GetDeviceString(device));
 		str[i++] = distance.ToString();
 		str[i++] = dateTime;

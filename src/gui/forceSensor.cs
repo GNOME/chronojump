@@ -2157,7 +2157,7 @@ LogB.Information(" re R ");
 
 
 		genericWin = GenericWindow.Show(Catalog.GetString("Exercise"), false,	//don't show now
-				Catalog.GetString("Write the name of the force sensor exercise:"), bigArray);
+				Catalog.GetString("Write the name of the exercise:"), bigArray);
 		genericWin.LabelSpinInt = Catalog.GetString("Involved body weight") + " (%)";
 		genericWin.SetSpinRange(0, 100);
 		genericWin.LabelEntry2 = Catalog.GetString("Resistance");

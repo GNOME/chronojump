@@ -7396,6 +7396,7 @@ LogB.Debug("mc finished 5");
 		sensitiveLastTestButtons(false);
 		
 		button_activate_chronopics.Sensitive = false;
+		button_activate_chronopics_encoder.Sensitive = false;
 		button_threshold.Sensitive = false;
 		button_force_sensor_adjust.Sensitive = false;
 		button_auto_start.Sensitive = false;
@@ -7464,6 +7465,7 @@ LogB.Debug("mc finished 5");
 		//hbox_multi_chronopic_buttons.Sensitive = true;
 		
 		button_activate_chronopics.Sensitive = true;
+		button_activate_chronopics_encoder.Sensitive = true;
 		button_threshold.Sensitive = true;
 		button_force_sensor_adjust.Sensitive = true;
 		button_auto_start.Sensitive = true;

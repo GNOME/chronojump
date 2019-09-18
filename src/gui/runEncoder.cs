@@ -209,6 +209,8 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
+		textview_race_analyzer_comment.Buffer.Text = "";
+		assignCurrentRunEncoderExercise();
 		raceEncoderReadWidgets();
 		runEncoderButtonsSensitive(false);
 		button_run_encoder_recalculate.Sensitive = false;

@@ -376,6 +376,7 @@ public partial class ChronoJumpWindow
 		{
 			forceSensorButtonsSensitive(false);
 
+			textview_force_sensor_capture_comment.Buffer.Text = "";
 			assignCurrentForceSensorExercise();
 			if(currentForceSensorExercise.TareBeforeCapture)
 			{
@@ -963,7 +964,7 @@ LogB.Information(" re C ");
 							Util.GetLastPartOfPath(lastForceSensorFile + ".csv"), //filename
 							Util.MakeURLrelative(Util.GetForceSensorSessionDir(currentSession.UniqueID)), //url
 							UtilDate.ToFile(forceSensorTimeStartCapture),
-							UtilGtk.TextViewGetCommentValidSQL(textview_force_sensor_capture_comment),
+							"", //on capture cannot store comment (comment has to be written after),
 							"", //videoURL
 							currentForceSensorExercise.Name);
 

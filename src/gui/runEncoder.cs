@@ -198,6 +198,12 @@ public partial class ChronoJumpWindow
 
 	private void on_runs_encoder_capture_clicked ()
 	{
+		if(chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER) == 0)
+		{
+			event_execute_label_message.Text = runEncoderNotConnectedString;
+			return;
+		}
+
 		if(currentPersonSession.Weight == 0)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING,
@@ -212,6 +218,17 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
+		runEncoderCapturePre2_GTK_cameraCall();
+	}
+
+	private void runEncoderCapturePre2_GTK_cameraCall()
+	{
+		on_button_execute_test_acceptedPre_start_camera(
+				ChronoJumpWindow.WebcamStartedTestStart.RUNENCODER);
+	}
+
+	private void runEncoderCapturePre3_GTK_cameraCalled()
+	{
 		textview_race_analyzer_comment.Buffer.Text = "";
 		assignCurrentRunEncoderExercise();
 		raceEncoderReadWidgets();
@@ -875,6 +892,18 @@ LogB.Information(" fc C finish");
 
 					currentRunEncoder.UniqueID = currentRunEncoder.InsertSQL(false);
 
+					//stop camera
+					if(webcamEnd (Constants.TestTypes.RACEANALYZER, currentRunEncoder.UniqueID))
+					{
+						//add the videoURL to SQL
+						currentRunEncoder.VideoURL = Util.GetVideoFileName(currentSession.UniqueID,
+								Constants.TestTypes.RACEANALYZER,
+								currentRunEncoder.UniqueID);
+						currentRunEncoder.UpdateSQL(false);
+						label_video_feedback.Text = "";
+						button_video_play_this_test.Sensitive = true;
+					}
+
 					Thread.Sleep (250); //Wait a bit to ensure is copied
 
 					runEncoderAnalyzeOpenImage();
@@ -897,6 +926,9 @@ LogB.Information(" fc C finish 2");
 			} else if(runEncoderProcessCancel || runEncoderProcessError)
 			{
 LogB.Information(" fc C cancel ");
+				//stop the camera (and do not save)
+				webcamEnd (Constants.TestTypes.RACEANALYZER, -1);
+
 				if(runEncoderProcessCancel)
 					event_execute_label_message.Text = "Cancelled.";
 				else

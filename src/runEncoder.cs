@@ -228,6 +228,11 @@ public class RunEncoder
 		get { return comments; }
 		set { comments = value; }
 	}
+	public string VideoURL
+	{
+		//get { return videoURL; }
+		set { videoURL = value; }
+	}
 	public string ExerciseName
 	{
 		get { return exerciseName; }

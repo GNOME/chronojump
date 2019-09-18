@@ -466,7 +466,7 @@ public partial class ChronoJumpWindow
 			else if(forceSensorOtherMode == forceSensorOtherModeEnum.CHECK_VERSION)
 				forceSensorButtonsSensitive(true);
 			else if(forceSensorOtherMode == forceSensorOtherModeEnum.TARE_AND_CAPTURE_PRE || forceSensorOtherMode == forceSensorOtherModeEnum.CAPTURE_PRE)
-				forceSensorCapturePre2_GTK();
+				forceSensorCapturePre2_GTK_cameraCall();
 
 			return false;
 		}
@@ -642,12 +642,13 @@ public partial class ChronoJumpWindow
 		capturingForce = arduinoCaptureStatus.STARTING;
 	}
 
-	private void forceSensorCapturePre2_GTK()
+	private void forceSensorCapturePre2_GTK_cameraCall()
 	{
-		on_button_execute_test_acceptedPre_start_camera(false);
+		on_button_execute_test_acceptedPre_start_camera(
+				ChronoJumpWindow.WebcamStartedTestStart.FORCESENSOR);
 	}
 
-	private void forceSensorCapturePre3_GTK()
+	private void forceSensorCapturePre3_GTK_cameraCalled()
 	{
 		button_execute_test.Sensitive = false;
 		event_execute_button_finish.Sensitive = true;

@@ -3506,7 +3506,10 @@ public partial class ChronoJumpWindow
 		hbox_capture_phases_time.Visible = (m != Constants.Menuitem_modes.FORCESENSOR && m != Constants.Menuitem_modes.RUNSENCODER);
 
 		if(! configChronojump.Compujump)
-			showWebcamCaptureContactsControls (m != Constants.Menuitem_modes.RUNSENCODER);
+		{
+			//showWebcamCaptureContactsControls (m != Constants.Menuitem_modes.RUNSENCODER);
+			showWebcamCaptureContactsControls(true);
+		}
 
 		force_sensor_menuitem.Visible = (m == Constants.Menuitem_modes.FORCESENSOR);
 
@@ -3965,24 +3968,29 @@ public partial class ChronoJumpWindow
 
 				return;
 			}
-			on_button_execute_test_acceptedPre_start_camera(true);
+			on_button_execute_test_acceptedPre_start_camera(WebcamStartedTestStart.CHRONOPIC);
 		}
 	        UtilGtk.DeviceColors(viewport_chronopics, true);
 	}
 
 	// camera stuff if needed
 	// true is chronopic
-	// false is arduino like force sensor
-	private void on_button_execute_test_acceptedPre_start_camera(bool chronopic)
+	// false is arduino like force sensor or run encoder
+	public enum WebcamStartedTestStart { CHRONOPIC, FORCESENSOR, RUNENCODER};
+
+	private void on_button_execute_test_acceptedPre_start_camera(WebcamStartedTestStart wsts)
 	{
 		button_video_play_this_test_sensitive (WebcamManage.GuiContactsEncoder.CONTACTS, false);
+
 		webcamManage = new WebcamManage();
 		if(! webcamStart (WebcamManage.GuiContactsEncoder.CONTACTS, 1))
 		{
-			if(chronopic)
+			if(wsts == WebcamStartedTestStart.FORCESENSOR)
+				forceSensorCapturePre3_GTK_cameraCalled();
+			else if(wsts == WebcamStartedTestStart.RUNENCODER)
+				runEncoderCapturePre3_GTK_cameraCalled();
+			else // (wsts == WebcamStartedTestStart.CHRONOPIC)
 				on_button_execute_test_accepted();
-			else
-				forceSensorCapturePre3_GTK();
 
 			return;
 		}
@@ -3990,10 +3998,12 @@ public partial class ChronoJumpWindow
 		bool waitUntilRecording = true;
 		if(! waitUntilRecording)
 		{
-			if(chronopic)
+			if(wsts == WebcamStartedTestStart.FORCESENSOR)
+				forceSensorCapturePre3_GTK_cameraCalled();
+			else if(wsts == WebcamStartedTestStart.RUNENCODER)
+				runEncoderCapturePre3_GTK_cameraCalled();
+			else // (wsts == WebcamStartedTestStart.CHRONOPIC)
 				on_button_execute_test_accepted();
-			else
-				forceSensorCapturePre3_GTK();
 		}
 	}
 

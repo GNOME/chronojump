@@ -111,7 +111,7 @@ class SqliteForceSensor : Sqlite
 		DeleteSQLAndFile (dbconOpened, fs);
 	}
 	*/
-	public static void DeleteSQLAndFile (bool dbconOpened, ForceSensor fs)
+	public static void DeleteSQLAndFiles (bool dbconOpened, ForceSensor fs)
 	{
 		openIfNeeded(dbconOpened);
 
@@ -122,8 +122,11 @@ class SqliteForceSensor : Sqlite
 
 		closeIfNeeded(dbconOpened);
 
-		//delete the file
+		//delete the files
 		Util.FileDelete(fs.FullURL);
+
+		if(fs.FullVideoURL != "")
+			Util.FileDelete(fs.FullVideoURL);
 	}
 
 	//SELECT forceSensor.*, forceSensorExercise.Name FROM forceSensor, forceSensorExercise WHERE forceSensor.exerciseID = forceSensorExercise.UniqueID ORDER BY forceSensor.uniqueID;

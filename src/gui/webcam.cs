@@ -202,7 +202,9 @@ public partial class ChronoJumpWindow
 			}
 
 			if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR)
-				forceSensorCapturePre3_GTK();
+				forceSensorCapturePre3_GTK_cameraCalled();
+			else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSENCODER)
+				runEncoderCapturePre3_GTK_cameraCalled();
 			else
 				on_button_execute_test_accepted ();
 
@@ -748,6 +750,15 @@ public partial class ChronoJumpWindow
 				new DialogMessage(Constants.MessageTypes.WARNING, "Sorry, file not found");
 			else
 				playVideo(Util.GetVideoFileName(currentSession.UniqueID, Constants.TestTypes.FORCESENSOR, currentForceSensor.UniqueID));
+
+			return;
+		}
+		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSENCODER)
+		{
+			if(currentRunEncoder == null || currentRunEncoder.UniqueID == -1)
+				new DialogMessage(Constants.MessageTypes.WARNING, "Sorry, file not found");
+			else
+				playVideo(Util.GetVideoFileName(currentSession.UniqueID, Constants.TestTypes.RACEANALYZER, currentRunEncoder.UniqueID));
 
 			return;
 		}

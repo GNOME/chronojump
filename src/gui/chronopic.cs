@@ -88,7 +88,7 @@ public partial class ChronoJumpWindow
 				return;
 			} else {
 				button_activate_chronopics.Show();
-				on_button_execute_test_acceptedPre_start_camera(true);
+				on_button_execute_test_acceptedPre_start_camera(ChronoJumpWindow.WebcamStartedTestStart.CHRONOPIC);
 				return;
 			}
 		}

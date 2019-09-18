@@ -91,6 +91,18 @@ class SqliteForceSensor : Sqlite
 		closeIfNeeded(dbconOpened);
 	}
 
+	public static void UpdateComments (bool dbconOpened, string comments)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = "UPDATE " + table + " SET comments = " + comments;
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		closeIfNeeded(dbconOpened);
+	}
+
 	/* right now unused
 	public static void DeleteSQLAndFile (bool dbconOpened, int uniqueID)
 	{

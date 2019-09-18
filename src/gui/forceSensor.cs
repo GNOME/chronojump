@@ -1515,7 +1515,7 @@ LogB.Information(" re R ");
 	private void forceSensorDeleteTestDo(ForceSensor fs)
 	{
 		//int uniqueID = currentForceSensor.UniqueID;
-		SqliteForceSensor.DeleteSQLAndFile (false, fs); //deletes also the .csv
+		SqliteForceSensor.DeleteSQLAndFiles (false, fs); //deletes also the .csv
 	}
 
 	// ---- end of forceSensorDeleteTest stuff -------

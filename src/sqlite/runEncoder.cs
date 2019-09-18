@@ -109,19 +109,22 @@ class SqliteRunEncoder : Sqlite
 		DeleteSQLAndFile (dbconOpened, fs);
 	}
 	*/
-	public static void DeleteSQLAndFile (bool dbconOpened, RunEncoder fs)
+	public static void DeleteSQLAndFiles (bool dbconOpened, RunEncoder re)
 	{
 		openIfNeeded(dbconOpened);
 
-		dbcmd.CommandText = "DELETE FROM " + table + " WHERE uniqueID = " + fs.UniqueID;
+		dbcmd.CommandText = "DELETE FROM " + table + " WHERE uniqueID = " + re.UniqueID;
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		closeIfNeeded(dbconOpened);
 
-		//delete the file
-		Util.FileDelete(fs.FullURL);
+		//delete the files
+		Util.FileDelete(re.FullURL);
+
+		if(re.FullVideoURL != "")
+			Util.FileDelete(re.FullVideoURL);
 	}
 
 	public static ArrayList Select (bool dbconOpened, int uniqueID, int personID, int sessionID)

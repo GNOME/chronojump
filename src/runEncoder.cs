@@ -165,6 +165,15 @@ public class RunEncoder
 	{
 		get { return Util.GetRunEncoderSessionDir(sessionID) + Path.DirectorySeparatorChar + filename; }
 	}
+	public string FullVideoURL
+	{
+		get {
+			if(videoURL == "")
+				return "";
+
+			return Util.GetVideoFileName(sessionID, Constants.TestTypes.RACEANALYZER, uniqueID);
+		}
+	}
 	public string Filename
 	{
 		get { return filename; }

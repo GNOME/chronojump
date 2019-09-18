@@ -187,6 +187,15 @@ public class ForceSensor
 	{
 		get { return Util.GetForceSensorSessionDir(sessionID) + Path.DirectorySeparatorChar + filename; }
 	}
+	public string FullVideoURL
+	{
+		get {
+			if(videoURL == "")
+				return "";
+
+			return Util.GetVideoFileName(sessionID, Constants.TestTypes.FORCESENSOR, uniqueID);
+		}
+	}
 	public string Filename
 	{
 		get { return filename; }

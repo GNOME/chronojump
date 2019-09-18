@@ -43,6 +43,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton race_analyzer_spinbutton_graph_height;
 	[Widget] Gtk.TextView textview_race_analyzer_comment;
 	[Widget] Gtk.HBox hbox_race_analyzer_device;
+	[Widget] Gtk.VBox vbox_run_encoder_width_height;
 	[Widget] Gtk.RadioButton race_analyzer_radio_device_manual;
 	[Widget] Gtk.RadioButton race_analyzer_radio_device_other; //resisted
 	[Widget] Gtk.Image image_race_encoder_graph;

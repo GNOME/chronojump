@@ -47,6 +47,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton race_analyzer_radio_device_other; //resisted
 	[Widget] Gtk.Image image_race_encoder_graph;
 	[Widget] Gtk.Button button_run_encoder_recalculate;
+	[Widget] Gtk.Button button_race_analyzer_save_comment;
 
 	int race_analyzer_distance;
 	int race_analyzer_temperature;
@@ -210,6 +211,7 @@ public partial class ChronoJumpWindow
 		raceEncoderReadWidgets();
 		runEncoderButtonsSensitive(false);
 		button_run_encoder_recalculate.Sensitive = false;
+		button_race_analyzer_save_comment.Sensitive = false;
 
 		bool connected = runEncoderCapturePre();
 		if(! connected)
@@ -569,6 +571,7 @@ public partial class ChronoJumpWindow
 		raceEncoderCopyTempAndDoGraphs();
 
 		button_run_encoder_recalculate.Sensitive = true;
+		button_race_analyzer_save_comment.Sensitive = true;
 
 		event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(re.Filename);
 	}
@@ -603,6 +606,12 @@ public partial class ChronoJumpWindow
 		currentRunEncoder.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_race_analyzer_comment);
 
 		currentRunEncoder.UpdateSQL(false);
+	}
+
+	private void on_button_race_analyzer_save_comment_clicked (object o, EventArgs args)
+	{
+		currentRunEncoder.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_race_analyzer_comment);
+		currentRunEncoder.UpdateSQLJustComments();
 	}
 
 	private void raceEncoderCopyTempAndDoGraphs()
@@ -728,6 +737,7 @@ LogB.Information(" fc C finish");
 					notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RACEENCODER);
 					radio_mode_contacts_analyze.Active = true;
 					button_run_encoder_recalculate.Sensitive = true;
+					button_race_analyzer_save_comment.Sensitive = true;
 
 					/*
 					fscPoints.InitRealWidthHeight();

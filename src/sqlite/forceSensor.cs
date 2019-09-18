@@ -91,11 +91,12 @@ class SqliteForceSensor : Sqlite
 		closeIfNeeded(dbconOpened);
 	}
 
-	public static void UpdateComments (bool dbconOpened, string comments)
+	public static void UpdateComments (bool dbconOpened, int uniqueID, string comments)
 	{
 		openIfNeeded(dbconOpened);
 
-		dbcmd.CommandText = "UPDATE " + table + " SET comments = " + comments;
+		dbcmd.CommandText = "UPDATE " + table + " SET comments = \"" + comments + "\"" +
+			" WHERE uniqueID = " + uniqueID;
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

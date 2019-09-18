@@ -113,7 +113,7 @@ public class ForceSensor
 
 	public void UpdateSQLJustComments()
 	{
-		SqliteForceSensor.UpdateComments (false, comments); //SQL not opened
+		SqliteForceSensor.UpdateComments (false, uniqueID, comments); //SQL not opened
 	}
 
 	public string [] ToStringArray (int count)

@@ -9130,7 +9130,7 @@ EncoderInertialCapture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox301">
+                                                            <widget class="GtkHBox" id="hbox301_force_sensor">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">20</property>
@@ -9338,7 +9338,6 @@ Inverted values</property>
                                                             <property name="spacing">4</property>
                                                             <child>
                                                             <widget class="GtkTextView" id="textview_force_sensor_capture_comment">
-                                                            <property name="width_request">200</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             </widget>
@@ -10602,25 +10601,48 @@ Inverted values</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkFrame" id="frame_race_analyzer_comment">
+                                                            <widget class="GtkFrame" id="frame_race_analyzer_comments">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label_xalign">0</property>
+                                                            <property name="label_yalign">0.20000000298023224</property>
                                                             <property name="shadow_type">in</property>
                                                             <child>
+                                                            <widget class="GtkHBox" id="hbox301">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
                                                             <widget class="GtkTextView" id="textview_race_analyzer_comment">
-                                                            <property name="width_request">200</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label411">
+                                                            <widget class="GtkButton" id="button_race_analyzer_save_comment">
+                                                            <property name="label" translatable="yes">Save comment</property>
                                                             <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Comments</property>
-                                                            <property name="use_markup">True</property>
+                                                            <property name="sensitive">False</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="border_width">2</property>
+                                                            <signal name="clicked" handler="on_button_race_analyzer_save_comment_clicked" swapped="no"/>
                                                             </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             <packing>
                                                             <property name="type">label_item</property>
                                                             </packing>

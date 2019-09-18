@@ -114,6 +114,11 @@ public class RunEncoder
 			"\" WHERE uniqueID = " + uniqueID;
 	}
 
+	public void UpdateSQLJustComments()
+	{
+		SqliteRunEncoder.UpdateComments (false, uniqueID, comments); //SQL not opened
+	}
+
 	public string [] ToStringArray (int count)
 	{
 		int all = 8;

@@ -9329,21 +9329,45 @@ Inverted values</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label_xalign">0</property>
+                                                            <property name="label_yalign">0.20000000298023224</property>
                                                             <property name="shadow_type">in</property>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox335">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">4</property>
                                                             <child>
                                                             <widget class="GtkTextView" id="textview_force_sensor_capture_comment">
                                                             <property name="width_request">200</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label384">
+                                                            <widget class="GtkButton" id="button_force_sensor_save_comment">
+                                                            <property name="label" translatable="yes">Save comment</property>
                                                             <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Comments</property>
-                                                            <property name="use_markup">True</property>
+                                                            <property name="sensitive">False</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="border_width">2</property>
+                                                            <signal name="clicked" handler="on_button_force_sensor_save_comment_clicked" swapped="no"/>
                                                             </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             <packing>
                                                             <property name="type">label_item</property>
                                                             </packing>
@@ -11512,9 +11536,9 @@ Inverted values</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Play Video (v)</property>
+                                                            <property name="tooltip" translatable="yes">Play Video &lt;Control&gt;v</property>
                                                             <signal name="clicked" handler="on_video_play_last_test_clicked" swapped="no"/>
-                                                            <accelerator key="v" signal="clicked"/>
+                                                            <accelerator key="v" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
                                                             <widget class="GtkImage" id="image_video_play_this_test">
                                                             <property name="visible">True</property>
@@ -11537,9 +11561,9 @@ Inverted values</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Delete last test (d)</property>
+                                                            <property name="tooltip" translatable="yes">Delete last test &lt;Control&gt;d</property>
                                                             <signal name="clicked" handler="on_delete_last_test_clicked" swapped="no"/>
-                                                            <accelerator key="d" signal="clicked"/>
+                                                            <accelerator key="d" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
                                                             <widget class="GtkImage" id="image_delete_last_test">
                                                             <property name="visible">True</property>
@@ -11561,7 +11585,6 @@ Inverted values</property>
                                                             <property name="has_tooltip">True</property>
                                                             <property name="tooltip" translatable="yes">Inspect</property>
                                                             <signal name="clicked" handler="on_button_inspect_last_test_clicked" swapped="no"/>
-                                                            <accelerator key="v" signal="clicked"/>
                                                             <child>
                                                             <widget class="GtkImage" id="image_test_inspect">
                                                             <property name="visible">True</property>
@@ -21936,6 +21959,12 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -24024,9 +24053,9 @@ Concentric</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Play Video (v)</property>
+                                                            <property name="tooltip" translatable="yes">Play Video &lt;Control&gt;v</property>
                                                             <signal name="clicked" handler="on_button_video_play_this_test_encoder_clicked" swapped="no"/>
-                                                            <accelerator key="v" signal="clicked"/>
+                                                            <accelerator key="v" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
                                                             <widget class="GtkImage" id="image_video_play_this_test_encoder">
                                                             <property name="visible">True</property>
@@ -29422,6 +29451,12 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

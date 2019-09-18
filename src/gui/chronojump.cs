@@ -6757,13 +6757,13 @@ LogB.Debug("mc finished 5");
 
 				"\n" + Catalog.GetString("Jumps") + "/" +  Catalog.GetString("Races") + ". " +
 				Catalog.GetString("On capture tab:") + "\n" +
-				"\t<tt><b>v</b></tt> " + Catalog.GetString("Play video of this test") + " " + Catalog.GetString("(if available)")+ "\n" +
-				"\t<tt><b>d</b></tt> " + Catalog.GetString("Delete this test") + "\n" +
+				"\t<tt><b>CTRL+v</b></tt> " + Catalog.GetString("Play video of this test") + " " + Catalog.GetString("(if available)")+ "\n" +
+				"\t<tt><b>CTRL+d</b></tt> " + Catalog.GetString("Delete this test") + "\n" +
 
 				"\n" + Catalog.GetString("Jumps") + "/" +  Catalog.GetString("Races") + ". " +
 				Catalog.GetString("On analyze tab:") + "\n" +
 				"\t<tt><b>z</b></tt> " + Catalog.GetString("Zoom change") + "\n" +
-				"\t<tt><b>v</b></tt> " + Catalog.GetString("Play video of selected test") + " " + Catalog.GetString("(if available)")+ "\n" +
+				"\t<tt><b>CTRL+v</b></tt> " + Catalog.GetString("Play video of selected test") + " " + Catalog.GetString("(if available)")+ "\n" +
 				"\t<tt><b>e</b></tt> " + Catalog.GetString("Edit selected test") + "\n" +
 				"\t<tt><b>d</b></tt> " + Catalog.GetString("Delete selected test") + "\n" +
 				"\t<tt><b>r</b></tt> " + Catalog.GetString("Repair selected test") + " " + Catalog.GetString("(if available)") + "\n" +

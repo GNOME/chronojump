@@ -81,6 +81,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_force_sensor_tare;
 	[Widget] Gtk.Button button_force_sensor_calibrate;
 	[Widget] Gtk.Button button_force_sensor_capture_recalculate;
+	[Widget] Gtk.Button button_force_sensor_save_comment;
 	[Widget] Gtk.Label label_force_sensor_value_max;
 	[Widget] Gtk.Label label_force_sensor_value;
 	[Widget] Gtk.Label label_force_sensor_value_min;
@@ -423,6 +424,7 @@ public partial class ChronoJumpWindow
 	{
 		currentForceSensor = new ForceSensor();
 		button_force_sensor_capture_recalculate.Sensitive = false;
+		button_force_sensor_save_comment.Sensitive = false;
 		notebook_force_sensor_analyze.Sensitive = false;
 		button_force_sensor_analyze_analyze.Sensitive = false;
 		button_delete_last_test.Sensitive = false;
@@ -994,6 +996,7 @@ LogB.Information(" re C ");
 						forceSensorDoGraphAI();
 					}
 					button_force_sensor_capture_recalculate.Sensitive = true;
+					button_force_sensor_save_comment.Sensitive = true;
 					button_delete_last_test.Sensitive = true;
 					notebook_force_sensor_analyze.Sensitive = true;
 
@@ -1020,6 +1023,7 @@ LogB.Information(" re C ");
 				button_force_sensor_image_save_rfd_manual.Sensitive = false;
 				checkbutton_force_sensor_ai_b.Sensitive = false;
 				button_force_sensor_capture_recalculate.Sensitive = false;
+				button_force_sensor_save_comment.Sensitive = false;
 				button_delete_last_test.Sensitive = false;
 			}
 			else
@@ -1393,6 +1397,7 @@ LogB.Information(" re R ");
 		}
 		//event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(filechooser.Filename);
 		button_force_sensor_capture_recalculate.Sensitive = true;
+		button_force_sensor_save_comment.Sensitive = true;
 		notebook_force_sensor_analyze.Sensitive = true;
 	}
 
@@ -1545,6 +1550,12 @@ LogB.Information(" re R ");
 		currentForceSensor.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_force_sensor_capture_comment);
 
 		currentForceSensor.UpdateSQL(false);
+	}
+
+	private void on_button_force_sensor_save_comment_clicked (object o, EventArgs args)
+	{
+		currentForceSensor.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_force_sensor_capture_comment);
+		currentForceSensor.UpdateSQLJustComments();
 	}
 
 	private void on_button_force_sensor_analyze_analyze_clicked (object o, EventArgs args)

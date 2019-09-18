@@ -114,9 +114,9 @@ public class RunEncoder
 			"\" WHERE uniqueID = " + uniqueID;
 	}
 
-	public void UpdateSQLJustComments()
+	public void UpdateSQLJustComments(bool dbconOpened)
 	{
-		SqliteRunEncoder.UpdateComments (false, uniqueID, comments); //SQL not opened
+		SqliteRunEncoder.UpdateComments (dbconOpened, uniqueID, comments); //SQL not opened
 	}
 
 	public string [] ToStringArray (int count)
@@ -148,6 +148,25 @@ public class RunEncoder
 			return DevicesStringRESISTED;
 		else
 			return DevicesStringMANUAL;
+	}
+
+	//uniqueID:name
+	public RunEncoder ChangePerson(string newIDAndName)
+	{
+		int newPersonID = Util.FetchID(newIDAndName);
+		string newPersonName = Util.FetchName(newIDAndName);
+		string newFilename = filename;
+
+		personID = newPersonID;
+		newFilename = newPersonID + "-" + newPersonName + "-" + dateTime + ".csv";
+
+		bool success = false;
+		success = Util.FileMove(url, filename, newFilename);
+		if(success)
+			filename = newFilename;
+
+		//will update SqliteRunEncoder
+		return (this);
 	}
 
 	public static string GetScript() {

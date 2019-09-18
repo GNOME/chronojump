@@ -111,9 +111,9 @@ public class ForceSensor
 			"\" WHERE uniqueID = " + uniqueID;
 	}
 
-	public void UpdateSQLJustComments()
+	public void UpdateSQLJustComments(bool dbconOpened)
 	{
-		SqliteForceSensor.UpdateComments (false, uniqueID, comments); //SQL not opened
+		SqliteForceSensor.UpdateComments (dbconOpened, uniqueID, comments); //SQL not opened
 	}
 
 	public string [] ToStringArray (int count)

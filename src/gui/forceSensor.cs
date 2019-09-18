@@ -1424,7 +1424,7 @@ LogB.Information(" re R ");
 		if(comment != fs.Comments)
 		{
 			fs.Comments = comment;
-			fs.UpdateSQL(true);
+			fs.UpdateSQLJustComments(true);
 
 			//update treeview
 			genericWin.on_edit_selected_done_update_treeview();
@@ -1556,7 +1556,7 @@ LogB.Information(" re R ");
 	private void on_button_force_sensor_save_comment_clicked (object o, EventArgs args)
 	{
 		currentForceSensor.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_force_sensor_capture_comment);
-		currentForceSensor.UpdateSQLJustComments();
+		currentForceSensor.UpdateSQLJustComments(false);
 	}
 
 	private void on_button_force_sensor_analyze_analyze_clicked (object o, EventArgs args)

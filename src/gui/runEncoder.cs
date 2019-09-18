@@ -64,6 +64,7 @@ public partial class ChronoJumpWindow
 	
 	private RunEncoder currentRunEncoder;
 	private RunEncoderExercise currentRunEncoderExercise;
+	DateTime runEncoderTimeStartCapture;
 
 	static string lastRunEncoderFile = "";
 	static string lastRunEncoderFullPath = "";
@@ -292,7 +293,7 @@ public partial class ChronoJumpWindow
 		button_execute_test.Sensitive = false;
 		event_execute_button_finish.Sensitive = true;
 		event_execute_button_cancel.Sensitive = true;
-		
+
 		//forceCaptureStartMark = false;
 
 		runEncoderProcessFinish = false;
@@ -356,7 +357,8 @@ public partial class ChronoJumpWindow
 
 		Util.CreateRunEncoderSessionDirIfNeeded (currentSession.UniqueID);
 
-		string idNameDate = currentPerson.UniqueID + "_" + currentPerson.Name + "_" + UtilDate.ToFile(DateTime.Now);
+		runEncoderTimeStartCapture = DateTime.Now; //to have an active count of capture time
+		string idNameDate = currentPerson.UniqueID + "_" + currentPerson.Name + "_" + UtilDate.ToFile(runEncoderTimeStartCapture);
 
 		//fileName to save the csv
 		string fileName = Util.GetRunEncoderSessionDir(currentSession.UniqueID) + Path.DirectorySeparatorChar + idNameDate + ".csv";
@@ -734,6 +736,20 @@ LogB.Information(" fc C finish");
 				else
 				{
 					event_execute_label_message.Text = "Saved." + captureEndedMessage;
+
+					currentRunEncoder = new RunEncoder(-1, currentPerson.UniqueID, currentSession.UniqueID,
+							currentRunEncoderExercise.UniqueID, raceEncoderGetDevice(),
+							Convert.ToInt32(race_analyzer_spinbutton_distance.Value),
+							Convert.ToInt32(race_analyzer_spinbutton_temperature.Value),
+							Util.GetLastPartOfPath(lastRunEncoderFile + ".csv"), //filename
+							Util.MakeURLrelative(Util.GetRunEncoderSessionDir(currentSession.UniqueID)), //url
+							UtilDate.ToFile(runEncoderTimeStartCapture),
+							"", //on capture cannot store comment (comment has to be written after),
+							"", //videoURL
+							currentRunEncoderExercise.Name);
+
+					currentRunEncoder.UniqueID = currentRunEncoder.InsertSQL(false);
+
 					Thread.Sleep (250); //Wait a bit to ensure is copied
 
 					runEncoderAnalyzeOpenImage();
@@ -1068,7 +1084,7 @@ LogB.Information(" fc R ");
 			genericWin.Button_accept.Clicked -= new EventHandler(on_button_run_encoder_exercise_edit_accepted);
 			genericWin.Button_accept.Clicked += new EventHandler(on_button_run_encoder_exercise_do_not_delete);
 		} else {
-			//forceSensor table has not records of this exercise. Delete exercise
+			//runEncoder table has not records of this exercise. Delete exercise
 			SqliteRunEncoderExercise.Delete(false, exerciseID);
 
 			genericWin.HideAndNull();

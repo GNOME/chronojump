@@ -173,6 +173,7 @@ public class RunEncoder
 	public int UniqueID
 	{
 		get { return uniqueID; }
+		set { uniqueID = value; }
 	}
 	public int ExerciseID
 	{

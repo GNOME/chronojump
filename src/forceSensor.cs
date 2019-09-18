@@ -104,7 +104,7 @@ public class ForceSensor
 			"\", angle = " + angle +
 			", laterality = \"" + laterality +
 			"\", filename = \"" + filename +
-			"\", url = \"" + url +
+			"\", url = \"" + Util.MakeURLrelative(url) +
 			"\", dateTime = \"" + dateTime +
 			"\", comments = \"" + comments +
 			"\", videoURL = \"" + Util.MakeURLrelative(videoURL) +

@@ -536,11 +536,9 @@ public partial class ChronoJumpWindow
 		genericWin.SetButtonCancelLabel(Catalog.GetString("Close"));
 		genericWin.SetButtonAcceptSensitive(false);
 		genericWin.Button_accept.Clicked += new EventHandler(on_run_encoder_load_accepted);
-		/*
 		genericWin.Button_row_edit.Clicked += new EventHandler(on_run_encoder_load_signal_row_edit);
 		genericWin.Button_row_edit_apply.Clicked += new EventHandler(on_run_encoder_load_signal_row_edit_apply);
 		genericWin.Button_row_delete.Clicked += new EventHandler(on_run_encoder_load_signal_row_delete_prequestion);
-		*/
 
 		genericWin.ShowNow();
 	}
@@ -589,6 +587,125 @@ public partial class ChronoJumpWindow
 		event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(re.Filename);
 	}
 
+	protected void on_run_encoder_load_signal_row_edit (object o, EventArgs args) {
+		LogB.Information("row edit at load signal");
+		LogB.Information(genericWin.TreeviewSelectedUniqueID.ToString());
+		genericWin.ShowEditRow(true);
+	}
+
+	protected void on_run_encoder_load_signal_row_edit_apply (object o, EventArgs args)
+	{
+		LogB.Information("row edit apply at load signal. Opening db:");
+
+		Sqlite.Open();
+
+		//1) select set
+		int setID = genericWin.TreeviewSelectedUniqueID;
+		RunEncoder re = (RunEncoder) SqliteRunEncoder.Select(true, setID, -1, -1)[0];
+
+		//2) if changed comment, update SQL, and update treeview
+		//first remove conflictive characters
+		string comment = Util.RemoveTildeAndColonAndDot(genericWin.EntryEditRow);
+		if(comment != re.Comments)
+		{
+			re.Comments = comment;
+			re.UpdateSQLJustComments(true);
+
+			//update treeview
+			genericWin.on_edit_selected_done_update_treeview();
+		}
+
+		//3) change the session param and the url of signal and curves (if any)
+		string idName = genericWin.GetComboSelected;
+		LogB.Information("new person: " + idName);
+		int newPersonID = Util.FetchID(idName);
+		if(newPersonID != currentPerson.UniqueID)
+		{
+			//change stuff on signal
+			RunEncoder reChangedPerson = re.ChangePerson(idName);
+			reChangedPerson.UpdateSQL(true);
+			genericWin.RemoveSelectedRow();
+			genericWin.SetButtonAcceptSensitive(false);
+		}
+
+		genericWin.ShowEditRow(false);
+		genericWin.SensitiveEditDeleteIfSelected();
+
+		//remove signal from gui just in case the edited signal is the same we have loaded
+		//removeSignalFromGuiBecauseDeletedOrCancelled();
+		blankRunEncoderInterface();
+
+		Sqlite.Close();
+	}
+
+	// ----start of runEncoderDeleteTest stuff -------
+
+	protected void on_run_encoder_load_signal_row_delete_prequestion (object o, EventArgs args)
+	{
+		if(preferences.askDeletion) {
+			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
+						"Are you sure you want to delete this set?"), "", "");
+			confirmWin.Button_accept.Clicked += new EventHandler(on_run_encoder_load_signal_row_delete);
+		} else
+			on_run_encoder_load_signal_row_delete (o, args);
+	}
+
+	protected void on_run_encoder_load_signal_row_delete (object o, EventArgs args)
+	{
+		LogB.Information("row delete at load set");
+
+		int setID = genericWin.TreeviewSelectedUniqueID;
+		LogB.Information(setID.ToString());
+
+		//if it's current set use the delete set from the gui interface that updates gui
+		if(currentRunEncoder != null && setID == Convert.ToInt32(currentRunEncoder.UniqueID))
+			run_encoder_delete_current_test_accepted(o, args);
+		else {
+			RunEncoder re = (RunEncoder) SqliteRunEncoder.Select(false, setID, -1, -1)[0];
+			runEncoderDeleteTestDo(re);
+
+			//genericWin selected row is deleted, unsensitive the "load" button
+			genericWin.SetButtonAcceptSensitive(false);
+		}
+		genericWin.Delete_row_accepted();
+	}
+
+	private void run_encoder_delete_current_test_pre_question()
+	{
+		//solve possible gui problems
+		if(currentRunEncoder == null || currentRunEncoder.UniqueID == -1)
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, "Test does not exists. Cannot be deleted");
+			return;
+		}
+
+		if(preferences.askDeletion) {
+			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
+						"Are you sure you want to delete this set?"), "", "");
+			confirmWin.Button_accept.Clicked += new EventHandler(run_encoder_delete_current_test_accepted);
+		} else
+			run_encoder_delete_current_test_accepted(new object(), new EventArgs());
+	}
+	private void run_encoder_delete_current_test_accepted(object o, EventArgs args)
+	{
+		runEncoderDeleteTestDo(currentRunEncoder);
+
+		//empty currentRunEncoder (assign -1)
+		currentRunEncoder = new RunEncoder();
+
+		//empty GUI
+		blankRunEncoderInterface();
+	}
+
+	private void runEncoderDeleteTestDo(RunEncoder re)
+	{
+		//int uniqueID = currentRunEncoder.UniqueID;
+		SqliteRunEncoder.DeleteSQLAndFiles (false, re); //deletes also the .csv
+	}
+
+	// --- end of runEncoderDeleteTest stuff -------
+
+
 	private void on_button_run_encoder_recalculate_clicked (object o, EventArgs args)
 	{
 		if(! Util.FileExists(lastRunEncoderFullPath))
@@ -624,7 +741,7 @@ public partial class ChronoJumpWindow
 	private void on_button_race_analyzer_save_comment_clicked (object o, EventArgs args)
 	{
 		currentRunEncoder.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_race_analyzer_comment);
-		currentRunEncoder.UpdateSQLJustComments();
+		currentRunEncoder.UpdateSQLJustComments(false);
 	}
 
 	private void raceEncoderCopyTempAndDoGraphs()

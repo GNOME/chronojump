@@ -6856,6 +6856,8 @@ LogB.Debug("mc finished 5");
 		button_carles.Visible = true;
 		menuitem_ping.Visible = true;
 
+		menuitem_check_race_encoder_capture_simulate.Visible = true;
+
 		preferencesWin.DebugActivated();
 	}
 

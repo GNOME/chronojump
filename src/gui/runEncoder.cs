@@ -34,6 +34,7 @@ using Mono.Unix;
 public partial class ChronoJumpWindow 
 {
 	[Widget] Gtk.MenuItem menuitem_race_encoder_open_folder;
+	[Widget] Gtk.CheckMenuItem menuitem_check_race_encoder_capture_simulate;
 
 	[Widget] Gtk.HBox hbox_combo_run_encoder_exercise;
 	[Widget] Gtk.ComboBox combo_run_encoder_exercise;
@@ -65,6 +66,7 @@ public partial class ChronoJumpWindow
 	private RunEncoder currentRunEncoder;
 	private RunEncoderExercise currentRunEncoderExercise;
 	DateTime runEncoderTimeStartCapture;
+	bool runEncoderCaptureSimulated;
 
 	static string lastRunEncoderFile = "";
 	static string lastRunEncoderFullPath = "";
@@ -304,6 +306,8 @@ public partial class ChronoJumpWindow
 		usbDisconnectedCount = 0;
 		usbDisconnectedLastTime = 0;
 
+		runEncoderCaptureSimulated = menuitem_check_race_encoder_capture_simulate.Active;
+
 		/*
 		//initialize
 		forceSensorValues = new ForceSensorValues();
@@ -331,7 +335,11 @@ public partial class ChronoJumpWindow
 		LogB.Information("runEncoderCaptureDo 0");
 		lastChangedTime = 0;
 
-		if(! runEncoderSendCommand("start_capture:", "", "Catched run encoder capturing"))
+		string command = "start_capture:";
+		if(runEncoderCaptureSimulated)
+			command = "start_simulation:";
+
+		if(! runEncoderSendCommand(command, "", "Catched run encoder capturing"))
 		{
 			runEncoderProcessError = true;
 			return;

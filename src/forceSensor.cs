@@ -172,7 +172,7 @@ public class ForceSensor
 		string newFilename = filename;
 
 		personID = newPersonID;
-		newFilename = newPersonID + "-" + newPersonName + "-" + dateTime + ".txt";
+		newFilename = newPersonID + "-" + newPersonName + "-" + dateTime + ".csv";
 
 		bool success = false;
 		success = Util.FileMove(url, filename, newFilename);

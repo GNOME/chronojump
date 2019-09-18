@@ -926,7 +926,7 @@ LogB.Information(" fc R ");
 		}
 
 		RunEncoderExercise ex = (RunEncoderExercise) SqliteRunEncoderExercise.Select (
-                                false, getExerciseIDFromAnyCombo(combo_run_encoder_exercise, forceSensorComboExercisesString, false), false)[0];
+                                false, getExerciseIDFromAnyCombo(combo_run_encoder_exercise, runEncoderComboExercisesString, false), false)[0];
 
 		LogB.Information("selected exercise: " + ex.ToString());
 

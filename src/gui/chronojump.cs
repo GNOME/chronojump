@@ -7342,6 +7342,9 @@ LogB.Debug("mc finished 5");
 		session_menuitem.Sensitive = false;
 		view_menuitem.Sensitive = false;
 		menuitem_mode.Sensitive = false;
+		encoder_menuitem.Sensitive = false;
+		force_sensor_menuitem.Sensitive = false;
+		race_encoder_menuitem.Sensitive = false;
 		hbox_menu_and_preferences_outside_menu_contacts.Sensitive = false;
 		hbox_menu_and_preferences_outside_menu_encoder.Sensitive = false;
 		
@@ -7409,6 +7412,9 @@ LogB.Debug("mc finished 5");
 		session_menuitem.Sensitive = true;
 		view_menuitem.Sensitive = true;
 		menuitem_mode.Sensitive = true;
+		encoder_menuitem.Sensitive = true;
+		force_sensor_menuitem.Sensitive = true;
+		race_encoder_menuitem.Sensitive = true;
 		hbox_menu_and_preferences_outside_menu_contacts.Sensitive = true;
 		hbox_menu_and_preferences_outside_menu_encoder.Sensitive = true;
 

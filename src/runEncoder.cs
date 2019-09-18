@@ -107,7 +107,7 @@ public class RunEncoder
 			"\", distance = " + distance +
 			", temperature = " + temperature +
 			", filename = \"" + filename +
-			"\", url = \"" + url +
+			"\", url = \"" + Util.MakeURLrelative(url) +
 			"\", dateTime = \"" + dateTime +
 			"\", comments = \"" + comments +
 			"\", videoURL = \"" + Util.MakeURLrelative(videoURL) +

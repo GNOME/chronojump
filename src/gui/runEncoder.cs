@@ -601,6 +601,9 @@ public partial class ChronoJumpWindow
 		button_run_encoder_recalculate.Sensitive = true;
 		button_race_analyzer_save_comment.Sensitive = true;
 
+		button_video_play_this_test.Sensitive = (re.VideoURL != "");
+		sensitiveLastTestButtons(true);
+
 		event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(re.Filename);
 	}
 
@@ -867,6 +870,7 @@ LogB.Information(" fc B ");
 		if(! runEncoderCaptureThread.IsAlive || runEncoderProcessFinish || runEncoderProcessCancel || runEncoderProcessError)
 		{
 LogB.Information(" fc C ");
+			button_video_play_this_test.Sensitive = false;
 			if(runEncoderProcessFinish)
 			{
 LogB.Information(" fc C finish");
@@ -905,6 +909,7 @@ LogB.Information(" fc C finish");
 					}
 
 					Thread.Sleep (250); //Wait a bit to ensure is copied
+					sensitiveLastTestButtons(true);
 
 					runEncoderAnalyzeOpenImage();
 					notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RACEENCODER);
@@ -928,6 +933,7 @@ LogB.Information(" fc C finish 2");
 LogB.Information(" fc C cancel ");
 				//stop the camera (and do not save)
 				webcamEnd (Constants.TestTypes.RACEANALYZER, -1);
+				sensitiveLastTestButtons(false);
 
 				if(runEncoderProcessCancel)
 					event_execute_label_message.Text = "Cancelled.";

@@ -7484,10 +7484,15 @@ LogB.Debug("mc finished 5");
 		notebook_options_top.Sensitive = true;
 		event_execute_button_update.Sensitive = true;
 
-		//forceSensor does not use currentEventExecute
+		//forceSensor and runEncoder does not use currentEventExecute
 		if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR)
 		{
 			sensitiveLastTestButtons(! forceProcessCancel && ! forceProcessError);
+			LogB.Information(" sensitiveGuiEventDone end (forceSensor)");
+			return;
+		} else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSENCODER)
+		{
+			sensitiveLastTestButtons(! runEncoderProcessCancel && ! runEncoderProcessError);
 			LogB.Information(" sensitiveGuiEventDone end (forceSensor)");
 			return;
 		}

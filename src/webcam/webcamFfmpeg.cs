@@ -340,7 +340,9 @@ public class WebcamFfmpeg : Webcam
 			parameters.Insert (i ++, "avfoundation");
 
 		parameters.Insert (i ++, "-framerate");
-		if(videoDeviceFramerate != "" && Util.IsNumber(videoDeviceFramerate, false))
+		//on mac and linux framerate comes on all languages with . as decimal separator
+		//if(videoDeviceFramerate != "" && Util.IsNumber(videoDeviceFramerate, false))
+		if(videoDeviceFramerate != "")
 			parameters.Insert (i ++, videoDeviceFramerate);
 		else
 			parameters.Insert (i ++, "30");

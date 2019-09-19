@@ -230,7 +230,7 @@ public class RunEncoder
 	}
 	public string VideoURL
 	{
-		//get { return videoURL; }
+		get { return videoURL; }
 		set { videoURL = value; }
 	}
 	public string ExerciseName

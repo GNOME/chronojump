@@ -56,7 +56,7 @@ public class PreferencesWindow
 	//database tab
 	[Widget] Gtk.Button button_data_folder_open;
 
-	[Widget] Gtk.CheckButton check_backup_multimedia_and_encoder;
+	//[Widget] Gtk.CheckButton check_backup_multimedia_and_encoder;
 	
 	[Widget] Gtk.Button button_db_backup;
 	[Widget] Gtk.HBox hbox_backup_doing;
@@ -1296,28 +1296,29 @@ public class PreferencesWindow
 		if (fc.Run() == (int)ResponseType.Accept) 
 		{
 			//if multimedia_and_encoder, then copy the folder. If not checked, then copy only the db file
-			if(check_backup_multimedia_and_encoder.Active)
+			//if(check_backup_multimedia_and_encoder.Active)
 				fileCopy = fc.Filename + Path.DirectorySeparatorChar + "chronojump";
-			else
-				fileCopy = fc.Filename + Path.DirectorySeparatorChar + "chronojump_copy.db";
+			//else
+			//	fileCopy = fc.Filename + Path.DirectorySeparatorChar + "chronojump_copy.db";
 
 			try {
 				fc.Hide ();
 			
 				bool exists = false;
-				if(check_backup_multimedia_and_encoder.Active) {
+				//if(check_backup_multimedia_and_encoder.Active) {
 					if(Directory.Exists(fileCopy)) {
 						LogB.Information(string.Format("Directory {0} exists, created at {1}", 
 									fileCopy, Directory.GetCreationTime(fileCopy)));
 						exists = true;
 					}
-				} else {
+				/*} else {
 					if (File.Exists(fileCopy)) {
 						LogB.Information(string.Format("File {0} exists with attributes {1}, created at {2}", 
 									fileCopy, File.GetAttributes(fileCopy), File.GetCreationTime(fileCopy)));
 						exists = true;
 					}
 				}
+				*/
 
 				if(exists) {
 					LogB.Information("Overwrite...");
@@ -1325,8 +1326,7 @@ public class PreferencesWindow
 					confirmWin.Button_accept.Clicked += new EventHandler(on_overwrite_file_accepted);
 				} else {
 					//if multimedia_and_encoder, then copy the folder. If not checked, then copy only the db file
-					if(check_backup_multimedia_and_encoder.Active)
-					{
+					//if(check_backup_multimedia_and_encoder.Active) {
 						uc = new UtilCopy();
 						thread = new Thread(new ThreadStart(copyRecursive));
 						GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
@@ -1335,12 +1335,13 @@ public class PreferencesWindow
 						
 						LogB.ThreadStart(); 
 						thread.Start(); 
-					} else {
+					/*} else {
 						File.Copy(fileDB, fileCopy);
 					
 						string myString = string.Format(Catalog.GetString("Copied to {0}"), fileCopy);
 						label_backup.Text = myString;
 					}
+					*/
 				}
 			} 
 			catch {
@@ -1399,7 +1400,7 @@ public class PreferencesWindow
 	{
 		try {
 			//if multimedia_and_encoder, then copy the folder. If not checked, then copy only the db file
-			if(check_backup_multimedia_and_encoder.Active) {
+			//if(check_backup_multimedia_and_encoder.Active) {
 				Directory.Delete(fileCopy, true);
 				uc = new UtilCopy();
 				thread = new Thread(new ThreadStart(copyRecursive));
@@ -1409,14 +1410,14 @@ public class PreferencesWindow
 				
 				LogB.ThreadStart(); 
 				thread.Start(); 
-			} else {
+			/* } else {
 				File.Delete(fileCopy);
 				File.Copy(fileDB, fileCopy);
 						
 				fc.Hide ();
 				string myString = string.Format(Catalog.GetString("Copied to {0}"), fileCopy);
 				label_backup.Text = myString;
-			}
+			} */
 		} catch {
 			string myString = string.Format(Catalog.GetString("Cannot copy to {0} "), fileCopy);
 			new DialogMessage(Constants.MessageTypes.WARNING, myString);

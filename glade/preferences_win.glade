@@ -213,32 +213,17 @@
                         <property name="border_width">8</property>
                         <property name="spacing">20</property>
                         <child>
-                          <widget class="GtkCheckButton" id="check_backup_multimedia_and_encoder">
-                            <property name="label" translatable="yes">Include multimedia and encoder tests</property>
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
-                            <property name="active">True</property>
-                            <property name="draw_indicator">True</property>
-                          </widget>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
                           <widget class="GtkVButtonBox" id="vbuttonbox2">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="spacing">20</property>
                             <child>
                               <widget class="GtkButton" id="button_db_backup">
-                                <property name="label" translatable="yes">Backup database</property>
+                                <property name="label" translatable="yes">Backup all data</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="tooltip" translatable="yes">Make a copy of the database</property>
+                                <property name="tooltip" translatable="yes">Make a copy of all the data</property>
                                 <property name="use_underline">True</property>
                                 <signal name="clicked" handler="on_button_db_backup_clicked" swapped="no"/>
                               </widget>
@@ -252,7 +237,7 @@
                           <packing>
                             <property name="expand">True</property>
                             <property name="fill">True</property>
-                            <property name="position">1</property>
+                            <property name="position">0</property>
                           </packing>
                         </child>
                         <child>
@@ -297,7 +282,7 @@
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
-                            <property name="position">2</property>
+                            <property name="position">1</property>
                           </packing>
                         </child>
                         <child>
@@ -372,7 +357,7 @@
                           <packing>
                             <property name="expand">True</property>
                             <property name="fill">True</property>
-                            <property name="position">3</property>
+                            <property name="position">2</property>
                           </packing>
                         </child>
                       </widget>
@@ -381,7 +366,7 @@
                       <widget class="GtkLabel" id="label18">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Backup database</property>
+                        <property name="label" translatable="yes">Backup data</property>
                         <property name="use_markup">True</property>
                       </widget>
                       <packing>
@@ -430,7 +415,7 @@
                             </child>
                             <child>
                               <widget class="GtkButton" id="button_db_restore">
-                                <property name="label" translatable="yes">Restore database</property>
+                                <property name="label" translatable="yes">Restore data</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
                                 <property name="use_underline">True</property>

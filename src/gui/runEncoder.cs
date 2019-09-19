@@ -248,6 +248,12 @@ public partial class ChronoJumpWindow
 	private void blankRunEncoderInterface()
 	{
 		currentRunEncoder = new RunEncoder();
+
+		button_run_encoder_recalculate.Sensitive = false;
+		textview_race_analyzer_comment.Buffer.Text = "";
+		button_race_analyzer_save_comment.Sensitive = false;
+
+		button_delete_last_test.Sensitive = false;
 	}
 
 	private void initRunEncoder ()
@@ -916,6 +922,7 @@ LogB.Information(" fc C finish");
 					radio_mode_contacts_analyze.Active = true;
 					button_run_encoder_recalculate.Sensitive = true;
 					button_race_analyzer_save_comment.Sensitive = true;
+					button_delete_last_test.Sensitive = true;
 
 					/*
 					fscPoints.InitRealWidthHeight();
@@ -934,6 +941,7 @@ LogB.Information(" fc C cancel ");
 				//stop the camera (and do not save)
 				webcamEnd (Constants.TestTypes.RACEANALYZER, -1);
 				sensitiveLastTestButtons(false);
+				button_delete_last_test.Sensitive = false;
 
 				if(runEncoderProcessCancel)
 					event_execute_label_message.Text = "Cancelled.";

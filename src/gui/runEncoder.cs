@@ -60,6 +60,7 @@ public partial class ChronoJumpWindow
 	static bool runEncoderProcessFinish;
 	static bool runEncoderProcessCancel;
 	static bool runEncoderProcessError;
+        static string runEncoderPulseMessage = "";
 	
 	private RunEncoder currentRunEncoder;
 	private RunEncoderExercise currentRunEncoderExercise;
@@ -90,13 +91,13 @@ public partial class ChronoJumpWindow
 		Catalog.GetString("Plug cable and click on 'device' button.");
 
 
-	//this can use GTK (forceSensor not because it's managed by non-gtk thread)
+	//no GTK here
 	private bool runEncoderConnect()
 	{
 		LogB.Information(" RE connect 0 ");
 		if(chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER) == null)
 		{
-			event_execute_label_message.Text = runEncoderNotConnectedString;
+			runEncoderPulseMessage = runEncoderNotConnectedString;
 			return false;
 		}
 
@@ -105,11 +106,11 @@ public partial class ChronoJumpWindow
 		LogB.Information(" RE connect 2 ");
 		if(runEncoderPortName == null || runEncoderPortName == "")
 		{
-			event_execute_label_message.Text = "Please, select port!";
+			runEncoderPulseMessage = "Please, select port!";
 			return false;
 		}
 		LogB.Information(" RE connect 3 ");
-		event_execute_label_message.Text = "Connecting ...";
+		runEncoderPulseMessage = "Connecting ...";
 
 		portRE = new SerialPort(runEncoderPortName, 1000000); //runEncoder
 		LogB.Information(" RE connect 4: opening port...");
@@ -119,7 +120,7 @@ public partial class ChronoJumpWindow
 		}
 		catch (System.IO.IOException)
 		{
-			event_execute_label_message.Text = runEncoderNotConnectedString;
+			runEncoderPulseMessage = runEncoderNotConnectedString;
 			return false;
 		}
 
@@ -133,7 +134,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("Version found: [" + version + "]");
 
 		portREOpened = true;
-		event_execute_label_message.Text = "Connected!";
+		runEncoderPulseMessage = "Connected!";
 		LogB.Information(" RE connect 7: connected and adjusted!");
 		return true;
 	}
@@ -174,7 +175,8 @@ public partial class ChronoJumpWindow
 	//Attention: no GTK here!!
 	private bool runEncoderSendCommand(string command, string displayMessage, string errorMessage)
 	{
-		//forceSensorOtherMessage = displayMessage;
+		if(displayMessage != "")
+			runEncoderPulseMessage = displayMessage;
 
 		try {
 			LogB.Information("Run Encoder command |" + command + "|");
@@ -210,6 +212,7 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
+		runEncoderPulseMessage = "";
 		runEncoderButtonsSensitive(false);
 
 		if(chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER) == 0)
@@ -235,7 +238,7 @@ public partial class ChronoJumpWindow
 		button_run_encoder_recalculate.Sensitive = false;
 		button_race_analyzer_save_comment.Sensitive = false;
 
-		bool connected = runEncoderCapturePre();
+		bool connected = runEncoderCapturePre4_GTK();
 		if(! connected)
 			runEncoderButtonsSensitive(true);
 	}
@@ -299,11 +302,13 @@ public partial class ChronoJumpWindow
 	}
 
 	//TODO: do all this with an "other" thread like in force sensor to allow connecting messages to be displayed
-	private bool runEncoderCapturePre()
+	private bool runEncoderCapturePre4_GTK()
 	{
+		/*
 		if(! portREOpened)
-			if(! runEncoderConnect())
+			if(! runEncoderConnect()) //GTK
 				return false;
+				*/
 
 		if(File.Exists(UtilEncoder.GetSprintEncoderImage()))
 			Util.FileDelete(UtilEncoder.GetSprintEncoderImage());
@@ -339,8 +344,6 @@ public partial class ChronoJumpWindow
 		event_execute_ButtonCancel.Clicked -= new EventHandler(on_cancel_clicked);
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 
-		event_execute_label_message.Text = "Capturing ...";
-
 		runEncoderCaptureThread = new Thread(new ThreadStart(runEncoderCaptureDo));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKRunEncoderCapture));
 
@@ -353,13 +356,18 @@ public partial class ChronoJumpWindow
 	private void runEncoderCaptureDo()
 	{
 		LogB.Information("runEncoderCaptureDo 0");
+
+		if(! portREOpened)
+			if(! runEncoderConnect()) //GTK
+				return;
+
 		lastChangedTime = 0;
 
 		string command = "start_capture:";
 		if(runEncoderCaptureSimulated)
 			command = "start_simulation:";
 
-		if(! runEncoderSendCommand(command, "", "Catched run encoder capturing"))
+		if(! runEncoderSendCommand(command, "Initializing", "Catched run encoder capturing"))
 		{
 			runEncoderProcessError = true;
 			return;
@@ -379,6 +387,8 @@ public partial class ChronoJumpWindow
 			LogB.Information("init string: " + str);
 		}
 		while(! str.Contains("Starting capture"));
+
+		runEncoderPulseMessage = "Capturing ...";
 
 		//forceCaptureStartMark = true;
 		capturingRunEncoder = arduinoCaptureStatus.CAPTURING;
@@ -864,22 +874,22 @@ public partial class ChronoJumpWindow
 
 	private bool pulseGTKRunEncoderCapture ()
 	{
-LogB.Information(" fc A ");
+LogB.Information(" re A ");
 		if(runEncoderCaptureThread == null)
 		{
 			Thread.Sleep (25);
 			return true;
 		}
 
-LogB.Information(" fc B ");
+LogB.Information(" re B ");
 		//LogB.Information(capturingRunEncoder.ToString())
 		if(! runEncoderCaptureThread.IsAlive || runEncoderProcessFinish || runEncoderProcessCancel || runEncoderProcessError)
 		{
-LogB.Information(" fc C ");
+LogB.Information(" re C ");
 			button_video_play_this_test.Sensitive = false;
 			if(runEncoderProcessFinish)
 			{
-LogB.Information(" fc C finish");
+LogB.Information(" re C finish");
 				if(capturingRunEncoder != arduinoCaptureStatus.COPIED_TO_TMP)
 				{
 					Thread.Sleep (25); //Wait file is copied
@@ -934,10 +944,10 @@ LogB.Information(" fc C finish");
 						forceSensorDoGraphAI();
 					*/
 				}
-LogB.Information(" fc C finish 2");
+LogB.Information(" re C finish 2");
 			} else if(runEncoderProcessCancel || runEncoderProcessError)
 			{
-LogB.Information(" fc C cancel ");
+LogB.Information(" re C cancel ");
 				//stop the camera (and do not save)
 				webcamEnd (Constants.TestTypes.RACEANALYZER, -1);
 				sensitiveLastTestButtons(false);
@@ -947,7 +957,7 @@ LogB.Information(" fc C cancel ");
 					event_execute_label_message.Text = "Cancelled.";
 				else
 					event_execute_label_message.Text = runEncoderNotConnectedString;
-LogB.Information(" fc C cancel 2");
+LogB.Information(" re C cancel 2");
 			}
 			else
 				event_execute_label_message.Text = "";
@@ -961,7 +971,7 @@ LogB.Information(" fc C cancel 2");
 			 */
 			while(runEncoderCaptureThread.IsAlive)
 				Thread.Sleep (250);
-LogB.Information(" fc D ");
+LogB.Information(" re D ");
 
 			LogB.ThreadEnded(); 
 
@@ -979,8 +989,11 @@ LogB.Information(" fc D ");
 
 			return false;
 		}
+		else
+			event_execute_label_message.Text = runEncoderPulseMessage;
 
-LogB.Information(" fc E ");
+
+LogB.Information(" re E ");
 /*
 		if(forceCaptureStartMark)
 		{
@@ -988,14 +1001,14 @@ LogB.Information(" fc E ");
 			forceCaptureStartMark = false;
 		}
 		*/
-LogB.Information(" fc F ");
+LogB.Information(" re F ");
 
 		if(capturingRunEncoder == arduinoCaptureStatus.CAPTURING)
 		{
-LogB.Information(" fc G ");
+LogB.Information(" re G ");
 
 
-LogB.Information(" fc H2 ");
+LogB.Information(" re H2 ");
 /*
 			if(usbDisconnectedLastTime == forceSensorValues.TimeLast)
 			{
@@ -1014,11 +1027,11 @@ LogB.Information(" fc H2 ");
 			}
 			*/
 
-LogB.Information(" fc I ");
+LogB.Information(" re I ");
 
-LogB.Information(" fc Q ");
+LogB.Information(" re Q ");
 		}
-LogB.Information(" fc R ");
+LogB.Information(" re R ");
 
 		Thread.Sleep (25);
 		//LogB.Information(" RunEncoder:"+ runEncoderCaptureThread.ThreadState.ToString());

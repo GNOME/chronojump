@@ -7091,7 +7091,7 @@ EncoderInertialCapture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox286">
+                                                            <widget class="GtkHBox" id="hbox_run_encoder_capture_buttons">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
@@ -10377,7 +10377,7 @@ Inverted values</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox288_run_encoder">
+                                                            <widget class="GtkHBox" id="hbox_run_encoder_capture_options">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">20</property>

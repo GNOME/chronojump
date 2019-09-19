@@ -40,21 +40,17 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ComboBox combo_run_encoder_exercise;
 	[Widget] Gtk.SpinButton race_analyzer_spinbutton_distance;
 	[Widget] Gtk.SpinButton race_analyzer_spinbutton_temperature;
-	[Widget] Gtk.SpinButton race_analyzer_spinbutton_graph_width;
-	[Widget] Gtk.SpinButton race_analyzer_spinbutton_graph_height;
 	[Widget] Gtk.TextView textview_race_analyzer_comment;
 	[Widget] Gtk.HBox hbox_race_analyzer_device;
-	[Widget] Gtk.VBox vbox_run_encoder_width_height;
 	[Widget] Gtk.RadioButton race_analyzer_radio_device_manual;
 	[Widget] Gtk.RadioButton race_analyzer_radio_device_other; //resisted
-	[Widget] Gtk.Image image_race_encoder_graph;
+	[Widget] Gtk.Image image_run_encoder_graph;
 	[Widget] Gtk.Button button_run_encoder_recalculate;
 	[Widget] Gtk.Button button_race_analyzer_save_comment;
+	[Widget] Gtk.Viewport viewport_run_encoder_graph;
 
 	int race_analyzer_distance;
 	int race_analyzer_temperature;
-	int race_analyzer_graph_width;
-	int race_analyzer_graph_height;
 	RunEncoder.Devices race_analyzer_device;
 
 
@@ -265,8 +261,6 @@ public partial class ChronoJumpWindow
 	{
 		race_analyzer_distance = Convert.ToInt32(race_analyzer_spinbutton_distance.Value);
 		race_analyzer_temperature = Convert.ToInt32(race_analyzer_spinbutton_temperature.Value);
-		race_analyzer_graph_width = Convert.ToInt32(race_analyzer_spinbutton_graph_width.Value);
-		race_analyzer_graph_height = Convert.ToInt32(race_analyzer_spinbutton_graph_height.Value);
 
 		if(race_analyzer_radio_device_manual.Active)
 			race_analyzer_device = RunEncoder.Devices.MANUAL;
@@ -785,6 +779,9 @@ public partial class ChronoJumpWindow
 
 	private void raceEncoderCaptureGraphDo()
 	{
+		int imageWidth = UtilGtk.WidgetWidth(viewport_run_encoder_graph);
+		int imageHeight = UtilGtk.WidgetHeight(viewport_run_encoder_graph);
+
 		//create graph
 		RunEncoderGraph reg = new RunEncoderGraph(
 				race_analyzer_distance,
@@ -793,7 +790,7 @@ public partial class ChronoJumpWindow
 				race_analyzer_temperature,
 				race_analyzer_device);
 
-		reg.CallR(race_analyzer_graph_width, race_analyzer_graph_height);
+		reg.CallR(imageWidth, imageHeight);
 
 		DateTime runEncoderGraphStarted = DateTime.Now;
 		//TODO: check better if png is saved and have a cancel button
@@ -1040,9 +1037,9 @@ LogB.Information(" fc R ");
 	void runEncoderAnalyzeOpenImage()
 	{
 		string imagePath = UtilEncoder.GetSprintEncoderImage();
-		image_race_encoder_graph = UtilGtk.OpenImageSafe(
+		image_run_encoder_graph = UtilGtk.OpenImageSafe(
 				imagePath,
-				image_race_encoder_graph);
+				image_run_encoder_graph);
 	}
 
 	private void on_menuitem_race_encoder_open_folder_activate (object o, EventArgs args)

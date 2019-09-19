@@ -91,8 +91,8 @@ void setup() {
 }
 
 void loop() {
-  //double total = 0;
-  long int total = 0;
+  //double totalForce = 0;
+  long int totalForce = 0;
   int nReadings = 0;
   int offsettedData = 0;
   float force = 0;
@@ -105,9 +105,9 @@ void loop() {
     while (!procesSample) {
       offsettedData = readOffsettedData(0);
       //Serial.println(offsettedData);
-      total +=  offsettedData;
+      totalForce +=  offsettedData;
       //force = readOffsettedData(0);
-      //total += force;
+      //totalForce += force;
       nReadings++;
 
       //If some string comes from Serial process the sample
@@ -130,7 +130,7 @@ void loop() {
       elapsedTime = (4294967295 -  lastSampleTime) + sampleTime; //Time from the last measure to the overflow event plus the changingTime
     }
     totalTime += elapsedTime;
-    double meanForce = total / nReadings;
+    double meanForce = totalForce / nReadings;
     lastSampleTime = sampleTime;
 
     //Sending in text mode
@@ -138,7 +138,7 @@ void loop() {
     Serial.print(";");
     Serial.print(totalTime);
     Serial.print(";");
-    Serial.println(total / nReadings);
+    Serial.println(totalForce / nReadings);
 
     procesSample = false;
 
@@ -211,6 +211,8 @@ void serialEvent()
     get_baud_rate();
   } else if (commandString == "set_baud_rate") {
     set_baud_rate(inputString);
+  } else if (commandString == "start_simulation") {
+    start_simulation();
   } else {
     Serial.println("Not a valid command");
   }
@@ -272,13 +274,13 @@ String get_command_argument(String inputString)
 
 void tare(void)
 {
-  long int total = 0;
+  long int totalForce = 0;
   for (int i = 1; i <= 100;  i++)
   {
-    total += loadCell.readADC_SingleEnded(0);
+    totalForce += loadCell.readADC_SingleEnded(0);
   }
 
-  offset = total / 100;
+  offset = totalForce / 100;
   EEPROM.put(offsetAddress, offset);
   Serial.println("Taring OK");
 }
@@ -293,13 +295,13 @@ void calibrate(String inputString)
   //Reading the argument of the command. Located within the ":" and the ";"
   String loadString = get_command_argument(inputString);
   float load = loadString.toFloat();
-  float total = 0;
+  float totalForce = 0;
   for (int i = 1; i <= 1000;  i++)
   {
-    total += readOffsettedData(0);
+    totalForce += readOffsettedData(0);
   }
 
-  calibrationFactor = load * 9.81 / (total / 1000.0);
+  calibrationFactor = load * 9.81 / (totalForce / 1000.0);
   EEPROM.put(calibrationAddress, calibrationFactor);
   Serial.println("Calibrating OK");
 }
@@ -416,4 +418,53 @@ void set_baud_rate(String inputString)
   delay(10000);
   Serial.print("Setting baud rate to ");
   Serial.println(baudRate);
+}
+
+void start_simulation(void)
+{
+  float vmax = 10.0;
+  float k = 1.0;
+  float currentPosition = 0.0;
+  float lastPosition = 0.0;
+  float displacement;
+
+  
+  Serial.println("Starting capture...");
+
+    Serial.print(0);
+    Serial.print(";");
+    Serial.print(1);
+    Serial.print(";");
+    Serial.println(0);
+
+    Serial.print(0);
+    Serial.print(";");
+    Serial.print(round(1E4));
+    Serial.print(";");
+    Serial.println(0);
+
+  for (float totalTime = 2E4; totalTime < 1E7; totalTime = totalTime + 1E4)
+  {
+            //Sending in text mode
+//    Serial.print(round( displacement / 0.003003 ));
+    Serial.print(0);
+    Serial.print(";");
+    Serial.print(round(totalTime));
+    Serial.print(";");
+    Serial.println(0);
+
+  }
+  for (float totalTime = 0; totalTime <= 1E7; totalTime = totalTime + 1E4)
+  {
+    currentPosition = vmax * (totalTime / 1E6 + pow(2.7182818, (-k * totalTime / 1E6)) / k ) -vmax / k ;
+    displacement = currentPosition - lastPosition;
+    
+        //Sending in text mode
+//    Serial.print(round( displacement / 0.003003 ));
+    Serial.print(round( displacement ));
+    Serial.print(";");
+    Serial.print(round(totalTime + 1E7));
+    Serial.print(";");
+    Serial.println(0);
+  }
 }

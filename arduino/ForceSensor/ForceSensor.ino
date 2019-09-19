@@ -101,7 +101,6 @@ void loop() {
     Serial.print(";");
     Serial.println(scale.get_units(), 2); //scale.get_units() returns a float
   }
-
 }
 
 void serialEvent()
@@ -154,7 +153,8 @@ void start_capture()
 void end_capture()
 {
   capturing = false;
-  Serial.println("Capture ended");
+  Serial.print("Capture ended:");
+  Serial.println(scale.get_offset());
 }
 void get_version()
 {
@@ -186,20 +186,22 @@ void calibrate(String inputString)
   String weightString = get_command_argument(inputString);
   float weight = weightString.toFloat();
   //mean of 255 values comming from the cell after resting the offset.
-  double offsetted_data = scale.get_value(255);
+  double offsetted_data = scale.get_value(50);
 
   //offsetted_data / calibration_factor
   float calibration_factor = offsetted_data / weight / 9.81; //We want to return Newtons.
   scale.set_scale(calibration_factor);
   EEPROM.put(calibrationAddress, calibration_factor);
-  Serial.println("Calibrating OK");
+  Serial.print("Calibrating OK:");
+  Serial.println(calibration_factor);
 }
 
 void tare()
 {
-  scale.tare(255); //Reset the scale to 0 using the mean of 255 raw values
+  scale.tare(50); //Reset the scale to 0 using the mean of 255 raw values
   EEPROM.put(tareAddress, scale.get_offset());
-  Serial.println("Taring OK");
+  Serial.print("Taring OK:");
+  Serial.println(scale.get_offset());
 }
 
 void get_tare()

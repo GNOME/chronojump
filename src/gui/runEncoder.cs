@@ -218,6 +218,7 @@ public partial class ChronoJumpWindow
 		if(chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER) == 0)
 		{
 			event_execute_label_message.Text = runEncoderNotConnectedString;
+			runEncoderButtonsSensitive(true);
 			return;
 		}
 

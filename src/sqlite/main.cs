@@ -2354,11 +2354,17 @@ class Sqlite
 
 				currentVersion = updateVersion("1.58");
 			}
+
+			//bool createdForceSensorExerciseWith_tareBeforeCapture = false;
 			if(currentVersion == "1.58")
 			{
 				LogB.SQL("Created ForceSensorExercise");
 
-				SqliteForceSensorExercise.createTable();
+				SqliteForceSensorExercise.createTable(); //now this createTable has the tareBeforeCapture column
+				//do not use this because if update fails and is done on different Chronojump executions,
+				//we will arrive to 1.66 having  this as false:
+				//createdForceSensorExerciseWith_tareBeforeCapture
+				//so better use a try/catch on ALTER TABLE
 
 				currentVersion = updateVersion("1.59");
 			}
@@ -2421,7 +2427,15 @@ class Sqlite
 			}
 			if(currentVersion == "1.66")
 			{
-				executeSQL("ALTER TABLE " + Constants.ForceSensorExerciseTable + " ADD COLUMN tareBeforeCapture INT NOT NULL DEFAULT 0;");
+				LogB.SQL("Doing alter table ...");
+				try {
+					executeSQL("ALTER TABLE " + Constants.ForceSensorExerciseTable + " ADD COLUMN tareBeforeCapture INT NOT NULL DEFAULT 0;");
+				} catch {
+					LogB.SQL("Catched. tareBeforeCapture already exists.");
+
+				}
+				LogB.SQL("Done!");
+
 				currentVersion = updateVersion("1.67");
 			}
 			if(currentVersion == "1.67")

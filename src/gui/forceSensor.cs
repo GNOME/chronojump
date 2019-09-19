@@ -424,7 +424,9 @@ public partial class ChronoJumpWindow
 	private void blankForceSensorInterface()
 	{
 		currentForceSensor = new ForceSensor();
+
 		button_force_sensor_capture_recalculate.Sensitive = false;
+		textview_force_sensor_capture_comment.Buffer.Text = "";
 		button_force_sensor_save_comment.Sensitive = false;
 		notebook_force_sensor_analyze.Sensitive = false;
 		button_force_sensor_analyze_analyze.Sensitive = false;

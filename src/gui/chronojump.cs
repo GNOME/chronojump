@@ -5921,7 +5921,16 @@ LogB.Debug("mc finished 5");
 			force_sensor_delete_current_test_pre_question();
 			return;
 		}
+		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSENCODER)
+		{
+			run_encoder_delete_current_test_pre_question();
+			return;
+		}
 
+		delete_last_test_chronopic_clicked (o, args);
+	}
+	private void delete_last_test_chronopic_clicked (object o, EventArgs args)
+	{
 		switch (currentEventType.Type) {
 			case EventType.Types.JUMP:
 				if(lastJumpIsSimple) {

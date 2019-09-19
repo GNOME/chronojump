@@ -7460,11 +7460,11 @@ msgstr "Indefinit"
 
 #: ../src/gui/runEncoder.cs:185 ../src/gui/sprint.cs:240
 msgid "Error, weight of the person cannot be 0"
-msgstr "Error, el pes no pot ser 0"
+msgstr "Error, el pes de la persona no pot ser 0"
 
 #: ../src/gui/runEncoder.cs:192 ../src/gui/sprint.cs:247
 msgid "Error, height of the person cannot be 0"
-msgstr "Error, l'alçada no pot ser 0"
+msgstr "Error, l'alçada de la persona no pot ser 0"
 
 #: ../src/gui/runType.cs:192
 #, csharp-format

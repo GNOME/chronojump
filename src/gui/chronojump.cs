@@ -3211,7 +3211,6 @@ public partial class ChronoJumpWindow
 		vbox_force_capture_feedback.Visible = false;
 		button_force_sensor_adjust.Visible = false;
 		hbox_race_analyzer_device.Visible = false;
-		vbox_run_encoder_width_height.Visible = false;
 
 		//on OSX R is not installed by default. Check if it's installed. Needed for encoder and force sensor
 		if(
@@ -3423,7 +3422,6 @@ public partial class ChronoJumpWindow
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
 			button_threshold.Visible = false;
 			hbox_race_analyzer_device.Visible = true;
-			vbox_run_encoder_width_height.Visible = true;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 			hbox_results_legend.Visible = false;
 

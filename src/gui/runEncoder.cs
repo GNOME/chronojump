@@ -36,6 +36,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_race_encoder_open_folder;
 	[Widget] Gtk.CheckMenuItem menuitem_check_race_encoder_capture_simulate;
 
+	[Widget] Gtk.HBox hbox_run_encoder_capture_buttons;
+	[Widget] Gtk.HBox hbox_run_encoder_capture_options;
 	[Widget] Gtk.HBox hbox_combo_run_encoder_exercise;
 	[Widget] Gtk.ComboBox combo_run_encoder_exercise;
 	[Widget] Gtk.SpinButton race_analyzer_spinbutton_distance;
@@ -194,12 +196,6 @@ public partial class ChronoJumpWindow
 
 	private void on_runs_encoder_capture_clicked ()
 	{
-		if(chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER) == 0)
-		{
-			event_execute_label_message.Text = runEncoderNotConnectedString;
-			return;
-		}
-
 		if(currentPersonSession.Weight == 0)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING,
@@ -211,6 +207,14 @@ public partial class ChronoJumpWindow
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING,
 					Catalog.GetString("Error, height of the person cannot be 0"));
+			return;
+		}
+
+		runEncoderButtonsSensitive(false);
+
+		if(chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER) == 0)
+		{
+			event_execute_label_message.Text = runEncoderNotConnectedString;
 			return;
 		}
 
@@ -228,7 +232,6 @@ public partial class ChronoJumpWindow
 		textview_race_analyzer_comment.Buffer.Text = "";
 		assignCurrentRunEncoderExercise();
 		raceEncoderReadWidgets();
-		runEncoderButtonsSensitive(false);
 		button_run_encoder_recalculate.Sensitive = false;
 		button_race_analyzer_save_comment.Sensitive = false;
 
@@ -1024,7 +1027,12 @@ LogB.Information(" fc R ");
 
 	void runEncoderButtonsSensitive(bool sensitive)
 	{
+		//runEncoder related buttons
+		hbox_run_encoder_capture_buttons.Sensitive = sensitive;
+		hbox_run_encoder_capture_options.Sensitive = sensitive;
 		button_execute_test.Sensitive = sensitive;
+
+		vbox_contacts_camera.Sensitive = sensitive;
 
 		//other gui buttons
 		main_menu.Sensitive = sensitive;

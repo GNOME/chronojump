@@ -28,6 +28,7 @@ using Glade;
 using System.Text; //StringBuilder
 using System.Collections;
 using System.Collections.Generic; //List<T>
+using System.Text.RegularExpressions; //Regex
 using Mono.Unix;
 
 //struct with relevant data used on various functions and threads

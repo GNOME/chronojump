@@ -268,14 +268,13 @@ public class Preferences
 			return;
 
 		//change preferences object and SqlitePreferences
-		DateTime dt = DateTime.Now;
-
-		forceSensorTareDateTime = UtilDate.ToFile(dt);
+		forceSensorTareDateTime = UtilDate.ToFile(DateTime.Now);
 		SqlitePreferences.Update(SqlitePreferences.ForceSensorTareDateTimeStr, forceSensorTareDateTime, false);
 
 		forceSensorTare = tare;
 		SqlitePreferences.Update(SqlitePreferences.ForceSensorTareStr, Util.ConvertToPoint(tare), false);
 	}
+
 	//force sensor
 	public void UpdateForceSensorCalibration(double weight, double calibrationFactor)
 	{

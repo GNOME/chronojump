@@ -600,6 +600,9 @@ public partial class ChronoJumpWindow
 	//Attention: no GTK here!!
 	private string forceSensorCheckVersionDo()
 	{
+		if (portFS.BytesToRead > 0)
+			LogB.Information("check_version read possible bytes: " + portFS.ReadExisting());
+
 		if(! forceSensorSendCommand("get_version:", "Checking version ...", "Catched checking version"))
 			return "";
 
@@ -619,8 +622,20 @@ public partial class ChronoJumpWindow
 		forceSensorOtherMessageShowSeconds = false;
 		forceSensorOtherMessage = str;
 
-		//return the version without "Force_Sensor-"
-		return(str.Remove(0,13));
+		/*
+		 * //return the version without "Force_Sensor-"
+		 * return(str.Remove(0,13));
+		 * //can be problematic, once detected:
+		 * //init string: ^@;Force_Sensor-0.3
+		 * //Version found: [r-0.3]
+		 * //so now using portFS.ReadExisting() above, and also regex and not the 0,13 positions
+		 */
+
+		Match match = Regex.Match(str, @"Force_Sensor-(\d+\.\d+)");
+		if(match.Groups.Count == 1)
+			return str = match.Value;
+		else
+			return "0.3"; //if there is a problem default to 0.3
 	}
 
 	//Attention: no GTK here!!
@@ -645,7 +660,7 @@ public partial class ChronoJumpWindow
 		forceSensorOtherMessageShowSeconds = false;
 		forceSensorOtherMessage = str;
 
-		return (str == "binary");
+		return (str.Contains("binary"));
 	}
 
 	//Attention: no GTK here!!

@@ -519,13 +519,13 @@ public class ForceSensorCapturePoints
 
 
 	// this is called while capturing, checks if last captured value is outside the graph
-	public bool OutsideGraph()
+	public bool OutsideGraph(bool checkOnlyY)
 	{
 		Gdk.Point p = getLastPoint();
 		//LogB.Information("p.Y: " + p.Y + "; heightG: " +  heightG);
 		bool outsideGraph = false;
 
-		if(p.X > widthG)
+		if(! checkOnlyY && p.X > widthG)
 		{
 			RealWidthG *= 2;
 			outsideGraph = true;
@@ -589,6 +589,7 @@ public class ForceSensorCapturePoints
 
 	public int WidthG
 	{
+		get { return widthG; }
 		set { widthG = value; }
 	}
 

@@ -835,7 +835,7 @@ public partial class ChronoJumpWindow
 		for(int i = 0; i < fsAI.FscAIPoints.Points.Count; i ++)
 			paintPoints[i] = fsAI.FscAIPoints.Points[i];
 
-		forcePaintHVLines(ForceSensorGraphs.ANALYSIS_GENERAL, fsAI.FscAIPoints.ForceMax, fsAI.FscAIPoints.ForceMin, forceSensorValues.TimeLast);
+		forcePaintHVLines(ForceSensorGraphs.ANALYSIS_GENERAL, fsAI.FscAIPoints.ForceMax, fsAI.FscAIPoints.ForceMin, forceSensorValues.TimeLast, false);
 
 		// 2) draw horizontal 0 line
 		force_sensor_ai_pixmap.DrawLine(pen_gray_discont_force_ai,

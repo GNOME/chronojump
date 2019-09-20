@@ -315,6 +315,10 @@ public class ChronopicRegisterWindow
 
 	private void createButtons()
 	{
+		/*
+		 * not needed on new versions of OSX
+		 * problem seems to be fixed
+		 *
 		Frame frame = new Frame();
 		frame.ShadowType = ShadowType.In;
 		frame.LabelXalign = 0f;
@@ -335,6 +339,7 @@ public class ChronopicRegisterWindow
 			frame.Add(hbox_m);
 			vbox_main.Add(frame);
 		}
+		*/
 
 		FakeButtonCloseSerialPort = new Gtk.Button();
 		Gtk.Button button_close_serial_port = new Gtk.Button("Close serial port (debug)");

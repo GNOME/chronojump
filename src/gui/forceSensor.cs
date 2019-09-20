@@ -504,15 +504,25 @@ public partial class ChronoJumpWindow
 		}
 		while(! str.Contains("Taring OK"));
 
-		// 3 get tare factor
-		if (portFS.BytesToRead > 0)
-			LogB.Information("PRE_get_tare bytes: " + portFS.ReadExisting());
+		//from Force_Sensor-0.4 at tare returns this: Taring OK:(\d+)
+		Match match = Regex.Match(str, @"Taring OK:(\d+)");
+		if(match.Groups.Count == 2)
+		{
+			LogB.Information("matched OK:" + match.Groups[1].ToString());
+			str = Util.ChangeDecimalSeparator(match.Groups[1].ToString());
+		} else {
+			LogB.Information("not matched OK");
+			// 3 get tare factor
+			if (portFS.BytesToRead > 0)
+				LogB.Information("PRE_get_tare bytes: " + portFS.ReadExisting());
 
-		if(! forceSensorSendCommand("get_tare:", "Checking ...", "Catched at get_tare"))
-			return;
+			if(! forceSensorSendCommand("get_tare:", "Checking ...", "Catched at get_tare"))
+				return;
+
+			str = Util.ChangeDecimalSeparator(portFS.ReadLine().Trim());
+		}
 
 		// 4 update preferences and SQL with new tare
-		str = Util.ChangeDecimalSeparator(portFS.ReadLine().Trim());
 		if(Util.IsNumber(str, true))
 			preferences.UpdateForceSensorTare(Convert.ToDouble(str));
 
@@ -548,15 +558,25 @@ public partial class ChronoJumpWindow
 		}
 		while(! str.Contains("Calibrating OK"));
 
-		// 3 get calibration factor
-		if (portFS.BytesToRead > 0)
-			LogB.Information("PRE_get_calibrationfactor bytes: " + portFS.ReadExisting());
+		//from Force_Sensor-0.4 at calibrate returns this: Calibrating OK:(\d+\.\d+)
+		Match match = Regex.Match(str, @"Calibrating OK:(\d+\.\d+)");
+		if(match.Groups.Count == 2)
+		{
+			LogB.Information("matched OK:" + match.Groups[1].ToString());
+			str = Util.ChangeDecimalSeparator(match.Groups[1].ToString());
+		} else {
+			LogB.Information("not matched OK");
+			// 3 get calibration factor
+			if (portFS.BytesToRead > 0)
+				LogB.Information("PRE_get_calibrationfactor bytes: " + portFS.ReadExisting());
 
-		if(! forceSensorSendCommand("get_calibration_factor:", "Checking ...", "Catched at get_calibration_factor"))
-			return;
+			if(! forceSensorSendCommand("get_calibration_factor:", "Checking ...", "Catched at get_calibration_factor"))
+				return;
 
-		// 4 update preferences and SQL with new calibration factor
-		str = Util.ChangeDecimalSeparator(portFS.ReadLine().Trim());
+			// 4 update preferences and SQL with new calibration factor
+			str = Util.ChangeDecimalSeparator(portFS.ReadLine().Trim());
+		}
+
 		if(Util.IsNumber(str, true))
 			preferences.UpdateForceSensorCalibration(
 					spin_force_sensor_calibration_kg_value.Value, Convert.ToDouble(str));

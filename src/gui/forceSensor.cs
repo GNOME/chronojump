@@ -660,7 +660,7 @@ public partial class ChronoJumpWindow
 			}
 			LogB.Information("init string: " + str);
 		}
-		while(! (str.Contains("binary") || str.Contains("text")) );
+		while(! (str.Contains("binary") || str.Contains("text") || str.Contains("Not a valid command")) );
 
 		forceSensorOtherMessageShowSeconds = false;
 		forceSensorOtherMessage = str;

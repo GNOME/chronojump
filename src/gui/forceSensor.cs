@@ -1123,10 +1123,9 @@ LogB.Information(" fs F ");
 		if(capturingForce == arduinoCaptureStatus.CAPTURING)
 		{
 LogB.Information(" fs G ");
-//TODO: have current value at right, better for scroll
-			label_force_sensor_value.Text = forceSensorValues.ForceLast.ToString();
 			label_force_sensor_value_max.Text = forceSensorValues.ForceMax.ToString();
 			label_force_sensor_value_min.Text = forceSensorValues.ForceMin.ToString();
+			label_force_sensor_value.Text = forceSensorValues.ForceLast.ToString();
 
 
 LogB.Information(" fs H ");

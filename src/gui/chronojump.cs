@@ -3209,7 +3209,7 @@ public partial class ChronoJumpWindow
 		notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.STATISTICS);
 		button_inspect_last_test.Visible = false;
 		vbox_force_capture_feedback.Visible = false;
-		check_force_sensor_scroll.Visible = false;
+		vbox_force_sensor_capture_options.Visible = false;
 		button_force_sensor_adjust.Visible = false;
 		hbox_race_analyzer_device.Visible = false;
 
@@ -3412,7 +3412,7 @@ public partial class ChronoJumpWindow
 			notebook_capture_graph_table.ShowTabs = false;
 
 			vbox_force_capture_feedback.Visible = true;
-			check_force_sensor_scroll.Visible = true;
+			vbox_force_sensor_capture_options.Visible = true;
 		}
 		else if(m == Constants.Menuitem_modes.RUNSENCODER)
 		{

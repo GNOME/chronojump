@@ -94,6 +94,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_at;
 	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_range;
 	[Widget] Gtk.CheckButton check_force_sensor_scroll;
+	[Widget] Gtk.VBox vbox_force_sensor_capture_options;
+	[Widget] Gtk.SpinButton spin_force_sensor_capture_width_graph_seconds;
 
 	Gdk.Pixmap force_capture_pixmap = null;
 
@@ -411,7 +413,7 @@ public partial class ChronoJumpWindow
 		button_execute_test.Sensitive = sensitive;
 		button_force_sensor_analyze_load.Sensitive = sensitive;
 		vbox_force_capture_feedback.Sensitive = sensitive;
-		check_force_sensor_scroll.Sensitive = sensitive;
+		vbox_force_sensor_capture_options.Sensitive = sensitive;
 
 		vbox_contacts_camera.Sensitive = sensitive;
 
@@ -720,7 +722,8 @@ public partial class ChronoJumpWindow
 		UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
 		fscPoints = new ForceSensorCapturePoints(
 				force_capture_drawingarea.Allocation.Width,
-				force_capture_drawingarea.Allocation.Height
+				force_capture_drawingarea.Allocation.Height,
+				Convert.ToInt32(spin_force_sensor_capture_width_graph_seconds.Value)
 				);
 
 		setForceSensorTopAtOperationStart();
@@ -1036,7 +1039,7 @@ LogB.Information(" fs C ");
 					Thread.Sleep (250); //Wait a bit to ensure is copied
 					sensitiveLastTestButtons(true);
 
-					fscPoints.InitRealWidthHeight();
+					fscPoints.InitRealWidthHeight(Convert.ToInt32(spin_force_sensor_capture_width_graph_seconds.Value));
 
 					forceSensorDoSignalGraphPlot();
 					forceSensorDoRFDGraph();
@@ -1725,7 +1728,8 @@ LogB.Information(" fs R ");
 	{
 		fscPoints = new ForceSensorCapturePoints(
 				force_capture_drawingarea.Allocation.Width,
-				force_capture_drawingarea.Allocation.Height
+				force_capture_drawingarea.Allocation.Height,
+				Convert.ToInt32(spin_force_sensor_capture_width_graph_seconds.Value)
 				);
 
 		List<string> contents = Util.ReadFileAsStringList(UtilEncoder.GetmifCSVFileName());

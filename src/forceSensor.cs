@@ -339,7 +339,7 @@ public class ForceSensorCapturePoints
 	private int marginBottom = 30; //px
 
 	//initialize
-	public ForceSensorCapturePoints(int widthG, int heightG)
+	public ForceSensorCapturePoints(int widthG, int heightG, int widthInSeconds)
 	{
 		Points = new List<Gdk.Point>();
 		NumCaptured = 0;
@@ -350,15 +350,20 @@ public class ForceSensorCapturePoints
 		forceMin = 10000;
 		scrollStartedAtCount = -1;
 
-		InitRealWidthHeight();
+		InitRealWidthHeight(widthInSeconds);
 
 		this.widthG = widthG;
 		this.heightG = heightG;
 	}
 
-	public void InitRealWidthHeight()
+	public void InitRealWidthHeight(int widthInSeconds)
 	{
-		RealWidthG = 10000000; //width of graph in microseconds (will be upgraded if needed)
+		//width of graph in microseconds (will be upgraded if needed)
+		if(widthInSeconds == -1)
+			RealWidthG = 10000000; //default 10 seconds
+		else
+			RealWidthG = 1000000 * widthInSeconds;
+
 		RealHeightG = DefaultRealHeightG; //Newtons (will be upgraded when needed) (nice to see the +25 -25 marks)
 		RealHeightGNeg = DefaultRealHeightGNeg; //Newtons (will be upgraded when needed) (nice to see the +25 -25 marks)
 	}
@@ -995,7 +1000,7 @@ public class ForceSensorAnalyzeInstant
 
 	private void readFile(string file, double start, double end, int exercisePercentBW, double personWeight, ForceSensor.CaptureOptions fsco)
 	{
-		fscAIPoints = new ForceSensorCapturePoints(graphWidth, graphHeight);
+		fscAIPoints = new ForceSensorCapturePoints(graphWidth, graphHeight, -1);
 
 		List<string> contents = Util.ReadFileAsStringList(file);
 		bool headersRow = true;

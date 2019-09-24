@@ -533,12 +533,16 @@ public class ForceSensorCapturePoints
 
 		if(p.Y < 0)
 		{
-			RealHeightG *= 2;
+			//too drastic change that makes DrawingArea empty at capture
+			//RealHeightG *= 2;
+			RealHeightG += 20;
 			outsideGraph = true;
 		}
 		else if(p.Y > heightG)
 		{
-			RealHeightGNeg *= 2;
+			//too drastic change that makes DrawingArea empty at capture
+			//RealHeightGNeg *= 2;
+			RealHeightGNeg += 20;
 			outsideGraph = true;
 		}
 

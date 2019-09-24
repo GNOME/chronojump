@@ -322,8 +322,9 @@ public class ForceSensorCapturePoints
 	private List<double> forces;
 	private double forceMax;
 	private double forceMin;
+	private int scrollStartedAtCount;
 
-	public int RealWidthG; //width of graph in microseconds (will be upgraded if needed)
+	public int RealWidthG; //width of graph in microseconds (will be upgraded if needed, but not while capturing on scroll)
 
 	public const int DefaultRealHeightG = 2;
 	public const int DefaultRealHeightGNeg = 2;
@@ -347,6 +348,7 @@ public class ForceSensorCapturePoints
 		forces = new List<double>();
 		forceMax = 0;
 		forceMin = 10000;
+		scrollStartedAtCount = -1;
 
 		InitRealWidthHeight();
 
@@ -367,11 +369,31 @@ public class ForceSensorCapturePoints
 		forces.Add(force);
 		Points.Add(new Gdk.Point(GetTimeInPx(time), GetForceInPx(force)));
 
+		if(scrollStartedAtCount == -1 && scrollStarted())
+			scrollStartedAtCount = GetLength();
+
 		if(force > forceMax)
 			forceMax = force;
 		if(force < forceMin)
 			forceMin = force;
 	}
+
+	private bool scrollStarted()
+	{
+		//return (GetLastTime() > RealWidthG / 2); //Divide by 2 (half of the screen)
+		return (GetLastTime() > .85 * RealWidthG); //85% of screen
+	}
+
+	/*
+	 * unused and not checked if it is ok
+	private int getPxInTime(int px)
+	{
+		//without 1.0 calculation is done as int producing very buggy value
+		return Convert.ToInt32(
+				(px * RealWidthG) / (1.0 * (widthG -marginLeft -marginRight) * time))
+			- marginLeft;
+	}
+	*/
 
 	public int GetTimeInPx(int time)
 	{
@@ -609,6 +631,10 @@ public class ForceSensorCapturePoints
 	public double ForceMin
 	{
 		get { return forceMin; }
+	}
+	public int ScrollStartedAtCount
+	{
+		get { return scrollStartedAtCount; }
 	}
 }
 

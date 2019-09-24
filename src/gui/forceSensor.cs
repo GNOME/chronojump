@@ -932,7 +932,13 @@ public partial class ChronoJumpWindow
 			{
 				redoingPoints = true;
 				fscPoints.Redo();
-				fscPoints.NumPainted = -1;
+
+				//mark meaning screen should be erased
+				//but only applies when not in scroll
+				//because scroll already erases screen all the time, paintHVLines and plot feedback rectangle
+				if(! (forceSensorScroll && fscPoints.ScrollStartedAtCount > 0))
+					fscPoints.NumPainted = -1;
+
 				redoingPoints = false;
 			}
 
@@ -1117,29 +1123,7 @@ LogB.Information(" fs F ");
 		if(capturingForce == arduinoCaptureStatus.CAPTURING)
 		{
 LogB.Information(" fs G ");
-			//------------------- vscale -----------------
-			/*
-			//A) resize vscale if needed
-			int upper = Convert.ToInt32(vscale_force_sensor.Adjustment.Upper);
-			int lower = Convert.ToInt32(vscale_force_sensor.Adjustment.Lower);
-			bool changed = false;
-
-			if(forceSensorLastCaptured > upper)
-			{
-				upper = Convert.ToInt32(forceSensorLastCaptured * 2);
-				changed = true;
-			}
-			if(forceSensorLastCaptured < lower)
-			{
-				lower = Convert.ToInt32(forceSensorLastCaptured * 2); //good for negative values
-				changed = true;
-			}
-			if(changed)
-				vscale_force_sensor.SetRange(lower, upper);
-
-			//B) change the value
-			vscale_force_sensor.Value = forceSensorLastCaptured;
-			*/
+//TODO: have current value at right, better for scroll
 			label_force_sensor_value.Text = forceSensorValues.ForceLast.ToString();
 			label_force_sensor_value_max.Text = forceSensorValues.ForceMax.ToString();
 			label_force_sensor_value_min.Text = forceSensorValues.ForceMin.ToString();
@@ -1169,13 +1153,14 @@ LogB.Information(" fs H2 ");
 
 LogB.Information(" fs I ");
 			//mark meaning screen should be erased
-			if(fscPoints.NumPainted == -1) {
+			//but only applies when not in scroll
+			//because scroll already erases screen all the time, paintHVLines and plot feedback rectangle
+			if(fscPoints.NumPainted == -1)
+			{
 				UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
-				//forcePaintHVLines(forceSensorValues.ForceMax, forceSensorValues.ForceMin, fscPoints.RealWidthG);
 				fscPoints.NumPainted = 0;
 
 				forcePaintHVLines(ForceSensorGraphs.CAPTURE, fscPoints.RealHeightG, forceSensorValues.ForceMin * 2, fscPoints.RealWidthG, false);
-				//forcePaintHVLines(ForceSensorGraphs.CAPTURE, fscPoints.ForceMax * 2, fscPoints.ForceMin * 2, fscPoints.RealWidthG);
 				//draw horizontal rectangle of feedback
 				forceSensorSignalPlotFeedbackRectangle(fscPoints, force_capture_drawingarea, force_capture_pixmap);
 
@@ -1187,75 +1172,22 @@ LogB.Information(" fs J ");
 			int numPainted = fscPoints.NumPainted;
 			List<Gdk.Point> points = fscPoints.Points;
 
-LogB.Information(" fs K ");
 			int toDraw = numCaptured - numPainted;
 
 			LogB.Information("points count: " + points.Count +
 					"; NumCaptured: " + numCaptured + "; NumPainted: " + numPainted +
 					"; toDraw: " + toDraw.ToString() );
 
-			int scrollStartsAt = Convert.ToInt32( .9 *(fscPoints.WidthG - fscPoints.MarginLeft));
-
-
-LogB.Information(" fs L ");
 			//fixes crash at the end
 			if(toDraw == 0)
 				return true;
 
-LogB.Information(" fs M ");
-			Gdk.Point [] paintPoints;
-			if(numPainted > 0)
-			{
-				if(forceSensorScroll && fscPoints.NumCaptured > scrollStartsAt +1)
-					paintPoints = new Gdk.Point[scrollStartsAt]; // if something has been painted, connected first point with previous points
-				else
-					paintPoints = new Gdk.Point[toDraw +1]; // if something has been painted, connected first point with previous points
-			}
+			//note that scroll mode will call NOScroll method until scroll starts
+			if(forceSensorScroll && fscPoints.ScrollStartedAtCount > 0)
+				forceSensorCaptureDoRealtimeGraphScroll(numCaptured, numPainted, toDraw, points);
 			else
-				paintPoints = new Gdk.Point[toDraw];
+				forceSensorCaptureDoRealtimeGraphNOScroll(numCaptured, numPainted, toDraw, points);
 
-LogB.Information(" fs N ");
-			int jStart = 0;
-			int iStart = 0;
-			if(numPainted > 0)
-			{
-				// if something has been painted, connected first point with previous points
-LogB.Information(" fs N0 ");
-				if(forceSensorScroll && fscPoints.NumCaptured > scrollStartsAt +1)
-				{
-					UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
-					forcePaintHVLines(ForceSensorGraphs.CAPTURE,
-							getForceSensorMaxForceIncludingRectangle(forceSensorValues.ForceMax),
-							forceSensorValues.ForceMin,
-						Convert.ToInt32(forceSensorValues.TimeLast),
-						forceSensorScroll);
-					jStart = 0;
-				}
-				else {
-					paintPoints[0] = points[numPainted -1];
-					jStart = 1;
-				}
-LogB.Information(" fs N1 ");
-
-				if(forceSensorScroll && fscPoints.NumCaptured > scrollStartsAt +1)
-					iStart = numCaptured - scrollStartsAt; //-toDraw
-				else
-					iStart = numPainted;
-LogB.Information(" fs N2 ");
-			}
-LogB.Information(" fs O ");
-			for(int j = jStart, i = iStart ; i < numCaptured ; i ++, j++)
-			{
-LogB.Information(" fs O1 ");
-				if(points.Count > i) 	//extra check to avoid going outside of arrays
-					paintPoints[j] = points[i];
-
-				if(forceSensorScroll && fscPoints.NumCaptured > scrollStartsAt +1)
-					paintPoints[j].X = j + fscPoints.MarginLeft;
-LogB.Information(" fs O2 ");
-			}
-LogB.Information(" fs P ");
-			force_capture_pixmap.DrawLines(pen_black_force_capture, paintPoints);
 			force_capture_drawingarea.QueueDraw(); // -- refresh
 
 			/*
@@ -1272,6 +1204,88 @@ LogB.Information(" fs R ");
 		Thread.Sleep (25);
 		//LogB.Information(" ForceSensor:"+ forceCaptureThread.ThreadState.ToString());
 		return true;
+	}
+
+	private void forceSensorCaptureDoRealtimeGraphNOScroll(int numCaptured, int numPainted, int toDraw, List<Gdk.Point> points)
+	{
+		LogB.Information(" Graph NO Scroll ");
+		Gdk.Point [] paintPoints;
+		if(numPainted > 0)
+			paintPoints = new Gdk.Point[toDraw +1]; // if something has been painted, connected first point with previous points
+		else
+			paintPoints = new Gdk.Point[toDraw];
+
+		//TODO: if maxForce or minForce changed
+		//blank the screen and paint the HVLine of max and min
+
+		LogB.Information(" fs N ");
+		int jStart = 0;
+		int iStart = 0;
+		if(numPainted > 0)
+		{
+			// if something has been painted, connected first point with previous points
+			LogB.Information(" fs N0 ");
+
+			paintPoints[0] = points[numPainted -1];
+			jStart = 1;
+			iStart = numPainted;
+
+			LogB.Information(" fs N2 ");
+		}
+		LogB.Information(" fs O ");
+
+		//i is related to what has been captured: points
+		//j is related to what is going to be painted: paintPoints
+		for(int j = jStart, i = iStart ; i < numCaptured ; i ++, j++)
+		{
+			LogB.Information(" fs O1 ");
+			if(points.Count > i) 	//extra check to avoid going outside of arrays
+				paintPoints[j] = points[i];
+
+			LogB.Information(" fs O2 ");
+		}
+		force_capture_pixmap.DrawLines(pen_black_force_capture, paintPoints);
+		LogB.Information(" fs P ");
+	}
+
+	private void forceSensorCaptureDoRealtimeGraphScroll(int numCaptured, int numPainted, int toDraw, List<Gdk.Point> points)
+	{
+		LogB.Information(" Graph Scroll ");
+		Gdk.Point [] paintPoints = new Gdk.Point[fscPoints.ScrollStartedAtCount];
+
+		int jStart = 0;
+		int iStart = numCaptured - fscPoints.ScrollStartedAtCount; //-toDraw
+
+		// if something has been painted, connected first point with previous points
+		LogB.Information(" fs N0 ");
+
+		UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
+		forceSensorSignalPlotFeedbackRectangle(fscPoints, force_capture_drawingarea, force_capture_pixmap);
+		forcePaintHVLines(ForceSensorGraphs.CAPTURE,
+				getForceSensorMaxForceIncludingRectangle(forceSensorValues.ForceMax),
+				forceSensorValues.ForceMin,
+				Convert.ToInt32(forceSensorValues.TimeLast),
+				true);
+
+		LogB.Information(" fs O ");
+
+		//i is related to what has been captured: points
+		//j is related to what is going to be painted: paintPoints
+		for(int j = jStart, i = iStart ; i < numCaptured ; i ++, j++)
+		{
+			LogB.Information(" fs O0 ");
+			if(points.Count > i && j < fscPoints.ScrollStartedAtCount) 	//extra check to avoid going outside of arrays
+			{
+				LogB.Information(string.Format("i: {0}; j: {1}, paintPointsLength: {2}",
+							i, j, fscPoints.ScrollStartedAtCount));
+				paintPoints[j] = points[i];
+				LogB.Information(" fs O1 ");
+				paintPoints[j].X = fscPoints.GetTimeInPx(Convert.ToInt32(fscPoints.GetTimeAtCount(j)));
+			}
+			LogB.Information(" fs O2 ");
+		}
+		force_capture_pixmap.DrawLines(pen_black_force_capture, paintPoints);
+		LogB.Information(" fs P ");
 	}
 
 	int force_capture_allocationXOld;
@@ -1863,6 +1877,7 @@ LogB.Information(" fs R ");
 		//1 horizontal lines
 
 		forcePaintHLine(fsg, 0, true);
+
 		double absoluteMaxForce = maxForce;
 		if(Math.Abs(minForce) > absoluteMaxForce)
 			absoluteMaxForce = Math.Abs(minForce);
@@ -1897,6 +1912,12 @@ LogB.Information(" fs R ");
 			{
 				forcePaintHLine(fsg, i *-1, false);
 			}
+		}
+
+		if(scroll)
+		{
+			forcePaintHLine(fsg, Convert.ToInt32(maxForce), true);
+			forcePaintHLine(fsg, Convert.ToInt32(minForce), true);
 		}
 
 		//2 vertical lines
@@ -1959,7 +1980,8 @@ LogB.Information(" fs R ");
 	private void forcePaintCaptureHLine(int yForce, bool solid)
 	{
 		int yPx = fscPoints.GetForceInPx(yForce);
-		//draw horizontal line
+
+		//1) draw horizontal line
 		if(solid)
 			force_capture_pixmap.DrawLine(pen_gray_force_capture,
 					fscPoints.GetTimeInPx(0), yPx, force_capture_drawingarea.Allocation.Width, yPx);
@@ -1967,12 +1989,19 @@ LogB.Information(" fs R ");
 			force_capture_pixmap.DrawLine(pen_gray_force_capture_discont,
 					fscPoints.GetTimeInPx(0), yPx, force_capture_drawingarea.Allocation.Width, yPx);
 
+		//2) write force label
 		layout_force_text.SetMarkup(yForce.ToString());
 		int textWidth = 1;
 		int textHeight = 1;
 		layout_force_text.GetPixelSize(out textWidth, out textHeight);
-		force_capture_pixmap.DrawLayout (pen_gray_force_capture,
-				fscPoints.GetTimeInPx(0) - textWidth -4, yPx - textHeight/2, layout_force_text);
+
+		//max, 0, min will be in black, the rest in gray
+		if(solid)
+			force_capture_pixmap.DrawLayout (pen_black_force_capture,
+					fscPoints.GetTimeInPx(0) - textWidth -4, yPx - textHeight/2, layout_force_text);
+		else
+			force_capture_pixmap.DrawLayout (pen_gray_force_capture,
+					fscPoints.GetTimeInPx(0) - textWidth -4, yPx - textHeight/2, layout_force_text);
 	}
 
 	private void on_radio_force_rfd_duration_toggled (object o, EventArgs args)

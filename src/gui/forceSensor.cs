@@ -90,7 +90,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spin_force_sensor_calibration_kg_value;
 	[Widget] Gtk.Button button_force_sensor_image_save_signal;
 	[Widget] Gtk.DrawingArea force_capture_drawingarea;
-	[Widget] Gtk.VBox vbox_force_capture_feedback;
+	[Widget] Gtk.Alignment alignment_force_capture_feedback;
+	[Widget] Gtk.CheckButton check_force_sensor_capture_feedback;
+	[Widget] Gtk.HBox hbox_force_sensor_capture_feedback;
 	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_at;
 	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_range;
 
@@ -408,7 +410,9 @@ public partial class ChronoJumpWindow
 		hbox_force_sensor_lat_and_comments.Sensitive = sensitive;
 		button_execute_test.Sensitive = sensitive;
 		button_force_sensor_analyze_load.Sensitive = sensitive;
-		vbox_force_capture_feedback.Sensitive = sensitive;
+
+		//right now cannot be changed dinamically while capturing
+		alignment_force_capture_feedback.Sensitive = sensitive;
 
 		vbox_contacts_camera.Sensitive = sensitive;
 
@@ -418,6 +422,11 @@ public partial class ChronoJumpWindow
 		frame_persons.Sensitive = sensitive;
 		hbox_top_person.Sensitive = sensitive;
 		hbox_chronopics_and_more.Sensitive = sensitive;
+	}
+
+	private void on_check_force_sensor_capture_feedback_toggled (object o, EventArgs args)
+	{
+		hbox_force_sensor_capture_feedback.Sensitive = check_force_sensor_capture_feedback.Active;
 	}
 
 	private void forceSensorPersonChanged()
@@ -1823,10 +1832,10 @@ LogB.Information(" fs R ");
 		int at = Convert.ToInt32(spin_force_sensor_capture_feedback_at.Value);
 		int range = Convert.ToInt32(spin_force_sensor_capture_feedback_range.Value);
 
-		if(at == 0 || range == 0)
-			forceSensorTopRectangleAtOperationStart = 0;
-		else
+		if(check_force_sensor_capture_feedback.Active)
 			forceSensorTopRectangleAtOperationStart = Convert.ToInt32(at + range /2);
+		else
+			forceSensorTopRectangleAtOperationStart = 0;
 	}
 	//This function calculates the max value between the sent force and the top of the feedback rectangle
 	private int getForceSensorMaxForceIncludingRectangle(double forceValue)
@@ -2100,7 +2109,7 @@ LogB.Information(" fs R ");
 	{
 		hbox_force_capture_buttons.Sensitive = false;
 		button_force_sensor_adjust.Sensitive = false;
-		vbox_force_capture_feedback.Sensitive = false;
+		alignment_force_capture_feedback.Sensitive = false;
 
 		button_force_sensor_adjust.Visible = false;
 		hbox_force_sensor_lat_and_comments.Visible = false;
@@ -2118,7 +2127,7 @@ LogB.Information(" fs R ");
 	{
 		hbox_force_capture_buttons.Sensitive = true;
 		button_force_sensor_adjust.Sensitive = true;
-		vbox_force_capture_feedback.Sensitive = true;
+		alignment_force_capture_feedback.Sensitive = true;
 
 		button_force_sensor_adjust.Visible = true;
 		hbox_force_sensor_lat_and_comments.Visible = true;

@@ -52,6 +52,9 @@ class SqlitePreferences : Sqlite
 	public const string EncoderRhythmRepsClusterStr = "encoderRhythmRepsCluster";
 	public const string EncoderRhythmRestClustersSecondsStr = "encoderRhythmRestClustersSeconds";
 
+	public const string ForceSensorCaptureWidthSeconds = "forceSensorCaptureWidthSeconds";
+	public const string ForceSensorCaptureScroll = "forceSensorCaptureScroll";
+
 	protected internal static new void createTable()
 	{
 		dbcmd.CommandText = 
@@ -172,7 +175,11 @@ class SqlitePreferences : Sqlite
 				Insert (EncoderRhythmRepsClusterStr, Util.ConvertToPoint(er.RepsCluster), dbcmdTr);
 				Insert (EncoderRhythmRestClustersSecondsStr, Util.ConvertToPoint(er.RestClustersSeconds), dbcmdTr);
 
+				//forceSensor
+				Insert (ForceSensorCaptureWidthSeconds, "10", dbcmdTr);
+				Insert (ForceSensorCaptureScroll, "False"); //no scroll. zoom out
 
+				//multimedia
 				Insert ("videoDevice", "", dbcmdTr); //first
 				Insert ("videoDevicePixelFormat", "", dbcmdTr);
 				Insert ("videoDeviceResolution", "", dbcmdTr);
@@ -432,6 +439,12 @@ class SqlitePreferences : Sqlite
 				preferences.thresholdRuns = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == "thresholdOther")
 				preferences.thresholdOther = Convert.ToInt32(reader[1].ToString());
+
+			//force sensor capture
+			else if(reader[0].ToString() == ForceSensorCaptureWidthSeconds)
+				preferences.forceSensorCaptureWidthSeconds = Convert.ToInt32(reader[1].ToString());
+			else if(reader[0].ToString() == ForceSensorCaptureScroll)
+				preferences.forceSensorCaptureScroll = reader[1].ToString() == "True";
 
 			//force sensor tare
 			else if(reader[0].ToString() == ForceSensorTareDateTimeStr)

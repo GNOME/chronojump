@@ -88,6 +88,9 @@ public class Preferences
 	public bool RGraphsTranslate;
 	public bool useHeightsOnJumpIndexes;
 
+	public int forceSensorCaptureWidthSeconds;
+	public bool forceSensorCaptureScroll;
+
 	//advanced tab
 	public bool askDeletion;
 	public int digitsNumber;

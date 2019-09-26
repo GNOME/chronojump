@@ -125,7 +125,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.71";
+	static string lastChronojumpDatabaseVersion = "1.72";
 
 	public Sqlite() {
 	}
@@ -2471,6 +2471,15 @@ class Sqlite
 
 				currentVersion = updateVersion("1.71");
 			}
+			if(currentVersion == "1.71")
+			{
+				LogB.SQL("Inserted into preferences: forceSensorCaptureWidthSeconds, forceSensorCaptureScroll");
+
+				SqlitePreferences.Insert (SqlitePreferences.ForceSensorCaptureWidthSeconds, "10");
+				SqlitePreferences.Insert (SqlitePreferences.ForceSensorCaptureScroll, "False");
+
+				currentVersion = updateVersion("1.72");
+			}
 
 
 			// --- add more updates here
@@ -2664,6 +2673,7 @@ class Sqlite
 		SqliteJson.createTableUploadExhibitionTestTemp ();
 
 		//changes [from - to - desc]
+		//1.71 - 1.72 Converted DB to 1.72 Inserted into preferences: forceSensorCaptureWidthSeconds, forceSensorCaptureScroll
 		//1.70 - 1.71 Converted DB to 1.71 Imported run encoder text files into SQL
 		//1.69 - 1.70 Converted DB to 1.70 Created tables: RunEncoder, RunEncoderExercise
 		//1.68 - 1.69 Converted DB to 1.69 Imported force sensor text files into SQL

@@ -1937,7 +1937,7 @@ LogB.Information(" fs R ");
 		//2 vertical lines
 
 		if(scroll)
-			forcePaintTimeValue(fsg, 0, true); //only paint de 0 vertical line
+			forcePaintTimeValue(fsg, 0, false, true); //only paint de 0 vertical line, but do not show label, and paint solid
 		else {
 			int lastTimeInSeconds = lastTime / 1000000; //from microseconds to seconds
 			step = 1;
@@ -1953,35 +1953,38 @@ LogB.Information(" fs R ");
 				step = 80;
 
 			for(int i = 0; i <= lastTimeInSeconds ; i += step)
-				forcePaintTimeValue(fsg, i, i == 0);
+				forcePaintTimeValue(fsg, i, true, i == 0);
 		}
 	}
 
-	private void forcePaintTimeValue(ForceSensorGraphs fsg, int time, bool solid)
+	private void forcePaintTimeValue(ForceSensorGraphs fsg, int time, bool showValue, bool solid)
 	{
 		if(fsg == ForceSensorGraphs.CAPTURE)
-			forcePaintCaptureTimeValue(time, solid);
+			forcePaintCaptureTimeValue(time, showValue, solid);
 		else if(fsg == ForceSensorGraphs.ANALYSIS_GENERAL)
 			forcePaintAnalyzeGeneralTimeValue(time, solid);
 	}
-	private void forcePaintCaptureTimeValue(int time, bool solid)
+	private void forcePaintCaptureTimeValue(int time, bool showValue, bool solid)
 	{
 		int xPx = fscPoints.GetTimeInPx(1000000 * time);
-
-		layout_force_text.SetMarkup(time.ToString() + "s");
 		int textWidth = 1;
 		int textHeight = 1;
-		layout_force_text.GetPixelSize(out textWidth, out textHeight);
-		force_capture_pixmap.DrawLayout (pen_gray_force_capture,
-				xPx - textWidth/2, force_capture_drawingarea.Allocation.Height - textHeight, layout_force_text);
+
+		if(showValue)
+		{
+			layout_force_text.SetMarkup(time.ToString() + "s");
+			layout_force_text.GetPixelSize(out textWidth, out textHeight);
+			force_capture_pixmap.DrawLayout (pen_gray_force_capture,
+					xPx - textWidth/2, force_capture_drawingarea.Allocation.Height - textHeight, layout_force_text);
+		}
 
 		//draw vertical line
 		if(solid)
 			force_capture_pixmap.DrawLine(pen_gray_force_capture,
-					xPx, 4, xPx, force_capture_drawingarea.Allocation.Height - textHeight -4);
+					xPx, 4, xPx, force_capture_drawingarea.Allocation.Height - textHeight -6);
 		else
 			force_capture_pixmap.DrawLine(pen_gray_force_capture_discont,
-					xPx, 4, xPx, force_capture_drawingarea.Allocation.Height - textHeight -4);
+					xPx, 4, xPx, force_capture_drawingarea.Allocation.Height - textHeight -6);
 	}
 
 	private void forcePaintHLine(ForceSensorGraphs fsg, int yForce, bool solid)
@@ -2012,10 +2015,10 @@ LogB.Information(" fs R ");
 		//max, 0, min will be in black, the rest in gray
 		if(solid)
 			force_capture_pixmap.DrawLayout (pen_black_force_capture,
-					fscPoints.GetTimeInPx(0) - textWidth -4, yPx - textHeight/2, layout_force_text);
+					fscPoints.GetTimeInPx(0) - textWidth -6, yPx - textHeight/2, layout_force_text);
 		else
 			force_capture_pixmap.DrawLayout (pen_gray_force_capture,
-					fscPoints.GetTimeInPx(0) - textWidth -4, yPx - textHeight/2, layout_force_text);
+					fscPoints.GetTimeInPx(0) - textWidth -6, yPx - textHeight/2, layout_force_text);
 	}
 
 	private void on_radio_force_rfd_duration_toggled (object o, EventArgs args)

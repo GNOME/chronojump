@@ -474,7 +474,10 @@ public partial class ChronoJumpWindow
 				return false;
 			}
 			else if(forceSensorOtherMode == forceSensorOtherModeEnum.CHECK_VERSION)
+			{
 				forceSensorButtonsSensitive(true);
+				event_execute_label_message.Text = forceSensorOtherMessage;
+			}
 			else if(forceSensorOtherMode == forceSensorOtherModeEnum.TARE_AND_CAPTURE_PRE || forceSensorOtherMode == forceSensorOtherModeEnum.CAPTURE_PRE)
 				forceSensorCapturePre2_GTK_cameraCall();
 
@@ -601,7 +604,7 @@ public partial class ChronoJumpWindow
 			if(! forceSensorConnect())
 				return;
 
-		forceSensorCheckVersionDo();
+		forceSensorOtherMessage = Catalog.GetString("Version of the firmware:") + " " + forceSensorCheckVersionDo();
 	}
 
 	//Attention: no GTK here!!

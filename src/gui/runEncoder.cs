@@ -43,9 +43,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton race_analyzer_spinbutton_distance;
 	[Widget] Gtk.SpinButton race_analyzer_spinbutton_temperature;
 	[Widget] Gtk.TextView textview_race_analyzer_comment;
-	[Widget] Gtk.HBox hbox_race_analyzer_device;
-	[Widget] Gtk.RadioButton race_analyzer_radio_device_manual;
-	[Widget] Gtk.RadioButton race_analyzer_radio_device_other; //resisted
+	[Widget] Gtk.ComboBox combo_race_analyzer_device;
 	[Widget] Gtk.Image image_run_encoder_graph;
 	[Widget] Gtk.Button button_run_encoder_recalculate;
 	[Widget] Gtk.Button button_race_analyzer_save_comment;
@@ -262,6 +260,7 @@ public partial class ChronoJumpWindow
 	private void initRunEncoder ()
 	{
 		createRunEncoderExerciseCombo();
+		combo_race_analyzer_device.Active = 0;
 	}
 
 	private void raceEncoderReadWidgets()
@@ -269,7 +268,7 @@ public partial class ChronoJumpWindow
 		race_analyzer_distance = Convert.ToInt32(race_analyzer_spinbutton_distance.Value);
 		race_analyzer_temperature = Convert.ToInt32(race_analyzer_spinbutton_temperature.Value);
 
-		if(race_analyzer_radio_device_manual.Active)
+		if(UtilGtk.ComboGetActive(combo_race_analyzer_device) == RunEncoder.DevicesStringMANUAL)
 			race_analyzer_device = RunEncoder.Devices.MANUAL;
 		else
 			race_analyzer_device = RunEncoder.Devices.RESISTED;
@@ -277,7 +276,7 @@ public partial class ChronoJumpWindow
 
 	private RunEncoder.Devices raceEncoderGetDevice()
 	{
-		if(race_analyzer_radio_device_manual.Active)
+		if(UtilGtk.ComboGetActive(combo_race_analyzer_device) == RunEncoder.DevicesStringMANUAL)
 			return RunEncoder.Devices.MANUAL;
 		else
 			return RunEncoder.Devices.RESISTED;
@@ -285,9 +284,9 @@ public partial class ChronoJumpWindow
 	private void raceEncoderSetDevice(RunEncoder.Devices d)
 	{
 		if(d == RunEncoder.Devices.RESISTED)
-			race_analyzer_radio_device_other.Active = true;
+			combo_race_analyzer_device.Active = UtilGtk.ComboMakeActive(combo_race_analyzer_device, RunEncoder.DevicesStringRESISTED);
 		else
-			race_analyzer_radio_device_manual.Active = true;
+			combo_race_analyzer_device.Active = UtilGtk.ComboMakeActive(combo_race_analyzer_device, RunEncoder.DevicesStringMANUAL);
 	}
 
 	private void raceEncoderSetDistanceAndTemp(int distance, int temp)

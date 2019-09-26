@@ -7705,48 +7705,6 @@ EncoderInertialCapture</property>
                                                             <property name="position">3</property>
                                                             </packing>
                                                             </child>
-                                                            <child>
-                                                            <widget class="GtkHBox" id="hbox_race_analyzer_device">
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">4</property>
-                                                            <child>
-                                                            <widget class="GtkRadioButton" id="race_analyzer_radio_device_manual">
-                                                            <property name="label">Manual race analyzer</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">False</property>
-                                                            <property name="active">True</property>
-                                                            <property name="draw_indicator">True</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkRadioButton" id="race_analyzer_radio_device_other">
-                                                            <property name="label">Resisted race analyzer</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">False</property>
-                                                            <property name="active">True</property>
-                                                            <property name="draw_indicator">True</property>
-                                                            <property name="group">race_analyzer_radio_device_manual</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">4</property>
-                                                            </packing>
-                                                            </child>
                                                           </widget>
                                                         </child>
                                                       </widget>
@@ -10382,6 +10340,20 @@ Inverted values</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">20</property>
                                                             <child>
+                                                            <widget class="GtkComboBox" id="combo_race_analyzer_device">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="active">0</property>
+                                                            <property name="items">Manual race analyzer
+Resisted race analyzer</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkHBox" id="hbox_race_analyzer_distance">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -10435,7 +10407,7 @@ Inverted values</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">0</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -10492,7 +10464,7 @@ Inverted values</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -10546,7 +10518,7 @@ Inverted values</property>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">2</property>
+                                                            <property name="position">3</property>
                                                             </packing>
                                                             </child>
                                                             </widget>

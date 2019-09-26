@@ -700,9 +700,9 @@ public partial class ChronoJumpWindow
 		button_force_sensor_analyze_analyze.Sensitive = false;
 		forceCaptureStartMark = false;
 		//vscale_force_sensor.Value = 0;
-		label_force_sensor_value_max.Text = "0";
-		label_force_sensor_value.Text = "0";
-		label_force_sensor_value_min.Text = "0";
+		label_force_sensor_value_max.Text = "0 N";
+		label_force_sensor_value.Text = "0 N";
+		label_force_sensor_value_min.Text = "0 N";
 		label_force_sensor_analyze.Text = "";
 		label_force_sensor_analyze.Visible = false;
 
@@ -1123,9 +1123,9 @@ LogB.Information(" fs F ");
 		if(capturingForce == arduinoCaptureStatus.CAPTURING)
 		{
 LogB.Information(" fs G ");
-			label_force_sensor_value_max.Text = forceSensorValues.ForceMax.ToString();
-			label_force_sensor_value_min.Text = forceSensorValues.ForceMin.ToString();
-			label_force_sensor_value.Text = forceSensorValues.ForceLast.ToString();
+			label_force_sensor_value_max.Text = forceSensorValues.ForceMax.ToString() + " N";
+			label_force_sensor_value_min.Text = forceSensorValues.ForceMin.ToString() + " N";
+			label_force_sensor_value.Text = forceSensorValues.ForceLast.ToString() + " N";
 
 
 LogB.Information(" fs H ");
@@ -1811,9 +1811,9 @@ LogB.Information(" fs R ");
 
 		force_capture_drawingarea.QueueDraw(); // -- refresh
 
-		label_force_sensor_value.Text = forceSensorValues.ForceLast.ToString();
-		label_force_sensor_value_max.Text = forceSensorValues.ForceMax.ToString();
-		label_force_sensor_value_min.Text = forceSensorValues.ForceMin.ToString();
+		label_force_sensor_value.Text = forceSensorValues.ForceLast.ToString() + " N";
+		label_force_sensor_value_max.Text = forceSensorValues.ForceMax.ToString() + " N";
+		label_force_sensor_value_min.Text = forceSensorValues.ForceMin.ToString() + " N";
 		button_force_sensor_image_save_signal.Sensitive = true;
 		button_force_sensor_analyze_analyze.Sensitive = true;
 	}

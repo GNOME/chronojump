@@ -385,8 +385,7 @@ public class ForceSensorCapturePoints
 
 	private bool scrollStarted()
 	{
-		//return (GetLastTime() > RealWidthG / 2); //Divide by 2 (half of the screen)
-		return (GetLastTime() > .85 * RealWidthG); //85% of screen
+		return (GetLastTime() > .9 * RealWidthG); //90% of screen
 	}
 
 	/*

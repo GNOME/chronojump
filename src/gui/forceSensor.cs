@@ -444,6 +444,10 @@ public partial class ChronoJumpWindow
 		button_force_sensor_analyze_options.Sensitive = false;
 		button_force_sensor_analyze_analyze.Sensitive = false;
 		button_delete_last_test.Sensitive = false;
+		if(force_capture_drawingarea != null)
+			UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
+
+		button_force_sensor_image_save_signal.Sensitive = false;
 	}
 
 	private bool pulseGTKForceSensorOther ()
@@ -1061,6 +1065,8 @@ LogB.Information(" fs C ");
 					button_force_sensor_capture_recalculate.Sensitive = true;
 					button_force_sensor_save_comment.Sensitive = true;
 					button_delete_last_test.Sensitive = true;
+					force_capture_drawingarea.Sensitive = true;
+					button_force_sensor_image_save_signal.Sensitive = true;
 					notebook_force_sensor_analyze.Sensitive = true;
 					button_force_sensor_analyze_options.Sensitive = true;
 					button_force_sensor_analyze_analyze.Sensitive = true;
@@ -1113,7 +1119,6 @@ LogB.Information(" fs D ");
 			LogB.ThreadEnded(); 
 
 			forceSensorButtonsSensitive(true);
-			button_force_sensor_image_save_signal.Sensitive = true;
 
 			//finish, cancel: sensitive = false
 			hideButtons();
@@ -1502,6 +1507,7 @@ LogB.Information(" fs R ");
 		//event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(filechooser.Filename);
 		button_force_sensor_capture_recalculate.Sensitive = true;
 		button_force_sensor_save_comment.Sensitive = true;
+		force_capture_drawingarea.Sensitive = true;
 		notebook_force_sensor_analyze.Sensitive = true;
 		button_force_sensor_analyze_options.Sensitive = true;
 	}

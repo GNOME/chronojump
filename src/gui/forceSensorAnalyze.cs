@@ -828,7 +828,8 @@ public partial class ChronoJumpWindow
 //		forcePaintHVLines(ForceSensorGraphs.ANALYSIS_GENERAL, forceSensorValues.ForceMax, forceSensorValues.ForceMin, forceSensorValues.TimeLast);
 
 		//draw horizontal rectangle of feedback
-		forceSensorSignalPlotFeedbackRectangle(fsAI.FscAIPoints, force_sensor_ai_drawingarea, force_sensor_ai_pixmap);
+		if(check_force_sensor_capture_feedback.Active)
+			forceSensorSignalPlotFeedbackRectangle(fsAI.FscAIPoints, force_sensor_ai_drawingarea, force_sensor_ai_pixmap);
 
 		// 1) create paintPoints
 		Gdk.Point [] paintPoints = new Gdk.Point[fsAI.FscAIPoints.Points.Count];

@@ -742,7 +742,8 @@ public partial class ChronoJumpWindow
 
 		forcePaintHVLines(ForceSensorGraphs.CAPTURE, fscPoints.RealHeightG, ForceSensorCapturePoints.DefaultRealHeightGNeg, 10, false);
 		//draw horizontal rectangle of feedback
-		forceSensorSignalPlotFeedbackRectangle(fscPoints, force_capture_drawingarea, force_capture_pixmap);
+		if(check_force_sensor_capture_feedback.Active)
+			forceSensorSignalPlotFeedbackRectangle(fscPoints, force_capture_drawingarea, force_capture_pixmap);
 
 
 		event_execute_ButtonFinish.Clicked -= new EventHandler(on_finish_clicked);
@@ -1170,7 +1171,8 @@ LogB.Information(" fs I ");
 
 				forcePaintHVLines(ForceSensorGraphs.CAPTURE, fscPoints.RealHeightG, forceSensorValues.ForceMin * 2, fscPoints.RealWidthG, false);
 				//draw horizontal rectangle of feedback
-				forceSensorSignalPlotFeedbackRectangle(fscPoints, force_capture_drawingarea, force_capture_pixmap);
+				if(check_force_sensor_capture_feedback.Active)
+					forceSensorSignalPlotFeedbackRectangle(fscPoints, force_capture_drawingarea, force_capture_pixmap);
 
 			}
 
@@ -1268,7 +1270,9 @@ LogB.Information(" fs R ");
 		LogB.Information(" fs N0 ");
 
 		UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
-		forceSensorSignalPlotFeedbackRectangle(fscPoints, force_capture_drawingarea, force_capture_pixmap);
+		if(check_force_sensor_capture_feedback.Active)
+			forceSensorSignalPlotFeedbackRectangle(fscPoints, force_capture_drawingarea, force_capture_pixmap);
+
 		forcePaintHVLines(ForceSensorGraphs.CAPTURE,
 				getForceSensorMaxForceIncludingRectangle(forceSensorValues.ForceMax),
 				forceSensorValues.ForceMin,
@@ -1799,7 +1803,8 @@ LogB.Information(" fs R ");
 				false);
 
 		//draw horizontal rectangle of feedback
-		forceSensorSignalPlotFeedbackRectangle(fscPoints, force_capture_drawingarea, force_capture_pixmap);
+		if(check_force_sensor_capture_feedback.Active)
+			forceSensorSignalPlotFeedbackRectangle(fscPoints, force_capture_drawingarea, force_capture_pixmap);
 
 
 		Gdk.Point [] paintPoints = new Gdk.Point[fscPoints.Points.Count];
@@ -1852,30 +1857,17 @@ LogB.Information(" fs R ");
 		int fbkNValue = Convert.ToInt32(spin_force_sensor_capture_feedback_at.Value); //feedback Newtons value
 		int fbkNRange = Convert.ToInt32(spin_force_sensor_capture_feedback_range.Value); //feedback Newtons range (height of the rectangle)
 
-		if(fbkNValue > 0 && fbkNRange > 0)
-		{
-			int fbkGraphCenter = points.GetForceInPx(fbkNValue);
-			int fbkGraphRectHeight = points.GetForceInPx(0) - points.GetForceInPx(fbkNRange);
-			int fbkGraphRectHalfHeight = Convert.ToInt32( fbkGraphRectHeight /2);
-			int fbkGraphTop = points.GetForceInPx(fbkNValue) - fbkGraphRectHalfHeight;
+		int fbkGraphCenter = points.GetForceInPx(fbkNValue);
+		int fbkGraphRectHeight = points.GetForceInPx(0) - points.GetForceInPx(fbkNRange);
+		int fbkGraphRectHalfHeight = Convert.ToInt32( fbkGraphRectHeight /2);
+		int fbkGraphTop = points.GetForceInPx(fbkNValue) - fbkGraphRectHalfHeight;
 
-			Rectangle rect = new Rectangle(points.GetTimeInPx(0) +1, fbkGraphTop,
-					drawingarea.Allocation.Width -1, fbkGraphRectHeight);
-			pixmap.DrawRectangle(pen_yellow_force_capture, true, rect);
+		Rectangle rect = new Rectangle(points.GetTimeInPx(0) +1, fbkGraphTop,
+				drawingarea.Allocation.Width -1, fbkGraphRectHeight);
+		pixmap.DrawRectangle(pen_yellow_force_capture, true, rect);
 
-			/*
-			pixmap.DrawLine(pen_yellow_dark_force_capture,
-					points.GetTimeInPx(0), fbkGraphCenter, drawingarea.Allocation.Width, fbkGraphCenter);
-					*/
-
-			//int fbkGraphRectThirdHeight = Convert.ToInt32( fbkGraphRectHeight /3);
-			//int fbkGraphInnerTop = fbkGraphTop + fbkGraphRectThirdHeight;
-			//rect = new Rectangle(points.GetTimeInPx(0), fbkGraphInnerTop,
-			//		drawingarea.Allocation.Width -1, fbkGraphRectThirdHeight);
-			//pixmap.DrawRectangle(pen_orange_dark_force_capture, true, rect);
-			pixmap.DrawLine(pen_orange_dark_force_capture,
-					points.GetTimeInPx(0), fbkGraphCenter, drawingarea.Allocation.Width, fbkGraphCenter);
-		}
+		pixmap.DrawLine(pen_orange_dark_force_capture,
+				points.GetTimeInPx(0), fbkGraphCenter, drawingarea.Allocation.Width, fbkGraphCenter);
 	}
 
 	private enum ForceSensorGraphs { CAPTURE, ANALYSIS_GENERAL }

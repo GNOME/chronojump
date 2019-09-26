@@ -3428,6 +3428,10 @@ public partial class ChronoJumpWindow
 			notebook_capture_graph_table.CurrentPage = 1; //"Show table"
 			notebook_capture_graph_table.ShowTabs = false;
 			*/
+
+			combo_race_analyzer_device.Active = 0;
+			forceSensorImageTestChange();
+
 		}
 		else if(m == Constants.Menuitem_modes.RT)
 		{

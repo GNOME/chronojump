@@ -260,7 +260,6 @@ public partial class ChronoJumpWindow
 	private void initRunEncoder ()
 	{
 		createRunEncoderExerciseCombo();
-		combo_race_analyzer_device.Active = 0;
 	}
 
 	private void raceEncoderReadWidgets()
@@ -287,6 +286,22 @@ public partial class ChronoJumpWindow
 			combo_race_analyzer_device.Active = UtilGtk.ComboMakeActive(combo_race_analyzer_device, RunEncoder.DevicesStringRESISTED);
 		else
 			combo_race_analyzer_device.Active = UtilGtk.ComboMakeActive(combo_race_analyzer_device, RunEncoder.DevicesStringMANUAL);
+	}
+
+	private void on_combo_race_analyzer_device_changed (object o, EventArgs args)
+	{
+		forceSensorImageTestChange();
+	}
+
+	private void forceSensorImageTestChange()
+	{
+		Pixbuf pixbuf; //main image
+		if(UtilGtk.ComboGetActive(combo_race_analyzer_device) == RunEncoder.DevicesStringMANUAL)
+			pixbuf = new Pixbuf (null, Util.GetImagePath(true) + "run-encoder-manual.png");
+		else
+			pixbuf = new Pixbuf (null, Util.GetImagePath(true) + "run-encoder-resisted.png");
+
+		image_test.Pixbuf = pixbuf;
 	}
 
 	private void raceEncoderSetDistanceAndTemp(int distance, int temp)

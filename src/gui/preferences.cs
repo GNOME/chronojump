@@ -141,6 +141,11 @@ public class PreferencesWindow
 	[Widget] Gtk.RadioButton radio_encoder_1RM_weighted2;
 	[Widget] Gtk.RadioButton radio_encoder_1RM_weighted3;
 
+	//forceSensor tab
+	[Widget] Gtk.SpinButton spin_force_sensor_capture_width_graph_seconds;
+	[Widget] Gtk.RadioButton radio_force_sensor_capture_zoom_out;
+	[Widget] Gtk.RadioButton radio_force_sensor_capture_scroll;
+
 	//multimedia tab
 	[Widget] Gtk.CheckButton checkbutton_volume;
 	[Widget] Gtk.Table table_gstreamer;
@@ -234,6 +239,7 @@ public class PreferencesWindow
 	const int RUNSPAGE = 3;
 	const int ENCODERCAPTUREPAGE = 4;
 	const int ENCODEROTHERPAGE = 5;
+	const int FORCESENSORPAGE = 6;
 
 	static private WebcamDeviceList wd_list;
 	private WebcamFfmpegSupportedModes wfsm;
@@ -285,6 +291,8 @@ public class PreferencesWindow
 			PreferencesWindowBox.notebook.GetNthPage(ENCODERCAPTUREPAGE).Hide();
 			PreferencesWindowBox.notebook.GetNthPage(ENCODEROTHERPAGE).Hide();
 		}
+		if(menu_mode !=	Constants.Menuitem_modes.FORCESENSOR)
+			PreferencesWindowBox.notebook.GetNthPage(FORCESENSORPAGE).Hide();
 
 		PreferencesWindowBox.preferences = preferences;
 
@@ -573,6 +581,15 @@ public class PreferencesWindow
 
 		//done here and not in glade to be shown with the decimal point of user language	
 		PreferencesWindowBox.label_encoder_con.Text = (0.7).ToString();
+
+		//forceSensor -->
+
+		PreferencesWindowBox.spin_force_sensor_capture_width_graph_seconds.Value = preferences.forceSensorCaptureWidthSeconds;
+
+		if(preferences.forceSensorCaptureScroll)
+			PreferencesWindowBox.radio_force_sensor_capture_scroll.Active = true;
+		else
+			PreferencesWindowBox.radio_force_sensor_capture_zoom_out.Active = true;
 
 		//language -->
 		if(preferences.language == "")
@@ -1901,6 +1918,17 @@ public class PreferencesWindow
 
 
 		//---- end of encoder other
+
+		//forceSensor
+		preferences.forceSensorCaptureWidthSeconds = preferencesChange(
+				SqlitePreferences.ForceSensorCaptureWidthSeconds,
+				preferences.forceSensorCaptureWidthSeconds,
+				Convert.ToInt32(spin_force_sensor_capture_width_graph_seconds.Value));
+
+		preferences.forceSensorCaptureScroll = preferencesChange(
+				SqlitePreferences.ForceSensorCaptureScroll,
+				preferences.forceSensorCaptureScroll,
+				radio_force_sensor_capture_scroll.Active);
 
 		//multimedia ----
 		if( preferences.volumeOn != PreferencesWindowBox.checkbutton_volume.Active ) {

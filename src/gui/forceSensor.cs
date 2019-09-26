@@ -93,9 +93,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.VBox vbox_force_capture_feedback;
 	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_at;
 	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_range;
-	[Widget] Gtk.CheckButton check_force_sensor_scroll;
-	[Widget] Gtk.VBox vbox_force_sensor_capture_options;
-	[Widget] Gtk.SpinButton spin_force_sensor_capture_width_graph_seconds;
 
 	Gdk.Pixmap force_capture_pixmap = null;
 
@@ -118,7 +115,6 @@ public partial class ChronoJumpWindow
 	private ForceSensor currentForceSensor;
 	private ForceSensorExercise currentForceSensorExercise;
 	DateTime forceSensorTimeStartCapture;
-	bool forceSensorScroll;
 
 
 	//non GTK on this method
@@ -413,7 +409,6 @@ public partial class ChronoJumpWindow
 		button_execute_test.Sensitive = sensitive;
 		button_force_sensor_analyze_load.Sensitive = sensitive;
 		vbox_force_capture_feedback.Sensitive = sensitive;
-		vbox_force_sensor_capture_options.Sensitive = sensitive;
 
 		vbox_contacts_camera.Sensitive = sensitive;
 
@@ -726,7 +721,7 @@ public partial class ChronoJumpWindow
 		fscPoints = new ForceSensorCapturePoints(
 				force_capture_drawingarea.Allocation.Width,
 				force_capture_drawingarea.Allocation.Height,
-				Convert.ToInt32(spin_force_sensor_capture_width_graph_seconds.Value)
+				preferences.forceSensorCaptureWidthSeconds
 				);
 
 		setForceSensorTopAtOperationStart();
@@ -739,7 +734,6 @@ public partial class ChronoJumpWindow
 		forcePaintHVLines(ForceSensorGraphs.CAPTURE, fscPoints.RealHeightG, ForceSensorCapturePoints.DefaultRealHeightGNeg, 10, false);
 		//draw horizontal rectangle of feedback
 		forceSensorSignalPlotFeedbackRectangle(fscPoints, force_capture_drawingarea, force_capture_pixmap);
-		forceSensorScroll = check_force_sensor_scroll.Active;
 
 
 		event_execute_ButtonFinish.Clicked -= new EventHandler(on_finish_clicked);
@@ -934,7 +928,7 @@ public partial class ChronoJumpWindow
 
 			fscPoints.Add(time, forceWithCaptureOptionsAndBW);
 			fscPoints.NumCaptured ++;
-			if(fscPoints.OutsideGraph(forceSensorScroll))
+			if(fscPoints.OutsideGraph(preferences.forceSensorCaptureScroll))
 			{
 				redoingPoints = true;
 				fscPoints.Redo();
@@ -942,7 +936,7 @@ public partial class ChronoJumpWindow
 				//mark meaning screen should be erased
 				//but only applies when not in scroll
 				//because scroll already erases screen all the time, paintHVLines and plot feedback rectangle
-				if(! (forceSensorScroll && fscPoints.ScrollStartedAtCount > 0))
+				if(! (preferences.forceSensorCaptureScroll && fscPoints.ScrollStartedAtCount > 0))
 					fscPoints.NumPainted = -1;
 
 				redoingPoints = false;
@@ -1042,7 +1036,7 @@ LogB.Information(" fs C ");
 					Thread.Sleep (250); //Wait a bit to ensure is copied
 					sensitiveLastTestButtons(true);
 
-					fscPoints.InitRealWidthHeight(Convert.ToInt32(spin_force_sensor_capture_width_graph_seconds.Value));
+					fscPoints.InitRealWidthHeight(preferences.forceSensorCaptureWidthSeconds);
 
 					forceSensorDoSignalGraphPlot();
 					forceSensorDoRFDGraph();
@@ -1188,7 +1182,7 @@ LogB.Information(" fs J ");
 				return true;
 
 			//note that scroll mode will call NOScroll method until scroll starts
-			if(forceSensorScroll && fscPoints.ScrollStartedAtCount > 0)
+			if(preferences.forceSensorCaptureScroll && fscPoints.ScrollStartedAtCount > 0)
 				forceSensorCaptureDoRealtimeGraphScroll(numCaptured, numPainted, toDraw, points);
 			else
 				forceSensorCaptureDoRealtimeGraphNOScroll(numCaptured, numPainted, toDraw, points);
@@ -1732,7 +1726,7 @@ LogB.Information(" fs R ");
 		fscPoints = new ForceSensorCapturePoints(
 				force_capture_drawingarea.Allocation.Width,
 				force_capture_drawingarea.Allocation.Height,
-				Convert.ToInt32(spin_force_sensor_capture_width_graph_seconds.Value)
+				preferences.forceSensorCaptureWidthSeconds
 				);
 
 		List<string> contents = Util.ReadFileAsStringList(UtilEncoder.GetmifCSVFileName());

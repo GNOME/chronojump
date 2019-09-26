@@ -441,6 +441,7 @@ public partial class ChronoJumpWindow
 		textview_force_sensor_capture_comment.Buffer.Text = "";
 		button_force_sensor_save_comment.Sensitive = false;
 		notebook_force_sensor_analyze.Sensitive = false;
+		button_force_sensor_analyze_options.Sensitive = false;
 		button_force_sensor_analyze_analyze.Sensitive = false;
 		button_delete_last_test.Sensitive = false;
 	}
@@ -1061,6 +1062,8 @@ LogB.Information(" fs C ");
 					button_force_sensor_save_comment.Sensitive = true;
 					button_delete_last_test.Sensitive = true;
 					notebook_force_sensor_analyze.Sensitive = true;
+					button_force_sensor_analyze_options.Sensitive = true;
+					button_force_sensor_analyze_analyze.Sensitive = true;
 
 					if( configChronojump.Exhibition &&
 							( configChronojump.ExhibitionStationType == ExhibitionTest.testTypes.FORCE_ROPE ||
@@ -1111,7 +1114,6 @@ LogB.Information(" fs D ");
 
 			forceSensorButtonsSensitive(true);
 			button_force_sensor_image_save_signal.Sensitive = true;
-			button_force_sensor_analyze_analyze.Sensitive = true;
 
 			//finish, cancel: sensitive = false
 			hideButtons();
@@ -1501,6 +1503,7 @@ LogB.Information(" fs R ");
 		button_force_sensor_capture_recalculate.Sensitive = true;
 		button_force_sensor_save_comment.Sensitive = true;
 		notebook_force_sensor_analyze.Sensitive = true;
+		button_force_sensor_analyze_options.Sensitive = true;
 	}
 
 	protected void on_force_sensor_load_signal_row_edit (object o, EventArgs args) {

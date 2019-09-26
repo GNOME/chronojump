@@ -293,6 +293,7 @@ finishForeach:
 		ArrayList arrayMCs = new ArrayList(2);
 		ArrayList arrayEncS = new ArrayList(2);
 		ArrayList arrayEncC = new ArrayList(2);
+		ArrayList arrayForce = new ArrayList(2);
 		
 		string tps = Constants.PersonSessionTable;
 	
@@ -417,7 +418,18 @@ finishForeach:
 			arrayEncC.Add ( reader[0].ToString() + ":" + reader[1].ToString() );
 		}
 		reader.Close();
-	
+
+		//forceSensor
+		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.ForceSensorTable + " WHERE personID = " + personID +
+			" GROUP BY sessionID ORDER BY sessionID";
+		LogB.SQL(dbcmd.CommandText.ToString());
+
+		reader = dbcmd.ExecuteReader();
+		while(reader.Read()) {
+			arrayForce.Add ( reader[0].ToString() + ":" + reader[1].ToString() );
+		}
+		reader.Close();
+
 
 
 		Sqlite.Close();
@@ -433,6 +445,7 @@ finishForeach:
 		string tempMCs;
 		string tempEncS;
 		string tempEncC;
+		string tempForce;
 		bool found; 	//using found because a person can be loaded in a session 
 				//but whithout having done any event yet
 
@@ -448,6 +461,7 @@ finishForeach:
 			tempMCs = "";
 			tempEncS = "";
 			tempEncC = "";
+			tempForce = "";
 			found = false;
 			
 			foreach (string myJumps in arrayJumps) {
@@ -531,6 +545,15 @@ finishForeach:
 				}
 			}
 
+			foreach (string f in arrayForce) {
+				string [] myStr = f.Split(new char[] {':'});
+				if(myStrSession[0] == myStr[0]) {
+					tempForce = myStr[1];
+					found = true;
+					break;
+				}
+			}
+
 
 			//if has events, write it's data
 			if (found) {
@@ -539,7 +562,7 @@ finishForeach:
 						tempJumpsRj + ":" + tempRuns + ":" + 		//jumpsRj, Runs
 						tempRunsInterval + ":" + tempRTs + ":" + 	//runsInterval, Reaction times
 						tempPulses + ":" + tempMCs + ":" +		//pulses, MultiChronopic
-						tempEncS + ":" + tempEncC			//encoder signal, encoder curve
+						tempEncS + ":" + tempEncC + ":" + tempForce	//encoder signal, encoder curve, forceSensor
 						);
 			}
 		}

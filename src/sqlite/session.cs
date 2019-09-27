@@ -580,19 +580,24 @@ class SqliteSession : Sqlite
 		reader_enc.Close();
 
 		//select force sensor of each session
-		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.ForceSensorTable +
-			" GROUP BY sessionID ORDER BY sessionID";
-		LogB.SQL(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-
-		SqliteDataReader reader_fs;
-		reader_fs = dbcmd.ExecuteReader();
 		ArrayList myArray_fs = new ArrayList(2);
 
-		while(reader_fs.Read()) {
-			myArray_fs.Add (reader_fs[0].ToString() + ":" + reader_fs[1].ToString() + ":" );
+		//if we are importing from a session who was not the forceSensor table (db version < 1.68)
+		if(tableExists(true, Constants.ForceSensorTable))
+		{
+			dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.ForceSensorTable +
+				" GROUP BY sessionID ORDER BY sessionID";
+			LogB.SQL(dbcmd.CommandText.ToString());
+			dbcmd.ExecuteNonQuery();
+
+			SqliteDataReader reader_fs;
+			reader_fs = dbcmd.ExecuteReader();
+
+			while(reader_fs.Read()) {
+				myArray_fs.Add (reader_fs[0].ToString() + ":" + reader_fs[1].ToString() + ":" );
+			}
+			reader_fs.Close();
 		}
-		reader_fs.Close();
 
 
 		//mix nine arrayLists

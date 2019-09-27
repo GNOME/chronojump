@@ -26,9 +26,28 @@ using Mono.Unix;
 public class ForceSensor
 {
 	public enum CaptureOptions { NORMAL, ABS, INVERTED }
-	public static string CaptureOptionsStringNORMAL = "Standard capture";
-	public static string CaptureOptionsStringABS =  "Absolute values";
-	public static string CaptureOptionsStringINVERTED =  "Inverted values";
+	public static string CaptureOptionsStringNORMAL()
+	{
+		return Catalog.GetString("Standard capture");
+	}
+	public static string CaptureOptionsStringABS()
+	{
+		return Catalog.GetString("Absolute values");
+	}
+	public static string CaptureOptionsStringINVERTED()
+	{
+		return Catalog.GetString("Inverted values");
+	}
+	public static List<string> CaptureOptionsList()
+	{
+		List<string> l = new List<string>();
+
+		l.Add(CaptureOptionsStringNORMAL());
+		l.Add(CaptureOptionsStringABS());
+		l.Add(CaptureOptionsStringINVERTED());
+
+		return l;
+	}
 
 	public static int AngleUndefined = -1000;
 
@@ -156,11 +175,11 @@ public class ForceSensor
 	public static string GetCaptureOptionsString(CaptureOptions co)
 	{
 		if(co == ForceSensor.CaptureOptions.ABS)
-			return CaptureOptionsStringABS;
+			return CaptureOptionsStringABS();
 		else if(co == ForceSensor.CaptureOptions.INVERTED)
-			return CaptureOptionsStringINVERTED;
+			return CaptureOptionsStringINVERTED();
 		else
-			return CaptureOptionsStringNORMAL;
+			return CaptureOptionsStringNORMAL();
 
 	}
 

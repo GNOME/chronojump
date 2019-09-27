@@ -4237,7 +4237,7 @@ public partial class ChronoJumpWindow
 				//chronopicWin.CP, event_execute_label_message, app1, preferences.digitsNumber, preferences.volumeOn,
 				cp2016.CP, app1, preferences.digitsNumber,
 				preferences.volumeOn, preferences.gstreamer,
-				progressbarLimit, egd, description, configChronojump.Exhibition);
+				progressbarLimit, egd, description, configChronojump.Exhibition, preferences.jumpsDjGraphHeights);
 
 
 		//UtilGtk.ChronopicColors(viewport_chronopics, label_chronopics, label_connected_chronopics, chronopicWin.Connected);

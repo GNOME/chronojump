@@ -27,6 +27,10 @@ using System.Collections; //ArrayList
 
 class SqlitePreferences : Sqlite
 {
+	//contacts
+	public const string JumpsDjGraphHeights = "jumpsDjGraphHeights";
+
+	//encoder
 	public const string EncoderExerciseIDGravitatory = "encoderExerciseIDGravitatory";
 	public const string EncoderExerciseIDInertial = "encoderExerciseIDInertial";
 	public const string EncoderContractionGravitatory = "encoderContractionGravitatory";
@@ -52,6 +56,7 @@ class SqlitePreferences : Sqlite
 	public const string EncoderRhythmRepsClusterStr = "encoderRhythmRepsCluster";
 	public const string EncoderRhythmRestClustersSecondsStr = "encoderRhythmRestClustersSeconds";
 
+	//forceSensor
 	public const string ForceSensorCaptureWidthSeconds = "forceSensorCaptureWidthSeconds";
 	public const string ForceSensorCaptureScroll = "forceSensorCaptureScroll";
 
@@ -92,6 +97,7 @@ class SqlitePreferences : Sqlite
 				Insert ("showAngle", "False", dbcmdTr); //for treeviewjumps
 				Insert ("showQIndex", "False", dbcmdTr); //for treeviewJumps
 				Insert ("showDjIndex", "False", dbcmdTr); //for treeviewJumps
+				Insert (JumpsDjGraphHeights, "True", dbcmdTr);
 				Insert ("simulated", "True", dbcmdTr);
 				Insert ("weightStatsPercent", "False", dbcmdTr);
 				Insert ("askDeletion", "True", dbcmdTr);
@@ -313,6 +319,8 @@ class SqlitePreferences : Sqlite
 				preferences.showQIndex = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "showDjIndex")
 				preferences.showDjIndex = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == JumpsDjGraphHeights)
+				preferences.jumpsDjGraphHeights = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "weightStatsPercent")
 				preferences.weightStatsPercent = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "heightPreferred")

@@ -41,6 +41,7 @@ public class Preferences
 	public bool showAngle;
 	public bool showQIndex;
 	public bool showDjIndex;
+	public bool jumpsDjGraphHeights;
 	public bool weightStatsPercent;		//AKA weightPercentPreferred
 	public bool heightPreferred;
 	public bool metersSecondsPreferred;

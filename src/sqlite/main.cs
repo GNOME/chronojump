@@ -125,7 +125,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.72";
+	static string lastChronojumpDatabaseVersion = "1.73";
 
 	public Sqlite() {
 	}
@@ -2480,6 +2480,14 @@ class Sqlite
 
 				currentVersion = updateVersion("1.72");
 			}
+			if(currentVersion == "1.72")
+			{
+				LogB.SQL("Inserted into preferences: jumpsDjGraphHeights");
+
+				SqlitePreferences.Insert (SqlitePreferences.JumpsDjGraphHeights, "True");
+
+				currentVersion = updateVersion("1.73");
+			}
 
 
 			// --- add more updates here
@@ -2673,6 +2681,7 @@ class Sqlite
 		SqliteJson.createTableUploadExhibitionTestTemp ();
 
 		//changes [from - to - desc]
+		//1.72 - 1.73 Converted DB to 1.73 Inserted into preferences: jumpsDjGraphHeights
 		//1.71 - 1.72 Converted DB to 1.72 Inserted into preferences: forceSensorCaptureWidthSeconds, forceSensorCaptureScroll
 		//1.70 - 1.71 Converted DB to 1.71 Imported run encoder text files into SQL
 		//1.69 - 1.70 Converted DB to 1.70 Created tables: RunEncoder, RunEncoderExercise

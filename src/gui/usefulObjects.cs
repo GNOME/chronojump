@@ -70,13 +70,15 @@ public class PrepareEventGraphJumpSimple {
 	//current data
 	public double tv;
 	public double tc;
+	public bool djShowHeights; //if djShowHeights and is a dj, graph falling height and jump height
+
 		
 	private enum jumpVariables { HEIGHT, TVTC, TC }
 
 	public PrepareEventGraphJumpSimple() {
 	}
 
-	public PrepareEventGraphJumpSimple(double tv, double tc, int sessionID, int personID, string table, string type) 
+	public PrepareEventGraphJumpSimple(double tv, double tc, int sessionID, int personID, string table, string type, bool djShowHeights)
 	{
 		Sqlite.Open();
 
@@ -88,8 +90,12 @@ public class PrepareEventGraphJumpSimple {
 		if(tv > 0) {
 			if(tc <= 0)
 				sqlSelect = "100*4.9*(TV/2)*(TV/2)";
-			else
-				sqlSelect = "TV"; //if tc is higher than tv it will be fixed on PrepareJumpSimpleGraph
+			else {
+				if(djShowHeights)
+					sqlSelect = "100*4.9*(TV/2)*(TV/2)";
+				else
+					sqlSelect = "TV"; //if tc is higher than tv it will be fixed on PrepareJumpSimpleGraph
+			}
 		} else
 			sqlSelect = "TC";
 		
@@ -104,6 +110,7 @@ public class PrepareEventGraphJumpSimple {
 			
 		this.tv = tv;
 		this.tc = tc;
+		this.djShowHeights = djShowHeights;
 		
 		Sqlite.Close();
 	}

@@ -75,6 +75,8 @@ public class PreferencesWindow
 	[Widget] Gtk.Box hbox_indexes;
 	[Widget] Gtk.RadioButton radiobutton_show_q_index;
 	[Widget] Gtk.RadioButton radiobutton_show_dj_index;
+	[Widget] Gtk.RadioButton radio_jumps_dj_capture_show_heights;
+	[Widget] Gtk.RadioButton radio_jumps_dj_capture_show_times;
 	[Widget] Gtk.RadioButton radio_elevation_height;
 	[Widget] Gtk.RadioButton radio_elevation_tf;
 	[Widget] Gtk.RadioButton radio_weight_percent;
@@ -395,7 +397,7 @@ public class PreferencesWindow
 			PreferencesWindowBox.checkbutton_angle.Active = true; 
 		else 
 			PreferencesWindowBox.checkbutton_angle.Active = false; 
-		
+
 
 		if(preferences.showQIndex || preferences.showDjIndex) { 
 			PreferencesWindowBox.checkbutton_show_tv_tc_index.Active = true; 
@@ -411,6 +413,11 @@ public class PreferencesWindow
 			PreferencesWindowBox.checkbutton_show_tv_tc_index.Active = false; 
 			PreferencesWindowBox.hbox_indexes.Hide();
 		}
+
+		if(preferences.jumpsDjGraphHeights)
+			PreferencesWindowBox.radio_jumps_dj_capture_show_heights.Active = true;
+		else
+			PreferencesWindowBox.radio_jumps_dj_capture_show_times.Active = true;
 
 		if(preferences.askDeletion)
 			PreferencesWindowBox.checkbutton_ask_deletion.Active = true; 
@@ -1702,7 +1709,12 @@ public class PreferencesWindow
 			preferences.showQIndex = false;
 			preferences.showDjIndex = false; 
 		}
-		
+
+		preferences.jumpsDjGraphHeights = preferencesChange(
+				SqlitePreferences.JumpsDjGraphHeights,
+				preferences.jumpsDjGraphHeights,
+				radio_jumps_dj_capture_show_heights.Active);
+
 		
 		if( preferences.askDeletion != PreferencesWindowBox.checkbutton_ask_deletion.Active ) {
 			SqlitePreferences.Update("askDeletion", PreferencesWindowBox.checkbutton_ask_deletion.Active.ToString(), true);

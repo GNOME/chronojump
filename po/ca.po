@@ -5511,7 +5511,7 @@ msgstr "Valors absoluts"
 
 #: ../src/forceSensor.cs:39
 msgid "Inverted values"
-msgstr "Inverteix els valors"
+msgstr "Valors invertits"
 
 #: ../src/gui/chronojump.cs:838
 #, csharp-format

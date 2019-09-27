@@ -161,7 +161,7 @@ public partial class ChronoJumpWindow
 	{
 		notebook_force_sensor_analyze.CurrentPage = 1; 	//start on 1: force_general_analysis
 		createForceExerciseCombo();
-		combo_force_sensor_capture_options.Active = 0;
+		createComboForceSensorCaptureOptions();
 		createForceAnalyzeCombos();
 		setRFDValues();
 		setImpulseValue();
@@ -2170,6 +2170,12 @@ LogB.Information(" fs R ");
 				preferences.GetForceSensorAdjustString());
 	}
 
+	private void createComboForceSensorCaptureOptions()
+	{
+		UtilGtk.ComboUpdate(combo_force_sensor_capture_options, ForceSensor.CaptureOptionsList());
+		combo_force_sensor_capture_options.Active = 0;
+	}
+
 	// -------------------------------- exercise stuff --------------------
 
 
@@ -2446,11 +2452,11 @@ LogB.Information(" fs R ");
 	private ForceSensor.CaptureOptions getForceSensorCaptureOptions()
 	{
 		string option = UtilGtk.ComboGetActive(combo_force_sensor_capture_options);
-		if(option == Catalog.GetString(ForceSensor.CaptureOptionsStringABS))
+		if(option == ForceSensor.CaptureOptionsStringABS())
 			return ForceSensor.CaptureOptions.ABS;
-		else if(option == Catalog.GetString(ForceSensor.CaptureOptionsStringINVERTED))
+		else if(option == ForceSensor.CaptureOptionsStringINVERTED())
 			return ForceSensor.CaptureOptions.INVERTED;
-		else //ForceSensor.CaptureOptionsStringNORMAL
+		else //ForceSensor.CaptureOptionsStringNORMAL()
 			return ForceSensor.CaptureOptions.NORMAL;
 	}
 	private void setForceSensorCaptureOptions(ForceSensor.CaptureOptions co)

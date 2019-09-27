@@ -403,11 +403,10 @@ public class PreferencesWindow
 			PreferencesWindowBox.checkbutton_show_tv_tc_index.Active = true; 
 			if(preferences.showQIndex) {
 				PreferencesWindowBox.radiobutton_show_q_index.Active = true; 
-				PreferencesWindowBox.radiobutton_show_dj_index.Active = false; 
 			} else {
-				PreferencesWindowBox.radiobutton_show_q_index.Active = false; 
 				PreferencesWindowBox.radiobutton_show_dj_index.Active = true; 
 			}
+			PreferencesWindowBox.hbox_indexes.Show();
 		}
 		else {
 			PreferencesWindowBox.checkbutton_show_tv_tc_index.Active = false; 

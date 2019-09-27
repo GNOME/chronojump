@@ -49,6 +49,7 @@ public class JumpExecute : EventExecute
 
 	private int angle = -1;
 	private bool avoidGraph;
+	private bool jumpsDjGraphHeights;
 	
 	public JumpExecute() {
 	}
@@ -58,7 +59,8 @@ public class JumpExecute : EventExecute
 			Chronopic cp, Gtk.Window app, int pDN,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
 			double progressbarLimit, ExecutingGraphData egd, string description,
-			bool avoidGraph //on configChronojump.Exhibition do not show graph because it gets too slow with big database
+			bool avoidGraph, //on configChronojump.Exhibition do not show graph because it gets too slow with big database
+			bool jumpsDjGraphHeights
 			)
 	{
 		this.personID = personID;
@@ -78,6 +80,7 @@ public class JumpExecute : EventExecute
 		this.egd = egd;
 		this.description = description;
 		this.avoidGraph = avoidGraph;
+		this.jumpsDjGraphHeights = jumpsDjGraphHeights;
 	
 		if(TypeHasFall) {
 			hasFall = true;
@@ -475,7 +478,8 @@ public class JumpExecute : EventExecute
 
 		if(! avoidGraph)
 		{
-			PrepareEventGraphJumpSimpleObject = new PrepareEventGraphJumpSimple(tv, tc, sessionID, personID, table, type);
+			PrepareEventGraphJumpSimpleObject = new PrepareEventGraphJumpSimple(
+					tv, tc, sessionID, personID, table, type, jumpsDjGraphHeights);
 			needUpdateGraphType = eventType.JUMP;
 			needUpdateGraph = true;
 		}

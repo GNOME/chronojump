@@ -3395,7 +3395,7 @@ Other</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
-                                    <property name="label">Behaviour when signal gets to the right of the screen</property>
+                                    <property name="label" translatable="yes">Behaviour when signal gets to the right of the screen</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">True</property>

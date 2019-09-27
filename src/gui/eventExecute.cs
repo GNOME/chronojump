@@ -1149,10 +1149,10 @@ public partial class ChronoJumpWindow
 		 * for this reason, show rect and bar in a higher position
 		 * use 2*lHeight in order to accomodate "Simulated" message below
 		 */
-		int yStart = Convert.ToInt32((y+alto)/2);
+		int yStart = Convert.ToInt32((y+alto)/2) - lHeight/2;
 
-		if( (yStart + 2*lHeight) > alto )
-			yStart = alto - 2*lHeight;
+		if( (yStart + lHeight) > alto )
+			yStart = alto - lHeight;
 
 		//draw rectangle behind
 		Rectangle rect = new Rectangle(x - lWidth/2, yStart, lWidth, lHeight);

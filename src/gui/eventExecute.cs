@@ -152,6 +152,7 @@ public partial class ChronoJumpWindow
 	
 	//for writing text
 	Pango.Layout layoutSmall;
+	Pango.Layout layoutSmallMid;
 	Pango.Layout layoutMid;
 	Pango.Layout layoutBig;
 	Pango.Layout layoutMid_run_simple;
@@ -233,6 +234,9 @@ public partial class ChronoJumpWindow
 		layoutSmall = new Pango.Layout (event_execute_drawingarea.PangoContext);
 		layoutSmall.FontDescription = Pango.FontDescription.FromString ("Courier 7");
 		
+		layoutSmallMid = new Pango.Layout (event_execute_drawingarea.PangoContext);
+		layoutSmallMid.FontDescription = Pango.FontDescription.FromString ("Courier 9");
+
 		layoutMid = new Pango.Layout (event_execute_drawingarea.PangoContext);
 		layoutMid.FontDescription = Pango.FontDescription.FromString ("Courier 11");
 
@@ -1081,6 +1085,15 @@ public partial class ChronoJumpWindow
 		else
 			addUnitsToLabel("cm");
 
+		//add legend box
+		if(eventGraph.tc > 0 && eventGraph.tv > 0)
+		{
+			if(eventGraph.djShowHeights)
+				addLegend(pen_rojo, Catalog.GetString("Falling height"), pen_azul_claro, Catalog.GetString("Jump height"), layoutSmallMid);
+			else
+				addLegend(pen_rojo, Catalog.GetString("Contact time"), pen_azul_claro, Catalog.GetString("Flight time"), layoutSmallMid);
+		}
+
 		//paint reference guide black and green if needed
 		//drawGuideOrAVG(pen_black_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 		//drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
@@ -1178,6 +1191,49 @@ public partial class ChronoJumpWindow
 
 	private void addUnitsToLabel(string unit) {
 		event_graph_label_graph_test.Text = event_graph_label_graph_test.Text + " (" + unit + ")";
+	}
+
+	private void addLegend(Gdk.GC pen1, string text1, Gdk.GC pen2, string text2, Pango.Layout layout)
+	{
+		int marginOut = 2;
+		int marginIn = 2;
+		int boxSize = 9;
+
+		layout.SetMarkup(text1);
+		int lWidth1 = 1;
+		int lHeight1 = 1;
+		layout.GetPixelSize(out lWidth1, out lHeight1);
+
+		layout.SetMarkup(text2);
+		int lWidth2 = 1;
+		int lHeight2 = 1;
+		layout.GetPixelSize(out lWidth2, out lHeight2);
+
+		int maxWidth = lWidth1;
+		if(lWidth2 > maxWidth)
+			maxWidth = lWidth2;
+		maxWidth += 2 * marginIn + boxSize;
+
+		int totalHeight = lHeight1 + lHeight2 + 4 * marginIn;
+
+		//A rectangle drawn filled is 1 pixel smaller in both dimensions than a rectangle outlined.
+		Rectangle rect = new Rectangle(marginOut -1, marginOut -1,  maxWidth +1, totalHeight +1);
+		event_execute_pixmap.DrawRectangle(pen_yellow_bg, false, rect);
+		rect = new Rectangle(marginOut, marginOut,  maxWidth, totalHeight);
+		event_execute_pixmap.DrawRectangle(pen_white, true, rect); //filled
+
+		//box of text1 && text2
+		rect = new Rectangle(marginOut + marginIn, marginOut + marginIn + 2, boxSize, boxSize); //+2 to align similar to text
+		event_execute_pixmap.DrawRectangle(pen1, true, rect); //filled
+
+		rect = new Rectangle(marginOut + marginIn, 2 * (marginOut + marginIn) + 2 + lHeight1, boxSize, boxSize);
+		event_execute_pixmap.DrawRectangle(pen2, true, rect); //filled
+
+		//write text
+		layout.SetMarkup(text1);
+		event_execute_pixmap.DrawLayout (pen_black, marginOut + 2 * marginIn + boxSize, marginOut + marginIn, layout);
+		layout.SetMarkup(text2);
+		event_execute_pixmap.DrawLayout (pen_black, marginOut + 2 * marginIn + boxSize, 2 * (marginOut + marginIn) + lHeight1, layout);
 	}
 
 	private void paintRunSimple (Gtk.DrawingArea drawingarea, PrepareEventGraphRunSimple eventGraph,
@@ -2330,7 +2386,7 @@ public partial class ChronoJumpWindow
 	Gdk.GC pen_beige_discont; //Y cols
 	Gdk.GC pen_brown_bold; //best tv/tc in rj;
 	Gdk.GC pen_violet_bold; //worst tv/tc in rj
-	//Gdk.GC pen_white;
+	Gdk.GC pen_white;
 	
 
 	void event_execute_configureColors()
@@ -2349,7 +2405,7 @@ public partial class ChronoJumpWindow
 		Gdk.Color beige = new Gdk.Color(0x99,0x99,0x99);
 		Gdk.Color brown = new Gdk.Color(0xd6,0x88,0x33);
 		Gdk.Color violet = new Gdk.Color(0xc4,0x20,0xf3);
-		//Gdk.Color white = new Gdk.Color(0xff,0xff,0xff);
+		Gdk.Color white = new Gdk.Color(0xff,0xff,0xff);
 
 		Gdk.Colormap colormap = Gdk.Colormap.System;
 		colormap.AllocColor (ref UtilGtk.RED_PLOTS, true, true);
@@ -2364,7 +2420,7 @@ public partial class ChronoJumpWindow
 		colormap.AllocColor (ref beige,true,true);
 		colormap.AllocColor (ref brown,true,true);
 		colormap.AllocColor (ref violet,true,true);
-		//colormap.AllocColor (ref white,true,true);
+		colormap.AllocColor (ref white,true,true);
 
 		//-- Configurar los contextos graficos (pinceles)
 		pen_rojo = new Gdk.GC(event_execute_drawingarea.GdkWindow);
@@ -2377,7 +2433,7 @@ public partial class ChronoJumpWindow
 		pen_rojo_discont = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_azul_claro_discont = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_azul_discont = new Gdk.GC(event_execute_drawingarea.GdkWindow);
-		//pen_white= new Gdk.GC(event_execute_drawingarea.GdkWindow);
+		pen_white= new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_black = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_black_90 = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_black_discont = new Gdk.GC(event_execute_drawingarea.GdkWindow);
@@ -2407,7 +2463,7 @@ public partial class ChronoJumpWindow
 		pen_yellow_bg.Foreground = yellow_bg;
 		pen_magenta.Foreground = magenta;
 		pen_black_bars.Foreground = black;
-		//pen_white.Foreground = white;
+		pen_white.Foreground = white;
 
 		pen_black_discont.Foreground = black;
 		pen_black_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Miter);

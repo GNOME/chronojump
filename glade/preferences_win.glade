@@ -3337,7 +3337,7 @@ Other</property>
                                   <widget class="GtkLabel" id="label_force_sensor_capture_width_graph_seconds">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label">Width of graph</property>
+                                    <property name="label" translatable="yes">Interval displayed on graph</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>

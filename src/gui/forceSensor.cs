@@ -2221,9 +2221,14 @@ LogB.Information(" fs R ");
 			combo_force_sensor_exercise.Active = UtilGtk.ComboMakeActive(combo_force_sensor_exercise, name);
 	}
 
+	ForceSensorExerciseWindow forceSensorExerciseWin; //TODO: clean
 	//info is now info and edit (all values can be changed), and detete (there's delete button)
 	void on_button_force_sensor_exercise_edit_clicked (object o, EventArgs args)
 	{
+		//TODO: clean
+		forceSensorExerciseWin = ForceSensorExerciseWindow.Show(Catalog.GetString("Exercise"),
+				Catalog.GetString("Force sensor exercise:"));
+
 		if(UtilGtk.ComboGetActive(combo_force_sensor_exercise) == "")
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Need to create/select an exercise."));

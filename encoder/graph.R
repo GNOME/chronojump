@@ -728,7 +728,8 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
                         propulsiveEnd = length(eccentric) + length(isometric) + propulsiveEnd
         }
 
-	if(paintMode != "superpose") {
+	#draw polygon under position, but only if position is shown
+	if(paintMode != "superpose" && showPosition) {
 		polygon(c(startX:propulsiveEnd, propulsiveEnd, startX),
 			c(yValues[startX:propulsiveEnd], min(yValues), min(yValues)),
 			col="grey90")

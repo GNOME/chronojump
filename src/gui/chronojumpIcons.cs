@@ -596,6 +596,8 @@ public partial class ChronoJumpWindow
 
 		image_button_cancel.Pixbuf = pixbuf;
 		image_encoder_capture_cancel.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
 		image_encoder_analyze_cancel.Pixbuf = pixbuf;
 		
 		//zoom icons, done like this because there's one zoom icon created ad-hoc, 

@@ -1021,7 +1021,7 @@ public partial class ChronoJumpWindow
 					layout_force_ai_text);
 
 			// 12) calculate and paint Accuracy (Feedback difference)
-			if(feedbackF > 0)
+			if(check_force_sensor_capture_feedback.Active && feedbackF > 0)
 			{
 				layout_force_ai_text.SetMarkup(string.Format("Error (Feedback): {0:0.###} N",
 							Math.Round(feedbackDiff, 3) ));

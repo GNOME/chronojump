@@ -45,8 +45,8 @@ public class ForceSensorExerciseWindow
 	[Widget] Gtk.Button button_help_force;
 
 	[Widget] Gtk.Label label_string;
-	[Widget] Gtk.RadioButton radio_string_rope;
-	[Widget] Gtk.RadioButton radio_string_rubber_band;
+	[Widget] Gtk.RadioButton radio_string_rigid;
+	[Widget] Gtk.RadioButton radio_string_elastic;
 	[Widget] Gtk.Button button_help_string;
 
 	[Widget] Gtk.Label label_cdg_displ;
@@ -72,10 +72,12 @@ public class ForceSensorExerciseWindow
 	[Widget] Gtk.Label label_angle;
 	[Widget] Gtk.HBox hbox_angle;
 	[Widget] Gtk.SpinButton spin_angle;
+	[Widget] Gtk.Label label_angle_use;
 	[Widget] Gtk.Button button_help_angle;
 
 	//lists of widgets to play with visibility
-	List<Widget> lw_string;
+	List<Widget> lw_force;
+	List<Widget> lw_elastic;
 	List<Widget> lw_cdg_displ;
 	List<Widget> lw_sensor_affected_bw;
 	List<Widget> lw_tare_before_capture;
@@ -119,7 +121,7 @@ public class ForceSensorExerciseWindow
 			ForceSensorExerciseWindowBox.label_header.Text = textHeader;
 		}
 
-		ForceSensorExerciseWindowBox.hideWidgets();
+		ForceSensorExerciseWindowBox.initializeVisibilityOfWidgets();
 		ForceSensorExerciseWindowBox.force_sensor_exercise.Show ();
 
 		return ForceSensorExerciseWindowBox;
@@ -133,8 +135,10 @@ public class ForceSensorExerciseWindow
 
 	private void createListsOfWidgets()
 	{
-		lw_string = new List<Widget> {
-			label_string, radio_string_rope, radio_string_rubber_band, button_help_string };
+		lw_force = new List<Widget> {
+			label_force, radio_force_sensor, radio_force_resultant, button_help_force };
+		lw_elastic = new List<Widget> {
+			label_string, radio_string_rigid, radio_string_elastic, button_help_string };
 		lw_cdg_displ = new List<Widget> {
 			label_cdg_displ, radio_cdg_displ_yes, radio_cdg_displ_no, button_help_cdg_displ };
 		lw_sensor_affected_bw = new List<Widget> {
@@ -144,53 +148,108 @@ public class ForceSensorExerciseWindow
 		lw_bw_added = new List<Widget> {
 			label_bw_added, hbox_bw_added, button_help_bw_added }; 
 		lw_angle = new List<Widget> {
-			label_angle, hbox_angle, button_help_angle }; 
+			label_angle, hbox_angle, label_angle_use, button_help_angle };
 	}
 
-	private void hideWidgets()
+	private void initializeVisibilityOfWidgets()
 	{
-		showHideWidget(lw_string, false);
-		showHideWidget(lw_cdg_displ, false);
-		showHideWidget(lw_sensor_affected_bw, false);
-		showHideWidget(lw_tare_before_capture, false);
-		showHideWidget(lw_bw_added, false);
-		showHideWidget(lw_angle, false);
+		showHideWidgets(lw_elastic, false);
+		showHideWidgets(lw_cdg_displ, false);
+		showHideWidgets(lw_sensor_affected_bw, false);
+		showHideWidgets(lw_tare_before_capture, false);
+		showHideWidgets(lw_bw_added, false);
+
+		if(radio_force_sensor.Active)
+			label_angle_use.Text = "Just informative";
+		showHideWidgets(lw_angle, true);
 	}
 
-	private void showHideWidget(List<Widget> lw, bool show)
+	private void showHideWidgets(List<Widget> lw, bool show)
 	{
 		foreach(Widget w in lw)
 			w.Visible = show;
-
-		if(lw == lw_string && show)
-			showHideWidget(lw_cdg_displ, radio_string_rubber_band.Active);
 	}
+
+	private void showHideWidgetsRecursively(List<Widget> lw, bool show)
+	{
+		if(lw == lw_elastic)
+		{
+			LogB.Information("REC string, show: " + show.ToString());
+			showHideWidgets(lw, show);
+			showHideWidgetsRecursively(lw_cdg_displ, radio_force_resultant.Active && radio_string_elastic.Active);
+		}
+		else if(lw == lw_cdg_displ)
+		{
+			LogB.Information("REC cdg displ, show: " + show.ToString());
+			showHideWidgets(lw, show && radio_string_elastic.Active);
+			showHideWidgetsRecursively(lw_sensor_affected_bw, radio_cdg_displ_yes.Active);
+		}
+		else if(lw == lw_sensor_affected_bw)
+		{
+			LogB.Information("REC affected bw, show: " + (show && radio_force_resultant.Active).ToString());
+			showHideWidgets(lw, radio_force_resultant.Active &&
+					(
+					 (radio_string_elastic.Active && radio_cdg_displ_yes.Active) ||
+					 (radio_string_rigid.Active)
+					 ) );
+			showHideWidgetsRecursively(lw_tare_before_capture, radio_sensor_affected_bw_yes.Active);
+		}
+		else if(lw == lw_tare_before_capture)
+		{
+			LogB.Information("REC tare before capture, show: " + show.ToString());
+			showHideWidgets(lw, show && radio_sensor_affected_bw_yes.Visible);
+			showHideWidgets(lw_bw_added, radio_tare_before_capture_no.Active);
+		}
+
+
+		//angle is changed at the end because it can affect many combinations
+		if (radio_force_sensor.Active ||
+				( radio_string_elastic.Active && radio_cdg_displ_no.Active ) ||
+				( radio_tare_before_capture_yes.Visible && radio_tare_before_capture_yes.Active ) ||
+				( spin_bw_added.Visible && Convert.ToInt32(spin_bw_added.Value) == 0 ) )
+		{
+			label_angle_use.Text = "Just informative";
+			showHideWidgets(lw_angle, true);
+		} else if (spin_bw_added.Visible && Convert.ToInt32(spin_bw_added.Value) > 0)
+		{
+			label_angle_use.Text = "Used for calculations";
+			showHideWidgets(lw_angle, true);
+		} else
+			showHideWidgets(lw_angle, false);
+	}
+
 
 	private void on_radio_force_toggled (object o, EventArgs args)
 	{
-		if (radio_force_resultant.Active)
-			showHideWidget(lw_string, true);
-		else {
-			showHideWidget(lw_string, false);
-			showHideWidget(lw_cdg_displ, false);
-			showHideWidget(lw_sensor_affected_bw, false);
-			showHideWidget(lw_tare_before_capture, false);
-			showHideWidget(lw_bw_added, false);
-			showHideWidget(lw_angle, false);
-		}
+		showHideWidgetsRecursively(lw_elastic, radio_force_resultant.Active);
 	}
 
 	private void on_radio_string_toggled (object o, EventArgs args)
 	{
-		if(radio_string_rubber_band.Active)
-			showHideWidget(lw_cdg_displ, true);
-		else {
-			showHideWidget(lw_cdg_displ, false);
-			showHideWidget(lw_sensor_affected_bw, false);
-			showHideWidget(lw_tare_before_capture, false);
-			showHideWidget(lw_bw_added, false);
-			showHideWidget(lw_angle, false);
-		}
+		showHideWidgetsRecursively(lw_cdg_displ, radio_string_elastic.Active); //this will manage sensor_affected_bw in the two paths
+	}
+
+	private void on_radio_cdg_displ_toggled (object o, EventArgs args)
+	{
+		showHideWidgetsRecursively(lw_sensor_affected_bw, radio_cdg_displ_yes.Active);
+	}
+
+	private void on_radio_sensor_affected_bw_toggled (object o, EventArgs args)
+	{
+		showHideWidgetsRecursively(lw_tare_before_capture, radio_sensor_affected_bw_yes.Active);
+	}
+
+	private void on_radio_tare_before_capture_toggled (object o, EventArgs args)
+	{
+		showHideWidgets(lw_bw_added, radio_tare_before_capture_no.Active);
+	}
+
+	private void on_spin_bw_added_value_changed (object o, EventArgs args)
+	{
+		if(Convert.ToInt32(spin_bw_added.Value) > 0)
+			label_angle_use.Text = "Used for calculations";
+		else
+			label_angle_use.Text = "Just informative";
 	}
 
 	private void on_entries_changed (object o, EventArgs args)

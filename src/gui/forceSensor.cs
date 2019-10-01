@@ -276,7 +276,7 @@ public partial class ChronoJumpWindow
 
 
 			//set_calibration_factor
-			if(! forceSensorSendCommand("set_calibration_factor:" + preferences.forceSensorCalibrationFactor.ToString() + ";",
+			if(! forceSensorSendCommand("set_calibration_factor:" + Util.ConvertToPoint(preferences.forceSensorCalibrationFactor) + ";",
 						"Setting previous calibration factor ...", "Catched adjusting calibration factor"))
 				return false;
 
@@ -564,7 +564,7 @@ public partial class ChronoJumpWindow
 				return;
 
 		// 1 send calibrate command
-		if(! forceSensorSendCommand("calibrate:" + spin_force_sensor_calibration_kg_value.Value.ToString() + ";",
+		if(! forceSensorSendCommand("calibrate:" + Util.ConvertToPoint(spin_force_sensor_calibration_kg_value.Value) + ";",
 					"Calibrating ...", "Catched force calibrating"))
 			return;
 

@@ -2225,10 +2225,6 @@ LogB.Information(" fs R ");
 	//info is now info and edit (all values can be changed), and detete (there's delete button)
 	void on_button_force_sensor_exercise_edit_clicked (object o, EventArgs args)
 	{
-		//TODO: clean
-		forceSensorExerciseWin = ForceSensorExerciseWindow.Show(Catalog.GetString("Exercise"),
-				Catalog.GetString("Force sensor exercise:"));
-
 		if(UtilGtk.ComboGetActive(combo_force_sensor_exercise) == "")
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Need to create/select an exercise."));
@@ -2287,6 +2283,12 @@ LogB.Information(" fs R ");
 
 		genericWin.Button_accept.Clicked += new EventHandler(on_button_force_sensor_exercise_edit_accepted);
 		genericWin.ShowNow();
+	}
+
+	void on_button_force_sensor_exercise_edit_experimental_clicked (object o, EventArgs args)
+	{
+		forceSensorExerciseWin = ForceSensorExerciseWindow.Show(Catalog.GetString("Exercise"),
+				Catalog.GetString("Force sensor exercise:"));
 	}
 
 	private void on_button_force_sensor_exercise_add_clicked (object o, EventArgs args)

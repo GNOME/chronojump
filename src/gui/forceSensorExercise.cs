@@ -142,7 +142,7 @@ public class ForceSensorExerciseWindow
 		textview_force_explanation.Buffer.Text = getTopExplanations(Pages.FORCE);
 		textview_fixation_explanation.Buffer.Text = getTopExplanations(Pages.FIXATION);
 		textview_mass_explanation.Buffer.Text = getTopExplanations(Pages.MASS);
-		textview_angle_explanation.Buffer.Text = getTopExplanations(Pages.ANGLE);
+		// done below textview_angle_explanation.Buffer.Text = getTopExplanations(Pages.ANGLE);
 
 		// 3. icons
 		image_cancel.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
@@ -327,6 +327,7 @@ public class ForceSensorExerciseWindow
 		else // if(p == Pages.ANGLE)
 		{
 			button_next_or_accept.Sensitive = false;
+			textview_angle_explanation.Buffer.Text = getTopExplanations(Pages.ANGLE);
 
 			desc = getDescription(Options.ANGLE);
 			ex = getExample(Options.ANGLE);

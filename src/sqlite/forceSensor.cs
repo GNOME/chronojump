@@ -263,7 +263,11 @@ class SqliteForceSensor : Sqlite
 				if(fslt.Exercise == "" || exerciseID == -1)
 				{
 					if(unknownExerciseID == -1)
-						unknownExerciseID = SqliteForceSensorExercise.Insert (true, -1, Catalog.GetString("Unknown"), 0, "", 0, "", false);
+					{
+						ForceSensorExercise fse = new ForceSensorExercise (-1, Catalog.GetString("Unknown"), 0, "", 0, "", false, false, false);
+						unknownExerciseID = SqliteForceSensorExercise.Insert(true, fse);
+						//note this import already goes to 1.73, then that import will produce a catch
+					}
 
 					exerciseID = unknownExerciseID;
 					exerciseName = Catalog.GetString("Unknown");
@@ -327,31 +331,27 @@ class SqliteForceSensorExercise : Sqlite
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"name TEXT, " +
 			"percentBodyWeight INT, " +
-			"resistance TEXT, " +
+			"resistance TEXT, " + 				//unused
 			"angleDefault INT, " +
 			"description TEXT, " +
-			"tareBeforeCapture INT)";
+			"tareBeforeCapture INT, " +
+			"forceResultant INT, " +
+			"elastic INT)";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}
 
 	//undefined defaultAngle will be 1000
 	//note execution can have a different angle than the default angle
-	public static int Insert (bool dbconOpened, int uniqueID, string name, int percentBodyWeight,
-			string resistance, int angleDefault, string description, bool tareBeforeCapture)
+	public static int Insert (bool dbconOpened, ForceSensorExercise ex)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
 
-		string uniqueIDStr = "NULL";
-		if(uniqueID != -1)
-			uniqueIDStr = uniqueID.ToString();
-
 		dbcmd.CommandText = "INSERT INTO " + table +
-				" (uniqueID, name, percentBodyWeight, resistance, angleDefault, description, tareBeforeCapture)" +
-				" VALUES (" + uniqueIDStr + ", \"" + name + "\", " + percentBodyWeight + ", \"" +
-				resistance + "\", " + angleDefault + ", \"" + description + "\", " +
-				Util.BoolToInt(tareBeforeCapture).ToString() + ")";
+				" (uniqueID, name, percentBodyWeight, resistance, angleDefault, " +
+				" description, tareBeforeCapture, forceResultant, elastic)" +
+				" VALUES (" + ex.ToSQLInsertString() + ")";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -370,19 +370,15 @@ class SqliteForceSensorExercise : Sqlite
 		if(! dbconOpened)
 			Sqlite.Open();
 
-		/*
-		   string uniqueIDStr = "NULL";
-		   if(ex.UniqueID != -1)
-			   uniqueIDStr = ex.UniqueID.ToString();
-		   */
-
 		dbcmd.CommandText = "UPDATE " + table + " SET " +
 			" name = \"" + ex.Name +
 			"\", percentBodyWeight = " + ex.PercentBodyWeight +
-			", resistance = \"" + ex.Resistance +
+			", resistance = \"" + ex.Resistance + 					//unused
 			"\", angleDefault = " + ex.AngleDefault +
 			", description = \"" + ex.Description +
 			"\", tareBeforeCapture = " + Util.BoolToInt(ex.TareBeforeCapture).ToString() +
+			", forceResultant = " + Util.BoolToInt(ex.ForceResultant).ToString() +
+			", elastic = " + Util.BoolToInt(ex.Elastic).ToString() +
 			" WHERE uniqueID = " + ex.UniqueID;
 
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -435,16 +431,16 @@ class SqliteForceSensorExercise : Sqlite
 			}
 		} else {
 			while(reader.Read()) {
-				int angleDefault = 0;
-
 				ex = new ForceSensorExercise (
 						Convert.ToInt32(reader[0].ToString()),	//uniqueID
 						reader[1].ToString(),			//name
 						Convert.ToInt32(reader[2].ToString()),	//percentBodyWeight
-						reader[3].ToString(),			//resistance
-						angleDefault,
+						reader[3].ToString(),			//resistance (unused)
+						Convert.ToInt32(reader[4].ToString()), 	//angleDefault
 						reader[5].ToString(),			//description
-						Util.IntToBool(Convert.ToInt32(reader[6].ToString()))	//tareBeforeCapture
+						Util.IntToBool(Convert.ToInt32(reader[6].ToString())),	//tareBeforeCapture
+						Util.IntToBool(Convert.ToInt32(reader[7].ToString())),	//forceResultant
+						Util.IntToBool(Convert.ToInt32(reader[8].ToString()))	//elastic
 						);
 				array.Add(ex);
 			}
@@ -457,6 +453,26 @@ class SqliteForceSensorExercise : Sqlite
 		return array;
 	}
 
+	//database is opened
+	protected internal static void import_partially_from_1_73_to_1_74_unify_resistance_and_description()
+	{
+		ArrayList exercises = Select(true, -1, false);
+		foreach (ForceSensorExercise ex in exercises)
+		{
+			LogB.Information(ex.ToString());
+			if(ex.Resistance == "")
+				continue;
+
+			if(ex.Description == "")
+				ex.Description = ex.Resistance;
+			else
+				ex.Description = ex.Resistance + " - " + ex.Description;
+
+			ex.Resistance = "";
+
+			Update(true, ex);
+		}
+	}
 }
 
 

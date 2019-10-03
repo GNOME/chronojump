@@ -32,10 +32,8 @@ public class ForceSensorExerciseWindow
 {
 	[Widget] Gtk.Window force_sensor_exercise;
 	[Widget] Gtk.Label label_header;
-	/*
-	   [Widget] Gtk.Box hbox_error;
-	   [Widget] Gtk.Label label_error;
-	   */
+	[Widget] Gtk.Box hbox_error;
+	[Widget] Gtk.Label label_error;
 	[Widget] Gtk.Entry entry_name;
 	[Widget] Gtk.Notebook notebook_main;
 
@@ -58,9 +56,10 @@ public class ForceSensorExerciseWindow
 	[Widget] Gtk.HBox hbox_body_mass_add;
 	[Widget] Gtk.SpinButton spin_body_mass_add;
 
-	[Widget] Gtk.Label label_angle;
-	[Widget] Gtk.TextView textview_angle_explanation;
+	[Widget] Gtk.Label label_other;
+	[Widget] Gtk.TextView textview_other_explanation;
 	[Widget] Gtk.SpinButton spin_angle;
+	[Widget] Gtk.Entry entry_description;
 
 	[Widget] Gtk.Notebook notebook_desc_examples;
 	[Widget] Gtk.Label label_notebook_desc_examples_desc;
@@ -68,15 +67,23 @@ public class ForceSensorExerciseWindow
 	[Widget] Gtk.TextView textview_description;
 	[Widget] Gtk.TextView textview_examples;
 
-	[Widget] Gtk.Button button_next_or_accept;
+	[Widget] Gtk.Button button_next;
+	[Widget] Gtk.Button button_accept;
 	[Widget] Gtk.Button button_back;
 
 	[Widget] Gtk.Image image_cancel;
-	[Widget] Gtk.Image image_next_or_accept;
+	[Widget] Gtk.Image image_next;
 	[Widget] Gtk.Image image_back;
 
-	private enum Pages { FORCE, FIXATION, MASS, ANGLE }
-	private enum Options { FORCE_SENSOR, FORCE_RESULTANT, FIXATION_ELASTIC, FIXATION_NOT_ELASTIC, MASS_ADD, MASS_SUBTRACT, MASS_NOTHING, ANGLE }
+	[Widget] Gtk.Button fakeButtonReadValues;
+
+	public bool Success;
+	private ForceSensorExercise exercise;
+
+	private enum modesEnum { EDIT, ADD }
+	private modesEnum modeEnum;
+	private enum Pages { FORCE, FIXATION, MASS, OTHER }
+	private enum Options { FORCE_SENSOR, FORCE_RESULTANT, FIXATION_ELASTIC, FIXATION_NOT_ELASTIC, MASS_ADD, MASS_SUBTRACT, MASS_NOTHING, OTHER }
 
 	static ForceSensorExerciseWindow ForceSensorExerciseWindowBox;
 
@@ -97,6 +104,7 @@ public class ForceSensorExerciseWindow
 		force_sensor_exercise.Resizable = false;
 		setTitle(title);
 		label_header.Text = textHeader;
+		fakeButtonReadValues = new Gtk.Button();
 
 		initializeGuiAtCreation();
 
@@ -104,7 +112,7 @@ public class ForceSensorExerciseWindow
 		//DestroyOnAccept = false;
 	}
 
-	static public ForceSensorExerciseWindow Show (string title, string textHeader)
+	static public ForceSensorExerciseWindow ShowEdit (string title, string textHeader, ForceSensorExercise exercise)
 	{
 		if (ForceSensorExerciseWindowBox == null) {
 			ForceSensorExerciseWindowBox = new ForceSensorExerciseWindow(title, textHeader);
@@ -113,7 +121,29 @@ public class ForceSensorExerciseWindow
 			ForceSensorExerciseWindowBox.label_header.Text = textHeader;
 		}
 
+		ForceSensorExerciseWindowBox.modeEnum = modesEnum.EDIT;
+		ForceSensorExerciseWindowBox.Success = false;
 		ForceSensorExerciseWindowBox.initializeGuiAtShow();
+		ForceSensorExerciseWindowBox.exercise = exercise;
+		ForceSensorExerciseWindowBox.exerciseToGUI();
+		ForceSensorExerciseWindowBox.force_sensor_exercise.Show ();
+
+		return ForceSensorExerciseWindowBox;
+	}
+
+	static public ForceSensorExerciseWindow ShowAdd (string title, string textHeader)
+	{
+		if (ForceSensorExerciseWindowBox == null) {
+			ForceSensorExerciseWindowBox = new ForceSensorExerciseWindow(title, textHeader);
+		} else {
+			ForceSensorExerciseWindowBox.setTitle(title);
+			ForceSensorExerciseWindowBox.label_header.Text = textHeader;
+		}
+
+		ForceSensorExerciseWindowBox.modeEnum = modesEnum.ADD;
+		ForceSensorExerciseWindowBox.Success = false;
+		ForceSensorExerciseWindowBox.initializeGuiAtShow();
+		ForceSensorExerciseWindowBox.exercise = null;
 		ForceSensorExerciseWindowBox.force_sensor_exercise.Show ();
 
 		return ForceSensorExerciseWindowBox;
@@ -131,22 +161,22 @@ public class ForceSensorExerciseWindow
 		label_force.Text = "<b>" + label_force.Text + "</b>";
 		label_fixation.Text = "<b>" + label_fixation.Text + "</b>";
 		label_mass.Text = "<b>" + label_mass.Text + "</b>";
-		label_angle.Text = "<b>" + label_angle.Text + "</b>";
+		label_other.Text = "<b>" + label_other.Text + "</b>";
 
 		label_force.UseMarkup = true;
 		label_fixation.UseMarkup = true;
 		label_mass.UseMarkup = true;
-		label_angle.UseMarkup = true;
+		label_other.UseMarkup = true;
 
 		// 2. textviews of explanations of each page
 		textview_force_explanation.Buffer.Text = getTopExplanations(Pages.FORCE);
 		textview_fixation_explanation.Buffer.Text = getTopExplanations(Pages.FIXATION);
 		textview_mass_explanation.Buffer.Text = getTopExplanations(Pages.MASS);
-		// done below textview_angle_explanation.Buffer.Text = getTopExplanations(Pages.ANGLE);
+		// done below textview_other_explanation.Buffer.Text = getTopExplanations(Pages.OTHER);
 
 		// 3. icons
 		image_cancel.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
-		image_next_or_accept.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "arrow_forward.png");
+		image_next.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "arrow_forward.png");
 		image_back.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "arrow_back.png");
 	}
 
@@ -155,6 +185,33 @@ public class ForceSensorExerciseWindow
 		managePage(Pages.FORCE);
 		ForceSensorExerciseWindowBox.notebook_main.CurrentPage = Convert.ToInt32(Pages.FORCE);
 		spin_body_mass_add.Value = 100;
+	}
+
+	private void exerciseToGUI()
+	{
+		entry_name.Text = exercise.Name;
+
+		if(exercise.ForceResultant)
+			radio_force_resultant.Active = true;
+		else
+			radio_force_sensor.Active = true;
+
+		if(exercise.Elastic)
+			radio_fixation_elastic.Active = true;
+		else
+			radio_fixation_not_elastic.Active = true;
+
+		if(exercise.PercentBodyWeight > 0 && ! exercise.TareBeforeCapture)
+			radio_mass_add.Active = true;
+
+		else if(exercise.PercentBodyWeight == 0 && exercise.TareBeforeCapture)
+			radio_mass_subtract.Active = true;
+		else
+			radio_mass_nothing.Active = true;
+
+		spin_body_mass_add.Value = exercise.PercentBodyWeight;
+		spin_angle.Value = exercise.AngleDefault;
+		entry_description.Text = exercise.Description;
 	}
 
 	//just to have shorter code
@@ -174,7 +231,7 @@ public class ForceSensorExerciseWindow
 			str = ss("How the force is transmitted to the sensor");
 		else if(p == Pages.MASS)
 			str = ss("Depending on the exercise and configuration of the test, the total mass (mass of the person and the extra load) can affect to the sensor measuring. Select how to manage this effect.");
-		else { //if(p == Pages.ANGLE)
+		else { //if(p == Pages.OTHER)
 			if(radio_force_resultant.Active && radio_mass_add.Active)
 				str = ss("In current exercise configuration, it is necessary to enter the angle in which the sensor is measuring.");
 			else
@@ -201,7 +258,7 @@ public class ForceSensorExerciseWindow
 			str = ss("In some cases the weight if the mass is supported by the sensor but it is not a force that the subject is exerting. In this case, the sensor will be tared before starting the test.");
 		else if(o == Options.MASS_NOTHING)
 			str = ss("In some cases the weight is transmitted to the sensor and it is also supported by the measured limb. If the effect of the mass is not significant, use this option also.");
-		else //if(o == Options.ANGLE)
+		else //if(o == Options.OTHER)
 			str = ss("0 means horizontally") + "\n" +
 				ss("90 means vertically with the person above the sensor") + "\n" +
 				ss("-90 means vertically with the person below the sensor");
@@ -232,7 +289,7 @@ public class ForceSensorExerciseWindow
 		else if(o == Options.MASS_NOTHING)
 			str = "1.- " + ss("Nordic hamstring. In a Nordic hamstring with the sensor attached to the ankle, the weight affects the values of the sensor but this weight is supported by the hamstrings we are measuring.") +
 				"\n2.- " + ss("Pulling on a TRX. Pulling from a TRX implies overcome the body weight. This body weight is also measured by the sensor.");
-		else //if(o == Options.ANGLE)
+		else //if(o == Options.OTHER)
 			str = "";
 
 		return str;
@@ -256,8 +313,8 @@ public class ForceSensorExerciseWindow
 			str = ss("Subtract mass");
 		else if(o == Options.MASS_NOTHING)
 			str = ss("Mass is included");
-		else //if(o == Options.ANGLE)
-			str = ss("Description");
+		else //if(o == Options.OTHER)
+			str = ss("Angle explanation");
 
 		label_notebook_desc_examples_desc.Text = str;
 		label_notebook_desc_examples_examples.Text = ss("Examples of:") + " " + str;
@@ -275,7 +332,8 @@ public class ForceSensorExerciseWindow
 		string ex;
 
 		//default for most of the pages
-		button_next_or_accept.Sensitive = true;
+		button_next.Visible = true;
+		button_accept.Visible = false;
 		button_back.Sensitive = true;
 		notebook_desc_examples.GetNthPage(1).Show();
 
@@ -324,14 +382,15 @@ public class ForceSensorExerciseWindow
 			}
 			hbox_body_mass_add.Sensitive = radio_mass_add.Active;
 		}
-		else // if(p == Pages.ANGLE)
+		else // if(p == Pages.OTHER)
 		{
-			button_next_or_accept.Sensitive = false;
-			textview_angle_explanation.Buffer.Text = getTopExplanations(Pages.ANGLE);
+			button_next.Visible = false;
+			button_accept.Visible = true;
+			textview_other_explanation.Buffer.Text = getTopExplanations(Pages.OTHER);
 
-			desc = getDescription(Options.ANGLE);
-			ex = getExample(Options.ANGLE);
-			set_notebook_desc_example_labels(Options.ANGLE);
+			desc = getDescription(Options.OTHER);
+			ex = getExample(Options.OTHER);
+			set_notebook_desc_example_labels(Options.OTHER);
 
 			notebook_desc_examples.CurrentPage = 0;
 			notebook_desc_examples.GetNthPage(1).Hide();
@@ -345,8 +404,8 @@ public class ForceSensorExerciseWindow
 	private void on_button_next_clicked (object o, EventArgs args)
 	{
 		if(notebook_main.CurrentPage == Convert.ToInt32(Pages.FORCE) && radio_force_sensor.Active)
-			notebook_main.CurrentPage = Convert.ToInt32(Pages.ANGLE);
-		else if(notebook_main.CurrentPage < Convert.ToInt32(Pages.ANGLE))
+			notebook_main.CurrentPage = Convert.ToInt32(Pages.OTHER);
+		else if(notebook_main.CurrentPage < Convert.ToInt32(Pages.OTHER))
 			notebook_main.CurrentPage ++;
 		else
 			return;
@@ -355,7 +414,7 @@ public class ForceSensorExerciseWindow
 	}
 	private void on_button_back_clicked (object o, EventArgs args)
 	{
-		if(notebook_main.CurrentPage == Convert.ToInt32(Pages.ANGLE) && radio_force_sensor.Active)
+		if(notebook_main.CurrentPage == Convert.ToInt32(Pages.OTHER) && radio_force_sensor.Active)
 			notebook_main.CurrentPage = Convert.ToInt32(Pages.FORCE);
 		else if(notebook_main.CurrentPage > Convert.ToInt32(Pages.FORCE))
 			notebook_main.CurrentPage --;
@@ -378,13 +437,107 @@ public class ForceSensorExerciseWindow
 		managePage(Pages.MASS);
 	}
 
-	private void on_entries_changed (object o, EventArgs args)
+	private void on_entry_name_changed (object o, EventArgs args)
 	{
-		Gtk.Entry entry_name = o as Gtk.Entry;
+		Gtk.Entry entry = o as Gtk.Entry;
 		if (o == null)
 			return;
 
-		entry_name.Text = Util.MakeValidSQL(entry_name.Text);
+		entry_name.Text = Util.MakeValidSQL(entry.Text);
+	}
+	private void on_entry_description_changed (object o, EventArgs args)
+	{
+		Gtk.Entry entry = o as Gtk.Entry;
+		if (o == null)
+			return;
+
+		entry_description.Text = Util.MakeValidSQL(entry.Text);
+	}
+
+	private void on_button_accept_clicked (object o, EventArgs args)
+	{
+		string name = entry_name.Text;
+
+		if(name == "")
+		{
+			label_error.Text = ss("Error: Missing name of exercise.");
+			hbox_error.Show();
+			return;
+		}
+		else if (modeEnum == modesEnum.ADD && Sqlite.Exists(false, Constants.ForceSensorExerciseTable, name))
+		{
+			//if we add, check that this name does not exists
+			label_error.Text = string.Format(ss("Error: An exercise named '{0}' already exists."), name);
+			hbox_error.Show();
+			return;
+		}
+		else if (modeEnum == modesEnum.EDIT)
+		{
+			//if we edit, check that this name does not exists (on other exercise, on current editing exercise is obviously fine)
+			int getIdOfThis = Sqlite.ExistsAndGetUniqueID(false, Constants.ForceSensorExerciseTable, name); //if not exists will be -1
+			if(getIdOfThis != -1 && getIdOfThis != exercise.UniqueID)
+			{
+				label_error.Text = string.Format(ss("Error: An exercise named '{0}' already exists."), name);
+				hbox_error.Show();
+				return;
+			}
+		}
+
+		//compare exercise (opening window) with exerciseNew (changes maybe done)
+
+		//only store percentBodyWeight at SQL if radio_mass_add is active
+		int percentBodyWeight = 0;
+		if(radio_mass_add.Active && Convert.ToInt32(spin_body_mass_add.Value) > 0)
+			percentBodyWeight = Convert.ToInt32(spin_body_mass_add.Value);
+
+		int myID = -1;
+		if(modeEnum == modesEnum.EDIT)
+			myID = exercise.UniqueID;
+
+		ForceSensorExercise exerciseTemp = new ForceSensorExercise(
+				myID, entry_name.Text,
+				percentBodyWeight,
+				"", //resistance (unused, now merged on description)
+				Convert.ToInt32(spin_angle.Value),
+				entry_description.Text,
+				radio_mass_subtract.Active, 	//tareBeforeCapture
+				radio_force_resultant.Active,
+				radio_fixation_elastic.Active);
+
+		if(modeEnum == modesEnum.ADD)
+		{
+			exercise = exerciseTemp;
+			SqliteForceSensorExercise.Insert(false, exercise);
+			Success = true;
+		} else {
+			//we are editing the exercise
+			if(exercise.Changed(exerciseTemp))
+			{
+				exercise = exerciseTemp;
+				SqliteForceSensorExercise.Update(false, exercise);
+				Success = true;
+			}
+		}
+
+		//"exercise" will be read by reading "Exercise"
+		fakeButtonReadValues.Click();
+	}
+
+	public Button FakeButtonReadValues {
+		//set { fakeButtonReadValues = value; }
+		get { return fakeButtonReadValues; }
+	}
+
+	//at the moment only name will be used
+	public ForceSensorExercise Exercise
+	{
+		get { return exercise; }
+	}
+
+	public void HideAndNull()
+	{
+		ForceSensorExerciseWindowBox.force_sensor_exercise.Hide();
+		ForceSensorExerciseWindowBox = null;
 	}
 
 	void on_button_cancel_clicked (object o, EventArgs args)
@@ -402,7 +555,6 @@ public class ForceSensorExerciseWindow
 		ForceSensorExerciseWindowBox.force_sensor_exercise.Hide();
 		ForceSensorExerciseWindowBox = null;
 	}
-
 
 	~ForceSensorExerciseWindow() {}
 }

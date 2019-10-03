@@ -96,6 +96,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_at;
 	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_range;
 
+	ForceSensorExerciseWindow forceSensorExerciseWin;
+
 	Gdk.Pixmap force_capture_pixmap = null;
 
 	Thread forceCaptureThread;
@@ -2221,8 +2223,6 @@ LogB.Information(" fs R ");
 			combo_force_sensor_exercise.Active = UtilGtk.ComboMakeActive(combo_force_sensor_exercise, name);
 	}
 
-	ForceSensorExerciseWindow forceSensorExerciseWin; //TODO: clean
-	//info is now info and edit (all values can be changed), and detete (there's delete button)
 	void on_button_force_sensor_exercise_edit_clicked (object o, EventArgs args)
 	{
 		if(UtilGtk.ComboGetActive(combo_force_sensor_exercise) == "")
@@ -2236,166 +2236,33 @@ LogB.Information(" fs R ");
 
 		LogB.Information("selected exercise: " + ex.ToString());
 
-		ArrayList bigArray = new ArrayList();
+		forceSensorExerciseWin = ForceSensorExerciseWindow.ShowEdit (Catalog.GetString("Exercise"),
+				Catalog.GetString("Force sensor exercise:"), ex);
 
-		ArrayList a1 = new ArrayList();
-		ArrayList a2 = new ArrayList();
-		ArrayList a3 = new ArrayList();
-		ArrayList a4 = new ArrayList();
-		ArrayList a5 = new ArrayList();
-
-		//0 is the widgget to show; 1 is the editable; 2 id default value
-		a1.Add(Constants.GenericWindowShow.ENTRY); a1.Add(true); a1.Add(ex.Name); //name can be changed (opposite to encoder), because we use always the uniqueID
-		bigArray.Add(a1);
-
-		a2.Add(Constants.GenericWindowShow.SPININT); a2.Add(true); a2.Add("");
-		bigArray.Add(a2);
-
-		a3.Add(Constants.GenericWindowShow.ENTRY2); a3.Add(true); a3.Add(ex.Resistance);
-		bigArray.Add(a3);
-
-		a4.Add(Constants.GenericWindowShow.ENTRY3); a4.Add(true); a4.Add(ex.Description);
-		bigArray.Add(a4);
-
-		a5.Add(Constants.GenericWindowShow.CHECK1); a5.Add(true); a5.Add(Util.BoolToRBool(ex.TareBeforeCapture));
-		bigArray.Add(a5);
-
-
-		genericWin = GenericWindow.Show(Catalog.GetString("Exercise"), false,	//don't show now
-				Catalog.GetString("Force sensor exercise:"), bigArray);
-		genericWin.LabelSpinInt = Catalog.GetString("Involved body weight") + " (%)";
-		genericWin.SetSpinRange(0, 100);
-		genericWin.SetSpinValue(ex.PercentBodyWeight);
-
-		genericWin.LabelEntry2 = Catalog.GetString("Resistance");
-		genericWin.LabelEntry3 = Catalog.GetString("Description");
-		//genericWin.LabelSpinInt2 = Catalog.GetString("Default angle");
-		//genericWin.SetSpin2Range(0,180);
-		genericWin.SetCheck1Label(Catalog.GetString("Tare before capture"));
-
-		genericWin.ShowButtonCancel(false);
-
-		genericWin.ShowButtonDelete(true);
-		genericWin.Button_delete.Clicked += new EventHandler(on_button_force_sensor_exercise_delete);
-
-		genericWin.nameUntranslated = ex.Name;
-		genericWin.uniqueID = ex.UniqueID;
-
-		genericWin.Button_accept.Clicked += new EventHandler(on_button_force_sensor_exercise_edit_accepted);
-		genericWin.ShowNow();
+		forceSensorExerciseWin.FakeButtonReadValues.Clicked += new EventHandler(on_button_force_sensor_exercise_edit_add_accepted);
 	}
 
-	void on_button_force_sensor_exercise_edit_experimental_clicked (object o, EventArgs args)
+	void on_button_force_sensor_exercise_add_clicked (object o, EventArgs args)
 	{
-		forceSensorExerciseWin = ForceSensorExerciseWindow.Show(Catalog.GetString("Exercise"),
+		forceSensorExerciseWin = ForceSensorExerciseWindow.ShowAdd (Catalog.GetString("Exercise"),
 				Catalog.GetString("Force sensor exercise:"));
+
+		forceSensorExerciseWin.FakeButtonReadValues.Clicked += new EventHandler(on_button_force_sensor_exercise_edit_add_accepted);
 	}
 
-	private void on_button_force_sensor_exercise_add_clicked (object o, EventArgs args)
+	void on_button_force_sensor_exercise_edit_oldTODO_accepted (object o, EventArgs args)
 	{
-		ArrayList bigArray = new ArrayList();
-
-		ArrayList a1 = new ArrayList();
-		ArrayList a2 = new ArrayList();
-		ArrayList a3 = new ArrayList();
-		ArrayList a4 = new ArrayList();
-		ArrayList a5 = new ArrayList();
-
-		//0 is the widgget to show; 1 is the editable; 2 id default value
-		a1.Add(Constants.GenericWindowShow.ENTRY); a1.Add(true); a1.Add("");
-		bigArray.Add(a1);
-
-		a2.Add(Constants.GenericWindowShow.SPININT); a2.Add(true); a2.Add("");
-		bigArray.Add(a2);
-
-		a3.Add(Constants.GenericWindowShow.ENTRY2); a3.Add(true); a3.Add("");
-		bigArray.Add(a3);
-
-		a4.Add(Constants.GenericWindowShow.ENTRY3); a4.Add(true); a4.Add("");
-		bigArray.Add(a4);
-
-		a5.Add(Constants.GenericWindowShow.CHECK1); a5.Add(true); a5.Add("False");
-		bigArray.Add(a5);
-
-
-		genericWin = GenericWindow.Show(Catalog.GetString("Exercise"), false,	//don't show now
-				Catalog.GetString("Write the name of the exercise:"), bigArray);
-		genericWin.LabelSpinInt = Catalog.GetString("Involved body weight") + " (%)";
-		genericWin.SetSpinRange(0, 100);
-		genericWin.LabelEntry2 = Catalog.GetString("Resistance");
-		genericWin.LabelEntry3 = Catalog.GetString("Description");
-		//genericWin.LabelSpinInt2 = Catalog.GetString("Default angle");
-		//genericWin.SetSpin2Range(0,180);
-		genericWin.SetCheck1Label(Catalog.GetString("Tare before capture"));
-
-		genericWin.SetButtonAcceptLabel(Catalog.GetString("Add"));
-
-		genericWin.HideOnAccept = false;
-
-		genericWin.Button_accept.Clicked += new EventHandler(on_button_force_sensor_exercise_add_accepted);
-		genericWin.ShowNow();
+		//TODO: cridat des del delete
 	}
 
-	void on_button_force_sensor_exercise_edit_accepted (object o, EventArgs args)
+	void on_button_force_sensor_exercise_edit_add_accepted (object o, EventArgs args)
 	{
-		if(force_sensor_exercise_do_add_or_edit(false))
-		{
-			genericWin.Button_accept.Clicked -= new EventHandler(on_button_force_sensor_exercise_edit_accepted);
-			genericWin.HideAndNull();
-		}
-	}
-	void on_button_force_sensor_exercise_add_accepted (object o, EventArgs args)
-	{
-		if(force_sensor_exercise_do_add_or_edit(true))
-		{
-			genericWin.Button_accept.Clicked -= new EventHandler(on_button_force_sensor_exercise_add_accepted);
-			genericWin.HideAndNull();
-		}
-	}
+		forceSensorExerciseWin.FakeButtonReadValues.Clicked -= new EventHandler(on_button_force_sensor_exercise_edit_add_accepted);
 
-	bool force_sensor_exercise_do_add_or_edit (bool adding)
-	{
-		string name = Util.MakeValidSQLAndFileName(Util.RemoveTildeAndColonAndDot(genericWin.EntrySelected));
-		name = Util.RemoveChar(name, '"');
+		if(forceSensorExerciseWin.Success)
+			fillForceSensorExerciseCombo(forceSensorExerciseWin.Exercise.Name);
 
-		if(adding)
-			LogB.Information("force_sensor_exercise_do - Trying to insert: " + name);
-		else
-			LogB.Information("force_sensor_exercise_do - Trying to edit: " + name);
-
-		if(name == "")
-			genericWin.SetLabelError(Catalog.GetString("Error: Missing name of exercise."));
-		else if (adding && Sqlite.Exists(false, Constants.ForceSensorExerciseTable, name))
-			genericWin.SetLabelError(string.Format(Catalog.GetString(
-							"Error: An exercise named '{0}' already exists."), name));
-		else {
-			if(adding)
-				SqliteForceSensorExercise.Insert(false, -1, name, genericWin.SpinIntSelected,
-						genericWin.Entry2Selected,
-						genericWin.SpinInt2Selected,
-						genericWin.Entry3Selected,
-						genericWin.GetCheck1
-						);
-			else {
-				ForceSensorExercise ex = new ForceSensorExercise(
-						genericWin.uniqueID,
-						name,
-						genericWin.SpinIntSelected,
-						genericWin.Entry2Selected,
-						genericWin.SpinInt2Selected,
-						genericWin.Entry3Selected,
-						genericWin.GetCheck1
-						);
-				SqliteForceSensorExercise.Update(false, ex);
-			}
-
-			fillForceSensorExerciseCombo(name);
-
-			LogB.Information("done");
-			return true;
-		}
-
-		return false;
+		forceSensorExerciseWin.HideAndNull();
 	}
 
 	//based on: on_button_encoder_exercise_delete
@@ -2428,7 +2295,7 @@ LogB.Information(" fs R ");
 			genericWin.ShowButtonDelete(false);
 			genericWin.DeletingExerciseHideSomeWidgets();
 
-			genericWin.Button_accept.Clicked -= new EventHandler(on_button_force_sensor_exercise_edit_accepted);
+			genericWin.Button_accept.Clicked -= new EventHandler(on_button_force_sensor_exercise_edit_oldTODO_accepted);
 			genericWin.Button_accept.Clicked += new EventHandler(on_button_force_sensor_exercise_do_not_delete);
 		} else {
 			//forceSensor table has not records of this exercise. Delete exercise

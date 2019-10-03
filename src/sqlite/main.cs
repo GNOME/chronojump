@@ -125,7 +125,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.73";
+	static string lastChronojumpDatabaseVersion = "1.74";
 
 	public Sqlite() {
 	}
@@ -2427,7 +2427,7 @@ class Sqlite
 			}
 			if(currentVersion == "1.66")
 			{
-				LogB.SQL("Doing alter table ...");
+				LogB.SQL("Doing alter table forceSensorExercise adding tarebeforeCapture ...");
 				try {
 					executeSQL("ALTER TABLE " + Constants.ForceSensorExerciseTable + " ADD COLUMN tareBeforeCapture INT NOT NULL DEFAULT 0;");
 				} catch {
@@ -2487,6 +2487,23 @@ class Sqlite
 				SqlitePreferences.Insert (SqlitePreferences.JumpsDjGraphHeights, "True");
 
 				currentVersion = updateVersion("1.73");
+			}
+			if(currentVersion == "1.73")
+			{
+				LogB.SQL("Doing alter table forceSensorExercise adding forceResultant, elastic ...");
+				try {
+					//sqlite does not have drop column
+					executeSQL("ALTER TABLE " + Constants.ForceSensorExerciseTable + " ADD COLUMN forceResultant INT NOT NULL DEFAULT 0;");
+					executeSQL("ALTER TABLE " + Constants.ForceSensorExerciseTable + " ADD COLUMN elastic INT NOT NULL DEFAULT 0;");
+
+					SqliteForceSensorExercise.import_partially_from_1_73_to_1_74_unify_resistance_and_description();
+				} catch {
+					LogB.SQL("Catched. forceResultant or elastic already exists, or at unify resitance and desc.");
+
+				}
+				LogB.SQL("Done!");
+
+				currentVersion = updateVersion("1.74");
 			}
 
 
@@ -2681,6 +2698,7 @@ class Sqlite
 		SqliteJson.createTableUploadExhibitionTestTemp ();
 
 		//changes [from - to - desc]
+		//1.73 - 1.74 Converted DB to 1.74 ALTER TABLE Constants.ForceSensorExerciseTable ADD COLUMN forceResultant, clastic INT
 		//1.72 - 1.73 Converted DB to 1.73 Inserted into preferences: jumpsDjGraphHeights
 		//1.71 - 1.72 Converted DB to 1.72 Inserted into preferences: forceSensorCaptureWidthSeconds, forceSensorCaptureScroll
 		//1.70 - 1.71 Converted DB to 1.71 Imported run encoder text files into SQL

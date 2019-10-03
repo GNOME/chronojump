@@ -266,6 +266,15 @@ public class ForceSensorExercise
 	private int angleDefault;
 	private string description;
 	private bool tareBeforeCapture;
+	private bool forceResultant;
+	private bool elastic;
+
+	/*
+	 * note percentBodyWeight and tareBeforeCapture will not be true at the same time, so there are three modes on total mass management (see diagrams/processes/forceSensorExerciseParameters)
+	 * 	add effect of the mass (percentBodyWeight > 0, tareBeforeCapture = false)
+	 * 	subtract effect off the mass (percentBodyWeight = 0, tareBeforeCapture = true)
+	 * 	effect of the mass is included in raw data (percentBodyWeight = 0, tareBeforeCapture = false)
+	 */
 
 	public ForceSensorExercise()
 	{
@@ -277,7 +286,7 @@ public class ForceSensorExercise
 	}
 
 	public ForceSensorExercise(int uniqueID, string name, int percentBodyWeight, string resistance, int angleDefault,
-			string description, bool tareBeforeCapture)
+			string description, bool tareBeforeCapture, bool forceResultant, bool elastic)
 	{
 		this.uniqueID = uniqueID;
 		this.name = name;
@@ -286,12 +295,45 @@ public class ForceSensorExercise
 		this.angleDefault = angleDefault;
 		this.description = description;
 		this.tareBeforeCapture = tareBeforeCapture;
+		this.forceResultant = forceResultant;
+		this.elastic = elastic;
 	}
 
 	public override string ToString()
 	{
 		return uniqueID.ToString() + ":" + name + ":" + percentBodyWeight.ToString() + ":" +
-			resistance + ":" + angleDefault.ToString() + ":" + description + ":" + tareBeforeCapture.ToString();
+			resistance + ":" + angleDefault.ToString() + ":" + description + ":" +
+			tareBeforeCapture.ToString() + ":" + forceResultant.ToString() + ":" + elastic.ToString();
+	}
+
+	public string ToSQLInsertString()
+	{
+		string uniqueIDStr = "NULL";
+		if(uniqueID != -1)
+			uniqueIDStr = uniqueID.ToString();
+
+		return
+			uniqueIDStr + ", \"" + name + "\", " + percentBodyWeight + ", \"" +
+			resistance + "\", " + angleDefault + ", \"" + description + "\", " +
+			Util.BoolToInt(tareBeforeCapture).ToString() + ", " +
+			Util.BoolToInt(forceResultant).ToString() + ", " +
+			Util.BoolToInt(elastic).ToString();
+	}
+
+	public bool Changed(ForceSensorExercise newEx)
+	{
+		if(
+				name == newEx.Name &&
+				percentBodyWeight == newEx.PercentBodyWeight &&
+				resistance == newEx.Resistance &&
+				angleDefault == newEx.AngleDefault &&
+				description == newEx.Description &&
+				tareBeforeCapture == newEx.TareBeforeCapture &&
+				forceResultant == newEx.ForceResultant &&
+				elastic == newEx.Elastic)
+			return false;
+
+		return true;
 	}
 
 	public int UniqueID
@@ -309,6 +351,7 @@ public class ForceSensorExercise
 	public string Resistance
 	{
 		get { return resistance; }
+		set { resistance = value; }
 	}
 	public int AngleDefault
 	{
@@ -317,10 +360,19 @@ public class ForceSensorExercise
 	public string Description
 	{
 		get { return description; }
+		set { description = value; }
 	}
 	public bool TareBeforeCapture
 	{
 		get { return tareBeforeCapture; }
+	}
+	public bool ForceResultant
+	{
+		get { return forceResultant; }
+	}
+	public bool Elastic
+	{
+		get { return elastic; }
 	}
 }
 

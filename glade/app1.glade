@@ -9143,6 +9143,7 @@ EncoderInertialCapture</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
+                                                            <property name="tooltip" translatable="yes">Both</property>
                                                             <property name="active">True</property>
                                                             <property name="draw_indicator">False</property>
                                                             <child>
@@ -9187,6 +9188,7 @@ EncoderInertialCapture</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
+                                                            <property name="tooltip" translatable="yes">Left</property>
                                                             <property name="draw_indicator">False</property>
                                                             <property name="group">radio_force_sensor_laterality_both</property>
                                                             <child>
@@ -9231,6 +9233,7 @@ EncoderInertialCapture</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
+                                                            <property name="tooltip" translatable="yes">Right</property>
                                                             <property name="draw_indicator">False</property>
                                                             <property name="group">radio_force_sensor_laterality_both</property>
                                                             <child>

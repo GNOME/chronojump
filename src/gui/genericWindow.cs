@@ -167,7 +167,7 @@ public class GenericWindow
 	}
 
 	//for only one widget
-	static public GenericWindow Show (string title, string textHeader, Constants.GenericWindowShow stuff)
+	static public GenericWindow Show (string title, string textHeader, Constants.GenericWindowShow stuff, bool sensitive)
 	{
 		if (GenericWindowBox == null) {
 			GenericWindowBox = new GenericWindow(title, textHeader);
@@ -180,7 +180,7 @@ public class GenericWindow
 
 		GenericWindowBox.hideWidgets();
 
-		GenericWindowBox.showWidget(stuff);
+		GenericWindowBox.showWidget(stuff, sensitive);
 		GenericWindowBox.generic_window.Show ();
 		
 		return GenericWindowBox;
@@ -300,27 +300,58 @@ public class GenericWindow
 		
 	}
 
-	void showWidget(Constants.GenericWindowShow stuff) {
+	void showWidget(Constants.GenericWindowShow stuff, bool sensitive)
+	{
 		if(stuff == Constants.GenericWindowShow.ENTRY)
+		{
 			entry.Show();
+			entry.Sensitive = sensitive;
+		}
 		else if(stuff == Constants.GenericWindowShow.ENTRY2)
+		{
 			hbox_entry2.Show();
+			hbox_entry2.Sensitive = sensitive;
+		}
 		else if(stuff == Constants.GenericWindowShow.ENTRY3)
+		{
 			hbox_entry3.Show();
+			hbox_entry3.Sensitive = sensitive;
+		}
 		else if(stuff == Constants.GenericWindowShow.SPININT)
+		{
 			hbox_spin_int.Show();
+			hbox_spin_int.Sensitive = sensitive;
+		}
 		else if(stuff == Constants.GenericWindowShow.SPINDOUBLE)
+		{
 			spin_double.Show();
+			spin_double.Sensitive = sensitive;
+		}
 		else if(stuff == Constants.GenericWindowShow.HBOXSPINDOUBLE2)
+		{
 			hbox_spin_double2.Show();
+			hbox_spin_double2.Sensitive = sensitive;
+		}
 		else if(stuff == Constants.GenericWindowShow.HEIGHTMETRIC)
+		{
 			hbox_height_metric.Show();
+			hbox_height_metric.Sensitive = sensitive;
+		}
 		else if(stuff == Constants.GenericWindowShow.CHECK1)
+		{
 			check1.Show();
+			check1.Sensitive = sensitive;
+		}
 		else if(stuff == Constants.GenericWindowShow.SPININT2)
+		{
 			hbox_spin_int2.Show();
+			hbox_spin_int2.Sensitive = sensitive;
+		}
 		else if(stuff == Constants.GenericWindowShow.SPININT3)
+		{
 			hbox_spin_int3.Show();
+			hbox_spin_int3.Sensitive = sensitive;
+		}
 		else if(stuff == Constants.GenericWindowShow.COMBO) {
 			//do later, we need to create them first
 			/*
@@ -329,11 +360,20 @@ public class GenericWindow
 			*/
 		}
 		else if(stuff == Constants.GenericWindowShow.BUTTONMIDDLE)
+		{
 			hbuttonbox_middle.Show();
+			hbuttonbox_middle.Sensitive = sensitive;
+		}
 		else if(stuff == Constants.GenericWindowShow.TEXTVIEW)
+		{
 			scrolled_window_textview.Show();
+			scrolled_window_textview.Sensitive = sensitive;
+		}
 		else //if(stuff == Constants.GenericWindowShow.TREEVIEW)
+		{
 			scrolled_window_treeview.Show();
+			scrolled_window_treeview.Sensitive = sensitive;
+		}
 	}
 
 	private void on_entries_changed (object o, EventArgs args)
@@ -913,6 +953,9 @@ public class GenericWindow
 	
 	public void ShowButtonCancel(bool show) {
 		button_cancel.Visible = show;
+	}
+	public void ShowButtonAccept(bool show) {
+		button_accept.Visible = show;
 	}
 
 	private void on_button_cancel_clicked (object o, EventArgs args)

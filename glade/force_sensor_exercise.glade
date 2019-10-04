@@ -699,6 +699,7 @@
                   <widget class="GtkHButtonBox" id="hbuttonbox2">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="spacing">20</property>
                     <property name="layout_style">start</property>
                     <child>
                       <widget class="GtkButton" id="button_cancel">
@@ -748,8 +749,8 @@
                     </child>
                   </widget>
                   <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
                     <property name="position">0</property>
                   </packing>
                 </child>

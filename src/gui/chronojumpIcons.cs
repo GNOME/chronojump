@@ -174,6 +174,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_force_sensor_capture_recalculate;
 	[Widget] Gtk.Image image_force_sensor_analyze_analyze;
 	[Widget] Gtk.Image image_force_sensor_exercise_edit;
+	[Widget] Gtk.Image image_force_sensor_exercise_delete;
 	[Widget] Gtk.Image image_force_sensor_laterality_both;
 	[Widget] Gtk.Image image_force_sensor_laterality_r;
 	[Widget] Gtk.Image image_force_sensor_laterality_l;
@@ -595,6 +596,7 @@ public partial class ChronoJumpWindow
 		image_run_type_delete_intervallic.Pixbuf = pixbuf;
 		image_session_delete.Pixbuf = pixbuf;
 		image_encoder_exercise_delete.Pixbuf = pixbuf;
+		image_force_sensor_exercise_delete.Pixbuf = pixbuf;
 
 		image_button_cancel.Pixbuf = pixbuf;
 		image_encoder_capture_cancel.Pixbuf = pixbuf;

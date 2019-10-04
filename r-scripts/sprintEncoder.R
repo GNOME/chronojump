@@ -182,8 +182,17 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
 }
 
 plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, title = "Test graph",
-                                  plotRawMeanSpeed = TRUE, plotRawSpeed = TRUE, plotRawAccel = FALSE, plotRawForce = FALSE, plotMeanRawForce = TRUE, plotRawPower = FALSE, plotMeanRawPower = TRUE,
-                                  plotFittedSpeed = TRUE, plotFittedAccel = FALSE, plotFittedForce = FALSE, plotFittedPower = FALSE)
+                                  plotRawMeanSpeed = TRUE,
+                                  plotRawSpeed = TRUE,
+                                  plotRawAccel = FALSE,
+                                  plotRawForce = FALSE,
+                                  plotMeanRawForce = TRUE,
+                                  plotRawPower = FALSE,
+                                  plotMeanRawPower = TRUE,
+                                  plotFittedSpeed = TRUE,
+                                  plotFittedAccel = FALSE,
+                                  plotFittedForce = FALSE,
+                                  plotFittedPower = FALSE)
 {
         #Plotting position
         # plot(sprintRawDynamics$time[sprintRawDynamics$startSample:sprintRawDynamics$endSample], sprintRawDynamics$rawPosition[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
@@ -281,15 +290,10 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, title
         mtext(side = 3, at = splitTime, text = paste(splitPosition, "m", sep=""))
         mtext(side = 1, at = splitTime, text = paste(round(splitTime, digits = 3), "s", sep=""))
         
-        legendText = paste("Vmax.raw =", round(sprintRawDynamics$rawVmax, digits = 2), "m/s")
-        legendColor = "black"
-
         if (plotFittedSpeed)
         {
                 #Plotting fitted speed
                 lines(sprintFittedDynamics$t.fitted, sprintFittedDynamics$v.fitted, lty = 2)
-                legendText = c(legendText, paste("Vmax.fitted =", round(sprintFittedDynamics$Vmax.fitted, digits = 2), "m/s"))
-                legendColor = c(legendColor, "black")
         }
         
         if (plotRawAccel || plotFittedAccel)
@@ -315,8 +319,6 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, title
                              ylim = ylimits, type = "l", col = "magenta", lty = 2,
                              xlab = "", ylab = "",
                              axes = FALSE, yaxs = "i", xaxs = "i")
-                        legendText = c(legendText, paste("Amax.fitted =", round(max(sprintFittedDynamics$amax.fitted), digits = 2), "m/s^2"))
-                        legendColor = c(legendColor, "magenta")
                 }
                 axis(side = 4, col = "magenta")
         }
@@ -345,8 +347,6 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, title
                              ylim = ylimits, type = "l", col = "blue", lty = 2,
                              xlab = "", ylab = "",
                              axes = FALSE, yaxs = "i", xaxs = "i")
-                        legendText = c(legendText, paste("Fmax.fitted =", round(sprintFittedDynamics$fmax.fitted, digits = 2), "N"))
-                        legendColor = c(legendColor, "blue")
                 }
                 axis(side = 4, col = "blue", line = 2)
                 print("Mean force from the model")
@@ -396,8 +396,6 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, title
                              ylim = ylimits, type = "l", col = "red", lty = 2,
                              xlab = "", ylab = "",
                              axes = FALSE, yaxs = "i", xaxs = "i")
-                        legendText = c(legendText, paste("Pmax.fitted =", round(sprintFittedDynamics$pmax.fitted, digits = 2), "N"))
-                        legendColor = c(legendColor, "red")
                 }
                 axis(side = 4, col = "red", line = 4)
         }
@@ -421,9 +419,27 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, title
                 }
                 axis(side = 4, col = "red", line = 4)
         }
+        
+        legendText = paste("Vmax.raw =", round(sprintRawDynamics$rawVmax, digits = 2), "m/s")
+        legendColor = "black"
+        
+        legendText = c(legendText, paste("Vmax.fitted =", round(sprintFittedDynamics$Vmax.fitted, digits = 2), "m/s"))
+        legendColor = c(legendColor, "black")
+        
+        legendText = c(legendText, paste("K =", round(sprintFittedDynamics$K.fitted, digits = 2), "s⁻¹"))
+        legendColor = c(legendColor, "black")
+        
+        legendText = c(legendText, paste("Amax.fitted =", round(max(sprintFittedDynamics$amax.fitted), digits = 2), "m/s^2"))
+        legendColor = c(legendColor, "magenta")
+        
+        legendText = c(legendText, paste("Fmax.fitted =", round(sprintFittedDynamics$fmax.fitted, digits = 2), "N"))
+        legendColor = c(legendColor, "blue")
+        
+        legendText = c(legendText, paste("Pmax.fitted =", round(sprintFittedDynamics$pmax.fitted, digits = 2), "W"))
+        legendColor = c(legendColor, "red")
 
         plotSize = par("usr")
-        legend(x = plotSize[2], y = plotSize[3] + (plotSize[4] - plotSize[3])*0.66,
+        legend(x = plotSize[2], y = plotSize[3] + (plotSize[4] - plotSize[3])*0.25,
                 xjust = 1, yjust = 0.5, cex = 1,
                 legend = legendText,
                 text.col = legendColor)
@@ -512,7 +528,18 @@ testEncoderCJ <- function(filename, testLength, mass, personHeight, tempC)
         {
                 sprintFittedDynamics = getDynamicsFromSprint(K = sprintRawDynamics$K, Vmax = sprintRawDynamics$Vmax, mass, tempC, personHeight)
                 print(paste("K =",sprintFittedDynamics$K.fitted, "Vmax =", sprintFittedDynamics$Vmax.fitted))
-                plotSprintFromEncoder(sprintRawDynamic = sprintRawDynamics, sprintFittedDynamics = sprintFittedDynamics, title = "Testing graph")
+                plotSprintFromEncoder(sprintRawDynamic = sprintRawDynamics, sprintFittedDynamics = sprintFittedDynamics, title = "Testing graph",
+                                      plotRawMeanSpeed = TRUE,
+                                      plotRawSpeed = TRUE,
+                                      plotRawAccel = FALSE,
+                                      plotRawForce = FALSE,
+                                      plotMeanRawForce = FALSE,
+                                      plotRawPower = FALSE,
+                                      plotMeanRawPower = FALSE,
+                                      plotFittedSpeed = TRUE,
+                                      plotFittedAccel = FALSE,
+                                      plotFittedForce = FALSE,
+                                      plotFittedPower = FALSE)
                 exportSprintDynamics(sprintFittedDynamics)
         } else
                 print("Couldn't calculate the sprint model")

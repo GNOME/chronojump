@@ -321,6 +321,7 @@ public partial class ChronoJumpWindow
 			if(ex is System.IO.IOException || ex is System.TimeoutException)
 			{
 				LogB.Information(errorMessage);
+//portFS.Close(); //TODO: seguir investigant
 				portFSOpened = false;
 				return false;
 			}
@@ -2309,8 +2310,6 @@ LogB.Information(" fs R ");
 
 			genericWin.ShowTextview();
 			genericWin.ShowTreeview();
-
-			genericWin.Button_accept.Clicked += new EventHandler(on_button_force_sensor_exercise_do_not_delete);
 		} else {
 			//forceSensor table has not records of this exercise. Delete exercise
 			SqliteForceSensorExercise.Delete(false, ex.UniqueID);
@@ -2320,13 +2319,6 @@ LogB.Information(" fs R ");
 
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Exercise deleted."));
 		}
-	}
-
-	//accept does not save changes, just closes window
-	void on_button_force_sensor_exercise_do_not_delete (object o, EventArgs args)
-	{
-		genericWin.Button_accept.Clicked -= new EventHandler(on_button_force_sensor_exercise_do_not_delete);
-		genericWin.HideAndNull();
 	}
 
 	// -------------------------------- end of exercise stuff --------------------

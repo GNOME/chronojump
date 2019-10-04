@@ -1173,7 +1173,6 @@ LogB.Information(" re R ");
 		genericWin.ShowButtonDelete(true);
 		genericWin.Button_delete.Clicked += new EventHandler(on_button_run_encoder_exercise_delete);
 
-		genericWin.nameUntranslated = ex.Name;
 		genericWin.uniqueID = ex.UniqueID;
 
 		genericWin.Button_accept.Clicked += new EventHandler(on_button_run_encoder_exercise_edit_accepted);

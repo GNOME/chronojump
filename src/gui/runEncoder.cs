@@ -1158,7 +1158,7 @@ LogB.Information(" re R ");
 		ArrayList a2 = new ArrayList();
 
 		//0 is the widgget to show; 1 is the editable; 2 id default value
-		a1.Add(Constants.GenericWindowShow.ENTRY); a1.Add(true); a1.Add(ex.Name); //name can be changed (opposite to encoder), because we use always the uniqueID
+		a1.Add(Constants.GenericWindowShow.ENTRY); a1.Add(true); a1.Add(ex.Name);
 		bigArray.Add(a1);
 
 		a2.Add(Constants.GenericWindowShow.ENTRY2); a2.Add(true); a2.Add(ex.Description);
@@ -1169,12 +1169,11 @@ LogB.Information(" re R ");
 		genericWin.LabelEntry2 = Catalog.GetString("Description");
 
 		genericWin.ShowButtonCancel(false);
-
-		genericWin.ShowButtonDelete(true);
-		genericWin.Button_delete.Clicked += new EventHandler(on_button_run_encoder_exercise_delete);
+		genericWin.HideOnAccept = false;
 
 		genericWin.uniqueID = ex.UniqueID;
 
+		genericWin.Button_accept.Clicked -= new EventHandler(on_button_run_encoder_exercise_edit_accepted);
 		genericWin.Button_accept.Clicked += new EventHandler(on_button_run_encoder_exercise_edit_accepted);
 		genericWin.ShowNow();
 	}
@@ -1198,9 +1197,9 @@ LogB.Information(" re R ");
 		genericWin.LabelEntry2 = Catalog.GetString("Description");
 
 		genericWin.SetButtonAcceptLabel(Catalog.GetString("Add"));
-
 		genericWin.HideOnAccept = false;
 
+		genericWin.Button_accept.Clicked -= new EventHandler(on_button_run_encoder_exercise_add_accepted);
 		genericWin.Button_accept.Clicked += new EventHandler(on_button_run_encoder_exercise_add_accepted);
 		genericWin.ShowNow();
 	}
@@ -1233,37 +1232,70 @@ LogB.Information(" re R ");
 			LogB.Information("run_encoder_exercise_do - Trying to edit: " + name);
 
 		if(name == "")
+		{
 			genericWin.SetLabelError(Catalog.GetString("Error: Missing name of exercise."));
+			return false;
+		}
 		else if (adding && Sqlite.Exists(false, Constants.RunEncoderExerciseTable, name))
+		{
 			genericWin.SetLabelError(string.Format(Catalog.GetString(
 							"Error: An exercise named '{0}' already exists."), name));
-		else {
-			if(adding)
-				SqliteRunEncoderExercise.Insert(false, -1, name, genericWin.Entry2Selected);
-			else {
-				RunEncoderExercise ex = new RunEncoderExercise(genericWin.uniqueID, name, genericWin.Entry2Selected);
-				SqliteRunEncoderExercise.Update(false, ex);
+			return false;
+		}
+		else if (! adding) //if we are editing
+		{
+			//if we edit, check that this name does not exists (on other exercise, on current editing exercise is obviously fine)
+			int getIdOfThis = Sqlite.ExistsAndGetUniqueID(false, Constants.RunEncoderExerciseTable, name); //if not exists will be -1
+			if(getIdOfThis != -1 && getIdOfThis != genericWin.uniqueID)
+			{
+				genericWin.SetLabelError(string.Format(Catalog.GetString(
+								"Error: An exercise named '{0}' already exists."), name));
+
+				return false;
 			}
-
-			fillRunEncoderExerciseCombo(name);
-
-			LogB.Information("done");
-			return true;
 		}
 
-		return false;
+		if(adding)
+			SqliteRunEncoderExercise.Insert(false, -1, name, genericWin.Entry2Selected);
+		else {
+			RunEncoderExercise ex = new RunEncoderExercise(genericWin.uniqueID, name, genericWin.Entry2Selected);
+			SqliteRunEncoderExercise.Update(false, ex);
+		}
+
+		fillRunEncoderExerciseCombo(name);
+		LogB.Information("done");
+		return true;
 	}
 
 	//based on: on_button_encoder_exercise_delete
 	//maybe unify them on the future
-	void on_button_run_encoder_exercise_delete (object o, EventArgs args)
+	void on_button_run_encoder_exercise_delete_clicked (object o, EventArgs args)
 	{
-		int exerciseID = genericWin.uniqueID;
+		if(UtilGtk.ComboGetActive(combo_run_encoder_exercise) == "")
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Need to create/select an exercise."));
+			return;
+		}
+
+		RunEncoderExercise ex = (RunEncoderExercise) SqliteRunEncoderExercise.Select (
+                                false, getExerciseIDFromAnyCombo(combo_run_encoder_exercise, runEncoderComboExercisesString, false), false)[0];
+
+		LogB.Information("selected exercise: " + ex.ToString());
 
 		//1st find if there are sets with this exercise
-		ArrayList array = SqliteRunEncoder.SelectRowsOfAnExercise(false, exerciseID);
+		ArrayList array = SqliteRunEncoder.SelectRowsOfAnExercise(false, ex.UniqueID);
 
-		if(array.Count > 0) {
+		if(array.Count > 0)
+		{
+			genericWin = GenericWindow.Show(Catalog.GetString("Exercise"),
+					Catalog.GetString("Exercise name:"), Constants.GenericWindowShow.ENTRY, false);
+
+			genericWin.EntrySelected = ex.Name;
+
+			//just one button to exit and with ESC accelerator
+			genericWin.ShowButtonAccept(false);
+			genericWin.SetButtonCancelLabel(Catalog.GetString("Close"));
+
 			//there are some records of this exercise on encoder table, do not delete
 			genericWin.SetTextview(
 					Catalog.GetString("Sorry, this exercise cannot be deleted until these tests are deleted:"));
@@ -1281,28 +1313,15 @@ LogB.Information(" re R ");
 
 			genericWin.ShowTextview();
 			genericWin.ShowTreeview();
-			genericWin.ShowButtonDelete(false);
-			genericWin.DeletingExerciseHideSomeWidgets();
-
-			genericWin.Button_accept.Clicked -= new EventHandler(on_button_run_encoder_exercise_edit_accepted);
-			genericWin.Button_accept.Clicked += new EventHandler(on_button_run_encoder_exercise_do_not_delete);
 		} else {
 			//runEncoder table has not records of this exercise. Delete exercise
-			SqliteRunEncoderExercise.Delete(false, exerciseID);
-
-			genericWin.HideAndNull();
+			SqliteRunEncoderExercise.Delete(false, ex.UniqueID);
 
 			fillRunEncoderExerciseCombo("");
 			combo_run_encoder_exercise.Active = 0;
 
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Exercise deleted."));
 		}
-	}
-
-	//accept does not save changes, just closes window
-	void on_button_run_encoder_exercise_do_not_delete (object o, EventArgs args) {
-		genericWin.Button_accept.Clicked -= new EventHandler(on_button_run_encoder_exercise_do_not_delete);
-		genericWin.HideAndNull();
 	}
 	// -------------------------------- end of exercise stuff --------------------
 

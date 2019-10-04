@@ -185,6 +185,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_race_encoder_capture_recalculate;
 	[Widget] Gtk.Image image_run_encoder_exercise_edit;
 	[Widget] Gtk.Image image_run_encoder_exercise_add;
+	[Widget] Gtk.Image image_run_encoder_exercise_delete;
 
 	//video play icons
 	[Widget] Gtk.Image image_video_play_this_test;
@@ -597,6 +598,8 @@ public partial class ChronoJumpWindow
 		image_session_delete.Pixbuf = pixbuf;
 		image_encoder_exercise_delete.Pixbuf = pixbuf;
 		image_force_sensor_exercise_delete.Pixbuf = pixbuf;
+		image_run_encoder_exercise_delete.Pixbuf = pixbuf;
+
 
 		image_button_cancel.Pixbuf = pixbuf;
 		image_encoder_capture_cancel.Pixbuf = pixbuf;

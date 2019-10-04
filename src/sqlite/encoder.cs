@@ -781,7 +781,26 @@ class SqliteEncoder : Sqlite
 		}
 	}
 
-	public static void UpdateExercise(bool dbconOpened, string nameOld, string name, int percentBodyWeight, 
+	public static void UpdateExercise (bool dbconOpened, EncoderExercise ex)
+	{
+		if(! dbconOpened)
+			Sqlite.Open();
+
+		dbcmd.CommandText = "UPDATE " + Constants.EncoderExerciseTable + " SET" +
+				" name = \"" + ex.Name +
+				"\", percentBodyWeight = " + ex.PercentBodyWeight +
+				", ressistance = \"" + ex.Ressistance +
+				"\", description = \"" + ex.Description +
+				"\", future1 = \"" + Util.ConvertToPoint(ex.Speed1RM) +
+				"\" WHERE uniqueID = " + ex.UniqueID;
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		if(! dbconOpened)
+			Sqlite.Close();
+	}
+	public static void UpdateExerciseByName_old_do_not_use(bool dbconOpened, string nameOld, string name, int percentBodyWeight,
 			string ressistance, string description, string speed1RM)
 	{
 		if(! dbconOpened)

@@ -1373,7 +1373,7 @@ class Sqlite
 			if(currentVersion == "0.90") {
 				Sqlite.Open();
 				
-				SqliteEncoder.UpdateExercise(true, "Squat", "Squat", 100, "weight bar", "", "");	
+				SqliteEncoder.UpdateExerciseByName_old_do_not_use(true, "Squat", "Squat", 100, "weight bar", "", "");
 				LogB.SQL("Encoder Squat 75% -> 100%");
 				
 				SqlitePreferences.Update ("databaseVersion", "0.91", true); 
@@ -1395,8 +1395,8 @@ class Sqlite
 			if(currentVersion == "0.92") {
 				Sqlite.Open();
 				
-				SqliteEncoder.UpdateExercise(true, "Bench press", "Bench press", 0, "weight bar", "","0.185");
-				SqliteEncoder.UpdateExercise(true, "Squat", "Squat", 100, "weight bar", "","0.31");
+				SqliteEncoder.UpdateExerciseByName_old_do_not_use(true, "Bench press", "Bench press", 0, "weight bar", "","0.185");
+				SqliteEncoder.UpdateExerciseByName_old_do_not_use(true, "Squat", "Squat", 100, "weight bar", "","0.31");
 				LogB.SQL("Added speed1RM on encoder exercise");
 				
 				SqlitePreferences.Update ("databaseVersion", "0.93", true); 

@@ -985,8 +985,12 @@ public class GenericWindow
 	
 	//when ! HideOnAccept, use this to close window
 	//also is better to call it always tat is closed clicking on accept (after data has been readed)
-	public void HideAndNull() {
-		GenericWindowBox.generic_window.Hide();
+	public void HideAndNull()
+	{
+		//this check is extra safety if there are extra EventHandlers opened with +=
+		if(GenericWindowBox.generic_window != null)
+			GenericWindowBox.generic_window.Hide();
+
 		GenericWindowBox = null;
 	}
 	

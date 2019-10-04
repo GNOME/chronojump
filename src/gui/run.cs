@@ -1176,7 +1176,7 @@ public partial class ChronoJumpWindow
 
 	private void createGenericWinForTrackDistance(bool simpleOrInterval, string text, string labelAtLeft, double initialValue)
 	{
-		genericWin = GenericWindow.Show(Catalog.GetString("Track distance"), text, Constants.GenericWindowShow.HBOXSPINDOUBLE2);
+		genericWin = GenericWindow.Show(Catalog.GetString("Track distance"), text, Constants.GenericWindowShow.HBOXSPINDOUBLE2, true);
 
 		genericWin.LabelSpinDouble2 = labelAtLeft;
 		genericWin.SetSpinDouble2Increments(0.1, 1);

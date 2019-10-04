@@ -1482,7 +1482,7 @@ public class PersonAddModifyWindow
 	
 	void on_button_height_metric_clicked(object obj, EventArgs args) 
 	{
-		genericWin = GenericWindow.Show(Catalog.GetString("Height"), Catalog.GetString("Select your height"), Constants.GenericWindowShow.HEIGHTMETRIC);
+		genericWin = GenericWindow.Show(Catalog.GetString("Height"), Catalog.GetString("Select your height"), Constants.GenericWindowShow.HEIGHTMETRIC, true);
 		genericWin.Button_accept.Clicked += new EventHandler(on_button_height_metric_accepted);
 	}
 	void on_button_height_metric_accepted (object obj, EventArgs args)
@@ -1500,7 +1500,7 @@ public class PersonAddModifyWindow
 	{
 		genericWin = GenericWindow.Show(Catalog.GetString("Weight"),
 				Catalog.GetString("Select your weight in pounds"),
-				Constants.GenericWindowShow.SPINDOUBLE);
+				Constants.GenericWindowShow.SPINDOUBLE, true);
 		genericWin.Button_accept.Clicked += new EventHandler(on_button_weight_metric_accepted);
 	}
 	void on_button_weight_metric_accepted (object obj, EventArgs args)
@@ -1648,7 +1648,7 @@ public class PersonAddModifyWindow
 		LogB.Information("sport add clicked");
 		genericWin = GenericWindow.Show(Catalog.GetString("Add sport"),
 				Catalog.GetString("Add new sport to database"),
-				Constants.GenericWindowShow.ENTRY);
+				Constants.GenericWindowShow.ENTRY, true);
 		genericWin.Button_accept.Clicked += new EventHandler(on_sport_add_accepted);
 	}
 

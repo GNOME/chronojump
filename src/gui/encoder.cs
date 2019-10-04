@@ -4576,10 +4576,12 @@ public partial class ChronoJumpWindow
 		genericWin.SetSpin3Range(ex.weightAngle,ex.weightAngle); //done this because IsEditable does not affect the cursors
 		*/
 		genericWin.ShowButtonCancel(false);
-		
+		genericWin.HideOnAccept = false;
+
 		//genericWin.nameUntranslated = ex.name;
 		genericWin.uniqueID = ex.uniqueID;
 		
+		genericWin.Button_accept.Clicked -= new EventHandler(on_button_encoder_exercise_edit_accepted);
 		genericWin.Button_accept.Clicked += new EventHandler(on_button_encoder_exercise_edit_accepted);
 		genericWin.ShowNow();
 	}
@@ -4629,9 +4631,9 @@ public partial class ChronoJumpWindow
 		genericWin.SetSpin3Value(90);
 		*/
 		genericWin.SetButtonAcceptLabel(Catalog.GetString("Add"));
-		
 		genericWin.HideOnAccept = false;
 
+		genericWin.Button_accept.Clicked -= new EventHandler(on_button_encoder_exercise_add_accepted);
 		genericWin.Button_accept.Clicked += new EventHandler(on_button_encoder_exercise_add_accepted);
 		genericWin.ShowNow();
 	}
@@ -4747,8 +4749,6 @@ public partial class ChronoJumpWindow
 
 		if(array.Count > 0)
 		{
-			//name cannot be changed because we have to detect if new name already exists, check problems with translations,
-			//but most important, if user can change name and then click delete, it will be a mess to confirm that the type "newname" or "oldname" will be deleted
 			genericWin = GenericWindow.Show(Catalog.GetString("Exercise"),
 					Catalog.GetString("Exercise name:"), Constants.GenericWindowShow.ENTRY, false);
 
@@ -4775,9 +4775,6 @@ public partial class ChronoJumpWindow
 
 			genericWin.ShowTextview();
 			genericWin.ShowTreeview();
-
-			//accept does not save changes, just closes window
-			genericWin.Button_accept.Clicked += new EventHandler(on_button_encoder_exercise_do_not_delete);
 		} else {
 			//encoder table has not records of this exercise
 			//delete exercise
@@ -4793,13 +4790,6 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	//accept does not save changes, just closes window
-	void on_button_encoder_exercise_do_not_delete (object o, EventArgs args)
-	{
-		genericWin.Button_accept.Clicked -= new EventHandler(on_button_encoder_exercise_do_not_delete);
-		genericWin.HideAndNull();
-	}
-	
 
 	/* sensitivity stuff */	
 	//called when a person changes

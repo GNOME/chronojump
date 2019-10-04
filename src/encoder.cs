@@ -568,7 +568,8 @@ public class EncoderSignal
 
 
 //related to encoderSignalCurve table
-public class EncoderSignalCurve {
+public class EncoderSignalCurve
+{
 	public int uniqueID;
 	public int signalID;
 	public int curveID;
@@ -1045,6 +1046,22 @@ public class EncoderExercise
 	public string Name
 	{
 		get { return name; }
+	}
+	public int PercentBodyWeight
+	{
+		get { return percentBodyWeight; }
+	}
+	public string Ressistance
+	{
+		get { return ressistance; }
+	}
+	public string Description
+	{
+		get { return description; }
+	}
+	public double Speed1RM
+	{
+		get { return speed1RM; }
 	}
 
 	~EncoderExercise() {}

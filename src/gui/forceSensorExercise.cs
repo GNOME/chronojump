@@ -67,13 +67,13 @@ public class ForceSensorExerciseWindow
 	[Widget] Gtk.TextView textview_description;
 	[Widget] Gtk.TextView textview_examples;
 
+	[Widget] Gtk.Button button_back;
 	[Widget] Gtk.Button button_next;
 	[Widget] Gtk.Button button_accept;
-	[Widget] Gtk.Button button_back;
 
-	[Widget] Gtk.Image image_cancel;
-	[Widget] Gtk.Image image_next;
 	[Widget] Gtk.Image image_back;
+	[Widget] Gtk.Image image_next;
+	[Widget] Gtk.Image image_cancel;
 
 	[Widget] Gtk.Button fakeButtonReadValues;
 
@@ -121,8 +121,8 @@ public class ForceSensorExerciseWindow
 			ForceSensorExerciseWindowBox.label_header.Text = textHeader;
 		}
 
-		ForceSensorExerciseWindowBox.modeEnum = modesEnum.EDIT;
 		ForceSensorExerciseWindowBox.Success = false;
+		ForceSensorExerciseWindowBox.modeEnum = modesEnum.EDIT;
 		ForceSensorExerciseWindowBox.initializeGuiAtShow();
 		ForceSensorExerciseWindowBox.exercise = exercise;
 		ForceSensorExerciseWindowBox.exerciseToGUI();
@@ -140,8 +140,8 @@ public class ForceSensorExerciseWindow
 			ForceSensorExerciseWindowBox.label_header.Text = textHeader;
 		}
 
-		ForceSensorExerciseWindowBox.modeEnum = modesEnum.ADD;
 		ForceSensorExerciseWindowBox.Success = false;
+		ForceSensorExerciseWindowBox.modeEnum = modesEnum.ADD;
 		ForceSensorExerciseWindowBox.initializeGuiAtShow();
 		ForceSensorExerciseWindowBox.exercise = null;
 		ForceSensorExerciseWindowBox.force_sensor_exercise.Show ();

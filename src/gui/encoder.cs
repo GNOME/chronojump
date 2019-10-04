@@ -4558,7 +4558,7 @@ public partial class ChronoJumpWindow
 		bigArray.Add(a5);
 		
 		
-		genericWin = GenericWindow.Show(Catalog.GetString("Exercise"),
+		genericWin = GenericWindow.Show(Catalog.GetString("Delete exercise"),
 				false, Catalog.GetString("Encoder exercise name:"), bigArray);
 		genericWin.LabelSpinInt = Catalog.GetString("Displaced body weight") + " (%)";
 		
@@ -4740,7 +4740,7 @@ public partial class ChronoJumpWindow
 			//name cannot be changed because we have to detect if new name already exists, check problems with translations,
 			//but most important, if user can change name and then click delete, it will be a mess to confirm that the type "newname" or "oldname" will be deleted
 			genericWin = GenericWindow.Show(Catalog.GetString("Exercise"),
-					Catalog.GetString("Encoder exercise name:"), Constants.GenericWindowShow.ENTRY, false);
+					Catalog.GetString("Exercise name:"), Constants.GenericWindowShow.ENTRY, false);
 
 			genericWin.EntrySelected = ex.Name;
 

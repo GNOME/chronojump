@@ -2267,15 +2267,32 @@ LogB.Information(" fs R ");
 
 	//based on: on_button_encoder_exercise_delete
 	//maybe unify them on the future
-	void on_button_force_sensor_exercise_delete (object o, EventArgs args)
+	void on_button_force_sensor_exercise_delete_clicked (object o, EventArgs args)
 	{
-		int exerciseID = genericWin.uniqueID;
+		if(UtilGtk.ComboGetActive(combo_force_sensor_exercise) == "")
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Need to create/select an exercise."));
+			return;
+		}
+
+		ForceSensorExercise ex = (ForceSensorExercise) SqliteForceSensorExercise.Select (
+                                false, getExerciseIDFromAnyCombo(combo_force_sensor_exercise, forceSensorComboExercisesString, false), false)[0];
 
 		//1st find if there are sets with this exercise
-		ArrayList array = SqliteForceSensor.SelectRowsOfAnExercise(false, exerciseID);
+		ArrayList array = SqliteForceSensor.SelectRowsOfAnExercise(false, ex.UniqueID);
 
-		if(array.Count > 0) {
-			//there are some records of this exercise on encoder table, do not delete
+		if(array.Count > 0)
+		{
+			genericWin = GenericWindow.Show(Catalog.GetString("Delete exercise"),
+					Catalog.GetString("Exercise name:"), Constants.GenericWindowShow.ENTRY, false);
+
+			genericWin.EntrySelected = ex.Name;
+
+			//just one button to exit and with ESC accelerator
+			genericWin.ShowButtonAccept(false);
+			genericWin.SetButtonCancelLabel(Catalog.GetString("Close"));
+
+			//there are some records of this exercise on forceSensor table, do not delete
 			genericWin.SetTextview(
 					Catalog.GetString("Sorry, this exercise cannot be deleted until these tests are deleted:"));
 
@@ -2292,16 +2309,11 @@ LogB.Information(" fs R ");
 
 			genericWin.ShowTextview();
 			genericWin.ShowTreeview();
-			genericWin.ShowButtonDelete(false);
-			genericWin.DeletingExerciseHideSomeWidgets();
 
-			genericWin.Button_accept.Clicked -= new EventHandler(on_button_force_sensor_exercise_edit_oldTODO_accepted);
 			genericWin.Button_accept.Clicked += new EventHandler(on_button_force_sensor_exercise_do_not_delete);
 		} else {
 			//forceSensor table has not records of this exercise. Delete exercise
-			SqliteForceSensorExercise.Delete(false, exerciseID);
-
-			genericWin.HideAndNull();
+			SqliteForceSensorExercise.Delete(false, ex.UniqueID);
 
 			fillForceSensorExerciseCombo("");
 			combo_force_sensor_exercise.Active = 0;
@@ -2311,7 +2323,8 @@ LogB.Information(" fs R ");
 	}
 
 	//accept does not save changes, just closes window
-	void on_button_force_sensor_exercise_do_not_delete (object o, EventArgs args) {
+	void on_button_force_sensor_exercise_do_not_delete (object o, EventArgs args)
+	{
 		genericWin.Button_accept.Clicked -= new EventHandler(on_button_force_sensor_exercise_do_not_delete);
 		genericWin.HideAndNull();
 	}

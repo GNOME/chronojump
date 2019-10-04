@@ -1035,6 +1035,15 @@ public class EncoderExercise
 			ressistance + "," + description + "," + speed1RM.ToString();
 	}
 
+	public int UniqueID
+	{
+		get { return uniqueID; }
+	}
+	public string Name
+	{
+		get { return name; }
+	}
+
 	~EncoderExercise() {}
 }
 

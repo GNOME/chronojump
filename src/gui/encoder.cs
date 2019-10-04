@@ -4535,9 +4535,6 @@ public partial class ChronoJumpWindow
 		ArrayList a5 = new ArrayList();
 
 		string exerciseName = ex.name;
-		if(ex.IsPredefined())
-			exerciseName = Catalog.GetString(ex.name);
-
 		//0 is the widgget to show; 1 is the editable; 2 id default value
 
 		//name cannot be changed because we have to detect if new name already exists, check problems with translations,
@@ -4727,11 +4724,6 @@ public partial class ChronoJumpWindow
 
 		EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(
 				false, getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE), false)[0];
-
-		if(ex.IsPredefined()) {
-			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Sorry, predefined exercises cannot be deleted."));
-			return;
-		}
 
 		ArrayList array = SqliteEncoder.SelectEncoderSetsOfAnExercise(false, ex.UniqueID); //dbconOpened, exerciseID
 

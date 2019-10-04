@@ -1016,6 +1016,8 @@ public class EncoderExercise
 		this.speed1RM = speed1RM;
 	}
 
+	/*
+	 * unused, on 1.9.1 all encoder exercises can be deleted
 	public bool IsPredefined() {
 		if(
 				name == "Bench press" ||
@@ -1028,6 +1030,7 @@ public class EncoderExercise
 		else 
 			return false;
 	}
+	*/
 
 	public override string ToString()
 	{

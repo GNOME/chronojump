@@ -4580,9 +4580,6 @@ public partial class ChronoJumpWindow
 		*/
 		genericWin.ShowButtonCancel(false);
 		
-		genericWin.ShowButtonDelete(true);
-		genericWin.Button_delete.Clicked += new EventHandler(on_button_encoder_exercise_delete);
-		
 		genericWin.nameUntranslated = ex.name;
 		genericWin.uniqueID = ex.uniqueID;
 		
@@ -4720,18 +4717,37 @@ public partial class ChronoJumpWindow
 		combo_encoder_exercise_analyze.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise_analyze, name);
 	}
 	
-	void on_button_encoder_exercise_delete (object o, EventArgs args) 
+	void on_button_encoder_exercise_delete_clicked (object o, EventArgs args)
 	{
+		if(! selectedEncoderExerciseExists())
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Need to create/select an exercise."));
+			return;
+		}
+
 		EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(
-				false, genericWin.uniqueID, false)[0];
+				false, getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE), false)[0];
+
 		if(ex.IsPredefined()) {
 			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Sorry, predefined exercises cannot be deleted."));
 			return;
 		}
 
-		ArrayList array = SqliteEncoder.SelectEncoderSetsOfAnExercise(false, genericWin.uniqueID); //dbconOpened, exerciseID
+		ArrayList array = SqliteEncoder.SelectEncoderSetsOfAnExercise(false, ex.UniqueID); //dbconOpened, exerciseID
 
-		if(array.Count > 0) {
+		if(array.Count > 0)
+		{
+			//name cannot be changed because we have to detect if new name already exists, check problems with translations,
+			//but most important, if user can change name and then click delete, it will be a mess to confirm that the type "newname" or "oldname" will be deleted
+			genericWin = GenericWindow.Show(Catalog.GetString("Exercise"),
+					Catalog.GetString("Encoder exercise name:"), Constants.GenericWindowShow.ENTRY, false);
+
+			genericWin.EntrySelected = ex.Name;
+
+			//just one button to exit and with ESC accelerator
+			genericWin.ShowButtonAccept(false);
+			genericWin.SetButtonCancelLabel(Catalog.GetString("Close"));
+
 			//there are some records of this exercise on encoder table, do not delete
 			genericWin.SetTextview(
 					Catalog.GetString("Sorry, this exercise cannot be deleted until these tests are deleted:"));
@@ -4749,19 +4765,15 @@ public partial class ChronoJumpWindow
 
 			genericWin.ShowTextview();
 			genericWin.ShowTreeview();
-			genericWin.ShowButtonDelete(false);
-			genericWin.DeletingExerciseHideSomeWidgets();
-		
-			genericWin.Button_accept.Clicked -= new EventHandler(on_button_encoder_exercise_edit_accepted);
+
+			//accept does not save changes, just closes window
 			genericWin.Button_accept.Clicked += new EventHandler(on_button_encoder_exercise_do_not_delete);
 		} else {
 			//encoder table has not records of this exercise
 			//delete exercise
-			Sqlite.Delete(false, Constants.EncoderExerciseTable, genericWin.uniqueID);
+			Sqlite.Delete(false, Constants.EncoderExerciseTable, ex.UniqueID);
 			//delete 1RM records of this exercise
-			Sqlite.DeleteFromAnInt(false, Constants.Encoder1RMTable, "exerciseID", genericWin.uniqueID);
-
-			genericWin.HideAndNull();
+			Sqlite.DeleteFromAnInt(false, Constants.Encoder1RMTable, "exerciseID", ex.UniqueID);
 
 			createEncoderComboExerciseAndAnalyze();
 			combo_encoder_exercise_capture.Active = 0;
@@ -4772,7 +4784,8 @@ public partial class ChronoJumpWindow
 	}
 
 	//accept does not save changes, just closes window
-	void on_button_encoder_exercise_do_not_delete (object o, EventArgs args) {
+	void on_button_encoder_exercise_do_not_delete (object o, EventArgs args)
+	{
 		genericWin.Button_accept.Clicked -= new EventHandler(on_button_encoder_exercise_do_not_delete);
 		genericWin.HideAndNull();
 	}

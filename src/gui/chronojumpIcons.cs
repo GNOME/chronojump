@@ -139,8 +139,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_capture_1set;
 	[Widget] Gtk.Image image_encoder_capture_cont;
 	[Widget] Gtk.Image image_encoder_capture_execute;
-	[Widget] Gtk.Image image_encoder_exercise_add;
 	[Widget] Gtk.Image image_encoder_exercise_edit;
+	[Widget] Gtk.Image image_encoder_exercise_add;
+	[Widget] Gtk.Image image_encoder_exercise_delete;
 	[Widget] Gtk.Image image_encoder_1RM_info;
 	//[Widget] Gtk.Image image_encoder_exercise_close;
 	[Widget] Gtk.Image image_inertial_rolled;
@@ -593,6 +594,7 @@ public partial class ChronoJumpWindow
 		image_run_type_delete_simple.Pixbuf = pixbuf;
 		image_run_type_delete_intervallic.Pixbuf = pixbuf;
 		image_session_delete.Pixbuf = pixbuf;
+		image_encoder_exercise_delete.Pixbuf = pixbuf;
 
 		image_button_cancel.Pixbuf = pixbuf;
 		image_encoder_capture_cancel.Pixbuf = pixbuf;

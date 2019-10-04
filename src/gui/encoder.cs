@@ -4537,9 +4537,7 @@ public partial class ChronoJumpWindow
 		string exerciseName = ex.name;
 		//0 is the widgget to show; 1 is the editable; 2 id default value
 
-		//name cannot be changed because we have to detect if new name already exists, check problems with translations,
-		//but most important, if user can change name and then click delete, it will be a mess to confirm that the type "newname" or "oldname" will be deleted
-		a1.Add(Constants.GenericWindowShow.ENTRY); a1.Add(false); a1.Add(exerciseName);
+		a1.Add(Constants.GenericWindowShow.ENTRY); a1.Add(true); a1.Add(exerciseName);
 		bigArray.Add(a1);
 
 		a2.Add(Constants.GenericWindowShow.SPININT); a2.Add(true); a2.Add("");
@@ -4557,6 +4555,8 @@ public partial class ChronoJumpWindow
 		
 		genericWin = GenericWindow.Show(Catalog.GetString("Delete exercise"),
 				false, Catalog.GetString("Encoder exercise name:"), bigArray);
+
+		genericWin.uniqueID = ex.UniqueID;
 		genericWin.LabelSpinInt = Catalog.GetString("Displaced body weight") + " (%)";
 		
 		//genericWin.SetSpinRange(ex.percentBodyWeight, ex.percentBodyWeight); //done this because IsEditable does not affect the cursors
@@ -4577,7 +4577,7 @@ public partial class ChronoJumpWindow
 		*/
 		genericWin.ShowButtonCancel(false);
 		
-		genericWin.nameUntranslated = ex.name;
+		//genericWin.nameUntranslated = ex.name;
 		genericWin.uniqueID = ex.uniqueID;
 		
 		genericWin.Button_accept.Clicked += new EventHandler(on_button_encoder_exercise_edit_accepted);
@@ -4664,28 +4664,46 @@ public partial class ChronoJumpWindow
 			LogB.Information("Trying to edit: " + name);
 
 		if(name == "")
+		{
 			genericWin.SetLabelError(Catalog.GetString("Error: Missing name of exercise."));
+			return false;
+		}
 		else if (adding && Sqlite.Exists(false, Constants.EncoderExerciseTable, name))
+		{
 			genericWin.SetLabelError(string.Format(Catalog.GetString(
 							"Error: An exercise named '{0}' already exists."), name));
-		else {
-			if(adding)
-				SqliteEncoder.InsertExercise(false, -1, name, genericWin.SpinIntSelected,
-						genericWin.Entry2Selected, genericWin.Entry3Selected,
-						Util.ConvertToPoint(genericWin.SpinDouble2Selected)
-						);
-			else
-				SqliteEncoder.UpdateExercise(false, genericWin.nameUntranslated, name, genericWin.SpinIntSelected, 
-						genericWin.Entry2Selected, genericWin.Entry3Selected,
-						Util.ConvertToPoint(genericWin.SpinDouble2Selected)
-						);
+			return false;
+		}
+		else if (! adding) //if we are editing
+		{
+			//if we edit, check that this name does not exists (on other exercise, on current editing exercise is obviously fine)
+			int getIdOfThis = Sqlite.ExistsAndGetUniqueID(false, Constants.EncoderExerciseTable, name); //if not exists will be -1
+			if(getIdOfThis != -1 && getIdOfThis != genericWin.uniqueID)
+			{
+				genericWin.SetLabelError(string.Format(Catalog.GetString(
+								"Error: An exercise named '{0}' already exists."), name));
 
-			updateEncoderExercisesGui(name);
-			LogB.Information("done");
-			return true;
+				return false;
+			}
 		}
 
-		return false;
+		if(adding)
+			SqliteEncoder.InsertExercise(false, -1, name, genericWin.SpinIntSelected,
+					genericWin.Entry2Selected, genericWin.Entry3Selected,
+					Util.ConvertToPoint(genericWin.SpinDouble2Selected)
+					);
+		else {
+			EncoderExercise ex = new EncoderExercise(genericWin.uniqueID,
+					genericWin.EntrySelected,
+					genericWin.SpinIntSelected,
+					genericWin.Entry2Selected, genericWin.Entry3Selected,
+					genericWin.SpinDouble2Selected);
+			SqliteEncoder.UpdateExercise(false, ex);
+		}
+
+		updateEncoderExercisesGui(name);
+		LogB.Information("done");
+		return true;
 	}
 
 	private void updateEncoderExercisesGui(string name)

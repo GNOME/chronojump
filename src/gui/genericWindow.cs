@@ -116,7 +116,7 @@ public class GenericWindow
 	private int commentColumn;
 
 	public int uniqueID; 			//used on encoder & forceSensor edit exercise
-	public string nameUntranslated;		//used on encoder edit exercise
+	public string nameUntranslated;		//used on encoder edit exercise //TODO: remove this, now is used on gui/encoder (but disappearing) and on runEncoder
 
 	public enum Types { UNDEFINED, ENCODER_SESSION_LOAD, 
 		ENCODER_SEL_REPS_IND_CURRENT_SESS, ENCODER_SEL_REPS_IND_ALL_SESS, ENCODER_SEL_REPS_GROUP_CURRENT_SESS };

@@ -417,7 +417,8 @@ class ImportSession:
         self._import_runs()
         self._import_pulse()
         self._import_encoder()
-        self._import_force_sensor()
+        self._import_forceSensor()
+        self._import_runEncoder()
 
     def _import_session(self):
         """
@@ -656,13 +657,13 @@ class ImportSession:
                                   avoids_duplicate_column=None,
                                   matches_columns=None)
 
-    def _import_force_sensor(self):
+    def _import_forceSensor(self):
         # Imports ForceSensorExercise
         # based on encoder exercise code because rest of the code exercises and tests are linked by names
         # but on encoder and forceSensor is linked by ex.uniqueID
 
         if(DEBUGTOFILE):
-            debugFile.write(" start _import_force_sensor ")
+            debugFile.write(" start _import_forceSensor ")
 
         forceSensor_exercise_from_forceSensor = self.source_db.read(table_name="ForceSensorExercise",
                 where_condition="ForceSensor.uniqueID={}".format(self.source_session),
@@ -686,13 +687,51 @@ class ImportSession:
         forceSensor.update_session_ids(self.new_session_id)
 
 
-        self._import_forceSensor_files(forceSensor)
+        self._import_forceSensor_or_runEncoder_files(forceSensor, "forceSensor")
 
         self.destination_db.write(table=forceSensor,
                                   matches_columns=self.destination_db.column_names("forceSensor", skip_columns=["uniqueID", "personID", "sessionID", "exerciseID"]))
 
         if(DEBUGTOFILE):
-            debugFile.write(" end _import_force_sensor ")
+            debugFile.write(" end _import_forceSensor ")
+            debugFile.close()
+
+    def _import_runEncoder(self):
+        # Imports RunEncoderExercise
+        # VERY similar to _import_runEncoder
+
+        if(DEBUGTOFILE):
+            debugFile.write(" start _import_runEncoder ")
+
+        runEncoder_exercise_from_runEncoder = self.source_db.read(table_name="RunEncoderExercise",
+                where_condition="RunEncoder.uniqueID={}".format(self.source_session),
+                join_clause="LEFT JOIN RunEncoder ON RunEncoder.exerciseID=RunEncoderExercise.uniqueID",
+                group_by_clause="RunEncoderExercise.uniqueID")
+
+        runEncoder_exercise = Table("runEncoderExercise")
+        runEncoder_exercise.concatenate_table(runEncoder_exercise_from_runEncoder)
+        runEncoder_exercise.remove_duplicates()
+
+
+        self.destination_db.write(table=runEncoder_exercise,
+                                  matches_columns=self.destination_db.column_names("RunEncoderExercise", ["uniqueID"]))
+
+
+        # Imports RunEncoder
+        runEncoder = self.source_db.read(table_name="RunEncoder",
+                                      where_condition="RunEncoder.sessionID={}".format(self.source_session))
+        runEncoder.update_ids("personID", self.persons77, "uniqueID", "new_uniqueID")
+        runEncoder.update_ids("exerciseID", runEncoder_exercise, "uniqueID", "new_uniqueID")
+        runEncoder.update_session_ids(self.new_session_id)
+
+
+        self._import_forceSensor_or_runEncoder_files(runEncoder, "runEncoder")
+
+        self.destination_db.write(table=runEncoder,
+                                  matches_columns=self.destination_db.column_names("runEncoder", skip_columns=["uniqueID", "personID", "sessionID", "exerciseID"]))
+
+        if(DEBUGTOFILE):
+            debugFile.write(" end _import_runEncoder ")
             debugFile.close()
 
 
@@ -718,6 +757,17 @@ class ImportSession:
     @staticmethod
     def _forceSensor_url(session_id):
         return os.path.join("forceSensor", str(session_id))
+
+    @staticmethod
+    def _runEncoder_filename(person_id, original_filename):
+        """ original_filename is like 1-Carmelo-89-2014-12-03_12-48-54.csv. It only replaces the person_id (1 in this case)"""
+        filename=original_filename.split("-", 1)
+        filename[0] = str(person_id)
+        return "-".join(filename)
+
+    @staticmethod
+    def _runEncoder_url(session_id):
+        return os.path.join("raceAnalyzer", str(session_id))
 
     @staticmethod
     def _normalize_path(path):
@@ -777,15 +827,17 @@ class ImportSession:
             if not os.path.isdir(destination_directory):
                 os.makedirs(destination_directory)
 
-    def _import_forceSensor_files(self, forceSensor_table):
+    # valid for forceSensor and runEncoder files, theses are the values on tableName
+    def _import_forceSensor_or_runEncoder_files(self, table, tableName):
         if self.source_base_directory is None:
             # We are skipping to copy the Encoding files. This is used in unit tests.
             return
 
         if(DEBUGTOFILE):
-            debugFile.write(" at import_forceSensor_files")
+            debugFile.write(" at import_forceSensor_or_runEncoder_files")
+            debugFile.write(tableName)
 
-        for row in forceSensor_table:
+        for row in table:
             #if(DEBUGTOFILE):
             #    debugFile.write(" row: ")
             #    debugFile.write(row.get("url"))
@@ -797,8 +849,14 @@ class ImportSession:
             session_id = row.get("sessionID")
 
             # Prepares the new filename and destination_url
-            filename=self._forceSensor_filename(person_id, original_filename)
-            destination_url = self._forceSensor_url(session_id)
+            filename = ""
+            destionation_url = ""
+            if tableName == "forceSensor":
+                filename=self._forceSensor_filename(person_id, original_filename)
+                destination_url = self._forceSensor_url(session_id)
+            else:
+                filename=self._runEncoder_filename(person_id, original_filename)
+                destination_url = self._runEncoder_url(session_id)
 
             # Sets it to the row
             row.set("filename", filename)

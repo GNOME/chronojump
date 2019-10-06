@@ -320,6 +320,18 @@ public class ForceSensorExercise
 			Util.BoolToInt(elastic).ToString();
 	}
 
+	public string ToSQLInsertString_DB_1_68()
+	{
+		string uniqueIDStr = "NULL";
+		if(uniqueID != -1)
+			uniqueIDStr = uniqueID.ToString();
+
+		return
+			uniqueIDStr + ", \"" + name + "\", " + percentBodyWeight + ", \"" +
+			resistance + "\", " + angleDefault + ", \"" + description + "\", " +
+			Util.BoolToInt(tareBeforeCapture).ToString();
+	}
+
 	public bool Changed(ForceSensorExercise newEx)
 	{
 		if(

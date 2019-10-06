@@ -221,14 +221,16 @@ class SqliteRunEncoder : Sqlite
 		return array;
 	}
 
+
+	public static string DirToImport;
+
 	protected internal static void import_from_1_70_to_1_71() //database is opened
 	{
 		LogB.PrintAllThreads = true; //TODO: remove this
 		LogB.Information("at import_from_1_70_to_1_71()");
-		//LogB.Information("Sqlite isOpened: " + Sqlite.IsOpened.ToString());
 
 		bool importedSomething = false;
-		string raceAnalyzerDir = Util.GetRunEncoderDir();
+		string raceAnalyzerDir = DirToImport;
 		DirectoryInfo [] sessions = new DirectoryInfo(raceAnalyzerDir).GetDirectories();
 		foreach (DirectoryInfo session in sessions) //session.Name will be the UniqueID
 		{

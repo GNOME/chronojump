@@ -152,7 +152,7 @@ class ChronojumpImporter
 				"Please, update the running Chronojump."));
 		} else if (destinationDatabaseVersionNum > sourceDatabaseVersionNum) {
 			LogB.Debug ("chronojump-importer version before update: ", sourceDatabaseVersion.output);
-			updateDatabase (temporarySourceFile);
+			updateDatabase (temporarySourceFile, Path.GetDirectoryName(sourceFile));
 			string versionAfterUpdate = getDatabaseVersionFromFile (temporarySourceFile).output;
 			LogB.Debug ("chronojump-importer version after update: ", versionAfterUpdate);
 		}
@@ -188,7 +188,7 @@ class ChronojumpImporter
 		return result;
 	}
 
-	private static void updateDatabase(string databaseFile)
+	private static void updateDatabase(string databaseFile, string sourceDir)
 	{
 		StaticClassState classOriginalState = new StaticClassState (typeof (Sqlite));
 
@@ -199,6 +199,9 @@ class ChronojumpImporter
 		Sqlite.CurrentVersion = "0";
 		Sqlite.setSqlFilePath (databaseFile);
 		Sqlite.Connect ();
+
+		SqliteForceSensor.DirToImport = Path.Combine(sourceDir, "..", "forceSensor");
+		SqliteRunEncoder.DirToImport = Path.Combine(sourceDir, "..", "raceAnalyzer");
 
 		Sqlite.ConvertToLastChronojumpDBVersion ();
 

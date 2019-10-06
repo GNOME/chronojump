@@ -24,6 +24,7 @@ using Mono.Unix;
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * Copyright (C) 2016-2017   Carles Pina i Estany <carles@pina.cat>
+ * Copyright (C) 2019   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -41,6 +42,9 @@ class ChronojumpImporter
 	// Session that we will import into. If it's 0 it means into to create
 	// a new session, otherwise it will import it into the session indicated by it
 	private int destinationSession;
+
+	// to debug to a file if debug mode is started on preferences;
+	private bool debugToFile;
 
 	Gtk.Window parentWindow;
 
@@ -62,13 +66,15 @@ class ChronojumpImporter
 
 	// ChronojumpImporter class imports a specific session from sourceFile to destinationFile.
 	// The main method is "import()" which does all the work.
-	public ChronojumpImporter(Gtk.Window parentWindow, string sourceFile, string destinationFile, int sourceSession, int destinationSession)
+	public ChronojumpImporter(Gtk.Window parentWindow, string sourceFile, string destinationFile,
+			int sourceSession, int destinationSession, bool debugToFile)
 	{
 		this.parentWindow = parentWindow;
 		this.sourceFile = sourceFile;
 		this.destinationFile = destinationFile;
 		this.sourceSession = sourceSession;
 		this.destinationSession = destinationSession;
+		this.debugToFile = debugToFile;
 	}
 
 	// Shows a dialogue to the user and lets him cancel the operation. The dialog information depends on
@@ -169,6 +175,11 @@ class ChronojumpImporter
 			parameters.Add ("--destination_session");
 			parameters.Add (Convert.ToString (destinationSession));
 		}
+		parameters.Add ("--debug_to_file");
+		if(debugToFile)
+			parameters.Add (Path.Combine(Path.GetTempPath(), "chronojumpImportDebug.txt"));
+		else
+			parameters.Add ("NONE");
 
 		Result result = executeChronojumpImporter (parameters);
 

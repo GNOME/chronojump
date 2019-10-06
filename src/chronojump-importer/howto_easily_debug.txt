@@ -1,1 +1,14 @@
+-------------------------------------------------------------------
+note calling like this will not update the database to be imported,
+so is much better do it from chronojump that will update previously
+
+note there is a debug file option to tmp on chronojump_importer.py
+that is activated by debug mode on preferences
+-------------------------------------------------------------------
+
+
 python chronojump_importer.py "--source" easily-debug/importDB.tmp "--source_base_directory" easily-debug/ChronojumpImportDebug "--destination" "/home/xavier/.local/share/Chronojump/database/chronojump.db" "--source_session" "2"
+
+or to test forceSensor things:
+
+python chronojump_importer.py "--source" easily-debug2/importDB.tmp "--source_base_directory" easily-debug2/ChronojumpImportDebug "--destination" "/home/xavier/.local/share/Chronojump/database/chronojump.db" "--source_session" "2"

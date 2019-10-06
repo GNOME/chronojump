@@ -2508,6 +2508,9 @@ public partial class ChronoJumpWindow
 			// forceSensor
 			fillForceSensorExerciseCombo("");
 
+			// runEncoder
+			fillRunEncoderExerciseCombo("");
+
 			//update stats combos
 			updateComboStats ();
 

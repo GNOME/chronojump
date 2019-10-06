@@ -260,7 +260,7 @@ msgstr "Mesurat amb fotocèl·lules"
 
 #: ../glade/app1.glade.h:53
 msgid "Measured with encoder\t"
-msgstr "Measurat amb l'encoder\t"
+msgstr "Mesurat amb l'encoder\t"
 
 #: ../glade/app1.glade.h:54
 msgid "Races with photocells"

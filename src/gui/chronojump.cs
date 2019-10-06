@@ -2461,7 +2461,7 @@ public partial class ChronoJumpWindow
 			destinationSessionId = destinationSession.UniqueID;
 		}
 
-		ChronojumpImporter chronojumpImporter = new ChronojumpImporter (app1, source_filename, destination_filename, sourceSession, destinationSessionId);
+		ChronojumpImporter chronojumpImporter = new ChronojumpImporter (app1, source_filename, destination_filename, sourceSession, destinationSessionId, preferences.debugMode);
 
 		Gtk.ResponseType response = chronojumpImporter.showImportConfirmation ();
 
@@ -6868,7 +6868,7 @@ LogB.Debug("mc finished 5");
 
 		encoderRProcCapture.Debug = true;
 		encoderRProcAnalyze.Debug = true;
-		preferences.debugMode = true; //be used by force sensor
+		preferences.debugMode = true; //be used by force sensor, importer (can be used easily for all software)
 		LogB.PrintAllThreads = true;
 
 		hbox_gui_tests.Visible = true;

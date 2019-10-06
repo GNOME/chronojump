@@ -11,6 +11,9 @@ import re
 
 logging.basicConfig(level=logging.INFO)
 
+DEBUGTOFILE = False
+debugFile = ""
+
 """
 /*
  * This file is part of ChronoJump
@@ -771,6 +774,8 @@ def process_command_line():
                              "new session.")
     parser.add_argument("--json_information", required=False, action='store_true',
                         help="Shows information of the source database")
+    parser.add_argument("--debug_to_file", type=str, required=False,
+                        help="path to print debug info to file")
     args = parser.parse_args()
 
     if args.json_information:
@@ -781,6 +786,15 @@ def process_command_line():
                 source_base_directory = args.source_base_directory
             else:
                 source_base_directory = os.path.join(args.source, "../..")
+
+            # to use the global variable on this function
+            global DEBUGTOFILE
+            global debugFile
+            if args.debug_to_file == "NONE":
+                DEBUGTOFILE = False
+            elif args.debug_to_file != "":
+                DEBUGTOFILE = True
+                debugFile = open('/tmp/debugFile.txt', 'w')
 
             importer = ImportSession(args.source, args.destination, source_base_directory)
 

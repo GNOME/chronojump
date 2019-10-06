@@ -303,9 +303,7 @@ class Sqlite
 
 	public static string CurrentVersion
 	{
-		set {
-			currentVersion = value;
-		}
+		set { currentVersion = value; }
 	}
 
 	public static void setSqlFilePath(string filePath)

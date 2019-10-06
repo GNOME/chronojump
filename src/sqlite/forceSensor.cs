@@ -224,13 +224,14 @@ class SqliteForceSensor : Sqlite
 		return array;
 	}
 
+	public static string DirToImport;
+
 	protected internal static void import_from_1_68_to_1_69() //database is opened
 	{
 		LogB.PrintAllThreads = true; //TODO: remove this
 		LogB.Information("at import_from_1_68_to_1_69()");
-		//LogB.Information("Sqlite isOpened: " + Sqlite.IsOpened.ToString());
 
-		string forceSensorDir = Util.GetForceSensorDir();
+		string forceSensorDir = DirToImport;
 
 		int unknownExerciseID = Sqlite.ExistsAndGetUniqueID(true, Constants.ForceSensorExerciseTable, Catalog.GetString("Unknown"));
 
@@ -243,7 +244,6 @@ class SqliteForceSensor : Sqlite
 				string fileWithoutExtension = Util.RemoveExtension(Util.GetLastPartOfPath(file.Name));
 				ForceSensorLoadTryToAssignPersonAndMore fslt =
 					new ForceSensorLoadTryToAssignPersonAndMore(true, fileWithoutExtension, Convert.ToInt32(session.Name));
-				//TODO: no se si session.ToString() és la manera de saber el nom del DirectoryInfo
 
 				Person p = fslt.GetPerson();
 				if(p.UniqueID == -1)
@@ -265,8 +265,8 @@ class SqliteForceSensor : Sqlite
 					if(unknownExerciseID == -1)
 					{
 						ForceSensorExercise fse = new ForceSensorExercise (-1, Catalog.GetString("Unknown"), 0, "", 0, "", false, false, false);
-						unknownExerciseID = SqliteForceSensorExercise.Insert(true, fse);
-						//note this import already goes to 1.73, then that import will produce a catch
+						//note we are on 1_68 so we need this import method
+						unknownExerciseID = SqliteForceSensorExercise.InsertAtDB_1_68(true, fse);
 					}
 
 					exerciseID = unknownExerciseID;
@@ -352,6 +352,28 @@ class SqliteForceSensorExercise : Sqlite
 				" (uniqueID, name, percentBodyWeight, resistance, angleDefault, " +
 				" description, tareBeforeCapture, forceResultant, elastic)" +
 				" VALUES (" + ex.ToSQLInsertString() + ")";
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		string myString = @"select last_insert_rowid()";
+		dbcmd.CommandText = myString;
+		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
+
+		if(! dbconOpened)
+			Sqlite.Close();
+
+		return myLast;
+	}
+
+	public static int InsertAtDB_1_68 (bool dbconOpened, ForceSensorExercise ex)
+	{
+		if(! dbconOpened)
+			Sqlite.Open();
+
+		dbcmd.CommandText = "INSERT INTO " + table +
+				" (uniqueID, name, percentBodyWeight, resistance, angleDefault, " +
+				" description, tareBeforeCapture)" +
+				" VALUES (" + ex.ToSQLInsertString_DB_1_68() + ")";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 

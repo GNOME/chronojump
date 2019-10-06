@@ -417,6 +417,7 @@ class ImportSession:
         self._import_runs()
         self._import_pulse()
         self._import_encoder()
+        self._import_force_sensor()
 
     def _import_session(self):
         """
@@ -655,6 +656,47 @@ class ImportSession:
                                   avoids_duplicate_column=None,
                                   matches_columns=None)
 
+    def _import_force_sensor(self):
+        # Imports ForceSensorExercise
+        # based on encoder exercise code because rest of the code exercises and tests are linked by names
+        # but on encoder and forceSensor is linked by ex.uniqueID
+
+        if(DEBUGTOFILE):
+            debugFile.write(" start _import_force_sensor ")
+
+        forceSensor_exercise_from_forceSensor = self.source_db.read(table_name="ForceSensorExercise",
+                where_condition="ForceSensor.uniqueID={}".format(self.source_session),
+                join_clause="LEFT JOIN ForceSensor ON ForceSensor.exerciseID=ForceSensorExercise.uniqueID",
+                group_by_clause="ForceSensorExercise.uniqueID")
+
+        forceSensor_exercise = Table("forceSensorExercise")
+        forceSensor_exercise.concatenate_table(forceSensor_exercise_from_forceSensor)
+        forceSensor_exercise.remove_duplicates()
+
+
+        self.destination_db.write(table=forceSensor_exercise,
+                                  matches_columns=self.destination_db.column_names("ForceSensorExercise", ["uniqueID"]))
+
+
+        # Imports ForceSensor
+        forceSensor = self.source_db.read(table_name="ForceSensor",
+                                      where_condition="ForceSensor.sessionID={}".format(self.source_session))
+        forceSensor.update_ids("personID", self.persons77, "uniqueID", "new_uniqueID")
+        forceSensor.update_ids("exerciseID", forceSensor_exercise, "uniqueID", "new_uniqueID")
+        forceSensor.update_session_ids(self.new_session_id)
+
+
+        self._import_forceSensor_files(forceSensor)
+
+        self.destination_db.write(table=forceSensor,
+                                  matches_columns=self.destination_db.column_names("forceSensor", skip_columns=["uniqueID", "personID", "sessionID", "exerciseID"]))
+
+        if(DEBUGTOFILE):
+            debugFile.write(" end _import_force_sensor ")
+            debugFile.close()
+
+
+
     @staticmethod
     def _encoder_filename(person_id, original_filename):
         """ original_filename is like 1-Carmelo-89-2014-12-03_12-48-54.txt. It only replaces the person_id (1 in this case)"""
@@ -665,6 +707,17 @@ class ImportSession:
     @staticmethod
     def _encoder_url(session_id, signal_or_curve):
         return os.path.join("encoder", str(session_id), "data", signal_or_curve)
+
+    @staticmethod
+    def _forceSensor_filename(person_id, original_filename):
+        """ original_filename is like 1-Carmelo-89-2014-12-03_12-48-54.csv. It only replaces the person_id (1 in this case)"""
+        filename=original_filename.split("-", 1)
+        filename[0] = str(person_id)
+        return "-".join(filename)
+
+    @staticmethod
+    def _forceSensor_url(session_id):
+        return os.path.join("forceSensor", str(session_id))
 
     @staticmethod
     def _normalize_path(path):
@@ -724,6 +777,44 @@ class ImportSession:
             if not os.path.isdir(destination_directory):
                 os.makedirs(destination_directory)
 
+    def _import_forceSensor_files(self, forceSensor_table):
+        if self.source_base_directory is None:
+            # We are skipping to copy the Encoding files. This is used in unit tests.
+            return
+
+        if(DEBUGTOFILE):
+            debugFile.write(" at import_forceSensor_files")
+
+        for row in forceSensor_table:
+            #if(DEBUGTOFILE):
+            #    debugFile.write(" row: ")
+            #    debugFile.write(row.get("url"))
+
+            # Gets information from row
+            person_id = row.get("personID")
+            original_filename = row.get("filename")
+            original_url = self._normalize_path(row.get("url"))
+            session_id = row.get("sessionID")
+
+            # Prepares the new filename and destination_url
+            filename=self._forceSensor_filename(person_id, original_filename)
+            destination_url = self._forceSensor_url(session_id)
+
+            # Sets it to the row
+            row.set("filename", filename)
+            row.set("url", destination_url)
+
+            # Copies the files to the new place
+            destination_directory = os.path.join(self.destination_path, "..", "..", destination_url)
+            destination_directory = os.path.abspath(destination_directory)  # os.makedirs() can't handle directories with ".."
+
+            destination_filename = os.path.join(destination_directory, filename)
+            source_file = os.path.join(self.source_base_directory, original_url, original_filename)
+
+            if not os.path.isdir(destination_directory):
+                os.makedirs(destination_directory)
+
+            shutil.copy(source_file, destination_filename)
 
 
 def json_information(database_path):

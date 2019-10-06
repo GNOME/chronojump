@@ -2502,6 +2502,11 @@ public partial class ChronoJumpWindow
 			combo_select_runs_interval.Active = 0;
 			combo_result_runs_interval.Active = 0;
 
+			// TODO: we need this on encoder or is already done at reloadSession???
+			//createEncoderCombos();
+
+			// forceSensor
+			fillForceSensorExerciseCombo("");
 
 			//update stats combos
 			updateComboStats ();

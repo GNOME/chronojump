@@ -19,6 +19,7 @@
  */
 
 using System;
+using Gdk; //Pixbuf
 using Gtk;
 using Glade;
 using GLib; //for Value
@@ -684,6 +685,7 @@ public class SessionLoadWindow {
 	[Widget] Gtk.TreeView treeview_session_load;
 	[Widget] Gtk.Button button_accept;
 	[Widget] Gtk.Entry entry_search_filter;
+	[Widget] Gtk.Image image_open_database;
 	[Widget] Gtk.CheckButton checkbutton_show_data_jump_run;
 	[Widget] Gtk.CheckButton checkbutton_show_data_encoder_and_fs;
 	[Widget] Gtk.Label file_path_import;
@@ -717,6 +719,8 @@ public class SessionLoadWindow {
 
 		//put an icon to window
 		UtilGtk.IconWindow(session_load);
+
+		image_open_database.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_open.png");
 
 		createTreeView(treeview_session_load, false, false);
 		store = getStore(false, false);

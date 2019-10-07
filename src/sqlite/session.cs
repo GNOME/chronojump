@@ -599,8 +599,28 @@ class SqliteSession : Sqlite
 			reader_fs.Close();
 		}
 
+		//select run encoder of each session
+		ArrayList myArray_re = new ArrayList(2);
 
-		//mix nine arrayLists
+		//if we are importing from a session who was not the forceSensor table (db version < 1.70)
+		if(tableExists(true, Constants.RunEncoderTable))
+		{
+			dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.RunEncoderTable +
+				" GROUP BY sessionID ORDER BY sessionID";
+			LogB.SQL(dbcmd.CommandText.ToString());
+			dbcmd.ExecuteNonQuery();
+
+			SqliteDataReader reader_re;
+			reader_re = dbcmd.ExecuteReader();
+
+			while(reader_re.Read()) {
+				myArray_re.Add (reader_re[0].ToString() + ":" + reader_re[1].ToString() + ":" );
+			}
+			reader_re.Close();
+		}
+
+
+		//mix ten arrayLists
 		string [] mySessions = new string[count];
 		count =0;
 		bool found;
@@ -742,6 +762,16 @@ class SqliteSession : Sqlite
 			}
 			if (!found) { lineNotReadOnly  = lineNotReadOnly + ":0"; }
 
+			//add run encoder for each session
+			found = false;
+			foreach (string line_re in myArray_re) {
+				string [] myStringFull = line_re.Split(new char[] {':'});
+				if(myStringFull[0] == mixingSessionID) {
+					lineNotReadOnly  = lineNotReadOnly + ":" + myStringFull[1];
+					found = true;
+				}
+			}
+			if (!found) { lineNotReadOnly  = lineNotReadOnly + ":0"; }
 
 			mySessions [count++] = lineNotReadOnly;
 		}

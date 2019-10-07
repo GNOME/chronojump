@@ -184,13 +184,13 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkCheckButton" id="checkbutton_show_data_encoder_and_fs">
-                    <property name="label" translatable="yes">Show data of encoder and force sensor</property>
+                  <widget class="GtkCheckButton" id="checkbutton_show_data_other_tests">
+                    <property name="label" translatable="yes">Show data of other tests</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="draw_indicator">True</property>
-                    <signal name="toggled" handler="on_checkbutton_show_data_encoder_and_fs_toggled" swapped="no"/>
+                    <signal name="toggled" handler="on_checkbutton_show_data_other_tests_toggled" swapped="no"/>
                   </widget>
                   <packing>
                     <property name="expand">False</property>

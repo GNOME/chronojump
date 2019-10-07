@@ -231,8 +231,8 @@
                         <property name="border_width">8</property>
                         <property name="spacing">20</property>
                         <child>
-                          <widget class="GtkRadioButton" id="radio_fixation_elastic">
-                            <property name="label" translatable="yes">Elastic</property>
+                          <widget class="GtkRadioButton" id="radio_fixation_not_elastic">
+                            <property name="label" translatable="yes">Not elastic</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -247,14 +247,14 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkRadioButton" id="radio_fixation_not_elastic">
-                            <property name="label" translatable="yes">Not elastic</property>
+                          <widget class="GtkRadioButton" id="radio_fixation_elastic">
+                            <property name="label" translatable="yes">Elastic</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
                             <property name="active">True</property>
                             <property name="draw_indicator">True</property>
-                            <property name="group">radio_fixation_elastic</property>
+                            <property name="group">radio_fixation_not_elastic</property>
                             <signal name="toggled" handler="on_radio_fixation_toggled" swapped="no"/>
                           </widget>
                           <packing>
@@ -327,6 +327,21 @@
                         <property name="border_width">8</property>
                         <property name="spacing">16</property>
                         <child>
+                          <widget class="GtkRadioButton" id="radio_mass_nothing">
+                            <property name="label" translatable="yes">The effect of mass is included in the raw data</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="draw_indicator">True</property>
+                            <signal name="toggled" handler="on_radio_mass_toggled" swapped="no"/>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
                           <widget class="GtkHBox" id="hbox4">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
@@ -339,6 +354,7 @@
                                 <property name="receives_default">False</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
+                                <property name="group">radio_mass_nothing</property>
                                 <signal name="toggled" handler="on_radio_mass_toggled" swapped="no"/>
                               </widget>
                               <packing>
@@ -396,7 +412,7 @@
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
-                            <property name="position">0</property>
+                            <property name="position">1</property>
                           </packing>
                         </child>
                         <child>
@@ -407,23 +423,7 @@
                             <property name="receives_default">False</property>
                             <property name="active">True</property>
                             <property name="draw_indicator">True</property>
-                            <property name="group">radio_mass_add</property>
-                            <signal name="toggled" handler="on_radio_mass_toggled" swapped="no"/>
-                          </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkRadioButton" id="radio_mass_nothing">
-                            <property name="label" translatable="yes">The effect of mass is included in the raw data</property>
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
-                            <property name="draw_indicator">True</property>
-                            <property name="group">radio_mass_add</property>
+                            <property name="group">radio_mass_nothing</property>
                             <signal name="toggled" handler="on_radio_mass_toggled" swapped="no"/>
                           </widget>
                           <packing>

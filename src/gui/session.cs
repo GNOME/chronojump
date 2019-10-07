@@ -687,7 +687,7 @@ public class SessionLoadWindow {
 	[Widget] Gtk.Entry entry_search_filter;
 	[Widget] Gtk.Image image_open_database;
 	[Widget] Gtk.CheckButton checkbutton_show_data_jump_run;
-	[Widget] Gtk.CheckButton checkbutton_show_data_encoder_and_fs;
+	[Widget] Gtk.CheckButton checkbutton_show_data_other_tests;
 	[Widget] Gtk.Label file_path_import;
 	[Widget] Gtk.VBox session_import_box;
 	
@@ -708,7 +708,7 @@ public class SessionLoadWindow {
 
 		// Hides and shows widgets only needed by some of the functionality
 		session_import_box.Visible = (type == WindowType.IMPORT_SESSION);
-		checkbutton_show_data_encoder_and_fs.Visible = (type == WindowType.LOAD_SESSION);
+		checkbutton_show_data_other_tests.Visible = (type == WindowType.LOAD_SESSION);
 		checkbutton_show_data_jump_run.Visible = (type == WindowType.LOAD_SESSION);
 
 		if (type == WindowType.LOAD_SESSION) {
@@ -755,33 +755,33 @@ public class SessionLoadWindow {
 		TreeStore s;
 		if(showContacts && showEncoderAndForceSensor)
 			s = new TreeStore(
-				typeof (string), typeof (string), typeof (string), typeof (string), //number (hidden), date, name, place
-				typeof (string), typeof (string), typeof (string), typeof (string), //persons, sport, spllity, level
-				typeof (string), typeof (string), typeof (string), typeof(string), //jumps s,r, runs s, i, 
-				typeof (string), typeof (string), typeof (string), 	//rt, pulses, mc
-				typeof (string), typeof (string), typeof (string),	//encoder s, c, forceSensor
-				typeof (string)						//comments
+				typeof (string), typeof (string), typeof (string), typeof (string),  	//number (hidden), date, name, place
+				typeof (string), typeof (string), typeof (string), typeof (string), 	//persons, sport, spllity, level
+				typeof (string), typeof (string), typeof (string), typeof(string), 	//jumps s,r, runs s, i,
+				typeof (string), typeof (string), typeof (string), 			//rt, pulses, mc
+				typeof (string), typeof (string), typeof (string), typeof (string),	//encoder s, c, forceSensor, runEncoder
+				typeof (string)								//comments
 			       	);
 		else if(showContacts && ! showEncoderAndForceSensor)
 			s = new TreeStore(
-				typeof (string), typeof (string), typeof (string), typeof (string), //number (hidden), date, name, place
-				typeof (string), typeof (string), typeof (string), typeof (string), //persons, sport, spllity, level
-				typeof (string), typeof (string), typeof (string), typeof(string), //jumps s,r, runs s, i, 
-				typeof (string), typeof (string), typeof (string), 	//rt, pulses, mc
-				typeof (string)						//comments
+				typeof (string), typeof (string), typeof (string), typeof (string), 	//number (hidden), date, name, place
+				typeof (string), typeof (string), typeof (string), typeof (string), 	//persons, sport, spllity, level
+				typeof (string), typeof (string), typeof (string), typeof(string), 	//jumps s,r, runs s, i,
+				typeof (string), typeof (string), typeof (string), 			//rt, pulses, mc
+				typeof (string)								//comments
 			       	);
 		else if(! showContacts && showEncoderAndForceSensor)
 			s = new TreeStore(
-				typeof (string), typeof (string), typeof (string), typeof (string), //number (hidden), date, name, place
-				typeof (string), typeof (string), typeof (string), typeof (string), //persons, sport, spllity, level
-				typeof (string), typeof (string), typeof (string),	//encoder s, c, forceSensor
-				typeof (string)						//comments
+				typeof (string), typeof (string), typeof (string), typeof (string), 	//number (hidden), date, name, place
+				typeof (string), typeof (string), typeof (string), typeof (string), 	//persons, sport, spllity, level
+				typeof (string), typeof (string), typeof (string), typeof (string),	//encoder s, c, forceSensor, runEncoder
+				typeof (string)								//comments
 			       	);
 		else // ! showContacts && ! showEncoderAndForceSensor
 			s = new TreeStore(
-				typeof (string), typeof (string), typeof (string), typeof (string), //number (hidden), date, name, place
-				typeof (string), typeof (string), typeof (string), typeof (string), //persons, sport, spllity, level
-				typeof (string)						//comments
+				typeof (string), typeof (string), typeof (string), typeof (string), 	//number (hidden), date, name, place
+				typeof (string), typeof (string), typeof (string), typeof (string), 	//persons, sport, spllity, level
+				typeof (string)								//comments
 			       	);
 
 		//s.SetSortFunc (0, UtilGtk.IdColumnCompare); //not needed, it's hidden
@@ -821,7 +821,7 @@ public class SessionLoadWindow {
 		return SessionLoadWindowBox;
 	}
 	
-	private void createTreeView (Gtk.TreeView tv, bool showContacts, bool showEncoderAndForceSensor)
+	private void createTreeView (Gtk.TreeView tv, bool showContacts, bool showOtherTests)
 	{
 		tv.HeadersVisible=true;
 		int count = 0;
@@ -857,7 +857,7 @@ public class SessionLoadWindow {
 			tv.AppendColumn ( Catalog.GetString ("Pulses"), new CellRendererText(), "text", count++);
 			tv.AppendColumn ( Catalog.GetString ("MultiChronopic"), new CellRendererText(), "text", count++);
 		}
-		if(showEncoderAndForceSensor) {
+		if(showOtherTests) {
 			tv.AppendColumn ( Catalog.GetString ("Gravitatory encoder") + "\n" +
 					Catalog.GetString("Sets") + " ; " + Catalog.GetString("Repetitions"),
 					new CellRendererText(), "text", count++);
@@ -865,6 +865,7 @@ public class SessionLoadWindow {
 					Catalog.GetString("Sets") + " ; " + Catalog.GetString("Repetitions"),
 					new CellRendererText(), "text", count++);
 			tv.AppendColumn ( Catalog.GetString ("Force sensor"), new CellRendererText(), "text", count++);
+			tv.AppendColumn ( Catalog.GetString ("Race analyzer"), new CellRendererText(), "text", count++);
 		}
 		tv.AppendColumn ( Catalog.GetString ("Comments"), new CellRendererText(), "text", count++);
 	}
@@ -900,21 +901,22 @@ public class SessionLoadWindow {
 	void on_checkbutton_show_data_jump_run_toggled (object o, EventArgs args) {
 		recreateTreeView("jump run " + checkbutton_show_data_jump_run.Active.ToString());
 	}
-	void on_checkbutton_show_data_encoder_and_fs_toggled (object o, EventArgs args) {
-		recreateTreeView("encoder and fs" + checkbutton_show_data_encoder_and_fs.Active.ToString());
+	void on_checkbutton_show_data_other_tests_toggled (object o, EventArgs args) {
+		recreateTreeView("other tests " + checkbutton_show_data_other_tests.Active.ToString());
 	}
-	void recreateTreeView(string message) {
-		LogB.Information(message);
+	void recreateTreeView(string message)
+	{
+		LogB.Information("Recreate treeview: " + message);
 
 		UtilGtk.RemoveColumns(treeview_session_load);
 		
 		createTreeView(treeview_session_load, 
-				checkbutton_show_data_jump_run.Active, checkbutton_show_data_encoder_and_fs.Active);
+				checkbutton_show_data_jump_run.Active, checkbutton_show_data_other_tests.Active);
 		store = getStore(
-				checkbutton_show_data_jump_run.Active, checkbutton_show_data_encoder_and_fs.Active);
+				checkbutton_show_data_jump_run.Active, checkbutton_show_data_other_tests.Active);
 		treeview_session_load.Model = store;
 		fillTreeView(treeview_session_load, store,
-				checkbutton_show_data_jump_run.Active, checkbutton_show_data_encoder_and_fs.Active);
+				checkbutton_show_data_jump_run.Active, checkbutton_show_data_other_tests.Active);
 		
 		store.SetSortColumnId(1, Gtk.SortType.Descending); //date
 		store.ChangeSortColumn();
@@ -928,7 +930,7 @@ public class SessionLoadWindow {
 		onSelectionEntry (treeview_session_load.Selection, new EventArgs ());
 	}
 
-	private void fillTreeView (Gtk.TreeView tv, TreeStore store, bool showContacts, bool showEncoderAndForceSensor)
+	private void fillTreeView (Gtk.TreeView tv, TreeStore store, bool showContacts, bool showOtherTests)
 	{
 		string filterName = "";
 		if(entry_search_filter.Text.ToString().Length > 0) 
@@ -959,7 +961,7 @@ public class SessionLoadWindow {
 			if (myStringFull[6] != Catalog.GetString(Constants.LevelUndefined)) 
 				myLevel = Catalog.GetString(myStringFull[6]);
 
-			if(showContacts && showEncoderAndForceSensor)
+			if(showContacts && showOtherTests)
 				store.AppendValues (
 						myStringFull[0], 	//session num
 						myStringFull[3],	//session date
@@ -979,9 +981,10 @@ public class SessionLoadWindow {
 						myStringFull[16], 	//number of encoder signal x session
 						myStringFull[17], 	//number of encoder curve x session
 						myStringFull[18], 	//number of forceSensor
+						myStringFull[19], 	//number of runEncoder
 						myStringFull[7]		//description of session
 						);
-			else if(showContacts && ! showEncoderAndForceSensor)
+			else if(showContacts && ! showOtherTests)
 				store.AppendValues (
 						myStringFull[0], 	//session num
 						myStringFull[3],	//session date
@@ -1000,7 +1003,7 @@ public class SessionLoadWindow {
 						myStringFull[15], 	//number of multiChronopics x session
 						myStringFull[7]		//description of session
 						);
-			else if(! showContacts && showEncoderAndForceSensor)
+			else if(! showContacts && showOtherTests)
 				store.AppendValues (
 						myStringFull[0], 	//session num
 						myStringFull[3],	//session date
@@ -1013,9 +1016,10 @@ public class SessionLoadWindow {
 						myStringFull[16], 	//number of encoder signal x session
 						myStringFull[17], 	//number of encoder curve x session
 						myStringFull[18], 	//number of forceSensor
+						myStringFull[19], 	//number of runEncoder
 						myStringFull[7]		//description of session
 						);
-			else // ! showContacts && ! showEncoderAndForceSensor
+			else // ! showContacts && ! showOtherTests
 				store.AppendValues (
 						myStringFull[0], 	//session num
 						myStringFull[3],	//session date

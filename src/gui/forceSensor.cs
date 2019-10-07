@@ -354,6 +354,11 @@ public partial class ChronoJumpWindow
 	//buttons: tare, calibrate, check version and capture (via on_button_execute_test_cicked) come here
 	private void on_buttons_force_sensor_clicked(object o, EventArgs args)
 	{
+		if(UtilGtk.ComboGetActive(combo_force_sensor_exercise) == "")
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Need to create/select an exercise."));
+			return;
+		}
 		if(chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ARDUINO_FORCE) == 0)
 		{
 			event_execute_label_message.Text = forceSensorNotConnectedString;

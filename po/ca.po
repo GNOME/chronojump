@@ -6178,7 +6178,7 @@ msgstr "Calibrat"
 #: ../src/gui/encoder.cs:867 ../src/gui/encoder.cs:4522
 #: ../src/gui/forceSensor.cs:2229 ../src/gui/runEncoder.cs:1146
 msgid "Need to create/select an exercise."
-msgstr "Necessari per crear/seleccionar un exercici."
+msgstr "Cal crear/seleccionar un exercici."
 
 #: ../src/gui/encoder.cs:1072
 msgid "Load 1RM"

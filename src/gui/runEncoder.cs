@@ -196,6 +196,11 @@ public partial class ChronoJumpWindow
 
 	private void on_runs_encoder_capture_clicked ()
 	{
+		if(UtilGtk.ComboGetActive(combo_run_encoder_exercise) == "")
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Need to create/select an exercise."));
+			return;
+		}
 		if(currentPersonSession.Weight == 0)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING,

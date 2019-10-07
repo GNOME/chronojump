@@ -890,7 +890,8 @@ public class SessionLoadWindow {
 
 		if (filechooser.Run () == (int)ResponseType.Accept) {
 			import_file_path = filechooser.Filename;
-			file_path_import.Text = System.IO.Path.GetFileName (import_file_path);
+			//file_path_import.Text = System.IO.Path.GetFileName (import_file_path);
+			file_path_import.Text = import_file_path;
 			file_path_import.TooltipText = import_file_path;
 		}
 		filechooser.Destroy ();

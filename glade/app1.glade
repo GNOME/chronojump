@@ -480,12 +480,20 @@
                       </widget>
                     </child>
                     <child>
-                      <widget class="GtkMenuItem" id="menuitem_encoder_session_overview">
+                      <widget class="GtkImageMenuItem" id="menuitem_encoder_session_overview">
+                        <property name="label" translatable="yes">Overview of this session</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Overview of this session</property>
-                        <property name="use_underline">True</property>
+                        <property name="use_stock">False</property>
+                        <property name="always_show_image">True</property>
                         <signal name="activate" handler="on_menuitem_encoder_session_overview_activate" swapped="no"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image_menuitem_encoder_session_overview">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="stock">gtk-missing-image</property>
+                          </widget>
+                        </child>
                       </widget>
                     </child>
                   </widget>
@@ -519,12 +527,20 @@
                       </widget>
                     </child>
                     <child>
-                      <widget class="GtkMenuItem" id="menuitem_forceSensor_session_overview">
+                      <widget class="GtkImageMenuItem" id="menuitem_forceSensor_session_overview">
+                        <property name="label" translatable="yes">Overview of this session</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Overview of this session</property>
-                        <property name="use_underline">True</property>
+                        <property name="use_stock">False</property>
+                        <property name="always_show_image">True</property>
                         <signal name="activate" handler="on_menuitem_forceSensor_session_overview_activate" swapped="no"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image_menuitem_forceSensor_session_overview">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="stock">gtk-missing-image</property>
+                          </widget>
+                        </child>
                       </widget>
                     </child>
                     <child>
@@ -576,12 +592,20 @@
                       </widget>
                     </child>
                     <child>
-                      <widget class="GtkMenuItem" id="menuitem_runEncoder_session_overview">
+                      <widget class="GtkImageMenuItem" id="menuitem_runEncoder_session_overview">
+                        <property name="label" translatable="yes">Overview of this session</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Overview of this session</property>
-                        <property name="use_underline">True</property>
+                        <property name="use_stock">False</property>
+                        <property name="always_show_image">True</property>
                         <signal name="activate" handler="on_menuitem_runEncoder_session_overview_activate" swapped="no"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image_menuitem_runEncoder_session_overview">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="stock">gtk-missing-image</property>
+                          </widget>
+                        </child>
                       </widget>
                     </child>
                     <child>

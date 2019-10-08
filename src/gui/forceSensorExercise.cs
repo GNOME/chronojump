@@ -25,7 +25,7 @@ using Gtk;
 using Glade;
 using GLib; //for Value
 using System.Collections.Generic; //List<T>
-//using Mono.Unix; TODO: when uncomment need to change POTFILES.in
+using Mono.Unix;
 
 
 public class ForceSensorExerciseWindow

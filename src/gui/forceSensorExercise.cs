@@ -218,8 +218,8 @@ public class ForceSensorExerciseWindow
 	//and to be able to upload this without bothering the translators at the moment
 	private string ss (string s)
 	{
-		//return Catalog.GetString(s);
-		return s;
+		return Catalog.GetString(s);
+		//return s;
 	}
 
 	private string getTopExplanations (Pages p)

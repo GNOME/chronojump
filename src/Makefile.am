@@ -399,6 +399,7 @@ RESOURCES = \
 	../images/report_view.png,report_view.png \
 	../images/preferences-system.png,preferences-system.png \
 	../images/md/baseline_attachment_blue_24dp.png,image_attachment.png \
+	../images/md/baseline_grid_on_blue_24dp.png,image_grid_on.png \
 	../images/md/baseline_photo_camera_start_blue_24dp.png,image_photo_start_camera.png \
 	../images/md/baseline_photo_camera_end_blue_24dp.png,image_photo_end_camera.png \
 	../images/md/baseline_photo_camera_do_red_24dp.png,image_photo_do.png \

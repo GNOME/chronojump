@@ -199,8 +199,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_delete_session;
 	[Widget] Gtk.MenuItem menuitem_export_csv;
 	[Widget] Gtk.MenuItem menuitem_encoder_session_overview;
+	[Widget] Gtk.MenuItem menuitem_forceSensor_session_overview;
 	[Widget] Gtk.Image image_session_open;
-		
+
 	//menu person
 	[Widget] Gtk.Button button_persons_up;
 	[Widget] Gtk.Button button_persons_down;
@@ -7224,6 +7225,7 @@ LogB.Debug("mc finished 5");
 		menuitem_export_csv.Sensitive = option;
 		//menuitem_export_xml.Sensitive = option; not implemented yet
 		menuitem_encoder_session_overview.Sensitive = option;
+		menuitem_forceSensor_session_overview.Sensitive = option;
 	}
 	
 	private void menuPersonSelectedSensitive(bool option)

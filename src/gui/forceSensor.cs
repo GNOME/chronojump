@@ -2121,6 +2121,11 @@ LogB.Information(" fs R ");
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.DirectoryCannotOpenStr());
 	}
 
+	void on_menuitem_forceSensor_session_overview_activate (object o, EventArgs args)
+	{
+		ForceSensorOverviewWindow.Show (app1, currentSession.UniqueID);
+	}
+
 	private void on_button_force_sensor_adjust_clicked (object o, EventArgs args)
 	{
 		hbox_force_capture_buttons.Sensitive = false;

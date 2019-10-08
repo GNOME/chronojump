@@ -31,6 +31,7 @@ public abstract class OverviewWindow
 	[Widget] protected Gtk.Window overview_win;
 	[Widget] protected Gtk.TreeView treeview_sets;
 	[Widget] protected Gtk.TreeView treeview_reps;
+	[Widget] protected Gtk.Notebook notebook;
 	
 	protected enum treeviewType { SETS, REPS }
 	protected int sessionID;
@@ -179,6 +180,78 @@ public class EncoderOverviewWindow : OverviewWindow
 	{
 		EncoderOverviewWindowBox.overview_win.Hide();
 		EncoderOverviewWindowBox = null;
+	}
+
+}
+
+public class ForceSensorOverviewWindow : OverviewWindow
+{
+	static ForceSensorOverviewWindow ForceSensorOverviewWindowBox;
+
+	public ForceSensorOverviewWindow(Gtk.Window parent)
+	{
+		Glade.XML gladeXML;
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "overview.glade", "overview_win", null);
+
+		gladeXML.Autoconnect(this);
+		overview_win.Parent = parent;
+
+		//put an icon to window
+		UtilGtk.IconWindow(overview_win);
+	}
+
+	static public ForceSensorOverviewWindow Show (Gtk.Window parent, int sessionID)
+	{
+		if (ForceSensorOverviewWindowBox == null)
+			ForceSensorOverviewWindowBox = new ForceSensorOverviewWindow (parent);
+
+		ForceSensorOverviewWindowBox.sessionID = sessionID;
+
+		ForceSensorOverviewWindowBox.initialize();
+
+		ForceSensorOverviewWindowBox.notebook.GetNthPage(1).Hide();
+
+		ForceSensorOverviewWindowBox.overview_win.Show ();
+
+		return ForceSensorOverviewWindowBox;
+	}
+
+	protected override string getTitle()
+	{
+		return Catalog.GetString("Force sensor overview");
+	}
+
+	protected override ArrayList selectData(treeviewType type)
+	{
+		return SqliteForceSensor.SelectSessionOverviewSets(false, sessionID);
+	}
+
+	protected override void createTreeView(Gtk.TreeView tv, treeviewType type)
+	{
+		tv.HeadersVisible=true;
+		int count = 0;
+
+		tv.AppendColumn (Catalog.GetString ("Person"), new CellRendererText(), "text", count++);
+		tv.AppendColumn (Catalog.GetString ("Sex"), new CellRendererText(), "text", count++);
+		tv.AppendColumn (Catalog.GetString ("Exercise"), new CellRendererText(), "text", count++);
+		tv.AppendColumn (Catalog.GetString ("Sets"), new CellRendererText(), "text", count++);
+	}
+
+	protected override TreeStore getStore(treeviewType type)
+	{
+		return new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string)); //person, sex, exercise, sets
+	}
+
+	void on_button_close_clicked (object o, EventArgs args)
+	{
+		ForceSensorOverviewWindowBox.overview_win.Hide();
+		ForceSensorOverviewWindowBox = null;
+	}
+
+	void on_delete_event (object o, DeleteEventArgs args)
+	{
+		ForceSensorOverviewWindowBox.overview_win.Hide();
+		ForceSensorOverviewWindowBox = null;
 	}
 
 }

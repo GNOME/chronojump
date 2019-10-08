@@ -14,7 +14,6 @@ glade/dialog_server_stats.glade
 glade/dialog_threshold.glade
 glade/edit_event.glade
 glade/encoder_configuration.glade
-glade/encoder_overview.glade
 glade/error_window.glade
 glade/evaluator_window.glade
 glade/event_graph_configure.glade
@@ -22,6 +21,7 @@ glade/execute_auto.glade
 glade/generic_window.glade
 glade/jumps_runs_more.glade
 glade/jump_type_add.glade
+glade/overview.glade
 glade/person_multiple_infinite.glade
 glade/person_recuperate.glade
 glade/person_select_window.glade
@@ -63,7 +63,6 @@ src/gui/dialogThreshold.cs
 src/gui/encoderConfiguration.cs
 src/gui/encoder.cs
 src/gui/encoderGraphObjects.cs
-src/gui/encoderOverview.cs
 src/gui/encoderSelectRepetitions.cs
 src/gui/encoderTreeviews.cs
 src/gui/evaluator.cs
@@ -79,6 +78,7 @@ src/gui/jumpType.cs
 src/gui/multiChronopic.cs
 src/gui/old/chronojumpServerOld.cs
 src/gui/old/queryServer.cs
+src/gui/overview.cs
 src/gui/person.cs
 src/gui/preferences.cs
 src/gui/pulse.cs

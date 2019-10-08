@@ -70,6 +70,7 @@ src/gui/event.cs
 src/gui/eventExecute.cs
 src/gui/executeAuto.cs
 src/gui/forceSensorAnalyze.cs
+src/gui/forceSensorExercise.cs
 src/gui/forceSensor.cs
 src/gui/genericWindow.cs
 src/gui/helpPorts.cs

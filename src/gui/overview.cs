@@ -65,10 +65,21 @@ public abstract class OverviewWindow
 			store.AppendValues (line);
 	}
 
+	protected virtual void createTreeView(Gtk.TreeView tv, treeviewType type)
+	{
+		tv.HeadersVisible=true;
+		int count = 0;
 
-	protected abstract void createTreeView(Gtk.TreeView tv, treeviewType type);
+		tv.AppendColumn (Catalog.GetString ("Person"), new CellRendererText(), "text", count++);
+		tv.AppendColumn (Catalog.GetString ("Sex"), new CellRendererText(), "text", count++);
+		tv.AppendColumn (Catalog.GetString ("Exercise"), new CellRendererText(), "text", count++);
+		tv.AppendColumn (Catalog.GetString ("Sets"), new CellRendererText(), "text", count++);
+	}
 
-	protected abstract TreeStore getStore(treeviewType type);
+	protected virtual TreeStore getStore(treeviewType type)
+	{
+		return new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string)); //person, sex, exercise, sets
+	}
 }
 
 public class EncoderOverviewWindow : OverviewWindow
@@ -80,8 +91,8 @@ public class EncoderOverviewWindow : OverviewWindow
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "overview.glade", "overview_win", null);
-
 		gladeXML.Autoconnect(this);
+
 		overview_win.Parent = parent;
 
 		//put an icon to window
@@ -181,7 +192,6 @@ public class EncoderOverviewWindow : OverviewWindow
 		EncoderOverviewWindowBox.overview_win.Hide();
 		EncoderOverviewWindowBox = null;
 	}
-
 }
 
 public class ForceSensorOverviewWindow : OverviewWindow
@@ -192,8 +202,8 @@ public class ForceSensorOverviewWindow : OverviewWindow
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "overview.glade", "overview_win", null);
-
 		gladeXML.Autoconnect(this);
+
 		overview_win.Parent = parent;
 
 		//put an icon to window
@@ -226,22 +236,6 @@ public class ForceSensorOverviewWindow : OverviewWindow
 		return SqliteForceSensor.SelectSessionOverviewSets(false, sessionID);
 	}
 
-	protected override void createTreeView(Gtk.TreeView tv, treeviewType type)
-	{
-		tv.HeadersVisible=true;
-		int count = 0;
-
-		tv.AppendColumn (Catalog.GetString ("Person"), new CellRendererText(), "text", count++);
-		tv.AppendColumn (Catalog.GetString ("Sex"), new CellRendererText(), "text", count++);
-		tv.AppendColumn (Catalog.GetString ("Exercise"), new CellRendererText(), "text", count++);
-		tv.AppendColumn (Catalog.GetString ("Sets"), new CellRendererText(), "text", count++);
-	}
-
-	protected override TreeStore getStore(treeviewType type)
-	{
-		return new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string)); //person, sex, exercise, sets
-	}
-
 	void on_button_close_clicked (object o, EventArgs args)
 	{
 		ForceSensorOverviewWindowBox.overview_win.Hide();
@@ -253,5 +247,59 @@ public class ForceSensorOverviewWindow : OverviewWindow
 		ForceSensorOverviewWindowBox.overview_win.Hide();
 		ForceSensorOverviewWindowBox = null;
 	}
+}
 
+public class RunEncoderOverviewWindow : OverviewWindow
+{
+	static RunEncoderOverviewWindow RunEncoderOverviewWindowBox;
+
+	public RunEncoderOverviewWindow(Gtk.Window parent)
+	{
+		Glade.XML gladeXML;
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "overview.glade", "overview_win", null);
+		gladeXML.Autoconnect(this);
+
+		overview_win.Parent = parent;
+
+		//put an icon to window
+		UtilGtk.IconWindow(overview_win);
+	}
+
+	static public RunEncoderOverviewWindow Show (Gtk.Window parent, int sessionID)
+	{
+		if (RunEncoderOverviewWindowBox == null)
+			RunEncoderOverviewWindowBox = new RunEncoderOverviewWindow (parent);
+
+		RunEncoderOverviewWindowBox.sessionID = sessionID;
+
+		RunEncoderOverviewWindowBox.initialize();
+
+		RunEncoderOverviewWindowBox.notebook.GetNthPage(1).Hide();
+
+		RunEncoderOverviewWindowBox.overview_win.Show ();
+
+		return RunEncoderOverviewWindowBox;
+	}
+
+	protected override string getTitle()
+	{
+		return Catalog.GetString("Force sensor overview");
+	}
+
+	protected override ArrayList selectData(treeviewType type)
+	{
+		return SqliteRunEncoder.SelectSessionOverviewSets(false, sessionID);
+	}
+
+	void on_button_close_clicked (object o, EventArgs args)
+	{
+		RunEncoderOverviewWindowBox.overview_win.Hide();
+		RunEncoderOverviewWindowBox = null;
+	}
+
+	void on_delete_event (object o, DeleteEventArgs args)
+	{
+		RunEncoderOverviewWindowBox.overview_win.Hide();
+		RunEncoderOverviewWindowBox = null;
+	}
 }

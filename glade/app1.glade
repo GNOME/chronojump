@@ -576,6 +576,15 @@
                       </widget>
                     </child>
                     <child>
+                      <widget class="GtkMenuItem" id="menuitem_runEncoder_session_overview">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Overview of this session</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_menuitem_runEncoder_session_overview_activate" swapped="no"/>
+                      </widget>
+                    </child>
+                    <child>
                       <widget class="GtkCheckMenuItem" id="menuitem_check_race_encoder_capture_simulate">
                         <property name="can_focus">False</property>
                         <property name="label">Simulated capture</property>

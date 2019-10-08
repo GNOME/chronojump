@@ -230,7 +230,7 @@ public class ForceSensorExerciseWindow
 		else if(p == Pages.FIXATION)
 			str = ss("How the force is transmitted to the sensor");
 		else if(p == Pages.MASS)
-			str = ss("Depending on the exercise and configuration of the test, the total mass (mass of the person and the extra load) can affect to the sensor measuring. Select how to manage this effect.");
+			str = ss("Depending on the exercise and configuration of the test, the total mass (mass of the person and the extra load) can affect the sensor measuring. Select how to manage this effect.");
 		else { //if(p == Pages.OTHER)
 			if(radio_force_resultant.Active && radio_mass_add.Active)
 				str = ss("In current exercise configuration, it is necessary to enter the angle in which the sensor is measuring.");
@@ -245,17 +245,17 @@ public class ForceSensorExerciseWindow
 	{
 		string str;
 		if(o == Options.FORCE_SENSOR)
-			str = ss("When you are interested only in the force transmitted to the force sensor. This option do NOT take into account the effect of elastic elements or the mass or the acceleration of a mass.");
+			str = ss("When you are interested only in the force transmitted to the force sensor. This option do NOT take into account the effect of the weight or the acceleration of a mass.");
 		else if(o == Options.FORCE_RESULTANT)
-			str = ss("When you want the resultant of all the forces exerted by the person. This value is the vector module of the resultant force vector. This option allows to take in account the effect of the elastic elements or the acceleration of a mass.");
+			str = ss("When you want the resultant of all the forces exerted by the person. This value is the vector module of the resultant force vector. This option allows to take into account the effect of the weight or the acceleration of a mass.");
 		else if(o == Options.FIXATION_ELASTIC)
-			str = ss("If exerting a force, some element is significantly elongated it means that you are using elastic elements. Knowing the characteristics of the elastic elements allows to calculate positions, velocities and accelerations during the exercise.");
+			str = ss("If, exerting a force, some element is significantly elongated it means that you are using elastic elements. Knowing the characteristics of the elastic elements allows to calculate positions, velocities and accelerations during the exercise");
 		else if(o == Options.FIXATION_NOT_ELASTIC)
-			str = ss("If exerting a force there's no significant movement you are using not elastic elements.");
+			str = ss("If exerting a force there's no significant elongation you are using not elastic elements.");
 		else if(o == Options.MASS_ADD)
-			str = ss("When the mass don't affect the sensor data but it must be added to it.");
+			str = ss("When the mass doesn't affect the sensor data but it must be added to it.");
 		else if(o == Options.MASS_SUBTRACT)
-			str = ss("In some cases the weight if the mass is supported by the sensor but it is not a force that the subject is exerting. In this case, the sensor will be tared before starting the test.");
+			str = ss("In some cases the weight of the mass is supported by the sensor but it is not a force that the subject is exerting. In this case, the sensor will be tared before starting the test.");
 		else if(o == Options.MASS_NOTHING)
 			str = ss("In some cases the weight is transmitted to the sensor and it is also supported by the measured limb. If the effect of the mass is not significant, use this option also.");
 		else //if(o == Options.OTHER)

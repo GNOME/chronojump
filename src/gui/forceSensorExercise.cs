@@ -214,28 +214,20 @@ public class ForceSensorExerciseWindow
 		entry_description.Text = exercise.Description;
 	}
 
-	//just to have shorter code
-	//and to be able to upload this without bothering the translators at the moment
-	private string ss (string s)
-	{
-		return Catalog.GetString(s);
-		//return s;
-	}
-
 	private string getTopExplanations (Pages p)
 	{
 		string str;
 		if(p == Pages.FORCE)
-			str = ss("In some cases the force registered by the Force Sensor is not directly the force that the person is exerting.");
+			str = Catalog.GetString("In some cases the force registered by the Force Sensor is not directly the force that the person is exerting.");
 		else if(p == Pages.FIXATION)
-			str = ss("How the force is transmitted to the sensor");
+			str = Catalog.GetString("How the force is transmitted to the sensor");
 		else if(p == Pages.MASS)
-			str = ss("Depending on the exercise and configuration of the test, the total mass (mass of the person and the extra load) can affect the sensor measuring. Select how to manage this effect.");
+			str = Catalog.GetString("Depending on the exercise and configuration of the test, the total mass (mass of the person and the extra load) can affect the sensor measuring. Select how to manage this effect.");
 		else { //if(p == Pages.OTHER)
 			if(radio_force_resultant.Active && radio_mass_add.Active)
-				str = ss("In current exercise configuration, it is necessary to enter the angle in which the sensor is measuring.");
+				str = Catalog.GetString("In current exercise configuration, it is necessary to enter the angle in which the sensor is measuring.");
 			else
-				str = ss("In current exercise configuration, angle is merely descriptive (not used in calculations).");
+				str = Catalog.GetString("In current exercise configuration, angle is merely descriptive (not used in calculations).");
 		}
 
 		return str;
@@ -245,23 +237,23 @@ public class ForceSensorExerciseWindow
 	{
 		string str;
 		if(o == Options.FORCE_SENSOR)
-			str = ss("When you are interested only in the force transmitted to the force sensor. This option do NOT take into account the effect of the weight or the acceleration of a mass.");
+			str = Catalog.GetString("When you are interested only in the force transmitted to the force sensor. This option do NOT take into account the effect of the weight or the acceleration of a mass.");
 		else if(o == Options.FORCE_RESULTANT)
-			str = ss("When you want the resultant of all the forces exerted by the person. This value is the vector module of the resultant force vector. This option allows to take into account the effect of the weight or the acceleration of a mass.");
+			str = Catalog.GetString("When you want the resultant of all the forces exerted by the person. This value is the vector module of the resultant force vector. This option allows to take into account the effect of the weight or the acceleration of a mass.");
 		else if(o == Options.FIXATION_ELASTIC)
-			str = ss("If, exerting a force, some element is significantly elongated it means that you are using elastic elements. Knowing the characteristics of the elastic elements allows to calculate positions, velocities and accelerations during the exercise");
+			str = Catalog.GetString("If, exerting a force, some element is significantly elongated it means that you are using elastic elements. Knowing the characteristics of the elastic elements allows to calculate positions, velocities and accelerations during the exercise");
 		else if(o == Options.FIXATION_NOT_ELASTIC)
-			str = ss("If exerting a force there's no significant elongation you are using not elastic elements.");
+			str = Catalog.GetString("If exerting a force there's no significant elongation you are using not elastic elements.");
 		else if(o == Options.MASS_ADD)
-			str = ss("When the mass doesn't affect the sensor data but it must be added to it.");
+			str = Catalog.GetString("When the mass doesn't affect the sensor data but it must be added to it.");
 		else if(o == Options.MASS_SUBTRACT)
-			str = ss("In some cases the weight of the mass is supported by the sensor but it is not a force that the subject is exerting. In this case, the sensor will be tared before starting the test.");
+			str = Catalog.GetString("In some cases the weight of the mass is supported by the sensor but it is not a force that the subject is exerting. In this case, the sensor will be tared before starting the test.");
 		else if(o == Options.MASS_NOTHING)
-			str = ss("In some cases the weight is transmitted to the sensor and it is also supported by the measured limb. If the effect of the mass is not significant, use this option also.");
+			str = Catalog.GetString("In some cases the weight is transmitted to the sensor and it is also supported by the measured limb. If the effect of the mass is not significant, use this option also.");
 		else //if(o == Options.OTHER)
-			str = ss("0 means horizontally") + "\n" +
-				ss("90 means vertically with the person above the sensor") + "\n" +
-				ss("-90 means vertically with the person below the sensor");
+			str = Catalog.GetString("0 means horizontally") + "\n" +
+				Catalog.GetString("90 means vertically with the person above the sensor") + "\n" +
+				Catalog.GetString("-90 means vertically with the person below the sensor");
 
 		return str;
 	}
@@ -270,25 +262,25 @@ public class ForceSensorExerciseWindow
 	{
 		string str;
 		if(o == Options.FORCE_SENSOR)
-			str = "1.- " + ss("Isometric Leg Extension.") +
-				"\n2.- " + ss("Upper limb movements against a rubber if the displaced mass is considered insignificant.");
+			str = "1.- " + Catalog.GetString("Isometric Leg Extension.") +
+				"\n2.- " + Catalog.GetString("Upper limb movements against a rubber if the displaced mass is considered insignificant.");
 		else if(o == Options.FORCE_RESULTANT)
-			str = "1.- " + ss("Isometric squat with the force sensor fixed between the floor and the body.") +
-				"\n2.- " + ss("Movements where a significant mass is accelerated.") +
-				"\n3.- " + ss("Horizontal movements where the sensor don't measure the gravitational vertical forces...)");
+			str = "1.- " + Catalog.GetString("Isometric squat with the force sensor fixed between the floor and the body.") +
+				"\n2.- " + Catalog.GetString("Movements where a significant mass is accelerated.") +
+				"\n3.- " + Catalog.GetString("Horizontal movements where the sensor don't measure the gravitational vertical forces...)");
 		else if(o == Options.FIXATION_ELASTIC)
-			str =  ss("Rubber bands, springs, flexible material ...");
+			str =  Catalog.GetString("Rubber bands, springs, flexible material ...");
 		else if(o == Options.FIXATION_NOT_ELASTIC)
-			str = "1.- " + ss("In an isometric squat with the force sensor fixed between the floor and the body, increasing the mass don't affect the measure of the sensor because the weight is supported by the lower limbs, not the sensor.") +
-				"\n2.- " + ss("Running in a threadmill against a rubber. The sensor is measuring the force that a rubber is transmitting horizontally to a subject running in a threadmill. The body weight is added to the total force exerted by the subject.");
+			str = "1.- " + Catalog.GetString("In an isometric squat with the force sensor fixed between the floor and the body, increasing the mass don't affect the measure of the sensor because the weight is supported by the lower limbs, not the sensor.") +
+				"\n2.- " + Catalog.GetString("Running in a threadmill against a rubber. The sensor is measuring the force that a rubber is transmitting horizontally to a subject running in a threadmill. The body weight is added to the total force exerted by the subject.");
 		else if(o == Options.MASS_ADD)
-			str = "1.- " + ss("In an isometric squat with the force sensor fixed between the floor and the body, increasing the mass don't affect the measure of the sensor because the weight is supported by the lower limbs, not the sensor.") +
-				"\n2.- " + ss("Running in a threadmill against a rubber. The sensor is measuring the force that a rubber is transmitting horizontally to a subject running in a threadmill. The body weight is added to the total force exerted by the subject.");
+			str = "1.- " + Catalog.GetString("In an isometric squat with the force sensor fixed between the floor and the body, increasing the mass don't affect the measure of the sensor because the weight is supported by the lower limbs, not the sensor.") +
+				"\n2.- " + Catalog.GetString("Running in a threadmill against a rubber. The sensor is measuring the force that a rubber is transmitting horizontally to a subject running in a threadmill. The body weight is added to the total force exerted by the subject.");
 		else if(o == Options.MASS_SUBTRACT)
-			str = ss("Hamstring test where the heel of the person is suspended in a cinch attached to the sensor. The weight of the leg is affecting the measure of the force transmitted to the sensor but this is not a force exerted by the subject.");
+			str = Catalog.GetString("Hamstring test where the heel of the person is suspended in a cinch attached to the sensor. The weight of the leg is affecting the measure of the force transmitted to the sensor but this is not a force exerted by the subject.");
 		else if(o == Options.MASS_NOTHING)
-			str = "1.- " + ss("Nordic hamstring. In a Nordic hamstring with the sensor attached to the ankle, the weight affects the values of the sensor but this weight is supported by the hamstrings we are measuring.") +
-				"\n2.- " + ss("Pulling on a TRX. Pulling from a TRX implies overcome the body weight. This body weight is also measured by the sensor.");
+			str = "1.- " + Catalog.GetString("Nordic hamstring. In a Nordic hamstring with the sensor attached to the ankle, the weight affects the values of the sensor but this weight is supported by the hamstrings we are measuring.") +
+				"\n2.- " + Catalog.GetString("Pulling on a TRX. Pulling from a TRX implies overcome the body weight. This body weight is also measured by the sensor.");
 		else //if(o == Options.OTHER)
 			str = "";
 
@@ -300,24 +292,24 @@ public class ForceSensorExerciseWindow
 		string str;
 
 		if(o == Options.FORCE_SENSOR)
-			str = ss("Raw data");
+			str = Catalog.GetString("Raw data");
 		else if(o == Options.FORCE_RESULTANT)
-			str = ss("Resultant force");
+			str = Catalog.GetString("Resultant force");
 		else if(o == Options.FIXATION_ELASTIC)
-			str = ss("Elastic");
+			str = Catalog.GetString("Elastic");
 		else if(o == Options.FIXATION_NOT_ELASTIC)
-			str = ss("Not Elastic");
+			str = Catalog.GetString("Not Elastic");
 		else if(o == Options.MASS_ADD)
-			str = ss("Add mass");
+			str = Catalog.GetString("Add mass");
 		else if(o == Options.MASS_SUBTRACT)
-			str = ss("Subtract mass");
+			str = Catalog.GetString("Subtract mass");
 		else if(o == Options.MASS_NOTHING)
-			str = ss("Mass is included");
+			str = Catalog.GetString("Mass is included");
 		else //if(o == Options.OTHER)
-			str = ss("Angle explanation");
+			str = Catalog.GetString("Angle explanation");
 
 		label_notebook_desc_examples_desc.Text = str;
-		label_notebook_desc_examples_examples.Text = ss("Examples of:") + " " + str;
+		label_notebook_desc_examples_examples.Text = Catalog.GetString("Examples of:") + " " + str;
 	}
 
 	private void managePage(int i)
@@ -460,14 +452,14 @@ public class ForceSensorExerciseWindow
 
 		if(name == "")
 		{
-			label_error.Text = ss("Error: Missing name of exercise.");
+			label_error.Text = Catalog.GetString("Error: Missing name of exercise.");
 			hbox_error.Show();
 			return;
 		}
 		else if (modeEnum == modesEnum.ADD && Sqlite.Exists(false, Constants.ForceSensorExerciseTable, name))
 		{
 			//if we add, check that this name does not exists
-			label_error.Text = string.Format(ss("Error: An exercise named '{0}' already exists."), name);
+			label_error.Text = string.Format(Catalog.GetString("Error: An exercise named '{0}' already exists."), name);
 			hbox_error.Show();
 			return;
 		}
@@ -477,7 +469,7 @@ public class ForceSensorExerciseWindow
 			int getIdOfThis = Sqlite.ExistsAndGetUniqueID(false, Constants.ForceSensorExerciseTable, name); //if not exists will be -1
 			if(getIdOfThis != -1 && getIdOfThis != exercise.UniqueID)
 			{
-				label_error.Text = string.Format(ss("Error: An exercise named '{0}' already exists."), name);
+				label_error.Text = string.Format(Catalog.GetString("Error: An exercise named '{0}' already exists."), name);
 				hbox_error.Show();
 				return;
 			}

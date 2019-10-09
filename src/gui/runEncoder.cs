@@ -516,7 +516,7 @@ public partial class ChronoJumpWindow
 		else {
 			//call graph. Prepare data
 			File.Copy(fileName, RunEncoder.GetCSVFileName(), true); //can be overwritten
-			//lastRunEncoderFullPath = fileName;
+			lastRunEncoderFullPath = fileName;
 
 			raceEncoderCaptureGraphDo();
 

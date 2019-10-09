@@ -760,7 +760,8 @@ public partial class ChronoJumpWindow
 		forcePaintHVLines(ForceSensorGraphs.CAPTURE, fscPoints.RealHeightG, ForceSensorCapturePoints.DefaultRealHeightGNeg, 10, false);
 		//draw horizontal rectangle of feedback
 		if(check_force_sensor_capture_feedback.Active)
-			forceSensorSignalPlotFeedbackRectangle(fscPoints, force_capture_drawingarea, force_capture_pixmap);
+			forceSensorSignalPlotFeedbackRectangle(fscPoints,
+					force_capture_drawingarea, force_capture_pixmap, pen_yellow_force_capture);
 
 
 		event_execute_ButtonFinish.Clicked -= new EventHandler(on_finish_clicked);
@@ -1191,7 +1192,8 @@ LogB.Information(" fs I ");
 				forcePaintHVLines(ForceSensorGraphs.CAPTURE, fscPoints.RealHeightG, forceSensorValues.ForceMin * 2, fscPoints.RealWidthG, false);
 				//draw horizontal rectangle of feedback
 				if(check_force_sensor_capture_feedback.Active)
-					forceSensorSignalPlotFeedbackRectangle(fscPoints, force_capture_drawingarea, force_capture_pixmap);
+					forceSensorSignalPlotFeedbackRectangle(fscPoints,
+							force_capture_drawingarea, force_capture_pixmap, pen_yellow_force_capture);
 
 			}
 
@@ -1290,7 +1292,8 @@ LogB.Information(" fs R ");
 
 		UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
 		if(check_force_sensor_capture_feedback.Active)
-			forceSensorSignalPlotFeedbackRectangle(fscPoints, force_capture_drawingarea, force_capture_pixmap);
+			forceSensorSignalPlotFeedbackRectangle(fscPoints,
+					force_capture_drawingarea, force_capture_pixmap, pen_yellow_force_capture);
 
 		forcePaintHVLines(ForceSensorGraphs.CAPTURE,
 				getForceSensorMaxForceIncludingRectangle(forceSensorValues.ForceMax),
@@ -1825,7 +1828,8 @@ LogB.Information(" fs R ");
 
 		//draw horizontal rectangle of feedback
 		if(check_force_sensor_capture_feedback.Active)
-			forceSensorSignalPlotFeedbackRectangle(fscPoints, force_capture_drawingarea, force_capture_pixmap);
+			forceSensorSignalPlotFeedbackRectangle(fscPoints,
+					force_capture_drawingarea, force_capture_pixmap, pen_yellow_force_capture);
 
 
 		Gdk.Point [] paintPoints = new Gdk.Point[fscPoints.Points.Count];
@@ -1872,7 +1876,9 @@ LogB.Information(" fs R ");
 			return forceSensorTopRectangleAtOperationStart;
 	}
 
-	private void forceSensorSignalPlotFeedbackRectangle(ForceSensorCapturePoints points, Gtk.DrawingArea drawingarea, Gdk.Pixmap pixmap)
+	//at analyze can show lines AB and rectangle. There the rectangle should be YELLOW_LIGHT
+	private void forceSensorSignalPlotFeedbackRectangle(ForceSensorCapturePoints points,
+			Gtk.DrawingArea drawingarea, Gdk.Pixmap pixmap, Gdk.GC pen_rectangle)
 	{
 		//draw horizontal rectangle of feedback
 		int fbkNValue = Convert.ToInt32(spin_force_sensor_capture_feedback_at.Value); //feedback Newtons value
@@ -1885,7 +1891,8 @@ LogB.Information(" fs R ");
 
 		Rectangle rect = new Rectangle(points.GetTimeInPx(0) +1, fbkGraphTop,
 				drawingarea.Allocation.Width -1, fbkGraphRectHeight);
-		pixmap.DrawRectangle(pen_yellow_force_capture, true, rect);
+
+		pixmap.DrawRectangle(pen_rectangle, true, rect);
 
 		pixmap.DrawLine(pen_orange_dark_force_capture,
 				points.GetTimeInPx(0), fbkGraphCenter, drawingarea.Allocation.Width, fbkGraphCenter);

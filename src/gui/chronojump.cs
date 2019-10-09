@@ -2521,7 +2521,7 @@ public partial class ChronoJumpWindow
 			chronojumpImporter.showImportCorrectlyFinished ();
 		} else {
 			LogB.Debug ("Chronojump Importer error: ", result.error);
-			new DialogMessage (Constants.MessageTypes.WARNING, result.error);
+			new DialogMessage (Catalog.GetString("Chronojump importer"), Constants.MessageTypes.WARNING, result.error, true);
 		}
 	}
 

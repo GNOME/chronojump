@@ -694,7 +694,6 @@ class ImportSession:
 
         if(DEBUGTOFILE):
             debugFile.write(" end _import_forceSensor ")
-            debugFile.close()
 
     def _import_runEncoder(self):
         # Imports RunEncoderExercise
@@ -732,7 +731,6 @@ class ImportSession:
 
         if(DEBUGTOFILE):
             debugFile.write(" end _import_runEncoder ")
-            debugFile.close()
 
 
 
@@ -951,6 +949,9 @@ def process_command_line():
                 importer.import_as_new_session(args.source_session)
             else:
                 importer.import_into_session(args.source_session, args.destination_session)
+
+            if(DEBUGTOFILE):
+                debugFile.close()
         else:
             print("if --information not used --source, --destination and --source_session parameters are required")
 

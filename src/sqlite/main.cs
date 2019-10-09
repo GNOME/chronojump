@@ -2474,7 +2474,7 @@ class Sqlite
 				LogB.SQL("Inserted into preferences: forceSensorCaptureWidthSeconds, forceSensorCaptureScroll");
 
 				SqlitePreferences.Insert (SqlitePreferences.ForceSensorCaptureWidthSeconds, "10");
-				SqlitePreferences.Insert (SqlitePreferences.ForceSensorCaptureScroll, "False");
+				SqlitePreferences.Insert (SqlitePreferences.ForceSensorCaptureScroll, "True");
 
 				currentVersion = updateVersion("1.72");
 			}

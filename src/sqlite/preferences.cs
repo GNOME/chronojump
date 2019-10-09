@@ -183,7 +183,7 @@ class SqlitePreferences : Sqlite
 
 				//forceSensor
 				Insert (ForceSensorCaptureWidthSeconds, "10", dbcmdTr);
-				Insert (ForceSensorCaptureScroll, "False"); //no scroll. zoom out
+				Insert (ForceSensorCaptureScroll, "True"); //scroll. not zoom out
 
 				//multimedia
 				Insert ("videoDevice", "", dbcmdTr); //first

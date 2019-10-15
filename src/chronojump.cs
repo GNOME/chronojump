@@ -373,8 +373,7 @@ public class ChronoJump
 				messageToShowOnBoot += Catalog.GetString("All DJ jumps have been renamed as 'DJna' (Drop Jumps with No Arms).") + "\n\n"+ 
 					Catalog.GetString("If your Drop Jumps were executed using the arms, please rename them manually as 'DJa'.") + "\n";
 
-			SqliteForceSensor.DirToImport = Util.GetForceSensorDir();
-			SqliteRunEncoder.DirToImport = Util.GetRunEncoderDir();
+			Sqlite.UpdatingDBFrom = Sqlite.UpdatingDBFromEnum.LOCAL;
 
 			bool softwareIsNew = Sqlite.ConvertToLastChronojumpDBVersion();
 			updatingDB = false;

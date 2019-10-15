@@ -64,6 +64,7 @@ class SqliteForceSensor : Sqlite
 	{
 		openIfNeeded(dbconOpened);
 
+		LogB.Information("goint to insert: " + insertString);
 		dbcmd.CommandText = "INSERT INTO " + table +
 				" (uniqueID, personID, sessionID, exerciseID, captureOption, angle, laterality, filename, url, dateTime, comments, videoURL)" +
 				" VALUES " + insertString;
@@ -260,15 +261,16 @@ class SqliteForceSensor : Sqlite
 		return array;
 	}
 
-	public static string DirToImport;
-
 	protected internal static void import_from_1_68_to_1_69() //database is opened
 	{
 		LogB.PrintAllThreads = true; //TODO: remove this
 		LogB.Information("at import_from_1_68_to_1_69()");
 
-		string forceSensorDir = DirToImport;
+		string forceSensorDir = Util.GetForceSensorDir();
+		if(Sqlite.UpdatingDBFrom == Sqlite.UpdatingDBFromEnum.IMPORTED_SESSION)
+			forceSensorDir = Path.Combine(Util.GetDatabaseTempImportDir(), "forceSensor");
 
+		int unknownPersonID = Sqlite.ExistsAndGetUniqueID(true, Constants.PersonTable, Catalog.GetString("Unknown"));
 		int unknownExerciseID = Sqlite.ExistsAndGetUniqueID(true, Constants.ForceSensorExerciseTable, Catalog.GetString("Unknown"));
 
 		DirectoryInfo [] sessions = new DirectoryInfo(forceSensorDir).GetDirectories();
@@ -282,8 +284,26 @@ class SqliteForceSensor : Sqlite
 					new ForceSensorLoadTryToAssignPersonAndMore(true, fileWithoutExtension, Convert.ToInt32(session.Name));
 
 				Person p = fslt.GetPerson();
+				//if person is not foundz
 				if(p.UniqueID == -1)
-					continue;
+				{
+					if(unknownPersonID == -1)
+					{
+//TODO: atencio pq aixo no s'esta insertant al final, s'inserta pero no sabem de moment on
+//i suposo que l'exercici tampoc
+						LogB.Information("going to insert person Unknown");
+						Person pUnknown = new Person (Catalog.GetString("Unknown"), "M", DateTime.Now,
+								Constants.RaceUndefinedID,
+								Constants.CountryUndefinedID,
+								"", "", //future1: rfid
+								Constants.ServerUndefinedID, true); //dbconOpened
+						unknownPersonID = pUnknown.UniqueID;
+
+						//el crea pero no queda guardat a la bd
+					}
+					p.UniqueID = unknownPersonID;
+					p.Name = Catalog.GetString("Unknown");
+				}
 
 				if(! Util.IsNumber(session.Name, false))
 					continue;
@@ -302,11 +322,23 @@ class SqliteForceSensor : Sqlite
 					{
 						ForceSensorExercise fse = new ForceSensorExercise (-1, Catalog.GetString("Unknown"), 0, "", 0, "", false, false, false);
 						//note we are on 1_68 so we need this import method
-						unknownExerciseID = SqliteForceSensorExercise.InsertAtDB_1_68(true, fse);
+						//unknownExerciseID = SqliteForceSensorExercise.InsertAtDB_1_68(true, fse);
+						unknownExerciseID = SqliteForceSensorExercise.Insert(true, fse);
 					}
 
 					exerciseID = unknownExerciseID;
 					exerciseName = Catalog.GetString("Unknown");
+
+					//put the old path on comment
+					fslt.Comment = file.Name;
+				}
+
+				if(fslt.Exercise != "")
+				{
+					ForceSensorExercise fse = new ForceSensorExercise (-1, fslt.Exercise, 0, "", 0, "", false, false, false);
+					//note we are on 1_68 so we need this import method
+					//unknownExerciseID = SqliteForceSensorExercise.InsertAtDB_1_68(true, fse);
+					unknownExerciseID = SqliteForceSensorExercise.Insert(true, fse);
 				}
 
 				//laterality (in English)
@@ -319,20 +351,28 @@ class SqliteForceSensor : Sqlite
 					lat = Constants.ForceSensorLateralityBoth;
 
 				string parsedDate = UtilDate.ToFile(DateTime.MinValue);
+				LogB.Information("KKKKKK " + file.Name);
 				Match match = Regex.Match(file.Name, @"(\d+-\d+-\d+_\d+-\d+-\d+)");
 				if(match.Groups.Count == 2)
 					parsedDate = match.Value;
 
 				//filename will be this
 				string myFilename = p.UniqueID + "_" + p.Name + "_" + parsedDate + ".csv";
-				//try to move the file
+				//try to rename the file
 				try{
-					File.Move(file.FullName, Util.GetForceSensorSessionDir(Convert.ToInt32(session.Name)) + Path.DirectorySeparatorChar + myFilename);
+					//File.Move(file.FullName, Util.GetForceSensorSessionDir(Convert.ToInt32(session.Name)) + Path.DirectorySeparatorChar + myFilename);
+					//file.MoveTo(myFilename);
+					LogB.Information("copy from file.FullName: " + file.FullName);
+				        LogB.Information("copy to: " + file.FullName.Replace(file.Name, myFilename));
+					File.Move(file.FullName, file.FullName.Replace(file.Name, myFilename));
 				} catch {
 					//if cannot, then use old filename
-					myFilename = file.FullName;
+					//myFilename = file.FullName;
+					LogB.Information("catched at move, using the old filename: " + file.Name);
+					myFilename = file.Name;
 				}
 
+				LogB.Information("going to insert forceSensor");
 				ForceSensor forceSensor = new ForceSensor(-1, p.UniqueID, Convert.ToInt32(session.Name), exerciseID,
 						ForceSensor.CaptureOptions.NORMAL,
 						ForceSensor.AngleUndefined, lat,
@@ -366,13 +406,13 @@ class SqliteForceSensorExercise : Sqlite
 			"CREATE TABLE " + table + " ( " +
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"name TEXT, " +
-			"percentBodyWeight INT, " +
+			"percentBodyWeight INT NOT NULL, " +
 			"resistance TEXT, " + 				//unused
 			"angleDefault INT, " +
 			"description TEXT, " +
 			"tareBeforeCapture INT, " +
-			"forceResultant INT, " +
-			"elastic INT)";
+			"forceResultant INT NOT NULL, " +
+			"elastic INT NOT NULL)";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}
@@ -401,6 +441,9 @@ class SqliteForceSensorExercise : Sqlite
 		return myLast;
 	}
 
+	/*
+	 * is there any need of this?
+	 *
 	public static int InsertAtDB_1_68 (bool dbconOpened, ForceSensorExercise ex)
 	{
 		if(! dbconOpened)
@@ -422,6 +465,7 @@ class SqliteForceSensorExercise : Sqlite
 
 		return myLast;
 	}
+	*/
 
 	public static void Update (bool dbconOpened, ForceSensorExercise ex)
 	{

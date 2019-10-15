@@ -98,6 +98,10 @@ class Sqlite
 	//create blank database
 	static bool creatingBlankDatabase = false;
 
+	//use LOCAL on chronojump start if db changed
+	//use IMPORTED_SESSION when importing a session
+	public enum UpdatingDBFromEnum { LOCAL, IMPORTED_SESSION }
+	public static UpdatingDBFromEnum UpdatingDBFrom;
 	
 	public enum Orders_by { DEFAULT, ID_DESC }
 

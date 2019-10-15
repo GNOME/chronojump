@@ -102,6 +102,8 @@ public class ForceSensor
 		if(uniqueID != -1)
 			uniqueIDStr = uniqueID.ToString();
 
+		LogB.Information("toSQLInsert filename: " + filename);
+
 		return
 			"(" + uniqueIDStr + ", " + personID + ", " + sessionID + ", " + exerciseID + ", \"" + captureOption.ToString() + "\", " +
 			angle + ", \"" + laterality + "\", \"" + filename + "\", \"" + url + "\", \"" + dateTime + "\", \"" +
@@ -320,6 +322,9 @@ public class ForceSensorExercise
 			Util.BoolToInt(elastic).ToString();
 	}
 
+	/*
+	 * is there any need of this?
+	 *
 	public string ToSQLInsertString_DB_1_68()
 	{
 		string uniqueIDStr = "NULL";
@@ -331,6 +336,7 @@ public class ForceSensorExercise
 			resistance + "\", " + angleDefault + ", \"" + description + "\", " +
 			Util.BoolToInt(tareBeforeCapture).ToString();
 	}
+	*/
 
 	public bool Changed(ForceSensorExercise newEx)
 	{
@@ -1402,10 +1408,12 @@ public class ForceSensorLoadTryToAssignPersonAndMore
 	public Person GetPerson()
 	{
 		string personName = getNameAndMore();
+		LogB.Information("getPerson: " + personName);
 		if(personName == "")
 			return new Person(-1);
 
 		Person p = SqlitePerson.SelectByName(dbconOpened, personName);
+		LogB.Information("person: " + p.ToString());
 		if(SqlitePersonSession.PersonSelectExistsInSession(dbconOpened, p.UniqueID, currentSessionID))
 			return p;
 
@@ -1414,6 +1422,25 @@ public class ForceSensorLoadTryToAssignPersonAndMore
 
 	private string getNameAndMore()
 	{
+		/*
+		 * 	there was a period were exercise param exists but can be captured without defining it,
+		 * 	it was represented as:
+		 * 	  personName__laterality_date_hour
+		 * 	  personName__laterality_comment_date_hour
+		 * 	  ...
+		 * 	so fix this __ to:
+		 * 	  personName_none_laterality_date_hour
+		 * 	  personName_none_laterality_comment_date_hour
+		 */
+
+		LogB.Information("filename: " + filename);
+		bool exerciseMissing = false;
+		if(filename.IndexOf("__") != -1)
+		{
+			filename = filename.Replace("__", "_none_");
+			exerciseMissing = true; //this will return "" as exercise
+		}
+
 		string [] strFull = filename.Split(new char[] {'_'});
 
 		/*
@@ -1424,13 +1451,25 @@ public class ForceSensorLoadTryToAssignPersonAndMore
 		 * 	personName_exercisename_laterality_comment_date_hour
 		 * 	note comment can have more _ so it can be
 		 * 	personName_exercisename_laterality_mycomment_with_some_underscores_date_hour
+		 *
+		 * Since there was database (2019 Sept 6), the filename is:
+		 * 	currentPerson.UniqueID + "_" + currentPerson.Name + "_" + UtilDate.ToFile(forceSensorTimeStartCapture);
+		 * 	but this method is not called since that date, because there's no need to call: import_from_1_68_to_1_69()
 		 */
+
 		if(strFull.Length == 3)
-			return strFull[0];
+		{
+			/*
+			Match match = Regex.Match(file.Name, @"\A(\d+_)");
+			if(match.Groups.Count == 2)
+			*/
+
+			return strFull[0]; //personName_date_hour
+		}
 		else if(strFull.Length >= 5)
 		{
 			//strFull[1] is the exercise, but check that it existst on database
-			if(Sqlite.Exists(dbconOpened, Constants.ForceSensorExerciseTable, strFull[1]))
+			if(! exerciseMissing && Sqlite.Exists(dbconOpened, Constants.ForceSensorExerciseTable, strFull[1]))
 				Exercise = strFull[1];
 
 			if(

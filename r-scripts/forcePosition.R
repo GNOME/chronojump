@@ -70,24 +70,26 @@ getDynamicsFromForceSensor <- function(file = "/home/xpadulles/.local/share/Chro
         # #axis(side = 4)
         # par(new = T)
         
+        #Getting the basic information of each repetition
         repetitions = getRepetitions(dynamics[, "time"], dynamics[, "position"], dynamics[, "rawForce"], minDisplacement)
         
-        plot(dynamics[, "time"]
-             ,dynamics[, "position"]
-             , type = "l", xlab = "Time", ylab = "Position"
-             #,xlim = c(0, 8)
-             #, ylim = c(0,0.04)
-             #, axes = F
-             )
-        #plot(position2, type = "l")
+        plot(#dynamics[, "time"]
+                dynamics[, "position"]
+                , type = "l", xlab = "Time", ylab = "Position"
+                #,xlim = c(50, 150)
+                #, ylim = c(0.25,1.1)
+                #, axes = F
+        )
+        
+        # plot(position2, type = "l")
         # lines(dynamics[, "time"], dynamics[, "position2"], col = "grey")
         
-        # print(extremesSamples)
-        points(dynamics[repetitions$extremesSamples, "time"],
-               #extremesSamples,
-               dynamics[repetitions$extremesSamples,"position"])
-        text(dynamics[repetitions$extremesSamples, "time"], dynamics[repetitions$extremesSamples,"position"], pos =4
-             , paste("(", round(dynamics[repetitions$extremesSamples, "time"], digits = 2), ", ", round(dynamics[repetitions$extremesSamples,"position"], digits = 2), ")", sep="")
+        points(#dynamics[repetitions$extremesSamples, "time"],
+                repetitions$extremesSamples,
+                dynamics[repetitions$extremesSamples,"position"])
+        text(repetitions$extremesSamples, dynamics[repetitions$extremesSamples,"position"], pos =4
+             #, paste("(", round(dynamics[repetitions$extremesSamples, "time"], digits = 4), ", ", round(dynamics[repetitions$extremesSamples,"position"], digits = 4), ")", sep="")
+             , paste("(",repetitions$extremesSamples, ", ", round(dynamics[repetitions$extremesSamples,"position"], digits = 2), ")", sep=""), cex = 0.66
         )
         
         return(list(
@@ -106,98 +108,94 @@ getDynamicsFromForceSensor <- function(file = "/home/xpadulles/.local/share/Chro
                 extremesSamples = repetitions$extremesSamples
                 ,RFDs = repetitions$RFDs
                 ,meanSpeeds = repetitions$meanSpeeds
-                )
+        )
         )
 }
 
 getRepetitions <- function(time, position, force, minDisplacement){
         
-        currentSample = 1
-        startDebounceSample = 1                 #Sample of a possible start of the phase
-        debouncing = FALSE                      #If an extreme is found we must check if it keeps increasing or decreasing for at least minDisplacement
+        #The comments supposes that the current phase is concentric. In the case that the phase is eccentric
+        #the signal is inverted by multiplying it by -1.
+        extremesSamples = 1
+        
+        #for each phase, stores the sample number of the biggest current sample.
+        possibleExtremeSample = 1
+        
+        #Stores the sample of the last actual maximum of the phase
+        lastExtremeSample = 1
+        
+        currentSample = 2
+        
+        #mean RFD of each phase
         RFDs = NA
+        
+        #mean speed of each phase
         meanSpeeds = NA
         
-        #Detecting the first phase
+        #The firstPhase is treated different
+        firstPhase = TRUE
+
+        #Detecting the first phase type
+        if(position[currentSample] > position[possibleExtremeSample])
+        {concentric = 1} else {concentric = -1}
         
+        #print(paste("starting in mode:", concentric) )
+
         while(currentSample < length(position) -1){
                 
-                currentSample = currentSample +1
-                if(     #Minimum
-                        (position[currentSample] < position[currentSample -1] &  position[currentSample] < position[currentSample+1]) || 
-                        #Maximum
-                        (position[currentSample] > position[currentSample -1] &  position[currentSample] > position[currentSample + 1]))
-                {
-                        startDebounceSample = currentSample
+                #Checking if the current position is greater than the previous possilble maximum
+                if(concentric * position[currentSample] > concentric * position[possibleExtremeSample])
+                        {
+                        #The current sample is the new candidate to be a maximum
+                        #print(paste("updated possibleExtremeSample to:", currentSample, "position:", position[currentSample]))
+                        possibleExtremeSample = currentSample
                 }
-                if (position[currentSample] - position[startDebounceSample] > minDisplacement){
-                        print("Starting in Concentric")
-                        concentric = 1
-                        break()
-                } else if(position[currentSample] - position[startDebounceSample] < -minDisplacement){
-                        print("Starting in Eccentric")
-                        concentric = -1
-                        break()
-                }
-        }
-        
-        print(paste("force:", force[currentSample]))
-        extremesSamples = startDebounceSample
-        #debouncing = T
-        print(paste("extremeSamples:", extremesSamples))
-        print("-------------------end of First phase-------------------")
-        
-        currentSample = currentSample +1
-        
-        while(currentSample < length(position) -1){
-                
-                #Checking if it is an extreme.
-                if (concentric * position[currentSample +1] < concentric * position[currentSample]
-                    #&& concentric * position[currentSample -1] < concentric * position[currentSample]
-                    )
-                {
-                        lastRFD = (force[currentSample] - force[startDebounceSample]) / (time[currentSample] - time[startDebounceSample])
-                        lastMeanSpeed = (position[currentSample] - position[startDebounceSample]) / (time[currentSample] - time[startDebounceSample])
+
+                #Checking if the current position is at minDisplacement below the last possible extreme
+                if(concentric * position[currentSample] - concentric * position[possibleExtremeSample] < - minDisplacement
+                   #For the first phase the minDisplacement is considered much smaller in order to detect an extreme in small oscillations
+                   || (firstPhase
+                       && (concentric * position[currentSample] - concentric * position[possibleExtremeSample] < - minDisplacement / 10) )
+                   )
+                        {
                         
-                        startDebounceSample = currentSample             #The next debounces will be checked from this sample
-                        debouncing = TRUE                                  #Starting a new debounce process
-                        print(paste("startDebounceSample:", startDebounceSample))
-                        # print(paste("debouncin:", debouncing))
-                        concentric = -concentric
+                        if(firstPhase) {firstPhase = !firstPhase}               #End of the first phase special treatment
                         
-                        # print(paste(currentSample, "Concentric =", concentric))
-                        # print(paste(position[currentSample],  position[currentSample +1]))
-                        # print(paste("startDebounceSample:", startDebounceSample))
-                }
-                
-                #if debouncing, check if the position is far enough from the last extreme
-                if(debouncing && concentric * (position[currentSample] - position[startDebounceSample]) > minDisplacement){
-                        print(paste("-----------minDisplacement detected at", currentSample))
-                        print(paste("Extreme added at:", startDebounceSample))
+                        # print(paste("-----------minDisplacement detected at", currentSample))
+                        # print(paste("Extreme added at:", possibleExtremeSample))
+                        
                         #We can consider that the last extreme in an actual change of phase.
-                        extremesSamples = c(extremesSamples, startDebounceSample)
+                        extremesSamples = c(extremesSamples, possibleExtremeSample)
+                        
+                        #Save the sample of the last extrme in order to compare new samples with it
+                        lastExtremeSample = possibleExtremeSample
+                        
+                        #Changing the phase from concentric to eccentril or viceversa
+                        concentric = -concentric
+                        # print(paste("Current phase is", concentric))
+                        
+                        #Calculate mean RFD and mean speed of the phase
+                        lastRFD = (force[currentSample] - force[lastExtremeSample]) / (time[currentSample] - time[lastExtremeSample])
+                        lastMeanSpeed = (position[currentSample] - position[lastExtremeSample]) / (time[currentSample] - time[lastExtremeSample])
                         RFDs = c(RFDs, lastRFD)
                         meanSpeeds = c(meanSpeeds, lastMeanSpeed)
-                        #concentric = -concentric                        #The slope of the signal has changed
-                        print(paste("Current phase is", concentric))
-                        
-                        #End of debouncing
-                        debouncing = F
                 }
-                
+
                 currentSample = currentSample +1
         }
-        
-        #Checking if the las sample is far enough from the last extreme
-        currentSample = currentSample + 1
-        if( abs(position[currentSample] - position[startDebounceSample]) > minDisplacement ) {
-                extremesSamples = c(extremesSamples, currentSample)
-        }
+
         return(list(
-                extremesSamples = extremesSamples[1:length(extremesSamples)]
+                extremesSamples = c(extremesSamples[2:length(extremesSamples)], possibleExtremeSample)
                 , RFDs = RFDs[2:length(RFDs)]
                 , meanSpeeds = meanSpeeds[2:length(meanSpeeds)]))
 }
 
-dynamics = getDynamicsFromForceSensor(file = "/home/xpadulles/.local/share/Chronojump/forceSensor/83/1_Xavier Padullés_2019-10-02_15-31-40.csv",
-                                      smooth = 10, totalMass = 0, angle = 0, minDisplacement = 0.5)
+testDir = "/home/xpadulles/chronojump/r-scripts/tests/"
+allFiles = dir("/home/xpadulles/chronojump/r-scripts/tests/")
+
+for(i in 1:length(allFiles))
+{
+        dynamics = getDynamicsFromForceSensor(file = paste(testDir, allFiles[i], sep ="")
+                                              ,smooth = 10, totalMass = 0, angle = 0, minDisplacement = .5)
+}
+

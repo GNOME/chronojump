@@ -271,11 +271,22 @@ class SqliteForceSensor : Sqlite
 			forceSensorDir = Path.Combine(Util.GetDatabaseTempImportDir(), "forceSensor");
 
 		int unknownPersonID = Sqlite.ExistsAndGetUniqueID(true, Constants.PersonTable, Catalog.GetString("Unknown"));
+		bool personSessionExistsInSession;
 		int unknownExerciseID = Sqlite.ExistsAndGetUniqueID(true, Constants.ForceSensorExerciseTable, Catalog.GetString("Unknown"));
 
 		DirectoryInfo [] sessions = new DirectoryInfo(forceSensorDir).GetDirectories();
 		foreach (DirectoryInfo session in sessions) //session.Name will be the UniqueID
 		{
+			//if there is a session where the user manually changed the folder name (has to be a sessionID)
+			//to any other thing, then do not import this session
+			if(! Util.IsNumber(session.Name, false))
+				continue;
+
+			if(unknownPersonID == -1)
+				personSessionExistsInSession = false;
+			else
+				personSessionExistsInSession = SqlitePersonSession.PersonSelectExistsInSession(true, unknownPersonID, Convert.ToInt32(session.Name));
+
 			FileInfo[] files = session.GetFiles();
 			foreach (FileInfo file in files)
 			{
@@ -284,13 +295,11 @@ class SqliteForceSensor : Sqlite
 					new ForceSensorLoadTryToAssignPersonAndMore(true, fileWithoutExtension, Convert.ToInt32(session.Name));
 
 				Person p = fslt.GetPerson();
-				//if person is not foundz
+				//if person is not found
 				if(p.UniqueID == -1)
 				{
 					if(unknownPersonID == -1)
 					{
-//TODO: atencio pq aixo no s'esta insertant al final, s'inserta pero no sabem de moment on
-//i suposo que l'exercici tampoc
 						LogB.Information("going to insert person Unknown");
 						Person pUnknown = new Person (Catalog.GetString("Unknown"), "M", DateTime.Now,
 								Constants.RaceUndefinedID,
@@ -298,11 +307,19 @@ class SqliteForceSensor : Sqlite
 								"", "", //future1: rfid
 								Constants.ServerUndefinedID, true); //dbconOpened
 						unknownPersonID = pUnknown.UniqueID;
-
-						//el crea pero no queda guardat a la bd
 					}
 					p.UniqueID = unknownPersonID;
 					p.Name = Catalog.GetString("Unknown");
+
+					if(! personSessionExistsInSession)
+					{
+						LogB.Information("going to insert personSession");
+						PersonSession ps = new PersonSession(unknownPersonID, Convert.ToInt32(session.Name), 0, 75,
+								Constants.SportUndefinedID, Constants.SpeciallityUndefinedID, Constants.LevelUndefinedID,
+								"", true); 		//comments, dbconOpened
+
+						personSessionExistsInSession = true;
+					}
 				}
 
 				if(! Util.IsNumber(session.Name, false))

@@ -37,6 +37,12 @@ debugFile = ""
  */
 """
 
+"""
+/*
+ * note there is a diagram on diagrams/processes/import
+ */
+"""
+
 
 class Row:
     """ A row represents a row in a table: it has column-names and their values.

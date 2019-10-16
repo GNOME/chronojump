@@ -37,7 +37,10 @@ public partial class ChronoJumpWindow
 			sessionLoadWin.DisableImportToCurrentSession ();
 		}
 
+		sessionLoadWin.Button_import.Clicked -= new EventHandler(on_load_session_accepted_to_import);
 		sessionLoadWin.Button_import.Clicked += new EventHandler(on_load_session_accepted_to_import);
+		sessionLoadWin.Button_import_confirm_accept.Clicked -= new EventHandler(importSessionFromDatabasePrepare2);
+		sessionLoadWin.Button_import_confirm_accept.Clicked += new EventHandler(importSessionFromDatabasePrepare2);
 	}
 
 	//from import session
@@ -69,12 +72,22 @@ public partial class ChronoJumpWindow
 
 		chronojumpImporter = new ChronojumpImporter (app1, source_filename, destination_filename, sourceSession, destinationSessionId, preferences.debugMode);
 
-		Gtk.ResponseType response = chronojumpImporter.showImportConfirmation ();
+		if(destinationSessionId == 0)
+		{
+			sessionLoadWin.NotebookPage(2); //import do and end page
+			importSessionFromDatabasePrepare2 (new object(), new EventArgs());
+		} else
+		{
+			string sessionName = ChronojumpImporter.GetSessionName (chronojumpImporter.SourceFile, chronojumpImporter.SourceSession);
+			sessionLoadWin.LabelImportSessionName(sessionName);
+			sessionLoadWin.LabelImportFile(chronojumpImporter.SourceFile);
 
-		if (response != Gtk.ResponseType.Ok) {
-			return;
+			sessionLoadWin.NotebookPage(1); //import confirm page
 		}
+	}
 
+	private void importSessionFromDatabasePrepare2 (object o, EventArgs args)
+	{
 		LogB.Information("import before thread");	
 		LogB.PrintAllThreads = true; //TODO: remove this
 
@@ -97,6 +110,9 @@ public partial class ChronoJumpWindow
 		if ( ! threadImport.IsAlive ) {
 			LogB.ThreadEnding();
 			importSessionFromDatabaseEnd();
+
+			sessionLoadWin.Pulse(ChronojumpImporter.MessageToPulsebar);
+			sessionLoadWin.PulseEnd();
 
 			LogB.ThreadEnded();
 			return false;
@@ -156,7 +172,8 @@ public partial class ChronoJumpWindow
 
 			reloadSession ();
 
-			chronojumpImporter.showImportCorrectlyFinished ();
+			//chronojumpImporter.showImportCorrectlyFinished ();
+			sessionLoadWin.ShowLabelImportedOk();
 		} else {
 			LogB.Debug ("Chronojump Importer error: ", importerResult.error);
 			new DialogMessage (Catalog.GetString("Chronojump importer"), Constants.MessageTypes.WARNING, importerResult.error, true);

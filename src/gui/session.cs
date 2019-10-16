@@ -682,6 +682,12 @@ public class SessionLoadWindow
 	private TreeStore store;
 	private string selected;
 	private string import_file_path;
+
+	[Widget] Gtk.Notebook notebook_import;
+
+	//notebook import first tab
+	[Widget] Gtk.RadioButton radio_import_new_session;
+	[Widget] Gtk.RadioButton radio_import_current_session;
 	[Widget] Gtk.TreeView treeview_session_load;
 	[Widget] Gtk.Button button_accept;
 	[Widget] Gtk.Button button_import;
@@ -692,10 +698,17 @@ public class SessionLoadWindow
 	[Widget] Gtk.CheckButton checkbutton_show_data_other_tests;
 	[Widget] Gtk.Label file_path_import;
 	[Widget] Gtk.VBox session_import_box;
+
+	//notebook import second tab
+	[Widget] Gtk.Label label_import_session_name;
+	[Widget] Gtk.Label label_import_file;
+	[Widget] Gtk.Button button_import_confirm_accept;
+
+	//notebook import third tab
 	[Widget] Gtk.ProgressBar progressbarImport;
-	
-	[Widget] Gtk.RadioButton radio_import_new_session;
-	[Widget] Gtk.RadioButton radio_import_current_session;
+	[Widget] Gtk.Label label_import_done_at_new_session;
+	[Widget] Gtk.Label label_import_done_at_current_session;
+
 
 	static SessionLoadWindow SessionLoadWindowBox;
 	
@@ -1106,6 +1119,45 @@ public class SessionLoadWindow
 		radio_import_current_session.Sensitive = false;
 	}
 
+	public void LabelImportSessionName (string str)
+	{
+		label_import_session_name.Text = str;
+	}
+	public void LabelImportFile (string str)
+	{
+		label_import_file.Text = str;
+	}
+
+	public void Pulse(string str)
+	{
+		progressbarImport.Pulse();
+		progressbarImport.Text = str;
+	}
+	public void PulseEnd()
+	{
+		progressbarImport.Fraction = 1;
+	}
+
+	public void ShowLabelImportedOk()
+	{
+		if(radio_import_new_session.Active)
+			label_import_done_at_new_session.Visible = true;
+		else
+			label_import_done_at_current_session.Visible = true;
+	}
+
+	public void NotebookPage(int i)
+	{
+		notebook_import.CurrentPage = i;
+	}
+
+	//import notebook page 0 buttons
+	void on_button_cancel_clicked (object o, EventArgs args)
+	{
+		SessionLoadWindowBox.session_load.Hide();
+		SessionLoadWindowBox = null;
+	}
+
 	void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
 	{
 		TreeView tv = (TreeView) o;
@@ -1141,17 +1193,30 @@ public class SessionLoadWindow
 		}
 	}
 
-	public void Pulse(string str)
+	//import notebook page 1 buttons
+	private void on_button_import_confirm_back_clicked(object o, EventArgs args)
 	{
-		progressbarImport.Pulse();
-		progressbarImport.Text = str;
+		notebook_import.CurrentPage = 0;
+	}
+	private void on_button_import_confirm_accept_clicked(object o, EventArgs args)
+	{
+		notebook_import.CurrentPage = 2;
 	}
 
-	void on_button_cancel_clicked (object o, EventArgs args)
+	//import notebook page 2 buttons
+	private void on_button_import_close_clicked(object o, EventArgs args)
 	{
 		SessionLoadWindowBox.session_load.Hide();
 		SessionLoadWindowBox = null;
 	}
+	private void on_button_import_again_clicked(object o, EventArgs args)
+	{
+		label_import_done_at_new_session.Visible = false;
+		label_import_done_at_current_session.Visible = false;
+
+		notebook_import.CurrentPage = 0;
+	}
+
 	
 	void on_session_load_delete_event (object o, DeleteEventArgs args)
 	{
@@ -1166,8 +1231,11 @@ public class SessionLoadWindow
 	}
 	public Button Button_import
 	{
-		//set { button_accept = value; }
 		get { return button_import; }
+	}
+	public Button Button_import_confirm_accept
+	{
+		get { return button_import_confirm_accept; }
 	}
 	
 	public Session CurrentSession 

@@ -27,6 +27,9 @@ using Mono.Unix;
  * Copyright (C) 2019   Xavier de Blas <xaviblas@gmail.com>
  */
 
+/*
+ * note there is a diagram on diagrams/processes/import
+ */
 
 class ChronojumpImporter
 {

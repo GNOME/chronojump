@@ -263,7 +263,7 @@ class SqliteForceSensor : Sqlite
 
 	protected internal static void import_from_1_68_to_1_69() //database is opened
 	{
-		LogB.PrintAllThreads = true; //TODO: remove this
+		//LogB.PrintAllThreads = true; //TODO: remove this
 		LogB.Information("at import_from_1_68_to_1_69()");
 
 		string forceSensorDir = Util.GetForceSensorDir();
@@ -400,7 +400,7 @@ class SqliteForceSensor : Sqlite
 			}
 		}
 
-		LogB.PrintAllThreads = false; //TODO: remove this
+		//LogB.PrintAllThreads = false; //TODO: remove this
 	}
 }
 

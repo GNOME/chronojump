@@ -5,7 +5,7 @@ getDynamicsFromForceSensor <- function(file = "/home/xpadulles/.local/share/Chro
                                        totalMass = 75,
                                        angle = 0,
                                        smooth = 5,
-                                       minDisplacement = 0.1
+                                       conMinDisplacement = 0.1, eccMinDisplacement = 0.1
 )
 {
         forceSensor = read.csv(file, sep =";", dec = ",", header = TRUE)
@@ -71,7 +71,7 @@ getDynamicsFromForceSensor <- function(file = "/home/xpadulles/.local/share/Chro
         # par(new = T)
         
         #Getting the basic information of each repetition
-        repetitions = getRepetitions(dynamics[, "time"], dynamics[, "position"], dynamics[, "rawForce"], minDisplacement)
+        repetitions = getRepetitions(dynamics[, "time"], dynamics[, "position"], dynamics[, "rawForce"], conMinDisplacement, eccMinDisplacement)
         
         plot(#dynamics[, "time"]
                 dynamics[, "position"]
@@ -112,7 +112,7 @@ getDynamicsFromForceSensor <- function(file = "/home/xpadulles/.local/share/Chro
         )
 }
 
-getRepetitions <- function(time, position, force, minDisplacement){
+getRepetitions <- function(time, position, force, conMinDisplacement, eccMinDisplacement){
         
         #The comments supposes that the current phase is concentric. In the case that the phase is eccentric
         #the signal is inverted by multiplying it by -1.
@@ -137,7 +137,13 @@ getRepetitions <- function(time, position, force, minDisplacement){
 
         #Detecting the first phase type
         if(position[currentSample] > position[possibleExtremeSample])
-        {concentric = 1} else {concentric = -1}
+        {
+                concentric = 1
+                minDisplacement = eccMinDisplacement
+        
+        } else {
+                concentric = -1
+                minDisplacement = conMinDisplacement}
         
         #print(paste("starting in mode:", concentric) )
 
@@ -172,7 +178,11 @@ getRepetitions <- function(time, position, force, minDisplacement){
                         
                         #Changing the phase from concentric to eccentril or viceversa
                         concentric = -concentric
-                        # print(paste("Current phase is", concentric))
+                        if (concentric == 1){
+                                minDisplacement = eccMinDisplacement
+                        } else {
+                                minDisplacement = conMinDisplacement
+                        }
                         
                         #Calculate mean RFD and mean speed of the phase
                         lastRFD = (force[currentSample] - force[lastExtremeSample]) / (time[currentSample] - time[lastExtremeSample])
@@ -190,12 +200,11 @@ getRepetitions <- function(time, position, force, minDisplacement){
                 , meanSpeeds = meanSpeeds[2:length(meanSpeeds)]))
 }
 
-testDir = "/home/xpadulles/chronojump/r-scripts/tests/"
-allFiles = dir("/home/xpadulles/chronojump/r-scripts/tests/")
+testDir = "/home/xpadulles/Descargas/Piscina-mati/separat-per-punticoma/"
+allFiles = dir(testDir)
 
-for(i in 1:length(allFiles))
+for(i in 1:5)
 {
         dynamics = getDynamicsFromForceSensor(file = paste(testDir, allFiles[i], sep ="")
-                                              ,smooth = 10, totalMass = 0, angle = 0, minDisplacement = .5)
+                                              ,smooth = 10, totalMass = 0, angle = 0, conMinDisplacement = 0.5, eccMinDisplacement = 0.1)
 }
-

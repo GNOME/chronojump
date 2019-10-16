@@ -157,8 +157,9 @@ void loop() {
 }
 
 void changingA() {
+  bool photocellB = digitalRead(encoderPinB);
   changingTime = micros();
-  if (digitalRead(encoderPinB) == HIGH) {
+  if (photocellB == HIGH) {
     encoderDisplacement--;
     //digitalWrite(13, HIGH);
   } else {

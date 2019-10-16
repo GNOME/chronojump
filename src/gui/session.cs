@@ -28,8 +28,8 @@ using System.Collections; //ArrayList
 using Mono.Unix;
 
 
-public class SessionAddEditWindow {
-	
+public class SessionAddEditWindow
+{
 	[Widget] Gtk.Window session_add_edit;
 	[Widget] Gtk.Entry entry_name;
 	[Widget] Gtk.Entry entry_place;
@@ -670,8 +670,8 @@ public class SessionAddEditWindow {
 }
 
 
-public class SessionLoadWindow {
-
+public class SessionLoadWindow
+{
 	public enum WindowType
 	{
 		LOAD_SESSION,
@@ -684,6 +684,8 @@ public class SessionLoadWindow {
 	private string import_file_path;
 	[Widget] Gtk.TreeView treeview_session_load;
 	[Widget] Gtk.Button button_accept;
+	[Widget] Gtk.Button button_import;
+	[Widget] Gtk.Image image_import;
 	[Widget] Gtk.Entry entry_search_filter;
 	[Widget] Gtk.Image image_open_database;
 	[Widget] Gtk.CheckButton checkbutton_show_data_jump_run;
@@ -700,7 +702,8 @@ public class SessionLoadWindow {
 	private Session currentSession;
 	private WindowType type;
 
-	SessionLoadWindow (Gtk.Window parent, WindowType type) {
+	SessionLoadWindow (Gtk.Window parent, WindowType type)
+	{
 		this.type = type;
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "session_load.glade", "session_load", null);
@@ -713,8 +716,12 @@ public class SessionLoadWindow {
 		checkbutton_show_data_jump_run.Visible = (type == WindowType.LOAD_SESSION);
 
 		if (type == WindowType.LOAD_SESSION) {
+			button_accept.Visible = true;
+			button_import.Visible = false;
 			session_load.Title = Catalog.GetString ("Load session");
 		} else {
+			button_accept.Visible = false;
+			button_import.Visible = true;
 			session_load.Title = Catalog.GetString ("Import session");
 		}
 
@@ -722,6 +729,7 @@ public class SessionLoadWindow {
 		UtilGtk.IconWindow(session_load);
 
 		image_open_database.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_open.png");
+		image_import.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameImport);
 
 		createTreeView(treeview_session_load, false, false);
 		store = getStore(false, false);
@@ -732,6 +740,7 @@ public class SessionLoadWindow {
 		store.ChangeSortColumn();
 
 		button_accept.Sensitive = false;
+		button_import.Sensitive = false;
 		entry_search_filter.CanFocus = true;
 		entry_search_filter.IsFocus = true;
 
@@ -1066,8 +1075,11 @@ public class SessionLoadWindow {
 		if (((TreeSelection)o).GetSelected(out model, out iter)) {
 			selected = (string)model.GetValue (iter, 0);
 			button_accept.Sensitive = true;
-		} else
+			button_import.Sensitive = true;
+		} else {
 			button_accept.Sensitive = false;
+			button_import.Sensitive = false;
+		}
 	}
 
 	public int CurrentSessionId() {
@@ -1104,8 +1116,12 @@ public class SessionLoadWindow {
 			//put selection in selected
 			selected = (string) model.GetValue (iter, 0);
 
-			//activate on_button_accept_clicked()
-			button_accept.Activate();
+			if (type == WindowType.LOAD_SESSION) {
+				//activate on_button_accept_clicked()
+				button_accept.Activate();
+			} else {
+				button_import.Activate();
+			}
 		}
 	}
 	
@@ -1118,9 +1134,17 @@ public class SessionLoadWindow {
 		}
 	}
 
-	public void Pulse()
+	void on_button_import_clicked (object o, EventArgs args)
+	{
+		if(selected != "-1") {
+			currentSession = SqliteSession.Select (selected);
+		}
+	}
+
+	public void Pulse(string str)
 	{
 		progressbarImport.Pulse();
+		progressbarImport.Text = str;
 	}
 
 	void on_button_cancel_clicked (object o, EventArgs args)
@@ -1140,6 +1164,11 @@ public class SessionLoadWindow {
 		set { button_accept = value; }
 		get { return button_accept; }
 	}
+	public Button Button_import
+	{
+		//set { button_accept = value; }
+		get { return button_import; }
+	}
 	
 	public Session CurrentSession 
 	{
@@ -1148,8 +1177,8 @@ public class SessionLoadWindow {
 
 }
 
-public class SessionSelectStatsWindow {
-	
+public class SessionSelectStatsWindow
+{
 	[Widget] Gtk.Window stats_select_sessions;
 	
 	private TreeStore store1;

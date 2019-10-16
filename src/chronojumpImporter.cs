@@ -33,6 +33,8 @@ using Mono.Unix;
 
 class ChronojumpImporter
 {
+	public static string MessageToPulsebar;
+
 	// Database that it's importing from
 	private string sourceFile;
 
@@ -78,6 +80,7 @@ class ChronojumpImporter
 		this.sourceSession = sourceSession;
 		this.destinationSession = destinationSession;
 		this.debugToFile = debugToFile;
+		MessageToPulsebar = "";
 	}
 
 	// Shows a dialogue to the user and lets him cancel the operation. The dialog information depends on
@@ -137,6 +140,7 @@ class ChronojumpImporter
 	{
 		//1) create temp dir for forceSensor and runEncoder and copy files there, original files will not be used
 		//   no need to be done for encoder files because there we will not to change filename
+		MessageToPulsebar = "Copying temporary files";
 
 LogB.Information("import A ");
 		string tempImportDir = Util.GetDatabaseTempImportDir();
@@ -161,12 +165,12 @@ LogB.Information("import E ");
 LogB.Information("import F ");
 
 		string sourceDir = Path.GetDirectoryName(sourceFile);
-		if(Directory.Exists(Path.Combine(sourceDir, "..", forceSensorName)))
+		if(Directory.Exists(Path.Combine(sourceDir, "..", forceSensorName, sourceSession.ToString())))
 			foreach (FileInfo file in new DirectoryInfo(Path.Combine(sourceDir, "..", forceSensorName, sourceSession.ToString())).GetFiles())
 				file.CopyTo(Path.Combine(tempImportDir, forceSensorName, sourceSession.ToString(), file.Name));
 
 LogB.Information("import G ");
-		if(Directory.Exists(Path.Combine(sourceDir, "..", raceAnalyzerName)))
+		if(Directory.Exists(Path.Combine(sourceDir, "..", raceAnalyzerName, sourceSession.ToString())))
 			foreach (FileInfo file in new DirectoryInfo(Path.Combine(sourceDir, "..", raceAnalyzerName, sourceSession.ToString())).GetFiles())
 				file.CopyTo(Path.Combine(tempImportDir, raceAnalyzerName, sourceSession.ToString(), file.Name));
 
@@ -174,6 +178,7 @@ LogB.Information("import H ");
 
 		//2) prepare SQL files
 
+		MessageToPulsebar = "Preparing database";
 		string temporarySourceFile = Path.GetTempFileName ();
 		File.Copy (sourceFile, temporarySourceFile, true);
 
@@ -192,16 +197,19 @@ LogB.Information("import A ");
 
 		//3 check version of database to be imported
 
+		MessageToPulsebar = "Checking version";
 		if (destinationDatabaseVersionNum < sourceDatabaseVersionNum) {
 			return new Result (false, Catalog.GetString ("Trying to import a newer database version than this Chronojump\n" +
 				"Please, update the running Chronojump."));
 		} else if (destinationDatabaseVersionNum > sourceDatabaseVersionNum) {
 			LogB.Debug ("chronojump-importer version before update: ", sourceDatabaseVersion.output);
+			MessageToPulsebar = "Updating database";
 			updateDatabase (temporarySourceFile);
 			string versionAfterUpdate = getDatabaseVersionFromFile (temporarySourceFile).output;
 			LogB.Debug ("chronojump-importer version after update: ", versionAfterUpdate);
 		}
 
+		MessageToPulsebar = "Starting import";
 		List<string> parameters = new List<string> ();
 		parameters.Add ("--source");
 		parameters.Add (temporarySourceFile);

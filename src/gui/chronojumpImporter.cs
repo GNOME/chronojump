@@ -37,7 +37,7 @@ public partial class ChronoJumpWindow
 			sessionLoadWin.DisableImportToCurrentSession ();
 		}
 
-		sessionLoadWin.Button_accept.Clicked += new EventHandler(on_load_session_accepted_to_import);
+		sessionLoadWin.Button_import.Clicked += new EventHandler(on_load_session_accepted_to_import);
 	}
 
 	//from import session
@@ -101,10 +101,10 @@ public partial class ChronoJumpWindow
 			LogB.ThreadEnded();
 			return false;
 		}
-	
-		sessionLoadWin.Pulse(); //TODO: sessionLoadWin is hidden, show genericWin or do not hide that win on import and show messages like confirm and this pulsebar there
 
-		Thread.Sleep (30);
+		sessionLoadWin.Pulse(ChronojumpImporter.MessageToPulsebar);
+
+		Thread.Sleep (100);
 		//LogB.Debug(threadImport.ThreadState.ToString());
 		return true;
 	}

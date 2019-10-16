@@ -690,6 +690,7 @@ public class SessionLoadWindow {
 	[Widget] Gtk.CheckButton checkbutton_show_data_other_tests;
 	[Widget] Gtk.Label file_path_import;
 	[Widget] Gtk.VBox session_import_box;
+	[Widget] Gtk.ProgressBar progressbarImport;
 	
 	[Widget] Gtk.RadioButton radio_import_new_session;
 	[Widget] Gtk.RadioButton radio_import_current_session;
@@ -1116,7 +1117,12 @@ public class SessionLoadWindow {
 			SessionLoadWindowBox = null;
 		}
 	}
-	
+
+	public void Pulse()
+	{
+		progressbarImport.Pulse();
+	}
+
 	void on_button_cancel_clicked (object o, EventArgs args)
 	{
 		SessionLoadWindowBox.session_load.Hide();

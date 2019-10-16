@@ -259,7 +259,7 @@ class SqliteRunEncoder : Sqlite
 
 	protected internal static void import_from_1_70_to_1_71() //database is opened
 	{
-		LogB.PrintAllThreads = true; //TODO: remove this
+		//LogB.PrintAllThreads = true; //TODO: remove this
 		LogB.Information("at import_from_1_70_to_1_71()");
 
 		string raceAnalyzerDir = Util.GetRunEncoderDir();
@@ -269,7 +269,7 @@ class SqliteRunEncoder : Sqlite
 		if(! Directory.Exists(raceAnalyzerDir))
 		{
 			LogB.Information("nothing to import");
-			LogB.PrintAllThreads = false; //TODO: remove this
+			//LogB.PrintAllThreads = false; //TODO: remove this
 			return;
 		}
 
@@ -330,7 +330,7 @@ class SqliteRunEncoder : Sqlite
 			SqliteRunEncoderExercise.Insert(true, 0, "Sprint", "");
 
 		LogB.Information("end of import_from_1_70_to_1_71()");
-		LogB.PrintAllThreads = false; //TODO: remove this
+		//LogB.PrintAllThreads = false; //TODO: remove this
 	}
 
 }

@@ -57,6 +57,7 @@ src/execute/run.cs
 src/exportSession.cs
 src/forceSensor.cs
 src/gui/chronojump.cs
+src/gui/chronojumpImporter.cs
 src/gui/chronopic.cs
 src/gui/chronopicRegister.cs
 src/gui/convertWeight.cs

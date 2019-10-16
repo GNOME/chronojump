@@ -83,6 +83,10 @@ class ChronojumpImporter
 		MessageToPulsebar = "";
 	}
 
+	/*
+	 * interesting method for showing a dialog on the future
+	 * now we do not used because there is a notebook on session_load
+	 *
 	// Shows a dialogue to the user and lets him cancel the operation. The dialog information depends on
 	// this class configuration: depends if the session is going to be inserted in a new session or an
 	// existing one.
@@ -90,7 +94,7 @@ class ChronojumpImporter
 	public Gtk.ResponseType showImportConfirmation()
 	{
 		string message;
-		string sessionName = getSessionName (sourceFile, sourceSession);
+		string sessionName = GetSessionName (sourceFile, sourceSession);
 
 		if (importsToNew ()) {
 			// We don't need any confirmation to import into a new session (the user could delete it easily if it was a mistake)
@@ -113,18 +117,7 @@ class ChronojumpImporter
 			return response;
 		}
 	}
-
-	public void showImportCorrectlyFinished()
-	{
-		string message;
-
-		if (importsToNew()) {
-			message = Catalog.GetString ("Imported to a new session. You can load it now in Session - Load.");
-		} else {
-			message = Catalog.GetString ("Data merged into the open session.");
-		}
-		new DialogMessage (Catalog.GetString("Chronojump importer"), Constants.MessageTypes.INFO, message);
-	}
+	*/
 
 	private bool importsToNew()
 	{
@@ -238,6 +231,7 @@ LogB.Information("import A ");
 
 		Result result = executeChronojumpImporter (parameters);
 
+		MessageToPulsebar = "Done!";
 		File.Delete (temporarySourceFile);
 
 		return result;
@@ -291,7 +285,7 @@ LogB.Information("import A ");
 		}
 	}
 
-	private static string getSessionName(string filePath, int sessionId)
+	public static string GetSessionName(string filePath, int sessionId)
 	{
 		Result information = getImporterInformation (filePath);
 		if (information.success == false) {
@@ -368,4 +362,15 @@ LogB.Information("import A ");
 		// All good, returns the output
 		return new Result (true, execute_result.allOutput);
 	}
+
+	public string SourceFile
+	{
+		get { return sourceFile; }
+	}
+
+	public int SourceSession
+	{
+		get { return sourceSession; }
+	}
+
 }

@@ -685,31 +685,36 @@ public class SessionLoadWindow
 
 	[Widget] Gtk.Notebook notebook_import;
 
-	//notebook import first tab
+	//notebook import tab 0
 	[Widget] Gtk.RadioButton radio_import_new_session;
 	[Widget] Gtk.RadioButton radio_import_current_session;
+	[Widget] Gtk.Image image_open_database;
+
+	//notebook import tab 1
 	[Widget] Gtk.TreeView treeview_session_load;
 	[Widget] Gtk.Button button_accept;
 	[Widget] Gtk.Button button_import;
 	[Widget] Gtk.Image image_import;
 	[Widget] Gtk.Entry entry_search_filter;
-	[Widget] Gtk.Image image_open_database;
 	[Widget] Gtk.CheckButton checkbutton_show_data_jump_run;
 	[Widget] Gtk.CheckButton checkbutton_show_data_other_tests;
 	[Widget] Gtk.Label file_path_import;
-	[Widget] Gtk.VBox session_import_box;
+	[Widget] Gtk.HButtonBox hbuttonbox_page1_load;
+	[Widget] Gtk.HButtonBox hbuttonbox_page1_import;
 
-	//notebook import second tab
+	//notebook import tab 2
 	[Widget] Gtk.Label label_import_session_name;
 	[Widget] Gtk.Label label_import_file;
 	[Widget] Gtk.Button button_import_confirm_accept;
 
-	//notebook import third tab
+	//notebook import tab 3
 	[Widget] Gtk.ProgressBar progressbarImport;
 	[Widget] Gtk.Label label_import_done_at_new_session;
 	[Widget] Gtk.Label label_import_done_at_current_session;
 	[Widget] Gtk.ScrolledWindow scrolledwindow_import_error;
 	[Widget] Gtk.TextView textview_import_error;
+	[Widget] Gtk.Image image_import1;
+	[Widget] Gtk.HButtonBox hbuttonbox_page3;
 
 
 	static SessionLoadWindow SessionLoadWindowBox;
@@ -717,27 +722,33 @@ public class SessionLoadWindow
 	private Session currentSession;
 	private WindowType type;
 
-	SessionLoadWindow (Gtk.Window parent, WindowType type)
+	const int PAGE_IMPORT_START = 0;
+	const int PAGE_SELECT_SESSION = 1; //for load session and for import
+	public const int PAGE_IMPORT_CONFIRM = 2;
+	public const int PAGE_IMPORT_RESULT = 3;
+
+	SessionLoadWindow (Gtk.Window parent)
 	{
-		this.type = type;
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "session_load.glade", "session_load", null);
 		gladeXML.Autoconnect(this);
 		session_load.Parent = parent;
+	}
 
-		// Hides and shows widgets only needed by some of the functionality
-		session_import_box.Visible = (type == WindowType.IMPORT_SESSION);
-		checkbutton_show_data_other_tests.Visible = (type == WindowType.LOAD_SESSION);
-		checkbutton_show_data_jump_run.Visible = (type == WindowType.LOAD_SESSION);
-
+	private void initializeGui()
+	{
 		if (type == WindowType.LOAD_SESSION) {
-			button_accept.Visible = true;
-			button_import.Visible = false;
+			file_path_import.Visible = false;
+			hbuttonbox_page1_load.Visible = true;
+			hbuttonbox_page1_import.Visible = false;
 			session_load.Title = Catalog.GetString ("Load session");
+			notebook_import.CurrentPage = PAGE_SELECT_SESSION;
 		} else {
-			button_accept.Visible = false;
-			button_import.Visible = true;
+			file_path_import.Visible = true;
+			hbuttonbox_page1_load.Visible = false;
+			hbuttonbox_page1_import.Visible = true;
 			session_load.Title = Catalog.GetString ("Import session");
+			notebook_import.CurrentPage = PAGE_IMPORT_START;
 		}
 
 		//put an icon to window
@@ -745,6 +756,7 @@ public class SessionLoadWindow
 
 		image_open_database.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_open.png");
 		image_import.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameImport);
+		image_import1.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameImport);
 
 		createTreeView(treeview_session_load, false, false);
 		store = getStore(false, false);
@@ -837,8 +849,11 @@ public class SessionLoadWindow
 	static public SessionLoadWindow Show (Gtk.Window parent, WindowType type)
 	{
 		if (SessionLoadWindowBox == null) {
-			SessionLoadWindowBox = new SessionLoadWindow (parent, type);
+			SessionLoadWindowBox = new SessionLoadWindow (parent);
 		}
+
+		SessionLoadWindowBox.type = type;
+		SessionLoadWindowBox.initializeGui();
 		SessionLoadWindowBox.recreateTreeView("loaded the dialog");
 
 		SessionLoadWindowBox.session_load.Show ();
@@ -898,9 +913,6 @@ public class SessionLoadWindow
 	protected void on_entry_search_filter_changed (object o, EventArgs args) {
 		recreateTreeView("changed search filter");
 	}
-	protected void on_select_file_import_clicked(object o, EventArgs args) {
-		chooseDatabaseToImport ();
-	}
 
 	private void chooseDatabaseToImport()
 	{
@@ -919,6 +931,7 @@ public class SessionLoadWindow
 			//file_path_import.Text = System.IO.Path.GetFileName (import_file_path);
 			file_path_import.Text = import_file_path;
 			file_path_import.TooltipText = import_file_path;
+			notebook_import.CurrentPage = PAGE_SELECT_SESSION;
 		}
 		filechooser.Destroy ();
 		recreateTreeView ("file path changed");
@@ -1138,6 +1151,7 @@ public class SessionLoadWindow
 	public void PulseEnd()
 	{
 		progressbarImport.Fraction = 1;
+		hbuttonbox_page3.Sensitive = true;
 	}
 
 	public void ShowLabelImportedOk()
@@ -1156,11 +1170,24 @@ public class SessionLoadWindow
 
 	public void NotebookPage(int i)
 	{
+		if(i == PAGE_IMPORT_RESULT)
+			hbuttonbox_page3.Sensitive = false;
+
 		notebook_import.CurrentPage = i;
 	}
 
 	//import notebook page 0 buttons
-	void on_button_cancel_clicked (object o, EventArgs args)
+	void on_button_cancel0_clicked (object o, EventArgs args)
+	{
+		SessionLoadWindowBox.session_load.Hide();
+		SessionLoadWindowBox = null;
+	}
+	protected void on_select_file_import_clicked(object o, EventArgs args) {
+		chooseDatabaseToImport ();
+	}
+
+	//import notebook page 1 (load sesion) buttons
+	void on_button_cancel1_clicked (object o, EventArgs args)
 	{
 		SessionLoadWindowBox.session_load.Hide();
 		SessionLoadWindowBox = null;
@@ -1172,6 +1199,7 @@ public class SessionLoadWindow
 		TreeModel model;
 		TreeIter iter;
 
+		LogB.Information("double! type: " + type.ToString());
 		if (tv.Selection.GetSelected (out model, out iter)) {
 			//put selection in selected
 			selected = (string) model.GetValue (iter, 0);
@@ -1194,6 +1222,11 @@ public class SessionLoadWindow
 		}
 	}
 
+	//import notebook page 1 (import) buttons
+	void on_button_back_clicked (object o, EventArgs args)
+	{
+		notebook_import.CurrentPage = PAGE_IMPORT_START;
+	}
 	void on_button_import_clicked (object o, EventArgs args)
 	{
 		if(selected != "-1") {
@@ -1201,17 +1234,18 @@ public class SessionLoadWindow
 		}
 	}
 
-	//import notebook page 1 buttons
+	//import notebook page 2 buttons
 	private void on_button_import_confirm_back_clicked(object o, EventArgs args)
 	{
-		notebook_import.CurrentPage = 0;
+		notebook_import.CurrentPage = PAGE_IMPORT_START;
 	}
 	private void on_button_import_confirm_accept_clicked(object o, EventArgs args)
 	{
-		notebook_import.CurrentPage = 2;
+		hbuttonbox_page3.Sensitive = false;
+		notebook_import.CurrentPage = PAGE_IMPORT_RESULT;
 	}
 
-	//import notebook page 2 buttons
+	//import notebook page 3 buttons
 	private void on_button_import_close_clicked(object o, EventArgs args)
 	{
 		SessionLoadWindowBox.session_load.Hide();
@@ -1223,7 +1257,7 @@ public class SessionLoadWindow
 		label_import_done_at_current_session.Visible = false;
 		scrolledwindow_import_error.Visible = false;
 
-		notebook_import.CurrentPage = 0;
+		notebook_import.CurrentPage = PAGE_IMPORT_START;
 	}
 
 	

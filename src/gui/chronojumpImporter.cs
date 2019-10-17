@@ -73,7 +73,7 @@ public partial class ChronoJumpWindow
 
 		if(destinationSessionId == 0)
 		{
-			sessionLoadWin.NotebookPage(2); //import do and end page
+			sessionLoadWin.NotebookPage(SessionLoadWindow.PAGE_IMPORT_RESULT); //import do and end page
 			importSessionFromDatabasePrepare2 (new object(), new EventArgs());
 		} else
 		{
@@ -81,7 +81,7 @@ public partial class ChronoJumpWindow
 			sessionLoadWin.LabelImportSessionName(sessionName);
 			sessionLoadWin.LabelImportFile(chronojumpImporter.SourceFile);
 
-			sessionLoadWin.NotebookPage(1); //import confirm page
+			sessionLoadWin.NotebookPage(SessionLoadWindow.PAGE_IMPORT_CONFIRM); //import confirm page
 		}
 	}
 

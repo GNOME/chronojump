@@ -21,7 +21,6 @@
 using Gtk;
 using System;
 using System.Threading;
-using Mono.Unix;
 
 public partial class ChronoJumpWindow
 {
@@ -176,7 +175,7 @@ public partial class ChronoJumpWindow
 			sessionLoadWin.ShowLabelImportedOk();
 		} else {
 			LogB.Debug ("Chronojump Importer error: ", importerResult.error);
-			new DialogMessage (Catalog.GetString("Chronojump importer"), Constants.MessageTypes.WARNING, importerResult.error, true);
+			sessionLoadWin.ShowImportError(importerResult.error);
 		}
 	}
 }

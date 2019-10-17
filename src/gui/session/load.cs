@@ -43,6 +43,19 @@ public class SessionLoadWindow
 
 	[Widget] Gtk.Notebook notebook_import;
 
+	/*
+	 * when fillTreeView() is called, it executes:
+	 * SqliteSessionSwitcher sessionSwitcher = new SqliteSessionSwitcher (databaseType, import_file_path);
+	 *
+	 * then if we finally import the session (on current session or on new session), there's a reloadSession() call
+	 * that makes the connection point to client database (and not the database being imported),
+	 * but if we cancel after the fillTreeView()
+	 * then Chronojump continues on old db until load session is called,
+	 * so this fakeButton_cancel_maybeDatabaseSwitched
+	 * ensure to do a reloadSession() if cancel buttons are clicked or on delete_event
+	 */
+	[Widget] Gtk.Button fakeButton_cancel_maybeDatabaseSwitched;
+
 	//notebook import tab 0
 	[Widget] Gtk.RadioButton radio_import_new_session;
 	[Widget] Gtk.RadioButton radio_import_current_session;
@@ -144,6 +157,8 @@ public class SessionLoadWindow
 			chooseDatabaseToImport ();
 		}
 		*/
+
+		fakeButton_cancel_maybeDatabaseSwitched = new Gtk.Button();
 	}
 
 	private TreeStore getStore(bool showContacts, bool showEncoderAndForceSensor) {
@@ -537,8 +552,11 @@ public class SessionLoadWindow
 	//import notebook page 0 buttons
 	void on_button_cancel0_clicked (object o, EventArgs args)
 	{
+		/*
 		SessionLoadWindowBox.session_load.Hide();
 		SessionLoadWindowBox = null;
+		*/
+		fakeButton_cancel_maybeDatabaseSwitched.Click();
 	}
 	protected void on_select_file_import_clicked(object o, EventArgs args) {
 		chooseDatabaseToImport ();
@@ -547,8 +565,11 @@ public class SessionLoadWindow
 	//import notebook page 1 (load sesion) buttons
 	void on_button_cancel1_clicked (object o, EventArgs args)
 	{
+		/*
 		SessionLoadWindowBox.session_load.Hide();
 		SessionLoadWindowBox = null;
+		*/
+		fakeButton_cancel_maybeDatabaseSwitched.Click();
 	}
 
 	void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
@@ -621,8 +642,27 @@ public class SessionLoadWindow
 	
 	void on_session_load_delete_event (object o, DeleteEventArgs args)
 	{
+		/*
 		SessionLoadWindowBox.session_load.Hide();
 		SessionLoadWindowBox = null;
+		*/
+		//read fakeButton_cancel_maybeDatabaseSwitched comment on the top of this file
+
+		args.RetVal = true;
+		fakeButton_cancel_maybeDatabaseSwitched.Click();
+	}
+
+	public void HideAndNull()
+	{
+		if(SessionLoadWindowBox.session_load != null)
+			SessionLoadWindowBox.session_load.Hide();
+
+		SessionLoadWindowBox = null;
+	}
+
+	public Button FakeButton_cancel_maybeDatabaseSwitched
+	{
+		get { return fakeButton_cancel_maybeDatabaseSwitched; }
 	}
 
 	public Button Button_accept 

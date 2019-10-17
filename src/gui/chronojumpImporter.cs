@@ -40,6 +40,14 @@ public partial class ChronoJumpWindow
 		sessionLoadWin.Button_import.Clicked += new EventHandler(on_load_session_accepted_to_import);
 		sessionLoadWin.Button_import_confirm_accept.Clicked -= new EventHandler(importSessionFromDatabasePrepare2);
 		sessionLoadWin.Button_import_confirm_accept.Clicked += new EventHandler(importSessionFromDatabasePrepare2);
+		sessionLoadWin.FakeButton_cancel_maybeDatabaseSwitched.Clicked -= new EventHandler(on_import_cancelled_maybe_database_switched);
+		sessionLoadWin.FakeButton_cancel_maybeDatabaseSwitched.Clicked += new EventHandler(on_import_cancelled_maybe_database_switched);
+	}
+
+	private void on_import_cancelled_maybe_database_switched (object o, EventArgs args)
+	{
+		sessionLoadWin.HideAndNull();
+		reloadSession();
 	}
 
 	//from import session
@@ -90,7 +98,6 @@ public partial class ChronoJumpWindow
 		LogB.Information("import before thread");	
 		LogB.PrintAllThreads = true; //TODO: remove this
 
-		//with threads DOES NOT WORK
 		threadImport = new Thread(new ThreadStart(importSessionFromDatabaseDo));
 		GLib.Idle.Add (new GLib.IdleHandler (PulseGTKImport));
 

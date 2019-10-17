@@ -708,6 +708,8 @@ public class SessionLoadWindow
 	[Widget] Gtk.ProgressBar progressbarImport;
 	[Widget] Gtk.Label label_import_done_at_new_session;
 	[Widget] Gtk.Label label_import_done_at_current_session;
+	[Widget] Gtk.ScrolledWindow scrolledwindow_import_error;
+	[Widget] Gtk.TextView textview_import_error;
 
 
 	static SessionLoadWindow SessionLoadWindowBox;
@@ -1146,6 +1148,12 @@ public class SessionLoadWindow
 			label_import_done_at_current_session.Visible = true;
 	}
 
+	public void ShowImportError(string str)
+	{
+		scrolledwindow_import_error.Visible = true;
+		textview_import_error.Buffer.Text = str;
+	}
+
 	public void NotebookPage(int i)
 	{
 		notebook_import.CurrentPage = i;
@@ -1213,6 +1221,7 @@ public class SessionLoadWindow
 	{
 		label_import_done_at_new_session.Visible = false;
 		label_import_done_at_current_session.Visible = false;
+		scrolledwindow_import_error.Visible = false;
 
 		notebook_import.CurrentPage = 0;
 	}

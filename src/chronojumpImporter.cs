@@ -33,7 +33,7 @@ using Mono.Unix;
 
 class ChronojumpImporter
 {
-	public static string MessageToPulsebar;
+	public string MessageToPulsebar;
 
 	// Database that it's importing from
 	private string sourceFile;

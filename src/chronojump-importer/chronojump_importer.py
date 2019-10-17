@@ -287,12 +287,12 @@ class Database:
         suffix = re.match("(.*) \(([0-9]+)\)", value)
 
         if suffix is None:
-            return "{} (1)".format(value)
+            return u"{} (1)".format(value)
         else:
             base_name = suffix.group(1)
             counter = int(suffix.group(2))
             counter += 1
-            return "{} ({})".format(base_name, counter)
+            return u"{} ({})".format(base_name, counter)
 
     @staticmethod
     def _add_prefix(list_of_elements, prefix):

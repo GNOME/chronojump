@@ -3,6 +3,7 @@
 
 getDynamicsFromForceSensor <- function(file = "/home/xpadulles/.local/share/Chronojump/forceSensor/83/1_Xavier Padullés_2019-10-01_13-03-41.csv",
                                        totalMass = 75,
+				       stiffness = 71.93, 	#71.93 N/m measured in the black rubber
                                        angle = 0,
                                        smooth = 5,
                                        minDisplacement = 0.1
@@ -12,7 +13,7 @@ getDynamicsFromForceSensor <- function(file = "/home/xpadulles/.local/share/Chro
         colnames(forceSensor) = c("time", "rawForce")
         forceSensor$time = forceSensor$time / 1E6                               #Converting microseconds to seconds
         
-        position = forceSensor$rawForce/71.97                                   #71.93 N/m measured in the black rubber
+        position = forceSensor$rawForce / stiffness
         position2 = filter(position, rep(1/smooth, smooth, sides = 2))          #Moving average
         
         speed = NA
@@ -196,6 +197,6 @@ allFiles = dir("/home/xpadulles/chronojump/r-scripts/tests/")
 for(i in 1:length(allFiles))
 {
         dynamics = getDynamicsFromForceSensor(file = paste(testDir, allFiles[i], sep ="")
-                                              ,smooth = 10, totalMass = 0, angle = 0, minDisplacement = .5)
+                                              ,smooth = 10, totalMass = 0, stiffness = 71.93, angle = 0, minDisplacement = .5)
 }
 

@@ -92,7 +92,9 @@ src/gui/runEncoder.cs
 src/gui/runType.cs
 src/gui/sendLog.cs
 src/gui/server.cs
-src/gui/session.cs
+src/gui/session/addEdit.cs
+src/gui/session/load.cs
+src/gui/session/selectStats.cs
 src/gui/splash.cs
 src/gui/sprint.cs
 src/gui/stats.cs

@@ -110,14 +110,14 @@ public partial class ChronoJumpWindow
 			LogB.ThreadEnding();
 			importSessionFromDatabaseEnd();
 
-			sessionLoadWin.Pulse(ChronojumpImporter.MessageToPulsebar);
+			sessionLoadWin.Pulse(chronojumpImporter.MessageToPulsebar);
 			sessionLoadWin.PulseEnd();
 
 			LogB.ThreadEnded();
 			return false;
 		}
 
-		sessionLoadWin.Pulse(ChronojumpImporter.MessageToPulsebar);
+		sessionLoadWin.Pulse(chronojumpImporter.MessageToPulsebar);
 
 		Thread.Sleep (100);
 		//LogB.Debug(threadImport.ThreadState.ToString());

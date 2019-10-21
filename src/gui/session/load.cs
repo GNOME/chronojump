@@ -565,11 +565,8 @@ public class SessionLoadWindow
 	//import notebook page 1 (load sesion) buttons
 	void on_button_cancel1_clicked (object o, EventArgs args)
 	{
-		/*
 		SessionLoadWindowBox.session_load.Hide();
 		SessionLoadWindowBox = null;
-		*/
-		fakeButton_cancel_maybeDatabaseSwitched.Click();
 	}
 
 	void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)

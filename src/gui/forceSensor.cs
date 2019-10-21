@@ -387,6 +387,7 @@ public partial class ChronoJumpWindow
 		else if (o == (object) button_execute_test)
 		{
 			forceSensorButtonsSensitive(false);
+			sensitiveLastTestButtons(false);
 
 			textview_force_sensor_capture_comment.Buffer.Text = "";
 			assignCurrentForceSensorExercise();

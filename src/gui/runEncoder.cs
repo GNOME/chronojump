@@ -217,6 +217,7 @@ public partial class ChronoJumpWindow
 
 		runEncoderPulseMessage = "";
 		runEncoderButtonsSensitive(false);
+		sensitiveLastTestButtons(false);
 
 		if(chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER) == 0)
 		{

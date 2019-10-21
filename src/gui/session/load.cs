@@ -60,6 +60,8 @@ public class SessionLoadWindow
 	[Widget] Gtk.RadioButton radio_import_new_session;
 	[Widget] Gtk.RadioButton radio_import_current_session;
 	[Widget] Gtk.Image image_open_database;
+	[Widget] Gtk.Label label_open_database_file;
+	[Widget] Gtk.Button button_select_file_import_same_database;
 
 	//notebook import tab 1
 	[Widget] Gtk.TreeView treeview_session_load;
@@ -119,6 +121,7 @@ public class SessionLoadWindow
 			hbuttonbox_page1_load.Visible = false;
 			hbuttonbox_page1_import.Visible = true;
 			session_load.Title = Catalog.GetString ("Import session");
+			button_select_file_import_same_database.Visible = false; //is shown when user want to import a second session
 			notebook_import.CurrentPage = PAGE_IMPORT_START;
 		}
 
@@ -558,8 +561,11 @@ public class SessionLoadWindow
 		*/
 		fakeButton_cancel_maybeDatabaseSwitched.Click();
 	}
-	protected void on_select_file_import_clicked(object o, EventArgs args) {
+	protected void on_button_select_file_import_clicked(object o, EventArgs args) {
 		chooseDatabaseToImport ();
+	}
+	protected void on_button_select_file_import_same_database_clicked(object o, EventArgs args) {
+		notebook_import.CurrentPage = PAGE_SELECT_SESSION;
 	}
 
 	//import notebook page 1 (load sesion) buttons
@@ -632,6 +638,9 @@ public class SessionLoadWindow
 		label_import_done_at_new_session.Visible = false;
 		label_import_done_at_current_session.Visible = false;
 		scrolledwindow_import_error.Visible = false;
+
+		label_open_database_file.Text = Catalog.GetString("Open another database");
+		button_select_file_import_same_database.Visible = true;
 
 		notebook_import.CurrentPage = PAGE_IMPORT_START;
 	}

@@ -805,16 +805,16 @@ public partial class ChronoJumpWindow
 
 		//read time, four bytes
 		int t0 = portFS.ReadByte(); //least significative
-		int t1 = portFS.ReadByte(); //most significative
-		int t2 = portFS.ReadByte(); //most significative
+		int t1 = portFS.ReadByte();
+		int t2 = portFS.ReadByte();
 		int t3 = portFS.ReadByte(); //most significative
 		dataRow.Add(Convert.ToInt32(
 				Math.Pow(256,3) * t3 +
 				Math.Pow(256,2) * t2 +
 				Math.Pow(256,1) * t1 +
-				Math.Pow(256,0) * t0));
+				Math.Pow(256,0) * t0)); //TODO: note this should be an UInt32
 
-		//read data, four sensors, 1 byte each
+		//read data, four sensors, 2 byte each
 		for(int i = 0; i < 4; i ++)
 		{
 			int b0 = portFS.ReadByte(); //least significative
@@ -908,7 +908,7 @@ public partial class ChronoJumpWindow
 
 				List<int> binaryReaded = readBinaryForceValues();
 				time = binaryReaded[0];
-				force = binaryReaded[1];
+				force = binaryReaded[1]; //note right now we are only reading 1st sensor
 			}
 			else {
 				str = portFS.ReadLine();

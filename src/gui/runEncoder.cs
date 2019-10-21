@@ -28,6 +28,7 @@ using Glade;
 using System.Text; //StringBuilder
 using System.Collections;
 using System.Collections.Generic; //List<T>
+using System.Text.RegularExpressions; //Regex
 using Mono.Unix;
 
 
@@ -166,7 +167,16 @@ public partial class ChronoJumpWindow
 		//forceSensorOtherMessage = str;
 
 		//return the version without "Race_Analyzer-"
-		return(str.Remove(0,14));
+		/*
+		 * return(str.Remove(0,14));
+		 * use a regex because with above line we can find problems like this:
+		 * init string: ^@;Race_analyzer-0.2
+		 */
+		Match match = Regex.Match(str, @"Race_Analyzer-(\d+\.\d+)");
+		if(match.Groups.Count == 1)
+			return str = match.Value;
+		else
+			return "0.2"; //if there is a problem default to 0.2. 0.2 is the first that will be distributed and will be on binary
 	}
 
 

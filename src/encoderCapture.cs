@@ -191,6 +191,12 @@ public abstract class EncoderCapture
 		 * When arrive to B, then store the ascending phase (2-3)
 		 */
 
+		/*
+		 * TODO:
+		 * this has to be related to distance and not to time
+		 * but we need to have an accurate distance calculation depending on encoderConfiguration (see encoder R files)
+		 * and it will be much better to have ecc and con separately to manage better weightlifting (double phase/or not) exercises
+		 */
 		directionChangePeriod = 25; //how long (ms) to recognize as change direction. (from 2 to A in ms)
 						//it's in ms and not in cm, because it's easier to calculate
 		directionChangeCount = 0; //counter for this period

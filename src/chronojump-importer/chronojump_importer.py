@@ -37,6 +37,12 @@ debugFile = ""
  */
 """
 
+"""
+/*
+ * note there is a diagram on diagrams/processes/import
+ */
+"""
+
 
 class Row:
     """ A row represents a row in a table: it has column-names and their values.
@@ -281,12 +287,12 @@ class Database:
         suffix = re.match("(.*) \(([0-9]+)\)", value)
 
         if suffix is None:
-            return "{} (1)".format(value)
+            return u"{} (1)".format(value)
         else:
             base_name = suffix.group(1)
             counter = int(suffix.group(2))
             counter += 1
-            return "{} ({})".format(base_name, counter)
+            return u"{} ({})".format(base_name, counter)
 
     @staticmethod
     def _add_prefix(list_of_elements, prefix):
@@ -377,7 +383,7 @@ class Database:
 
 
 class ImportSession:
-    def __init__(self, source_path, destination_path, source_base_directory):
+    def __init__(self, source_path, destination_path, source_base_directory, source_temp_directory):
         """ Creates the object to import the session source_session from source_db into destination_db. """
 
         logging.debug("source path:" + source_path)
@@ -386,6 +392,7 @@ class ImportSession:
         self.source_path = source_path
         self.destination_path = destination_path
         self.source_base_directory = source_base_directory
+        self.source_temp_directory = source_temp_directory
 
         self.source_db = Database(source_path, read_only=True)
         self.destination_db = Database(destination_path, read_only=False)
@@ -663,7 +670,7 @@ class ImportSession:
         # but on encoder and forceSensor is linked by ex.uniqueID
 
         if(DEBUGTOFILE):
-            debugFile.write(" start _import_forceSensor ")
+            debugFile.write(" start _import_forceSensor\n")
 
         forceSensor_exercise_from_forceSensor = self.source_db.read(table_name="ForceSensorExercise",
                 where_condition="ForceSensor.uniqueID={}".format(self.source_session),
@@ -693,14 +700,14 @@ class ImportSession:
                                   matches_columns=self.destination_db.column_names("forceSensor", skip_columns=["uniqueID", "personID", "sessionID", "exerciseID"]))
 
         if(DEBUGTOFILE):
-            debugFile.write(" end _import_forceSensor ")
+            debugFile.write(" end _import_forceSensor\n")
 
     def _import_runEncoder(self):
         # Imports RunEncoderExercise
         # VERY similar to _import_runEncoder
 
         if(DEBUGTOFILE):
-            debugFile.write(" start _import_runEncoder ")
+            debugFile.write(" start _import_runEncoder\n")
 
         runEncoder_exercise_from_runEncoder = self.source_db.read(table_name="RunEncoderExercise",
                 where_condition="RunEncoder.uniqueID={}".format(self.source_session),
@@ -730,7 +737,7 @@ class ImportSession:
                                   matches_columns=self.destination_db.column_names("runEncoder", skip_columns=["uniqueID", "personID", "sessionID", "exerciseID"]))
 
         if(DEBUGTOFILE):
-            debugFile.write(" end _import_runEncoder ")
+            debugFile.write(" end _import_runEncoder\n")
 
 
 
@@ -747,10 +754,16 @@ class ImportSession:
 
     @staticmethod
     def _forceSensor_filename(person_id, original_filename):
-        """ original_filename is like 1-Carmelo-89-2014-12-03_12-48-54.csv. It only replaces the person_id (1 in this case)"""
-        filename=original_filename.split("-", 1)
-        filename[0] = str(person_id)
-        return "-".join(filename)
+        """ original_filename is like 19_some person_2019-05-26_15-09-25.csv. It only replaces the person_id (1 in this case)"""
+        """ but as we originally do not have database for forceSensor and runEncoder, we just have written the name, in this case: add the id before"""
+        pattern = '\A\d+_' #\A for the beginning of the file, then digits and then the _
+        result = re.match(pattern, original_filename)
+        if result:
+            filename = original_filename.split("_", 1)
+            filename[0] = str(person_id)
+            return "_".join(filename)
+        else:
+            return str(person_id) + "_" + original_filename
 
     @staticmethod
     def _forceSensor_url(session_id):
@@ -827,12 +840,12 @@ class ImportSession:
 
     # valid for forceSensor and runEncoder files, theses are the values on tableName
     def _import_forceSensor_or_runEncoder_files(self, table, tableName):
-        if self.source_base_directory is None:
+        if self.source_temp_directory is None:
             # We are skipping to copy the Encoding files. This is used in unit tests.
             return
 
         if(DEBUGTOFILE):
-            debugFile.write(" at import_forceSensor_or_runEncoder_files")
+            debugFile.write(" at import_forceSensor_or_runEncoder_files\n")
             debugFile.write(tableName)
 
         for row in table:
@@ -845,6 +858,9 @@ class ImportSession:
             original_filename = row.get("filename")
             original_url = self._normalize_path(row.get("url"))
             session_id = row.get("sessionID")
+
+            if(DEBUGTOFILE):
+                debugFile.write("original_filename: " + original_filename.encode('utf-8') + "\n")
 
             # Prepares the new filename and destination_url
             filename = ""
@@ -860,12 +876,15 @@ class ImportSession:
             row.set("filename", filename)
             row.set("url", destination_url)
 
+            if(DEBUGTOFILE):
+                debugFile.write("filename: " + filename.encode('utf-8') + "\n")
+
             # Copies the files to the new place
             destination_directory = os.path.join(self.destination_path, "..", "..", destination_url)
             destination_directory = os.path.abspath(destination_directory)  # os.makedirs() can't handle directories with ".."
 
             destination_filename = os.path.join(destination_directory, filename)
-            source_file = os.path.join(self.source_base_directory, original_url, original_filename)
+            source_file = os.path.join(self.source_temp_directory, original_url, original_filename)
 
             if not os.path.isdir(destination_directory):
                 os.makedirs(destination_directory)
@@ -911,6 +930,9 @@ def process_command_line():
     parser.add_argument("--source_base_directory", type=str, required=False,
                         help="Directory where the encoder/ directory (amongst database/, logs/ and multimedia/ can be found\n" +
                              "By default is parent as --source")
+    parser.add_argument("--source_temp_directory", type=str, required=False,
+                        help="Directory where the temp forceSensor and runAnalyzer files are\n" +
+                             "they are at temp folder because name have been changed")
     parser.add_argument("--destination", type=str, required=False,
                         help="chronojump.sqlite that we import to")
     parser.add_argument("--source_session", type=int, required=False,
@@ -943,7 +965,7 @@ def process_command_line():
                 DEBUGTOFILE = True
                 debugFile = open('/tmp/debugFile.txt', 'w')
 
-            importer = ImportSession(args.source, args.destination, source_base_directory)
+            importer = ImportSession(args.source, args.destination, source_base_directory, args.source_temp_directory)
 
             if args.destination_session is None:
                 importer.import_as_new_session(args.source_session)

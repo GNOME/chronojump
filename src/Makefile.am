@@ -7,6 +7,7 @@ LINK = $(REF_DEP_CHRONOJUMP)
 SOURCES = \
 	gui/chronojump.cs\
 	gui/chronojumpIcons.cs\
+	gui/chronojumpImporter.cs\
 	gui/chronojumpPersons.cs\
 	gui/chronopic.cs\
 	gui/chronopicRegister.cs\
@@ -42,7 +43,9 @@ SOURCES = \
 	gui/personSelect.cs\
 	gui/preferences.cs\
 	gui/sendLog.cs\
-	gui/session.cs\
+	gui/session/addEdit.cs\
+	gui/session/load.cs\
+	gui/session/selectStats.cs\
 	gui/stats.cs\
 	gui/presentation.cs\
 	gui/report.cs\

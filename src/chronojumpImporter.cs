@@ -27,9 +27,14 @@ using Mono.Unix;
  * Copyright (C) 2019   Xavier de Blas <xaviblas@gmail.com>
  */
 
+/*
+ * note there is a diagram on diagrams/processes/import
+ */
 
 class ChronojumpImporter
 {
+	public string MessageToPulsebar;
+
 	// Database that it's importing from
 	private string sourceFile;
 
@@ -75,8 +80,13 @@ class ChronojumpImporter
 		this.sourceSession = sourceSession;
 		this.destinationSession = destinationSession;
 		this.debugToFile = debugToFile;
+		MessageToPulsebar = "";
 	}
 
+	/*
+	 * interesting method for showing a dialog on the future
+	 * now we do not used because there is a notebook on session_load
+	 *
 	// Shows a dialogue to the user and lets him cancel the operation. The dialog information depends on
 	// this class configuration: depends if the session is going to be inserted in a new session or an
 	// existing one.
@@ -84,7 +94,7 @@ class ChronojumpImporter
 	public Gtk.ResponseType showImportConfirmation()
 	{
 		string message;
-		string sessionName = getSessionName (sourceFile, sourceSession);
+		string sessionName = GetSessionName (sourceFile, sourceSession);
 
 		if (importsToNew ()) {
 			// We don't need any confirmation to import into a new session (the user could delete it easily if it was a mistake)
@@ -107,18 +117,7 @@ class ChronojumpImporter
 			return response;
 		}
 	}
-
-	public void showImportCorrectlyFinished()
-	{
-		string message;
-
-		if (importsToNew()) {
-			message = Catalog.GetString ("Imported to a new session. You can load it now in Session - Load.");
-		} else {
-			message = Catalog.GetString ("Data merged into the open session.");
-		}
-		new DialogMessage (Catalog.GetString("Chronojump importer"), Constants.MessageTypes.INFO, message);
-	}
+	*/
 
 	private bool importsToNew()
 	{
@@ -132,12 +131,54 @@ class ChronojumpImporter
 	// tries to import a newer chronojump version.
 	public Result import()
 	{
+		//1) create temp dir for forceSensor and runEncoder and copy files there, original files will not be used
+		//   no need to be done for encoder files because there we will not to change filename
+		MessageToPulsebar = "Copying temporary files";
+
+LogB.Information("import A ");
+		string tempImportDir = Util.GetDatabaseTempImportDir();
+		if(Directory.Exists(tempImportDir))
+		{
+			try {
+				var dir = new DirectoryInfo(@tempImportDir);
+				dir.Delete(true); //recursive delete
+			} catch {
+				return new Result (false, "Could not delete directory: " + tempImportDir);
+			}
+		}
+LogB.Information("import B ");
+		string forceSensorName = "forceSensor";
+		string raceAnalyzerName = "raceAnalyzer";
+LogB.Information("import C ");
+		Directory.CreateDirectory(tempImportDir);
+LogB.Information("import D ");
+		Directory.CreateDirectory(Path.Combine(tempImportDir, forceSensorName, sourceSession.ToString()));
+LogB.Information("import E ");
+		Directory.CreateDirectory(Path.Combine(tempImportDir, raceAnalyzerName, sourceSession.ToString()));
+LogB.Information("import F ");
+
+		string sourceDir = Path.GetDirectoryName(sourceFile);
+		if(Directory.Exists(Path.Combine(sourceDir, "..", forceSensorName, sourceSession.ToString())))
+			foreach (FileInfo file in new DirectoryInfo(Path.Combine(sourceDir, "..", forceSensorName, sourceSession.ToString())).GetFiles())
+				file.CopyTo(Path.Combine(tempImportDir, forceSensorName, sourceSession.ToString(), file.Name));
+
+LogB.Information("import G ");
+		if(Directory.Exists(Path.Combine(sourceDir, "..", raceAnalyzerName, sourceSession.ToString())))
+			foreach (FileInfo file in new DirectoryInfo(Path.Combine(sourceDir, "..", raceAnalyzerName, sourceSession.ToString())).GetFiles())
+				file.CopyTo(Path.Combine(tempImportDir, raceAnalyzerName, sourceSession.ToString(), file.Name));
+
+LogB.Information("import H ");
+
+		//2) prepare SQL files
+
+		MessageToPulsebar = "Preparing database";
 		string temporarySourceFile = Path.GetTempFileName ();
 		File.Copy (sourceFile, temporarySourceFile, true);
 
 		Result sourceDatabaseVersion = getDatabaseVersionFromFile (temporarySourceFile);
 		Result destinationDatabaseVersion = getDatabaseVersionFromFile (destinationFile);
 
+LogB.Information("import A ");
 		if (! sourceDatabaseVersion.success)
 			return sourceDatabaseVersion;
 
@@ -147,16 +188,21 @@ class ChronojumpImporter
 		float destinationDatabaseVersionNum = float.Parse (destinationDatabaseVersion.output);
 		float sourceDatabaseVersionNum = float.Parse (sourceDatabaseVersion.output);
 
+		//3 check version of database to be imported
+
+		MessageToPulsebar = "Checking version";
 		if (destinationDatabaseVersionNum < sourceDatabaseVersionNum) {
 			return new Result (false, Catalog.GetString ("Trying to import a newer database version than this Chronojump\n" +
 				"Please, update the running Chronojump."));
 		} else if (destinationDatabaseVersionNum > sourceDatabaseVersionNum) {
 			LogB.Debug ("chronojump-importer version before update: ", sourceDatabaseVersion.output);
-			updateDatabase (temporarySourceFile, Path.GetDirectoryName(sourceFile));
+			MessageToPulsebar = "Updating database";
+			updateDatabase (temporarySourceFile);
 			string versionAfterUpdate = getDatabaseVersionFromFile (temporarySourceFile).output;
 			LogB.Debug ("chronojump-importer version after update: ", versionAfterUpdate);
 		}
 
+		MessageToPulsebar = "Starting import";
 		List<string> parameters = new List<string> ();
 		parameters.Add ("--source");
 		parameters.Add (temporarySourceFile);
@@ -166,6 +212,8 @@ class ChronojumpImporter
 		// encoder files
 		parameters.Add ("--source_base_directory");
 		parameters.Add (Path.Combine(Path.GetDirectoryName(sourceFile), "..")); 
+		parameters.Add ("--source_temp_directory");
+		parameters.Add (Util.GetDatabaseTempImportDir());
 		parameters.Add ("--destination");
 		parameters.Add (destinationFile);
 		parameters.Add ("--source_session");
@@ -183,12 +231,13 @@ class ChronojumpImporter
 
 		Result result = executeChronojumpImporter (parameters);
 
+		MessageToPulsebar = "Done!";
 		File.Delete (temporarySourceFile);
 
 		return result;
 	}
 
-	private static void updateDatabase(string databaseFile, string sourceDir)
+	private static void updateDatabase(string databaseFile)
 	{
 		StaticClassState classOriginalState = new StaticClassState (typeof (Sqlite));
 
@@ -200,8 +249,7 @@ class ChronojumpImporter
 		Sqlite.setSqlFilePath (databaseFile);
 		Sqlite.Connect ();
 
-		SqliteForceSensor.DirToImport = Path.Combine(sourceDir, "..", "forceSensor");
-		SqliteRunEncoder.DirToImport = Path.Combine(sourceDir, "..", "raceAnalyzer");
+		Sqlite.UpdatingDBFrom = Sqlite.UpdatingDBFromEnum.IMPORTED_SESSION;
 
 		Sqlite.ConvertToLastChronojumpDBVersion ();
 
@@ -237,7 +285,7 @@ class ChronojumpImporter
 		}
 	}
 
-	private static string getSessionName(string filePath, int sessionId)
+	public static string GetSessionName(string filePath, int sessionId)
 	{
 		Result information = getImporterInformation (filePath);
 		if (information.success == false) {
@@ -314,4 +362,15 @@ class ChronojumpImporter
 		// All good, returns the output
 		return new Result (true, execute_result.allOutput);
 	}
+
+	public string SourceFile
+	{
+		get { return sourceFile; }
+	}
+
+	public int SourceSession
+	{
+		get { return sourceSession; }
+	}
+
 }

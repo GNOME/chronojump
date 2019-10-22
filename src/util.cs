@@ -916,7 +916,11 @@ public class Util
 	public static string GetDatabaseTempDir() {
 		return Path.Combine(Path.GetTempPath(), "Chronojump");
 	}
-	
+
+	public static string GetDatabaseTempImportDir() {
+		return Path.Combine(Path.GetTempPath(), "ChronojumpImportDir");
+	}
+
 	/********** end of database paths ************/
 
 	/*	

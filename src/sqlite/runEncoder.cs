@@ -257,15 +257,23 @@ class SqliteRunEncoder : Sqlite
 		return array;
 	}
 
-	public static string DirToImport;
-
 	protected internal static void import_from_1_70_to_1_71() //database is opened
 	{
-		LogB.PrintAllThreads = true; //TODO: remove this
+		//LogB.PrintAllThreads = true; //TODO: remove this
 		LogB.Information("at import_from_1_70_to_1_71()");
 
+		string raceAnalyzerDir = Util.GetRunEncoderDir();
+		if(Sqlite.UpdatingDBFrom == Sqlite.UpdatingDBFromEnum.IMPORTED_SESSION)
+			raceAnalyzerDir = Path.Combine(Util.GetDatabaseTempImportDir(), "raceAnalyzer");
+
+		if(! Directory.Exists(raceAnalyzerDir))
+		{
+			LogB.Information("nothing to import");
+			//LogB.PrintAllThreads = false; //TODO: remove this
+			return;
+		}
+
 		bool importedSomething = false;
-		string raceAnalyzerDir = DirToImport;
 		DirectoryInfo [] sessions = new DirectoryInfo(raceAnalyzerDir).GetDirectories();
 		foreach (DirectoryInfo session in sessions) //session.Name will be the UniqueID
 		{
@@ -322,7 +330,7 @@ class SqliteRunEncoder : Sqlite
 			SqliteRunEncoderExercise.Insert(true, 0, "Sprint", "");
 
 		LogB.Information("end of import_from_1_70_to_1_71()");
-		LogB.PrintAllThreads = false; //TODO: remove this
+		//LogB.PrintAllThreads = false; //TODO: remove this
 	}
 
 }

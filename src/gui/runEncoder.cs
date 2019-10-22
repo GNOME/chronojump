@@ -28,6 +28,7 @@ using Glade;
 using System.Text; //StringBuilder
 using System.Collections;
 using System.Collections.Generic; //List<T>
+using System.Text.RegularExpressions; //Regex
 using Mono.Unix;
 
 
@@ -110,7 +111,7 @@ public partial class ChronoJumpWindow
 		LogB.Information(" RE connect 3 ");
 		runEncoderPulseMessage = "Connecting ...";
 
-		portRE = new SerialPort(runEncoderPortName, 1000000); //runEncoder
+		portRE = new SerialPort(runEncoderPortName, 2000000); //runEncoder
 		LogB.Information(" RE connect 4: opening port...");
 
 		try {
@@ -166,7 +167,16 @@ public partial class ChronoJumpWindow
 		//forceSensorOtherMessage = str;
 
 		//return the version without "Race_Analyzer-"
-		return(str.Remove(0,14));
+		/*
+		 * return(str.Remove(0,14));
+		 * use a regex because with above line we can find problems like this:
+		 * init string: ^@;Race_analyzer-0.2
+		 */
+		Match match = Regex.Match(str, @"Race_Analyzer-(\d+\.\d+)");
+		if(match.Groups.Count == 1)
+			return str = match.Value;
+		else
+			return "0.2"; //if there is a problem default to 0.2. 0.2 is the first that will be distributed and will be on binary
 	}
 
 
@@ -217,6 +227,7 @@ public partial class ChronoJumpWindow
 
 		runEncoderPulseMessage = "";
 		runEncoderButtonsSensitive(false);
+		sensitiveLastTestButtons(false);
 
 		if(chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER) == 0)
 		{
@@ -408,6 +419,16 @@ public partial class ChronoJumpWindow
 		}
 		while(! str.Contains("Starting capture"));
 
+		//it comes "Starting capture;PPS:100"
+		string [] strStarting = str.Split(new char[] {';'});
+		int pps = 999;
+		if(strStarting.Length == 2 && strStarting[1].StartsWith("PPS:"))
+		{
+			string [] strPPS = strStarting[1].Split(new char[] {':'});
+			if(strPPS.Length == 2 && Util.IsNumber(strPPS[1], false))
+				pps = Convert.ToInt32(strPPS[1]);
+		}
+
 		runEncoderPulseMessage = "Capturing ...";
 
 		//forceCaptureStartMark = true;
@@ -430,43 +451,63 @@ public partial class ChronoJumpWindow
 		str = "";
 		int firstTime = 0;
 
+		bool readBinary = true;
+		int rowsCount = 0;
 		while(! runEncoderProcessFinish && ! runEncoderProcessCancel && ! runEncoderProcessError)
 		{
-			//LogB.Information(string.Format("finish conditions: {0}-{1}-{2}",
-			//			runEncoderProcessFinish, runEncoderProcessCancel, runEncoderProcessError));
-
 			/*
 			 * The difference between forceSensor and runEncoder is:
 			 * runEncoder is not always returning data
 			 * if user press "finish" button, and they don't move the encoder,
 			 * this will never end:
 			 * //str = portRE.ReadLine();
-			 * so use the following method that allows to return a "" when there no data
+			 * so use the methods:
+			 * 	if (portRE.BytesToRead == 0) [binary]
+			 * or
+			 * 	readFromRunEncoderIfDataArrived(); [not binary]
+			 * that allow to continue in the loop when there is no data
 			 * and then the while above will end with the runEncoderProcessFinish condition
 			 */
-			str = readFromRunEncoderIfDataArrived();
-			if(! checkRunEncoderCaptureLineIsOk(str))
-				continue;
 
-			/*
-			int time = Convert.ToInt32(strFull[0]);
+			if(readBinary)
+			{
+				if (portRE.BytesToRead == 0)
+					continue;
 
-			//measurement does not start at 0 time. When we start receiving data, mark this as firstTime
-			if(firstTime == 0)
+				//time (4 bytes: long at Arduino, uint at c-sharp), force (2 bytes: uint)
+				List<uint> binaryReaded = readBinaryRunEncoderValues();
+                                uint time = binaryReaded[0];
+                                uint force = binaryReaded[1];
+				writer.WriteLine(string.Format("{0};{1};{2}", pps, time, force));
+				rowsCount ++;
+			} else {
+				//LogB.Information(string.Format("finish conditions: {0}-{1}-{2}",
+				//			runEncoderProcessFinish, runEncoderProcessCancel, runEncoderProcessError));
+
+				str = readFromRunEncoderIfDataArrived();
+				if(! checkRunEncoderCaptureLineIsOk(str))
+					continue;
+
+				/*
+				   int time = Convert.ToInt32(strFull[0]);
+
+				//measurement does not start at 0 time. When we start receiving data, mark this as firstTime
+				if(firstTime == 0)
 				firstTime = time;
 
-			//use this to have time starting at 0
-			time -= firstTime;
+				//use this to have time starting at 0
+				time -= firstTime;
 
-			double force = Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1]));
-			*/
+				double force = Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1]));
+				*/
 
-			string [] strFull = str.Split(new char[] {';'});
-			writer.WriteLine(string.Format("{0};{1};{2}",
-						Convert.ToInt32(strFull[0]), //pulse
-						Convert.ToInt32(strFull[1]), //time
-						Convert.ToInt32(strFull[2]) //force
-						));
+				string [] strFull = str.Split(new char[] {';'});
+				writer.WriteLine(string.Format("{0};{1};{2}",
+							Convert.ToInt32(strFull[0]), //pulse
+							Convert.ToInt32(strFull[1]), //time
+							Convert.ToInt32(strFull[2]) //force
+							));
+			}
 		}
 
 		LogB.Information(string.Format("FINISHED WITH conditions: {0}-{1}-{2}",
@@ -485,24 +526,37 @@ public partial class ChronoJumpWindow
 			Thread.Sleep(10);
 			try {
 				str = portRE.ReadLine();
-
-				if(checkRunEncoderCaptureLineIsOk(str))
+				if(readBinary)
 				{
-					LogB.Information("Processing last received line");
-					string [] strFull = str.Split(new char[] {';'});
-					writer.WriteLine(string.Format("{0};{1};{2}",
-								Convert.ToInt32(strFull[0]), //pulse
-								Convert.ToInt32(strFull[1]), //time
-								Convert.ToInt32(strFull[2]) //force
-								));
+					//we will discard everything at the moment finish is pressed
+					//to read correctly as txt the "Capture ended" string
+					//note this can make the rowsCount differ
+				} else {
+					if(checkRunEncoderCaptureLineIsOk(str))
+					{
+						LogB.Information("Processing last received line");
+						string [] strFull = str.Split(new char[] {';'});
+						writer.WriteLine(string.Format("{0};{1};{2}",
+									Convert.ToInt32(strFull[0]), //pulse
+									Convert.ToInt32(strFull[1]), //time
+									Convert.ToInt32(strFull[2]) //force
+									));
+					}
 				}
 			} catch {
 				LogB.Information("Catched waiting end_capture feedback");
 			}
 			LogB.Information("waiting \"Capture ended\" string: " + str);
 		}
-		while(! str.Contains("Capture ended"));
+		while(! str.Contains("Capture ended")); //TODO: read after ':' the number of "rows" sent
 		LogB.Information("Success: received end_capture");
+
+		string [] strEnded = str.Split(new char[] {':'});
+		if(strEnded.Length == 2 && Util.IsNumber(strEnded[1], false))
+		{
+			LogB.Information(string.Format("Readed {0} rows, sended {1} rows, match: {2}",
+						rowsCount, strEnded[1], rowsCount == Convert.ToInt32(strEnded[1]) ));
+		}
 
 		writer.Flush();
 		writer.Close();
@@ -523,6 +577,63 @@ public partial class ChronoJumpWindow
 			capturingRunEncoder = arduinoCaptureStatus.COPIED_TO_TMP;
 		}
 	}
+
+	//time (4 bytes: long at Arduino, uint at c-sharp), force (2 bytes: uint)
+	private List<uint> readBinaryRunEncoderValues()
+        {
+		//LogB.Debug("readed start mark Ok");
+                List<uint> dataRow = new List<uint>();
+
+		//read time, four bytes
+                int b0 = portRE.ReadByte(); //least significative
+                int b1 = portRE.ReadByte();
+                int b2 = portRE.ReadByte();
+                int b3 = portRE.ReadByte(); //most significative
+
+		/*
+		LogB.Information("bbbtime0:" + b0.ToString());
+		LogB.Information("bbbtime1:" + b1.ToString());
+		LogB.Information("bbbtime2:" + b2.ToString());
+		LogB.Information("bbbtime3:" + b3.ToString());
+		LogB.Information("time: " +
+                                (Math.Pow(256,3) * b3 +
+                                Math.Pow(256,2) * b2 +
+                                Math.Pow(256,1) * b1 +
+                                Math.Pow(256,0) * b0).ToString());
+		*/
+
+                dataRow.Add(Convert.ToUInt32(
+                                Math.Pow(256,3) * b3 +
+                                Math.Pow(256,2) * b2 +
+                                Math.Pow(256,1) * b1 +
+                                Math.Pow(256,0) * b0));
+
+		//read force, two bytes
+		b0 = portRE.ReadByte(); //least significative
+		b1 = portRE.ReadByte(); //most significative
+		uint readedNum = Convert.ToUInt32(256 * b1 + b0);
+
+		/*
+		LogB.Information("bbbforce0:" + b0.ToString());
+		LogB.Information("bbbforce1:" + b1.ToString());
+		LogB.Information("force (not changed sign): " +
+                                (Math.Pow(256,1) * b1 +
+                                Math.Pow(256,0) * b0).ToString());
+		*/
+
+		/*
+		 * cannot be negative, if it is (on resisted) will be changed to 0 on Arduino code
+		//care for negative values
+		if(readedNum > 32768)
+			readedNum = -1 * (65536 - readedNum);
+			*/
+
+		dataRow.Add(readedNum);
+
+		//LogB.Information("bbb----");
+
+                return dataRow;
+        }
 
 	private void on_button_run_encoder_load_clicked (object o, EventArgs args)
 	{

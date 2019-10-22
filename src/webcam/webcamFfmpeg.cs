@@ -58,7 +58,12 @@ public class WebcamFfmpeg : Webcam
 	{
 		string e = "ffmpeg";
 		if(os == UtilAll.OperatingSystems.WINDOWS)
-			e = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg.exe");
+		{
+			if(System.Environment.Is64BitProcess)
+				e = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg.exe");
+			else
+				e = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/i386/ffmpeg.exe");
+		}
 		if(os == UtilAll.OperatingSystems.MACOSX)
 			e = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg");
 
@@ -68,7 +73,12 @@ public class WebcamFfmpeg : Webcam
 	{
 		string e = "ffplay";
 		if(os == UtilAll.OperatingSystems.WINDOWS)
-			e = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffplay.exe");
+		{
+			if(System.Environment.Is64BitProcess)
+				e = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffplay.exe");
+			else
+				e = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/i386/ffplay.exe");
+		}
 		if(os == UtilAll.OperatingSystems.MACOSX)
 			e = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffplay");
 
@@ -145,7 +155,12 @@ public class WebcamFfmpeg : Webcam
 	{
 		executable = "ffmpeg";
 		if(os == UtilAll.OperatingSystems.WINDOWS)
-			executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg.exe");
+		{
+			if(System.Environment.Is64BitProcess)
+				executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg.exe");
+			else
+				executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/i386/ffmpeg.exe");
+		}
 		if(os == UtilAll.OperatingSystems.MACOSX)
 			executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg");
 

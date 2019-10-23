@@ -25,8 +25,9 @@ SOURCES = \
 	gui/executeAuto.cs\
 	gui/exhibition.cs\
 	gui/forceSensor.cs\
-	gui/forceSensorExercise.cs\
 	gui/forceSensorAnalyze.cs\
+	gui/forceSensorElasticBands.cs\
+	gui/forceSensorExercise.cs\
 	gui/guiTests.cs\
 	gui/jump.cs\
 	gui/jumpsProfile.cs\
@@ -251,6 +252,7 @@ RESOURCES = \
 	../glade/event_graph_configure.glade \
 	../glade/execute_auto.glade \
 	../glade/generic_window.glade \
+	../glade/force_sensor_elastic_bands.glade \
 	../glade/force_sensor_exercise.glade \
 	../glade/jump_type_add.glade \
 	../glade/jumps_runs_more.glade \

@@ -159,6 +159,7 @@ public class Constants
 	public const string TriggerTable = "trigger";
 	public const string ForceSensorTable = "forceSensor";
 	public const string ForceSensorExerciseTable = "forceSensorExercise";
+	public const string ForceSensorElasticBandTable = "forceSensorElasticBand";
 	public const string ForceRFDTable = "forceRFD";
 	public const string RunEncoderTable = "runEncoder";
 	public const string RunEncoderExerciseTable = "runEncoderExercise";

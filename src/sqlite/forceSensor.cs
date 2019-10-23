@@ -55,7 +55,9 @@ class SqliteForceSensor : Sqlite
 			"url TEXT, " +		//URL of data files. stored as relative
 			"datetime TEXT, " + 	//2019-07-11_15-01-44
 			"comments TEXT, " +
-			"videoURL TEXT)";	//URL of video of signals. stored as relative
+			"videoURL TEXT, " +	//URL of video of signals. stored as relative
+			"stiffness FLOAT DEFAULT -1, " +	//this is the important, next one is needed for recalculate, but note that some bands can have changed or being deleted
+			"stiffnessString TEXT)"; //uniqueID of ElasticBand separated by ';' or empty if exerciseID ! elastic
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}
@@ -66,10 +68,10 @@ class SqliteForceSensor : Sqlite
 
 		LogB.Information("goint to insert: " + insertString);
 		dbcmd.CommandText = "INSERT INTO " + table +
-				" (uniqueID, personID, sessionID, exerciseID, captureOption, angle, laterality, filename, url, dateTime, comments, videoURL)" +
+				" (uniqueID, personID, sessionID, exerciseID, captureOption, angle, laterality, filename, url, dateTime, comments, videoURL, stiffness, stiffnessString)" +
 				" VALUES " + insertString;
 		LogB.SQL(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery(); //TODO uncomment this again
+		dbcmd.ExecuteNonQuery();
 
 		string myString = @"select last_insert_rowid()";
 		dbcmd.CommandText = myString;
@@ -176,7 +178,10 @@ class SqliteForceSensor : Sqlite
 					reader[9].ToString(),			//datetime
 					reader[10].ToString(),			//comments
 					reader[11].ToString(),			//videoURL
-					reader[12].ToString()			//exerciseName
+					Convert.ToDouble(Util.ChangeDecimalSeparator(
+							reader[12].ToString())), //stiffness
+					reader[13].ToString(),			//stiffnessString
+					reader[14].ToString()			//exerciseName
 					);
 			array.Add(fs);
 		}
@@ -395,7 +400,9 @@ class SqliteForceSensor : Sqlite
 						ForceSensor.AngleUndefined, lat,
 						myFilename,
 						Util.MakeURLrelative(Util.GetForceSensorSessionDir(Convert.ToInt32(session.Name))),
-						parsedDate, fslt.Comment, "", exerciseName);
+						parsedDate, fslt.Comment,
+						"", -1, "", //videoURL, stiffness, stiffnessString
+						exerciseName);
 				forceSensor.InsertSQL(true);
 			}
 		}
@@ -594,6 +601,180 @@ class SqliteForceSensorExercise : Sqlite
 	}
 }
 
+class SqliteForceSensorElasticBand : Sqlite
+{
+	private static string table = Constants.ForceSensorElasticBandTable;
+
+	public SqliteForceSensorElasticBand() {
+	}
+
+	~SqliteForceSensorElasticBand() {}
+
+	/*
+	 * create and initialize tables
+	 */
+
+	/*
+	 * note we use AUTOINCREMENT here
+	 * because rubber bands can be deleted
+	 * and deleting them will not delete the forceSensor table rows
+	 * but if we add a new rubber band, we want that it has a different ID than previously deleted.
+	 * This is different from the rest of the sofware because:
+	 * on the rest of the software, we care to delete the rows on related tables
+	 *
+	 * Note AUTOINCREMENT should only be used on special situations:
+	 * https://www.sqlitetutorial.net/sqlite-autoincrement/
+	 */
+	protected internal static void createTable()
+	{
+		dbcmd.CommandText =
+			"CREATE TABLE " + table + " ( " +
+			"uniqueID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+			"active INT, " + 	//bool
+			"brand TEXT, " +
+			"color TEXT, " +
+			"stiffness FLOAT, " +
+			"comments TEXT)";
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+	}
+
+	public static int Insert (bool dbconOpened, ForceSensorElasticBand eb)
+	{
+		if(! dbconOpened)
+			Sqlite.Open();
+
+		dbcmd.CommandText = "INSERT INTO " + table +
+				" (uniqueID, active, brand, color, stiffness, comments)" +
+				" VALUES (" + eb.ToSQLInsertString() + ")";
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		string myString = @"select last_insert_rowid()";
+		dbcmd.CommandText = myString;
+		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
+
+		if(! dbconOpened)
+			Sqlite.Close();
+
+		return myLast;
+	}
+
+	public static void Update (bool dbconOpened, ForceSensorElasticBand eb)
+	{
+		if(! dbconOpened)
+			Sqlite.Open();
+
+		dbcmd.CommandText = "UPDATE " + table + " SET " +
+			" active = " + Util.BoolToInt(eb.Active).ToString() +
+			", brand = \"" + eb.Brand +
+			"\", color = \"" + eb.Color +
+			"\", stiffness = " + Util.ConvertToPoint(eb.Stiffness) +
+			", comments = \"" + eb.Comments +
+			"\" WHERE uniqueID = " + eb.UniqueID;
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		if(! dbconOpened)
+			Sqlite.Close();
+	}
+
+	public static void Delete (bool dbconOpened, int uniqueID)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = "DELETE FROM " + table + " WHERE uniqueID = " + uniqueID;
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		closeIfNeeded(dbconOpened);
+	}
+
+	public static List<ForceSensorElasticBand> SelectAll (bool dbconOpened, bool onlyActive)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = "SELECT * FROM " + table;
+		if(onlyActive)
+			dbcmd.CommandText += " WHERE active = 1";
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader = dbcmd.ExecuteReader();
+
+		List<ForceSensorElasticBand> list_fseb = new List<ForceSensorElasticBand>();
+
+		while(reader.Read()) {
+			ForceSensorElasticBand fseb = new ForceSensorElasticBand (
+					Convert.ToInt32(reader[0].ToString()),	//uniqueID
+					Util.IntToBool(Convert.ToInt32(reader[1])), 	//active
+					reader[2].ToString(),			//brand
+					reader[3].ToString(),			//color
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[4].ToString())),
+					reader[5].ToString()			//comments
+					);
+			list_fseb.Add(fseb);
+		}
+
+		reader.Close();
+		closeIfNeeded(dbconOpened);
+
+		return list_fseb;
+	}
+
+	//stiffnessString is a parameter of forceSensor table
+	public static double GetStiffnessOfACapture (bool dbconOpened, string stiffnessString)
+	{
+		//return 0 if empty
+		if(stiffnessString == "")
+			return 0;
+
+		//return 0 if there is only one value and is not a integer
+		string [] strFull = stiffnessString.Split(new char[] {';'});
+		if(strFull.Length == 1) //there is just one value (there are no ';')
+			if(! Util.IsNumber(strFull[0], false))
+				return 0;
+
+		//return 0 if there is any of the values is not an integer
+		foreach(string s in strFull)
+			if(! Util.IsNumber(s, false))
+				return 0;
+
+		return getStiffnessOfACaptureDo (dbconOpened, strFull);
+	}
+	private static double getStiffnessOfACaptureDo (bool dbconOpened, string [] stiffnessStrArray)
+	{
+		openIfNeeded(dbconOpened);
+
+		/*
+		 * instead of doing a select for each of the members of stiffnessArray (slow),
+		 * do a select of all and the filter what is not on the array
+		 */
+
+		dbcmd.CommandText = "SELECT uniqueID, stiffness FROM " + table;
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader = dbcmd.ExecuteReader();
+
+		double sum = 0;
+		while(reader.Read())
+		{
+			string id = reader[0].ToString();
+			if(Util.FoundInStringArray(stiffnessStrArray, id))
+				sum += Convert.ToDouble(Util.ChangeDecimalSeparator(reader[1].ToString()));
+		}
+
+		reader.Close();
+		closeIfNeeded(dbconOpened);
+
+		return sum;
+	}
+}
 
 class SqliteForceSensorRFD : Sqlite
 {

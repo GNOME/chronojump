@@ -70,6 +70,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_force_capture_buttons;
 	[Widget] Gtk.HBox hbox_combo_force_sensor_exercise;
 	[Widget] Gtk.ComboBox combo_force_sensor_exercise;
+	[Widget] Gtk.Button button_force_sensor_stiffness;
 	[Widget] Gtk.ComboBox combo_force_sensor_capture_options;
 	[Widget] Gtk.RadioButton radio_force_sensor_laterality_both;
 	[Widget] Gtk.RadioButton radio_force_sensor_laterality_l;
@@ -97,6 +98,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_range;
 
 	ForceSensorExerciseWindow forceSensorExerciseWin;
+	ForceSensorElasticBandsWindow forceSensorElasticBandsWin;
 
 	Gdk.Pixmap force_capture_pixmap = null;
 
@@ -354,11 +356,27 @@ public partial class ChronoJumpWindow
 	//buttons: tare, calibrate, check version and capture (via on_button_execute_test_cicked) come here
 	private void on_buttons_force_sensor_clicked(object o, EventArgs args)
 	{
-		if(UtilGtk.ComboGetActive(combo_force_sensor_exercise) == "")
+		if (o == (object) button_execute_test)
 		{
-			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Need to create/select an exercise."));
-			return;
+			if(UtilGtk.ComboGetActive(combo_force_sensor_exercise) == "")
+			{
+				new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Need to create/select an exercise."));
+				return;
+			}
+
+			assignCurrentForceSensorExercise();
+
+			if(currentForceSensorExercise.ComputeAsElastic)
+			{
+				List<ForceSensorElasticBand> list_fseb = SqliteForceSensorElasticBand.SelectAll(false, true); //not opened, onlyActive
+				if(ForceSensorElasticBand.GetStiffnessOfActiveBands(list_fseb) == 0)
+				{
+					new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Need to configure fixture to know stiffness of this elastic exercise."));
+					return;
+				}
+			}
 		}
+
 		if(chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ARDUINO_FORCE) == 0)
 		{
 			event_execute_label_message.Text = forceSensorNotConnectedString;
@@ -390,7 +408,7 @@ public partial class ChronoJumpWindow
 			sensitiveLastTestButtons(false);
 
 			textview_force_sensor_capture_comment.Buffer.Text = "";
-			assignCurrentForceSensorExercise();
+
 			if(currentForceSensorExercise.TareBeforeCapture)
 			{
 				forceSensorOtherMode = forceSensorOtherModeEnum.TARE_AND_CAPTURE_PRE;
@@ -1038,6 +1056,15 @@ LogB.Information(" fs C ");
 				{
 					event_execute_label_message.Text = "Saved.";
 
+					double stiffness = -1;
+					string stiffnessString = "";
+					if(currentForceSensorExercise.ComputeAsElastic)
+					{
+						List<ForceSensorElasticBand> list_fseb = SqliteForceSensorElasticBand.SelectAll(false, true); //not opened, onlyActive
+						stiffness = ForceSensorElasticBand.GetStiffnessOfActiveBands(list_fseb);
+						stiffnessString = ForceSensorElasticBand.GetIDsOfActiveBands(list_fseb);
+					}
+
 					currentForceSensor = new ForceSensor(-1, currentPerson.UniqueID, currentSession.UniqueID,
 							currentForceSensorExercise.UniqueID, getForceSensorCaptureOptions(),
 							ForceSensor.AngleUndefined, getLaterality(false),
@@ -1046,6 +1073,7 @@ LogB.Information(" fs C ");
 							UtilDate.ToFile(forceSensorTimeStartCapture),
 							"", //on capture cannot store comment (comment has to be written after),
 							"", //videoURL
+							stiffness, stiffnessString,
 							currentForceSensorExercise.Name);
 
 					currentForceSensor.UniqueID = currentForceSensor.InsertSQL(false);
@@ -2209,9 +2237,34 @@ LogB.Information(" fs R ");
 		combo_force_sensor_exercise = ComboBox.NewText ();
 		fillForceSensorExerciseCombo("");
 
-//		combo_force_sensor_exercise.Changed += new EventHandler (on_combo_force_sensor_exercise_changed);
+		combo_force_sensor_exercise.Changed += new EventHandler (on_combo_force_sensor_exercise_changed);
 		hbox_combo_force_sensor_exercise.PackStart(combo_force_sensor_exercise, true, true, 0);
 		hbox_combo_force_sensor_exercise.ShowAll();
+
+		//needed because the += EventHandler does not work on first fill of the combo
+		on_combo_force_sensor_exercise_changed (new object (), new EventArgs ());
+	}
+
+	private void on_combo_force_sensor_exercise_changed (object o, EventArgs args)
+	{
+		ForceSensorExercise fse = (ForceSensorExercise) SqliteForceSensorExercise.Select (
+                                false, getExerciseIDFromAnyCombo(
+					combo_force_sensor_exercise, forceSensorComboExercisesString, false), false )[0];
+
+		if(fse.ComputeAsElastic)
+		{
+			List<ForceSensorElasticBand> list_fseb = SqliteForceSensorElasticBand.SelectAll(false, true); //not opened, onlyActive
+			double stiffness = ForceSensorElasticBand.GetStiffnessOfActiveBands(list_fseb);
+
+			if(stiffness == 0)
+				button_force_sensor_stiffness.Label = Catalog.GetString("Configure fixation");
+			else
+				button_force_sensor_stiffness.Label = Catalog.GetString("Stiffness:") + " " + stiffness.ToString() + " N/m";
+			button_force_sensor_stiffness.Visible = true;
+		} else {
+			button_force_sensor_stiffness.Label = "0";
+			button_force_sensor_stiffness.Visible = false;
+		}
 	}
 
 	private void fillForceSensorExerciseCombo(string name)
@@ -2340,6 +2393,33 @@ LogB.Information(" fs R ");
 	}
 
 	// -------------------------------- end of exercise stuff --------------------
+
+	// -------------------------------- elastic band stuff -----------------------
+
+	/*
+	private string getForceSensorStiffnessString()
+	{
+		return "";
+	}
+	*/
+
+	private void on_button_force_sensor_stiffness_clicked (object o, EventArgs args)
+	{
+		forceSensorElasticBandsWin = ForceSensorElasticBandsWindow.Show(
+				Catalog.GetString("Elastic band selection"), "Elastic bands and other fixtures");
+		forceSensorElasticBandsWin.FakeButton_stiffness_changed.Clicked -= new EventHandler(on_elastic_bands_win_stiffness_changed);
+		forceSensorElasticBandsWin.FakeButton_stiffness_changed.Clicked += new EventHandler(on_elastic_bands_win_stiffness_changed);
+	}
+
+	private void on_elastic_bands_win_stiffness_changed(object o, EventArgs args)
+	{
+		button_force_sensor_stiffness.Label = Catalog.GetString("Stiffness:") + " " +
+			forceSensorElasticBandsWin.TotalStiffness + " N/m";
+	}
+
+
+	// -------------------------------- end of elastic band stuff ----------------
+
 
 	// -------------------------------- options, laterality and comment stuff -------------
 

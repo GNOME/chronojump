@@ -18,6 +18,7 @@ glade/error_window.glade
 glade/evaluator_window.glade
 glade/event_graph_configure.glade
 glade/execute_auto.glade
+glade/force_sensor_elastic_bands.glade
 glade/force_sensor_exercise.glade
 glade/generic_window.glade
 glade/jumps_runs_more.glade
@@ -71,6 +72,7 @@ src/gui/event.cs
 src/gui/eventExecute.cs
 src/gui/executeAuto.cs
 src/gui/forceSensorAnalyze.cs
+src/gui/forceSensorElasticBands.cs
 src/gui/forceSensorExercise.cs
 src/gui/forceSensor.cs
 src/gui/genericWindow.cs

@@ -63,6 +63,8 @@ public class ForceSensor
 	private string dateTime;
 	private string comments;
 	private string videoURL;
+	private double stiffness; //on not elastic capture will be -1 (just check if it is negative because it's a double and sometimes -1.0 comparisons don't work)
+	private string stiffnessString;
 
 	private string exerciseName;
 
@@ -74,7 +76,8 @@ public class ForceSensor
 
 	//constructor
 	public ForceSensor(int uniqueID, int personID, int sessionID, int exerciseID, CaptureOptions captureOption, int angle,
-			string laterality, string filename, string url, string dateTime, string comments, string videoURL, string exerciseName)
+			string laterality, string filename, string url, string dateTime, string comments, string videoURL,
+			double stiffness, string stiffnessString, string exerciseName)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
@@ -88,6 +91,8 @@ public class ForceSensor
 		this.dateTime = dateTime;
 		this.comments = comments;
 		this.videoURL = videoURL;
+		this.stiffness = stiffness;
+		this.stiffnessString = stiffnessString;
 
 		this.exerciseName = exerciseName;
 	}
@@ -107,7 +112,7 @@ public class ForceSensor
 		return
 			"(" + uniqueIDStr + ", " + personID + ", " + sessionID + ", " + exerciseID + ", \"" + captureOption.ToString() + "\", " +
 			angle + ", \"" + laterality + "\", \"" + filename + "\", \"" + url + "\", \"" + dateTime + "\", \"" +
-			comments + "\", \"" + videoURL + "\")";
+			comments + "\", \"" + videoURL + "\", " + Util.ConvertToPoint(stiffness) + ", \"" + stiffnessString + "\")";
 	}
 
 	public void UpdateSQL(bool dbconOpened)
@@ -129,6 +134,8 @@ public class ForceSensor
 			"\", dateTime = \"" + dateTime +
 			"\", comments = \"" + comments +
 			"\", videoURL = \"" + Util.MakeURLrelative(videoURL) +
+			"\", stiffness = " + Util.ConvertToPoint(stiffness) +
+			", stiffnessString = \"" + stiffnessString +
 			"\" WHERE uniqueID = " + uniqueID;
 	}
 
@@ -137,6 +144,7 @@ public class ForceSensor
 		SqliteForceSensor.UpdateComments (dbconOpened, uniqueID, comments); //SQL not opened
 	}
 
+	//for load window
 	public string [] ToStringArray (int count)
 	{
 		int all = 8;
@@ -252,6 +260,16 @@ public class ForceSensor
 		get { return videoURL; }
 		set { videoURL = value; }
 	}
+	public double Stiffness
+	{
+		get { return stiffness; }
+		//set { stiffness = value; }
+	}
+	public string StiffnessString
+	{
+		get { return stiffnessString; }
+		set { stiffnessString = value; }
+	}
 	public string ExerciseName
 	{
 		get { return exerciseName; }
@@ -280,11 +298,18 @@ public class ForceSensorExercise
 
 	public ForceSensorExercise()
 	{
+		//default values
+		this.forceResultant = false;
+		this.elastic = false;
 	}
 
 	public ForceSensorExercise(string name)
 	{
 		this.name = name;
+
+		//default values
+		this.forceResultant = false;
+		this.elastic = false;
 	}
 
 	public ForceSensorExercise(int uniqueID, string name, int percentBodyWeight, string resistance, int angleDefault,
@@ -391,6 +416,133 @@ public class ForceSensorExercise
 	public bool Elastic
 	{
 		get { return elastic; }
+	}
+
+	public bool ComputeAsElastic
+	{
+		get { return forceResultant && elastic; }
+	}
+}
+
+public class ForceSensorElasticBand
+{
+	private int uniqueID;
+	private bool active;
+	private string brand;
+	private string color;
+	private double stiffness;
+	private string comments;
+
+
+	// constructors ----
+
+	public ForceSensorElasticBand()
+	{
+		uniqueID = -1; //undefined
+	}
+
+	public ForceSensorElasticBand(int uniqueID, bool active, string brand, string color, double stiffness, string comments)
+	{
+		this.uniqueID = uniqueID;
+		this.active = active;
+		this.brand = brand;
+		this.color = color;
+		this.stiffness = stiffness;
+		this.comments = comments;
+	}
+
+	// public methods ----
+
+	/*
+	public void UpdateActive (bool active)
+	{
+		this.active = active;
+	}
+	*/
+
+	public void Update(string brand, string color, double stiffness, string comments)
+	{
+		this.brand = brand;
+		this.color = color;
+		this.stiffness = stiffness;
+		this.comments = comments;
+	}
+
+	public string ToSQLInsertString()
+	{
+		string uniqueIDStr = "NULL";
+		if(uniqueID != -1)
+			uniqueIDStr = uniqueID.ToString();
+
+		LogB.Information("stiffness is: " + stiffness.ToString());
+		return
+			uniqueIDStr + ", " + Util.BoolToInt(active).ToString() +
+			", \"" + brand + "\", \"" + color + "\", " +
+			Util.ConvertToPoint(stiffness) + ", \"" + comments + "\"";
+	}
+
+	public string [] ToStringArray ()
+	{
+		int all = 6;
+		string [] str = new String [all];
+		int i=0;
+		str[i++] = uniqueID.ToString();
+		str[i++] = active.ToString();
+		str[i++] = brand;
+		str[i++] = color;
+		str[i++] = stiffness.ToString();
+		str[i++] = comments;
+
+		return str;
+	}
+
+	//public static methods ----
+
+	//with one SqliteForceSensorElasticBand.SelectAll call, we can use then this two methods
+	public static double GetStiffnessOfActiveBands (List<ForceSensorElasticBand> list_fseb)
+	{
+		double sum = 0;
+		foreach(ForceSensorElasticBand fseb in list_fseb)
+			sum += fseb.Stiffness;
+
+		return sum;
+	}
+	public static string GetIDsOfActiveBands (List<ForceSensorElasticBand> list_fseb)
+	{
+		string str = "";
+		string sep = "";
+		foreach(ForceSensorElasticBand fseb in list_fseb)
+		{
+			str += sep + fseb.UniqueID.ToString();
+			sep = ";";
+		}
+
+		return str;
+	}
+
+	public int UniqueID
+	{
+		get { return uniqueID; }
+	}
+	public bool Active
+	{
+		get { return active; }
+	}
+	public string Brand
+	{
+		get { return brand; }
+	}
+	public string Color
+	{
+		get { return color; }
+	}
+	public double Stiffness
+	{
+		get { return stiffness; }
+	}
+	public string Comments
+	{
+		get { return comments; }
 	}
 }
 

@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.74";
+	static string lastChronojumpDatabaseVersion = "1.76";
 
 	public Sqlite() {
 	}
@@ -2507,6 +2507,30 @@ class Sqlite
 
 				currentVersion = updateVersion("1.74");
 			}
+			if(currentVersion == "1.74")
+			{
+				LogB.SQL("Created table ForceSensorElasticBand");
+
+				SqliteForceSensorElasticBand.createTable();
+
+				currentVersion = updateVersion("1.75");
+			}
+			if(currentVersion == "1.75")
+			{
+				LogB.SQL("Doing alter table forceSensor adding stiffness/stiffnessString");
+				try {
+					//sqlite does not have drop column
+					executeSQL("ALTER TABLE " + Constants.ForceSensorTable + " ADD COLUMN stiffness FLOAT DEFAULT -1;");
+					executeSQL("ALTER TABLE " + Constants.ForceSensorTable + " ADD COLUMN stiffnessString TEXT;");
+
+				} catch {
+					LogB.SQL("Catched. forceSensor stiffness/stiffnessString already exists.");
+
+				}
+				LogB.SQL("Done!");
+
+				currentVersion = updateVersion("1.76");
+			}
 
 
 			// --- add more updates here
@@ -2685,6 +2709,7 @@ class Sqlite
 		SqliteForceSensorExercise.createTable();
 		SqliteForceSensorRFD.createTable();
 		SqliteForceSensorRFD.InsertDefaultValues(true);
+		SqliteForceSensorElasticBand.createTable();
 
 		//runEncoder
 		SqliteRunEncoder.createTable();
@@ -2700,7 +2725,9 @@ class Sqlite
 		SqliteJson.createTableUploadExhibitionTestTemp ();
 
 		//changes [from - to - desc]
-		//1.73 - 1.74 Converted DB to 1.74 ALTER TABLE Constants.ForceSensorExerciseTable ADD COLUMN forceResultant, clastic INT
+		//1.75 - 1.76 Converted DB to 1.76 ALTER TABLE " + Constants.ForceSensorTable + " ADD COLUMN (stiffness float, stiffnessString string)
+		//1.74 - 1.75 Converted DB to 1.75 Created table ForceSensorElasticBand
+		//1.73 - 1.74 Converted DB to 1.74 ALTER TABLE Constants.ForceSensorExerciseTable ADD COLUMN forceResultant, elastic
 		//1.72 - 1.73 Converted DB to 1.73 Inserted into preferences: jumpsDjGraphHeights
 		//1.71 - 1.72 Converted DB to 1.72 Inserted into preferences: forceSensorCaptureWidthSeconds, forceSensorCaptureScroll
 		//1.70 - 1.71 Converted DB to 1.71 Imported run encoder text files into SQL

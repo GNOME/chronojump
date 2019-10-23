@@ -2413,8 +2413,11 @@ LogB.Information(" fs R ");
 
 	private void on_elastic_bands_win_stiffness_changed(object o, EventArgs args)
 	{
-		button_force_sensor_stiffness.Label = Catalog.GetString("Stiffness:") + " " +
-			forceSensorElasticBandsWin.TotalStiffness + " N/m";
+		if(forceSensorElasticBandsWin.TotalStiffness == "0")
+			button_force_sensor_stiffness.Label = Catalog.GetString("Configure fixation");
+		else
+			button_force_sensor_stiffness.Label = Catalog.GetString("Stiffness:") + " " +
+				forceSensorElasticBandsWin.TotalStiffness + " N/m";
 	}
 
 

@@ -1437,7 +1437,7 @@ LogB.Information(" fs R ");
 	//very based on: on_encoder_load_signal_clicked () future have some inheritance
 	private void on_button_force_sensor_load_clicked (object o, EventArgs args)
 	{
-		ArrayList data = SqliteForceSensor.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID);
+		List<ForceSensor> data = SqliteForceSensor.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID);
 
 		ArrayList dataPrint = new ArrayList();
 		int count = 1;
@@ -1513,8 +1513,7 @@ LogB.Information(" fs R ");
 
 		genericWin.HideAndNull();
 
-		ArrayList data = SqliteForceSensor.Select(false, uniqueID, currentPerson.UniqueID, currentSession.UniqueID);
-		ForceSensor fs = (ForceSensor) data[0];
+		ForceSensor fs = (ForceSensor) SqliteForceSensor.Select(false, uniqueID, currentPerson.UniqueID, currentSession.UniqueID)[0];
 		if(fs == null)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFoundStr());

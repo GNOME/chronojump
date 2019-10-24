@@ -147,12 +147,13 @@ public class ForceSensor
 	//for load window
 	public string [] ToStringArray (int count)
 	{
-		int all = 8;
+		int all = 9;
 		string [] str = new String [all];
 		int i=0;
 		str[i++] = uniqueID.ToString();
 		str[i++] = count.ToString();
 		str[i++] = exerciseName;
+		str[i++] = exerciseElasticStiffnessString();
 		str[i++] = Catalog.GetString(GetCaptureOptionsString(captureOption));
 		str[i++] = Catalog.GetString(laterality);
 		str[i++] = dateTime;
@@ -166,6 +167,15 @@ public class ForceSensor
 		str[i++] = comments;
 
 		return str;
+	}
+
+	private string exerciseElasticStiffnessString ()
+	{
+		if(stiffness < 0) //aka == -1.0
+			return Catalog.GetString("No");
+		else
+			//return Catalog.GetString("Yes") + " (" + stiffness + " N/m)";
+			return stiffness.ToString();
 	}
 
 	//static methods

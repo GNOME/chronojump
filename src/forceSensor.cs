@@ -64,7 +64,7 @@ public class ForceSensor
 	private string comments;
 	private string videoURL;
 	private double stiffness; //on not elastic capture will be -1 (just check if it is negative because it's a double and sometimes -1.0 comparisons don't work)
-	private string stiffnessString;
+	private string stiffnessString; //id0*active0;id1*active1
 
 	private string exerciseName;
 
@@ -273,7 +273,7 @@ public class ForceSensor
 	public double Stiffness
 	{
 		get { return stiffness; }
-		//set { stiffness = value; }
+		set { stiffness = value; }
 	}
 	public string StiffnessString
 	{
@@ -478,7 +478,7 @@ public class ForceSensorElasticBand
 		if(uniqueID != -1)
 			uniqueIDStr = uniqueID.ToString();
 
-		LogB.Information("stiffness is: " + stiffness.ToString());
+		//LogB.Information("stiffness is: " + stiffness.ToString());
 		return
 			uniqueIDStr + ", " + active.ToString() +
 			", \"" + brand + "\", \"" + color + "\", " +
@@ -507,7 +507,7 @@ public class ForceSensorElasticBand
 	{
 		double sum = 0;
 		foreach(ForceSensorElasticBand fseb in list_fseb)
-			sum += fseb.Stiffness;
+			sum += fseb.Stiffness * fseb.Active;
 
 		return sum;
 	}
@@ -517,7 +517,8 @@ public class ForceSensorElasticBand
 		string sep = "";
 		foreach(ForceSensorElasticBand fseb in list_fseb)
 		{
-			str += sep + fseb.UniqueID.ToString();
+			LogB.Information("pppp fseb: " + Util.StringArrayToString(fseb.ToStringArray(), ";"));
+			str += sep + string.Format("{0}*{1}", fseb.UniqueID, fseb.Active);
 			sep = ";";
 		}
 
@@ -525,8 +526,36 @@ public class ForceSensorElasticBand
 	}
 
 	//stiffnessString is the string of a loaded set
-	public static void UpdateBandsStatus (List<ForceSensorElasticBand> list_at_db, string stiffnessString)
+	public static void UpdateBandsStatusToSqlite (List<ForceSensorElasticBand> list_at_db, string stiffnessString)
 	{
+		List<ForceSensorElasticBand> list_to_db = new List<ForceSensorElasticBand>();
+
+		foreach(ForceSensorElasticBand fseb in list_at_db)
+		{
+			string [] strAll = stiffnessString.Split(new char[] {';'});
+			bool found = false;
+			ForceSensorElasticBand fsebNew = fseb;
+			//LogB.Information("processing: " + Util.StringArrayToString(fsebNew.ToStringArray(), ";"));
+			foreach(string strBand in strAll)
+			{
+				string [] strBandWithMult = strBand.Split(new char[] {'*'});
+				if(strBandWithMult.Length == 2 && Util.IsNumber(strBandWithMult[0], false) &&
+						Util.IsNumber(strBandWithMult[1], false) && Convert.ToInt32(strBandWithMult[0]) == fseb.UniqueID)
+				{
+					fsebNew.active = Convert.ToInt32(strBandWithMult[1]);
+					list_to_db.Add(fsebNew);
+					found = true;
+					break;
+				}
+			}
+
+			if(! found) {
+				fsebNew.active = 0;
+				list_to_db.Add(fsebNew);
+			}
+
+		}
+		SqliteForceSensorElasticBand.UpdateList(false, list_to_db);
 	}
 
 	public int UniqueID

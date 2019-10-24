@@ -57,7 +57,7 @@ class SqliteForceSensor : Sqlite
 			"comments TEXT, " +
 			"videoURL TEXT, " +	//URL of video of signals. stored as relative
 			"stiffness FLOAT DEFAULT -1, " +	//this is the important, next one is needed for recalculate, but note that some bands can have changed or being deleted
-			"stiffnessString TEXT)"; //uniqueID of ElasticBand separated by ';' or empty if exerciseID ! elastic
+			"stiffnessString TEXT)"; //uniqueID*active of ElasticBand separated by ';' or empty if exerciseID ! elastic
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}
@@ -662,8 +662,7 @@ class SqliteForceSensorElasticBand : Sqlite
 
 	public static void Update (bool dbconOpened, ForceSensorElasticBand eb)
 	{
-		if(! dbconOpened)
-			Sqlite.Open();
+		openIfNeeded(dbconOpened);
 
 		dbcmd.CommandText = "UPDATE " + table + " SET " +
 			" active = " + eb.Active.ToString() +
@@ -676,8 +675,16 @@ class SqliteForceSensorElasticBand : Sqlite
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		if(! dbconOpened)
-			Sqlite.Close();
+		closeIfNeeded(dbconOpened);
+	}
+	public static void UpdateList (bool dbconOpened, List<ForceSensorElasticBand> list_fseb)
+	{
+		openIfNeeded(dbconOpened);
+
+		foreach(ForceSensorElasticBand fseb in list_fseb)
+			Update (true, fseb);
+
+		closeIfNeeded(dbconOpened);
 	}
 
 	public static void Delete (bool dbconOpened, int uniqueID)
@@ -733,8 +740,11 @@ class SqliteForceSensorElasticBand : Sqlite
 		if(stiffnessString == "")
 			return 0;
 
-		//return 0 if there is only one value and is not a integer
 		string [] strFull = stiffnessString.Split(new char[] {';'});
+		/*
+		 * TODO: fix this comprovations knowing that values come as "id*active;..."
+		 *
+		//return 0 if there is only one value and is not a integer
 		if(strFull.Length == 1) //there is just one value (there are no ';')
 			if(! Util.IsNumber(strFull[0], false))
 				return 0;
@@ -743,6 +753,7 @@ class SqliteForceSensorElasticBand : Sqlite
 		foreach(string s in strFull)
 			if(! Util.IsNumber(s, false))
 				return 0;
+				*/
 
 		return getStiffnessOfACaptureDo (dbconOpened, strFull);
 	}
@@ -765,8 +776,12 @@ class SqliteForceSensorElasticBand : Sqlite
 		while(reader.Read())
 		{
 			string id = reader[0].ToString();
-			if(Util.FoundInStringArray(stiffnessStrArray, id))
-				sum += Convert.ToDouble(Util.ChangeDecimalSeparator(reader[1].ToString()));
+			foreach(string str in stiffnessStrArray)
+			{
+				string [] strFull = str.Split(new char[] {'*'});
+				if(strFull[0] == id)
+					sum += Convert.ToDouble(Util.ChangeDecimalSeparator(reader[1].ToString())) * Convert.ToInt32(strFull[1]);
+			}
 		}
 
 		reader.Close();

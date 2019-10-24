@@ -1539,6 +1539,7 @@ LogB.Information(" fs R ");
 
 		assignCurrentForceSensorExercise();
 
+		// stiffness 1: change button_force_sensor_stiffness
 		if(currentForceSensorExercise.ComputeAsElastic)
 		{
 			setStiffnessButtonLabel(fs.Stiffness);
@@ -1548,6 +1549,8 @@ LogB.Information(" fs R ");
 			button_force_sensor_stiffness.Label = "0";
 			button_force_sensor_stiffness.Visible = false;
 		}
+		// stiffness 2: update elastic bands table
+
 
 		forceSensorCopyTempAndDoGraphs();
 

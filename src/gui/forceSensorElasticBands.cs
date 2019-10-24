@@ -30,19 +30,22 @@ public class ForceSensorElasticBandsWindow
 {
 	[Widget] Gtk.Window force_sensor_elastic_bands;
 	[Widget] Gtk.Label label_header;
-	//[Widget] Gtk.VBox vbox_bands;
 	//[Widget] Gtk.ScrolledWindow scrolled_window_treeview;
 	[Widget] Gtk.TreeView treeview;
 	[Widget] Gtk.Button button_save;
 	[Widget] Gtk.Button button_delete;
 	[Widget] Gtk.Button button_close;
+	[Widget] Gtk.CheckButton check_active;
+	[Widget] Gtk.HBox hbox_active;
+	[Widget] Gtk.SpinButton spin_active_units;
+	[Widget] Gtk.SpinButton spin_stiffness;
+	[Widget] Gtk.Label label_stiffness_of_each_fixture;
 	[Widget] Gtk.Label label_total_stiffness_value;
 	[Widget] Gtk.Frame frame_add_edit;
 	[Widget] Gtk.Label label_edit_or_add;
 	[Widget] Gtk.Entry entry_brand;
 	[Widget] Gtk.Entry entry_color;
 	[Widget] Gtk.Entry entry_comments;
-	[Widget] Gtk.SpinButton spin_stiffness;
 
 	[Widget] Gtk.Button fakeButton_stiffness_changed;
 
@@ -50,13 +53,6 @@ public class ForceSensorElasticBandsWindow
 	
 	private TreeStore store;
 
-	//used to read data, see if it's ok, and print an error message.
-	//if all is ok, destroy it with HideAndNull()
-	//public bool HideOnAccept;
-	
-	//used when we don't need to read data, 
-	//and we want to ensure next window will be created at needed size
-	//public bool DestroyOnAccept;
 	public int TreeviewSelectedUniqueID;
 
 	public int uniqueID; 			//used on encoder & forceSensor edit exercise
@@ -126,9 +122,11 @@ public class ForceSensorElasticBandsWindow
 			
 	private ForceSensorElasticBand getForceSensorElasticBand(TreeIter iter)
 	{
+		LogB.Information("getForceSensorElasticBand uniqueID: " + Convert.ToInt32(store.GetValue (iter, 0)).ToString());
 		return new ForceSensorElasticBand(
 				Convert.ToInt32(store.GetValue (iter, 0)),
-				(bool) store.GetValue (iter, 1),
+				//(bool) store.GetValue (iter, 1),
+				Convert.ToInt32(store.GetValue (iter, 1)), //active
 				store.GetValue (iter, 2).ToString(), //brand
 				store.GetValue (iter, 3).ToString(), //color
 				Convert.ToDouble(store.GetValue (iter, stiffnessColumn)),
@@ -138,6 +136,8 @@ public class ForceSensorElasticBandsWindow
 
 	private void empty_frame()
 	{
+		check_active.Active = false;
+		spin_active_units.Value = 1;
 		entry_brand.Text = "";
 		entry_color.Text = "";
 		entry_comments.Text = "";
@@ -145,6 +145,15 @@ public class ForceSensorElasticBandsWindow
 	}
 	private void fill_frame(ForceSensorElasticBand fseb)
 	{
+		if(fseb.Active == 0) {
+			check_active.Active = false;
+			spin_active_units.Value = 1;
+		}
+		else {
+			check_active.Active = true;
+			spin_active_units.Value = fseb.Active;
+		}
+
 		entry_brand.Text = fseb.Brand;
 		entry_color.Text = fseb.Color;
 		entry_comments.Text = fseb.Comments;
@@ -157,11 +166,13 @@ public class ForceSensorElasticBandsWindow
 		string [] columnsString = new string [] {
 			//Catalog.GetString("ID"),
 			"ID",
-			Catalog.GetString("Selected"),	//checkboxes
-			Catalog.GetString("Brand"), Catalog.GetString("Color"),
-				Catalog.GetString("Stiffness"), Catalog.GetString("Comments") 
+			Catalog.GetString("Active"),	//checkboxes
+			Catalog.GetString("Stiffness"),
+			Catalog.GetString("Brand"),
+			Catalog.GetString("Color"),
+			Catalog.GetString("Comments")
 		};
-		stiffnessColumn = 4;
+		stiffnessColumn = 2;
 
 		store = getStore(columnsString.Length); 
 		treeview.Model = store;
@@ -187,34 +198,16 @@ public class ForceSensorElasticBandsWindow
 			store.AppendValues (fseb.ToStringArray());
 		}
 
-		markActiveRows(list_fseb);
 		stiffnessTotalUpdate();
 	}
 
-	private void markActiveRows(List<ForceSensorElasticBand> list_fseb) 
-	{
-		int count = 0;
-		Gtk.TreeIter iter;
-		bool okIter = store.GetIterFirst(out iter);
-		if(okIter) {
-			do {
-				foreach(ForceSensorElasticBand fseb in list_fseb)
-					if(fseb.Active && fseb.UniqueID == Convert.ToInt32(store.GetValue (iter, 0)))
-						store.SetValue (iter, 1, true);
-			} while ( store.IterNext(ref iter) );
-		}
-	}
-	
 	private TreeStore getStore (int columns)
 	{
 		//prepares the TreeStore for required columns
 		Type [] types = new Type [columns];
 
 		for (int i=0; i < columns; i++) {
-			if(i == 1)
-				types[1] = typeof (bool);
-			else
-				types[i] = typeof (string);
+			types[i] = typeof (string);
 		}
 		TreeStore myStore = new TreeStore(types);
 		return myStore;
@@ -227,10 +220,7 @@ public class ForceSensorElasticBandsWindow
 		int i=0;
 		bool visible = false;
 		foreach(string myCol in columnsString) {
-			if(i == 1)
-				createCheckboxes(treeview, columnsString[1]);
-			else
-				UtilGtk.CreateCols(treeview, store, myCol, i, visible);
+			UtilGtk.CreateCols(treeview, store, myCol, i, visible);
 //			if(i == 1)	//first columns: ID, is hidden
 //				store.SetSortFunc (0, UtilGtk.IdColumnCompare);
 			visible = true;
@@ -262,11 +252,15 @@ public class ForceSensorElasticBandsWindow
 	}
 	private void on_button_save_clicked (object o, EventArgs args)
 	{
+		int active = 0;
+		if(check_active.Active)
+			active = Convert.ToInt32(spin_active_units.Value);
+
 		//1) insert on SQL
 		if(currentMode == modes.ADDING)
 		{
 			//create fseb from frame_add_edit
-			ForceSensorElasticBand fseb = new ForceSensorElasticBand(-1, false, entry_brand.Text, entry_color.Text, spin_stiffness.Value, entry_comments.Text);
+			ForceSensorElasticBand fseb = new ForceSensorElasticBand(-1, active, entry_brand.Text, entry_color.Text, spin_stiffness.Value, entry_comments.Text);
 
 			//insert on SQL
 			SqliteForceSensorElasticBand.Insert(false, fseb);
@@ -280,7 +274,7 @@ public class ForceSensorElasticBandsWindow
 			ForceSensorElasticBand fseb = getSelectedForceSensorElasticBand();
 
 			//change the params on frame_add_edit
-			fseb.Update(entry_brand.Text, entry_color.Text, spin_stiffness.Value, entry_comments.Text);
+			fseb.Update(active, entry_brand.Text, entry_color.Text, spin_stiffness.Value, entry_comments.Text);
 
 			//update SQL
 			SqliteForceSensorElasticBand.Update(false, fseb);
@@ -311,39 +305,6 @@ public class ForceSensorElasticBandsWindow
 		button_delete.Sensitive = false;
 	}
 
-	private void createCheckboxes(TreeView tv, string headerName) 
-	{
-		CellRendererToggle crt = new CellRendererToggle();
-		crt.Visible = true;
-		crt.Activatable = true;
-		crt.Active = true;
-		crt.Toggled += ItemToggled;
-
-		TreeViewColumn column = new TreeViewColumn (headerName, crt, "active", 1);
-		column.Clickable = true;
-		tv.AppendColumn (column);
-		
-	}
-
-	private void ItemToggled(object o, ToggledArgs args)
-	{
-		int column = 1;
-		TreeIter iter;
-		if (store.GetIter (out iter, new TreePath(args.Path))) 
-		{
-			//Log.WriteLine(args.Path);
-			bool val = (bool) store.GetValue (iter, column);
-			//Log.WriteLine (string.Format("toggled {0} with value {1}", args.Path, !val));
-
-			store.SetValue (iter, column, !val);
-
-			ForceSensorElasticBand fseb = getForceSensorElasticBand(iter);
-			SqliteForceSensorElasticBand.Update(false, fseb);
-		}
-
-		stiffnessTotalUpdate();
-	}
-
 	private void stiffnessTotalUpdate()
 	{
 		double sum = 0;
@@ -351,12 +312,23 @@ public class ForceSensorElasticBandsWindow
 		bool okIter = store.GetIterFirst(out iter);
 		if(okIter) {
 			do {
-				if((bool) store.GetValue (iter, 1))
-					sum += Convert.ToDouble(store.GetValue (iter, stiffnessColumn));
+				int mult = Convert.ToInt32(store.GetValue (iter, 1));
+				sum += mult * Convert.ToDouble(store.GetValue (iter, stiffnessColumn));
 			} while ( store.IterNext(ref iter) );
 		}
 		label_total_stiffness_value.Text = sum.ToString();
 		fakeButton_stiffness_changed.Click();
+	}
+
+	private void on_check_active_toggled (object o, EventArgs args)
+	{
+		hbox_active.Visible = check_active.Active;
+		on_spin_active_units_value_changed (new object (), new EventArgs ());
+	}
+
+	private void on_spin_active_units_value_changed (object o, EventArgs args)
+	{
+		label_stiffness_of_each_fixture.Visible = (Convert.ToInt32(spin_active_units.Value) > 1);
 	}
 
 	private void on_entries_changed (object o, EventArgs args)
@@ -385,27 +357,6 @@ public class ForceSensorElasticBandsWindow
 		ForceSensorElasticBandsWindowBox.force_sensor_elastic_bands.Hide();
 		ForceSensorElasticBandsWindowBox = null;
 	}
-
-
-	/*	
-	//when ! HideOnAccept, use this to close window
-	//also is better to call it always tat is closed clicking on accept (after data has been readed)
-	public void HideAndNull()
-	{
-		//this check is extra safety if there are extra EventHandlers opened with +=
-		if(ForceSensorElasticBandsWindowBox.force_sensor_elastic_bands != null)
-			ForceSensorElasticBandsWindowBox.force_sensor_elastic_bands.Hide();
-
-		ForceSensorElasticBandsWindowBox = null;
-	}
-	*/
-
-	/*	
-	public Button Button_accept {
-		set { button_accept = value; }
-		get { return button_accept; }
-	}
-	*/
 
 	public double TotalStiffness
 	{

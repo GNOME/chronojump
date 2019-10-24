@@ -437,7 +437,7 @@ public class ForceSensorExercise
 public class ForceSensorElasticBand
 {
 	private int uniqueID;
-	private bool active;
+	private int active;
 	private string brand;
 	private string color;
 	private double stiffness;
@@ -451,7 +451,7 @@ public class ForceSensorElasticBand
 		uniqueID = -1; //undefined
 	}
 
-	public ForceSensorElasticBand(int uniqueID, bool active, string brand, string color, double stiffness, string comments)
+	public ForceSensorElasticBand(int uniqueID, int active, string brand, string color, double stiffness, string comments)
 	{
 		this.uniqueID = uniqueID;
 		this.active = active;
@@ -463,15 +463,9 @@ public class ForceSensorElasticBand
 
 	// public methods ----
 
-	/*
-	public void UpdateActive (bool active)
+	public void Update(int active, string brand, string color, double stiffness, string comments)
 	{
 		this.active = active;
-	}
-	*/
-
-	public void Update(string brand, string color, double stiffness, string comments)
-	{
 		this.brand = brand;
 		this.color = color;
 		this.stiffness = stiffness;
@@ -486,7 +480,7 @@ public class ForceSensorElasticBand
 
 		LogB.Information("stiffness is: " + stiffness.ToString());
 		return
-			uniqueIDStr + ", " + Util.BoolToInt(active).ToString() +
+			uniqueIDStr + ", " + active.ToString() +
 			", \"" + brand + "\", \"" + color + "\", " +
 			Util.ConvertToPoint(stiffness) + ", \"" + comments + "\"";
 	}
@@ -498,9 +492,9 @@ public class ForceSensorElasticBand
 		int i=0;
 		str[i++] = uniqueID.ToString();
 		str[i++] = active.ToString();
+		str[i++] = stiffness.ToString();
 		str[i++] = brand;
 		str[i++] = color;
-		str[i++] = stiffness.ToString();
 		str[i++] = comments;
 
 		return str;
@@ -530,11 +524,16 @@ public class ForceSensorElasticBand
 		return str;
 	}
 
+	//stiffnessString is the string of a loaded set
+	public static void UpdateBandsStatus (List<ForceSensorElasticBand> list_at_db, string stiffnessString)
+	{
+	}
+
 	public int UniqueID
 	{
 		get { return uniqueID; }
 	}
-	public bool Active
+	public int Active
 	{
 		get { return active; }
 	}

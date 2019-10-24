@@ -1533,10 +1533,22 @@ LogB.Information(" fs R ");
 
 		combo_force_sensor_exercise.Active = UtilGtk.ComboMakeActive(combo_force_sensor_exercise, Catalog.GetString(fs.ExerciseName));
 		setForceSensorCaptureOptions(fs.CaptureOption);
+
 		setLaterality(fs.Laterality);
 		textview_force_sensor_capture_comment.Buffer.Text = fs.Comments;
 
 		assignCurrentForceSensorExercise();
+
+		if(currentForceSensorExercise.ComputeAsElastic)
+		{
+			setStiffnessButtonLabel(fs.Stiffness);
+			button_force_sensor_stiffness.Visible = true;
+		} else
+		{
+			button_force_sensor_stiffness.Label = "0";
+			button_force_sensor_stiffness.Visible = false;
+		}
+
 		forceSensorCopyTempAndDoGraphs();
 
 		button_video_play_this_test.Sensitive = (fs.VideoURL != "");
@@ -2256,10 +2268,7 @@ LogB.Information(" fs R ");
 			List<ForceSensorElasticBand> list_fseb = SqliteForceSensorElasticBand.SelectAll(false, true); //not opened, onlyActive
 			double stiffness = ForceSensorElasticBand.GetStiffnessOfActiveBands(list_fseb);
 
-			if(stiffness == 0)
-				button_force_sensor_stiffness.Label = Catalog.GetString("Configure fixation");
-			else
-				button_force_sensor_stiffness.Label = Catalog.GetString("Stiffness:") + " " + stiffness.ToString() + " N/m";
+			setStiffnessButtonLabel(stiffness);
 			button_force_sensor_stiffness.Visible = true;
 		} else {
 			button_force_sensor_stiffness.Label = "0";
@@ -2413,11 +2422,16 @@ LogB.Information(" fs R ");
 
 	private void on_elastic_bands_win_stiffness_changed(object o, EventArgs args)
 	{
-		if(forceSensorElasticBandsWin.TotalStiffness == "0")
+		setStiffnessButtonLabel (forceSensorElasticBandsWin.TotalStiffness);
+	}
+
+	private void setStiffnessButtonLabel (double stiffness)
+	{
+		if(stiffness <= 0)
 			button_force_sensor_stiffness.Label = Catalog.GetString("Configure fixation");
 		else
 			button_force_sensor_stiffness.Label = Catalog.GetString("Stiffness:") + " " +
-				forceSensorElasticBandsWin.TotalStiffness + " N/m";
+				stiffness.ToString() + " N/m";
 	}
 
 

@@ -2265,10 +2265,17 @@ LogB.Information(" fs R ");
 
 	private void on_combo_force_sensor_exercise_changed (object o, EventArgs args)
 	{
-		ForceSensorExercise fse = (ForceSensorExercise) SqliteForceSensorExercise.Select (
+		ArrayList array = SqliteForceSensorExercise.Select (
                                 false, getExerciseIDFromAnyCombo(
-					combo_force_sensor_exercise, forceSensorComboExercisesString, false), false )[0];
+					combo_force_sensor_exercise, forceSensorComboExercisesString, false), false );
+		if(array.Count == 0)
+		{
+			button_force_sensor_stiffness.Label = "0";
+			button_force_sensor_stiffness.Visible = false;
+			return;
+		}
 
+		ForceSensorExercise fse = (ForceSensorExercise) array[0];
 		if(fse.ComputeAsElastic)
 		{
 			List<ForceSensorElasticBand> list_fseb = SqliteForceSensorElasticBand.SelectAll(false, true); //not opened, onlyActive

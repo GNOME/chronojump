@@ -127,8 +127,8 @@ public class ForceSensorElasticBandsWindow
 				Convert.ToInt32(store.GetValue (iter, 0)),
 				//(bool) store.GetValue (iter, 1),
 				Convert.ToInt32(store.GetValue (iter, 1)), //active
-				store.GetValue (iter, 2).ToString(), //brand
-				store.GetValue (iter, 3).ToString(), //color
+				store.GetValue (iter, 3).ToString(), //brand
+				store.GetValue (iter, 4).ToString(), //color
 				Convert.ToDouble(store.GetValue (iter, stiffnessColumn)),
 				store.GetValue (iter, 5).ToString() //comments
 				);
@@ -164,9 +164,8 @@ public class ForceSensorElasticBandsWindow
 	private void setTreeview() 
 	{
 		string [] columnsString = new string [] {
-			//Catalog.GetString("ID"),
 			"ID",
-			Catalog.GetString("Active"),	//checkboxes
+			Catalog.GetString("Active units"),
 			Catalog.GetString("Stiffness"),
 			Catalog.GetString("Brand"),
 			Catalog.GetString("Color"),

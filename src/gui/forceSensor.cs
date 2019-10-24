@@ -1056,14 +1056,9 @@ LogB.Information(" fs C ");
 				{
 					event_execute_label_message.Text = "Saved.";
 
-					double stiffness = -1;
-					string stiffnessString = "";
-					if(currentForceSensorExercise.ComputeAsElastic)
-					{
-						List<ForceSensorElasticBand> list_fseb = SqliteForceSensorElasticBand.SelectAll(false, true); //not opened, onlyActive
-						stiffness = ForceSensorElasticBand.GetStiffnessOfActiveBands(list_fseb);
-						stiffnessString = ForceSensorElasticBand.GetIDsOfActiveBands(list_fseb);
-					}
+					double stiffness;
+					string stiffnessString;
+					getStiffnessAndStiffnessStringFromSQL(out stiffness, out stiffnessString);
 
 					currentForceSensor = new ForceSensor(-1, currentPerson.UniqueID, currentSession.UniqueID,
 							currentForceSensorExercise.UniqueID, getForceSensorCaptureOptions(),
@@ -1550,6 +1545,8 @@ LogB.Information(" fs R ");
 			button_force_sensor_stiffness.Visible = false;
 		}
 		// stiffness 2: update elastic bands table
+		ForceSensorElasticBand.UpdateBandsStatusToSqlite (
+				SqliteForceSensorElasticBand.SelectAll(false, false), fs.StiffnessString);
 
 
 		forceSensorCopyTempAndDoGraphs();
@@ -1718,6 +1715,12 @@ LogB.Information(" fs R ");
 		currentForceSensor.CaptureOption = getForceSensorCaptureOptions();
 		currentForceSensor.Laterality = getLaterality(false);
 		currentForceSensor.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_force_sensor_capture_comment);
+
+		double stiffness;
+		string stiffnessString;
+		getStiffnessAndStiffnessStringFromSQL(out stiffness, out stiffnessString);
+		currentForceSensor.Stiffness = stiffness;
+		currentForceSensor.StiffnessString = stiffnessString;
 
 		currentForceSensor.UpdateSQL(false);
 	}
@@ -2408,12 +2411,18 @@ LogB.Information(" fs R ");
 
 	// -------------------------------- elastic band stuff -----------------------
 
-	/*
-	private string getForceSensorStiffnessString()
+	private void getStiffnessAndStiffnessStringFromSQL(out double stiffness, out string stiffnessString)
 	{
-		return "";
+		stiffness = -1;
+		stiffnessString = "";
+
+		if(currentForceSensorExercise.ComputeAsElastic)
+		{
+			List<ForceSensorElasticBand> list_fseb = SqliteForceSensorElasticBand.SelectAll(false, true); //not opened, onlyActive
+			stiffness = ForceSensorElasticBand.GetStiffnessOfActiveBands(list_fseb);
+			stiffnessString = ForceSensorElasticBand.GetIDsOfActiveBands(list_fseb);
+		}
 	}
-	*/
 
 	private void on_button_force_sensor_stiffness_clicked (object o, EventArgs args)
 	{

@@ -1448,6 +1448,7 @@ LogB.Information(" fs R ");
 			Catalog.GetString("ID"),
 			Catalog.GetString("Set"),
 			Catalog.GetString("Exercise"),
+			Catalog.GetString("Elastic") + " (N/m)",
 			Catalog.GetString("Capture option"),
 			Catalog.GetString("Laterality"),
 			Catalog.GetString("Date"),

@@ -133,7 +133,7 @@ class SqliteForceSensor : Sqlite
 	}
 
 	//SELECT forceSensor.*, forceSensorExercise.Name FROM forceSensor, forceSensorExercise WHERE forceSensor.exerciseID = forceSensorExercise.UniqueID ORDER BY forceSensor.uniqueID;
-	public static ArrayList Select (bool dbconOpened, int uniqueID, int personID, int sessionID)
+	public static List<ForceSensor> Select (bool dbconOpened, int uniqueID, int personID, int sessionID)
 	{
 		openIfNeeded(dbconOpened);
 
@@ -160,7 +160,7 @@ class SqliteForceSensor : Sqlite
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
-		ArrayList array = new ArrayList(1);
+		List<ForceSensor> list = new List<ForceSensor>();
 		ForceSensor fs;
 
 		while(reader.Read()) {
@@ -183,13 +183,13 @@ class SqliteForceSensor : Sqlite
 					reader[13].ToString(),			//stiffnessString
 					reader[14].ToString()			//exerciseName
 					);
-			array.Add(fs);
+			list.Add(fs);
 		}
 
 		reader.Close();
 		closeIfNeeded(dbconOpened);
 
-		return array;
+		return list;
 	}
 
 	public static ArrayList SelectRowsOfAnExercise(bool dbconOpened, int exerciseID)

@@ -407,9 +407,13 @@ public class ForceSensorElasticBandsWindow
 	}
 	*/
 
-	public string TotalStiffness
+	public double TotalStiffness
 	{
-		get { return label_total_stiffness_value.Text; }
+		get {
+			if(label_total_stiffness_value.Text == "")
+				return 0;
+			return Convert.ToDouble(label_total_stiffness_value.Text);
+		}
 	}
 
 	public Button FakeButton_stiffness_changed

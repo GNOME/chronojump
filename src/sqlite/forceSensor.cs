@@ -630,7 +630,7 @@ class SqliteForceSensorElasticBand : Sqlite
 		dbcmd.CommandText =
 			"CREATE TABLE " + table + " ( " +
 			"uniqueID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-			"active INT, " + 	//bool
+			"active INT, " + 	//0 inactive, 3 using 3 like this now
 			"brand TEXT, " +
 			"color TEXT, " +
 			"stiffness FLOAT, " +
@@ -666,7 +666,7 @@ class SqliteForceSensorElasticBand : Sqlite
 			Sqlite.Open();
 
 		dbcmd.CommandText = "UPDATE " + table + " SET " +
-			" active = " + Util.BoolToInt(eb.Active).ToString() +
+			" active = " + eb.Active.ToString() +
 			", brand = \"" + eb.Brand +
 			"\", color = \"" + eb.Color +
 			"\", stiffness = " + Util.ConvertToPoint(eb.Stiffness) +
@@ -698,7 +698,7 @@ class SqliteForceSensorElasticBand : Sqlite
 
 		dbcmd.CommandText = "SELECT * FROM " + table;
 		if(onlyActive)
-			dbcmd.CommandText += " WHERE active = 1";
+			dbcmd.CommandText += " WHERE active > 0";
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 
@@ -711,7 +711,7 @@ class SqliteForceSensorElasticBand : Sqlite
 		while(reader.Read()) {
 			ForceSensorElasticBand fseb = new ForceSensorElasticBand (
 					Convert.ToInt32(reader[0].ToString()),	//uniqueID
-					Util.IntToBool(Convert.ToInt32(reader[1])), 	//active
+					Convert.ToInt32(reader[1].ToString()), 	//active
 					reader[2].ToString(),			//brand
 					reader[3].ToString(),			//color
 					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[4].ToString())),

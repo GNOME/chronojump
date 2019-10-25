@@ -525,11 +525,18 @@ public class ForceSensorElasticBand
 		return str;
 	}
 
-	//stiffnessString is the string of a loaded set
-	public static void UpdateBandsStatusToSqlite (List<ForceSensorElasticBand> list_at_db, string stiffnessString)
+	/*
+	 * stiffnessString is the string of a loaded set
+	 * stiffnessToBeReached is the double of stiffness of a loaded set
+	 * processing them have to match if there are no deletions of elastic bands or their values have been changed
+	 *
+	 * return if stiffnessString with current elastic bands on SQL can achieve deired stiffness
+	 */
+	public static bool UpdateBandsStatusToSqlite (List<ForceSensorElasticBand> list_at_db, string stiffnessString, double stiffnessToBeReached)
 	{
 		List<ForceSensorElasticBand> list_to_db = new List<ForceSensorElasticBand>();
 
+		double stiffnessAcumulated = 0;
 		foreach(ForceSensorElasticBand fseb in list_at_db)
 		{
 			string [] strAll = stiffnessString.Split(new char[] {';'});
@@ -543,6 +550,8 @@ public class ForceSensorElasticBand
 						Util.IsNumber(strBandWithMult[1], false) && Convert.ToInt32(strBandWithMult[0]) == fseb.UniqueID)
 				{
 					fsebNew.active = Convert.ToInt32(strBandWithMult[1]);
+					stiffnessAcumulated += fsebNew.active * fsebNew.Stiffness;
+
 					list_to_db.Add(fsebNew);
 					found = true;
 					break;
@@ -556,6 +565,9 @@ public class ForceSensorElasticBand
 
 		}
 		SqliteForceSensorElasticBand.UpdateList(false, list_to_db);
+
+		//LogB.Information(string.Format("stiffness match: {0}, {1}", stiffnessAcumulated, stiffnessToBeReached));
+		return Util.SimilarDouble(stiffnessAcumulated, stiffnessToBeReached);
 	}
 
 	public int UniqueID

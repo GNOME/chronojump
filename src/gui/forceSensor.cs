@@ -1539,15 +1539,22 @@ LogB.Information(" fs R ");
 		{
 			setStiffnessButtonLabel(fs.Stiffness);
 			button_force_sensor_stiffness.Visible = true;
+
+			// stiffness 2: update elastic bands table
+			if(! ForceSensorElasticBand.UpdateBandsStatusToSqlite (
+						SqliteForceSensorElasticBand.SelectAll(false, false), fs.StiffnessString, fs.Stiffness) )
+			{
+				//TODO: improve this message and apply any needed change on ForceSensorElasticBandsWindow
+				//when is definitive mark to be translated with Catalog
+				new DialogMessage(Constants.MessageTypes.WARNING,
+						"Loaded set used elastic bands that does not exist on the database or have been changed." + "\n" +
+						"Stiffness calculation is ok but stiffness configuration window will not be able to match elastic bands and total stiffness.");
+			}
 		} else
 		{
 			button_force_sensor_stiffness.Label = "0";
 			button_force_sensor_stiffness.Visible = false;
 		}
-		// stiffness 2: update elastic bands table
-		ForceSensorElasticBand.UpdateBandsStatusToSqlite (
-				SqliteForceSensorElasticBand.SelectAll(false, false), fs.StiffnessString);
-
 
 		forceSensorCopyTempAndDoGraphs();
 

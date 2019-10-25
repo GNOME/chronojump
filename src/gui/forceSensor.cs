@@ -2434,7 +2434,7 @@ LogB.Information(" fs R ");
 	private void on_button_force_sensor_stiffness_clicked (object o, EventArgs args)
 	{
 		forceSensorElasticBandsWin = ForceSensorElasticBandsWindow.Show(
-				Catalog.GetString("Elastic band selection"), "Elastic bands and other fixtures");
+				Catalog.GetString("Stiffness configuration"), Catalog.GetString("Configure attached elastic bands/tubes"));
 		forceSensorElasticBandsWin.FakeButton_stiffness_changed.Clicked -= new EventHandler(on_elastic_bands_win_stiffness_changed);
 		forceSensorElasticBandsWin.FakeButton_stiffness_changed.Clicked += new EventHandler(on_elastic_bands_win_stiffness_changed);
 	}
@@ -2447,7 +2447,7 @@ LogB.Information(" fs R ");
 	private void setStiffnessButtonLabel (double stiffness)
 	{
 		if(stiffness <= 0)
-			button_force_sensor_stiffness.Label = Catalog.GetString("Configure fixation");
+			button_force_sensor_stiffness.Label = Catalog.GetString("Configure bands/tubes");
 		else
 			button_force_sensor_stiffness.Label = Catalog.GetString("Stiffness:") + " " +
 				stiffness.ToString() + " N/m";

@@ -32,6 +32,7 @@ public class ForceSensorElasticBandsWindow
 	[Widget] Gtk.Label label_header;
 	//[Widget] Gtk.ScrolledWindow scrolled_window_treeview;
 	[Widget] Gtk.TreeView treeview;
+	[Widget] Gtk.Image image_save;
 	[Widget] Gtk.Button button_save;
 	[Widget] Gtk.Button button_delete;
 	[Widget] Gtk.Button button_close;
@@ -66,7 +67,10 @@ public class ForceSensorElasticBandsWindow
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "force_sensor_elastic_bands.glade", "force_sensor_elastic_bands", "chronojump");
 		gladeXML.Autoconnect(this);
-	
+
+		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "save.png");
+		image_save.Pixbuf = pixbuf;
+
 		//HideOnAccept = true;
 		//DestroyOnAccept = false;
 		fakeButton_stiffness_changed = new Gtk.Button();
@@ -165,7 +169,7 @@ public class ForceSensorElasticBandsWindow
 	{
 		string [] columnsString = new string [] {
 			"ID",
-			Catalog.GetString("Active units"),
+			Catalog.GetString("Attached units"),
 			Catalog.GetString("Stiffness"),
 			Catalog.GetString("Brand"),
 			Catalog.GetString("Color"),
@@ -235,7 +239,7 @@ public class ForceSensorElasticBandsWindow
 		{
 			currentMode = modes.EDITING;
 			button_delete.Sensitive = true;
-			label_edit_or_add.Text = Catalog.GetString("Edit selected fixation");
+			label_edit_or_add.Text = Catalog.GetString("Edit selected");
 			ForceSensorElasticBand fseb = getSelectedForceSensorElasticBand();
 			fill_frame(fseb);
 			frame_add_edit.Sensitive = true;
@@ -246,7 +250,7 @@ public class ForceSensorElasticBandsWindow
 	{
 		currentMode = modes.ADDING;
 		empty_frame(); //empty all
-		label_edit_or_add.Text = Catalog.GetString("Add fixation");
+		label_edit_or_add.Text = Catalog.GetString("Add new");
 		frame_add_edit.Sensitive = true;
 	}
 	private void on_button_save_clicked (object o, EventArgs args)

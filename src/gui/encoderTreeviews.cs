@@ -31,6 +31,7 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
+	[Widget] Gtk.SpinButton spin_encoder_capture_curves_best_n;
 
 	/* TreeView stuff */	
 
@@ -376,12 +377,14 @@ public partial class ChronoJumpWindow
 				EncoderSignal encoderSignal = new EncoderSignal(treeviewEncoderCaptureCurvesGetCurves(AllEccCon.CON));
 				bestRow = encoderSignal.FindPosOfBest(inertialStart, mainVariable); 	//this for BEST
 				numRows = encoderSignal.CurvesNum(); 					//this for FROM4TOPENULTIMATE
-				list_bestN = encoderSignal.FindPosOfBestN(inertialStart, mainVariable, 3, EncoderSignal.Contraction.C);
+				list_bestN = encoderSignal.FindPosOfBestN(inertialStart, mainVariable,
+						Convert.ToInt32(spin_encoder_capture_curves_best_n.Value), EncoderSignal.Contraction.C);
 			} else {
 				EncoderSignal encoderSignal = new EncoderSignal(treeviewEncoderCaptureCurvesGetCurves(AllEccCon.ALL));
 				bestRow = encoderSignal.FindPosOfBestEccCon(inertialStart, mainVariable); //this for BEST //will be pos of the ecc
 				numRows = encoderSignal.CurvesNum(); 						//this for FROM4TOPENULTIMATE
-				list_bestN = encoderSignal.FindPosOfBestN(inertialStart, mainVariable, 3, EncoderSignal.Contraction.EC);
+				list_bestN = encoderSignal.FindPosOfBestN(inertialStart, mainVariable,
+						Convert.ToInt32(spin_encoder_capture_curves_best_n.Value), EncoderSignal.Contraction.EC);
 			}
 		}
 

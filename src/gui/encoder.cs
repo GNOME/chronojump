@@ -6474,6 +6474,7 @@ public partial class ChronoJumpWindow
 							encoderSignalUniqueID == "-1" &&	//if we just captured
 							(preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.ALL ||
 							preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.BEST ||
+							preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.BESTN ||
 							preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE) )
 						needToAutoSaveCurve = true;
 

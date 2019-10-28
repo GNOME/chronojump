@@ -40,6 +40,8 @@ class SqlitePreferences : Sqlite
 	public const string EncoderMassGravitatory = "encoderMassGravitatory";
 	public const string EncoderWeightsInertial = "encoderWeightsInertial";
 
+	public const string EncoderAutoSaveCurveBestNValue = "encoderAutoSaveCurveBestNValue";
+
 	public const string EncoderRhythmActiveStr = "encoderRhythmActive";
 	public const string EncoderRhythmRepsOrPhasesStr = "encoderRhythmRepsOrPhases";
 	public const string EncoderRhythmRepSecondsStr = "encoderRhythmRepSeconds";
@@ -198,6 +200,7 @@ class SqlitePreferences : Sqlite
 				Insert ("RGraphsTranslate", "True", dbcmdTr);
 				Insert ("useHeightsOnJumpIndexes", "True", dbcmdTr);
 				Insert ("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.BEST.ToString(), dbcmdTr); 
+				Insert (EncoderAutoSaveCurveBestNValue, "3", dbcmdTr);
 				Insert ("email", "", dbcmdTr);
 				Insert ("muteLogs", "False", dbcmdTr);
 				Insert (ForceSensorTareDateTimeStr, "", dbcmdTr);
@@ -355,6 +358,8 @@ class SqlitePreferences : Sqlite
 			else if(reader[0].ToString() == "encoderAutoSaveCurve")
 				preferences.encoderAutoSaveCurve = (Constants.EncoderAutoSaveCurve) 
 					Enum.Parse(typeof(Constants.EncoderAutoSaveCurve), reader[1].ToString()); 
+			else if(reader[0].ToString() == EncoderAutoSaveCurveBestNValue)
+				preferences.encoderAutoSaveCurveBestNValue = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == "encoderCaptureBarplotFontSize")
 				preferences.encoderCaptureBarplotFontSize = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == "encoderShowStartAndDuration")

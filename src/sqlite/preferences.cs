@@ -40,12 +40,6 @@ class SqlitePreferences : Sqlite
 	public const string EncoderMassGravitatory = "encoderMassGravitatory";
 	public const string EncoderWeightsInertial = "encoderWeightsInertial";
 
-	public const string ForceSensorTareDateTimeStr = "forceSensorTareDateTime";
-	public const string ForceSensorTareStr = "forceSensorTare";
-	public const string ForceSensorCalibrationDateTimeStr = "forceSensorCalibrationDateTime";
-	public const string ForceSensorCalibrationWeightStr = "forceSensorCalibrationWeight";
-	public const string ForceSensorCalibrationFactorStr = "forceSensorCalibrationFactor";
-
 	public const string EncoderRhythmActiveStr = "encoderRhythmActive";
 	public const string EncoderRhythmRepsOrPhasesStr = "encoderRhythmRepsOrPhases";
 	public const string EncoderRhythmRepSecondsStr = "encoderRhythmRepSeconds";
@@ -59,6 +53,13 @@ class SqlitePreferences : Sqlite
 	//forceSensor
 	public const string ForceSensorCaptureWidthSeconds = "forceSensorCaptureWidthSeconds";
 	public const string ForceSensorCaptureScroll = "forceSensorCaptureScroll";
+	public const string ForceSensorGraphsLineWidth = "forceSensorGraphsLineWidth";
+
+	public const string ForceSensorTareDateTimeStr = "forceSensorTareDateTime";
+	public const string ForceSensorTareStr = "forceSensorTare";
+	public const string ForceSensorCalibrationDateTimeStr = "forceSensorCalibrationDateTime";
+	public const string ForceSensorCalibrationWeightStr = "forceSensorCalibrationWeight";
+	public const string ForceSensorCalibrationFactorStr = "forceSensorCalibrationFactor";
 
 	protected internal static new void createTable()
 	{
@@ -184,6 +185,7 @@ class SqlitePreferences : Sqlite
 				//forceSensor
 				Insert (ForceSensorCaptureWidthSeconds, "10", dbcmdTr);
 				Insert (ForceSensorCaptureScroll, "True"); //scroll. not zoom out
+				Insert (ForceSensorGraphsLineWidth, "2");
 
 				//multimedia
 				Insert ("videoDevice", "", dbcmdTr); //first
@@ -453,6 +455,8 @@ class SqlitePreferences : Sqlite
 				preferences.forceSensorCaptureWidthSeconds = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == ForceSensorCaptureScroll)
 				preferences.forceSensorCaptureScroll = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == ForceSensorGraphsLineWidth)
+				preferences.forceSensorGraphsLineWidth = Convert.ToInt32(reader[1].ToString());
 
 			//force sensor tare
 			else if(reader[0].ToString() == ForceSensorTareDateTimeStr)

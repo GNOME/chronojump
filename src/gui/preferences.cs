@@ -147,6 +147,7 @@ public class PreferencesWindow
 	[Widget] Gtk.SpinButton spin_force_sensor_capture_width_graph_seconds;
 	[Widget] Gtk.RadioButton radio_force_sensor_capture_zoom_out;
 	[Widget] Gtk.RadioButton radio_force_sensor_capture_scroll;
+	[Widget] Gtk.SpinButton spin_force_sensor_graphs_line_width;
 
 	//multimedia tab
 	[Widget] Gtk.CheckButton checkbutton_volume;
@@ -596,6 +597,8 @@ public class PreferencesWindow
 			PreferencesWindowBox.radio_force_sensor_capture_scroll.Active = true;
 		else
 			PreferencesWindowBox.radio_force_sensor_capture_zoom_out.Active = true;
+
+		PreferencesWindowBox.spin_force_sensor_graphs_line_width.Value = preferences.forceSensorGraphsLineWidth;
 
 		//language -->
 		if(preferences.language == "")
@@ -1940,6 +1943,11 @@ public class PreferencesWindow
 				SqlitePreferences.ForceSensorCaptureScroll,
 				preferences.forceSensorCaptureScroll,
 				radio_force_sensor_capture_scroll.Active);
+
+		preferences.forceSensorGraphsLineWidth = preferencesChange(
+				SqlitePreferences.ForceSensorGraphsLineWidth,
+				preferences.forceSensorGraphsLineWidth,
+				Convert.ToInt32(spin_force_sensor_graphs_line_width.Value));
 
 		//multimedia ----
 		if( preferences.volumeOn != PreferencesWindowBox.checkbutton_volume.Active ) {

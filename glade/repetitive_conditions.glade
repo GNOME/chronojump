@@ -2052,7 +2052,7 @@
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">False</property>
                                                     <property name="has_tooltip">True</property>
-                                                    <property name="tooltip" translatable="yes">Bell bad</property>
+                                                    <property name="tooltip" translatable="yes">Bell good</property>
                                                     <property name="draw_indicator">True</property>
                                                     <child>
                                                       <widget class="GtkAlignment" id="alignment28">

@@ -4207,7 +4207,7 @@ msgstr "Mostrar los datos de las pruebas de salto y carrera"
 
 #: ../glade/session_load.glade.h:9
 msgid "Show data of other tests"
-msgstr "Mostrar los datos de las pruebas"
+msgstr "Mostrar los datos de otras pruebas"
 
 #: ../glade/session_load.glade.h:12
 msgid "The current session will be modified."

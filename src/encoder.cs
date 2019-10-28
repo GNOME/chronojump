@@ -504,15 +504,9 @@ public class EncoderSignal
 	public List<int> FindPosOfBestN(int start, string variable, int n, Contraction eccon)
 	{
 		//1) find how many values to return
-		if(eccon == Contraction.C)
-		{
-			//size of list will be n or the related curves if it is smaller
-			if(curves.Count - start < n)
-				n = curves.Count - start;
-		} else { //(eccon == Contraction.EC)
-			if(curves.Count/2 - start < n) //TODO check 0/2 return before
-				n = curves.Count/2 - start;
-		}
+		//size of list will be n or the related curves if it is smaller
+		if(curves.Count - start < n)
+			n = curves.Count - start;
 
 		//2) make a copy of curves and have a new EncoderSignal to work with
 		ArrayList curvesCopy = new ArrayList();

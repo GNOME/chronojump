@@ -247,7 +247,7 @@ public class EncoderCurve
 	public string MeanForce;
 	public string MaxForce;
 	public string MaxForceT;
-	
+
 	public EncoderCurve () {
 	}
 
@@ -308,6 +308,29 @@ public class EncoderCurve
 		this.MeanForce = meanForce;
 		this.MaxForce = maxForce;
 		this.MaxForceT = maxForceT;
+	}
+
+	public EncoderCurve Copy()
+	{
+		EncoderCurve curveCopy = new EncoderCurve(Record, N,
+				Start, Duration, Height,
+				MeanSpeed, MaxSpeed, MaxSpeedT,
+				MeanPower, PeakPower, PeakPowerT,
+				PP_PPT,
+				MeanForce, MaxForce, MaxForceT);
+		return curveCopy;
+	}
+
+	//used on FindPosOfBestN
+	public void ZeroAll ()
+	{
+		Height = "0";
+		MeanSpeed = "0";
+		MaxSpeed = "0";
+		MeanPower = "0";
+		PeakPower = "0";
+		MeanForce = "0";
+		MaxForce = "0";
 	}
 
 	//http://stackoverflow.com/questions/894263/how-to-identify-if-a-string-is-a-number

@@ -1209,7 +1209,9 @@ public class Constants
 	public const string ForceSensorLateralityLeft = "Left";
 	public const string ForceSensorLateralityRight = "Right";
 
-	public enum EncoderAutoSaveCurve { ALL, NONE, BEST, FROM4TOPENULTIMATE } //note last mode not need to be 4 because DB 1.63 introduces the config of this value
+	public enum EncoderAutoSaveCurve { ALL, NONE, BEST, BESTN, BESTNCONSECUTIVE, FROM4TOPENULTIMATE }
+	//BESTN means: "bests" (cannot say this in English)
+	//note last mode not need to be 4 because DB 1.63 introduces the config of this value
 
 	//BIGGEST_TC will be the default mode.
 	// - at END of each track: track ends before the biggest TC (just before the trunk arrives)

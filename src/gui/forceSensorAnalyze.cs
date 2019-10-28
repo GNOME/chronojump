@@ -106,10 +106,15 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spinbutton_force_4_to;
 	[Widget] Gtk.SpinButton spinbutton_force_impulse_to;
 
+	[Widget] Gtk.Button button_hscale_force_sensor_ai_a_first;
 	[Widget] Gtk.Button button_hscale_force_sensor_ai_a_pre;
 	[Widget] Gtk.Button button_hscale_force_sensor_ai_a_post;
+	[Widget] Gtk.Button button_hscale_force_sensor_ai_a_last;
+
+	[Widget] Gtk.Button button_hscale_force_sensor_ai_b_first;
 	[Widget] Gtk.Button button_hscale_force_sensor_ai_b_pre;
 	[Widget] Gtk.Button button_hscale_force_sensor_ai_b_post;
+	[Widget] Gtk.Button button_hscale_force_sensor_ai_b_last;
 
 	/*
 	 * analyze options -------------------------->
@@ -1157,15 +1162,23 @@ public partial class ChronoJumpWindow
 	{
 		//note ai_a can be working with ai_b or alone (depending on checkbutton_force_sensor_ai_b)
 
+		button_hscale_force_sensor_ai_a_first.Sensitive = hscale_force_sensor_ai_a.Value > 1;
 		button_hscale_force_sensor_ai_a_pre.Sensitive = hscale_force_sensor_ai_a.Value > 1;
+		button_hscale_force_sensor_ai_b_first.Sensitive = hscale_force_sensor_ai_b.Value > 1;
 		button_hscale_force_sensor_ai_b_pre.Sensitive = hscale_force_sensor_ai_b.Value > 1;
 
+		button_hscale_force_sensor_ai_a_last.Sensitive = hscale_force_sensor_ai_a.Value < fsAI.GetLength() -2;
 		button_hscale_force_sensor_ai_a_post.Sensitive = hscale_force_sensor_ai_a.Value < fsAI.GetLength() -2;
+		button_hscale_force_sensor_ai_b_last.Sensitive = hscale_force_sensor_ai_b.Value < fsAI.GetLength() -2;
 		button_hscale_force_sensor_ai_b_post.Sensitive = hscale_force_sensor_ai_b.Value < fsAI.GetLength() -2;
 
 		button_force_sensor_ai_zoom.Sensitive = forceSensorZoomApplied || hscale_force_sensor_ai_a.Value != hscale_force_sensor_ai_b.Value;
 	}
 
+	private void on_button_hscale_force_sensor_ai_a_first_clicked (object o, EventArgs args)
+	{
+		hscale_force_sensor_ai_a.Value = 1;
+	}
 	private void on_button_hscale_force_sensor_ai_a_pre_clicked (object o, EventArgs args)
 	{
 		hscale_force_sensor_ai_a.Value -= 1;
@@ -1173,6 +1186,15 @@ public partial class ChronoJumpWindow
 	private void on_button_hscale_force_sensor_ai_a_post_clicked (object o, EventArgs args)
 	{
 		hscale_force_sensor_ai_a.Value += 1;
+	}
+	private void on_button_hscale_force_sensor_ai_a_last_clicked (object o, EventArgs args)
+	{
+		hscale_force_sensor_ai_a.Value = fsAI.GetLength() -2;
+	}
+
+	private void on_button_hscale_force_sensor_ai_b_first_clicked (object o, EventArgs args)
+	{
+		hscale_force_sensor_ai_b.Value = 1;
 	}
 	private void on_button_hscale_force_sensor_ai_b_pre_clicked (object o, EventArgs args)
 	{
@@ -1182,6 +1204,11 @@ public partial class ChronoJumpWindow
 	{
 		hscale_force_sensor_ai_b.Value += 1;
 	}
+	private void on_button_hscale_force_sensor_ai_b_last_clicked (object o, EventArgs args)
+	{
+		hscale_force_sensor_ai_b.Value = fsAI.GetLength() -2;
+	}
+
 	private void on_checkbutton_force_sensor_ai_b_toggled (object o, EventArgs args)
 	{
 		int count = Convert.ToInt32(hscale_force_sensor_ai_b.Value);

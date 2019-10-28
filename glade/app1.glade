@@ -18899,7 +18899,7 @@ Concentric</property>
                                                   </packing>
                                                 </child>
                                                 <child>
-                                                  <widget class="GtkVBox" id="vbox108">
+                                                  <widget class="GtkVBox" id="vbox108_force_sensor">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="border_width">2</property>
@@ -21102,7 +21102,33 @@ Concentric</property>
                                                             <widget class="GtkHBox" id="hbox277">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <property name="spacing">8</property>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox233">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_hscale_force_sensor_ai_a_first">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_button_hscale_force_sensor_ai_a_first_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image7">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-goto-first</property>
+                                                            <property name="icon-size">1</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
                                                             <child>
                                                             <widget class="GtkButton" id="button_hscale_force_sensor_ai_a_pre">
                                                             <property name="visible">True</property>
@@ -21121,9 +21147,21 @@ Concentric</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox234">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">4</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_hscale_force_sensor_ai_a_post">
                                                             <property name="visible">True</property>
@@ -21142,6 +21180,34 @@ Concentric</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_hscale_force_sensor_ai_a_last">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_button_hscale_force_sensor_ai_a_last_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image8">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-goto-last</property>
+                                                            <property name="icon-size">1</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
@@ -21183,7 +21249,33 @@ Concentric</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox_buttons_scale_force_sensor_ai_b">
                                                             <property name="can_focus">False</property>
+                                                            <property name="spacing">8</property>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox235">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_hscale_force_sensor_ai_b_first">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_button_hscale_force_sensor_ai_b_first_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image9">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-goto-first</property>
+                                                            <property name="icon-size">1</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
                                                             <child>
                                                             <widget class="GtkButton" id="button_hscale_force_sensor_ai_b_pre">
                                                             <property name="visible">True</property>
@@ -21200,11 +21292,23 @@ Concentric</property>
                                                             </child>
                                                             </widget>
                                                             <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox286">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">4</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_hscale_force_sensor_ai_b_post">
                                                             <property name="visible">True</property>
@@ -21218,6 +21322,34 @@ Concentric</property>
                                                             <property name="stock">gtk-go-forward</property>
                                                             <property name="icon-size">1</property>
                                                             </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_hscale_force_sensor_ai_b_last">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_button_hscale_force_sensor_ai_b_last_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image10">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-goto-last</property>
+                                                            <property name="icon-size">1</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
                                                             </child>
                                                             </widget>
                                                             <packing>
@@ -21759,6 +21891,9 @@ Concentric</property>
                                                             <property name="bottom_attach">5</property>
                                                             <property name="x_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -23960,18 +24095,6 @@ Concentric</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Tests will be filmed</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack_type">end</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <widget class="GtkHBox" id="hbox_video_encoder_capturing">
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
@@ -23999,6 +24122,18 @@ Concentric</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Tests will be filmed</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -29510,6 +29645,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

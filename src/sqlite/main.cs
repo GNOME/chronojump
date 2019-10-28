@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.77";
+	static string lastChronojumpDatabaseVersion = "1.78";
 
 	public Sqlite() {
 	}
@@ -2539,6 +2539,15 @@ class Sqlite
 
 				currentVersion = updateVersion("1.77");
 			}
+			if(currentVersion == "1.77")
+			{
+				LogB.SQL("Inserted into preferences: encoderAutoSaveCurveBestNValue");
+
+				SqlitePreferences.Insert (SqlitePreferences.EncoderAutoSaveCurveBestNValue, "3");
+
+				currentVersion = updateVersion("1.78");
+			}
+
 
 
 			// --- add more updates here
@@ -2733,6 +2742,7 @@ class Sqlite
 		SqliteJson.createTableUploadExhibitionTestTemp ();
 
 		//changes [from - to - desc]
+		//1.77 - 1.78 Converted DB to 1.78 Inserted into preferences: encoderAutoSaveCurveBestNValue
 		//1.76 - 1.77 Converted DB to 1.77 Inserted into preferences: forceSensorGraphsLineWidth
 		//1.75 - 1.76 Converted DB to 1.76 ALTER TABLE " + Constants.ForceSensorTable + " ADD COLUMN (stiffness float, stiffnessString string)
 		//1.74 - 1.75 Converted DB to 1.75 Created table ForceSensorElasticBand

@@ -842,6 +842,10 @@ public partial class ChronoJumpWindow
 
 		configInitFromPreferences();
 
+		//---- encoder ----
+
+		spin_encoder_capture_curves_best_n.Value = preferences.encoderAutoSaveCurveBestNValue;
+
 		encoderRhythm = new EncoderRhythm(
 				preferences.encoderRhythmActive, preferences.encoderRhythmRepsOrPhases,
 				preferences.encoderRhythmRepSeconds,
@@ -849,6 +853,7 @@ public partial class ChronoJumpWindow
 				preferences.encoderRhythmRestRepsSeconds, preferences.encoderRhythmRestAfterEcc,
 				preferences.encoderRhythmRepsCluster, preferences.encoderRhythmRestClustersSeconds);
 
+		//---- jumps ----
 
 		checkbutton_allow_finish_rj_after_time.Active = preferences.allowFinishRjAfterTime;
 
@@ -3037,9 +3042,14 @@ public partial class ChronoJumpWindow
 			LogB.Information("catched at on_preferences_accepted ()");
 		}
 
-		//forceSensor (pen has already been defined)
-		pen_black_force_capture.SetLineAttributes (preferences.forceSensorGraphsLineWidth, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
-		pen_black_force_ai.SetLineAttributes (preferences.forceSensorGraphsLineWidth, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
+		//encoder
+		spin_encoder_capture_curves_best_n.Value = preferences.encoderAutoSaveCurveBestNValue;
+
+		//forceSensor (check that pen has already been defined)
+		if(pen_black_force_capture != null)
+			pen_black_force_capture.SetLineAttributes (preferences.forceSensorGraphsLineWidth, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
+		if(pen_black_force_ai != null)
+			pen_black_force_ai.SetLineAttributes (preferences.forceSensorGraphsLineWidth, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
 	}
 
 

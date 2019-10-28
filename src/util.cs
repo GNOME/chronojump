@@ -1831,7 +1831,14 @@ public class Util
 		return false;
 	}
 
-	public static bool FoundInListDouble(List<double>l, double d) {
+	public static bool FoundInListInt(List<int> l, int i) {
+		foreach (int i2 in l)
+			if(i2 == i)
+				return true;
+
+		return false;
+	}
+	public static bool FoundInListDouble(List<double> l, double d) {
 		foreach (double d2 in l)
 			if(d2 == d)
 				return true;

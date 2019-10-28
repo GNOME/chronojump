@@ -3036,6 +3036,10 @@ public partial class ChronoJumpWindow
 		catch {
 			LogB.Information("catched at on_preferences_accepted ()");
 		}
+
+		//forceSensor (pen has already been defined)
+		pen_black_force_capture.SetLineAttributes (preferences.forceSensorGraphsLineWidth, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
+		pen_black_force_ai.SetLineAttributes (preferences.forceSensorGraphsLineWidth, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
 	}
 
 

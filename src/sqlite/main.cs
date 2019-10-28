@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.76";
+	static string lastChronojumpDatabaseVersion = "1.77";
 
 	public Sqlite() {
 	}
@@ -2531,6 +2531,14 @@ class Sqlite
 
 				currentVersion = updateVersion("1.76");
 			}
+			if(currentVersion == "1.76")
+			{
+				LogB.SQL("Inserted into preferences: forceSensorGraphsLineWidth");
+
+				SqlitePreferences.Insert (SqlitePreferences.ForceSensorGraphsLineWidth, "2");
+
+				currentVersion = updateVersion("1.77");
+			}
 
 
 			// --- add more updates here
@@ -2725,6 +2733,7 @@ class Sqlite
 		SqliteJson.createTableUploadExhibitionTestTemp ();
 
 		//changes [from - to - desc]
+		//1.76 - 1.77 Converted DB to 1.77 Inserted into preferences: forceSensorGraphsLineWidth
 		//1.75 - 1.76 Converted DB to 1.76 ALTER TABLE " + Constants.ForceSensorTable + " ADD COLUMN (stiffness float, stiffnessString string)
 		//1.74 - 1.75 Converted DB to 1.75 Created table ForceSensorElasticBand
 		//1.73 - 1.74 Converted DB to 1.74 ALTER TABLE Constants.ForceSensorExerciseTable ADD COLUMN forceResultant, elastic

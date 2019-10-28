@@ -91,6 +91,7 @@ public class Preferences
 
 	public int forceSensorCaptureWidthSeconds;
 	public bool forceSensorCaptureScroll;
+	public int forceSensorGraphsLineWidth;
 
 	//advanced tab
 	public bool askDeletion;

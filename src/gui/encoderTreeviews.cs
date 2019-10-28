@@ -376,12 +376,12 @@ public partial class ChronoJumpWindow
 				EncoderSignal encoderSignal = new EncoderSignal(treeviewEncoderCaptureCurvesGetCurves(AllEccCon.CON));
 				bestRow = encoderSignal.FindPosOfBest(inertialStart, mainVariable); 	//this for BEST
 				numRows = encoderSignal.CurvesNum(); 					//this for FROM4TOPENULTIMATE
-				list_bestN = encoderSignal.FindPosOfBestN(inertialStart, mainVariable, 3);
+				list_bestN = encoderSignal.FindPosOfBestN(inertialStart, mainVariable, 3, EncoderSignal.Contraction.C);
 			} else {
 				EncoderSignal encoderSignal = new EncoderSignal(treeviewEncoderCaptureCurvesGetCurves(AllEccCon.ALL));
 				bestRow = encoderSignal.FindPosOfBestEccCon(inertialStart, mainVariable); //this for BEST //will be pos of the ecc
 				numRows = encoderSignal.CurvesNum(); 						//this for FROM4TOPENULTIMATE
-				list_bestN = encoderSignal.FindPosOfBestNEccCon(inertialStart, mainVariable, 3);
+				list_bestN = encoderSignal.FindPosOfBestN(inertialStart, mainVariable, 3, EncoderSignal.Contraction.EC);
 			}
 		}
 

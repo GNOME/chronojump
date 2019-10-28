@@ -500,82 +500,51 @@ public class EncoderSignal
 		return bestValuePos;
 	}
 
-//	public enum Contraction { EC, C };
-	//public List<int> FindPosOfBestN(int start, string variable, int n, Contraction eccon)
-	public List<int> FindPosOfBestN(int start, string variable, int n)
+	public enum Contraction { EC, C };
+	public List<int> FindPosOfBestN(int start, string variable, int n, Contraction eccon)
 	{
-		//size of list will be n or the related curves if it is smaller
-		if(curves.Count - start < n)
-			n = curves.Count - start;
+		//1) find how many values to return
+		if(eccon == Contraction.C)
+		{
+			//size of list will be n or the related curves if it is smaller
+			if(curves.Count - start < n)
+				n = curves.Count - start;
+		} else { //(eccon == Contraction.EC)
+			if(curves.Count/2 - start < n) //TODO check 0/2 return before
+				n = curves.Count/2 - start;
+		}
 
-		List<int> listOfPos = new List<int>(n);
-
-		int posOfBest = -1;
-		int count = 0;
-
+		//2) make a copy of curves and have a new EncoderSignal to work with
 		ArrayList curvesCopy = new ArrayList();
 		foreach(EncoderCurve curve in curves)
-		{
-			EncoderCurve curveCopy = curve.Copy();
-			curvesCopy.Add(curveCopy);
-		}
+			curvesCopy.Add(curve.Copy());
 		EncoderSignal es = new EncoderSignal(curvesCopy);
+
+		//3) find the best values and fill listOfPos
+		List<int> listOfPos = new List<int>(n);
+		int posOfBest = -1;
+		int count = 0;
 
 		while(count < n)
 		{
 			if(posOfBest >= 0)
 			{
-				//LogB.Information("posOfBest: " + posOfBest.ToString());
-				//curves.RemoveAt(posOfBest);
-				//do not RemoveAt because it is difficult to know pos of next values,
-				//just zero that curve
+				//curves.RemoveAt(posOfBest); //do not do it because it is difficult to know pos of next values, just zero that curve
 				((EncoderCurve) curvesCopy[posOfBest]).ZeroAll();
+				if(eccon == Contraction.EC)
+					((EncoderCurve) curvesCopy[posOfBest+1]).ZeroAll();
 			}
 
-			posOfBest = es.FindPosOfBest(start, variable);
+			if(eccon == Contraction.C)
+				posOfBest = es.FindPosOfBest(start, variable);
+			else //(eccon == Contraction.EC)
+				posOfBest = es.FindPosOfBestEccCon(start, variable);
+
 			listOfPos.Add(posOfBest);
 			count ++;
 		}
 		return listOfPos;
 	}
-	public List<int> FindPosOfBestNEccCon(int start, string variable, int n)
-	{
-		//size of list will be n or the related curves if it is smaller
-		if(curves.Count/2 - start < n) //TODO check 0/2 return before
-			n = curves.Count/2 - start;
-
-		List<int> listOfPos = new List<int>(n);
-
-		int posOfBest = -1;
-		int count = 0;
-
-		ArrayList curvesCopy = new ArrayList();
-		foreach(EncoderCurve curve in curves)
-		{
-			EncoderCurve curveCopy = curve.Copy();
-			curvesCopy.Add(curveCopy);
-		}
-		EncoderSignal es = new EncoderSignal(curvesCopy);
-
-		while(count < n)
-		{
-			if(posOfBest >= 0)
-			{
-				//LogB.Information("posOfBest: " + posOfBest.ToString());
-				//curves.RemoveAt(posOfBest);
-				//do not RemoveAt because it is difficult to know pos of next values,
-				//just zero that curve
-				((EncoderCurve) curvesCopy[posOfBest]).ZeroAll();
-				((EncoderCurve) curvesCopy[posOfBest+1]).ZeroAll();
-			}
-
-			posOfBest = es.FindPosOfBestEccCon(start, variable);
-			listOfPos.Add(posOfBest);
-			count ++;
-		}
-		return listOfPos;
-	}
-
 
 
 	public double GetEccConMean(int eccPos, string variable)

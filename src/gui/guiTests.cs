@@ -609,6 +609,9 @@ public partial class ChronoJumpWindow
 	//saves all best none 4top randomly
 	private void chronojumpWindowTestsEncoderSetSaveReps()
 	{
+		/*
+		 * TODO: redo this with new combo_encoder_capture_curves_save
+		 *
 		LogB.TestStart("chronojumpWindowTestsEncoderSetSaveReps");
 
 		//Constants.EncoderAutoSaveCurve easc;
@@ -629,6 +632,7 @@ public partial class ChronoJumpWindow
 		//encoderCaptureSaveCurvesAllNoneBest(easc, encoderCaptureOptionsWin.GetMainVariable());
 		
 		LogB.TestEnd("chronojumpWindowTestsEncoderSetSaveReps: " + d.ToString());
+		*/
 	}
 	
 	//saves all best none 4top randomly
@@ -650,6 +654,10 @@ public partial class ChronoJumpWindow
 	int saveRepsLastI;
 	private bool chronojumpWindowTestsEncoderSetSaveRepsBucleDo()
 	{
+		return false;
+		/*
+		 * TODO: redo this with new combo_encoder_capture_curves_save
+		 *
 		if(! saveRepsBucleDoing)
 			return false;
 		
@@ -682,6 +690,7 @@ public partial class ChronoJumpWindow
 			chronojumpWindowTestsNext();
 			return false;
 		}
+		*/
 	}
 	
 	private void chronojumpWindowTestsWait5seconds()

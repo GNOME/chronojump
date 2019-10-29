@@ -128,11 +128,15 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_encoder_laterality_l;
 	[Widget] Gtk.Box hbox_encoder_capture_curves_save_all_none;
 
+	/*
 	//used on guiTests
 	[Widget] Gtk.Button button_encoder_capture_curves_all;
 	[Widget] Gtk.Button button_encoder_capture_curves_best;
 	[Widget] Gtk.Button button_encoder_capture_curves_none;
 	[Widget] Gtk.Button button_encoder_capture_curves_4top;
+	*/
+	[Widget] Gtk.HBox hbox_encoder_capture_curves_save;
+	[Widget] Gtk.ComboBox combo_encoder_capture_curves_save;
 
 	[Widget] Gtk.Notebook notebook_analyze_results;
 	[Widget] Gtk.Box hbox_combo_encoder_exercise_analyze;
@@ -3842,6 +3846,7 @@ public partial class ChronoJumpWindow
 	
 	
 	string [] encoderExercisesTranslationAndBodyPWeight;
+	string [] encoderCaptureCurvesSaveOptionsTranslation;
 //	string [] encoderEcconTranslation;
 //	string [] encoderLateralityTranslation;
 	string [] encoderAnalyzeCrossTranslation;
@@ -3860,7 +3865,22 @@ public partial class ChronoJumpWindow
 		
 		combo_encoder_exercise_capture.Changed += new EventHandler (on_combo_encoder_exercise_capture_changed);
 		combo_encoder_exercise_analyze.Changed += new EventHandler (on_combo_encoder_exercise_analyze_changed);
-		
+
+		//combo_encoder_capture_curves_save;
+		combo_encoder_capture_curves_save = ComboBox.NewText();
+		//string [] comboEncoderCaptureCurvesSaveOptions = { "Best", "Best n", "All", "All but last", "None" };
+		string [] comboEncoderCaptureCurvesSaveOptionsTranslated = { Catalog.GetString("Best"), Catalog.GetString("Best n"),
+			Catalog.GetString("All"), Catalog.GetString("All but last"), Catalog.GetString("None") };
+		encoderCaptureCurvesSaveOptionsTranslation = new String [comboEncoderCaptureCurvesSaveOptionsTranslated.Length];
+		for(int j=0; j < 5 ; j++)
+			encoderCaptureCurvesSaveOptionsTranslation[j] =
+				Constants.EncoderAutoSaveCurvesStrings[j] + ":" + comboEncoderCaptureCurvesSaveOptionsTranslated[j];
+		UtilGtk.ComboUpdate(combo_encoder_capture_curves_save, comboEncoderCaptureCurvesSaveOptionsTranslated, "");
+		combo_encoder_capture_curves_save.Active = UtilGtk.ComboMakeActive(combo_encoder_capture_curves_save,
+				Catalog.GetString(Constants.GetEncoderAutoSaveCurvesStrings(preferences.encoderAutoSaveCurve)));
+		manageVisibilityOf_spin_encoder_capture_curves_best_n ();
+		combo_encoder_capture_curves_save.Changed += new EventHandler (on_combo_encoder_capture_curves_save_changed);
+
 		/* ConcentricEccentric
 		 * unavailable until find while concentric data on concentric is the same than in ecc-con,
 		 * but is very different than in con-ecc
@@ -3905,6 +3925,9 @@ public partial class ChronoJumpWindow
 		hbox_combo_encoder_exercise_capture.PackStart(button_combo_encoder_exercise_capture_left, true, true, 0);
 
 		hbox_combo_encoder_exercise_capture.PackStart(combo_encoder_exercise_capture, true, true, 10);
+
+		hbox_encoder_capture_curves_save.PackStart(combo_encoder_capture_curves_save, true, true, 0);
+		hbox_encoder_capture_curves_save.ShowAll();
 
 		button_combo_encoder_exercise_capture_right = UtilGtk.CreateArrowButton(ArrowType.Right, ShadowType.In, 40, 40, UtilGtk.ArrowEnum.NONE);
 		button_combo_encoder_exercise_capture_right.Sensitive = true;
@@ -4172,26 +4195,31 @@ public partial class ChronoJumpWindow
 		image_top_laterality.Pixbuf = pixbuf;
 	}
 
-	void on_button_encoder_capture_curves_all_clicked (object o, EventArgs args) {
-		encoderCaptureSaveCurvesAllNoneBest(Constants.EncoderAutoSaveCurve.ALL, 
-				Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable));
+
+	// ---- start of combo_encoder_capture_curves_save stuff ----
+
+	void on_combo_encoder_capture_curves_save_changed (object o, EventArgs args)
+	{
+		manageVisibilityOf_spin_encoder_capture_curves_best_n ();
 	}
-	void on_button_encoder_capture_curves_best_clicked (object o, EventArgs args) {
-		encoderCaptureSaveCurvesAllNoneBest(Constants.EncoderAutoSaveCurve.BEST,
-				Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable));
+
+	void manageVisibilityOf_spin_encoder_capture_curves_best_n ()
+	{
+		spin_encoder_capture_curves_best_n.Visible = Util.FindOnArray(
+				':',1,0,UtilGtk.ComboGetActive(combo_encoder_capture_curves_save),
+					encoderCaptureCurvesSaveOptionsTranslation) == "Best n";
 	}
-	void on_button_encoder_capture_curves_best_n_clicked (object o, EventArgs args) {
-		encoderCaptureSaveCurvesAllNoneBest(Constants.EncoderAutoSaveCurve.BESTN,
-				Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable));
+
+	void on_button_encoder_capture_curves_save_clicked (object o, EventArgs args)
+	{
+		string englishOption = Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_capture_curves_save),
+					encoderCaptureCurvesSaveOptionsTranslation);
+
+		Constants.EncoderAutoSaveCurve easc = Constants.GetEncoderAutoSaveCurvesEnum (englishOption);
+		encoderCaptureSaveCurvesAllNoneBest(easc, Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable));
 	}
-	void on_button_encoder_capture_curves_none_clicked (object o, EventArgs args) {
-		encoderCaptureSaveCurvesAllNoneBest(Constants.EncoderAutoSaveCurve.NONE,
-				Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable));
-	}
-	void on_button_encoder_capture_curves_4top_clicked (object o, EventArgs args) {
-		encoderCaptureSaveCurvesAllNoneBest(Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE,
-				Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable));
-	}
+
+	// ---- end of combo_encoder_capture_curves_save stuff ----
 
 
 	void on_combo_encoder_analyze_cross_changed (object o, EventArgs args)

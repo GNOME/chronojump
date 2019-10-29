@@ -109,7 +109,6 @@ public class PreferencesWindow
 	[Widget] Gtk.Image image_encoder_inertial;
 	[Widget] Gtk.Image image_encoder_triggers;
 	[Widget] Gtk.Notebook notebook_encoder_capture_gi;
-	[Widget] Gtk.VBox vbox_encoder_inertial; //change Visible param to not have a vertical big first page with only one row of info
 	[Widget] Gtk.SpinButton spin_encoder_capture_min_height_gravitatory;
 	[Widget] Gtk.SpinButton spin_encoder_capture_min_height_inertial;
 	[Widget] Gtk.CheckButton checkbutton_encoder_capture_inertial_discard_first_n;
@@ -508,15 +507,9 @@ public class PreferencesWindow
 		PreferencesWindowBox.image_encoder_triggers.Pixbuf = pixbuf;
 
 		if(menu_mode ==	Constants.Menuitem_modes.POWERGRAVITATORY)
-		{
-			PreferencesWindowBox.vbox_encoder_inertial.Visible = false;
 			PreferencesWindowBox.notebook_encoder_capture_gi.CurrentPage = 0;
-		}
 		else if(menu_mode == Constants.Menuitem_modes.POWERINERTIAL)
-		{
-			PreferencesWindowBox.vbox_encoder_inertial.Visible = true;
 			PreferencesWindowBox.notebook_encoder_capture_gi.CurrentPage = 1;
-		}
 
 		PreferencesWindowBox.spin_encoder_capture_min_height_gravitatory.Value = preferences.encoderCaptureMinHeightGravitatory;
 		PreferencesWindowBox.spin_encoder_capture_min_height_inertial.Value = preferences.encoderCaptureMinHeightInertial;
@@ -623,12 +616,6 @@ public class PreferencesWindow
 	private void on_check_encoder_capture_inactivity_end_time_clicked (object o, EventArgs args)
 	{
 		hbox_encoder_capture_inactivity_time.Sensitive = check_encoder_capture_inactivity_end_time.Active;
-	}
-
-	//private void on_notebook_encoder_capture_gi_change_current_page (object o, Gtk.ChangeCurrentPageArgs args)
-	private void on_notebook_encoder_capture_gi_switch_page (object o, Gtk.SwitchPageArgs args)
-	{
-		vbox_encoder_inertial.Visible = (PreferencesWindowBox.notebook_encoder_capture_gi.CurrentPage == 1);
 	}
 
 	/*

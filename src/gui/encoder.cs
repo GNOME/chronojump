@@ -136,7 +136,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_capture_curves_4top;
 	*/
 	[Widget] Gtk.HBox hbox_encoder_capture_curves_save;
+	[Widget] Gtk.Label label_encoder_capture_curves_save;
 	[Widget] Gtk.ComboBox combo_encoder_capture_curves_save;
+	[Widget] Gtk.Button button_encoder_capture_curves_save;
 
 	[Widget] Gtk.Notebook notebook_analyze_results;
 	[Widget] Gtk.Box hbox_combo_encoder_exercise_analyze;
@@ -4207,6 +4209,23 @@ public partial class ChronoJumpWindow
 	void on_combo_encoder_capture_curves_save_changed (object o, EventArgs args)
 	{
 		manageVisibilityOf_spin_encoder_capture_curves_best_n ();
+		manageButton_button_encoder_capture_curves_save (false);
+	}
+
+	void on_spin_encoder_capture_curves_best_n_value_changed (object o, EventArgs args)
+	{
+		manageButton_button_encoder_capture_curves_save (false);
+	}
+
+	void manageButton_button_encoder_capture_curves_save (bool saved)
+	{
+		if(saved) {
+			label_encoder_capture_curves_save.Text = Catalog.GetString("Done");
+			button_encoder_capture_curves_save.Sensitive = false;
+		} else {
+			label_encoder_capture_curves_save.Text = Catalog.GetString("Save repetitions");
+			button_encoder_capture_curves_save.Sensitive = true;
+		}
 	}
 
 	void manageVisibilityOf_spin_encoder_capture_curves_best_n ()
@@ -4236,6 +4255,9 @@ public partial class ChronoJumpWindow
 
 		//4) save or unsave curves
 		encoderCaptureSaveCurvesAllNoneBest(easc, Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable));
+
+		//5) change save buttons
+		manageButton_button_encoder_capture_curves_save (true);
 	}
 
 	// ---- end of combo_encoder_capture_curves_save stuff ----
@@ -6529,8 +6551,12 @@ public partial class ChronoJumpWindow
 					encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve(false, "signal", 0); //this updates encoderSignalUniqueID
 
 					if(needToAutoSaveCurve)
+					{
 						encoderCaptureSaveCurvesAllNoneBest(preferences.encoderAutoSaveCurve,
 								Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable));
+
+						manageButton_button_encoder_capture_curves_save (true);
+					}
 
 					if(action == encoderActions.CURVES_AC)
 					{

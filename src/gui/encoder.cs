@@ -3931,6 +3931,8 @@ public partial class ChronoJumpWindow
 
 		hbox_encoder_capture_curves_save.PackStart(combo_encoder_capture_curves_save, true, true, 0);
 		hbox_encoder_capture_curves_save.ShowAll();
+
+		spin_encoder_capture_curves_best_n.Value = preferences.encoderAutoSaveCurveBestNValue;
 		manageVisibilityOf_spin_encoder_capture_curves_best_n ();
 
 		button_combo_encoder_exercise_capture_right = UtilGtk.CreateArrowButton(ArrowType.Right, ShadowType.In, 40, 40, UtilGtk.ArrowEnum.NONE);
@@ -4217,10 +4219,22 @@ public partial class ChronoJumpWindow
 
 	void on_button_encoder_capture_curves_save_clicked (object o, EventArgs args)
 	{
+		//1) gest Constants.EncoderAutoSaveCurve
 		string englishOption = Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_capture_curves_save),
 					encoderCaptureCurvesSaveOptionsTranslation);
 
 		Constants.EncoderAutoSaveCurve easc = Constants.GetEncoderAutoSaveCurvesEnum (englishOption);
+
+		//2) update preferences
+		preferences.encoderAutoSaveCurve = easc;
+
+		//3) update Sqlite
+		SqlitePreferences.Update("encoderAutoSaveCurve", easc.ToString(), false);
+
+		if(easc == Constants.EncoderAutoSaveCurve.BESTN || easc == Constants.EncoderAutoSaveCurve.BESTNCONSECUTIVE)
+			SqlitePreferences.Update(SqlitePreferences.EncoderAutoSaveCurveBestNValue, spin_encoder_capture_curves_best_n.Value.ToString(), false);
+
+		//4) save or unsave curves
 		encoderCaptureSaveCurvesAllNoneBest(easc, Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable));
 	}
 

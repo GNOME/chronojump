@@ -121,12 +121,6 @@ public class PreferencesWindow
 	[Widget] Gtk.RadioButton radio_encoder_capture_show_all_bars;
 	[Widget] Gtk.RadioButton radio_encoder_capture_show_only_some_bars;
 	[Widget] Gtk.SpinButton spin_encoder_capture_barplot_font_size;
-	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_best;
-	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_best_n;
-	[Widget] Gtk.SpinButton spin_encoder_auto_save_curve_best_n;
-	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_4top;
-	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_all;
-	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_none;
 	[Widget] Gtk.CheckButton check_show_start_and_duration;
 	[Widget] Gtk.RadioButton radio_encoder_triggers_no;
 	[Widget] Gtk.RadioButton radio_encoder_triggers_yes;
@@ -551,23 +545,6 @@ public class PreferencesWindow
 		}
 
 
-		PreferencesWindowBox.spin_encoder_auto_save_curve_best_n.Value = preferences.encoderAutoSaveCurveBestNValue;
-		PreferencesWindowBox.spin_encoder_auto_save_curve_best_n.Sensitive = false;
-
-		if(preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.BEST)
-			PreferencesWindowBox.radio_encoder_auto_save_curve_best.Active = true;
-		else if(preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.BESTN)
-		{
-			PreferencesWindowBox.radio_encoder_auto_save_curve_best_n.Active = true;
-			PreferencesWindowBox.spin_encoder_auto_save_curve_best_n.Sensitive = true;
-		}
-		else if(preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE)
-			PreferencesWindowBox.radio_encoder_auto_save_curve_4top.Active = true;
-		else if(preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.ALL)
-			PreferencesWindowBox.radio_encoder_auto_save_curve_all.Active = true;
-		else
-			PreferencesWindowBox.radio_encoder_auto_save_curve_none.Active = true;
-
 		PreferencesWindowBox.spin_encoder_capture_barplot_font_size.Value = preferences.encoderCaptureBarplotFontSize;
 		PreferencesWindowBox.check_show_start_and_duration.Active = preferences.encoderShowStartAndDuration;
 
@@ -641,11 +618,6 @@ public class PreferencesWindow
 	private void on_radio_encoder_capture_show_only_some_bars_toggled (object o, EventArgs args)
 	{
 		spin_encoder_capture_show_only_some_bars.Sensitive = true;
-	}
-
-	private void on_radio_encoder_auto_save_curve_best_n_toggled (object o, EventArgs args)
-	{
-		spin_encoder_auto_save_curve_best_n.Sensitive = radio_encoder_auto_save_curve_best_n.Active;
 	}
 
 	private void on_check_encoder_capture_inactivity_end_time_clicked (object o, EventArgs args)
@@ -1868,29 +1840,6 @@ public class PreferencesWindow
 			SqlitePreferences.Update("encoderCaptureShowNRepetitions",
 					PreferencesWindowBox.spin_encoder_capture_show_only_some_bars.Value.ToString(), true);
 			preferences.encoderCaptureShowNRepetitions = (int) PreferencesWindowBox.spin_encoder_capture_show_only_some_bars.Value;
-		}
-
-		if(PreferencesWindowBox.radio_encoder_auto_save_curve_best.Active) {
-			SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.BEST.ToString(), true);
-			preferences.encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.BEST;
-		}
-		else if(PreferencesWindowBox.radio_encoder_auto_save_curve_best_n.Active) {
-			SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.BESTN.ToString(), true);
-			preferences.encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.BESTN;
-			SqlitePreferences.Update(SqlitePreferences.EncoderAutoSaveCurveBestNValue, spin_encoder_auto_save_curve_best_n.Value.ToString(), true);
-			preferences.encoderAutoSaveCurveBestNValue = Convert.ToInt32(spin_encoder_auto_save_curve_best_n.Value);
-		}
-		else if(PreferencesWindowBox.radio_encoder_auto_save_curve_4top.Active) {
-			SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE.ToString(), true);
-			preferences.encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE;
-		}
-		else if(PreferencesWindowBox.radio_encoder_auto_save_curve_all.Active) {
-			SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.ALL.ToString(), true);
-			preferences.encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.ALL;
-		}
-		else {
-			SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.NONE.ToString(), true);
-			preferences.encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.NONE;
 		}
 
 		preferences.encoderCaptureBarplotFontSize = preferencesChange(

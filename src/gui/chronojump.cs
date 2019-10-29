@@ -844,8 +844,6 @@ public partial class ChronoJumpWindow
 
 		//---- encoder ----
 
-		spin_encoder_capture_curves_best_n.Value = preferences.encoderAutoSaveCurveBestNValue;
-
 		encoderRhythm = new EncoderRhythm(
 				preferences.encoderRhythmActive, preferences.encoderRhythmRepsOrPhases,
 				preferences.encoderRhythmRepSeconds,
@@ -3041,9 +3039,6 @@ public partial class ChronoJumpWindow
 		catch {
 			LogB.Information("catched at on_preferences_accepted ()");
 		}
-
-		//encoder
-		spin_encoder_capture_curves_best_n.Value = preferences.encoderAutoSaveCurveBestNValue;
 
 		//forceSensor (check that pen has already been defined)
 		if(pen_black_force_capture != null)

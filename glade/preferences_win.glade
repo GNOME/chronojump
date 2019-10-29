@@ -1977,7 +1977,7 @@ It starts before and arrives there with some speed.</property>
                                   <widget class="GtkHBox" id="hbox10">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="spacing">30</property>
+                                    <property name="spacing">16</property>
                                     <child>
                                       <widget class="GtkHBox" id="hbox23">
                                         <property name="visible">True</property>
@@ -2272,65 +2272,101 @@ It starts before and arrives there with some speed.</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <widget class="GtkHBox" id="hbox26">
+                                      <widget class="GtkLabel" id="label4">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="spacing">20</property>
+                                        <property name="xalign">0</property>
+                                        <property name="label" translatable="yes">Repetitions to show during capture graph</property>
+                                      </widget>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">False</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <widget class="GtkAlignment" id="alignment5">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="left_padding">20</property>
                                         <child>
-                                          <widget class="GtkRadioButton" id="radio_encoder_capture_show_all_bars">
-                                            <property name="label" translatable="yes">During capture, graph show all repetitions</property>
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">False</property>
-                                            <property name="active">True</property>
-                                            <property name="draw_indicator">True</property>
-                                            <signal name="toggled" handler="on_radio_encoder_capture_show_all_bars_toggled" swapped="no"/>
-                                          </widget>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">False</property>
-                                            <property name="position">0</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <widget class="GtkHBox" id="hbox29">
+                                          <widget class="GtkVBox" id="vbox13">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="spacing">4</property>
+                                            <property name="spacing">8</property>
                                             <child>
-                                              <widget class="GtkRadioButton" id="radio_encoder_capture_show_only_some_bars">
-                                                <property name="label" translatable="yes">Show only last repetitions</property>
+                                              <widget class="GtkHBox" id="hbox26">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">False</property>
-                                                <property name="active">True</property>
-                                                <property name="draw_indicator">True</property>
-                                                <property name="group">radio_encoder_capture_show_all_bars</property>
-                                                <signal name="toggled" handler="on_radio_encoder_capture_show_only_some_bars_toggled" swapped="no"/>
+                                                <property name="can_focus">False</property>
+                                                <property name="spacing">20</property>
+                                                <child>
+                                                  <widget class="GtkRadioButton" id="radio_encoder_capture_show_all_bars">
+                                                    <property name="label" translatable="yes">Show all repetitions</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">False</property>
+                                                    <property name="active">True</property>
+                                                    <property name="draw_indicator">True</property>
+                                                    <signal name="toggled" handler="on_radio_encoder_capture_show_all_bars_toggled" swapped="no"/>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
                                               </widget>
                                               <packing>
-                                                <property name="expand">True</property>
-                                                <property name="fill">True</property>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
                                                 <property name="position">0</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkSpinButton" id="spin_encoder_capture_show_only_some_bars">
+                                              <widget class="GtkHBox" id="hbox29">
                                                 <property name="visible">True</property>
-                                                <property name="sensitive">False</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="has_tooltip">True</property>
-                                                <property name="invisible_char">●</property>
-                                                <property name="width_chars">2</property>
-                                                <property name="invisible_char_set">True</property>
-                                                <property name="primary_icon_activatable">False</property>
-                                                <property name="secondary_icon_activatable">False</property>
-                                                <property name="primary_icon_sensitive">True</property>
-                                                <property name="secondary_icon_sensitive">True</property>
-                                                <property name="adjustment">11 1 30 1 10 0</property>
-                                                <property name="climb_rate">1</property>
-                                                <property name="snap_to_ticks">True</property>
-                                                <property name="numeric">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="spacing">4</property>
+                                                <child>
+                                                  <widget class="GtkRadioButton" id="radio_encoder_capture_show_only_some_bars">
+                                                    <property name="label" translatable="yes">Show only last repetitions</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">False</property>
+                                                    <property name="draw_indicator">True</property>
+                                                    <property name="group">radio_encoder_capture_show_all_bars</property>
+                                                    <signal name="toggled" handler="on_radio_encoder_capture_show_only_some_bars_toggled" swapped="no"/>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkSpinButton" id="spin_encoder_capture_show_only_some_bars">
+                                                    <property name="visible">True</property>
+                                                    <property name="sensitive">False</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="has_tooltip">True</property>
+                                                    <property name="invisible_char">●</property>
+                                                    <property name="width_chars">2</property>
+                                                    <property name="invisible_char_set">True</property>
+                                                    <property name="primary_icon_activatable">False</property>
+                                                    <property name="secondary_icon_activatable">False</property>
+                                                    <property name="primary_icon_sensitive">True</property>
+                                                    <property name="secondary_icon_sensitive">True</property>
+                                                    <property name="adjustment">11 1 30 1 10 0</property>
+                                                    <property name="climb_rate">1</property>
+                                                    <property name="snap_to_ticks">True</property>
+                                                    <property name="numeric">True</property>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="position">1</property>
+                                                  </packing>
+                                                </child>
                                               </widget>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -2339,17 +2375,12 @@ It starts before and arrives there with some speed.</property>
                                               </packing>
                                             </child>
                                           </widget>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">False</property>
-                                            <property name="position">1</property>
-                                          </packing>
                                         </child>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
-                                        <property name="position">1</property>
+                                        <property name="position">2</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -2409,7 +2440,7 @@ It starts before and arrives there with some speed.</property>
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
-                                        <property name="position">2</property>
+                                        <property name="position">3</property>
                                       </packing>
                                     </child>
                                   </widget>

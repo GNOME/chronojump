@@ -67,8 +67,6 @@ public class Preferences
 	public int encoderCaptureInertialDiscardFirstN;
 	public bool encoderCaptureCheckFullyExtended;
 	public int encoderCaptureCheckFullyExtendedValue;
-	public Constants.EncoderAutoSaveCurve encoderAutoSaveCurve;
-	public int encoderAutoSaveCurveBestNValue;
 	public int encoderCaptureBarplotFontSize;
 	public bool encoderShowStartAndDuration;
 	public enum TriggerTypes { NO_TRIGGERS, START_AT_CAPTURE, START_AT_FIRST_ON};
@@ -113,6 +111,9 @@ public class Preferences
 	public Constants.MultimediaStorage multimediaStorage;
 	public string databaseVersion;
 
+	//encoder
+	public Constants.EncoderAutoSaveCurve encoderAutoSaveCurve;
+	public int encoderAutoSaveCurveBestNValue;
 	//encoder rhythm
 	public bool encoderRhythmActive;
 	public bool encoderRhythmRepsOrPhases;

@@ -74,14 +74,16 @@ public class GenericWindow
 	[Widget] Gtk.TreeView treeview;
 	[Widget] Gtk.Button button_accept;
 	[Widget] Gtk.Button button_cancel;
-	[Widget] Gtk.Button button_delete; //currently only on encoder exercise edit
-	
+
 	//treeview fake buttons
 	[Widget] Gtk.Button button_row_edit;
+	[Widget] Gtk.Button button_row_play;
 	[Widget] Gtk.Button button_row_delete;
 
 	[Widget] Gtk.Button button_treeviewload_row_edit;
 	[Widget] Gtk.Button button_treeviewload_row_delete;
+	[Widget] Gtk.Button button_treeviewload_row_play;
+	[Widget] Gtk.Image image_treeviewload_row_play;
 	
 	[Widget] Gtk.Box hbox_entry2;
 	[Widget] Gtk.Label label_entry2;
@@ -94,8 +96,6 @@ public class GenericWindow
 	[Widget] Gtk.Label label_spin_double2;
 	[Widget] Gtk.SpinButton spin_double2;
 	
-	[Widget] Gtk.Image image_delete;
-	
 	private ArrayList nonSensitiveRows;
 
 	static GenericWindow GenericWindowBox;
@@ -103,7 +103,7 @@ public class GenericWindow
 	private TreeStore store;
 	private bool textviewChanging = false;
 
-	public enum EditActions { NONE, EDITDELETE, DELETE }
+	public enum EditActions { NONE, EDITPLAYDELETE, DELETE }
 
 	//used to read data, see if it's ok, and print an error message.
 	//if all is ok, destroy it with HideAndNull()
@@ -113,6 +113,7 @@ public class GenericWindow
 	//and we want to ensure next window will be created at needed size
 	public bool DestroyOnAccept;
 	public int TreeviewSelectedUniqueID;
+	private int videoColumn = 0;
 	private int commentColumn;
 
 	public int uniqueID; 			//used on encoder & forceSensor edit exercise
@@ -156,8 +157,8 @@ public class GenericWindow
 		foreach(ArrayList widgetArray in array)
 			GenericWindowBox.showWidgetsPowerful(widgetArray);
 
-		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
-		GenericWindowBox.image_delete.Pixbuf = pixbuf;
+		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "video_play.png");
+		GenericWindowBox.image_treeviewload_row_play.Pixbuf = pixbuf;
 
 		if(showNow)
 			GenericWindowBox.generic_window.Show ();
@@ -214,6 +215,7 @@ public class GenericWindow
 		check1.Hide();
 		hbox_edit_row.Hide();
 		button_treeviewload_row_edit.Hide();
+		button_treeviewload_row_play.Hide();
 		button_treeviewload_row_delete.Hide();
 		hbox_all_none_selected.Hide();
 		hbox_combo_all_none_selected.Hide();
@@ -608,13 +610,16 @@ public class GenericWindow
 
 		this.activateRowAcceptsWindow = activateRowAcceptsWindow;
 
-		if(editAction == EditActions.EDITDELETE)
+		if(editAction == EditActions.EDITPLAYDELETE)
 		{
 			button_treeviewload_row_edit.Sensitive = false;
 			button_treeviewload_row_edit.Visible = true;
+			button_treeviewload_row_play.Sensitive = false;
+			button_treeviewload_row_play.Visible = true;
 			button_treeviewload_row_delete.Sensitive = false;
 			button_treeviewload_row_delete.Visible = true;
 			button_row_edit = new Gtk.Button();
+			button_row_play = new Gtk.Button();
 			button_row_delete = new Gtk.Button();
 		} else if(editAction == EditActions.DELETE)
 		{
@@ -696,12 +701,16 @@ public class GenericWindow
 			SetButtonAcceptSensitive(true);
 			button_treeviewload_row_edit.Sensitive = true;
 			button_treeviewload_row_delete.Sensitive = true;
+
+			string video = (string) myModel.GetValue (iter, videoColumn);
+			button_treeviewload_row_play.Sensitive = (video == Catalog.GetString("Yes"));
 		}
 		else
 		{
 			SetButtonAcceptSensitive(false);
 			button_treeviewload_row_edit.Sensitive = false;
 			button_treeviewload_row_delete.Sensitive = false;
+			button_treeviewload_row_play.Sensitive = false;
 		}
 
 		ShowEditRow(false);
@@ -714,6 +723,7 @@ public class GenericWindow
 		if (treeview.Selection.GetSelected (out myModel, out iter))
 		{
 			button_treeviewload_row_edit.Sensitive = true;
+			button_treeviewload_row_play.Sensitive = true;
 			button_treeviewload_row_delete.Sensitive = true;
 		}
 	}
@@ -859,6 +869,7 @@ public class GenericWindow
 		entry_edit_row.Text = (string) model.GetValue (iter, commentColumn);
 
 		button_treeviewload_row_edit.Sensitive = false;
+		button_treeviewload_row_play.Sensitive = false;
 		button_treeviewload_row_delete.Sensitive = false;
 
 		button_row_edit.Click();
@@ -875,9 +886,21 @@ public class GenericWindow
 		store.SetValue (iter, commentColumn, entry_edit_row.Text);
 	}
 
+	private void on_play_selected_clicked (object o, EventArgs args)
+	{
+		TreeModel model;
+		TreeIter iter = new TreeIter();
+		if(! treeview.Selection.GetSelected (out model, out iter))
+			return;
+
+		TreeviewSelectedUniqueID = Convert.ToInt32((string) store.GetValue (iter, 0));
+		button_row_play.Click();
+	}
+
 	public void on_hbox_combo_button_cancel_clicked (object o, EventArgs args)
 	{
 		button_treeviewload_row_edit.Sensitive = true;
+		button_treeviewload_row_play.Sensitive = true;
 		button_treeviewload_row_delete.Sensitive = true;
 		hbox_edit_row.Hide();
 	}
@@ -908,6 +931,7 @@ public class GenericWindow
 
 		TreeviewSelectedUniqueID = Convert.ToInt32((string) store.GetValue (iter, 0));
 		button_treeviewload_row_edit.Sensitive = false;
+		button_treeviewload_row_play.Sensitive = false;
 		button_treeviewload_row_delete.Sensitive = false;
 
 		//activate button to manage on gui/encoder.cs in order to delete from SQL
@@ -934,10 +958,6 @@ public class GenericWindow
 		scrolled_window_treeview.Show();
 	}
 
-	public void ShowButtonDelete(bool show) {
-		button_delete.Visible = show;
-	}
-
 	public void SetButtonAcceptLabel(string str) {
 		button_accept.Label=str;
 	}
@@ -949,7 +969,7 @@ public class GenericWindow
 	public void SetButtonCancelLabel(string str) {
 		button_cancel.Label=str;
 	}
-	
+
 	public void ShowButtonCancel(bool show) {
 		button_cancel.Visible = show;
 	}
@@ -1004,12 +1024,6 @@ public class GenericWindow
 		get { return button_middle; }
 	}
 	
-	public Button Button_delete {
-		set { button_delete = value; }
-		get { return button_delete; }
-	}
-		
-
 	public Button Button_accept {
 		set { button_accept = value; }
 		get { return button_accept; }
@@ -1019,16 +1033,23 @@ public class GenericWindow
 		set { button_row_edit = value; }
 		get { return button_row_edit; }
 	}
-	
+
+	public Button Button_row_play {
+		get { return button_row_play; }
+	}
+
 	public Button Button_row_edit_apply {
 		set { hbox_combo_button_apply = value; }
 		get { return hbox_combo_button_apply; }
 	}
-	
+
+	public int VideoColumn {
+	       set { videoColumn = value; }
+	}
 	public int CommentColumn {
 		set { commentColumn = value; }
 	}
-		
+
 	public Button Button_row_delete {
 		set { button_row_delete = value; }
 		get { return button_row_delete; }

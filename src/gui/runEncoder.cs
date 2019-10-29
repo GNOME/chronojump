@@ -672,7 +672,7 @@ public partial class ChronoJumpWindow
 				Catalog.GetString("If you want to edit or delete a row, right click on it.")
 				, bigArray);
 
-		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList(), GenericWindow.EditActions.EDITDELETE, true);
+		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList(), GenericWindow.EditActions.EDITPLAYDELETE, true);
 
 		//find all persons in current session
 		ArrayList personsPre = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID,
@@ -690,6 +690,7 @@ public partial class ChronoJumpWindow
 		//select row corresponding to current signal
 		genericWin.SelectRowWithID(0, currentRunEncoder.UniqueID); //colNum, id
 
+		genericWin.VideoColumn = 6;
 		genericWin.CommentColumn = 7;
 
 		genericWin.ShowButtonCancel(true);
@@ -697,6 +698,7 @@ public partial class ChronoJumpWindow
 		genericWin.SetButtonCancelLabel(Catalog.GetString("Close"));
 		genericWin.SetButtonAcceptSensitive(false);
 		genericWin.Button_accept.Clicked += new EventHandler(on_run_encoder_load_accepted);
+		genericWin.Button_row_play.Clicked += new EventHandler(on_run_encoder_load_signal_row_play);
 		genericWin.Button_row_edit.Clicked += new EventHandler(on_run_encoder_load_signal_row_edit);
 		genericWin.Button_row_edit_apply.Clicked += new EventHandler(on_run_encoder_load_signal_row_edit_apply);
 		genericWin.Button_row_delete.Clicked += new EventHandler(on_run_encoder_load_signal_row_delete_prequestion);
@@ -749,6 +751,14 @@ public partial class ChronoJumpWindow
 		sensitiveLastTestButtons(true);
 
 		event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(re.Filename);
+	}
+
+	protected void on_run_encoder_load_signal_row_play (object o, EventArgs args)
+	{
+		LogB.Information("row play at load signal");
+		LogB.Information(genericWin.TreeviewSelectedUniqueID.ToString());
+		playVideo(Util.GetVideoFileName(currentSession.UniqueID,
+				Constants.TestTypes.RACEANALYZER, genericWin.TreeviewSelectedUniqueID));
 	}
 
 	protected void on_run_encoder_load_signal_row_edit (object o, EventArgs args) {

@@ -462,7 +462,7 @@ public class EncoderSignal
 			{
 				bestValue = curve.GetParameter(variable);
 				bestValuePos = i;
-				LogB.Information(string.Format("bestValue: {0}; bestValuePos: {1}", bestValue, bestValuePos));
+				//LogB.Information(string.Format("bestValue: {0}; bestValuePos: {1}", bestValue, bestValuePos));
 			}
 
 			i++;
@@ -565,6 +565,36 @@ public class EncoderSignal
 			}
 
 			count ++;
+		}
+		return bestValuePos;
+	}
+	public int FindPosOfBestNConsecutiveEccCon(int start, string variable, int n)
+	{
+		//2) find the best values and fill listOfPos
+		double bestValue = 0;
+		int bestValuePos = -1;
+		int count = start;
+
+		n *= 2;
+		while(count <= curves.Count - n)
+		{
+			double sum = 0;
+			for(int i = count; i < count + n; i += 2)
+			{
+				double eccValue = ((EncoderCurve) curves[i]).GetParameter(variable);
+				double conValue = ((EncoderCurve) curves[i+1]).GetParameter(variable);
+				sum += (eccValue + conValue) / 2;
+				LogB.Information(string.Format("eccValue: {0}, conValue: {1}, accumulated sum: {2}", eccValue, conValue, sum));
+			}
+			LogB.Information("total sum: " + sum.ToString());
+			if (sum > bestValue)
+			{
+				bestValue = sum;
+				bestValuePos = count;
+				LogB.Information(string.Format("bestValue: {0}, bestValuePos: {1}", bestValue, bestValuePos));
+			}
+
+			count += 2;
 		}
 		return bestValuePos;
 	}

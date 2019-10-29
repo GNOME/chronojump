@@ -397,8 +397,9 @@ public partial class ChronoJumpWindow
 				else if(saveOption == Constants.EncoderAutoSaveCurve.BESTN)
 					list_bestN = encoderSignal.FindPosOfBestN(inertialStart, mainVariable,
 							bestN, EncoderSignal.Contraction.EC);
-				//else if(saveOption == Constants.EncoderAutoSaveCurve.BESTNCONSECUTIVE)
-					//TODO
+				else if(saveOption == Constants.EncoderAutoSaveCurve.BESTNCONSECUTIVE)
+					bestRow = encoderSignal.FindPosOfBestNConsecutiveEccCon(inertialStart, mainVariable,
+							bestN);
 			}
 		}
 
@@ -440,11 +441,13 @@ public partial class ChronoJumpWindow
 					(! curve.Record && ! thisRowDiscarded && saveOption == Constants.EncoderAutoSaveCurve.ALL) ||
 					(! curve.Record && ! thisRowDiscarded && saveOption == Constants.EncoderAutoSaveCurve.BEST && i == bestRow) ||
 					(! curve.Record && ! thisRowDiscarded && saveOption == Constants.EncoderAutoSaveCurve.BESTN && Util.FoundInListInt(list_bestN, i)) ||
-					(! curve.Record && ! thisRowDiscarded && saveOption == Constants.EncoderAutoSaveCurve.BESTNCONSECUTIVE && i >= bestRow && i < bestRow + bestN) ||
+					(! curve.Record && ! thisRowDiscarded && saveOption == Constants.EncoderAutoSaveCurve.BESTNCONSECUTIVE &&
+					 i >= bestRow && ( (ecconLast == "c" && i < bestRow + bestN) || (ecconLast != "c" && i < bestRow + 2*bestN) )) ||
 					(! curve.Record && ! thisRowDiscarded && saveOption == Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE && fromValidToPenult) ||
 					(curve.Record && (thisRowDiscarded || saveOption == Constants.EncoderAutoSaveCurve.BEST && i != bestRow)) ||
 					(curve.Record && (thisRowDiscarded || saveOption == Constants.EncoderAutoSaveCurve.BESTN && ! Util.FoundInListInt(list_bestN, i))) ||
-					(curve.Record && (thisRowDiscarded || saveOption == Constants.EncoderAutoSaveCurve.BESTNCONSECUTIVE && ! (i >= bestRow && i < bestRow + bestN))) ||
+					(curve.Record && (thisRowDiscarded || saveOption == Constants.EncoderAutoSaveCurve.BESTNCONSECUTIVE && //! (i >= bestRow && i < bestRow + bestN))) ||
+					! (i >= bestRow && ( (ecconLast == "c" && i < bestRow + bestN) || (ecconLast != "c" && i < bestRow + 2*bestN) )))) ||
 					(curve.Record && (thisRowDiscarded || saveOption == Constants.EncoderAutoSaveCurve.NONE)) ||
 					(curve.Record && (thisRowDiscarded || saveOption == Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE && ! fromValidToPenult)) )
 			{ 

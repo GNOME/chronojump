@@ -1468,7 +1468,7 @@ LogB.Information(" fs R ");
 				Catalog.GetString("If you want to edit or delete a row, right click on it.")
 				, bigArray);
 
-		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList(), GenericWindow.EditActions.EDITDELETE, true);
+		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList(), GenericWindow.EditActions.EDITPLAYDELETE, true);
 
 		//find all persons in current session
 		ArrayList personsPre = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID,
@@ -1486,13 +1486,15 @@ LogB.Information(" fs R ");
 		//select row corresponding to current signal
 		genericWin.SelectRowWithID(0, currentForceSensor.UniqueID); //colNum, id
 
-		genericWin.CommentColumn = 7;
+		genericWin.VideoColumn = 7;
+		genericWin.CommentColumn = 8;
 
 		genericWin.ShowButtonCancel(true);
 		genericWin.SetButtonAcceptLabel(Catalog.GetString("Load"));
 		genericWin.SetButtonCancelLabel(Catalog.GetString("Close"));
 		genericWin.SetButtonAcceptSensitive(false);
 		genericWin.Button_accept.Clicked += new EventHandler(on_force_sensor_load_signal_accepted);
+		genericWin.Button_row_play.Clicked += new EventHandler(on_force_sensor_load_signal_row_play);
 		genericWin.Button_row_edit.Clicked += new EventHandler(on_force_sensor_load_signal_row_edit);
 		genericWin.Button_row_edit_apply.Clicked += new EventHandler(on_force_sensor_load_signal_row_edit_apply);
 		genericWin.Button_row_delete.Clicked += new EventHandler(on_force_sensor_load_signal_row_delete_prequestion);
@@ -1573,6 +1575,14 @@ LogB.Information(" fs R ");
 		force_capture_drawingarea.Sensitive = true;
 		notebook_force_sensor_analyze.Sensitive = true;
 		button_force_sensor_analyze_options.Sensitive = true;
+	}
+
+	protected void on_force_sensor_load_signal_row_play (object o, EventArgs args)
+	{
+		LogB.Information("row play at load signal");
+		LogB.Information(genericWin.TreeviewSelectedUniqueID.ToString());
+		playVideo(Util.GetVideoFileName(currentSession.UniqueID,
+				Constants.TestTypes.FORCESENSOR, genericWin.TreeviewSelectedUniqueID));
 	}
 
 	protected void on_force_sensor_load_signal_row_edit (object o, EventArgs args) {

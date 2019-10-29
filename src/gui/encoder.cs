@@ -3868,17 +3868,20 @@ public partial class ChronoJumpWindow
 
 		//combo_encoder_capture_curves_save;
 		combo_encoder_capture_curves_save = ComboBox.NewText();
-		//string [] comboEncoderCaptureCurvesSaveOptions = { "Best", "Best n", "All", "All but last", "None" };
-		string [] comboEncoderCaptureCurvesSaveOptionsTranslated = { Catalog.GetString("Best"), Catalog.GetString("Best n"),
-			Catalog.GetString("All"), Catalog.GetString("All but last"), Catalog.GetString("None") };
+		string [] comboEncoderCaptureCurvesSaveOptionsTranslated = {
+			Catalog.GetString(Constants.EncoderAutoSaveCurvesStrings[0]),
+			Catalog.GetString(Constants.EncoderAutoSaveCurvesStrings[1]),
+			Catalog.GetString(Constants.EncoderAutoSaveCurvesStrings[2]),
+			Catalog.GetString(Constants.EncoderAutoSaveCurvesStrings[3]),
+			Catalog.GetString(Constants.EncoderAutoSaveCurvesStrings[4]),
+			Catalog.GetString(Constants.EncoderAutoSaveCurvesStrings[5]) };
 		encoderCaptureCurvesSaveOptionsTranslation = new String [comboEncoderCaptureCurvesSaveOptionsTranslated.Length];
-		for(int j=0; j < 5 ; j++)
+		for(int j=0; j < comboEncoderCaptureCurvesSaveOptionsTranslated.Length ; j++)
 			encoderCaptureCurvesSaveOptionsTranslation[j] =
 				Constants.EncoderAutoSaveCurvesStrings[j] + ":" + comboEncoderCaptureCurvesSaveOptionsTranslated[j];
 		UtilGtk.ComboUpdate(combo_encoder_capture_curves_save, comboEncoderCaptureCurvesSaveOptionsTranslated, "");
 		combo_encoder_capture_curves_save.Active = UtilGtk.ComboMakeActive(combo_encoder_capture_curves_save,
 				Catalog.GetString(Constants.GetEncoderAutoSaveCurvesStrings(preferences.encoderAutoSaveCurve)));
-		manageVisibilityOf_spin_encoder_capture_curves_best_n ();
 		combo_encoder_capture_curves_save.Changed += new EventHandler (on_combo_encoder_capture_curves_save_changed);
 
 		/* ConcentricEccentric
@@ -3928,6 +3931,7 @@ public partial class ChronoJumpWindow
 
 		hbox_encoder_capture_curves_save.PackStart(combo_encoder_capture_curves_save, true, true, 0);
 		hbox_encoder_capture_curves_save.ShowAll();
+		manageVisibilityOf_spin_encoder_capture_curves_best_n ();
 
 		button_combo_encoder_exercise_capture_right = UtilGtk.CreateArrowButton(ArrowType.Right, ShadowType.In, 40, 40, UtilGtk.ArrowEnum.NONE);
 		button_combo_encoder_exercise_capture_right.Sensitive = true;
@@ -4205,9 +4209,10 @@ public partial class ChronoJumpWindow
 
 	void manageVisibilityOf_spin_encoder_capture_curves_best_n ()
 	{
-		spin_encoder_capture_curves_best_n.Visible = Util.FindOnArray(
+		string englishStr = Util.FindOnArray(
 				':',1,0,UtilGtk.ComboGetActive(combo_encoder_capture_curves_save),
-					encoderCaptureCurvesSaveOptionsTranslation) == "Best n";
+					encoderCaptureCurvesSaveOptionsTranslation);
+		spin_encoder_capture_curves_best_n.Visible = (englishStr == "Best n" || englishStr == "Best n consecutive");
 	}
 
 	void on_button_encoder_capture_curves_save_clicked (object o, EventArgs args)
@@ -6503,6 +6508,7 @@ public partial class ChronoJumpWindow
 							(preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.ALL ||
 							preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.BEST ||
 							preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.BESTN ||
+							preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.BESTNCONSECUTIVE ||
 							preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE) )
 						needToAutoSaveCurve = true;
 

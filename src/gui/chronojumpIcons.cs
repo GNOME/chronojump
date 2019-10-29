@@ -203,6 +203,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_video_preview;
 	[Widget] Gtk.Image image_video_encoder_preview;
 
+	[Widget] Gtk.Image image_encoder_capture_curves_save;
 	[Widget] Gtk.Image image_encoder_analyze_table_save_1;
 	[Widget] Gtk.Image image_encoder_analyze_image_save_1;
 	[Widget] Gtk.Image image_encoder_analyze_1RM_save_1;
@@ -669,6 +670,7 @@ public partial class ChronoJumpWindow
 		image_encoder_analyze_image_compujump_send_email_image.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "save.png");
+		image_encoder_capture_curves_save.Pixbuf = pixbuf;
 		image_encoder_analyze_table_save_1.Pixbuf = pixbuf;
 		image_encoder_analyze_image_save_1.Pixbuf = pixbuf;
 		image_encoder_analyze_1RM_save_1.Pixbuf = pixbuf;

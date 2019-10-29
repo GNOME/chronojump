@@ -1209,7 +1209,35 @@ public class Constants
 	public const string ForceSensorLateralityLeft = "Left";
 	public const string ForceSensorLateralityRight = "Right";
 
-	public enum EncoderAutoSaveCurve { ALL, NONE, BEST, BESTN, BESTNCONSECUTIVE, FROM4TOPENULTIMATE }
+	public enum EncoderAutoSaveCurve { BEST, BESTN, ALL, FROM4TOPENULTIMATE, NONE }
+	public static string [] EncoderAutoSaveCurvesStrings = { "Best", "Best n", "All", "All but last", "None" };
+	public static string GetEncoderAutoSaveCurvesStrings (EncoderAutoSaveCurve easc)
+	{
+		if(easc == EncoderAutoSaveCurve.BEST)
+			return EncoderAutoSaveCurvesStrings[0];
+		else if(easc == EncoderAutoSaveCurve.BESTN)
+			return EncoderAutoSaveCurvesStrings[1];
+		else if(easc == EncoderAutoSaveCurve.ALL)
+			return EncoderAutoSaveCurvesStrings[2];
+		else if(easc == EncoderAutoSaveCurve.FROM4TOPENULTIMATE)
+			return EncoderAutoSaveCurvesStrings[3];
+		else //(easc == EncoderAutoSaveCurve.NONE
+			return EncoderAutoSaveCurvesStrings[4];
+	}
+	public static EncoderAutoSaveCurve GetEncoderAutoSaveCurvesEnum (string str)
+	{
+		if(str == "Best")
+			return EncoderAutoSaveCurve.BEST;
+		else if(str == "Best n")
+			return EncoderAutoSaveCurve.BESTN;
+		else if(str == "All")
+			return EncoderAutoSaveCurve.ALL;
+		else if(str == "All but last")
+			return EncoderAutoSaveCurve.FROM4TOPENULTIMATE;
+		else //(str == "None")
+			return EncoderAutoSaveCurve.NONE;
+	}
+
 	//BESTN means: "bests" (cannot say this in English)
 	//note last mode not need to be 4 because DB 1.63 introduces the config of this value
 

@@ -358,6 +358,7 @@ public partial class ChronoJumpWindow
 		int bestRow = 0;
 		int numRows = 0;
 		List<int> list_bestN = new List<int>();
+		int bestN = Convert.ToInt32(spin_encoder_capture_curves_best_n.Value);
 
 		int inertialStart = 0;
 		if( current_menuitem_mode == Constants.Menuitem_modes.POWERINERTIAL)
@@ -370,21 +371,34 @@ public partial class ChronoJumpWindow
 
 		if(saveOption == Constants.EncoderAutoSaveCurve.BEST ||
 				saveOption == Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE ||
-				saveOption == Constants.EncoderAutoSaveCurve.BESTN)
+				saveOption == Constants.EncoderAutoSaveCurve.BESTN ||
+				saveOption == Constants.EncoderAutoSaveCurve.BESTNCONSECUTIVE)
 		{
 			if(ecconLast == "c") {
 				//get the concentric curves
 				EncoderSignal encoderSignal = new EncoderSignal(treeviewEncoderCaptureCurvesGetCurves(AllEccCon.CON));
-				bestRow = encoderSignal.FindPosOfBest(inertialStart, mainVariable); 	//this for BEST
-				numRows = encoderSignal.CurvesNum(); 					//this for FROM4TOPENULTIMATE
-				list_bestN = encoderSignal.FindPosOfBestN(inertialStart, mainVariable,
-						Convert.ToInt32(spin_encoder_capture_curves_best_n.Value), EncoderSignal.Contraction.C);
+
+				if(saveOption == Constants.EncoderAutoSaveCurve.BEST)
+					bestRow = encoderSignal.FindPosOfBest(inertialStart, mainVariable);
+				else if(saveOption == Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE)
+					numRows = encoderSignal.CurvesNum();
+				else if(saveOption == Constants.EncoderAutoSaveCurve.BESTN)
+					list_bestN = encoderSignal.FindPosOfBestN(inertialStart, mainVariable,
+							bestN, EncoderSignal.Contraction.C);
+				else if(saveOption == Constants.EncoderAutoSaveCurve.BESTNCONSECUTIVE)
+					bestRow = encoderSignal.FindPosOfBestNConsecutive(inertialStart, mainVariable,
+							bestN);
 			} else {
 				EncoderSignal encoderSignal = new EncoderSignal(treeviewEncoderCaptureCurvesGetCurves(AllEccCon.ALL));
-				bestRow = encoderSignal.FindPosOfBestEccCon(inertialStart, mainVariable); //this for BEST //will be pos of the ecc
-				numRows = encoderSignal.CurvesNum(); 						//this for FROM4TOPENULTIMATE
-				list_bestN = encoderSignal.FindPosOfBestN(inertialStart, mainVariable,
-						Convert.ToInt32(spin_encoder_capture_curves_best_n.Value), EncoderSignal.Contraction.EC);
+				if(saveOption == Constants.EncoderAutoSaveCurve.BEST)
+					bestRow = encoderSignal.FindPosOfBestEccCon(inertialStart, mainVariable); //will be pos of the ecc
+				else if(saveOption == Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE)
+					numRows = encoderSignal.CurvesNum();
+				else if(saveOption == Constants.EncoderAutoSaveCurve.BESTN)
+					list_bestN = encoderSignal.FindPosOfBestN(inertialStart, mainVariable,
+							bestN, EncoderSignal.Contraction.EC);
+				//else if(saveOption == Constants.EncoderAutoSaveCurve.BESTNCONSECUTIVE)
+					//TODO
 			}
 		}
 
@@ -426,9 +440,11 @@ public partial class ChronoJumpWindow
 					(! curve.Record && ! thisRowDiscarded && saveOption == Constants.EncoderAutoSaveCurve.ALL) ||
 					(! curve.Record && ! thisRowDiscarded && saveOption == Constants.EncoderAutoSaveCurve.BEST && i == bestRow) ||
 					(! curve.Record && ! thisRowDiscarded && saveOption == Constants.EncoderAutoSaveCurve.BESTN && Util.FoundInListInt(list_bestN, i)) ||
+					(! curve.Record && ! thisRowDiscarded && saveOption == Constants.EncoderAutoSaveCurve.BESTNCONSECUTIVE && i >= bestRow && i < bestRow + bestN) ||
 					(! curve.Record && ! thisRowDiscarded && saveOption == Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE && fromValidToPenult) ||
 					(curve.Record && (thisRowDiscarded || saveOption == Constants.EncoderAutoSaveCurve.BEST && i != bestRow)) ||
 					(curve.Record && (thisRowDiscarded || saveOption == Constants.EncoderAutoSaveCurve.BESTN && ! Util.FoundInListInt(list_bestN, i))) ||
+					(curve.Record && (thisRowDiscarded || saveOption == Constants.EncoderAutoSaveCurve.BESTNCONSECUTIVE && ! (i >= bestRow && i < bestRow + bestN))) ||
 					(curve.Record && (thisRowDiscarded || saveOption == Constants.EncoderAutoSaveCurve.NONE)) ||
 					(curve.Record && (thisRowDiscarded || saveOption == Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE && ! fromValidToPenult)) )
 			{ 

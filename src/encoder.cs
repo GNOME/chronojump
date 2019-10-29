@@ -540,6 +540,35 @@ public class EncoderSignal
 		return listOfPos;
 	}
 
+	//TODO: do also for ecc-con
+	//returns the pos of the first one of the consecutive rows
+	public int FindPosOfBestNConsecutive(int start, string variable, int n)
+	{
+		//2) find the best values and fill listOfPos
+		double bestValue = 0;
+		int bestValuePos = -1;
+		int count = start;
+
+		while(count <= curves.Count - n)
+		{
+			double sum = 0;
+			for(int i = count; i < count + n; i ++)
+			{
+				sum += ((EncoderCurve) curves[i]).GetParameter(variable);
+			}
+			LogB.Information("sum: " + sum.ToString());
+			if (sum > bestValue)
+			{
+				bestValue = sum;
+				bestValuePos = count;
+				LogB.Information(string.Format("bestValue: {0}, bestValuePos: {1}", bestValue, bestValuePos));
+			}
+
+			count ++;
+		}
+		return bestValuePos;
+	}
+
 
 	public double GetEccConMean(int eccPos, string variable)
 	{

@@ -1209,20 +1209,22 @@ public class Constants
 	public const string ForceSensorLateralityLeft = "Left";
 	public const string ForceSensorLateralityRight = "Right";
 
-	public enum EncoderAutoSaveCurve { BEST, BESTN, ALL, FROM4TOPENULTIMATE, NONE }
-	public static string [] EncoderAutoSaveCurvesStrings = { "Best", "Best n", "All", "All but last", "None" };
+	public enum EncoderAutoSaveCurve { BEST, BESTN, BESTNCONSECUTIVE, ALL, FROM4TOPENULTIMATE, NONE }
+	public static string [] EncoderAutoSaveCurvesStrings = { "Best", "Best n", "Best n consecutive", "All", "All but last", "None" };
 	public static string GetEncoderAutoSaveCurvesStrings (EncoderAutoSaveCurve easc)
 	{
 		if(easc == EncoderAutoSaveCurve.BEST)
 			return EncoderAutoSaveCurvesStrings[0];
 		else if(easc == EncoderAutoSaveCurve.BESTN)
 			return EncoderAutoSaveCurvesStrings[1];
-		else if(easc == EncoderAutoSaveCurve.ALL)
+		else if(easc == EncoderAutoSaveCurve.BESTNCONSECUTIVE)
 			return EncoderAutoSaveCurvesStrings[2];
-		else if(easc == EncoderAutoSaveCurve.FROM4TOPENULTIMATE)
+		else if(easc == EncoderAutoSaveCurve.ALL)
 			return EncoderAutoSaveCurvesStrings[3];
-		else //(easc == EncoderAutoSaveCurve.NONE
+		else if(easc == EncoderAutoSaveCurve.FROM4TOPENULTIMATE)
 			return EncoderAutoSaveCurvesStrings[4];
+		else //(easc == EncoderAutoSaveCurve.NONE
+			return EncoderAutoSaveCurvesStrings[5];
 	}
 	public static EncoderAutoSaveCurve GetEncoderAutoSaveCurvesEnum (string str)
 	{
@@ -1230,6 +1232,8 @@ public class Constants
 			return EncoderAutoSaveCurve.BEST;
 		else if(str == "Best n")
 			return EncoderAutoSaveCurve.BESTN;
+		else if(str == "Best n consecutive")
+			return EncoderAutoSaveCurve.BESTNCONSECUTIVE;
 		else if(str == "All")
 			return EncoderAutoSaveCurve.ALL;
 		else if(str == "All but last")

@@ -75,11 +75,11 @@ public partial class ChronoJumpWindow
 			"p" + "\n (W)",
 			"pmax" + "\n (W)",
 			"t->pmax" + "\n (s)",
-			"pmax/t->pmax" + "\n (W/s)",
+			"RPD" + "\n (W/s)",
 			"F" + "\n (N)",
 			"Fmax" + "\n (N)",
 			"t->Fmax" + "\n (s)",
-			"Fmax/t->Fmax" + "\n (N/s)"
+			"RFD" + "\n (N/s)"
 		};
 
 		encoderCaptureCurves = new ArrayList ();
@@ -585,11 +585,11 @@ public partial class ChronoJumpWindow
 			"p" + "\n(W)",
 			"pmax" + "\n(W)",
 			"t->pmax" + "\n" + timeUnits,
-			"pmax/t->pmax" + "\n(W/s)",
+			"RPD" + "\n(W/s)",
 			"F" + "\n(N)",
 			"Fmax" + "\n(N)",
 			"t->Fmax" + "\n" + timeUnits,
-			"Fmax/t->Fmax" + "\n(N/s)"
+			"RFD" + "\n(N/s)"
 		};
 		return treeviewEncoderAnalyzeHeaders;
 	}

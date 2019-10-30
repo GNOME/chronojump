@@ -41,6 +41,7 @@ class SqlitePreferences : Sqlite
 	public const string EncoderWeightsInertial = "encoderWeightsInertial";
 
 	public const string EncoderAutoSaveCurveBestNValue = "encoderAutoSaveCurveBestNValue";
+	public const string EncoderWorkKcal = "encoderWorkKcal";
 
 	public const string EncoderRhythmActiveStr = "encoderRhythmActive";
 	public const string EncoderRhythmRepsOrPhasesStr = "encoderRhythmRepsOrPhases";
@@ -148,6 +149,8 @@ class SqlitePreferences : Sqlite
 				Insert ("encoderShowStartAndDuration", "False", dbcmdTr);
 				Insert ("encoderCaptureCutByTriggers", Preferences.TriggerTypes.NO_TRIGGERS.ToString(), dbcmdTr);
 				Insert ("encoderPropulsive", "True", dbcmdTr);
+				Insert (EncoderWorkKcal, "True", dbcmdTr);
+				Insert ("encoderWorkKcal", "True", dbcmdTr);
 				Insert ("encoderSmoothEccCon", "0.6", dbcmdTr);
 				Insert ("encoderSmoothCon", "0.7", dbcmdTr);
 				Insert ("encoder1RMMethod", Constants.Encoder1RMMethod.WEIGHTED2.ToString(), dbcmdTr);
@@ -370,6 +373,8 @@ class SqlitePreferences : Sqlite
 			//encoder other
 			else if(reader[0].ToString() == "encoderPropulsive")
 				preferences.encoderPropulsive = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == EncoderWorkKcal)
+				preferences.encoderWorkKcal = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "encoderSmoothCon")
 				preferences.encoderSmoothCon = Convert.ToDouble(
 						Util.ChangeDecimalSeparator(reader[1].ToString()));

@@ -74,6 +74,7 @@ public class Preferences
 	
 	//encoder other
 	public bool encoderPropulsive;
+	public bool encoderWorkKcal;
 	public double encoderSmoothCon;
 	public Constants.Encoder1RMMethod encoder1RMMethod;
 	

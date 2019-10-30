@@ -131,6 +131,8 @@ public class PreferencesWindow
 
 	//encoder other tab
 	[Widget] Gtk.CheckButton checkbutton_encoder_propulsive;
+	[Widget] Gtk.RadioButton radio_encoder_work_kcal;
+	[Widget] Gtk.RadioButton radio_encoder_work_joules;
 	[Widget] Gtk.SpinButton spin_encoder_smooth_con;
 	[Widget] Gtk.Label label_encoder_con;
 	[Widget] Gtk.RadioButton radio_encoder_1RM_nonweighted;
@@ -554,6 +556,11 @@ public class PreferencesWindow
 
 		//encoder other -->
 		PreferencesWindowBox.checkbutton_encoder_propulsive.Active = preferences.encoderPropulsive;
+
+		if(preferences.encoderWorkKcal)
+			PreferencesWindowBox.radio_encoder_work_kcal.Active = true;
+		else
+			PreferencesWindowBox.radio_encoder_work_joules.Active = true;
 		
 		PreferencesWindowBox.spin_encoder_smooth_con.Value = preferences.encoderSmoothCon;
 
@@ -1868,7 +1875,12 @@ public class PreferencesWindow
 				"encoderPropulsive",
 				preferences.encoderPropulsive,
 				PreferencesWindowBox.checkbutton_encoder_propulsive.Active);
-		
+
+		preferences.encoderWorkKcal = preferencesChange(
+				SqlitePreferences.EncoderWorkKcal,
+				preferences.encoderWorkKcal,
+				radio_encoder_work_kcal.Active);
+
 		preferences.encoderSmoothCon = preferencesChange(
 				"encoderSmoothCon",
 				preferences.encoderSmoothCon,

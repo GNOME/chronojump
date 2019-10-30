@@ -95,7 +95,7 @@ calcule <- function(displacement, op, curveNum, startInSet)
 		  sum(displacement), #height
 		  paf$meanSpeed, paf$maxSpeed, paf$maxSpeedT, 
 		  paf$meanPower, paf$peakPower, paf$peakPowerT, paf$pp_ppt, 
-		  paf$meanForce, paf$maxForce, paf$maxForceT,
+		  paf$meanForce, paf$maxForce, paf$maxForceT, paf$maxForce_maxForceT,
 		  sep=", "), file = con)
 	close(con)
 	#if(debug)

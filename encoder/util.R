@@ -768,11 +768,12 @@ pafGenerate <- function(eccon, kinematics, massBody, massExtra, laterality, iner
 
 	peakPower <- max(abs(kinematics$power))
 	peakPowerT <- min(which(abs(kinematics$power) == peakPower))
-	
 	pp_ppt <- peakPower / (peakPowerT/1000)	# ms->s
+
 	meanForce <- mean(kinematics$force)
 	maxForce <- max(abs(kinematics$force))
 	maxForceT <- min(which(abs(kinematics$force) == maxForce))
+	maxForce_maxForceT <- maxForce / (maxForceT/1000)	# ms->s
 
 	#here paf is generated
 	#mass is not used by pafGenerate, but used by Kg/W (loadVSPower)
@@ -782,7 +783,7 @@ pafGenerate <- function(eccon, kinematics, massBody, massExtra, laterality, iner
 	return(data.frame(
 			  meanSpeed, maxSpeed, maxSpeedT,
 			  meanPower, peakPower, peakPowerT, pp_ppt,
-			  meanForce, maxForce, maxForceT,
+			  meanForce, maxForce, maxForceT, maxForce_maxForceT,
 			  mass, massBody, massExtra,		#kinematics$mass is Load
 			  laterality, inertiaMomentum)) 
 }

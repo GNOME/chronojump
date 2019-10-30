@@ -78,7 +78,8 @@ public partial class ChronoJumpWindow
 			"pmax/t->pmax" + "\n (W/s)",
 			"F" + "\n (N)",
 			"Fmax" + "\n (N)",
-			"t->Fmax" + "\n (s)"
+			"t->Fmax" + "\n (s)",
+			"Fmax/t->Fmax" + "\n (N/s)"
 		};
 
 		encoderCaptureCurves = new ArrayList ();
@@ -129,7 +130,8 @@ public partial class ChronoJumpWindow
 						cells[8], cells[9], cells[10], 	//meanSpeed, maxSpeed, maxSpeedT
 						cells[11], cells[12], cells[13],//meanPower, peakPower, peakPowerT
 						cells[14],			//peakPower / peakPowerT
-						cells[15], cells[16], cells[17] //meanForce, maxForce maxForceT
+						cells[15], cells[16], cells[17], //meanForce, maxForce maxForceT
+						cells[18] 			//meanForce / meanForceT
 						));
 
 		}
@@ -226,6 +228,9 @@ public partial class ChronoJumpWindow
 					break;
 				case 13:
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxForceT));
+					break;
+				case 14:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxForce_maxForceT));
 					break;
 			}
 					
@@ -583,7 +588,8 @@ public partial class ChronoJumpWindow
 			"pmax/t->pmax" + "\n(W/s)",
 			"F" + "\n(N)",
 			"Fmax" + "\n(N)",
-			"t->Fmax" + "\n" + timeUnits
+			"t->Fmax" + "\n" + timeUnits,
+			"Fmax/t->Fmax" + "\n(N/s)"
 		};
 		return treeviewEncoderAnalyzeHeaders;
 	}
@@ -660,15 +666,16 @@ public partial class ChronoJumpWindow
 							cells[0], 
 							cells[1],	//seriesName 
 							exerciseName,
-							cells[18],	//laterality
-							Convert.ToDouble(Util.ChangeDecimalSeparator(cells[4])),
-							totalMass,
-							Convert.ToInt32(cells[19]),
+							cells[19],	//laterality
+							Convert.ToDouble(Util.ChangeDecimalSeparator(cells[4])), 	//extraWeight
+							totalMass, 							//displaceWeight
+							Convert.ToInt32(cells[20]), 					//inertia
 							cells[5], cells[6], cells[7], 
 							cells[8], cells[9], cells[10], 
 							cells[11], cells[12], cells[13],
 							cells[14],
-							cells[15], cells[16], cells[17] //meanForce, maxSForce maxForceT
+							cells[15], cells[16], cells[17], //meanForce, maxSForce maxForceT
+							cells[18]
 							));
 
 			} while(true);
@@ -760,6 +767,9 @@ public partial class ChronoJumpWindow
 					break;
 				case 19:
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxForceT));
+					break;
+				case 20:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxForce_maxForceT));
 					break;
 			}
 			
@@ -1338,6 +1348,12 @@ public partial class ChronoJumpWindow
 		renderBoldIfNeeded(cell, curve, str);
 	}
 
+	private void RenderMaxForce_maxForceT (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+		string str = String.Format(UtilGtk.TVNumPrint(curve.MaxForce_MaxForceT,6,1),Convert.ToDouble(curve.MaxForce_MaxForceT));
+		renderBoldIfNeeded(cell, curve, str);
+	}
 	
 	/* end of rendering capture and analyze cols */
 
@@ -1452,9 +1468,9 @@ public partial class ChronoJumpWindow
 	private bool fixDecimalsWillWork(bool captureOrAnalyze, string [] cells)
 	{
 		LogB.Information(string.Format("captureOrAnalyze: {0}, cells.Length: {1}", captureOrAnalyze, cells.Length));
-		if(captureOrAnalyze && cells.Length < 18) 		//from 0 to 17
+		if(captureOrAnalyze && cells.Length < 19) 		//from 0 to 18
 			return false;
-		else if(! captureOrAnalyze && cells.Length < 20) 	//from 0 to 19
+		else if(! captureOrAnalyze && cells.Length < 21) 	//from 0 to 20
 			return false;
 
 		return true;
@@ -1478,13 +1494,17 @@ public partial class ChronoJumpWindow
 		for(int i=15; i <= 17; i++)
 			cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),3);
 
-		//cells[18] laterality
+		//maxForce_maxForceT
+		int maxForce_maxForceT = 18;
+		cells[maxForce_maxForceT] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[maxForce_maxForceT])),1);
+
+		//cells[19] laterality
 
 		//capture does not return inerta
 		//analyze returns inertia (can be different on "saved curves") comes as Kg*m^2, convert it to Kg*cm^2
 		if(! captureOrAnalyze) {
-			double inertiaInM = Convert.ToDouble(Util.ChangeDecimalSeparator(cells[19]));
-			cells[19] = (Convert.ToInt32(inertiaInM * 10000)).ToString();
+			double inertiaInM = Convert.ToDouble(Util.ChangeDecimalSeparator(cells[20]));
+			cells[20] = (Convert.ToInt32(inertiaInM * 10000)).ToString();
 		}
 
 		return cells;

@@ -247,6 +247,7 @@ public class EncoderCurve
 	public string MeanForce;
 	public string MaxForce;
 	public string MaxForceT;
+	public string MaxForce_MaxForceT;
 
 	public EncoderCurve () {
 	}
@@ -257,7 +258,8 @@ public class EncoderCurve
 			string meanSpeed, string maxSpeed, string maxSpeedT,
 			string meanPower, string peakPower, string peakPowerT, 
 			string PP_PPT,
-			string meanForce, string maxForce, string maxForceT
+			string meanForce, string maxForce, string maxForceT,
+			string maxForce_maxForceT
 			)
 	{
 		this.Record = record;
@@ -275,6 +277,7 @@ public class EncoderCurve
 		this.MeanForce = meanForce;
 		this.MaxForce = maxForce;
 		this.MaxForceT = maxForceT;
+		this.MaxForce_MaxForceT = maxForce_maxForceT;
 	}
 
 	//used on TreeView analyze
@@ -286,7 +289,8 @@ public class EncoderCurve
 			string meanSpeed, string maxSpeed, string maxSpeedT,
 			string meanPower, string peakPower, string peakPowerT, 
 			string PP_PPT,
-			string meanForce, string maxForce, string maxForceT)
+			string meanForce, string maxForce, string maxForceT,
+			string maxForce_maxForceT)
 	{
 		this.N = n;
 		this.Series = series;
@@ -308,6 +312,7 @@ public class EncoderCurve
 		this.MeanForce = meanForce;
 		this.MaxForce = maxForce;
 		this.MaxForceT = maxForceT;
+		this.MaxForce_MaxForceT = maxForce_maxForceT;
 	}
 
 	public EncoderCurve Copy()
@@ -317,7 +322,8 @@ public class EncoderCurve
 				MeanSpeed, MaxSpeed, MaxSpeedT,
 				MeanPower, PeakPower, PeakPowerT,
 				PP_PPT,
-				MeanForce, MaxForce, MaxForceT);
+				MeanForce, MaxForce, MaxForceT,
+				MaxForce_MaxForceT);
 		return curveCopy;
 	}
 
@@ -408,7 +414,8 @@ public class EncoderCurve
 				MeanSpeed + sep + MaxSpeed + sep + MaxSpeedT + sep + 
 				MeanPower + sep + PeakPower + sep + PeakPowerT + sep + 
 				PP_PPT + sep +
-				MeanForce + sep + MaxForce + sep + MaxForceT;
+				MeanForce + sep + MaxForce + sep + MaxForceT + sep +
+				MaxForce_MaxForceT;
 		
 		if(decimalSeparator == "COMMA")
 			str = Util.ConvertToComma(str);

@@ -1486,15 +1486,15 @@ findPosInPaf <- function(var, option) {
         else if(var == "Force")
                 pos = 8
         else if(var == "Load") #MassDisplaced
-                pos = 11
-        else if(var == "MassBody")
                 pos = 12
-        else if(var == "MassExtra")
+        else if(var == "MassBody")
                 pos = 13
-        else if(var == "Laterality")
+        else if(var == "MassExtra")
                 pos = 14
-        else if(var == "Inertia")
+        else if(var == "Laterality")
                 pos = 15
+        else if(var == "Inertia")
+                pos = 16
         
         if( ( var == "Speed" || var == "Power" || var == "Force") & option == "max")
                 pos=pos+1
@@ -3826,6 +3826,7 @@ doProcess <- function(options)
                                                 "meanPower","peakPower","peakPowerT",
                                                 "pp_ppt",
                                                 "meanForce", "maxForce", "maxForceT",
+                                                "maxForce_maxForceT",
                                                 "laterality", "inertiaM"
                         )
                         
@@ -3844,6 +3845,7 @@ doProcess <- function(options)
                                                          max(pafCurves$meanPower),max(pafCurves$peakPower),max(pafCurves$peakPowerT),
                                                          max(pafCurves$pp_ppt),
                                                          max(pafCurves$meanForce), max(pafCurves$maxForce), max(pafCurves$maxForceT),
+                                                         max(pafCurves$maxForce_maxForceT),
                                                          "", max(pafCurves$inertiaM)
                                         )
                                         
@@ -3854,6 +3856,7 @@ doProcess <- function(options)
                                                          mean(pafCurves$meanPower),mean(pafCurves$peakPower),mean(pafCurves$peakPowerT),
                                                          mean(pafCurves$pp_ppt),
                                                          mean(pafCurves$meanForce), mean(pafCurves$maxForce), mean(pafCurves$maxForceT),
+                                                         mean(pafCurves$maxForce_maxForceT),
                                                          "", mean(pafCurves$inertiaM)
                                         )
                                         
@@ -3865,6 +3868,7 @@ doProcess <- function(options)
                                                                 sd(pafCurves$meanPower),sd(pafCurves$peakPower),sd(pafCurves$peakPowerT),
                                                                 sd(pafCurves$pp_ppt),
                                                                 sd(pafCurves$meanForce), sd(pafCurves$maxForce), sd(pafCurves$maxForceT),
+								sd(pafCurves$maxForce_maxForceT),
                                                                 "", sd(pafCurves$inertiaM)
                                                 )
                                         

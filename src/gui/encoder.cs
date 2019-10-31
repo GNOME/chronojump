@@ -5448,7 +5448,8 @@ public partial class ChronoJumpWindow
 						",series,exercise,mass,start,width,height," + 
 						"meanSpeed,maxSpeed,maxSpeedT," +
 						"meanPower,peakPower,peakPowerT,pp_ppt," +
-						"meanForce, maxForce, maxForceT, maxForce_maxForceT");
+						"meanForce, maxForce, maxForceT, maxForce_maxForceT," +
+						"workJ, impulse");
 
 				string filename = UtilEncoder.GetEncoderCaptureTempFileName();
 				if(File.Exists(filename))
@@ -5835,7 +5836,8 @@ public partial class ChronoJumpWindow
 					strs[7], strs[8], strs[9],	//powers
 					strs[10],			//pp/ppt
 					strs[11], strs[12], strs[13], 	//forces
-					strs[14] 			//maxForce_maxForceT
+					strs[14], 			//maxForce_maxForceT
+					strs[15], strs[16] 		//workJ, impulse
 					));
 
 			//LogB.Debug("encoderCaptureStringR");

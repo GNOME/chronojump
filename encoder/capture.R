@@ -96,6 +96,8 @@ calcule <- function(displacement, op, curveNum, startInSet)
 		  paf$meanSpeed, paf$maxSpeed, paf$maxSpeedT, 
 		  paf$meanPower, paf$peakPower, paf$peakPowerT, paf$pp_ppt, 
 		  paf$meanForce, paf$maxForce, paf$maxForceT, paf$maxForce_maxForceT,
+		  paf$workJ, 		# C# will convert to Kcal if needed
+		  paf$impulse,
 		  sep=", "), file = con)
 	close(con)
 	#if(debug)

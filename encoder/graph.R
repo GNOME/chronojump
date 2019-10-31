@@ -1491,10 +1491,14 @@ findPosInPaf <- function(var, option) {
                 pos = 13
         else if(var == "MassExtra")
                 pos = 14
-        else if(var == "Laterality")
+        else if(var == "workJ")
                 pos = 15
-        else if(var == "Inertia")
+        else if(var == "impulse")
                 pos = 16
+        else if(var == "Laterality")
+                pos = 17
+        else if(var == "Inertia")
+                pos = 18
         
         if( ( var == "Speed" || var == "Power" || var == "Force") & option == "max")
                 pos=pos+1
@@ -3827,9 +3831,9 @@ doProcess <- function(options)
                                                 "pp_ppt",
                                                 "meanForce", "maxForce", "maxForceT",
                                                 "maxForce_maxForceT",
+						"workJ", "impulse",
                                                 "laterality", "inertiaM"
                         )
-                        
                         
                         #Add "Max", "AVG" and "SD" when analyzing, not on "curves", not on "curvesAC"
                         if(op$Analysis != "curves" && op$Analysis != "curvesAC") {
@@ -3846,6 +3850,7 @@ doProcess <- function(options)
                                                          max(pafCurves$pp_ppt),
                                                          max(pafCurves$meanForce), max(pafCurves$maxForce), max(pafCurves$maxForceT),
                                                          max(pafCurves$maxForce_maxForceT),
+							 max(pafCurves$workJ), max(pafCurves$impulse),
                                                          "", max(pafCurves$inertiaM)
                                         )
                                         
@@ -3857,6 +3862,7 @@ doProcess <- function(options)
                                                          mean(pafCurves$pp_ppt),
                                                          mean(pafCurves$meanForce), mean(pafCurves$maxForce), mean(pafCurves$maxForceT),
                                                          mean(pafCurves$maxForce_maxForceT),
+							 mean(pafCurves$workJ), mean(pafCurves$impulse),
                                                          "", mean(pafCurves$inertiaM)
                                         )
                                         
@@ -3869,6 +3875,7 @@ doProcess <- function(options)
                                                                 sd(pafCurves$pp_ppt),
                                                                 sd(pafCurves$meanForce), sd(pafCurves$maxForce), sd(pafCurves$maxForceT),
 								sd(pafCurves$maxForce_maxForceT),
+								sd(pafCurves$workJ), sd(pafCurves$impulse),
                                                                 "", sd(pafCurves$inertiaM)
                                                 )
                                         

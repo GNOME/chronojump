@@ -64,6 +64,12 @@ public partial class ChronoJumpWindow
 
 		bool showStartAndDuration = preferences.encoderShowStartAndDuration;
 
+		string workString = Catalog.GetString("Work");
+		if(preferences.encoderWorkKcal)
+			workString += "\n (KCal)";
+		else
+			workString += "\n (J)";
+
 		string [] columnsString = {
 			Catalog.GetString("n") + "\n",
 			Catalog.GetString("Start") + "\n (s)",
@@ -79,7 +85,9 @@ public partial class ChronoJumpWindow
 			"F" + "\n (N)",
 			"Fmax" + "\n (N)",
 			"t->Fmax" + "\n (s)",
-			"RFD" + "\n (N/s)"
+			"RFD" + "\n (N/s)",
+			workString,
+			Catalog.GetString("Impulse") + "\n (N*s)"
 		};
 
 		encoderCaptureCurves = new ArrayList ();
@@ -131,7 +139,8 @@ public partial class ChronoJumpWindow
 						cells[11], cells[12], cells[13],//meanPower, peakPower, peakPowerT
 						cells[14],			//peakPower / peakPowerT
 						cells[15], cells[16], cells[17], //meanForce, maxForce maxForceT
-						cells[18] 			//meanForce / meanForceT
+						cells[18], 			//meanForce / meanForceT
+						cells[19], cells[20] 		//work, impulse
 						));
 
 		}
@@ -231,6 +240,12 @@ public partial class ChronoJumpWindow
 					break;
 				case 14:
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxForce_maxForceT));
+					break;
+				case 15:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderWork));
+					break;
+				case 16:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderImpulse));
 					break;
 			}
 					
@@ -568,6 +583,12 @@ public partial class ChronoJumpWindow
 			distanceUnits = "(mm)";
 		}
 
+		string workString = Catalog.GetString("Work");
+		if(preferences.encoderWorkKcal)
+			workString += "\n (KCal)";
+		else
+			workString += "\n (J)";
+
 		string [] treeviewEncoderAnalyzeHeaders = {
 			Catalog.GetString("Repetition") + "\n",
 			Catalog.GetString("Series") + "\n",
@@ -589,7 +610,9 @@ public partial class ChronoJumpWindow
 			"F" + "\n(N)",
 			"Fmax" + "\n(N)",
 			"t->Fmax" + "\n" + timeUnits,
-			"RFD" + "\n(N/s)"
+			"RFD" + "\n(N/s)",
+			workString,
+			Catalog.GetString("Impulse") + "\n (N*s)"
 		};
 		return treeviewEncoderAnalyzeHeaders;
 	}
@@ -666,16 +689,17 @@ public partial class ChronoJumpWindow
 							cells[0], 
 							cells[1],	//seriesName 
 							exerciseName,
-							cells[19],	//laterality
+							cells[21],	//laterality
 							Convert.ToDouble(Util.ChangeDecimalSeparator(cells[4])), 	//extraWeight
 							totalMass, 							//displaceWeight
-							Convert.ToInt32(cells[20]), 					//inertia
+							Convert.ToInt32(cells[22]), 					//inertia
 							cells[5], cells[6], cells[7], 
 							cells[8], cells[9], cells[10], 
 							cells[11], cells[12], cells[13],
 							cells[14],
 							cells[15], cells[16], cells[17], //meanForce, maxSForce maxForceT
-							cells[18]
+							cells[18],
+							cells[19], cells[20]
 							));
 
 			} while(true);
@@ -770,6 +794,12 @@ public partial class ChronoJumpWindow
 					break;
 				case 20:
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxForce_maxForceT));
+					break;
+				case 21:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderWork));
+					break;
+				case 22:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderImpulse));
 					break;
 			}
 			
@@ -1355,6 +1385,29 @@ public partial class ChronoJumpWindow
 		renderBoldIfNeeded(cell, curve, str);
 	}
 	
+	private void RenderWork (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+
+		double workValueD = curve.WorkJD;
+		int decimals = 1;
+		if(preferences.encoderWorkKcal)
+		{
+			workValueD = curve.WorkKcalD;
+			decimals = 3;
+		}
+
+		string str = String.Format(UtilGtk.TVNumPrint(workValueD.ToString(),6, decimals), workValueD);
+		renderBoldIfNeeded(cell, curve, str);
+	}
+
+	private void RenderImpulse (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+		string str = String.Format(UtilGtk.TVNumPrint(curve.Impulse,6,3),Convert.ToDouble(curve.Impulse));
+		renderBoldIfNeeded(cell, curve, str);
+	}
+
 	/* end of rendering capture and analyze cols */
 
 	/* start rendering neuromuscular cols */
@@ -1468,9 +1521,9 @@ public partial class ChronoJumpWindow
 	private bool fixDecimalsWillWork(bool captureOrAnalyze, string [] cells)
 	{
 		LogB.Information(string.Format("captureOrAnalyze: {0}, cells.Length: {1}", captureOrAnalyze, cells.Length));
-		if(captureOrAnalyze && cells.Length < 19) 		//from 0 to 18
+		if(captureOrAnalyze && cells.Length < 21) 		//from 0 to 20
 			return false;
-		else if(! captureOrAnalyze && cells.Length < 21) 	//from 0 to 20
+		else if(! captureOrAnalyze && cells.Length < 23) 	//from 0 to 22
 			return false;
 
 		return true;
@@ -1478,6 +1531,8 @@ public partial class ChronoJumpWindow
 	//captureOrAnalyze is true on capture, false on analyze
 	private string [] fixDecimals(bool captureOrAnalyze, string [] cells) 
 	{
+		LogB.Information("fixDecimals: ");
+		LogB.Information(Util.StringArrayToString(cells, ";"));
 		//start, width, height
 		for(int i=5; i <= 7; i++)
 			cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),1);
@@ -1498,13 +1553,19 @@ public partial class ChronoJumpWindow
 		int maxForce_maxForceT = 18;
 		cells[maxForce_maxForceT] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[maxForce_maxForceT])),1);
 
-		//cells[19] laterality
+		LogB.Information("cells19: " + cells[19]);
+		LogB.Information("cells20: " + cells[20]);
+		//work, impulse
+		cells[19] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[19])),3);
+		cells[20] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[20])),3);
+
+		//cells[21] laterality
 
 		//capture does not return inerta
 		//analyze returns inertia (can be different on "saved curves") comes as Kg*m^2, convert it to Kg*cm^2
 		if(! captureOrAnalyze) {
-			double inertiaInM = Convert.ToDouble(Util.ChangeDecimalSeparator(cells[20]));
-			cells[20] = (Convert.ToInt32(inertiaInM * 10000)).ToString();
+			double inertiaInM = Convert.ToDouble(Util.ChangeDecimalSeparator(cells[22]));
+			cells[22] = (Convert.ToInt32(inertiaInM * 10000)).ToString();
 		}
 
 		return cells;

@@ -658,6 +658,13 @@ kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, i
 	#write("kinematicsF speed length and mean,", stderr())
 	#write(length(speed$y[start:end]), stderr())
 	#write(mean(speed$y[start:end]), stderr())
+	write("kinematicsF displacement length, displ length", stderr())
+	write(length(displacement), stderr())
+	write(length(displacement[start:end]), stderr())
+
+	speedyangular = 0
+	if(isInertial(repOp$econfName))
+		speedyangular = dynamics$angleSpeed[start:end]
 
 	return(list(
 		    displ = displacement[start:end], 
@@ -665,7 +672,9 @@ kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, i
 		    accely = accel$y[start:end], 
 		    force = force[start:end], 
 		    power = power[start:end], 
-		    mass = mass))
+		    mass = mass,
+		    speedyangular = speedyangular
+		    ))
 }
 
 findECPhases <- function(displacement,speed) {
@@ -775,6 +784,30 @@ pafGenerate <- function(eccon, kinematics, massBody, massExtra, laterality, iner
 	maxForceT <- min(which(abs(kinematics$force) == maxForce))
 	maxForce_maxForceT <- maxForce / (maxForceT/1000)	# ms->s
 
+	#work calculation
+	#calculating with mean force has the problem that the displacement is not always the same
+	#so is not correct and has to be (at each ms): force * displ
+	#workJ <- meanForce * max(abs(kinematics$displ)) 	#F * displ # TODO: maybe calculate by phases with a distance always positive
+
+	#work by difference of energy (Joules)
+	#W = m[g(hf - hi) + 1/2 (vf^2 - Vi^2)] + 1/2 I(wf^2 - wi^2)
+	#                                      <--  on inertial -->
+	#hi, hf: height initial/final
+	#vi, vf: speed initial/final
+	#wi, wf: angular speed initial/final
+	lastValue = length(kinematics$displ)
+	workJ <- kinematics$mass * ( g * (kinematics$displ[lastValue] - kinematics$displ[1]) + .5*((kinematics$speedy[lastValue])^2 - (kinematics$speedy[1])^2) )
+	if(inertiaMomentum > 0) #if is not inertial Roptions has a -1
+		workJ = workJ + .5 * inertiaMomentum * ( (kinematics$speedyangular[lastValue])^2 - (kinematics$speedyangular[1]^2) )
+
+	#impulse
+	impulse <- meanForce * length(kinematics$displ)/1000 	#F * time in s
+
+	print("meanForce: ")
+	print(meanForce)
+	print("displ: ")
+	print(length(kinematics$displ)/1000)
+
 	#here paf is generated
 	#mass is not used by pafGenerate, but used by Kg/W (loadVSPower)
 	#meanForce and maxForce are not used by pafGenerate, but used by F/S (forceVSSpeed)
@@ -785,7 +818,9 @@ pafGenerate <- function(eccon, kinematics, massBody, massExtra, laterality, iner
 			  meanPower, peakPower, peakPowerT, pp_ppt,
 			  meanForce, maxForce, maxForceT, maxForce_maxForceT,
 			  mass, massBody, massExtra,		#kinematics$mass is Load
-			  laterality, inertiaMomentum)) 
+			  workJ, impulse,
+			  laterality, inertiaMomentum
+			  ))
 }
 
 isInertial <- function(encoderConfigurationName) {

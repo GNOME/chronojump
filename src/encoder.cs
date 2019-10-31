@@ -248,6 +248,8 @@ public class EncoderCurve
 	public string MaxForce;
 	public string MaxForceT;
 	public string MaxForce_MaxForceT;
+	public string WorkJ;
+	public string Impulse;
 
 	public EncoderCurve () {
 	}
@@ -259,7 +261,8 @@ public class EncoderCurve
 			string meanPower, string peakPower, string peakPowerT, 
 			string PP_PPT,
 			string meanForce, string maxForce, string maxForceT,
-			string maxForce_maxForceT
+			string maxForce_maxForceT,
+			string workJ, string impulse
 			)
 	{
 		this.Record = record;
@@ -278,6 +281,8 @@ public class EncoderCurve
 		this.MaxForce = maxForce;
 		this.MaxForceT = maxForceT;
 		this.MaxForce_MaxForceT = maxForce_maxForceT;
+		this.WorkJ = workJ;
+		this.Impulse = impulse;
 	}
 
 	//used on TreeView analyze
@@ -290,7 +295,8 @@ public class EncoderCurve
 			string meanPower, string peakPower, string peakPowerT, 
 			string PP_PPT,
 			string meanForce, string maxForce, string maxForceT,
-			string maxForce_maxForceT)
+			string maxForce_maxForceT,
+			string workJ, string impulse)
 	{
 		this.N = n;
 		this.Series = series;
@@ -313,6 +319,8 @@ public class EncoderCurve
 		this.MaxForce = maxForce;
 		this.MaxForceT = maxForceT;
 		this.MaxForce_MaxForceT = maxForce_maxForceT;
+		this.WorkJ = workJ;
+		this.Impulse = impulse;
 	}
 
 	public EncoderCurve Copy()
@@ -323,7 +331,8 @@ public class EncoderCurve
 				MeanPower, PeakPower, PeakPowerT,
 				PP_PPT,
 				MeanForce, MaxForce, MaxForceT,
-				MaxForce_MaxForceT);
+				MaxForce_MaxForceT,
+				WorkJ, Impulse);
 		return curveCopy;
 	}
 
@@ -415,7 +424,8 @@ public class EncoderCurve
 				MeanPower + sep + PeakPower + sep + PeakPowerT + sep + 
 				PP_PPT + sep +
 				MeanForce + sep + MaxForce + sep + MaxForceT + sep +
-				MaxForce_MaxForceT;
+				MaxForce_MaxForceT + sep +
+				WorkJ + sep + Impulse;
 		
 		if(decimalSeparator == "COMMA")
 			str = Util.ConvertToComma(str);
@@ -435,6 +445,8 @@ public class EncoderCurve
 	public double MeanForceD { get { return Convert.ToDouble(MeanForce); } }
 	public double MaxForceD  { get { return Convert.ToDouble(MaxForce);  } }
 
+	public double WorkJD  { get { return Convert.ToDouble(WorkJ);  } }
+	public double WorkKcalD  { get { return Convert.ToDouble(WorkJ) * 0.000239006;  } }
 	
 	~EncoderCurve() {}
 }

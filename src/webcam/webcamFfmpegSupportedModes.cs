@@ -82,7 +82,7 @@ public abstract class WebcamFfmpegSupportedModes
 		return wsm.FrameratesToStringList();
 	}
 
-	private WebcamSupportedModesList getListByPixelFormat(string pixelFormat)
+	protected WebcamSupportedModesList getListByPixelFormat(string pixelFormat)
 	{
 		if(pixelFormat == "" || wsmListOfLists == null || wsmListOfLists.Count == 0)
 			return new WebcamSupportedModesList();
@@ -93,6 +93,16 @@ public abstract class WebcamFfmpegSupportedModes
 
 		return new WebcamSupportedModesList();
 	}
+
+	public bool PixelFormatExists (string pixelFormat)
+	{
+		foreach(WebcamSupportedModesList wsmList in wsmListOfLists)
+			if(wsmList.PixelFormat == pixelFormat)
+				return true;
+
+		return false;
+	}
+
 
 	// ... end of: used to populated list on combos
 
@@ -374,7 +384,6 @@ public class WebcamFfmpegSupportedModesWindows : WebcamFfmpegSupportedModes
 		modesStr = parseSupportedModes(execute_result.allOutput);
 	}
 
-	//TODO: have a class that sorts resolutions and framerates
 	protected override string parseSupportedModes(string allOutput)
 	{
 		/*
@@ -395,8 +404,17 @@ public class WebcamFfmpegSupportedModesWindows : WebcamFfmpegSupportedModes
 				string pixelFormat = parsePixelFormat(l);
 				if(pixelFormat != currentPixelFormat)
 				{
-					wsmList = new WebcamSupportedModesList(pixelFormat);
-					wsmListOfLists.Add(wsmList);
+					/*
+					 * on a Windows tablet the pixel formats came unsorted by pixel_format. Like this:
+					 * 1st pixelFormat line is from a pixel format, then from another, then the first from the first one ...
+					 * like the example on: parseSupportedModesTestString()
+					 */
+					if(PixelFormatExists(pixelFormat))
+						wsmList = getListByPixelFormat(pixelFormat);
+					else {
+						wsmList = new WebcamSupportedModesList(pixelFormat);
+						wsmListOfLists.Add(wsmList);
+					}
 					currentPixelFormat = pixelFormat;
 				}
 
@@ -449,7 +467,9 @@ public class WebcamFfmpegSupportedModesWindows : WebcamFfmpegSupportedModes
 	{
 		return(@"
 pixel_format=uyyv422  min s=176x144 fps=5 max s=176x144 fps=30
+pixel_format=nv  min s=600x300 fps=5 max s=600x300 fps=45
 pixel_format=uyyv422  min s=160x120 fps=5 max s=160x120 fps=30
+pixel_format=nv  min s=1200x900 fps=10 max s=1200x900 fps=50
 pixel_format=uyyv422  min s=320x240 fps=5 max s=320x240 fps=30");
 	}
 }

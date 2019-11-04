@@ -877,6 +877,9 @@ public class PersonAddModifyWindow
 	private Person currentPerson;
 	private Session currentSession;
 	private string videoDevice;
+	private string videoDevicePixelFormat;
+	private string videoDeviceResolution;
+	private string videoDeviceFramerate;
 	private PersonSession currentPersonSession;
 	private string sex = Constants.M;
 	private double weightIni;
@@ -1075,7 +1078,7 @@ public class PersonAddModifyWindow
 		//webcam = new WebcamMplayer (videoDevice);
 		//Webcam.Result result = webcam.CapturePrepare (Webcam.CaptureTypes.PHOTO);
 		//constructor for playpreview
-		webcam = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(), videoDevice, "", "", "");
+		webcam = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(), videoDevice, videoDevicePixelFormat, videoDeviceResolution, videoDeviceFramerate);
 		//Webcam.Result result = webcam.PlayPreviewNoBackground ();
 		Webcam.Result result = webcam.PlayPreview ();
 
@@ -1089,7 +1092,7 @@ public class PersonAddModifyWindow
 	void on_button_take_photo_do_clicked (object o, EventArgs args)
 	{
 		if(webcam == null)
-			webcam = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(), videoDevice, "", "", "");
+			webcam = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(), videoDevice, videoDevicePixelFormat, videoDeviceResolution, videoDeviceFramerate);
 		else if(webcam != null && webcam.Running)
 		{
 			webcam.ExitCamera();
@@ -1219,7 +1222,8 @@ public class PersonAddModifyWindow
 			Session mySession, Person currentPerson, int pDN, 
 			//Gtk.CheckButton app1_checkbutton_video, bool showCapturePhoto,
 			Gtk.CheckButton app1_checkbutton_video,
-			string videoDevice, bool compujump)
+			string videoDevice, string videoDevicePixelFormat, string videoDeviceResolution, string videoDeviceFramerate,
+			bool compujump)
 	{
 		if (PersonAddModifyWindowBox == null) {
 			//PersonAddModifyWindowBox = new PersonAddModifyWindow (parent, mySession, currentPerson, showCapturePhoto);
@@ -1229,6 +1233,9 @@ public class PersonAddModifyWindow
 		PersonAddModifyWindowBox.pDN = pDN;
 		PersonAddModifyWindowBox.app1_checkbutton_video = app1_checkbutton_video;
 		PersonAddModifyWindowBox.videoDevice = videoDevice;
+		PersonAddModifyWindowBox.videoDevicePixelFormat = videoDevicePixelFormat;
+		PersonAddModifyWindowBox.videoDeviceResolution = videoDeviceResolution;
+		PersonAddModifyWindowBox.videoDeviceFramerate = videoDeviceFramerate;
 		//do not allow camera on compujump
 		PersonAddModifyWindowBox.hbox_camera.Visible = ! compujump;
 

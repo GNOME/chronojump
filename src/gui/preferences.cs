@@ -699,6 +699,7 @@ public class PreferencesWindow
 		//UtilGtk.ComboUpdate(combo_camera, wd_list.GetCodes());
 		UtilGtk.ComboUpdate(combo_camera, wd_list.GetFullnames());
 		hbox_combo_camera.PackStart(combo_camera, true, true, 0);
+		combo_camera.Changed += new EventHandler (on_combo_camera_changed);
 		hbox_combo_camera.ShowAll();
 
 		//if(current >= devices.Count)
@@ -836,6 +837,26 @@ public class PreferencesWindow
 		hbox_camera_stop_after_seconds.Visible = check_camera_stop_after.Active;
 	}
 
+	private void on_combo_camera_changed (object o, EventArgs args)
+	{
+		//if camera changes then do not allow to view/change format, resolution, framerate, or preview until configure button is clicked
+		label_camera_pixel_format_current.Visible = false;
+		label_camera_resolution_current.Visible = false;
+		label_camera_framerate_current.Visible = false;
+
+		hbox_combo_camera_pixel_format.Visible = false;
+		hbox_combo_camera_resolution.Visible = false;
+		hbox_combo_camera_framerate.Visible = false;
+
+		//blank camera values
+		UtilGtk.ComboDelAll(combo_camera_pixel_format);
+		UtilGtk.ComboDelAll(combo_camera_resolution);
+		UtilGtk.ComboDelAll(combo_camera_framerate);
+
+		//do not allow to preview
+		button_video_preview.Sensitive = false;
+	}
+
 	private void on_combo_camera_pixel_format_changed (object o, EventArgs args)
 	{
 		string pixelFormat = UtilGtk.ComboGetActive(combo_camera_pixel_format);
@@ -957,6 +978,7 @@ public class PreferencesWindow
 			string currentPixelFormat = getSelectedPixelFormat();
 			UtilGtk.ComboUpdate(combo_camera_pixel_format, wfsm.GetPixelFormats());
 			combo_camera_pixel_format.Active = UtilGtk.ComboMakeActive(combo_camera_pixel_format, currentPixelFormat);
+			button_video_preview.Sensitive = true;
 
 			/*
 			//not shown because label is shown

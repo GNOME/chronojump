@@ -628,8 +628,8 @@ kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, i
 		}
 		
 		weight = mass * g
-		if(length(which(force[eccentric] <= weight)) > 0) {
-			landing = max(which(force[eccentric]<=weight))
+		if(length(which(force[eccentric] <= 0)) > 0) {
+			landing = max(which(force[eccentric]<=0))
 			start = landing
 		}
 	}

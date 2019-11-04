@@ -175,7 +175,7 @@ public class WebcamFfmpegSupportedModesLinux : WebcamFfmpegSupportedModes
 		{
 			LogB.Information("\nline: " + l);
 			//note v4l2-ctl packaged for Debian previous to buster prints "Pixel Format:", but on Buster is: "[0]: 'YUYV' (YUYV 4:2:2)"
-			if(l.Contains("Pixel Format:") || l.Contains("YUYV 4:2:2") || l.Contains("MJPG") || l.Contains("Motion-JPEG"))
+			if(l.Contains("Pixel Format:") || l.Contains("YUYV 4:2:2") || l.Contains("MJPG") || l.Contains("Motion-JPEG") || l.Contains("JPEG"))
 			{
 				wsmList = new WebcamSupportedModesList(parsePixelFormat(l));
 
@@ -282,6 +282,8 @@ public class WebcamFfmpegSupportedModesLinux : WebcamFfmpegSupportedModes
 		if(m == "YUYV")
 			return "yuyv422";
 		else if(m == "MJPG")
+			return "mjpeg";
+		else if(m == "JPEG")
 			return "mjpeg";
 		else
 			return string.Format("{0}", m);

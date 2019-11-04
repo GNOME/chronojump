@@ -118,7 +118,7 @@ public abstract class WebcamFfmpegSupportedModes
 			return nothingFound;
 	}
 
-	protected bool testParsing = true;
+	protected bool testParsing = false; //ensure this is false on release
 	protected abstract string parseSupportedModesTestString();
 
 	public string ErrorStr

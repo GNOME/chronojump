@@ -128,6 +128,12 @@ public class UtilGtk
 		} while (myCombo.Model.IterNext (ref iter));
 	}
 
+	//used on gui/preferences camera
+	public static void ComboDelAll(ComboBox myCombo)
+	{
+		comboDelAll(myCombo);
+	}
+
 	private static void comboDelAll(ComboBox myCombo) {
 		//myCombo = ComboBox.NewText(); don't work
 		TreeIter myIter;

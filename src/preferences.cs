@@ -327,8 +327,11 @@ public class Preferences
 
 	public bool IsVideoConfigured()
 	{
-		return (videoDevice != "" && videoDevicePixelFormat != "" &&
-				videoDeviceResolution != "" && videoDeviceFramerate != "");
+		return (videoDevice != "" &&
+				videoDevicePixelFormat != "" &&
+				videoDeviceResolution != "" //&&
+				//videoDeviceFramerate != "" 	//a really old Creative camera on a Linux machine does not return the framerate, so allow to be configured without it
+				);
 	}
 
 	~Preferences() {}

@@ -1,3 +1,5 @@
+- ensure testParsing is false in src/webcam/webcamFfmpegSupportedModes.cs
+
 -------------------------------------------------------------------
 LINUX
 -------------------------------------------------------------------

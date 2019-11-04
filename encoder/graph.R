@@ -696,11 +696,11 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
                         abline(v=min(concentric),col=cols[1])
                         #mtext(text=paste(max(eccentric)," ",sep=""),side=1,at=max(eccentric),adj=1,cex=.8,col=cols[1])
                         #mtext(text=paste(" ",min(concentric),sep=""),side=1,at=min(concentric),adj=0,cex=.8,col=cols[1])
-                        
-                        mtext(text=paste(round(min(isometric),1), " ",sep=""), 
-                              side=1,at=min(isometric),adj=1,cex=.8,col=cols[1])
-                        mtext(text=paste(" ", round(max(isometric),1),sep=""), 
-                              side=1,at=max(isometric),adj=0,cex=.8,col=cols[1])
+
+			mtext(text=paste(round(max(eccentric),1), " ",sep=""),
+                              side=1,at=max(eccentric),adj=1,cex=.8,col=cols[1])
+                        mtext(text=paste(" ", round(min(concentric),1),sep=""),
+                              side=1,at=min(concentric),adj=0,cex=.8,col=cols[1])
                         
                         #don't need to show eccentric and concentric. It's pretty clear
                         #mtext(text=paste(translateToPrint("eccentric")," ",sep=""),side=3,at=max(eccentric),cex=.8,adj=1,col=cols[1],line=.5)

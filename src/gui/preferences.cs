@@ -945,7 +945,13 @@ public class PreferencesWindow
 			return;
 
 		if(operatingSystem == UtilAll.OperatingSystems.LINUX)
-			wfsm = new WebcamFfmpegSupportedModesLinux();
+		{
+			string number = "0";
+			if(cameraCode.StartsWith("/dev/video") && cameraCode.Length > 10 && Util.IsNumber(cameraCode[10], false))
+			       number = cameraCode[10].ToString();
+
+			wfsm = new WebcamFfmpegSupportedModesLinux(number);
+		}
 		else if(operatingSystem == UtilAll.OperatingSystems.WINDOWS)
 			wfsm = new WebcamFfmpegSupportedModesWindows(cameraCode);
 		else

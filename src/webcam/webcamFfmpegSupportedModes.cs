@@ -134,9 +134,10 @@ public abstract class WebcamFfmpegSupportedModes
 
 public class WebcamFfmpegSupportedModesLinux : WebcamFfmpegSupportedModes
 {
-	public WebcamFfmpegSupportedModesLinux()
+	public WebcamFfmpegSupportedModesLinux(string cameraCode)
 	{
 		initialize();
+		this.cameraCode = cameraCode;
 	}
 
 	public override void GetModes()
@@ -147,7 +148,11 @@ public class WebcamFfmpegSupportedModesLinux : WebcamFfmpegSupportedModes
 			return;
 		}
 
+		//v4l2-ctl -d 1 --list-formats-ext
+
 		List<string> parameters = new List<string>();
+		parameters.Add("-d");
+		parameters.Add(cameraCode);
 		parameters.Add("--list-formats-ext");
 		ExecuteProcess.Result execute_result = ExecuteProcess.run ("v4l2-ctl", parameters, true, true);
 		if(! execute_result.success) {

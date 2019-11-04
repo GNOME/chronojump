@@ -821,6 +821,11 @@ public class Util
 		LogB.Information("tryParse 'joan' as double: " + Util.IsNumber("joan",true).ToString()); //catalan (True)
 	}
 
+	public static bool IsNumber(char c, bool canBeDecimal)
+	{
+		return IsNumber(c.ToString(), canBeDecimal);
+	}
+
 	//gets a string and returns if all the chars are numbers or the decimal point in current localization
 	public static bool IsNumber(string str, bool canBeDecimal) 
 	{

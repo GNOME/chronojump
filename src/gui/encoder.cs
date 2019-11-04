@@ -5826,18 +5826,20 @@ public partial class ChronoJumpWindow
 
 			string [] strs = trimmed.Split(new char[] {','});
 
+			//LogB.Information("before add: " + Util.StringArrayToString(strs, "///"));
 			encoderCaptureStringR.Add(string.Format("\n" + 
-						"{0},2,a,3,4," + //id, seriesName, exerciseName, massBody, massExtra
-						"{1},{2},{3}," + //start, width, height
-						"{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14}",
+						"{0},2,a,3,4," + 		//id, seriesName, exerciseName, massBody, massExtra
+						"{1},{2},{3}," + 		//start, width, height
+						"{4},{5},{6}," + 		//speeds
+						"{7},{8},{9},{10}," + 		//powers
+						"{11},{12},{13},{14}," + 	//forces
+						"{15},{16}", 			//workJ, impulse
 					strs[0],
-					strs[1], strs[2], strs[3],	//start, width, height
-					strs[4], strs[5], strs[6],	//speeds
-					strs[7], strs[8], strs[9],	//powers
-					strs[10],			//pp/ppt
-					strs[11], strs[12], strs[13], 	//forces
-					strs[14], 			//maxForce_maxForceT
-					strs[15], strs[16] 		//workJ, impulse
+					strs[1], strs[2], strs[3],		//start, width, height
+					strs[4], strs[5], strs[6],		//speeds
+					strs[7], strs[8], strs[9], strs[10], 	//powers
+					strs[11], strs[12], strs[13], strs[14], //forces
+					strs[15], strs[16] 			//workJ, impulse
 					));
 
 			//LogB.Debug("encoderCaptureStringR");

@@ -1521,6 +1521,7 @@ public partial class ChronoJumpWindow
 	private bool fixDecimalsWillWork(bool captureOrAnalyze, string [] cells)
 	{
 		LogB.Information(string.Format("captureOrAnalyze: {0}, cells.Length: {1}", captureOrAnalyze, cells.Length));
+		//LogB.Information(string.Format("cellsString: {0}", Util.StringArrayToString(cells, ";")));
 		if(captureOrAnalyze && cells.Length < 21) 		//from 0 to 20
 			return false;
 		else if(! captureOrAnalyze && cells.Length < 23) 	//from 0 to 22

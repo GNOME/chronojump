@@ -5890,13 +5890,27 @@ public partial class ChronoJumpWindow
 		}
 
 		int newValue = eCaptureInertialBG.AngleNow;
-		if(newValue > 0) {
+		if(eCaptureInertialBG.Phase == EncoderCaptureInertialBackground.Phases.ATCALIBRATEDPOINT)
+		{
+			label_encoder_capture_inertial_ecc.Sensitive = false;
+			label_encoder_capture_inertial_con.Sensitive = false;
+		}
+		else if(eCaptureInertialBG.Phase == EncoderCaptureInertialBackground.Phases.CON)
+		{
 			label_encoder_capture_inertial_ecc.Sensitive = false;
 			label_encoder_capture_inertial_con.Sensitive = true;
-		} else {
+		}
+		else if(eCaptureInertialBG.Phase == EncoderCaptureInertialBackground.Phases.ECC)
+		{
 			label_encoder_capture_inertial_ecc.Sensitive = true;
 			label_encoder_capture_inertial_con.Sensitive = false;
 		}
+		/*
+		else if(eCaptureInertialBG.Phase == EncoderCaptureInertialBackground.Phases.NOTMOVED)
+		{
+			//do not change nothing, show labels like before
+		}
+		*/
 
 		//resize vscale if needed
 		//0 is at the graphical top. abs(+-100) is on the bottom, but is called adjustment Upper

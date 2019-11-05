@@ -283,9 +283,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_execute_test;
 	[Widget] Gtk.Viewport viewport_chronopics;
 	[Widget] Gtk.Viewport viewport_chronopic_encoder;
-	//[Widget] Gtk.Label label_chronopic_encoder;
-	//[Widget] Gtk.Image image_chronopic_encoder_no;
-	//[Widget] Gtk.Image image_chronopic_encoder_yes;
 
 	[Widget] Gtk.Label label_threshold;
 

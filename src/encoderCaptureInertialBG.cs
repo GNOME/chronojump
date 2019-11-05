@@ -27,7 +27,16 @@ using System.Collections.Generic; //List<T>
  */
 public class EncoderCaptureInertialBackground
 {
+	/*
+	 * angleNow is useful also for showing "ecc" / "con" on gui, there needed to change  from con to ecc
+	 * but for changing from ecc to con we need angleMaxAbsoluteThisPhase
+	 */
 	private int angleNow;
+	private int angleMaxAbsoluteThisPhase;
+
+	public enum Phases { ECC, CON, ATCALIBRATEDPOINT } 	//ATCALIBRATEDPOINT: Do not diplay ecc or con labels
+	public Phases Phase;
+
 	private bool finishBG;
 	public bool StoreData;
 	private SerialPort sp;
@@ -37,6 +46,7 @@ public class EncoderCaptureInertialBackground
 	public EncoderCaptureInertialBackground(string port)
 	{
 		angleNow = 0;
+		angleMaxAbsoluteThisPhase = 0;
 		finishBG = false;
 		StoreData = false;
 		EncoderCaptureInertialBackgroundStatic.Start();
@@ -76,6 +86,39 @@ public class EncoderCaptureInertialBackground
 
 			byteReaded = convertByte(byteReaded);
 			angleNow += byteReaded;
+
+			//LogB.Information(string.Format("PRE: ANGLE: {0}, MAXABS: {1}, PHASE: {2}", angleNow, angleMaxAbsoluteThisPhase, Phase));
+			if(angleNow == 0)
+				Phase = Phases.ATCALIBRATEDPOINT;
+			else if(angleNow == angleMaxAbsoluteThisPhase)
+			{
+				/*
+				 * Do not do this
+				 * Phase = Phases.NOTMOVED;
+				 * because if we are at calibration point, then move 1 mm to ecc. (but by threads maybe is not shown on gui/encoder.cs)
+				 * so then if phase is NOTMOVED, will continue showing the ATCALIBRATEDPOINT. So if speed is low maybe all the time both labels are not shown
+				 * better do not do nothing and the Phase will be the same than before, in that case will be ECC
+				 */
+			}
+			else if(angleNow > 0)
+			{
+				if(angleNow > angleMaxAbsoluteThisPhase)
+				{
+					Phase = Phases.ECC;
+					angleMaxAbsoluteThisPhase = angleNow;
+				} else //if(angleNow < angleMaxAbsoluteThisPhase)
+					Phase = Phases.CON;
+			}
+			else //if(angleNow < 0)
+			{
+				if(angleNow < angleMaxAbsoluteThisPhase)
+				{
+					Phase = Phases.ECC;
+					angleMaxAbsoluteThisPhase = angleNow;
+				} else //if(angleNow > angleMaxAbsoluteThisPhase)
+					Phase = Phases.CON;
+			}
+			//LogB.Information(string.Format("POST: ANGLE: {0}, MAXABS: {1}, PHASE: {2}", angleNow, angleMaxAbsoluteThisPhase, Phase));
 
 			if(StoreData)
 				EncoderCaptureInertialBackgroundStatic.ListCaptured.Add((short) byteReaded);

@@ -701,6 +701,9 @@ public partial class ChronoJumpWindow
 			//open device window
 			on_chronopic_encoder_clicked(new object(), new EventArgs());
 			UtilGtk.DeviceColors(viewport_chronopic_encoder, false);
+			if(configChronojump.Compujump)
+				networksShowDeviceMissingEncoder(true);
+
 			return false;
 		}
 		if(numEncoders > 1) {
@@ -708,6 +711,9 @@ public partial class ChronoJumpWindow
 			UtilGtk.DeviceColors(viewport_chronopic_encoder, false);
 			return false;
 		}
+
+		if(configChronojump.Compujump)
+			networksShowDeviceMissingEncoder(false);
 
 		UtilGtk.DeviceColors(viewport_chronopic_encoder, true);
 		return true;

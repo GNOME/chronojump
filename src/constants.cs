@@ -228,7 +228,7 @@ public class Constants
 	//Compujump strings
 	public static string RFIDDisconnectedMessage()
 	{
-		return Catalog.GetString("RFID cable has been disconnected!") + "\n\n" +
+		return Catalog.GetString("RFID has been disconnected!") + "\n\n" +
 			Catalog.GetString("Please, connect it and restart Chronojump.");
 	}
 	public static string RFIDNotInServerMessage()

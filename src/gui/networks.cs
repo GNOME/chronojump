@@ -77,6 +77,14 @@ public partial class ChronoJumpWindow
 	//encoder ...
 	[Widget] Gtk.Button button_encoder_monthly_change_current_session;
 	[Widget] Gtk.Button button_encoder_analyze_image_compujump_send_email;
+	/*
+	[Widget] Gtk.Label label_RFID_disconnected;
+	[Widget] Gtk.Label label_chronopic_encoder;
+	[Widget] Gtk.Image image_chronopic_encoder_no;
+	[Widget] Gtk.Image image_chronopic_encoder_yes;
+	*/
+	[Widget] Gtk.HBox hbox_encoder_disconnected;
+	[Widget] Gtk.HBox hbox_RFID_disconnected;
 
 	//runsInterval
 	[Widget] Gtk.HBox hbox_runs_interval_compujump;
@@ -197,6 +205,7 @@ public partial class ChronoJumpWindow
 			chronopicRegisterUpdate(false);
 			if(chronopicRegister != null && chronopicRegister.GetRfidPortName() != "")
 			{
+				networksShowDeviceMissingRFID (false);
 				rfid = new RFID(chronopicRegister.GetRfidPortName());
 				rfid.FakeButtonChange.Clicked += new EventHandler(rfidChanged);
 				rfid.FakeButtonReopenDialog.Clicked += new EventHandler(rfidReopenDialog);
@@ -208,7 +217,8 @@ public partial class ChronoJumpWindow
 
 				LogB.ThreadStart();
 				threadRFID.Start();
-			}
+			} else
+				networksShowDeviceMissingRFID (true);
 
 			if(configChronojump.CompujumpAdminEmail != "")
 				button_encoder_analyze_image_compujump_send_email.Visible = true;
@@ -513,7 +523,8 @@ public partial class ChronoJumpWindow
 	{
 		if(shouldShowRFIDDisconnected)
 		{
-			new DialogMessage(Constants.MessageTypes.WARNING, Constants.RFIDDisconnectedMessage());
+			//new DialogMessage(Constants.MessageTypes.WARNING, Constants.RFIDDisconnectedMessage());
+			networksShowDeviceMissingRFID (true);
 
 			if(dialogPersonPopup != null)
 				dialogPersonPopup.DestroyDialog();
@@ -1017,6 +1028,16 @@ public partial class ChronoJumpWindow
 
 		}
 		//other future send email send objects
+	}
+
+	private void networksShowDeviceMissingEncoder (bool missing)
+	{
+		hbox_encoder_disconnected.Visible = missing;
+	}
+
+	private void networksShowDeviceMissingRFID (bool missing)
+	{
+		hbox_RFID_disconnected.Visible = missing;
 	}
 
 	/*

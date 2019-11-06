@@ -525,7 +525,7 @@ msgstr "Esborrar el tipus d'exercici"
 
 #: ../glade/app1.glade.h:113
 msgid "Recalculate set with changed parameters"
-msgstr "Recalcular la sèrie amb els paràmetres canviats. "
+msgstr "Recalcular la sèrie amb els paràmetres canviats"
 
 #: ../glade/app1.glade.h:114
 msgid "Recalculate"
@@ -1550,7 +1550,7 @@ msgstr "% força màxima"
 
 #: ../glade/app1.glade.h:333
 msgid "From"
-msgstr "Des de "
+msgstr "Des de"
 
 #: ../glade/app1.glade.h:334
 msgid "to"
@@ -3266,7 +3266,7 @@ msgstr "Velocitat inicial"
 
 #: ../glade/preferences_win.glade.h:26
 msgid "Variables to show at capture graphs of reactive jumps:"
-msgstr "Variables a mostra en el gráfic de salts reactius"
+msgstr "Variables a mostra en el gráfic de salts reactius:"
 
 #: ../glade/preferences_win.glade.h:27
 msgid "Heights: fall height, jump height"
@@ -3338,7 +3338,7 @@ msgstr "Què fer en cursa llançada o mesures de temps de reacció?"
 msgid "Race time starts on arrival at first device or pressing push button"
 msgstr ""
 "El temps de cursa s'inicia en arribar al primer dispositiu o al pitjar el "
-"polsador."
+"polsador"
 
 #: ../glade/preferences_win.glade.h:44
 msgid "Race time starts on leaving first device"
@@ -3612,7 +3612,7 @@ msgstr "Format"
 
 #: ../glade/preferences_win.glade.h:123
 msgid "On Windows at least Windows 7 is required."
-msgstr "En Windows es necessita com a mínim el Windows 7"
+msgstr "En Windows es necessita com a mínim el Windows 7."
 
 #: ../glade/preferences_win.glade.h:124
 msgid "Show advanced controls"
@@ -4568,7 +4568,7 @@ msgstr "Això es pot canviar a les preferències."
 
 #: ../src/constants.cs:321
 msgid "Please, perform the needed jumps marked in red above."
-msgstr "Si us plau, executeu el salts necessaris marcats en vermell més amunt."
+msgstr "Si us plau, executeu els salts necessaris marcats en vermell més amunt."
 
 #: ../src/constants.cs:331 ../src/constants.cs:370 ../src/constants.cs:381
 #: ../src/constants.cs:392 ../src/constants.cs:404 ../src/constants.cs:415
@@ -6854,7 +6854,7 @@ msgid ""
 "acceleration of a mass."
 msgstr ""
 "Quan estigui interessat només en la força transmesa al sensor de força. "
-"Aquesta opció NO te en compte l'efecte del pes o l'acceleració de una massa."
+"Aquesta opció NO té en compte l'efecte del pes o l'acceleració d'una massa."
 
 #: ../src/gui/forceSensorExercise.cs:242
 msgid ""
@@ -6873,7 +6873,7 @@ msgid ""
 "elements allows to calculate positions, velocities and accelerations during "
 "the exercise"
 msgstr ""
-"Si, realitzant una força, algún element s'estira significativament vol dir "
+"Si, realitzant una força, algun element s'estira significativament vol dir "
 "que esteu utilitzant elements elàstics. Saber les característiques de "
 "l'element elàstic permet calcular posicions, velocitats y acceleracions "
 "durant l'exercici."
@@ -6974,7 +6974,7 @@ msgid ""
 "threadmill. The body weight is added to the total force exerted by the "
 "subject."
 msgstr ""
-"Còrrer en una cinta con contra de una goma. El sensor està mesurant la força "
+"Córrer en una cinta con contra d'una goma. El sensor està mesurant la força "
 "que la goma transmet horitzontalment al subjecte. El pes corporal s'afegeix "
 "a la força total exercida pel subjecte."
 
@@ -6984,7 +6984,7 @@ msgid ""
 "to the sensor. The weight of the leg is affecting the measure of the force "
 "transmitted to the sensor but this is not a force exerted by the subject."
 msgstr ""
-"Test de isquiotibials on el taló de la persona està suspès en una cingla "
+"Test d'isquiotibials on el taló de la persona està suspès en una cingla "
 "lligada al sensor. El pes de la cama afecta la mesura de la força transmesa "
 "al sensor però aquesta no és una força realitzada per la persona."
 
@@ -7003,7 +7003,7 @@ msgid ""
 "Pulling on a TRX. Pulling from a TRX implies overcome the body weight. This "
 "body weight is also measured by the sensor."
 msgstr ""
-"Tracció en un TRX. Tibar de un TRX implica superar el pes corporal. Aquest "
+"Tracció en un TRX. Tibar d'un TRX implica superar el pes corporal. Aquest "
 "pes corporal també és mesurat pel sensor."
 
 #: ../src/gui/forceSensorExercise.cs:301
@@ -8799,7 +8799,7 @@ msgstr "Córrer sense aturar-se x metres"
 
 #: ../src/runType.cs:361
 msgid "Run 10 times a 20m distance"
-msgstr "Córrer 10 trams de 20 metres "
+msgstr "Córrer 10 trams de 20 metres"
 
 #: ../src/runType.cs:369
 msgid "Make max laps in 30 seconds"
@@ -10394,8 +10394,8 @@ msgstr "{0} a Rj Índex [(tvavg-tcavg)/tcavg *100] aplicat a {1} en {2}"
 #, csharp-format
 msgid " (best race marked)"
 msgid_plural " (best {0} consecutive laps marked)"
-msgstr[0] "(ressaltada la millor cursa)"
-msgstr[1] "(ressaltats els millors {0} trams consecutius)"
+msgstr[0] " (ressaltada la millor cursa)"
+msgstr[1] " (ressaltats els millors {0} trams consecutius)"
 
 #: ../src/stats/runIntervallic.cs:271
 #, csharp-format

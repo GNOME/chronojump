@@ -7402,7 +7402,10 @@ LogB.Debug("mc finished 5");
 		//hbox_multi_chronopic_buttons.Sensitive = true;
 		
 		button_activate_chronopics.Sensitive = true;
-		button_activate_chronopics_encoder.Sensitive = true;
+
+		if(! configChronojump.Compujump)
+			button_activate_chronopics_encoder.Sensitive = true;
+
 		button_threshold.Sensitive = true;
 		button_force_sensor_adjust.Sensitive = true;
 		button_auto_start.Sensitive = true;

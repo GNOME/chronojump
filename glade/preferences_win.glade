@@ -5071,7 +5071,7 @@ Other</property>
                                 <property name="can_focus">False</property>
                                 <child>
                                   <widget class="GtkCheckButton" id="check_networks_devices">
-                                    <property name="label">Allow to change devices</property>
+                                    <property name="label" translatable="yes">Allow to change devices</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>

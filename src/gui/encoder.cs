@@ -698,11 +698,21 @@ public partial class ChronoJumpWindow
 		LogB.Information("numEncoders: " + numEncoders);
 		if(numEncoders == 0)
 		{
-			//open device window
-			on_chronopic_encoder_clicked(new object(), new EventArgs());
+			//show viewport chronopic encoder with a color
 			UtilGtk.DeviceColors(viewport_chronopic_encoder, false);
+
+			//if networks (compujump) show the label and image of missing
 			if(configChronojump.Compujump)
 				networksShowDeviceMissingEncoder(true);
+			else {
+				/*
+				 * if not on networks (compujump): open device window.
+				 * this is not done on networks because we prefer that a responsible
+				 * manages correctly the two devices (encoder and rfid)
+				 * and this responsible first need to "gain permission" on preferences/advanced
+				 */
+				on_chronopic_encoder_clicked(new object(), new EventArgs());
+			}
 
 			return false;
 		}

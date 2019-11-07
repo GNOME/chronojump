@@ -705,7 +705,7 @@ public class PreferencesWindow
 		//if(current >= devices.Count)
 		//	current = 0;
 		
-		combo_camera.Active = UtilGtk.ComboMakeActive(combo_camera, current);
+		combo_camera.Active = UtilGtk.ComboMakeActive(combo_camera, wd_list.GetCodeOfFullname(current));
 
 		// 2) pixel_format
 

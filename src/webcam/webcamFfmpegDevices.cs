@@ -32,8 +32,10 @@ public class WebcamDevice
 	//[1] Capture screen 0 		//this is to screencapture
 	//
 	//on Linux it is returned a filename (it will be the code)
+	//code == fullname
 	//
-	//on windows ...
+	//on windows the code is the long name with strange chars: stored on SQL
+	//the fullname is the readable name that is seen on preferences combo
 	//
 	//object is a device and fullname
 	private string code;

@@ -528,6 +528,8 @@ public partial class ChronoJumpWindow
 
 			if(dialogPersonPopup != null)
 				dialogPersonPopup.DestroyDialog();
+
+			shouldShowRFIDDisconnected = false;
 		}
 
 		if(! threadRFID.IsAlive || rfidProcessCancel)

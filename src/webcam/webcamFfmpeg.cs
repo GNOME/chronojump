@@ -164,10 +164,18 @@ public class WebcamFfmpeg : Webcam
 		if(os == UtilAll.OperatingSystems.MACOSX)
 			executable = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffmpeg");
 
-		List<string> parameters = createParametersSnapshot();
+		List<string> parameters = createParametersSnapshot(true); //force size
 
 		process = new Process();
 		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters, false, false);
+
+		//on a Windows tablet cannot change size on snapshot, so if snapshot is not successful, do it again wihout forcing size
+		if(os == UtilAll.OperatingSystems.WINDOWS && ! execute_result.success)
+		{
+			parameters = createParametersSnapshot(false);
+			execute_result = ExecuteProcess.run (executable, parameters, false, false);
+		}
+
 		return execute_result.success;
 	}
 
@@ -284,7 +292,7 @@ public class WebcamFfmpeg : Webcam
 	}
 
 	//ffmpeg -f v4l2 -s 400x400 -i /dev/video0 -ss 0:0:2 -frames 1 /tmp/out.jpg
-	private List<string> createParametersSnapshot()
+	private List<string> createParametersSnapshot(bool forceSize)
 	{
 		// ffplay /dev/video0
 		List<string> parameters = new List<string>();
@@ -298,8 +306,11 @@ public class WebcamFfmpeg : Webcam
 		else 	//mac
 			parameters.Insert (i ++, "avfoundation");
 
-		parameters.Insert (i ++, "-s");
-		parameters.Insert (i ++, "400x400");
+		if(forceSize)
+		{
+			parameters.Insert (i ++, "-s");
+			parameters.Insert (i ++, "400x400");
+		}
 
 		parameters.Insert (i ++, "-i");
 		if(os == UtilAll.OperatingSystems.LINUX)

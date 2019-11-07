@@ -324,7 +324,7 @@ public class WebcamFfmpeg : Webcam
 		parameters.Insert (i ++, "0:0:2");
 		parameters.Insert (i ++, "-frames");
 		parameters.Insert (i ++, "1");
-		parameters.Insert (i ++, Util.GetWebcamPhotoTempFileNamePost(videoDeviceToFilename()));
+		parameters.Insert (i ++, Util.GetWebcamPhotoTempFileNamePost());
 		parameters.Insert (i ++, "-y"); //overwrite
 
 		return parameters;

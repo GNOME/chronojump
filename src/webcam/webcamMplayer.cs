@@ -45,7 +45,7 @@ public class WebcamMplayer : Webcam
 		if(process != null)
 			return new Result (false, "");
 
-		string tempFile = Util.GetWebcamPhotoTempFileNamePost(videoDeviceToFilename());
+		string tempFile = Util.GetWebcamPhotoTempFileNamePost();
 		Util.FileDelete(tempFile);
 
 		List<string> parameters = new List<string>();
@@ -68,7 +68,7 @@ public class WebcamMplayer : Webcam
 		parameters.Insert (i ++, "driver=v4l2:gain=1:width=400:height=400:device=" + videoDevice + ":fps=10:outfmt=rgb16");
 		parameters.Insert (i ++, "tv://");
 		parameters.Insert (i ++, "-vf");
-		parameters.Insert (i ++, "screenshot=" + Util.GetWebcamPhotoTempFileNamePre(videoDeviceToFilename()));
+		parameters.Insert (i ++, "screenshot=" + Util.GetWebcamPhotoTempFileNamePre());
 
 		process = new Process();
 		bool success = ExecuteProcess.RunAtBackground (ref process, executable, parameters, true, false, true, true, true); //redirectInput, redirectOutput, redirectError
@@ -276,7 +276,7 @@ public class WebcamMplayer : Webcam
 
 	private bool findIfThereAreImagesToConvert()
 	{
-		return (File.Exists(Util.GetWebcamPhotoTempFileNamePre(videoDeviceToFilename()) + "0001.png"));
+		return (File.Exists(Util.GetWebcamPhotoTempFileNamePre() + "0001.png"));
 	}
 
 	private bool convertImagesToVideo()
@@ -288,7 +288,7 @@ public class WebcamMplayer : Webcam
 		parameters.Insert (1, "20");
 		parameters.Insert (2, "-y"); //force overwrite without asking
 		parameters.Insert (3, "-i"); //input files
-		parameters.Insert (4, Util.GetWebcamPhotoTempFileNamePre(videoDeviceToFilename()) + "%04d.png");
+		parameters.Insert (4, Util.GetWebcamPhotoTempFileNamePre() + "%04d.png");
 		parameters.Insert (5, Util.GetVideoTempFileName());
 
 		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, parameters, true, true);

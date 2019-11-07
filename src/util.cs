@@ -1119,17 +1119,17 @@ public class Util
 	 */
 
 	//Pre: filename without 0001.png
-	public static string GetWebcamPhotoTempFileNamePre(string videoDevice)
+	public static string GetWebcamPhotoTempFileNamePre()
 	{
 		string fileName = Constants.PhotoTemp;
 
-		return Path.Combine(Path.GetTempPath(), Constants.PhotoTemp + "-" + videoDevice + "-");
+		return Path.Combine(Path.GetTempPath(), Constants.PhotoTemp + "-");
 	}
 
 	//Pre: filename with 0001.png
-	public static string GetWebcamPhotoTempFileNamePost(string videoDevice)
+	public static string GetWebcamPhotoTempFileNamePost()
 	{
-		return GetWebcamPhotoTempFileNamePre(videoDevice) + "0001.png";
+		return GetWebcamPhotoTempFileNamePre() + "0001.png";
 	}
 
 

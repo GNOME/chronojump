@@ -667,6 +667,15 @@ class ImportSession:
                                   avoids_duplicate_column=None,
                                   matches_columns=None)
 
+        # Imports trigger (can be encoder or forceSensor, but right now only encoder is programmed)
+        trigger = self.source_db.read(table_name="trigger",
+                                      where_condition="mode='ENCODER' AND Encoder.sessionID={}".format(self.source_session),
+                                      join_clause="LEFT JOIN Encoder ON Encoder.uniqueID=trigger.modeID")
+
+        trigger.update_ids("modeID", encoder, "uniqueID", "new_uniqueID")
+        self.destination_db.write(table=trigger, matches_columns=None)
+
+
     def _import_forceSensor(self):
         # Imports ForceSensorExercise
         # based on encoder exercise code because rest of the code exercises and tests are linked by names

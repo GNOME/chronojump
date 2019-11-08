@@ -125,7 +125,7 @@
                     </child>
                     <child>
                       <widget class="GtkButton" id="button_delete">
-                        <property name="label">Delete selected</property>
+                        <property name="label" translatable="yes">Delete selected</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
                         <property name="can_focus">True</property>
@@ -378,7 +378,7 @@
                                   <widget class="GtkLabel" id="label6">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Attached units</property>
+                                    <property name="label" translatable="yes" comments="Not referred as an email attachment,&#10;referred as rubber elastic bands attached together">Attached units</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -474,7 +474,7 @@
                     </child>
                     <child>
                       <widget class="GtkCheckButton" id="check_active">
-                        <property name="label" translatable="yes">Attached</property>
+                        <property name="label" translatable="yes">In use</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>

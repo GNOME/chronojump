@@ -71,6 +71,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_combo_force_sensor_exercise;
 	[Widget] Gtk.ComboBox combo_force_sensor_exercise;
 	[Widget] Gtk.Button button_force_sensor_stiffness;
+	[Widget] Gtk.Label label_button_force_sensor_stiffness;
+	[Widget] Gtk.Image image_button_force_sensor_stiffness_problem;
 	[Widget] Gtk.ComboBox combo_force_sensor_capture_options;
 	[Widget] Gtk.RadioButton radio_force_sensor_laterality_both;
 	[Widget] Gtk.RadioButton radio_force_sensor_laterality_l;
@@ -369,7 +371,7 @@ public partial class ChronoJumpWindow
 			if(currentForceSensorExercise.ComputeAsElastic)
 			{
 				List<ForceSensorElasticBand> list_fseb = SqliteForceSensorElasticBand.SelectAll(false, true); //not opened, onlyActive
-				if(ForceSensorElasticBand.GetStiffnessOfActiveBands(list_fseb) == 0)
+				if(ForceSensorElasticBand.GetStiffnessOfActiveBands(list_fseb) == 0 || image_button_force_sensor_stiffness_problem.Visible)
 				{
 					new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Need to configure fixture to know stiffness of this elastic exercise."));
 					return;
@@ -1539,6 +1541,7 @@ LogB.Information(" fs R ");
 		assignCurrentForceSensorExercise();
 
 		// stiffness 1: change button_force_sensor_stiffness
+		image_button_force_sensor_stiffness_problem.Visible = false;
 		if(currentForceSensorExercise.ComputeAsElastic)
 		{
 			setStiffnessButtonLabel(fs.Stiffness);
@@ -1553,10 +1556,12 @@ LogB.Information(" fs R ");
 				new DialogMessage(Constants.MessageTypes.WARNING,
 						Catalog.GetString("Loaded set used elastic bands removed from database or with changed values.") + "\n\n" +
 						Catalog.GetString("Stiffness calculation is correct but stiffness configuration window will not be able to match elastic bands and total stiffness."));
+
+				image_button_force_sensor_stiffness_problem.Visible = true;
 			}
 		} else
 		{
-			button_force_sensor_stiffness.Label = "0";
+			label_button_force_sensor_stiffness.Text = "0";
 			button_force_sensor_stiffness.Visible = false;
 		}
 
@@ -1717,6 +1722,16 @@ LogB.Information(" fs R ");
 		//getForceSensorCaptureOptions is called on doing the graphs
 		//recalculate graphs will be different if exercise changed, so need to know the exercise
 		assignCurrentForceSensorExercise();
+
+		if(currentForceSensorExercise.ComputeAsElastic)
+		{
+			List<ForceSensorElasticBand> list_fseb = SqliteForceSensorElasticBand.SelectAll(false, true); //not opened, onlyActive
+			if(ForceSensorElasticBand.GetStiffnessOfActiveBands(list_fseb) == 0 || image_button_force_sensor_stiffness_problem.Visible)
+			{
+				new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Need to configure fixture to know stiffness of this elastic exercise."));
+				return;
+			}
+		}
 
 		if(lastForceSensorFullPath != null && lastForceSensorFullPath != "")
 			forceSensorCopyTempAndDoGraphs(forceSensorGraphsEnum.SIGNAL);
@@ -2290,7 +2305,8 @@ LogB.Information(" fs R ");
 					combo_force_sensor_exercise, forceSensorComboExercisesString, false), false );
 		if(array.Count == 0)
 		{
-			button_force_sensor_stiffness.Label = "0";
+			label_button_force_sensor_stiffness.Text = "0";
+			image_button_force_sensor_stiffness_problem.Visible = true;
 			button_force_sensor_stiffness.Visible = false;
 			return;
 		}
@@ -2304,8 +2320,9 @@ LogB.Information(" fs R ");
 			setStiffnessButtonLabel(stiffness);
 			button_force_sensor_stiffness.Visible = true;
 		} else {
-			button_force_sensor_stiffness.Label = "0";
+			label_button_force_sensor_stiffness.Text = "0";
 			button_force_sensor_stiffness.Visible = false;
+			image_button_force_sensor_stiffness_problem.Visible = false;
 		}
 	}
 
@@ -2453,10 +2470,13 @@ LogB.Information(" fs R ");
 
 	private void on_button_force_sensor_stiffness_clicked (object o, EventArgs args)
 	{
-		forceSensorElasticBandsWin = ForceSensorElasticBandsWindow.Show(
-				Catalog.GetString("Stiffness configuration"), Catalog.GetString("Configure attached elastic bands/tubes"));
+		//done like this to be able to call on_elastic_bands_win_stiffness_changed before the Show is done, because in the Show is where the stiffness will change
+		forceSensorElasticBandsWin = new ForceSensorElasticBandsWindow();
 		forceSensorElasticBandsWin.FakeButton_stiffness_changed.Clicked -= new EventHandler(on_elastic_bands_win_stiffness_changed);
 		forceSensorElasticBandsWin.FakeButton_stiffness_changed.Clicked += new EventHandler(on_elastic_bands_win_stiffness_changed);
+
+		forceSensorElasticBandsWin.Show(
+				Catalog.GetString("Stiffness configuration"), Catalog.GetString("Configure attached elastic bands/tubes"));
 	}
 
 	private void on_elastic_bands_win_stiffness_changed(object o, EventArgs args)
@@ -2467,10 +2487,14 @@ LogB.Information(" fs R ");
 	private void setStiffnessButtonLabel (double stiffness)
 	{
 		if(stiffness <= 0)
-			button_force_sensor_stiffness.Label = Catalog.GetString("Configure bands/tubes");
-		else
-			button_force_sensor_stiffness.Label = Catalog.GetString("Stiffness:") + " " +
+		{
+			label_button_force_sensor_stiffness.Text = Catalog.GetString("Configure bands/tubes");
+			image_button_force_sensor_stiffness_problem.Visible = true;
+		} else {
+			label_button_force_sensor_stiffness.Text = Catalog.GetString("Stiffness:") + " " +
 				stiffness.ToString() + " N/m";
+			image_button_force_sensor_stiffness_problem.Visible = false;
+		}
 	}
 
 

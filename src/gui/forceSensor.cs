@@ -1558,7 +1558,7 @@ LogB.Information(" fs R ");
 			button_force_sensor_stiffness.Visible = false;
 		}
 
-		forceSensorCopyTempAndDoGraphs();
+		forceSensorCopyTempAndDoGraphs(forceSensorGraphsEnum.SIGNAL);
 
 		button_video_play_this_test.Sensitive = (fs.VideoURL != "");
 		sensitiveLastTestButtons(true);
@@ -1717,7 +1717,7 @@ LogB.Information(" fs R ");
 		assignCurrentForceSensorExercise();
 
 		if(lastForceSensorFullPath != null && lastForceSensorFullPath != "")
-			forceSensorCopyTempAndDoGraphs();
+			forceSensorCopyTempAndDoGraphs(forceSensorGraphsEnum.SIGNAL);
 
 		//if drawingarea has still not shown, don't paint graph because GC screen is not defined
 		if(force_sensor_ai_drawingareaShown)
@@ -1757,18 +1757,19 @@ LogB.Information(" fs R ");
 		}
 
 		if(lastForceSensorFullPath != null && lastForceSensorFullPath != "")
-			forceSensorCopyTempAndDoGraphs();
+			forceSensorCopyTempAndDoGraphs(forceSensorGraphsEnum.RFD);
 	}
 
-	private void forceSensorCopyTempAndDoGraphs()
+	private enum forceSensorGraphsEnum { SIGNAL, RFD }
+	private void forceSensorCopyTempAndDoGraphs(forceSensorGraphsEnum fsge)
 	{
 		File.Copy(lastForceSensorFullPath, UtilEncoder.GetmifCSVFileName(), true); //can be overwritten
 
-		forceSensorDoSignalGraph();
-		forceSensorDoRFDGraph();
+		if(fsge == forceSensorGraphsEnum.SIGNAL)
+			forceSensorDoSignalGraph();
+		else //(fsge == forceSensorGraphsEnum.RFD)
+			forceSensorDoRFDGraph();
 	}
-
-
 
 	void forceSensorDoRFDGraph()
 	{

@@ -32,7 +32,11 @@ public class ForceSensorElasticBandsWindow
 	[Widget] Gtk.Label label_header;
 	//[Widget] Gtk.ScrolledWindow scrolled_window_treeview;
 	[Widget] Gtk.TreeView treeview;
+	[Widget] Gtk.Image image_add;
+	[Widget] Gtk.Image image_delete;
 	[Widget] Gtk.Image image_save;
+	[Widget] Gtk.Image image_cancel;
+	[Widget] Gtk.Image image_close;
 	[Widget] Gtk.Button button_save;
 	[Widget] Gtk.Button button_delete;
 	[Widget] Gtk.Button button_close;
@@ -50,8 +54,6 @@ public class ForceSensorElasticBandsWindow
 
 	[Widget] Gtk.Button fakeButton_stiffness_changed;
 
-	static ForceSensorElasticBandsWindow ForceSensorElasticBandsWindowBox;
-	
 	private TreeStore store;
 
 	public int TreeviewSelectedUniqueID;
@@ -68,29 +70,31 @@ public class ForceSensorElasticBandsWindow
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "force_sensor_elastic_bands.glade", "force_sensor_elastic_bands", "chronojump");
 		gladeXML.Autoconnect(this);
 
-		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "save.png");
+		Pixbuf pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_add.png");
+		image_add.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
+		image_delete.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "save.png");
 		image_save.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
+		image_cancel.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close_blue.png");
+		image_close.Pixbuf = pixbuf;
 
 		//HideOnAccept = true;
 		//DestroyOnAccept = false;
 		fakeButton_stiffness_changed = new Gtk.Button();
 	}
 
-	//for an array of widgets
-	static public ForceSensorElasticBandsWindow Show (string title, string textHeader)
+	public void Show (string title, string textHeader)
 	{
-		if (ForceSensorElasticBandsWindowBox == null) {
-			ForceSensorElasticBandsWindowBox = new ForceSensorElasticBandsWindow();
-		} else {
-			ForceSensorElasticBandsWindowBox.setTitle(title);
-			ForceSensorElasticBandsWindowBox.label_header.Text = textHeader;
-		}
+		setTitle(title);
+		label_header.Text = textHeader;
 
-		ForceSensorElasticBandsWindowBox.initializeGui(title, textHeader);
-		ForceSensorElasticBandsWindowBox.frame_add_edit.Sensitive = false;
-		ForceSensorElasticBandsWindowBox.force_sensor_elastic_bands.Show ();
-		
-		return ForceSensorElasticBandsWindowBox;
+		initializeGui(title, textHeader);
+		frame_add_edit.Sensitive = false;
+		force_sensor_elastic_bands.Show ();
 	}
 
 	private void setTitle(string title)
@@ -246,12 +250,14 @@ public class ForceSensorElasticBandsWindow
 		}
 	}
 
-	private void on_button_add_show_clicked (object o, EventArgs args)
+	private void on_button_add_clicked (object o, EventArgs args)
 	{
 		currentMode = modes.ADDING;
 		empty_frame(); //empty all
-		label_edit_or_add.Text = Catalog.GetString("Add new");
+		label_edit_or_add.Text = Catalog.GetString("Add new elastic band/tube");
 		frame_add_edit.Sensitive = true;
+		treeview.Selection.UnselectAll();
+		button_delete.Sensitive = false;
 	}
 	private void on_button_save_clicked (object o, EventArgs args)
 	{
@@ -281,6 +287,9 @@ public class ForceSensorElasticBandsWindow
 
 			//update SQL
 			SqliteForceSensorElasticBand.Update(false, fseb);
+
+			//unsensitivize frame_add_edit
+			frame_add_edit.Sensitive = false;
 		}
 		
 		//vbox_bands.Sensitive = true;
@@ -288,6 +297,13 @@ public class ForceSensorElasticBandsWindow
 		//2) regenerate treeview
 		UtilGtk.RemoveColumns(treeview);
 		setTreeview();
+	}
+
+	private void on_button_cancel_clicked (object o, EventArgs args)
+	{
+		//unsensitivize frame_add_edit
+		frame_add_edit.Sensitive = false;
+		button_delete.Sensitive = false;
 	}
 
 	private void on_button_delete_clicked (object o, EventArgs args)
@@ -347,8 +363,7 @@ public class ForceSensorElasticBandsWindow
 
 	private void on_button_close_clicked (object o, EventArgs args)
 	{
-		ForceSensorElasticBandsWindowBox.force_sensor_elastic_bands.Hide();
-		ForceSensorElasticBandsWindowBox = null;
+		force_sensor_elastic_bands.Hide();
 	}
 
 	private void on_delete_event (object o, DeleteEventArgs args)
@@ -357,8 +372,7 @@ public class ForceSensorElasticBandsWindow
 
 		//args.RetVal = true;
 			
-		ForceSensorElasticBandsWindowBox.force_sensor_elastic_bands.Hide();
-		ForceSensorElasticBandsWindowBox = null;
+		force_sensor_elastic_bands.Hide();
 	}
 
 	public double TotalStiffness

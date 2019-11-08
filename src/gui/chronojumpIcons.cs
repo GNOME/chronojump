@@ -256,7 +256,9 @@ public partial class ChronoJumpWindow
 		image_quit2.Pixbuf = pixbuf;
 		image_quit_from_app1.Pixbuf = pixbuf;
 
-		image_message_permissions_at_boot.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_warning_red.png");
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_warning_red.png");
+		image_message_permissions_at_boot.Pixbuf = pixbuf;
+		image_button_force_sensor_stiffness_problem.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "muscle-concentric.png");
 		image_top_eccon.Pixbuf = pixbuf;

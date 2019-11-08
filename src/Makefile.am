@@ -417,6 +417,7 @@ RESOURCES = \
 	../images/md/ic_import_1x.png,import.png \
 	../images/md/ic_export_1x.png,export.png \
 	../images/md/ic_settings_blue_24dp_1x.png,image_settings.png \
+	../images/md/ic_close_blue_24dp_1x.png,image_close_blue.png \
 	../images/md/ic_close_red_24dp_1x.png,image_close.png \
 	../images/md/ic_close_blue_24dp_2x.png,image_close_big.png \
 	../images/md/ic_power_settings_new_blue_24dp_1x.png,image_quit.png \

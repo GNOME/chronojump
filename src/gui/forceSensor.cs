@@ -1091,7 +1091,9 @@ LogB.Information(" fs C ");
 					fscPoints.InitRealWidthHeight(preferences.forceSensorCaptureWidthSeconds);
 
 					forceSensorDoSignalGraphPlot();
-					forceSensorDoRFDGraph();
+
+					//do not calculate RFD until analyze button there is clicked
+					//forceSensorDoRFDGraph();
 
 					//if drawingarea has still not shown, don't paint graph because GC screen is not defined
 					if(force_sensor_ai_drawingareaShown)

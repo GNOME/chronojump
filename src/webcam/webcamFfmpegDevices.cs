@@ -115,6 +115,15 @@ public class WebcamDeviceList
 
 		return "";
 	}
+
+	public string GetFullnameOfCode(string code)
+	{
+		foreach(WebcamDevice wd in wd_list)
+			if(wd.Code == code)
+				return wd.Fullname;
+
+		return "";
+	}
 }
 
 public abstract class WebcamFfmpegGetDevices

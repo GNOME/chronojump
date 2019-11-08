@@ -215,6 +215,9 @@ class Database:
                        "join_clause": join_clause, "where": where_condition, "group_by": group_by}
 
         sql = "SELECT {column_names} FROM {table_names_str} {join_clause} {where} {group_by}".format(**format_data)
+        if(DEBUGTOFILE):
+                debugFile.write(str(sql) + "\n")
+
         self._execute_query_and_log(sql, [])
 
         results = self._cursor.fetchall()

@@ -607,16 +607,6 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
 				abline(h=0,lty=3,col="black")
 			}
 		}
-
-
-		if(triggersOnList != "" && triggersOnList != -1)
-		{
-			print("triggersOnList-xmin")
-			print(triggersOnList-xmin)
-			abline(v=(triggersOnList-xmin), col="yellow3", lwd=2, lty=2)
-			#mtext(side=3, at=(triggersOnList-xmin), text=(triggersOnList-xmin), cex=.8)
-		}
-                
                 #abline(v=seq(from=0,to=length(position),by=500),lty=3,col="gray")
         }
         
@@ -733,6 +723,14 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
 		polygon(c(startX:propulsiveEnd, propulsiveEnd, startX),
 			c(yValues[startX:propulsiveEnd], min(yValues), min(yValues)),
 			col="grey90")
+	}
+
+	if(triggersOnList != "" && triggersOnList != -1)
+	{
+		print("triggersOnList-xmin")
+		print(triggersOnList-xmin)
+		abline(v=(triggersOnList-xmin), col="yellow3", lwd=2, lty=2)
+		#mtext(side=3, at=(triggersOnList-xmin), text=(triggersOnList-xmin), cex=.8)
 	}
 
         print(c("propulsiveEnd at paint", propulsiveEnd))

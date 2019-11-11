@@ -2362,7 +2362,7 @@ class Sqlite
 			{
 				LogB.SQL("Created ForceSensorExercise");
 
-				SqliteForceSensorExercise.createTable(); //now this createTable has the tareBeforeCapture column
+				SqliteForceSensorExerciseImport.createTable_v_1_58(); //now this createTable has the tareBeforeCapture column
 				//do not use this because if update fails and is done on different Chronojump executions,
 				//we will arrive to 1.66 having  this as false:
 				//createdForceSensorExerciseWith_tareBeforeCapture
@@ -2498,7 +2498,7 @@ class Sqlite
 					executeSQL("ALTER TABLE " + Constants.ForceSensorExerciseTable + " ADD COLUMN forceResultant INT NOT NULL DEFAULT 0;");
 					executeSQL("ALTER TABLE " + Constants.ForceSensorExerciseTable + " ADD COLUMN elastic INT NOT NULL DEFAULT 0;");
 
-					SqliteForceSensorExercise.import_partially_from_1_73_to_1_74_unify_resistance_and_description();
+					SqliteForceSensorExerciseImport.import_partially_from_1_73_to_1_74_unify_resistance_and_description();
 				} catch {
 					LogB.SQL("Catched. forceResultant or elastic already exists, or at unify resitance and desc.");
 

@@ -266,6 +266,11 @@ class SqliteForceSensor : Sqlite
 		return array;
 	}
 
+	/*
+	 * this import converts all the forceSensor files into SQL rows with a column pointing the file
+	 * persons have to be recognized/created (if is not possible to get the person then an Unknown person is created)
+	 * forceSensorExercises created (if is not possible to assign the exercise, or there are no exercises, a Unknown exercise is created
+	 */
 	protected internal static void import_from_1_68_to_1_69() //database is opened
 	{
 		//LogB.PrintAllThreads = true; //TODO: remove this
@@ -344,8 +349,7 @@ class SqliteForceSensor : Sqlite
 					{
 						ForceSensorExercise fse = new ForceSensorExercise (-1, Catalog.GetString("Unknown"), 0, "", 0, "", false, false, false);
 						//note we are on 1_68 so we need this import method
-						//unknownExerciseID = SqliteForceSensorExercise.InsertAtDB_1_68(true, fse);
-						unknownExerciseID = SqliteForceSensorExercise.Insert(true, fse);
+						unknownExerciseID = SqliteForceSensorExerciseImport.InsertAtDB_1_68(true, fse);
 					}
 
 					exerciseID = unknownExerciseID;
@@ -359,8 +363,7 @@ class SqliteForceSensor : Sqlite
 				{
 					ForceSensorExercise fse = new ForceSensorExercise (-1, fslt.Exercise, 0, "", 0, "", false, false, false);
 					//note we are on 1_68 so we need this import method
-					//unknownExerciseID = SqliteForceSensorExercise.InsertAtDB_1_68(true, fse);
-					unknownExerciseID = SqliteForceSensorExercise.Insert(true, fse);
+					unknownExerciseID = SqliteForceSensorExerciseImport.InsertAtDB_1_68(true, fse);
 				}
 
 				//laterality (in English)
@@ -413,7 +416,7 @@ class SqliteForceSensor : Sqlite
 
 class SqliteForceSensorExercise : Sqlite
 {
-	private static string table = Constants.ForceSensorExerciseTable;
+	protected static string table = Constants.ForceSensorExerciseTable;
 
 	public SqliteForceSensorExercise() {
 	}
@@ -464,32 +467,6 @@ class SqliteForceSensorExercise : Sqlite
 
 		return myLast;
 	}
-
-	/*
-	 * is there any need of this?
-	 *
-	public static int InsertAtDB_1_68 (bool dbconOpened, ForceSensorExercise ex)
-	{
-		if(! dbconOpened)
-			Sqlite.Open();
-
-		dbcmd.CommandText = "INSERT INTO " + table +
-				" (uniqueID, name, percentBodyWeight, resistance, angleDefault, " +
-				" description, tareBeforeCapture)" +
-				" VALUES (" + ex.ToSQLInsertString_DB_1_68() + ")";
-		LogB.SQL(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-
-		string myString = @"select last_insert_rowid()";
-		dbcmd.CommandText = myString;
-		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
-
-		if(! dbconOpened)
-			Sqlite.Close();
-
-		return myLast;
-	}
-	*/
 
 	public static void Update (bool dbconOpened, ForceSensorExercise ex)
 	{
@@ -577,6 +554,51 @@ class SqliteForceSensorExercise : Sqlite
 			Sqlite.Close();
 
 		return array;
+	}
+}
+
+class SqliteForceSensorExerciseImport : SqliteForceSensorExercise
+{
+	public SqliteForceSensorExerciseImport() {
+	}
+
+	~SqliteForceSensorExerciseImport() {}
+
+	protected internal static void createTable_v_1_58()
+	{
+		dbcmd.CommandText =
+			"CREATE TABLE " + table + " ( " +
+			"uniqueID INTEGER PRIMARY KEY, " +
+			"name TEXT, " +
+			"percentBodyWeight INT NOT NULL, " +
+			"resistance TEXT, " + 				//unused
+			"angleDefault INT, " +
+			"description TEXT, " +
+			"tareBeforeCapture INT)";
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+	}
+
+	public static int InsertAtDB_1_68 (bool dbconOpened, ForceSensorExercise ex)
+	{
+		if(! dbconOpened)
+			Sqlite.Open();
+
+		dbcmd.CommandText = "INSERT INTO " + table +
+				" (uniqueID, name, percentBodyWeight, resistance, angleDefault, " +
+				" description, tareBeforeCapture)" +
+				" VALUES (" + ex.ToSQLInsertString_DB_1_68() + ")";
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		string myString = @"select last_insert_rowid()";
+		dbcmd.CommandText = myString;
+		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
+
+		if(! dbconOpened)
+			Sqlite.Close();
+
+		return myLast;
 	}
 
 	//database is opened

@@ -6918,7 +6918,7 @@ msgstr "0 vol dir horitzontal"
 
 #: ../src/gui/forceSensorExercise.cs:255
 msgid "90 means vertically with the person above the sensor"
-msgstr "90 vol dir vrtical amb la persona a sobre el sensor"
+msgstr "90 vol dir vertical amb la persona a sobre el sensor"
 
 #: ../src/gui/forceSensorExercise.cs:256
 msgid "-90 means vertically with the person below the sensor"

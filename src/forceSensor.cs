@@ -357,9 +357,7 @@ public class ForceSensorExercise
 			Util.BoolToInt(elastic).ToString();
 	}
 
-	/*
-	 * is there any need of this?
-	 *
+	// to be able to import
 	public string ToSQLInsertString_DB_1_68()
 	{
 		string uniqueIDStr = "NULL";
@@ -371,7 +369,6 @@ public class ForceSensorExercise
 			resistance + "\", " + angleDefault + ", \"" + description + "\", " +
 			Util.BoolToInt(tareBeforeCapture).ToString();
 	}
-	*/
 
 	public bool Changed(ForceSensorExercise newEx)
 	{

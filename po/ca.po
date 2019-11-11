@@ -2874,7 +2874,7 @@ msgstr "L'efecte de la massa està inclòs en les dades crues"
 
 #: ../glade/force_sensor_exercise.glade.h:10
 msgid "Add the effect of mass to raw data"
-msgstr "Afegri l'efecte de la massa a les dades crues"
+msgstr "Afegir l'efecte de la massa a les dades crues"
 
 #: ../glade/force_sensor_exercise.glade.h:11
 msgid "Body mass to be added"

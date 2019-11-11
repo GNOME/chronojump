@@ -1532,7 +1532,7 @@ LogB.Information(" fs R ");
 		lastForceSensorFile = Util.RemoveExtension(fs.Filename);
 		lastForceSensorFullPath = fs.FullURL;
 
-		combo_force_sensor_exercise.Active = UtilGtk.ComboMakeActive(combo_force_sensor_exercise, Catalog.GetString(fs.ExerciseName));
+		combo_force_sensor_exercise.Active = UtilGtk.ComboMakeActive(combo_force_sensor_exercise, fs.ExerciseName);
 		setForceSensorCaptureOptions(fs.CaptureOption);
 
 		setLaterality(fs.Laterality);

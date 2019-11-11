@@ -285,6 +285,8 @@ class SqliteForceSensor : Sqlite
 		int unknownExerciseID = Sqlite.ExistsAndGetUniqueID(true, Constants.ForceSensorExerciseTable, Catalog.GetString("Unknown"));
 
 		DirectoryInfo [] sessions = new DirectoryInfo(forceSensorDir).GetDirectories();
+		conversionRateTotal = sessions.Length;
+		conversionRate = 1;
 		foreach (DirectoryInfo session in sessions) //session.Name will be the UniqueID
 		{
 			//if there is a session where the user manually changed the folder name (has to be a sessionID)
@@ -298,6 +300,8 @@ class SqliteForceSensor : Sqlite
 				personSessionExistsInSession = SqlitePersonSession.PersonSelectExistsInSession(true, unknownPersonID, Convert.ToInt32(session.Name));
 
 			FileInfo[] files = session.GetFiles();
+			conversionSubRateTotal = files.Length;
+			conversionSubRate = 1;
 			foreach (FileInfo file in files)
 			{
 				string fileWithoutExtension = Util.RemoveExtension(Util.GetLastPartOfPath(file.Name));
@@ -407,7 +411,9 @@ class SqliteForceSensor : Sqlite
 						"", -1, "", //videoURL, stiffness, stiffnessString
 						exerciseName);
 				forceSensor.InsertSQL(true);
+				conversionSubRate ++;
 			}
+			conversionRate ++;
 		}
 
 		//LogB.PrintAllThreads = false; //TODO: remove this

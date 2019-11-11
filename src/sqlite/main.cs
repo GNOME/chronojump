@@ -112,8 +112,8 @@ class Sqlite
 	//for db conversion
 	static string currentVersion = "0";
 	
-	static int conversionRate;
-	static int conversionRateTotal;
+	protected static int conversionRate;
+	protected static int conversionRateTotal;
 	protected static int conversionSubRate;
 	protected static int conversionSubRateTotal;
 

@@ -961,21 +961,21 @@ public partial class ChronoJumpWindow
 			time -= firstTime;
 
 			LogB.Information(string.Format("time: {0}, force: {1}", time, force));
-			//forceWithCaptureOptionsAndBW have abs or inverted
-			double forceWithCaptureOptionsAndBW = ForceSensor.ForceWithCaptureOptionsAndBW(force, forceSensorCaptureOption,
-					currentForceSensorExercise.PercentBodyWeight, currentPersonSession.Weight);
+			//forceCalculated have abs or inverted
+			double forceCalculated = ForceSensor.CalculeForceResultantIfNeeded (force, forceSensorCaptureOption,
+					currentForceSensorExercise, currentPersonSession.Weight);
 
 			if(forceSensorCaptureOption != ForceSensor.CaptureOptions.NORMAL)
-				LogB.Information(string.Format("with abs or inverted flag: time: {0}, force: {1}", time, forceWithCaptureOptionsAndBW));
+				LogB.Information(string.Format("with abs or inverted flag: time: {0}, force: {1}", time, forceCalculated));
 
 			writer.WriteLine(time.ToString() + ";" + force.ToString()); //on file force is stored without flags
 
 			forceSensorValues.TimeLast = time;
-			forceSensorValues.ForceLast = forceWithCaptureOptionsAndBW;
+			forceSensorValues.ForceLast = forceCalculated;
 
-			forceSensorValues.SetMaxMinIfNeeded(forceWithCaptureOptionsAndBW, time);
+			forceSensorValues.SetMaxMinIfNeeded(forceCalculated, time);
 
-			fscPoints.Add(time, forceWithCaptureOptionsAndBW);
+			fscPoints.Add(time, forceCalculated);
 			fscPoints.NumCaptured ++;
 			if(fscPoints.OutsideGraph(preferences.forceSensorCaptureScroll))
 			{
@@ -1872,7 +1872,7 @@ LogB.Information(" fs R ");
 				{
 					int time = Convert.ToInt32(strFull[0]);
 					double force = Convert.ToDouble(strFull[1]);
-					force = ForceSensor.ForceWithCaptureOptionsAndBW(force, fsco, currentForceSensorExercise.PercentBodyWeight, currentPersonSession.Weight);
+					force = ForceSensor.CalculeForceResultantIfNeeded(force, fsco, currentForceSensorExercise, currentPersonSession.Weight);
 
 					fscPoints.Add(time, force);
 					fscPoints.NumCaptured ++;

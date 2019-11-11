@@ -179,11 +179,41 @@ public class ForceSensor
 	}
 
 	//static methods
-	public static double ForceWithCaptureOptionsAndBW (double force, CaptureOptions fsco, int percentBodyWeight, double personWeight)
-	{
-		if(percentBodyWeight > 0 && personWeight > 0)
-			force += 9.81 * percentBodyWeight * personWeight / 100.0;
 
+	public static double CalculeForceResultantIfNeeded (double forceRaw, CaptureOptions fsco, ForceSensorExercise fse, double personMass)
+	{
+		if(! fse.ForceResultant)
+			return calculeForceWithCaptureOptions(forceRaw, fsco);
+
+		double totalMass = 0;
+		if(fse.PercentBodyWeight > 0 && personMass > 0)
+			totalMass = fse.PercentBodyWeight * personMass / 100.0;
+
+		//right now only code for non-elastic
+		double accel = 0;
+
+		/*
+		 * debug info
+		LogB.Information("--------------");
+		LogB.Information("exercise: " + fse.ToString());
+		LogB.Information("forceRaw: " + forceRaw.ToString());
+		LogB.Information("totalMass: " + totalMass.ToString());
+		LogB.Information("AngleDefault: " + fse.AngleDefault.ToString());
+
+		LogB.Information("horiz: " + (Math.Cos(fse.AngleDefault * Math.PI / 180.0) * (forceRaw + totalMass * accel)).ToString());
+		LogB.Information("vertical: " + (Math.Sin(fse.AngleDefault * Math.PI / 180.0) * (forceRaw + totalMass * accel) + totalMass * 9.81).ToString());
+		*/
+		//TODO: now we are using fse.AngleDefault, but we have to implement especific angle on capture
+
+		double forceResultant = Math.Sqrt(
+				Math.Pow(Math.Cos(fse.AngleDefault * Math.PI / 180.0) * (forceRaw + totalMass * accel),2) +                	//Horizontal component
+				Math.Pow(Math.Sin(fse.AngleDefault * Math.PI / 180.0) * (forceRaw + totalMass * accel) + totalMass * 9.81,2) 	//Vertical component
+				);
+
+		return calculeForceWithCaptureOptions(forceResultant, fsco);
+	}
+	private static double calculeForceWithCaptureOptions(double force, CaptureOptions fsco)
+	{
 		if(fsco == CaptureOptions.ABS)
 			return Math.Abs(force);
 		if(fsco == CaptureOptions.INVERTED)
@@ -1266,12 +1296,12 @@ public class ForceSensorAnalyzeInstant
 	private int graphHeight;
 
 	public ForceSensorAnalyzeInstant(string file, int graphWidth, int graphHeight, double start, double end,
-			int exercisePercentBW, double personWeight, ForceSensor.CaptureOptions fsco)
+			ForceSensorExercise fse, double personWeight, ForceSensor.CaptureOptions fsco)
 	{
 		this.graphWidth = graphWidth;
 		this.graphHeight = graphHeight;
 
-		readFile(file, start, end, exercisePercentBW, personWeight, fsco);
+		readFile(file, start, end, fse, personWeight, fsco);
 
 		//on zoom adjust width
 		if(start >= 0 || end >= 0)
@@ -1285,7 +1315,7 @@ public class ForceSensorAnalyzeInstant
 			fscAIPoints.Redo();
 	}
 
-	private void readFile(string file, double start, double end, int exercisePercentBW, double personWeight, ForceSensor.CaptureOptions fsco)
+	private void readFile(string file, double start, double end, ForceSensorExercise fse, double personWeight, ForceSensor.CaptureOptions fsco)
 	{
 		fscAIPoints = new ForceSensorCapturePoints(graphWidth, graphHeight, -1);
 
@@ -1328,7 +1358,7 @@ public class ForceSensorAnalyzeInstant
 
 					int time = Convert.ToInt32(timeD);
 					double force = Convert.ToDouble(strFull[1]);
-					force = ForceSensor.ForceWithCaptureOptionsAndBW(force, fsco, exercisePercentBW, personWeight);
+					force = ForceSensor.CalculeForceResultantIfNeeded (force, fsco, fse, personWeight);
 
 					fscAIPoints.Add(time, force);
 					fscAIPoints.NumCaptured ++;

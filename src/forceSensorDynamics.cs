@@ -181,11 +181,33 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 		calculeForces();
 		calculePowers();
 	}
+
+	/*
+	 * take 5 values: 2 previous, current value, 2 post.
+	 * with this calculated the avaerage and assigns to current
+	 */
+	private List<double> smoothVariable(List<double> original_l)
+	{
+		List<double> smoothed_l = new List<double>();
+		smoothed_l.Add(0);
+		smoothed_l.Add(0);
+
+		for(int i = 2; i < position_l.Count -2; i ++)
+			smoothed_l.Add( (original_l[i-2] + original_l[i-1] + original_l[i] + original_l[i+1] + original_l[i+2]) / 5.0 );
+
+		smoothed_l.Add(0);
+		smoothed_l.Add(0);
+
+		return smoothed_l;
+	}
+
 		
 	private void calculePositions()
 	{
 		for (int i = 0 ; i < force_l.Count; i ++)
 			position_l.Add(force_l[i] / stiffness);
+
+		position_l = smoothVariable(position_l);
 	}
 
 	private void calculeSpeeds()
@@ -202,6 +224,8 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 
 			speed_l.Add( (position_l[post] - position_l[pre]) / (time_l[post] - time_l[pre]) );
 		}
+
+		speed_l = smoothVariable(speed_l);
 	}
 
 	private void calculeAccels()

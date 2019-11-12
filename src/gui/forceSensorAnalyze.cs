@@ -908,14 +908,66 @@ public partial class ChronoJumpWindow
 			int instant = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
 			if(instant > 0 && instant < fsAI.GetLength() -1)
 			{
+				int verticalPos = -20;
+				if(fsAI.CalculedElasticPSAP)
+					verticalPos = -60;
+
 				layout_force_ai_text.SetMarkup(string.Format("RFD: {0:0.#} N/s",
 							Math.Round(fsAI.CalculateRFD(instant -1, instant +1), 1) ));
 				textWidth = 1;
 				textHeight = 1;
 				layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
 				force_sensor_ai_pixmap.DrawLayout (pen_blue_force_ai,
-						allocation.Width -textWidth -10, allocation.Height/2 -20,
+						allocation.Width -textWidth -10, allocation.Height/2 + verticalPos,
 						layout_force_ai_text);
+
+				//showing on elastic: position, speed, accel, power
+				if(fsAI.CalculedElasticPSAP)
+				{
+					//position
+					layout_force_ai_text.SetMarkup(string.Format("Position: {0:0.###} m",
+								Math.Round(fsAI.Position_l[instant], 3)));
+					textWidth = 1;
+					textHeight = 1;
+					layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
+					verticalPos += 40;
+					force_sensor_ai_pixmap.DrawLayout (pen_blue_force_ai,
+							allocation.Width -textWidth -10, allocation.Height/2 + verticalPos,
+							layout_force_ai_text);
+
+					//speed
+					layout_force_ai_text.SetMarkup(string.Format("Speed: {0:0.###} m/s",
+								Math.Round(fsAI.Speed_l[instant], 3)));
+					textWidth = 1;
+					textHeight = 1;
+					layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
+					verticalPos += 20;
+					force_sensor_ai_pixmap.DrawLayout (pen_blue_force_ai,
+							allocation.Width -textWidth -10, allocation.Height/2 + verticalPos,
+							layout_force_ai_text);
+
+					//accel
+					layout_force_ai_text.SetMarkup(string.Format("Accel: {0:0.###} m/s^2",
+								Math.Round(fsAI.Accel_l[instant], 3)));
+					textWidth = 1;
+					textHeight = 1;
+					verticalPos += 20;
+					layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
+					force_sensor_ai_pixmap.DrawLayout (pen_blue_force_ai,
+							allocation.Width -textWidth -10, allocation.Height/2 + verticalPos,
+							layout_force_ai_text);
+
+					//power
+					layout_force_ai_text.SetMarkup(string.Format("Power: {0:0.###} W",
+								Math.Round(fsAI.Power_l[instant], 3)));
+					textWidth = 1;
+					textHeight = 1;
+					verticalPos += 20;
+					layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
+					force_sensor_ai_pixmap.DrawLayout (pen_blue_force_ai,
+							allocation.Width -textWidth -10, allocation.Height/2 + verticalPos,
+							layout_force_ai_text);
+				}
 			}
 			return;
 		}

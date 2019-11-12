@@ -1301,6 +1301,13 @@ public class ForceSensorAnalyzeInstant
 	public double ForceAVG;
 	public double ForceMAX;
 
+	//for elastic
+	public bool CalculedElasticPSAP;
+	public List<double> Position_l;
+	public List<double> Speed_l;
+	public List<double> Accel_l;
+	public List<double> Power_l;
+
 	private ForceSensorCapturePoints fscAIPoints; //Analyze Instant
 	private ForceSensorValues forceSensorValues;
 	private int graphWidth;
@@ -1385,6 +1392,16 @@ public class ForceSensorAnalyzeInstant
 					times, forces, fsco, fse, personWeight, stiffness);
 
 		forces = fsd.GetForces();
+
+		CalculedElasticPSAP = false;
+		if(fsd.CalculedElasticPSAP)
+		{
+			Position_l = fsd.GetPositions();
+			Speed_l = fsd.GetSpeeds();
+			Accel_l = fsd.GetAccels();
+			Power_l = fsd.GetPowers();
+			CalculedElasticPSAP = true;
+		}
 
 		int i = 0;
 		foreach(int time in times)

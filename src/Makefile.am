@@ -161,6 +161,7 @@ SOURCES = \
 	FTD2XX_NET.cs\
 	forcePlatform.cs\
 	forceSensor.cs\
+	forceSensorDynamics.cs\
 	genericObjects.cs\
 	json/json.cs\
 	json/utils.cs\

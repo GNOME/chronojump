@@ -962,6 +962,7 @@ public partial class ChronoJumpWindow
 
 			LogB.Information(string.Format("time: {0}, force: {1}", time, force));
 			//forceCalculated have abs or inverted
+
 			double forceCalculated = ForceSensor.CalculeForceResultantIfNeeded (force, forceSensorCaptureOption,
 					currentForceSensorExercise, currentPersonSession.Weight);
 
@@ -1878,8 +1879,15 @@ LogB.Information(" fs R ");
 				}
 			}
 		}
-		forces = ForceSensor.CalculeForceResultantIfNeededFullSet(times, forces,
-				fsco, currentForceSensorExercise, currentPersonSession.Weight, currentForceSensor.Stiffness);
+		ForceSensorDynamics fsd;
+		if(currentForceSensorExercise.Elastic)
+			fsd = new ForceSensorDynamicsElastic(
+					times, forces, fsco, currentForceSensorExercise, currentPersonSession.Weight, currentForceSensor.Stiffness);
+		else
+			fsd = new ForceSensorDynamicsNotElastic(
+					times, forces, fsco, currentForceSensorExercise, currentPersonSession.Weight, currentForceSensor.Stiffness);
+
+		forces = fsd.GetForces();
 
 		int i = 0;
 		foreach(int time in times)

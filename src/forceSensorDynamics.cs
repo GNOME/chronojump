@@ -243,6 +243,8 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 			accel_l.Add( (speed_l[post] - speed_l[pre]) / (time_l[post] - time_l[pre]) );
 			//LogB.Information(string.Format("i: {0}, accel_l[i]: {1}", i, accel_l[i]));
 		}
+
+		accel_l = smoothVariable(accel_l);
 	}
 
 	//forces are updated, so do not Add to the list

@@ -1854,6 +1854,9 @@ LogB.Information(" fs R ");
 		//initialize
 		forceSensorValues = new ForceSensorValues();
 
+		List<int> times = new List<int>();
+		List<double> forces = new List<double>();
+
 		foreach(string str in contents)
 		{
 			if(headersRow)
@@ -1870,18 +1873,25 @@ LogB.Information(" fs R ");
 
 				if(Util.IsNumber(strFull[0], false) && Util.IsNumber(strFull[1], true))
 				{
-					int time = Convert.ToInt32(strFull[0]);
-					double force = Convert.ToDouble(strFull[1]);
-					force = ForceSensor.CalculeForceResultantIfNeeded(force, fsco, currentForceSensorExercise, currentPersonSession.Weight);
-
-					fscPoints.Add(time, force);
-					fscPoints.NumCaptured ++;
-
-					forceSensorValues.TimeLast = time;
-					forceSensorValues.ForceLast = force;
-					forceSensorValues.SetMaxMinIfNeeded(force, time);
+					times.Add(Convert.ToInt32(strFull[0]));
+					forces.Add(Convert.ToDouble(strFull[1]));
 				}
 			}
+		}
+		forces = ForceSensor.CalculeForceResultantIfNeededFullSet(times, forces,
+				fsco, currentForceSensorExercise, currentPersonSession.Weight, currentForceSensor.Stiffness);
+
+		int i = 0;
+		foreach(int time in times)
+		{
+			fscPoints.Add(time, forces[i]);
+			fscPoints.NumCaptured ++;
+
+			forceSensorValues.TimeLast = time;
+			forceSensorValues.ForceLast = forces[i];
+			forceSensorValues.SetMaxMinIfNeeded(forces[i], time);
+
+			i ++;
 		}
 	}
 	void forceSensorDoSignalGraphPlot()

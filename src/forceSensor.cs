@@ -180,7 +180,8 @@ public class ForceSensor
 
 	//static methods
 
-	public static double CalculeForceResultantIfNeeded (double forceRaw, CaptureOptions fsco, ForceSensorExercise fse, double personMass)
+	//of a single point (this method will disappear)
+	public static double CalculeForceResultantIfNeeded (double forceRaw, CaptureOptions fsco, ForceSensorExercise fse, double personMass)//, double stiffness)
 	{
 		if(! fse.ForceResultant)
 			return calculeForceWithCaptureOptions(forceRaw, fsco);
@@ -191,6 +192,16 @@ public class ForceSensor
 
 		//right now only code for non-elastic
 		double accel = 0;
+
+		/*
+		if(fse.Elastic)
+		{
+			double position = rawForce / stiffness;
+
+		}
+		*/
+
+		//not elastic stuff ----->
 
 		/*
 		 * debug info
@@ -220,6 +231,49 @@ public class ForceSensor
 			return -1 * force;
 
 		return force;
+	}
+
+	//of full set
+	public static List<double> CalculeForceResultantIfNeededFullSet (List<int> times, List<double> forces,
+			CaptureOptions fsco, ForceSensorExercise fse, double personMass, double stiffness)
+	{
+		if(! fse.ForceResultant)
+			return calculeForceWithCaptureOptionsFullSet(forces, fsco);
+
+		double totalMass = 0;
+		if(fse.PercentBodyWeight > 0 && personMass > 0)
+			totalMass = fse.PercentBodyWeight * personMass / 100.0;
+
+		if(fse.Elastic) {
+		} else {
+			//right now only code for non-elastic
+			double accel = 0;
+
+			for (int i = 0 ; i < forces.Count; i ++)
+			{
+				forces[i] = Math.Sqrt(
+						Math.Pow(Math.Cos(fse.AngleDefault * Math.PI / 180.0) * (forces[i] + totalMass * accel), 2) +                  //Horizontal
+						Math.Pow(Math.Sin(fse.AngleDefault * Math.PI / 180.0) * (forces[i] + totalMass * accel) + totalMass * 9.81, 2) //Vertical
+						);
+			}
+		}
+
+		return calculeForceWithCaptureOptionsFullSet(forces, fsco);
+	}
+	//TODO: do not do it like this, do it in the above methods
+	private static List<double> calculeForceWithCaptureOptionsFullSet(List<double> forceList, CaptureOptions fsco)
+	{
+		if(fsco == CaptureOptions.NORMAL)
+			return forceList;
+
+		for(int i = 0 ; i < forceList.Count; i ++)
+		{
+			if(fsco == CaptureOptions.ABS)
+				forceList[i] = Math.Abs(forceList[i]);
+			if(fsco == CaptureOptions.INVERTED)
+				forceList[i] = -1 * forceList[i];
+		}
+		return forceList;
 	}
 
 	public static string GetCaptureOptionsString(CaptureOptions co)
@@ -1296,12 +1350,12 @@ public class ForceSensorAnalyzeInstant
 	private int graphHeight;
 
 	public ForceSensorAnalyzeInstant(string file, int graphWidth, int graphHeight, double start, double end,
-			ForceSensorExercise fse, double personWeight, ForceSensor.CaptureOptions fsco)
+			ForceSensorExercise fse, double personWeight, ForceSensor.CaptureOptions fsco, double stiffness)
 	{
 		this.graphWidth = graphWidth;
 		this.graphHeight = graphHeight;
 
-		readFile(file, start, end, fse, personWeight, fsco);
+		readFile(file, start, end, fse, personWeight, fsco, stiffness);
 
 		//on zoom adjust width
 		if(start >= 0 || end >= 0)
@@ -1315,7 +1369,8 @@ public class ForceSensorAnalyzeInstant
 			fscAIPoints.Redo();
 	}
 
-	private void readFile(string file, double start, double end, ForceSensorExercise fse, double personWeight, ForceSensor.CaptureOptions fsco)
+	private void readFile(string file, double start, double end, ForceSensorExercise fse,
+			double personWeight, ForceSensor.CaptureOptions fsco, double stiffness)
 	{
 		fscAIPoints = new ForceSensorCapturePoints(graphWidth, graphHeight, -1);
 
@@ -1327,6 +1382,9 @@ public class ForceSensorAnalyzeInstant
 
 		if(contents == null)
 			return;
+
+		List<int> times = new List<int>();
+		List<double> forces = new List<double>();
 
 		foreach(string str in contents)
 		{
@@ -1356,18 +1414,24 @@ public class ForceSensorAnalyzeInstant
 						timeD -= start;
 					}
 
-					int time = Convert.ToInt32(timeD);
-					double force = Convert.ToDouble(strFull[1]);
-					force = ForceSensor.CalculeForceResultantIfNeeded (force, fsco, fse, personWeight);
-
-					fscAIPoints.Add(time, force);
-					fscAIPoints.NumCaptured ++;
-
-					forceSensorValues.TimeLast = time;
-					forceSensorValues.ForceLast = force;
-					forceSensorValues.SetMaxMinIfNeeded(force, time);
+					times.Add(Convert.ToInt32(timeD));
+					forces.Add(Convert.ToDouble(strFull[1]));
 				}
 			}
+		}
+		forces = ForceSensor.CalculeForceResultantIfNeededFullSet(times, forces, fsco, fse, personWeight, stiffness);
+
+		int i = 0;
+		foreach(int time in times)
+		{
+			fscAIPoints.Add(time, forces[i]);
+			fscAIPoints.NumCaptured ++;
+
+			forceSensorValues.TimeLast = time;
+			forceSensorValues.ForceLast = forces[i];
+			forceSensorValues.SetMaxMinIfNeeded(forces[i], time);
+
+			i ++;
 		}
 	}
 

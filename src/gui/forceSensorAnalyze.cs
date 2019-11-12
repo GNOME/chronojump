@@ -921,9 +921,14 @@ public partial class ChronoJumpWindow
 						allocation.Width -textWidth -10, allocation.Height/2 + verticalPos,
 						layout_force_ai_text);
 
-				//showing on elastic: position, speed, accel, power
+				//showing on elastic: position, speed, accel, power (but not on the beginning and end)
+				//if(fsAI.CalculedElasticPSAP && (instant > 2 && instant < fsAI.GetLength() -3))
 				if(fsAI.CalculedElasticPSAP)
 				{
+					Gdk.GC pen_temp = pen_blue_force_ai;
+					if(instant <= 2 || instant >= fsAI.GetLength() -3)
+						pen_temp = pen_red_force_ai;
+
 					//position
 					layout_force_ai_text.SetMarkup(string.Format("Position: {0:0.###} m",
 								Math.Round(fsAI.Position_l[instant], 3)));
@@ -931,7 +936,7 @@ public partial class ChronoJumpWindow
 					textHeight = 1;
 					layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
 					verticalPos += 40;
-					force_sensor_ai_pixmap.DrawLayout (pen_blue_force_ai,
+					force_sensor_ai_pixmap.DrawLayout (pen_temp,
 							allocation.Width -textWidth -10, allocation.Height/2 + verticalPos,
 							layout_force_ai_text);
 
@@ -942,7 +947,7 @@ public partial class ChronoJumpWindow
 					textHeight = 1;
 					layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
 					verticalPos += 20;
-					force_sensor_ai_pixmap.DrawLayout (pen_blue_force_ai,
+					force_sensor_ai_pixmap.DrawLayout (pen_temp,
 							allocation.Width -textWidth -10, allocation.Height/2 + verticalPos,
 							layout_force_ai_text);
 
@@ -953,7 +958,7 @@ public partial class ChronoJumpWindow
 					textHeight = 1;
 					verticalPos += 20;
 					layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
-					force_sensor_ai_pixmap.DrawLayout (pen_blue_force_ai,
+					force_sensor_ai_pixmap.DrawLayout (pen_temp,
 							allocation.Width -textWidth -10, allocation.Height/2 + verticalPos,
 							layout_force_ai_text);
 
@@ -964,7 +969,7 @@ public partial class ChronoJumpWindow
 					textHeight = 1;
 					verticalPos += 20;
 					layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
-					force_sensor_ai_pixmap.DrawLayout (pen_blue_force_ai,
+					force_sensor_ai_pixmap.DrawLayout (pen_temp,
 							allocation.Width -textWidth -10, allocation.Height/2 + verticalPos,
 							layout_force_ai_text);
 				}

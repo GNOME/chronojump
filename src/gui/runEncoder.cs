@@ -111,7 +111,7 @@ public partial class ChronoJumpWindow
 		LogB.Information(" RE connect 3 ");
 		runEncoderPulseMessage = "Connecting ...";
 
-		portRE = new SerialPort(runEncoderPortName, 2000000); //runEncoder
+		portRE = new SerialPort(runEncoderPortName, 115200); //runEncoder
 		LogB.Information(" RE connect 4: opening port...");
 
 		try {

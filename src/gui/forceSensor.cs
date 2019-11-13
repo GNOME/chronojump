@@ -1182,9 +1182,9 @@ LogB.Information(" fs F ");
 		if(capturingForce == arduinoCaptureStatus.CAPTURING)
 		{
 LogB.Information(" fs G ");
-			label_force_sensor_value_max.Text = forceSensorValues.ForceMax.ToString() + " N";
-			label_force_sensor_value_min.Text = forceSensorValues.ForceMin.ToString() + " N";
-			label_force_sensor_value.Text = forceSensorValues.ForceLast.ToString() + " N";
+			label_force_sensor_value_max.Text = string.Format("{0:0.##} N", forceSensorValues.ForceMax);
+			label_force_sensor_value_min.Text = string.Format("{0:0.##} N", forceSensorValues.ForceMin);
+			label_force_sensor_value.Text = string.Format("{0:0.##} N", forceSensorValues.ForceLast);
 
 
 LogB.Information(" fs H ");
@@ -1950,9 +1950,9 @@ LogB.Information(" fs R ");
 
 		force_capture_drawingarea.QueueDraw(); // -- refresh
 
-		label_force_sensor_value.Text = forceSensorValues.ForceLast.ToString() + " N";
-		label_force_sensor_value_max.Text = forceSensorValues.ForceMax.ToString() + " N";
-		label_force_sensor_value_min.Text = forceSensorValues.ForceMin.ToString() + " N";
+		label_force_sensor_value.Text = string.Format("{0:0.##} N", forceSensorValues.ForceLast);
+		label_force_sensor_value_max.Text = string.Format("{0:0.##} N", forceSensorValues.ForceMax);
+		label_force_sensor_value_min.Text = string.Format("{0:0.##} N", forceSensorValues.ForceMin);
 		button_force_sensor_image_save_signal.Sensitive = true;
 		button_force_sensor_analyze_analyze.Sensitive = true;
 	}

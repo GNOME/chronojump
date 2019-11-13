@@ -1263,7 +1263,77 @@ textBox <- function(x,y,text,frontCol,bgCol,xpad=.1,ypad=1){
         
         rect(x-w/2,y-h/2,x+w/2,y+h/2,col=bgCol, density=60, angle=-30, border=NA)
         text(x,y,text,col=frontCol)
-} 
+}
+
+#RFelber
+#https://stackoverflow.com/a/45956950/12366369
+#just done a minor change
+f.horlegend <- function(pos, legend, xoff = 0, yoff = 0,
+  lty = 0, lwd = 1, ln.col = 1, seg.len = 0.04,
+  pch = NA, pt.col = 1, pt.bg = NA, pt.cex = par("cex"), pt.lwd = lwd,
+  text.cex = par("cex"), text.col = par("col"), text.font = NULL, text.vfont = NULL,
+  bty = "o", bbord = "black", bbg = par("bg"), blty = par("lty"), blwd = par("lwd"), bdens = NULL, bbx.adj = 0, bby.adj = 0.75
+) {
+
+  ### get original par values and re-set them at end of function
+  op <- par(no.readonly = TRUE)
+  on.exit(par(op))
+
+  ### new par with dimension [0,1]
+  par(new=TRUE, xaxs="i", yaxs="i", xpd=TRUE)
+  plot.new()
+
+  ### spacing between legend elements
+  d0 <- 0.01 * (1 + bbx.adj)
+  d1 <- 0.01
+  d2 <- 0.02
+  pch.len <- 0.008
+  ln.len <- seg.len/2
+
+  n.lgd <- length(legend)
+
+  txt.h <- strheight(legend[1], cex = text.cex, font = text.font, vfont = text.vfont) *(1 + bby.adj)
+  i.pch <- seq(1, 2*n.lgd, 2)
+  i.txt <- seq(2, 2*n.lgd, 2)
+
+  ### determine x positions of legend elements
+  X <- c(d0 + pch.len, pch.len + d1, rep(strwidth(legend[-n.lgd])+d2+pch.len, each=2))
+  X[i.txt[-1]] <- pch.len+d1
+
+  ### adjust symbol space if line is drawn
+  if (any(lty != 0)) {
+    lty <- rep(lty, n.lgd)[1:n.lgd]
+    ln.sep <- rep(ln.len - pch.len, n.lgd)[lty]
+    ln.sep[is.na(ln.sep)] <- 0
+    X <- X + rep(ln.sep, each=2)
+    lty[is.na(lty)] <- 0
+  }
+
+  X <- cumsum(X)
+
+  ### legend box coordinates
+  bstart <- 0
+  bend <- X[2*n.lgd]+strwidth(legend[n.lgd])+d0
+
+  ### legend position
+  if (pos == "top" | pos == "bottom" | pos == "center") x_corr <- 0.5 - bend/2 +xoff
+  if (pos == "bottomright" | pos == "right" | pos == "topright") x_corr <- 1. - bend + xoff
+  if (pos == "bottomleft" | pos == "left" | pos == "topleft") x_corr <- 0 + xoff
+
+  if (pos == "bottomleft" | pos == "bottom" | pos == "bottomright") Y <- txt.h/2 + yoff
+  if (pos == "left" | pos == "center" | pos =="right") Y <- 0.5 + yoff
+  #if (pos == "topleft" | pos == "top" | pos == "topright") Y <- 1  - txt.h/2 + yoff
+  if (pos == "topleft" | pos == "top" | pos == "topright") Y <- 1 + txt.h/2 # changed to show the legend just above the graph. If wanted some space just do: 1 + txt.h
+
+  Y <- rep(Y, n.lgd)
+  ### draw legend box
+  if (bty != "n") rect(bstart+x_corr, Y-txt.h/2, x_corr+bend, Y+txt.h/2, border=bbord, col=bbg, lty=blty, lwd=blwd, density=bdens)
+
+  ### draw legend symbols and text
+  segments(X[i.pch]+x_corr-ln.len, Y, X[i.pch]+x_corr+ln.len, Y, col = ln.col, lty = lty, lwd = lwd)
+  points(X[i.pch]+x_corr, Y, pch = pch, col = pt.col, bg = pt.bg, cex = pt.cex, lwd = pt.lwd)
+  text(X[i.txt]+x_corr, Y, legend, pos=4, offset=0, cex = text.cex, col = text.col, font = text.font, vfont = text.vfont)
+}
 
 
 paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, ecconVector, height, n, showImpulse, showTTPP, showRange, totalTime)
@@ -1453,25 +1523,15 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, ecconVector, 
 		#ncol = ncol +1
         }
         if(showTTPP) {
-                #legendText = c(legendText, paste(translateToPrint("Time to Peak Power"),"    ",sep=""))
-                #legendText = c(legendText, translateToPrint("Time to Peak Power"))
-                legendText = c(legendText, translateToPrint("Time to\nPeak Power")) #TODO: fix this
+                legendText = c(legendText, translateToPrint("Time to Peak Power"))
                 lty=c(lty,1)
-                lwd=c(lwd,2)
+                lwd=c(lwd,3)
                 pch=c(pch,NA)
                 graphColors=c(graphColors,pafColors[3])
 		#ncol = ncol +1
         }
 
-        #plot legend on top exactly out
-        #http://stackoverflow.com/a/7322792
-        rng=par("usr")
-        lg = legend(rng[1], rng[2],
-                    col=graphColors, lty=lty, lwd=lwd, pch=pch, 
-                    legend=legendText, horiz=T, bty="n", plot=F)
-        legend(rng[1], rng[4]+1.10*lg$rect$h, #usually 1.25, here 1.10 to have it below
-               col=graphColors, lty=lty, lwd=lwd, pch=pch, 
-               legend=legendText, horiz=T, bty="n", plot=T, xpd=NA)
+	f.horlegend("topleft", legendText, pt.col=graphColors, ln.col=graphColors, lty=lty, lwd=lwd, pch=pch, bty="n", seg.len=0.03)
 }
 
 #see paf for more info

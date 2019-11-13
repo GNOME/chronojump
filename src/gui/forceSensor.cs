@@ -1734,16 +1734,6 @@ LogB.Information(" fs R ");
 			}
 		}
 
-		if(lastForceSensorFullPath != null && lastForceSensorFullPath != "")
-			forceSensorCopyTempAndDoGraphs(forceSensorGraphsEnum.SIGNAL);
-
-		//if drawingarea has still not shown, don't paint graph because GC screen is not defined
-		if(force_sensor_ai_drawingareaShown)
-		{
-			forceSensorZoomDefaultValues();
-			forceSensorDoGraphAI();
-		}
-
 		//update SQL with exercise, captureOptions, laterality, comments
 		currentForceSensor.ExerciseID = currentForceSensorExercise.UniqueID;
 		currentForceSensor.ExerciseName = currentForceSensorExercise.Name; //just in case
@@ -1756,6 +1746,16 @@ LogB.Information(" fs R ");
 		getStiffnessAndStiffnessStringFromSQL(out stiffness, out stiffnessString);
 		currentForceSensor.Stiffness = stiffness;
 		currentForceSensor.StiffnessString = stiffnessString;
+
+		if(lastForceSensorFullPath != null && lastForceSensorFullPath != "")
+			forceSensorCopyTempAndDoGraphs(forceSensorGraphsEnum.SIGNAL);
+
+		//if drawingarea has still not shown, don't paint graph because GC screen is not defined
+		if(force_sensor_ai_drawingareaShown)
+		{
+			forceSensorZoomDefaultValues();
+			forceSensorDoGraphAI();
+		}
 
 		currentForceSensor.UpdateSQL(false);
 	}

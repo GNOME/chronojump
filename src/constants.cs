@@ -1308,7 +1308,8 @@ public class Constants
 		"Maximum mean power using the F-V profile",
 		"Mean power parabole using the Power-Load data",
 		"Propulsive",
-		"Non propulsive"
+		"Non propulsive",
+		"Impulse"
 	};
 	/*
 	 * written here in order to be translated
@@ -1359,6 +1360,7 @@ public class Constants
 		Catalog.GetString("Maximum mean power using the F-V profile"),
 		Catalog.GetString("Mean power parabole using the Power-Load data"),
 		Catalog.GetString("Propulsive"),
-		Catalog.GetString("Non propulsive")
+		Catalog.GetString("Non propulsive"),
+		Catalog.GetString("Impulse")
 	};
 }

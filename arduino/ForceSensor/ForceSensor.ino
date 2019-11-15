@@ -22,7 +22,7 @@
 
 */
 
-#include "HX711.h"
+#include <HX711.h>
 #include <EEPROM.h>
 
 #define DOUT  3
@@ -62,8 +62,8 @@ void setup() {
 
   long tare = 0;
   EEPROM.get(tareAddress, tare);
-  if (isnan(tare)) {
-    scale.set_scale(10000);// Usual value  in Chronojump strength gauge
+  if (tare == -151) {
+    scale.set_offset(10000);// Usual value  in Chronojump strength gauge
     EEPROM.put(tareAddress, 10000);
   } else {
     scale.set_offset(tare);

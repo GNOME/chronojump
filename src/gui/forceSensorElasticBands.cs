@@ -32,14 +32,15 @@ public class ForceSensorElasticBandsWindow
 	[Widget] Gtk.Label label_header;
 	//[Widget] Gtk.ScrolledWindow scrolled_window_treeview;
 	[Widget] Gtk.TreeView treeview;
+	[Widget] Gtk.Notebook notebook;
+
+	//fist tab "add/edit"
 	[Widget] Gtk.Image image_add;
 	[Widget] Gtk.Image image_delete;
 	[Widget] Gtk.Image image_save;
 	[Widget] Gtk.Image image_cancel;
-	[Widget] Gtk.Image image_close;
 	[Widget] Gtk.Button button_save;
 	[Widget] Gtk.Button button_delete;
-	[Widget] Gtk.Button button_close;
 	[Widget] Gtk.CheckButton check_active;
 	[Widget] Gtk.HBox hbox_active;
 	[Widget] Gtk.SpinButton spin_active_units;
@@ -51,6 +52,14 @@ public class ForceSensorElasticBandsWindow
 	[Widget] Gtk.Entry entry_brand;
 	[Widget] Gtk.Entry entry_color;
 	[Widget] Gtk.Entry entry_comments;
+
+	//second tab "delete confirm"
+	[Widget] Gtk.Image image_delete_confirm;
+	[Widget] Gtk.Image image_cancel_delete;
+	[Widget] Gtk.TreeView treeview_delete;
+
+	[Widget] Gtk.Image image_close;
+	[Widget] Gtk.Button button_close;
 
 	[Widget] Gtk.Button fakeButton_stiffness_changed;
 
@@ -75,10 +84,12 @@ public class ForceSensorElasticBandsWindow
 		image_add.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
 		image_delete.Pixbuf = pixbuf;
+		image_delete_confirm.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "save.png");
 		image_save.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
 		image_cancel.Pixbuf = pixbuf;
+		image_cancel_delete.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close_blue.png");
 		image_close.Pixbuf = pixbuf;
 
@@ -307,6 +318,15 @@ public class ForceSensorElasticBandsWindow
 	}
 
 	private void on_button_delete_clicked (object o, EventArgs args)
+	{
+		//TODO: only if there are captures done with this
+		notebook.CurrentPage = 1;
+	}
+	private void on_button_cancel_delete_clicked (object o, EventArgs args)
+	{
+		notebook.CurrentPage = 0;
+	}
+	private void on_button_delete_confirm_clicked (object o, EventArgs args)
 	{
 		//1) get selected just to know uniqueID and if it is active
 		ForceSensorElasticBand fseb = getSelectedForceSensorElasticBand();

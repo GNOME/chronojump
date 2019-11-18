@@ -23,7 +23,15 @@ using System.Collections.Generic; //List<T>
 
 public abstract class ForceSensorDynamics
 {
-	public bool CalculedElasticPSAP; //Position Speed Accel Power, boolena to know if we have to gather these lists
+	//Position Speed Accel Power, boolena to know if we have to gather these lists
+	public bool CalculedElasticPSAP;
+
+	/*
+	 * Used for elastic. Minimum has to be 1
+	 * values to be removed at the beginning, and also at the end:
+	 * 10 will be 10 at start, 10 at end.
+	 */
+	public int RemoveNValues = 0;
 
 	protected List<int> time_micros_l;
 	protected List<double> force_l;
@@ -50,6 +58,13 @@ public abstract class ForceSensorDynamics
 		CalculedElasticPSAP = false;
 	}
 
+	//first value has to be removed also on not elastic because time between first and second is so short
+	//so is better to remove it
+	protected virtual void removeFirstValue()
+	{
+		force_l.RemoveAt(0);
+	}
+
 	protected double calculeForceWithCaptureOptions(double force)
 	{
 		if(fsco == ForceSensor.CaptureOptions.ABS)
@@ -67,7 +82,7 @@ public abstract class ForceSensorDynamics
 		return force_l;
 	}
 
-	public List<double> GetForces()
+	public virtual List<double> GetForces()
 	{
 		return force_l;
 	}
@@ -106,6 +121,7 @@ public class ForceSensorDynamicsNotElastic : ForceSensorDynamics
 			double personMass, double stiffness)
 	{
 		initialize(force_l, fsco, fse, personMass, stiffness);
+		removeFirstValue();
 
 		if(! fse.ForceResultant)
 		{
@@ -149,8 +165,10 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 			return;
 		}
 
+		RemoveNValues = 10;
 		initialize(force_l, fsco, fse, personMass, stiffness);
 		convertTimeToSeconds(time_micros_l);
+		removeFirstValue();
 		calcule();
 		CalculedElasticPSAP = true;
 	}
@@ -164,6 +182,12 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 			time_l.Add(time_micros_l[i] / 1000000.0);
 			//LogB.Information(string.Format("i: {0}, time_micros_l[i]: {1}, time_l: {2}", i, time_micros_l[i], time_l[i]));
 		}
+	}
+
+	protected override void removeFirstValue()
+	{
+		force_l.RemoveAt(0);
+		time_l.RemoveAt(0);
 	}
 
 	private void calcule()
@@ -182,21 +206,24 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 		calculePowers();
 	}
 
+	private int smoothFactor = 5; //use odd (impar) values like 5, 7, 9
 	/*
-	 * take 5 values: 2 previous, current value, 2 post.
-	 * with this calculated the avaerage and assigns to current
+	 * A smothFactor == 5, this will use 5 values: 2 previous, current value, 2 post.
+	 * the calculated average is assigned to the current
 	 */
 	private List<double> smoothVariable(List<double> original_l)
 	{
 		List<double> smoothed_l = new List<double>();
-		smoothed_l.Add(0);
-		smoothed_l.Add(0);
+
+		//a smoothFactor == 5 will iterate two times here:
+		for(int i = 0; i < Math.Floor(smoothFactor /2.0); i ++)
+			smoothed_l.Add(0);
 
 		for(int i = 2; i < position_l.Count -2; i ++)
 			smoothed_l.Add( (original_l[i-2] + original_l[i-1] + original_l[i] + original_l[i+1] + original_l[i+2]) / 5.0 );
 
-		smoothed_l.Add(0);
-		smoothed_l.Add(0);
+		for(int i = 0; i < Math.Floor(smoothFactor /2.0); i ++)
+			smoothed_l.Add(0);
 
 		return smoothed_l;
 	}
@@ -273,23 +300,34 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 		}
 	}
 
+	private List<double> stripStartEnd(List<double> l)
+	{
+		LogB.Information(string.Format("removeN: {0}, l.Count: {1}", RemoveNValues, l.Count));
+		return l.GetRange(RemoveNValues -1, l.Count - 2*RemoveNValues);
+	}
+
+	public override List<double> GetForces()
+	{
+		return stripStartEnd(force_l);
+	}
+
 	public override List<double> GetPositions()
 	{
-		return position_l;
+		return stripStartEnd(position_l);
 	}
 
 	public override List<double> GetSpeeds()
 	{
-		return speed_l;
+		return stripStartEnd(speed_l);
 	}
 
 	public override List<double> GetAccels()
 	{
-		return accel_l;
+		return stripStartEnd(accel_l);
 	}
 
 	public override List<double> GetPowers()
 	{
-		return power_l;
+		return stripStartEnd(power_l);
 	}
 }

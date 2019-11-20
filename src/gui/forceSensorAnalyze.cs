@@ -39,6 +39,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Viewport viewport_force_sensor_graph;
 	[Widget] Gtk.Button button_force_sensor_image_save_rfd_auto;
 	[Widget] Gtk.Button button_force_sensor_image_save_rfd_manual;
+	[Widget] Gtk.ScrolledWindow scrolledwindow_force_sensor_ai;
 	[Widget] Gtk.Button button_force_sensor_analyze_AB_save;
 	[Widget] Gtk.Button button_force_sensor_ai_zoom;
 
@@ -115,6 +116,17 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_hscale_force_sensor_ai_b_pre;
 	[Widget] Gtk.Button button_hscale_force_sensor_ai_b_post;
 	[Widget] Gtk.Button button_hscale_force_sensor_ai_b_last;
+
+	[Widget] Gtk.HBox hbox_force_sensor_ai_position;
+	[Widget] Gtk.HBox hbox_force_sensor_ai_speed;
+	[Widget] Gtk.HBox hbox_force_sensor_ai_accel;
+	[Widget] Gtk.HBox hbox_force_sensor_ai_power;
+
+	[Widget] Gtk.VBox vbox_force_sensor_ai_impulse_variability_and_feedback;
+	[Widget] Gtk.VBox vbox_force_sensor_ai_feedback;
+	[Widget] Gtk.Label label_force_sensor_ai_impulse_values;
+	[Widget] Gtk.Label label_force_sensor_ai_variability_values;
+	[Widget] Gtk.Label label_force_sensor_ai_feedback_values;
 
 	/*
 	 * analyze options -------------------------->
@@ -480,7 +492,26 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_force_sensor_ai_time_a;
 	[Widget] Gtk.Label label_force_sensor_ai_force_a;
 	[Widget] Gtk.Label label_force_sensor_ai_rfd_a;
+	[Widget] Gtk.Label label_force_sensor_ai_position_a;
+	[Widget] Gtk.Label label_force_sensor_ai_speed_a;
+	[Widget] Gtk.Label label_force_sensor_ai_accel_a;
+	[Widget] Gtk.Label label_force_sensor_ai_power_a;
 	[Widget] Gtk.HBox hbox_buttons_scale_force_sensor_ai_b;
+	[Widget] Gtk.Label label_force_sensor_ai_b;
+	[Widget] Gtk.Label label_force_sensor_ai_position_b;
+	[Widget] Gtk.Label label_force_sensor_ai_position_diff;
+	[Widget] Gtk.Label label_force_sensor_ai_speed_b;
+	[Widget] Gtk.Label label_force_sensor_ai_speed_diff;
+	[Widget] Gtk.Label label_force_sensor_ai_speed_average;
+	[Widget] Gtk.Label label_force_sensor_ai_speed_max;
+	[Widget] Gtk.Label label_force_sensor_ai_accel_b;
+	[Widget] Gtk.Label label_force_sensor_ai_accel_diff;
+	[Widget] Gtk.Label label_force_sensor_ai_accel_average;
+	[Widget] Gtk.Label label_force_sensor_ai_accel_max;
+	[Widget] Gtk.Label label_force_sensor_ai_power_b;
+	[Widget] Gtk.Label label_force_sensor_ai_power_diff;
+	[Widget] Gtk.Label label_force_sensor_ai_power_average;
+	[Widget] Gtk.Label label_force_sensor_ai_power_max;
 	[Widget] Gtk.Label label_force_sensor_ai_diff;
 	[Widget] Gtk.Label label_force_sensor_ai_average;
 	[Widget] Gtk.Label label_force_sensor_ai_max;
@@ -581,6 +612,8 @@ public partial class ChronoJumpWindow
 
 		//to update values
 		on_hscale_force_sensor_ai_a_value_changed (new object (), new EventArgs ());
+
+		manage_force_sensor_ai_table_visibilities();
 	}
 
 	Gdk.Colormap colormapForceAI;// = Gdk.Colormap.System;
@@ -835,8 +868,6 @@ public partial class ChronoJumpWindow
 		if(checkbutton_force_sensor_ai_b.Active)
 			button_force_sensor_analyze_AB_save.Visible = true;
 
-//		forcePaintHVLines(ForceSensorGraphs.ANALYSIS_GENERAL, forceSensorValues.ForceMax, forceSensorValues.ForceMin, forceSensorValues.TimeLast);
-
 		//draw horizontal rectangle of feedback
 		if(check_force_sensor_capture_feedback.Active)
 			forceSensorSignalPlotFeedbackRectangle(fsAI.FscAIPoints, force_sensor_ai_drawingarea, force_sensor_ai_pixmap, pen_yellow_light_force_ai);
@@ -901,77 +932,22 @@ public partial class ChronoJumpWindow
 					layout_force_ai_text_big);
 		}
 
-		// 6) if only A calculate RFD and exit
-		if(! checkbutton_force_sensor_ai_b.Active)
+		if(fsAI.CalculedElasticPSAP)
 		{
-			//calculate the instantaneous RFD of A and return
-			int instant = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
-			if(instant > 0 && instant < fsAI.GetLength() -1)
-			{
-				int verticalPos = -20;
-				if(fsAI.CalculedElasticPSAP)
-					verticalPos = -60;
-
-				layout_force_ai_text.SetMarkup(string.Format("RFD: {0:0.#} N/s",
-							Math.Round(fsAI.CalculateRFD(instant -1, instant +1), 1) ));
-				textWidth = 1;
-				textHeight = 1;
-				layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
-				force_sensor_ai_pixmap.DrawLayout (pen_blue_force_ai,
-						allocation.Width -textWidth -10, allocation.Height/2 + verticalPos,
-						layout_force_ai_text);
-
-				//showing on elastic: position, speed, accel, power (but not on the beginning and end)
-				//if(fsAI.CalculedElasticPSAP && (instant > 2 && instant < fsAI.GetLength() -3))
-				if(fsAI.CalculedElasticPSAP)
-				{
-					//position
-					layout_force_ai_text.SetMarkup(string.Format("Position: {0:0.###} m",
-								Math.Round(fsAI.Position_l[instant], 3)));
-					textWidth = 1;
-					textHeight = 1;
-					layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
-					verticalPos += 40;
-					force_sensor_ai_pixmap.DrawLayout (pen_blue_force_ai,
-							allocation.Width -textWidth -10, allocation.Height/2 + verticalPos,
-							layout_force_ai_text);
-
-					//speed
-					layout_force_ai_text.SetMarkup(string.Format("Speed: {0:0.###} m/s",
-								Math.Round(fsAI.Speed_l[instant], 3)));
-					textWidth = 1;
-					textHeight = 1;
-					layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
-					verticalPos += 20;
-					force_sensor_ai_pixmap.DrawLayout (pen_blue_force_ai,
-							allocation.Width -textWidth -10, allocation.Height/2 + verticalPos,
-							layout_force_ai_text);
-
-					//accel
-					layout_force_ai_text.SetMarkup(string.Format("Accel: {0:0.###} m/s^2",
-								Math.Round(fsAI.Accel_l[instant], 3)));
-					textWidth = 1;
-					textHeight = 1;
-					verticalPos += 20;
-					layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
-					force_sensor_ai_pixmap.DrawLayout (pen_blue_force_ai,
-							allocation.Width -textWidth -10, allocation.Height/2 + verticalPos,
-							layout_force_ai_text);
-
-					//power
-					layout_force_ai_text.SetMarkup(string.Format("Power: {0:0.###} W",
-								Math.Round(fsAI.Power_l[instant], 3)));
-					textWidth = 1;
-					textHeight = 1;
-					verticalPos += 20;
-					layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
-					force_sensor_ai_pixmap.DrawLayout (pen_blue_force_ai,
-							allocation.Width -textWidth -10, allocation.Height/2 + verticalPos,
-							layout_force_ai_text);
-				}
-			}
-			return;
+			hbox_force_sensor_ai_position.Visible = true;
+			hbox_force_sensor_ai_speed.Visible = true;
+			hbox_force_sensor_ai_accel.Visible = true;
+			hbox_force_sensor_ai_power.Visible = true;
+		} else {
+			hbox_force_sensor_ai_position.Visible = false;
+			hbox_force_sensor_ai_speed.Visible = false;
+			hbox_force_sensor_ai_accel.Visible = false;
+			hbox_force_sensor_ai_power.Visible = false;
 		}
+
+		// 6) if only A calculate exit
+		if(! checkbutton_force_sensor_ai_b.Active)
+			return;
 
 		/*
 		 * 7) Invert AB if needed to paint correctly blue and red lines
@@ -996,36 +972,13 @@ public partial class ChronoJumpWindow
 					xposA, fsAI.GetPxAtForce(forceA),
 					xposB, fsAI.GetPxAtForce(forceB));
 
-			layout_force_ai_text.SetMarkup(string.Format("A-B statistics"));
-			textWidth = 1;
-			textHeight = 1;
-			layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
-			force_sensor_ai_pixmap.DrawLayout (pen_black_force_ai,
-					allocation.Width -textWidth -10, allocation.Height/2 -60,
-					layout_force_ai_text);
-
-			layout_force_ai_text.SetMarkup(string.Format("RFD AVG: {0} N/s", label_force_sensor_ai_rfd_average.Text));
-			textWidth = 1;
-			textHeight = 1;
-			layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
-			force_sensor_ai_pixmap.DrawLayout (pen_blue_force_ai,
-					allocation.Width -textWidth -10, allocation.Height/2 -40,
-					layout_force_ai_text);
-
 			// 9) calculate and paint max RFD (circle and line)
 			//value of count that produce the max RFD (between the previous and next value)
 
 			if(hscaleLower <= 0 || hscaleHigher >= fsAI.GetLength() -1)
 				return;
 
-			layout_force_ai_text.SetMarkup(string.Format("RFD Max: {0} N/s",
-						Math.Round(fsAI.LastRFDMax, 1) ));
 			int countRFDMax = fsAI.LastRFDMaxCount;
-
-			layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
-			force_sensor_ai_pixmap.DrawLayout (pen_red_force_ai,
-					allocation.Width -textWidth -10, allocation.Height/2 -20,
-					layout_force_ai_text);
 
 			int rfdX = fsAI.GetXFromSampleCount(countRFDMax, fsAI.GetLength());
 			int rfdY = fsAI.GetPxAtForce(fsAI.GetForceAtCount(countRFDMax));
@@ -1036,15 +989,6 @@ public partial class ChronoJumpWindow
 					12, 12, 90 * 64, 360 * 64);
 
 			// plot tangent line
-			/*
-			 * This method is not working
-			int xAtBottom = fsAI.CalculateXOfTangentLine(rfdX, rfdY, fsAI.GetForceAtCount(countRFDMax), allocation.Height, allocation.Height);
-			int xAtTop = fsAI.CalculateXOfTangentLine(rfdX, rfdY, fsAI.GetForceAtCount(countRFDMax), 0, allocation.Height);
-			force_sensor_ai_pixmap.DrawLine(pen_red_force_ai,
-					xAtBottom, allocation.Height,
-					xAtTop, 0);
-					*/
-
 			if(countRFDMax -1 >= 0 && countRFDMax +1 < fsAI.GetLength() -1)
 			{
 				//calculate line
@@ -1056,45 +1000,6 @@ public partial class ChronoJumpWindow
 				if(debug)
 					plotRFDLineDebugConstruction(countRFDMax);
 			}
-
-
-			// 10) calculate and paint impulse
-			layout_force_ai_text.SetMarkup(string.Format("Impulse: {0:0.#} N*s",
-						Math.Round(fsAI.CalculateImpulse(
-								hscaleLower, hscaleHigher), 1) ));
-
-			layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
-			force_sensor_ai_pixmap.DrawLayout (pen_black_force_ai,
-					allocation.Width -textWidth -10, allocation.Height/2,
-					layout_force_ai_text);
-
-			// 11) calculate and paint variability
-			double variability = 0;
-			double feedbackDiff = 0;
-			int feedbackF = Convert.ToInt32(spin_force_sensor_capture_feedback_at.Value);
-
-			fsAI.CalculateVariabilityAndAccuracy(hscaleLower, hscaleHigher, feedbackF, out variability, out feedbackDiff);
-
-			layout_force_ai_text.SetMarkup(string.Format("Variability: {0:0.###} N",
-						Math.Round(variability, 3) ));
-
-			layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
-			force_sensor_ai_pixmap.DrawLayout (pen_black_force_ai,
-					allocation.Width -textWidth -10, allocation.Height/2 + 20,
-					layout_force_ai_text);
-
-			// 12) calculate and paint Accuracy (Feedback difference)
-			if(check_force_sensor_capture_feedback.Active && feedbackF > 0)
-			{
-				layout_force_ai_text.SetMarkup(string.Format("Error (Feedback): {0:0.###} N",
-							Math.Round(feedbackDiff, 3) ));
-
-				layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
-				force_sensor_ai_pixmap.DrawLayout (pen_black_force_ai,
-						allocation.Width -textWidth -10, allocation.Height/2 + 40,
-						layout_force_ai_text);
-			}
-
 		}
 		LogB.Information("forceSensorAnalyzeManualGraphDo() END");
 	}
@@ -1135,6 +1040,19 @@ public partial class ChronoJumpWindow
 		label_force_sensor_ai_time_a.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
 		label_force_sensor_ai_force_a.Text = Math.Round(fsAI.GetForceAtCount(count), 1).ToString();
 
+		if(fsAI.CalculedElasticPSAP)
+		{
+			label_force_sensor_ai_position_a.Text = Math.Round(fsAI.Position_l[count], 3).ToString();
+			label_force_sensor_ai_speed_a.Text = Math.Round(fsAI.Speed_l[count], 3).ToString();
+			label_force_sensor_ai_accel_a.Text = Math.Round(fsAI.Accel_l[count], 3).ToString();
+			label_force_sensor_ai_power_a.Text = Math.Round(fsAI.Power_l[count], 3).ToString();
+		} else {
+			label_force_sensor_ai_position_a.Text = "";
+			label_force_sensor_ai_speed_a.Text = "";
+			label_force_sensor_ai_accel_a.Text = "";
+			label_force_sensor_ai_power_a.Text = "";
+		}
+
 		if(count > 0 && count < fsAI.GetLength() -1)
 			label_force_sensor_ai_rfd_a.Text = Math.Round(fsAI.CalculateRFD(count -1, count +1), 1).ToString();
 		else
@@ -1164,6 +1082,19 @@ public partial class ChronoJumpWindow
 		int count = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
 		label_force_sensor_ai_time_b.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
 		label_force_sensor_ai_force_b.Text = Math.Round(fsAI.GetForceAtCount(count), 1).ToString();
+
+		if(fsAI.CalculedElasticPSAP)
+		{
+			label_force_sensor_ai_position_b.Text = Math.Round(fsAI.Position_l[count], 3).ToString();
+			label_force_sensor_ai_speed_b.Text = Math.Round(fsAI.Speed_l[count], 3).ToString();
+			label_force_sensor_ai_accel_b.Text = Math.Round(fsAI.Accel_l[count], 3).ToString();
+			label_force_sensor_ai_power_b.Text = Math.Round(fsAI.Power_l[count], 3).ToString();
+		} else {
+			label_force_sensor_ai_position_b.Text = "";
+			label_force_sensor_ai_speed_b.Text = "";
+			label_force_sensor_ai_accel_b.Text = "";
+			label_force_sensor_ai_power_b.Text = "";
+		}
 
 		if(count > 0 && count < fsAI.GetLength() -1)
 			label_force_sensor_ai_rfd_b.Text = Math.Round(fsAI.CalculateRFD(count -1, count +1), 1).ToString();
@@ -1267,12 +1198,31 @@ public partial class ChronoJumpWindow
 		int count = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
 		label_force_sensor_ai_time_b.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
 		label_force_sensor_ai_force_b.Text = Math.Round(fsAI.GetForceAtCount(count), 1).ToString();
+		if(fsAI.CalculedElasticPSAP)
+			label_force_sensor_ai_position_b.Text = Math.Round(fsAI.Position_l[count], 3).ToString();
 
+		manage_force_sensor_ai_table_visibilities();
+
+		if(fsAI != null)
+			force_sensor_analyze_instant_calculate_params();
+
+		forceSensorAIChanged = true; //to actually plot
+
+		//this two help to make the table shrink when B is unchecked
+		scrolledwindow_force_sensor_ai.Hide();
+		scrolledwindow_force_sensor_ai.Show();
+
+		force_sensor_ai_drawingarea.QueueDraw(); // -- refresh
+	}
+
+	private void manage_force_sensor_ai_table_visibilities()
+	{
 		bool visible = checkbutton_force_sensor_ai_b.Active;
 		hscale_force_sensor_ai_b.Visible = visible;
 		hbox_buttons_scale_force_sensor_ai_b.Visible = visible;
 		hscale_force_sensor_ai_ab.Visible = visible;
 
+		label_force_sensor_ai_b.Visible = visible;
 		label_force_sensor_ai_diff.Visible = visible;
 		label_force_sensor_ai_average.Visible = visible;
 		label_force_sensor_ai_max.Visible = visible;
@@ -1289,18 +1239,31 @@ public partial class ChronoJumpWindow
 		label_force_sensor_ai_rfd_average.Visible = visible;
 		label_force_sensor_ai_rfd_max.Visible = visible;
 
+		bool visibleElastic = (visible && fsAI.CalculedElasticPSAP);
+
+		label_force_sensor_ai_position_b.Visible = visibleElastic;
+		label_force_sensor_ai_position_diff.Visible = visibleElastic;
+		label_force_sensor_ai_speed_b.Visible = visibleElastic;
+		label_force_sensor_ai_speed_diff.Visible = visibleElastic;
+		label_force_sensor_ai_speed_average.Visible = visibleElastic;
+		label_force_sensor_ai_speed_max.Visible = visibleElastic;
+
+		label_force_sensor_ai_accel_b.Visible = visibleElastic;
+		label_force_sensor_ai_accel_diff.Visible = visibleElastic;
+		label_force_sensor_ai_accel_average.Visible = visibleElastic;
+		label_force_sensor_ai_accel_max.Visible = visibleElastic;
+
+		label_force_sensor_ai_power_b.Visible = visibleElastic;
+		label_force_sensor_ai_power_diff.Visible = visibleElastic;
+		label_force_sensor_ai_power_average.Visible = visibleElastic;
+		label_force_sensor_ai_power_max.Visible = visibleElastic;
+
 		button_force_sensor_ai_zoom.Visible = visible;
 
 		if(visible && canDoForceSensorAnalyzeAB())
 			button_force_sensor_analyze_AB_save.Visible = true;
 		else
 			button_force_sensor_analyze_AB_save.Visible = false;
-
-		if(fsAI != null)
-			force_sensor_analyze_instant_calculate_params();
-
-		forceSensorAIChanged = true; //to actually plot
-		force_sensor_ai_drawingarea.QueueDraw(); // -- refresh
 	}
 
 	private void force_sensor_analyze_instant_calculate_params()
@@ -1320,8 +1283,48 @@ public partial class ChronoJumpWindow
 		if(success) {
 			label_force_sensor_ai_time_diff.Text = Math.Round(timeB - timeA, 1).ToString();
 			label_force_sensor_ai_force_diff.Text = Math.Round(forceB - forceA, 1).ToString();
-			label_force_sensor_ai_force_average.Text = Math.Round(fsAI.ForceAVG, 1).ToString();
-			label_force_sensor_ai_force_max.Text = Math.Round(fsAI.ForceMAX, 1).ToString();
+
+			if(countA != countB) {
+				label_force_sensor_ai_force_average.Text = Math.Round(fsAI.ForceAVG, 1).ToString();
+				label_force_sensor_ai_force_max.Text = Math.Round(fsAI.ForceMAX, 1).ToString();
+			} else {
+				label_force_sensor_ai_force_average.Text = "";
+				label_force_sensor_ai_force_max.Text = "";
+			}
+		}
+
+		if(fsAI.CalculedElasticPSAP && success)
+		{
+			double positionA = fsAI.Position_l[countA];
+			double positionB = fsAI.Position_l[countB];
+			label_force_sensor_ai_position_diff.Text = Math.Round(positionB - positionA, 3).ToString();
+
+			double speedA = fsAI.Speed_l[countA];
+			double speedB = fsAI.Speed_l[countB];
+			label_force_sensor_ai_speed_diff.Text = Math.Round(speedB - speedA, 3).ToString();
+			if(countA != countB) {
+				label_force_sensor_ai_speed_average.Text = Math.Round(fsAI.SpeedAVG, 3).ToString();
+				label_force_sensor_ai_speed_max.Text = Math.Round(fsAI.SpeedMAX, 3).ToString();
+				label_force_sensor_ai_accel_average.Text = Math.Round(fsAI.AccelAVG, 3).ToString();
+				label_force_sensor_ai_accel_max.Text = Math.Round(fsAI.AccelMAX, 3).ToString();
+				label_force_sensor_ai_power_average.Text = Math.Round(fsAI.PowerAVG, 3).ToString();
+				label_force_sensor_ai_power_max.Text = Math.Round(fsAI.PowerMAX, 3).ToString();
+			} else {
+				label_force_sensor_ai_speed_average.Text = "";
+				label_force_sensor_ai_speed_max.Text = "";
+				label_force_sensor_ai_accel_average.Text = "";
+				label_force_sensor_ai_accel_max.Text = "";
+				label_force_sensor_ai_power_average.Text = "";
+				label_force_sensor_ai_power_max.Text = "";
+			}
+
+			double accelA = fsAI.Accel_l[countA];
+			double accelB = fsAI.Accel_l[countB];
+			label_force_sensor_ai_accel_diff.Text = Math.Round(accelB - accelA, 3).ToString();
+
+			double powerA = fsAI.Power_l[countA];
+			double powerB = fsAI.Power_l[countB];
+			label_force_sensor_ai_power_diff.Text = Math.Round(powerB - powerA, 3).ToString();
 		}
 
 		double rfdA = 0;
@@ -1374,9 +1377,35 @@ public partial class ChronoJumpWindow
 
 			label_force_sensor_ai_rfd_max.Text = Math.Round(fsAI.LastRFDMax, 1).ToString();
 		} else {
-			label_force_sensor_ai_rfd_diff.Text = "";
+			label_force_sensor_ai_rfd_diff.Text = "0";
 			label_force_sensor_ai_rfd_average.Text = "";
 			label_force_sensor_ai_rfd_max.Text = "";
+		}
+
+		vbox_force_sensor_ai_impulse_variability_and_feedback.Visible = (countA != countB);
+
+		if(countA != countB)
+		{
+			// 10) calculate impulse
+			label_force_sensor_ai_impulse_values.Text = Math.Round(fsAI.CalculateImpulse(
+						countA, countB), 1).ToString();
+
+			// 11) calculate variability
+			double variability = 0;
+			double feedbackDiff = 0;
+			int feedbackF = Convert.ToInt32(spin_force_sensor_capture_feedback_at.Value);
+
+			fsAI.CalculateVariabilityAndAccuracy(countA, countB, feedbackF, out variability, out feedbackDiff);
+
+			label_force_sensor_ai_variability_values.Text = Math.Round(variability, 3).ToString();
+
+			// 12) calculate Accuracy (Feedback difference)
+			if(check_force_sensor_capture_feedback.Active && feedbackF > 0)
+			{
+				label_force_sensor_ai_feedback_values.Text = Math.Round(feedbackDiff, 3).ToString();
+				vbox_force_sensor_ai_feedback.Visible = true;
+			} else
+				vbox_force_sensor_ai_feedback.Visible = false;
 		}
 	}
 

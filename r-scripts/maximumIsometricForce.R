@@ -331,9 +331,9 @@ drawDynamicsFromLoadCell <- function(
                 }
                 
                 text(x = (dynamics$startTime + (dynamics$time[endImpulseSample] - dynamics$time[startImpulseSample])*0.66), y = mean(dynamics$f.raw[startImpulseSample:endImpulseSample])*0.66,
-                     labels = paste("Impulse =", round(impulse, digits = 2), "N·s"), pos = 4, cex = 1.5)
+                     labels = paste("Impulse =", round(impulse, digits = 2), "N\U00B7s"), pos = 4, cex = 1.5)
 
-		impulseLegend = paste("Impulse", impulseOptions$start, "-", impulseOptions$end, " = ", round(impulse, digits = 2), " N·s", sep = "")
+		impulseLegend = paste("Impulse", impulseOptions$start, "-", impulseOptions$end, " = ", round(impulse, digits = 2), " N\U00B7s", sep = "") #\U00B7 is ·
         }
         
         #Plotting not analysed data
@@ -410,7 +410,8 @@ drawDynamicsFromLoadCell <- function(
         
         legendText = c(
 		       paste("Fmax =", round(dynamics$fmax.fitted, digits = 2), "N"),
-		       paste("K = ", round(dynamics$k.fitted, digits = 2),"s^-1"),
+		       #paste("K = ", round(dynamics$k.fitted, digits = 2),"s^-1"),
+		       paste("K = ", round(dynamics$k.fitted, digits = 2),"s\U207B\U00B9"),
 		       paste("tau = ", round(dynamics$tau.fitted, digits = 2),"s")
 		       )
         legendColor = c("blue", "blue", "blue")

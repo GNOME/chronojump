@@ -1300,6 +1300,12 @@ public class ForceSensorAnalyzeInstant
 {
 	public double ForceAVG;
 	public double ForceMAX;
+	public double SpeedAVG;
+	public double SpeedMAX;
+	public double AccelAVG;
+	public double AccelMAX;
+	public double PowerAVG;
+	public double PowerMAX;
 
 	//for elastic
 	public bool CalculedElasticPSAP;
@@ -1404,7 +1410,7 @@ public class ForceSensorAnalyzeInstant
 		}
 
 		times.RemoveAt(0); //always (not-elastic and elastic) 1st has to be removed, because time is not ok there.
-		if(fsd.CalculedElasticPSAP)
+		if(CalculedElasticPSAP)
 			times = times.GetRange(fsd.RemoveNValues -1, times.Count -2*fsd.RemoveNValues);
 		int i = 0;
 		foreach(int time in times)
@@ -1496,7 +1502,33 @@ public class ForceSensorAnalyzeInstant
 
 		fscAIPoints.GetAverageAndMaxForce(countA, countB, out ForceAVG, out ForceMAX);
 
+		if(CalculedElasticPSAP)
+		{
+			calculeElasticPSAPAveragesAndMax(countA, countB, Speed_l, out SpeedAVG, out SpeedMAX);
+			calculeElasticPSAPAveragesAndMax(countA, countB, Accel_l, out AccelAVG, out AccelMAX);
+			calculeElasticPSAPAveragesAndMax(countA, countB, Power_l, out PowerAVG, out PowerMAX);
+		}
+
 		return true;
+	}
+
+	private void calculeElasticPSAPAveragesAndMax(int countA, int countB, List<double> list, out double avg, out double max)
+	{
+		if(countA == countB) {
+			avg = list[countA];
+			max = list[countA];
+			return;
+		}
+
+		double sum = 0;
+		max = 0;
+		for(int i = countA; i <= countB; i ++) {
+			sum += list[i];
+			if(list[i] > max)
+				max = list[i];
+		}
+
+		avg = sum / ((countB - countA) +1);
 	}
 
 	public double CalculateRFD(int countA, int countB)

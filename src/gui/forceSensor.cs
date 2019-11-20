@@ -408,6 +408,7 @@ public partial class ChronoJumpWindow
 		{
 			forceSensorButtonsSensitive(false);
 			sensitiveLastTestButtons(false);
+			image_force_sensor_graph.Sensitive = false; //unsensitivize the RFD image (can contain info of previous data)
 
 			textview_force_sensor_capture_comment.Buffer.Text = "";
 
@@ -1567,6 +1568,7 @@ LogB.Information(" fs R ");
 		}
 
 		forceSensorCopyTempAndDoGraphs(forceSensorGraphsEnum.SIGNAL);
+		image_force_sensor_graph.Sensitive = false; //unsensitivize the RFD image (can contain info of previous data)
 
 		button_video_play_this_test.Sensitive = (fs.VideoURL != "");
 		sensitiveLastTestButtons(true);
@@ -1748,7 +1750,10 @@ LogB.Information(" fs R ");
 		currentForceSensor.StiffnessString = stiffnessString;
 
 		if(lastForceSensorFullPath != null && lastForceSensorFullPath != "")
+		{
 			forceSensorCopyTempAndDoGraphs(forceSensorGraphsEnum.SIGNAL);
+			image_force_sensor_graph.Sensitive = false; //unsensitivize the RFD image (can contain info of previous data)
+		}
 
 		//if drawingarea has still not shown, don't paint graph because GC screen is not defined
 		if(force_sensor_ai_drawingareaShown)

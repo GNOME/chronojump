@@ -95,7 +95,7 @@ checkUnicodeWorks <- function()
 
 
 #translateToPrint An expression is returned andcan only be printed. Don't do operations
-#Important: An expression is returned because is the best way to ahndle unicode on windows
+#Important: An expression is returned because is the best way to handle unicode on windows
 #take care not to do operations with this. Just print it
 translateToPrint <- function(englishWord) 
 {
@@ -2129,7 +2129,7 @@ paintCrossVariables <- function (paf, varX, varY, option,
                         #	       translateToPrint("L"),
                         #	       translateToPrint("R")
                         #	       )
-                        legendText = c("concentric", "eccentric", paste("eccentric","concentric",sep="-"), "L", "R")
+                        legendText = c(translateToPrint("concentric"), translateToPrint("eccentric"), paste(translateToPrint("eccentric"),translateToPrint("concentric"),sep="-"), "L", "R")
                         
                         rng=par("usr")
                         lg = legend(rng[1],rng[4], 

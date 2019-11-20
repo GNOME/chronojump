@@ -84,8 +84,14 @@ checkUnicodeWorks <- function()
 {
         tryCatch (
                 {
-                        plot(1,1, xlab="unicode stuff: \U00ED \U00E1")
-                        return(TRUE)
+			#this can make the test fail
+                        #plot(1,1, xlab="unicode stuff: \U00ED \U00E1")
+			#just print and is safer:
+                        print("unicode stuff: \U00ED \U00E1")
+			if(DEBUG)
+				write("unicode stuff: \U00ED \U00E1", DebugFileName, append=TRUE)
+
+			return(TRUE)
                 }, 
                 error=function(cond) { 
                         message(cond)
@@ -2676,11 +2682,12 @@ doProcess <- function(options)
 {
         op <- assignOptions(options)
         
+        DEBUG <<- op$Debug
+
         #if unicodeWorks, then translations will be done
         #<<- to assign to a global variable
         unicodeWorks <<- checkUnicodeWorks()
         
-        DEBUG <<- op$Debug
         CROSSVALIDATESMOOTH <<- op$CrossValidate
         
         print(c("1 Title=",op$Title))

@@ -85,11 +85,12 @@ checkUnicodeWorks <- function()
         tryCatch (
                 {
 			#this can make the test fail
-                        #plot(1,1, xlab="unicode stuff: \U00ED \U00E1")
+                        #plot(1,1, xlab="unicode stuff: \u00ED \u00E1")
+			#maybe it failed because in the past was together and with \U
 			#just print and is safer:
-                        print("unicode stuff: \U00ED \U00E1")
+                        print("unicode stuff: \u00ED \u00E1")
 			if(DEBUG)
-				write("unicode stuff: \U00ED \U00E1", DebugFileName, append=TRUE)
+				write("unicode stuff: \u00ED \u00E1", DebugFileName, append=TRUE)
 
 			return(TRUE)
                 }, 

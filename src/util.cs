@@ -2258,7 +2258,19 @@ public class Util
 			if (' ' <= c && c <= '~')
 				sb.Append(c);
 			else
-				sb.AppendFormat("\\U{0:X4}", (int)c);
+			{
+				//old: C#
+				//sb.AppendFormat("\\U{0:X4}", (int)c);
+				//On R, note:
+				//\Unnnn 1-8 hex digits (so this can have problems when a unicode char is at the side of another char
+				// 	\U00E1 2 : works
+				// 	\U00E12 : does not work, tries to find a unicode char different than the U00E1
+				//\unnnn 1-4 hex digits
+				// 	\u00E1 2 : works
+				// 	\u00E12 : works
+				//https://stat.ethz.ch/R-manual/R-devel/library/base/html/Quotes.html
+				sb.AppendFormat("\\u{0:X4}", (int)c);
+			}
 		}
 		return sb.ToString();
 	}

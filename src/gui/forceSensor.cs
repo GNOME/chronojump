@@ -1805,6 +1805,9 @@ LogB.Information(" fs R ");
 			duration = Convert.ToInt32(spin_force_duration_seconds.Value);
 
 		string title = lastForceSensorFile;
+		if (UtilAll.IsWindows())
+			title = Util.ConvertToUnicode(title);
+
 		if (title == null || title == "")
 			title = "unnamed";
 		else

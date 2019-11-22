@@ -625,6 +625,7 @@ public partial class ChronoJumpWindow
 	Gdk.GC pen_yellow_force_ai; 		//0 force
 	Gdk.GC pen_yellow_light_force_ai; 	//feedback rectangle on analyze to differentiate from yellow AB lines
 	Gdk.GC pen_white_force_ai; 		//white box to ensure yellow text is not overlapped
+	Gdk.GC pen_green_force_ai; 		//repetitions (vertical lines)
 
 	private void forceSensorAIPlot()
 	{
@@ -653,6 +654,7 @@ public partial class ChronoJumpWindow
 		colormapForceAI.AllocColor (ref UtilGtk.BLUE_PLOTS,true,true);
 		colormapForceAI.AllocColor (ref UtilGtk.RED_PLOTS,true,true);
 		colormapForceAI.AllocColor (ref UtilGtk.GRAY,true,true);
+		colormapForceAI.AllocColor (ref UtilGtk.GREEN_PLOTS,true,true);
 		bool success = colormapForceAI.AllocColor (ref UtilGtk.YELLOW,true,true);
 		colormapForceAI.AllocColor (ref UtilGtk.YELLOW_LIGHT,true,true);
 		LogB.Information("Yellow success!: " + success.ToString()); //sempre dona success
@@ -671,6 +673,7 @@ public partial class ChronoJumpWindow
 		pen_yellow_light_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
 		pen_white_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
 		pen_gray_discont_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
+		pen_green_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
 
 		pen_black_force_ai.Foreground = UtilGtk.BLACK;
 		pen_blue_force_ai.Foreground = UtilGtk.BLUE_PLOTS;
@@ -679,6 +682,7 @@ public partial class ChronoJumpWindow
 		pen_yellow_light_force_ai.Foreground = UtilGtk.YELLOW_LIGHT;
 		pen_white_force_ai.Foreground = UtilGtk.WHITE;
 		pen_gray_discont_force_ai.Foreground = UtilGtk.GRAY;
+		pen_green_force_ai.Foreground = UtilGtk.GREEN_PLOTS;
 
 		//pen_black_force_ai.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
 		//this makes the lines less spiky:
@@ -691,6 +695,7 @@ public partial class ChronoJumpWindow
 		pen_yellow_light_force_ai.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
 		pen_white_force_ai.SetLineAttributes (1, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
 		pen_gray_discont_force_ai.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
+		pen_green_force_ai.SetLineAttributes (1, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
 
 		layout_force_ai_text = new Pango.Layout (force_sensor_ai_drawingarea.PangoContext);
 		layout_force_ai_text.FontDescription = Pango.FontDescription.FromString ("Courier 10");
@@ -894,7 +899,7 @@ public partial class ChronoJumpWindow
 		int hscaleHigher = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
 
 		// 5) paint vertical yellow lines A, B and write letter
-		int xposA = fsAI.GetXFromSampleCount(hscaleLower, fsAI.GetLength());
+		int xposA = fsAI.GetXFromSampleCount(hscaleLower);
 		force_sensor_ai_pixmap.DrawLine(pen_yellow_force_ai,
 				xposA, 0, xposA, allocation.Height -20);
 
@@ -914,7 +919,7 @@ public partial class ChronoJumpWindow
 		int xposB = 0;
 		if(checkbutton_force_sensor_ai_b.Active && hscaleLower != hscaleHigher)
 		{
-			xposB = fsAI.GetXFromSampleCount(hscaleHigher, fsAI.GetLength());
+			xposB = fsAI.GetXFromSampleCount(hscaleHigher);
 			force_sensor_ai_pixmap.DrawLine(pen_yellow_force_ai,
 					xposB, 0, xposB, allocation.Height -20);
 
@@ -944,6 +949,16 @@ public partial class ChronoJumpWindow
 			hbox_force_sensor_ai_accel.Visible = false;
 			hbox_force_sensor_ai_power.Visible = false;
 		}
+
+		if(fsAI.CalculedElasticPSAP)
+			foreach(ForceSensorRepetition fsr in fsAI.ForceSensorRepetition_l)
+			{
+				// paint vertical line for each rep
+				int xposRep = fsAI.GetXFromSampleCount(fsr.posX);
+				force_sensor_ai_pixmap.DrawLine(pen_green_force_ai,
+						xposRep, 0, xposRep, allocation.Height -20);
+			}
+
 
 		// 6) if only A calculate exit
 		if(! checkbutton_force_sensor_ai_b.Active)
@@ -980,7 +995,7 @@ public partial class ChronoJumpWindow
 
 			int countRFDMax = fsAI.LastRFDMaxCount;
 
-			int rfdX = fsAI.GetXFromSampleCount(countRFDMax, fsAI.GetLength());
+			int rfdX = fsAI.GetXFromSampleCount(countRFDMax);
 			int rfdY = fsAI.GetPxAtForce(fsAI.GetForceAtCount(countRFDMax));
 
 			// draw a circle of 12 points width/length, move it 6 points top/left to have it centered
@@ -1017,7 +1032,7 @@ public partial class ChronoJumpWindow
 			if(i < 0 || i > fsAI.GetLength() -1)
 				continue;
 
-			int segXDebug = fsAI.GetXFromSampleCount(i, fsAI.GetLength());
+			int segXDebug = fsAI.GetXFromSampleCount(i);
 			int segYDebug = fsAI.GetPxAtForce(fsAI.GetForceAtCount(i));
 			force_sensor_ai_pixmap.DrawArc(pen_black_force_ai, false,
 					segXDebug -3, segYDebug -3,
@@ -1325,6 +1340,13 @@ public partial class ChronoJumpWindow
 			double powerA = fsAI.Power_l[countA];
 			double powerB = fsAI.Power_l[countB];
 			label_force_sensor_ai_power_diff.Text = Math.Round(powerB - powerA, 3).ToString();
+
+			/*
+			//print the repetitions stuff
+			LogB.Information("Printing repetitions:");
+			foreach(ForceSensorRepetition fsr in fsAI.ForceSensorRepetition_l)
+				LogB.Information(fsr.ToString());
+			*/
 		}
 
 		double rfdA = 0;

@@ -1313,6 +1313,7 @@ public class ForceSensorAnalyzeInstant
 	public List<double> Speed_l;
 	public List<double> Accel_l;
 	public List<double> Power_l;
+	public List<ForceSensorRepetition> ForceSensorRepetition_l;
 
 	private ForceSensorCapturePoints fscAIPoints; //Analyze Instant
 	private ForceSensorValues forceSensorValues;
@@ -1406,6 +1407,7 @@ public class ForceSensorAnalyzeInstant
 			Speed_l = fsd.GetSpeeds();
 			Accel_l = fsd.GetAccels();
 			Power_l = fsd.GetPowers();
+			ForceSensorRepetition_l = fsd.GetRepetitions();
 			CalculedElasticPSAP = true;
 		}
 
@@ -1453,9 +1455,10 @@ public class ForceSensorAnalyzeInstant
 		return fscAIPoints.GetLength();
 	}
 
-	public int GetXFromSampleCount(int currentPos, int totalPos)
+	//public int GetXFromSampleCount(int currentPos, int totalPos)
+	public int GetXFromSampleCount(int currentPos)
 	{
-		LogB.Information(string.Format("currentPos: {0}, totalPos: {1}", currentPos, totalPos));
+		//LogB.Information(string.Format("currentPos: {0}, totalPos: {1}", currentPos, totalPos));
 		//this can be called on expose event before calculating needed parameters
 		if(graphWidth == 0)
 			return 0;
@@ -1600,8 +1603,8 @@ public class ForceSensorAnalyzeInstant
 		LogB.Information(string.Format("CalculateRFDTangentLine: {0}" , countRFDMax));
 
 		// 1) calculate X and Y of points before and after RFD
-		int pointXBefore = GetXFromSampleCount(countRFDMax -1, GetLength());
-		int pointXAfter = GetXFromSampleCount(countRFDMax +1, GetLength());
+		int pointXBefore = GetXFromSampleCount(countRFDMax -1);
+		int pointXAfter = GetXFromSampleCount(countRFDMax +1);
 		int pointYBefore = GetPxAtForce(GetForceAtCount(countRFDMax -1));
 		int pointYAfter = GetPxAtForce(GetForceAtCount(countRFDMax +1));
 
@@ -1610,7 +1613,7 @@ public class ForceSensorAnalyzeInstant
 					(1.0 * (pointXAfter- pointXBefore)) ) );
 
 		// 3) get the RFD point
-		int pointXRFD = GetXFromSampleCount(countRFDMax, GetLength());
+		int pointXRFD = GetXFromSampleCount(countRFDMax);
 		int pointYRFD = GetPxAtForce(GetForceAtCount(countRFDMax));
 
 		// 4) calculate line that cross RFD point with calculated slope

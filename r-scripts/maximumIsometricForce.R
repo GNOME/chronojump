@@ -234,7 +234,7 @@ drawDynamicsFromLoadCell <- function(
                      type="l", xlab="Time[s]", ylab="Force[N]",
                      xlim = xlimits, ylim=c(0, yHeight),
                      #main = dynamics$nameOfFile,
-		     main = op$title,
+		     main = paste(parse(text = paste0("'", op$title, "'"))), #process unicode, needed paste because its an expression. See graph.R
 		     yaxs= "i", xaxs = "i")
                 xmin = xlimits[1]
                 xmax = xlimits[2]
@@ -248,7 +248,7 @@ drawDynamicsFromLoadCell <- function(
                      xlim = c(xmin, xmax),
                      ylim=c(0, yHeight),
                      #main = dynamics$nameOfFile,
-		     main = op$title,
+		     main = paste(parse(text = paste0("'", op$title, "'"))), #process unicode, needed paste because its an expression. See graph.R
 		     yaxs= "i", xaxs = "i")
         }
         

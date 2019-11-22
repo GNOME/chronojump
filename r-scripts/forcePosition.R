@@ -140,11 +140,12 @@ getRepetitions <- function(time, position, force, conMinDisplacement, eccMinDisp
         if(position[currentSample] > position[possibleExtremeSample])
         {
                 concentric = 1
-                minDisplacement = eccMinDisplacement
+                minDisplacement = eccMinDisplacement #minDisplacement is referred to the next phase
         
         } else {
                 concentric = -1
-                minDisplacement = conMinDisplacement}
+                minDisplacement = conMinDisplacement
+	}
         
         #print(paste("starting in mode:", concentric) )
 
@@ -177,7 +178,7 @@ getRepetitions <- function(time, position, force, conMinDisplacement, eccMinDisp
                         #Save the sample of the last extrme in order to compare new samples with it
                         lastExtremeSample = possibleExtremeSample
                         
-                        #Changing the phase from concentric to eccentril or viceversa
+                        #Changing the phase from concentric to eccentric or viceversa
                         concentric = -concentric
                         if (concentric == 1){
                                 minDisplacement = eccMinDisplacement
@@ -201,11 +202,19 @@ getRepetitions <- function(time, position, force, conMinDisplacement, eccMinDisp
                 , meanSpeeds = meanSpeeds[2:length(meanSpeeds)]))
 }
 
-testDir = "/home/xpadulles/Descargas/Piscina-mati/separat-per-punticoma/"
-allFiles = dir(testDir)
-
-for(i in 1:5)
+testPadu <- function(conMinDisplacement = .5, eccMinDisplacement = .5)
 {
-        dynamics = getDynamicsFromForceSensor(file = paste(testDir, allFiles[i], sep ="")
-                                              ,smooth = 10, totalMass = 0, stiffness = 71.93, angle = 0, minDisplacement = .5)
+	testDir = "/home/xpadulles/Descargas/Piscina-mati/separat-per-punticoma/"
+	allFiles = dir(testDir)
+
+	for(i in 1:5)
+	{
+		dynamics = getDynamicsFromForceSensor(file = paste(testDir, allFiles[i], sep =""),
+						      smooth = 10, totalMass = 0, stiffness = 71.93, angle = 0, conMinDisplacement, eccMinDisplacement)
+	}
+}
+testXavi <- function(conMinDisplacement = .5, eccMinDisplacement = .5)
+{
+	dynamics = getDynamicsFromForceSensor(file = "/home/xavier/.local/share/Chronojump/forceSensor/10/18_persona de 10 kg_2019-11-12_16-09-21.csv",
+					      smooth = 10, totalMass = 0, stiffness = 71.93, angle = 0, conMinDisplacement, eccMinDisplacement)
 }

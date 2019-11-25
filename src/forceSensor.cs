@@ -1627,13 +1627,25 @@ public class ForceSensorAnalyzeInstant
 		lineYEnd = 0;
 	}
 
-	//TODO: better if all this time, force, rfd params are on this class, so don't need to read labels from main gui
-	public void ExportToCSV(int countA, int countB, string selectedFileName, string sepString,
-			double timeA, double timeB, double timeDiff,
-			double forceA, double forceB, double forceDiff, double forceAvg, double forceMax,
-			double rfdA, double rfdB, double rfdDiff, double rfdAvg, double rfdMax
-			)
+	public void ExportToCSV(int countA, int countB, string selectedFileName, string sepString)
 	{
+		//get variables
+		double timeA = GetTimeMS(countA);
+		double timeB = GetTimeMS(countB);
+		double forceA = GetForceAtCount(countA);
+		double forceB = GetForceAtCount(countB);
+		double timeDiff = timeB - timeA;
+		double forceDiff =forceB - forceA;
+		double forceAvg = ForceAVG;
+		double forceMax = ForceMAX;
+		double rfdA = CalculateRFD(countA -1, countA +1);
+		double rfdB = CalculateRFD(countB -1, countB +1);
+		double rfdDiff = rfdB - rfdA;
+		double rfdAvg = CalculateRFD(countA, countB);
+		CalculateMaxRFDInRange(countA, countB);
+		double rfdMax = LastRFDMax;
+
+
 		//this overwrites if needed
 		TextWriter writer = File.CreateText(selectedFileName);
 
@@ -1655,21 +1667,21 @@ public class ForceSensorAnalyzeInstant
 		//write statistics
 		writer.WriteLine(
 				Catalog.GetString("Difference") + sep +
-				Util.DoubleToCSV(timeDiff, sepString) + sep +
-				Util.DoubleToCSV(forceDiff, sepString) + sep +
-				Util.DoubleToCSV(rfdDiff, sepString) );
+				Util.DoubleToCSV(Math.Round(timeDiff, 2), sepString) + sep +
+				Util.DoubleToCSV(Math.Round(forceDiff, 2), sepString) + sep +
+				Util.DoubleToCSV(Math.Round(rfdDiff, 2), sepString) );
 
 		writer.WriteLine(
 				Catalog.GetString("Average") + sep +
 				"" + sep +
-				Util.DoubleToCSV(forceAvg, sepString) + sep +
-				Util.DoubleToCSV(rfdAvg, sepString) );
+				Util.DoubleToCSV(Math.Round(forceAvg, 2), sepString) + sep +
+				Util.DoubleToCSV(Math.Round(rfdAvg, 2), sepString) );
 
 		writer.WriteLine(
 				Catalog.GetString("Maximum") + sep +
 				"" + sep +
-				Util.DoubleToCSV(forceMax, sepString) + sep +
-				Util.DoubleToCSV(rfdMax, sepString) );
+				Util.DoubleToCSV(Math.Round(forceMax, 2), sepString) + sep +
+				Util.DoubleToCSV(Math.Round(rfdMax, 2), sepString) );
 
 		//blank line
 		writer.WriteLine();
@@ -1683,7 +1695,7 @@ public class ForceSensorAnalyzeInstant
 					(i+1).ToString() + sep +
 					Util.DoubleToCSV(fscAIPoints.GetTimeAtCount(i), sepString) + sep +
 					Util.DoubleToCSV(fscAIPoints.GetForceAtCount(i), sepString) + sep +
-					Util.DoubleToCSV(CalculateRFD(i-1, i+1), sepString) );
+					Util.DoubleToCSV(Math.Round(CalculateRFD(i-1, i+1), 2), sepString) );
 
 		writer.Flush();
 		writer.Close();

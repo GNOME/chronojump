@@ -1457,21 +1457,7 @@ public partial class ChronoJumpWindow
 	void on_button_force_sensor_save_AB_file_selected (string selectedFileName)
 	{
 		fsAI.ExportToCSV(getLowestForceSensorABScale(), getHighestForceSensorABScale(),
-				selectedFileName, preferences.CSVExportDecimalSeparator,
-				Convert.ToDouble(label_force_sensor_ai_time_a.Text),
-				Convert.ToDouble(label_force_sensor_ai_time_b.Text),
-				Convert.ToDouble(label_force_sensor_ai_time_diff.Text),
-				Convert.ToDouble(label_force_sensor_ai_force_a.Text),
-				Convert.ToDouble(label_force_sensor_ai_force_b.Text),
-				Convert.ToDouble(label_force_sensor_ai_force_diff.Text),
-				Convert.ToDouble(label_force_sensor_ai_force_average.Text),
-				Convert.ToDouble(label_force_sensor_ai_force_max.Text),
-				Convert.ToDouble(label_force_sensor_ai_rfd_a.Text),
-				Convert.ToDouble(label_force_sensor_ai_rfd_b.Text),
-				Convert.ToDouble(label_force_sensor_ai_rfd_diff.Text),
-				Convert.ToDouble(label_force_sensor_ai_rfd_average.Text),
-				Convert.ToDouble(label_force_sensor_ai_rfd_max.Text)
-				);
+				selectedFileName, preferences.CSVExportDecimalSeparator);
 	}
 
 	private int getLowestForceSensorABScale()

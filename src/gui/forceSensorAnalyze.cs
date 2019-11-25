@@ -950,14 +950,31 @@ public partial class ChronoJumpWindow
 			hbox_force_sensor_ai_power.Visible = false;
 		}
 
+		// paint repetitions info (vertical line and number)
 		if(fsAI.CalculedElasticPSAP)
-			foreach(ForceSensorRepetition fsr in fsAI.ForceSensorRepetition_l)
+		{
+			int xposRepPrevious = 0;
+			for(int i = 0; i < fsAI.ForceSensorRepetition_l.Count; i ++)
 			{
 				// paint vertical line for each rep
-				int xposRep = fsAI.GetXFromSampleCount(fsr.posX);
+				int xposRep = fsAI.GetXFromSampleCount(fsAI.ForceSensorRepetition_l[i].posX);
 				force_sensor_ai_pixmap.DrawLine(pen_green_force_ai,
 						xposRep, 0, xposRep, allocation.Height -20);
+
+				// write repetition count
+				if(i > 0)
+				{
+					layout_force_ai_text.SetMarkup(i.ToString());
+					textWidth = 1; textHeight = 1;
+					layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
+					force_sensor_ai_pixmap.DrawLayout (pen_green_force_ai,
+							Convert.ToInt32((xposRepPrevious + xposRep)/2 - textWidth/2), 0,
+							layout_force_ai_text);
+				}
+
+				xposRepPrevious = xposRep;
 			}
+		}
 
 
 		// 6) if only A calculate exit

@@ -1390,30 +1390,31 @@ public class ForceSensorAnalyzeInstant
 				}
 			}
 		}
-		ForceSensorDynamics fsd;
+
+		ForceSensorDynamics forceSensorDynamics;
 		if(fse.Elastic)
-			fsd = new ForceSensorDynamicsElastic(
+			forceSensorDynamics = new ForceSensorDynamicsElastic(
 					times, forces, fsco, fse, personWeight, stiffness);
 		else
-			fsd = new ForceSensorDynamicsNotElastic(
+			forceSensorDynamics = new ForceSensorDynamicsNotElastic(
 					times, forces, fsco, fse, personWeight, stiffness);
 
-		forces = fsd.GetForces();
+		forces = forceSensorDynamics.GetForces();
 
 		CalculedElasticPSAP = false;
-		if(fsd.CalculedElasticPSAP)
+		if(forceSensorDynamics.CalculedElasticPSAP)
 		{
-			Position_l = fsd.GetPositions();
-			Speed_l = fsd.GetSpeeds();
-			Accel_l = fsd.GetAccels();
-			Power_l = fsd.GetPowers();
-			ForceSensorRepetition_l = fsd.GetRepetitions();
+			Position_l = forceSensorDynamics.GetPositions();
+			Speed_l = forceSensorDynamics.GetSpeeds();
+			Accel_l = forceSensorDynamics.GetAccels();
+			Power_l = forceSensorDynamics.GetPowers();
+			ForceSensorRepetition_l = forceSensorDynamics.GetRepetitions();
 			CalculedElasticPSAP = true;
 		}
 
 		times.RemoveAt(0); //always (not-elastic and elastic) 1st has to be removed, because time is not ok there.
 		if(CalculedElasticPSAP)
-			times = times.GetRange(fsd.RemoveNValues -1, times.Count -2*fsd.RemoveNValues);
+			times = times.GetRange(forceSensorDynamics.RemoveNValues -1, times.Count -2*forceSensorDynamics.RemoveNValues);
 		int i = 0;
 		foreach(int time in times)
 		{
@@ -1638,10 +1639,8 @@ public class ForceSensorAnalyzeInstant
 		else
 			sep = ",";
 
-		string header = exportCSVHeader(CalculedElasticPSAP, sep);
-
 		//write header
-		writer.WriteLine(header);
+		writer.WriteLine(exportCSVHeader(CalculedElasticPSAP, sep, true));
 
 		//write statistics
 
@@ -1658,7 +1657,7 @@ public class ForceSensorAnalyzeInstant
 		writer.WriteLine();
 
 		//write header again (for iterating data)
-		writer.WriteLine(header);
+		writer.WriteLine(exportCSVHeader(CalculedElasticPSAP, sep, false));
 
 		//write data
 		for(int i = countA; i <= countB; i ++)
@@ -1669,17 +1668,23 @@ public class ForceSensorAnalyzeInstant
 		((IDisposable)writer).Dispose();
 	}
 
-	private string exportCSVHeader(bool elastic, string sep)
+	private string exportCSVHeader(bool elastic, string sep, bool headerTable)
 	{
-		string str =
-			"" + sep +
-			Catalog.GetString("Time") + sep +
+		string str;
+		if(headerTable)
+			str = Catalog.GetString("Statistics") + sep;
+		else
+			str = Catalog.GetString("Sample") + sep;
+
+		if(elastic)
+			str += Catalog.GetString("Repetition") + sep;
+
+		str += Catalog.GetString("Time") + sep +
 			Catalog.GetString("Force") + sep +
 			Catalog.GetString("RFD");
 
 		if(elastic)
-			str += sep +
-				Catalog.GetString("Position") + sep +
+			str += Catalog.GetString("Position") + sep +
 				Catalog.GetString("Speed") + sep +
 				Catalog.GetString("Acceleration") + sep +
 				Catalog.GetString("Power");
@@ -1699,14 +1704,17 @@ public class ForceSensorAnalyzeInstant
 		double forceDiff =forceB - forceA;
 		double rfdDiff = rfdB - rfdA;
 
-		string str = Catalog.GetString("Difference") + sep +
-			Util.DoubleToCSV(timeDiff, 3, sepString) + sep +
+		string str = Catalog.GetString("Difference") + sep;
+
+		if(elastic)
+			str += "" + sep; 	//repetition
+
+		str += Util.DoubleToCSV(timeDiff, 3, sepString) + sep +
 			Util.DoubleToCSV(forceDiff, 3, sepString) + sep +
 			Util.DoubleToCSV(rfdDiff, 3, sepString);
 
 		if(elastic)
-			str +=  sep +
-				Util.DoubleToCSV(Position_l[countB] - Position_l[countA], 3, sepString) + sep +
+			str += Util.DoubleToCSV(Position_l[countB] - Position_l[countA], 3, sepString) + sep +
 				Util.DoubleToCSV(Speed_l[countB] - Speed_l[countA], 3, sepString) + sep +
 				Util.DoubleToCSV(Accel_l[countB] - Accel_l[countA], 3, sepString) + sep +
 				Util.DoubleToCSV(Power_l[countB] - Power_l[countA], 3, sepString);
@@ -1718,14 +1726,17 @@ public class ForceSensorAnalyzeInstant
 	{
 		double rfdAVG = CalculateRFD(countA, countB);
 
-		string str = Catalog.GetString("Average") + sep +
-				"" + sep +
-				Util.DoubleToCSV(ForceAVG, 3, sepString) + sep +
-				Util.DoubleToCSV(rfdAVG, 3, sepString);
+		string str = Catalog.GetString("Average") + sep;
 
 		if(elastic)
-			str += sep +
-				"" + sep +
+			str += "" + sep; 	//repetition
+
+		str += "" + sep +
+			Util.DoubleToCSV(ForceAVG, 3, sepString) + sep +
+			Util.DoubleToCSV(rfdAVG, 3, sepString);
+
+		if(elastic)
+			str += "" + sep +
 				Util.DoubleToCSV(SpeedAVG, 3, sepString) + sep +
 				Util.DoubleToCSV(AccelAVG, 3, sepString) + sep +
 				Util.DoubleToCSV(PowerAVG, 3, sepString);
@@ -1738,14 +1749,17 @@ public class ForceSensorAnalyzeInstant
 		CalculateMaxRFDInRange(countA, countB);
 		double rfdMax = LastRFDMax;
 
-		string str = Catalog.GetString("Maximum") + sep +
-				"" + sep +
-				Util.DoubleToCSV(ForceMAX, 3, sepString) + sep +
-				Util.DoubleToCSV(rfdMax, 3, sepString);
+		string str = Catalog.GetString("Maximum") + sep;
 
 		if(elastic)
-			str += sep +
-				"" + sep +
+			str += "" + sep; 	//repetition
+
+		str += "" + sep +
+			Util.DoubleToCSV(ForceMAX, 3, sepString) + sep +
+			Util.DoubleToCSV(rfdMax, 3, sepString);
+
+		if(elastic)
+			str += "" + sep +
 				Util.DoubleToCSV(SpeedMAX, 3, sepString) + sep +
 				Util.DoubleToCSV(AccelMAX, 3, sepString) + sep +
 				Util.DoubleToCSV(PowerMAX, 3, sepString);
@@ -1755,14 +1769,19 @@ public class ForceSensorAnalyzeInstant
 
 	private string exportCSVIteration(bool elastic, string sep, string sepString, int i)
 	{
-		string str = (i+1).ToString() + sep +
-				Util.DoubleToCSV(fscAIPoints.GetTimeAtCount(i), sepString) + sep +
-				Util.DoubleToCSV(fscAIPoints.GetForceAtCount(i), sepString) + sep +
-				Util.DoubleToCSV(CalculateRFD(i-1, i+1), 3, sepString);
+		double timeAtCount = fscAIPoints.GetTimeAtCount(i);
+
+		string str = (i+1).ToString() + sep; //sample
 
 		if(elastic)
-			str += sep +
-				Util.DoubleToCSV(Position_l[i], 3, sepString) + sep +
+			str += ForceSensorRepetition.GetRepetitionNumFromList(ForceSensorRepetition_l, i).ToString() + sep; 	//repetition
+
+		str += Util.DoubleToCSV(timeAtCount, sepString) + sep +
+			Util.DoubleToCSV(fscAIPoints.GetForceAtCount(i), sepString) + sep +
+			Util.DoubleToCSV(CalculateRFD(i-1, i+1), 3, sepString);
+
+		if(elastic)
+			str += Util.DoubleToCSV(Position_l[i], 3, sepString) + sep +
 				Util.DoubleToCSV(Speed_l[i], 3, sepString) + sep +
 				Util.DoubleToCSV(Accel_l[i], 3, sepString) + sep +
 				Util.DoubleToCSV(Power_l[i], 3, sepString);

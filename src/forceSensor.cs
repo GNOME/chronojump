@@ -1629,23 +1629,6 @@ public class ForceSensorAnalyzeInstant
 
 	public void ExportToCSV(int countA, int countB, string selectedFileName, string sepString)
 	{
-		//get variables
-		double timeA = GetTimeMS(countA);
-		double timeB = GetTimeMS(countB);
-		double forceA = GetForceAtCount(countA);
-		double forceB = GetForceAtCount(countB);
-		double timeDiff = timeB - timeA;
-		double forceDiff =forceB - forceA;
-		double forceAvg = ForceAVG;
-		double forceMax = ForceMAX;
-		double rfdA = CalculateRFD(countA -1, countA +1);
-		double rfdB = CalculateRFD(countB -1, countB +1);
-		double rfdDiff = rfdB - rfdA;
-		double rfdAvg = CalculateRFD(countA, countB);
-		CalculateMaxRFDInRange(countA, countB);
-		double rfdMax = LastRFDMax;
-
-
 		//this overwrites if needed
 		TextWriter writer = File.CreateText(selectedFileName);
 
@@ -1655,20 +1638,7 @@ public class ForceSensorAnalyzeInstant
 		else
 			sep = ",";
 
-		string header =
-			"" + sep +
-			Catalog.GetString("Time") + sep +
-			Catalog.GetString("Force") + sep +
-			Catalog.GetString("RFD");
-
-		if(CalculedElasticPSAP)
-		{
-			header += sep +
-				Catalog.GetString("Position") + sep +
-				Catalog.GetString("Speed") + sep +
-				Catalog.GetString("Acceleration") + sep +
-				Catalog.GetString("Power");
-		}
+		string header = exportCSVHeader(CalculedElasticPSAP, sep);
 
 		//write header
 		writer.WriteLine(header);
@@ -1676,79 +1646,128 @@ public class ForceSensorAnalyzeInstant
 		//write statistics
 
 		//1. difference
-		string elasticStuff = "";
-		if(CalculedElasticPSAP)
-			elasticStuff = sep +
+		writer.WriteLine(exportCSVDifference(CalculedElasticPSAP, sep, sepString, countA, countB));
+
+		//2. average
+		writer.WriteLine(exportCSVAverage(CalculedElasticPSAP, sep, sepString, countA, countB));
+
+		//3. maximum
+		writer.WriteLine(exportCSVMax(CalculedElasticPSAP, sep, sepString, countA, countB));
+
+		//blank line
+		writer.WriteLine();
+
+		//write header again (for iterating data)
+		writer.WriteLine(header);
+
+		//write data
+		for(int i = countA; i <= countB; i ++)
+			writer.WriteLine(exportCSVIteration(CalculedElasticPSAP, sep, sepString, i));
+
+		writer.Flush();
+		writer.Close();
+		((IDisposable)writer).Dispose();
+	}
+
+	private string exportCSVHeader(bool elastic, string sep)
+	{
+		string str =
+			"" + sep +
+			Catalog.GetString("Time") + sep +
+			Catalog.GetString("Force") + sep +
+			Catalog.GetString("RFD");
+
+		if(elastic)
+			str += sep +
+				Catalog.GetString("Position") + sep +
+				Catalog.GetString("Speed") + sep +
+				Catalog.GetString("Acceleration") + sep +
+				Catalog.GetString("Power");
+
+		return str;
+	}
+
+	private string exportCSVDifference(bool elastic, string sep, string sepString, int countA, int countB)
+	{
+		double timeA = GetTimeMS(countA);
+		double timeB = GetTimeMS(countB);
+		double forceA = GetForceAtCount(countA);
+		double forceB = GetForceAtCount(countB);
+		double rfdA = CalculateRFD(countA -1, countA +1);
+		double rfdB = CalculateRFD(countB -1, countB +1);
+		double timeDiff = timeB - timeA;
+		double forceDiff =forceB - forceA;
+		double rfdDiff = rfdB - rfdA;
+
+		string str = Catalog.GetString("Difference") + sep +
+			Util.DoubleToCSV(timeDiff, 3, sepString) + sep +
+			Util.DoubleToCSV(forceDiff, 3, sepString) + sep +
+			Util.DoubleToCSV(rfdDiff, 3, sepString);
+
+		if(elastic)
+			str +=  sep +
 				Util.DoubleToCSV(Position_l[countB] - Position_l[countA], 3, sepString) + sep +
 				Util.DoubleToCSV(Speed_l[countB] - Speed_l[countA], 3, sepString) + sep +
 				Util.DoubleToCSV(Accel_l[countB] - Accel_l[countA], 3, sepString) + sep +
 				Util.DoubleToCSV(Power_l[countB] - Power_l[countA], 3, sepString);
 
-		writer.WriteLine(
-				Catalog.GetString("Difference") + sep +
-				Util.DoubleToCSV(timeDiff, 3, sepString) + sep +
-				Util.DoubleToCSV(forceDiff, 3, sepString) + sep +
-				Util.DoubleToCSV(rfdDiff, 3, sepString) +
-				elasticStuff);
+		return str;
+	}
 
-		//2. average
-		elasticStuff = "";
-		if(CalculedElasticPSAP)
-			elasticStuff = sep +
+	private string exportCSVAverage(bool elastic, string sep, string sepString, int countA, int countB)
+	{
+		double rfdAVG = CalculateRFD(countA, countB);
+
+		string str = Catalog.GetString("Average") + sep +
+				"" + sep +
+				Util.DoubleToCSV(ForceAVG, 3, sepString) + sep +
+				Util.DoubleToCSV(rfdAVG, 3, sepString);
+
+		if(elastic)
+			str += sep +
 				"" + sep +
 				Util.DoubleToCSV(SpeedAVG, 3, sepString) + sep +
 				Util.DoubleToCSV(AccelAVG, 3, sepString) + sep +
 				Util.DoubleToCSV(PowerAVG, 3, sepString);
-		writer.WriteLine(
-				Catalog.GetString("Average") + sep +
-				"" + sep +
-				Util.DoubleToCSV(forceAvg, 3, sepString) + sep +
-				Util.DoubleToCSV(rfdAvg, 3, sepString) +
-				elasticStuff);
 
-		//3. maximum
-		elasticStuff = "";
-		if(CalculedElasticPSAP)
-			elasticStuff = sep +
+		return str;
+	}
+
+	private string exportCSVMax(bool elastic, string sep, string sepString, int countA, int countB)
+	{
+		CalculateMaxRFDInRange(countA, countB);
+		double rfdMax = LastRFDMax;
+
+		string str = Catalog.GetString("Maximum") + sep +
+				"" + sep +
+				Util.DoubleToCSV(ForceMAX, 3, sepString) + sep +
+				Util.DoubleToCSV(rfdMax, 3, sepString);
+
+		if(elastic)
+			str += sep +
 				"" + sep +
 				Util.DoubleToCSV(SpeedMAX, 3, sepString) + sep +
 				Util.DoubleToCSV(AccelMAX, 3, sepString) + sep +
 				Util.DoubleToCSV(PowerMAX, 3, sepString);
-		writer.WriteLine(
-				Catalog.GetString("Maximum") + sep +
-				"" + sep +
-				Util.DoubleToCSV(forceMax, 3, sepString) + sep +
-				Util.DoubleToCSV(rfdMax, 3, sepString) +
-				elasticStuff);
 
-		//blank line
-		writer.WriteLine();
+		return str;
+	}
 
-		//write header
-		writer.WriteLine(header);
+	private string exportCSVIteration(bool elastic, string sep, string sepString, int i)
+	{
+		string str = (i+1).ToString() + sep +
+				Util.DoubleToCSV(fscAIPoints.GetTimeAtCount(i), sepString) + sep +
+				Util.DoubleToCSV(fscAIPoints.GetForceAtCount(i), sepString) + sep +
+				Util.DoubleToCSV(CalculateRFD(i-1, i+1), 3, sepString);
 
-		//write data
-		for(int i = countA; i <= countB; i ++)
-		{
-			elasticStuff = "";
-			if(CalculedElasticPSAP)
-				elasticStuff = sep +
-					Util.DoubleToCSV(Position_l[i], 3, sepString) + sep +
-					Util.DoubleToCSV(Speed_l[i], 3, sepString) + sep +
-					Util.DoubleToCSV(Accel_l[i], 3, sepString) + sep +
-					Util.DoubleToCSV(Power_l[i], 3, sepString);
+		if(elastic)
+			str += sep +
+				Util.DoubleToCSV(Position_l[i], 3, sepString) + sep +
+				Util.DoubleToCSV(Speed_l[i], 3, sepString) + sep +
+				Util.DoubleToCSV(Accel_l[i], 3, sepString) + sep +
+				Util.DoubleToCSV(Power_l[i], 3, sepString);
 
-			writer.WriteLine(
-					(i+1).ToString() + sep +
-					Util.DoubleToCSV(fscAIPoints.GetTimeAtCount(i), sepString) + sep +
-					Util.DoubleToCSV(fscAIPoints.GetForceAtCount(i), sepString) + sep +
-					Util.DoubleToCSV(CalculateRFD(i-1, i+1), 3, sepString) +
-					elasticStuff);
-		}
-
-		writer.Flush();
-		writer.Close();
-		((IDisposable)writer).Dispose();
+		return str;
 	}
 
 	public ForceSensorCapturePoints FscAIPoints

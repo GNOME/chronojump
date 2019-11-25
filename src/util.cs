@@ -73,7 +73,14 @@ public class Util
 		else
 			return ConvertToPoint(s);
 	}
-		
+	//this method performs a Math.Round
+	public static string DoubleToCSV(double d, int roundDecimals, string CSVsepString) {
+		string s = Math.Round(d, roundDecimals).ToString();
+		if(CSVsepString == "COMMA")
+			return ConvertToComma(s);
+		else
+			return ConvertToPoint(s);
+	}
 
 
 	//when we do a query to the server, it returns avg as "0,54" because it's latin localized

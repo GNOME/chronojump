@@ -77,7 +77,8 @@ public class Preferences
 	public bool encoderWorkKcal;
 	public double encoderSmoothCon;
 	public Constants.Encoder1RMMethod encoder1RMMethod;
-	
+
+	//multimedia
 	public string videoDevice;
 	public string videoDevicePixelFormat;
 	public string videoDeviceResolution;
@@ -89,8 +90,13 @@ public class Preferences
 	public bool RGraphsTranslate;
 	public bool useHeightsOnJumpIndexes;
 
+	//forceSensor
 	public int forceSensorCaptureWidthSeconds;
 	public bool forceSensorCaptureScroll;
+	public double forceSensorElasticEccMinDispl;
+	public double forceSensorElasticConMinDispl;
+	public int forceSensorNotElasticEccMinForce;
+	public int forceSensorNotElasticConMinForce;
 	public int forceSensorGraphsLineWidth;
 
 	//advanced tab

@@ -1684,7 +1684,7 @@ public class ForceSensorAnalyzeInstant
 			Catalog.GetString("RFD");
 
 		if(elastic)
-			str += Catalog.GetString("Position") + sep +
+			str += sep + Catalog.GetString("Position") + sep +
 				Catalog.GetString("Speed") + sep +
 				Catalog.GetString("Acceleration") + sep +
 				Catalog.GetString("Power");
@@ -1714,7 +1714,7 @@ public class ForceSensorAnalyzeInstant
 			Util.DoubleToCSV(rfdDiff, 3, sepString);
 
 		if(elastic)
-			str += Util.DoubleToCSV(Position_l[countB] - Position_l[countA], 3, sepString) + sep +
+			str += sep + Util.DoubleToCSV(Position_l[countB] - Position_l[countA], 3, sepString) + sep +
 				Util.DoubleToCSV(Speed_l[countB] - Speed_l[countA], 3, sepString) + sep +
 				Util.DoubleToCSV(Accel_l[countB] - Accel_l[countA], 3, sepString) + sep +
 				Util.DoubleToCSV(Power_l[countB] - Power_l[countA], 3, sepString);
@@ -1736,7 +1736,7 @@ public class ForceSensorAnalyzeInstant
 			Util.DoubleToCSV(rfdAVG, 3, sepString);
 
 		if(elastic)
-			str += "" + sep +
+			str += sep + "" + sep + 	//position
 				Util.DoubleToCSV(SpeedAVG, 3, sepString) + sep +
 				Util.DoubleToCSV(AccelAVG, 3, sepString) + sep +
 				Util.DoubleToCSV(PowerAVG, 3, sepString);
@@ -1759,7 +1759,7 @@ public class ForceSensorAnalyzeInstant
 			Util.DoubleToCSV(rfdMax, 3, sepString);
 
 		if(elastic)
-			str += "" + sep +
+			str += sep + "" + sep + 	//position
 				Util.DoubleToCSV(SpeedMAX, 3, sepString) + sep +
 				Util.DoubleToCSV(AccelMAX, 3, sepString) + sep +
 				Util.DoubleToCSV(PowerMAX, 3, sepString);
@@ -1781,7 +1781,7 @@ public class ForceSensorAnalyzeInstant
 			Util.DoubleToCSV(CalculateRFD(i-1, i+1), 3, sepString);
 
 		if(elastic)
-			str += Util.DoubleToCSV(Position_l[i], 3, sepString) + sep +
+			str += sep + Util.DoubleToCSV(Position_l[i], 3, sepString) + sep +
 				Util.DoubleToCSV(Speed_l[i], 3, sepString) + sep +
 				Util.DoubleToCSV(Accel_l[i], 3, sepString) + sep +
 				Util.DoubleToCSV(Power_l[i], 3, sepString);

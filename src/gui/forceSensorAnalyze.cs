@@ -951,29 +951,26 @@ public partial class ChronoJumpWindow
 		}
 
 		// paint repetitions info (vertical line and number)
-		if(fsAI.CalculedElasticPSAP)
+		int xposRepPrevious = 0;
+		for(int i = 0; i < fsAI.ForceSensorRepetition_l.Count; i ++)
 		{
-			int xposRepPrevious = 0;
-			for(int i = 0; i < fsAI.ForceSensorRepetition_l.Count; i ++)
+			// paint vertical line for each rep
+			int xposRep = fsAI.GetXFromSampleCount(fsAI.ForceSensorRepetition_l[i].posX);
+			force_sensor_ai_pixmap.DrawLine(pen_green_force_ai,
+					xposRep, 0, xposRep, allocation.Height -20);
+
+			// write repetition count
+			if(i > 0)
 			{
-				// paint vertical line for each rep
-				int xposRep = fsAI.GetXFromSampleCount(fsAI.ForceSensorRepetition_l[i].posX);
-				force_sensor_ai_pixmap.DrawLine(pen_green_force_ai,
-						xposRep, 0, xposRep, allocation.Height -20);
-
-				// write repetition count
-				if(i > 0)
-				{
-					layout_force_ai_text.SetMarkup(i.ToString());
-					textWidth = 1; textHeight = 1;
-					layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
-					force_sensor_ai_pixmap.DrawLayout (pen_green_force_ai,
-							Convert.ToInt32((xposRepPrevious + xposRep)/2 - textWidth/2), 0,
-							layout_force_ai_text);
-				}
-
-				xposRepPrevious = xposRep;
+				layout_force_ai_text.SetMarkup(i.ToString());
+				textWidth = 1; textHeight = 1;
+				layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
+				force_sensor_ai_pixmap.DrawLayout (pen_green_force_ai,
+						Convert.ToInt32((xposRepPrevious + xposRep)/2 - textWidth/2), 0,
+						layout_force_ai_text);
 			}
+
+			xposRepPrevious = xposRep;
 		}
 
 
@@ -1357,14 +1354,14 @@ public partial class ChronoJumpWindow
 			double powerA = fsAI.Power_l[countA];
 			double powerB = fsAI.Power_l[countB];
 			label_force_sensor_ai_power_diff.Text = Math.Round(powerB - powerA, 3).ToString();
-
-			/*
-			//print the repetitions stuff
-			LogB.Information("Printing repetitions:");
-			foreach(ForceSensorRepetition fsr in fsAI.ForceSensorRepetition_l)
-				LogB.Information(fsr.ToString());
-			*/
 		}
+
+		/*
+		//print the repetitions stuff
+		LogB.Information("Printing repetitions:");
+		foreach(ForceSensorRepetition fsr in fsAI.ForceSensorRepetition_l)
+			LogB.Information(fsr.ToString());
+		*/
 
 		double rfdA = 0;
 		double rfdB = 0;

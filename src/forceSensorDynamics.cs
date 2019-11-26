@@ -35,6 +35,7 @@ public abstract class ForceSensorDynamics
 
 	protected List<int> time_micros_l;
 	protected List<double> force_l;
+	protected List<ForceSensorRepetition> forceSensorRepetition_l;
 	protected ForceSensor.CaptureOptions fsco;
 	protected ForceSensorExercise fse;
 	protected double stiffness;
@@ -56,6 +57,7 @@ public abstract class ForceSensorDynamics
 			totalMass = fse.PercentBodyWeight * personMass / 100.0;
 
 		CalculedElasticPSAP = false;
+		forceSensorRepetition_l = new List<ForceSensorRepetition>();
 	}
 
 	//first value has to be removed also on not elastic because time between first and second is so short
@@ -74,13 +76,92 @@ public abstract class ForceSensorDynamics
 
 		return force;
 	}
-	protected List<double> calculeForceWithCaptureOptionsFullSet()
+	protected void calculeForceWithCaptureOptionsFullSet()
 	{
 		for(int i = 0 ; i < force_l.Count; i ++)
 			force_l[i] = calculeForceWithCaptureOptions(force_l[i]);
-
-		return force_l;
 	}
+
+	//adapted from r-scripts/forcePosition.R
+	//yList is position_not_smoothed_l on elastic
+	//yList is force_l on not elastic
+	protected void calculeRepetitions(List<double> yList)
+	{
+		//TODO: put this on exercise or on preferences for all (like on encoder)
+		double conMinDisplacement = .1;
+		double eccMinDisplacement = .1;
+		double minDisplacement;
+
+		//The comments supposes that the current phase is concentric. In the case that the phase is eccentric
+		//the signal is inverted by multiplying it by -1.
+
+		//for each phase, stores the sample number of the biggest current sample.
+		int possibleExtremeSample = 0;
+
+		//Stores the sample of the last actual maximum of the phase
+		int lastExtremeSample = 0;
+
+		int currentSample = 1;
+
+		//The firstPhase is treated different
+		bool firstPhase = true;
+
+		int concentricFlag; //1: concentric; -1: excentric
+
+		//Detecting the first phase type
+		if(yList[currentSample] > yList[possibleExtremeSample])
+		{
+			concentricFlag = 1;
+			minDisplacement = eccMinDisplacement;
+		} else {
+			concentricFlag = -1;
+			minDisplacement = conMinDisplacement;
+		}
+
+		while(currentSample < yList.Count)
+		{
+			//Checking if the current position is greater than the previous possilble maximum
+			if(concentricFlag * yList[currentSample] > concentricFlag * yList[possibleExtremeSample])
+			{
+				//The current sample is the new candidate to be a maximum
+				//LogB.Information(string.Format("updated possibleExtremeSample to: {0}; position: {1}", currentSample, yList[currentSample]));
+				possibleExtremeSample = currentSample;
+			}
+
+			//Checking if the current position is at minDisplacement below the last possible extreme
+			if( concentricFlag * yList[currentSample] - concentricFlag * yList[possibleExtremeSample] < - minDisplacement
+					//For the first phase the minDisplacement is considered much smaller in order to detect an extreme in small oscillations
+					|| ( firstPhase
+						&& (concentricFlag * yList[currentSample] - concentricFlag * yList[possibleExtremeSample] < - minDisplacement / 10) ) )
+			{
+				if(firstPhase)
+					firstPhase = false;               //End of the first phase special treatment
+
+				//LogB.Information(string.Format("-----------minDisplacement detected at: {0}", currentSample));
+				//LogB.Information(string.Format("Extreme added at: {0}", possibleExtremeSample));
+
+				//Save the sample of the last extrme in order to compare new samples with it
+				lastExtremeSample = possibleExtremeSample;
+
+				//Changing the phase from concentric to eccentril or viceversa
+				concentricFlag *= -1;
+				if (concentricFlag > 0)
+					minDisplacement = eccMinDisplacement;
+				else
+					minDisplacement = conMinDisplacement;
+
+				int possibleExtremeSampleSend = possibleExtremeSample - (RemoveNValues -1);
+				if(possibleExtremeSampleSend < 0)
+					possibleExtremeSampleSend = 0;
+
+				addRepetition(yList, possibleExtremeSampleSend, currentSample, lastExtremeSample);
+			}
+
+			currentSample += 1;
+		}
+	}
+
+	protected abstract void addRepetition(List <double> yList, int possibleExtremeSampleSend, int currentSample, int lastExtremeSample);
 
 	public virtual List<double> GetForces()
 	{
@@ -109,9 +190,9 @@ public abstract class ForceSensorDynamics
 		return new List<double>();
 	}
 
-	public virtual List<ForceSensorRepetition> GetRepetitions()
+	public List<ForceSensorRepetition> GetRepetitions()
 	{
-		return new List<ForceSensorRepetition>();
+		return forceSensorRepetition_l;
 	}
 
 	//<----- end of: only implemented on elastic -----
@@ -130,6 +211,8 @@ public class ForceSensorDynamicsNotElastic : ForceSensorDynamics
 		if(! fse.ForceResultant)
 		{
 			calculeForceWithCaptureOptionsFullSet();
+			calculeRepetitions(force_l);
+
 			return;
 		}
 
@@ -149,6 +232,13 @@ public class ForceSensorDynamicsNotElastic : ForceSensorDynamics
 					);
 			force_l[i] = calculeForceWithCaptureOptions(force);
 		}
+
+		calculeRepetitions(force_l);
+	}
+
+	protected override void addRepetition(List <double> yList, int possibleExtremeSampleSend, int currentSample, int lastExtremeSample)
+	{
+		forceSensorRepetition_l.Add(new ForceSensorRepetition(possibleExtremeSampleSend));
 	}
 }
 
@@ -161,7 +251,6 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 	List<double> speed_l;
 	List<double> accel_l;
 	List<double> power_l;
-	List<ForceSensorRepetition> forceSensorRepetition_l;
 
 	public ForceSensorDynamicsElastic (List<int> time_micros_l, List<double> force_l, 
 			ForceSensor.CaptureOptions fsco, ForceSensorExercise fse,
@@ -170,6 +259,8 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 		if(! fse.ForceResultant)
 		{
 			calculeForceWithCaptureOptionsFullSet();
+			calculeRepetitions(force_l);
+
 			return;
 		}
 
@@ -207,14 +298,13 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 		speed_l = new List<double>();
 		accel_l = new List<double>();
 		power_l = new List<double>();
-		forceSensorRepetition_l = new List<ForceSensorRepetition>();
 
 		calculePositions();
 		calculeSpeeds();
 		calculeAccels();
 		calculeForces();
 		calculePowers();
-		calculeRepetitions();
+		calculeRepetitions(position_not_smoothed_l);
 	}
 
 	private int smoothFactor = 5; //use odd (impar) values like 5, 7, 9
@@ -311,87 +401,13 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 		}
 	}
 
-	//adapted from r-scripts/forcePosition.R
-	private void calculeRepetitions()
+	protected override void addRepetition(List <double> yList, int possibleExtremeSampleSend, int currentSample, int lastExtremeSample)
 	{
-		//uses time_l (seconds), position_not_smoothed, force (also raw)
-		List<double> posList = position_not_smoothed_l;
+		//Calculate mean RFD and mean speed of the phase
+		double lastRFD = (force_l[currentSample] - force_l[lastExtremeSample]) / (time_l[currentSample] - time_l[lastExtremeSample]);
+		double lastMeanSpeed = (yList[currentSample] - yList[lastExtremeSample]) / (time_l[currentSample] - time_l[lastExtremeSample]);
 
-		//TODO: put this on exercise or on preferences for all (like on encoder)
-		double conMinDisplacement = .1;
-		double eccMinDisplacement = .1;
-		double minDisplacement;
-
-		//The comments supposes that the current phase is concentric. In the case that the phase is eccentric
-		//the signal is inverted by multiplying it by -1.
-
-		//for each phase, stores the sample number of the biggest current sample.
-		int possibleExtremeSample = 0;
-
-		//Stores the sample of the last actual maximum of the phase
-		int lastExtremeSample = 0;
-
-		int currentSample = 1;
-
-		//The firstPhase is treated different
-		bool firstPhase = true;
-
-		int concentricFlag; //1: concentric; -1: excentric
-
-		//Detecting the first phase type
-		if(posList[currentSample] > posList[possibleExtremeSample])
-		{
-			concentricFlag = 1;
-			minDisplacement = eccMinDisplacement;
-		} else {
-			concentricFlag = -1;
-			minDisplacement = conMinDisplacement;
-		}
-
-		while(currentSample < posList.Count)
-		{
-			//Checking if the current position is greater than the previous possilble maximum
-			if(concentricFlag * posList[currentSample] > concentricFlag * posList[possibleExtremeSample])
-			{
-				//The current sample is the new candidate to be a maximum
-				//LogB.Information(string.Format("updated possibleExtremeSample to: {0}; position: {1}", currentSample, posList[currentSample]));
-				possibleExtremeSample = currentSample;
-			}
-
-			//Checking if the current position is at minDisplacement below the last possible extreme
-			if( concentricFlag * posList[currentSample] - concentricFlag * posList[possibleExtremeSample] < - minDisplacement
-					//For the first phase the minDisplacement is considered much smaller in order to detect an extreme in small oscillations
-					|| ( firstPhase
-						&& (concentricFlag * posList[currentSample] - concentricFlag * posList[possibleExtremeSample] < - minDisplacement / 10) ) )
-			{
-				if(firstPhase)
-					firstPhase = false;               //End of the first phase special treatment
-
-				//LogB.Information(string.Format("-----------minDisplacement detected at: {0}", currentSample));
-				//LogB.Information(string.Format("Extreme added at: {0}", possibleExtremeSample));
-
-				//Save the sample of the last extrme in order to compare new samples with it
-				lastExtremeSample = possibleExtremeSample;
-
-				//Changing the phase from concentric to eccentril or viceversa
-				concentricFlag *= -1;
-				if (concentricFlag > 0)
-					minDisplacement = eccMinDisplacement;
-				else
-					minDisplacement = conMinDisplacement;
-
-				//Calculate mean RFD and mean speed of the phase
-				double lastRFD = (force_l[currentSample] - force_l[lastExtremeSample]) / (time_l[currentSample] - time_l[lastExtremeSample]);
-				double lastMeanSpeed = (posList[currentSample] - posList[lastExtremeSample]) / (time_l[currentSample] - time_l[lastExtremeSample]);
-
-				int possibleExtremeSampleSend = possibleExtremeSample - (RemoveNValues -1);
-				if(possibleExtremeSampleSend < 0)
-					possibleExtremeSampleSend = 0;
-				forceSensorRepetition_l.Add(new ForceSensorRepetition(possibleExtremeSampleSend, lastMeanSpeed, lastRFD));
-			}
-
-			currentSample += 1;
-		}
+		forceSensorRepetition_l.Add(new ForceSensorRepetition(possibleExtremeSampleSend, lastMeanSpeed, lastRFD));
 	}
 
 	private List<double> stripStartEnd(List<double> l)
@@ -424,11 +440,6 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 	{
 		return stripStartEnd(power_l);
 	}
-
-	public override List<ForceSensorRepetition> GetRepetitions()
-	{
-		return forceSensorRepetition_l;
-	}
 }
 
 public class ForceSensorRepetition
@@ -437,6 +448,14 @@ public class ForceSensorRepetition
 	public double meanSpeed;
 	public double RFD;
 
+	//not elastic
+	public ForceSensorRepetition(int posX)
+	{
+		this.posX = posX;
+		this.meanSpeed = 0;
+		this.RFD = 0;
+	}
+	//elastic
 	public ForceSensorRepetition(int posX, double meanSpeed, double RFD)
 	{
 		this.posX = posX;

@@ -1890,10 +1890,12 @@ LogB.Information(" fs R ");
 		ForceSensorDynamics fsd;
 		if(currentForceSensorExercise.Elastic)
 			fsd = new ForceSensorDynamicsElastic(
-					times, forces, fsco, currentForceSensorExercise, currentPersonSession.Weight, currentForceSensor.Stiffness);
+					times, forces, fsco, currentForceSensorExercise, currentPersonSession.Weight, currentForceSensor.Stiffness,
+					preferences.forceSensorElasticEccMinDispl, preferences.forceSensorElasticConMinDispl);
 		else
 			fsd = new ForceSensorDynamicsNotElastic(
-					times, forces, fsco, currentForceSensorExercise, currentPersonSession.Weight, currentForceSensor.Stiffness);
+					times, forces, fsco, currentForceSensorExercise, currentPersonSession.Weight, currentForceSensor.Stiffness,
+					preferences.forceSensorNotElasticEccMinForce, preferences.forceSensorNotElasticConMinForce);
 
 		forces = fsd.GetForces();
 		times.RemoveAt(0); //always (not-elastic and elastic) 1st has to be removed, because time is not ok there.

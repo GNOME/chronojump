@@ -50,6 +50,7 @@ getSprintFromRadar <- function(radFile, decimalSeparator = ",")
         radar = radar[1:(length(radar[,1]) -1 ),]  #Trim the last line
         radar[,2] = as.numeric(gsub(",", "\\.", radar[,2])) #Substitute the comas by dots in the second column
         radar = data.frame(t = na.omit(radar[,2]), v= na.omit(radar[,3]), position = na.omit(radar[,5]))
+        radar$t = radar$t - radar$t[1]
         
         #Adjusting the measured data to the model
         model = nls( v ~ Vmax*(1-exp(-K*t)), radar, start=list(Vmax=10, K=1))
@@ -121,6 +122,7 @@ getRadarDynamicsFromFolder <- function(radDir, athletesFile, splitDistance, resu
                                  skip = 18,                         #The first 18 lines are metadata of the test
                                  n = nlines - 19)                   #The last line contains "END OF FILE" So it is discarded
                 radar = data.frame(t = na.omit(radar[,2]), v= na.omit(radar[,3]), position = na.omit(radar[,5]))        #Discarding NA values
+                radar$t = radar$t - radar$t[1]
                 
                 options(warn = -1)
                 #Adjusting the measured data to the model of getSprintFromRadar

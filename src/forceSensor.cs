@@ -1679,15 +1679,15 @@ public class ForceSensorAnalyzeInstant
 		if(elastic)
 			str += Catalog.GetString("Repetition") + sep;
 
-		str += Catalog.GetString("Time") + sep +
-			Catalog.GetString("Force") + sep +
-			Catalog.GetString("RFD");
+		str += Catalog.GetString("Time") + " (ms)" + sep +
+			Catalog.GetString("Force") + " (N)" + sep +
+			Catalog.GetString("RFD") + " (N/s)";
 
 		if(elastic)
-			str += sep + Catalog.GetString("Position") + sep +
-				Catalog.GetString("Speed") + sep +
-				Catalog.GetString("Acceleration") + sep +
-				Catalog.GetString("Power");
+			str += sep + Catalog.GetString("Position") + " (m)"+ sep +
+				Catalog.GetString("Speed") + " (m/s)" + sep +
+				Catalog.GetString("Acceleration") + " (m/s^2)" + sep +
+				Catalog.GetString("Power") + " (W)";
 
 		return str;
 	}

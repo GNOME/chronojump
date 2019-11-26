@@ -1408,9 +1408,9 @@ public class ForceSensorAnalyzeInstant
 			Speed_l = forceSensorDynamics.GetSpeeds();
 			Accel_l = forceSensorDynamics.GetAccels();
 			Power_l = forceSensorDynamics.GetPowers();
-			ForceSensorRepetition_l = forceSensorDynamics.GetRepetitions();
 			CalculedElasticPSAP = true;
 		}
+		ForceSensorRepetition_l = forceSensorDynamics.GetRepetitions();
 
 		times.RemoveAt(0); //always (not-elastic and elastic) 1st has to be removed, because time is not ok there.
 		if(CalculedElasticPSAP)

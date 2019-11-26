@@ -41,16 +41,22 @@ public abstract class ForceSensorDynamics
 	protected double stiffness;
 	protected double totalMass;
 
+	protected double eccMinDisplacement;
+	protected double conMinDisplacement;
+
 	protected List<double> time_l;
 
 	protected void initialize(List<double> force_l, 
 			ForceSensor.CaptureOptions fsco, ForceSensorExercise fse,
-			double personMass, double stiffness)
+			double personMass, double stiffness,
+			double eccMinDisplacement, double conMinDisplacement)
 	{
 		this.force_l = force_l;
 		this.fsco = fsco;
 		this.fse = fse;
 		this.stiffness = stiffness;
+		this.eccMinDisplacement = eccMinDisplacement;
+		this.conMinDisplacement = conMinDisplacement;
 
 		totalMass = 0;
 		if(fse.PercentBodyWeight > 0 && personMass > 0)
@@ -87,9 +93,6 @@ public abstract class ForceSensorDynamics
 	//yList is force_l on not elastic
 	protected void calculeRepetitions(List<double> yList)
 	{
-		//TODO: put this on exercise or on preferences for all (like on encoder)
-		double conMinDisplacement = .1;
-		double eccMinDisplacement = .1;
 		double minDisplacement;
 
 		//The comments supposes that the current phase is concentric. In the case that the phase is eccentric
@@ -203,9 +206,10 @@ public class ForceSensorDynamicsNotElastic : ForceSensorDynamics
 {
 	public ForceSensorDynamicsNotElastic (List<int> time_micros_l, List<double> force_l, 
 			ForceSensor.CaptureOptions fsco, ForceSensorExercise fse,
-			double personMass, double stiffness)
+			double personMass, double stiffness,
+			double eccMinDisplacement, double conMinDisplacement)
 	{
-		initialize(force_l, fsco, fse, personMass, stiffness);
+		initialize(force_l, fsco, fse, personMass, stiffness, eccMinDisplacement, conMinDisplacement);
 		removeFirstValue();
 
 		if(! fse.ForceResultant)
@@ -254,8 +258,14 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 
 	public ForceSensorDynamicsElastic (List<int> time_micros_l, List<double> force_l, 
 			ForceSensor.CaptureOptions fsco, ForceSensorExercise fse,
-			double personMass, double stiffness)
+			double personMass, double stiffness,
+			double eccMinDisplacement, double conMinDisplacement)
 	{
+		RemoveNValues = 10;
+		initialize(force_l, fsco, fse, personMass, stiffness, eccMinDisplacement, conMinDisplacement);
+		convertTimeToSeconds(time_micros_l);
+		removeFirstValue();
+
 		if(! fse.ForceResultant)
 		{
 			calculeForceWithCaptureOptionsFullSet();
@@ -264,10 +274,6 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 			return;
 		}
 
-		RemoveNValues = 10;
-		initialize(force_l, fsco, fse, personMass, stiffness);
-		convertTimeToSeconds(time_micros_l);
-		removeFirstValue();
 		calcule();
 		CalculedElasticPSAP = true;
 	}

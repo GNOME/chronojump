@@ -144,6 +144,10 @@ public class PreferencesWindow
 	[Widget] Gtk.SpinButton spin_force_sensor_capture_width_graph_seconds;
 	[Widget] Gtk.RadioButton radio_force_sensor_capture_zoom_out;
 	[Widget] Gtk.RadioButton radio_force_sensor_capture_scroll;
+	[Widget] Gtk.SpinButton spin_force_sensor_elastic_ecc_min_displ;
+	[Widget] Gtk.SpinButton spin_force_sensor_elastic_con_min_displ;
+	[Widget] Gtk.SpinButton spin_force_sensor_not_elastic_ecc_min_force;
+	[Widget] Gtk.SpinButton spin_force_sensor_not_elastic_con_min_force;
 	[Widget] Gtk.SpinButton spin_force_sensor_graphs_line_width;
 
 	//multimedia tab
@@ -584,6 +588,11 @@ public class PreferencesWindow
 			PreferencesWindowBox.radio_force_sensor_capture_scroll.Active = true;
 		else
 			PreferencesWindowBox.radio_force_sensor_capture_zoom_out.Active = true;
+
+		PreferencesWindowBox.spin_force_sensor_elastic_ecc_min_displ.Value = preferences.forceSensorElasticEccMinDispl;
+		PreferencesWindowBox.spin_force_sensor_elastic_con_min_displ.Value = preferences.forceSensorElasticConMinDispl;
+		PreferencesWindowBox.spin_force_sensor_not_elastic_ecc_min_force.Value = preferences.forceSensorNotElasticEccMinForce;
+		PreferencesWindowBox.spin_force_sensor_not_elastic_con_min_force.Value = preferences.forceSensorNotElasticConMinForce;
 
 		PreferencesWindowBox.spin_force_sensor_graphs_line_width.Value = preferences.forceSensorGraphsLineWidth;
 
@@ -1940,6 +1949,23 @@ public class PreferencesWindow
 				SqlitePreferences.ForceSensorCaptureScroll,
 				preferences.forceSensorCaptureScroll,
 				radio_force_sensor_capture_scroll.Active);
+
+		preferences.forceSensorElasticEccMinDispl = preferencesChange(
+				SqlitePreferences.ForceSensorElasticEccMinDispl,
+				preferences.forceSensorElasticEccMinDispl,
+				Convert.ToDouble(spin_force_sensor_elastic_ecc_min_displ.Value));
+		preferences.forceSensorElasticConMinDispl = preferencesChange(
+				SqlitePreferences.ForceSensorElasticConMinDispl,
+				preferences.forceSensorElasticConMinDispl,
+				Convert.ToDouble(spin_force_sensor_elastic_con_min_displ.Value));
+		preferences.forceSensorNotElasticEccMinForce = preferencesChange(
+				SqlitePreferences.ForceSensorNotElasticEccMinForce,
+				preferences.forceSensorNotElasticEccMinForce,
+				Convert.ToInt32(spin_force_sensor_not_elastic_ecc_min_force.Value));
+		preferences.forceSensorNotElasticConMinForce = preferencesChange(
+				SqlitePreferences.ForceSensorNotElasticConMinForce,
+				preferences.forceSensorNotElasticConMinForce,
+				Convert.ToInt32(spin_force_sensor_not_elastic_con_min_force.Value));
 
 		preferences.forceSensorGraphsLineWidth = preferencesChange(
 				SqlitePreferences.ForceSensorGraphsLineWidth,

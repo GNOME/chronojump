@@ -1321,12 +1321,13 @@ public class ForceSensorAnalyzeInstant
 	private int graphHeight;
 
 	public ForceSensorAnalyzeInstant(string file, int graphWidth, int graphHeight, double start, double end,
-			ForceSensorExercise fse, double personWeight, ForceSensor.CaptureOptions fsco, double stiffness)
+			ForceSensorExercise fse, double personWeight, ForceSensor.CaptureOptions fsco, double stiffness,
+			double eccMinDisplacement, double conMinDisplacement)
 	{
 		this.graphWidth = graphWidth;
 		this.graphHeight = graphHeight;
 
-		readFile(file, start, end, fse, personWeight, fsco, stiffness);
+		readFile(file, start, end, fse, personWeight, fsco, stiffness, eccMinDisplacement, conMinDisplacement);
 
 		//on zoom adjust width
 		if(start >= 0 || end >= 0)
@@ -1341,7 +1342,8 @@ public class ForceSensorAnalyzeInstant
 	}
 
 	private void readFile(string file, double start, double end, ForceSensorExercise fse,
-			double personWeight, ForceSensor.CaptureOptions fsco, double stiffness)
+			double personWeight, ForceSensor.CaptureOptions fsco, double stiffness,
+			double eccMinDisplacement, double conMinDisplacement)
 	{
 		fscAIPoints = new ForceSensorCapturePoints(graphWidth, graphHeight, -1);
 
@@ -1394,10 +1396,10 @@ public class ForceSensorAnalyzeInstant
 		ForceSensorDynamics forceSensorDynamics;
 		if(fse.Elastic)
 			forceSensorDynamics = new ForceSensorDynamicsElastic(
-					times, forces, fsco, fse, personWeight, stiffness);
+					times, forces, fsco, fse, personWeight, stiffness, eccMinDisplacement, conMinDisplacement);
 		else
 			forceSensorDynamics = new ForceSensorDynamicsNotElastic(
-					times, forces, fsco, fse, personWeight, stiffness);
+					times, forces, fsco, fse, personWeight, stiffness, eccMinDisplacement, conMinDisplacement);
 
 		forces = forceSensorDynamics.GetForces();
 

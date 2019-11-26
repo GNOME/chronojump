@@ -581,13 +581,26 @@ public partial class ChronoJumpWindow
 			}
 		}
 
+		//pass them as doubles
+		double eccMinDispl;
+		double conMinDispl;
+		if(currentForceSensorExercise.Elastic)
+		{
+			eccMinDispl = preferences.forceSensorElasticEccMinDispl;
+			conMinDispl = preferences.forceSensorElasticConMinDispl;
+		} else {
+			eccMinDispl = preferences.forceSensorNotElasticEccMinForce;
+			conMinDispl = preferences.forceSensorNotElasticConMinForce;
+		}
+
 		fsAI = new ForceSensorAnalyzeInstant(
 				lastForceSensorFullPath,
 				force_sensor_ai_drawingarea.Allocation.Width,
 				force_sensor_ai_drawingarea.Allocation.Height,
 				zoomA, zoomB,
 				currentForceSensorExercise, currentPersonSession.Weight,
-				getForceSensorCaptureOptions(), currentForceSensor.Stiffness);
+				getForceSensorCaptureOptions(), currentForceSensor.Stiffness,
+				eccMinDispl, conMinDispl);
 
 		/*
 		 * position the hscales on the left to avoid loading a csv

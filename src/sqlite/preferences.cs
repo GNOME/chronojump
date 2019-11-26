@@ -56,6 +56,10 @@ class SqlitePreferences : Sqlite
 	//forceSensor
 	public const string ForceSensorCaptureWidthSeconds = "forceSensorCaptureWidthSeconds";
 	public const string ForceSensorCaptureScroll = "forceSensorCaptureScroll";
+	public const string ForceSensorElasticEccMinDispl = "forceSensorElasticEccMinDispl";
+	public const string ForceSensorElasticConMinDispl = "forceSensorElasticConMinDispl";
+	public const string ForceSensorNotElasticEccMinForce = "forceSensorNotElasticEccMinForce";
+	public const string ForceSensorNotElasticConMinForce = "forceSensorNotElasticConMinForce";
 	public const string ForceSensorGraphsLineWidth = "forceSensorGraphsLineWidth";
 
 	public const string ForceSensorTareDateTimeStr = "forceSensorTareDateTime";
@@ -189,8 +193,12 @@ class SqlitePreferences : Sqlite
 
 				//forceSensor
 				Insert (ForceSensorCaptureWidthSeconds, "10", dbcmdTr);
-				Insert (ForceSensorCaptureScroll, "True"); //scroll. not zoom out
-				Insert (ForceSensorGraphsLineWidth, "2");
+				Insert (ForceSensorCaptureScroll, "True", dbcmdTr); //scroll. not zoom out
+				Insert (ForceSensorElasticEccMinDispl, ".1", dbcmdTr);
+				Insert (ForceSensorElasticConMinDispl, ".1", dbcmdTr);
+				Insert (ForceSensorNotElasticEccMinForce, "10", dbcmdTr);
+				Insert (ForceSensorNotElasticConMinForce, "10", dbcmdTr);
+				Insert (ForceSensorGraphsLineWidth, "2", dbcmdTr);
 
 				//multimedia
 				Insert ("videoDevice", "", dbcmdTr); //first
@@ -465,6 +473,16 @@ class SqlitePreferences : Sqlite
 				preferences.forceSensorCaptureWidthSeconds = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == ForceSensorCaptureScroll)
 				preferences.forceSensorCaptureScroll = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == ForceSensorElasticEccMinDispl)
+				preferences.forceSensorElasticEccMinDispl = Convert.ToDouble(
+						Util.ChangeDecimalSeparator(reader[1].ToString()));
+			else if(reader[0].ToString() == ForceSensorElasticConMinDispl)
+				preferences.forceSensorElasticConMinDispl = Convert.ToDouble(
+						Util.ChangeDecimalSeparator(reader[1].ToString()));
+			else if(reader[0].ToString() == ForceSensorNotElasticEccMinForce)
+				preferences.forceSensorNotElasticEccMinForce = Convert.ToInt32(reader[1].ToString());
+			else if(reader[0].ToString() == ForceSensorNotElasticConMinForce)
+				preferences.forceSensorNotElasticConMinForce = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == ForceSensorGraphsLineWidth)
 				preferences.forceSensorGraphsLineWidth = Convert.ToInt32(reader[1].ToString());
 

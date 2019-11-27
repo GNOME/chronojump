@@ -1678,10 +1678,8 @@ public class ForceSensorAnalyzeInstant
 		else
 			str = Catalog.GetString("Sample") + sep;
 
-		if(elastic)
-			str += Catalog.GetString("Repetition") + sep;
-
-		str += Catalog.GetString("Time") + " (ms)" + sep +
+		str += Catalog.GetString("Repetition") + sep +
+			Catalog.GetString("Time") + " (ms)" + sep +
 			Catalog.GetString("Force") + " (N)" + sep +
 			Catalog.GetString("RFD") + " (N/s)";
 
@@ -1708,10 +1706,8 @@ public class ForceSensorAnalyzeInstant
 
 		string str = Catalog.GetString("Difference") + sep;
 
-		if(elastic)
-			str += "" + sep; 	//repetition
-
-		str += Util.DoubleToCSV(timeDiff, 3, sepString) + sep +
+		str += "" + sep + 		//repetition
+			Util.DoubleToCSV(timeDiff, 3, sepString) + sep +
 			Util.DoubleToCSV(forceDiff, 3, sepString) + sep +
 			Util.DoubleToCSV(rfdDiff, 3, sepString);
 
@@ -1730,10 +1726,8 @@ public class ForceSensorAnalyzeInstant
 
 		string str = Catalog.GetString("Average") + sep;
 
-		if(elastic)
-			str += "" + sep; 	//repetition
-
-		str += "" + sep +
+		str += "" + sep + 		//repetition
+			"" + sep +
 			Util.DoubleToCSV(ForceAVG, 3, sepString) + sep +
 			Util.DoubleToCSV(rfdAVG, 3, sepString);
 
@@ -1753,10 +1747,8 @@ public class ForceSensorAnalyzeInstant
 
 		string str = Catalog.GetString("Maximum") + sep;
 
-		if(elastic)
-			str += "" + sep; 	//repetition
-
-		str += "" + sep +
+		str += "" + sep + 	 	//repetition
+			"" + sep +
 			Util.DoubleToCSV(ForceMAX, 3, sepString) + sep +
 			Util.DoubleToCSV(rfdMax, 3, sepString);
 
@@ -1775,10 +1767,8 @@ public class ForceSensorAnalyzeInstant
 
 		string str = (i+1).ToString() + sep; //sample
 
-		if(elastic)
-			str += ForceSensorRepetition.GetRepetitionNumFromList(ForceSensorRepetition_l, i).ToString() + sep; 	//repetition
-
-		str += Util.DoubleToCSV(timeAtCount, sepString) + sep +
+		str += ForceSensorRepetition.GetRepetitionNumFromList(ForceSensorRepetition_l, i).ToString() + sep + 	//repetition
+			Util.DoubleToCSV(timeAtCount, sepString) + sep +
 			Util.DoubleToCSV(fscAIPoints.GetForceAtCount(i), sepString) + sep +
 			Util.DoubleToCSV(CalculateRFD(i-1, i+1), 3, sepString);
 

@@ -75,6 +75,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_sup;
 	[Widget] Gtk.HBox hbox_other;
 	[Widget] Gtk.Notebook notebook_capture_analyze; //not encoder
+	[Widget] Gtk.Notebook notebook_contacts_execute_or_instructions;
 	[Widget] Gtk.Notebook notebook_analyze; //not encoder
 	[Widget] Gtk.Notebook notebook_capture_graph_table;
 	[Widget] Gtk.HBox hbox_message_permissions_at_boot;
@@ -488,6 +489,15 @@ public partial class ChronoJumpWindow
 	private void on_language_clicked(object o, EventArgs args) {
 		//languageChange();
 		//createMainWindow("");
+	}
+
+	private void on_button_contacts_exercise_clicked (object o, EventArgs args)
+	{
+		notebook_contacts_execute_or_instructions.CurrentPage = 1;
+	}
+	private void on_button_contacts_exercise_close_clicked (object o, EventArgs args)
+	{
+		notebook_contacts_execute_or_instructions.CurrentPage = 0;
 	}
 
 	private void on_button_image_test_zoom_clicked(object o, EventArgs args)

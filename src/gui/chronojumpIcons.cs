@@ -53,6 +53,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_edit_current_person_h;
 	//[Widget] Gtk.Image image_persons_up;
 	//[Widget] Gtk.Image image_persons_down;
+	[Widget] Gtk.Image image_contacts_exercise;
+	[Widget] Gtk.Image image_contacts_exercise_close;
 	[Widget] Gtk.Image image_rest;
 	[Widget] Gtk.Image image_all_persons_events;
 	[Widget] Gtk.Image image_all_persons_events_h;
@@ -133,7 +135,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_recalculate;
 	[Widget] Gtk.Image image_encoder_configuration;
 	[Widget] Gtk.Image image_encoder_exercise;
-	[Widget] Gtk.Image image_encoder_exercise1;
+	[Widget] Gtk.Image image_encoder_exercise_close;
 	[Widget] Gtk.Image image_encoder_capture_open;
 	[Widget] Gtk.Image image_encoder_capture_open1;
 	[Widget] Gtk.Image image_encoder_capture_1set;
@@ -372,6 +374,7 @@ public partial class ChronoJumpWindow
 		image_encoder_analyze_mode_options.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_exercise.png");
+		image_contacts_exercise.Pixbuf = pixbuf;
 		image_encoder_exercise.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_new_big.png");
@@ -412,7 +415,8 @@ public partial class ChronoJumpWindow
 		image_session_edit.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
-		image_encoder_exercise1.Pixbuf = pixbuf;
+		image_contacts_exercise_close.Pixbuf = pixbuf;
+		image_encoder_exercise_close.Pixbuf = pixbuf;
 		image_force_sensor_analyze_options_close.Pixbuf = pixbuf;
 		image_encoder_analyze_mode_options_close.Pixbuf = pixbuf;
 		image_force_sensor_capture_adjust_close.Pixbuf = pixbuf;

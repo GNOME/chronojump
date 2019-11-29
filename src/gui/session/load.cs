@@ -648,14 +648,15 @@ public class SessionLoadWindow
 	
 	void on_session_load_delete_event (object o, DeleteEventArgs args)
 	{
-		/*
-		SessionLoadWindowBox.session_load.Hide();
-		SessionLoadWindowBox = null;
-		*/
-		//read fakeButton_cancel_maybeDatabaseSwitched comment on the top of this file
+		if (type == WindowType.LOAD_SESSION) {
+			SessionLoadWindowBox.session_load.Hide();
+			SessionLoadWindowBox = null;
+		} else {
+			//read fakeButton_cancel_maybeDatabaseSwitched comment on the top of this file
 
-		args.RetVal = true;
-		fakeButton_cancel_maybeDatabaseSwitched.Click();
+			args.RetVal = true;
+			fakeButton_cancel_maybeDatabaseSwitched.Click();
+		}
 	}
 
 	public void HideAndNull()

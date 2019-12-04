@@ -505,7 +505,7 @@ public class PreferencesWindow
 		}
 
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_gravity.png");
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_weight.png");
 		PreferencesWindowBox.image_encoder_gravitatory.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_inertia.png");
 		PreferencesWindowBox.image_encoder_inertial.Pixbuf = pixbuf;

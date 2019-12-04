@@ -304,7 +304,7 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_no_photo.png");
 		image_current_person.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_gravity.png");
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_weight.png");
 		image_mode_encoder_gravitatory.Pixbuf = pixbuf;
 		image_menuitem_mode_power_gravitatory.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_inertia.png");

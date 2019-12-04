@@ -43,11 +43,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ComboBox combo_run_encoder_exercise;
 	[Widget] Gtk.SpinButton race_analyzer_spinbutton_distance;
 	[Widget] Gtk.SpinButton race_analyzer_spinbutton_temperature;
-	[Widget] Gtk.TextView textview_race_analyzer_comment;
 	[Widget] Gtk.ComboBox combo_race_analyzer_device;
 	[Widget] Gtk.Image image_run_encoder_graph;
-	[Widget] Gtk.Button button_run_encoder_recalculate;
-	[Widget] Gtk.Button button_race_analyzer_save_comment;
 	[Widget] Gtk.Viewport viewport_run_encoder_graph;
 
 	int race_analyzer_distance;
@@ -247,11 +244,10 @@ public partial class ChronoJumpWindow
 
 	private void runEncoderCapturePre3_GTK_cameraCalled()
 	{
-		textview_race_analyzer_comment.Buffer.Text = "";
+		textview_contacts_signal_comment.Buffer.Text = "";
 		assignCurrentRunEncoderExercise();
 		raceEncoderReadWidgets();
-		button_run_encoder_recalculate.Sensitive = false;
-		button_race_analyzer_save_comment.Sensitive = false;
+		button_contacts_recalculate.Sensitive = false;
 
 		bool connected = runEncoderCapturePre4_GTK();
 		if(! connected)
@@ -266,9 +262,8 @@ public partial class ChronoJumpWindow
 	{
 		currentRunEncoder = new RunEncoder();
 
-		button_run_encoder_recalculate.Sensitive = false;
-		textview_race_analyzer_comment.Buffer.Text = "";
-		button_race_analyzer_save_comment.Sensitive = false;
+		button_contacts_recalculate.Sensitive = false;
+		textview_contacts_signal_comment.Buffer.Text = "";
 
 		button_delete_last_test.Sensitive = false;
 	}
@@ -635,7 +630,7 @@ public partial class ChronoJumpWindow
                 return dataRow;
         }
 
-	private void on_button_run_encoder_load_clicked (object o, EventArgs args)
+	private void run_encoder_load ()
 	{
 		ArrayList data = SqliteRunEncoder.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID);
 
@@ -738,16 +733,16 @@ public partial class ChronoJumpWindow
 
 		raceEncoderSetDevice(re.Device);
 		raceEncoderSetDistanceAndTemp(re.Distance, re.Temperature);
-		textview_race_analyzer_comment.Buffer.Text = re.Comments;
+///		textview_race_analyzer_comment.Buffer.Text = re.Comments;
+		textview_contacts_signal_comment.Buffer.Text = re.Comments;
 
 		raceEncoderReadWidgets(); //needed to be able to do R graph
 
 		raceEncoderCopyTempAndDoGraphs();
 
-		button_run_encoder_recalculate.Sensitive = true;
-		button_race_analyzer_save_comment.Sensitive = true;
+		button_contacts_recalculate.Sensitive = true;
 
-		button_video_play_this_test.Sensitive = (re.VideoURL != "");
+		button_video_play_this_test_contacts.Sensitive = (re.VideoURL != "");
 		sensitiveLastTestButtons(true);
 
 		event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(re.Filename);
@@ -880,7 +875,7 @@ public partial class ChronoJumpWindow
 	// --- end of runEncoderDeleteTest stuff -------
 
 
-	private void on_button_run_encoder_recalculate_clicked (object o, EventArgs args)
+	private void run_encoder_recalculate ()
 	{
 		if(! Util.FileExists(lastRunEncoderFullPath))
 		{
@@ -894,12 +889,12 @@ public partial class ChronoJumpWindow
 		if(lastRunEncoderFullPath != null && lastRunEncoderFullPath != "")
 			raceEncoderCopyTempAndDoGraphs();
 
-		button_run_encoder_recalculate.Sensitive = false; //to not be called two times
+		button_contacts_recalculate.Sensitive = false; //to not be called two times
 
 		event_execute_label_message.Text = "Recalculated.";
 
 		radio_mode_contacts_analyze.Active = true;
-		button_run_encoder_recalculate.Sensitive = true;
+		button_contacts_recalculate.Sensitive = true;
 
 		//update SQL with exercise, device, distance, temperature, comments
 		currentRunEncoder.ExerciseID = currentRunEncoderExercise.UniqueID;
@@ -907,15 +902,10 @@ public partial class ChronoJumpWindow
 		currentRunEncoder.Device = raceEncoderGetDevice();
 		currentRunEncoder.Distance = Convert.ToInt32(race_analyzer_spinbutton_distance.Value);
 		currentRunEncoder.Temperature = Convert.ToInt32(race_analyzer_spinbutton_temperature.Value);
-		currentRunEncoder.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_race_analyzer_comment);
+		//currentRunEncoder.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_race_analyzer_comment);
+		currentRunEncoder.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_contacts_signal_comment);
 
 		currentRunEncoder.UpdateSQL(false);
-	}
-
-	private void on_button_race_analyzer_save_comment_clicked (object o, EventArgs args)
-	{
-		currentRunEncoder.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_race_analyzer_comment);
-		currentRunEncoder.UpdateSQLJustComments(false);
 	}
 
 	private void raceEncoderCopyTempAndDoGraphs()
@@ -1027,7 +1017,7 @@ LogB.Information(" re B ");
 		if(! runEncoderCaptureThread.IsAlive || runEncoderProcessFinish || runEncoderProcessCancel || runEncoderProcessError)
 		{
 LogB.Information(" re C ");
-			button_video_play_this_test.Sensitive = false;
+			button_video_play_this_test_contacts.Sensitive = false;
 			if(runEncoderProcessFinish)
 			{
 LogB.Information(" re C finish");
@@ -1062,7 +1052,7 @@ LogB.Information(" re C finish");
 								currentRunEncoder.UniqueID);
 						currentRunEncoder.UpdateSQL(false);
 						label_video_feedback.Text = "";
-						button_video_play_this_test.Sensitive = true;
+						button_video_play_this_test_contacts.Sensitive = true;
 					}
 
 					Thread.Sleep (250); //Wait a bit to ensure is copied
@@ -1071,8 +1061,7 @@ LogB.Information(" re C finish");
 					runEncoderAnalyzeOpenImage();
 					notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RACEENCODER);
 					radio_mode_contacts_analyze.Active = true;
-					button_run_encoder_recalculate.Sensitive = true;
-					button_race_analyzer_save_comment.Sensitive = true;
+					button_contacts_recalculate.Sensitive = true;
 					button_delete_last_test.Sensitive = true;
 
 					/*
@@ -1186,7 +1175,7 @@ LogB.Information(" re R ");
 		hbox_run_encoder_capture_options.Sensitive = sensitive;
 		button_execute_test.Sensitive = sensitive;
 
-		vbox_contacts_camera.Sensitive = sensitive;
+		hbox_contacts_camera.Sensitive = sensitive;
 
 		//other gui buttons
 		main_menu.Sensitive = sensitive;

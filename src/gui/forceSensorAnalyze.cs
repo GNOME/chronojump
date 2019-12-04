@@ -887,7 +887,7 @@ public partial class ChronoJumpWindow
 			button_force_sensor_analyze_AB_save.Visible = true;
 
 		//draw horizontal rectangle of feedback
-		if(check_force_sensor_capture_feedback.Active)
+		if(preferences.forceSensorCaptureFeedbackActive)
 			forceSensorSignalPlotFeedbackRectangle(fsAI.FscAIPoints, force_sensor_ai_drawingarea, force_sensor_ai_pixmap, pen_yellow_light_force_ai);
 
 		// 1) create paintPoints
@@ -1442,14 +1442,14 @@ public partial class ChronoJumpWindow
 			// 11) calculate variability
 			double variability = 0;
 			double feedbackDiff = 0;
-			int feedbackF = Convert.ToInt32(spin_force_sensor_capture_feedback_at.Value);
+			int feedbackF = preferences.forceSensorCaptureFeedbackAt;
 
 			fsAI.CalculateVariabilityAndAccuracy(countA, countB, feedbackF, out variability, out feedbackDiff);
 
 			label_force_sensor_ai_variability_values.Text = Math.Round(variability, 3).ToString();
 
 			// 12) calculate Accuracy (Feedback difference)
-			if(check_force_sensor_capture_feedback.Active && feedbackF > 0)
+			if(preferences.forceSensorCaptureFeedbackActive && feedbackF > 0)
 			{
 				label_force_sensor_ai_feedback_values.Text = Math.Round(feedbackDiff, 3).ToString();
 				vbox_force_sensor_ai_feedback.Visible = true;

@@ -214,8 +214,18 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.VBox vbox_rest_time_set;
 	[Widget] Gtk.SpinButton spinbutton_rest_minutes;
 	[Widget] Gtk.SpinButton spinbutton_rest_seconds;
-	
+
 	//tests
+	[Widget] Gtk.Button button_contacts_exercise;
+	[Widget] Gtk.Notebook notebook_contacts_capture_doing_wait;
+	[Widget] Gtk.Button button_contacts_bells;
+	[Widget] Gtk.Button button_contacts_capture_load;
+	[Widget] Gtk.Button button_contacts_recalculate;
+	[Widget] Gtk.VBox vbox_contacts_signal_comment;
+	[Widget] Gtk.TextView textview_contacts_signal_comment;
+	[Widget] Gtk.Button button_contacts_signal_save_comment;
+	[Widget] Gtk.VBox vbox_contacts_device_and_camera;
+
 	//jumps
 	[Widget] Gtk.Button button_edit_selected_jump;
 	[Widget] Gtk.Button button_video_play_selected_jump;
@@ -289,6 +299,7 @@ public partial class ChronoJumpWindow
 
 	//force sensor
 	[Widget] Gtk.HBox hbox_capture_phases_time;
+	[Widget] Gtk.VBox vbox_contacts_load_recalculate;
 
 	//multiChronopic	
 	[Widget] Gtk.Button button_edit_selected_multi_chronopic;
@@ -313,6 +324,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_person_add_single;
 	[Widget] Gtk.Button button_person_add_multiple;
 
+	[Widget] Gtk.Button button_contacts_exercise_close_and_capture;
 	[Widget] Gtk.Notebook notebook_execute;
 	[Widget] Gtk.Notebook notebook_results;
 	[Widget] Gtk.Notebook notebook_options_top;
@@ -322,8 +334,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_image_test_zoom;
 	[Widget] Gtk.Image image_test_zoom;
 	[Widget] Gtk.Button button_delete_last_test;
-	[Widget] Gtk.Button button_inspect_last_test;
-	[Widget] Gtk.VBox vbox_last_test_buttons;
+	[Widget] Gtk.Button button_inspect_last_test_run_simple;
+	[Widget] Gtk.Button button_inspect_last_test_run_intervallic;
+	//[Widget] Gtk.VBox vbox_last_test_buttons;
 
 	[Widget] Gtk.HBox hbox_chronopics_and_more;
 	[Widget] Gtk.Button button_activate_chronopics;
@@ -493,11 +506,33 @@ public partial class ChronoJumpWindow
 
 	private void on_button_contacts_exercise_clicked (object o, EventArgs args)
 	{
+		notebook_contacts_capture_doing_wait.Sensitive = false;
+		vbox_contacts_device_and_camera.Sensitive = false;
+		notebook_session_person.Sensitive = false;
+		main_menu.Sensitive = false;
+		button_contacts_exercise.Sensitive = false;
+		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = false;
+		hbox_top_person.Sensitive = false;
+
+		button_contacts_exercise_close_and_capture.Sensitive = myTreeViewPersons.IsThereAnyRecord();
 		notebook_contacts_execute_or_instructions.CurrentPage = 1;
 	}
 	private void on_button_contacts_exercise_close_clicked (object o, EventArgs args)
 	{
+		notebook_contacts_capture_doing_wait.Sensitive = true;
+		vbox_contacts_device_and_camera.Sensitive = true;
+		notebook_session_person.Sensitive = true;
+		main_menu.Sensitive = true;
+		button_contacts_exercise.Sensitive = true;
+		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = true;
+		hbox_top_person.Sensitive = true;
+
 		notebook_contacts_execute_or_instructions.CurrentPage = 0;
+	}
+	private void on_button_contacts_exercise_close_and_capture_clicked (object o, EventArgs args)
+	{
+		on_button_contacts_exercise_close_clicked (o, args);
+		on_button_execute_test_clicked(o, args);
 	}
 
 	private void on_button_image_test_zoom_clicked(object o, EventArgs args)
@@ -586,13 +621,7 @@ public partial class ChronoJumpWindow
 		//at initialization of chronojump and gives problems if this signals are raised while preferences are loading
 		loadPreferencesAtStart ();
 
-		/*
-		//TODO: make this visible for all systems when it finally works
-		checkbutton_video.Visible = (
-				UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX ||
-				UtilAll.GetOSEnum() == UtilAll.OperatingSystems.WINDOWS);
-				*/
-		checkbutton_video.Visible = true;
+		checkbutton_video_contacts.Visible = true;
 
 		if(topMessage != "") {
 			label_message_permissions_at_boot.Text = topMessage;
@@ -693,6 +722,9 @@ public partial class ChronoJumpWindow
 
 		if(splashWin != null)
 			splashWin.UpdateLabel(Catalog.GetString(Constants.SplashMessages[9]));
+
+		//done here because in Glade we cannot use the TextBuffer.Changed
+		textview_contacts_signal_comment.Buffer.Changed += new EventHandler(on_textview_contacts_signal_comment_key_press_event);
 
 		encoderInitializeStuff();	
 
@@ -864,13 +896,13 @@ public partial class ChronoJumpWindow
 
 		//---- video ----
 
-		UtilGtk.ColorsCheckOnlyPrelight(checkbutton_video);
+		UtilGtk.ColorsCheckOnlyPrelight(checkbutton_video_contacts);
 		UtilGtk.ColorsCheckOnlyPrelight(checkbutton_video_encoder);
 		
 		//don't raise the signal	
-		checkbutton_video.Clicked -= new EventHandler(on_checkbutton_video_clicked);
-		checkbutton_video.Active = preferences.videoOn;
-		checkbutton_video.Clicked += new EventHandler(on_checkbutton_video_clicked);
+		checkbutton_video_contacts.Clicked -= new EventHandler(on_checkbutton_video_contacts_clicked);
+		checkbutton_video_contacts.Active = preferences.videoOn;
+		checkbutton_video_contacts.Clicked += new EventHandler(on_checkbutton_video_contacts_clicked);
 		//don't raise the signal	
 		checkbutton_video_encoder.Clicked -= new EventHandler(on_checkbutton_video_encoder_clicked);
 		checkbutton_video_encoder.Active = preferences.videoOn;
@@ -2640,7 +2672,7 @@ public partial class ChronoJumpWindow
 		personAddModifyWin = PersonAddModifyWindow.Show(app1,
 				currentSession, new Person(-1), 
 				//preferences.digitsNumber, checkbutton_video, configChronojump.UseVideo,
-				preferences.digitsNumber, checkbutton_video,
+				preferences.digitsNumber, checkbutton_video_contacts,
 				preferences.videoDevice, preferences.videoDevicePixelFormat, preferences.videoDeviceResolution, preferences.videoDeviceFramerate,
 				configChronojump.Compujump
 				);
@@ -2768,7 +2800,7 @@ public partial class ChronoJumpWindow
 
 		personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession, currentPerson, 
 				//preferences.digitsNumber, checkbutton_video, configChronojump.UseVideo,
-				preferences.digitsNumber, checkbutton_video,
+				preferences.digitsNumber, checkbutton_video_contacts,
 				preferences.videoDevice, preferences.videoDevicePixelFormat, preferences.videoDeviceResolution, preferences.videoDeviceFramerate,
 				configChronojump.Compujump
 				); 
@@ -2983,7 +3015,7 @@ public partial class ChronoJumpWindow
 		preferences = preferencesWin.GetPreferences;
 		LogB.Mute = preferences.muteLogs;
 
-		if(checkbutton_video.Active) {
+		if(checkbutton_video_contacts.Active) {
 			videoCapturePrepare(false); //if error, show message
 		}
 
@@ -3097,7 +3129,7 @@ public partial class ChronoJumpWindow
 		setApp1Title(tempSessionName, current_menuitem_mode);
 
 		//run simple will be the only one with its drawing are
-		event_execute_drawingarea_run_simple_double_contacts.Visible = false;
+		frame_run_simple_double_contacts.Visible = false;
 
 		//default for everything except encoder
 		encoder_menuitem.Visible = false;
@@ -3124,6 +3156,7 @@ public partial class ChronoJumpWindow
 		}
 
 
+		button_contacts_bells.Sensitive = false;
 		radio_mode_contacts_capture.Active = true;
 		radio_mode_contacts_general.Active = true;
 		arrow_contacts_sup_capture_analyze.Visible = false;
@@ -3131,9 +3164,10 @@ public partial class ChronoJumpWindow
 		radio_mode_contacts_jumps_profile.Visible = false;
 		radio_mode_contacts_sprint.Visible = false;
 		notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.STATISTICS);
-		button_inspect_last_test.Visible = false;
-		alignment_force_capture_feedback.Visible = false;
+		button_inspect_last_test_run_intervallic.Visible = false;
 		button_force_sensor_adjust.Visible = false;
+		vbox_contacts_load_recalculate.Visible = false;
+		vbox_contacts_signal_comment.Visible = false;
 
 		//on OSX R is not installed by default. Check if it's installed. Needed for encoder and force sensor
 		if(
@@ -3174,6 +3208,7 @@ public partial class ChronoJumpWindow
 			} else 
 			{
 				notebooks_change(m);
+				button_contacts_bells.Sensitive = true;
 				on_extra_window_jumps_rj_test_changed(new object(), new EventArgs());
 				hbox_results_legend.Visible = false;
 
@@ -3188,18 +3223,19 @@ public partial class ChronoJumpWindow
 			//notebook_capture_analyze.ShowTabs = true;
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
 			button_threshold.Visible = true;
-			button_inspect_last_test.Visible = true;
 
 			if(m == Constants.Menuitem_modes.RUNSSIMPLE) 
 			{
 				notebooks_change(m);
 				on_extra_window_runs_test_changed(new object(), new EventArgs());
 				hbox_results_legend.Visible = true;
-				event_execute_drawingarea_run_simple_double_contacts.Visible = true;
+				frame_run_simple_double_contacts.Visible = true;
 			}
 			else
 			{
+				button_inspect_last_test_run_intervallic.Visible = true;
 				notebooks_change(m);
+				button_contacts_bells.Sensitive = true;
 				on_extra_window_runs_interval_test_changed(new object(), new EventArgs());
 				hbox_results_legend.Visible = false;
 				createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
@@ -3320,6 +3356,12 @@ public partial class ChronoJumpWindow
 		{
 			notebook_sup.CurrentPage = 0;
 			notebooks_change(m);
+
+			vbox_contacts_load_recalculate.Visible = true;
+			vbox_contacts_signal_comment.Visible = true;
+			button_contacts_capture_load.Sensitive = myTreeViewPersons.IsThereAnyRecord();
+
+			button_contacts_bells.Sensitive = true;
 //			on_extra_window_reaction_times_test_changed(new object(), new EventArgs());
 
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
@@ -3332,13 +3374,16 @@ public partial class ChronoJumpWindow
 			//on force sensor only show table
 			notebook_capture_graph_table.CurrentPage = 1; //"Show table"
 			notebook_capture_graph_table.ShowTabs = false;
-
-			alignment_force_capture_feedback.Visible = true;
 		}
 		else if(m == Constants.Menuitem_modes.RUNSENCODER)
 		{
 			notebook_sup.CurrentPage = 0;
 			notebooks_change(m);
+
+			vbox_contacts_load_recalculate.Visible = true;
+			vbox_contacts_signal_comment.Visible = true;
+			button_contacts_capture_load.Sensitive = myTreeViewPersons.IsThereAnyRecord();
+
 //			on_extra_window_reaction_times_test_changed(new object(), new EventArgs());
 
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
@@ -3424,22 +3469,16 @@ public partial class ChronoJumpWindow
 		chronojumpWindowTestsNext();
 	}
 
-	//forceSensor and runEncoder have some specific stuff as they do not have DB yet
 	private void showHideCaptureSpecificControls(Constants.Menuitem_modes m)
 	{
 		hbox_capture_phases_time.Visible = (m != Constants.Menuitem_modes.FORCESENSOR && m != Constants.Menuitem_modes.RUNSENCODER);
 
 		if(! configChronojump.Compujump)
-		{
-			//showWebcamCaptureContactsControls (m != Constants.Menuitem_modes.RUNSENCODER);
 			showWebcamCaptureContactsControls(true);
-		}
 
 		force_sensor_menuitem.Visible = (m == Constants.Menuitem_modes.FORCESENSOR);
-
 		race_encoder_menuitem.Visible = (m == Constants.Menuitem_modes.RUNSENCODER);
 	}
-
 
 	void setEncoderTypePixbuf()
 	{
@@ -3904,7 +3943,7 @@ public partial class ChronoJumpWindow
 
 	private void on_button_execute_test_acceptedPre_start_camera(WebcamStartedTestStart wsts)
 	{
-		button_video_play_this_test_sensitive (WebcamManage.GuiContactsEncoder.CONTACTS, false);
+		button_video_play_this_test_contacts_sensitive (WebcamManage.GuiContactsEncoder.CONTACTS, false);
 
 		webcamManage = new WebcamManage();
 		if(! webcamStart (WebcamManage.GuiContactsEncoder.CONTACTS, 1))
@@ -3922,6 +3961,7 @@ public partial class ChronoJumpWindow
 		bool waitUntilRecording = true;
 		if(! waitUntilRecording)
 		{
+			notebook_video_contacts.CurrentPage = 1;
 			if(wsts == WebcamStartedTestStart.FORCESENSOR)
 				forceSensorCapturePre3_GTK_cameraCalled();
 			else if(wsts == WebcamStartedTestStart.RUNENCODER)
@@ -4000,6 +4040,84 @@ public partial class ChronoJumpWindow
 		//when a new test is done
 		//this notebook has to poing again to data of it's test
 		change_notebook_results_data();
+	}
+
+	private void contactsShowCaptureDoingButtons(bool captureDoing)
+	{
+		if(captureDoing)
+			notebook_contacts_capture_doing_wait.CurrentPage = 1;
+		else
+			notebook_contacts_capture_doing_wait.CurrentPage = 0;
+	}
+
+	private void on_button_contacts_capture_load_clicked (object o, EventArgs args)
+	{
+		//on this case should not arrive here becuase sensitivity does not allow it. But extra check just in case.
+		if(currentPerson == null || currentSession == null)
+			return;
+
+		if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR)
+			force_sensor_load();
+		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSENCODER)
+			run_encoder_load();
+	}
+
+	private void on_button_contacts_recalculate_clicked (object o, EventArgs args)
+	{
+		if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR)
+			force_sensor_recalculate();
+		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSENCODER)
+			run_encoder_recalculate();
+	}
+
+	void on_textview_contacts_signal_comment_key_press_event (object o, EventArgs args)
+	{
+		button_contacts_signal_save_comment.Label = Catalog.GetString("Save comment");
+		button_contacts_signal_save_comment.Sensitive = true;
+	}
+	void on_button_contacts_signal_save_comment_clicked (object o, EventArgs args)
+	{
+		if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR)
+		{
+			currentForceSensor.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_contacts_signal_comment);
+			currentForceSensor.UpdateSQLJustComments(false);
+		}
+		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSENCODER)
+		{
+			currentRunEncoder.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_contacts_signal_comment);
+			currentRunEncoder.UpdateSQLJustComments(false);
+		}
+
+		button_contacts_signal_save_comment.Label = Catalog.GetString("Saved comment.");
+		button_contacts_signal_save_comment.Sensitive = false;
+	}
+
+	private Constants.BellModes getBellMode (Constants.Menuitem_modes m)
+	{
+		if(m == Constants.Menuitem_modes.JUMPSREACTIVE)
+			return Constants.BellModes.JUMPS;
+		else if(m == Constants.Menuitem_modes.RUNSINTERVALLIC)
+			return Constants.BellModes.RUNS;
+		else if(m == Constants.Menuitem_modes.POWERGRAVITATORY)
+			return Constants.BellModes.ENCODERGRAVITATORY;
+		else if(m == Constants.Menuitem_modes.POWERINERTIAL)
+			return Constants.BellModes.ENCODERINERTIAL;
+		else if(m == Constants.Menuitem_modes.FORCESENSOR)
+			return Constants.BellModes.FORCESENSOR;
+
+		//default to JUMPSREACTIVE
+		return Constants.BellModes.JUMPS;
+	}
+
+	private void on_button_contacts_bells_clicked (object o, EventArgs args)
+	{
+		Constants.Menuitem_modes m = current_menuitem_mode;
+		if(m != Constants.Menuitem_modes.JUMPSREACTIVE &&
+				m != Constants.Menuitem_modes.RUNSINTERVALLIC &&
+				m != Constants.Menuitem_modes.FORCESENSOR)
+			return;
+
+		repetitiveConditionsWin.View(getBellMode(m), preferences, encoderRhythm);
 	}
 
 	private void change_notebook_results_data()
@@ -4168,7 +4286,8 @@ public partial class ChronoJumpWindow
 
 		if (! canCaptureC)
 			currentEventExecute.SimulateInitValues(rand);
-		
+
+		contactsShowCaptureDoingButtons(true);
 		if( currentJumpType.StartIn ) 
 			currentEventExecute.Manage();
 		else 
@@ -4198,7 +4317,7 @@ public partial class ChronoJumpWindow
 					//unsensitive slCMJ options 
 					hbox_extra_window_jumps_single_leg_radios.Sensitive = false;
 					//but show the input cm
-					notebook_options_at_execute_button.CurrentPage = 1;
+					notebook_contacts_capture_doing_wait.CurrentPage = 2;
 				}
 				SqliteJump.UpdateDescription(Constants.JumpTable, 
 						currentJump.UniqueID, currentJump.Description);
@@ -4250,6 +4369,7 @@ public partial class ChronoJumpWindow
 	private void on_test_finished_can_touch_gtk (object o, EventArgs args)
 	{
 		currentEventExecute.FakeButtonThreadDyed.Clicked -= new EventHandler(on_test_finished_can_touch_gtk);
+		contactsShowCaptureDoingButtons(false);
 
 		on_event_execute_EventEnded();
 
@@ -4482,6 +4602,7 @@ public partial class ChronoJumpWindow
 		if(! canCaptureC)
 			currentEventExecute.SimulateInitValues(rand);
 		
+		contactsShowCaptureDoingButtons(true);
 		currentEventExecute.Manage();
 
 		thisJumpIsSimple = false; //used by: on_event_execute_update_graph_in_progress_clicked
@@ -4626,7 +4747,8 @@ public partial class ChronoJumpWindow
 
 		if (! canCaptureC)
 			currentEventExecute.SimulateInitValues(rand);
-			
+
+		contactsShowCaptureDoingButtons(true);
 		currentEventExecute.Manage();
 
 		thisRunIsSimple = true; //used by: on_event_execute_update_graph_in_progress_clicked
@@ -4762,6 +4884,7 @@ public partial class ChronoJumpWindow
 		if(! canCaptureC)
 			currentEventExecute.SimulateInitValues(rand);
 
+		contactsShowCaptureDoingButtons(true);
 		currentEventExecute.Manage();
 
 		thisRunIsSimple = false; //used by: on_event_execute_update_graph_in_progress_clicked
@@ -4775,7 +4898,7 @@ public partial class ChronoJumpWindow
 	{
 		//test can be deleted if not cancelled
 		sensitiveLastTestButtons(! currentEventExecute.Cancel);
-		button_inspect_last_test.Sensitive = ! currentEventExecute.Cancel;
+		button_inspect_last_test_run_intervallic.Sensitive = ! currentEventExecute.Cancel;
 
 		if ( ! currentEventExecute.Cancel ) {
 			currentRunInterval = (RunInterval) currentEventExecute.EventDone;
@@ -4991,6 +5114,7 @@ public partial class ChronoJumpWindow
 		
 		currentEventExecute.FakeButtonReactionTimeStart.Clicked += new EventHandler(on_event_execute_reaction_time_start);
 
+		contactsShowCaptureDoingButtons(true);
 		currentEventExecute.Manage(); //check that platform is ok
 		
 		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
@@ -5036,6 +5160,7 @@ public partial class ChronoJumpWindow
 			LogB.Information("flushed!");	
 		}
 
+		contactsShowCaptureDoingButtons(true);
 		currentEventExecute.Manage2();
 	}
 
@@ -5141,6 +5266,7 @@ public partial class ChronoJumpWindow
 		if(! canCaptureC)
 			currentEventExecute.SimulateInitValues(rand);
 		
+		contactsShowCaptureDoingButtons(true);
 		currentEventExecute.Manage();
 		
 		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
@@ -5427,6 +5553,7 @@ public partial class ChronoJumpWindow
 
 		//mark to only get inside on_multi_chronopic_finished one time
 		multiFinishing = false;
+		contactsShowCaptureDoingButtons(true);
 		currentEventExecute.Manage();
 
 		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
@@ -6883,48 +7010,25 @@ LogB.Debug("mc finished 5");
 
 		new About(progVersion, translator_credits);
 	}
-		
-	private void on_button_rj_bells_clicked(object o, EventArgs args) {
-		repetitiveConditionsWin.View(Constants.BellModes.JUMPS, preferences.volumeOn, preferences.gstreamer,
-				preferences.encoderCaptureMainVariable,
-				preferences.encoderCaptureSecondaryVariable, preferences.encoderCaptureSecondaryVariableShow, encoderRhythm);
-	}
 
-	private void on_button_time_bells_clicked(object o, EventArgs args) {
-		repetitiveConditionsWin.View(Constants.BellModes.RUNS, preferences.volumeOn, preferences.gstreamer,
-				preferences.encoderCaptureMainVariable,
-				preferences.encoderCaptureSecondaryVariable, preferences.encoderCaptureSecondaryVariableShow, encoderRhythm);
-	}
-	
 	private void on_repetitive_conditions_closed(object o, EventArgs args)
 	{
 		//update bell color if feedback exists
 		Constants.Menuitem_modes m = current_menuitem_mode;
 		Pixbuf pixbuf;
 
-		Constants.BellModes bellMode;
+		Constants.BellModes bellMode = getBellMode(m);
 		if(m == Constants.Menuitem_modes.JUMPSREACTIVE || m == Constants.Menuitem_modes.RUNSINTERVALLIC)
 		{
-			bellMode = Constants.BellModes.JUMPS;
-			if(m == Constants.Menuitem_modes.RUNSINTERVALLIC)
-				bellMode = Constants.BellModes.RUNS;
-
 			if(repetitiveConditionsWin.FeedbackActive(bellMode))
 				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_active.png");
 			else
 				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_none.png");
 
-			if(m == Constants.Menuitem_modes.JUMPSREACTIVE)
-				image_jump_reactive_bell.Pixbuf = pixbuf;
-			else
-				image_run_interval_bell.Pixbuf = pixbuf;
+			image_contacts_bell.Pixbuf = pixbuf;
 		}
 		else if(m == Constants.Menuitem_modes.POWERGRAVITATORY || m == Constants.Menuitem_modes.POWERINERTIAL)
 		{
-			bellMode = Constants.BellModes.ENCODERGRAVITATORY;
-			if(m == Constants.Menuitem_modes.POWERINERTIAL)
-				bellMode = Constants.BellModes.ENCODERINERTIAL;
-
 			if(repetitiveConditionsWin.FeedbackActive(bellMode))
 				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_active.png");
 			else
@@ -6994,6 +7098,33 @@ LogB.Debug("mc finished 5");
 			encoderRhythm = repetitiveConditionsWin.Encoder_rhythm_get_values();
 			//updates preferences object and Sqlite preferences
 			preferences.UpdateEncoderRhythm(encoderRhythm);
+		}
+		else if(m == Constants.Menuitem_modes.FORCESENSOR)
+		{
+			bool feedbackActive = repetitiveConditionsWin.GetForceSensorFeedbackActive;
+			if(preferences.forceSensorCaptureFeedbackActive != feedbackActive)
+			{
+				SqlitePreferences.Update(SqlitePreferences.ForceSensorCaptureFeedbackActive, feedbackActive.ToString(), false);
+				preferences.forceSensorCaptureFeedbackActive = feedbackActive;
+			}
+
+			//change the rest of values only if feedback is active
+			if(feedbackActive)
+			{
+				int feedbackAt = repetitiveConditionsWin.GetForceSensorFeedbackAt;
+				if(preferences.forceSensorCaptureFeedbackAt != feedbackAt)
+				{
+					SqlitePreferences.Update(SqlitePreferences.ForceSensorCaptureFeedbackAt, feedbackAt.ToString(), false);
+					preferences.forceSensorCaptureFeedbackAt = feedbackAt;
+				}
+
+				int feedbackRange = repetitiveConditionsWin.GetForceSensorFeedbackRange;
+				if(preferences.forceSensorCaptureFeedbackRange != feedbackRange)
+				{
+					SqlitePreferences.Update(SqlitePreferences.ForceSensorCaptureFeedbackRange, feedbackRange.ToString(), false);
+					preferences.forceSensorCaptureFeedbackRange = feedbackRange;
+				}
+			}
 		}
 	}
 	
@@ -7223,7 +7354,8 @@ LogB.Debug("mc finished 5");
 		hbox_jumps.Sensitive = false;
 		hbox_jumps_rj.Sensitive = false;
 		button_execute_test.Sensitive = false;
-		
+		button_contacts_capture_load.Sensitive = false;
+
 		encoderButtonsSensitive(encoderSensEnum.NOPERSON);
 		//don't cal personChanged because it will make changes on analyze repetitions and currentPerson == null
 		//personChanged();
@@ -7250,6 +7382,7 @@ LogB.Debug("mc finished 5");
 		hbox_jumps.Sensitive = true;
 		hbox_jumps_rj.Sensitive = true;
 		button_execute_test.Sensitive = true;
+		button_contacts_capture_load.Sensitive = true;
 
 		encoderButtonsSensitive(encoderSensEnum.YESPERSON);
 		personChanged();
@@ -7321,7 +7454,7 @@ LogB.Debug("mc finished 5");
 			frame_persons.Sensitive = false;
 		
 		button_execute_test.Sensitive = false;
-		vbox_contacts_camera.Sensitive = false;
+		hbox_contacts_camera.Sensitive = false;
 		
 		button_contacts_person_change.Sensitive = false;
 		button_encoder_person_change.Sensitive = false;
@@ -7383,7 +7516,7 @@ LogB.Debug("mc finished 5");
 			vbox_persons_bottom.Sensitive = true;
 
 		button_execute_test.Sensitive = true;
-		vbox_contacts_camera.Sensitive = true;
+		hbox_contacts_camera.Sensitive = true;
 
 		button_contacts_person_change.Sensitive = true;
 		button_encoder_person_change.Sensitive = true;
@@ -7465,7 +7598,7 @@ LogB.Debug("mc finished 5");
 	private void sensitiveLastTestButtons(bool sensitive)
 	{
 		LogB.Information("sensitiveLastTestButtons: " + sensitive.ToString());
-		vbox_last_test_buttons.Sensitive = sensitive;
+		//vbox_last_test_buttons.Sensitive = sensitive; TODO:
 	}
 	/*
 	 * sensitive GUI on executeAuto methods 

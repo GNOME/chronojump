@@ -77,15 +77,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_force_sensor_laterality_both;
 	[Widget] Gtk.RadioButton radio_force_sensor_laterality_l;
 	[Widget] Gtk.RadioButton radio_force_sensor_laterality_r;
-	[Widget] Gtk.TextView textview_force_sensor_capture_comment;
 	[Widget] Gtk.HBox hbox_force_sensor_lat_and_comments;
-	[Widget] Gtk.Alignment alignment_force_sensor_adjust;
 	[Widget] Gtk.HBox hbox_force_sensor_adjust_actions;
-	[Widget] Gtk.Label label_force_sensor_adjust;
 	[Widget] Gtk.Button button_force_sensor_tare;
 	[Widget] Gtk.Button button_force_sensor_calibrate;
-	[Widget] Gtk.Button button_force_sensor_capture_recalculate;
-	[Widget] Gtk.Button button_force_sensor_save_comment;
 	[Widget] Gtk.Label label_force_sensor_value_max;
 	[Widget] Gtk.Label label_force_sensor_value;
 	[Widget] Gtk.Label label_force_sensor_value_min;
@@ -93,11 +88,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spin_force_sensor_calibration_kg_value;
 	[Widget] Gtk.Button button_force_sensor_image_save_signal;
 	[Widget] Gtk.DrawingArea force_capture_drawingarea;
-	[Widget] Gtk.Alignment alignment_force_capture_feedback;
-	[Widget] Gtk.CheckButton check_force_sensor_capture_feedback;
-	[Widget] Gtk.HBox hbox_force_sensor_capture_feedback;
-	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_at;
-	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_range;
 
 	ForceSensorExerciseWindow forceSensorExerciseWin;
 	ForceSensorElasticBandsWindow forceSensorElasticBandsWin;
@@ -408,9 +398,11 @@ public partial class ChronoJumpWindow
 		{
 			forceSensorButtonsSensitive(false);
 			sensitiveLastTestButtons(false);
+			contactsShowCaptureDoingButtons(true);
 			image_force_sensor_graph.Sensitive = false; //unsensitivize the RFD image (can contain info of previous data)
 
-			textview_force_sensor_capture_comment.Buffer.Text = "";
+			//textview_force_sensor_capture_comment.Buffer.Text = "";
+			textview_contacts_signal_comment.Buffer.Text = "";
 
 			if(currentForceSensorExercise.TareBeforeCapture)
 			{
@@ -440,11 +432,7 @@ public partial class ChronoJumpWindow
 		hbox_force_sensor_lat_and_comments.Sensitive = sensitive;
 		button_execute_test.Sensitive = sensitive;
 		button_force_sensor_analyze_load.Sensitive = sensitive;
-
-		//right now cannot be changed dinamically while capturing
-		alignment_force_capture_feedback.Sensitive = sensitive;
-
-		vbox_contacts_camera.Sensitive = sensitive;
+		hbox_contacts_camera.Sensitive = sensitive;
 
 		//other gui buttons
 		main_menu.Sensitive = sensitive;
@@ -452,11 +440,6 @@ public partial class ChronoJumpWindow
 		frame_persons.Sensitive = sensitive;
 		hbox_top_person.Sensitive = sensitive;
 		hbox_chronopics_and_more.Sensitive = sensitive;
-	}
-
-	private void on_check_force_sensor_capture_feedback_toggled (object o, EventArgs args)
-	{
-		hbox_force_sensor_capture_feedback.Sensitive = check_force_sensor_capture_feedback.Active;
 	}
 
 	private void forceSensorPersonChanged()
@@ -467,9 +450,8 @@ public partial class ChronoJumpWindow
 	{
 		currentForceSensor = new ForceSensor();
 
-		button_force_sensor_capture_recalculate.Sensitive = false;
-		textview_force_sensor_capture_comment.Buffer.Text = "";
-		button_force_sensor_save_comment.Sensitive = false;
+		button_contacts_recalculate.Sensitive = false;
+		textview_contacts_signal_comment.Buffer.Text = "";
 		notebook_force_sensor_analyze.Sensitive = false;
 		button_force_sensor_analyze_options.Sensitive = false;
 		button_force_sensor_analyze_analyze.Sensitive = false;
@@ -499,15 +481,17 @@ public partial class ChronoJumpWindow
 
 		if(forceOtherThread.IsAlive)
 		{
+			/*
 			if(forceSensorOtherMode == forceSensorOtherModeEnum.TARE ||
 				forceSensorOtherMode == forceSensorOtherModeEnum.CALIBRATE)
-				label_force_sensor_adjust.Text = forceSensorOtherMessage + secondsStr;
+				event_execute_label_message.Text = forceSensorOtherMessage + secondsStr;
 			else
+			*/
 				event_execute_label_message.Text = forceSensorOtherMessage + secondsStr;
 		}
 		else
 		{
-			label_force_sensor_adjust.Text = forceSensorOtherMessage;
+			event_execute_label_message.Text = forceSensorOtherMessage;
 			LogB.ThreadEnding();
 
 			if(forceSensorOtherMode == forceSensorOtherModeEnum.TARE ||
@@ -781,7 +765,7 @@ public partial class ChronoJumpWindow
 
 		forcePaintHVLines(ForceSensorGraphs.CAPTURE, fscPoints.RealHeightG, ForceSensorCapturePoints.DefaultRealHeightGNeg, 10, false);
 		//draw horizontal rectangle of feedback
-		if(check_force_sensor_capture_feedback.Active)
+		if(preferences.forceSensorCaptureFeedbackActive)
 			forceSensorSignalPlotFeedbackRectangle(fscPoints,
 					force_capture_drawingarea, force_capture_pixmap, pen_yellow_force_capture);
 
@@ -889,7 +873,8 @@ public partial class ChronoJumpWindow
 		forceSensorTimeStart = DateTime.Now; //to have an active count of capture time
 		forceSensorTimeStartCapture = forceSensorTimeStart; //to have same DateTime on filename and on sql datetime
 		capturingForce = arduinoCaptureStatus.CAPTURING;
-		string captureComment = UtilGtk.TextViewGetCommentValidSQL(textview_force_sensor_capture_comment);
+//		string captureComment = UtilGtk.TextViewGetCommentValidSQL(textview_force_sensor_capture_comment);
+		string captureComment = UtilGtk.TextViewGetCommentValidSQL(textview_contacts_signal_comment);
 
 		Util.CreateForceSensorSessionDirIfNeeded (currentSession.UniqueID);
 
@@ -1048,7 +1033,7 @@ LogB.Information(" fs B ");
 		if(! forceCaptureThread.IsAlive || forceProcessFinish || forceProcessCancel || forceProcessError)
 		{
 LogB.Information(" fs C ");
-			button_video_play_this_test.Sensitive = false;
+			button_video_play_this_test_contacts.Sensitive = false;
 			if(forceProcessFinish)
 			{
 				if(capturingForce != arduinoCaptureStatus.COPIED_TO_TMP)
@@ -1086,11 +1071,12 @@ LogB.Information(" fs C ");
 								currentForceSensor.UniqueID);
 						currentForceSensor.UpdateSQL(false);
 						label_video_feedback.Text = "";
-						button_video_play_this_test.Sensitive = true;
+						button_video_play_this_test_contacts.Sensitive = true;
 					}
 
 					Thread.Sleep (250); //Wait a bit to ensure is copied
 					sensitiveLastTestButtons(true);
+					contactsShowCaptureDoingButtons(false);
 
 					fscPoints.InitRealWidthHeight(preferences.forceSensorCaptureWidthSeconds);
 
@@ -1105,8 +1091,7 @@ LogB.Information(" fs C ");
 						forceSensorZoomDefaultValues();
 						forceSensorDoGraphAI();
 					}
-					button_force_sensor_capture_recalculate.Sensitive = true;
-					button_force_sensor_save_comment.Sensitive = true;
+					button_contacts_recalculate.Sensitive = true;
 					button_delete_last_test.Sensitive = true;
 					force_capture_drawingarea.Sensitive = true;
 					button_force_sensor_image_save_signal.Sensitive = true;
@@ -1125,6 +1110,7 @@ LogB.Information(" fs C ");
 				//stop the camera (and do not save)
 				webcamEnd (Constants.TestTypes.FORCESENSOR, -1);
 				sensitiveLastTestButtons(false);
+				contactsShowCaptureDoingButtons(false);
 
 				if(forceProcessCancel)
 					event_execute_label_message.Text = "Cancelled.";
@@ -1136,8 +1122,7 @@ LogB.Information(" fs C ");
 				button_force_sensor_image_save_rfd_auto.Sensitive = false;
 				button_force_sensor_image_save_rfd_manual.Sensitive = false;
 				checkbutton_force_sensor_ai_b.Sensitive = false;
-				button_force_sensor_capture_recalculate.Sensitive = false;
-				button_force_sensor_save_comment.Sensitive = false;
+				button_contacts_recalculate.Sensitive = false;
 				button_delete_last_test.Sensitive = false;
 			}
 			else
@@ -1221,7 +1206,7 @@ LogB.Information(" fs I ");
 
 				forcePaintHVLines(ForceSensorGraphs.CAPTURE, fscPoints.RealHeightG, forceSensorValues.ForceMin * 2, fscPoints.RealWidthG, false);
 				//draw horizontal rectangle of feedback
-				if(check_force_sensor_capture_feedback.Active)
+				if(preferences.forceSensorCaptureFeedbackActive)
 					forceSensorSignalPlotFeedbackRectangle(fscPoints,
 							force_capture_drawingarea, force_capture_pixmap, pen_yellow_force_capture);
 
@@ -1321,7 +1306,7 @@ LogB.Information(" fs R ");
 		LogB.Information(" fs N0 ");
 
 		UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
-		if(check_force_sensor_capture_feedback.Active)
+		if(preferences.forceSensorCaptureFeedbackActive)
 			forceSensorSignalPlotFeedbackRectangle(fscPoints,
 					force_capture_drawingarea, force_capture_pixmap, pen_yellow_force_capture);
 
@@ -1436,7 +1421,7 @@ LogB.Information(" fs R ");
 
 	//this is called when user clicks on load signal
 	//very based on: on_encoder_load_signal_clicked () future have some inheritance
-	private void on_button_force_sensor_load_clicked (object o, EventArgs args)
+	private void force_sensor_load ()
 	{
 		List<ForceSensor> data = SqliteForceSensor.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID);
 
@@ -1538,7 +1523,8 @@ LogB.Information(" fs R ");
 		setForceSensorCaptureOptions(fs.CaptureOption);
 
 		setLaterality(fs.Laterality);
-		textview_force_sensor_capture_comment.Buffer.Text = fs.Comments;
+		//textview_force_sensor_capture_comment.Buffer.Text = fs.Comments;
+		textview_contacts_signal_comment.Buffer.Text = fs.Comments;
 
 		assignCurrentForceSensorExercise();
 
@@ -1570,7 +1556,7 @@ LogB.Information(" fs R ");
 		forceSensorCopyTempAndDoGraphs(forceSensorGraphsEnum.SIGNAL);
 		image_force_sensor_graph.Sensitive = false; //unsensitivize the RFD image (can contain info of previous data)
 
-		button_video_play_this_test.Sensitive = (fs.VideoURL != "");
+		button_video_play_this_test_contacts.Sensitive = (fs.VideoURL != "");
 		sensitiveLastTestButtons(true);
 
 		//if drawingarea has still not shown, don't paint graph because GC screen is not defined
@@ -1580,8 +1566,7 @@ LogB.Information(" fs R ");
 			forceSensorDoGraphAI();
 		}
 		//event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(filechooser.Filename);
-		button_force_sensor_capture_recalculate.Sensitive = true;
-		button_force_sensor_save_comment.Sensitive = true;
+		button_contacts_recalculate.Sensitive = true;
 		force_capture_drawingarea.Sensitive = true;
 		notebook_force_sensor_analyze.Sensitive = true;
 		button_force_sensor_analyze_options.Sensitive = true;
@@ -1714,7 +1699,7 @@ LogB.Information(" fs R ");
 	// ---- end of forceSensorDeleteTest stuff -------
 
 
-	private void on_button_force_sensor_capture_recalculate_clicked (object o, EventArgs args)
+	private void force_sensor_recalculate ()
 	{
 		if(! Util.FileExists(lastForceSensorFullPath))
 		{
@@ -1741,7 +1726,8 @@ LogB.Information(" fs R ");
 		currentForceSensor.ExerciseName = currentForceSensorExercise.Name; //just in case
 		currentForceSensor.CaptureOption = getForceSensorCaptureOptions();
 		currentForceSensor.Laterality = getLaterality(false);
-		currentForceSensor.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_force_sensor_capture_comment);
+		//currentForceSensor.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_force_sensor_capture_comment);
+		currentForceSensor.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_contacts_signal_comment);
 
 		double stiffness;
 		string stiffnessString;
@@ -1763,12 +1749,6 @@ LogB.Information(" fs R ");
 		}
 
 		currentForceSensor.UpdateSQL(false);
-	}
-
-	private void on_button_force_sensor_save_comment_clicked (object o, EventArgs args)
-	{
-		currentForceSensor.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_force_sensor_capture_comment);
-		currentForceSensor.UpdateSQLJustComments(false);
 	}
 
 	private void on_button_force_sensor_analyze_analyze_clicked (object o, EventArgs args)
@@ -1939,7 +1919,7 @@ LogB.Information(" fs R ");
 				false);
 
 		//draw horizontal rectangle of feedback
-		if(check_force_sensor_capture_feedback.Active)
+		if(preferences.forceSensorCaptureFeedbackActive)
 			forceSensorSignalPlotFeedbackRectangle(fscPoints,
 					force_capture_drawingarea, force_capture_pixmap, pen_yellow_force_capture);
 
@@ -1971,11 +1951,8 @@ LogB.Information(" fs R ");
 
 	private void setForceSensorTopAtOperationStart()
 	{
-		int at = Convert.ToInt32(spin_force_sensor_capture_feedback_at.Value);
-		int range = Convert.ToInt32(spin_force_sensor_capture_feedback_range.Value);
-
-		if(check_force_sensor_capture_feedback.Active)
-			forceSensorTopRectangleAtOperationStart = Convert.ToInt32(at + range /2);
+		if(preferences.forceSensorCaptureFeedbackActive)
+			forceSensorTopRectangleAtOperationStart = Convert.ToInt32(preferences.forceSensorCaptureFeedbackAt + preferences.forceSensorCaptureFeedbackRange /2);
 		else
 			forceSensorTopRectangleAtOperationStart = 0;
 	}
@@ -1993,8 +1970,8 @@ LogB.Information(" fs R ");
 			Gtk.DrawingArea drawingarea, Gdk.Pixmap pixmap, Gdk.GC pen_rectangle)
 	{
 		//draw horizontal rectangle of feedback
-		int fbkNValue = Convert.ToInt32(spin_force_sensor_capture_feedback_at.Value); //feedback Newtons value
-		int fbkNRange = Convert.ToInt32(spin_force_sensor_capture_feedback_range.Value); //feedback Newtons range (height of the rectangle)
+		int fbkNValue = preferences.forceSensorCaptureFeedbackAt; //feedback Newtons value
+		int fbkNRange = preferences.forceSensorCaptureFeedbackRange; //feedback Newtons range (height of the rectangle)
 
 		int fbkGraphCenter = points.GetForceInPx(fbkNValue);
 		int fbkGraphRectHeight = points.GetForceInPx(0) - points.GetForceInPx(fbkNRange);
@@ -2247,38 +2224,29 @@ LogB.Information(" fs R ");
 
 	private void on_button_force_sensor_adjust_clicked (object o, EventArgs args)
 	{
-		hbox_force_capture_buttons.Sensitive = false;
-		button_force_sensor_adjust.Sensitive = false;
-		alignment_force_capture_feedback.Sensitive = false;
+		button_force_sensor_adjust.Sensitive = false; //to not be called again
 
-		button_force_sensor_adjust.Visible = false;
-		hbox_force_sensor_lat_and_comments.Visible = false;
-		notebook_execute.Visible = false;
+		//hbox_force_capture_buttons.Sensitive = false;
+		notebook_contacts_execute_or_instructions.Sensitive = false;
+
 		viewport_chronopics.Visible = false;
-		alignment_force_sensor_adjust.Visible = true;
-
-		notebook_options_at_execute_button.CurrentPage = 2;
+		notebook_contacts_capture_doing_wait.CurrentPage = 3;
 
 		forceSensorCaptureAdjustSensitivity(false);
-		label_force_sensor_adjust.Text = Catalog.GetString("If you want to calibrate, please tare first.");
-		event_execute_label_message.Text = "";
+		event_execute_label_message.Text = Catalog.GetString("If you want to calibrate, please tare first.");
 	}
 	private void on_button_force_sensor_adjust_close_clicked (object o, EventArgs args)
 	{
-		hbox_force_capture_buttons.Sensitive = true;
 		button_force_sensor_adjust.Sensitive = true;
-		alignment_force_capture_feedback.Sensitive = true;
 
-		button_force_sensor_adjust.Visible = true;
-		hbox_force_sensor_lat_and_comments.Visible = true;
-		notebook_execute.Visible = true;
+		//hbox_force_capture_buttons.Sensitive = true;
+		notebook_contacts_execute_or_instructions.Sensitive = true;
+
 		viewport_chronopics.Visible = true;
-		alignment_force_sensor_adjust.Visible = false;
-
-		notebook_options_at_execute_button.CurrentPage = 0;
+		notebook_contacts_capture_doing_wait.CurrentPage = 0;
 
 		forceSensorCaptureAdjustSensitivity(true);
-		label_force_sensor_adjust.Text = "";
+		event_execute_label_message.Text = "";
 	}
 
 	private void forceSensorCaptureAdjustSensitivity(bool s) //s for sensitive. When adjusting s = false

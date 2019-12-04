@@ -151,7 +151,7 @@ public class JumpExecute : EventExecute
 			//mark now that we have leaved platform:
 			if (simulated)
 				platformState = Chronopic.Plataforma.OFF;
-			
+
 			//start thread
 			thread = new Thread(new ThreadStart(waitEvent));
 			GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));

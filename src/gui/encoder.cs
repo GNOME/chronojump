@@ -621,16 +621,7 @@ public partial class ChronoJumpWindow
 	
 	private void on_button_encoder_bells_clicked(object o, EventArgs args)
 	{
-		if(current_menuitem_mode == Constants.Menuitem_modes.POWERGRAVITATORY)
-			repetitiveConditionsWin.View(Constants.BellModes.ENCODERGRAVITATORY,
-					preferences.volumeOn, preferences.gstreamer,
-					preferences.encoderCaptureMainVariable,
-					preferences.encoderCaptureSecondaryVariable, preferences.encoderCaptureSecondaryVariableShow, encoderRhythm);
-		else
-			repetitiveConditionsWin.View(Constants.BellModes.ENCODERINERTIAL,
-					preferences.volumeOn, preferences.gstreamer,
-					preferences.encoderCaptureMainVariable,
-					preferences.encoderCaptureSecondaryVariable, preferences.encoderCaptureSecondaryVariableShow, encoderRhythm);
+		repetitiveConditionsWin.View(getBellMode(current_menuitem_mode), preferences, encoderRhythm);
 	}
 
 	/*
@@ -1222,7 +1213,6 @@ public partial class ChronoJumpWindow
 	{
 		eCapture.Finish();
 		encoderProcessFinish = true;
-			
 	}
 	void on_button_encoder_capture_finish_cont_clicked (object o, EventArgs args) 
 	{

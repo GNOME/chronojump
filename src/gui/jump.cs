@@ -988,7 +988,6 @@ public partial class ChronoJumpWindow
 
 	//slCMJ	
 	[Widget] Gtk.Box hbox_extra_window_jumps_single_leg_radios;
-	[Widget] Gtk.Notebook notebook_options_at_execute_button;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_mode_vertical;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_mode_horizontal;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_dominance_this_limb;
@@ -1490,7 +1489,7 @@ public partial class ChronoJumpWindow
 		hbox_extra_window_jumps_single_leg_radios.Sensitive = true;
 
 		//hide slCMJ distance stuff and show button execute test again
-		notebook_options_at_execute_button.CurrentPage = 0;
+		notebook_contacts_capture_doing_wait.CurrentPage = 0;
 	}
 
 }

@@ -28,28 +28,32 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
-	[Widget] Gtk.Notebook notebook_last_test_buttons;
+	//[Widget] Gtk.Notebook notebook_last_test_buttons; page1: delete, play, inspect, page2: progressbar_video_generating
 	[Widget] Gtk.ProgressBar progressbar_video_generating;
-	[Widget] Gtk.VSeparator vseparator_force_sensor_camera_space;
-	[Widget] Gtk.VBox vbox_contacts_camera;
-	[Widget] Gtk.CheckButton checkbutton_video;
+	[Widget] Gtk.HBox hbox_contacts_camera;
+	[Widget] Gtk.CheckButton checkbutton_video_contacts;
 	[Widget] Gtk.CheckButton checkbutton_video_encoder;
-	//[Widget] Gtk.HBox hbox_video_capture;
+	//[Widget] Gtk.HBox hbox_video_contacts;
+	[Widget] Gtk.Notebook notebook_video_contacts;
+	[Widget] Gtk.HBox hbox_video_contacts_no_capturing;
+	[Widget] Gtk.HBox hbox_video_contacts_capturing;
 	[Widget] Gtk.HBox hbox_video_encoder;
 	[Widget] Gtk.HBox hbox_video_encoder_no_capturing;
 	[Widget] Gtk.HBox hbox_video_encoder_capturing;
 	[Widget] Gtk.Label label_video_feedback;
 	[Widget] Gtk.Label label_video_encoder_feedback;
-	[Widget] Gtk.Button button_video_preview;
+	[Widget] Gtk.Button button_video_contacts_preview;
 	[Widget] Gtk.Button button_video_encoder_preview;
 	//[Widget] Gtk.Label label_video;
-	[Widget] Gtk.Image image_video_yes;
-	[Widget] Gtk.Image image_video_no;
+	[Widget] Gtk.Image image_video_contacts_yes;
+	[Widget] Gtk.Image image_video_contacts_yes1;
+	[Widget] Gtk.Image image_video_contacts_no;
 	[Widget] Gtk.Image image_video_encoder_yes;
 	[Widget] Gtk.Image image_video_encoder_yes1;
 	[Widget] Gtk.Image image_video_encoder_no;
+	[Widget] Gtk.Label label_video_contacts_tests_will_be_filmed;
 	[Widget] Gtk.Label label_video_encoder_tests_will_be_filmed;
-	[Widget] Gtk.Button button_video_play_this_test;
+	[Widget] Gtk.Button button_video_play_this_test_contacts;
 	[Widget] Gtk.Button button_video_play_this_test_encoder;
 	[Widget] Gtk.ProgressBar pulsebar_webcam;
 
@@ -63,9 +67,8 @@ public partial class ChronoJumpWindow
 	//but we need database stuff first
 	public void showWebcamCaptureContactsControls (bool show)
 	{
-		vseparator_force_sensor_camera_space.Visible = false; //extra space before camera on force sensor
-		vbox_contacts_camera.Visible = show;
-		button_video_play_this_test.Visible = show;
+		hbox_contacts_camera.Visible = show;
+		button_video_play_this_test_contacts.Visible = show;
 	}
 
 	/* ---------------------------------------------------------
@@ -117,7 +120,7 @@ public partial class ChronoJumpWindow
 			hbox_video_encoder_capturing.Visible = true;
 		}
 
-		button_video_preview_visible (guiContactsEncoder, false);
+		button_video_contacts_preview_visible (guiContactsEncoder, false);
 
 		string errorMessage = "";
 		if(ncams == 1)
@@ -199,6 +202,7 @@ public partial class ChronoJumpWindow
 			{
 				webcamManage.ReallyStarted = true;
 				label_video_feedback_text (WebcamManage.GuiContactsEncoder.CONTACTS, Catalog.GetString("Recording ..."));
+				notebook_video_contacts.CurrentPage = 1;
 			}
 
 			if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR)
@@ -218,10 +222,10 @@ public partial class ChronoJumpWindow
 		return true;
 	}
 
-	private void button_video_preview_visible (WebcamManage.GuiContactsEncoder guiContactsEncoder, bool visible)
+	private void button_video_contacts_preview_visible (WebcamManage.GuiContactsEncoder guiContactsEncoder, bool visible)
 	{
 		if(guiContactsEncoder == WebcamManage.GuiContactsEncoder.CONTACTS)
-			button_video_preview.Visible = visible;
+			button_video_contacts_preview.Visible = visible;
 		else
 			button_video_encoder_preview.Visible = visible;
 	}
@@ -232,13 +236,13 @@ public partial class ChronoJumpWindow
 		else
 			label_video_encoder_feedback.Text = text;
 	}
-	private void button_video_play_this_test_sensitive (WebcamManage.GuiContactsEncoder guiContactsEncoder, bool s)
+	private void button_video_play_this_test_contacts_sensitive (WebcamManage.GuiContactsEncoder guiContactsEncoder, bool s)
 	{
-		LogB.Information("button_video_play_this_test_sensitive: " + s.ToString());
+		LogB.Information("button_video_play_this_test_contacts_sensitive: " + s.ToString());
 		if(guiContactsEncoder == WebcamManage.GuiContactsEncoder.CONTACTS)
-			button_video_play_this_test.Sensitive = s;
+			button_video_play_this_test_contacts.Sensitive = s;
 		else
-			//button_video_encoder_play_this_test.Sensitive = s;
+			//button_video_encoder_play_this_test_contacts.Sensitive = s;
 			button_video_play_this_test_encoder.Sensitive = s; //TODO:jugar amb la sensitivitat de aixo quan hi ha o no signalUniqueID 
 	}
 
@@ -353,8 +357,11 @@ public partial class ChronoJumpWindow
 				//call it later to be able to have some video on a short test like a jump.
 				LogB.Information(string.Format("Preparing to call webcamEndDo() in {0} s", preferences.videoStopAfter));
 
-				notebook_last_test_buttons.CurrentPage = 1;
+				//notebook_last_test_buttons.CurrentPage = 1;
+				//hbox_video_contacts_no_capturing.Visible = false;
+				notebook_video_contacts.CurrentPage = 2;
 				progressbar_video_generating.Text = Catalog.GetString("Ending video");
+				//progressbar_video_generating.Visible = true;
 
 				//GLib.Timeout.Add(Convert.ToUInt32(preferences.videoStopAfter * 1000), new GLib.TimeoutHandler(webcamEndDo));
 				//do not done the above method because now we call webcamEndDo to update the progressbar, until preferences.videoStopAfter end
@@ -389,14 +396,17 @@ public partial class ChronoJumpWindow
 		if(webcamEndParams.uniqueID != -1 && ! resultExit.success)
 			new DialogMessage(Constants.MessageTypes.WARNING, resultExit.error);
 
-		button_video_preview_visible (webcamEndParams.guiContactsEncoder, true);
-		LogB.Information(string.Format("calling button_video_play_this_test_sensitive {0}-{1}-{2}",
+		button_video_contacts_preview_visible (webcamEndParams.guiContactsEncoder, true);
+		LogB.Information(string.Format("calling button_video_play_this_test_contacts_sensitive {0}-{1}-{2}",
 					webcamEndParams.guiContactsEncoder, webcamManage.ReallyStarted, resultExit.success));
-		button_video_play_this_test_sensitive (webcamEndParams.guiContactsEncoder, webcamManage.ReallyStarted && resultExit.success);
+		button_video_play_this_test_contacts_sensitive (webcamEndParams.guiContactsEncoder, webcamManage.ReallyStarted && resultExit.success);
 		button_video_play_selected_test(current_menuitem_mode);
 
 		sensitiveGuiEventDone();
-		notebook_last_test_buttons.CurrentPage = 0;
+		//notebook_last_test_buttons.CurrentPage = 0;
+		//progressbar_video_generating.Visible = false;
+		//hbox_video_contacts_no_capturing.Visible = true;
+		notebook_video_contacts.CurrentPage = 0;
 
 		return false; //do not call this Timeout routine again
 	}
@@ -431,8 +441,8 @@ public partial class ChronoJumpWindow
 			label_video_encoder_feedback.Text = "";
 		}
 
-		//button_video_play_this_test.Sensitive = false;
-		//button_video_play_this_test_sensitive (guiContactsEncoder, false);
+		//button_video_play_this_test_contacts.Sensitive = false;
+		//button_video_play_this_test_contacts_sensitive (guiContactsEncoder, false);
 
 		if(! preferences.videoOn || webcamManage == null)
 			return;
@@ -462,8 +472,8 @@ public partial class ChronoJumpWindow
 		if(errorMessage != "")
 			new DialogMessage(Constants.MessageTypes.WARNING, errorMessage);
 
-		//button_video_play_this_test.Sensitive = (uniqueID != -1 && errorMessage == "");
-		button_video_play_this_test_sensitive (guiContactsEncoder, (uniqueID != -1 && errorMessage == ""));
+		//button_video_play_this_test_contacts.Sensitive = (uniqueID != -1 && errorMessage == "");
+		button_video_play_this_test_contacts_sensitive (guiContactsEncoder, (uniqueID != -1 && errorMessage == ""));
 		button_video_play_selected_test(current_menuitem_mode);
 	}
 
@@ -488,9 +498,9 @@ public partial class ChronoJumpWindow
 		{
 			//first stop showing video
 			bool wasActive = false;
-			if(checkbutton_video.Active) {
+			if(checkbutton_video_contacts.Active) {
 				wasActive = true;
-				checkbutton_video.Active = false;
+				checkbutton_video_contacts.Active = false;
 			}
 
 			if(notebook_sup.CurrentPage == 0) {
@@ -521,7 +531,7 @@ public partial class ChronoJumpWindow
 			}
 
 			if(wasActive)
-				checkbutton_video.Active = true;
+				checkbutton_video_contacts.Active = true;
 
 			video_capture_notebook_sup = notebook_sup.CurrentPage;
 		}
@@ -576,8 +586,8 @@ public partial class ChronoJumpWindow
 
 		capturer.CaptureProperties = s;
 
-		//checkbutton_video and checkbutton_video_encoder are synchronized
-		if(checkbutton_video.Active)
+		//checkbutton_video_contacts and checkbutton_video_encoder are synchronized
+		if(checkbutton_video_contacts.Active)
 			capturer.Type = CapturerType.Live;
 		else
 			capturer.Type = CapturerType.Fake;
@@ -594,34 +604,38 @@ public partial class ChronoJumpWindow
 
 	private void changeVideoButtons(bool myVideo)
 	{
-		image_video_yes.Visible = myVideo;
-		image_video_no.Visible = ! myVideo;
+		image_video_contacts_yes.Visible = myVideo;
+		image_video_contacts_no.Visible = ! myVideo;
 
 		image_video_encoder_yes.Visible = myVideo;
 		image_video_encoder_no.Visible = ! myVideo;
 
-		button_video_preview.Visible = myVideo;
+		button_video_contacts_preview.Visible = myVideo;
 		button_video_encoder_preview.Visible = myVideo;
 	}
 
-	private void on_checkbutton_video_clicked(object o, EventArgs args)
+	private void on_checkbutton_video_contacts_clicked(object o, EventArgs args)
 	{
-		if(checkbutton_video.Active)
+		if(checkbutton_video_contacts.Active)
 		{
 			if(! preferences.IsVideoConfigured())
 			{
 				new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Video device is not configured. Check Preferences / Multimedia."));
-				checkbutton_video.Active = false;
+				checkbutton_video_contacts.Active = false;
 				return;
 			}
 
 			preferences.videoOn = true;
 			SqlitePreferences.Update("videoOn", "True", false);
-			event_execute_label_message.Text = Catalog.GetString("Tests will be filmed");
+
+			//this allows to see the label during 500 ms
+			//hbox_video_contacts_no_capturing.Visible = false;
+			notebook_video_contacts.CurrentPage = 1;
+			label_video_contacts_tests_will_be_filmed.Visible = true;
+			GLib.Timeout.Add(1000, new GLib.TimeoutHandler(checkbutton_video_contacts_active_end));
 		} else {
 			preferences.videoOn = false;
 			SqlitePreferences.Update("videoOn", "False", false);
-			event_execute_label_message.Text = "";
 		}
 		//change encoder checkbox but don't raise the signal
 		checkbutton_video_encoder.Clicked -= new EventHandler(on_checkbutton_video_encoder_clicked);
@@ -656,14 +670,23 @@ public partial class ChronoJumpWindow
 			SqlitePreferences.Update("videoOn", "False", false);
 		}
 		//change contacts checkbox but don't raise the signal
-		checkbutton_video.Clicked -= new EventHandler(on_checkbutton_video_clicked);
-		checkbutton_video.Active = preferences.videoOn;
-		checkbutton_video.Clicked += new EventHandler(on_checkbutton_video_clicked);
+		checkbutton_video_contacts.Clicked -= new EventHandler(on_checkbutton_video_contacts_clicked);
+		checkbutton_video_contacts.Active = preferences.videoOn;
+		checkbutton_video_contacts.Clicked += new EventHandler(on_checkbutton_video_contacts_clicked);
 
 		changeVideoButtons(preferences.videoOn);
 
 		//will start on record
 		videoCapturePrepare(true); //if error, show message
+	}
+
+	private bool checkbutton_video_contacts_active_end()
+	{
+		//hbox_video_contacts_no_capturing.Visible = true;
+		notebook_video_contacts.CurrentPage = 0;
+		label_video_contacts_tests_will_be_filmed.Visible = false;
+
+		return false; //do not call this again
 	}
 
 	private bool checkbutton_video_encoder_active_end()
@@ -682,7 +705,7 @@ public partial class ChronoJumpWindow
 	//TODO: manage different playVideo. Playing is very different than capturing, separate it.
 	Webcam webcamPlay;
 
-	private void on_button_video_preview_clicked (object o, EventArgs args)
+	private void on_button_video_contacts_preview_clicked (object o, EventArgs args)
 	{
 		playPreview();
 	}
@@ -698,6 +721,7 @@ public partial class ChronoJumpWindow
 		Webcam.Result result = webcamPlay.PlayPreviewNoBackground ();
 	}
 
+	/*
 	private void on_button_video_debug_clicked (object o, EventArgs args)
 	{
 		string executable = "debug";
@@ -708,6 +732,7 @@ public partial class ChronoJumpWindow
 		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, true, true);
 		LogB.Information("Called debug.");
 	}
+	*/
 
 	//Not used on encoder
 	private void playVideo (string fileName)
@@ -742,7 +767,7 @@ public partial class ChronoJumpWindow
 	}
 
 
-	private void on_video_play_last_test_clicked (object o, EventArgs args)
+	private void on_button_video_play_this_test_contacts_clicked (object o, EventArgs args)
 	{
 		if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR)
 		{

@@ -111,6 +111,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_results_data;
 	
 	[Widget] Gtk.DrawingArea event_execute_drawingarea;
+	[Widget] Gtk.Frame frame_run_simple_double_contacts;
 	[Widget] Gtk.DrawingArea event_execute_drawingarea_run_simple_double_contacts;
 	/*
 	[Widget] Gtk.Box hbox_combo_graph_results_width;
@@ -249,7 +250,7 @@ public partial class ChronoJumpWindow
 	}
 	private ExecutingGraphData event_execute_prepareForTest () 
 	{
-		checkbutton_video.Sensitive = false;
+		checkbutton_video_contacts.Sensitive = false;
 
 		ExecutingGraphData executingGraphData = new ExecutingGraphData(
 				event_execute_button_cancel, event_execute_button_finish, 
@@ -2332,10 +2333,10 @@ public partial class ChronoJumpWindow
 	{
 		hideButtons();
 
-		checkbutton_video.Sensitive = true;
+		checkbutton_video_contacts.Sensitive = true;
 		if(preferences.videoOn) {	
 			label_video_feedback.Text = "";
-			button_video_preview.Visible = true;
+			button_video_contacts_preview.Visible = true;
 			//capturer.ClickStop();
 			//videoCapturePrepare(false); //if error, show message
 		}
@@ -2488,11 +2489,11 @@ public partial class ChronoJumpWindow
 	{
 		hideButtons();
 		
-		checkbutton_video.Sensitive = true;
+		checkbutton_video_contacts.Sensitive = true;
 		if(preferences.videoOn) {
 			//it will be recorded on temp, but chronojump will move it to chronojump/multimedia folders
 			label_video_feedback.Text = "";
-			button_video_preview.Visible = true;
+			button_video_contacts_preview.Visible = true;
 			//capturer.ClickStop();
 			//videoCapturePrepare(false); //if error, show message
 		}

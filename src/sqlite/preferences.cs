@@ -67,6 +67,9 @@ class SqlitePreferences : Sqlite
 	public const string ForceSensorCalibrationDateTimeStr = "forceSensorCalibrationDateTime";
 	public const string ForceSensorCalibrationWeightStr = "forceSensorCalibrationWeight";
 	public const string ForceSensorCalibrationFactorStr = "forceSensorCalibrationFactor";
+	public const string ForceSensorCaptureFeedbackActive = "forceSensorCaptureFeedbackActive";
+	public const string ForceSensorCaptureFeedbackAt = "forceSensorCaptureFeedbackAt";
+	public const string ForceSensorCaptureFeedbackRange = "forceSensorCaptureFeedbackRange";
 
 	protected internal static new void createTable()
 	{
@@ -199,6 +202,14 @@ class SqlitePreferences : Sqlite
 				Insert (ForceSensorNotElasticEccMinForce, "10", dbcmdTr);
 				Insert (ForceSensorNotElasticConMinForce, "10", dbcmdTr);
 				Insert (ForceSensorGraphsLineWidth, "2", dbcmdTr);
+				Insert (ForceSensorCaptureFeedbackActive, "False", dbcmdTr);
+				Insert (ForceSensorCaptureFeedbackAt, "100", dbcmdTr);
+				Insert (ForceSensorCaptureFeedbackRange, "40", dbcmdTr);
+				Insert (ForceSensorTareDateTimeStr, "", dbcmdTr);
+				Insert (ForceSensorTareStr, "-1", dbcmdTr); //result value from sensor. Decimal is point!!
+				Insert (ForceSensorCalibrationDateTimeStr, "", dbcmdTr);
+				Insert (ForceSensorCalibrationWeightStr, "-1", dbcmdTr);
+				Insert (ForceSensorCalibrationFactorStr, "-1", dbcmdTr); //result value from sensor. Decimal is point!!
 
 				//multimedia
 				Insert ("videoDevice", "", dbcmdTr); //first
@@ -206,6 +217,8 @@ class SqlitePreferences : Sqlite
 				Insert ("videoDeviceResolution", "", dbcmdTr);
 				Insert ("videoDeviceFramerate", "", dbcmdTr);
 				Insert ("videoStopAfter", "2", dbcmdTr);
+
+				//other
 				Insert ("inertialmomentum", "0.01", dbcmdTr);
 				Insert ("CSVExportDecimalSeparator", Util.GetDecimalSeparatorFromLocale(), dbcmdTr);
 				Insert ("RGraphsTranslate", "True", dbcmdTr);
@@ -214,11 +227,6 @@ class SqlitePreferences : Sqlite
 				Insert (EncoderAutoSaveCurveBestNValue, "3", dbcmdTr);
 				Insert ("email", "", dbcmdTr);
 				Insert ("muteLogs", "False", dbcmdTr);
-				Insert (ForceSensorTareDateTimeStr, "", dbcmdTr);
-				Insert (ForceSensorTareStr, "-1", dbcmdTr); //result value from sensor. Decimal is point!!
-				Insert (ForceSensorCalibrationDateTimeStr, "", dbcmdTr);
-				Insert (ForceSensorCalibrationWeightStr, "-1", dbcmdTr);
-				Insert (ForceSensorCalibrationFactorStr, "-1", dbcmdTr); //result value from sensor. Decimal is point!!
 				
 				//removed on 1.37
 				//Insert ("encoderConfiguration", new EncoderConfiguration().ToStringOutput(EncoderConfiguration.Outputs.SQL), dbcmdTr);
@@ -485,6 +493,12 @@ class SqlitePreferences : Sqlite
 				preferences.forceSensorNotElasticConMinForce = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == ForceSensorGraphsLineWidth)
 				preferences.forceSensorGraphsLineWidth = Convert.ToInt32(reader[1].ToString());
+			else if(reader[0].ToString() == ForceSensorCaptureFeedbackActive)
+				preferences.forceSensorCaptureFeedbackActive = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == ForceSensorCaptureFeedbackAt)
+				preferences.forceSensorCaptureFeedbackAt = Convert.ToInt32(reader[1].ToString());
+			else if(reader[0].ToString() == ForceSensorCaptureFeedbackRange)
+				preferences.forceSensorCaptureFeedbackRange = Convert.ToInt32(reader[1].ToString());
 
 			//force sensor tare
 			else if(reader[0].ToString() == ForceSensorTareDateTimeStr)

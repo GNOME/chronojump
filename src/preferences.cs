@@ -132,11 +132,15 @@ public class Preferences
 	public int encoderRhythmRepsCluster;
 	public double encoderRhythmRestClustersSeconds;
 
+	//forceSensor
 	public string forceSensorTareDateTime;
 	public double forceSensorTare;
 	public string forceSensorCalibrationDateTime;
 	public double forceSensorCalibrationWeight;
 	public double forceSensorCalibrationFactor;
+	public bool forceSensorCaptureFeedbackActive;
+	public int forceSensorCaptureFeedbackAt;
+	public int forceSensorCaptureFeedbackRange;
 				
 	public int encoderCaptureTimeIM = 180; //hardcoded 3 minutes.
 

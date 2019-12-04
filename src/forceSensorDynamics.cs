@@ -171,6 +171,11 @@ public abstract class ForceSensorDynamics
 		return force_l;
 	}
 
+	public List<ForceSensorRepetition> GetRepetitions()
+	{
+		return forceSensorRepetition_l;
+	}
+
 	//----- start of: only implemented on elastic ----->
 
 	public virtual List<double> GetPositions()
@@ -191,11 +196,6 @@ public abstract class ForceSensorDynamics
 	public virtual List<double> GetPowers()
 	{
 		return new List<double>();
-	}
-
-	public List<ForceSensorRepetition> GetRepetitions()
-	{
-		return forceSensorRepetition_l;
 	}
 
 	//<----- end of: only implemented on elastic -----

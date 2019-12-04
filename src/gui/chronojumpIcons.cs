@@ -55,6 +55,8 @@ public partial class ChronoJumpWindow
 	//[Widget] Gtk.Image image_persons_down;
 	[Widget] Gtk.Image image_contacts_exercise;
 	[Widget] Gtk.Image image_contacts_exercise_close;
+	[Widget] Gtk.Image image_contacts_capture_load;
+	[Widget] Gtk.Image image_contacts_recalculate;
 	[Widget] Gtk.Image image_rest;
 	[Widget] Gtk.Image image_all_persons_events;
 	[Widget] Gtk.Image image_all_persons_events_h;
@@ -63,6 +65,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_chronopic_connect_contacts;
 	[Widget] Gtk.Image image_chronopic_connect_encoder;
 	[Widget] Gtk.Image image_button_execute;
+	[Widget] Gtk.Image image_contacts_bell;
+	[Widget] Gtk.Image image_contacts_close_and_capture;
 	[Widget] Gtk.Image image_tests_capture;
 	[Widget] Gtk.Image image_tests_sprint;
 	[Widget] Gtk.Image image_tests_analyze_general;
@@ -80,6 +84,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_add_test4;
 	[Widget] Gtk.Image image_add_test5;
 	[Widget] Gtk.Image image_test_inspect;
+	[Widget] Gtk.Image image_test_inspect1;
 
 	[Widget] Gtk.Image image_selector_start_jumps;
 	[Widget] Gtk.Image image_selector_start_runs;
@@ -164,7 +169,6 @@ public partial class ChronoJumpWindow
 	//force sensor
 	[Widget] Gtk.Image image_selector_start_force_sensor;
 	[Widget] Gtk.Image image_force_sensor_adjust_help;
-	[Widget] Gtk.Image image_force_sensor_capture_load;
 	[Widget] Gtk.Image image_force_sensor_analyze_load;
 	[Widget] Gtk.Image image_force_sensor_tare;
 	[Widget] Gtk.Image image_force_sensor_calibrate;
@@ -174,7 +178,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_force_sensor_capture_adjust_close;
 	[Widget] Gtk.Image image_force_sensor_analyze_options;
 	[Widget] Gtk.Image image_force_sensor_analyze_options_close;
-	[Widget] Gtk.Image image_force_sensor_capture_recalculate;
 	[Widget] Gtk.Image image_force_sensor_analyze_analyze;
 	[Widget] Gtk.Image image_force_sensor_exercise_edit;
 	[Widget] Gtk.Image image_force_sensor_exercise_delete;
@@ -185,15 +188,13 @@ public partial class ChronoJumpWindow
 
 	//race encoder
 	[Widget] Gtk.Image image_race_encoder_open_folder;
-	[Widget] Gtk.Image image_race_encoder_capture_load;
-	[Widget] Gtk.Image image_race_encoder_capture_recalculate;
 	[Widget] Gtk.Image image_run_encoder_exercise_edit;
 	[Widget] Gtk.Image image_run_encoder_exercise_add;
 	[Widget] Gtk.Image image_run_encoder_exercise_delete;
 	[Widget] Gtk.Image image_menuitem_runEncoder_session_overview;
 
 	//video play icons
-	[Widget] Gtk.Image image_video_play_this_test;
+	[Widget] Gtk.Image image_video_play_this_test_contacts;
 	[Widget] Gtk.Image image_video_play_this_test_encoder;
 	[Widget] Gtk.Image image_video_play_selected_jump;
 	[Widget] Gtk.Image image_video_play_selected_jump_rj;
@@ -202,7 +203,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_video_play_selected_pulse;
 	[Widget] Gtk.Image image_video_play_selected_reaction_time;
 	[Widget] Gtk.Image image_video_play_selected_multi_chronopic;
-	[Widget] Gtk.Image image_video_preview;
+	[Widget] Gtk.Image image_video_contacts_preview;
 	[Widget] Gtk.Image image_video_encoder_preview;
 
 	[Widget] Gtk.Image image_encoder_capture_curves_save;
@@ -320,6 +321,7 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_capture.png");
 		image_tests_capture.Pixbuf = pixbuf;
 		image_mode_encoder_capture.Pixbuf = pixbuf;
+		image_contacts_close_and_capture.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_sprint.png");
 		image_tests_sprint.Pixbuf = pixbuf;
@@ -356,6 +358,7 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_test_inspect.png");
 		image_test_inspect.Pixbuf = pixbuf;
+		image_test_inspect1.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_chronopic_connect.png");
 		image_chronopic_connect_contacts.Pixbuf = pixbuf;
@@ -363,8 +366,7 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_recalculate.png");
 		image_recalculate.Pixbuf = pixbuf;
-		image_race_encoder_capture_recalculate.Pixbuf = pixbuf;
-		image_force_sensor_capture_recalculate.Pixbuf = pixbuf;
+		image_contacts_recalculate.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_build_24.png");
 		image_encoder_configuration.Pixbuf = pixbuf;
@@ -389,9 +391,8 @@ public partial class ChronoJumpWindow
 		image_session_open.Pixbuf = pixbuf;
 		image_encoder_capture_open.Pixbuf = pixbuf;
 		image_encoder_capture_open1.Pixbuf = pixbuf;
-		image_force_sensor_capture_load.Pixbuf = pixbuf;
+		image_contacts_capture_load.Pixbuf = pixbuf;
 		image_force_sensor_analyze_load.Pixbuf = pixbuf;
-		image_race_encoder_capture_load.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "zero.png");
 		image_force_sensor_tare.Pixbuf = pixbuf;
@@ -458,16 +459,17 @@ public partial class ChronoJumpWindow
 		image_encoder_calibrate.Pixbuf = pixbuf;
 		image_encoder_recalibrate.Pixbuf = pixbuf;
 
-		image_video_yes.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "videocamera_on.png");
+		image_video_contacts_yes1.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "videocamera_on.png");
+		image_video_contacts_yes.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "videocamera_on.png");
 		image_video_encoder_yes.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "videocamera_on.png");
 		image_video_encoder_yes1.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "videocamera_on.png");
-		image_video_no.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "videocamera_off.png");
+		image_video_contacts_no.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "videocamera_off.png");
 		image_video_encoder_no.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "videocamera_off.png");
 
 		image_camera_at_boot.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "videocamera_off.png");
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_preview.png");
-		image_video_preview.Pixbuf = pixbuf;
+		image_video_contacts_preview.Pixbuf = pixbuf;
 		image_video_encoder_preview.Pixbuf = pixbuf;
 
 		/*
@@ -581,8 +583,7 @@ public partial class ChronoJumpWindow
 		//image_encoder_capture_open.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_none.png");
-		image_jump_reactive_bell.Pixbuf = pixbuf;
-		image_run_interval_bell.Pixbuf = pixbuf;
+		image_contacts_bell.Pixbuf = pixbuf;
 		image_encoder_bell.Pixbuf = pixbuf;
 		
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "preferences-system.png");
@@ -609,10 +610,9 @@ public partial class ChronoJumpWindow
 		image_encoder_exercise_delete.Pixbuf = pixbuf;
 		image_force_sensor_exercise_delete.Pixbuf = pixbuf;
 		image_run_encoder_exercise_delete.Pixbuf = pixbuf;
-
-
 		image_button_cancel.Pixbuf = pixbuf;
 		image_encoder_capture_cancel.Pixbuf = pixbuf;
+		image_encoder_signal_delete.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
 		image_encoder_analyze_cancel.Pixbuf = pixbuf;
@@ -631,7 +631,7 @@ public partial class ChronoJumpWindow
 
 		//video play icons
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "video_play.png");
-		image_video_play_this_test.Pixbuf = pixbuf;
+		image_video_play_this_test_contacts.Pixbuf = pixbuf;
 		image_video_play_this_test_encoder.Pixbuf = pixbuf;
 		image_video_play_selected_jump.Pixbuf = pixbuf;
 		image_video_play_selected_jump_rj.Pixbuf = pixbuf;
@@ -693,9 +693,6 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_email.png");
 		image_encoder_analyze_image_compujump_send_email_send.Pixbuf = pixbuf;
-
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
-		image_encoder_signal_delete.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_analyze_general.png");
 		image_tests_analyze_general.Pixbuf = pixbuf;

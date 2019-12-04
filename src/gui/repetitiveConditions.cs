@@ -127,6 +127,7 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.Label label_test_sound_result;
 	[Widget] Gtk.Button button_close;
 
+	[Widget] Gtk.HBox hbox_test_bells;
 	//bells good (green)
 	[Widget] Gtk.Image image_repetitive_best_tf_tc;
 	[Widget] Gtk.Image image_repetitive_best_time;
@@ -184,6 +185,12 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.HBox hbox_rhythm_rest_reps_value;
 	[Widget] Gtk.CheckButton check_rhythm_rest_reps;
 
+	//forceSensor
+	[Widget] Gtk.VBox vbox_force_capture_feedback;
+	[Widget] Gtk.CheckButton check_force_sensor_capture_feedback;
+	[Widget] Gtk.HBox hbox_force_sensor_capture_feedback;
+	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_at;
+	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_range;
 
 	const int FEEDBACKPAGE = 0;
 	const int RHYTHMPAGE = 1;
@@ -237,29 +244,33 @@ public class RepetitiveConditionsWindow
 		
 		return RepetitiveConditionsWindowBox;
 	}
-	
-	public void View (Constants.BellModes bellMode, bool volumeOn, Preferences.GstreamerTypes gstreamer,
-			Constants.EncoderVariablesCapture encoderMainVariable,
-			Constants.EncoderVariablesCapture encoderSecondaryVariable,
-			bool encoderSecondaryVariableShow,
-			EncoderRhythm encoderRhythm)
+
+	public void View (Constants.BellModes bellMode, Preferences preferences, EncoderRhythm encoderRhythm)
 	{
 		//when user "deleted_event" the window
 		if (RepetitiveConditionsWindowBox == null) {
 			RepetitiveConditionsWindowBox = new RepetitiveConditionsWindow (); 
 		}
-		RepetitiveConditionsWindowBox.showWidgets(bellMode, encoderMainVariable, encoderSecondaryVariable, encoderSecondaryVariableShow, encoderRhythm);
+		RepetitiveConditionsWindowBox.showWidgets(bellMode,
+				preferences.encoderCaptureMainVariable, preferences.encoderCaptureSecondaryVariable,
+				preferences.encoderCaptureSecondaryVariableShow, encoderRhythm,
+				preferences.forceSensorCaptureFeedbackActive,
+				preferences.forceSensorCaptureFeedbackAt,
+				preferences.forceSensorCaptureFeedbackRange);
 
 		RepetitiveConditionsWindowBox.repetitive_conditions.Show ();
-		RepetitiveConditionsWindowBox.volumeOn = volumeOn;
-		RepetitiveConditionsWindowBox.gstreamer = gstreamer;
+		RepetitiveConditionsWindowBox.volumeOn = preferences.volumeOn;
+		RepetitiveConditionsWindowBox.gstreamer = preferences.gstreamer;
 	}
 
 	void showWidgets(Constants.BellModes bellMode,
 			Constants.EncoderVariablesCapture encoderMainVariable,
 			Constants.EncoderVariablesCapture encoderSecondaryVariable,
 			bool encoderSecondaryVariableShow,
-			EncoderRhythm encoderRhythm)
+			EncoderRhythm encoderRhythm,
+			bool forceSensorCaptureFeedbackActive,
+			int forceSensorCaptureFeedbackAt,
+			int forceSensorCaptureFeedbackRange)
 	{
 		frame_best_and_worst.Hide();
 		frame_conditions.Hide();
@@ -271,6 +282,8 @@ public class RepetitiveConditionsWindow
 		vbox_encoder_manual.Hide();
 		notebook_encoder_conditions.Hide();
 		vbox_encoder_stuff.Hide();
+		vbox_force_capture_feedback.Hide();
+		hbox_test_bells.Hide();
 
 		notebook_main.GetNthPage(RHYTHMPAGE).Hide();
 		notebook_main.ShowTabs = false;
@@ -280,12 +293,15 @@ public class RepetitiveConditionsWindow
 			hbox_jump_best_worst.Show();
 			hbox_jump_conditions.Show();
 			frame_conditions.Show();
+			hbox_test_bells.Show();
 		} else if(bellMode == Constants.BellModes.RUNS) {
 			frame_best_and_worst.Show();
 			hbox_run_best_worst.Show();
 			hbox_run_conditions.Show();
 			frame_conditions.Show();
-		} else { //encoder (grav and inertial)
+			hbox_test_bells.Show();
+		} else if (bellMode == Constants.BellModes.ENCODERGRAVITATORY || bellMode == Constants.BellModes.ENCODERINERTIAL)
+		{
 			vbox_encoder_stuff.Show();
 			frame_encoder_automatic_conditions.Show();
 			notebook_main.ShowTabs = true;
@@ -309,6 +325,23 @@ public class RepetitiveConditionsWindow
 
 			notebook_main.GetNthPage(RHYTHMPAGE).Show();
 			encoder_rhythm_set_values(encoderRhythm);
+			hbox_test_bells.Show();
+		}
+		else if(bellMode == Constants.BellModes.FORCESENSOR)
+		{
+			if(forceSensorCaptureFeedbackActive)
+			{
+				check_force_sensor_capture_feedback.Active = true;
+				hbox_force_sensor_capture_feedback.Sensitive = true;
+			} else {
+				check_force_sensor_capture_feedback.Active = false;
+				hbox_force_sensor_capture_feedback.Sensitive = false;
+			}
+
+			spin_force_sensor_capture_feedback_at.Value = forceSensorCaptureFeedbackAt;
+			spin_force_sensor_capture_feedback_range.Value = forceSensorCaptureFeedbackRange;
+
+			vbox_force_capture_feedback.Visible = true;
 		}
 
 		label_test_sound_result.Text = "";
@@ -455,7 +488,8 @@ public class RepetitiveConditionsWindow
 			if(checkbutton_time_lower.Active || checkbutton_time_greater.Active)
 				return true;
 		}
-		else { //encoder (grav and inertial)
+		else if (bellMode == Constants.BellModes.ENCODERGRAVITATORY || bellMode == Constants.BellModes.ENCODERINERTIAL)
+		{
 			if(checkbutton_encoder_automatic_greater.Active || checkbutton_encoder_automatic_lower.Active ||
 					checkbutton_encoder_height_higher.Active || checkbutton_encoder_height_lower.Active ||
 					checkbutton_encoder_mean_speed_higher.Active || checkbutton_encoder_mean_speed_lower.Active ||
@@ -466,6 +500,8 @@ public class RepetitiveConditionsWindow
 					checkbutton_encoder_peakpower_higher.Active || checkbutton_encoder_peakpower_lower.Active)
 				return true;
 		}
+		else if(bellMode == Constants.BellModes.FORCESENSOR)
+			return check_force_sensor_capture_feedback.Active;
 
 		return false;
 	}
@@ -805,6 +841,23 @@ public class RepetitiveConditionsWindow
 				spin_rhythm_rep.Value, spin_rhythm_ecc.Value, spin_rhythm_con.Value,
 				restReps, radio_rest_after_ecc.Active,
 				reps_cluster, restClusters);
+	}
+
+	/* FORCESENSOR */
+
+	private void on_check_force_sensor_capture_feedback_toggled (object o, EventArgs args)
+	{
+		hbox_force_sensor_capture_feedback.Sensitive = check_force_sensor_capture_feedback.Active;
+	}
+
+	public bool GetForceSensorFeedbackActive {
+		get { return check_force_sensor_capture_feedback.Active; }
+	}
+	public int GetForceSensorFeedbackAt {
+		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_at.Value); }
+	}
+	public int GetForceSensorFeedbackRange {
+		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_range.Value); }
 	}
 
 

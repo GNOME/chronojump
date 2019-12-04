@@ -884,7 +884,7 @@ public class PersonAddModifyWindow
 	private string sex = Constants.M;
 	private double weightIni;
 	int pDN;
-	Gtk.CheckButton app1_checkbutton_video;
+	Gtk.CheckButton app1_checkbutton_video_contacts;
 	
 	private int serverUniqueID;
 
@@ -1221,7 +1221,7 @@ public class PersonAddModifyWindow
 	static public PersonAddModifyWindow Show (Gtk.Window parent, 
 			Session mySession, Person currentPerson, int pDN, 
 			//Gtk.CheckButton app1_checkbutton_video, bool showCapturePhoto,
-			Gtk.CheckButton app1_checkbutton_video,
+			Gtk.CheckButton app1_checkbutton_video_contacts,
 			string videoDevice, string videoDevicePixelFormat, string videoDeviceResolution, string videoDeviceFramerate,
 			bool compujump)
 	{
@@ -1231,7 +1231,7 @@ public class PersonAddModifyWindow
 		}
 
 		PersonAddModifyWindowBox.pDN = pDN;
-		PersonAddModifyWindowBox.app1_checkbutton_video = app1_checkbutton_video;
+		PersonAddModifyWindowBox.app1_checkbutton_video_contacts = app1_checkbutton_video_contacts;
 		PersonAddModifyWindowBox.videoDevice = videoDevice;
 		PersonAddModifyWindowBox.videoDevicePixelFormat = videoDevicePixelFormat;
 		PersonAddModifyWindowBox.videoDeviceResolution = videoDeviceResolution;

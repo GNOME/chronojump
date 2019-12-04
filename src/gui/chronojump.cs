@@ -3610,25 +3610,37 @@ public partial class ChronoJumpWindow
 			return;
 
 		if(o == menuitem_mode_jumps_simple)
+		{
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.JUMPSSIMPLE);
-		else if(o == menuitem_mode_jumps_reactive)
+			image_contacts_exercise.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_simple.png");
+		} else if(o == menuitem_mode_jumps_reactive) {
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.JUMPSREACTIVE);
-		else if(o == menuitem_mode_runs_simple)
+			image_contacts_exercise.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_reactive.png");
+		} else if(o == menuitem_mode_runs_simple) {
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.RUNSSIMPLE);
-		else if(o == menuitem_mode_runs_intervallic)
+			image_contacts_exercise.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run_simple.png");
+		} else if(o == menuitem_mode_runs_intervallic) {
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.RUNSINTERVALLIC);
-		else if(o == menuitem_mode_race_encoder)
+			image_contacts_exercise.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run_multiple.png");
+		} else if(o == menuitem_mode_race_encoder) {
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.RUNSENCODER);
-		else if(o == menuitem_mode_power_gravitatory)
+			image_contacts_exercise.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "race_encoder_icon.png");
+		} else if(o == menuitem_mode_power_gravitatory) {
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.POWERGRAVITATORY);
-		else if(o == menuitem_mode_power_inertial)
+			image_encoder_exercise.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_weight.png");
+		} else if(o == menuitem_mode_power_inertial) {
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.POWERINERTIAL);
-		else if(o == menuitem_mode_force_sensor)
+			image_encoder_exercise.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_inertia.png");
+		} else if(o == menuitem_mode_force_sensor) {
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.FORCESENSOR);
-		else if(o == menuitem_mode_reaction_time)
+			image_contacts_exercise.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "force_sensor_icon.png");
+		} else if(o == menuitem_mode_reaction_time) {
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.RT);
-		else if(o == menuitem_mode_other)
+			image_contacts_exercise.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "reaction_time_icon.png");
+		} else if(o == menuitem_mode_other) {
 			select_menuitem_mode_toggled(Constants.Menuitem_modes.OTHER);
+			image_contacts_exercise.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "other_icon.png");
+		}
 
 		changeMenuitemModeWidgets(image_menuitem_mode_jumps_simple, o == menuitem_mode_jumps_simple,
 				"image_jump_simple.png", "image_jump_simple_yellow.png", (Label) menuitem_mode_jumps_simple.Child);

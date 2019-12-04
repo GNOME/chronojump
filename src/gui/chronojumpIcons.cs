@@ -375,8 +375,9 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_build_16.png");
 		image_encoder_analyze_mode_options.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_exercise.png");
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_simple.png"); //but will change depending on mode
 		image_contacts_exercise.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_weight.png"); //but will change depending on mode
 		image_encoder_exercise.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_new_big.png");

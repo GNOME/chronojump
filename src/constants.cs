@@ -999,7 +999,7 @@ public class Constants
 	}
 
 	public enum BellModes {
-		JUMPS, RUNS, ENCODERGRAVITATORY, ENCODERINERTIAL
+		JUMPS, RUNS, ENCODERGRAVITATORY, ENCODERINERTIAL, FORCESENSOR
 	}
 
 	public enum Menuitem_modes {

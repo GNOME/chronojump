@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.80";
+	static string lastChronojumpDatabaseVersion = "1.81";
 
 	public Sqlite() {
 	}
@@ -2566,6 +2566,16 @@ class Sqlite
 
 				currentVersion = updateVersion("1.80");
 			}
+			if(currentVersion == "1.80")
+			{
+				LogB.SQL("Inserted forceSensorCaptureFeedbackActive /At /Range");
+
+				SqlitePreferences.Insert (SqlitePreferences.ForceSensorCaptureFeedbackActive, "False");
+				SqlitePreferences.Insert (SqlitePreferences.ForceSensorCaptureFeedbackAt, "100");
+				SqlitePreferences.Insert (SqlitePreferences.ForceSensorCaptureFeedbackRange, "40");
+
+				currentVersion = updateVersion("1.81");
+			}
 
 
 			/*
@@ -2761,6 +2771,7 @@ class Sqlite
 		SqliteForceSensorRFD.createTable();
 		SqliteForceSensorRFD.InsertDefaultValues(true);
 		SqliteForceSensorElasticBand.createTable();
+		//SqliteForceSensorElasticBandGlue.createTable();
 
 		//runEncoder
 		SqliteRunEncoder.createTable();
@@ -2778,6 +2789,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 //
+		//1.80 - 1.81 Converted DB to 1.81 Inserted forceSensorCaptureFeedbackActive /At /Range
 		//1.79 - 1.80 Converted DB to 1.80 Inserted forceSensorElasticEccMinDispl, ...
 		//1.78 - 1.79 Converted DB to 1.79 Inserted into preferences: encoderWorkKcal
 		//1.77 - 1.78 Converted DB to 1.78 Inserted into preferences: encoderAutoSaveCurveBestNValue

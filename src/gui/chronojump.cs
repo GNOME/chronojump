@@ -3641,7 +3641,7 @@ public partial class ChronoJumpWindow
 		changeMenuitemModeWidgets(image_menuitem_mode_race_encoder, o == menuitem_mode_race_encoder,
 				"race_encoder_icon.png", "race_encoder_icon_yellow.png", (Label) menuitem_mode_race_encoder.Child);
 		changeMenuitemModeWidgets(image_menuitem_mode_power_gravitatory, o == menuitem_mode_power_gravitatory,
-				"image_gravity.png", "image_gravity_yellow.png", (Label) menuitem_mode_power_gravitatory.Child);
+				"image_weight.png", "image_weight_yellow.png", (Label) menuitem_mode_power_gravitatory.Child);
 		changeMenuitemModeWidgets(image_menuitem_mode_power_inertial, o == menuitem_mode_power_inertial,
 				"image_inertia.png", "image_inertia_yellow.png", (Label) menuitem_mode_power_inertial.Child);
 		changeMenuitemModeWidgets(image_menuitem_mode_force_sensor, o == menuitem_mode_force_sensor,

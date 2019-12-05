@@ -163,11 +163,13 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box hbox_combo_result_runs_interval;
 	
 	[Widget] Gtk.Box hbox_combo_pulses;
-	[Widget] Gtk.Box hbox_jumps;
+	[Widget] Gtk.VBox vbox_jumps;
 	[Widget] Gtk.Box hbox_jumps_test;
 	[Widget] Gtk.Box hbox_jumps_rj;
-	[Widget] Gtk.Box hbox_runs;
-	[Widget] Gtk.Box hbox_runs_interval;
+	[Widget] Gtk.VBox vbox_runs;
+	[Widget] Gtk.HBox hbox_runs_interval_all; //normal and compujump
+	[Widget] Gtk.VBox vbox_runs_interval;
+	[Widget] Gtk.VBox vbox_runs_interval_compujump;
 	[Widget] Gtk.Box hbox_other_mc;
 	[Widget] Gtk.Box hbox_other_pulses;
 	
@@ -224,6 +226,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.VBox vbox_contacts_signal_comment;
 	[Widget] Gtk.TextView textview_contacts_signal_comment;
 	[Widget] Gtk.Button button_contacts_signal_save_comment;
+	[Widget] Gtk.Frame frame_jumps_automatic;
 	[Widget] Gtk.Notebook notebook_jumps_automatic;
 	[Widget] Gtk.VBox vbox_contacts_device_and_camera;
 
@@ -3169,7 +3172,7 @@ public partial class ChronoJumpWindow
 		button_force_sensor_adjust.Visible = false;
 		vbox_contacts_load_recalculate.Visible = false;
 		vbox_contacts_signal_comment.Visible = false;
-		notebook_jumps_automatic.Visible = false;
+		frame_jumps_automatic.Visible = false;
 
 		//on OSX R is not installed by default. Check if it's installed. Needed for encoder and force sensor
 		if(
@@ -3200,7 +3203,7 @@ public partial class ChronoJumpWindow
 				notebooks_change(m);
 				on_extra_window_jumps_test_changed(new object(), new EventArgs());
 				hbox_results_legend.Visible = true;
-				notebook_jumps_automatic.Visible = true;
+				frame_jumps_automatic.Visible = true;
 
 				if(radio_mode_contacts_analyze.Active)
 				{
@@ -7371,7 +7374,7 @@ LogB.Debug("mc finished 5");
 
 	//only called by delete person functions (if we run out of persons)
 	private void sensitiveGuiNoPerson () {
-		hbox_jumps.Sensitive = false;
+		vbox_jumps.Sensitive = false;
 		hbox_jumps_rj.Sensitive = false;
 		button_execute_test.Sensitive = false;
 		button_auto_start.Sensitive = false;
@@ -7400,7 +7403,7 @@ LogB.Debug("mc finished 5");
 	}
 	
 	private void sensitiveGuiYesPerson () {
-		hbox_jumps.Sensitive = true;
+		vbox_jumps.Sensitive = true;
 		hbox_jumps_rj.Sensitive = true;
 		button_execute_test.Sensitive = true;
 		button_auto_start.Sensitive = true;
@@ -7492,8 +7495,8 @@ LogB.Debug("mc finished 5");
 		hbox_jump_types_options.Sensitive = false;
 		
 		hbox_jumps_rj.Sensitive = false;
-		hbox_runs.Sensitive = false;
-		hbox_runs_interval.Sensitive = false;
+		vbox_runs.Sensitive = false;
+		hbox_runs_interval_all.Sensitive = false;
 		hbox_other_mc.Sensitive = false;
 		hbox_other_pulses.Sensitive = false;
 		sensitiveLastTestButtons(false);
@@ -7562,8 +7565,8 @@ LogB.Debug("mc finished 5");
 		hbox_jump_types_options.Sensitive = true;
 		
 		hbox_jumps_rj.Sensitive = true;
-		hbox_runs.Sensitive = true;
-		hbox_runs_interval.Sensitive = true;
+		vbox_runs.Sensitive = true;
+		hbox_runs_interval_all.Sensitive = true;
 		hbox_other_mc.Sensitive = true;
 		hbox_other_pulses.Sensitive = true;
 		//hbox_multi_chronopic_buttons.Sensitive = true;
@@ -7691,7 +7694,6 @@ LogB.Debug("mc finished 5");
 		frame_persons.Sensitive 	= ! start;
 
 		hbox_jumps_test.Visible 	= ! start;
-		button_auto_start.Visible 	= ! start;	
 		hbox_jump_types_options.Visible = ! start;
 		hbox_jump_auto_controls.Visible  = start;
 

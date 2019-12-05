@@ -42,7 +42,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton extra_window_radio_reaction_time_flicker;
 	[Widget] Gtk.RadioButton extra_window_radio_reaction_time_discriminative;
 
-	[Widget] Gtk.Button button_reaction_time_device_help;
+	[Widget] Gtk.Label label_reaction_time_device_help;
 
 
 	private void on_extra_window_reaction_times_test_changed(object o, EventArgs args)
@@ -60,10 +60,12 @@ public partial class ChronoJumpWindow
 		if(extra_window_radio_reaction_time_animation_lights.Active) {
 			hbox_animation_lights.Visible = true;
 			currentReactionTimeType = new ReactionTimeType("anticipation");
+			changeTestImage("","", "reaction_time_discriminative.png");
 		}
 		else if(extra_window_radio_reaction_time_flicker.Active) {
 			hbox_flicker_lights.Visible = true;
 			currentReactionTimeType = new ReactionTimeType("flickr");
+			changeTestImage("","", "reaction_time_discriminative.png");
 		}
 		else if(extra_window_radio_reaction_time_discriminative.Active) {
 			hbox_discriminative_lights.Visible = true;
@@ -71,7 +73,7 @@ public partial class ChronoJumpWindow
 			changeTestImage("","", "reaction_time_discriminative.png");
 		}
 
-		button_reaction_time_device_help.Visible = (
+		label_reaction_time_device_help.Visible = (
 				extra_window_radio_reaction_time_animation_lights.Active ||
 				extra_window_radio_reaction_time_flicker.Active ||
 				extra_window_radio_reaction_time_discriminative.Active );
@@ -108,11 +110,6 @@ public partial class ChronoJumpWindow
 			PrepareReactionTimeGraph(eventGraph, false); //don't animate
 	}
 
-
-	private void on_button_reaction_time_device_help_clicked (object o, EventArgs args)
-	{
-		new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("This test needs Chronojump reaction time device."));
-	}
 
 	// ---- animation lights
 

@@ -37,7 +37,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_race_encoder_open_folder;
 	[Widget] Gtk.CheckMenuItem menuitem_check_race_encoder_capture_simulate;
 
-	[Widget] Gtk.HBox hbox_run_encoder_capture_buttons;
+	[Widget] Gtk.VBox vbox_run_encoder_capture_buttons;
 	[Widget] Gtk.HBox hbox_run_encoder_capture_options;
 	[Widget] Gtk.HBox hbox_combo_run_encoder_exercise;
 	[Widget] Gtk.ComboBox combo_run_encoder_exercise;
@@ -1171,7 +1171,7 @@ LogB.Information(" re R ");
 	void runEncoderButtonsSensitive(bool sensitive)
 	{
 		//runEncoder related buttons
-		hbox_run_encoder_capture_buttons.Sensitive = sensitive;
+		vbox_run_encoder_capture_buttons.Sensitive = sensitive;
 		hbox_run_encoder_capture_options.Sensitive = sensitive;
 		button_execute_test.Sensitive = sensitive;
 

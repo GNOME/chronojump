@@ -87,7 +87,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_RFID_disconnected;
 
 	//runsInterval
-	[Widget] Gtk.HBox hbox_runs_interval_compujump;
 	[Widget] Gtk.RadioButton radio_run_interval_compujump_5m;
 	[Widget] Gtk.RadioButton radio_run_interval_compujump_10m;
 	[Widget] Gtk.RadioButton radio_run_interval_compujump_15m;
@@ -186,8 +185,8 @@ public partial class ChronoJumpWindow
 				else //if(configChronojump.CompujumpStationMode == Constants.Menuitem_modes.POWERINERTIAL)
 					on_button_selector_start_encoder_inertial_clicked(new object (), new EventArgs());
 
-				hbox_runs_interval.Visible = false;
-				hbox_runs_interval_compujump.Visible = true;
+				vbox_runs_interval.Visible = false;
+				vbox_runs_interval_compujump.Visible = true;
 
 				menuitem_mode.Visible = false;
 				button_menu_outside_menu.Visible = false;

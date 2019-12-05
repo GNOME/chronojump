@@ -1225,9 +1225,14 @@ LogB.Information(" re R ");
 		combo_run_encoder_exercise = ComboBox.NewText ();
 		fillRunEncoderExerciseCombo("");
 
-//		combo_run_encoder_exercise.Changed += new EventHandler (on_combo_run_encoder_exercise_changed);
+		combo_run_encoder_exercise.Changed += new EventHandler (on_combo_run_encoder_exercise_changed);
 		hbox_combo_run_encoder_exercise.PackStart(combo_run_encoder_exercise, true, true, 0);
 		hbox_combo_run_encoder_exercise.ShowAll();
+	}
+
+	private void on_combo_run_encoder_exercise_changed(object o, EventArgs args)
+	{
+		label_contacts_exercise_selected.Text = UtilGtk.ComboGetActive(combo_run_encoder_exercise);
 	}
 
 	private void fillRunEncoderExerciseCombo(string name)

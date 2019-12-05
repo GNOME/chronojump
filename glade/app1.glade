@@ -5181,7 +5181,6 @@ EncoderInertialCapture</property>
                                                     <property name="receives_default">False</property>
                                                     <property name="relief">none</property>
                                                     <property name="draw_indicator">False</property>
-                                                    <property name="group">radio_mode_multi_chronopic_small</property>
                                                     <signal name="toggled" handler="on_radio_mode_pulses_small_toggled" swapped="no"/>
                                                     <child>
                                                       <widget class="GtkHBox" id="hbox120">
@@ -5229,6 +5228,7 @@ EncoderInertialCapture</property>
                                                     <property name="receives_default">False</property>
                                                     <property name="relief">none</property>
                                                     <property name="draw_indicator">False</property>
+                                                    <property name="group">radio_mode_pulses_small</property>
                                                     <signal name="toggled" handler="on_radio_mode_multi_chronopic_small_toggled" swapped="no"/>
                                                     <child>
                                                       <widget class="GtkHBox" id="hbox132">
@@ -5643,6 +5643,11 @@ EncoderInertialCapture</property>
                                                             <property name="left_padding">4</property>
                                                             <property name="right_padding">6</property>
                                                             <child>
+                                                            <widget class="GtkHBox" id="hbox152">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">8</property>
+                                                            <child>
                                                             <widget class="GtkButton" id="button_contacts_exercise">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
@@ -5655,6 +5660,24 @@ EncoderInertialCapture</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
                                                             </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_contacts_exercise_selected">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
                                                             </child>
                                                             </widget>
                                                             </child>

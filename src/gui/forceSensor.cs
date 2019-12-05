@@ -2322,6 +2322,7 @@ LogB.Information(" fs R ");
 			button_force_sensor_stiffness.Visible = false;
 			image_button_force_sensor_stiffness_problem.Visible = false;
 		}
+		label_contacts_exercise_selected.Text = Catalog.GetString(fse.Name);
 	}
 
 	private void fillForceSensorExerciseCombo(string name)

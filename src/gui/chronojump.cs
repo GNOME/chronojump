@@ -6840,8 +6840,7 @@ LogB.Debug("mc finished 5");
 				"\t<tt><b>CTRL+" + Catalog.GetString("CURSOR_DOWN") + "</b></tt> " + Catalog.GetString("Select next person") + "\n" +
 
 				"\n" + Catalog.GetString("Capture tests") + ":\n" +
-				"\t<tt><b>(Space)</b></tt> " + Catalog.GetString("Execute test") + "\n" +
-				"\t<tt><b>(CTRL+Space)</b></tt> " + Catalog.GetString("Execute test") + " (" + Catalog.GetString("encoder") + ")\n" +
+				"\t<tt><b>(CTRL+Space)</b></tt> " + Catalog.GetString("Execute test") + "\n" +
 				"\t<tt><b>(Enter)</b></tt> " + Catalog.GetString("Finish test") + "\n" +
 				"\t<tt><b>(Escape)</b></tt> " + Catalog.GetString("Cancel test") + "\n" +
 

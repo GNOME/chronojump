@@ -224,6 +224,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.VBox vbox_contacts_signal_comment;
 	[Widget] Gtk.TextView textview_contacts_signal_comment;
 	[Widget] Gtk.Button button_contacts_signal_save_comment;
+	[Widget] Gtk.Notebook notebook_jumps_automatic;
 	[Widget] Gtk.VBox vbox_contacts_device_and_camera;
 
 	//jumps
@@ -3168,6 +3169,7 @@ public partial class ChronoJumpWindow
 		button_force_sensor_adjust.Visible = false;
 		vbox_contacts_load_recalculate.Visible = false;
 		vbox_contacts_signal_comment.Visible = false;
+		notebook_jumps_automatic.Visible = false;
 
 		//on OSX R is not installed by default. Check if it's installed. Needed for encoder and force sensor
 		if(
@@ -3198,6 +3200,7 @@ public partial class ChronoJumpWindow
 				notebooks_change(m);
 				on_extra_window_jumps_test_changed(new object(), new EventArgs());
 				hbox_results_legend.Visible = true;
+				notebook_jumps_automatic.Visible = true;
 
 				if(radio_mode_contacts_analyze.Active)
 				{
@@ -6626,6 +6629,7 @@ LogB.Debug("mc finished 5");
 		executeAutoWin.FakeButtonAccept.Clicked -= new EventHandler(on_button_auto_start_accepted);
 
 		sensitiveGuiAutoStartEnd (true);
+		notebook_jumps_automatic.CurrentPage = 1;
 	
 		execute_auto_order = executeAutoWin.GetOrderedData();
 		execute_auto_order_pos = 0;
@@ -6662,6 +6666,7 @@ LogB.Debug("mc finished 5");
 	private void on_button_auto_end_clicked (object o, EventArgs args) 
 	{
 		sensitiveGuiAutoStartEnd (false);
+		notebook_jumps_automatic.CurrentPage = 0;
 		execute_auto_doing = false;
 	}
 	
@@ -6785,6 +6790,7 @@ LogB.Debug("mc finished 5");
 				*/
 		} else {
 			button_execute_test.Sensitive = myTreeViewPersons.IsThereAnyRecord();
+			button_auto_start.Sensitive = myTreeViewPersons.IsThereAnyRecord();
 		}
 
 		//Attention: "notebooks_change sqlite problem"
@@ -7333,6 +7339,7 @@ LogB.Debug("mc finished 5");
 		sensitiveLastTestButtons(false);
 		vbox_execute_test.Sensitive = false;
 		button_execute_test.Sensitive = false;
+		button_auto_start.Sensitive = false;
 		button_force_sensor_adjust.Sensitive = false;
 
 		encoderButtonsSensitive(encoderSensEnum.NOSESSION);
@@ -7366,6 +7373,7 @@ LogB.Debug("mc finished 5");
 		hbox_jumps.Sensitive = false;
 		hbox_jumps_rj.Sensitive = false;
 		button_execute_test.Sensitive = false;
+		button_auto_start.Sensitive = false;
 		button_contacts_capture_load.Sensitive = false;
 
 		encoderButtonsSensitive(encoderSensEnum.NOPERSON);
@@ -7394,6 +7402,7 @@ LogB.Debug("mc finished 5");
 		hbox_jumps.Sensitive = true;
 		hbox_jumps_rj.Sensitive = true;
 		button_execute_test.Sensitive = true;
+		button_auto_start.Sensitive = true;
 		button_contacts_capture_load.Sensitive = true;
 
 		encoderButtonsSensitive(encoderSensEnum.YESPERSON);
@@ -7466,6 +7475,7 @@ LogB.Debug("mc finished 5");
 			frame_persons.Sensitive = false;
 		
 		button_execute_test.Sensitive = false;
+		button_auto_start.Sensitive = false;
 		hbox_contacts_camera.Sensitive = false;
 		
 		button_contacts_person_change.Sensitive = false;
@@ -7528,6 +7538,7 @@ LogB.Debug("mc finished 5");
 			vbox_persons_bottom.Sensitive = true;
 
 		button_execute_test.Sensitive = true;
+		button_auto_start.Sensitive = true;
 		hbox_contacts_camera.Sensitive = true;
 
 		button_contacts_person_change.Sensitive = true;

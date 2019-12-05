@@ -302,6 +302,64 @@ class SqliteJump : Sqlite
 		return l;
 	}
 
+	private static List<Jump> DataReaderToJump (SqliteDataReader reader)
+	{
+	  List<Jump> jmp_l = new List<Jump>();
+	  Jump jmp;
+
+		LogB.Information("Imprimire Jumps:");
+	  while(reader.Read()) {
+	    jmp = new Jump (
+	        Convert.ToInt32(reader[0].ToString()),              //uniqueID
+	        Convert.ToInt32(reader[1].ToString()),	            //personID
+	        Convert.ToInt32(reader[2].ToString()),	            //sessionID
+	        reader[3].ToString(),                               //type
+	        Convert.ToDouble(Util.ChangeDecimalSeparator(
+	            reader[4].ToString())),                         //tv
+	        Convert.ToDouble(Util.ChangeDecimalSeparator(
+	            reader[5].ToString())),                          //tc
+	        Convert.ToDouble(Util.ChangeDecimalSeparator(
+	            reader[6].ToString())),                          //fall
+					Convert.ToDouble(Util.ChangeDecimalSeparator(
+			          reader[6].ToString())),                        //weight
+	        reader[8].ToString(),                                // description
+	        Convert.ToDouble(Util.ChangeDecimalSeparator(
+	            reader[9].ToString())),                          //angle
+	        Convert.ToInt32(reader[10].ToString()));              //simulated
+
+	    jmp_l.Add(jmp);
+			LogB.Information(jmp.ToString());
+	  }
+	  return jmp_l;
+	}
+
+	public static List<Jump> SelectDJa (int pID, int sID)
+	{
+	  string personID = pID.ToString();
+	  string sessionID = sID.ToString();
+	  string tps = Constants.PersonSessionTable;
+
+	  Sqlite.Open();
+
+	  // Selecciona les dades de tots els salts
+	  dbcmd.CommandText = "SELECT " + "jump.*" +
+	  " FROM " + "jump, " + tps +
+	  " WHERE " + tps + ".personID = " + personID + " AND " + tps + 
+	  ".sessionID = " + sessionID  +  " AND jump.type = \"DJa\" ";
+
+	  LogB.SQL(dbcmd.CommandText.ToString());
+	  dbcmd.ExecuteNonQuery();
+
+	  SqliteDataReader reader;
+	  reader = dbcmd.ExecuteReader();
+
+	  List<Jump> jmp_l = DataReaderToJump (reader);
+
+	  reader.Close();
+	  Sqlite.Close();
+
+	  return jmp_l;
+	}
 
 	public static void Update(int jumpID, string type, string tv, string tc, string fall, int personID, double weight, string description, double angle)
 	{

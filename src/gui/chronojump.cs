@@ -219,6 +219,7 @@ public partial class ChronoJumpWindow
 
 	//tests
 	[Widget] Gtk.Button button_contacts_exercise;
+	[Widget] Gtk.Label label_contacts_exercise_selected;
 	[Widget] Gtk.Notebook notebook_contacts_capture_doing_wait;
 	[Widget] Gtk.Button button_contacts_bells;
 	[Widget] Gtk.Button button_contacts_capture_load;
@@ -2081,7 +2082,7 @@ public partial class ChronoJumpWindow
 		sensitiveLastTestButtons(false);
 
 		string myText = UtilGtk.ComboGetActive(combo);
-		LogB.Information("Selected: " + myText); 
+		LogB.Information("Selected: " + myText);
 
 		//show extra window options
 		on_extra_window_jumps_test_changed(o, args);
@@ -3368,8 +3369,6 @@ public partial class ChronoJumpWindow
 			button_contacts_capture_load.Sensitive = myTreeViewPersons.IsThereAnyRecord();
 
 			button_contacts_bells.Sensitive = true;
-//			on_extra_window_reaction_times_test_changed(new object(), new EventArgs());
-
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
 			button_threshold.Visible = false;
@@ -3380,6 +3379,7 @@ public partial class ChronoJumpWindow
 			//on force sensor only show table
 			notebook_capture_graph_table.CurrentPage = 1; //"Show table"
 			notebook_capture_graph_table.ShowTabs = false;
+			label_contacts_exercise_selected.Text = UtilGtk.ComboGetActive(combo_force_sensor_exercise);
 		}
 		else if(m == Constants.Menuitem_modes.RUNSENCODER)
 		{
@@ -3389,8 +3389,6 @@ public partial class ChronoJumpWindow
 			vbox_contacts_load_recalculate.Visible = true;
 			vbox_contacts_signal_comment.Visible = true;
 			button_contacts_capture_load.Sensitive = myTreeViewPersons.IsThereAnyRecord();
-
-//			on_extra_window_reaction_times_test_changed(new object(), new EventArgs());
 
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
@@ -3406,7 +3404,7 @@ public partial class ChronoJumpWindow
 
 			combo_race_analyzer_device.Active = 0;
 			forceSensorImageTestChange();
-
+			label_contacts_exercise_selected.Text = UtilGtk.ComboGetActive(combo_run_encoder_exercise);
 		}
 		else if(m == Constants.Menuitem_modes.RT)
 		{
@@ -3424,7 +3422,10 @@ public partial class ChronoJumpWindow
 			notebook_sup.CurrentPage = 0;
 			hbox_other.Visible = true;
 			notebooks_change(m);
-			on_extra_window_reaction_times_test_changed(new object(), new EventArgs());
+			if(radio_mode_pulses_small.Active)
+				on_extra_window_pulses_test_changed(new object(), new EventArgs());
+			else
+				on_extra_window_multichronopic_test_changed(new object(), new EventArgs());
 
 			notebook_capture_analyze.CurrentPage = 0;
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)

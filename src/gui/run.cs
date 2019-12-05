@@ -979,6 +979,7 @@ public partial class ChronoJumpWindow
 	{
 		currentEventType = myRunType;
 		changeTestImage(EventType.Types.RUN.ToString(), myRunType.Name, myRunType.ImageFileName);
+		label_contacts_exercise_selected.Text = UtilGtk.ComboGetActive(combo_select_runs);
 
 		label_runs_simple_track_distance_units.Text = "m";
 
@@ -1034,6 +1035,7 @@ public partial class ChronoJumpWindow
 	{
 		currentEventType = myRunType;
 		changeTestImage(EventType.Types.RUN.ToString(), myRunType.Name, myRunType.ImageFileName);
+		label_contacts_exercise_selected.Text = UtilGtk.ComboGetActive(combo_select_runs_interval);
 
 		if(myRunType.Distance > 0) {
 			label_runs_interval_track_distance_value.Text = myRunType.Distance.ToString();

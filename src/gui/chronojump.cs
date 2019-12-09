@@ -7331,12 +7331,11 @@ LogB.Debug("mc finished 5");
 	
 		button_contacts_person_change.Sensitive = false;
 		button_encoder_person_change.Sensitive = false;
+		button_contacts_exercise.Sensitive = false;
 		
 		//notebooks
-		notebook_execute.Sensitive = false;
 		notebook_analyze.Sensitive = false;
 		notebook_results.Sensitive = false;
-		notebook_options_top.Sensitive = false;
 		encoder_sensitive_all_except_device(false);
 
 		vbox_stats.Sensitive = false;
@@ -7388,10 +7387,9 @@ LogB.Debug("mc finished 5");
 		if(notebook_encoder_sup.CurrentPage == 1)
 			notebook_encoder_sup.CurrentPage = 0;
 
-		notebook_execute.Sensitive = false;
+		button_contacts_exercise.Sensitive = false;
 		notebook_analyze.Sensitive = false;
 		notebook_results.Sensitive = false;
-		notebook_options_top.Sensitive = false;
 		encoder_sensitive_all_except_device(false);
 
 		treeview_persons.Sensitive = false;
@@ -7413,10 +7411,9 @@ LogB.Debug("mc finished 5");
 		encoderButtonsSensitive(encoderSensEnum.YESPERSON);
 		personChanged();
 		
-		notebook_execute.Sensitive = true;
+		button_contacts_exercise.Sensitive = true;
 		notebook_analyze.Sensitive = true;
 		notebook_results.Sensitive = true;
-		notebook_options_top.Sensitive = true;
 		encoder_sensitive_all_except_device(true);
 
 		if(! configChronojump.Exhibition)
@@ -7507,7 +7504,7 @@ LogB.Debug("mc finished 5");
 		button_threshold.Sensitive = false;
 		button_force_sensor_adjust.Sensitive = false;
 		button_auto_start.Sensitive = false;
-		notebook_options_top.Sensitive = false;
+		button_contacts_exercise.Sensitive = false;
 		event_execute_button_update.Sensitive = false;
 		
 		//hbox_multi_chronopic_buttons.Sensitive = false;
@@ -7580,7 +7577,7 @@ LogB.Debug("mc finished 5");
 		button_threshold.Sensitive = true;
 		button_force_sensor_adjust.Sensitive = true;
 		button_auto_start.Sensitive = true;
-		notebook_options_top.Sensitive = true;
+		button_contacts_exercise.Sensitive = true;
 		event_execute_button_update.Sensitive = true;
 
 		//forceSensor and runEncoder does not use currentEventExecute
@@ -7693,9 +7690,8 @@ LogB.Debug("mc finished 5");
 		menuitem_mode.Sensitive 	= ! start;
 		help_menuitem.Sensitive 	= ! start;
 		frame_persons.Sensitive 	= ! start;
+		button_contacts_exercise.Sensitive = ! start;
 
-		hbox_jumps_test.Visible 	= ! start;
-		hbox_jump_types_options.Visible = ! start;
 		hbox_jump_auto_controls.Visible  = start;
 
 		radio_mode_contacts_analyze.Visible = ! start;
@@ -7716,7 +7712,6 @@ LogB.Debug("mc finished 5");
 		button_activate_chronopics.Sensitive 	= ! execute;
 		button_threshold.Sensitive 		= ! execute;
 		button_execute_test.Sensitive 		= ! execute;
-		notebook_options_top.Sensitive 		= ! execute;
 		sensitiveLastTestButtons(! execute);
 	}
 

@@ -185,10 +185,11 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
         legend (x = time[length(time)], y = sprintDynamics$pmax.fitted / 2,
                 xjust = 1, yjust = 0.5, cex = 1,
                 legend = c(paste("K =", round(sprintDynamics$K.fitted, digits = 2)),
+                           paste("\u03C4 =", round(1/sprintDynamics$K.fitted, digits = 2), "s"),
                            paste("Vmax =", round(sprintDynamics$Vmax.fitted, digits = 2), "m/s"),
-                           paste("Amax =", round(sprintDynamics$amax.fitted, digits = 2), "m/s²"),
-                           paste("fmax =", round(sprintDynamics$fmax.rel.fitted, digits = 2), "N/Kg"),
-                           paste("pmax =", round(sprintDynamics$pmax.rel.fitted, digits = 2), "W/Kg")),
+                           paste("Amax =", round(sprintDynamics$amax.fitted, digits = 2), "m/s\u00b2"),
+                           paste("fmax =", round(sprintDynamics$fmax.rel.fitted, digits = 2), "N/kg"),
+                           paste("pmax =", round(sprintDynamics$pmax.rel.fitted, digits = 2), "W/kg")),
                 text.col = c("black", "black", "magenta", "blue", "red"))
         
         exportSprintDynamics(sprintDynamics)

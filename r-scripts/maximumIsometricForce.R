@@ -410,9 +410,8 @@ drawDynamicsFromLoadCell <- function(
         
         legendText = c(
 		       paste("Fmax =", round(dynamics$fmax.fitted, digits = 2), "N"),
-		       #paste("K = ", round(dynamics$k.fitted, digits = 2),"s^-1"),
 		       paste("K = ", round(dynamics$k.fitted, digits = 2),"s\u207B\u00B9"),
-		       paste("tau = ", round(dynamics$tau.fitted, digits = 2),"s")
+		       paste("\u03C4 = ", round(dynamics$tau.fitted, digits = 2),"s")
 		       )
         legendColor = c("blue", "blue", "blue")
         

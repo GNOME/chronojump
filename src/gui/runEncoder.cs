@@ -1232,7 +1232,7 @@ LogB.Information(" re R ");
 
 	private void on_combo_run_encoder_exercise_changed(object o, EventArgs args)
 	{
-		label_contacts_exercise_selected.Text = UtilGtk.ComboGetActive(combo_run_encoder_exercise);
+		setLabelContactsExerciseSelected(Constants.Menuitem_modes.RUNSENCODER);
 	}
 
 	private void fillRunEncoderExerciseCombo(string name)

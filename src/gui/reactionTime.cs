@@ -55,25 +55,25 @@ public partial class ChronoJumpWindow
 
 		currentReactionTimeType = new ReactionTimeType("reactionTime");
 		changeTestImage("","", "reaction_time.png");
-		label_contacts_exercise_selected.Text = Catalog.GetString("Reaction time");
+		setLabelContactsExerciseSelected(Catalog.GetString("Reaction time"));
 
 		if(extra_window_radio_reaction_time_animation_lights.Active) {
 			hbox_animation_lights.Visible = true;
 			currentReactionTimeType = new ReactionTimeType("anticipation");
 			changeTestImage("","", "reaction_time_discriminative.png");
-			label_contacts_exercise_selected.Text = Catalog.GetString("Animation lights");
+			setLabelContactsExerciseSelected(Catalog.GetString("Animation lights"));
 		}
 		else if(extra_window_radio_reaction_time_flicker.Active) {
 			hbox_flicker_lights.Visible = true;
 			currentReactionTimeType = new ReactionTimeType("flickr");
 			changeTestImage("","", "reaction_time_discriminative.png");
-			label_contacts_exercise_selected.Text = Catalog.GetString("Flicker");
+			setLabelContactsExerciseSelected(Catalog.GetString("Flicker"));
 		}
 		else if(extra_window_radio_reaction_time_discriminative.Active) {
 			hbox_discriminative_lights.Visible = true;
 			currentReactionTimeType = new ReactionTimeType("Discriminative");
 			changeTestImage("","", "reaction_time_discriminative.png");
-			label_contacts_exercise_selected.Text = Catalog.GetString("Discriminative");
+			setLabelContactsExerciseSelected(Catalog.GetString("Discriminative"));
 		}
 
 		label_reaction_time_device_help.Visible = (

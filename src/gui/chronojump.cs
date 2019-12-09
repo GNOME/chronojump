@@ -219,7 +219,8 @@ public partial class ChronoJumpWindow
 
 	//tests
 	[Widget] Gtk.Button button_contacts_exercise;
-	[Widget] Gtk.Label label_contacts_exercise_selected;
+	[Widget] Gtk.Label label_contacts_exercise_selected_name;
+	[Widget] Gtk.Label label_contacts_exercise_selected_options;
 	[Widget] Gtk.Notebook notebook_contacts_capture_doing_wait;
 	[Widget] Gtk.Button button_contacts_bells;
 	[Widget] Gtk.Button button_contacts_capture_load;
@@ -3379,7 +3380,7 @@ public partial class ChronoJumpWindow
 			//on force sensor only show table
 			notebook_capture_graph_table.CurrentPage = 1; //"Show table"
 			notebook_capture_graph_table.ShowTabs = false;
-			label_contacts_exercise_selected.Text = UtilGtk.ComboGetActive(combo_force_sensor_exercise);
+			setLabelContactsExerciseSelected(m);
 		}
 		else if(m == Constants.Menuitem_modes.RUNSENCODER)
 		{
@@ -3404,7 +3405,7 @@ public partial class ChronoJumpWindow
 
 			combo_race_analyzer_device.Active = 0;
 			forceSensorImageTestChange();
-			label_contacts_exercise_selected.Text = UtilGtk.ComboGetActive(combo_run_encoder_exercise);
+			setLabelContactsExerciseSelected(m);
 		}
 		else if(m == Constants.Menuitem_modes.RT)
 		{
@@ -3499,6 +3500,29 @@ public partial class ChronoJumpWindow
 
 		image_encoder_top_selected_type.Pixbuf = pixbuf;
 		image_encoder_selected_type.Pixbuf = pixbuf;
+	}
+
+	private void setLabelContactsExerciseSelected(Constants.Menuitem_modes m)
+	{
+		string name = "";
+		if(m == Constants.Menuitem_modes.JUMPSSIMPLE)
+			name = UtilGtk.ComboGetActive(combo_select_jumps);
+		else if(m == Constants.Menuitem_modes.JUMPSREACTIVE)
+			name = UtilGtk.ComboGetActive(combo_select_jumps_rj);
+		else if(m == Constants.Menuitem_modes.RUNSSIMPLE)
+			name = UtilGtk.ComboGetActive(combo_select_runs);
+		else if(m == Constants.Menuitem_modes.RUNSINTERVALLIC)
+			name = UtilGtk.ComboGetActive(combo_select_runs_interval);
+		else if(m == Constants.Menuitem_modes.FORCESENSOR)
+			name = UtilGtk.ComboGetActive(combo_force_sensor_exercise);
+		else if(m == Constants.Menuitem_modes.RUNSENCODER)
+			name = UtilGtk.ComboGetActive(combo_run_encoder_exercise);
+
+		label_contacts_exercise_selected_name.Text = name;
+	}
+	private void setLabelContactsExerciseSelected(string name)
+	{
+		label_contacts_exercise_selected_name.Text = name;
 	}
 
 	/*

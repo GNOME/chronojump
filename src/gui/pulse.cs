@@ -153,9 +153,9 @@ public partial class ChronoJumpWindow
 			hasOptions = true;
 			extra_window_pulses_spinbutton_pulse_step.Value = extra_window_pulseStep;
 			extra_window_pulses_spinbutton_total_pulses.Value = extra_window_totalPulses;
-			label_contacts_exercise_selected.Text = Catalog.GetString("Custom");
+			setLabelContactsExerciseSelected(Catalog.GetString("Custom"));
 		} else
-			label_contacts_exercise_selected.Text = Catalog.GetString("Free");
+			setLabelContactsExerciseSelected(Catalog.GetString("Free"));
 
 		extra_window_pulses_showNoOptions(hasOptions);
 	}

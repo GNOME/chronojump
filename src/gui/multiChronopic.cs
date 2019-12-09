@@ -77,10 +77,10 @@ public partial class ChronoJumpWindow
 		bool showRunDistance = false;
 		if(myMultiChronopicType.Name == Constants.MultiChronopicName) {
 			showSyncAndDeleteFirst = true;
-			label_contacts_exercise_selected.Text = Catalog.GetString("Multi Chronopic");
+			setLabelContactsExerciseSelected(Catalog.GetString("Multi Chronopic"));
 		} else if(myMultiChronopicType.Name == Constants.RunAnalysisName) {
 			showRunDistance = true;
-			label_contacts_exercise_selected.Text = Catalog.GetString("Race analysis");
+			setLabelContactsExerciseSelected(Catalog.GetString("Race analysis"));
 		}
 		extra_window_multichronopic_showSyncAndDeleteFirst(showSyncAndDeleteFirst);
 		extra_window_multichronopic_showRunDistance(showRunDistance);

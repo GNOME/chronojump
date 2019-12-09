@@ -1119,7 +1119,7 @@ public partial class ChronoJumpWindow
 	{
 		currentEventType = myJumpType;
 		changeTestImage(EventType.Types.JUMP.ToString(), myJumpType.Name, myJumpType.ImageFileName);
-		label_contacts_exercise_selected.Text = UtilGtk.ComboGetActive(combo_select_jumps);
+		setLabelContactsExerciseSelected(Constants.Menuitem_modes.JUMPSSIMPLE);
 
 
 		if(myJumpType.HasWeight) {
@@ -1218,7 +1218,7 @@ public partial class ChronoJumpWindow
 	{
 		currentEventType = myJumpType;
 		changeTestImage(EventType.Types.JUMP.ToString(), myJumpType.Name, myJumpType.ImageFileName);
-		label_contacts_exercise_selected.Text = UtilGtk.ComboGetActive(combo_select_jumps_rj);
+		setLabelContactsExerciseSelected(Constants.Menuitem_modes.JUMPSREACTIVE);
 		checkbutton_allow_finish_rj_after_time.Visible = false;
 	
 		if(myJumpType.FixedValue >= 0) {

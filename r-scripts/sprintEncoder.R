@@ -438,10 +438,13 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, title
         legendText = c(legendText, paste("Vmax.fitted =", round(sprintFittedDynamics$Vmax.fitted, digits = 2), "m/s"))
         legendColor = c(legendColor, "black")
         
-        legendText = c(legendText, paste("K =", round(sprintFittedDynamics$K.fitted, digits = 2), "s⁻¹"))
+        legendText = c(legendText, paste("K =", round(sprintFittedDynamics$K.fitted, digits = 2), "s\u207B\u00B9"))
         legendColor = c(legendColor, "black")
         
-        legendText = c(legendText, paste("Amax.fitted =", round(max(sprintFittedDynamics$amax.fitted), digits = 2), "m/s^2"))
+        legendText = c(legendText, paste("\u03C4 =", round(1/sprintFittedDynamics$K.fitted, digits = 2), "s"))
+        legendColor = c(legendColor, "black")
+        
+        legendText = c(legendText, paste("Amax.fitted =", round(max(sprintFittedDynamics$amax.fitted), digits = 2), "m/s\u00b2"))
         legendColor = c(legendColor, "magenta")
         
         legendText = c(legendText, paste("Fmax.fitted =", round(sprintFittedDynamics$fmax.fitted, digits = 2), "N"))

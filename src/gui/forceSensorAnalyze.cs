@@ -851,9 +851,13 @@ public partial class ChronoJumpWindow
 		forceSensorZoomApplied = ! forceSensorZoomApplied;
 
 		if(forceSensorZoomApplied)
+		{
 			button_force_sensor_ai_zoom.Label = "Zoom out";
-		else
+			checkbutton_force_sensor_ai_b.Sensitive = false;
+		} else {
 			button_force_sensor_ai_zoom.Label = "Zoom [A-B]";
+			checkbutton_force_sensor_ai_b.Sensitive = true;
+		}
 
 		//store hscale a to help return to position on unzoom
 		if(forceSensorZoomApplied) {
@@ -882,7 +886,8 @@ public partial class ChronoJumpWindow
 		bool debug = false;
 
 		button_force_sensor_image_save_rfd_manual.Sensitive = true;
-		checkbutton_force_sensor_ai_b.Sensitive = true;
+		if(! forceSensorZoomApplied)
+			checkbutton_force_sensor_ai_b.Sensitive = true;
 		if(checkbutton_force_sensor_ai_b.Active)
 			button_force_sensor_analyze_AB_save.Visible = true;
 

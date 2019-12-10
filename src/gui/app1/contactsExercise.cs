@@ -122,8 +122,11 @@ public partial class ChronoJumpWindow
 	{
 		LogB.Information("TT0");
 		LogB.Information(current_menuitem_mode.ToString());
+
 		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
 			setLabelContactsExerciseSelectedOptionsJumpsSimple();
+		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSREACTIVE)
+			setLabelContactsExerciseSelectedOptionsJumpsReactive();
 	}
 
 	private void setLabelContactsExerciseSelectedOptionsJumpsSimple()
@@ -136,19 +139,58 @@ public partial class ChronoJumpWindow
 		string name = "";
 		string sep = "";
 
-		if(((JumpType) currentEventType).HasFall)
-		{
-			if(! extra_window_jumps_check_dj_fall_calculate.Active)
-			{
-				name += extra_window_jumps_spinbutton_fall.Value.ToString() + " cm";
-				sep = "; ";
-			}
-		} if(((JumpType) currentEventType).HasWeight)
+		if(((JumpType) currentEventType).HasWeight)
 		{
 			if(extra_window_jumps_radiobutton_weight.Active)
 				name += sep + label_extra_window_jumps_radiobutton_weight_percent_as_kg.Text;
 			else
 				name += sep + extra_window_jumps_spinbutton_weight.Value.ToString() + " kg";
+				sep = "; ";
+		}
+		if(((JumpType) currentEventType).HasFall)
+		{
+			if(! extra_window_jumps_check_dj_fall_calculate.Active)
+			{
+				name += sep + extra_window_jumps_spinbutton_fall.Value.ToString() + " cm";
+				sep = "; ";
+			}
+		}
+
+		label_contacts_exercise_selected_options.Text = name;
+	}
+
+	private void setLabelContactsExerciseSelectedOptionsJumpsReactive()
+	{
+		LogB.Information("TT1");
+		if(currentEventType == null)
+			return;
+
+		LogB.Information("TT2");
+		string name = "";
+		string sep = "";
+
+		if(((JumpType) currentEventType).FixedValue >= 0)
+		{
+			name += extra_window_jumps_rj_spinbutton_limit.Value.ToString();
+			if(((JumpType) currentEventType).JumpsLimited)
+				name += sep + " " + Catalog.GetString("jumps");
+			else
+				name += sep + " " + Catalog.GetString("seconds");
+
+			sep = "; ";
+		}
+		if(((JumpType) currentEventType).HasWeight)
+		{
+			if(extra_window_jumps_rj_radiobutton_weight.Active)
+				name += sep + label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg.Text;
+			else
+				name += sep + extra_window_jumps_rj_spinbutton_weight.Value.ToString() + " kg";
+			sep = "; ";
+		}
+		if(((JumpType) currentEventType).HasFall)
+		{
+			name += sep + extra_window_jumps_rj_spinbutton_fall.Value.ToString() + " cm";
+			sep = "; ";
 		}
 
 		label_contacts_exercise_selected_options.Text = name;

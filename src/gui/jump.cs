@@ -1076,6 +1076,8 @@ public partial class ChronoJumpWindow
 			else
 				changeTestImage("","", "jump_dj.png");
 		}
+
+		setLabelContactsExerciseSelectedOptionsJumpsSimple();
 	}
 	
 	private void on_extra_window_jumps_test_changed(object o, EventArgs args)
@@ -1172,6 +1174,8 @@ public partial class ChronoJumpWindow
 
 		if(! configChronojump.Exhibition)
 			updateGraphJumpsSimple();
+
+		setLabelContactsExerciseSelectedOptionsJumpsSimple();
 	}
 	private void updateGraphJumpsSimple () 
 	{
@@ -1387,6 +1391,8 @@ public partial class ChronoJumpWindow
 
 		update_label_extra_window_jumps_radiobutton_weight_percent_as_kg(true);
 		label_extra_window_jumps_radiobutton_weight_percent_as_kg.Visible = true;
+
+		setLabelContactsExerciseSelectedOptionsJumpsSimple();
 	}
 	
 	private void on_extra_window_jumps_rj_radiobutton_kg_toggled (object o, EventArgs args)
@@ -1406,6 +1412,7 @@ public partial class ChronoJumpWindow
 	private void on_extra_window_jumps_spinbutton_weight_value_changed (object o, EventArgs args)
 	{
 		update_label_extra_window_jumps_radiobutton_weight_percent_as_kg(true);
+		setLabelContactsExerciseSelectedOptionsJumpsSimple();
 	}
 	private void update_label_extra_window_jumps_radiobutton_weight_percent_as_kg(bool show)
 	{

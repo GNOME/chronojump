@@ -5,7 +5,8 @@ TARGET = exe
 LINK = $(REF_DEP_CHRONOJUMP)
 
 SOURCES = \
-	gui/chronojump.cs\
+	gui/app1/chronojump.cs\
+	gui/app1/contactsExercise.cs\
 	gui/chronojumpIcons.cs\
 	gui/chronojumpImporter.cs\
 	gui/chronojumpPersons.cs\

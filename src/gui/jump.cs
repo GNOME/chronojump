@@ -1264,6 +1264,8 @@ public partial class ChronoJumpWindow
 		} else {
 			extra_window_jumps_rj_radiobutton_weight.Active = true;
 		}
+
+		setLabelContactsExerciseSelectedOptionsJumpsReactive();
 	}
 
 	private void on_extra_window_jumps_check_dj_arms_clicked(object o, EventArgs args)
@@ -1383,6 +1385,7 @@ public partial class ChronoJumpWindow
 	{
 		extra_window_jumps_option = "Kg";
 		label_extra_window_jumps_radiobutton_weight_percent_as_kg.Visible = false;
+		setLabelContactsExerciseSelectedOptionsJumpsSimple();
 	}
 	
 	private void on_extra_window_jumps_radiobutton_weight_toggled (object o, EventArgs args)
@@ -1394,11 +1397,12 @@ public partial class ChronoJumpWindow
 
 		setLabelContactsExerciseSelectedOptionsJumpsSimple();
 	}
-	
+
 	private void on_extra_window_jumps_rj_radiobutton_kg_toggled (object o, EventArgs args)
 	{
 		extra_window_jumps_rj_option = "Kg";
 		label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg.Visible = false;
+		setLabelContactsExerciseSelectedOptionsJumpsReactive();
 	}
 	
 	private void on_extra_window_jumps_rj_radiobutton_weight_toggled (object o, EventArgs args)
@@ -1431,6 +1435,7 @@ public partial class ChronoJumpWindow
 	private void on_extra_window_jumps_rj_spinbutton_weight_value_changed (object o, EventArgs args)
 	{
 		update_label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg(true);
+		setLabelContactsExerciseSelectedOptionsJumpsReactive();
 	}
 	private void update_label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg(bool show)
 	{

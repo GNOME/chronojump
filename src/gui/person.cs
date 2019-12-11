@@ -970,6 +970,8 @@ public class PersonAddModifyWindow
 			//button_accept.Sensitive = false;
 		} else 
 			person_win.Title = Catalog.GetString ("Edit jumper");
+
+		person_win.Show();
 	}
 	
 	void on_button_zoom_clicked (object o, EventArgs args) {

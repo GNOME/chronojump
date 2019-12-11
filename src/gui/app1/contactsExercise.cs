@@ -196,6 +196,11 @@ public partial class ChronoJumpWindow
 		label_contacts_exercise_selected_options.Text = name;
 	}
 
+	private void setLabelContactsExerciseSelectedOptionsRunsSimple()
+	{
+		label_contacts_exercise_selected_options.Text = label_runs_simple_track_distance_value.Text + " " + label_runs_simple_track_distance_units.Text;
+	}
+
 	private void on_menuitem_mode_activate(object o, EventArgs args)
 	{
 		Gtk.ImageMenuItem imi = o as Gtk.ImageMenuItem;

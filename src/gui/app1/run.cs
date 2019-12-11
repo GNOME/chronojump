@@ -132,6 +132,7 @@ public partial class ChronoJumpWindow
 		}
 
 		updateGraphRunsSimple();
+		setLabelContactsExerciseSelectedOptionsRunsSimple();
 	}
 	private void updateGraphRunsSimple () 
 	{
@@ -337,6 +338,8 @@ public partial class ChronoJumpWindow
 
 		label_runs_simple_track_distance_value.Text = Util.TrimDecimals(genericWin.SpinDouble2Selected.ToString(),
 				preferences.digitsNumber);
+
+		setLabelContactsExerciseSelectedOptionsRunsSimple();
 	}
 
 	void on_button_runs_interval_track_distance_accepted (object obj, EventArgs args)

@@ -29,7 +29,7 @@ public partial class ChronoJumpWindow
 {
 	[Widget] Gtk.HBox hbox_animation_lights;
 	[Widget] Gtk.HBox hbox_flicker_lights;
-	[Widget] Gtk.HBox hbox_discriminative_lights;
+	[Widget] Gtk.VBox vbox_discriminative_lights;
 	
 	[Widget] Gtk.Label label_animation_lights_interval;
 	[Widget] Gtk.Label label_flicker_lights_cycle;
@@ -47,7 +47,7 @@ public partial class ChronoJumpWindow
 	{
 		hbox_animation_lights.Visible = false;
 		hbox_flicker_lights.Visible = false;
-		hbox_discriminative_lights.Visible = false;
+		vbox_discriminative_lights.Visible = false;
 
 		sensitiveLastTestButtons(false);
 
@@ -68,7 +68,7 @@ public partial class ChronoJumpWindow
 			setLabelContactsExerciseSelected(Catalog.GetString("Flicker"));
 		}
 		else if(extra_window_radio_reaction_time_discriminative.Active) {
-			hbox_discriminative_lights.Visible = true;
+			vbox_discriminative_lights.Visible = true;
 			currentReactionTimeType = new ReactionTimeType("Discriminative");
 			changeTestImage("","", "reaction_time_discriminative.png");
 			setLabelContactsExerciseSelected(Catalog.GetString("Discriminative"));

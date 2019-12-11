@@ -39,6 +39,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label extra_window_jumps_label_dj_start_inside;
 	[Widget] Gtk.Label extra_window_jumps_label_dj_start_outside;
 	[Widget] Gtk.SpinButton extra_window_jumps_spinbutton_fall;
+	[Widget] Gtk.HBox hbox_extra_window_jumps_weight;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_kg;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_weight;
 	[Widget] Gtk.Label extra_window_jumps_label_weight;
@@ -49,7 +50,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg;
 
 	//slCMJ	
-	[Widget] Gtk.Box hbox_extra_window_jumps_single_leg_radios;
+	[Widget] Gtk.Table table_extra_window_jumps_single_leg_radios;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_mode_vertical;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_mode_horizontal;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_dominance_this_limb;
@@ -67,6 +68,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton extra_window_jumps_rj_spinbutton_fall;
 	[Widget] Gtk.RadioButton extra_window_jumps_rj_radiobutton_kg;
 	[Widget] Gtk.RadioButton extra_window_jumps_rj_radiobutton_weight;
+	[Widget] Gtk.HBox hbox_extra_window_jumps_rj_weight;
 	[Widget] Gtk.Label extra_window_jumps_rj_label_weight;
 	[Widget] Gtk.Label extra_window_jumps_rj_label_fall;
 	[Widget] Gtk.Label extra_window_jumps_rj_label_cm;
@@ -400,18 +402,10 @@ public partial class ChronoJumpWindow
 	
 	private void extra_window_showWeightData (JumpType myJumpType, bool show) {
 		if(myJumpType.IsRepetitive) {
-			extra_window_jumps_rj_label_weight.Visible = show;
-			extra_window_jumps_rj_spinbutton_weight.Visible = show;
-			extra_window_jumps_rj_radiobutton_kg.Visible = show;
-			extra_window_jumps_rj_radiobutton_weight.Visible = show;
-
+			hbox_extra_window_jumps_rj_weight.Visible = show;
 			update_label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg(show);
 		} else {
-			extra_window_jumps_label_weight.Visible = show;
-			extra_window_jumps_spinbutton_weight.Visible = show;
-			extra_window_jumps_radiobutton_kg.Visible = show;
-			extra_window_jumps_radiobutton_weight.Visible = show;
-
+			hbox_extra_window_jumps_weight.Visible = show;
 			update_label_extra_window_jumps_radiobutton_weight_percent_as_kg(show);
 		}
 	}
@@ -440,7 +434,7 @@ public partial class ChronoJumpWindow
 	}
 	
 	private void extra_window_showSingleLegStuff(bool show) {
-		hbox_extra_window_jumps_single_leg_radios.Visible = show;
+		table_extra_window_jumps_single_leg_radios.Visible = show;
 	}
 			
 	private void on_extra_window_jumps_radiobutton_kg_toggled (object o, EventArgs args)
@@ -563,7 +557,7 @@ public partial class ChronoJumpWindow
 		myTreeViewJumps.Update(currentJump);
 		
 		//sensitive slCMJ options 
-		hbox_extra_window_jumps_single_leg_radios.Sensitive = true;
+		table_extra_window_jumps_single_leg_radios.Sensitive = true;
 
 		//hide slCMJ distance stuff and show button execute test again
 		notebook_contacts_capture_doing_wait.CurrentPage = 0;

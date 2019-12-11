@@ -634,6 +634,35 @@ public class ForceSensorElasticBand
 	}
 }
 
+//struct with relevant data used on various functions and threads
+public class ForceSensorValues
+{
+	public int TimeLast; //store last time
+	public int TimeForceMax; //store time of max force
+	public double ForceLast; //store last force
+	public double ForceMax; //store max force
+	public double ForceMin; //store min force
+
+	public ForceSensorValues()
+	{
+		TimeLast = 0;
+		TimeForceMax = 0;
+		ForceLast = 0;
+		ForceMax = 0;
+		ForceMin = 10000;
+	}
+
+	public void SetMaxMinIfNeeded(double force, int time)
+	{
+		if(force > ForceMax)
+		{
+			ForceMax = force;
+			TimeForceMax = time;
+		}
+		if(force < ForceMin)
+			ForceMin = force;
+	}
+}
 /*
  * TODO: this class only contains points plot stuff
  * currently all the code relevant to force sensor actions is on gui/forcesensor.cs

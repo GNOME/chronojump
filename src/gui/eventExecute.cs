@@ -1117,7 +1117,7 @@ public partial class ChronoJumpWindow
 			GLib.Timeout.Add(1, new GLib.TimeoutHandler(OnTimerBar));
 		}
 		else {
-			Rectangle rect = new Rectangle(x, y, barWidth, alto);
+			Rectangle rect = new Rectangle(x, y, barWidth, alto-y-1);
 			event_execute_pixmap.DrawRectangle(pen_bar_bg, true, rect);
 			event_execute_pixmap.DrawRectangle(pen_black, false, rect);
 			

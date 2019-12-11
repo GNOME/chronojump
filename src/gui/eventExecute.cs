@@ -560,11 +560,17 @@ public partial class ChronoJumpWindow
 			if(eventGraph.personMAXAtSQLAllSessions > maxValue)
 				maxValue = eventGraph.personMAXAtSQLAllSessions;
 
-			//fix if there's a max tc that's higher than max tv
+			//fix if there's a max tc or falling height that's higher than max tv
+
 			foreach(string myStr in eventGraph.jumpsAtSQL) {
 				string [] jump = myStr.Split(new char[] {':'});
-				if(Convert.ToDouble(jump[6]) > maxValue)
-					maxValue = Convert.ToDouble(jump[6]);
+
+				string valueToPlot = jump[6]; //tc
+				if(eventGraph.djShowHeights && eventGraph.tc > 0 && eventGraph.tv > 0)
+					valueToPlot = jump[7]; //fall
+
+				if(Convert.ToDouble(valueToPlot) > maxValue)
+					maxValue = Convert.ToDouble(valueToPlot);
 			}
 		} else {
 			maxValue = eventGraphConfigureWin.Max;
@@ -598,7 +604,6 @@ public partial class ChronoJumpWindow
 
 		// -- refresh
 		event_execute_drawingarea.QueueDraw();
-		
 	}
 	
 	private void on_button_person_max_all_sessions_info_clicked(object o, EventArgs args) 

@@ -9,6 +9,7 @@ SOURCES = \
 	gui/app1/contactsExercise.cs\
 	gui/app1/forceSensor.cs\
 	gui/app1/jump.cs\
+	gui/app1/pulse.cs\
 	gui/app1/run.cs\
 	gui/chronojumpIcons.cs\
 	gui/chronojumpImporter.cs\

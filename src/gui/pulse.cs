@@ -24,7 +24,6 @@ using Glade;
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
 
-using System.Threading;
 using Mono.Unix;
 
 
@@ -114,81 +113,6 @@ public class EditPulseWindow : EditEventWindow
 
 }
 
-
-//--------------------------------------------------------
-//---------------- pulse extra WIDGET --------------------
-//--------------------------------------------------------
-
-public partial class ChronoJumpWindow 
-{
-	[Widget] Gtk.RadioButton extra_window_radio_pulses_custom;
-	[Widget] Gtk.RadioButton extra_window_radio_pulses_free;
-	
-	[Widget] Gtk.HBox hbox_extra_window_pulses;
-	[Widget] Gtk.SpinButton extra_window_pulses_spinbutton_pulse_step;
-	[Widget] Gtk.SpinButton extra_window_pulses_spinbutton_ppm;
-	[Widget] Gtk.SpinButton extra_window_pulses_spinbutton_total_pulses;
-	[Widget] Gtk.CheckButton extra_window_pulses_checkbutton_unlimited;
-	[Widget] Gtk.HBox extra_window_pulses_hbox_total_pulses;
-	
-
-	double extra_window_pulseStep = 1.000;
-	int extra_window_totalPulses = 10;
-	
-	private void on_extra_window_pulses_test_changed(object o, EventArgs args)
-	{
-		if(extra_window_radio_pulses_free.Active) currentPulseType = new PulseType("Free");
-		else if (extra_window_radio_pulses_custom.Active) currentPulseType = new PulseType("Custom");
-		
-		extra_window_pulses_initialize(currentPulseType);
-	}
-
-	private void extra_window_pulses_initialize(PulseType myPulseType) 
-	{
-		currentEventType = myPulseType;
-		changeTestImage(EventType.Types.PULSE.ToString(), myPulseType.Name, myPulseType.ImageFileName);
-		bool hasOptions = false;
-
-		if(myPulseType.Name == "Custom") {
-			hasOptions = true;
-			extra_window_pulses_spinbutton_pulse_step.Value = extra_window_pulseStep;
-			extra_window_pulses_spinbutton_total_pulses.Value = extra_window_totalPulses;
-			setLabelContactsExerciseSelected(Catalog.GetString("Custom"));
-		} else
-			setLabelContactsExerciseSelected(Catalog.GetString("Free"));
-
-		extra_window_pulses_showNoOptions(hasOptions);
-	}
-	
-	private void extra_window_pulses_showNoOptions(bool hasOptions) {
-		hbox_extra_window_pulses.Visible = hasOptions;
-	}
-	
-
-	void on_extra_window_pulses_checkbutton_unlimited_clicked (object o, EventArgs args)
-	{
-		extra_window_pulses_hbox_total_pulses.Visible = ! extra_window_pulses_checkbutton_unlimited.Active;
-	}
-
-	void on_extra_window_pulses_spinbutton_pulse_step_changed (object o, EventArgs args)
-	{
-		if((double) extra_window_pulses_spinbutton_pulse_step.Value == 0) 
-			extra_window_pulses_spinbutton_ppm.Value = 0;
-		else 
-			extra_window_pulses_spinbutton_ppm.Value = 60 / 
-				(double) extra_window_pulses_spinbutton_pulse_step.Value;
-	}
-
-	void on_extra_window_pulses_spinbutton_ppm_changed (object o, EventArgs args)
-	{
-		if((int) extra_window_pulses_spinbutton_ppm.Value == 0)
-			extra_window_pulses_spinbutton_pulse_step.Value = 0;
-		else
-			extra_window_pulses_spinbutton_pulse_step.Value = 60 / 
-				(double) extra_window_pulses_spinbutton_ppm.Value;
-	}
-	
-}
 
 //--------------------------------------------------------
 //---------------- Repair pulse WIDGET -------------------

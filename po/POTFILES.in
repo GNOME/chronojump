@@ -61,6 +61,7 @@ src/gui/app1/chronojump.cs
 src/gui/app1/contactsExercise.cs
 src/gui/app1/forceSensor.cs
 src/gui/app1/jump.cs
+src/gui/app1/pulse.cs
 src/gui/app1/run.cs
 src/gui/chronopic.cs
 src/gui/chronopicRegister.cs

@@ -173,9 +173,9 @@ public partial class ChronoJumpWindow
 		{
 			name += extra_window_jumps_rj_spinbutton_limit.Value.ToString();
 			if(((JumpType) currentEventType).JumpsLimited)
-				name += sep + " " + Catalog.GetString("jumps");
+				name += " " + Catalog.GetString("jumps");
 			else
-				name += sep + " " + Catalog.GetString("seconds");
+				name += " s";
 
 			sep = "; ";
 		}
@@ -199,6 +199,34 @@ public partial class ChronoJumpWindow
 	private void setLabelContactsExerciseSelectedOptionsRunsSimple()
 	{
 		label_contacts_exercise_selected_options.Text = label_runs_simple_track_distance_value.Text + " " + label_runs_simple_track_distance_units.Text;
+	}
+
+	private void setLabelContactsExerciseSelectedOptionsRunsInterval()
+	{
+		LogB.Information("TT1");
+		if(currentEventType == null)
+			return;
+
+		LogB.Information("TT2");
+		string name = "";
+		string sep = "";
+
+		if( ((RunType) currentEventType).Distance >= 0 )
+		{
+			name = label_runs_interval_track_distance_value.Text + " m";
+			sep = "; ";
+		}
+		if( ! ((RunType) currentEventType).Unlimited )
+		{
+			name += sep + extra_window_runs_interval_spinbutton_limit.Value;
+
+			if( ((RunType) currentEventType).TracksLimited )
+				name += " " + Catalog.GetString("laps");
+			else
+				name += " s";
+		}
+
+		label_contacts_exercise_selected_options.Text = name;
 	}
 
 	private void on_menuitem_mode_activate(object o, EventArgs args)

@@ -6854,8 +6854,13 @@ LogB.Debug("mc finished 5");
 	
 	private void on_button_carles_clicked (object o, EventArgs args)
 	{
-		if (currentPerson == null || currentSession == null) return;
-		SqliteJump.SelectDJa (currentPerson.UniqueID, currentSession.UniqueID);
+		if (currentPerson == null || currentSession == null)
+			return;
+
+		JumpsDjOptimalFallingHeight jdofh = new JumpsDjOptimalFallingHeight();
+		jdofh.Calculate(currentPerson.UniqueID, currentSession.UniqueID);
+
+
 		/*
 		bool showInWindow = true;
 

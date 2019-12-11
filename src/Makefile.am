@@ -172,6 +172,7 @@ SOURCES = \
 	json/exhibitions.cs\
 	jump.cs\
 	jumpsProfile.cs\
+	jumpsDjOptimalFallingHeight.cs\
 	jumpType.cs\
 	networks.cs\
 	person.cs\

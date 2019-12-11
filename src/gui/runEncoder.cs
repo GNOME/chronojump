@@ -38,7 +38,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.CheckMenuItem menuitem_check_race_encoder_capture_simulate;
 
 	[Widget] Gtk.VBox vbox_run_encoder_capture_buttons;
-	[Widget] Gtk.HBox hbox_run_encoder_capture_options;
+	[Widget] Gtk.VBox vbox_run_encoder_capture_options;
 	[Widget] Gtk.HBox hbox_combo_run_encoder_exercise;
 	[Widget] Gtk.ComboBox combo_run_encoder_exercise;
 	[Widget] Gtk.SpinButton race_analyzer_spinbutton_distance;
@@ -1172,7 +1172,7 @@ LogB.Information(" re R ");
 	{
 		//runEncoder related buttons
 		vbox_run_encoder_capture_buttons.Sensitive = sensitive;
-		hbox_run_encoder_capture_options.Sensitive = sensitive;
+		vbox_run_encoder_capture_options.Sensitive = sensitive;
 		button_execute_test.Sensitive = sensitive;
 
 		hbox_contacts_camera.Sensitive = sensitive;

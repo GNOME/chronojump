@@ -15,8 +15,8 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2016   Xavier Padullés <x.padulles@gmail.com> 
- *  Copyright (C) 2016-2017   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2016, 2019   Xavier Padullés <x.padulles@gmail.com>
+ *  Copyright (C) 2016-2017, 2019   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -45,19 +45,26 @@ public class Point
 
 public class LeastSquares 
 {
-	//WIP
+	public bool CalculatedCoef;
+	public double [] Coef; 	//indep, x, x^2
 
-	public bool Success;
-	public double [] Coef;
-	private List<Point> measures; 
+	/*
+	 * R testing
+	 * x=seq(from=min(x), to=max(x), length.out=20)
+	 * plot(x, 11.51323 + 1.36524*x + -0.01752 * x^2)
+	 */
 
+	public bool CalculatedMaxY;
+	public double MaxY;
+
+	//constructor
 	public LeastSquares() {
 		Coef = null;
 	}
 
 	public void Test()
 	{
-		measures = new List<Point> { 
+		List<Point> measures = new List<Point> {
 			new Point(1, 10.3214), new Point(2, 13.3214), new Point(3, 18.3214),
 			    new Point(4, 25.3214), new Point(5, 34.3214), new Point(6, 45.3214), 
 			    new Point(7, 58.3214), new Point(8, 73.3214), new Point(9, 90.3214), new Point(10, 109.3214) };
@@ -66,16 +73,17 @@ public class LeastSquares
 		//x=1:10
 		//y=c(10.3214,13.3214,18.3214,25.3214,34.3214,45.3214,58.3214,73.3214,90.3214,109.3214)
 
-		calculate();
+		Calculate(measures);
 	}
 
-	public void calculate() 
+	public void Calculate(List<Point> measures)
 	{
 		int numMeasures = measures.Count;
+		CalculatedCoef = false;
+		CalculatedMaxY = false;
 
 		if(numMeasures < 3) {
 			LogB.Error(string.Format("LeastSquares needs at least three values, has:",numMeasures));
-			Success = false;
 			return;
 		}
 
@@ -122,12 +130,31 @@ public class LeastSquares
 			coef[1] = invA[1,0]*B[0] + invA[1,1]*B[1] + invA[1,2]*B[2];
 			coef[2] = invA[2,0]*B[0] + invA[2,1]*B[1] + invA[2,2]*B[2];
 
-			Success = true;
 			Coef = coef;
+			CalculatedCoef = true;
+
+			calculateMaxY();
 		} else {
 			LogB.Error("Determinant of matrix equal to zero");
-			Success = false;
 		}
+	}
+
+	private void calculateMaxY()
+	{
+		if(Coef[2] == 0)
+		{
+			LogB.Error("Straight line");
+			return;
+		}
+		else if(Coef[2] > 0)
+		{
+			LogB.Error("Inverted parabole, also solve division by zero problems");
+			return;
+		}
+
+		//MaxY = -b / 2a
+		MaxY = - Coef[1] / (2 * Coef[2]);
+		CalculatedMaxY = true;
 	}
 }
 

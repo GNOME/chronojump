@@ -207,6 +207,8 @@ public partial class ChronoJumpWindow
 		} else {
 			extra_window_showLimitData(false, false);	//visible, sensitive
 		}
+
+		setLabelContactsExerciseSelectedOptionsRunsInterval();
 	}
 
 	private void on_more_runs_update_test (object o, EventArgs args) 
@@ -280,6 +282,11 @@ public partial class ChronoJumpWindow
 		extra_window_runs_interval_label_limit_units.Sensitive = sensitive;
 	}
 
+	private void on_extra_window_runs_interval_spinbutton_limit_value_changed (object o, EventArgs args)
+	{
+		setLabelContactsExerciseSelectedOptionsRunsInterval();
+	}
+
 	// ----
 	// ---- start of track distance
 	// ----
@@ -348,6 +355,8 @@ public partial class ChronoJumpWindow
 
 		label_runs_interval_track_distance_value.Text = Util.TrimDecimals(genericWin.SpinDouble2Selected.ToString(),
 				preferences.digitsNumber);
+
+		setLabelContactsExerciseSelectedOptionsRunsInterval();
 	}
 
 	// ---- end of track distance

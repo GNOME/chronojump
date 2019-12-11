@@ -15153,10 +15153,13 @@ EncoderInertialCapture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox_run_encoder_capture_options">
+                                                            <widget class="GtkVBox" id="vbox_run_encoder_capture_options">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">20</property>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox161">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
                                                             <child>
                                                             <widget class="GtkComboBox" id="combo_race_analyzer_device">
                                                             <property name="visible">True</property>
@@ -15169,6 +15172,14 @@ Resisted race analyzer</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="padding">5</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
@@ -15226,6 +15237,7 @@ Resisted race analyzer</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
+                                                            <property name="padding">5</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
@@ -15283,6 +15295,7 @@ Resisted race analyzer</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
+                                                            <property name="padding">5</property>
                                                             <property name="position">2</property>
                                                             </packing>
                                                             </child>

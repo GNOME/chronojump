@@ -77,7 +77,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_force_sensor_laterality_both;
 	[Widget] Gtk.RadioButton radio_force_sensor_laterality_l;
 	[Widget] Gtk.RadioButton radio_force_sensor_laterality_r;
-	[Widget] Gtk.HBox hbox_force_sensor_lat_and_comments;
 	[Widget] Gtk.HBox hbox_force_sensor_adjust_actions;
 	[Widget] Gtk.Button button_force_sensor_tare;
 	[Widget] Gtk.Button button_force_sensor_calibrate;
@@ -429,7 +428,7 @@ public partial class ChronoJumpWindow
 	{
 		//force related buttons
 		hbox_force_capture_buttons.Sensitive = sensitive;
-		hbox_force_sensor_lat_and_comments.Sensitive = sensitive;
+		button_contacts_exercise.Sensitive = sensitive;
 		button_execute_test.Sensitive = sensitive;
 		button_force_sensor_analyze_load.Sensitive = sensitive;
 		hbox_contacts_camera.Sensitive = sensitive;

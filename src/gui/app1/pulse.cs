@@ -32,7 +32,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton extra_window_radio_pulses_custom;
 	[Widget] Gtk.RadioButton extra_window_radio_pulses_free;
 	
-	[Widget] Gtk.HBox hbox_extra_window_pulses;
+	[Widget] Gtk.VBox vbox_extra_window_pulses;
 	[Widget] Gtk.SpinButton extra_window_pulses_spinbutton_pulse_step;
 	[Widget] Gtk.SpinButton extra_window_pulses_spinbutton_ppm;
 	[Widget] Gtk.SpinButton extra_window_pulses_spinbutton_total_pulses;
@@ -69,7 +69,7 @@ public partial class ChronoJumpWindow
 	}
 	
 	private void extra_window_pulses_showNoOptions(bool hasOptions) {
-		hbox_extra_window_pulses.Visible = hasOptions;
+		vbox_extra_window_pulses.Visible = hasOptions;
 	}
 	
 

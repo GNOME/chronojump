@@ -30,7 +30,7 @@ using Mono.Unix;
 using System.Threading;
 using System.IO; 
 
-//load person (jumper)
+//load person
 public class PersonRecuperateWindow {
 	
 	[Widget] protected Gtk.Window person_recuperate;
@@ -286,7 +286,7 @@ public class PersonRecuperateWindow {
 }
 
 
-//load person (jumper)
+//load person
 public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow 
 {
 	static PersonsRecuperateFromOtherSessionWindow PersonsRecuperateFromOtherSessionWindowBox;
@@ -966,10 +966,10 @@ public class PersonAddModifyWindow
 		entry1.IsFocus = true;
 
 		if(adding) {
-			person_win.Title = Catalog.GetString ("New jumper");
+			person_win.Title = Catalog.GetString ("New person");
 			//button_accept.Sensitive = false;
 		} else 
-			person_win.Title = Catalog.GetString ("Edit jumper");
+			person_win.Title = Catalog.GetString ("Edit person");
 
 		person_win.Show();
 	}

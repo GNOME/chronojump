@@ -1845,7 +1845,8 @@ public class PersonAddModifyWindow
 			currentPerson = new Person (personName, sex, dateTime,
 					Constants.RaceUndefinedID,
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_countries), countries)),
-					textview_description.Buffer.Text, "", //future1: rfid
+					textview_description.Buffer.Text,
+					"", "", //future1: rfid; future2: clubID
 					Constants.ServerUndefinedID, false); //dbconOpened
 					
 			LogB.Information("Going to insert personSession");
@@ -1881,7 +1882,8 @@ public class PersonAddModifyWindow
 			currentPerson = new Person (currentPerson.UniqueID, personName, sex, dateTime,
 					Constants.RaceUndefinedID,
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_countries), countries)),
-					textview_description.Buffer.Text, "", //future1: rfid
+					textview_description.Buffer.Text,
+					"", "", //future1: rfid; future2: clubID
 					serverUniqueID);
 			SqlitePerson.Update (currentPerson); 
 		
@@ -2515,7 +2517,7 @@ public class PersonAddMultipleWindow {
 							dateTime,
 							Constants.RaceUndefinedID,
 							Constants.CountryUndefinedID,
-							"", "", 				//description, future1: rfid
+							"", "", "", 		//description, future1: rfid, future2: clubID
 							Constants.ServerUndefinedID
 							);
 				

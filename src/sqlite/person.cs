@@ -47,13 +47,13 @@ class SqlitePerson : Sqlite
 			"countryID INT, " + 
 			"description TEXT, " +	
 			"future1 TEXT, " + //rfid
-			"future2 TEXT, " +	
+			"future2 TEXT, " + //clubID
 			"serverUniqueID INT ) ";
 		dbcmd.ExecuteNonQuery();
 	 }
 
 	public static int Insert(bool dbconOpened, string uniqueID, string name, string sex, DateTime dateBorn, 
-			int race, int countryID, string description, string future1, int serverUniqueID)
+			int race, int countryID, string description, string future1, string future2, int serverUniqueID)
 	{
 		LogB.SQL("going to insert");
 		if(! dbconOpened)
@@ -68,7 +68,7 @@ class SqlitePerson : Sqlite
 		string myString = "INSERT INTO " + Constants.PersonTable + 
 			" (uniqueID, name, sex, dateBorn, race, countryID, description, future1, future2, serverUniqueID) VALUES (" + uniqueID + ", \"" +
 			name + "\", \"" + sex + "\", \"" + UtilDate.ToSql(dateBorn) + "\", " + 
-			race + ", " + countryID + ", \"" + description + "\", \"" + future1 + "\", \"\", " + serverUniqueID + ")";
+			race + ", " + countryID + ", \"" + description + "\", \"" + future1 + "\", \"" + future2 + "\", " + serverUniqueID + ")";
 		
 		dbcmd.CommandText = myString;
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -124,6 +124,7 @@ class SqlitePerson : Sqlite
 					Convert.ToInt32(reader[5].ToString()), //countryID
 					reader[6].ToString(), 			//description
 					reader[7].ToString(), 			//future1: rfid
+					reader[8].ToString(), 			//future2: clubID
 					Convert.ToInt32(reader[9].ToString()) //serverUniqueID
 					);
 		}
@@ -268,6 +269,7 @@ finishForeach:
 						Convert.ToInt32(reader2[5].ToString()), //countryID
 						reader2[6].ToString(), 			//description
 						reader2[7].ToString(), 			//future1: rfid
+						reader2[8].ToString(), 			//future2: clubID
 						Convert.ToInt32(reader2[9].ToString()) //serverUniqueID
 						);
 				arrayReturn.Add(p);
@@ -630,7 +632,8 @@ finishForeach:
 			"\", race = " + myPerson.Race +
 			", countryID = " + myPerson.CountryID +
 			", description = \"" + myPerson.Description +
-			"\", future1 = \"" + myPerson.Future1 + 			//rfid
+			"\", future1 = \"" + myPerson.Future1 + 		//rfid
+			"\", future2 = \"" + myPerson.Future2 + 		//clubID
 			"\", serverUniqueID = " + myPerson.ServerUniqueID +
 			" WHERE uniqueID == " + myPerson.UniqueID;
 		LogB.SQL(dbcmd.CommandText.ToString());

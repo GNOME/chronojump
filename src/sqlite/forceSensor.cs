@@ -318,7 +318,7 @@ class SqliteForceSensor : Sqlite
 						Person pUnknown = new Person (Catalog.GetString("Unknown"), "M", DateTime.Now,
 								Constants.RaceUndefinedID,
 								Constants.CountryUndefinedID,
-								"", "", //future1: rfid
+								"", "", "", //description; future1: rfid; future2: clubID
 								Constants.ServerUndefinedID, true); //dbconOpened
 						unknownPersonID = pUnknown.UniqueID;
 					}

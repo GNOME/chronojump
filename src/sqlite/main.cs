@@ -3129,7 +3129,7 @@ class Sqlite
 				       pOld.Race,
 				       pOld.CountryID,
 				       pOld.Description,
-				       "", 	//future1: rfid
+				       "", "", 	//future1: rfid; future2: clubID
 				       pOld.ServerUniqueID
 				       );
 			p.InsertAtDB(true, Constants.PersonTable);

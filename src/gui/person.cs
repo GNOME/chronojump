@@ -800,6 +800,7 @@ public class PersonAddModifyWindow
 	[Widget] Gtk.Entry entry1;
 	[Widget] Gtk.RadioButton radiobutton_man;
 	[Widget] Gtk.RadioButton radiobutton_woman;
+	[Widget] Gtk.Entry entry_club_id;
 	[Widget] Gtk.TextView textview_description;
 	[Widget] Gtk.TextView textview_ps_comments;
 
@@ -1382,6 +1383,7 @@ public class PersonAddModifyWindow
 		} else {
 			//PERSON STUFF
 			entry1.Text = currentPerson.Name;
+			entry_club_id.Text = currentPerson.Future2;
 			if (currentPerson.Sex == Constants.M) {
 				radiobutton_man.Active = true;
 			} else {
@@ -1838,6 +1840,7 @@ public class PersonAddModifyWindow
 		}
 
 		string personName = Util.MakeValidSQLAndFileName(entry1.Text);
+		string clubID = Util.MakeValidSQL(entry_club_id.Text);
 
 		if(adding) {
 			//here we add rows in the database
@@ -1846,7 +1849,7 @@ public class PersonAddModifyWindow
 					Constants.RaceUndefinedID,
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_countries), countries)),
 					textview_description.Buffer.Text,
-					"", "", //future1: rfid; future2: clubID
+					"", clubID, //future1: rfid; future2: clubID
 					Constants.ServerUndefinedID, false); //dbconOpened
 					
 			LogB.Information("Going to insert personSession");
@@ -1883,7 +1886,7 @@ public class PersonAddModifyWindow
 					Constants.RaceUndefinedID,
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_countries), countries)),
 					textview_description.Buffer.Text,
-					"", "", //future1: rfid; future2: clubID
+					"", clubID, //future1: rfid; future2: clubID
 					serverUniqueID);
 			SqlitePerson.Update (currentPerson); 
 		

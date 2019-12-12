@@ -2199,8 +2199,9 @@ LogB.Information(" fs R ");
 		//hbox_force_capture_buttons.Sensitive = false;
 		notebook_contacts_execute_or_instructions.Sensitive = false;
 
-		viewport_chronopics.Visible = false;
+		viewport_chronopics.Sensitive = false;
 		notebook_contacts_capture_doing_wait.CurrentPage = 3;
+		button_contacts_exercise.Sensitive = false;
 
 		forceSensorCaptureAdjustSensitivity(false);
 		event_execute_label_message.Text = Catalog.GetString("If you want to calibrate, please tare first.");
@@ -2212,8 +2213,9 @@ LogB.Information(" fs R ");
 		//hbox_force_capture_buttons.Sensitive = true;
 		notebook_contacts_execute_or_instructions.Sensitive = true;
 
-		viewport_chronopics.Visible = true;
+		viewport_chronopics.Sensitive = true;
 		notebook_contacts_capture_doing_wait.CurrentPage = 0;
+		button_contacts_exercise.Sensitive = true;
 
 		forceSensorCaptureAdjustSensitivity(true);
 		event_execute_label_message.Text = "";

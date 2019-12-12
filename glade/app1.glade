@@ -6931,17 +6931,12 @@ EncoderInertialCapture</property>
                                                       </packing>
                                                     </child>
                                                     <child>
-                                                      <widget class="GtkVBox" id="vbox_contacts_device_and_camera">
+                                                      <widget class="GtkVBox" id="vbox_contacts_device_adjust_threshold">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="spacing">8</property>
                                                         <child>
-                                                          <widget class="GtkAlignment" id="alignment_chronopics_and_more">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="top_padding">8</property>
-                                                            <child>
-                                                            <widget class="GtkHBox" id="hbox_chronopics_and_more">
+                                                          <widget class="GtkHBox" id="hbox_chronopics_and_more">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">8</property>
@@ -6954,8 +6949,7 @@ EncoderInertialCapture</property>
                                                             <widget class="GtkAlignment" id="alignment35">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="left_padding">6</property>
-                                                            <property name="right_padding">6</property>
+                                                            <property name="left_padding">12</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_activate_chronopics">
                                                             <property name="visible">True</property>
@@ -7004,36 +6998,22 @@ EncoderInertialCapture</property>
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">False</property>
+                                                            <property name="expand">True</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
-                                                            <child>
-                                                            <widget class="GtkAlignment" id="alignment16">
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="GtkHBox" id="hbox170">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <child>
-                                                            <widget class="GtkButton" id="button_threshold">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">True</property>
-                                                            <signal name="clicked" handler="on_threshold_clicked" swapped="no"/>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label_threshold">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            </widget>
-                                                            </child>
-                                                            </widget>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
                                                             <child>
                                                             <widget class="GtkButton" id="button_force_sensor_adjust">
                                                             <property name="visible">True</property>
@@ -7075,26 +7055,98 @@ EncoderInertialCapture</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">2</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">0</property>
                                                             </packing>
                                                             </child>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_threshold">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_threshold_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_threshold">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
                                                             </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
                                                             </child>
                                                           </widget>
                                                           <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">0</property>
+                                                            <property name="position">1</property>
                                                           </packing>
                                                         </child>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">False</property>
+                                                        <property name="pack_type">end</property>
+                                                        <property name="position">2</property>
+                                                      </packing>
+                                                    </child>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkAlignment" id="alignment4">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="top_padding">2</property>
+                                                    <child>
+                                                      <widget class="GtkNotebook" id="notebook_contacts_execute_or_instructions">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="show_tabs">False</property>
+                                                        <property name="show_border">False</property>
                                                         <child>
-                                                          <widget class="GtkHBox" id="hbox64">
+                                                          <widget class="GtkVBox" id="vbox_execute_test">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkVBox" id="vbox16">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox98">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="event_execute_label_message">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="use_markup">True</property>
+                                                            <property name="ellipsize">end</property>
+                                                            <property name="single_line_mode">True</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox64">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
                                                             <widget class="GtkNotebook" id="notebook_video_contacts">
                                                             <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
+                                                            <property name="can_focus">False</property>
                                                             <property name="show_tabs">False</property>
                                                             <property name="show_border">False</property>
                                                             <child>
@@ -7354,56 +7406,14 @@ EncoderInertialCapture</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="pack_type">end</property>
                                                             <property name="position">1</property>
-                                                          </packing>
-                                                        </child>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="fill">False</property>
-                                                        <property name="pack_type">end</property>
-                                                        <property name="position">2</property>
-                                                      </packing>
-                                                    </child>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">False</property>
-                                                    <property name="position">0</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <widget class="GtkAlignment" id="alignment4">
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
-                                                    <property name="top_padding">4</property>
-                                                    <child>
-                                                      <widget class="GtkNotebook" id="notebook_contacts_execute_or_instructions">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="show_tabs">False</property>
-                                                        <property name="show_border">False</property>
-                                                        <child>
-                                                          <widget class="GtkVBox" id="vbox_execute_test">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <child>
-                                                            <widget class="GtkVBox" id="vbox16">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="event_execute_label_message">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="use_markup">True</property>
-                                                            <property name="ellipsize">end</property>
-                                                            <property name="single_line_mode">True</property>
+                                                            </packing>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -22156,6 +22166,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -24403,6 +24416,18 @@ Concentric</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
+                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Tests will be filmed</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkHBox" id="hbox_video_encoder_capturing">
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
@@ -24430,18 +24455,6 @@ Concentric</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack_type">end</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Tests will be filmed</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -29966,6 +29979,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

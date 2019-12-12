@@ -230,7 +230,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_contacts_signal_save_comment;
 	[Widget] Gtk.Frame frame_jumps_automatic;
 	[Widget] Gtk.Notebook notebook_jumps_automatic;
-	[Widget] Gtk.VBox vbox_contacts_device_and_camera;
+	[Widget] Gtk.VBox vbox_contacts_device_adjust_threshold;
 
 	//jumps
 	[Widget] Gtk.Button button_edit_selected_jump;

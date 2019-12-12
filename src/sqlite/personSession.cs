@@ -287,6 +287,7 @@ class SqlitePersonSession : Sqlite
 					Convert.ToInt32(reader[5].ToString()),	//countryID
 					reader[6].ToString(),			//description
 					reader[7].ToString(),			//future1: rfid
+					reader[8].ToString(),			//future2: clubID
 					Convert.ToInt32(reader[9].ToString())	//serverUniqueID
 					);
 

@@ -337,15 +337,13 @@ class SqliteJump : Sqlite
 	{
 	  string personID = pID.ToString();
 	  string sessionID = sID.ToString();
-	  string tps = Constants.PersonSessionTable;
 
 	  Sqlite.Open();
 
 	  // Selecciona les dades de tots els salts
 	  dbcmd.CommandText = "SELECT " + "jump.*" +
-	  " FROM " + "jump, " + tps +
-	  " WHERE " + tps + ".personID = " + personID + " AND " + tps + 
-	  ".sessionID = " + sessionID  +  " AND jump.type = \"DJa\" ";
+	  " FROM " + "jump WHERE personID = " + personID +
+	  " AND sessionID = " + sessionID  +  " AND jump.type = \"DJa\" ";
 
 	  LogB.SQL(dbcmd.CommandText.ToString());
 	  dbcmd.ExecuteNonQuery();

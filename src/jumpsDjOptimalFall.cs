@@ -21,15 +21,16 @@
 using System;
 using System.Collections.Generic; //List
 
-public class JumpsDjOptimalFallingHeight
+public class JumpsDjOptimalFall
 {
 	//constructor
-	public JumpsDjOptimalFallingHeight()
+	public JumpsDjOptimalFall()
 	{
 	}
 	
 	public void Calculate (int personID, int sessionID)
 	{
+		/*
 		//1 get data
                 List<Jump> jump_l = SqliteJump.SelectDJa (personID, sessionID);
 
@@ -52,5 +53,6 @@ public class JumpsDjOptimalFallingHeight
 
 		if(ls.CalculatedMaxY)
 			LogB.Information(string.Format("MaxY = {0}", ls.MaxY));
+		*/
 	}
 }

@@ -38,6 +38,7 @@ SOURCES = \
 	gui/guiTests.cs\
 	gui/jump.cs\
 	gui/jumpsProfile.cs\
+	gui/jumpsDjOptimalFall.cs\
 	gui/jumpType.cs\
 	gui/restTime.cs\
 	gui/run.cs\

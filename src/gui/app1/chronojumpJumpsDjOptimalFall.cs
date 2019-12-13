@@ -21,7 +21,6 @@
 
 using System;
 using Gtk;
-//using Gdk;
 using Glade;
 using Mono.Unix;
 
@@ -46,8 +45,11 @@ public partial class ChronoJumpWindow
 		if(calculateData)
 			jumpsDjOptimalFall.Calculate(currentPerson.UniqueID, currentSession.UniqueID);
 
-		//JumpsProfileGraph.Do(jumpsProfile.GetIndexes(), drawingarea_jumps_dj_optimal_fall,
-		//		currentPerson.Name, currentSession.DateShort);
+		JumpsDjOptimalFallGraph.Do(
+				jumpsDjOptimalFall.Point_l,
+				jumpsDjOptimalFall.GetMaxY(),
+				drawingarea_jumps_dj_optimal_fall,
+				currentPerson.Name, currentSession.DateShort);
 	}
 	private void on_drawingarea_jumps_dj_optimal_fall_expose_event (object o, ExposeEventArgs args) 
 	{

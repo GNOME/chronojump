@@ -18681,6 +18681,7 @@ Concentric</property>
                                                           <widget class="GtkDrawingArea" id="drawingarea_jumps_dj_optimal_fall">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <signal name="expose_event" handler="on_drawingarea_jumps_dj_optimal_fall_expose_event" swapped="no"/>
                                                           </widget>
                                                           <packing>
                                                             <property name="expand">True</property>

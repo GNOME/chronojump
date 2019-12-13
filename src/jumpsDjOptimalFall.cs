@@ -23,6 +23,8 @@ using System.Collections.Generic; //List
 
 public class JumpsDjOptimalFall
 {
+	private List<Point> point_l;
+
 	//constructor
 	public JumpsDjOptimalFall()
 	{
@@ -30,12 +32,12 @@ public class JumpsDjOptimalFall
 	
 	public void Calculate (int personID, int sessionID)
 	{
-		/*
 		//1 get data
                 List<Jump> jump_l = SqliteJump.SelectDJa (personID, sessionID);
 
 		//2 convert to list of Point
-		List<Point> point_l = new List<Point>();
+		//List<Point> point_l = new List<Point>();
+		point_l = new List<Point>();
                 foreach(Jump j in jump_l)
 			point_l.Add(new Point(
 						j.Fall,
@@ -53,6 +55,20 @@ public class JumpsDjOptimalFall
 
 		if(ls.CalculatedMaxY)
 			LogB.Information(string.Format("MaxY = {0}", ls.MaxY));
-		*/
+	}
+
+	public double GetMaxY()
+	{
+		double maxY = 0;
+                foreach(Point p in point_l)
+			if(p.Y > maxY)
+				maxY = p.Y;
+
+		return maxY;
+	}
+
+	public List<Point> Point_l
+	{
+		get { return point_l; }
 	}
 }

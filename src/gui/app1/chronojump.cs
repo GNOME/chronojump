@@ -251,10 +251,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_jumps_rj_result_help_power;
 	[Widget] Gtk.Button button_jumps_rj_result_help_stiffness;
 	
-	[Widget] Gtk.DrawingArea drawingarea_jumps_dj_optimal_fall;
-	[Widget] Gtk.Image image_tab_jumps_dj_optimal_fall;
-	[Widget] Gtk.Image image_jumps_dj_optimal_fall_save;
-
 	//runs
 	[Widget] Gtk.Button button_edit_selected_run;
 	[Widget] Gtk.Button button_video_play_selected_run;
@@ -6864,8 +6860,8 @@ LogB.Debug("mc finished 5");
 		if (currentPerson == null || currentSession == null)
 			return;
 
-		JumpsDjOptimalFallingHeight jdofh = new JumpsDjOptimalFallingHeight();
-		jdofh.Calculate(currentPerson.UniqueID, currentSession.UniqueID);
+		JumpsDjOptimalFall jdof = new JumpsDjOptimalFall();
+		jdof.Calculate(currentPerson.UniqueID, currentSession.UniqueID);
 
 
 		/*

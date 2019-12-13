@@ -917,8 +917,20 @@ public partial class ChronoJumpWindow
 	}
 
 	public void on_radio_mode_encoder_analyze_small_toggled (object obj, EventArgs args) {
-		if(radio_mode_encoder_analyze_small.Active) 
+		if(radio_mode_encoder_analyze_small.Active)
+		{
 			notebook_encoder_sup.CurrentPage = 1;
+
+			//to display the explanation animation
+			if(radio_encoder_analyze_individual_current_set.Active)
+				on_radio_encoder_analyze_pre (radio_encoder_analyze_individual_current_set, new EventArgs());
+			else if(radio_encoder_analyze_individual_current_session.Active)
+				on_radio_encoder_analyze_pre (radio_encoder_analyze_individual_current_session, new EventArgs());
+			else if(radio_encoder_analyze_individual_all_sessions.Active)
+				on_radio_encoder_analyze_pre (radio_encoder_analyze_individual_all_sessions, new EventArgs());
+			else if(radio_encoder_analyze_groupal_current_session.Active)
+				on_radio_encoder_analyze_pre (radio_encoder_analyze_groupal_current_session, new EventArgs());
+		}
 	}
 
 	

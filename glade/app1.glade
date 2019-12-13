@@ -22169,6 +22169,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -24416,18 +24419,6 @@ Concentric</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Tests will be filmed</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack_type">end</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <widget class="GtkHBox" id="hbox_video_encoder_capturing">
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
@@ -24455,6 +24446,18 @@ Concentric</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Tests will be filmed</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -27223,7 +27226,7 @@ then click this button.</property>
                                                             <property name="tooltip" translatable="yes">Individual / current set</property>
                                                             <property name="active">True</property>
                                                             <property name="draw_indicator">False</property>
-                                                            <signal name="toggled" handler="on_radio_encoder_analyze_individual_current_set_toggled" swapped="no"/>
+                                                            <signal name="toggled" handler="on_radio_encoder_analyze_pre" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkImage" id="image_encoder_analyze_individual_current_set">
                                                             <property name="visible">True</property>
@@ -27247,7 +27250,7 @@ then click this button.</property>
                                                             <property name="active">True</property>
                                                             <property name="draw_indicator">False</property>
                                                             <property name="group">radio_encoder_analyze_individual_current_set</property>
-                                                            <signal name="toggled" handler="on_radio_encoder_analyze_individual_current_session_toggled" swapped="no"/>
+                                                            <signal name="toggled" handler="on_radio_encoder_analyze_pre" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkImage" id="image_encoder_analyze_individual_current_session">
                                                             <property name="visible">True</property>
@@ -27271,7 +27274,7 @@ then click this button.</property>
                                                             <property name="active">True</property>
                                                             <property name="draw_indicator">False</property>
                                                             <property name="group">radio_encoder_analyze_individual_current_set</property>
-                                                            <signal name="toggled" handler="on_radio_encoder_analyze_individual_all_sessions_toggled" swapped="no"/>
+                                                            <signal name="toggled" handler="on_radio_encoder_analyze_pre" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkImage" id="image_encoder_analyze_individual_all_sessions">
                                                             <property name="visible">True</property>
@@ -27295,7 +27298,7 @@ then click this button.</property>
                                                             <property name="active">True</property>
                                                             <property name="draw_indicator">False</property>
                                                             <property name="group">radio_encoder_analyze_individual_current_set</property>
-                                                            <signal name="toggled" handler="on_radio_encoder_analyze_groupal_current_session_toggled" swapped="no"/>
+                                                            <signal name="toggled" handler="on_radio_encoder_analyze_pre" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkImage" id="image_encoder_analyze_groupal_current_session">
                                                             <property name="visible">True</property>
@@ -27317,6 +27320,17 @@ then click this button.</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
+                                                            <child>
+                                                            <widget class="GtkNotebook" id="notebook_encoder_analyze_data_options_animate_explanation">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="show_tabs">False</property>
+                                                            <property name="show_border">False</property>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox173">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">20</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox_encoder_analyze_current_signal">
                                                             <property name="visible">True</property>
@@ -27387,7 +27401,7 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -27400,7 +27414,7 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">2</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -27544,7 +27558,119 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label13">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">page 1</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="tab_fill">False</property>
+                                                            <property name="type">tab</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label28">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label" translatable="yes">Individual / current set</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label19">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">page 2</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="position">1</property>
+                                                            <property name="tab_fill">False</property>
+                                                            <property name="type">tab</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label185">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label" translatable="yes">Individual / current session</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label33">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">page 3</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="position">2</property>
+                                                            <property name="tab_fill">False</property>
+                                                            <property name="type">tab</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label368">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label" translatable="yes">Individual / all sessions</property>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="position">3</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label104">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">page 4</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="position">3</property>
+                                                            <property name="tab_fill">False</property>
+                                                            <property name="type">tab</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label397">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label" translatable="yes">Groupal / current session</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="position">4</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label113">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">page 5</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="position">4</property>
+                                                            <property name="tab_fill">False</property>
+                                                            <property name="type">tab</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -27558,7 +27684,7 @@ then click this button.</property>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="pack_type">end</property>
-                                                            <property name="position">4</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                           </widget>
@@ -29979,6 +30105,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

@@ -717,11 +717,16 @@ public class Util
 
 		return stiffness;
 	}
-	
 
-	public static string GetInitialSpeed (string time, bool metersSecondsPreferred) 
+	//old code sends and returns strings
+	public static string GetInitialSpeed (string time, bool metersSecondsPreferred)
 	{
-		double height = Convert.ToDouble( GetHeightInCentimeters(time) );
+		return GetInitialSpeed (Convert.ToDouble(time), metersSecondsPreferred).ToString();
+	}
+	//new code (2019 ...) sends and returns doubles
+	public static double GetInitialSpeed (double time, bool metersSecondsPreferred)
+	{
+		double height = GetHeightInCentimeters(time);
 		height = height / 100; //in meters
 		
 		// Vo = sqrt(2gh)
@@ -730,7 +735,7 @@ public class Util
 		if(! metersSecondsPreferred)
 			initialSpeed *= 3.6;
 
-		return initialSpeed.ToString();
+		return initialSpeed;
 	}
 	
 	public static double GetDjPower (double tc, double tf, double mass, double fallHeight) 

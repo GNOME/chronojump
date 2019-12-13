@@ -222,6 +222,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_analyze_table_save;
 	[Widget] Gtk.Button button_encoder_analyze_1RM_save;
 
+	[Widget] Gtk.Notebook notebook_encoder_analyze_data_options_animate_explanation;
 	[Widget] Gtk.RadioButton radio_encoder_analyze_individual_current_set;
 	[Widget] Gtk.RadioButton radio_encoder_analyze_individual_current_session;
 	[Widget] Gtk.RadioButton radio_encoder_analyze_individual_all_sessions;
@@ -3258,11 +3259,32 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	private void on_radio_encoder_analyze_individual_current_set_toggled (object obj, EventArgs args) 
+	private void on_radio_encoder_analyze_pre (object obj, EventArgs args)
 	{
-		if(! radio_encoder_analyze_individual_current_set.Active)
-			return;
-		
+		if(obj == (object) radio_encoder_analyze_individual_current_set && ((Gtk.RadioButton) obj).Active)
+		{
+			notebook_encoder_analyze_data_options_animate_explanation.CurrentPage = 1;
+			GLib.Timeout.Add(1000, new GLib.TimeoutHandler(on_radio_encoder_analyze_individual_current_set));
+		}
+		else if(obj == (object) radio_encoder_analyze_individual_current_session && ((Gtk.RadioButton) obj).Active)
+		{
+			notebook_encoder_analyze_data_options_animate_explanation.CurrentPage = 2;
+			GLib.Timeout.Add(1000, new GLib.TimeoutHandler(on_radio_encoder_analyze_individual_current_session));
+		}
+		else if(obj == (object) radio_encoder_analyze_individual_all_sessions && ((Gtk.RadioButton) obj).Active)
+		{
+			notebook_encoder_analyze_data_options_animate_explanation.CurrentPage = 3;
+			GLib.Timeout.Add(1000, new GLib.TimeoutHandler(on_radio_encoder_analyze_individual_all_sessions));
+		}
+		else if(obj == (object) radio_encoder_analyze_groupal_current_session && ((Gtk.RadioButton) obj).Active)
+		{
+			notebook_encoder_analyze_data_options_animate_explanation.CurrentPage = 4;
+			GLib.Timeout.Add(1000, new GLib.TimeoutHandler(on_radio_encoder_analyze_groupal_current_session));
+		}
+	}
+
+	private bool on_radio_encoder_analyze_individual_current_set ()
+	{
 		//not called here
 		//prepareAnalyzeRepetitions();
 		
@@ -3299,13 +3321,13 @@ public partial class ChronoJumpWindow
 		hbox_encoder_analyze_current_signal.Visible = true;
 
 		showTriggersAndTab();
+
+		notebook_encoder_analyze_data_options_animate_explanation.CurrentPage = 0;
+		return false; //do not call this again
 	}
-	
-	private void on_radio_encoder_analyze_individual_current_session_toggled (object obj, EventArgs args) 
+
+	private bool on_radio_encoder_analyze_individual_current_session ()
 	{
-		if(! radio_encoder_analyze_individual_current_session.Active)
-			return;
-		
 		updateEncoderAnalyzeExercisesPre();
 		prepareAnalyzeRepetitions();
 
@@ -3354,13 +3376,13 @@ public partial class ChronoJumpWindow
 		hbox_encoder_analyze_current_signal.Visible = false;
 
 		showTriggerTab(false);
+
+		notebook_encoder_analyze_data_options_animate_explanation.CurrentPage = 0;
+		return false; //do not call this again
 	}
-	
-	private void on_radio_encoder_analyze_individual_all_sessions_toggled (object obj, EventArgs args) 
+
+	private bool on_radio_encoder_analyze_individual_all_sessions ()
 	{
-		if(! radio_encoder_analyze_individual_all_sessions.Active)
-			return;
-		
 		updateEncoderAnalyzeExercisesPre();
 		prepareAnalyzeRepetitions();
 	
@@ -3391,13 +3413,13 @@ public partial class ChronoJumpWindow
 		button_encoder_monthly_change_current_session.Visible = false;
 
 		showTriggerTab(false);
+
+		notebook_encoder_analyze_data_options_animate_explanation.CurrentPage = 0;
+		return false; //do not call this again
 	}
-		
-	private void on_radio_encoder_analyze_groupal_current_session_toggled (object obj, EventArgs args) 
+
+	private bool on_radio_encoder_analyze_groupal_current_session ()
 	{
-		if(! radio_encoder_analyze_groupal_current_session.Active)
-			return;
-	
 		updateEncoderAnalyzeExercisesPre();
 		prepareAnalyzeRepetitions();
 
@@ -3427,6 +3449,9 @@ public partial class ChronoJumpWindow
 		button_encoder_monthly_change_current_session.Visible = false;
 
 		showTriggerTab(false);
+
+		notebook_encoder_analyze_data_options_animate_explanation.CurrentPage = 0;
+		return false; //do not call this again
 	}
 
 

@@ -58,6 +58,7 @@ src/execute/run.cs
 src/exportSession.cs
 src/forceSensor.cs
 src/gui/app1/chronojump.cs
+src/gui/app1/chronojumpJumpsProfile.cs
 src/gui/app1/contactsExercise.cs
 src/gui/app1/forceSensor.cs
 src/gui/app1/jump.cs

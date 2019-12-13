@@ -28,7 +28,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="border_width">8</property>
-                <property name="spacing">16</property>
+                <property name="spacing">12</property>
                 <child>
                   <widget class="GtkTable" id="table2">
                     <property name="visible">True</property>
@@ -37,6 +37,9 @@
                     <property name="n_columns">3</property>
                     <property name="column_spacing">10</property>
                     <property name="row_spacing">12</property>
+                    <child>
+                      <placeholder/>
+                    </child>
                     <child>
                       <placeholder/>
                     </child>
@@ -359,14 +362,11 @@
                       </packing>
                     </child>
                     <child>
-                      <placeholder/>
-                    </child>
-                    <child>
                       <widget class="GtkLabel" id="label11">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
-                        <property name="label" translatable="yes">Club ID</property>
+                        <property name="label" translatable="yes" comments="A club can have many players on Chronojump database&#10;- &quot;Club ID&quot; means the ID of the player on the club&#10;- It does not mean a ID of a club (compared with others club)&#10;&#10;So if unsure, translate this: &quot;Person's ID at club&quot;">Club ID</property>
                         <property name="use_markup">True</property>
                       </widget>
                       <packing>

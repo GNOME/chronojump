@@ -1176,6 +1176,7 @@ LogB.Information(" re R ");
 		//runEncoder related buttons
 		vbox_run_encoder_capture_buttons.Sensitive = sensitive;
 		vbox_run_encoder_capture_options.Sensitive = sensitive;
+		button_contacts_exercise.Sensitive = sensitive;
 		button_execute_test.Sensitive = sensitive;
 
 		hbox_contacts_camera.Sensitive = sensitive;

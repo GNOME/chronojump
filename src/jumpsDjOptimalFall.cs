@@ -24,6 +24,7 @@ using System.Collections.Generic; //List
 public class JumpsDjOptimalFall
 {
 	private List<Point> point_l;
+	LeastSquares ls;
 
 	//constructor
 	public JumpsDjOptimalFall()
@@ -45,7 +46,7 @@ public class JumpsDjOptimalFall
 						));
 
 		//3 get LeastSquares
-		LeastSquares ls = new LeastSquares();
+		ls = new LeastSquares();
 		ls.Calculate(point_l);
 
 		//4 print data
@@ -53,22 +54,47 @@ public class JumpsDjOptimalFall
 			LogB.Information(string.Format("coef = {0} {1} {2}",
 						ls.Coef[0], ls.Coef[1], ls.Coef[2]));
 
-		if(ls.CalculatedMaxY)
-			LogB.Information(string.Format("MaxY = {0}", ls.MaxY));
+		if(ls.CalculatedXatMaxY)
+			LogB.Information(string.Format("XatMaxY = {0}", ls.XatMaxY));
 	}
 
-	public double GetMaxY()
+	public double GetMaxValue()
 	{
-		double maxY = 0;
+		double maxValue = 0;
                 foreach(Point p in point_l)
-			if(p.Y > maxY)
-				maxY = p.Y;
+		{
+			if(p.X > maxValue)
+				maxValue = p.X;
+			if(p.Y > maxValue)
+				maxValue = p.Y;
+		}
 
-		return maxY;
+		return maxValue;
 	}
 
 	public List<Point> Point_l
 	{
 		get { return point_l; }
+	}
+
+	public double[] Coefs
+	{
+		get {
+			if(! ls.CalculatedCoef)
+				return new double[0];
+
+			LogB.Information(string.Format("coef0:{0}", ls.Coef[0]));
+			return ls.Coef;
+		}
+	}
+
+	public double XatMaxY //model
+	{
+		get {
+			if(! ls.CalculatedXatMaxY)
+				return -1;
+
+			return ls.XatMaxY;
+		}
 	}
 }

@@ -54,8 +54,8 @@ public class LeastSquares
 	 * plot(x, 11.51323 + 1.36524*x + -0.01752 * x^2)
 	 */
 
-	public bool CalculatedMaxY;
-	public double MaxY;
+	public bool CalculatedXatMaxY;
+	public double XatMaxY;
 
 	//constructor
 	public LeastSquares() {
@@ -80,10 +80,10 @@ public class LeastSquares
 	{
 		int numMeasures = measures.Count;
 		CalculatedCoef = false;
-		CalculatedMaxY = false;
+		CalculatedXatMaxY = false;
 
 		if(numMeasures < 3) {
-			LogB.Error(string.Format("LeastSquares needs at least three values, has:",numMeasures));
+			LogB.Error(string.Format("LeastSquares needs at least three values, has: {0}", numMeasures));
 			return;
 		}
 
@@ -133,13 +133,14 @@ public class LeastSquares
 			Coef = coef;
 			CalculatedCoef = true;
 
-			calculateMaxY();
+			calculateXAtMaxY();
 		} else {
 			LogB.Error("Determinant of matrix equal to zero");
 		}
 	}
 
-	private void calculateMaxY()
+	//this is the X where maxY is found
+	private void calculateXAtMaxY()
 	{
 		if(Coef[2] == 0)
 		{
@@ -152,9 +153,9 @@ public class LeastSquares
 			return;
 		}
 
-		//MaxY = -b / 2a
-		MaxY = - Coef[1] / (2 * Coef[2]);
-		CalculatedMaxY = true;
+		//XatMaxY = -b / 2a
+		XatMaxY = - Coef[1] / (2 * Coef[2]);
+		CalculatedXatMaxY = true;
 	}
 }
 

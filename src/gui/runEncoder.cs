@@ -356,6 +356,7 @@ public partial class ChronoJumpWindow
 		//To know if USB has been disconnected
 		usbDisconnectedCount = 0;
 		usbDisconnectedLastTime = 0;
+		contactsShowCaptureDoingButtons(true);
 
 		runEncoderCaptureSimulated = menuitem_check_race_encoder_capture_simulate.Active;
 
@@ -1057,6 +1058,7 @@ LogB.Information(" re C finish");
 
 					Thread.Sleep (250); //Wait a bit to ensure is copied
 					sensitiveLastTestButtons(true);
+					contactsShowCaptureDoingButtons(false);
 
 					runEncoderAnalyzeOpenImage();
 					notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RACEENCODER);
@@ -1081,6 +1083,7 @@ LogB.Information(" re C cancel ");
 				//stop the camera (and do not save)
 				webcamEnd (Constants.TestTypes.RACEANALYZER, -1);
 				sensitiveLastTestButtons(false);
+				contactsShowCaptureDoingButtons(false);
 				button_delete_last_test.Sensitive = false;
 
 				if(runEncoderProcessCancel)

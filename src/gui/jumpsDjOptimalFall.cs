@@ -26,7 +26,7 @@ using Cairo;
 
 public static class JumpsDjOptimalFallGraph
 {
-	public static void Do (List<Point> point_l, double[] coefs, double xAtMaxY,
+	public static void Do (List<Point> point_l, double[] coefs, double xAtMMaxY, //x at Model MaxY
 			double pointsMaxValue, DrawingArea area, string title, string date)
 	{
 		LogB.Information("at JumpsDjOptimalFallGraph.Do");
@@ -37,15 +37,14 @@ public static class JumpsDjOptimalFallGraph
 		g.SetSourceRGB(1,1,1);
 		g.Paint();
 
-		int topMargin = 30;
-		int bottomMargin = 30;
-	        int leftMargin = 30;
-	        int rightMargin = 30;
-		//int leftAxis = 40;
-		//int bottomAxis = 40;
-		int graphWidth = 500; //in the future check this is not bigger than area widt
-		int axisDist = 40; //distance from margin to graph
+		int graphWidth = Convert.ToInt32(area.Allocation.Width *.8); //in the future check this is not bigger than area widt
 
+		//for all sides
+		int outerMargins = 30; //blank space outside the axis
+		int innerMargins = 30; //space between the axis and the real coordinates
+		int totalMargins = outerMargins + innerMargins;
+
+		/*
                 //calculate separation between series and bar width
                 int distanceBetweenCols = Convert.ToInt32((graphWidth - rightMargin)*(1+.5)/point_l.Count) -
                         Convert.ToInt32((graphWidth - rightMargin)*(0+.5)/point_l.Count);
@@ -53,6 +52,7 @@ public static class JumpsDjOptimalFallGraph
                 int tctfSep = Convert.ToInt32(.3*distanceBetweenCols);
                 int barWidth = Convert.ToInt32(.3*distanceBetweenCols);
                 int barDesplLeft = Convert.ToInt32(.5*barWidth);
+		*/
 
 		g.SetSourceRGB(0,0,0);
 		g.LineWidth = 2;
@@ -104,6 +104,7 @@ public static class JumpsDjOptimalFallGraph
 			double minX = 1000000;
 			double maxX = 0;
 			double minY = 1000000;
+			double maxY = 0;
 			int xgraph = 0;
 			int ygraph = 0;
 
@@ -115,22 +116,46 @@ public static class JumpsDjOptimalFallGraph
 					maxX = p.X;
 				if(p.Y < minY)
 					minY = p.Y;
+				if(p.Y > maxY)
+					maxY = p.Y;
 			}
 
-			double absoluteMaxY = coefs[0] + coefs[1]*xAtMaxY + coefs[2]*Math.Pow(xAtMaxY,2);
-//			g.Save ();
+			double yAtMMaxY = coefs[0] + coefs[1]*xAtMMaxY + coefs[2]*Math.Pow(xAtMMaxY,2);
+			double absoluteMaxY = yAtMMaxY;
+			if(maxY > absoluteMaxY)
+				absoluteMaxY = maxY;
 
-			//double xstart = minX - (maxX - minX);
-			//TODO: use lineTo, and have (maybe) more than 20 points
+			//paint axis
+			g.MoveTo(outerMargins, outerMargins);
+			g.LineTo(outerMargins, area.Allocation.Height - outerMargins);
+			g.LineTo(graphWidth - outerMargins, area.Allocation.Height - outerMargins);
+			g.Stroke ();
+			printText(2, Convert.ToInt32(outerMargins/2), 0, textHeight, "Height (cm)", g, false);
+			printText(graphWidth - Convert.ToInt32(outerMargins/2), area.Allocation.Height - outerMargins, 0, textHeight, "Fall (cm)", g, false);
+
+			//paint grid: horizontal, vertical
+			paintCairoGrid (minY, absoluteMaxY, 5, graphWidth, area.Allocation.Height, true,
+					outerMargins, innerMargins, g, textHeight);
+			paintCairoGrid (minX, maxX, 5, graphWidth, area.Allocation.Height, false,
+					outerMargins, innerMargins, g, textHeight);
+
+			//plot predicted line (model)
 			bool firstValue = false;
-			for(double x = minX; x < maxX; x += (maxX-minX)/100)
+			double minMax50Percent = (minX + maxX)/2;
+			for(double x = minX - minMax50Percent; x < maxX + minMax50Percent; x += (maxX-minX)/200)
 			{
 				xgraph = calculatePaintWidth(
 						( x ),
-						graphWidth, maxX, minX, rightMargin, leftMargin + axisDist);
+						graphWidth, maxX, minX, totalMargins, totalMargins);
 				ygraph = calculatePaintHeight(
 						( coefs[0] + coefs[1]*x + coefs[2]*Math.Pow(x,2) ),
-						area.Allocation.Height, absoluteMaxY, minY, topMargin, bottomMargin + axisDist);
+						area.Allocation.Height, absoluteMaxY, minY, totalMargins, totalMargins);
+
+				//do not plot line outer the axis
+				if(
+						xgraph < outerMargins || xgraph > graphWidth - outerMargins ||
+						ygraph < outerMargins || ygraph > area.Allocation.Height - outerMargins )
+					continue;
 
 				if(! firstValue)	
 					g.LineTo(xgraph, ygraph);
@@ -140,14 +165,15 @@ public static class JumpsDjOptimalFallGraph
 			}
 			g.Stroke ();
 
+			//plot real points
 			foreach(Point p in point_l)
 			{
 				xgraph = calculatePaintWidth(
 						( p.X ),
-						graphWidth, maxX, minX, rightMargin, leftMargin + axisDist);
+						graphWidth, maxX, minX, totalMargins, totalMargins);
 				ygraph = calculatePaintHeight(
 						( p.Y ),
-						area.Allocation.Height, absoluteMaxY, minY, topMargin, bottomMargin + axisDist);
+						area.Allocation.Height, absoluteMaxY, minY, totalMargins, totalMargins);
 				g.MoveTo(xgraph+6, ygraph);
 				g.Arc(xgraph, ygraph, 6.0, 0.0, 2.0 * Math.PI); //full circle
 				g.Color = blue;
@@ -162,51 +188,30 @@ public static class JumpsDjOptimalFallGraph
 				*/
 			}
 
-			xgraph = calculatePaintWidth(
-					( xAtMaxY ),
-					graphWidth, maxX, minX, rightMargin, leftMargin + axisDist);
-			ygraph = calculatePaintHeight(
-					absoluteMaxY,
-					area.Allocation.Height, absoluteMaxY, minY, topMargin, bottomMargin + axisDist);
+			//plot predicted max point
+			xgraph = calculatePaintWidth(xAtMMaxY, graphWidth, maxX, minX, totalMargins, totalMargins);
+			ygraph = calculatePaintHeight(yAtMMaxY, area.Allocation.Height, absoluteMaxY, minY, totalMargins, totalMargins);
 
-			//paint axis
-			g.MoveTo(leftMargin, topMargin);
-			g.LineTo(leftMargin, area.Allocation.Height - bottomMargin);
-			g.LineTo(graphWidth - rightMargin, area.Allocation.Height - bottomMargin);
-			g.Stroke ();
-
-			printText(2, Convert.ToInt32(topMargin/2), 0, textHeight, "Height (cm)", g, false);
-			printText(graphWidth - Convert.ToInt32(rightMargin/2), area.Allocation.Height - bottomMargin, 0, textHeight, "Fall (cm)", g, false);
-
-			//paint grid,
-			//TODO: fer el grid abns que pintar els punts
-			//horiz
-			paintCairoGrid (Convert.ToInt32(minY), Convert.ToInt32(absoluteMaxY), 5, graphWidth, area.Allocation.Height, true,
-					leftMargin, rightMargin, topMargin, bottomMargin, axisDist, g, textHeight);
-			//vertical
-			paintCairoGrid (Convert.ToInt32(minX), Convert.ToInt32(maxX), 5, graphWidth, area.Allocation.Height, false,
-					leftMargin, rightMargin, topMargin, bottomMargin, axisDist, g, textHeight);
-
-			/*
 			//print X, Y of maxY
 			//at axis
 			g.Save();
 			g.SetDash(new double[]{14, 6}, 0);
-			g.MoveTo(xgraph, area.Allocation.Height - bottomMargin);
+			g.MoveTo(xgraph, area.Allocation.Height - outerMargins);
 			g.LineTo(xgraph, ygraph);
-			g.LineTo(leftMargin, ygraph);
+			g.LineTo(outerMargins, ygraph);
 			g.Stroke ();
 			g.Restore();
 
-			printText(xgraph, area.Allocation.Height - Convert.ToInt32(bottomMargin/2), 0, textHeight, Util.TrimDecimals(xAtMaxY, 2), g, true);
+			/*
+			printText(xgraph, area.Allocation.Height - Convert.ToInt32(bottomMargin/2), 0, textHeight, Util.TrimDecimals(xAtMMaxY, 2), g, true);
 			printText(Convert.ToInt32(leftMargin/2), ygraph, 0, textHeight, Util.TrimDecimals(
 					absoluteMaxY, 2), g, true);
 			*/
 
 			//at right
-			printText(graphWidth + axisDist, Convert.ToInt32(area.Allocation.Height/2) - textHeight*2, 0, textHeight, "Optimal values:", g, false);
-			printText(graphWidth + axisDist, Convert.ToInt32(area.Allocation.Height/2),      0, textHeight, "Fall: " + Util.TrimDecimals(xAtMaxY, 2) + " cm", g, false);
-			printText(graphWidth + axisDist, Convert.ToInt32(area.Allocation.Height/2) + textHeight*2, 0, textHeight, "Jump height: " + Util.TrimDecimals(absoluteMaxY, 2) + " cm", g, false);
+			printText(graphWidth + outerMargins, Convert.ToInt32(area.Allocation.Height/2) - textHeight*2, 0, textHeight, "Optimal values:", g, false);
+			printText(graphWidth + outerMargins, Convert.ToInt32(area.Allocation.Height/2),      0, textHeight, "Fall: " + Util.TrimDecimals(xAtMMaxY, 2) + " cm", g, false);
+			printText(graphWidth + outerMargins, Convert.ToInt32(area.Allocation.Height/2) + textHeight*2, 0, textHeight, "Jump height: " + Util.TrimDecimals(yAtMMaxY, 2) + " cm", g, false);
 
 			g.MoveTo(xgraph+8, ygraph);
 			g.Arc(xgraph, ygraph, 8.0, 0.0, 2.0 * Math.PI); //full circle
@@ -222,8 +227,8 @@ public static class JumpsDjOptimalFallGraph
 		g.Dispose ();
 	}
 
-	private static void paintCairoGrid (int min, int max, int seps, int horizontalSize, int verticalSize, bool horiz,
-			int leftMargin, int rightMargin, int topMargin, int bottomMargin, int axisDist, Cairo.Context g, int textHeight)
+	private static void paintCairoGrid (double min, double max, int seps, int horizontalSize, int verticalSize, bool horiz,
+			int outerMargins, int innerMargins, Cairo.Context g, int textHeight)
 	{
 		//show 5 steps positive, 5 negative (if possible)
 		int temp = Convert.ToInt32(Util.DivideSafe(max - min, seps));
@@ -245,23 +250,28 @@ public static class JumpsDjOptimalFallGraph
 		if(step == 0)
 			step = 1;
 
-		List<int> l = new List<int>();
 		g.Save();
 		g.SetDash(new double[]{1, 2}, 0);
-		for(int i = min; i <= max ; i += step)//TODO, start at min+sep
+		// i <= max*1.5 to allow to have grid just above the maxpoint if it's below innermargins
+		// see: if(ytemp < outerMargins) continue;
+		for(int i = Convert.ToInt32(min); i <= max *1.5 ; i += step)
 		{
 			//LogB.Information("i: " + i.ToString());
 			if(horiz)
 			{
-				int ytemp = calculatePaintHeight(i, verticalSize, max, min, topMargin, bottomMargin + axisDist);
-				g.MoveTo(leftMargin, ytemp);
-				g.LineTo(horizontalSize - rightMargin, ytemp);
-				printText(Convert.ToInt32(leftMargin/2), ytemp, 0, textHeight, i.ToString(), g, true);
+				int ytemp = calculatePaintHeight(i, verticalSize, max, min, outerMargins + innerMargins, outerMargins + innerMargins);
+				if(ytemp < outerMargins)
+					continue;
+				g.MoveTo(outerMargins, ytemp);
+				g.LineTo(horizontalSize - outerMargins, ytemp);
+				printText(Convert.ToInt32(outerMargins/2), ytemp, 0, textHeight, i.ToString(), g, true);
 			} else {
-				int xtemp = calculatePaintWidth(i, horizontalSize, max, min, rightMargin, leftMargin + axisDist);
-				g.MoveTo(xtemp, verticalSize - bottomMargin);
-				g.LineTo(xtemp, topMargin);
-				printText(xtemp, verticalSize - Convert.ToInt32(bottomMargin/2), 0, textHeight, i.ToString(), g, true);
+				int xtemp = calculatePaintWidth(i, horizontalSize, max, min, outerMargins + innerMargins, outerMargins + innerMargins);
+				if(xtemp > horizontalSize)
+					continue;
+				g.MoveTo(xtemp, verticalSize - outerMargins);
+				g.LineTo(xtemp, outerMargins);
+				printText(xtemp, verticalSize - Convert.ToInt32(outerMargins/2), 0, textHeight, i.ToString(), g, true);
 			}
 		}
 		g.Stroke ();
@@ -298,6 +308,7 @@ public static class JumpsDjOptimalFallGraph
 		g.ShowText(text);
 	}
 
+	/*
 	//TODO: do not use this
 	private static void drawRoundedRectangle (double x, double y, double width, double height, 
 			double radius, Cairo.Context g, Cairo.Color color)
@@ -342,4 +353,5 @@ public static class JumpsDjOptimalFallGraph
 
 		return arr[minp];
 	}
+	*/
 }

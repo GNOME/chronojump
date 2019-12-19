@@ -341,8 +341,7 @@ class SqliteJump : Sqlite
 	  Sqlite.Open();
 
 	  // Selecciona les dades de tots els salts
-	  dbcmd.CommandText = "SELECT " + "jump.*" +
-	  " FROM " + "jump WHERE personID = " + personID +
+	  dbcmd.CommandText = "SELECT * FROM jump WHERE personID = " + personID +
 	  " AND sessionID = " + sessionID  +  " AND jump.type = \"DJa\" ";
 
 	  LogB.SQL(dbcmd.CommandText.ToString());

@@ -65,7 +65,9 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         colnames(raceAnalyzer) = c("displacement", "time", "force")
         raceAnalyzer$force = (raceAnalyzer$force) * 0.175806451613 /2  #TODO: Implement the calibration factor comming from the arduino
         totalTime = raceAnalyzer$time/1E6     #Converting microseconds to seconds
-        elapsedTime = diff(c(0,totalTime))      #The elapsed time between each sample
+        elapsedTime = diff(totalTime)      #The elapsed time between each sample
+        #raceAnalyzer = raceAnalyzer[2:length(raceAnalyzer)]
+        #totalTime = totalTime[1:length(totalTime)]
         
         #The encoder can be used with both loose ends of the rope. This means that the encoder can rotate
         #in both directions. We consider always the speed as positive.
@@ -77,11 +79,12 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
 	if(device == "MANUAL")                 #manual race analyzer - Hand device
 	        metersPerPulse = 0.003003
 	else                                    #resisted race analyzer - sled device
-	        metersPerPulse = 30 / 12267 	#In 30m there are 12267 pulses.
+	        metersPerPulse = 4 * 30 / 12267 	#With an encoder of 200 ppr, in 30m there are 12267 pulses.
 
         raceAnalyzer$displacement = raceAnalyzer$displacement * metersPerPulse
         position = cumsum(raceAnalyzer$displacement)
         speed = raceAnalyzer$displacement / elapsedTime
+        #print(speed)
         accel = (speed[3] - speed[1]) / (totalTime[3] - totalTime[1])
         for(i in 3:(length(speed) -1))
         {
@@ -105,8 +108,8 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         # print(forceBody)
         # print("forceRope:")
         # print(raceAnalyzer$force)
-        print("power:")
-        print(power)
+        # print("power:")
+        # print(power)
         
         
         # #Checking if the sprint is long enough
@@ -478,7 +481,8 @@ getTrimmingSamples <- function(totalTime, position, speed, accel, testLength)
                         sampleAfterSecond = which.min(abs(totalTime - (totalTime[startSample] +1)))
                         print(paste("sampleAfterSecond =", sampleAfterSecond))
                         positionAfterSecond = position[sampleAfterSecond]
-                        if(abs(positionAfterSecond - position[startSample]) > 1){
+                        #Checking if the displacement has been at least 1m
+                        if(abs(positionAfterSecond - position[startSample]) > 0.5){
                                 startingSample = TRUE
                         }
                 }

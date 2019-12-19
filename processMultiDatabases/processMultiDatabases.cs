@@ -23,8 +23,6 @@ using System.IO; //"File" things. TextWriter. Path
 using System.Collections.Generic; //List<T>
 using Mono.Data.Sqlite;
 
-//TODO: ara falta el CallR
-
 class ProcessMultiDatabases
 {
 	// start of configuration variables ---->
@@ -36,6 +34,13 @@ class ProcessMultiDatabases
 	private int barcelona1ShoppingBag = 9;
 	private int barcelona1ObjectInShelf = 10;
 
+	//current
+	private string currentDBPath;
+	private string currentFilenamePre;
+	private string currentExerciseString;
+	private int currentExercise;
+	private int currentPercentWeight;
+
 	//hardcoded stuff (search 'hardcoded' on):
 	//callR.cs
 	//utilEncoder.cs
@@ -45,17 +50,34 @@ class ProcessMultiDatabases
 	private string database = "chronojump.db";
         private SqliteConnection dbcon;
 	private SqliteCommand dbcmd;
-	private string dbPath = "";
 
 	public static void Main(string[] args)
 	{
 		new ProcessMultiDatabases();
 	}
 
+	private void configure()
+	{
+		currentDBPath = barcelona1Path;
+		currentFilenamePre = "barcelona1";
+		/*
+		currentExerciseString = "SITTOSTAND";
+		currentExercise = barcelona1ExSitToStand;
+		currentPercentWeight = 100;
+		*/
+		/*
+		currentExerciseString = "BICEPSCURL";
+		currentExercise = barcelona1BicepsCurl;
+		currentPercentWeight = 0;
+		*/
+		currentExerciseString = "SHOPPINGBAG";
+		currentExercise = barcelona1ShoppingBag;
+		currentPercentWeight = 0;
+	}
+
 	public ProcessMultiDatabases()
 	{
-		dbPath = barcelona1Path;
-
+		configure();
 		sqliteCreateConnection();
 		sqliteOpen();
 
@@ -67,9 +89,9 @@ class ProcessMultiDatabases
 
 	private void processDatabase()
 	{
-		List<EncoderSQL> list = SelectEncoder (barcelona1ExSitToStand);
+		List<EncoderSQL> list = SelectEncoder (currentExercise);
 
-		TextWriter writer = File.CreateText("/tmp/barcelona1ExSitToStand.csv");
+		TextWriter writer = File.CreateText("/tmp/" + currentFilenamePre + "-" + currentExerciseString + ".csv");
 		writer.WriteLine("city,exercise,person(cjump: bad),moment,rep,series,exercise,massBody,massExtra,start,width,height,meanSpeed,maxSpeed,maxSpeedT,meanPower,peakPower,peakPowerT,pp_ppt,meanForce,maxForce,maxForceT,maxForce_maxForceT,workJ,impulse,laterality,inertiaM");
 
 		int count = 0;
@@ -80,7 +102,7 @@ class ProcessMultiDatabases
 
 			EncoderParams ep = new EncoderParams(
 					20, //preferences.EncoderCaptureMinHeight(encoderConfigurationCurrent.has_inertia), 
-					100, //TODO: change this value depending on exercise //getExercisePercentBodyWeightFromComboCapture (),
+					currentPercentWeight, //TODO: change this value depending on exercise //getExercisePercentBodyWeightFromComboCapture (),
 					Util.ConvertToPoint(personWeight), // Util.ConvertToPoint(findMass(Constants.MassType.BODY)),
 					Util.ConvertToPoint(eSQL.extraWeight), //Util.ConvertToPoint(findMass(Constants.MassType.EXTRA)),
 					"c", //findEccon(true),                                        //force ecS (ecc-conc separated)
@@ -104,8 +126,8 @@ class ProcessMultiDatabases
 					UtilEncoder.GetEncoderTempPathWithoutLastSep(),
 					ep);
 
-			Console.WriteLine("copying file: " + dbPath + "/../" + eSQL.url + "/" + eSQL.filename);
-			UtilEncoder.CopyEncoderDataToTemp(dbPath + "/../" + eSQL.url, eSQL.filename);
+			Console.WriteLine("copying file: " + currentDBPath + "/../" + eSQL.url + "/" + eSQL.filename);
+			UtilEncoder.CopyEncoderDataToTemp(currentDBPath + "/../" + eSQL.url, eSQL.filename);
 			Console.WriteLine("copying file done. Calling R... ");
 
 			new CallR(es);
@@ -126,7 +148,8 @@ class ProcessMultiDatabases
 				if(firstLine)
 					firstLine = false;
 				else {
-					string line2 = "BARCELONA,SITTOSTAND," + eSQL.personID + ", (moment)," + line; //TODO: note this personID is not correct because persons sometimes where evaluated on different chronojump machines
+					string line2 = "BARCELONA," + currentExerciseString + "," + eSQL.personID + ", (moment)," + line;
+					//TODO: note this personID is not correct because persons sometimes where evaluated on different chronojump machines
 					writer.WriteLine(line2);
 					writer.Flush();
 				}
@@ -157,7 +180,7 @@ class ProcessMultiDatabases
 	private void sqliteCreateConnection()
 	{
 		dbcon = new SqliteConnection ();
-	        string sqlFile = dbPath + Path.DirectorySeparatorChar + database;
+	        string sqlFile = currentDBPath + Path.DirectorySeparatorChar + database;
 		Console.WriteLine(sqlFile);
 		dbcon.ConnectionString = "version = 3; Data source = " + sqlFile;
 		dbcmd = dbcon.CreateCommand();

@@ -1,0 +1,1 @@
+mcs processMultiDatabases.cs callR.cs constants.cs encoderGraphOptions.cs encoderParams.cs encoderSQL.cs encoderStruct.cs util.cs utilEncoder.cs -r:Mono.Data.Sqlite -r:System.Data

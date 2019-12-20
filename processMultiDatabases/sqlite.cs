@@ -99,6 +99,7 @@ public class Sqlite
 	public List<EncoderSQL> SelectEncoder (int exerciseID)
         {
 		dbcmd.CommandText = "SELECT * FROM encoder WHERE signalOrCurve = 'signal' AND exerciseID = " + exerciseID;
+		Console.WriteLine(dbcmd.CommandText.ToString());
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 

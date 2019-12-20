@@ -29,12 +29,12 @@ public class Person {
 	private string name;
 	private string sex; // "M" (male) , "F" (female) (Constants.M, Constants.F)
 	private DateTime dateBorn;
-	private int race;
-	private int countryID;
+	//private int race;
+	//private int countryID;
 	private string description;
-	private string future1; 	//rfid
-	private string future2; 	//club ID, is an integer
-	private int serverUniqueID; //not on server
+	//private string future1; 	//rfid
+	//private string future2; 	//club ID, is an integer
+	//private int serverUniqueID; //not on server
 
 	/*
 	public Person() {
@@ -60,12 +60,12 @@ public class Person {
 		this.sex = sex;
 		this.name = name;
 		this.dateBorn = dateBorn;
-		this.race = race;
-		this.countryID = countryID;
+		//this.race = race;
+		//this.countryID = countryID;
 		this.description = description;
-		this.future1 = future1;
-		this.future2 = future2;
-		this.serverUniqueID = serverUniqueID; //remember don't do this on server
+		//this.future1 = future1;
+		//this.future2 = future2;
+		//this.serverUniqueID = serverUniqueID; //remember don't do this on server
 	}
 
 	public override string ToString()

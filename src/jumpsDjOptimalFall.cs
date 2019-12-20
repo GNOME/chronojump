@@ -34,7 +34,7 @@ public class JumpsDjOptimalFall
 	public void Calculate (int personID, int sessionID)
 	{
 		//1 get data
-                List<Jump> jump_l = SqliteJump.SelectDJa (personID, sessionID);
+                List<Jump> jump_l = SqliteJump.SelectDJa (personID, sessionID, true);
 
 		//2 convert to list of Point
 		//List<Point> point_l = new List<Point>();

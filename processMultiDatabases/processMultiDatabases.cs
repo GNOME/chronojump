@@ -18,6 +18,19 @@
  * Copyright (C) 2019   Xavier de Blas <xaviblas@gmail.com> 
  */
 
+//TODO:
+//manage how to integrate with age that is on different database
+//moment: read the moment on the filename on processed files matching with date_time. problem on barcelona1 baseline: need to put 1 before all dates
+//- barcelona check on which folder we have that date-time
+//- rest of the cities: read the code
+//ecc-con: on sit to stand
+//
+//do not analyze: shopping bag and object in shelf
+//
+//dist min: sit to stand: 30. study the different dist of each rep is we have a min rep of 3 cm
+//
+
+
 using System;
 using System.IO; //"File" things. TextWriter. Path
 using System.Collections.Generic; //List<T>
@@ -27,12 +40,14 @@ class ProcessMultiDatabases
 {
 	// start of configuration variables ---->
 	//
-	//barcelona
+	//barcelona1
 	private string barcelona1Path = "/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/carpetes-chronojump-senceres/barcelona/wetransfer-8ba4dd/Encoder_Copies_17_07_2019/database";
+//	private int barcelona1ExJump = ?;
 	private int barcelona1ExSitToStand = 7;
 	private int barcelona1BicepsCurl = 8;
-	private int barcelona1ShoppingBag = 9;
-	private int barcelona1ObjectInShelf = 10;
+//	private int barcelona1ShoppingBag = 9;
+//	private int barcelona1ObjectInShelf = 10;
+	private int distMinSitToStand = 20;
 
 	//current
 	private string currentDBPath;
@@ -60,19 +75,19 @@ class ProcessMultiDatabases
 	{
 		currentDBPath = barcelona1Path;
 		currentFilenamePre = "barcelona1";
-		/*
 		currentExerciseString = "SITTOSTAND";
 		currentExercise = barcelona1ExSitToStand;
 		currentPercentWeight = 100;
-		*/
 		/*
 		currentExerciseString = "BICEPSCURL";
 		currentExercise = barcelona1BicepsCurl;
 		currentPercentWeight = 0;
 		*/
+		/*
 		currentExerciseString = "SHOPPINGBAG";
 		currentExercise = barcelona1ShoppingBag;
 		currentPercentWeight = 0;
+		*/
 	}
 
 	public ProcessMultiDatabases()
@@ -92,12 +107,13 @@ class ProcessMultiDatabases
 		List<EncoderSQL> list = SelectEncoder (currentExercise);
 
 		TextWriter writer = File.CreateText("/tmp/" + currentFilenamePre + "-" + currentExerciseString + ".csv");
-		writer.WriteLine("city,exercise,person(cjump: bad),moment,rep,series,exercise,massBody,massExtra,start,width,height,meanSpeed,maxSpeed,maxSpeedT,meanPower,peakPower,peakPowerT,pp_ppt,meanForce,maxForce,maxForceT,maxForce_maxForceT,workJ,impulse,laterality,inertiaM");
+		writer.WriteLine("city,exercise,person,sex,moment,rep,series,exercise,massBody,massExtra,start,width,height,meanSpeed,maxSpeed,maxSpeedT,meanPower,peakPower,peakPowerT,RPD,meanForce,maxForce,maxForceT,RFD,workJ,impulse,laterality,inertiaM");
 
 		int count = 0;
 		foreach(EncoderSQL eSQL in list)
 		{
 			Console.WriteLine(string.Format("progress: {0}/{1} - ", count, list.Count) + eSQL.ToString());
+			Person person = SelectPerson (eSQL.personID);
 			double personWeight = SelectPersonWeight(eSQL.personID);
 
 			EncoderParams ep = new EncoderParams(
@@ -148,8 +164,9 @@ class ProcessMultiDatabases
 				if(firstLine)
 					firstLine = false;
 				else {
-					string line2 = "BARCELONA," + currentExerciseString + "," + eSQL.personID + ", (moment)," + line;
+					string line2 = "BARCELONA," + currentExerciseString + "," + person.Name + "," + person.Sex + ",(moment)," + line;
 					//TODO: note this personID is not correct because persons sometimes where evaluated on different chronojump machines
+					//for this reason has been changed to personName, we suppose is the same on different machines
 					writer.WriteLine(line2);
 					writer.Flush();
 				}
@@ -157,7 +174,7 @@ class ProcessMultiDatabases
 
 			count ++;
 			/*
-			if(count >= 5)
+			if(count >= 15)
 				break;
 				*/
 
@@ -192,6 +209,34 @@ class ProcessMultiDatabases
 	private void sqliteClose()
 	{
 		dbcon.Close();
+	}
+
+	public Person SelectPerson (int uniqueID)
+	{
+		dbcmd.CommandText = "SELECT * FROM person77 WHERE uniqueID = " + uniqueID;
+		Console.WriteLine(dbcmd.CommandText.ToString());
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		Person p = new Person(-1);
+		if(reader.Read()) {
+			p = new Person(
+					Convert.ToInt32(reader[0].ToString()), //uniqueID
+					reader[1].ToString(),                   //name
+					reader[2].ToString(),                   //sex
+					UtilDate.FromSql(reader[3].ToString()),//dateBorn
+					Convert.ToInt32(reader[4].ToString()), //race
+					Convert.ToInt32(reader[5].ToString()), //countryID
+					reader[6].ToString(),                   //description
+					reader[7].ToString(),                   //future1: rfid
+					reader[8].ToString(),                   //future2: clubID
+					Convert.ToInt32(reader[9].ToString()) //serverUniqueID
+				      );
+		}
+		reader.Close();
+
+		return p;
 	}
 
 	private double SelectPersonWeight (int personID)

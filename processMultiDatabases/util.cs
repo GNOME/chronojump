@@ -57,6 +57,15 @@ public class Util
 		return myStringBuilder.ToString();
 	}
 
+	public static string RemoveTildeAndColon(string myString)
+	{
+		StringBuilder myStringBuilder = new StringBuilder(myString);
+		myStringBuilder.Replace("'", " ");
+		myStringBuilder.Replace(":", " ");
+		return myStringBuilder.ToString();
+	}
+
+
 	/*
 	public static string MakeURLabsolute(string url) {
 		string parentDir = Util.GetParentDir(true); //add final '/' or '\'
@@ -125,6 +134,5 @@ public class Util
 			return null;
 		}
 	}
-
 }
 

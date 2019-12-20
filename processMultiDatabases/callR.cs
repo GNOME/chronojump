@@ -54,12 +54,14 @@ public class CallR
 		
 		//on Windows we need the \"str\" to call without problems in path with spaces
 		pinfo.Arguments = "\"" + getEncoderScriptCallGraph() + "\" " + optionsFile;
-	
+
+		/*	
 		Console.WriteLine("Arguments:", pinfo.Arguments);
 		Console.WriteLine("--- 1 --- " + optionsFile.ToString() + " ---");
 		//Console.WriteLine("--- 2 --- " + scriptOptions + " ---");
 		Console.WriteLine("--- 3 --- " + pinfo.Arguments.ToString() + " ---");
-		
+		*/
+
 		string outputFileCheck = "";
 		string outputFileCheck2 = "";
 		
@@ -113,7 +115,6 @@ public class CallR
 			Util.DeleteFile(specialData);
 
 
-		Console.WriteLine("process a");
 //		try {	
 			Process p = new Process();
 			p.StartInfo = pinfo;
@@ -133,9 +134,6 @@ public class CallR
 			//p.BeginOutputReadLine();
 			p.BeginErrorReadLine();
 
-			Console.WriteLine("process b");
-
-
 			if(outputFileCheck2 == "")
 				while ( ! ( Util.FileReadable(outputFileCheck) )); //|| CancelRScript) );
 			else
@@ -147,12 +145,8 @@ public class CallR
 				copyExportedFile();
 				*/
 
-			Console.WriteLine("process c");
 			p.StandardInput.WriteLine("Q");
-			//p.WaitForExit();
 
-			Console.WriteLine("process d");
-	
 //		} catch {
 //			Console.WriteLine("catched at startProcess");
 //			return false;

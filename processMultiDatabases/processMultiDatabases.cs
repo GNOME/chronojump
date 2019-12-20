@@ -24,12 +24,7 @@
 //- barcelona check on which folder we have that date-time
 //- rest of the cities: read the code
 //ecc-con: on sit to stand
-//
-//do not analyze: shopping bag and object in shelf
-//
 //dist min: sit to stand: 30. study the different dist of each rep is we have a min rep of 3 cm
-//
-
 
 using System;
 using System.IO; //"File" things. TextWriter. Path
@@ -37,24 +32,10 @@ using System.Collections.Generic; //List<T>
 
 class ProcessMultiDatabases
 {
-	// start of configuration variables ---->
-	//
-	//barcelona1
-	private string barcelona1Path = "/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/carpetes-chronojump-senceres/barcelona/wetransfer-8ba4dd/Encoder_Copies_17_07_2019/database";
-//	private int barcelona1ExJump = ?;
-	private int barcelona1ExSitToStand = 7;
-	private int barcelona1BicepsCurl = 8;
-//	private int barcelona1ShoppingBag = 9;
-//	private int barcelona1ObjectInShelf = 10;
-	private int distMinSitToStand = 20;
-
-	//current
-	private string currentDBPath;
-	private string currentFilenamePre;
-	private string currentExerciseString;
-	private int currentExercise;
-	private int currentPercentWeight;
+	private bool debug = false; //on debug just 5 sets of each compDB-exercise are used
+	private int distMin = 20; //distMinSitToStand = 20;
 	private Sqlite sqlite;
+	TextWriter writer;
 
 	//hardcoded stuff (search 'hardcoded' on):
 	//callR.cs
@@ -68,56 +49,58 @@ class ProcessMultiDatabases
 		new ProcessMultiDatabases();
 	}
 
-	private void configure()
-	{
-		currentDBPath = barcelona1Path;
-		currentFilenamePre = "barcelona1";
-		currentExerciseString = "SITTOSTAND";
-		currentExercise = barcelona1ExSitToStand;
-		currentPercentWeight = 100;
-		/*
-		currentExerciseString = "BICEPSCURL";
-		currentExercise = barcelona1BicepsCurl;
-		currentPercentWeight = 0;
-		*/
-		/*
-		currentExerciseString = "SHOPPINGBAG";
-		currentExercise = barcelona1ShoppingBag;
-		currentPercentWeight = 0;
-		*/
-	}
-
 	public ProcessMultiDatabases()
 	{
-		configure();
-
 		sqlite = new Sqlite();
-		sqlite.CreateConnection(currentDBPath);
-		sqlite.Open();
+		ComputerDBManage compDBManage = new ComputerDBManage();
 
-		processDatabase();
+		writer = File.CreateText("/tmp/chronojump-processMultiEncoder.csv");
+		writer.WriteLine("city,exercise,person,sex,moment,rep,series,exercise,massBody,massExtra,start,width,height,meanSpeed,maxSpeed,maxSpeedT,meanPower,peakPower,peakPowerT,RPD,meanForce,maxForce,maxForceT,RFD,workJ,impulse,laterality,inertiaM");
 
-		sqlite.Close();
+		foreach(ComputerDB compDB in compDBManage.list)
+		{
+			sqlite.CreateConnection(compDB.path);
+			sqlite.Open();
+
+			if(compDB.exBicepsCurlID != -1)
+				processCompDBEx(compDB, ComputerDB.ExerciseString.BICEPSCURL, compDB.exBicepsCurlID, 0);
+
+			if(compDB.exJumpID != -1)
+				processCompDBEx(compDB, ComputerDB.ExerciseString.JUMP, compDB.exJumpID, 100);
+
+			if(compDB.exSitToStandID != -1)
+				processCompDBEx(compDB, ComputerDB.ExerciseString.SITTOSTAND, compDB.exSitToStandID, 100);
+
+			sqlite.Close();
+		}
+		writer.Close();
+		((IDisposable)writer).Dispose();
+
 		Console.WriteLine("processMultiDatabases done!");
 	}
 
-	private void processDatabase()
+	private void processCompDBEx (ComputerDB compDB, ComputerDB.ExerciseString exerciseString, int exerciseID, int percentBodyWeight)
 	{
-		List<EncoderSQL> list = sqlite.SelectEncoder (currentExercise);
-
-		TextWriter writer = File.CreateText("/tmp/" + currentFilenamePre + "-" + currentExerciseString + ".csv");
-		writer.WriteLine("city,exercise,person,sex,moment,rep,series,exercise,massBody,massExtra,start,width,height,meanSpeed,maxSpeed,maxSpeedT,meanPower,peakPower,peakPowerT,RPD,meanForce,maxForce,maxForceT,RFD,workJ,impulse,laterality,inertiaM");
+		List<EncoderSQL> list = sqlite.SelectEncoder (exerciseID);
 
 		int count = 0;
 		foreach(EncoderSQL eSQL in list)
 		{
 			Console.WriteLine(string.Format("progress: {0}/{1} - ", count, list.Count) + eSQL.ToString());
+
+			Console.WriteLine("copying file: " + compDB.path + "/../" + eSQL.url + "/" + eSQL.filename);
+			if(! UtilEncoder.CopyEncoderDataToTemp(compDB.path + "/../" + eSQL.url, eSQL.filename))
+			{
+				Console.WriteLine("Could not copy file, discarding");
+				continue;
+			}
+
 			Person person = sqlite.SelectPerson (eSQL.personID);
 			double personWeight = sqlite.SelectPersonWeight(eSQL.personID);
 
 			EncoderParams ep = new EncoderParams(
-					20, //preferences.EncoderCaptureMinHeight(encoderConfigurationCurrent.has_inertia), 
-					currentPercentWeight, //TODO: change this value depending on exercise //getExercisePercentBodyWeightFromComboCapture (),
+					distMin, //preferences.EncoderCaptureMinHeight(encoderConfigurationCurrent.has_inertia),
+					percentBodyWeight, //getExercisePercentBodyWeightFromComboCapture (),
 					Util.ConvertToPoint(personWeight), // Util.ConvertToPoint(findMass(Constants.MassType.BODY)),
 					Util.ConvertToPoint(eSQL.extraWeight), //Util.ConvertToPoint(findMass(Constants.MassType.EXTRA)),
 					"c", //findEccon(true),                                        //force ecS (ecc-conc separated)
@@ -141,10 +124,7 @@ class ProcessMultiDatabases
 					UtilEncoder.GetEncoderTempPathWithoutLastSep(),
 					ep);
 
-			Console.WriteLine("copying file: " + currentDBPath + "/../" + eSQL.url + "/" + eSQL.filename);
-			UtilEncoder.CopyEncoderDataToTemp(currentDBPath + "/../" + eSQL.url, eSQL.filename);
-			Console.WriteLine("copying file done. Calling R... ");
-
+			Console.WriteLine("Calling R... ");
 			new CallR(es);
 			Console.WriteLine("CallR done!");
 
@@ -153,7 +133,6 @@ class ProcessMultiDatabases
 			//,series,exercise,massBody,massExtra,start,width,height,meanSpeed,maxSpeed,maxSpeedT,meanPower,peakPower,peakPowerT,pp_ppt,meanForce,maxForce,maxForceT,maxForce_maxForceT,workJ,impulse,laterality,inertiaM
 			//1,1,exerciseName,57.9,0,971,498,755,1.51152519574657,3.20590883396153,307,1694.08480044046,4423.25671303514,243,18202.7025227784,1108.13701938937,1754.09683966977,232,7560.7622399559,1980.64161525193,365.685216398493,,-1e-04
 
-			//
 			//now we have to parse it to fill the big file
 			string filename = "/tmp/chronojump-last-encoder-curves.txt";
 			List<string> lines = Util.ReadFileAsStringList(filename);
@@ -163,29 +142,23 @@ class ProcessMultiDatabases
 				if(firstLine)
 					firstLine = false;
 				else {
-					string line2 = "BARCELONA," + currentExerciseString + "," + person.Name + "," + person.Sex + ",(moment)," + line;
-					//TODO: note this personID is not correct because persons sometimes where evaluated on different chronojump machines
+					string line2 = string.Format("{0},{1},{2},{3},{4}", compDB.name, exerciseString, person.Name, person.Sex,  "(moment)") + line;
+					//note personID is not correct because persons sometimes where evaluated on different chronojump machines
 					//for this reason has been changed to personName, we suppose is the same on different machines
+
 					writer.WriteLine(line2);
 					writer.Flush();
 				}
 			}
 
 			count ++;
-			/*
-			if(count >= 15)
-				break;
-				*/
 
-			System.Threading.Thread.Sleep(200); //rest a bit
+			if(debug && count >= 5)
+				break;
+
+			System.Threading.Thread.Sleep(100); //rest a bit
 		}
 
-		writer.Close();
-		((IDisposable)writer).Dispose();
 		Console.WriteLine("processDatabase done!");
 	}
-
-
 }
-
-

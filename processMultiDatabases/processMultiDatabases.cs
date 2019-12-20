@@ -34,7 +34,6 @@
 using System;
 using System.IO; //"File" things. TextWriter. Path
 using System.Collections.Generic; //List<T>
-using Mono.Data.Sqlite;
 
 class ProcessMultiDatabases
 {
@@ -55,6 +54,7 @@ class ProcessMultiDatabases
 	private string currentExerciseString;
 	private int currentExercise;
 	private int currentPercentWeight;
+	private Sqlite sqlite;
 
 	//hardcoded stuff (search 'hardcoded' on):
 	//callR.cs
@@ -62,9 +62,6 @@ class ProcessMultiDatabases
 
 	// <---- end of configuration variables
 
-	private string database = "chronojump.db";
-        private SqliteConnection dbcon;
-	private SqliteCommand dbcmd;
 
 	public static void Main(string[] args)
 	{
@@ -93,18 +90,20 @@ class ProcessMultiDatabases
 	public ProcessMultiDatabases()
 	{
 		configure();
-		sqliteCreateConnection();
-		sqliteOpen();
+
+		sqlite = new Sqlite();
+		sqlite.CreateConnection(currentDBPath);
+		sqlite.Open();
 
 		processDatabase();
 
-		sqliteClose();
+		sqlite.Close();
 		Console.WriteLine("processMultiDatabases done!");
 	}
 
 	private void processDatabase()
 	{
-		List<EncoderSQL> list = SelectEncoder (currentExercise);
+		List<EncoderSQL> list = sqlite.SelectEncoder (currentExercise);
 
 		TextWriter writer = File.CreateText("/tmp/" + currentFilenamePre + "-" + currentExerciseString + ".csv");
 		writer.WriteLine("city,exercise,person,sex,moment,rep,series,exercise,massBody,massExtra,start,width,height,meanSpeed,maxSpeed,maxSpeedT,meanPower,peakPower,peakPowerT,RPD,meanForce,maxForce,maxForceT,RFD,workJ,impulse,laterality,inertiaM");
@@ -113,8 +112,8 @@ class ProcessMultiDatabases
 		foreach(EncoderSQL eSQL in list)
 		{
 			Console.WriteLine(string.Format("progress: {0}/{1} - ", count, list.Count) + eSQL.ToString());
-			Person person = SelectPerson (eSQL.personID);
-			double personWeight = SelectPersonWeight(eSQL.personID);
+			Person person = sqlite.SelectPerson (eSQL.personID);
+			double personWeight = sqlite.SelectPersonWeight(eSQL.personID);
 
 			EncoderParams ep = new EncoderParams(
 					20, //preferences.EncoderCaptureMinHeight(encoderConfigurationCurrent.has_inertia), 
@@ -186,121 +185,6 @@ class ProcessMultiDatabases
 		Console.WriteLine("processDatabase done!");
 	}
 
-	// ---- sqlite main methods ----
-
-	private void CreateAndOpen()
-	{
-		sqliteCreateConnection();
-		sqliteOpen();
-	}
-
-	private void sqliteCreateConnection()
-	{
-		dbcon = new SqliteConnection ();
-	        string sqlFile = currentDBPath + Path.DirectorySeparatorChar + database;
-		Console.WriteLine(sqlFile);
-		dbcon.ConnectionString = "version = 3; Data source = " + sqlFile;
-		dbcmd = dbcon.CreateCommand();
-	}
-	private void sqliteOpen()
-	{
-		dbcon.Open();
-	}
-	private void sqliteClose()
-	{
-		dbcon.Close();
-	}
-
-	public Person SelectPerson (int uniqueID)
-	{
-		dbcmd.CommandText = "SELECT * FROM person77 WHERE uniqueID = " + uniqueID;
-		Console.WriteLine(dbcmd.CommandText.ToString());
-
-		SqliteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-
-		Person p = new Person(-1);
-		if(reader.Read()) {
-			p = new Person(
-					Convert.ToInt32(reader[0].ToString()), //uniqueID
-					reader[1].ToString(),                   //name
-					reader[2].ToString(),                   //sex
-					UtilDate.FromSql(reader[3].ToString()),//dateBorn
-					Convert.ToInt32(reader[4].ToString()), //race
-					Convert.ToInt32(reader[5].ToString()), //countryID
-					reader[6].ToString(),                   //description
-					reader[7].ToString(),                   //future1: rfid
-					reader[8].ToString(),                   //future2: clubID
-					Convert.ToInt32(reader[9].ToString()) //serverUniqueID
-				      );
-		}
-		reader.Close();
-
-		return p;
-	}
-
-	private double SelectPersonWeight (int personID)
-	{
-		dbcmd.CommandText = "SELECT weight FROM personSession77 WHERE personID = " + personID;
-		SqliteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-
-		double myReturn = 0;
-                if(reader.Read()) {
-                        myReturn = Convert.ToDouble(Util.ChangeDecimalSeparator(reader[0].ToString()));
-                }
-                reader.Close();
-
-                return myReturn;
-	}
-
-	//TODO: will need session to process this by sessions or compare with filenames
-	private List<EncoderSQL> SelectEncoder (int exerciseID)
-        {
-		dbcmd.CommandText = "SELECT * FROM encoder WHERE signalOrCurve = 'signal' AND exerciseID = " + exerciseID;
-		SqliteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-
-		List<EncoderSQL> list = new List<EncoderSQL>();
-		while(reader.Read())
-		{
-			EncoderSQL eSQL = new EncoderSQL (
-					reader[0].ToString(),                   //uniqueID
-					Convert.ToInt32(reader[1].ToString()),  //personID      
-					Convert.ToInt32(reader[2].ToString()),  //sessionID
-					Convert.ToInt32(reader[3].ToString()),  //exerciseID
-					reader[4].ToString(),                   //eccon
-					reader[5].ToString(),//laterality
-					Util.ChangeDecimalSeparator(reader[6].ToString()),      //extraWeight
-					reader[7].ToString(),                   //signalOrCurve
-					reader[8].ToString(),                   //filename
-					fixOSpath(reader[9].ToString()), //Util.MakeURLabsolute(fixOSpath(reader[9].ToString())),  //url
-					Convert.ToInt32(reader[10].ToString()), //time
-					Convert.ToInt32(reader[11].ToString()), //minHeight
-					reader[12].ToString(),                  //description
-					reader[13].ToString(),                  //status
-					reader[14].ToString(), //videoURL,                               //videoURL
-					reader[15].ToString(), //econf,                                  //encoderConfiguration
-					Util.ChangeDecimalSeparator(reader[16].ToString()),     //future1 (meanPower on curves)
-					reader[17].ToString(),                  //future2
-					reader[18].ToString()//,                  //future3
-					//reader[19].ToString()                   //EncoderExercise.name
-						);
-			list.Add (eSQL);
-		}
-		reader.Close();
-		return list;
-	}
-
-	private static string fixOSpath(string url) {
-		//if(UtilAll.IsWindows())
-		//	return url.Replace("/","\\");
-		//else
-			return url.Replace("\\","/");
-	}
-
-	
-	// ---- end of sqlite main methods ----
 
 }
 

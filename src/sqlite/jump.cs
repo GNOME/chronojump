@@ -333,7 +333,8 @@ class SqliteJump : Sqlite
 	  return jmp_l;
 	}
 
-	public static List<Jump> SelectDJa (int pID, int sID)
+	//last boolean: on JumpsDja analyze graph, only show the higher of values of the same fall
+	public static List<Jump> SelectDJa (int pID, int sID, bool onlyHigherOfSameFall)
 	{
 	  string personID = pID.ToString();
 	  string sessionID = sID.ToString();
@@ -343,6 +344,9 @@ class SqliteJump : Sqlite
 	  // Selecciona les dades de tots els salts
 	  dbcmd.CommandText = "SELECT * FROM jump WHERE personID = " + personID +
 	  " AND sessionID = " + sessionID  +  " AND jump.type = \"DJa\" ";
+
+	  if(onlyHigherOfSameFall)
+		  dbcmd.CommandText += " ORDER BY fall DESC, tv DESC";
 
 	  LogB.SQL(dbcmd.CommandText.ToString());
 	  dbcmd.ExecuteNonQuery();
@@ -354,6 +358,20 @@ class SqliteJump : Sqlite
 
 	  reader.Close();
 	  Sqlite.Close();
+
+	  if(onlyHigherOfSameFall)
+	  {
+		  List<Jump> jmp_l_purged = new List<Jump>();
+		  double lastFall = 0;
+		  foreach(Jump j in jmp_l)
+		  {
+			  if(j.Fall != lastFall)
+				  jmp_l_purged.Add(j);
+
+			  lastFall = j.Fall;
+		  }
+		  return jmp_l_purged;
+	  }
 
 	  return jmp_l;
 	}

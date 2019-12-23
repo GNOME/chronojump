@@ -133,20 +133,24 @@ class ProcessMultiDatabases
 			//,series,exercise,massBody,massExtra,start,width,height,meanSpeed,maxSpeed,maxSpeedT,meanPower,peakPower,peakPowerT,pp_ppt,meanForce,maxForce,maxForceT,maxForce_maxForceT,workJ,impulse,laterality,inertiaM
 			//1,1,exerciseName,57.9,0,971,498,755,1.51152519574657,3.20590883396153,307,1694.08480044046,4423.25671303514,243,18202.7025227784,1108.13701938937,1754.09683966977,232,7560.7622399559,1980.64161525193,365.685216398493,,-1e-04
 
+			string moment = "(moment)";
+			if(compDB.pathToFindMoments != "")
+				moment = UtilDate.FindMoment(compDB.pathToFindMoments, eSQL.filename);
+
 			//now we have to parse it to fill the big file
 			string filename = "/tmp/chronojump-last-encoder-curves.txt";
-			List<string> lines = Util.ReadFileAsStringList(filename);
-			bool firstLine = true;
-			foreach(string line in lines)
+			List<string> reps = Util.ReadFileAsStringList(filename);
+			bool firstRep = true;
+			foreach(string rep in reps)
 			{
-				if(firstLine)
-					firstLine = false;
+				if(firstRep)
+					firstRep = false;
 				else {
-					string line2 = string.Format("{0},{1},{2},{3},{4}", compDB.name, exerciseString, person.Name, person.Sex,  "(moment)") + line;
+					string repToWriter = string.Format("{0},{1},{2},{3},{4},", compDB.name, exerciseString, person.Name, person.Sex,  moment) + rep;
 					//note personID is not correct because persons sometimes where evaluated on different chronojump machines
 					//for this reason has been changed to personName, we suppose is the same on different machines
 
-					writer.WriteLine(line2);
+					writer.WriteLine(repToWriter);
 					writer.Flush();
 				}
 			}

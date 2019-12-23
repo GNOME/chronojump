@@ -25,6 +25,7 @@ class ComputerDB
 {
 	public string name;
 	public string path;
+	public string pathToFindMoments; //at barcelona we can find datetimes on 4 folders to know which moment
 	//exercises, if one is not done on that computer: -1
 	public int exBicepsCurlID; 	//0% bodyweight
 	public int exJumpID; 		//100% bodyweight
@@ -34,10 +35,12 @@ class ComputerDB
 	public enum ExerciseString { BICEPSCURL, JUMP, SITTOSTAND };
 	public ComputerDB(string name,
 			string path,
+			string pathToFindMoments,
 			int exBicepsCurlID, int exJumpID, int exSitToStandID)
 	{
 		this.name = name;
 		this.path = path;
+		this.pathToFindMoments = pathToFindMoments;
 		this.exBicepsCurlID = exBicepsCurlID;
 		this.exJumpID = exJumpID;
 		this.exSitToStandID = exSitToStandID;
@@ -59,34 +62,42 @@ class ComputerDBManage
 		list.Add(new ComputerDB(
 				"barcelona1", 
 				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/carpetes-chronojump-senceres/barcelona/wetransfer-8ba4dd/Encoder_Copies_17_07_2019/database",
+				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/arxius-processats-per-ells/barcelona",
 				8, -1, 7));
 		list.Add(new ComputerDB(
 				"barcelona2", 
 				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/carpetes-chronojump-senceres/barcelona/wetransfer-8ba4dd/Encoder_Copies_17_07_2019/Darrera_còpia_pc_prèstec/chronojump/database",
+				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/arxius-processats-per-ells/barcelona",
 				8, 4, 7));
 		list.Add(new ComputerDB(
 				"belfast",
 				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/carpetes-chronojump-senceres/Belfast_chronojump/chronojump/database",
+				"",
 				12, 14, 15)); //note: belfast has biceps curl 12 (2kg), and 13 (4kg)
 		list.Add(new ComputerDB(
 				"denmark1",
 				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/carpetes-chronojump-senceres/denmark/wetransfer-08b800/Chronojump Backup 09.10.2019 - HP - FINAL - DK site/database",
+				"",
 				8, 9, 7));
 		list.Add(new ComputerDB(
 				"denmark2",
 				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/carpetes-chronojump-senceres/denmark/wetransfer-08b800/Chronojump Backup 09.10.2019 - Lenovo - FINAL - DK site/database",
+				"",
 				8, 11, 7));
 		list.Add(new ComputerDB(
 				"ulm1",
 				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/carpetes-chronojump-senceres/Encoder_Ulm/Laptop1_Chronojump_für Maria_Nov2019/chronojump/database",
+				"",
 				8,4,7));
 		list.Add(new ComputerDB(
 				"ulm2",
 				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/carpetes-chronojump-senceres/Encoder_Ulm/Laptop2_Chronojump_für Maria_Nov2019/database",
+				"",
 				8,9,7)); //note: they have also jumps on 4
 		list.Add(new ComputerDB(
 				"ulm3",
 				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/carpetes-chronojump-senceres/Encoder_Ulm/Laptop3_Chronojump_für Maria_Nov2019/database",
+				"",
 				8,4,7));
 	}
 }

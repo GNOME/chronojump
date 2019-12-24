@@ -2033,6 +2033,7 @@ public partial class ChronoJumpWindow
 			exportString = Catalog.GetString ("Export set in CSV format");
 		else if(
 				checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE ||
+				checkFileOp == Constants.CheckFileOp.JUMPS_DJ_OPTIMAL_FALL_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL ||
@@ -2080,6 +2081,7 @@ public partial class ChronoJumpWindow
 			nameString += "_encoder_set_export.csv";
 		else if(
 				checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE ||
+				checkFileOp == Constants.CheckFileOp.JUMPS_DJ_OPTIMAL_FALL_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL ||
@@ -2129,6 +2131,9 @@ public partial class ChronoJumpWindow
 					if(checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE)
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_jumps_profile_save_image_accepted);
+					if(checkFileOp == Constants.CheckFileOp.JUMPS_DJ_OPTIMAL_FALL_SAVE_IMAGE)
+						confirmWin.Button_accept.Clicked +=
+							new EventHandler(on_overwrite_file_jumps_dj_optimal_fall_save_image_accepted);
 					if(checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_SAVE_IMAGE)
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_runs_sprint_save_image_accepted);
@@ -2160,6 +2165,8 @@ public partial class ChronoJumpWindow
 				} else {
 					if(checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE)
 						on_button_jumps_profile_save_image_selected (exportFileName);
+					else if(checkFileOp == Constants.CheckFileOp.JUMPS_DJ_OPTIMAL_FALL_SAVE_IMAGE)
+						on_button_jumps_dj_optimal_fall_save_image_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_SAVE_IMAGE)
 						on_button_runs_sprint_save_image_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL)

@@ -63,7 +63,7 @@ public partial class ChronoJumpWindow
 
 	private void on_button_jumps_dj_optimal_fall_save_image_clicked (object o, EventArgs args)
 	{
-		checkFile(Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE);
+		checkFile(Constants.CheckFileOp.JUMPS_DJ_OPTIMAL_FALL_SAVE_IMAGE);
 	}
 
 	private void on_button_jumps_dj_optimal_fall_save_image_selected (string destination)

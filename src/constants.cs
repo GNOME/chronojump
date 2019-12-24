@@ -1069,7 +1069,7 @@ public class Constants
 
 	public enum EncoderGI {ALL, GRAVITATORY, INERTIAL}
 	public enum CheckFileOp {
-		JUMPS_PROFILE_SAVE_IMAGE,
+		JUMPS_PROFILE_SAVE_IMAGE, JUMPS_DJ_OPTIMAL_FALL_SAVE_IMAGE,
 		RUNS_SPRINT_SAVE_IMAGE,
 		ENCODER_CAPTURE_EXPORT_ALL, ENCODER_ANALYZE_SAVE_IMAGE,
 		ENCODER_ANALYZE_SEND_IMAGE, //like save image but just defines the name exportFileName to be sended

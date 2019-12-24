@@ -697,7 +697,7 @@ public partial class ChronoJumpWindow
 							cells[8], cells[9], cells[10], 
 							cells[11], cells[12], cells[13],
 							cells[14],
-							cells[15], cells[16], cells[17], //meanForce, maxSForce maxForceT
+							cells[15], cells[16], cells[17], //meanForce, maxForce maxForceT
 							cells[18],
 							cells[19], cells[20]
 							));

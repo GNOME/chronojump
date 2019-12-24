@@ -83,13 +83,13 @@ public static class JumpsDjOptimalFallGraph
 		foreach(Point p in point_l)
 		{
 			int x = Convert.ToInt32((graphWidth - rightMargin)*(count+.5)/point_l.Count)-barDesplLeft;
-			int y = calculatePaintHeight(Convert.ToDouble(p.X), area.Allocation.Height, pointsMaxValue, 0, topMargin, bottomMargin + bottomAxis);
+			int y = calculatePaintY(Convert.ToDouble(p.X), area.Allocation.Height, pointsMaxValue, 0, topMargin, bottomMargin + bottomAxis);
 
 			LogB.Information(string.Format("red: {0}, {1}, {2}, {3}", Convert.ToDouble(p.X), area.Allocation.Height, pointsMaxValue, y));
 			drawRoundedRectangle (x, y, barWidth, area.Allocation.Height - y, 4, g, red);
 
 			x = Convert.ToInt32((graphWidth - rightMargin)*(count+.5)/point_l.Count)-barDesplLeft+tctfSep;
-			y = calculatePaintHeight(Convert.ToDouble(p.Y), area.Allocation.Height, pointsMaxValue, 0, topMargin, bottomMargin + bottomAxis);
+			y = calculatePaintY(Convert.ToDouble(p.Y), area.Allocation.Height, pointsMaxValue, 0, topMargin, bottomMargin + bottomAxis);
 
 			LogB.Information(string.Format("blue: {0}, {1}, {2}, {3}", Convert.ToDouble(p.Y), area.Allocation.Height, pointsMaxValue, y));
 			drawRoundedRectangle (x, y, barWidth, area.Allocation.Height -y, 4, g, blue);
@@ -105,8 +105,8 @@ public static class JumpsDjOptimalFallGraph
 			double maxX = 0;
 			double minY = 1000000;
 			double maxY = 0;
-			int xgraph = 0;
-			int ygraph = 0;
+			double xgraph = 0;
+			double ygraph = 0;
 
 			foreach(Point p in point_l)
 			{
@@ -142,12 +142,19 @@ public static class JumpsDjOptimalFallGraph
 			//plot predicted line (model)
 			bool firstValue = false;
 			double minMax50Percent = (minX + maxX)/2;
+			double xgraphOld = 0;
 			for(double x = minX - minMax50Percent; x < maxX + minMax50Percent; x += (maxX-minX)/200)
 			{
-				xgraph = calculatePaintWidth(
+				xgraph = calculatePaintX(
 						( x ),
 						graphWidth, maxX, minX, totalMargins, totalMargins);
-				ygraph = calculatePaintHeight(
+
+				//do not plot two times the same x point
+				if(xgraph == xgraphOld)
+					continue;
+				xgraphOld = xgraph;
+
+				ygraph = calculatePaintY(
 						( coefs[0] + coefs[1]*x + coefs[2]*Math.Pow(x,2) ),
 						area.Allocation.Height, absoluteMaxY, minY, totalMargins, totalMargins);
 
@@ -168,10 +175,10 @@ public static class JumpsDjOptimalFallGraph
 			//plot real points
 			foreach(Point p in point_l)
 			{
-				xgraph = calculatePaintWidth(
+				xgraph = calculatePaintX(
 						( p.X ),
 						graphWidth, maxX, minX, totalMargins, totalMargins);
-				ygraph = calculatePaintHeight(
+				ygraph = calculatePaintY(
 						( p.Y ),
 						area.Allocation.Height, absoluteMaxY, minY, totalMargins, totalMargins);
 				g.MoveTo(xgraph+6, ygraph);
@@ -189,8 +196,8 @@ public static class JumpsDjOptimalFallGraph
 			}
 
 			//plot predicted max point
-			xgraph = calculatePaintWidth(xAtMMaxY, graphWidth, maxX, minX, totalMargins, totalMargins);
-			ygraph = calculatePaintHeight(yAtMMaxY, area.Allocation.Height, absoluteMaxY, minY, totalMargins, totalMargins);
+			xgraph = calculatePaintX(xAtMMaxY, graphWidth, maxX, minX, totalMargins, totalMargins);
+			ygraph = calculatePaintY(yAtMMaxY, area.Allocation.Height, absoluteMaxY, minY, totalMargins, totalMargins);
 
 			//print X, Y of maxY
 			//at axis
@@ -259,14 +266,14 @@ public static class JumpsDjOptimalFallGraph
 			//LogB.Information("i: " + i.ToString());
 			if(horiz)
 			{
-				int ytemp = calculatePaintHeight(i, verticalSize, max, min, outerMargins + innerMargins, outerMargins + innerMargins);
+				int ytemp = Convert.ToInt32(calculatePaintY(i, verticalSize, max, min, outerMargins + innerMargins, outerMargins + innerMargins));
 				if(ytemp < outerMargins)
 					continue;
 				g.MoveTo(outerMargins, ytemp);
 				g.LineTo(horizontalSize - outerMargins, ytemp);
 				printText(Convert.ToInt32(outerMargins/2), ytemp, 0, textHeight, i.ToString(), g, true);
 			} else {
-				int xtemp = calculatePaintWidth(i, horizontalSize, max, min, outerMargins + innerMargins, outerMargins + innerMargins);
+				int xtemp = Convert.ToInt32(calculatePaintX(i, horizontalSize, max, min, outerMargins + innerMargins, outerMargins + innerMargins));
 				if(xtemp > horizontalSize)
 					continue;
 				g.MoveTo(xtemp, verticalSize - outerMargins);
@@ -278,14 +285,14 @@ public static class JumpsDjOptimalFallGraph
 		g.Restore();
 	}
 
-	private static int calculatePaintWidth(double currentValue, int ancho, double maxValue, double minValue, int rightMargin, int leftMargin)
+	private static double calculatePaintX(double currentValue, int ancho, double maxValue, double minValue, int rightMargin, int leftMargin)
 	{
-                return Convert.ToInt32(leftMargin + (currentValue - minValue) * (ancho - rightMargin - leftMargin) / (maxValue - minValue));
+                return leftMargin + (currentValue - minValue) * (ancho - rightMargin - leftMargin) / (maxValue - minValue);
         }
 
-	private static int calculatePaintHeight(double currentValue, int alto, double maxValue, double minValue, int topMargin, int bottomMargin)
+	private static double calculatePaintY(double currentValue, int alto, double maxValue, double minValue, int topMargin, int bottomMargin)
 	{
-                return Convert.ToInt32(alto - bottomMargin - ((currentValue - minValue) * (alto - topMargin - bottomMargin) / (maxValue - minValue)));
+                return alto - bottomMargin - ((currentValue - minValue) * (alto - topMargin - bottomMargin) / (maxValue - minValue));
         }
 
 	//TODO: inherit this

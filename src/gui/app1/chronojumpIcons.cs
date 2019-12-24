@@ -534,6 +534,7 @@ public partial class ChronoJumpWindow
 		extra_windows_jumps_image_dj_fall_calculate.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameJumpsFallPredefined);
 		extra_windows_jumps_image_dj_fall_predefined.Pixbuf = pixbuf;
+		image_tab_jumps_dj_optimal_fall.Pixbuf = pixbuf;
 		
 		
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "line_session_avg.png");

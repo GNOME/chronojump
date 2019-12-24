@@ -145,7 +145,12 @@ public class CallR
 				copyExportedFile();
 				*/
 
-			p.StandardInput.WriteLine("Q");
+			try {
+				p.StandardInput.WriteLine("Q");
+			} catch {
+				Console.WriteLine("catched at CallR at sending the Q, maybe process has exited.");
+				return false;
+			}
 
 //		} catch {
 //			Console.WriteLine("catched at startProcess");

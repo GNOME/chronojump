@@ -110,6 +110,7 @@ public class JumpsDjOptimalFallGraph
 		} else {
 			writeTextNeed3PointsWithDifferentFall();
 		}
+		writeTitle();
 
 		endGraph();
 	}
@@ -292,29 +293,42 @@ public class JumpsDjOptimalFallGraph
 		g.Stroke ();
 	}
 
+	private void writeTitle()
+	{
+		writeTextAtRight(-4, title, true);
+		writeTextAtRight(-3, "Optimal fall", false);
+		writeTextAtRight(-2, date, false);
+	}
+
 	private void writeTextPredictedPoint()
 	{
-		writeTextAtRight(0, "Optimal values:");
-		writeTextAtRight(1, "Fall: " + Util.TrimDecimals(xAtMMaxY, 2) + " cm");
-		writeTextAtRight(2, "Jump height: " + Util.TrimDecimals(yAtMMaxY, 2) + " cm");
+		writeTextAtRight(0, "Optimal values:", false);
+		writeTextAtRight(1, "Fall: " + Util.TrimDecimals(xAtMMaxY, 2) + " cm", false);
+		writeTextAtRight(2, "Jump height: " + Util.TrimDecimals(yAtMMaxY, 2) + " cm", false);
 	}
 
 	private void writeTextConcaveParabole()
 	{
-		writeTextAtRight(0, "Error:");
-		writeTextAtRight(1, "Parabole is concave");
+		writeTextAtRight(0, "Error:", false);
+		writeTextAtRight(1, "Parabole is concave", false);
 	}
 
 	private void writeTextNeed3PointsWithDifferentFall()
 	{
-		writeTextAtRight(0, "Error:");
-		writeTextAtRight(1, "Need at least 3 points");
-		writeTextAtRight(2, "with different falling heights"); //TODO: this will be out of graph
+		writeTextAtRight(0, "Error:", false);
+		writeTextAtRight(1, "Need at least 3 points", false);
+		writeTextAtRight(2, "with different falling heights", false);
 	}
 
-	private void writeTextAtRight(int line, string text)
+	private void writeTextAtRight(int line, string text, bool bold)
 	{
+		if(bold)
+			g.SelectFontFace("Helvetica", Cairo.FontSlant.Normal, Cairo.FontWeight.Bold);
+
 		printText(graphWidth + Convert.ToInt32(outerMargins/2), Convert.ToInt32(graphHeight/2) + textHeight*2*line, 0, textHeight, text, g, false);
+		
+		if(bold)
+			g.SelectFontFace("Helvetica", Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
 	}
 
 	private void endGraph()
@@ -384,13 +398,11 @@ public class JumpsDjOptimalFallGraph
                 return alto - bottomMargin - ((currentValue - minValue) * (alto - topMargin - bottomMargin) / (maxValue - minValue));
         }
 
-	//TODO: inherit this
 	private Cairo.Color colorFromRGB(int red, int green, int blue)
 	{
 		return new Cairo.Color(red/256.0, green/256.0, blue/256.0);
 	}
 
-	//TODO: inherit this
 	private void printText (int x, int y, int height, int textHeight, string text, Cairo.Context g, bool centered)
 	{
 		int moveToLeft = 0;

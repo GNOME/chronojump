@@ -333,8 +333,8 @@ class SqliteJump : Sqlite
 	  return jmp_l;
 	}
 
-	//last boolean: on JumpsDja analyze graph, only show the higher of values of the same fall
-	public static List<Jump> SelectDJa (int pID, int sID, bool onlyHigherOfSameFall)
+	//last boolean: on JumpsDj analyze graph, only show the higher of values of the same fall
+	public static List<Jump> SelectDJ (int pID, int sID, string jumpType, bool onlyHigherOfSameFall)
 	{
 	  string personID = pID.ToString();
 	  string sessionID = sID.ToString();
@@ -343,7 +343,7 @@ class SqliteJump : Sqlite
 
 	  // Selecciona les dades de tots els salts
 	  dbcmd.CommandText = "SELECT * FROM jump WHERE personID = " + personID +
-	  " AND sessionID = " + sessionID  +  " AND jump.type = \"DJa\" ";
+	  " AND sessionID = " + sessionID  +  " AND jump.type = \"" + jumpType + "\"";
 
 	  if(onlyHigherOfSameFall)
 		  dbcmd.CommandText += " ORDER BY fall DESC, tv DESC";

@@ -160,14 +160,18 @@ public class CjCombo
 	}
 }
 
+
 //------------ jumps -------------
 
 public class CjComboSelectJumps : CjCombo
 {
-	public CjComboSelectJumps(Gtk.ComboBox combo_select_jumps, Gtk.HBox hbox_combo_select_jumps) 
+	private bool onlyFallingJumps;
+
+	public CjComboSelectJumps(Gtk.ComboBox combo_select_jumps, Gtk.HBox hbox_combo_select_jumps, bool onlyFallingJumps)
 	{
 		this.combo = combo_select_jumps;
 		this.hbox = hbox_combo_select_jumps;
+		this.onlyFallingJumps = onlyFallingJumps;
 
 		create();
 		Fill();
@@ -176,7 +180,10 @@ public class CjComboSelectJumps : CjCombo
 
 	protected override void select()
 	{
-		l_types = (List<object>) SqliteJumpType.SelectJumpTypesNew(false, "", "", false); //without alljumpsname, without filter, not only name
+		if(onlyFallingJumps)
+			l_types = (List<object>) SqliteJumpType.SelectJumpTypesNew(false, "", "TC", false); //without alljumpsname, not startIn, not only name
+		else
+			l_types = (List<object>) SqliteJumpType.SelectJumpTypesNew(false, "", "", false); //without alljumpsname, without filter, not only name
 	}
 }
 

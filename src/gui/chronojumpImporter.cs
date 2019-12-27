@@ -143,6 +143,8 @@ public partial class ChronoJumpWindow
 			combo_select_jumps.Active = 0;
 			combo_result_jumps.Active = 0;
 
+			createComboSelectJumpsDjOptimalFall(false);
+
 			//2) reactive jump
 			createComboSelectJumpsRj(false);
 			UtilGtk.ComboUpdate(combo_result_jumps_rj,

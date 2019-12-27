@@ -363,7 +363,7 @@ public class JumpsDjOptimalFallGraph
 				printText(Convert.ToInt32(outerMargins/2), ytemp, 0, textHeight, Convert.ToInt32(i).ToString(), g, true);
 			} else {
 				int xtemp = Convert.ToInt32(calculatePaintX(i, graphWidth, max, min, outerMargins + innerMargins, outerMargins + innerMargins));
-				if(xtemp > graphWidth)
+				if(xtemp > graphWidth - outerMargins)
 					continue;
 				g.MoveTo(xtemp, graphHeight - outerMargins);
 				g.LineTo(xtemp, outerMargins);

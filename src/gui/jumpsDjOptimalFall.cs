@@ -33,6 +33,7 @@ public class JumpsDjOptimalFallGraph
 	double pointsMaxValue;
 	DrawingArea area;
 	string title;
+	string jumpType;
 	string date;
 
 	Cairo.Context g;
@@ -55,7 +56,7 @@ public class JumpsDjOptimalFallGraph
 	const int textHeight = 12;
 
 	//constructor when there are no points
-	public JumpsDjOptimalFallGraph (DrawingArea area, string title, string date)
+	public JumpsDjOptimalFallGraph (DrawingArea area)//, string title, string jumpType, string date)
 	{
 		this.area = area;
 
@@ -72,7 +73,8 @@ public class JumpsDjOptimalFallGraph
 			List<Point> point_l, double[] coefs,
 			LeastSquares.ParaboleTypes paraboleType,
 			double xAtMMaxY, //x at Model MaxY
-			double pointsMaxValue, DrawingArea area, string title, string date)
+			double pointsMaxValue, DrawingArea area,
+			string title, string jumpType, string date)
 	{
 		this.point_l = point_l;
 		this.coefs = coefs;
@@ -80,8 +82,9 @@ public class JumpsDjOptimalFallGraph
 		this.xAtMMaxY = xAtMMaxY;
 		this.pointsMaxValue = pointsMaxValue;
 		this.area = area;
-		this.title = title; //TODO: use this
-		this.date = date; //TODO: use this
+		this.title = title;
+		this.jumpType = jumpType;
+		this.date = date;
 	}
 
 	public void Do()
@@ -295,16 +298,16 @@ public class JumpsDjOptimalFallGraph
 
 	private void writeTitle()
 	{
-		writeTextAtRight(-4, title, true);
-		writeTextAtRight(-3, "Optimal fall", false);
+		writeTextAtRight(-5, title, true);
+		writeTextAtRight(-4, "Optimal fall height", false);
+		writeTextAtRight(-3, "Jumptype: " + jumpType, false);
 		writeTextAtRight(-2, date, false);
 	}
 
 	private void writeTextPredictedPoint()
 	{
-		writeTextAtRight(0, "Optimal values:", false);
-		writeTextAtRight(1, "Fall: " + Util.TrimDecimals(xAtMMaxY, 2) + " cm", false);
-		writeTextAtRight(2, "Jump height: " + Util.TrimDecimals(yAtMMaxY, 2) + " cm", false);
+		writeTextAtRight(0, "Fall: " + Util.TrimDecimals(xAtMMaxY, 2) + " cm", false);
+		writeTextAtRight(1, "Jump height: " + Util.TrimDecimals(yAtMMaxY, 2) + " cm", false);
 	}
 
 	private void writeTextConcaveParabole()

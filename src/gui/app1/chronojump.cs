@@ -591,6 +591,7 @@ public partial class ChronoJumpWindow
 
 
 		createComboSelectJumps(true);
+		createComboSelectJumpsDjOptimalFall(true);
 		createComboSelectJumpsRj(true);
 		createComboSelectRuns(true);
 		createComboSelectRunsInterval(true);
@@ -1884,7 +1885,7 @@ public partial class ChronoJumpWindow
 	{
 		if(create)
 		{
-			comboSelectJumps = new CjComboSelectJumps(combo_select_jumps, hbox_combo_select_jumps);
+			comboSelectJumps = new CjComboSelectJumps(combo_select_jumps, hbox_combo_select_jumps, false);
 			combo_select_jumps = comboSelectJumps.Combo;
 			combo_select_jumps.Changed += new EventHandler (on_combo_select_jumps_changed);
 		} else {
@@ -6240,6 +6241,7 @@ LogB.Debug("mc finished 5");
 		LogB.Information("ACCEPTED Add new jump type");
 		if(jumpTypeAddWin.InsertedSimple) {
 			createComboSelectJumps(false);
+			createComboSelectJumpsDjOptimalFall(false);
 
 			UtilGtk.ComboUpdate(combo_result_jumps, 
 					SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsNameStr(), "", true), ""); //without filter, only select name

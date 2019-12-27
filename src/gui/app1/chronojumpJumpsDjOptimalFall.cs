@@ -29,8 +29,35 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.DrawingArea drawingarea_jumps_dj_optimal_fall;
 	[Widget] Gtk.Image image_tab_jumps_dj_optimal_fall;
 	[Widget] Gtk.Image image_jumps_dj_optimal_fall_save;
+	[Widget] Gtk.HBox hbox_combo_select_jumps_dj_optimal_fall;
+	[Widget] Gtk.ComboBox combo_select_jumps_dj_optimal_fall;
 
 	JumpsDjOptimalFall jumpsDjOptimalFall;
+	CjComboSelectJumps comboSelectJumpsDjOptimalFall;
+
+	// combo (start)
+	private void createComboSelectJumpsDjOptimalFall(bool create)
+	{
+		if(create)
+		{
+			comboSelectJumpsDjOptimalFall = new CjComboSelectJumps(combo_select_jumps_dj_optimal_fall, hbox_combo_select_jumps_dj_optimal_fall, true);
+			combo_select_jumps_dj_optimal_fall = comboSelectJumpsDjOptimalFall.Combo;
+			combo_select_jumps_dj_optimal_fall.Changed += new EventHandler (on_combo_select_jumps_dj_optimal_fall_changed);
+		} else {
+			comboSelectJumpsDjOptimalFall.Fill();
+			combo_select_jumps_dj_optimal_fall = comboSelectJumpsDjOptimalFall.Combo;
+		}
+		combo_select_jumps_dj_optimal_fall.Sensitive = true;
+	}
+	private void on_combo_select_jumps_dj_optimal_fall_changed(object o, EventArgs args)
+	{
+		ComboBox combo = o as ComboBox;
+		if (o == null)
+			return;
+
+		jumpsDjOptimalFallDo(true);
+	}
+	// combo (end)
 
 	private void jumpsDjOptimalFallDo (bool calculateData)
 	{
@@ -42,15 +69,16 @@ public partial class ChronoJumpWindow
 			calculateData = true;
 		}
 
+		string jumpType = UtilGtk.ComboGetActive(combo_select_jumps_dj_optimal_fall);
+
 		if(calculateData)
-			jumpsDjOptimalFall.Calculate(currentPerson.UniqueID, currentSession.UniqueID);
+			jumpsDjOptimalFall.Calculate(currentPerson.UniqueID, currentSession.UniqueID, jumpType);
 
 		if(jumpsDjOptimalFall.Point_l.Count == 0)
 		{
 			//constructor for showing blank screen with a message
-			new JumpsDjOptimalFallGraph(
-					drawingarea_jumps_dj_optimal_fall,
-					currentPerson.Name, currentSession.DateShort);
+			new JumpsDjOptimalFallGraph(drawingarea_jumps_dj_optimal_fall);
+					//currentPerson.Name, jumpType, currentSession.DateShort);
 		} else {
 			//regular constructor
 			JumpsDjOptimalFallGraph jdofg = new JumpsDjOptimalFallGraph(
@@ -60,7 +88,7 @@ public partial class ChronoJumpWindow
 					jumpsDjOptimalFall.XatMaxY, //model
 					jumpsDjOptimalFall.GetMaxValue(),
 					drawingarea_jumps_dj_optimal_fall,
-					currentPerson.Name, currentSession.DateShort);
+					currentPerson.Name, jumpType, currentSession.DateShort);
 			jdofg.Do();
 		}
 	}

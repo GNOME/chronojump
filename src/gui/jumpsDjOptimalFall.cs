@@ -41,6 +41,7 @@ public class JumpsDjOptimalFallGraph
 	double minY = 1000000;
 	double maxY = 0;
 	double yAtMMaxY;
+	double absoluteMaxX;
 	double absoluteMaxY;
 	int graphWidth;
 	int graphHeight;
@@ -164,12 +165,20 @@ public class JumpsDjOptimalFallGraph
 
 		if(coefs.Length == 3 && paraboleType == LeastSquares.ParaboleTypes.CONVEX)
 		{
+			//x
+			absoluteMaxX = xAtMMaxY;
+			if(maxX > absoluteMaxX)
+				absoluteMaxX = maxX;
+
+			//y
 			yAtMMaxY = coefs[0] + coefs[1]*xAtMMaxY + coefs[2]*Math.Pow(xAtMMaxY,2);
 			absoluteMaxY = yAtMMaxY;
 			if(maxY > absoluteMaxY)
 				absoluteMaxY = maxY;
-		} else
+		} else {
+			absoluteMaxX = maxX;
 			absoluteMaxY = maxY;
+		}
 	}
 
 	private void paintAxisAndGrid()
@@ -184,21 +193,21 @@ public class JumpsDjOptimalFallGraph
 
 		//2 paint grid: horizontal, vertical
 		paintGrid (minY, absoluteMaxY, 5, true);
-		paintGrid (minX, maxX, 5, false);
+		paintGrid (minX, absoluteMaxX, 5, false);
 	}
 
 	private void plotPredictedLine()
 	{
 		bool firstValue = false;
-		double minMax50Percent = (minX + maxX)/2;
+		double minMax50Percent = (minX + absoluteMaxX)/2;
 		double xgraphOld = 0;
 		bool wasOutOfMargins = false; //avoids to not draw a line between the end point of a line on a margin and the start point again of that line
 
-		for(double x = minX - minMax50Percent; x < maxX + minMax50Percent; x += (maxX-minX)/200)
+		for(double x = minX - minMax50Percent; x < absoluteMaxX + minMax50Percent; x += (absoluteMaxX-minX)/200)
 		{
 			double xgraph = calculatePaintX(
 					( x ),
-					graphWidth, maxX, minX, totalMargins, totalMargins);
+					graphWidth, absoluteMaxX, minX, totalMargins, totalMargins);
 
 			//do not plot two times the same x point
 			if(xgraph == xgraphOld)
@@ -239,7 +248,7 @@ public class JumpsDjOptimalFallGraph
 			//LogB.Information(string.Format("point: {0}", p));
 			double xgraph = calculatePaintX(
 					( p.X ),
-					graphWidth, maxX, minX, totalMargins, totalMargins);
+					graphWidth, absoluteMaxX, minX, totalMargins, totalMargins);
 			double ygraph = calculatePaintY(
 					( p.Y ),
 					graphHeight, absoluteMaxY, minY, totalMargins, totalMargins);
@@ -261,7 +270,7 @@ public class JumpsDjOptimalFallGraph
 
 	private void plotPredictedMaxPoint()
 	{
-		double xgraph = calculatePaintX(xAtMMaxY, graphWidth, maxX, minX, totalMargins, totalMargins);
+		double xgraph = calculatePaintX(xAtMMaxY, graphWidth, absoluteMaxX, minX, totalMargins, totalMargins);
 		double ygraph = calculatePaintY(yAtMMaxY, graphHeight, absoluteMaxY, minY, totalMargins, totalMargins);
 
 		//print X, Y of maxY
@@ -300,7 +309,7 @@ public class JumpsDjOptimalFallGraph
 	{
 		writeTextAtRight(0, "Error:");
 		writeTextAtRight(1, "Need at least 3 points");
-		writeTextAtRight(2, "with different fall heights");
+		writeTextAtRight(2, "with different falling heights"); //TODO: this will be out of graph
 	}
 
 	private void writeTextAtRight(int line, string text)

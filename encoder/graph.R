@@ -860,7 +860,8 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
                 }
 
                 #show propulsive stuff if line if differentiation is relevant (propulsivePhase ends before the end of the movement)
-                if(paintMode != "superpose" & isPropulsive & propulsiveEnd < length(displacement)) {
+                if(paintMode != "superpose" & isPropulsive & propulsiveEnd < length(displacement))
+		{
                         abline(v=propulsiveEnd,lty=1,col=cols[2])
 			mtext(text=paste(translateToPrint("Propulsive"), " ", sep=""),
 			      side=1,at=propulsiveEnd,adj=1,cex=.8,col=cols[2],line=-1)
@@ -872,8 +873,15 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
 				text(x=length(accel$y),y=-9.81,labels=" g",cex=1,adj=c(0,0),col="magenta")
 			}
                 }
-                
-                if(showAxes & showAccel) {
+
+		#on superpose show also line but without text (to not have overlapped texts) and saying wich is the repetition
+		if(paintMode == "superpose" & isPropulsive & propulsiveEnd < length(displacement))
+		{
+			abline(v=propulsiveEnd,lty=1,col=cols[2])
+			mtext(text=nrep,side=1,at=propulsiveEnd,cex=.8,col=cols[2],line=-.2)
+		}
+
+		if(showAxes & showAccel) {
                         #axis(4, col=colAccel, lty=ltyAccel, line=axisLineRight, lwd=1, padj=-.5)
                         #axisLineRight = axisLineRight +2
 			axisLineRight = paintMeansArrowsAxis(accel$y, paintMode == "superpose", eccon, isPropulsive, startX, landing,

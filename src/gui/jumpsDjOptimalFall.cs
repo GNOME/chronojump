@@ -52,6 +52,20 @@ public class JumpsDjOptimalFallGraph
 	const int totalMargins = outerMargins + innerMargins;
 	const int textHeight = 12;
 
+	//constructor when there are no points
+	public JumpsDjOptimalFallGraph (DrawingArea area, string title, string date)
+	{
+		this.area = area;
+
+		initGraph();
+
+		g.SetFontSize(16);
+		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight, "Need to execute jumps", g, true);
+
+		endGraph();
+	}
+
+	//regular constructor
 	public JumpsDjOptimalFallGraph (List<Point> point_l, double[] coefs, double xAtMMaxY, //x at Model MaxY
 			double pointsMaxValue, DrawingArea area, string title, string date)
 	{
@@ -69,13 +83,17 @@ public class JumpsDjOptimalFallGraph
 		LogB.Information("at JumpsDjOptimalFallGraph.Do");
 		initGraph();
 
+		findMaximums();
+		paintAxisAndGrid();
+
 		LogB.Information(string.Format("coef length:{0}", coefs.Length));
 		if(coefs.Length == 3)
-		{
-			findMaximums();
-			paintAxisAndGrid();
 			plotPredictedLine();
-			plotRealPoints();
+
+		plotRealPoints();
+
+		if(coefs.Length == 3)
+		{
 			plotPredictedMaxPoint();
 			writeText();
 		}
@@ -102,25 +120,12 @@ public class JumpsDjOptimalFallGraph
 		g.SelectFontFace("Helvetica", Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
 		g.SetFontSize(textHeight);
 
-		if(pointsMaxValue == 0)
-		{
-			g.SetSourceRGB(0,0,0);
-			g.SetFontSize(16);
-			printText(100, 100, 24, textHeight, "need points", g, false);
-			g.GetTarget().Dispose ();
-			g.Dispose ();
-			return;
-		}
-
 		red = colorFromRGB(200,0,0);
 		blue = colorFromRGB(178, 223, 238); //lightblue
 	}
 
 	private void findMaximums()
 	{
-		//double xgraph = 0;
-		//double ygraph = 0;
-
 		foreach(Point p in point_l)
 		{
 			if(p.X < minX)
@@ -133,9 +138,25 @@ public class JumpsDjOptimalFallGraph
 				maxY = p.Y;
 		}
 
-		yAtMMaxY = coefs[0] + coefs[1]*xAtMMaxY + coefs[2]*Math.Pow(xAtMMaxY,2);
-		absoluteMaxY = yAtMMaxY;
-		if(maxY > absoluteMaxY)
+		//if there is only one point, or by any reason mins == maxs, have mins and maxs separated
+		if(minX == maxX)
+		{
+			minX -= .5 * minX;
+			maxX += .5 * maxX;
+		}
+		if(minY == maxY)
+		{
+			minY -= .5 * minY;
+			maxY += .5 * maxY;
+		}
+
+		if(coefs.Length == 3)
+		{
+			yAtMMaxY = coefs[0] + coefs[1]*xAtMMaxY + coefs[2]*Math.Pow(xAtMMaxY,2);
+			absoluteMaxY = yAtMMaxY;
+			if(maxY > absoluteMaxY)
+				absoluteMaxY = maxY;
+		} else
 			absoluteMaxY = maxY;
 	}
 
@@ -193,12 +214,14 @@ public class JumpsDjOptimalFallGraph
 	{
 		foreach(Point p in point_l)
 		{
+			//LogB.Information(string.Format("point: {0}", p));
 			double xgraph = calculatePaintX(
 					( p.X ),
 					graphWidth, maxX, minX, totalMargins, totalMargins);
 			double ygraph = calculatePaintY(
 					( p.Y ),
 					graphHeight, absoluteMaxY, minY, totalMargins, totalMargins);
+			LogB.Information(string.Format("{0}, {1}", xgraph, ygraph));
 			g.MoveTo(xgraph+6, ygraph);
 			g.Arc(xgraph, ygraph, 6.0, 0.0, 2.0 * Math.PI); //full circle
 			g.Color = blue;
@@ -248,13 +271,13 @@ public class JumpsDjOptimalFallGraph
 
 	private void endGraph()
 	{
-		//dispose
 		g.GetTarget().Dispose ();
 		g.Dispose ();
 	}
 
 	private void paintCairoGrid (double min, double max, int seps, bool horiz)
 	{
+		LogB.Information(string.Format("paintCairoGrid: {0}, {1}, {2}, {3}", min, max, seps, horiz));
 		//show 5 steps positive, 5 negative (if possible)
 		int temp = Convert.ToInt32(Util.DivideSafe(max - min, seps));
 		int step = temp;

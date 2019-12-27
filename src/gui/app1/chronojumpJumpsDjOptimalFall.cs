@@ -45,8 +45,14 @@ public partial class ChronoJumpWindow
 		if(calculateData)
 			jumpsDjOptimalFall.Calculate(currentPerson.UniqueID, currentSession.UniqueID);
 
-		if(jumpsDjOptimalFall.Point_l.Count > 0)
+		if(jumpsDjOptimalFall.Point_l.Count == 0)
 		{
+			//constructor for showing blank screen with a message
+			new JumpsDjOptimalFallGraph(
+					drawingarea_jumps_dj_optimal_fall,
+					currentPerson.Name, currentSession.DateShort);
+		} else {
+			//regular constructor
 			JumpsDjOptimalFallGraph jdofg = new JumpsDjOptimalFallGraph(
 					jumpsDjOptimalFall.Point_l,
 					jumpsDjOptimalFall.Coefs,
@@ -56,7 +62,6 @@ public partial class ChronoJumpWindow
 					currentPerson.Name, currentSession.DateShort);
 			jdofg.Do();
 		}
-		//TODO: if not, just blank screen
 	}
 	private void on_drawingarea_jumps_dj_optimal_fall_expose_event (object o, ExposeEventArgs args) 
 	{

@@ -56,6 +56,7 @@ public partial class ChronoJumpWindow
 			JumpsDjOptimalFallGraph jdofg = new JumpsDjOptimalFallGraph(
 					jumpsDjOptimalFall.Point_l,
 					jumpsDjOptimalFall.Coefs,
+					jumpsDjOptimalFall.ParaboleType, //model
 					jumpsDjOptimalFall.XatMaxY, //model
 					jumpsDjOptimalFall.GetMaxValue(),
 					drawingarea_jumps_dj_optimal_fall,

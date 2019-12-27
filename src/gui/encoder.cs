@@ -4442,7 +4442,7 @@ public partial class ChronoJumpWindow
 				//write curves rows
 				ArrayList array = getTreeViewCurves(encoderAnalyzeListStore);
 				foreach (EncoderCurve ec in array)
-					writer.WriteLine(ec.ToCSV(false, preferences.CSVExportDecimalSeparator));
+					writer.WriteLine(ec.ToCSV(false, preferences.CSVExportDecimalSeparator, preferences.encoderWorkKcal));
 			}
 			
 			writer.Flush();

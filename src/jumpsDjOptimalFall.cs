@@ -88,6 +88,11 @@ public class JumpsDjOptimalFall
 		}
 	}
 
+	public LeastSquares.ParaboleTypes ParaboleType
+	{
+		get { return ls.ParaboleType; }
+	}
+
 	public double XatMaxY //model
 	{
 		get {

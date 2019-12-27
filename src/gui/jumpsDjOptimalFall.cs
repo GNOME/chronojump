@@ -28,6 +28,7 @@ public class JumpsDjOptimalFallGraph
 {
 	List<Point> point_l;
 	double[] coefs;
+	LeastSquares.ParaboleTypes paraboleType;
 	double xAtMMaxY;
 	double pointsMaxValue;
 	DrawingArea area;
@@ -66,11 +67,15 @@ public class JumpsDjOptimalFallGraph
 	}
 
 	//regular constructor
-	public JumpsDjOptimalFallGraph (List<Point> point_l, double[] coefs, double xAtMMaxY, //x at Model MaxY
+	public JumpsDjOptimalFallGraph (
+			List<Point> point_l, double[] coefs,
+			LeastSquares.ParaboleTypes paraboleType,
+			double xAtMMaxY, //x at Model MaxY
 			double pointsMaxValue, DrawingArea area, string title, string date)
 	{
 		this.point_l = point_l;
 		this.coefs = coefs;
+		this.paraboleType = paraboleType;
 		this.xAtMMaxY = xAtMMaxY;
 		this.pointsMaxValue = pointsMaxValue;
 		this.area = area;
@@ -94,8 +99,15 @@ public class JumpsDjOptimalFallGraph
 
 		if(coefs.Length == 3)
 		{
-			plotPredictedMaxPoint();
-			writeText();
+			if(paraboleType == LeastSquares.ParaboleTypes.CONVEX)
+			{
+				plotPredictedMaxPoint();
+				writeTextPredictedPoint();
+			}
+			else
+				writeTextConcaveParabole();
+		} else {
+			writeTextNeed3PointsWithDifferentFall();
 		}
 
 		endGraph();
@@ -150,7 +162,7 @@ public class JumpsDjOptimalFallGraph
 			maxY += .5 * maxY;
 		}
 
-		if(coefs.Length == 3)
+		if(coefs.Length == 3 && paraboleType == LeastSquares.ParaboleTypes.CONVEX)
 		{
 			yAtMMaxY = coefs[0] + coefs[1]*xAtMMaxY + coefs[2]*Math.Pow(xAtMMaxY,2);
 			absoluteMaxY = yAtMMaxY;
@@ -171,8 +183,8 @@ public class JumpsDjOptimalFallGraph
 		printText(graphWidth - Convert.ToInt32(outerMargins/2), graphHeight - outerMargins, 0, textHeight, "Fall (cm)", g, false);
 
 		//2 paint grid: horizontal, vertical
-		paintCairoGrid (minY, absoluteMaxY, 5, true);
-		paintCairoGrid (minX, maxX, 5, false);
+		paintGrid (minY, absoluteMaxY, 5, true);
+		paintGrid (minX, maxX, 5, false);
 	}
 
 	private void plotPredictedLine()
@@ -180,6 +192,8 @@ public class JumpsDjOptimalFallGraph
 		bool firstValue = false;
 		double minMax50Percent = (minX + maxX)/2;
 		double xgraphOld = 0;
+		bool wasOutOfMargins = false; //avoids to not draw a line between the end point of a line on a margin and the start point again of that line
+
 		for(double x = minX - minMax50Percent; x < maxX + minMax50Percent; x += (maxX-minX)/200)
 		{
 			double xgraph = calculatePaintX(
@@ -199,7 +213,15 @@ public class JumpsDjOptimalFallGraph
 			if(
 					xgraph < outerMargins || xgraph > graphWidth - outerMargins ||
 					ygraph < outerMargins || ygraph > graphHeight - outerMargins )
+			{
+				wasOutOfMargins = true;
 				continue;
+			} else {
+				if(wasOutOfMargins)
+					g.MoveTo(xgraph, ygraph);
+
+				wasOutOfMargins = false;
+			}
 
 			if(! firstValue)
 				g.LineTo(xgraph, ygraph);
@@ -261,12 +283,29 @@ public class JumpsDjOptimalFallGraph
 		g.Stroke ();
 	}
 
-	private void writeText()
+	private void writeTextPredictedPoint()
 	{
-		//at right
-		printText(graphWidth + outerMargins, Convert.ToInt32(graphHeight/2) - textHeight*2, 0, textHeight, "Optimal values:", g, false);
-		printText(graphWidth + outerMargins, Convert.ToInt32(graphHeight/2),      0, textHeight, "Fall: " + Util.TrimDecimals(xAtMMaxY, 2) + " cm", g, false);
-		printText(graphWidth + outerMargins, Convert.ToInt32(graphHeight/2) + textHeight*2, 0, textHeight, "Jump height: " + Util.TrimDecimals(yAtMMaxY, 2) + " cm", g, false);
+		writeTextAtRight(0, "Optimal values:");
+		writeTextAtRight(1, "Fall: " + Util.TrimDecimals(xAtMMaxY, 2) + " cm");
+		writeTextAtRight(2, "Jump height: " + Util.TrimDecimals(yAtMMaxY, 2) + " cm");
+	}
+
+	private void writeTextConcaveParabole()
+	{
+		writeTextAtRight(0, "Error:");
+		writeTextAtRight(1, "Parabole is concave");
+	}
+
+	private void writeTextNeed3PointsWithDifferentFall()
+	{
+		writeTextAtRight(0, "Error:");
+		writeTextAtRight(1, "Need at least 3 points");
+		writeTextAtRight(2, "with different fall heights");
+	}
+
+	private void writeTextAtRight(int line, string text)
+	{
+		printText(graphWidth + Convert.ToInt32(outerMargins/2), Convert.ToInt32(graphHeight/2) + textHeight*2*line, 0, textHeight, text, g, false);
 	}
 
 	private void endGraph()
@@ -275,9 +314,9 @@ public class JumpsDjOptimalFallGraph
 		g.Dispose ();
 	}
 
-	private void paintCairoGrid (double min, double max, int seps, bool horiz)
+	private void paintGrid (double min, double max, int seps, bool horiz)
 	{
-		LogB.Information(string.Format("paintCairoGrid: {0}, {1}, {2}, {3}", min, max, seps, horiz));
+		LogB.Information(string.Format("paintGrid: {0}, {1}, {2}, {3}", min, max, seps, horiz));
 		//show 5 steps positive, 5 negative (if possible)
 		int temp = Convert.ToInt32(Util.DivideSafe(max - min, seps));
 		int step = temp;
@@ -302,7 +341,7 @@ public class JumpsDjOptimalFallGraph
 		g.SetDash(new double[]{1, 2}, 0);
 		// i <= max*1.5 to allow to have grid just above the maxpoint if it's below innermargins
 		// see: if(ytemp < outerMargins) continue;
-		for(int i = Convert.ToInt32(min); i <= max *1.5 ; i += step)
+		for(double i = min; i <= max *1.5 ; i += step)
 		{
 			//LogB.Information("i: " + i.ToString());
 			if(horiz)
@@ -312,14 +351,14 @@ public class JumpsDjOptimalFallGraph
 					continue;
 				g.MoveTo(outerMargins, ytemp);
 				g.LineTo(graphWidth - outerMargins, ytemp);
-				printText(Convert.ToInt32(outerMargins/2), ytemp, 0, textHeight, i.ToString(), g, true);
+				printText(Convert.ToInt32(outerMargins/2), ytemp, 0, textHeight, Convert.ToInt32(i).ToString(), g, true);
 			} else {
 				int xtemp = Convert.ToInt32(calculatePaintX(i, graphWidth, max, min, outerMargins + innerMargins, outerMargins + innerMargins));
 				if(xtemp > graphWidth)
 					continue;
 				g.MoveTo(xtemp, graphHeight - outerMargins);
 				g.LineTo(xtemp, outerMargins);
-				printText(xtemp, graphHeight - Convert.ToInt32(outerMargins/2), 0, textHeight, i.ToString(), g, true);
+				printText(xtemp, graphHeight - Convert.ToInt32(outerMargins/2), 0, textHeight, Convert.ToInt32(i).ToString(), g, true);
 			}
 		}
 		g.Stroke ();

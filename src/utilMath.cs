@@ -40,6 +40,12 @@ public class Point
 	public double Y {
 		get { return y; }
 	}
+
+	public override string ToString()
+	{
+		return string.Format("X:{0}, Y:{1}", x, y);
+	}
+
 }
 
 
@@ -56,6 +62,7 @@ public class LeastSquares
 
 	public bool CalculatedXatMaxY;
 	public double XatMaxY;
+	public enum ParaboleTypes { NOTCALCULATED, STRAIGHT, CONVEX, CONCAVE } //CONVEX is usually OK
 
 	//constructor
 	public LeastSquares() {
@@ -157,5 +164,21 @@ public class LeastSquares
 		XatMaxY = - Coef[1] / (2 * Coef[2]);
 		CalculatedXatMaxY = true;
 	}
-}
 
+	public ParaboleTypes ParaboleType
+	{
+		get {
+			if(! CalculatedCoef)
+				return ParaboleTypes.NOTCALCULATED;
+
+			if(Coef[2] == 0)
+				return ParaboleTypes.STRAIGHT;
+
+			if(Coef[2] > 0)
+				return ParaboleTypes.CONCAVE;
+
+			return ParaboleTypes.CONVEX;
+		}
+	}
+
+}

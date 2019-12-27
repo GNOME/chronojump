@@ -406,12 +406,16 @@ public class EncoderCurve
 		}
 	}
 
-	public string ToCSV(bool captureOrAnalyze, string decimalSeparator) {
-
+	public string ToCSV(bool captureOrAnalyze, string decimalSeparator, bool useWorkKcal)
+	{
 		//latin:	2,3 ; 2,5
 		//non-latin:	2.3 , 2.5
 
 		string sep = ":::";
+
+		double work = WorkJD;
+		if(useWorkKcal)
+			work = WorkKcalD;
 		
 		string str = "";
 		//TODO: if capture not shown because some variables like Inertia are not defined
@@ -425,7 +429,7 @@ public class EncoderCurve
 				PP_PPT + sep +
 				MeanForce + sep + MaxForce + sep + MaxForceT + sep +
 				MaxForce_MaxForceT + sep +
-				WorkJ + sep + Impulse;
+				work.ToString() + sep + Impulse;
 		
 		if(decimalSeparator == "COMMA")
 			str = Util.ConvertToComma(str);

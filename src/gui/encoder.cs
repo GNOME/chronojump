@@ -2059,17 +2059,6 @@ public partial class ChronoJumpWindow
 			nameString += "_" + encoderLastAnalysis;
 		}
 
-		//at force sensor we can graph a different person than selected person, so use graph-file loaded
-		if( checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL ||
-				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_AUTO ||
-				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_MANUAL )
-		{
-			if(lastForceSensorFile == null || lastForceSensorFile == "")
-				nameString = "unnamed";
-			else
-				nameString = lastForceSensorFile;
-		}
-
 		//when we send an image we just want to define the name
 		if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SEND_IMAGE)
 		{

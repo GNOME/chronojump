@@ -2059,6 +2059,22 @@ public partial class ChronoJumpWindow
 			nameString += "_" + encoderLastAnalysis;
 		}
 
+		//on force sensor add exercise and laterality
+		//and if elastic, exercise should have (stiffness)
+		if(
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL ||
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_AUTO ||
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_MANUAL ||
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB )
+		{
+			if(currentForceSensorExercise.Elastic)
+				nameString += "_" + currentForceSensorExercise.Name + "_Stiffness" + currentForceSensor.Stiffness.ToString();
+			else
+				nameString += "_" + currentForceSensorExercise.Name;
+
+			nameString += "_" + getLaterality(true);
+		}
+
 		//when we send an image we just want to define the name
 		if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SEND_IMAGE)
 		{

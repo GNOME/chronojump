@@ -4506,7 +4506,7 @@ msgstr "Nuevas características del «firmware»."
 
 #: ../src/constants.cs:52
 msgid "Encoder hardware layer."
-msgstr "Cada del codificador hardware"
+msgstr "Capa del codificador hardware"
 
 #: ../src/constants.cs:53
 msgid "Skypic, Chronopic, connection between hardware and software."
@@ -6035,7 +6035,7 @@ msgstr "Añadir peso"
 
 #: ../src/gui/app1/chronojump.cs:6738
 msgid "Remove weight"
-msgstr "Quitar perso"
+msgstr "Quitar peso"
 
 #: ../src/gui/app1/chronojump.cs:6741
 msgid "Close any window"
@@ -8674,8 +8674,7 @@ msgid ""
 "Encourage athletes to accelerate through the finish line to maximize their "
 "result."
 msgstr ""
-"Animar a los atletas para acelerar hasta la línea de meta para mejorar sus "
-"resultados.Anime a los atletas a acelerar hacia la línea de final para "
+"Anime a los atletas a acelerar hacia la línea de final para "
 "conseguir un mejor resultado."
 
 #: ../src/runType.cs:200 ../src/runType.cs:217 ../src/runType.cs:252
@@ -8757,8 +8756,7 @@ msgstr "Resultados"
 #: ../src/runType.cs:235
 msgid "The table below gives some rating scores (in seconds) for the test"
 msgstr ""
-"La tabla de debajo proporciona algunas puntuaciones (en segundos) para la "
-"pruebaLa tabla de abajo muestra cualificaciones de resultados (en segundos) "
+"La tabla de abajo muestra cualificaciones de resultados (en segundos) "
 "para esta prueba"
 
 #: ../src/runType.cs:236

@@ -18926,6 +18926,7 @@ Concentric</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="tooltip" translatable="yes">Save image</property>
+                                                            <signal name="clicked" handler="on_button_jumps_weight_fv_profile_save_image_clicked" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkVBox" id="vbox162">
                                                             <property name="visible">True</property>

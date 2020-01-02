@@ -36,7 +36,7 @@ public class JumpsDjOptimalFallGraph : CairoXY
 		initGraph();
 
 		g.SetFontSize(16);
-		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight, "Need to execute jumps DjOptimalFall BORRAR", g, true);
+		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight, "Need to execute jumps DjOptimalFall", g, true);
 
 		endGraph();
 	}

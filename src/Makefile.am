@@ -376,6 +376,7 @@ RESOURCES = \
 	../images/mini/reaction_time_discriminative.png,mini/reaction_time_discriminative.png \
 	../images/dj-from-out.png,dj-from-out.png \
 	../images/dj-from-in.png,dj-from-in.png \
+	../images/jumps-fv.png,jumps-fv.png \
 	../images/mtgug.png,mtgug.png \
 	../images/mini/mtgug.png,mini/mtgug.png \
 	../images/take_off.png,take_off.png \

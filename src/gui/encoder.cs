@@ -2123,7 +2123,7 @@ public partial class ChronoJumpWindow
 			else 	//ENCODER_ANALYZE_SAVE_IMAGE, FORCESENSOR_SAVE_IMAGE_SIGNAL,
 				//FORCESENSOR_SAVE_IMAGE_RFD_AUTO, FORCESENSOR_SAVE_IMAGE_RFD_MANUAL
 				exportFileName = Util.AddPngIfNeeded(exportFileName);
-//			try {
+			try {
 				if (File.Exists(exportFileName)) {
 					LogB.Information(string.Format(
 								"File {0} exists with attributes {1}, created at {2}", 
@@ -2206,12 +2206,11 @@ public partial class ChronoJumpWindow
 						myString += Constants.GetSpreadsheetString(preferences.CSVExportDecimalSeparator);
 					new DialogMessage(Constants.MessageTypes.INFO, myString);
 				}
-/*			} catch {
+			} catch {
 				string myString = string.Format(
 						Catalog.GetString("Cannot save file {0} "), exportFileName);
 				new DialogMessage(Constants.MessageTypes.WARNING, myString);
 			}
-			*/
 		}
 		else {
 			LogB.Information("cancelled");

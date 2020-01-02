@@ -61,6 +61,8 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		this.title = title;
 		this.jumpType = jumpType;
 		this.date = date;
+
+		axisRightLabel = "Weight (%)";
 	}
 
 	public override void Do()
@@ -99,4 +101,11 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		endGraph();
 	}
 
+	protected override void writeTitle()
+	{
+		writeTextAtRight(-5, title, true);
+		writeTextAtRight(-4, "FV Profile", false);
+		//writeTextAtRight(-3, "Jumptype: " + jumpType, false);
+		writeTextAtRight(-2, date, false);
+	}
 }

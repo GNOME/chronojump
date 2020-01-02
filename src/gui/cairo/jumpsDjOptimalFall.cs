@@ -59,6 +59,8 @@ public class JumpsDjOptimalFallGraph : CairoXY
 		this.title = title;
 		this.jumpType = jumpType;
 		this.date = date;
+
+		axisRightLabel = "Fall (cm)";
 	}
 
 	public override void Do()
@@ -91,6 +93,14 @@ public class JumpsDjOptimalFallGraph : CairoXY
 		writeTitle();
 
 		endGraph();
+	}
+
+	protected override void writeTitle()
+	{
+		writeTextAtRight(-5, title, true);
+		writeTextAtRight(-4, "Optimal fall height", false);
+		writeTextAtRight(-3, "Jumptype: " + jumpType, false);
+		writeTextAtRight(-2, date, false);
 	}
 
 }

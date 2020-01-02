@@ -26,6 +26,7 @@ using Cairo;
 
 public abstract class CairoXY
 {
+	//used on construction
 	protected List<Point> point_l;
 	protected double[] coefs;
 	protected LeastSquares.ParaboleTypes paraboleType;
@@ -37,6 +38,9 @@ public abstract class CairoXY
 	protected string date;
 
 	protected Cairo.Context g;
+	protected const int textHeight = 12;
+	protected string axisRightLabel = "";
+
 	double minX = 1000000;
 	double maxX = 0;
 	double minY = 1000000;
@@ -53,7 +57,6 @@ public abstract class CairoXY
 	const int outerMargins = 30; //blank space outside the axis
 	const int innerMargins = 30; //space between the axis and the real coordinates
 	const int totalMargins = outerMargins + innerMargins;
-	protected const int textHeight = 12;
 
 	public abstract void Do();
 
@@ -136,7 +139,7 @@ public abstract class CairoXY
 		g.LineTo(graphWidth - outerMargins, graphHeight - outerMargins);
 		g.Stroke ();
 		printText(2, Convert.ToInt32(outerMargins/2), 0, textHeight, "Height (cm)", g, false);
-		printText(graphWidth - Convert.ToInt32(outerMargins/2), graphHeight - outerMargins, 0, textHeight, "Fall (cm)", g, false);
+		printText(graphWidth - Convert.ToInt32(outerMargins/2), graphHeight - outerMargins, 0, textHeight, axisRightLabel, g, false);
 
 		//2 paint grid: horizontal, vertical
 		paintGrid (minY, absoluteMaxY, 5, true);
@@ -239,13 +242,7 @@ public abstract class CairoXY
 		g.Stroke ();
 	}
 
-	protected void writeTitle()
-	{
-		writeTextAtRight(-5, title, true);
-		writeTextAtRight(-4, "Optimal fall height", false);
-		writeTextAtRight(-3, "Jumptype: " + jumpType, false);
-		writeTextAtRight(-2, date, false);
-	}
+	protected abstract void writeTitle();
 
 	protected void writeTextPredictedPoint()
 	{

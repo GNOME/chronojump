@@ -36,7 +36,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		initGraph();
 
 		g.SetFontSize(16);
-		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight, "Need to execute jumps weightFV BORRAR", g, true);
+		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight, "Need to execute jumps weightFV", g, true);
 
 		endGraph();
 	}

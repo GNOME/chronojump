@@ -2034,6 +2034,7 @@ public partial class ChronoJumpWindow
 		else if(
 				checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.JUMPS_DJ_OPTIMAL_FALL_SAVE_IMAGE ||
+				checkFileOp == Constants.CheckFileOp.JUMPS_WEIGHT_FV_PROFILE_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL ||
@@ -2087,6 +2088,7 @@ public partial class ChronoJumpWindow
 		else if(
 				checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.JUMPS_DJ_OPTIMAL_FALL_SAVE_IMAGE ||
+				checkFileOp == Constants.CheckFileOp.JUMPS_WEIGHT_FV_PROFILE_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL ||
@@ -2121,7 +2123,7 @@ public partial class ChronoJumpWindow
 			else 	//ENCODER_ANALYZE_SAVE_IMAGE, FORCESENSOR_SAVE_IMAGE_SIGNAL,
 				//FORCESENSOR_SAVE_IMAGE_RFD_AUTO, FORCESENSOR_SAVE_IMAGE_RFD_MANUAL
 				exportFileName = Util.AddPngIfNeeded(exportFileName);
-			try {
+//			try {
 				if (File.Exists(exportFileName)) {
 					LogB.Information(string.Format(
 								"File {0} exists with attributes {1}, created at {2}", 
@@ -2139,6 +2141,9 @@ public partial class ChronoJumpWindow
 					if(checkFileOp == Constants.CheckFileOp.JUMPS_DJ_OPTIMAL_FALL_SAVE_IMAGE)
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_jumps_dj_optimal_fall_save_image_accepted);
+					if(checkFileOp == Constants.CheckFileOp.JUMPS_WEIGHT_FV_PROFILE_SAVE_IMAGE)
+						confirmWin.Button_accept.Clicked +=
+							new EventHandler(on_overwrite_file_jumps_weight_fv_profile_save_image_accepted);
 					if(checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_SAVE_IMAGE)
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_runs_sprint_save_image_accepted);
@@ -2172,6 +2177,8 @@ public partial class ChronoJumpWindow
 						on_button_jumps_profile_save_image_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.JUMPS_DJ_OPTIMAL_FALL_SAVE_IMAGE)
 						on_button_jumps_dj_optimal_fall_save_image_selected (exportFileName);
+					else if(checkFileOp == Constants.CheckFileOp.JUMPS_WEIGHT_FV_PROFILE_SAVE_IMAGE)
+						on_button_jumps_weight_fv_profile_save_image_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_SAVE_IMAGE)
 						on_button_runs_sprint_save_image_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL)
@@ -2199,11 +2206,12 @@ public partial class ChronoJumpWindow
 						myString += Constants.GetSpreadsheetString(preferences.CSVExportDecimalSeparator);
 					new DialogMessage(Constants.MessageTypes.INFO, myString);
 				}
-			} catch {
+/*			} catch {
 				string myString = string.Format(
 						Catalog.GetString("Cannot save file {0} "), exportFileName);
 				new DialogMessage(Constants.MessageTypes.WARNING, myString);
 			}
+			*/
 		}
 		else {
 			LogB.Information("cancelled");

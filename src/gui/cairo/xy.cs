@@ -141,9 +141,7 @@ public abstract class CairoXY
 		printText(2, Convert.ToInt32(outerMargins/2), 0, textHeight, "Height (cm)", g, false);
 		printText(graphWidth - Convert.ToInt32(outerMargins/2), graphHeight - outerMargins, 0, textHeight, axisRightLabel, g, false);
 
-		//2 paint grid: horizontal, vertical
-		paintGrid (minY, absoluteMaxY, 5, true);
-		paintGrid (minX, absoluteMaxX, 5, false);
+		paintGrid (minX, absoluteMaxX, minY, absoluteMaxY, 5);
 	}
 
 	protected void plotPredictedLine()
@@ -281,14 +279,44 @@ public abstract class CairoXY
 	}
 
 	//TODO: fix if min == max (crashes)
-	protected void paintGrid (double min, double max, int seps, bool horiz)
+	protected void paintGrid (double minX, double maxX, double minY, double maxY, int seps)
 	{
-		LogB.Information(string.Format("paintGrid: {0}, {1}, {2}, {3}", min, max, seps, horiz));
+		//LogB.Information(string.Format("paintGrid: {0}, {1}, {2}, {3}", min, max, seps, horiz));
 
-		//TODO: improve this
-		if(min == max)
-			return;
+		double stepX = getGridStep(minX, maxX, seps);
+		double stepY = getGridStep(minY, maxY, seps);
 
+		g.Save();
+		g.SetDash(new double[]{1, 2}, 0);
+		// i <= max*1.5 to allow to have grid just above the maxpoint if it's below innermargins
+		// see: if(ytemp < outerMargins) continue;
+		for(double i = minX; i <= maxX *1.5 ; i += stepX)
+		{
+			int xtemp = Convert.ToInt32(calculatePaintX(i, graphWidth, maxX, minX, outerMargins + innerMargins, outerMargins + innerMargins));
+			if(xtemp < outerMargins || xtemp > graphWidth - outerMargins)
+				continue;
+
+			g.MoveTo(xtemp, graphHeight - outerMargins);
+			g.LineTo(xtemp, outerMargins);
+			printText(xtemp, graphHeight - Convert.ToInt32(outerMargins/2), 0, textHeight, Util.TrimDecimals(i, 1), g, true);
+		}
+
+		for(double i = minY; i <= maxY *1.5 ; i += stepY)
+		{
+			int ytemp = Convert.ToInt32(calculatePaintY(i, graphHeight, maxY, minY, outerMargins + innerMargins, outerMargins + innerMargins));
+			if(ytemp < outerMargins || ytemp > graphHeight - outerMargins)
+				continue;
+
+			g.MoveTo(outerMargins, ytemp);
+			g.LineTo(graphWidth - outerMargins, ytemp);
+			printText(Convert.ToInt32(outerMargins/2), ytemp, 0, textHeight, Util.TrimDecimals(i, 1), g, true);
+		}
+		g.Stroke ();
+		g.Restore();
+	}
+
+	private double getGridStep(double min, double max, int seps)
+	{
 		//show 5 steps positive, 5 negative (if possible)
 		double temp = Util.DivideSafe(max - min, seps);
 		double step = temp;
@@ -309,32 +337,7 @@ public abstract class CairoXY
 		if(step == 0)
 			step = 1;
 
-		g.Save();
-		g.SetDash(new double[]{1, 2}, 0);
-		// i <= max*1.5 to allow to have grid just above the maxpoint if it's below innermargins
-		// see: if(ytemp < outerMargins) continue;
-		for(double i = min; i <= max *1.5 ; i += step)
-		{
-			//LogB.Information("i: " + i.ToString());
-			if(horiz)
-			{
-				int ytemp = Convert.ToInt32(calculatePaintY(i, graphHeight, max, min, outerMargins + innerMargins, outerMargins + innerMargins));
-				if(ytemp < outerMargins || ytemp > graphHeight - outerMargins)
-					continue;
-				g.MoveTo(outerMargins, ytemp);
-				g.LineTo(graphWidth - outerMargins, ytemp);
-				printText(Convert.ToInt32(outerMargins/2), ytemp, 0, textHeight, Util.TrimDecimals(i, 1), g, true);
-			} else {
-				int xtemp = Convert.ToInt32(calculatePaintX(i, graphWidth, max, min, outerMargins + innerMargins, outerMargins + innerMargins));
-				if(xtemp < outerMargins || xtemp > graphWidth - outerMargins)
-					continue;
-				g.MoveTo(xtemp, graphHeight - outerMargins);
-				g.LineTo(xtemp, outerMargins);
-				printText(xtemp, graphHeight - Convert.ToInt32(outerMargins/2), 0, textHeight, Util.TrimDecimals(i, 1), g, true);
-			}
-		}
-		g.Stroke ();
-		g.Restore();
+		return step;
 	}
 
 	protected double calculatePaintX(double currentValue, int ancho, double maxValue, double minValue, int rightMargin, int leftMargin)

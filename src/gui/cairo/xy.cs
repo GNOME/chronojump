@@ -290,8 +290,8 @@ public abstract class CairoXY
 			return;
 
 		//show 5 steps positive, 5 negative (if possible)
-		int temp = Convert.ToInt32(Util.DivideSafe(max - min, seps));
-		int step = temp;
+		double temp = Util.DivideSafe(max - min, seps);
+		double step = temp;
 
 		//to have values multiples than 10, 100 ...
 		if(step <= 10)
@@ -319,18 +319,18 @@ public abstract class CairoXY
 			if(horiz)
 			{
 				int ytemp = Convert.ToInt32(calculatePaintY(i, graphHeight, max, min, outerMargins + innerMargins, outerMargins + innerMargins));
-				if(ytemp < outerMargins)
+				if(ytemp < outerMargins || ytemp > graphHeight - outerMargins)
 					continue;
 				g.MoveTo(outerMargins, ytemp);
 				g.LineTo(graphWidth - outerMargins, ytemp);
-				printText(Convert.ToInt32(outerMargins/2), ytemp, 0, textHeight, Convert.ToInt32(i).ToString(), g, true);
+				printText(Convert.ToInt32(outerMargins/2), ytemp, 0, textHeight, Util.TrimDecimals(i, 1), g, true);
 			} else {
 				int xtemp = Convert.ToInt32(calculatePaintX(i, graphWidth, max, min, outerMargins + innerMargins, outerMargins + innerMargins));
-				if(xtemp > graphWidth - outerMargins)
+				if(xtemp < outerMargins || xtemp > graphWidth - outerMargins)
 					continue;
 				g.MoveTo(xtemp, graphHeight - outerMargins);
 				g.LineTo(xtemp, outerMargins);
-				printText(xtemp, graphHeight - Convert.ToInt32(outerMargins/2), 0, textHeight, Convert.ToInt32(i).ToString(), g, true);
+				printText(xtemp, graphHeight - Convert.ToInt32(outerMargins/2), 0, textHeight, Util.TrimDecimals(i, 1), g, true);
 			}
 		}
 		g.Stroke ();

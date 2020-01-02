@@ -211,6 +211,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_analyze_1RM_save_1;
 	[Widget] Gtk.Image image_encoder_analyze_image_save_2;
 	[Widget] Gtk.Image image_forcesensor_analyze_image_save;
+	[Widget] Gtk.Image image_forcesensor_analyze_image_save1;
 	[Widget] Gtk.Image image_forcesensor_analyze_image_save2;
 	[Widget] Gtk.Image image_forcesensor_analyze_image_save3;
 	[Widget] Gtk.Image image_forcesensor_analyze_image_save5;
@@ -675,6 +676,7 @@ public partial class ChronoJumpWindow
 		image_force_sensor_analyze_analyze.Pixbuf = pixbuf;
 		image_jumps_profile_save.Pixbuf = pixbuf;
 		image_jumps_dj_optimal_fall_save.Pixbuf = pixbuf;
+		image_jumps_weight_fv_profile_save.Pixbuf = pixbuf;
 		image_encoder_analyze_image_compujump_send_email_image.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "save.png");
@@ -684,6 +686,7 @@ public partial class ChronoJumpWindow
 		image_encoder_analyze_1RM_save_1.Pixbuf = pixbuf;
 		image_encoder_analyze_image_save_2.Pixbuf = pixbuf;
 		image_forcesensor_analyze_image_save.Pixbuf = pixbuf;
+		image_forcesensor_analyze_image_save1.Pixbuf = pixbuf;
 		image_forcesensor_analyze_image_save2.Pixbuf = pixbuf;
 		image_forcesensor_analyze_image_save3.Pixbuf = pixbuf;
 		image_forcesensor_analyze_image_save5.Pixbuf = pixbuf;

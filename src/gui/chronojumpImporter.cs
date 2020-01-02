@@ -144,6 +144,7 @@ public partial class ChronoJumpWindow
 			combo_result_jumps.Active = 0;
 
 			createComboSelectJumpsDjOptimalFall(false);
+			createComboSelectJumpsWeightFVProfile(false);
 
 			//2) reactive jump
 			createComboSelectJumpsRj(false);

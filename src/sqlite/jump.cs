@@ -376,6 +376,51 @@ class SqliteJump : Sqlite
 	  return jmp_l;
 	}
 
+	//TODO: too similar to above method, unify them
+	//TODO: note we do not want % weight, we want absolute weight so we need to select on personSession77 table
+	public static List<Jump> SelectWeightJumps (int pID, int sID, string jumpType, bool onlyHigherOfSameWeight)
+	{
+	  string personID = pID.ToString();
+	  string sessionID = sID.ToString();
+
+	  Sqlite.Open();
+
+	  // Selecciona les dades de tots els salts
+	  dbcmd.CommandText = "SELECT * FROM jump WHERE personID = " + personID +
+	  " AND sessionID = " + sessionID  +  " AND jump.type = \"" + jumpType + "\"";
+
+	  if(onlyHigherOfSameWeight)
+		  dbcmd.CommandText += " ORDER BY weight DESC, tv DESC";
+
+	  LogB.SQL(dbcmd.CommandText.ToString());
+	  dbcmd.ExecuteNonQuery();
+
+	  SqliteDataReader reader;
+	  reader = dbcmd.ExecuteReader();
+
+	  List<Jump> jmp_l = DataReaderToJump (reader);
+
+	  reader.Close();
+	  Sqlite.Close();
+
+	  if(onlyHigherOfSameWeight)
+	  {
+		  LogB.Information("PPPP");
+		  List<Jump> jmp_l_purged = new List<Jump>();
+		  double lastWeight = 0;
+		  foreach(Jump j in jmp_l)
+		  {
+			  if(j.Weight != lastWeight)
+				  jmp_l_purged.Add(j);
+
+			  lastWeight = j.Weight;
+		  }
+		  return jmp_l_purged;
+	  }
+
+	  return jmp_l;
+	}
+
 	public static void Update(int jumpID, string type, string tv, string tc, string fall, int personID, double weight, string description, double angle)
 	{
 		Sqlite.Open();

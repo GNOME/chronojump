@@ -16,7 +16,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2019   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -24,19 +24,19 @@ using System.Collections.Generic; //List
 using Gtk;
 using Cairo;
 
-public class JumpsDjOptimalFallGraph
+public abstract class CairoXY
 {
-	List<Point> point_l;
-	double[] coefs;
-	LeastSquares.ParaboleTypes paraboleType;
-	double xAtMMaxY;
-	double pointsMaxValue;
-	DrawingArea area;
-	string title;
-	string jumpType;
-	string date;
+	protected List<Point> point_l;
+	protected double[] coefs;
+	protected LeastSquares.ParaboleTypes paraboleType;
+	protected double xAtMMaxY;
+	protected double pointsMaxValue;
+	protected DrawingArea area;
+	protected string title;
+	protected string jumpType;
+	protected string date;
 
-	Cairo.Context g;
+	protected Cairo.Context g;
 	double minX = 1000000;
 	double maxX = 0;
 	double minY = 1000000;
@@ -53,72 +53,11 @@ public class JumpsDjOptimalFallGraph
 	const int outerMargins = 30; //blank space outside the axis
 	const int innerMargins = 30; //space between the axis and the real coordinates
 	const int totalMargins = outerMargins + innerMargins;
-	const int textHeight = 12;
+	protected const int textHeight = 12;
 
-	//constructor when there are no points
-	public JumpsDjOptimalFallGraph (DrawingArea area)//, string title, string jumpType, string date)
-	{
-		this.area = area;
+	public abstract void Do();
 
-		initGraph();
-
-		g.SetFontSize(16);
-		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight, "Need to execute jumps", g, true);
-
-		endGraph();
-	}
-
-	//regular constructor
-	public JumpsDjOptimalFallGraph (
-			List<Point> point_l, double[] coefs,
-			LeastSquares.ParaboleTypes paraboleType,
-			double xAtMMaxY, //x at Model MaxY
-			double pointsMaxValue, DrawingArea area,
-			string title, string jumpType, string date)
-	{
-		this.point_l = point_l;
-		this.coefs = coefs;
-		this.paraboleType = paraboleType;
-		this.xAtMMaxY = xAtMMaxY;
-		this.pointsMaxValue = pointsMaxValue;
-		this.area = area;
-		this.title = title;
-		this.jumpType = jumpType;
-		this.date = date;
-	}
-
-	public void Do()
-	{
-		LogB.Information("at JumpsDjOptimalFallGraph.Do");
-		initGraph();
-
-		findMaximums();
-		paintAxisAndGrid();
-
-		LogB.Information(string.Format("coef length:{0}", coefs.Length));
-		if(coefs.Length == 3)
-			plotPredictedLine();
-
-		plotRealPoints();
-
-		if(coefs.Length == 3)
-		{
-			if(paraboleType == LeastSquares.ParaboleTypes.CONVEX)
-			{
-				plotPredictedMaxPoint();
-				writeTextPredictedPoint();
-			}
-			else
-				writeTextConcaveParabole();
-		} else {
-			writeTextNeed3PointsWithDifferentFall();
-		}
-		writeTitle();
-
-		endGraph();
-	}
-
-	private void initGraph()
+	protected void initGraph()
 	{
 		//1 create context
 		g = Gdk.CairoHelper.Create (area.GdkWindow);
@@ -141,7 +80,7 @@ public class JumpsDjOptimalFallGraph
 		blue = colorFromRGB(178, 223, 238); //lightblue
 	}
 
-	private void findMaximums()
+	protected void findPointMaximums()
 	{
 		foreach(Point p in point_l)
 		{
@@ -167,6 +106,13 @@ public class JumpsDjOptimalFallGraph
 			maxY += .5 * maxY;
 		}
 
+		absoluteMaxX = maxX;
+		absoluteMaxY = maxY;
+	}
+
+	//includes point  and model
+	protected void findAbsoluteMaximums()
+	{
 		if(coefs.Length == 3 && paraboleType == LeastSquares.ParaboleTypes.CONVEX)
 		{
 			//x
@@ -179,13 +125,10 @@ public class JumpsDjOptimalFallGraph
 			absoluteMaxY = yAtMMaxY;
 			if(maxY > absoluteMaxY)
 				absoluteMaxY = maxY;
-		} else {
-			absoluteMaxX = maxX;
-			absoluteMaxY = maxY;
 		}
 	}
 
-	private void paintAxisAndGrid()
+	protected void paintAxisAndGrid()
 	{
 		//1 paint axis
 		g.MoveTo(outerMargins, outerMargins);
@@ -200,7 +143,7 @@ public class JumpsDjOptimalFallGraph
 		paintGrid (minX, absoluteMaxX, 5, false);
 	}
 
-	private void plotPredictedLine()
+	protected void plotPredictedLine()
 	{
 		bool firstValue = false;
 		double minMax50Percent = (minX + absoluteMaxX)/2;
@@ -245,7 +188,7 @@ public class JumpsDjOptimalFallGraph
 		g.Stroke ();
 	}
 
-	private void plotRealPoints()
+	protected void plotRealPoints()
 	{
 		foreach(Point p in point_l)
 		{
@@ -272,7 +215,7 @@ public class JumpsDjOptimalFallGraph
 		}
 	}
 
-	private void plotPredictedMaxPoint()
+	protected void plotPredictedMaxPoint()
 	{
 		double xgraph = calculatePaintX(xAtMMaxY, graphWidth, absoluteMaxX, minX, totalMargins, totalMargins);
 		double ygraph = calculatePaintY(yAtMMaxY, graphHeight, absoluteMaxY, minY, totalMargins, totalMargins);
@@ -296,7 +239,7 @@ public class JumpsDjOptimalFallGraph
 		g.Stroke ();
 	}
 
-	private void writeTitle()
+	protected void writeTitle()
 	{
 		writeTextAtRight(-5, title, true);
 		writeTextAtRight(-4, "Optimal fall height", false);
@@ -304,26 +247,26 @@ public class JumpsDjOptimalFallGraph
 		writeTextAtRight(-2, date, false);
 	}
 
-	private void writeTextPredictedPoint()
+	protected void writeTextPredictedPoint()
 	{
 		writeTextAtRight(0, "Fall: " + Util.TrimDecimals(xAtMMaxY, 2) + " cm", false);
 		writeTextAtRight(1, "Jump height: " + Util.TrimDecimals(yAtMMaxY, 2) + " cm", false);
 	}
 
-	private void writeTextConcaveParabole()
+	protected void writeTextConcaveParabole()
 	{
 		writeTextAtRight(0, "Error:", false);
 		writeTextAtRight(1, "Parabole is concave", false);
 	}
 
-	private void writeTextNeed3PointsWithDifferentFall()
+	protected void writeTextNeed3PointsWithDifferentFall()
 	{
 		writeTextAtRight(0, "Error:", false);
 		writeTextAtRight(1, "Need at least 3 points", false);
 		writeTextAtRight(2, "with different falling heights", false);
 	}
 
-	private void writeTextAtRight(int line, string text, bool bold)
+	protected void writeTextAtRight(int line, string text, bool bold)
 	{
 		if(bold)
 			g.SelectFontFace("Helvetica", Cairo.FontSlant.Normal, Cairo.FontWeight.Bold);
@@ -334,15 +277,21 @@ public class JumpsDjOptimalFallGraph
 			g.SelectFontFace("Helvetica", Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
 	}
 
-	private void endGraph()
+	protected void endGraph()
 	{
 		g.GetTarget().Dispose ();
 		g.Dispose ();
 	}
 
-	private void paintGrid (double min, double max, int seps, bool horiz)
+	//TODO: fix if min == max (crashes)
+	protected void paintGrid (double min, double max, int seps, bool horiz)
 	{
 		LogB.Information(string.Format("paintGrid: {0}, {1}, {2}, {3}", min, max, seps, horiz));
+
+		//TODO: improve this
+		if(min == max)
+			return;
+
 		//show 5 steps positive, 5 negative (if possible)
 		int temp = Convert.ToInt32(Util.DivideSafe(max - min, seps));
 		int step = temp;
@@ -391,22 +340,22 @@ public class JumpsDjOptimalFallGraph
 		g.Restore();
 	}
 
-	private double calculatePaintX(double currentValue, int ancho, double maxValue, double minValue, int rightMargin, int leftMargin)
+	protected double calculatePaintX(double currentValue, int ancho, double maxValue, double minValue, int rightMargin, int leftMargin)
 	{
                 return leftMargin + (currentValue - minValue) * (ancho - rightMargin - leftMargin) / (maxValue - minValue);
         }
 
-	private double calculatePaintY(double currentValue, int alto, double maxValue, double minValue, int topMargin, int bottomMargin)
+	protected double calculatePaintY(double currentValue, int alto, double maxValue, double minValue, int topMargin, int bottomMargin)
 	{
                 return alto - bottomMargin - ((currentValue - minValue) * (alto - topMargin - bottomMargin) / (maxValue - minValue));
         }
 
-	private Cairo.Color colorFromRGB(int red, int green, int blue)
+	protected Cairo.Color colorFromRGB(int red, int green, int blue)
 	{
 		return new Cairo.Color(red/256.0, green/256.0, blue/256.0);
 	}
 
-	private void printText (int x, int y, int height, int textHeight, string text, Cairo.Context g, bool centered)
+	protected void printText (int x, int y, int height, int textHeight, string text, Cairo.Context g, bool centered)
 	{
 		int moveToLeft = 0;
 		if(centered)

@@ -9,12 +9,16 @@ SOURCES = \
 	gui/app1/chronojumpIcons.cs\
 	gui/app1/jumpsProfile.cs\
 	gui/app1/jumpsDjOptimalFall.cs\
+	gui/app1/jumpsWeightFVProfile.cs\
 	gui/app1/contactsExercise.cs\
 	gui/app1/forceSensor.cs\
 	gui/app1/jump.cs\
 	gui/app1/pulse.cs\
 	gui/app1/reactionTime.cs\
 	gui/app1/run.cs\
+	gui/cairo/xy.cs\
+	gui/cairo/jumpsDjOptimalFall.cs\
+	gui/cairo/jumpsWeightFVProfile.cs\
 	gui/chronojumpImporter.cs\
 	gui/chronojumpPersons.cs\
 	gui/chronopic.cs\
@@ -38,7 +42,6 @@ SOURCES = \
 	gui/guiTests.cs\
 	gui/jump.cs\
 	gui/jumpsProfile.cs\
-	gui/jumpsDjOptimalFall.cs\
 	gui/jumpType.cs\
 	gui/restTime.cs\
 	gui/run.cs\
@@ -178,6 +181,7 @@ SOURCES = \
 	jump.cs\
 	jumpsProfile.cs\
 	jumpsDjOptimalFall.cs\
+	jumpsWeightFVProfile.cs\
 	jumpType.cs\
 	networks.cs\
 	person.cs\

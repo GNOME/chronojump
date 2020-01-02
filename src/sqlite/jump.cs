@@ -307,28 +307,28 @@ class SqliteJump : Sqlite
 	  List<Jump> jmp_l = new List<Jump>();
 	  Jump jmp;
 
-		LogB.Information("Imprimire Jumps:");
+	  LogB.Information("Imprimire Jumps:");
 	  while(reader.Read()) {
-	    jmp = new Jump (
-	        Convert.ToInt32(reader[0].ToString()),              //uniqueID
-	        Convert.ToInt32(reader[1].ToString()),	            //personID
-	        Convert.ToInt32(reader[2].ToString()),	            //sessionID
-	        reader[3].ToString(),                               //type
-	        Convert.ToDouble(Util.ChangeDecimalSeparator(
-	            reader[4].ToString())),                         //tv
-	        Convert.ToDouble(Util.ChangeDecimalSeparator(
-	            reader[5].ToString())),                          //tc
-	        Convert.ToDouble(Util.ChangeDecimalSeparator(
-	            reader[6].ToString())),                          //fall
-					Convert.ToDouble(Util.ChangeDecimalSeparator(
-			          reader[6].ToString())),                        //weight
-	        reader[8].ToString(),                                // description
-	        Convert.ToDouble(Util.ChangeDecimalSeparator(
-	            reader[9].ToString())),                          //angle
-	        Convert.ToInt32(reader[10].ToString()));              //simulated
+		  jmp = new Jump (
+				  Convert.ToInt32(reader[0].ToString()),              //uniqueID
+				  Convert.ToInt32(reader[1].ToString()),	            //personID
+				  Convert.ToInt32(reader[2].ToString()),	            //sessionID
+				  reader[3].ToString(),                               //type
+				  Convert.ToDouble(Util.ChangeDecimalSeparator(
+						  reader[4].ToString())),                         //tv
+				  Convert.ToDouble(Util.ChangeDecimalSeparator(
+						  reader[5].ToString())),                          //tc
+				  Convert.ToDouble(Util.ChangeDecimalSeparator(
+						  reader[6].ToString())),                          //fall
+				  Convert.ToDouble(Util.ChangeDecimalSeparator(
+						  reader[7].ToString())),                        //weight
+				  reader[8].ToString(),                                // description
+				  Convert.ToDouble(Util.ChangeDecimalSeparator(
+						  reader[9].ToString())),                          //angle
+				  Convert.ToInt32(reader[10].ToString()));              //simulated
 
-	    jmp_l.Add(jmp);
-			LogB.Information(jmp.ToString());
+		  jmp_l.Add(jmp);
+		  LogB.Information(jmp.ToString());
 	  }
 	  return jmp_l;
 	}

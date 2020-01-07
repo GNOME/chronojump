@@ -3197,6 +3197,7 @@ public partial class ChronoJumpWindow
 
 				if(radio_mode_contacts_analyze.Active)
 				{
+					radio_mode_contacts_sprint.Active = true;
 					arrow_contacts_sup_capture_analyze.Visible = true;
 					radio_mode_contacts_jumps_advanced.Visible = true;
 					radio_mode_contacts_sprint.Visible = true;
@@ -7088,7 +7089,10 @@ LogB.Debug("mc finished 5");
 				}
 			}
 			else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
+			{
+				radio_mode_contacts_sprint.Active = true;
 				radio_mode_contacts_sprint.Visible = true;
+			}
 		}
 		else if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR)
 			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.FORCESENSOR);

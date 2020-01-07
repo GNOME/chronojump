@@ -51,8 +51,11 @@ SOURCES = \
 	gui/pulse.cs\
 	gui/multiChronopic.cs\
 	gui/overview.cs\
-	gui/person.cs\
-	gui/personSelect.cs\
+	gui/person/addModify.cs\
+	gui/person/addMultiple.cs\
+	gui/person/personSelect.cs\
+	gui/person/recuperate.cs\
+	gui/person/showAllEvents.cs\
 	gui/preferences.cs\
 	gui/sendLog.cs\
 	gui/session/addEdit.cs\

@@ -30,6 +30,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.DrawingArea drawingarea_jumps_profile;
 	[Widget] Gtk.Image image_tab_jumps_profile;
 	[Widget] Gtk.Image image_jumps_profile_save;
+	[Widget] Gtk.Button button_jumps_profile_save_image;
 
 	[Widget] Gtk.HBox hbox_jumps_profile_jumps_done;
 	[Widget] Gtk.Image image_jumps_profile_sj_yes;
@@ -50,7 +51,10 @@ public partial class ChronoJumpWindow
 	{
 		if(currentPerson == null || currentSession == null ||
 				drawingarea_jumps_profile == null || drawingarea_jumps_profile.GdkWindow == null) //it happens at start on click on analyze
+		{
+			button_jumps_profile_save_image.Sensitive = false;
 			return;
+		}
 		
 		if(jumpsProfile == null) {
 			jumpsProfile = new JumpsProfile();
@@ -62,8 +66,10 @@ public partial class ChronoJumpWindow
 			jumpsProfile.Calculate(currentPerson.UniqueID, currentSession.UniqueID);
 
 			if(jumpsProfile.AllJumpsDone)
+			{
 				hbox_jumps_profile_jumps_done.Visible = false;
-			else {
+				button_jumps_profile_save_image.Sensitive = true;
+			} else {
 				hbox_jumps_profile_jumps_done.Visible = true;
 				JumpsProfileGraph.ShowDoneJumps(jumpsProfile.JumpsDone,
 						image_jumps_profile_sj_yes, image_jumps_profile_sj_no,
@@ -72,6 +78,7 @@ public partial class ChronoJumpWindow
 						image_jumps_profile_abk_yes, image_jumps_profile_abk_no,
 						image_jumps_profile_dja_yes, image_jumps_profile_dja_no
 						);
+				button_jumps_profile_save_image.Sensitive = false;
 			}
 		}
 

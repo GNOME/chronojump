@@ -810,7 +810,10 @@ public partial class ChronoJumpWindow
 					Constants.SportUndefinedID,
 					Constants.SpeciallityUndefinedID,
 					Constants.LevelUndefinedID,
-					"", false); //comments, dbconOpened
+					"", 	//comments
+					Constants.TrochanterToeUndefinedID,
+					Constants.TrochanterFloorOnFlexionUndefinedID,
+					false); //dbconOpened
 		else
 			currentPersonSession = ps;
 	}

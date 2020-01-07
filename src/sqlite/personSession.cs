@@ -47,14 +47,14 @@ class SqlitePersonSession : Sqlite
 			"speciallityID INT, " +
 			"practice INT, " + //also called "level"
 			"comments TEXT, " +
-			"future1 TEXT, " +
-			"future2 TEXT)";
+			"future1 TEXT, " + 	//since Chronojump 2.0 trochanterToe
+			"future2 TEXT)"; 	//since Chronojump 2.0 trochanterFloorOnFlexion
 		dbcmd.ExecuteNonQuery();
 	 }
 
 	public static int Insert(bool dbconOpened, string uniqueID, int personID, int sessionID, 
 			double height, double weight, int sportID, int speciallityID, int practice,
-			string comments) 
+			string comments, double trochanterToe, double trochanterFloorOnFlexion)
 	{
 		if(!dbconOpened)
 			Sqlite.Open();
@@ -71,8 +71,9 @@ class SqlitePersonSession : Sqlite
 		        " VALUES ("
 			+ uniqueID + ", " + personID + ", " + sessionID + ", " + 
 			Util.ConvertToPoint(height) + ", " + Util.ConvertToPoint(weight) + ", " +
-			sportID + ", " + speciallityID + ", " + practice + ", \"" + 
-			comments + "\", \"\", \"\")"; 
+			sportID + ", " + speciallityID + ", " + practice + ", \"" + comments + "\", " +
+			Util.ConvertToPoint(trochanterToe) + ", " +
+			Util.ConvertToPoint(trochanterFloorOnFlexion) + ")";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -152,7 +153,9 @@ class SqlitePersonSession : Sqlite
 			", speciallityID = " + ps.SpeciallityID + 
 			", practice = " + ps.Practice + 
 			", comments = \"" + ps.Comments + 
-			"\" WHERE uniqueID == " + ps.UniqueID;
+			"\", future1 = " + Util.ConvertToPoint(ps.TrochanterToe) +
+			", future2 = " + Util.ConvertToPoint(ps.TrochanterFloorOnFlexion) +
+			" WHERE uniqueID == " + ps.UniqueID;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();
@@ -241,7 +244,9 @@ class SqlitePersonSession : Sqlite
 					Convert.ToInt32(reader[5].ToString()), 	//sportID
 					Convert.ToInt32(reader[6].ToString()), 	//speciallityID
 					Convert.ToInt32(reader[7].ToString()),	//practice
-					reader[8].ToString() 			//comments
+					reader[8].ToString(), 			//comments
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[9].ToString())), //trochanterToe
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[10].ToString())) //trochanterFloorOnFlexion
 					); 
 		}
 		
@@ -301,7 +306,9 @@ class SqlitePersonSession : Sqlite
 						Convert.ToInt32(reader[15].ToString()), 	//sportID
 						Convert.ToInt32(reader[16].ToString()), 	//speciallityID
 						Convert.ToInt32(reader[17].ToString()),	//practice
-						reader[18].ToString() 			//comments
+						reader[18].ToString(), 			//comments
+						Convert.ToDouble(Util.ChangeDecimalSeparator(reader[19].ToString())), //trochanterToe
+						Convert.ToDouble(Util.ChangeDecimalSeparator(reader[20].ToString())) //trochanterFloorOnFlexion
 						);
 				myArray.Add(new PersonAndPS(person, ps));
 				
@@ -339,7 +346,9 @@ class SqlitePersonSession : Sqlite
 					Convert.ToInt32(reader[5].ToString()), 	//sportID
 					Convert.ToInt32(reader[6].ToString()), 	//speciallityID
 					Convert.ToInt32(reader[7].ToString()),	//practice
-					reader[8].ToString() 			//comments
+					reader[8].ToString(), 			//comments
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[9].ToString())), //trochanterToe
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[10].ToString())) //trochanterFloorOnFlexion
 					);
 			list.Add(ps);
 		}

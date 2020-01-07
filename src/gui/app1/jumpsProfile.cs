@@ -49,7 +49,7 @@ public partial class ChronoJumpWindow
 	private void jumpsProfileDo (bool calculateData)
 	{
 		if(currentPerson == null || currentSession == null ||
-				drawingarea_jumps_profile == null) //it happens at start on click on analyze
+				drawingarea_jumps_profile == null || drawingarea_jumps_profile.GdkWindow == null) //it happens at start on click on analyze
 			return;
 		
 		if(jumpsProfile == null) {

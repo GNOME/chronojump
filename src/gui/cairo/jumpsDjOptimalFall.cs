@@ -29,14 +29,14 @@ using Cairo;
 public class JumpsDjOptimalFallGraph : CairoXY
 {
 	//constructor when there are no points
-	public JumpsDjOptimalFallGraph (DrawingArea area)//, string title, string jumpType, string date)
+	public JumpsDjOptimalFallGraph (DrawingArea area, string jumpType)//, string title, string jumpType, string date)
 	{
 		this.area = area;
 
 		initGraph();
 
 		g.SetFontSize(16);
-		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight, "Need to execute jumps DjOptimalFall", g, true);
+		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight, "Need to execute jumps: " + jumpType, g, true);
 
 		endGraph();
 	}

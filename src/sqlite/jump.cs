@@ -378,7 +378,7 @@ class SqliteJump : Sqlite
 
 	//TODO: too similar to above method, unify them
 	//TODO: note we do not want % weight, we want absolute weight so we need to select on personSession77 table
-	public static List<Jump> SelectWeightJumps (int pID, int sID, string jumpType, bool onlyHigherOfSameWeight)
+	public static List<Jump> SelectJumpsWeightFVProfile (int pID, int sID, bool onlyHigherOfSameWeight)
 	{
 	  string personID = pID.ToString();
 	  string sessionID = sID.ToString();
@@ -387,7 +387,7 @@ class SqliteJump : Sqlite
 
 	  // Selecciona les dades de tots els salts
 	  dbcmd.CommandText = "SELECT * FROM jump WHERE personID = " + personID +
-	  " AND sessionID = " + sessionID  +  " AND jump.type = \"" + jumpType + "\"";
+	  " AND sessionID = " + sessionID  +  " AND (jump.type = \"SJ\" OR jump.type = \"SJl\")";
 
 	  if(onlyHigherOfSameWeight)
 		  dbcmd.CommandText += " ORDER BY weight DESC, tv DESC";

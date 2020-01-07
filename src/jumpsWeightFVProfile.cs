@@ -31,10 +31,10 @@ public class JumpsWeightFVProfile
 	{
 	}
 	
-	public void Calculate (int personID, int sessionID, string jumpType)
+	public void Calculate (int personID, int sessionID) //, string jumpType)
 	{
 		//1 get data
-                List<Jump> jump_l = SqliteJump.SelectWeightJumps (personID, sessionID, jumpType, false); //TODO:true);
+                List<Jump> jump_l = SqliteJump.SelectJumpsWeightFVProfile (personID, sessionID, false); //TODO:true);
 
 		//2 convert to list of Point
 		//List<Point> point_l = new List<Point>();

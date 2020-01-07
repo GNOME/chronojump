@@ -39,7 +39,8 @@ public abstract class CairoXY
 
 	protected Cairo.Context g;
 	protected const int textHeight = 12;
-	protected string axisRightLabel = "";
+	protected string axisYLabel = "";
+	protected string axisXLabel = "";
 
 	double minX = 1000000;
 	double maxX = 0;
@@ -54,14 +55,16 @@ public abstract class CairoXY
 	Cairo.Color blue;
 
 	//for all 4 sides
-	const int outerMargins = 30; //blank space outside the axis
-	const int innerMargins = 30; //space between the axis and the real coordinates
-	const int totalMargins = outerMargins + innerMargins;
+	protected int outerMargins = 30; //blank space outside the axis
+	int innerMargins = 30; //space between the axis and the real coordinates
+	int totalMargins;
 
 	public abstract void Do();
 
 	protected void initGraph()
 	{
+		totalMargins = outerMargins + innerMargins;
+
 		//1 create context
 		g = Gdk.CairoHelper.Create (area.GdkWindow);
 		
@@ -138,8 +141,8 @@ public abstract class CairoXY
 		g.LineTo(outerMargins, graphHeight - outerMargins);
 		g.LineTo(graphWidth - outerMargins, graphHeight - outerMargins);
 		g.Stroke ();
-		printText(2, Convert.ToInt32(outerMargins/2), 0, textHeight, "Height (cm)", g, false);
-		printText(graphWidth - Convert.ToInt32(outerMargins/2), graphHeight - outerMargins, 0, textHeight, axisRightLabel, g, false);
+		printText(2, Convert.ToInt32(outerMargins/2), 0, textHeight, axisYLabel, g, false);
+		printText(graphWidth - Convert.ToInt32(outerMargins/2), graphHeight - outerMargins, 0, textHeight, axisXLabel, g, false);
 
 		paintGrid (minX, absoluteMaxX, minY, absoluteMaxY, 5);
 	}

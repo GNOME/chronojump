@@ -28,7 +28,7 @@ using Cairo;
 
 public class JumpsWeightFVProfileGraph : CairoXY
 {
-	public enum ErrorAtStart { NEEDPERSONLEGPARAMS, NEEDJUMPS }
+	public enum ErrorAtStart { NEEDLEGPARAMS, BADLEGPARAMS, NEEDJUMPS }
 
 	//constructor when there are no points
 	public JumpsWeightFVProfileGraph (DrawingArea area, ErrorAtStart error)//, string title, string jumpType, string date)
@@ -38,10 +38,12 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		initGraph();
 
 		string message = "";
-		if(error == ErrorAtStart.NEEDPERSONLEGPARAMS)
-			message = "Need to fill person's leg parameters";
+		if(error == ErrorAtStart.NEEDLEGPARAMS)
+			message = "Need to fill person's leg parameters.";
+		else if(error == ErrorAtStart.BADLEGPARAMS)
+			message = "Person's leg parameters are incorrect.";
 		else //if(error == ErrorAtStart.NEEDJUMPS)
-			message = "Need to execute jumps SJl and/or SJ";
+			message = "Need to execute jumps SJl and/or SJ.";
 
 		g.SetFontSize(16);
 		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight, message, g, true);
@@ -71,7 +73,9 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		//this.jumpType = jumpType;
 		this.date = date;
 
-		axisRightLabel = "Speed (m/s)";
+		outerMargins = 50; //blank space outside the axis
+		axisYLabel = "Force (N)";
+		axisXLabel = "Speed (m/s)";
 	}
 
 	public override void Do()

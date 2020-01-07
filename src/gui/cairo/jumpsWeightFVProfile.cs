@@ -28,15 +28,23 @@ using Cairo;
 
 public class JumpsWeightFVProfileGraph : CairoXY
 {
+	public enum ErrorAtStart { NEEDPERSONLEGPARAMS, NEEDJUMPS }
+
 	//constructor when there are no points
-	public JumpsWeightFVProfileGraph (DrawingArea area)//, string title, string jumpType, string date)
+	public JumpsWeightFVProfileGraph (DrawingArea area, ErrorAtStart error)//, string title, string jumpType, string date)
 	{
 		this.area = area;
 
 		initGraph();
 
+		string message = "";
+		if(error == ErrorAtStart.NEEDPERSONLEGPARAMS)
+			message = "Need to fill person's leg parameters";
+		else //if(error == ErrorAtStart.NEEDJUMPS)
+			message = "Need to execute jumps SJl and/or SJ";
+
 		g.SetFontSize(16);
-		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight, "Need to execute jumps weightFV", g, true);
+		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight, message, g, true);
 
 		endGraph();
 	}
@@ -48,7 +56,8 @@ public class JumpsWeightFVProfileGraph : CairoXY
 			//double xAtMMaxY, //x at Model MaxY
 			//double pointsMaxValue,
 			DrawingArea area,
-			string title, string jumpType, string date)
+			string title, //string jumpType,
+			string date)
 	{
 		this.point_l = point_l;
 		this.coefs = coefs;
@@ -59,10 +68,10 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		*/
 		this.area = area;
 		this.title = title;
-		this.jumpType = jumpType;
+		//this.jumpType = jumpType;
 		this.date = date;
 
-		axisRightLabel = "Weight (%)";
+		axisRightLabel = "Speed (m/s)";
 	}
 
 	public override void Do()

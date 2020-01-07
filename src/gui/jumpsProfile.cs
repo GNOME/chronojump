@@ -55,6 +55,7 @@ public static class JumpsProfileGraph
 
 	public static void Do (List<JumpsProfileIndex> l_jpi, DrawingArea area, string title, string date)
 	{
+		//LogB.Information(string.Format("is area null: {0}", (area == null)));
 		//1 create context
 		Cairo.Context g = Gdk.CairoHelper.Create (area.GdkWindow);
 		

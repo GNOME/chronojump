@@ -90,10 +90,10 @@ public partial class ChronoJumpWindow
 
 	//radio group
 	[Widget] Gtk.Arrow arrow_contacts_sup_capture_analyze;
-	[Widget] Gtk.RadioButton radio_mode_contacts_general;
 	[Widget] Gtk.RadioButton radio_mode_contacts_jumps_profile;
 	[Widget] Gtk.RadioButton radio_mode_contacts_jumps_dj_optimal_fall;
 	[Widget] Gtk.RadioButton radio_mode_contacts_jumps_weight_fv_profile;
+	[Widget] Gtk.RadioButton radio_mode_contacts_jumps_advanced;
 	[Widget] Gtk.RadioButton radio_mode_contacts_sprint;
 
 	[Widget] Gtk.Label label_sprint_person_name;
@@ -3105,12 +3105,12 @@ public partial class ChronoJumpWindow
 
 		button_contacts_bells.Sensitive = false;
 		radio_mode_contacts_capture.Active = true;
-		radio_mode_contacts_general.Active = true;
+		radio_mode_contacts_jumps_profile.Active = true;
 		arrow_contacts_sup_capture_analyze.Visible = false;
-		radio_mode_contacts_general.Visible = false;
 		radio_mode_contacts_jumps_profile.Visible = false;
 		radio_mode_contacts_jumps_dj_optimal_fall.Visible = false;
 		radio_mode_contacts_jumps_weight_fv_profile.Visible = false;
+		radio_mode_contacts_jumps_advanced.Visible = false;
 		radio_mode_contacts_sprint.Visible = false;
 		notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.STATISTICS);
 		button_inspect_last_test_run_intervallic.Visible = false;
@@ -3153,10 +3153,10 @@ public partial class ChronoJumpWindow
 				if(radio_mode_contacts_analyze.Active)
 				{
 					arrow_contacts_sup_capture_analyze.Visible = true;
-					radio_mode_contacts_general.Visible = true;
 					radio_mode_contacts_jumps_profile.Visible = true;
 					radio_mode_contacts_jumps_dj_optimal_fall.Visible = true;
 					radio_mode_contacts_jumps_weight_fv_profile.Visible = true;
+					radio_mode_contacts_jumps_advanced.Visible = true;
 				}
 			} else {
 				notebooks_change(m);
@@ -3198,7 +3198,7 @@ public partial class ChronoJumpWindow
 				if(radio_mode_contacts_analyze.Active)
 				{
 					arrow_contacts_sup_capture_analyze.Visible = true;
-					radio_mode_contacts_general.Visible = true;
+					radio_mode_contacts_jumps_advanced.Visible = true;
 					radio_mode_contacts_sprint.Visible = true;
 				}
 			}
@@ -7045,10 +7045,10 @@ LogB.Debug("mc finished 5");
 			return;
 
 		arrow_contacts_sup_capture_analyze.Visible = false;
-		radio_mode_contacts_general.Visible = false;
 		radio_mode_contacts_jumps_profile.Visible = false;
 		radio_mode_contacts_jumps_dj_optimal_fall.Visible = false;
 		radio_mode_contacts_jumps_weight_fv_profile.Visible = false;
+		radio_mode_contacts_jumps_advanced.Visible = false;
 		radio_mode_contacts_sprint.Visible = false;
 
 		notebook_capture_analyze.CurrentPage = 0;
@@ -7062,7 +7062,7 @@ LogB.Debug("mc finished 5");
 				current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
 		{
 			arrow_contacts_sup_capture_analyze.Visible = true;
-			radio_mode_contacts_general.Visible = true;
+			radio_mode_contacts_jumps_advanced.Visible = true;
 
 			if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
 			{
@@ -7100,11 +7100,6 @@ LogB.Debug("mc finished 5");
 		notebook_capture_analyze.CurrentPage = 1;
 	}
 
-	private void on_radio_mode_contacts_general_toggled (object o, EventArgs args)
-	{
-		if(radio_mode_contacts_general.Active)
-			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.STATISTICS);
-	}
 	private void on_radio_mode_contacts_jumps_profile_toggled (object o, EventArgs args)
 	{
 		if(radio_mode_contacts_jumps_profile.Active)
@@ -7128,6 +7123,11 @@ LogB.Debug("mc finished 5");
 			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.JUMPSWEIGHTFVPROFILE);
 			jumpsWeightFVProfileDo(true);
 		}
+	}
+	private void on_radio_mode_contacts_jumps_advanced_toggled (object o, EventArgs args)
+	{
+		if(radio_mode_contacts_jumps_advanced.Active)
+			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.STATISTICS);
 	}
 	private void on_radio_mode_contacts_sprint_toggled (object o, EventArgs args)
 	{

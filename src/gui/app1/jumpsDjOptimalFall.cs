@@ -31,6 +31,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_jumps_dj_optimal_fall_save;
 	[Widget] Gtk.HBox hbox_combo_select_jumps_dj_optimal_fall;
 	[Widget] Gtk.ComboBox combo_select_jumps_dj_optimal_fall;
+	[Widget] Gtk.Button button_jumps_dj_optimal_fall_save_image;
 
 	JumpsDjOptimalFall jumpsDjOptimalFall;
 	CjComboSelectJumps comboSelectJumpsDjOptimalFall;
@@ -62,8 +63,11 @@ public partial class ChronoJumpWindow
 	private void jumpsDjOptimalFallDo (bool calculateData)
 	{
 		if(currentPerson == null || currentSession == null)
+		{
+			button_jumps_dj_optimal_fall_save_image.Sensitive = false;
 			return;
-		
+		}
+
 		if(jumpsDjOptimalFall == null) {
 			jumpsDjOptimalFall = new JumpsDjOptimalFall();
 			calculateData = true;
@@ -79,6 +83,9 @@ public partial class ChronoJumpWindow
 			//constructor for showing blank screen with a message
 			new JumpsDjOptimalFallGraph(drawingarea_jumps_dj_optimal_fall, jumpType);
 					//currentPerson.Name, jumpType, currentSession.DateShort);
+
+			button_jumps_dj_optimal_fall_save_image.Sensitive = false;
+
 		} else {
 			//regular constructor
 			JumpsDjOptimalFallGraph jdofg = new JumpsDjOptimalFallGraph(
@@ -90,6 +97,8 @@ public partial class ChronoJumpWindow
 					drawingarea_jumps_dj_optimal_fall,
 					currentPerson.Name, jumpType, currentSession.DateShort);
 			jdofg.Do();
+
+			button_jumps_dj_optimal_fall_save_image.Sensitive = true;
 		}
 	}
 	private void on_drawingarea_jumps_dj_optimal_fall_expose_event (object o, ExposeEventArgs args) 

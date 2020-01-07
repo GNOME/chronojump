@@ -31,6 +31,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_jumps_weight_fv_profile_save;
 	[Widget] Gtk.HBox hbox_combo_select_jumps_weight_fv_profile;
 	[Widget] Gtk.ComboBox combo_select_jumps_weight_fv_profile;
+	[Widget] Gtk.Button button_jumps_weight_fv_profile_save_image;
 
 	JumpsWeightFVProfile jumpsWeightFVProfile;
 	CjComboSelectJumps comboSelectJumpsWeightFVProfile;
@@ -65,6 +66,8 @@ public partial class ChronoJumpWindow
 
 	private void jumpsWeightFVProfileDo (bool calculateData)
 	{
+		button_jumps_weight_fv_profile_save_image.Sensitive = false;
+
 		if(currentPerson == null || currentPersonSession == null || currentSession == null)
 			return;
 		
@@ -112,6 +115,8 @@ public partial class ChronoJumpWindow
 					currentPerson.Name, //jumpType,
 					currentSession.DateShort);
 			jwfv.Do();
+
+			button_jumps_weight_fv_profile_save_image.Sensitive = true;
 		}
 	}
 	private void on_drawingarea_jumps_weight_fv_profile_expose_event (object o, ExposeEventArgs args) 

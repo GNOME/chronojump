@@ -827,6 +827,9 @@ public class Constants
 		};
 	}
 
+	public static double TrochanterToeUndefinedID = 0;
+	public static double TrochanterFloorOnFlexionUndefinedID = 0;
+
 	public static string [] SplashMessages = {
 		"Initializing",			//0
 		"Checking database",		//1

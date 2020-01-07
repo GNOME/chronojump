@@ -578,7 +578,11 @@ public class Constants
 	public static string GraphPaletteGray = "gray.colors";
 	public static string GraphPaletteBlackStr()
 	{
-		return Catalog.GetString("black only");
+		//return Catalog.GetString("black only");
+		//not show translated because on app1 creation, this is written in English
+		//and then on check if is the selected then some params change
+		//and we need to ensure that no space arrives to R
+		return "black";
 	}
 	public static string [] GraphPalettes = { GraphPaletteBlackStr(), GraphPaletteGray, "rainbow",
 		"topo.colors", "heat.colors", "terrain.colors", "cm.colors"};

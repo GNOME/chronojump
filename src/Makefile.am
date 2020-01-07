@@ -18,6 +18,7 @@ SOURCES = \
 	gui/app1/run.cs\
 	gui/cairo/xy.cs\
 	gui/cairo/jumpsDjOptimalFall.cs\
+	gui/cairo/jumpsProfile.cs\
 	gui/cairo/jumpsWeightFVProfile.cs\
 	gui/chronojumpImporter.cs\
 	gui/chronojumpPersons.cs\
@@ -41,7 +42,6 @@ SOURCES = \
 	gui/forceSensorExercise.cs\
 	gui/guiTests.cs\
 	gui/jump.cs\
-	gui/jumpsProfile.cs\
 	gui/jumpType.cs\
 	gui/restTime.cs\
 	gui/run.cs\

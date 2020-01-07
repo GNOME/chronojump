@@ -34,6 +34,8 @@ public class PersonSession {
 	private int speciallityID;
 	private int practice;	//-1 undefined, sedentary, 1 regular practice, 2 competition, 3 (alto rendimiento)
 	private string comments;
+	private double trochanterToe;
+	private double trochanterFloorOnFlexion;
 
 	
 	public PersonSession()
@@ -45,7 +47,8 @@ public class PersonSession {
 	public PersonSession(int uniqueID,
 			int personID, int sessionID,
 			double height, double weight, int sportID, 
-			int speciallityID, int practice, string comments)
+			int speciallityID, int practice, string comments,
+			double trochanterToe, double trochanterFloorOnFlexion)
 	{
 		comments = Util.RemoveTildeAndColon(comments);
 
@@ -58,6 +61,8 @@ public class PersonSession {
 		this.speciallityID = speciallityID;
 		this.practice = practice;
 		this.comments = comments;
+		this.trochanterToe = trochanterToe;
+		this.trochanterFloorOnFlexion = trochanterFloorOnFlexion;
 	}
 
 	//creation
@@ -65,7 +70,9 @@ public class PersonSession {
 	//this adds to personSession77 table in database
 	public PersonSession(int personID, int sessionID,
 			double height, double weight, int sportID, 
-			int speciallityID, int practice, string comments, bool dbconOpened)
+			int speciallityID, int practice, string comments,
+			double trochanterToe, double trochanterFloorOnFlexion,
+			bool dbconOpened)
 	{
 		comments = Util.RemoveTildeAndColon(comments);
 
@@ -77,6 +84,8 @@ public class PersonSession {
 		this.speciallityID = speciallityID;
 		this.practice = practice;
 		this.comments = comments;
+		this.trochanterToe = trochanterToe;
+		this.trochanterFloorOnFlexion = trochanterFloorOnFlexion;
 		
 		//insert in the personSession table
 		//when insert as personSession we don't know uniqueID
@@ -92,7 +101,8 @@ public class PersonSession {
 				uniqueID.ToString(),
 				personID, sessionID, height, weight,
 				sportID, speciallityID,
-				practice, comments);
+				practice, comments,
+				trochanterToe, trochanterFloorOnFlexion);
 		return myID;
 	}
 	
@@ -113,7 +123,9 @@ public class PersonSession {
 		return uniqueIDStr + ", " + personID + ", " + sessionID + ", " +
 			Util.ConvertToPoint(height) + ", " + Util.ConvertToPoint(weight) + ", " +
 			sportID + ", " + speciallityID + ", " + practice + ", '" + 
-			comments + "', '', ''"; 
+			comments + ", " +
+			Util.ConvertToPoint(trochanterToe) + ", " +
+			Util.ConvertToPoint(trochanterFloorOnFlexion);
 	}
 
 	//some "set"s are needed. If not data of personSession does not arrive to the server
@@ -161,6 +173,16 @@ public class PersonSession {
 	public string Comments {
 		get { return comments; }
 		set { comments = value; }
+	}
+
+	public double TrochanterToe {
+		get { return trochanterToe; }
+		set { trochanterToe = value; }
+	}
+
+	public double TrochanterFloorOnFlexion {
+		get { return trochanterFloorOnFlexion; }
+		set { trochanterFloorOnFlexion = value; }
 	}
 
 

@@ -3149,7 +3149,9 @@ class Sqlite
 						pOld.SportID,
 						pOld.SpeciallityID,
 						pOld.Practice,
-						"" 		//comments
+						"", 		//comments
+						Constants.TrochanterToeUndefinedID,
+						Constants.TrochanterFloorOnFlexionUndefinedID
 						);
 				ps.InsertAtDB(true, Constants.PersonSessionTable);
 				conversionSubRate ++;

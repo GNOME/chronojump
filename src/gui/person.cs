@@ -252,7 +252,9 @@ public class PersonRecuperateWindow {
 					myPS.Height, myPS.Weight, 
 					myPS.SportID, myPS.SpeciallityID,
 					myPS.Practice,
-					myPS.Comments, 
+					myPS.Comments,
+					myPS.TrochanterToe,
+					myPS.TrochanterFloorOnFlexion,
 					false); //dbconOpened
 						
 			store = new TreeStore( typeof (string), typeof (string), typeof (string), typeof (string), typeof (string) );
@@ -568,7 +570,8 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 					personSessions.Add(new PersonSession(
 								psID ++, currentPerson.UniqueID, currentSession.UniqueID, 
 								currentPersonSession.Height, currentPersonSession.Weight, currentPersonSession.SportID, 
-								currentPersonSession.SpeciallityID, currentPersonSession.Practice, currentPersonSession.Comments)
+								currentPersonSession.SpeciallityID, currentPersonSession.Practice, currentPersonSession.Comments,
+								currentPersonSession.TrochanterToe, currentPersonSession.TrochanterFloorOnFlexion)
 							);
 
 					inserted ++;
@@ -823,8 +826,10 @@ public class PersonAddModifyWindow
 	//[Widget] Gtk.Button button_change_date;
 	[Widget] Gtk.Image image_calendar;
 
-	[Widget] Gtk.SpinButton spinbutton_height;
 	[Widget] Gtk.SpinButton spinbutton_weight;
+	[Widget] Gtk.SpinButton spinbutton_height;
+	[Widget] Gtk.SpinButton spinbutton_leg_length;
+	[Widget] Gtk.SpinButton spinbutton_trochanter_floor_on_flexion;
 	
 	[Widget] Gtk.Box hbox_combo_sports;
 	[Widget] Gtk.ComboBox combo_sports;
@@ -1417,8 +1422,10 @@ public class PersonAddModifyWindow
 			//PERSONSESSION STUFF
 			PersonSession myPS = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
 
-			spinbutton_height.Value = myPS.Height;
 			spinbutton_weight.Value = myPS.Weight;
+			spinbutton_height.Value = myPS.Height;
+			spinbutton_leg_length.Value = myPS.TrochanterToe; //future1: altura trochanter - punta del pie en extension
+			spinbutton_trochanter_floor_on_flexion.Value = myPS.TrochanterFloorOnFlexion; //future2: altura trochanter - suelo en flexión
 
 			weightIni = myPS.Weight; //store for tracking if changes
 		
@@ -1491,6 +1498,20 @@ public class PersonAddModifyWindow
 		on_entries_required_changed(new object(), new EventArgs());
 	}
 	
+	void on_button_weight_metric_clicked(object obj, EventArgs args)
+	{
+		genericWin = GenericWindow.Show(Catalog.GetString("Weight"),
+				Catalog.GetString("Select your weight in pounds"),
+				Constants.GenericWindowShow.SPINDOUBLE, true);
+		genericWin.Button_accept.Clicked += new EventHandler(on_button_weight_metric_accepted);
+	}
+	void on_button_weight_metric_accepted (object obj, EventArgs args)
+	{
+		genericWin.Button_accept.Clicked -= new EventHandler(on_button_weight_metric_accepted);
+
+		spinbutton_weight.Value = Util.ConvertPoundsToKg(genericWin.SpinDoubleSelected);
+	}
+
 	void on_button_height_metric_clicked(object obj, EventArgs args) 
 	{
 		genericWin = GenericWindow.Show(Catalog.GetString("Height"), Catalog.GetString("Select your height"), Constants.GenericWindowShow.HEIGHTMETRIC, true);
@@ -1507,20 +1528,37 @@ public class PersonAddModifyWindow
 		);
 	}
 	
-	void on_button_weight_metric_clicked(object obj, EventArgs args) 
+	void on_button_leg_length_metric_clicked(object obj, EventArgs args)
 	{
-		genericWin = GenericWindow.Show(Catalog.GetString("Weight"),
-				Catalog.GetString("Select your weight in pounds"),
-				Constants.GenericWindowShow.SPINDOUBLE, true);
-		genericWin.Button_accept.Clicked += new EventHandler(on_button_weight_metric_accepted);
+		genericWin = GenericWindow.Show(Catalog.GetString("Height"), Catalog.GetString("Select your leg length"), Constants.GenericWindowShow.HEIGHTMETRIC, true);
+		genericWin.Button_accept.Clicked += new EventHandler(on_button_leg_length_metric_accepted);
 	}
-	void on_button_weight_metric_accepted (object obj, EventArgs args)
+	void on_button_leg_length_metric_accepted (object obj, EventArgs args)
 	{
-		genericWin.Button_accept.Clicked -= new EventHandler(on_button_weight_metric_accepted);
+		genericWin.Button_accept.Clicked -= new EventHandler(on_button_leg_length_metric_accepted);
 
-		spinbutton_weight.Value = Util.ConvertPoundsToKg(genericWin.SpinDoubleSelected);
+		string [] myStr = genericWin.TwoSpinSelected.Split(new char[] {':'});
+		spinbutton_leg_length.Value = Util.ConvertFeetInchesToCm(
+			Convert.ToInt32(myStr[0]),
+			Convert.ToDouble(myStr[1])
+		);
 	}
 
+	void on_button_trochanter_floor_on_flexion_metric_clicked(object obj, EventArgs args)
+	{
+		genericWin = GenericWindow.Show(Catalog.GetString("Height"), Catalog.GetString("Select your hips height on flexion"), Constants.GenericWindowShow.HEIGHTMETRIC, true);
+		genericWin.Button_accept.Clicked += new EventHandler(on_button_trochanter_floor_on_flexion_metric_accepted);
+	}
+	void on_button_trochanter_floor_on_flexion_metric_accepted (object obj, EventArgs args)
+	{
+		genericWin.Button_accept.Clicked -= new EventHandler(on_button_trochanter_floor_on_flexion_metric_accepted);
+
+		string [] myStr = genericWin.TwoSpinSelected.Split(new char[] {':'});
+		spinbutton_trochanter_floor_on_flexion.Value = Util.ConvertFeetInchesToCm(
+			Convert.ToInt32(myStr[0]),
+			Convert.ToDouble(myStr[1])
+		);
+	}
 
 	private void on_combo_sports_changed(object o, EventArgs args) {
 		if (o == null)
@@ -1802,6 +1840,8 @@ public class PersonAddModifyWindow
 				myPS.SportID, myPS.SpeciallityID,
 				myPS.Practice,
 				myPS.Comments,
+				myPS.TrochanterToe,
+				myPS.TrochanterFloorOnFlexion,
 				false); //dbconOpened
 
 		fakeButtonAccept.Click();
@@ -1859,7 +1899,10 @@ public class PersonAddModifyWindow
 					sport.UniqueID, 
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_speciallities), speciallities)),
 					Util.FetchID(UtilGtk.ComboGetActive(combo_levels)),
-					textview_ps_comments.Buffer.Text, false); //dbconOpened
+					textview_ps_comments.Buffer.Text,
+					(double) spinbutton_leg_length.Value,
+					(double) spinbutton_trochanter_floor_on_flexion.Value,
+					false); //dbconOpened
 			LogB.Information("inserted both");
 
 			//if we added photo while creating, filename is -1.png or -1.png, change name
@@ -1902,7 +1945,9 @@ public class PersonAddModifyWindow
 					sport.UniqueID, 
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_speciallities), speciallities)),
 					Util.FetchID(UtilGtk.ComboGetActive(combo_levels)),
-					textview_ps_comments.Buffer.Text);
+					textview_ps_comments.Buffer.Text,
+					(double) spinbutton_leg_length.Value,
+					(double) spinbutton_trochanter_floor_on_flexion.Value);
 
 			//3.- update in database
 			SqlitePersonSession.Update (currentPersonSession); 
@@ -2534,7 +2579,10 @@ public class PersonAddMultipleWindow {
 							currentSession.PersonsSportID,
 							currentSession.PersonsSpeciallityID,
 							currentSession.PersonsPractice,
-							"") 			//comments
+							"", 			//comments
+							Constants.TrochanterToeUndefinedID,
+							Constants.TrochanterFloorOnFlexionUndefinedID
+							)
 						);
 
 				personsCreatedCount ++;

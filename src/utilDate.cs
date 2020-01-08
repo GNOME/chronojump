@@ -105,4 +105,9 @@ public class UtilDate
 		return UtilAll.DigitsCreate(dt.Year,4) + "-" + Catalog.GetString(dt.ToString("MMMM"));
 	}
 
+	public static double DateTimeYearDayAsDouble(DateTime dt)
+	{
+		return dt.Year + UtilAll.DivideSafe(dt.DayOfYear, 360);
+	}
+
 }

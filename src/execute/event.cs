@@ -632,7 +632,7 @@ public class PhaseTime
 			strMode = "OUT (TF)";
 
 		//TODO: use a printf mode to have always same digits
-		return "\n" + Math.Round(Util.DivideSafe(duration, 1000.0), 3) + " - " + strMode;
+		return "\n" + Math.Round(UtilAll.DivideSafe(duration, 1000.0), 3) + " - " + strMode;
 	}
 
 	public bool IsContact

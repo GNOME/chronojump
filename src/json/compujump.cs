@@ -978,9 +978,9 @@ public class UploadEncoderDataObject
 			if(compareTo > highest)
 				highest = compareTo;
 
-			//LogB.Information(string.Format("Loss (con) of {0}; i: {1} is: {2}", by.ToString(), i++, Convert.ToInt32(Util.DivideSafe(100.0 * (highest - lowest), highest))));
+			//LogB.Information(string.Format("Loss (con) of {0}; i: {1} is: {2}", by.ToString(), i++, Convert.ToInt32(UtilAll.DivideSafe(100.0 * (highest - lowest), highest))));
 		}
-		return Convert.ToInt32(Util.DivideSafe(100.0 * (highest - lowest), highest));
+		return Convert.ToInt32(UtilAll.DivideSafe(100.0 * (highest - lowest), highest));
 	}
 }
 

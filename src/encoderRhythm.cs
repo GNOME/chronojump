@@ -328,15 +328,15 @@ public class EncoderRhythmExecute
 			textRest = "";
 
 			if(currentPhase == phases.REPETITION)
-				fraction = Util.DivideSafeFraction(phaseSeconds, encoderRhythm.RepSeconds);
+				fraction = UtilAll.DivideSafeFraction(phaseSeconds, encoderRhythm.RepSeconds);
 			if(currentPhase == phases.ECC)
 			{
-				fraction =  1 - Util.DivideSafeFraction(phaseSeconds, encoderRhythm.EccSeconds);
+				fraction =  1 - UtilAll.DivideSafeFraction(phaseSeconds, encoderRhythm.EccSeconds);
 				textRepetition = "Excentric";
 			}
 			if(currentPhase == phases.CON)
 			{
-				fraction = Util.DivideSafeFraction(phaseSeconds, encoderRhythm.ConSeconds);
+				fraction = UtilAll.DivideSafeFraction(phaseSeconds, encoderRhythm.ConSeconds);
 				textRepetition = "Concentric";
 			}
 			if(encoderRhythm.UseClusters())

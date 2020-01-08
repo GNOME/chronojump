@@ -769,16 +769,16 @@ public class ForceSensorCapturePoints
 		 * simmetrical positive / negative
 		return Convert.ToInt32(
 				(heightG/2)
-				- ( Util.DivideSafe((force * heightG), (1.0 * RealHeightG)) )
+				- ( UtilAll.DivideSafe((force * heightG), (1.0 * RealHeightG)) )
 				);
 				*/
 		return Convert.ToInt32(
 				heightG
-				- Util.DivideSafe(
+				- UtilAll.DivideSafe(
 						(force * (heightG - (marginTop + marginBottom))),
 						(1.0 * (RealHeightG + RealHeightGNeg))
 						)
-				- Util.DivideSafe(
+				- UtilAll.DivideSafe(
 						RealHeightGNeg * (heightG - (marginTop + marginBottom)),
 						(1.0 * (RealHeightG + RealHeightGNeg))
 						)
@@ -851,7 +851,7 @@ public class ForceSensorCapturePoints
 		}
 
 		double elapsedSeconds = times[countB]/1000000.0 - times[countA]/1000000.0;
-		return sum * Util.DivideSafe(elapsedSeconds, samples);
+		return sum * UtilAll.DivideSafe(elapsedSeconds, samples);
 	}
 	public void GetVariabilityAndAccuracy(int countA, int countB, int feedbackF, out double variability, out double feedbackDifference)
 	{
@@ -878,7 +878,7 @@ public class ForceSensorCapturePoints
 		for(int i = countA; i <= countB; i ++)
 			sum += Math.Abs(forces[i]-avg);
 
-		variability = Util.DivideSafe(sum, numSamples);
+		variability = UtilAll.DivideSafe(sum, numSamples);
 
 		// 3) Calculate difference.
 		// Average of the differences between force and average
@@ -888,7 +888,7 @@ public class ForceSensorCapturePoints
 		for(int i = countA; i <= countB; i ++)
 			sum += Math.Abs(forces[i]-feedbackF);
 
-		feedbackDifference = Util.DivideSafe(sum, numSamples);
+		feedbackDifference = UtilAll.DivideSafe(sum, numSamples);
 	}
 
 	public int MarginLeft
@@ -1500,7 +1500,7 @@ public class ForceSensorAnalyzeInstant
 
 		/*
 		 * note samples don't come at same time separation, so this does not work:
-		double px = Util.DivideSafe(
+		double px = UtilAll.DivideSafe(
 				(graphWidth - leftMargin - rightMargin) * currentPos,
 				totalPos -1); //-1 ok
 				//fscAIPoints.RealWidthG);
@@ -1509,7 +1509,7 @@ public class ForceSensorAnalyzeInstant
 		double currentTime = fscAIPoints.GetTimeAtCount(currentPos);
 		double lastTime = fscAIPoints.GetLastTime();
 
-		double px = Util.DivideSafe(
+		double px = UtilAll.DivideSafe(
 				(graphWidth - leftMargin - rightMargin) * currentTime,
 				lastTime);
 
@@ -1626,7 +1626,7 @@ public class ForceSensorAnalyzeInstant
 		y0 = height - y0;
 		y = height -y;
 
-		return Convert.ToInt32(Util.DivideSafe(y - y0 + x0*RFD, RFD));
+		return Convert.ToInt32(UtilAll.DivideSafe(y - y0 + x0*RFD, RFD));
 	}
 	*/
 
@@ -1641,7 +1641,7 @@ public class ForceSensorAnalyzeInstant
 		int pointYAfter = GetPxAtForce(GetForceAtCount(countRFDMax +1));
 
 		// 2) calculate the slope of the line that could pass across this points
-		double slope = Math.Abs( Util.DivideSafe( pointYAfter - pointYBefore,
+		double slope = Math.Abs( UtilAll.DivideSafe( pointYAfter - pointYBefore,
 					(1.0 * (pointXAfter- pointXBefore)) ) );
 
 		// 3) get the RFD point
@@ -1649,10 +1649,10 @@ public class ForceSensorAnalyzeInstant
 		int pointYRFD = GetPxAtForce(GetForceAtCount(countRFDMax));
 
 		// 4) calculate line that cross RFD point with calculated slope
-		lineXStart = pointXRFD - Convert.ToInt32(Util.DivideSafe(
+		lineXStart = pointXRFD - Convert.ToInt32(UtilAll.DivideSafe(
 					(graphHeight - pointYRFD),
 					slope));
-		lineXEnd = pointXRFD + Convert.ToInt32(Util.DivideSafe(
+		lineXEnd = pointXRFD + Convert.ToInt32(UtilAll.DivideSafe(
 					(pointYRFD - 0),
 					slope));
 		lineYStart = graphHeight;

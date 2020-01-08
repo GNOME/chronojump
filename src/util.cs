@@ -2045,42 +2045,6 @@ public class Util
 	}
 
 
-	//avoids divide by zero
-	//thought for being between 0, 1
-	//ideal for progressBars
-	public static double DivideSafeFraction (double num, double denom)
-	{
-		if(num == 0 || denom == 0)
-			return 0;
-
-		double result = num / denom;
-		
-		if(result > 1)
-			result = 1;
-		else if(result < 0)
-			result = 0;
-
-		return result;
-	}
-	
-	public static double DivideSafeFraction (int val1, int val2) {
-		return DivideSafeFraction(Convert.ToDouble(val1), Convert.ToDouble(val2));
-	}
-
-	//Not restricted to values 0-1
-	public static double DivideSafe (double val1, double val2)
-	{
-		if(val1 == 0 || val2 == 0)
-			return 0;
-
-		return val1 / val2;
-	}
-
-	public static int DivideSafeAndGetInt (double val1, double val2)
-	{
-		return Convert.ToInt32(DivideSafe(val1, val2));
-	}
-
 
 	/*
 	//converts all values to positive

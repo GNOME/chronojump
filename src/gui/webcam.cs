@@ -216,7 +216,7 @@ public partial class ChronoJumpWindow
 			return false;
 		}
 
-		pulsebar_webcam.Fraction = Util.DivideSafeFraction(swWebcamStart.Elapsed.TotalSeconds, 10);
+		pulsebar_webcam.Fraction = UtilAll.DivideSafeFraction(swWebcamStart.Elapsed.TotalSeconds, 10);
 		Thread.Sleep (50);
 		//LogB.Debug(webcamStartThread.ThreadState.ToString());
 		return true;
@@ -382,7 +382,7 @@ public partial class ChronoJumpWindow
 			if(swWebcamStop.Elapsed.TotalSeconds < preferences.videoStopAfter)
 			{
 				//progressbar_video_generating.Pulse();
-				progressbar_video_generating.Fraction = Util.DivideSafeFraction(swWebcamStop.Elapsed.TotalMilliseconds, preferences.videoStopAfter * 1000);
+				progressbar_video_generating.Fraction = UtilAll.DivideSafeFraction(swWebcamStop.Elapsed.TotalMilliseconds, preferences.videoStopAfter * 1000);
 				return true;
 			}
 

@@ -1971,7 +1971,7 @@ LogB.Information(" fs R ");
 			absoluteMaxForce = Math.Abs(minForce);
 
 		//show 5 steps positive, 5 negative (if possible)
-		int temp = Convert.ToInt32(Util.DivideSafe(absoluteMaxForce, 5.0));
+		int temp = Convert.ToInt32(UtilAll.DivideSafe(absoluteMaxForce, 5.0));
 		int step = temp;
 
 		//to have values multiples than 10, 100 ...

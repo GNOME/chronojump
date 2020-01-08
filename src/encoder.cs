@@ -670,11 +670,11 @@ public class EncoderSignal
 				lowest = compareTo;
 
 			//LogB.Information(string.Format("Loss ecc/con (by con) of {0}; i: {1} is: {2}", variable, i++,
-			//			Convert.ToInt32(Util.DivideSafe(100.0 * (highest - lowest), highest))));
+			//			Convert.ToInt32(UtilAll.DivideSafe(100.0 * (highest - lowest), highest))));
 
 			ecc = true;
 		}
-		return Convert.ToInt32(Util.DivideSafe(100.0 * (highest - lowest), highest));
+		return Convert.ToInt32(UtilAll.DivideSafe(100.0 * (highest - lowest), highest));
 
 	}
 	/*
@@ -705,11 +705,11 @@ public class EncoderSignal
 					lowest = (eccValue + conValue) / 2;
 			}
 			//LogB.Information(string.Format("Loss ecc/con (ecc?: {0}) of {1}; i: {2} is: {3}", ecc.ToString(), variable, i++,
-			//			Convert.ToInt32(Util.DivideSafe(100.0 * (highest - lowest), highest))));
+			//			Convert.ToInt32(UtilAll.DivideSafe(100.0 * (highest - lowest), highest))));
 
 			ecc = ! ecc;
 		}
-		return Convert.ToInt32(Util.DivideSafe(100.0 * (highest - lowest), highest));
+		return Convert.ToInt32(UtilAll.DivideSafe(100.0 * (highest - lowest), highest));
 
 	}
 	*/

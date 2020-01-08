@@ -6228,7 +6228,7 @@ public partial class ChronoJumpWindow
 			if(action == encoderActions.CAPTURE_IM)
 				selectedTime = preferences.encoderCaptureTimeIM;
 
-			encoder_pulsebar_capture.Fraction = Util.DivideSafeFraction(
+			encoder_pulsebar_capture.Fraction = UtilAll.DivideSafeFraction(
 					(selectedTime - eCapture.Countdown), selectedTime);
 			encoder_pulsebar_capture.Text = eCapture.Countdown + " s";
 	
@@ -6247,7 +6247,7 @@ public partial class ChronoJumpWindow
 
 				//-48: ascii 0 char
 				if(System.Char.IsDigit(contents[1]) && System.Char.IsDigit(contents[3]))
-					fraction = Util.DivideSafeFraction(
+					fraction = UtilAll.DivideSafeFraction(
 							Convert.ToInt32(contents[1]-48), Convert.ToInt32(contents[3]-48) );
 			}
 			*/
@@ -6289,14 +6289,14 @@ public partial class ChronoJumpWindow
 				if(fraction == -1)
 					encoder_pulsebar_capture.Pulse();
 				else
-					encoder_pulsebar_capture.Fraction = Util.DivideSafeFraction(fraction, 6); 
+					encoder_pulsebar_capture.Fraction = UtilAll.DivideSafeFraction(fraction, 6);
 				
 				encoder_pulsebar_capture.Text = contents;
 			} else {
 				if(fraction == -1)
 					encoder_pulsebar_analyze.Pulse();
 				else
-					encoder_pulsebar_analyze.Fraction = Util.DivideSafeFraction(fraction, 6);
+					encoder_pulsebar_analyze.Fraction = UtilAll.DivideSafeFraction(fraction, 6);
 
 				encoder_pulsebar_analyze.Text = contents;
 			}

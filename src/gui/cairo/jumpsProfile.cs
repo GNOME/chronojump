@@ -113,7 +113,7 @@ public static class JumpsProfileGraph
 		//g.SelectFontFace("Helvetica", Cairo.FontSlant.Normal, Cairo.FontWeight.Bold);
 		foreach(JumpsProfileIndex jpi in l_jpi)
 		{
-			double percent = 100 * Util.DivideSafe(jpi.Result, sum);
+			double percent = 100 * UtilAll.DivideSafe(jpi.Result, sum);
 			printText(legendX,  y, 24, textHeight, Util.TrimDecimals(percent, 1) + jpi.Text, g, false);
 			if(percent != 0)
 				drawRoundedRectangle (legendX,  y+30 , Convert.ToInt32(2 * percent), 20, 4, g, jpi.Color);

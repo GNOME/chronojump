@@ -588,7 +588,7 @@ public class EncoderGraphDoPlot
 			if(dataSecondary.Count > 0)
 			{
 				double dSecondary = Convert.ToDouble(dataSecondary[count]);
-				int dSecondaryHeight = Util.DivideSafeAndGetInt(graphHeightSafe * dSecondary, maxAbsoluteSecondary * 1.0);
+				int dSecondaryHeight = UtilAll.DivideSafeAndGetInt(graphHeightSafe * dSecondary, maxAbsoluteSecondary * 1.0);
 				int dSecondaryTop = dBottom - dSecondaryHeight;
 				Gdk.Point dSecondaryCurrentPoint = new Gdk.Point(Convert.ToInt32(dLeft + (dWidth /2)), dSecondaryTop);
 				//LogB.Information(string.Format("dSecondaryHeight: {0}; dSecondaryTop: {1}", dSecondaryHeight, dSecondaryTop));

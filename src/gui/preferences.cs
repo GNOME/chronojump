@@ -1634,9 +1634,9 @@ public class PreferencesWindow
 		}
 	
 		pulsebarBackupActivity.Pulse();
-		pulsebarBackupDirs.Fraction = Util.DivideSafeFraction(uc.BackupMainDirsCount, 6); //6 for: database, encoder, forceSensor, logs, multimedia, raceAnalyzer
+		pulsebarBackupDirs.Fraction = UtilAll.DivideSafeFraction(uc.BackupMainDirsCount, 6); //6 for: database, encoder, forceSensor, logs, multimedia, raceAnalyzer
 		pulsebarBackupDirs.Text = uc.LastMainDir;
-		pulsebarBackupSecondDirs.Fraction = Util.DivideSafeFraction(uc.BackupSecondDirsCount, uc.BackupSecondDirsLength);
+		pulsebarBackupSecondDirs.Fraction = UtilAll.DivideSafeFraction(uc.BackupSecondDirsCount, uc.BackupSecondDirsLength);
 		pulsebarBackupSecondDirs.Text = uc.LastSecondDir;
 
 		Thread.Sleep (30);

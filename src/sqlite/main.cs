@@ -571,19 +571,19 @@ class Sqlite
 
 	//for splashWin progressbars
 	public static double PrintCreation() {
-		return Util.DivideSafeFraction(creationRate, creationTotal);
+		return UtilAll.DivideSafeFraction(creationRate, creationTotal);
 	}
 	public static double PrintConversionVersion() {
-		return Util.DivideSafeFraction(
+		return UtilAll.DivideSafeFraction(
 				Convert.ToDouble(Util.ChangeDecimalSeparator(currentVersion)), 
 				Convert.ToDouble(Util.ChangeDecimalSeparator(lastChronojumpDatabaseVersion))
 				);
 	}
 	public static double PrintConversionRate() {
-		return Util.DivideSafeFraction(conversionRate, conversionRateTotal);
+		return UtilAll.DivideSafeFraction(conversionRate, conversionRateTotal);
 	}
 	public static double PrintConversionSubRate() {
-		return Util.DivideSafeFraction(conversionSubRate, conversionSubRateTotal);
+		return UtilAll.DivideSafeFraction(conversionSubRate, conversionSubRateTotal);
 	}
 
 	public static bool ConvertToLastChronojumpDBVersion() {

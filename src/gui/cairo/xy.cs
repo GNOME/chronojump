@@ -321,7 +321,7 @@ public abstract class CairoXY
 	private double getGridStep(double min, double max, int seps)
 	{
 		//show 5 steps positive, 5 negative (if possible)
-		double temp = Util.DivideSafe(max - min, seps);
+		double temp = UtilAll.DivideSafe(max - min, seps);
 		double step = temp;
 
 		//to have values multiples than 10, 100 ...

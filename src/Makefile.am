@@ -9,6 +9,7 @@ SOURCES = \
 	gui/app1/icons.cs\
 	gui/app1/jumpsProfile.cs\
 	gui/app1/jumpsDjOptimalFall.cs\
+	gui/app1/jumpsEvolution.cs\
 	gui/app1/jumpsWeightFVProfile.cs\
 	gui/app1/contactsExercise.cs\
 	gui/app1/forceSensor.cs\
@@ -18,6 +19,7 @@ SOURCES = \
 	gui/app1/run.cs\
 	gui/cairo/xy.cs\
 	gui/cairo/jumpsDjOptimalFall.cs\
+	gui/cairo/jumpsEvolution.cs\
 	gui/cairo/jumpsProfile.cs\
 	gui/cairo/jumpsWeightFVProfile.cs\
 	gui/chronojumpImporter.cs\
@@ -184,6 +186,7 @@ SOURCES = \
 	jump.cs\
 	jumpsProfile.cs\
 	jumpsDjOptimalFall.cs\
+	jumpsEvolution.cs\
 	jumpsWeightFVProfile.cs\
 	jumpType.cs\
 	networks.cs\

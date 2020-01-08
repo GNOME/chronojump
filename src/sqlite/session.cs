@@ -222,21 +222,39 @@ class SqliteSession : Sqlite
 			Sqlite.Close();
 	}
 
+	// ---- use this methods ----
 
 	//by name (only in gui/networks.cs configInit
 	//be careful because name is not unique
 	public static Session SelectByName(string name)
 	{
-		dbcmd.CommandText = "SELECT * FROM " + Constants.SessionTable + " WHERE name == \"" + name + "\""; 
-		return SelectDo(dbcmd);
+		dbcmd.CommandText = "SELECT * FROM " + Constants.SessionTable + " WHERE name == \"" + name + "\"";
+
+		List<Session> session_l = selectDo(dbcmd);
+		if(session_l.Count == 0)
+			return new Session();
+
+		//return (Session) selectDo(dbcmd)[0];
+		return session_l[0];
 	}
 	//by ID (default
 	public static Session Select(string myUniqueID)
 	{
 		dbcmd.CommandText = "SELECT * FROM " + Constants.SessionTable + " WHERE uniqueID == " + myUniqueID ; 
-		return SelectDo(dbcmd);
+
+		List<Session> session_l = selectDo(dbcmd);
+		if(session_l.Count == 0)
+			return new Session();
+
+		//return (Session) selectDo(dbcmd)[0];
+		return session_l[0];
 	}
-	public static Session SelectDo(SqliteCommand mydbcmd)
+	public static List<Session> SelectAll()
+	{
+		dbcmd.CommandText = "SELECT * FROM " + Constants.SessionTable;
+		return selectDo(dbcmd);
+	}
+	private static List<Session> selectDo(SqliteCommand mydbcmd)
 	{
 		try {
 			Sqlite.Open();
@@ -251,29 +269,28 @@ class SqliteSession : Sqlite
 		
 		SqliteDataReader reader;
 		reader = mydbcmd.ExecuteReader();
+		List<Session> session_l = new List<Session>();
 	
-		string [] values = new string[9];
-		
-		while(reader.Read()) {
-			values[0] = reader[0].ToString(); 
-			values[1] = reader[1].ToString(); 
-			values[2] = reader[2].ToString();
-			values[3] = reader[3].ToString();
-			values[4] = reader[4].ToString();
-			values[5] = reader[5].ToString();
-			values[6] = reader[6].ToString();
-			values[7] = reader[7].ToString();
-			values[8] = reader[8].ToString();
+		while(reader.Read())
+		{
+			Session session = new Session(
+					reader[0].ToString(),
+					reader[1].ToString(),
+					reader[2].ToString(),
+					UtilDate.FromSql(reader[3].ToString()),
+					Convert.ToInt32(reader[4].ToString()),
+					Convert.ToInt32(reader[5].ToString()),
+					Convert.ToInt32(reader[6].ToString()),
+					reader[7].ToString(),
+					Convert.ToInt32(reader[8].ToString())
+					);
+
+			session_l.Add(session);
 		}
 
-		Session mySession = new Session(values[0], 
-			values[1], values[2], UtilDate.FromSql(values[3]), 
-			Convert.ToInt32(values[4]), Convert.ToInt32(values[5]), Convert.ToInt32(values[6]), 
-			values[7], Convert.ToInt32(values[8]) );
-		
 		reader.Close();
 		Sqlite.Close();
-		return mySession;
+		return session_l;
 	}
 	
 	//used by the stats selector of sessions

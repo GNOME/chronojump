@@ -732,6 +732,7 @@ public partial class ChronoJumpWindow
 		image_encoder_analyze_individual_current_session.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeIndividualAllSessionsIcon);
 		image_encoder_analyze_individual_all_sessions.Pixbuf = pixbuf;
+		image_tab_jumps_evolution.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeGroupalCurrentSessionIcon);
 		image_encoder_analyze_groupal_current_session.Pixbuf = pixbuf;
 

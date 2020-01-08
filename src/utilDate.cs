@@ -48,6 +48,23 @@ public class UtilDate
 			UtilAll.DigitsCreate(dt.Second,2);
 	}
 
+	//records date & time, useful to backup database without having strange chars on filename
+	//used also on SQL when time wants to be stored also
+	public static DateTime FromFile (string s)
+	{
+		//TODO: check possible errors
+		string [] allFull = s.Split(new char[] {'_'});
+		string [] dateFull = allFull[0].Split(new char[] {'-'});
+		string [] timeFull = allFull[1].Split(new char[] {'-'});
+		return new DateTime(
+				Convert.ToInt32(dateFull[0]),
+				Convert.ToInt32(dateFull[1]),
+				Convert.ToInt32(dateFull[2]),
+				Convert.ToInt32(timeFull[0]),
+				Convert.ToInt32(timeFull[1]),
+				Convert.ToInt32(timeFull[2])
+				);
+	}
 
 	//comes from sql like YYYY-MM-DD (with always all digits)
 	//return datetime

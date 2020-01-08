@@ -325,6 +325,7 @@ public class ExportSession
 					Catalog.GetString("Power") + ":" +
 					Catalog.GetString("Stiffness") + ":" +
 					Catalog.GetString("Initial Speed") + ":" +
+					Catalog.GetString("Datetime") + ":" +
 					Catalog.GetString("Description") + ":" +
 					Catalog.GetString("Angle") + ":" +
 					Catalog.GetString("Simulated") 
@@ -371,6 +372,7 @@ public class ExportSession
 						Util.TrimDecimals(getPower(tc, tf, personWeight, extraWeightInKg, fall), dec) + ":" +
 						Util.TrimDecimals(Util.GetStiffness(personWeight, extraWeightInKg, tf, tc), dec) + ":" +
 						Util.TrimDecimals(Util.GetInitialSpeed(myStr[5], preferences.metersSecondsPreferred), dec) + ":" +  //true: m/s
+						myStr[12] + ":" +	//jump.datetime
 						Util.RemoveNewLine(myStr[9], true) + ":" +	//jump.description
 						Util.TrimDecimals(myStr[10],dec) + ":" +	//jump.angle
 						Util.SimulatedTestNoYes(Convert.ToInt32(myStr[11]))		//jump.simulated
@@ -427,6 +429,7 @@ public class ExportSession
 						Catalog.GetString("Jumps") + ":" + 
 						Catalog.GetString("Time") + ":" + 
 						Catalog.GetString("Limited") + ":" + 
+						Catalog.GetString("Datetime") + ":" +
 						Catalog.GetString("Description") + ":" +
 						//Catalog.GetString("Angles") + ":" +
 						Catalog.GetString("Simulated") 
@@ -478,6 +481,7 @@ public class ExportSession
 					//myStr[8] + ":" +  myStr[14] + ":" + 	//jumpRj.Weight, jumpRj.Jumps
 					Util.TrimDecimals(extraWeightPrint,dec) + ":" +  myStr[14] + ":" + 	//jumpRj.Weight, jumpRj.Jumps
 					Util.TrimDecimals(myStr[15], dec) + ":" +  Util.GetLimitedRounded(myStr[16],dec) + ":" + 	//jumpRj.Time, jumpRj.Limited
+					myStr[19] + ":" +	//jumpRj.datetime
 					Util.RemoveNewLine(myStr[9], true) + ":" + 	//jumpRj.Description
 					//myStr[17] + ":" + 	//jumpRj.Angle
 					Util.SimulatedTestNoYes(Convert.ToInt32(myStr[18]))		//simulated

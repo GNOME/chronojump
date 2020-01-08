@@ -42,10 +42,10 @@ public abstract class CairoXY
 	protected string axisYLabel = "";
 	protected string axisXLabel = "";
 
-	double minX = 1000000;
-	double maxX = 0;
-	double minY = 1000000;
-	double maxY = 0;
+	protected double minX = 1000000;
+	protected double maxX = 0;
+	protected double minY = 1000000;
+	protected double maxY = 0;
 	double yAtMMaxY;
 	double absoluteMaxX;
 	double absoluteMaxY;
@@ -102,18 +102,23 @@ public abstract class CairoXY
 
 		//if there is only one point, or by any reason mins == maxs, have mins and maxs separated
 		if(minX == maxX)
-		{
-			minX -= .5 * minX;
-			maxX += .5 * maxX;
-		}
+			separateMinXMaxX();
 		if(minY == maxY)
-		{
-			minY -= .5 * minY;
-			maxY += .5 * maxY;
-		}
+			separateMinYMaxY();
 
 		absoluteMaxX = maxX;
 		absoluteMaxY = maxY;
+	}
+
+	protected virtual void separateMinXMaxX()
+	{
+		minX -= .5 * minX;
+		maxX += .5 * maxX;
+	}
+	protected virtual void separateMinYMaxY()
+	{
+		minY -= .5 * minY;
+		maxY += .5 * maxY;
 	}
 
 	//includes point  and model
@@ -196,7 +201,7 @@ public abstract class CairoXY
 	{
 		foreach(Point p in point_l)
 		{
-			//LogB.Information(string.Format("point: {0}", p));
+			LogB.Information(string.Format("point: {0}", p));
 			double xgraph = calculatePaintX(
 					( p.X ),
 					graphWidth, absoluteMaxX, minX, totalMargins, totalMargins);

@@ -96,6 +96,7 @@ class SqliteJump : Sqlite
 		return myLast;
 	}
 
+	//like SelectJumps, but this returns a string[] :( better use above method if possible
 	//if all sessions, put -1 in sessionID
 	//if all persons, put -1 in personID
 	//if all types put, "" in filterType
@@ -189,6 +190,39 @@ class SqliteJump : Sqlite
 		}
 
 		return myJumps;
+	}
+
+	//like SelectJumps above method but much better: return list of jumps
+	//sID -1 means all sessions
+	public static List<Jump> SelectJumps (int pID, int sID, string jumpType)
+	{
+	  //jumps previous to DB 1.82 have no datetime on jump
+	  //find session datetime for that jumps
+	  List<Session> session_l = SqliteSession.SelectAll();
+
+	  string personID = pID.ToString();
+	  string filterSessionString = "";
+	  if(sID != -1)
+		  filterSessionString = " AND sessionID == " + sID.ToString();
+
+	  Sqlite.Open();
+
+	  // Selecciona les dades de tots els salts
+	  dbcmd.CommandText = "SELECT * FROM jump WHERE personID = " + personID +
+		  filterSessionString +  " AND jump.type = \"" + jumpType + "\"";
+
+	  LogB.SQL(dbcmd.CommandText.ToString());
+	  dbcmd.ExecuteNonQuery();
+
+	  SqliteDataReader reader;
+	  reader = dbcmd.ExecuteReader();
+
+	  List<Jump> jmp_l = DataReaderToJump (reader, session_l);
+
+	  reader.Close();
+	  Sqlite.Close();
+
+	  return jmp_l;
 	}
 
 	public static Jump SelectJumpData(int uniqueID, bool dbconOpened)
@@ -304,7 +338,7 @@ class SqliteJump : Sqlite
 		return l;
 	}
 
-	private static List<Jump> DataReaderToJump (SqliteDataReader reader)
+	private static List<Jump> DataReaderToJump (SqliteDataReader reader, List<Session> session_l)
 	{
 	  List<Jump> jmp_l = new List<Jump>();
 	  Jump jmp;
@@ -331,6 +365,13 @@ class SqliteJump : Sqlite
 				  reader[11].ToString()                               //datetime
 				 );
 
+		  //jumps previous to DB 1.82 have no datetime on jump
+		  //find session datetime for that jumps
+		  if(jmp.Datetime == "")
+			  foreach(Session session in session_l)
+				  if(session.UniqueID == jmp.SessionID)
+					  jmp.Datetime = UtilDate.ToFile(session.Date);
+
 		  jmp_l.Add(jmp);
 		  LogB.Information(jmp.ToString());
 	  }
@@ -340,6 +381,10 @@ class SqliteJump : Sqlite
 	//last boolean: on JumpsDj analyze graph, only show the higher of values of the same fall
 	public static List<Jump> SelectDJ (int pID, int sID, string jumpType, bool onlyHigherOfSameFall)
 	{
+	  //jumps previous to DB 1.82 have no datetime on jump
+	  //find session datetime for that jumps
+	  List<Session> session_l = SqliteSession.SelectAll();
+
 	  string personID = pID.ToString();
 	  string sessionID = sID.ToString();
 
@@ -358,7 +403,7 @@ class SqliteJump : Sqlite
 	  SqliteDataReader reader;
 	  reader = dbcmd.ExecuteReader();
 
-	  List<Jump> jmp_l = DataReaderToJump (reader);
+	  List<Jump> jmp_l = DataReaderToJump (reader, session_l);
 
 	  reader.Close();
 	  Sqlite.Close();
@@ -384,6 +429,10 @@ class SqliteJump : Sqlite
 	//TODO: note we do not want % weight, we want absolute weight so we need to select on personSession77 table
 	public static List<Jump> SelectJumpsWeightFVProfile (int pID, int sID, bool onlyHigherOfSameWeight)
 	{
+	  //jumps previous to DB 1.82 have no datetime on jump
+	  //find session datetime for that jumps
+	  List<Session> session_l = SqliteSession.SelectAll();
+
 	  string personID = pID.ToString();
 	  string sessionID = sID.ToString();
 
@@ -402,7 +451,7 @@ class SqliteJump : Sqlite
 	  SqliteDataReader reader;
 	  reader = dbcmd.ExecuteReader();
 
-	  List<Jump> jmp_l = DataReaderToJump (reader);
+	  List<Jump> jmp_l = DataReaderToJump (reader, session_l);
 
 	  reader.Close();
 	  Sqlite.Close();

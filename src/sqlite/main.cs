@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.81";
+	static string lastChronojumpDatabaseVersion = "1.82";
 
 	public Sqlite() {
 	}
@@ -2576,6 +2576,22 @@ class Sqlite
 
 				currentVersion = updateVersion("1.81");
 			}
+			if(currentVersion == "1.81")
+			{
+				LogB.SQL("Doing alter table jump, jumpRj, tempJumpRj add datetime");
+				try {
+					//sqlite does not have drop column
+					executeSQL("ALTER TABLE " + Constants.JumpTable + " ADD COLUMN datetime TEXT;");
+					executeSQL("ALTER TABLE " + Constants.JumpRjTable + " ADD COLUMN datetime TEXT;");
+					executeSQL("ALTER TABLE " + Constants.TempJumpRjTable + " ADD COLUMN datetime TEXT;");
+				} catch {
+					LogB.SQL("Catched. forceSensor stiffness/stiffnessString already exists.");
+
+				}
+				LogB.SQL("Done!");
+
+				currentVersion = updateVersion("1.82");
+			}
 
 
 			/*
@@ -2789,6 +2805,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 //
+		//1.81 - 1.82 Converted DB to 1.82 Doing alter table jump, jumpRj, tempJumpRj add datetime
 		//1.80 - 1.81 Converted DB to 1.81 Inserted forceSensorCaptureFeedbackActive /At /Range
 		//1.79 - 1.80 Converted DB to 1.80 Inserted forceSensorElasticEccMinDispl, ...
 		//1.78 - 1.79 Converted DB to 1.79 Inserted into preferences: encoderWorkKcal

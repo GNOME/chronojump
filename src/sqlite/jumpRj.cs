@@ -54,11 +54,12 @@ class SqliteJumpRj : SqliteJump
 			"time FLOAT, " + //if limit it's 'n' jumps, we probably waste 7.371 seconds
 			"limited TEXT, " + //for RJ, "11J" or "11S" (11 Jumps, 11 seconds)
 			"angleString TEXT, " + //"-1" if undef
-			"simulated INT )";
+			"simulated INT, " +
+			"datetime TEXT )";
 		dbcmd.ExecuteNonQuery();
 	}
 
-	public static int Insert (bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double tvMax, double tcMax, double fall, double weight, string description, double tvAvg, double tcAvg, string tvString, string tcString, int jumps, double time, string limited, string angleString, int simulated )
+	public static int Insert (bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double tvMax, double tcMax, double fall, double weight, string description, double tvAvg, double tcAvg, string tvString, string tcString, int jumps, double time, string limited, string angleString, int simulated, string datetime )
 	{
 		Console.WriteLine("At SQL insert RJ");
 
@@ -70,14 +71,14 @@ class SqliteJumpRj : SqliteJump
 
 		dbcmd.CommandText = "INSERT INTO " + tableName + 
 				" (uniqueID, personID, sessionID, type, tvMax, tcMax, fall, weight, description, " +
-				"tvAvg, tcAvg, tvString, tcString, jumps, time, limited, angleString, simulated )" +
+				"tvAvg, tcAvg, tvString, tcString, jumps, time, limited, angleString, simulated, datetime )" +
 				"VALUES (" + uniqueID + ", " +
 				personID + ", " + sessionID + ", \"" + type + "\", " +
 				Util.ConvertToPoint(tvMax) + ", " + Util.ConvertToPoint(tcMax) + ", \"" + 
 				Util.ConvertToPoint(fall) + "\", \"" + Util.ConvertToPoint(weight) + "\", \"" + description + "\", " +
 				Util.ConvertToPoint(tvAvg) + ", " + Util.ConvertToPoint(tcAvg) + ", \"" + 
 				Util.ConvertToPoint(tvString) + "\", \"" + Util.ConvertToPoint(tcString) + "\", " +
-				jumps + ", " + Util.ConvertToPoint(time) + ", \"" + limited + "\", \"" + angleString + "\", " + simulated +")" ;
+				jumps + ", " + Util.ConvertToPoint(time) + ", \"" + limited + "\", \"" + angleString + "\", " + simulated + ", \"" + datetime + "\")" ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -159,7 +160,8 @@ class SqliteJumpRj : SqliteJump
 					reader[16].ToString() + ":" + 	//limited
 					reader[17].ToString() + ":" +	//angleString
 					reader[18].ToString() + ":" +	//simulated
-					reader[19].ToString() 	 	//person.weight
+					reader[19].ToString() + ":" +	//datetime
+					reader[20].ToString() 	 	//person.weight
 					);
 			count ++;
 		}
@@ -194,7 +196,7 @@ class SqliteJumpRj : SqliteJump
 		reader = dbcmd.ExecuteReader();
 		reader.Read();
 
-		JumpRj myJump = new JumpRj(DataReaderToStringArray(reader, 18));
+		JumpRj myJump = new JumpRj(DataReaderToStringArray(reader, 19));
 
 		reader.Close();
 		if(!dbconOpened)

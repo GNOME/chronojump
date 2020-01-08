@@ -35,12 +35,13 @@ public class Jump : Event
 	//for not checking always in database
 	protected bool hasFall;
 	private double angle;
+	protected string datetime;
 
 	public Jump() {
 	}
 	
 	//after inserting database (SQL)
-	public Jump(int uniqueID, int personID, int sessionID, string type, double tv, double tc, double fall, double weight, string description, double angle, int simulated)
+	public Jump(int uniqueID, int personID, int sessionID, string type, double tv, double tc, double fall, double weight, string description, double angle, int simulated, string datetime)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
@@ -53,6 +54,7 @@ public class Jump : Event
 		this.description = description;
 		this.angle = angle;
 		this.simulated = simulated;
+		this.datetime = datetime;
 	}
 
 	//used to select a jump at SqliteJump.SelectJumpData and at Sqlite.converTables
@@ -69,6 +71,7 @@ public class Jump : Event
 		this.description = eventString[8].ToString();
 		this.angle = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[9]));
 		this.simulated = Convert.ToInt32(eventString[10]);
+		this.datetime = eventString[11];
 	}
 
 
@@ -78,7 +81,7 @@ public class Jump : Event
 				personID, sessionID, 
 				type, tv, tc, fall, 
 				weight, description, 
-				angle, simulated);
+				angle, simulated, datetime);
 	}
 	
 	public virtual double Stiffness(double personMassInKg, double extraMass) 
@@ -144,7 +147,7 @@ public class JumpRj : Jump
 	//after inserting database (SQL)
 	public JumpRj(int uniqueID, int personID, int sessionID, string type, 
 			string tvString, string tcString, double fall, double weight, 
-			string description, int jumps, double time, string limited, string angleString, int simulated)
+			string description, int jumps, double time, string limited, string angleString, int simulated, string datetime)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
@@ -160,6 +163,7 @@ public class JumpRj : Jump
 		this.limited = limited;
 		this.angleString = angleString;
 		this.simulated = simulated;
+		this.datetime = datetime;
 	}
 	
 	//used to select a jump at SqliteJump.SelectRjJumpData and at Sqlite.convertTables
@@ -182,6 +186,7 @@ public class JumpRj : Jump
 		this.limited = eventString[15];
 		this.angleString = eventString[16];
 		this.simulated = Convert.ToInt32(eventString[17]);
+		this.datetime = eventString[18];
 	}
 	
 
@@ -193,7 +198,7 @@ public class JumpRj : Jump
 				type, TvMax, TcMax, fall, weight,
 				description, TvAvg, TcAvg, tvString, tcString,
 				jumps, time, limited, 
-				angleString, simulated);
+				angleString, simulated, datetime);
 	}
 
 

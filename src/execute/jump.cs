@@ -467,14 +467,16 @@ public class JumpExecute : EventExecute
 		needShowFeedbackMessage = true; 
 		
 		string table = Constants.JumpTable;
+		string datetime = UtilDate.ToFile(DateTime.Now);
 
 		uniqueID = SqliteJump.Insert(false, table, "NULL", personID, sessionID, 
 				type, tv, tc, fall,  //type, tv, tc, fall
-				weight, description, angle, Util.BoolToNegativeInt(simulated));
+				weight, description, angle, Util.BoolToNegativeInt(simulated),
+				datetime);
 
 		//define the created object
 		eventDone = new Jump(uniqueID, personID, sessionID, type, tv, tc, fall, 
-				weight, description, angle, Util.BoolToNegativeInt(simulated)); 
+				weight, description, angle, Util.BoolToNegativeInt(simulated), datetime);
 
 		if(! avoidGraph)
 		{
@@ -1033,6 +1035,7 @@ public class JumpRjExecute : JumpExecute
 				*/
 		}
 
+		string datetime = UtilDate.ToFile(DateTime.Now);
 
 		if(tempTable) 
 			SqliteJumpRj.Insert(false, Constants.TempJumpRjTable, "NULL", personID, sessionID, 
@@ -1040,19 +1043,19 @@ public class JumpRjExecute : JumpExecute
 					fall, weight, description,
 					Util.GetAverage(tvString), Util.GetAverage(tcString),
 					tvString, tcString,
-					jumps, Util.GetTotalTime(tcString, tvString), limitString, angleString, Util.BoolToNegativeInt(simulated)
-					);
+					jumps, Util.GetTotalTime(tcString, tvString), limitString, angleString, Util.BoolToNegativeInt(simulated),
+					datetime);
 		else {
 			uniqueID = SqliteJumpRj.Insert(false, Constants.JumpRjTable, "NULL", personID, sessionID, 
 					type, Util.GetMax(tvString), Util.GetMax(tcString), 
 					fall, weight, description,
 					Util.GetAverage(tvString), Util.GetAverage(tcString),
 					tvString, tcString,
-					jumps, Util.GetTotalTime(tcString, tvString), limitString, angleString, Util.BoolToNegativeInt(simulated)
-					);
+					jumps, Util.GetTotalTime(tcString, tvString), limitString, angleString, Util.BoolToNegativeInt(simulated),
+					datetime);
 
 			//define the created object
-			eventDone = new JumpRj(uniqueID, personID, sessionID, type, tvString, tcString, fall, weight, description, jumps, Util.GetTotalTime(tcString, tvString), limitString, angleString, Util.BoolToNegativeInt(simulated)); 
+			eventDone = new JumpRj(uniqueID, personID, sessionID, type, tvString, tcString, fall, weight, description, jumps, Util.GetTotalTime(tcString, tvString), limitString, angleString, Util.BoolToNegativeInt(simulated), datetime);
 
 
 			//event will be raised, and managed in chronojump.cs

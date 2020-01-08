@@ -52,10 +52,11 @@ class SqliteJump : Sqlite
 			"weight TEXT, " + //string because can contain "33%" or "50Kg"
 			"description TEXT, " +
 			"angle FLOAT, " + //-1.0 if undef
-			"simulated INT )"; 	//since db: 0.60 (cj 0.8.1.2) simulated = -1, real test (not uploaded to server) = 0, 
+			"simulated INT, " + 	//since db: 0.60 (cj 0.8.1.2) simulated = -1, real test (not uploaded to server) = 0,
 						//positive numbers represent the serverUniqueID
 						//the simulated has two purposes, but it's logical because 
 						//only real tests can be uploaded
+			"datetime TEXT )";
 		dbcmd.ExecuteNonQuery();
 	}
 	
@@ -65,7 +66,7 @@ class SqliteJump : Sqlite
 	 */
 	
 	//public static int Insert(int personID, int sessionID, string type, double tv, double tc, int fall, double weight, string limited, string description, int simulated)
-	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double tv, double tc, double fall, double weight, string description, double angle, int simulated)
+	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double tv, double tc, double fall, double weight, string description, double angle, int simulated, string datetime)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -74,12 +75,12 @@ class SqliteJump : Sqlite
 			uniqueID = "NULL";
 
 		dbcmd.CommandText = "INSERT INTO " + tableName +  
-				" (uniqueID, personID, sessionID, type, tv, tc, fall, weight, description, angle, simulated)" +
+				" (uniqueID, personID, sessionID, type, tv, tc, fall, weight, description, angle, simulated, datetime)" +
 				" VALUES (" + uniqueID + ", "
 				+ personID + ", " + sessionID + ", \"" + type + "\", "
 				+ Util.ConvertToPoint(tv) + ", " + Util.ConvertToPoint(tc) + ", " + Util.ConvertToPoint(fall) + ", \"" 
 				+ Util.ConvertToPoint(weight) + "\", \"" + description + "\", "
-				+ Util.ConvertToPoint(angle) + ", " + simulated +")" ;
+				+ Util.ConvertToPoint(angle) + ", " + simulated + ", \"" + datetime + "\")" ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -155,8 +156,8 @@ class SqliteJump : Sqlite
 		int count = new int();
 		count = 0;
 		
-		while(reader.Read()) {
-
+		while(reader.Read())
+		{
 			myArray.Add (reader[0].ToString() + ":" +	//person.name
 					reader[1].ToString() + ":" +	//jump.uniqueID
 					reader[2].ToString() + ":" + 	//jump.personID
@@ -169,7 +170,8 @@ class SqliteJump : Sqlite
 					reader[9].ToString() + ":" +	//description
 					Util.ChangeDecimalSeparator(reader[10].ToString()) + ":" +	//angle
 					reader[11].ToString() + ":" +	//simulated
-					reader[12].ToString() 		//person.weight
+					reader[12].ToString() + ":" + 	//datetime
+					reader[13].ToString() 		//person.weight
 					);
 			count ++;
 		}
@@ -203,7 +205,7 @@ class SqliteJump : Sqlite
 		reader = dbcmd.ExecuteReader();
 		reader.Read();
 
-		Jump myJump = new Jump(DataReaderToStringArray(reader, 11));
+		Jump myJump = new Jump(DataReaderToStringArray(reader, 12));
 	
 		reader.Close();
 		
@@ -325,7 +327,9 @@ class SqliteJump : Sqlite
 				  reader[8].ToString(),                                // description
 				  Convert.ToDouble(Util.ChangeDecimalSeparator(
 						  reader[9].ToString())),                          //angle
-				  Convert.ToInt32(reader[10].ToString()));              //simulated
+				  Convert.ToInt32(reader[10].ToString()),              //simulated
+				  reader[11].ToString()                               //datetime
+				 );
 
 		  jmp_l.Add(jmp);
 		  LogB.Information(jmp.ToString());

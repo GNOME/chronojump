@@ -163,7 +163,7 @@ public class TreeViewJumps : TreeViewEvent
 		myJump.Weight = Convert.ToDouble(myStringOfData[8].ToString());
 
 		//to calculate potency
-		personWeight = Convert.ToDouble(myStringOfData[12]);
+		personWeight = Convert.ToDouble(myStringOfData[13]);
 		weightInKg = Util.WeightFromPercentToKg(myJump.Weight, personWeight);
 
 		return myJump;
@@ -289,7 +289,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 		
 		myJumpRj.Weight = Convert.ToDouble(myStringOfData[8].ToString());
 
-		personWeight = Convert.ToDouble(myStringOfData[19]);
+		personWeight = Convert.ToDouble(myStringOfData[20]);
 		weightInKg = Util.WeightFromPercentToKg(myJumpRj.Weight, personWeight);
 
 		return myJumpRj;

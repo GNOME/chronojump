@@ -126,6 +126,12 @@ public class Jump : Event
 		get { return angle; }
 		set { angle = value; }
 	}
+
+	public string Datetime {
+		get { return datetime; }
+		set { datetime = value; }
+	}
+
 	
 	~Jump() {}
 	   

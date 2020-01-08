@@ -35,6 +35,7 @@ public class TreeViewJumps : TreeViewEvent
 	protected string stiffnessName = Catalog.GetString("Stiffness") + "\n(N/m)";
 	protected string initialSpeedName = Catalog.GetString("Initial Speed");
 	protected string angleName = Catalog.GetString("Angle");
+	protected string datetimeName = Catalog.GetString("Date");
 
 	//one of both indexes can be shown if selected on preferences
 	protected string qIndexName = "Q Index" + "\n(%)";
@@ -104,7 +105,7 @@ public class TreeViewJumps : TreeViewEvent
 	protected string [] obtainColumnsString(string [] columnsStringPre) 
 	{
 		//check long of new array
-		int i = columnsStringPre.Length + 1; //columnsStringPre + uniqueID (at last)
+		int i = columnsStringPre.Length + 2; //columnsStringPre + dateTime + description
 		
 		if (preferences.showPower)  
 			i ++;
@@ -144,6 +145,7 @@ public class TreeViewJumps : TreeViewEvent
 		if (preferences.showDjIndex) 
 			columnsString[i++] = djIndexName;
 			
+		columnsString[i++] = datetimeName;
 		columnsString[i++] = descriptionName;
 
 		return columnsString;
@@ -159,6 +161,7 @@ public class TreeViewJumps : TreeViewEvent
 		myJump.Angle = Convert.ToDouble(myStringOfData[10].ToString());
 		myJump.Description = myStringOfData[9].ToString();
 		myJump.Simulated = Convert.ToInt32(myStringOfData[11].ToString());
+		myJump.Datetime = myStringOfData[12].ToString();
 
 		myJump.Weight = Convert.ToDouble(myStringOfData[8].ToString());
 
@@ -227,6 +230,7 @@ public class TreeViewJumps : TreeViewEvent
 		if (preferences.showDjIndex)
 			myData[count++] = Util.TrimDecimals(Util.GetDjIndex(newJump.Tv, newJump.Tc).ToString(), pDN);
 		
+		myData[count++] = newJump.Datetime;
 		myData[count++] = newJump.Description;
 
 		myData[count++] = newJump.UniqueID.ToString();
@@ -286,6 +290,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 		myJumpRj.Limited = myStringOfData[16].ToString();
 		myJumpRj.Description = myStringOfData[9].ToString();
 		myJumpRj.Simulated = Convert.ToInt32(myStringOfData[18].ToString());
+		myJumpRj.Datetime = myStringOfData[19].ToString();
 		
 		myJumpRj.Weight = Convert.ToDouble(myStringOfData[8].ToString());
 
@@ -333,6 +338,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 		if (preferences.showDjIndex)
 			myData[count++] = "";
 		
+		myData[count++] = newJumpRj.Datetime;
 		myData[count++] = newJumpRj.Description;
 		myData[count++] = newJumpRj.UniqueID.ToString();
 		return myData;
@@ -409,7 +415,8 @@ public class TreeViewJumpsRj : TreeViewJumps
 					pDN);
 		
 		
-		myData[count++] = ""; 
+		myData[count++] = ""; 	//datetime
+		myData[count++] = ""; 	//description
 	
 		myData[count++] = "-1"; //mark to non select here, select first line 
 
@@ -436,7 +443,8 @@ public class TreeViewJumpsRj : TreeViewJumps
 		if (preferences.showQIndex || preferences.showDjIndex) 
 			myData[count++] = ""; 
 
-		myData[count++] = ""; 
+		myData[count++] = ""; 	//datetime
+		myData[count++] = ""; 	//description
 
 		myData[count++] = "-1"; //mark to non select here, select first line 
 		
@@ -507,7 +515,8 @@ public class TreeViewJumpsRj : TreeViewJumps
 			myData[count++] = Util.TrimDecimals(
 					Util.GetDjIndex(tvAVGDouble,tcAVGDouble).ToString(), pDN);
 
-		myData[count++] = ""; 
+		myData[count++] = ""; 	//datetime
+		myData[count++] = ""; 	//description
 		
 		myData[count++] = "-1"; //mark to non select here, select first line 
 		
@@ -556,7 +565,8 @@ public class TreeViewJumpsRj : TreeViewJumps
 		if (preferences.showQIndex || preferences.showDjIndex) 
 			myData[count++] = "";
 
-		myData[count++] = ""; 
+		myData[count++] = ""; 	//datetime
+		myData[count++] = ""; 	//description
 		
 		myData[count++] = "-1"; //mark to non select here, select first line 
 		

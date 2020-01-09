@@ -49,14 +49,14 @@ public abstract class CairoXY
 	double yAtMMaxY;
 	double absoluteMaxX;
 	double absoluteMaxY;
-	int graphWidth;
-	int graphHeight;
+	protected int graphWidth;
+	protected int graphHeight;
 	Cairo.Color red;
 	Cairo.Color blue;
 
 	//for all 4 sides
-	protected int outerMargins = 30; //blank space outside the axis
-	int innerMargins = 30; //space between the axis and the real coordinates
+	protected int outerMargins = 40; //blank space outside the axis
+	protected int innerMargins = 30; //space between the axis and the real coordinates
 	int totalMargins;
 
 	public abstract void Do();
@@ -101,24 +101,28 @@ public abstract class CairoXY
 		}
 
 		//if there is only one point, or by any reason mins == maxs, have mins and maxs separated
-		if(minX == maxX)
-			separateMinXMaxX();
-		if(minY == maxY)
-			separateMinYMaxY();
+		separateMinXMaxXIfNeeded();
+		separateMinYMaxYIfNeeded();
 
 		absoluteMaxX = maxX;
 		absoluteMaxY = maxY;
 	}
 
-	protected virtual void separateMinXMaxX()
+	protected virtual void separateMinXMaxXIfNeeded()
 	{
-		minX -= .5 * minX;
-		maxX += .5 * maxX;
+		if(minX == maxX)
+		{
+			minX -= .5 * minX;
+			maxX += .5 * maxX;
+		}
 	}
-	protected virtual void separateMinYMaxY()
+	protected virtual void separateMinYMaxYIfNeeded()
 	{
-		minY -= .5 * minY;
-		maxY += .5 * maxY;
+		if(minY == maxY)
+		{
+			minY -= .5 * minY;
+			maxY += .5 * maxY;
+		}
 	}
 
 	//includes point  and model
@@ -139,7 +143,7 @@ public abstract class CairoXY
 		}
 	}
 
-	protected void paintAxisAndGrid()
+	protected void paintAxisAndGrid(gridTypes gridType)
 	{
 		//1 paint axis
 		g.MoveTo(outerMargins, outerMargins);
@@ -149,7 +153,7 @@ public abstract class CairoXY
 		printText(2, Convert.ToInt32(outerMargins/2), 0, textHeight, axisYLabel, g, false);
 		printText(graphWidth - Convert.ToInt32(outerMargins/2), graphHeight - outerMargins, 0, textHeight, axisXLabel, g, false);
 
-		paintGrid (minX, absoluteMaxX, minY, absoluteMaxY, 5);
+		paintGrid (minX, absoluteMaxX, minY, absoluteMaxY, 5, gridType);
 	}
 
 	protected void plotPredictedLine()
@@ -287,7 +291,8 @@ public abstract class CairoXY
 	}
 
 	//TODO: fix if min == max (crashes)
-	protected void paintGrid (double minX, double maxX, double minY, double maxY, int seps)
+	protected enum gridTypes { BOTH, HORIZONTALLINES, VERTICALLINES }
+	protected void paintGrid (double minX, double maxX, double minY, double maxY, int seps, gridTypes gridType)
 	{
 		//LogB.Information(string.Format("paintGrid: {0}, {1}, {2}, {3}", min, max, seps, horiz));
 
@@ -298,29 +303,40 @@ public abstract class CairoXY
 		g.SetDash(new double[]{1, 2}, 0);
 		// i <= max*1.5 to allow to have grid just above the maxpoint if it's below innermargins
 		// see: if(ytemp < outerMargins) continue;
-		for(double i = minX; i <= maxX *1.5 ; i += stepX)
-		{
-			int xtemp = Convert.ToInt32(calculatePaintX(i, graphWidth, maxX, minX, outerMargins + innerMargins, outerMargins + innerMargins));
-			if(xtemp < outerMargins || xtemp > graphWidth - outerMargins)
-				continue;
+		if(gridType != gridTypes.HORIZONTALLINES)
+			for(double i = minX; i <= maxX *1.5 ; i += stepX)
+			{
+				int xtemp = Convert.ToInt32(calculatePaintX(i, graphWidth, maxX, minX, outerMargins + innerMargins, outerMargins + innerMargins));
+				if(xtemp < outerMargins || xtemp > graphWidth - outerMargins)
+					continue;
 
-			g.MoveTo(xtemp, graphHeight - outerMargins);
-			g.LineTo(xtemp, outerMargins);
-			printText(xtemp, graphHeight - Convert.ToInt32(outerMargins/2), 0, textHeight, Util.TrimDecimals(i, 1), g, true);
-		}
+				paintVerticalGridLine(xtemp, Util.TrimDecimals(i, 1));
+			}
 
-		for(double i = minY; i <= maxY *1.5 ; i += stepY)
-		{
-			int ytemp = Convert.ToInt32(calculatePaintY(i, graphHeight, maxY, minY, outerMargins + innerMargins, outerMargins + innerMargins));
-			if(ytemp < outerMargins || ytemp > graphHeight - outerMargins)
-				continue;
+		if(gridType != gridTypes.VERTICALLINES)
+			for(double i = minY; i <= maxY *1.5 ; i += stepY)
+			{
+				int ytemp = Convert.ToInt32(calculatePaintY(i, graphHeight, maxY, minY, outerMargins + innerMargins, outerMargins + innerMargins));
+				if(ytemp < outerMargins || ytemp > graphHeight - outerMargins)
+					continue;
 
-			g.MoveTo(outerMargins, ytemp);
-			g.LineTo(graphWidth - outerMargins, ytemp);
-			printText(Convert.ToInt32(outerMargins/2), ytemp, 0, textHeight, Util.TrimDecimals(i, 1), g, true);
-		}
+				paintHorizontalGridLine(ytemp, Util.TrimDecimals(i, 1));
+			}
 		g.Stroke ();
 		g.Restore();
+	}
+
+	protected void paintHorizontalGridLine(int ytemp, string text)
+	{
+		g.MoveTo(outerMargins, ytemp);
+		g.LineTo(graphWidth - outerMargins, ytemp);
+		printText(Convert.ToInt32(outerMargins/2), ytemp, 0, textHeight, text, g, true);
+	}
+	protected void paintVerticalGridLine(int xtemp, string text)
+	{
+		g.MoveTo(xtemp, graphHeight - outerMargins);
+		g.LineTo(xtemp, outerMargins);
+		printText(xtemp, graphHeight - Convert.ToInt32(outerMargins/2), 0, textHeight, text, g, true);
 	}
 
 	private double getGridStep(double min, double max, int seps)

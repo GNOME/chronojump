@@ -85,7 +85,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 
 		findPointMaximums();
 		//findAbsoluteMaximums();
-		paintAxisAndGrid();
+		paintAxisAndGrid(gridTypes.BOTH);
 
 		/*
 		LogB.Information(string.Format("coef length:{0}", coefs.Length));

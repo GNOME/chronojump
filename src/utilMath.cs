@@ -85,6 +85,12 @@ public class LeastSquares
 
 	public void Calculate(List<Point> measures)
 	{
+		/*
+		LogB.Information("printing points at Calculate");
+		foreach(Point p in measures)
+			LogB.Information(p.ToString());
+			*/
+
 		int numMeasures = measures.Count;
 		CalculatedCoef = false;
 		CalculatedXatMaxY = false;
@@ -114,6 +120,8 @@ public class LeastSquares
 			sumX3 = sumX3 + Math.Pow(measures[i].X,3);
 			sumX4 = sumX4 + Math.Pow(measures[i].X,4);
 		}
+		//LogB.Information(string.Format("sumX: {0}; sumX2: {1}; sumX3: {2}; sumX4: {3}", sumX, sumX2, sumX3, sumX4));
+		//LogB.Information(string.Format("A: {0}; B: {1}; C: {2}; D: {3}; E: {4}", numMeasures*sumX2*sumX4, 2*sumX*sumX2*sumX3, sumX2*sumX2*sumX2, sumX*sumX*sumX4, numMeasures*sumX3*sumX3));
 
 		double detA = numMeasures*sumX2*sumX4 + 2*sumX*sumX2*sumX3 - sumX2*sumX2*sumX2 - sumX*sumX*sumX4 - numMeasures*sumX3*sumX3;
 		if(detA != 0){

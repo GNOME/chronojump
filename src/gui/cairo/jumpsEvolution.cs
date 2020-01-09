@@ -17,7 +17,6 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  *  Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
- *  Copyright (C) 2004-2020   Jordi Rodeiro <jordirodeiro@gmail.com> 
  */
 
 using System;
@@ -62,7 +61,7 @@ public class JumpsEvolutionGraph : CairoXY
 		this.date = date;
 
 		axisYLabel = "Height (cm)";
-		axisXLabel = "Date (double)";
+		axisXLabel = "Date";
 	}
 
 	public override void Do()
@@ -72,7 +71,8 @@ public class JumpsEvolutionGraph : CairoXY
 
                 findPointMaximums();
                 findAbsoluteMaximums();
-		paintAxisAndGrid();
+		paintAxisAndGrid(gridTypes.HORIZONTALLINES);
+		paintGridDatetime();
 
 		LogB.Information(string.Format("coef length:{0}", coefs.Length));
 		if(coefs.Length == 3)
@@ -90,24 +90,72 @@ public class JumpsEvolutionGraph : CairoXY
 			else
 				writeTextConcaveParabole();
 		} else {
-			writeTextNeed3PointsWithDifferentFall();
+			//TODO: if two points draw a line, but no need to show error if there are 1 or 2 points
+			//writeTextNeed3PointsWithDifferentFall();
 		}
 		writeTitle();
 
 		endGraph();
 	}
 
-	//here X is year, add half a year
-	protected override void separateMinXMaxX()
+	//here X is year, add/subtract third of a year
+	protected override void separateMinXMaxXIfNeeded()
 	{
-		minX -= .5;
-		maxX += .5;
+		if(minX == maxX || maxX - minX < .1) //<.1 means that maybe we will not see any vertical bar on grid, enlarge it
+		{
+			minX -= .1;
+			maxX += .1;
+		}
+	}
+
+	//a bit recursive function ;)
+	private void paintGridDatetime()
+	{
+		g.Save();
+		g.SetDash(new double[]{1, 2}, 0);
+
+		bool paintMonths = (Convert.ToInt32(Math.Floor(maxX)) - Convert.ToInt32(Math.Floor(minX)) < 3); //paint months if few years
+
+		//-1 to start on previous year to see last months (if fit into graph)
+		for(int year = Convert.ToInt32(Math.Floor(minX)) -1; year <= Convert.ToInt32(Math.Floor(maxX)); year ++)
+		{
+			int xtemp = Convert.ToInt32(calculatePaintX(year, graphWidth, maxX, minX, outerMargins + innerMargins, outerMargins + innerMargins));
+			if( ! (xtemp < outerMargins || xtemp > graphWidth - outerMargins) )
+			{
+				if(paintMonths)
+					paintVerticalGridLine(xtemp, string.Format("{0} {1}", year, UtilDate.GetMonthName(0, true)));
+				else
+					paintVerticalGridLine(xtemp, year.ToString());
+			}
+
+			if(! paintMonths)
+				continue;
+
+			int monthStep = 3;
+			//1 get de distance between 1 month and the next one
+			int xtemp1 = Convert.ToInt32(calculatePaintX(year + 1/12.0, graphWidth, maxX, minX, outerMargins + innerMargins, outerMargins + innerMargins));
+			int xtemp2 = Convert.ToInt32(calculatePaintX(year + 2/12.0, graphWidth, maxX, minX, outerMargins + innerMargins, outerMargins + innerMargins));
+			if(xtemp2 - xtemp1 > 100)
+				monthStep = 1;
+
+			for(int month = monthStep; month <= 12-monthStep; month += monthStep)
+			{
+				LogB.Information(string.Format("year-month: {0}-{1}", year, month));
+				xtemp = Convert.ToInt32(calculatePaintX(year + month/12.0, graphWidth, maxX, minX, outerMargins + innerMargins, outerMargins + innerMargins));
+				if(xtemp < outerMargins || xtemp > graphWidth - outerMargins)
+					continue;
+
+				paintVerticalGridLine(xtemp, string.Format("{0} {1}", year, UtilDate.GetMonthName(month, true)));
+			}
+		}
+
+		g.Stroke ();
+		g.Restore();
 	}
 
 	protected override void writeTitle()
 	{
 		writeTextAtRight(-5, title, true);
-		//writeTextAtRight(-4, "Optimal fall height", false);
 		writeTextAtRight(-3, "Jumptype: " + jumpType, false);
 		writeTextAtRight(-2, date, false);
 	}

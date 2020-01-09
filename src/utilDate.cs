@@ -127,4 +127,15 @@ public class UtilDate
 		return dt.Year + UtilAll.DivideSafe(dt.DayOfYear, 360);
 	}
 
+	//month from 0 to 11
+	public static string GetMonthName(int month, bool abbreviate)
+	{
+	        string [] monthNames = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
+	        string [] monthNamesAbbr = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec" };
+
+		if(abbreviate)
+			return monthNamesAbbr[month];
+		else
+			return monthNames[month];
+	}
 }

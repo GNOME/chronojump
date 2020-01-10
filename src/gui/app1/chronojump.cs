@@ -732,9 +732,9 @@ public partial class ChronoJumpWindow
 		//Json js = new Json();
 		//js.UploadEncoderData();
 
-		//LeastSquares test
+		//LeastSquaresParabole test
 		/*
-		LeastSquares ls = new LeastSquares();
+		LeastSquaresParabole ls = new LeastSquaresParabole();
 		ls.Test();
 		LogB.Information(string.Format("coef = {0} {1} {2}", ls.Coef[0], ls.Coef[1], ls.Coef[2]));
 		*/

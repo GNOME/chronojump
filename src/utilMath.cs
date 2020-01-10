@@ -49,7 +49,7 @@ public class Point
 }
 
 
-public class LeastSquares 
+public class LeastSquaresParabole 
 {
 	public bool CalculatedCoef;
 	public double [] Coef; 	//indep, x, x^2
@@ -65,7 +65,7 @@ public class LeastSquares
 	public enum ParaboleTypes { NOTCALCULATED, STRAIGHT, CONVEX, CONCAVE } //CONVEX is usually OK
 
 	//constructor
-	public LeastSquares() {
+	public LeastSquaresParabole() {
 		Coef = null;
 	}
 
@@ -96,7 +96,7 @@ public class LeastSquares
 		CalculatedXatMaxY = false;
 
 		if(numMeasures < 3) {
-			LogB.Error(string.Format("LeastSquares needs at least three values, has: {0}", numMeasures));
+			LogB.Error(string.Format("LeastSquaresParabole needs at least three values, has: {0}", numMeasures));
 			return;
 		}
 
@@ -150,6 +150,8 @@ public class LeastSquares
 
 			calculateXAtMaxY();
 		} else {
+			//note determinant == 0 happens on this X data: (2019.11111111111, 2019.78333333333, 2020.025)
+			//but subtracting all by the first it works: (0.0000000, 0.6722222, 0.9138889)
 			LogB.Error("Determinant of matrix equal to zero");
 		}
 	}

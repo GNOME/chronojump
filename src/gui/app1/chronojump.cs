@@ -732,12 +732,20 @@ public partial class ChronoJumpWindow
 		//Json js = new Json();
 		//js.UploadEncoderData();
 
-		//LeastSquaresParabole test
 		/*
-		LeastSquaresParabole ls = new LeastSquaresParabole();
-		ls.Test();
-		LogB.Information(string.Format("coef = {0} {1} {2}", ls.Coef[0], ls.Coef[1], ls.Coef[2]));
+		//LeastSquaresParabole tests
+
+		//a) straight line:
+		LeastSquaresLine lsl = new LeastSquaresLine();
+		lsl.Test();
+		LogB.Information(string.Format("slope = {0}; intercept = {1}", lsl.Slope, lsl.Intercept));
+
+		//b) LeastSquaresParabole test
+		LeastSquaresParabole lsp = new LeastSquaresParabole();
+		lsp.Test();
+		LogB.Information(string.Format("coef = {0} {1} {2}", lsp.Coef[0], lsp.Coef[1], lsp.Coef[2]));
 		*/
+
 		//new VersionCompareTests();
 		if(configChronojump.PlaySoundsFromFile)
 		{

@@ -245,7 +245,13 @@ public abstract class CairoXY
 			printText(xgraph, graphHeight - Convert.ToInt32(bottomMargin/2), 0, textHeight, Util.TrimDecimals(p.X, 2), g, true);
 			printText(Convert.ToInt32(leftMargin/2), ygraph, 0, textHeight, Util.TrimDecimals(p.Y, 2), g, true);
 			*/
+
+			LogB.Information(string.Format("xgraph: {0} corresponds to x real point: {1}", xgraph,
+						calculateRealX(xgraph, graphWidth, absoluteMaxX, minX, totalMargins, totalMargins)));
+			LogB.Information(string.Format("ygraph: {0} corresponds to y real point: {1}", ygraph,
+						calculateRealY(ygraph, graphHeight, absoluteMaxY, minY, totalMargins, totalMargins)));
 		}
+		getMinMaxXDrawable(graphWidth, absoluteMaxX, minX, totalMargins, totalMargins);
 	}
 
 	protected void plotPredictedMaxPoint()
@@ -384,15 +390,32 @@ public abstract class CairoXY
 		return step;
 	}
 
-	protected double calculatePaintX(double currentValue, int ancho, double maxValue, double minValue, int rightMargin, int leftMargin)
+	protected double calculatePaintX (double realX, int ancho, double maxValue, double minValue, int rightMargin, int leftMargin)
 	{
-                return leftMargin + (currentValue - minValue) * (ancho - rightMargin - leftMargin) / (maxValue - minValue);
+                return leftMargin + (realX - minValue) * (ancho - rightMargin - leftMargin) / (maxValue - minValue);
+        }
+	protected double calculatePaintY (double realY, int alto, double maxValue, double minValue, int topMargin, int bottomMargin)
+	{
+                return alto - bottomMargin - ((realY - minValue) * (alto - topMargin - bottomMargin) / (maxValue - minValue));
         }
 
-	protected double calculatePaintY(double currentValue, int alto, double maxValue, double minValue, int topMargin, int bottomMargin)
+	//get the real point of a graph point
+	private double calculateRealX (double graphX, int ancho, double maxValue, double minValue, int rightMargin, int leftMargin)
 	{
-                return alto - bottomMargin - ((currentValue - minValue) * (alto - topMargin - bottomMargin) / (maxValue - minValue));
+                return minValue + ( (graphX - leftMargin) * (maxValue - minValue) / (ancho - rightMargin - leftMargin) );
         }
+	private double calculateRealY (double graphY, int alto, double maxValue, double minValue, int topMargin, int bottomMargin)
+	{
+                return minValue + (- graphY + alto - bottomMargin) * (maxValue - minValue) / (alto - topMargin - bottomMargin);
+        }
+
+	private void getMinMaxXDrawable(int ancho, double maxValue, double minValue, int rightMargin, int leftMargin)
+	{
+		LogB.Information(string.Format("Real points fitting on graph margins:  {0} , {1}",
+					calculateRealX(outerMargins, graphWidth, absoluteMaxX, minX, totalMargins, totalMargins),
+					calculateRealX(graphWidth - outerMargins, graphWidth, absoluteMaxX, minX, totalMargins, totalMargins)
+					));
+	}
 
 	protected Cairo.Color colorFromRGB(int red, int green, int blue)
 	{

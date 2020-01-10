@@ -111,10 +111,9 @@ public partial class ChronoJumpWindow
 	//TODO
 	private void on_button_jumps_evolution_save_image_clicked (object o, EventArgs args)
 	{
-		//checkFile(Constants.CheckFileOp.JUMPS_EVOLUTION_SAVE_IMAGE);
+		checkFile(Constants.CheckFileOp.JUMPS_EVOLUTION_SAVE_IMAGE);
 	}
 
-	/*
 	private void on_button_jumps_evolution_save_image_selected (string destination)
 	{
 		if(drawingarea_jumps_evolution == null)
@@ -135,6 +134,5 @@ public partial class ChronoJumpWindow
 		string myString = string.Format(Catalog.GetString("Saved to {0}"), exportFileName);
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
-	*/
 
 }

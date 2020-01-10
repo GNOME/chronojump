@@ -111,7 +111,8 @@ public partial class ChronoJumpWindow
 			//regular constructor
 			JumpsWeightFVProfileGraph jwfv = new JumpsWeightFVProfileGraph(
 					jumpsWeightFVProfile.Point_l,
-					jumpsWeightFVProfile.Coefs,
+					jumpsWeightFVProfile.Slope,
+					jumpsWeightFVProfile.Intercept,
 					drawingarea_jumps_weight_fv_profile,
 					currentPerson.Name, //jumpType,
 					currentSession.DateShort);

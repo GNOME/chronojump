@@ -24,7 +24,7 @@ using System.Collections.Generic; //List
 public class JumpsWeightFVProfile
 {
 	private List<Point> point_l;
-	LeastSquaresParabole ls;
+	LeastSquaresLine ls;
 
 	//constructor
 	public JumpsWeightFVProfile()
@@ -59,17 +59,12 @@ public class JumpsWeightFVProfile
 						));
 		}
 
-		//3 get LeastSquaresParabole
-		ls = new LeastSquaresParabole();
+		//3 get LeastSquaresLine (straight line)
+		ls = new LeastSquaresLine();
 		ls.Calculate(point_l);
 
 		//4 print data
-		if(ls.CalculatedCoef)
-			LogB.Information(string.Format("coef = {0} {1} {2}",
-						ls.Coef[0], ls.Coef[1], ls.Coef[2]));
-
-		if(ls.CalculatedXatMaxY)
-			LogB.Information(string.Format("XatMaxY = {0}", ls.XatMaxY));
+		LogB.Information(string.Format("slope = {0}; intercept = {1}", ls.Slope, ls.Intercept));
 	}
 
 	public double GetMaxValue()
@@ -91,29 +86,13 @@ public class JumpsWeightFVProfile
 		get { return point_l; }
 	}
 
-	public double[] Coefs
+	public double Slope
 	{
-		get {
-			if(! ls.CalculatedCoef)
-				return new double[0];
-
-			LogB.Information(string.Format("coef0:{0}", ls.Coef[0]));
-			return ls.Coef;
-		}
+		get { return ls.Slope; }
 	}
 
-	public LeastSquaresParabole.ParaboleTypes ParaboleType
+	public double Intercept
 	{
-		get { return ls.ParaboleType; }
-	}
-
-	public double XatMaxY //model
-	{
-		get {
-			if(! ls.CalculatedXatMaxY)
-				return -1;
-
-			return ls.XatMaxY;
-		}
+		get { return ls.Intercept; }
 	}
 }

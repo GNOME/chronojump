@@ -43,18 +43,12 @@ public class JumpsEvolutionGraph : CairoXY
 
 	//regular constructor
 	public JumpsEvolutionGraph (
-			List<Point> point_l, double[] coefs,
-			LeastSquaresParabole.ParaboleTypes paraboleType,
-			double xAtMMaxY, //x at Model MaxY
-			double pointsMaxValue,
-			DrawingArea area,
-			string title, string jumpType, string date)
+			List<Point> point_l, double slope, double intercept,
+			DrawingArea area, string title, string jumpType, string date)
 	{
 		this.point_l = point_l;
-		this.coefs = coefs;
-		this.paraboleType = paraboleType;
-		this.xAtMMaxY = xAtMMaxY;
-		this.pointsMaxValue = pointsMaxValue;
+		this.slope = slope;
+		this.intercept = intercept;
 		this.area = area;
 		this.title = title;
 		this.jumpType = jumpType;
@@ -70,29 +64,13 @@ public class JumpsEvolutionGraph : CairoXY
 		initGraph();
 
                 findPointMaximums();
-                findAbsoluteMaximums();
+                //findAbsoluteMaximums();
 		paintAxisAndGrid(gridTypes.HORIZONTALLINES);
 		paintGridDatetime();
 
-		LogB.Information(string.Format("coef length:{0}", coefs.Length));
-		if(coefs.Length == 3)
-			plotPredictedLine();
-
+		plotPredictedLine(predictedLineTypes.STRAIGHT);
 		plotRealPoints();
 
-		if(coefs.Length == 3)
-		{
-			if(paraboleType == LeastSquaresParabole.ParaboleTypes.CONVEX)
-			{
-				plotPredictedMaxPoint();
-				writeTextPredictedPoint();
-			}
-			else
-				writeTextConcaveParabole();
-		} else {
-			//TODO: if two points draw a line, but no need to show error if there are 1 or 2 points
-			//writeTextNeed3PointsWithDifferentFall();
-		}
 		writeTitle();
 
 		endGraph();

@@ -91,10 +91,8 @@ public partial class ChronoJumpWindow
 			//regular constructor
 			JumpsEvolutionGraph jeg = new JumpsEvolutionGraph(
 					jumpsEvolution.Point_l,
-					jumpsEvolution.Coefs,
-					jumpsEvolution.ParaboleType, //model
-					jumpsEvolution.XatMaxY, //model
-					jumpsEvolution.GetMaxValue(),
+					jumpsEvolution.Slope,
+					jumpsEvolution.Intercept,
 					drawingarea_jumps_evolution,
 					currentPerson.Name, jumpType, currentSession.DateShort);
 			jeg.Do();

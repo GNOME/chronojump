@@ -28,10 +28,17 @@ public abstract class CairoXY
 {
 	//used on construction
 	protected List<Point> point_l;
+
+	//regression line straight
+	protected double slope;
+	protected double intercept;
+
+	//regression line parabole
 	protected double[] coefs;
 	protected LeastSquaresParabole.ParaboleTypes paraboleType;
 	protected double xAtMMaxY;
 	protected double pointsMaxValue;
+
 	protected DrawingArea area;
 	protected string title;
 	protected string jumpType;
@@ -156,14 +163,21 @@ public abstract class CairoXY
 		paintGrid (minX, absoluteMaxX, minY, absoluteMaxY, 5, gridType);
 	}
 
-	protected void plotPredictedLine()
+	protected enum predictedLineTypes { STRAIGHT, PARABOLE }
+	protected void plotPredictedLine(predictedLineTypes plt)
 	{
 		bool firstValue = false;
-		double minMax50Percent = (minX + absoluteMaxX)/2;
+		double range = absoluteMaxX - minX;
 		double xgraphOld = 0;
 		bool wasOutOfMargins = false; //avoids to not draw a line between the end point of a line on a margin and the start point again of that line
 
-		for(double x = minX - minMax50Percent; x < absoluteMaxX + minMax50Percent; x += (absoluteMaxX-minX)/200)
+		double xStart = minX - range/2;
+		double xEnd = absoluteMaxX + range/2;
+		LogB.Information(string.Format("minX: {0}, absoluteMaxX: {1}, range: {2}, xStart: {3}; xEnd: {4}", minX, absoluteMaxX, range, xStart, xEnd));
+		//TODO: instead of doing this procedure for a straight line,
+		//just find the two points where the line gets out of the graph and draw a line between them
+
+		for(double x = xStart; x < xEnd; x += (xEnd - xStart)/1000)
 		{
 			double xgraph = calculatePaintX(
 					( x ),
@@ -174,9 +188,15 @@ public abstract class CairoXY
 				continue;
 			xgraphOld = xgraph;
 
-			double ygraph = calculatePaintY(
-					( coefs[0] + coefs[1]*x + coefs[2]*Math.Pow(x,2) ),
-					graphHeight, absoluteMaxY, minY, totalMargins, totalMargins);
+			double ygraph = 0;
+
+			if(plt == predictedLineTypes.STRAIGHT)
+				ygraph = calculatePaintY(slope * x + intercept,
+						graphHeight, absoluteMaxY, minY, totalMargins, totalMargins);
+			else //(plt == predictedLineTypes.PARABOLE)
+				ygraph = calculatePaintY(
+						( coefs[0] + coefs[1]*x + coefs[2]*Math.Pow(x,2) ),
+						graphHeight, absoluteMaxY, minY, totalMargins, totalMargins);
 
 			//do not plot line outer the axis
 			if(

@@ -24,8 +24,8 @@ using System.Collections.Generic; //List<T>
 
 public class Point
 {
-	double x;
-	double y;
+	private double x;
+	private double y;
 
 	public Point(double x, double y) 
 	{
@@ -48,6 +48,51 @@ public class Point
 
 }
 
+public class LeastSquaresLine
+{
+	//public double [] Coef; 	//indep, x
+	public double Slope;
+	public double Intercept;
+
+	public LeastSquaresLine() {
+		Slope = 0;
+		Intercept = 0;
+	}
+
+	public void Test()
+	{
+		List<Point> measures = new List<Point> {
+			new Point(1, 10.3214), new Point(2, 13.3214), new Point(3, 18.3214) };
+		Calculate(measures);
+	}
+
+	public void Calculate(List<Point> measures)
+	{
+		int n = measures.Count;
+		double sumX = 0; //sumatory of the X values
+		double sumY = 0; //sumatory of the Y values
+		double sumX2 = 0; //sumatory of the squared X values
+		double sumXY = 0; //sumatory of the squared X values
+
+		//for(int i = 0; i < numMeasures; i++)
+		foreach(Point p in measures)
+		{
+			sumX = sumX + p.X;
+			sumY = sumY + p.Y;
+			sumX2 = sumX2 + p.X * p.X;
+			sumXY = sumXY + p.X * p.Y;
+		}
+
+		Slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+		Intercept = (sumX2 * sumY - sumX * sumXY) / (sumX2 * n - sumX * sumX);
+
+		/*
+		double [] yFit = new double[numMeasures];
+		for (int i = 0; i < n; i++)
+			yFit[i] = slope * x[i] + intercept;
+			*/
+	}
+}
 
 public class LeastSquaresParabole 
 {

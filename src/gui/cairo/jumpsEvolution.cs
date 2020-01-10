@@ -44,7 +44,7 @@ public class JumpsEvolutionGraph : CairoXY
 	//regular constructor
 	public JumpsEvolutionGraph (
 			List<Point> point_l, double[] coefs,
-			LeastSquares.ParaboleTypes paraboleType,
+			LeastSquaresParabole.ParaboleTypes paraboleType,
 			double xAtMMaxY, //x at Model MaxY
 			double pointsMaxValue,
 			DrawingArea area,
@@ -82,7 +82,7 @@ public class JumpsEvolutionGraph : CairoXY
 
 		if(coefs.Length == 3)
 		{
-			if(paraboleType == LeastSquares.ParaboleTypes.CONVEX)
+			if(paraboleType == LeastSquaresParabole.ParaboleTypes.CONVEX)
 			{
 				plotPredictedMaxPoint();
 				writeTextPredictedPoint();

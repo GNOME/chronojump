@@ -45,7 +45,7 @@ public class JumpsDjOptimalFallGraph : CairoXY
 	//regular constructor
 	public JumpsDjOptimalFallGraph (
 			List<Point> point_l, double[] coefs,
-			LeastSquares.ParaboleTypes paraboleType,
+			LeastSquaresParabole.ParaboleTypes paraboleType,
 			double xAtMMaxY, //x at Model MaxY
 			double pointsMaxValue,
 			DrawingArea area,
@@ -82,7 +82,7 @@ public class JumpsDjOptimalFallGraph : CairoXY
 
 		if(coefs.Length == 3)
 		{
-			if(paraboleType == LeastSquares.ParaboleTypes.CONVEX)
+			if(paraboleType == LeastSquaresParabole.ParaboleTypes.CONVEX)
 			{
 				plotPredictedMaxPoint();
 				writeTextPredictedPoint();

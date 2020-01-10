@@ -29,7 +29,7 @@ public abstract class CairoXY
 	//used on construction
 	protected List<Point> point_l;
 	protected double[] coefs;
-	protected LeastSquares.ParaboleTypes paraboleType;
+	protected LeastSquaresParabole.ParaboleTypes paraboleType;
 	protected double xAtMMaxY;
 	protected double pointsMaxValue;
 	protected DrawingArea area;
@@ -128,7 +128,7 @@ public abstract class CairoXY
 	//includes point  and model
 	protected void findAbsoluteMaximums()
 	{
-		if(coefs.Length == 3 && paraboleType == LeastSquares.ParaboleTypes.CONVEX)
+		if(coefs.Length == 3 && paraboleType == LeastSquaresParabole.ParaboleTypes.CONVEX)
 		{
 			//x
 			absoluteMaxX = xAtMMaxY;

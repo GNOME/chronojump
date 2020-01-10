@@ -24,7 +24,7 @@ using System.Collections.Generic; //List
 public class JumpsDjOptimalFall
 {
 	private List<Point> point_l;
-	LeastSquares ls;
+	LeastSquaresParabole ls;
 
 	//constructor
 	public JumpsDjOptimalFall()
@@ -45,8 +45,8 @@ public class JumpsDjOptimalFall
 						Util.GetHeightInCentimeters(j.Tv)
 						));
 
-		//3 get LeastSquares
-		ls = new LeastSquares();
+		//3 get LeastSquaresParabole
+		ls = new LeastSquaresParabole();
 		ls.Calculate(point_l);
 
 		//4 print data
@@ -88,7 +88,7 @@ public class JumpsDjOptimalFall
 		}
 	}
 
-	public LeastSquares.ParaboleTypes ParaboleType
+	public LeastSquaresParabole.ParaboleTypes ParaboleType
 	{
 		get { return ls.ParaboleType; }
 	}

@@ -26,7 +26,7 @@ using System.Collections.Generic; //List
 public class JumpsEvolution
 {
 	private List<Point> point_l;
-	LeastSquares ls;
+	LeastSquaresParabole ls;
 
 	//constructor
 	public JumpsEvolution()
@@ -52,8 +52,8 @@ public class JumpsEvolution
 						));
 		}
 
-		//3 get LeastSquares
-		ls = new LeastSquares();
+		//3 get LeastSquaresParabole
+		ls = new LeastSquaresParabole();
 		ls.Calculate(point_l);
 
 		//4 print data
@@ -95,7 +95,7 @@ public class JumpsEvolution
 		}
 	}
 
-	public LeastSquares.ParaboleTypes ParaboleType
+	public LeastSquaresParabole.ParaboleTypes ParaboleType
 	{
 		get { return ls.ParaboleType; }
 	}

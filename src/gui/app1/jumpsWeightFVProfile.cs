@@ -34,6 +34,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_jumps_weight_fv_profile_save_image;
 
 	JumpsWeightFVProfile jumpsWeightFVProfile;
+	JumpsWeightFVProfileGraph jumpsWeightFVProfileGraph;
 	CjComboSelectJumps comboSelectJumpsWeightFVProfile;
 
 	// combo (start)
@@ -109,22 +110,41 @@ public partial class ChronoJumpWindow
 					//currentPerson.Name, jumpType, currentSession.DateShort);
 		} else {
 			//regular constructor
-			JumpsWeightFVProfileGraph jwfv = new JumpsWeightFVProfileGraph(
+			jumpsWeightFVProfileGraph = new JumpsWeightFVProfileGraph(
 					jumpsWeightFVProfile.Point_l,
 					jumpsWeightFVProfile.Slope,
 					jumpsWeightFVProfile.Intercept,
 					drawingarea_jumps_weight_fv_profile,
 					currentPerson.Name, //jumpType,
 					currentSession.DateShort);
-			jwfv.Do();
+			jumpsWeightFVProfileGraph.Do();
 
 			button_jumps_weight_fv_profile_save_image.Sensitive = true;
 		}
 	}
 	private void on_drawingarea_jumps_weight_fv_profile_expose_event (object o, ExposeEventArgs args) 
 	{
+		//needed to have mouse clicks at: on_drawingarea_jumps_weight_fv_profile_button_press_event ()
+		drawingarea_jumps_weight_fv_profile.AddEvents((int) (Gdk.EventMask.ButtonPressMask | Gdk.EventMask.ButtonReleaseMask));
+
 		jumpsWeightFVProfileDo(false); //do not calculate data
 		//data is calculated on switch page (at notebook_capture_analyze) or on change person
+	}
+
+	private void on_drawingarea_jumps_weight_fv_profile_button_press_event (object o, ButtonPressEventArgs args)
+	{
+		//if there is no data and nothing to show, nothing to press, and also this is null
+		if(jumpsWeightFVProfileGraph == null)
+			return;
+
+		LogB.Information("Button press done!");
+
+		//redo the graph to delete previous rectangles of previous mouse clicks
+		jumpsWeightFVProfileGraph.Do();
+		LogB.Information(string.Format("Mouse X: {0}; Mouse Y: {1}", args.Event.X, args.Event.Y));
+		//LogB.Information(string.Format("Real X: {0}; Real Y: {1}",
+		//			jumpsWeightFVProfileGraph.CalculateAndWriteRealXY(args.Event.X, args.Event.Y)));
+		jumpsWeightFVProfileGraph.CalculateAndWriteRealXY(args.Event.X, args.Event.Y);
 	}
 
 	private void on_button_jumps_weight_fv_profile_save_image_clicked (object o, EventArgs args)

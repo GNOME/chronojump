@@ -28,6 +28,7 @@ public abstract class CairoXY
 {
 	//used on construction
 	protected List<Point> point_l;
+	protected bool predictedPointDone;
 
 	//regression line straight
 	protected double slope;
@@ -46,8 +47,10 @@ public abstract class CairoXY
 
 	protected Cairo.Context g;
 	protected const int textHeight = 12;
-	protected string axisYLabel = "";
-	protected string axisXLabel = "";
+	protected string xVariable = "";
+	protected string yVariable = "";
+	protected string xUnits = "";
+	protected string yUnits = "";
 
 	protected double minX = 1000000;
 	protected double maxX = 0;
@@ -58,12 +61,15 @@ public abstract class CairoXY
 	double absoluteMaxY;
 	protected int graphWidth;
 	protected int graphHeight;
+
+	Cairo.Color black;
+	Cairo.Color white;
 	Cairo.Color red;
 	Cairo.Color blue;
 
 	//for all 4 sides
-	protected int outerMargins = 40; //blank space outside the axis
-	protected int innerMargins = 30; //space between the axis and the real coordinates
+	protected int outerMargins = 40; //blank space outside the axis.
+	protected int innerMargins = 30; //space between the axis and the real coordinates.
 	int totalMargins;
 
 	public abstract void Do();
@@ -89,8 +95,12 @@ public abstract class CairoXY
 		g.SelectFontFace("Helvetica", Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
 		g.SetFontSize(textHeight);
 
+		black = colorFromRGB(0,0,0);
+		white = colorFromRGB(255,255,255);
 		red = colorFromRGB(200,0,0);
 		blue = colorFromRGB(178, 223, 238); //lightblue
+
+		predictedPointDone = false;
 	}
 
 	protected void findPointMaximums()
@@ -157,10 +167,25 @@ public abstract class CairoXY
 		g.LineTo(outerMargins, graphHeight - outerMargins);
 		g.LineTo(graphWidth - outerMargins, graphHeight - outerMargins);
 		g.Stroke ();
-		printText(2, Convert.ToInt32(outerMargins/2), 0, textHeight, axisYLabel, g, false);
-		printText(graphWidth - Convert.ToInt32(outerMargins/2), graphHeight - outerMargins, 0, textHeight, axisXLabel, g, false);
+		printText(2, Convert.ToInt32(outerMargins/2), 0, textHeight, getYAxisLabel(), g, false);
+		printText(graphWidth - Convert.ToInt32(outerMargins/2), graphHeight - outerMargins, 0, textHeight, getXAxisLabel(), g, false);
 
 		paintGrid (minX, absoluteMaxX, minY, absoluteMaxY, 5, gridType);
+	}
+
+	private string getXAxisLabel()
+	{
+		return getAxisLabel(xVariable, xUnits);
+	}
+	private string getYAxisLabel()
+	{
+		return getAxisLabel(yVariable, yUnits);
+	}
+	private string getAxisLabel(string variable, string units)
+	{
+		if(units == "")
+			return variable;
+		return string.Format("{0} ({1})", variable, units);
 	}
 
 	protected enum predictedLineTypes { STRAIGHT, PARABOLE }
@@ -247,9 +272,9 @@ public abstract class CairoXY
 			*/
 
 			LogB.Information(string.Format("xgraph: {0} corresponds to x real point: {1}", xgraph,
-						calculateRealX(xgraph, graphWidth, absoluteMaxX, minX, totalMargins, totalMargins)));
+						calculateRealX(xgraph)));
 			LogB.Information(string.Format("ygraph: {0} corresponds to y real point: {1}", ygraph,
-						calculateRealY(ygraph, graphHeight, absoluteMaxY, minY, totalMargins, totalMargins)));
+						calculateRealY(ygraph)));
 		}
 		getMinMaxXDrawable(graphWidth, absoluteMaxX, minX, totalMargins, totalMargins);
 	}
@@ -310,6 +335,80 @@ public abstract class CairoXY
 			g.SelectFontFace("Helvetica", Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
 	}
 
+	protected void writeCoordinatesOfMouseClick(double graphX, double graphY, double realX, double realY)
+	{
+		// 1) need to do this because context has been disposed
+		LogB.Information(string.Format("g == null: {0}", (g = null)));
+		if(g == null)
+			g = Gdk.CairoHelper.Create (area.GdkWindow);
+
+
+		int line = 4;
+		/*
+		 * This is not needed because graph is re-done at each mouse click
+		 *
+		//rectangle to erase previous values
+		g.Color = white;
+		g.Rectangle(graphWidth + 1, Convert.ToInt32(graphHeight/2) + textHeight*2*line - textHeight,
+				area.Allocation.Width -1, textHeight*8);
+		g.Fill();
+		g.Color = black;
+		*/
+
+		// 2) exit if out of graph area
+		LogB.Information(string.Format("graphX: {0}; graphY: {1}", graphX, graphY));
+		if(
+				graphX < outerMargins || graphX > graphWidth - outerMargins ||
+				graphY < outerMargins || graphY > graphHeight - outerMargins )
+			return;
+
+		/* optional show real mouse click
+		//write text (of clicked point)
+		writeTextAtRight(line, "X: " + Util.TrimDecimals(realX, 2), false);
+		writeTextAtRight(line +1, "Y: " + Util.TrimDecimals(realY, 2), false);
+		*/
+
+		// 3) find closest point (including predicted point if any)
+		Point pClosest = findClosestRealPoint(realX, realY);
+
+		// 4) write text at right
+		writeTextAtRight(line, "Selected:", false);
+		writeTextAtRight(line +1, string.Format("{0}: {1} {2}", xVariable, Util.TrimDecimals(pClosest.X, 2), xUnits), false);
+		writeTextAtRight(line +2, string.Format("{0}: {1} {2}", yVariable, Util.TrimDecimals(pClosest.Y, 2), yUnits), false);
+
+		// 5) paint rectangle around that point
+		g.Color = red;
+		g.Rectangle(
+				calculatePaintX(pClosest.X,
+					graphWidth, absoluteMaxX, minX, totalMargins, totalMargins) -12,
+				calculatePaintY(pClosest.Y,
+					graphHeight, absoluteMaxY, minY, totalMargins, totalMargins) -12,
+				24, 24);
+		g.Stroke();
+		g.Color = black;
+	}
+
+	private Point findClosestRealPoint(double realX, double realY)
+	{
+		double distMin = 10000000;
+		Point pClosest = point_l[0];
+		foreach(Point p in point_l)
+		{
+			double dist = Math.Sqrt(Math.Pow(realX - p.X, 2) + Math.Pow(realY - p.Y, 2));
+			if(dist < distMin)
+			{
+				distMin = dist;
+				pClosest = p;
+			}
+		}
+
+		//also check predicted point if exits
+		if(predictedPointDone && Math.Sqrt(Math.Pow(realX - xAtMMaxY, 2) + Math.Pow(realY - yAtMMaxY, 2)) < distMin)
+			pClosest = new Point(xAtMMaxY, yAtMMaxY);
+
+		return pClosest;
+	}
+
 	protected void endGraph()
 	{
 		g.GetTarget().Dispose ();
@@ -332,7 +431,7 @@ public abstract class CairoXY
 		if(gridType != gridTypes.HORIZONTALLINES)
 			for(double i = minX; i <= maxX *1.5 ; i += stepX)
 			{
-				int xtemp = Convert.ToInt32(calculatePaintX(i, graphWidth, maxX, minX, outerMargins + innerMargins, outerMargins + innerMargins));
+				int xtemp = Convert.ToInt32(calculatePaintX(i, graphWidth, maxX, minX, totalMargins, totalMargins));
 				if(xtemp < outerMargins || xtemp > graphWidth - outerMargins)
 					continue;
 
@@ -342,7 +441,7 @@ public abstract class CairoXY
 		if(gridType != gridTypes.VERTICALLINES)
 			for(double i = minY; i <= maxY *1.5 ; i += stepY)
 			{
-				int ytemp = Convert.ToInt32(calculatePaintY(i, graphHeight, maxY, minY, outerMargins + innerMargins, outerMargins + innerMargins));
+				int ytemp = Convert.ToInt32(calculatePaintY(i, graphHeight, maxY, minY, totalMargins, totalMargins));
 				if(ytemp < outerMargins || ytemp > graphHeight - outerMargins)
 					continue;
 
@@ -399,21 +498,24 @@ public abstract class CairoXY
                 return alto - bottomMargin - ((realY - minValue) * (alto - topMargin - bottomMargin) / (maxValue - minValue));
         }
 
-	//get the real point of a graph point
-	private double calculateRealX (double graphX, int ancho, double maxValue, double minValue, int rightMargin, int leftMargin)
+	private double calculateRealX (double graphX)
 	{
-                return minValue + ( (graphX - leftMargin) * (maxValue - minValue) / (ancho - rightMargin - leftMargin) );
-        }
-	private double calculateRealY (double graphY, int alto, double maxValue, double minValue, int topMargin, int bottomMargin)
+                return minX + ( (graphX - totalMargins) * (absoluteMaxX - minX) / (graphWidth - totalMargins - totalMargins) );
+	}
+	private double calculateRealY (double graphY)
 	{
-                return minValue + (- graphY + alto - bottomMargin) * (maxValue - minValue) / (alto - topMargin - bottomMargin);
+		return minY - (graphY - graphHeight + totalMargins) * (absoluteMaxY - minY) / (graphHeight - totalMargins - totalMargins);
         }
+	public void CalculateAndWriteRealXY (double graphX, double graphY)
+	{
+		writeCoordinatesOfMouseClick(graphX, graphY, calculateRealX(graphX), calculateRealY(graphY));
+	}
 
 	private void getMinMaxXDrawable(int ancho, double maxValue, double minValue, int rightMargin, int leftMargin)
 	{
 		LogB.Information(string.Format("Real points fitting on graph margins:  {0} , {1}",
-					calculateRealX(outerMargins, graphWidth, absoluteMaxX, minX, totalMargins, totalMargins),
-					calculateRealX(graphWidth - outerMargins, graphWidth, absoluteMaxX, minX, totalMargins, totalMargins)
+					calculateRealX(totalMargins),
+					calculateRealX(graphWidth - totalMargins)
 					));
 	}
 

@@ -66,8 +66,11 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		this.date = date;
 
 		outerMargins = 50; //blank space outside the axis
-		axisYLabel = "Force (N)";
-		axisXLabel = "Speed (m/s)";
+
+		xVariable = "Speed";
+		yVariable = "Force";
+		xUnits = "m/s";
+		yUnits = "N";
 	}
 
 	public override void Do()

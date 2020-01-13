@@ -34,6 +34,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_jumps_dj_optimal_fall_save_image;
 
 	JumpsDjOptimalFall jumpsDjOptimalFall;
+	JumpsDjOptimalFallGraph jumpsDjOptimalFallGraph;
 	CjComboSelectJumps comboSelectJumpsDjOptimalFall;
 
 	// combo (start)
@@ -89,7 +90,7 @@ public partial class ChronoJumpWindow
 
 		} else {
 			//regular constructor
-			JumpsDjOptimalFallGraph jdofg = new JumpsDjOptimalFallGraph(
+			jumpsDjOptimalFallGraph = new JumpsDjOptimalFallGraph(
 					jumpsDjOptimalFall.Point_l,
 					jumpsDjOptimalFall.Coefs,
 					jumpsDjOptimalFall.ParaboleType, //model
@@ -97,15 +98,32 @@ public partial class ChronoJumpWindow
 					jumpsDjOptimalFall.GetMaxValue(),
 					drawingarea_jumps_dj_optimal_fall,
 					currentPerson.Name, jumpType, currentSession.DateShort);
-			jdofg.Do();
+			jumpsDjOptimalFallGraph.Do();
 
 			button_jumps_dj_optimal_fall_save_image.Sensitive = true;
 		}
 	}
 	private void on_drawingarea_jumps_dj_optimal_fall_expose_event (object o, ExposeEventArgs args) 
 	{
+		//needed to have mouse clicks at: on_drawingarea_jumps_weight_fv_profile_button_press_event ()
+		drawingarea_jumps_dj_optimal_fall.AddEvents((int) (Gdk.EventMask.ButtonPressMask | Gdk.EventMask.ButtonReleaseMask));
+
 		jumpsDjOptimalFallDo(false); //do not calculate data
 		//data is calculated on switch page (at notebook_capture_analyze) or on change person
+	}
+
+	private void on_drawingarea_jumps_dj_optimal_fall_button_press_event (object o, ButtonPressEventArgs args)
+	{
+		//if there is no data and nothing to show, nothing to press, and also this is null
+		if(jumpsDjOptimalFallGraph == null)
+			return;
+
+		LogB.Information("Button press done!");
+
+		//redo the graph to delete previous rectangles of previous mouse clicks
+		jumpsDjOptimalFallGraph.Do();
+		LogB.Information(string.Format("Mouse X: {0}; Mouse Y: {1}", args.Event.X, args.Event.Y));
+		jumpsDjOptimalFallGraph.CalculateAndWriteRealXY(args.Event.X, args.Event.Y);
 	}
 
 	private void on_button_jumps_dj_optimal_fall_save_image_clicked (object o, EventArgs args)

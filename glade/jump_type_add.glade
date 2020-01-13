@@ -32,16 +32,10 @@
           <widget class="GtkTable" id="table7">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="n_rows">7</property>
+            <property name="n_rows">8</property>
             <property name="n_columns">2</property>
-            <property name="column_spacing">4</property>
-            <property name="row_spacing">4</property>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
+            <property name="column_spacing">20</property>
+            <property name="row_spacing">10</property>
             <child>
               <widget class="GtkLabel" id="label81">
                 <property name="visible">True</property>
@@ -60,7 +54,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
-                <property name="label" translatable="yes">Start inside</property>
+                <property name="label" translatable="yes">Type</property>
               </widget>
               <packing>
                 <property name="top_attach">4</property>
@@ -77,8 +71,8 @@
                 <property name="label" translatable="yes">Description</property>
               </widget>
               <packing>
-                <property name="top_attach">6</property>
-                <property name="bottom_attach">7</property>
+                <property name="top_attach">7</property>
+                <property name="bottom_attach">8</property>
                 <property name="x_options">GTK_FILL</property>
                 <property name="y_options"/>
               </packing>
@@ -97,8 +91,8 @@
               <packing>
                 <property name="left_attach">1</property>
                 <property name="right_attach">2</property>
-                <property name="top_attach">6</property>
-                <property name="bottom_attach">7</property>
+                <property name="top_attach">7</property>
+                <property name="bottom_attach">8</property>
                 <property name="x_options">GTK_FILL</property>
                 <property name="y_options">GTK_FILL</property>
               </packing>
@@ -120,52 +114,6 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkHBox" id="hbox59">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="spacing">10</property>
-                <child>
-                  <widget class="GtkRadioButton" id="radiobutton_startIn_yes">
-                    <property name="label" translatable="yes">yes</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="use_underline">True</property>
-                    <property name="draw_indicator">True</property>
-                  </widget>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkRadioButton" id="radiobutton_startIn_no">
-                    <property name="label" translatable="yes">no</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="use_underline">True</property>
-                    <property name="draw_indicator">True</property>
-                    <property name="group">radiobutton_startIn_yes</property>
-                  </widget>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-              </widget>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="right_attach">2</property>
-                <property name="top_attach">4</property>
-                <property name="bottom_attach">5</property>
-                <property name="x_options">GTK_FILL</property>
-                <property name="y_options">GTK_FILL</property>
-              </packing>
-            </child>
-            <child>
               <widget class="GtkLabel" id="label85">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
@@ -173,8 +121,8 @@
                 <property name="label" translatable="yes">Extra weight</property>
               </widget>
               <packing>
-                <property name="top_attach">5</property>
-                <property name="bottom_attach">6</property>
+                <property name="top_attach">6</property>
+                <property name="bottom_attach">7</property>
                 <property name="x_options">GTK_FILL</property>
                 <property name="y_options"/>
               </packing>
@@ -183,7 +131,7 @@
               <widget class="GtkHBox" id="hbox60">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="spacing">10</property>
+                <property name="spacing">20</property>
                 <child>
                   <widget class="GtkRadioButton" id="radiobutton_extra_weight_yes">
                     <property name="label" translatable="yes">yes</property>
@@ -219,8 +167,8 @@
               <packing>
                 <property name="left_attach">1</property>
                 <property name="right_attach">2</property>
-                <property name="top_attach">5</property>
-                <property name="bottom_attach">6</property>
+                <property name="top_attach">6</property>
+                <property name="bottom_attach">7</property>
                 <property name="x_options">GTK_FILL</property>
                 <property name="y_options">GTK_FILL</property>
               </packing>
@@ -247,8 +195,8 @@ options</property>
                 <property name="border_width">8</property>
                 <property name="n_rows">3</property>
                 <property name="n_columns">3</property>
-                <property name="column_spacing">6</property>
-                <property name="row_spacing">4</property>
+                <property name="column_spacing">10</property>
+                <property name="row_spacing">10</property>
                 <child>
                   <placeholder/>
                 </child>
@@ -473,6 +421,74 @@ options</property>
                 <property name="top_attach">1</property>
                 <property name="bottom_attach">2</property>
                 <property name="x_options">GTK_FILL</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkHBox" id="hbox59">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="spacing">20</property>
+                <child>
+                  <widget class="GtkRadioButton" id="radiobutton_startIn_yes">
+                    <property name="label" translatable="yes">Normal jump</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="use_underline">True</property>
+                    <property name="draw_indicator">True</property>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkRadioButton" id="radiobutton_startIn_no">
+                    <property name="label" translatable="yes">Drop jump</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="use_underline">True</property>
+                    <property name="draw_indicator">True</property>
+                    <property name="group">radiobutton_startIn_yes</property>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </widget>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+                <property name="top_attach">4</property>
+                <property name="bottom_attach">5</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options">GTK_FILL</property>
+              </packing>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <widget class="GtkLabel" id="label1">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Drop jump can also start inside platform.</property>
+              </widget>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+                <property name="top_attach">5</property>
+                <property name="bottom_attach">6</property>
               </packing>
             </child>
           </widget>

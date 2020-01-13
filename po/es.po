@@ -3245,7 +3245,7 @@ msgstr "General"
 
 #: ../glade/person_win.glade.h:16
 msgid "Person's height"
-msgstr "Peso del atleta"
+msgstr "Altura del atleta"
 
 #: ../glade/person_win.glade.h:17
 msgid "Used on sprint analysis"

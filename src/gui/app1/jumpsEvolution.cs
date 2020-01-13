@@ -34,6 +34,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_jumps_evolution_save_image;
 
 	JumpsEvolution jumpsEvolution;
+	JumpsEvolutionGraph jumpsEvolutionGraph;
 	CjComboSelectJumps comboSelectJumpsEvolution;
 
 	// combo (start)
@@ -89,24 +90,40 @@ public partial class ChronoJumpWindow
 
 		} else {
 			//regular constructor
-			JumpsEvolutionGraph jeg = new JumpsEvolutionGraph(
+			jumpsEvolutionGraph = new JumpsEvolutionGraph(
 					jumpsEvolution.Point_l,
 					jumpsEvolution.Slope,
 					jumpsEvolution.Intercept,
 					drawingarea_jumps_evolution,
 					currentPerson.Name, jumpType, currentSession.DateShort);
-			jeg.Do();
+			jumpsEvolutionGraph.Do();
 
 			button_jumps_evolution_save_image.Sensitive = true;
 		}
 	}
 	private void on_drawingarea_jumps_evolution_expose_event (object o, ExposeEventArgs args) 
 	{
+		//needed to have mouse clicks at: on_drawingarea_jumps_weight_fv_profile_button_press_event ()
+		drawingarea_jumps_evolution.AddEvents((int) (Gdk.EventMask.ButtonPressMask | Gdk.EventMask.ButtonReleaseMask));
+
 		jumpsEvolutionDo(false); //do not calculate data
 		//data is calculated on switch page (at notebook_capture_analyze) or on change person
 	}
 
-	//TODO
+	private void on_drawingarea_jumps_evolution_button_press_event (object o, ButtonPressEventArgs args)
+	{
+		//if there is no data and nothing to show, nothing to press, and also this is null
+		if(jumpsEvolutionGraph == null)
+			return;
+
+		LogB.Information("Button press done!");
+
+		//redo the graph to delete previous rectangles of previous mouse clicks
+		jumpsEvolutionGraph.Do();
+		LogB.Information(string.Format("Mouse X: {0}; Mouse Y: {1}", args.Event.X, args.Event.Y));
+		jumpsEvolutionGraph.CalculateAndWriteRealXY(args.Event.X, args.Event.Y);
+	}
+
 	private void on_button_jumps_evolution_save_image_clicked (object o, EventArgs args)
 	{
 		checkFile(Constants.CheckFileOp.JUMPS_EVOLUTION_SAVE_IMAGE);

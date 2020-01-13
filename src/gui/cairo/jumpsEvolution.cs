@@ -54,8 +54,10 @@ public class JumpsEvolutionGraph : CairoXY
 		this.jumpType = jumpType;
 		this.date = date;
 
-		axisYLabel = "Height (cm)";
-		axisXLabel = "Date";
+		xVariable = "Date";
+		yVariable = "Height";
+		xUnits = "";
+		yUnits = "cm";
 	}
 
 	public override void Do()

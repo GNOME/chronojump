@@ -18843,6 +18843,7 @@ Concentric</property>
                                                           <widget class="GtkDrawingArea" id="drawingarea_jumps_dj_optimal_fall">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <signal name="button_press_event" handler="on_drawingarea_jumps_dj_optimal_fall_button_press_event" swapped="no"/>
                                                             <signal name="expose_event" handler="on_drawingarea_jumps_dj_optimal_fall_expose_event" swapped="no"/>
                                                           </widget>
                                                           <packing>
@@ -18983,6 +18984,7 @@ Concentric</property>
                                                           <widget class="GtkDrawingArea" id="drawingarea_jumps_weight_fv_profile">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <signal name="button_press_event" handler="on_drawingarea_jumps_weight_fv_profile_button_press_event" swapped="no"/>
                                                             <signal name="expose_event" handler="on_drawingarea_jumps_weight_fv_profile_expose_event" swapped="no"/>
                                                           </widget>
                                                           <packing>
@@ -19124,6 +19126,7 @@ Concentric</property>
                                                           <widget class="GtkDrawingArea" id="drawingarea_jumps_evolution">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <signal name="button_press_event" handler="on_drawingarea_jumps_evolution_button_press_event" swapped="no"/>
                                                             <signal name="expose_event" handler="on_drawingarea_jumps_evolution_expose_event" swapped="no"/>
                                                           </widget>
                                                           <packing>
@@ -22800,6 +22803,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -25047,6 +25053,18 @@ Concentric</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
+                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Tests will be filmed</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkHBox" id="hbox_video_encoder_capturing">
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
@@ -25074,18 +25092,6 @@ Concentric</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack_type">end</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Tests will be filmed</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -30733,6 +30739,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

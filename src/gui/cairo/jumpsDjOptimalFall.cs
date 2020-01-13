@@ -61,8 +61,10 @@ public class JumpsDjOptimalFallGraph : CairoXY
 		this.jumpType = jumpType;
 		this.date = date;
 
-		axisYLabel = "Height (cm)";
-		axisXLabel = "Fall (cm)";
+		xVariable = "Fall";
+		yVariable = "Height";
+		xUnits = "cm";
+		yUnits = "cm";
 	}
 
 	public override void Do()
@@ -86,6 +88,7 @@ public class JumpsDjOptimalFallGraph : CairoXY
 			{
 				plotPredictedMaxPoint();
 				writeTextPredictedPoint();
+				predictedPointDone = true;
 			}
 			else
 				writeTextConcaveParabole();

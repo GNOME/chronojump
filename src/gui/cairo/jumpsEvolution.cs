@@ -93,6 +93,16 @@ public class JumpsEvolutionGraph : CairoXY
 		g.SetDash(new double[]{1, 2}, 0);
 
 		bool paintMonths = (Convert.ToInt32(Math.Floor(maxX)) - Convert.ToInt32(Math.Floor(minX)) < 3); //paint months if few years
+		//or if years are very separated (high X resolution)
+		if(! paintMonths)
+		{
+			int year = Convert.ToInt32(Math.Floor(minX)) -1;
+			int xtemp1 = Convert.ToInt32(calculatePaintX(year, graphWidth, maxX, minX, outerMargins + innerMargins, outerMargins + innerMargins));
+			int xtemp2 = Convert.ToInt32(calculatePaintX(year + 1, graphWidth, maxX, minX, outerMargins + innerMargins, outerMargins + innerMargins));
+			if(xtemp2 - xtemp1 > 500)
+				paintMonths = true;
+
+		}
 
 		//-1 to start on previous year to see last months (if fit into graph)
 		for(int year = Convert.ToInt32(Math.Floor(minX)) -1; year <= Convert.ToInt32(Math.Floor(maxX)); year ++)

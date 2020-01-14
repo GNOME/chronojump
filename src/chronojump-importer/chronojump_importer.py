@@ -975,7 +975,7 @@ def process_command_line():
                 DEBUGTOFILE = False
             elif args.debug_to_file != "":
                 DEBUGTOFILE = True
-                debugFile = open('/tmp/debugFile.txt', 'w')
+                debugFile = open(args.debug_to_file, 'w')
 
             importer = ImportSession(args.source, args.destination, source_base_directory, args.source_temp_directory)
 

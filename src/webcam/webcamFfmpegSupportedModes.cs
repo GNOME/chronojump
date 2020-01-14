@@ -29,6 +29,7 @@ public abstract class WebcamFfmpegSupportedModes
 	protected string modesStr;
 	protected string errorStr;
 	protected string cameraCode;
+	protected bool testParsing = false; //ensure this is false on release
 
 	public abstract void GetModes();
 
@@ -128,7 +129,6 @@ public abstract class WebcamFfmpegSupportedModes
 			return nothingFound;
 	}
 
-	protected bool testParsing = false; //ensure this is false on release
 	protected abstract string parseSupportedModesTestString();
 
 	public string ErrorStr
@@ -201,7 +201,7 @@ public class WebcamFfmpegSupportedModesLinux : WebcamFfmpegSupportedModes
 			}
 
 			string resolutionStr = matchResolution(l);
-			if(wsmList != null && l.Contains("Size: Discrete") && resolutionStr != "")
+			if(wsmList != null && (l.Contains("Size: Discrete") || l.Contains("Size: Stepwise")) && resolutionStr != "")
 			{
 				LogB.Information("Is resolution!");
 				if(wsmList.ModeExist(resolutionStr))
@@ -229,14 +229,26 @@ public class WebcamFfmpegSupportedModesLinux : WebcamFfmpegSupportedModes
 
 	private string matchResolution(string l)
 	{
-		Match match = Regex.Match(l, @"(\d+)x(\d+)");
+		/*
+		 * on raspberry we found this string:
+		 * Size: Stepwise 32x32 - 2592x1944 width step 2/2
+		 * for this reason we use Regex.Matches instead of Regex.Match because we want to find all ocurrences, not just first one
+		 */
+		MatchCollection matches = Regex.Matches(l, @"(\d+)x(\d+)");
 
-		LogB.Information(string.Format("resolution match group count: {0}", match.Groups.Count));
+		/*
+		LogB.Information(string.Format("resolution matches count: {0}", matches.Count));
 
-		//we use >=3 because on raspberry we found this string:
-		//Size: Stepwise 32x32 - 2592x1944 width step 2/2
-		if(match.Groups.Count >= 3)
-			return string.Format("{0}x{1}", match.Groups[match.Groups.Count -2].Value, match.Groups[match.Groups.Count -1].Value);
+		foreach(Match m in matches)
+			LogB.Information(string.Format("match at foreachs: {0}", m));
+		*/
+
+		if(matches.Count > 0)
+		{
+			Match m = matches[matches.Count -1];
+			//LogB.Information(string.Format("final match: {0}x{1}", m.Groups[1].Value, m.Groups[2].Value));
+			return string.Format("{0}x{1}", m.Groups[1].Value, m.Groups[2].Value);
+		}
 
 		return "";
 	}
@@ -335,6 +347,7 @@ ioctl: VIDIOC_ENUM_FMT
 			Interval: Discrete 0.040s (25.000 fps)
 			Interval: Discrete 0.050s (20.000 fps)
 			Interval: Discrete 0.067s (15.000 fps)
+		Size: Stepwise 32x32 - 2592x1944 width step 2/2
 ");
 	}
 }

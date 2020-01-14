@@ -419,33 +419,29 @@ public abstract class CairoXY
 	protected enum gridTypes { BOTH, HORIZONTALLINES, VERTICALLINES }
 	protected void paintGrid (double minX, double maxX, double minY, double maxY, int seps, gridTypes gridType)
 	{
-		//LogB.Information(string.Format("paintGrid: {0}, {1}, {2}, {3}", min, max, seps, horiz));
-
-		double stepX = getGridStep(minX, maxX, seps);
-		double stepY = getGridStep(minY, maxY, seps);
+		var gridXTuple = getGridStepAndBoundaries ((decimal) minX, (decimal) maxX, seps);
+		var gridYTuple = getGridStepAndBoundaries ((decimal) minY, (decimal) maxY, seps);
 
 		g.Save();
 		g.SetDash(new double[]{1, 2}, 0);
-		// i <= max*1.5 to allow to have grid just above the maxpoint if it's below innermargins
-		// see: if(ytemp < outerMargins) continue;
 		if(gridType != gridTypes.HORIZONTALLINES)
-			for(double i = minX; i <= maxX *1.5 ; i += stepX)
+			for(double i = gridXTuple.Item1; i <= gridXTuple.Item2 ; i += gridXTuple.Item3)
 			{
 				int xtemp = Convert.ToInt32(calculatePaintX(i, graphWidth, maxX, minX, totalMargins, totalMargins));
 				if(xtemp < outerMargins || xtemp > graphWidth - outerMargins)
 					continue;
 
-				paintVerticalGridLine(xtemp, Util.TrimDecimals(i, 1));
+				paintVerticalGridLine(xtemp, Util.TrimDecimals(i, 2));
 			}
 
 		if(gridType != gridTypes.VERTICALLINES)
-			for(double i = minY; i <= maxY *1.5 ; i += stepY)
+			for(double i = gridYTuple.Item1; i <= gridYTuple.Item2 ; i += gridYTuple.Item3)
 			{
 				int ytemp = Convert.ToInt32(calculatePaintY(i, graphHeight, maxY, minY, totalMargins, totalMargins));
 				if(ytemp < outerMargins || ytemp > graphHeight - outerMargins)
 					continue;
 
-				paintHorizontalGridLine(ytemp, Util.TrimDecimals(i, 1));
+				paintHorizontalGridLine(ytemp, Util.TrimDecimals(i, 2));
 			}
 		g.Stroke ();
 		g.Restore();
@@ -464,6 +460,66 @@ public abstract class CairoXY
 		printText(xtemp, graphHeight - Convert.ToInt32(outerMargins/2), 0, textHeight, text, g, true);
 	}
 
+
+	/*
+	 * adapted to not used LinQ from:
+	 * https://stackoverflow.com/questions/237220/tickmark-algorithm-for-a-graph-axis
+	 *
+	 * thanks to: Andrew
+	 */
+	//private static Tuple<decimal, decimal, decimal> getGridStepAndBoundaries (decimal min, decimal max, int stepCount)
+	private static Tuple<double, double, double> getGridStepAndBoundaries (decimal min, decimal max, int stepCount)
+	{
+		// Minimal increment to avoid round extreme values to be on the edge of the chart
+		decimal epsilon = (max - min) / 1e6m;
+		max += epsilon;
+		min -= epsilon;
+		decimal range = max - min;
+
+		// Target number of values to be displayed on the Y axis (it may be less)
+		//int stepCount = 10;
+		// First approximation
+		decimal roughStep = range / (stepCount - 1);
+
+		// Set best step for the range
+		decimal[] goodNormalizedSteps = { 1, 1.5m, 2, 2.5m, 5, 7.5m, 10 }; // keep the 10 at the end
+		// Or use these if you prefer:  { 1, 2, 5, 10 };
+
+		// Normalize rough step to find the normalized one that fits best
+		decimal stepPower = (decimal)Math.Pow(10, -Math.Floor(Math.Log10((double)Math.Abs(roughStep))));
+		var normalizedStep = roughStep * stepPower;
+
+		//this uses Linq
+		//var goodNormalizedStep = goodNormalizedSteps.First(n => n >= normalizedStep);
+
+		//without Linq
+		var goodNormalizedStep = LikeLinQFirst(goodNormalizedSteps, normalizedStep);
+
+		decimal step = goodNormalizedStep / stepPower;
+
+		// Determine the scale limits based on the chosen step.
+		decimal scaleMax = Math.Ceiling(max / step) * step;
+		decimal scaleMin = Math.Floor(min / step) * step;
+
+		//return new Tuple<decimal, decimal, decimal>(scaleMin, scaleMax, step);
+		return new Tuple<double, double, double>(Convert.ToDouble(scaleMin), Convert.ToDouble(scaleMax), Convert.ToDouble(step));
+	}
+	private static decimal LikeLinQFirst(decimal [] goodNormalizedSteps, decimal normalizedStep)
+	{
+		//Console.WriteLine(string.Format("normalizedStep: {0}", normalizedStep));
+		foreach(var item in goodNormalizedSteps)
+		{
+			Console.WriteLine(item);
+			if(item >= normalizedStep)
+				return item;
+		}
+
+		return goodNormalizedSteps[0];
+	}
+
+	/*
+	 * pathetical old method
+	 *
 	private double getGridStep(double min, double max, int seps)
 	{
 		//show 5 steps positive, 5 negative (if possible)
@@ -471,8 +527,14 @@ public abstract class CairoXY
 		double step = temp;
 
 		//to have values multiples than 10, 100 ...
-		if(step <= 10)
-			step = temp;
+		if(step == 0) //fix crash when no force
+			step = 1;
+		else if(step <= 1) //do nothing
+			step = .2;
+		else if(step <= 3)
+			step = 1;
+		else if(step <= 10)
+			step = 5;
 		else if(step <= 100)
 			step = temp - (temp % 10);
 		else if(step <= 1000)
@@ -482,12 +544,9 @@ public abstract class CairoXY
 		else //if(step <= 100000)
 			step = temp - (temp % 10000);
 
-		//fix crash when no force
-		if(step == 0)
-			step = 1;
-
 		return step;
 	}
+	*/
 
 	protected double calculatePaintX (double realX, int ancho, double maxValue, double minValue, int rightMargin, int leftMargin)
 	{

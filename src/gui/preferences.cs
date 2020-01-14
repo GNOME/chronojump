@@ -33,6 +33,7 @@ using System.Threading;
 using System.Globalization; //CultureInfo stuff
 
 using System.Diagnostics;  //Stopwatch
+using System.Text.RegularExpressions; //Regex
 
 
 /*
@@ -956,8 +957,11 @@ public class PreferencesWindow
 		if(operatingSystem == UtilAll.OperatingSystems.LINUX)
 		{
 			string number = "0";
-			if(cameraCode.StartsWith("/dev/video") && cameraCode.Length > 10 && Util.IsNumber(cameraCode[10], false))
-			       number = cameraCode[10].ToString();
+
+			//allows to use two-digit codes
+			Match match = Regex.Match(cameraCode, @"/dev/video/(\d+)");
+			if(match.Groups.Count == 2)
+				number = match.Value;
 
 			wfsm = new WebcamFfmpegSupportedModesLinux(number);
 		}

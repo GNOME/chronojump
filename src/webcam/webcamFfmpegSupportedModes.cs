@@ -231,10 +231,12 @@ public class WebcamFfmpegSupportedModesLinux : WebcamFfmpegSupportedModes
 	{
 		Match match = Regex.Match(l, @"(\d+)x(\d+)");
 
-		LogB.Information("resolution match group count is 3?", (match.Groups.Count == 3).ToString());
+		LogB.Information(string.Format("resolution match group count: {0}", match.Groups.Count));
 
-		if(match.Groups.Count == 3)
-			return string.Format("{0}x{1}", match.Groups[1].Value, match.Groups[2].Value);
+		//we use >=3 because on raspberry we found this string:
+		//Size: Stepwise 32x32 - 2592x1944 width step 2/2
+		if(match.Groups.Count >= 3)
+			return string.Format("{0}x{1}", match.Groups[match.Groups.Count -2].Value, match.Groups[match.Groups.Count -1].Value);
 
 		return "";
 	}

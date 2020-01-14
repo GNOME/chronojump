@@ -204,9 +204,7 @@ public abstract class CairoXY
 
 		for(double x = xStart; x < xEnd; x += (xEnd - xStart)/1000)
 		{
-			double xgraph = calculatePaintX(
-					( x ),
-					graphWidth, absoluteMaxX, minX, totalMargins, totalMargins);
+			double xgraph = calculatePaintX(x);
 
 			//do not plot two times the same x point
 			if(xgraph == xgraphOld)
@@ -216,12 +214,9 @@ public abstract class CairoXY
 			double ygraph = 0;
 
 			if(plt == predictedLineTypes.STRAIGHT)
-				ygraph = calculatePaintY(slope * x + intercept,
-						graphHeight, absoluteMaxY, minY, totalMargins, totalMargins);
+				ygraph = calculatePaintY(slope * x + intercept);
 			else //(plt == predictedLineTypes.PARABOLE)
-				ygraph = calculatePaintY(
-						( coefs[0] + coefs[1]*x + coefs[2]*Math.Pow(x,2) ),
-						graphHeight, absoluteMaxY, minY, totalMargins, totalMargins);
+				ygraph = calculatePaintY(coefs[0] + coefs[1]*x + coefs[2]*Math.Pow(x,2));
 
 			//do not plot line outer the axis
 			if(
@@ -251,12 +246,8 @@ public abstract class CairoXY
 		foreach(Point p in point_l)
 		{
 			LogB.Information(string.Format("point: {0}", p));
-			double xgraph = calculatePaintX(
-					( p.X ),
-					graphWidth, absoluteMaxX, minX, totalMargins, totalMargins);
-			double ygraph = calculatePaintY(
-					( p.Y ),
-					graphHeight, absoluteMaxY, minY, totalMargins, totalMargins);
+			double xgraph = calculatePaintX(p.X);
+			double ygraph = calculatePaintY(p.Y);
 			LogB.Information(string.Format("{0}, {1}", xgraph, ygraph));
 			g.MoveTo(xgraph+6, ygraph);
 			g.Arc(xgraph, ygraph, 6.0, 0.0, 2.0 * Math.PI); //full circle
@@ -281,8 +272,8 @@ public abstract class CairoXY
 
 	protected void plotPredictedMaxPoint()
 	{
-		double xgraph = calculatePaintX(xAtMMaxY, graphWidth, absoluteMaxX, minX, totalMargins, totalMargins);
-		double ygraph = calculatePaintY(yAtMMaxY, graphHeight, absoluteMaxY, minY, totalMargins, totalMargins);
+		double xgraph = calculatePaintX(xAtMMaxY);
+		double ygraph = calculatePaintY(yAtMMaxY);
 
 		//print X, Y of maxY
 		//at axis
@@ -427,7 +418,7 @@ public abstract class CairoXY
 		if(gridType != gridTypes.HORIZONTALLINES)
 			for(double i = gridXTuple.Item1; i <= gridXTuple.Item2 ; i += gridXTuple.Item3)
 			{
-				int xtemp = Convert.ToInt32(calculatePaintX(i, graphWidth, maxX, minX, totalMargins, totalMargins));
+				int xtemp = Convert.ToInt32(calculatePaintX(i));
 				if(xtemp < outerMargins || xtemp > graphWidth - outerMargins)
 					continue;
 
@@ -437,7 +428,7 @@ public abstract class CairoXY
 		if(gridType != gridTypes.VERTICALLINES)
 			for(double i = gridYTuple.Item1; i <= gridYTuple.Item2 ; i += gridYTuple.Item3)
 			{
-				int ytemp = Convert.ToInt32(calculatePaintY(i, graphHeight, maxY, minY, totalMargins, totalMargins));
+				int ytemp = Convert.ToInt32(calculatePaintY(i));
 				if(ytemp < outerMargins || ytemp > graphHeight - outerMargins)
 					continue;
 
@@ -548,13 +539,13 @@ public abstract class CairoXY
 	}
 	*/
 
-	protected double calculatePaintX (double realX, int ancho, double maxValue, double minValue, int rightMargin, int leftMargin)
+	protected double calculatePaintX (double realX)
 	{
-                return leftMargin + (realX - minValue) * (ancho - rightMargin - leftMargin) / (maxValue - minValue);
+                return totalMargins + (realX - minX) * (graphWidth - totalMargins - totalMargins) / (absoluteMaxX - minX);
         }
-	protected double calculatePaintY (double realY, int alto, double maxValue, double minValue, int topMargin, int bottomMargin)
+	protected double calculatePaintY (double realY)
 	{
-                return alto - bottomMargin - ((realY - minValue) * (alto - topMargin - bottomMargin) / (maxValue - minValue));
+                return graphHeight - totalMargins - ((realY - minY) * (graphHeight - totalMargins - totalMargins) / (absoluteMaxY - minY));
         }
 
 	private double calculateRealX (double graphX)

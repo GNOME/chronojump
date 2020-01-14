@@ -99,8 +99,8 @@ public class JumpsEvolutionGraph : CairoXY
 		if(! paintMonths)
 		{
 			int year = Convert.ToInt32(Math.Floor(minX)) -1;
-			int xtemp1 = Convert.ToInt32(calculatePaintX(year, graphWidth, maxX, minX, outerMargins + innerMargins, outerMargins + innerMargins));
-			int xtemp2 = Convert.ToInt32(calculatePaintX(year + 1, graphWidth, maxX, minX, outerMargins + innerMargins, outerMargins + innerMargins));
+			int xtemp1 = Convert.ToInt32(calculatePaintX(year));
+			int xtemp2 = Convert.ToInt32(calculatePaintX(year + 1));
 			if(xtemp2 - xtemp1 > 500)
 				paintMonths = true;
 
@@ -109,7 +109,7 @@ public class JumpsEvolutionGraph : CairoXY
 		//-1 to start on previous year to see last months (if fit into graph)
 		for(int year = Convert.ToInt32(Math.Floor(minX)) -1; year <= Convert.ToInt32(Math.Floor(maxX)); year ++)
 		{
-			int xtemp = Convert.ToInt32(calculatePaintX(year, graphWidth, maxX, minX, outerMargins + innerMargins, outerMargins + innerMargins));
+			int xtemp = Convert.ToInt32(calculatePaintX(year));
 			if( ! (xtemp < outerMargins || xtemp > graphWidth - outerMargins) )
 			{
 				if(paintMonths)
@@ -123,15 +123,15 @@ public class JumpsEvolutionGraph : CairoXY
 
 			int monthStep = 3;
 			//1 get de distance between 1 month and the next one
-			int xtemp1 = Convert.ToInt32(calculatePaintX(year + 1/12.0, graphWidth, maxX, minX, outerMargins + innerMargins, outerMargins + innerMargins));
-			int xtemp2 = Convert.ToInt32(calculatePaintX(year + 2/12.0, graphWidth, maxX, minX, outerMargins + innerMargins, outerMargins + innerMargins));
+			int xtemp1 = Convert.ToInt32(calculatePaintX(year + 1/12.0));
+			int xtemp2 = Convert.ToInt32(calculatePaintX(year + 2/12.0));
 			if(xtemp2 - xtemp1 > 100)
 				monthStep = 1;
 
 			for(int month = monthStep; month <= 12-monthStep; month += monthStep)
 			{
 				LogB.Information(string.Format("year-month: {0}-{1}", year, month));
-				xtemp = Convert.ToInt32(calculatePaintX(year + month/12.0, graphWidth, maxX, minX, outerMargins + innerMargins, outerMargins + innerMargins));
+				xtemp = Convert.ToInt32(calculatePaintX(year + month/12.0));
 				if(xtemp < outerMargins || xtemp > graphWidth - outerMargins)
 					continue;
 

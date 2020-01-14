@@ -360,7 +360,7 @@ public abstract class CairoXY
 		*/
 
 		// 3) find closest point (including predicted point if any)
-		Point pClosest = findClosestRealPoint(realX, realY);
+		Point pClosest = findClosestGraphPoint(graphX, graphY);
 
 		// 4) write text at right
 		writeTextAtRight(line, "Selected:", false);
@@ -369,23 +369,22 @@ public abstract class CairoXY
 
 		// 5) paint rectangle around that point
 		g.Color = red;
-		g.Rectangle(
-				calculatePaintX(pClosest.X,
-					graphWidth, absoluteMaxX, minX, totalMargins, totalMargins) -12,
-				calculatePaintY(pClosest.Y,
-					graphHeight, absoluteMaxY, minY, totalMargins, totalMargins) -12,
-				24, 24);
+		g.Rectangle(calculatePaintX(pClosest.X) -12, calculatePaintY(pClosest.Y) -12, 24, 24);
 		g.Stroke();
 		g.Color = black;
 	}
 
-	private Point findClosestRealPoint(double realX, double realY)
+	/*
+	 * using graphPoints and not real points because X and Y scale can be very different
+	 * and this would be stranger for user to have a point selected far away to the "graph" closest point
+	 */
+	private Point findClosestGraphPoint(double graphX, double graphY)
 	{
 		double distMin = 10000000;
 		Point pClosest = point_l[0];
 		foreach(Point p in point_l)
 		{
-			double dist = Math.Sqrt(Math.Pow(realX - p.X, 2) + Math.Pow(realY - p.Y, 2));
+			double dist = Math.Sqrt(Math.Pow(graphX - calculatePaintX(p.X), 2) + Math.Pow(graphY - calculatePaintY(p.Y), 2));
 			if(dist < distMin)
 			{
 				distMin = dist;
@@ -394,7 +393,7 @@ public abstract class CairoXY
 		}
 
 		//also check predicted point if exits
-		if(predictedPointDone && Math.Sqrt(Math.Pow(realX - xAtMMaxY, 2) + Math.Pow(realY - yAtMMaxY, 2)) < distMin)
+		if(predictedPointDone && Math.Sqrt(Math.Pow(graphX - calculatePaintX(xAtMMaxY), 2) + Math.Pow(graphY - calculatePaintY(yAtMMaxY), 2)) < distMin)
 			pClosest = new Point(xAtMMaxY, yAtMMaxY);
 
 		return pClosest;

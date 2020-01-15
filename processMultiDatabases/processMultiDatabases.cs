@@ -96,7 +96,7 @@ using System.Collections.Generic; //List<T>
 class ProcessMultiDatabases
 {
 	private bool debug = false; //on debug just 5 sets of each compDB-exercise are used
-	private int distMin = 20; //distMinSitToStand = 20;
+	private int distMin = 20; //distMinSitToStand = 20; TODO: do this by exercise, before study what range of reps we have at each exercise starting with distMin = 5
 	private Sqlite sqlite;
 	TextWriter writer;
 
@@ -118,7 +118,7 @@ class ProcessMultiDatabases
 		ComputerDBManage compDBManage = new ComputerDBManage();
 
 		writer = File.CreateText("/tmp/chronojump-processMultiEncoder.csv");
-		writer.WriteLine("city,computer,exercise,person,sex,moment,rep,series,exercise,massBody,massExtra,start,width,height,meanSpeed,maxSpeed,maxSpeedT,meanPower,peakPower,peakPowerT,RPD,meanForce,maxForce,maxForceT,RFD,workJ,impulse,laterality,inertiaM");
+		writer.WriteLine("city,computer,person,personCode,sex,exercise,moment,rep,series,exercise,massBody,massExtra,start,width,height,meanSpeed,maxSpeed,maxSpeedT,meanPower,peakPower,peakPowerT,RPD,meanForce,maxForce,maxForceT,RFD,workJ,impulse,laterality,inertiaM");
 
 		foreach(ComputerDB compDB in compDBManage.list)
 		{
@@ -212,9 +212,11 @@ class ProcessMultiDatabases
 				if(firstRep)
 					firstRep = false;
 				else {
-					string repToWriter = string.Format("{0},{1},{2},{3},{4},{5},", compDB.city, compDB.name, exerciseString, person.Name, person.Sex,  moment) + rep;
+					string repToWriter = string.Format("{0},{1},{2},{3},{4},{5},{6},",
+							compDB.city, compDB.computer, person.Name, person.FindPersonCode(compDB.city), person.Sex, exerciseString, moment) + rep;
 					//note personID is not correct because persons sometimes where evaluated on different chronojump machines
 					//for this reason has been changed to personName, we suppose is the same on different machines
+					//person.FindPersonCode() should be the code of that person on all the computers of a given city
 
 					writer.WriteLine(repToWriter);
 					writer.Flush();

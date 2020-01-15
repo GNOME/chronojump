@@ -22,6 +22,7 @@ using System;
 using System.Data;
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
+using System.Text.RegularExpressions; //Regex
 
 public class Person {
 
@@ -73,6 +74,17 @@ public class Person {
 		return "[uniqueID: " + uniqueID + "]" + name + ", " + ", " + sex + ", " + dateBorn.ToShortDateString() + ", " + description;
 	}
 	
+	public string FindPersonCode (string city)
+	{
+		if(city == "denmark")
+		{
+			Match match = Regex.Match(name, @"^(\d+)");
+			if(match.Groups.Count == 2)
+				return match.Value;
+		}
+
+		return "";
+	}
 	
 	//some "set"s are needed. If not data of personSession does not arrive to the server
 	

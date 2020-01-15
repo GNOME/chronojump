@@ -47,7 +47,7 @@ using System.Text.RegularExpressions; //Regex
 class ComputerDB
 {
 	public string city;
-	public string name;
+	public string computer;
 	public string path;
 	public string pathToFindMoments; //at barcelona we can find datetimes on 4 folders to know which moment
 	//exercises, if one is not done on that computer: -1
@@ -63,7 +63,7 @@ class ComputerDB
 	public enum ExerciseString { BICEPSCURL, JUMP, SITTOSTAND };
 	public ComputerDB(
 			string city,
-			string name,
+			string computer,
 			string path,
 			string pathToFindMoments,
 			int exBicepsCurlID, int exJumpID, int exSitToStandID,
@@ -72,7 +72,7 @@ class ComputerDB
 			)
 	{
 		this.city = city;
-		this.name = name;
+		this.computer = computer;
 		this.path = path;
 		this.pathToFindMoments = pathToFindMoments;
 		this.exBicepsCurlID = exBicepsCurlID;
@@ -125,6 +125,7 @@ class ComputerDB
 		return m.ToString();
 	}
 }
+
 
 class ComputerDBManage
 {

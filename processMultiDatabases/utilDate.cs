@@ -19,8 +19,6 @@
  */
 
 using System;
-using System.IO;
-using System.Text.RegularExpressions; //Regex
 
 public class UtilDate
 {
@@ -64,49 +62,5 @@ public class UtilDate
                 return dt;
         }
 
-	//this function is exclusive from processMultiDatabases code
-	public static string FindMoment(string location, string filename)
-	{
-		//1 parse date of filename
-		Console.WriteLine("FindMoment for filename: " + filename);
-		string searchedDatetime = getFilenameDatetime(filename);
-		if(searchedDatetime == "")
-			return "(moment)";
-
-		//2 search date on all folders
-		int foundCount = 0;
-		string moment = "NOTFOUND:" + searchedDatetime;
-		DirectoryInfo [] dirArray = new DirectoryInfo(location).GetDirectories();
-                foreach (DirectoryInfo dir in dirArray)
-		{
-	                foreach (FileInfo file in dir.GetFiles())
-			{
-				//Console.WriteLine("filename: {0}, date: {1}", file.Name, getFilenameDatetime(file.Name));
-				if(getFilenameDatetime(file.Name) == searchedDatetime)
-				{
-					Console.WriteLine("FOUND at folder: {0}", dir.Name);
-					moment = dir.Name;
-					foundCount ++;
-				}
-			}
-		}
-
-		if(foundCount >= 2)
-		{
-			Console.WriteLine(string.Format("FOUND {0} times!!!", foundCount));
-			return "DUPLICATED";
-		}
-		return moment;
-	}
-
-	//this function is exclusive from processMultiDatabases code
-	private static string getFilenameDatetime(string filename)
-	{
-		Match match = Regex.Match(filename, @"(\d+-\d+-\d+_\d+-\d+-\d+)");
-		if(match.Groups.Count == 2)
-			return match.Value;
-
-		return "";
-	}
 }
 

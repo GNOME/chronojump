@@ -19,10 +19,34 @@
  */
 
 using System;
+using System.IO;
 using System.Collections.Generic; //List<T>
+using System.Text.RegularExpressions; //Regex
+
+/*
+ * Denmark has:
+ * ID number_initials of the participant_time period (pre, post, fu12, fu18).
+ * but fu can be also in caps
+ * and sometimes is found IDnumberinitialstimeperiod, and other times initialsIDnumbertimeperiod
+ * sometimes separated by underscores and other times not
+ *
+ * 545-1318_fllu_FU18-2019-08-01_13-43-58.txt
+ * 479-1318fllufu12-2019-03-19_10-10-30.txt
+ * 265-knni1310pre-2017-10-20_12-51-48.txt
+ *
+ * so- remove until the first -
+ * remove datetime.txt
+ * find pre, post (caps or not), see if find a fu12 or fu18 (caps or not), and remove it
+ * find number: should be code
+ * the rest removing - or _ shoul be the name
+ *
+ * on the other computer must of the names have no moment (pre, post, ...)
+ */
+
 
 class ComputerDB
 {
+	public string city;
 	public string name;
 	public string path;
 	public string pathToFindMoments; //at barcelona we can find datetimes on 4 folders to know which moment
@@ -31,19 +55,74 @@ class ComputerDB
 	public int exJumpID; 		//100% bodyweight
 	public int exSitToStandID; 	//100% bodyweight
 	//do not analyze: shopping bag and object in shelf
+	public string momentPreName;
+	public string momentPostName;
+	public string moment12Name;
+	public string moment18Name;
 
 	public enum ExerciseString { BICEPSCURL, JUMP, SITTOSTAND };
-	public ComputerDB(string name,
+	public ComputerDB(
+			string city,
+			string name,
 			string path,
 			string pathToFindMoments,
-			int exBicepsCurlID, int exJumpID, int exSitToStandID)
+			int exBicepsCurlID, int exJumpID, int exSitToStandID,
+			string momentPreName, string momentPostName,
+			string moment12Name, string moment18Name
+			)
 	{
+		this.city = city;
 		this.name = name;
 		this.path = path;
 		this.pathToFindMoments = pathToFindMoments;
 		this.exBicepsCurlID = exBicepsCurlID;
 		this.exJumpID = exJumpID;
 		this.exSitToStandID = exSitToStandID;
+		this.momentPreName = momentPreName;
+		this.momentPostName = momentPostName;
+		this.moment12Name = moment12Name;
+		this.moment18Name = moment18Name;
+	}
+
+	public enum Moment { NONE, PRE, POST, M12, M18, MULTIPLE }
+	public string FindMoment (string filename)
+	{
+		filename = filename.ToUpper();
+		Moment m = Moment.NONE;
+
+		Console.WriteLine("FindNotBarcelona filename: " + filename);
+		if(filename.Contains(momentPreName))
+		{
+			if(m != Moment.NONE)
+				m = Moment.MULTIPLE;
+			else
+				m = Moment.PRE;
+		} else if(filename.Contains(momentPostName))
+		{
+			if(m != Moment.NONE)
+				m = Moment.MULTIPLE;
+			else
+				m = Moment.POST;
+		} else if(filename.Contains(moment12Name))
+		{
+			if(m != Moment.NONE)
+				m = Moment.MULTIPLE;
+			else
+				m = Moment.M12;
+		} else if(filename.Contains(moment18Name))
+		{
+			if(m != Moment.NONE)
+				m = Moment.MULTIPLE;
+			else
+				m = Moment.M18;
+		}
+
+		//some cities did not use the PRE and they simply left blank, so default to PRE
+		if(m == Moment.NONE)
+			m = Moment.PRE;
+
+
+		return m.ToString();
 	}
 }
 
@@ -59,46 +138,113 @@ class ComputerDBManage
 	public ComputerDBManage()
 	{
 		list = new List<ComputerDB>();
+		/*
 		list.Add(new ComputerDB(
+				"barcelona",
 				"barcelona1", 
 				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/carpetes-chronojump-senceres/barcelona/wetransfer-8ba4dd/Encoder_Copies_17_07_2019/database",
 				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/arxius-processats-per-ells/barcelona",
-				8, -1, 7));
+				8, -1, 7,
+				"", "", "", ""));
 		list.Add(new ComputerDB(
+				"barcelona",
 				"barcelona2", 
 				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/carpetes-chronojump-senceres/barcelona/wetransfer-8ba4dd/Encoder_Copies_17_07_2019/Darrera_còpia_pc_prèstec/chronojump/database",
 				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/arxius-processats-per-ells/barcelona",
-				8, 4, 7));
+				8, 4, 7,
+				"", "", "", ""));
 		list.Add(new ComputerDB(
+				"belfast",
 				"belfast",
 				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/carpetes-chronojump-senceres/Belfast_chronojump/chronojump/database",
 				"",
-				12, 14, 15)); //note: belfast has biceps curl 12 (2kg), and 13 (4kg)
+				12, 14, 15, 	//note: belfast has biceps curl 12 (2kg), and 13 (4kg)
+				"PRE", "PI", "12M", "18M"));
+				*/
 		list.Add(new ComputerDB(
+				"denmark",
 				"denmark1",
 				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/carpetes-chronojump-senceres/denmark/wetransfer-08b800/Chronojump Backup 09.10.2019 - HP - FINAL - DK site/database",
 				"",
-				8, 9, 7));
+				8, 9, 7,
+				"PRE", "POST", "FU12", "FU18"));
 		list.Add(new ComputerDB(
+				"denmark",
 				"denmark2",
 				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/carpetes-chronojump-senceres/denmark/wetransfer-08b800/Chronojump Backup 09.10.2019 - Lenovo - FINAL - DK site/database",
 				"",
-				8, 11, 7));
+				8, 11, 7,
+				"PRE", "POST", "FU12", "FU18"));
+		/*
 		list.Add(new ComputerDB(
+				"ulm",
 				"ulm1",
 				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/carpetes-chronojump-senceres/Encoder_Ulm/Laptop1_Chronojump_für Maria_Nov2019/chronojump/database",
 				"",
-				8,4,7));
+				8,4,7,
+				"PRE", "a2", "a3", "a4"));
+		/*
 		list.Add(new ComputerDB(
+				"ulm",
 				"ulm2",
 				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/carpetes-chronojump-senceres/Encoder_Ulm/Laptop2_Chronojump_für Maria_Nov2019/database",
 				"",
-				8,9,7)); //note: they have also jumps on 4
+				8,9,7,  //note: they have also jumps on 4
+				"PRE", "a2", "a3", "a4"));
 		list.Add(new ComputerDB(
+				"ulm",
 				"ulm3",
 				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/carpetes-chronojump-senceres/Encoder_Ulm/Laptop3_Chronojump_für Maria_Nov2019/database",
 				"",
-				8,4,7));
+				8,4,7,
+				"PRE", "a2", "a3", "a4"));
+				*/
 	}
 }
 
+static class ComputerDBMomentByProcessedFiles
+{
+	public static string FindOnBarcelona(string location, string filename)
+	{
+		//1 parse date of filename
+		Console.WriteLine("FindMoment for filename: " + filename);
+		string searchedDatetime = getFilenameDatetime(filename);
+		if(searchedDatetime == "")
+			return "(moment)";
+
+		//2 search date on all folders
+		int foundCount = 0;
+		string moment = "NOTFOUND:" + searchedDatetime;
+		DirectoryInfo [] dirArray = new DirectoryInfo(location).GetDirectories();
+                foreach (DirectoryInfo dir in dirArray)
+		{
+	                foreach (FileInfo file in dir.GetFiles())
+			{
+				//Console.WriteLine("filename: {0}, date: {1}", file.Name, getFilenameDatetime(file.Name));
+				if(getFilenameDatetime(file.Name) == searchedDatetime)
+				{
+					Console.WriteLine("FOUND at folder: {0}", dir.Name);
+					moment = dir.Name;
+					foundCount ++;
+				}
+			}
+		}
+
+		if(foundCount >= 2)
+		{
+			Console.WriteLine(string.Format("FOUND {0} times!!!", foundCount));
+			return "DUPLICATED";
+		}
+		return moment;
+	}
+	//this function is exclusive from processMultiDatabases code
+	private static string getFilenameDatetime(string filename)
+	{
+		Match match = Regex.Match(filename, @"(\d+-\d+-\d+_\d+-\d+-\d+)");
+		if(match.Groups.Count == 2)
+			return match.Value;
+
+		return "";
+	}
+
+}

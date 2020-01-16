@@ -3608,7 +3608,7 @@ doProcess <- function(options)
         if(
                 op$Analysis == "powerBars" || op$Analysis == "cross" || 
                 op$Analysis == "1RMBadillo2010" || op$Analysis == "1RMAnyExercise" || 
-                op$Analysis == "curves" || op$Analysis == "curvesAC" ||
+                op$Analysis == "curves" || op$Analysis == "curvesAC" || op$Analysis == "curvesProcessMultiDB" ||
                 op$Analysis == "neuromuscularProfile" ||
                 op$Analysis == "pfvProfileEvolution" ||
                 writeCurves) 
@@ -3849,7 +3849,8 @@ doProcess <- function(options)
                         neuromuscularProfileWriteData(npj, op$OutputData1)
                 }
 
-                if(op$Analysis == "curves" || op$Analysis == "curvesAC" || writeCurves) {
+                if(op$Analysis == "curves" || op$Analysis == "curvesAC" || op$Analysis == "curvesProcessMultiDB" || writeCurves)
+		{
                         #create pafCurves to be printed on CSV. This columns are going to be removed:
                         
                         #print("---- 1 ----")
@@ -3909,8 +3910,9 @@ doProcess <- function(options)
                                                 "laterality", "inertiaM"
                         )
                         
-                        #Add "Max", "AVG" and "SD" when analyzing, not on "curves", not on "curvesAC"
-                        if(op$Analysis != "curves" && op$Analysis != "curvesAC") {
+                        #Add "Max", "AVG" and "SD" when analyzing, not on "curves", not on "curvesAC", not on "curvesProcessMultiDB"
+                        if(op$Analysis != "curves" && op$Analysis != "curvesAC" && op$Analysis != "curvesProcessMultiDB")
+			{
                                 addSD = FALSE
                                 if(length(pafCurves[,1]) > 1)
                                         addSD = TRUE
@@ -3984,6 +3986,8 @@ doProcess <- function(options)
 				else
 					pafCurvesWrite[,1] = myTimestamps
 			}
+                        #print("---- 4 ----")
+                        #print(pafCurvesWrite)
 			write.csv(pafCurvesWrite, op$OutputData1, quote=FALSE)
                         #print("curves written")
                 }

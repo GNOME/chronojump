@@ -96,7 +96,7 @@ using System.Collections.Generic; //List<T>
 class ProcessMultiDatabases
 {
 	private bool debug = false; //on debug just 5 sets of each compDB-exercise are used
-	private int distMin = 20; //distMinSitToStand = 20; TODO: do this by exercise, before study what range of reps we have at each exercise starting with distMin = 5
+	private int distMin = 20; //distMinSitToStand = 20; TODO: do this by exercise, before study what range of reps we have at each exercise starting with distMin = 5. In jump better lower
 	private Sqlite sqlite;
 	TextWriter writer;
 
@@ -228,7 +228,8 @@ class ProcessMultiDatabases
 			if(debug && count >= 5)
 				break;
 
-			System.Threading.Thread.Sleep(200);
+			//System.Threading.Thread.Sleep(200);
+			System.Threading.Thread.Sleep(50);
 			/*
 			 * rest a bit 100 gave me one problem:
 			 * System.IO.IOException: Write fault on path /home/xavier/informatica/progs_meus/chronojump/chronojump/processMultiDatabases/[Unknown]

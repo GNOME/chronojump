@@ -96,7 +96,9 @@ using System.Collections.Generic; //List<T>
 class ProcessMultiDatabases
 {
 	private bool debug = false; //on debug just 5 sets of each compDB-exercise are used
-	private int distMin = 20; //distMinSitToStand = 20; TODO: do this by exercise, before study what range of reps we have at each exercise starting with distMin = 5. In jump better lower
+	private int distMinBiceps = 10; 	//study what range of reps we have at each exercise starting with distMin = 5.
+	private int distMinJump = 5; 		//study what range of reps we have at each exercise starting with distMin = 5.
+	private int distMinSittostand = 10; 	//study what range of reps we have at each exercise starting with distMin = 5.
 	private Sqlite sqlite;
 	TextWriter writer;
 
@@ -145,6 +147,14 @@ class ProcessMultiDatabases
 	private void processCompDBEx (ComputerDB compDB, ComputerDB.ExerciseString exerciseString, int exerciseID, int percentBodyWeight)
 	{
 		List<EncoderSQL> list = sqlite.SelectEncoder (exerciseID);
+
+		int distMin = 5;
+		if(exerciseString == ComputerDB.ExerciseString.BICEPSCURL)
+			distMin = distMinBiceps;
+		else if(exerciseString == ComputerDB.ExerciseString.JUMP)
+			distMin = distMinJump;
+		else if(exerciseString == ComputerDB.ExerciseString.SITTOSTAND)
+			distMin = distMinSittostand;
 
 		int count = 0;
 		foreach(EncoderSQL eSQL in list)

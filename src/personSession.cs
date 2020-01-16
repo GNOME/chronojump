@@ -123,7 +123,7 @@ public class PersonSession {
 		return uniqueIDStr + ", " + personID + ", " + sessionID + ", " +
 			Util.ConvertToPoint(height) + ", " + Util.ConvertToPoint(weight) + ", " +
 			sportID + ", " + speciallityID + ", " + practice + ", '" + 
-			comments + ", " +
+			comments + "', " +
 			Util.ConvertToPoint(trochanterToe) + ", " +
 			Util.ConvertToPoint(trochanterFloorOnFlexion);
 	}

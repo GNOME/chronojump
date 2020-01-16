@@ -81,6 +81,15 @@ public class Person {
 			Match match = Regex.Match(name, @"^(\d+)");
 			if(match.Groups.Count == 2)
 				return match.Value;
+		} else if (city == "belfast")
+		{
+			//firs num is the centre, second is the personCode
+			//03-222-12M
+			//03-176 PI
+			//03-329
+			Match match = Regex.Match(name, @"^\d+-(\d+)");
+			if(match.Groups.Count == 2)
+				return match.Groups[1].Value;
 		}
 
 		return "";

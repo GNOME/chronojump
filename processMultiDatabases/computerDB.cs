@@ -154,6 +154,7 @@ class ComputerDBManage
 				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/arxius-processats-per-ells/barcelona",
 				8, 4, 7,
 				"", "", "", ""));
+				*/
 		list.Add(new ComputerDB(
 				"belfast",
 				"belfast",
@@ -161,7 +162,7 @@ class ComputerDBManage
 				"",
 				12, 14, 15, 	//note: belfast has biceps curl 12 (2kg), and 13 (4kg)
 				"PRE", "PI", "12M", "18M"));
-				*/
+		/*
 		list.Add(new ComputerDB(
 				"denmark",
 				"denmark1",
@@ -176,7 +177,6 @@ class ComputerDBManage
 				"",
 				8, 11, 7,
 				"PRE", "POST", "FU12", "FU18"));
-		/*
 		list.Add(new ComputerDB(
 				"ulm",
 				"ulm1",

@@ -796,9 +796,19 @@ pafGenerate <- function(eccon, kinematics, massBody, massExtra, laterality, iner
 	#vi, vf: speed initial/final
 	#wi, wf: angular speed initial/final
 	lastValue = length(kinematics$displ)
-	workJ <- kinematics$mass * ( g * (kinematics$displ[lastValue] - kinematics$displ[1]) + .5*((kinematics$speedy[lastValue])^2 - (kinematics$speedy[1])^2) )
+	workJ <- kinematics$mass * ( g * (
+					  abs(cumsum(kinematics$displ))[length(cumsum(kinematics$displ))] / 1000 #position displaced in m
+					  ) + .5*((kinematics$speedy[lastValue])^2 - (kinematics$speedy[1])^2) )
 	if(inertiaMomentum > 0) #if is not inertial Roptions has a -1
 		workJ = workJ + .5 * inertiaMomentum * ( (kinematics$speedyangular[lastValue])^2 - (kinematics$speedyangular[1]^2) )
+
+	#print ("workJ decomposed:")
+	#print (workJ)
+	#print (kinematics$mass)
+	#print (g)
+	#print (abs(cumsum(kinematics$displ))[length(cumsum(kinematics$displ))] / 1000 ) #position displaced in m
+	#print ((kinematics$speedy[lastValue])^2)
+	#print ((kinematics$speedy[1])^2)
 
 	#impulse
 	impulse <- meanForce * length(kinematics$displ)/1000 	#F * time in s

@@ -167,7 +167,7 @@ class ProcessMultiDatabases
 					Util.ConvertToPoint(personWeight), // Util.ConvertToPoint(findMass(Constants.MassType.BODY)),
 					Util.ConvertToPoint(eSQL.extraWeight), //Util.ConvertToPoint(findMass(Constants.MassType.EXTRA)),
 					"c", //findEccon(true),                                        //force ecS (ecc-conc separated)
-					"curves", //is the same than "curvesAC". was: analysis,
+					"curvesProcessMultiDB", //"curves" is the same than "curvesAC". was: analysis. Note curvesProcessMultiDB is like curves but without making the graph
 					"none",                         //analysisVariables (not needed in create curves). Cannot be blank
 					"p", //analysisOptions,
 					true, //preferences.encoderCaptureCheckFullyExtended,

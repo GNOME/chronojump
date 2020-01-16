@@ -76,8 +76,9 @@ public class CallR
 			//encoder analyze has a treeview that can show the curves
 			//when a graph analysis is done, curves file has to be written
 			outputFileCheck = es.OutputData1;
-		        //check also the otuput graph
-			outputFileCheck2 = es.OutputGraph; 
+		        //check also the output graph
+			//do not do it hat processMultiDatabases because we do not need it and we want to go fast
+			//outputFileCheck2 = es.OutputGraph;
 		}
 			
 		Console.WriteLine("outputFileChecks");
@@ -188,6 +189,8 @@ public class CallR
 		return System.IO.Path.Combine(
 				Util.GetDataDir(), "encoder", Constants.EncoderScriptCallGraph);
 				*/
+
+		//but note if graph.R changes, we need to do make install there to be able to use new graph.R on processMultiDatabases
 		return "/home/xavier/informatica/progs_meus/chronojump/chronojump/encoder/call_graph.R"; //hardcoded
 	}
 	

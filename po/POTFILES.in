@@ -58,11 +58,13 @@ src/execute/run.cs
 src/exportSession.cs
 src/forceSensor.cs
 src/gui/app1/chronojump.cs
-src/gui/app1/jumpsDjOptimalFall.cs
-src/gui/app1/jumpsProfile.cs
 src/gui/app1/contactsExercise.cs
 src/gui/app1/forceSensor.cs
 src/gui/app1/jump.cs
+src/gui/app1/jumpsDjOptimalFall.cs
+src/gui/app1/jumpsEvolution.cs
+src/gui/app1/jumpsProfile.cs
+src/gui/app1/jumpsWeightFVProfile.cs
 src/gui/app1/pulse.cs
 src/gui/app1/reactionTime.cs
 src/gui/app1/run.cs

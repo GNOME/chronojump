@@ -118,6 +118,7 @@ class ProcessMultiDatabases
 	{
 		sqlite = new Sqlite();
 		ComputerDBManage compDBManage = new ComputerDBManage();
+		ExerciseManage exManage = new ExerciseManage();
 
 		writer = File.CreateText("/tmp/chronojump-processMultiEncoder.csv");
 		writer.WriteLine("city,computer,person,personCode,sex,exercise,moment,rep,series,exercise,massBody,massExtra,start,width,height,meanSpeed,maxSpeed,maxSpeedT,meanPower,peakPower,peakPowerT,RPD,meanForce,maxForce,maxForceT,RFD,workJ,impulse,laterality,inertiaM");
@@ -127,14 +128,16 @@ class ProcessMultiDatabases
 			sqlite.CreateConnection(compDB.path);
 			sqlite.Open();
 
+			/*
 			if(compDB.exBicepsCurlID != -1)
-				processCompDBEx(compDB, ComputerDB.ExerciseString.BICEPSCURL, compDB.exBicepsCurlID, 0);
+				processCompDBEx(compDB, exManage.GetExercise(Exercise.Names.BICEPSCURL), compDB.exBicepsCurlID, 0);
 
 			if(compDB.exJumpID != -1)
-				processCompDBEx(compDB, ComputerDB.ExerciseString.JUMP, compDB.exJumpID, 100);
+				processCompDBEx(compDB, exManage.GetExercise(Exercise.Names.JUMP), compDB.exJumpID, 100);
+				*/
 
 			if(compDB.exSitToStandID != -1)
-				processCompDBEx(compDB, ComputerDB.ExerciseString.SITTOSTAND, compDB.exSitToStandID, 100);
+				processCompDBEx(compDB, exManage.GetExercise(Exercise.Names.SITTOSTAND), compDB.exSitToStandID, 100);
 
 			sqlite.Close();
 		}
@@ -144,17 +147,9 @@ class ProcessMultiDatabases
 		Console.WriteLine("processMultiDatabases done!");
 	}
 
-	private void processCompDBEx (ComputerDB compDB, ComputerDB.ExerciseString exerciseString, int exerciseID, int percentBodyWeight)
+	private void processCompDBEx (ComputerDB compDB, Exercise exercise, int exerciseID, int percentBodyWeight)
 	{
 		List<EncoderSQL> list = sqlite.SelectEncoder (exerciseID);
-
-		int distMin = 5;
-		if(exerciseString == ComputerDB.ExerciseString.BICEPSCURL)
-			distMin = distMinBiceps;
-		else if(exerciseString == ComputerDB.ExerciseString.JUMP)
-			distMin = distMinJump;
-		else if(exerciseString == ComputerDB.ExerciseString.SITTOSTAND)
-			distMin = distMinSittostand;
 
 		int count = 0;
 		foreach(EncoderSQL eSQL in list)
@@ -172,11 +167,11 @@ class ProcessMultiDatabases
 			double personWeight = sqlite.SelectPersonWeight(eSQL.personID);
 
 			EncoderParams ep = new EncoderParams(
-					distMin, //preferences.EncoderCaptureMinHeight(encoderConfigurationCurrent.has_inertia),
+					exercise.distMin, //preferences.EncoderCaptureMinHeight(encoderConfigurationCurrent.has_inertia),
 					percentBodyWeight, //getExercisePercentBodyWeightFromComboCapture (),
 					Util.ConvertToPoint(personWeight), // Util.ConvertToPoint(findMass(Constants.MassType.BODY)),
 					Util.ConvertToPoint(eSQL.extraWeight), //Util.ConvertToPoint(findMass(Constants.MassType.EXTRA)),
-					"c", //findEccon(true),                                        //force ecS (ecc-conc separated)
+					exercise.contraction.ToString(), //findEccon(true),
 					"curvesProcessMultiDB", //"curves" is the same than "curvesAC". was: analysis. Note curvesProcessMultiDB is like curves but without making the graph
 					"none",                         //analysisVariables (not needed in create curves). Cannot be blank
 					"p", //analysisOptions,
@@ -223,7 +218,7 @@ class ProcessMultiDatabases
 					firstRep = false;
 				else {
 					string repToWriter = string.Format("{0},{1},{2},{3},{4},{5},{6},",
-							compDB.city, compDB.computer, person.Name, person.FindPersonCode(compDB.city), person.Sex, exerciseString, moment) + rep;
+							compDB.city, compDB.computer, person.Name, person.FindPersonCode(compDB.city), person.Sex, exercise.name, moment) + rep;
 					//note personID is not correct because persons sometimes where evaluated on different chronojump machines
 					//for this reason has been changed to personName, we suppose is the same on different machines
 					//person.FindPersonCode() should be the code of that person on all the computers of a given city

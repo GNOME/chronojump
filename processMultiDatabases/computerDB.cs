@@ -60,7 +60,6 @@ class ComputerDB
 	public string moment12Name;
 	public string moment18Name;
 
-	public enum ExerciseString { BICEPSCURL, JUMP, SITTOSTAND };
 	public ComputerDB(
 			string city,
 			string computer,

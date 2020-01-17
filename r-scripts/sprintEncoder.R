@@ -146,7 +146,15 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         time = totalTime - totalTime[trimmingSamples$start]
         #Zeroing position to the initial acceleration sample
         position = position - position[trimmingSamples$start]
-        data = data.frame(time = time[trimmingSamples$start:trimmingSamples$end], speed = speed[trimmingSamples$start:trimmingSamples$end])
+        
+        #generating an initial speed of zero
+        #1. Find the line defined by the two first samples
+        #2. Look for the cross with the X axis.
+        #3. X of the cross is the time whe need to add to all the samples
+
+        timeBefore = speed[trimmingSamples$start] * ((time[trimmingSamples$start + 1]) / (speed[trimmingSamples$start + 1] - speed[trimmingSamples$start]))
+        time = time + timeBefore
+        data = data.frame(time = c(0,time[trimmingSamples$start:trimmingSamples$end]), speed = c(0,speed[trimmingSamples$start:trimmingSamples$end]))
         #print(data)
         
         print("Trying nls")
@@ -181,7 +189,7 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         return(list(Vmax = Vmax, K = K,
                     time = time, rawPosition = position, rawSpeed = speed, rawAccel = accel, rawForce = totalForce, rawPower = power,
                     rawVmax = max(speed[trimmingSamples$start:trimmingSamples$end]), rawAmax = max(accel[trimmingSamples$start:trimmingSamples$end]), rawFmax = max(totalForce[trimmingSamples$start:trimmingSamples$end]), rawPmax = max(power[trimmingSamples$start:trimmingSamples$end]),
-                    startSample = trimmingSamples$start, endSample = trimmingSamples$end, testLength = testLength, longEnough = longEnough, regressionDone = regression$regressionDone))
+                    startSample = trimmingSamples$start, endSample = trimmingSamples$end, testLength = testLength, longEnough = longEnough, regressionDone = regression$regressionDone, timeBefore = timeBefore))
 }
 
 plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, title = "Test graph",
@@ -226,6 +234,28 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, title
                 print("Capture too short")
                 return("Capture too short")
         }
+        
+        
+        legendText = paste("Vmax.raw =", round(sprintRawDynamics$rawVmax, digits = 2), "m/s")
+        legendColor = "black"
+        
+        legendText = c(legendText, paste("Vmax.fitted =", round(sprintFittedDynamics$Vmax.fitted, digits = 2), "m/s"))
+        legendColor = c(legendColor, "black")
+        
+        legendText = c(legendText, paste("K =", round(sprintFittedDynamics$K.fitted, digits = 2), "s\u207B\u00B9"))
+        legendColor = c(legendColor, "black")
+        
+        legendText = c(legendText, paste("\u03C4 =", round(1/sprintFittedDynamics$K.fitted, digits = 2), "s"))
+        legendColor = c(legendColor, "black")
+        
+        legendText = c(legendText, paste("Amax.fitted =", round(max(sprintFittedDynamics$amax.fitted), digits = 2), "m/s\u00b2"))
+        legendColor = c(legendColor, "magenta")
+        
+        legendText = c(legendText, paste("Fmax.fitted =", round(sprintFittedDynamics$fmax.fitted, digits = 2), "N"))
+        legendColor = c(legendColor, "blue")
+        
+        legendText = c(legendText, paste("Pmax.fitted =", round(sprintFittedDynamics$pmax.fitted, digits = 2), "W"))
+        legendColor = c(legendColor, "red")
         
         #Plotting rawSpeed
         ylimits = c(0, sprintRawDynamics$rawVmax*1.05)
@@ -276,6 +306,8 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, title
                         yaxs = "i", xaxs = "i")
                 lines(sprintRawDynamics$time[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
                       sprintRawDynamics$rawSpeed[sprintRawDynamics$startSample:sprintRawDynamics$endSample])
+                lines(x = c(0,sprintRawDynamics$time[sprintRawDynamics$startSample]), y = c(0,sprintRawDynamics$rawSpeed[sprintRawDynamics$startSample]))
+                print("########")
                 lapTime = diff(c(0, splitTime))
                 textXPos = c(0,splitTime[1:length(splitTime) -1]) + lapTime/2
                 text(textXPos, meanSpeed, round(meanSpeed, digits = 2), pos = 3)
@@ -287,6 +319,7 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, title
                      type = "l", lty = 3, ylim = ylimits,
                      main = title, xlab = "Time(s)", ylab = "Speed(m/s)",
                      yaxs = "i", xaxs = "i")
+                lines(x = c(0,sprintRawDynamics$time[sprintRawDynamics$startSample]), y = c(0,sprintRawDynamics$rawSpeed[sprintRawDynamics$startSample]))
         }
         
         abline(v = splitTime, lty = 3)
@@ -313,6 +346,8 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, title
                              ylim = ylimits, type = "l", col = "magenta",
                              xlab = "", ylab = "",
                              axes = FALSE, yaxs = "i", xaxs = "i")
+                        axis(side = 4)
+                        abline(h=5, col = "pink")
                         legendText = c(legendText, paste("Amax.raw =", round(sprintRawDynamics$rawAmax, digits = 2), "m/s"))
                         legendColor = c(legendColor, "magenta")
                 }
@@ -434,27 +469,6 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, title
                 }
                 axis(side = 4, col = "red", line = 4)
         }
-        
-        legendText = paste("Vmax.raw =", round(sprintRawDynamics$rawVmax, digits = 2), "m/s")
-        legendColor = "black"
-        
-        legendText = c(legendText, paste("Vmax.fitted =", round(sprintFittedDynamics$Vmax.fitted, digits = 2), "m/s"))
-        legendColor = c(legendColor, "black")
-        
-        legendText = c(legendText, paste("K =", round(sprintFittedDynamics$K.fitted, digits = 2), "s\u207B\u00B9"))
-        legendColor = c(legendColor, "black")
-        
-        legendText = c(legendText, paste("\u03C4 =", round(1/sprintFittedDynamics$K.fitted, digits = 2), "s"))
-        legendColor = c(legendColor, "black")
-        
-        legendText = c(legendText, paste("Amax.fitted =", round(max(sprintFittedDynamics$amax.fitted), digits = 2), "m/s\u00b2"))
-        legendColor = c(legendColor, "magenta")
-        
-        legendText = c(legendText, paste("Fmax.fitted =", round(sprintFittedDynamics$fmax.fitted, digits = 2), "N"))
-        legendColor = c(legendColor, "blue")
-        
-        legendText = c(legendText, paste("Pmax.fitted =", round(sprintFittedDynamics$pmax.fitted, digits = 2), "W"))
-        legendColor = c(legendColor, "red")
 
         plotSize = par("usr")
         legend(x = plotSize[2], y = plotSize[3] + (plotSize[4] - plotSize[3])*0.25,
@@ -464,16 +478,16 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, title
 }
 
 #Detecting where the sprint start and stops
-getTrimmingSamples <- function(totalTime, position, speed, accel, testLength)
+getTrimmingSamples <- function(totalTime, position, speed, accel, testLength, startAccel = 5)
 {
         print("#########Entering getTrimmingSamples###########33")
-        #The test starts when the speed is grater than 1
+        #The test starts when the acceleration is greater than startAccel m/s²
         startSample = 0
         startingSample = FALSE
         while(!startingSample & startSample < (length(speed)-2))
         {
                 startSample = startSample +1
-                if(accel[startSample+1] > 5)
+                if(accel[startSample] > startAccel)
                 {
                         print(paste("accel[", startSample +1 ,"] = ", accel[startSample + 1], sep = ""))
                         
@@ -495,19 +509,19 @@ getTrimmingSamples <- function(totalTime, position, speed, accel, testLength)
         }
         
         
-        #Going back in the time to find a really slow velocity
-        while(speed[startSample] > 0.5)
-        {
-                startSample = startSample -1
-                
-                #If the sprint doesn't start at a null speed, the first sample is used
-                #In old versions of RaceAnalyzer it was possible to start with a high speed.
-                if(startSample == 0)
-                {
-                        startSample = 1
-                        break
-                }
-        }
+        # #Going back in the time to find a really slow velocity
+        # while(speed[startSample] > 1)
+        # {
+        #         startSample = startSample -1
+        #         
+        #         #If the sprint doesn't start at a null speed, the first sample is used
+        #         #In old versions of RaceAnalyzer it was possible to start with a high speed.
+        #         if(startSample == 0)
+        #         {
+        #                 startSample = 1
+        #                 break
+        #         }
+        # }
         
         #Zeroing time to the initial acceleration sample
         totalTime = totalTime - totalTime[startSample]
@@ -557,7 +571,7 @@ testEncoderCJ <- function(filename, testLength, mass, personHeight, tempC)
                                       plotMeanRawPower = FALSE,
                                       plotFittedSpeed = TRUE,
                                       plotFittedAccel = FALSE,
-                                      plotFittedForce = TRUE,
+                                      plotFittedForce = FALSE,
                                       plotFittedPower = TRUE)
                 exportSprintDynamics(sprintFittedDynamics)
         } else

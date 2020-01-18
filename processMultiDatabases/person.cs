@@ -95,12 +95,12 @@ public class Person {
 		{
 			//note that just after the A2 can be the code, eg. A404559, so remove the A2 or a3 or A4 if exists
 			string nameClean = name;
-			nameClean.Replace("a2", "");
-			nameClean.Replace("A2", "");
-			nameClean.Replace("a3", "");
-			nameClean.Replace("A3", "");
-			nameClean.Replace("a4", "");
-			nameClean.Replace("A5", "");
+			nameClean = nameClean.Replace("a2", "");
+			nameClean = nameClean.Replace("A2", "");
+			nameClean = nameClean.Replace("a3", "");
+			nameClean = nameClean.Replace("A3", "");
+			nameClean = nameClean.Replace("a4", "");
+			nameClean = nameClean.Replace("A5", "");
 
 			//then return the number
 			Match match = Regex.Match(nameClean, @"(\d+)");

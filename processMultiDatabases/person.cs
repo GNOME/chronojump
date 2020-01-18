@@ -91,6 +91,22 @@ public class Person {
 			if(match.Groups.Count == 2)
 				return match.Groups[1].Value;
 		}
+		else if(city == "ulm")
+		{
+			//note that just after the A2 can be the code, eg. A404559, so remove the A2 or a3 or A4 if exists
+			string nameClean = name;
+			nameClean.Replace("a2", "");
+			nameClean.Replace("A2", "");
+			nameClean.Replace("a3", "");
+			nameClean.Replace("A3", "");
+			nameClean.Replace("a4", "");
+			nameClean.Replace("A5", "");
+
+			//then return the number
+			Match match = Regex.Match(nameClean, @"(\d+)");
+			if(match.Groups.Count == 2)
+				return match.Value;
+		}
 
 		return "";
 	}

@@ -182,7 +182,7 @@ class ComputerDBManage
 				path + "Encoder_Ulm/Laptop1_Chronojump_für Maria_Nov2019/chronojump/database",
 				"",
 				8,4,7,
-				"PRE", "a2", "a3", "a4"));
+				"PRE", "A2", "A3", "A4")); //in caps because comparison is done in caps
 		/*
 		list.Add(new ComputerDB(
 				"ulm",
@@ -190,14 +190,14 @@ class ComputerDBManage
 				path + "Encoder_Ulm/Laptop2_Chronojump_für Maria_Nov2019/database",
 				"",
 				8,9,7,  //note: they have also jumps on 4
-				"PRE", "a2", "a3", "a4"));
+				"PRE", "A2", "A3", "A4"));
 		list.Add(new ComputerDB(
 				"ulm",
 				"ulm3",
 				path + "Encoder_Ulm/Laptop3_Chronojump_für Maria_Nov2019/database",
 				"",
 				8,4,7,
-				"PRE", "a2", "a3", "a4"));
+				"PRE", "A2", "A3", "A4"));
 		*/
 	}
 }

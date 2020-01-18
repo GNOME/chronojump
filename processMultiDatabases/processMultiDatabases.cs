@@ -96,9 +96,6 @@ using System.Collections.Generic; //List<T>
 class ProcessMultiDatabases
 {
 	private bool debug = false; //on debug just 5 sets of each compDB-exercise are used
-	private int distMinBiceps = 10; 	//study what range of reps we have at each exercise starting with distMin = 5.
-	private int distMinJump = 5; 		//study what range of reps we have at each exercise starting with distMin = 5.
-	private int distMinSittostand = 10; 	//study what range of reps we have at each exercise starting with distMin = 5.
 	private Sqlite sqlite;
 	TextWriter writer;
 

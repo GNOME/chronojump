@@ -406,8 +406,8 @@ public class Util
 	}
 	public static string RemoveBoldMarks(string s)
 	{
-		s.Replace("<b>", "");
-	        s.Replace("</b>", "");
+		s = s.Replace("<b>", "");
+	        s = s.Replace("</b>", "");
 		return s;
 	}
 

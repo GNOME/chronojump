@@ -133,6 +133,7 @@ class ComputerDBManage
 	 * select * from encoderExercise;
 	 * select exerciseID, count(*) from encoder group by exerciseID;
 	 */
+	string path = "/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/carpetes-chronojump-senceres/";
 
 	public List<ComputerDB> list;
 	public ComputerDBManage()
@@ -142,44 +143,43 @@ class ComputerDBManage
 		list.Add(new ComputerDB(
 				"barcelona",
 				"barcelona1", 
-				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/carpetes-chronojump-senceres/barcelona/wetransfer-8ba4dd/Encoder_Copies_17_07_2019/database",
+				path + "barcelona/wetransfer-8ba4dd/Encoder_Copies_17_07_2019/database",
 				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/arxius-processats-per-ells/barcelona",
 				8, -1, 7,
 				"", "", "", ""));
 		list.Add(new ComputerDB(
 				"barcelona",
 				"barcelona2", 
-				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/carpetes-chronojump-senceres/barcelona/wetransfer-8ba4dd/Encoder_Copies_17_07_2019/Darrera_còpia_pc_prèstec/chronojump/database",
+				path + "barcelona/wetransfer-8ba4dd/Encoder_Copies_17_07_2019/Darrera_còpia_pc_prèstec/chronojump/database",
 				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/arxius-processats-per-ells/barcelona",
 				8, 4, 7,
 				"", "", "", ""));
-				*/
 		list.Add(new ComputerDB(
 				"belfast",
 				"belfast",
-				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/carpetes-chronojump-senceres/Belfast_chronojump/chronojump/database",
+				path + "Belfast_chronojump/chronojump/database",
 				"",
 				12, 14, 15, 	//note: belfast has biceps curl 12 (2kg), and 13 (4kg)
 				"PRE", "PI", "12M", "18M"));
-		/*
 		list.Add(new ComputerDB(
 				"denmark",
 				"denmark1",
-				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/carpetes-chronojump-senceres/denmark/wetransfer-08b800/Chronojump Backup 09.10.2019 - HP - FINAL - DK site/database",
+				path + "denmark/wetransfer-08b800/Chronojump Backup 09.10.2019 - HP - FINAL - DK site/database",
 				"",
 				8, 9, 7,
 				"PRE", "POST", "FU12", "FU18"));
 		list.Add(new ComputerDB(
 				"denmark",
 				"denmark2",
-				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/carpetes-chronojump-senceres/denmark/wetransfer-08b800/Chronojump Backup 09.10.2019 - Lenovo - FINAL - DK site/database",
+				path + "denmark/wetransfer-08b800/Chronojump Backup 09.10.2019 - Lenovo - FINAL - DK site/database",
 				"",
 				8, 11, 7,
 				"PRE", "POST", "FU12", "FU18"));
+		*/
 		list.Add(new ComputerDB(
 				"ulm",
 				"ulm1",
-				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/carpetes-chronojump-senceres/Encoder_Ulm/Laptop1_Chronojump_für Maria_Nov2019/chronojump/database",
+				path + "Encoder_Ulm/Laptop1_Chronojump_für Maria_Nov2019/chronojump/database",
 				"",
 				8,4,7,
 				"PRE", "a2", "a3", "a4"));
@@ -187,18 +187,18 @@ class ComputerDBManage
 		list.Add(new ComputerDB(
 				"ulm",
 				"ulm2",
-				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/carpetes-chronojump-senceres/Encoder_Ulm/Laptop2_Chronojump_für Maria_Nov2019/database",
+				path + "Encoder_Ulm/Laptop2_Chronojump_für Maria_Nov2019/database",
 				"",
 				8,9,7,  //note: they have also jumps on 4
 				"PRE", "a2", "a3", "a4"));
 		list.Add(new ComputerDB(
 				"ulm",
 				"ulm3",
-				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/carpetes-chronojump-senceres/Encoder_Ulm/Laptop3_Chronojump_für Maria_Nov2019/database",
+				path + "Encoder_Ulm/Laptop3_Chronojump_für Maria_Nov2019/database",
 				"",
 				8,4,7,
 				"PRE", "a2", "a3", "a4"));
-				*/
+		*/
 	}
 }
 

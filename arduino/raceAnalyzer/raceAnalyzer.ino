@@ -1,10 +1,16 @@
+/**************************************
+                  Testing
+ **************************************/
+
+
 #include <Wire.h>
 #include <Adafruit_ADS1015.h>
 #include <EEPROM.h>
 
+//TODO: Test the Texas Instrument ADS1256
 Adafruit_ADS1115 loadCell;
 
-int encoderPinA = 3;
+int encoderPinA = 3;  //Pin associated with the encoder interruption
 int encoderPinB = 4;
 volatile int encoderDisplacement = 0;
 int lastEncoderDisplacement = 0;
@@ -15,7 +21,7 @@ unsigned long lastSampleTime = micros();
 unsigned long sampleTime = 0;
 
 //Version of the firmware
-String version = "Race_Analyzer-0.1";
+String version = "Race_Analyzer-0.2";
 
 int pps = 10; //Pulses Per Sample. How many pulses are needed to get a sample
 int ppsAddress = 0; //Where is stored the pps value in the EEPROM
@@ -26,25 +32,45 @@ int offsetAddress = 2;
 float calibrationFactor = 0.140142;
 int calibrationAddress = 4;
 
-float metersPerPulse = 0.003003;
+float metersPerPulse = 0.003003;      //Value for the manual race encoder
 int metersPerPulseAddress = 8;
 
 //Wether the sensor has to capture or not
-boolean capturing = false;
+boolean capturing = true;
 
 //Wether the encoder has reached the number of pulses per sample or not
 boolean procesSample = false;
 
 //wether the tranmission is in binary format or not
-boolean binaryFormat = false;
+boolean binaryFormat = true;
 
 //baud rate of the serial communication
-unsigned long baudRate = 1000000;
+unsigned long baudRate = 115200;
+
+struct frame {
+  unsigned long totalTime;
+  //unsigned long elapsedTime;
+  int offsettedData;
+};
+
+frame data;
+int frameNumber = 0;
+
+float sumFreq = 0;
+
+
+long int totalForce = 0;
+int nReadings = 0;
+int offsettedData = 0;
+int lastOffsettedData = 0;
+float force = 0;
+float meanFreq = 0;
 
 void setup() {
 
   pinMode (encoderPinA, INPUT);
   pinMode (encoderPinB, INPUT);
+
   Serial.begin (baudRate);
   Serial.print("Initial setup: Baud rate : ");
   Serial.println(baudRate);
@@ -52,34 +78,34 @@ void setup() {
   Wire.setClock(1000000);
 
   EEPROM.get(ppsAddress, pps);
-    //if pps is 0 it means that it has never been set. We use the default value
-  if (pps == -151){
+  //if pps is 0 it means that it has never been set. We use the default value
+  if (pps == -151) {
     pps = 10;
     EEPROM.put(ppsAddress, pps);
-  } 
+  }
 
   loadCell.begin();
   loadCell.setGain(GAIN_ONE);
-  
+
   EEPROM.get(offsetAddress, offset);
   //if offset is -1 it means that it has never been set. We use the default value
-  if (offset == -1){
+  if (offset == -1) {
     offset = 1030;
     EEPROM.put(offsetAddress, offset);
-  } 
+  }
 
   EEPROM.get(calibrationAddress, calibrationFactor);
   //if calibrationFactor is not a number it means that it has never been set. We use the default value
-  if(isnan(calibrationFactor)){
+  if (isnan(calibrationFactor)) {
     calibrationFactor = 0.140142;
     EEPROM.put(calibrationAddress, calibrationFactor);
   }
 
   EEPROM.get(metersPerPulseAddress, metersPerPulse);
-  
+
   //if metersPerPulse is not a number it means that it has never been set. We use the default value
-  if (isnan(metersPerPulse)){ 
-    metersPerPulse = 0.140142;
+  if (isnan(metersPerPulse)) {
+    metersPerPulse = 0.003003;
     EEPROM.put(metersPerPulseAddress, metersPerPulse);
   }
 
@@ -88,29 +114,26 @@ void setup() {
 
   //Using the CHANGE with both photocells WE CAN HAVE four times normal PPR
   //attachInterrupt(digitalPinToInterrupt(encoderPinB), changingB, CHANGE);
+
+  //  start_capture();
+
+  //lastOffsettedData = readOffsettedData(0);
 }
 
 void loop() {
-  //double totalForce = 0;
-  long int totalForce = 0;
-  int nReadings = 0;
-  int offsettedData = 0;
-  float force = 0;
-
 
   if (capturing)
   {
 
-    //With a diameter is of 160mm, each pulse is 2.513274mm. 4 pulses equals 1.00531cm
+    //TODO: If the value of the force is negative, send a 0
     while (!procesSample) {
-      offsettedData = readOffsettedData(0);
-      //Serial.println(offsettedData);
-      totalForce +=  offsettedData;
-      //force = readOffsettedData(0);
-      //totalForce += force;
-      nReadings++;
+
+      //      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      //      ¡¡¡¡¡¡¡¡¡ Atention. Reading the ADC is really slow and uses a lot of interruptions to transfer the data!!!!!!!!
+      //      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
       //If some string comes from Serial process the sample
+      //This makes that the sample after getting the command "end_capture:" has less pulses than pps
       if (Serial.available() > 0) {
         sampleTime = micros();
         lastEncoderDisplacement = encoderDisplacement;
@@ -118,8 +141,6 @@ void loop() {
         procesSample = true;
       }
     }
-
-    //int lastEncoderDisplacement = encoderDisplacement; //Assigned to another variable for in the case that encoder displacement changes before printing it
 
     //Managing the timer overflow
     if (sampleTime > lastSampleTime)      //No overflow
@@ -130,47 +151,51 @@ void loop() {
       elapsedTime = (4294967295 -  lastSampleTime) + sampleTime; //Time from the last measure to the overflow event plus the changingTime
     }
     totalTime += elapsedTime;
-    double meanForce = totalForce / nReadings;
+    //double meanForce = totalForce / nReadings;
     lastSampleTime = sampleTime;
 
-    //Sending in text mode
-    Serial.print(lastEncoderDisplacement);
-    Serial.print(";");
-    Serial.print(totalTime);
-    Serial.print(";");
-    Serial.println(totalForce / nReadings);
+    //Print the frequency
+    //Serial.println( float(pps) / (float(elapsedTime) / 1000000.0) );
 
-    procesSample = false;
+    //The frame is stored in a structure in order to make only one Serial.write
+    data.totalTime = totalTime;
+    //data[frameNumber].elapsedTime = elapsedTime;
+    //offsettedData = readOffsettedData(0);
 
-    //    //Sending in binary mode
-    //    sendInt(lastEncoderDisplacement);
-    //    sendInt(totalTime);
-    //    sendInt(offsettedData);
-    //
-    //    //End of the binari sample
-    //    Serial.write(0xff);
-    //    Serial.write(0xff);
-    //    Serial.write(0xff);
-    //    Serial.write(0xff);
+    //The force is not measured in the instant of the sample but the mean force fot he current and last sample
+    data.offsettedData = 0;
+    //lastOffsettedData = offsettedData;
+    //sumFreq = sumFreq + 1000000.0 * pps / float(elapsedTime);
 
+    //Printing in binary format
+    Serial.write((byte*)&data, 6);
+
+    //Printing in text mode
+    //        Serial.print(totalTime);
+    //        Serial.print("\t");
+    //        Serial.println(elapsedTime);
+    //        Serial.println(data[frameNumber].offsettedData);
+
+
+    procesSample = false;       //Keep acumulating pulses without processing the sample until [pps] samples is reached
   }
 }
 
 void changingA() {
-  changingTime = micros();
+
   if (digitalRead(encoderPinB) == HIGH) {
     encoderDisplacement--;
-    //digitalWrite(13, HIGH);
   } else {
     encoderDisplacement++;
-    //digitalWrite(13, LOW);
   }
+
+  //only measures time if the number of pulses is [pps]
   if (abs(encoderDisplacement) >= pps) {
-    lastEncoderDisplacement = encoderDisplacement;  //We need to save this value because it can change very quickly
-    sampleTime = changingTime;                      //We need to save this value because it can change very quickly
-    encoderDisplacement = 0;
+    sampleTime = micros();
     procesSample = true;
+    encoderDisplacement = 0;
   }
+
 }
 
 void serialEvent()
@@ -217,23 +242,27 @@ void serialEvent()
     Serial.println("Not a valid command");
   }
   inputString = "";
-  attachInterrupt(digitalPinToInterrupt(encoderPinA), changingA, RISING);
 }
 
 void start_capture()
 {
-  Serial.println("Starting capture...");
+  Serial.flush();
+  Serial.print("Starting capture;PPS:");
+  Serial.println(pps);
+
+
+  attachInterrupt(digitalPinToInterrupt(encoderPinA), changingA, RISING);
 
   totalTime = 0;
   lastSampleTime = micros();
   sampleTime = lastSampleTime + 1;
 
   //First sample with a low speed is mandatory to good detection of the start
-  Serial.print(0);
-  Serial.print(";");
-  Serial.print(1);
-  Serial.print(";");
-  Serial.println(0);
+
+  //sendInt(0);
+  sendLong(1);
+  sendInt(0);     //Fake force. Fixed number for debugging
+
   capturing = true;
   encoderDisplacement = 0;
 }
@@ -241,7 +270,12 @@ void start_capture()
 void end_capture()
 {
   capturing = false;
-  Serial.println("Capture ended");
+
+  //sendLong(4294967295);
+  //sendInt(32767);
+  Serial.print("\nCapture ended:");
+  Serial.print("TotalTime :");
+  Serial.println(totalTime);
 }
 
 void get_version()
@@ -257,9 +291,9 @@ void set_pps(String inputString)
   if (newPps != pps) {  //Trying to reduce the number of writings
     EEPROM.put(ppsAddress, newPps);
     pps = newPps;
-    Serial.print("pps set to: ");
-    Serial.println(pps);
   }
+  Serial.print("pps set to: ");
+  Serial.println(pps);
 }
 
 void get_pps()
@@ -315,19 +349,13 @@ float readForce(int sensor)
 
 void sendInt(int i) {
   byte * b = (byte *) &i;
-  Serial.write(b[0]); //Least significant byte
-  Serial.write(b[1]); //Most significant byte
-  Serial.flush();
+  Serial.write(b, 2);
   return;
 }
 
 void sendLong(long l) {
   byte * b = (byte *) &l;
-  Serial.write(b[0]); //Least significant byte
-  Serial.write(b[1]);
-  Serial.write(b[2]);
-  Serial.write(b[3]); //Most significant byte
-  Serial.flush();
+  Serial.write(b, 4);
   return;
 }
 
@@ -420,6 +448,7 @@ void set_baud_rate(String inputString)
   Serial.println(baudRate);
 }
 
+//TODO: Write in binary mode
 void start_simulation(void)
 {
   float vmax = 10.0;
@@ -428,25 +457,25 @@ void start_simulation(void)
   float lastPosition = 0.0;
   float displacement;
 
-  
+
   Serial.println("Starting capture...");
 
-    Serial.print(0);
-    Serial.print(";");
-    Serial.print(1);
-    Serial.print(";");
-    Serial.println(0);
+  Serial.print(0);
+  Serial.print(";");
+  Serial.print(1);
+  Serial.print(";");
+  Serial.println(0);
 
-    Serial.print(0);
-    Serial.print(";");
-    Serial.print(round(1E4));
-    Serial.print(";");
-    Serial.println(0);
+  Serial.print(0);
+  Serial.print(";");
+  Serial.print(round(1E4));
+  Serial.print(";");
+  Serial.println(0);
 
   for (float totalTime = 2E4; totalTime < 1E7; totalTime = totalTime + 1E4)
   {
-            //Sending in text mode
-//    Serial.print(round( displacement / 0.003003 ));
+    //Sending in text mode
+    //    Serial.print(round( displacement / 0.003003 ));
     Serial.print(0);
     Serial.print(";");
     Serial.print(round(totalTime));
@@ -456,11 +485,11 @@ void start_simulation(void)
   }
   for (float totalTime = 0; totalTime <= 1E7; totalTime = totalTime + 1E4)
   {
-    currentPosition = vmax * (totalTime / 1E6 + pow(2.7182818, (-k * totalTime / 1E6)) / k ) -vmax / k ;
+    currentPosition = vmax * (totalTime / 1E6 + pow(2.7182818, (-k * totalTime / 1E6)) / k ) - vmax / k ;
     displacement = currentPosition - lastPosition;
-    
-        //Sending in text mode
-//    Serial.print(round( displacement / 0.003003 ));
+
+    //Sending in text mode
+    //    Serial.print(round( displacement / 0.003003 ));
     Serial.print(round( displacement ));
     Serial.print(";");
     Serial.print(round(totalTime + 1E7));

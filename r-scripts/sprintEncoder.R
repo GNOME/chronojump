@@ -52,7 +52,7 @@ assignOptions <- function(options) {
 #-------------- assign options -------------
 op <- assignOptions(options)
 
-getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, Height , Vw = 0, device = "MANUAL")
+getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, Height , Vw = 0, device = "MANUAL", startAccel = 10)
 {
         print("#####Entering in getSprintFromEncoder###############")
         # Constants for the air friction modeling
@@ -142,7 +142,7 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         }
         
         #Finding when the sprint starts
-        trimmingSamples = getTrimmingSamples(totalTime, position, speed, accel, testLength)
+        trimmingSamples = getTrimmingSamples(totalTime, position, speed, accel, testLength, startAccel)
         print(trimmingSamples)
         #Zeroing time to the initial acceleration sample
         time = totalTime - totalTime[trimmingSamples$start]
@@ -191,7 +191,7 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         return(list(Vmax = Vmax, K = K,
                     time = time, rawPosition = position, rawSpeed = speed, rawAccel = accel, rawForce = totalForce, rawPower = power,
                     rawVmax = max(speed[trimmingSamples$start:trimmingSamples$end]), rawAmax = max(accel[trimmingSamples$start:trimmingSamples$end]), rawFmax = max(totalForce[trimmingSamples$start:trimmingSamples$end]), rawPmax = max(power[trimmingSamples$start:trimmingSamples$end]),
-                    startSample = trimmingSamples$start, endSample = trimmingSamples$end, testLength = testLength, longEnough = longEnough, regressionDone = regression$regressionDone, timeBefore = timeBefore))
+                    startSample = trimmingSamples$start, endSample = trimmingSamples$end, testLength = testLength, longEnough = longEnough, regressionDone = regression$regressionDone, timeBefore = timeBefore, startAccel = startAccel))
 }
 
 plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
@@ -207,7 +207,9 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
                                   plotFittedSpeed = TRUE,
                                   plotFittedAccel = FALSE,
                                   plotFittedForce = FALSE,
-                                  plotFittedPower = FALSE)
+                                  plotFittedPower = FALSE,
+                                  startAccel = 10,
+                                  plotStartDetection = TRUE)
 {
         #Plotting position
         # plot(sprintRawDynamics$time[sprintRawDynamics$startSample:sprintRawDynamics$endSample], sprintRawDynamics$rawPosition[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
@@ -311,6 +313,9 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
                 lines(sprintRawDynamics$time[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
                       sprintRawDynamics$rawSpeed[sprintRawDynamics$startSample:sprintRawDynamics$endSample])
                 lines(x = c(0,sprintRawDynamics$time[sprintRawDynamics$startSample]), y = c(0,sprintRawDynamics$rawSpeed[sprintRawDynamics$startSample]))
+                if(plotStartDetection){
+                        points(sprintRawDynamics$time[sprintRawDynamics$startSample], sprintRawDynamics$rawSpeed[sprintRawDynamics$startSample])
+                }
                 print("########")
                 lapTime = diff(c(0, splitTime))
                 textXPos = c(0,splitTime[1:length(splitTime) -1]) + lapTime/2
@@ -351,7 +356,7 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
                              xlab = "", ylab = "",
                              axes = FALSE, yaxs = "i", xaxs = "i")
                         axis(side = 4)
-                        abline(h=5, col = "pink")
+                        abline(h=c(0,sprintRawDynamics$startAccel), col = c("magenta", "magenta"), lty = c(1,2))
                         legendText = c(legendText, paste("Amax.raw =", round(sprintRawDynamics$rawAmax, digits = 2), "m/s"))
                         legendColor = c(legendColor, "magenta")
                 }
@@ -482,7 +487,7 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
 }
 
 #Detecting where the sprint start and stops
-getTrimmingSamples <- function(totalTime, position, speed, accel, testLength, startAccel = 5)
+getTrimmingSamples <- function(totalTime, position, speed, accel, testLength, startAccel = 10)
 {
         print("#########Entering getTrimmingSamples###########33")
         #The test starts when the acceleration is greater than startAccel m/s²
@@ -558,7 +563,7 @@ tryNLS <- function(data){
 
 testEncoderCJ <- function(filename, testLength, mass, personHeight, tempC)
 {
-        sprintRawDynamics = getSprintFromEncoder(filename, testLength, op$mass, op$tempC, op$personHeight, Vw = 0, device = op$device)
+        sprintRawDynamics = getSprintFromEncoder(filename, testLength, op$mass, op$tempC, op$personHeight, Vw = 0, device = op$device, startAccel = 5)
         # print("sprintRawDynamics:")
         # print(sprintRawDynamics)
         if (sprintRawDynamics$longEnough & sprintRawDynamics$regressionDone)
@@ -578,7 +583,8 @@ testEncoderCJ <- function(filename, testLength, mass, personHeight, tempC)
                                       plotFittedSpeed = TRUE,
                                       plotFittedAccel = FALSE,
                                       plotFittedForce = FALSE,
-                                      plotFittedPower = TRUE)
+                                      plotFittedPower = TRUE,
+                                      plotStartDetection = FALSE)
                 exportSprintDynamics(sprintFittedDynamics)
         } else
                 print("Couldn't calculate the sprint model")

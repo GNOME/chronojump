@@ -574,7 +574,7 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	//time (4 bytes: long at Arduino, uint at c-sharp), force (2 bytes: uint)
+		//time (4 bytes: long at Arduino, uint at c-sharp), force (2 bytes: uint)
 	private List<uint> readBinaryRunEncoderValues()
         {
 		//LogB.Debug("readed start mark Ok");
@@ -927,13 +927,24 @@ public partial class ChronoJumpWindow
 		int imageWidth = UtilGtk.WidgetWidth(viewport_run_encoder_graph);
 		int imageHeight = UtilGtk.WidgetHeight(viewport_run_encoder_graph);
 
+		string title = Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "-" +
+			Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_run_encoder_exercise));
+
+		string dateTimeGraph = "";
+		if(currentRunEncoder != null)
+			dateTimeGraph = currentRunEncoder.DateTimePublic;
+		else
+			dateTimeGraph = UtilDate.ToFile(runEncoderTimeStartCapture);
+
 		//create graph
 		RunEncoderGraph reg = new RunEncoderGraph(
 				race_analyzer_distance,
 				currentPersonSession.Weight,  	//TODO: can be more if extra weight
 				currentPersonSession.Height,
 				race_analyzer_temperature,
-				race_analyzer_device);
+				race_analyzer_device,
+				title,
+				dateTimeGraph);
 
 		reg.CallR(imageWidth, imageHeight);
 

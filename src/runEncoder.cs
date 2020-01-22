@@ -223,6 +223,10 @@ public class RunEncoder
 		get { return temperature; }
 		set { temperature = value; }
 	}
+	public string DateTimePublic
+	{
+		get { return dateTime; }
+	}
 	public string Comments
 	{
 		get { return comments; }
@@ -288,14 +292,19 @@ public class RunEncoderGraph
 	private double personHeight;
 	private double tempC;
 	private RunEncoder.Devices device;
+	private string title;
+	private string datetime;
 
-	public RunEncoderGraph(int testLength, double mass, double personHeight, double tempC, RunEncoder.Devices device)
+	public RunEncoderGraph(int testLength, double mass, double personHeight, double tempC, RunEncoder.Devices device,
+			string title, string datetime)
 	{
 		this.testLength = testLength;
 		this.mass = mass;
 		this.personHeight = personHeight;
 		this.tempC = tempC;
 		this.device = device;
+		this.title = title;
+		this.datetime = datetime;
 	}
 
 	public bool CallR(int graphWidth, int graphHeight)
@@ -324,7 +333,9 @@ public class RunEncoderGraph
 			"#os\n" + 			UtilEncoder.OperatingSystemForRGraphs() + "\n" +
 			"#graphWidth\n" + 		graphWidth.ToString() + "\n" +
 			"#graphHeight\n" + 		graphHeight.ToString() + "\n" +
-			"#device\n" + 			device.ToString();
+			"#device\n" + 			device.ToString() + "\n" +
+			"#title\n" + 			title + "\n" +
+			"#datetime\n" + 		datetime;
 
 
 		TextWriter writer = File.CreateText(Path.GetTempPath() + "Roptions.txt");

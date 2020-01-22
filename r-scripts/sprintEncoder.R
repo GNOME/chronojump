@@ -43,7 +43,9 @@ assignOptions <- function(options) {
                 os 		= options[7],
                 graphWidth 	= as.numeric(options[8]),
                 graphHeight	= as.numeric(options[9]),
-                device  	= options[10]
+                device  	= options[10],
+                title 	 	= options[11],
+                datetime 	= options[12]
         ))
 }
 
@@ -192,7 +194,9 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
                     startSample = trimmingSamples$start, endSample = trimmingSamples$end, testLength = testLength, longEnough = longEnough, regressionDone = regression$regressionDone, timeBefore = timeBefore))
 }
 
-plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, title = "Test graph",
+plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
+				  title = "Test graph",
+				  subtitle = "",
                                   plotRawMeanSpeed = TRUE,
                                   plotRawSpeed = TRUE,
                                   plotRawAccel = FALSE,
@@ -302,7 +306,7 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics, title
         {
                 barplot(height = meanSpeed, width = diff(c(0,splitTime)), space = 0,
                         ylim = ylimits,
-                        main = title, xlab = "Time (s)", ylab = "Speed (m/s)",
+                        main = title, sub = subtitle, xlab = "Time (s)", ylab = "Speed (m/s)",
                         yaxs = "i", xaxs = "i")
                 lines(sprintRawDynamics$time[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
                       sprintRawDynamics$rawSpeed[sprintRawDynamics$startSample:sprintRawDynamics$endSample])
@@ -561,7 +565,9 @@ testEncoderCJ <- function(filename, testLength, mass, personHeight, tempC)
         {
                 sprintFittedDynamics = getDynamicsFromSprint(K = sprintRawDynamics$K, Vmax = sprintRawDynamics$Vmax, mass, tempC, personHeight)
                 print(paste("K =",sprintFittedDynamics$K.fitted, "Vmax =", sprintFittedDynamics$Vmax.fitted))
-                plotSprintFromEncoder(sprintRawDynamic = sprintRawDynamics, sprintFittedDynamics = sprintFittedDynamics, title = "Testing graph",
+                plotSprintFromEncoder(sprintRawDynamic = sprintRawDynamics, sprintFittedDynamics = sprintFittedDynamics,
+				      title = op$title,
+				      subtitle = op$datetime,
                                       plotRawMeanSpeed = TRUE,
                                       plotRawSpeed = TRUE,
                                       plotRawAccel = FALSE,

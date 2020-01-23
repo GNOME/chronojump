@@ -48,6 +48,37 @@ public class Point
 
 }
 
+//like Point but for having an xStart and xEnd
+public class PointStartEnd
+{
+	private int id;
+	private double start;
+	private double end;
+
+	public PointStartEnd (int id, double start, double end)
+	{
+		this.id = id;
+		this.start = start;
+		this.end = end;
+	}
+
+	public int Id {
+		get { return id; }
+	}
+	public double Start {
+		get { return start; }
+	}
+	public double End {
+		get { return end; }
+	}
+
+	public override string ToString()
+	{
+		return string.Format("Id:{0}; Start:{1}; End:{2}", id, start, end);
+	}
+
+}
+
 public class LeastSquaresLine
 {
 	//public double [] Coef; 	//indep, x

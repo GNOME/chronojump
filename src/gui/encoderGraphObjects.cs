@@ -54,6 +54,8 @@ public class EncoderGraphDoPlot
 	private ArrayList data; //data is related to mainVariable (barplot)
 	private ArrayList dataSecondary; //dataSecondary is related to secondary variable (by default range)
 
+	private EncoderBarsLimits encoderBarsLimits;
+
 	Pango.Layout layout_encoder_capture_curves_bars;
         Pango.Layout layout_encoder_capture_curves_bars_text; //e, c
         Pango.Layout layout_encoder_capture_curves_bars_superbig; //PlaySounds wewillrockyou
@@ -154,6 +156,7 @@ public class EncoderGraphDoPlot
 
 		graphWidth = drawingarea.Allocation.Width;
 		graphHeight = drawingarea.Allocation.Height;
+		encoderBarsLimits = new EncoderBarsLimits();
 	
 		fillDataVariables();
 		plot();
@@ -562,6 +565,8 @@ public class EncoderGraphDoPlot
 			rect = new Rectangle(dLeft, dTop, dWidth, dHeight);
 			pixmap.DrawRectangle(my_pen, true, rect);
 
+			encoderBarsLimits.Add(count +1, dLeft, dLeft + dWidth); //first rep is 1
+
 			//paint diagonal line to distinguish eccentric-concentric
 			//line is painted before the black outline to fix graphical problems
 			if (eccon == "ec" || eccon == "ecS") {
@@ -779,7 +784,40 @@ public class EncoderGraphDoPlot
 		pixmap.DrawLayout (pen_black_encoder_capture, xStart, yStart, layout_message);
 	}
 
+	public int FindBarInPixel (double pixel)
+	{
+		return encoderBarsLimits.FindBarInPixel(pixel);
+	}
+
 	public bool GraphPrepared {
 		get { return graphPrepared; }
 	}
 }	
+
+//to store the xStart and xEnd of every encoder capture reptition
+//in order to be saved or not on clicking screen
+//note every rep will be c or ec
+public class EncoderBarsLimits
+{
+	private List<PointStartEnd> list;
+
+	public EncoderBarsLimits()
+	{
+		list = new List<PointStartEnd>();
+	}
+
+	public void Add (int id, double start, double end)
+	{
+		PointStartEnd p = new PointStartEnd(id, start, end);
+		list.Add(p);
+	}
+
+	public int FindBarInPixel (double pixel)
+	{
+		foreach(PointStartEnd p in list)
+			if(pixel >= p.Start && pixel <= p.End)
+				return p.Id;
+
+		return -1;
+	}
+}

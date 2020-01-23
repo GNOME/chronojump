@@ -86,13 +86,21 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         raceAnalyzer$displacement = raceAnalyzer$displacement * metersPerPulse
         position = cumsum(raceAnalyzer$displacement)
         speed = raceAnalyzer$displacement / elapsedTime
-        #print(speed)
-        accel = (speed[3] - speed[1]) / (totalTime[3] - totalTime[1])
+        
+        #Adjusting the time of each sample to the mean time between two samples
+        for( i in 2:length(totalTime)){
+                totalTime[i] = totalTime[i] - elapsedTime[i-1] / 2
+        }
+        
+        #Accel of the sample N is the mean accel between N-1 and N+1 samples.
+        #The time of the accel sample is the same as the speed sample.
+        #TODO. Adjust the time at which this accel is measured.
+        accel = speed[2] / totalTime[2]
         for(i in 3:(length(speed) -1))
         {
                 accel = c(accel, (speed[i+1] - speed[i-1]) / (totalTime[i +1] - totalTime[i -1]))
         }
-        accel = c(accel[1],accel, accel[length(accel)])
+        accel = c(accel, accel[length(accel)])
         forceBody = accel * Mass + Ka*(speed - Vw)^2
         totalForce = forceBody + raceAnalyzer$force
         power = totalForce * speed
@@ -308,11 +316,16 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
         {
                 barplot(height = meanSpeed, width = diff(c(0,splitTime)), space = 0,
                         ylim = ylimits,
-                        main = title, sub = subtitle, xlab = "Time (s)", ylab = "Speed (m/s)",
+                        xlab = "Time (s)", ylab = "Speed (m/s)",
                         yaxs = "i", xaxs = "i")
+                mtext(title, line = 2.5, cex = 1.5)
+                mtext(subtitle, line = 1)
                 lines(sprintRawDynamics$time[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
                       sprintRawDynamics$rawSpeed[sprintRawDynamics$startSample:sprintRawDynamics$endSample])
-                lines(x = c(0,sprintRawDynamics$time[sprintRawDynamics$startSample]), y = c(0,sprintRawDynamics$rawSpeed[sprintRawDynamics$startSample]))
+                lines(c(0,sprintRawDynamics$time[sprintRawDynamics$startSample]),c(0,sprintRawDynamics$rawSpeed[sprintRawDynamics$startSample]))
+                # points(sprintRawDynamics$time[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
+                #        sprintRawDynamics$rawSpeed[sprintRawDynamics$startSample:sprintRawDynamics$endSample])
+                # abline(v=sprintRawDynamics$time[sprintRawDynamics$startSample])
                 if(plotStartDetection){
                         points(sprintRawDynamics$time[sprintRawDynamics$startSample], sprintRawDynamics$rawSpeed[sprintRawDynamics$startSample])
                 }
@@ -351,12 +364,17 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
                 {
                         #Plotting rawAccel
                         par(new = TRUE)
-                        plot(sprintRawDynamics$time[sprintRawDynamics$startSample:sprintRawDynamics$endSample], sprintRawDynamics$rawAccel[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
-                             ylim = ylimits, type = "l", col = "magenta",
+                        plot(c(0,sprintRawDynamics$time[sprintRawDynamics$startSample:sprintRawDynamics$endSample]),
+                             c(0,sprintRawDynamics$rawAccel[(sprintRawDynamics$startSample + 0):(sprintRawDynamics$endSample + 0)]),
+                             ylim = ylimits,
+                             type = "l", col = "magenta",
                              xlab = "", ylab = "",
                              axes = FALSE, yaxs = "i", xaxs = "i")
+                        # points(sprintRawDynamics$time[sprintRawDynamics$startSample:sprintRawDynamics$endSample], sprintRawDynamics$rawAccel[(sprintRawDynamics$startSample + 0):(sprintRawDynamics$endSample + 0)],
+                        #        col = "magenta", cex = 0.5)
+                             
                         axis(side = 4)
-                        abline(h=c(0,sprintRawDynamics$startAccel), col = c("magenta", "magenta"), lty = c(1,2))
+                        #abline(h=c(0,sprintRawDynamics$startAccel), col = c("magenta", "magenta"), lty = c(1,2))
                         legendText = c(legendText, paste("Amax.raw =", round(sprintRawDynamics$rawAmax, digits = 2), "m/s"))
                         legendColor = c(legendColor, "magenta")
                 }
@@ -563,7 +581,7 @@ tryNLS <- function(data){
 
 testEncoderCJ <- function(filename, testLength, mass, personHeight, tempC)
 {
-        sprintRawDynamics = getSprintFromEncoder(filename, testLength, op$mass, op$tempC, op$personHeight, Vw = 0, device = op$device, startAccel = 5)
+        sprintRawDynamics = getSprintFromEncoder(filename, testLength, op$mass, op$tempC, op$personHeight, Vw = 0, device = op$device, startAccel = 10)
         # print("sprintRawDynamics:")
         # print(sprintRawDynamics)
         if (sprintRawDynamics$longEnough & sprintRawDynamics$regressionDone)
@@ -571,11 +589,11 @@ testEncoderCJ <- function(filename, testLength, mass, personHeight, tempC)
                 sprintFittedDynamics = getDynamicsFromSprint(K = sprintRawDynamics$K, Vmax = sprintRawDynamics$Vmax, mass, tempC, personHeight)
                 print(paste("K =",sprintFittedDynamics$K.fitted, "Vmax =", sprintFittedDynamics$Vmax.fitted))
                 plotSprintFromEncoder(sprintRawDynamic = sprintRawDynamics, sprintFittedDynamics = sprintFittedDynamics,
-				      title = op$title,
-				      subtitle = op$datetime,
+                                      title = op$title,
+                                      subtitle = op$datetime,
                                       plotRawMeanSpeed = TRUE,
-                                      plotRawSpeed = TRUE,
-                                      plotRawAccel = FALSE,
+                                      plotRawSpeed = FALSE,
+                                      plotRawAccel = TRUE,
                                       plotRawForce = FALSE,
                                       plotMeanRawForce = FALSE,
                                       plotRawPower = FALSE,
@@ -587,7 +605,7 @@ testEncoderCJ <- function(filename, testLength, mass, personHeight, tempC)
                                       plotStartDetection = FALSE)
                 exportSprintDynamics(sprintFittedDynamics)
         } else
-                print("Couldn't calculate the sprint model")
+          print("Couldn't calculate the sprint model")
 }
 
 prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)

@@ -5319,6 +5319,9 @@ public partial class ChronoJumpWindow
 		LogB.Debug("EXPOSE");
 		bool encoderGraphDoPlotJustCreated = false;
 
+		//needed to have mouse clicks button_press_event ()
+		encoder_capture_curves_bars_drawingarea.AddEvents((int) (Gdk.EventMask.ButtonPressMask | Gdk.EventMask.ButtonReleaseMask));
+
 		Gdk.Rectangle allocation = encoder_capture_curves_bars_drawingarea.Allocation;
 		if(encoder_capture_curves_bars_pixmap == null || encoder_capture_curves_sizeChanged || 
 				allocation.Width != encoder_capture_curves_allocationXOld ||
@@ -5361,6 +5364,23 @@ public partial class ChronoJumpWindow
 		encoder_capture_curves_allocationYOld = allocation.Height;
 	}
 
+	public void on_encoder_capture_curves_bars_drawingarea_button_press_event (object o, ButtonPressEventArgs args)
+	{
+		LogB.Information(string.Format("Mouse X: {0}; Mouse Y: {1}", args.Event.X, args.Event.Y));
+
+		//if list exists, select the repetition
+		if(encoderGraphDoPlot != null)
+		{
+			int repetition = encoderGraphDoPlot.FindBarInPixel(args.Event.X);
+			LogB.Information("Repetition: " + repetition.ToString());
+			if(repetition > 0)
+			{
+				//continue like: gui/encoderTreeview EncoderCaptureItemToggled
+				//that manages if repetition should be discarded
+				//also see if that method shold be divided on 2 depending on who calls it
+			}
+		}
+	}
 	
 	int encoder_capture_signal_allocationXOld;
 	bool encoder_capture_signal_sizeChanged;

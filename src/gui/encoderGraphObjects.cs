@@ -458,7 +458,9 @@ public class EncoderGraphDoPlot
 			rect = new Rectangle(0, 0, graphWidth, graphHeight);
 			pixmap.DrawRectangle(pen_colors_background_encoder_capture, true, rect);
 		}
-		
+
+		int encoderBarsLimitsCount = 0;
+
 		Gdk.Point dSecondaryPreviousPoint = new Gdk.Point(0,0);
 		bool iterOk = encoderCaptureListStore.GetIterFirst(out iter);
 		foreach(double dFor in data)
@@ -565,7 +567,7 @@ public class EncoderGraphDoPlot
 			rect = new Rectangle(dLeft, dTop, dWidth, dHeight);
 			pixmap.DrawRectangle(my_pen, true, rect);
 
-			encoderBarsLimits.Add(count +1, dLeft, dLeft + dWidth); //first rep is 1
+			encoderBarsLimits.Add(encoderBarsLimitsCount ++, dLeft, dLeft + dWidth); //first rep is 1
 
 			//paint diagonal line to distinguish eccentric-concentric
 			//line is painted before the black outline to fix graphical problems
@@ -810,6 +812,7 @@ public class EncoderBarsLimits
 	{
 		PointStartEnd p = new PointStartEnd(id, start, end);
 		list.Add(p);
+		LogB.Information("Added: " + p.ToString());
 	}
 
 	public int FindBarInPixel (double pixel)

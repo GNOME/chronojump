@@ -286,6 +286,7 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	private string encoderCaptureItemToggledArgsPath = "";
 	void EncoderCaptureItemToggled(object o, ToggledArgs args)
 	{
 		//cannot toggle item while capturing or recalculating
@@ -302,11 +303,18 @@ public partial class ChronoJumpWindow
 				inertialStart = 2 * preferences.encoderCaptureInertialDiscardFirstN;
 		}
 
+		string myArgsPath = "";
+		if(encoderCaptureItemToggledArgsPath != "")
+			myArgsPath = encoderCaptureItemToggledArgsPath;
+		else
+			myArgsPath = args.Path;
+
+		//LogB.Information("myArgsPath: " + myArgsPath);
 		TreeIter iter;
 		int column = 0;
-		if (encoderCaptureListStore.GetIterFromString (out iter, args.Path)) 
+		if (encoderCaptureListStore.GetIterFromString (out iter, myArgsPath))
 		{
-			int rowNum = Convert.ToInt32(args.Path); //starts at zero
+			int rowNum = Convert.ToInt32(myArgsPath); //starts at zero
 
 			//do not allow to click a discarded repetition
 			if(rowNum < inertialStart)
@@ -314,7 +322,7 @@ public partial class ChronoJumpWindow
 			
 			//on "ecS" don't pass the 2nd row, pass always the first
 			//then need to move the iter to previous row
-			TreePath path = new TreePath(args.Path);
+			TreePath path = new TreePath(myArgsPath);
 			if(ecconLast != "c" && ! Util.IsEven(rowNum)) {
 				rowNum --;
 				path.Prev();

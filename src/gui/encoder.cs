@@ -5366,18 +5366,19 @@ public partial class ChronoJumpWindow
 
 	public void on_encoder_capture_curves_bars_drawingarea_button_press_event (object o, ButtonPressEventArgs args)
 	{
-		LogB.Information(string.Format("Mouse X: {0}; Mouse Y: {1}", args.Event.X, args.Event.Y));
+		//LogB.Information(string.Format("Mouse X: {0}; Mouse Y: {1}", args.Event.X, args.Event.Y));
 
 		//if list exists, select the repetition
 		if(encoderGraphDoPlot != null)
 		{
 			int repetition = encoderGraphDoPlot.FindBarInPixel(args.Event.X);
-			LogB.Information("Repetition: " + repetition.ToString());
-			if(repetition > 0)
+			//LogB.Information("Repetition: " + repetition.ToString());
+			if(repetition >= 0)
 			{
-				//continue like: gui/encoderTreeview EncoderCaptureItemToggled
-				//that manages if repetition should be discarded
-				//also see if that method shold be divided on 2 depending on who calls it
+				//this will be managed by: EncoderCaptureItemToggled()
+				encoderCaptureItemToggledArgsPath = repetition.ToString();
+				EncoderCaptureItemToggled(new object (), new ToggledArgs());
+				encoderCaptureItemToggledArgsPath = "";
 			}
 		}
 	}

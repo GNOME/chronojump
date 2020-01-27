@@ -1239,14 +1239,24 @@ public class PreferencesWindow
 		System.IO.FileInfo file1 = new System.IO.FileInfo(databaseURL); //potser cal una arrobar abans (a windows)
 		System.IO.FileInfo file2 = new System.IO.FileInfo(databaseTempURL); //potser cal una arrobar abans (a windows)
 
-		if(file1.Exists)
-			System.Diagnostics.Process.Start(Util.GetParentDir(false)); 
-		else if(file2.Exists)
-			System.Diagnostics.Process.Start(Util.GetDatabaseTempDir()); 
-		else
+		if(! file1.Exists && ! file2.Exists)
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.DatabaseNotFoundStr());
+
+		string dir = "";
+		if(file1.Exists)
+			dir = Util.GetParentDir(false);
+		else if(file2.Exists)
+			dir = Util.GetDatabaseTempDir();
+
+		try {
+			System.Diagnostics.Process.Start(dir);
+		} catch {
+			new DialogMessage(Constants.MessageTypes.WARNING,
+					Catalog.GetString("Error. Cannot open directory.") + "\n\n" + dir);
+			return;
+		}
 	}
-	
+
 	void on_button_db_restore_clicked (object o, EventArgs args)
 	{
 		/*

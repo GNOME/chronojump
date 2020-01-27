@@ -1208,14 +1208,25 @@ LogB.Information(" re R ");
 	{
 		if(currentSession == null || currentSession.UniqueID == -1)
 		{
-			System.Diagnostics.Process.Start(RunEncoderGraph.GetDataDir(-1));
+			try {
+				System.Diagnostics.Process.Start(RunEncoderGraph.GetDataDir(-1));
+			} catch {
+				new DialogMessage(Constants.MessageTypes.WARNING,
+						Catalog.GetString("Error. Cannot open directory.") + "\n\n" + RunEncoderGraph.GetDataDir(-1));
+			}
 			return;
 		}
 
 		string dataDir = RunEncoderGraph.GetDataDir(currentSession.UniqueID);
 		if(dataDir != "")
-			System.Diagnostics.Process.Start(dataDir);
-		else
+		{
+			try {
+				System.Diagnostics.Process.Start(dataDir);
+			} catch {
+				new DialogMessage(Constants.MessageTypes.WARNING,
+						Catalog.GetString("Error. Cannot open directory.") + "\n\n" + dataDir);
+			}
+		} else
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.DirectoryCannotOpenStr());
 	}
 

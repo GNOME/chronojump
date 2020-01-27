@@ -39,7 +39,6 @@ public class JumpsEvolution
                 List<Jump> jump_l = SqliteJump.SelectJumps (personID, -1, jumpType);
 
 		//2 convert to list of Point
-		//List<Point> point_l = new List<Point>();
 		point_l = new List<Point>();
                 foreach(Jump j in jump_l)
 		{

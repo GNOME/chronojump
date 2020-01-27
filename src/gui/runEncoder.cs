@@ -264,6 +264,7 @@ public partial class ChronoJumpWindow
 
 		button_contacts_recalculate.Sensitive = false;
 		textview_contacts_signal_comment.Buffer.Text = "";
+		image_run_encoder_graph.Sensitive = false;
 
 		button_delete_last_test.Sensitive = false;
 	}
@@ -1206,6 +1207,7 @@ LogB.Information(" re R ");
 		image_run_encoder_graph = UtilGtk.OpenImageSafe(
 				imagePath,
 				image_run_encoder_graph);
+		image_run_encoder_graph.Sensitive = true;
 	}
 
 	private void on_menuitem_race_encoder_open_folder_activate (object o, EventArgs args)

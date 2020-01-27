@@ -667,7 +667,7 @@ class ImportSession:
                                   avoids_duplicate_column=None,
                                   matches_columns=None)
 
-        # Imports trigger (can be encoder or forceSensor, but right now only encoder is programmed)
+        # Imports trigger (can be encoder, forceSensor or raceanalyzer. Right now force sensor is not programmed)
         trigger = self.source_db.read(table_name="trigger",
                                       where_condition="mode='ENCODER' AND Encoder.sessionID={}".format(self.source_session),
                                       join_clause="LEFT JOIN Encoder ON Encoder.uniqueID=trigger.modeID")
@@ -747,6 +747,16 @@ class ImportSession:
 
         self.destination_db.write(table=runEncoder,
                                   matches_columns=self.destination_db.column_names("runEncoder", skip_columns=["uniqueID", "personID", "sessionID", "exerciseID"]))
+
+        # Imports trigger (can be encoder, forceSensor or raceanalyzer. Right now force sensor is not programmed)
+        trigger = self.source_db.read(table_name="trigger",
+                where_condition="mode='RACEANALYZER' AND RunEncoder.sessionID={}".format(self.source_session),
+                join_clause="LEFT JOIN RunEncoder ON RunEncoder.uniqueID=trigger.modeID")
+
+        trigger.update_ids("modeID", runEncoder, "uniqueID", "new_uniqueID")
+        self.destination_db.write(table=trigger, matches_columns=None)
+        # TODO: check that this write does not erase previous write of encoder trigger
+
 
         if(DEBUGTOFILE):
             debugFile.write(" end _import_runEncoder\n")

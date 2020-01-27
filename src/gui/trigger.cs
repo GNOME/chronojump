@@ -55,4 +55,22 @@ public partial class ChronoJumpWindow
 		else
 			notebook_analyze_results.GetNthPage(2).Hide();
 	}
+
+	// <--------------- end of encoder
+	// start of race analyzer ------------->
+
+	[Widget] Gtk.TextView textview_run_encoder_triggers;
+	TriggerList triggerListRunEncoder;
+
+	private void showRaceAnalyzerTriggers()
+	{
+		triggerListRunEncoder.Print();
+		if(triggerListRunEncoder.Count() > 0)
+		{
+			//fill textview
+			TextBuffer tb1 = new TextBuffer (new TextTagTable());
+			tb1.Text = triggerListRunEncoder.ToString();
+			textview_run_encoder_triggers.Buffer = tb1;
+		}
+	}
 }

@@ -167,13 +167,13 @@ public partial class ChronoJumpWindow
 		/*
 		 * return(str.Remove(0,14));
 		 * use a regex because with above line we can find problems like this:
-		 * init string: ^@;Race_analyzer-0.2
+		 * init string: ^@;Race_analyzer-0.3
 		 */
 		Match match = Regex.Match(str, @"Race_Analyzer-(\d+\.\d+)");
 		if(match.Groups.Count == 1)
 			return str = match.Value;
 		else
-			return "0.2"; //if there is a problem default to 0.2. 0.2 is the first that will be distributed and will be on binary
+			return "0.3"; //if there is a problem default to 0.3. 0.2 was the first that will be distributed and will be on binary. 0.3 has the byte of encoderOrRCA
 	}
 
 
@@ -445,10 +445,11 @@ public partial class ChronoJumpWindow
 
 		TextWriter writer = File.CreateText(fileName);
 		writer.WriteLine("Pulses;Time(useconds);Force(N)");
+
+		triggerListRunEncoder = new TriggerList();
 		str = "";
 		int firstTime = 0;
 
-		bool readBinary = true;
 		int rowsCount = 0;
 		while(! runEncoderProcessFinish && ! runEncoderProcessCancel && ! runEncoderProcessError)
 		{
@@ -466,45 +467,25 @@ public partial class ChronoJumpWindow
 			 * and then the while above will end with the runEncoderProcessFinish condition
 			 */
 
-			if(readBinary)
-			{
-				if (portRE.BytesToRead == 0)
-					continue;
+			if (portRE.BytesToRead == 0)
+				continue;
 
-				//time (4 bytes: long at Arduino, uint at c-sharp), force (2 bytes: uint)
-				List<uint> binaryReaded = readBinaryRunEncoderValues();
-                                uint time = binaryReaded[0];
-                                uint force = binaryReaded[1];
+			//time (4 bytes: long at Arduino, uint at c-sharp), force (2 bytes: uint)
+			List<uint> binaryReaded = readBinaryRunEncoderValues();
+			uint time = binaryReaded[0];
+			uint force = binaryReaded[1];
+			uint encoderOrRCA = binaryReaded[2];
+
+			if(encoderOrRCA == 0)
+			{
 				writer.WriteLine(string.Format("{0};{1};{2}", pps, time, force));
 				rowsCount ++;
-			} else {
-				//LogB.Information(string.Format("finish conditions: {0}-{1}-{2}",
-				//			runEncoderProcessFinish, runEncoderProcessCancel, runEncoderProcessError));
+			} else if(encoderOrRCA == 1)
+				triggerListRunEncoder.Add(new Trigger(Trigger.Modes.ENCODER, Convert.ToInt32(time), false));
+			else if(encoderOrRCA == 2)
+				triggerListRunEncoder.Add(new Trigger(Trigger.Modes.ENCODER, Convert.ToInt32(time), true));
 
-				str = readFromRunEncoderIfDataArrived();
-				if(! checkRunEncoderCaptureLineIsOk(str))
-					continue;
-
-				/*
-				   int time = Convert.ToInt32(strFull[0]);
-
-				//measurement does not start at 0 time. When we start receiving data, mark this as firstTime
-				if(firstTime == 0)
-				firstTime = time;
-
-				//use this to have time starting at 0
-				time -= firstTime;
-
-				double force = Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1]));
-				*/
-
-				string [] strFull = str.Split(new char[] {';'});
-				writer.WriteLine(string.Format("{0};{1};{2}",
-							Convert.ToInt32(strFull[0]), //pulse
-							Convert.ToInt32(strFull[1]), //time
-							Convert.ToInt32(strFull[2]) //force
-							));
-			}
+			//TODO: manage spurious like on encoderCapture.cs
 		}
 
 		LogB.Information(string.Format("FINISHED WITH conditions: {0}-{1}-{2}",
@@ -523,23 +504,12 @@ public partial class ChronoJumpWindow
 			Thread.Sleep(10);
 			try {
 				str = portRE.ReadLine();
-				if(readBinary)
-				{
-					//we will discard everything at the moment finish is pressed
-					//to read correctly as txt the "Capture ended" string
-					//note this can make the rowsCount differ
-				} else {
-					if(checkRunEncoderCaptureLineIsOk(str))
-					{
-						LogB.Information("Processing last received line");
-						string [] strFull = str.Split(new char[] {';'});
-						writer.WriteLine(string.Format("{0};{1};{2}",
-									Convert.ToInt32(strFull[0]), //pulse
-									Convert.ToInt32(strFull[1]), //time
-									Convert.ToInt32(strFull[2]) //force
-									));
-					}
-				}
+
+				/*
+				 * we will discard everything at the moment finish is pressed
+				 * to read correctly as txt the "Capture ended" string
+				 * note this can make the rowsCount differ
+				 */
 			} catch {
 				LogB.Information("Catched waiting end_capture feedback");
 			}
@@ -575,7 +545,7 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-		//time (4 bytes: long at Arduino, uint at c-sharp), force (2 bytes: uint)
+	//time (4 bytes: long at Arduino, uint at c-sharp), force (2 bytes: uint), encoder/RCA (1 byte: uint)
 	private List<uint> readBinaryRunEncoderValues()
         {
 		//LogB.Debug("readed start mark Ok");
@@ -625,6 +595,15 @@ public partial class ChronoJumpWindow
 			readedNum = -1 * (65536 - readedNum);
 			*/
 
+		dataRow.Add(readedNum);
+
+		/*
+		 * byte for encoder or RCA
+		 * 0 encoder data
+		 * 1 RCA down (button is released)
+		 * 2 RCA up (button is pressed)
+		 */
+		b0 = portRE.ReadByte();
 		dataRow.Add(readedNum);
 
 		//LogB.Information("bbb----");
@@ -746,6 +725,14 @@ public partial class ChronoJumpWindow
 
 		button_video_play_this_test_contacts.Sensitive = (re.VideoURL != "");
 		sensitiveLastTestButtons(true);
+
+		//triggers
+		triggerListRunEncoder = new TriggerList(
+				SqliteTrigger.Select(
+					false, Trigger.Modes.RACEANALYZER,
+					Convert.ToInt32(currentRunEncoder.UniqueID))
+				);
+		showRaceAnalyzerTriggers ();
 
 		event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(re.Filename);
 	}
@@ -1055,6 +1042,8 @@ LogB.Information(" re C finish");
 							currentRunEncoderExercise.Name);
 
 					currentRunEncoder.UniqueID = currentRunEncoder.InsertSQL(false);
+					SaveTriggers(currentRunEncoder.UniqueID);
+					showRaceAnalyzerTriggers ();
 
 					//stop camera
 					if(webcamEnd (Constants.TestTypes.RACEANALYZER, currentRunEncoder.UniqueID))
@@ -1181,6 +1170,11 @@ LogB.Information(" re R ");
 		Thread.Sleep (25);
 		//LogB.Information(" RunEncoder:"+ runEncoderCaptureThread.ThreadState.ToString());
 		return true;
+	}
+
+	public void SaveTriggers(int signalID)
+	{
+		triggerListRunEncoder.SQLInsert(signalID);
 	}
 
 	void runEncoderButtonsSensitive(bool sensitive)

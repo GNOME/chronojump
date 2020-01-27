@@ -21,7 +21,7 @@ using System.Collections.Generic; //List<T>
 
 public class Trigger
 {
-	public enum Modes { ENCODER }
+	public enum Modes { ENCODER, FORCESENSOR, RACEANALYZER }
 
 	private int uniqueID;
 	private Modes mode;

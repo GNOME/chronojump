@@ -191,6 +191,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_run_encoder_exercise_add;
 	[Widget] Gtk.Image image_run_encoder_exercise_delete;
 	[Widget] Gtk.Image image_menuitem_runEncoder_session_overview;
+	[Widget] Gtk.Image image_run_encoder_analyze_load;
 
 	//video play icons
 	[Widget] Gtk.Image image_video_play_this_test_contacts;
@@ -395,6 +396,7 @@ public partial class ChronoJumpWindow
 		image_encoder_capture_open1.Pixbuf = pixbuf;
 		image_contacts_capture_load.Pixbuf = pixbuf;
 		image_force_sensor_analyze_load.Pixbuf = pixbuf;
+		image_run_encoder_analyze_load.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "zero.png");
 		image_force_sensor_tare.Pixbuf = pixbuf;

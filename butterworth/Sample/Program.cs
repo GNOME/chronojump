@@ -37,7 +37,7 @@ namespace Sample
     public static void Main(string[] args)
     {
       // 1. Import data.
-      string inputPath = "/home/xavier/Documents/chronojump-no-git/kinoveafiltering-cb3bafc0f6f2/Data/sample-signal.txt";
+      string inputPath = "/home/xavier/informatica/progs_meus/chronojump/chronojump/butterworth/Data/sample-signal.txt";
       List<float> values = ParseInput(inputPath);
       
       // 2. Convert values to a list of timed points. 

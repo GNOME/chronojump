@@ -27,26 +27,28 @@ using System.Collections.Generic; //List<T>
 public partial class ChronoJumpWindow
 {
 	[Widget] Gtk.TextView textview_encoder_analyze_triggers;
-	TriggerList triggerList;
+	TriggerList triggerListEncoder;
 
-	private void showTriggersAndTab()
+	// start of encoder ------------->
+
+	private void showEncoderAnalyzeTriggersAndTab()
 	{
-		triggerList.Print();
-		if(triggerList.Count() > 0)
+		triggerListEncoder.Print();
+		if(triggerListEncoder.Count() > 0)
 		{
 			//fill textview
 			TextBuffer tb1 = new TextBuffer (new TextTagTable());
-			tb1.Text = triggerList.ToString();
+			tb1.Text = triggerListEncoder.ToString();
 			textview_encoder_analyze_triggers.Buffer = tb1;
 		}
 
-		if(radio_encoder_analyze_individual_current_set.Active && triggerList.Count() > 0)
-			showTriggerTab(true);
+		if(radio_encoder_analyze_individual_current_set.Active && triggerListEncoder.Count() > 0)
+			showEncoderAnalyzeTriggerTab(true);
 		else
-			showTriggerTab(false);
+			showEncoderAnalyzeTriggerTab(false);
 	}
 	
-	private void showTriggerTab(bool show)
+	private void showEncoderAnalyzeTriggerTab(bool show)
 	{
 		if(show)
 			notebook_analyze_results.GetNthPage(2).Show();

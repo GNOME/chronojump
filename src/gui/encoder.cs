@@ -481,9 +481,9 @@ public partial class ChronoJumpWindow
 		//configInit();
 	
 		//triggers
-		triggerList = new TriggerList();
+		triggerListEncoder = new TriggerList();
 		LogB.Information("after play 5");
-		showTriggerTab(false);
+		showEncoderAnalyzeTriggerTab(false);
 		LogB.Information("after play 6");
 
 		encoderGraphDoPlot = null; 	//initialize
@@ -1223,7 +1223,7 @@ public partial class ChronoJumpWindow
 
 	void on_button_encoder_recalculate_clicked (object o, EventArgs args)
 	{
-		if(triggerList != null && triggerList.Count() > 0 && findEccon(false) != "c")
+		if(triggerListEncoder != null && triggerListEncoder.Count() > 0 && findEccon(false) != "c")
 		{
 			ConfirmWindow confirmWin = ConfirmWindow.Show(
 					Catalog.GetString("Recalculate this set will remove existing triggers."),
@@ -1421,11 +1421,11 @@ public partial class ChronoJumpWindow
 
 		//triggers stuff
 		if(analysisSent == "curvesAC")
-			triggerList = eCapture.GetTriggers();
+			triggerListEncoder = eCapture.GetTriggers();
 
 		//triggers only on concentric
-		if(triggerList == null || findEccon(false) != "c")
-			triggerList = new TriggerList();
+		if(triggerListEncoder == null || findEccon(false) != "c")
+			triggerListEncoder = new TriggerList();
 
 		//send data to encoderRProcAnalyze
 		encoderRProcAnalyze.SendData(
@@ -1433,7 +1433,7 @@ public partial class ChronoJumpWindow
 				false,	//do not use neuromuscularProfile script
 				preferences.RGraphsTranslate,
 				(preferences.encoderCaptureCutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS),
-				triggerList,
+				triggerListEncoder,
 				getAnalysisMode()
 				); 
 		bool result = encoderRProcAnalyze.StartOrContinue(es);
@@ -1725,12 +1725,12 @@ public partial class ChronoJumpWindow
 				label_encoder_top_selected.Text = econfSO.name;
 
 				//triggers
-				triggerList = new TriggerList(
+				triggerListEncoder = new TriggerList(
 						SqliteTrigger.Select(
 							false, Trigger.Modes.ENCODER,
 							Convert.ToInt32(encoderSignalUniqueID))
 						);
-				showTriggersAndTab();
+				showEncoderAnalyzeTriggersAndTab();
 			}
 		}
 
@@ -3245,15 +3245,15 @@ public partial class ChronoJumpWindow
 			encoderSendedAnalysis = sendAnalysis;
 
 		//triggers only on concentric
-		if(triggerList == null || findEccon(false) != "c")
-			triggerList = new TriggerList();
+		if(triggerListEncoder == null || findEccon(false) != "c")
+			triggerListEncoder = new TriggerList();
 
 		encoderRProcAnalyze.SendData(
 				titleStr, 
 				encoderSelectedAnalysis == "neuromuscularProfile",
 				preferences.RGraphsTranslate,
 				(preferences.encoderCaptureCutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS),
-				triggerList,
+				triggerListEncoder,
 				getAnalysisMode()
 				);
 
@@ -3346,7 +3346,7 @@ public partial class ChronoJumpWindow
 	
 		hbox_encoder_analyze_current_signal.Visible = true;
 
-		showTriggersAndTab();
+		showEncoderAnalyzeTriggersAndTab();
 
 		notebook_encoder_analyze_data_options_animate_explanation.CurrentPage = 0;
 		return false; //do not call this again
@@ -3401,7 +3401,7 @@ public partial class ChronoJumpWindow
 	
 		hbox_encoder_analyze_current_signal.Visible = false;
 
-		showTriggerTab(false);
+		showEncoderAnalyzeTriggerTab(false);
 
 		notebook_encoder_analyze_data_options_animate_explanation.CurrentPage = 0;
 		return false; //do not call this again
@@ -3438,7 +3438,7 @@ public partial class ChronoJumpWindow
 
 		button_encoder_monthly_change_current_session.Visible = false;
 
-		showTriggerTab(false);
+		showEncoderAnalyzeTriggerTab(false);
 
 		notebook_encoder_analyze_data_options_animate_explanation.CurrentPage = 0;
 		return false; //do not call this again
@@ -3474,7 +3474,7 @@ public partial class ChronoJumpWindow
 
 		button_encoder_monthly_change_current_session.Visible = false;
 
-		showTriggerTab(false);
+		showEncoderAnalyzeTriggerTab(false);
 
 		notebook_encoder_analyze_data_options_animate_explanation.CurrentPage = 0;
 		return false; //do not call this again
@@ -6673,7 +6673,7 @@ public partial class ChronoJumpWindow
 
 						//1) save the triggers now that we have an encoderSignalUniqueID
 						eCapture.SaveTriggers(Convert.ToInt32(encoderSignalUniqueID)); //dbcon is closed
-						showTriggersAndTab();
+						showEncoderAnalyzeTriggersAndTab();
 
 						if(encoderRProcCapture.CutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS &&
 								! eCapture.MinimumOneTriggersOn())

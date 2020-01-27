@@ -344,7 +344,7 @@ public abstract class EncoderCapture
 			{
 				if(! playSoundsFromFile)
 				{
-					Trigger trigger  = new Trigger(Trigger.Modes.ENCODER, i, false);
+					Trigger trigger = new Trigger(Trigger.Modes.ENCODER, i, false);
 					triggerList.Add(trigger);
 				}
 

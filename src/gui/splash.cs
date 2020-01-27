@@ -127,12 +127,22 @@ public class SplashWindow
 		System.IO.FileInfo file1 = new System.IO.FileInfo(database_url); //potser cal una arrobar abans (a windows)
 		System.IO.FileInfo file2 = new System.IO.FileInfo(database_temp_url); //potser cal una arrobar abans (a windows)
 
-		if(file1.Exists)
-			System.Diagnostics.Process.Start(Util.GetDatabaseDir());
-		else if(file2.Exists)
-			System.Diagnostics.Process.Start(Util.GetDatabaseTempDir());
-		else
+		if(! file1.Exists && ! file2.Exists)
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.DatabaseNotFoundStr());
+
+		string dir = "";
+		if(file1.Exists)
+			dir = Util.GetDatabaseDir();
+		else if(file2.Exists)
+			dir = Util.GetDatabaseTempDir();
+
+		try {
+			System.Diagnostics.Process.Start(dir);
+		} catch {
+			new DialogMessage(Constants.MessageTypes.WARNING,
+					Catalog.GetString("Error. Cannot open directory.") + "\n\n" + dir);
+			return;
+		}
 	}
 
 	public void Show_button_open_docs_folder () {

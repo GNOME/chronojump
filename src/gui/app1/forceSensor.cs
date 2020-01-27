@@ -2176,13 +2176,25 @@ LogB.Information(" fs R ");
 	{
 		if(currentSession == null || currentSession.UniqueID == -1)
 		{
-			System.Diagnostics.Process.Start(ForceSensorGraph.GetDataDir(-1));
+			try {
+				System.Diagnostics.Process.Start(ForceSensorGraph.GetDataDir(-1));
+			} catch {
+				new DialogMessage(Constants.MessageTypes.WARNING,
+						Catalog.GetString("Error. Cannot open directory.") + "\n\n" + ForceSensorGraph.GetDataDir(-1));
+			}
 			return;
 		}
 
 		string dataDir = ForceSensorGraph.GetDataDir(currentSession.UniqueID);
 		if(dataDir != "")
-			System.Diagnostics.Process.Start(dataDir);
+		{
+			try {
+				System.Diagnostics.Process.Start(dataDir);
+			} catch {
+				new DialogMessage(Constants.MessageTypes.WARNING,
+						Catalog.GetString("Error. Cannot open directory.") + "\n\n" + dataDir);
+			}
+		}
 		else
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.DirectoryCannotOpenStr());
 	}

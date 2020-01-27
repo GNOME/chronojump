@@ -1,5 +1,10 @@
-provat de muntar amb el develop: muntatge / Munta-ho tot
-m'ha generat el Sample/bin/Debug/Sample.exe
+monodevelop: obert el SampleFiltering.sln
+
+muntatge / Munta-ho tot
+m'ha generat:
+Kinovea.Filtering/bin/Debug/
+Sample/bin/Debug/*
+
 provar de que es pugui compilar sense monodevelop
 
 executat amb:

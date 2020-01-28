@@ -33,12 +33,14 @@ using Mono.Unix;
 public partial class ChronoJumpWindow
 {
 	//options runs
+	[Widget] Gtk.Button button_run_type_delete_simple;
 	[Widget] Gtk.CheckButton check_run_simple_with_reaction_time;
 	[Widget] Gtk.Button button_runs_simple_track_distance;
 	[Widget] Gtk.Label label_runs_simple_track_distance_value;
 	[Widget] Gtk.Label label_runs_simple_track_distance_units;
 
 	//options runs interval
+	[Widget] Gtk.Button button_run_type_delete_interval;
 	[Widget] Gtk.Button button_runs_interval_track_distance;
 	[Widget] Gtk.Label label_runs_interval_track_distance_value;
 	//[Widget] Gtk.Label label_runs_interval_track_distance_units; //always "m"
@@ -131,6 +133,8 @@ public partial class ChronoJumpWindow
 			extra_window_showDistanceData(myRunType, true, true);	//visible, sensitive
 		}
 
+		button_run_type_delete_simple.Sensitive = ! myRunType.IsPredefined;
+
 		updateGraphRunsSimple();
 		setLabelContactsExerciseSelectedOptionsRunsSimple();
 	}
@@ -207,6 +211,8 @@ public partial class ChronoJumpWindow
 		} else {
 			extra_window_showLimitData(false, false);	//visible, sensitive
 		}
+
+		button_run_type_delete_interval.Sensitive = ! myRunType.IsPredefined;
 
 		setLabelContactsExerciseSelectedOptionsRunsInterval();
 	}

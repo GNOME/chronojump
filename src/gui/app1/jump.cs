@@ -33,6 +33,7 @@ using Mono.Unix;
 public partial class ChronoJumpWindow
 {
 	//options jumps
+	[Widget] Gtk.Button button_jump_type_delete_simple;
 	[Widget] Gtk.SpinButton extra_window_jumps_spinbutton_weight;
 	[Widget] Gtk.Box extra_window_jumps_hbox_fall;
 	[Widget] Gtk.CheckButton extra_window_jumps_check_dj_fall_calculate;
@@ -61,6 +62,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton extra_window_jumps_spin_single_leg_angle;
 	
 	//options jumps_rj
+	[Widget] Gtk.Button button_jump_type_delete_reactive;
 	[Widget] Gtk.Label extra_window_jumps_rj_label_limit;
 	[Widget] Gtk.SpinButton extra_window_jumps_rj_spinbutton_limit;
 	[Widget] Gtk.Label extra_window_jumps_rj_label_limit_units;
@@ -221,7 +223,9 @@ public partial class ChronoJumpWindow
 			extra_window_showTechniqueArmsData(true, true); //visible, sensitive
 		} else 
 			extra_window_showTechniqueArmsData(false, false); //visible, sensitive
-		
+
+		button_jump_type_delete_simple.Sensitive = ! myJumpType.IsPredefined;
+
 		extra_window_jumps_spinbutton_weight.Value = 100;
 		extra_window_jumps_spinbutton_fall.Value = extra_window_jumps_fall;
 		if (extra_window_jumps_option == "Kg") {
@@ -320,7 +324,9 @@ public partial class ChronoJumpWindow
 			extra_window_showFallData(myJumpType, true);	
 		} else
 			extra_window_showFallData(myJumpType, false);
-		
+
+		button_jump_type_delete_reactive.Sensitive = ! myJumpType.IsPredefined;
+
 		extra_window_jumps_rj_spinbutton_weight.Value = extra_window_jumps_rj_weight;
 		extra_window_jumps_rj_spinbutton_fall.Value = extra_window_jumps_rj_fall;
 		if (extra_window_jumps_rj_option == "Kg") {

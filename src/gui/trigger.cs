@@ -71,6 +71,10 @@ public partial class ChronoJumpWindow
 			TextBuffer tb1 = new TextBuffer (new TextTagTable());
 			tb1.Text = triggerListRunEncoder.ToString();
 			textview_run_encoder_triggers.Buffer = tb1;
+		} else {
+			TextBuffer tb1 = new TextBuffer (new TextTagTable());
+			tb1.Text = "";
+			textview_run_encoder_triggers.Buffer = tb1;
 		}
 	}
 }

@@ -10,6 +10,7 @@
 //TODO: Test the Texas Instrument ADS1256
 Adafruit_ADS1115 loadCell;
 
+int rcaPin = 2;       //Pin associated to the RCA
 int encoderPinA = 3;  //Pin associated with the encoder interruption
 int encoderPinB = 4;
 volatile int encoderDisplacement = 0;
@@ -20,8 +21,13 @@ unsigned long totalTime = 0;
 unsigned long lastSampleTime = micros();
 unsigned long sampleTime = 0;
 
+//Data that indicates what sensor produced the data
+//The second least significant bit indicates the sensor that produced the data.
+//The least significant bit indicates the state of the RCA sensor
+short  sensor = 0;
+
 //Version of the firmware
-String version = "Race_Analyzer-0.2";
+String version = "Race_Analyzer-0.3";
 
 int pps = 10; //Pulses Per Sample. How many pulses are needed to get a sample
 int ppsAddress = 0; //Where is stored the pps value in the EEPROM
@@ -36,7 +42,7 @@ float metersPerPulse = 0.003003;      //Value for the manual race encoder
 int metersPerPulseAddress = 8;
 
 //Wether the sensor has to capture or not
-boolean capturing = true;
+boolean capturing = false;
 
 //Wether the encoder has reached the number of pulses per sample or not
 boolean procesSample = false;
@@ -51,6 +57,8 @@ struct frame {
   unsigned long totalTime;
   //unsigned long elapsedTime;
   int offsettedData;
+  short sensor;
+  
 };
 
 frame data;
@@ -70,6 +78,7 @@ void setup() {
 
   pinMode (encoderPinA, INPUT);
   pinMode (encoderPinB, INPUT);
+  pinMode (rcaPin, INPUT);
 
   Serial.begin (baudRate);
   Serial.print("Initial setup: Baud rate : ");
@@ -114,6 +123,8 @@ void setup() {
 
   //Using the CHANGE with both photocells WE CAN HAVE four times normal PPR
   //attachInterrupt(digitalPinToInterrupt(encoderPinB), changingB, CHANGE);
+
+  attachInterrupt(digitalPinToInterrupt(rcaPin), changingRCA, CHANGE);
 
   //  start_capture();
 
@@ -162,13 +173,14 @@ void loop() {
     //data[frameNumber].elapsedTime = elapsedTime;
     //offsettedData = readOffsettedData(0);
 
-    //The force is not measured in the instant of the sample but the mean force fot he current and last sample
+    //The force is not measured in the instant of the sample but the mean force for the current and last sample
     data.offsettedData = 0;
     //lastOffsettedData = offsettedData;
     //sumFreq = sumFreq + 1000000.0 * pps / float(elapsedTime);
+    data.sensor = sensor;
 
     //Printing in binary format
-    Serial.write((byte*)&data, 6);
+    Serial.write((byte*)&data, 7);
 
     //Printing in text mode
     //        Serial.print(totalTime);
@@ -198,10 +210,23 @@ void changingA() {
 
 }
 
+void changingRCA(){
+  changingTime = micros();
+  bool rcaState = digitalRead(rcaPin);
+  if(rcaState){   //Button pressed
+    sensor = 2;
+  } else {        //Button released
+    sensor = 1;
+  } 
+  digitalWrite(13, rcaState);
+  procesSample = true;
+}
+
 void serialEvent()
 {
   //Sending a command interrupts the data aquisition process
   detachInterrupt(digitalPinToInterrupt(encoderPinA));
+  detachInterrupt(digitalPinToInterrupt(rcaPin));
   capturing = false;
   procesSample = false;
   String inputString = Serial.readString();
@@ -250,8 +275,8 @@ void start_capture()
   Serial.print("Starting capture;PPS:");
   Serial.println(pps);
 
-
   attachInterrupt(digitalPinToInterrupt(encoderPinA), changingA, RISING);
+  attachInterrupt(digitalPinToInterrupt(rcaPin), changingRCA, CHANGE);
 
   totalTime = 0;
   lastSampleTime = micros();

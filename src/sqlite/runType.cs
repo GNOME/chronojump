@@ -337,6 +337,7 @@ class SqliteRunType : Sqlite
 				SqliteEvent.GraphLinkInsert (Constants.RunTable, "Agility-ZigZag", "agility_zigzag.png", true, dbcmdTr);
 				SqliteEvent.GraphLinkInsert (Constants.RunTable, "Margaria", "margaria.png", true, dbcmdTr);
 				SqliteEvent.GraphLinkInsert (Constants.RunTable, "Gesell-DBT", "gesell_dbt.png", true, dbcmdTr);
+				SqliteEvent.GraphLinkInsert (Constants.RunTable, "Agility-T-Test", "agility_t_test.png", true, dbcmdTr);
 			}
 			tr.Commit();
 		}

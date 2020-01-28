@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.82";
+	static string lastChronojumpDatabaseVersion = "1.83";
 
 	public Sqlite() {
 	}
@@ -2592,6 +2592,12 @@ class Sqlite
 
 				currentVersion = updateVersion("1.82");
 			}
+			if(currentVersion == "1.82")
+			{
+				LogB.SQL("Added missing agility_t_test image");
+				SqliteEvent.GraphLinkInsert (Constants.RunTable, "Agility-T-Test", "agility_t_test.png", true);
+				currentVersion = updateVersion("1.83");
+			}
 
 
 			/*
@@ -2805,6 +2811,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 //
+		//1.82 - 1.83 Converted DB to 1.83 Added missing agility_t_test image
 		//1.81 - 1.82 Converted DB to 1.82 Doing alter table jump, jumpRj, tempJumpRj add datetime
 		//1.80 - 1.81 Converted DB to 1.81 Inserted forceSensorCaptureFeedbackActive /At /Range
 		//1.79 - 1.80 Converted DB to 1.80 Inserted forceSensorElasticEccMinDispl, ...

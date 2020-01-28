@@ -350,7 +350,9 @@ public partial class ChronoJumpWindow
 		image_encoder_1RM_info.Pixbuf = pixbuf;
 		image_force_sensor_adjust_help.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_add_test.png");
+		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_add_test.png");
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_add.png");
+		image_encoder_exercise_add.Pixbuf = pixbuf;
 		image_add_test1.Pixbuf = pixbuf;
 		image_add_test2.Pixbuf = pixbuf;
 		image_add_test3.Pixbuf = pixbuf;
@@ -409,8 +411,6 @@ public partial class ChronoJumpWindow
 		image_encoder_capture_execute.Pixbuf = pixbuf;
 		image_button_execute.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_add.png");
-		image_encoder_exercise_add.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_edit.png");
 		image_encoder_exercise_edit.Pixbuf = pixbuf;
 		image_force_sensor_exercise_edit.Pixbuf = pixbuf;

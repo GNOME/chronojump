@@ -47,9 +47,24 @@ public class RunType : EventType
 			"1000m", "2000m",
 			"Agility-20Yard", "Agility-505",
 			"Agility-Illinois", "Agility-Shuttle-Run" , "Agility-ZigZag",
+			"Agility-T-Test", "Margaria",
 			"byLaps", "byTime", "unlimited", 
 			"20m10times", "7m30seconds", "20m endurance", 
-			"MTGUG", "Gesell-DBT", "RSA 8-4-R3-5"
+			"MTGUG", "Gesell-DBT",
+			"Agility-3L3R",
+			"RSA 8-4-R3-5",
+			"RSA Aziz 2000 40, R30 x 8",
+			"RSA Balsom 15, R30 x 40",
+			"RSA Balsom 30, R30 x 20",
+			"RSA Balsom 40, R30 x 15",
+			"RSA Dawson 40, R24 x 6",
+			"RSA Fitzsimons 40, R24 x 6",
+			"RSA Gaitanos 6, R30 x 10",
+			"RSA Hamilton 6, R30 x 10",
+			"RSA RAST 35, R10 x 6",
+			"RSA Mujica 15, R24 x 6",
+			"RSA Wadley 20, R17 x 12",
+			"RSA Wragg 34.2, R25 x 7"
 		};
 
 		foreach(string search in predefinedTests)
@@ -64,8 +79,6 @@ public class RunType : EventType
 		type = Types.RUN;
 		this.name = name;
 
-		this.isPredefined = false;
-
 		unlimited = false;	//default value
 		imageFileName = "";
 		distancesString = "";
@@ -78,7 +91,6 @@ public class RunType : EventType
 			distance 	= 0;
 			tracksLimited 	= false;
 			fixedValue 	= 0;
-			isPredefined	= true;
 			description	= Catalog.GetString("Variable distance running");
 			imageFileName = "run_simple.png";
 		} else if(name == "20m") {
@@ -86,7 +98,6 @@ public class RunType : EventType
 			distance 	= 20;
 			tracksLimited 	= false;
 			fixedValue 	= 0;
-			isPredefined	= true;
 			description	= Catalog.GetString("Run 20 meters");
 			imageFileName = "run_simple.png";
 		} else if(name == "100m") {
@@ -94,7 +105,6 @@ public class RunType : EventType
 			distance 	= 100;
 			tracksLimited 	= false;
 			fixedValue 	= 0;
-			isPredefined	= true;
 			description	= Catalog.GetString("Run 100 meters");
 			imageFileName = "run_simple.png";
 		} else if(name == "200m") {
@@ -102,7 +112,6 @@ public class RunType : EventType
 			distance 	= 200;
 			tracksLimited 	= false;
 			fixedValue 	= 0;
-			isPredefined	= true;
 			description	= Catalog.GetString("Run 200 meters");
 			imageFileName = "run_simple.png";
 		} else if(name == "400m") {
@@ -110,7 +119,6 @@ public class RunType : EventType
 			distance 	= 400;
 			tracksLimited 	= false;
 			fixedValue 	= 0;
-			isPredefined	= true;
 			description	= Catalog.GetString("Run 400 meters");
 			imageFileName = "run_simple.png";
 		} else if(name == "1000m") {
@@ -118,7 +126,6 @@ public class RunType : EventType
 			distance 	= 1000;
 			tracksLimited 	= false;
 			fixedValue 	= 0;
-			isPredefined	= true;
 			description	= Catalog.GetString("Run 1000 meters");
 			imageFileName = "run_simple.png";
 		} else if(name == "2000m") {
@@ -126,7 +133,6 @@ public class RunType : EventType
 			distance 	= 2000;
 			tracksLimited 	= false;
 			fixedValue 	= 0;
-			isPredefined	= true;
 			description	= Catalog.GetString("Run 2000 meters");
 			imageFileName = "run_simple.png";
 		} //balance
@@ -135,7 +141,6 @@ public class RunType : EventType
 			distance 	= 2.5;
 			tracksLimited 	= false;
 			fixedValue 	= 0;
-			isPredefined	= true;
 			imageFileName = "gesell_dbt.png";
 			description	= "Gesell Dynamic Balance Test";
 			longDescription	= 
@@ -180,7 +185,6 @@ public class RunType : EventType
 			distance 	= 18.28;
 			tracksLimited 	= false;
 			fixedValue 	= 0;
-			isPredefined	= true;
 			imageFileName = "agility_20yard.png";
 			description	= Catalog.GetString("20Yard Agility test");
 			longDescription	= 
@@ -204,7 +208,6 @@ public class RunType : EventType
 			distance 	= 10;
 			tracksLimited 	= false;
 			fixedValue 	= 0;
-			isPredefined	= true;
 			imageFileName = "agility_505.png";
 			description	= Catalog.GetString("505 Agility test");
 			longDescription	= 
@@ -221,7 +224,6 @@ public class RunType : EventType
 			distance 	= 60;
 			tracksLimited 	= false;
 			fixedValue 	= 0;
-			isPredefined	= true;
 			imageFileName = "agility_illinois.png";
 			description	= Catalog.GetString("Illinois Agility test");
 			longDescription = 
@@ -257,7 +259,6 @@ public class RunType : EventType
 			distance 	= 40;
 			tracksLimited 	= false;
 			fixedValue 	= 0;
-			isPredefined	= true;
 			imageFileName = "agility_shuttle.png";
 			description	= Catalog.GetString("Shuttle Run Agility test");
 			longDescription = 
@@ -291,7 +292,6 @@ public class RunType : EventType
 			distance 	= 17.6;
 			tracksLimited 	= false;
 			fixedValue 	= 0;
-			isPredefined	= true;
 			imageFileName = "agility_zigzag.png";
 			description	= Catalog.GetString("ZigZag Agility test");
 			longDescription =
@@ -312,7 +312,6 @@ public class RunType : EventType
 			distance 	= 36;
 			tracksLimited 	= false;
 			fixedValue 	= 0;
-			isPredefined	= true;
 			imageFileName = "agility_t_test.png";
 			description	= "T Test";
 			longDescription = "";
@@ -322,7 +321,6 @@ public class RunType : EventType
 			distance 	= 0; //0:will ask user... refered to the vertical distance between third and nineth stair
 			tracksLimited 	= false;
 			fixedValue 	= 0;
-			isPredefined	= true;
 			imageFileName = "margaria.png";
 			description	= Catalog.GetString("Margaria-Kalamen");
 			longDescription	= ""; //TODO
@@ -332,7 +330,6 @@ public class RunType : EventType
 			distance 	= 0;
 			tracksLimited 	= true;
 			fixedValue 	= 0;
-			isPredefined	= true;
 			description	= Catalog.GetString("Run n laps x distance");
 			imageFileName = "run_interval.png";
 		} else if(name == "byTime") {
@@ -340,7 +337,6 @@ public class RunType : EventType
 			distance 	= 0;
 			tracksLimited 	= false;
 			fixedValue 	= 0;
-			isPredefined	= true;
 			description	= Catalog.GetString("Make max laps in n seconds");
 			imageFileName = "run_interval.png";
 		} else if(name == "unlimited") {
@@ -349,7 +345,6 @@ public class RunType : EventType
 			tracksLimited 	= false;	//limited by time
 			fixedValue 	= 0;
 			unlimited 	= true;
-			isPredefined	= true;
 			description	= Catalog.GetString("Continue running in n distance");
 			imageFileName = "run_interval.png";
 		} else if(name == "20m10times") {
@@ -357,7 +352,6 @@ public class RunType : EventType
 			distance 	= 20;
 			tracksLimited 	= true;
 			fixedValue 	= 10;
-			isPredefined	= true;
 			description	= Catalog.GetString("Run 10 times a 20m distance");
 			imageFileName = "run_interval.png";
 		} else if(name == "7m30seconds") {
@@ -365,7 +359,6 @@ public class RunType : EventType
 			distance 	= 7;
 			tracksLimited 	= false;
 			fixedValue 	= 30;
-			isPredefined	= true;
 			description	= Catalog.GetString("Make max laps in 30 seconds");
 			imageFileName = "run_interval.png";
 		} else if(name == "20m endurance") {
@@ -374,7 +367,6 @@ public class RunType : EventType
 			tracksLimited 	= false;
 			fixedValue 	= 0;
 			unlimited 	= true;
-			isPredefined	= true;
 			description	= Catalog.GetString("Continue running in 20m distance");
 			imageFileName = "run_interval.png";
 		} else if(name == "MTGUG") {
@@ -383,7 +375,6 @@ public class RunType : EventType
 			tracksLimited 	= true;
 			fixedValue 	= 3;
 			unlimited 	= false;
-			isPredefined	= true;
 			description	= Catalog.GetString("Modified time Getup and Go test");
 			imageFileName = "mtgug.png";
 			distancesString = "1-7-19";	//this intervallic race has different distance for each lap
@@ -404,7 +395,6 @@ public class RunType : EventType
 			tracksLimited 	= true;
 			fixedValue 	= 2;
 			unlimited 	= false;
-			isPredefined	= true;
 			description	= Catalog.GetString("Turn left three times and turn right three times");
 			imageFileName = "agility_3l3r.png";
 			distancesString = "24.14-24.14";	//this intervallic run has different distance for each track
@@ -415,12 +405,12 @@ public class RunType : EventType
 			tracksLimited 	= true;
 			fixedValue 	= 4;
 			unlimited 	= false;
-			isPredefined	= true;
 			description	= "RSA testing";
 			imageFileName = "run_interval.png";
 			distancesString = "8-4-R3-5";	//this intervallic run has different distance for each track
 		}
 
+		isPredefined = FindIfIsPredefined();
 	}
 	
 	
@@ -438,7 +428,7 @@ public class RunType : EventType
 		this.distancesString = distancesString;
 		this.imageFileName = imageFileName;
 		
-		this.isPredefined	= true;
+		isPredefined = FindIfIsPredefined();
 	}
 	
 	//used to select a runType at Sqlite.convertTables

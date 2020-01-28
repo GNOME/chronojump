@@ -39,8 +39,10 @@ public class JumpType : EventType
 	
 	public override bool FindIfIsPredefined() {
 		string [] predefinedTests = {
-			"Free", "SJ", "CMJ", "ABK", "Rocket",
-			"SJl", "CMJl", "slCMJleft", "slCMJright", "ABKl", "DJa", "DJna",
+			"Free", "SJ", "SJl",
+			"CMJ", "CMJl", "slCMJleft", "slCMJright",
+			"ABK", "ABKl", "DJa", "DJna",
+			"Rocket", "TakeOff", "TakeOffWeight",
 			"RJ(j)", "RJ(t)", "RJ(unlimited)",
 			"RJ(hexagon)", "triple jump"
 		};

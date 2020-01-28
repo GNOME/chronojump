@@ -14,17 +14,18 @@ int rcaPin = 2;       //Pin associated to the RCA
 int encoderPinA = 3;  //Pin associated with the encoder interruption
 int encoderPinB = 4;
 volatile int encoderDisplacement = 0;
-int lastEncoderDisplacement = 0;
-volatile unsigned long changingTime = 0;
+//int lastEncoderDisplacement = 0;
 unsigned long elapsedTime = 0;
 unsigned long totalTime = 0;
 unsigned long lastSampleTime = micros();
 unsigned long sampleTime = 0;
+unsigned long triggerTime = 0;
+volatile unsigned long lastTriggerTime = 0;
 
 //Data that indicates what sensor produced the data
 //The second least significant bit indicates the sensor that produced the data.
 //The least significant bit indicates the state of the RCA sensor
-short  sensor = 0;
+//short  sensor = 0;
 
 //Version of the firmware
 String version = "Race_Analyzer-0.3";
@@ -54,14 +55,13 @@ boolean binaryFormat = true;
 unsigned long baudRate = 115200;
 
 struct frame {
+  int encoderDisplacement;
   unsigned long totalTime;
-  //unsigned long elapsedTime;
   int offsettedData;
   short sensor;
-  
 };
 
-frame data;
+frame data = {.encoderDisplacement = 0, .totalTime = 0, .offsettedData = 0, .sensor = 0};
 int frameNumber = 0;
 
 float sumFreq = 0;
@@ -147,8 +147,8 @@ void loop() {
       //This makes that the sample after getting the command "end_capture:" has less pulses than pps
       if (Serial.available() > 0) {
         sampleTime = micros();
-        lastEncoderDisplacement = encoderDisplacement;
-        encoderDisplacement = 0;
+        //lastEncoderDisplacement = encoderDisplacement;
+        data.encoderDisplacement = encoderDisplacement;
         procesSample = true;
       }
     }
@@ -177,18 +177,31 @@ void loop() {
     data.offsettedData = 0;
     //lastOffsettedData = offsettedData;
     //sumFreq = sumFreq + 1000000.0 * pps / float(elapsedTime);
-    data.sensor = sensor;
+    //data.sensor = sensor;
 
     //Printing in binary format
-    Serial.write((byte*)&data, 7);
+    Serial.write((byte*)&data, 9);
 
-    //Printing in text mode
-    //        Serial.print(totalTime);
-    //        Serial.print("\t");
-    //        Serial.println(elapsedTime);
-    //        Serial.println(data[frameNumber].offsettedData);
+//    //Printing in text mode
+//    Serial.println("");
+//    Serial.print(data.encoderDisplacement);
+//    Serial.print("\t");
+//    Serial.print(data.totalTime);
+//    Serial.print("\t");
+//    Serial.print(data.offsettedData);
+//    Serial.print("\t");
+//    Serial.println(data.sensor);
+//    Serial.print("\t");
+//    Serial.println(elapsedTime);
+//    Serial.println(data[frameNumber].offsettedData);
+//    Serial.print(lastTriggerTime);
+//    Serial.print("\t");
+//    Serial.println(triggerTime);
 
 
+    if (data.sensor != 0) {
+      lastTriggerTime = triggerTime;
+    }
     procesSample = false;       //Keep acumulating pulses without processing the sample until [pps] samples is reached
   }
 }
@@ -204,21 +217,37 @@ void changingA() {
   //only measures time if the number of pulses is [pps]
   if (abs(encoderDisplacement) >= pps) {
     sampleTime = micros();
+    data.encoderDisplacement = encoderDisplacement;
+    data.sensor = 0;
     procesSample = true;
     encoderDisplacement = 0;
   }
 
 }
 
-void changingRCA(){
-  changingTime = micros();
+void changingRCA() {
+  //TODO: Check the overflow of the lastTriggerTime
+  detachInterrupt(digitalPinToInterrupt(rcaPin));
+  sampleTime = micros();
+  triggerTime = sampleTime;
+
   bool rcaState = digitalRead(rcaPin);
-  if(rcaState){   //Button pressed
-    sensor = 2;
-  } else {        //Button released
-    sensor = 1;
-  } 
   digitalWrite(13, rcaState);
+
+  //TODO: With the below code it is not sent correctly the data.sensor
+//  if (abs(triggerTime - lastTriggerTime) < 10000) {   //Checking that it is not an spurious signal. abs because the spurioustrigger times in CJ are in inverted order
+//    attachInterrupt(digitalPinToInterrupt(rcaPin), changingRCA, CHANGE);
+//    return;
+//  }
+
+  if (rcaState) { //Button pressed
+    data.sensor = 2;
+  } else {        //Button released
+    data.sensor = 1;
+  }
+  data.encoderDisplacement = encoderDisplacement;
+  encoderDisplacement = 0;
+  attachInterrupt(digitalPinToInterrupt(rcaPin), changingRCA, CHANGE);
   procesSample = true;
 }
 
@@ -284,20 +313,23 @@ void start_capture()
 
   //First sample with a low speed is mandatory to good detection of the start
 
-  //sendInt(0);
-  sendLong(1);
-  sendInt(0);     //Fake force. Fixed number for debugging
-
+  bool rcaState = digitalRead(rcaPin);
+  if (rcaState) { //Button pressed
+    data.sensor = 2;
+  } else {        //Button released
+    data.sensor = 1;
+  }
+  digitalWrite(13, rcaState);
+  procesSample = true;
   capturing = true;
   encoderDisplacement = 0;
+  procesSample = true;
 }
 
 void end_capture()
 {
   capturing = false;
 
-  //sendLong(4294967295);
-  //sendInt(32767);
   Serial.print("\nCapture ended:");
   Serial.print("TotalTime :");
   Serial.println(totalTime);
@@ -344,9 +376,9 @@ void tare(void)
   Serial.println("Taring OK");
 }
 
-int readOffsettedData(int sensor)
+int readOffsettedData(int analogChannel)
 {
-  return (loadCell.readADC_SingleEnded(sensor) - offset);
+  return (loadCell.readADC_SingleEnded(analogChannel) - offset);
 }
 
 void calibrate(String inputString)

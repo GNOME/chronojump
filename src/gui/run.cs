@@ -1132,7 +1132,7 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 	
 	protected override void fillTreeView (Gtk.TreeView tv, TreeStore store) 
 	{
-		//select data without inserting an "all jumps", and not obtain only name of jump
+		//select data without inserting an "all runs", and not obtain only name of run
 		string [] myTypes = SqliteRunIntervalType.SelectRunIntervalTypes("", false);
 		
 		//remove typesTranslated

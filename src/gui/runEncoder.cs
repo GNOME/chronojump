@@ -471,19 +471,20 @@ public partial class ChronoJumpWindow
 				continue;
 
 			//time (4 bytes: long at Arduino, uint at c-sharp), force (2 bytes: uint)
-			List<uint> binaryReaded = readBinaryRunEncoderValues();
-			uint time = binaryReaded[0];
-			uint force = binaryReaded[1];
-			uint encoderOrRCA = binaryReaded[2];
+			List<int> binaryReaded = readBinaryRunEncoderValues();
+			int encoderDisplacement = binaryReaded[0];
+			int time = binaryReaded[1];
+			int force = binaryReaded[2];
+			int encoderOrRCA = binaryReaded[3];
 
+			LogB.Information(string.Format("{0};{1};{2};{3};{4}", pps, encoderDisplacement, time, force, encoderOrRCA));
+			writer.WriteLine(string.Format("{0};{1};{2}", encoderDisplacement, time, force));
 			if(encoderOrRCA == 0)
-			{
-				writer.WriteLine(string.Format("{0};{1};{2}", pps, time, force));
-				rowsCount ++;
-			} else if(encoderOrRCA == 1)
-				triggerListRunEncoder.Add(new Trigger(Trigger.Modes.ENCODER, Convert.ToInt32(time), false));
+				rowsCount ++; //note this is not used right now, and maybe it will need to be for all cases, not just for encoderOrRCA
+			else if(encoderOrRCA == 1)
+				triggerListRunEncoder.Add(new Trigger(Trigger.Modes.RACEANALYZER, time, false));
 			else if(encoderOrRCA == 2)
-				triggerListRunEncoder.Add(new Trigger(Trigger.Modes.ENCODER, Convert.ToInt32(time), true));
+				triggerListRunEncoder.Add(new Trigger(Trigger.Modes.RACEANALYZER, time, true));
 
 			//TODO: manage spurious like on encoderCapture.cs
 		}
@@ -546,14 +547,30 @@ public partial class ChronoJumpWindow
 	}
 
 	//time (4 bytes: long at Arduino, uint at c-sharp), force (2 bytes: uint), encoder/RCA (1 byte: uint)
-	private List<uint> readBinaryRunEncoderValues()
+	private List<int> readBinaryRunEncoderValues()
         {
+		LogB.Information("start reading binary data");
 		//LogB.Debug("readed start mark Ok");
-                List<uint> dataRow = new List<uint>();
+                List<int> dataRow = new List<int>();
 
-		//read time, four bytes
-                int b0 = portRE.ReadByte(); //least significative
-                int b1 = portRE.ReadByte();
+		// 1) encoderDisplacement (2 bytes)
+                int b0 = portRE.ReadByte(); //encoderDisplacement least significative
+                int b1 = portRE.ReadByte(); //encoderDisplacement most significative
+		/*
+		LogB.Information("bbbencDispl0:" + b0.ToString());
+		LogB.Information("bbbencDispl1:" + b1.ToString());
+		*/
+		int readedNum = Convert.ToInt32(256 * b1 + b0);
+
+		//care for negative values
+		if(readedNum > 32768)
+			readedNum = -1 * (65536 - readedNum);
+
+		dataRow.Add(readedNum);
+
+		// 2) read time, four bytes
+                b0 = portRE.ReadByte(); //least significative
+                b1 = portRE.ReadByte();
                 int b2 = portRE.ReadByte();
                 int b3 = portRE.ReadByte(); //most significative
 
@@ -562,6 +579,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("bbbtime1:" + b1.ToString());
 		LogB.Information("bbbtime2:" + b2.ToString());
 		LogB.Information("bbbtime3:" + b3.ToString());
+
 		LogB.Information("time: " +
                                 (Math.Pow(256,3) * b3 +
                                 Math.Pow(256,2) * b2 +
@@ -569,16 +587,16 @@ public partial class ChronoJumpWindow
                                 Math.Pow(256,0) * b0).ToString());
 		*/
 
-                dataRow.Add(Convert.ToUInt32(
+                dataRow.Add(Convert.ToInt32(
                                 Math.Pow(256,3) * b3 +
                                 Math.Pow(256,2) * b2 +
                                 Math.Pow(256,1) * b1 +
                                 Math.Pow(256,0) * b0));
 
-		//read force, two bytes
+		// 3) read force, two bytes
 		b0 = portRE.ReadByte(); //least significative
 		b1 = portRE.ReadByte(); //most significative
-		uint readedNum = Convert.ToUInt32(256 * b1 + b0);
+		readedNum = Convert.ToInt32(256 * b1 + b0);
 
 		/*
 		LogB.Information("bbbforce0:" + b0.ToString());
@@ -598,15 +616,16 @@ public partial class ChronoJumpWindow
 		dataRow.Add(readedNum);
 
 		/*
-		 * byte for encoder or RCA
+		 * 4) byte for encoder or RCA
 		 * 0 encoder data
 		 * 1 RCA down (button is released)
 		 * 2 RCA up (button is pressed)
 		 */
 		b0 = portRE.ReadByte();
-		dataRow.Add(readedNum);
+		//LogB.Information("b0: " + b0.ToString());
+		dataRow.Add(Convert.ToInt32(b0));
 
-		//LogB.Information("bbb----");
+		LogB.Information("readed all binary data");
 
                 return dataRow;
         }

@@ -788,6 +788,9 @@ public class EncoderGraphDoPlot
 
 	public int FindBarInPixel (double pixel)
 	{
+		if(encoderBarsLimits == null)
+			return -1;
+
 		return encoderBarsLimits.FindBarInPixel(pixel);
 	}
 

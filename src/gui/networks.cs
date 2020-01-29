@@ -631,7 +631,7 @@ public partial class ChronoJumpWindow
 			Person pServer = json.GetPersonByRFID(capturedRFID);
 
 			if(! json.Connected) {
-				LogB.Information("Server is disconnected!");
+				LogB.Information("Cannot connect with server!");
 				if(dialogMessageNotAtServer == null || ! dialogMessageNotAtServer.Visible)
 				{
 					dialogMessageNotAtServer = new DialogMessage(

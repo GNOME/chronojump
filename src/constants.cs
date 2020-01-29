@@ -237,7 +237,7 @@ public class Constants
 	}
 	public static string ServerDisconnectedMessage()
 	{
-		return Catalog.GetString("Server is disconnected.");
+		return Catalog.GetString("Cannot connect with server!");
 	}
 
 	//server

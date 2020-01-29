@@ -21,6 +21,7 @@
 using System;
 using System.Collections.Generic; //List<T>
 using System.IO; //StringReader
+using Mono.Unix;
 	
 public class Networks
 {
@@ -151,4 +152,57 @@ public class NetworksSendMail
 
 	// another option will be use C-sharp methods, see:
 	// https://stackoverflow.com/questions/2825950/sending-email-with-attachments-from-c-attachments-arrive-as-part-1-2-in-thunde
+}
+
+/*
+ * on Networks to check if eth0 or wifi devices (interfaces) are on
+ * read to see if they are "up":
+ * /sys/class/net/eth0/operstate
+ * /sys/class/net/wlan.../operstate
+*/
+public class NetworksCheckDevices
+{
+	private List<string> devicesUp;
+	private string path = "/sys/class/net/";
+
+	public NetworksCheckDevices ()
+	{
+		devicesUp = new List<string>();
+
+		DirectoryInfo pathDirInfo = new DirectoryInfo(path);
+		DirectoryInfo [] subdirs = pathDirInfo.GetDirectories();
+		foreach (DirectoryInfo dir in subdirs)
+			if( ( dir.Name.StartsWith("eth") || dir.Name.StartsWith("wlan") ) && checkDevice(dir.Name))
+				devicesUp.Add(dir.Name);
+	}
+
+	private bool checkDevice(string device)
+	{
+		string filename = path + device + "/operstate";
+		if(File.Exists(filename))
+		{
+			List<string> l = Util.ReadFileAsStringList(filename);
+			foreach(string str in l)
+				if(str.Contains("up"))
+					return true;
+		}
+
+		return false;
+	}
+
+	public override string ToString()
+	{
+		if(devicesUp.Count == 0)
+			return Catalog.GetString("No active Internet devices.");
+		else {
+			string str = Catalog.GetString("Active Internet devices:");
+			string sep = " ";
+			foreach(string device in devicesUp)
+			{
+				str += sep + device;
+				sep = ", ";
+			}
+			return str;
+		}
+	}
 }

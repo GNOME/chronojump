@@ -117,6 +117,7 @@ src/json/compujump.cs
 src/json/json.cs
 src/jumpsProfile.cs
 src/jumpType.cs
+src/networks.cs
 src/Mini/chronojump_mini.cs
 src/old/server.cs
 src/pulseType.cs

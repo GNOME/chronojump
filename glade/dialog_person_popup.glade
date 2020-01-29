@@ -50,6 +50,17 @@
                         <property name="can_focus">False</property>
                         <property name="spacing">20</property>
                         <child>
+                          <widget class="GtkLabel" id="label_rfid">
+                            <property name="can_focus">False</property>
+                            <property name="label" translatable="yes">label</property>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
                           <widget class="GtkHBox" id="hbox3">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
@@ -66,6 +77,17 @@
                                       <widget class="GtkVBox" id="vbox7">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
+                                        <child>
+                                          <widget class="GtkLabel" id="label_network_devices">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
                                         <child>
                                           <widget class="GtkHBox" id="hbox6">
                                             <property name="visible">True</property>
@@ -98,7 +120,7 @@
                                           <packing>
                                             <property name="expand">True</property>
                                             <property name="fill">True</property>
-                                            <property name="position">0</property>
+                                            <property name="position">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -109,7 +131,7 @@
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
-                                            <property name="position">1</property>
+                                            <property name="position">2</property>
                                           </packing>
                                         </child>
                                       </widget>
@@ -269,17 +291,6 @@
                           <packing>
                             <property name="expand">True</property>
                             <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkLabel" id="label_rfid">
-                            <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">label</property>
-                          </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
                             <property name="position">0</property>
                           </packing>
                         </child>

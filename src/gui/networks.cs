@@ -866,11 +866,15 @@ public partial class ChronoJumpWindow
 		//3) get other stationsCount
 		List<StationCount> stationsCount = json.GetOtherStationsWithPendingTasks(currentPerson.UniqueID, configChronojump.CompujumpStationID);
 
-		//4) show dialog
-		showDialogPersonPopup(tasks, stationsCount, json.Connected);
+		//4) check if there are active Internet devices
+		NetworksCheckDevices ncd = new NetworksCheckDevices();
+
+		//5) show dialog
+		showDialogPersonPopup(tasks, stationsCount, ncd.ToString(), json.Connected);
 	}
 
-	private void showDialogPersonPopup(List<Task> tasks, List<StationCount> stationsCount, bool serverConnected)
+
+	private void showDialogPersonPopup(List<Task> tasks, List<StationCount> stationsCount, string networkDevices, bool serverConnected)
 	{
 		if(dialogPersonPopup != null)
 			dialogPersonPopup.DestroyDialog();
@@ -880,7 +884,7 @@ public partial class ChronoJumpWindow
 
 		dialogPersonPopup = new DialogPersonPopup(
 				currentPerson.UniqueID, currentPerson.Name, capturedRFID, tasks, stationsCount,
-				serverConnected, compujumpAutologout.Active,
+				networkDevices, serverConnected, compujumpAutologout.Active,
 				configChronojump.CompujumpDjango, configChronojump.CompujumpHideTaskDone);
 
 		dialogPersonPopup.Fake_button_start_task.Clicked -= new EventHandler(compujumpTaskStart);

@@ -37,6 +37,7 @@ public class DialogPersonPopup
 	[Widget] Gtk.Label label_rfid;
 	[Widget] Gtk.VBox vbox_tasks_parametrized;
 
+	[Widget] Gtk.Label label_network_devices;
 	[Widget] Gtk.Label label_server_connected;
 	[Widget] Gtk.Image image_server_connected_yes;
 	[Widget] Gtk.Image image_server_connected_no;
@@ -57,7 +58,8 @@ public class DialogPersonPopup
 	private bool compujumpDjango;
 
 	public DialogPersonPopup (int personID, string name, string rfid,
-			List<Task> tasks, List<StationCount> stationsCount, bool serverConnected, bool Autologout,
+			List<Task> tasks, List<StationCount> stationsCount,
+			string networkDevices, bool serverConnected, bool Autologout,
 			bool compujumpDjango, bool compujumpHideTaskDone)
 	{
 		Glade.XML gladeXML;
@@ -89,6 +91,7 @@ public class DialogPersonPopup
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gtk-cancel.png");
 		image_server_connected_no.Pixbuf = pixbuf;
 
+		label_network_devices.Text = networkDevices;
 		if(serverConnected)
 		{
 			label_server_connected.Text = "Server is connected";

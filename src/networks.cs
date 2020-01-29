@@ -171,8 +171,14 @@ public class NetworksCheckDevices
 
 		DirectoryInfo pathDirInfo = new DirectoryInfo(path);
 		DirectoryInfo [] subdirs = pathDirInfo.GetDirectories();
+
+		/*
+		 * check eth0, wlan*
+		 * but note our computers have interface enp2s0, wlp3s0
+		 * they are valid: https://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInterfaceNames/
+		 */
 		foreach (DirectoryInfo dir in subdirs)
-			if( ( dir.Name.StartsWith("eth") || dir.Name.StartsWith("wlan") ) && checkDevice(dir.Name))
+			if( ( dir.Name.StartsWith("eth") || dir.Name.StartsWith("en") || dir.Name.StartsWith("wl") ) && checkDevice(dir.Name))
 				devicesUp.Add(dir.Name);
 	}
 

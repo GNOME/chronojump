@@ -7549,9 +7549,11 @@ LogB.Debug("mc finished 5");
 			{
 				chronopicRegisterWin.Show(networksNeedCheckEncoder);
 
+				/*
 				if (networksNeedCheckEncoder)
 					chronopicRegisterWin.FakeButtonNetworksCheckSensors.Clicked +=
 						new EventHandler(on_chronopic_register_win_close_networks_check_encoder);
+						*/
 			} else
 				needToShowChronopicRegisterWindow = true;
 		}
@@ -7565,11 +7567,19 @@ LogB.Debug("mc finished 5");
 	 * so check here if encodee is configured
 	 * when ChronopicRegisterWindow is close or destroyed (delete_event)
 	 */
+	/*
 	private void on_chronopic_register_win_close_networks_check_encoder (object o, EventArgs args)
 	{
 		chronopicRegisterWin.FakeButtonNetworksCheckSensors.Clicked -=
 			new EventHandler(on_chronopic_register_win_close_networks_check_encoder);
 
+		chronopicRegisterUpdate(false, false);
+		if(chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ENCODER) > 0)
+			notebook_start.CurrentPage = 1;
+	}
+	*/
+	private void on_chronopic_register_win_close_networks_check_encoder (object o, EventArgs args)
+	{
 		chronopicRegisterUpdate(false, false);
 		if(chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ENCODER) > 0)
 			notebook_start.CurrentPage = 1;

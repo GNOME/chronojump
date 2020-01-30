@@ -686,7 +686,7 @@ public partial class ChronoJumpWindow
 		if(currentSession.Name == Constants.SessionSimulatedName && testsActive)
 			return true;
 
-		chronopicRegisterUpdate(false, false);
+		chronopicRegisterUpdate(false);
 		int numEncoders = chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ENCODER);
 		LogB.Information("numEncoders: " + numEncoders);
 		if(numEncoders == 0)

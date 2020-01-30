@@ -467,7 +467,7 @@ public partial class ChronoJumpWindow
 	{
 		LogB.TestStart("chronojumpWindowTestsChronopicContactReal");
 
-		chronopicRegisterUpdate(false, false);
+		chronopicRegisterUpdate(false);
 		if(chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.CONTACTS) != 1)
 		{
 			testsActive = false;

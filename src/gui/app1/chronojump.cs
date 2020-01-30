@@ -7572,7 +7572,7 @@ LogB.Debug("mc finished 5");
 
 		List<ChronopicRegisterPort> l = SqliteChronopicRegister.SelectAll (false);
 		foreach(ChronopicRegisterPort crp in l)
-			if(crp.Type == ChronopicRegisterPort.Types.ENCODER)
+			if(crp.Type == ChronopicRegisterPort.Types.ENCODER && crp.Port != "")
 				notebook_start.CurrentPage = 1;
 	}
 

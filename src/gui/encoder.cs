@@ -115,6 +115,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.VPaned vpaned_encoder_main;
 	[Widget] Gtk.VPaned vpaned_encoder_capture_video_and_set_graph;
 	[Widget] Gtk.Button button_activate_chronopics_encoder;
+	[Widget] Gtk.Button button_activate_chronopics_encoder_networks_problems;
 
 	[Widget] Gtk.Notebook notebook_encoder_sup;
 	[Widget] Gtk.Notebook notebook_encoder_capture;
@@ -685,7 +686,7 @@ public partial class ChronoJumpWindow
 		if(currentSession.Name == Constants.SessionSimulatedName && testsActive)
 			return true;
 
-		chronopicRegisterUpdate(false);
+		chronopicRegisterUpdate(false, false);
 		int numEncoders = chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ENCODER);
 		LogB.Information("numEncoders: " + numEncoders);
 		if(numEncoders == 0)

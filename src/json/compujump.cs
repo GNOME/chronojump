@@ -664,6 +664,79 @@ public class JsonCompujump : Json
 		return true;
 	}
 
+	public bool UploadForceSensorData(UploadForceSensorDataFullObject o)
+	{
+		// Create a request using a URL that can receive a post.
+		if (! createWebRequest(requestType.GENERIC, "/uploadForceSensorData"))
+			return false;
+
+		// Set the Method property of the request to POST.
+		request.Method = "POST";
+
+		// Set the ContentType property of the WebRequest.
+		request.ContentType = "application/json; Charset=UTF-8"; //but this is not enough, see this line:
+		//exerciseName = Util.RemoveAccents(exerciseName);
+
+		// Creates the json object
+		JsonObject json = new JsonObject();
+		json.Add("personId", o.personId);
+		json.Add("stationId", o.stationId);
+		//json.Add("exerciseName", exerciseName);
+		json.Add("exerciseId", o.exerciseId);
+		json.Add("laterality", o.laterality);
+		json.Add("resistance", o.resistance);
+
+
+		json.Add("variability", o.uo.variability);
+		json.Add("timeTotal", o.uo.timeTotal);
+		json.Add("impulse", o.uo.impulse);
+		json.Add("workJ", o.uo.workJ);
+		json.Add("repetitions", o.uo.repetitions);
+		json.Add("numRep", o.uo.numRep);
+		json.Add("repCriteria", o.uo.repCriteria);
+		json.Add("time", o.uo.time);
+		json.Add("range", o.uo.range);
+		json.Add("fmaxRaw", o.uo.fmaxRaw);
+		json.Add("rfdmeanRaw", o.uo.rfdmeanRaw);
+		json.Add("rfdmaxRaw", o.uo.rfdmaxRaw);
+		json.Add("fmaxModel", o.uo.fmaxModel);
+		json.Add("rfdmaxModel", o.uo.rfdmaxModel);
+		json.Add("vmean", o.uo.vmean);
+		json.Add("vmax", o.uo.vmax);
+		json.Add("amean", o.uo.amean);
+		json.Add("amax", o.uo.amax);
+		json.Add("pmean", o.uo.pmean);
+		json.Add("pmax", o.uo.pmax);
+
+		// Converts it to a String
+		String js = json.ToString();
+		LogB.Information("json UploadForceSensorData: ", js);
+
+		// Writes the json object into the request dataStream
+		Stream dataStream;
+		if(! getWebRequestStream (request, out dataStream, Catalog.GetString("Could not upload force sensor data.")))
+			return false;
+
+		dataStream.Write (Encoding.UTF8.GetBytes(js), 0, js.Length);
+
+		dataStream.Close ();
+
+		// Get the response.
+		WebResponse response;
+		if(! getWebResponse (request, out response, Catalog.GetString("Could not upload force sensor data.")))
+			return false;
+
+		// Display the status (will be 202, CREATED)
+		Console.WriteLine (((HttpWebResponse)response).StatusDescription);
+
+		// Clean up the streams.
+		dataStream.Close ();
+		response.Close ();
+
+		this.ResultMessage = "Force sensor data sent.";
+		return true;
+	}
+
 	~JsonCompujump() {}
 }
 
@@ -981,6 +1054,96 @@ public class UploadEncoderDataObject
 			//LogB.Information(string.Format("Loss (con) of {0}; i: {1} is: {2}", by.ToString(), i++, Convert.ToInt32(UtilAll.DivideSafe(100.0 * (highest - lowest), highest))));
 		}
 		return Convert.ToInt32(UtilAll.DivideSafe(100.0 * (highest - lowest), highest));
+	}
+}
+
+public class UploadForceSensorDataFullObject
+{
+	public int uniqueId; //used for SQL load and delete
+	public int personId;
+	public int stationId;
+	public int exerciseId;
+	public string laterality;
+	public string resistance; //stiffness
+	public UploadForceSensorDataObject uo;
+
+	public UploadForceSensorDataFullObject(int uniqueId, int personId, int stationId, int exerciseId,
+			string laterality, string resistance, UploadForceSensorDataObject uo)
+	{
+		this.uniqueId = uniqueId;
+		this.personId = personId;
+		this.stationId = stationId;
+		this.exerciseId = exerciseId;
+		this.laterality = laterality;
+		this.resistance = resistance;
+		this.uo = uo;
+	}
+
+	public string ToSQLInsertString ()
+	{
+		return
+			"NULL, " +
+			personId.ToString() + ", " +
+			stationId.ToString() + ", " +
+			exerciseId.ToString() + ", " +
+			"\"" + laterality + "\", " +
+			"\"" + resistance + "\", " +
+			uo.ToString();
+	}
+}
+
+public class UploadForceSensorDataObject
+{
+	public string variability;
+	public string timeTotal;
+	public string impulse;
+	public string workJ;
+	public int repetitions;
+	public int numRep;
+	public string repCriteria;
+	public string time;  //duration?
+	public string range;
+	public string fmaxRaw;
+	public string rfdmeanRaw;
+	public string rfdmaxRaw;
+	public string fmaxModel;
+	public string rfdmaxModel;
+	//only on elastic
+	public string vmean;
+	public string vmax;
+	public string amean;
+	public string amax;
+	public string pmean;
+	public string pmax;
+
+	//constructor called after capture
+	public UploadForceSensorDataObject()
+	{
+	}
+
+	public override string ToString()
+	{
+		return
+			"\"" + variability.ToString() + "\", " +
+			"\"" + timeTotal.ToString() + "\"," +
+			"\"" + impulse.ToString() + "\"," +
+			"\"" + workJ.ToString() + "\"," +
+			repetitions.ToString() + "," +
+			numRep.ToString() + "," +
+			"\"" + repCriteria.ToString() + "\", " +
+			"\"" + time.ToString() + "\"," +
+			"\"" + range.ToString() + "\"," +
+			"\"" + fmaxRaw.ToString() + "\"," +
+			"\"" + rfdmeanRaw.ToString() + "\"," +
+			"\"" + rfdmaxRaw.ToString() + "\"," +
+			"\"" + fmaxModel.ToString() + "\"," +
+			"\"" + rfdmaxModel.ToString() + "\"," +
+			"\"" + vmean.ToString() + "\"," +
+			"\"" + vmax.ToString() + "\"," +
+			"\"" + amean.ToString() + "\"," +
+			"\"" + amax.ToString() + "\"," +
+			"\"" + pmean.ToString() + "\"," +
+			"\"" + pmax.ToString() + "\")";
 	}
 }
 

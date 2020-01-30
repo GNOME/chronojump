@@ -101,8 +101,6 @@ public class ChronopicRegisterWindow
 	Gtk.Window chronopic_register_win;
 	Gtk.VBox vbox_main;
 	private List<ChronopicRegisterPort> listConnected;
-	private bool networksNeedCheckEncoder;
-	public Gtk.Button FakeButtonNetworksCheckSensors;
 	public Gtk.Button FakeButtonCloseSerialPort;
 
 	public ChronopicRegisterWindow(Gtk.Window app1, List<ChronopicRegisterPort> listAll)
@@ -132,14 +130,10 @@ public class ChronopicRegisterWindow
 		createButtons();
 	}
 
-	public void Show(bool networksNeedCheckEncoder)
+	public void Show()
 	{
 		chronopic_register_win.ShowAll();
 		list_labels_selected_show(); //hide some label_selected if they are UNKNOWN
-
-		this.networksNeedCheckEncoder = networksNeedCheckEncoder;
-		if(networksNeedCheckEncoder)
-			FakeButtonNetworksCheckSensors = new Gtk.Button();
 	}
 
 	private void createWindow(Gtk.Window app1)
@@ -450,9 +444,6 @@ public class ChronopicRegisterWindow
 
 	private void on_button_close_clicked(object o, EventArgs args)
 	{
-		if(networksNeedCheckEncoder && FakeButtonNetworksCheckSensors != null)
-			FakeButtonNetworksCheckSensors.Click();
-
 		chronopic_register_win.Hide();
 		chronopic_register_win = null;
 	}

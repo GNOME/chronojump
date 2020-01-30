@@ -1042,12 +1042,26 @@ public partial class ChronoJumpWindow
 
 	private void networksShowDeviceMissingEncoder (bool missing)
 	{
-		hbox_encoder_disconnected.Visible = missing;
+		if(missing) {
+			hbox_encoder_disconnected.Visible = true;
+			notebook_start.CurrentPage = 3; //networks problems
+		}
+		else {
+			hbox_encoder_disconnected.Visible = false;
+			notebook_start.CurrentPage = 1; //program
+		}
 	}
 
 	private void networksShowDeviceMissingRFID (bool missing)
 	{
-		hbox_RFID_disconnected.Visible = missing;
+		if(missing) {
+			hbox_RFID_disconnected.Visible = true;
+			notebook_start.CurrentPage = 3; //networks problems
+		}
+		else {
+			hbox_RFID_disconnected.Visible = false;
+			notebook_start.CurrentPage = 1; //program
+		}
 	}
 
 	/*

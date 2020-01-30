@@ -88,7 +88,7 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
 
         raceAnalyzer$displacement = raceAnalyzer$displacement * metersPerPulse
         position = cumsum(raceAnalyzer$displacement)
-        speed = raceAnalyzer$displacement / elapsedTime
+        speed = raceAnalyzer$displacement[2:length(raceAnalyzer$displacement)] / elapsedTime
         
         #Adjusting the time of each sample to the mean time between two samples
         for( i in 2:length(totalTime)){
@@ -519,7 +519,7 @@ getTrimmingSamples <- function(totalTime, position, speed, accel, testLength, st
                 startSample = startSample +1
                 if(accel[startSample] > startAccel)
                 {
-                        print(paste("accel[", startSample +1 ,"] = ", accel[startSample + 1], sep = ""))
+                        print(paste("accel[", startSample,"] = ", accel[startSample], sep = ""))
                         
                         #Looking iF after 1 seconds the position has increased  at least 1m.
                         sampleAfterSecond = which.min(abs(totalTime - (totalTime[startSample] +1)))
@@ -595,8 +595,8 @@ testEncoderCJ <- function(filename, testLength, mass, personHeight, tempC)
                                       title = op$title,
                                       subtitle = op$datetime,
                                       plotRawMeanSpeed = TRUE,
-                                      plotRawSpeed = FALSE,
-                                      plotRawAccel = TRUE,
+                                      plotRawSpeed = TRUE,
+                                      plotRawAccel = FALSE,
                                       plotRawForce = FALSE,
                                       plotMeanRawForce = FALSE,
                                       plotRawPower = FALSE,

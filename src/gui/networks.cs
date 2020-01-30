@@ -634,8 +634,10 @@ public partial class ChronoJumpWindow
 				LogB.Information("Cannot connect with server!");
 				if(dialogMessageNotAtServer == null || ! dialogMessageNotAtServer.Visible)
 				{
+					NetworksCheckDevices ncd = new NetworksCheckDevices();
 					dialogMessageNotAtServer = new DialogMessage(
 							Constants.MessageTypes.WARNING,
+							ncd.ToString() + "\n\n" +
 							Constants.ServerDisconnectedMessage()
 							); //GTK
 

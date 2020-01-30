@@ -33881,68 +33881,6 @@ then click this button.</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <child>
-                          <widget class="GtkHBox" id="hbox355">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <child>
-                              <widget class="GtkButton" id="button_activate_chronopics_encoder_networks_problems">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="can_default">True</property>
-                                <property name="receives_default">True</property>
-                                <property name="has_tooltip">True</property>
-                                <property name="tooltip" translatable="yes">Connect encoder</property>
-                                <property name="relief">half</property>
-                                <signal name="clicked" handler="on_chronopic_encoder_clicked" swapped="no"/>
-                                <child>
-                                  <widget class="GtkHBox" id="hbox356">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="spacing">6</property>
-                                    <child>
-                                      <widget class="GtkLabel" id="label435">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">Device</property>
-                                      </widget>
-                                      <packing>
-                                        <property name="expand">True</property>
-                                        <property name="fill">True</property>
-                                        <property name="position">0</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <widget class="GtkImage" id="image_chronopic_connect_encoder1">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="stock">gtk-missing-image</property>
-                                        <property name="icon-size">2</property>
-                                      </widget>
-                                      <packing>
-                                        <property name="expand">True</property>
-                                        <property name="fill">True</property>
-                                        <property name="position">1</property>
-                                      </packing>
-                                    </child>
-                                  </widget>
-                                </child>
-                              </widget>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">False</property>
-                                <property name="padding">12</property>
-                                <property name="pack_type">end</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                          </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
                           <widget class="GtkHBox" id="hbox353">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
@@ -33970,6 +33908,7 @@ then click this button.</property>
                                               <widget class="GtkImage" id="image_encoder_disconnected">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
+                                                <property name="yalign">0</property>
                                                 <property name="stock">gtk-no</property>
                                                 <property name="icon-size">2</property>
                                               </widget>
@@ -33980,12 +33919,100 @@ then click this button.</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkLabel" id="label_chronopic_disconnected">
+                                              <widget class="GtkVBox" id="vbox171">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="xpad">5</property>
-                                                <property name="label" translatable="yes">Encoder disconnected.</property>
-                                                <property name="use_markup">True</property>
+                                                <property name="spacing">12</property>
+                                                <child>
+                                                  <widget class="GtkLabel" id="label_chronopic_disconnected">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="xalign">0</property>
+                                                    <property name="label" translatable="yes">Encoder disconnected.</property>
+                                                    <property name="use_markup">True</property>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">True</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkLabel" id="label436">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="xalign">0</property>
+                                                    <property name="label" translatable="yes">Please, connect it and click here:</property>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">True</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">1</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkHBox" id="hbox356">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <child>
+                                                      <widget class="GtkButton" id="button_activate_chronopics_encoder_networks_problems">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="can_default">True</property>
+                                                        <property name="receives_default">True</property>
+                                                        <property name="has_tooltip">True</property>
+                                                        <property name="tooltip" translatable="yes">Connect encoder</property>
+                                                        <property name="relief">half</property>
+                                                        <signal name="clicked" handler="on_chronopic_encoder_clicked" swapped="no"/>
+                                                        <child>
+                                                          <widget class="GtkHBox" id="hbox357">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="border_width">6</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label435">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Device</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_chronopic_connect_encoder1">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            <property name="icon-size">2</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                          </widget>
+                                                        </child>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="expand">True</property>
+                                                        <property name="fill">False</property>
+                                                        <property name="position">0</property>
+                                                      </packing>
+                                                    </child>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">True</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="padding">12</property>
+                                                    <property name="pack_type">end</property>
+                                                    <property name="position">2</property>
+                                                  </packing>
+                                                </child>
                                               </widget>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -34008,6 +34035,7 @@ then click this button.</property>
                                               <widget class="GtkImage" id="image_RFID_disconnected">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
+                                                <property name="yalign">0</property>
                                                 <property name="stock">gtk-no</property>
                                                 <property name="icon-size">2</property>
                                               </widget>
@@ -34021,13 +34049,12 @@ then click this button.</property>
                                               <widget class="GtkVBox" id="vbox168">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="spacing">8</property>
+                                                <property name="spacing">20</property>
                                                 <child>
                                                   <widget class="GtkLabel" id="label_RFID_disconnected">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="xalign">0</property>
-                                                    <property name="xpad">5</property>
                                                     <property name="label" translatable="yes">RFID has been disconnected!</property>
                                                     <property name="use_markup">True</property>
                                                   </widget>
@@ -34042,7 +34069,6 @@ then click this button.</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="xalign">0</property>
-                                                    <property name="xpad">5</property>
                                                     <property name="label" translatable="yes">Please, connect it and restart Chronojump.</property>
                                                     <property name="use_markup">True</property>
                                                   </widget>
@@ -34092,6 +34118,17 @@ then click this button.</property>
                           <packing>
                             <property name="expand">True</property>
                             <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkHBox" id="hbox355">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
                             <property name="position">1</property>
                           </packing>
                         </child>

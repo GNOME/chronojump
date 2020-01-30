@@ -201,7 +201,7 @@ public partial class ChronoJumpWindow
 			rfidProcessCancel = false;
 			networksRunIntervalCanChangePersonSQLReady = true;
 
-			chronopicRegisterUpdate(false);
+			chronopicRegisterUpdate(false, false);
 			if(chronopicRegister != null && chronopicRegister.GetRfidPortName() != "")
 			{
 				networksShowDeviceMissingRFID (false);

@@ -715,7 +715,7 @@ public partial class ChronoJumpWindow
 		if(needToShowChronopicRegisterWindow)
 		{
 			LogB.Information("Show chronopic resgister win");
-			chronopicRegisterWin.Show();
+			chronopicRegisterWin.Show(false);
 		}
 		LogB.Information("Chronojump window started");
 	}
@@ -3428,7 +3428,7 @@ public partial class ChronoJumpWindow
 
 		last_menuitem_mode_defined = true;
 
-		chronopicRegisterUpdate(false);
+		chronopicRegisterUpdate(false, false);
 
 		chronojumpWindowTestsNext();
 
@@ -3798,7 +3798,7 @@ public partial class ChronoJumpWindow
 		if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC && compujumpAutologout != null)
 			compujumpAutologout.StartCapturingRunInterval();
 
-		chronopicRegisterUpdate(false);
+		chronopicRegisterUpdate(false, false);
 
 		int numContacts = chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.CONTACTS);
 		LogB.Information("numContacts: " + numContacts);
@@ -3830,7 +3830,7 @@ public partial class ChronoJumpWindow
 				//new DialogMessage(Constants.MessageTypes.WARNING, Constants.SimulatedTestsNotAllowed);
 	                        //UtilGtk.DeviceColors(viewport_chronopics, false);
 				//open device window
-				chronopicRegisterUpdate(true);
+				chronopicRegisterUpdate(true, false);
 
 				return;
 			}
@@ -5285,7 +5285,7 @@ public partial class ChronoJumpWindow
 		*/
 
 		//TODO: on Windows need to close the sp if it's open, and maybe the cp
-		chronopicRegisterUpdate(true);
+		chronopicRegisterUpdate(true, false);
 	}
 
 	private void on_chronopic_encoder_clicked (object o, EventArgs args) {
@@ -5296,7 +5296,11 @@ public partial class ChronoJumpWindow
 		*/
 
 		//TODO: on Windows need to close the sp if it's open, and maybe the cp
-		chronopicRegisterUpdate(true);
+
+		if(o == (object) button_activate_chronopics_encoder_networks_problems)
+			chronopicRegisterUpdate(true, true);
+		else
+			chronopicRegisterUpdate(true, false);
 	}
 
 	
@@ -7500,7 +7504,7 @@ LogB.Debug("mc finished 5");
 	 * sensitive GUI on executeAuto methods 
 	 */
 
-	private void chronopicRegisterUpdate(bool openWindow)
+	private void chronopicRegisterUpdate(bool openWindow, bool networksNeedCheckEncoder)
 	{
 		//on Windows need to close the port before reading with FTDI dll
 		if(UtilAll.IsWindows())
@@ -7538,13 +7542,38 @@ LogB.Debug("mc finished 5");
 		if(openWindow)
 		{
 			chronopicRegisterWin = new ChronopicRegisterWindow(app1, chronopicRegister.Crpl.L);
+
 			cp2016.WindowOpened = true;
 
 			if(app1Shown)
-				chronopicRegisterWin.Show();
-			else
+			{
+				chronopicRegisterWin.Show(networksNeedCheckEncoder);
+
+				if (networksNeedCheckEncoder)
+					chronopicRegisterWin.FakeButtonNetworksCheckSensors.Clicked +=
+						new EventHandler(on_chronopic_register_win_close_networks_check_encoder);
+			} else
 				needToShowChronopicRegisterWindow = true;
 		}
+	}
+
+	/*
+	 * on networks when there's no encoder, hbox_encoder_disconnected is shown
+	 * it has button_activate_chronopics_encoder_networks_problems
+	 * this calls chronopicRegisterUpdate(true, true);
+	 * second true is the networksNeedCheckEncoder
+	 * so check here if encodee is configured
+	 * when ChronopicRegisterWindow is close or destroyed (delete_event)
+	 */
+	private void on_chronopic_register_win_close_networks_check_encoder (object o, EventArgs args)
+	{
+		chronopicRegisterWin.FakeButtonNetworksCheckSensors.Clicked -=
+			new EventHandler(on_chronopic_register_win_close_networks_check_encoder);
+
+		List<ChronopicRegisterPort> l = SqliteChronopicRegister.SelectAll (false);
+		foreach(ChronopicRegisterPort crp in l)
+			if(crp.Type == ChronopicRegisterPort.Types.ENCODER)
+				notebook_start.CurrentPage = 1;
 	}
 
 	//trying to fix when an OSX disconnects and reconnects same chronopic (and it has captured)

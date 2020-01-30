@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2020-01-28 13:49+0000\n"
-"PO-Revision-Date: 2020-01-28 15:32+0100\n"
+"POT-Creation-Date: 2020-01-30 10:56+0000\n"
+"PO-Revision-Date: 2020-01-30 14:48+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
@@ -348,8 +348,8 @@ msgstr "Nuevos atletas (múltiple)"
 #: ../glade/app1.glade.h:72 ../glade/person_recuperate.glade.h:7
 #: ../glade/person_select_window.glade.h:8 ../src/gui/app1/forceSensor.cs:1425
 #: ../src/gui/app1/forceSensor.cs:1454 ../src/gui/encoder.cs:1629
-#: ../src/gui/person/addMultiple.cs:244 ../src/gui/runEncoder.cs:644
-#: ../src/gui/runEncoder.cs:673
+#: ../src/gui/person/addMultiple.cs:244 ../src/gui/runEncoder.cs:663
+#: ../src/gui/runEncoder.cs:692
 msgid "Load"
 msgstr "Cargar"
 
@@ -437,7 +437,7 @@ msgstr "MultiChronopic"
 #: ../src/gui/app1/forceSensor.cs:2420 ../src/gui/encoder.cs:1085
 #: ../src/gui/encoder.cs:4913 ../src/gui/executeAuto.cs:501
 #: ../src/gui/overview.cs:73 ../src/gui/overview.cs:147
-#: ../src/gui/overview.cs:155 ../src/gui/runEncoder.cs:1457
+#: ../src/gui/overview.cs:155 ../src/gui/runEncoder.cs:1476
 #: ../src/stats/runIntervallic.cs:64 ../src/treeview/multiChronopic.cs:30
 #: ../src/treeview/pulse.cs:46 ../src/treeview/reactionTime.cs:30
 msgid "Person"
@@ -574,8 +574,8 @@ msgstr "Calibrar"
 #: ../src/gui/app1/forceSensor.cs:2407 ../src/gui/encoder.cs:1131
 #: ../src/gui/encoder.cs:1630 ../src/gui/encoder.cs:4900
 #: ../src/gui/encoderSelectRepetitions.cs:280 ../src/gui/executeAuto.cs:305
-#: ../src/gui/genericWindow.cs:918 ../src/gui/runEncoder.cs:674
-#: ../src/gui/runEncoder.cs:1444
+#: ../src/gui/genericWindow.cs:918 ../src/gui/runEncoder.cs:693
+#: ../src/gui/runEncoder.cs:1463
 msgid "Close"
 msgstr "Cerrar"
 
@@ -584,7 +584,7 @@ msgid "Connect Chronopics"
 msgstr "Conectar Chronopics"
 
 #: ../glade/app1.glade.h:120 ../glade/evaluator_window.glade.h:29
-#: ../src/gui/chronopicRegister.cs:172 ../src/gui/runEncoder.cs:627
+#: ../src/gui/chronopicRegister.cs:172 ../src/gui/runEncoder.cs:646
 msgid "Device"
 msgstr "Dispositivo"
 
@@ -849,7 +849,6 @@ msgid "Test"
 msgstr "Test"
 
 #: ../glade/app1.glade.h:167
-#| msgid "Save all"
 msgid "See all"
 msgstr "Ver todos"
 
@@ -867,7 +866,7 @@ msgstr "Añadir tipo de salto"
 #. genericWin.SetSpin3Value(90);
 #.
 #: ../glade/app1.glade.h:169 ../src/gui/encoder.cs:4774
-#: ../src/gui/runEncoder.cs:1346
+#: ../src/gui/runEncoder.cs:1365
 msgid "Add"
 msgstr "Añadir"
 
@@ -876,7 +875,6 @@ msgid "Delete jump type"
 msgstr "Eliminar tipo de salto"
 
 #: ../glade/app1.glade.h:171
-#| msgid "Save all"
 msgid "Sell all"
 msgstr "Ver todas"
 
@@ -1079,12 +1077,12 @@ msgstr ""
 msgid "Measure reaction time"
 msgstr "Medir tiempo de reacción"
 
-#: ../glade/app1.glade.h:216 ../src/json/compujump.cs:1037
+#: ../glade/app1.glade.h:216 ../src/json/compujump.cs:1200
 #: ../src/sqlite/main.cs:1471
 msgid "Left"
 msgstr "Izquierda"
 
-#: ../glade/app1.glade.h:217 ../src/json/compujump.cs:1035
+#: ../glade/app1.glade.h:217 ../src/json/compujump.cs:1198
 #: ../src/sqlite/main.cs:1468
 msgid "Right"
 msgstr "Derecha"
@@ -1178,7 +1176,7 @@ msgstr "Distancia total"
 #: ../glade/run_type_add.glade.h:17 ../src/constants.cs:1342
 #: ../src/exportSession.cs:571 ../src/gui/encoderTreeviews.cs:77
 #: ../src/gui/encoderTreeviews.cs:610 ../src/gui/run.cs:939
-#: ../src/gui/run.cs:1127 ../src/gui/runEncoder.cs:628
+#: ../src/gui/run.cs:1127 ../src/gui/runEncoder.cs:647
 #: ../src/gui/runType.cs:129 ../src/stats/runSimple.cs:53
 #: ../src/treeview/run.cs:56
 msgid "Distance"
@@ -1238,7 +1236,7 @@ msgstr "seleccionar"
 
 #: ../glade/app1.glade.h:250 ../glade/report_window.glade.h:9
 #: ../src/exportSession.cs:208 ../src/gui/app1/forceSensor.cs:2421
-#: ../src/gui/encoder.cs:4914 ../src/gui/runEncoder.cs:1458
+#: ../src/gui/encoder.cs:4914 ../src/gui/runEncoder.cs:1477
 #: ../src/report.cs:141
 msgid "Session"
 msgstr "Sesión"
@@ -1813,8 +1811,8 @@ msgstr "Configurar"
 #: ../src/gui/encoderSelectRepetitions.cs:215
 #: ../src/gui/encoderTreeviews.cs:603 ../src/gui/overview.cs:75
 #: ../src/gui/overview.cs:149 ../src/gui/overview.cs:157
-#: ../src/gui/runEncoder.cs:626 ../src/gui/runEncoder.cs:1314
-#: ../src/gui/runEncoder.cs:1342 ../src/gui/runEncoder.cs:1437
+#: ../src/gui/runEncoder.cs:645 ../src/gui/runEncoder.cs:1333
+#: ../src/gui/runEncoder.cs:1361 ../src/gui/runEncoder.cs:1456
 msgid "Exercise"
 msgstr "Ejercicio"
 
@@ -1854,7 +1852,7 @@ msgstr "Reproducir"
 
 #: ../glade/app1.glade.h:394 ../glade/preferences_win.glade.h:134
 #: ../src/gui/app1/forceSensor.cs:1411 ../src/gui/encoder.cs:1588
-#: ../src/gui/runEncoder.cs:630
+#: ../src/gui/runEncoder.cs:649
 msgid "Video"
 msgstr "Vídeo"
 
@@ -1877,7 +1875,7 @@ msgid "Open Folder"
 msgstr "Abrir carpeta"
 
 #: ../glade/app1.glade.h:399 ../src/gui/app1/forceSensor.cs:1405
-#: ../src/gui/encoder.cs:1581 ../src/gui/runEncoder.cs:625
+#: ../src/gui/encoder.cs:1581 ../src/gui/runEncoder.cs:644
 msgid "Set"
 msgstr "Serie"
 
@@ -2236,12 +2234,12 @@ msgid "Player"
 msgstr "Jugador"
 
 #: ../glade/dialog_person_popup.glade.h:2
-msgid "Close window"
-msgstr "Cerrar ventana"
-
-#: ../glade/dialog_person_popup.glade.h:3
 msgid "label"
 msgstr "etiqueta"
+
+#: ../glade/dialog_person_popup.glade.h:3
+msgid "Close window"
+msgstr "Cerrar ventana"
 
 #: ../glade/dialog_person_popup.glade.h:4
 msgid "Logout"
@@ -2641,8 +2639,8 @@ msgstr "Nombre"
 #: ../src/gui/encoder.cs:4762 ../src/gui/executeAuto.cs:191
 #: ../src/gui/jump.cs:1016 ../src/gui/jump.cs:1234
 #: ../src/gui/person/recuperate.cs:113 ../src/gui/run.cs:940
-#: ../src/gui/run.cs:1130 ../src/gui/runEncoder.cs:1316
-#: ../src/gui/runEncoder.cs:1344 ../src/runType.cs:196 ../src/runType.cs:230
+#: ../src/gui/run.cs:1130 ../src/gui/runEncoder.cs:1335
+#: ../src/gui/runEncoder.cs:1363 ../src/runType.cs:196 ../src/runType.cs:230
 #: ../src/runType.cs:270 ../src/runType.cs:298 ../src/treeview/event.cs:41
 msgid "Description"
 msgstr "Descripción"
@@ -3013,7 +3011,7 @@ msgstr "botón"
 
 #: ../glade/generic_window.glade.h:6 ../src/gui/app1/forceSensor.cs:1412
 #: ../src/gui/encoder.cs:1589 ../src/gui/encoderSelectRepetitions.cs:222
-#: ../src/gui/report.cs:143 ../src/gui/runEncoder.cs:631
+#: ../src/gui/report.cs:143 ../src/gui/runEncoder.cs:650
 msgid "Comment"
 msgstr "Comentario"
 
@@ -3098,7 +3096,7 @@ msgstr "Resumen"
 #. not shown, unused
 #: ../glade/overview.glade.h:2 ../src/gui/app1/forceSensor.cs:2420
 #: ../src/gui/encoder.cs:4913 ../src/gui/overview.cs:76
-#: ../src/gui/overview.cs:153 ../src/gui/runEncoder.cs:1457
+#: ../src/gui/overview.cs:153 ../src/gui/runEncoder.cs:1476
 #: ../src/gui/session/load.cs:278 ../src/gui/session/load.cs:281
 msgid "Sets"
 msgstr "Series"
@@ -4274,8 +4272,8 @@ msgstr "Lugar"
 #: ../glade/session_add_edit.glade.h:5 ../src/exportSession.cs:247
 #: ../src/gui/app1/forceSensor.cs:1410 ../src/gui/app1/forceSensor.cs:2421
 #: ../src/gui/encoder.cs:1587 ../src/gui/encoder.cs:4914
-#: ../src/gui/encoderSelectRepetitions.cs:221 ../src/gui/runEncoder.cs:629
-#: ../src/gui/runEncoder.cs:1458 ../src/gui/session/load.cs:252
+#: ../src/gui/encoderSelectRepetitions.cs:221 ../src/gui/runEncoder.cs:648
+#: ../src/gui/runEncoder.cs:1477 ../src/gui/session/load.cs:252
 #: ../src/gui/session/selectStats.cs:80 ../src/report.cs:230
 #: ../src/treeview/jump.cs:38
 msgid "Date"
@@ -4670,8 +4668,9 @@ msgid "This RFID is not registered on server."
 msgstr "Este RFID no está registrado en el servidor"
 
 #: ../src/constants.cs:240
-msgid "Server is disconnected."
-msgstr "El servidor está desconectado."
+#| msgid "Cancel connection with server"
+msgid "Cannot connect with server!"
+msgstr "No se puede conectar con el servidor."
 
 #: ../src/constants.cs:250
 msgid "Server is connected."
@@ -4957,7 +4956,7 @@ msgstr "No se puede abrir el sitio web."
 
 #: ../src/constants.cs:861 ../src/gui/app1/forceSensor.cs:2183
 #: ../src/gui/app1/forceSensor.cs:2195 ../src/gui/preferences.cs:1255
-#: ../src/gui/runEncoder.cs:1215 ../src/gui/runEncoder.cs:1227
+#: ../src/gui/runEncoder.cs:1234 ../src/gui/runEncoder.cs:1246
 #: ../src/gui/splash.cs:143
 msgid "Error. Cannot open directory."
 msgstr "Error. No se puede abrir la carpeta."
@@ -5594,7 +5593,7 @@ msgstr "ID de sesión"
 #: ../src/gui/encoderSelectRepetitions.cs:212
 #: ../src/gui/encoderSelectRepetitions.cs:473
 #: ../src/gui/encoderSelectRepetitions.cs:646
-#: ../src/gui/person/recuperate.cs:109 ../src/gui/runEncoder.cs:624
+#: ../src/gui/person/recuperate.cs:109 ../src/gui/runEncoder.cs:643
 msgid "ID"
 msgstr "ID"
 
@@ -6148,8 +6147,8 @@ msgstr "Conecte el cable y pulse en el botón «dispositivo»."
 #: ../src/gui/app1/forceSensor.cs:325 ../src/gui/app1/forceSensor.cs:2344
 #: ../src/gui/app1/forceSensor.cs:2388 ../src/gui/encoder.cs:882
 #: ../src/gui/encoder.cs:4663 ../src/gui/encoder.cs:4882
-#: ../src/gui/runEncoder.cs:208 ../src/gui/runEncoder.cs:1293
-#: ../src/gui/runEncoder.cs:1423
+#: ../src/gui/runEncoder.cs:208 ../src/gui/runEncoder.cs:1312
+#: ../src/gui/runEncoder.cs:1442
 msgid "Need to create/select an exercise."
 msgstr "Debe crear/seleccionar un ejercicio."
 
@@ -6169,29 +6168,29 @@ msgstr "Capturar opción"
 
 #. don't show now
 #: ../src/gui/app1/forceSensor.cs:1426 ../src/gui/encoder.cs:1603
-#: ../src/gui/runEncoder.cs:645
+#: ../src/gui/runEncoder.cs:664
 #, csharp-format
 msgid "Select set of athlete {0} on this session."
 msgstr "Seleccionar las series del atleta {0} en esta sesión."
 
 #: ../src/gui/app1/forceSensor.cs:1429 ../src/gui/encoder.cs:1605
-#: ../src/gui/runEncoder.cs:648
+#: ../src/gui/runEncoder.cs:667
 msgid "If you want to edit or delete a row, right click on it."
 msgstr ""
 "Si quiere editar o eliminar una fila, pulse con el botón derecho sobre ella."
 
 #: ../src/gui/app1/forceSensor.cs:1443 ../src/gui/encoder.cs:1618
-#: ../src/gui/runEncoder.cs:662
+#: ../src/gui/runEncoder.cs:681
 msgid "Change the owner of selected set"
 msgstr "Cambiar el propietario de la serie seleccionada"
 
 #: ../src/gui/app1/forceSensor.cs:1444 ../src/gui/encoder.cs:1619
-#: ../src/gui/runEncoder.cs:663
+#: ../src/gui/runEncoder.cs:682
 msgid "code"
 msgstr "código"
 
 #: ../src/gui/app1/forceSensor.cs:1444 ../src/gui/encoder.cs:1619
-#: ../src/gui/runEncoder.cs:663
+#: ../src/gui/runEncoder.cs:682
 msgid "name"
 msgstr "nombre"
 
@@ -6212,7 +6211,7 @@ msgstr ""
 
 #: ../src/gui/app1/forceSensor.cs:1611 ../src/gui/app1/forceSensor.cs:1647
 #: ../src/gui/encoder.cs:1833 ../src/gui/encoder.cs:2279
-#: ../src/gui/runEncoder.cs:805 ../src/gui/runEncoder.cs:842
+#: ../src/gui/runEncoder.cs:824 ../src/gui/runEncoder.cs:861
 msgid "Are you sure you want to delete this set?"
 msgstr "¿Seguro que quiere eliminar esta serie?"
 
@@ -6230,7 +6229,7 @@ msgstr "Si quiere calibrar tare primero."
 
 #. don't show now
 #: ../src/gui/app1/forceSensor.cs:2354 ../src/gui/app1/forceSensor.cs:2362
-#: ../src/gui/runEncoder.cs:1315
+#: ../src/gui/runEncoder.cs:1334
 msgid "Force sensor exercise:"
 msgstr "Sensor de fuerza del ejercicio:"
 
@@ -6239,19 +6238,19 @@ msgid "Delete exercise"
 msgstr "Eliminar ejercicio"
 
 #: ../src/gui/app1/forceSensor.cs:2401 ../src/gui/encoder.cs:4894
-#: ../src/gui/runEncoder.cs:1438
+#: ../src/gui/runEncoder.cs:1457
 msgid "Exercise name:"
 msgstr "Nombre del ejercicio:"
 
 #: ../src/gui/app1/forceSensor.cs:2411 ../src/gui/encoder.cs:4904
-#: ../src/gui/runEncoder.cs:1448
+#: ../src/gui/runEncoder.cs:1467
 msgid "Sorry, this exercise cannot be deleted until these tests are deleted:"
 msgstr ""
 "No se puede eliminar este ejercicio hasta que se hayan eliminado todas las "
 "pruebas:"
 
 #: ../src/gui/app1/forceSensor.cs:2433 ../src/gui/encoder.cs:4930
-#: ../src/gui/runEncoder.cs:1470
+#: ../src/gui/runEncoder.cs:1489
 msgid "Exercise deleted."
 msgstr "Ejercicio eliminado."
 
@@ -6877,19 +6876,19 @@ msgid "Speed at 1RM"
 msgstr "Velocidad a 1RM"
 
 #. don't show now
-#: ../src/gui/encoder.cs:4758 ../src/gui/runEncoder.cs:1343
+#: ../src/gui/encoder.cs:4758 ../src/gui/runEncoder.cs:1362
 msgid "Write the name of the exercise:"
 msgstr "Escriba el nombre del ejercicio:"
 
 #: ../src/gui/encoder.cs:4811 ../src/gui/forceSensorExercise.cs:455
-#: ../src/gui/runEncoder.cs:1383
+#: ../src/gui/runEncoder.cs:1402
 msgid "Error: Missing name of exercise."
 msgstr "Error: falta el nombre del ejercicio"
 
 #. if we add, check that this name does not exists
 #: ../src/gui/encoder.cs:4817 ../src/gui/encoder.cs:4827
 #: ../src/gui/forceSensorExercise.cs:462 ../src/gui/forceSensorExercise.cs:472
-#: ../src/gui/runEncoder.cs:1389 ../src/gui/runEncoder.cs:1399
+#: ../src/gui/runEncoder.cs:1408 ../src/gui/runEncoder.cs:1418
 #, csharp-format
 msgid "Error: An exercise named '{0}' already exists."
 msgstr "Error: ya existe un ejercicio llamado «{0}»."
@@ -8266,6 +8265,11 @@ msgstr "No se pudo enviar los datos del sprint."
 msgid "Could not upload encoder data."
 msgstr "No se pudo enviar los datos del encoder."
 
+#: ../src/json/compujump.cs:717 ../src/json/compujump.cs:726
+#| msgid "Could not upload encoder data."
+msgid "Could not upload force sensor data."
+msgstr "No se han podido cargar los datos del sensor de fuerza."
+
 #: ../src/json/json.cs:56
 msgid ""
 "Could not send file.\n"
@@ -8412,6 +8416,14 @@ msgstr ""
 #: ../src/jumpType.cs:217
 msgid "Triple jump"
 msgstr "Tripe salto"
+
+#: ../src/networks.cs:202
+msgid "No active Internet devices."
+msgstr "No hay dispositivos de Internet activos."
+
+#: ../src/networks.cs:204
+msgid "Active Internet devices:"
+msgstr "Dispositivos de Internet activos:"
 
 #: ../src/Mini/chronojump_mini.cs:109
 msgid "More information on Chronojump manual"
@@ -10721,6 +10733,9 @@ msgstr "Error. {0} no puede guardar el vídeo."
 msgid "Preview. Press any key to exit."
 msgstr "Previsualización. Pulsa cualquier tecla para salir."
 
+#~ msgid "Server is disconnected."
+#~ msgstr "El servidor está desconectado."
+
 #~ msgid "Snapshot"
 #~ msgstr "Instantánea"
 
@@ -11255,9 +11270,6 @@ msgstr "Previsualización. Pulsa cualquier tecla para salir."
 
 #~ msgid "Loading Chronojump..."
 #~ msgstr "Cargando Chronojump..."
-
-#~ msgid "Cancel connection with server"
-#~ msgstr "Cancelar la conexión con el servidor"
 
 #~ msgid "Open Chronojump"
 #~ msgstr "Abrir Chronojump"

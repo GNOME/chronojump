@@ -114,6 +114,7 @@ src/gui/sprint.cs
 src/gui/stats.cs
 src/gui/webcam.cs
 src/json/compujump.cs
+src/json/compujumpOther.cs
 src/json/json.cs
 src/jumpsProfile.cs
 src/jumpType.cs

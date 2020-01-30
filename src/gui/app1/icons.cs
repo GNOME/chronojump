@@ -31,11 +31,13 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_home1;
 	[Widget] Gtk.Image image_settings;
 	[Widget] Gtk.Image image_settings1;
+	[Widget] Gtk.Image image_settings2;
 	[Widget] Gtk.Image image_minimize;
 	[Widget] Gtk.Image image_minimize1;
 	[Widget] Gtk.Image image_quit;
 	[Widget] Gtk.Image image_quit1;
 	[Widget] Gtk.Image image_quit2;
+	[Widget] Gtk.Image image_quit3;
 	[Widget] Gtk.Image image_quit_from_app1;
 	[Widget] Gtk.Image image_session_new;
 	[Widget] Gtk.Image image_session_new2;
@@ -64,6 +66,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_person_delete_h;
 	[Widget] Gtk.Image image_chronopic_connect_contacts;
 	[Widget] Gtk.Image image_chronopic_connect_encoder;
+	[Widget] Gtk.Image image_chronopic_connect_encoder1;
 	[Widget] Gtk.Image image_button_execute;
 	[Widget] Gtk.Image image_contacts_bell;
 	[Widget] Gtk.Image image_contacts_close_and_capture;
@@ -250,6 +253,7 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_settings.png");
 		image_settings.Pixbuf = pixbuf;
 		image_settings1.Pixbuf = pixbuf;
+		image_settings2.Pixbuf = pixbuf;
 		image_session_preferences.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_minimize.png");
@@ -260,6 +264,7 @@ public partial class ChronoJumpWindow
 		image_quit.Pixbuf = pixbuf;
 		image_quit1.Pixbuf = pixbuf;
 		image_quit2.Pixbuf = pixbuf;
+		image_quit3.Pixbuf = pixbuf;
 		image_quit_from_app1.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_warning_red.png");
@@ -367,6 +372,7 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_chronopic_connect.png");
 		image_chronopic_connect_contacts.Pixbuf = pixbuf;
 		image_chronopic_connect_encoder.Pixbuf = pixbuf;
+		image_chronopic_connect_encoder1.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_recalculate.png");
 		image_recalculate.Pixbuf = pixbuf;

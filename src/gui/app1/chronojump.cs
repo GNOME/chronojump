@@ -7570,10 +7570,9 @@ LogB.Debug("mc finished 5");
 		chronopicRegisterWin.FakeButtonNetworksCheckSensors.Clicked -=
 			new EventHandler(on_chronopic_register_win_close_networks_check_encoder);
 
-		List<ChronopicRegisterPort> l = SqliteChronopicRegister.SelectAll (false);
-		foreach(ChronopicRegisterPort crp in l)
-			if(crp.Type == ChronopicRegisterPort.Types.ENCODER && crp.Port != "")
-				notebook_start.CurrentPage = 1;
+		chronopicRegisterUpdate(false, false);
+		if(chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ENCODER) > 0)
+			notebook_start.CurrentPage = 1;
 	}
 
 	//trying to fix when an OSX disconnects and reconnects same chronopic (and it has captured)

@@ -33815,6 +33815,7 @@ then click this button.</property>
                   <widget class="GtkHBox" id="hbox354">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="border_width">4</property>
                     <property name="spacing">20</property>
                     <child>
                       <widget class="GtkButton" id="button_not_menu_networks_problems_quit">
@@ -33831,6 +33832,8 @@ then click this button.</property>
                           <widget class="GtkImage" id="image_quit3">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="xpad">6</property>
+                            <property name="ypad">6</property>
                             <property name="stock">gtk-missing-image</property>
                           </widget>
                         </child>
@@ -33857,6 +33860,8 @@ then click this button.</property>
                           <widget class="GtkImage" id="image_settings2">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="xpad">6</property>
+                            <property name="ypad">6</property>
                             <property name="stock">gtk-missing-image</property>
                             <property name="icon-size">2</property>
                           </widget>

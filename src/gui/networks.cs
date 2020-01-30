@@ -1056,6 +1056,15 @@ public partial class ChronoJumpWindow
 	{
 		if(missing) {
 			hbox_RFID_disconnected.Visible = true;
+
+			/*
+			 * note rfid missing is more important than encoder missing,
+			 * if both messages are active, then user can connect encoder, press check button
+			 * and it will take to normal capture window (while rfid is not ok or Chronojump has to reboot)
+			 * so do not show the encoder message
+			 */
+			hbox_encoder_disconnected.Visible = false;
+
 			notebook_start.CurrentPage = 3; //networks problems
 		}
 		else {

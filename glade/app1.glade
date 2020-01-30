@@ -33967,7 +33967,6 @@ then click this button.</property>
                                                         <property name="can_default">True</property>
                                                         <property name="receives_default">True</property>
                                                         <property name="has_tooltip">True</property>
-                                                        <property name="tooltip" translatable="yes">Connect encoder</property>
                                                         <property name="relief">half</property>
                                                         <signal name="clicked" handler="on_chronopic_register_win_close_networks_check_encoder" swapped="no"/>
                                                         <child>
@@ -33980,7 +33979,7 @@ then click this button.</property>
                                                             <widget class="GtkLabel" id="label437">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Check</property>
+                                                            <property name="label" translatable="yes">Check connection</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>

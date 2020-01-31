@@ -729,21 +729,23 @@ public class EncoderGraphDoPlot
 					100.0 * (maxThisSetValidAndCon - minThisSetValidAndCon) / maxThisSetValidAndCon, decimals) + "%";
 			LogB.Information(string.Format("Loss at plot: {0}", 100.0 * (maxThisSetValidAndCon - minThisSetValidAndCon) / maxThisSetValidAndCon));
 
-
-			/*
-			 * at bucle dLeft is calculed using dWidth
-			 * 	dLeft = left_margin + dWidth * count;
-			 * but then dWidth changes on c and on ec. On c:
-			 * 	dWidth = dWidth - sep
-			 * so here, to calcule the needed dLeft, use: dWidth + sep
-			 */
 			if(maxThisSetValidAndConPos < minThisSetValidAndConPos)
-				pixmap.DrawLine(pen_selected_encoder_capture,
-						left_margin + (dWidth + sep) * maxThisSetValidAndConPos + (dWidth/2), //dLeft +
-						dBottom - UtilAll.DivideSafeAndGetInt(graphHeightSafe * maxThisSetValidAndCon, maxAbsolute * 1.0),
-						left_margin + (dWidth + sep) * minThisSetValidAndConPos + (dWidth/2), //dLeft +
-						dBottom - UtilAll.DivideSafeAndGetInt(graphHeightSafe * minThisSetValidAndCon, maxAbsolute * 1.0));
-			//TODO: draw an arc at end (arrow end)
+			{
+				/*
+				 * at bucle dLeft is calculed using dWidth
+				 * 	dLeft = left_margin + dWidth * count;
+				 * but then dWidth changes on c and on ec. On c:
+				 * 	dWidth = dWidth - sep
+				 * so here, to calcule the needed dLeft, use: dWidth + sep
+				 */
+				int x0 = Convert.ToInt32(left_margin + (dWidth + sep) * maxThisSetValidAndConPos + (dWidth/2));
+				int y0 = Convert.ToInt32(dBottom - UtilAll.DivideSafeAndGetInt(graphHeightSafe * maxThisSetValidAndCon, maxAbsolute * 1.0));
+				int x1 = Convert.ToInt32(left_margin + (dWidth + sep) * minThisSetValidAndConPos + (dWidth/2));
+				int y1 = Convert.ToInt32(dBottom - UtilAll.DivideSafeAndGetInt(graphHeightSafe * minThisSetValidAndCon, maxAbsolute * 1.0));
+
+				pixmap.DrawLine(pen_selected_encoder_capture, x0, y0, x1, y1);
+				UtilGtk.DrawArrow(pixmap, pen_selected_encoder_capture, x1, x0, y1, y0);
+			}
 		}
 
 
@@ -788,6 +790,7 @@ public class EncoderGraphDoPlot
 		drawingarea.QueueDraw(); 			// -- refresh
 		drawingarea.Visible = true;
 	}
+
 
 	public void Erase()
 	{

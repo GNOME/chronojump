@@ -262,10 +262,14 @@ public class UploadEncoderDataObject
 			if(by == byTypes.POWER)
 				compareTo = curve.MeanPowerD;
 
-			if(compareTo < lowest)
-				lowest = compareTo;
+			bool needChangeLowest = false;
 			if(compareTo > highest)
+			{
 				highest = compareTo;
+				needChangeLowest = true; 	//min rep has to be after max
+			}
+			if(needChangeLowest || compareTo < lowest)
+				lowest = compareTo;
 
 			//LogB.Information(string.Format("Loss (con) of {0}; i: {1} is: {2}", by.ToString(), i++, Convert.ToInt32(UtilAll.DivideSafe(100.0 * (highest - lowest), highest))));
 		}

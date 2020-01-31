@@ -663,10 +663,13 @@ public class EncoderSignal
 			if(variable == Constants.MeanPower)
 				compareTo = curve.MeanPowerD;
 
+			bool needChangeLowest = false;
 			conValue = compareTo;
 			if(compareTo > highest)
+			{
 				highest = compareTo;
-			if(compareTo < lowest)
+				needChangeLowest = true; 	//min rep has to be after max
+			} if(needChangeLowest || compareTo < lowest)
 				lowest = compareTo;
 
 			//LogB.Information(string.Format("Loss ecc/con (by con) of {0}; i: {1} is: {2}", variable, i++,

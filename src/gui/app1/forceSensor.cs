@@ -1754,16 +1754,20 @@ LogB.Information(" fs R ");
 		if(radio_force_duration_seconds.Active)
 			duration = Convert.ToInt32(spin_force_duration_seconds.Value);
 
-		string title = lastForceSensorFile;
-		if (UtilAll.IsWindows())
+		//string title = lastForceSensorFile;
+		string title = currentPerson.Name;
+		string exercise = currentForceSensorExercise.Name;
+		if (UtilAll.IsWindows()) {
 			title = Util.ConvertToUnicode(title);
+			exercise = Util.ConvertToUnicode(exercise);
+		}
 
 		if (title == null || title == "")
 			title = "unnamed";
-		else
-			title = Util.RemoveChar(title, '_');
+		//else
+		//	title = Util.RemoveChar(title, '_');
 
-		ForceSensorGraph fsg = new ForceSensorGraph(getForceSensorCaptureOptions(), rfdList, impulse, duration, title);
+		ForceSensorGraph fsg = new ForceSensorGraph(getForceSensorCaptureOptions(), rfdList, impulse, duration, title, exercise, currentForceSensor.DateTimePublic);
 
 		int imageWidth = UtilGtk.WidgetWidth(viewport_force_sensor_graph);
 		int imageHeight = UtilGtk.WidgetHeight(viewport_force_sensor_graph);

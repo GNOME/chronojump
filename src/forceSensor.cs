@@ -276,6 +276,12 @@ public class ForceSensor
 			return Util.GetVideoFileName(sessionID, Constants.TestTypes.FORCESENSOR, uniqueID);
 		}
 	}
+
+	public string DateTimePublic
+	{
+		get { return dateTime; }
+	}
+
 	public string Filename
 	{
 		get { return filename; }
@@ -1236,15 +1242,19 @@ public class ForceSensorGraph
 	bool hline50fmax_fitted;
 	int testLength;
 	string title;
+	string exercise;
+	string datetime;
 
 	public ForceSensorGraph(ForceSensor.CaptureOptions fsco, List<ForceSensorRFD> rfdList,
-			ForceSensorImpulse impulse, int testLength, string title)
+			ForceSensorImpulse impulse, int testLength, string title, string exercise, string datetime)
 	{
 		this.fsco = fsco;
 		this.rfdList = rfdList;
 		this.impulse = impulse;
 		this.testLength = testLength;
 		this.title = title;
+		this.exercise = exercise;
+		this.datetime = datetime;
 
 		averageLength = 0.1;
 		percentChange = 5;
@@ -1300,6 +1310,8 @@ public class ForceSensorGraph
 			"\n#testLength\n" + 		testLength.ToString() + "\n" +
 			"#captureOptions\n" + 		fsco.ToString() + "\n" +
 			"#title\n" + 			title + "\n" +
+			"#exercise\n" + 		exercise + "\n" +
+			"#datetime\n" + 		datetime + "\n" +
 			"#scriptsPath\n" + 		UtilEncoder.GetScriptsPath() + "\n";
 
 		TextWriter writer = File.CreateText(Path.GetTempPath() + "Roptions.txt");

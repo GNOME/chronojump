@@ -48,8 +48,30 @@ assignOptions <- function(options)
 		testLength 		= as.numeric(options[17]),
 		captureOptions 		= options[18],
 		title 	 		= options[19],
-                scriptsPath 		= options[20]
+		exercise 	 	= options[20],
+		datetime 	 	= options[21],
+                scriptsPath 		= options[22]
         ))
+}
+
+fixTitleAndOtherStrings <- function(str)
+{
+	print(c("1 fixTitle=", str))
+	#unicoded titles arrive here like this "\\", convert to "\", as this is difficult, do like this:
+	#http://stackoverflow.com/a/17787736
+	str=parse(text = paste0("'", str, "'"))
+	print(c("2 fixTitle=", str))
+
+	#convert str to spaces
+	str=gsub('_',' ', str)
+	str=gsub('-','    ', str)
+
+	return (str)
+}
+fixDatetime <- function(str)
+{
+	str=gsub('_',' ', str)
+	str=gsub('-',':', str)
 }
 
 #-------------- get params -------------
@@ -66,6 +88,12 @@ options <- scan(optionsFile, comment.char="#", what=character(), sep="\n")
 #-------------- assign options -------------
 op <- assignOptions(options)
 print(op)
+
+op$title = fixTitleAndOtherStrings(op$title)
+op$exercise = fixTitleAndOtherStrings(op$exercise)
+titleFull = paste(op$title, op$exercise, sep=" - ")
+
+op$datetime = fixDatetime(op$datetime)
 
 source(paste(op$scriptsPath, "/scripts-util.R", sep=""))
 
@@ -226,7 +254,7 @@ drawDynamicsFromLoadCell <- function(
                 yHeight = max(dynamics$fmax.raw, dynamics$fmax.fitted) * 1.1
         }
                 
-	par(mar=c(4,4,1,1))
+	par(mar=c(4,4,3,1))
         #Plotting raw data from startTime to endTime (Only the analysed data)
         if (!is.na(xlimits[1])){
                 xWidth = xlimits[2] - xlimits[1]
@@ -234,8 +262,9 @@ drawDynamicsFromLoadCell <- function(
                      type="l", xlab="Time[s]", ylab="Force[N]",
                      xlim = xlimits, ylim=c(0, yHeight),
                      #main = dynamics$nameOfFile,
-		     main = paste(parse(text = paste0("'", op$title, "'"))), #process unicode, needed paste because its an expression. See graph.R
+		     main = paste(parse(text = paste0("'", titleFull, "'"))), #process unicode, needed paste because its an expression. See graph.R
 		     yaxs= "i", xaxs = "i")
+		mtext(op$datetime, line = 0)
                 xmin = xlimits[1]
                 xmax = xlimits[2]
                 #points(dynamics$time[dynamics$startSample:dynamics$endSample] , dynamics$f.raw[dynamics$startSample:dynamics$endSample])
@@ -248,8 +277,9 @@ drawDynamicsFromLoadCell <- function(
                      xlim = c(xmin, xmax),
                      ylim=c(0, yHeight),
                      #main = dynamics$nameOfFile,
-		     main = paste(parse(text = paste0("'", op$title, "'"))), #process unicode, needed paste because its an expression. See graph.R
+		     main = paste(parse(text = paste0("'", titleFull, "'"))), #process unicode, needed paste because its an expression. See graph.R
 		     yaxs= "i", xaxs = "i")
+		mtext(op$datetime, line = 0)
         }
         
 

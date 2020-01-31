@@ -23,7 +23,7 @@ using System.Collections.Generic; //List
 
 public class JumpsWeightFVProfile
 {
-	private List<Point> point_l;
+	private List<PointF> point_l;
 	LeastSquaresLine ls;
 
 	//constructor
@@ -36,12 +36,12 @@ public class JumpsWeightFVProfile
 		//1 get data
                 List<Jump> jump_l = SqliteJump.SelectJumpsWeightFVProfile (personID, sessionID, false); //TODO:true);
 
-		//2 convert to list of Point
-		point_l = new List<Point>();
+		//2 convert to list of PointF
+		point_l = new List<PointF>();
                 foreach(Jump j in jump_l)
 		{
 			/*
-			point_l.Add(new Point(
+			point_l.Add(new PointF(
 						j.Weight,
 						Util.GetHeightInCentimeters(j.Tv)
 						));
@@ -53,7 +53,7 @@ public class JumpsWeightFVProfile
 			//hp0 = trochanterToe - trochanterFloorOnFlexion
 			double force = (personWeight + j.Weight) * 9.81 * ( ( Util.GetHeightInCentimeters(j.Tv) / (trochanterToe - trochanterFloorOnFlexion) ) + 1 );
 
-			point_l.Add(new Point(
+			point_l.Add(new PointF(
 						Util.GetInitialSpeed(j.Tv, true), //TODO: pass preferences.metersSecondsPreferred and show it on graph label
 						force
 						));
@@ -70,7 +70,7 @@ public class JumpsWeightFVProfile
 	public double GetMaxValue()
 	{
 		double maxValue = 0;
-                foreach(Point p in point_l)
+                foreach(PointF p in point_l)
 		{
 			if(p.X > maxValue)
 				maxValue = p.X;
@@ -81,7 +81,7 @@ public class JumpsWeightFVProfile
 		return maxValue;
 	}
 
-	public List<Point> Point_l
+	public List<PointF> Point_l
 	{
 		get { return point_l; }
 	}

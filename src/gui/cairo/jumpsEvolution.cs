@@ -43,7 +43,7 @@ public class JumpsEvolutionGraph : CairoXY
 
 	//regular constructor
 	public JumpsEvolutionGraph (
-			List<Point> point_l, double slope, double intercept,
+			List<PointF> point_l, double slope, double intercept,
 			DrawingArea area, string title, string jumpType, string date)
 	{
 		this.point_l = point_l;

@@ -23,7 +23,7 @@ using System.Collections.Generic; //List
 
 public class JumpsDjOptimalFall
 {
-	private List<Point> point_l;
+	private List<PointF> point_l;
 	LeastSquaresParabole ls;
 
 	//constructor
@@ -38,9 +38,9 @@ public class JumpsDjOptimalFall
 
 		//2 convert to list of Point
 		//List<Point> point_l = new List<Point>();
-		point_l = new List<Point>();
+		point_l = new List<PointF>();
                 foreach(Jump j in jump_l)
-			point_l.Add(new Point(
+			point_l.Add(new PointF(
 						j.Fall,
 						Util.GetHeightInCentimeters(j.Tv)
 						));
@@ -61,7 +61,7 @@ public class JumpsDjOptimalFall
 	public double GetMaxValue()
 	{
 		double maxValue = 0;
-                foreach(Point p in point_l)
+                foreach(PointF p in point_l)
 		{
 			if(p.X > maxValue)
 				maxValue = p.X;
@@ -72,7 +72,7 @@ public class JumpsDjOptimalFall
 		return maxValue;
 	}
 
-	public List<Point> Point_l
+	public List<PointF> Point_l
 	{
 		get { return point_l; }
 	}

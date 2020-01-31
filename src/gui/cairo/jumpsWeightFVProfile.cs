@@ -53,7 +53,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 
 	//regular constructor
 	public JumpsWeightFVProfileGraph (
-			List<Point> point_l, double slope, double intercept,
+			List<PointF> point_l, double slope, double intercept,
 			DrawingArea area, string title, //string jumpType,
 			string date)
 	{

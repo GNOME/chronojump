@@ -1,3 +1,24 @@
+fixTitleAndOtherStrings <- function(str)
+{
+	print(c("1 fixTitle=", str))
+	#unicoded titles arrive here like this "\\", convert to "\", as this is difficult, do like this:
+	#http://stackoverflow.com/a/17787736
+	str=parse(text = paste0("'", str, "'"))
+	print(c("2 fixTitle=", str))
+
+	#convert str to spaces
+	str=gsub('_',' ', str)
+	str=gsub('-','    ', str)
+
+	return (str)
+}
+
+fixDatetime <- function(str)
+{
+	str=gsub('_',' ', str)
+	str=gsub('-',':', str)
+}
+
 #Function to get the interpolated x at a given y
 interpolateXAtY <- function(X, Y, desiredY){
         if(max(Y) < desiredY){

@@ -54,25 +54,6 @@ assignOptions <- function(options)
         ))
 }
 
-fixTitleAndOtherStrings <- function(str)
-{
-	print(c("1 fixTitle=", str))
-	#unicoded titles arrive here like this "\\", convert to "\", as this is difficult, do like this:
-	#http://stackoverflow.com/a/17787736
-	str=parse(text = paste0("'", str, "'"))
-	print(c("2 fixTitle=", str))
-
-	#convert str to spaces
-	str=gsub('_',' ', str)
-	str=gsub('-','    ', str)
-
-	return (str)
-}
-fixDatetime <- function(str)
-{
-	str=gsub('_',' ', str)
-	str=gsub('-',':', str)
-}
 
 #-------------- get params -------------
 args <- commandArgs(TRUE)
@@ -89,13 +70,13 @@ options <- scan(optionsFile, comment.char="#", what=character(), sep="\n")
 op <- assignOptions(options)
 print(op)
 
+source(paste(op$scriptsPath, "/scripts-util.R", sep=""))
+
 op$title = fixTitleAndOtherStrings(op$title)
 op$exercise = fixTitleAndOtherStrings(op$exercise)
 titleFull = paste(op$title, op$exercise, sep=" - ")
 
 op$datetime = fixDatetime(op$datetime)
-
-source(paste(op$scriptsPath, "/scripts-util.R", sep=""))
 
 
 #Fits the data to the model f = fmax*(1 - exp(-K*t))

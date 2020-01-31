@@ -801,6 +801,33 @@ public class UtilGtk
 		return pixbuf;
 	}
 
+	// adapted from: https://stackoverflow.com/a/9295210/12366369
+	// thanks to renosis and Komplot
+	public static void DrawArrow (Pixmap pixmap, Gdk.GC pen, int tipX, int tailX, int tipY, int tailY)
+	{
+		int arrowLength = 10; //can be adjusted
+		int dx = tipX - tailX;
+		int dy = tipY - tailY;
 
+		double theta = Math.Atan2(dy, dx);
+
+		double rad = MathCJ.ToRadians(35); //35 angle, can be adjusted
+		double x = tipX - arrowLength * Math.Cos(theta + rad);
+		double y = tipY - arrowLength * Math.Sin(theta + rad);
+
+		double phi2 = MathCJ.ToRadians(-35);//-35 angle, can be adjusted
+		double x2 = tipX - arrowLength * Math.Cos(theta + phi2);
+		double y2 = tipY - arrowLength * Math.Sin(theta + phi2);
+
+		Point [] points = new Point[3];
+		points[0].X = (int) x;
+		points[0].Y = (int) y;
+		points[1].X = tipX;
+		points[1].Y = tipY;
+		points[2].X = (int) x2;
+		points[2].Y = (int) y2;
+
+		pixmap.DrawPolygon(pen, true, points);
+	}
 
 }

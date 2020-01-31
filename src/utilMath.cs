@@ -22,12 +22,13 @@
 using System;
 using System.Collections.Generic; //List<T>
 
-public class Point
+//note this has doubles. For ints can use Gdk.Point
+public class PointF
 {
 	private double x;
 	private double y;
 
-	public Point(double x, double y) 
+	public PointF(double x, double y)
 	{
 		this.x = x;
 		this.y = y;
@@ -92,12 +93,12 @@ public class LeastSquaresLine
 
 	public void Test()
 	{
-		List<Point> measures = new List<Point> {
-			new Point(1, 10.3214), new Point(2, 13.3214), new Point(3, 18.3214) };
+		List<PointF> measures = new List<PointF> {
+			new PointF(1, 10.3214), new PointF(2, 13.3214), new PointF(3, 18.3214) };
 		Calculate(measures);
 	}
 
-	public void Calculate(List<Point> measures)
+	public void Calculate(List<PointF> measures)
 	{
 		int n = measures.Count;
 		double sumX = 0; //sumatory of the X values
@@ -106,7 +107,7 @@ public class LeastSquaresLine
 		double sumXY = 0; //sumatory of the squared X values
 
 		//for(int i = 0; i < numMeasures; i++)
-		foreach(Point p in measures)
+		foreach(PointF p in measures)
 		{
 			sumX = sumX + p.X;
 			sumY = sumY + p.Y;
@@ -147,10 +148,10 @@ public class LeastSquaresParabole
 
 	public void Test()
 	{
-		List<Point> measures = new List<Point> {
-			new Point(1, 10.3214), new Point(2, 13.3214), new Point(3, 18.3214),
-			    new Point(4, 25.3214), new Point(5, 34.3214), new Point(6, 45.3214), 
-			    new Point(7, 58.3214), new Point(8, 73.3214), new Point(9, 90.3214), new Point(10, 109.3214) };
+		List<PointF> measures = new List<PointF> {
+			new PointF(1, 10.3214), new PointF(2, 13.3214), new PointF(3, 18.3214),
+			    new PointF(4, 25.3214), new PointF(5, 34.3214), new PointF(6, 45.3214),
+			    new PointF(7, 58.3214), new PointF(8, 73.3214), new PointF(9, 90.3214), new PointF(10, 109.3214) };
 
 		//R testing
 		//x=1:10
@@ -159,11 +160,11 @@ public class LeastSquaresParabole
 		Calculate(measures);
 	}
 
-	public void Calculate(List<Point> measures)
+	public void Calculate(List<PointF> measures)
 	{
 		/*
 		LogB.Information("printing points at Calculate");
-		foreach(Point p in measures)
+		foreach(PointF p in measures)
 			LogB.Information(p.ToString());
 			*/
 
@@ -266,5 +267,12 @@ public class LeastSquaresParabole
 			return ParaboleTypes.CONVEX;
 		}
 	}
+}
 
+public static class MathCJ
+{
+	public static double ToRadians(double angdeg)
+	{
+		return angdeg / 180 * Math.PI;
+	}
 }

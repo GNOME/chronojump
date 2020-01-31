@@ -27,7 +27,7 @@ using Cairo;
 public abstract class CairoXY
 {
 	//used on construction
-	protected List<Point> point_l;
+	protected List<PointF> point_l;
 	protected bool predictedPointDone;
 
 	//regression line straight
@@ -105,7 +105,7 @@ public abstract class CairoXY
 
 	protected void findPointMaximums()
 	{
-		foreach(Point p in point_l)
+		foreach(PointF p in point_l)
 		{
 			if(p.X < minX)
 				minX = p.X;
@@ -243,7 +243,7 @@ public abstract class CairoXY
 
 	protected void plotRealPoints()
 	{
-		foreach(Point p in point_l)
+		foreach(PointF p in point_l)
 		{
 			LogB.Information(string.Format("point: {0}", p));
 			double xgraph = calculatePaintX(p.X);
@@ -360,7 +360,7 @@ public abstract class CairoXY
 		*/
 
 		// 3) find closest point (including predicted point if any)
-		Point pClosest = findClosestGraphPoint(graphX, graphY);
+		PointF pClosest = findClosestGraphPoint(graphX, graphY);
 
 		// 4) write text at right
 		writeTextAtRight(line, "Selected:", false);
@@ -378,11 +378,11 @@ public abstract class CairoXY
 	 * using graphPoints and not real points because X and Y scale can be very different
 	 * and this would be stranger for user to have a point selected far away to the "graph" closest point
 	 */
-	private Point findClosestGraphPoint(double graphX, double graphY)
+	private PointF findClosestGraphPoint(double graphX, double graphY)
 	{
 		double distMin = 10000000;
-		Point pClosest = point_l[0];
-		foreach(Point p in point_l)
+		PointF pClosest = point_l[0];
+		foreach(PointF p in point_l)
 		{
 			double dist = Math.Sqrt(Math.Pow(graphX - calculatePaintX(p.X), 2) + Math.Pow(graphY - calculatePaintY(p.Y), 2));
 			if(dist < distMin)
@@ -394,7 +394,7 @@ public abstract class CairoXY
 
 		//also check predicted point if exits
 		if(predictedPointDone && Math.Sqrt(Math.Pow(graphX - calculatePaintX(xAtMMaxY), 2) + Math.Pow(graphY - calculatePaintY(yAtMMaxY), 2)) < distMin)
-			pClosest = new Point(xAtMMaxY, yAtMMaxY);
+			pClosest = new PointF(xAtMMaxY, yAtMMaxY);
 
 		return pClosest;
 	}
@@ -602,7 +602,7 @@ public abstract class CairoXY
 		int count = 0;
 		//note p.X is jump fall and p.Y jump height
 		//TODO: maybe this will be for a legend, because the graph wants X,Y points
-		foreach(Point p in point_l)
+		foreach(PointF p in point_l)
 		{
 			int x = Convert.ToInt32((graphWidth - rightMargin)*(count+.5)/point_l.Count)-barDesplLeft;
 			int y = calculatePaintY(Convert.ToDouble(p.X), graphHeight, pointsMaxValue, 0, topMargin, bottomMargin + bottomAxis);

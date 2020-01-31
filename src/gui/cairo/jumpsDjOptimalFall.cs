@@ -44,7 +44,7 @@ public class JumpsDjOptimalFallGraph : CairoXY
 
 	//regular constructor
 	public JumpsDjOptimalFallGraph (
-			List<Point> point_l, double[] coefs,
+			List<PointF> point_l, double[] coefs,
 			LeastSquaresParabole.ParaboleTypes paraboleType,
 			double xAtMMaxY, //x at Model MaxY
 			double pointsMaxValue,

@@ -52,6 +52,9 @@ assignOptions <- function(options) {
 #-------------- assign options -------------
 op <- assignOptions(options)
 
+op$title = fixTitleAndOtherStrings(op$title)
+op$datetime = fixDatetime(op$datetime)
+
 getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, Height , Vw = 0, device = "MANUAL", startAccel = 10)
 {
         print("#####Entering in getSprintFromEncoder###############")

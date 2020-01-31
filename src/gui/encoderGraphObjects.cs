@@ -306,6 +306,10 @@ public class EncoderGraphDoPlot
 		//only used for loss. For loss only con phase is used
 		double maxThisSetValidAndCon = maxThisSet;
 		double minThisSetValidAndCon = minThisSet;
+		//we need the position to draw the loss line and maybe to manage that the min should be after the max (for being real loss)
+		int maxThisSetValidAndConPos = 0;
+		int minThisSetValidAndConPos = 0;
+
 		//know not-discarded phases
 		double countValid = 0;
 		double sumValid = 0;
@@ -323,13 +327,21 @@ public class EncoderGraphDoPlot
 			else {
 				countValid ++;
 				sumValid += d;
+				bool needChangeMin = false;
 
 				if(eccon == "c" || Util.IsEven(count +1)) //par
 				{
-					if(d > maxThisSetValidAndCon)
+					if(d > maxThisSetValidAndCon) {
 						maxThisSetValidAndCon = d;
-					if(d < minThisSetValidAndCon)
+						maxThisSetValidAndConPos = count;
+
+						//min rep has to be after max
+						needChangeMin = true;
+					}
+					if(needChangeMin || d < minThisSetValidAndCon) {
 						minThisSetValidAndCon = d;
+						minThisSetValidAndConPos = count;
+					}
 				}
 			}
 
@@ -463,10 +475,15 @@ public class EncoderGraphDoPlot
 
 		Gdk.Point dSecondaryPreviousPoint = new Gdk.Point(0,0);
 		bool iterOk = encoderCaptureListStore.GetIterFirst(out iter);
+
+		int dWidth = 0;
+		int dHeight = 0;
+		int dBottom = 0;
+		int dTop = 0;
 		foreach(double dFor in data)
 		{
-			int dWidth = 0;
-			int dHeight = 0;
+			dWidth = 0;
+			dHeight = 0;
 
 			//if values are negative, invert it
 			//this happens specially in the speeds in eccentric
@@ -476,8 +493,8 @@ public class EncoderGraphDoPlot
 				d *= -1;
 
 			dHeight = Convert.ToInt32(graphHeightSafe * d / maxAbsolute * 1.0);
-			int dBottom = graphHeight - bottom_margin;
-			int dTop = dBottom - dHeight;
+			dBottom = graphHeight - bottom_margin;
+			dTop = dBottom - dHeight;
 
 
 			if (data.Count == 1)	//do not fill all the screen with only one bar
@@ -598,6 +615,7 @@ public class EncoderGraphDoPlot
 				int dSecondaryHeight = UtilAll.DivideSafeAndGetInt(graphHeightSafe * dSecondary, maxAbsoluteSecondary * 1.0);
 				int dSecondaryTop = dBottom - dSecondaryHeight;
 				Gdk.Point dSecondaryCurrentPoint = new Gdk.Point(Convert.ToInt32(dLeft + (dWidth /2)), dSecondaryTop);
+
 				//LogB.Information(string.Format("dSecondaryHeight: {0}; dSecondaryTop: {1}", dSecondaryHeight, dSecondaryTop));
 
 				pixmap.DrawArc(pen_yellow_encoder_capture, true,
@@ -710,7 +728,25 @@ public class EncoderGraphDoPlot
 			title += lossString + Util.TrimDecimals(
 					100.0 * (maxThisSetValidAndCon - minThisSetValidAndCon) / maxThisSetValidAndCon, decimals) + "%";
 			LogB.Information(string.Format("Loss at plot: {0}", 100.0 * (maxThisSetValidAndCon - minThisSetValidAndCon) / maxThisSetValidAndCon));
+
+
+			/*
+			 * at bucle dLeft is calculed using dWidth
+			 * 	dLeft = left_margin + dWidth * count;
+			 * but then dWidth changes on c and on ec. On c:
+			 * 	dWidth = dWidth - sep
+			 * so here, to calcule the needed dLeft, use: dWidth + sep
+			 */
+			if(maxThisSetValidAndConPos < minThisSetValidAndConPos)
+				pixmap.DrawLine(pen_selected_encoder_capture,
+						left_margin + (dWidth + sep) * maxThisSetValidAndConPos + (dWidth/2), //dLeft +
+						dBottom - UtilAll.DivideSafeAndGetInt(graphHeightSafe * maxThisSetValidAndCon, maxAbsolute * 1.0),
+						left_margin + (dWidth + sep) * minThisSetValidAndConPos + (dWidth/2), //dLeft +
+						dBottom - UtilAll.DivideSafeAndGetInt(graphHeightSafe * minThisSetValidAndCon, maxAbsolute * 1.0));
+			//TODO: draw an arc at end (arrow end)
 		}
+
+
 		title += "]";
 
 		layout_encoder_capture_curves_bars_text.SetMarkup(title);

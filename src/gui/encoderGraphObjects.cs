@@ -259,6 +259,7 @@ public class EncoderGraphDoPlot
 		colormap = Gdk.Colormap.System;
 		colormap.AllocColor (ref UtilGtk.BLACK,true,true);
 		colormap.AllocColor (ref UtilGtk.GRAY,true,true);
+		colormap.AllocColor (ref UtilGtk.GRAY_LIGHT,true,true);
 		colormap.AllocColor (ref UtilGtk.RED_PLOTS,true,true);
 		colormap.AllocColor (ref UtilGtk.RED_DARK,true,true);
 		colormap.AllocColor (ref UtilGtk.RED_LIGHT,true,true);
@@ -274,7 +275,7 @@ public class EncoderGraphDoPlot
 
 		pen_black_encoder_capture.Foreground = UtilGtk.BLACK;
 		pen_gray.Foreground = UtilGtk.GRAY;
-		pen_gray_loss_bold.Foreground = UtilGtk.GRAY;
+		pen_gray_loss_bold.Foreground = UtilGtk.GRAY_LIGHT;
 		pen_red_encoder_capture.Foreground = UtilGtk.RED_PLOTS;
 		pen_red_dark_encoder_capture.Foreground = UtilGtk.RED_DARK;
 		pen_red_light_encoder_capture.Foreground = UtilGtk.RED_LIGHT;

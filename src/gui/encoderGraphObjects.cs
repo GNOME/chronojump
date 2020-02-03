@@ -62,7 +62,7 @@ public class EncoderGraphDoPlot
 
 	Gdk.GC pen_black_encoder_capture;
 	Gdk.GC pen_gray;
-	Gdk.GC pen_gray_loss_bold;
+	Gdk.GC pen_gray_loss;
 
 	Gdk.GC pen_red_encoder_capture;
 	Gdk.GC pen_red_dark_encoder_capture;
@@ -239,7 +239,7 @@ public class EncoderGraphDoPlot
 		//because the 2nd is null if config.EncoderCaptureShowOnlyBars == TRUE
 		pen_black_encoder_capture = new Gdk.GC(drawingarea.GdkWindow);
 		pen_gray = new Gdk.GC(drawingarea.GdkWindow);
-		pen_gray_loss_bold = new Gdk.GC(drawingarea.GdkWindow);
+		pen_gray_loss = new Gdk.GC(drawingarea.GdkWindow);
 		pen_red_encoder_capture = new Gdk.GC(drawingarea.GdkWindow);
 		pen_red_light_encoder_capture = new Gdk.GC(drawingarea.GdkWindow);
 		pen_green_encoder_capture = new Gdk.GC(drawingarea.GdkWindow);
@@ -275,7 +275,7 @@ public class EncoderGraphDoPlot
 
 		pen_black_encoder_capture.Foreground = UtilGtk.BLACK;
 		pen_gray.Foreground = UtilGtk.GRAY;
-		pen_gray_loss_bold.Foreground = UtilGtk.GRAY_LIGHT;
+		pen_gray_loss.Foreground = UtilGtk.GRAY_LIGHT;
 		pen_red_encoder_capture.Foreground = UtilGtk.RED_PLOTS;
 		pen_red_dark_encoder_capture.Foreground = UtilGtk.RED_DARK;
 		pen_red_light_encoder_capture.Foreground = UtilGtk.RED_LIGHT;
@@ -291,7 +291,7 @@ public class EncoderGraphDoPlot
 
 		pen_black_encoder_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
 		pen_selected_encoder_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
-		pen_gray_loss_bold.SetLineAttributes (5, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
+		pen_gray_loss.SetLineAttributes (5, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
 
 		graphPrepared = true;
 	}
@@ -690,7 +690,7 @@ public class EncoderGraphDoPlot
 		//end plot bars
 	
 
-		//plot title
+		// start plot title ----->
 		string units = "";
 		int decimals;
 		
@@ -712,34 +712,64 @@ public class EncoderGraphDoPlot
 		//add avg and avg of saved values
 		string title = mainVariable + " [X = " + 
 			Util.TrimDecimals( (sumValid / countValid), decimals) +
-			" " + units;
+			" " + units + "; ";
 
 		if(countSaved > 0)
-			title += "; X" + Catalog.GetString("saved") + " = " + 
+			title += "X" + Catalog.GetString("saved") + " = " +
 				Util.TrimDecimals( (sumSaved / countSaved), decimals) + 
-				" " + units;
+				" " + units + "; ";
 
-		string lossString = "; Loss: ";
+		string lossString = "Loss: ";
 		if(eccon != "c")
-			lossString = "; Loss (con): "; //on ecc/con use only con for loss calculation
+			lossString = "Loss (con): "; //on ecc/con use only con for loss calculation
 
 		if(maxThisSetValidAndCon > 0)
 		{
-			title += lossString + Util.TrimDecimals(
+			lossString += Util.TrimDecimals(
 					100.0 * (maxThisSetValidAndCon - minThisSetValidAndCon) / maxThisSetValidAndCon, decimals) + "%";
-			LogB.Information(string.Format("Loss at plot: {0}", 100.0 * (maxThisSetValidAndCon - minThisSetValidAndCon) / maxThisSetValidAndCon));
+			//LogB.Information(string.Format("Loss at plot: {0}", 100.0 * (maxThisSetValidAndCon - minThisSetValidAndCon) / maxThisSetValidAndCon));
+		}
 
+		//have title and titleFull to be able to position all perfectly but having two pens (colors)
+		string titleFull = title + lossString + "]";
+
+		// 1) get the width of titleFull, title, lossString
+		textHeight = 1;
+		int titleFullWidth = 1;
+		int titleWidth = 1;
+		int lossStringWidth = 1;
+		layout_encoder_capture_curves_bars_text.SetMarkup(titleFull);
+		layout_encoder_capture_curves_bars_text.GetPixelSize(out titleFullWidth, out textHeight);
+		layout_encoder_capture_curves_bars_text.SetMarkup(title);
+		layout_encoder_capture_curves_bars_text.GetPixelSize(out titleWidth, out textHeight);
+		layout_encoder_capture_curves_bars_text.SetMarkup(lossString);
+		layout_encoder_capture_curves_bars_text.GetPixelSize(out lossStringWidth, out textHeight);
+
+		// 2) paint only title text (with black pen)
+		layout_encoder_capture_curves_bars_text.SetMarkup(title);
+		pixmap.DrawLayout (pen_black_encoder_capture,
+				Convert.ToInt32( (graphWidth/2) - titleFullWidth/2), 0, //x, y
+				layout_encoder_capture_curves_bars_text);
+
+		// 3) paint loss string
+		layout_encoder_capture_curves_bars_text.SetMarkup(lossString);
+		pixmap.DrawLayout (pen_gray, //darker than pen_gray_loss
+				Convert.ToInt32( (graphWidth/2) - titleFullWidth/2 + titleWidth), 0, //x, y
+				layout_encoder_capture_curves_bars_text);
+
+		// 3) paint the "]";
+		layout_encoder_capture_curves_bars_text.SetMarkup("]");
+		pixmap.DrawLayout (pen_black_encoder_capture,
+				Convert.ToInt32( (graphWidth/2) - titleFullWidth/2 + titleWidth + lossStringWidth), 0, //x, y
+				layout_encoder_capture_curves_bars_text);
+
+		// <------ end plot title
+
+		// paint loss arrow
+		if(maxThisSetValidAndCon > 0)
+		{
 			if(maxThisSetValidAndConPos < minThisSetValidAndConPos)
 			{
-				/*
-				 * at bucle dLeft is calculed using dWidth
-				 * 	dLeft = left_margin + dWidth * count;
-				 * but then dWidth changes on c and on ec. On c:
-				 * 	dWidth = dWidth - sep
-				 * so here, to calcule the needed dLeft, use: dWidth + sep
-				 *
-				 * TODO: above comment should be deleted with the existance of dWidth and dWidhtPre
-				 */
 				int dLeftMax = Convert.ToInt32(left_margin + dWidthPre * maxThisSetValidAndConPos);
 				int dLeftMin = Convert.ToInt32(left_margin + dWidthPre * minThisSetValidAndConPos);
 				if (eccon != "c") {
@@ -752,22 +782,11 @@ public class EncoderGraphDoPlot
 				int x1 = dLeftMin + Convert.ToInt32(dWidth/2);
 				int y1 = Convert.ToInt32(dBottom - UtilAll.DivideSafeAndGetInt(graphHeightSafe * minThisSetValidAndCon, maxAbsolute * 1.0));
 
-				pixmap.DrawLine(pen_gray_loss_bold, x0, y0, x1, y1);
-				UtilGtk.DrawArrow(pixmap, pen_gray_loss_bold, x1, x0, y1, y0, 20);
+				pixmap.DrawLine(pen_gray_loss, x0, y0, x1, y1);
+				UtilGtk.DrawArrow(pixmap, pen_gray_loss, x1, x0, y1, y0, 20);
 			}
 		}
 
-		title += "]";
-
-		layout_encoder_capture_curves_bars_text.SetMarkup(title);
-		textWidth = 1;
-		textHeight = 1;
-		layout_encoder_capture_curves_bars_text.GetPixelSize(out textWidth, out textHeight);
-		pixmap.DrawLayout (pen_black_encoder_capture, 
-				Convert.ToInt32( (graphWidth/2) - textWidth/2), 0, //x, y 
-				layout_encoder_capture_curves_bars_text);
-
-		//end plot title	
 
 		//plot the values of the bars
 		foreach(EncoderBarsResults ebr in encoderBarsResults_l)

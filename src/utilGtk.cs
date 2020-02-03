@@ -803,9 +803,8 @@ public class UtilGtk
 
 	// adapted from: https://stackoverflow.com/a/9295210/12366369
 	// thanks to renosis and Komplot
-	public static void DrawArrow (Pixmap pixmap, Gdk.GC pen, int tipX, int tailX, int tipY, int tailY)
+	public static void DrawArrow (Pixmap pixmap, Gdk.GC pen, int tipX, int tailX, int tipY, int tailY, int arrowLength)
 	{
-		int arrowLength = 10; //can be adjusted
 		int dx = tipX - tailX;
 		int dy = tipY - tailY;
 

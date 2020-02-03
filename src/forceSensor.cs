@@ -1234,7 +1234,7 @@ public class ForceSensorGraph
 	List<ForceSensorRFD> rfdList;
 	ForceSensorImpulse impulse;
 	double averageLength;
-	double percentChange;
+	int percentChange;
 	bool vlineT0;
 	bool vline50fmax_raw;
 	bool vline50fmax_fitted;
@@ -1246,18 +1246,18 @@ public class ForceSensorGraph
 	string datetime;
 
 	public ForceSensorGraph(ForceSensor.CaptureOptions fsco, List<ForceSensorRFD> rfdList,
-			ForceSensorImpulse impulse, int testLength, string title, string exercise, string datetime)
+			ForceSensorImpulse impulse, int testLength, int percentChange, string title, string exercise, string datetime)
 	{
 		this.fsco = fsco;
 		this.rfdList = rfdList;
 		this.impulse = impulse;
 		this.testLength = testLength;
+		this.percentChange = percentChange;
 		this.title = title;
 		this.exercise = exercise;
 		this.datetime = datetime;
 
 		averageLength = 0.1;
-		percentChange = 5;
 		vlineT0 = false;
 		vline50fmax_raw = false;
 		vline50fmax_fitted = false;
@@ -1287,7 +1287,7 @@ public class ForceSensorGraph
 			"#graphWidth\n" + 		graphWidth.ToString() + "\n" +
 			"#graphHeight\n" + 		graphHeight.ToString() + "\n" +
 			"#averageLength\n" + 		Util.ConvertToPoint(averageLength) + "\n" +
-			"#percentChange\n" + 		Util.ConvertToPoint(percentChange) + "\n" +
+			"#percentChange\n" + 		percentChange.ToString() + "\n" +
 			"#vlineT0\n" + 			Util.BoolToRBool(vlineT0) + "\n" +
 			"#vline50fmax.raw\n" + 		Util.BoolToRBool(vline50fmax_raw) + "\n" +
 			"#vline50fmax.fitted\n" + 	Util.BoolToRBool(vline50fmax_fitted) + "\n" +

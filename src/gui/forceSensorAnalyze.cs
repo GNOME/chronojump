@@ -45,6 +45,9 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.SpinButton spin_force_duration_seconds;
 	[Widget] Gtk.RadioButton radio_force_duration_seconds;
+	[Widget] Gtk.HBox hbox_force_rfd_duration_percent;
+	[Widget] Gtk.RadioButton radio_force_rfd_duration_percent;
+	[Widget] Gtk.SpinButton spin_force_rfd_duration_percent;
 
 	//analyze options
 	[Widget] Gtk.Notebook notebook_force_sensor_analyze; //decide between automatic and manual

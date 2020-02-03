@@ -481,12 +481,17 @@ public partial class ChronoJumpWindow
 			writer.WriteLine(string.Format("{0};{1};{2}", encoderDisplacement, time, force));
 			if(encoderOrRCA == 0)
 				rowsCount ++; //note this is not used right now, and maybe it will need to be for all cases, not just for encoderOrRCA
-			else if(encoderOrRCA == 1)
-				triggerListRunEncoder.Add(new Trigger(Trigger.Modes.RACEANALYZER, time, false));
-			else if(encoderOrRCA == 2)
-				triggerListRunEncoder.Add(new Trigger(Trigger.Modes.RACEANALYZER, time, true));
+			else {
+				Trigger trigger;
+				if(encoderOrRCA == 1)
+					trigger = new Trigger(Trigger.Modes.RACEANALYZER, time, false);
+				else //(encoderOrRCA == 2)
+					trigger = new Trigger(Trigger.Modes.RACEANALYZER, time, true);
 
-			//TODO: manage spurious like on encoderCapture.cs
+				if(! triggerListRunEncoder.NewSameTypeThanBefore(trigger) &&
+						! triggerListRunEncoder.IsSpurious(trigger, TriggerList.SpuriousType.BOTH, 50))
+					triggerListRunEncoder.Add(trigger);
+			}
 		}
 
 		LogB.Information(string.Format("FINISHED WITH conditions: {0}-{1}-{2}",

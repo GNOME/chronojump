@@ -214,6 +214,16 @@ public class TriggerList
 		return countOn;
 	}
 
+	private int countOff()
+	{
+		int countOff = 0;
+		foreach(Trigger t in l)
+			if(! t.InOut)
+				countOff ++;
+
+		return countOff;
+	}
+
 	//see encoderCapture.MinimumOneTriggersOn()
 	public bool MinimumOneOn()
 	{
@@ -223,14 +233,18 @@ public class TriggerList
 		return false;
 	}
 
-	//if inOut == true will return last "in"
-	private Trigger last(bool inOut)
+	public enum SpuriousType { ON, OFF, BOTH }
+	//if ON will return last "on"
+	private Trigger last(SpuriousType spt)
 	{
 		int i = 0;
 		int lastPos = 0;
 		foreach(Trigger t in l)
 		{
-			if(t.InOut == inOut)
+			if(
+					spt == SpuriousType.BOTH ||
+					spt == SpuriousType.ON && t.InOut ||
+					spt == SpuriousType.OFF && ! t.InOut)
 				lastPos = i;
 			i ++;
 		}
@@ -238,24 +252,55 @@ public class TriggerList
 		return l[lastPos];
 	}
 
-	//this newTrigger is an On trigger, compare with last On
-	public bool IsSpurious(Trigger newTrigger)
+	//on runEncoder .ino the management of interruptions/triggers could be better
+	//just check if two triggers ON or two OFF arrive to discard the second (newTrigger)
+	public bool NewSameTypeThanBefore(Trigger newTrigger)
 	{
-		//cannot be spurious if is the first On
-		if(countOn() == 0)
+		//cannot be an old trigger if this is the first Of this type
+		if(newTrigger.InOut && countOn() == 0)
+			return false;
+		else if(! newTrigger.InOut && countOff() == 0)
 			return false;
 
-		//last(true) will check last On trigger
-		if( (newTrigger.Ms - last(true).Ms) < 50 )
+		if(last(SpuriousType.BOTH).InOut == newTrigger.InOut)
 			return true;
 
 		return false;
 	}
 
+	/*
+	 * this newTrigger is an On trigger, compare with last
+	 * encoder: spt.ON, 50ms
+	 * runEncoder: spt.BOTH, 50ms
+	 */
+	public bool IsSpurious(Trigger newTrigger, SpuriousType spt, int ms)
+	{
+		//cannot be spurious if is the first of this type
+		if(spt == SpuriousType.ON && countOn() == 0)
+			return false;
+		else if(spt == SpuriousType.BOTH && (
+				newTrigger.InOut && countOn() == 0 ||
+				! newTrigger.InOut && countOff() == 0) )
+			return false;
+
+		if(spt == SpuriousType.BOTH && (newTrigger.Ms - last(SpuriousType.BOTH).Ms) < ms )
+			return true;
+		else if(spt == SpuriousType.ON && (newTrigger.Ms - last(SpuriousType.ON).Ms) < ms )
+			return true;
+
+		return false;
+	}
+
+	/*
+	 * used on encoder (where we also use triggers to cut repetitions)
+	 * if on forceSensor we use triggers to cut repetitions, will use this too
+	 * not used on RunEncoder
+	 */
 	public void RemoveLastOff()
 	{
-		l.Remove(last(false));
+		l.Remove(last(SpuriousType.OFF));
 	}
+
 	/*
 	 * end of spurious management
 	 */

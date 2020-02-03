@@ -292,7 +292,7 @@ public abstract class EncoderCapture
 				}
 
 				Trigger trigger = new Trigger(Trigger.Modes.ENCODER, i, true);
-				if(triggerList.IsSpurious(trigger))
+				if(triggerList.IsSpurious(trigger, TriggerList.SpuriousType.ON, 50))
 				{
 					triggerList.RemoveLastOff();
 					continue;

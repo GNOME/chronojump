@@ -21,6 +21,7 @@ unsigned long lastSampleTime = micros();
 unsigned long sampleTime = 0;
 unsigned long triggerTime = 0;
 volatile unsigned long lastTriggerTime = 0;
+bool rcaState = false;
 
 //Data that indicates what sensor produced the data
 //The second least significant bit indicates the sensor that produced the data.
@@ -200,6 +201,7 @@ void loop() {
 
 
     if (data.sensor != 0) {
+      //digitalWrite(13, rcaState);       //In case of triggers optimization this should be out of the interrupt function
       lastTriggerTime = triggerTime;
     }
     procesSample = false;       //Keep acumulating pulses without processing the sample until [pps] samples is reached
@@ -230,9 +232,8 @@ void changingRCA() {
   detachInterrupt(digitalPinToInterrupt(rcaPin));
   sampleTime = micros();
   triggerTime = sampleTime;
-
-  bool rcaState = digitalRead(rcaPin);
-  digitalWrite(13, rcaState);
+  rcaState = digitalRead(rcaPin);
+  //bool rcaState = (PIND & 0b00000100) >> 3      //In case of triggers optimization try to manipulate ports directly in order to be faster
 
   //TODO: With the below code it is not sent correctly the data.sensor
 //  if (abs(triggerTime - lastTriggerTime) < 10000) {   //Checking that it is not an spurious signal. abs because the spurioustrigger times in CJ are in inverted order
@@ -247,8 +248,8 @@ void changingRCA() {
   }
   data.encoderDisplacement = encoderDisplacement;
   encoderDisplacement = 0;
+  procesSample = true;  
   attachInterrupt(digitalPinToInterrupt(rcaPin), changingRCA, CHANGE);
-  procesSample = true;
 }
 
 void serialEvent()
@@ -312,13 +313,8 @@ void start_capture()
   sampleTime = lastSampleTime + 1;
 
   //First sample with a low speed is mandatory to good detection of the start
-
   bool rcaState = digitalRead(rcaPin);
-  if (rcaState) { //Button pressed
-    data.sensor = 2;
-  } else {        //Button released
-    data.sensor = 1;
-  }
+  data.sensor = 0;
   digitalWrite(13, rcaState);
   procesSample = true;
   capturing = true;

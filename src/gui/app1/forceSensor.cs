@@ -1767,7 +1767,9 @@ LogB.Information(" fs R ");
 		//else
 		//	title = Util.RemoveChar(title, '_');
 
-		ForceSensorGraph fsg = new ForceSensorGraph(getForceSensorCaptureOptions(), rfdList, impulse, duration, title, exercise, currentForceSensor.DateTimePublic);
+		ForceSensorGraph fsg = new ForceSensorGraph(getForceSensorCaptureOptions(), rfdList, impulse,
+				duration, Convert.ToInt32(spin_force_rfd_duration_percent.Value),
+				title, exercise, currentForceSensor.DateTimePublic);
 
 		int imageWidth = UtilGtk.WidgetWidth(viewport_force_sensor_graph);
 		int imageHeight = UtilGtk.WidgetHeight(viewport_force_sensor_graph);
@@ -2102,6 +2104,7 @@ LogB.Information(" fs R ");
 	private void on_radio_force_rfd_duration_toggled (object o, EventArgs args)
 	{
 		spin_force_duration_seconds.Sensitive = radio_force_duration_seconds.Active;
+		hbox_force_rfd_duration_percent.Sensitive = radio_force_rfd_duration_percent.Active;
 	}
 
 	private void on_button_force_sensor_image_save_signal_clicked (object o, EventArgs args)

@@ -62,6 +62,7 @@ public class EncoderGraphDoPlot
 
 	Gdk.GC pen_black_encoder_capture;
 	Gdk.GC pen_gray;
+	Gdk.GC pen_gray_loss_bold;
 
 	Gdk.GC pen_red_encoder_capture;
 	Gdk.GC pen_red_dark_encoder_capture;
@@ -238,6 +239,7 @@ public class EncoderGraphDoPlot
 		//because the 2nd is null if config.EncoderCaptureShowOnlyBars == TRUE
 		pen_black_encoder_capture = new Gdk.GC(drawingarea.GdkWindow);
 		pen_gray = new Gdk.GC(drawingarea.GdkWindow);
+		pen_gray_loss_bold = new Gdk.GC(drawingarea.GdkWindow);
 		pen_red_encoder_capture = new Gdk.GC(drawingarea.GdkWindow);
 		pen_red_light_encoder_capture = new Gdk.GC(drawingarea.GdkWindow);
 		pen_green_encoder_capture = new Gdk.GC(drawingarea.GdkWindow);
@@ -272,6 +274,7 @@ public class EncoderGraphDoPlot
 
 		pen_black_encoder_capture.Foreground = UtilGtk.BLACK;
 		pen_gray.Foreground = UtilGtk.GRAY;
+		pen_gray_loss_bold.Foreground = UtilGtk.GRAY;
 		pen_red_encoder_capture.Foreground = UtilGtk.RED_PLOTS;
 		pen_red_dark_encoder_capture.Foreground = UtilGtk.RED_DARK;
 		pen_red_light_encoder_capture.Foreground = UtilGtk.RED_LIGHT;
@@ -287,6 +290,7 @@ public class EncoderGraphDoPlot
 
 		pen_black_encoder_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
 		pen_selected_encoder_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
+		pen_gray_loss_bold.SetLineAttributes (5, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
 
 		graphPrepared = true;
 	}
@@ -476,6 +480,7 @@ public class EncoderGraphDoPlot
 		Gdk.Point dSecondaryPreviousPoint = new Gdk.Point(0,0);
 		bool iterOk = encoderCaptureListStore.GetIterFirst(out iter);
 
+		List<EncoderBarsResults> encoderBarsResults_l = new List<EncoderBarsResults>();
 		int dWidth = 0;
 		int dHeight = 0;
 		int dBottom = 0;
@@ -630,21 +635,11 @@ public class EncoderGraphDoPlot
 			}
 
 
-			//write the result	
-			if(mainVariable == Constants.MeanSpeed || mainVariable == Constants.MaxSpeed)
-				layout_encoder_capture_curves_bars.SetMarkup(Util.TrimDecimals(d,2));
-			else //force and powers
-				layout_encoder_capture_curves_bars.SetMarkup(Util.TrimDecimals(d,0));
-			
-			textWidth = 1;
-			textHeight = 1;
-			layout_encoder_capture_curves_bars.GetPixelSize(out textWidth, out textHeight); 
-			pixmap.DrawLayout (pen_black_encoder_capture, 
-					Convert.ToInt32( (dLeft + dWidth/2) - textWidth/2), 	//x
-					dTop - (5 + preferences.encoderCaptureBarplotFontSize), //y
-					layout_encoder_capture_curves_bars);
-			//end of: write the result
-
+			//store values to write later the (not being overlapped) result
+			encoderBarsResults_l.Add( new EncoderBarsResults (
+						Convert.ToInt32(dLeft + dWidth/2), 			// x = this - textWidth/2
+						dTop - (5 + preferences.encoderCaptureBarplotFontSize), // y
+						d ) );
 			
 			bool curveSaved = false;	
 			if( iterOk && ((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record ) {
@@ -706,9 +701,9 @@ public class EncoderGraphDoPlot
 			decimals = 1;
 		}
 
-//LogB.Information(string.Format("sumValid: {0}, countValid: {1}, div: {2}", sumValid, countValid, sumValid / countValid));
-//LogB.Information(string.Format("sumSaved: {0}, countSaved: {1}, div: {2}", sumSaved, countSaved, sumSaved / countSaved));
-		
+		//LogB.Information(string.Format("sumValid: {0}, countValid: {1}, div: {2}", sumValid, countValid, sumValid / countValid));
+		//LogB.Information(string.Format("sumSaved: {0}, countSaved: {1}, div: {2}", sumSaved, countSaved, sumSaved / countSaved));
+
 		//add avg and avg of saved values
 		string title = mainVariable + " [X = " + 
 			Util.TrimDecimals( (sumValid / countValid), decimals) +
@@ -743,11 +738,10 @@ public class EncoderGraphDoPlot
 				int x1 = Convert.ToInt32(left_margin + (dWidth + sep) * minThisSetValidAndConPos + (dWidth/2));
 				int y1 = Convert.ToInt32(dBottom - UtilAll.DivideSafeAndGetInt(graphHeightSafe * minThisSetValidAndCon, maxAbsolute * 1.0));
 
-				pixmap.DrawLine(pen_selected_encoder_capture, x0, y0, x1, y1);
-				UtilGtk.DrawArrow(pixmap, pen_selected_encoder_capture, x1, x0, y1, y0);
+				pixmap.DrawLine(pen_gray_loss_bold, x0, y0, x1, y1);
+				UtilGtk.DrawArrow(pixmap, pen_gray_loss_bold, x1, x0, y1, y0, 20);
 			}
 		}
-
 
 		title += "]";
 
@@ -760,6 +754,20 @@ public class EncoderGraphDoPlot
 				layout_encoder_capture_curves_bars_text);
 
 		//end plot title	
+
+		//plot the values of the bars
+		foreach(EncoderBarsResults ebr in encoderBarsResults_l)
+		{
+			if(mainVariable == Constants.MeanSpeed || mainVariable == Constants.MaxSpeed)
+				layout_encoder_capture_curves_bars.SetMarkup(Util.TrimDecimals(ebr.d,2));
+			else //force and powers
+				layout_encoder_capture_curves_bars.SetMarkup(Util.TrimDecimals(ebr.d,0));
+
+			textWidth = 1;
+			textHeight = 1;
+			layout_encoder_capture_curves_bars.GetPixelSize(out textWidth, out textHeight);
+			pixmap.DrawLayout (pen_black_encoder_capture, ebr.x - Convert.ToInt32(textWidth/2), ebr.y, layout_encoder_capture_curves_bars);
+		}
 
 		//display We Will Rock You words
 		if( playSoundsFromFile && (Util.SoundIsPum() || Util.SoundIsPam()) ) //TODO: move this to another function/file
@@ -837,6 +845,25 @@ public class EncoderGraphDoPlot
 		get { return graphPrepared; }
 	}
 }	
+
+/*
+ * to store the result of each bar
+ * in order to be drawn at the end
+ * for not being overlapped with other info
+ */
+public class EncoderBarsResults
+{
+	public int x;
+	public int y;
+	public double d;
+
+	public EncoderBarsResults(int x, int y, double d)
+	{
+		this.x = x;
+		this.y = y;
+		this.d = d;
+	}
+}
 
 //to store the xStart and xEnd of every encoder capture reptition
 //in order to be saved or not on clicking screen

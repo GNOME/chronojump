@@ -94,7 +94,7 @@ getForceModel <- function(time, force, startTime, # startTime is the instant whe
 
         fmax = summary(model)$coeff[1,1]
         K = summary(model)$coeff[2,1]
-        return(list(fmax = fmax, K = K, error =sum(abs(residuals(model)))))
+        return(list(fmax = fmax, K = K, error = 100*residuals(model)/data$force))
 }
 
 getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength = 0.1, percentChange = 5, bestFit = TRUE, testLength = -1)
@@ -133,24 +133,24 @@ getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength
         
         f.smoothed = getMovingAverageForce(originalTest, averageLength = averageLength) #Running average with equal weight averageLength seconds
         fmax.smoothed = max(f.smoothed, na.rm = TRUE)
-        lastRelativeError = 1E16
+        lastmeanError = 1E16
         #Trimming the data before and after contraction
         testTrimmed = originalTest[startSample:endSample,]
         
         model = getForceModel(testTrimmed$time, testTrimmed$force, startTime, fmax.smoothed, initf)
-        relativeError = model$error / length(testTrimmed$force)
+        meanError = mean(abs(model$error))
         
         # print(paste("Error:", model$error))
         # print(paste("length:", length(testTrimmed$force)))
-        # print(paste("Relative Error:", relativeError))
+        # print(paste("Relative Error:", meanError))
         # print("--------")
         
         
         if(bestFit)     #looking for the startSample that best fits the data
         {
-                while(relativeError < lastRelativeError)
+                while(meanError < lastmeanError)
                 {
-                        lastRelativeError = relativeError
+                        lastmeanError = meanError
                         
                         startSample = startSample + 1
                         startTime = originalTest$time[startSample]
@@ -166,7 +166,7 @@ getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength
                         testTrimmed = originalTest[startSample:endSample,]
                         
                         model = getForceModel(testTrimmed$time, testTrimmed$force, startTime, fmax.smoothed, initf)
-                        relativeError = model$error / length(testTrimmed$force)
+                        meanError = mean(abs(model$error))
                         
                         #print(paste("Error:", model$error))
                         #print(paste("length:", length(testTrimmed$force)))
@@ -206,7 +206,7 @@ getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength
                     rfd = rfd,
                     f.raw = originalTest$force, f.smoothed = f.smoothed, f.fitted = f.fitted,
                     endTime = endTime,
-                    relativeError = relativeError))
+                    meanError = meanError))
 }
 
 drawDynamicsFromLoadCell <- function(
@@ -616,8 +616,13 @@ drawDynamicsFromLoadCell <- function(
                 legendColor = c(legendColor, impulseColor)
 	}
         
-        legendText = c(legendText, paste("MeanError = ", round(dynamics$relativeError, digits = 2), " N", sep =""))
-        legendColor = c(legendColor, "red")
+        legendText = c(legendText, paste("MeanError = ", round(dynamics$meanError, digits = 2), "%", sep =""))
+        if (dynamics$meanError >= 5){
+                legendColor = c(legendColor, "red")
+                text(x = xmax, y = dynamics$fmax.fitted*0.01, labels = "The mean error is larger than 5%. Possible bad execution", col = "red", pos = 2)
+        } else {
+                legendColor = c(legendColor, "grey40")
+        }
 
 	legend(x = xmax, y = dynamics$fmax.fitted/2, legend = legendText, xjust = 1, yjust = 0.1, text.col = legendColor)
 }

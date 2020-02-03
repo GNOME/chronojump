@@ -481,7 +481,10 @@ public class EncoderGraphDoPlot
 		Gdk.Point dSecondaryPreviousPoint = new Gdk.Point(0,0);
 		bool iterOk = encoderCaptureListStore.GetIterFirst(out iter);
 
+		//two lists to have important stuff painted last (on the front)
 		List<EncoderBarsResults> encoderBarsResults_l = new List<EncoderBarsResults>();
+		List<EncoderBarsSecondaryLine> encoderBarsSecondaryLine_l = new List<EncoderBarsSecondaryLine>();
+
 		double sep_ec_mult = 1.2;
 		int dWidthPre = 0;
 		int dWidth = 0;
@@ -626,19 +629,9 @@ public class EncoderGraphDoPlot
 				int dSecondaryTop = dBottom - dSecondaryHeight;
 				Gdk.Point dSecondaryCurrentPoint = new Gdk.Point(Convert.ToInt32(dLeft + (dWidth /2)), dSecondaryTop);
 
-				//LogB.Information(string.Format("dSecondaryHeight: {0}; dSecondaryTop: {1}", dSecondaryHeight, dSecondaryTop));
-
-				pixmap.DrawArc(pen_yellow_encoder_capture, true,
-						dSecondaryCurrentPoint.X -6, dSecondaryCurrentPoint.Y -6,
-						12, 12, 90 * 64, 360 * 64);
-
-				if(dSecondaryPreviousPoint.X != 0 && dSecondaryPreviousPoint.Y != 0)
-					pixmap.DrawLine(pen_yellow_encoder_capture,
-							dSecondaryPreviousPoint.X, dSecondaryPreviousPoint.Y, dSecondaryCurrentPoint.X, dSecondaryCurrentPoint.Y);
-
+				encoderBarsSecondaryLine_l.Add( new EncoderBarsSecondaryLine (dSecondaryPreviousPoint, dSecondaryCurrentPoint));
 				dSecondaryPreviousPoint = dSecondaryCurrentPoint;
 			}
-
 
 			//store values to write later the (not being overlapped) result
 			encoderBarsResults_l.Add( new EncoderBarsResults (
@@ -787,6 +780,16 @@ public class EncoderGraphDoPlot
 			}
 		}
 
+		//plot the secondary variable stuff
+		foreach(EncoderBarsSecondaryLine ebsl in encoderBarsSecondaryLine_l)
+		{
+			pixmap.DrawArc(pen_yellow_encoder_capture, true,
+					ebsl.current.X -6, ebsl.current.Y -6,
+					12, 12, 90 * 64, 360 * 64);
+
+			if(ebsl.pre.X != 0 && ebsl.pre.Y != 0)
+				pixmap.DrawLine(pen_yellow_encoder_capture, ebsl.pre.X, ebsl.pre.Y, ebsl.current.X, ebsl.current.Y);
+		}
 
 		//plot the values of the bars
 		foreach(EncoderBarsResults ebr in encoderBarsResults_l)
@@ -895,6 +898,18 @@ public class EncoderBarsResults
 		this.x = x;
 		this.y = y;
 		this.d = d;
+	}
+}
+
+public class EncoderBarsSecondaryLine
+{
+	public Gdk.Point pre;
+	public Gdk.Point current;
+
+	public EncoderBarsSecondaryLine(Gdk.Point pre, Gdk.Point current)
+	{
+		this.pre = pre;
+		this.current = current;
 	}
 }
 

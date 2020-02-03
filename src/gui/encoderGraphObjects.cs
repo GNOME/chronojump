@@ -482,12 +482,15 @@ public class EncoderGraphDoPlot
 		bool iterOk = encoderCaptureListStore.GetIterFirst(out iter);
 
 		List<EncoderBarsResults> encoderBarsResults_l = new List<EncoderBarsResults>();
+		double sep_ec_mult = 1.2;
+		int dWidthPre = 0;
 		int dWidth = 0;
 		int dHeight = 0;
 		int dBottom = 0;
 		int dTop = 0;
 		foreach(double dFor in data)
 		{
+			dWidthPre = 0;
 			dWidth = 0;
 			dHeight = 0;
 
@@ -504,24 +507,25 @@ public class EncoderGraphDoPlot
 
 
 			if (data.Count == 1)	//do not fill all the screen with only one bar
-				dWidth = Convert.ToInt32((graphWidth - left_margin - right_margin) / 2.0); 
+				dWidthPre = Convert.ToInt32((graphWidth - left_margin - right_margin) / 2.0);
 			else
-				dWidth = Convert.ToInt32((graphWidth - left_margin - right_margin) / data.Count * 1.0);
+				dWidthPre = Convert.ToInt32((graphWidth - left_margin - right_margin) / data.Count * 1.0);
 
-			dLeft = left_margin + dWidth * count;
+			dLeft = left_margin + dWidthPre * count;
 		
-			//dWidth = dWidth - sep to have separation between bars
+			//dWidth = dWidthPre - sep to have separation between bars
 			//but if eccon != "c" then have like this: ec ec ec
 			if (eccon == "c") {
-				dWidth = dWidth - sep;
+				dWidth = dWidthPre - sep;
 			} else {
-				double sep_ec_mult = 1.2;
-				dWidth = Convert.ToInt32(dWidth - sep * sep_ec_mult);
+				dWidth = Convert.ToInt32(dWidthPre - sep * sep_ec_mult);
 
 				if(Util.IsEven(count +1)) //par
 					dLeft = Convert.ToInt32(dLeft - sep * sep_ec_mult);
 			}
 			//just in case there are too much bars
+			if(dWidthPre < 1)
+				dWidthPre = 1;
 			if(dWidth < 1)
 				dWidth = 1;
 
@@ -733,10 +737,19 @@ public class EncoderGraphDoPlot
 				 * but then dWidth changes on c and on ec. On c:
 				 * 	dWidth = dWidth - sep
 				 * so here, to calcule the needed dLeft, use: dWidth + sep
+				 *
+				 * TODO: above comment should be deleted with the existance of dWidth and dWidhtPre
 				 */
-				int x0 = Convert.ToInt32(left_margin + (dWidth + sep) * maxThisSetValidAndConPos + (dWidth/2));
+				int dLeftMax = Convert.ToInt32(left_margin + dWidthPre * maxThisSetValidAndConPos);
+				int dLeftMin = Convert.ToInt32(left_margin + dWidthPre * minThisSetValidAndConPos);
+				if (eccon != "c") {
+					dLeftMax = Convert.ToInt32(dLeftMax - sep * sep_ec_mult);
+					dLeftMin = Convert.ToInt32(dLeftMin - sep * sep_ec_mult);
+				}
+
+				int x0 = dLeftMax + Convert.ToInt32(dWidth/2);
 				int y0 = Convert.ToInt32(dBottom - UtilAll.DivideSafeAndGetInt(graphHeightSafe * maxThisSetValidAndCon, maxAbsolute * 1.0));
-				int x1 = Convert.ToInt32(left_margin + (dWidth + sep) * minThisSetValidAndConPos + (dWidth/2));
+				int x1 = dLeftMin + Convert.ToInt32(dWidth/2);
 				int y1 = Convert.ToInt32(dBottom - UtilAll.DivideSafeAndGetInt(graphHeightSafe * minThisSetValidAndCon, maxAbsolute * 1.0));
 
 				pixmap.DrawLine(pen_gray_loss_bold, x0, y0, x1, y1);

@@ -1744,7 +1744,7 @@ public class PreferencesWindow
 			preferences.showDjIndex = false; 
 		}
 
-		preferences.jumpsDjGraphHeights = preferencesChange(
+		preferences.jumpsDjGraphHeights = Preferences.PreferencesChange(
 				SqlitePreferences.JumpsDjGraphHeights,
 				preferences.jumpsDjGraphHeights,
 				radio_jumps_dj_capture_show_heights.Active);
@@ -1835,7 +1835,7 @@ public class PreferencesWindow
 		
 		//encoder capture ----
 	
-		preferences.encoderCaptureTime = preferencesChange(
+		preferences.encoderCaptureTime = Preferences.PreferencesChange(
 				"encoderCaptureTime",
 				preferences.encoderCaptureTime,
 				(int) PreferencesWindowBox.spin_encoder_capture_time.Value);
@@ -1845,18 +1845,18 @@ public class PreferencesWindow
 			SqlitePreferences.Update("encoderCaptureInactivityEndTime", "-1", true);
 			preferences.encoderCaptureInactivityEndTime = -1;
 		} else {
-			preferences.encoderCaptureInactivityEndTime = preferencesChange(
+			preferences.encoderCaptureInactivityEndTime = Preferences.PreferencesChange(
 					"encoderCaptureInactivityEndTime",
 					preferences.encoderCaptureInactivityEndTime,
 					(int) PreferencesWindowBox.spin_encoder_capture_inactivity_end_time.Value);
 		}
 
-		preferences.encoderCaptureMinHeightGravitatory = preferencesChange(
+		preferences.encoderCaptureMinHeightGravitatory = Preferences.PreferencesChange(
 				"encoderCaptureMinHeightGravitatory",
 				preferences.encoderCaptureMinHeightGravitatory,
 				(int) PreferencesWindowBox.spin_encoder_capture_min_height_gravitatory.Value);
 	
-		preferences.encoderCaptureMinHeightInertial = preferencesChange(
+		preferences.encoderCaptureMinHeightInertial = Preferences.PreferencesChange(
 				"encoderCaptureMinHeightInertial",
 				preferences.encoderCaptureMinHeightInertial,
 				(int) PreferencesWindowBox.spin_encoder_capture_min_height_inertial.Value);
@@ -1887,12 +1887,12 @@ public class PreferencesWindow
 			preferences.encoderCaptureShowNRepetitions = (int) PreferencesWindowBox.spin_encoder_capture_show_only_some_bars.Value;
 		}
 
-		preferences.encoderCaptureBarplotFontSize = preferencesChange(
+		preferences.encoderCaptureBarplotFontSize = Preferences.PreferencesChange(
 				"encoderCaptureBarplotFontSize",
 				preferences.encoderCaptureBarplotFontSize,
 				(int) PreferencesWindowBox.spin_encoder_capture_barplot_font_size.Value);
 
-		preferences.encoderShowStartAndDuration = preferencesChange(
+		preferences.encoderShowStartAndDuration = Preferences.PreferencesChange(
 				"encoderShowStartAndDuration",
 				preferences.encoderShowStartAndDuration,
 				PreferencesWindowBox.check_show_start_and_duration.Active);
@@ -1922,17 +1922,17 @@ public class PreferencesWindow
 		
 		//encoder other ----
 		
-		preferences.encoderPropulsive = preferencesChange(
+		preferences.encoderPropulsive = Preferences.PreferencesChange(
 				"encoderPropulsive",
 				preferences.encoderPropulsive,
 				PreferencesWindowBox.checkbutton_encoder_propulsive.Active);
 
-		preferences.encoderWorkKcal = preferencesChange(
+		preferences.encoderWorkKcal = Preferences.PreferencesChange(
 				SqlitePreferences.EncoderWorkKcal,
 				preferences.encoderWorkKcal,
 				radio_encoder_work_kcal.Active);
 
-		preferences.encoderSmoothCon = preferencesChange(
+		preferences.encoderSmoothCon = Preferences.PreferencesChange(
 				"encoderSmoothCon",
 				preferences.encoderSmoothCon,
 				(double) PreferencesWindowBox.spin_encoder_smooth_con.Value);
@@ -1954,34 +1954,34 @@ public class PreferencesWindow
 		//---- end of encoder other
 
 		//forceSensor
-		preferences.forceSensorCaptureWidthSeconds = preferencesChange(
+		preferences.forceSensorCaptureWidthSeconds = Preferences.PreferencesChange(
 				SqlitePreferences.ForceSensorCaptureWidthSeconds,
 				preferences.forceSensorCaptureWidthSeconds,
 				Convert.ToInt32(spin_force_sensor_capture_width_graph_seconds.Value));
 
-		preferences.forceSensorCaptureScroll = preferencesChange(
+		preferences.forceSensorCaptureScroll = Preferences.PreferencesChange(
 				SqlitePreferences.ForceSensorCaptureScroll,
 				preferences.forceSensorCaptureScroll,
 				radio_force_sensor_capture_scroll.Active);
 
-		preferences.forceSensorElasticEccMinDispl = preferencesChange(
+		preferences.forceSensorElasticEccMinDispl = Preferences.PreferencesChange(
 				SqlitePreferences.ForceSensorElasticEccMinDispl,
 				preferences.forceSensorElasticEccMinDispl,
 				Convert.ToDouble(spin_force_sensor_elastic_ecc_min_displ.Value));
-		preferences.forceSensorElasticConMinDispl = preferencesChange(
+		preferences.forceSensorElasticConMinDispl = Preferences.PreferencesChange(
 				SqlitePreferences.ForceSensorElasticConMinDispl,
 				preferences.forceSensorElasticConMinDispl,
 				Convert.ToDouble(spin_force_sensor_elastic_con_min_displ.Value));
-		preferences.forceSensorNotElasticEccMinForce = preferencesChange(
+		preferences.forceSensorNotElasticEccMinForce = Preferences.PreferencesChange(
 				SqlitePreferences.ForceSensorNotElasticEccMinForce,
 				preferences.forceSensorNotElasticEccMinForce,
 				Convert.ToInt32(spin_force_sensor_not_elastic_ecc_min_force.Value));
-		preferences.forceSensorNotElasticConMinForce = preferencesChange(
+		preferences.forceSensorNotElasticConMinForce = Preferences.PreferencesChange(
 				SqlitePreferences.ForceSensorNotElasticConMinForce,
 				preferences.forceSensorNotElasticConMinForce,
 				Convert.ToInt32(spin_force_sensor_not_elastic_con_min_force.Value));
 
-		preferences.forceSensorGraphsLineWidth = preferencesChange(
+		preferences.forceSensorGraphsLineWidth = Preferences.PreferencesChange(
 				SqlitePreferences.ForceSensorGraphsLineWidth,
 				preferences.forceSensorGraphsLineWidth,
 				Convert.ToInt32(spin_force_sensor_graphs_line_width.Value));
@@ -2095,28 +2095,6 @@ public class PreferencesWindow
 			return Preferences.MaximizedTypes.YES;
 
 		return Preferences.MaximizedTypes.YESUNDECORATED;
-	}
-
-	private bool preferencesChange(string prefName, bool prefValue, bool bNew) 
-	{
-		if(prefValue != bNew)
-			SqlitePreferences.Update(prefName, bNew.ToString(), true);
-		
-		return bNew;
-	}
-	private int preferencesChange(string prefName, int prefValue, int iNew) 
-	{
-		if(prefValue != iNew)
-			SqlitePreferences.Update(prefName, iNew.ToString(), true);
-		
-		return iNew;
-	}
-	private double preferencesChange(string prefName, double prefValue, double dNew) 
-	{
-		if(prefValue != dNew)
-			SqlitePreferences.Update(prefName, Util.ConvertToPoint(dNew), true);
-		
-		return dNew;
 	}
 
 	public Button Button_accept 

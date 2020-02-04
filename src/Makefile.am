@@ -6,6 +6,7 @@ LINK = $(REF_DEP_CHRONOJUMP)
 
 SOURCES = \
 	gui/app1/chronojump.cs\
+	gui/app1/encoder.cs\
 	gui/app1/icons.cs\
 	gui/app1/jumpsProfile.cs\
 	gui/app1/jumpsDjOptimalFall.cs\
@@ -29,7 +30,6 @@ SOURCES = \
 	gui/chronopicRegister.cs\
 	gui/confirm.cs\
 	gui/cjCombo.cs\
-	gui/encoder.cs\
 	gui/encoderGraphObjects.cs\
 	gui/encoderTreeviews.cs\
 	gui/encoderConfiguration.cs\

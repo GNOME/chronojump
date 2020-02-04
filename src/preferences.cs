@@ -344,6 +344,29 @@ public class Preferences
 				);
 	}
 
+	//this methods update the SQL and returns the value that is assigned to preferences object
+	public static bool PreferencesChange(string prefName, bool prefValue, bool bNew)
+	{
+		if(prefValue != bNew)
+			SqlitePreferences.Update(prefName, bNew.ToString(), true);
+
+		return bNew;
+	}
+	public static int PreferencesChange(string prefName, int prefValue, int iNew)
+	{
+		if(prefValue != iNew)
+			SqlitePreferences.Update(prefName, iNew.ToString(), true);
+
+		return iNew;
+	}
+	public static double PreferencesChange(string prefName, double prefValue, double dNew)
+	{
+		if(prefValue != dNew)
+			SqlitePreferences.Update(prefName, Util.ConvertToPoint(dNew), true);
+
+		return dNew;
+	}
+
 	~Preferences() {}
 	   
 }

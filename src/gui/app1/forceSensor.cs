@@ -129,6 +129,7 @@ public partial class ChronoJumpWindow
 		createForceExerciseCombo();
 		createComboForceSensorCaptureOptions();
 		createForceAnalyzeCombos();
+		setForceDurationRadios();
 		setRFDValues();
 		setImpulseValue();
 	}

@@ -184,6 +184,29 @@ public partial class ChronoJumpWindow
 			SqliteForceSensorRFD.UpdateImpulse(true, newImpulse);
 			impulse = newImpulse;
 		}
+
+		if(preferences.forceSensorMIFDurationMode == Preferences.ForceSensorMIFDurationModes.SECONDS &&
+				radio_force_rfd_duration_percent.Active)
+		{
+			preferences.forceSensorMIFDurationMode = Preferences.ForceSensorMIFDurationModes.PERCENT;
+			SqlitePreferences.Update(SqlitePreferences.ForceSensorMIFDurationMode,
+					preferences.forceSensorMIFDurationMode.ToString(), true);
+		}
+		else if(preferences.forceSensorMIFDurationMode == Preferences.ForceSensorMIFDurationModes.PERCENT &&
+				radio_force_duration_seconds.Active)
+		{
+			preferences.forceSensorMIFDurationMode = Preferences.ForceSensorMIFDurationModes.SECONDS;
+			SqlitePreferences.Update(SqlitePreferences.ForceSensorMIFDurationMode,
+					preferences.forceSensorMIFDurationMode.ToString(), true);
+		}
+
+		preferences.forceSensorMIFDurationSeconds = Preferences.PreferencesChange(
+				SqlitePreferences.ForceSensorMIFDurationSeconds,
+				preferences.forceSensorMIFDurationSeconds, spin_force_duration_seconds.Value);
+		preferences.forceSensorMIFDurationPercent = Preferences.PreferencesChange(
+				SqlitePreferences.ForceSensorMIFDurationPercent,
+				preferences.forceSensorMIFDurationPercent, Convert.ToInt32(spin_force_rfd_duration_percent.Value));
+
 		Sqlite.Close();
 
 		// 2 change sensitivity of widgets
@@ -291,6 +314,21 @@ public partial class ChronoJumpWindow
 		{
 			from_to.Visible = true;
 		}
+	}
+
+	private void setForceDurationRadios()
+	{
+		//TODO: assignar aquí lo que hi hagi de les preferencies: del radio actiu is els dos spinbuttons
+		if(preferences.forceSensorMIFDurationMode == Preferences.ForceSensorMIFDurationModes.SECONDS)
+			radio_force_duration_seconds.Active = true;
+		else //(preferences.forceSensorMIFDurationMode == Preferences.ForceSensorMIFDurationModes.PERCENT)
+			radio_force_rfd_duration_percent.Active = true;
+
+		//to show/hides spinbuttons
+		on_radio_force_rfd_duration_toggled (new object (), new EventArgs ());
+
+		spin_force_duration_seconds.Value = preferences.forceSensorMIFDurationSeconds;
+		spin_force_rfd_duration_percent.Value = preferences.forceSensorMIFDurationPercent;
 	}
 
 	private void setRFDValues ()

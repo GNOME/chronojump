@@ -13,6 +13,7 @@ SOURCES = \
 	gui/app1/jumpsWeightFVProfile.cs\
 	gui/app1/contactsExercise.cs\
 	gui/app1/forceSensor.cs\
+	gui/app1/forceSensorAnalyze.cs\
 	gui/app1/jump.cs\
 	gui/app1/pulse.cs\
 	gui/app1/reactionTime.cs\
@@ -39,7 +40,6 @@ SOURCES = \
 	gui/event.cs\
 	gui/executeAuto.cs\
 	gui/exhibition.cs\
-	gui/forceSensorAnalyze.cs\
 	gui/forceSensorElasticBands.cs\
 	gui/forceSensorExercise.cs\
 	gui/guiTests.cs\

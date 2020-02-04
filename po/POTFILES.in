@@ -60,6 +60,7 @@ src/forceSensor.cs
 src/gui/app1/chronojump.cs
 src/gui/app1/contactsExercise.cs
 src/gui/app1/forceSensor.cs
+src/gui/app1/forceSensorAnalyze.cs
 src/gui/app1/jump.cs
 src/gui/app1/jumpsDjOptimalFall.cs
 src/gui/app1/jumpsEvolution.cs
@@ -81,7 +82,6 @@ src/gui/evaluator.cs
 src/gui/event.cs
 src/gui/eventExecute.cs
 src/gui/executeAuto.cs
-src/gui/forceSensorAnalyze.cs
 src/gui/forceSensorElasticBands.cs
 src/gui/forceSensorExercise.cs
 src/gui/genericWindow.cs

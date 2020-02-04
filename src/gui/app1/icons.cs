@@ -182,6 +182,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_force_sensor_analyze_options;
 	[Widget] Gtk.Image image_force_sensor_analyze_options_close;
 	[Widget] Gtk.Image image_force_sensor_analyze_analyze;
+	[Widget] Gtk.Image image_force_sensor_analyze_options_close_and_analyze;
 	[Widget] Gtk.Image image_force_sensor_exercise_edit;
 	[Widget] Gtk.Image image_force_sensor_exercise_delete;
 	[Widget] Gtk.Image image_force_sensor_laterality_both;
@@ -687,6 +688,7 @@ public partial class ChronoJumpWindow
 		image_forcesensor_analyze_save_rfd_auto.Pixbuf = pixbuf;
 		image_forcesensor_analyze_save_rfd_manual.Pixbuf = pixbuf;
 		image_force_sensor_analyze_analyze.Pixbuf = pixbuf;
+		image_force_sensor_analyze_options_close_and_analyze.Pixbuf = pixbuf;
 		image_jumps_profile_save.Pixbuf = pixbuf;
 		image_jumps_dj_optimal_fall_save.Pixbuf = pixbuf;
 		image_jumps_weight_fv_profile_save.Pixbuf = pixbuf;

@@ -215,6 +215,12 @@ public partial class ChronoJumpWindow
 		forceSensorAnalyzeOptionsSensitivity(true);
 	}
 
+	private void on_button_force_sensor_analyze_options_close_and_analyze_clicked (object o, EventArgs args)
+	{
+		on_button_force_sensor_analyze_options_close_clicked (o, args);
+		on_button_force_sensor_analyze_analyze_clicked (o, args);
+	}
+
 	private void check_force_visibilities()
 	{
 		hbox_force_1.Visible = (check_force_1.Active);

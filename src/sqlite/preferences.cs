@@ -70,6 +70,9 @@ class SqlitePreferences : Sqlite
 	public const string ForceSensorCaptureFeedbackActive = "forceSensorCaptureFeedbackActive";
 	public const string ForceSensorCaptureFeedbackAt = "forceSensorCaptureFeedbackAt";
 	public const string ForceSensorCaptureFeedbackRange = "forceSensorCaptureFeedbackRange";
+	public const string ForceSensorMIFDurationMode = "forceSensorMIFDurationMode";
+	public const string ForceSensorMIFDurationSeconds = "forceSensorMIFDurationSeconds";
+	public const string ForceSensorMIFDurationPercent = "forceSensorMIFDurationPercent";
 
 	protected internal static new void createTable()
 	{
@@ -210,6 +213,9 @@ class SqlitePreferences : Sqlite
 				Insert (ForceSensorCalibrationDateTimeStr, "", dbcmdTr);
 				Insert (ForceSensorCalibrationWeightStr, "-1", dbcmdTr);
 				Insert (ForceSensorCalibrationFactorStr, "-1", dbcmdTr); //result value from sensor. Decimal is point!!
+				Insert (ForceSensorMIFDurationMode, Preferences.ForceSensorMIFDurationModes.SECONDS.ToString(), dbcmdTr);
+				Insert (ForceSensorMIFDurationSeconds, "2", dbcmdTr);
+				Insert (ForceSensorMIFDurationPercent, "5", dbcmdTr);
 
 				//multimedia
 				Insert ("videoDevice", "", dbcmdTr); //first
@@ -516,6 +522,17 @@ class SqlitePreferences : Sqlite
 			else if(reader[0].ToString() == ForceSensorCalibrationFactorStr)
 				preferences.forceSensorCalibrationFactor = Convert.ToDouble(
 						Util.ChangeDecimalSeparator(reader[1].ToString()));
+
+			//force sensor MIF
+			else if(reader[0].ToString() == ForceSensorMIFDurationMode)
+				preferences.forceSensorMIFDurationMode = (Preferences.ForceSensorMIFDurationModes)
+					Enum.Parse(typeof(Preferences.ForceSensorMIFDurationModes), reader[1].ToString());
+			else if(reader[0].ToString() == ForceSensorMIFDurationSeconds)
+				preferences.forceSensorMIFDurationSeconds = Convert.ToDouble(
+						Util.ChangeDecimalSeparator(reader[1].ToString()));
+			else if(reader[0].ToString() == ForceSensorMIFDurationPercent)
+				preferences.forceSensorMIFDurationPercent = Convert.ToInt32(
+						reader[1].ToString());
 
 			//advanced tab
 			else if(reader[0].ToString() == "digitsNumber")

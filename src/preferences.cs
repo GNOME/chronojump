@@ -141,6 +141,10 @@ public class Preferences
 	public bool forceSensorCaptureFeedbackActive;
 	public int forceSensorCaptureFeedbackAt;
 	public int forceSensorCaptureFeedbackRange;
+	public enum ForceSensorMIFDurationModes { SECONDS, PERCENT };
+	public ForceSensorMIFDurationModes forceSensorMIFDurationMode;
+	public double forceSensorMIFDurationSeconds;
+	public int forceSensorMIFDurationPercent;
 				
 	public int encoderCaptureTimeIM = 180; //hardcoded 3 minutes.
 

@@ -4649,6 +4649,12 @@ public partial class ChronoJumpWindow
 		hbox_top_person_encoder.Sensitive = ! show;
 	}
 
+	void on_button_encoder_exercise_close_and_capture_clicked (object o, EventArgs args)
+	{
+		encoder_exercise_show_hide (false);
+		on_button_encoder_capture_clicked (o, args);
+	}
+
 	//useful when there are no exercises (have been removed from database)
 	bool selectedEncoderExerciseExists ()
 	{

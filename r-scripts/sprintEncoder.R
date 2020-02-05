@@ -155,6 +155,21 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         #Finding when the sprint starts
         trimmingSamples = getTrimmingSamples(totalTime, position, speed, accel, testLength, startAccel)
         print(trimmingSamples)
+
+	#plot error if no enough acceleration
+	if(trimmingSamples$start == -1 & trimmingSamples$end == -1)
+	{
+		plot(position, type = "l", ylab = "Position (m)")
+                text(x = length(position)/2, y = max(position)/2,
+                     labels = "The capture has not enough accel", cex = 2, pos = 3)
+                text(x = length(position)/2, y = max(position)/3,
+                     labels = paste("Max raw detected accel: ", round(max(accel),2), "\nMinimum raw accel needed: ", startAccel), cex = 2, pos = 3)
+                text(x = length(position)/2, y = max(position)/4,
+                     labels = "or does not seem a sprint", cex = 2, pos = 3)
+		print("Capture has not enough accel")
+		return("Capture has not enough accel")
+	}
+
         #Zeroing time to the initial acceleration sample
         time = totalTime - totalTime[trimmingSamples$start]
         #Zeroing position to the initial acceleration sample
@@ -178,10 +193,10 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         print(paste("longEnough:", longEnough))
         print(paste("regressionDone:", regression$regressionDone))
         
-        if (!regression$regressionDone)
+        if (! regression$regressionDone)
         {
                 print("NLS regression problem")
-                plot(totalTime, speed, type = "l",
+                plot(totalTime[2:length(totalTime)], speed, type = "l",
                      #ylim = c(min(speed), testLength)*1.05,
                      xlab = "Time (s)", ylab = "Speed (m/s)")
                 #abline(h = testLength, lty = 2)
@@ -521,11 +536,11 @@ getTrimmingSamples <- function(totalTime, position, speed, accel, testLength, st
                 {
                         print(paste("accel[", startSample,"] = ", accel[startSample], sep = ""))
                         
-                        #Looking iF after 1 seconds the position has increased  at least 1m.
+                        #Looking if after 1 second the position has increased at least .5m.
                         sampleAfterSecond = which.min(abs(totalTime - (totalTime[startSample] +1)))
                         print(paste("sampleAfterSecond =", sampleAfterSecond))
                         positionAfterSecond = position[sampleAfterSecond]
-                        #Checking if the displacement has been at least 1m
+                        #Checking if the displacement has been at least .5m
                         if(abs(positionAfterSecond - position[startSample]) > 0.5){
                                 startingSample = TRUE
                         }
@@ -535,7 +550,7 @@ getTrimmingSamples <- function(totalTime, position, speed, accel, testLength, st
         if(startSample == (length(speed) -2))
         {
                 print("No start detected")
-                return()
+		return(list(start = -1, end = -1, errorInStart = TRUE ))
         }
         
         

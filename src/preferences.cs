@@ -59,9 +59,6 @@ public class Preferences
 	//encoder capture
 	public int encoderCaptureTime;
 	public int encoderCaptureInactivityEndTime; // -1 if not automatically end
-	public Constants.EncoderVariablesCapture encoderCaptureMainVariable;
-	public Constants.EncoderVariablesCapture encoderCaptureSecondaryVariable;
-	public bool encoderCaptureSecondaryVariableShow;
 	public int encoderCaptureMinHeightGravitatory;
 	public int encoderCaptureMinHeightInertial;
 	public int encoderCaptureInertialDiscardFirstN;
@@ -131,6 +128,15 @@ public class Preferences
 	public bool encoderRhythmRestAfterEcc;
 	public int encoderRhythmRepsCluster;
 	public double encoderRhythmRestClustersSeconds;
+
+	public Constants.EncoderVariablesCapture encoderCaptureMainVariable;
+	public Constants.EncoderVariablesCapture encoderCaptureSecondaryVariable;
+	public bool encoderCaptureSecondaryVariableShow;
+	public bool encoderCaptureMainVariableThisSetOrHistorical;
+	public bool encoderCaptureMainVariableGreaterActive;
+	public int encoderCaptureMainVariableGreaterValue;
+	public bool encoderCaptureMainVariableLowerActive;
+	public int encoderCaptureMainVariableLowerValue;
 
 	//forceSensor
 	public string forceSensorTareDateTime;

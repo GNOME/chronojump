@@ -204,6 +204,7 @@ public class RepetitiveConditionsWindow
 	public enum BestSetValueEnum { CAPTURE_MAIN_VARIABLE, AUTOMATIC_FEEDBACK}
 	private double bestSetValueCaptureMainVariable;
 	private double bestSetValueAutomaticFeedback;
+	private bool update_checkbuttons_encoder_automatic;
 	
 	static RepetitiveConditionsWindow RepetitiveConditionsWindowBox;
 		
@@ -251,9 +252,16 @@ public class RepetitiveConditionsWindow
 		if (RepetitiveConditionsWindowBox == null) {
 			RepetitiveConditionsWindowBox = new RepetitiveConditionsWindow (); 
 		}
+		RepetitiveConditionsWindowBox.update_checkbuttons_encoder_automatic = true;
 		RepetitiveConditionsWindowBox.showWidgets(bellMode,
 				preferences.encoderCaptureMainVariable, preferences.encoderCaptureSecondaryVariable,
-				preferences.encoderCaptureSecondaryVariableShow, encoderRhythm,
+				preferences.encoderCaptureSecondaryVariableShow,
+				preferences.encoderCaptureMainVariableThisSetOrHistorical,
+				preferences.encoderCaptureMainVariableGreaterActive,
+				preferences.encoderCaptureMainVariableGreaterValue,
+				preferences.encoderCaptureMainVariableLowerActive,
+				preferences.encoderCaptureMainVariableLowerValue,
+				encoderRhythm,
 				preferences.forceSensorCaptureFeedbackActive,
 				preferences.forceSensorCaptureFeedbackAt,
 				preferences.forceSensorCaptureFeedbackRange);
@@ -267,6 +275,11 @@ public class RepetitiveConditionsWindow
 			Constants.EncoderVariablesCapture encoderMainVariable,
 			Constants.EncoderVariablesCapture encoderSecondaryVariable,
 			bool encoderSecondaryVariableShow,
+			bool encoderCaptureMainVariableThisSetOrHistorical,
+			bool encoderCaptureMainVariableGreaterActive,
+			int encoderCaptureMainVariableGreaterValue,
+			bool encoderCaptureMainVariableLowerActive,
+			int encoderCaptureMainVariableLowerValue,
 			EncoderRhythm encoderRhythm,
 			bool forceSensorCaptureFeedbackActive,
 			int forceSensorCaptureFeedbackAt,
@@ -322,6 +335,20 @@ public class RepetitiveConditionsWindow
 
 			//need to do it "manually" at start
 			hbox_combo_encoder_secondary_variable.Visible = check_encoder_show_secondary_variable.Active;
+
+			if(encoderCaptureMainVariableThisSetOrHistorical ||
+					encoderMainVariable != Constants.EncoderVariablesCapture.MeanPower) //MeanPower is the only one who has historical
+				radio_encoder_relative_to_set.Active = true;
+			else
+				radio_encoder_relative_to_historical.Active = true;
+
+			//the change on spinbuttons here will not have to provoque changes on checkbuttons
+			update_checkbuttons_encoder_automatic = false;
+			checkbutton_encoder_automatic_greater.Active = encoderCaptureMainVariableGreaterActive;
+			spinbutton_encoder_automatic_greater.Value = encoderCaptureMainVariableGreaterValue;
+			checkbutton_encoder_automatic_lower.Active = encoderCaptureMainVariableLowerActive;
+			spinbutton_encoder_automatic_lower.Value = encoderCaptureMainVariableLowerValue;
+			update_checkbuttons_encoder_automatic = true;
 
 			notebook_main.GetNthPage(RHYTHMPAGE).Show();
 			encoder_rhythm_set_values(encoderRhythm);
@@ -565,11 +592,15 @@ public class RepetitiveConditionsWindow
 	}
 
 
-	void on_spinbutton_encoder_automatic_greater_value_changed (object o, EventArgs args) {
-		checkbutton_encoder_automatic_greater.Active = true;
+	void on_spinbutton_encoder_automatic_greater_value_changed (object o, EventArgs args)
+	{
+		if(update_checkbuttons_encoder_automatic)
+			checkbutton_encoder_automatic_greater.Active = true;
 	}
-	void on_spinbutton_encoder_automatic_lower_value_changed (object o, EventArgs args) {
-		checkbutton_encoder_automatic_lower.Active = true;
+	void on_spinbutton_encoder_automatic_lower_value_changed (object o, EventArgs args)
+	{
+		if(update_checkbuttons_encoder_automatic)
+			checkbutton_encoder_automatic_lower.Active = true;
 	}
 
 	void on_button_encoder_automatic_greater_minus_1_clicked (object o, EventArgs args)
@@ -665,7 +696,7 @@ public class RepetitiveConditionsWindow
 	{
 		BestSetValueEnum b = BestSetValueEnum.AUTOMATIC_FEEDBACK;
 		string encoderVar = GetMainVariable;
-		if(encoderAutomaticHigher || encoderAutomaticLower) 
+		if(EncoderAutomaticHigherActive || EncoderAutomaticLowerActive)
 		{
 			if(encoderVar == Constants.MeanSpeed)
 				UpdateBestSetValue(b, curve.MeanSpeedD);
@@ -707,9 +738,9 @@ public class RepetitiveConditionsWindow
 	//called from previous function, gui/encoder.cs plotCurvesGraphDoPlot
 	public string AssignColorAutomatic(BestSetValueEnum b, double currentValue)
 	{
-		if(encoderAutomaticHigher && currentValue > getBestSetValue(b) * encoderAutomaticHigherValue / 100)
+		if(EncoderAutomaticHigherActive && currentValue > getBestSetValue(b) * EncoderAutomaticHigherValue / 100)
 			return UtilGtk.ColorGood;
-		else if (encoderAutomaticLower && currentValue < getBestSetValue(b) * encoderAutomaticLowerValue/ 100)
+		else if (EncoderAutomaticLowerActive && currentValue < getBestSetValue(b) * EncoderAutomaticLowerValue/ 100)
 			return UtilGtk.ColorBad;
 
 		return UtilGtk.ColorNothing;
@@ -950,16 +981,16 @@ public class RepetitiveConditionsWindow
 	/* ENCODER */
 	//automatic
 
-	private bool encoderAutomaticHigher {
+	public bool EncoderAutomaticHigherActive {
 		get { return checkbutton_encoder_automatic_greater.Active; }
 	}
-	private int encoderAutomaticHigherValue {
+	public int EncoderAutomaticHigherValue {
 		get { return Convert.ToInt32(spinbutton_encoder_automatic_greater.Value); }
 	}
-	private bool encoderAutomaticLower {
+	public bool EncoderAutomaticLowerActive {
 		get { return checkbutton_encoder_automatic_lower.Active; }
 	}
-	private int encoderAutomaticLowerValue {
+	public int EncoderAutomaticLowerValue {
 		get { return Convert.ToInt32(spinbutton_encoder_automatic_lower.Value); }
 	}
 

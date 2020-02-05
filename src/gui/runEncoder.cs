@@ -936,6 +936,9 @@ public partial class ChronoJumpWindow
 
 	private void raceEncoderCaptureGraphDo()
 	{
+		if(File.Exists(UtilEncoder.GetSprintEncoderImage()))
+			Util.FileDelete(UtilEncoder.GetSprintEncoderImage());
+
 		int imageWidth = UtilGtk.WidgetWidth(viewport_run_encoder_graph);
 		int imageHeight = UtilGtk.WidgetHeight(viewport_run_encoder_graph);
 

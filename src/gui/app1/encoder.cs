@@ -6059,6 +6059,9 @@ public partial class ChronoJumpWindow
 				//stop video and will NOT be stored
 				LogB.Information("call to webcamEnd");
 				webcamEnd (Constants.TestTypes.ENCODER, -1);
+
+				if(compujumpAutologout != null)
+					compujumpAutologout.EndCapturingEncoder();
 			}
 
 			LogB.ThreadEnded(); 

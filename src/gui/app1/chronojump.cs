@@ -629,7 +629,8 @@ public partial class ChronoJumpWindow
 		rand = new Random(40);
 
 		formatModeMenu();
-		putNonStandardIcons();	
+
+		putNonStandardIcons(preferences.encoderCaptureMainVariableGreaterActive || preferences.encoderCaptureMainVariableLowerActive);
 		eventExecutePutNonStandardIcons();
 		//eventExecuteCreateComboGraphResultsSize();
 
@@ -6954,11 +6955,13 @@ LogB.Debug("mc finished 5");
 
 			image_encoder_bell.Pixbuf = pixbuf;
 
+			Sqlite.Open();
+
 			//mainVariable
 			Constants.EncoderVariablesCapture mainVariable = Constants.SetEncoderVariablesCapture(
 					repetitiveConditionsWin.GetMainVariable);
 			if( preferences.encoderCaptureMainVariable != mainVariable ) {
-				SqlitePreferences.Update("encoderCaptureMainVariable", mainVariable.ToString(), false);
+				SqlitePreferences.Update("encoderCaptureMainVariable", mainVariable.ToString(), true);
 				preferences.encoderCaptureMainVariable = mainVariable;
 			}
 			string mainVariableStr = Constants.GetEncoderVariablesCapture(mainVariable);
@@ -6967,7 +6970,7 @@ LogB.Debug("mc finished 5");
 			Constants.EncoderVariablesCapture secondaryVariable = Constants.SetEncoderVariablesCapture(
 					repetitiveConditionsWin.GetSecondaryVariable);
 			if( preferences.encoderCaptureSecondaryVariable != secondaryVariable ) {
-				SqlitePreferences.Update("encoderCaptureSecondaryVariable", secondaryVariable.ToString(), false);
+				SqlitePreferences.Update("encoderCaptureSecondaryVariable", secondaryVariable.ToString(), true);
 				preferences.encoderCaptureSecondaryVariable = secondaryVariable;
 			}
 			string secondaryVariableStr = Constants.GetEncoderVariablesCapture(secondaryVariable);
@@ -6975,11 +6978,40 @@ LogB.Debug("mc finished 5");
 			//secondaryVariableShow
 			bool secondaryVariableShow = repetitiveConditionsWin.GetSecondaryVariableShow;
 			if( preferences.encoderCaptureSecondaryVariableShow != secondaryVariableShow ) {
-				SqlitePreferences.Update("encoderCaptureSecondaryVariableShow", secondaryVariableShow.ToString(), false);
+				SqlitePreferences.Update("encoderCaptureSecondaryVariableShow", secondaryVariableShow.ToString(), true);
 				preferences.encoderCaptureSecondaryVariableShow = secondaryVariableShow;
 			}
 			if(! secondaryVariableShow)
 				secondaryVariableStr = "";
+
+			preferences.encoderCaptureMainVariableThisSetOrHistorical = Preferences.PreferencesChange(
+				SqlitePreferences.EncoderCaptureMainVariableThisSetOrHistorical,
+				preferences.encoderCaptureMainVariableThisSetOrHistorical,
+				repetitiveConditionsWin.EncoderRelativeToSet);
+
+			preferences.encoderCaptureMainVariableGreaterActive = Preferences.PreferencesChange(
+				SqlitePreferences.EncoderCaptureMainVariableGreaterActive,
+				preferences.encoderCaptureMainVariableGreaterActive,
+				repetitiveConditionsWin.EncoderAutomaticHigherActive);
+
+			preferences.encoderCaptureMainVariableGreaterValue = Preferences.PreferencesChange(
+				SqlitePreferences.EncoderCaptureMainVariableGreaterValue,
+				preferences.encoderCaptureMainVariableGreaterValue,
+				repetitiveConditionsWin.EncoderAutomaticHigherValue);
+
+			preferences.encoderCaptureMainVariableLowerActive = Preferences.PreferencesChange(
+				SqlitePreferences.EncoderCaptureMainVariableLowerActive,
+				preferences.encoderCaptureMainVariableLowerActive,
+				repetitiveConditionsWin.EncoderAutomaticLowerActive);
+
+			preferences.encoderCaptureMainVariableLowerValue = Preferences.PreferencesChange(
+				SqlitePreferences.EncoderCaptureMainVariableLowerValue,
+				preferences.encoderCaptureMainVariableLowerValue,
+				repetitiveConditionsWin.EncoderAutomaticLowerValue);
+
+
+			Sqlite.Close();
+
 
 			//treeview_encoder should be updated (to colorize some cells)
 			//only if there was data

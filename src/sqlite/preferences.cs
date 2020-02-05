@@ -52,6 +52,11 @@ class SqlitePreferences : Sqlite
 	public const string EncoderRhythmRestAfterEccStr = "encoderRhythmRestAfterEcc";
 	public const string EncoderRhythmRepsClusterStr = "encoderRhythmRepsCluster";
 	public const string EncoderRhythmRestClustersSecondsStr = "encoderRhythmRestClustersSeconds";
+	public const string EncoderCaptureMainVariableThisSetOrHistorical = "encoderCaptureMainVariableThisSetOrHistorical";
+	public const string EncoderCaptureMainVariableGreaterActive = "encoderCaptureMainVariableGreaterActive";
+	public const string EncoderCaptureMainVariableGreaterValue = "encoderCaptureMainVariableGreaterValue";
+	public const string EncoderCaptureMainVariableLowerActive = "encoderCaptureMainVariableLowerActive";
+	public const string EncoderCaptureMainVariableLowerValue = "encoderCaptureMainVariableLowerValue";
 
 	//forceSensor
 	public const string ForceSensorCaptureWidthSeconds = "forceSensorCaptureWidthSeconds";
@@ -150,6 +155,11 @@ class SqlitePreferences : Sqlite
 				Insert ("encoderCaptureMainVariable", Constants.EncoderVariablesCapture.MeanPower.ToString(), dbcmdTr);
 				Insert ("encoderCaptureSecondaryVariable", Constants.EncoderVariablesCapture.RangeAbsolute.ToString(), dbcmdTr);
 				Insert ("encoderCaptureSecondaryVariableShow", "True", dbcmdTr);
+				Insert (EncoderCaptureMainVariableThisSetOrHistorical, "True", dbcmdTr);
+				Insert (EncoderCaptureMainVariableGreaterActive, "False", dbcmdTr);
+				Insert (EncoderCaptureMainVariableGreaterValue, "90", dbcmdTr);
+				Insert (EncoderCaptureMainVariableLowerActive, "False", dbcmdTr);
+				Insert (EncoderCaptureMainVariableLowerValue, "70", dbcmdTr);
 				Insert ("encoderCaptureMinHeightGravitatory", "20", dbcmdTr);
 				Insert ("encoderCaptureMinHeightInertial", "5", dbcmdTr);
 				Insert ("encoderCaptureInertialDiscardFirstN", "3", dbcmdTr);
@@ -370,6 +380,16 @@ class SqlitePreferences : Sqlite
 					Enum.Parse(typeof(Constants.EncoderVariablesCapture), reader[1].ToString());
 			else if(reader[0].ToString() == "encoderCaptureSecondaryVariableShow")
 				preferences.encoderCaptureSecondaryVariableShow = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == EncoderCaptureMainVariableThisSetOrHistorical)
+				preferences.encoderCaptureMainVariableThisSetOrHistorical = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == EncoderCaptureMainVariableGreaterActive)
+				preferences.encoderCaptureMainVariableGreaterActive = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == EncoderCaptureMainVariableGreaterValue)
+				preferences.encoderCaptureMainVariableGreaterValue = Convert.ToInt32(reader[1].ToString());
+			else if(reader[0].ToString() == EncoderCaptureMainVariableLowerActive)
+				preferences.encoderCaptureMainVariableLowerActive = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == EncoderCaptureMainVariableLowerValue)
+				preferences.encoderCaptureMainVariableLowerValue = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == "encoderCaptureMinHeightGravitatory")
 				preferences.encoderCaptureMinHeightGravitatory = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == "encoderCaptureMinHeightInertial")

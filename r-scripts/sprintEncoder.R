@@ -45,7 +45,9 @@ assignOptions <- function(options) {
                 graphHeight	= as.numeric(options[9]),
                 device  	= options[10],
                 title 	 	= options[11],
-                datetime 	= options[12]
+                datetime 	= options[12],
+		triggersOnList  = as.numeric(unlist(strsplit(options[13], "\\;"))),
+		triggersOffList  = as.numeric(unlist(strsplit(options[14], "\\;")))
         ))
 }
 
@@ -223,6 +225,8 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
 plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
 				  title = "Test graph",
 				  subtitle = "",
+				  triggersOn = "",
+				  triggersOff = "",
                                   plotRawMeanSpeed = TRUE,
                                   plotRawSpeed = TRUE,
                                   plotRawAccel = FALSE,
@@ -515,6 +519,11 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
                 axis(side = 4, col = "red", line = 4)
         }
 
+	#triggers
+	abline(v=triggersOn, col="green")
+	abline(v=triggersOff, col="red")
+
+
         plotSize = par("usr")
         legend(x = plotSize[2], y = plotSize[3] + (plotSize[4] - plotSize[3])*0.25,
                 xjust = 1, yjust = 0.5, cex = 1,
@@ -609,6 +618,8 @@ testEncoderCJ <- function(filename, testLength, mass, personHeight, tempC)
                 plotSprintFromEncoder(sprintRawDynamic = sprintRawDynamics, sprintFittedDynamics = sprintFittedDynamics,
                                       title = op$title,
                                       subtitle = op$datetime,
+				      triggersOn = op$triggersOnList,
+				      triggersOff = op$triggersOffList,
                                       plotRawMeanSpeed = TRUE,
                                       plotRawSpeed = TRUE,
                                       plotRawAccel = FALSE,

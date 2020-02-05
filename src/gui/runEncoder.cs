@@ -743,13 +743,6 @@ public partial class ChronoJumpWindow
 
 		raceEncoderReadWidgets(); //needed to be able to do R graph
 
-		raceEncoderCopyTempAndDoGraphs();
-
-		button_contacts_recalculate.Sensitive = true;
-
-		button_video_play_this_test_contacts.Sensitive = (re.VideoURL != "");
-		sensitiveLastTestButtons(true);
-
 		//triggers
 		triggerListRunEncoder = new TriggerList(
 				SqliteTrigger.Select(
@@ -757,6 +750,13 @@ public partial class ChronoJumpWindow
 					Convert.ToInt32(currentRunEncoder.UniqueID))
 				);
 		showRaceAnalyzerTriggers ();
+
+		raceEncoderCopyTempAndDoGraphs();
+
+		button_contacts_recalculate.Sensitive = true;
+
+		button_video_play_this_test_contacts.Sensitive = (re.VideoURL != "");
+		sensitiveLastTestButtons(true);
 
 		event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(re.Filename);
 	}
@@ -959,7 +959,8 @@ public partial class ChronoJumpWindow
 				race_analyzer_temperature,
 				race_analyzer_device,
 				title,
-				dateTimeGraph);
+				dateTimeGraph,
+				triggerListRunEncoder);
 
 		reg.CallR(imageWidth, imageHeight);
 

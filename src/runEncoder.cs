@@ -294,9 +294,10 @@ public class RunEncoderGraph
 	private RunEncoder.Devices device;
 	private string title;
 	private string datetime;
+	private TriggerList triggerList;
 
 	public RunEncoderGraph(int testLength, double mass, double personHeight, double tempC, RunEncoder.Devices device,
-			string title, string datetime)
+			string title, string datetime, TriggerList triggerList)
 	{
 		this.testLength = testLength;
 		this.mass = mass;
@@ -305,6 +306,7 @@ public class RunEncoderGraph
 		this.device = device;
 		this.title = title;
 		this.datetime = datetime;
+		this.triggerList = triggerList;
 	}
 
 	public bool CallR(int graphWidth, int graphHeight)
@@ -335,7 +337,9 @@ public class RunEncoderGraph
 			"#graphHeight\n" + 		graphHeight.ToString() + "\n" +
 			"#device\n" + 			device.ToString() + "\n" +
 			"#title\n" + 			title + "\n" +
-			"#datetime\n" + 		datetime;
+			"#datetime\n" + 		datetime + "\n" +
+			printTriggers(TriggerList.Type3.ON) + "\n" +
+			printTriggers(TriggerList.Type3.OFF);
 
 
 		TextWriter writer = File.CreateText(Path.GetTempPath() + "Roptions.txt");
@@ -343,6 +347,11 @@ public class RunEncoderGraph
 		writer.Flush();
 		writer.Close();
 		((IDisposable)writer).Dispose();
+	}
+
+	private string printTriggers(TriggerList.Type3 type3)
+	{
+		return triggerList.ToRCurvesString(type3);
 	}
 
 	public static string GetDataDir(int sessionID)

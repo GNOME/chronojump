@@ -69,7 +69,7 @@ public abstract class EncoderRProc
 	{
 	}
 
-	protected virtual string printTriggers()
+	protected virtual string printTriggers(TriggerList.Type3 type3)
 	{
 		return TriggerList.TriggersNotFoundString;
 	}
@@ -258,7 +258,7 @@ public class EncoderRProcCapture : EncoderRProc
 				Debug,
 				false,	//crossValidate (unactive on capture at the moment)
 				(CutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS),
-				printTriggers(),
+				printTriggers(TriggerList.Type3.ON),
 				false, 	//separateSessionInDays (false at capture)
 				EncoderGraphROptions.AnalysisModes.CAPTURE).ToString();
 
@@ -269,7 +269,7 @@ public class EncoderRProcCapture : EncoderRProc
 		((IDisposable)writer).Dispose();
 	}
 
-	protected override string printTriggers()
+	protected override string printTriggers(TriggerList.Type3 type3)
 	{
 		//just use triggeres tp cut sets into repetitions, or not.
 		//Cut is done in C# but this will change minHeight behaviour and reduceCurveBySpeed
@@ -518,7 +518,7 @@ public class EncoderRProcAnalyze : EncoderRProc
 				Debug,
 				CrossValidate,
 				cutByTriggers,
-				printTriggers(),
+				printTriggers(TriggerList.Type3.ON),
 				SeparateSessionInDays,
 				analysisMode
 				).ToString();
@@ -530,9 +530,9 @@ public class EncoderRProcAnalyze : EncoderRProc
 		((IDisposable)writer).Dispose();
 	}
 
-	protected override string printTriggers()
+	protected override string printTriggers(TriggerList.Type3 type3)
 	{
-		return triggerList.ToRCurvesString();
+		return triggerList.ToRCurvesString(type3);
 	}
 		
 	private void deleteFile(string filename)

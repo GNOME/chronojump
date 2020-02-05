@@ -165,7 +165,11 @@ public class TriggerList
 		return s;
 	}
 
-	public string ToRCurvesString()
+	//to print for R,
+	//best is call here with an ON to print a triggersOnList
+	//then call here with an OFF
+	//note on encoder we only use ON, but on runEncoder, we use ON and then OFF
+	public string ToRCurvesString(Type3 type3)
 	{
 		if(l.Count == 0)
 			return TriggersNotFoundString;
@@ -174,7 +178,13 @@ public class TriggerList
 		string sep = "";
 		foreach(Trigger trigger in l)
 		{
-			if(trigger.InOut) {
+			if(trigger.InOut && type3 != Type3.OFF)
+			{
+				s += sep + trigger.Ms.ToString();
+				sep = ";";
+			}
+			if(! trigger.InOut && type3 != Type3.ON)
+			{
 				s += sep + trigger.Ms.ToString();
 				sep = ";";
 			}

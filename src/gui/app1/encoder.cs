@@ -5528,6 +5528,9 @@ public partial class ChronoJumpWindow
 				if( ! radio_encoder_capture_cont.Active || firstSetOfCont )
 					treeviewEncoderCaptureRemoveColumns();
 
+				if(encoder_capture_curves_bars_pixmap != null)
+					UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
+
 				encoderCaptureStringR = new List<string>();
 				encoderCaptureStringR.Add(
 						",series,exercise,mass,start,width,height," + 

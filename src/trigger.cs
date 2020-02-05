@@ -111,6 +111,7 @@ public class Trigger
 public class TriggerList
 {
 	public const string TriggersNotFoundString = "-1";
+	public enum Type3 { ON, OFF, BOTH }
 	private List<Trigger> l;
 
 	//constructors
@@ -233,18 +234,17 @@ public class TriggerList
 		return false;
 	}
 
-	public enum SpuriousType { ON, OFF, BOTH }
 	//if ON will return last "on"
-	private Trigger last(SpuriousType spt)
+	private Trigger last(Type3 type3)
 	{
 		int i = 0;
 		int lastPos = 0;
 		foreach(Trigger t in l)
 		{
 			if(
-					spt == SpuriousType.BOTH ||
-					spt == SpuriousType.ON && t.InOut ||
-					spt == SpuriousType.OFF && ! t.InOut)
+					type3 == Type3.BOTH ||
+					type3 == Type3.ON && t.InOut ||
+					type3 == Type3.OFF && ! t.InOut)
 				lastPos = i;
 			i ++;
 		}
@@ -262,7 +262,7 @@ public class TriggerList
 		else if(! newTrigger.InOut && countOff() == 0)
 			return false;
 
-		if(last(SpuriousType.BOTH).InOut == newTrigger.InOut)
+		if(last(Type3.BOTH).InOut == newTrigger.InOut)
 			return true;
 
 		return false;
@@ -270,22 +270,22 @@ public class TriggerList
 
 	/*
 	 * this newTrigger is an On trigger, compare with last
-	 * encoder: spt.ON, 50ms
-	 * runEncoder: spt.BOTH, 50ms
+	 * encoder: type3.ON, 50ms
+	 * runEncoder: type3.BOTH, 50ms
 	 */
-	public bool IsSpurious(Trigger newTrigger, SpuriousType spt, int ms)
+	public bool IsSpurious(Trigger newTrigger, Type3 type3, int ms)
 	{
 		//cannot be spurious if is the first of this type
-		if(spt == SpuriousType.ON && countOn() == 0)
+		if(type3 == Type3.ON && countOn() == 0)
 			return false;
-		else if(spt == SpuriousType.BOTH && (
+		else if(type3 == Type3.BOTH && (
 				newTrigger.InOut && countOn() == 0 ||
 				! newTrigger.InOut && countOff() == 0) )
 			return false;
 
-		if(spt == SpuriousType.BOTH && (newTrigger.Ms - last(SpuriousType.BOTH).Ms) < ms )
+		if(type3 == Type3.BOTH && (newTrigger.Ms - last(Type3.BOTH).Ms) < ms )
 			return true;
-		else if(spt == SpuriousType.ON && (newTrigger.Ms - last(SpuriousType.ON).Ms) < ms )
+		else if(type3 == Type3.ON && (newTrigger.Ms - last(Type3.ON).Ms) < ms )
 			return true;
 
 		return false;
@@ -298,7 +298,7 @@ public class TriggerList
 	 */
 	public void RemoveLastOff()
 	{
-		l.Remove(last(SpuriousType.OFF));
+		l.Remove(last(Type3.OFF));
 	}
 
 	/*

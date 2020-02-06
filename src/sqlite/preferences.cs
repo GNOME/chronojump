@@ -79,6 +79,10 @@ class SqlitePreferences : Sqlite
 	public const string ForceSensorMIFDurationSeconds = "forceSensorMIFDurationSeconds";
 	public const string ForceSensorMIFDurationPercent = "forceSensorMIFDurationPercent";
 
+	//runEncoder
+	public const string RunEncoderMinAccel = "runEncoderMinAccel";
+
+
 	protected internal static new void createTable()
 	{
 		dbcmd.CommandText = 
@@ -226,6 +230,9 @@ class SqlitePreferences : Sqlite
 				Insert (ForceSensorMIFDurationMode, Preferences.ForceSensorMIFDurationModes.SECONDS.ToString(), dbcmdTr);
 				Insert (ForceSensorMIFDurationSeconds, "2", dbcmdTr);
 				Insert (ForceSensorMIFDurationPercent, "5", dbcmdTr);
+
+				//runEncoder
+				Insert (RunEncoderMinAccel, "10.0", dbcmdTr);
 
 				//multimedia
 				Insert ("videoDevice", "", dbcmdTr); //first
@@ -553,6 +560,11 @@ class SqlitePreferences : Sqlite
 			else if(reader[0].ToString() == ForceSensorMIFDurationPercent)
 				preferences.forceSensorMIFDurationPercent = Convert.ToInt32(
 						reader[1].ToString());
+
+			//runEncoder
+			else if(reader[0].ToString() == RunEncoderMinAccel)
+				preferences.runEncoderMinAccel = Convert.ToDouble(
+						Util.ChangeDecimalSeparator(reader[1].ToString()));
 
 			//advanced tab
 			else if(reader[0].ToString() == "digitsNumber")

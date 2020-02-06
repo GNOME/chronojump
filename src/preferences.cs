@@ -96,6 +96,9 @@ public class Preferences
 	public int forceSensorNotElasticConMinForce;
 	public int forceSensorGraphsLineWidth;
 
+	//runEncoder
+	public double runEncoderMinAccel;
+
 	//advanced tab
 	public bool askDeletion;
 	public int digitsNumber;

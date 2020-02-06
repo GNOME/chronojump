@@ -151,6 +151,9 @@ public class PreferencesWindow
 	[Widget] Gtk.SpinButton spin_force_sensor_not_elastic_con_min_force;
 	[Widget] Gtk.SpinButton spin_force_sensor_graphs_line_width;
 
+	//runEncoder tab
+	[Widget] Gtk.SpinButton spin_force_sensor_acceleration;
+
 	//multimedia tab
 	[Widget] Gtk.CheckButton checkbutton_volume;
 	[Widget] Gtk.Table table_gstreamer;
@@ -245,6 +248,7 @@ public class PreferencesWindow
 	const int ENCODERCAPTUREPAGE = 4;
 	const int ENCODEROTHERPAGE = 5;
 	const int FORCESENSORPAGE = 6;
+	const int RUNENCODERPAGE = 7;
 
 	static private WebcamDeviceList wd_list;
 	private WebcamFfmpegSupportedModes wfsm;
@@ -298,6 +302,8 @@ public class PreferencesWindow
 		}
 		if(menu_mode !=	Constants.Menuitem_modes.FORCESENSOR)
 			PreferencesWindowBox.notebook.GetNthPage(FORCESENSORPAGE).Hide();
+		if(menu_mode !=	Constants.Menuitem_modes.RUNSENCODER)
+			PreferencesWindowBox.notebook.GetNthPage(RUNENCODERPAGE).Hide();
 
 		PreferencesWindowBox.preferences = preferences;
 
@@ -596,6 +602,9 @@ public class PreferencesWindow
 		PreferencesWindowBox.spin_force_sensor_not_elastic_con_min_force.Value = preferences.forceSensorNotElasticConMinForce;
 
 		PreferencesWindowBox.spin_force_sensor_graphs_line_width.Value = preferences.forceSensorGraphsLineWidth;
+
+		//runEncoder -->
+		PreferencesWindowBox.spin_force_sensor_acceleration.Value = preferences.runEncoderMinAccel;
 
 		//language -->
 		if(preferences.language == "")
@@ -1985,6 +1994,13 @@ public class PreferencesWindow
 				SqlitePreferences.ForceSensorGraphsLineWidth,
 				preferences.forceSensorGraphsLineWidth,
 				Convert.ToInt32(spin_force_sensor_graphs_line_width.Value));
+
+		//runEncoder ----
+
+		preferences.runEncoderMinAccel = Preferences.PreferencesChange(
+				SqlitePreferences.RunEncoderMinAccel,
+				preferences.runEncoderMinAccel,
+				Convert.ToDouble(spin_force_sensor_acceleration.Value));
 
 		//multimedia ----
 		if( preferences.volumeOn != PreferencesWindowBox.checkbutton_volume.Active ) {

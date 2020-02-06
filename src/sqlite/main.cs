@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.85";
+	static string lastChronojumpDatabaseVersion = "1.86";
 
 	public Sqlite() {
 	}
@@ -2620,6 +2620,14 @@ class Sqlite
 
 				currentVersion = updateVersion("1.85");
 			}
+			if(currentVersion == "1.85")
+			{
+				LogB.SQL("Inserted into preferences: RunEncoderMinAccel");
+
+				SqlitePreferences.Insert (SqlitePreferences.RunEncoderMinAccel, "10.0");
+
+				currentVersion = updateVersion("1.86");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -2832,6 +2840,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 //
+		//1.85 - 1.86 Converted DB to 1.86 Inserted into preferences: RunEncoderMinAccel
 		//1.84 - 1.85 Converted DB to 1.85 Inserted 5 vars into preferences: EncoderCaptureMainVariable...
 		//1.83 - 1.84 Converted DB to 1.84 Inserted into preferences: forceSensorMIFDuration Mode/Seconds/Percent
 		//1.82 - 1.83 Converted DB to 1.83 Added missing agility_t_test image

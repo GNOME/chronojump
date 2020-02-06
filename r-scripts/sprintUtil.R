@@ -64,9 +64,9 @@ getDynamicsFromSprint <- function(K, Vmax, Mass, Temperature = 25, Height , Vw =
         V0 = -F0/fvModel$coefficients[2]             # Similar to Vmax.fitted. V0 is the interception of the linear regression with the horizontal axis
         pmax.lm = V0 * F0/4                          # Max Power Using the linear regression. The maximum is found in the middle of the parabole p(v)
         pmax.rel.lm = pmax.lm / Mass
-        pmax.fitted = fmax.fitted * Vmax / 4         # Obtained from the function P(v) = F(v) * v. It is a parabele. The apex is in Vmax/2
+        pmax.fitted = max(p.fitted)
         pmax.rel.fitted = pmax.fitted / Mass
-        tpmax.fitted = log(2) / K                    # Obtained from P'(t) = 0
+        tpmax.fitted = time[which(p.fitted == pmax.fitted)]
         
         return(list(Mass = Mass,
                     Height = Height, Temperature = Temperature,

@@ -110,6 +110,8 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         forceBody = accel * Mass + Ka*(speed - Vw)^2
         totalForce = forceBody + raceAnalyzer$force
         power = totalForce * speed
+        # print("totalTime:")
+        # print(totalTime)
         # print("time:")
         # print(raceAnalyzer$time)
         # print("elapsedTime:")
@@ -598,7 +600,11 @@ tryNLS <- function(data){
                                     start = list(Vmax = max(data[,"speed"]), K = 1), control=nls.control(warnOnly=TRUE))
                         # print("model:")
                         # print(model)
-                        return(list(regressionDone = TRUE, model = model))
+                        if (! model$convInfo$isConv){
+                                return(list(regressionDone = FALSE, model = model))
+                        } else {
+                                return(list(regressionDone = TRUE, model = model))
+                        }
                 }, 
                 error=function(cond)
                 { 
@@ -634,7 +640,7 @@ testEncoderCJ <- function(filename, testLength, mass, personHeight, tempC, start
                                       plotFittedForce = FALSE,
                                       plotFittedPower = TRUE,
 				      startAccel,
-                                      plotStartDetection = FALSE)
+                                      plotStartDetection = TRUE)
                 exportSprintDynamics(sprintFittedDynamics)
         } else
           print("Couldn't calculate the sprint model")

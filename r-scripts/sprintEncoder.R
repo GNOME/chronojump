@@ -46,8 +46,9 @@ assignOptions <- function(options) {
                 device  	= options[10],
                 title 	 	= options[11],
                 datetime 	= options[12],
-		triggersOnList  = as.numeric(unlist(strsplit(options[13], "\\;"))),
-		triggersOffList  = as.numeric(unlist(strsplit(options[14], "\\;")))
+                startAccel 	= options[13],
+		triggersOnList  = as.numeric(unlist(strsplit(options[14], "\\;"))),
+		triggersOffList  = as.numeric(unlist(strsplit(options[15], "\\;")))
         ))
 }
 
@@ -57,7 +58,7 @@ op <- assignOptions(options)
 op$title = fixTitleAndOtherStrings(op$title)
 op$datetime = fixDatetime(op$datetime)
 
-getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, Height , Vw = 0, device = "MANUAL", startAccel = 10)
+getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, Height , Vw = 0, device = "MANUAL", startAccel)
 {
         print("#####Entering in getSprintFromEncoder###############")
         # Constants for the air friction modeling
@@ -238,7 +239,7 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
                                   plotFittedAccel = FALSE,
                                   plotFittedForce = FALSE,
                                   plotFittedPower = FALSE,
-                                  startAccel = 10,
+                                  startAccel,
                                   plotStartDetection = TRUE)
 {
         #Plotting position
@@ -532,7 +533,7 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
 }
 
 #Detecting where the sprint start and stops
-getTrimmingSamples <- function(totalTime, position, speed, accel, testLength, startAccel = 10)
+getTrimmingSamples <- function(totalTime, position, speed, accel, testLength, startAccel)
 {
         print("#########Entering getTrimmingSamples###########33")
         #The test starts when the acceleration is greater than startAccel m/s²
@@ -588,6 +589,7 @@ getTrimmingSamples <- function(totalTime, position, speed, accel, testLength, st
                 endSample = endSample +1
         return(list(start = startSample, end = endSample, errorInStart = !startingSample ))
 }
+
 tryNLS <- function(data){
         print("#######Entering tryNLS#########")
         tryCatch (
@@ -606,9 +608,9 @@ tryNLS <- function(data){
         )
 }
 
-testEncoderCJ <- function(filename, testLength, mass, personHeight, tempC)
+testEncoderCJ <- function(filename, testLength, mass, personHeight, tempC, startAccel)
 {
-        sprintRawDynamics = getSprintFromEncoder(filename, testLength, op$mass, op$tempC, op$personHeight, Vw = 0, device = op$device, startAccel = 10)
+        sprintRawDynamics = getSprintFromEncoder(filename, testLength, op$mass, op$tempC, op$personHeight, Vw = 0, device = op$device, startAccel)
         # print("sprintRawDynamics:")
         # print(sprintRawDynamics)
         if (sprintRawDynamics$longEnough & sprintRawDynamics$regressionDone)
@@ -631,6 +633,7 @@ testEncoderCJ <- function(filename, testLength, mass, personHeight, tempC)
                                       plotFittedAccel = FALSE,
                                       plotFittedForce = FALSE,
                                       plotFittedPower = TRUE,
+				      startAccel,
                                       plotStartDetection = FALSE)
                 exportSprintDynamics(sprintFittedDynamics)
         } else
@@ -638,5 +641,5 @@ testEncoderCJ <- function(filename, testLength, mass, personHeight, tempC)
 }
 
 prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
-testEncoderCJ(op$filename, op$testLength, op$mass, op$personHeight, op$tempC)
+testEncoderCJ(op$filename, op$testLength, op$mass, op$personHeight, op$tempC, op$startAccel)
 endGraph()

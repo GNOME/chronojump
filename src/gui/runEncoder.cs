@@ -960,6 +960,7 @@ public partial class ChronoJumpWindow
 				race_analyzer_device,
 				title,
 				dateTimeGraph,
+				preferences.runEncoderMinAccel,
 				triggerListRunEncoder);
 
 		reg.CallR(imageWidth, imageHeight);

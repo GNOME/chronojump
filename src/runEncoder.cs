@@ -294,10 +294,11 @@ public class RunEncoderGraph
 	private RunEncoder.Devices device;
 	private string title;
 	private string datetime;
+	private double startAccel;
 	private TriggerList triggerList;
 
 	public RunEncoderGraph(int testLength, double mass, double personHeight, double tempC, RunEncoder.Devices device,
-			string title, string datetime, TriggerList triggerList)
+			string title, string datetime, double startAccel, TriggerList triggerList)
 	{
 		this.testLength = testLength;
 		this.mass = mass;
@@ -306,6 +307,7 @@ public class RunEncoderGraph
 		this.device = device;
 		this.title = title;
 		this.datetime = datetime;
+		this.startAccel = startAccel;
 		this.triggerList = triggerList;
 	}
 
@@ -338,6 +340,7 @@ public class RunEncoderGraph
 			"#device\n" + 			device.ToString() + "\n" +
 			"#title\n" + 			title + "\n" +
 			"#datetime\n" + 		datetime + "\n" +
+			"#startAccel\n" + 		Util.ConvertToPoint(startAccel) + "\n" +
 			printTriggers(TriggerList.Type3.ON) + "\n" +
 			printTriggers(TriggerList.Type3.OFF);
 

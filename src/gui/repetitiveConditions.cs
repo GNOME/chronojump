@@ -336,8 +336,12 @@ public class RepetitiveConditionsWindow
 			//need to do it "manually" at start
 			hbox_combo_encoder_secondary_variable.Visible = check_encoder_show_secondary_variable.Active;
 
-			if(encoderCaptureMainVariableThisSetOrHistorical ||
-					encoderMainVariable != Constants.EncoderVariablesCapture.MeanPower) //MeanPower is the only one who has historical
+			//MeanPower, MeanSpeed, MeanFOrce can be historical
+			if(encoderCaptureMainVariableThisSetOrHistorical || (
+						encoderMainVariable != Constants.EncoderVariablesCapture.MeanPower &&
+						encoderMainVariable != Constants.EncoderVariablesCapture.MeanSpeed &&
+						encoderMainVariable != Constants.EncoderVariablesCapture.MeanForce
+					  ) )
 				radio_encoder_relative_to_set.Active = true;
 			else
 				radio_encoder_relative_to_historical.Active = true;
@@ -405,8 +409,10 @@ public class RepetitiveConditionsWindow
 	{
 		string mainVariable = UtilGtk.ComboGetActive(combo_encoder_main_variable);
 
-		radio_encoder_relative_to_historical.Visible = (mainVariable == "Mean power");
-		if(mainVariable != "Mean power")
+		radio_encoder_relative_to_historical.Visible =
+			(mainVariable == "Mean power" || mainVariable == "Mean speed" || mainVariable == "Mean force");
+
+		if(mainVariable != "Mean power" && mainVariable != "Mean speed" && mainVariable != "Mean force")
 			radio_encoder_relative_to_set.Active = true;
 
 		label_main_variable_text.Text = mainVariable;

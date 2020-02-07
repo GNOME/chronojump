@@ -653,7 +653,8 @@ public partial class ChronoJumpWindow
 	}
 	*/
 
-	double findMaxPowerIntersession()
+	//find best historical values for feedback on meanPower, meanSpeed, meanForce
+	private void findMaxPowerSpeedForceIntersession()
 	{
 		//finding historical maxPower of a person in an exercise
 		Constants.EncoderGI encGI = getEncoderGI();
@@ -661,25 +662,42 @@ public partial class ChronoJumpWindow
 					getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE), "curve",
 					EncoderSQL.Eccons.ALL, getLateralityFromGui(true),
 					false, false);
-		double maxPower = 0;
+
+		maxPowerIntersession = 0;
+		maxSpeedIntersession = 0;
+		maxForceIntersession = 0;
 		if(encGI == Constants.EncoderGI.GRAVITATORY)
 		{
 			//TODO: do a regression to find maxPower with a value of extraWeight unused
 			double extraWeight = Convert.ToDouble(spin_encoder_extra_weight.Value);
-			foreach(EncoderSQL es in arrayTemp) {
-				if(Util.SimilarDouble(Convert.ToDouble(Util.ChangeDecimalSeparator(es.extraWeight)), extraWeight) &&
-						Convert.ToDouble(es.future1) > maxPower)
-					maxPower = Convert.ToDouble(es.future1);
+			foreach(EncoderSQL es in arrayTemp)
+			{
+				if(Util.SimilarDouble(Convert.ToDouble(Util.ChangeDecimalSeparator(es.extraWeight)), extraWeight))
+				{
+					if(Convert.ToDouble(es.future1) > maxPowerIntersession)
+						maxPowerIntersession = Convert.ToDouble(es.future1);
+					if(Convert.ToDouble(es.future2) > maxSpeedIntersession)
+						maxSpeedIntersession = Convert.ToDouble(es.future2);
+					if(Convert.ToDouble(es.future3) > maxForceIntersession)
+						maxForceIntersession = Convert.ToDouble(es.future3);
+				}
 			}
 		}
 		else if(encGI == Constants.EncoderGI.INERTIAL)
 		{
 			foreach(EncoderSQL es in arrayTemp)
-				if(es.encoderConfiguration == encoderConfigurationCurrent && Convert.ToDouble(es.future1) > maxPower)
-					maxPower = Convert.ToDouble(es.future1);
+			{
+				if(es.encoderConfiguration == encoderConfigurationCurrent)
+				{
+					if(Convert.ToDouble(es.future1) > maxPowerIntersession)
+						maxPowerIntersession = Convert.ToDouble(es.future1);
+					if(Convert.ToDouble(es.future2) > maxSpeedIntersession)
+						maxSpeedIntersession = Convert.ToDouble(es.future2);
+					if(Convert.ToDouble(es.future3) > maxForceIntersession)
+						maxForceIntersession = Convert.ToDouble(es.future3);
+				}
+			}
 		}
-
-		return maxPower;
 	}
 
 	bool canCaptureEncoder()
@@ -872,6 +890,8 @@ public partial class ChronoJumpWindow
 	}
 
 	double maxPowerIntersession;
+	double maxSpeedIntersession;
+	double maxForceIntersession;
 	//called from main GUI
 	void on_button_encoder_capture_clicked (object o, EventArgs args) 
 	{
@@ -897,7 +917,7 @@ public partial class ChronoJumpWindow
 
 		firstSetOfCont = firstSet;
 
-		maxPowerIntersession = findMaxPowerIntersession();
+		findMaxPowerSpeedForceIntersession();
 		//LogB.Information("maxPower: " + maxPowerIntersession);
 
 		if(encoderThreadBG != null && encoderThreadBG.IsAlive) //if we are capturing on the background ...
@@ -1672,7 +1692,7 @@ public partial class ChronoJumpWindow
 				 * if we have not captured yet, just Sqlite select now
 				 */
 				if(! repetitiveConditionsWin.EncoderRelativeToSet)
-					maxPowerIntersession = findMaxPowerIntersession();
+					findMaxPowerSpeedForceIntersession();
 
 				spin_encoder_extra_weight.Value = Convert.ToDouble(Util.ChangeDecimalSeparator(eSQL.extraWeight));
 
@@ -2469,6 +2489,8 @@ public partial class ChronoJumpWindow
 		}
 		
 		string meanPowerStr = "";
+		string meanSpeedStr = "";
+		string meanForceStr = "";
 		string desc = "";
 		if(mode == "curve") {
 			EncoderCurve curve = treeviewEncoderCaptureCurvesGetCurve(selectedID,true);
@@ -2479,6 +2501,8 @@ public partial class ChronoJumpWindow
 			int duration = Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curve.Duration)));
 
 			meanPowerStr = curve.MeanPower;
+			meanSpeedStr = curve.MeanSpeed;
+			meanForceStr = curve.MeanForce;
 
 			if(ecconLast != "c") {
 				EncoderCurve curveNext = treeviewEncoderCaptureCurvesGetCurve(selectedID+1,false);
@@ -2495,7 +2519,9 @@ public partial class ChronoJumpWindow
 				//duration is duration of ecc + duration of iso + duration of concentric
 				duration += (isometricDuration + curveConDuration);
 			
-				meanPowerStr = curveNext.MeanPower; //take power of concentric phase
+				meanPowerStr = curveNext.MeanPower; //concentric phase
+				meanSpeedStr = curveNext.MeanSpeed; //concentric phase
+				meanForceStr = curveNext.MeanForce; //concentric phase
 			}
 			
 			/*
@@ -2573,6 +2599,8 @@ public partial class ChronoJumpWindow
 		if(mode == "curve") {
 			eSQL.status = "active";
 			eSQL.future1 = meanPowerStr;
+			eSQL.future2 = meanSpeedStr;
+			eSQL.future3 = meanForceStr;
 		}
 
 		eSQL.encoderConfiguration = encoderConfigurationCurrent;
@@ -5312,7 +5340,7 @@ public partial class ChronoJumpWindow
 					configChronojump.PlaySoundsFromFile,
 					captureCurvesBarsData,
 					encoderCaptureListStore,
-					maxPowerIntersession);
+					sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable));
 		}
 	}
 
@@ -5457,6 +5485,17 @@ public partial class ChronoJumpWindow
 		encoder_capture_signal_allocationXOld = allocation.Width;
 	}
 
+	private double sendMaxPowerSpeedForceIntersession(Constants.EncoderVariablesCapture evc)
+	{
+		if(evc == Constants.EncoderVariablesCapture.MeanPower)
+		       return maxPowerIntersession;
+		else if(evc == Constants.EncoderVariablesCapture.MeanSpeed)
+		       return maxSpeedIntersession;
+		else if(evc == Constants.EncoderVariablesCapture.MeanForce)
+		       return maxForceIntersession;
+
+		return maxPowerIntersession; //default if any problem
+	}
 
 
 	/*
@@ -6134,7 +6173,7 @@ public partial class ChronoJumpWindow
 						configChronojump.PlaySoundsFromFile,
 						captureCurvesBarsData,
 						encoderCaptureListStore,
-						maxPowerIntersession);
+						sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable));
 				//}
 
 				needToRefreshTreeviewCapture = false;
@@ -6645,7 +6684,7 @@ public partial class ChronoJumpWindow
 				}
 
 
-				maxPowerIntersession = findMaxPowerIntersession();
+				findMaxPowerSpeedForceIntersession();
 
 				encoderGraphDoPlot.NewPreferences(preferences);
 				encoderGraphDoPlot.Start(
@@ -6658,7 +6697,7 @@ public partial class ChronoJumpWindow
 						configChronojump.PlaySoundsFromFile,
 						captureCurvesBarsData,
 						encoderCaptureListStore,
-						maxPowerIntersession);
+						sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable));
 		
 				button_encoder_signal_save_comment.Label = Catalog.GetString("Save comment");
 				button_encoder_signal_save_comment.Sensitive = false;
@@ -6748,7 +6787,7 @@ public partial class ChronoJumpWindow
 					manageCurvesOfThisSignal();
 
 					//update meanPower on SQL encoder
-					findAndMarkSavedCurves(true, true); //SQL opened; update curve SQL records (like future1: meanPower)
+					findAndMarkSavedCurves(true, true); //SQL opened; update curve SQL records (like future1: meanPower, 2 and 3)
 					
 					Sqlite.Close();
 
@@ -7105,9 +7144,15 @@ public partial class ChronoJumpWindow
 					encoderCaptureSelectBySavedCurves(esc.msCentral, true);
 
 					if(updateSQLRecords) {
-						//update the future1
+						//update the future1, future2, future3
 						Sqlite.Update(true, Constants.EncoderTable, "future1",
 								"", curve.MeanPower,
+								"uniqueID", esc.curveID.ToString());
+						Sqlite.Update(true, Constants.EncoderTable, "future2",
+								"", curve.MeanSpeed,
+								"uniqueID", esc.curveID.ToString());
+						Sqlite.Update(true, Constants.EncoderTable, "future3",
+								"", curve.MeanForce,
 								"uniqueID", esc.curveID.ToString());
 					}
 					

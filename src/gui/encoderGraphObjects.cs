@@ -45,7 +45,7 @@ public class EncoderGraphDoPlot
 	private bool playSoundsFromFile;
 	private ArrayList data7Variables;
 	private Gtk.ListStore encoderCaptureListStore;
-	private double maxPowerIntersession;
+	private double maxPowerSpeedForceIntersession; //it will be one of these 3
 
 	private int discardFirstN;
 	private int showNRepetitions;
@@ -139,7 +139,8 @@ public class EncoderGraphDoPlot
 			string secondaryVariable, bool capturing, string eccon,
 			RepetitiveConditionsWindow repetitiveConditionsWin,
 			bool hasInertia, bool playSoundsFromFile,
-			ArrayList data7Variables, Gtk.ListStore encoderCaptureListStore, double maxPowerIntersession)
+			ArrayList data7Variables, Gtk.ListStore encoderCaptureListStore,
+			double maxPowerSpeedForceIntersession)
 	{
 		this.mainVariable = mainVariable;
 		this.mainVariableHigher = mainVariableHigher;
@@ -153,7 +154,7 @@ public class EncoderGraphDoPlot
 		this.playSoundsFromFile = playSoundsFromFile;
 		this.data7Variables = data7Variables;
         	this.encoderCaptureListStore = encoderCaptureListStore;
-		this.maxPowerIntersession = maxPowerIntersession;
+		this.maxPowerSpeedForceIntersession = maxPowerSpeedForceIntersession;
 
 		graphWidth = drawingarea.Allocation.Width;
 		graphHeight = drawingarea.Allocation.Height;
@@ -356,18 +357,19 @@ public class EncoderGraphDoPlot
 			return;	
 
 		double maxAbsolute = maxThisSet;
+		//can be on meanPower, meanSpeed, meanForce
 		if(! repetitiveConditionsWin.EncoderRelativeToSet)
 		{
 			//relative to historical of this person
 
 			/*
 			 *
-			 * if there's a set captured but without repetitions saved, maxPowerIntersession will be 0
+			 * if there's a set captured but without repetitions saved, maxPowerSpeedForceIntersession will be 0
 			 * and current set (loaded or captured) will have a power that will be out of the graph
 			 * for this reason use maxAbsolute or maxThisSet, whatever is higher
 			 */
-			if(maxPowerIntersession > maxAbsolute)
-				maxAbsolute = maxPowerIntersession;
+			if(maxPowerSpeedForceIntersession > maxAbsolute)
+				maxAbsolute = maxPowerSpeedForceIntersession;
 		}
 
 		//calculate maxAbsoluteSecondary (will be secondary variable)
@@ -432,23 +434,33 @@ public class EncoderGraphDoPlot
 		//sum saved curves to do avg
 		double sumSaved = 0; 
 		double countSaved = 0;
+		string units = "";
 		
 		//draw line for person max intersession
 		if(! repetitiveConditionsWin.EncoderRelativeToSet)
 		{
 			layout_encoder_capture_curves_bars_text.SetMarkup("Person's best:");
 			layout_encoder_capture_curves_bars_text.GetPixelSize(out textWidth, out textHeight);
-			pixmap.DrawLayout (pen_yellow_encoder_capture,
+			pixmap.DrawLayout (pen_black_encoder_capture,
 						left_margin, top_margin - textHeight,
 						layout_encoder_capture_curves_bars_text);
 
-			pixmap.DrawLine(pen_yellow_encoder_capture,
+			pixmap.DrawLine(pen_black_encoder_capture,
 					left_margin, top_margin,
 					graphWidth - right_margin, top_margin);
 
-			layout_encoder_capture_curves_bars_text.SetMarkup(Util.TrimDecimals(maxAbsolute, 1) + "W");
+
+			int decs = 0;
+			if(mainVariable == Constants.MeanPower)
+				units = " W";
+			else if(mainVariable == Constants.MeanSpeed) {
+				units = " m/s";
+				decs = 2;
+			} else if(mainVariable == Constants.MeanForce)
+				units = " N";
+			layout_encoder_capture_curves_bars_text.SetMarkup(Util.TrimDecimals(maxAbsolute, decs) + units);
 			layout_encoder_capture_curves_bars_text.GetPixelSize(out textWidth, out textHeight);
-			pixmap.DrawLayout (pen_yellow_encoder_capture,
+			pixmap.DrawLayout (pen_black_encoder_capture,
 						graphWidth - (right_margin + textWidth),
 						top_margin - textHeight,
 						layout_encoder_capture_curves_bars_text);
@@ -684,7 +696,7 @@ public class EncoderGraphDoPlot
 	
 
 		// start plot title ----->
-		string units = "";
+		units = "";
 		int decimals;
 		
 		if(mainVariable == Constants.MeanSpeed || mainVariable == Constants.MaxSpeed) {

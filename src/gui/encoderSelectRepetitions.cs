@@ -189,7 +189,7 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 	{
 		data = SqliteEncoder.Select(
 				false, -1, currentPerson.UniqueID, currentSession.UniqueID, encoderGI,
-				exerciseID, "curve", EncoderSQL.Eccons.ALL, 
+				exerciseID, "curve", EncoderSQL.Eccons.ALL, "",
 				false, true);
 	}
 
@@ -318,7 +318,7 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 
 		ArrayList data = SqliteEncoder.Select(
 				false, -1, currentPerson.UniqueID, currentSession.UniqueID, encoderGI,
-				exerciseID, "curve", EncoderSQL.Eccons.ALL, 
+				exerciseID, "curve", EncoderSQL.Eccons.ALL, "",
 				false, true);
 
 		//update on database the curves that have been selected/deselected
@@ -590,7 +590,7 @@ public class EncoderSelectRepetitionsGroupalCurrentSession : EncoderSelectRepeti
 		foreach(Person p in dataPre) {
 			ArrayList eSQLarray = SqliteEncoder.Select(
 					false, -1, p.UniqueID, currentSession.UniqueID, encoderGI,
-					exerciseID, "curve", EncoderSQL.Eccons.ALL, 
+					exerciseID, "curve", EncoderSQL.Eccons.ALL, "",
 					false, true);
 
 			int allCurves = eSQLarray.Count;

@@ -208,7 +208,7 @@ class SqliteEncoder : Sqlite
 	//	(to delete them if they are old copies)
 	public static ArrayList Select (
 			bool dbconOpened, int uniqueID, int personID, int sessionID, Constants.EncoderGI encoderGI, 
-			int exerciseID, string signalOrCurve, EncoderSQL.Eccons ecconSelect,
+			int exerciseID, string signalOrCurve, EncoderSQL.Eccons ecconSelect, string lateralityEnglish,
 			bool onlyActive, bool orderIDascendent)
 	{
 		if(! dbconOpened)
@@ -226,14 +226,18 @@ class SqliteEncoder : Sqlite
 		if(exerciseID != -1)
 			exerciseIDStr = " exerciseID = " + exerciseID + " AND ";
 
+		string lateralityEnglishStr = "";
+		if(lateralityEnglish != "")
+			lateralityEnglishStr = " laterality = \"" + lateralityEnglish + "\" AND ";
+
 		string selectStr = "";
 		if(uniqueID != -1)
 			selectStr = Constants.EncoderTable + ".uniqueID = " + uniqueID;
 		else {
 			if(signalOrCurve == "all")
-				selectStr = personIDStr + sessionIDStr + exerciseIDStr;
+				selectStr = personIDStr + sessionIDStr + exerciseIDStr + lateralityEnglishStr;
 			else
-				selectStr = personIDStr + sessionIDStr + exerciseIDStr + " signalOrCurve = \"" + signalOrCurve + "\"";
+				selectStr = personIDStr + sessionIDStr + exerciseIDStr + lateralityEnglishStr + " signalOrCurve = \"" + signalOrCurve + "\"";
 		
 			if(ecconSelect != EncoderSQL.Eccons.ALL)
 				selectStr += " AND " + Constants.EncoderTable + ".eccon = \"" + EncoderSQL.Eccons.ecS.ToString() + "\"";

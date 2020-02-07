@@ -914,7 +914,7 @@ public class EncoderSQL
 		this.status = status;
 		this.videoURL = videoURL;
 		this.encoderConfiguration = encoderConfiguration;
-		this.future1 = future1;	//on curves: meanPower. Better use alter table
+		this.future1 = future1;	//on curves: meanPower
 		this.future2 = future2; //on curves: meanSpeed
 		this.future3 = future3; //on curves: meanForce
 		this.exerciseName = exerciseName;
@@ -955,14 +955,15 @@ public class EncoderSQL
 	}
 
 	//showMeanPower is used in curves, but not in signal
-	public string [] ToStringArray (int count, bool checkboxes, bool video, bool encoderConfigPretty, bool showMeanPower) {
+	public string [] ToStringArray (int count, bool checkboxes, bool video, bool encoderConfigPretty, bool showMeanPSF)
+	{
 		int all = 9;
 		if(checkboxes)
 			all ++;
 		if(video)
 			all++;
-		if(showMeanPower)
-			all++;
+		if(showMeanPSF)
+			all += 3;
 
 
 		string [] str = new String [all];
@@ -977,8 +978,21 @@ public class EncoderSQL
 		str[i++] = Catalog.GetString(laterality);
 		str[i++] = extraWeight;
 		
-		if(showMeanPower)
+		if(showMeanPSF)
+		{
 			str[i++] = future1;
+
+			//as recording meanSpeed and meanForce is new on 2.0, show a blank cell instead of a 0
+			if(future2 == "0")
+				str[i++] = "";
+			else
+				str[i++] = future2;
+
+			if(future3 == "0")
+				str[i++] = "";
+			else
+				str[i++] = future3;
+		}
 
 		if(encoderConfigPretty)
 			str[i++] = encoderConfiguration.ToStringPretty();
@@ -1068,8 +1082,6 @@ public class EncoderSQL
 		//default return first value
 		return lateralityOptionsEnglish[0];
 	}
-
-
 
 	//used in NUnit
 	public string Filename

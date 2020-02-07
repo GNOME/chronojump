@@ -216,6 +216,8 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 			"RL",
 			Catalog.GetString("Extra weight"),
 			Catalog.GetString("Mean Power"),
+			Catalog.GetString("Mean Speed"),
+			Catalog.GetString("Mean Force"),
 			Catalog.GetString("Encoder"),
 			Catalog.GetString("Contraction"),
 			Catalog.GetString("Date"),

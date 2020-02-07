@@ -45,6 +45,7 @@ public class EncoderGraphDoPlot
 	private bool playSoundsFromFile;
 	private ArrayList data7Variables;
 	private Gtk.ListStore encoderCaptureListStore;
+	private bool relativeToSet;
 	private double maxPowerSpeedForceIntersession; //it will be one of these 3
 
 	private int discardFirstN;
@@ -140,6 +141,7 @@ public class EncoderGraphDoPlot
 			RepetitiveConditionsWindow repetitiveConditionsWin,
 			bool hasInertia, bool playSoundsFromFile,
 			ArrayList data7Variables, Gtk.ListStore encoderCaptureListStore,
+			bool relativeToSet,
 			double maxPowerSpeedForceIntersession)
 	{
 		this.mainVariable = mainVariable;
@@ -154,6 +156,7 @@ public class EncoderGraphDoPlot
 		this.playSoundsFromFile = playSoundsFromFile;
 		this.data7Variables = data7Variables;
         	this.encoderCaptureListStore = encoderCaptureListStore;
+		this.relativeToSet = relativeToSet;
 		this.maxPowerSpeedForceIntersession = maxPowerSpeedForceIntersession;
 
 		graphWidth = drawingarea.Allocation.Width;
@@ -358,7 +361,7 @@ public class EncoderGraphDoPlot
 
 		double maxAbsolute = maxThisSet;
 		//can be on meanPower, meanSpeed, meanForce
-		if(! repetitiveConditionsWin.EncoderRelativeToSet)
+		if(! relativeToSet)
 		{
 			//relative to historical of this person
 
@@ -437,7 +440,7 @@ public class EncoderGraphDoPlot
 		string units = "";
 		
 		//draw line for person max intersession
-		if(! repetitiveConditionsWin.EncoderRelativeToSet)
+		if(! relativeToSet)
 		{
 			layout_encoder_capture_curves_bars_text.SetMarkup("Person's best:");
 			layout_encoder_capture_curves_bars_text.GetPixelSize(out textWidth, out textHeight);

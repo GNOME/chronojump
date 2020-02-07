@@ -5340,6 +5340,7 @@ public partial class ChronoJumpWindow
 					configChronojump.PlaySoundsFromFile,
 					captureCurvesBarsData,
 					encoderCaptureListStore,
+					preferences.encoderCaptureMainVariableThisSetOrHistorical,
 					sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable));
 		}
 	}
@@ -6173,6 +6174,7 @@ public partial class ChronoJumpWindow
 						configChronojump.PlaySoundsFromFile,
 						captureCurvesBarsData,
 						encoderCaptureListStore,
+						preferences.encoderCaptureMainVariableThisSetOrHistorical,
 						sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable));
 				//}
 
@@ -6697,6 +6699,7 @@ public partial class ChronoJumpWindow
 						configChronojump.PlaySoundsFromFile,
 						captureCurvesBarsData,
 						encoderCaptureListStore,
+						preferences.encoderCaptureMainVariableThisSetOrHistorical,
 						sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable));
 		
 				button_encoder_signal_save_comment.Label = Catalog.GetString("Save comment");

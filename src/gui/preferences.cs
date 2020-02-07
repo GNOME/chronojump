@@ -1740,17 +1740,19 @@ public class PreferencesWindow
 			SqlitePreferences.Update("showAngle", PreferencesWindowBox.checkbutton_angle.Active.ToString(), true);
 			preferences.showAngle = PreferencesWindowBox.checkbutton_angle.Active;
 		}
-		
+
 		if(PreferencesWindowBox.checkbutton_show_tv_tc_index.Active) {
-			SqlitePreferences.Update("showQIndex", PreferencesWindowBox.radiobutton_show_q_index.Active.ToString(), true);
-			SqlitePreferences.Update("showDjIndex", PreferencesWindowBox.radiobutton_show_dj_index.Active.ToString(), true);
-			preferences.showQIndex = PreferencesWindowBox.radiobutton_show_q_index.Active;
-			preferences.showDjIndex = PreferencesWindowBox.radiobutton_show_dj_index.Active;
+			preferences.showQIndex = Preferences.PreferencesChange(
+					"showQIndex", preferences.showQIndex,
+					PreferencesWindowBox.radiobutton_show_q_index.Active);
+			preferences.showDjIndex = Preferences.PreferencesChange(
+					"showDjIndex", preferences.showDjIndex,
+					PreferencesWindowBox.radiobutton_show_dj_index.Active);
 		} else {
-			SqlitePreferences.Update("showQIndex", "False", true);
-			SqlitePreferences.Update("showDjIndex", "False", true);
-			preferences.showQIndex = false;
-			preferences.showDjIndex = false; 
+			preferences.showQIndex = Preferences.PreferencesChange(
+					"showQIndex", preferences.showQIndex, false);
+			preferences.showDjIndex = Preferences.PreferencesChange(
+					"showDjIndex", preferences.showDjIndex, false);
 		}
 
 		preferences.jumpsDjGraphHeights = Preferences.PreferencesChange(
@@ -1956,9 +1958,10 @@ public class PreferencesWindow
 		else // (PreferencesWindowBox.radio_encoder_1RM_weighted3.Active)
 			encoder1RMMethod = Constants.Encoder1RMMethod.WEIGHTED3;
 
-		SqlitePreferences.Update("encoder1RMMethod", encoder1RMMethod.ToString(), true);
-		preferences.encoder1RMMethod = encoder1RMMethod;
-
+		if(preferences.encoder1RMMethod != encoder1RMMethod) {
+			SqlitePreferences.Update("encoder1RMMethod", encoder1RMMethod.ToString(), true);
+			preferences.encoder1RMMethod = encoder1RMMethod;
+		}
 
 		//---- end of encoder other
 
@@ -2058,13 +2061,13 @@ public class PreferencesWindow
 			preferences.videoStopAfter = selected_camera_stop_after;
 		}
 
-		//end of camera stuff
-
-		if(PreferencesWindowBox.radio_export_latin.Active) {
+		if(preferences.CSVExportDecimalSeparator == "POINT" && PreferencesWindowBox.radio_export_latin.Active)
+		{
 			SqlitePreferences.Update("CSVExportDecimalSeparator","COMMA", true); 
 			preferences.CSVExportDecimalSeparator = "COMMA";
 		}
-		else {
+		else if(preferences.CSVExportDecimalSeparator == "COMMA" && ! PreferencesWindowBox.radio_export_latin.Active)
+		{
 			SqlitePreferences.Update("CSVExportDecimalSeparator","POINT", true); 
 			preferences.CSVExportDecimalSeparator = "POINT";
 		}

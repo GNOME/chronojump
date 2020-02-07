@@ -7045,7 +7045,7 @@ LogB.Debug("mc finished 5");
 							configChronojump.PlaySoundsFromFile,
 							captureCurvesBarsData,
 							encoderCaptureListStore,
-							maxPowerIntersession);
+							sendMaxPowerSpeedForceIntersession(mainVariable));
 				} else
 					UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 			}

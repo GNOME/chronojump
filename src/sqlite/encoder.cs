@@ -60,8 +60,8 @@ class SqliteEncoder : Sqlite
 			"encoderConfiguration TEXT, " +	//text separated by ':'
 		       	"future1 TEXT, " +	//Since 1.4.4 (DB 1.06) this stores last meanPower detected on a curve 
 						//(as string with '.' because future1 was created as TEXT)
-		       	"future2 TEXT, " + 
-		       	"future3 TEXT )";
+			"future2 TEXT, " + 	//same as future1
+			"future3 TEXT )"; 	//same as future1
 		dbcmd.ExecuteNonQuery();
 	}
 	
@@ -91,7 +91,7 @@ class SqliteEncoder : Sqlite
 			"\", \"" + es.status + "\", \"" + 
 			Util.MakeURLrelative(es.videoURL) + "\", \"" +
 			es.encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) + "\", \"" +
-			Util.ConvertToPoint(es.future1) + "\", \"" + es.future2 + "\", \"" + es.future3 + "\")";
+			Util.ConvertToPoint(es.future1) + "\", \"" + Util.ConvertToPoint(es.future2) + "\", \"" + Util.ConvertToPoint(es.future3) + "\")";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -141,9 +141,9 @@ class SqliteEncoder : Sqlite
 				"\", status = \"" + es.status + 
 				"\", videoURL = \"" + Util.MakeURLrelative(es.videoURL) +
 				"\", encoderConfiguration = \"" + es.encoderConfiguration.ToStringOutput(EncoderConfiguration.Outputs.SQL) +
-				"\", future1 = \"" + Util.ConvertToPoint(es.future1) + 
-				"\", future2 = \"" + es.future2 + 
-				"\", future3 = \"" + es.future3 + 
+				"\", future1 = \"" + Util.ConvertToPoint(es.future1) +
+				"\", future2 = \"" + Util.ConvertToPoint(es.future2) +
+				"\", future3 = \"" + Util.ConvertToPoint(es.future3) +
 				"\" WHERE uniqueID == " + es.uniqueID ;
 
 		LogB.SQL(mycmd.CommandText.ToString());
@@ -315,8 +315,8 @@ class SqliteEncoder : Sqlite
 					videoURL,				//videoURL
 					econf,					//encoderConfiguration
 					Util.ChangeDecimalSeparator(reader[16].ToString()),	//future1 (meanPower on curves)
-					reader[17].ToString(),			//future2
-					reader[18].ToString(),			//future3
+					Util.ChangeDecimalSeparator(reader[17].ToString()),	//future2 (meanSpeed on curves)
+					Util.ChangeDecimalSeparator(reader[18].ToString()),	//future3 (meanForce on curves)
 					reader[19].ToString()			//EncoderExercise.name
 					);
 			array.Add (eSQL);
@@ -535,7 +535,7 @@ class SqliteEncoder : Sqlite
 			Sqlite.Open();
 
 		dbcmd.CommandText =
-			"SELECT person77.name, person77.sex, encoder.encoderConfiguration, encoderExercise.name, encoder.extraWeight, encoder.future1 " +
+			"SELECT person77.name, person77.sex, encoder.encoderConfiguration, encoderExercise.name, encoder.extraWeight, encoder.future1 " + //TODO: future2, future3
 			"FROM person77, encoderExercise, encoder " +
 			"WHERE sessionID = " + sessionID.ToString() +
 		        " AND signalOrCurve = \"curve\" " +
@@ -571,6 +571,7 @@ class SqliteEncoder : Sqlite
 					reader[3].ToString(), 	//encoder exercise name
 					Util.ChangeDecimalSeparator(reader[4].ToString()),	//extra mass
 					reader[5].ToString()	//power
+						//TODO: speed, force
 				};
 				array.Add (s);
 			} else {
@@ -579,6 +580,7 @@ class SqliteEncoder : Sqlite
 					reader[1].ToString(), 	//person sex
 					reader[3].ToString(), 	//encoder exercise name
 					reader[5].ToString()	//power
+						//TODO: speed, force
 				};
 				array.Add (s);
 			}
@@ -603,7 +605,7 @@ class SqliteEncoder : Sqlite
 			"signalID INT, " +
 			"curveID INT, " +
 			"msCentral INT, " +
-			"future1 TEXT )"; //need future2, future3. Better to use alter table here and on encoder table
+			"future1 TEXT )"; //right now unused. need future2, future3. Better to use alter table here and on encoder table
 		dbcmd.ExecuteNonQuery();
 	}
 	

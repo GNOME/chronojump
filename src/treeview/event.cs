@@ -344,6 +344,29 @@ public class TreeViewEvent
 		} while (treeview.Model.IterNext (ref iter));
 	}
 
+	//used to select person on results treeviews when personChanged
+	public void SelectPerson(string name)
+	{
+		TreeIter iter = new TreeIter();
+		if(! treeview.Model.GetIterFirst (out iter))
+			return;
+
+		do {
+			if(treeview.Model.GetValue (iter, 0).ToString() == name)
+			{
+				treeview.Selection.SelectIter(iter);
+
+				//scroll treeview if needed
+				TreePath path = store.GetPath (iter);
+				treeview.ScrollToCell (path, null, true, 0, 0);
+
+				return;
+			}
+		} while (treeview.Model.IterNext (ref iter));
+
+		Unselect(); //if not found: unselect all
+	}
+
 	public void SelectEvent(int uniqueID) {
 		TreeIter iter = new TreeIter();
 		treeview.Model.GetIterFirst ( out iter ) ;

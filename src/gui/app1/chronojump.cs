@@ -1084,6 +1084,12 @@ public partial class ChronoJumpWindow
 	{
 		sensitiveLastTestButtons(false);
 
+		//update 4 results treeviews
+		myTreeViewJumps.SelectPerson(currentPerson.Name);
+		myTreeViewJumpsRj.SelectPerson(currentPerson.Name);
+		myTreeViewRuns.SelectPerson(currentPerson.Name);
+		myTreeViewRunsInterval.SelectPerson(currentPerson.Name);
+
 		//1) change on jumps, runs, pulse capture graph
 		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
 		{

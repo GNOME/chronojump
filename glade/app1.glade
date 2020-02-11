@@ -21911,6 +21911,7 @@ Concentric</property>
                                                             <widget class="GtkDrawingArea" id="force_sensor_ai_drawingarea">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <signal name="button_press_event" handler="on_force_sensor_ai_drawingarea_button_press_event" swapped="no"/>
                                                             <signal name="configure_event" handler="on_force_sensor_ai_drawingarea_configure_event" swapped="no"/>
                                                             <signal name="expose_event" handler="on_force_sensor_ai_drawingarea_expose_event" swapped="no"/>
                                                             </widget>

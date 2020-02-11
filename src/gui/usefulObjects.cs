@@ -459,4 +459,13 @@ public class RepetitionMouseLimits
 
 		return -1;
 	}
+
+	public double GetStartOfARep(int rep)
+	{
+		return ((PointStartEnd) list[rep]).Start;
+	}
+	public double GetEndOfARep(int rep)
+	{
+		return ((PointStartEnd) list[rep]).End;
+	}
 }

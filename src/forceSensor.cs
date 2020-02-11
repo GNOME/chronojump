@@ -1495,7 +1495,7 @@ public class ForceSensorAnalyzeInstant
 
 	public int GetLength()
 	{
-		LogB.Information("GetLength: " + fscAIPoints.GetLength());
+		//LogB.Information("GetLength: " + fscAIPoints.GetLength());
 		return fscAIPoints.GetLength();
 	}
 

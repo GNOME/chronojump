@@ -131,6 +131,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_force_sensor_ai_variability_values;
 	[Widget] Gtk.Label label_force_sensor_ai_feedback_values;
 
+	private RepetitionMouseLimits fsAIRepetitionMouseLimits;
+
 	/*
 	 * analyze options -------------------------->
 	 */
@@ -839,6 +841,9 @@ public partial class ChronoJumpWindow
 		if(force_sensor_ai_drawingarea == null)
 			return;
 
+		//needed to have mouse clicks button_press_event ()
+		force_sensor_ai_drawingarea.AddEvents((int) (Gdk.EventMask.ButtonPressMask | Gdk.EventMask.ButtonReleaseMask));
+
 		/* in some mono installations, configure_event is not called, but expose_event yes.
 		 * Do here the initialization
 		 */
@@ -877,6 +882,57 @@ public partial class ChronoJumpWindow
 		LogB.Information("EXPOSE END");
 	}
 
+	private void on_force_sensor_ai_drawingarea_button_press_event (object o, ButtonPressEventArgs args)
+	{
+		//LogB.Information(string.Format("Mouse X: {0}; Mouse Y: {1}", args.Event.X, args.Event.Y));
+
+		//if zoomed: unzoom and return
+		if(forceSensorZoomApplied)
+		{
+			button_force_sensor_ai_zoom.Click();
+			return;
+		}
+
+		//if list exists, select the repetition
+		if(fsAIRepetitionMouseLimits != null)
+		{
+			int repetition = fsAIFindBarInPixel(args.Event.X);
+			LogB.Information("Repetition: " + repetition.ToString());
+			if(repetition >= 0)
+			{
+				double start = fsAIRepetitionMouseLimits.GetStartOfARep(repetition);
+				double end = fsAIRepetitionMouseLimits.GetEndOfARep(repetition);
+				//LogB.Information(string.Format("start: {0}, end: {1}", start, end));
+
+				//find the hscale value for this x
+				//TODO: move this to forceSensor.cs
+				bool startFound = false;
+				bool endFound = false;
+				for(int i = 0; i < fsAI.GetLength() -1; i++)
+				{
+					int xposHere = fsAI.GetXFromSampleCount(i);
+
+					//with >= to solve problems of doubles
+					if(! startFound && xposHere >= start)
+					{
+						hscale_force_sensor_ai_a.Value = i;
+						//LogB.Information(string.Format("start2: {0}", i));
+						startFound = true;
+					}
+
+					if(! endFound && xposHere >= end)
+					{
+						hscale_force_sensor_ai_b.Value = i;
+						//LogB.Information(string.Format("end2: {0}", i));
+						endFound = true;
+					}
+				}
+				button_force_sensor_ai_zoom.Click();
+
+				//TODO: need to paint the repetition value at top
+			}
+		}
+	}
 
 	private bool forceSensorZoomApplied;
 	private void forceSensorZoomDefaultValues()
@@ -921,6 +977,7 @@ public partial class ChronoJumpWindow
 			return;
 
 		LogB.Information("forceSensorAnalyzeManualGraphDo() START");
+		fsAIRepetitionMouseLimits = new RepetitionMouseLimits();
 		bool debug = false;
 
 		button_force_sensor_image_save_rfd_manual.Sensitive = true;
@@ -1011,7 +1068,7 @@ public partial class ChronoJumpWindow
 			force_sensor_ai_pixmap.DrawLine(pen_green_force_ai,
 					xposRep, 0, xposRep, allocation.Height -20);
 
-			// write repetition count
+			// write repetition count and store MouseLimits
 			if(i > 0)
 			{
 				layout_force_ai_text.SetMarkup(i.ToString());
@@ -1020,6 +1077,12 @@ public partial class ChronoJumpWindow
 				force_sensor_ai_pixmap.DrawLayout (pen_green_force_ai,
 						Convert.ToInt32((xposRepPrevious + xposRep)/2 - textWidth/2), 0,
 						layout_force_ai_text);
+
+				//store the graph X
+				fsAIRepetitionMouseLimits.Add(xposRepPrevious, xposRep);
+				//store the sample count, because we want to move the progressbars there
+				//fsAIRepetitionMouseLimits.Add(fsAI.ForceSensorRepetition_l[i-1].posX,
+				//		fsAI.ForceSensorRepetition_l[i].posX);
 			}
 
 			xposRepPrevious = xposRep;
@@ -1079,6 +1142,14 @@ public partial class ChronoJumpWindow
 			}
 		}
 		LogB.Information("forceSensorAnalyzeManualGraphDo() END");
+	}
+
+	private int fsAIFindBarInPixel (double pixel)
+	{
+		if(fsAIRepetitionMouseLimits == null)
+			return -1;
+
+		return fsAIRepetitionMouseLimits.FindBarInPixel(pixel);
 	}
 
 	private void plotRFDLineDebugConstruction(int countRFDMax)

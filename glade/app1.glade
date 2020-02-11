@@ -22088,38 +22088,10 @@ Concentric</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox341">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <child>
-                                                            <widget class="GtkCheckButton" id="checkbutton_force_sensor_ai_b">
-                                                            <property name="width_request">30</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="sensitive">False</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">False</property>
-                                                            <property name="xalign">1</property>
-                                                            <property name="draw_indicator">True</property>
-                                                            <signal name="toggled" handler="on_checkbutton_force_sensor_ai_b_toggled" swapped="no"/>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <widget class="GtkLabel" id="label361">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label">B</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -22129,6 +22101,7 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkHScale" id="hscale_force_sensor_ai_b">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="adjustment">1 1 300 1 10 0</property>
                                                             <property name="digits">0</property>
@@ -22143,6 +22116,7 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox_buttons_scale_force_sensor_ai_b">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
                                                             <child>
@@ -22285,6 +22259,7 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkHScale" id="hscale_force_sensor_ai_ab">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="adjustment">1 1 300 1 10 0</property>
                                                             <property name="digits">0</property>
@@ -22300,6 +22275,7 @@ Concentric</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_force_sensor_ai_zoom">
                                                             <property name="label">Zoom [A-B]</property>
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <signal name="clicked" handler="on_button_force_sensor_ai_zoom_clicked" swapped="no"/>
@@ -22539,6 +22515,7 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_force_sensor_ai_force_b">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="width_chars">8</property>
                                                             </widget>
@@ -22553,6 +22530,7 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_force_sensor_ai_rfd_b">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="width_chars">8</property>
                                                             </widget>
@@ -22581,6 +22559,7 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_force_sensor_ai_time_b">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             </widget>
                                                             <packing>
@@ -22594,6 +22573,7 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_force_sensor_ai_force_diff">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="width_chars">8</property>
                                                             </widget>
@@ -22608,6 +22588,7 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_force_sensor_ai_time_diff">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="width_chars">8</property>
                                                             </widget>
@@ -22622,6 +22603,7 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_force_sensor_ai_rfd_diff">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="width_chars">8</property>
                                                             </widget>
@@ -22636,6 +22618,7 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_force_sensor_ai_force_average">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="width_chars">8</property>
                                                             </widget>
@@ -22650,6 +22633,7 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_force_sensor_ai_rfd_average">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="width_chars">8</property>
                                                             </widget>
@@ -22664,6 +22648,7 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_force_sensor_ai_force_max">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="width_chars">8</property>
                                                             </widget>
@@ -22678,6 +22663,7 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_force_sensor_ai_rfd_max">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="width_chars">8</property>
                                                             </widget>
@@ -22692,6 +22678,7 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_force_sensor_ai_b">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label">B</property>
                                                             </widget>
@@ -22717,6 +22704,7 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_force_sensor_ai_diff">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">1</property>
                                                             <property name="label" translatable="yes">Difference</property>
@@ -22730,6 +22718,7 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_force_sensor_ai_average">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">1</property>
                                                             <property name="label" translatable="yes">Average</property>
@@ -22743,6 +22732,7 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_force_sensor_ai_max">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">1</property>
                                                             <property name="label" translatable="yes">Maximum</property>
@@ -22878,6 +22868,7 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_force_sensor_ai_position_b">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             </widget>
                                                             <packing>
@@ -22905,6 +22896,7 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_force_sensor_ai_speed_b">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             </widget>
                                                             <packing>
@@ -22932,6 +22924,7 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_force_sensor_ai_accel_b">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             </widget>
                                                             <packing>
@@ -22959,6 +22952,7 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_force_sensor_ai_power_b">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             </widget>
                                                             <packing>
@@ -23028,6 +23022,7 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_force_sensor_ai_speed_average">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="width_chars">8</property>
                                                             </widget>
@@ -23042,6 +23037,7 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_force_sensor_ai_accel_average">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="width_chars">8</property>
                                                             </widget>
@@ -23056,6 +23052,7 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_force_sensor_ai_power_average">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="width_chars">8</property>
                                                             </widget>
@@ -23070,6 +23067,7 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_force_sensor_ai_speed_max">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="width_chars">8</property>
                                                             </widget>
@@ -23084,6 +23082,7 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_force_sensor_ai_accel_max">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="width_chars">8</property>
                                                             </widget>
@@ -23098,6 +23097,7 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_force_sensor_ai_power_max">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="width_chars">8</property>
                                                             </widget>
@@ -23109,6 +23109,9 @@ Concentric</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options">GTK_SHRINK</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -23267,7 +23270,7 @@ Concentric</property>
                                                             <child>
                                                             <widget class="GtkVBox" id="vbox_force_sensor_ai_impulse_variability_and_feedback">
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">12</property>
+                                                            <property name="spacing">10</property>
                                                             <child>
                                                             <widget class="GtkVBox" id="vbox148">
                                                             <property name="visible">True</property>
@@ -25528,18 +25531,6 @@ Concentric</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Tests will be filmed</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack_type">end</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <widget class="GtkHBox" id="hbox_video_encoder_capturing">
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
@@ -25567,6 +25558,18 @@ Concentric</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Tests will be filmed</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -31274,6 +31277,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

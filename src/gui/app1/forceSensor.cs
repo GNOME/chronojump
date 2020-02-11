@@ -1094,7 +1094,6 @@ LogB.Information(" fs C ");
 				button_force_sensor_analyze_analyze.Sensitive = false;
 				button_force_sensor_image_save_rfd_auto.Sensitive = false;
 				button_force_sensor_image_save_rfd_manual.Sensitive = false;
-				checkbutton_force_sensor_ai_b.Sensitive = false;
 				button_contacts_recalculate.Sensitive = false;
 				button_delete_last_test.Sensitive = false;
 			}

@@ -535,7 +535,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HScale hscale_force_sensor_ai_a;
 	[Widget] Gtk.HScale hscale_force_sensor_ai_b;
 	[Widget] Gtk.HScale hscale_force_sensor_ai_ab;
-	[Widget] Gtk.CheckButton checkbutton_force_sensor_ai_b;
 	[Widget] Gtk.Label label_force_sensor_ai_time_a;
 	[Widget] Gtk.Label label_force_sensor_ai_force_a;
 	[Widget] Gtk.Label label_force_sensor_ai_rfd_a;
@@ -544,7 +543,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_force_sensor_ai_accel_a;
 	[Widget] Gtk.Label label_force_sensor_ai_power_a;
 	[Widget] Gtk.HBox hbox_buttons_scale_force_sensor_ai_b;
-	[Widget] Gtk.Label label_force_sensor_ai_b;
 	[Widget] Gtk.Label label_force_sensor_ai_position_b;
 	[Widget] Gtk.Label label_force_sensor_ai_position_diff;
 	[Widget] Gtk.Label label_force_sensor_ai_speed_b;
@@ -559,9 +557,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_force_sensor_ai_power_diff;
 	[Widget] Gtk.Label label_force_sensor_ai_power_average;
 	[Widget] Gtk.Label label_force_sensor_ai_power_max;
-	[Widget] Gtk.Label label_force_sensor_ai_diff;
-	[Widget] Gtk.Label label_force_sensor_ai_average;
-	[Widget] Gtk.Label label_force_sensor_ai_max;
 	[Widget] Gtk.Label label_force_sensor_ai_time_b;
 	[Widget] Gtk.Label label_force_sensor_ai_time_diff;
 	[Widget] Gtk.Label label_force_sensor_ai_force_b;
@@ -602,7 +597,7 @@ public partial class ChronoJumpWindow
 
 		double zoomA = -1;
 		double zoomB = -1;
-		if(forceSensorZoomApplied && checkbutton_force_sensor_ai_b.Active &&
+		if(forceSensorZoomApplied &&
 				Util.IsNumber(label_force_sensor_ai_time_a.Text, true) &&
 				Util.IsNumber(label_force_sensor_ai_time_b.Text, true))
 		{
@@ -898,13 +893,9 @@ public partial class ChronoJumpWindow
 		forceSensorZoomApplied = ! forceSensorZoomApplied;
 
 		if(forceSensorZoomApplied)
-		{
 			button_force_sensor_ai_zoom.Label = "Zoom out";
-			checkbutton_force_sensor_ai_b.Sensitive = false;
-		} else {
+		else
 			button_force_sensor_ai_zoom.Label = "Zoom [A-B]";
-			checkbutton_force_sensor_ai_b.Sensitive = true;
-		}
 
 		//store hscale a to help return to position on unzoom
 		if(forceSensorZoomApplied) {
@@ -933,10 +924,6 @@ public partial class ChronoJumpWindow
 		bool debug = false;
 
 		button_force_sensor_image_save_rfd_manual.Sensitive = true;
-		if(! forceSensorZoomApplied)
-			checkbutton_force_sensor_ai_b.Sensitive = true;
-		if(checkbutton_force_sensor_ai_b.Active)
-			button_force_sensor_analyze_AB_save.Visible = true;
 
 		//draw horizontal rectangle of feedback
 		if(preferences.forceSensorCaptureFeedbackActive)
@@ -982,7 +969,7 @@ public partial class ChronoJumpWindow
 				layout_force_ai_text_big);
 
 		int xposB = 0;
-		if(checkbutton_force_sensor_ai_b.Active && hscaleLower != hscaleHigher)
+		if(hscaleLower != hscaleHigher)
 		{
 			xposB = fsAI.GetXFromSampleCount(hscaleHigher);
 			force_sensor_ai_pixmap.DrawLine(pen_yellow_force_ai,
@@ -1039,12 +1026,8 @@ public partial class ChronoJumpWindow
 		}
 
 
-		// 6) if only A calculate exit
-		if(! checkbutton_force_sensor_ai_b.Active)
-			return;
-
 		/*
-		 * 7) Invert AB if needed to paint correctly blue and red lines
+		 * 6) Invert AB if needed to paint correctly blue and red lines
 		 * making it work also when B is higher than A
 		 */
 		if(hscaleLower > hscaleHigher)
@@ -1127,7 +1110,7 @@ public partial class ChronoJumpWindow
 			return;
 
 		//do not allow A to be higher than B (fix multiple possible problems)
-		if(checkbutton_force_sensor_ai_b.Active && hscale_force_sensor_ai_a.Value > hscale_force_sensor_ai_b.Value)
+		if(hscale_force_sensor_ai_a.Value > hscale_force_sensor_ai_b.Value)
 			hscale_force_sensor_ai_b.Value = hscale_force_sensor_ai_a.Value;
 
 		int count = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
@@ -1152,13 +1135,10 @@ public partial class ChronoJumpWindow
 		else
 			label_force_sensor_ai_rfd_a.Text = "";
 
-		if(checkbutton_force_sensor_ai_b.Active)
-		{
-			force_sensor_analyze_instant_calculate_params();
-			updateForceSensorHScales = false;
-			hscale_force_sensor_ai_ab.Value = Convert.ToInt32(hscale_force_sensor_ai_a.Value + hscale_force_sensor_ai_b.Value) / 2;
-			updateForceSensorHScales = true;
-		}
+		force_sensor_analyze_instant_calculate_params();
+		updateForceSensorHScales = false;
+		hscale_force_sensor_ai_ab.Value = Convert.ToInt32(hscale_force_sensor_ai_a.Value + hscale_force_sensor_ai_b.Value) / 2;
+		updateForceSensorHScales = true;
 
 		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
 		forceSensorAIChanged = true;
@@ -1238,8 +1218,6 @@ public partial class ChronoJumpWindow
 
 	private void forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness()
 	{
-		//note ai_a can be working with ai_b or alone (depending on checkbutton_force_sensor_ai_b)
-
 		button_hscale_force_sensor_ai_a_first.Sensitive = hscale_force_sensor_ai_a.Value > 1;
 		button_hscale_force_sensor_ai_a_pre.Sensitive = hscale_force_sensor_ai_a.Value > 1;
 		button_hscale_force_sensor_ai_b_first.Sensitive = hscale_force_sensor_ai_b.Value > 1;
@@ -1287,51 +1265,9 @@ public partial class ChronoJumpWindow
 		hscale_force_sensor_ai_b.Value = fsAI.GetLength() -2;
 	}
 
-	private void on_checkbutton_force_sensor_ai_b_toggled (object o, EventArgs args)
-	{
-		int count = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
-		label_force_sensor_ai_time_b.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
-		label_force_sensor_ai_force_b.Text = Math.Round(fsAI.GetForceAtCount(count), 1).ToString();
-		if(fsAI.CalculedElasticPSAP)
-			label_force_sensor_ai_position_b.Text = Math.Round(fsAI.Position_l[count], 3).ToString();
-
-		manage_force_sensor_ai_table_visibilities();
-
-		if(fsAI != null)
-			force_sensor_analyze_instant_calculate_params();
-
-		forceSensorAIChanged = true; //to actually plot
-
-		//this two help to make the table shrink when B is unchecked
-		scrolledwindow_force_sensor_ai.Hide();
-		scrolledwindow_force_sensor_ai.Show();
-
-		force_sensor_ai_drawingarea.QueueDraw(); // -- refresh
-	}
-
 	private void manage_force_sensor_ai_table_visibilities()
 	{
-		bool visible = checkbutton_force_sensor_ai_b.Active;
-		hscale_force_sensor_ai_b.Visible = visible;
-		hbox_buttons_scale_force_sensor_ai_b.Visible = visible;
-		hscale_force_sensor_ai_ab.Visible = visible;
-
-		label_force_sensor_ai_b.Visible = visible;
-		label_force_sensor_ai_diff.Visible = visible;
-		label_force_sensor_ai_average.Visible = visible;
-		label_force_sensor_ai_max.Visible = visible;
-		label_force_sensor_ai_time_b.Visible = visible;
-		label_force_sensor_ai_time_diff.Visible = visible;
-
-		label_force_sensor_ai_force_b.Visible = visible;
-		label_force_sensor_ai_force_diff.Visible = visible;
-		label_force_sensor_ai_force_average.Visible = visible;
-		label_force_sensor_ai_force_max.Visible = visible;
-
-		label_force_sensor_ai_rfd_b.Visible = visible;
-		label_force_sensor_ai_rfd_diff.Visible = visible;
-		label_force_sensor_ai_rfd_average.Visible = visible;
-		label_force_sensor_ai_rfd_max.Visible = visible;
+		bool visible = true;//checkbutton_force_sensor_ai_b.Active;
 
 		bool visibleElastic = (visible && fsAI.CalculedElasticPSAP);
 
@@ -1351,8 +1287,6 @@ public partial class ChronoJumpWindow
 		label_force_sensor_ai_power_diff.Visible = visibleElastic;
 		label_force_sensor_ai_power_average.Visible = visibleElastic;
 		label_force_sensor_ai_power_max.Visible = visibleElastic;
-
-		button_force_sensor_ai_zoom.Visible = visible;
 
 		if(visible && canDoForceSensorAnalyzeAB())
 			button_force_sensor_analyze_AB_save.Visible = true;

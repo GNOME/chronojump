@@ -22,6 +22,7 @@ using System;
 using System.Data;
 using Gtk;
 using System.Collections; //ArrayList
+using System.Collections.Generic; //List<T>
 
 //this file has classes to allow to pass gui objectes easily
 public class ExecutingGraphData
@@ -427,4 +428,35 @@ public class MovingBar
 	}
 
 	~MovingBar() {}
+}
+
+//to store the xStart and xEnd of every encoder or forceSensor capture reptition
+//in order to be saved or not on clicking screen
+//note every rep will be c or ec
+public class RepetitionMouseLimits
+{
+	private List<PointStartEnd> list;
+	private int current;
+
+	public RepetitionMouseLimits()
+	{
+		list = new List<PointStartEnd>();
+		current = 0;
+	}
+
+	public void Add (double start, double end)
+	{
+		PointStartEnd p = new PointStartEnd(current ++, start, end);
+		list.Add(p);
+		LogB.Information("Added: " + p.ToString());
+	}
+
+	public int FindBarInPixel (double pixel)
+	{
+		foreach(PointStartEnd p in list)
+			if(pixel >= p.Start && pixel <= p.End)
+				return p.Id;
+
+		return -1;
+	}
 }

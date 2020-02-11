@@ -55,7 +55,7 @@ public class EncoderGraphDoPlot
 	private ArrayList data; //data is related to mainVariable (barplot)
 	private ArrayList dataSecondary; //dataSecondary is related to secondary variable (by default range)
 
-	private EncoderBarsLimits encoderBarsLimits;
+	private RepetitionMouseLimits encoderRepetitionMouseLimits;
 
 	Pango.Layout layout_encoder_capture_curves_bars;
         Pango.Layout layout_encoder_capture_curves_bars_text; //e, c
@@ -161,7 +161,7 @@ public class EncoderGraphDoPlot
 
 		graphWidth = drawingarea.Allocation.Width;
 		graphHeight = drawingarea.Allocation.Height;
-		encoderBarsLimits = new EncoderBarsLimits();
+		encoderRepetitionMouseLimits = new RepetitionMouseLimits();
 	
 		fillDataVariables();
 		plot();
@@ -491,8 +491,6 @@ public class EncoderGraphDoPlot
 			pixmap.DrawRectangle(pen_colors_background_encoder_capture, true, rect);
 		}
 
-		int encoderBarsLimitsCount = 0;
-
 		Gdk.Point dSecondaryPreviousPoint = new Gdk.Point(0,0);
 		bool iterOk = encoderCaptureListStore.GetIterFirst(out iter);
 
@@ -612,7 +610,7 @@ public class EncoderGraphDoPlot
 			rect = new Rectangle(dLeft, dTop, dWidth, dHeight);
 			pixmap.DrawRectangle(my_pen, true, rect);
 
-			encoderBarsLimits.Add(encoderBarsLimitsCount ++, dLeft, dLeft + dWidth); //first rep is 1
+			encoderRepetitionMouseLimits.Add(dLeft, dLeft + dWidth); //first rep is 1
 
 			//paint diagonal line to distinguish eccentric-concentric
 			//line is painted before the black outline to fix graphical problems
@@ -886,10 +884,10 @@ public class EncoderGraphDoPlot
 
 	public int FindBarInPixel (double pixel)
 	{
-		if(encoderBarsLimits == null)
+		if(encoderRepetitionMouseLimits == null)
 			return -1;
 
-		return encoderBarsLimits.FindBarInPixel(pixel);
+		return encoderRepetitionMouseLimits.FindBarInPixel(pixel);
 	}
 
 	public bool GraphPrepared {
@@ -925,34 +923,5 @@ public class EncoderBarsSecondaryLine
 	{
 		this.pre = pre;
 		this.current = current;
-	}
-}
-
-//to store the xStart and xEnd of every encoder capture reptition
-//in order to be saved or not on clicking screen
-//note every rep will be c or ec
-public class EncoderBarsLimits
-{
-	private List<PointStartEnd> list;
-
-	public EncoderBarsLimits()
-	{
-		list = new List<PointStartEnd>();
-	}
-
-	public void Add (int id, double start, double end)
-	{
-		PointStartEnd p = new PointStartEnd(id, start, end);
-		list.Add(p);
-		LogB.Information("Added: " + p.ToString());
-	}
-
-	public int FindBarInPixel (double pixel)
-	{
-		foreach(PointStartEnd p in list)
-			if(pixel >= p.Start && pixel <= p.End)
-				return p.Id;
-
-		return -1;
 	}
 }

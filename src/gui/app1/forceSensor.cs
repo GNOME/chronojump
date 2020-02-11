@@ -429,6 +429,8 @@ public partial class ChronoJumpWindow
 		button_delete_last_test.Sensitive = false;
 		if(force_capture_drawingarea != null && force_capture_pixmap != null)
 			UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
+		if(force_sensor_ai_drawingarea != null && force_sensor_ai_pixmap != null)
+			UtilGtk.ErasePaint(force_sensor_ai_drawingarea, force_sensor_ai_pixmap);
 
 		label_force_sensor_value_max.Text = "";
 		label_force_sensor_value.Text = "";

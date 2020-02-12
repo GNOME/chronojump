@@ -618,8 +618,9 @@ public partial class ChronoJumpWindow
 			zoomA = fsAI.GetTimeMS(firstValue -1) * 1000;
 			zoomB = fsAI.GetTimeMS(secondValue +1) * 1000;
 
-			//do not zoom if both are the same
-			if(zoomA == zoomB)
+			//do not zoom if both are the same, or the diff is just on pixel
+			//if(zoomA == zoomB)
+			if(Math.Abs(zoomA - zoomB) <= 1)
 			{
 				zoomA = -1;
 				zoomB = -1;
@@ -660,14 +661,14 @@ public partial class ChronoJumpWindow
 		forceSensorAIPlot();
 
 		//ranges should have max value the number of the lines of csv file minus the header
-		hscale_force_sensor_ai_a.SetRange(1, fsAI.GetLength() -1);
-		hscale_force_sensor_ai_b.SetRange(1, fsAI.GetLength() -1);
-		hscale_force_sensor_ai_ab.SetRange(1, fsAI.GetLength() -1);
-		LogB.Information(string.Format("hscale_force_sensor_ai_time_a,b,ab ranges: 1, {0}", fsAI.GetLength() -1));
+		hscale_force_sensor_ai_a.SetRange(1, fsAI.GetLength() -2);
+		hscale_force_sensor_ai_b.SetRange(1, fsAI.GetLength() -2);
+		hscale_force_sensor_ai_ab.SetRange(1, fsAI.GetLength() -2);
+		LogB.Information(string.Format("hscale_force_sensor_ai_time_a,b,ab ranges: 1, {0}", fsAI.GetLength() -2));
 
 		//on zoom put hscale B at the right
 		if(zoomB >= 0)
-			hscale_force_sensor_ai_b.Value = fsAI.GetLength() -1;
+			hscale_force_sensor_ai_b.Value = fsAI.GetLength() -2;
 
 		//to update values
 		on_hscale_force_sensor_ai_a_value_changed (new object (), new EventArgs ());
@@ -1307,7 +1308,7 @@ public partial class ChronoJumpWindow
 			//if a or b are at max, don't move the ab to the right
 			//if a or b are at min, don't move the ab to the left
 			if(
-					( difference > 0 && aValue < fsAI.GetLength() -1 && bValue < fsAI.GetLength() -1 ) ||
+					( difference > 0 && aValue < fsAI.GetLength() -2 && bValue < fsAI.GetLength() -2 ) ||
 					( difference < 0 && aValue > 1 && bValue > 1 ) )
 			{
 				//move a and b
@@ -1331,12 +1332,13 @@ public partial class ChronoJumpWindow
 		button_hscale_force_sensor_ai_b_first.Sensitive = hscale_force_sensor_ai_b.Value > 1;
 		button_hscale_force_sensor_ai_b_pre.Sensitive = hscale_force_sensor_ai_b.Value > 1;
 
-		button_hscale_force_sensor_ai_a_last.Sensitive = hscale_force_sensor_ai_a.Value < fsAI.GetLength() -1;
-		button_hscale_force_sensor_ai_a_post.Sensitive = hscale_force_sensor_ai_a.Value < fsAI.GetLength() -1;
-		button_hscale_force_sensor_ai_b_last.Sensitive = hscale_force_sensor_ai_b.Value < fsAI.GetLength() -1;
-		button_hscale_force_sensor_ai_b_post.Sensitive = hscale_force_sensor_ai_b.Value < fsAI.GetLength() -1;
+		button_hscale_force_sensor_ai_a_last.Sensitive = hscale_force_sensor_ai_a.Value < fsAI.GetLength() -2;
+		button_hscale_force_sensor_ai_a_post.Sensitive = hscale_force_sensor_ai_a.Value < fsAI.GetLength() -2;
+		button_hscale_force_sensor_ai_b_last.Sensitive = hscale_force_sensor_ai_b.Value < fsAI.GetLength() -2;
+		button_hscale_force_sensor_ai_b_post.Sensitive = hscale_force_sensor_ai_b.Value < fsAI.GetLength() -2;
 
-		button_force_sensor_ai_zoom.Sensitive = hscale_force_sensor_ai_a.Value != hscale_force_sensor_ai_b.Value;
+		//diff have to be more than one pixel
+		button_force_sensor_ai_zoom.Sensitive = (Math.Abs(hscale_force_sensor_ai_a.Value - hscale_force_sensor_ai_b.Value) > 1);
 	}
 
 	private void on_button_hscale_force_sensor_ai_a_first_clicked (object o, EventArgs args)
@@ -1353,7 +1355,7 @@ public partial class ChronoJumpWindow
 	}
 	private void on_button_hscale_force_sensor_ai_a_last_clicked (object o, EventArgs args)
 	{
-		hscale_force_sensor_ai_a.Value = fsAI.GetLength() -1;
+		hscale_force_sensor_ai_a.Value = fsAI.GetLength() -2;
 	}
 
 	private void on_button_hscale_force_sensor_ai_b_first_clicked (object o, EventArgs args)
@@ -1370,7 +1372,7 @@ public partial class ChronoJumpWindow
 	}
 	private void on_button_hscale_force_sensor_ai_b_last_clicked (object o, EventArgs args)
 	{
-		hscale_force_sensor_ai_b.Value = fsAI.GetLength() -1;
+		hscale_force_sensor_ai_b.Value = fsAI.GetLength() -2;
 	}
 
 	private void manage_force_sensor_ai_table_visibilities()

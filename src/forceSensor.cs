@@ -921,14 +921,14 @@ public class ForceSensorCapturePoints
 			outsideGraph = true;
 		}
 
-		if(p.Y < 0)
+		if(p.Y < marginTop)
 		{
 			//too drastic change that makes DrawingArea empty at capture
 			//RealHeightG *= 2;
 			RealHeightG += 20;
 			outsideGraph = true;
 		}
-		else if(p.Y > heightG)
+		else if(p.Y > heightG - marginBottom)
 		{
 			//too drastic change that makes DrawingArea empty at capture
 			//RealHeightGNeg *= 2;

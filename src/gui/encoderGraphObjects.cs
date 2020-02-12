@@ -62,6 +62,7 @@ public class EncoderGraphDoPlot
         Pango.Layout layout_encoder_capture_curves_bars_superbig; //PlaySounds wewillrockyou
 
 	Gdk.GC pen_black_encoder_capture;
+	Gdk.GC pen_black_encoder_capture_discont;
 	Gdk.GC pen_gray;
 	Gdk.GC pen_gray_loss;
 
@@ -242,6 +243,7 @@ public class EncoderGraphDoPlot
 		//defined as drawingarea instead of encoder_capture_signal_drawingarea
 		//because the 2nd is null if config.EncoderCaptureShowOnlyBars == TRUE
 		pen_black_encoder_capture = new Gdk.GC(drawingarea.GdkWindow);
+		pen_black_encoder_capture_discont = new Gdk.GC(drawingarea.GdkWindow);
 		pen_gray = new Gdk.GC(drawingarea.GdkWindow);
 		pen_gray_loss = new Gdk.GC(drawingarea.GdkWindow);
 		pen_red_encoder_capture = new Gdk.GC(drawingarea.GdkWindow);
@@ -278,6 +280,7 @@ public class EncoderGraphDoPlot
 		colormap.AllocColor (ref UtilGtk.SELECTED,true,true);
 
 		pen_black_encoder_capture.Foreground = UtilGtk.BLACK;
+		pen_black_encoder_capture_discont.Foreground = UtilGtk.BLACK;
 		pen_gray.Foreground = UtilGtk.GRAY;
 		pen_gray_loss.Foreground = UtilGtk.GRAY_LIGHT;
 		pen_red_encoder_capture.Foreground = UtilGtk.RED_PLOTS;
@@ -294,6 +297,7 @@ public class EncoderGraphDoPlot
 		pen_selected_encoder_capture.Foreground = UtilGtk.SELECTED;
 
 		pen_black_encoder_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
+		pen_black_encoder_capture_discont.SetLineAttributes (2, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
 		pen_selected_encoder_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
 		pen_gray_loss.SetLineAttributes (5, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
 
@@ -448,7 +452,7 @@ public class EncoderGraphDoPlot
 						left_margin, top_margin - textHeight,
 						layout_encoder_capture_curves_bars_text);
 
-			pixmap.DrawLine(pen_black_encoder_capture,
+			pixmap.DrawLine(pen_black_encoder_capture_discont,
 					left_margin, top_margin,
 					graphWidth - right_margin, top_margin);
 

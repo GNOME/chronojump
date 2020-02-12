@@ -2060,11 +2060,19 @@ LogB.Information(" fs R ");
 					xPx - textWidth/2, force_capture_drawingarea.Allocation.Height - textHeight, layout_force_text);
 		}
 
+
 		//draw vertical line
 		if(solid)
+		{
+			layout_force_text.SetMarkup("Force (N)");
+			layout_force_text.GetPixelSize(out textWidth, out textHeight);
+			force_capture_pixmap.DrawLayout (pen_gray_force_capture,
+					fscPoints.GetTimeInPx(0) - textWidth/2, 0, layout_force_text);
+
 			force_capture_pixmap.DrawLine(pen_gray_force_capture,
-					xPx, 4, xPx, force_capture_drawingarea.Allocation.Height - textHeight -6);
-		else
+					xPx, textHeight, xPx, force_capture_drawingarea.Allocation.Height - textHeight -6);
+
+		} else
 			force_capture_pixmap.DrawLine(pen_gray_force_capture_discont,
 					xPx, 4, xPx, force_capture_drawingarea.Allocation.Height - textHeight -6);
 	}

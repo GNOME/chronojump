@@ -681,6 +681,7 @@ public partial class ChronoJumpWindow
 	Gdk.GC pen_black_force_ai; 		//signal
 	Gdk.GC pen_blue_force_ai; 		//RFD
 	Gdk.GC pen_red_force_ai; 		//RFD max
+	Gdk.GC pen_gray_cont_force_ai; 		//vertical lines
 	Gdk.GC pen_gray_discont_force_ai; 	//vertical lines
 	Gdk.GC pen_yellow_force_ai; 		//0 force
 	Gdk.GC pen_yellow_light_force_ai; 	//feedback rectangle on analyze to differentiate from yellow AB lines
@@ -732,6 +733,7 @@ public partial class ChronoJumpWindow
 		pen_yellow_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
 		pen_yellow_light_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
 		pen_white_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
+		pen_gray_cont_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
 		pen_gray_discont_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
 		pen_green_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
 
@@ -741,6 +743,7 @@ public partial class ChronoJumpWindow
 		pen_yellow_force_ai.Foreground = UtilGtk.YELLOW;
 		pen_yellow_light_force_ai.Foreground = UtilGtk.YELLOW_LIGHT;
 		pen_white_force_ai.Foreground = UtilGtk.WHITE;
+		pen_gray_cont_force_ai.Foreground = UtilGtk.GRAY;
 		pen_gray_discont_force_ai.Foreground = UtilGtk.GRAY;
 		pen_green_force_ai.Foreground = UtilGtk.GREEN_PLOTS;
 
@@ -754,6 +757,7 @@ public partial class ChronoJumpWindow
 		pen_yellow_force_ai.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
 		pen_yellow_light_force_ai.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
 		pen_white_force_ai.SetLineAttributes (1, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
+		pen_gray_cont_force_ai.SetLineAttributes(1, Gdk.LineStyle.Solid, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 		pen_gray_discont_force_ai.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 		pen_green_force_ai.SetLineAttributes (1, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
 
@@ -776,7 +780,7 @@ public partial class ChronoJumpWindow
 
 		//draw vertical line
 		if(solid)
-			force_sensor_ai_pixmap.DrawLine(pen_gray_discont_force_ai,
+			force_sensor_ai_pixmap.DrawLine(pen_gray_cont_force_ai,
 					xPx, 4, xPx, force_sensor_ai_drawingarea.Allocation.Height - textHeight -4);
 		else
 			force_sensor_ai_pixmap.DrawLine(pen_gray_discont_force_ai,
@@ -788,7 +792,7 @@ public partial class ChronoJumpWindow
 		int yPx = fsAI.FscAIPoints.GetForceInPx(yForce);
 		//draw horizontal line
 		if(solid)
-			force_sensor_ai_pixmap.DrawLine(pen_gray_discont_force_ai,
+			force_sensor_ai_pixmap.DrawLine(pen_gray_cont_force_ai,
 					fsAI.FscAIPoints.GetTimeInPx(0), yPx, force_sensor_ai_drawingarea.Allocation.Width, yPx);
 		else
 			force_sensor_ai_pixmap.DrawLine(pen_gray_discont_force_ai,

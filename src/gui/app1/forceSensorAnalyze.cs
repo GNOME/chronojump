@@ -900,8 +900,12 @@ public partial class ChronoJumpWindow
 			LogB.Information("Repetition: " + repetition.ToString());
 			if(repetition >= 0)
 			{
-				double start = fsAIRepetitionMouseLimits.GetStartOfARep(repetition);
-				double end = fsAIRepetitionMouseLimits.GetEndOfARep(repetition);
+				double start = fsAIRepetitionMouseLimits.GetStartOfARep(repetition) -1;
+				if(start < 0)
+					start = 0; //just a precaution
+				double end = fsAIRepetitionMouseLimits.GetEndOfARep(repetition) + 1;
+				if(end >= fsAI.GetLength() -1)
+					end -= 1; //just a precaution
 				//LogB.Information(string.Format("start: {0}, end: {1}", start, end));
 
 				//find the hscale value for this x
@@ -1071,13 +1075,13 @@ public partial class ChronoJumpWindow
 		int j = 0;
 		for(j = 0; j < reps_l.Count; j ++)
 		{
-			int sample = reps_l[j].posX;
+			int sample = reps_l[j].sample;
 			if(forceSensorZoomApplied)
 			{
 				sample -= hscale_force_sensor_ai_a_BeforeZoom;
 				if(sample < 0)
 					continue;
-				else if(reps_l[j].posX >= hscale_force_sensor_ai_b_BeforeZoom)
+				else if(reps_l[j].sample >= hscale_force_sensor_ai_b_BeforeZoom)
 					break;
 			}
 
@@ -1103,7 +1107,8 @@ public partial class ChronoJumpWindow
 			xposRepPrevious = xposRep;
 		}
 		//show the number of last repetition (when obviously no new rep will make writting it)
-		if(j > 0) // write last repetition count
+		//but only if zoomed and that repetition exists (has an end)
+		if(forceSensorZoomApplied && j > 0 && j < reps_l.Count) // write last repetition count
 		{
 			layout_force_ai_text.SetMarkup(j.ToString());
 			textWidth = 1; textHeight = 1;

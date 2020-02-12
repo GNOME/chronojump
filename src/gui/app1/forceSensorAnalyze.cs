@@ -42,6 +42,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ScrolledWindow scrolledwindow_force_sensor_ai;
 	[Widget] Gtk.Button button_force_sensor_analyze_AB_save;
 	[Widget] Gtk.Button button_force_sensor_ai_zoom;
+	[Widget] Gtk.Button button_force_sensor_ai_zoom_out;
 
 	[Widget] Gtk.SpinButton spin_force_duration_seconds;
 	[Widget] Gtk.RadioButton radio_force_duration_seconds;
@@ -889,7 +890,7 @@ public partial class ChronoJumpWindow
 		//if zoomed: unzoom and return
 		if(forceSensorZoomApplied)
 		{
-			button_force_sensor_ai_zoom.Click();
+			button_force_sensor_ai_zoom_out.Click();
 			return;
 		}
 
@@ -943,39 +944,44 @@ public partial class ChronoJumpWindow
 	private void forceSensorZoomDefaultValues()
 	{
 		forceSensorZoomApplied = false;
-		button_force_sensor_ai_zoom.Label = "Zoom [A-B]";
+		button_force_sensor_ai_zoom.Visible = true;
+		button_force_sensor_ai_zoom_out.Visible = false;
 	}
+
 	private int hscale_force_sensor_ai_a_BeforeZoom = 0;
 	private int hscale_force_sensor_ai_a_AtZoom = 0;
 	private int hscale_force_sensor_ai_b_BeforeZoom = 0;
 	private int hscale_force_sensor_ai_b_AtZoom = 0;
+
 	private void on_button_force_sensor_ai_zoom_clicked (object o, EventArgs args)
 	{
-		forceSensorZoomApplied = ! forceSensorZoomApplied;
-
-		if(forceSensorZoomApplied)
-			button_force_sensor_ai_zoom.Label = "Zoom out";
-		else
-			button_force_sensor_ai_zoom.Label = "Zoom [A-B]";
+		forceSensorZoomApplied = true;
 
 		//store hscale a to help return to position on unzoom
-		if(forceSensorZoomApplied) {
-			hscale_force_sensor_ai_a_BeforeZoom = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
-			hscale_force_sensor_ai_b_BeforeZoom = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+		hscale_force_sensor_ai_a_BeforeZoom = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
+		hscale_force_sensor_ai_b_BeforeZoom = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
 
-			forceSensorRepetition_lZoomApplied = fsAI.ForceSensorRepetition_l;
-		} else {
-			hscale_force_sensor_ai_a_AtZoom = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
-			hscale_force_sensor_ai_b_AtZoom = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
-		}
+		forceSensorRepetition_lZoomApplied = fsAI.ForceSensorRepetition_l;
 
 		forceSensorDoGraphAI();
 
-		if(! forceSensorZoomApplied)
-		{
-			hscale_force_sensor_ai_a.Value = hscale_force_sensor_ai_a_BeforeZoom + (hscale_force_sensor_ai_a_AtZoom -1);
-			hscale_force_sensor_ai_b.Value = hscale_force_sensor_ai_a_BeforeZoom + (hscale_force_sensor_ai_b_AtZoom -1);
-		}
+		button_force_sensor_ai_zoom.Visible = false;
+		button_force_sensor_ai_zoom_out.Visible = true;
+	}
+	private void on_button_force_sensor_ai_zoom_out_clicked (object o, EventArgs args)
+	{
+		forceSensorZoomApplied = false;
+
+		hscale_force_sensor_ai_a_AtZoom = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
+		hscale_force_sensor_ai_b_AtZoom = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+
+		forceSensorDoGraphAI();
+
+		hscale_force_sensor_ai_a.Value = hscale_force_sensor_ai_a_BeforeZoom + (hscale_force_sensor_ai_a_AtZoom -1);
+		hscale_force_sensor_ai_b.Value = hscale_force_sensor_ai_a_BeforeZoom + (hscale_force_sensor_ai_b_AtZoom -1);
+
+		button_force_sensor_ai_zoom.Visible = true;
+		button_force_sensor_ai_zoom_out.Visible = false;
 	}
 
 	private void forceSensorAnalyzeManualGraphDo(Rectangle allocation)
@@ -1329,7 +1335,7 @@ public partial class ChronoJumpWindow
 		button_hscale_force_sensor_ai_b_last.Sensitive = hscale_force_sensor_ai_b.Value < fsAI.GetLength() -2;
 		button_hscale_force_sensor_ai_b_post.Sensitive = hscale_force_sensor_ai_b.Value < fsAI.GetLength() -2;
 
-		button_force_sensor_ai_zoom.Sensitive = forceSensorZoomApplied || hscale_force_sensor_ai_a.Value != hscale_force_sensor_ai_b.Value;
+		button_force_sensor_ai_zoom.Sensitive = hscale_force_sensor_ai_a.Value != hscale_force_sensor_ai_b.Value;
 	}
 
 	private void on_button_hscale_force_sensor_ai_a_first_clicked (object o, EventArgs args)

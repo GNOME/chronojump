@@ -450,28 +450,28 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 
 public class ForceSensorRepetition
 {
-	public int posX; //of sample
+	public int sample; // this is sample, not graph in pixels.
 	public double meanSpeed;
 	public double RFD;
 
 	//not elastic
-	public ForceSensorRepetition(int posX)
+	public ForceSensorRepetition(int sample)
 	{
-		this.posX = posX;
+		this.sample = sample;
 		this.meanSpeed = 0;
 		this.RFD = 0;
 	}
 	//elastic
-	public ForceSensorRepetition(int posX, double meanSpeed, double RFD)
+	public ForceSensorRepetition(int sample, double meanSpeed, double RFD)
 	{
-		this.posX = posX;
+		this.sample = sample;
 		this.meanSpeed = meanSpeed;
 		this.RFD = RFD;
 	}
 
 	public override string ToString()
 	{
-		return string.Format("posx:{0}; meanSpeed:{1}; RFD:{2}", posX, meanSpeed, RFD);
+		return string.Format("sample:{0}; meanSpeed:{1}; RFD:{2}", sample, meanSpeed, RFD);
 	}
 
 	//gets repetition num form a list
@@ -480,9 +480,9 @@ public class ForceSensorRepetition
 		int rep = 0;
 		foreach(ForceSensorRepetition fsr in l)
 		{
-			if(sample <= fsr.posX)
+			if(sample <= fsr.sample)
 			{
-				LogB.Information(string.Format("sample: {0}: fsr.posX: {1}; rep: {2}", sample, fsr.posX, rep));
+				LogB.Information(string.Format("sample: {0}: fsr.sample: {1}; rep: {2}", sample, fsr.sample, rep));
 				return rep;
 			}
 

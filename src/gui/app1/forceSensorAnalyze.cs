@@ -721,7 +721,7 @@ public partial class ChronoJumpWindow
 		pen_black_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
 		//potser llegir els valors de la Gdk.GC
 		try{
-		LogB.Information("Gdk.GC screen: " + pen_black_force_ai.Screen.ToString());
+			LogB.Information("Gdk.GC screen: " + pen_black_force_ai.Screen.ToString());
 		} catch { LogB.Information("CATCHED at screen"); }
 
 		pen_blue_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
@@ -935,6 +935,7 @@ public partial class ChronoJumpWindow
 	}
 
 	private bool forceSensorZoomApplied;
+	private List<ForceSensorRepetition> forceSensorRepetition_lZoomApplied;
 	private void forceSensorZoomDefaultValues()
 	{
 		forceSensorZoomApplied = false;
@@ -957,6 +958,8 @@ public partial class ChronoJumpWindow
 		if(forceSensorZoomApplied) {
 			hscale_force_sensor_ai_a_BeforeZoom = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
 			hscale_force_sensor_ai_b_BeforeZoom = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+
+			forceSensorRepetition_lZoomApplied = fsAI.ForceSensorRepetition_l;
 		} else {
 			hscale_force_sensor_ai_a_AtZoom = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
 			hscale_force_sensor_ai_b_AtZoom = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
@@ -1059,38 +1062,60 @@ public partial class ChronoJumpWindow
 			hbox_force_sensor_ai_power.Visible = false;
 		}
 
-		// paint repetitions info (vertical line and number)
+		// 6) paint repetitions info (vertical line and number)
+		List<ForceSensorRepetition> reps_l = fsAI.ForceSensorRepetition_l;
+		if(forceSensorZoomApplied)
+			reps_l = forceSensorRepetition_lZoomApplied;
+
 		int xposRepPrevious = 0;
-		for(int i = 0; i < fsAI.ForceSensorRepetition_l.Count; i ++)
+		int j = 0;
+		for(j = 0; j < reps_l.Count; j ++)
 		{
+			int sample = reps_l[j].posX;
+			if(forceSensorZoomApplied)
+			{
+				sample -= hscale_force_sensor_ai_a_BeforeZoom;
+				if(sample < 0)
+					continue;
+				else if(reps_l[j].posX >= hscale_force_sensor_ai_b_BeforeZoom)
+					break;
+			}
+
 			// paint vertical line for each rep
-			int xposRep = fsAI.GetXFromSampleCount(fsAI.ForceSensorRepetition_l[i].posX);
+			int xposRep = fsAI.GetXFromSampleCount(sample);
 			force_sensor_ai_pixmap.DrawLine(pen_green_force_ai,
 					xposRep, 0, xposRep, allocation.Height -20);
+			//LogB.Information(string.Format("repetition paint, i:{0}, xposRep:{1}", i, xposRep));
 
-			// write repetition count and store MouseLimits
-			if(i > 0)
+			if(j > 0) // write repetition count and store MouseLimits
 			{
-				layout_force_ai_text.SetMarkup(i.ToString());
+				layout_force_ai_text.SetMarkup(j.ToString());
 				textWidth = 1; textHeight = 1;
 				layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
 				force_sensor_ai_pixmap.DrawLayout (pen_green_force_ai,
 						Convert.ToInt32((xposRepPrevious + xposRep)/2 - textWidth/2), 0,
 						layout_force_ai_text);
 
-				//store the graph X
-				fsAIRepetitionMouseLimits.Add(xposRepPrevious, xposRep);
-				//store the sample count, because we want to move the progressbars there
-				//fsAIRepetitionMouseLimits.Add(fsAI.ForceSensorRepetition_l[i-1].posX,
-				//		fsAI.ForceSensorRepetition_l[i].posX);
+				if(! forceSensorZoomApplied)
+					fsAIRepetitionMouseLimits.Add(xposRepPrevious, xposRep);
 			}
 
 			xposRepPrevious = xposRep;
 		}
+		//show the number of last repetition (when obviously no new rep will make writting it)
+		if(j > 0) // write last repetition count
+		{
+			layout_force_ai_text.SetMarkup(j.ToString());
+			textWidth = 1; textHeight = 1;
+			layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
+			force_sensor_ai_pixmap.DrawLayout (pen_green_force_ai,
+					Convert.ToInt32((xposRepPrevious + allocation.Width)/2 - textWidth/2), 0,
+					layout_force_ai_text);
+		}
 
 
 		/*
-		 * 6) Invert AB if needed to paint correctly blue and red lines
+		 * 7) Invert AB if needed to paint correctly blue and red lines
 		 * making it work also when B is higher than A
 		 */
 		if(hscaleLower > hscaleHigher)
@@ -1104,7 +1129,7 @@ public partial class ChronoJumpWindow
 
 		if(hscaleHigher != hscaleLower)
 		{
-			//8) calculate and paint RFD
+			// 8) calculate and paint RFD
 			double forceA = fsAI.GetForceAtCount(hscaleLower);
 			double forceB = fsAI.GetForceAtCount(hscaleHigher);
 

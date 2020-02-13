@@ -939,8 +939,6 @@ public partial class ChronoJumpWindow
 					}
 				}
 				button_force_sensor_ai_zoom.Click();
-
-				//TODO: need to paint the repetition value at top
 			}
 		}
 	}
@@ -1083,50 +1081,63 @@ public partial class ChronoJumpWindow
 		if(forceSensorZoomApplied)
 			reps_l = forceSensorRepetition_lZoomApplied;
 
-		int xposRepPrevious = 0;
+		int xposRepStart = 0;
+		int xposRepEnd = 0;
 		int j = 0;
 		for(j = 0; j < reps_l.Count; j ++)
 		{
-			int sample = reps_l[j].sample;
-			if(forceSensorZoomApplied)
+			LogB.Information(string.Format("repetition: {0}", reps_l[j]));
+			int sampleStart = reps_l[j].sampleStart;
+			int sampleEnd = reps_l[j].sampleEnd;
+			if(forceSensorZoomApplied) //TODO: check all this with also sampleStart
 			{
-				sample -= hscale_force_sensor_ai_a_BeforeZoom;
-				if(sample < 0)
+				sampleStart -= hscale_force_sensor_ai_a_BeforeZoom;
+				sampleEnd -= hscale_force_sensor_ai_a_BeforeZoom;
+
+				if(sampleStart < 0)
 					continue;
-				else if(reps_l[j].sample >= hscale_force_sensor_ai_b_BeforeZoom)
+				else if(reps_l[j].sampleEnd >= hscale_force_sensor_ai_b_BeforeZoom)
 					break;
 			}
 
 			// paint vertical line for each rep
-			int xposRep = fsAI.GetXFromSampleCount(sample);
-			force_sensor_ai_pixmap.DrawLine(pen_green_force_ai,
-					xposRep, 0, xposRep, allocation.Height -20);
-			//LogB.Information(string.Format("repetition paint, i:{0}, xposRep:{1}", i, xposRep));
+			if(sampleStart >= 0) {
+				xposRepStart = fsAI.GetXFromSampleCount(sampleStart);
+				//no need to graph two green lines together ir rep starts just on previous rep ends
+				if(xposRepStart > xposRepEnd)
+					force_sensor_ai_pixmap.DrawLine(pen_green_force_ai,
+							xposRepStart, 0, xposRepStart, allocation.Height -20);
+			}
+			if(sampleEnd >= 0) {
+				xposRepEnd = fsAI.GetXFromSampleCount(sampleEnd);
+				force_sensor_ai_pixmap.DrawLine(pen_green_force_ai,
+						xposRepEnd, 0, xposRepEnd, allocation.Height -20);
+				//LogB.Information(string.Format("repetition paint, i:{0}, xposRep:{1}", i, xposRep));
+			}
 
-			if(j > 0) // write repetition count and store MouseLimits
+			//if(j > 0) // write repetition count and store MouseLimits
+			if(sampleEnd >= 0)
 			{
-				layout_force_ai_text.SetMarkup(j.ToString());
+				layout_force_ai_text.SetMarkup((j+1).ToString());
 				textWidth = 1; textHeight = 1;
 				layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
 				force_sensor_ai_pixmap.DrawLayout (pen_green_force_ai,
-						Convert.ToInt32((xposRepPrevious + xposRep)/2 - textWidth/2), 0,
+						Convert.ToInt32((xposRepStart + xposRepEnd)/2 - textWidth/2), 0,
 						layout_force_ai_text);
 
 				if(! forceSensorZoomApplied)
-					fsAIRepetitionMouseLimits.Add(xposRepPrevious, xposRep);
+					fsAIRepetitionMouseLimits.Add(xposRepStart, xposRepEnd);
 			}
-
-			xposRepPrevious = xposRep;
 		}
 		//show the number of last repetition (when obviously no new rep will make writting it)
 		//but only if zoomed and that repetition exists (has an end)
 		if(forceSensorZoomApplied && j > 0 && j < reps_l.Count) // write last repetition count
 		{
-			layout_force_ai_text.SetMarkup(j.ToString());
+			layout_force_ai_text.SetMarkup((j+1).ToString());
 			textWidth = 1; textHeight = 1;
 			layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
 			force_sensor_ai_pixmap.DrawLayout (pen_green_force_ai,
-					Convert.ToInt32((xposRepPrevious + allocation.Width)/2 - textWidth/2), 0,
+					Convert.ToInt32((xposRepEnd + allocation.Width)/2 - textWidth/2), 0,
 					layout_force_ai_text);
 		}
 

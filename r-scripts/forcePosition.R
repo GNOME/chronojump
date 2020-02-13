@@ -73,14 +73,15 @@ getDynamicsFromForceSensor <- function(file = "/home/xpadulles/.local/share/Chro
         
         #Getting the basic information of each repetition
         repetitions = getRepetitions(dynamics[, "time"], dynamics[, "position"], dynamics[, "rawForce"], conMinDisplacement, eccMinDisplacement)
-        
-        plot(#dynamics[, "time"]
-                dynamics[, "position"]
-                , type = "l", xlab = "Time", ylab = "Position"
+
+	#commented because the graph is shown on getRepetitions
+	# plot(#dynamics[, "time"]
+	#       dynamics[, "position"]
+	#                , type = "l", xlab = "Time", ylab = "Position"
                 #,xlim = c(50, 150)
                 #, ylim = c(0.25,1.1)
                 #, axes = F
-        )
+	# )
         
         # plot(position2, type = "l")
         # lines(dynamics[, "time"], dynamics[, "position2"], col = "grey")
@@ -113,91 +114,133 @@ getDynamicsFromForceSensor <- function(file = "/home/xpadulles/.local/share/Chro
         )
 }
 
-getRepetitions <- function(time, position, force, conMinDisplacement, eccMinDisplacement){
+getRepetitions <- function(time, position, force, conMinDisplacement, eccMinDisplacement)
+{
+        plot(#dynamics[, "time"]
+                position
+                , type = "l", xlab = "Time", ylab = "Position"
+                #,xlim = c(50, 150)
+                #, ylim = c(0.25,1.1)
+                #, axes = F
+        )
         
         #The comments supposes that the current phase is concentric. In the case that the phase is eccentric
         #the signal is inverted by multiplying it by -1.
-        extremesSamples = 1
+        extremesSamples_l = 1
         
         #for each phase, stores the sample number of the biggest current sample.
         possibleExtremeSample = 1
         
-        #Stores the sample of the last actual maximum of the phase
-        lastExtremeSample = 1
-        
+        lastExtremeSample = 1 	#Stores the sample of the last actual maximum of the phase
         currentSample = 2
         
-        #mean RFD of each phase
-        RFDs = NA
-        
-        #mean speed of each phase
-        meanSpeeds = NA
-        
-        #The firstPhase is treated different
-        firstPhase = TRUE
+        RFDs = NA 		#mean RFD of each phase
+        meanSpeeds = NA 	#mean speed of each phase
+
+	# to find if there is a previous extreme than first one with minDisplacement
+	searchingFirstExtreme = TRUE
+	minimumPosBeforeFirstExtreme = 1;
+	maximumPosBeforeFirstExtreme = 1;
+	minimumValueBeforeFirstExtreme = position[minimumPosBeforeFirstExtreme];
+	maximumValueBeforeFirstExtreme = position[maximumPosBeforeFirstExtreme];
 
         #Detecting the first phase type
         if(position[currentSample] > position[possibleExtremeSample])
         {
                 concentric = 1
                 minDisplacement = eccMinDisplacement #minDisplacement is referred to the next phase
-        
         } else {
                 concentric = -1
                 minDisplacement = conMinDisplacement
 	}
-        
-        #print(paste("starting in mode:", concentric) )
 
-        while(currentSample < length(position) -1){
+        while(currentSample < length(position) -1)
+	{
+		if(searchingFirstExtreme)
+		{
+			if(position[currentSample] > maximumValueBeforeFirstExtreme)
+			{
+				maximumValueBeforeFirstExtreme = position[currentSample]
+				maximumPosBeforeFirstExtreme = currentSample
+			}
+			if(position[currentSample] < minimumValueBeforeFirstExtreme)
+			{
+				minimumValueBeforeFirstExtreme = position[currentSample]
+				minimumPosBeforeFirstExtreme = currentSample
+			}
+		}
                 
-                #Checking if the current position is greater than the previous possilble maximum
+                #Checking if the current position is greater than the previous possible maximum
                 if(concentric * position[currentSample] > concentric * position[possibleExtremeSample])
-                        {
+		{
                         #The current sample is the new candidate to be a maximum
                         #print(paste("updated possibleExtremeSample to:", currentSample, "position:", position[currentSample]))
                         possibleExtremeSample = currentSample
+			if(concentric == 1)
+				points(x=possibleExtremeSample, y=-0.1, col="green")
+			else
+				points(x=possibleExtremeSample, y=-0.2, col="red")
                 }
 
                 #Checking if the current position is at minDisplacement below the last possible extreme
-                if(concentric * position[currentSample] - concentric * position[possibleExtremeSample] < - minDisplacement
-                   #For the first phase the minDisplacement is considered much smaller in order to detect an extreme in small oscillations
-                   || (firstPhase
-                       && (concentric * position[currentSample] - concentric * position[possibleExtremeSample] < - minDisplacement / 10) )
-                   )
-                        {
-                        
-                        if(firstPhase) {firstPhase = !firstPhase}               #End of the first phase special treatment
+		#we check if distance from currentSample to possibleExtremeSample is greater than minimum, in order to accept possibleExtremeSample
+                if(concentric * position[currentSample] - concentric * position[possibleExtremeSample] < - minDisplacement)
+		{
+			#possibleExtremeSample is now the new extreme
+
+			#firstExtreme will find if there is a previous extreme with minDisplacement
+			if(searchingFirstExtreme)
+			{
+				samplePreFirst = minimumPosBeforeFirstExtreme
+				if(concentric == -1)
+					samplePreFirst = maximumPosBeforeFirstExtreme
+
+				if( samplePreFirst < possibleExtremeSample && (
+				   (concentric == 1 && position[possibleExtremeSample] - position[samplePreFirst] >= conMinDisplacement) ||
+				   (concentric == -1 && position[samplePreFirst] - position[possibleExtremeSample] >= eccMinDisplacement) ) )
+				{
+					points(x=samplePreFirst, y=position[samplePreFirst], col="blue", cex=8)
+					extremesSamples_l = c(extremesSamples_l, samplePreFirst)
+					lastExtremeSample = possibleExtremeSample
+				}
+				searchingFirstExtreme = FALSE
+			}
+			abline(v=currentSample, lty=2)
                         
                         # print(paste("-----------minDisplacement detected at", currentSample))
                         # print(paste("Extreme added at:", possibleExtremeSample))
                         
-                        #We can consider that the last extreme in an actual change of phase.
-                        extremesSamples = c(extremesSamples, possibleExtremeSample)
-                        
-                        #Save the sample of the last extrme in order to compare new samples with it
-                        lastExtremeSample = possibleExtremeSample
-                        
-                        #Changing the phase from concentric to eccentric or viceversa
-                        concentric = -concentric
-                        if (concentric == 1){
+			points(x=possibleExtremeSample, y=position[possibleExtremeSample], col="red", cex=4)
+
+			#We can consider that the last extreme in an actual change of phase.
+			extremesSamples_l = c(extremesSamples_l, possibleExtremeSample)
+
+			#Calculate mean RFD and mean speed of the phase
+			lastRFD = (force[possibleExtremeSample] - force[lastExtremeSample]) / (time[possibleExtremeSample] - time[lastExtremeSample])
+			lastMeanSpeed = (position[possibleExtremeSample] - position[lastExtremeSample]) / (time[possibleExtremeSample] - time[lastExtremeSample])
+
+			RFDs = c(RFDs, lastRFD)
+			meanSpeeds = c(meanSpeeds, lastMeanSpeed)
+
+			#Save the sample of the last extrme in order to compare new samples with it
+			lastExtremeSample = possibleExtremeSample
+
+			#Changing the phase from concentric to eccentric or viceversa
+			concentric = -concentric
+
+			if (concentric == 1){
                                 minDisplacement = eccMinDisplacement
                         } else {
                                 minDisplacement = conMinDisplacement
                         }
-                        
-                        #Calculate mean RFD and mean speed of the phase
-                        lastRFD = (force[currentSample] - force[lastExtremeSample]) / (time[currentSample] - time[lastExtremeSample])
-                        lastMeanSpeed = (position[currentSample] - position[lastExtremeSample]) / (time[currentSample] - time[lastExtremeSample])
-                        RFDs = c(RFDs, lastRFD)
-                        meanSpeeds = c(meanSpeeds, lastMeanSpeed)
                 }
 
                 currentSample = currentSample +1
         }
 
+	#note first value of extremesSamples_l is discarded (it is the first value of the samples vector)
         return(list(
-                extremesSamples = c(extremesSamples[2:length(extremesSamples)], possibleExtremeSample)
+                extremesSamples_l = c(extremesSamples_l[2:length(extremesSamples_l)], possibleExtremeSample) #TODO: remember to add his last extreme to the C# code
                 , RFDs = RFDs[2:length(RFDs)]
                 , meanSpeeds = meanSpeeds[2:length(meanSpeeds)]))
 }
@@ -213,8 +256,18 @@ testPadu <- function(conMinDisplacement = .5, eccMinDisplacement = .5)
 						      smooth = 10, totalMass = 0, stiffness = 71.93, angle = 0, conMinDisplacement, eccMinDisplacement)
 	}
 }
-testXavi <- function(conMinDisplacement = .5, eccMinDisplacement = .5)
+testXavi <- function(conMinDisplacement = 10, eccMinDisplacement = 10) #try with 10 or 1
 {
-	dynamics = getDynamicsFromForceSensor(file = "/home/xavier/.local/share/Chronojump/forceSensor/10/18_persona de 10 kg_2019-11-12_16-09-21.csv",
-					      smooth = 10, totalMass = 0, stiffness = 71.93, angle = 0, conMinDisplacement, eccMinDisplacement)
+	dynamics = getDynamicsFromForceSensor(file = "tests/forcePosition/36_prova2_2017-11-24_12-17-30.csv",
+					      smooth = 10, totalMass = 0, stiffness = 60, angle = 0, conMinDisplacement, eccMinDisplacement)
+}
+testXavi2 <- function(conMinDisplacement = 1, eccMinDisplacement = 1)
+{
+	dynamics = getDynamicsFromForceSensor(file = "tests/forcePosition/36_prova2_2020-02-07_12-17-44.csv",
+					      smooth = 10, totalMass = 0, stiffness = 60, angle = 0, conMinDisplacement, eccMinDisplacement)
+}
+testXavi2b <- function(conMinDisplacement = 1, eccMinDisplacement = 1)
+{
+	dynamics = getDynamicsFromForceSensor(file = "tests/forcePosition/36_prova2_2020-02-07_12-17-44_inici_con.csv",
+					      smooth = 10, totalMass = 0, stiffness = 60, angle = 0, conMinDisplacement, eccMinDisplacement)
 }

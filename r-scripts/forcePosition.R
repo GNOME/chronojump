@@ -139,10 +139,10 @@ getRepetitions <- function(time, position, force, conMinDisplacement, eccMinDisp
 
 	# to find if there is a previous extreme than first one with minDisplacement
 	searchingFirstExtreme = TRUE
-	minimumPosBeforeFirstExtreme = 1;
-	maximumPosBeforeFirstExtreme = 1;
-	minimumValueBeforeFirstExtreme = position[minimumPosBeforeFirstExtreme];
-	maximumValueBeforeFirstExtreme = position[maximumPosBeforeFirstExtreme];
+	minimumPosBeforeFirstExtreme = 1
+	maximumPosBeforeFirstExtreme = 1
+	minimumValueBeforeFirstExtreme = position[minimumPosBeforeFirstExtreme]
+	maximumValueBeforeFirstExtreme = position[maximumPosBeforeFirstExtreme]
 
         #Detecting the first phase type
         if(position[currentSample] > position[possibleExtremeSample])
@@ -201,7 +201,8 @@ getRepetitions <- function(time, position, force, conMinDisplacement, eccMinDisp
 				{
 					points(x=samplePreFirst, y=position[samplePreFirst], col="blue", cex=8)
 					extremesSamples_l = c(extremesSamples_l, samplePreFirst)
-					lastExtremeSample = possibleExtremeSample
+					#lastExtremeSample = possibleExtremeSample
+					lastExtremeSample = samplePreFirst
 				}
 				searchingFirstExtreme = FALSE
 			}

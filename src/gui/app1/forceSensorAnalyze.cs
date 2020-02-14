@@ -895,7 +895,8 @@ public partial class ChronoJumpWindow
 					force_sensor_ai_drawingarea,
 					fsAI.GetXFromSampleCount(Convert.ToInt32(hscale_force_sensor_ai_a.Value)),
 					fsAI.GetXFromSampleCount(Convert.ToInt32(hscale_force_sensor_ai_b.Value)),
-					true); //paint the second line and rectangle (if a != b)
+					true, //paint the second line and rectangle (if a != b)
+					15, 0); // top/bottom of the rectangle (top is greater than at encoder to acomodate the repetition green text), bottom 0 is ok.
 
 		force_sensor_ai_allocationXOld = allocation.Width;
 

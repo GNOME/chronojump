@@ -877,18 +877,28 @@ public partial class ChronoJumpWindow
 			force_sensor_ai_sizeChanged = false;
 		}
 
-		Gdk.Rectangle area = args.Event.Area;
+
+		Gdk.Rectangle rect_area = args.Event.Area;
 
 		//sometimes this is called when paint is finished
 		//don't let this erase win
+		//here is were actually is drawn
 		if(force_sensor_ai_pixmap != null) {
 			args.Event.Window.DrawDrawable(force_sensor_ai_drawingarea.Style.WhiteGC, force_sensor_ai_pixmap,
-				area.X, area.Y,
-				area.X, area.Y,
-				area.Width, area.Height);
+				rect_area.X, rect_area.Y,
+				rect_area.X, rect_area.Y,
+				rect_area.Width, rect_area.Height);
 		}
 
+		if(fsAI != null)
+			CairoUtil.PaintVerticalLinesAndRectangle (
+					force_sensor_ai_drawingarea,
+					fsAI.GetXFromSampleCount(Convert.ToInt32(hscale_force_sensor_ai_a.Value)),
+					fsAI.GetXFromSampleCount(Convert.ToInt32(hscale_force_sensor_ai_b.Value)),
+					true); //paint the second line and rectangle (if a != b)
+
 		force_sensor_ai_allocationXOld = allocation.Width;
+
 		LogB.Information("EXPOSE END");
 	}
 

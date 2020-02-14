@@ -1,0 +1,111 @@
+
+/*
+ * This file is part of ChronoJump
+ *
+ * ChronoJump is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or   
+ *    (at your option) any later version.
+ *    
+ * ChronoJump is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ *    GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ *  Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ */
+
+using System;
+using Cairo;
+using Gtk;
+using Gdk;
+
+public static class CairoUtil
+{
+	/*
+	 * public methods
+	 */
+
+	public static void PaintVerticalLinesAndRectangle (
+			Gtk.DrawingArea darea, int xposA, int xposB, bool posBuse)
+	{
+		using (Cairo.Context g = Gdk.CairoHelper.Create (darea.GdkWindow)) 
+		{
+			paintVerticalLinesAndRectangleDo (g, darea.Allocation.Height, xposA, xposB, posBuse);
+			g.Stroke();
+			g.GetTarget ().Dispose ();
+		}
+	}
+	public static void PaintVerticalLinesAndRectangleOnSurface (
+			Gtk.DrawingArea darea, int xposA, int xposB, bool posBuse,
+			Pixbuf pixbuf)
+	{
+		using (Cairo.Context g = Gdk.CairoHelper.Create (darea.GdkWindow)) 
+		{
+			//add image
+			Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf, 0, 0);
+
+			g.Paint();
+
+			paintVerticalLinesAndRectangleDo (g, darea.Allocation.Height, xposA, xposB, posBuse);
+			g.Stroke();
+			g.GetTarget ().Dispose ();
+		}
+	}
+
+	/*
+	 * private methods
+	 */
+
+	private static void paintVerticalLinesAndRectangleDo (Cairo.Context g, int height, int xposA, int xposB, bool posBuse)
+	{
+		//add rectangle
+		g.SetSourceRGBA(0.906, 0.745, 0.098, 1); //Chronojump yellow
+
+		paintVerticalLine(g, xposA, height);
+
+		if(posBuse && xposA != xposB)
+		{
+			paintVerticalLine(g, xposB, height);
+
+			g.SetSourceRGBA(0.906, 0.745, 0.098, .5); //Chronojump yellow, half transp
+
+			//create rectangle
+			int min = Math.Min(xposA, xposB) +1;
+			int max = Math.Max(xposA, xposB) -1;
+			if(min < max)
+			{
+				g.Rectangle(min ,9 , max-min, height -18);
+				g.Fill();
+			}
+		}
+	}
+
+	private static void paintVerticalLine (Cairo.Context g, int x, int height)
+	{
+		//vertical line
+		g.MoveTo(x, 9);
+		//g.LineTo(x, drawingarea_encoder_analyze_cairo_pixbuf.Height);
+		g.LineTo(x, height);
+		g.Stroke();
+
+		//top triangle
+		g.MoveTo(x -4, 0);
+		g.LineTo(x   , 8);
+		g.LineTo(x +4, 0);
+		g.LineTo(x -4, 0);
+		g.Fill();
+
+		/*
+		//bottom triangle currently not drawn because bottom space changes and half of triangle is not shown
+		g.MoveTo(x -4, drawingarea_encoder_analyze_cairo_pixbuf.Height);
+		g.LineTo(x   , drawingarea_encoder_analyze_cairo_pixbuf.Height -8);
+		g.LineTo(x +4, drawingarea_encoder_analyze_cairo_pixbuf.Height);
+		*/
+	}
+
+}

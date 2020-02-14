@@ -19,11 +19,12 @@ SOURCES = \
 	gui/app1/pulse.cs\
 	gui/app1/reactionTime.cs\
 	gui/app1/run.cs\
-	gui/cairo/xy.cs\
 	gui/cairo/jumpsDjOptimalFall.cs\
 	gui/cairo/jumpsEvolution.cs\
 	gui/cairo/jumpsProfile.cs\
 	gui/cairo/jumpsWeightFVProfile.cs\
+	gui/cairo/util.cs\
+	gui/cairo/xy.cs\
 	gui/chronojumpImporter.cs\
 	gui/chronojumpPersons.cs\
 	gui/chronopic.cs\

@@ -607,6 +607,7 @@ public partial class ChronoJumpWindow
 			//invert hscales if needed
 			int firstValue = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
 			int secondValue = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+			//LogB.Information(string.Format("firstValue: {0}, secondValue: {1}", firstValue, secondValue));
 
 			if(firstValue > secondValue) {
 				int temp = firstValue;
@@ -639,6 +640,7 @@ public partial class ChronoJumpWindow
 			conMinDispl = preferences.forceSensorNotElasticConMinForce;
 		}
 
+		//LogB.Information(string.Format("creating fsAI with zoomA: {0}, zoomB: {1}", zoomA, zoomB));
 		fsAI = new ForceSensorAnalyzeInstant(
 				lastForceSensorFullPath,
 				force_sensor_ai_drawingarea.Allocation.Width,
@@ -647,6 +649,7 @@ public partial class ChronoJumpWindow
 				currentForceSensorExercise, currentPersonSession.Weight,
 				getForceSensorCaptureOptions(), currentForceSensor.Stiffness,
 				eccMinDispl, conMinDispl);
+		//LogB.Information("created fsAI");
 
 		/*
 		 * position the hscales on the left to avoid loading a csv
@@ -907,38 +910,42 @@ public partial class ChronoJumpWindow
 			LogB.Information("Repetition: " + repetition.ToString());
 			if(repetition >= 0)
 			{
-				double start = fsAIRepetitionMouseLimits.GetStartOfARep(repetition) -1;
+				double start = fsAIRepetitionMouseLimits.GetStartOfARep(repetition);
 				if(start < 0)
 					start = 0; //just a precaution
-				double end = fsAIRepetitionMouseLimits.GetEndOfARep(repetition) + 1;
+				double end = fsAIRepetitionMouseLimits.GetEndOfARep(repetition);
 				if(end >= fsAI.GetLength() -1)
 					end -= 1; //just a precaution
-				//LogB.Information(string.Format("start: {0}, end: {1}", start, end));
+				LogB.Information(string.Format("start px: {0}, end px: {1}", start, end));
 
 				//find the hscale value for this x
 				//TODO: move this to forceSensor.cs
 				bool startFound = false;
 				bool endFound = false;
-				for(int i = 0; i < fsAI.GetLength() -1; i++)
+				for(int i = 0; i < fsAI.GetLength(); i++)
 				{
 					int xposHere = fsAI.GetXFromSampleCount(i);
+					//LogB.Information(string.Format("xposHere: {0} px, startFound: {1}, endFound: {2}", xposHere, startFound, endFound));
 
 					//with >= to solve problems of doubles
 					if(! startFound && xposHere >= start)
 					{
 						hscale_force_sensor_ai_a.Value = i;
-						//LogB.Information(string.Format("start2: {0}", i));
+						//LogB.Information(string.Format("start2 sample: {0}", i));
 						startFound = true;
 					}
 
 					if(! endFound && xposHere >= end)
 					{
 						hscale_force_sensor_ai_b.Value = i;
-						//LogB.Information(string.Format("end2: {0}", i));
+						//LogB.Information(string.Format("end2 sample: {0}", i));
 						endFound = true;
 					}
 				}
-				button_force_sensor_ai_zoom.Click();
+				//LogB.Information("call zoom start -->");
+				if(startFound && endFound)
+					button_force_sensor_ai_zoom.Click();
+				//LogB.Information("<-- call zoom end");
 			}
 		}
 	}
@@ -1004,6 +1011,7 @@ public partial class ChronoJumpWindow
 			forceSensorSignalPlotFeedbackRectangle(fsAI.FscAIPoints, force_sensor_ai_drawingarea, force_sensor_ai_pixmap, pen_yellow_light_force_ai);
 
 		// 1) create paintPoints
+		//LogB.Information(string.Format("forceSensorAnalyzeManualGraphDo(): fsAI.FscAIPoints.Points.Count: {0}", fsAI.FscAIPoints.Points.Count));
 		Gdk.Point [] paintPoints = new Gdk.Point[fsAI.FscAIPoints.Points.Count];
 		for(int i = 0; i < fsAI.FscAIPoints.Points.Count; i ++)
 			paintPoints[i] = fsAI.FscAIPoints.Points[i];
@@ -1131,7 +1139,7 @@ public partial class ChronoJumpWindow
 		}
 		//show the number of last repetition (when obviously no new rep will make writting it)
 		//but only if zoomed and that repetition exists (has an end)
-		if(forceSensorZoomApplied && j > 0 && j < reps_l.Count) // write last repetition count
+		if(forceSensorZoomApplied && j >= 0 && j < reps_l.Count) // write last repetition count
 		{
 			layout_force_ai_text.SetMarkup((j+1).ToString());
 			textWidth = 1; textHeight = 1;

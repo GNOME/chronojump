@@ -1042,44 +1042,10 @@ public partial class ChronoJumpWindow
 		int hscaleLower = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
 		int hscaleHigher = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
 
-		// 5) paint vertical yellow lines A, B and write letter
 		int xposA = fsAI.GetXFromSampleCount(hscaleLower);
-		force_sensor_ai_pixmap.DrawLine(pen_yellow_force_ai,
-				xposA, 0, xposA, allocation.Height -20);
-
-		layout_force_ai_text_big.SetMarkup("A");
-		int textWidth = 1;
-		int textHeight = 1;
-		layout_force_ai_text_big.GetPixelSize(out textWidth, out textHeight);
-
-		//draw white rectangle on the end to ensure A is shown
-		Rectangle rect = new Rectangle(xposA - (textWidth -1), allocation.Height - textHeight, 2 * (textWidth -1), textHeight);
-		force_sensor_ai_pixmap.DrawRectangle(pen_white_force_ai, true, rect);
-
-		force_sensor_ai_pixmap.DrawLayout (pen_yellow_force_ai,
-				xposA - textWidth/2, allocation.Height - textHeight,
-				layout_force_ai_text_big);
-
 		int xposB = 0;
 		if(hscaleLower != hscaleHigher)
-		{
 			xposB = fsAI.GetXFromSampleCount(hscaleHigher);
-			force_sensor_ai_pixmap.DrawLine(pen_yellow_force_ai,
-					xposB, 0, xposB, allocation.Height -20);
-
-			layout_force_ai_text_big.SetMarkup("B");
-			textWidth = 1;
-			textHeight = 1;
-			layout_force_ai_text_big.GetPixelSize(out textWidth, out textHeight);
-
-			//draw white rectangle on the end to ensure A is shown
-			rect = new Rectangle(xposB - (textWidth -1), allocation.Height - textHeight, 2 * (textWidth -1), textHeight);
-			force_sensor_ai_pixmap.DrawRectangle(pen_white_force_ai, true, rect);
-
-			force_sensor_ai_pixmap.DrawLayout (pen_yellow_force_ai,
-					xposB - textWidth/2, allocation.Height - textHeight,
-					layout_force_ai_text_big);
-		}
 
 		if(fsAI.CalculedElasticPSAP)
 		{
@@ -1099,6 +1065,8 @@ public partial class ChronoJumpWindow
 		if(forceSensorZoomApplied)
 			reps_l = forceSensorRepetition_lZoomApplied;
 
+		int textWidth = 1;
+		int textHeight = 1;
 		int xposRepStart = 0;
 		int xposRepEnd = 0;
 		int j = 0;

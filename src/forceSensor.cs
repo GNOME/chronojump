@@ -1386,6 +1386,7 @@ public class ForceSensorAnalyzeInstant
 			double personWeight, ForceSensor.CaptureOptions fsco, double stiffness,
 			double eccMinDisplacement, double conMinDisplacement)
 	{
+		LogB.Information("at readFile");
 		fscAIPoints = new ForceSensorCapturePoints(graphWidth, graphHeight, -1);
 
 		List<string> contents = Util.ReadFileAsStringList(file);
@@ -1455,9 +1456,16 @@ public class ForceSensorAnalyzeInstant
 		}
 		ForceSensorRepetition_l = forceSensorDynamics.GetRepetitions();
 
+		//LogB.Information("times Length at A:", times.Count.ToString());
+
 		times.RemoveAt(0); //always (not-elastic and elastic) 1st has to be removed, because time is not ok there.
+
+		//LogB.Information("times Length at B:", times.Count.ToString());
 		if(CalculedElasticPSAP)
-			times = times.GetRange(forceSensorDynamics.RemoveNValues -1, times.Count -2*forceSensorDynamics.RemoveNValues);
+			times = times.GetRange(forceSensorDynamics.RemoveNValues -1, times.Count -2*forceSensorDynamics.RemoveNValues); // (index, count)
+
+		//LogB.Information("times Length at C:", times.Count.ToString());
+
 		int i = 0;
 		foreach(int time in times)
 		{
@@ -1502,7 +1510,7 @@ public class ForceSensorAnalyzeInstant
 	//public int GetXFromSampleCount(int currentPos, int totalPos)
 	public int GetXFromSampleCount(int currentPos)
 	{
-		//LogB.Information(string.Format("currentPos: {0}, totalPos: {1}", currentPos, totalPos));
+		//LogB.Information(string.Format("currentPos: {0}", currentPos));
 		//this can be called on expose event before calculating needed parameters
 		if(graphWidth == 0)
 			return 0;

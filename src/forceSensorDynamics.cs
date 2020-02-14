@@ -75,7 +75,6 @@ public abstract class ForceSensorDynamics
 
 	protected double calculeForceWithCaptureOptions(double force)
 	{
-		LogB.Information("at calculeForceWithCaptureOptions, fsco: " + fsco.ToString());
 		if(fsco == ForceSensor.CaptureOptions.ABS)
 			return Math.Abs(force);
 		if(fsco == ForceSensor.CaptureOptions.INVERTED)
@@ -101,7 +100,6 @@ public abstract class ForceSensorDynamics
 
 		//for each phase, stores the sample number of the biggest current sample.
 		int possibleExtremeSample = 0;
-		int possibleExtremeSampleSend = 0;
 
 		//Stores the sample of the last actual maximum of the phase
 		int lastExtremeSample = 0;
@@ -174,15 +172,7 @@ public abstract class ForceSensorDynamics
 					searchingFirstExtreme = false;
 				}
 
-				//LogB.Information(string.Format("-----------minDisplacement detected at: {0}", currentSample));
-				//LogB.Information(string.Format("Extreme added at: {0}", possibleExtremeSample));
-
-				possibleExtremeSampleSend = possibleExtremeSample - (RemoveNValues -1);
-				if(possibleExtremeSampleSend < 0)
-					possibleExtremeSampleSend = 0;
-
-				if(displacementOk(concentricFlag, yList[possibleExtremeSampleSend], yList[lastExtremeSample]))
-					addRepetition(yList, lastExtremeSample, possibleExtremeSampleSend); //list, start, end
+				prepareCheckAndSendRepetition(concentricFlag, yList, lastExtremeSample, possibleExtremeSample);
 
 				//Save the sample of the last extreme in order to compare new samples with it
 				lastExtremeSample = possibleExtremeSample;
@@ -198,18 +188,38 @@ public abstract class ForceSensorDynamics
 			currentSample += 1;
 		}
 
-		possibleExtremeSampleSend = possibleExtremeSample - (RemoveNValues -1);
-		if(possibleExtremeSampleSend < 0)
-			possibleExtremeSampleSend = 0;
-
-		if(displacementOk(concentricFlag, yList[possibleExtremeSampleSend], yList[lastExtremeSample]))
-			addRepetition(yList, lastExtremeSample, possibleExtremeSampleSend); //list, start, end
+		prepareCheckAndSendRepetition(concentricFlag, yList, lastExtremeSample, possibleExtremeSample);
 	}
 
-	private bool displacementOk (int concentricFlag, double val1, double val2)
+	private void prepareCheckAndSendRepetition(int concentricFlag, List<double> yList, int sampleStart, int sampleEnd)
 	{
-		if ( ( concentricFlag == 1 && Math.Abs(val1 - val2) >= conMinDisplacement) ||
-			(concentricFlag == -1 && Math.Abs(val1 - val2) >= eccMinDisplacement) )
+		// 1) remove values to avoid smoothing problems:
+		sampleStart = sampleStart -RemoveNValues -1;
+		if(sampleStart < 0)
+			sampleStart = 0;
+
+		sampleEnd = sampleEnd -RemoveNValues -1;
+		if(sampleEnd < 0)
+			return;
+
+		// 2) check that end does not outside the after forceSensor.cs cut:
+		//    times = times.GetRange(forceSensorDynamics.RemoveNValues -1, times.Count -2*forceSensorDynamics.RemoveNValues);
+
+		if(sampleEnd >= yList.Count - 2*RemoveNValues)
+			sampleEnd = yList.Count - 2*RemoveNValues -1;
+
+		if(sampleEnd < 0 || sampleStart >= sampleEnd)
+			return;
+
+		// 3) check if displacement is ok, and add the repetition
+		if(displacementOk(concentricFlag, yList[sampleStart], yList[sampleEnd]))
+			addRepetition(yList, sampleStart, sampleEnd);
+	}
+
+	private bool displacementOk (int concentricFlag, double sampleStart, double sampleEnd)
+	{
+		if ( ( concentricFlag == 1 && Math.Abs(sampleStart - sampleEnd) >= conMinDisplacement) ||
+			(concentricFlag == -1 && Math.Abs(sampleStart - sampleEnd) >= eccMinDisplacement) )
 			return true;
 
 		return false;

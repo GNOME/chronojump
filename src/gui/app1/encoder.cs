@@ -6542,6 +6542,7 @@ public partial class ChronoJumpWindow
 					eai.GetVerticalLinePosition(Convert.ToInt32(hscale_encoder_analyze_a.Value)),
 					eai.GetVerticalLinePosition(Convert.ToInt32(hscale_encoder_analyze_b.Value)),
 					checkbutton_encoder_analyze_b.Active,
+					9, 18, // top/bottom of the rectangle
 					drawingarea_encoder_analyze_cairo_pixbuf);
 	}
 

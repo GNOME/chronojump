@@ -31,18 +31,17 @@ public static class CairoUtil
 	 */
 
 	public static void PaintVerticalLinesAndRectangle (
-			Gtk.DrawingArea darea, int xposA, int xposB, bool posBuse)
+			Gtk.DrawingArea darea, int xposA, int xposB, bool posBuse, int topRect, int bottomRect)
 	{
 		using (Cairo.Context g = Gdk.CairoHelper.Create (darea.GdkWindow)) 
 		{
-			paintVerticalLinesAndRectangleDo (g, darea.Allocation.Height, xposA, xposB, posBuse);
+			paintVerticalLinesAndRectangleDo (g, darea.Allocation.Height, xposA, xposB, posBuse, topRect, bottomRect);
 			g.Stroke();
 			g.GetTarget ().Dispose ();
 		}
 	}
 	public static void PaintVerticalLinesAndRectangleOnSurface (
-			Gtk.DrawingArea darea, int xposA, int xposB, bool posBuse,
-			Pixbuf pixbuf)
+			Gtk.DrawingArea darea, int xposA, int xposB, bool posBuse, int topRect, int bottomRect, Pixbuf pixbuf)
 	{
 		using (Cairo.Context g = Gdk.CairoHelper.Create (darea.GdkWindow)) 
 		{
@@ -51,7 +50,7 @@ public static class CairoUtil
 
 			g.Paint();
 
-			paintVerticalLinesAndRectangleDo (g, darea.Allocation.Height, xposA, xposB, posBuse);
+			paintVerticalLinesAndRectangleDo (g, darea.Allocation.Height, xposA, xposB, posBuse, topRect, bottomRect);
 			g.Stroke();
 			g.GetTarget ().Dispose ();
 		}
@@ -61,7 +60,7 @@ public static class CairoUtil
 	 * private methods
 	 */
 
-	private static void paintVerticalLinesAndRectangleDo (Cairo.Context g, int height, int xposA, int xposB, bool posBuse)
+	private static void paintVerticalLinesAndRectangleDo (Cairo.Context g, int height, int xposA, int xposB, bool posBuse, int topRect, int bottomRect)
 	{
 		//add rectangle
 		g.SetSourceRGBA(0.906, 0.745, 0.098, 1); //Chronojump yellow
@@ -79,7 +78,7 @@ public static class CairoUtil
 			int max = Math.Max(xposA, xposB) -1;
 			if(min < max)
 			{
-				g.Rectangle(min ,9 , max-min, height -18);
+				g.Rectangle(min, topRect , max-min, height - bottomRect);
 				g.Fill();
 			}
 		}
@@ -89,7 +88,6 @@ public static class CairoUtil
 	{
 		//vertical line
 		g.MoveTo(x, 9);
-		//g.LineTo(x, drawingarea_encoder_analyze_cairo_pixbuf.Height);
 		g.LineTo(x, height);
 		g.Stroke();
 

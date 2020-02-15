@@ -1081,15 +1081,23 @@ public partial class ChronoJumpWindow
 			LogB.Information(string.Format("repetition: {0}", reps_l[j]));
 			int sampleStart = reps_l[j].sampleStart;
 			int sampleEnd = reps_l[j].sampleEnd;
-			if(forceSensorZoomApplied) //TODO: check all this with also sampleStart
+			if(forceSensorZoomApplied)
 			{
 				sampleStart -= hscale_force_sensor_ai_a_BeforeZoom;
 				sampleEnd -= hscale_force_sensor_ai_a_BeforeZoom;
 
-				if(sampleStart < 0)
-					continue;
-				else if(reps_l[j].sampleEnd >= hscale_force_sensor_ai_b_BeforeZoom)
+				//LogB.Information(string.Format("reps_l[j].sampleEnd: {0}, hscale_force_sensor_ai_b_BeforeZoom: {1}",
+				//			reps_l[j].sampleEnd, hscale_force_sensor_ai_b_BeforeZoom));
+
+				if(reps_l[j].sampleEnd -1 > hscale_force_sensor_ai_b_BeforeZoom)
+				{
+					if(sampleStart >= 0) //precaution
+						xposRepStart = fsAI.GetXFromSampleCount(sampleStart);
+					xposRepEnd = fsAI.GetXFromSampleCount(
+							hscale_force_sensor_ai_b_BeforeZoom - hscale_force_sensor_ai_a_BeforeZoom -1);
+
 					break;
+				}
 			}
 
 			// paint vertical line for each rep
@@ -1107,19 +1115,29 @@ public partial class ChronoJumpWindow
 				//LogB.Information(string.Format("repetition paint, i:{0}, xposRep:{1}", i, xposRep));
 			}
 
-			//if(j > 0) // write repetition count and store MouseLimits
 			if(sampleEnd >= 0)
 			{
-				forceSensorWriteRepetitionNumber(j, xposRepStart, xposRepEnd, true);
+				if(sampleStart >= 0)
+				{
+					forceSensorWriteRepetitionNumber(j, xposRepStart, xposRepEnd, true, true);
 
-				if(! forceSensorZoomApplied)
-					fsAIRepetitionMouseLimits.Add(xposRepStart, xposRepEnd);
+					if(! forceSensorZoomApplied)
+						fsAIRepetitionMouseLimits.Add(xposRepStart, xposRepEnd);
+				} else {
+					//write the rep and arrow, but just if there is enough space
+					if(xposRepEnd - fsAI.GetXFromSampleCount(0) > 30)
+						forceSensorWriteRepetitionNumber(j,
+								//fsAI.GetXFromSampleCount(hscale_force_sensor_ai_a_BeforeZoom),
+								fsAI.GetXFromSampleCount(0),
+								xposRepEnd, false, true);
+				}
 			}
 		}
 		//show the number of last repetition (when obviously no new rep will make writting it)
 		//but only if zoomed and that repetition exists (has an end)
-		if(forceSensorZoomApplied && j >= 0 && j < reps_l.Count) // write last repetition count
-			forceSensorWriteRepetitionNumber(j, xposRepStart, xposRepEnd, false);
+		if(xposRepEnd - xposRepStart > 30)
+			if(forceSensorZoomApplied && j >= 0 && j < reps_l.Count) // write last repetition count
+				forceSensorWriteRepetitionNumber(j, xposRepStart, xposRepEnd, true, false);
 
 
 		/*
@@ -1177,20 +1195,28 @@ public partial class ChronoJumpWindow
 		LogB.Information("forceSensorAnalyzeManualGraphDo() END");
 	}
 
-	private void forceSensorWriteRepetitionNumber(int rep, int xposRepStart, int xposRepEnd, bool repetitionHasEnded)
+	private void forceSensorWriteRepetitionNumber(int rep, int xposRepStart, int xposRepEnd, bool endsAtLeft, bool endsAtRight)
 	{
+		LogB.Information(string.Format("at forceSensorWriteRepetitionNumber with (rep+1): {0}, endsAtLeft: {1}, endsAtRight: {2}", rep +1, endsAtLeft, endsAtRight));
+
 		layout_force_ai_text.SetMarkup((rep+1).ToString());
 		int textWidth = 1; int textHeight = 1;
 		layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
 
-		if(repetitionHasEnded)
-			force_sensor_ai_pixmap.DrawLayout (pen_green_force_ai,
-					Convert.ToInt32((xposRepStart + xposRepEnd)/2 - textWidth/2), 0,
-					layout_force_ai_text);
-		else // on zooming a rep
-			force_sensor_ai_pixmap.DrawLayout (pen_green_force_ai,
-					Convert.ToInt32((xposRepEnd + force_sensor_ai_drawingarea.Allocation.Width)/2 - textWidth/2), 0,
-					layout_force_ai_text);
+		int xposNumber = Convert.ToInt32((xposRepStart + xposRepEnd)/2 - textWidth/2);
+
+		force_sensor_ai_pixmap.DrawLayout (pen_green_force_ai,
+				xposNumber, 0, layout_force_ai_text);
+
+		//if it does not fit, do not plot the horizontal lines + arrows
+		if(xposNumber - xposRepStart < 16)
+			return;
+
+		//draw arrow to the left
+		UtilGtk.DrawHorizontalLine(force_sensor_ai_pixmap, pen_green_force_ai, xposRepStart, xposNumber, textHeight/2,
+			6, endsAtLeft, false, 4);
+		UtilGtk.DrawHorizontalLine(force_sensor_ai_pixmap, pen_green_force_ai, xposNumber + textWidth, xposRepEnd, textHeight/2,
+			6, false, endsAtRight, 4);
 	}
 
 	private int fsAIFindBarInPixel (double pixel)

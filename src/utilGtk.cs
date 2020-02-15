@@ -802,6 +802,35 @@ public class UtilGtk
 		return pixbuf;
 	}
 
+	//spacing allows the line to breath
+	public static void DrawHorizontalLine(Pixmap pixmap, Gdk.GC pen, int xleft, int xright, int y,
+			int spacing, bool arrowleft, bool arrowright, int arrowlength)
+	{
+		pixmap.DrawLine(pen, xleft + spacing, y, xright - spacing, y);
+
+		//empty arrows
+		if(arrowleft)
+		{
+			pixmap.DrawLine(pen,
+					xleft + spacing, y,
+					xleft + spacing + arrowlength, y - arrowlength);
+			pixmap.DrawLine(pen,
+					xleft + spacing, y,
+					xleft + spacing + arrowlength, y + arrowlength);
+		}
+		if(arrowright)
+		{
+			pixmap.DrawLine(pen,
+					xright - spacing, y,
+					xright - spacing - arrowlength, y - arrowlength);
+			pixmap.DrawLine(pen,
+					xright - spacing, y,
+					xright - spacing - arrowlength, y + arrowlength);
+		}
+	}
+
+
+
 	// adapted from: https://stackoverflow.com/a/9295210/12366369
 	// thanks to renosis and Komplot
 	public static void DrawArrow (Pixmap pixmap, Gdk.GC pen, int tipX, int tailX, int tipY, int tailY, int arrowLength)

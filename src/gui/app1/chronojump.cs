@@ -3053,6 +3053,12 @@ public partial class ChronoJumpWindow
 			pen_black_force_capture.SetLineAttributes (preferences.forceSensorGraphsLineWidth, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
 		if(pen_black_force_ai != null)
 			pen_black_force_ai.SetLineAttributes (preferences.forceSensorGraphsLineWidth, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
+
+		// update force_capture_drawingarea if repetitions criteria changed
+		if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR &&
+				notebook_capture_analyze.CurrentPage == 1 &&
+				radiobutton_force_sensor_analyze_manual.Active)
+			forceSensorDoGraphAI();
 	}
 
 

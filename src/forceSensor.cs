@@ -815,12 +815,21 @@ public class ForceSensorCapturePoints
 
 	public double GetTimeAtCount(int count)
 	{
+		//LogB.Information(string.Format("At GetTimeAtCount, count:{0}, times.Count:{1}", count, times.Count));
+
+		//safe check
+		if(count < 0)
+			return times[0];
+		else if (count >= times.Count)
+			return times[times.Count -1];
+
 		return times[count];
 	}
 	public double GetForceAtCount(int count)
 	{
 		return forces[count];
 	}
+
 	public void GetAverageAndMaxForce(int countA, int countB, out double avg, out double max)
 	{
 		if(countA == countB) {

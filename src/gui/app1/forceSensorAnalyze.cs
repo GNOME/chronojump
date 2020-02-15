@@ -1105,12 +1105,7 @@ public partial class ChronoJumpWindow
 			//if(j > 0) // write repetition count and store MouseLimits
 			if(sampleEnd >= 0)
 			{
-				layout_force_ai_text.SetMarkup((j+1).ToString());
-				textWidth = 1; textHeight = 1;
-				layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
-				force_sensor_ai_pixmap.DrawLayout (pen_green_force_ai,
-						Convert.ToInt32((xposRepStart + xposRepEnd)/2 - textWidth/2), 0,
-						layout_force_ai_text);
+				forceSensorWriteRepetitionNumber(j, xposRepStart, xposRepEnd, true);
 
 				if(! forceSensorZoomApplied)
 					fsAIRepetitionMouseLimits.Add(xposRepStart, xposRepEnd);
@@ -1119,14 +1114,7 @@ public partial class ChronoJumpWindow
 		//show the number of last repetition (when obviously no new rep will make writting it)
 		//but only if zoomed and that repetition exists (has an end)
 		if(forceSensorZoomApplied && j >= 0 && j < reps_l.Count) // write last repetition count
-		{
-			layout_force_ai_text.SetMarkup((j+1).ToString());
-			textWidth = 1; textHeight = 1;
-			layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
-			force_sensor_ai_pixmap.DrawLayout (pen_green_force_ai,
-					Convert.ToInt32((xposRepEnd + allocation.Width)/2 - textWidth/2), 0,
-					layout_force_ai_text);
-		}
+			forceSensorWriteRepetitionNumber(j, xposRepStart, xposRepEnd, false);
 
 
 		/*
@@ -1182,6 +1170,22 @@ public partial class ChronoJumpWindow
 			}
 		}
 		LogB.Information("forceSensorAnalyzeManualGraphDo() END");
+	}
+
+	private void forceSensorWriteRepetitionNumber(int rep, int xposRepStart, int xposRepEnd, bool repetitionHasEnded)
+	{
+		layout_force_ai_text.SetMarkup((rep+1).ToString());
+		int textWidth = 1; int textHeight = 1;
+		layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
+
+		if(repetitionHasEnded)
+			force_sensor_ai_pixmap.DrawLayout (pen_green_force_ai,
+					Convert.ToInt32((xposRepStart + xposRepEnd)/2 - textWidth/2), 0,
+					layout_force_ai_text);
+		else // on zooming a rep
+			force_sensor_ai_pixmap.DrawLayout (pen_green_force_ai,
+					Convert.ToInt32((xposRepEnd + force_sensor_ai_drawingarea.Allocation.Width)/2 - textWidth/2), 0,
+					layout_force_ai_text);
 	}
 
 	private int fsAIFindBarInPixel (double pixel)

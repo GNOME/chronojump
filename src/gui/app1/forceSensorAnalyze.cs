@@ -687,7 +687,8 @@ public partial class ChronoJumpWindow
 	Gdk.GC pen_gray_cont_force_ai; 		//vertical lines
 	Gdk.GC pen_gray_discont_force_ai; 	//vertical lines
 	Gdk.GC pen_yellow_force_ai; 		//0 force
-	Gdk.GC pen_yellow_light_force_ai; 	//feedback rectangle on analyze to differentiate from yellow AB lines
+	//Gdk.GC pen_yellow_light_force_ai; 	//feedback rectangle on analyze to differentiate from yellow AB lines
+	Gdk.GC pen_blue_light_force_ai; 	//feedback rectangle on analyze to differentiate from yellow AB lines
 	Gdk.GC pen_white_force_ai; 		//white box to ensure yellow text is not overlapped
 	Gdk.GC pen_green_force_ai; 		//repetitions (vertical lines)
 
@@ -721,6 +722,7 @@ public partial class ChronoJumpWindow
 		colormapForceAI.AllocColor (ref UtilGtk.GREEN_PLOTS,true,true);
 		bool success = colormapForceAI.AllocColor (ref UtilGtk.YELLOW,true,true);
 		colormapForceAI.AllocColor (ref UtilGtk.YELLOW_LIGHT,true,true);
+		colormapForceAI.AllocColor (ref UtilGtk.LIGHT_BLUE_PLOTS,true,true);
 		LogB.Information("Yellow success!: " + success.ToString()); //sempre dona success
 
 		colormapForceAI.AllocColor (ref UtilGtk.WHITE,true,true);
@@ -734,7 +736,8 @@ public partial class ChronoJumpWindow
 		pen_blue_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
 		pen_red_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
 		pen_yellow_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
-		pen_yellow_light_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
+		//pen_yellow_light_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
+		pen_blue_light_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
 		pen_white_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
 		pen_gray_cont_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
 		pen_gray_discont_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
@@ -744,7 +747,8 @@ public partial class ChronoJumpWindow
 		pen_blue_force_ai.Foreground = UtilGtk.BLUE_PLOTS;
 		pen_red_force_ai.Foreground = UtilGtk.RED_PLOTS;
 		pen_yellow_force_ai.Foreground = UtilGtk.YELLOW;
-		pen_yellow_light_force_ai.Foreground = UtilGtk.YELLOW_LIGHT;
+		//pen_yellow_light_force_ai.Foreground = UtilGtk.YELLOW_LIGHT;
+		pen_blue_light_force_ai.Foreground = UtilGtk.LIGHT_BLUE_PLOTS;
 		pen_white_force_ai.Foreground = UtilGtk.WHITE;
 		pen_gray_cont_force_ai.Foreground = UtilGtk.GRAY;
 		pen_gray_discont_force_ai.Foreground = UtilGtk.GRAY;
@@ -758,7 +762,8 @@ public partial class ChronoJumpWindow
 		pen_blue_force_ai.SetLineAttributes (1, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
 		pen_red_force_ai.SetLineAttributes (1, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
 		pen_yellow_force_ai.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
-		pen_yellow_light_force_ai.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
+		//pen_yellow_light_force_ai.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
+		pen_blue_light_force_ai.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
 		pen_white_force_ai.SetLineAttributes (1, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
 		pen_gray_cont_force_ai.SetLineAttributes(1, Gdk.LineStyle.Solid, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 		pen_gray_discont_force_ai.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
@@ -1019,7 +1024,7 @@ public partial class ChronoJumpWindow
 
 		//draw horizontal rectangle of feedback
 		if(preferences.forceSensorCaptureFeedbackActive)
-			forceSensorSignalPlotFeedbackRectangle(fsAI.FscAIPoints, force_sensor_ai_drawingarea, force_sensor_ai_pixmap, pen_yellow_light_force_ai);
+			forceSensorSignalPlotFeedbackRectangle(fsAI.FscAIPoints, force_sensor_ai_drawingarea, force_sensor_ai_pixmap, pen_blue_light_force_ai);
 
 		// 1) create paintPoints
 		//LogB.Information(string.Format("forceSensorAnalyzeManualGraphDo(): fsAI.FscAIPoints.Points.Count: {0}", fsAI.FscAIPoints.Points.Count));

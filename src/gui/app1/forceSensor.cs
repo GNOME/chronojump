@@ -110,9 +110,11 @@ public partial class ChronoJumpWindow
 	Gdk.GC pen_black_force_capture;
 	Gdk.GC pen_red_force_capture;
 	Gdk.GC pen_white_force_capture;
-	Gdk.GC pen_yellow_force_capture;
+	//Gdk.GC pen_yellow_force_capture;
+	Gdk.GC pen_blue_light_force_capture;
 	Gdk.GC pen_yellow_dark_force_capture;
-	Gdk.GC pen_orange_dark_force_capture;
+	//Gdk.GC pen_orange_dark_force_capture;
+	Gdk.GC pen_blue_dark_force_capture;
 	Gdk.GC pen_gray_force_capture;
 	Gdk.GC pen_gray_force_capture_discont;
 	Pango.Layout layout_force_text;
@@ -145,6 +147,8 @@ public partial class ChronoJumpWindow
 		colormapForce.AllocColor (ref UtilGtk.YELLOW,true,true);
 		colormapForce.AllocColor (ref UtilGtk.YELLOW_DARK,true,true);
 		colormapForce.AllocColor (ref UtilGtk.ORANGE_DARK,true,true);
+		colormapForce.AllocColor (ref UtilGtk.BLUE_DARK,true,true);
+		colormapForce.AllocColor (ref UtilGtk.LIGHT_BLUE_PLOTS,true,true);
 
 		pen_black_force_capture = new Gdk.GC(force_capture_drawingarea.GdkWindow);
 		pen_black_force_capture.Foreground = UtilGtk.BLACK;
@@ -160,17 +164,25 @@ public partial class ChronoJumpWindow
 		pen_white_force_capture.Foreground = UtilGtk.WHITE;
 		pen_white_force_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
 
-		pen_yellow_force_capture = new Gdk.GC(force_capture_drawingarea.GdkWindow);
-		pen_yellow_force_capture.Foreground = UtilGtk.YELLOW;
-		pen_yellow_force_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
+		pen_blue_light_force_capture = new Gdk.GC(force_capture_drawingarea.GdkWindow);
+		pen_blue_light_force_capture.Foreground = UtilGtk.LIGHT_BLUE_PLOTS;
+		pen_blue_light_force_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
+
+		//pen_yellow_force_capture = new Gdk.GC(force_capture_drawingarea.GdkWindow);
+		//pen_yellow_force_capture.Foreground = UtilGtk.YELLOW;
+		//pen_yellow_force_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
 
 		pen_yellow_dark_force_capture = new Gdk.GC(force_capture_drawingarea.GdkWindow);
 		pen_yellow_dark_force_capture.Foreground = UtilGtk.YELLOW_DARK;
 		pen_yellow_dark_force_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
 
-		pen_orange_dark_force_capture = new Gdk.GC(force_capture_drawingarea.GdkWindow);
-		pen_orange_dark_force_capture.Foreground = UtilGtk.ORANGE_DARK;
-		pen_orange_dark_force_capture.SetLineAttributes (3, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
+		//pen_orange_dark_force_capture = new Gdk.GC(force_capture_drawingarea.GdkWindow);
+		//pen_orange_dark_force_capture.Foreground = UtilGtk.ORANGE_DARK;
+		//pen_orange_dark_force_capture.SetLineAttributes (3, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
+
+		pen_blue_dark_force_capture = new Gdk.GC(force_capture_drawingarea.GdkWindow);
+		pen_blue_dark_force_capture.Foreground = UtilGtk.BLUE_DARK;
+		pen_blue_dark_force_capture.SetLineAttributes (3, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
 
 		pen_gray_force_capture_discont = new Gdk.GC(force_capture_drawingarea.GdkWindow);
 		pen_gray_force_capture_discont.Foreground = UtilGtk.GRAY;
@@ -740,7 +752,7 @@ public partial class ChronoJumpWindow
 		//draw horizontal rectangle of feedback
 		if(preferences.forceSensorCaptureFeedbackActive)
 			forceSensorSignalPlotFeedbackRectangle(fscPoints,
-					force_capture_drawingarea, force_capture_pixmap, pen_yellow_force_capture);
+					force_capture_drawingarea, force_capture_pixmap, pen_blue_light_force_capture);
 
 
 		event_execute_ButtonFinish.Clicked -= new EventHandler(on_finish_clicked);
@@ -1180,7 +1192,7 @@ LogB.Information(" fs I ");
 				//draw horizontal rectangle of feedback
 				if(preferences.forceSensorCaptureFeedbackActive)
 					forceSensorSignalPlotFeedbackRectangle(fscPoints,
-							force_capture_drawingarea, force_capture_pixmap, pen_yellow_force_capture);
+							force_capture_drawingarea, force_capture_pixmap, pen_blue_light_force_capture);
 
 			}
 
@@ -1280,7 +1292,7 @@ LogB.Information(" fs R ");
 		UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
 		if(preferences.forceSensorCaptureFeedbackActive)
 			forceSensorSignalPlotFeedbackRectangle(fscPoints,
-					force_capture_drawingarea, force_capture_pixmap, pen_yellow_force_capture);
+					force_capture_drawingarea, force_capture_pixmap, pen_blue_light_force_capture);
 
 		forcePaintHVLines(ForceSensorGraphs.CAPTURE,
 				getForceSensorMaxForceIncludingRectangle(forceSensorValues.ForceMax),
@@ -1899,7 +1911,7 @@ LogB.Information(" fs R ");
 		//draw horizontal rectangle of feedback
 		if(preferences.forceSensorCaptureFeedbackActive)
 			forceSensorSignalPlotFeedbackRectangle(fscPoints,
-					force_capture_drawingarea, force_capture_pixmap, pen_yellow_force_capture);
+					force_capture_drawingarea, force_capture_pixmap, pen_blue_light_force_capture);
 
 
 		Gdk.Point [] paintPoints = new Gdk.Point[fscPoints.Points.Count];
@@ -1961,7 +1973,7 @@ LogB.Information(" fs R ");
 
 		pixmap.DrawRectangle(pen_rectangle, true, rect);
 
-		pixmap.DrawLine(pen_orange_dark_force_capture,
+		pixmap.DrawLine(pen_blue_dark_force_capture,
 				points.GetTimeInPx(0), fbkGraphCenter, drawingarea.Allocation.Width, fbkGraphCenter);
 	}
 

@@ -193,7 +193,28 @@ public abstract class ForceSensorDynamics
 
 	private void prepareCheckAndSendRepetition(int concentricFlag, List<double> yList, int sampleStart, int sampleEnd)
 	{
-		// 1) remove values to avoid smoothing problems:
+		// 1) remove low force at beginning ot end of the repetition
+		double maxAbs = 0;
+		foreach(double y in yList)
+			if (Math.Abs(y) > maxAbs)
+				maxAbs = Math.Abs(y);
+
+		//create List with absolute values
+		List<double> yListAbs = new List<double>();
+		for(int i = 0; i < yList.Count ; i ++)
+			yListAbs.Add(yList[i]);
+
+		sampleStart = findLocalExtreme(yListAbs, sampleStart, sampleEnd, maxAbs);
+
+		//create List with absolute values reversed to find end of rep
+		List<double> yListAbsRev = new List<double>();
+		for(int i = yListAbs.Count -1; i >= 0 ; i --)
+			yListAbsRev.Add(yList[i]);
+
+		sampleEnd = yList.Count - findLocalExtreme(yListAbsRev,
+				yList.Count - sampleEnd, yList.Count - sampleStart, maxAbs);
+
+		// 2) remove values to avoid smoothing problems:
 		sampleStart = sampleStart -RemoveNValues -1;
 		if(sampleStart < 0)
 			sampleStart = 0;
@@ -202,7 +223,7 @@ public abstract class ForceSensorDynamics
 		if(sampleEnd < 0)
 			return;
 
-		// 2) check that end does not outside the after forceSensor.cs cut:
+		// 3) check that end does not outside the after forceSensor.cs cut:
 		//    times = times.GetRange(forceSensorDynamics.RemoveNValues -1, times.Count -2*forceSensorDynamics.RemoveNValues);
 
 		if(sampleEnd >= yList.Count - 2*RemoveNValues)
@@ -211,9 +232,39 @@ public abstract class ForceSensorDynamics
 		if(sampleEnd < 0 || sampleStart >= sampleEnd)
 			return;
 
-		// 3) check if displacement is ok, and add the repetition
+		// 4) check if displacement is ok, and add the repetition
 		if(displacementOk(concentricFlag, yList[sampleStart], yList[sampleEnd]))
 			addRepetition(yList, sampleStart, sampleEnd);
+	}
+
+	/*
+	 * this finds local extreme on concentric at the beginning of the "real" phase
+	 * data comes in Abs
+	 * if eccentric: yList comes reversed (left - right)
+	 */
+	private int findLocalExtreme(List<double> yList, int sampleStart, int sampleEnd, double maxAbs)
+	{
+		LogB.Information(string.Format("findLocalExtreme params: yList.Count: {0}, sampleStart: {1}, sampleEnd: {2}, maxAbs: {3}",
+				yList.Count, sampleStart, sampleEnd, maxAbs));
+
+		int i = sampleStart;
+		//threshold for "non-force" segment at 5% of max
+		while(Math.Abs(yList[i]) < .05 * maxAbs && i < sampleEnd)
+			i ++;
+
+		//find the lowest value at 70% end of the "non-force" segment
+		int startAt = Convert.ToInt32(sampleStart + (.7 * (i - sampleStart)));
+		int minLocalPos = startAt;
+		double minLocal = yList[startAt];
+
+		for(int j = startAt; j <= i; j ++)
+		{
+			if(yList[j] < minLocal) {
+				minLocal = yList[j];
+				minLocalPos = j;
+			}
+		}
+		return minLocalPos;
 	}
 
 	private bool displacementOk (int concentricFlag, double sampleStart, double sampleEnd)

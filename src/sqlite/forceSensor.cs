@@ -273,7 +273,7 @@ class SqliteForceSensor : Sqlite
 	 */
 	protected internal static void import_from_1_68_to_1_69() //database is opened
 	{
-		//LogB.PrintAllThreads = true; //TODO: remove this
+		//LogB.PrintAllThreads = true; //comment this
 		LogB.Information("at import_from_1_68_to_1_69()");
 
 		string forceSensorDir = Util.GetForceSensorDir();
@@ -366,7 +366,7 @@ class SqliteForceSensor : Sqlite
 					fslt.Comment = file.Name;
 				}
 
-				if(fslt.Exercise != "")
+				if(fslt.Exercise != "" && exerciseID == -1)
 				{
 					ForceSensorExercise fse = new ForceSensorExercise (-1, fslt.Exercise, 0, "", 0, "", false, false, false);
 					//note we are on 1_68 so we need this import method

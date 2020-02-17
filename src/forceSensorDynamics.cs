@@ -174,7 +174,9 @@ public abstract class ForceSensorDynamics
 					searchingFirstExtreme = false;
 				}
 
-				prepareCheckAndSendRepetition(concentricFlag, yList, lastExtremeSample, possibleExtremeSample);
+				LogB.Information("care to fix problem of sending both extremes at pos 0 on the first rep (caused by samplePreFirst code)");
+				if(possibleExtremeSample > lastExtremeSample)
+					prepareCheckAndSendRepetition(concentricFlag, yList, lastExtremeSample, possibleExtremeSample);
 
 				//Save the sample of the last extreme in order to compare new samples with it
 				lastExtremeSample = possibleExtremeSample;
@@ -190,11 +192,15 @@ public abstract class ForceSensorDynamics
 			currentSample += 1;
 		}
 
-		prepareCheckAndSendRepetition(concentricFlag, yList, lastExtremeSample, possibleExtremeSample);
+		if(possibleExtremeSample > lastExtremeSample)
+			prepareCheckAndSendRepetition(concentricFlag, yList, lastExtremeSample, possibleExtremeSample);
 	}
 
 	private void prepareCheckAndSendRepetition(int concentricFlag, List<double> yList, int sampleStart, int sampleEnd)
 	{
+		LogB.Information(string.Format("prepareCheckAndSendRepetition params: concentricFlag: {0}, yList.Count: {1}, sampleStart: {2}, sampleEnd: {3}",
+				concentricFlag, yList.Count, sampleStart, sampleEnd));
+
 		//on elastic do not accept eccentric reps
 		if(isElastic && concentricFlag == -1)
 			return;
@@ -244,7 +250,10 @@ public abstract class ForceSensorDynamics
 
 		// 4) check if displacement is ok, and add the repetition
 		if(displacementOk(concentricFlag, yList[sampleStart], yList[sampleEnd]))
+		{
+			LogB.Information(" Adding repetition ");
 			addRepetition(yList, sampleStart, sampleEnd);
+		}
 	}
 
 	/*

@@ -1395,7 +1395,7 @@ public class ForceSensorAnalyzeInstant
 			double personWeight, ForceSensor.CaptureOptions fsco, double stiffness,
 			double eccMinDisplacement, double conMinDisplacement)
 	{
-		LogB.Information("at readFile");
+		LogB.Information(string.Format("at readFile, start: {0}, end: {1}", start, end));
 		fscAIPoints = new ForceSensorCapturePoints(graphWidth, graphHeight, -1);
 
 		List<string> contents = Util.ReadFileAsStringList(file);

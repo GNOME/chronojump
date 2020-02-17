@@ -448,7 +448,10 @@ class SqliteForceSensorExercise : Sqlite
 			"description TEXT, " +
 			"tareBeforeCapture INT, " +
 			"forceResultant INT NOT NULL, " +
-			"elastic INT NOT NULL)";
+			"elastic INT NOT NULL, " +
+			"eccReps INT DEFAULT 0, " +
+			"eccMin FLOAT DEFAULT -1, " + 	//can be displacement or N
+			"conMin FLOAT DEFAULT -1)"; 	//can be displacement or N
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}
@@ -462,7 +465,8 @@ class SqliteForceSensorExercise : Sqlite
 
 		dbcmd.CommandText = "INSERT INTO " + table +
 				" (uniqueID, name, percentBodyWeight, resistance, angleDefault, " +
-				" description, tareBeforeCapture, forceResultant, elastic)" +
+				" description, tareBeforeCapture, forceResultant, elastic, " +
+				" eccReps, eccMin, conMin)" +
 				" VALUES (" + ex.ToSQLInsertString() + ")";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -491,6 +495,9 @@ class SqliteForceSensorExercise : Sqlite
 			"\", tareBeforeCapture = " + Util.BoolToInt(ex.TareBeforeCapture).ToString() +
 			", forceResultant = " + Util.BoolToInt(ex.ForceResultant).ToString() +
 			", elastic = " + Util.BoolToInt(ex.Elastic).ToString() +
+			", eccReps = " + Util.BoolToInt(ex.EccReps).ToString() +
+			", eccMin = " + Util.ConvertToPoint(ex.EccMin) +
+			", conMin = " + Util.ConvertToPoint(ex.ConMin) +
 			" WHERE uniqueID = " + ex.UniqueID;
 
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -542,18 +549,35 @@ class SqliteForceSensorExercise : Sqlite
 				array.Add(ex);
 			}
 		} else {
-			while(reader.Read()) {
-				ex = new ForceSensorExercise (
-						Convert.ToInt32(reader[0].ToString()),	//uniqueID
-						reader[1].ToString(),			//name
-						Convert.ToInt32(reader[2].ToString()),	//percentBodyWeight
-						reader[3].ToString(),			//resistance (unused)
-						Convert.ToInt32(reader[4].ToString()), 	//angleDefault
-						reader[5].ToString(),			//description
-						Util.IntToBool(Convert.ToInt32(reader[6].ToString())),	//tareBeforeCapture
-						Util.IntToBool(Convert.ToInt32(reader[7].ToString())),	//forceResultant
-						Util.IntToBool(Convert.ToInt32(reader[8].ToString()))	//elastic
-						);
+			while(reader.Read())
+			{
+				if(reader.FieldCount == 9) //DB 1.73
+					ex = new ForceSensorExercise (
+							Convert.ToInt32(reader[0].ToString()),	//uniqueID
+							reader[1].ToString(),			//name
+							Convert.ToInt32(reader[2].ToString()),	//percentBodyWeight
+							reader[3].ToString(),			//resistance (unused)
+							Convert.ToInt32(reader[4].ToString()), 	//angleDefault
+							reader[5].ToString(),			//description
+							Util.IntToBool(Convert.ToInt32(reader[6].ToString())),	//tareBeforeCapture
+							Util.IntToBool(Convert.ToInt32(reader[7].ToString())),	//forceResultant
+							Util.IntToBool(Convert.ToInt32(reader[8].ToString()))	//elastic
+							);
+				else //if(reader.FieldCount == 12) DB: 1.87
+					ex = new ForceSensorExercise (
+							Convert.ToInt32(reader[0].ToString()),	//uniqueID
+							reader[1].ToString(),			//name
+							Convert.ToInt32(reader[2].ToString()),	//percentBodyWeight
+							reader[3].ToString(),			//resistance (unused)
+							Convert.ToInt32(reader[4].ToString()), 	//angleDefault
+							reader[5].ToString(),			//description
+							Util.IntToBool(Convert.ToInt32(reader[6].ToString())),	//tareBeforeCapture
+							Util.IntToBool(Convert.ToInt32(reader[7].ToString())),	//forceResultant
+							Util.IntToBool(Convert.ToInt32(reader[8].ToString())),	//elastic
+							Util.IntToBool(Convert.ToInt32(reader[9].ToString())),	//eccReps
+							Convert.ToDouble(Util.ChangeDecimalSeparator(reader[10].ToString())), 	//eccMin
+							Convert.ToDouble(Util.ChangeDecimalSeparator(reader[11].ToString())) 	//conMin
+							);
 				array.Add(ex);
 			}
 		}
@@ -627,9 +651,33 @@ class SqliteForceSensorExerciseImport : SqliteForceSensorExercise
 
 			ex.Resistance = "";
 
-			Update(true, ex);
+			Update_1_73_to_1_74(true, ex);
 		}
 	}
+
+	public static void Update_1_73_to_1_74 (bool dbconOpened, ForceSensorExercise ex)
+	{
+		if(! dbconOpened)
+			Sqlite.Open();
+
+		dbcmd.CommandText = "UPDATE " + table + " SET " +
+			" name = \"" + ex.Name +
+			"\", percentBodyWeight = " + ex.PercentBodyWeight +
+			", resistance = \"" + ex.Resistance + 					//unused
+			"\", angleDefault = " + ex.AngleDefault +
+			", description = \"" + ex.Description +
+			"\", tareBeforeCapture = " + Util.BoolToInt(ex.TareBeforeCapture).ToString() +
+			", forceResultant = " + Util.BoolToInt(ex.ForceResultant).ToString() +
+			", elastic = " + Util.BoolToInt(ex.Elastic).ToString() +
+			" WHERE uniqueID = " + ex.UniqueID;
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		if(! dbconOpened)
+			Sqlite.Close();
+	}
+
 }
 
 class SqliteForceSensorElasticBand : Sqlite

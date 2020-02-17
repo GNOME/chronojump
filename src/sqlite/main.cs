@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.86";
+	static string lastChronojumpDatabaseVersion = "1.87";
 
 	public Sqlite() {
 	}
@@ -610,6 +610,7 @@ class Sqlite
 			LogB.SQL("User database newer than program, need to update software");
 			returnSoftwareIsNew = false;
 		} else {
+			//LogB.PrintAllThreads = true; //comment this
 			LogB.Warning("Old database, need to convert");
 			LogB.Warning("db version: " + currentVersion);
 
@@ -2628,6 +2629,22 @@ class Sqlite
 
 				currentVersion = updateVersion("1.86");
 			}
+			if(currentVersion == "1.86")
+			{
+				LogB.SQL("Doing alter table forceSensorExercise adding eccReps, eccMin, conMin");
+				try {
+					//sqlite does not have drop column
+					executeSQL("ALTER TABLE " + Constants.ForceSensorExerciseTable + " ADD COLUMN eccReps INT DEFAULT 0;");
+					executeSQL("ALTER TABLE " + Constants.ForceSensorExerciseTable + " ADD COLUMN eccMin FLOAT DEFAULT -1;");
+					executeSQL("ALTER TABLE " + Constants.ForceSensorExerciseTable + " ADD COLUMN conMin FLOAT DEFAULT -1;");
+				} catch {
+					LogB.SQL("Catched. ");
+
+				}
+				LogB.SQL("Done!");
+
+				currentVersion = updateVersion("1.87");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -2654,6 +2671,8 @@ class Sqlite
 			LogB.SQL("Closing Sqlite after DB updates");
 
 			Sqlite.Close(); //------------------------------------------------
+
+			//LogB.PrintAllThreads = false; //comment this
 		}
 
 		//if changes are made here, remember to change also in CreateTables()
@@ -2840,6 +2859,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 //
+		//1.86 - 1.87 Converted DB to 1.87 Doing alter table forceSensorExercise adding eccReps, eccMin, conMin.
 		//1.85 - 1.86 Converted DB to 1.86 Inserted into preferences: RunEncoderMinAccel
 		//1.84 - 1.85 Converted DB to 1.85 Inserted 5 vars into preferences: EncoderCaptureMainVariable...
 		//1.83 - 1.84 Converted DB to 1.84 Inserted into preferences: forceSensorMIFDuration Mode/Seconds/Percent

@@ -494,7 +494,8 @@ public class ForceSensorExerciseWindow
 				entry_description.Text,
 				radio_mass_subtract.Active, 	//tareBeforeCapture
 				radio_force_resultant.Active,
-				radio_fixation_elastic.Active);
+				radio_fixation_elastic.Active,
+				false, -1, -1); //TODO: read this from the gui
 
 		if(modeEnum == modesEnum.ADD)
 		{

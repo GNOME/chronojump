@@ -195,21 +195,25 @@ public abstract class ForceSensorDynamics
 	{
 		// 1) remove low force at beginning ot end of the repetition
 		double maxAbs = 0;
-		foreach(double y in yList)
-			if (Math.Abs(y) > maxAbs)
-				maxAbs = Math.Abs(y);
 
-		//create List with absolute values
+		//List with absolute values
 		List<double> yListAbs = new List<double>();
+
+		//List with absolute values reversed to find end of rep
+		List<double> yListAbsRev = new List<double>();
+
 		for(int i = 0; i < yList.Count ; i ++)
-			yListAbs.Add(yList[i]);
+		{
+			double abs = Math.Abs(yList[i]);
+			yListAbs.Add(abs);
+			if (abs > maxAbs)
+				maxAbs = abs;
+		}
 
 		sampleStart = findLocalExtreme(yListAbs, sampleStart, sampleEnd, maxAbs);
 
-		//create List with absolute values reversed to find end of rep
-		List<double> yListAbsRev = new List<double>();
 		for(int i = yListAbs.Count -1; i >= 0 ; i --)
-			yListAbsRev.Add(yList[i]);
+			yListAbsRev.Add(yListAbs[i]);
 
 		sampleEnd = yList.Count - findLocalExtreme(yListAbsRev,
 				yList.Count - sampleEnd, yList.Count - sampleStart, maxAbs);
@@ -248,8 +252,8 @@ public abstract class ForceSensorDynamics
 				yList.Count, sampleStart, sampleEnd, maxAbs));
 
 		int i = sampleStart;
-		//threshold for "non-force" segment at 5% of max
-		while(Math.Abs(yList[i]) < .05 * maxAbs && i < sampleEnd)
+		//threshold for "non-force" segment at 2.5% of max
+		while(Math.Abs(yList[i]) < .025 * maxAbs && i < sampleEnd)
 			i ++;
 
 		//find the lowest value at 70% end of the "non-force" segment

@@ -3415,7 +3415,6 @@ Other</property>
                                             <property name="spacing">12</property>
                                             <child>
                                               <widget class="GtkHBox" id="hbox336">
-                                                <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="spacing">4</property>
                                                 <child>

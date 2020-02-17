@@ -58,6 +58,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spin_force_sensor_calibration_kg_value;
 	[Widget] Gtk.Button button_force_sensor_image_save_signal;
 	[Widget] Gtk.DrawingArea force_capture_drawingarea;
+	[Widget] Gtk.Button button_force_sensor_exercise_edit;
+	[Widget] Gtk.Button button_force_sensor_exercise_delete;
 
 	ForceSensorExerciseWindow forceSensorExerciseWin;
 	ForceSensorElasticBandsWindow forceSensorElasticBandsWin;
@@ -2315,6 +2317,8 @@ LogB.Information(" fs R ");
 
 		//needed because the += EventHandler does not work on first fill of the combo
 		on_combo_force_sensor_exercise_changed (new object (), new EventArgs ());
+
+		combo_force_sensor_button_sensitive_exercise(UtilGtk.ComboGetActive(combo_force_sensor_exercise) != "");
 	}
 
 	private void on_combo_force_sensor_exercise_changed (object o, EventArgs args)
@@ -2327,6 +2331,7 @@ LogB.Information(" fs R ");
 			label_button_force_sensor_stiffness.Text = "0";
 			image_button_force_sensor_stiffness_problem.Visible = true;
 			button_force_sensor_stiffness.Visible = false;
+			combo_force_sensor_button_sensitive_exercise(false);
 			return;
 		}
 
@@ -2344,6 +2349,7 @@ LogB.Information(" fs R ");
 			image_button_force_sensor_stiffness_problem.Visible = false;
 		}
 		setLabelContactsExerciseSelected(Catalog.GetString(fse.Name));
+		combo_force_sensor_button_sensitive_exercise(true);
 	}
 
 	private void fillForceSensorExerciseCombo(string name)
@@ -2372,6 +2378,12 @@ LogB.Information(" fs R ");
 			combo_force_sensor_exercise.Active = 0;
 		else
 			combo_force_sensor_exercise.Active = UtilGtk.ComboMakeActive(combo_force_sensor_exercise, name);
+	}
+
+	private void combo_force_sensor_button_sensitive_exercise(bool exerciseSelected)
+	{
+		button_force_sensor_exercise_edit.Sensitive = exerciseSelected;
+		button_force_sensor_exercise_delete.Sensitive = exerciseSelected;
 	}
 
 	void on_button_force_sensor_exercise_edit_clicked (object o, EventArgs args)

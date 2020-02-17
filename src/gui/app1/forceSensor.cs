@@ -433,6 +433,14 @@ public partial class ChronoJumpWindow
 	{
 		currentForceSensor = new ForceSensor();
 
+		/*
+		 * without this, on change person fsAI graph will blank
+		 * but first makes no graph when resize,
+		 * and second does not allow the graph to be done on going to RFD automatic and return
+		 */
+		fsAI = null;
+		lastForceSensorFullPath = null;
+
 		button_contacts_recalculate.Sensitive = false;
 		textview_contacts_signal_comment.Buffer.Text = "";
 		notebook_force_sensor_analyze.Sensitive = false;

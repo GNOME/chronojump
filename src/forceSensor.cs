@@ -345,6 +345,9 @@ public class ForceSensorExercise
 	private bool tareBeforeCapture;
 	private bool forceResultant;
 	private bool elastic;
+	private bool eccReps;
+	private double eccMin;
+	private double conMin;
 
 	/*
 	 * note percentBodyWeight and tareBeforeCapture will not be true at the same time, so there are three modes on total mass management (see diagrams/processes/forceSensorExerciseParameters)
@@ -370,6 +373,25 @@ public class ForceSensorExercise
 	}
 
 	public ForceSensorExercise(int uniqueID, string name, int percentBodyWeight, string resistance, int angleDefault,
+			string description, bool tareBeforeCapture, bool forceResultant, bool elastic,
+			bool eccReps, double eccMin, double conMin)
+	{
+		this.uniqueID = uniqueID;
+		this.name = name;
+		this.percentBodyWeight = percentBodyWeight;
+		this.resistance = resistance;
+		this.angleDefault = angleDefault;
+		this.description = description;
+		this.tareBeforeCapture = tareBeforeCapture;
+		this.forceResultant = forceResultant;
+		this.elastic = elastic;
+		this.eccReps = eccReps;
+		this.eccMin = eccMin;
+		this.conMin = conMin;
+	}
+
+	//constructor at DB: 1.86
+	public ForceSensorExercise(int uniqueID, string name, int percentBodyWeight, string resistance, int angleDefault,
 			string description, bool tareBeforeCapture, bool forceResultant, bool elastic)
 	{
 		this.uniqueID = uniqueID;
@@ -387,7 +409,8 @@ public class ForceSensorExercise
 	{
 		return uniqueID.ToString() + ":" + name + ":" + percentBodyWeight.ToString() + ":" +
 			resistance + ":" + angleDefault.ToString() + ":" + description + ":" +
-			tareBeforeCapture.ToString() + ":" + forceResultant.ToString() + ":" + elastic.ToString();
+			tareBeforeCapture.ToString() + ":" + forceResultant.ToString() + ":" + elastic.ToString() + ":" +
+			eccReps.ToString() + ":" + eccMin.ToString() + ":" + conMin.ToString();
 	}
 
 	public string ToSQLInsertString()
@@ -401,7 +424,9 @@ public class ForceSensorExercise
 			resistance + "\", " + angleDefault + ", \"" + description + "\", " +
 			Util.BoolToInt(tareBeforeCapture).ToString() + ", " +
 			Util.BoolToInt(forceResultant).ToString() + ", " +
-			Util.BoolToInt(elastic).ToString();
+			Util.BoolToInt(elastic).ToString() + ", " +
+			Util.BoolToInt(eccReps).ToString() + ", " +
+			Util.ConvertToPoint(eccMin) + ", " + Util.ConvertToPoint(conMin);
 	}
 
 	// to be able to import
@@ -427,7 +452,10 @@ public class ForceSensorExercise
 				description == newEx.Description &&
 				tareBeforeCapture == newEx.TareBeforeCapture &&
 				forceResultant == newEx.ForceResultant &&
-				elastic == newEx.Elastic)
+				elastic == newEx.Elastic &&
+				eccReps == newEx.EccReps &&
+				eccMin == newEx.EccMin &&
+				conMin == newEx.ConMin)
 			return false;
 
 		return true;
@@ -470,6 +498,18 @@ public class ForceSensorExercise
 	public bool Elastic
 	{
 		get { return elastic; }
+	}
+	public bool EccReps
+	{
+		get { return eccReps; }
+	}
+	public double EccMin
+	{
+		get { return eccMin; }
+	}
+	public double ConMin
+	{
+		get { return conMin; }
 	}
 
 	public bool ComputeAsElastic

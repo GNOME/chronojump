@@ -33,6 +33,7 @@ public abstract class ForceSensorDynamics
 	 */
 	public int RemoveNValues = 0;
 
+	protected bool isElastic;
 	protected List<int> time_micros_l;
 	protected List<double> force_l;
 	protected List<ForceSensorRepetition> forceSensorRepetition_l;
@@ -46,11 +47,12 @@ public abstract class ForceSensorDynamics
 
 	protected List<double> time_l;
 
-	protected void initialize(List<double> force_l, 
+	protected void initialize(bool isElastic, List<double> force_l,
 			ForceSensor.CaptureOptions fsco, ForceSensorExercise fse,
 			double personMass, double stiffness,
 			double eccMinDisplacement, double conMinDisplacement)
 	{
+		this.isElastic = isElastic;
 		this.force_l = force_l;
 		this.fsco = fsco;
 		this.fse = fse;
@@ -193,6 +195,10 @@ public abstract class ForceSensorDynamics
 
 	private void prepareCheckAndSendRepetition(int concentricFlag, List<double> yList, int sampleStart, int sampleEnd)
 	{
+		//on elastic do not accept eccentric reps
+		if(isElastic && concentricFlag == -1)
+			return;
+
 		// 1) remove low force at beginning ot end of the repetition
 		double maxAbs = 0;
 
@@ -325,7 +331,7 @@ public class ForceSensorDynamicsNotElastic : ForceSensorDynamics
 			double personMass, double stiffness,
 			double eccMinDisplacement, double conMinDisplacement)
 	{
-		initialize(force_l, fsco, fse, personMass, stiffness, eccMinDisplacement, conMinDisplacement);
+		initialize(false, force_l, fsco, fse, personMass, stiffness, eccMinDisplacement, conMinDisplacement);
 		removeFirstValue();
 
 		if(! fse.ForceResultant)
@@ -380,7 +386,7 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 			double eccMinDisplacement, double conMinDisplacement)
 	{
 		RemoveNValues = 10;
-		initialize(force_l, fsco, fse, personMass, stiffness, eccMinDisplacement, conMinDisplacement);
+		initialize(true, force_l, fsco, fse, personMass, stiffness, eccMinDisplacement, conMinDisplacement);
 		convertTimeToSeconds(time_micros_l);
 		removeFirstValue();
 

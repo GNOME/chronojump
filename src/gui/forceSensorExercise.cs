@@ -56,6 +56,17 @@ public class ForceSensorExerciseWindow
 	[Widget] Gtk.HBox hbox_body_mass_add;
 	[Widget] Gtk.SpinButton spin_body_mass_add;
 
+	[Widget] Gtk.CheckButton check_discard_ecc;
+	[Widget] Gtk.CheckButton check_detect_repetitions_default;
+	[Widget] Gtk.HBox hbox_detect_repetitions_elastic;
+	[Widget] Gtk.HBox hbox_detect_repetitions_not_elastic;
+	[Widget] Gtk.HBox hbox_force_sensor_elastic_ecc_min_displ;
+	[Widget] Gtk.HBox hbox_force_sensor_not_elastic_ecc_min_force;
+	[Widget] Gtk.SpinButton spin_force_sensor_elastic_ecc_min_displ;
+	[Widget] Gtk.SpinButton spin_force_sensor_elastic_con_min_displ;
+	[Widget] Gtk.SpinButton spin_force_sensor_not_elastic_ecc_min_force;
+	[Widget] Gtk.SpinButton spin_force_sensor_not_elastic_con_min_force;
+
 	[Widget] Gtk.Label label_other;
 	[Widget] Gtk.TextView textview_other_explanation;
 	[Widget] Gtk.SpinButton spin_angle;
@@ -82,8 +93,8 @@ public class ForceSensorExerciseWindow
 
 	private enum modesEnum { EDIT, ADD }
 	private modesEnum modeEnum;
-	private enum Pages { FORCE, FIXATION, MASS, OTHER }
-	private enum Options { FORCE_SENSOR, FORCE_RESULTANT, FIXATION_ELASTIC, FIXATION_NOT_ELASTIC, MASS_ADD, MASS_SUBTRACT, MASS_NOTHING, OTHER }
+	private enum Pages { FORCE, FIXATION, MASS, REPETITIONS, OTHER }
+	private enum Options { FORCE_SENSOR, FORCE_RESULTANT, FIXATION_ELASTIC, FIXATION_NOT_ELASTIC, MASS_ADD, MASS_SUBTRACT, MASS_NOTHING, REPETITIONS, OTHER }
 
 	static ForceSensorExerciseWindow ForceSensorExerciseWindowBox;
 
@@ -128,6 +139,8 @@ public class ForceSensorExerciseWindow
 		ForceSensorExerciseWindowBox.exerciseToGUI();
 		ForceSensorExerciseWindowBox.force_sensor_exercise.Show ();
 
+//TODO: fill spins: spin_force_sensor_elastic_ecc_min_displ, ... with preferences
+
 		return ForceSensorExerciseWindowBox;
 	}
 
@@ -145,6 +158,8 @@ public class ForceSensorExerciseWindow
 		ForceSensorExerciseWindowBox.initializeGuiAtShow();
 		ForceSensorExerciseWindowBox.exercise = null;
 		ForceSensorExerciseWindowBox.force_sensor_exercise.Show ();
+
+//TODO: fill spins: spin_force_sensor_elastic_ecc_min_displ, ... with preferences
 
 		return ForceSensorExerciseWindowBox;
 	}
@@ -223,6 +238,8 @@ public class ForceSensorExerciseWindow
 			str = Catalog.GetString("How the force is transmitted to the sensor");
 		else if(p == Pages.MASS)
 			str = Catalog.GetString("Depending on the exercise and configuration of the test, the total mass (mass of the person and the extra load) can affect the sensor measuring. Select how to manage this effect.");
+		else if(p == Pages.REPETITIONS)
+			str = ""; //not shown
 		else { //if(p == Pages.OTHER)
 			if(radio_force_resultant.Active && radio_mass_add.Active)
 				str = Catalog.GetString("In current exercise configuration, it is necessary to enter the angle in which the sensor is measuring.");
@@ -250,6 +267,8 @@ public class ForceSensorExerciseWindow
 			str = Catalog.GetString("In some cases the weight of the mass is supported by the sensor but it is not a force that the subject is exerting. In this case, the sensor will be tared before starting the test.");
 		else if(o == Options.MASS_NOTHING)
 			str = Catalog.GetString("In some cases the weight is transmitted to the sensor and it is also supported by the measured limb. If the effect of the mass is not significant, use this option also.");
+		else if(o == Options.REPETITIONS)
+			str = Catalog.GetString("Default is discard eccentric phase");
 		else //if(o == Options.OTHER)
 			str = Catalog.GetString("0 means horizontally") + "\n" +
 				Catalog.GetString("90 means vertically with the person above the sensor") + "\n" +
@@ -281,6 +300,8 @@ public class ForceSensorExerciseWindow
 		else if(o == Options.MASS_NOTHING)
 			str = "1.- " + Catalog.GetString("Nordic hamstring. In a Nordic hamstring with the sensor attached to the ankle, the weight affects the values of the sensor but this weight is supported by the hamstrings we are measuring.") +
 				"\n2.- " + Catalog.GetString("Pulling on a TRX. Pulling from a TRX implies overcome the body weight. This body weight is also measured by the sensor.");
+		else if(o == Options.REPETITIONS)
+			str = ""; //not shown
 		else //if(o == Options.OTHER)
 			str = "";
 
@@ -305,6 +326,8 @@ public class ForceSensorExerciseWindow
 			str = Catalog.GetString("Subtract mass");
 		else if(o == Options.MASS_NOTHING)
 			str = Catalog.GetString("Mass is included");
+		else if(o == Options.REPETITIONS)
+			str = Catalog.GetString("Discard eccentric phase");
 		else //if(o == Options.OTHER)
 			str = Catalog.GetString("Angle explanation");
 
@@ -345,7 +368,6 @@ public class ForceSensorExerciseWindow
 		}
 		else if(p == Pages.FIXATION)
 		{
-
 			if(radio_fixation_elastic.Active) {
 				desc = getDescription(Options.FIXATION_ELASTIC);
 				ex = getExample(Options.FIXATION_ELASTIC);
@@ -374,6 +396,30 @@ public class ForceSensorExerciseWindow
 			}
 			hbox_body_mass_add.Sensitive = radio_mass_add.Active;
 		}
+		else if(p == Pages.REPETITIONS)
+		{
+			hbox_force_sensor_elastic_ecc_min_displ.Visible = ! check_discard_ecc.Active;
+			hbox_force_sensor_not_elastic_ecc_min_force.Visible = ! check_discard_ecc.Active;
+
+			hbox_detect_repetitions_elastic.Sensitive = ! check_detect_repetitions_default.Active;
+			hbox_detect_repetitions_not_elastic.Sensitive = ! check_detect_repetitions_default.Active;
+
+			if(radio_force_sensor.Active || ! radio_fixation_elastic.Active)
+			{
+				hbox_detect_repetitions_elastic.Visible = false;
+				hbox_detect_repetitions_not_elastic.Visible = true;
+			} else {
+				hbox_detect_repetitions_elastic.Visible = true;
+				hbox_detect_repetitions_not_elastic.Visible = false;
+			}
+
+			desc = getDescription(Options.REPETITIONS);
+			ex = getExample(Options.REPETITIONS);
+			set_notebook_desc_example_labels(Options.REPETITIONS);
+
+			notebook_desc_examples.CurrentPage = 0;
+			notebook_desc_examples.GetNthPage(1).Hide();
+		}
 		else // if(p == Pages.OTHER)
 		{
 			button_next.Visible = false;
@@ -396,7 +442,7 @@ public class ForceSensorExerciseWindow
 	private void on_button_next_clicked (object o, EventArgs args)
 	{
 		if(notebook_main.CurrentPage == Convert.ToInt32(Pages.FORCE) && radio_force_sensor.Active)
-			notebook_main.CurrentPage = Convert.ToInt32(Pages.OTHER);
+			notebook_main.CurrentPage = Convert.ToInt32(Pages.REPETITIONS);
 		else if(notebook_main.CurrentPage < Convert.ToInt32(Pages.OTHER))
 			notebook_main.CurrentPage ++;
 		else
@@ -406,7 +452,7 @@ public class ForceSensorExerciseWindow
 	}
 	private void on_button_back_clicked (object o, EventArgs args)
 	{
-		if(notebook_main.CurrentPage == Convert.ToInt32(Pages.OTHER) && radio_force_sensor.Active)
+		if(notebook_main.CurrentPage == Convert.ToInt32(Pages.REPETITIONS) && radio_force_sensor.Active)
 			notebook_main.CurrentPage = Convert.ToInt32(Pages.FORCE);
 		else if(notebook_main.CurrentPage > Convert.ToInt32(Pages.FORCE))
 			notebook_main.CurrentPage --;
@@ -427,6 +473,16 @@ public class ForceSensorExerciseWindow
 	private void on_radio_mass_toggled (object o, EventArgs args)
 	{
 		managePage(Pages.MASS);
+	}
+
+	private void on_check_discard_ecc_toggled (object o, EventArgs args)
+	{
+		managePage(Pages.REPETITIONS);
+	}
+
+	private void on_check_detect_repetitions_default_toggled (object o, EventArgs args)
+	{
+		managePage(Pages.REPETITIONS);
 	}
 
 	private void on_entry_name_changed (object o, EventArgs args)
@@ -474,6 +530,10 @@ public class ForceSensorExerciseWindow
 				return;
 			}
 		}
+
+//TODO: save data of: spin_force_sensor_elastic_ecc_min_displ, ... on SQL and preferences
+//use Preferences.PreferencesChange()
+//store spins as -1 if use preferences
 
 		//compare exercise (opening window) with exerciseNew (changes maybe done)
 

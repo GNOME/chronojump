@@ -3442,6 +3442,7 @@ Other</property>
                                 <property name="spacing">12</property>
                                 <child>
                                   <widget class="GtkHBox" id="hbox336">
+                                    <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="spacing">4</property>
                                     <child>
@@ -3469,7 +3470,7 @@ Other</property>
                                         <property name="secondary_icon_activatable">False</property>
                                         <property name="primary_icon_sensitive">True</property>
                                         <property name="secondary_icon_sensitive">True</property>
-                                        <property name="adjustment">0.10000000000000001 0.10000000000000001 10 0.01 0.10000000000000001 0</property>
+                                        <property name="adjustment">0.10000000000000001 0.10000000000000001 10 0.10000000000000001 1 0</property>
                                         <property name="climb_rate">1</property>
                                         <property name="digits">1</property>
                                         <property name="snap_to_ticks">True</property>
@@ -3530,7 +3531,7 @@ Other</property>
                                         <property name="secondary_icon_activatable">False</property>
                                         <property name="primary_icon_sensitive">True</property>
                                         <property name="secondary_icon_sensitive">True</property>
-                                        <property name="adjustment">0.10000000000000001 0.10000000000000001 10 0.01 0.10000000000000001 0</property>
+                                        <property name="adjustment">0.10000000000000001 0.10000000000000001 10 0.10000000000000001 1 0</property>
                                         <property name="climb_rate">1</property>
                                         <property name="digits">1</property>
                                         <property name="snap_to_ticks">True</property>
@@ -3575,6 +3576,7 @@ Other</property>
                                 <property name="spacing">12</property>
                                 <child>
                                   <widget class="GtkHBox" id="hbox58">
+                                    <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="spacing">4</property>
                                     <child>

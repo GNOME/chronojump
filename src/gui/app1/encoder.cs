@@ -2323,8 +2323,6 @@ public partial class ChronoJumpWindow
 		//need this because DONENOSIGNAL allows to recalculate with different parameters, 
 		//but when deleted or cancelled, then don't allow
 		button_encoder_recalculate.Sensitive = false;
-		
-		encoder_capture_curves_bars_drawingarea.Visible = false;
 	}
 
 	/*
@@ -5284,7 +5282,7 @@ public partial class ChronoJumpWindow
 		encoder_capture_signal_pixmap.DrawLayout(pen_blue_encoder_signal, 5, 5, layout_encoder_capture_signal);
 
 		if(refreshAreaOnly) {
-			/*			
+			/*
 						LogB.Information("pp X-TD-W: " + 
 						paintPoints[0].X.ToString() + " - " + 
 						paintPoints[toDraw-1].X.ToString() + " - " + 
@@ -5607,6 +5605,7 @@ public partial class ChronoJumpWindow
 					eCapture = new EncoderCaptureInertial();
 				} else
 					eCapture = new EncoderCaptureGravitatory();
+
 
 				int recordingTime = preferences.encoderCaptureTime;
 				if(radio_encoder_capture_cont.Active)

@@ -5576,6 +5576,8 @@ public partial class ChronoJumpWindow
 				if(encoder_capture_curves_bars_pixmap != null)
 					UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 
+				encoderGraphDoPlot.ShowMessage(Catalog.GetString("Capturing") + " ...");
+
 				encoderCaptureStringR = new List<string>();
 				encoderCaptureStringR.Add(
 						",series,exercise,mass,start,width,height," + 

@@ -30,24 +30,38 @@ using Mono.Unix;
 
 public class ForceSensorExerciseWindow
 {
+	//general widgets
 	[Widget] Gtk.Window force_sensor_exercise;
 	[Widget] Gtk.Label label_header;
 	[Widget] Gtk.Box hbox_error;
 	[Widget] Gtk.Label label_error;
 	[Widget] Gtk.Entry entry_name;
 	[Widget] Gtk.Notebook notebook_main;
+	[Widget] Gtk.Notebook notebook_desc_examples;
+	[Widget] Gtk.Label label_notebook_desc_examples_desc;
+	[Widget] Gtk.Label label_notebook_desc_examples_examples;
+	[Widget] Gtk.TextView textview_description;
+	[Widget] Gtk.TextView textview_examples;
+	[Widget] Gtk.Button button_back;
+	[Widget] Gtk.Button button_next;
+	[Widget] Gtk.Button button_accept;
+	[Widget] Gtk.Image image_back;
+	[Widget] Gtk.Image image_next;
+	[Widget] Gtk.Image image_cancel;
 
-	//each of the rows of the table
+	//force tab
 	[Widget] Gtk.Label label_force;
 	[Widget] Gtk.TextView textview_force_explanation;
 	[Widget] Gtk.RadioButton radio_force_sensor;
 	[Widget] Gtk.RadioButton radio_force_resultant;	
 
+	//fixation tab
 	[Widget] Gtk.Label label_fixation;
 	[Widget] Gtk.TextView textview_fixation_explanation;
 	[Widget] Gtk.RadioButton radio_fixation_elastic;
 	[Widget] Gtk.RadioButton radio_fixation_not_elastic;
 
+	//mass tab
 	[Widget] Gtk.Label label_mass;
 	[Widget] Gtk.TextView textview_mass_explanation;
 	[Widget] Gtk.RadioButton radio_mass_add;
@@ -56,45 +70,45 @@ public class ForceSensorExerciseWindow
 	[Widget] Gtk.HBox hbox_body_mass_add;
 	[Widget] Gtk.SpinButton spin_body_mass_add;
 
-	[Widget] Gtk.CheckButton check_discard_ecc;
-	[Widget] Gtk.CheckButton check_detect_repetitions_default;
+	//repetitions tab
+	[Widget] Gtk.CheckButton check_show_ecc;
+	[Widget] Gtk.CheckButton check_detect_repetitions_from_prefs;
+	[Widget] Gtk.HBox hbox_detect_repetitions_preferences;
 	[Widget] Gtk.HBox hbox_detect_repetitions_elastic;
 	[Widget] Gtk.HBox hbox_detect_repetitions_not_elastic;
-	[Widget] Gtk.HBox hbox_force_sensor_elastic_ecc_min_displ;
-	[Widget] Gtk.HBox hbox_force_sensor_not_elastic_ecc_min_force;
+	[Widget] Gtk.Label label_repetitions_prefs_ecc_value;
+	[Widget] Gtk.Label label_repetitions_prefs_con_value;
+	[Widget] Gtk.Label label_repetitions_prefs_ecc_units;
+	[Widget] Gtk.Label label_repetitions_prefs_con_units;
 	[Widget] Gtk.SpinButton spin_force_sensor_elastic_ecc_min_displ;
 	[Widget] Gtk.SpinButton spin_force_sensor_elastic_con_min_displ;
 	[Widget] Gtk.SpinButton spin_force_sensor_not_elastic_ecc_min_force;
 	[Widget] Gtk.SpinButton spin_force_sensor_not_elastic_con_min_force;
 
+	//other tab
 	[Widget] Gtk.Label label_other;
 	[Widget] Gtk.TextView textview_other_explanation;
 	[Widget] Gtk.SpinButton spin_angle;
 	[Widget] Gtk.Entry entry_description;
 
-	[Widget] Gtk.Notebook notebook_desc_examples;
-	[Widget] Gtk.Label label_notebook_desc_examples_desc;
-	[Widget] Gtk.Label label_notebook_desc_examples_examples;
-	[Widget] Gtk.TextView textview_description;
-	[Widget] Gtk.TextView textview_examples;
-
-	[Widget] Gtk.Button button_back;
-	[Widget] Gtk.Button button_next;
-	[Widget] Gtk.Button button_accept;
-
-	[Widget] Gtk.Image image_back;
-	[Widget] Gtk.Image image_next;
-	[Widget] Gtk.Image image_cancel;
-
+	//fake button
 	[Widget] Gtk.Button fakeButtonReadValues;
 
 	public bool Success;
 	private ForceSensorExercise exercise;
 
+	//values on preferences, useful to show them unsensitive if the user clicks on check_detect_repetitions_from_prefs
+	//on add and on edit exercise
+	private double prefsForceSensorElasticEccMinDispl;
+	private double prefsForceSensorElasticConMinDispl;
+	private int prefsForceSensorNotElasticEccMinForce;
+	private int prefsForceSensorNotElasticConMinForce;
+
 	private enum modesEnum { EDIT, ADD }
 	private modesEnum modeEnum;
 	private enum Pages { FORCE, FIXATION, MASS, REPETITIONS, OTHER }
-	private enum Options { FORCE_SENSOR, FORCE_RESULTANT, FIXATION_ELASTIC, FIXATION_NOT_ELASTIC, MASS_ADD, MASS_SUBTRACT, MASS_NOTHING, REPETITIONS, OTHER }
+	private enum Options { FORCE_SENSOR, FORCE_RESULTANT, FIXATION_ELASTIC, FIXATION_NOT_ELASTIC,
+		MASS_ADD, MASS_SUBTRACT, MASS_NOTHING, REPETITIONS_PREFS, REPETITIONS_NO_PREFS, OTHER }
 
 	static ForceSensorExerciseWindow ForceSensorExerciseWindowBox;
 
@@ -123,7 +137,9 @@ public class ForceSensorExerciseWindow
 		//DestroyOnAccept = false;
 	}
 
-	static public ForceSensorExerciseWindow ShowEdit (string title, string textHeader, ForceSensorExercise exercise)
+	static public ForceSensorExerciseWindow ShowEdit (string title, string textHeader, ForceSensorExercise exercise,
+				double prefsForceSensorElasticEccMinDispl, double prefsForceSensorElasticConMinDispl,
+				int prefsForceSensorNotElasticEccMinForce, int prefsForceSensorNotElasticConMinForce)
 	{
 		if (ForceSensorExerciseWindowBox == null) {
 			ForceSensorExerciseWindowBox = new ForceSensorExerciseWindow(title, textHeader);
@@ -137,14 +153,61 @@ public class ForceSensorExerciseWindow
 		ForceSensorExerciseWindowBox.initializeGuiAtShow();
 		ForceSensorExerciseWindowBox.exercise = exercise;
 		ForceSensorExerciseWindowBox.exerciseToGUI();
-		ForceSensorExerciseWindowBox.force_sensor_exercise.Show ();
 
-//TODO: fill spins: spin_force_sensor_elastic_ecc_min_displ, ... with preferences
+		ForceSensorExerciseWindowBox.prefsForceSensorElasticEccMinDispl = prefsForceSensorElasticEccMinDispl;
+		ForceSensorExerciseWindowBox.prefsForceSensorElasticConMinDispl = prefsForceSensorElasticConMinDispl;
+		ForceSensorExerciseWindowBox.prefsForceSensorNotElasticEccMinForce = prefsForceSensorNotElasticEccMinForce;
+		ForceSensorExerciseWindowBox.prefsForceSensorNotElasticConMinForce = prefsForceSensorNotElasticConMinForce;
+
+		//on edit, if elastic, pass elastic params from exercise, and not elastic from preferences. Opposite on not elastic
+		bool repsFromPrefs = false;
+		if(exercise.Elastic)
+		{
+			//to avoid put -1 (in fact is 1, minimum value) on spinbuttons
+			double em = exercise.EccMin;
+			if(em < 0) {
+				em = prefsForceSensorElasticEccMinDispl;
+				repsFromPrefs = true;
+			}
+
+			double cm = exercise.ConMin;
+			if(cm < 0) {
+				cm = prefsForceSensorElasticConMinDispl;
+				repsFromPrefs = true;
+			}
+
+			ForceSensorExerciseWindowBox.repetitionsToGUI(
+					exercise.EccReps, repsFromPrefs,
+					em, cm,
+					prefsForceSensorNotElasticEccMinForce, prefsForceSensorNotElasticConMinForce);
+		} else {
+			//to avoid put -1 (in fact is 1, minimum value) on spinbuttons
+			double em = exercise.EccMin;
+			if(em < 0) {
+				em = prefsForceSensorNotElasticEccMinForce;
+				repsFromPrefs = true;
+			}
+
+			double cm = exercise.ConMin;
+			if(cm < 0) {
+				cm = prefsForceSensorNotElasticConMinForce;
+				repsFromPrefs = true;
+			}
+
+			ForceSensorExerciseWindowBox.repetitionsToGUI(
+					exercise.EccReps, repsFromPrefs,
+					prefsForceSensorElasticEccMinDispl, prefsForceSensorElasticConMinDispl,
+					Convert.ToInt32(em), Convert.ToInt32(cm));
+		}
+
+		ForceSensorExerciseWindowBox.force_sensor_exercise.Show ();
 
 		return ForceSensorExerciseWindowBox;
 	}
 
-	static public ForceSensorExerciseWindow ShowAdd (string title, string textHeader)
+	static public ForceSensorExerciseWindow ShowAdd (string title, string textHeader,
+				double prefsForceSensorElasticEccMinDispl, double prefsForceSensorElasticConMinDispl,
+				int prefsForceSensorNotElasticEccMinForce, int prefsForceSensorNotElasticConMinForce)
 	{
 		if (ForceSensorExerciseWindowBox == null) {
 			ForceSensorExerciseWindowBox = new ForceSensorExerciseWindow(title, textHeader);
@@ -157,9 +220,18 @@ public class ForceSensorExerciseWindow
 		ForceSensorExerciseWindowBox.modeEnum = modesEnum.ADD;
 		ForceSensorExerciseWindowBox.initializeGuiAtShow();
 		ForceSensorExerciseWindowBox.exercise = null;
-		ForceSensorExerciseWindowBox.force_sensor_exercise.Show ();
 
-//TODO: fill spins: spin_force_sensor_elastic_ecc_min_displ, ... with preferences
+		ForceSensorExerciseWindowBox.prefsForceSensorElasticEccMinDispl = prefsForceSensorElasticEccMinDispl;
+		ForceSensorExerciseWindowBox.prefsForceSensorElasticConMinDispl = prefsForceSensorElasticConMinDispl;
+		ForceSensorExerciseWindowBox.prefsForceSensorNotElasticEccMinForce = prefsForceSensorNotElasticEccMinForce;
+		ForceSensorExerciseWindowBox.prefsForceSensorNotElasticConMinForce = prefsForceSensorNotElasticConMinForce;
+
+		ForceSensorExerciseWindowBox.repetitionsToGUI(
+				false, true, //show ecc, repsFromPrefs
+				prefsForceSensorElasticEccMinDispl, prefsForceSensorElasticConMinDispl,
+				prefsForceSensorNotElasticEccMinForce, prefsForceSensorNotElasticConMinForce);
+
+		ForceSensorExerciseWindowBox.force_sensor_exercise.Show ();
 
 		return ForceSensorExerciseWindowBox;
 	}
@@ -229,6 +301,19 @@ public class ForceSensorExerciseWindow
 		entry_description.Text = exercise.Description;
 	}
 
+	private void repetitionsToGUI(
+			bool showEcc, bool repsFromPrefs,
+			double forceSensorElasticEccMinDispl, double forceSensorElasticConMinDispl,
+			int forceSensorNotElasticEccMinForce, int forceSensorNotElasticConMinForce)
+	{
+		check_show_ecc.Active = showEcc;
+		check_detect_repetitions_from_prefs.Active = repsFromPrefs;
+		spin_force_sensor_elastic_ecc_min_displ.Value = forceSensorElasticEccMinDispl;
+		spin_force_sensor_elastic_con_min_displ.Value = forceSensorElasticConMinDispl;
+		spin_force_sensor_not_elastic_ecc_min_force.Value = forceSensorNotElasticEccMinForce;
+		spin_force_sensor_not_elastic_con_min_force.Value = forceSensorNotElasticConMinForce;
+	}
+
 	private string getTopExplanations (Pages p)
 	{
 		string str;
@@ -267,8 +352,10 @@ public class ForceSensorExerciseWindow
 			str = Catalog.GetString("In some cases the weight of the mass is supported by the sensor but it is not a force that the subject is exerting. In this case, the sensor will be tared before starting the test.");
 		else if(o == Options.MASS_NOTHING)
 			str = Catalog.GetString("In some cases the weight is transmitted to the sensor and it is also supported by the measured limb. If the effect of the mass is not significant, use this option also.");
-		else if(o == Options.REPETITIONS)
-			str = Catalog.GetString("Default is discard eccentric phase");
+		else if(o == Options.REPETITIONS_PREFS)
+			str = Catalog.GetString("If user changes values on preferences, these values will automatically change.");
+		else if(o == Options.REPETITIONS_NO_PREFS)
+			str = Catalog.GetString("These values will be used to detect repetitions.");
 		else //if(o == Options.OTHER)
 			str = Catalog.GetString("0 means horizontally") + "\n" +
 				Catalog.GetString("90 means vertically with the person above the sensor") + "\n" +
@@ -300,8 +387,8 @@ public class ForceSensorExerciseWindow
 		else if(o == Options.MASS_NOTHING)
 			str = "1.- " + Catalog.GetString("Nordic hamstring. In a Nordic hamstring with the sensor attached to the ankle, the weight affects the values of the sensor but this weight is supported by the hamstrings we are measuring.") +
 				"\n2.- " + Catalog.GetString("Pulling on a TRX. Pulling from a TRX implies overcome the body weight. This body weight is also measured by the sensor.");
-		else if(o == Options.REPETITIONS)
-			str = ""; //not shown
+		//else if(o == Options.REPETITIONS)
+		//	str = ""; //not shown
 		else //if(o == Options.OTHER)
 			str = "";
 
@@ -326,8 +413,10 @@ public class ForceSensorExerciseWindow
 			str = Catalog.GetString("Subtract mass");
 		else if(o == Options.MASS_NOTHING)
 			str = Catalog.GetString("Mass is included");
-		else if(o == Options.REPETITIONS)
-			str = Catalog.GetString("Discard eccentric phase");
+		else if(o == Options.REPETITIONS_PREFS)
+			str = Catalog.GetString("Repetitions according to preferences");
+		else if(o == Options.REPETITIONS_NO_PREFS)
+			str = Catalog.GetString("Repetitions using custom values");
 		else //if(o == Options.OTHER)
 			str = Catalog.GetString("Angle explanation");
 
@@ -398,24 +487,42 @@ public class ForceSensorExerciseWindow
 		}
 		else if(p == Pages.REPETITIONS)
 		{
-			hbox_force_sensor_elastic_ecc_min_displ.Visible = ! check_discard_ecc.Active;
-			hbox_force_sensor_not_elastic_ecc_min_force.Visible = ! check_discard_ecc.Active;
-
-			hbox_detect_repetitions_elastic.Sensitive = ! check_detect_repetitions_default.Active;
-			hbox_detect_repetitions_not_elastic.Sensitive = ! check_detect_repetitions_default.Active;
-
 			if(radio_force_sensor.Active || ! radio_fixation_elastic.Active)
 			{
-				hbox_detect_repetitions_elastic.Visible = false;
-				hbox_detect_repetitions_not_elastic.Visible = true;
+				label_repetitions_prefs_ecc_value.Text = prefsForceSensorNotElasticEccMinForce.ToString();
+				label_repetitions_prefs_con_value.Text = prefsForceSensorNotElasticConMinForce.ToString();
+				label_repetitions_prefs_ecc_units.Text = "N";
+				label_repetitions_prefs_con_units.Text = "N";
 			} else {
-				hbox_detect_repetitions_elastic.Visible = true;
-				hbox_detect_repetitions_not_elastic.Visible = false;
+				label_repetitions_prefs_ecc_value.Text = Util.TrimDecimals(prefsForceSensorElasticEccMinDispl, 1);
+				label_repetitions_prefs_con_value.Text = Util.TrimDecimals(prefsForceSensorElasticConMinDispl, 1);
+				label_repetitions_prefs_ecc_units.Text = "m";
+				label_repetitions_prefs_con_units.Text = "m";
 			}
 
-			desc = getDescription(Options.REPETITIONS);
-			ex = getExample(Options.REPETITIONS);
-			set_notebook_desc_example_labels(Options.REPETITIONS);
+			if(check_detect_repetitions_from_prefs.Active)
+			{
+				hbox_detect_repetitions_preferences.Visible = true;
+				hbox_detect_repetitions_elastic.Visible = false;
+				hbox_detect_repetitions_not_elastic.Visible = false;
+			} else {
+				hbox_detect_repetitions_preferences.Visible = false;
+				if(radio_force_sensor.Active || ! radio_fixation_elastic.Active) {
+					hbox_detect_repetitions_not_elastic.Visible = true;
+					hbox_detect_repetitions_elastic.Visible = false;
+				} else {
+					hbox_detect_repetitions_not_elastic.Visible = false;
+					hbox_detect_repetitions_elastic.Visible = true;
+				}
+			}
+
+			Options o = Options.REPETITIONS_PREFS;
+			if(! check_detect_repetitions_from_prefs.Active)
+				o = Options.REPETITIONS_NO_PREFS;
+
+			desc = getDescription(o);
+			ex = getExample(o);
+			set_notebook_desc_example_labels(o);
 
 			notebook_desc_examples.CurrentPage = 0;
 			notebook_desc_examples.GetNthPage(1).Hide();
@@ -475,12 +582,12 @@ public class ForceSensorExerciseWindow
 		managePage(Pages.MASS);
 	}
 
-	private void on_check_discard_ecc_toggled (object o, EventArgs args)
+	private void on_check_show_ecc_toggled (object o, EventArgs args)
 	{
 		managePage(Pages.REPETITIONS);
 	}
 
-	private void on_check_detect_repetitions_default_toggled (object o, EventArgs args)
+	private void on_check_detect_repetitions_from_prefs_toggled (object o, EventArgs args)
 	{
 		managePage(Pages.REPETITIONS);
 	}
@@ -531,9 +638,18 @@ public class ForceSensorExerciseWindow
 			}
 		}
 
-//TODO: save data of: spin_force_sensor_elastic_ecc_min_displ, ... on SQL and preferences
-//use Preferences.PreferencesChange()
-//store spins as -1 if use preferences
+		double eccMin = -1;
+		double conMin = -1;
+		if(! check_detect_repetitions_from_prefs.Active)
+		{
+			if(radio_fixation_elastic.Active) {
+				eccMin = spin_force_sensor_elastic_ecc_min_displ.Value;
+				conMin = spin_force_sensor_elastic_con_min_displ.Value;
+			} else {
+				eccMin = spin_force_sensor_not_elastic_ecc_min_force.Value;
+				conMin = spin_force_sensor_not_elastic_con_min_force.Value;
+			}
+		}
 
 		//compare exercise (opening window) with exerciseNew (changes maybe done)
 
@@ -555,7 +671,7 @@ public class ForceSensorExerciseWindow
 				radio_mass_subtract.Active, 	//tareBeforeCapture
 				radio_force_resultant.Active,
 				radio_fixation_elastic.Active,
-				false, -1, -1); //TODO: read this from the gui
+				check_show_ecc.Active, eccMin, conMin);
 
 		if(modeEnum == modesEnum.ADD)
 		{

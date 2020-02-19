@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2020-02-18 12:37+0000\n"
-"PO-Revision-Date: 2020-02-18 15:47+0100\n"
+"POT-Creation-Date: 2020-02-19 12:55+0000\n"
+"PO-Revision-Date: 2020-02-19 15:17+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
@@ -435,7 +435,7 @@ msgstr "MultiChronopic"
 #. column where the uniqueID of event will be (and will be hidden)
 #: ../glade/app1.glade.h:91 ../glade/edit_event.glade.h:6
 #: ../src/gui/app1/encoder.cs:1103 ../src/gui/app1/encoder.cs:4955
-#: ../src/gui/app1/forceSensor.cs:2469 ../src/gui/executeAuto.cs:501
+#: ../src/gui/app1/forceSensor.cs:2473 ../src/gui/executeAuto.cs:501
 #: ../src/gui/overview.cs:73 ../src/gui/overview.cs:147
 #: ../src/gui/overview.cs:155 ../src/gui/runEncoder.cs:1486
 #: ../src/stats/runIntervallic.cs:64 ../src/treeview/multiChronopic.cs:30
@@ -572,7 +572,7 @@ msgstr "Calibrar"
 #: ../glade/app1.glade.h:118 ../glade/force_sensor_elastic_bands.glade.h:15
 #: ../glade/person_select_window.glade.h:22 ../src/gui/app1/encoder.cs:1149
 #: ../src/gui/app1/encoder.cs:1644 ../src/gui/app1/encoder.cs:4942
-#: ../src/gui/app1/forceSensor.cs:1479 ../src/gui/app1/forceSensor.cs:2456
+#: ../src/gui/app1/forceSensor.cs:1479 ../src/gui/app1/forceSensor.cs:2460
 #: ../src/gui/encoderSelectRepetitions.cs:282 ../src/gui/executeAuto.cs:305
 #: ../src/gui/genericWindow.cs:918 ../src/gui/runEncoder.cs:698
 #: ../src/gui/runEncoder.cs:1473
@@ -1232,7 +1232,7 @@ msgstr "seleccionar"
 
 #: ../glade/app1.glade.h:249 ../glade/report_window.glade.h:9
 #: ../src/exportSession.cs:208 ../src/gui/app1/encoder.cs:4956
-#: ../src/gui/app1/forceSensor.cs:2470 ../src/gui/runEncoder.cs:1487
+#: ../src/gui/app1/forceSensor.cs:2474 ../src/gui/runEncoder.cs:1487
 #: ../src/report.cs:141
 msgid "Session"
 msgstr "Sesión"
@@ -1509,7 +1509,7 @@ msgstr ""
 "Concéntrico,\n"
 "isométrico"
 
-#: ../glade/app1.glade.h:315 ../glade/force_sensor_exercise.glade.h:19
+#: ../glade/app1.glade.h:315 ../glade/force_sensor_exercise.glade.h:18
 #: ../glade/preferences_win.glade.h:103 ../src/encoder.cs:923
 msgid "Concentric"
 msgstr "Concéntrico"
@@ -1795,7 +1795,7 @@ msgstr "Configurar"
 #: ../glade/app1.glade.h:381 ../src/gui/app1/encoder.cs:1104
 #: ../src/gui/app1/encoder.cs:1596 ../src/gui/app1/encoder.cs:4799
 #: ../src/gui/app1/encoder.cs:4935 ../src/gui/app1/forceSensor.cs:1430
-#: ../src/gui/app1/forceSensor.cs:2402 ../src/gui/app1/forceSensor.cs:2410
+#: ../src/gui/app1/forceSensor.cs:2402 ../src/gui/app1/forceSensor.cs:2412
 #: ../src/gui/encoderSelectRepetitions.cs:215
 #: ../src/gui/encoderTreeviews.cs:603 ../src/gui/overview.cs:75
 #: ../src/gui/overview.cs:149 ../src/gui/overview.cs:157
@@ -2958,12 +2958,12 @@ msgid "What force do you want to show?"
 msgstr "¿Qué fuerza desea mostrar?"
 
 #: ../glade/force_sensor_exercise.glade.h:3
-#: ../src/gui/forceSensorExercise.cs:316
+#: ../src/gui/forceSensorExercise.cs:403
 msgid "Raw data"
 msgstr "Datos en bruto"
 
 #: ../glade/force_sensor_exercise.glade.h:4
-#: ../src/gui/forceSensorExercise.cs:318
+#: ../src/gui/forceSensorExercise.cs:405
 msgid "Resultant force"
 msgstr "Fuerza resultante"
 
@@ -2971,15 +2971,15 @@ msgstr "Fuerza resultante"
 msgid "Fixation"
 msgstr "Fijación"
 
-#: ../glade/force_sensor_exercise.glade.h:6
+#: ../glade/force_sensor_exercise.glade.h:6 ../glade/preferences_win.glade.h:99
+#: ../src/gui/app1/forceSensor.cs:1431 ../src/gui/forceSensorExercise.cs:407
+msgid "Elastic"
+msgstr "Elástico"
+
+#: ../glade/force_sensor_exercise.glade.h:7
 #: ../glade/preferences_win.glade.h:100
 msgid "Not elastic"
 msgstr "No elástico"
-
-#: ../glade/force_sensor_exercise.glade.h:7 ../glade/preferences_win.glade.h:99
-#: ../src/gui/app1/forceSensor.cs:1431 ../src/gui/forceSensorExercise.cs:320
-msgid "Elastic"
-msgstr "Elástico"
 
 #: ../glade/force_sensor_exercise.glade.h:8
 msgid "Total mass management"
@@ -3007,22 +3007,21 @@ msgid "Detect repetitions"
 msgstr "Detectar repeticiones"
 
 #: ../glade/force_sensor_exercise.glade.h:14
-#: ../src/gui/forceSensorExercise.cs:330
-#| msgid "Duration of eccentric phase"
-msgid "Discard eccentric phase"
-msgstr "Descartar la fase excéntrica"
+#| msgid "Discard eccentric phase"
+msgid "Show eccentric phase"
+msgstr "Mostrar fase excéntrica"
 
 #: ../glade/force_sensor_exercise.glade.h:15
-#| msgid "Are you sure you want to delete this repetition?"
-msgid "Use default criteria to detect repetitions"
-msgstr "Usar criterio predeterminado para detectar repeticiones"
+#| msgid "Use default criteria to detect repetitions"
+msgid "Use value on preferences to detect repetitions"
+msgstr "Usar valor en las preferencias para detectar repeticiones"
 
 #: ../glade/force_sensor_exercise.glade.h:16
 #: ../glade/preferences_win.glade.h:56
 msgid "Minimal range of movement"
 msgstr "Rango mínimo del movimiento"
 
-#: ../glade/force_sensor_exercise.glade.h:18
+#: ../glade/force_sensor_exercise.glade.h:19
 #: ../glade/preferences_win.glade.h:57
 msgid "Minimal height"
 msgstr "Altura mínima"
@@ -3135,7 +3134,7 @@ msgstr "Resumen"
 
 #. not shown, unused
 #: ../glade/overview.glade.h:2 ../src/gui/app1/encoder.cs:4955
-#: ../src/gui/app1/forceSensor.cs:2469 ../src/gui/overview.cs:76
+#: ../src/gui/app1/forceSensor.cs:2473 ../src/gui/overview.cs:76
 #: ../src/gui/overview.cs:153 ../src/gui/runEncoder.cs:1486
 #: ../src/gui/session/load.cs:278 ../src/gui/session/load.cs:281
 msgid "Sets"
@@ -4307,7 +4306,7 @@ msgstr "Lugar"
 #. tv.AppendColumn ( Catalog.GetString ("Date"), new CellRendererText(), "text", count++);
 #: ../glade/session_add_edit.glade.h:5 ../src/exportSession.cs:247
 #: ../src/gui/app1/encoder.cs:1601 ../src/gui/app1/encoder.cs:4956
-#: ../src/gui/app1/forceSensor.cs:1434 ../src/gui/app1/forceSensor.cs:2470
+#: ../src/gui/app1/forceSensor.cs:1434 ../src/gui/app1/forceSensor.cs:2474
 #: ../src/gui/encoderSelectRepetitions.cs:223 ../src/gui/runEncoder.cs:653
 #: ../src/gui/runEncoder.cs:1487 ../src/gui/session/load.cs:252
 #: ../src/gui/session/selectStats.cs:80 ../src/report.cs:230
@@ -6179,7 +6178,7 @@ msgstr "Calibrado"
 
 #: ../src/gui/app1/encoder.cs:900 ../src/gui/app1/encoder.cs:4705
 #: ../src/gui/app1/encoder.cs:4924 ../src/gui/app1/forceSensor.cs:340
-#: ../src/gui/app1/forceSensor.cs:2393 ../src/gui/app1/forceSensor.cs:2437
+#: ../src/gui/app1/forceSensor.cs:2393 ../src/gui/app1/forceSensor.cs:2441
 #: ../src/gui/runEncoder.cs:208 ../src/gui/runEncoder.cs:1322
 #: ../src/gui/runEncoder.cs:1452
 msgid "Need to create/select an exercise."
@@ -6534,7 +6533,7 @@ msgstr "Operación cancelada."
 msgid "Saved 1RM: {0} Kg."
 msgstr "1RM guardado: {0} Kg."
 
-#: ../src/gui/app1/encoder.cs:4739 ../src/gui/app1/forceSensor.cs:2449
+#: ../src/gui/app1/encoder.cs:4739 ../src/gui/app1/forceSensor.cs:2453
 msgid "Delete exercise"
 msgstr "Eliminar ejercicio"
 
@@ -6559,32 +6558,32 @@ msgstr "Velocidad a 1RM"
 msgid "Write the name of the exercise:"
 msgstr "Escriba el nombre del ejercicio:"
 
-#: ../src/gui/app1/encoder.cs:4853 ../src/gui/forceSensorExercise.cs:511
+#: ../src/gui/app1/encoder.cs:4853 ../src/gui/forceSensorExercise.cs:618
 #: ../src/gui/runEncoder.cs:1412
 msgid "Error: Missing name of exercise."
 msgstr "Error: falta el nombre del ejercicio"
 
 #. if we add, check that this name does not exists
 #: ../src/gui/app1/encoder.cs:4859 ../src/gui/app1/encoder.cs:4869
-#: ../src/gui/forceSensorExercise.cs:518 ../src/gui/forceSensorExercise.cs:528
+#: ../src/gui/forceSensorExercise.cs:625 ../src/gui/forceSensorExercise.cs:635
 #: ../src/gui/runEncoder.cs:1418 ../src/gui/runEncoder.cs:1428
 #, csharp-format
 msgid "Error: An exercise named '{0}' already exists."
 msgstr "Error: ya existe un ejercicio llamado «{0}»."
 
-#: ../src/gui/app1/encoder.cs:4936 ../src/gui/app1/forceSensor.cs:2450
+#: ../src/gui/app1/encoder.cs:4936 ../src/gui/app1/forceSensor.cs:2454
 #: ../src/gui/runEncoder.cs:1467
 msgid "Exercise name:"
 msgstr "Nombre del ejercicio:"
 
-#: ../src/gui/app1/encoder.cs:4946 ../src/gui/app1/forceSensor.cs:2460
+#: ../src/gui/app1/encoder.cs:4946 ../src/gui/app1/forceSensor.cs:2464
 #: ../src/gui/runEncoder.cs:1477
 msgid "Sorry, this exercise cannot be deleted until these tests are deleted:"
 msgstr ""
 "No se puede eliminar este ejercicio hasta que se hayan eliminado todas las "
 "pruebas:"
 
-#: ../src/gui/app1/encoder.cs:4972 ../src/gui/app1/forceSensor.cs:2482
+#: ../src/gui/app1/encoder.cs:4972 ../src/gui/app1/forceSensor.cs:2486
 #: ../src/gui/runEncoder.cs:1499
 msgid "Exercise deleted."
 msgstr "Ejercicio eliminado."
@@ -6691,24 +6690,24 @@ msgid "If you want to calibrate, please tare first."
 msgstr "Si quiere calibrar tare primero."
 
 #. don't show now
-#: ../src/gui/app1/forceSensor.cs:2403 ../src/gui/app1/forceSensor.cs:2411
+#: ../src/gui/app1/forceSensor.cs:2403 ../src/gui/app1/forceSensor.cs:2413
 #: ../src/gui/runEncoder.cs:1344
 msgid "Force sensor exercise:"
 msgstr "Sensor de fuerza del ejercicio:"
 
-#: ../src/gui/app1/forceSensor.cs:2511
+#: ../src/gui/app1/forceSensor.cs:2515
 msgid "Stiffness configuration"
 msgstr "Configuración de la rigidez"
 
-#: ../src/gui/app1/forceSensor.cs:2511
+#: ../src/gui/app1/forceSensor.cs:2515
 msgid "Configure attached elastic bands/tubes"
 msgstr "Configurar tubos/bandas elásticas adjuntas"
 
-#: ../src/gui/app1/forceSensor.cs:2523
+#: ../src/gui/app1/forceSensor.cs:2527
 msgid "Configure bands/tubes"
 msgstr "Configurar tubos/bandas"
 
-#: ../src/gui/app1/forceSensor.cs:2526
+#: ../src/gui/app1/forceSensor.cs:2530
 msgid "Stiffness:"
 msgstr "Rigidez:"
 
@@ -7119,7 +7118,7 @@ msgstr "Serie"
 msgid "Color"
 msgstr "Color"
 
-#: ../src/gui/forceSensorExercise.cs:236
+#: ../src/gui/forceSensorExercise.cs:321
 msgid ""
 "In some cases the force registered by the Force Sensor is not directly the "
 "force that the person is exerting."
@@ -7127,11 +7126,11 @@ msgstr ""
 "En algunos casos la fuerza registrada por el Sensor de Fuerza no es "
 "directamente la fuerza que el sensor está ejerciendo."
 
-#: ../src/gui/forceSensorExercise.cs:238
+#: ../src/gui/forceSensorExercise.cs:323
 msgid "How the force is transmitted to the sensor"
 msgstr "Cómo se transmite la fuerza al sensor"
 
-#: ../src/gui/forceSensorExercise.cs:240
+#: ../src/gui/forceSensorExercise.cs:325
 msgid ""
 "Depending on the exercise and configuration of the test, the total mass "
 "(mass of the person and the extra load) can affect the sensor measuring. "
@@ -7141,7 +7140,7 @@ msgstr ""
 "persona y carga extra) puede afectar a la medida del sensor. Seleccione cómo "
 "gestionar este efecto."
 
-#: ../src/gui/forceSensorExercise.cs:245
+#: ../src/gui/forceSensorExercise.cs:330
 msgid ""
 "In current exercise configuration, it is necessary to enter the angle in "
 "which the sensor is measuring."
@@ -7149,7 +7148,7 @@ msgstr ""
 "En la configuración actual del ejercicio, es necesario introducir el ángulo "
 "con el cual el sensor está midiendo."
 
-#: ../src/gui/forceSensorExercise.cs:247
+#: ../src/gui/forceSensorExercise.cs:332
 msgid ""
 "In current exercise configuration, angle is merely descriptive (not used in "
 "calculations)."
@@ -7157,7 +7156,7 @@ msgstr ""
 "En la configuración actual , el ángulo es meramente descriptivo (no usado "
 "para los cálculos"
 
-#: ../src/gui/forceSensorExercise.cs:257
+#: ../src/gui/forceSensorExercise.cs:342
 msgid ""
 "When you are interested only in the force transmitted to the force sensor. "
 "This option do NOT take into account the effect of the weight or the "
@@ -7167,7 +7166,7 @@ msgstr ""
 "fuerza. Esta opción NO tiene en cuenta el efecto del peso o la aceleración "
 "de una masa."
 
-#: ../src/gui/forceSensorExercise.cs:259
+#: ../src/gui/forceSensorExercise.cs:344
 msgid ""
 "When you want the resultant of all the forces exerted by the person. This "
 "value is the vector module of the resultant force vector. This option allows "
@@ -7177,7 +7176,7 @@ msgstr ""
 "Este valor es el módulo del vector de fuerza resultante. Esta opción permite "
 "tener en cuenta el efecto del peso o de la aceleración de una masa."
 
-#: ../src/gui/forceSensorExercise.cs:261
+#: ../src/gui/forceSensorExercise.cs:346
 msgid ""
 "If, exerting a force, some element is significantly elongated it means that "
 "you are using elastic elements. Knowing the characteristics of the elastic "
@@ -7189,7 +7188,7 @@ msgstr ""
 "los elementos elásticos permite calcular posiciones, velocidades y "
 "aceleraciones durante el ejercicio."
 
-#: ../src/gui/forceSensorExercise.cs:263
+#: ../src/gui/forceSensorExercise.cs:348
 msgid ""
 "If exerting a force there's no significant elongation you are using not "
 "elastic elements."
@@ -7197,13 +7196,13 @@ msgstr ""
 "Si, ejerciendo una fuerza, no hay una elongación significativa, está usando "
 "elementos no elásticos."
 
-#: ../src/gui/forceSensorExercise.cs:265
+#: ../src/gui/forceSensorExercise.cs:350
 msgid ""
 "When the mass doesn't affect the sensor data but it must be added to it."
 msgstr ""
 "Cuando la masa no afecta a los datos del sensor pero se debe añadir al mismo."
 
-#: ../src/gui/forceSensorExercise.cs:267
+#: ../src/gui/forceSensorExercise.cs:352
 msgid ""
 "In some cases the weight of the mass is supported by the sensor but it is "
 "not a force that the subject is exerting. In this case, the sensor will be "
@@ -7213,7 +7212,7 @@ msgstr ""
 "la fuerza que el sujeto está ejerciendo. En este caso, el sensor se tarará "
 "antes de empezar cada test."
 
-#: ../src/gui/forceSensorExercise.cs:269
+#: ../src/gui/forceSensorExercise.cs:354
 msgid ""
 "In some cases the weight is transmitted to the sensor and it is also "
 "supported by the measured limb. If the effect of the mass is not "
@@ -7223,29 +7222,37 @@ msgstr ""
 "el miembro medido. Si el efecto de la masa no es significativo use esta "
 "opción."
 
-#: ../src/gui/forceSensorExercise.cs:271
-#| msgid "Duration of eccentric phase"
-msgid "Default is discard eccentric phase"
-msgstr "Lo predeterminado es descartar la fase excéntrica"
+#: ../src/gui/forceSensorExercise.cs:356
+msgid ""
+"If user changes values on preferences, these values will automatically "
+"change."
+msgstr ""
+"Si el usuario cambia los valores en las preferencias, estos valores "
+"cambiarán automáticamente."
+
+#: ../src/gui/forceSensorExercise.cs:358
+#| msgid "Use default criteria to detect repetitions"
+msgid "These values will be used to detect repetitions."
+msgstr "Estos valores se usarán para detectar repeticiones"
 
 #. if(o == Options.OTHER)
-#: ../src/gui/forceSensorExercise.cs:273
+#: ../src/gui/forceSensorExercise.cs:360
 msgid "0 means horizontally"
 msgstr "0 significa horizontal"
 
-#: ../src/gui/forceSensorExercise.cs:274
+#: ../src/gui/forceSensorExercise.cs:361
 msgid "90 means vertically with the person above the sensor"
 msgstr "90 significa verticalmente con la persona por encima del sensor"
 
-#: ../src/gui/forceSensorExercise.cs:275
+#: ../src/gui/forceSensorExercise.cs:362
 msgid "-90 means vertically with the person below the sensor"
 msgstr "-90 significa verticalmente con la persona debajo del sensor"
 
-#: ../src/gui/forceSensorExercise.cs:284
+#: ../src/gui/forceSensorExercise.cs:371
 msgid "Isometric Leg Extension."
 msgstr "Extensión de pierna isométrica"
 
-#: ../src/gui/forceSensorExercise.cs:285
+#: ../src/gui/forceSensorExercise.cs:372
 msgid ""
 "Upper limb movements against a rubber if the displaced mass is considered "
 "insignificant."
@@ -7253,16 +7260,16 @@ msgstr ""
 "Movimientos de las extremidades superiores contra una goma elàstica si la "
 "masa desplazada se considera insignificante."
 
-#: ../src/gui/forceSensorExercise.cs:287
+#: ../src/gui/forceSensorExercise.cs:374
 msgid ""
 "Isometric squat with the force sensor fixed between the floor and the body."
 msgstr "Sentadilla isométrica con el sensor fijado entre el techo y el cuerpo."
 
-#: ../src/gui/forceSensorExercise.cs:288
+#: ../src/gui/forceSensorExercise.cs:375
 msgid "Movements where a significant mass is accelerated."
 msgstr "Movimientos en los que se acelera una masa significativa"
 
-#: ../src/gui/forceSensorExercise.cs:289
+#: ../src/gui/forceSensorExercise.cs:376
 msgid ""
 "Horizontal movements where the sensor don't measure the gravitational "
 "vertical forces...)"
@@ -7270,11 +7277,11 @@ msgstr ""
 "Movimientos horizontales en los que el sensor no mide las fuerzas "
 "gravitacionales verticales."
 
-#: ../src/gui/forceSensorExercise.cs:291
+#: ../src/gui/forceSensorExercise.cs:378
 msgid "Rubber bands, springs, flexible material ..."
 msgstr "Bandas elásticas, muelles, material flexible..."
 
-#: ../src/gui/forceSensorExercise.cs:293 ../src/gui/forceSensorExercise.cs:296
+#: ../src/gui/forceSensorExercise.cs:380 ../src/gui/forceSensorExercise.cs:383
 msgid ""
 "In an isometric squat with the force sensor fixed between the floor and the "
 "body, increasing the mass don't affect the measure of the sensor because the "
@@ -7284,7 +7291,7 @@ msgstr ""
 "persona, incrementar la masan o afecta a la medida del sensor porque el peso "
 "está soportado por las extremidades inferiores, no por el sensor."
 
-#: ../src/gui/forceSensorExercise.cs:294 ../src/gui/forceSensorExercise.cs:297
+#: ../src/gui/forceSensorExercise.cs:381 ../src/gui/forceSensorExercise.cs:384
 msgid ""
 "Running in a threadmill against a rubber. The sensor is measuring the force "
 "that a rubber is transmitting horizontally to a subject running in a "
@@ -7295,7 +7302,7 @@ msgstr ""
 "una goma está transmitiendo horizontalmente a un sujeto corriendo en una "
 "cinta. El peso corporal se añade a la fuerza total ejercida por el sujeto."
 
-#: ../src/gui/forceSensorExercise.cs:299
+#: ../src/gui/forceSensorExercise.cs:386
 msgid ""
 "Hamstring test where the heel of the person is suspended in a cinch attached "
 "to the sensor. The weight of the leg is affecting the measure of the force "
@@ -7305,7 +7312,7 @@ msgstr ""
 "fijada al sensor. El peso de la pierna afecta a la medida de la fuerza "
 "transmitida al sensor pero esta no es la ejercida por el sujeto."
 
-#: ../src/gui/forceSensorExercise.cs:301
+#: ../src/gui/forceSensorExercise.cs:388
 msgid ""
 "Nordic hamstring. In a Nordic hamstring with the sensor attached to the "
 "ankle, the weight affects the values of the sensor but this weight is "
@@ -7315,7 +7322,7 @@ msgstr ""
 "peso afecta a los valores del sensor pero este peso está soportado por los "
 "isquiotibiales medidos."
 
-#: ../src/gui/forceSensorExercise.cs:302
+#: ../src/gui/forceSensorExercise.cs:389
 msgid ""
 "Pulling on a TRX. Pulling from a TRX implies overcome the body weight. This "
 "body weight is also measured by the sensor."
@@ -7323,28 +7330,38 @@ msgstr ""
 "Tirar de un TRX. Tirar de un TRX implica superar el peso corporal. Este peso "
 "corporal también lo mide por el sensor."
 
-#: ../src/gui/forceSensorExercise.cs:322
+#: ../src/gui/forceSensorExercise.cs:409
 msgid "Not Elastic"
 msgstr "No elástico"
 
-#: ../src/gui/forceSensorExercise.cs:324
+#: ../src/gui/forceSensorExercise.cs:411
 msgid "Add mass"
 msgstr "Añadir masa"
 
-#: ../src/gui/forceSensorExercise.cs:326
+#: ../src/gui/forceSensorExercise.cs:413
 msgid "Subtract mass"
 msgstr "Sustraer la masa"
 
-#: ../src/gui/forceSensorExercise.cs:328
+#: ../src/gui/forceSensorExercise.cs:415
 msgid "Mass is included"
 msgstr "La masa está incluida"
 
+#: ../src/gui/forceSensorExercise.cs:417
+#| msgid "Repetitions in cluster"
+msgid "Repetitions according to preferences"
+msgstr "Repeticiones de acuerdo a las preferencias"
+
+#: ../src/gui/forceSensorExercise.cs:419
+#| msgid "Repetitions in cluster"
+msgid "Repetitions using custom values"
+msgstr "Repeticiones usando valores predeterminados"
+
 #. if(o == Options.OTHER)
-#: ../src/gui/forceSensorExercise.cs:332
+#: ../src/gui/forceSensorExercise.cs:421
 msgid "Angle explanation"
 msgstr "Explicación del ángulo"
 
-#: ../src/gui/forceSensorExercise.cs:335
+#: ../src/gui/forceSensorExercise.cs:424
 msgid "Examples of:"
 msgstr "Ejemplos de:"
 
@@ -10773,6 +10790,10 @@ msgstr "Error. {0} no puede guardar el vídeo."
 #: ../src/webcam/webcamFfmpeg.cs:290
 msgid "Preview. Press any key to exit."
 msgstr "Previsualización. Pulsa cualquier tecla para salir."
+
+#~| msgid "Duration of eccentric phase"
+#~ msgid "Default is discard eccentric phase"
+#~ msgstr "Lo predeterminado es descartar la fase excéntrica"
 
 #~ msgid "Sell all"
 #~ msgstr "Ver todas"

@@ -800,10 +800,17 @@ public class EncoderGraphDoPlot
 		//plot the secondary variable stuff
 		foreach(EncoderBarsSecondaryLine ebsl in encoderBarsSecondaryLine_l)
 		{
-			pixmap.DrawArc(pen_yellow_encoder_capture, true,
-					ebsl.current.X -6, ebsl.current.Y -6,
-					12, 12, 90 * 64, 360 * 64);
+			//12 is nice for 1920*1080, but for small screens that radius is too high
+			int diameter = 12;
+			if(graphWidth * graphHeight < 1000000)
+				diameter = 9;
 
+			//circle
+			pixmap.DrawArc(pen_yellow_encoder_capture, true,
+					ebsl.current.X -diameter/2, ebsl.current.Y -diameter/2,
+					diameter, diameter, 90 * 64, 360 * 64);
+
+			//line
 			if(ebsl.pre.X != 0 && ebsl.pre.Y != 0)
 				pixmap.DrawLine(pen_yellow_encoder_capture, ebsl.pre.X, ebsl.pre.Y, ebsl.current.X, ebsl.current.Y);
 		}

@@ -25063,6 +25063,7 @@ Concentric</property>
                                                             <property name="has_tooltip">True</property>
                                                             <property name="use_underline">True</property>
                                                             <signal name="clicked" handler="on_button_encoder_capture_finish_cont_clicked" swapped="no"/>
+                                                            <accelerator key="Escape" signal="clicked"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>

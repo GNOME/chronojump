@@ -858,10 +858,13 @@ public class EncoderGraphDoPlot
 		UtilGtk.ErasePaint(drawingarea, pixmap);
 	}
 
-	public void ShowMessage(string message) 
+	public void ShowMessage(string message, bool showLine, bool big)
 	{
 		Pango.Layout layout_message = new Pango.Layout (drawingarea.PangoContext);
-		layout_message.FontDescription = Pango.FontDescription.FromString ("Courier 10");
+		if(big)
+			layout_message.FontDescription = Pango.FontDescription.FromString ("Courier 16");
+		else
+			layout_message.FontDescription = Pango.FontDescription.FromString ("Courier 10");
 		
 		int graphWidth = drawingarea.Allocation.Width;
 		int graphHeight = drawingarea.Allocation.Height;
@@ -874,9 +877,12 @@ public class EncoderGraphDoPlot
 		int xStart = Convert.ToInt32(graphWidth/2 - textWidth/2);
 		int yStart = Convert.ToInt32(graphHeight/2 - textHeight/2);
 
+		Rectangle rect;
 		//draw horizontal line behind (across all graph)
-		Rectangle rect = new Rectangle(0, yStart + textHeight -1, graphWidth, 1);
-		pixmap.DrawRectangle(pen_yellow_encoder_capture, true, rect);
+		if(showLine) {
+			rect = new Rectangle(0, yStart + textHeight -1, graphWidth, 1);
+			pixmap.DrawRectangle(pen_yellow_encoder_capture, true, rect);
+		}
 
 		//draw rectangle behind text
 		rect = new Rectangle(xStart -2, yStart -2, textWidth +2, textHeight +2);

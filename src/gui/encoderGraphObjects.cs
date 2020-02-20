@@ -70,6 +70,7 @@ public class EncoderGraphDoPlot
 	Gdk.GC pen_red_dark_encoder_capture;
 	Gdk.GC pen_red_light_encoder_capture;
 	Gdk.GC pen_green_encoder_capture;
+	Gdk.GC pen_green_bold_encoder_capture;
 	Gdk.GC pen_green_dark_encoder_capture;
 	Gdk.GC pen_green_light_encoder_capture;
 	Gdk.GC pen_blue_encoder_capture;
@@ -249,6 +250,7 @@ public class EncoderGraphDoPlot
 		pen_red_encoder_capture = new Gdk.GC(drawingarea.GdkWindow);
 		pen_red_light_encoder_capture = new Gdk.GC(drawingarea.GdkWindow);
 		pen_green_encoder_capture = new Gdk.GC(drawingarea.GdkWindow);
+		pen_green_bold_encoder_capture = new Gdk.GC(drawingarea.GdkWindow);
 		pen_blue_encoder_capture = new Gdk.GC(drawingarea.GdkWindow);
 		pen_white_encoder_capture = new Gdk.GC(drawingarea.GdkWindow);
 		pen_selected_encoder_capture = new Gdk.GC(drawingarea.GdkWindow);
@@ -287,6 +289,7 @@ public class EncoderGraphDoPlot
 		pen_red_dark_encoder_capture.Foreground = UtilGtk.RED_DARK;
 		pen_red_light_encoder_capture.Foreground = UtilGtk.RED_LIGHT;
 		pen_green_encoder_capture.Foreground = UtilGtk.GREEN_PLOTS;
+		pen_green_bold_encoder_capture.Foreground = UtilGtk.GREEN_PLOTS;
 		pen_green_dark_encoder_capture.Foreground = UtilGtk.GREEN_DARK;
 		pen_green_light_encoder_capture.Foreground = UtilGtk.GREEN_LIGHT;
 		pen_blue_encoder_capture.Foreground = UtilGtk.BLUE_PLOTS;
@@ -296,6 +299,7 @@ public class EncoderGraphDoPlot
 		pen_white_encoder_capture.Foreground = UtilGtk.WHITE;
 		pen_selected_encoder_capture.Foreground = UtilGtk.SELECTED;
 
+		pen_green_bold_encoder_capture.SetLineAttributes (3, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
 		pen_black_encoder_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
 		pen_black_encoder_capture_discont.SetLineAttributes (2, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
 		pen_selected_encoder_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
@@ -508,6 +512,8 @@ public class EncoderGraphDoPlot
 		int dHeight = 0;
 		int dBottom = 0;
 		int dTop = 0;
+		int concentricPreValue = 0;
+		int concentricPreLeft = -1; //-1 impossible value, will be used to know that we have data
 		foreach(double dFor in data)
 		{
 			dWidthPre = 0;
@@ -636,6 +642,25 @@ public class EncoderGraphDoPlot
 			}
 			//paint black outline line on bar
 			pixmap.DrawRectangle(pen_black_encoder_capture, false, rect);
+
+			//draw green arrow eccentric overload on inertial only if ecc > con
+			if (hasInertia && (eccon == "ec" || eccon == "ecS"))
+			{
+				bool isEven = Util.IsEven(count +1);
+				if(isEven) {
+					concentricPreValue = dTop;
+					concentricPreLeft = dLeft;
+				}
+				else if(concentricPreLeft >= 0 && dTop < concentricPreValue) { //TODO: better use count //note dTop < because is related to pixels
+					pixmap.DrawLine(pen_green_bold_encoder_capture,
+							concentricPreLeft + dWidth/2, concentricPreValue, dLeft + dWidth/2, dTop);
+					UtilGtk.DrawArrow(pixmap, pen_green_bold_encoder_capture,
+							dLeft + dWidth/2, concentricPreLeft + dWidth/2, //tipX, tailX
+							dTop, concentricPreValue, 			//tipY, tailY
+							14);
+				}
+			}
+
 
 			//paint secondary variable circle and lines
 			//but do not do it if user do not want to show it from repetitiveConditionsWindow

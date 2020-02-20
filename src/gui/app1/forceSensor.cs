@@ -1868,7 +1868,8 @@ LogB.Information(" fs R ");
 			}
 		}
 		ForceSensorDynamics fsd;
-		if(currentForceSensorExercise.Elastic)
+
+		if(currentForceSensorExercise.ComputeAsElastic)
 			fsd = new ForceSensorDynamicsElastic(
 					times, forces, fsco, currentForceSensorExercise, currentPersonSession.Weight, currentForceSensor.Stiffness,
 					preferences.forceSensorElasticEccMinDispl, preferences.forceSensorElasticConMinDispl);

@@ -5555,7 +5555,7 @@ public partial class ChronoJumpWindow
 			//on continuous mode do not erase bars at beginning of capture in order to see last bars
 			if(action == encoderActions.CAPTURE && radio_encoder_capture_cont.Active) {
 				prepareEncoderGraphs(false, true); //bars, signal
-				encoderGraphDoPlot.ShowMessage("Previous set");
+				encoderGraphDoPlot.ShowMessage("Previous set", true, false);
 			} else
 				prepareEncoderGraphs(true, true);
 
@@ -5576,7 +5576,7 @@ public partial class ChronoJumpWindow
 				if(encoder_capture_curves_bars_pixmap != null)
 					UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 
-				encoderGraphDoPlot.ShowMessage(Catalog.GetString("Capturing") + " ...");
+				encoderGraphDoPlot.ShowMessage(Catalog.GetString("Capturing") + " ...", false, true);
 
 				encoderCaptureStringR = new List<string>();
 				encoderCaptureStringR.Add(

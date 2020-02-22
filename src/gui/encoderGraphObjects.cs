@@ -644,20 +644,45 @@ public class EncoderGraphDoPlot
 			pixmap.DrawRectangle(pen_black_encoder_capture, false, rect);
 
 			//draw green arrow eccentric overload on inertial only if ecc > con
-			if (hasInertia && (eccon == "ec" || eccon == "ecS"))
+			if (hasInertia && preferences.encoderCaptureInertialEccOverloadMode !=
+					Preferences.encoderCaptureEccOverloadModes.NOT_SHOW &&
+					(eccon == "ec" || eccon == "ecS"))
 			{
 				bool isEven = Util.IsEven(count +1);
 				if(isEven) {
 					concentricPreValue = dTop;
 					concentricPreLeft = dLeft;
 				}
-				else if(concentricPreLeft >= 0 && dTop < concentricPreValue) { //TODO: better use count //note dTop < because is related to pixels
+				else if(concentricPreLeft >= 0 && dTop < concentricPreValue) { //note dTop < because is related to pixels
 					pixmap.DrawLine(pen_green_bold_encoder_capture,
 							concentricPreLeft + dWidth/2, concentricPreValue, dLeft + dWidth/2, dTop);
 					UtilGtk.DrawArrow(pixmap, pen_green_bold_encoder_capture,
 							dLeft + dWidth/2, concentricPreLeft + dWidth/2, //tipX, tailX
 							dTop, concentricPreValue, 			//tipY, tailY
 							14);
+
+					if (preferences.encoderCaptureInertialEccOverloadMode ==
+							Preferences.encoderCaptureEccOverloadModes.SHOW_LINE_AND_PERCENT)
+					{
+						layout_encoder_capture_curves_bars.SetMarkup(
+								Convert.ToInt32(100.0 * (dTop - dBottom) / (concentricPreValue - dBottom)) + "%");
+						textWidth = 1; textHeight = 1;
+						layout_encoder_capture_curves_bars.GetPixelSize(out textWidth, out textHeight);
+
+						/*
+						//at center-left of the line, difficult to see with other labels:
+						pixmap.DrawLayout (pen_green_bold_encoder_capture,
+								(concentricPreLeft + dWidth/2 + dLeft + dWidth/2)/2 - textWidth, // x
+								(concentricPreValue + dTop)/2 - textHeight, 			// y
+								layout_encoder_capture_curves_bars);
+						*/
+
+						//at top of the graph (lot more clear)
+						pixmap.DrawLayout (pen_green_bold_encoder_capture,
+								(concentricPreLeft + dWidth/2 + dLeft + dWidth/2)/2 - textWidth/2, // x
+								top_margin /2, 							// y
+								layout_encoder_capture_curves_bars);
+					}
 				}
 			}
 

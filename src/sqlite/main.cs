@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.87";
+	static string lastChronojumpDatabaseVersion = "1.88";
 
 	public Sqlite() {
 	}
@@ -2645,6 +2645,15 @@ class Sqlite
 
 				currentVersion = updateVersion("1.87");
 			}
+			if(currentVersion == "1.87")
+			{
+				LogB.SQL("Inserted into preferences: encoderCaptureInertialEccOverloadMode");
+
+				SqlitePreferences.Insert (SqlitePreferences.EncoderCaptureInertialEccOverloadMode,
+						Preferences.encoderCaptureEccOverloadModes.SHOW_LINE.ToString());
+
+				currentVersion = updateVersion("1.88");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -2859,6 +2868,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 //
+		//1.87 - 1.88 Converted DB to 1.88 Inserted into preferences: encoderCaptureInertialEccOverloadMode
 		//1.86 - 1.87 Converted DB to 1.87 Doing alter table forceSensorExercise adding eccReps, eccMin, conMin.
 		//1.85 - 1.86 Converted DB to 1.86 Inserted into preferences: RunEncoderMinAccel
 		//1.84 - 1.85 Converted DB to 1.85 Inserted 5 vars into preferences: EncoderCaptureMainVariable...

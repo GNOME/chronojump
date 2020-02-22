@@ -57,6 +57,7 @@ class SqlitePreferences : Sqlite
 	public const string EncoderCaptureMainVariableGreaterValue = "encoderCaptureMainVariableGreaterValue";
 	public const string EncoderCaptureMainVariableLowerActive = "encoderCaptureMainVariableLowerActive";
 	public const string EncoderCaptureMainVariableLowerValue = "encoderCaptureMainVariableLowerValue";
+	public const string EncoderCaptureInertialEccOverloadMode = "encoderCaptureInertialEccOverloadMode";
 
 	//forceSensor
 	public const string ForceSensorCaptureWidthSeconds = "forceSensorCaptureWidthSeconds";
@@ -159,6 +160,7 @@ class SqlitePreferences : Sqlite
 				Insert ("encoderCaptureMainVariable", Constants.EncoderVariablesCapture.MeanPower.ToString(), dbcmdTr);
 				Insert ("encoderCaptureSecondaryVariable", Constants.EncoderVariablesCapture.RangeAbsolute.ToString(), dbcmdTr);
 				Insert ("encoderCaptureSecondaryVariableShow", "True", dbcmdTr);
+				Insert (EncoderCaptureInertialEccOverloadMode, Preferences.encoderCaptureEccOverloadModes.SHOW_LINE.ToString(), dbcmdTr);
 				Insert (EncoderCaptureMainVariableThisSetOrHistorical, "True", dbcmdTr);
 				Insert (EncoderCaptureMainVariableGreaterActive, "False", dbcmdTr);
 				Insert (EncoderCaptureMainVariableGreaterValue, "90", dbcmdTr);
@@ -387,6 +389,9 @@ class SqlitePreferences : Sqlite
 					Enum.Parse(typeof(Constants.EncoderVariablesCapture), reader[1].ToString());
 			else if(reader[0].ToString() == "encoderCaptureSecondaryVariableShow")
 				preferences.encoderCaptureSecondaryVariableShow = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == EncoderCaptureInertialEccOverloadMode)
+				preferences.encoderCaptureInertialEccOverloadMode = (Preferences.encoderCaptureEccOverloadModes)
+					Enum.Parse(typeof(Preferences.encoderCaptureEccOverloadModes), reader[1].ToString());
 			else if(reader[0].ToString() == EncoderCaptureMainVariableThisSetOrHistorical)
 				preferences.encoderCaptureMainVariableThisSetOrHistorical = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == EncoderCaptureMainVariableGreaterActive)

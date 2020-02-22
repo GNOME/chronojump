@@ -2083,7 +2083,7 @@ public partial class ChronoJumpWindow
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_MANUAL ||
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB )
 		{
-			if(currentForceSensorExercise.Elastic)
+			if(currentForceSensorExercise.ComputeAsElastic)
 				nameString += "_" + currentForceSensorExercise.Name + "_Stiffness" + currentForceSensor.Stiffness.ToString();
 			else
 				nameString += "_" + currentForceSensorExercise.Name;

@@ -85,6 +85,8 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.CheckButton check_encoder_show_secondary_variable;
 	[Widget] Gtk.HBox hbox_combo_encoder_secondary_variable;
 	[Widget] Gtk.ComboBox combo_encoder_secondary_variable;
+	[Widget] Gtk.CheckButton check_encoder_inertial_ecc_overload;
+	[Widget] Gtk.CheckButton check_encoder_inertial_ecc_overload_percent;
 
 	[Widget] Gtk.VBox vbox_encoder_manual;
 	[Widget] Gtk.CheckButton checkbutton_encoder_show_manual_feedback;
@@ -256,6 +258,7 @@ public class RepetitiveConditionsWindow
 		RepetitiveConditionsWindowBox.showWidgets(bellMode,
 				preferences.encoderCaptureMainVariable, preferences.encoderCaptureSecondaryVariable,
 				preferences.encoderCaptureSecondaryVariableShow,
+				preferences.encoderCaptureInertialEccOverloadMode,
 				preferences.encoderCaptureMainVariableThisSetOrHistorical,
 				preferences.encoderCaptureMainVariableGreaterActive,
 				preferences.encoderCaptureMainVariableGreaterValue,
@@ -275,6 +278,7 @@ public class RepetitiveConditionsWindow
 			Constants.EncoderVariablesCapture encoderMainVariable,
 			Constants.EncoderVariablesCapture encoderSecondaryVariable,
 			bool encoderSecondaryVariableShow,
+			Preferences.encoderCaptureEccOverloadModes encoderCaptureEccOverloadMode,
 			bool encoderCaptureMainVariableThisSetOrHistorical,
 			bool encoderCaptureMainVariableGreaterActive,
 			int encoderCaptureMainVariableGreaterValue,
@@ -327,6 +331,20 @@ public class RepetitiveConditionsWindow
 					Constants.GetEncoderVariablesCapture(encoderMainVariable));
 			combo_encoder_secondary_variable.Active = UtilGtk.ComboMakeActive(combo_encoder_secondary_variable,
 					Constants.GetEncoderVariablesCapture(encoderSecondaryVariable));
+
+			if(encoderCaptureEccOverloadMode == Preferences.encoderCaptureEccOverloadModes.NOT_SHOW) {
+				check_encoder_inertial_ecc_overload.Active = false;
+				check_encoder_inertial_ecc_overload_percent.Active = false;
+				check_encoder_inertial_ecc_overload_percent.Visible = false;
+			} else if (encoderCaptureEccOverloadMode == Preferences.encoderCaptureEccOverloadModes.SHOW_LINE) {
+				check_encoder_inertial_ecc_overload.Active = true;
+				check_encoder_inertial_ecc_overload_percent.Active = false;
+				check_encoder_inertial_ecc_overload_percent.Visible = true;
+			} else { // (encoderCaptureEccOverloadMode == Preferences.encoderCaptureEccOverloadModes.SHOW_LINE_AND_PERCENT)
+				check_encoder_inertial_ecc_overload.Active = true;
+				check_encoder_inertial_ecc_overload_percent.Active = true;
+				check_encoder_inertial_ecc_overload_percent.Visible = true;
+			}
 
 			if(encoderSecondaryVariableShow)
 				check_encoder_show_secondary_variable.Active = true;
@@ -421,6 +439,13 @@ public class RepetitiveConditionsWindow
 	private void on_check_encoder_show_secondary_variable_toggled (object o, EventArgs args)
 	{
 		hbox_combo_encoder_secondary_variable.Visible = check_encoder_show_secondary_variable.Active;
+	}
+
+	private void on_check_encoder_inertial_ecc_overload_toggled (object o, EventArgs args)
+	{
+		check_encoder_inertial_ecc_overload_percent.Visible = check_encoder_inertial_ecc_overload.Active;
+		if(! check_encoder_inertial_ecc_overload.Active)
+			check_encoder_inertial_ecc_overload_percent.Active = false;
 	}
 
 	private void putNonStandardIcons() {
@@ -1012,6 +1037,17 @@ public class RepetitiveConditionsWindow
 	}
 	public bool GetSecondaryVariableShow {
 		get { return check_encoder_show_secondary_variable.Active; }
+	}
+
+	public Preferences.encoderCaptureEccOverloadModes GetEncoderCaptureEccOverloadMode {
+		get {
+			if(check_encoder_inertial_ecc_overload_percent.Active)
+				return Preferences.encoderCaptureEccOverloadModes.SHOW_LINE_AND_PERCENT;
+			else if (check_encoder_inertial_ecc_overload.Active)
+				return Preferences.encoderCaptureEccOverloadModes.SHOW_LINE;
+			else
+				return Preferences.encoderCaptureEccOverloadModes.NOT_SHOW;
+		}
 	}
 
 	public double GetMainVariableHigher(string mainVariable) 

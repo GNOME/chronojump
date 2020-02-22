@@ -6994,6 +6994,12 @@ LogB.Debug("mc finished 5");
 			if(! secondaryVariableShow)
 				secondaryVariableStr = "";
 
+			if(preferences.encoderCaptureInertialEccOverloadMode != repetitiveConditionsWin.GetEncoderCaptureEccOverloadMode) {
+				SqlitePreferences.Update(SqlitePreferences.EncoderCaptureInertialEccOverloadMode,
+						repetitiveConditionsWin.GetEncoderCaptureEccOverloadMode.ToString(), true);
+				preferences.encoderCaptureInertialEccOverloadMode = repetitiveConditionsWin.GetEncoderCaptureEccOverloadMode;
+			}
+
 			preferences.encoderCaptureMainVariableThisSetOrHistorical = Preferences.PreferencesChange(
 				SqlitePreferences.EncoderCaptureMainVariableThisSetOrHistorical,
 				preferences.encoderCaptureMainVariableThisSetOrHistorical,

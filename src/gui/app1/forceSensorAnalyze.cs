@@ -631,7 +631,7 @@ public partial class ChronoJumpWindow
 		//pass them as doubles
 		double eccMinDispl;
 		double conMinDispl;
-		if(currentForceSensorExercise.Elastic)
+		if(currentForceSensorExercise.ComputeAsElastic)
 		{
 			eccMinDispl = preferences.forceSensorElasticEccMinDispl;
 			conMinDispl = preferences.forceSensorElasticConMinDispl;

@@ -495,9 +495,13 @@ public class ForceSensorExercise
 	{
 		get { return forceResultant; }
 	}
-	public bool Elastic
+	public bool Elastic //TODO: take care because ComputeAsElastic is much better criteria
 	{
 		get { return elastic; }
+	}
+	public bool ComputeAsElastic //use this
+	{
+		get { return forceResultant && elastic; }
 	}
 	public bool EccReps
 	{
@@ -512,10 +516,6 @@ public class ForceSensorExercise
 		get { return conMin; }
 	}
 
-	public bool ComputeAsElastic
-	{
-		get { return forceResultant && elastic; }
-	}
 }
 
 public class ForceSensorElasticBand
@@ -1485,7 +1485,7 @@ public class ForceSensorAnalyzeInstant
 		}
 
 		ForceSensorDynamics forceSensorDynamics;
-		if(fse.Elastic)
+		if(fse.ComputeAsElastic)
 			forceSensorDynamics = new ForceSensorDynamicsElastic(
 					times, forces, fsco, fse, personWeight, stiffness, eccMinDisplacement, conMinDisplacement);
 		else

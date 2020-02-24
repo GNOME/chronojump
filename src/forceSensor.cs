@@ -694,32 +694,33 @@ public class ForceSensorElasticBand
 }
 
 //struct with relevant data used on various functions and threads
+//for force, but can be also for position on elastic
 public class ForceSensorValues
 {
 	public int TimeLast; //store last time
-	public int TimeForceMax; //store time of max force
-	public double ForceLast; //store last force
-	public double ForceMax; //store max force
-	public double ForceMin; //store min force
+	public int TimeValueMax; //store time of max force (only used on force)
+	public double ValueLast; //store last force (or displ)
+	public double Max; //store max force (or displ)
+	public double Min; //store min force (or displ)
 
 	public ForceSensorValues()
 	{
 		TimeLast = 0;
-		TimeForceMax = 0;
-		ForceLast = 0;
-		ForceMax = 0;
-		ForceMin = 10000;
+		TimeValueMax = 0;
+		ValueLast = 0;
+		Max = 0;
+		Min = 10000;
 	}
 
-	public void SetMaxMinIfNeeded(double force, int time)
+	public void SetMaxMinIfNeeded(double newValue, int time)
 	{
-		if(force > ForceMax)
+		if(newValue > Max)
 		{
-			ForceMax = force;
-			TimeForceMax = time;
+			Max = newValue;
+			TimeValueMax = time;
 		}
-		if(force < ForceMin)
-			ForceMin = force;
+		if(newValue < Min)
+			Min = newValue;
 	}
 }
 /*
@@ -727,12 +728,16 @@ public class ForceSensorValues
  * currently all the code relevant to force sensor actions is on gui/forcesensor.cs
  * that code should be here and there only the gui stuff
  */
+//to manage force, but can also manage displ on elastic
 public class ForceSensorCapturePoints
 {
 	//ForceCapturePoints stored to be realtime displayed
 	public List<Gdk.Point> Points;
 	public int NumCaptured;
 	public int NumPainted;
+
+	public enum GraphTypes { FORCESIGNAL, FORCEAIFORCE, FORCEAIDISPL }
+	private GraphTypes graphType; //useful to debug
 
 	//used to redo all points if change RealWidthG or RealHeightG
 	private List<int> times;
@@ -756,7 +761,7 @@ public class ForceSensorCapturePoints
 	private int marginBottom = 30; //px
 
 	//initialize
-	public ForceSensorCapturePoints(int widthG, int heightG, int widthInSeconds)
+	public ForceSensorCapturePoints(GraphTypes graphType, int widthG, int heightG, int widthInSeconds)
 	{
 		Points = new List<Gdk.Point>();
 		NumCaptured = 0;
@@ -769,6 +774,7 @@ public class ForceSensorCapturePoints
 
 		InitRealWidthHeight(widthInSeconds);
 
+		this.graphType = graphType;
 		this.widthG = widthG;
 		this.heightG = heightG;
 	}
@@ -1024,6 +1030,7 @@ public class ForceSensorCapturePoints
 
 	public void Zoom(int lastTime) //on zoom adjust width
 	{
+		LogB.Information("At Zoom with graphType: " + graphType.ToString());
 		//X
 		RealWidthG = lastTime + GetTimeInPx(marginLeft) + GetTimeInPx(marginRight);
 
@@ -1420,42 +1427,78 @@ public class ForceSensorAnalyzeInstant
 
 	private ForceSensorCapturePoints fscAIPoints; //Analyze Instant
 	private ForceSensorValues forceSensorValues;
+
+	private ForceSensorCapturePoints fscAIPointsDispl; //Analyze Instant only on elastic
+	private ForceSensorValues forceSensorValuesDispl; //this class can be used for force, displ, or whatever
+
 	private int graphWidth;
 	private int graphHeight;
+	private ForceSensorExercise fse;
 
-	public ForceSensorAnalyzeInstant(string file, int graphWidth, int graphHeight, double start, double end,
+	public ForceSensorAnalyzeInstant(
+			string file, int graphWidth, int graphHeight, double start, double end,
 			ForceSensorExercise fse, double personWeight, ForceSensor.CaptureOptions fsco, double stiffness,
 			double eccMinDisplacement, double conMinDisplacement)
 	{
 		this.graphWidth = graphWidth;
 		this.graphHeight = graphHeight;
+		this.fse = fse;
 
-		readFile(file, start, end, fse, personWeight, fsco, stiffness, eccMinDisplacement, conMinDisplacement);
+		readFile(file, start, end, personWeight, fsco, stiffness, eccMinDisplacement, conMinDisplacement);
 
 		//on zoom adjust width
 		if(start >= 0 || end >= 0)
 		{
 			fscAIPoints.Zoom(forceSensorValues.TimeLast);
+			LogB.Information("Redo normal at constructor");
 			fscAIPoints.Redo();
+
+			if(fse.ComputeAsElastic) {
+				fscAIPointsDispl.Zoom(forceSensorValuesDispl.TimeLast);
+				LogB.Information("Redo elastic at constructor");
+				fscAIPointsDispl.Redo();
+			}
 		}
 
 		//ensure points fit on display
-		if(fscAIPoints.OutsideGraph(forceSensorValues.TimeLast, forceSensorValues.ForceMax, forceSensorValues.ForceMin))
+		if(fscAIPoints.OutsideGraph(forceSensorValues.TimeLast, forceSensorValues.Max, forceSensorValues.Min))
+		{
+			LogB.Information("Redo normal at constructor b");
 			fscAIPoints.Redo();
+		}
+
+		if(fse.ComputeAsElastic)
+		{
+			bool forcePointsWidthChanged = false;
+			if(fscAIPointsDispl.RealWidthG != fscAIPoints.RealWidthG) {
+				fscAIPointsDispl.RealWidthG = fscAIPoints.RealWidthG;
+				forcePointsWidthChanged = true;
+			}
+
+			if(forcePointsWidthChanged || fscAIPointsDispl.OutsideGraph(forceSensorValuesDispl.TimeLast, forceSensorValuesDispl.Max, forceSensorValuesDispl.Min))
+			{
+				fscAIPointsDispl.Redo();
+				LogB.Information("Redo elastic at constructor b");
+			}
+		}
 	}
 
-	private void readFile(string file, double start, double end, ForceSensorExercise fse,
+	private void readFile(string file, double start, double end,
 			double personWeight, ForceSensor.CaptureOptions fsco, double stiffness,
 			double eccMinDisplacement, double conMinDisplacement)
 	{
 		LogB.Information(string.Format("at readFile, start: {0}, end: {1}", start, end));
-		fscAIPoints = new ForceSensorCapturePoints(graphWidth, graphHeight, -1);
+		fscAIPoints = new ForceSensorCapturePoints(ForceSensorCapturePoints.GraphTypes.FORCEAIFORCE, graphWidth, graphHeight, -1);
+		if(fse.ComputeAsElastic)
+			fscAIPointsDispl = new ForceSensorCapturePoints(ForceSensorCapturePoints.GraphTypes.FORCEAIDISPL, graphWidth, graphHeight, -1);
 
 		List<string> contents = Util.ReadFileAsStringList(file);
 		bool headersRow = true;
 
 		//initialize
 		forceSensorValues = new ForceSensorValues();
+		if(fse.ComputeAsElastic)
+			forceSensorValuesDispl = new ForceSensorValues();
 
 		if(contents == null)
 			return;
@@ -1535,8 +1578,18 @@ public class ForceSensorAnalyzeInstant
 			fscAIPoints.NumCaptured ++;
 
 			forceSensorValues.TimeLast = time;
-			forceSensorValues.ForceLast = forces[i];
+			forceSensorValues.ValueLast = forces[i];
 			forceSensorValues.SetMaxMinIfNeeded(forces[i], time);
+
+			if(fse.ComputeAsElastic)
+			{
+				fscAIPointsDispl.Add(time, Position_l[i]);
+				fscAIPointsDispl.NumCaptured ++;
+
+				forceSensorValuesDispl.TimeLast = time;
+				forceSensorValuesDispl.ValueLast = Position_l[i];
+				forceSensorValuesDispl.SetMaxMinIfNeeded(Position_l[i], time);
+			}
 
 			i ++;
 		}
@@ -1550,7 +1603,15 @@ public class ForceSensorAnalyzeInstant
 		fscAIPoints.WidthG = graphWidth;
 		fscAIPoints.HeightG = graphHeight;
 
+		LogB.Information("RedoGraph normal at RedoGraph");
 		fscAIPoints.Redo();
+
+		if(fse.ComputeAsElastic) {
+			fscAIPointsDispl.WidthG = graphWidth;
+			fscAIPointsDispl.HeightG = graphHeight;
+			LogB.Information("RedoGraph displ elastic at RedoGraph");
+			fscAIPointsDispl.Redo();
+		}
 	}
 
 	//gets an instant value
@@ -1896,7 +1957,10 @@ public class ForceSensorAnalyzeInstant
 	{
 		get { return fscAIPoints; }
 	}
-
+	public ForceSensorCapturePoints FscAIPointsDispl
+	{
+		get { return fscAIPointsDispl; }
+	}
 }
 
 //we need this class because we started using forcesensor without database (only text files)

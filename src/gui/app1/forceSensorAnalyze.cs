@@ -1041,6 +1041,22 @@ public partial class ChronoJumpWindow
 		else
 			force_sensor_ai_pixmap.DrawLines(pen_black_force_ai, paintPoints);
 
+		// 3b) create and paint points displ on elastic
+		if(fsAI.CalculedElasticPSAP)
+		{
+			Gdk.Point [] paintPointsDispl = new Gdk.Point[fsAI.FscAIPointsDispl.Points.Count];
+			for(int i = 0; i < fsAI.FscAIPointsDispl.Points.Count; i ++)
+				paintPointsDispl[i] = fsAI.FscAIPointsDispl.Points[i];
+
+			if(debug)
+				force_sensor_ai_pixmap.DrawPoints(pen_green_force_ai, paintPointsDispl);
+			else
+				force_sensor_ai_pixmap.DrawLines(pen_green_force_ai, paintPointsDispl);
+
+			LogB.Information(string.Format("fsAI.FscAIPoints.Points.Count: {0}, fsAI.FscAIPointsDispl.Points.Count: {1}",
+						fsAI.FscAIPoints.Points.Count, fsAI.FscAIPointsDispl.Points.Count));
+		}
+
 		// 4) create hscaleLower and higher values (A, B at the moment)
 		int hscaleLower = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
 		int hscaleHigher = Convert.ToInt32(hscale_force_sensor_ai_b.Value);

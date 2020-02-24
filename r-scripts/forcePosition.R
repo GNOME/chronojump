@@ -6,7 +6,8 @@ getDynamicsFromForceSensor <- function(file = "/home/xpadulles/.local/share/Chro
 				       stiffness = 71.93, 	#71.93 N/m measured in the black rubber
                                        angle = 0,
                                        smooth = 5,
-                                       conMinDisplacement = 0.1, eccMinDisplacement = 0.1
+                                       conMinDisplacement = 0.1, eccMinDisplacement = 0.1,
+				       plotGraph = FALSE
 )
 {
         forceSensor = read.csv(file, sep =";", dec = ",", header = TRUE)
@@ -74,25 +75,27 @@ getDynamicsFromForceSensor <- function(file = "/home/xpadulles/.local/share/Chro
         #Getting the basic information of each repetition
         repetitions = getRepetitions(dynamics[, "time"], dynamics[, "position"], dynamics[, "rawForce"], conMinDisplacement, eccMinDisplacement)
 
-	#commented because the graph is shown on getRepetitions
-	# plot(#dynamics[, "time"]
-	#       dynamics[, "position"]
-	#                , type = "l", xlab = "Time", ylab = "Position"
-                #,xlim = c(50, 150)
-                #, ylim = c(0.25,1.1)
-                #, axes = F
-	# )
-        
-        # plot(position2, type = "l")
-        # lines(dynamics[, "time"], dynamics[, "position2"], col = "grey")
-        
-        points(#dynamics[repetitions$extremesSamples, "time"],
-                repetitions$extremesSamples,
-                dynamics[repetitions$extremesSamples,"position"])
-        text(repetitions$extremesSamples, dynamics[repetitions$extremesSamples,"position"], pos =4
-             #, paste("(", round(dynamics[repetitions$extremesSamples, "time"], digits = 4), ", ", round(dynamics[repetitions$extremesSamples,"position"], digits = 4), ")", sep="")
-             , paste("(",repetitions$extremesSamples, ", ", round(dynamics[repetitions$extremesSamples,"position"], digits = 2), ")", sep=""), cex = 0.66
-        )
+        if(plotGraph == TRUE){
+                plot(#dynamics[, "time"]
+                        dynamics[, "position"]
+                        , type = "l", xlab = "Time", ylab = "Position"
+                        #,xlim = c(50, 150)
+                        #, ylim = c(0.25,1.1)
+                        #, axes = F
+                )
+                
+                # plot(position2, type = "l")
+                # lines(dynamics[, "time"], dynamics[, "position2"], col = "grey")
+                
+                points(#dynamics[repetitions$extremesSamples, "time"],
+                        repetitions$extremesSamples,
+                        dynamics[repetitions$extremesSamples,"position"])
+                text(repetitions$extremesSamples, dynamics[repetitions$extremesSamples,"position"], pos =4
+                     #, paste("(", round(dynamics[repetitions$extremesSamples, "time"], digits = 4), ", ", round(dynamics[repetitions$extremesSamples,"position"], digits = 4), ")", sep="")
+                     , paste("(",repetitions$extremesSamples, ", ", round(dynamics[repetitions$extremesSamples,"position"], digits = 2), ")", sep=""), cex = 0.66
+                     
+                )
+        }
         
         return(list(
                 time=dynamics[,"time"],

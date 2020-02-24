@@ -201,8 +201,8 @@ public abstract class ForceSensorDynamics
 		LogB.Information(string.Format("prepareCheckAndSendRepetition params: concentricFlag: {0}, yList.Count: {1}, sampleStart: {2}, sampleEnd: {3}",
 				concentricFlag, yList.Count, sampleStart, sampleEnd));
 
-		//on elastic do not accept eccentric reps
-		if(isElastic && concentricFlag == -1)
+		//should accept eccentric reps?
+		if(! fse.EccReps && concentricFlag == -1)
 			return;
 
 		// 1) remove low force at beginning ot end of the repetition

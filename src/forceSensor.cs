@@ -516,6 +516,19 @@ public class ForceSensorExercise
 		get { return conMin; }
 	}
 
+	public double GetEccOrConMinMaybePreferences(bool ecc, double prefsMinDispl, int prefsMinForce)
+	{
+		if(ecc && eccMin >= 0)
+			return eccMin;
+		if(! ecc && conMin >= 0)
+			return conMin;
+
+		if(ComputeAsElastic)
+			return prefsMinDispl;
+		else
+			return prefsMinForce;
+	}
+
 }
 
 public class ForceSensorElasticBand

@@ -629,16 +629,13 @@ public partial class ChronoJumpWindow
 		}
 
 		//pass them as doubles
-		double eccMinDispl;
-		double conMinDispl;
-		if(currentForceSensorExercise.ComputeAsElastic)
-		{
-			eccMinDispl = preferences.forceSensorElasticEccMinDispl;
-			conMinDispl = preferences.forceSensorElasticConMinDispl;
-		} else {
-			eccMinDispl = preferences.forceSensorNotElasticEccMinForce;
-			conMinDispl = preferences.forceSensorNotElasticConMinForce;
-		}
+		double eccMinDispl = currentForceSensorExercise.GetEccOrConMinMaybePreferences(true,
+				preferences.forceSensorElasticEccMinDispl,
+				preferences.forceSensorNotElasticEccMinForce);
+		double conMinDispl = currentForceSensorExercise.GetEccOrConMinMaybePreferences(false,
+				preferences.forceSensorElasticConMinDispl,
+				preferences.forceSensorNotElasticConMinForce);
+		LogB.Information(string.Format("eccMinDispl: {0}, conMinDispl: {1}", eccMinDispl, conMinDispl));
 
 		//LogB.Information(string.Format("creating fsAI with zoomA: {0}, zoomB: {1}", zoomA, zoomB));
 		fsAI = new ForceSensorAnalyzeInstant(

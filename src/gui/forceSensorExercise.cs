@@ -697,7 +697,6 @@ public class ForceSensorExerciseWindow
 		get { return fakeButtonReadValues; }
 	}
 
-	//at the moment only name will be used
 	public ForceSensorExercise Exercise
 	{
 		get { return exercise; }

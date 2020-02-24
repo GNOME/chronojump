@@ -746,6 +746,7 @@ public partial class ChronoJumpWindow
 
 		UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
 		fscPoints = new ForceSensorCapturePoints(
+				ForceSensorCapturePoints.GraphTypes.FORCESIGNAL,
 				force_capture_drawingarea.Allocation.Width,
 				force_capture_drawingarea.Allocation.Height,
 				preferences.forceSensorCaptureWidthSeconds
@@ -953,7 +954,7 @@ public partial class ChronoJumpWindow
 			writer.WriteLine(time.ToString() + ";" + force.ToString()); //on file force is stored without flags
 
 			forceSensorValues.TimeLast = time;
-			forceSensorValues.ForceLast = forceCalculated;
+			forceSensorValues.ValueLast = forceCalculated;
 
 			forceSensorValues.SetMaxMinIfNeeded(forceCalculated, time);
 
@@ -1097,7 +1098,7 @@ LogB.Information(" fs C ");
 					if( configChronojump.Exhibition &&
 							( configChronojump.ExhibitionStationType == ExhibitionTest.testTypes.FORCE_ROPE ||
 							  configChronojump.ExhibitionStationType == ExhibitionTest.testTypes.FORCE_SHOT ) )
-						SqliteJson.UploadExhibitionTest(getExhibitionTestFromGui(configChronojump.ExhibitionStationType, forceSensorValues.ForceMax));
+						SqliteJson.UploadExhibitionTest(getExhibitionTestFromGui(configChronojump.ExhibitionStationType, forceSensorValues.Max));
 
 				}
 			} else if(forceProcessCancel || forceProcessError)
@@ -1162,9 +1163,9 @@ LogB.Information(" fs F ");
 		if(capturingForce == arduinoCaptureStatus.CAPTURING)
 		{
 LogB.Information(" fs G ");
-			label_force_sensor_value_max.Text = string.Format("{0:0.##} N", forceSensorValues.ForceMax);
-			label_force_sensor_value_min.Text = string.Format("{0:0.##} N", forceSensorValues.ForceMin);
-			label_force_sensor_value.Text = string.Format("{0:0.##} N", forceSensorValues.ForceLast);
+			label_force_sensor_value_max.Text = string.Format("{0:0.##} N", forceSensorValues.Max);
+			label_force_sensor_value_min.Text = string.Format("{0:0.##} N", forceSensorValues.Min);
+			label_force_sensor_value.Text = string.Format("{0:0.##} N", forceSensorValues.ValueLast);
 
 
 LogB.Information(" fs H ");
@@ -1198,7 +1199,7 @@ LogB.Information(" fs I ");
 				UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
 				fscPoints.NumPainted = 0;
 
-				forcePaintHVLines(ForceSensorGraphs.CAPTURE, fscPoints.RealHeightG, forceSensorValues.ForceMin * 2, fscPoints.RealWidthG, false);
+				forcePaintHVLines(ForceSensorGraphs.CAPTURE, fscPoints.RealHeightG, forceSensorValues.Min * 2, fscPoints.RealWidthG, false);
 				//draw horizontal rectangle of feedback
 				if(preferences.forceSensorCaptureFeedbackActive)
 					forceSensorSignalPlotFeedbackRectangle(fscPoints,
@@ -1305,8 +1306,8 @@ LogB.Information(" fs R ");
 					force_capture_drawingarea, force_capture_pixmap, pen_blue_light_force_capture);
 
 		forcePaintHVLines(ForceSensorGraphs.CAPTURE,
-				getForceSensorMaxForceIncludingRectangle(forceSensorValues.ForceMax),
-				forceSensorValues.ForceMin,
+				getForceSensorMaxForceIncludingRectangle(forceSensorValues.Max),
+				forceSensorValues.Min,
 				Convert.ToInt32(forceSensorValues.TimeLast),
 				true);
 
@@ -1832,6 +1833,7 @@ LogB.Information(" fs R ");
 	void forceSensorDoSignalGraphReadFile(ForceSensor.CaptureOptions fsco)
 	{
 		fscPoints = new ForceSensorCapturePoints(
+				ForceSensorCapturePoints.GraphTypes.FORCESIGNAL,
 				force_capture_drawingarea.Allocation.Width,
 				force_capture_drawingarea.Allocation.Height,
 				preferences.forceSensorCaptureWidthSeconds
@@ -1889,7 +1891,7 @@ LogB.Information(" fs R ");
 			fscPoints.NumCaptured ++;
 
 			forceSensorValues.TimeLast = time;
-			forceSensorValues.ForceLast = forces[i];
+			forceSensorValues.ValueLast = forces[i];
 			forceSensorValues.SetMaxMinIfNeeded(forces[i], time);
 
 			i ++;
@@ -1910,13 +1912,13 @@ LogB.Information(" fs R ");
 
 		setForceSensorTopAtOperationStart();
 		if(fscPoints.OutsideGraph(forceSensorValues.TimeLast,
-					getForceSensorMaxForceIncludingRectangle(forceSensorValues.ForceMax),
-					forceSensorValues.ForceMin))
+					getForceSensorMaxForceIncludingRectangle(forceSensorValues.Max),
+					forceSensorValues.Min))
 			fscPoints.Redo();
 
 		forcePaintHVLines(ForceSensorGraphs.CAPTURE,
-				getForceSensorMaxForceIncludingRectangle(forceSensorValues.ForceMax),
-				forceSensorValues.ForceMin, forceSensorValues.TimeLast,
+				getForceSensorMaxForceIncludingRectangle(forceSensorValues.Max),
+				forceSensorValues.Min, forceSensorValues.TimeLast,
 				false);
 
 		//draw horizontal rectangle of feedback
@@ -1937,15 +1939,15 @@ LogB.Information(" fs R ");
 
 		//draw circle in maxForce
 		force_capture_pixmap.DrawArc(pen_red_force_capture, false,
-				fscPoints.GetTimeInPx(forceSensorValues.TimeForceMax) -6,
-				fscPoints.GetForceInPx(forceSensorValues.ForceMax) -6,
+				fscPoints.GetTimeInPx(forceSensorValues.TimeValueMax) -6,
+				fscPoints.GetForceInPx(forceSensorValues.Max) -6,
 				12, 12, 90 * 64, 360 * 64);
 
 		force_capture_drawingarea.QueueDraw(); // -- refresh
 
-		label_force_sensor_value.Text = string.Format("{0:0.##} N", forceSensorValues.ForceLast);
-		label_force_sensor_value_max.Text = string.Format("{0:0.##} N", forceSensorValues.ForceMax);
-		label_force_sensor_value_min.Text = string.Format("{0:0.##} N", forceSensorValues.ForceMin);
+		label_force_sensor_value.Text = string.Format("{0:0.##} N", forceSensorValues.ValueLast);
+		label_force_sensor_value_max.Text = string.Format("{0:0.##} N", forceSensorValues.Max);
+		label_force_sensor_value_min.Text = string.Format("{0:0.##} N", forceSensorValues.Min);
 		button_force_sensor_image_save_signal.Sensitive = true;
 		button_force_sensor_analyze_analyze.Sensitive = true;
 	}
@@ -2430,7 +2432,11 @@ LogB.Information(" fs R ");
 		if(forceSensorExerciseWin.Success)
 			fillForceSensorExerciseCombo(forceSensorExerciseWin.Exercise.Name);
 
+		currentForceSensorExercise = forceSensorExerciseWin.Exercise;
+
 		forceSensorExerciseWin.HideAndNull();
+
+		forceSensorDoGraphAI();
 	}
 
 	//based on: on_button_encoder_exercise_delete

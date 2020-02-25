@@ -756,7 +756,7 @@ public class ForceSensorCapturePoints
 	private int widthG;
 	private int heightG;
 	private int marginLeft = 45; //px
-	private int marginRight = 30; //px
+	private int marginRight = 40; //px
 	private int marginTop = 30; //px
 	private int marginBottom = 30; //px
 

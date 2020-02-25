@@ -119,13 +119,13 @@ getDynamicsFromForceSensor <- function(file = "/home/xpadulles/.local/share/Chro
 
 getRepetitions <- function(time, position, force, conMinDisplacement, eccMinDisplacement)
 {
-        plot(#dynamics[, "time"]
-                position
-                , type = "l", xlab = "Time", ylab = "Position"
-                #,xlim = c(50, 150)
-                #, ylim = c(0.25,1.1)
-                #, axes = F
-        )
+        # plot(#dynamics[, "time"]
+        #         position
+        #         , type = "l", xlab = "Time", ylab = "Position"
+        #         #,xlim = c(50, 150)
+        #         #, ylim = c(0.25,1.1)
+        #         #, axes = F
+        # )
         
         #The comments supposes that the current phase is concentric. In the case that the phase is eccentric
         #the signal is inverted by multiplying it by -1.
@@ -179,10 +179,10 @@ getRepetitions <- function(time, position, force, conMinDisplacement, eccMinDisp
                         #The current sample is the new candidate to be a maximum
                         #print(paste("updated possibleExtremeSample to:", currentSample, "position:", position[currentSample]))
                         possibleExtremeSample = currentSample
-			if(concentric == 1)
-				points(x=possibleExtremeSample, y=-0.1, col="green")
-			else
-				points(x=possibleExtremeSample, y=-0.2, col="red")
+			# if(concentric == 1)
+			# 	points(x=possibleExtremeSample, y=-0.1, col="green")
+			# else
+			# 	points(x=possibleExtremeSample, y=-0.2, col="red")
                 }
 
                 #Checking if the current position is at minDisplacement below the last possible extreme
@@ -202,19 +202,19 @@ getRepetitions <- function(time, position, force, conMinDisplacement, eccMinDisp
 				   (concentric == 1 && position[possibleExtremeSample] - position[samplePreFirst] >= conMinDisplacement) ||
 				   (concentric == -1 && position[samplePreFirst] - position[possibleExtremeSample] >= eccMinDisplacement) ) )
 				{
-					points(x=samplePreFirst, y=position[samplePreFirst], col="blue", cex=8)
+					#points(x=samplePreFirst, y=position[samplePreFirst], col="blue", cex=8)
 					extremesSamples_l = c(extremesSamples_l, samplePreFirst)
 					#lastExtremeSample = possibleExtremeSample
 					lastExtremeSample = samplePreFirst
 				}
 				searchingFirstExtreme = FALSE
 			}
-			abline(v=currentSample, lty=2)
+			#abline(v=currentSample, lty=2)
                         
                         # print(paste("-----------minDisplacement detected at", currentSample))
                         # print(paste("Extreme added at:", possibleExtremeSample))
                         
-			points(x=possibleExtremeSample, y=position[possibleExtremeSample], col="red", cex=4)
+			#points(x=possibleExtremeSample, y=position[possibleExtremeSample], col="red", cex=4)
 
 			#We can consider that the last extreme in an actual change of phase.
 			extremesSamples_l = c(extremesSamples_l, possibleExtremeSample)

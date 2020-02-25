@@ -1667,6 +1667,10 @@ public class ForceSensorAnalyzeInstant
 	{
 		return fscAIPoints.GetForceInPx(f);
 	}
+	public int GetPxAtDispl(double f)
+	{
+		return fscAIPointsDispl.GetForceInPx(f);
+	}
 
 	//calculates from a range
 	public bool CalculateRangeParams(int countA, int countB)

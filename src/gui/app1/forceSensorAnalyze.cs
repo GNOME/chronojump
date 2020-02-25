@@ -688,6 +688,7 @@ public partial class ChronoJumpWindow
 	Gdk.GC pen_blue_light_force_ai; 	//feedback rectangle on analyze to differentiate from yellow AB lines
 	Gdk.GC pen_white_force_ai; 		//white box to ensure yellow text is not overlapped
 	Gdk.GC pen_green_force_ai; 		//repetitions (vertical lines)
+	Gdk.GC pen_green_discont_force_ai; 	//repetitions (vertical lines)
 
 	private void forceSensorAIPlot()
 	{
@@ -739,6 +740,7 @@ public partial class ChronoJumpWindow
 		pen_gray_cont_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
 		pen_gray_discont_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
 		pen_green_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
+		pen_green_discont_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
 
 		pen_black_force_ai.Foreground = UtilGtk.BLACK;
 		pen_blue_force_ai.Foreground = UtilGtk.BLUE_PLOTS;
@@ -750,6 +752,7 @@ public partial class ChronoJumpWindow
 		pen_gray_cont_force_ai.Foreground = UtilGtk.GRAY;
 		pen_gray_discont_force_ai.Foreground = UtilGtk.GRAY;
 		pen_green_force_ai.Foreground = UtilGtk.GREEN_PLOTS;
+		pen_green_discont_force_ai.Foreground = UtilGtk.GREEN_PLOTS;
 
 		//pen_black_force_ai.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
 		//this makes the lines less spiky:
@@ -765,6 +768,7 @@ public partial class ChronoJumpWindow
 		pen_gray_cont_force_ai.SetLineAttributes(1, Gdk.LineStyle.Solid, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 		pen_gray_discont_force_ai.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 		pen_green_force_ai.SetLineAttributes (1, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
+		pen_green_discont_force_ai.SetLineAttributes (1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 
 		layout_force_ai_text = new Pango.Layout (force_sensor_ai_drawingarea.PangoContext);
 		layout_force_ai_text.FontDescription = Pango.FontDescription.FromString ("Courier 10");
@@ -804,10 +808,10 @@ public partial class ChronoJumpWindow
 		//draw horizontal line
 		if(solid)
 			force_sensor_ai_pixmap.DrawLine(pen_gray_cont_force_ai,
-					fsAI.FscAIPoints.GetTimeInPx(0), yPx, force_sensor_ai_drawingarea.Allocation.Width, yPx);
+					fsAI.FscAIPoints.GetTimeInPx(0), yPx, fsAI.FscAIPoints.GetTimeInPx(forceSensorValues.TimeLast), yPx);
 		else
 			force_sensor_ai_pixmap.DrawLine(pen_gray_discont_force_ai,
-					fsAI.FscAIPoints.GetTimeInPx(0), yPx, force_sensor_ai_drawingarea.Allocation.Width, yPx);
+					fsAI.FscAIPoints.GetTimeInPx(0), yPx, fsAI.FscAIPoints.GetTimeInPx(forceSensorValues.TimeLast), yPx);
 
 		layout_force_ai_text.SetMarkup(yForce.ToString());
 		int textWidth = 1;
@@ -1048,10 +1052,51 @@ public partial class ChronoJumpWindow
 			paintPoints[i] = fsAI.FscAIPoints.Points[i];
 
 		forcePaintHVLines(ForceSensorGraphs.ANALYSIS_GENERAL, fsAI.FscAIPoints.ForceMax, fsAI.FscAIPoints.ForceMin, forceSensorValues.TimeLast, false);
+	
+		int textWidth = 1;
+		int textHeight = 1;
 
 		// 2) draw horizontal 0 line
 		force_sensor_ai_pixmap.DrawLine(pen_gray_discont_force_ai,
 				0, fsAI.GetPxAtForce(0), allocation.Width, fsAI.GetPxAtForce(0));
+		// 2b) draw horizontal 0 line on elastic, and Y right axis
+		if(fsAI.CalculedElasticPSAP)
+		{
+			int xPxStart = fsAI.FscAIPointsDispl.GetTimeInPx(0);
+			int xPxEnd = fsAI.FscAIPointsDispl.GetTimeInPx(forceSensorValues.TimeLast);
+			int yPx = fsAI.FscAIPoints.GetForceInPx(0);
+
+			layout_force_ai_text.SetMarkup("Dist (m)");
+			layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
+			force_sensor_ai_pixmap.DrawLayout (pen_green_force_ai,
+					xPxEnd - textWidth/2, 0, layout_force_ai_text);
+
+			//vertical Y right axis
+			force_sensor_ai_pixmap.DrawLine(pen_green_force_ai,
+					xPxEnd, textHeight, xPxEnd, force_sensor_ai_drawingarea.Allocation.Height - textHeight -6);
+					//xPxEnd, textHeight, xPxEnd, yPx);
+
+			//horizontal distance 0 line
+			force_sensor_ai_pixmap.DrawLine(pen_green_discont_force_ai,
+					xPxStart, fsAI.GetPxAtDispl(0), xPxEnd, fsAI.GetPxAtDispl(0));
+			
+			//print 0
+			layout_force_ai_text.SetMarkup("0");
+			layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
+			force_sensor_ai_pixmap.DrawLayout (pen_green_force_ai,
+					xPxEnd +2, fsAI.GetPxAtDispl(0) - textHeight/2, layout_force_ai_text);
+		
+			//horizontal distance max line
+			force_sensor_ai_pixmap.DrawLine(pen_green_discont_force_ai,
+					xPxStart, fsAI.GetPxAtDispl(fsAI.FscAIPointsDispl.ForceMax), xPxEnd, fsAI.GetPxAtDispl(fsAI.FscAIPointsDispl.ForceMax));
+			
+			//print max value
+			layout_force_ai_text.SetMarkup(Util.TrimDecimals(fsAI.FscAIPointsDispl.ForceMax,2));
+			layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
+			force_sensor_ai_pixmap.DrawLayout (pen_green_force_ai,
+					xPxEnd +2, fsAI.GetPxAtDispl(fsAI.FscAIPointsDispl.ForceMax) - textHeight/2, layout_force_ai_text);
+
+		}
 
 		// 3) paint points as line (can be done also with DrawPoints to debug)
 		if(debug)
@@ -1102,8 +1147,6 @@ public partial class ChronoJumpWindow
 		if(forceSensorZoomApplied)
 			reps_l = forceSensorRepetition_lZoomApplied;
 
-		int textWidth = 1;
-		int textHeight = 1;
 		int xposRepStart = 0;
 		int xposRepEnd = 0;
 		int j = 0;

@@ -785,11 +785,17 @@ public partial class ChronoJumpWindow
 
 		//draw vertical line
 		if(solid)
+		{
+			layout_force_ai_text.SetMarkup("Force (N)");
+			layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
+			force_sensor_ai_pixmap.DrawLayout (pen_gray_cont_force_ai,
+					xPx - textWidth/2, 0, layout_force_ai_text);
+
 			force_sensor_ai_pixmap.DrawLine(pen_gray_cont_force_ai,
-					xPx, 4, xPx, force_sensor_ai_drawingarea.Allocation.Height - textHeight -4);
-		else
+					xPx, textHeight, xPx, force_sensor_ai_drawingarea.Allocation.Height - textHeight -6);
+		} else
 			force_sensor_ai_pixmap.DrawLine(pen_gray_discont_force_ai,
-					xPx, 4, xPx, force_sensor_ai_drawingarea.Allocation.Height - textHeight -4);
+					xPx, 6, xPx, force_sensor_ai_drawingarea.Allocation.Height - textHeight -6);
 	}
 
 	private void forcePaintAnalyzeGeneralHLine(int yForce, bool solid)

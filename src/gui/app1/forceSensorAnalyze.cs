@@ -985,6 +985,12 @@ public partial class ChronoJumpWindow
 
 	private void on_button_force_sensor_ai_zoom_clicked (object o, EventArgs args)
 	{
+		if(currentForceSensorExercise.ComputeAsElastic)
+		{
+			new DialogMessage(Constants.MessageTypes.INFO, "Zoom is temporarily disabled on elastic exercises.");
+			return;
+		}
+
 		forceSensorZoomApplied = true;
 
 		//store hscale a to help return to position on unzoom
@@ -1622,7 +1628,7 @@ public partial class ChronoJumpWindow
 	{
 		if (label_force_sensor_ai_time_a.Text == label_force_sensor_ai_time_b.Text)
 		{
-			new DialogMessage(Constants.MessageTypes.WARNING, "A nd B cannot be the same");
+			new DialogMessage(Constants.MessageTypes.WARNING, "A and B cannot be the same");
 			return;
 		}
 

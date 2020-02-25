@@ -955,10 +955,16 @@ public partial class ChronoJumpWindow
 						endFound = true;
 					}
 				}
+
+				/*
+				 * right now click on sets hscales but does not zoom
+				 * because zoom on elastic is not working ok
+				 *
 				//LogB.Information("call zoom start -->");
 				if(startFound && endFound)
 					button_force_sensor_ai_zoom.Click();
 				//LogB.Information("<-- call zoom end");
+				 */
 			}
 		}
 	}

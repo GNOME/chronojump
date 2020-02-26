@@ -40,6 +40,8 @@ public class RFID
 	private Gtk.Button fakeButtonReopenDialog;
 	private Gtk.Button fakeButtonDisconnected;
 
+	private string lastRFID;
+
 	public RFID(string portName)
 	{
 		this.portName = portName;
@@ -61,7 +63,7 @@ public class RFID
 		 */
 		//List<string> l = getPorts(false);
 		
-		string lastRFID = "";
+		lastRFID = "";
 		string str = "";
 		DateTime dtWaitingLastTimeAdminDetected = new DateTime(); //to be able to detect other person after the AdminDetected
 
@@ -141,6 +143,12 @@ public class RFID
 	{
 		waitingAdmin = true;
 		this.adminRFID = adminRFID;
+	}
+
+	//reset lastRFID in order to be able to use that RFID after capture (if same wristband is used again)
+	public void ResetLastRFID()
+	{
+		lastRFID = "";
 	}
 
 	private bool findRFIDPort(List<string> l)

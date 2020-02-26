@@ -1190,9 +1190,10 @@ public partial class ChronoJumpWindow
 		if(curve.N == "MAX" || curve.N == "AVG" || curve.N == "SD")
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
 		else {
+			Preferences.EncoderPhasesEnum phaseEnum = getEncoderCurvePhaseEnum(curve);
 			string myColor = repetitiveConditionsWin.AssignColorAutomatic(
 					RepetitiveConditionsWindow.BestSetValueEnum.AUTOMATIC_FEEDBACK,
-					curve, Constants.MeanSpeed);
+					curve, Constants.MeanSpeed, phaseEnum);
 
 			if(myColor == "")
 				myColor = assignColor(
@@ -1219,9 +1220,10 @@ public partial class ChronoJumpWindow
 		if(curve.N == "MAX" || curve.N == "AVG" || curve.N == "SD")
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
 		else {
+			Preferences.EncoderPhasesEnum phaseEnum = getEncoderCurvePhaseEnum(curve);
 			string myColor = repetitiveConditionsWin.AssignColorAutomatic(
 					RepetitiveConditionsWindow.BestSetValueEnum.AUTOMATIC_FEEDBACK,
-					curve, Constants.MaxSpeed);
+					curve, Constants.MaxSpeed, phaseEnum);
 
 			if(myColor == "")
 				myColor = assignColor(
@@ -1256,9 +1258,10 @@ public partial class ChronoJumpWindow
 		if(curve.N == "MAX" || curve.N == "AVG" || curve.N == "SD")
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
 		else {
+			Preferences.EncoderPhasesEnum phaseEnum = getEncoderCurvePhaseEnum(curve);
 			string myColor = repetitiveConditionsWin.AssignColorAutomatic(
 					RepetitiveConditionsWindow.BestSetValueEnum.AUTOMATIC_FEEDBACK,
-					curve, Constants.MeanPower);
+					curve, Constants.MeanPower, phaseEnum);
 
 			if(myColor == "")
 				myColor = assignColor(
@@ -1284,9 +1287,10 @@ public partial class ChronoJumpWindow
 		if(curve.N == "MAX" || curve.N == "AVG" || curve.N == "SD")
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
 		else {
+			Preferences.EncoderPhasesEnum phaseEnum = getEncoderCurvePhaseEnum(curve);
 			string myColor = repetitiveConditionsWin.AssignColorAutomatic(
 					RepetitiveConditionsWindow.BestSetValueEnum.AUTOMATIC_FEEDBACK,
-					curve, Constants.PeakPower);
+					curve, Constants.PeakPower, phaseEnum);
 
 			if(myColor == "")
 				myColor = assignColor(
@@ -1329,9 +1333,10 @@ public partial class ChronoJumpWindow
 		if(curve.N == "MAX" || curve.N == "AVG" || curve.N == "SD")
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
 		else {
+			Preferences.EncoderPhasesEnum phaseEnum = getEncoderCurvePhaseEnum(curve);
 			string myColor = repetitiveConditionsWin.AssignColorAutomatic(
 					RepetitiveConditionsWindow.BestSetValueEnum.AUTOMATIC_FEEDBACK,
-					curve, Constants.MeanForce);
+					curve, Constants.MeanForce, phaseEnum);
 
 			if(myColor == "")
 				myColor = assignColor(
@@ -1357,9 +1362,10 @@ public partial class ChronoJumpWindow
 		if(curve.N == "MAX" || curve.N == "AVG" || curve.N == "SD")
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
 		else {
+			Preferences.EncoderPhasesEnum phaseEnum = getEncoderCurvePhaseEnum(curve);
 			string myColor = repetitiveConditionsWin.AssignColorAutomatic(
 					RepetitiveConditionsWindow.BestSetValueEnum.AUTOMATIC_FEEDBACK,
-					curve, Constants.MaxForce);
+					curve, Constants.MaxForce, phaseEnum);
 
 			if(myColor == "")
 				myColor = assignColor(
@@ -1414,6 +1420,28 @@ public partial class ChronoJumpWindow
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		string str = String.Format(UtilGtk.TVNumPrint(curve.Impulse,6,3),Convert.ToDouble(curve.Impulse));
 		renderBoldIfNeeded(cell, curve, str);
+	}
+
+	private Preferences.EncoderPhasesEnum getEncoderCurvePhaseEnum(EncoderCurve curve)
+	{
+		if (ecconLast == "ec" || ecconLast == "ecS")
+		{
+			bool isEven = Util.IsEven(Convert.ToInt32(curve.N));
+			if(isEven)
+				return Preferences.EncoderPhasesEnum.CON;
+			else
+				return Preferences.EncoderPhasesEnum.ECC;
+		}
+		else if (ecconLast == "ce" || ecconLast == "ceS")
+		{
+			bool isEven = Util.IsEven(Convert.ToInt32(curve.N));
+			if(isEven)
+				return Preferences.EncoderPhasesEnum.ECC;
+			else
+				return Preferences.EncoderPhasesEnum.CON;
+		}
+		else // (ecconLast == "c")
+			return Preferences.EncoderPhasesEnum.BOTH;
 	}
 
 	/* end of rendering capture and analyze cols */

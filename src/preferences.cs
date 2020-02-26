@@ -142,6 +142,8 @@ public class Preferences
 	public int encoderCaptureMainVariableGreaterValue;
 	public bool encoderCaptureMainVariableLowerActive;
 	public int encoderCaptureMainVariableLowerValue;
+	public enum EncoderPhasesEnum { BOTH, ECC, CON}
+	public EncoderPhasesEnum encoderCaptureFeedbackEccon;
 
 	//forceSensor
 	public string forceSensorTareDateTime;

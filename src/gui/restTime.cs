@@ -124,6 +124,7 @@ public partial class ChronoJumpWindow
 	{
 		labels_rest_time_encoder_clean();
 		List<LastTestTime> listLastMin = restTime.LastMinList();
+		image_encoder_rest_time.Visible = (listLastMin.Count > 0);
 		int count = 0;
 		foreach(LastTestTime ltt in listLastMin)
 		{

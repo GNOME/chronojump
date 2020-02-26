@@ -1077,7 +1077,7 @@ public partial class ChronoJumpWindow
 					//xPxEnd, textHeight, xPxEnd, yPx);
 
 			//horizontal distance 0 line
-			force_sensor_ai_pixmap.DrawLine(pen_green_discont_force_ai,
+			force_sensor_ai_pixmap.DrawLine(pen_green_force_ai,
 					xPxStart, fsAI.GetPxAtDispl(0), xPxEnd, fsAI.GetPxAtDispl(0));
 			
 			//print 0

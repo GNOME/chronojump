@@ -103,12 +103,12 @@ public partial class ChronoJumpWindow
 
 	static Thread threadRFID;
 	public RFID rfid;
-	private static string capturedRFID;
+	private static string capturedRFID; //current RFID in use
 	private static bool shouldUpdateRFIDGui;
 	private static bool shouldShowRFIDDisconnected;
 	private static bool updatingRFIDGuiStuff;
 	private static bool networksRunIntervalCanChangePersonSQLReady;
-	private static DateTime startedRFIDWait;
+	private static DateTime startedRFIDWait; //just to display a message at the moment of try to wristband change while capturing
 	private bool rfidProcessCancel;
 	private bool rfidIsDifferent;
 	//private bool compujumpAutologout;
@@ -256,6 +256,11 @@ public partial class ChronoJumpWindow
 		{
 			startedRFIDWait = DateTime.Now;
 			LogB.Information("... but we are on the middle of capture");
+
+			//reset lastRFID in order to be able to use that RFID after capture (if same wristband is used again)
+			//maybe better do this when Capturing ends
+			rfid.ResetLastRFID();
+
 			return;
 		}
 

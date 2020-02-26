@@ -737,7 +737,7 @@ public class ForceSensorCapturePoints
 	public int NumPainted;
 
 	public enum GraphTypes { FORCESIGNAL, FORCEAIFORCE, FORCEAIDISPL }
-	private GraphTypes graphType; //useful to debug
+	private GraphTypes graphType;
 
 	//used to redo all points if change RealWidthG or RealHeightG
 	private List<int> times;
@@ -752,6 +752,10 @@ public class ForceSensorCapturePoints
 	public const int DefaultRealHeightGNeg = 2;
 	public int RealHeightG; //Newtons (will be upgraded if needed)
 	public int RealHeightGNeg; //Newtons (negative) (will be upgraded if needed)
+
+	//for displacement
+	public const int DefaultRealHeightGDispl = 1;
+	public const int DefaultRealHeightGNegDispl = 0;
 
 	private int widthG;
 	private int heightG;
@@ -789,6 +793,12 @@ public class ForceSensorCapturePoints
 
 		RealHeightG = DefaultRealHeightG; //Newtons (will be upgraded when needed) (nice to see the +25 -25 marks)
 		RealHeightGNeg = DefaultRealHeightGNeg; //Newtons (will be upgraded when needed) (nice to see the +25 -25 marks)
+
+		if(graphType == GraphTypes.FORCEAIDISPL)
+		{
+			RealHeightG = DefaultRealHeightGDispl;
+			RealHeightGNeg = DefaultRealHeightGNegDispl;
+		}
 	}
 
 	public void Add(int time, double force)

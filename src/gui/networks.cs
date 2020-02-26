@@ -29,6 +29,7 @@ using System.Collections; //ArrayList
 using System.Collections.Generic; //List
 using System.Diagnostics; //Process
 using System.Threading;
+using Mono.Unix;
 	
 public partial class ChronoJumpWindow 
 {
@@ -550,6 +551,7 @@ public partial class ChronoJumpWindow
 		TimeSpan span = DateTime.Now - startedRFIDWait;
 		if(span.TotalSeconds < 2) {
 			label_rfid_wait.Visible = true;
+			label_rfid_encoder_wait.Text = Catalog.GetString("Please, wait!");
 			label_rfid_encoder_wait.Visible = true;
 		} else {
 			label_rfid_wait.Visible = false;
@@ -589,7 +591,8 @@ public partial class ChronoJumpWindow
 				LogB.Information("rest seconds: " + rfidWaitingAdminGuiObjects.RestSeconds().ToString());
 				if(rfidWaitingAdminGuiObjects.RestSeconds() != -1) {
 					label_rfid_encoder_wait.Text =
-						string.Format("Identify with admin ID wristband before {0} s.", rfidWaitingAdminGuiObjects.RestSeconds());
+						string.Format(Catalog.GetString("Identify with admin ID wristband before {0} s."),
+								rfidWaitingAdminGuiObjects.RestSeconds());
 					label_rfid_encoder_wait.Visible = true;
 				} else {
 					rfidWaitingAdminGuiObjects = new RFIDWaitingAdminGuiObjects();
@@ -598,8 +601,7 @@ public partial class ChronoJumpWindow
 				}
 				Thread.Sleep (100);
 				return true;
-			} else
-				label_rfid_encoder_wait.Text = "";
+			}
 		}
 
 
@@ -1384,7 +1386,7 @@ public class CompujumpAutologout
 	}
 }
 
-//this class manages the wating of admin wristband in tasks like sending an email with the analyze image
+//this class manages the waiting of admin wristband in tasks like sending an email with the analyze image
 public class RFIDWaitingAdminGuiObjects
 {
 	public bool Waiting;

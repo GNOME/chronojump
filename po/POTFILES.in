@@ -89,6 +89,7 @@ src/gui/helpPorts.cs
 src/gui/jump.cs
 src/gui/jumpType.cs
 src/gui/multiChronopic.cs
+src/gui/networks.cs
 src/gui/old/chronojumpServerOld.cs
 src/gui/old/queryServer.cs
 src/gui/overview.cs

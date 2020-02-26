@@ -1014,7 +1014,7 @@
                                         <property name="secondary_icon_activatable">False</property>
                                         <property name="primary_icon_sensitive">True</property>
                                         <property name="secondary_icon_sensitive">True</property>
-                                        <property name="adjustment">0.29999999329440002 0 1 0.0099999997764800008 0.0099999997764800008 0</property>
+                                        <property name="adjustment">0.30999999307088 0 1 0.0099999997764800008 0.0099999997764800008 0</property>
                                         <property name="climb_rate">1</property>
                                         <property name="digits">2</property>
                                         <property name="snap_to_ticks">True</property>
@@ -2105,6 +2105,95 @@
                                         <property name="expand">True</property>
                                         <property name="fill">True</property>
                                         <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <widget class="GtkVBox" id="vbox11">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="spacing">10</property>
+                                        <child>
+                                          <widget class="GtkLabel" id="label41">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="xalign">0</property>
+                                            <property name="label" translatable="yes">On eccentric-concentric have feedback ...</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="GtkAlignment" id="alignment30">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="left_padding">20</property>
+                                            <child>
+                                              <widget class="GtkHBox" id="hbox49">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="spacing">10</property>
+                                                <child>
+                                                  <widget class="GtkRadioButton" id="radio_encoder_eccon_both">
+                                                    <property name="label" translatable="yes">on both phases</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">False</property>
+                                                    <property name="active">True</property>
+                                                    <property name="draw_indicator">True</property>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkRadioButton" id="radio_encoder_eccon_ecc">
+                                                    <property name="label" translatable="yes">on eccentric</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">False</property>
+                                                    <property name="draw_indicator">True</property>
+                                                    <property name="group">radio_encoder_eccon_both</property>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="position">1</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkRadioButton" id="radio_encoder_eccon_con">
+                                                    <property name="label" translatable="yes">on concentric</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">False</property>
+                                                    <property name="draw_indicator">True</property>
+                                                    <property name="group">radio_encoder_eccon_both</property>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="position">2</property>
+                                                  </packing>
+                                                </child>
+                                              </widget>
+                                            </child>
+                                          </widget>
+                                          <packing>
+                                            <property name="expand">True</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                      </widget>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">False</property>
+                                        <property name="position">2</property>
                                       </packing>
                                     </child>
                                   </widget>

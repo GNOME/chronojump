@@ -85,6 +85,9 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.CheckButton check_encoder_show_secondary_variable;
 	[Widget] Gtk.HBox hbox_combo_encoder_secondary_variable;
 	[Widget] Gtk.ComboBox combo_encoder_secondary_variable;
+	[Widget] Gtk.RadioButton radio_encoder_eccon_both;
+	[Widget] Gtk.RadioButton radio_encoder_eccon_ecc;
+	[Widget] Gtk.RadioButton radio_encoder_eccon_con;
 	[Widget] Gtk.CheckButton check_encoder_inertial_ecc_overload;
 	[Widget] Gtk.CheckButton check_encoder_inertial_ecc_overload_percent;
 
@@ -264,6 +267,7 @@ public class RepetitiveConditionsWindow
 				preferences.encoderCaptureMainVariableGreaterValue,
 				preferences.encoderCaptureMainVariableLowerActive,
 				preferences.encoderCaptureMainVariableLowerValue,
+				preferences.encoderCaptureFeedbackEccon,
 				encoderRhythm,
 				preferences.forceSensorCaptureFeedbackActive,
 				preferences.forceSensorCaptureFeedbackAt,
@@ -284,6 +288,7 @@ public class RepetitiveConditionsWindow
 			int encoderCaptureMainVariableGreaterValue,
 			bool encoderCaptureMainVariableLowerActive,
 			int encoderCaptureMainVariableLowerValue,
+			Preferences.EncoderPhasesEnum encoderCaptureFeedbackEccon,
 			EncoderRhythm encoderRhythm,
 			bool forceSensorCaptureFeedbackActive,
 			int forceSensorCaptureFeedbackAt,
@@ -371,6 +376,13 @@ public class RepetitiveConditionsWindow
 			checkbutton_encoder_automatic_lower.Active = encoderCaptureMainVariableLowerActive;
 			spinbutton_encoder_automatic_lower.Value = encoderCaptureMainVariableLowerValue;
 			update_checkbuttons_encoder_automatic = true;
+
+			if(encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.ECC)
+				radio_encoder_eccon_ecc.Active = true;
+			else if(encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.CON)
+				radio_encoder_eccon_con.Active = true;
+			else
+				radio_encoder_eccon_both.Active = true;
 
 			notebook_main.GetNthPage(RHYTHMPAGE).Show();
 			encoder_rhythm_set_values(encoderRhythm);
@@ -755,20 +767,25 @@ public class RepetitiveConditionsWindow
 				bestSetValueCaptureMainVariable = d;
 		}
 	}
-		
+
 	//called from gui/encoderTreeviews.cs
-	public string AssignColorAutomatic(BestSetValueEnum b, EncoderCurve curve, string variable)
+	public string AssignColorAutomatic(BestSetValueEnum b, EncoderCurve curve, string variable, Preferences.EncoderPhasesEnum phaseEnum)
 	{
 		if(GetMainVariable != variable)
 			return UtilGtk.ColorNothing;
 
 		double currentValue = curve.GetParameter(variable);
 
-		return AssignColorAutomatic(b, currentValue);
+		return AssignColorAutomatic(b, currentValue, phaseEnum);
 	}
 	//called from previous function, gui/encoder.cs plotCurvesGraphDoPlot
-	public string AssignColorAutomatic(BestSetValueEnum b, double currentValue)
+	public string AssignColorAutomatic(BestSetValueEnum b, double currentValue, Preferences.EncoderPhasesEnum phaseEnum)
 	{
+		if(radio_encoder_eccon_ecc.Active && phaseEnum != Preferences.EncoderPhasesEnum.ECC)
+			return UtilGtk.ColorNothing;
+		else if(radio_encoder_eccon_con.Active && phaseEnum != Preferences.EncoderPhasesEnum.CON)
+			return UtilGtk.ColorNothing;
+
 		if(EncoderAutomaticHigherActive && currentValue > getBestSetValue(b) * EncoderAutomaticHigherValue / 100)
 			return UtilGtk.ColorGood;
 		else if (EncoderAutomaticLowerActive && currentValue < getBestSetValue(b) * EncoderAutomaticLowerValue/ 100)
@@ -1037,6 +1054,17 @@ public class RepetitiveConditionsWindow
 	}
 	public bool GetSecondaryVariableShow {
 		get { return check_encoder_show_secondary_variable.Active; }
+	}
+
+	public Preferences.EncoderPhasesEnum GetEncoderCaptureFeedbackEccon {
+		get {
+			if(radio_encoder_eccon_ecc.Active)
+				return Preferences.EncoderPhasesEnum.ECC;
+			else if(radio_encoder_eccon_con.Active)
+				return Preferences.EncoderPhasesEnum.CON;
+			else
+				return Preferences.EncoderPhasesEnum.BOTH;
+		}
 	}
 
 	public Preferences.encoderCaptureEccOverloadModes GetEncoderCaptureEccOverloadMode {

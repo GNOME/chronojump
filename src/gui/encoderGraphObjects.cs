@@ -555,9 +555,18 @@ public class EncoderGraphDoPlot
 			if(dWidth < 1)
 				dWidth = 1;
 
+			Preferences.EncoderPhasesEnum phaseEnum = Preferences.EncoderPhasesEnum.BOTH; // (eccon == "c")
+			if (eccon == "ec" || eccon == "ecS") {
+				bool isEven = Util.IsEven(count +1);
+				if(isEven)
+					phaseEnum = Preferences.EncoderPhasesEnum.CON;
+				else
+					phaseEnum = Preferences.EncoderPhasesEnum.ECC;
+			}
+
 			//select pen color for bars and sounds
 			string myColor = repetitiveConditionsWin.AssignColorAutomatic(
-					RepetitiveConditionsWindow.BestSetValueEnum.CAPTURE_MAIN_VARIABLE, d);
+					RepetitiveConditionsWindow.BestSetValueEnum.CAPTURE_MAIN_VARIABLE, d, phaseEnum);
 
 			bool discarded = false;
 			if(hasInertia) {

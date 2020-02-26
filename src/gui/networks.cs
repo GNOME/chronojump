@@ -111,6 +111,7 @@ public partial class ChronoJumpWindow
 	private static DateTime startedRFIDWait; //just to display a message at the moment of try to wristband change while capturing
 	private bool rfidProcessCancel;
 	private bool rfidIsDifferent;
+	private bool needManageCompujumpCapturingReset; //useful to manage wristbands while capture
 	//private bool compujumpAutologout;
 	//private static CompujumpAutologout compujumpAutologout;
 	private CompujumpAutologout compujumpAutologout;
@@ -237,6 +238,7 @@ public partial class ChronoJumpWindow
 		rfidWaitingAdminGuiObjects = new RFIDWaitingAdminGuiObjects();
 		LogB.Information("networksRI: " + networksRunIntervalCanChangePersonSQLReady.ToString());
 
+		needManageCompujumpCapturingReset = false;
 		LogB.Information("RFID Start");
 		rfid.Start();
 	}
@@ -256,11 +258,6 @@ public partial class ChronoJumpWindow
 		{
 			startedRFIDWait = DateTime.Now;
 			LogB.Information("... but we are on the middle of capture");
-
-			//reset lastRFID in order to be able to use that RFID after capture (if same wristband is used again)
-			//maybe better do this when Capturing ends
-			rfid.ResetLastRFID();
-
 			return;
 		}
 
@@ -561,7 +558,13 @@ public partial class ChronoJumpWindow
 
 		if(isCompujumpCapturing ()) {
 			Thread.Sleep (100);
+			needManageCompujumpCapturingReset = true;
 			return true;
+		}
+		else if (needManageCompujumpCapturingReset) {
+			//reset lastRFID in order to be able to use that RFID after capture (if same wristband is used again)
+			rfid.ResetLastRFID();
+			needManageCompujumpCapturingReset = false;
 		}
 
 		//---- end of checking if we are on the middle of capture.

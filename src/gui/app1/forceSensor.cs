@@ -1883,7 +1883,7 @@ LogB.Information(" fs R ");
 		forces = fsd.GetForces();
 		times.RemoveAt(0); //always (not-elastic and elastic) 1st has to be removed, because time is not ok there.
 		if(fsd.CalculedElasticPSAP)
-			times = times.GetRange(fsd.RemoveNValues -1, times.Count -2*fsd.RemoveNValues);
+			times = times.GetRange(fsd.RemoveNValues +1, times.Count -2*fsd.RemoveNValues);
 		int i = 0;
 		foreach(int time in times)
 		{

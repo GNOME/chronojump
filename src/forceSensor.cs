@@ -1567,7 +1567,7 @@ public class ForceSensorAnalyzeInstant
 
 		//LogB.Information("times Length at B:", times.Count.ToString());
 		if(CalculedElasticPSAP)
-			times = times.GetRange(forceSensorDynamics.RemoveNValues -1, times.Count -2*forceSensorDynamics.RemoveNValues); // (index, count)
+			times = times.GetRange(forceSensorDynamics.RemoveNValues +1, times.Count -2*forceSensorDynamics.RemoveNValues); // (index, count)
 
 		//LogB.Information("times Length at C:", times.Count.ToString());
 

@@ -556,7 +556,7 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 	private List<double> stripStartEnd(List<double> l)
 	{
 		LogB.Information(string.Format("removeN: {0}, l.Count: {1}", RemoveNValues, l.Count));
-		return l.GetRange(RemoveNValues -1, l.Count - 2*RemoveNValues);
+		return l.GetRange(RemoveNValues +1, l.Count - 2*RemoveNValues);
 	}
 
 	public override List<double> GetForces()

@@ -229,7 +229,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_message_permissions_at_boot;
 	[Widget] Gtk.Image image_camera_at_boot;
 
-	private void putNonStandardIcons(bool encoderBellActive)
+	private void putNonStandardIcons()
 	{
 		Pixbuf pixbuf;
 
@@ -602,12 +602,8 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_none.png");
 		image_contacts_bell.Pixbuf = pixbuf;
-
-		if(encoderBellActive)
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_active.png");
-
 		image_encoder_bell.Pixbuf = pixbuf;
-		
+
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "preferences-system.png");
 		image_jump_reactive_repair.Pixbuf = pixbuf;
 		image_run_interval_repair.Pixbuf = pixbuf;

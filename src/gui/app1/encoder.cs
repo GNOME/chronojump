@@ -623,7 +623,7 @@ public partial class ChronoJumpWindow
 	
 	private void on_button_encoder_bells_clicked(object o, EventArgs args)
 	{
-		repetitiveConditionsWin.View(getBellMode(current_menuitem_mode), preferences, encoderRhythm);
+		repetitiveConditionsWin.View(getBellMode(current_menuitem_mode), preferences, encoderRhythm, true);
 	}
 
 	/*

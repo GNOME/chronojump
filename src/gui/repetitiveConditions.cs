@@ -251,7 +251,7 @@ public class RepetitiveConditionsWindow
 		return RepetitiveConditionsWindowBox;
 	}
 
-	public void View (Constants.BellModes bellMode, Preferences preferences, EncoderRhythm encoderRhythm)
+	public void View (Constants.BellModes bellMode, Preferences preferences, EncoderRhythm encoderRhythm, bool viewWindow)
 	{
 		//when user "deleted_event" the window
 		if (RepetitiveConditionsWindowBox == null) {
@@ -273,7 +273,9 @@ public class RepetitiveConditionsWindow
 				preferences.forceSensorCaptureFeedbackAt,
 				preferences.forceSensorCaptureFeedbackRange);
 
-		RepetitiveConditionsWindowBox.repetitive_conditions.Show ();
+		if(viewWindow)
+			RepetitiveConditionsWindowBox.repetitive_conditions.Show ();
+
 		RepetitiveConditionsWindowBox.volumeOn = preferences.volumeOn;
 		RepetitiveConditionsWindowBox.gstreamer = preferences.gstreamer;
 	}

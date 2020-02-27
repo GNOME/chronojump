@@ -612,6 +612,9 @@ public partial class ChronoJumpWindow
 		createdStatsWin = false;
 		
 		repetitiveConditionsWin = RepetitiveConditionsWindow.Create();
+		//to have objects ok to be able to be readed before viewing the repetitiveConditionsWin
+		repetitiveConditionsWin.View(Constants.BellModes.ENCODERGRAVITATORY, preferences, encoderRhythm, false); //not viewWindow
+		repetitiveConditionsWin.View(Constants.BellModes.FORCESENSOR, preferences, encoderRhythm, false); //not viewWindow
 		repetitiveConditionsWin.FakeButtonClose.Clicked += new EventHandler(on_repetitive_conditions_closed);
 
 		on_extra_window_multichronopic_test_changed(new object(), new EventArgs());
@@ -630,7 +633,7 @@ public partial class ChronoJumpWindow
 
 		formatModeMenu();
 
-		putNonStandardIcons(preferences.encoderCaptureMainVariableGreaterActive || preferences.encoderCaptureMainVariableLowerActive);
+		putNonStandardIcons();
 		eventExecutePutNonStandardIcons();
 		//eventExecuteCreateComboGraphResultsSize();
 
@@ -3402,6 +3405,27 @@ public partial class ChronoJumpWindow
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 		}
 
+		//show feedback icon
+		Pixbuf pixbufBellActive = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_active.png");
+		Pixbuf pixbufBellInactive = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_none.png");
+		if(
+				( (m == Constants.Menuitem_modes.JUMPSSIMPLE || m == Constants.Menuitem_modes.JUMPSREACTIVE) &&
+				  repetitiveConditionsWin.FeedbackActive(Constants.BellModes.JUMPS)) ||
+				( (m == Constants.Menuitem_modes.RUNSSIMPLE || m == Constants.Menuitem_modes.RUNSINTERVALLIC) &&
+				  repetitiveConditionsWin.FeedbackActive(Constants.BellModes.RUNS)) ||
+				( m == Constants.Menuitem_modes.FORCESENSOR &&
+				  repetitiveConditionsWin.FeedbackActive(Constants.BellModes.FORCESENSOR)) )
+			image_contacts_bell.Pixbuf = pixbufBellActive;
+		else
+			image_contacts_bell.Pixbuf = pixbufBellInactive;
+
+		if( (m == Constants.Menuitem_modes.POWERGRAVITATORY || m == Constants.Menuitem_modes.POWERINERTIAL)
+				&&  repetitiveConditionsWin.FeedbackActive(Constants.BellModes.ENCODERGRAVITATORY) )
+			image_encoder_bell.Pixbuf = pixbufBellActive;
+		else
+			image_encoder_bell.Pixbuf = pixbufBellInactive;
+
+
 		//show the program
 		notebook_start.CurrentPage = 1;
 
@@ -4031,7 +4055,7 @@ public partial class ChronoJumpWindow
 				m != Constants.Menuitem_modes.FORCESENSOR)
 			return;
 
-		repetitiveConditionsWin.View(getBellMode(m), preferences, encoderRhythm);
+		repetitiveConditionsWin.View(getBellMode(m), preferences, encoderRhythm, true);
 	}
 
 	private void change_notebook_results_data()

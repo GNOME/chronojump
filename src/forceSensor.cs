@@ -987,7 +987,7 @@ public class ForceSensorCapturePoints
 
 
 	// this is called while capturing, checks if last captured value is outside the graph
-	public bool OutsideGraph(bool checkOnlyY)
+	public bool OutsideGraphChangeValues (bool checkOnlyY)
 	{
 		Gdk.Point p = getLastPoint();
 		//LogB.Information("p.Y: " + p.Y + "; heightG: " +  heightG);
@@ -1017,25 +1017,42 @@ public class ForceSensorCapturePoints
 		return outsideGraph;
 	}
 	// this is called at load signal, checks if last X is outside the graph and max/min force
-	public bool OutsideGraph(int lastTime, double maxForce, double minForce)
+	// mustChangeRealWidthG makes easier to sync width on Force and displacement
+	public bool OutsideGraphChangeValues (int lastTime, double maxForce, double minForce, bool mustChangeRealWidthG)
 	{
+		/*
+		LogB.Information(string.Format("At OutsideGraph: graphType: {0}, maxForce {1}, minForce: {2}, " +
+					" forceInPx(maxForce): {3}, forceInPx(minForce): {4}",
+					graphType, maxForce, minForce, GetForceInPx(maxForce), GetForceInPx(minForce)));
+		LogB.Information(string.Format("conditions: {0}, {1}, {2}, {3}",
+					lastTime + GetTimeInPx(marginLeft) + GetTimeInPx(marginRight),
+					RealWidthG, GetForceInPx(minForce) > heightG, GetForceInPx(maxForce) < 0));
+					*/
+
+		bool change = false;
 		if(lastTime + GetTimeInPx(marginLeft) + GetTimeInPx(marginRight) > RealWidthG ||
 				GetForceInPx(minForce) > heightG ||
 				GetForceInPx(maxForce) < 0)
 		{
-			RealWidthG = lastTime + GetTimeInPx(marginLeft) + GetTimeInPx(marginRight);
+			RealHeightG = Convert.ToInt32(Math.Ceiling(maxForce)); //Math.Ceiling to ensure the displ will fit
 
-			RealHeightG = Convert.ToInt32(maxForce);
 			//RealHeightGNeg = Convert.ToInt32(Math.Abs(minForce));
 			if(minForce < 0)
-				RealHeightGNeg = Convert.ToInt32(Math.Abs(minForce));
+				RealHeightGNeg = Convert.ToInt32(Math.Ceiling(Math.Abs(minForce)));
 			else
 				RealHeightGNeg = 0;
 
-			return true;
+			change = true;
 		}
 
-		return false;
+		if(change || mustChangeRealWidthG)
+		{
+			RealWidthG = lastTime + GetTimeInPx(marginLeft) + GetTimeInPx(marginRight);
+			//LogB.Information(string.Format("OutsideGraph: {0}, {1}, {2}, {3}",
+			//			RealWidthG, lastTime, GetTimeInPx(marginLeft), GetTimeInPx(marginRight)));
+		}
+
+		return (change || mustChangeRealWidthG);
 	}
 
 	public void Zoom(int lastTime) //on zoom adjust width
@@ -1471,7 +1488,7 @@ public class ForceSensorAnalyzeInstant
 		}
 
 		//ensure points fit on display
-		if(fscAIPoints.OutsideGraph(forceSensorValues.TimeLast, forceSensorValues.Max, forceSensorValues.Min))
+		if(fscAIPoints.OutsideGraphChangeValues (forceSensorValues.TimeLast, forceSensorValues.Max, forceSensorValues.Min, false))
 		{
 			LogB.Information("Redo normal at constructor b");
 			fscAIPoints.Redo();
@@ -1479,17 +1496,23 @@ public class ForceSensorAnalyzeInstant
 
 		if(fse.ComputeAsElastic)
 		{
-			bool forcePointsWidthChanged = false;
+			/*
+			LogB.Information(string.Format("Should zoom displ?: {0}, {1}, {2}, {3}, {4}", 
+						fscAIPointsDispl.RealWidthG != fscAIPoints.RealWidthG,
+						forceSensorValuesDispl.TimeLast, forceSensorValuesDispl.Max, forceSensorValuesDispl.Min,
+						fscAIPointsDispl.OutsideGraphChangeValues(
+							forceSensorValuesDispl.TimeLast, forceSensorValuesDispl.Max, forceSensorValuesDispl.Min, true)
+						));
+						*/
+
 			if(fscAIPointsDispl.RealWidthG != fscAIPoints.RealWidthG) {
 				fscAIPointsDispl.RealWidthG = fscAIPoints.RealWidthG;
-				forcePointsWidthChanged = true;
+				if(fscAIPointsDispl.OutsideGraphChangeValues(forceSensorValuesDispl.TimeLast, forceSensorValuesDispl.Max, forceSensorValuesDispl.Min, true))
+					fscAIPointsDispl.Redo();
 			}
 
-			if(forcePointsWidthChanged || fscAIPointsDispl.OutsideGraph(forceSensorValuesDispl.TimeLast, forceSensorValuesDispl.Max, forceSensorValuesDispl.Min))
-			{
+			if(fscAIPointsDispl.OutsideGraphChangeValues(forceSensorValuesDispl.TimeLast, forceSensorValuesDispl.Max, forceSensorValuesDispl.Min, true))
 				fscAIPointsDispl.Redo();
-				LogB.Information("Redo elastic at constructor b");
-			}
 		}
 	}
 

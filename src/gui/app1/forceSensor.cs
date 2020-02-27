@@ -960,7 +960,7 @@ public partial class ChronoJumpWindow
 
 			fscPoints.Add(time, forceCalculated);
 			fscPoints.NumCaptured ++;
-			if(fscPoints.OutsideGraph(preferences.forceSensorCaptureScroll))
+			if(fscPoints.OutsideGraphChangeValues(preferences.forceSensorCaptureScroll))
 			{
 				redoingPoints = true;
 				fscPoints.Redo();
@@ -1911,9 +1911,9 @@ LogB.Information(" fs R ");
 		 */
 
 		setForceSensorTopAtOperationStart();
-		if(fscPoints.OutsideGraph(forceSensorValues.TimeLast,
+		if(fscPoints.OutsideGraphChangeValues(forceSensorValues.TimeLast,
 					getForceSensorMaxForceIncludingRectangle(forceSensorValues.Max),
-					forceSensorValues.Min))
+					forceSensorValues.Min, false))
 			fscPoints.Redo();
 
 		forcePaintHVLines(ForceSensorGraphs.CAPTURE,

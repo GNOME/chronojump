@@ -833,6 +833,7 @@ public class UtilGtk
 
 	// adapted from: https://stackoverflow.com/a/9295210/12366369
 	// thanks to renosis and Komplot
+	// tip is the point where the arrow will be drawn
 	public static void DrawArrow (Pixmap pixmap, Gdk.GC pen, int tipX, int tailX, int tipY, int tailY, int arrowLength)
 	{
 		int dx = tipX - tailX;

@@ -1064,15 +1064,12 @@ public partial class ChronoJumpWindow
 		int textWidth = 1;
 		int textHeight = 1;
 
-		// 2) draw horizontal 0 line
-		force_sensor_ai_pixmap.DrawLine(pen_gray_discont_force_ai,
-				0, fsAI.GetPxAtForce(0), allocation.Width, fsAI.GetPxAtForce(0));
 		// 2b) draw horizontal 0 line on elastic, and Y right axis
 		if(fsAI.CalculedElasticPSAP)
 		{
 			int yPx = fsAI.FscAIPoints.GetForceInPx(0);
 
-			layout_force_ai_text.SetMarkup("Dist (m)");
+			layout_force_ai_text.SetMarkup("Displ (m)");
 			layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
 			force_sensor_ai_pixmap.DrawLayout (pen_green_force_ai,
 					xPxEnd - textWidth/2, 0, layout_force_ai_text);
@@ -1203,7 +1200,7 @@ public partial class ChronoJumpWindow
 				//no need to graph two green lines together ir rep starts just on previous rep ends
 				if(xposRepStart > xposRepEnd)
 					force_sensor_ai_pixmap.DrawLine(pen_green_force_ai,
-							xposRepStart, 0, xposRepStart, allocation.Height -20);
+							xposRepStart, 0, xposRepStart, allocation.Height - textHeight - 6);
 			}
 			if(sampleEnd >= 0) {
 				xposRepEnd = fsAI.GetXFromSampleCount(sampleEnd);

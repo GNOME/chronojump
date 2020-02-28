@@ -77,6 +77,7 @@ public class EncoderGraphDoPlot
 	Gdk.GC pen_blue_dark_encoder_capture;
 	Gdk.GC pen_blue_light_encoder_capture;
 	Gdk.GC pen_yellow_encoder_capture;
+	//Gdk.GC pen_magenta_encoder_capture;
 	Gdk.GC pen_colors_foreground_encoder_capture;
 	Gdk.GC pen_colors_background_encoder_capture;
 	
@@ -261,6 +262,7 @@ public class EncoderGraphDoPlot
 		pen_blue_dark_encoder_capture = new Gdk.GC(drawingarea.GdkWindow);
 		pen_blue_light_encoder_capture = new Gdk.GC(drawingarea.GdkWindow);
 		pen_yellow_encoder_capture = new Gdk.GC(drawingarea.GdkWindow);
+		//pen_magenta_encoder_capture = new Gdk.GC(drawingarea.GdkWindow);
 		pen_colors_foreground_encoder_capture = new Gdk.GC(drawingarea.GdkWindow);
 		pen_colors_background_encoder_capture = new Gdk.GC(drawingarea.GdkWindow);
 
@@ -278,6 +280,7 @@ public class EncoderGraphDoPlot
 		colormap.AllocColor (ref UtilGtk.BLUE_DARK,true,true);
 		colormap.AllocColor (ref UtilGtk.BLUE_LIGHT,true,true);
 		colormap.AllocColor (ref UtilGtk.YELLOW,true,true);
+		colormap.AllocColor (ref UtilGtk.MAGENTA,true,true);
 		colormap.AllocColor (ref UtilGtk.WHITE,true,true);
 		colormap.AllocColor (ref UtilGtk.SELECTED,true,true);
 
@@ -296,6 +299,7 @@ public class EncoderGraphDoPlot
 		pen_blue_dark_encoder_capture.Foreground = UtilGtk.BLUE_DARK;
 		pen_blue_light_encoder_capture.Foreground = UtilGtk.BLUE_LIGHT;
 		pen_yellow_encoder_capture.Foreground = UtilGtk.YELLOW;
+		//pen_magenta_encoder_capture.Foreground = UtilGtk.MAGENTA;
 		pen_white_encoder_capture.Foreground = UtilGtk.WHITE;
 		pen_selected_encoder_capture.Foreground = UtilGtk.SELECTED;
 
@@ -514,6 +518,7 @@ public class EncoderGraphDoPlot
 		int dTop = 0;
 		int concentricPreValue = 0;
 		int concentricPreLeft = -1; //-1 impossible value, will be used to know that we have data
+
 		foreach(double dFor in data)
 		{
 			dWidthPre = 0;
@@ -651,6 +656,39 @@ public class EncoderGraphDoPlot
 			}
 			//paint black outline line on bar
 			pixmap.DrawRectangle(pen_black_encoder_capture, false, rect);
+
+			/*
+			 * WIP of a button for discard last rep (saving all previous) for networks, and loss management
+			// this only while capture ---->
+			//discard last rep button
+			if( (eccon == "ec" || eccon == "ecS") && data.Count > 1 && count == data.Count -2)
+			{
+				//TODO: save dLeft
+			}
+			//TODO: access here also on ec||ecS on last rep with the saved dLeft
+			if(eccon == "c" && data.Count > 1 && count == data.Count -1)
+			{
+				//10 is the margin with the bottom
+				int boxHeight = 60;
+				int boxBorder = 3;
+				rect = new Rectangle(dLeft + Convert.ToInt32(.25 * dWidth), dBottom -boxBorder -10 -boxHeight, Convert.ToInt32(.5 * dWidth), boxHeight);
+				pixmap.DrawRectangle(pen_magenta_encoder_capture, false, rect);
+				rect = new Rectangle(dLeft + Convert.ToInt32(.25 * dWidth) + boxBorder, dBottom -boxBorder -10 -boxHeight + boxBorder,
+						Convert.ToInt32(.5 * dWidth) -2*boxBorder, boxHeight -2*boxBorder);
+				pixmap.DrawRectangle(pen_magenta_encoder_capture, false, rect);
+
+				layout_encoder_capture_curves_bars.SetMarkup("Discard\nthis");
+				layout_encoder_capture_curves_bars.Alignment = Pango.Alignment.Center;
+				textWidth = 1; textHeight = 1;
+				layout_encoder_capture_curves_bars.GetPixelSize(out textWidth, out textHeight);
+
+				pixmap.DrawLayout (pen_magenta_encoder_capture,
+						dLeft + dWidth/2 - textWidth/2, 				// x
+						dBottom -2 -10 -Convert.ToInt32(boxHeight/2) - textHeight/2, 	// y
+						layout_encoder_capture_curves_bars);
+			}
+			// <----- this only while capture
+			*/
 
 			//draw green arrow eccentric overload on inertial only if ecc > con
 			if (hasInertia && preferences.encoderCaptureInertialEccOverloadMode !=

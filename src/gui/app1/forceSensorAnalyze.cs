@@ -1091,17 +1091,34 @@ public partial class ChronoJumpWindow
 			layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
 			force_sensor_ai_pixmap.DrawLayout (pen_green_force_ai,
 					xPxEnd +2, fsAI.GetPxAtDispl(0) - textHeight/2, layout_force_ai_text);
-		
-			//horizontal distance max line
-			force_sensor_ai_pixmap.DrawLine(pen_green_discont_force_ai,
-					xPxStart, fsAI.GetPxAtDispl(fsAI.FscAIPointsDispl.ForceMax), xPxEnd, fsAI.GetPxAtDispl(fsAI.FscAIPointsDispl.ForceMax));
-			
-			//print max value
-			layout_force_ai_text.SetMarkup(Util.TrimDecimals(fsAI.FscAIPointsDispl.ForceMax,2));
-			layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
-			force_sensor_ai_pixmap.DrawLayout (pen_green_force_ai,
-					xPxEnd +2, fsAI.GetPxAtDispl(fsAI.FscAIPointsDispl.ForceMax) - textHeight/2, layout_force_ai_text);
 
+			//max (if it fits)
+			if(fsAI.GetPxAtDispl(0) - fsAI.GetPxAtDispl(fsAI.FscAIPointsDispl.ForceMax) > textHeight)
+			{
+				//horizontal distance max line
+				force_sensor_ai_pixmap.DrawLine(pen_green_discont_force_ai,
+						xPxStart, fsAI.GetPxAtDispl(fsAI.FscAIPointsDispl.ForceMax), xPxEnd, fsAI.GetPxAtDispl(fsAI.FscAIPointsDispl.ForceMax));
+
+				//print max value
+				layout_force_ai_text.SetMarkup(Util.TrimDecimals(fsAI.FscAIPointsDispl.ForceMax,2));
+				layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
+				force_sensor_ai_pixmap.DrawLayout (pen_green_force_ai,
+						xPxEnd +2, fsAI.GetPxAtDispl(fsAI.FscAIPointsDispl.ForceMax) - textHeight/2, layout_force_ai_text);
+			}
+
+			//min (if it fits)
+			if(fsAI.GetPxAtDispl(fsAI.FscAIPointsDispl.ForceMin) < 0 && fsAI.GetPxAtDispl(fsAI.FscAIPointsDispl.ForceMin) - fsAI.GetPxAtDispl(0) > textHeight)
+			{
+				//horizontal distance min line
+				force_sensor_ai_pixmap.DrawLine(pen_green_discont_force_ai,
+						xPxStart, fsAI.GetPxAtDispl(fsAI.FscAIPointsDispl.ForceMin), xPxEnd, fsAI.GetPxAtDispl(fsAI.FscAIPointsDispl.ForceMin));
+
+				//print max value
+				layout_force_ai_text.SetMarkup(Util.TrimDecimals(fsAI.FscAIPointsDispl.ForceMin,2));
+				layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
+				force_sensor_ai_pixmap.DrawLayout (pen_green_force_ai,
+						xPxEnd +2, fsAI.GetPxAtDispl(fsAI.FscAIPointsDispl.ForceMin) - textHeight/2, layout_force_ai_text);
+			}
 		}
 
 		// 3) paint points as line (can be done also with DrawPoints to debug)

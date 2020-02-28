@@ -1041,9 +1041,13 @@ public partial class ChronoJumpWindow
 
 		button_force_sensor_image_save_rfd_manual.Sensitive = true;
 
+		int xPxStart = fsAI.FscAIPoints.GetTimeInPx(0);
+		int xPxEnd = fsAI.FscAIPoints.GetTimeInPx(forceSensorValues.TimeLast);
+
 		//draw horizontal rectangle of feedback
 		if(preferences.forceSensorCaptureFeedbackActive)
-			forceSensorSignalPlotFeedbackRectangle(fsAI.FscAIPoints, force_sensor_ai_drawingarea, force_sensor_ai_pixmap, pen_blue_light_force_ai);
+			forceSensorSignalPlotFeedbackRectangle(fsAI.FscAIPoints, xPxEnd,
+					force_sensor_ai_drawingarea, force_sensor_ai_pixmap, pen_blue_light_force_ai);
 
 		// 1) create paintPoints
 		//LogB.Information(string.Format("forceSensorAnalyzeManualGraphDo(): fsAI.FscAIPoints.Points.Count: {0}", fsAI.FscAIPoints.Points.Count));
@@ -1062,8 +1066,6 @@ public partial class ChronoJumpWindow
 		// 2b) draw horizontal 0 line on elastic, and Y right axis
 		if(fsAI.CalculedElasticPSAP)
 		{
-			int xPxStart = fsAI.FscAIPointsDispl.GetTimeInPx(0);
-			int xPxEnd = fsAI.FscAIPointsDispl.GetTimeInPx(forceSensorValues.TimeLast);
 			int yPx = fsAI.FscAIPoints.GetForceInPx(0);
 
 			layout_force_ai_text.SetMarkup("Dist (m)");

@@ -154,6 +154,11 @@ public partial class ChronoJumpWindow
 			label_encoder_exercise_encoder.Visible = false;
 			hbox_encoder_exercise_encoder.Visible = false;
 
+			//on networks do not show tooltip of button_encoder_capture_finish button
+			//because on pressing capture, the position pressed on the screen corresponds to the finish button
+			//and then tooltip appears during all capture, so hide this tooltip
+			button_encoder_capture_finish.TooltipText = "";
+
 			//don't show encoder 1-cont buttons
 			vbox_encoder_capture_1_or_cont.Visible = false;
 

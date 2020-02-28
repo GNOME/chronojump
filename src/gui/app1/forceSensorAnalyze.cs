@@ -688,7 +688,8 @@ public partial class ChronoJumpWindow
 	Gdk.GC pen_blue_light_force_ai; 	//feedback rectangle on analyze to differentiate from yellow AB lines
 	Gdk.GC pen_white_force_ai; 		//white box to ensure yellow text is not overlapped
 	Gdk.GC pen_green_force_ai; 		//repetitions (vertical lines)
-	Gdk.GC pen_green_discont_force_ai; 	//repetitions (vertical lines)
+	Gdk.GC pen_green_bold_force_ai; 	//repetitions signal
+	Gdk.GC pen_green_discont_force_ai; 	//repetitions max and min
 
 	private void forceSensorAIPlot()
 	{
@@ -740,6 +741,7 @@ public partial class ChronoJumpWindow
 		pen_gray_cont_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
 		pen_gray_discont_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
 		pen_green_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
+		pen_green_bold_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
 		pen_green_discont_force_ai = new Gdk.GC(force_sensor_ai_drawingarea.GdkWindow);
 
 		pen_black_force_ai.Foreground = UtilGtk.BLACK;
@@ -752,6 +754,7 @@ public partial class ChronoJumpWindow
 		pen_gray_cont_force_ai.Foreground = UtilGtk.GRAY;
 		pen_gray_discont_force_ai.Foreground = UtilGtk.GRAY;
 		pen_green_force_ai.Foreground = UtilGtk.GREEN_PLOTS;
+		pen_green_bold_force_ai.Foreground = UtilGtk.GREEN_PLOTS;
 		pen_green_discont_force_ai.Foreground = UtilGtk.GREEN_PLOTS;
 
 		//pen_black_force_ai.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
@@ -768,6 +771,7 @@ public partial class ChronoJumpWindow
 		pen_gray_cont_force_ai.SetLineAttributes(1, Gdk.LineStyle.Solid, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 		pen_gray_discont_force_ai.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 		pen_green_force_ai.SetLineAttributes (1, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
+		pen_green_bold_force_ai.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
 		pen_green_discont_force_ai.SetLineAttributes (1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 
 		layout_force_ai_text = new Pango.Layout (force_sensor_ai_drawingarea.PangoContext);
@@ -1114,9 +1118,9 @@ public partial class ChronoJumpWindow
 				paintPointsDispl[i] = fsAI.FscAIPointsDispl.Points[i];
 
 			if(debug)
-				force_sensor_ai_pixmap.DrawPoints(pen_green_force_ai, paintPointsDispl);
+				force_sensor_ai_pixmap.DrawPoints(pen_green_bold_force_ai, paintPointsDispl);
 			else
-				force_sensor_ai_pixmap.DrawLines(pen_green_force_ai, paintPointsDispl);
+				force_sensor_ai_pixmap.DrawLines(pen_green_bold_force_ai, paintPointsDispl);
 
 			LogB.Information(string.Format("fsAI.FscAIPoints.Points.Count: {0}, fsAI.FscAIPointsDispl.Points.Count: {1}",
 						fsAI.FscAIPoints.Points.Count, fsAI.FscAIPointsDispl.Points.Count));

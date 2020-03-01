@@ -1982,7 +1982,7 @@ msgstr "<b>Chronojump CEO's</b>"
 
 #: ../glade/dialog_about.glade.h:3
 msgid "<b>Software</b>"
-msgstr "b>Software</b>"
+msgstr "<b>Software</b>"
 
 #: ../glade/dialog_about.glade.h:4
 msgid "<b>Hardware: Chronopic</b>"

@@ -54,6 +54,7 @@ public class EncoderGraphDoPlot
 	private int graphHeight;
 	private ArrayList data; //data is related to mainVariable (barplot)
 	private ArrayList dataSecondary; //dataSecondary is related to secondary variable (by default range)
+	private ArrayList dataRangeOfMovement; //ROM, need it to discard last rep for loss. Is not the same as dataSecondary because maybe user selected another variable as secondary. only checks con.
 
 	private RepetitionMouseLimits encoderRepetitionMouseLimits;
 
@@ -174,6 +175,7 @@ public class EncoderGraphDoPlot
 	{
 		data = new ArrayList (data7Variables.Count); //data is related to mainVariable (barplot)
 		dataSecondary = new ArrayList (data7Variables.Count); //dataSecondary is related to secondary variable (by default range)
+		dataRangeOfMovement = new ArrayList (data7Variables.Count);
 		bool lastIsEcc = false;
 		int count = 0;
 
@@ -187,6 +189,7 @@ public class EncoderGraphDoPlot
 				data.Add(ebd.GetValue(mainVariable));
 				if(secondaryVariable != "")
 					dataSecondary.Add(ebd.GetValue(secondaryVariable));
+				dataRangeOfMovement.Add(ebd.GetValue(Constants.RangeAbsolute));
 			}
 			else {
 				if(eccon == "c" && ( data7Variables.Count <= showNRepetitions || 	//total repetitions are less than show repetitions threshold ||
@@ -195,6 +198,7 @@ public class EncoderGraphDoPlot
 					data.Add(ebd.GetValue(mainVariable));
 					if(secondaryVariable != "")
 						dataSecondary.Add(ebd.GetValue(secondaryVariable));
+					dataRangeOfMovement.Add(ebd.GetValue(Constants.RangeAbsolute));
 				}
 				else if(eccon != "c" && (
 						data7Variables.Count <= 2 * showNRepetitions ||
@@ -206,6 +210,7 @@ public class EncoderGraphDoPlot
 						data.Add(ebd.GetValue(mainVariable));
 						if(secondaryVariable != "")
 							dataSecondary.Add(ebd.GetValue(secondaryVariable));
+						dataRangeOfMovement.Add(ebd.GetValue(Constants.RangeAbsolute));
 						lastIsEcc = true;
 					} else {  			//it is "par"
 						if(lastIsEcc)
@@ -213,6 +218,7 @@ public class EncoderGraphDoPlot
 							data.Add(ebd.GetValue(mainVariable));
 							if(secondaryVariable != "")
 								dataSecondary.Add(ebd.GetValue(secondaryVariable));
+							dataRangeOfMovement.Add(ebd.GetValue(Constants.RangeAbsolute));
 							LogB.Information("added con");
 							lastIsEcc = false;
 						}
@@ -359,7 +365,10 @@ public class EncoderGraphDoPlot
 						//min rep has to be after max
 						needChangeMin = true;
 					}
-					if(needChangeMin || d < minThisSetValidAndCon) {
+					if(needChangeMin || (d < minThisSetValidAndCon &&
+								Convert.ToDouble(dataRangeOfMovement[count]) >= .7 * Convert.ToDouble(dataRangeOfMovement[maxThisSetValidAndConPos])
+								//ROM of this rep cannot be lower than 70% of ROM of best rep (helps to filter when you leave the weight on the bar...)
+							    ) ) {
 						minThisSetValidAndCon = d;
 						minThisSetValidAndConPos = count;
 					}

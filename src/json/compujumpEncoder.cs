@@ -254,8 +254,9 @@ public class UploadEncoderDataObject
 	{
 		double lowest = 100000;
 		double highest = 0;
+		int highestPos = 0;
 
-		//int i=0;
+		int i=0;
 		foreach (EncoderCurve curve in curves)
 		{
 			double compareTo = curve.MeanSpeedD;
@@ -266,12 +267,16 @@ public class UploadEncoderDataObject
 			if(compareTo > highest)
 			{
 				highest = compareTo;
+				highestPos = i;
 				needChangeLowest = true; 	//min rep has to be after max
 			}
-			if(needChangeLowest || compareTo < lowest)
+			if(needChangeLowest || (compareTo < lowest &&
+						((EncoderCurve) curves[i]).GetParameter(Constants.Range) >= .7 * ((EncoderCurve) curves[highestPos]).GetParameter(Constants.Range)
+					       ))
 				lowest = compareTo;
 
 			//LogB.Information(string.Format("Loss (con) of {0}; i: {1} is: {2}", by.ToString(), i++, Convert.ToInt32(UtilAll.DivideSafe(100.0 * (highest - lowest), highest))));
+			i ++;
 		}
 		return Convert.ToInt32(UtilAll.DivideSafe(100.0 * (highest - lowest), highest));
 	}

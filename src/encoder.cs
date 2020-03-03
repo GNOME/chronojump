@@ -647,15 +647,17 @@ public class EncoderSignal
 	{
 		double lowest = 100000;
 		double highest = 0;
+		int highestPos = 0;
 		double eccValue = 0;
 		double conValue = 0;
 		bool ecc = true;
-		//int i = 0;
+		int i = 0;
 		foreach (EncoderCurve curve in curves)
 		{
 			if(ecc)
 			{
 				ecc = false;
+				i++;
 				continue;
 			}
 
@@ -668,13 +670,17 @@ public class EncoderSignal
 			if(compareTo > highest)
 			{
 				highest = compareTo;
+				highestPos = i;
 				needChangeLowest = true; 	//min rep has to be after max
-			} if(needChangeLowest || compareTo < lowest)
+			} if(needChangeLowest || (compareTo < lowest &&
+						((EncoderCurve) curves[i]).GetParameter(Constants.Range) >= .7 * ((EncoderCurve) curves[highestPos]).GetParameter(Constants.Range)
+						))
 				lowest = compareTo;
 
 			//LogB.Information(string.Format("Loss ecc/con (by con) of {0}; i: {1} is: {2}", variable, i++,
 			//			Convert.ToInt32(UtilAll.DivideSafe(100.0 * (highest - lowest), highest))));
 
+			i++;
 			ecc = true;
 		}
 		return Convert.ToInt32(UtilAll.DivideSafe(100.0 * (highest - lowest), highest));

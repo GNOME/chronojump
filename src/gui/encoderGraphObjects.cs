@@ -715,7 +715,7 @@ public class EncoderGraphDoPlot
 						double con = concentricPreValue - dBottom;
 						layout_encoder_capture_curves_bars.SetMarkup(
 								//Convert.ToInt32(100.0 * (dTop - dBottom) / (concentricPreValue - dBottom)) + "%");
-								Convert.ToInt32(100.0 * (ecc - con) / con) + "%");
+								Convert.ToInt32(100.0 * UtilAll.DivideSafe(ecc - con, con)) + "%");
 						textWidth = 1; textHeight = 1;
 						layout_encoder_capture_curves_bars.GetPixelSize(out textWidth, out textHeight);
 

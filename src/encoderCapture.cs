@@ -247,6 +247,7 @@ public abstract class EncoderCapture
 
 		lastTriggerOn = 0;
 		inertialCalibratedFirstCross0Pos = 0;
+		int lastInertialPhase_i = 0;
 
 		//only for cutByTriggers == Preferences.TriggerTypes.START_AT_FIRST_ON
 		bool firstTriggerHappened = false;
@@ -389,8 +390,9 @@ public abstract class EncoderCapture
 				/*
 				 * process ends
 				 * (
-				 * when a curve has been found and then there are n seconds of inactivity, or
-				 * when not in cont and a curve has not been found and then there are 2*n seconds of inactivity
+				 * -> when a curve has been found and then there are n seconds of inactivity, or
+				 * -> when not in cont and a curve has not been found and then there are 2*n seconds of inactivity
+				 * -> on inertial, if a curve has been found, and now passed double end time since last phase (to end when there is no capture but there is "activity" because cone is slowly rolling
 				 * ) and if consecutiveZeros > restClustersSeconds * 1.500
 				 *
 				 * 1500 is conversion to milliseconds and * 1.5 to have enough time to move after clusters res
@@ -399,7 +401,8 @@ public abstract class EncoderCapture
 						automaticallyEndByTime &&
 						(
 						 (Ecca.curvesAccepted > 0 && consecutiveZeros >= consecutiveZerosMax) ||
-						 (! cont && Ecca.curvesAccepted == 0 && consecutiveZeros >= (2* consecutiveZerosMax))
+						 (! cont && Ecca.curvesAccepted == 0 && consecutiveZeros >= (2* consecutiveZerosMax)) ||
+						 (inertialCalibrated && Ecca.curvesAccepted > 0 && i - lastInertialPhase_i >= (2* consecutiveZerosMax))
 						) &&
 						(restClustersSeconds == 0 || consecutiveZeros > restClustersSeconds * 1500)
 				  )
@@ -604,6 +607,8 @@ public abstract class EncoderCapture
 							lastDirectionStoredIsUp = ecc.up;
 						}
 
+						if(inertialCalibrated)
+							lastInertialPhase_i = i;
 					}
 
 					//on inertial is different

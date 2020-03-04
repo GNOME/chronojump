@@ -131,5 +131,6 @@ public partial class ChronoJumpWindow
 	private void on_button_open_chronojump_clicked(object o, EventArgs args)
 	{
 		notebook_start.CurrentPage = 0;
+		chronojumpLogo = new ChronojumpLogo (drawingarea_chronojump_logo, viewport_chronojump_logo);
 	}
 }

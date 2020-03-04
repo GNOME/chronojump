@@ -472,6 +472,7 @@ public partial class ChronoJumpWindow
 		
 	ExecuteAutoWindow executeAutoWin;
 
+	private ChronojumpLogo chronojumpLogo;
 	static Thread pingThread;
 
 	private bool createdStatsWin;
@@ -723,8 +724,7 @@ public partial class ChronoJumpWindow
 			chronopicRegisterWin.Show();
 		}
 
-		reset_chronojump_logo();
-		GLib.Timeout.Add(14, new GLib.TimeoutHandler(OnTimer_chronojump_logo));
+		chronojumpLogo = new ChronojumpLogo (drawingarea_chronojump_logo, viewport_chronojump_logo);
 		LogB.Information("Chronojump window started");
 	}
 
@@ -3091,8 +3091,7 @@ public partial class ChronoJumpWindow
 
 		setApp1Title(tempSessionName, Constants.Menuitem_modes.UNDEFINED);
 
-		reset_chronojump_logo();
-		GLib.Timeout.Add(14, new GLib.TimeoutHandler(OnTimer_chronojump_logo));
+		chronojumpLogo = new ChronojumpLogo (drawingarea_chronojump_logo, viewport_chronojump_logo);
 	}	
 	
 	private Constants.Menuitem_modes current_menuitem_mode;

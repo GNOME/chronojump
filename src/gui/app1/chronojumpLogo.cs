@@ -77,14 +77,22 @@ public partial class ChronoJumpWindow
 		//cr.SelectFontFace("Courier", FontSlant.Normal, FontWeight.Bold);
                 cr.SelectFontFace("Ubuntu", FontSlant.Normal, FontWeight.Bold);
 
-		if (size_chronojump_logo > 20)
-			alpha_chronojump_logo -= 0.01;
-		if (alpha_chronojump_logo <= 0)
-			sw_chronojump_logo_pause_at_end.Start();
-		if (sw_chronojump_logo_pause_at_end.Elapsed.TotalMilliseconds >= 100)
-			timer_chronojump_logo = false;
+		bool showVersion = false;
+		if (size_chronojump_logo <= 80)
+			size_chronojump_logo += 0.7;
 
-                size_chronojump_logo += 0.8;
+		if(size_chronojump_logo > 20)
+		{
+			alpha_chronojump_logo -= 0.01;
+			if(alpha_chronojump_logo < 0)
+			{
+				alpha_chronojump_logo = 0;
+				sw_chronojump_logo_pause_at_end.Start();
+			}
+		}
+
+		if (sw_chronojump_logo_pause_at_end.Elapsed.TotalMilliseconds >= 300)
+			timer_chronojump_logo = false;
 
 		chronojumpLogo_showChronojump (cr, x, y);
 
@@ -98,7 +106,7 @@ public partial class ChronoJumpWindow
                 cr.SetFontSize(size_chronojump_logo);
                 cr.SetSourceRGB(1, 1, 1);
 
-		string message = "CHRONOJUMP - 2.0";
+		string	message = "CHRONOJUMP   2.0";
                 TextExtents extents = cr.TextExtents(message);
 
                 cr.MoveTo(x - extents.Width/2, y + extents.Height/2);
@@ -106,7 +114,6 @@ public partial class ChronoJumpWindow
                 cr.Clip();
                 cr.Stroke();
                 cr.PaintWithAlpha(alpha_chronojump_logo);
-                //cr.Paint();
 	}
 
 }

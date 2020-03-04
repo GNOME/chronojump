@@ -57,6 +57,7 @@ public partial class ChronoJumpWindow
 	
 	[Widget] Gtk.Viewport viewport_chronojump_logo;
 	[Widget] Gtk.Image image_chronojump_logo;
+	[Widget] Gtk.DrawingArea drawingarea_chronojump_logo;
 
 	[Widget] Gtk.ImageMenuItem menuitem_mode_jumps_simple;
 	[Widget] Gtk.ImageMenuItem menuitem_mode_jumps_reactive;
@@ -721,6 +722,9 @@ public partial class ChronoJumpWindow
 			LogB.Information("Show chronopic resgister win");
 			chronopicRegisterWin.Show();
 		}
+
+		reset_chronojump_logo();
+		GLib.Timeout.Add(14, new GLib.TimeoutHandler(OnTimer_chronojump_logo));
 		LogB.Information("Chronojump window started");
 	}
 
@@ -3086,6 +3090,9 @@ public partial class ChronoJumpWindow
 			tempSessionName = currentSession.Name;
 
 		setApp1Title(tempSessionName, Constants.Menuitem_modes.UNDEFINED);
+
+		reset_chronojump_logo();
+		GLib.Timeout.Add(14, new GLib.TimeoutHandler(OnTimer_chronojump_logo));
 	}	
 	
 	private Constants.Menuitem_modes current_menuitem_mode;

@@ -6,6 +6,7 @@ LINK = $(REF_DEP_CHRONOJUMP)
 
 SOURCES = \
 	gui/app1/chronojump.cs\
+	gui/app1/chronojumpLogo.cs\
 	gui/app1/encoder.cs\
 	gui/app1/icons.cs\
 	gui/app1/jumpsProfile.cs\

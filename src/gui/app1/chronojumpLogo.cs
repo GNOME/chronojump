@@ -27,72 +27,76 @@ using System.Diagnostics;  //Stopwatch
 //code based on puff
 //http://zetcode.com/gui/gtksharp/drawingII/
 
-//TODO: move all this to an specific class
-//excepte the exposes event: that will construct the thing
-
-public partial class ChronoJumpWindow 
+public class ChronojumpLogo
 {
-	private bool timer_chronojump_logo = true;
-	private double alpha_chronojump_logo = 1.0;
-	private double size_chronojump_logo = 1.0;
-	Stopwatch sw_chronojump_logo_pause_at_end;
+	private bool timer;
+	private double alpha;
+	private double size;
+	private Stopwatch stopwatch;
 
-	void reset_chronojump_logo()
+	private Gtk.DrawingArea drawingarea;
+	private Gtk.Viewport viewport;
+
+	//constructor
+	public ChronojumpLogo (Gtk.DrawingArea drawingarea, Gtk.Viewport viewport)
 	{
-		timer_chronojump_logo = true;
-		alpha_chronojump_logo = 1.0;
-		size_chronojump_logo = 1.0;
-		sw_chronojump_logo_pause_at_end = new Stopwatch();
+		this.drawingarea = drawingarea;
+		this.viewport = viewport;
 
+		viewport.Visible = false;
+		drawingarea.Visible = true;
 
-		viewport_chronojump_logo.Visible = false;
-		drawingarea_chronojump_logo.Visible = true;
+		timer = true;
+		alpha = 1.0;
+		size = 1.0;
+		stopwatch = new Stopwatch();
+
+		GLib.Timeout.Add(12, new GLib.TimeoutHandler(onTimer));
 	}
 
-	bool OnTimer_chronojump_logo()
+	private bool onTimer()
 	{ 
-                if (! timer_chronojump_logo)
+                if (! timer)
 		{
-			drawingarea_chronojump_logo.Visible = false;
-			viewport_chronojump_logo.Visible = true;
+			drawingarea.Visible = false;
+			viewport.Visible = true;
 
 			return false;
 		}
 
-		drawingarea_chronojump_logo.QueueDraw();
+		redraw();
                 return true;
         } 
 
-        void on_drawingarea_chronojump_logo_expose_event (object sender, ExposeEventArgs args)
-        {
-                DrawingArea area = (DrawingArea) sender;
-                Cairo.Context cr =  Gdk.CairoHelper.Create(area.GdkWindow);
+	private void redraw()
+	{
+                Cairo.Context cr =  Gdk.CairoHelper.Create(drawingarea.GdkWindow);
 
-                int x = area.Allocation.Width / 2;
-                int y = area.Allocation.Height / 2;
+                int x = drawingarea.Allocation.Width / 2;
+                int y = drawingarea.Allocation.Height / 2;
 
                 cr.SetSourceRGB(.055, .118, .275);
                 cr.Paint();
 
 		//cr.SelectFontFace("Courier", FontSlant.Normal, FontWeight.Bold);
-                cr.SelectFontFace("Ubuntu", FontSlant.Normal, FontWeight.Bold);
+                cr.SelectFontFace("Ubuntu", FontSlant.Normal, FontWeight.Bold); //TODO: need to check if they have this font
 
 		bool showVersion = false;
-		if (size_chronojump_logo <= 80)
-			size_chronojump_logo += 0.7;
+		if (size <= 80)
+			size += 0.6;
 
-		if(size_chronojump_logo > 20)
+		if(size > 20)
 		{
-			alpha_chronojump_logo -= 0.01;
-			if(alpha_chronojump_logo < 0)
+			alpha -= 0.01;
+			if(alpha < 0)
 			{
-				alpha_chronojump_logo = 0;
-				sw_chronojump_logo_pause_at_end.Start();
+				alpha = 0;
+				stopwatch.Start();
 			}
 		}
 
-		if (sw_chronojump_logo_pause_at_end.Elapsed.TotalMilliseconds >= 300)
-			timer_chronojump_logo = false;
+		if (stopwatch.Elapsed.TotalMilliseconds >= 300)
+			timer = false;
 
 		chronojumpLogo_showChronojump (cr, x, y);
 
@@ -102,8 +106,7 @@ public partial class ChronoJumpWindow
 
 	private void chronojumpLogo_showChronojump (Cairo.Context cr, int x, int y)
 	{
-
-                cr.SetFontSize(size_chronojump_logo);
+                cr.SetFontSize(size);
                 cr.SetSourceRGB(1, 1, 1);
 
 		string	message = "CHRONOJUMP   2.0";
@@ -113,7 +116,7 @@ public partial class ChronoJumpWindow
                 cr.TextPath(message);
                 cr.Clip();
                 cr.Stroke();
-                cr.PaintWithAlpha(alpha_chronojump_logo);
+                cr.PaintWithAlpha(alpha);
 	}
 
 }

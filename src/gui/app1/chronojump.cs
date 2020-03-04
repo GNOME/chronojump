@@ -724,7 +724,9 @@ public partial class ChronoJumpWindow
 			chronopicRegisterWin.Show();
 		}
 
-		chronojumpLogo = new ChronojumpLogo (drawingarea_chronojump_logo, viewport_chronojump_logo);
+		if(! showSendLog && notebook_start_selector.CurrentPage == 0) //main
+			chronojumpLogo = new ChronojumpLogo (drawingarea_chronojump_logo, viewport_chronojump_logo);
+
 		LogB.Information("Chronojump window started");
 	}
 

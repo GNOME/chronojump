@@ -446,6 +446,7 @@ public partial class ChronoJumpWindow
 	bool sizeChanged;
 	public void on_event_execute_drawingarea_configure_event(object o, ConfigureEventArgs args)
 	{
+		LogB.Information("CONFIGURE START");
 		Gdk.EventConfigure ev = args.Event;
 		Gdk.Window window = ev.Window;
 
@@ -458,20 +459,24 @@ public partial class ChronoJumpWindow
 		
 			UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
 			
-			sizeChanged = false;
+			sizeChanged = true;
 		}
 
 		allocationXOld = allocation.Width;
 		allocationYOld = allocation.Height;
+		LogB.Information("CONFIGURE END");
 	}
 
 	public void on_event_execute_drawingarea_expose_event(object o, ExposeEventArgs args)
 	{
+		LogB.Information("EXPOSE START");
+		Gdk.Rectangle allocation = event_execute_drawingarea.Allocation;
+
 		/* in some mono installations, configure_event is not called, but expose_event yes. 
 		 * Do here the initialization
 		 */
 		
-		Gdk.Rectangle allocation = event_execute_drawingarea.Allocation;
+		/*
 		if(event_execute_pixmap == null || sizeChanged ||
 				allocation.Width != allocationXOld || allocation.Height != allocationYOld)
 		{
@@ -480,10 +485,11 @@ public partial class ChronoJumpWindow
 
 			sizeChanged = false;
 		}
+		*/
 
 		Gdk.Rectangle area = args.Event.Area;
 
-		//sometimes this is called when pait is finished
+		//sometimes this is called when paint is finished
 		//don't let this erase win
 		if(event_execute_pixmap != null) {
 			args.Event.Window.DrawDrawable(event_execute_drawingarea.Style.WhiteGC, event_execute_pixmap,
@@ -491,9 +497,32 @@ public partial class ChronoJumpWindow
 				area.X, area.Y,
 				area.Width, area.Height);
 		}
-		
+
+		if(sizeChanged)
+		{
+			LogB.Information("caring for resize screen and correctly update event_execute_drawingarea");
+			if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
+				on_extra_window_jumps_test_changed(o, new EventArgs ());
+			else if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSREACTIVE)
+				on_extra_window_jumps_rj_test_changed(o, new EventArgs());
+			else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSSIMPLE)
+				on_extra_window_runs_test_changed(o, new EventArgs());
+			else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
+				on_extra_window_runs_interval_test_changed(o, new EventArgs());
+			else if(current_menuitem_mode == Constants.Menuitem_modes.RT)
+				on_extra_window_reaction_times_test_changed(o, new EventArgs());
+			else if(current_menuitem_mode == Constants.Menuitem_modes.OTHER) {
+				if(radio_mode_pulses_small.Active)
+					on_extra_window_pulses_test_changed(o, new EventArgs());
+				else
+					on_extra_window_multichronopic_test_changed(new object(), new EventArgs());
+			}
+			sizeChanged = false;
+		}
+
 		allocationXOld = allocation.Width;
 		allocationYOld = allocation.Height;
+		LogB.Information("EXPOSE END");
 	}
 
 	
@@ -619,7 +648,7 @@ public partial class ChronoJumpWindow
 		// -- refresh
 		event_execute_drawingarea.QueueDraw();
 	}
-	
+
 	private void on_button_person_max_all_sessions_info_clicked(object o, EventArgs args) 
 	{
 		string [] str;

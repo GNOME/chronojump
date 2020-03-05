@@ -777,13 +777,26 @@ public class EncoderGraphDoPlot
 			{
 				int startX = Convert.ToInt32(dLeft + dWidth/2);
 				string bottomText = (count +1).ToString();
-				if(showNRepetitions > 0 && capturing && data7Variables.Count > showNRepetitions)
-					bottomText = ( (data7Variables.Count - showNRepetitions) + count +1).ToString();
-
 				if (eccon != "c") {
 					startX = dLeft;
+					//LogB.Information(string.Format("bottomText vars A: {0}, {1}", count, ((count +1) / 2) ));
 					bottomText = ((count +1) / 2).ToString();
 				}
+
+				if(showNRepetitions > 0 && capturing)
+				{
+
+					if (eccon == "c" && data7Variables.Count > showNRepetitions)
+						bottomText = ( (data7Variables.Count - showNRepetitions) + count +1).ToString();
+					else if (eccon != "c" && data7Variables.Count > showNRepetitions*2)
+					{
+						//LogB.Information(string.Format("bottomText vars B: {0}, {1}, {2}, {3}", data7Variables.Count, showNRepetitions*2, count,
+						//			Math.Floor(Convert.ToDouble((data7Variables.Count +1)/2)) - showNRepetitions + Math.Floor(Convert.ToDouble(((count +1)/2)))
+						//			));
+						bottomText = ( Math.Floor(Convert.ToDouble((data7Variables.Count +1)/2)) - showNRepetitions + Math.Floor(Convert.ToDouble(((count +1)/2))) ).ToString();
+					}
+				}
+
 
 				layout_encoder_capture_curves_bars.SetMarkup(bottomText);
 				textWidth = 1;

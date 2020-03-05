@@ -442,6 +442,7 @@ public partial class ChronoJumpWindow
 	}
 
 	int allocationXOld;
+	int allocationYOld;
 	bool sizeChanged;
 	public void on_event_execute_drawingarea_configure_event(object o, ConfigureEventArgs args)
 	{
@@ -450,7 +451,9 @@ public partial class ChronoJumpWindow
 
 		Gdk.Rectangle allocation = event_execute_drawingarea.Allocation;
 		
-		if(event_execute_pixmap == null || sizeChanged || allocation.Width != allocationXOld) {
+		if(event_execute_pixmap == null || sizeChanged ||
+				allocation.Width != allocationXOld || allocation.Height != allocationYOld)
+		{
 			event_execute_pixmap = new Gdk.Pixmap (window, allocation.Width, allocation.Height, -1);
 		
 			UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
@@ -459,6 +462,7 @@ public partial class ChronoJumpWindow
 		}
 
 		allocationXOld = allocation.Width;
+		allocationYOld = allocation.Height;
 	}
 
 	public void on_event_execute_drawingarea_expose_event(object o, ExposeEventArgs args)
@@ -468,7 +472,9 @@ public partial class ChronoJumpWindow
 		 */
 		
 		Gdk.Rectangle allocation = event_execute_drawingarea.Allocation;
-		if(event_execute_pixmap == null || sizeChanged || allocation.Width != allocationXOld) {
+		if(event_execute_pixmap == null || sizeChanged ||
+				allocation.Width != allocationXOld || allocation.Height != allocationYOld)
+		{
 			event_execute_pixmap = new Gdk.Pixmap (event_execute_drawingarea.GdkWindow, allocation.Width, allocation.Height, -1);
 			UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
 
@@ -487,10 +493,12 @@ public partial class ChronoJumpWindow
 		}
 		
 		allocationXOld = allocation.Width;
+		allocationYOld = allocation.Height;
 	}
 
 	
 	int allocationXOld_run_simple;
+	int allocationYOld_run_simple;
 	bool sizeChanged_run_simple;
 	public void on_event_execute_drawingarea_run_simple_double_contacts_expose_event(object o, ExposeEventArgs args)
 	{
@@ -499,7 +507,9 @@ public partial class ChronoJumpWindow
 		 */
 
 		Gdk.Rectangle allocation = event_execute_drawingarea_run_simple_double_contacts.Allocation;
-		if(event_execute_run_simple_double_contacts_pixmap == null || sizeChanged_run_simple || allocation.Width != allocationXOld_run_simple) {
+		if(event_execute_run_simple_double_contacts_pixmap == null || sizeChanged_run_simple ||
+				allocation.Width != allocationXOld_run_simple || allocation.Height != allocationYOld_run_simple)
+		{
 			event_execute_run_simple_double_contacts_pixmap = new Gdk.Pixmap (event_execute_drawingarea_run_simple_double_contacts.GdkWindow, allocation.Width, allocation.Height, -1);
 			UtilGtk.ErasePaint(event_execute_drawingarea_run_simple_double_contacts, event_execute_run_simple_double_contacts_pixmap);
 
@@ -518,6 +528,7 @@ public partial class ChronoJumpWindow
 		}
 
 		allocationXOld_run_simple = allocation.Width;
+		allocationYOld_run_simple = allocation.Height;
 	}
 
 	public void on_event_execute_drawingarea_run_simple_double_contacts_configure_event(object o, ConfigureEventArgs args)
@@ -527,7 +538,9 @@ public partial class ChronoJumpWindow
 
 		Gdk.Rectangle allocation = event_execute_drawingarea_run_simple_double_contacts.Allocation;
 
-		if(event_execute_run_simple_double_contacts_pixmap == null || sizeChanged_run_simple || allocation.Width != allocationXOld_run_simple) {
+		if(event_execute_run_simple_double_contacts_pixmap == null || sizeChanged_run_simple ||
+				allocation.Width != allocationXOld_run_simple || allocation.Height != allocationYOld_run_simple)
+		{
 			event_execute_run_simple_double_contacts_pixmap = new Gdk.Pixmap (window, allocation.Width, allocation.Height, -1);
 
 			UtilGtk.ErasePaint(event_execute_drawingarea_run_simple_double_contacts, event_execute_run_simple_double_contacts_pixmap);
@@ -536,6 +549,7 @@ public partial class ChronoJumpWindow
 		}
 
 		allocationXOld_run_simple = allocation.Width;
+		allocationYOld_run_simple = allocation.Height;
 	}
 
 

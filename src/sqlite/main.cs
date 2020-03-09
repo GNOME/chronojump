@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.89";
+	static string lastChronojumpDatabaseVersion = "1.90";
 
 	public Sqlite() {
 	}
@@ -2663,6 +2663,14 @@ class Sqlite
 
 				currentVersion = updateVersion("1.89");
 			}
+			if(currentVersion == "1.89")
+			{
+				LogB.SQL("Inserted into preferences: units");
+
+				SqlitePreferences.Insert (SqlitePreferences.UnitsStr, Preferences.UnitsEnum.METRIC.ToString());
+
+				currentVersion = updateVersion("1.90");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -2877,6 +2885,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 //
+		//1.89 - 1.90 Converted DB to 1.90 Inserted into preferences: units
 		//1.88 - 1.89 Converted DB to 1.89 Inserted into preferences: encoderCaptureFeedbackEccon
 		//1.87 - 1.88 Converted DB to 1.88 Inserted into preferences: encoderCaptureInertialEccOverloadMode
 		//1.86 - 1.87 Converted DB to 1.87 Doing alter table forceSensorExercise adding eccReps, eccMin, conMin.

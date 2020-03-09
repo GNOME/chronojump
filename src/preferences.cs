@@ -32,6 +32,10 @@ public class Preferences
 	public MaximizedTypes maximized;
 	public bool personWinHide;
 	public bool personPhoto;
+
+	public enum UnitsEnum { METRIC, IMPERIAL };
+	public UnitsEnum units;
+
 	public bool encoderCaptureShowOnlyBars;
 	public int encoderCaptureShowNRepetitions;
 

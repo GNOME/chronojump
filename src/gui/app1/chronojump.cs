@@ -2650,7 +2650,7 @@ public partial class ChronoJumpWindow
 				//preferences.digitsNumber, checkbutton_video, configChronojump.UseVideo,
 				preferences.digitsNumber, checkbutton_video_contacts,
 				preferences.videoDevice, preferences.videoDevicePixelFormat, preferences.videoDeviceResolution, preferences.videoDeviceFramerate,
-				configChronojump.Compujump
+				configChronojump.Compujump, preferences.units == Preferences.UnitsEnum.METRIC
 				);
 		//-1 means we are adding a new person
 		//if we were modifying it will be it's uniqueID
@@ -2673,6 +2673,11 @@ public partial class ChronoJumpWindow
 		{
 			currentPerson = personAddModifyWin.CurrentPerson;
 			currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
+
+			if(personAddModifyWin.Units != preferences.units) {
+				preferences.units = personAddModifyWin.Units;
+				SqlitePreferences.Update (SqlitePreferences.UnitsStr, personAddModifyWin.Units.ToString(), false);
+			}
 
 			person_added();
 		}
@@ -2778,7 +2783,7 @@ public partial class ChronoJumpWindow
 				//preferences.digitsNumber, checkbutton_video, configChronojump.UseVideo,
 				preferences.digitsNumber, checkbutton_video_contacts,
 				preferences.videoDevice, preferences.videoDevicePixelFormat, preferences.videoDeviceResolution, preferences.videoDeviceFramerate,
-				configChronojump.Compujump
+				configChronojump.Compujump, preferences.units == Preferences.UnitsEnum.METRIC
 				); 
 		personAddModifyWin.FakeButtonAccept.Clicked += new EventHandler(on_edit_current_person_accepted);
 	}
@@ -2788,6 +2793,12 @@ public partial class ChronoJumpWindow
 		{
 			currentPerson = personAddModifyWin.CurrentPerson;
 			currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
+
+			if(personAddModifyWin.Units != preferences.units) {
+				preferences.units = personAddModifyWin.Units;
+				SqlitePreferences.Update (SqlitePreferences.UnitsStr, personAddModifyWin.Units.ToString(), false);
+			}
+
 			label_person_change();
 			treeview_persons_storeReset();
 			fillTreeView_persons();

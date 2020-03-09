@@ -2218,7 +2218,14 @@ public class Util
 	public static double ConvertFeetInchesToCm(int feet, double inches) {
 		return feet * 30.48 + inches * 2.54;
 	}
-	
+
+	public static void ConvertCmToFeetInches(double cm, out int feet, out double inches)
+	{
+		double numInches = UtilAll.DivideSafe(cm, 2.54);
+		feet = Convert.ToInt32(Math.Floor(UtilAll.DivideSafe(numInches, 12)));
+		inches = numInches % 12;
+	}
+
 	public static double ConvertPoundsToKg(double pounds) {
 		return pounds * 0.45359237;
 	}

@@ -29,6 +29,8 @@ public class PersonAddModifyWindow
 {
 	
 	[Widget] Gtk.Window person_win;
+	[Widget] Gtk.RadioButton radio_metric;
+	[Widget] Gtk.RadioButton radio_imperial;
 	[Widget] Gtk.Entry entry1;
 	[Widget] Gtk.RadioButton radiobutton_man;
 	[Widget] Gtk.RadioButton radiobutton_woman;
@@ -55,7 +57,10 @@ public class PersonAddModifyWindow
 	//[Widget] Gtk.Button button_change_date;
 	[Widget] Gtk.Image image_calendar;
 
-	[Widget] Gtk.SpinButton spinbutton_weight;
+	[Widget] Gtk.HBox hbox_weight_metric;
+	[Widget] Gtk.HBox hbox_weight_imperial;
+	[Widget] Gtk.SpinButton spinbutton_weight_metric;
+	[Widget] Gtk.SpinButton spinbutton_weight_imperial;
 	[Widget] Gtk.SpinButton spinbutton_height;
 	[Widget] Gtk.SpinButton spinbutton_leg_length;
 	[Widget] Gtk.SpinButton spinbutton_trochanter_floor_on_flexion;
@@ -117,7 +122,7 @@ public class PersonAddModifyWindow
 	private string videoDeviceFramerate;
 	private PersonSession currentPersonSession;
 	private string sex = Constants.M;
-	private double weightIni;
+	private double weightIniMetric;
 	int pDN;
 	Gtk.CheckButton app1_checkbutton_video_contacts;
 	
@@ -208,7 +213,25 @@ public class PersonAddModifyWindow
 
 		person_win.Show();
 	}
-	
+
+	private void on_radio_metric_imperial_toggled (object o, EventArgs args)
+	{
+		if(radio_metric.Active)
+		{
+			spinbutton_weight_metric.Value = Util.ConvertPoundsToKg (spinbutton_weight_imperial.Value);
+
+			hbox_weight_metric.Visible = true;
+			hbox_weight_imperial.Visible = false;
+		}
+		else if(radio_imperial.Active)
+		{
+			spinbutton_weight_imperial.Value = Util.ConvertKgToPounds (spinbutton_weight_metric.Value);
+
+			hbox_weight_metric.Visible = false;
+			hbox_weight_imperial.Visible = true;
+		}
+	}
+
 	void on_button_zoom_clicked (object o, EventArgs args) {
 		string tempFileName = Path.Combine(Path.GetTempPath(), Constants.PhotoTemp +
 				Util.GetMultimediaExtension(Constants.MultimediaItems.PHOTO));
@@ -412,7 +435,9 @@ public class PersonAddModifyWindow
 			image_name.Show();
 		}
 
-		if((double) spinbutton_weight.Value > 0)
+		if(radio_metric.Active && (double) spinbutton_weight_metric.Value > 0)
+			image_weight.Hide();
+		else if(! radio_metric.Active && (double) spinbutton_weight_imperial.Value > 0)
 			image_weight.Hide();
 		else {
 			image_weight.Show();
@@ -460,7 +485,7 @@ public class PersonAddModifyWindow
 			//Gtk.CheckButton app1_checkbutton_video, bool showCapturePhoto,
 			Gtk.CheckButton app1_checkbutton_video_contacts,
 			string videoDevice, string videoDevicePixelFormat, string videoDeviceResolution, string videoDeviceFramerate,
-			bool compujump)
+			bool compujump, bool metric)
 	{
 		if (PersonAddModifyWindowBox == null) {
 			//PersonAddModifyWindowBox = new PersonAddModifyWindow (parent, mySession, currentPerson, showCapturePhoto);
@@ -478,7 +503,7 @@ public class PersonAddModifyWindow
 
 		PersonAddModifyWindowBox.person_win.Show ();
 
-		PersonAddModifyWindowBox.fillDialog ();
+		PersonAddModifyWindowBox.fillDialog (metric);
 		
 		return PersonAddModifyWindowBox;
 	}
@@ -601,7 +626,7 @@ public class PersonAddModifyWindow
 		combo_countries.Sensitive = false;
 	}
 
-	private void fillDialog ()
+	private void fillDialog (bool metric)
 	{
 		int mySportID;
 		int mySpeciallityID;
@@ -615,6 +640,17 @@ public class PersonAddModifyWindow
 			mySpeciallityID = currentSession.PersonsSpeciallityID;
 			myLevelID = currentSession.PersonsPractice;
 		} else {
+			if(metric) {
+				hbox_weight_metric.Visible = true;
+				hbox_weight_imperial.Visible = false;
+				radio_metric.Active = true;
+			}
+			else {
+				hbox_weight_metric.Visible = false;
+				hbox_weight_imperial.Visible = true;
+				radio_imperial.Active = true;
+			}
+
 			//PERSON STUFF
 			entry1.Text = currentPerson.Name;
 			entry_club_id.Text = currentPerson.Future2;
@@ -651,12 +687,16 @@ public class PersonAddModifyWindow
 			//PERSONSESSION STUFF
 			PersonSession myPS = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
 
-			spinbutton_weight.Value = myPS.Weight;
+			if(metric)
+				spinbutton_weight_metric.Value = myPS.Weight;
+			else
+				spinbutton_weight_imperial.Value = Util.ConvertKgToPounds(myPS.Weight);
+
 			spinbutton_height.Value = myPS.Height;
 			spinbutton_leg_length.Value = myPS.TrochanterToe; //future1: altura trochanter - punta del pie en extension
 			spinbutton_trochanter_floor_on_flexion.Value = myPS.TrochanterFloorOnFlexion; //future2: altura trochanter - suelo en flexión
 
-			weightIni = myPS.Weight; //store for tracking if changes
+			weightIniMetric = myPS.Weight; //store for tracking if changes
 		
 			mySportID = myPS.SportID;
 			mySpeciallityID = myPS.SpeciallityID;
@@ -725,20 +765,6 @@ public class PersonAddModifyWindow
 		dateTime = myDialogCalendar.MyDateTime;
 		label_date.Text = dateTime.ToLongDateString();
 		on_entries_required_changed(new object(), new EventArgs());
-	}
-	
-	void on_button_weight_metric_clicked(object obj, EventArgs args)
-	{
-		genericWin = GenericWindow.Show(Catalog.GetString("Weight"),
-				Catalog.GetString("Select your weight in pounds"),
-				Constants.GenericWindowShow.SPINDOUBLE, true);
-		genericWin.Button_accept.Clicked += new EventHandler(on_button_weight_metric_accepted);
-	}
-	void on_button_weight_metric_accepted (object obj, EventArgs args)
-	{
-		genericWin.Button_accept.Clicked -= new EventHandler(on_button_weight_metric_accepted);
-
-		spinbutton_weight.Value = Util.ConvertPoundsToKg(genericWin.SpinDoubleSelected);
 	}
 
 	void on_button_height_metric_clicked(object obj, EventArgs args) 
@@ -978,8 +1004,12 @@ public class PersonAddModifyWindow
 
 		if(personName == "")
 			errorMessage += "\n" + Catalog.GetString("Please, write the name of the person.");
-		if((double) spinbutton_weight.Value == 0)
+
+		if(radio_metric.Active && (double) spinbutton_weight_metric.Value == 0)
 			errorMessage += "\n" + Catalog.GetString("Please, complete the weight of the person.");
+		if(! radio_metric.Active && (double) spinbutton_weight_imperial.Value == 0)
+			errorMessage += "\n" + Catalog.GetString("Please, complete the weight of the person.");
+
 		if(errorMessage.Length > 0)
 		{
 			label_error.Text = errorMessage;
@@ -1015,7 +1045,10 @@ public class PersonAddModifyWindow
 		}
 		else {
 			//if weight has changed
-			if(!adding && (double) spinbutton_weight.Value != weightIni) {
+			if(! adding && (
+						(radio_metric.Active && (double) spinbutton_weight_metric.Value != weightIniMetric) ||
+						(! radio_metric.Active && Util.ConvertPoundsToKg(spinbutton_weight_imperial.Value) != weightIniMetric)
+				      ) ) {
 				//see if this person has done jumps with weight
 				string [] myJumpsNormal = SqliteJump.SelectJumps(false, currentSession.UniqueID, currentPerson.UniqueID, "withWeight", "",
 						Sqlite.Orders_by.DEFAULT, -1);
@@ -1023,9 +1056,14 @@ public class PersonAddModifyWindow
 
 				if(myJumpsNormal.Length > 0 || myJumpsReactive.Length > 0) {
 					//create the convertWeight Window
-					convertWeightWin = ConvertWeightWindow.Show(
-							weightIni, (double) spinbutton_weight.Value, 
-							myJumpsNormal, myJumpsReactive);
+					if(radio_metric.Active)
+						convertWeightWin = ConvertWeightWindow.Show(
+								weightIniMetric, (double) spinbutton_weight_metric.Value,
+								myJumpsNormal, myJumpsReactive);
+					else
+						convertWeightWin = ConvertWeightWindow.Show(
+								weightIniMetric, Util.ConvertPoundsToKg(spinbutton_weight_imperial.Value),
+								myJumpsNormal, myJumpsReactive);
 					convertWeightWin.Button_accept.Clicked += new EventHandler(on_convertWeightWin_accepted);
 					convertWeightWin.Button_cancel.Clicked += new EventHandler(on_convertWeightWin_cancelled);
 				} else 
@@ -1094,7 +1132,11 @@ public class PersonAddModifyWindow
 		//string dateFull = dateTime.Day.ToString() + "/" + dateTime.Month.ToString() + "/" +
 		//	dateTime.Year.ToString();
 		
-		double weight = (double) spinbutton_weight.Value;
+		double weight = 0;
+		if(radio_metric.Active)
+			weight = (double) spinbutton_weight_metric.Value;
+		else
+			weight = Util.ConvertPoundsToKg(spinbutton_weight_imperial.Value);
 
 		//convert margarias (it's power is calculated using weight and it's written on description)
 		string [] myMargarias = SqliteRun.SelectRuns(false, currentSession.UniqueID, currentPerson.UniqueID, "Margaria",
@@ -1187,7 +1229,7 @@ public class PersonAddModifyWindow
 
 		PersonAddModifyWindowBox.person_win.Hide();
 		PersonAddModifyWindowBox = null;
-		
+
 		fakeButtonAccept.Click();
 	}
 	
@@ -1209,8 +1251,6 @@ public class PersonAddModifyWindow
 		PersonAddModifyWindowBox.person_win.Hide();
 		PersonAddModifyWindowBox = null;
 	}
-	
-	
 
 	public void Destroy() {
 		//PersonAddModifyWindowBox.person_win.Destroy();
@@ -1229,6 +1269,15 @@ public class PersonAddModifyWindow
 	
 	public PersonSession CurrentPersonSession {
 		get { return currentPersonSession; }
+	}
+
+	public Preferences.UnitsEnum Units {
+		get {
+			if(radio_metric.Active)
+				return Preferences.UnitsEnum.METRIC;
+			else
+				return Preferences.UnitsEnum.IMPERIAL;
+		}
 	}
 	
 }

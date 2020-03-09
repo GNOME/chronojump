@@ -2222,6 +2222,9 @@ public class Util
 	public static double ConvertPoundsToKg(double pounds) {
 		return pounds * 0.45359237;
 	}
+	public static double ConvertKgToPounds(double kg) {
+		return kg / 0.45359237;
+	}
 
 
 	/* 

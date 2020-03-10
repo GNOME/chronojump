@@ -68,8 +68,17 @@ public class PersonAddModifyWindow
 	[Widget] Gtk.SpinButton spinbutton_height_imperial_feet;
 	[Widget] Gtk.SpinButton spinbutton_height_imperial_inches;
 
-	[Widget] Gtk.SpinButton spinbutton_leg_length;
-	[Widget] Gtk.SpinButton spinbutton_trochanter_floor_on_flexion;
+	[Widget] Gtk.HBox hbox_leg_length_metric;
+	[Widget] Gtk.HBox hbox_leg_length_imperial;
+	[Widget] Gtk.SpinButton spinbutton_leg_length_metric;
+	[Widget] Gtk.SpinButton spinbutton_leg_length_imperial_feet;
+	[Widget] Gtk.SpinButton spinbutton_leg_length_imperial_inches;
+
+	[Widget] Gtk.HBox hbox_trochanter_floor_on_flexion_metric;
+	[Widget] Gtk.HBox hbox_trochanter_floor_on_flexion_imperial;
+	[Widget] Gtk.SpinButton spinbutton_trochanter_floor_on_flexion_metric;
+	[Widget] Gtk.SpinButton spinbutton_trochanter_floor_on_flexion_imperial_feet;
+	[Widget] Gtk.SpinButton spinbutton_trochanter_floor_on_flexion_imperial_inches;
 	
 	[Widget] Gtk.Box hbox_combo_sports;
 	[Widget] Gtk.ComboBox combo_sports;
@@ -228,25 +237,48 @@ public class PersonAddModifyWindow
 			spinbutton_height_metric.Value = Util.ConvertFeetInchesToCm (
 					Convert.ToInt32(spinbutton_height_imperial_feet.Value),
 					spinbutton_height_imperial_inches.Value);
+			spinbutton_leg_length_metric.Value = Util.ConvertFeetInchesToCm (
+					Convert.ToInt32(spinbutton_leg_length_imperial_feet.Value),
+					spinbutton_leg_length_imperial_inches.Value);
+			spinbutton_trochanter_floor_on_flexion_metric.Value = Util.ConvertFeetInchesToCm (
+					Convert.ToInt32(spinbutton_trochanter_floor_on_flexion_imperial_feet.Value),
+					spinbutton_trochanter_floor_on_flexion_imperial_inches.Value);
 
 			hbox_weight_metric.Visible = true;
 			hbox_weight_imperial.Visible = false;
 			hbox_height_metric.Visible = true;
 			hbox_height_imperial.Visible = false;
+			hbox_leg_length_metric.Visible = true;
+			hbox_leg_length_imperial.Visible = false;
+			hbox_trochanter_floor_on_flexion_metric.Visible = true;
+			hbox_trochanter_floor_on_flexion_imperial.Visible = false;
 		}
 		else if(radio_imperial.Active)
 		{
 			spinbutton_weight_imperial.Value = Util.ConvertKgToPounds (spinbutton_weight_metric.Value);
+
 			int feet = 0;
 			double inches = 0;
 			Util.ConvertCmToFeetInches (spinbutton_height_metric.Value, out feet, out inches);
 			spinbutton_height_imperial_feet.Value = feet;
 			spinbutton_height_imperial_inches.Value = inches;
 
+			Util.ConvertCmToFeetInches (spinbutton_leg_length_metric.Value, out feet, out inches);
+			spinbutton_leg_length_imperial_feet.Value = feet;
+			spinbutton_leg_length_imperial_inches.Value = inches;
+
+			Util.ConvertCmToFeetInches (spinbutton_trochanter_floor_on_flexion_metric.Value, out feet, out inches);
+			spinbutton_trochanter_floor_on_flexion_imperial_feet.Value = feet;
+			spinbutton_trochanter_floor_on_flexion_imperial_inches.Value = inches;
+
 			hbox_weight_metric.Visible = false;
 			hbox_weight_imperial.Visible = true;
 			hbox_height_metric.Visible = false;
 			hbox_height_imperial.Visible = true;
+			hbox_leg_length_metric.Visible = false;
+			hbox_leg_length_imperial.Visible = true;
+			hbox_trochanter_floor_on_flexion_metric.Visible = false;
+			hbox_trochanter_floor_on_flexion_imperial.Visible = true;
 		}
 	}
 
@@ -663,6 +695,10 @@ public class PersonAddModifyWindow
 				hbox_weight_imperial.Visible = false;
 				hbox_height_metric.Visible = true;
 				hbox_height_imperial.Visible = false;
+				hbox_leg_length_metric.Visible = true;
+				hbox_leg_length_imperial.Visible = false;
+				hbox_trochanter_floor_on_flexion_metric.Visible = true;
+				hbox_trochanter_floor_on_flexion_imperial.Visible = false;
 
 				radio_metric.Active = true;
 			}
@@ -671,6 +707,10 @@ public class PersonAddModifyWindow
 				hbox_weight_imperial.Visible = true;
 				hbox_height_metric.Visible = false;
 				hbox_height_imperial.Visible = true;
+				hbox_leg_length_metric.Visible = false;
+				hbox_leg_length_imperial.Visible = true;
+				hbox_trochanter_floor_on_flexion_metric.Visible = false;
+				hbox_trochanter_floor_on_flexion_imperial.Visible = true;
 
 				radio_imperial.Active = true;
 			}
@@ -714,17 +754,26 @@ public class PersonAddModifyWindow
 			if(metric) {
 				spinbutton_weight_metric.Value = myPS.Weight;
 				spinbutton_height_metric.Value = myPS.Height;
+				spinbutton_leg_length_metric.Value = myPS.TrochanterToe; //future1: altura trochanter - punta del pie en extension
+				spinbutton_trochanter_floor_on_flexion_metric.Value = myPS.TrochanterFloorOnFlexion; //future2: altura trochanter - suelo en flexión
 			} else {
 				spinbutton_weight_imperial.Value = Util.ConvertKgToPounds(myPS.Weight);
+
 				int feet = 0;
 				double inches = 0;
 				Util.ConvertCmToFeetInches (myPS.Height, out feet, out inches);
 				spinbutton_height_imperial_feet.Value = feet;
 				spinbutton_height_imperial_inches.Value = inches;
+
+				Util.ConvertCmToFeetInches (myPS.TrochanterToe, out feet, out inches);
+				spinbutton_leg_length_imperial_feet.Value = feet;
+				spinbutton_leg_length_imperial_inches.Value = inches;
+
+				Util.ConvertCmToFeetInches (myPS.TrochanterFloorOnFlexion, out feet, out inches);
+				spinbutton_trochanter_floor_on_flexion_imperial_feet.Value = feet;
+				spinbutton_trochanter_floor_on_flexion_imperial_inches.Value = inches;
 			}
 
-			spinbutton_leg_length.Value = myPS.TrochanterToe; //future1: altura trochanter - punta del pie en extension
-			spinbutton_trochanter_floor_on_flexion.Value = myPS.TrochanterFloorOnFlexion; //future2: altura trochanter - suelo en flexión
 
 			weightIniMetric = myPS.Weight; //store for tracking if changes
 		
@@ -795,38 +844,6 @@ public class PersonAddModifyWindow
 		dateTime = myDialogCalendar.MyDateTime;
 		label_date.Text = dateTime.ToLongDateString();
 		on_entries_required_changed(new object(), new EventArgs());
-	}
-
-	void on_button_leg_length_metric_clicked(object obj, EventArgs args)
-	{
-		genericWin = GenericWindow.Show(Catalog.GetString("Height"), Catalog.GetString("Select your leg length"), Constants.GenericWindowShow.HEIGHTMETRIC, true);
-		genericWin.Button_accept.Clicked += new EventHandler(on_button_leg_length_metric_accepted);
-	}
-	void on_button_leg_length_metric_accepted (object obj, EventArgs args)
-	{
-		genericWin.Button_accept.Clicked -= new EventHandler(on_button_leg_length_metric_accepted);
-
-		string [] myStr = genericWin.TwoSpinSelected.Split(new char[] {':'});
-		spinbutton_leg_length.Value = Util.ConvertFeetInchesToCm(
-			Convert.ToInt32(myStr[0]),
-			Convert.ToDouble(myStr[1])
-		);
-	}
-
-	void on_button_trochanter_floor_on_flexion_metric_clicked(object obj, EventArgs args)
-	{
-		genericWin = GenericWindow.Show(Catalog.GetString("Height"), Catalog.GetString("Select your hips height on flexion"), Constants.GenericWindowShow.HEIGHTMETRIC, true);
-		genericWin.Button_accept.Clicked += new EventHandler(on_button_trochanter_floor_on_flexion_metric_accepted);
-	}
-	void on_button_trochanter_floor_on_flexion_metric_accepted (object obj, EventArgs args)
-	{
-		genericWin.Button_accept.Clicked -= new EventHandler(on_button_trochanter_floor_on_flexion_metric_accepted);
-
-		string [] myStr = genericWin.TwoSpinSelected.Split(new char[] {':'});
-		spinbutton_trochanter_floor_on_flexion.Value = Util.ConvertFeetInchesToCm(
-			Convert.ToInt32(myStr[0]),
-			Convert.ToDouble(myStr[1])
-		);
 	}
 
 	private void on_combo_sports_changed(object o, EventArgs args) {
@@ -1148,14 +1165,24 @@ public class PersonAddModifyWindow
 		
 		double weight = 0;
 		double height = 0;
+		double legLength = 0;
+		double trochanterFloorOnFlexion;
 		if(radio_metric.Active) {
 			weight = (double) spinbutton_weight_metric.Value;
 			height = (double) spinbutton_height_metric.Value;
+			legLength = (double) spinbutton_leg_length_metric.Value;
+			trochanterFloorOnFlexion = (double) spinbutton_trochanter_floor_on_flexion_metric.Value;
 		} else {
 			weight = Util.ConvertPoundsToKg(spinbutton_weight_imperial.Value);
 			height = Util.ConvertFeetInchesToCm(
 					Convert.ToInt32(spinbutton_height_imperial_feet.Value),
 					spinbutton_height_imperial_inches.Value);
+			legLength = Util.ConvertFeetInchesToCm(
+					Convert.ToInt32(spinbutton_leg_length_imperial_feet.Value),
+					spinbutton_leg_length_imperial_inches.Value);
+			trochanterFloorOnFlexion = Util.ConvertFeetInchesToCm(
+					Convert.ToInt32(spinbutton_trochanter_floor_on_flexion_imperial_feet.Value),
+					spinbutton_trochanter_floor_on_flexion_imperial_inches.Value);
 		}
 
 		//convert margarias (it's power is calculated using weight and it's written on description)
@@ -1191,8 +1218,8 @@ public class PersonAddModifyWindow
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_speciallities), speciallities)),
 					Util.FetchID(UtilGtk.ComboGetActive(combo_levels)),
 					textview_ps_comments.Buffer.Text,
-					(double) spinbutton_leg_length.Value,
-					(double) spinbutton_trochanter_floor_on_flexion.Value,
+					legLength,
+					trochanterFloorOnFlexion,
 					false); //dbconOpened
 			LogB.Information("inserted both");
 
@@ -1237,8 +1264,8 @@ public class PersonAddModifyWindow
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_speciallities), speciallities)),
 					Util.FetchID(UtilGtk.ComboGetActive(combo_levels)),
 					textview_ps_comments.Buffer.Text,
-					(double) spinbutton_leg_length.Value,
-					(double) spinbutton_trochanter_floor_on_flexion.Value);
+					legLength,
+					trochanterFloorOnFlexion);
 
 			//3.- update in database
 			SqlitePersonSession.Update (currentPersonSession); 

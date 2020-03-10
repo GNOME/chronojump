@@ -352,6 +352,7 @@ public partial class ChronoJumpWindow
 	private static bool encoderProcessProblems;
 	private static bool encoderProcessFinish;
 	private static bool encoderProcessFinishContMode;
+	private static Stopwatch encoderCaptureStopwatch;
 
 	private static EncoderRhythmExecute encoderRhythmExecute;
 	private static EncoderRhythm encoderRhythm;
@@ -5667,6 +5668,10 @@ public partial class ChronoJumpWindow
 
 				encoderRProcCapture.CutByTriggers = reallyCutByTriggers;
 
+				//to know if there are connection problems between chronopic and encoder
+				encoderCaptureStopwatch = new Stopwatch();
+				encoderCaptureStopwatch.Start();
+
 				encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharp));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureAndCurves));
 			}
@@ -6321,7 +6326,13 @@ public partial class ChronoJumpWindow
 			encoder_pulsebar_capture.Fraction = UtilAll.DivideSafeFraction(
 					(selectedTime - eCapture.Countdown), selectedTime);
 			encoder_pulsebar_capture.Text = eCapture.Countdown + " s";
-	
+
+			if(encoderCaptureStopwatch.Elapsed.TotalSeconds >= 3 && eCapture.Countdown == preferences.encoderCaptureTime)
+			{
+				//encoder_pulsebar_capture.Text = "Chronopic seems not properly connected to encoder");
+				encoder_pulsebar_capture.Text = "Chronopic- /// -Encoder";
+			}
+
 			return;
 		}
 

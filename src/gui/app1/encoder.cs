@@ -6330,7 +6330,7 @@ public partial class ChronoJumpWindow
 			if(encoderCaptureStopwatch.Elapsed.TotalSeconds >= 3 && eCapture.Countdown == preferences.encoderCaptureTime)
 			{
 				//encoder_pulsebar_capture.Text = "Chronopic seems not properly connected to encoder");
-				encoder_pulsebar_capture.Text = "Chronopic- /// -Encoder";
+				encoder_pulsebar_capture.Text = "Plug encoder into Chronopic"; //TODO: improve this and finish capture with problems
 			}
 
 			return;

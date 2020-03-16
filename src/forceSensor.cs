@@ -1498,14 +1498,8 @@ public class ForceSensorAnalyzeInstant
 
 		if(fse.ComputeAsElastic)
 		{
-			/*
-			LogB.Information(string.Format("Should zoom displ?: {0}, {1}, {2}, {3}, {4}", 
-						fscAIPointsDispl.RealWidthG != fscAIPoints.RealWidthG,
-						forceSensorValuesDispl.TimeLast, forceSensorValuesDispl.Max, forceSensorValuesDispl.Min,
-						fscAIPointsDispl.OutsideGraphChangeValues(
-							forceSensorValuesDispl.TimeLast, forceSensorValuesDispl.Max, forceSensorValuesDispl.Min, true)
-						));
-						*/
+			//LogB.Information(string.Format("fscAiPointsDispl.GetLastTime: {0}, forceSensorValuesDispl.TimeLast: {1}, forceSensorValuesDispl.Max: {2}, forceSensorValuesDispl.Min: {3}", 
+			//			fscAIPointsDispl.GetLastTime(), forceSensorValuesDispl.TimeLast, forceSensorValuesDispl.Max, forceSensorValuesDispl.Min));
 
 			if(fscAIPointsDispl.RealWidthG != fscAIPoints.RealWidthG) {
 				fscAIPointsDispl.RealWidthG = fscAIPoints.RealWidthG;
@@ -1513,16 +1507,16 @@ public class ForceSensorAnalyzeInstant
 					fscAIPointsDispl.Redo();
 			}
 
-			if(fscAIPointsDispl.OutsideGraphChangeValues(forceSensorValuesDispl.TimeLast, forceSensorValuesDispl.Max, forceSensorValuesDispl.Min, true))
+			if(fscAIPointsDispl.OutsideGraphChangeValues(forceSensorValuesDispl.TimeLast, forceSensorValuesDispl.Max, forceSensorValuesDispl.Min, false))
 				fscAIPointsDispl.Redo();
 		}
 	}
 
-	private void readFile(string file, double start, double end,
+	private void readFile(string file, double startMs, double endMs,
 			double personWeight, ForceSensor.CaptureOptions fsco, double stiffness,
 			double eccMinDisplacement, double conMinDisplacement)
 	{
-		LogB.Information(string.Format("at readFile, start: {0}, end: {1}", start, end));
+		LogB.Information(string.Format("at readFile, startMs: {0}, endMs: {1}", startMs, endMs));
 		fscAIPoints = new ForceSensorCapturePoints(ForceSensorCapturePoints.GraphTypes.FORCEAIFORCE, graphWidth, graphHeight, -1);
 		if(fse.ComputeAsElastic)
 			fscAIPointsDispl = new ForceSensorCapturePoints(ForceSensorCapturePoints.GraphTypes.FORCEAIDISPL, graphWidth, graphHeight, -1);
@@ -1559,15 +1553,20 @@ public class ForceSensorAnalyzeInstant
 				{
 					double timeD = Convert.ToDouble(strFull[0]);
 
+					/*
+					 * do not use this code, because  start/end cut will be after calculing forceSensorDynamics
+					 * to have same data on that samples on zoom than on full signal
+					 *
 					//start can be -1 meaning that no zoom has to be applied
-					if(start != -1)
+					if(startMs != -1)
 					{
-						if(timeD < start || timeD > end)
+						if(timeD < startMS || timeD > endMs)
 							continue;
 
 						//put time at 0
-						timeD -= start;
+						timeD -= startMs;
 					}
+					*/
 
 					times.Add(Convert.ToInt32(timeD));
 					forces.Add(Convert.ToDouble(strFull[1]));
@@ -1578,10 +1577,39 @@ public class ForceSensorAnalyzeInstant
 		ForceSensorDynamics forceSensorDynamics;
 		if(fse.ComputeAsElastic)
 			forceSensorDynamics = new ForceSensorDynamicsElastic(
-					times, forces, fsco, fse, personWeight, stiffness, eccMinDisplacement, conMinDisplacement);
+					times, forces, fsco, fse, personWeight, stiffness, eccMinDisplacement, conMinDisplacement,
+					(startMs >= 0 && endMs >= 0) //zoomed
+					);
 		else
 			forceSensorDynamics = new ForceSensorDynamicsNotElastic(
 					times, forces, fsco, fse, personWeight, stiffness, eccMinDisplacement, conMinDisplacement);
+
+		if(startMs != -1)
+		{
+			int startAtSample = -1;
+			int endAtSample = -1;
+			int j = 0;
+			foreach(int time_micros in times)
+			{
+				if(startAtSample < 0 && time_micros >= startMs)
+					startAtSample = j;
+				if(endAtSample < 0 && time_micros > endMs)
+					endAtSample = j -1;
+
+				j ++;
+			}
+			if(endAtSample < 0)
+				endAtSample = j -1;
+
+			forceSensorDynamics.CutSamplesForZoom(startAtSample, endAtSample);
+
+			//cut times
+			times = times.GetRange(startAtSample, endAtSample - startAtSample);
+			//shift times to the left (make firsts one zero)
+			int startMsInt = times[0];
+			for(j = 0;  j < times.Count; j ++)
+				times[j] -= startMsInt;
+		}
 
 		forces = forceSensorDynamics.GetForces();
 
@@ -1596,15 +1624,13 @@ public class ForceSensorAnalyzeInstant
 		}
 		ForceSensorRepetition_l = forceSensorDynamics.GetRepetitions();
 
-		//LogB.Information("times Length at A:", times.Count.ToString());
+		if(startMs == -1)
+		{
+			times.RemoveAt(0); //always (not-elastic and elastic) 1st has to be removed, because time is not ok there.
 
-		times.RemoveAt(0); //always (not-elastic and elastic) 1st has to be removed, because time is not ok there.
-
-		//LogB.Information("times Length at B:", times.Count.ToString());
-		if(CalculedElasticPSAP)
-			times = times.GetRange(forceSensorDynamics.RemoveNValues +1, times.Count -2*forceSensorDynamics.RemoveNValues); // (index, count)
-
-		//LogB.Information("times Length at C:", times.Count.ToString());
+			if(CalculedElasticPSAP)
+				times = times.GetRange(forceSensorDynamics.RemoveNValues +1, times.Count -2*forceSensorDynamics.RemoveNValues); // (index, count)
+		}
 
 		int i = 0;
 		foreach(int time in times)

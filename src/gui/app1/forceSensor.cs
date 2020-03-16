@@ -1874,7 +1874,7 @@ LogB.Information(" fs R ");
 		if(currentForceSensorExercise.ComputeAsElastic)
 			fsd = new ForceSensorDynamicsElastic(
 					times, forces, fsco, currentForceSensorExercise, currentPersonSession.Weight, currentForceSensor.Stiffness,
-					preferences.forceSensorElasticEccMinDispl, preferences.forceSensorElasticConMinDispl);
+					preferences.forceSensorElasticEccMinDispl, preferences.forceSensorElasticConMinDispl, false);
 		else
 			fsd = new ForceSensorDynamicsNotElastic(
 					times, forces, fsco, currentForceSensorExercise, currentPersonSession.Weight, currentForceSensor.Stiffness,

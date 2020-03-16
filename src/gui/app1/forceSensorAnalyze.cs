@@ -1217,7 +1217,7 @@ public partial class ChronoJumpWindow
 				xposRepEnd = fsAI.GetXFromSampleCount(sampleEnd);
 				force_sensor_ai_pixmap.DrawLine(pen_green_force_ai,
 						xposRepEnd, 0, xposRepEnd, allocation.Height -20);
-				//LogB.Information(string.Format("repetition paint, i:{0}, xposRep:{1}", i, xposRep));
+				//LogB.Information(string.Format("repetition paint, j: {0}, xposRepEnd: {1}", j, xposRepEnd));
 			}
 
 			if(sampleEnd >= 0)

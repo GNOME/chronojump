@@ -47,12 +47,14 @@ public abstract class ForceSensorDynamics
 
 	protected List<double> time_l;
 
-	protected void initialize(bool isElastic, List<double> force_l,
+	protected void initialize(bool isElastic,
+			List<int> time_micros_l, List<double> force_l,
 			ForceSensor.CaptureOptions fsco, ForceSensorExercise fse,
 			double personMass, double stiffness,
 			double eccMinDisplacement, double conMinDisplacement)
 	{
 		this.isElastic = isElastic;
+		this.time_micros_l = time_micros_l;
 		this.force_l = force_l;
 		this.fsco = fsco;
 		this.fse = fse;
@@ -297,6 +299,22 @@ public abstract class ForceSensorDynamics
 
 	protected abstract void addRepetition(List <double> yList, int sampleStart, int sampleEnd);
 
+	public void CutSamplesForZoom(int startAtSample, int endAtSample)
+	{
+		//1 cut force_l on not elastic and all the lists on elastic
+		cutSamplesForZoomDo(startAtSample, endAtSample);
+		LogB.Information(" csfz 2b ");
+
+		//2 cut repetitions
+		List<ForceSensorRepetition> zoomed_forceSensorRepetition_l = new List <ForceSensorRepetition>();
+		foreach(ForceSensorRepetition fsr in forceSensorRepetition_l)
+			if(fsr.sampleStart >= startAtSample && fsr.sampleEnd <= endAtSample)
+				zoomed_forceSensorRepetition_l.Add(fsr);
+
+		forceSensorRepetition_l = zoomed_forceSensorRepetition_l;
+	}
+	protected abstract void cutSamplesForZoomDo(int startAtSample, int endAtSample);
+
 	public virtual List<double> GetForces()
 	{
 		return force_l;
@@ -340,7 +358,7 @@ public class ForceSensorDynamicsNotElastic : ForceSensorDynamics
 			double personMass, double stiffness,
 			double eccMinDisplacement, double conMinDisplacement)
 	{
-		initialize(false, force_l, fsco, fse, personMass, stiffness, eccMinDisplacement, conMinDisplacement);
+		initialize(false, time_micros_l, force_l, fsco, fse, personMass, stiffness, eccMinDisplacement, conMinDisplacement);
 		removeFirstValue();
 
 		if(! fse.ForceResultant)
@@ -377,6 +395,13 @@ public class ForceSensorDynamicsNotElastic : ForceSensorDynamics
 
 		forceSensorRepetition_l.Add(new ForceSensorRepetition(sampleStart, sampleEnd));
 	}
+
+	protected override void cutSamplesForZoomDo(int startAtSample, int endAtSample)
+	{
+		LogB.Information(string.Format("force_l.Count: {0}, startAtSample: {1}, endAtSample: {2}, endAtSample - startAtSample: {3}",
+			force_l.Count, startAtSample, endAtSample, endAtSample - startAtSample));
+		force_l = force_l.GetRange(startAtSample, endAtSample - startAtSample);
+	}
 }
 
 public class ForceSensorDynamicsElastic : ForceSensorDynamics
@@ -388,16 +413,20 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 	List<double> speed_l;
 	List<double> accel_l;
 	List<double> power_l;
+	private bool zoomed;
+
 
 	public ForceSensorDynamicsElastic (List<int> time_micros_l, List<double> force_l, 
 			ForceSensor.CaptureOptions fsco, ForceSensorExercise fse,
 			double personMass, double stiffness,
-			double eccMinDisplacement, double conMinDisplacement)
+			double eccMinDisplacement, double conMinDisplacement,
+			bool zoomed)
 	{
 		RemoveNValues = 10;
-		initialize(true, force_l, fsco, fse, personMass, stiffness, eccMinDisplacement, conMinDisplacement);
+		initialize(true, time_micros_l, force_l, fsco, fse, personMass, stiffness, eccMinDisplacement, conMinDisplacement);
 		convertTimeToSeconds(time_micros_l);
 		removeFirstValue();
+		this.zoomed = zoomed;
 
 		if(! fse.ForceResultant)
 		{
@@ -553,10 +582,25 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 		forceSensorRepetition_l.Add(new ForceSensorRepetition(sampleStart, sampleEnd, lastMeanSpeed, lastRFD));
 	}
 
+	protected override void cutSamplesForZoomDo(int startAtSample, int endAtSample)
+	{
+		force_l = force_l.GetRange(startAtSample, endAtSample - startAtSample);
+		position_l = position_l.GetRange(startAtSample, endAtSample - startAtSample);
+		speed_l = speed_l.GetRange(startAtSample, endAtSample - startAtSample);
+		accel_l = accel_l.GetRange(startAtSample, endAtSample - startAtSample);
+		power_l = power_l.GetRange(startAtSample, endAtSample - startAtSample);
+	}
+
 	private List<double> stripStartEnd(List<double> l)
 	{
-		LogB.Information(string.Format("removeN: {0}, l.Count: {1}", RemoveNValues, l.Count));
-		return l.GetRange(RemoveNValues +1, l.Count - 2*RemoveNValues);
+		if(zoomed) {
+			//TODO: but if we are on the beginning or end of the signal we should RemoveNVales, but maybe this is impossible
+			//	      because ab lines will not move on that values
+			return l;
+		} else {
+			LogB.Information(string.Format("removeN: {0}, l.Count: {1}", RemoveNValues, l.Count));
+			return l.GetRange(RemoveNValues +1, l.Count - 2*RemoveNValues);
+		}
 	}
 
 	public override List<double> GetForces()

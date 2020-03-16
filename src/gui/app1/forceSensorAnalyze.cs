@@ -1005,12 +1005,6 @@ public partial class ChronoJumpWindow
 
 	private void on_button_force_sensor_ai_zoom_clicked (object o, EventArgs args)
 	{
-		if(currentForceSensorExercise.ComputeAsElastic)
-		{
-			new DialogMessage(Constants.MessageTypes.INFO, "Zoom is temporarily disabled on elastic exercises.");
-			return;
-		}
-
 		forceSensorZoomApplied = true;
 
 		//store hscale a to help return to position on unzoom

@@ -1032,7 +1032,9 @@ public class ForceSensorCapturePoints
 		bool change = false;
 		if(lastTime + GetTimeInPx(marginLeft) + GetTimeInPx(marginRight) > RealWidthG ||
 				GetForceInPx(minForce) > heightG ||
-				GetForceInPx(maxForce) < 0)
+				GetForceInPx(maxForce) < 0 ||
+				GetForceInPx(maxForce) == GetForceInPx(minForce)
+				)
 		{
 			RealHeightG = Convert.ToInt32(Math.Ceiling(maxForce)); //Math.Ceiling to ensure the displ will fit
 

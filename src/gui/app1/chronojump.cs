@@ -198,7 +198,6 @@ public partial class ChronoJumpWindow
 
 	//menus
 	[Widget] Gtk.MenuItem session_menuitem;
-	[Widget] Gtk.MenuItem view_menuitem;
 	[Widget] Gtk.MenuItem help_menuitem;
 	[Widget] Gtk.MenuItem menuitem_ping;
 
@@ -7412,7 +7411,6 @@ LogB.Debug("mc finished 5");
 	private void sensitiveGuiEventDoing (bool cont)
 	{
 		session_menuitem.Sensitive = false;
-		view_menuitem.Sensitive = false;
 		menuitem_mode.Sensitive = false;
 		encoder_menuitem.Sensitive = false;
 		force_sensor_menuitem.Sensitive = false;
@@ -7485,7 +7483,6 @@ LogB.Debug("mc finished 5");
 		LogB.Information(" sensitiveGuiEventDone start ");
 
 		session_menuitem.Sensitive = true;
-		view_menuitem.Sensitive = true;
 		menuitem_mode.Sensitive = true;
 		encoder_menuitem.Sensitive = true;
 		force_sensor_menuitem.Sensitive = true;
@@ -7664,7 +7661,6 @@ LogB.Debug("mc finished 5");
 	private void sensitiveGuiAutoStartEnd (bool start) {
 		//if automode, sensitiveGuiEventDoing, sensitiveGuiEventDone don't work
 		session_menuitem.Sensitive 	= ! start;
-		view_menuitem.Sensitive 	= ! start;
 		menuitem_mode.Sensitive 	= ! start;
 		help_menuitem.Sensitive 	= ! start;
 		frame_persons.Sensitive 	= ! start;

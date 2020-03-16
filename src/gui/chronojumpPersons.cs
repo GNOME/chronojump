@@ -27,37 +27,12 @@ using Glade;
 
 public partial class ChronoJumpWindow
 {
-	[Widget] Gtk.CheckMenuItem menuitem_view_persons_on_top;
-	[Widget] Gtk.CheckMenuItem menuitem_view_persons_show_photo;
-
-	private void on_menuitem_view_persons_on_top_toggled (object o, EventArgs args)
-	{
-		bool personsOnTop = menuitem_view_persons_on_top.Active;
-		LogB.Information("Toggled: " + personsOnTop.ToString());
-
-		SqlitePreferences.Update("personWinHide", personsOnTop.ToString(), false);
-		preferences.personWinHide = personsOnTop;
-		showPersonsOnTop(personsOnTop);
-	}
 
 	private void showPersonsOnTop (bool onTop)
 	{
 		notebook_session_person.Visible = ! onTop;
 		hbox_top_person.Visible = onTop;
 		hbox_top_person_encoder.Visible = onTop;
-
-		//show photo option sensitive only when ! onTop
-		menuitem_view_persons_show_photo.Sensitive = ! onTop;
-	}
-
-
-	private void on_menuitem_view_persons_show_photo_toggled (object o, EventArgs args)
-	{
-		bool showPhoto = menuitem_view_persons_show_photo.Active;
-
-		SqlitePreferences.Update("personPhoto", showPhoto.ToString(), false);
-		preferences.personPhoto = showPhoto;
-		showPersonPhoto(showPhoto);
 	}
 
 	private void showPersonPhoto (bool showPhoto)

@@ -645,7 +645,8 @@ public partial class ChronoJumpWindow
 				zoomA, zoomB,
 				currentForceSensorExercise, currentPersonSession.Weight,
 				getForceSensorCaptureOptions(), currentForceSensor.Stiffness,
-				eccMinDispl, conMinDispl);
+				eccMinDispl, conMinDispl
+				);
 		//LogB.Information("created fsAI");
 
 		/*
@@ -810,12 +811,17 @@ public partial class ChronoJumpWindow
 	{
 		int yPx = fsAI.FscAIPoints.GetForceInPx(yForce);
 		//draw horizontal line
+
+		int xPxEnd = fsAI.FscAIPoints.GetTimeInPx(forceSensorValues.TimeLast);
+		if(forceSensorZoomApplied)
+			xPxEnd = fsAI.FscAIPoints.GetTimeInPx(fsAI.FscAIPoints.GetLastTime());
+
 		if(solid)
 			force_sensor_ai_pixmap.DrawLine(pen_gray_cont_force_ai,
-					fsAI.FscAIPoints.GetTimeInPx(0), yPx, fsAI.FscAIPoints.GetTimeInPx(forceSensorValues.TimeLast), yPx);
+					fsAI.FscAIPoints.GetTimeInPx(0), yPx, xPxEnd, yPx);
 		else
 			force_sensor_ai_pixmap.DrawLine(pen_gray_discont_force_ai,
-					fsAI.FscAIPoints.GetTimeInPx(0), yPx, fsAI.FscAIPoints.GetTimeInPx(forceSensorValues.TimeLast), yPx);
+					fsAI.FscAIPoints.GetTimeInPx(0), yPx, xPxEnd, yPx);
 
 		layout_force_ai_text.SetMarkup(yForce.ToString());
 		int textWidth = 1;
@@ -1047,6 +1053,8 @@ public partial class ChronoJumpWindow
 
 		int xPxStart = fsAI.FscAIPoints.GetTimeInPx(0);
 		int xPxEnd = fsAI.FscAIPoints.GetTimeInPx(forceSensorValues.TimeLast);
+		if(forceSensorZoomApplied)
+			xPxEnd = fsAI.FscAIPoints.GetTimeInPx(fsAI.FscAIPoints.GetLastTime());
 
 		//draw horizontal rectangle of feedback
 		if(preferences.forceSensorCaptureFeedbackActive)
@@ -1059,8 +1067,11 @@ public partial class ChronoJumpWindow
 		for(int i = 0; i < fsAI.FscAIPoints.Points.Count; i ++)
 			paintPoints[i] = fsAI.FscAIPoints.Points[i];
 
-		forcePaintHVLines(ForceSensorGraphs.ANALYSIS_GENERAL, fsAI.FscAIPoints.ForceMax, fsAI.FscAIPoints.ForceMin, forceSensorValues.TimeLast, false);
-	
+		if(forceSensorZoomApplied)
+			forcePaintHVLines(ForceSensorGraphs.ANALYSIS_GENERAL, fsAI.FscAIPoints.ForceMax, fsAI.FscAIPoints.ForceMin, fsAI.FscAIPoints.GetLastTime(), false);
+		else
+			forcePaintHVLines(ForceSensorGraphs.ANALYSIS_GENERAL, fsAI.FscAIPoints.ForceMax, fsAI.FscAIPoints.ForceMin, forceSensorValues.TimeLast, false);
+
 		int textWidth = 1;
 		int textHeight = 1;
 

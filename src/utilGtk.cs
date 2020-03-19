@@ -465,6 +465,7 @@ public class UtilGtk
 	public static Gdk.Color GRAY_LIGHT = new Gdk.Color(0x99,0x99,0x99);
 	public static Gdk.Color BLUE = new Gdk.Color(0x6c,0x77,0xab);
 	public static Gdk.Color BLUE_CLEAR = new Gdk.Color(0xa0,0xa7,0xca);
+	public static Gdk.Color BLUE_CLEAR2 = new Gdk.Color(0x02,0x4e,0x69); //used on background of start buttons (modes)
 	public static Gdk.Color YELLOW = new Gdk.Color(0xff,0xcc,0x01);
 	public static Gdk.Color YELLOW_LIGHT = new Gdk.Color(0xf3,0xde,0x8c);
 	public static Gdk.Color YELLOW_DARK = new Gdk.Color(0xcd,0xcd,0x00);

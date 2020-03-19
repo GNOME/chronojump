@@ -40,6 +40,7 @@ public class ChronojumpLogo
 	//constructor
 	public ChronojumpLogo (Gtk.DrawingArea drawingarea, Gtk.Viewport viewport)
 	{
+		LogB.Information("Chronojump logo constructor start");
 		this.drawingarea = drawingarea;
 		this.viewport = viewport;
 
@@ -52,6 +53,7 @@ public class ChronojumpLogo
 		stopwatch = new Stopwatch();
 
 		GLib.Timeout.Add(12, new GLib.TimeoutHandler(onTimer));
+		LogB.Information("Chronojump logo constructor end");
 	}
 
 	private bool onTimer()

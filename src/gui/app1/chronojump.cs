@@ -562,10 +562,10 @@ public partial class ChronoJumpWindow
 
 		//show send log if needed or other messages
 		if(! showSendLog)
-			notebook_start.CurrentPage = 0; //start with the Mode selector
+			notebook_sup.CurrentPage = 0; //start with the Mode selector
 		else {
 			show_send_log(sendLogMessage, preferences.crashLogLanguage);
-			notebook_start.CurrentPage = 2; //send log
+			notebook_start.CurrentPage = 1; //send log
 		}
 
 		if(showCameraStop)
@@ -699,6 +699,8 @@ public partial class ChronoJumpWindow
 		} else
 			LogB.Information("Ping discarded (Compujump)");
 
+		menu_initialize();
+
 		testNewStuff();
 
 		//show before destroying/hiding app1 to see if this fixes rare problems of exiting/not showing app1
@@ -723,7 +725,7 @@ public partial class ChronoJumpWindow
 			chronopicRegisterWin.Show();
 		}
 
-		if(! showSendLog && notebook_start.CurrentPage == 0) //main
+		if(! showSendLog && notebook_sup.CurrentPage == 0) //main
 			chronojumpLogo = new ChronojumpLogo (drawingarea_chronojump_logo, viewport_chronojump_logo);
 
 		LogB.Information("Chronojump window started");
@@ -2470,6 +2472,8 @@ public partial class ChronoJumpWindow
 		//show hidden widgets
 		sensitiveGuiNoSession();
 		sensitiveGuiYesSession();
+		on_button_show_menu_clicked (new object (), new EventArgs ());  //hide menu
+
 		definedSession = true;
 		
 		hbox_persons_bottom_photo.Sensitive = false;
@@ -3091,10 +3095,7 @@ public partial class ChronoJumpWindow
 	private void show_start_page()
 	{
 		notebook_start_selector.CurrentPage = 0;
-		notebook_start.CurrentPage = 0;
-		
-		//don't show menu bar on start page
-		main_menu.Visible = false;
+		notebook_sup.CurrentPage = 0;
 
 		//show title
 		string tempSessionName = "";
@@ -3181,7 +3182,7 @@ public partial class ChronoJumpWindow
 
 		if(m == Constants.Menuitem_modes.JUMPSSIMPLE || m == Constants.Menuitem_modes.JUMPSREACTIVE)
 		{
-			notebook_sup.CurrentPage = 0;
+			notebook_sup.CurrentPage = 1;
 			//notebook_capture_analyze.ShowTabs = true;
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
 			button_threshold.Visible = true;
@@ -3212,7 +3213,7 @@ public partial class ChronoJumpWindow
 		}
 		else if(m == Constants.Menuitem_modes.RUNSSIMPLE || m == Constants.Menuitem_modes.RUNSINTERVALLIC)
 		{
-			notebook_sup.CurrentPage = 0;
+			notebook_sup.CurrentPage = 1;
 			//notebook_capture_analyze.ShowTabs = true;
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
 			button_threshold.Visible = true;
@@ -3252,7 +3253,7 @@ public partial class ChronoJumpWindow
 			encoder_menuitem.Visible = true;
 			menuitem_export_csv.Visible = false;
 
-			notebook_sup.CurrentPage = 1;
+			notebook_sup.CurrentPage = 2;
 
 
 			/*
@@ -3350,7 +3351,7 @@ public partial class ChronoJumpWindow
 		} 
 		else if(m == Constants.Menuitem_modes.FORCESENSOR)
 		{
-			notebook_sup.CurrentPage = 0;
+			notebook_sup.CurrentPage = 1;
 			notebooks_change(m);
 
 			vbox_contacts_load_recalculate.Visible = true;
@@ -3372,7 +3373,7 @@ public partial class ChronoJumpWindow
 		}
 		else if(m == Constants.Menuitem_modes.RUNSENCODER)
 		{
-			notebook_sup.CurrentPage = 0;
+			notebook_sup.CurrentPage = 1;
 			notebooks_change(m);
 
 			vbox_contacts_load_recalculate.Visible = true;
@@ -3397,7 +3398,7 @@ public partial class ChronoJumpWindow
 		}
 		else if(m == Constants.Menuitem_modes.RT)
 		{
-			notebook_sup.CurrentPage = 0;
+			notebook_sup.CurrentPage = 1;
 			notebooks_change(m);
 			on_extra_window_reaction_times_test_changed(new object(), new EventArgs());
 
@@ -3408,7 +3409,7 @@ public partial class ChronoJumpWindow
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 		}
 		else {	//m == Constants.Menuitem_modes.OTHER (contacts / other)
-			notebook_sup.CurrentPage = 0;
+			notebook_sup.CurrentPage = 1;
 			hbox_other.Visible = true;
 			notebooks_change(m);
 			if(radio_mode_pulses_small.Active)
@@ -3445,12 +3446,14 @@ public partial class ChronoJumpWindow
 
 
 		//show the program
-		notebook_start.CurrentPage = 1;
+		notebook_start.CurrentPage = 0;
+
+		button_modes.Sensitive = true;
 
 		//make main_menu visible because it's not visible at startup.
 		//but don't show if session == UNIQUE
-		if(configChronojump.SessionMode == Config.SessionModeEnum.STANDARD)
-			main_menu.Visible = true;
+		//if(configChronojump.SessionMode == Config.SessionModeEnum.STANDARD)
+		//	main_menu.Visible = true;
 		//TODO: show preferences and exit button also on contacts
 
 		if(m != Constants.Menuitem_modes.POWERGRAVITATORY && m != Constants.Menuitem_modes.POWERINERTIAL)
@@ -5312,12 +5315,12 @@ public partial class ChronoJumpWindow
 		chronopicWin = ChronopicWindow.Create(cp, cpd, encoderPort, recreate, preferences.volumeOn);
 		//chronopicWin.FakeButtonCancelled.Clicked += new EventHandler(on_chronopic_window_cancelled);
 		
-		if(notebook_sup.CurrentPage == 0) {
+		if(notebook_sup.CurrentPage == 1) {
 			int cps = chronopicWin.NumConnected();
 			LogB.Debug("cps: " + cps.ToString());
 			chronopicContactsLabels(cps, recreate);
 		}
-		else //(notebook_sup.CurrentPage == 1)
+		else //(notebook_sup.CurrentPage == 2)
 			chronopicEncoderLabels(recreate);
 		
 		if(recreate)	
@@ -7277,12 +7280,10 @@ LogB.Debug("mc finished 5");
 
 	private void sensitiveGuiNoSession () 
 	{
-		if(configChronojump.Exhibition)
-			notebook_session_person.CurrentPage = 1;
-		else
-			notebook_session_person.CurrentPage = 0;
+		notebook_session_person.CurrentPage = 1;
 
-		treeview_persons.Sensitive = false;
+		viewport_persons.Visible = false;
+		//treeview_persons.Sensitive = false;
 		
 		//menuitems
 		menuSessionSensitive(false);
@@ -7324,6 +7325,7 @@ LogB.Debug("mc finished 5");
 		notebook_session_person.CurrentPage = 1;
 
 		button_image_test_zoom.Sensitive = true;
+		viewport_persons.Visible = true;
 		frame_persons.Sensitive = true;
 		button_recuperate_person.Sensitive = true;
 		button_recuperate_persons_from_session.Sensitive = true;
@@ -7648,7 +7650,7 @@ LogB.Debug("mc finished 5");
 	{
 		chronopicRegisterUpdate(false);
 		if(chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ENCODER) > 0)
-			notebook_start.CurrentPage = 1;
+			notebook_start.CurrentPage = 0;
 	}
 
 	//trying to fix when an OSX disconnects and reconnects same chronopic (and it has captured)

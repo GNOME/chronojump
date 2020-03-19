@@ -488,13 +488,13 @@ public partial class ChronoJumpWindow
 	 */
 
 	//at what tab of notebook_sup there's the video_capture
-	private int video_capture_notebook_sup = 0;
+	private int video_capture_notebook_sup = 1;
 
 	//changed by user clicking on notebook tabs
 	private void on_notebook_sup_switch_page (object o, SwitchPageArgs args) {
 		if(
-				(notebook_sup.CurrentPage == 0 && video_capture_notebook_sup == 1) ||
-				(notebook_sup.CurrentPage == 1 && video_capture_notebook_sup == 0))
+				(notebook_sup.CurrentPage == 1 && video_capture_notebook_sup == 2) ||
+				(notebook_sup.CurrentPage == 2 && video_capture_notebook_sup == 1))
 		{
 			//first stop showing video
 			bool wasActive = false;
@@ -503,7 +503,7 @@ public partial class ChronoJumpWindow
 				checkbutton_video_contacts.Active = false;
 			}
 
-			if(notebook_sup.CurrentPage == 0) {
+			if(notebook_sup.CurrentPage == 1) {
 				/*
 				 * TODO:
 				//remove video capture from encoder tab

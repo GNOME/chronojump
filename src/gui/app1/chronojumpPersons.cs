@@ -30,7 +30,7 @@ public partial class ChronoJumpWindow
 
 	private void showPersonsOnTop (bool onTop)
 	{
-		notebook_session_person.Visible = ! onTop;
+		viewport_persons.Visible = currentSession != null && ! onTop;
 		hbox_top_person.Visible = onTop;
 		hbox_top_person_encoder.Visible = onTop;
 	}

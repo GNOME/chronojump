@@ -902,6 +902,7 @@
                                           <widget class="GtkNotebook" id="notebook_session_person">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
+                                            <property name="show_tabs">False</property>
                                             <property name="show_border">False</property>
                                             <child>
                                               <widget class="GtkAlignment" id="alignment14">
@@ -1223,7 +1224,7 @@
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkButton" id="button_recuperate_person2">
+                                                            <widget class="GtkButton" id="button_edit_session">
                                                             <property name="visible">True</property>
                                                             <property name="sensitive">False</property>
                                                             <property name="can_focus">True</property>
@@ -1232,6 +1233,7 @@
                                                             <property name="has_tooltip">True</property>
                                                             <property name="tooltip" translatable="yes">Load person</property>
                                                             <property name="relief">half</property>
+                                                            <signal name="clicked" handler="on_edit_session_activate" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox373">
                                                             <property name="visible">True</property>
@@ -1271,7 +1273,7 @@
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkButton" id="button_recuperate_persons_from_session2">
+                                                            <widget class="GtkButton" id="button_delete_session">
                                                             <property name="visible">True</property>
                                                             <property name="sensitive">False</property>
                                                             <property name="can_focus">True</property>
@@ -1280,6 +1282,7 @@
                                                             <property name="has_tooltip">True</property>
                                                             <property name="tooltip" translatable="yes">Load persons from other session</property>
                                                             <property name="relief">half</property>
+                                                            <signal name="clicked" handler="on_delete_session_activate" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox374">
                                                             <property name="visible">True</property>
@@ -1764,6 +1767,7 @@
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_menuitem_manual_activate" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -1772,11 +1776,12 @@
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkButton" id="button_menu_help_formulas">
-                                                            <property name="label" translatable="yes">Formulas</property>
+                                                            <widget class="GtkButton" id="button_menu_help_accelerators">
+                                                            <property name="label" translatable="yes">Accelerators</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_menuitem_accelerators_activate" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -1785,29 +1790,17 @@
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkButton" id="button_menu_help_accelerators">
-                                                            <property name="label" translatable="yes">Accelerators</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">True</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">2</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <widget class="GtkButton" id="button_menu_help_about">
                                                             <property name="label" translatable="yes">About</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_about1_activate" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">3</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
@@ -1852,7 +1845,6 @@
                                                     </child>
                                                     <child>
                                                       <widget class="GtkViewport" id="viewport_persons">
-                                                        <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <child>
                                                           <widget class="GtkVBox" id="vbox_persons">

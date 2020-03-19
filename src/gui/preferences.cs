@@ -53,6 +53,7 @@ public class PreferencesWindow
 	[Widget] Gtk.CheckButton check_appearance_person_win_hide;
 	[Widget] Gtk.CheckButton check_appearance_person_photo;
 	[Widget] Gtk.Alignment alignment_undecorated;
+	[Widget] Gtk.DrawingArea drawingarea_background_color;
 
 	//database tab
 	[Widget] Gtk.Button button_data_folder_open;
@@ -226,13 +227,14 @@ public class PreferencesWindow
 	[Widget] Gtk.Frame frame_networks;
 	[Widget] Gtk.CheckButton check_networks_devices;
 
-
 	[Widget] Gtk.Button button_accept;
 	[Widget] Gtk.Button button_cancel;
 	public Gtk.Button FakeButtonImported;
 	public Gtk.Button FakeButtonDebugModeStart;
 	
 	static PreferencesWindow PreferencesWindowBox;
+
+	private Gdk.Color colorBackground;
 
 	private UtilAll.OperatingSystems operatingSystem;
 	private Preferences preferences; //stored to update SQL if anything changed
@@ -334,6 +336,9 @@ public class PreferencesWindow
 			PreferencesWindowBox.check_appearance_person_photo.Active = true;
 		else
 			PreferencesWindowBox.check_appearance_person_photo.Active = false;
+
+		PreferencesWindowBox.colorBackground = UtilGtk.ColorParse(preferences.colorBackgroundString);
+		PreferencesWindowBox.paintColorDrawingArea(PreferencesWindowBox.colorBackground);
 
 		//multimedia tab
 		if(preferences.volumeOn)  
@@ -628,6 +633,27 @@ public class PreferencesWindow
 
 		PreferencesWindowBox.preferences_win.Show ();
 		return PreferencesWindowBox;
+	}
+
+	private void paintColorDrawingArea(Gdk.Color color)
+	{
+		UtilGtk.PaintColorDrawingArea(drawingarea_background_color, color);
+	}
+	private void on_button_color_choose_clicked(object o, EventArgs args)
+	{
+		using (ColorSelectionDialog colorSelectionDialog = new ColorSelectionDialog (Catalog.GetString("Select color")))
+		{
+			colorSelectionDialog.TransientFor = preferences_win;
+			colorSelectionDialog.ColorSelection.CurrentColor = colorBackground;
+			colorSelectionDialog.ColorSelection.HasPalette = true;
+
+			if (colorSelectionDialog.Run () == (int) ResponseType.Ok) {
+				colorBackground = colorSelectionDialog.ColorSelection.CurrentColor;
+				paintColorDrawingArea(colorBackground);
+			}
+
+			colorSelectionDialog.Hide ();
+		}
 	}
 
 	private void on_radio_encoder_capture_show_all_bars_toggled (object o, EventArgs args)

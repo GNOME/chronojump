@@ -739,6 +739,20 @@ public class UtilGtk
 		
 		UtilGtk.ErasePaint(da, px);
 	}
+
+	//color string like "#0e1e46" for Chronojump blue
+	public static Gdk.Color ColorParse(string colorString)
+	{
+		Gdk.Color color = new Gdk.Color();
+		Gdk.Color.Parse(colorString, ref color);
+		return color;
+	}
+
+	public static void PaintColorDrawingArea(Gtk.DrawingArea da, Gdk.Color color)
+	{
+		da.ModifyBg(StateType.Normal, color);
+	}
+
 	
 	/*
 	 *

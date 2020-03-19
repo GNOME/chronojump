@@ -55,11 +55,12 @@ public partial class ChronoJumpWindow
 
 	private void menu_initialize()
 	{
-		UtilGtk.ViewportColor(viewport_hpaned_contacts_main, UtilGtk.BLUE_CHRONOJUMP);
-		//UtilGtk.ViewportColor(viewport_start_modes, UtilGtk.YELLOW);
-		UtilGtk.ViewportColor(viewport_menu_supertop, UtilGtk.BLUE_CHRONOJUMP);
-		UtilGtk.ViewportColor(viewport_menu_top, UtilGtk.BLUE_CHRONOJUMP);
-		UtilGtk.ViewportColor(viewport_menu, UtilGtk.BLUE_CHRONOJUMP);
+		Gdk.Color color = UtilGtk.YELLOW;
+		//Gdk.Color color = UtilGtk.BLUE_CHRONOJUMP;
+		UtilGtk.ViewportColor(viewport_hpaned_contacts_main, color);
+		UtilGtk.ViewportColor(viewport_menu_supertop, color);
+		UtilGtk.ViewportColor(viewport_menu_top, color);
+		UtilGtk.ViewportColor(viewport_menu, color);
 		//UtilGtk.ViewportColor(viewport_menu, UtilGtk.BLUE_CLEAR2);
 		//UtilGtk.ViewportColor(viewport_menu, UtilGtk.YELLOW);
 		//UtilGtk.ViewportColor(viewport_menu, UtilGtk.GRAY_LIGHT);

@@ -1052,11 +1052,11 @@ public partial class ChronoJumpWindow
 	{
 		if(missing) {
 			hbox_encoder_disconnected.Visible = true;
-			notebook_start.CurrentPage = 3; //networks problems
+			notebook_start.CurrentPage = 2; //networks problems
 		}
 		else {
 			hbox_encoder_disconnected.Visible = false;
-			notebook_start.CurrentPage = 1; //program
+			notebook_start.CurrentPage = 0; //program
 		}
 	}
 
@@ -1073,11 +1073,11 @@ public partial class ChronoJumpWindow
 			 */
 			hbox_encoder_disconnected.Visible = false;
 
-			notebook_start.CurrentPage = 3; //networks problems
+			notebook_start.CurrentPage = 2; //networks problems
 		}
 		else {
 			hbox_RFID_disconnected.Visible = false;
-			notebook_start.CurrentPage = 1; //program
+			notebook_start.CurrentPage = 0; //program
 		}
 	}
 

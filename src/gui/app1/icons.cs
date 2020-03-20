@@ -39,10 +39,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_quit2;
 	[Widget] Gtk.Image image_quit3;
 	[Widget] Gtk.Image image_quit_from_app1;
-	[Widget] Gtk.Image image_session_new;
 	[Widget] Gtk.Image image_session_new2;
 	[Widget] Gtk.Image image_session_new3;
-	[Widget] Gtk.Image image_session_load;
 	[Widget] Gtk.Image image_session_load2;
 	[Widget] Gtk.Image image_session_edit;
 	[Widget] Gtk.Image image_session_edit2;
@@ -398,15 +396,10 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_weight.png"); //but will change depending on mode
 		image_encoder_exercise.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_new_big.png");
-		image_session_new.Pixbuf = pixbuf;
-
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_new.png");
 		image_session_new2.Pixbuf = pixbuf;
 		image_session_new3.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_open_big.png");
-		image_session_load.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_open.png");
 		image_session_open.Pixbuf = pixbuf;
 		image_session_load2.Pixbuf = pixbuf;

@@ -43,7 +43,6 @@ public partial class ChronoJumpWindow
 
 		menuitem_open_session.Sensitive = false; //do not allow menu open to work (it could be really slow)
 		frame_exhibition.Visible = true;
-		notebook_session_person.CurrentPage = 1;
 		frame_persons.Sensitive = true;
 		frame_persons_top.Visible = false;
 		spin_exhibition_school.Value = 0; //need to assign an inital value (if not it shows blank value)

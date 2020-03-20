@@ -53,10 +53,13 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_persons_open_2;
 	[Widget] Gtk.Image image_persons_open_plus_2;
 
-	private void menu_initialize()
+	private void menu_initialize_colors()
 	{
-		Gdk.Color color = UtilGtk.YELLOW;
+		//Gdk.Color color = UtilGtk.YELLOW;
 		//Gdk.Color color = UtilGtk.BLUE_CHRONOJUMP;
+
+		Gdk.Color color = UtilGtk.ColorParse(preferences.colorBackgroundString);
+
 		UtilGtk.ViewportColor(viewport_hpaned_contacts_main, color);
 		UtilGtk.ViewportColor(viewport_menu_top, color);
 		UtilGtk.ViewportColor(viewport_menu, color);

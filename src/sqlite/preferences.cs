@@ -28,6 +28,7 @@ using System.Collections; //ArrayList
 class SqlitePreferences : Sqlite
 {
 	public const string UnitsStr = "units";
+	public const string ColorBackground = "colorBackground";
 
 	//contacts
 	public const string JumpsDjGraphHeights = "jumpsDjGraphHeights";
@@ -115,6 +116,7 @@ class SqlitePreferences : Sqlite
 				Insert ("maximized", Preferences.MaximizedTypes.NO.ToString(), dbcmdTr);
 				Insert ("personWinHide", "False", dbcmdTr);
 				Insert ("personPhoto", "True", dbcmdTr);
+				Insert (ColorBackground, "#0e1e46", dbcmdTr);
 				Insert (UnitsStr, Preferences.UnitsEnum.METRIC.ToString(), dbcmdTr);
 				Insert ("encoderCaptureShowOnlyBars", "False", dbcmdTr);
 				Insert ("encoderCaptureShowNRepetitions", "-1", dbcmdTr);
@@ -357,6 +359,8 @@ class SqlitePreferences : Sqlite
 				preferences.personWinHide = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "personPhoto")
 				preferences.personPhoto = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == ColorBackground)
+				preferences.colorBackgroundString = reader[1].ToString();
 			else if(reader[0].ToString() == UnitsStr)
 				preferences.units = (Preferences.UnitsEnum)
 					Enum.Parse(typeof(Preferences.UnitsEnum), reader[1].ToString());

@@ -31,17 +31,19 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
+	/*
 	//presentation
 	[Widget] Gtk.Box vbox_presentation;
 	[Widget] Gtk.Image image_presentation_logo;
 	[Widget] Gtk.Label label_presentation_current;
+	*/
 
 	//static WebKit.WebView presentation;
 
 	bool presentationInitialized = false;
 
 	void on_menuitem_presentation_activate (object o, EventArgs args) {
-		vbox_presentation.Visible = ! vbox_presentation.Visible;
+		//vbox_presentation.Visible = ! vbox_presentation.Visible;
 	}
 
  
@@ -122,10 +124,12 @@ public partial class ChronoJumpWindow
 			presentationOpenStatic("file://" + file + "#" + presentation_slide_current.ToString());
 	}
 
-	void updatePresentationLabel() {	
+	void updatePresentationLabel() {
+		/*
 		label_presentation_current.Text = 
 			(presentation_slide_current +1).ToString() + " / " + 
 			(presentation_slide_max +1).ToString();
+			*/
 	}
 	
 	private void loadInitialPresentation()

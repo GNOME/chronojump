@@ -834,7 +834,7 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameAutoPersonRemoveIcon);
 		image_auto_person_remove.Pixbuf = pixbuf;
 				
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogo320); //changed to 270 for the presentation
-		image_presentation_logo.Pixbuf = pixbuf;
+		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogo320); //changed to 270 for the presentation
+		//image_presentation_logo.Pixbuf = pixbuf;
 	}
 }

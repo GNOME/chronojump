@@ -25,6 +25,7 @@ using System.Collections.Generic; //List<T>
 using System.IO;
 using Gtk;
 using Gdk;
+using System.Text.RegularExpressions; //Regex
 
 //this class tries to be a space for methods that are used in different classes
 //only Gtk related methods (not used bu the server) this is the differnece with Util
@@ -746,6 +747,30 @@ public class UtilGtk
 		Gdk.Color color = new Gdk.Color();
 		Gdk.Color.Parse(colorString, ref color);
 		return color;
+	}
+	//reverse of previous method
+	public static string ColorToColorString (Gdk.Color color)
+	{
+		string str = color.ToString(); //returns this: rgb:8b8b/6969/1414 or this: rgb:ffff/a5a5/0 (if blue is 0)
+		Match match = Regex.Match(str, @"rgb:(\w+)/(\w+)/(\w+)");
+		LogB.Information("ColorToColorString match groups: " + match.Groups.Count.ToString());
+		if(match.Groups.Count == 4)
+		{
+			return string.Format("#{0}{1}{2}", colHexTwoChars(match.Groups[1].Value),
+					colHexTwoChars(match.Groups[2].Value), colHexTwoChars(match.Groups[3].Value));
+		} else
+			return "#0e1e46"; //default if there are problems
+	}
+	private static string colHexTwoChars(string colorString)
+	{
+		if(colorString.Length == 1) //if "0" return "00"
+			return colorString + colorString;
+		if(colorString.Length == 2) //if "ce" return "ce"
+			return colorString;
+		if(colorString.Length == 4) //if "cece" return "ce")
+			return colorString.Substring(0,2);
+
+		return colorString;
 	}
 
 	public static void PaintColorDrawingArea(Gtk.DrawingArea da, Gdk.Color color)

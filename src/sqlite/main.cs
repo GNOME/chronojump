@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.90";
+	static string lastChronojumpDatabaseVersion = "1.91";
 
 	public Sqlite() {
 	}
@@ -2671,6 +2671,14 @@ class Sqlite
 
 				currentVersion = updateVersion("1.90");
 			}
+			if(currentVersion == "1.90")
+			{
+				LogB.SQL("Inserted into preferences: ColorBackground");
+
+				SqlitePreferences.Insert (SqlitePreferences.ColorBackground, "#0e1e46");
+
+				currentVersion = updateVersion("1.91");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -2885,6 +2893,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 //
+		//1.90 - 1.91 Converted DB to 1.91 Inserted into preferences: ColorBackground
 		//1.89 - 1.90 Converted DB to 1.90 Inserted into preferences: units
 		//1.88 - 1.89 Converted DB to 1.89 Inserted into preferences: encoderCaptureFeedbackEccon
 		//1.87 - 1.88 Converted DB to 1.88 Inserted into preferences: encoderCaptureInertialEccOverloadMode

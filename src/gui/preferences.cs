@@ -650,6 +650,14 @@ public class PreferencesWindow
 			if (colorSelectionDialog.Run () == (int) ResponseType.Ok) {
 				colorBackground = colorSelectionDialog.ColorSelection.CurrentColor;
 				paintColorDrawingArea(colorBackground);
+
+				/*
+				LogB.Information(string.Format("color: red {0}, green {1}, blue {2}",
+							colorBackground.Red, colorBackground.Green, colorBackground.Blue));
+				LogB.Information(string.Format("color: red {0}, green {1}, blue {2}",
+							colorBackground.Red/256.0, colorBackground.Green/256.0, colorBackground.Blue/256.0));
+				*/
+				LogB.Information("color to string: " + UtilGtk.ColorToColorString(colorBackground));
 			}
 
 			colorSelectionDialog.Hide ();
@@ -1743,7 +1751,11 @@ public class PreferencesWindow
 			SqlitePreferences.Update("personPhoto", PreferencesWindowBox.check_appearance_person_photo.Active.ToString(), true);
 			preferences.personPhoto = PreferencesWindowBox.check_appearance_person_photo.Active;
 		}
-		
+
+		preferences.colorBackgroundString = Preferences.PreferencesChange(
+				SqlitePreferences.ColorBackground, preferences.colorBackgroundString,
+				UtilGtk.ColorToColorString(colorBackground)); //this does the reverse of Gdk.Color.Parse on UtilGtk.ColorParse()
+
 		if( preferences.digitsNumber != Convert.ToInt32(UtilGtk.ComboGetActive(combo_decimals)) ) {
 			SqlitePreferences.Update("digitsNumber", UtilGtk.ComboGetActive(combo_decimals), true);
 			preferences.digitsNumber = Convert.ToInt32(UtilGtk.ComboGetActive(combo_decimals));

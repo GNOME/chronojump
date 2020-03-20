@@ -32,7 +32,8 @@ public class Preferences
 	public MaximizedTypes maximized;
 	public bool personWinHide;
 	public bool personPhoto;
-	public string colorBackgroundString = "#0e1e46";
+	//public string colorBackgroundString = "#0e1e46";
+	public string colorBackgroundString;
 
 	public enum UnitsEnum { METRIC, IMPERIAL };
 	public UnitsEnum units;
@@ -387,6 +388,13 @@ public class Preferences
 			SqlitePreferences.Update(prefName, Util.ConvertToPoint(dNew), true);
 
 		return dNew;
+	}
+	public static string PreferencesChange(string prefName, string prefValue, string sNew)
+	{
+		if(prefValue != sNew)
+			SqlitePreferences.Update(prefName, sNew, true);
+
+		return sNew;
 	}
 
 	~Preferences() {}

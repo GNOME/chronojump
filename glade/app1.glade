@@ -940,6 +940,10 @@
                                                             <property name="draw_indicator">False</property>
                                                             <signal name="clicked" handler="on_check_menu_session_clicked" swapped="no"/>
                                                             <child>
+                                                            <widget class="GtkEventBox" id="eventbox_check_menu_session">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
                                                             <widget class="GtkHBox" id="hbox369">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -989,6 +993,8 @@
                                                             <property name="fill">False</property>
                                                             <property name="position">1</property>
                                                             </packing>
+                                                            </child>
+                                                            </widget>
                                                             </child>
                                                             </widget>
                                                             </child>
@@ -1574,6 +1580,10 @@
                                                             <property name="draw_indicator">False</property>
                                                             <signal name="clicked" handler="on_check_menu_encoder_clicked" swapped="no"/>
                                                             <child>
+                                                            <widget class="GtkEventBox" id="eventbox_check_menu_encoder">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
                                                             <widget class="GtkHBox" id="hbox93">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -1623,6 +1633,8 @@
                                                             <property name="fill">False</property>
                                                             <property name="position">1</property>
                                                             </packing>
+                                                            </child>
+                                                            </widget>
                                                             </child>
                                                             </widget>
                                                             </child>
@@ -1700,15 +1712,21 @@
                                                             <property name="draw_indicator">False</property>
                                                             <signal name="clicked" handler="on_check_menu_help_clicked" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox364">
+                                                            <widget class="GtkHBox" id="hbox370">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
+                                                            <child>
+                                                            <widget class="GtkEventBox" id="eventbox_check_menu_help">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="label459">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label" translatable="yes">Help</property>
+                                                            </widget>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -1717,7 +1735,7 @@
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox370">
+                                                            <widget class="GtkHBox" id="hbox375">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>

@@ -45,6 +45,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Viewport viewport_menu_top;
 	[Widget] Gtk.Viewport viewport_menu;
 	[Widget] Gtk.Viewport viewport_persons;
+	[Widget] Gtk.EventBox eventbox_check_menu_session;
+	[Widget] Gtk.EventBox eventbox_check_menu_encoder;
+	[Widget] Gtk.EventBox eventbox_check_menu_help;
 	[Widget] Gtk.CheckButton check_menu_session;
 	[Widget] Gtk.CheckButton check_menu_encoder;
 	[Widget] Gtk.CheckButton check_menu_help;
@@ -71,6 +74,10 @@ public partial class ChronoJumpWindow
 		//UtilGtk.ViewportColor(viewport_menu, UtilGtk.YELLOW);
 		//UtilGtk.ViewportColor(viewport_menu, UtilGtk.GRAY_LIGHT);
 		//UtilGtk.ViewportColor(viewport_persons, UtilGtk.BLUE_CLEAR2);
+
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_session, UtilGtk.YELLOW);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_encoder, UtilGtk.YELLOW);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_help, UtilGtk.YELLOW);
 	}
 
 	private void menuShowVerticalArrow (bool selected, Gtk.Arrow a_up, Gtk.Arrow a_down)

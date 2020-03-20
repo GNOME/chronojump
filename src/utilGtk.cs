@@ -588,6 +588,13 @@ public class UtilGtk
 			l2.ModifyFg(StateType.Normal, WHITE);
 		}
 	}
+
+	//changes of colors without widgets that are in a EventBox
+	public static void EventBoxColorBackgroundActive (Gtk.EventBox e, Gdk.Color color)
+	{
+		e.ModifyBg(StateType.Active, color);
+		e.ModifyBg(StateType.Prelight, color);
+	}
 	
 	/*
 	 *

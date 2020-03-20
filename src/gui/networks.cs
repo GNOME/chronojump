@@ -410,7 +410,7 @@ public partial class ChronoJumpWindow
 		
 		encoderUpdateTreeViewWhileCapturing = configChronojump.EncoderUpdateTreeViewWhileCapturing;
 
-		showPersonsOnTop(configChronojump.PersonWinHide);
+		//showPersonsOnTop(configChronojump.PersonWinHide); //commented for new 2.0 menu code
 		showPersonPhoto(preferences.personPhoto);
 
 		if(configChronojump.EncoderAnalyzeHide) {

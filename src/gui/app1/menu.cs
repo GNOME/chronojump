@@ -37,9 +37,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Arrow arrow_menu_show_help_up;
 	[Widget] Gtk.Arrow arrow_menu_show_help_down;
 	[Widget] Gtk.Button button_modes;
+	//[Widget] Gtk.HPaned hpaned_contacts_main;
 	[Widget] Gtk.Viewport viewport_hpaned_contacts_main;
 	[Widget] Gtk.Viewport viewport_start_modes;
-	[Widget] Gtk.Viewport viewport_menu_supertop;
 	[Widget] Gtk.Viewport viewport_menu_top;
 	[Widget] Gtk.Viewport viewport_menu;
 	[Widget] Gtk.Viewport viewport_persons;
@@ -58,7 +58,6 @@ public partial class ChronoJumpWindow
 		Gdk.Color color = UtilGtk.YELLOW;
 		//Gdk.Color color = UtilGtk.BLUE_CHRONOJUMP;
 		UtilGtk.ViewportColor(viewport_hpaned_contacts_main, color);
-		UtilGtk.ViewportColor(viewport_menu_supertop, color);
 		UtilGtk.ViewportColor(viewport_menu_top, color);
 		UtilGtk.ViewportColor(viewport_menu, color);
 		//UtilGtk.ViewportColor(viewport_menu, UtilGtk.BLUE_CLEAR2);
@@ -69,7 +68,6 @@ public partial class ChronoJumpWindow
 
 	private void on_button_show_menu_clicked (object o, EventArgs args)
 	{
-		//TODO: this is not working, maybe use commutation buttons, so then we can uncommute all
 		if(! viewport_menu.Visible)
 		{
 			if(check_menu_session.Active)
@@ -88,6 +86,7 @@ public partial class ChronoJumpWindow
 			arrow_menu_show_menu_up.Visible = false;
 			arrow_menu_show_menu_down.Visible = true;
 		}
+		//hpaned_contacts_main.Show();
 	}
 
 	private void on_check_menu_session_clicked (object o, EventArgs args)
@@ -125,6 +124,12 @@ public partial class ChronoJumpWindow
 	{
 		show_start_page();
 		button_modes.Sensitive = false;
+
+		/*
+		//to care about viewport_menu_top being lower width allocated and a bit hidden by hpaned_contacts_main
+		LogB.Information("viewport_menu_top.Allocation.Width: " + viewport_menu_top.Allocation.Width.ToString());
+		LogB.Information("viewport_menu_top.SizeRequest.Width: " + viewport_menu_top.SizeRequest().Width.ToString());
+		*/
 	}
 
 }

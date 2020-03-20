@@ -5770,11 +5770,11 @@ public partial class ChronoJumpWindow
 		} else { //encoderActions.ANALYZE
 			
 			//the -5 is because image is inside (is smaller than) viewport
-			image_encoder_width = UtilGtk.WidgetWidth(scrolledwindow_image_encoder_analyze)-10;
+			image_encoder_width = UtilGtk.WidgetWidth(scrolledwindow_image_encoder_analyze)-5;
 			if(image_encoder_width < 100)
 				image_encoder_width = 100; //Not crash R with a png height of -1 or "figure margins too large"
 
-			image_encoder_height = UtilGtk.WidgetHeight(scrolledwindow_image_encoder_analyze)-10;
+			image_encoder_height = UtilGtk.WidgetHeight(scrolledwindow_image_encoder_analyze)-5;
 			if(image_encoder_height < 100)
 				image_encoder_height = 100; //Not crash R with a png height of -1 or "figure margins too large"
 

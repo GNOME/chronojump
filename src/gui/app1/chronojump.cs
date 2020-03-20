@@ -84,6 +84,11 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_message_permissions_at_boot;
 	[Widget] Gtk.HBox hbox_message_camera_at_boot;
 
+	[Widget] Gtk.EventBox eventbox_radio_mode_contacts_capture;
+	[Widget] Gtk.EventBox eventbox_radio_mode_contacts_analyze;
+	[Widget] Gtk.EventBox eventbox_radio_mode_encoder_capture_small;
+	[Widget] Gtk.EventBox eventbox_radio_mode_encoder_analyze_small;
+
 	[Widget] Gtk.HBox hbox_contacts_sup_capture_analyze_two_buttons;
 	[Widget] Gtk.Alignment alignment_radio_mode_contacts_analyze;
 	[Widget] Gtk.HBox hbox_radio_mode_contacts_analyze_jump_buttons;
@@ -596,6 +601,10 @@ public partial class ChronoJumpWindow
 		initForceSensor();
 		initRunEncoder();
 
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_contacts_capture, UtilGtk.YELLOW);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_contacts_analyze, UtilGtk.YELLOW);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_encoder_capture_small, UtilGtk.YELLOW);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_encoder_analyze_small, UtilGtk.YELLOW);
 
 		createComboSelectJumps(true);
 		createComboSelectJumpsDjOptimalFall(true);

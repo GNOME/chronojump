@@ -1712,21 +1712,19 @@
                                                             <property name="draw_indicator">False</property>
                                                             <signal name="clicked" handler="on_check_menu_help_clicked" swapped="no"/>
                                                             <child>
+                                                            <widget class="GtkEventBox" id="eventbox_check_menu_help">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
                                                             <widget class="GtkHBox" id="hbox370">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
                                                             <child>
-                                                            <widget class="GtkEventBox" id="eventbox_check_menu_help">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <child>
                                                             <widget class="GtkLabel" id="label459">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label" translatable="yes">Help</property>
-                                                            </widget>
-                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -1767,6 +1765,8 @@
                                                             <property name="fill">False</property>
                                                             <property name="position">1</property>
                                                             </packing>
+                                                            </child>
+                                                            </widget>
                                                             </child>
                                                             </widget>
                                                             </child>
@@ -5873,34 +5873,40 @@ EncoderInertialCapture</property>
                                                     <property name="draw_indicator">False</property>
                                                     <signal name="toggled" handler="on_radio_mode_contacts_capture_toggled" swapped="no"/>
                                                     <child>
-                                                      <widget class="GtkHBox" id="hbox193">
+                                                      <widget class="GtkEventBox" id="eventbox_radio_mode_contacts_capture">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="spacing">10</property>
                                                         <child>
-                                                          <widget class="GtkImage" id="image_tests_capture">
+                                                          <widget class="GtkHBox" id="hbox193">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">10</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_tests_capture">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">0</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkLabel" id="label_mode_contacts_capture">
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_mode_contacts_capture">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label" translatable="yes">Capture</property>
                                                             <property name="justify">center</property>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">1</property>
-                                                          </packing>
+                                                            </packing>
+                                                            </child>
+                                                          </widget>
                                                         </child>
                                                       </widget>
                                                     </child>
@@ -5924,7 +5930,11 @@ EncoderInertialCapture</property>
                                                         <property name="group">radio_mode_contacts_capture</property>
                                                         <signal name="toggled" handler="on_radio_mode_contacts_analyze_toggled" swapped="no"/>
                                                         <child>
-                                                          <widget class="GtkHBox" id="hbox331">
+                                                          <widget class="GtkEventBox" id="eventbox_radio_mode_contacts_analyze">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox1111">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">10</property>
@@ -5952,6 +5962,8 @@ EncoderInertialCapture</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">1</property>
                                                             </packing>
+                                                            </child>
+                                                            </widget>
                                                             </child>
                                                           </widget>
                                                         </child>
@@ -24931,34 +24943,40 @@ Concentric</property>
                                                     <property name="draw_indicator">False</property>
                                                     <signal name="toggled" handler="on_radio_mode_encoder_capture_small_toggled" swapped="no"/>
                                                     <child>
-                                                      <widget class="GtkHBox" id="hbox134">
+                                                      <widget class="GtkEventBox" id="eventbox_radio_mode_encoder_capture_small">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="spacing">10</property>
                                                         <child>
-                                                          <widget class="GtkImage" id="image_mode_encoder_capture">
+                                                          <widget class="GtkHBox" id="hbox134">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">10</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_mode_encoder_capture">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">0</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkLabel" id="label_mode_encoder_capture">
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_mode_encoder_capture">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label" translatable="yes">Capture</property>
                                                             <property name="justify">center</property>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">1</property>
-                                                          </packing>
+                                                            </packing>
+                                                            </child>
+                                                          </widget>
                                                         </child>
                                                       </widget>
                                                     </child>
@@ -24978,34 +24996,40 @@ Concentric</property>
                                                     <property name="group">radio_mode_encoder_capture_small</property>
                                                     <signal name="toggled" handler="on_radio_mode_encoder_analyze_small_toggled" swapped="no"/>
                                                     <child>
-                                                      <widget class="GtkHBox" id="hbox135">
+                                                      <widget class="GtkEventBox" id="eventbox_radio_mode_encoder_analyze_small">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="spacing">10</property>
                                                         <child>
-                                                          <widget class="GtkImage" id="image_stats_win_graph3">
+                                                          <widget class="GtkHBox" id="hbox135">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">10</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_stats_win_graph3">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">0</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkLabel" id="label_mode_encoder_analyze">
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_mode_encoder_analyze">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label" translatable="yes">Analyze</property>
                                                             <property name="justify">center</property>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">1</property>
-                                                          </packing>
+                                                            </packing>
+                                                            </child>
+                                                          </widget>
                                                         </child>
                                                       </widget>
                                                     </child>

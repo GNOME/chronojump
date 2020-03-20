@@ -34,6 +34,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Arrow arrow_menu_show_menu_down;
 	[Widget] Gtk.Arrow arrow_menu_show_session_up;
 	[Widget] Gtk.Arrow arrow_menu_show_session_down;
+	[Widget] Gtk.Arrow arrow_menu_show_encoder_up;
+	[Widget] Gtk.Arrow arrow_menu_show_encoder_down;
 	[Widget] Gtk.Arrow arrow_menu_show_help_up;
 	[Widget] Gtk.Arrow arrow_menu_show_help_down;
 	[Widget] Gtk.Button button_modes;
@@ -44,9 +46,11 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Viewport viewport_menu;
 	[Widget] Gtk.Viewport viewport_persons;
 	[Widget] Gtk.CheckButton check_menu_session;
+	[Widget] Gtk.CheckButton check_menu_encoder;
 	[Widget] Gtk.CheckButton check_menu_help;
 	[Widget] Gtk.Alignment alignment_menu_session_options;
 	[Widget] Gtk.Alignment alignment_menu_person_options;
+	[Widget] Gtk.Alignment alignment_menu_encoder_options;
 	[Widget] Gtk.Alignment alignment_menu_help_options;
 	[Widget] Gtk.Image image_persons_new_2;
 	[Widget] Gtk.Image image_persons_new_plus_2;
@@ -69,6 +73,12 @@ public partial class ChronoJumpWindow
 		//UtilGtk.ViewportColor(viewport_persons, UtilGtk.BLUE_CLEAR2);
 	}
 
+	private void menuShowVerticalArrow (bool selected, Gtk.Arrow a_up, Gtk.Arrow a_down)
+	{
+		a_up.Visible = selected;
+		a_down.Visible = ! selected;
+	}
+
 	private void on_button_show_menu_clicked (object o, EventArgs args)
 	{
 		if(! viewport_menu.Visible)
@@ -77,50 +87,54 @@ public partial class ChronoJumpWindow
 				check_menu_session.Active = false;
 			if(check_menu_help.Active)
 				check_menu_help.Active = false;
+			if(check_menu_encoder.Active)
+				check_menu_encoder.Active = false;
 		}
 
 		viewport_menu.Visible = ! viewport_menu.Visible;
-		if(viewport_menu.Visible) {
+		menuShowVerticalArrow (viewport_menu.Visible, arrow_menu_show_menu_up, arrow_menu_show_menu_down);
+
+		if(viewport_menu.Visible)
 			viewport_persons.Visible = false;
-			arrow_menu_show_menu_up.Visible = true;
-			arrow_menu_show_menu_down.Visible = false;
-		} else {
+		else
 			viewport_persons.Visible = (currentSession != null);
-			arrow_menu_show_menu_up.Visible = false;
-			arrow_menu_show_menu_down.Visible = true;
-		}
 		//hpaned_contacts_main.Show();
 	}
 
 	private void on_check_menu_session_clicked (object o, EventArgs args)
 	{
+		menuShowVerticalArrow (check_menu_session.Active, arrow_menu_show_session_up, arrow_menu_show_session_down);
 		if(check_menu_session.Active)
 		{
+			check_menu_encoder.Active = false;
 			check_menu_help.Active = false;
 			alignment_menu_session_options.Visible = true;
 			alignment_menu_session_options.Show();
-			arrow_menu_show_session_up.Visible = true;
-			arrow_menu_show_session_down.Visible = false;
-		} else {
+		} else
 			alignment_menu_session_options.Visible = false;
-			arrow_menu_show_session_up.Visible = false;
-			arrow_menu_show_session_down.Visible = true;
-		}
 	}
 
-	private void on_check_menu_help_clicked (object o, EventArgs args)
+	private void on_check_menu_encoder_clicked (object o, EventArgs args)
 	{
-		if(check_menu_help.Active)
+		menuShowVerticalArrow (check_menu_encoder.Active, arrow_menu_show_encoder_up, arrow_menu_show_encoder_down);
+		if(check_menu_encoder.Active)
 		{
 			check_menu_session.Active = false;
+			check_menu_help.Active = false;
+			alignment_menu_encoder_options.Visible = true;
+		} else
+			alignment_menu_encoder_options.Visible = false;
+	}
+	private void on_check_menu_help_clicked (object o, EventArgs args)
+	{
+		menuShowVerticalArrow (check_menu_help.Active, arrow_menu_show_help_up, arrow_menu_show_help_down);
+		if(check_menu_help.Active)
+		{
+			check_menu_encoder.Active = false;
+			check_menu_session.Active = false;
 			alignment_menu_help_options.Visible = true;
-			arrow_menu_show_help_up.Visible = true;
-			arrow_menu_show_help_down.Visible = false;
-		} else {
+		} else
 			alignment_menu_help_options.Visible = false;
-			arrow_menu_show_help_up.Visible = false;
-			arrow_menu_show_help_down.Visible = true;
-		}
 	}
 
 	private void on_button_modes_clicked (object o, EventArgs args)

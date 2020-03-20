@@ -128,7 +128,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_capture_finish;
 	[Widget] Gtk.Image image_encoder_capture_cancel;
 
-	[Widget] Gtk.Notebook notebook_session_person;
+	[Widget] Gtk.Alignment alignment_session_person;
 	//[Widget] Gtk.Box vbox_persons;
 
 	[Widget] Gtk.TreeView treeview_persons;
@@ -7284,8 +7284,6 @@ LogB.Debug("mc finished 5");
 
 	private void sensitiveGuiNoSession () 
 	{
-		notebook_session_person.CurrentPage = 1;
-
 		viewport_persons.Visible = false;
 		//treeview_persons.Sensitive = false;
 		
@@ -7326,8 +7324,6 @@ LogB.Debug("mc finished 5");
 	
 	private void sensitiveGuiYesSession () 
 	{
-		notebook_session_person.CurrentPage = 1;
-
 		button_image_test_zoom.Sensitive = true;
 		viewport_persons.Visible = true;
 		frame_persons.Sensitive = true;

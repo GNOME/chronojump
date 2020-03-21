@@ -153,7 +153,7 @@ public partial class ChronoJumpWindow
 		}
 
 		main_menu.Sensitive = s;
-		alignment_session_person.Sensitive = s;
+		viewport_persons.Sensitive = s;
 		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = s;
 		hbox_top_person.Sensitive = s;
 	}

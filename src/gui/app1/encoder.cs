@@ -3727,7 +3727,7 @@ public partial class ChronoJumpWindow
 
 		table_encoder_analyze_options.Sensitive = s;
 		main_menu.Sensitive = s;
-		alignment_session_person.Sensitive = s;
+		viewport_persons.Sensitive = s;
 		hbox_encoder_sup_capture_analyze_two_buttons.Sensitive = s;
 		hbox_top_person_encoder.Sensitive = s;
 	}
@@ -4675,7 +4675,7 @@ public partial class ChronoJumpWindow
 
 		main_menu.Sensitive = ! show;
 		hbox_encoder_sup_capture_analyze.Sensitive = ! show;
-		alignment_session_person.Sensitive = ! show;
+		viewport_persons.Sensitive = ! show;
 		hbox_encoder_configuration.Sensitive = ! show;
 		hbox_encoder_capture_top.Sensitive = ! show;
 		vpaned_encoder_capture_video_and_set_graph.Sensitive = ! show;

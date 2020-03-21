@@ -972,6 +972,7 @@
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
+                                                            <property name="tooltip" translatable="yes">Session</property>
                                                             <property name="active">True</property>
                                                             <property name="draw_indicator">False</property>
                                                             <signal name="clicked" handler="on_check_menu_session_clicked" swapped="no"/>
@@ -1071,7 +1072,7 @@
                                                             <property name="can_default">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">New person</property>
+                                                            <property name="tooltip" translatable="yes">New session</property>
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_new_activate" swapped="no"/>
                                                             <child>
@@ -1119,7 +1120,7 @@
                                                             <property name="can_default">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">New persons (multiple)</property>
+                                                            <property name="tooltip" translatable="yes">Load session</property>
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_open_activate" swapped="no"/>
                                                             <child>
@@ -1168,7 +1169,7 @@
                                                             <property name="can_default">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Load person</property>
+                                                            <property name="tooltip" translatable="yes">Edit session</property>
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_edit_session_activate" swapped="no"/>
                                                             <child>
@@ -1217,7 +1218,7 @@
                                                             <property name="can_default">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Load persons from other session</property>
+                                                            <property name="tooltip" translatable="yes">Delete session</property>
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_delete_session_activate" swapped="no"/>
                                                             <child>
@@ -1608,6 +1609,7 @@
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
+                                                            <property name="tooltip" translatable="yes">Preferences</property>
                                                             <signal name="clicked" handler="on_preferences_activate" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkEventBox" id="eventbox_button_menu_preferences">
@@ -1660,6 +1662,7 @@
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
+                                                            <property name="tooltip" translatable="yes">Encoder</property>
                                                             <property name="draw_indicator">False</property>
                                                             <signal name="clicked" handler="on_check_menu_encoder_clicked" swapped="no"/>
                                                             <child>
@@ -1792,6 +1795,7 @@
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
+                                                            <property name="tooltip" translatable="yes">Help</property>
                                                             <property name="draw_indicator">False</property>
                                                             <signal name="clicked" handler="on_check_menu_help_clicked" swapped="no"/>
                                                             <child>
@@ -1945,6 +1949,7 @@
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
+                                                            <property name="tooltip" translatable="yes">Exit</property>
                                                             <signal name="clicked" handler="on_quit1_activate" swapped="no"/>
                                                             <accelerator key="q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
@@ -24435,6 +24440,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -26749,18 +26757,6 @@ Concentric</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Tests will be filmed</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack_type">end</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <widget class="GtkHBox" id="hbox_video_encoder_capturing">
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
@@ -26788,6 +26784,18 @@ Concentric</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Tests will be filmed</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -32498,6 +32506,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

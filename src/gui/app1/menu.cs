@@ -29,7 +29,6 @@ using Glade;
 
 public partial class ChronoJumpWindow
 {
-	[Widget] Gtk.Label label_button_show_menu;
 	[Widget] Gtk.Arrow arrow_menu_show_menu_up;
 	[Widget] Gtk.Arrow arrow_menu_show_menu_down;
 	[Widget] Gtk.Arrow arrow_menu_show_session_up;
@@ -55,6 +54,12 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.CheckButton check_menu_session;
 	[Widget] Gtk.CheckButton check_menu_encoder;
 	[Widget] Gtk.CheckButton check_menu_help;
+	[Widget] Gtk.Image image_button_show_menu;
+	[Widget] Gtk.Label label_button_show_menu;
+	[Widget] Gtk.Image image_button_show_modes;
+	[Widget] Gtk.Label label_button_show_modes;
+	[Widget] Gtk.Image image_menu_help;
+	[Widget] Gtk.Label label_menu_help;
 	[Widget] Gtk.Image image_menu_preferences;
 	[Widget] Gtk.Label label_menu_preferences;
 	[Widget] Gtk.Image image_menu_quit;

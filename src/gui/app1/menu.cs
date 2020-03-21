@@ -58,10 +58,12 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_button_show_menu;
 	[Widget] Gtk.Image image_button_show_modes;
 	[Widget] Gtk.Label label_button_show_modes;
-	[Widget] Gtk.Image image_menu_help;
-	[Widget] Gtk.Label label_menu_help;
+	[Widget] Gtk.Image image_menu_folders;
+	[Widget] Gtk.Label label_menu_folders;
 	[Widget] Gtk.Image image_menu_preferences;
 	[Widget] Gtk.Label label_menu_preferences;
+	[Widget] Gtk.Image image_menu_help;
+	[Widget] Gtk.Label label_menu_help;
 	[Widget] Gtk.Image image_menu_quit;
 	[Widget] Gtk.Label label_menu_quit;
 	[Widget] Gtk.Alignment alignment_menu_session_options;

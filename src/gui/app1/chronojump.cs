@@ -3465,7 +3465,7 @@ public partial class ChronoJumpWindow
 		//show the program
 		notebook_start.CurrentPage = 0;
 
-		button_modes.Sensitive = true;
+		button_show_modes.Sensitive = true;
 
 		//make main_menu visible because it's not visible at startup.
 		//but don't show if session == UNIQUE

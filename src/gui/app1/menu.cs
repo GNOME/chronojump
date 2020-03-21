@@ -38,13 +38,15 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Arrow arrow_menu_show_encoder_down;
 	[Widget] Gtk.Arrow arrow_menu_show_help_up;
 	[Widget] Gtk.Arrow arrow_menu_show_help_down;
-	[Widget] Gtk.Button button_modes;
+	[Widget] Gtk.Button button_show_modes;
 	//[Widget] Gtk.HPaned hpaned_contacts_main;
 	[Widget] Gtk.Viewport viewport_hpaned_contacts_main;
 	[Widget] Gtk.Viewport viewport_start_modes;
 	[Widget] Gtk.Viewport viewport_menu_top;
 	[Widget] Gtk.Viewport viewport_menu;
 	[Widget] Gtk.Viewport viewport_persons;
+	[Widget] Gtk.EventBox eventbox_button_show_menu;
+	[Widget] Gtk.EventBox eventbox_button_show_modes;
 	[Widget] Gtk.EventBox eventbox_check_menu_session;
 	[Widget] Gtk.EventBox eventbox_button_menu_preferences;
 	[Widget] Gtk.EventBox eventbox_check_menu_encoder;
@@ -77,6 +79,8 @@ public partial class ChronoJumpWindow
 		//UtilGtk.ViewportColor(viewport_menu, UtilGtk.GRAY_LIGHT);
 		//UtilGtk.ViewportColor(viewport_persons, UtilGtk.BLUE_CLEAR2);
 
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_show_menu, UtilGtk.YELLOW);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_show_modes, UtilGtk.YELLOW);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_session, UtilGtk.YELLOW);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_preferences, UtilGtk.YELLOW);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_encoder, UtilGtk.YELLOW);
@@ -148,10 +152,10 @@ public partial class ChronoJumpWindow
 			alignment_menu_help_options.Visible = false;
 	}
 
-	private void on_button_modes_clicked (object o, EventArgs args)
+	private void on_button_show_modes_clicked (object o, EventArgs args)
 	{
 		show_start_page();
-		button_modes.Sensitive = false;
+		button_show_modes.Sensitive = false;
 
 		/*
 		//to care about viewport_menu_top being lower width allocated and a bit hidden by hpaned_contacts_main

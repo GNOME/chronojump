@@ -46,8 +46,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Viewport viewport_menu;
 	[Widget] Gtk.Viewport viewport_persons;
 	[Widget] Gtk.EventBox eventbox_check_menu_session;
+	[Widget] Gtk.EventBox eventbox_button_menu_preferences;
 	[Widget] Gtk.EventBox eventbox_check_menu_encoder;
 	[Widget] Gtk.EventBox eventbox_check_menu_help;
+	[Widget] Gtk.EventBox eventbox_button_menu_exit;
 	[Widget] Gtk.CheckButton check_menu_session;
 	[Widget] Gtk.CheckButton check_menu_encoder;
 	[Widget] Gtk.CheckButton check_menu_help;
@@ -76,8 +78,10 @@ public partial class ChronoJumpWindow
 		//UtilGtk.ViewportColor(viewport_persons, UtilGtk.BLUE_CLEAR2);
 
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_session, UtilGtk.YELLOW);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_preferences, UtilGtk.YELLOW);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_encoder, UtilGtk.YELLOW);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_help, UtilGtk.YELLOW);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_exit, UtilGtk.YELLOW);
 	}
 
 	private void menuShowVerticalArrow (bool selected, Gtk.Arrow a_up, Gtk.Arrow a_down)
@@ -157,3 +161,39 @@ public partial class ChronoJumpWindow
 	}
 
 }
+
+
+/*
+public class ColorGuiManage
+{
+	List<ColorGui> colorGui_l;
+
+	public ColorGuiManage()
+	{
+		List<ColorGui> colorGui_l = new List<colorGui>();
+		List.Add(new ColorGui("Chronojump Yellow", "0xff,0xcc,0x01")); 
+		List.Add(new ColorGui("Chronojump Blue", "0x0e,0x1e,0x46")); 
+	}
+
+	public Gdk.Color GetColor(string english)
+	{
+	}
+}
+
+public class ColorGui
+{
+	private string colorEnglish;
+	private string colorHTML;
+
+	public ColorGui(string english, string html)
+	{
+		this.colorEnglish = english;
+		this.colorHTML = html;
+	}
+
+	public Gdk.Color ColorHTML
+	{
+		get { return new Gdk.Color(colorHTML; }
+	}
+}
+*/

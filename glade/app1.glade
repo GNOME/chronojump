@@ -1557,11 +1557,23 @@
                                                         </child>
                                                         <child>
                                                           <widget class="GtkButton" id="button_menu_preferences">
-                                                            <property name="label" translatable="yes">Preferences</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <signal name="clicked" handler="on_preferences_activate" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkEventBox" id="eventbox_button_menu_preferences">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label23">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Preferences</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
                                                           </widget>
                                                           <packing>
                                                             <property name="expand">False</property>
@@ -1847,12 +1859,24 @@
                                                         </child>
                                                         <child>
                                                           <widget class="GtkButton" id="button_menu_exit">
-                                                            <property name="label" translatable="yes">Exit</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <signal name="clicked" handler="on_quit1_activate" swapped="no"/>
                                                             <accelerator key="q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
+                                                            <child>
+                                                            <widget class="GtkEventBox" id="eventbox_button_menu_exit">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label24">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Exit</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
                                                           </widget>
                                                           <packing>
                                                             <property name="expand">False</property>
@@ -24309,6 +24333,18 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -32372,6 +32408,18 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

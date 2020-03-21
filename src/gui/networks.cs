@@ -332,11 +332,9 @@ public partial class ChronoJumpWindow
 			{
 				app1.Unmaximize();
 				app1.Decorated = true;
-				button_start_quit.Visible = false;
 			} else {
 				app1.Decorated = (configChronojump.Maximized != Preferences.MaximizedTypes.YESUNDECORATED);
 				app1.Maximize();
-				button_start_quit.Visible = ! app1.Decorated;
 			}
 			maximizeWindowAtStartDone = true;
 		}

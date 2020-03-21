@@ -3110,6 +3110,7 @@ public partial class ChronoJumpWindow
 	{
 		notebook_start_selector.CurrentPage = 0;
 		notebook_sup.CurrentPage = 0;
+		vbox_menu_encoder.Visible = false;
 
 		//show title
 		string tempSessionName = "";

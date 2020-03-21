@@ -276,6 +276,8 @@ public partial class ChronoJumpWindow
 		image_button_show_menu.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_modes.png");
 		image_button_show_modes.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_folders.png");
+		image_menu_folders.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_help.png");
 		image_menu_help.Pixbuf = pixbuf;
 

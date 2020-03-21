@@ -134,8 +134,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_capture_finish;
 	[Widget] Gtk.Image image_encoder_capture_cancel;
 
-	[Widget] Gtk.Alignment alignment_session_person;
-
 	[Widget] Gtk.TreeView treeview_persons;
 	[Widget] Gtk.TreeView treeview_jumps;
 	[Widget] Gtk.TreeView treeview_jumps_rj;

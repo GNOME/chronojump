@@ -33,6 +33,8 @@ public class Preferences
 	public bool personWinHide;
 	public bool personPhoto;
 	//public string colorBackgroundString = "#0e1e46";
+	public enum MenuTypes { ALL, TEXT, ICONS};
+	public MenuTypes menuType;
 	public string colorBackgroundString;
 
 	public enum UnitsEnum { METRIC, IMPERIAL };

@@ -51,6 +51,14 @@ public class PreferencesWindow
 	[Widget] Gtk.CheckButton check_appearance_maximized;
 	[Widget] Gtk.CheckButton check_appearance_maximized_undecorated;
 	[Widget] Gtk.CheckButton check_appearance_person_win_hide;
+	[Widget] Gtk.RadioButton radio_menu_show_all;
+	[Widget] Gtk.RadioButton radio_menu_show_text;
+	[Widget] Gtk.RadioButton radio_menu_show_icons;
+	[Widget] Gtk.CheckButton check_example_menu_all;
+	[Widget] Gtk.CheckButton check_example_menu_text;
+	[Widget] Gtk.CheckButton check_example_menu_icons;
+	[Widget] Gtk.Image image_menu_folders;
+	[Widget] Gtk.Image image_menu_folders2;
 	[Widget] Gtk.CheckButton check_appearance_person_photo;
 	[Widget] Gtk.Alignment alignment_undecorated;
 	[Widget] Gtk.DrawingArea drawingarea_background_color;
@@ -332,10 +340,21 @@ public class PreferencesWindow
 
 		PreferencesWindowBox.check_appearance_person_photo.Sensitive = ! preferences.personWinHide;
 
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_folders.png");
+		PreferencesWindowBox.image_menu_folders.Pixbuf = pixbuf;
+		PreferencesWindowBox.image_menu_folders2.Pixbuf = pixbuf;
+
 		if(preferences.personPhoto)
 			PreferencesWindowBox.check_appearance_person_photo.Active = true;
 		else
 			PreferencesWindowBox.check_appearance_person_photo.Active = false;
+
+		if(preferences.menuType == Preferences.MenuTypes.ALL)
+			PreferencesWindowBox.radio_menu_show_all.Active = true;
+		else if(preferences.menuType == Preferences.MenuTypes.TEXT)
+			PreferencesWindowBox.radio_menu_show_text.Active = true;
+		else //if(preferences.menuType == Preferences.MenuTypes.ICONS)
+			PreferencesWindowBox.radio_menu_show_icons.Active = true;
 
 		PreferencesWindowBox.colorBackground = UtilGtk.ColorParse(preferences.colorBackgroundString);
 		PreferencesWindowBox.paintColorDrawingArea(PreferencesWindowBox.colorBackground);
@@ -633,6 +652,21 @@ public class PreferencesWindow
 
 		PreferencesWindowBox.preferences_win.Show ();
 		return PreferencesWindowBox;
+	}
+
+	private void on_radio_menu_show_toggled (object o, EventArgs args)
+	{
+		/*
+		if(radio_menu_show_all.Active)
+		{
+			check_example_menu_all.Visible = true;
+			check_example_menu_text.Visible = false;
+			check_example_menu_icons.Visible = false;
+		}
+		*/
+		check_example_menu_all.Visible = (o == (object) radio_menu_show_all && radio_menu_show_all.Active);
+		check_example_menu_text.Visible = (o == (object) radio_menu_show_text && radio_menu_show_text.Active);
+		check_example_menu_icons.Visible = (o == (object) radio_menu_show_icons && radio_menu_show_icons.Active);
 	}
 
 	private void paintColorDrawingArea(Gdk.Color color)
@@ -1750,6 +1784,22 @@ public class PreferencesWindow
 		if( preferences.personPhoto != PreferencesWindowBox.check_appearance_person_photo.Active ) {
 			SqlitePreferences.Update("personPhoto", PreferencesWindowBox.check_appearance_person_photo.Active.ToString(), true);
 			preferences.personPhoto = PreferencesWindowBox.check_appearance_person_photo.Active;
+		}
+
+		if(PreferencesWindowBox.radio_menu_show_all.Active && preferences.menuType != Preferences.MenuTypes.ALL)
+		{
+			SqlitePreferences.Update(SqlitePreferences.MenuType, Preferences.MenuTypes.ALL.ToString(), true);
+			preferences.menuType = Preferences.MenuTypes.ALL;
+		}
+		else if(PreferencesWindowBox.radio_menu_show_text.Active && preferences.menuType != Preferences.MenuTypes.TEXT)
+		{
+			SqlitePreferences.Update(SqlitePreferences.MenuType, Preferences.MenuTypes.TEXT.ToString(), true);
+			preferences.menuType = Preferences.MenuTypes.TEXT;
+		}
+		else if(PreferencesWindowBox.radio_menu_show_icons.Active && preferences.menuType != Preferences.MenuTypes.ICONS)
+		{
+			SqlitePreferences.Update(SqlitePreferences.MenuType, Preferences.MenuTypes.ICONS.ToString(), true);
+			preferences.menuType = Preferences.MenuTypes.ICONS;
 		}
 
 		preferences.colorBackgroundString = Preferences.PreferencesChange(

@@ -28,6 +28,7 @@ using System.Collections; //ArrayList
 class SqlitePreferences : Sqlite
 {
 	public const string UnitsStr = "units";
+	public const string MenuType = "menuType";
 	public const string ColorBackground = "colorBackground";
 
 	//contacts
@@ -116,6 +117,7 @@ class SqlitePreferences : Sqlite
 				Insert ("maximized", Preferences.MaximizedTypes.NO.ToString(), dbcmdTr);
 				Insert ("personWinHide", "False", dbcmdTr);
 				Insert ("personPhoto", "True", dbcmdTr);
+				Insert (MenuType, Preferences.MenuTypes.ALL.ToString(), dbcmdTr);
 				Insert (ColorBackground, "#0e1e46", dbcmdTr);
 				Insert (UnitsStr, Preferences.UnitsEnum.METRIC.ToString(), dbcmdTr);
 				Insert ("encoderCaptureShowOnlyBars", "False", dbcmdTr);
@@ -359,6 +361,9 @@ class SqlitePreferences : Sqlite
 				preferences.personWinHide = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "personPhoto")
 				preferences.personPhoto = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == MenuType)
+				preferences.menuType = (Preferences.MenuTypes)
+					Enum.Parse(typeof(Preferences.MenuTypes), reader[1].ToString());
 			else if(reader[0].ToString() == ColorBackground)
 				preferences.colorBackgroundString = reader[1].ToString();
 			else if(reader[0].ToString() == UnitsStr)

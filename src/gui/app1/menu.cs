@@ -37,6 +37,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Arrow arrow_menu_show_encoder_down;
 	[Widget] Gtk.Arrow arrow_menu_show_help_up;
 	[Widget] Gtk.Arrow arrow_menu_show_help_down;
+	[Widget] Gtk.Button button_show_menu;
 	[Widget] Gtk.Button button_show_modes;
 	//[Widget] Gtk.HPaned hpaned_contacts_main;
 	[Widget] Gtk.Viewport viewport_hpaned_contacts_main;
@@ -178,6 +179,12 @@ public partial class ChronoJumpWindow
 		//to care about viewport_menu_top being lower width allocated and a bit hidden by hpaned_contacts_main
 		LogB.Information("viewport_menu_top.Allocation.Width: " + viewport_menu_top.Allocation.Width.ToString());
 		LogB.Information("viewport_menu_top.SizeRequest.Width: " + viewport_menu_top.SizeRequest().Width.ToString());
+
+		LogB.Information("button_show_menu.Allocation.Width: " + button_show_menu.Allocation.Width.ToString());
+		LogB.Information("button_show_menu.SizeRequest.Width: " + button_show_menu.SizeRequest().Width.ToString());
+
+		LogB.Information("button_show_modes.Allocation.Width: " + button_show_modes.Allocation.Width.ToString());
+		LogB.Information("button_show_modes.SizeRequest.Width: " + button_show_modes.SizeRequest().Width.ToString());
 		*/
 	}
 

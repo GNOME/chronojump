@@ -764,7 +764,6 @@
                                 <property name="right_padding">2</property>
                                 <child>
                                   <widget class="GtkViewport" id="viewport_menu_top">
-                                    <property name="width_request">200</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <child>

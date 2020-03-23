@@ -280,6 +280,8 @@ public partial class ChronoJumpWindow
 		image_menu_folders.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_help.png");
 		image_menu_help.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_book.png");
+		image_menu_help_documents.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_keyboard.png");
 		image_menu_help_accelerators.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_about.png");

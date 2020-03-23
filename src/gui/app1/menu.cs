@@ -64,6 +64,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_menu_preferences;
 	[Widget] Gtk.Image image_menu_help;
 	[Widget] Gtk.Label label_menu_help;
+	[Widget] Gtk.Image image_menu_help_documents;
+	[Widget] Gtk.Label label_menu_help_documents;
 	[Widget] Gtk.Image image_menu_help_accelerators;
 	[Widget] Gtk.Label label_menu_help_accelerators;
 	[Widget] Gtk.Image image_menu_help_about;

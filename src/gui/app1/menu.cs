@@ -55,34 +55,82 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.CheckButton check_menu_session;
 	[Widget] Gtk.CheckButton check_menu_encoder;
 	[Widget] Gtk.CheckButton check_menu_help;
-	[Widget] Gtk.Image image_button_show_menu;
-	[Widget] Gtk.Label label_button_show_menu;
-	[Widget] Gtk.Image image_button_show_modes;
-	[Widget] Gtk.Label label_button_show_modes;
-	[Widget] Gtk.Image image_menu_folders;
-	[Widget] Gtk.Label label_menu_folders;
-	[Widget] Gtk.Image image_menu_preferences;
-	[Widget] Gtk.Label label_menu_preferences;
-	[Widget] Gtk.Image image_menu_help;
-	[Widget] Gtk.Label label_menu_help;
-	[Widget] Gtk.Image image_menu_help_documents;
-	[Widget] Gtk.Label label_menu_help_documents;
-	[Widget] Gtk.Image image_menu_help_accelerators;
-	[Widget] Gtk.Label label_menu_help_accelerators;
-	[Widget] Gtk.Image image_menu_help_about;
-	[Widget] Gtk.Label label_menu_help_about;
-	[Widget] Gtk.Image image_menu_quit;
-	[Widget] Gtk.Label label_menu_quit;
 	[Widget] Gtk.Alignment alignment_menu_session_options;
 	[Widget] Gtk.Alignment alignment_menu_person_options;
 	[Widget] Gtk.Alignment alignment_menu_encoder_options;
 	[Widget] Gtk.Alignment alignment_menu_help_options;
-	[Widget] Gtk.Image image_persons_new_2;
-	[Widget] Gtk.Image image_persons_new_plus_2;
-	[Widget] Gtk.Image image_persons_open_2;
-	[Widget] Gtk.Image image_persons_open_plus_2;
 
-	private void menu_initialize_colors()
+	//menu icons
+	[Widget] Gtk.Image image_button_show_menu;
+	[Widget] Gtk.Image image_button_show_modes;
+	[Widget] Gtk.Image image_menu_folders;
+	[Widget] Gtk.Image image_session_new3;
+	[Widget] Gtk.Image image_session_load2;
+	[Widget] Gtk.Image image_session_edit2;
+	[Widget] Gtk.Image image_session_delete2;
+	[Widget] Gtk.Image image_menu_preferences;
+	[Widget] Gtk.Image image_menu_help;
+	[Widget] Gtk.Image image_menu_help_documents;
+	[Widget] Gtk.Image image_menu_help_accelerators;
+	[Widget] Gtk.Image image_menu_help_about;
+	[Widget] Gtk.Image image_menu_quit;
+
+	//menu labels
+	[Widget] Gtk.Label label_button_show_menu;
+	[Widget] Gtk.Label label_button_show_modes;
+	[Widget] Gtk.Label label_menu_folders;
+	[Widget] Gtk.Label label_session_new;
+	[Widget] Gtk.Label label_session_load;
+	[Widget] Gtk.Label label_session_edit;
+	[Widget] Gtk.Label label_session_delete;
+	[Widget] Gtk.Label label_menu_preferences;
+	[Widget] Gtk.Label label_menu_help;
+	[Widget] Gtk.Label label_menu_help_documents;
+	[Widget] Gtk.Label label_menu_help_accelerators;
+	[Widget] Gtk.Label label_menu_help_about;
+	[Widget] Gtk.Label label_menu_quit;
+
+
+	private void menu_initialize ()
+	{
+		menuSetTextAndIcons();
+		menuSetColors();
+	}
+
+	private void menuSetTextAndIcons ()
+	{
+		//icons
+		image_button_show_menu.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
+		image_button_show_modes.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
+		image_menu_folders.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
+		image_session_new3.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
+		image_session_load2.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
+		image_session_edit2.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
+		image_session_delete2.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
+		image_menu_preferences.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
+		image_menu_help.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
+		image_menu_help_documents.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
+		image_menu_help_accelerators.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
+		image_menu_help_about.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
+		image_menu_quit.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
+
+		//labels
+		label_button_show_menu.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
+		label_button_show_modes.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
+		label_menu_folders.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
+		label_session_new.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
+		label_session_load.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
+		label_session_edit.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
+		label_session_delete.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
+		label_menu_preferences.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
+		label_menu_help.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
+		label_menu_help_documents.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
+		label_menu_help_accelerators.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
+		label_menu_help_about.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
+		label_menu_quit.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
+	}
+
+	private void menuSetColors ()
 	{
 		//Gdk.Color color = UtilGtk.YELLOW;
 		//Gdk.Color color = UtilGtk.BLUE_CHRONOJUMP;

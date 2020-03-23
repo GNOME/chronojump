@@ -39,12 +39,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_quit3;
 	[Widget] Gtk.Image image_quit_from_app1;
 	[Widget] Gtk.Image image_session_new2;
-	[Widget] Gtk.Image image_session_new3;
-	[Widget] Gtk.Image image_session_load2;
 	[Widget] Gtk.Image image_session_edit;
-	[Widget] Gtk.Image image_session_edit2;
 	[Widget] Gtk.Image image_session_delete;
-	[Widget] Gtk.Image image_session_delete2;
 	[Widget] Gtk.Image image_session_preferences;
 	[Widget] Gtk.Image image_mode_encoder_capture;
 	[Widget] Gtk.Image image_manage_persons;
@@ -462,16 +458,16 @@ public partial class ChronoJumpWindow
 		//persons buttons
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_add.png");
 		image_persons_new_1.Pixbuf = pixbuf;
-		image_persons_new_2.Pixbuf = pixbuf;
+		//image_persons_new_2.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_group_add.png");
 		image_persons_new_plus.Pixbuf = pixbuf;
-		image_persons_new_plus_2.Pixbuf = pixbuf;
+		//image_persons_new_plus_2.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_outline.png");
 		image_persons_open_1.Pixbuf = pixbuf;
-		image_persons_open_2.Pixbuf = pixbuf;
+		//dimage_persons_open_2.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_group_outline.png");
 		image_persons_open_plus.Pixbuf = pixbuf;
-		image_persons_open_plus_2.Pixbuf = pixbuf;
+		//image_persons_open_plus_2.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_rest.png");
 		image_rest.Pixbuf = pixbuf;

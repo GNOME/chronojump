@@ -708,7 +708,7 @@ public partial class ChronoJumpWindow
 		} else
 			LogB.Information("Ping discarded (Compujump)");
 
-		menu_initialize_colors();
+		menu_initialize();
 
 		testNewStuff();
 
@@ -3086,7 +3086,7 @@ public partial class ChronoJumpWindow
 		if(pen_black_force_ai != null)
 			pen_black_force_ai.SetLineAttributes (preferences.forceSensorGraphsLineWidth, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
 
-		menu_initialize_colors();
+		menu_initialize();
 
 		// update force_capture_drawingarea
 		if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR && radiobutton_force_sensor_analyze_manual.Active)

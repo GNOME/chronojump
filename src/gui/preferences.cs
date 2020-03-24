@@ -656,14 +656,6 @@ public class PreferencesWindow
 
 	private void on_radio_menu_show_toggled (object o, EventArgs args)
 	{
-		/*
-		if(radio_menu_show_all.Active)
-		{
-			check_example_menu_all.Visible = true;
-			check_example_menu_text.Visible = false;
-			check_example_menu_icons.Visible = false;
-		}
-		*/
 		check_example_menu_all.Visible = (o == (object) radio_menu_show_all && radio_menu_show_all.Active);
 		check_example_menu_text.Visible = (o == (object) radio_menu_show_text && radio_menu_show_text.Active);
 		check_example_menu_icons.Visible = (o == (object) radio_menu_show_icons && radio_menu_show_icons.Active);

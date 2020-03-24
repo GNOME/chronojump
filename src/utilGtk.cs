@@ -775,7 +775,7 @@ public class UtilGtk
 			return colorString + colorString;
 		if(colorString.Length == 2) //if "ce" return "ce"
 			return colorString;
-		if(colorString.Length == 3) //if "0e0" return "0e"
+		if(colorString.Length == 3) //if "e0e" return "0e" (like the Chronojump blue)
 			return colorString.Substring(1,2);
 		if(colorString.Length == 4) //if "cece" return "ce")
 			return colorString.Substring(0,2);

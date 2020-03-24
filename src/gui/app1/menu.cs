@@ -24,6 +24,7 @@ using System;
 using Gtk;
 //using Gdk;
 using Glade;
+using System.Collections.Generic; //List
 
 //provar checkbuttons enlloc dels togglebuttons que igual no van be
 
@@ -39,7 +40,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Arrow arrow_menu_show_help_down;
 	[Widget] Gtk.Button button_show_menu;
 	[Widget] Gtk.Button button_show_modes;
-	//[Widget] Gtk.HPaned hpaned_contacts_main;
+	[Widget] Gtk.HPaned hpaned_contacts_main;
+	[Widget] Gtk.Alignment alignment_viewport_menu_top;
 	[Widget] Gtk.Viewport viewport_hpaned_contacts_main;
 	[Widget] Gtk.Viewport viewport_start_modes;
 	[Widget] Gtk.Viewport viewport_menu_top;
@@ -59,6 +61,15 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Alignment alignment_menu_person_options;
 	[Widget] Gtk.Alignment alignment_menu_encoder_options;
 	[Widget] Gtk.Alignment alignment_menu_help_options;
+
+	[Widget] Gtk.Button button_menu_session_new;
+	[Widget] Gtk.Button button_menu_session_load;
+	[Widget] Gtk.Button button_menu_session_edit;
+	[Widget] Gtk.Button button_menu_session_delete;
+	[Widget] Gtk.Button button_menu_preferences;
+	[Widget] Gtk.Button button_menu_help_documents;
+	[Widget] Gtk.Button button_menu_help_accelerators;
+	[Widget] Gtk.Button button_menu_help_about;
 
 	//menu icons
 	[Widget] Gtk.Image image_button_show_menu;
@@ -95,6 +106,38 @@ public partial class ChronoJumpWindow
 	{
 		menuSetTextAndIcons();
 		menuSetColors();
+
+		//LogB.Information("hpaned MinPosition: " + hpaned_contacts_main.MinPosition.ToString());
+
+		//unselect menu_help if selected
+		if(check_menu_help.Active)
+			check_menu_help.Active = false;
+		alignment_menu_help_options.Visible = false;
+
+		/*
+		//do 1 and then 2 to ensure menu is shrinked after changing to icons
+		//1
+		hpaned_contacts_main = new Gtk.HPaned();
+		hpaned_contacts_main.Pack1(alignment_viewport_menu_top, false, false);
+		hpaned_contacts_main.Pack2(notebook_sup, true, false);
+		hpaned_contacts_main.Show();
+		*/
+
+		//2 (1 seems not needed)
+		//this is done to ensure hidden buttons will be shown (because also submenu items seems to have Allocation=1)
+		//if we need it, pass also the other buttons but without the +16
+		List <Gtk.Button> l = new List<Gtk.Button>();
+		l.Add(button_menu_session_new);
+		l.Add(button_menu_session_load);
+		l.Add(button_menu_session_edit);
+		l.Add(button_menu_session_delete);
+		l.Add(button_menu_help_documents);
+		l.Add(button_menu_help_accelerators);
+		l.Add(button_menu_help_about);
+		int maxWidth = getMenuButtonsMaxWidth(l);
+		viewport_menu_top.SetSizeRequest(maxWidth + 16 + 4 + 6, -1); //16, 4, 6 are alignements spaces. -1 is height
+
+		//TODO: check also viewport_persons.Width (at least at preferences.MenuTypes.ALL and ICONS)
 	}
 
 	private void menuSetTextAndIcons ()
@@ -179,7 +222,6 @@ public partial class ChronoJumpWindow
 			viewport_persons.Visible = false;
 		else
 			viewport_persons.Visible = (currentSession != null);
-		//hpaned_contacts_main.Show();
 	}
 
 	private void on_check_menu_session_clicked (object o, EventArgs args)
@@ -190,6 +232,7 @@ public partial class ChronoJumpWindow
 			check_menu_encoder.Active = false;
 			check_menu_help.Active = false;
 			alignment_menu_session_options.Visible = true;
+
 			alignment_menu_session_options.Show();
 		} else
 			alignment_menu_session_options.Visible = false;
@@ -218,22 +261,20 @@ public partial class ChronoJumpWindow
 			alignment_menu_help_options.Visible = false;
 	}
 
+	private int getMenuButtonsMaxWidth(List<Gtk.Button> l)
+	{
+		int max = 0;
+		foreach(Gtk.Button b in l)
+			if(b.SizeRequest().Width > max)
+				max = b.SizeRequest().Width;
+
+		return max;
+	}
+
 	private void on_button_show_modes_clicked (object o, EventArgs args)
 	{
 		show_start_page();
 		button_show_modes.Sensitive = false;
-
-		/*
-		//to care about viewport_menu_top being lower width allocated and a bit hidden by hpaned_contacts_main
-		LogB.Information("viewport_menu_top.Allocation.Width: " + viewport_menu_top.Allocation.Width.ToString());
-		LogB.Information("viewport_menu_top.SizeRequest.Width: " + viewport_menu_top.SizeRequest().Width.ToString());
-
-		LogB.Information("button_show_menu.Allocation.Width: " + button_show_menu.Allocation.Width.ToString());
-		LogB.Information("button_show_menu.SizeRequest.Width: " + button_show_menu.SizeRequest().Width.ToString());
-
-		LogB.Information("button_show_modes.Allocation.Width: " + button_show_modes.Allocation.Width.ToString());
-		LogB.Information("button_show_modes.SizeRequest.Width: " + button_show_modes.SizeRequest().Width.ToString());
-		*/
 	}
 
 }

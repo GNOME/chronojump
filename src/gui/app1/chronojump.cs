@@ -73,6 +73,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_start; 		//start window or program
 	[Widget] Gtk.Notebook notebook_start_selector; 	//use to display the start images to select different modes
 	[Widget] Gtk.Notebook notebook_start_selector2; //for selection of jumps, runs, runs photocell, encoder
+	[Widget] Gtk.Table table_start_selector_rt_other;
+	[Widget] Gtk.Button button_start_selector_show_more;
+	[Widget] Gtk.Button button_start_selector_show_less;
 	[Widget] Gtk.Notebook notebook_sup;
 	[Widget] Gtk.HBox hbox_other;
 	[Widget] Gtk.Notebook notebook_capture_analyze; //not encoder
@@ -3115,8 +3118,23 @@ public partial class ChronoJumpWindow
 		setApp1Title(tempSessionName, Constants.Menuitem_modes.UNDEFINED);
 
 		chronojumpLogo = new ChronojumpLogo (drawingarea_chronojump_logo, viewport_chronojump_logo);
-	}	
-	
+	}
+
+	private void on_button_start_selector_show_more_clicked (object o, EventArgs args)
+	{
+		button_start_selector_show_more.Visible = false;
+		button_start_selector_show_less.Visible = true;
+
+		table_start_selector_rt_other.Visible = true;
+	}
+	private void on_button_start_selector_show_less_clicked (object o, EventArgs args)
+	{
+		button_start_selector_show_more.Visible = true;
+		button_start_selector_show_less.Visible = false;
+
+		table_start_selector_rt_other.Visible = false;
+	}
+
 	private Constants.Menuitem_modes current_menuitem_mode;
 	private Constants.Menuitem_modes last_menuitem_mode; //store it to decide not change threshold when change from jumps to jumpsRj
 	private bool last_menuitem_mode_defined = false; //undefined when first time entry on a mode (jumps, jumpRj, ...)

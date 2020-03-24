@@ -759,6 +759,7 @@ public class UtilGtk
 	public static string ColorToColorString (Gdk.Color color)
 	{
 		string str = color.ToString(); //returns this: rgb:8b8b/6969/1414 or this: rgb:ffff/a5a5/0 (if blue is 0)
+		LogB.Information("str at ColorToColorString: " + str);
 		Match match = Regex.Match(str, @"rgb:(\w+)/(\w+)/(\w+)");
 		LogB.Information("ColorToColorString match groups: " + match.Groups.Count.ToString());
 		if(match.Groups.Count == 4)
@@ -774,6 +775,8 @@ public class UtilGtk
 			return colorString + colorString;
 		if(colorString.Length == 2) //if "ce" return "ce"
 			return colorString;
+		if(colorString.Length == 3) //if "0e0" return "0e"
+			return colorString.Substring(1,2);
 		if(colorString.Length == 4) //if "cece" return "ce")
 			return colorString.Substring(0,2);
 

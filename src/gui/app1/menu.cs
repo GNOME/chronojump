@@ -134,10 +134,28 @@ public partial class ChronoJumpWindow
 		l.Add(button_menu_help_documents);
 		l.Add(button_menu_help_accelerators);
 		l.Add(button_menu_help_about);
-		int maxWidth = getMenuButtonsMaxWidth(l);
-		viewport_menu_top.SetSizeRequest(maxWidth + 16 + 4 + 6, -1); //16, 4, 6 are alignements spaces. -1 is height
+		int maxWidth = getMenuButtonsMaxWidth(l) + 16 + 4 + 6; //16, 4, 6 are alignments spaces.
 
-		//TODO: check also viewport_persons.Width (at least at preferences.MenuTypes.ALL and ICONS)
+		/*
+		LogB.Information(string.Format("viewport_persons: {0}", viewport_persons.SizeRequest().Width));
+		LogB.Information(string.Format("frame_persons: {0}", frame_persons.SizeRequest().Width));
+		LogB.Information(string.Format("frame_exhibition: {0}", frame_exhibition.SizeRequest().Width));
+		LogB.Information(string.Format("frame_persons_top: {0}", frame_persons_top.SizeRequest().Width));
+		LogB.Information(string.Format("treeview_persons: {0}", treeview_persons.SizeRequest().Width));
+		LogB.Information(string.Format("vbox_persons_bottom: {0}", vbox_persons_bottom.SizeRequest().Width));
+		LogB.Information(string.Format("hbox_persons_bottom_no_photo: {0}", hbox_persons_bottom_no_photo.SizeRequest().Width));
+		LogB.Information(string.Format("hbox_persons_bottom_photo: {0}", hbox_persons_bottom_photo.SizeRequest().Width));
+		LogB.Information(string.Format("image_current_person: {0}", image_current_person.SizeRequest().Width));
+		LogB.Information(string.Format("button_image_current_person_zoom: {0}", button_image_current_person_zoom.SizeRequest().Width));
+		LogB.Information(string.Format("hbox_rest_time: {0}", hbox_rest_time.SizeRequest().Width));
+		*/
+
+		if(viewport_persons.SizeRequest().Width +4 +6 > maxWidth)
+			maxWidth = viewport_persons.SizeRequest().Width +4 + 6; //+4 due to alignment_person, +6 to alignment_viewport_menu_top
+		//if(frame_persons.SizeRequest().Width > maxWidth)
+		//	maxWidth = frame_persons.SizeRequest().Width;
+
+		viewport_menu_top.SetSizeRequest(maxWidth, -1); //-1 is height
 	}
 
 	private void menuSetTextAndIcons ()

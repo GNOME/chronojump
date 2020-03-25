@@ -710,6 +710,8 @@ public partial class ChronoJumpWindow
 			LogB.Information("Ping discarded (Compujump)");
 
 		initialize_menu_or_menu_tiny();
+		if(notebook_sup.CurrentPage != 0)
+			menu_or_menu_tiny_show_modes();
 
 		testNewStuff();
 

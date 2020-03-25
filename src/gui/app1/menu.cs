@@ -68,21 +68,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_menu_help_accelerators;
 	[Widget] Gtk.Button button_menu_help_about;
 
-	//menu labels
-	[Widget] Gtk.Label label_button_show_menu;
-	[Widget] Gtk.Label label_menu_folders;
-	[Widget] Gtk.Label label_session_new;
-	[Widget] Gtk.Label label_session_load;
-	[Widget] Gtk.Label label_session_edit;
-	[Widget] Gtk.Label label_session_delete;
-	[Widget] Gtk.Label label_button_show_modes;
-	[Widget] Gtk.Label label_menu_preferences;
-	[Widget] Gtk.Label label_menu_help;
-	[Widget] Gtk.Label label_menu_help_documents;
-	[Widget] Gtk.Label label_menu_help_accelerators;
-	[Widget] Gtk.Label label_menu_help_about;
-	[Widget] Gtk.Label label_menu_quit;
-
 	//menu icons
 	[Widget] Gtk.Image image_button_show_menu;
 	[Widget] Gtk.Image image_menu_folders;
@@ -186,23 +171,6 @@ public partial class ChronoJumpWindow
 		image_menu_help_accelerators.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_menu_help_about.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_menu_quit.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
-
-		/*
-		//labels
-		label_button_show_menu.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
-		label_menu_folders.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
-		label_session_new.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
-		label_session_load.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
-		label_session_edit.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
-		label_session_delete.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
-		label_button_show_modes.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
-		label_menu_preferences.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
-		label_menu_help.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
-		label_menu_help_documents.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
-		label_menu_help_accelerators.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
-		label_menu_help_about.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
-		label_menu_quit.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
-		*/
 	}
 
 	private void menuSetColors ()

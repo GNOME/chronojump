@@ -2402,6 +2402,7 @@ public partial class ChronoJumpWindow
 			//show hidden widgets
 			sensitiveGuiNoSession();
 			sensitiveGuiYesSession();
+			on_button_show_menu_clicked (new object (), new EventArgs ());  //hide menu
 			definedSession = true;
 
 			//for sure, jumpsExists is false, because we create a new session

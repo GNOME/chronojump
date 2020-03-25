@@ -31,7 +31,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Arrow arrow_menu_show_help_up1;
 	[Widget] Gtk.Arrow arrow_menu_show_help_down1;
 	[Widget] Gtk.Button button_show_modes1;
-	[Widget] Gtk.Viewport viewport_menu_tiny;
+	[Widget] Gtk.VBox vbox_menu_tiny;
 	[Widget] Gtk.EventBox eventbox_button_show_modes1;
 	[Widget] Gtk.EventBox eventbox_check_menu_session1;
 	[Widget] Gtk.EventBox eventbox_button_menu_preferences1;
@@ -60,37 +60,10 @@ public partial class ChronoJumpWindow
 	{
 		menuTinySetColors();
 
-		//LogB.Information("hpaned MinPosition: " + hpaned_contacts_main.MinPosition.ToString());
-
 		//unselect menu_help if selected
 		if(check_menu_help1.Active)
 			check_menu_help1.Active = false;
 		alignment_menu_help_options1.Visible = false;
-
-		/*
-		//this is done to ensure hidden buttons will be shown (because also submenu items seems to have Allocation=1)
-		//if we need it, pass also the other buttons but without the +16
-		List <Gtk.Button> l = new List<Gtk.Button>();
-		l.Add(button_menu_session_new);
-		l.Add(button_menu_session_load);
-		l.Add(button_menu_session_edit);
-		l.Add(button_menu_session_delete);
-		l.Add(button_menu_help_documents);
-		l.Add(button_menu_help_accelerators);
-		l.Add(button_menu_help_about);
-		int maxWidth = getMenuButtonsMaxWidth(l) + 16 + 4 + 6; //16, 4, 6 are alignments spaces.
-
-		//except on ICONS, consider also viewport_persons
-		if(preferences.menuType != Preferences.MenuTypes.ICONS)
-		{
-			if(viewport_persons.SizeRequest().Width +4 +6 > maxWidth)
-				maxWidth = viewport_persons.SizeRequest().Width +4 + 6; //+4 due to alignment_person, +6 to alignment_viewport_menu_top
-			//if(frame_persons.SizeRequest().Width > maxWidth)
-			//	maxWidth = frame_persons.SizeRequest().Width;
-		}
-
-		viewport_menu_top.SetSizeRequest(maxWidth, -1); //-1 is height
-		*/
 	}
 
 	private void menuTinySetColors ()
@@ -98,7 +71,6 @@ public partial class ChronoJumpWindow
 		Gdk.Color color = UtilGtk.ColorParse(preferences.colorBackgroundString);
 
 		UtilGtk.ViewportColor(viewport_hpaned_contacts_main, color);
-		UtilGtk.ViewportColor(viewport_menu_tiny, color);
 
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_show_modes1, UtilGtk.YELLOW);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_session1, UtilGtk.YELLOW);

@@ -27,12 +27,21 @@ using Glade;
 
 public partial class ChronoJumpWindow
 {
-
 	private void showPersonsOnTop (bool onTop)
 	{
-		viewport_persons.Visible = currentSession != null && ! onTop;
 		hbox_top_person.Visible = onTop;
 		hbox_top_person_encoder.Visible = onTop;
+
+		if(onTop)
+		{
+			alignment_viewport_menu_top.Visible = false;
+			vbox_menu_tiny.Visible = true;
+		} else {
+			alignment_viewport_menu_top.Visible = true;
+			vbox_menu_tiny.Visible = false;
+
+			viewport_persons.Visible = currentSession != null;
+		}
 	}
 
 	private void showPersonPhoto (bool showPhoto)

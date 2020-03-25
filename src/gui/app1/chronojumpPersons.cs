@@ -39,8 +39,6 @@ public partial class ChronoJumpWindow
 		} else {
 			alignment_viewport_menu_top.Visible = true;
 			vbox_menu_tiny.Visible = false;
-
-			viewport_persons.Visible = currentSession != null;
 		}
 	}
 

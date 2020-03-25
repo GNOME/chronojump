@@ -150,10 +150,14 @@ public partial class ChronoJumpWindow
 		LogB.Information(string.Format("hbox_rest_time: {0}", hbox_rest_time.SizeRequest().Width));
 		*/
 
-		if(viewport_persons.SizeRequest().Width +4 +6 > maxWidth)
-			maxWidth = viewport_persons.SizeRequest().Width +4 + 6; //+4 due to alignment_person, +6 to alignment_viewport_menu_top
-		//if(frame_persons.SizeRequest().Width > maxWidth)
-		//	maxWidth = frame_persons.SizeRequest().Width;
+		//except on ICONS, consider also viewport_persons
+		if(preferences.menuType != Preferences.MenuTypes.ICONS)
+		{
+			if(viewport_persons.SizeRequest().Width +4 +6 > maxWidth)
+				maxWidth = viewport_persons.SizeRequest().Width +4 + 6; //+4 due to alignment_person, +6 to alignment_viewport_menu_top
+			//if(frame_persons.SizeRequest().Width > maxWidth)
+			//	maxWidth = frame_persons.SizeRequest().Width;
+		}
 
 		viewport_menu_top.SetSizeRequest(maxWidth, -1); //-1 is height
 	}

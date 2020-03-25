@@ -333,10 +333,17 @@ public class PreferencesWindow
 				(preferences.maximized == Preferences.MaximizedTypes.YESUNDECORATED);
 		}
 
-		if(preferences.personWinHide)
+		if(preferences.personWinHide) {
 			PreferencesWindowBox.check_appearance_person_win_hide.Active = true;
-		else
+			PreferencesWindowBox.radio_menu_show_all.Sensitive = false;
+			PreferencesWindowBox.radio_menu_show_text.Sensitive = false;
+			PreferencesWindowBox.radio_menu_show_icons.Sensitive = true;
+		} else {
 			PreferencesWindowBox.check_appearance_person_win_hide.Active = false;
+			PreferencesWindowBox.radio_menu_show_all.Sensitive = true;
+			PreferencesWindowBox.radio_menu_show_text.Sensitive = true;
+			PreferencesWindowBox.radio_menu_show_icons.Sensitive = false;
+		}
 
 		PreferencesWindowBox.check_appearance_person_photo.Sensitive = ! preferences.personWinHide;
 
@@ -978,6 +985,22 @@ public class PreferencesWindow
 
 	private void on_check_appearance_person_win_hide_toggled (object obj, EventArgs args)
 	{
+		if(check_appearance_person_win_hide.Active)
+		{
+			radio_menu_show_all.Sensitive = false;
+			radio_menu_show_text.Sensitive = false;
+			radio_menu_show_icons.Sensitive = true;
+
+			radio_menu_show_icons.Active = true;
+		} else {
+			radio_menu_show_all.Sensitive = true;
+			radio_menu_show_text.Sensitive = true;
+			radio_menu_show_icons.Sensitive = false;
+
+			if(radio_menu_show_icons.Active)
+				radio_menu_show_all.Active = true;
+		}
+
 		check_appearance_person_photo.Sensitive = ! check_appearance_person_win_hide.Active;
 	}
 

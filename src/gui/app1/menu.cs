@@ -22,11 +22,8 @@
 
 using System;
 using Gtk;
-//using Gdk;
 using Glade;
 using System.Collections.Generic; //List
-
-//provar checkbuttons enlloc dels togglebuttons que igual no van be
 
 public partial class ChronoJumpWindow
 {
@@ -71,29 +68,14 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_menu_help_accelerators;
 	[Widget] Gtk.Button button_menu_help_about;
 
-	//menu icons
-	[Widget] Gtk.Image image_button_show_menu;
-	[Widget] Gtk.Image image_button_show_modes;
-	[Widget] Gtk.Image image_menu_folders;
-	[Widget] Gtk.Image image_session_new3;
-	[Widget] Gtk.Image image_session_load2;
-	[Widget] Gtk.Image image_session_edit2;
-	[Widget] Gtk.Image image_session_delete2;
-	[Widget] Gtk.Image image_menu_preferences;
-	[Widget] Gtk.Image image_menu_help;
-	[Widget] Gtk.Image image_menu_help_documents;
-	[Widget] Gtk.Image image_menu_help_accelerators;
-	[Widget] Gtk.Image image_menu_help_about;
-	[Widget] Gtk.Image image_menu_quit;
-
 	//menu labels
 	[Widget] Gtk.Label label_button_show_menu;
-	[Widget] Gtk.Label label_button_show_modes;
 	[Widget] Gtk.Label label_menu_folders;
 	[Widget] Gtk.Label label_session_new;
 	[Widget] Gtk.Label label_session_load;
 	[Widget] Gtk.Label label_session_edit;
 	[Widget] Gtk.Label label_session_delete;
+	[Widget] Gtk.Label label_button_show_modes;
 	[Widget] Gtk.Label label_menu_preferences;
 	[Widget] Gtk.Label label_menu_help;
 	[Widget] Gtk.Label label_menu_help_documents;
@@ -101,8 +83,38 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_menu_help_about;
 	[Widget] Gtk.Label label_menu_quit;
 
+	//menu icons
+	[Widget] Gtk.Image image_button_show_menu;
+	[Widget] Gtk.Image image_menu_folders;
+	[Widget] Gtk.Image image_session_new3;
+	[Widget] Gtk.Image image_session_load2;
+	[Widget] Gtk.Image image_session_edit2;
+	[Widget] Gtk.Image image_session_delete2;
+	[Widget] Gtk.Image image_button_show_modes;
+	[Widget] Gtk.Image image_menu_preferences;
+	[Widget] Gtk.Image image_menu_help;
+	[Widget] Gtk.Image image_menu_help_documents;
+	[Widget] Gtk.Image image_menu_help_accelerators;
+	[Widget] Gtk.Image image_menu_help_about;
+	[Widget] Gtk.Image image_menu_quit;
 
-	private void menu_initialize ()
+	private void initialize_menu_or_menu_tiny()
+	{
+		if(preferences.menuType == Preferences.MenuTypes.ICONS)
+			menuTinyInitialize();
+		else
+			menuInitialize();
+	}
+
+	private void menu_or_menu_tiny_show_modes()
+	{
+		if(preferences.menuType == Preferences.MenuTypes.ICONS)
+			button_show_modes1.Sensitive = true;
+		else
+			button_show_modes.Sensitive = true;
+	}
+
+	private void menuInitialize ()
 	{
 		menuSetTextAndIcons();
 		menuSetColors();
@@ -150,14 +162,10 @@ public partial class ChronoJumpWindow
 		LogB.Information(string.Format("hbox_rest_time: {0}", hbox_rest_time.SizeRequest().Width));
 		*/
 
-		//except on ICONS, consider also viewport_persons
-		if(preferences.menuType != Preferences.MenuTypes.ICONS)
-		{
-			if(viewport_persons.SizeRequest().Width +4 +6 > maxWidth)
-				maxWidth = viewport_persons.SizeRequest().Width +4 + 6; //+4 due to alignment_person, +6 to alignment_viewport_menu_top
-			//if(frame_persons.SizeRequest().Width > maxWidth)
-			//	maxWidth = frame_persons.SizeRequest().Width;
-		}
+		if(viewport_persons.SizeRequest().Width +4 +6 > maxWidth)
+			maxWidth = viewport_persons.SizeRequest().Width +4 + 6; //+4 due to alignment_person, +6 to alignment_viewport_menu_top
+		//if(frame_persons.SizeRequest().Width > maxWidth)
+		//	maxWidth = frame_persons.SizeRequest().Width;
 
 		viewport_menu_top.SetSizeRequest(maxWidth, -1); //-1 is height
 	}
@@ -166,12 +174,12 @@ public partial class ChronoJumpWindow
 	{
 		//icons
 		image_button_show_menu.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
-		image_button_show_modes.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_menu_folders.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_session_new3.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_session_load2.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_session_edit2.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_session_delete2.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
+		image_button_show_modes.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_menu_preferences.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_menu_help.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_menu_help_documents.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
@@ -179,20 +187,22 @@ public partial class ChronoJumpWindow
 		image_menu_help_about.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_menu_quit.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 
+		/*
 		//labels
 		label_button_show_menu.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
-		label_button_show_modes.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
 		label_menu_folders.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
 		label_session_new.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
 		label_session_load.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
 		label_session_edit.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
 		label_session_delete.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
+		label_button_show_modes.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
 		label_menu_preferences.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
 		label_menu_help.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
 		label_menu_help_documents.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
 		label_menu_help_accelerators.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
 		label_menu_help_about.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
 		label_menu_quit.Visible = preferences.menuType != Preferences.MenuTypes.ICONS;
+		*/
 	}
 
 	private void menuSetColors ()

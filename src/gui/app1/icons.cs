@@ -256,6 +256,7 @@ public partial class ChronoJumpWindow
 		image_settings2.Pixbuf = pixbuf;
 		image_session_preferences.Pixbuf = pixbuf;
 		image_menu_preferences.Pixbuf = pixbuf;
+		image_menu_preferences1.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_minimize.png");
 		image_minimize.Pixbuf = pixbuf;
@@ -267,21 +268,28 @@ public partial class ChronoJumpWindow
 		image_quit3.Pixbuf = pixbuf;
 		image_quit_from_app1.Pixbuf = pixbuf;
 		image_menu_quit.Pixbuf = pixbuf;
+		image_menu_quit1.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_menu.png");
 		image_button_show_menu.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_modes.png");
 		image_button_show_modes.Pixbuf = pixbuf;
+		image_button_show_modes1.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_folders.png");
 		image_menu_folders.Pixbuf = pixbuf;
+		image_menu_folders1.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_help.png");
 		image_menu_help.Pixbuf = pixbuf;
+		image_menu_help1.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_book.png");
 		image_menu_help_documents.Pixbuf = pixbuf;
+		image_menu_help_documents1.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_keyboard.png");
 		image_menu_help_accelerators.Pixbuf = pixbuf;
+		image_menu_help_accelerators1.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_about.png");
 		image_menu_help_about.Pixbuf = pixbuf;
+		image_menu_help_about1.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_warning_red.png");
 		image_message_permissions_at_boot.Pixbuf = pixbuf;
@@ -408,11 +416,13 @@ public partial class ChronoJumpWindow
 		image_encoder_exercise.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_new.png");
+		image_session_new1.Pixbuf = pixbuf;
 		image_session_new2.Pixbuf = pixbuf;
 		image_session_new3.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_open.png");
 		image_session_open.Pixbuf = pixbuf;
+		image_session_load1.Pixbuf = pixbuf;
 		image_session_load2.Pixbuf = pixbuf;
 		image_encoder_capture_open.Pixbuf = pixbuf;
 		image_encoder_capture_open1.Pixbuf = pixbuf;
@@ -438,6 +448,7 @@ public partial class ChronoJumpWindow
 		image_edit_current_person.Pixbuf = pixbuf;
 		image_edit_current_person_h.Pixbuf = pixbuf;
 		image_session_edit.Pixbuf = pixbuf;
+		image_session_edit1.Pixbuf = pixbuf;
 		image_session_edit2.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
@@ -640,6 +651,7 @@ public partial class ChronoJumpWindow
 		image_run_type_delete_simple.Pixbuf = pixbuf;
 		image_run_type_delete_intervallic.Pixbuf = pixbuf;
 		image_session_delete.Pixbuf = pixbuf;
+		image_session_delete1.Pixbuf = pixbuf;
 		image_session_delete2.Pixbuf = pixbuf;
 		image_encoder_exercise_delete.Pixbuf = pixbuf;
 		image_force_sensor_exercise_delete.Pixbuf = pixbuf;

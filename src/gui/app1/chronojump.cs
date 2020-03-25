@@ -709,7 +709,7 @@ public partial class ChronoJumpWindow
 		} else
 			LogB.Information("Ping discarded (Compujump)");
 
-		menu_initialize();
+		initialize_menu_or_menu_tiny();
 
 		testNewStuff();
 
@@ -3088,7 +3088,7 @@ public partial class ChronoJumpWindow
 		if(pen_black_force_ai != null)
 			pen_black_force_ai.SetLineAttributes (preferences.forceSensorGraphsLineWidth, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
 
-		menu_initialize();
+		initialize_menu_or_menu_tiny();
 
 		// update force_capture_drawingarea
 		if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR && radiobutton_force_sensor_analyze_manual.Active)
@@ -3479,7 +3479,7 @@ public partial class ChronoJumpWindow
 		//show the program
 		notebook_start.CurrentPage = 0;
 
-		button_show_modes.Sensitive = true;
+		menu_or_menu_tiny_show_modes();
 
 		//make main_menu visible because it's not visible at startup.
 		//but don't show if session == UNIQUE

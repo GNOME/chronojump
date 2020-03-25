@@ -19,6 +19,7 @@ SOURCES = \
 	gui/app1/forceSensorAnalyze.cs\
 	gui/app1/jump.cs\
 	gui/app1/menu.cs\
+	gui/app1/menu_tiny.cs\
 	gui/app1/pulse.cs\
 	gui/app1/reactionTime.cs\
 	gui/app1/run.cs\

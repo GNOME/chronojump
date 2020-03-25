@@ -2680,7 +2680,13 @@ class Sqlite
 			if(currentVersion == "1.91")
 			{
 				LogB.SQL("Inserted into preferences: menuType");
-				SqlitePreferences.Insert (SqlitePreferences.MenuType, Preferences.MenuTypes.ALL.ToString());
+
+				Preferences.MenuTypes menuType = Preferences.MenuTypes.ALL;
+				if(SqlitePreferences.Select("personWinHide", true) == "True")
+					menuType = Preferences.MenuTypes.ICONS;
+
+				SqlitePreferences.Insert (SqlitePreferences.MenuType, menuType.ToString());
+
 				currentVersion = updateVersion("1.92");
 			}
 

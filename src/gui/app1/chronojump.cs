@@ -2533,7 +2533,9 @@ public partial class ChronoJumpWindow
 		if(currentSession.Name == Constants.SessionSimulatedName)
 			new DialogMessage(Constants.MessageTypes.INFO, Constants.SessionProtectedStr());
 		else {
-			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to delete the current session"), "", Catalog.GetString("and all the session tests?"));
+			ConfirmWindow confirmWin = ConfirmWindow.Show(
+					Catalog.GetString("Are you sure you want to delete the current session") + "\n<b>" + currentSession.Name + "</b>",
+					"", Catalog.GetString("and all the session tests?"));
 			confirmWin.Button_accept.Clicked += new EventHandler(on_delete_session_accepted);
 		}
 	}

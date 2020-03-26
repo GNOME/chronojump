@@ -1992,7 +1992,7 @@
                                                             </child>
                                                             <child>
                                                             <widget class="GtkButton" id="button_menu_encoder_session_overview">
-                                                            <property name="label" translatable="yes">Sesssion overview</property>
+                                                            <property name="label" translatable="yes">Session overview</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>

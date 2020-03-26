@@ -7306,8 +7306,10 @@ LogB.Debug("mc finished 5");
 	{
 		//menuitem_edit_session.Sensitive = option;
 		//menuitem_delete_session.Sensitive = option;
-		button_menu_session_edit.Sensitive = option;
-		button_menu_session_delete.Sensitive = option;
+		button_menu_session_edit.Sensitive = option; 		//menu
+		button_menu_session_delete.Sensitive = option; 		//menu
+		button_menu_session_edit1.Sensitive = option; 		//menu_tiny
+		button_menu_session_delete1.Sensitive = option; 	//menu_tiny
 		menuitem_export_csv.Sensitive = option;
 		//menuitem_export_xml.Sensitive = option; not implemented yet
 		menuitem_encoder_session_overview.Sensitive = option;

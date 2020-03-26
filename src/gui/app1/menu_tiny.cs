@@ -42,6 +42,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Alignment alignment_menu_session_options1;
 	[Widget] Gtk.Alignment alignment_menu_person_options1;
 	[Widget] Gtk.Alignment alignment_menu_help_options1;
+	[Widget] Gtk.Button button_menu_session_edit1;
+	[Widget] Gtk.Button button_menu_session_delete1;
 
 	[Widget] Gtk.Image image_menu_folders1;
 	[Widget] Gtk.Image image_session_new1;

@@ -1500,6 +1500,10 @@
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_new_activate" swapped="no"/>
                                                             <child>
+                                                            <widget class="GtkEventBox" id="eventbox_button_menu_session_new">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
                                                             <widget class="GtkHBox" id="hbox2">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -1531,6 +1535,8 @@
                                                             </widget>
                                                             </child>
                                                             </widget>
+                                                            </child>
+                                                            </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
@@ -1547,6 +1553,10 @@
                                                             <property name="tooltip" translatable="yes">Load session</property>
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_open_activate" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkEventBox" id="eventbox_button_menu_session_load">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox372">
                                                             <property name="visible">True</property>
@@ -1579,6 +1589,8 @@
                                                             </widget>
                                                             </child>
                                                             </widget>
+                                                            </child>
+                                                            </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
@@ -1596,6 +1608,10 @@
                                                             <property name="tooltip" translatable="yes">Edit session</property>
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_edit_session_activate" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkEventBox" id="eventbox_button_menu_session_edit">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox373">
                                                             <property name="visible">True</property>
@@ -1628,6 +1644,8 @@
                                                             </widget>
                                                             </child>
                                                             </widget>
+                                                            </child>
+                                                            </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
@@ -1645,6 +1663,10 @@
                                                             <property name="tooltip" translatable="yes">Delete session</property>
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_delete_session_activate" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkEventBox" id="eventbox_button_menu_session_delete">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox374">
                                                             <property name="visible">True</property>
@@ -1673,6 +1695,8 @@
                                                             <property name="fill">True</property>
                                                             <property name="position">1</property>
                                                             </packing>
+                                                            </child>
+                                                            </widget>
                                                             </child>
                                                             </widget>
                                                             </child>
@@ -2051,6 +2075,10 @@
                                                             <property name="receives_default">True</property>
                                                             <signal name="clicked" handler="on_menuitem_manual_activate" swapped="no"/>
                                                             <child>
+                                                            <widget class="GtkEventBox" id="eventbox_button_menu_help_documents">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
                                                             <widget class="GtkHBox" id="hbox378">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -2081,6 +2109,8 @@
                                                             </widget>
                                                             </child>
                                                             </widget>
+                                                            </child>
+                                                            </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
@@ -2093,6 +2123,10 @@
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <signal name="clicked" handler="on_menuitem_accelerators_activate" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkEventBox" id="eventbox_button_menu_help_accelerators">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox376">
                                                             <property name="visible">True</property>
@@ -2124,6 +2158,8 @@
                                                             </widget>
                                                             </child>
                                                             </widget>
+                                                            </child>
+                                                            </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
@@ -2136,6 +2172,10 @@
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <signal name="clicked" handler="on_about1_activate" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkEventBox" id="eventbox_button_menu_help_about">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox377">
                                                             <property name="visible">True</property>
@@ -2163,6 +2203,8 @@
                                                             <property name="fill">True</property>
                                                             <property name="position">1</property>
                                                             </packing>
+                                                            </child>
+                                                            </widget>
                                                             </child>
                                                             </widget>
                                                             </child>

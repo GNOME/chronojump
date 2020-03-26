@@ -48,9 +48,16 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox eventbox_radio_show_persons;
 	[Widget] Gtk.EventBox eventbox_button_show_modes;
 	[Widget] Gtk.EventBox eventbox_check_menu_session;
+	[Widget] Gtk.EventBox eventbox_button_menu_session_new;
+	[Widget] Gtk.EventBox eventbox_button_menu_session_load;
+	[Widget] Gtk.EventBox eventbox_button_menu_session_edit;
+	[Widget] Gtk.EventBox eventbox_button_menu_session_delete;
 	[Widget] Gtk.EventBox eventbox_button_menu_preferences;
 	[Widget] Gtk.EventBox eventbox_check_menu_encoder;
 	[Widget] Gtk.EventBox eventbox_check_menu_help;
+	[Widget] Gtk.EventBox eventbox_button_menu_help_documents;
+	[Widget] Gtk.EventBox eventbox_button_menu_help_accelerators;
+	[Widget] Gtk.EventBox eventbox_button_menu_help_about;
 	[Widget] Gtk.EventBox eventbox_button_menu_exit;
 	[Widget] Gtk.CheckButton check_menu_session;
 	[Widget] Gtk.CheckButton check_menu_encoder;
@@ -199,6 +206,14 @@ public partial class ChronoJumpWindow
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_encoder, UtilGtk.YELLOW);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_help, UtilGtk.YELLOW);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_exit, UtilGtk.YELLOW);
+
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_new, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_load, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_edit, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_delete, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_help_documents, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_help_accelerators, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_help_about, UtilGtk.YELLOW_LIGHT);
 	}
 
 	private void menuShowVerticalArrow (bool selected, Gtk.Arrow a_up, Gtk.Arrow a_down)

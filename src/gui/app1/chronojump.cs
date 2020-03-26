@@ -105,6 +105,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_mode_contacts_jumps_weight_fv_profile;
 	[Widget] Gtk.RadioButton radio_mode_contacts_jumps_evolution;
 	[Widget] Gtk.RadioButton radio_mode_contacts_jumps_advanced;
+	[Widget] Gtk.RadioButton radio_mode_contacts_runs_interval_advanced;
 	[Widget] Gtk.RadioButton radio_mode_contacts_sprint;
 
 	[Widget] Gtk.Label label_sprint_person_name;
@@ -3244,7 +3245,6 @@ public partial class ChronoJumpWindow
 
 				if(radio_mode_contacts_analyze.Active)
 				{
-					alignment_radio_mode_contacts_analyze.Visible = true;
 					hbox_radio_mode_contacts_analyze_jump_buttons.Visible = true;
 				}
 			} else {
@@ -3253,8 +3253,6 @@ public partial class ChronoJumpWindow
 				on_extra_window_jumps_rj_test_changed(new object(), new EventArgs());
 				hbox_results_legend.Visible = false;
 
-				//used when return from other Menuitem_mode
-				alignment_radio_mode_contacts_analyze.Hide();
 				if(radio_mode_contacts_jumps_profile.Active || radio_mode_contacts_jumps_dj_optimal_fall.Active ||
 						radio_mode_contacts_jumps_weight_fv_profile.Active || radio_mode_contacts_jumps_evolution.Active)
 					radio_mode_contacts_capture.Active = true;
@@ -3287,13 +3285,11 @@ public partial class ChronoJumpWindow
 				{
 					alignment_radio_mode_contacts_analyze.Visible = true;
 					radio_mode_contacts_sprint.Active = true;
-					radio_mode_contacts_jumps_advanced.Visible = true;
+					radio_mode_contacts_runs_interval_advanced.Visible = true;
 					radio_mode_contacts_sprint.Visible = true;
 				}
 			}
 
-			//used when return from other Menuitem_mode
-			alignment_radio_mode_contacts_analyze.Hide();
 			if(radio_mode_contacts_sprint.Active)
 				radio_mode_contacts_capture.Active = true;
 		}
@@ -7213,11 +7209,8 @@ LogB.Debug("mc finished 5");
 		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE ||
 				current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
 		{
-			radio_mode_contacts_jumps_advanced.Visible = true;
-
 			if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
 			{
-				alignment_radio_mode_contacts_analyze.Visible = true;
 				hbox_radio_mode_contacts_analyze_jump_buttons.Visible = true;
 				if(radio_mode_contacts_jumps_profile.Active)
 				{
@@ -7246,6 +7239,7 @@ LogB.Debug("mc finished 5");
 			else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
 			{
 				alignment_radio_mode_contacts_analyze.Visible = true;
+				radio_mode_contacts_runs_interval_advanced.Visible = true;
 				radio_mode_contacts_sprint.Active = true;
 				radio_mode_contacts_sprint.Visible = true;
 			}
@@ -7295,6 +7289,11 @@ LogB.Debug("mc finished 5");
 	private void on_radio_mode_contacts_jumps_advanced_toggled (object o, EventArgs args)
 	{
 		if(radio_mode_contacts_jumps_advanced.Active)
+			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.STATISTICS);
+	}
+	private void on_radio_mode_contacts_runs_interval_advanced_toggled (object o, EventArgs args)
+	{
+		if(radio_mode_contacts_runs_interval_advanced.Active)
 			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.STATISTICS);
 	}
 	private void on_radio_mode_contacts_sprint_toggled (object o, EventArgs args)
@@ -7474,11 +7473,7 @@ LogB.Debug("mc finished 5");
 		//but don't unsensitive the notebook because user need to "finish" or cancel"
 		//notebook_capture_analyze.Sensitive = true; 
 		radio_mode_contacts_analyze.Hide();
-		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
-		{
-			alignment_radio_mode_contacts_analyze.Hide();
-		}
-		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
+		if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
 		{
 			alignment_radio_mode_contacts_analyze.Hide();
 			radio_mode_contacts_sprint.Hide();
@@ -7724,7 +7719,6 @@ LogB.Debug("mc finished 5");
 		radio_mode_contacts_analyze.Visible = ! start;
 		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
 		{
-			alignment_radio_mode_contacts_analyze.Visible = ! start;
 			hbox_radio_mode_contacts_analyze_jump_buttons.Visible = ! start;
 		} else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
 		{

@@ -33,6 +33,7 @@ public class SessionAddEditWindow
 	[Widget] Gtk.Entry entry_name;
 	[Widget] Gtk.Entry entry_place;
 	
+	[Widget] Gtk.Label label_name;
 	[Widget] Gtk.Label label_date;
 	
 	[Widget] Gtk.TextView textview;
@@ -102,6 +103,9 @@ public class SessionAddEditWindow
 		else 
 			addSession = false;
 		
+		label_name.Text = "<b>" + label_name.Text + "</b>";
+		label_name.UseMarkup = true;
+
 		if(addSession) {
 			session_add_edit.Title = Catalog.GetString("New Session");
 			dateTime = DateTime.Today;

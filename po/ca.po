@@ -4492,7 +4492,7 @@ msgstr "Aquesta anàlisi de cursa no és vàlida perquè no hi ha prou passes."
 
 #: ../src/constants.cs:219
 msgid "Sorry, this session cannot be modified."
-msgstr "Ho sentim, aquesta sessió no es pot esborrar."
+msgstr "Ho sentim, aquesta sessió no es pot modificar."
 
 #: ../src/constants.cs:223
 msgid "Chronopic is disconnected."

@@ -37,6 +37,7 @@ public class SessionAddEditWindow
 	[Widget] Gtk.Label label_date;
 	
 	[Widget] Gtk.TextView textview;
+	[Widget] Gtk.Button button_delete;
 	[Widget] Gtk.Button button_accept;
 	
 	[Widget] Gtk.RadioButton radiobutton_diff_sports;
@@ -73,6 +74,7 @@ public class SessionAddEditWindow
 	private bool textviewChanging = false;
 	
 	private Session currentSession;
+	private Gtk.Button fakeButtonDelete;
 	private Gtk.Button fakeButtonAccept;
 	
 	GenericWindow genericWin;
@@ -91,6 +93,7 @@ public class SessionAddEditWindow
 		this.currentSession = currentSession;
 		button_accept.Sensitive = false;
 		
+		fakeButtonDelete = new Button();
 		fakeButtonAccept = new Button();
 
 		createComboSports();
@@ -110,6 +113,7 @@ public class SessionAddEditWindow
 			session_add_edit.Title = Catalog.GetString("New Session");
 			dateTime = DateTime.Today;
 			label_date.Text = dateTime.ToLongDateString();
+			button_delete.Visible = false;
 		} else {
 			session_add_edit.Title = Catalog.GetString("Session Edit");
 
@@ -125,6 +129,7 @@ public class SessionAddEditWindow
 			textview.Buffer = tb;
 
 			//showSportStuffWithLoadedData();
+			button_delete.Visible = true;
 		}
 
 		textview.Buffer.Changed += new EventHandler(textviewChanged);
@@ -522,6 +527,11 @@ public class SessionAddEditWindow
 		}
 	}
 
+	private void on_button_delete_clicked (object o, EventArgs args)
+	{
+		FakeButtonDelete.Click();
+	}
+
 	void on_button_cancel_clicked (object o, EventArgs args)
 	{
 		SessionAddEditWindowBox.session_add_edit.Hide();
@@ -655,6 +665,11 @@ public class SessionAddEditWindow
 			SessionAddEditWindowBox.session_add_edit.Hide();
 			SessionAddEditWindowBox = null;
 		}
+	}
+
+	public Gtk.Button FakeButtonDelete
+	{
+		get { return fakeButtonDelete; }
 	}
 
 	public Gtk.Button FakeButtonAccept

@@ -650,8 +650,6 @@ public partial class ChronoJumpWindow
 		image_run_type_delete_simple.Pixbuf = pixbuf;
 		image_run_type_delete_intervallic.Pixbuf = pixbuf;
 		image_session_delete.Pixbuf = pixbuf;
-		image_session_delete1.Pixbuf = pixbuf;
-		image_session_delete2.Pixbuf = pixbuf;
 		image_encoder_exercise_delete.Pixbuf = pixbuf;
 		image_force_sensor_exercise_delete.Pixbuf = pixbuf;
 		image_run_encoder_exercise_delete.Pixbuf = pixbuf;

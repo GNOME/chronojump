@@ -30,8 +30,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Alignment alignment_menu_and_persons;
 	[Widget] Gtk.Arrow arrow_menu_show_session_up;
 	[Widget] Gtk.Arrow arrow_menu_show_session_down;
-	[Widget] Gtk.Arrow arrow_menu_show_encoder_up;
-	[Widget] Gtk.Arrow arrow_menu_show_encoder_down;
+//	[Widget] Gtk.Arrow arrow_menu_show_encoder_up;
+//	[Widget] Gtk.Arrow arrow_menu_show_encoder_down;
 	[Widget] Gtk.Arrow arrow_menu_show_help_up;
 	[Widget] Gtk.Arrow arrow_menu_show_help_down;
 	[Widget] Gtk.RadioButton radio_show_menu;
@@ -52,18 +52,18 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox eventbox_button_menu_session_load;
 	[Widget] Gtk.EventBox eventbox_button_menu_session_edit;
 	[Widget] Gtk.EventBox eventbox_button_menu_preferences;
-	[Widget] Gtk.EventBox eventbox_check_menu_encoder;
+//	[Widget] Gtk.EventBox eventbox_check_menu_encoder;
 	[Widget] Gtk.EventBox eventbox_check_menu_help;
 	[Widget] Gtk.EventBox eventbox_button_menu_help_documents;
 	[Widget] Gtk.EventBox eventbox_button_menu_help_accelerators;
 	[Widget] Gtk.EventBox eventbox_button_menu_help_about;
 	[Widget] Gtk.EventBox eventbox_button_menu_exit;
 	[Widget] Gtk.CheckButton check_menu_session;
-	[Widget] Gtk.CheckButton check_menu_encoder;
+//	[Widget] Gtk.CheckButton check_menu_encoder;
 	[Widget] Gtk.CheckButton check_menu_help;
 	[Widget] Gtk.Alignment alignment_menu_session_options;
 	[Widget] Gtk.Alignment alignment_menu_person_options;
-	[Widget] Gtk.Alignment alignment_menu_encoder_options;
+//	[Widget] Gtk.Alignment alignment_menu_encoder_options;
 	[Widget] Gtk.Alignment alignment_menu_help_options;
 
 	[Widget] Gtk.Button button_menu_session_new;
@@ -198,7 +198,7 @@ public partial class ChronoJumpWindow
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_show_modes, UtilGtk.YELLOW);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_session, UtilGtk.YELLOW);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_preferences, UtilGtk.YELLOW);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_encoder, UtilGtk.YELLOW);
+//		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_encoder, UtilGtk.YELLOW);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_help, UtilGtk.YELLOW);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_exit, UtilGtk.YELLOW);
 
@@ -222,8 +222,8 @@ public partial class ChronoJumpWindow
 				check_menu_session.Active = false;
 			if(check_menu_help.Active)
 				check_menu_help.Active = false;
-			if(check_menu_encoder.Active)
-				check_menu_encoder.Active = false;
+//			if(check_menu_encoder.Active)
+//				check_menu_encoder.Active = false;
 
 			viewport_menu.Visible = true;
 			viewport_persons.Visible = false;
@@ -239,7 +239,7 @@ public partial class ChronoJumpWindow
 		menuShowVerticalArrow (check_menu_session.Active, arrow_menu_show_session_up, arrow_menu_show_session_down);
 		if(check_menu_session.Active)
 		{
-			check_menu_encoder.Active = false;
+//			check_menu_encoder.Active = false;
 			check_menu_help.Active = false;
 			alignment_menu_session_options.Visible = true;
 
@@ -248,6 +248,7 @@ public partial class ChronoJumpWindow
 			alignment_menu_session_options.Visible = false;
 	}
 
+	/*
 	private void on_check_menu_encoder_clicked (object o, EventArgs args)
 	{
 		menuShowVerticalArrow (check_menu_encoder.Active, arrow_menu_show_encoder_up, arrow_menu_show_encoder_down);
@@ -259,12 +260,13 @@ public partial class ChronoJumpWindow
 		} else
 			alignment_menu_encoder_options.Visible = false;
 	}
+	*/
 	private void on_check_menu_help_clicked (object o, EventArgs args)
 	{
 		menuShowVerticalArrow (check_menu_help.Active, arrow_menu_show_help_up, arrow_menu_show_help_down);
 		if(check_menu_help.Active)
 		{
-			check_menu_encoder.Active = false;
+//			check_menu_encoder.Active = false;
 			check_menu_session.Active = false;
 			alignment_menu_help_options.Visible = true;
 		} else

@@ -46,7 +46,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_mode;
 	
 	//[Widget] Gtk.MenuItem encoder_menuitem;
-	[Widget] Gtk.VBox vbox_menu_encoder;
+	//[Widget] Gtk.VBox vbox_menu_encoder;
 	[Widget] Gtk.MenuItem force_sensor_menuitem;
 	[Widget] Gtk.MenuItem race_encoder_menuitem;
 
@@ -3129,7 +3129,7 @@ public partial class ChronoJumpWindow
 	{
 		notebook_start_selector.CurrentPage = 0;
 		notebook_sup.CurrentPage = 0;
-		vbox_menu_encoder.Visible = false;
+		//vbox_menu_encoder.Visible = false;
 
 		//show title
 		string tempSessionName = "";
@@ -3175,7 +3175,7 @@ public partial class ChronoJumpWindow
 
 		//default for everything except encoder
 		//encoder_menuitem.Visible = false;
-		vbox_menu_encoder.Visible = false;
+		//vbox_menu_encoder.Visible = false;
 		menuitem_export_csv.Visible = true;
 
 		hbox_other.Visible = false;
@@ -3296,7 +3296,7 @@ public partial class ChronoJumpWindow
 		else if(m == Constants.Menuitem_modes.POWERGRAVITATORY || m == Constants.Menuitem_modes.POWERINERTIAL) 
 		{
 			//encoder_menuitem.Visible = true;
-			vbox_menu_encoder.Visible = true;
+			//vbox_menu_encoder.Visible = true;
 			menuitem_export_csv.Visible = false;
 
 			notebook_sup.CurrentPage = 2;
@@ -7463,7 +7463,7 @@ LogB.Debug("mc finished 5");
 		session_menuitem.Sensitive = false;
 		menuitem_mode.Sensitive = false;
 		//encoder_menuitem.Sensitive = false;
-		vbox_menu_encoder.Sensitive = false;
+		//vbox_menu_encoder.Sensitive = false;
 		force_sensor_menuitem.Sensitive = false;
 		race_encoder_menuitem.Sensitive = false;
 		hbox_menu_and_preferences_outside_menu_contacts.Sensitive = false;
@@ -7532,7 +7532,7 @@ LogB.Debug("mc finished 5");
 		session_menuitem.Sensitive = true;
 		menuitem_mode.Sensitive = true;
 		//encoder_menuitem.Sensitive = true;
-		vbox_menu_encoder.Sensitive = true;
+		//vbox_menu_encoder.Sensitive = true;
 		force_sensor_menuitem.Sensitive = true;
 		race_encoder_menuitem.Sensitive = true;
 		hbox_menu_and_preferences_outside_menu_contacts.Sensitive = true;

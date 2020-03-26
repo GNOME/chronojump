@@ -1812,7 +1812,6 @@
                                                             <property name="receives_default">False</property>
                                                             <property name="tooltip" translatable="yes">Encoder</property>
                                                             <property name="draw_indicator">False</property>
-                                                            <signal name="clicked" handler="on_check_menu_encoder_clicked" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkEventBox" id="eventbox_check_menu_encoder">
                                                             <property name="visible">True</property>

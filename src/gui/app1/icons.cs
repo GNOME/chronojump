@@ -436,7 +436,7 @@ public partial class ChronoJumpWindow
 		image_encoder_capture_1set.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "cont.png");
 		image_encoder_capture_cont.Pixbuf = pixbuf;
-		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "run.png");
+		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "run_2x.png");
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_capture_big.png");
 		image_encoder_capture_execute.Pixbuf = pixbuf;
 		image_button_execute.Pixbuf = pixbuf;
@@ -552,7 +552,7 @@ public partial class ChronoJumpWindow
 		image_menuitem_mode_race_encoder.Pixbuf = pixbuf;
 		image_mode_race_encoder_small.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "run.png");
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "run_2x.png");
 		image_run_execute_running.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "run_photocell.png");
 		image_run_execute_photocell.Pixbuf = pixbuf;

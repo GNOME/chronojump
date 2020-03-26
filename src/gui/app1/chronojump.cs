@@ -3014,8 +3014,11 @@ public partial class ChronoJumpWindow
 
 	private void on_preferences_activate (object o, EventArgs args) 
 	{
-		preferencesWin = PreferencesWindow.Show(preferences, current_menuitem_mode, configChronojump.Compujump, progVersion);
-		
+		if(notebook_sup.CurrentPage == 0)
+			preferencesWin = PreferencesWindow.Show(preferences, Constants.Menuitem_modes.UNDEFINED, configChronojump.Compujump, progVersion);
+		else
+			preferencesWin = PreferencesWindow.Show(preferences, current_menuitem_mode, configChronojump.Compujump, progVersion);
+
 		preferencesWin.FakeButtonImported.Clicked += new EventHandler(on_preferences_import_configuration);
 		preferencesWin.FakeButtonDebugModeStart.Clicked += new EventHandler(on_preferences_debug_mode_start);
 		preferencesWin.Button_accept.Clicked += new EventHandler(on_preferences_accepted);

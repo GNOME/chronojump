@@ -47,6 +47,15 @@ public class PreferencesWindow
 	[Widget] Gtk.Window preferences_win;
 	[Widget] Gtk.Notebook notebook;
 
+	//view more tabs
+	[Widget] Gtk.Button button_view_more_tabs;
+	[Widget] Gtk.HBox hbox_more_tabs;
+	[Widget] Gtk.CheckButton check_view_jumps;
+	[Widget] Gtk.CheckButton check_view_runs;
+	[Widget] Gtk.CheckButton check_view_encoder;
+	[Widget] Gtk.CheckButton check_view_force_sensor;
+	[Widget] Gtk.CheckButton check_view_race_analyzer;
+
 	//appearance tab
 	[Widget] Gtk.CheckButton check_appearance_maximized;
 	[Widget] Gtk.CheckButton check_appearance_maximized_undecorated;
@@ -302,18 +311,24 @@ public class PreferencesWindow
 		}
 		PreferencesWindowBox.frame_networks.Visible = compujump;
 
-		if(menu_mode !=	Constants.Menuitem_modes.JUMPSSIMPLE && menu_mode != Constants.Menuitem_modes.JUMPSREACTIVE)
+		if(menu_mode !=	Constants.Menuitem_modes.JUMPSSIMPLE && menu_mode != Constants.Menuitem_modes.JUMPSREACTIVE) {
 			PreferencesWindowBox.notebook.GetNthPage(JUMPSPAGE).Hide();
-		if(menu_mode !=	Constants.Menuitem_modes.RUNSSIMPLE && menu_mode != Constants.Menuitem_modes.RUNSINTERVALLIC)
+			PreferencesWindowBox.check_view_jumps.Active = false;
+		} if(menu_mode != Constants.Menuitem_modes.RUNSSIMPLE && menu_mode != Constants.Menuitem_modes.RUNSINTERVALLIC) {
 			PreferencesWindowBox.notebook.GetNthPage(RUNSPAGE).Hide();
-		if(menu_mode !=	Constants.Menuitem_modes.POWERGRAVITATORY && menu_mode != Constants.Menuitem_modes.POWERINERTIAL) {
+			PreferencesWindowBox.check_view_runs.Active = false;
+		} if(menu_mode != Constants.Menuitem_modes.POWERGRAVITATORY && menu_mode != Constants.Menuitem_modes.POWERINERTIAL) {
 			PreferencesWindowBox.notebook.GetNthPage(ENCODERCAPTUREPAGE).Hide();
 			PreferencesWindowBox.notebook.GetNthPage(ENCODEROTHERPAGE).Hide();
+			PreferencesWindowBox.check_view_encoder.Active = false;
 		}
-		if(menu_mode !=	Constants.Menuitem_modes.FORCESENSOR)
+		if(menu_mode !=	Constants.Menuitem_modes.FORCESENSOR) {
 			PreferencesWindowBox.notebook.GetNthPage(FORCESENSORPAGE).Hide();
-		if(menu_mode !=	Constants.Menuitem_modes.RUNSENCODER)
+			PreferencesWindowBox.check_view_force_sensor.Active = false;
+		} if(menu_mode != Constants.Menuitem_modes.RUNSENCODER) {
 			PreferencesWindowBox.notebook.GetNthPage(RUNENCODERPAGE).Hide();
+			PreferencesWindowBox.check_view_race_analyzer.Active = false;
+		}
 
 		PreferencesWindowBox.preferences = preferences;
 
@@ -660,6 +675,49 @@ public class PreferencesWindow
 		PreferencesWindowBox.preferences_win.Show ();
 		return PreferencesWindowBox;
 	}
+
+	// view more tabs ---->
+
+	private void on_button_view_more_tabs_clicked (object o, EventArgs args)
+	{
+		button_view_more_tabs.Visible = false;
+		hbox_more_tabs.Visible = true;
+	}
+
+	private void on_check_view_jumps_clicked (object o,EventArgs args)
+	{
+		tabShowHide(check_view_jumps.Active, JUMPSPAGE);
+	}
+	private void on_check_view_runs_clicked (object o,EventArgs args)
+	{
+		tabShowHide(check_view_runs.Active, RUNSPAGE);
+	}
+	private void on_check_view_encoder_clicked (object o,EventArgs args)
+	{
+		//on this order to be active the capture page (it is the first one, nw)
+		tabShowHide(check_view_encoder.Active, ENCODEROTHERPAGE);
+		tabShowHide(check_view_encoder.Active, ENCODERCAPTUREPAGE);
+	}
+	private void on_check_view_force_sensor_clicked (object o,EventArgs args)
+	{
+		tabShowHide(check_view_force_sensor.Active, FORCESENSORPAGE);
+	}
+	private void on_check_view_race_analyzer_clicked (object o,EventArgs args)
+	{
+		tabShowHide(check_view_race_analyzer.Active, RUNENCODERPAGE);
+	}
+
+	private void tabShowHide (bool active, int page)
+	{
+		if(active) {
+			PreferencesWindowBox.notebook.GetNthPage(page).Show();
+			PreferencesWindowBox.notebook.CurrentPage = page;
+		} else
+			PreferencesWindowBox.notebook.GetNthPage(page).Hide();
+	}
+
+	// <---- endo of view more tabs
+
 
 	private void on_radio_menu_show_toggled (object o, EventArgs args)
 	{

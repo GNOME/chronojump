@@ -34,8 +34,15 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.VBox vbox_menu_tiny;
 	[Widget] Gtk.EventBox eventbox_button_show_modes1;
 	[Widget] Gtk.EventBox eventbox_check_menu_session1;
+	[Widget] Gtk.EventBox eventbox_button_menu_session_new1;
+	[Widget] Gtk.EventBox eventbox_button_menu_session_load1;
+	[Widget] Gtk.EventBox eventbox_button_menu_session_edit1;
+	[Widget] Gtk.EventBox eventbox_button_menu_session_delete1;
 	[Widget] Gtk.EventBox eventbox_button_menu_preferences1;
 	[Widget] Gtk.EventBox eventbox_check_menu_help1;
+	[Widget] Gtk.EventBox eventbox_button_menu_help_documents1;
+	[Widget] Gtk.EventBox eventbox_button_menu_help_accelerators1;
+	[Widget] Gtk.EventBox eventbox_button_menu_help_about1;
 	[Widget] Gtk.EventBox eventbox_button_menu_exit1;
 	[Widget] Gtk.CheckButton check_menu_session1;
 	[Widget] Gtk.CheckButton check_menu_help1;
@@ -79,6 +86,15 @@ public partial class ChronoJumpWindow
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_preferences1, UtilGtk.YELLOW);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_help1, UtilGtk.YELLOW);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_exit1, UtilGtk.YELLOW);
+
+
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_new1, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_load1, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_edit1, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_delete1, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_help_documents1, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_help_accelerators1, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_help_about1, UtilGtk.YELLOW_LIGHT);
 	}
 
 	private void on_check_menu_session1_clicked (object o, EventArgs args)

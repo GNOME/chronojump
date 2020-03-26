@@ -860,10 +860,16 @@
                                                 <property name="relief">half</property>
                                                 <signal name="clicked" handler="on_new_activate" swapped="no"/>
                                                 <child>
-                                                  <widget class="GtkImage" id="image_session_new1">
+                                                  <widget class="GtkEventBox" id="eventbox_button_menu_session_new1">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="stock">gtk-missing-image</property>
+                                                    <child>
+                                                      <widget class="GtkImage" id="image_session_new1">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="stock">gtk-missing-image</property>
+                                                      </widget>
+                                                    </child>
                                                   </widget>
                                                 </child>
                                               </widget>
@@ -884,10 +890,16 @@
                                                 <property name="relief">half</property>
                                                 <signal name="clicked" handler="on_open_activate" swapped="no"/>
                                                 <child>
-                                                  <widget class="GtkImage" id="image_session_load1">
+                                                  <widget class="GtkEventBox" id="eventbox_button_menu_session_load1">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="stock">gtk-missing-image</property>
+                                                    <child>
+                                                      <widget class="GtkImage" id="image_session_load1">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="stock">gtk-missing-image</property>
+                                                      </widget>
+                                                    </child>
                                                   </widget>
                                                 </child>
                                               </widget>
@@ -909,10 +921,16 @@
                                                 <property name="relief">half</property>
                                                 <signal name="clicked" handler="on_edit_session_activate" swapped="no"/>
                                                 <child>
-                                                  <widget class="GtkImage" id="image_session_edit1">
+                                                  <widget class="GtkEventBox" id="eventbox_button_menu_session_edit1">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="stock">gtk-open</property>
+                                                    <child>
+                                                      <widget class="GtkImage" id="image_session_edit1">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="stock">gtk-open</property>
+                                                      </widget>
+                                                    </child>
                                                   </widget>
                                                 </child>
                                               </widget>
@@ -934,10 +952,16 @@
                                                 <property name="relief">half</property>
                                                 <signal name="clicked" handler="on_delete_session_activate" swapped="no"/>
                                                 <child>
-                                                  <widget class="GtkImage" id="image_session_delete1">
+                                                  <widget class="GtkEventBox" id="eventbox_button_menu_session_delete1">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="stock">gtk-open</property>
+                                                    <child>
+                                                      <widget class="GtkImage" id="image_session_delete1">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="stock">gtk-open</property>
+                                                      </widget>
+                                                    </child>
                                                   </widget>
                                                 </child>
                                               </widget>
@@ -1136,10 +1160,16 @@
                                                 <property name="receives_default">True</property>
                                                 <signal name="clicked" handler="on_menuitem_manual_activate" swapped="no"/>
                                                 <child>
-                                                  <widget class="GtkImage" id="image_menu_help_documents1">
+                                                  <widget class="GtkEventBox" id="eventbox_button_menu_help_documents1">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="stock">gtk-missing-image</property>
+                                                    <child>
+                                                      <widget class="GtkImage" id="image_menu_help_documents1">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="stock">gtk-missing-image</property>
+                                                      </widget>
+                                                    </child>
                                                   </widget>
                                                 </child>
                                               </widget>
@@ -1156,10 +1186,16 @@
                                                 <property name="receives_default">True</property>
                                                 <signal name="clicked" handler="on_menuitem_accelerators_activate" swapped="no"/>
                                                 <child>
-                                                  <widget class="GtkImage" id="image_menu_help_accelerators1">
+                                                  <widget class="GtkEventBox" id="eventbox_button_menu_help_accelerators1">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="stock">gtk-missing-image</property>
+                                                    <child>
+                                                      <widget class="GtkImage" id="image_menu_help_accelerators1">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="stock">gtk-missing-image</property>
+                                                      </widget>
+                                                    </child>
                                                   </widget>
                                                 </child>
                                               </widget>
@@ -1176,10 +1212,16 @@
                                                 <property name="receives_default">True</property>
                                                 <signal name="clicked" handler="on_about1_activate" swapped="no"/>
                                                 <child>
-                                                  <widget class="GtkImage" id="image_menu_help_about1">
+                                                  <widget class="GtkEventBox" id="eventbox_button_menu_help_about1">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="stock">gtk-missing-image</property>
+                                                    <child>
+                                                      <widget class="GtkImage" id="image_menu_help_about1">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="stock">gtk-missing-image</property>
+                                                      </widget>
+                                                    </child>
                                                   </widget>
                                                 </child>
                                               </widget>
@@ -25203,6 +25245,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -27517,18 +27562,6 @@ Concentric</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Tests will be filmed</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack_type">end</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <widget class="GtkHBox" id="hbox_video_encoder_capturing">
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
@@ -27556,6 +27589,18 @@ Concentric</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Tests will be filmed</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -33266,6 +33311,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

@@ -2404,7 +2404,13 @@ public partial class ChronoJumpWindow
 			//show hidden widgets
 			sensitiveGuiNoSession();
 			sensitiveGuiYesSession();
-			on_button_show_menu_clicked (new object (), new EventArgs ());  //hide menu
+
+			if( ! configChronojump.PersonWinHide) {
+				alignment_menu_and_persons.Visible = true;
+				//on_radio_show_persons_clicked (new object (), new EventArgs ());
+				radio_show_persons.Active = true;
+			}
+
 			definedSession = true;
 
 			//for sure, jumpsExists is false, because we create a new session
@@ -2485,7 +2491,12 @@ public partial class ChronoJumpWindow
 		//show hidden widgets
 		sensitiveGuiNoSession();
 		sensitiveGuiYesSession();
-		on_button_show_menu_clicked (new object (), new EventArgs ());  //hide menu
+
+		if( ! configChronojump.PersonWinHide) {
+			alignment_menu_and_persons.Visible = true;
+			//on_radio_show_persons_clicked (new object (), new EventArgs ());
+			radio_show_persons.Active = true;
+		}
 
 		definedSession = true;
 		

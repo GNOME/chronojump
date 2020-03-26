@@ -43,7 +43,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_session_delete;
 	[Widget] Gtk.Image image_session_preferences;
 	[Widget] Gtk.Image image_mode_encoder_capture;
-	[Widget] Gtk.Image image_manage_persons;
 	[Widget] Gtk.Image image_current_person_zoom;
 	[Widget] Gtk.Image image_current_person_zoom_h;
 	[Widget] Gtk.Image image_person;
@@ -271,7 +270,7 @@ public partial class ChronoJumpWindow
 		image_menu_quit1.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_menu.png");
-		image_button_show_menu.Pixbuf = pixbuf;
+		image_radio_show_menu.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_modes.png");
 		image_button_show_modes.Pixbuf = pixbuf;
 		image_button_show_modes1.Pixbuf = pixbuf;
@@ -363,7 +362,7 @@ public partial class ChronoJumpWindow
 		image_selector_start_back.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_pin.png");
-		image_manage_persons.Pixbuf = pixbuf;
+		image_radio_show_persons.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person.png");
 		image_person.Pixbuf = pixbuf;

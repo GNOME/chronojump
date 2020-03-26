@@ -27,15 +27,15 @@ using System.Collections.Generic; //List
 
 public partial class ChronoJumpWindow
 {
-	[Widget] Gtk.Arrow arrow_menu_show_menu_up;
-	[Widget] Gtk.Arrow arrow_menu_show_menu_down;
+	[Widget] Gtk.Alignment alignment_menu_and_persons;
 	[Widget] Gtk.Arrow arrow_menu_show_session_up;
 	[Widget] Gtk.Arrow arrow_menu_show_session_down;
 	[Widget] Gtk.Arrow arrow_menu_show_encoder_up;
 	[Widget] Gtk.Arrow arrow_menu_show_encoder_down;
 	[Widget] Gtk.Arrow arrow_menu_show_help_up;
 	[Widget] Gtk.Arrow arrow_menu_show_help_down;
-	[Widget] Gtk.Button button_show_menu;
+	[Widget] Gtk.RadioButton radio_show_menu;
+	[Widget] Gtk.RadioButton radio_show_persons;
 	[Widget] Gtk.Button button_show_modes;
 	[Widget] Gtk.HPaned hpaned_contacts_main;
 	[Widget] Gtk.Alignment alignment_viewport_menu_top;
@@ -44,7 +44,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Viewport viewport_menu_top;
 	[Widget] Gtk.Viewport viewport_menu;
 	[Widget] Gtk.Viewport viewport_persons;
-	[Widget] Gtk.EventBox eventbox_button_show_menu;
+	[Widget] Gtk.EventBox eventbox_radio_show_menu;
+	[Widget] Gtk.EventBox eventbox_radio_show_persons;
 	[Widget] Gtk.EventBox eventbox_button_show_modes;
 	[Widget] Gtk.EventBox eventbox_check_menu_session;
 	[Widget] Gtk.EventBox eventbox_button_menu_preferences;
@@ -69,7 +70,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_menu_help_about;
 
 	//menu icons
-	[Widget] Gtk.Image image_button_show_menu;
+	[Widget] Gtk.Image image_radio_show_menu;
+	[Widget] Gtk.Image image_radio_show_persons;
 	[Widget] Gtk.Image image_menu_folders;
 	[Widget] Gtk.Image image_session_new3;
 	[Widget] Gtk.Image image_session_load2;
@@ -158,7 +160,8 @@ public partial class ChronoJumpWindow
 	private void menuSetTextAndIcons ()
 	{
 		//icons
-		image_button_show_menu.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
+		//image_radio_show_menu.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
+		//image_radio_show_persons.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_menu_folders.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_session_new3.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_session_load2.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
@@ -188,7 +191,8 @@ public partial class ChronoJumpWindow
 		//UtilGtk.ViewportColor(viewport_menu, UtilGtk.GRAY_LIGHT);
 		//UtilGtk.ViewportColor(viewport_persons, UtilGtk.BLUE_CLEAR2);
 
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_show_menu, UtilGtk.YELLOW);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_show_menu, UtilGtk.YELLOW);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_show_persons, UtilGtk.YELLOW);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_show_modes, UtilGtk.YELLOW);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_session, UtilGtk.YELLOW);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_preferences, UtilGtk.YELLOW);
@@ -203,25 +207,22 @@ public partial class ChronoJumpWindow
 		a_down.Visible = ! selected;
 	}
 
-	private void on_button_show_menu_clicked (object o, EventArgs args)
+	private void on_radio_show_menu_toggled (object o, EventArgs args)
 	{
-		if(! viewport_menu.Visible)
-		{
 			if(check_menu_session.Active)
 				check_menu_session.Active = false;
 			if(check_menu_help.Active)
 				check_menu_help.Active = false;
 			if(check_menu_encoder.Active)
 				check_menu_encoder.Active = false;
-		}
 
-		viewport_menu.Visible = ! viewport_menu.Visible;
-		menuShowVerticalArrow (viewport_menu.Visible, arrow_menu_show_menu_up, arrow_menu_show_menu_down);
-
-		if(viewport_menu.Visible)
+			viewport_menu.Visible = true;
 			viewport_persons.Visible = false;
-		else
-			viewport_persons.Visible = (currentSession != null);
+	}
+	private void on_radio_show_persons_toggled (object o, EventArgs args)
+	{
+		viewport_menu.Visible = false;
+		viewport_persons.Visible = (currentSession != null);
 	}
 
 	private void on_check_menu_session_clicked (object o, EventArgs args)

@@ -182,6 +182,7 @@ public partial class ChronoJumpWindow
 	{
 		//Gdk.Color color = UtilGtk.YELLOW;
 		//Gdk.Color color = UtilGtk.BLUE_CHRONOJUMP;
+		//Gdk.Color color = //#FFE891 //this is nice
 
 		Gdk.Color color = UtilGtk.ColorParse(preferences.colorBackgroundString);
 

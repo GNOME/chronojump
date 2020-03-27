@@ -24,6 +24,7 @@ using System;
 using Gtk;
 using Gdk;
 using Glade;
+using System.Collections.Generic; //List
 
 public partial class ChronoJumpWindow
 {
@@ -70,6 +71,13 @@ public partial class ChronoJumpWindow
 			button_image_current_person_zoom.Sensitive = false;
 			button_image_current_person_zoom_h.Sensitive = false;
 		}
+	}
+
+	//used on this free labels that have zto contrast with background
+	private void doPersonLabelsContrast()
+	{
+		UtilGtk.HboxDoContrastLabels (viewport_hpaned_contacts_main, hbox_top_person);
+		UtilGtk.HboxDoContrastLabels (viewport_hpaned_contacts_main, hbox_top_person_encoder);
 	}
 
 }

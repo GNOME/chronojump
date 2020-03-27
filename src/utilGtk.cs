@@ -494,6 +494,12 @@ public class UtilGtk
 	
 	public static Gdk.Color SELECTED = GetBackgroundColorSelected();
 
+	public static bool ColorIsDark(Gdk.Color color)
+	{
+		//LogB.Information(string.Format("color red: {0}, green: {1}, blue: {2}", color.Red, color.Green, color.Blue));
+		//3 components come in ushort (0-65535)
+		return (color.Red + color.Green + color.Blue < 3 * 65535 / 2.0);
+	}
 
 	public static Gdk.Color GetBackgroundColorSelected() {
 		Gtk.Style regularLabel = Gtk.Rc.GetStyle (new Gtk.Label());
@@ -595,7 +601,36 @@ public class UtilGtk
 		e.ModifyBg(StateType.Active, color);
 		e.ModifyBg(StateType.Prelight, color);
 	}
+
+
+	//TODO: instead of checking for hbox or table, check if it is a container
+	public static void HboxDoContrastLabels (Gtk.Viewport v, Gtk.Box box)
+	{
+		foreach(Gtk.Widget w in box.Children)
+		{
+			if(w.GetType() == typeof(Gtk.Label))
+				LabelDoContrastColor (v, (Gtk.Label) w);
+			else if(w.GetType() == typeof(Gtk.Table))
+				TableDoContrastLabels (v, (Gtk.Table) w);
+		}
+	}
+
+	public static void TableDoContrastLabels (Gtk.Viewport v, Gtk.Table table)
+	{
+		foreach(Gtk.Widget w in table.Children)
+			if(w.GetType() == typeof(Gtk.Label))
+				LabelDoContrastColor (v, (Gtk.Label) w);
+	}
+
+	public static void LabelDoContrastColor (Gtk.Viewport v, Gtk.Label l)
+	{
+		if(ColorIsDark(v.Style.Background(StateType.Normal)))
+			l.ModifyFg(StateType.Normal, YELLOW_LIGHT);
+		else
+			l.ModifyFg(StateType.Normal, BLACK);
+	}
 	
+
 	/*
 	 *
 	 * PRETTY THINGS

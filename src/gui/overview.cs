@@ -283,7 +283,7 @@ public class RunEncoderOverviewWindow : OverviewWindow
 
 	protected override string getTitle()
 	{
-		return Catalog.GetString("Force sensor overview");
+		return Catalog.GetString("Race analyzer overview");
 	}
 
 	protected override ArrayList selectData(treeviewType type)

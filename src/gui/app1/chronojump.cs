@@ -723,6 +723,10 @@ public partial class ChronoJumpWindow
 		//ensure chronopicRegisterWindow is shown after (on top of) app1
 		app1Shown = true;
 
+		//done after app1.Show in order to be able to gather the colors
+		if(configChronojump.PersonWinHide)
+			doPersonLabelsContrast();
+
 		if(splashWin != null) {
 			LogB.Information("Destroying splashWin");
 			splashWin.Destroy();
@@ -3111,7 +3115,13 @@ public partial class ChronoJumpWindow
 		if(pen_black_force_ai != null)
 			pen_black_force_ai.SetLineAttributes (preferences.forceSensorGraphsLineWidth, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
 
+		//TODO: only if personWinHide changed
 		initialize_menu_or_menu_tiny();
+
+		//repaint labels that are on the background
+		//TODO: only if color changed or personWinHide
+		if(configChronojump.PersonWinHide)
+			doPersonLabelsContrast();
 
 		// update force_capture_drawingarea
 		if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR && radiobutton_force_sensor_analyze_manual.Active)

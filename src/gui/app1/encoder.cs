@@ -1954,13 +1954,6 @@ public partial class ChronoJumpWindow
 		checkFile(Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL);
 	}
 
-	// encoder session overview
-
-	void on_menuitem_encoder_session_overview_activate (object o, EventArgs args) 
-	{
-		EncoderOverviewWindow.Show (app1, currentEncoderGI, currentSession.UniqueID);
-	}
-	
 	void on_button_encoder_export_all_curves_file_selected (string selectedFileName) 
 	{
 		string analysisOptions = getEncoderAnalysisOptions();

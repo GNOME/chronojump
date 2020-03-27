@@ -693,6 +693,8 @@ public partial class ChronoJumpWindow
 		image_menuitem_encoder_session_overview.Pixbuf = pixbuf;
 		image_menuitem_forceSensor_session_overview.Pixbuf = pixbuf;
 		image_menuitem_runEncoder_session_overview.Pixbuf = pixbuf;
+		image_session_overview.Pixbuf = pixbuf;
+		image_session_overview1.Pixbuf = pixbuf;
 
 		//encoder
 		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_powerbars);

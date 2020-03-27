@@ -212,7 +212,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_delete_session;
 	[Widget] Gtk.MenuItem menuitem_export_csv;
 	[Widget] Gtk.MenuItem menuitem_encoder_session_overview;
-	[Widget] Gtk.Button button_menu_encoder_session_overview;
 	[Widget] Gtk.MenuItem menuitem_forceSensor_session_overview;
 	[Widget] Gtk.MenuItem menuitem_runEncoder_session_overview;
 	[Widget] Gtk.Image image_session_open;
@@ -2581,6 +2580,21 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	private void on_button_menu_session_overview_clicked (object o, EventArgs args)
+	{
+		if (currentSession == null)
+			return;
+
+		Constants.Menuitem_modes m = current_menuitem_mode;
+
+		if(m == Constants.Menuitem_modes.POWERGRAVITATORY || m == Constants.Menuitem_modes.POWERINERTIAL)
+			EncoderOverviewWindow.Show (app1, currentEncoderGI, currentSession.UniqueID);
+		else if(m == Constants.Menuitem_modes.FORCESENSOR)
+			ForceSensorOverviewWindow.Show (app1, currentSession.UniqueID);
+		else if(m == Constants.Menuitem_modes.RUNSENCODER)
+			RunEncoderOverviewWindow.Show (app1, currentSession.UniqueID);
+	}
+
 	private void on_export_session_activate(object o, EventArgs args) {
 		ConfirmWindow confirmWin = ConfirmWindow.Show(
 				Catalog.GetString("Export will include this data:") +
@@ -3142,7 +3156,11 @@ public partial class ChronoJumpWindow
 	{
 		notebook_start_selector.CurrentPage = 0;
 		notebook_sup.CurrentPage = 0;
+
+		//changes in menus
 		//vbox_menu_encoder.Visible = false;
+		button_menu_session_overview.Visible = false;
+		button_menu_session_overview1.Visible = false;
 
 		//show title
 		string tempSessionName = "";
@@ -3224,6 +3242,8 @@ public partial class ChronoJumpWindow
 		vbox_contacts_load_recalculate.Visible = false;
 		vbox_contacts_signal_comment.Visible = false;
 		frame_jumps_automatic.Visible = false;
+		button_menu_session_overview.Visible = false;
+		button_menu_session_overview1.Visible = false;
 
 		//on OSX R is not installed by default. Check if it's installed. Needed for encoder and force sensor
 		if(
@@ -3325,6 +3345,8 @@ public partial class ChronoJumpWindow
 				encoderButtonsSensitive(encoderSensEnum.YESPERSON);
 			
 			blankEncoderInterface();
+			button_menu_session_overview.Visible = true;
+			button_menu_session_overview1.Visible = true;
 
 			bool changed = false;
 			if(m == Constants.Menuitem_modes.POWERGRAVITATORY)
@@ -3429,6 +3451,9 @@ public partial class ChronoJumpWindow
 			notebook_capture_graph_table.CurrentPage = 1; //"Show table"
 			notebook_capture_graph_table.ShowTabs = false;
 			setLabelContactsExerciseSelected(m);
+
+			button_menu_session_overview.Visible = true;
+			button_menu_session_overview1.Visible = true;
 		}
 		else if(m == Constants.Menuitem_modes.RUNSENCODER)
 		{
@@ -3454,6 +3479,9 @@ public partial class ChronoJumpWindow
 			combo_race_analyzer_device.Active = 0;
 			forceSensorImageTestChange();
 			setLabelContactsExerciseSelected(m);
+
+			button_menu_session_overview.Visible = true;
+			button_menu_session_overview1.Visible = true;
 		}
 		else if(m == Constants.Menuitem_modes.RT)
 		{
@@ -7326,10 +7354,12 @@ LogB.Debug("mc finished 5");
 		//menuitem_delete_session.Sensitive = option;
 		button_menu_session_edit.Sensitive = option; 		//menu
 		button_menu_session_edit1.Sensitive = option; 		//menu_tiny
+		button_menu_session_overview.Sensitive = option; 	//menu
+		button_menu_session_overview1.Sensitive = option;	//menu_tiny
+
 		menuitem_export_csv.Sensitive = option;
 		//menuitem_export_xml.Sensitive = option; not implemented yet
 		menuitem_encoder_session_overview.Sensitive = option;
-		button_menu_encoder_session_overview.Sensitive = option;
 		menuitem_forceSensor_session_overview.Sensitive = option;
 		menuitem_runEncoder_session_overview.Sensitive = option;
 	}

@@ -1259,11 +1259,6 @@ LogB.Information(" re R ");
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.DirectoryCannotOpenStr());
 	}
 
-	void on_menuitem_runEncoder_session_overview_activate (object o, EventArgs args)
-	{
-		RunEncoderOverviewWindow.Show (app1, currentSession.UniqueID);
-	}
-
 	// -------------------------------- exercise stuff --------------------
 
 

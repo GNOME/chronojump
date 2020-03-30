@@ -28,6 +28,10 @@ public partial class ChronoJumpWindow
 	static Thread threadImport;
 	static ChronojumpImporter chronojumpImporter;
 
+	private void on_button_menu_session_advanced_clicked (object o, EventArgs args)
+	{
+		on_button_import_chronojump_session (o, args);
+	}
 	private void on_button_import_chronojump_session(object o, EventArgs args)
 	{
 		sessionLoadWin = SessionLoadWindow.Show (app1, SessionLoadWindow.WindowType.IMPORT_SESSION);

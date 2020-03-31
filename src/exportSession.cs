@@ -112,9 +112,9 @@ public class ExportSession
 		else {
 			LogB.Information("cancelled");
 			//report does not currently send the appBar reference
-			if(formatFile != "report") {
-				new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Cancelled."));
-			}
+			//if(formatFile != "report") {
+			//	new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Cancelled."));
+			//}
 			fc.Hide ();
 			return ;
 		}

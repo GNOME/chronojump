@@ -100,12 +100,11 @@ public partial class ChronoJumpWindow
 			menuInitialize();
 	}
 
-	private void menu_or_menu_tiny_show_modes()
+	private void menu_and_menu_tiny_show_modes()
 	{
-		if(preferences.menuType == Preferences.MenuTypes.ICONS)
-			button_show_modes1.Sensitive = true;
-		else
-			button_show_modes.Sensitive = true;
+		//need to change both because user can change PersonWinHide
+		button_show_modes1.Sensitive = true;
+		button_show_modes.Sensitive = true;
 	}
 
 	private void menuInitialize ()

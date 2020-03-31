@@ -710,8 +710,8 @@ public partial class ChronoJumpWindow
 			LogB.Information("Ping discarded (Compujump)");
 
 		initialize_menu_or_menu_tiny();
-		if(notebook_sup.CurrentPage != 0)
-			menu_or_menu_tiny_show_modes();
+		if(notebook_sup.CurrentPage != Convert.ToInt32(notebook_sup_pages.START))
+			menu_and_menu_tiny_show_modes();
 
 		testNewStuff();
 
@@ -3542,7 +3542,7 @@ public partial class ChronoJumpWindow
 		//show the program
 		notebook_start.CurrentPage = 0;
 
-		menu_or_menu_tiny_show_modes();
+		menu_and_menu_tiny_show_modes();
 
 		//make main_menu visible because it's not visible at startup.
 		//but don't show if session == UNIQUE

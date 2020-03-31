@@ -3073,6 +3073,13 @@ public partial class ChronoJumpWindow
 
 		configInitFromPreferences();
 
+		if( ! configChronojump.PersonWinHide) {
+			alignment_menu_and_persons.Visible = true;
+			//on_radio_show_persons_clicked (new object (), new EventArgs ());
+			radio_show_persons.Active = true;
+		}
+
+
 		if(repetitiveConditionsWin != null)
 		{
 			repetitiveConditionsWin.VolumeOn = preferences.volumeOn;

@@ -602,24 +602,31 @@ public class UtilGtk
 		e.ModifyBg(StateType.Prelight, color);
 	}
 
-
-	//TODO: instead of checking for hbox or table, check if it is a container
-	public static void HboxDoContrastLabels (Gtk.Viewport v, Gtk.Box box)
+	public static void HBoxDoContrastLabels (Gtk.Viewport v, Gtk.HBox hbox)
 	{
-		foreach(Gtk.Widget w in box.Children)
+		containerDoContrastLabels (v, (Gtk.Container) hbox);
+	}
+	public static void VBoxDoContrastLabels (Gtk.Viewport v, Gtk.VBox vbox)
+	{
+		containerDoContrastLabels (v, (Gtk.Container) vbox);
+	}
+	public static void TableDoContrastLabels (Gtk.Viewport v, Gtk.Table table)
+	{
+		containerDoContrastLabels (v, (Gtk.Container) table);
+	}
+	private static void containerDoContrastLabels (Gtk.Viewport v, Gtk.Container container)
+	{
+		foreach(Gtk.Widget w in container.Children)
 		{
 			if(w.GetType() == typeof(Gtk.Label))
 				LabelDoContrastColor (v, (Gtk.Label) w);
+			else if(w.GetType() == typeof(Gtk.HBox))
+				HBoxDoContrastLabels (v, (Gtk.HBox) w);
+			else if(w.GetType() == typeof(Gtk.VBox))
+				VBoxDoContrastLabels (v, (Gtk.VBox) w);
 			else if(w.GetType() == typeof(Gtk.Table))
 				TableDoContrastLabels (v, (Gtk.Table) w);
 		}
-	}
-
-	public static void TableDoContrastLabels (Gtk.Viewport v, Gtk.Table table)
-	{
-		foreach(Gtk.Widget w in table.Children)
-			if(w.GetType() == typeof(Gtk.Label))
-				LabelDoContrastColor (v, (Gtk.Label) w);
 	}
 
 	public static void LabelDoContrastColor (Gtk.Viewport v, Gtk.Label l)

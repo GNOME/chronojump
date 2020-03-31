@@ -536,6 +536,7 @@ RESOURCES = \
 	../images/md/baseline_apps_6_blue_24dp.png,image_modes.png \
 	../images/md/baseline_menu_book_blue_24dp.png,image_book.png \
 	../images/md/baseline_keyboard_blue_24dp.png,image_keyboard.png \
+	../images/md/baseline_more_horiz_blue_24dp.png,image_more_horiz.png \
 	../images/md/about.png,image_about.png \
 	../images/md/folders_blue.png,image_folders.png \
 	../images/md/baseline_help_blue_24dp.png,image_help.png \

@@ -112,7 +112,6 @@ public partial class ChronoJumpWindow
 			app1s_notebook_load_button_animation.Visible = true;
 			app1s_hbuttonbox_page2_import.Visible = false;
 			app1s_label_select.Text = "<b>" + Catalog.GetString ("Load session") + "</b>";
-			app1s_label_select.UseMarkup = true;
 			app1s_notebook.CurrentPage = app1s_PAGE_SELECT_SESSION;
 			app1s_notebook_load_button_animation.CurrentPage = 0;
 		} else {
@@ -123,6 +122,7 @@ public partial class ChronoJumpWindow
 			app1s_button_select_file_import_same_database.Visible = false; //is shown when user want to import a second session
 			app1s_notebook.CurrentPage = app1s_PAGE_IMPORT_START;
 		}
+		app1s_label_select.UseMarkup = true;
 
 		app1s_image_open_database.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_open.png");
 		app1s_image_import.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameImport);

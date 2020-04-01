@@ -17,6 +17,7 @@ SOURCES = \
 	gui/app1/contactsExercise.cs\
 	gui/app1/forceSensor.cs\
 	gui/app1/forceSensorAnalyze.cs\
+	gui/app1/sessionLoadAndImport.cs\
 	gui/app1/jump.cs\
 	gui/app1/menu.cs\
 	gui/app1/menu_tiny.cs\
@@ -65,7 +66,6 @@ SOURCES = \
 	gui/preferences.cs\
 	gui/sendLog.cs\
 	gui/session/addEdit.cs\
-	gui/session/load.cs\
 	gui/session/selectStats.cs\
 	gui/stats.cs\
 	gui/presentation.cs\

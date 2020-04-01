@@ -27,21 +27,25 @@ using System.Text; //StringBuilder
 using System.Collections; //ArrayList
 using Mono.Unix;
 
+//here using app1s_ , "s" means session
+//this file has been moved from his old window to be part of app1 on Chronojump 2.0
 
-public class SessionLoadWindow
+//public class SessionLoadWindow
+public partial class ChronoJumpWindow
 {
-	public enum WindowType
+	private enum app1s_windowType
 	{
 		LOAD_SESSION,
 		IMPORT_SESSION
 	};
-	[Widget] Gtk.Window session_load;
 	
-	private TreeStore store;
-	private string selected;
-	private string import_file_path;
+	private TreeStore app1s_store;
+	private string app1s_selected;
+	private string app1s_import_file_path;
+	private int app1s_notebook_sup_entered_from; //to store from which page we entered (to return at it)
 
-	[Widget] Gtk.Notebook notebook_import;
+	[Widget] Gtk.Notebook app1s_notebook;
+	[Widget] Gtk.Label app1s_label_select;
 
 	/*
 	 * when fillTreeView() is called, it executes:
@@ -51,106 +55,92 @@ public class SessionLoadWindow
 	 * that makes the connection point to client database (and not the database being imported),
 	 * but if we cancel after the fillTreeView()
 	 * then Chronojump continues on old db until load session is called,
-	 * so this fakeButton_cancel_maybeDatabaseSwitched
 	 * ensure to do a reloadSession() if cancel buttons are clicked or on delete_event
+	 *
+	 * before 2.0, all load/import gui was on separate window, then this was used:
+	 * fakeButton_cancel_maybeDatabaseSwitched.Click();
 	 */
-	[Widget] Gtk.Button fakeButton_cancel_maybeDatabaseSwitched;
 
-	//notebook import tab 0
-	[Widget] Gtk.RadioButton radio_import_new_session;
-	[Widget] Gtk.RadioButton radio_import_current_session;
-	[Widget] Gtk.Image image_open_database;
-	[Widget] Gtk.Label label_open_database_file;
-	[Widget] Gtk.Button button_select_file_import_same_database;
+	//notebook tab 0
+	//notebook tab 1
+	[Widget] Gtk.HBox hbox_session_more;
+	[Widget] Gtk.VBox vbox_session_overview;
+	[Widget] Gtk.RadioButton app1s_radio_import_new_session;
+	[Widget] Gtk.RadioButton app1s_radio_import_current_session;
+	[Widget] Gtk.Image app1s_image_open_database;
+	[Widget] Gtk.Label app1s_label_open_database_file;
+	[Widget] Gtk.Button app1s_button_select_file_import_same_database;
 
-	//notebook import tab 1
-	[Widget] Gtk.TreeView treeview_session_load;
-	[Widget] Gtk.Button button_accept;
-	[Widget] Gtk.Button button_import;
-	[Widget] Gtk.Image image_import;
-	[Widget] Gtk.Entry entry_search_filter;
-	[Widget] Gtk.CheckButton checkbutton_show_data_jump_run;
-	[Widget] Gtk.CheckButton checkbutton_show_data_other_tests;
-	[Widget] Gtk.Label file_path_import;
-	[Widget] Gtk.HButtonBox hbuttonbox_page1_load;
-	[Widget] Gtk.HButtonBox hbuttonbox_page1_import;
+	//notebook tab 2
+	[Widget] Gtk.TreeView app1s_treeview_session_load;
+	[Widget] Gtk.Button app1s_button_accept;
+	[Widget] Gtk.Button app1s_button_import;
+	[Widget] Gtk.Image app1s_image_import;
+	[Widget] Gtk.Entry app1s_entry_search_filter;
+	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_jump_run;
+	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_other_tests;
+	[Widget] Gtk.Label app1s_file_path_import;
+	[Widget] Gtk.HButtonBox app1s_hbuttonbox_page2_load;
+	[Widget] Gtk.HButtonBox app1s_hbuttonbox_page2_import;
 
-	//notebook import tab 2
-	[Widget] Gtk.Label label_import_session_name;
-	[Widget] Gtk.Label label_import_file;
-	[Widget] Gtk.Button button_import_confirm_accept;
+	//notebook tab 3
+	[Widget] Gtk.Label app1s_label_import_session_name;
+	[Widget] Gtk.Label app1s_label_import_file;
+	[Widget] Gtk.Button app1s_button_import_confirm_accept;
 
-	//notebook import tab 3
-	[Widget] Gtk.ProgressBar progressbarImport;
-	[Widget] Gtk.Label label_import_done_at_new_session;
-	[Widget] Gtk.Label label_import_done_at_current_session;
-	[Widget] Gtk.ScrolledWindow scrolledwindow_import_error;
-	[Widget] Gtk.TextView textview_import_error;
-	[Widget] Gtk.Image image_import1;
-	[Widget] Gtk.HButtonBox hbuttonbox_page3;
+	//notebook tab 4
+	[Widget] Gtk.ProgressBar app1s_progressbarImport;
+	[Widget] Gtk.Label app1s_label_import_done_at_new_session;
+	[Widget] Gtk.Label app1s_label_import_done_at_current_session;
+	[Widget] Gtk.ScrolledWindow app1s_scrolledwindow_import_error;
+	[Widget] Gtk.TextView app1s_textview_import_error;
+	[Widget] Gtk.Image app1s_image_import1;
+	[Widget] Gtk.HButtonBox app1s_hbuttonbox_page4;
 
+	private app1s_windowType app1s_type;
 
-	static SessionLoadWindow SessionLoadWindowBox;
-	
-	private Session currentSession;
-	private WindowType type;
+	const int app1s_PAGE_MODES = 0;
+	const int app1s_PAGE_IMPORT_START = 1;
+	const int app1s_PAGE_SELECT_SESSION = 2; //for load session and for import
+	public const int app1s_PAGE_IMPORT_CONFIRM = 3;
+	public const int app1s_PAGE_IMPORT_RESULT = 4;
 
-	const int PAGE_IMPORT_START = 0;
-	const int PAGE_SELECT_SESSION = 1; //for load session and for import
-	public const int PAGE_IMPORT_CONFIRM = 2;
-	public const int PAGE_IMPORT_RESULT = 3;
-
-	SessionLoadWindow (Gtk.Window parent)
+	private void app1s_initializeGui()
 	{
-		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "session_load.glade", "session_load", null);
-		gladeXML.Autoconnect(this);
-		session_load.Parent = parent;
-	}
-
-	private void initializeGui()
-	{
-		if (type == WindowType.LOAD_SESSION) {
-			file_path_import.Visible = false;
-			hbuttonbox_page1_load.Visible = true;
-			hbuttonbox_page1_import.Visible = false;
-			session_load.Title = Catalog.GetString ("Load session");
-			notebook_import.CurrentPage = PAGE_SELECT_SESSION;
+		if (app1s_type == app1s_windowType.LOAD_SESSION) {
+			app1s_file_path_import.Visible = false;
+			app1s_hbuttonbox_page2_load.Visible = true;
+			app1s_hbuttonbox_page2_import.Visible = false;
+			app1s_label_select.Text = "<b>" + Catalog.GetString ("Load session") + "</b>";
+			app1s_label_select.UseMarkup = true;
+			app1s_notebook.CurrentPage = app1s_PAGE_SELECT_SESSION;
 		} else {
-			file_path_import.Visible = true;
-			hbuttonbox_page1_load.Visible = false;
-			hbuttonbox_page1_import.Visible = true;
-			session_load.Title = Catalog.GetString ("Import session");
-			button_select_file_import_same_database.Visible = false; //is shown when user want to import a second session
-			notebook_import.CurrentPage = PAGE_IMPORT_START;
+			app1s_file_path_import.Visible = true;
+			app1s_hbuttonbox_page2_load.Visible = false;
+			app1s_hbuttonbox_page2_import.Visible = true;
+			//session_load.Title = Catalog.GetString ("Import session");
+			app1s_button_select_file_import_same_database.Visible = false; //is shown when user want to import a second session
+			app1s_notebook.CurrentPage = app1s_PAGE_IMPORT_START;
 		}
 
-		//put an icon to window
-		UtilGtk.IconWindow(session_load);
+		app1s_image_open_database.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_open.png");
+		app1s_image_import.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameImport);
+		app1s_image_import1.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameImport);
 
-		image_open_database.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_open.png");
-		image_import.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameImport);
-		image_import1.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameImport);
+		app1s_createTreeView(app1s_treeview_session_load, false, false);
+		app1s_store = app1s_getStore(false, false);
+		app1s_treeview_session_load.Model = app1s_store;
+		app1s_fillTreeView(app1s_treeview_session_load, app1s_store, false, false);
 
-		createTreeView(treeview_session_load, false, false);
-		store = getStore(false, false);
-		treeview_session_load.Model = store;
-		fillTreeView(treeview_session_load, store, false, false);
+		app1s_store.SetSortColumnId(1, Gtk.SortType.Descending); //date
+		app1s_store.ChangeSortColumn();
 
-		store.SetSortColumnId(1, Gtk.SortType.Descending); //date
-		store.ChangeSortColumn();
+		app1s_button_accept.Sensitive = false;
+		app1s_button_import.Sensitive = false;
+		app1s_entry_search_filter.CanFocus = true;
+		app1s_entry_search_filter.IsFocus = true;
 
-		button_accept.Sensitive = false;
-		button_import.Sensitive = false;
-		entry_search_filter.CanFocus = true;
-		entry_search_filter.IsFocus = true;
-
-		// Leave the state of the Importing Comboboxes as they are by default
-		/*radio_import_new_session.Active = true;
-		radio_import_current_session.Sensitive = false;
-		*/
-
-		treeview_session_load.Selection.Changed += onSelectionEntry;
+		app1s_treeview_session_load.Selection.Changed += app1s_onSelectionEntry;
 
 		/**
 		* Uncomment if we want the session file chooser to be loaded with the dialog.
@@ -160,11 +150,9 @@ public class SessionLoadWindow
 			chooseDatabaseToImport ();
 		}
 		*/
-
-		fakeButton_cancel_maybeDatabaseSwitched = new Gtk.Button();
 	}
 
-	private TreeStore getStore(bool showContacts, bool showEncoderAndForceSensor) {
+	private TreeStore app1s_getStore(bool showContacts, bool showEncoderAndForceSensor) {
 		TreeStore s;
 		if(showContacts && showEncoderAndForceSensor)
 			s = new TreeStore(
@@ -198,14 +186,14 @@ public class SessionLoadWindow
 			       	);
 
 		//s.SetSortFunc (0, UtilGtk.IdColumnCompare); //not needed, it's hidden
-		s.SetSortFunc (1, dateColumnCompare);
+		s.SetSortFunc (1, app1s_dateColumnCompare);
 		s.ChangeSortColumn();
 
 		return s;
 	}
 
 
-	private static int dateColumnCompare (TreeModel model, TreeIter iter1, TreeIter iter2)
+	private static int app1s_dateColumnCompare (TreeModel model, TreeIter iter1, TreeIter iter2)
 	{
 		var dt1String = (model.GetValue(iter1, 1).ToString());
 		var dt2String = (model.GetValue(iter2, 1).ToString());
@@ -221,23 +209,15 @@ public class SessionLoadWindow
 		else
 			return 0;
 	}
-	
-	static public SessionLoadWindow Show (Gtk.Window parent, WindowType type)
+
+	private void sessionLoadWindowShow (app1s_windowType type)
 	{
-		if (SessionLoadWindowBox == null) {
-			SessionLoadWindowBox = new SessionLoadWindow (parent);
-		}
-
-		SessionLoadWindowBox.type = type;
-		SessionLoadWindowBox.initializeGui();
-		SessionLoadWindowBox.recreateTreeView("loaded the dialog");
-
-		SessionLoadWindowBox.session_load.Show ();
-		
-		return SessionLoadWindowBox;
+		this.app1s_type = type;
+		app1s_initializeGui();
+		app1s_recreateTreeView("loaded the dialog");
 	}
 	
-	private void createTreeView (Gtk.TreeView tv, bool showContacts, bool showOtherTests)
+	private void app1s_createTreeView (Gtk.TreeView tv, bool showContacts, bool showOtherTests)
 	{
 		tv.HeadersVisible=true;
 		int count = 0;
@@ -286,14 +266,15 @@ public class SessionLoadWindow
 		tv.AppendColumn ( Catalog.GetString ("Comments"), new CellRendererText(), "text", count++);
 	}
 	
-	protected void on_entry_search_filter_changed (object o, EventArgs args) {
-		recreateTreeView("changed search filter");
+	protected void app1s_on_entry_search_filter_changed (object o, EventArgs args) {
+		app1s_recreateTreeView("changed search filter");
 	}
 
-	private void chooseDatabaseToImport()
+	private void app1s_chooseDatabaseToImport()
 	{
+		//TODO: try it with Gtk.FileChooserWidget, then we do not need to pass app1 (parent)
 		Gtk.FileChooserDialog filechooser = new Gtk.FileChooserDialog ("Choose ChronoJump database to import from",
-		                                                               session_load, FileChooserAction.Open,
+		                                                               app1, FileChooserAction.Open,
 		                                                               "Cancel",ResponseType.Cancel,
 		                                                               "Open",ResponseType.Accept);
 
@@ -303,37 +284,37 @@ public class SessionLoadWindow
 		filechooser.AddFilter (file_filter);
 
 		if (filechooser.Run () == (int)ResponseType.Accept) {
-			import_file_path = filechooser.Filename;
+			app1s_import_file_path = filechooser.Filename;
 			//file_path_import.Text = System.IO.Path.GetFileName (import_file_path);
-			file_path_import.Text = import_file_path;
-			file_path_import.TooltipText = import_file_path;
-			notebook_import.CurrentPage = PAGE_SELECT_SESSION;
+			app1s_file_path_import.Text = app1s_import_file_path;
+			app1s_file_path_import.TooltipText = app1s_import_file_path;
+			app1s_notebook.CurrentPage = app1s_PAGE_SELECT_SESSION;
 		}
 		filechooser.Destroy ();
-		recreateTreeView ("file path changed");
+		app1s_recreateTreeView ("file path changed");
 	}
-	void on_checkbutton_show_data_jump_run_toggled (object o, EventArgs args) {
-		recreateTreeView("jump run " + checkbutton_show_data_jump_run.Active.ToString());
+	void app1s_on_checkbutton_show_data_jump_run_toggled (object o, EventArgs args) {
+		app1s_recreateTreeView("jump run " + app1s_checkbutton_show_data_jump_run.Active.ToString());
 	}
-	void on_checkbutton_show_data_other_tests_toggled (object o, EventArgs args) {
-		recreateTreeView("other tests " + checkbutton_show_data_other_tests.Active.ToString());
+	void app1s_on_checkbutton_show_data_other_tests_toggled (object o, EventArgs args) {
+		app1s_recreateTreeView("other tests " + app1s_checkbutton_show_data_other_tests.Active.ToString());
 	}
-	void recreateTreeView(string message)
+	void app1s_recreateTreeView(string message)
 	{
 		LogB.Information("Recreate treeview: " + message);
 
-		UtilGtk.RemoveColumns(treeview_session_load);
+		UtilGtk.RemoveColumns(app1s_treeview_session_load);
 		
-		createTreeView(treeview_session_load, 
-				checkbutton_show_data_jump_run.Active, checkbutton_show_data_other_tests.Active);
-		store = getStore(
-				checkbutton_show_data_jump_run.Active, checkbutton_show_data_other_tests.Active);
-		treeview_session_load.Model = store;
-		fillTreeView(treeview_session_load, store,
-				checkbutton_show_data_jump_run.Active, checkbutton_show_data_other_tests.Active);
+		app1s_createTreeView(app1s_treeview_session_load,
+				app1s_checkbutton_show_data_jump_run.Active, app1s_checkbutton_show_data_other_tests.Active);
+		app1s_store = app1s_getStore(
+				app1s_checkbutton_show_data_jump_run.Active, app1s_checkbutton_show_data_other_tests.Active);
+		app1s_treeview_session_load.Model = app1s_store;
+		app1s_fillTreeView(app1s_treeview_session_load, app1s_store,
+				app1s_checkbutton_show_data_jump_run.Active, app1s_checkbutton_show_data_other_tests.Active);
 		
-		store.SetSortColumnId(1, Gtk.SortType.Descending); //date
-		store.ChangeSortColumn();
+		app1s_store.SetSortColumnId(1, Gtk.SortType.Descending); //date
+		app1s_store.ChangeSortColumn();
 
 
 		/*
@@ -341,22 +322,22 @@ public class SessionLoadWindow
 		 * call onSelectionEntry to see if there's a row selected
 		 * and it will sensitive on/off button_accept as needed
 		 */
-		onSelectionEntry (treeview_session_load.Selection, new EventArgs ());
+		app1s_onSelectionEntry (app1s_treeview_session_load.Selection, new EventArgs ());
 	}
 
-	private void fillTreeView (Gtk.TreeView tv, TreeStore store, bool showContacts, bool showOtherTests)
+	private void app1s_fillTreeView (Gtk.TreeView tv, TreeStore store, bool showContacts, bool showOtherTests)
 	{
 		string filterName = "";
-		if(entry_search_filter.Text.ToString().Length > 0) 
-			filterName = entry_search_filter.Text.ToString();
+		if(app1s_entry_search_filter.Text.ToString().Length > 0)
+			filterName = app1s_entry_search_filter.Text.ToString();
 
 		SqliteSessionSwitcher.DatabaseType databaseType;
-		if (type == WindowType.LOAD_SESSION) {
+		if (app1s_type == app1s_windowType.LOAD_SESSION) {
 			databaseType = SqliteSessionSwitcher.DatabaseType.DEFAULT;
 		} else {
 			databaseType = SqliteSessionSwitcher.DatabaseType.SPECIFIC;
 		}
-		SqliteSessionSwitcher sessionSwitcher = new SqliteSessionSwitcher (databaseType, import_file_path);
+		SqliteSessionSwitcher sessionSwitcher = new SqliteSessionSwitcher (databaseType, app1s_import_file_path);
 		
 		string [] mySessions = sessionSwitcher.SelectAllSessions(filterName); //returns a string of values separated by ':'
 		foreach (string session in mySessions) {
@@ -376,7 +357,7 @@ public class SessionLoadWindow
 				myLevel = Catalog.GetString(myStringFull[6]);
 
 			if(showContacts && showOtherTests)
-				store.AppendValues (
+				app1s_store.AppendValues (
 						myStringFull[0], 	//session num
 						myStringFull[3],	//session date
 						myStringFull[1], 	//session name
@@ -399,7 +380,7 @@ public class SessionLoadWindow
 						myStringFull[7]		//description of session
 						);
 			else if(showContacts && ! showOtherTests)
-				store.AppendValues (
+				app1s_store.AppendValues (
 						myStringFull[0], 	//session num
 						myStringFull[3],	//session date
 						myStringFull[1], 	//session name
@@ -418,7 +399,7 @@ public class SessionLoadWindow
 						myStringFull[7]		//description of session
 						);
 			else if(! showContacts && showOtherTests)
-				store.AppendValues (
+				app1s_store.AppendValues (
 						myStringFull[0], 	//session num
 						myStringFull[3],	//session date
 						myStringFull[1], 	//session name
@@ -434,7 +415,7 @@ public class SessionLoadWindow
 						myStringFull[7]		//description of session
 						);
 			else // ! showContacts && ! showOtherTests
-				store.AppendValues (
+				app1s_store.AppendValues (
 						myStringFull[0], 	//session num
 						myStringFull[3],	//session date
 						myStringFull[1], 	//session name
@@ -450,245 +431,234 @@ public class SessionLoadWindow
 	}
 	
 	//pass 0 for first row
-	public void SelectRowByPos(int rowNumber)
+	public void app1s_SelectRowByPos(int rowNumber)
 	{
 		TreeIter iter;
-		bool iterOk = store.GetIterFirst(out iter);
+		bool iterOk = app1s_store.GetIterFirst(out iter);
 		if(iterOk) {
 			int count = 0;
 			while (count < rowNumber) {
-				store.IterNext(ref iter);
+				app1s_store.IterNext(ref iter);
 				count ++;
 			}
-			treeview_session_load.Selection.SelectIter(iter);
+			app1s_treeview_session_load.Selection.SelectIter(iter);
 		}
 	}
 
-	public bool SelectRowByID(int searchedID)
+	public bool app1s_SelectRowByID(int searchedID)
 	{
 		return UtilGtk.TreeviewSelectRowWithID(
-				treeview_session_load, store, 0, searchedID, false);
+				app1s_treeview_session_load, app1s_store, 0, searchedID, false);
 	}
 	
-	private void onSelectionEntry (object o, EventArgs args)
+	private void app1s_onSelectionEntry (object o, EventArgs args)
 	{
 		TreeModel model;
 		TreeIter iter;
-		selected = "-1";
+		app1s_selected = "-1";
 
 		if (((TreeSelection)o).GetSelected(out model, out iter)) {
-			selected = (string)model.GetValue (iter, 0);
-			button_accept.Sensitive = true;
-			button_import.Sensitive = true;
+			app1s_selected = (string)model.GetValue (iter, 0);
+			app1s_button_accept.Sensitive = true;
+			app1s_button_import.Sensitive = true;
 		} else {
-			button_accept.Sensitive = false;
-			button_import.Sensitive = false;
+			app1s_button_accept.Sensitive = false;
+			app1s_button_import.Sensitive = false;
 		}
 	}
 
-	public int CurrentSessionId() {
+	//TODO: do not need to be public ? maybe for import
+	public int app1s_CurrentSessionId() {
 		TreeModel model;
 		TreeIter iter;
 
-		if (treeview_session_load.Selection.GetSelected (out model, out iter)) {
+		if (app1s_treeview_session_load.Selection.GetSelected (out model, out iter)) {
 			string selected = (string)model.GetValue (iter, 0);
 			return Convert.ToInt32 (selected.Split (':')[0]);
 		}
 		return -1;
 	}
 
-	public string ImportDatabasePath() {
-		return import_file_path;
+	//TODO: do not need to be public ? maybe for import
+	public string app1s_ImportDatabasePath() {
+		return app1s_import_file_path;
 	}
 
-	public bool ImportToNewSession() {
-		return radio_import_new_session.Active;
+	//TODO: do not need to be public ? maybe for import
+	public bool app1s_ImportToNewSession() {
+		return app1s_radio_import_new_session.Active;
 	}
 
-	public void DisableImportToCurrentSession() {
-		radio_import_new_session.Active = true;
-		radio_import_current_session.Sensitive = false;
+	private void app1s_radio_import_new_current_sensitive ()
+	{
+		if(currentSession == null)
+		{
+			app1s_radio_import_new_session.Active = true;
+			app1s_radio_import_current_session.Sensitive = false;
+		} else
+			app1s_radio_import_current_session.Sensitive = true;
 	}
 
-	public void LabelImportSessionName (string str)
+	//TODO: do not need to be public ? maybe for import
+	public void app1s_LabelImportSessionName (string str)
 	{
-		label_import_session_name.Text = str;
+		app1s_label_import_session_name.Text = str;
 	}
-	public void LabelImportFile (string str)
+	//TODO: do not need to be public ? maybe for import
+	public void app1s_LabelImportFile (string str)
 	{
-		label_import_file.Text = str;
-	}
-
-	public void Pulse(string str)
-	{
-		progressbarImport.Pulse();
-		progressbarImport.Text = str;
-	}
-	public void PulseEnd()
-	{
-		progressbarImport.Fraction = 1;
-		hbuttonbox_page3.Sensitive = true;
+		app1s_label_import_file.Text = str;
 	}
 
-	public void ShowLabelImportedOk()
+	//TODO: do not need to be public ? maybe for import
+	public void app1s_Pulse(string str)
 	{
-		if(radio_import_new_session.Active)
-			label_import_done_at_new_session.Visible = true;
+		app1s_progressbarImport.Pulse();
+		app1s_progressbarImport.Text = str;
+	}
+	//TODO: do not need to be public ? maybe for import
+	public void app1s_PulseEnd()
+	{
+		app1s_progressbarImport.Fraction = 1;
+		app1s_hbuttonbox_page4.Sensitive = true;
+	}
+
+	//TODO: do not need to be public ? maybe for import
+	public void app1s_ShowLabelImportedOk()
+	{
+		if(app1s_radio_import_new_session.Active)
+			app1s_label_import_done_at_new_session.Visible = true;
 		else
-			label_import_done_at_current_session.Visible = true;
+			app1s_label_import_done_at_current_session.Visible = true;
 	}
 
-	public void ShowImportError(string str)
+	//TODO: do not need to be public ? maybe for import
+	public void app1s_ShowImportError(string str)
 	{
-		scrolledwindow_import_error.Visible = true;
-		textview_import_error.Buffer.Text = str;
+		app1s_scrolledwindow_import_error.Visible = true;
+		app1s_textview_import_error.Buffer.Text = str;
 	}
 
-	public void NotebookPage(int i)
+	//TODO: do not need to be public ? maybe for import
+	public void app1s_NotebookPage(int i)
 	{
-		if(i == PAGE_IMPORT_RESULT)
-			hbuttonbox_page3.Sensitive = false;
+		if(i == app1s_PAGE_IMPORT_RESULT)
+			app1s_hbuttonbox_page4.Sensitive = false;
 
-		notebook_import.CurrentPage = i;
+		app1s_notebook.CurrentPage = i;
 	}
 
-	//import notebook page 0 buttons
-	void on_button_cancel0_clicked (object o, EventArgs args)
+	private void notebook_supSetOldPage()
 	{
-		/*
-		SessionLoadWindowBox.session_load.Hide();
-		SessionLoadWindowBox = null;
-		*/
-		fakeButton_cancel_maybeDatabaseSwitched.Click();
-	}
-	protected void on_button_select_file_import_clicked(object o, EventArgs args) {
-		chooseDatabaseToImport ();
-	}
-	protected void on_button_select_file_import_same_database_clicked(object o, EventArgs args) {
-		notebook_import.CurrentPage = PAGE_SELECT_SESSION;
+		notebook_sup.CurrentPage = app1s_notebook_sup_entered_from;
+
+		//but if it is start page, ensure notebook_start_selector is 0
+		if(notebook_sup.CurrentPage == Convert.ToInt32(notebook_sup_pages.START))
+			notebook_start_selector.CurrentPage = 0;
 	}
 
-	//import notebook page 1 (load sesion) buttons
-	void on_button_cancel1_clicked (object o, EventArgs args)
+	// ---- notebook page 0 buttons ----
+	void app1s_on_button_close0_clicked (object o, EventArgs args)
 	{
-		SessionLoadWindowBox.session_load.Hide();
-		SessionLoadWindowBox = null;
+		menus_sensitive_import_not_danger(true);
+		notebook_supSetOldPage();
 	}
 
-	void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
+	// ---- notebook page 1 buttons ----
+	void app1s_on_button_cancel1_clicked (object o, EventArgs args)
+	{
+		app1s_notebook.CurrentPage = app1s_PAGE_MODES;
+		reloadSession(); //explained at top of the file.
+	}
+	protected void app1s_on_button_select_file_import_clicked(object o, EventArgs args) {
+		app1s_chooseDatabaseToImport ();
+	}
+	protected void app1s_on_button_select_file_import_same_database_clicked(object o, EventArgs args) {
+		app1s_notebook.CurrentPage = app1s_PAGE_SELECT_SESSION;
+	}
+
+	// ---- notebook page 2 (load sesion) buttons ----
+	void app1s_on_button_cancel2_clicked (object o, EventArgs args)
+	{
+		notebook_supSetOldPage();
+	}
+
+	void app1s_on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
 	{
 		TreeView tv = (TreeView) o;
 		TreeModel model;
 		TreeIter iter;
 
-		LogB.Information("double! type: " + type.ToString());
+		LogB.Information("double! type: " + app1s_type.ToString());
 		if (tv.Selection.GetSelected (out model, out iter)) {
 			//put selection in selected
-			selected = (string) model.GetValue (iter, 0);
+			app1s_selected = (string) model.GetValue (iter, 0);
 
-			if (type == WindowType.LOAD_SESSION) {
+			if (app1s_type == app1s_windowType.LOAD_SESSION) {
 				//activate on_button_accept_clicked()
-				button_accept.Activate();
+				app1s_button_accept.Activate();
 			} else {
-				button_import.Activate();
+				app1s_button_import.Activate();
 			}
 		}
 	}
 	
-	void on_button_accept_clicked (object o, EventArgs args)
+	void app1s_on_button_accept_clicked (object o, EventArgs args)
 	{
-		if(selected != "-1") {
-			currentSession = SqliteSession.Select (selected);
-			SessionLoadWindowBox.session_load.Hide();
-			SessionLoadWindowBox = null;
+		if(app1s_selected != "-1")
+		{
+			currentSession = SqliteSession.Select (app1s_selected);
+			on_load_session_accepted();
+			notebook_supSetOldPage();
 		}
 	}
 
-	//import notebook page 1 (import) buttons
-	void on_button_back_clicked (object o, EventArgs args)
+	// ---- notebook page 3 (import) buttons ----
+	void app1s_on_button_back_clicked (object o, EventArgs args)
 	{
-		notebook_import.CurrentPage = PAGE_IMPORT_START;
+		app1s_notebook.CurrentPage = app1s_PAGE_IMPORT_START;
 	}
-	void on_button_import_clicked (object o, EventArgs args)
+	void app1s_on_button_import_clicked (object o, EventArgs args)
 	{
-		if(selected != "-1") {
-			currentSession = SqliteSession.Select (selected);
+		if(app1s_selected != "-1") {
+			currentSession = SqliteSession.Select (app1s_selected);
+			on_load_session_accepted_to_import(o, args);
 		}
 	}
 
-	//import notebook page 2 buttons
-	private void on_button_import_confirm_back_clicked(object o, EventArgs args)
+	// ---- notebook page 4 buttons ----
+	private void app1s_on_button_import_confirm_back_clicked(object o, EventArgs args)
 	{
-		notebook_import.CurrentPage = PAGE_IMPORT_START;
+		app1s_notebook.CurrentPage = app1s_PAGE_IMPORT_START;
 	}
-	private void on_button_import_confirm_accept_clicked(object o, EventArgs args)
+	private void app1s_on_button_import_confirm_accept_clicked(object o, EventArgs args)
 	{
-		hbuttonbox_page3.Sensitive = false;
-		notebook_import.CurrentPage = PAGE_IMPORT_RESULT;
-	}
-
-	//import notebook page 3 buttons
-	private void on_button_import_close_clicked(object o, EventArgs args)
-	{
-		SessionLoadWindowBox.session_load.Hide();
-		SessionLoadWindowBox = null;
-	}
-	private void on_button_import_again_clicked(object o, EventArgs args)
-	{
-		label_import_done_at_new_session.Visible = false;
-		label_import_done_at_current_session.Visible = false;
-		scrolledwindow_import_error.Visible = false;
-
-		label_open_database_file.Text = Catalog.GetString("Open another database");
-		button_select_file_import_same_database.Visible = true;
-
-		notebook_import.CurrentPage = PAGE_IMPORT_START;
+		app1s_hbuttonbox_page4.Sensitive = false;
+		app1s_notebook.CurrentPage = app1s_PAGE_IMPORT_RESULT;
+		importSessionFromDatabasePrepare2 (new object(), new EventArgs());
 	}
 
-	
-	void on_session_load_delete_event (object o, DeleteEventArgs args)
+	//import notebook page 4 buttons
+	private void app1s_on_button_import_close_clicked(object o, EventArgs args)
 	{
-		if (type == WindowType.LOAD_SESSION) {
-			SessionLoadWindowBox.session_load.Hide();
-			SessionLoadWindowBox = null;
-		} else {
-			//read fakeButton_cancel_maybeDatabaseSwitched comment on the top of this file
-
-			args.RetVal = true;
-			fakeButton_cancel_maybeDatabaseSwitched.Click();
-		}
+		app1s_notebook.CurrentPage = app1s_PAGE_MODES;
 	}
-
-	public void HideAndNull()
+	private void app1s_on_button_import_again_clicked(object o, EventArgs args)
 	{
-		if(SessionLoadWindowBox.session_load != null)
-			SessionLoadWindowBox.session_load.Hide();
+		app1s_label_import_done_at_new_session.Visible = false;
+		app1s_label_import_done_at_current_session.Visible = false;
+		app1s_scrolledwindow_import_error.Visible = false;
 
-		SessionLoadWindowBox = null;
+		app1s_radio_import_new_current_sensitive();
+		app1s_label_open_database_file.Text = Catalog.GetString("Open another database");
+		app1s_button_select_file_import_same_database.Visible = true;
+
+		app1s_notebook.CurrentPage = app1s_PAGE_IMPORT_START;
 	}
 
-	public Button FakeButton_cancel_maybeDatabaseSwitched
+	public Button app1s_Button_accept
 	{
-		get { return fakeButton_cancel_maybeDatabaseSwitched; }
+		set { app1s_button_accept = value; }
+		get { return app1s_button_accept; }
 	}
-
-	public Button Button_accept 
-	{
-		set { button_accept = value; }
-		get { return button_accept; }
-	}
-	public Button Button_import
-	{
-		get { return button_import; }
-	}
-	public Button Button_import_confirm_accept
-	{
-		get { return button_import_confirm_accept; }
-	}
-	
-	public Session CurrentSession 
-	{
-		get { return currentSession; }
-	}
-
 }

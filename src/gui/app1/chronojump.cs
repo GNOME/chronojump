@@ -85,6 +85,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_message_permissions_at_boot;
 	[Widget] Gtk.Label label_message_permissions_at_boot;
 	[Widget] Gtk.HBox hbox_message_camera_at_boot;
+	[Widget] Gtk.Notebook notebook_import;
 
 	[Widget] Gtk.EventBox eventbox_radio_mode_contacts_capture;
 	[Widget] Gtk.EventBox eventbox_radio_mode_contacts_analyze;
@@ -442,7 +443,6 @@ public partial class ChronoJumpWindow
 	ChronopicRegisterWindow chronopicRegisterWin;
 	PreferencesWindow preferencesWin;
 	SessionAddEditWindow sessionAddEditWin;
-	SessionLoadWindow sessionLoadWin;
 	PersonRecuperateWindow personRecuperateWin; 
 	PersonsRecuperateFromOtherSessionWindow personsRecuperateFromOtherSessionWin; 
 	PersonAddModifyWindow personAddModifyWin; 
@@ -484,6 +484,7 @@ public partial class ChronoJumpWindow
 	
 	private string progVersion;
 	private string progName;
+	private enum notebook_sup_pages { START, CONTACTS, ENCODER, SESSION }
 	private enum notebook_analyze_pages { STATISTICS, JUMPSPROFILE, JUMPSDJOPTIMALFALL, JUMPSWEIGHTFVPROFILE, JUMPSEVOLUTION, SPRINT, FORCESENSOR, RACEENCODER }
 
 	private string runningFileName; //useful for knowing if there are two chronojump instances
@@ -568,7 +569,7 @@ public partial class ChronoJumpWindow
 
 		//show send log if needed or other messages
 		if(! showSendLog)
-			notebook_sup.CurrentPage = 0; //start with the Mode selector
+			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.START);
 		else {
 			show_send_log(sendLogMessage, preferences.crashLogLanguage);
 			notebook_start.CurrentPage = 1; //send log
@@ -723,8 +724,7 @@ public partial class ChronoJumpWindow
 		app1Shown = true;
 
 		//done after app1.Show in order to be able to gather the colors
-		if(configChronojump.PersonWinHide)
-			doPersonLabelsContrast();
+		doLabelsContrast(configChronojump.PersonWinHide);
 
 		if(splashWin != null) {
 			LogB.Information("Destroying splashWin");
@@ -741,10 +741,23 @@ public partial class ChronoJumpWindow
 			chronopicRegisterWin.Show();
 		}
 
-		if(! showSendLog && notebook_sup.CurrentPage == 0) //main
+		if(! showSendLog && notebook_sup.CurrentPage == Convert.ToInt32(notebook_sup_pages.START))
 			chronojumpLogo = new ChronojumpLogo (drawingarea_chronojump_logo, viewport_chronojump_logo);
 
 		LogB.Information("Chronojump window started");
+	}
+
+	//used on this free labels that have to contrast with background
+	private void doLabelsContrast(bool personsAtTop)
+	{
+		if(personsAtTop)
+		{
+			UtilGtk.HBoxDoContrastLabels (viewport_hpaned_contacts_main, hbox_top_person);
+			UtilGtk.HBoxDoContrastLabels (viewport_hpaned_contacts_main, hbox_top_person_encoder);
+		}
+
+		UtilGtk.HBoxDoContrastLabels (viewport_hpaned_contacts_main, hbox_session_more);
+		UtilGtk.VBoxDoContrastLabels (viewport_hpaned_contacts_main, vbox_session_overview);
 	}
 
 	private void testNewStuff()
@@ -2469,16 +2482,14 @@ public partial class ChronoJumpWindow
 	private void on_open_activate (object o, EventArgs args) 
 	{
 		LogB.Information("open session");
-		sessionLoadWin = SessionLoadWindow.Show(app1, SessionLoadWindow.WindowType.LOAD_SESSION);
-		sessionLoadWin.Button_accept.Clicked += new EventHandler(on_load_session_accepted_from_open);
+		//store which page we are on notebook_sup, except if we clicked on "more" from the session tab
+		if(notebook_sup.CurrentPage != Convert.ToInt32(notebook_sup_pages.SESSION))
+			app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
+
+		sessionLoadWindowShow(app1s_windowType.LOAD_SESSION);
+		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.SESSION);
 	}
 
-	//from open session
-	private void on_load_session_accepted_from_open (object o, EventArgs args) 
-	{
-		currentSession = sessionLoadWin.CurrentSession;
-		on_load_session_accepted();
-	}
 	//called from open session OR from gui/networks configInit when config.SessionMode == Config.SessionModeEnum.UNIQUE
 	private void on_load_session_accepted () 
 	{
@@ -2593,16 +2604,6 @@ public partial class ChronoJumpWindow
 			ForceSensorOverviewWindow.Show (app1, currentSession.UniqueID);
 		else if(m == Constants.Menuitem_modes.RUNSENCODER)
 			RunEncoderOverviewWindow.Show (app1, currentSession.UniqueID);
-	}
-
-	private void on_export_session_activate(object o, EventArgs args) {
-		ConfirmWindow confirmWin = ConfirmWindow.Show(
-				Catalog.GetString("Export will include this data:") +
-				"\n\n" + Catalog.GetString("Persons") +
-				"\n" + Catalog.GetString("Jumps") +
-				"\n" + Catalog.GetString("Races") + "\n"
-				, "", "");
-		confirmWin.Button_accept.Clicked += new EventHandler(on_export_session_accepted);
 	}
 
 	private void on_export_session_accepted(object o, EventArgs args) {
@@ -3032,7 +3033,7 @@ public partial class ChronoJumpWindow
 
 	private void on_preferences_activate (object o, EventArgs args) 
 	{
-		if(notebook_sup.CurrentPage == 0)
+		if(notebook_sup.CurrentPage == Convert.ToInt32(notebook_sup_pages.START))
 			preferencesWin = PreferencesWindow.Show(preferences, Constants.Menuitem_modes.UNDEFINED, configChronojump.Compujump, progVersion);
 		else
 			preferencesWin = PreferencesWindow.Show(preferences, current_menuitem_mode, configChronojump.Compujump, progVersion);
@@ -3073,7 +3074,7 @@ public partial class ChronoJumpWindow
 
 		configInitFromPreferences();
 
-		if( ! configChronojump.PersonWinHide) {
+		if( ! configChronojump.PersonWinHide && currentSession != null) {
 			alignment_menu_and_persons.Visible = true;
 			//on_radio_show_persons_clicked (new object (), new EventArgs ());
 			radio_show_persons.Active = true;
@@ -3141,8 +3142,7 @@ public partial class ChronoJumpWindow
 
 		//repaint labels that are on the background
 		//TODO: only if color changed or personWinHide
-		if(configChronojump.PersonWinHide)
-			doPersonLabelsContrast();
+		doLabelsContrast(configChronojump.PersonWinHide);
 
 		// update force_capture_drawingarea
 		if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR && radiobutton_force_sensor_analyze_manual.Active)
@@ -3162,12 +3162,11 @@ public partial class ChronoJumpWindow
 	private void show_start_page()
 	{
 		notebook_start_selector.CurrentPage = 0;
-		notebook_sup.CurrentPage = 0;
+		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.START);
 
 		//changes in menus
 		//vbox_menu_encoder.Visible = false;
-		button_menu_session_overview.Visible = false;
-		button_menu_session_overview1.Visible = false;
+		button_session_overview.Sensitive = false;
 
 		//show title
 		string tempSessionName = "";
@@ -3249,8 +3248,7 @@ public partial class ChronoJumpWindow
 		vbox_contacts_load_recalculate.Visible = false;
 		vbox_contacts_signal_comment.Visible = false;
 		frame_jumps_automatic.Visible = false;
-		button_menu_session_overview.Visible = false;
-		button_menu_session_overview1.Visible = false;
+		button_session_overview.Sensitive = false;
 
 		//on OSX R is not installed by default. Check if it's installed. Needed for encoder and force sensor
 		if(
@@ -3272,7 +3270,7 @@ public partial class ChronoJumpWindow
 
 		if(m == Constants.Menuitem_modes.JUMPSSIMPLE || m == Constants.Menuitem_modes.JUMPSREACTIVE)
 		{
-			notebook_sup.CurrentPage = 1;
+			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			//notebook_capture_analyze.ShowTabs = true;
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
 			button_threshold.Visible = true;
@@ -3300,7 +3298,7 @@ public partial class ChronoJumpWindow
 		}
 		else if(m == Constants.Menuitem_modes.RUNSSIMPLE || m == Constants.Menuitem_modes.RUNSINTERVALLIC)
 		{
-			notebook_sup.CurrentPage = 1;
+			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			//notebook_capture_analyze.ShowTabs = true;
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
 			button_threshold.Visible = true;
@@ -3339,7 +3337,7 @@ public partial class ChronoJumpWindow
 			//vbox_menu_encoder.Visible = true;
 			menuitem_export_csv.Visible = false;
 
-			notebook_sup.CurrentPage = 2;
+			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.ENCODER);
 
 
 			/*
@@ -3352,8 +3350,7 @@ public partial class ChronoJumpWindow
 				encoderButtonsSensitive(encoderSensEnum.YESPERSON);
 			
 			blankEncoderInterface();
-			button_menu_session_overview.Visible = true;
-			button_menu_session_overview1.Visible = true;
+			button_session_overview.Sensitive = true;
 
 			bool changed = false;
 			if(m == Constants.Menuitem_modes.POWERGRAVITATORY)
@@ -3439,7 +3436,7 @@ public partial class ChronoJumpWindow
 		} 
 		else if(m == Constants.Menuitem_modes.FORCESENSOR)
 		{
-			notebook_sup.CurrentPage = 1;
+			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			notebooks_change(m);
 
 			vbox_contacts_load_recalculate.Visible = true;
@@ -3459,12 +3456,11 @@ public partial class ChronoJumpWindow
 			notebook_capture_graph_table.ShowTabs = false;
 			setLabelContactsExerciseSelected(m);
 
-			button_menu_session_overview.Visible = true;
-			button_menu_session_overview1.Visible = true;
+			button_session_overview.Sensitive = true;
 		}
 		else if(m == Constants.Menuitem_modes.RUNSENCODER)
 		{
-			notebook_sup.CurrentPage = 1;
+			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			notebooks_change(m);
 
 			vbox_contacts_load_recalculate.Visible = true;
@@ -3487,12 +3483,11 @@ public partial class ChronoJumpWindow
 			forceSensorImageTestChange();
 			setLabelContactsExerciseSelected(m);
 
-			button_menu_session_overview.Visible = true;
-			button_menu_session_overview1.Visible = true;
+			button_session_overview.Sensitive = true;
 		}
 		else if(m == Constants.Menuitem_modes.RT)
 		{
-			notebook_sup.CurrentPage = 1;
+			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			notebooks_change(m);
 			on_extra_window_reaction_times_test_changed(new object(), new EventArgs());
 
@@ -3503,7 +3498,7 @@ public partial class ChronoJumpWindow
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 		}
 		else {	//m == Constants.Menuitem_modes.OTHER (contacts / other)
-			notebook_sup.CurrentPage = 1;
+			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			hbox_other.Visible = true;
 			notebooks_change(m);
 			if(radio_mode_pulses_small.Active)
@@ -7357,15 +7352,11 @@ LogB.Debug("mc finished 5");
 
 	private void menuSessionSensitive(bool option)
 	{
-		//menuitem_edit_session.Sensitive = option;
-		//menuitem_delete_session.Sensitive = option;
-		button_menu_session_edit.Sensitive = option; 		//menu
-		button_menu_session_edit1.Sensitive = option; 		//menu_tiny
-		button_menu_session_overview.Sensitive = option; 	//menu
-		button_menu_session_overview1.Sensitive = option;	//menu_tiny
+		button_session_edit.Sensitive = option;
+		button_session_overview.Sensitive = option;
 
 		menuitem_export_csv.Sensitive = option;
-		//menuitem_export_xml.Sensitive = option; not implemented yet
+		button_session_export.Sensitive = option;
 		menuitem_encoder_session_overview.Sensitive = option;
 		menuitem_forceSensor_session_overview.Sensitive = option;
 		menuitem_runEncoder_session_overview.Sensitive = option;

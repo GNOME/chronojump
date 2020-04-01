@@ -278,6 +278,9 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_folders.png");
 		image_menu_folders.Pixbuf = pixbuf;
 		image_menu_folders1.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_more_horiz.png");
+		image_session_more.Pixbuf = pixbuf;
+		image_session_more1.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_help.png");
 		image_menu_help.Pixbuf = pixbuf;
 		image_menu_help1.Pixbuf = pixbuf;
@@ -448,7 +451,6 @@ public partial class ChronoJumpWindow
 		image_edit_current_person.Pixbuf = pixbuf;
 		image_edit_current_person_h.Pixbuf = pixbuf;
 		image_session_edit.Pixbuf = pixbuf;
-		image_session_edit1.Pixbuf = pixbuf;
 		image_session_edit2.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
@@ -594,9 +596,11 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameImport);
 		image_import_database.Pixbuf = pixbuf;
+		image_session_import.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameExport);
 		image_export_csv.Pixbuf = pixbuf;
 		image_export_encoder_signal.Pixbuf = pixbuf;
+		image_session_export.Pixbuf = pixbuf;
 
 		//reaction times changes
 		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_reaction_time);
@@ -694,7 +698,6 @@ public partial class ChronoJumpWindow
 		image_menuitem_forceSensor_session_overview.Pixbuf = pixbuf;
 		image_menuitem_runEncoder_session_overview.Pixbuf = pixbuf;
 		image_session_overview.Pixbuf = pixbuf;
-		image_session_overview1.Pixbuf = pixbuf;
 
 		//encoder
 		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_powerbars);

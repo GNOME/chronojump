@@ -30,13 +30,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Alignment alignment_menu_and_persons;
 	[Widget] Gtk.Arrow arrow_menu_show_session_up;
 	[Widget] Gtk.Arrow arrow_menu_show_session_down;
-//	[Widget] Gtk.Arrow arrow_menu_show_encoder_up;
-//	[Widget] Gtk.Arrow arrow_menu_show_encoder_down;
 	[Widget] Gtk.Arrow arrow_menu_show_help_up;
 	[Widget] Gtk.Arrow arrow_menu_show_help_down;
 	[Widget] Gtk.RadioButton radio_show_menu;
 	[Widget] Gtk.RadioButton radio_show_persons;
-	[Widget] Gtk.Button button_show_modes;
 	[Widget] Gtk.HPaned hpaned_contacts_main;
 	[Widget] Gtk.Alignment alignment_viewport_menu_top;
 	[Widget] Gtk.Viewport viewport_hpaned_contacts_main;
@@ -50,31 +47,35 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox eventbox_check_menu_session;
 	[Widget] Gtk.EventBox eventbox_button_menu_session_new;
 	[Widget] Gtk.EventBox eventbox_button_menu_session_load;
-	[Widget] Gtk.EventBox eventbox_button_menu_session_edit;
-	[Widget] Gtk.EventBox eventbox_button_menu_session_overview;
+	[Widget] Gtk.EventBox eventbox_button_menu_session_more;
 	[Widget] Gtk.EventBox eventbox_button_menu_preferences;
-//	[Widget] Gtk.EventBox eventbox_check_menu_encoder;
 	[Widget] Gtk.EventBox eventbox_check_menu_help;
 	[Widget] Gtk.EventBox eventbox_button_menu_help_documents;
 	[Widget] Gtk.EventBox eventbox_button_menu_help_accelerators;
 	[Widget] Gtk.EventBox eventbox_button_menu_help_about;
 	[Widget] Gtk.EventBox eventbox_button_menu_exit;
 	[Widget] Gtk.CheckButton check_menu_session;
-//	[Widget] Gtk.CheckButton check_menu_encoder;
 	[Widget] Gtk.CheckButton check_menu_help;
+	[Widget] Gtk.VBox vbox_menu_session;
 	[Widget] Gtk.Alignment alignment_menu_session_options;
 	[Widget] Gtk.Alignment alignment_menu_person_options;
-//	[Widget] Gtk.Alignment alignment_menu_encoder_options;
 	[Widget] Gtk.Alignment alignment_menu_help_options;
+
+	[Widget] Gtk.Button button_show_modes;
+	[Widget] Gtk.Button button_session_edit;
+	[Widget] Gtk.Button button_session_overview;
+	[Widget] Gtk.Button button_session_export;
 
 	[Widget] Gtk.Button button_menu_session_new;
 	[Widget] Gtk.Button button_menu_session_load;
-	[Widget] Gtk.Button button_menu_session_edit;
-	[Widget] Gtk.Button button_menu_session_overview;
+	[Widget] Gtk.Button button_menu_session_more;
 	[Widget] Gtk.Button button_menu_preferences;
 	[Widget] Gtk.Button button_menu_help_documents;
 	[Widget] Gtk.Button button_menu_help_accelerators;
 	[Widget] Gtk.Button button_menu_help_about;
+
+	[Widget] Gtk.Image image_session_import;
+	[Widget] Gtk.Image image_session_export;
 
 	//menu icons
 	[Widget] Gtk.Image image_radio_show_menu;
@@ -82,6 +83,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_menu_folders;
 	[Widget] Gtk.Image image_session_new3;
 	[Widget] Gtk.Image image_session_load2;
+	[Widget] Gtk.Image image_session_more;
 	[Widget] Gtk.Image image_session_edit2;
 	[Widget] Gtk.Image image_session_overview;
 	[Widget] Gtk.Image image_button_show_modes;
@@ -134,8 +136,7 @@ public partial class ChronoJumpWindow
 		List <Gtk.Button> l = new List<Gtk.Button>();
 		l.Add(button_menu_session_new);
 		l.Add(button_menu_session_load);
-		l.Add(button_menu_session_edit);
-		l.Add(button_menu_session_overview);
+		l.Add(button_menu_session_more);
 		l.Add(button_menu_help_documents);
 		l.Add(button_menu_help_accelerators);
 		l.Add(button_menu_help_about);
@@ -166,8 +167,6 @@ public partial class ChronoJumpWindow
 	private void menuSetTextAndIcons ()
 	{
 		//icons
-		//image_radio_show_menu.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
-		//image_radio_show_persons.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_menu_folders.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_session_new3.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_session_load2.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
@@ -203,14 +202,12 @@ public partial class ChronoJumpWindow
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_show_modes, UtilGtk.YELLOW);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_session, UtilGtk.YELLOW);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_preferences, UtilGtk.YELLOW);
-//		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_encoder, UtilGtk.YELLOW);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_help, UtilGtk.YELLOW);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_exit, UtilGtk.YELLOW);
 
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_new, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_load, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_edit, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_overview, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_more, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_help_documents, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_help_accelerators, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_help_about, UtilGtk.YELLOW_LIGHT);
@@ -224,12 +221,8 @@ public partial class ChronoJumpWindow
 
 	private void on_radio_show_menu_toggled (object o, EventArgs args)
 	{
-			if(check_menu_session.Active)
-				check_menu_session.Active = false;
 			if(check_menu_help.Active)
 				check_menu_help.Active = false;
-//			if(check_menu_encoder.Active)
-//				check_menu_encoder.Active = false;
 
 			viewport_menu.Visible = true;
 			viewport_persons.Visible = false;
@@ -245,7 +238,6 @@ public partial class ChronoJumpWindow
 		menuShowVerticalArrow (check_menu_session.Active, arrow_menu_show_session_up, arrow_menu_show_session_down);
 		if(check_menu_session.Active)
 		{
-//			check_menu_encoder.Active = false;
 			check_menu_help.Active = false;
 			alignment_menu_session_options.Visible = true;
 
@@ -254,25 +246,11 @@ public partial class ChronoJumpWindow
 			alignment_menu_session_options.Visible = false;
 	}
 
-	/*
-	private void on_check_menu_encoder_clicked (object o, EventArgs args)
-	{
-		menuShowVerticalArrow (check_menu_encoder.Active, arrow_menu_show_encoder_up, arrow_menu_show_encoder_down);
-		if(check_menu_encoder.Active)
-		{
-			check_menu_session.Active = false;
-			check_menu_help.Active = false;
-			alignment_menu_encoder_options.Visible = true;
-		} else
-			alignment_menu_encoder_options.Visible = false;
-	}
-	*/
 	private void on_check_menu_help_clicked (object o, EventArgs args)
 	{
 		menuShowVerticalArrow (check_menu_help.Active, arrow_menu_show_help_up, arrow_menu_show_help_down);
 		if(check_menu_help.Active)
 		{
-//			check_menu_encoder.Active = false;
 			check_menu_session.Active = false;
 			alignment_menu_help_options.Visible = true;
 		} else
@@ -287,6 +265,36 @@ public partial class ChronoJumpWindow
 				max = b.SizeRequest().Width;
 
 		return max;
+	}
+
+	private void on_button_menu_session_more_clicked (object o, EventArgs args)
+	{
+		menus_sensitive_import_not_danger(false);
+
+		//store which page we are on notebook_sup, except if we clicked on "more" from the session tab
+		if(notebook_sup.CurrentPage != Convert.ToInt32(notebook_sup_pages.SESSION))
+			app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
+
+		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.SESSION);
+		app1s_notebook.CurrentPage = Convert.ToInt32(app1s_PAGE_MODES);
+	}
+
+	/* if import started we need to reload at the end
+	 * we will reload if there's a cancel there
+	 * dangerous situation is when treeview of sessions have been loaded
+	 * and then we exit, eg. with back and then cancel
+	 * so that cancel has a reloadSession()
+	 * but ensure user will not be able to manage database in other way by clicking session or preferences
+	 *
+	 * also is nice to have the menu_more unsensitive
+	 */
+	private void menus_sensitive_import_not_danger(bool danger)
+	{
+		alignment_menu_and_persons.Sensitive = danger;
+		vbox_menu_session.Sensitive = danger;
+		vbox_menu_session1.Sensitive = danger;
+		button_menu_preferences.Sensitive = danger;
+		button_menu_preferences1.Sensitive = danger;
 	}
 
 	private void on_button_show_modes_clicked (object o, EventArgs args)

@@ -297,7 +297,6 @@ RESOURCES = \
 	../glade/report_window.glade \
 	../glade/run_type_add.glade \
 	../glade/session_add_edit.glade \
-	../glade/session_load.glade \
 	../glade/session_upload.glade \
 	../glade/splash_window.glade \
 	../glade/stats_select_sessions.glade \

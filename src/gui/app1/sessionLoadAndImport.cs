@@ -30,7 +30,6 @@ using Mono.Unix;
 //here using app1s_ , "s" means session
 //this file has been moved from his old window to be part of app1 on Chronojump 2.0
 
-//public class SessionLoadWindow
 public partial class ChronoJumpWindow
 {
 	private enum app1s_windowType

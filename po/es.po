@@ -236,7 +236,7 @@ msgstr "Ayuda"
 
 #: ../glade/app1.glade.h:46
 msgid "Exit"
-msgstr "&Salir"
+msgstr "Salir"
 
 #: ../glade/app1.glade.h:47 ../glade/person_multiple_infinite.glade.h:4
 #: ../glade/report_window.glade.h:13 ../src/exportSession.cs:211

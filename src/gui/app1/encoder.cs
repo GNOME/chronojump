@@ -97,7 +97,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_capture_cancel;
 	[Widget] Gtk.Button button_encoder_capture_finish;
 	[Widget] Gtk.Button button_encoder_capture_finish_cont;
-	[Widget] Gtk.Button button_encoder_recalculate;
+	[Widget] Gtk.Button button_encoder_exercise_close_and_recalculate;
 	[Widget] Gtk.Button button_encoder_load_signal;
 	[Widget] Gtk.Button button_encoder_load_signal_on_analyze;
 	[Widget] Gtk.Viewport viewport_image_encoder_capture;
@@ -2318,7 +2318,7 @@ public partial class ChronoJumpWindow
 		
 		//need this because DONENOSIGNAL allows to recalculate with different parameters, 
 		//but when deleted or cancelled, then don't allow
-		button_encoder_recalculate.Sensitive = false;
+		button_encoder_exercise_close_and_recalculate.Sensitive = false;
 	}
 
 	/*
@@ -4683,6 +4683,12 @@ public partial class ChronoJumpWindow
 		encoder_exercise_show_hide (false);
 		on_button_encoder_capture_clicked (o, args);
 	}
+	void on_button_encoder_exercise_close_and_recalculate_clicked (object o, EventArgs args)
+	{
+		encoder_exercise_show_hide (false);
+		on_button_encoder_recalculate_clicked (o, args);
+	}
+
 
 	//useful when there are no exercises (have been removed from database)
 	bool selectedEncoderExerciseExists ()
@@ -5036,7 +5042,7 @@ public partial class ChronoJumpWindow
 		//columns
 		//c0 button_encoder_capture, hbox_encoder_sup_capture_analyze_two_buttons,
 		//	hbox_encoder_configuration, frame_encoder_capture_options
-		//c1 button_encoder_recalculate
+		//c1 button_encoder_exercise_close_and_recalculate
 		//c2 button_encoder_load_signal
 		//c3 hbox_encoder_capture_curves_save_all_none, menuitem_export_encoder_signal, //button_menu_encoder_export_set
 		//	button_encoder_delete_signal, vbox_encoder_signal_comment,
@@ -5093,7 +5099,7 @@ public partial class ChronoJumpWindow
 		hbox_encoder_sup_capture_analyze_two_buttons.Sensitive = Util.IntToBool(table[0]);
 		frame_encoder_capture_options.Sensitive = Util.IntToBool(table[0]);
 
-		button_encoder_recalculate.Sensitive = Util.IntToBool(table[1]);
+		button_encoder_exercise_close_and_recalculate.Sensitive = Util.IntToBool(table[1]);
 		
 		button_encoder_load_signal.Sensitive = Util.IntToBool(table[2]);
 		button_encoder_load_signal_on_analyze.Sensitive = Util.IntToBool(table[2]);

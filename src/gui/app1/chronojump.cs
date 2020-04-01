@@ -235,7 +235,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_contacts_capture_doing_wait;
 	[Widget] Gtk.Button button_contacts_bells;
 	[Widget] Gtk.Button button_contacts_capture_load;
-	[Widget] Gtk.Button button_contacts_recalculate;
+	[Widget] Gtk.Button button_contacts_exercise_close_and_recalculate;
 	[Widget] Gtk.VBox vbox_contacts_signal_comment;
 	[Widget] Gtk.TextView textview_contacts_signal_comment;
 	[Widget] Gtk.Button button_contacts_signal_save_comment;

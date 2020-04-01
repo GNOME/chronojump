@@ -443,7 +443,7 @@ public partial class ChronoJumpWindow
 		fsAI = null;
 		lastForceSensorFullPath = null;
 
-		button_contacts_recalculate.Sensitive = false;
+		button_contacts_exercise_close_and_recalculate.Sensitive = false;
 		textview_contacts_signal_comment.Buffer.Text = "";
 		notebook_force_sensor_analyze.Sensitive = false;
 		button_force_sensor_analyze_options.Sensitive = false;
@@ -1087,7 +1087,7 @@ LogB.Information(" fs C ");
 						forceSensorZoomDefaultValues();
 						forceSensorDoGraphAI();
 					}
-					button_contacts_recalculate.Sensitive = true;
+					button_contacts_exercise_close_and_recalculate.Sensitive = true;
 					button_delete_last_test.Sensitive = true;
 					force_capture_drawingarea.Sensitive = true;
 					button_force_sensor_image_save_signal.Sensitive = true;
@@ -1117,7 +1117,7 @@ LogB.Information(" fs C ");
 				button_force_sensor_analyze_analyze.Sensitive = false;
 				button_force_sensor_image_save_rfd_auto.Sensitive = false;
 				button_force_sensor_image_save_rfd_manual.Sensitive = false;
-				button_contacts_recalculate.Sensitive = false;
+				button_contacts_exercise_close_and_recalculate.Sensitive = false;
 				button_delete_last_test.Sensitive = false;
 			}
 			else
@@ -1561,7 +1561,7 @@ LogB.Information(" fs R ");
 			forceSensorDoGraphAI();
 		}
 		//event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(filechooser.Filename);
-		button_contacts_recalculate.Sensitive = true;
+		button_contacts_exercise_close_and_recalculate.Sensitive = true;
 		force_capture_drawingarea.Sensitive = true;
 		notebook_force_sensor_analyze.Sensitive = true;
 		button_force_sensor_analyze_options.Sensitive = true;

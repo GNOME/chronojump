@@ -53,6 +53,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_selected_type;
 
 	[Widget] Gtk.Notebook notebook_encoder_top;
+	[Widget] Gtk.Notebook notebook_hpaned_encoder_or_exercise_config;
 	[Widget] Gtk.Label label_encoder_top_selected;
 	[Widget] Gtk.Label label_encoder_top_exercise;
 	[Widget] Gtk.Label label_encoder_top_extra_mass;
@@ -303,7 +304,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.TreeView treeview_encoder_capture_curves;
 	[Widget] Gtk.TreeView treeview_encoder_analyze_curves;
 	
-	[Widget] Gtk.Notebook notebook_encoder_capture_or_exercise_or_instructions;
+	[Widget] Gtk.Notebook notebook_encoder_capture_or_inertial_instructions;
 	
 	[Widget] Gtk.DrawingArea encoder_capture_signal_drawingarea;
 
@@ -777,12 +778,12 @@ public partial class ChronoJumpWindow
 		button_encoder_inertial_calibrate_close.Sensitive = true;
 		label_wait.Text = " ";
 		label_calibrate_output_message.Text = "";
-		notebook_encoder_capture_or_exercise_or_instructions.Page = 2;
+		notebook_encoder_capture_or_inertial_instructions.Page = 1;
 	}
 
 	private void on_button_encoder_inertial_calibrate_close_clicked (object o, EventArgs args)
 	{
-		notebook_encoder_capture_or_exercise_or_instructions.Page = 0;
+		notebook_encoder_capture_or_inertial_instructions.Page = 0;
 		sensitiveGuiEventDone();
 	}
 
@@ -4648,7 +4649,7 @@ public partial class ChronoJumpWindow
 	private void encoder_exercise_show_hide (bool show)
 	{
 		if(show) {
-			notebook_encoder_capture_or_exercise_or_instructions.Page = 1;
+			notebook_hpaned_encoder_or_exercise_config.Page = 1;
 
 			//if seeing "show table" move to "show graph" (encoder exercise stuff is there)
 			if(notebook_encoder_capture_main.CurrentPage == 1)
@@ -4659,7 +4660,7 @@ public partial class ChronoJumpWindow
 				notebook_encoder_capture_main.GetNthPage(1).Hide();
 		}
 		else {
-			notebook_encoder_capture_or_exercise_or_instructions.Page = 0;
+			notebook_hpaned_encoder_or_exercise_config.Page = 0;
 
 			//show againthe page 'show table', while exercise or instructions is shown
 			if(notebook_encoder_capture_main.NPages > 0)
@@ -6091,8 +6092,8 @@ public partial class ChronoJumpWindow
 		}
 
 		//if on inertia and already showing instructions, return to page 0
-		if(notebook_encoder_capture_or_exercise_or_instructions.Page == 2)
-			notebook_encoder_capture_or_exercise_or_instructions.Page = 0;
+		if(notebook_encoder_capture_or_inertial_instructions.Page == 1)
+			notebook_encoder_capture_or_inertial_instructions.Page = 0;
 
 		if(! encoderThread.IsAlive || encoderProcessCancel)
 		{

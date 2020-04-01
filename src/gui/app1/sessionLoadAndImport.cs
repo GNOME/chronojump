@@ -81,7 +81,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label app1s_file_path_import;
 	[Widget] Gtk.Notebook app1s_notebook_load_button_animation;
 	[Widget] Gtk.HButtonBox app1s_hbuttonbox_page2_import;
-	[Widget] Gtk.HBox app1s_hbox_load_controls;
+	[Widget] Gtk.VBox app1s_vbox_notebook_load;
 
 	//notebook tab 3
 	[Widget] Gtk.Label app1s_label_import_session_name;

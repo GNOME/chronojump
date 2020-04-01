@@ -752,12 +752,11 @@ public partial class ChronoJumpWindow
 	{
 		if(personsAtTop)
 		{
-			UtilGtk.HBoxDoContrastLabels (viewport_hpaned_contacts_main, hbox_top_person);
-			UtilGtk.HBoxDoContrastLabels (viewport_hpaned_contacts_main, hbox_top_person_encoder);
+			UtilGtk.ContrastLabelsHBox (viewport_hpaned_contacts_main, hbox_top_person);
+			UtilGtk.ContrastLabelsHBox (viewport_hpaned_contacts_main, hbox_top_person_encoder);
 		}
 
-		UtilGtk.HBoxDoContrastLabels (viewport_hpaned_contacts_main, hbox_session_more);
-		UtilGtk.VBoxDoContrastLabels (viewport_hpaned_contacts_main, vbox_session_overview);
+		UtilGtk.ContrastLabelsNotebook (viewport_hpaned_contacts_main, app1s_notebook);
 	}
 
 	private void testNewStuff()

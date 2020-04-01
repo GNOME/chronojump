@@ -602,31 +602,54 @@ public class UtilGtk
 		e.ModifyBg(StateType.Prelight, color);
 	}
 
-	public static void HBoxDoContrastLabels (Gtk.Viewport v, Gtk.HBox hbox)
+	public static void ContrastLabelsHBox (Gtk.Viewport v, Gtk.HBox hbox)
 	{
-		containerDoContrastLabels (v, (Gtk.Container) hbox);
+		contrastLabelsContainer (v, (Gtk.Container) hbox);
 	}
-	public static void VBoxDoContrastLabels (Gtk.Viewport v, Gtk.VBox vbox)
+	public static void ContrastLabelsVBox (Gtk.Viewport v, Gtk.VBox vbox)
 	{
-		containerDoContrastLabels (v, (Gtk.Container) vbox);
+		contrastLabelsContainer (v, (Gtk.Container) vbox);
 	}
-	public static void TableDoContrastLabels (Gtk.Viewport v, Gtk.Table table)
+	public static void ContrastLabelsTable (Gtk.Viewport v, Gtk.Table table)
 	{
-		containerDoContrastLabels (v, (Gtk.Container) table);
+		contrastLabelsContainer (v, (Gtk.Container) table);
 	}
-	private static void containerDoContrastLabels (Gtk.Viewport v, Gtk.Container container)
+	public static void ContrastLabelsNotebook (Gtk.Viewport v, Gtk.Notebook notebook)
+	{
+		contrastLabelsContainer (v, (Gtk.Container) notebook);
+	}
+
+	private static void contrastLabelsContainer (Gtk.Viewport v, Gtk.Container container)
 	{
 		foreach(Gtk.Widget w in container.Children)
 		{
 			if(w.GetType() == typeof(Gtk.Label))
 				LabelDoContrastColor (v, (Gtk.Label) w);
-			else if(w.GetType() == typeof(Gtk.HBox))
-				HBoxDoContrastLabels (v, (Gtk.HBox) w);
-			else if(w.GetType() == typeof(Gtk.VBox))
-				VBoxDoContrastLabels (v, (Gtk.VBox) w);
-			else if(w.GetType() == typeof(Gtk.Table))
-				TableDoContrastLabels (v, (Gtk.Table) w);
+
+			else if(w.GetType() == typeof(Gtk.Alignment))
+			{
+				Gtk.Widget child = ((Gtk.Alignment) w).Child;
+				if(isContainer(child))
+					contrastLabelsContainer (v, (Gtk.Container) child);
+			}
+			else if(isContainer(w))
+				contrastLabelsContainer (v, (Gtk.Container) w);
 		}
+	}
+
+	private static bool isContainer(Gtk.Widget w)
+	{
+		return ( w.GetType() == typeof(Gtk.HBox) ||
+				w.GetType() == typeof(Gtk.VBox) ||
+				w.GetType() == typeof(Gtk.Table) ||
+				w.GetType() == typeof(Gtk.Notebook) ||
+				w.GetType() == typeof(Gtk.Frame) ||
+				w.GetType() == typeof(Gtk.CheckButton) //||
+				// Gtk.RadioButton is not working, so solutions are
+				// 1 have them inside a new viewport (recommended)
+				// 2 have it without the radio (will be a button and no need to colorize)
+				//w.GetType() == typeof(Gtk.RadioButton) );
+			);
 	}
 
 	public static void LabelDoContrastColor (Gtk.Viewport v, Gtk.Label l)

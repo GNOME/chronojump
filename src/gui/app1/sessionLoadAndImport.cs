@@ -119,7 +119,7 @@ public partial class ChronoJumpWindow
 			app1s_file_path_import.Visible = true;
 			app1s_notebook_load_button_animation.Visible = false;
 			app1s_hbuttonbox_page2_import.Visible = true;
-			//session_load.Title = Catalog.GetString ("Import session");
+			app1s_label_select.Text = "<b>" + Catalog.GetString ("Import session") + "</b>";
 			app1s_button_select_file_import_same_database.Visible = false; //is shown when user want to import a second session
 			app1s_notebook.CurrentPage = app1s_PAGE_IMPORT_START;
 		}

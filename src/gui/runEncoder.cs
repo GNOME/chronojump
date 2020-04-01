@@ -247,7 +247,7 @@ public partial class ChronoJumpWindow
 		textview_contacts_signal_comment.Buffer.Text = "";
 		assignCurrentRunEncoderExercise();
 		raceEncoderReadWidgets();
-		button_contacts_recalculate.Sensitive = false;
+		button_contacts_exercise_close_and_recalculate.Sensitive = false;
 
 		bool connected = runEncoderCapturePre4_GTK();
 		if(! connected)
@@ -262,7 +262,7 @@ public partial class ChronoJumpWindow
 	{
 		currentRunEncoder = new RunEncoder();
 
-		button_contacts_recalculate.Sensitive = false;
+		button_contacts_exercise_close_and_recalculate.Sensitive = false;
 		textview_contacts_signal_comment.Buffer.Text = "";
 		image_run_encoder_graph.Sensitive = false;
 
@@ -753,7 +753,7 @@ public partial class ChronoJumpWindow
 
 		raceEncoderCopyTempAndDoGraphs();
 
-		button_contacts_recalculate.Sensitive = true;
+		button_contacts_exercise_close_and_recalculate.Sensitive = true;
 
 		button_video_play_this_test_contacts.Sensitive = (re.VideoURL != "");
 		sensitiveLastTestButtons(true);
@@ -902,12 +902,9 @@ public partial class ChronoJumpWindow
 		if(lastRunEncoderFullPath != null && lastRunEncoderFullPath != "")
 			raceEncoderCopyTempAndDoGraphs();
 
-		button_contacts_recalculate.Sensitive = false; //to not be called two times
-
 		event_execute_label_message.Text = "Recalculated.";
-
 		radio_mode_contacts_analyze.Active = true;
-		button_contacts_recalculate.Sensitive = true;
+		button_contacts_exercise_close_and_recalculate.Sensitive = true;
 
 		//update SQL with exercise, device, distance, temperature, comments
 		currentRunEncoder.ExerciseID = currentRunEncoderExercise.UniqueID;
@@ -1093,7 +1090,7 @@ LogB.Information(" re C finish");
 					runEncoderAnalyzeOpenImage();
 					notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RACEENCODER);
 					radio_mode_contacts_analyze.Active = true;
-					button_contacts_recalculate.Sensitive = true;
+					button_contacts_exercise_close_and_recalculate.Sensitive = true;
 					button_delete_last_test.Sensitive = true;
 
 					/*

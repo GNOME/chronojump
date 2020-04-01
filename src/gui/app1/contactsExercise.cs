@@ -56,6 +56,12 @@ public partial class ChronoJumpWindow
 		on_button_contacts_exercise_close_clicked (o, args);
 		on_button_execute_test_clicked(o, args);
 	}
+	private void on_button_contacts_exercise_close_and_recalculate_clicked (object o, EventArgs args)
+	{
+		on_button_contacts_exercise_close_clicked (o, args);
+		on_button_contacts_recalculate_clicked(o, args);
+	}
+
 
 	private void on_button_image_test_zoom_clicked(object o, EventArgs args)
 	{

@@ -28,42 +28,22 @@ public partial class ChronoJumpWindow
 	static Thread threadImport;
 	static ChronojumpImporter chronojumpImporter;
 
-	private void on_button_menu_session_advanced_clicked (object o, EventArgs args)
-	{
-		on_button_import_chronojump_session (o, args);
-	}
 	private void on_button_import_chronojump_session(object o, EventArgs args)
 	{
-		sessionLoadWin = SessionLoadWindow.Show (app1, SessionLoadWindow.WindowType.IMPORT_SESSION);
-
-		if (currentSession == null) {
-			sessionLoadWin.DisableImportToCurrentSession ();
-		}
-
-		sessionLoadWin.Button_import.Clicked -= new EventHandler(on_load_session_accepted_to_import);
-		sessionLoadWin.Button_import.Clicked += new EventHandler(on_load_session_accepted_to_import);
-		sessionLoadWin.Button_import_confirm_accept.Clicked -= new EventHandler(importSessionFromDatabasePrepare2);
-		sessionLoadWin.Button_import_confirm_accept.Clicked += new EventHandler(importSessionFromDatabasePrepare2);
-		sessionLoadWin.FakeButton_cancel_maybeDatabaseSwitched.Clicked -= new EventHandler(on_import_cancelled_maybe_database_switched);
-		sessionLoadWin.FakeButton_cancel_maybeDatabaseSwitched.Clicked += new EventHandler(on_import_cancelled_maybe_database_switched);
-	}
-
-	private void on_import_cancelled_maybe_database_switched (object o, EventArgs args)
-	{
-		sessionLoadWin.HideAndNull();
-		reloadSession();
+		sessionLoadWindowShow(app1s_windowType.IMPORT_SESSION);
+		app1s_radio_import_new_current_sensitive();
 	}
 
 	//from import session
 	private void on_load_session_accepted_to_import(object o, EventArgs args)
 	{
-		int sourceSession = sessionLoadWin.CurrentSessionId();
-		string databasePath = sessionLoadWin.ImportDatabasePath();
+		int sourceSession = app1s_CurrentSessionId();
+		string databasePath = app1s_ImportDatabasePath();
 		LogB.Information (databasePath);
 
 		Session destinationSession = currentSession;
 
-		if (sessionLoadWin.ImportToNewSession ()) {
+		if (app1s_ImportToNewSession ()) {
 			destinationSession = null;
 		}
 
@@ -85,15 +65,15 @@ public partial class ChronoJumpWindow
 
 		if(destinationSessionId == 0)
 		{
-			sessionLoadWin.NotebookPage(SessionLoadWindow.PAGE_IMPORT_RESULT); //import do and end page
+			app1s_NotebookPage(app1s_PAGE_IMPORT_RESULT); //import do and end page
 			importSessionFromDatabasePrepare2 (new object(), new EventArgs());
 		} else
 		{
 			string sessionName = ChronojumpImporter.GetSessionName (chronojumpImporter.SourceFile, chronojumpImporter.SourceSession);
-			sessionLoadWin.LabelImportSessionName(sessionName);
-			sessionLoadWin.LabelImportFile(chronojumpImporter.SourceFile);
+			app1s_LabelImportSessionName(sessionName);
+			app1s_LabelImportFile(chronojumpImporter.SourceFile);
 
-			sessionLoadWin.NotebookPage(SessionLoadWindow.PAGE_IMPORT_CONFIRM); //import confirm page
+			app1s_NotebookPage(app1s_PAGE_IMPORT_CONFIRM); //import confirm page
 		}
 	}
 
@@ -121,14 +101,14 @@ public partial class ChronoJumpWindow
 			LogB.ThreadEnding();
 			importSessionFromDatabaseEnd();
 
-			sessionLoadWin.Pulse(chronojumpImporter.MessageToPulsebar);
-			sessionLoadWin.PulseEnd();
+			app1s_Pulse(chronojumpImporter.MessageToPulsebar);
+			app1s_PulseEnd();
 
 			LogB.ThreadEnded();
 			return false;
 		}
 
-		sessionLoadWin.Pulse(chronojumpImporter.MessageToPulsebar);
+		app1s_Pulse(chronojumpImporter.MessageToPulsebar);
 
 		Thread.Sleep (100);
 		//LogB.Debug(threadImport.ThreadState.ToString());
@@ -187,10 +167,10 @@ public partial class ChronoJumpWindow
 			reloadSession ();
 
 			//chronojumpImporter.showImportCorrectlyFinished ();
-			sessionLoadWin.ShowLabelImportedOk();
+			app1s_ShowLabelImportedOk();
 		} else {
 			LogB.Debug ("Chronojump Importer error: ", importerResult.error);
-			sessionLoadWin.ShowImportError(importerResult.error);
+			app1s_ShowImportError(importerResult.error);
 		}
 	}
 }

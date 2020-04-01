@@ -53,8 +53,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_encoder_im_weights_n;
 	
 	//config.EncoderNameAndCapture
-	[Widget] Gtk.Box hbox_top_person;
-	[Widget] Gtk.Box hbox_top_person_encoder;
+	[Widget] Gtk.HBox hbox_top_person;
+	[Widget] Gtk.HBox hbox_top_person_encoder;
 	[Widget] Gtk.Label label_top_person_name;
 	[Widget] Gtk.Label label_top_encoder_person_name;
 	[Widget] Gtk.Button button_image_current_person_zoom;

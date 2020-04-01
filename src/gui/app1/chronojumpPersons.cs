@@ -73,11 +73,4 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	//used on this free labels that have zto contrast with background
-	private void doPersonLabelsContrast()
-	{
-		UtilGtk.HboxDoContrastLabels (viewport_hpaned_contacts_main, hbox_top_person);
-		UtilGtk.HboxDoContrastLabels (viewport_hpaned_contacts_main, hbox_top_person_encoder);
-	}
-
 }

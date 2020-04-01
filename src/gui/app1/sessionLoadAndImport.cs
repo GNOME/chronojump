@@ -79,8 +79,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_jump_run;
 	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_other_tests;
 	[Widget] Gtk.Label app1s_file_path_import;
-	[Widget] Gtk.HButtonBox app1s_hbuttonbox_page2_load;
+	[Widget] Gtk.Notebook app1s_notebook_load_button_animation;
 	[Widget] Gtk.HButtonBox app1s_hbuttonbox_page2_import;
+	[Widget] Gtk.HBox app1s_hbox_load_controls;
 
 	//notebook tab 3
 	[Widget] Gtk.Label app1s_label_import_session_name;
@@ -108,14 +109,15 @@ public partial class ChronoJumpWindow
 	{
 		if (app1s_type == app1s_windowType.LOAD_SESSION) {
 			app1s_file_path_import.Visible = false;
-			app1s_hbuttonbox_page2_load.Visible = true;
+			app1s_notebook_load_button_animation.Visible = true;
 			app1s_hbuttonbox_page2_import.Visible = false;
 			app1s_label_select.Text = "<b>" + Catalog.GetString ("Load session") + "</b>";
 			app1s_label_select.UseMarkup = true;
 			app1s_notebook.CurrentPage = app1s_PAGE_SELECT_SESSION;
+			app1s_notebook_load_button_animation.CurrentPage = 0;
 		} else {
 			app1s_file_path_import.Visible = true;
-			app1s_hbuttonbox_page2_load.Visible = false;
+			app1s_notebook_load_button_animation.Visible = false;
 			app1s_hbuttonbox_page2_import.Visible = true;
 			//session_load.Title = Catalog.GetString ("Import session");
 			app1s_button_select_file_import_same_database.Visible = false; //is shown when user want to import a second session
@@ -602,14 +604,22 @@ public partial class ChronoJumpWindow
 		}
 	}
 	
-	void app1s_on_button_accept_clicked (object o, EventArgs args)
+	private void app1s_on_button_accept_clicked (object o, EventArgs args)
 	{
 		if(app1s_selected != "-1")
 		{
-			currentSession = SqliteSession.Select (app1s_selected);
-			on_load_session_accepted();
-			notebook_supSetOldPage();
+			app1s_notebook_load_button_animation.CurrentPage = 1;
+			GLib.Timeout.Add(1000, new GLib.TimeoutHandler(app1s_on_button_accept_clicked_do));
 		}
+	}
+	private bool app1s_on_button_accept_clicked_do ()
+	{
+		currentSession = SqliteSession.Select (app1s_selected);
+		on_load_session_accepted();
+		notebook_supSetOldPage();
+		app1s_notebook_load_button_animation.CurrentPage = 0;
+
+		return false; //do not call this again
 	}
 
 	// ---- notebook page 3 (import) buttons ----

@@ -644,20 +644,21 @@ public class UtilGtk
 				w.GetType() == typeof(Gtk.Table) ||
 				w.GetType() == typeof(Gtk.Notebook) ||
 				w.GetType() == typeof(Gtk.Frame) ||
-				w.GetType() == typeof(Gtk.CheckButton) //||
-				// Gtk.RadioButton is not working, so solutions are
-				// 1 have them inside a new viewport (recommended)
-				// 2 have it without the radio (will be a button and no need to colorize)
-				//w.GetType() == typeof(Gtk.RadioButton) );
+				w.GetType() == typeof(Gtk.CheckButton) ||
+				w.GetType() == typeof(Gtk.RadioButton)
 			);
 	}
 
 	public static void LabelDoContrastColor (Gtk.Viewport v, Gtk.Label l)
 	{
 		if(ColorIsDark(v.Style.Background(StateType.Normal)))
+		{
 			l.ModifyFg(StateType.Normal, YELLOW_LIGHT);
-		else
+			l.ModifyFg(StateType.Active, YELLOW_LIGHT); //needed for CheckButton and RadioButton
+		} else {
 			l.ModifyFg(StateType.Normal, BLACK);
+//			l.ModifyFg(StateType.Active, BLACK);
+		}
 	}
 	
 

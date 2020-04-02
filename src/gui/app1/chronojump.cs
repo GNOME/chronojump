@@ -6470,9 +6470,9 @@ LogB.Debug("mc finished 5");
 				"\t<tt><b>CTRL+" + Catalog.GetString("CURSOR_DOWN") + "</b></tt> " + Catalog.GetString("Select next person") + "\n" +
 
 				"\n" + Catalog.GetString("Capture tests") + ":\n" +
-				"\t<tt><b>(CTRL+Space)</b></tt> " + Catalog.GetString("Execute test") + "\n" +
-				"\t<tt><b>(Enter)</b></tt> " + Catalog.GetString("Finish test") + "\n" +
-				"\t<tt><b>(Escape)</b></tt> " + Catalog.GetString("Cancel test") + "\n" +
+				"\t<tt><b>CTRL+Space</b></tt> " + Catalog.GetString("Execute test") + "\n" +
+				"\t<tt><b>Enter</b></tt> " + Catalog.GetString("Finish test") + "\n" +
+				"\t<tt><b>Escape</b></tt> " + Catalog.GetString("Cancel test") + "\n" +
 
 				"\n" + Catalog.GetString("Jumps") + "/" +  Catalog.GetString("Races") + ". " +
 				Catalog.GetString("On capture tab:") + "\n" +
@@ -6491,7 +6491,7 @@ LogB.Debug("mc finished 5");
 				"\t<tt><b>+</b></tt> " + Catalog.GetString("Add weight") + "\n" +
 				"\t<tt><b>-</b></tt> " + Catalog.GetString("Remove weight") + "\n" +
 
-				"\n<tt><b>(Escape)</b></tt>\n" +
+				"\n<tt><b>Escape</b></tt>\n" +
 				"\t" + Catalog.GetString("Close any window") + "\n" +
 				"\t" + Catalog.GetString("Open menu")
 				);

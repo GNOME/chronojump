@@ -583,6 +583,10 @@ public partial class ChronoJumpWindow
 	// ---- notebook page 2 (load sesion) buttons ----
 	void app1s_on_button_cancel2_clicked (object o, EventArgs args)
 	{
+		radio_show_menu.Sensitive = true;
+		viewport_menu.Sensitive = true;
+		vbox_menu_tiny.Sensitive = true;
+
 		notebook_supSetOldPage();
 	}
 

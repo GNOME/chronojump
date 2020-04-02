@@ -2485,6 +2485,9 @@ public partial class ChronoJumpWindow
 		if(notebook_sup.CurrentPage != Convert.ToInt32(notebook_sup_pages.SESSION))
 			app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
 
+		radio_show_menu.Sensitive = false;
+		viewport_menu.Sensitive = false;
+		vbox_menu_tiny.Sensitive = false;
 		sessionLoadWindowShow(app1s_windowType.LOAD_SESSION);
 		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.SESSION);
 	}
@@ -2505,7 +2508,10 @@ public partial class ChronoJumpWindow
 		if( ! configChronojump.Compujump)
 			foundPersons = selectRowTreeView_persons(treeview_persons, 0);
 
-		//show hidden widgets
+		//show hidden widgets, and sensitivize
+		radio_show_menu.Sensitive = true;
+		viewport_menu.Sensitive = true;
+		vbox_menu_tiny.Sensitive = true;
 		sensitiveGuiNoSession();
 		sensitiveGuiYesSession();
 

@@ -98,6 +98,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_capture_finish;
 	[Widget] Gtk.Button button_encoder_capture_finish_cont;
 	[Widget] Gtk.Button button_encoder_exercise_close_and_recalculate;
+	[Widget] Gtk.Button button_encoder_capture_session_overview;
 	[Widget] Gtk.Button button_encoder_load_signal;
 	[Widget] Gtk.Button button_encoder_load_signal_on_analyze;
 	[Widget] Gtk.Viewport viewport_image_encoder_capture;
@@ -5043,7 +5044,7 @@ public partial class ChronoJumpWindow
 		//c0 button_encoder_capture, hbox_encoder_sup_capture_analyze_two_buttons,
 		//	hbox_encoder_configuration, frame_encoder_capture_options
 		//c1 button_encoder_exercise_close_and_recalculate
-		//c2 button_encoder_load_signal
+		//c2 button_encoder_capture_session_overview, button_encoder_load_signal
 		//c3 hbox_encoder_capture_curves_save_all_none, menuitem_export_encoder_signal, //button_menu_encoder_export_set
 		//	button_encoder_delete_signal, vbox_encoder_signal_comment,
 		//	and images: image_encoder_capture , image_encoder_analyze.Sensitive. Update: both NOT managed here
@@ -5100,7 +5101,8 @@ public partial class ChronoJumpWindow
 		frame_encoder_capture_options.Sensitive = Util.IntToBool(table[0]);
 
 		button_encoder_exercise_close_and_recalculate.Sensitive = Util.IntToBool(table[1]);
-		
+
+		button_encoder_capture_session_overview.Sensitive = Util.IntToBool(table[2]);
 		button_encoder_load_signal.Sensitive = Util.IntToBool(table[2]);
 		button_encoder_load_signal_on_analyze.Sensitive = Util.IntToBool(table[2]);
 		

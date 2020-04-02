@@ -54,6 +54,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_contacts_exercise;
 	[Widget] Gtk.Image image_contacts_exercise_close;
 	[Widget] Gtk.Image image_contacts_capture_load;
+	[Widget] Gtk.Image image_contacts_session_overview;
+	[Widget] Gtk.Image image_encoder_session_overview;
 	[Widget] Gtk.Image image_contacts_recalculate;
 	[Widget] Gtk.Image image_rest;
 	[Widget] Gtk.Image image_all_persons_events;
@@ -164,7 +166,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_analyze_image_compujump_send_email_image;
 	[Widget] Gtk.Image image_encoder_analyze_image_compujump_send_email_send;
 	[Widget] Gtk.Image image_encoder_analyze_check;
-	[Widget] Gtk.Image image_menuitem_encoder_session_overview;
 	[Widget] Gtk.Image image_encoder_rest_time;
 
 	//force sensor
@@ -186,14 +187,12 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_force_sensor_laterality_both;
 	[Widget] Gtk.Image image_force_sensor_laterality_r;
 	[Widget] Gtk.Image image_force_sensor_laterality_l;
-	[Widget] Gtk.Image image_menuitem_forceSensor_session_overview;
 
 	//race encoder
 	[Widget] Gtk.Image image_race_encoder_open_folder;
 	[Widget] Gtk.Image image_run_encoder_exercise_edit;
 	[Widget] Gtk.Image image_run_encoder_exercise_add;
 	[Widget] Gtk.Image image_run_encoder_exercise_delete;
-	[Widget] Gtk.Image image_menuitem_runEncoder_session_overview;
 	[Widget] Gtk.Image image_run_encoder_analyze_load;
 
 	//video play icons
@@ -694,10 +693,8 @@ public partial class ChronoJumpWindow
 		UtilGtk.DeviceColors(viewport_chronopic_encoder, true);
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_grid_on.png");
-		image_menuitem_encoder_session_overview.Pixbuf = pixbuf;
-		image_menuitem_forceSensor_session_overview.Pixbuf = pixbuf;
-		image_menuitem_runEncoder_session_overview.Pixbuf = pixbuf;
-		image_session_overview.Pixbuf = pixbuf;
+		image_contacts_session_overview.Pixbuf = pixbuf;
+		image_encoder_session_overview.Pixbuf = pixbuf;
 
 		//encoder
 		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_powerbars);

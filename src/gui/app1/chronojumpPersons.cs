@@ -28,6 +28,10 @@ using System.Collections.Generic; //List
 
 public partial class ChronoJumpWindow
 {
+	[Widget] Gtk.VBox vbox_manage_persons;
+	[Widget] Gtk.Arrow arrow_manage_persons_up;
+	[Widget] Gtk.Arrow arrow_manage_persons_down;
+
 	private void showPersonsOnTop (bool onTop)
 	{
 		hbox_top_person.Visible = onTop;
@@ -41,6 +45,14 @@ public partial class ChronoJumpWindow
 			alignment_viewport_menu_top.Visible = true;
 			vbox_menu_tiny.Visible = false;
 		}
+	}
+
+	private void on_button_manage_persons_clicked (object o, EventArgs args)
+	{
+		vbox_manage_persons.Visible = ! vbox_manage_persons.Visible;
+
+		arrow_manage_persons_up.Visible = vbox_manage_persons.Visible;
+		arrow_manage_persons_down.Visible = ! vbox_manage_persons.Visible;
 	}
 
 	private void showPersonPhoto (bool showPhoto)

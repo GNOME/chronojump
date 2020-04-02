@@ -2681,11 +2681,6 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	[Widget] Gtk.VBox vbox_manage_persons;
-	private void on_button_manage_persons_clicked (object o, EventArgs args) {
-		vbox_manage_persons.Visible = ! vbox_manage_persons.Visible;
-	}
-
 	bool person_add_single_called_from_person_select_window;
 	private void on_person_add_single_from_main_gui (object o, EventArgs args)
 	{

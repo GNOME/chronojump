@@ -3526,6 +3526,13 @@ public partial class ChronoJumpWindow
 		//show the program
 		notebook_start.CurrentPage = 0;
 
+		//show persons
+		if( currentSession != null && ! configChronojump.PersonWinHide) {
+			alignment_buttons_menu_and_persons.Visible = true;
+			//on_radio_show_persons_clicked (new object (), new EventArgs ());
+			radio_show_persons.Active = true;
+		}
+
 		menu_and_menu_tiny_show_modes();
 
 		//make main_menu visible because it's not visible at startup.

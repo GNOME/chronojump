@@ -69,6 +69,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_menu_session_load;
 	[Widget] Gtk.Button button_menu_session_more;
 	[Widget] Gtk.Button button_menu_preferences;
+	[Widget] Gtk.Button button_menu_exit;
 	[Widget] Gtk.Button button_menu_help_documents;
 	[Widget] Gtk.Button button_menu_help_accelerators;
 	[Widget] Gtk.Button button_menu_help_about;
@@ -131,14 +132,24 @@ public partial class ChronoJumpWindow
 		//2 (1 seems not needed)
 		//this is done to ensure hidden buttons will be shown (because also submenu items seems to have Allocation=1)
 		//if we need it, pass also the other buttons but without the +16
-		List <Gtk.Button> l = new List<Gtk.Button>();
-		l.Add(button_menu_session_new);
-		l.Add(button_menu_session_load);
-		l.Add(button_menu_session_more);
-		l.Add(button_menu_help_documents);
-		l.Add(button_menu_help_accelerators);
-		l.Add(button_menu_help_about);
-		int maxWidth = getMenuButtonsMaxWidth(l) + 16 + 4 + 6; //16, 4, 6 are alignments spaces.
+		List <int> l = new List<int>();
+
+		//menus
+		l.Add(check_menu_session.SizeRequest().Width);
+		l.Add(button_show_modes.SizeRequest().Width);
+		l.Add(check_menu_help.SizeRequest().Width);
+		l.Add(button_menu_exit.SizeRequest().Width);
+		l.Add(button_menu_preferences.SizeRequest().Width);
+
+		//submenus (16 is the horizontal separation of the submenu)
+		l.Add(button_menu_session_new.SizeRequest().Width + 16);
+		l.Add(button_menu_session_load.SizeRequest().Width + 16);
+		l.Add(button_menu_session_more.SizeRequest().Width + 16);
+		l.Add(button_menu_help_documents.SizeRequest().Width + 16);
+		l.Add(button_menu_help_accelerators.SizeRequest().Width + 16);
+		l.Add(button_menu_help_about.SizeRequest().Width + 16);
+
+		int maxWidth = getMenuButtonsMaxWidth(l) + 4 + 6; //4, 6 are alignments spaces.
 
 		/*
 		LogB.Information(string.Format("viewport_persons: {0}", viewport_persons.SizeRequest().Width));
@@ -254,12 +265,12 @@ public partial class ChronoJumpWindow
 			alignment_menu_help_options.Visible = false;
 	}
 
-	private int getMenuButtonsMaxWidth(List<Gtk.Button> l)
+	private int getMenuButtonsMaxWidth(List<int> l)
 	{
 		int max = 0;
-		foreach(Gtk.Button b in l)
-			if(b.SizeRequest().Width > max)
-				max = b.SizeRequest().Width;
+		foreach(int i in l)
+			if(i > max)
+				max = i;
 
 		return max;
 	}

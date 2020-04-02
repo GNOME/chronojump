@@ -212,9 +212,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_edit_session;
 	[Widget] Gtk.MenuItem menuitem_delete_session;
 	[Widget] Gtk.MenuItem menuitem_export_csv;
-	[Widget] Gtk.MenuItem menuitem_encoder_session_overview;
-	[Widget] Gtk.MenuItem menuitem_forceSensor_session_overview;
-	[Widget] Gtk.MenuItem menuitem_runEncoder_session_overview;
 	[Widget] Gtk.Image image_session_open;
 
 	//menu person
@@ -234,6 +231,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_contacts_exercise_selected_options;
 	[Widget] Gtk.Notebook notebook_contacts_capture_doing_wait;
 	[Widget] Gtk.Button button_contacts_bells;
+	[Widget] Gtk.Button button_contacts_capture_session_overview;
 	[Widget] Gtk.Button button_contacts_capture_load;
 	[Widget] Gtk.Button button_contacts_exercise_close_and_recalculate;
 	[Widget] Gtk.VBox vbox_contacts_signal_comment;
@@ -2590,7 +2588,7 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	private void on_button_menu_session_overview_clicked (object o, EventArgs args)
+	private void on_session_overview_clicked (object o, EventArgs args)
 	{
 		if (currentSession == null)
 			return;
@@ -3163,10 +3161,6 @@ public partial class ChronoJumpWindow
 		notebook_start_selector.CurrentPage = 0;
 		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.START);
 
-		//changes in menus
-		//vbox_menu_encoder.Visible = false;
-		button_session_overview.Sensitive = false;
-
 		//show title
 		string tempSessionName = "";
 		if(currentSession != null)
@@ -3247,7 +3241,6 @@ public partial class ChronoJumpWindow
 		vbox_contacts_load_recalculate.Visible = false;
 		vbox_contacts_signal_comment.Visible = false;
 		frame_jumps_automatic.Visible = false;
-		button_session_overview.Sensitive = false;
 
 		//on OSX R is not installed by default. Check if it's installed. Needed for encoder and force sensor
 		if(
@@ -3349,7 +3342,6 @@ public partial class ChronoJumpWindow
 				encoderButtonsSensitive(encoderSensEnum.YESPERSON);
 			
 			blankEncoderInterface();
-			button_session_overview.Sensitive = true;
 
 			bool changed = false;
 			if(m == Constants.Menuitem_modes.POWERGRAVITATORY)
@@ -3441,6 +3433,7 @@ public partial class ChronoJumpWindow
 			vbox_contacts_load_recalculate.Visible = true;
 			vbox_contacts_signal_comment.Visible = true;
 			button_contacts_capture_load.Sensitive = myTreeViewPersons.IsThereAnyRecord();
+			button_contacts_capture_session_overview.Sensitive = myTreeViewPersons.IsThereAnyRecord();
 
 			button_contacts_bells.Sensitive = true;
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
@@ -3454,8 +3447,6 @@ public partial class ChronoJumpWindow
 			notebook_capture_graph_table.CurrentPage = 1; //"Show table"
 			notebook_capture_graph_table.ShowTabs = false;
 			setLabelContactsExerciseSelected(m);
-
-			button_session_overview.Sensitive = true;
 		}
 		else if(m == Constants.Menuitem_modes.RUNSENCODER)
 		{
@@ -3465,6 +3456,7 @@ public partial class ChronoJumpWindow
 			vbox_contacts_load_recalculate.Visible = true;
 			vbox_contacts_signal_comment.Visible = true;
 			button_contacts_capture_load.Sensitive = myTreeViewPersons.IsThereAnyRecord();
+			button_contacts_capture_session_overview.Sensitive = myTreeViewPersons.IsThereAnyRecord();
 
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
@@ -3481,8 +3473,6 @@ public partial class ChronoJumpWindow
 			combo_race_analyzer_device.Active = 0;
 			forceSensorImageTestChange();
 			setLabelContactsExerciseSelected(m);
-
-			button_session_overview.Sensitive = true;
 		}
 		else if(m == Constants.Menuitem_modes.RT)
 		{
@@ -7352,13 +7342,9 @@ LogB.Debug("mc finished 5");
 	private void menuSessionSensitive(bool option)
 	{
 		button_session_edit.Sensitive = option;
-		button_session_overview.Sensitive = option;
 
 		menuitem_export_csv.Sensitive = option;
 		button_session_export.Sensitive = option;
-		menuitem_encoder_session_overview.Sensitive = option;
-		menuitem_forceSensor_session_overview.Sensitive = option;
-		menuitem_runEncoder_session_overview.Sensitive = option;
 	}
 	
 	private void menuPersonSelectedSensitive(bool option)
@@ -7437,6 +7423,7 @@ LogB.Debug("mc finished 5");
 		button_execute_test.Sensitive = false;
 		button_auto_start.Sensitive = false;
 		button_contacts_capture_load.Sensitive = false;
+		button_contacts_capture_session_overview.Sensitive = false;
 
 		encoderButtonsSensitive(encoderSensEnum.NOPERSON);
 		//don't cal personChanged because it will make changes on analyze repetitions and currentPerson == null
@@ -7465,6 +7452,7 @@ LogB.Debug("mc finished 5");
 		button_execute_test.Sensitive = true;
 		button_auto_start.Sensitive = true;
 		button_contacts_capture_load.Sensitive = true;
+		button_contacts_capture_session_overview.Sensitive = true;
 
 		encoderButtonsSensitive(encoderSensEnum.YESPERSON);
 		personChanged();

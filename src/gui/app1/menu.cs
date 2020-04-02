@@ -63,7 +63,6 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.Button button_show_modes;
 	[Widget] Gtk.Button button_session_edit;
-	[Widget] Gtk.Button button_session_overview;
 	[Widget] Gtk.Button button_session_export;
 
 	[Widget] Gtk.Button button_menu_session_new;
@@ -85,7 +84,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_session_load2;
 	[Widget] Gtk.Image image_session_more;
 	[Widget] Gtk.Image image_session_edit2;
-	[Widget] Gtk.Image image_session_overview;
 	[Widget] Gtk.Image image_button_show_modes;
 	[Widget] Gtk.Image image_menu_preferences;
 	[Widget] Gtk.Image image_menu_help;
@@ -171,7 +169,6 @@ public partial class ChronoJumpWindow
 		image_session_new3.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_session_load2.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_session_edit2.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
-		image_session_overview.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_button_show_modes.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_menu_preferences.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_menu_help.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;

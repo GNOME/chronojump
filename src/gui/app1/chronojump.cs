@@ -6887,8 +6887,9 @@ LogB.Debug("mc finished 5");
 				"\t<tt><b>+</b></tt> " + Catalog.GetString("Add weight") + "\n" +
 				"\t<tt><b>-</b></tt> " + Catalog.GetString("Remove weight") + "\n" +
 
-				"\n" + Catalog.GetString("Other") + ":\n" +
-				"\t<tt><b>(Escape)</b></tt> " + Catalog.GetString("Close any window")
+				"\n<tt><b>(Escape)</b></tt>\n" +
+				"\t" + Catalog.GetString("Close any window") + "\n" +
+				"\t" + Catalog.GetString("Open menu")
 				);
 	}
 	

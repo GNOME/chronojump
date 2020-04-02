@@ -1351,10 +1351,15 @@
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <child>
-                                                          <widget class="GtkVBox" id="vbox173">
+                                                          <widget class="GtkAlignment" id="alignment29">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">10</property>
+                                                            <property name="top_padding">12</property>
+                                                            <child>
+                                                            <widget class="GtkVBox" id="vbox173">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">20</property>
                                                             <child>
                                                             <widget class="GtkVBox" id="vbox_menu_session">
                                                             <property name="visible">True</property>
@@ -1450,13 +1455,13 @@
                                                             <widget class="GtkAlignment" id="alignment_menu_session_options">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="top_padding">5</property>
+                                                            <property name="top_padding">6</property>
                                                             <property name="left_padding">16</property>
                                                             <child>
                                                             <widget class="GtkVBox" id="vbox_manage_sessions">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">5</property>
+                                                            <property name="spacing">6</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_menu_session_new">
                                                             <property name="visible">True</property>
@@ -2060,6 +2065,8 @@
                                                             <property name="fill">False</property>
                                                             <property name="position">4</property>
                                                             </packing>
+                                                            </child>
+                                                            </widget>
                                                             </child>
                                                           </widget>
                                                         </child>

@@ -503,12 +503,14 @@ public partial class ChronoJumpWindow
 	//TODO: do not need to be public ? maybe for import
 	public void app1s_LabelImportSessionName (string str)
 	{
-		app1s_label_import_session_name.Text = str;
+		app1s_label_import_session_name.Text = "<b>" + str + "</b>";
+		app1s_label_import_session_name.UseMarkup = true;
 	}
 	//TODO: do not need to be public ? maybe for import
 	public void app1s_LabelImportFile (string str)
 	{
-		app1s_label_import_file.Text = str;
+		app1s_label_import_file.Text = "<b>" + str + "</b>";
+		app1s_label_import_file.UseMarkup = true;
 	}
 
 	//TODO: do not need to be public ? maybe for import

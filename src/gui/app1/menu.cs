@@ -27,7 +27,7 @@ using System.Collections.Generic; //List
 
 public partial class ChronoJumpWindow
 {
-	[Widget] Gtk.Alignment alignment_menu_and_persons;
+	[Widget] Gtk.Alignment alignment_buttons_menu_and_persons;
 	[Widget] Gtk.Arrow arrow_menu_show_session_up;
 	[Widget] Gtk.Arrow arrow_menu_show_session_down;
 	[Widget] Gtk.Arrow arrow_menu_show_help_up;
@@ -287,7 +287,7 @@ public partial class ChronoJumpWindow
 	 */
 	private void menus_sensitive_import_not_danger(bool danger)
 	{
-		alignment_menu_and_persons.Sensitive = danger;
+		alignment_buttons_menu_and_persons.Sensitive = danger;
 		vbox_menu_session.Sensitive = danger;
 		vbox_menu_session1.Sensitive = danger;
 		button_menu_preferences.Sensitive = danger;

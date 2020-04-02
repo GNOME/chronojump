@@ -2420,7 +2420,7 @@ public partial class ChronoJumpWindow
 			sensitiveGuiYesSession();
 
 			if( ! configChronojump.PersonWinHide) {
-				alignment_menu_and_persons.Visible = true;
+				alignment_buttons_menu_and_persons.Visible = true;
 				//on_radio_show_persons_clicked (new object (), new EventArgs ());
 				radio_show_persons.Active = true;
 			}
@@ -2508,7 +2508,7 @@ public partial class ChronoJumpWindow
 		sensitiveGuiYesSession();
 
 		if( ! configChronojump.PersonWinHide) {
-			alignment_menu_and_persons.Visible = true;
+			alignment_buttons_menu_and_persons.Visible = true;
 			//on_radio_show_persons_clicked (new object (), new EventArgs ());
 			radio_show_persons.Active = true;
 		}
@@ -3072,7 +3072,7 @@ public partial class ChronoJumpWindow
 		configInitFromPreferences();
 
 		if( ! configChronojump.PersonWinHide && currentSession != null) {
-			alignment_menu_and_persons.Visible = true;
+			alignment_buttons_menu_and_persons.Visible = true;
 			//on_radio_show_persons_clicked (new object (), new EventArgs ());
 			radio_show_persons.Active = true;
 		}
@@ -7488,6 +7488,9 @@ LogB.Debug("mc finished 5");
 	
 	private void sensitiveGuiEventDoing (bool cont)
 	{
+		radio_show_menu.Sensitive = false;
+		viewport_menu.Sensitive = false;
+		vbox_menu_tiny.Sensitive = false;
 		session_menuitem.Sensitive = false;
 		menuitem_mode.Sensitive = false;
 		//encoder_menuitem.Sensitive = false;
@@ -7557,6 +7560,9 @@ LogB.Debug("mc finished 5");
 	{
 		LogB.Information(" sensitiveGuiEventDone start ");
 
+		radio_show_menu.Sensitive = true;
+		viewport_menu.Sensitive = true;
+		vbox_menu_tiny.Sensitive = true;
 		session_menuitem.Sensitive = true;
 		menuitem_mode.Sensitive = true;
 		//encoder_menuitem.Sensitive = true;

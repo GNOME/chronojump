@@ -6463,7 +6463,7 @@ LogB.Debug("mc finished 5");
 	private void on_menuitem_accelerators_activate (object o, EventArgs args) {
 		new DialogMessage(
 				Catalog.GetString("Use these keys in order to work faster."),
-				Constants.MessageTypes.INFO, 
+				Constants.MessageTypes.NONE,  //NONE because window is vertically big and the INFO icon looks weird there
 				Catalog.GetString("Persons") + ":\n" +
 				"\t<tt><b>CTRL+p</b></tt> " + Catalog.GetString("Edit selected person") + "\n" +
 				"\t<tt><b>CTRL+" + Catalog.GetString("CURSOR_UP") + "</b></tt> " + Catalog.GetString("Select previous person") + "\n" +

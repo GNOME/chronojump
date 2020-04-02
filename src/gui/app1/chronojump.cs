@@ -2414,6 +2414,8 @@ public partial class ChronoJumpWindow
 			resetAllTreeViews(false, true, false); //fill, resetPersons, fillPersons
 
 			vbox_manage_persons.Visible = true;
+			arrow_manage_persons_up.Visible = true;
+			arrow_manage_persons_down.Visible = false;
 
 			//show hidden widgets
 			sensitiveGuiNoSession();
@@ -2528,6 +2530,8 @@ public partial class ChronoJumpWindow
 			currentPerson = null;
 			label_top_person_name.Text = "";
 			vbox_manage_persons.Visible = true;
+			arrow_manage_persons_up.Visible = true;
+			arrow_manage_persons_down.Visible = false;
 		}
 
 		//update report

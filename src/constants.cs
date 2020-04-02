@@ -892,7 +892,7 @@ public class Constants
 
 	//for dialog windows
 	public enum MessageTypes {
-		WARNING, INFO, HELP, INSPECT
+		WARNING, INFO, HELP, INSPECT, NONE
 	}
 
 	public static string NoStr()

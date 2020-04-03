@@ -81,8 +81,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_encoder_capture_inertial_ecc;
 	[Widget] Gtk.Label label_encoder_capture_inertial_con;
 
-	[Widget] Gtk.RadioButton radio_encoder_capture_1set;
-	[Widget] Gtk.RadioButton radio_encoder_capture_cont;
 	[Widget] Gtk.Button button_encoder_capture;
 
 	//encoder calibrate/recalibrate widgets
@@ -774,7 +772,7 @@ public partial class ChronoJumpWindow
 	}
 	void prepareForEncoderInertiaCalibrate()
 	{
-		sensitiveGuiEventDoing(radio_encoder_capture_cont.Active);
+		sensitiveGuiEventDoing(preferences.encoderCaptureInfinite);
 		button_encoder_inertial_calibrate.Sensitive = true;
 		button_encoder_inertial_calibrate_close.Sensitive = true;
 		label_wait.Text = " ";
@@ -949,7 +947,7 @@ public partial class ChronoJumpWindow
 		if(notebook_encoder_capture.CurrentPage == 1)
 			notebook_encoder_capture.PrevPage();
 
-		sensitiveGuiEventDoing(radio_encoder_capture_cont.Active);
+		sensitiveGuiEventDoing(preferences.encoderCaptureInfinite);
 
 		LogB.Debug("Calling encoderThreadStart for capture");
 
@@ -1298,10 +1296,10 @@ public partial class ChronoJumpWindow
 				encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
 
 				//remove last set on cont if there is no data
-				if(radio_encoder_capture_cont.Active)
+				if(preferences.encoderCaptureInfinite)
 					removeSignalFromGuiBecauseDeletedOrCancelled();
 
-				if(configChronojump.EncoderCaptureShowOnlyBars && ! radio_encoder_capture_cont.Active)
+				if(configChronojump.EncoderCaptureShowOnlyBars && ! preferences.encoderCaptureInfinite)
 					new DialogMessage(Constants.MessageTypes.WARNING,
 							Catalog.GetString("Sorry, no repetitions matched your criteria."));
 			}
@@ -2838,7 +2836,7 @@ public partial class ChronoJumpWindow
 		//will start calcule curves thread
 		if(capturedOk)
 		{
-			if(radio_encoder_capture_cont.Active && ! captureContWithCurves)
+			if(preferences.encoderCaptureInfinite && ! captureContWithCurves)
 			{
 				LogB.Debug("Don't need to to encoderCalculeCurves");
 				encoderTimeStamp = UtilDate.ToFile(DateTime.Now);
@@ -5374,7 +5372,7 @@ public partial class ChronoJumpWindow
 				allocation.Height != encoder_capture_curves_allocationYOld) 
 		{
 			encoder_capture_curves_bars_pixmap = new Gdk.Pixmap (encoder_capture_curves_bars_drawingarea.GdkWindow, allocation.Width, allocation.Height, -1);
-			if(encoder_capture_curves_bars_pixmap == null || ! radio_encoder_capture_cont.Active || firstSetOfCont)
+			if(encoder_capture_curves_bars_pixmap == null || ! preferences.encoderCaptureInfinite || firstSetOfCont)
 			{
 				if(encoderGraphDoPlot == null || ! encoderGraphDoPlot.GraphPrepared)
 				{
@@ -5558,7 +5556,7 @@ public partial class ChronoJumpWindow
 			treeview_encoder_capture_curves.Sensitive = true;
 
 			//on continuous mode do not erase bars at beginning of capture in order to see last bars
-			if(action == encoderActions.CAPTURE && radio_encoder_capture_cont.Active) {
+			if(action == encoderActions.CAPTURE && preferences.encoderCaptureInfinite) {
 				prepareEncoderGraphs(false, true); //bars, signal
 				encoderGraphDoPlot.ShowMessage("Previous set", true, false);
 			} else
@@ -5575,7 +5573,7 @@ public partial class ChronoJumpWindow
 					webcamEncoderFileStarted = WebcamEncoderFileStarted.NOCAMERA;
 
 				//remove treeview columns
-				if( ! radio_encoder_capture_cont.Active || firstSetOfCont )
+				if( ! preferences.encoderCaptureInfinite || firstSetOfCont )
 					treeviewEncoderCaptureRemoveColumns();
 
 				if(encoder_capture_curves_bars_pixmap != null)
@@ -5615,7 +5613,7 @@ public partial class ChronoJumpWindow
 
 
 				int recordingTime = preferences.encoderCaptureTime;
-				if(radio_encoder_capture_cont.Active)
+				if(preferences.encoderCaptureInfinite)
 					encoderProcessFinishContMode = false; //will be true when finish button is pressed
 
 				string portName = "";
@@ -5627,7 +5625,7 @@ public partial class ChronoJumpWindow
 						encoder_capture_signal_drawingarea.Allocation.Height,
 						recordingTime,
 						preferences.encoderCaptureInactivityEndTime,
-						radio_encoder_capture_cont.Active,
+						preferences.encoderCaptureInfinite,
 						findEccon(true),
 						portName,
 						(encoderConfigurationCurrent.has_inertia && eCaptureInertialBG != null),
@@ -5812,9 +5810,9 @@ public partial class ChronoJumpWindow
 		hbox_encoder_capture_wait.Visible = ! show;
 		vbox_encoder_capture_doing.Visible = show;
 
-		button_encoder_capture_cancel.Visible = ! radio_encoder_capture_cont.Active;
-		button_encoder_capture_finish.Visible = ! radio_encoder_capture_cont.Active;
-		button_encoder_capture_finish_cont.Visible = radio_encoder_capture_cont.Active;
+		button_encoder_capture_cancel.Visible = ! preferences.encoderCaptureInfinite;
+		button_encoder_capture_finish.Visible = ! preferences.encoderCaptureInfinite;
+		button_encoder_capture_finish_cont.Visible = preferences.encoderCaptureInfinite;
 	}
 
 	//TODO: this has to be done every capture or just the first?
@@ -6315,7 +6313,7 @@ public partial class ChronoJumpWindow
 	
 	private void updatePulsebar (encoderActions action) 
 	{
-		if(action == encoderActions.CAPTURE && radio_encoder_capture_cont.Active) {
+		if(action == encoderActions.CAPTURE && preferences.encoderCaptureInfinite) {
 			encoder_pulsebar_capture.Text = "";
 			encoder_pulsebar_capture.Pulse();
 			return;
@@ -6621,7 +6619,7 @@ public partial class ChronoJumpWindow
 				if(! preferences.encoderCaptureSecondaryVariableShow)
 					secondaryVariable = "";
 
-				if(action == encoderActions.CURVES_AC && radio_encoder_capture_cont.Active && ! captureContWithCurves)
+				if(action == encoderActions.CURVES_AC && preferences.encoderCaptureInfinite && ! captureContWithCurves)
 				{
 					//will use captureCurvesBarsData (created on capture)
 					LogB.Information("at fff with captureCurvesBarsData =");
@@ -6931,7 +6929,7 @@ public partial class ChronoJumpWindow
 		Util.FileDelete(UtilEncoder.GetEncoderStatusTempBaseFileName() + "5.txt");
 		Util.FileDelete(UtilEncoder.GetEncoderStatusTempBaseFileName() + "6.txt");
 			
-		if(action == encoderActions.CURVES_AC && radio_encoder_capture_cont.Active && ! encoderProcessFinishContMode)
+		if(action == encoderActions.CURVES_AC && preferences.encoderCaptureInfinite && ! encoderProcessFinishContMode)
 			on_button_encoder_capture_clicked_do (false);
 
 		//for chronojumpWindowTests

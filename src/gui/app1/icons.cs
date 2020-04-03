@@ -145,8 +145,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_exercise_close;
 	[Widget] Gtk.Image image_encoder_capture_open;
 	[Widget] Gtk.Image image_encoder_capture_open1;
-	[Widget] Gtk.Image image_encoder_capture_1set;
-	[Widget] Gtk.Image image_encoder_capture_cont;
 	[Widget] Gtk.Image image_encoder_capture_execute;
 	[Widget] Gtk.Image image_encoder_exercise_edit;
 	[Widget] Gtk.Image image_encoder_exercise_add;
@@ -434,10 +432,6 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "zero.png");
 		image_force_sensor_tare.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "one.png");
-		image_encoder_capture_1set.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "cont.png");
-		image_encoder_capture_cont.Pixbuf = pixbuf;
 		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "run_2x.png");
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_capture_big.png");
 		image_encoder_capture_execute.Pixbuf = pixbuf;

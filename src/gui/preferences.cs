@@ -149,6 +149,8 @@ public class PreferencesWindow
 	[Widget] Gtk.RadioButton radio_encoder_triggers_yes_start_at_first_trigger;
 	[Widget] Gtk.Image image_encoder_inactivity_help;
 	[Widget] Gtk.Image image_encoder_capture_cut_by_triggers_help;
+	[Widget] Gtk.CheckButton check_encoder_capture_infinite;
+	[Widget] Gtk.Image image_encoder_capture_infinite;
 
 	//encoder other tab
 	[Widget] Gtk.CheckButton checkbutton_encoder_propulsive;
@@ -618,6 +620,14 @@ public class PreferencesWindow
 			else
 				PreferencesWindowBox.radio_encoder_triggers_yes_start_at_first_trigger.Active = true;
 		}
+
+		if(preferences.encoderCaptureInfinite)
+			PreferencesWindowBox.check_encoder_capture_infinite.Active = true;
+		else
+			PreferencesWindowBox.check_encoder_capture_infinite.Active = false;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "cont.png");
+		PreferencesWindowBox.image_encoder_capture_infinite.Pixbuf = pixbuf;
 
 
 		//encoder other -->
@@ -2105,6 +2115,10 @@ public class PreferencesWindow
 			SqlitePreferences.Update("encoderCaptureCutByTriggers", Preferences.TriggerTypes.START_AT_FIRST_ON.ToString(), true);
 			preferences.encoderCaptureCutByTriggers = Preferences.TriggerTypes.START_AT_FIRST_ON;
 		}
+
+		preferences.encoderCaptureInfinite = Preferences.PreferencesChange(
+				SqlitePreferences.EncoderCaptureInfinite, preferences.encoderCaptureInfinite,
+				PreferencesWindowBox.check_encoder_capture_infinite.Active);
 
 		//---- end of encoder capture
 		

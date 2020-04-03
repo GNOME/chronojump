@@ -70,6 +70,7 @@ public class PreferencesWindow
 	[Widget] Gtk.Image image_menu_folders2;
 	[Widget] Gtk.CheckButton check_appearance_person_photo;
 	[Widget] Gtk.Alignment alignment_undecorated;
+	[Widget] Gtk.Label label_recommended_undecorated;
 	[Widget] Gtk.DrawingArea drawingarea_background_color;
 
 	//database tab
@@ -340,10 +341,12 @@ public class PreferencesWindow
 		{
 			PreferencesWindowBox.check_appearance_maximized.Active = false;
 			PreferencesWindowBox.alignment_undecorated.Visible = false;
+			PreferencesWindowBox.label_recommended_undecorated.Visible = false;
 		}
 		else {
 			PreferencesWindowBox.check_appearance_maximized.Active = true;
 			PreferencesWindowBox.alignment_undecorated.Visible = true;
+			PreferencesWindowBox.label_recommended_undecorated.Visible = true;
 			PreferencesWindowBox.check_appearance_maximized_undecorated.Active =
 				(preferences.maximized == Preferences.MaximizedTypes.YESUNDECORATED);
 		}
@@ -1039,6 +1042,7 @@ public class PreferencesWindow
 	private void on_check_appearance_maximized_toggled (object obj, EventArgs args)
 	{
 		alignment_undecorated.Visible = check_appearance_maximized.Active;
+		label_recommended_undecorated.Visible = check_appearance_maximized.Active;
 	}
 
 	private void on_check_appearance_person_win_hide_toggled (object obj, EventArgs args)

@@ -45,7 +45,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_open_session;
 	[Widget] Gtk.MenuItem menuitem_mode;
 	
-	//[Widget] Gtk.MenuItem encoder_menuitem;
 	//[Widget] Gtk.VBox vbox_menu_encoder;
 	[Widget] Gtk.MenuItem force_sensor_menuitem;
 	[Widget] Gtk.MenuItem race_encoder_menuitem;
@@ -2809,7 +2808,6 @@ public partial class ChronoJumpWindow
 		frame_run_simple_double_contacts.Visible = false;
 
 		//default for everything except encoder
-		//encoder_menuitem.Visible = false;
 		//vbox_menu_encoder.Visible = false;
 		menuitem_export_csv.Visible = true;
 
@@ -2930,7 +2928,6 @@ public partial class ChronoJumpWindow
 		}
 		else if(m == Constants.Menuitem_modes.POWERGRAVITATORY || m == Constants.Menuitem_modes.POWERINERTIAL) 
 		{
-			//encoder_menuitem.Visible = true;
 			//vbox_menu_encoder.Visible = true;
 			menuitem_export_csv.Visible = false;
 
@@ -7104,7 +7101,6 @@ LogB.Debug("mc finished 5");
 		vbox_menu_tiny.Sensitive = false;
 		session_menuitem.Sensitive = false;
 		menuitem_mode.Sensitive = false;
-		//encoder_menuitem.Sensitive = false;
 		//vbox_menu_encoder.Sensitive = false;
 		force_sensor_menuitem.Sensitive = false;
 		race_encoder_menuitem.Sensitive = false;
@@ -7176,7 +7172,6 @@ LogB.Debug("mc finished 5");
 		vbox_menu_tiny.Sensitive = true;
 		session_menuitem.Sensitive = true;
 		menuitem_mode.Sensitive = true;
-		//encoder_menuitem.Sensitive = true;
 		//vbox_menu_encoder.Sensitive = true;
 		force_sensor_menuitem.Sensitive = true;
 		race_encoder_menuitem.Sensitive = true;

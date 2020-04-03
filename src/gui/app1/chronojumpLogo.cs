@@ -34,12 +34,19 @@ public class ChronojumpLogo
 	private double size;
 	private Stopwatch stopwatch;
 
-	private Gtk.DrawingArea drawingarea;
-	private Gtk.Viewport viewport;
+	private Gtk.DrawingArea drawingarea; 	//contains the animation
+	private Gtk.Viewport viewport; 		//contains the logo and version number
 
 	//constructor
-	public ChronojumpLogo (Gtk.DrawingArea drawingarea, Gtk.Viewport viewport)
+	public ChronojumpLogo (Gtk.DrawingArea drawingarea, Gtk.Viewport viewport, bool showAnimated)
 	{
+		if(! showAnimated)
+		{
+			viewport.Visible = true;
+			drawingarea.Visible = false;
+			return;
+		}
+
 		LogB.Information("Chronojump logo constructor start");
 		this.drawingarea = drawingarea;
 		this.viewport = viewport;

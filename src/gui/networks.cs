@@ -62,7 +62,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_current_person;
 	[Widget] Gtk.Button button_contacts_person_change;
 	[Widget] Gtk.Button button_encoder_person_change;
-	[Widget] Gtk.VBox vbox_encoder_capture_1_or_cont;
 
 	//encoder exercise stuff
 	[Widget] Gtk.Label label_encoder_exercise_encoder;
@@ -156,8 +155,8 @@ public partial class ChronoJumpWindow
 			//and then tooltip appears during all capture, so hide this tooltip
 			button_encoder_capture_finish.TooltipText = "";
 
-			//don't show encoder 1-cont buttons
-			vbox_encoder_capture_1_or_cont.Visible = false;
+			//do not allow to capture infinite (cont)
+			preferences.encoderCaptureInfinite = false;
 
 			//don't allow to edit exercises
 			button_encoder_exercise_edit.Visible = false;

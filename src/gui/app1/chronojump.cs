@@ -2303,7 +2303,7 @@ public partial class ChronoJumpWindow
 		
 		LogB.Information("Bye2!");
 
-		if(radio_encoder_capture_cont.Active)
+		if(preferences.encoderCaptureInfinite)
 			on_button_encoder_capture_finish_cont_clicked(new object(), new EventArgs());
 		else
 			encoderRProcCapture.SendEndProcess();
@@ -3014,8 +3014,6 @@ public partial class ChronoJumpWindow
 				hbox_combo_encoder_analyze_1RM.Visible=false;
 				radiobutton_encoder_analyze_neuromuscular_profile.Visible = false;
 				
-				radio_encoder_capture_1set.Active = true;
-				//hbox_encoder_capture_1_or_cont.Visible = false;
 				vbox_angle_now.Visible = true;
 				label_gravitatory_vpf_propulsive.Visible = false;
 

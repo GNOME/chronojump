@@ -30,11 +30,13 @@ class SqlitePreferences : Sqlite
 	public const string UnitsStr = "units";
 	public const string MenuType = "menuType";
 	public const string ColorBackground = "colorBackground";
+	public const string LogoAnimatedShow = "logoAnimatedShow";
 
 	//contacts
 	public const string JumpsDjGraphHeights = "jumpsDjGraphHeights";
 
 	//encoder
+	public const string EncoderCaptureInfinite = "encoderCaptureInfinite";
 	public const string EncoderExerciseIDGravitatory = "encoderExerciseIDGravitatory";
 	public const string EncoderExerciseIDInertial = "encoderExerciseIDInertial";
 	public const string EncoderContractionGravitatory = "encoderContractionGravitatory";
@@ -118,8 +120,10 @@ class SqlitePreferences : Sqlite
 				Insert ("personWinHide", "False", dbcmdTr);
 				Insert ("personPhoto", "True", dbcmdTr);
 				Insert (MenuType, Preferences.MenuTypes.ALL.ToString(), dbcmdTr);
+				Insert (LogoAnimatedShow, "True", dbcmdTr);
 				Insert (ColorBackground, "#0e1e46", dbcmdTr);
 				Insert (UnitsStr, Preferences.UnitsEnum.METRIC.ToString(), dbcmdTr);
+				Insert (EncoderCaptureInfinite, "False", dbcmdTr);
 				Insert ("encoderCaptureShowOnlyBars", "False", dbcmdTr);
 				Insert ("encoderCaptureShowNRepetitions", "-1", dbcmdTr);
 				Insert ("digitsNumber", "3", dbcmdTr);
@@ -366,9 +370,13 @@ class SqlitePreferences : Sqlite
 					Enum.Parse(typeof(Preferences.MenuTypes), reader[1].ToString());
 			else if(reader[0].ToString() == ColorBackground)
 				preferences.colorBackgroundString = reader[1].ToString();
+			else if(reader[0].ToString() == LogoAnimatedShow)
+				preferences.logoAnimatedShow = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == UnitsStr)
 				preferences.units = (Preferences.UnitsEnum)
 					Enum.Parse(typeof(Preferences.UnitsEnum), reader[1].ToString());
+			else if(reader[0].ToString() == EncoderCaptureInfinite)
+				preferences.encoderCaptureInfinite = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "encoderCaptureShowOnlyBars")
 				preferences.encoderCaptureShowOnlyBars = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "encoderCaptureShowNRepetitions")

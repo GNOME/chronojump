@@ -36,10 +36,12 @@ public class Preferences
 	public enum MenuTypes { ALL, TEXT, ICONS};
 	public MenuTypes menuType;
 	public string colorBackgroundString;
+	public bool logoAnimatedShow;
 
 	public enum UnitsEnum { METRIC, IMPERIAL };
 	public UnitsEnum units;
 
+	public bool encoderCaptureInfinite;
 	public bool encoderCaptureShowOnlyBars;
 	public int encoderCaptureShowNRepetitions;
 

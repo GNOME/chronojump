@@ -72,6 +72,7 @@ public class PreferencesWindow
 	[Widget] Gtk.Alignment alignment_undecorated;
 	[Widget] Gtk.Label label_recommended_undecorated;
 	[Widget] Gtk.DrawingArea drawingarea_background_color;
+	[Widget] Gtk.CheckButton check_logo_animated;
 
 	//database tab
 	[Widget] Gtk.Button button_data_folder_open;
@@ -383,6 +384,11 @@ public class PreferencesWindow
 
 		PreferencesWindowBox.colorBackground = UtilGtk.ColorParse(preferences.colorBackgroundString);
 		PreferencesWindowBox.paintColorDrawingArea(PreferencesWindowBox.colorBackground);
+
+		if(preferences.logoAnimatedShow)
+			PreferencesWindowBox.check_logo_animated.Active = true;
+		else
+			PreferencesWindowBox.check_logo_animated.Active = false;
 
 		//multimedia tab
 		if(preferences.volumeOn)  
@@ -1882,6 +1888,10 @@ public class PreferencesWindow
 		preferences.colorBackgroundString = Preferences.PreferencesChange(
 				SqlitePreferences.ColorBackground, preferences.colorBackgroundString,
 				UtilGtk.ColorToColorString(colorBackground)); //this does the reverse of Gdk.Color.Parse on UtilGtk.ColorParse()
+
+		preferences.logoAnimatedShow = Preferences.PreferencesChange(
+				SqlitePreferences.LogoAnimatedShow, preferences.logoAnimatedShow,
+				PreferencesWindowBox.check_logo_animated.Active);
 
 		if( preferences.digitsNumber != Convert.ToInt32(UtilGtk.ComboGetActive(combo_decimals)) ) {
 			SqlitePreferences.Update("digitsNumber", UtilGtk.ComboGetActive(combo_decimals), true);

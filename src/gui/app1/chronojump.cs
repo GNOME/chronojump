@@ -475,7 +475,6 @@ public partial class ChronoJumpWindow
 		
 	ExecuteAutoWindow executeAutoWin;
 
-	private ChronojumpLogo chronojumpLogo;
 	static Thread pingThread;
 
 	private bool createdStatsWin;
@@ -740,7 +739,7 @@ public partial class ChronoJumpWindow
 		}
 
 		if(! showSendLog && notebook_sup.CurrentPage == Convert.ToInt32(notebook_sup_pages.START))
-			chronojumpLogo = new ChronojumpLogo (drawingarea_chronojump_logo, viewport_chronojump_logo);
+			new ChronojumpLogo (drawingarea_chronojump_logo, viewport_chronojump_logo, preferences.logoAnimatedShow);
 
 		LogB.Information("Chronojump window started");
 	}
@@ -2774,8 +2773,7 @@ public partial class ChronoJumpWindow
 			tempSessionName = currentSession.Name;
 
 		setApp1Title(tempSessionName, Constants.Menuitem_modes.UNDEFINED);
-
-		chronojumpLogo = new ChronojumpLogo (drawingarea_chronojump_logo, viewport_chronojump_logo);
+		new ChronojumpLogo (drawingarea_chronojump_logo, viewport_chronojump_logo, preferences.logoAnimatedShow);
 	}
 
 	private void on_button_start_selector_show_more_clicked (object o, EventArgs args)

@@ -5372,7 +5372,8 @@ public partial class ChronoJumpWindow
 				allocation.Height != encoder_capture_curves_allocationYOld) 
 		{
 			encoder_capture_curves_bars_pixmap = new Gdk.Pixmap (encoder_capture_curves_bars_drawingarea.GdkWindow, allocation.Width, allocation.Height, -1);
-			if(encoder_capture_curves_bars_pixmap == null || ! preferences.encoderCaptureInfinite || firstSetOfCont)
+			if(encoder_capture_curves_bars_pixmap == null || ! preferences.encoderCaptureInfinite || firstSetOfCont ||
+				encoderGraphDoPlot == null || ! encoderGraphDoPlot.GraphPrepared)
 			{
 				if(encoderGraphDoPlot == null || ! encoderGraphDoPlot.GraphPrepared)
 				{

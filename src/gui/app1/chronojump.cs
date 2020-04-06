@@ -2483,9 +2483,7 @@ public partial class ChronoJumpWindow
 		if(notebook_sup.CurrentPage != Convert.ToInt32(notebook_sup_pages.SESSION))
 			app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
 
-		radio_show_menu.Sensitive = false;
-		viewport_menu.Sensitive = false;
-		vbox_menu_tiny.Sensitive = false;
+		menus_sensitive(false);
 		sessionLoadWindowShow(app1s_windowType.LOAD_SESSION);
 		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.SESSION);
 	}
@@ -2507,9 +2505,7 @@ public partial class ChronoJumpWindow
 			foundPersons = selectRowTreeView_persons(treeview_persons, 0);
 
 		//show hidden widgets, and sensitivize
-		radio_show_menu.Sensitive = true;
-		viewport_menu.Sensitive = true;
-		vbox_menu_tiny.Sensitive = true;
+		menus_sensitive(true);
 		sensitiveGuiNoSession();
 		sensitiveGuiYesSession();
 
@@ -7096,9 +7092,7 @@ LogB.Debug("mc finished 5");
 	
 	private void sensitiveGuiEventDoing (bool cont)
 	{
-		radio_show_menu.Sensitive = false;
-		viewport_menu.Sensitive = false;
-		vbox_menu_tiny.Sensitive = false;
+		menus_sensitive(false);
 		session_menuitem.Sensitive = false;
 		menuitem_mode.Sensitive = false;
 		//vbox_menu_encoder.Sensitive = false;
@@ -7167,9 +7161,7 @@ LogB.Debug("mc finished 5");
 	{
 		LogB.Information(" sensitiveGuiEventDone start ");
 
-		radio_show_menu.Sensitive = true;
-		viewport_menu.Sensitive = true;
-		vbox_menu_tiny.Sensitive = true;
+		menus_sensitive(true);
 		session_menuitem.Sensitive = true;
 		menuitem_mode.Sensitive = true;
 		//vbox_menu_encoder.Sensitive = true;

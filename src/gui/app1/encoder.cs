@@ -4666,6 +4666,7 @@ public partial class ChronoJumpWindow
 				notebook_encoder_capture_main.GetNthPage(1).Show();
 		}
 
+		menus_sensitive(! show);
 		main_menu.Sensitive = ! show;
 		hbox_encoder_sup_capture_analyze.Sensitive = ! show;
 		viewport_persons.Sensitive = ! show;

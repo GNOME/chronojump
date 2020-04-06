@@ -2231,7 +2231,7 @@ public partial class ChronoJumpWindow
 		else {
 			LogB.Information("cancelled");
 			//report does not currently send the appBar reference
-			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Cancelled."));
+			//new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Cancelled."));
 			fc.Hide ();
 			return ;
 		}

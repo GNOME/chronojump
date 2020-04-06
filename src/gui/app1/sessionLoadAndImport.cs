@@ -274,14 +274,14 @@ public partial class ChronoJumpWindow
 	private void app1s_chooseDatabaseToImport()
 	{
 		//TODO: try it with Gtk.FileChooserWidget, then we do not need to pass app1 (parent)
-		Gtk.FileChooserDialog filechooser = new Gtk.FileChooserDialog ("Choose ChronoJump database to import from",
+		Gtk.FileChooserDialog filechooser = new Gtk.FileChooserDialog ("Choose Chronojump database to import from",
 		                                                               app1, FileChooserAction.Open,
 		                                                               "Cancel",ResponseType.Cancel,
 		                                                               "Open",ResponseType.Accept);
 
 		FileFilter file_filter = new FileFilter();
 		file_filter.AddPattern ("*.db");
-		file_filter.Name = "ChronoJump database";
+		file_filter.Name = "Chronojump database (chronojump.db)";
 		filechooser.AddFilter (file_filter);
 
 		if (filechooser.Run () == (int)ResponseType.Accept) {

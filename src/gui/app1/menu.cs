@@ -236,11 +236,11 @@ public partial class ChronoJumpWindow
 
 	private void on_radio_show_menu_toggled (object o, EventArgs args)
 	{
-			if(check_menu_help.Active)
-				check_menu_help.Active = false;
+		if(check_menu_help.Active)
+			check_menu_help.Active = false;
 
-			viewport_menu.Visible = true;
-			viewport_persons.Visible = false;
+		viewport_menu.Visible = true;
+		viewport_persons.Visible = false;
 	}
 	private void on_radio_show_persons_toggled (object o, EventArgs args)
 	{

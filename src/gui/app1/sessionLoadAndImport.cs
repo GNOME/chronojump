@@ -571,7 +571,11 @@ public partial class ChronoJumpWindow
 	void app1s_on_button_cancel1_clicked (object o, EventArgs args)
 	{
 		app1s_notebook.CurrentPage = app1s_PAGE_MODES;
+
 		reloadSession(); //explained at top of the file.
+		//but now show persons, show menu:
+		radio_show_menu.Toggle();
+		radio_show_menu.Active = true;
 	}
 	protected void app1s_on_button_select_file_import_clicked(object o, EventArgs args) {
 		app1s_chooseDatabaseToImport ();

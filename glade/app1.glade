@@ -25774,15 +25774,32 @@ Concentric</property>
                                                           </packing>
                                                         </child>
                                                         <child>
-                                                          <placeholder/>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkImage" id="image_encoder_rest_time">
+                                                          <widget class="GtkHBox" id="hbox_encoder_rest_time">
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_encoder_rest_time_dark_blue">
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_encoder_rest_time_clear_yellow">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
                                                           </widget>
                                                           <packing>
-                                                            <property name="top_attach">1</property>
                                                             <property name="bottom_attach">2</property>
                                                           </packing>
                                                         </child>

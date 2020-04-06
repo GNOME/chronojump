@@ -29,6 +29,10 @@ using System.Collections.Generic; //List
 
 public partial class ChronoJumpWindow 
 {
+	[Widget] Gtk.HBox hbox_encoder_rest_time;
+	[Widget] Gtk.Image image_encoder_rest_time_dark_blue;
+	[Widget] Gtk.Image image_encoder_rest_time_clear_yellow;
+
 	[Widget] Gtk.Label label_contacts_rest_time_1_name;
 	[Widget] Gtk.Label label_contacts_rest_time_2_name;
 	[Widget] Gtk.Label label_contacts_rest_time_3_name;
@@ -124,7 +128,7 @@ public partial class ChronoJumpWindow
 	{
 		labels_rest_time_encoder_clean();
 		List<LastTestTime> listLastMin = restTime.LastMinList();
-		image_encoder_rest_time.Visible = (listLastMin.Count > 0);
+		hbox_encoder_rest_time.Visible = (listLastMin.Count > 0);
 		int count = 0;
 		foreach(LastTestTime ltt in listLastMin)
 		{

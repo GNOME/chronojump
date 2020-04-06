@@ -753,6 +753,15 @@ public partial class ChronoJumpWindow
 		}
 
 		UtilGtk.ContrastLabelsNotebook (viewport_hpaned_contacts_main, app1s_notebook);
+
+		if(UtilGtk.ColorIsDark(viewport_hpaned_contacts_main.Style.Background(StateType.Normal)))
+		{
+			image_encoder_rest_time_dark_blue.Visible = false;
+			image_encoder_rest_time_clear_yellow.Visible = true;
+		} else {
+			image_encoder_rest_time_dark_blue.Visible = true;
+			image_encoder_rest_time_clear_yellow.Visible = false;
+		}
 	}
 
 	private void testNewStuff()

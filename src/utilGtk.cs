@@ -624,7 +624,7 @@ public class UtilGtk
 		foreach(Gtk.Widget w in container.Children)
 		{
 			if(w.GetType() == typeof(Gtk.Label))
-				LabelDoContrastColor (v, (Gtk.Label) w);
+				labelDoContrastColor (v, (Gtk.Label) w);
 
 			else if(w.GetType() == typeof(Gtk.Alignment))
 			{
@@ -649,7 +649,7 @@ public class UtilGtk
 			);
 	}
 
-	public static void LabelDoContrastColor (Gtk.Viewport v, Gtk.Label l)
+	private static void labelDoContrastColor (Gtk.Viewport v, Gtk.Label l)
 	{
 		if(ColorIsDark(v.Style.Background(StateType.Normal)))
 		{

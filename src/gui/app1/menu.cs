@@ -108,6 +108,13 @@ public partial class ChronoJumpWindow
 		button_show_modes.Sensitive = true;
 	}
 
+	private void menus_sensitive(bool sensitive)
+	{
+		radio_show_menu.Sensitive = sensitive;
+		viewport_menu.Sensitive = sensitive;
+		vbox_menu_tiny.Sensitive = sensitive;
+	}
+
 	private void menuInitialize ()
 	{
 		menuSetTextAndIcons();

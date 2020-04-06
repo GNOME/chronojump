@@ -98,7 +98,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_exercise_close_and_recalculate;
 	[Widget] Gtk.Button button_encoder_capture_session_overview;
 	[Widget] Gtk.Button button_encoder_load_signal;
-	[Widget] Gtk.Button button_encoder_load_signal_on_analyze;
+	[Widget] Gtk.Button button_encoder_load_signal_at_analyze;
 	[Widget] Gtk.Viewport viewport_image_encoder_capture;
 	[Widget] Gtk.Image image_encoder_capture;
 	[Widget] Gtk.ProgressBar encoder_pulsebar_capture;
@@ -298,6 +298,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_encoder_analyze;
 	[Widget] Gtk.Image image_encoder_analyze;
 	[Widget] Gtk.ProgressBar encoder_pulsebar_analyze;
+	[Widget] Gtk.ProgressBar encoder_pulsebar_load_signal;
+	[Widget] Gtk.ProgressBar encoder_pulsebar_load_signal_at_analyze;
+	[Widget] Gtk.Label label_encoder_load_signal_at_analyze;
 	
 	[Widget] Gtk.Alignment alignment_treeview_encoder_capture_curves;
 	[Widget] Gtk.TreeView treeview_encoder_capture_curves;
@@ -428,6 +431,10 @@ public partial class ChronoJumpWindow
 	{
 		encoder_pulsebar_capture.Fraction = 1;
 		encoder_pulsebar_capture.Text = "";
+		encoder_pulsebar_load_signal.Fraction = 1;
+		encoder_pulsebar_load_signal.Text = "";
+		encoder_pulsebar_load_signal_at_analyze.Fraction = 1;
+		encoder_pulsebar_load_signal_at_analyze.Text = "";
 		encoder_pulsebar_analyze.Fraction = 1;
 		encoder_pulsebar_analyze.Text = "";
 
@@ -5103,7 +5110,7 @@ public partial class ChronoJumpWindow
 
 		button_encoder_capture_session_overview.Sensitive = Util.IntToBool(table[2]);
 		button_encoder_load_signal.Sensitive = Util.IntToBool(table[2]);
-		button_encoder_load_signal_on_analyze.Sensitive = Util.IntToBool(table[2]);
+		button_encoder_load_signal_at_analyze.Sensitive = Util.IntToBool(table[2]);
 		
 		hbox_encoder_capture_curves_save_all_none.Sensitive = Util.IntToBool(table[3]);
 		button_export_encoder_signal.Sensitive = Util.IntToBool(table[3]);
@@ -5752,10 +5759,25 @@ public partial class ChronoJumpWindow
 				//treeview_encoder_capture_curves.Sensitive = false;
 				
 				encoderThread = new Thread(new ThreadStart(encoderDoCurvesGraphR_curves));
+
 				if(action == encoderActions.CURVES)
 					GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCurves));
 				else // action == encoderActions.LOAD
+				{
+					//capture tab
+					button_encoder_load_signal.Visible =  false;
+					encoder_pulsebar_load_signal.Fraction = 0;
+					encoder_pulsebar_load_signal.Visible = true;
+
+					//analyze tab
+					label_encoder_load_signal_at_analyze.Visible = false;
+					encoder_pulsebar_load_signal_at_analyze.SetSizeRequest (
+						label_encoder_load_signal_at_analyze.SizeRequest().Width, -1);
+					encoder_pulsebar_load_signal_at_analyze.Fraction = 0;
+					encoder_pulsebar_load_signal_at_analyze.Visible = true;
+
 					GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderLoad));
+				}
 				encoderButtonsSensitive(encoderSensEnum.PROCESSINGR);
 				
 				LogB.ThreadStart();
@@ -6280,12 +6302,21 @@ public partial class ChronoJumpWindow
 				encoderRProcAnalyze.CancelRScript = true;
 			}
 
+			//capture tab
+			button_encoder_load_signal.Visible =  true;
+			encoder_pulsebar_load_signal.Visible = false;
+
+			//analyze tab
+			label_encoder_load_signal_at_analyze.Visible = true;
+			encoder_pulsebar_load_signal_at_analyze.Visible = false;
+
 			finishPulsebar(encoderActions.LOAD);
 			
 			LogB.ThreadEnded(); 
 			return false;
 		}
 		updatePulsebar(encoderActions.LOAD); //activity on pulsebar
+
 		Thread.Sleep (50);
 		//LogB.Debug(" L:", encoderThread.ThreadState.ToString());
 		LogB.Information(" L:" + encoderThread.ThreadState.ToString());
@@ -6389,13 +6420,24 @@ public partial class ChronoJumpWindow
 				contents = Catalog.GetString("Starting R");
 			}
 
-			if(action == encoderActions.CURVES || action == encoderActions.LOAD) {
+			if(action == encoderActions.CURVES)
+			{
 				if(fraction == -1)
 					encoder_pulsebar_capture.Pulse();
 				else
 					encoder_pulsebar_capture.Fraction = UtilAll.DivideSafeFraction(fraction, 6);
-				
+
 				encoder_pulsebar_capture.Text = contents;
+			}
+			else if(action == encoderActions.LOAD)
+			{
+				if(fraction <= 0) {
+					encoder_pulsebar_load_signal.Pulse();
+					encoder_pulsebar_load_signal_at_analyze.Pulse();
+				} else {
+					encoder_pulsebar_load_signal.Fraction = UtilAll.DivideSafeFraction(fraction, 6);
+					encoder_pulsebar_load_signal_at_analyze.Fraction = UtilAll.DivideSafeFraction(fraction, 6);
+				}
 			} else {
 				if(fraction == -1)
 					encoder_pulsebar_analyze.Pulse();

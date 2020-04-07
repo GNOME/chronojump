@@ -32,8 +32,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_settings2;
 	[Widget] Gtk.Image image_minimize;
 	//[Widget] Gtk.Image image_minimize1;
-	[Widget] Gtk.Image image_quit;
-	[Widget] Gtk.Image image_quit1;
 	[Widget] Gtk.Image image_quit3;
 	[Widget] Gtk.Image image_quit_from_app1;
 	[Widget] Gtk.Image image_session_new2;
@@ -255,8 +253,6 @@ public partial class ChronoJumpWindow
 		//image_minimize1.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_quit.png");
-		image_quit.Pixbuf = pixbuf;
-		image_quit1.Pixbuf = pixbuf;
 		image_quit3.Pixbuf = pixbuf;
 		image_quit_from_app1.Pixbuf = pixbuf;
 		image_menu_quit.Pixbuf = pixbuf;

@@ -6706,52 +6706,6 @@ EncoderInertialCapture</property>
                                                     <property name="position">2</property>
                                                   </packing>
                                                 </child>
-                                                <child>
-                                                  <widget class="GtkHBox" id="hbox_menu_and_preferences_outside_menu_contacts">
-                                                    <property name="can_focus">False</property>
-                                                    <property name="spacing">20</property>
-                                                    <child>
-                                                      <placeholder/>
-                                                    </child>
-                                                    <child>
-                                                      <placeholder/>
-                                                    </child>
-                                                    <child>
-                                                      <placeholder/>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkButton" id="button_preferences_not_menu_quit1">
-                                                        <property name="width_request">50</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="can_default">True</property>
-                                                        <property name="receives_default">True</property>
-                                                        <property name="has_tooltip">True</property>
-                                                        <property name="tooltip" translatable="yes">Quit</property>
-                                                        <property name="relief">half</property>
-                                                        <signal name="clicked" handler="on_quit1_activate" swapped="no"/>
-                                                        <child>
-                                                          <widget class="GtkImage" id="image_quit1">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                          </widget>
-                                                        </child>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">True</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">3</property>
-                                                      </packing>
-                                                    </child>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">False</property>
-                                                    <property name="pack_type">end</property>
-                                                    <property name="position">3</property>
-                                                  </packing>
-                                                </child>
                                               </widget>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -24770,6 +24724,12 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -25396,7 +25356,7 @@ Concentric</property>
                                               <widget class="GtkHBox" id="hbox_encoder_sup_capture_analyze">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="spacing">20</property>
+                                                <property name="spacing">50</property>
                                                 <child>
                                                   <widget class="GtkHBox" id="hbox_encoder_sup_capture_analyze_two_buttons">
                                                     <property name="visible">True</property>
@@ -25814,54 +25774,7 @@ Concentric</property>
                                                   <packing>
                                                     <property name="expand">True</property>
                                                     <property name="fill">True</property>
-                                                    <property name="padding">30</property>
                                                     <property name="position">1</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <widget class="GtkHBox" id="hbox_menu_and_preferences_outside_menu_encoder">
-                                                    <property name="can_focus">False</property>
-                                                    <property name="spacing">20</property>
-                                                    <child>
-                                                      <placeholder/>
-                                                    </child>
-                                                    <child>
-                                                      <placeholder/>
-                                                    </child>
-                                                    <child>
-                                                      <placeholder/>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkButton" id="button_not_menu_quit">
-                                                        <property name="width_request">50</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="can_default">True</property>
-                                                        <property name="receives_default">True</property>
-                                                        <property name="has_tooltip">True</property>
-                                                        <property name="tooltip" translatable="yes">Quit</property>
-                                                        <property name="relief">half</property>
-                                                        <signal name="clicked" handler="on_quit1_activate" swapped="no"/>
-                                                        <child>
-                                                          <widget class="GtkImage" id="image_quit">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                          </widget>
-                                                        </child>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">True</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">3</property>
-                                                      </packing>
-                                                    </child>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">False</property>
-                                                    <property name="pack_type">end</property>
-                                                    <property name="position">2</property>
                                                   </packing>
                                                 </child>
                                               </widget>
@@ -32956,6 +32869,12 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

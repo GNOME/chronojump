@@ -2521,6 +2521,18 @@
                         <child>
                           <placeholder/>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </widget>
                     </child>
                   </widget>
@@ -2711,7 +2723,7 @@
                                           <widget class="GtkLabel" id="label156">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label" translatable="yes">Load</property>
+                                            <property name="label" translatable="yes">Load into session</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>

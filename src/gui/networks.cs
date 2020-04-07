@@ -93,8 +93,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_run_interval_compujump_20m;
 
 	//shown when menu is hidden
-	[Widget] Gtk.HBox hbox_menu_and_preferences_outside_menu_contacts;
-	[Widget] Gtk.HBox hbox_menu_and_preferences_outside_menu_encoder;
+	//[Widget] Gtk.HBox hbox_menu_and_preferences_outside_menu_contacts;
+	//[Widget] Gtk.HBox hbox_menu_and_preferences_outside_menu_encoder;
 	//[Widget] Gtk.Button button_menu_outside_menu;
 	//[Widget] Gtk.Button button_menu_outside_menu1;
 
@@ -419,8 +419,8 @@ public partial class ChronoJumpWindow
 		{
 			//main_menu.Visible = false;
 			//app1.Decorated = false;
-			hbox_menu_and_preferences_outside_menu_contacts.Visible = true;
-			hbox_menu_and_preferences_outside_menu_encoder.Visible = true;
+			//hbox_menu_and_preferences_outside_menu_contacts.Visible = true;
+			//hbox_menu_and_preferences_outside_menu_encoder.Visible = true;
 
 			if(configChronojump.SessionMode == Config.SessionModeEnum.UNIQUE)
 			{

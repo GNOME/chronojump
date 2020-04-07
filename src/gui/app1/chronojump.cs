@@ -7110,8 +7110,6 @@ LogB.Debug("mc finished 5");
 		//vbox_menu_encoder.Sensitive = false;
 		force_sensor_menuitem.Sensitive = false;
 		race_encoder_menuitem.Sensitive = false;
-		hbox_menu_and_preferences_outside_menu_contacts.Sensitive = false;
-		hbox_menu_and_preferences_outside_menu_encoder.Sensitive = false;
 		
 		//jumpsProfile has Sqlite calls. Don't do them while jumping
 		//but don't unsensitive the notebook because user need to "finish" or cancel"
@@ -7179,8 +7177,6 @@ LogB.Debug("mc finished 5");
 		//vbox_menu_encoder.Sensitive = true;
 		force_sensor_menuitem.Sensitive = true;
 		race_encoder_menuitem.Sensitive = true;
-		hbox_menu_and_preferences_outside_menu_contacts.Sensitive = true;
-		hbox_menu_and_preferences_outside_menu_encoder.Sensitive = true;
 
 		//jumpsProfile has Sqlite calls. Don't do them while jumping
 		//but don't unsensitive the notebook because user need to "finish" or cancel"

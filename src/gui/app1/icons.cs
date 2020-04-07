@@ -27,8 +27,8 @@ using Glade;
 public partial class ChronoJumpWindow 
 {
 	[Widget] Gtk.Image image_mode_main_menu;
-	[Widget] Gtk.Image image_home;
-	[Widget] Gtk.Image image_home1;
+	//[Widget] Gtk.Image image_home;
+	//[Widget] Gtk.Image image_home1;
 	[Widget] Gtk.Image image_settings;
 	[Widget] Gtk.Image image_settings1;
 	[Widget] Gtk.Image image_settings2;
@@ -243,8 +243,8 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_home.png");
 		image_mode_main_menu.Pixbuf = pixbuf;
-		image_home.Pixbuf = pixbuf;
-		image_home1.Pixbuf = pixbuf;
+		//image_home.Pixbuf = pixbuf;
+		//image_home1.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_settings.png");
 		image_settings.Pixbuf = pixbuf;

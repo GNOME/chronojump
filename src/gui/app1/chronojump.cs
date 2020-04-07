@@ -750,11 +750,12 @@ public partial class ChronoJumpWindow
 		{
 			UtilGtk.ContrastLabelsHBox (viewport_hpaned_contacts_main, hbox_top_person);
 			UtilGtk.ContrastLabelsHBox (viewport_hpaned_contacts_main, hbox_top_person_encoder);
+			UtilGtk.ContrastLabelsTable (viewport_rest_times_encoder, table_rest_times_encoder);
 		}
 
 		UtilGtk.ContrastLabelsNotebook (viewport_hpaned_contacts_main, app1s_notebook);
 
-		if(UtilGtk.ColorIsDark(viewport_hpaned_contacts_main.Style.Background(StateType.Normal)))
+		if(UtilGtk.ColorIsDark(viewport_rest_times_encoder.Style.Background(StateType.Normal)))
 		{
 			image_encoder_rest_time_dark_blue.Visible = false;
 			image_encoder_rest_time_clear_yellow.Visible = true;

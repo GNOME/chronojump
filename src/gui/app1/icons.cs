@@ -29,8 +29,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_mode_main_menu;
 	//[Widget] Gtk.Image image_home;
 	//[Widget] Gtk.Image image_home1;
-	[Widget] Gtk.Image image_settings;
-	[Widget] Gtk.Image image_settings1;
 	[Widget] Gtk.Image image_settings2;
 	[Widget] Gtk.Image image_minimize;
 	//[Widget] Gtk.Image image_minimize1;
@@ -247,8 +245,6 @@ public partial class ChronoJumpWindow
 		//image_home1.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_settings.png");
-		image_settings.Pixbuf = pixbuf;
-		image_settings1.Pixbuf = pixbuf;
 		image_settings2.Pixbuf = pixbuf;
 		image_session_preferences.Pixbuf = pixbuf;
 		image_menu_preferences.Pixbuf = pixbuf;

@@ -6714,30 +6714,7 @@ EncoderInertialCapture</property>
                                                       <placeholder/>
                                                     </child>
                                                     <child>
-                                                      <widget class="GtkButton" id="button_preferences_not_menu1">
-                                                        <property name="width_request">50</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="can_default">True</property>
-                                                        <property name="receives_default">True</property>
-                                                        <property name="has_tooltip">True</property>
-                                                        <property name="tooltip" translatable="yes">Preferences</property>
-                                                        <property name="relief">half</property>
-                                                        <signal name="clicked" handler="on_preferences_activate" swapped="no"/>
-                                                        <child>
-                                                          <widget class="GtkImage" id="image_settings1">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            <property name="icon-size">2</property>
-                                                          </widget>
-                                                        </child>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">True</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">1</property>
-                                                      </packing>
+                                                      <placeholder/>
                                                     </child>
                                                     <child>
                                                       <placeholder/>
@@ -25849,30 +25826,7 @@ Concentric</property>
                                                       <placeholder/>
                                                     </child>
                                                     <child>
-                                                      <widget class="GtkButton" id="button_preferences_not_menu">
-                                                        <property name="width_request">50</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="can_default">True</property>
-                                                        <property name="receives_default">True</property>
-                                                        <property name="has_tooltip">True</property>
-                                                        <property name="tooltip" translatable="yes">Preferences</property>
-                                                        <property name="relief">half</property>
-                                                        <signal name="clicked" handler="on_preferences_activate" swapped="no"/>
-                                                        <child>
-                                                          <widget class="GtkImage" id="image_settings">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            <property name="icon-size">2</property>
-                                                          </widget>
-                                                        </child>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">True</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">1</property>
-                                                      </packing>
+                                                      <placeholder/>
                                                     </child>
                                                     <child>
                                                       <placeholder/>

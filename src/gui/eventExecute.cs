@@ -43,7 +43,6 @@ public partial class ChronoJumpWindow
 //	[Widget] Gtk.Label event_execute_label_event_type;
 	[Widget] Gtk.Label event_execute_label_phases_name;
 	[Widget] Gtk.Label event_execute_label_message;
-	[Widget] Gtk.Label event_graph_label_graph_person;
 	[Widget] Gtk.Label event_graph_label_graph_test;
 	
 	[Widget] Gtk.ProgressBar event_execute_progressbar_event;
@@ -189,9 +188,8 @@ public partial class ChronoJumpWindow
 		if(simulated) 
 			event_execute_label_simulated = Catalog.GetString("Simulated");
 
-		event_graph_label_graph_person.Text = "<b>" + personName + "</b>";
-		event_graph_label_graph_person.UseMarkup = true; 
-		event_graph_label_graph_test.Text = " - " + event_execute_eventType;
+		event_graph_label_graph_test.Text = "<b>" + event_execute_eventType + "</b>";
+		event_graph_label_graph_test.UseMarkup = true;
 				
 		event_execute_label_message.Text = "";
 
@@ -1030,7 +1028,12 @@ public partial class ChronoJumpWindow
 	{
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
-		
+
+		if(eventGraph.tc > 0)
+			addUnitsToLabel("s");
+		else
+			addUnitsToLabel("cm");
+
 		//fix problem on show graph at Chronojump start
 		if(event_execute_drawingarea == null || event_execute_pixmap == null)
 			return;
@@ -1128,11 +1131,6 @@ public partial class ChronoJumpWindow
 			}
 			count --;
 		}
-
-		if(eventGraph.tc > 0)
-			addUnitsToLabel("s");
-		else
-			addUnitsToLabel("cm");
 
 		//add legend box
 		if(eventGraph.tc > 0 && eventGraph.tv > 0)
@@ -1239,7 +1237,8 @@ public partial class ChronoJumpWindow
 	}
 
 	private void addUnitsToLabel(string unit) {
-		event_graph_label_graph_test.Text = event_graph_label_graph_test.Text + " (" + unit + ")";
+		event_graph_label_graph_test.Text = "<b>" + event_graph_label_graph_test.Text + " </b>(" + unit + ")";
+		event_graph_label_graph_test.UseMarkup = true;
 	}
 
 	private void addLegend(Gdk.GC pen1, string text1, Gdk.GC pen2, string text2, Pango.Layout layout)
@@ -1291,7 +1290,8 @@ public partial class ChronoJumpWindow
 	{
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
-		
+		addUnitsToLabel("m/s");
+
 		//fix problem on show graph at Chronojump start
 		if(event_execute_drawingarea == null ||
 				event_execute_pixmap == null ||
@@ -1379,8 +1379,6 @@ public partial class ChronoJumpWindow
 
 			count --;
 		}
-			
-		addUnitsToLabel("m/s");
 	}
 
 
@@ -1389,6 +1387,7 @@ public partial class ChronoJumpWindow
 	{
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
+		addUnitsToLabel("s");
 		
 		//fix problem on show graph at Chronojump start
 		if(event_execute_drawingarea == null || event_execute_pixmap == null)
@@ -1432,8 +1431,6 @@ public partial class ChronoJumpWindow
 
 			count --;
 		}
-			
-		addUnitsToLabel("s");
 	}
 
 	

@@ -469,10 +469,12 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_rest.png");
 		image_rest.Pixbuf = pixbuf;
 		image_encoder_rhythm_rest.Pixbuf = pixbuf;
+		image_contacts_rest_time_dark_blue.Pixbuf = pixbuf;
 		image_encoder_rest_time_dark_blue.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_rest_yellow.png");
 		image_encoder_rest_time_clear_yellow.Pixbuf = pixbuf;
+		image_contacts_rest_time_clear_yellow.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_check.png");
 		image_all_persons_events.Pixbuf = pixbuf;

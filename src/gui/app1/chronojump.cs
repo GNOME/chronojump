@@ -748,26 +748,26 @@ public partial class ChronoJumpWindow
 	{
 		if(personsAtTop)
 		{
-			UtilGtk.ContrastLabelsHBox (viewport_hpaned_contacts_main, hbox_top_person);
-			UtilGtk.ContrastLabelsHBox (viewport_hpaned_contacts_main, hbox_top_person_encoder);
-			UtilGtk.ContrastLabelsTable (viewport_rest_time_contacts, table_rest_time_contacts);
-			UtilGtk.ContrastLabelsTable (viewport_rest_time_encoder, table_rest_time_encoder);
+			UtilGtk.ContrastLabelsHBox (preferences.colorBackgroundIsDark, hbox_top_person);
+			UtilGtk.ContrastLabelsHBox (preferences.colorBackgroundIsDark, hbox_top_person_encoder);
+			UtilGtk.ContrastLabelsTable (preferences.colorBackgroundIsDark, table_rest_time_contacts);
+			UtilGtk.ContrastLabelsTable (preferences.colorBackgroundIsDark, table_rest_time_encoder);
+
+			if(preferences.colorBackgroundIsDark)
+			{
+				image_contacts_rest_time_dark_blue.Visible = false;
+				image_contacts_rest_time_clear_yellow.Visible = true;
+				image_encoder_rest_time_dark_blue.Visible = false;
+				image_encoder_rest_time_clear_yellow.Visible = true;
+			} else {
+				image_contacts_rest_time_dark_blue.Visible = true;
+				image_contacts_rest_time_clear_yellow.Visible = false;
+				image_encoder_rest_time_dark_blue.Visible = true;
+				image_encoder_rest_time_clear_yellow.Visible = false;
+			}
 		}
 
-		UtilGtk.ContrastLabelsNotebook (viewport_hpaned_contacts_main, app1s_notebook);
-
-		if(UtilGtk.ColorIsDark(viewport_rest_time_encoder.Style.Background(StateType.Normal)))
-		{
-			image_contacts_rest_time_dark_blue.Visible = false;
-			image_contacts_rest_time_clear_yellow.Visible = true;
-			image_encoder_rest_time_dark_blue.Visible = false;
-			image_encoder_rest_time_clear_yellow.Visible = true;
-		} else {
-			image_contacts_rest_time_dark_blue.Visible = true;
-			image_contacts_rest_time_clear_yellow.Visible = false;
-			image_encoder_rest_time_dark_blue.Visible = true;
-			image_encoder_rest_time_clear_yellow.Visible = false;
-		}
+		UtilGtk.ContrastLabelsNotebook (preferences.colorBackgroundIsDark, app1s_notebook);
 	}
 
 	private void testNewStuff()

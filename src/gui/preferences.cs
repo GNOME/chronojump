@@ -1898,6 +1898,7 @@ public class PreferencesWindow
 		preferences.colorBackgroundString = Preferences.PreferencesChange(
 				SqlitePreferences.ColorBackground, preferences.colorBackgroundString,
 				UtilGtk.ColorToColorString(colorBackground)); //this does the reverse of Gdk.Color.Parse on UtilGtk.ColorParse()
+		preferences.colorBackgroundIsDark = UtilGtk.ColorIsDark(colorBackground);
 
 		preferences.logoAnimatedShow = Preferences.PreferencesChange(
 				SqlitePreferences.LogoAnimatedShow, preferences.logoAnimatedShow,

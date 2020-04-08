@@ -79,7 +79,8 @@ public partial class ChronoJumpWindow
 		Gdk.Color color = UtilGtk.ColorParse(preferences.colorBackgroundString);
 
 		UtilGtk.ViewportColor(viewport_hpaned_contacts_main, color);
-		UtilGtk.ViewportColor(viewport_rest_times_encoder, color);
+		UtilGtk.ViewportColor(viewport_rest_time_contacts, color);
+		UtilGtk.ViewportColor(viewport_rest_time_encoder, color);
 
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_show_modes1, UtilGtk.YELLOW);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_session1, UtilGtk.YELLOW);

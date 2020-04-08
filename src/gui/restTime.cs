@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2017   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2017   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -30,12 +30,16 @@ using System.Collections.Generic; //List
 
 public partial class ChronoJumpWindow 
 {
-	[Widget] Gtk.ScrolledWindow scrolled_rest_times_encoder;
-	[Widget] Gtk.Button button_scrolled_rest_times_encoder_left;
-	[Widget] Gtk.Button button_scrolled_rest_times_encoder_right;
-	[Widget] Gtk.HBox hbox_encoder_rest_time;
-	[Widget] Gtk.Image image_encoder_rest_time_dark_blue;
-	[Widget] Gtk.Image image_encoder_rest_time_clear_yellow;
+	//contacts
+
+	[Widget] Gtk.HBox hbox_contacts_rest_time_sofas;
+	[Widget] Gtk.Image image_contacts_rest_time_dark_blue;
+	[Widget] Gtk.Image image_contacts_rest_time_clear_yellow;
+	[Widget] Gtk.ScrolledWindow scrolled_rest_time_contacts;
+	[Widget] Gtk.Viewport viewport_rest_time_contacts;
+	[Widget] Gtk.Table table_rest_time_contacts;
+	[Widget] Gtk.Button button_scrolled_rest_time_contacts_left;
+	[Widget] Gtk.Button button_scrolled_rest_time_contacts_right;
 
 	[Widget] Gtk.Label label_contacts_rest_time_1_name;
 	[Widget] Gtk.Label label_contacts_rest_time_2_name;
@@ -49,8 +53,20 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_contacts_rest_time_4_time;
 	[Widget] Gtk.Label label_contacts_rest_time_5_time;
 
-	[Widget] Gtk.Viewport viewport_rest_times_encoder;
-	[Widget] Gtk.Table table_rest_times_encoder;
+	List<Gtk.Label> labels_rest_time_contacts_names;
+	List<Gtk.Label> labels_rest_time_contacts_times;
+
+	//encoder
+
+	[Widget] Gtk.HBox hbox_encoder_rest_time_sofas;
+	[Widget] Gtk.Image image_encoder_rest_time_dark_blue;
+	[Widget] Gtk.Image image_encoder_rest_time_clear_yellow;
+	[Widget] Gtk.ScrolledWindow scrolled_rest_time_encoder;
+	[Widget] Gtk.Viewport viewport_rest_time_encoder;
+	[Widget] Gtk.Table table_rest_time_encoder;
+	[Widget] Gtk.Button button_scrolled_rest_time_encoder_left;
+	[Widget] Gtk.Button button_scrolled_rest_time_encoder_right;
+
 	[Widget] Gtk.Label label_encoder_rest_time_1_name;
 	[Widget] Gtk.Label label_encoder_rest_time_2_name;
 	[Widget] Gtk.Label label_encoder_rest_time_3_name;
@@ -63,8 +79,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_encoder_rest_time_4_time;
 	[Widget] Gtk.Label label_encoder_rest_time_5_time;
 
-	List<Gtk.Label> labels_rest_time_contacts_names;
-	List<Gtk.Label> labels_rest_time_contacts_times;
 	List<Gtk.Label> labels_rest_time_encoder_names;
 	List<Gtk.Label> labels_rest_time_encoder_times;
 
@@ -119,6 +133,7 @@ public partial class ChronoJumpWindow
 	{
 		labels_rest_time_contacts_clean();
 		List<LastTestTime> listLastMin = restTime.LastMinList();
+		//hbox_contacts_rest_time_sofas.Visible = (listLastMin.Count > 0);
 		int count = 0;
 		foreach(LastTestTime ltt in listLastMin)
 		{
@@ -129,12 +144,38 @@ public partial class ChronoJumpWindow
 				count ++;
 			}
 		}
+
+		//as scrollbar is not usable on tactile screens, and this top rest time are thought for tactile screens
+		//show left/right buttons if content is bigger than scrollbar
+		if(scrolled_rest_time_contacts.Hadjustment.Upper > scrolled_rest_time_contacts.Hadjustment.PageSize)
+		{
+			button_scrolled_rest_time_contacts_left.Visible = true;
+			button_scrolled_rest_time_contacts_right.Visible = true;
+
+			//make left arrow sensitive if we are not on totally left
+			button_scrolled_rest_time_contacts_left.Sensitive =
+				(scrolled_rest_time_contacts.Hadjustment.Value > scrolled_rest_time_contacts.Hadjustment.Lower);
+
+			//make right arrow sensitive if we are not on totally right
+			button_scrolled_rest_time_contacts_right.Sensitive =
+				//(scrolled_rest_time_contacts.Hadjustment.Value < scrolled_rest_time_contacts.Hadjustment.Upper);
+				( scrolled_rest_time_contacts.Hadjustment.Value <
+				  (scrolled_rest_time_contacts.Hadjustment.Upper - scrolled_rest_time_contacts.Hadjustment.PageSize) );
+
+			hbox_contacts_rest_time_sofas.Visible = false;
+
+		} else {
+			button_scrolled_rest_time_contacts_left.Visible = false;
+			button_scrolled_rest_time_contacts_right.Visible = false;
+
+			hbox_contacts_rest_time_sofas.Visible = (listLastMin.Count > 0);
+		}
 	}
 	private void updateTopRestTimesEncoder()
 	{
 		labels_rest_time_encoder_clean();
 		List<LastTestTime> listLastMin = restTime.LastMinList();
-		//hbox_encoder_rest_time.Visible = (listLastMin.Count > 0);
+		//hbox_encoder_rest_time_sofas.Visible = (listLastMin.Count > 0);
 		int count = 0;
 		foreach(LastTestTime ltt in listLastMin)
 		{
@@ -148,41 +189,55 @@ public partial class ChronoJumpWindow
 
 		//as scrollbar is not usable on tactile screens, and this top rest time are thought for tactile screens
 		//show left/right buttons if content is bigger than scrollbar
-		if(scrolled_rest_times_encoder.Hadjustment.Upper > scrolled_rest_times_encoder.Hadjustment.PageSize)
+		if(scrolled_rest_time_encoder.Hadjustment.Upper > scrolled_rest_time_encoder.Hadjustment.PageSize)
 		{
-			button_scrolled_rest_times_encoder_left.Visible = true;
-			button_scrolled_rest_times_encoder_right.Visible = true;
+			button_scrolled_rest_time_encoder_left.Visible = true;
+			button_scrolled_rest_time_encoder_right.Visible = true;
 
 			//make left arrow sensitive if we are not on totally left
-			button_scrolled_rest_times_encoder_left.Sensitive =
-				(scrolled_rest_times_encoder.Hadjustment.Value > scrolled_rest_times_encoder.Hadjustment.Lower);
+			button_scrolled_rest_time_encoder_left.Sensitive =
+				(scrolled_rest_time_encoder.Hadjustment.Value > scrolled_rest_time_encoder.Hadjustment.Lower);
 
 			//make right arrow sensitive if we are not on totally right
-			button_scrolled_rest_times_encoder_right.Sensitive =
-				//(scrolled_rest_times_encoder.Hadjustment.Value < scrolled_rest_times_encoder.Hadjustment.Upper);
-				( scrolled_rest_times_encoder.Hadjustment.Value <
-				  (scrolled_rest_times_encoder.Hadjustment.Upper - scrolled_rest_times_encoder.Hadjustment.PageSize) );
+			button_scrolled_rest_time_encoder_right.Sensitive =
+				//(scrolled_rest_time_encoder.Hadjustment.Value < scrolled_rest_time_encoder.Hadjustment.Upper);
+				( scrolled_rest_time_encoder.Hadjustment.Value <
+				  (scrolled_rest_time_encoder.Hadjustment.Upper - scrolled_rest_time_encoder.Hadjustment.PageSize) );
 
-			hbox_encoder_rest_time.Visible = false;
+			hbox_encoder_rest_time_sofas.Visible = false;
 
 		} else {
-			button_scrolled_rest_times_encoder_left.Visible = false;
-			button_scrolled_rest_times_encoder_right.Visible = false;
+			button_scrolled_rest_time_encoder_left.Visible = false;
+			button_scrolled_rest_time_encoder_right.Visible = false;
 
-			hbox_encoder_rest_time.Visible = (listLastMin.Count > 0);
+			hbox_encoder_rest_time_sofas.Visible = (listLastMin.Count > 0);
 		}
 	}
 
-	private void on_scrolled_rest_times_encoder_right (object o, EventArgs args)
+	// left/right buttons
+
+	private void on_scrolled_rest_time_contacts_right (object o, EventArgs args)
 	{
-		//scrolled_rest_times_encoder.Hadjustment.Value = scrolled_rest_times_encoder.Hadjustment.Upper; //go to the end
-		scrolled_rest_times_encoder.Hadjustment.Value += scrolled_rest_times_encoder.Hadjustment.PageSize; //one page to the right
+		//scrolled_rest_time_contacts.Hadjustment.Value = scrolled_rest_time_contacts.Hadjustment.Upper; //go to the end
+		scrolled_rest_time_contacts.Hadjustment.Value += scrolled_rest_time_contacts.Hadjustment.PageSize; //one page to the right
+		updateTopRestTimesContacts(); //make the update because if not it looks weird
+	}
+	private void on_scrolled_rest_time_contacts_left (object o, EventArgs args)
+	{
+		//scrolled_rest_time_contacts.Hadjustment.Value = scrolled_rest_time_contacts.Hadjustment.Lower; //go to the beginning
+		scrolled_rest_time_contacts.Hadjustment.Value -= scrolled_rest_time_contacts.Hadjustment.PageSize; //one page to the right
+		updateTopRestTimesContacts(); //make the update because if not it looks weird
+	}
+	private void on_scrolled_rest_time_encoder_right (object o, EventArgs args)
+	{
+		//scrolled_rest_time_encoder.Hadjustment.Value = scrolled_rest_time_encoder.Hadjustment.Upper; //go to the end
+		scrolled_rest_time_encoder.Hadjustment.Value += scrolled_rest_time_encoder.Hadjustment.PageSize; //one page to the right
 		updateTopRestTimesEncoder(); //make the update because if not it looks weird
 	}
-	private void on_scrolled_rest_times_encoder_left (object o, EventArgs args)
+	private void on_scrolled_rest_time_encoder_left (object o, EventArgs args)
 	{
-		//scrolled_rest_times_encoder.Hadjustment.Value = scrolled_rest_times_encoder.Hadjustment.Lower; //go to the beginning
-		scrolled_rest_times_encoder.Hadjustment.Value -= scrolled_rest_times_encoder.Hadjustment.PageSize; //one page to the right
+		//scrolled_rest_time_encoder.Hadjustment.Value = scrolled_rest_time_encoder.Hadjustment.Lower; //go to the beginning
+		scrolled_rest_time_encoder.Hadjustment.Value -= scrolled_rest_time_encoder.Hadjustment.PageSize; //one page to the right
 		updateTopRestTimesEncoder(); //make the update because if not it looks weird
 	}
 }

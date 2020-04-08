@@ -492,7 +492,7 @@ public partial class ChronoJumpWindow
 	private Threshold threshold;
 
 	RestTime restTime;
-	//to control method that is updating restTimes on treeview_persons
+	//to control method that is updating restTimes on treeview_persons and personsOnTop
 	bool updatingRestTimes = false;
 
 	//only called the first time the software runs
@@ -750,16 +750,21 @@ public partial class ChronoJumpWindow
 		{
 			UtilGtk.ContrastLabelsHBox (viewport_hpaned_contacts_main, hbox_top_person);
 			UtilGtk.ContrastLabelsHBox (viewport_hpaned_contacts_main, hbox_top_person_encoder);
-			UtilGtk.ContrastLabelsTable (viewport_rest_times_encoder, table_rest_times_encoder);
+			UtilGtk.ContrastLabelsTable (viewport_rest_time_contacts, table_rest_time_contacts);
+			UtilGtk.ContrastLabelsTable (viewport_rest_time_encoder, table_rest_time_encoder);
 		}
 
 		UtilGtk.ContrastLabelsNotebook (viewport_hpaned_contacts_main, app1s_notebook);
 
-		if(UtilGtk.ColorIsDark(viewport_rest_times_encoder.Style.Background(StateType.Normal)))
+		if(UtilGtk.ColorIsDark(viewport_rest_time_encoder.Style.Background(StateType.Normal)))
 		{
+			image_contacts_rest_time_dark_blue.Visible = false;
+			image_contacts_rest_time_clear_yellow.Visible = true;
 			image_encoder_rest_time_dark_blue.Visible = false;
 			image_encoder_rest_time_clear_yellow.Visible = true;
 		} else {
+			image_contacts_rest_time_dark_blue.Visible = true;
+			image_contacts_rest_time_clear_yellow.Visible = false;
 			image_encoder_rest_time_dark_blue.Visible = true;
 			image_encoder_rest_time_clear_yellow.Visible = false;
 		}
@@ -4115,7 +4120,6 @@ public partial class ChronoJumpWindow
 			myTreeViewPersons.UpdateRestTimes(restTime);
 			return true;
 		}
-
 
 		if(current_menuitem_mode == Constants.Menuitem_modes.POWERGRAVITATORY ||
 			       current_menuitem_mode == Constants.Menuitem_modes.POWERINERTIAL)

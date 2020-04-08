@@ -500,6 +500,10 @@ public class UtilGtk
 		//3 components come in ushort (0-65535)
 		return (color.Red + color.Green + color.Blue < 3 * 65535 / 2.0);
 	}
+	public static bool ColorIsDark(string colorString)
+	{
+		return ColorIsDark(ColorParse(colorString));
+	}
 
 	public static Gdk.Color GetBackgroundColorSelected() {
 		Gtk.Style regularLabel = Gtk.Rc.GetStyle (new Gtk.Label());
@@ -602,38 +606,38 @@ public class UtilGtk
 		e.ModifyBg(StateType.Prelight, color);
 	}
 
-	public static void ContrastLabelsHBox (Gtk.Viewport v, Gtk.HBox hbox)
+	public static void ContrastLabelsHBox (bool bgDark, Gtk.HBox hbox)
 	{
-		contrastLabelsContainer (v, (Gtk.Container) hbox);
+		contrastLabelsContainer (bgDark, (Gtk.Container) hbox);
 	}
-	public static void ContrastLabelsVBox (Gtk.Viewport v, Gtk.VBox vbox)
+	public static void ContrastLabelsVBox (bool bgDark, Gtk.VBox vbox)
 	{
-		contrastLabelsContainer (v, (Gtk.Container) vbox);
+		contrastLabelsContainer (bgDark, (Gtk.Container) vbox);
 	}
-	public static void ContrastLabelsTable (Gtk.Viewport v, Gtk.Table table)
+	public static void ContrastLabelsTable (bool bgDark, Gtk.Table table)
 	{
-		contrastLabelsContainer (v, (Gtk.Container) table);
+		contrastLabelsContainer (bgDark, (Gtk.Container) table);
 	}
-	public static void ContrastLabelsNotebook (Gtk.Viewport v, Gtk.Notebook notebook)
+	public static void ContrastLabelsNotebook (bool bgDark, Gtk.Notebook notebook)
 	{
-		contrastLabelsContainer (v, (Gtk.Container) notebook);
+		contrastLabelsContainer (bgDark, (Gtk.Container) notebook);
 	}
 
-	private static void contrastLabelsContainer (Gtk.Viewport v, Gtk.Container container)
+	private static void contrastLabelsContainer (bool bgDark, Gtk.Container container)
 	{
 		foreach(Gtk.Widget w in container.Children)
 		{
 			if(w.GetType() == typeof(Gtk.Label))
-				labelDoContrastColor (v, (Gtk.Label) w);
+				labelDoContrastColor (bgDark, (Gtk.Label) w);
 
 			else if(w.GetType() == typeof(Gtk.Alignment))
 			{
 				Gtk.Widget child = ((Gtk.Alignment) w).Child;
 				if(isContainer(child))
-					contrastLabelsContainer (v, (Gtk.Container) child);
+					contrastLabelsContainer (bgDark, (Gtk.Container) child);
 			}
 			else if(isContainer(w))
-				contrastLabelsContainer (v, (Gtk.Container) w);
+				contrastLabelsContainer (bgDark, (Gtk.Container) w);
 		}
 	}
 
@@ -649,15 +653,15 @@ public class UtilGtk
 			);
 	}
 
-	private static void labelDoContrastColor (Gtk.Viewport v, Gtk.Label l)
+	private static void labelDoContrastColor (bool bgDark, Gtk.Label l)
 	{
-		if(ColorIsDark(v.Style.Background(StateType.Normal)))
+		if(bgDark)
 		{
 			l.ModifyFg(StateType.Normal, YELLOW_LIGHT);
 			l.ModifyFg(StateType.Active, YELLOW_LIGHT); //needed for CheckButton and RadioButton
 		} else {
 			l.ModifyFg(StateType.Normal, BLACK);
-//			l.ModifyFg(StateType.Active, BLACK);
+			//l.ModifyFg(StateType.Active, BLACK);
 		}
 	}
 	

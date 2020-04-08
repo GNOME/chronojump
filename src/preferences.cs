@@ -36,6 +36,7 @@ public class Preferences
 	public enum MenuTypes { ALL, TEXT, ICONS};
 	public MenuTypes menuType;
 	public string colorBackgroundString;
+	public bool colorBackgroundIsDark; //this is assigned when colorBackgroundString changes. And this is used by the rest of the program. Not stored on SQL.
 	public bool logoAnimatedShow;
 
 	public enum UnitsEnum { METRIC, IMPERIAL };

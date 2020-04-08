@@ -369,7 +369,10 @@ class SqlitePreferences : Sqlite
 				preferences.menuType = (Preferences.MenuTypes)
 					Enum.Parse(typeof(Preferences.MenuTypes), reader[1].ToString());
 			else if(reader[0].ToString() == ColorBackground)
+			{
 				preferences.colorBackgroundString = reader[1].ToString();
+				preferences.colorBackgroundIsDark = UtilGtk.ColorIsDark(reader[1].ToString());
+			}
 			else if(reader[0].ToString() == LogoAnimatedShow)
 				preferences.logoAnimatedShow = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == UnitsStr)

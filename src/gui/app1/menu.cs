@@ -63,6 +63,7 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.Button button_show_modes;
 	[Widget] Gtk.Button button_session_edit;
+	[Widget] Gtk.Button button_session_delete;
 	[Widget] Gtk.Button button_session_export;
 
 	[Widget] Gtk.Button button_menu_session_new;

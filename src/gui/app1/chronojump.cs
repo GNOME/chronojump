@@ -2474,8 +2474,9 @@ public partial class ChronoJumpWindow
 			sessionAddEditWin.FakeButtonAccept.Clicked -= new EventHandler(on_edit_session_accepted);
 			sessionAddEditWin.FakeButtonAccept.Clicked += new EventHandler(on_edit_session_accepted);
 
-			sessionAddEditWin.FakeButtonDelete.Clicked -= new EventHandler(on_delete_session_activate);
-			sessionAddEditWin.FakeButtonDelete.Clicked += new EventHandler(on_delete_session_activate);
+			//disabled on edit, now has its own window
+			//sessionAddEditWin.FakeButtonDelete.Clicked -= new EventHandler(on_delete_session_activate);
+			//sessionAddEditWin.FakeButtonDelete.Clicked += new EventHandler(on_delete_session_activate);
 		}
 	}
 	
@@ -2565,7 +2566,7 @@ public partial class ChronoJumpWindow
 	private void on_delete_session_activate (object o, EventArgs args) 
 	{
 		LogB.Information("--- delete session ---");
-		sessionAddEditWin.HideAndNull();
+		//sessionAddEditWin.HideAndNull(); //delete session signal does not come now from sessionAddEditWin
 		
 		if(currentSession.Name == Constants.SessionSimulatedName)
 			new DialogMessage(Constants.MessageTypes.INFO, Constants.SessionProtectedStr());
@@ -6962,6 +6963,7 @@ LogB.Debug("mc finished 5");
 	private void menuSessionSensitive(bool option)
 	{
 		button_session_edit.Sensitive = option;
+		button_session_delete.Sensitive = option;
 
 		menuitem_export_csv.Sensitive = option;
 		button_session_export.Sensitive = option;

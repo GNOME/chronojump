@@ -73,6 +73,7 @@ src/gui/app1/run.cs
 src/gui/app1/sessionLoadAndImport.cs
 src/gui/chronopic.cs
 src/gui/chronopicRegister.cs
+src/gui/confirm.cs
 src/gui/convertWeight.cs
 src/gui/dialogThreshold.cs
 src/gui/encoderConfiguration.cs

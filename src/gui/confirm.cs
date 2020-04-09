@@ -25,6 +25,7 @@ using Glade;
 using GLib; //for Value
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
+using Mono.Unix;
 
 
 public class ConfirmWindowJumpRun
@@ -43,6 +44,7 @@ public class ConfirmWindowJumpRun
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "confirm_window.glade", "confirm_window", "chronojump");
 		gladeXML.Autoconnect(this);
 		
+		confirm_window.Title = "Chronojump - " + Catalog.GetString("Confirm");
 		//put an icon to window
 		UtilGtk.IconWindow(confirm_window);
 		
@@ -109,6 +111,7 @@ public class ConfirmWindow
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "confirm_window.glade", "confirm_window", null);
 		gladeXML.Autoconnect(this);
 		
+		confirm_window.Title = "Chronojump - " + Catalog.GetString("Confirm");
 		//put an icon to window
 		UtilGtk.IconWindow(confirm_window);
 		

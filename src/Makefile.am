@@ -17,8 +17,9 @@ SOURCES = \
 	gui/app1/contactsExercise.cs\
 	gui/app1/forceSensor.cs\
 	gui/app1/forceSensorAnalyze.cs\
-	gui/app1/sessionLoadAndImport.cs\
-	gui/app1/sessionDelete.cs\
+	gui/app1/session/delete.cs\
+	gui/app1/session/loadAndImport.cs\
+	gui/app1/session/main.cs\
 	gui/app1/jump.cs\
 	gui/app1/menu.cs\
 	gui/app1/menu_tiny.cs\

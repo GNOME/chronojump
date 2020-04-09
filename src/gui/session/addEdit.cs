@@ -527,12 +527,10 @@ public class SessionAddEditWindow
 		}
 	}
 
-	/*
 	private void on_button_delete_clicked (object o, EventArgs args)
 	{
-		FakeButtonDelete.Click();
+		//FakeButtonDelete.Click();
 	}
-	*/
 
 	void on_button_cancel_clicked (object o, EventArgs args)
 	{

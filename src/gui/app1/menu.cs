@@ -179,6 +179,9 @@ public partial class ChronoJumpWindow
 		//	maxWidth = frame_persons.SizeRequest().Width;
 
 		viewport_menu_top.SetSizeRequest(maxWidth, -1); //-1 is height
+
+		viewport_image_logo_contacts.Visible = true;
+		viewport_image_logo_encoder.Visible = true;
 	}
 
 	private void menuSetTextAndIcons ()

@@ -75,6 +75,9 @@ public partial class ChronoJumpWindow
 		if(check_menu_help1.Active)
 			check_menu_help1.Active = false;
 		alignment_menu_help_options1.Visible = false;
+
+		viewport_image_logo_contacts.Visible = false;
+		viewport_image_logo_encoder.Visible = false;
 	}
 
 	private void menuTinySetColors ()

@@ -43,7 +43,6 @@ public partial class ChronoJumpWindow
 	private string app1s_import_file_path;
 	private int app1s_notebook_sup_entered_from; //to store from which page we entered (to return at it)
 
-	[Widget] Gtk.Notebook app1s_notebook;
 	[Widget] Gtk.Label app1s_label_select;
 
 	/*
@@ -60,51 +59,7 @@ public partial class ChronoJumpWindow
 	 * fakeButton_cancel_maybeDatabaseSwitched.Click();
 	 */
 
-	//notebook tab 0
-	//notebook tab 1
-	[Widget] Gtk.HBox hbox_session_more;
-	[Widget] Gtk.VBox vbox_session_overview;
-	[Widget] Gtk.RadioButton app1s_radio_import_new_session;
-	[Widget] Gtk.RadioButton app1s_radio_import_current_session;
-	[Widget] Gtk.Image app1s_image_open_database;
-	[Widget] Gtk.Label app1s_label_open_database_file;
-	[Widget] Gtk.Button app1s_button_select_file_import_same_database;
-
-	//notebook tab 2
-	[Widget] Gtk.TreeView app1s_treeview_session_load;
-	[Widget] Gtk.Button app1s_button_accept;
-	[Widget] Gtk.Button app1s_button_import;
-	[Widget] Gtk.Image app1s_image_import;
-	[Widget] Gtk.Entry app1s_entry_search_filter;
-	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_jump_run;
-	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_other_tests;
-	[Widget] Gtk.Label app1s_file_path_import;
-	[Widget] Gtk.Notebook app1s_notebook_load_button_animation;
-	[Widget] Gtk.HButtonBox app1s_hbuttonbox_page2_import;
-	[Widget] Gtk.VBox app1s_vbox_notebook_load;
-
-	//notebook tab 3
-	[Widget] Gtk.Label app1s_label_import_session_name;
-	[Widget] Gtk.Label app1s_label_import_file;
-	[Widget] Gtk.Button app1s_button_import_confirm_accept;
-
-	//notebook tab 4
-	[Widget] Gtk.ProgressBar app1s_progressbarImport;
-	[Widget] Gtk.Label app1s_label_import_done_at_new_session;
-	[Widget] Gtk.Label app1s_label_import_done_at_current_session;
-	[Widget] Gtk.ScrolledWindow app1s_scrolledwindow_import_error;
-	[Widget] Gtk.TextView app1s_textview_import_error;
-	[Widget] Gtk.Image app1s_image_import1;
-	[Widget] Gtk.HButtonBox app1s_hbuttonbox_page4;
-
 	private app1s_windowType app1s_type;
-
-	const int app1s_PAGE_MODES = 0;
-	const int app1s_PAGE_IMPORT_START = 1;
-	const int app1s_PAGE_SELECT_SESSION = 2; //for load session and for import
-	public const int app1s_PAGE_IMPORT_CONFIRM = 3;
-	public const int app1s_PAGE_IMPORT_RESULT = 4;
-	public const int app1s_PAGE_DELETE_CONFIRM = 5;
 
 	private void app1s_initializeGui()
 	{
@@ -561,12 +516,6 @@ public partial class ChronoJumpWindow
 			notebook_start_selector.CurrentPage = 0;
 	}
 
-	// ---- notebook page 0 buttons ----
-	void app1s_on_button_close0_clicked (object o, EventArgs args)
-	{
-		menus_sensitive_import_not_danger(true);
-		notebook_supSetOldPage();
-	}
 
 	// ---- notebook page 1 buttons ----
 	void app1s_on_button_cancel1_clicked (object o, EventArgs args)

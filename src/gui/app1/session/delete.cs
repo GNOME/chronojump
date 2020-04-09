@@ -33,6 +33,7 @@ public partial class ChronoJumpWindow
 
 	private void on_app1s_delete_session_confirm_start (object o, EventArgs args)
 	{
+		//first show notebook tab in order to ensure the .Visible = true will work
 		app1s_notebook.CurrentPage = app1s_PAGE_DELETE_CONFIRM;
 
 		app1s_vbox_delete_question.Visible = false;

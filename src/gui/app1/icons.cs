@@ -27,6 +27,7 @@ using Glade;
 public partial class ChronoJumpWindow 
 {
 	[Widget] Gtk.Image image_mode_main_menu;
+	[Widget] Gtk.Image image_logo_icon;
 	//[Widget] Gtk.Image image_home;
 	//[Widget] Gtk.Image image_home1;
 	[Widget] Gtk.Image image_settings2;
@@ -83,6 +84,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_add_test5;
 	[Widget] Gtk.Image image_test_inspect;
 	[Widget] Gtk.Image image_test_inspect1;
+	[Widget] Gtk.Image image_logo_contacts;
+	[Widget] Gtk.Image image_logo_encoder;
+	[Widget] Gtk.Viewport viewport_image_logo_contacts;
+	[Widget] Gtk.Viewport viewport_image_logo_encoder;
 
 	[Widget] Gtk.Image image_selector_start_jumps;
 	[Widget] Gtk.Image image_selector_start_runs;
@@ -507,6 +512,16 @@ public partial class ChronoJumpWindow
 		/*
 		 * <------ end of material design icons
 		 */
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogo);
+		image_logo_contacts.Pixbuf = pixbuf;
+		image_logo_encoder.Pixbuf = pixbuf;
+
+		UtilGtk.ViewportColor(viewport_image_logo_contacts, UtilGtk.BLUE_CHRONOJUMP);
+		UtilGtk.ViewportColor(viewport_image_logo_encoder, UtilGtk.BLUE_CHRONOJUMP);
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameIcon);
+		image_logo_icon.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "selector-jumps.png");
 		image_selector_start_jumps.Pixbuf = pixbuf;

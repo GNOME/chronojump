@@ -64,6 +64,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_menu_help_about1;
 	[Widget] Gtk.Image image_menu_quit1;
 
+	[Widget] Gtk.Viewport viewport_image_logo_icon;
+
+
 	private void menuTinyInitialize ()
 	{
 		menuTinySetColors();
@@ -81,6 +84,7 @@ public partial class ChronoJumpWindow
 		UtilGtk.ViewportColor(viewport_hpaned_contacts_main, color);
 		UtilGtk.ViewportColor(viewport_rest_time_contacts, color);
 		UtilGtk.ViewportColor(viewport_rest_time_encoder, color);
+		UtilGtk.ViewportColor(viewport_image_logo_icon, UtilGtk.BLUE_CHRONOJUMP);
 
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_show_modes1, UtilGtk.YELLOW);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_session1, UtilGtk.YELLOW);

@@ -104,6 +104,7 @@ public partial class ChronoJumpWindow
 	const int app1s_PAGE_SELECT_SESSION = 2; //for load session and for import
 	public const int app1s_PAGE_IMPORT_CONFIRM = 3;
 	public const int app1s_PAGE_IMPORT_RESULT = 4;
+	public const int app1s_PAGE_DELETE_CONFIRM = 5;
 
 	private void app1s_initializeGui()
 	{
@@ -573,7 +574,7 @@ public partial class ChronoJumpWindow
 		app1s_notebook.CurrentPage = app1s_PAGE_MODES;
 
 		reloadSession(); //explained at top of the file.
-		//but now show persons, show menu:
+		//but after reloading session do not show persons, show menu:
 		radio_show_menu.Toggle();
 		radio_show_menu.Active = true;
 	}

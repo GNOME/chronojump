@@ -209,7 +209,6 @@ public partial class ChronoJumpWindow
 
 	//menu session
 	[Widget] Gtk.MenuItem menuitem_edit_session;
-	[Widget] Gtk.MenuItem menuitem_delete_session;
 	[Widget] Gtk.MenuItem menuitem_export_csv;
 	[Widget] Gtk.Image image_session_open;
 
@@ -2562,31 +2561,6 @@ public partial class ChronoJumpWindow
 		chronojumpWindowTestsNext();
 	}
 	
-
-	private void on_delete_session_activate (object o, EventArgs args) 
-	{
-		LogB.Information("--- delete session ---");
-		//sessionAddEditWin.HideAndNull(); //delete session signal does not come now from sessionAddEditWin
-		
-		if(currentSession.Name == Constants.SessionSimulatedName)
-			new DialogMessage(Constants.MessageTypes.INFO, Constants.SessionProtectedStr());
-		else {
-			ConfirmWindow confirmWin = ConfirmWindow.Show(
-					Catalog.GetString("Are you sure you want to delete the current session") + "\n<b>" + currentSession.Name + "</b>",
-					"", Catalog.GetString("and all the session tests?"));
-			confirmWin.Button_accept.Clicked += new EventHandler(on_delete_session_accepted);
-		}
-	}
-	
-	private void on_delete_session_accepted (object o, EventArgs args) 
-	{
-		string sessionUniqueID = currentSession.UniqueID.ToString ();
-		closeSession ();
-
-		SqliteSession.DeleteAllStuff(sessionUniqueID);
-		new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Deleted session and all its tests."));
-	}
-
 	private void closeSession()
 	{
 		setApp1Title("", current_menuitem_mode);

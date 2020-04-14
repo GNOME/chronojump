@@ -2246,9 +2246,17 @@ public partial class ChronoJumpWindow
 			on_quit2_activate(new object(), new EventArgs());
 		
 		*/
+		notebook_start.CurrentPage = 3;
+	}
+
+	private void on_button_exit_cancel_clicked (object o, EventArgs args)
+	{
+		notebook_start.CurrentPage = 0;
+	}
+	private void on_button_exit_confirm_clicked (object o, EventArgs args)
+	{
 		on_quit2_activate(new object(), new EventArgs());
 	}
-		
 
 	private void on_quit2_activate (object o, EventArgs args)
 	{

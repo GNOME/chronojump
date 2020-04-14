@@ -2528,6 +2528,10 @@ public partial class ChronoJumpWindow
 
 		if( ! configChronojump.PersonWinHide) {
 			alignment_buttons_menu_and_persons.Visible = true;
+			radio_show_menu_and_persons_adjust_height(
+				UtilGtk.ColorIsOkWithLogoTransparent(UtilGtk.ColorParse(
+						preferences.colorBackgroundString)));
+
 			//on_radio_show_persons_clicked (new object (), new EventArgs ());
 			radio_show_persons.Active = true;
 		}

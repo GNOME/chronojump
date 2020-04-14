@@ -508,6 +508,24 @@ public class UtilGtk
 		return ColorIsDark(ColorParse(colorString));
 	}
 
+	//if color is too white or too yellow, it will not be ok
+	public static bool ColorIsOkWithLogoTransparent (Gdk.Color color)
+	{
+		return ( ! colorIsQuiteClear(color) && ! colorIsYellow(color) );
+	}
+
+	//if is very clear it does not show ok the yellow of Boscosystem letters (also if it is clear blue)
+	private static bool colorIsQuiteClear (Gdk.Color color)
+	{
+		return (color.Red > 150 * 256 && color.Green > 150 * 256  && color.Blue > 150 * 256);
+	}
+
+	//yellow is red + green
+	private static bool colorIsYellow (Gdk.Color color)
+	{
+		return (color.Red > 200 * 256 && color.Green > 200 * 256 && color.Blue < 50 * 256);
+	}
+
 	public static Gdk.Color GetBackgroundColorSelected() {
 		Gtk.Style regularLabel = Gtk.Rc.GetStyle (new Gtk.Label());
 

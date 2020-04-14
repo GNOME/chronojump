@@ -11,7 +11,7 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg2"
    version="1.1"
-   inkscape:version="0.92.1 r15371"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
    width="14.692999cm"
    height="3.9433639cm"
    sodipodi:docname="chronojump-logo-2013.svg"
@@ -61,10 +61,10 @@
      inkscape:window-height="1017"
      id="namedview4"
      showgrid="false"
-     inkscape:zoom="1.0550977"
-     inkscape:cx="-22.243206"
-     inkscape:cy="-5.9361894"
-     inkscape:window-x="0"
+     inkscape:zoom="0.62955684"
+     inkscape:cx="925.9942"
+     inkscape:cy="2472.0668"
+     inkscape:window-x="1366"
      inkscape:window-y="26"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg2"
@@ -165,7 +165,10 @@
   <g
      id="g3810"
      transform="matrix(0.56753851,0,0,0.56753851,-270.57803,-2799.3775)"
-     style="stroke-width:1.76199496">
+     style="stroke-width:1.76199496"
+     inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/chronojump-logo-transparent-40h.png"
+     inkscape:export-xdpi="55.350571"
+     inkscape:export-ydpi="55.350571">
     <text
        inkscape:export-ydpi="155.58435"
        inkscape:export-xdpi="155.58435"

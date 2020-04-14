@@ -26,7 +26,7 @@ public partial class ChronoJumpWindow
 {
 	[Widget] Gtk.VBox app1s_vbox_delete_question;
 	[Widget] Gtk.Label app1s_label_delete_session_confirm_name;
-	[Widget] Gtk.VButtonBox app1s_vbuttonbox_delete_accept_cancel;
+	[Widget] Gtk.HButtonBox app1s_hbuttonbox_delete_accept_cancel;
 	[Widget] Gtk.Label app1s_label_delete_cannot;
 	[Widget] Gtk.Label app1s_label_delete_done;
 	[Widget] Gtk.Button app1s_button_delete_close;
@@ -38,7 +38,7 @@ public partial class ChronoJumpWindow
 
 		app1s_vbox_delete_question.Visible = false;
 		app1s_label_delete_session_confirm_name.Visible = false;
-		app1s_vbuttonbox_delete_accept_cancel.Visible = false;
+		app1s_hbuttonbox_delete_accept_cancel.Visible = false;
 
 		app1s_label_delete_cannot.Visible = false;
 		app1s_label_delete_done.Visible = false;
@@ -57,7 +57,7 @@ public partial class ChronoJumpWindow
 			app1s_label_delete_session_confirm_name.UseMarkup = true;
 			app1s_label_delete_session_confirm_name.Visible = true;
 
-			app1s_vbuttonbox_delete_accept_cancel.Visible = true;
+			app1s_hbuttonbox_delete_accept_cancel.Visible = true;
 		}
 	}
 	
@@ -70,7 +70,7 @@ public partial class ChronoJumpWindow
 		
 		app1s_vbox_delete_question.Visible = false;
 		app1s_label_delete_session_confirm_name.Visible = false;
-		app1s_vbuttonbox_delete_accept_cancel.Visible = false;
+		app1s_hbuttonbox_delete_accept_cancel.Visible = false;
 
 		app1s_label_delete_done.Visible = true;
 		app1s_button_delete_close.Visible = true;

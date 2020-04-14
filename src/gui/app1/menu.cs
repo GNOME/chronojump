@@ -32,6 +32,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Arrow arrow_menu_show_session_down;
 	[Widget] Gtk.Arrow arrow_menu_show_help_up;
 	[Widget] Gtk.Arrow arrow_menu_show_help_down;
+	[Widget] Gtk.HBox hbox_radio_show_menu_and_persons;
 	[Widget] Gtk.RadioButton radio_show_menu;
 	[Widget] Gtk.RadioButton radio_show_persons;
 	[Widget] Gtk.HPaned hpaned_contacts_main;
@@ -180,8 +181,28 @@ public partial class ChronoJumpWindow
 
 		viewport_menu_top.SetSizeRequest(maxWidth, -1); //-1 is height
 
-		viewport_image_logo_contacts.Visible = true;
+		if(UtilGtk.ColorIsOkWithLogoTransparent (UtilGtk.ColorParse(preferences.colorBackgroundString)))
+		{
+			frame_logo_contacts.Visible = false;
+			image_logo_contacts_transp.Visible = true;
+			radio_show_menu_and_persons_adjust_height(true);
+		} else {
+			frame_logo_contacts.Visible = true;
+			image_logo_contacts_transp.Visible = false;
+			radio_show_menu_and_persons_adjust_height(false);
+		}
+
 		viewport_image_logo_encoder.Visible = true;
+	}
+
+	private void radio_show_menu_and_persons_adjust_height(bool toTransparentImage)
+	{
+		if(toTransparentImage)
+			hbox_radio_show_menu_and_persons.SetSizeRequest
+				(-1, image_logo_contacts_transp.SizeRequest().Height);
+		else
+			hbox_radio_show_menu_and_persons.SetSizeRequest
+				(-1, frame_logo_contacts.SizeRequest().Height);
 	}
 
 	private void menuSetTextAndIcons ()

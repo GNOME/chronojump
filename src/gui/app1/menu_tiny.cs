@@ -76,8 +76,18 @@ public partial class ChronoJumpWindow
 			check_menu_help1.Active = false;
 		alignment_menu_help_options1.Visible = false;
 
-		viewport_image_logo_contacts.Visible = false;
+		image_logo_contacts_transp.Visible = false;
+		frame_logo_contacts.Visible = false;
 		viewport_image_logo_encoder.Visible = false;
+
+		if(UtilGtk.ColorIsOkWithLogoTransparent (UtilGtk.ColorParse(preferences.colorBackgroundString)))
+		{
+			image_logo_icon_transp.Visible = true;
+			frame_image_logo_icon.Visible = false;
+		} else {
+			image_logo_icon_transp.Visible = false;
+			frame_image_logo_icon.Visible = true;
+		}
 	}
 
 	private void menuTinySetColors ()

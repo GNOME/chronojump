@@ -24909,6 +24909,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -27201,18 +27204,6 @@ Concentric</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Tests will be filmed</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack_type">end</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <widget class="GtkHBox" id="hbox_video_encoder_capturing">
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
@@ -27240,6 +27231,18 @@ Concentric</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Tests will be filmed</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -35000,6 +35003,9 @@ then click this button.</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -35492,7 +35498,7 @@ then click this button.</property>
                                             <property name="show_tabs">False</property>
                                             <property name="show_border">False</property>
                                             <child>
-                                              <widget class="GtkHBox" id="hbox374">
+                                              <widget class="GtkHBox" id="hbox21_session_more">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <child>
@@ -35922,7 +35928,7 @@ then click this button.</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkHBox" id="hbox93">
+                                              <widget class="GtkHBox" id="hbox_session_import">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <child>
@@ -36264,7 +36270,7 @@ then click this button.</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkVBox" id="app1s_vbox_notebook_load">
+                                              <widget class="GtkVBox" id="vbox_session_load_or_import_select">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="border_width">4</property>
@@ -36591,7 +36597,7 @@ then click this button.</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkHBox" id="hbox394">
+                                              <widget class="GtkHBox" id="hbox_session_import_to_current">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <child>
@@ -36917,7 +36923,7 @@ then click this button.</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkHBox" id="hbox389">
+                                              <widget class="GtkHBox" id="hbox_session_import_confirm">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <child>
@@ -37236,7 +37242,7 @@ then click this button.</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkHBox" id="hbox402">
+                                              <widget class="GtkHBox" id="hbox_session_delete">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <child>
@@ -37404,7 +37410,7 @@ then click this button.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkVButtonBox" id="app1s_vbuttonbox_delete_accept_cancel">
+                                                            <widget class="GtkHButtonBox" id="app1s_hbuttonbox_delete_accept_cancel">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">20</property>
@@ -37443,8 +37449,8 @@ then click this button.</property>
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
                                                             <property name="pack_type">end</property>
                                                             <property name="position">2</property>
                                                             </packing>
@@ -38464,13 +38470,13 @@ then click this button.</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <child>
-                                          <widget class="GtkButton" id="button_exit_cancel">
-                                            <property name="label">gtk-cancel</property>
+                                          <widget class="GtkButton" id="button_exit_confirm">
+                                            <property name="label">gtk-quit</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
                                             <property name="use_stock">True</property>
-                                            <signal name="clicked" handler="on_button_exit_cancel_clicked" swapped="no"/>
+                                            <signal name="clicked" handler="on_button_exit_confirm_clicked" swapped="no"/>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -38479,13 +38485,13 @@ then click this button.</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkButton" id="button_exit_confirm">
-                                            <property name="label">gtk-quit</property>
+                                          <widget class="GtkButton" id="button_exit_cancel">
+                                            <property name="label">gtk-cancel</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
                                             <property name="use_stock">True</property>
-                                            <signal name="clicked" handler="on_button_exit_confirm_clicked" swapped="no"/>
+                                            <signal name="clicked" handler="on_button_exit_cancel_clicked" swapped="no"/>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>

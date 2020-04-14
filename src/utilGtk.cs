@@ -498,7 +498,10 @@ public class UtilGtk
 	{
 		//LogB.Information(string.Format("color red: {0}, green: {1}, blue: {2}", color.Red, color.Green, color.Blue));
 		//3 components come in ushort (0-65535)
-		return (color.Red + color.Green + color.Blue < 3 * 65535 / 2.0);
+		//return (color.Red + color.Green + color.Blue < 3 * 65535 / 2.0);
+
+		//https://stackoverflow.com/questions/3942878/how-to-decide-font-color-in-white-or-black-depending-on-background-color
+		return (color.Red * 0.299 + color.Green * 0.587 + color.Blue * 0.114 < 186 * 256);
 	}
 	public static bool ColorIsDark(string colorString)
 	{

@@ -90,7 +90,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_logo_contacts;
 	[Widget] Gtk.Image image_logo_contacts_transp;
 	[Widget] Gtk.Image image_logo_encoder;
+	[Widget] Gtk.Image image_logo_encoder_transp;
 	[Widget] Gtk.Frame frame_logo_contacts;
+	[Widget] Gtk.Frame frame_logo_encoder;
 	[Widget] Gtk.Viewport viewport_image_logo_contacts;
 	[Widget] Gtk.Viewport viewport_image_logo_encoder;
 
@@ -519,11 +521,12 @@ public partial class ChronoJumpWindow
 		 */
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogo); //44 px height
+		image_logo_contacts.Pixbuf = pixbuf;
 		image_logo_encoder.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogoTransparent40h); //40 px heigh
-		image_logo_contacts.Pixbuf = pixbuf;
 		image_logo_contacts_transp.Pixbuf = pixbuf;
+		image_logo_encoder_transp.Pixbuf = pixbuf;
 
 		UtilGtk.ViewportColor(viewport_image_logo_contacts, UtilGtk.BLUE_CHRONOJUMP);
 		UtilGtk.ViewportColor(viewport_image_logo_encoder, UtilGtk.BLUE_CHRONOJUMP);

@@ -25957,8 +25957,7 @@ Concentric</property>
                                                   </packing>
                                                 </child>
                                                 <child>
-                                                  <widget class="GtkFrame" id="frame19">
-                                                    <property name="visible">True</property>
+                                                  <widget class="GtkFrame" id="frame_logo_encoder">
                                                     <property name="can_focus">False</property>
                                                     <property name="label_xalign">0</property>
                                                     <property name="label_yalign">1</property>
@@ -25989,6 +25988,18 @@ Concentric</property>
                                                     <property name="fill">False</property>
                                                     <property name="pack_type">end</property>
                                                     <property name="position">2</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkImage" id="image_logo_encoder_transp">
+                                                    <property name="can_focus">False</property>
+                                                    <property name="stock">gtk-missing-image</property>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="pack_type">end</property>
+                                                    <property name="position">3</property>
                                                   </packing>
                                                 </child>
                                               </widget>

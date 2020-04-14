@@ -479,6 +479,7 @@ public partial class ChronoJumpWindow
 	
 	private string progVersion;
 	private string progName;
+	private enum notebook_start_pages { PROGRAM, SENDLOG, NETWORKSPROBLEMS, EXITCONFIRM }
 	private enum notebook_sup_pages { START, CONTACTS, ENCODER, SESSION }
 	private enum notebook_analyze_pages { STATISTICS, JUMPSPROFILE, JUMPSDJOPTIMALFALL, JUMPSWEIGHTFVPROFILE, JUMPSEVOLUTION, SPRINT, FORCESENSOR, RACEENCODER }
 
@@ -567,7 +568,7 @@ public partial class ChronoJumpWindow
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.START);
 		else {
 			show_send_log(sendLogMessage, preferences.crashLogLanguage);
-			notebook_start.CurrentPage = 1; //send log
+			notebook_start.CurrentPage = Convert.ToInt32(notebook_start_pages.SENDLOG);
 		}
 
 		if(showCameraStop)
@@ -2246,12 +2247,12 @@ public partial class ChronoJumpWindow
 			on_quit2_activate(new object(), new EventArgs());
 		
 		*/
-		notebook_start.CurrentPage = 3;
+		notebook_start.CurrentPage = Convert.ToInt32(notebook_start_pages.EXITCONFIRM);
 	}
 
 	private void on_button_exit_cancel_clicked (object o, EventArgs args)
 	{
-		notebook_start.CurrentPage = 0;
+		notebook_start.CurrentPage = Convert.ToInt32(notebook_start_pages.PROGRAM);
 	}
 	private void on_button_exit_confirm_clicked (object o, EventArgs args)
 	{
@@ -3124,7 +3125,7 @@ public partial class ChronoJumpWindow
 
 
 		//show the program
-		notebook_start.CurrentPage = 0;
+		notebook_start.CurrentPage = Convert.ToInt32(notebook_start_pages.PROGRAM);
 
 		//show persons
 		if( currentSession != null && ! configChronojump.PersonWinHide) {
@@ -7328,7 +7329,7 @@ LogB.Debug("mc finished 5");
 	{
 		chronopicRegisterUpdate(false);
 		if(chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ENCODER) > 0)
-			notebook_start.CurrentPage = 0;
+			notebook_start.CurrentPage = Convert.ToInt32(notebook_start_pages.PROGRAM);
 	}
 
 	//trying to fix when an OSX disconnects and reconnects same chronopic (and it has captured)

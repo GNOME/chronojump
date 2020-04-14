@@ -3971,7 +3971,7 @@
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
-                                                            <widget class="GtkNotebook" id="notebook_start_selector">
+                                                            <widget class="GtkNotebook" id="notebook_mode_selector">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="show_tabs">False</property>
@@ -4544,7 +4544,7 @@
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">30</property>
                                                             <child>
-                                                            <widget class="GtkNotebook" id="notebook_start_selector2">
+                                                            <widget class="GtkNotebook" id="notebook_mode_selector2">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="show_tabs">False</property>

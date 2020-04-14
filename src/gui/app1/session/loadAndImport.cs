@@ -511,9 +511,9 @@ public partial class ChronoJumpWindow
 	{
 		notebook_sup.CurrentPage = app1s_notebook_sup_entered_from;
 
-		//but if it is start page, ensure notebook_start_selector is 0
+		//but if it is start page, ensure notebook_mode_selector is 0
 		if(notebook_sup.CurrentPage == Convert.ToInt32(notebook_sup_pages.START))
-			notebook_start_selector.CurrentPage = 0;
+			notebook_mode_selector.CurrentPage = 0;
 	}
 
 

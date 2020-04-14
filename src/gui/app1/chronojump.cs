@@ -70,8 +70,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ImageMenuItem menuitem_mode_other;
 
 	[Widget] Gtk.Notebook notebook_start; 		//start window or program
-	[Widget] Gtk.Notebook notebook_start_selector; 	//use to display the start images to select different modes
-	[Widget] Gtk.Notebook notebook_start_selector2; //for selection of jumps, runs, runs photocell, encoder
+	[Widget] Gtk.Notebook notebook_mode_selector; 	//use to display the mode images to select different modes
+	[Widget] Gtk.Notebook notebook_mode_selector2; //for selection of jumps, runs, runs photocell, encoder
 	[Widget] Gtk.Table table_start_selector_rt_other;
 	[Widget] Gtk.Button button_start_selector_show_more;
 	[Widget] Gtk.Button button_start_selector_show_less;
@@ -2763,7 +2763,7 @@ public partial class ChronoJumpWindow
 
 	private void show_start_page()
 	{
-		notebook_start_selector.CurrentPage = 0;
+		notebook_mode_selector.CurrentPage = 0;
 		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.START);
 
 		//show title
@@ -3314,8 +3314,8 @@ public partial class ChronoJumpWindow
 
 	private void on_button_selector_start_jumps_clicked(object o, EventArgs args) 
 	{
-		notebook_start_selector2.CurrentPage = 0; //jumps
-		notebook_start_selector.CurrentPage = 1; //2nd selector
+		notebook_mode_selector2.CurrentPage = 0; //jumps
+		notebook_mode_selector.CurrentPage = 1; //2nd selector
 	}
 	private void on_button_selector_start_jumps_simple_clicked(object o, EventArgs args) 
 	{
@@ -3328,13 +3328,13 @@ public partial class ChronoJumpWindow
 	
 	private void on_button_selector_start_runs_clicked(object o, EventArgs args) 
 	{
-		notebook_start_selector2.CurrentPage = 1; //runs
-		notebook_start_selector.CurrentPage = 1; //2nd selector
+		notebook_mode_selector2.CurrentPage = 1; //runs
+		notebook_mode_selector.CurrentPage = 1; //2nd selector
 	}
 	private void on_button_selector_start_runs_photocell_clicked(object o, EventArgs args)
 	{
-		notebook_start_selector2.CurrentPage = 2; //runs photocell
-		notebook_start_selector.CurrentPage = 1; //2nd selector
+		notebook_mode_selector2.CurrentPage = 2; //runs photocell
+		notebook_mode_selector.CurrentPage = 1; //2nd selector
 	}
 	private void on_button_selector_start_runs_simple_clicked(object o, EventArgs args)
 	{
@@ -3351,8 +3351,8 @@ public partial class ChronoJumpWindow
 	
 	private void on_button_selector_start_encoder_clicked(object o, EventArgs args) 
 	{
-		notebook_start_selector2.CurrentPage = 3; //encoder
-		notebook_start_selector.CurrentPage = 1; //2nd selector
+		notebook_mode_selector2.CurrentPage = 3; //encoder
+		notebook_mode_selector.CurrentPage = 1; //2nd selector
 	}
 
 	private void on_button_selector_start_encoder_gravitatory_clicked(object o, EventArgs args) 
@@ -3381,10 +3381,10 @@ public partial class ChronoJumpWindow
 
 	private void on_button_start_back_clicked(object o, EventArgs args)
 	{
-		if(notebook_start_selector2.CurrentPage == 2) //runs photocell
-			notebook_start_selector2.CurrentPage = 1; //runs
+		if(notebook_mode_selector2.CurrentPage == 2) //runs photocell
+			notebook_mode_selector2.CurrentPage = 1; //runs
 		else
-			notebook_start_selector.CurrentPage = 0; //main
+			notebook_mode_selector.CurrentPage = 0; //main
 	}
 
 	/*

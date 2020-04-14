@@ -543,6 +543,7 @@ RESOURCES = \
 	../images/md/folders_blue.png,image_folders.png \
 	../images/md/baseline_help_blue_24dp.png,image_help.png \
 	../images/chronojump_icon.png,chronojump_icon.png \
+	../images/chronojump_icon_transp.png,chronojump_icon_transp.png \
 	../images/chronojump_icon_graph.png,chronojump_icon_graph.png \
 	../images/stock_right.png,stock_right.png \
 	../images/stock_right_left.png,stock_right_left.png \
@@ -578,6 +579,7 @@ RESOURCES = \
 	../images/import-csv-name-2-columns.png,import-csv-name-2-columns.png \
 	../images/calendar.png,calendar.png \
 	../images/chronojump-logo-transparent.png,chronojump-logo-transparent.png \
+	../images/chronojump-logo-transparent-40h.png,chronojump-logo-transparent-40h.png \
 	../images/chronojump-logo-2013_320.png,chronojump-logo-2013_320.png \
 	../images/chronojump-logo-2013.png,chronojump-logo-2013.png \
 	../images/muscle-concentric.png,muscle-concentric.png \

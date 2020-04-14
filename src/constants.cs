@@ -558,8 +558,10 @@ public class Constants
 	public static string FileNameLogoTransparent = "chronojump-logo-transparent.png";
 	public static string FileNameLogo = "chronojump-logo-2013.png";
 	public static string FileNameLogo320 = "chronojump-logo-2013_320.png";
+	public static string FileNameLogoTransparent40h = "chronojump-logo-transparent-40h.png";
 	public static string FileNameCSS = "report_web_style.css";
 	public static string FileNameIcon = "chronojump_icon.png";
+	public static string FileNameIconTransp = "chronojump_icon_transp.png";
 	public static string FileNameIconGraph = "chronojump_icon_graph.png";
 	public static string FileNameVersion = "version.txt";
 	

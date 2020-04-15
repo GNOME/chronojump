@@ -18,6 +18,7 @@ SOURCES = \
 	gui/app1/forceSensor.cs\
 	gui/app1/forceSensorAnalyze.cs\
 	gui/app1/session/delete.cs\
+	gui/app1/session/addEdit.cs\
 	gui/app1/session/loadAndImport.cs\
 	gui/app1/session/main.cs\
 	gui/app1/jump.cs\
@@ -67,7 +68,6 @@ SOURCES = \
 	gui/person/showAllEvents.cs\
 	gui/preferences.cs\
 	gui/sendLog.cs\
-	gui/session/addEdit.cs\
 	gui/session/selectStats.cs\
 	gui/stats.cs\
 	gui/presentation.cs\
@@ -298,7 +298,6 @@ RESOURCES = \
 	../glade/repetitive_conditions.glade \
 	../glade/report_window.glade \
 	../glade/run_type_add.glade \
-	../glade/session_add_edit.glade \
 	../glade/session_upload.glade \
 	../glade/splash_window.glade \
 	../glade/stats_select_sessions.glade \

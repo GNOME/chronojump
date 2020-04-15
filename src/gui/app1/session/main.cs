@@ -71,7 +71,9 @@ public partial class ChronoJumpWindow
 	public const int app1s_PAGE_IMPORT_CONFIRM = 3;
 	public const int app1s_PAGE_IMPORT_RESULT = 4;
 	public const int app1s_PAGE_DELETE_CONFIRM = 5;
+	public const int app1s_PAGE_ADD_EDIT = 6;
 
+	private int app1s_notebook_sup_entered_from; //to store from which page we entered (to return at it)
 
 	// ---- notebook page 0 buttons ----
 	void app1s_on_button_close0_clicked (object o, EventArgs args)
@@ -79,4 +81,14 @@ public partial class ChronoJumpWindow
 		menus_sensitive_import_not_danger(true);
 		notebook_supSetOldPage();
 	}
+
+	private void notebook_supSetOldPage()
+	{
+		notebook_sup.CurrentPage = app1s_notebook_sup_entered_from;
+
+		//but if it is start page, ensure notebook_mode_selector is 0
+		if(notebook_sup.CurrentPage == Convert.ToInt32(notebook_sup_pages.START))
+			notebook_mode_selector.CurrentPage = 0;
+	}
+
 }

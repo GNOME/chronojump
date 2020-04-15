@@ -438,7 +438,6 @@ public partial class ChronoJumpWindow
 	//windows needed
 	ChronopicRegisterWindow chronopicRegisterWin;
 	PreferencesWindow preferencesWin;
-	SessionAddEditWindow sessionAddEditWin;
 	PersonRecuperateWindow personRecuperateWin; 
 	PersonsRecuperateFromOtherSessionWindow personsRecuperateFromOtherSessionWin; 
 	PersonAddModifyWindow personAddModifyWin; 
@@ -2373,11 +2372,12 @@ public partial class ChronoJumpWindow
 	 *  --------------------------------------------------------
 	 */
 
-	private void on_new_activate (object o, EventArgs args) {
+	private void on_new_activate (object o, EventArgs args)
+	{
 		LogB.Information("new session");
-		sessionAddEditWin = SessionAddEditWindow.Show(app1, new Session());
-		sessionAddEditWin.FakeButtonAccept.Clicked -= new EventHandler(on_new_session_accepted);
-		sessionAddEditWin.FakeButtonAccept.Clicked += new EventHandler(on_new_session_accepted);
+		app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
+		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.SESSION);
+		sessionAddEditShow (true);
 	}
 
 	private void setApp1Title(string sessionName, Constants.Menuitem_modes mode)
@@ -2419,56 +2419,51 @@ public partial class ChronoJumpWindow
 		app1.Title = title;
 	}
 	
-	private void on_new_session_accepted (object o, EventArgs args) {
-		if(sessionAddEditWin.CurrentSession != null) 
-		{
-			currentSession = sessionAddEditWin.CurrentSession;
-			sessionAddEditWin.HideAndNull();
+	private void on_new_session_accepted ()
+	{
+		//serverUniqueID is undefined until session is updated
+		currentSession.ServerUniqueID = Constants.ServerUndefinedID;
 
-			//serverUniqueID is undefined until session is updated
-			currentSession.ServerUniqueID = Constants.ServerUndefinedID;
+		setApp1Title(currentSession.Name, current_menuitem_mode);
 
-			setApp1Title(currentSession.Name, current_menuitem_mode);
-
-			if(createdStatsWin) {
-				stats_win_initializeSession();
-			}
-		
-			resetAllTreeViews(false, true, false); //fill, resetPersons, fillPersons
-
-			vbox_manage_persons.Visible = true;
-			arrow_manage_persons_up.Visible = true;
-			arrow_manage_persons_down.Visible = false;
-
-			//show hidden widgets
-			sensitiveGuiNoSession();
-			sensitiveGuiYesSession();
-
-			if( ! configChronojump.PersonWinHide) {
-				alignment_buttons_menu_and_persons.Visible = true;
-				//on_radio_show_persons_clicked (new object (), new EventArgs ());
-				radio_show_persons.Active = true;
-			}
-
-			definedSession = true;
-
-			//for sure, jumpsExists is false, because we create a new session
-
-			hbox_persons_bottom_photo.Sensitive = false;
-			hbox_persons_bottom_no_photo.Sensitive = false;
-			label_top_person_name.Text = "";
-		
-			//update report
-			report.SessionID = currentSession.UniqueID;
-			report.StatisticsRemove();
-			try {
-				reportWin.FillTreeView();
-			} catch {} //reportWin is still not created, not need to Fill again
-	
-			//feedback (more in 1st session created)
-			string feedbackLoadUsers = Catalog.GetString ("Session created, now add or load persons.");
-			new DialogMessage(Constants.MessageTypes.INFO, feedbackLoadUsers);
+		if(createdStatsWin) {
+			stats_win_initializeSession();
 		}
+
+		resetAllTreeViews(false, true, false); //fill, resetPersons, fillPersons
+
+		vbox_manage_persons.Visible = true;
+		arrow_manage_persons_up.Visible = true;
+		arrow_manage_persons_down.Visible = false;
+
+		//show hidden widgets
+		sensitiveGuiNoSession();
+		sensitiveGuiYesSession();
+
+		if( ! configChronojump.PersonWinHide) {
+			alignment_buttons_menu_and_persons.Visible = true;
+			//on_radio_show_persons_clicked (new object (), new EventArgs ());
+			radio_show_persons.Active = true;
+		}
+
+		definedSession = true;
+
+		//for sure, jumpsExists is false, because we create a new session
+
+		hbox_persons_bottom_photo.Sensitive = false;
+		hbox_persons_bottom_no_photo.Sensitive = false;
+		label_top_person_name.Text = "";
+
+		//update report
+		report.SessionID = currentSession.UniqueID;
+		report.StatisticsRemove();
+		try {
+			reportWin.FillTreeView();
+		} catch {} //reportWin is still not created, not need to Fill again
+
+		//feedback (more in 1st session created)
+		string feedbackLoadUsers = Catalog.GetString ("Session created, now add or load persons.");
+		new DialogMessage(Constants.MessageTypes.INFO, feedbackLoadUsers);
 	}
 	
 	private void on_edit_session_activate (object o, EventArgs args) 
@@ -2478,27 +2473,17 @@ public partial class ChronoJumpWindow
 		if(currentSession.Name == Constants.SessionSimulatedName)
 			new DialogMessage(Constants.MessageTypes.INFO, Constants.SessionProtectedStr());
 		else {
-			sessionAddEditWin = SessionAddEditWindow.Show(app1, currentSession);
-			sessionAddEditWin.FakeButtonAccept.Clicked -= new EventHandler(on_edit_session_accepted);
-			sessionAddEditWin.FakeButtonAccept.Clicked += new EventHandler(on_edit_session_accepted);
-
-			//disabled on edit, now has its own window
-			//sessionAddEditWin.FakeButtonDelete.Clicked -= new EventHandler(on_delete_session_activate);
-			//sessionAddEditWin.FakeButtonDelete.Clicked += new EventHandler(on_delete_session_activate);
+			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.SESSION);
+			sessionAddEditShow (false);
 		}
 	}
 	
-	private void on_edit_session_accepted (object o, EventArgs args) {
-		if(sessionAddEditWin.CurrentSession != null) 
-		{
-			currentSession = sessionAddEditWin.CurrentSession;
-			sessionAddEditWin.HideAndNull();
-			
-			setApp1Title(currentSession.Name, current_menuitem_mode);
+	private void on_edit_session_accepted ()
+	{
+		setApp1Title(currentSession.Name, current_menuitem_mode);
 
-			if(createdStatsWin) {
-				stats_win_initializeSession();
-			}
+		if(createdStatsWin) {
+			stats_win_initializeSession();
 		}
 	}
 

@@ -35,7 +35,6 @@ glade/repair_sub_event.glade
 glade/repetitive_conditions.glade
 glade/report_window.glade
 glade/run_type_add.glade
-glade/session_add_edit.glade
 glade/session_upload.glade
 glade/splash_window.glade
 glade/stats_select_sessions.glade
@@ -70,6 +69,7 @@ src/gui/app1/jumpsWeightFVProfile.cs
 src/gui/app1/pulse.cs
 src/gui/app1/reactionTime.cs
 src/gui/app1/run.cs
+src/gui/app1/session/addEdit.cs
 src/gui/app1/session/loadAndImport.cs
 src/gui/chronopic.cs
 src/gui/chronopicRegister.cs
@@ -109,7 +109,6 @@ src/gui/runEncoder.cs
 src/gui/runType.cs
 src/gui/sendLog.cs
 src/gui/server.cs
-src/gui/session/addEdit.cs
 src/gui/session/selectStats.cs
 src/gui/splash.cs
 src/gui/sprint.cs

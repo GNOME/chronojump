@@ -41,7 +41,6 @@ public partial class ChronoJumpWindow
 	private TreeStore app1s_store;
 	private string app1s_selected;
 	private string app1s_import_file_path;
-	private int app1s_notebook_sup_entered_from; //to store from which page we entered (to return at it)
 
 	[Widget] Gtk.Label app1s_label_select;
 
@@ -506,16 +505,6 @@ public partial class ChronoJumpWindow
 
 		app1s_notebook.CurrentPage = i;
 	}
-
-	private void notebook_supSetOldPage()
-	{
-		notebook_sup.CurrentPage = app1s_notebook_sup_entered_from;
-
-		//but if it is start page, ensure notebook_mode_selector is 0
-		if(notebook_sup.CurrentPage == Convert.ToInt32(notebook_sup_pages.START))
-			notebook_mode_selector.CurrentPage = 0;
-	}
-
 
 	// ---- notebook page 1 buttons ----
 	void app1s_on_button_cancel1_clicked (object o, EventArgs args)

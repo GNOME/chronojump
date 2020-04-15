@@ -26,6 +26,7 @@ using Glade;
 
 public partial class ChronoJumpWindow
 {
+	[Widget] Gtk.Alignment alignment_menu_tiny;
 	[Widget] Gtk.Arrow arrow_menu_show_session_up1;
 	[Widget] Gtk.Arrow arrow_menu_show_session_down1;
 	[Widget] Gtk.Arrow arrow_menu_show_help_up1;
@@ -70,6 +71,14 @@ public partial class ChronoJumpWindow
 	private void menuTinyInitialize ()
 	{
 		menuTinySetColors();
+
+		/*
+		 * have it aligned with start of the notebook_sup
+		 * +4 is alignment_contacts TopPadding
+		 * +4 is vbox_contacts spacing
+		 * (same for encoder)
+		 */
+		alignment_menu_tiny.TopPadding = (uint) radio_mode_contacts_capture.SizeRequest().Height + 4 + 4;
 
 		//unselect menu_help if selected
 		if(check_menu_help1.Active)

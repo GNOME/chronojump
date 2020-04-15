@@ -653,9 +653,10 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <child>
-                              <widget class="GtkAlignment" id="alignment13">
+                              <widget class="GtkAlignment" id="alignment_menu_tiny">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="yalign">0.50999999046325684</property>
                                 <property name="top_padding">4</property>
                                 <property name="bottom_padding">4</property>
                                 <property name="left_padding">2</property>
@@ -1354,7 +1355,7 @@
                                                           <widget class="GtkAlignment" id="alignment29">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="top_padding">16</property>
+                                                            <property name="top_padding">14</property>
                                                             <child>
                                                             <widget class="GtkVBox" id="vbox173">
                                                             <property name="visible">True</property>
@@ -6178,7 +6179,7 @@ EncoderInertialCapture</property>
                                           <widget class="GtkVBox" id="vbox_contacts">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="spacing">6</property>
+                                            <property name="spacing">4</property>
                                             <child>
                                               <widget class="GtkHBox" id="hbox78">
                                                 <property name="visible">True</property>
@@ -25542,7 +25543,7 @@ Concentric</property>
                                           <widget class="GtkVBox" id="vbox3">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="spacing">6</property>
+                                            <property name="spacing">4</property>
                                             <child>
                                               <widget class="GtkHBox" id="hbox_encoder_sup_capture_analyze">
                                                 <property name="visible">True</property>

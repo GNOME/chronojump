@@ -2759,6 +2759,10 @@ public partial class ChronoJumpWindow
 
 		setApp1Title(tempSessionName, Constants.Menuitem_modes.UNDEFINED);
 		new ChronojumpLogo (drawingarea_chronojump_logo, viewport_chronojump_logo, preferences.logoAnimatedShow);
+
+		Pixbuf pixbufMode = new Pixbuf (null, Util.GetImagePath(false) + "image_modes.png");
+		image_button_show_modes.Pixbuf = pixbufMode;
+		image_button_show_modes1.Pixbuf = pixbufMode;
 	}
 
 	private void on_button_start_selector_show_more_clicked (object o, EventArgs args)
@@ -2849,6 +2853,8 @@ public partial class ChronoJumpWindow
 		}
 
 
+		Pixbuf pixbufMode = new Pixbuf (null, Util.GetImagePath(false) + "image_modes.png");
+
 		if(m == Constants.Menuitem_modes.JUMPSSIMPLE || m == Constants.Menuitem_modes.JUMPSREACTIVE)
 		{
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
@@ -2876,6 +2882,7 @@ public partial class ChronoJumpWindow
 						radio_mode_contacts_jumps_weight_fv_profile.Active || radio_mode_contacts_jumps_evolution.Active)
 					radio_mode_contacts_capture.Active = true;
 			}
+			pixbufMode = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_jump.png");
 		}
 		else if(m == Constants.Menuitem_modes.RUNSSIMPLE || m == Constants.Menuitem_modes.RUNSINTERVALLIC)
 		{
@@ -2911,6 +2918,8 @@ public partial class ChronoJumpWindow
 
 			if(radio_mode_contacts_sprint.Active)
 				radio_mode_contacts_capture.Active = true;
+
+			pixbufMode = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_run.png");
 		}
 		else if(m == Constants.Menuitem_modes.POWERGRAVITATORY || m == Constants.Menuitem_modes.POWERINERTIAL) 
 		{
@@ -3010,6 +3019,8 @@ public partial class ChronoJumpWindow
 				setEncoderExerciseOptionsFromPreferences();
 				encoderPreferencesSet = true;
 			}
+
+			pixbufMode = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_encoder.png");
 		} 
 		else if(m == Constants.Menuitem_modes.FORCESENSOR)
 		{
@@ -3033,6 +3044,8 @@ public partial class ChronoJumpWindow
 			notebook_capture_graph_table.CurrentPage = 1; //"Show table"
 			notebook_capture_graph_table.ShowTabs = false;
 			setLabelContactsExerciseSelected(m);
+
+			pixbufMode = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_force.png");
 		}
 		else if(m == Constants.Menuitem_modes.RUNSENCODER)
 		{
@@ -3059,6 +3072,8 @@ public partial class ChronoJumpWindow
 			combo_race_analyzer_device.Active = 0;
 			forceSensorImageTestChange();
 			setLabelContactsExerciseSelected(m);
+
+			pixbufMode = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_run.png");
 		}
 		else if(m == Constants.Menuitem_modes.RT)
 		{
@@ -3071,6 +3086,8 @@ public partial class ChronoJumpWindow
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = false;
 			button_threshold.Visible = true;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
+
+			pixbufMode = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_rt.png");
 		}
 		else {	//m == Constants.Menuitem_modes.OTHER (contacts / other)
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
@@ -3086,7 +3103,12 @@ public partial class ChronoJumpWindow
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = false;
 			button_threshold.Visible = true;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
+
+			pixbufMode = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_other.png");
 		}
+
+		image_button_show_modes.Pixbuf = pixbufMode;
+		image_button_show_modes1.Pixbuf = pixbufMode;
 
 		//show feedback icon
 		Pixbuf pixbufBellActive = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_active.png");

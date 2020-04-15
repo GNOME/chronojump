@@ -534,7 +534,13 @@ RESOURCES = \
 	../images/md/baseline_grid_on_blue_24dp.png,grid.png \
 	../images/md/baseline_new_releases_blue_24dp.png,new.png \
 	../images/md/baseline_menu_blue_24dp.png,image_menu.png \
-	../images/md/baseline_apps_6_blue_24dp.png,image_modes.png \
+	../images/md/baseline_apps_6_separated_blue_24dp.png,image_modes.png \
+	../images/md/baseline_apps_6_separated_jump_blue_24dp.png,image_modes_jump.png \
+	../images/md/baseline_apps_6_separated_run_blue_24dp.png,image_modes_run.png \
+	../images/md/baseline_apps_6_separated_force_blue_24dp.png,image_modes_force.png \
+	../images/md/baseline_apps_6_separated_encoder_blue_24dp.png,image_modes_encoder.png \
+	../images/md/baseline_apps_6_separated_rt_blue_24dp.png,image_modes_rt.png \
+	../images/md/baseline_apps_6_separated_other_blue_24dp.png,image_modes_other.png \
 	../images/md/baseline_menu_book_blue_24dp.png,image_book.png \
 	../images/md/baseline_keyboard_blue_24dp.png,image_keyboard.png \
 	../images/md/baseline_more_horiz_blue_24dp.png,image_more_horiz.png \

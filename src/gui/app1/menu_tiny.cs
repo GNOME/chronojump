@@ -104,6 +104,7 @@ public partial class ChronoJumpWindow
 		Gdk.Color color = UtilGtk.ColorParse(preferences.colorBackgroundString);
 
 		UtilGtk.ViewportColor(viewport_hpaned_contacts_main, color);
+		UtilGtk.ViewportColor(viewport_exit_confirm, color);
 		UtilGtk.ViewportColor(viewport_rest_time_contacts, color);
 		UtilGtk.ViewportColor(viewport_rest_time_encoder, color);
 		UtilGtk.ViewportColor(viewport_image_logo_icon, UtilGtk.BLUE_CHRONOJUMP);

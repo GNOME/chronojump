@@ -6666,7 +6666,7 @@ EncoderInertialCapture</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="n_rows">2</property>
                                                             <property name="n_columns">5</property>
-                                                            <property name="column_spacing">8</property>
+                                                            <property name="column_spacing">12</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_contacts_rest_time_1_name">
                                                             <property name="visible">True</property>
@@ -25799,7 +25799,7 @@ Concentric</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="n_rows">2</property>
                                                             <property name="n_columns">5</property>
-                                                            <property name="column_spacing">8</property>
+                                                            <property name="column_spacing">12</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_encoder_rest_time_1_name">
                                                             <property name="visible">True</property>

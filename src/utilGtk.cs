@@ -621,10 +621,10 @@ public class UtilGtk
 	}
 
 	//changes of colors without widgets that are in a EventBox
-	public static void EventBoxColorBackgroundActive (Gtk.EventBox e, Gdk.Color color)
+	public static void EventBoxColorBackgroundActive (Gtk.EventBox e, Gdk.Color colorActive, Gdk.Color colorPrelight)
 	{
-		e.ModifyBg(StateType.Active, color);
-		e.ModifyBg(StateType.Prelight, color);
+		e.ModifyBg(StateType.Active, colorActive);
+		e.ModifyBg(StateType.Prelight, colorPrelight);
 	}
 
 	public static void ContrastLabelsHBox (bool bgDark, Gtk.HBox hbox)

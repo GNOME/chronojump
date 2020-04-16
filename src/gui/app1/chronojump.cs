@@ -478,8 +478,8 @@ public partial class ChronoJumpWindow
 	
 	private string progVersion;
 	private string progName;
-	private enum notebook_start_pages { PROGRAM, SENDLOG, NETWORKSPROBLEMS, EXITCONFIRM }
-	private enum notebook_sup_pages { START, CONTACTS, ENCODER, SESSION }
+	private enum notebook_start_pages { PROGRAM, SENDLOG, EXITCONFIRM }
+	private enum notebook_sup_pages { START, CONTACTS, ENCODER, SESSION, NETWORKSPROBLEMS }
 	private enum notebook_analyze_pages { STATISTICS, JUMPSPROFILE, JUMPSDJOPTIMALFALL, JUMPSWEIGHTFVPROFILE, JUMPSEVOLUTION, SPRINT, FORCESENSOR, RACEENCODER }
 
 	private string runningFileName; //useful for knowing if there are two chronojump instances
@@ -7346,7 +7346,7 @@ LogB.Debug("mc finished 5");
 	{
 		chronopicRegisterUpdate(false);
 		if(chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ENCODER) > 0)
-			notebook_start.CurrentPage = Convert.ToInt32(notebook_start_pages.PROGRAM);
+			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.ENCODER);
 	}
 
 	//trying to fix when an OSX disconnects and reconnects same chronopic (and it has captured)

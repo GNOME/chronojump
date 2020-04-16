@@ -78,6 +78,7 @@ public partial class ChronoJumpWindow
 			app1s_notebook.CurrentPage = app1s_PAGE_IMPORT_START;
 		}
 		app1s_label_select.UseMarkup = true;
+		app1s_entry_search_filter.Text = "";
 
 		app1s_image_open_database.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_open.png");
 		app1s_image_import.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameImport);

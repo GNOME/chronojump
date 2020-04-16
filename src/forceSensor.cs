@@ -1594,7 +1594,7 @@ public class ForceSensorAnalyzeInstant
 				if(startAtSample < 0 && time_micros >= startMs)
 					startAtSample = j;
 				if(endAtSample < 0 && time_micros > endMs)
-					endAtSample = j -1;
+					endAtSample = j;
 
 				j ++;
 			}

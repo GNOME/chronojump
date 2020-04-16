@@ -7344,9 +7344,12 @@ LogB.Debug("mc finished 5");
 
 	private void on_chronopic_register_win_close_networks_check_encoder (object o, EventArgs args)
 	{
+		label_encoder_checked_error.Visible = false;
 		chronopicRegisterUpdate(false);
 		if(chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ENCODER) > 0)
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.ENCODER);
+		else
+			label_encoder_checked_error.Visible = true;
 	}
 
 	//trying to fix when an OSX disconnects and reconnects same chronopic (and it has captured)

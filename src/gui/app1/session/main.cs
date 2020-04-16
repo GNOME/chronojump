@@ -45,6 +45,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button app1s_button_import;
 	[Widget] Gtk.Image app1s_image_import;
 	[Widget] Gtk.Entry app1s_entry_search_filter;
+	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_persons;
 	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_jump_run;
 	[Widget] Gtk.CheckButton app1s_checkbutton_show_data_other_tests;
 	[Widget] Gtk.Label app1s_file_path_import;

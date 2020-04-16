@@ -83,10 +83,10 @@ public partial class ChronoJumpWindow
 		app1s_image_import.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameImport);
 		app1s_image_import1.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameImport);
 
-		app1s_createTreeView(app1s_treeview_session_load, false, false);
-		app1s_store = app1s_getStore(false, false);
+		app1s_createTreeView(app1s_treeview_session_load, false, false, false);
+		app1s_store = app1s_getStore(false, false, false);
 		app1s_treeview_session_load.Model = app1s_store;
-		app1s_fillTreeView(app1s_treeview_session_load, app1s_store, false, false);
+		app1s_fillTreeView(app1s_treeview_session_load, app1s_store, false, false, false);
 
 		app1s_store.SetSortColumnId(1, Gtk.SortType.Descending); //date
 		app1s_store.ChangeSortColumn();
@@ -108,38 +108,22 @@ public partial class ChronoJumpWindow
 		*/
 	}
 
-	private TreeStore app1s_getStore(bool showContacts, bool showEncoderAndForceSensor) {
-		TreeStore s;
-		if(showContacts && showEncoderAndForceSensor)
-			s = new TreeStore(
-				typeof (string), typeof (string), typeof (string), typeof (string),  	//number (hidden), date, name, place
-				typeof (string), typeof (string), typeof (string), typeof (string), 	//persons, sport, spllity, level
-				typeof (string), typeof (string), typeof (string), typeof(string), 	//jumps s,r, runs s, i,
-				typeof (string), typeof (string), typeof (string), 			//rt, pulses, mc
-				typeof (string), typeof (string), typeof (string), typeof (string),	//encoder s, c, forceSensor, runEncoder
-				typeof (string)								//comments
-			       	);
-		else if(showContacts && ! showEncoderAndForceSensor)
-			s = new TreeStore(
-				typeof (string), typeof (string), typeof (string), typeof (string), 	//number (hidden), date, name, place
-				typeof (string), typeof (string), typeof (string), typeof (string), 	//persons, sport, spllity, level
-				typeof (string), typeof (string), typeof (string), typeof(string), 	//jumps s,r, runs s, i,
-				typeof (string), typeof (string), typeof (string), 			//rt, pulses, mc
-				typeof (string)								//comments
-			       	);
-		else if(! showContacts && showEncoderAndForceSensor)
-			s = new TreeStore(
-				typeof (string), typeof (string), typeof (string), typeof (string), 	//number (hidden), date, name, place
-				typeof (string), typeof (string), typeof (string), typeof (string), 	//persons, sport, spllity, level
-				typeof (string), typeof (string), typeof (string), typeof (string),	//encoder s, c, forceSensor, runEncoder
-				typeof (string)								//comments
-			       	);
-		else // ! showContacts && ! showEncoderAndForceSensor
-			s = new TreeStore(
-				typeof (string), typeof (string), typeof (string), typeof (string), 	//number (hidden), date, name, place
-				typeof (string), typeof (string), typeof (string), typeof (string), 	//persons, sport, spllity, level
-				typeof (string)								//comments
-			       	);
+	private TreeStore app1s_getStore(bool showPersons, bool showContacts, bool showOtherTests)
+	{
+		int columns = 6;
+		if(showPersons)
+			columns += 3;
+		if(showContacts)
+			columns += 7;
+		if(showOtherTests)
+			columns += 4;
+
+		Type [] types = new Type [columns];
+		for (int i=0; i < columns; i++) {
+			types[i] = typeof (string);
+		}
+
+		TreeStore s = new TreeStore(types);
 
 		//s.SetSortFunc (0, UtilGtk.IdColumnCompare); //not needed, it's hidden
 		s.SetSortFunc (1, app1s_dateColumnCompare);
@@ -147,7 +131,6 @@ public partial class ChronoJumpWindow
 
 		return s;
 	}
-
 
 	private static int app1s_dateColumnCompare (TreeModel model, TreeIter iter1, TreeIter iter2)
 	{
@@ -173,7 +156,7 @@ public partial class ChronoJumpWindow
 		app1s_recreateTreeView("loaded the dialog");
 	}
 	
-	private void app1s_createTreeView (Gtk.TreeView tv, bool showContacts, bool showOtherTests)
+	private void app1s_createTreeView (Gtk.TreeView tv, bool showPersons, bool showContacts, bool showOtherTests)
 	{
 		tv.HeadersVisible=true;
 		int count = 0;
@@ -197,9 +180,11 @@ public partial class ChronoJumpWindow
 		
 		tv.AppendColumn ( Catalog.GetString ("Place"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Persons"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString ("Sport"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString ("Specialty"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString ("Level"), new CellRendererText(), "text", count++);
+		if(showPersons) {
+			tv.AppendColumn ( Catalog.GetString ("Sport"), new CellRendererText(), "text", count++);
+			tv.AppendColumn ( Catalog.GetString ("Specialty"), new CellRendererText(), "text", count++);
+			tv.AppendColumn ( Catalog.GetString ("Level"), new CellRendererText(), "text", count++);
+		}
 		if(showContacts) {
 			tv.AppendColumn ( Catalog.GetString ("Jumps simple"), new CellRendererText(), "text", count++);
 			tv.AppendColumn ( Catalog.GetString ("Jumps reactive"), new CellRendererText(), "text", count++);
@@ -249,6 +234,10 @@ public partial class ChronoJumpWindow
 		filechooser.Destroy ();
 		app1s_recreateTreeView ("file path changed");
 	}
+
+	void app1s_on_checkbutton_show_data_persons_toggled (object o, EventArgs args) {
+		app1s_recreateTreeView("persons " + app1s_checkbutton_show_data_persons.Active.ToString());
+	}
 	void app1s_on_checkbutton_show_data_jump_run_toggled (object o, EventArgs args) {
 		app1s_recreateTreeView("jump run " + app1s_checkbutton_show_data_jump_run.Active.ToString());
 	}
@@ -262,12 +251,18 @@ public partial class ChronoJumpWindow
 		UtilGtk.RemoveColumns(app1s_treeview_session_load);
 		
 		app1s_createTreeView(app1s_treeview_session_load,
-				app1s_checkbutton_show_data_jump_run.Active, app1s_checkbutton_show_data_other_tests.Active);
+				app1s_checkbutton_show_data_persons.Active,
+				app1s_checkbutton_show_data_jump_run.Active,
+				app1s_checkbutton_show_data_other_tests.Active);
 		app1s_store = app1s_getStore(
-				app1s_checkbutton_show_data_jump_run.Active, app1s_checkbutton_show_data_other_tests.Active);
+				app1s_checkbutton_show_data_persons.Active,
+				app1s_checkbutton_show_data_jump_run.Active,
+				app1s_checkbutton_show_data_other_tests.Active);
 		app1s_treeview_session_load.Model = app1s_store;
 		app1s_fillTreeView(app1s_treeview_session_load, app1s_store,
-				app1s_checkbutton_show_data_jump_run.Active, app1s_checkbutton_show_data_other_tests.Active);
+				app1s_checkbutton_show_data_persons.Active,
+				app1s_checkbutton_show_data_jump_run.Active,
+				app1s_checkbutton_show_data_other_tests.Active);
 		
 		app1s_store.SetSortColumnId(1, Gtk.SortType.Descending); //date
 		app1s_store.ChangeSortColumn();
@@ -281,7 +276,8 @@ public partial class ChronoJumpWindow
 		app1s_onSelectionEntry (app1s_treeview_session_load.Selection, new EventArgs ());
 	}
 
-	private void app1s_fillTreeView (Gtk.TreeView tv, TreeStore store, bool showContacts, bool showOtherTests)
+	private void app1s_fillTreeView (Gtk.TreeView tv, TreeStore store,
+			bool showPersons, bool showContacts, bool showOtherTests)
 	{
 		string filterName = "";
 		if(app1s_entry_search_filter.Text.ToString().Length > 0)
@@ -296,7 +292,8 @@ public partial class ChronoJumpWindow
 		SqliteSessionSwitcher sessionSwitcher = new SqliteSessionSwitcher (databaseType, app1s_import_file_path);
 		
 		string [] mySessions = sessionSwitcher.SelectAllSessions(filterName); //returns a string of values separated by ':'
-		foreach (string session in mySessions) {
+		foreach (string session in mySessions)
+		{
 			string [] myStringFull = session.Split(new char[] {':'});
 		
 			//don't show any text at sport, speciallity and level if it's undefined	
@@ -312,76 +309,49 @@ public partial class ChronoJumpWindow
 			if (myStringFull[6] != Catalog.GetString(Constants.LevelUndefined)) 
 				myLevel = Catalog.GetString(myStringFull[6]);
 
-			if(showContacts && showOtherTests)
-				app1s_store.AppendValues (
-						myStringFull[0], 	//session num
-						myStringFull[3],	//session date
-						myStringFull[1], 	//session name
-						myStringFull[2], 	//session place
-						myStringFull[8],	//number of jumpers x session
-						mySport,		//personsSport
-						mySpeciallity,		//personsSpeciallity
-						myLevel,		//personsLevel
-						myStringFull[9],	//number of jumps x session
-						myStringFull[10],	//number of jumpsRj x session
-						myStringFull[11], 	//number of runs x session
-						myStringFull[12], 	//number of runsInterval x session
-						myStringFull[13], 	//number of reaction times x session
-						myStringFull[14], 	//number of pulses x session
-						myStringFull[15], 	//number of multiChronopics x session
-						myStringFull[16], 	//number of encoder signal x session
-						myStringFull[17], 	//number of encoder curve x session
-						myStringFull[18], 	//number of forceSensor
-						myStringFull[19], 	//number of runEncoder
-						myStringFull[7]		//description of session
-						);
-			else if(showContacts && ! showOtherTests)
-				app1s_store.AppendValues (
-						myStringFull[0], 	//session num
-						myStringFull[3],	//session date
-						myStringFull[1], 	//session name
-						myStringFull[2], 	//session place
-						myStringFull[8],	//number of jumpers x session
-						mySport,		//personsSport
-						mySpeciallity,		//personsSpeciallity
-						myLevel,		//personsLevel
-						myStringFull[9],	//number of jumps x session
-						myStringFull[10],	//number of jumpsRj x session
-						myStringFull[11], 	//number of runs x session
-						myStringFull[12], 	//number of runsInterval x session
-						myStringFull[13], 	//number of reaction times x session
-						myStringFull[14], 	//number of pulses x session
-						myStringFull[15], 	//number of multiChronopics x session
-						myStringFull[7]		//description of session
-						);
-			else if(! showContacts && showOtherTests)
-				app1s_store.AppendValues (
-						myStringFull[0], 	//session num
-						myStringFull[3],	//session date
-						myStringFull[1], 	//session name
-						myStringFull[2], 	//session place
-						myStringFull[8],	//number of jumpers x session
-						mySport,		//personsSport
-						mySpeciallity,		//personsSpeciallity
-						myLevel,		//personsLevel
-						myStringFull[16], 	//number of encoder signal x session
-						myStringFull[17], 	//number of encoder curve x session
-						myStringFull[18], 	//number of forceSensor
-						myStringFull[19], 	//number of runEncoder
-						myStringFull[7]		//description of session
-						);
-			else // ! showContacts && ! showOtherTests
-				app1s_store.AppendValues (
-						myStringFull[0], 	//session num
-						myStringFull[3],	//session date
-						myStringFull[1], 	//session name
-						myStringFull[2], 	//session place
-						myStringFull[8],	//number of jumpers x session
-						mySport,		//personsSport
-						mySpeciallity,		//personsSpeciallity
-						myLevel,		//personsLevel
-						myStringFull[7]		//description of session
-						);
+			//new 2.0 code
+			int columns = 6;
+			if(showPersons)
+				columns += 3;
+			if(showContacts)
+				columns += 7;
+			if(showOtherTests)
+				columns += 4;
+
+			string [] strings = new string [columns];
+			//for (int i=0; i < columns; i++) {
+			//	types[i] = typeof (string);
+			//}
+			int i = 0;
+			strings[i ++] = myStringFull[0]; 	//session num
+			strings[i ++] = myStringFull[3];	//session date
+			strings[i ++] = myStringFull[1]; 	//session name
+			strings[i ++] = myStringFull[2]; 	//session place
+			strings[i ++] = myStringFull[8];	//number of jumpers x session
+
+			if(showPersons) {
+				strings[i ++] = mySport;		//personsSport
+				strings[i ++] = mySpeciallity;		//personsSpeciallity
+				strings[i ++] = myLevel;		//personsLevel
+			}
+			if(showContacts) {
+				strings[i ++] = myStringFull[9];	//number of jumps x session
+				strings[i ++] = myStringFull[10];	//number of jumpsRj x session
+				strings[i ++] = myStringFull[11]; 	//number of runs x session
+				strings[i ++] = myStringFull[12]; 	//number of runsInterval x session
+				strings[i ++] = myStringFull[13]; 	//number of reaction times x session
+				strings[i ++] = myStringFull[14]; 	//number of pulses x session
+				strings[i ++] = myStringFull[15]; 	//number of multiChronopics x session
+			}
+			if(showOtherTests) {
+				strings[i ++] = myStringFull[16]; 	//number of encoder signal x session
+				strings[i ++] = myStringFull[17]; 	//number of encoder curve x session
+				strings[i ++] = myStringFull[18]; 	//number of forceSensor
+				strings[i ++] = myStringFull[19]; 	//number of runEncoder
+			}
+			strings[i ++] = myStringFull[7];		//description of session (comments)
+
+			app1s_store.AppendValues (strings);
 		}	
 
 	}

@@ -2457,6 +2457,7 @@ public partial class ChronoJumpWindow
 		hbox_persons_bottom_photo.Sensitive = false;
 		hbox_persons_bottom_no_photo.Sensitive = false;
 		label_top_person_name.Text = "";
+		label_top_encoder_person_name.Text = "";
 
 		//update report
 		report.SessionID = currentSession.UniqueID;

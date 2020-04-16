@@ -2432,6 +2432,10 @@ public partial class ChronoJumpWindow
 
 		resetAllTreeViews(false, true, false); //fill, resetPersons, fillPersons
 
+		//if we are on analyze tab, switch to capture tab
+		radio_mode_contacts_capture.Active = true;
+		radio_mode_encoder_capture_small.Active = true;
+
 		vbox_manage_persons.Visible = true;
 		arrow_manage_persons_up.Visible = true;
 		arrow_manage_persons_down.Visible = false;
@@ -2508,6 +2512,10 @@ public partial class ChronoJumpWindow
 			stats_win_initializeSession();
 
 		resetAllTreeViews(! configChronojump.Exhibition, true, true); //fill, resetPersons, fillPersons
+
+		//if we are on analyze tab, switch to capture tab
+		radio_mode_contacts_capture.Active = true;
+		radio_mode_encoder_capture_small.Active = true;
 
 		bool foundPersons = false;
 

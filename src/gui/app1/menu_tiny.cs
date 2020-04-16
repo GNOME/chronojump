@@ -105,6 +105,7 @@ public partial class ChronoJumpWindow
 
 		UtilGtk.ViewportColor(viewport_hpaned_contacts_main, color);
 		UtilGtk.ViewportColor(viewport_send_log, color);
+		UtilGtk.ViewportColor(viewport_networks_problems, color);
 		UtilGtk.ViewportColor(viewport_exit_confirm, color);
 		UtilGtk.ViewportColor(viewport_rest_time_contacts, color);
 		UtilGtk.ViewportColor(viewport_rest_time_encoder, color);

@@ -1048,12 +1048,14 @@ public partial class ChronoJumpWindow
 	private void networksShowDeviceMissingEncoder (bool missing)
 	{
 		if(missing) {
+			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.NETWORKSPROBLEMS);
+			hbox_RFID_disconnected.Visible = false;
 			hbox_encoder_disconnected.Visible = true;
-			notebook_start.CurrentPage = Convert.ToInt32(notebook_start_pages.NETWORKSPROBLEMS);
 		}
 		else {
+			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.ENCODER);
+			hbox_RFID_disconnected.Visible = false;
 			hbox_encoder_disconnected.Visible = false;
-			notebook_start.CurrentPage = Convert.ToInt32(notebook_start_pages.PROGRAM);
 		}
 	}
 
@@ -1068,13 +1070,18 @@ public partial class ChronoJumpWindow
 			 * and it will take to normal capture window (while rfid is not ok or Chronojump has to reboot)
 			 * so do not show the encoder message
 			 */
+			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.NETWORKSPROBLEMS);
 			hbox_encoder_disconnected.Visible = false;
-
-			notebook_start.CurrentPage = Convert.ToInt32(notebook_start_pages.NETWORKSPROBLEMS);
 		}
 		else {
+			//notebook_start.CurrentPage = Convert.ToInt32(notebook_start_pages.PROGRAM);
+			if(configChronojump.CompujumpStationMode == Constants.Menuitem_modes.POWERGRAVITATORY ||
+					configChronojump.CompujumpStationMode == Constants.Menuitem_modes.POWERINERTIAL)
+				notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.ENCODER);
+			else
+				notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
+
 			hbox_RFID_disconnected.Visible = false;
-			notebook_start.CurrentPage = Convert.ToInt32(notebook_start_pages.PROGRAM);
 		}
 	}
 

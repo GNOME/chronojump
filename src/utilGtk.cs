@@ -649,7 +649,7 @@ public class UtilGtk
 		foreach(Gtk.Widget w in container.Children)
 		{
 			if(w.GetType() == typeof(Gtk.Label))
-				labelDoContrastColor (bgDark, (Gtk.Label) w);
+				ContrastLabelsLabel (bgDark, (Gtk.Label) w);
 
 			else if(w.GetType() == typeof(Gtk.Alignment))
 			{
@@ -674,7 +674,7 @@ public class UtilGtk
 			);
 	}
 
-	private static void labelDoContrastColor (bool bgDark, Gtk.Label l)
+	public static void ContrastLabelsLabel (bool bgDark, Gtk.Label l)
 	{
 		if(bgDark)
 		{

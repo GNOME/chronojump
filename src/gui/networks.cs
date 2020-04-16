@@ -85,6 +85,7 @@ public partial class ChronoJumpWindow
 	*/
 	[Widget] Gtk.HBox hbox_encoder_disconnected;
 	[Widget] Gtk.HBox hbox_RFID_disconnected;
+	[Widget] Gtk.Label label_encoder_checked_error;
 
 	//runsInterval
 	[Widget] Gtk.RadioButton radio_run_interval_compujump_5m;
@@ -1051,6 +1052,7 @@ public partial class ChronoJumpWindow
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.NETWORKSPROBLEMS);
 			hbox_RFID_disconnected.Visible = false;
 			hbox_encoder_disconnected.Visible = true;
+			label_encoder_checked_error.Visible = false;
 		}
 		else {
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.ENCODER);

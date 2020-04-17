@@ -866,6 +866,10 @@ public class Constants
 	{
 		return Catalog.GetString("Error. File not found.");
 	}
+	public static string FileEmptyStr()
+	{
+		return Catalog.GetString("Error. File is empty.");
+	}
 	public static string FileCopyProblemStr()
 	{
 		return Catalog.GetString("Error. Cannot copy file.");

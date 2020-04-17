@@ -197,8 +197,6 @@ public partial class ChronoJumpWindow
 			image_logo_encoder_transp.Visible = false;
 			radio_show_menu_and_persons_adjust_height(false);
 		}
-
-		viewport_image_logo_encoder.Visible = true;
 	}
 
 	private void radio_show_menu_and_persons_adjust_height(bool toTransparentImage)

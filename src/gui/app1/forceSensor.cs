@@ -1509,6 +1509,13 @@ LogB.Information(" fs R ");
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFoundStr());
 			return;
 		}
+		List<string> contents = Util.ReadFileAsStringList(fs.FullURL);
+		if(contents.Count < 3)
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileEmptyStr());
+			return;
+		}
+
 
 		currentForceSensor = fs;
 		lastForceSensorFile = Util.RemoveExtension(fs.Filename);

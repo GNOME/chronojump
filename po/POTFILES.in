@@ -69,7 +69,6 @@ src/gui/app1/jumpsWeightFVProfile.cs
 src/gui/app1/pulse.cs
 src/gui/app1/reactionTime.cs
 src/gui/app1/run.cs
-src/gui/app1/session/addEdit.cs
 src/gui/app1/session/loadAndImport.cs
 src/gui/chronopic.cs
 src/gui/chronopicRegister.cs

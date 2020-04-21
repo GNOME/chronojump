@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2019   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2019-2020   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -74,6 +74,7 @@ public abstract class ForceSensorDynamics
 	//so is better to remove it
 	protected virtual void removeFirstValue()
 	{
+		LogB.Information(string.Format("size of force_l: {0}", force_l.Count));
 		force_l.RemoveAt(0);
 	}
 
@@ -398,9 +399,11 @@ public class ForceSensorDynamicsNotElastic : ForceSensorDynamics
 
 	protected override void cutSamplesForZoomDo(int startAtSample, int endAtSample)
 	{
-		LogB.Information(string.Format("force_l.Count: {0}, startAtSample: {1}, endAtSample: {2}, endAtSample - startAtSample: {3}",
+		LogB.Information(string.Format("cutSamplesForZoomDo, force_l.Count: {0}, startAtSample: {1}, endAtSample: {2}, endAtSample - startAtSample: {3}",
 			force_l.Count, startAtSample, endAtSample, endAtSample - startAtSample));
-		force_l = force_l.GetRange(startAtSample, endAtSample - startAtSample);
+
+		//+1 because we want both,the start and the end
+		force_l = force_l.GetRange(startAtSample, endAtSample - startAtSample + 1);
 	}
 }
 
@@ -584,18 +587,22 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 
 	protected override void cutSamplesForZoomDo(int startAtSample, int endAtSample)
 	{
-		force_l = force_l.GetRange(startAtSample, endAtSample - startAtSample);
-		position_l = position_l.GetRange(startAtSample, endAtSample - startAtSample);
-		speed_l = speed_l.GetRange(startAtSample, endAtSample - startAtSample);
-		accel_l = accel_l.GetRange(startAtSample, endAtSample - startAtSample);
-		power_l = power_l.GetRange(startAtSample, endAtSample - startAtSample);
+		//to cut, shift both values at right in order to be the same sample in/out zoom
+		startAtSample += RemoveNValues +1;
+		endAtSample += RemoveNValues +1;
+
+		//+1 because we want both,the start and the end
+		force_l = force_l.GetRange(startAtSample, endAtSample - startAtSample + 1);
+		position_l = position_l.GetRange(startAtSample, endAtSample - startAtSample + 1);
+		speed_l = speed_l.GetRange(startAtSample, endAtSample - startAtSample + 1);
+		accel_l = accel_l.GetRange(startAtSample, endAtSample - startAtSample + 1);
+		power_l = power_l.GetRange(startAtSample, endAtSample - startAtSample + 1);
 	}
 
 	private List<double> stripStartEnd(List<double> l)
 	{
 		if(zoomed) {
-			//TODO: but if we are on the beginning or end of the signal we should RemoveNVales, but maybe this is impossible
-			//	      because ab lines will not move on that values
+			//values have been shifted at cutSamplesForZoomDo
 			return l;
 		} else {
 			LogB.Information(string.Format("removeN: {0}, l.Count: {1}", RemoveNValues, l.Count));

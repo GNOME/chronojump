@@ -598,8 +598,9 @@ public partial class ChronoJumpWindow
 		if(lastForceSensorFullPath == null || lastForceSensorFullPath == "")
 			return;
 
-		double zoomA = -1;
-		double zoomB = -1;
+		int zoomFrameA = -1; //means no zoom
+		int zoomFrameB = -1; //means no zoom
+
 		if(forceSensorZoomApplied &&
 				Util.IsNumber(label_force_sensor_ai_time_a.Text, true) &&
 				Util.IsNumber(label_force_sensor_ai_time_b.Text, true))
@@ -616,15 +617,14 @@ public partial class ChronoJumpWindow
 			}
 
 			//-1 and +1 to have the points at the edges to calcule the RFDs
-			zoomA = fsAI.GetTimeMS(firstValue -1) * 1000;
-			zoomB = fsAI.GetTimeMS(secondValue +1) * 1000;
+			zoomFrameA = firstValue -1;
+			zoomFrameB = secondValue +1;
 
 			//do not zoom if both are the same, or the diff is just on pixel
-			//if(zoomA == zoomB)
-			if(Math.Abs(zoomA - zoomB) <= 1)
+			if(Math.Abs(zoomFrameA - zoomFrameB) <= 1)
 			{
-				zoomA = -1;
-				zoomB = -1;
+				zoomFrameA = -1;
+				zoomFrameB = -1;
 			}
 		}
 
@@ -637,17 +637,18 @@ public partial class ChronoJumpWindow
 				preferences.forceSensorNotElasticConMinForce);
 		LogB.Information(string.Format("eccMinDispl: {0}, conMinDispl: {1}", eccMinDispl, conMinDispl));
 
-		//LogB.Information(string.Format("creating fsAI with zoomA: {0}, zoomB: {1}", zoomA, zoomB));
+		//LogB.Information(string.Format("creating fsAI with zoomFrameA: {0}, zoomFrameB: {1}", zoomFrameA, zoomFrameB));
 		fsAI = new ForceSensorAnalyzeInstant(
 				lastForceSensorFullPath,
 				force_sensor_ai_drawingarea.Allocation.Width,
 				force_sensor_ai_drawingarea.Allocation.Height,
-				zoomA, zoomB,
+				zoomFrameA, zoomFrameB,
 				currentForceSensorExercise, currentPersonSession.Weight,
 				getForceSensorCaptureOptions(), currentForceSensor.Stiffness,
 				eccMinDispl, conMinDispl
 				);
 		//LogB.Information("created fsAI");
+		LogB.Information(string.Format("fsAI.GetLength: {0}", fsAI.GetLength()));
 
 		/*
 		 * position the hscales on the left to avoid loading a csv
@@ -664,11 +665,12 @@ public partial class ChronoJumpWindow
 		//ranges should have max value the number of the lines of csv file minus the header
 		hscale_force_sensor_ai_a.SetRange(1, fsAI.GetLength() -2);
 		hscale_force_sensor_ai_b.SetRange(1, fsAI.GetLength() -2);
+
 		hscale_force_sensor_ai_ab.SetRange(1, fsAI.GetLength() -2);
 		LogB.Information(string.Format("hscale_force_sensor_ai_time_a,b,ab ranges: 1, {0}", fsAI.GetLength() -2));
 
 		//on zoom put hscale B at the right
-		if(zoomB >= 0)
+		if(zoomFrameB >= 0)
 			hscale_force_sensor_ai_b.Value = fsAI.GetLength() -2;
 
 		//to update values
@@ -1010,6 +1012,9 @@ public partial class ChronoJumpWindow
 		//store hscale a to help return to position on unzoom
 		hscale_force_sensor_ai_a_BeforeZoom = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
 		hscale_force_sensor_ai_b_BeforeZoom = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+		//LogB.Information(string.Format("before zoom set to: {0}, {1}",
+		//			hscale_force_sensor_ai_a_BeforeZoom,
+		//			hscale_force_sensor_ai_b_BeforeZoom));
 
 		forceSensorRepetition_lZoomApplied = fsAI.ForceSensorRepetition_l;
 
@@ -1024,11 +1029,17 @@ public partial class ChronoJumpWindow
 
 		hscale_force_sensor_ai_a_AtZoom = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
 		hscale_force_sensor_ai_b_AtZoom = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+		//LogB.Information(string.Format("at zoom, AtZoom values set to: {0}, {1}",
+		//			hscale_force_sensor_ai_a_AtZoom,
+		//			hscale_force_sensor_ai_b_AtZoom));
 
 		forceSensorDoGraphAI();
 
 		hscale_force_sensor_ai_a.Value = hscale_force_sensor_ai_a_BeforeZoom + (hscale_force_sensor_ai_a_AtZoom -1);
 		hscale_force_sensor_ai_b.Value = hscale_force_sensor_ai_a_BeforeZoom + (hscale_force_sensor_ai_b_AtZoom -1);
+		//LogB.Information(string.Format("at zoom A,B values set to: {0}, {1}",
+		//			hscale_force_sensor_ai_a.Value,
+		//			hscale_force_sensor_ai_b.Value));
 
 		button_force_sensor_ai_zoom.Visible = true;
 		button_force_sensor_ai_zoom_out.Visible = false;
@@ -1182,8 +1193,8 @@ public partial class ChronoJumpWindow
 			int sampleEnd = reps_l[j].sampleEnd;
 			if(forceSensorZoomApplied)
 			{
-				sampleStart -= hscale_force_sensor_ai_a_BeforeZoom;
-				sampleEnd -= hscale_force_sensor_ai_a_BeforeZoom;
+				sampleStart -= hscale_force_sensor_ai_a_BeforeZoom -1;
+				sampleEnd -= hscale_force_sensor_ai_a_BeforeZoom -1;
 
 				//LogB.Information(string.Format("reps_l[j].sampleEnd: {0}, hscale_force_sensor_ai_b_BeforeZoom: {1}",
 				//			reps_l[j].sampleEnd, hscale_force_sensor_ai_b_BeforeZoom));

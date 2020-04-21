@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2017   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2017-2020   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -921,7 +921,7 @@ public class ForceSensorCapturePoints
 	{
 		double calc = (forces[countB] - forces[countA]) / (times[countB]/1000000.0 - times[countA]/1000000.0); //microsec to sec
 		//LogB.Information(string.Format("GetRFD {0}, {1}, {2}, {3}, {4}, {5}, RFD: {6}",
-		// 	countA, countB, forces[countA], forces[countB], times[countA], times[countB], calc));
+		//			countA, countB, forces[countA], forces[countB], times[countA], times[countB], calc));
 		return calc;
 	}
 	public double GetImpulse(int countA, int countB)
@@ -1465,7 +1465,7 @@ public class ForceSensorAnalyzeInstant
 	private ForceSensorExercise fse;
 
 	public ForceSensorAnalyzeInstant(
-			string file, int graphWidth, int graphHeight, double start, double end,
+			string file, int graphWidth, int graphHeight, int startSample, int endSample,
 			ForceSensorExercise fse, double personWeight, ForceSensor.CaptureOptions fsco, double stiffness,
 			double eccMinDisplacement, double conMinDisplacement)
 	{
@@ -1473,10 +1473,10 @@ public class ForceSensorAnalyzeInstant
 		this.graphHeight = graphHeight;
 		this.fse = fse;
 
-		readFile(file, start, end, personWeight, fsco, stiffness, eccMinDisplacement, conMinDisplacement);
+		readFile(file, startSample, endSample, personWeight, fsco, stiffness, eccMinDisplacement, conMinDisplacement);
 
 		//on zoom adjust width
-		if(start >= 0 || end >= 0)
+		if(startSample >= 0 || endSample >= 0)
 		{
 			fscAIPoints.Zoom(forceSensorValues.TimeLast);
 			LogB.Information("Redo normal at constructor");
@@ -1512,11 +1512,14 @@ public class ForceSensorAnalyzeInstant
 		}
 	}
 
-	private void readFile(string file, double startMs, double endMs,
+	private void readFile(string file, int startSample, int endSample,
 			double personWeight, ForceSensor.CaptureOptions fsco, double stiffness,
 			double eccMinDisplacement, double conMinDisplacement)
 	{
-		LogB.Information(string.Format("at readFile, startMs: {0}, endMs: {1}", startMs, endMs));
+		LogB.Information(string.Format("at readFile, startSample: {0}, endSample: {1}", startSample, endSample));
+
+		// 0 initialize
+
 		fscAIPoints = new ForceSensorCapturePoints(ForceSensorCapturePoints.GraphTypes.FORCEAIFORCE, graphWidth, graphHeight, -1);
 		if(fse.ComputeAsElastic)
 			fscAIPointsDispl = new ForceSensorCapturePoints(ForceSensorCapturePoints.GraphTypes.FORCEAIDISPL, graphWidth, graphHeight, -1);
@@ -1524,7 +1527,6 @@ public class ForceSensorAnalyzeInstant
 		List<string> contents = Util.ReadFileAsStringList(file);
 		bool headersRow = true;
 
-		//initialize
 		forceSensorValues = new ForceSensorValues();
 		if(fse.ComputeAsElastic)
 			forceSensorValuesDispl = new ForceSensorValues();
@@ -1534,6 +1536,8 @@ public class ForceSensorAnalyzeInstant
 
 		List<int> times = new List<int>();
 		List<double> forces = new List<double>();
+
+		// 1 read all file
 
 		foreach(string str in contents)
 		{
@@ -1574,44 +1578,47 @@ public class ForceSensorAnalyzeInstant
 			}
 		}
 
+		// 2 calcule dynamics for all file
+
 		ForceSensorDynamics forceSensorDynamics;
 		if(fse.ComputeAsElastic)
 			forceSensorDynamics = new ForceSensorDynamicsElastic(
 					times, forces, fsco, fse, personWeight, stiffness, eccMinDisplacement, conMinDisplacement,
-					(startMs >= 0 && endMs >= 0) //zoomed
+					(startSample >= 0 && endSample >= 0) //zoomed
 					);
 		else
 			forceSensorDynamics = new ForceSensorDynamicsNotElastic(
 					times, forces, fsco, fse, personWeight, stiffness, eccMinDisplacement, conMinDisplacement);
 
-		if(startMs != -1)
+		// 3 remove times at start/end of the file to avoid first value from sensor,
+		//   and values at start/end (RemoveNValues) needed for the shifted average
+
+		//LogB.Information("not zoomed, second time is: " + times[1].ToString());
+		times.RemoveAt(0); //always (not-elastic and elastic) 1st has to be removed, because time is not ok there.
+
+		if(forceSensorDynamics.CalculedElasticPSAP)
+			times = times.GetRange(forceSensorDynamics.RemoveNValues +1,
+					times.Count -2*forceSensorDynamics.RemoveNValues); // (index, count)
+
+
+		// 4 at zoom, cut time and force samples
+
+		if(startSample >= 0 && endSample >= 0) //zoom in
 		{
-			int startAtSample = -1;
-			int endAtSample = -1;
-			int j = 0;
-			foreach(int time_micros in times)
-			{
-				if(startAtSample < 0 && time_micros >= startMs)
-					startAtSample = j;
-				if(endAtSample < 0 && time_micros > endMs)
-					endAtSample = j;
-
-				j ++;
-			}
-			if(endAtSample < 0)
-				endAtSample = j -1;
-
-			forceSensorDynamics.CutSamplesForZoom(startAtSample, endAtSample);
-
-			//cut times
-			times = times.GetRange(startAtSample, endAtSample - startAtSample);
-			//shift times to the left (make firsts one zero)
-			int startMsInt = times[0];
-			for(j = 0;  j < times.Count; j ++)
-				times[j] -= startMsInt;
+			forceSensorDynamics.CutSamplesForZoom(startSample, endSample); //this takes in account the RemoveNValues
+			times = times.GetRange(startSample, endSample - startSample + 1);
 		}
 
+
+		// 5 shift times to the left (make first one zero)
+
+		int startMsInt = times[0];
+		for(int j = 0;  j < times.Count; j ++)
+			times[j] -= startMsInt;
+
 		forces = forceSensorDynamics.GetForces();
+
+		// 6 get caculated data
 
 		CalculedElasticPSAP = false;
 		if(forceSensorDynamics.CalculedElasticPSAP)
@@ -1624,14 +1631,11 @@ public class ForceSensorAnalyzeInstant
 		}
 		ForceSensorRepetition_l = forceSensorDynamics.GetRepetitions();
 
-		if(startMs == -1)
-		{
-			times.RemoveAt(0); //always (not-elastic and elastic) 1st has to be removed, because time is not ok there.
+		// 7 fill values for the GUI
 
-			if(CalculedElasticPSAP)
-				times = times.GetRange(forceSensorDynamics.RemoveNValues +1, times.Count -2*forceSensorDynamics.RemoveNValues); // (index, count)
-		}
-
+		LogB.Information(string.Format(
+					"readFile, printing forces, times.Count: {0}, forces.Count: {1}",
+					times.Count, forces.Count));
 		int i = 0;
 		foreach(int time in times)
 		{

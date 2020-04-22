@@ -90,6 +90,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox eventbox_radio_mode_contacts_analyze;
 	[Widget] Gtk.EventBox eventbox_radio_mode_encoder_capture_small;
 	[Widget] Gtk.EventBox eventbox_radio_mode_encoder_analyze_small;
+	[Widget] Gtk.EventBox eventbox_button_open_chronojump;
+	[Widget] Gtk.EventBox eventbox_button_exit_cancel;
+	[Widget] Gtk.EventBox eventbox_button_exit_confirm;
 
 	[Widget] Gtk.HBox hbox_contacts_sup_capture_analyze_two_buttons;
 	[Widget] Gtk.Alignment alignment_radio_mode_contacts_analyze;
@@ -599,6 +602,9 @@ public partial class ChronoJumpWindow
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_contacts_analyze, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_encoder_capture_small, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_encoder_analyze_small, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_open_chronojump, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_exit_cancel, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_exit_confirm, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		app1s_eventboxes_paint();
 
 		createComboSelectJumps(true);

@@ -39384,13 +39384,25 @@ then click this button.</property>
                             <property name="can_focus">False</property>
                             <child>
                               <widget class="GtkButton" id="button_open_chronojump">
-                                <property name="label">Open Chronojump</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="has_tooltip">True</property>
                                 <signal name="clicked" handler="on_button_open_chronojump_clicked" swapped="no"/>
                                 <accelerator key="Escape" signal="clicked"/>
+                                <child>
+                                  <widget class="GtkEventBox" id="eventbox_button_open_chronojump">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <child>
+                                      <widget class="GtkLabel" id="label520">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="label" translatable="yes">Open Chronojump</property>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                </child>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
@@ -39492,12 +39504,23 @@ then click this button.</property>
                                                 <property name="can_focus">False</property>
                                                 <child>
                                                   <widget class="GtkButton" id="button_exit_cancel">
-                                                    <property name="label">gtk-cancel</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">True</property>
-                                                    <property name="use_stock">True</property>
                                                     <signal name="clicked" handler="on_button_exit_cancel_clicked" swapped="no"/>
+                                                    <child>
+                                                      <widget class="GtkEventBox" id="eventbox_button_exit_cancel">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <child>
+                                                          <widget class="GtkLabel" id="label518">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Cancel</property>
+                                                          </widget>
+                                                        </child>
+                                                      </widget>
+                                                    </child>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -39507,12 +39530,23 @@ then click this button.</property>
                                                 </child>
                                                 <child>
                                                   <widget class="GtkButton" id="button_exit_confirm">
-                                                    <property name="label">gtk-quit</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">True</property>
-                                                    <property name="use_stock">True</property>
                                                     <signal name="clicked" handler="on_button_exit_confirm_clicked" swapped="no"/>
+                                                    <child>
+                                                      <widget class="GtkEventBox" id="eventbox_button_exit_confirm">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <child>
+                                                          <widget class="GtkLabel" id="label519">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Exit</property>
+                                                          </widget>
+                                                        </child>
+                                                      </widget>
+                                                    </child>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>

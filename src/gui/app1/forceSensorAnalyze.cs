@@ -590,10 +590,10 @@ public partial class ChronoJumpWindow
 		hbox_force_sensor_analyze_automatic_options.Visible = false;
 		notebook_force_sensor_analyze.CurrentPage = 1;
 		force_sensor_ai_drawingareaShown = true;
-		forceSensorDoGraphAI();
+		forceSensorDoGraphAI(false);
 	}
 
-	private void forceSensorDoGraphAI()
+	private void forceSensorDoGraphAI(bool windowResizedAndZoom)
 	{
 		if(lastForceSensorFullPath == null || lastForceSensorFullPath == "")
 			return;
@@ -601,7 +601,12 @@ public partial class ChronoJumpWindow
 		int zoomFrameA = -1; //means no zoom
 		int zoomFrameB = -1; //means no zoom
 
-		if(forceSensorZoomApplied &&
+		if(windowResizedAndZoom)
+		{
+			zoomFrameA = hscale_force_sensor_ai_a_BeforeZoom -1;
+			zoomFrameB = hscale_force_sensor_ai_b_BeforeZoom +1;
+		}
+		else if(forceSensorZoomApplied &&
 				Util.IsNumber(label_force_sensor_ai_time_a.Text, true) &&
 				Util.IsNumber(label_force_sensor_ai_time_b.Text, true))
 		{
@@ -843,7 +848,9 @@ public partial class ChronoJumpWindow
 			return;
 
 		force_sensor_ai_drawingareaShown = true;
-		forceSensorDoGraphAI();
+
+		//taking care of have the BeforeZoom hscales if user reescales window on a zoomed graph
+		forceSensorDoGraphAI(forceSensorZoomApplied && hscale_force_sensor_ai_b_BeforeZoom > 0);
 
 		Gdk.EventConfigure ev = args.Event;
 		Gdk.Window window = ev.Window;
@@ -1018,7 +1025,7 @@ public partial class ChronoJumpWindow
 
 		forceSensorRepetition_lZoomApplied = fsAI.ForceSensorRepetition_l;
 
-		forceSensorDoGraphAI();
+		forceSensorDoGraphAI(false);
 
 		button_force_sensor_ai_zoom.Visible = false;
 		button_force_sensor_ai_zoom_out.Visible = true;
@@ -1033,7 +1040,7 @@ public partial class ChronoJumpWindow
 		//			hscale_force_sensor_ai_a_AtZoom,
 		//			hscale_force_sensor_ai_b_AtZoom));
 
-		forceSensorDoGraphAI();
+		forceSensorDoGraphAI(false);
 
 		hscale_force_sensor_ai_a.Value = hscale_force_sensor_ai_a_BeforeZoom + (hscale_force_sensor_ai_a_AtZoom -1);
 		hscale_force_sensor_ai_b.Value = hscale_force_sensor_ai_a_BeforeZoom + (hscale_force_sensor_ai_b_AtZoom -1);

@@ -1085,7 +1085,7 @@ LogB.Information(" fs C ");
 					if(force_sensor_ai_drawingareaShown)
 					{
 						forceSensorZoomDefaultValues();
-						forceSensorDoGraphAI();
+						forceSensorDoGraphAI(false);
 					}
 					button_contacts_exercise_close_and_recalculate.Sensitive = true;
 					button_delete_last_test.Sensitive = true;
@@ -1520,6 +1520,7 @@ LogB.Information(" fs R ");
 		currentForceSensor = fs;
 		lastForceSensorFile = Util.RemoveExtension(fs.Filename);
 		lastForceSensorFullPath = fs.FullURL;
+		LogB.Information("lastForceSensorFullPath: " + lastForceSensorFullPath);
 
 		combo_force_sensor_exercise.Active = UtilGtk.ComboMakeActive(combo_force_sensor_exercise, fs.ExerciseName);
 		setForceSensorCaptureOptions(fs.CaptureOption);
@@ -1565,7 +1566,7 @@ LogB.Information(" fs R ");
 		if(force_sensor_ai_drawingareaShown)
 		{
 			forceSensorZoomDefaultValues();
-			forceSensorDoGraphAI();
+			forceSensorDoGraphAI(false);
 		}
 		//event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(filechooser.Filename);
 		button_contacts_exercise_close_and_recalculate.Sensitive = true;
@@ -1747,7 +1748,7 @@ LogB.Information(" fs R ");
 		if(force_sensor_ai_drawingareaShown)
 		{
 			forceSensorZoomDefaultValues();
-			forceSensorDoGraphAI();
+			forceSensorDoGraphAI(false);
 		}
 
 		currentForceSensor.UpdateSQL(false);
@@ -1768,6 +1769,9 @@ LogB.Information(" fs R ");
 	private enum forceSensorGraphsEnum { SIGNAL, RFD }
 	private void forceSensorCopyTempAndDoGraphs(forceSensorGraphsEnum fsge)
 	{
+		LogB.Information(string.Format("at forceSensorCopyTempAndDoGraphs(), lastForceSensorFullPath: {0}, UtilEncoder.GetmifCSVFileName(): {1}",
+				lastForceSensorFullPath, UtilEncoder.GetmifCSVFileName()));
+
 		File.Copy(lastForceSensorFullPath, UtilEncoder.GetmifCSVFileName(), true); //can be overwritten
 
 		if(fsge == forceSensorGraphsEnum.SIGNAL)
@@ -1846,6 +1850,7 @@ LogB.Information(" fs R ");
 				preferences.forceSensorCaptureWidthSeconds
 				);
 
+		//LogB.Information("at forceSensorDoSignalGraphReadFile(), filename: " + UtilEncoder.GetmifCSVFileName());
 		List<string> contents = Util.ReadFileAsStringList(UtilEncoder.GetmifCSVFileName());
 		bool headersRow = true;
 
@@ -1877,6 +1882,9 @@ LogB.Information(" fs R ");
 			}
 		}
 		ForceSensorDynamics fsd;
+
+		//LogB.Information(string.Format("size of times: {0}", times.Count));
+		//LogB.Information(string.Format("size of forces: {0}", forces.Count));
 
 		if(currentForceSensorExercise.ComputeAsElastic)
 			fsd = new ForceSensorDynamicsElastic(
@@ -2438,7 +2446,7 @@ LogB.Information(" fs R ");
 
 		forceSensorExerciseWin.HideAndNull();
 
-		forceSensorDoGraphAI();
+		forceSensorDoGraphAI(false);
 	}
 
 	//based on: on_button_encoder_exercise_delete

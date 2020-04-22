@@ -128,6 +128,13 @@ public partial class ChronoJumpWindow
 	private void configInitRead()
 	{
 		configChronojump.Read();
+
+		if(configChronojump.CompujumpStationMode != Constants.Menuitem_modes.UNDEFINED)
+		{
+			button_show_modes.Visible = false;
+			button_show_modes1.Visible = false;
+		}
+
 		if(
 				configChronojump.Compujump &&
 				configChronojump.CompujumpServerURL != null &&

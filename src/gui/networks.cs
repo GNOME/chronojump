@@ -39,7 +39,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.VBox vbox_start_window_sub;
 	[Widget] Gtk.Alignment alignment_start_window;
 	[Widget] Gtk.Alignment alignment_encoder_capture_options;
-			
+	[Widget] Gtk.Button button_activate_chronopics_networks_problems;
+
 	//RFID
 	[Widget] Gtk.Label label_rfid_wait;
 	[Widget] Gtk.Label label_rfid_encoder_wait;
@@ -1058,6 +1059,7 @@ public partial class ChronoJumpWindow
 			hbox_RFID_disconnected.Visible = false;
 			hbox_encoder_disconnected.Visible = true;
 			label_encoder_checked_error.Visible = false;
+			button_activate_chronopics_networks_problems.Sensitive = preferences.networksAllowChangeDevices;
 		}
 		else {
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.ENCODER);
@@ -1078,6 +1080,7 @@ public partial class ChronoJumpWindow
 			 * so do not show the encoder message
 			 */
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.NETWORKSPROBLEMS);
+			button_activate_chronopics_networks_problems.Sensitive = preferences.networksAllowChangeDevices;
 			hbox_encoder_disconnected.Visible = false;
 		}
 		else {

@@ -425,6 +425,8 @@ public partial class ChronoJumpWindow
 		image_session_open.Pixbuf = pixbuf;
 		image_session_load1.Pixbuf = pixbuf;
 		image_session_load2.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_open_set.png");
 		image_encoder_capture_open.Pixbuf = pixbuf;
 		image_encoder_capture_open1.Pixbuf = pixbuf;
 		image_contacts_capture_load.Pixbuf = pixbuf;

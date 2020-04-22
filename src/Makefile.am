@@ -478,6 +478,7 @@ RESOURCES = \
 	../images/md/ic_fullscreen_exit_blue_24dp_1x.png,image_minimize.png \
 	../images/md/ic_folder_open_blue_24dp_2x.png,folder_open_big.png \
 	../images/md/ic_folder_open_blue_24dp_1x.png,folder_open.png \
+	../images/md/ic_folder_open_set_blue_24dp_1x.png,folder_open_set.png \
 	../images/md/ic_visibility_blue_24dp_1x.png,image_visibility.png \
 	../images/md/ic_person_pin_blue_24dp_1x.png,image_person_pin.png \
 	../images/md/ic_face_blue_24dp_1x.png,image_face.png \

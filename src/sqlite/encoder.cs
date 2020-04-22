@@ -475,7 +475,7 @@ class SqliteEncoder : Sqlite
 			Sqlite.Open();
 	
 		dbcmd.CommandText = 
-			"SELECT person77.name, person77.sex, encoder.encoderConfiguration, encoderExercise.name, (personSession77.weight * encoderExercise.percentBodyWeight/100) + encoder.extraWeight, COUNT(*)" +
+			"SELECT person77.uniqueID, person77.name, person77.sex, encoder.encoderConfiguration, encoderExercise.name, (personSession77.weight * encoderExercise.percentBodyWeight/100) + encoder.extraWeight, COUNT(*)" +
 			" FROM person77, personSession77, encoderExercise, encoder" + 
 			" WHERE person77.uniqueID == encoder.personID AND personSession77.personID == encoder.personID AND personSession77.sessionID == encoder.sessionID AND encoderExercise.uniqueID==encoder.exerciseID AND signalOrCurve == \"signal\" AND encoder.sessionID == " + sessionID + 
 			" GROUP BY encoder.personID, exerciseID, extraWeight" +
@@ -490,7 +490,7 @@ class SqliteEncoder : Sqlite
 		while(reader.Read())
 		{
 			//discard if != encoderGI
-			string [] strFull = reader[2].ToString().Split(new char[] {':'});
+			string [] strFull = reader[3].ToString().Split(new char[] {':'});
 			EncoderConfiguration econf = new EncoderConfiguration(
 				(Constants.EncoderConfigurationNames) 
 				Enum.Parse(typeof(Constants.EncoderConfigurationNames), strFull[0]) );
@@ -504,19 +504,21 @@ class SqliteEncoder : Sqlite
 			if(encoderGI == Constants.EncoderGI.GRAVITATORY)
 			{
 				string [] s = { 
-					reader[0].ToString(), 	//person name
-					reader[1].ToString(), 	//person sex
-					reader[3].ToString(), 	//encoder exercise name
-					reader[4].ToString(),	//displaced mass (includes percentBodyeight)
-					reader[5].ToString()	//sets count
+					reader[0].ToString(), 	//person uniqueID
+					reader[1].ToString(), 	//person name
+					reader[2].ToString(), 	//person sex
+					reader[4].ToString(), 	//encoder exercise name
+					reader[5].ToString(),	//displaced mass (includes percentBodyeight)
+					reader[6].ToString()	//sets count
 				};
 				array.Add (s);
 			} else {
 				string [] s = { 
-					reader[0].ToString(), 	//person name
-					reader[1].ToString(), 	//person sex
-					reader[3].ToString(), 	//encoder exercise name
-					reader[5].ToString()	//sets count
+					reader[0].ToString(), 	//person uniqueID
+					reader[1].ToString(), 	//person name
+					reader[2].ToString(), 	//person sex
+					reader[4].ToString(), 	//encoder exercise name
+					reader[6].ToString()	//sets count
 				};
 				array.Add (s);
 			}
@@ -535,7 +537,7 @@ class SqliteEncoder : Sqlite
 			Sqlite.Open();
 
 		dbcmd.CommandText =
-			"SELECT person77.name, person77.sex, encoder.encoderConfiguration, encoderExercise.name, encoder.extraWeight, encoder.future1 " + //TODO: future2, future3
+			"SELECT person77.uniqueID, person77.name, person77.sex, encoder.encoderConfiguration, encoderExercise.name, encoder.extraWeight, encoder.future1 " + //TODO: future2, future3
 			"FROM person77, encoderExercise, encoder " +
 			"WHERE sessionID = " + sessionID.ToString() +
 		        " AND signalOrCurve = \"curve\" " +
@@ -552,7 +554,7 @@ class SqliteEncoder : Sqlite
 		while(reader.Read())
 		{
 			//discard if != encoderGI
-			string [] strFull = reader[2].ToString().Split(new char[] {':'});
+			string [] strFull = reader[3].ToString().Split(new char[] {':'});
 			EncoderConfiguration econf = new EncoderConfiguration(
 				(Constants.EncoderConfigurationNames)
 				Enum.Parse(typeof(Constants.EncoderConfigurationNames), strFull[0]) );
@@ -566,20 +568,22 @@ class SqliteEncoder : Sqlite
 			if(encoderGI == Constants.EncoderGI.GRAVITATORY)
 			{
 				string [] s = {
-					reader[0].ToString(), 	//person name
-					reader[1].ToString(), 	//person sex
-					reader[3].ToString(), 	//encoder exercise name
-					Util.ChangeDecimalSeparator(reader[4].ToString()),	//extra mass
-					reader[5].ToString()	//power
+					reader[0].ToString(), 	//person uniqueID
+					reader[1].ToString(), 	//person name
+					reader[2].ToString(), 	//person sex
+					reader[4].ToString(), 	//encoder exercise name
+					Util.ChangeDecimalSeparator(reader[5].ToString()),	//extra mass
+					reader[6].ToString()	//power
 						//TODO: speed, force
 				};
 				array.Add (s);
 			} else {
 				string [] s = {
-					reader[0].ToString(), 	//person name
-					reader[1].ToString(), 	//person sex
-					reader[3].ToString(), 	//encoder exercise name
-					reader[5].ToString()	//power
+					reader[0].ToString(), 	//person uniqueID
+					reader[1].ToString(), 	//person name
+					reader[2].ToString(), 	//person sex
+					reader[4].ToString(), 	//encoder exercise name
+					reader[6].ToString()	//power
 						//TODO: speed, force
 				};
 				array.Add (s);

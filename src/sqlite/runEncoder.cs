@@ -227,7 +227,7 @@ class SqliteRunEncoder : Sqlite
 			Sqlite.Open();
 
 		dbcmd.CommandText =
-			"SELECT person77.name, person77.sex, runEncoderExercise.name, COUNT(*)" +
+			"SELECT person77.uniqueID, person77.name, person77.sex, runEncoderExercise.name, COUNT(*)" +
 			" FROM person77, personSession77, runEncoderExercise, runEncoder" +
 			" WHERE person77.uniqueID == runEncoder.personID AND personSession77.personID == runEncoder.personID AND personSession77.sessionID == runEncoder.sessionID AND runEncoderExercise.uniqueID==runEncoder.exerciseID AND runEncoder.sessionID == " + sessionID +
 			" GROUP BY runEncoder.personID, exerciseID" +
@@ -242,10 +242,11 @@ class SqliteRunEncoder : Sqlite
 		while(reader.Read())
 		{
 			string [] s = {
-				reader[0].ToString(), 	//person name
-				reader[1].ToString(), 	//person sex
-				reader[2].ToString(), 	//exercise name
-				reader[3].ToString()	//sets count
+				reader[0].ToString(), 	//personID
+				reader[1].ToString(), 	//person name
+				reader[2].ToString(), 	//person sex
+				reader[3].ToString(), 	//exercise name
+				reader[4].ToString()	//sets count
 			};
 			array.Add (s);
 		}

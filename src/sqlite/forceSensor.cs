@@ -236,7 +236,7 @@ class SqliteForceSensor : Sqlite
 			Sqlite.Open();
 
 		dbcmd.CommandText =
-			"SELECT person77.name, person77.sex, forceSensorExercise.name, COUNT(*)" +
+			"SELECT person77.uniqueID, person77.name, person77.sex, forceSensorExercise.name, COUNT(*)" +
 			" FROM person77, personSession77, forceSensorExercise, forceSensor" +
 			" WHERE person77.uniqueID == forceSensor.personID AND personSession77.personID == forceSensor.personID AND personSession77.sessionID == forceSensor.sessionID AND forceSensorExercise.uniqueID==forceSensor.exerciseID AND forceSensor.sessionID == " + sessionID +
 			" GROUP BY forceSensor.personID, exerciseID" +
@@ -251,10 +251,11 @@ class SqliteForceSensor : Sqlite
 		while(reader.Read())
 		{
 			string [] s = {
-				reader[0].ToString(), 	//person name
-				reader[1].ToString(), 	//person sex
-				reader[2].ToString(), 	//exercise name
-				reader[3].ToString()	//sets count
+				reader[0].ToString(), 	//personID
+				reader[1].ToString(), 	//person name
+				reader[2].ToString(), 	//person sex
+				reader[3].ToString(), 	//exercise name
+				reader[4].ToString()	//sets count
 			};
 			array.Add (s);
 		}

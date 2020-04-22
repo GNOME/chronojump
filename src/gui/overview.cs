@@ -32,13 +32,20 @@ public abstract class OverviewWindow
 	[Widget] protected Gtk.TreeView treeview_sets;
 	[Widget] protected Gtk.TreeView treeview_reps;
 	[Widget] protected Gtk.Notebook notebook;
+	[Widget] protected Gtk.HBox hbox_radio_sets_repetitions;
+	[Widget] protected Gtk.RadioButton radio_sets;
+	[Widget] protected Gtk.RadioButton radio_reps;
+	[Widget] protected Gtk.Button button_select_this_person;
 	
 	protected enum treeviewType { SETS, REPS }
 	protected int sessionID;
+	protected int selectedPersonID;
 
 	protected void initialize()
 	{
 		setTitle();
+		button_select_this_person.Sensitive = false;
+		selectedPersonID = -1;
 		createTreeViews();
 	}
 
@@ -63,6 +70,8 @@ public abstract class OverviewWindow
 
 		foreach (string [] line in array)
 			store.AppendValues (line);
+
+		tv.CursorChanged += on_treeview_cursor_changed;
 	}
 
 	protected virtual void createTreeView(Gtk.TreeView tv, treeviewType type)
@@ -70,16 +79,85 @@ public abstract class OverviewWindow
 		tv.HeadersVisible=true;
 		int count = 0;
 
+		//add invisible personID column
+		Gtk.TreeViewColumn personIDCol = new Gtk.TreeViewColumn ("personId", new CellRendererText(), "text", count++);
+		personIDCol.Visible = false;
+		tv.AppendColumn(personIDCol);
+
 		tv.AppendColumn (Catalog.GetString ("Person"), new CellRendererText(), "text", count++);
 		tv.AppendColumn (Catalog.GetString ("Sex"), new CellRendererText(), "text", count++);
 		tv.AppendColumn (Catalog.GetString ("Exercise"), new CellRendererText(), "text", count++);
 		tv.AppendColumn (Catalog.GetString ("Sets"), new CellRendererText(), "text", count++);
 	}
 
+	protected void on_treeview_cursor_changed (object o, EventArgs args)
+	{
+		TreeIter iter = new TreeIter();
+
+		if (o == (object) treeview_sets)
+		{
+			TreeModel myModel = treeview_sets.Model;
+
+			if (treeview_sets.Selection.GetSelected (out myModel, out iter))
+			{
+				button_select_this_person.Sensitive = true;
+				string selected = ( treeview_sets.Model.GetValue (iter, 0) ).ToString();
+				if(Util.IsNumber(selected, false))
+					selectedPersonID = Convert.ToInt32(selected);
+			}
+		} else if (o == (object) treeview_reps)
+		{
+			TreeModel myModel = treeview_reps.Model;
+
+			if (treeview_reps.Selection.GetSelected (out myModel, out iter))
+			{
+				button_select_this_person.Sensitive = true;
+				string selected = ( treeview_reps.Model.GetValue (iter, 0) ).ToString();
+				if(Util.IsNumber(selected, false))
+					selectedPersonID = Convert.ToInt32(selected);
+			}
+		}
+	}
+
+	protected void on_radio_sets_toggled (object o, EventArgs args)
+	{
+		if(radio_sets.Active)
+			notebook.CurrentPage = 0;
+
+		//unselect to have no confusion on which person is selected by button_select_this_person
+		//if there are different selections on both treeviews
+		treeview_reps.Selection.UnselectAll();
+		treeview_sets.Selection.UnselectAll();
+		button_select_this_person.Sensitive = false;
+	}
+
+	protected void on_radio_reps_toggled (object o, EventArgs args)
+	{
+		if(radio_reps.Active)
+			notebook.CurrentPage = 1;
+
+		//unselect to have no confusion on which person is selected by button_select_this_person
+		//if there are different selections on both treeviews
+		treeview_reps.Selection.UnselectAll();
+		treeview_sets.Selection.UnselectAll();
+		button_select_this_person.Sensitive = false;
+	}
+
 	protected virtual TreeStore getStore(treeviewType type)
 	{
-		return new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string)); //person, sex, exercise, sets
+		return new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string)); //personID (hidden), person name, sex, exercise, sets
 	}
+
+	public Button Button_select_this_person
+	{
+		set { button_select_this_person = value; }
+		get { return button_select_this_person;  }
+	}
+	public int SelectedPersonID
+	{
+		get { return selectedPersonID; }
+	}
+
 }
 
 public class EncoderOverviewWindow : OverviewWindow
@@ -108,6 +186,7 @@ public class EncoderOverviewWindow : OverviewWindow
 		EncoderOverviewWindowBox.sessionID = sessionID;
 
 		EncoderOverviewWindowBox.initialize();
+		EncoderOverviewWindowBox.hbox_radio_sets_repetitions.Visible = true;
 
 		EncoderOverviewWindowBox.overview_win.Show ();
 		
@@ -142,6 +221,11 @@ public class EncoderOverviewWindow : OverviewWindow
 		tv.HeadersVisible=true;
 		int count = 0;
 
+		//add invisible personID column
+		Gtk.TreeViewColumn personIDCol = new Gtk.TreeViewColumn ("personId", new CellRendererText(), "text", count++);
+		personIDCol.Visible = false;
+		tv.AppendColumn(personIDCol);
+
 		if(type == treeviewType.SETS)
 		{
 			tv.AppendColumn (Catalog.GetString ("Person"), new CellRendererText(), "text", count++);
@@ -168,14 +252,14 @@ public class EncoderOverviewWindow : OverviewWindow
 		if(type == treeviewType.SETS)
 		{
 			if(encoderGI == Constants.EncoderGI.GRAVITATORY)
-				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof(string)); //person, sex, exercise, displaced mass, sets
+				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof(string)); //personID (hidden), person name, sex, exercise, displaced mass, sets
 			else
-				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string)); //person, sex, exercise, sets
+				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string)); //personID (hidden), person name, sex, exercise, sets
 		} else {
 			if(encoderGI == Constants.EncoderGI.GRAVITATORY)
-				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof(string)); //person, sex, exercise, extra mass, power
+				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof(string)); //personID (hidden), person name, sex, exercise, extra mass, power
 			else
-				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string)); //person, sex, exercise, power
+				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string)); //personID (hidden), person name, sex, exercise, power
 		}
 
 		return s;
@@ -219,6 +303,7 @@ public class ForceSensorOverviewWindow : OverviewWindow
 
 		ForceSensorOverviewWindowBox.initialize();
 
+		ForceSensorOverviewWindowBox.hbox_radio_sets_repetitions.Visible = false;;
 		ForceSensorOverviewWindowBox.notebook.GetNthPage(1).Hide();
 
 		ForceSensorOverviewWindowBox.overview_win.Show ();
@@ -274,6 +359,7 @@ public class RunEncoderOverviewWindow : OverviewWindow
 
 		RunEncoderOverviewWindowBox.initialize();
 
+		RunEncoderOverviewWindowBox.hbox_radio_sets_repetitions.Visible = false;;
 		RunEncoderOverviewWindowBox.notebook.GetNthPage(1).Hide();
 
 		RunEncoderOverviewWindowBox.overview_win.Show ();

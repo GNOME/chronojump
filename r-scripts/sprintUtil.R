@@ -15,8 +15,8 @@
 #   along with this program; if not, write to the Free Software
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
-#   Copyright (C) 2017   	Xavier Padullés <x.padulles@gmail.com>
-#   Copyright (C) 2017   	Xavier de Blas <xaviblas@gmail.com>
+#   Copyright (C) 2017-2020   	Xavier Padullés <x.padulles@gmail.com>
+#   Copyright (C) 2017-2020   	Xavier de Blas <xaviblas@gmail.com>
 
 #This code uses splitTimes: accumulated time (not lap time)
 

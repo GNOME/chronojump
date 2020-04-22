@@ -2602,6 +2602,7 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	private OverviewWindow overviewWin;
 	private void on_session_overview_clicked (object o, EventArgs args)
 	{
 		if (currentSession == null)
@@ -2610,11 +2611,26 @@ public partial class ChronoJumpWindow
 		Constants.Menuitem_modes m = current_menuitem_mode;
 
 		if(m == Constants.Menuitem_modes.POWERGRAVITATORY || m == Constants.Menuitem_modes.POWERINERTIAL)
-			EncoderOverviewWindow.Show (app1, currentEncoderGI, currentSession.UniqueID);
+		{
+			overviewWin = EncoderOverviewWindow.Show (app1, currentEncoderGI, currentSession.UniqueID);
+		}
 		else if(m == Constants.Menuitem_modes.FORCESENSOR)
-			ForceSensorOverviewWindow.Show (app1, currentSession.UniqueID);
+			overviewWin = ForceSensorOverviewWindow.Show (app1, currentSession.UniqueID);
 		else if(m == Constants.Menuitem_modes.RUNSENCODER)
-			RunEncoderOverviewWindow.Show (app1, currentSession.UniqueID);
+			overviewWin = RunEncoderOverviewWindow.Show (app1, currentSession.UniqueID);
+
+		overviewWin.Button_select_this_person.Clicked -= new EventHandler(on_overview_select_person);
+		overviewWin.Button_select_this_person.Clicked += new EventHandler(on_overview_select_person);
+	}
+
+	private void on_overview_select_person (object o, EventArgs args)
+	{
+		if(overviewWin.SelectedPersonID != -1)
+		{
+			//LogB.Information("selected: " + overviewWin.SelectedPersonID.ToString());
+			selectRowTreeView_persons(treeview_persons,
+					myTreeViewPersons.FindRow(overviewWin.SelectedPersonID));
+		}
 	}
 
 	private void on_export_session_accepted(object o, EventArgs args) {

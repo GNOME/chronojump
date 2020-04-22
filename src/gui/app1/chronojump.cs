@@ -2671,6 +2671,7 @@ public partial class ChronoJumpWindow
 		{
 			viewport_chronopics.Sensitive = preferences.networksAllowChangeDevices;
 			button_activate_chronopics_encoder.Sensitive = preferences.networksAllowChangeDevices;
+			button_activate_chronopics_networks_problems.Sensitive = preferences.networksAllowChangeDevices;
 		}
 
 		//change language works on windows. On Linux let's change the locale
@@ -5065,6 +5066,10 @@ public partial class ChronoJumpWindow
 		chronopicRegisterUpdate(true);
 	}
 
+	private void on_button_activate_chronopics_networks_problems_clicked (object o, EventArgs args)
+	{
+		chronopicRegisterUpdate(true);
+	}
 	
 	/*	
 	private void on_chronopic_window_cancelled (object o, EventArgs ags) {

@@ -62,6 +62,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_chronopic_connect_contacts;
 	[Widget] Gtk.Image image_chronopic_connect_encoder;
 	[Widget] Gtk.Image image_chronopic_connect_encoder1;
+	[Widget] Gtk.Image image_chronopic_connect_encoder2;
 	[Widget] Gtk.Image image_button_execute;
 	[Widget] Gtk.Image image_contacts_bell;
 	[Widget] Gtk.Image image_contacts_close_and_capture;
@@ -397,6 +398,7 @@ public partial class ChronoJumpWindow
 		image_chronopic_connect_contacts.Pixbuf = pixbuf;
 		image_chronopic_connect_encoder.Pixbuf = pixbuf;
 		image_chronopic_connect_encoder1.Pixbuf = pixbuf;
+		image_chronopic_connect_encoder2.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_recalculate.png");
 		image_recalculate.Pixbuf = pixbuf;

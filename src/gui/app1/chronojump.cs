@@ -2558,9 +2558,12 @@ public partial class ChronoJumpWindow
 			sensitiveGuiYesPerson();
 			label_top_person_name.Text = "<b>" + currentPerson.Name + "</b>";
 			label_top_person_name.UseMarkup = true;
+			label_top_encoder_person_name.Text = "<b>" + currentPerson.Name + "</b>";
+			label_top_encoder_person_name.UseMarkup = true;
 		} else {
 			currentPerson = null;
 			label_top_person_name.Text = "";
+			label_top_encoder_person_name.Text = "";
 			vbox_manage_persons.Visible = true;
 			arrow_manage_persons_up.Visible = true;
 			arrow_manage_persons_down.Visible = false;

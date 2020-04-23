@@ -684,14 +684,10 @@ class ImportSession:
         if(DEBUGTOFILE):
             debugFile.write(" start _import_forceSensor\n")
 
-        forceSensor_exercise_from_forceSensor = self.source_db.read(table_name="ForceSensorExercise",
-                where_condition="ForceSensor.uniqueID={}".format(self.source_session),
+        forceSensor_exercise = self.source_db.read(table_name="ForceSensorExercise",
+                where_condition="ForceSensor.sessionID={}".format(self.source_session),
                 join_clause="LEFT JOIN ForceSensor ON ForceSensor.exerciseID=ForceSensorExercise.uniqueID",
                 group_by_clause="ForceSensorExercise.uniqueID")
-
-        forceSensor_exercise = Table("forceSensorExercise")
-        forceSensor_exercise.concatenate_table(forceSensor_exercise_from_forceSensor)
-        forceSensor_exercise.remove_duplicates()
 
 
         self.destination_db.write(table=forceSensor_exercise,
@@ -721,14 +717,10 @@ class ImportSession:
         if(DEBUGTOFILE):
             debugFile.write(" start _import_runEncoder\n")
 
-        runEncoder_exercise_from_runEncoder = self.source_db.read(table_name="RunEncoderExercise",
-                where_condition="RunEncoder.uniqueID={}".format(self.source_session),
+        runEncoder_exercise = self.source_db.read(table_name="RunEncoderExercise",
+                where_condition="RunEncoder.sessionID={}".format(self.source_session),
                 join_clause="LEFT JOIN RunEncoder ON RunEncoder.exerciseID=RunEncoderExercise.uniqueID",
                 group_by_clause="RunEncoderExercise.uniqueID")
-
-        runEncoder_exercise = Table("runEncoderExercise")
-        runEncoder_exercise.concatenate_table(runEncoder_exercise_from_runEncoder)
-        runEncoder_exercise.remove_duplicates()
 
 
         self.destination_db.write(table=runEncoder_exercise,

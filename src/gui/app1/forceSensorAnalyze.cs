@@ -154,6 +154,7 @@ public partial class ChronoJumpWindow
 
 		main_menu.Sensitive = s;
 		viewport_persons.Sensitive = s;
+		menus_sensitive(s);
 		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = s;
 		hbox_top_person.Sensitive = s;
 	}

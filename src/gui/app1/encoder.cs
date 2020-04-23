@@ -3728,6 +3728,7 @@ public partial class ChronoJumpWindow
 		table_encoder_analyze_options.Sensitive = s;
 		main_menu.Sensitive = s;
 		viewport_persons.Sensitive = s;
+		menus_sensitive(s);
 		hbox_encoder_sup_capture_analyze_two_buttons.Sensitive = s;
 		hbox_top_person_encoder.Sensitive = s;
 	}

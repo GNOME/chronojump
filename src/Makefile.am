@@ -27,6 +27,7 @@ SOURCES = \
 	gui/app1/pulse.cs\
 	gui/app1/reactionTime.cs\
 	gui/app1/run.cs\
+	gui/app1/runEncoder.cs\
 	gui/cairo/jumpsDjOptimalFall.cs\
 	gui/cairo/jumpsEvolution.cs\
 	gui/cairo/jumpsProfile.cs\
@@ -55,7 +56,6 @@ SOURCES = \
 	gui/jumpType.cs\
 	gui/restTime.cs\
 	gui/run.cs\
-	gui/runEncoder.cs\
 	gui/runType.cs\
 	gui/reactionTime.cs\
 	gui/pulse.cs\

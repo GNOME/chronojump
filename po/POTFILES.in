@@ -69,6 +69,7 @@ src/gui/app1/jumpsWeightFVProfile.cs
 src/gui/app1/pulse.cs
 src/gui/app1/reactionTime.cs
 src/gui/app1/run.cs
+src/gui/app1/runEncoder.cs
 src/gui/app1/session/loadAndImport.cs
 src/gui/app1/session/addEdit.cs
 src/gui/chronopic.cs
@@ -105,7 +106,6 @@ src/gui/reactionTime.cs
 src/gui/repetitiveConditions.cs
 src/gui/report.cs
 src/gui/run.cs
-src/gui/runEncoder.cs
 src/gui/runType.cs
 src/gui/sendLog.cs
 src/gui/server.cs

@@ -1031,22 +1031,22 @@ public partial class ChronoJumpWindow
 
 	private bool pulseGTKRunEncoderCapture ()
 	{
-LogB.Information(" re A ");
+		LogB.Information(" re A ");
 		if(runEncoderCaptureThread == null)
 		{
 			Thread.Sleep (25);
 			return true;
 		}
 
-LogB.Information(" re B ");
+		LogB.Information(" re B ");
 		//LogB.Information(capturingRunEncoder.ToString())
 		if(! runEncoderCaptureThread.IsAlive || runEncoderProcessFinish || runEncoderProcessCancel || runEncoderProcessError)
 		{
-LogB.Information(" re C ");
+			LogB.Information(" re C ");
 			button_video_play_this_test_contacts.Sensitive = false;
 			if(runEncoderProcessFinish)
 			{
-LogB.Information(" re C finish");
+				LogB.Information(" re C finish");
 				if(capturingRunEncoder != arduinoCaptureStatus.COPIED_TO_TMP)
 				{
 					Thread.Sleep (25); //Wait file is copied
@@ -1103,10 +1103,10 @@ LogB.Information(" re C finish");
 						forceSensorDoGraphAI();
 					*/
 				}
-LogB.Information(" re C finish 2");
+				LogB.Information(" re C finish 2");
 			} else if(runEncoderProcessCancel || runEncoderProcessError)
 			{
-LogB.Information(" re C cancel ");
+				LogB.Information(" re C cancel ");
 				//stop the camera (and do not save)
 				webcamEnd (Constants.TestTypes.RACEANALYZER, -1);
 				sensitiveLastTestButtons(false);
@@ -1117,7 +1117,7 @@ LogB.Information(" re C cancel ");
 					event_execute_label_message.Text = "Cancelled.";
 				else
 					event_execute_label_message.Text = runEncoderNotConnectedString;
-LogB.Information(" re C cancel 2");
+				LogB.Information(" re C cancel 2");
 			}
 			else
 				event_execute_label_message.Text = "";
@@ -1131,7 +1131,7 @@ LogB.Information(" re C cancel 2");
 			 */
 			while(runEncoderCaptureThread.IsAlive)
 				Thread.Sleep (250);
-LogB.Information(" re D ");
+			LogB.Information(" re D ");
 
 			LogB.ThreadEnded(); 
 
@@ -1153,23 +1153,23 @@ LogB.Information(" re D ");
 			event_execute_label_message.Text = runEncoderPulseMessage;
 
 
-LogB.Information(" re E ");
-/*
+		LogB.Information(" re E ");
+		/*
 		if(forceCaptureStartMark)
 		{
 			event_execute_label_message.Text = "Capturing ...";
 			forceCaptureStartMark = false;
 		}
 		*/
-LogB.Information(" re F ");
+		LogB.Information(" re F ");
 
 		if(capturingRunEncoder == arduinoCaptureStatus.CAPTURING)
 		{
-LogB.Information(" re G ");
+			LogB.Information(" re G ");
 
 
-LogB.Information(" re H2 ");
-/*
+			LogB.Information(" re H2 ");
+			/*
 			if(usbDisconnectedLastTime == forceSensorValues.TimeLast)
 			{
 				usbDisconnectedCount ++;
@@ -1187,11 +1187,11 @@ LogB.Information(" re H2 ");
 			}
 			*/
 
-LogB.Information(" re I ");
+			LogB.Information(" re I ");
 
-LogB.Information(" re Q ");
+			LogB.Information(" re Q ");
 		}
-LogB.Information(" re R ");
+		LogB.Information(" re R ");
 
 		Thread.Sleep (25);
 		//LogB.Information(" RunEncoder:"+ runEncoderCaptureThread.ThreadState.ToString());

@@ -263,7 +263,7 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
         # mtext(side = 1, at = raceTime, text = paste(round(raceTime, digits = 3), " s", sep=""))
 
         print("#######Entering plotSprintFromEncoder###########")
-        par(mar = c(7, 4, 5, 6.5))
+        par(mar = c(4, 4, 5, 6.5))
         print("plotRawAccel")
         print(plotRawAccel)
         print(typeof(plotRawAccel))
@@ -285,28 +285,31 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
                 return("Capture too short")
         }
         
+	ltyRaw = 1;
+	ltyFitted = 2;
+	lwdRaw = 1;
+	lwdFitted = 2;
         
-        legendText = paste("Vmax.raw =", round(sprintRawDynamics$rawVmax, digits = 2), "m/s")
+        legendText = paste("V max (raw) =", round(sprintRawDynamics$rawVmax, digits = 2), "m/s")
         legendColor = "black"
+        legendLty = ltyRaw
+        legendLwd = lwdRaw
         
-        legendText = c(legendText, paste("Vmax.fitted =", round(sprintFittedDynamics$Vmax.fitted, digits = 2), "m/s"))
+        legendText = c(legendText, paste("V max (fitted) =", round(sprintFittedDynamics$Vmax.fitted, digits = 2), "m/s"))
         legendColor = c(legendColor, "black")
+        legendLty = c(legendLty, ltyFitted)
+        legendLwd = c(legendLwd, lwdFitted)
         
         legendText = c(legendText, paste("K =", round(sprintFittedDynamics$K.fitted, digits = 2), "s\u207B\u00B9"))
         legendColor = c(legendColor, "black")
-        
+        legendLty = c(legendLty, 0)
+        legendLwd = c(legendLwd, 0)
+
         legendText = c(legendText, paste("\u03C4 =", round(1/sprintFittedDynamics$K.fitted, digits = 2), "s"))
         legendColor = c(legendColor, "black")
-        
-        legendText = c(legendText, paste("Amax.fitted =", round(max(sprintFittedDynamics$amax.fitted), digits = 2), "m/s\u00b2"))
-        legendColor = c(legendColor, "magenta")
-        
-        legendText = c(legendText, paste("Fmax.fitted =", round(sprintFittedDynamics$fmax.fitted, digits = 2), "N"))
-        legendColor = c(legendColor, "blue")
-        
-        legendText = c(legendText, paste("Pmax.fitted =", round(sprintFittedDynamics$pmax.fitted, digits = 2), "W"))
-        legendColor = c(legendColor, "red")
-        
+        legendLty = c(legendLty, 0)
+        legendLwd = c(legendLwd, 0)
+
         #Plotting rawSpeed
         ylimits = c(0, sprintRawDynamics$rawVmax*1.05)
         xlimits =c(0, sprintRawDynamics$time[sprintRawDynamics$endSample]*1.05)
@@ -375,7 +378,7 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
                 plot(sprintRawDynamics$time[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
                      sprintRawDynamics$rawSpeed[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
                      type = "l", lty = 3, ylim = ylimits,
-                     main = title, xlab = "Time(s)", ylab = "Speed(m/s)",
+                     main = title, xlab = "Time (s)", ylab = "Speed (m/s)",
                      yaxs = "i", xaxs = "i")
                 lines(x = c(0,sprintRawDynamics$time[sprintRawDynamics$startSample]), y = c(0,sprintRawDynamics$rawSpeed[sprintRawDynamics$startSample]))
         }
@@ -388,14 +391,19 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
         {
                 #Plotting fitted speed
                 lines(sprintFittedDynamics$t.fitted, sprintFittedDynamics$v.fitted
-                      , lty = 2
+                      , lty = 2, lwd = 2
                       #, col = "green"
                       )
         }
         
         if (plotRawAccel || plotFittedAccel)
         {
-                ylimits = c(min(sprintRawDynamics$rawAccel[sprintRawDynamics$startSample:sprintRawDynamics$endSample])*0.95, max(c(sprintRawDynamics$rawAmax, sprintFittedDynamics$amax.fitted)*1.05))
+                if(plotRawAccel){
+			ylimits = c(min(sprintRawDynamics$rawAccel[sprintRawDynamics$startSample:sprintRawDynamics$endSample])*0.95, max(c(sprintRawDynamics$rawAmax, sprintFittedDynamics$amax.fitted)*1.05))
+		} else {
+                        ylimits = c(0,sprintFittedDynamics$amax.fitted)
+		}
+
                 if (plotRawAccel)
                 {
                         #Plotting rawAccel
@@ -411,8 +419,10 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
                              
                         axis(side = 4)
                         #abline(h=c(0,sprintRawDynamics$startAccel), col = c("magenta", "magenta"), lty = c(1,2))
-                        legendText = c(legendText, paste("Amax.raw =", round(sprintRawDynamics$rawAmax, digits = 2), "m/s"))
+                        legendText = c(legendText, paste("A max (raw) =", round(sprintRawDynamics$rawAmax, digits = 2), "m/s"))
                         legendColor = c(legendColor, "magenta")
+			legendLty = c(legendLty, ltyRaw)
+			legendLwd = c(legendLwd, lwdRaw)
                 }
                 
                 if (plotFittedAccel)
@@ -420,9 +430,14 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
                         #Plotting rawAccel
                         par(new = TRUE)
                         plot(sprintFittedDynamics$t.fitted, sprintFittedDynamics$a.fitted,
-                             ylim = ylimits, type = "l", col = "magenta", lty = 2,
+                             ylim = ylimits, type = "l", col = "magenta", lty = 2, lwd = 2,
                              xlab = "", ylab = "",
                              axes = FALSE, yaxs = "i", xaxs = "i")
+
+			legendText = c(legendText, paste("A max (fitted) =", round(max(sprintFittedDynamics$amax.fitted), digits = 2), "m/s\u00b2"))
+			legendColor = c(legendColor, "magenta")
+			legendLty = c(legendLty, ltyFitted)
+			legendLwd = c(legendLwd, lwdFitted)
                 }
                 axis(side = 4, col = "magenta")
         }
@@ -443,8 +458,10 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
                              ylim = ylimits, type = "l", col = "blue",
                              xlab = "", ylab = "",
                              axes = FALSE, yaxs = "i", xaxs = "i")
-                        legendText = c(legendText, paste("Fmax.raw =", round(sprintRawDynamics$rawFmax, digits = 2), "N"))
+                        legendText = c(legendText, paste("F max (raw) =", round(sprintRawDynamics$rawFmax, digits = 2), "N"))
                         legendColor = c(legendColor, "blue")
+			legendLty = c(legendLty, ltyRaw)
+			legendLwd = c(legendLwd, lwdRaw)
                 }
                 
                 if (plotFittedForce)
@@ -452,9 +469,14 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
                         #Plotting fittedForce
                         par(new = TRUE)
                         plot(sprintFittedDynamics$t.fitted, sprintFittedDynamics$f.fitted,
-                             ylim = ylimits, type = "l", col = "blue", lty = 2,
+                             ylim = ylimits, type = "l", col = "blue", lty = 2, lwd = 2,
                              xlab = "", ylab = "",
                              axes = FALSE, yaxs = "i", xaxs = "i")
+
+			legendText = c(legendText, paste("F max (fitted) =", round(sprintFittedDynamics$fmax.fitted, digits = 2), "N"))
+			legendColor = c(legendColor, "blue")
+			legendLty = c(legendLty, ltyFitted)
+			legendLwd = c(legendLwd, lwdFitted)
                 }
                 axis(side = 4, col = "blue", line = 2)
                 print("Mean force from the model")
@@ -482,12 +504,13 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
         
         if(plotRawPower|| plotFittedPower)
         {
+		#this 1.075 were 1.05, but sometimes the textg value in top of fitted power got out of boundaries
                 if (plotRawPower)
                 {
                         ylimits = c(min(sprintRawDynamics$rawPower[sprintRawDynamics$startSample:sprintRawDynamics$endSample])*0.95,
-                                    max(c(sprintRawDynamics$rawPmax, sprintFittedDynamics$pmax.fitted)*1.05))
+                                    max(c(sprintRawDynamics$rawPmax, sprintFittedDynamics$pmax.fitted)*1.075))
                 } else {
-                        ylimits = c(0,sprintFittedDynamics$pmax.fitted*1.05)
+                        ylimits = c(0,sprintFittedDynamics$pmax.fitted*1.075)
                 }
                 if (plotRawPower)
                 {
@@ -497,8 +520,10 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
                              ylim = ylimits, type = "l", col = "red",
                              xlab = "", ylab = "",
                              axes = FALSE, yaxs = "i", xaxs = "i")
-                        legendText = c(legendText, paste("Pmax.raw =", round(sprintRawDynamics$rawPmax, digits = 2), "N"))
+                        legendText = c(legendText, paste("P max (raw) =", round(sprintRawDynamics$rawPmax, digits = 2), "N"))
                         legendColor = c(legendColor, "red")
+			legendLty = c(legendLty, ltyRaw)
+			legendLwd = c(legendLwd, lwdRaw)
                 }
                 
                 if (plotFittedPower)
@@ -506,7 +531,7 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
                         #Plotting fittedPower
                         par(new = TRUE)
                         plot(sprintFittedDynamics$t.fitted, sprintFittedDynamics$p.fitted
-                             , ylim = ylimits , type = "l", col = "red"
+                             , ylim = ylimits , type = "l", col = "red", lty = 2, lwd = 2,
                              ,xlab = "", ylab = ""
                              ,axes = FALSE, yaxs = "i", xaxs = "i")
                         text(x = sprintFittedDynamics$tpmax.fitted, y = sprintFittedDynamics$pmax.fitted
@@ -518,6 +543,11 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
                         mtext(paste(round(sprintFittedDynamics$tpmax.fitted, digits = 3), "s")
                               , at = sprintFittedDynamics$tpmax.fitted, side = 1
                               , col = "red")
+
+			legendText = c(legendText, paste("P max (fitted) =", round(sprintFittedDynamics$pmax.fitted, digits = 2), "W"))
+			legendColor = c(legendColor, "red")
+			legendLty = c(legendLty, ltyFitted)
+			legendLwd = c(legendLwd, lwdFitted)
                 }
                 axis(side = 4, col = "red", line = 4)
         }
@@ -551,7 +581,11 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
         legend(x = plotSize[2], y = plotSize[3] + (plotSize[4] - plotSize[3])*0.25,
                 xjust = 1, yjust = 0.5, cex = 1,
                 legend = legendText,
-                text.col = legendColor)
+                col = legendColor,
+                text.col = legendColor,
+		lty = legendLty,
+		lwd = legendLwd,
+		pch = NA)
 }
 
 #Detecting where the sprint start and stops

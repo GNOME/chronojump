@@ -25434,6 +25434,7 @@ Concentric</property>
                                                             <property name="sensitive">False</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_button_run_encoder_analyze_analyze_clicked" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox410">
                                                             <property name="visible">True</property>
@@ -25827,6 +25828,7 @@ Concentric</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="tooltip" translatable="yes">Close</property>
                                                             <property name="relief">half</property>
+                                                            <signal name="clicked" handler="on_button_run_encoder_analyze_options_close_and_analyze_clicked" swapped="no"/>
                                                             <accelerator key="Escape" signal="clicked"/>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox413">

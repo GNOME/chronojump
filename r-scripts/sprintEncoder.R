@@ -16,6 +16,8 @@
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
 #   Copyright (C) 2018-2020   	Xavier Padullés <x.padulles@gmail.com>
+#   Copyright (C) 2020   	Xavier de Blas <xaviblas@gmail.com>
+
 
 #-------------- get params -------------
 args <- commandArgs(TRUE)
@@ -47,8 +49,14 @@ assignOptions <- function(options) {
                 title 	 	= options[11],
                 datetime 	= options[12],
                 startAccel 	= options[13],
-		triggersOnList  = as.numeric(unlist(strsplit(options[14], "\\;"))),
-		triggersOffList  = as.numeric(unlist(strsplit(options[15], "\\;")))
+                plotRawAccel 	= as.logical(options[14]),
+                plotFittedAccel = as.logical(options[15]),
+                plotRawForce 	= as.logical(options[16]),
+                plotFittedForce = as.logical(options[17]),
+                plotRawPower 	= as.logical(options[18]),
+                plotFittedPower = as.logical(options[19]),
+		triggersOnList  = as.numeric(unlist(strsplit(options[20], "\\;"))),
+		triggersOffList  = as.numeric(unlist(strsplit(options[21], "\\;")))
         ))
 }
 
@@ -232,15 +240,15 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
 				  triggersOff = "",
                                   plotRawMeanSpeed = TRUE,
                                   plotRawSpeed = TRUE,
-                                  plotRawAccel = FALSE,
-                                  plotRawForce = FALSE,
+				  plotRawAccel = op$plotRawAccel,
+				  plotRawForce = op$plotRawForce,
                                   plotMeanRawForce = TRUE,
-                                  plotRawPower = FALSE,
+				  plotRawPower = op$plotRawPower,
                                   plotMeanRawPower = TRUE,
                                   plotFittedSpeed = TRUE,
-                                  plotFittedAccel = FALSE,
-                                  plotFittedForce = FALSE,
-                                  plotFittedPower = FALSE,
+				  plotFittedAccel = op$plotFittedAccel,
+				  plotFittedForce = op$plotFittedForce,
+				  plotFittedPower = op$plotFittedPower,
                                   startAccel,
                                   plotStartDetection = TRUE)
 {
@@ -256,6 +264,9 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
 
         print("#######Entering plotSprintFromEncoder###########")
         par(mar = c(7, 4, 5, 6.5))
+        print("plotRawAccel")
+        print(plotRawAccel)
+        print(typeof(plotRawAccel))
         
         #Checking that the position reaches at least testLength
         if(max(sprintRawDynamics$rawPosition) < sprintRawDynamics$testLength)
@@ -639,15 +650,15 @@ testEncoderCJ <- function(filename, testLength, mass, personHeight, tempC, start
 				      triggersOff = op$triggersOffList,
                                       plotRawMeanSpeed = TRUE,
                                       plotRawSpeed = TRUE,
-                                      plotRawAccel = FALSE,
-                                      plotRawForce = FALSE,
+                                      plotRawAccel = op$plotRawAccel,
+                                      plotRawForce = op$plotRawForce,
                                       plotMeanRawForce = FALSE,
-                                      plotRawPower = FALSE,
+                                      plotRawPower = op$plotRawPower,
                                       plotMeanRawPower = FALSE,
                                       plotFittedSpeed = TRUE,
-                                      plotFittedAccel = FALSE,
-                                      plotFittedForce = FALSE,
-                                      plotFittedPower = TRUE,
+                                      plotFittedAccel = op$plotFittedAccel,
+                                      plotFittedForce = op$plotFittedForce,
+                                      plotFittedPower = op$plotFittedPower,
 				      startAccel,
                                       plotStartDetection = TRUE)
                 exportSprintDynamics(sprintFittedDynamics)

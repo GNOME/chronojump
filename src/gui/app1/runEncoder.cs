@@ -272,6 +272,8 @@ public partial class ChronoJumpWindow
 		textview_contacts_signal_comment.Buffer.Text = "";
 		image_run_encoder_graph.Sensitive = false;
 
+		button_run_encoder_analyze_options.Sensitive = false;
+		button_run_encoder_analyze_analyze.Sensitive = false;
 		button_delete_last_test.Sensitive = false;
 	}
 
@@ -760,6 +762,7 @@ public partial class ChronoJumpWindow
 		sensitiveLastTestButtons(true);
 
 		event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(re.Filename);
+		button_run_encoder_analyze_options.Sensitive = true;
 	}
 
 	protected void on_run_encoder_load_signal_row_play (object o, EventArgs args)
@@ -930,6 +933,7 @@ public partial class ChronoJumpWindow
 		runEncoderAnalyzeOpenImage();
 		notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RACEENCODER);
 		radio_mode_contacts_analyze.Active = true;
+		button_run_encoder_analyze_analyze.Sensitive = true;
 	}
 
 	private void raceEncoderCaptureGraphDo()
@@ -949,6 +953,25 @@ public partial class ChronoJumpWindow
 		else
 			dateTimeGraph = UtilDate.ToFile(runEncoderTimeStartCapture);
 
+		bool plotRawAccel = ( check_run_encoder_analyze_accel.Active && (
+					UtilGtk.ComboGetActive(combo_run_encoder_analyze_accel) == Catalog.GetString(runEncoderAnalyzeRawName) ||
+					UtilGtk.ComboGetActive(combo_run_encoder_analyze_accel) == Catalog.GetString(runEncoderAnalyzeBothName) ) );
+		bool plotFittedAccel = ( check_run_encoder_analyze_accel.Active && (
+					UtilGtk.ComboGetActive(combo_run_encoder_analyze_accel) == Catalog.GetString(runEncoderAnalyzeFittedName) ||
+					UtilGtk.ComboGetActive(combo_run_encoder_analyze_accel) == Catalog.GetString(runEncoderAnalyzeBothName) ) );
+		bool plotRawForce = ( check_run_encoder_analyze_force.Active && (
+					UtilGtk.ComboGetActive(combo_run_encoder_analyze_force) == Catalog.GetString(runEncoderAnalyzeRawName) ||
+					UtilGtk.ComboGetActive(combo_run_encoder_analyze_force) == Catalog.GetString(runEncoderAnalyzeBothName) ) );
+		bool plotFittedForce = ( check_run_encoder_analyze_force.Active && (
+					UtilGtk.ComboGetActive(combo_run_encoder_analyze_force) == Catalog.GetString(runEncoderAnalyzeFittedName) ||
+					UtilGtk.ComboGetActive(combo_run_encoder_analyze_force) == Catalog.GetString(runEncoderAnalyzeBothName) ) );
+		bool plotRawPower = ( check_run_encoder_analyze_power.Active && (
+					UtilGtk.ComboGetActive(combo_run_encoder_analyze_power) == Catalog.GetString(runEncoderAnalyzeRawName) ||
+					UtilGtk.ComboGetActive(combo_run_encoder_analyze_power) == Catalog.GetString(runEncoderAnalyzeBothName) ) );
+		bool plotFittedPower = ( check_run_encoder_analyze_power.Active && (
+					UtilGtk.ComboGetActive(combo_run_encoder_analyze_power) == Catalog.GetString(runEncoderAnalyzeFittedName) ||
+					UtilGtk.ComboGetActive(combo_run_encoder_analyze_power) == Catalog.GetString(runEncoderAnalyzeBothName) ) );
+
 		//create graph
 		RunEncoderGraph reg = new RunEncoderGraph(
 				race_analyzer_distance,
@@ -959,6 +982,9 @@ public partial class ChronoJumpWindow
 				title,
 				dateTimeGraph,
 				preferences.runEncoderMinAccel,
+				plotRawAccel, plotFittedAccel,
+				plotRawForce, plotFittedForce,
+				plotRawPower, plotFittedPower,
 				triggerListRunEncoder);
 
 		reg.CallR(imageWidth, imageHeight);
@@ -1092,6 +1118,8 @@ public partial class ChronoJumpWindow
 					notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RACEENCODER);
 					radio_mode_contacts_analyze.Active = true;
 					button_contacts_exercise_close_and_recalculate.Sensitive = true;
+					button_run_encoder_analyze_options.Sensitive = true;
+					button_run_encoder_analyze_analyze.Sensitive = true;
 					button_delete_last_test.Sensitive = true;
 
 					/*
@@ -1112,6 +1140,8 @@ public partial class ChronoJumpWindow
 				webcamEnd (Constants.TestTypes.RACEANALYZER, -1);
 				sensitiveLastTestButtons(false);
 				contactsShowCaptureDoingButtons(false);
+				button_run_encoder_analyze_options.Sensitive = false;
+				button_run_encoder_analyze_analyze.Sensitive = false;
 				button_delete_last_test.Sensitive = false;
 
 				if(runEncoderProcessCancel)
@@ -1204,6 +1234,8 @@ public partial class ChronoJumpWindow
 		triggerListRunEncoder.SQLInsert(signalID);
 	}
 
+	private bool button_run_encoder_analyze_analyze_was_sensitive; //needed this temp variable
+
 	void runEncoderButtonsSensitive(bool sensitive)
 	{
 		//runEncoder related buttons
@@ -1211,6 +1243,13 @@ public partial class ChronoJumpWindow
 		vbox_run_encoder_capture_options.Sensitive = sensitive;
 		button_contacts_exercise.Sensitive = sensitive;
 		button_execute_test.Sensitive = sensitive;
+
+		if(sensitive)
+			button_run_encoder_analyze_analyze.Sensitive = button_run_encoder_analyze_analyze_was_sensitive;
+		else {
+			button_run_encoder_analyze_analyze_was_sensitive = button_run_encoder_analyze_analyze.Sensitive;
+			button_run_encoder_analyze_analyze.Sensitive = false;
+		}
 
 		hbox_contacts_camera.Sensitive = sensitive;
 

@@ -33,19 +33,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ComboBox combo_run_encoder_analyze_accel;
 	[Widget] Gtk.ComboBox combo_run_encoder_analyze_force;
 	[Widget] Gtk.ComboBox combo_run_encoder_analyze_power;
+	[Widget] Gtk.Button button_run_encoder_analyze_options;
+	[Widget] Gtk.Button button_run_encoder_analyze_analyze;
 
 
-	private void on_button_run_encoder_analyze_options_clicked (object o, EventArgs args)
-	{
-		notebook_run_encoder_analyze_or_options.CurrentPage = 1;
-		runEncoderButtonsSensitive(false); //TODO: add this new buttons if needed
-	}
-	private void on_button_run_encoder_analyze_options_close_clicked (object o, EventArgs args)
-	{
-		notebook_run_encoder_analyze_or_options.CurrentPage = 0;
-		runEncoderButtonsSensitive(true); //TODO: add this new buttons if needed
-	}
-	
 	private string runEncoderAnalyzeRawName = "RAW";
 	private string runEncoderAnalyzeFittedName = "Fitted";
 	private string runEncoderAnalyzeBothName = "Both";
@@ -96,6 +87,35 @@ public partial class ChronoJumpWindow
 	private void on_check_run_encoder_analyze_power_clicked (object o, EventArgs args)
 	{
 		combo_run_encoder_analyze_power.Visible = (check_run_encoder_analyze_power.Active);
+	}
+
+	private void on_button_run_encoder_analyze_options_clicked (object o, EventArgs args)
+	{
+		notebook_run_encoder_analyze_or_options.CurrentPage = 1;
+		runEncoderButtonsSensitive(false); //TODO: add this new buttons if needed
+	}
+	private void on_button_run_encoder_analyze_options_close_clicked (object o, EventArgs args)
+	{
+		notebook_run_encoder_analyze_or_options.CurrentPage = 0;
+		runEncoderButtonsSensitive(true); //TODO: add this new buttons if needed
+	}
+
+	private void on_button_run_encoder_analyze_options_close_and_analyze_clicked (object o, EventArgs args)
+	{
+		on_button_run_encoder_analyze_options_close_clicked (o, args);
+		on_button_run_encoder_analyze_analyze_clicked (o, args);
+	}
+
+	private void on_button_run_encoder_analyze_analyze_clicked (object o, EventArgs args)
+	{
+		if(! Util.FileExists(lastRunEncoderFullPath))
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFoundStr());
+			return;
+		}
+
+		if(lastRunEncoderFullPath != null && lastRunEncoderFullPath != "")
+			raceEncoderCopyTempAndDoGraphs();
 	}
 
 }

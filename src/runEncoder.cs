@@ -295,10 +295,20 @@ public class RunEncoderGraph
 	private string title;
 	private string datetime;
 	private double startAccel;
+	private bool plotRawAccel;
+	private bool plotFittedAccel;
+	private bool plotRawForce;
+	private bool plotFittedForce;
+	private bool plotRawPower;
+	private bool plotFittedPower;
 	private TriggerList triggerList;
 
 	public RunEncoderGraph(int testLength, double mass, double personHeight, double tempC, RunEncoder.Devices device,
-			string title, string datetime, double startAccel, TriggerList triggerList)
+			string title, string datetime, double startAccel,
+			bool plotRawAccel, bool plotFittedAccel,
+			bool plotRawForce, bool plotFittedForce,
+			bool plotRawPower, bool plotFittedPower,
+			TriggerList triggerList)
 	{
 		this.testLength = testLength;
 		this.mass = mass;
@@ -308,6 +318,12 @@ public class RunEncoderGraph
 		this.title = title;
 		this.datetime = datetime;
 		this.startAccel = startAccel;
+		this.plotRawAccel = plotRawAccel;
+		this.plotFittedAccel = plotFittedAccel;
+		this.plotRawForce = plotRawForce;
+		this.plotFittedForce = plotFittedForce;
+		this.plotRawPower = plotRawPower;
+		this.plotFittedPower = plotFittedPower;
 		this.triggerList = triggerList;
 	}
 
@@ -341,6 +357,12 @@ public class RunEncoderGraph
 			"#title\n" + 			title + "\n" +
 			"#datetime\n" + 		datetime + "\n" +
 			"#startAccel\n" + 		Util.ConvertToPoint(startAccel) + "\n" +
+			"#plotRawAccel\n" + 		Util.BoolToRBool(plotRawAccel) + "\n" +
+			"#plotFittedAccel\n" + 		Util.BoolToRBool(plotFittedAccel) + "\n" +
+			"#plotRawForce\n" + 		Util.BoolToRBool(plotRawForce) + "\n" +
+			"#plotFittedForce\n" + 		Util.BoolToRBool(plotFittedForce) + "\n" +
+			"#plotRawPower\n" + 		Util.BoolToRBool(plotRawPower) + "\n" +
+			"#plotFittedPower\n" + 		Util.BoolToRBool(plotFittedPower) + "\n" +
 			printTriggers(TriggerList.Type3.ON) + "\n" +
 			printTriggers(TriggerList.Type3.OFF);
 

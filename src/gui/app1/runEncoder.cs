@@ -87,6 +87,12 @@ public partial class ChronoJumpWindow
 		Catalog.GetString("Plug cable and click on 'device' button.");
 
 
+	private void initRunEncoder ()
+	{
+		createRunEncoderExerciseCombo();
+		createRunEncoderAnalyzeCombos();
+	}
+
 	//no GTK here
 	private bool runEncoderConnect()
 	{
@@ -267,11 +273,6 @@ public partial class ChronoJumpWindow
 		image_run_encoder_graph.Sensitive = false;
 
 		button_delete_last_test.Sensitive = false;
-	}
-
-	private void initRunEncoder ()
-	{
-		createRunEncoderExerciseCombo();
 	}
 
 	private void raceEncoderReadWidgets()

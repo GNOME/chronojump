@@ -70,6 +70,7 @@ src/gui/app1/pulse.cs
 src/gui/app1/reactionTime.cs
 src/gui/app1/run.cs
 src/gui/app1/runEncoder.cs
+src/gui/app1/runEncoderAnalyze.cs
 src/gui/app1/session/loadAndImport.cs
 src/gui/app1/session/addEdit.cs
 src/gui/chronopic.cs

@@ -241,6 +241,14 @@ public partial class ChronoJumpWindow
 
 	private void createForceAnalyzeCombos ()
 	{
+		/*
+		 * usually we have an hbox on glade, we create a combo here and we attach
+		 * this technique is used also on createRunEncoderAnalyzeCombos ()
+		 * the combo is in glade, without elements, but the elements is in bold because it has been edited, but is blank
+		 * you can see in the app1.glade:
+		 * <property name="items"/>
+		 */
+
 		UtilGtk.ComboUpdate(combo_force_1_function, ForceSensorRFD.FunctionsArray(true), "");
 		UtilGtk.ComboUpdate(combo_force_2_function, ForceSensorRFD.FunctionsArray(true), "");
 		UtilGtk.ComboUpdate(combo_force_3_function, ForceSensorRFD.FunctionsArray(true), "");

@@ -169,12 +169,6 @@
     <EmbeddedResource Include="glade\run_type_add.glade">
       <LogicalName>run_type_add.glade</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="glade\session_add_edit.glade">
-      <LogicalName>session_add_edit.glade</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="glade\session_load.glade">
-      <LogicalName>session_load.glade</LogicalName>
-    </EmbeddedResource>
     <EmbeddedResource Include="glade\session_upload.glade">
       <LogicalName>session_upload.glade</LogicalName>
     </EmbeddedResource>
@@ -1150,7 +1144,6 @@
     <Compile Include="src\encoderRhythm.cs" />
     <Compile Include="src\forcePlatform.cs" />
     <Compile Include="src\FTD2XX_NET.cs" />
-    <Compile Include="src\gui\chronojump.cs" />
     <Compile Include="src\gui\chronopicRegister.cs" />
     <Compile Include="src\gui\confirm.cs" />
     <Compile Include="src\gui\dialogCalendar.cs" />
@@ -1159,9 +1152,6 @@
     <Compile Include="src\gui\chronopic.cs" />
     <Compile Include="src\gui\encoderGraphObjects.cs" />
     <Compile Include="src\gui\dialogMessage.cs" />
-    <Compile Include="src\gui\encoder.cs" />
-    <Compile Include="src\gui\forceSensorAnalyze.cs" />
-    <Compile Include="src\gui\chronojumpIcons.cs" />
     <Compile Include="src\gui\cjCombo.cs" />
     <Compile Include="src\gui\dialogImageTest.cs" />
     <Compile Include="src\gui\dialogServerStats.cs" />
@@ -1169,23 +1159,17 @@
     <Compile Include="src\gui\dialogThreshold.cs" />
     <Compile Include="src\gui\restTime.cs" />
     <Compile Include="src\gui\dialogPersonPopup.cs" />
-    <Compile Include="src\gui\runEncoder.cs" />
     <Compile Include="src\gui\sendLog.cs" />
     <Compile Include="src\gui\chronojumpImporter.cs" />
-    <Compile Include="src\gui\chronojumpPersons.cs" />
     <Compile Include="src\gui\exhibition.cs" />
     <Compile Include="src\gui\convertWeight.cs" />
     <Compile Include="src\gui\splash.cs" />
     <Compile Include="src\runEncoder.cs" />
     <Compile Include="src\gui\preferences.cs" />
-    <Compile Include="src\gui\session\load.cs" />
-    <Compile Include="src\gui\session\addEdit.cs" />
     <Compile Include="src\gui\session\selectStats.cs" />
     <Compile Include="src\gui\usefulObjects.cs" />
     <Compile Include="src\gui\repetitiveConditions.cs" />
-    <Compile Include="src\gui\forceSensor.cs" />
     <Compile Include="src\gui\report.cs" />
-    <Compile Include="src\gui\person.cs" />
     <Compile Include="src\gui\encoderSelectRepetitions.cs" />
     <Compile Include="src\gui\encoderTreeviews.cs" />
     <Compile Include="src\gui\error.cs" />
@@ -1200,12 +1184,10 @@
     <Compile Include="src\gui\guiTests.cs" />
     <Compile Include="src\gui\helpPorts.cs" />
     <Compile Include="src\gui\jump.cs" />
-    <Compile Include="src\gui\jumpsProfile.cs" />
     <Compile Include="src\gui\jumpType.cs" />
     <Compile Include="src\gui\movingStartWindow.cs" />
     <Compile Include="src\gui\multiChronopic.cs" />
     <Compile Include="src\gui\networks.cs" />
-    <Compile Include="src\gui\personSelect.cs" />
     <Compile Include="src\gui\presentation.cs" />
     <Compile Include="src\gui\pulse.cs" />
     <Compile Include="src\gui\reactionTime.cs" />
@@ -1220,6 +1202,48 @@
     <Compile Include="src\version31.cs" />
     <Compile Include="src\sqlite\json.cs" />
     <Compile Include="src\sqlite\runEncoder.cs" />
+    <Compile Include="src\gui\app1\jumpsProfile.cs" />
+    <Compile Include="src\gui\app1\chronojump.cs" />
+    <Compile Include="src\gui\app1\jumpsEvolution.cs" />
+    <Compile Include="src\gui\app1\forceSensor.cs" />
+    <Compile Include="src\gui\app1\jumpsDjOptimalFall.cs" />
+    <Compile Include="src\gui\app1\jump.cs" />
+    <Compile Include="src\gui\app1\chronojumpPersons.cs" />
+    <Compile Include="src\gui\app1\forceSensorAnalyze.cs" />
+    <Compile Include="src\gui\app1\run.cs" />
+    <Compile Include="src\gui\app1\pulse.cs" />
+    <Compile Include="src\gui\app1\menu_tiny.cs" />
+    <Compile Include="src\gui\app1\menu.cs" />
+    <Compile Include="src\gui\app1\reactionTime.cs" />
+    <Compile Include="src\gui\app1\runEncoder.cs" />
+    <Compile Include="src\gui\app1\jumpsWeightFVProfile.cs" />
+    <Compile Include="src\gui\app1\contactsExercise.cs" />
+    <Compile Include="src\gui\app1\runEncoderAnalyze.cs" />
+    <Compile Include="src\gui\app1\chronojumpLogo.cs" />
+    <Compile Include="src\gui\app1\icons.cs" />
+    <Compile Include="src\gui\app1\encoder.cs" />
+    <Compile Include="src\gui\app1\session\main.cs" />
+    <Compile Include="src\gui\app1\session\loadAndImport.cs" />
+    <Compile Include="src\gui\app1\session\delete.cs" />
+    <Compile Include="src\gui\app1\session\addEdit.cs" />
+    <Compile Include="src\json\compujumpEncoder.cs" />
+    <Compile Include="src\json\compujumpForceSensor.cs" />
+    <Compile Include="src\json\compujumpOther.cs" />
+    <Compile Include="src\json\compujumpSprint.cs" />
+    <Compile Include="src\jumpsWeightFVProfile.cs" />
+    <Compile Include="src\jumpsEvolution.cs" />
+    <Compile Include="src\jumpsDjOptimalFall.cs" />
+    <Compile Include="src\gui\cairo\jumpsProfile.cs" />
+    <Compile Include="src\gui\cairo\jumpsEvolution.cs" />
+    <Compile Include="src\gui\cairo\jumpsDjOptimalFall.cs" />
+    <Compile Include="src\gui\cairo\xy.cs" />
+    <Compile Include="src\gui\cairo\util.cs" />
+    <Compile Include="src\gui\cairo\jumpsWeightFVProfile.cs" />
+    <Compile Include="src\gui\person\showAllEvents.cs" />
+    <Compile Include="src\gui\person\recuperate.cs" />
+    <Compile Include="src\gui\person\addMultiple.cs" />
+    <Compile Include="src\gui\person\addModify.cs" />
+    <Compile Include="src\gui\person\personSelect.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />
@@ -2255,6 +2279,36 @@
     <None Include="src\Mini\Makefile" />
     <None Include="src\Mini\Makefile.am" />
     <None Include="src\Mini\Makefile.in" />
+    <None Include="images\md\ic_folder_open_set_blue_24dp_1x.png" />
+    <None Include="images\md\baseline_apps_6_separated_other_blue_24dp.png" />
+    <None Include="images\md\baseline_apps_6_separated_rt_blue_24dp.png" />
+    <None Include="images\md\baseline_apps_6_separated_encoder_blue_24dp.png" />
+    <None Include="images\md\baseline_apps_6_separated_force_blue_24dp.png" />
+    <None Include="images\md\baseline_apps_6_separated_jump_blue_24dp.png" />
+    <None Include="images\md\baseline_apps_6_separated_run_blue_24dp.png" />
+    <None Include="images\md\baseline_apps_6_separated_blue_24dp.png" />
+    <None Include="images\md\ic_weekend_yellow_24dp_1x.png" />
+    <None Include="images\md\baseline_more_horiz_blue_24dp.png" />
+    <None Include="images\md\ic_directions_run_blue_24dp_1x.png" />
+    <None Include="images\md\ic_jump_blue_24dp_1x.png" />
+    <None Include="images\md\baseline_menu_book_blue_24dp.png" />
+    <None Include="images\md\about.png" />
+    <None Include="images\md\baseline_keyboard_blue_24dp.png" />
+    <None Include="images\md\folders_blue.png" />
+    <None Include="images\md\baseline_apps_6_blue_24dp.png" />
+    <None Include="images\md\baseline_apps_6_black_24dp.png" />
+    <None Include="images\md\baseline_menu_blue_24dp.png" />
+    <None Include="images\md\baseline_help_blue_24dp.png" />
+    <None Include="images\md\baseline_local_library_black_24dp.png" />
+    <None Include="images\md\baseline_menu_book_black_24dp.png" />
+    <None Include="images\md\baseline_face_black_24dp.png" />
+    <None Include="images\md\baseline_nature_people_black_24dp.png" />
+    <None Include="images\md\baseline_help_black_24dp.png" />
+    <None Include="images\md\baseline_menu_black_24dp.png" />
+    <None Include="images\md\baseline_apps_black_24dp.png" />
+    <None Include="images\md\baseline_computer_black_24dp.png" />
+    <None Include="images\md\baseline_recent_actors_black_24dp.png" />
+    <None Include="images\md\baseline_keyboard_black_24dp.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\chronojump.desktop">

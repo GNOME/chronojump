@@ -2056,7 +2056,8 @@ public partial class ChronoJumpWindow
 				checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL ||
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_AUTO ||
-				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_MANUAL )
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_MANUAL ||
+				checkFileOp == Constants.CheckFileOp.RUNENCODER_SAVE_IMAGE)
 			exportString = Catalog.GetString ("Save image");
 		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB)
 			exportString = Catalog.GetString ("Export repetition in CSV format");
@@ -2111,7 +2112,8 @@ public partial class ChronoJumpWindow
 				checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL ||
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_AUTO ||
-				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_MANUAL )
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_MANUAL ||
+				checkFileOp == Constants.CheckFileOp.RUNENCODER_SAVE_IMAGE)
 			nameString += ".png";
 		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB)
 			nameString += "_encoder_repetition_export.csv";
@@ -2192,6 +2194,9 @@ public partial class ChronoJumpWindow
 					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB)
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_forcesensor_save_AB_accepted);
+					else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_SAVE_IMAGE)
+						confirmWin.Button_accept.Clicked +=
+							new EventHandler(on_overwrite_file_runencoder_image_save_accepted);
 
 				} else {
 					if(checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE)
@@ -2220,6 +2225,8 @@ public partial class ChronoJumpWindow
 						on_button_forcesensor_save_image_rfd_manual_file_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB)
 						on_button_force_sensor_save_AB_file_selected (exportFileName);
+					else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_SAVE_IMAGE)
+						on_button_run_encoder_image_save_selected (exportFileName);
 
 					string myString = string.Format(Catalog.GetString("Saved to {0}"), 
 							exportFileName);

@@ -202,6 +202,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_run_encoder_exercise_add;
 	[Widget] Gtk.Image image_run_encoder_exercise_delete;
 	[Widget] Gtk.Image image_run_encoder_analyze_load;
+	[Widget] Gtk.Image image_run_encoder_analyze_image_save_graph;
+	[Widget] Gtk.Image image_run_encoder_analyze_image_save_disk;
 
 	//video play icons
 	[Widget] Gtk.Image image_video_play_this_test_contacts;
@@ -750,6 +752,7 @@ public partial class ChronoJumpWindow
 		image_jumps_weight_fv_profile_save.Pixbuf = pixbuf;
 		image_jumps_evolution_save.Pixbuf = pixbuf;
 		image_encoder_analyze_image_compujump_send_email_image.Pixbuf = pixbuf;
+		image_run_encoder_analyze_image_save_graph.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "save.png");
 		image_encoder_capture_curves_save.Pixbuf = pixbuf;
@@ -766,6 +769,7 @@ public partial class ChronoJumpWindow
 		image_forcesensor_analyze_image_save6.Pixbuf = pixbuf;
 		image_forcesensor_analyze_image_save7.Pixbuf = pixbuf;
 		image_sprint_analyze_image_save.Pixbuf = pixbuf;
+		image_run_encoder_analyze_image_save_disk.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "grid.png");
 		image_encoder_analyze_table_save.Pixbuf = pixbuf;

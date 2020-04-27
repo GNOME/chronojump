@@ -275,6 +275,7 @@ public partial class ChronoJumpWindow
 		button_run_encoder_analyze_options.Sensitive = false;
 		button_run_encoder_analyze_analyze.Sensitive = false;
 		button_delete_last_test.Sensitive = false;
+		button_run_encoder_image_save.Sensitive = false;
 	}
 
 	private void raceEncoderReadWidgets()
@@ -763,6 +764,7 @@ public partial class ChronoJumpWindow
 
 		event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(re.Filename);
 		button_run_encoder_analyze_options.Sensitive = true;
+		button_run_encoder_image_save.Sensitive = true;
 	}
 
 	protected void on_run_encoder_load_signal_row_play (object o, EventArgs args)
@@ -1120,6 +1122,7 @@ public partial class ChronoJumpWindow
 					button_contacts_exercise_close_and_recalculate.Sensitive = true;
 					button_run_encoder_analyze_options.Sensitive = true;
 					button_run_encoder_analyze_analyze.Sensitive = true;
+					button_run_encoder_image_save.Sensitive = true;
 					button_delete_last_test.Sensitive = true;
 
 					/*
@@ -1142,6 +1145,7 @@ public partial class ChronoJumpWindow
 				contactsShowCaptureDoingButtons(false);
 				button_run_encoder_analyze_options.Sensitive = false;
 				button_run_encoder_analyze_analyze.Sensitive = false;
+				button_run_encoder_image_save.Sensitive = false;
 				button_delete_last_test.Sensitive = false;
 
 				if(runEncoderProcessCancel)

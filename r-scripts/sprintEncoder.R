@@ -263,7 +263,7 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
         # mtext(side = 1, at = raceTime, text = paste(round(raceTime, digits = 3), " s", sep=""))
 
         print("#######Entering plotSprintFromEncoder###########")
-        par(mar = c(4, 4, 5, 6.5))
+        par(mar = c(4.5, 4.5, 5, 2))
         print("plotRawAccel")
         print(plotRawAccel)
         print(typeof(plotRawAccel))

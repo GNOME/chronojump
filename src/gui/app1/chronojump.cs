@@ -3100,11 +3100,9 @@ public partial class ChronoJumpWindow
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 			hbox_results_legend.Visible = false;
 
-			/*
-			//on force sensor only show table
+			//on run encoder only show table
 			notebook_capture_graph_table.CurrentPage = 1; //"Show table"
 			notebook_capture_graph_table.ShowTabs = false;
-			*/
 
 			combo_race_analyzer_device.Active = 0;
 			forceSensorImageTestChange();

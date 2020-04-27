@@ -175,7 +175,7 @@ public class Json
 		VersionCompare vCompare = new VersionCompare(
 				new Version31(currentVersion),
 				new Version31(lastVersionPublished));
-		str += "\n\n" + vCompare.ResultStr;
+		str += "\n" + vCompare.ResultStr;
 
 		this.ResultMessage = str;
 		

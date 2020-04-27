@@ -38,7 +38,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_log_portuguese;
 	[Widget] Gtk.TextView textview_comments;
 	[Widget] Gtk.Button button_send_log;
-	[Widget] Gtk.Label label_send_log_message;
+	[Widget] Gtk.TextView textview_send_log_message;
 
 	string emailStored;
 	private void show_send_log(string sendLogMessage, string logLanguage)
@@ -110,7 +110,9 @@ public partial class ChronoJumpWindow
 			LogB.Error(js.ResultMessage);
 		}
 
-		label_send_log_message.Text = js.ResultMessage;
+		TextBuffer tb = new TextBuffer (new TextTagTable());
+		tb.Text = js.ResultMessage;
+		textview_send_log_message.Buffer = tb;
 	}
 
 	private void on_button_check_last_version_clicked (object o, EventArgs args)
@@ -118,14 +120,14 @@ public partial class ChronoJumpWindow
 		Json js = new Json();
 		bool success = js.GetLastVersion(progVersion);
 
-		if(success) {
+		if(success)
 			LogB.Information(js.ResultMessage);
-			label_send_log_message.Text = js.ResultMessage;
-		}
-		else {
+		else
 			LogB.Error(js.ResultMessage);
-			label_send_log_message.Text = js.ResultMessage;
-		}
+
+		TextBuffer tb = new TextBuffer (new TextTagTable());
+		tb.Text = js.ResultMessage;
+		textview_send_log_message.Buffer = tb;
 	}
 
 	private void on_button_open_chronojump_clicked(object o, EventArgs args)

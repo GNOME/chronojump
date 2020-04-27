@@ -303,7 +303,7 @@ public class Constants
 	}
 	public static string SoftwareNewerThanPublisedStr()
 	{
-		return Catalog.GetString("Your software is more updated than last published version.\n\nPlease, don't update!");
+		return Catalog.GetString("Your software is more updated than last published version.") + "\n" + Catalog.GetString("Please, don't update!");
 	}
 
 	public static string GetSpreadsheetString(string CSVExportDecimalSeparator)

@@ -773,7 +773,6 @@ public partial class ChronoJumpWindow
 			}
 		}
 
-		UtilGtk.ContrastLabelsLabel (preferences.colorBackgroundIsDark, label_send_log);
 		UtilGtk.ContrastLabelsNotebook (preferences.colorBackgroundIsDark, app1s_notebook);
 	}
 

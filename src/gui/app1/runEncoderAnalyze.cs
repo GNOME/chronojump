@@ -19,6 +19,7 @@
  */
 
 using System;
+using System.IO;
 using Gtk;
 using Glade;
 using Mono.Unix;
@@ -35,6 +36,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ComboBox combo_run_encoder_analyze_power;
 	[Widget] Gtk.Button button_run_encoder_analyze_options;
 	[Widget] Gtk.Button button_run_encoder_analyze_analyze;
+	[Widget] Gtk.Button button_run_encoder_image_save;
 
 
 	private string runEncoderAnalyzeRawName = "RAW";
@@ -92,12 +94,12 @@ public partial class ChronoJumpWindow
 	private void on_button_run_encoder_analyze_options_clicked (object o, EventArgs args)
 	{
 		notebook_run_encoder_analyze_or_options.CurrentPage = 1;
-		runEncoderButtonsSensitive(false); //TODO: add this new buttons if needed
+		runEncoderButtonsSensitive(false);
 	}
 	private void on_button_run_encoder_analyze_options_close_clicked (object o, EventArgs args)
 	{
 		notebook_run_encoder_analyze_or_options.CurrentPage = 0;
-		runEncoderButtonsSensitive(true); //TODO: add this new buttons if needed
+		runEncoderButtonsSensitive(true);
 	}
 
 	private void on_button_run_encoder_analyze_options_close_and_analyze_clicked (object o, EventArgs args)
@@ -116,6 +118,30 @@ public partial class ChronoJumpWindow
 
 		if(lastRunEncoderFullPath != null && lastRunEncoderFullPath != "")
 			raceEncoderCopyTempAndDoGraphs();
+	}
+
+	private void on_button_run_encoder_image_save_clicked (object o, EventArgs args)
+	{
+		checkFile(Constants.CheckFileOp.RUNENCODER_SAVE_IMAGE);
+	}
+
+	private void on_button_run_encoder_image_save_selected (string destination)
+	{
+		try {
+			File.Copy(UtilEncoder.GetSprintEncoderImage(), destination, true);
+		} catch {
+			string myString = string.Format(
+					Catalog.GetString("Cannot save file {0} "), destination);
+			new DialogMessage(Constants.MessageTypes.WARNING, myString);
+		}
+	}
+
+	private void on_overwrite_file_runencoder_image_save_accepted(object o, EventArgs args)
+	{
+		on_button_run_encoder_image_save_selected (exportFileName);
+
+		string myString = string.Format(Catalog.GetString("Saved to {0}"), exportFileName);
+		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
 
 }

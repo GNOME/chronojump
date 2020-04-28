@@ -91,6 +91,7 @@ public partial class ChronoJumpWindow
 	{
 		createRunEncoderExerciseCombo();
 		createRunEncoderAnalyzeCombos();
+		setRunEncoderAnalyzeWidgets();
 	}
 
 	//no GTK here
@@ -955,24 +956,25 @@ public partial class ChronoJumpWindow
 		else
 			dateTimeGraph = UtilDate.ToFile(runEncoderTimeStartCapture);
 
-		bool plotRawAccel = ( check_run_encoder_analyze_accel.Active && (
-					UtilGtk.ComboGetActive(combo_run_encoder_analyze_accel) == Catalog.GetString(runEncoderAnalyzeRawName) ||
-					UtilGtk.ComboGetActive(combo_run_encoder_analyze_accel) == Catalog.GetString(runEncoderAnalyzeBothName) ) );
-		bool plotFittedAccel = ( check_run_encoder_analyze_accel.Active && (
-					UtilGtk.ComboGetActive(combo_run_encoder_analyze_accel) == Catalog.GetString(runEncoderAnalyzeFittedName) ||
-					UtilGtk.ComboGetActive(combo_run_encoder_analyze_accel) == Catalog.GetString(runEncoderAnalyzeBothName) ) );
-		bool plotRawForce = ( check_run_encoder_analyze_force.Active && (
-					UtilGtk.ComboGetActive(combo_run_encoder_analyze_force) == Catalog.GetString(runEncoderAnalyzeRawName) ||
-					UtilGtk.ComboGetActive(combo_run_encoder_analyze_force) == Catalog.GetString(runEncoderAnalyzeBothName) ) );
-		bool plotFittedForce = ( check_run_encoder_analyze_force.Active && (
-					UtilGtk.ComboGetActive(combo_run_encoder_analyze_force) == Catalog.GetString(runEncoderAnalyzeFittedName) ||
-					UtilGtk.ComboGetActive(combo_run_encoder_analyze_force) == Catalog.GetString(runEncoderAnalyzeBothName) ) );
-		bool plotRawPower = ( check_run_encoder_analyze_power.Active && (
-					UtilGtk.ComboGetActive(combo_run_encoder_analyze_power) == Catalog.GetString(runEncoderAnalyzeRawName) ||
-					UtilGtk.ComboGetActive(combo_run_encoder_analyze_power) == Catalog.GetString(runEncoderAnalyzeBothName) ) );
-		bool plotFittedPower = ( check_run_encoder_analyze_power.Active && (
-					UtilGtk.ComboGetActive(combo_run_encoder_analyze_power) == Catalog.GetString(runEncoderAnalyzeFittedName) ||
-					UtilGtk.ComboGetActive(combo_run_encoder_analyze_power) == Catalog.GetString(runEncoderAnalyzeBothName) ) );
+
+		bool plotRawAccel =
+			( Preferences.runEncoderAnalyzeAccel.SqlCurrentName ==  Preferences.runEncoderAnalyzeAFPSqlRAW ||
+			 Preferences.runEncoderAnalyzeAccel.SqlCurrentName == Preferences.runEncoderAnalyzeAFPSqlBOTH );
+		bool plotFittedAccel =
+			( Preferences.runEncoderAnalyzeAccel.SqlCurrentName == Preferences.runEncoderAnalyzeAFPSqlFITTED ||
+			 Preferences.runEncoderAnalyzeAccel.SqlCurrentName == Preferences.runEncoderAnalyzeAFPSqlBOTH );
+		bool plotRawForce =
+			( Preferences.runEncoderAnalyzeForce.SqlCurrentName ==  Preferences.runEncoderAnalyzeAFPSqlRAW ||
+			 Preferences.runEncoderAnalyzeForce.SqlCurrentName == Preferences.runEncoderAnalyzeAFPSqlBOTH );
+		bool plotFittedForce =
+			( Preferences.runEncoderAnalyzeForce.SqlCurrentName == Preferences.runEncoderAnalyzeAFPSqlFITTED ||
+			 Preferences.runEncoderAnalyzeForce.SqlCurrentName == Preferences.runEncoderAnalyzeAFPSqlBOTH );
+		bool plotRawPower =
+			( Preferences.runEncoderAnalyzePower.SqlCurrentName ==  Preferences.runEncoderAnalyzeAFPSqlRAW ||
+			 Preferences.runEncoderAnalyzePower.SqlCurrentName == Preferences.runEncoderAnalyzeAFPSqlBOTH );
+		bool plotFittedPower =
+			( Preferences.runEncoderAnalyzePower.SqlCurrentName == Preferences.runEncoderAnalyzeAFPSqlFITTED ||
+			 Preferences.runEncoderAnalyzePower.SqlCurrentName == Preferences.runEncoderAnalyzeAFPSqlBOTH );
 
 		//create graph
 		RunEncoderGraph reg = new RunEncoderGraph(

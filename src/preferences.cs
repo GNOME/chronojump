@@ -20,6 +20,7 @@
 
 using System;
 using System.Data;
+using System.Collections.Generic; //List<T>
 
 public class Preferences 
 {
@@ -109,6 +110,32 @@ public class Preferences
 
 	//runEncoder
 	public double runEncoderMinAccel;
+
+	public static string runEncoderAnalyzeAFPSqlNO = "NO";
+	public static string runEncoderAnalyzeAFPSqlFITTED = "FITTED";
+	public static string runEncoderAnalyzeAFPSqlRAW = "RAW";
+	public static string runEncoderAnalyzeAFPSqlBOTH = "BOTH";
+
+	public static List<string> runEncoderAnalyzeAFPSql_l = new List<string> {
+		runEncoderAnalyzeAFPSqlNO, runEncoderAnalyzeAFPSqlFITTED,
+		runEncoderAnalyzeAFPSqlRAW, runEncoderAnalyzeAFPSqlBOTH
+	};
+
+	public static LSqlEnTrans runEncoderAnalyzeAccel = new LSqlEnTrans(
+			"runEncoderAnalyzeAccel",
+			runEncoderAnalyzeAFPSql_l,
+			1, 1,
+			new List<string> {"No", "Fitted", "Raw", "Both"});
+	public static LSqlEnTrans runEncoderAnalyzeForce = new LSqlEnTrans(
+			"runEncoderAnalyzeForce",
+			runEncoderAnalyzeAFPSql_l,
+			1, 1,
+			new List<string> {"No", "Fitted", "Raw", "Both"});
+	public static LSqlEnTrans runEncoderAnalyzePower = new LSqlEnTrans(
+			"runEncoderAnalyzePower",
+			runEncoderAnalyzeAFPSql_l,
+			1, 1,
+			new List<string> {"No", "Fitted", "Raw", "Both"});
 
 	//advanced tab
 	public bool askDeletion;

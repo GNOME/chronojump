@@ -129,9 +129,10 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.93";
+	static string lastChronojumpDatabaseVersion = "1.94";
 
-	public Sqlite() {
+	public Sqlite()
+	{
 	}
 
 	protected virtual void createTable(string tableName) {
@@ -2698,6 +2699,19 @@ class Sqlite
 
 				currentVersion = updateVersion("1.93");
 			}
+			if(currentVersion == "1.93")
+			{
+				LogB.SQL("Inserted into preferences: RunEncoderAnalyzeAccel/Force/Power");
+
+				SqlitePreferences.Insert (Preferences.runEncoderAnalyzeAccel.Name,
+					Preferences.runEncoderAnalyzeAccel.SqlDefaultName);
+				SqlitePreferences.Insert (Preferences.runEncoderAnalyzeForce.Name,
+					Preferences.runEncoderAnalyzeForce.SqlDefaultName);
+				SqlitePreferences.Insert (Preferences.runEncoderAnalyzePower.Name,
+					Preferences.runEncoderAnalyzePower.SqlDefaultName);
+
+				currentVersion = updateVersion("1.94");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -2912,6 +2926,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 //
+		//1.93 - 1.94 Converted DB to 1.94 Inserted into preferences: RunEncoderAnalyzeAccel/Force/Power
 		//1.92 - 1.93 Converted DB to 1.93 Inserted into preferences: EncoderCaptureInfinite, LogoAnimatedShow
 		//1.91 - 1.92 Converted DB to 1.92 Inserted into preferences: menuType
 		//1.90 - 1.91 Converted DB to 1.91 Inserted into preferences: ColorBackground

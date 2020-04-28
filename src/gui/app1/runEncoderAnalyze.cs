@@ -22,6 +22,7 @@ using System;
 using System.IO;
 using Gtk;
 using Glade;
+using System.Collections.Generic; //List<T>
 using Mono.Unix;
 
 
@@ -39,26 +40,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_run_encoder_image_save;
 
 
-	private string runEncoderAnalyzeRawName = "RAW";
-	private string runEncoderAnalyzeFittedName = "Fitted";
-	private string runEncoderAnalyzeBothName = "Both";
-
-	private string [] runEncoderAnalyzeOptions (bool translated)
-	{
-		if(translated)
-			return new string [] {
-				Catalog.GetString(runEncoderAnalyzeRawName),
-					Catalog.GetString(runEncoderAnalyzeFittedName),
-					Catalog.GetString(runEncoderAnalyzeBothName)
-			};
-		else
-			return new string [] {
-				runEncoderAnalyzeRawName,
-					runEncoderAnalyzeFittedName,
-					runEncoderAnalyzeBothName
-			};
-	}
-
 	private void createRunEncoderAnalyzeCombos ()
 	{
 		/*
@@ -69,13 +50,40 @@ public partial class ChronoJumpWindow
 		 * <property name="items"/>
 		 */
 
-		UtilGtk.ComboUpdate(combo_run_encoder_analyze_accel, runEncoderAnalyzeOptions(true), "");
-		UtilGtk.ComboUpdate(combo_run_encoder_analyze_force, runEncoderAnalyzeOptions(true), "");
-		UtilGtk.ComboUpdate(combo_run_encoder_analyze_power, runEncoderAnalyzeOptions(true), "");
+		//do not put the "NO" in the combo, the NO is the checkbox
+		//note accel, force, power have the same options
+		List<string> optionsWithoutNo = new List<string>();
+		for(int i = 1; i < Preferences.runEncoderAnalyzeAccel.L_trans.Count; i ++)
+			optionsWithoutNo.Add(Preferences.runEncoderAnalyzeAccel.L_trans[i]);
 
-		combo_run_encoder_analyze_accel.Active = 0;
-		combo_run_encoder_analyze_force.Active = 0;
-		combo_run_encoder_analyze_power.Active = 0;
+		UtilGtk.ComboUpdate(combo_run_encoder_analyze_accel, optionsWithoutNo);
+		UtilGtk.ComboUpdate(combo_run_encoder_analyze_force, optionsWithoutNo);
+		UtilGtk.ComboUpdate(combo_run_encoder_analyze_power, optionsWithoutNo);
+		combo_run_encoder_analyze_accel.Active = Preferences.runEncoderAnalyzeAccel.SqlCurrent;
+		combo_run_encoder_analyze_force.Active = Preferences.runEncoderAnalyzeForce.SqlCurrent;
+		combo_run_encoder_analyze_power.Active = Preferences.runEncoderAnalyzePower.SqlCurrent;
+	}
+
+	private void setRunEncoderAnalyzeWidgets()
+	{
+		setRunEncoderAnalyzeWidgetsDo (Preferences.runEncoderAnalyzeAccel,
+				check_run_encoder_analyze_accel, combo_run_encoder_analyze_accel);
+		setRunEncoderAnalyzeWidgetsDo (Preferences.runEncoderAnalyzeForce,
+				check_run_encoder_analyze_force, combo_run_encoder_analyze_force);
+		setRunEncoderAnalyzeWidgetsDo (Preferences.runEncoderAnalyzePower,
+				check_run_encoder_analyze_power, combo_run_encoder_analyze_power);
+	}
+	private void setRunEncoderAnalyzeWidgetsDo (LSqlEnTrans lsql, Gtk.CheckButton check, Gtk.ComboBox combo)
+	{
+		if(lsql.SqlCurrentName == Preferences.runEncoderAnalyzeAFPSqlNO)
+		{
+			check.Active = false;
+			combo.Visible = false;
+		} else {
+			check.Active = true;
+			combo.Visible = true;
+		}
+		combo.Active = UtilGtk.ComboMakeActive(combo, lsql.TranslatedCurrent);
 	}
 
 	private void on_check_run_encoder_analyze_accel_clicked (object o, EventArgs args)
@@ -98,6 +106,41 @@ public partial class ChronoJumpWindow
 	}
 	private void on_button_run_encoder_analyze_options_close_clicked (object o, EventArgs args)
 	{
+		// 1 change stuff on Sqlite if needed
+
+		Sqlite.Open();
+
+		//accel
+		if( ! check_run_encoder_analyze_accel.Active )
+			Preferences.runEncoderAnalyzeAccel.SetCurrentFromSQL(Preferences.runEncoderAnalyzeAFPSqlNO);
+		else
+			Preferences.runEncoderAnalyzeAccel.SetCurrentFromComboTranslated(
+				UtilGtk.ComboGetActive(combo_run_encoder_analyze_accel));
+
+		SqlitePreferences.Update(Preferences.runEncoderAnalyzeAccel.Name, Preferences.runEncoderAnalyzeAccel.SqlCurrentName, true);
+
+		//force
+		if( ! check_run_encoder_analyze_force.Active )
+			Preferences.runEncoderAnalyzeForce.SetCurrentFromSQL(Preferences.runEncoderAnalyzeAFPSqlNO);
+		else
+			Preferences.runEncoderAnalyzeForce.SetCurrentFromComboTranslated(
+				UtilGtk.ComboGetActive(combo_run_encoder_analyze_force));
+
+		SqlitePreferences.Update(Preferences.runEncoderAnalyzeForce.Name, Preferences.runEncoderAnalyzeForce.SqlCurrentName, true);
+
+		//power
+		if( ! check_run_encoder_analyze_power.Active )
+			Preferences.runEncoderAnalyzePower.SetCurrentFromSQL(Preferences.runEncoderAnalyzeAFPSqlNO);
+		else
+			Preferences.runEncoderAnalyzePower.SetCurrentFromComboTranslated(
+				UtilGtk.ComboGetActive(combo_run_encoder_analyze_power));
+
+		SqlitePreferences.Update(Preferences.runEncoderAnalyzePower.Name, Preferences.runEncoderAnalyzePower.SqlCurrentName, true);
+
+		Sqlite.Close();
+
+		// 2 change sensitivity of widgets
+
 		notebook_run_encoder_analyze_or_options.CurrentPage = 0;
 		runEncoderButtonsSensitive(true);
 	}

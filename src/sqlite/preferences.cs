@@ -249,6 +249,13 @@ class SqlitePreferences : Sqlite
 				//runEncoder
 				Insert (RunEncoderMinAccel, "10.0", dbcmdTr);
 
+				Insert (Preferences.runEncoderAnalyzeAccel.Name,
+					Preferences.runEncoderAnalyzeAccel.SqlDefaultName, dbcmdTr);
+				Insert (Preferences.runEncoderAnalyzeForce.Name,
+					Preferences.runEncoderAnalyzeForce.SqlDefaultName, dbcmdTr);
+				Insert (Preferences.runEncoderAnalyzePower.Name,
+					Preferences.runEncoderAnalyzePower.SqlDefaultName, dbcmdTr);
+
 				//multimedia
 				Insert ("videoDevice", "", dbcmdTr); //first
 				Insert ("videoDevicePixelFormat", "", dbcmdTr);
@@ -601,6 +608,13 @@ class SqlitePreferences : Sqlite
 			else if(reader[0].ToString() == RunEncoderMinAccel)
 				preferences.runEncoderMinAccel = Convert.ToDouble(
 						Util.ChangeDecimalSeparator(reader[1].ToString()));
+
+			else if(reader[0].ToString() == Preferences.runEncoderAnalyzeAccel.Name)
+				Preferences.runEncoderAnalyzeAccel.SetCurrentFromSQL(reader[1].ToString());
+			else if(reader[0].ToString() == Preferences.runEncoderAnalyzeForce.Name)
+				Preferences.runEncoderAnalyzeForce.SetCurrentFromSQL(reader[1].ToString());
+			else if(reader[0].ToString() == Preferences.runEncoderAnalyzePower.Name)
+				Preferences.runEncoderAnalyzePower.SetCurrentFromSQL(reader[1].ToString());
 
 			//advanced tab
 			else if(reader[0].ToString() == "digitsNumber")

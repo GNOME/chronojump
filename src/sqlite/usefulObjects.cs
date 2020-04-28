@@ -15,11 +15,101 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2017   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2017-2020   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 using Mono.Unix;
+using System.Collections.Generic; //List<T>
+
+//class from 2.0 code that manages 3 lists an SQL stuff (for a combo)
+
+public class LSqlEnTrans
+{
+	private string name;
+	private List<string> l_sql;
+	private int sqlDefault;
+	private int sqlCurrent;
+	private List<string> l_en;
+	private List<string> l_trans;
+
+	public LSqlEnTrans (string name, List<string> l_sql, int sqlDefault, int sqlCurrent, List<string> l_en)
+	{
+		this.name = name;
+		this.l_sql = l_sql;
+		this.sqlDefault = sqlDefault;
+		this.sqlCurrent = sqlCurrent;
+		this.l_en = l_en;
+
+		l_trans = new List<string>();
+		foreach(string s in l_en)
+			l_trans.Add(Catalog.GetString(s));
+	}
+
+	public void SetCurrentFromSQL (string newCurrent)
+	{
+		for(int i = 0; i < l_sql.Count; i ++)
+			if(l_sql[i] == newCurrent)
+			{
+				sqlCurrent = i;
+				return;
+			}
+
+		sqlCurrent = 0;
+	}
+
+	public void SetCurrentFromComboTranslated (string trString)
+	{
+		for(int i = 0; i < l_trans.Count; i ++)
+			if(l_trans[i] == trString)
+			{
+				sqlCurrent = i;
+				return;
+			}
+
+		sqlCurrent = 0;
+	}
+
+	private string getSqlDefaultName ()
+	{
+		return(l_sql[sqlDefault]);
+	}
+	private string getSqlCurrentName ()
+	{
+		return(l_sql[sqlCurrent]);
+	}
+
+	public string Name
+	{
+		get { return name; }
+	}
+
+	public string SqlDefaultName
+	{
+		get { return getSqlDefaultName(); }
+	}
+
+	public string SqlCurrentName
+	{
+		get { return getSqlCurrentName(); }
+	}
+
+	public int SqlCurrent
+	{
+		get { return sqlCurrent; }
+	}
+
+	public List<string> L_trans
+	{
+		get { return l_trans; }
+	}
+
+	public string TranslatedCurrent
+	{
+		get { return l_trans[sqlCurrent]; }
+	}
+
+}
 
 public class SelectTypes
 {

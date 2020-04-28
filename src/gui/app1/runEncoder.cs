@@ -734,6 +734,13 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
+		List<string> contents = Util.ReadFileAsStringList(re.FullURL);
+		if(contents.Count < 3)
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileEmptyStr());
+			return;
+		}
+
 		currentRunEncoder = re;
 		lastRunEncoderFile = Util.RemoveExtension(re.Filename);
 		lastRunEncoderFullPath = re.FullURL;

@@ -16,6 +16,7 @@
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
 #   Copyright (C) 2017-2020   	Xavier Padullés <x.padulles@gmail.com>
+#   Copyright (C) 2017-2020     Xavier de Blas <xaviblas@gmail.com>
 
 #call from Chronojump or:
 

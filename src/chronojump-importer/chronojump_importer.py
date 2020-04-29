@@ -430,6 +430,8 @@ class ImportSession:
         self._import_forceSensor()
         self._import_runEncoder()
 
+        self._print_status(self, "allData")
+
     def _import_session(self):
         """
         Imports the Session information saved in self._source_session (only table Session).
@@ -477,6 +479,8 @@ class ImportSession:
 
 
     def _import_persons77(self):
+        self._print_status(self, "persons")
+
         persons77 = self.source_db.read(table_name="Person77",
                                         where_condition="personSession77.sessionID={}".format(self.source_session),
                                         join_clause="LEFT JOIN personSession77 ON personSession77.personID=Person77.uniqueID",
@@ -597,6 +601,7 @@ class ImportSession:
         self.destination_db.write(table=person_session_77, matches_columns=["sessionID", "personID"])
 
     def _import_encoder(self):
+        self._print_status(self, "encoder")
         # Imports EncoderExercise
         encoder_exercise_from_encoder = self.source_db.read(table_name="EncoderExercise",
                                                where_condition="Encoder.sessionID={}".format(self.source_session),
@@ -677,6 +682,7 @@ class ImportSession:
 
 
     def _import_forceSensor(self):
+        self._print_status(self, "forceSensor")
         # Imports ForceSensorExercise
         # based on encoder exercise code because rest of the code exercises and tests are linked by names
         # but on encoder and forceSensor is linked by ex.uniqueID
@@ -711,6 +717,7 @@ class ImportSession:
             debugFile.write(" end _import_forceSensor\n")
 
     def _import_runEncoder(self):
+        self._print_status(self, "runEncoder")
         # Imports RunEncoderExercise
         # VERY similar to _import_runEncoder
 
@@ -809,6 +816,14 @@ class ImportSession:
             return path.replace("\\", "/")
         elif os.sep == "\\":
             return path.replace("/", "\\")
+
+    @staticmethod
+    def _print_status(self, name):
+        statusPath = self._normalize_path(self.source_temp_directory + "/status/")
+        if not os.path.exists(statusPath):
+            os.makedirs(statusPath)
+        open(statusPath + name + ".txt", 'a').close()
+
 
     def _import_encoder_files(self, encoder_table):
         if self.source_base_directory is None:

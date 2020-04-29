@@ -20,6 +20,7 @@
 
 using Gtk;
 using System;
+using System.IO;
 using System.Threading;
 
 public partial class ChronoJumpWindow
@@ -108,7 +109,23 @@ public partial class ChronoJumpWindow
 			return false;
 		}
 
-		app1s_Pulse(chronojumpImporter.MessageToPulsebar);
+		string message = chronojumpImporter.MessageToPulsebar;
+		string statusDir = Util.GetDatabaseTempImportDir() + Path.DirectorySeparatorChar +
+			"status" + Path.DirectorySeparatorChar;
+
+		//files are created on this order
+		if(File.Exists(statusDir + "persons.txt"))
+			message = "Importing persons";
+		if(File.Exists(statusDir + "encoder.txt"))
+			message = "Importing encoder files";
+		if(File.Exists(statusDir + "forceSensor.txt"))
+			message = "Importing forceSensor files";
+		if(File.Exists(statusDir + "runEncoder.txt"))
+			message = "Importing race analyzer files";
+		if(File.Exists(statusDir + "allData.txt"))
+			message = "All data imported, finishing";
+
+		app1s_Pulse(message);
 
 		Thread.Sleep (100);
 		//LogB.Debug(threadImport.ThreadState.ToString());

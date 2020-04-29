@@ -721,9 +721,10 @@ public class ChronoJump
 					Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db");
 		}
 
+		string sendErrorLogStr = Catalog.GetString("Send error log");
 		messageCrashedBefore =
-			string.Format(Catalog.GetString("Chronojump {0} crashed before."), progVersion) + "\n" +
-			Catalog.GetString("Please, fill your email and click on 'Send error log' in order to fix this fast and contact you if appropriate.") + "\n" +
+			string.Format(Catalog.GetString("Chronojump {0} crashed before."), BuildInfo.chronojumpVersion) + "\n" +
+			string.Format(Catalog.GetString("Please, fill your email and click on '{0}' in order to fix this fast and contact you if appropriate."), sendErrorLogStr) + "\n" +
 			Catalog.GetString("Your help is needed.");
 
 

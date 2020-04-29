@@ -35,7 +35,7 @@ public class Json
 
 	protected bool connected; //know if server is connected. Do it when there's a change on RFID (pulse)
 	protected WebRequest request; //generic request (for all methods except ping)
-	protected static string serverUrl = "http://api.chronojump.org:8080";
+	protected static string serverUrl = "http://chronojump.org:8080";
 	//string serverUrl = "http://192.168.200.1:8080";
 
 	public static void ChangeServerUrl(string url)

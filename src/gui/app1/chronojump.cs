@@ -2871,6 +2871,9 @@ public partial class ChronoJumpWindow
 		vbox_contacts_signal_comment.Visible = false;
 		frame_jumps_automatic.Visible = false;
 
+		//blank exercise options: useful for changing from jumps or runs to forceSensor, runEncoder, reaction time, other
+		label_contacts_exercise_selected_options.Text = "";
+
 		//on OSX R is not installed by default. Check if it's installed. Needed for encoder and force sensor
 		if(
 				( m == Constants.Menuitem_modes.POWERGRAVITATORY ||

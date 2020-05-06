@@ -152,7 +152,6 @@ public class EncoderGraphDoPlot
 		this.mainVariableHigher = mainVariableHigher;
 		this.mainVariableLower = mainVariableLower;
 		this.secondaryVariable = secondaryVariable;
-		this.discardFirstN = discardFirstN;
 		this.capturing = capturing;
 		this.eccon = eccon;
 		this.repetitiveConditionsWin = repetitiveConditionsWin;

@@ -42,7 +42,14 @@ public partial class ChronoJumpWindow
 	private string app1s_selected;
 	private string app1s_import_file_path;
 
-	[Widget] Gtk.Label app1s_label_select;
+	[Widget] Gtk.HBox app1s_hbox_frame_load;
+	[Widget] Gtk.HBox app1s_hbox_frame_import;
+	[Widget] Gtk.Image image_session_load3_blue;
+	[Widget] Gtk.Image image_session_import1_blue;
+	[Widget] Gtk.Image image_session_load3_yellow;
+	[Widget] Gtk.Image image_session_import1_yellow;
+	[Widget] Gtk.Label app1s_label_load;
+	[Widget] Gtk.Label app1s_label_import;
 
 	/*
 	 * when fillTreeView() is called, it executes:
@@ -66,18 +73,23 @@ public partial class ChronoJumpWindow
 			app1s_file_path_import.Visible = false;
 			app1s_notebook_load_button_animation.Visible = true;
 			app1s_hbuttonbox_page2_import.Visible = false;
-			app1s_label_select.Text = "<b>" + Catalog.GetString ("Load session") + "</b>";
+			app1s_label_load.Text = "<b>" + Catalog.GetString ("Load session") + "</b>";
+			app1s_label_load.UseMarkup = true;
+			app1s_hbox_frame_load.Visible = true;
+			app1s_hbox_frame_import.Visible = false;
 			app1s_notebook.CurrentPage = app1s_PAGE_SELECT_SESSION;
 			app1s_notebook_load_button_animation.CurrentPage = 0;
 		} else {
 			app1s_file_path_import.Visible = true;
 			app1s_notebook_load_button_animation.Visible = false;
 			app1s_hbuttonbox_page2_import.Visible = true;
-			app1s_label_select.Text = "<b>" + Catalog.GetString ("Import session") + "</b>";
+			app1s_label_import.Text = "<b>" + Catalog.GetString ("Import session") + "</b>";
+			app1s_label_import.UseMarkup = true;
+			app1s_hbox_frame_load.Visible = false;
+			app1s_hbox_frame_import.Visible = true;
 			app1s_button_select_file_import_same_database.Visible = false; //is shown when user want to import a second session
 			app1s_notebook.CurrentPage = app1s_PAGE_IMPORT_START;
 		}
-		app1s_label_select.UseMarkup = true;
 		app1s_entry_search_filter.Text = "";
 
 		app1s_image_open_database.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_open.png");

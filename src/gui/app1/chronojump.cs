@@ -774,6 +774,19 @@ public partial class ChronoJumpWindow
 		}
 
 		UtilGtk.ContrastLabelsNotebook (preferences.colorBackgroundIsDark, app1s_notebook);
+
+		if(preferences.colorBackgroundIsDark)
+		{
+			image_session_load3_blue.Visible = false;
+			image_session_import1_blue.Visible = false;
+			image_session_load3_yellow.Visible = true;
+			image_session_import1_yellow.Visible = true;
+		} else {
+			image_session_load3_blue.Visible = true;
+			image_session_import1_blue.Visible = true;
+			image_session_load3_yellow.Visible = false;
+			image_session_import1_yellow.Visible = false;
+		}
 	}
 
 	private void testNewStuff()

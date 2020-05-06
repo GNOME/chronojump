@@ -1220,7 +1220,7 @@ paintVariablesLegend <- function(showPosition, showSpeed, showAccel, showForce, 
                 ncol=ncol+1
         }
         if(showAccel) {
-                legendText=c(legendText, paste(translateToPrint("Accel."),"(m/s²)"))
+                legendText=c(legendText, paste(translateToPrint("Accel."),"(m/s^2)"))
                 lty=c(lty,ltyAccel)
                 lwd=c(lwd,2)
                 colors=c(colors,colAccel)

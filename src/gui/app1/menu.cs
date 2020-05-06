@@ -116,7 +116,7 @@ public partial class ChronoJumpWindow
 	{
 		radio_show_menu.Sensitive = sensitive;
 		viewport_menu.Sensitive = sensitive;
-		vbox_menu_tiny.Sensitive = sensitive;
+		vbox_menu_tiny_menu.Sensitive = sensitive;
 	}
 
 	private void menuInitialize ()

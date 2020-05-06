@@ -666,48 +666,37 @@
                                     <property name="can_focus">False</property>
                                     <property name="spacing">20</property>
                                     <child>
-                                      <widget class="GtkVBox" id="vbox_menu_session1">
+                                      <widget class="GtkVBox" id="vbox_menu_tiny_menu">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
+                                        <property name="spacing">20</property>
                                         <child>
-                                          <widget class="GtkCheckButton" id="check_menu_session1">
+                                          <widget class="GtkVBox" id="vbox_menu_session1">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">False</property>
-                                            <property name="tooltip" translatable="yes">Session</property>
-                                            <property name="active">True</property>
-                                            <property name="draw_indicator">False</property>
-                                            <signal name="clicked" handler="on_check_menu_session1_clicked" swapped="no"/>
+                                            <property name="can_focus">False</property>
                                             <child>
-                                              <widget class="GtkEventBox" id="eventbox_check_menu_session1">
+                                              <widget class="GtkCheckButton" id="check_menu_session1">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="receives_default">False</property>
+                                                <property name="tooltip" translatable="yes">Session</property>
+                                                <property name="active">True</property>
+                                                <property name="draw_indicator">False</property>
+                                                <signal name="clicked" handler="on_check_menu_session1_clicked" swapped="no"/>
                                                 <child>
-                                                  <widget class="GtkHBox" id="hbox382">
+                                                  <widget class="GtkEventBox" id="eventbox_check_menu_session1">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="spacing">4</property>
                                                     <child>
-                                                      <widget class="GtkImage" id="image_menu_folders1">
+                                                      <widget class="GtkHBox" id="hbox382">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="stock">gtk-missing-image</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="fill">False</property>
-                                                        <property name="position">0</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkHBox" id="hbox383">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
+                                                        <property name="spacing">4</property>
                                                         <child>
-                                                          <widget class="GtkArrow" id="arrow_menu_show_session_up1">
+                                                          <widget class="GtkImage" id="image_menu_folders1">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="arrow_type">up</property>
+                                                            <property name="stock">gtk-missing-image</property>
                                                           </widget>
                                                           <packing>
                                                             <property name="expand">False</property>
@@ -716,9 +705,32 @@
                                                           </packing>
                                                         </child>
                                                         <child>
-                                                          <widget class="GtkArrow" id="arrow_menu_show_session_down1">
+                                                          <widget class="GtkHBox" id="hbox383">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkArrow" id="arrow_menu_show_session_up1">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="arrow_type">up</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkArrow" id="arrow_menu_show_session_down1">
                                                             <property name="can_focus">False</property>
                                                             <property name="arrow_type">down</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
                                                           </widget>
                                                           <packing>
                                                             <property name="expand">False</property>
@@ -727,240 +739,151 @@
                                                           </packing>
                                                         </child>
                                                       </widget>
+                                                    </child>
+                                                  </widget>
+                                                </child>
+                                              </widget>
+                                              <packing>
+                                                <property name="expand">True</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkAlignment" id="alignment_menu_session_options1">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="top_padding">6</property>
+                                                <property name="left_padding">8</property>
+                                                <property name="right_padding">8</property>
+                                                <child>
+                                                  <widget class="GtkVBox" id="vbox_manage_sessions1">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="spacing">6</property>
+                                                    <child>
+                                                      <widget class="GtkButton" id="button_menu_session_new1">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="can_default">True</property>
+                                                        <property name="receives_default">True</property>
+                                                        <property name="has_tooltip">True</property>
+                                                        <property name="tooltip" translatable="yes">New session</property>
+                                                        <property name="relief">half</property>
+                                                        <signal name="clicked" handler="on_new_activate" swapped="no"/>
+                                                        <child>
+                                                          <widget class="GtkEventBox" id="eventbox_button_menu_session_new1">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_session_new1">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            </child>
+                                                          </widget>
+                                                        </child>
+                                                      </widget>
                                                       <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="fill">False</property>
+                                                        <property name="expand">True</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">0</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkButton" id="button_menu_session_load1">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="can_default">True</property>
+                                                        <property name="receives_default">True</property>
+                                                        <property name="has_tooltip">True</property>
+                                                        <property name="tooltip" translatable="yes">Load session</property>
+                                                        <property name="relief">half</property>
+                                                        <signal name="clicked" handler="on_open_activate" swapped="no"/>
+                                                        <child>
+                                                          <widget class="GtkEventBox" id="eventbox_button_menu_session_load1">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_session_load1">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            </child>
+                                                          </widget>
+                                                        </child>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="expand">True</property>
+                                                        <property name="fill">True</property>
                                                         <property name="position">1</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkButton" id="button_menu_session_more1">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="can_default">True</property>
+                                                        <property name="receives_default">True</property>
+                                                        <property name="has_tooltip">True</property>
+                                                        <property name="relief">half</property>
+                                                        <signal name="clicked" handler="on_button_menu_session_more_clicked" swapped="no"/>
+                                                        <child>
+                                                          <widget class="GtkEventBox" id="eventbox_button_menu_session_more1">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_session_more1">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            </child>
+                                                          </widget>
+                                                        </child>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="expand">True</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">2</property>
                                                       </packing>
                                                     </child>
                                                   </widget>
                                                 </child>
                                               </widget>
-                                            </child>
-                                          </widget>
-                                          <packing>
-                                            <property name="expand">True</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">0</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <widget class="GtkAlignment" id="alignment_menu_session_options1">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="top_padding">6</property>
-                                            <property name="left_padding">8</property>
-                                            <property name="right_padding">8</property>
-                                            <child>
-                                              <widget class="GtkVBox" id="vbox_manage_sessions1">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="spacing">6</property>
-                                                <child>
-                                                  <widget class="GtkButton" id="button_menu_session_new1">
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">True</property>
-                                                    <property name="can_default">True</property>
-                                                    <property name="receives_default">True</property>
-                                                    <property name="has_tooltip">True</property>
-                                                    <property name="tooltip" translatable="yes">New session</property>
-                                                    <property name="relief">half</property>
-                                                    <signal name="clicked" handler="on_new_activate" swapped="no"/>
-                                                    <child>
-                                                      <widget class="GtkEventBox" id="eventbox_button_menu_session_new1">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <child>
-                                                          <widget class="GtkImage" id="image_session_new1">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                          </widget>
-                                                        </child>
-                                                      </widget>
-                                                    </child>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="expand">True</property>
-                                                    <property name="fill">True</property>
-                                                    <property name="position">0</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <widget class="GtkButton" id="button_menu_session_load1">
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">True</property>
-                                                    <property name="can_default">True</property>
-                                                    <property name="receives_default">True</property>
-                                                    <property name="has_tooltip">True</property>
-                                                    <property name="tooltip" translatable="yes">Load session</property>
-                                                    <property name="relief">half</property>
-                                                    <signal name="clicked" handler="on_open_activate" swapped="no"/>
-                                                    <child>
-                                                      <widget class="GtkEventBox" id="eventbox_button_menu_session_load1">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <child>
-                                                          <widget class="GtkImage" id="image_session_load1">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                          </widget>
-                                                        </child>
-                                                      </widget>
-                                                    </child>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="expand">True</property>
-                                                    <property name="fill">True</property>
-                                                    <property name="position">1</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <widget class="GtkButton" id="button_menu_session_more1">
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">True</property>
-                                                    <property name="can_default">True</property>
-                                                    <property name="receives_default">True</property>
-                                                    <property name="has_tooltip">True</property>
-                                                    <property name="relief">half</property>
-                                                    <signal name="clicked" handler="on_button_menu_session_more_clicked" swapped="no"/>
-                                                    <child>
-                                                      <widget class="GtkEventBox" id="eventbox_button_menu_session_more1">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <child>
-                                                          <widget class="GtkImage" id="image_session_more1">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                          </widget>
-                                                        </child>
-                                                      </widget>
-                                                    </child>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="expand">True</property>
-                                                    <property name="fill">True</property>
-                                                    <property name="position">2</property>
-                                                  </packing>
-                                                </child>
-                                              </widget>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">1</property>
+                                              </packing>
                                             </child>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">1</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">0</property>
                                           </packing>
                                         </child>
-                                      </widget>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                        <property name="position">0</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <widget class="GtkButton" id="button_show_modes1">
-                                        <property name="visible">True</property>
-                                        <property name="sensitive">False</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="receives_default">True</property>
-                                        <signal name="clicked" handler="on_button_show_modes1_clicked" swapped="no"/>
                                         <child>
-                                          <widget class="GtkEventBox" id="eventbox_button_show_modes1">
+                                          <widget class="GtkButton" id="button_show_modes1">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <child>
-                                              <widget class="GtkHBox" id="hbox388">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="spacing">4</property>
-                                                <child>
-                                                  <widget class="GtkImage" id="image_button_show_modes1">
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
-                                                    <property name="stock">gtk-missing-image</property>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">False</property>
-                                                    <property name="position">0</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <widget class="GtkArrow" id="arrow_right1">
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">False</property>
-                                                    <property name="position">1</property>
-                                                  </packing>
-                                                </child>
-                                              </widget>
-                                            </child>
-                                          </widget>
-                                        </child>
-                                      </widget>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                        <property name="position">1</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <widget class="GtkButton" id="button_menu_preferences1">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="receives_default">True</property>
-                                        <property name="tooltip" translatable="yes">Preferences</property>
-                                        <signal name="clicked" handler="on_preferences_activate" swapped="no"/>
-                                        <child>
-                                          <widget class="GtkEventBox" id="eventbox_button_menu_preferences1">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <child>
-                                              <widget class="GtkImage" id="image_menu_preferences1">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="stock">gtk-missing-image</property>
-                                              </widget>
-                                            </child>
-                                          </widget>
-                                        </child>
-                                      </widget>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                        <property name="position">2</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <widget class="GtkVBox" id="vbox86">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <child>
-                                          <widget class="GtkCheckButton" id="check_menu_help1">
-                                            <property name="visible">True</property>
+                                            <property name="sensitive">False</property>
                                             <property name="can_focus">True</property>
-                                            <property name="receives_default">False</property>
-                                            <property name="tooltip" translatable="yes">Help</property>
-                                            <property name="draw_indicator">False</property>
-                                            <signal name="clicked" handler="on_check_menu_help1_clicked" swapped="no"/>
+                                            <property name="receives_default">True</property>
+                                            <signal name="clicked" handler="on_button_show_modes1_clicked" swapped="no"/>
                                             <child>
-                                              <widget class="GtkEventBox" id="eventbox_check_menu_help1">
+                                              <widget class="GtkEventBox" id="eventbox_button_show_modes1">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <child>
-                                                  <widget class="GtkHBox" id="hbox392">
+                                                  <widget class="GtkHBox" id="hbox388">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="spacing">4</property>
                                                     <child>
-                                                      <widget class="GtkImage" id="image_menu_help1">
+                                                      <widget class="GtkImage" id="image_button_show_modes1">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="stock">gtk-missing-image</property>
@@ -972,32 +895,9 @@
                                                       </packing>
                                                     </child>
                                                     <child>
-                                                      <widget class="GtkHBox" id="hbox393">
+                                                      <widget class="GtkArrow" id="arrow_right1">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <child>
-                                                          <widget class="GtkArrow" id="arrow_menu_show_help_up1">
-                                                            <property name="can_focus">False</property>
-                                                            <property name="arrow_type">up</property>
-                                                          </widget>
-                                                          <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkArrow" id="arrow_menu_show_help_down1">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="arrow_type">down</property>
-                                                          </widget>
-                                                          <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                          </packing>
-                                                        </child>
                                                       </widget>
                                                       <packing>
                                                         <property name="expand">False</property>
@@ -1006,105 +906,6 @@
                                                       </packing>
                                                     </child>
                                                   </widget>
-                                                </child>
-                                              </widget>
-                                            </child>
-                                          </widget>
-                                          <packing>
-                                            <property name="expand">True</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">0</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <widget class="GtkAlignment" id="alignment_menu_help_options1">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="top_padding">6</property>
-                                            <property name="left_padding">8</property>
-                                            <property name="right_padding">8</property>
-                                            <child>
-                                              <widget class="GtkVBox" id="vbox181">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="spacing">6</property>
-                                                <child>
-                                                  <widget class="GtkButton" id="button_menu_help_documents1">
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">True</property>
-                                                    <property name="receives_default">True</property>
-                                                    <signal name="clicked" handler="on_menuitem_manual_activate" swapped="no"/>
-                                                    <child>
-                                                      <widget class="GtkEventBox" id="eventbox_button_menu_help_documents1">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <child>
-                                                          <widget class="GtkImage" id="image_menu_help_documents1">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                          </widget>
-                                                        </child>
-                                                      </widget>
-                                                    </child>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">False</property>
-                                                    <property name="position">0</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <widget class="GtkButton" id="button_menu_help_accelerators1">
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">True</property>
-                                                    <property name="receives_default">True</property>
-                                                    <signal name="clicked" handler="on_menuitem_accelerators_activate" swapped="no"/>
-                                                    <child>
-                                                      <widget class="GtkEventBox" id="eventbox_button_menu_help_accelerators1">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <child>
-                                                          <widget class="GtkImage" id="image_menu_help_accelerators1">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                          </widget>
-                                                        </child>
-                                                      </widget>
-                                                    </child>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">False</property>
-                                                    <property name="position">1</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <widget class="GtkButton" id="button_menu_help_about1">
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">True</property>
-                                                    <property name="receives_default">True</property>
-                                                    <signal name="clicked" handler="on_about1_activate" swapped="no"/>
-                                                    <child>
-                                                      <widget class="GtkEventBox" id="eventbox_button_menu_help_about1">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <child>
-                                                          <widget class="GtkImage" id="image_menu_help_about1">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                          </widget>
-                                                        </child>
-                                                      </widget>
-                                                    </child>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">False</property>
-                                                    <property name="position">2</property>
-                                                  </packing>
                                                 </child>
                                               </widget>
                                             </child>
@@ -1115,39 +916,265 @@
                                             <property name="position">1</property>
                                           </packing>
                                         </child>
-                                      </widget>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                        <property name="position">3</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <widget class="GtkButton" id="button_menu_exit1">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="receives_default">True</property>
-                                        <property name="tooltip" translatable="yes">Exit</property>
-                                        <signal name="clicked" handler="on_quit1_activate" swapped="no"/>
-                                        <accelerator key="q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                                         <child>
-                                          <widget class="GtkEventBox" id="eventbox_button_menu_exit1">
+                                          <widget class="GtkButton" id="button_menu_preferences1">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">True</property>
+                                            <property name="tooltip" translatable="yes">Preferences</property>
+                                            <signal name="clicked" handler="on_preferences_activate" swapped="no"/>
                                             <child>
-                                              <widget class="GtkImage" id="image_menu_quit1">
+                                              <widget class="GtkEventBox" id="eventbox_button_menu_preferences1">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="stock">gtk-missing-image</property>
+                                                <child>
+                                                  <widget class="GtkImage" id="image_menu_preferences1">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="stock">gtk-missing-image</property>
+                                                  </widget>
+                                                </child>
                                               </widget>
                                             </child>
                                           </widget>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">2</property>
+                                          </packing>
                                         </child>
+                                        <child>
+                                          <widget class="GtkVBox" id="vbox86">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <child>
+                                              <widget class="GtkCheckButton" id="check_menu_help1">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="receives_default">False</property>
+                                                <property name="tooltip" translatable="yes">Help</property>
+                                                <property name="draw_indicator">False</property>
+                                                <signal name="clicked" handler="on_check_menu_help1_clicked" swapped="no"/>
+                                                <child>
+                                                  <widget class="GtkEventBox" id="eventbox_check_menu_help1">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <child>
+                                                      <widget class="GtkHBox" id="hbox392">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="spacing">4</property>
+                                                        <child>
+                                                          <widget class="GtkImage" id="image_menu_help1">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="GtkHBox" id="hbox393">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkArrow" id="arrow_menu_show_help_up1">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="arrow_type">up</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkArrow" id="arrow_menu_show_help_down1">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="arrow_type">down</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                          </packing>
+                                                        </child>
+                                                      </widget>
+                                                    </child>
+                                                  </widget>
+                                                </child>
+                                              </widget>
+                                              <packing>
+                                                <property name="expand">True</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkAlignment" id="alignment_menu_help_options1">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="top_padding">6</property>
+                                                <property name="left_padding">8</property>
+                                                <property name="right_padding">8</property>
+                                                <child>
+                                                  <widget class="GtkVBox" id="vbox181">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="spacing">6</property>
+                                                    <child>
+                                                      <widget class="GtkButton" id="button_menu_help_documents1">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="receives_default">True</property>
+                                                        <signal name="clicked" handler="on_menuitem_manual_activate" swapped="no"/>
+                                                        <child>
+                                                          <widget class="GtkEventBox" id="eventbox_button_menu_help_documents1">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_menu_help_documents1">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            </child>
+                                                          </widget>
+                                                        </child>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">False</property>
+                                                        <property name="position">0</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkButton" id="button_menu_help_accelerators1">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="receives_default">True</property>
+                                                        <signal name="clicked" handler="on_menuitem_accelerators_activate" swapped="no"/>
+                                                        <child>
+                                                          <widget class="GtkEventBox" id="eventbox_button_menu_help_accelerators1">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_menu_help_accelerators1">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            </child>
+                                                          </widget>
+                                                        </child>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">False</property>
+                                                        <property name="position">1</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkButton" id="button_menu_help_about1">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="receives_default">True</property>
+                                                        <signal name="clicked" handler="on_about1_activate" swapped="no"/>
+                                                        <child>
+                                                          <widget class="GtkEventBox" id="eventbox_button_menu_help_about1">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_menu_help_about1">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            </child>
+                                                          </widget>
+                                                        </child>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">False</property>
+                                                        <property name="position">2</property>
+                                                      </packing>
+                                                    </child>
+                                                  </widget>
+                                                </child>
+                                              </widget>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">1</property>
+                                              </packing>
+                                            </child>
+                                          </widget>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">3</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="GtkButton" id="button_menu_exit1">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">True</property>
+                                            <property name="tooltip" translatable="yes">Exit</property>
+                                            <signal name="clicked" handler="on_quit1_activate" swapped="no"/>
+                                            <accelerator key="q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
+                                            <child>
+                                              <widget class="GtkEventBox" id="eventbox_button_menu_exit1">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <child>
+                                                  <widget class="GtkImage" id="image_menu_quit1">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="stock">gtk-missing-image</property>
+                                                  </widget>
+                                                </child>
+                                              </widget>
+                                            </child>
+                                          </widget>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">4</property>
+                                          </packing>
+                                        </child>
+                                      </widget>
+                                      <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <widget class="GtkImage" id="image_logo_icon_transp">
+                                        <property name="width_request">48</property>
+                                        <property name="height_request">48</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="stock">gtk-missing-image</property>
+                                        <property name="icon-size">2</property>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
-                                        <property name="position">4</property>
+                                        <property name="pack_type">end</property>
+                                        <property name="position">1</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -1183,22 +1210,7 @@
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
                                         <property name="pack_type">end</property>
-                                        <property name="position">5</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <widget class="GtkImage" id="image_logo_icon_transp">
-                                        <property name="width_request">48</property>
-                                        <property name="height_request">48</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="stock">gtk-missing-image</property>
-                                        <property name="icon-size">2</property>
-                                      </widget>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                        <property name="pack_type">end</property>
-                                        <property name="position">6</property>
+                                        <property name="position">2</property>
                                       </packing>
                                     </child>
                                   </widget>

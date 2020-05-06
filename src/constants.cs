@@ -29,59 +29,73 @@ public class Constants
 	
 	//public static string ReadmeTranslators = Catalog.GetString("Translator, there's a glossary that will help you in Chronojump translation:\n http://git.gnome.org/browse/chronojump/plain/glossary/chronojump_glossary_for_translators.html");
 
-	public enum AuthorsEnum { CEO, SOFTWARE, CHRONOPIC, DEVICES, MATH, OPENCV, DOCUMENTERS }
+	public enum AuthorsEnum { SOFTWARE, NETWORKS, CHRONOPIC, SCIENTIFIC, MATH, DOCUMENTERS }
 	public static string [] Authors(AuthorsEnum e)
 	{
-		if(e == AuthorsEnum.CEO)
+		if(e == AuthorsEnum.SOFTWARE)
 			return new String []{
-				"Xavier de Blas Foix (info@chronojump.org)\n",
-				"Josep Ma Padullés (jmpadulles@gmail.com)"
+				"Xavier de Blas Foix <info@chronojump.org>, 2004-2020\n\t" +
+					Catalog.GetString("Main developer."),
+					"\nAndoni Morales Alastruey <http://ylatuya.es>, 2009-2020\n\t" +
+						Catalog.GetString("Installation support: Autotools, packaging, bundle."),
+					"\nXavier Padullés <testing@chronojump.org>, 2014-2020\n\t" +
+						Catalog.GetString("R scripts."),
+					"\nCarles Pina i Estany <http://pinux.info>, 2016-2017\n\t" +
+						Catalog.GetString("Backend developer.") + " " + Catalog.GetString("Import sessions.")
 			};
-		else if(e == AuthorsEnum.SOFTWARE)
+		else if(e == AuthorsEnum.NETWORKS)
 			return new String []{
-				"Xavier de Blas Foix (xaviblas@gmail.com)\n\t" +
-					Catalog.GetString("Main developer.") + "\n",
-					"Andoni Morales Alastruey (http://ylatuya.es)\n\t" +
-						Catalog.GetString("Installation support: Autotools, packaging, bundle.") + "\n",
-					"Carles Pina i Estany (http://pinux.info)\n\t" +
-						Catalog.GetString("Backend developer.")
+				"Max Ros Morejón <mros33@gmail.com>, 2019-2020" +
+					"\n\t" + Catalog.GetString("Django developer."),
+				"\nMarcos Venteo <mventeo@gmail.com>, 2017-2018" +
+					"\n\t" + Catalog.GetString("Django migration."),
+				"\nXavier de Blas Foix <info@chronojump.org>, 2016-2020" +
+					"\n\t" + Catalog.GetString("Client-Server integration.") + " " + Catalog.GetString("First Flask iteration."),
+				"\nCarles Pina i Estany <http://pinux.info>, 2016-2017" +
+					"\n\t" + Catalog.GetString("Web services support.")
+			};
+		else if(e == AuthorsEnum.SCIENTIFIC)
+			return new String []{
+				"Josep Ma Padullés <jmpadulles@gmail.com>, 2005-2020" +
+					"\n\t" + Catalog.GetString("Sports sciences") + ", " + Catalog.GetString("Engineering"),
+				"\nXavier Padullés <testing@chronojump.org>, 2012-2020",
+					"\n\t" + Catalog.GetString("Engineering"),
+				"\nJosep Granell <josegranell2005@hotmail.com>, 2018-2020",
+					"\n\t" + Catalog.GetString("Electronics"),
+				"\nCarlos J. Gil Bellosta <http://www.datanalytics.com>, 2010-2012, 2018" +
+					"\n\t" + Catalog.GetString("Maths and statistics"),
+				"\nAleix Ruiz de Villa <aleixrvr@gmail.com>, 2013-2016" +
+					"\n\t" + Catalog.GetString("Maths and statistics"),
+			};
+		/*
+		else if(e == AuthorsEnum.OPENCV)
+			return new String []{
+				"Sharad Shankar <http://www.logicbrick.com>\n",
+					"Onkar Nath Mishra <http://www.logicbrick.com>\n"
+			};
+			*/
+		else if(e == AuthorsEnum.DOCUMENTERS)
+			return new String []{
+				"Xavier Padullés <testing@chronojump.org>, 2013-2020",
+				"Xavier de Blas Foix <xaviblas@gmail.com>, 2004-2013",
+				"Helena Olsson <hjolsson@gmail.com>, 2011\n\t" +
+					Catalog.GetString("Chronojump Manual English translation.")
 			};
 		else if(e == AuthorsEnum.CHRONOPIC)
 			return new String []{
-				"Teng Wei Hua (wadedang@gmail.com)\n\t" + Catalog.GetString("Translation of Firmware to C.") + "\n\t" +
-					Catalog.GetString("New firmware features.") + " " + Catalog.GetString("Encoder hardware layer.") + "\n",
-					"Juan Gonzalez Gómez (http://www.iearobotics.com)\n\t" + Catalog.GetString("Skypic, Chronopic, connection between hardware and software.") + "\n",
-					"Ferran Suárez Rodríguez (ferransuarez2@gmail.com)\n\t" + Catalog.GetString("Chronopic reaction time advanced implementation.") + "\n",
-					"Ricardo Gómez González (http://www.iearobotics.com)\n\t" + Catalog.GetString("Chronopic3 industrial prototype.") + "\n",
-					"Juan Fernando Pardo (juanfer@juanfer.com.ar)\n\t" + "Chronopic2."
-			};
-		else if(e == AuthorsEnum.DEVICES)
-			return new String []{
-				"Josep Ma Padullés (jmpadulles@gmail.com)\n",
-					"Anna Padullés (hardware@chronojump.org)\n",
-					"Xavier Padullés (testing@chronojump.org)\n",
-					"Teng Wei Hua (wadedang@gmail.com)\n",
-					"Xavier de Blas Foix (info@chronojump.org)\n",
-					"Ferran Suárez Rodríguez (ferransuarez2@gmail.com)\n"
-			};
-		else if(e == AuthorsEnum.MATH)
-			return new String []{
-				"Carlos J. Gil Bellosta (http://www.datanalytics.com)\n",
-					"Aleix Ruiz de Villa (aleixrvr@gmail.com)\n",
-					"Xavier Padullés (testing@chronojump.org)"
-			};
-		else if(e == AuthorsEnum.OPENCV)
-			return new String []{
-				"Sharad Shankar (http://www.logicbrick.com)\n",
-					"Onkar Nath Mishra (http://www.logicbrick.com)\n"
-			};
-		else if(e == AuthorsEnum.DOCUMENTERS)
-			return new String []{
-				"Xavier de Blas Foix (xaviblas@gmail.com)\n\t" +
-					Catalog.GetString("Chronojump Manual author."),
-					"Helena Olsson (hjolsson@gmail.com)\n\t" +
-						Catalog.GetString("Chronojump Manual English translation."),
-					"Xavier Padullés (testing@chronojump.org)",
+				"Teng Wei Hua <wadedang@gmail.com>, 2011-2015" +
+					"\n\t" + Catalog.GetString("Translation of Firmware to C.") + ", " +
+					Catalog.GetString("New firmware features.") + ", " +
+					Catalog.GetString("Encoder hardware layer."),
+				"\nJuan Gonzalez Gómez <http://www.iearobotics.com>, 2004-2010\n\t" + Catalog.GetString("Skypic, Chronopic, connection between hardware aind software."), //2010 he made the visit to the lab
+				"\nRicardo Gómez González <http://www.iearobotics.com>, 2007\n\t" + Catalog.GetString("Chronopic3 industrial prototype."),
+				"\nXavier de Blas Foix <info@chronojump.org>, 2015-2017\n\t" +
+					Catalog.GetString("Chronopic validation.") + " " +
+					Catalog.GetString("Chronopic reaction time advanced implementation.") + " " +
+					Catalog.GetString("Other functionalities."),
+				"\nXavier Padullés <testing@chronojump.org>, 2018\n\t" + Catalog.GetString("Improved timers."),
+				"\nFerran Suárez Rodríguez <ferransuarez2@gmail.com>, 2015-2016\n\t" + Catalog.GetString("Chronopic reaction time advanced implementation."),
+					//"Juan Fernando Pardo <juanfer@juanfer.com.ar>\n\t" + "Chronopic2."
 			};
 		else
 			return new String []{""};

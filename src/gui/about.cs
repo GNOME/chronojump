@@ -29,12 +29,10 @@ public class About
 	[Widget] Gtk.Image image_logo;
 	[Widget] Gtk.Label dialog_about_label_version;
 	
-	[Widget] Gtk.Label dialog_about_label_developers_CEO;
 	[Widget] Gtk.Label dialog_about_label_developers_software;
+	[Widget] Gtk.Label dialog_about_label_developers_networks;
 	[Widget] Gtk.Label dialog_about_label_developers_chronopic;
-	[Widget] Gtk.Label dialog_about_label_developers_devices;
-	[Widget] Gtk.Label dialog_about_label_developers_math;
-	[Widget] Gtk.Label dialog_about_label_developers_opencv;
+	[Widget] Gtk.Label dialog_about_label_developers_scientific;
 
 	[Widget] Gtk.Label dialog_about_label_documenters;
 	[Widget] Gtk.Label dialog_about_label_translators;
@@ -68,12 +66,10 @@ public class About
 		dialog_about.ModifyBg(StateType.Normal, new Gdk.Color(0xff,0xff,0xff));
 		
 		//put authors
-		textLabel(Constants.Authors(Constants.AuthorsEnum.CEO), dialog_about_label_developers_CEO);
 		textLabel(Constants.Authors(Constants.AuthorsEnum.SOFTWARE), dialog_about_label_developers_software);
+		textLabel(Constants.Authors(Constants.AuthorsEnum.NETWORKS), dialog_about_label_developers_networks);
 		textLabel(Constants.Authors(Constants.AuthorsEnum.CHRONOPIC), dialog_about_label_developers_chronopic);
-		textLabel(Constants.Authors(Constants.AuthorsEnum.DEVICES), dialog_about_label_developers_devices);
-		textLabel(Constants.Authors(Constants.AuthorsEnum.MATH), dialog_about_label_developers_math);
-		textLabel(Constants.Authors(Constants.AuthorsEnum.OPENCV), dialog_about_label_developers_opencv);
+		textLabel(Constants.Authors(Constants.AuthorsEnum.SCIENTIFIC), dialog_about_label_developers_scientific);
 
 		//put documenters separated by commas
 		string docsString = "";

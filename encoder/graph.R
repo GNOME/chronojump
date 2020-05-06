@@ -117,7 +117,9 @@ translateToPrint <- function(englishWord)
         #Needed conversion for Windows:
         #unicoded titles arrive here like this "\\", convert to "\", as this is difficult, do like this:
         #http://stackoverflow.com/a/17787736
-        myWord = parse(text = paste0("'", myWord, "'"))
+	#myWord = parse(text = paste0("'", myWord, "'"))
+	#but also as.character in order to be able to do combines c() on paintCrossVariables() and operations on f.horlegend()
+	myWord = as.character(parse(text = paste0("'", myWord, "'")))
         
         return(myWord)
 }

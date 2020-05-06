@@ -445,6 +445,7 @@ RESOURCES = \
 	../images/md/baseline_play_arrow_blue_24dp.png,video_play.png \
 	../images/md/ic_home_blue_24dp_1x.png,image_home.png \
 	../images/md/ic_import_1x.png,import.png \
+	../images/md/ic_import_yellow_1x.png,import_yellow.png \
 	../images/md/ic_export_1x.png,export.png \
 	../images/md/ic_settings_blue_24dp_1x.png,image_settings.png \
 	../images/md/ic_close_blue_24dp_1x.png,image_close_blue.png \
@@ -479,6 +480,7 @@ RESOURCES = \
 	../images/md/ic_fullscreen_exit_blue_24dp_1x.png,image_minimize.png \
 	../images/md/ic_folder_open_blue_24dp_2x.png,folder_open_big.png \
 	../images/md/ic_folder_open_blue_24dp_1x.png,folder_open.png \
+	../images/md/ic_folder_open_yellow_24dp_1x.png,folder_open_yellow.png \
 	../images/md/ic_folder_open_set_blue_24dp_1x.png,folder_open_set.png \
 	../images/md/ic_visibility_blue_24dp_1x.png,image_visibility.png \
 	../images/md/ic_person_pin_blue_24dp_1x.png,image_person_pin.png \

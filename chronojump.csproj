@@ -2309,6 +2309,8 @@
     <None Include="images\md\baseline_computer_black_24dp.png" />
     <None Include="images\md\baseline_recent_actors_black_24dp.png" />
     <None Include="images\md\baseline_keyboard_black_24dp.png" />
+    <None Include="images\md\ic_import_yellow_1x.png" />
+    <None Include="images\md\ic_folder_open_yellow_24dp_1x.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\chronojump.desktop">

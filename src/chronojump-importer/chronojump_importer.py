@@ -426,9 +426,13 @@ class ImportSession:
         self._import_jumps()
         self._import_runs()
         self._import_pulse()
-        self._import_encoder()
+        trigger = self._import_encoder()
         self._import_forceSensor()
-        self._import_runEncoder()
+        triggerRunEncoder = self._import_runEncoder()
+
+        trigger.concatenate_table(triggerRunEncoder)
+        trigger.remove_duplicates()
+        self.destination_db.write(table=trigger, matches_columns=None)
 
         self._print_status(self, "allData")
 
@@ -678,7 +682,7 @@ class ImportSession:
                                       join_clause="LEFT JOIN Encoder ON Encoder.uniqueID=trigger.modeID")
 
         trigger.update_ids("modeID", encoder, "uniqueID", "new_uniqueID")
-        self.destination_db.write(table=trigger, matches_columns=None)
+        return trigger #to be concatenated and written after forceSensor and runEncoder
 
 
     def _import_forceSensor(self):
@@ -753,8 +757,7 @@ class ImportSession:
                 join_clause="LEFT JOIN RunEncoder ON RunEncoder.uniqueID=trigger.modeID")
 
         trigger.update_ids("modeID", runEncoder, "uniqueID", "new_uniqueID")
-        self.destination_db.write(table=trigger, matches_columns=None)
-        # TODO: check that this write does not erase previous write of encoder trigger
+        return trigger
 
 
         if(DEBUGTOFILE):

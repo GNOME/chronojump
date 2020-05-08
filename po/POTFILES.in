@@ -73,7 +73,6 @@ src/gui/app1/runEncoder.cs
 src/gui/app1/runEncoderAnalyze.cs
 src/gui/app1/session/loadAndImport.cs
 src/gui/app1/session/addEdit.cs
-src/gui/app1/shortcuts.cs
 src/gui/chronopic.cs
 src/gui/chronopicRegister.cs
 src/gui/confirm.cs

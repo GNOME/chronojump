@@ -307,7 +307,7 @@ msgstr "Administrar persones"
 #: ../src/gui/chronojump.cs:2635 ../src/gui/chronojump.cs:6778
 #: ../src/gui/session.cs:847 ../src/report.cs:146
 msgid "Persons"
-msgstr "atletes"
+msgstr "Atletes"
 
 #: ../glade/app1.glade.h:64
 msgid ""
@@ -3078,7 +3078,7 @@ msgstr "<b>Administrar persones</b>"
 
 #: ../glade/person_select_window.glade.h:15 ../src/gui/chronojump.cs:6779
 msgid "Edit selected person"
-msgstr "Editar la Persona seleccionada (p)"
+msgstr "Editar la Persona seleccionada"
 
 #: ../glade/person_select_window.glade.h:20
 msgid "Are you sure?"
@@ -5881,7 +5881,7 @@ msgstr "Finalitzar test"
 
 #: ../src/gui/chronojump.cs:6787
 msgid "Cancel test"
-msgstr "Cancel·lar"
+msgstr "Cancel·lar test"
 
 #: ../src/gui/chronojump.cs:6790
 msgid "On capture tab:"

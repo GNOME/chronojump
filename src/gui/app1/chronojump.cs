@@ -2642,6 +2642,8 @@ public partial class ChronoJumpWindow
 			//LogB.Information("selected: " + overviewWin.SelectedPersonID.ToString());
 			selectRowTreeView_persons(treeview_persons,
 					myTreeViewPersons.FindRow(overviewWin.SelectedPersonID));
+
+			overviewWin.Button_select_this_person_make_unsensitive();
 		}
 	}
 

@@ -148,6 +148,10 @@ public abstract class OverviewWindow
 		return new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string)); //personID (hidden), person name, sex, exercise, sets
 	}
 
+	public void Button_select_this_person_make_unsensitive()
+	{
+		button_select_this_person.Sensitive = false;
+	}
 	public Button Button_select_this_person
 	{
 		set { button_select_this_person = value; }

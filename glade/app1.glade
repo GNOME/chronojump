@@ -23680,6 +23680,7 @@ Concentric</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <signal name="clicked" handler="on_button_force_sensor_ai_zoom_clicked" swapped="no"/>
+                                                            <accelerator key="z" signal="clicked"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -23693,8 +23694,7 @@ Concentric</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <signal name="clicked" handler="on_button_force_sensor_ai_zoom_out_clicked" swapped="no"/>
-                                                            <accelerator key="Escape" signal="clicked"/>
-                                                            <accelerator key="Escape" signal="clicked"/>
+                                                            <accelerator key="z" signal="clicked"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -24525,6 +24525,12 @@ Concentric</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options">GTK_SHRINK</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -33666,6 +33672,12 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

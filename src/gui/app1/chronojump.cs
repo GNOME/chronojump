@@ -6526,7 +6526,7 @@ LogB.Debug("mc finished 5");
 
 	private void on_shortcuts_clicked (object o, EventArgs args)
 	{
-		new DialogShortcuts();
+		new DialogShortcuts(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX);
 	}
 
 	private void on_menuitem_check_last_version_activate (object o, EventArgs args) 

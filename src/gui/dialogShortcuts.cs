@@ -25,8 +25,15 @@ using Glade;
 public class DialogShortcuts
 {
 	[Widget] Gtk.Dialog dialog_shortcuts;
+	[Widget] Gtk.Label label_ctrl;
+	[Widget] Gtk.Label label_ctrl1;
+	[Widget] Gtk.Label label_ctrl2;
+	[Widget] Gtk.Label label_ctrl3;
+	[Widget] Gtk.Label label_ctrl4;
+	[Widget] Gtk.Label label_ctrl5;
+	[Widget] Gtk.Label label_enter;
 
-	public DialogShortcuts ()
+	public DialogShortcuts (bool isMac)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "dialog_shortcuts.glade", "dialog_shortcuts", "chronojump");
@@ -34,6 +41,17 @@ public class DialogShortcuts
 
 		//put an icon to window
 		UtilGtk.IconWindow(dialog_shortcuts);
+
+		if(isMac)
+		{
+			label_ctrl.Text = "Command";
+			label_ctrl1.Text = "Command";
+			label_ctrl2.Text = "Command";
+			label_ctrl3.Text = "Command";
+			label_ctrl4.Text = "Command";
+			label_ctrl5.Text = "Command";
+			label_enter.Text = "Return";
+		}
 	}
 
 	public void on_button_close_clicked (object obj, EventArgs args) {

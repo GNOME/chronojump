@@ -21,6 +21,7 @@ SOURCES = \
 	gui/app1/session/addEdit.cs\
 	gui/app1/session/loadAndImport.cs\
 	gui/app1/session/main.cs\
+	gui/app1/shortcuts.cs\
 	gui/app1/jump.cs\
 	gui/app1/menu.cs\
 	gui/app1/menu_tiny.cs\

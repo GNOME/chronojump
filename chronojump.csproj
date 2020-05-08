@@ -1244,6 +1244,7 @@
     <Compile Include="src\gui\person\addMultiple.cs" />
     <Compile Include="src\gui\person\addModify.cs" />
     <Compile Include="src\gui\person\personSelect.cs" />
+    <Compile Include="src\gui\app1\shortcuts.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />

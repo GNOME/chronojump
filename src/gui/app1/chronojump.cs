@@ -6524,43 +6524,6 @@ LogB.Debug("mc finished 5");
 		new DialogMessage(Constants.MessageTypes.INFO, "Here there will be bibliographic information about formulas and some notes.\n\nProbably this will be a window and not a dialog\n\nNote text is selectable");
 	}
 
-	private void on_menuitem_accelerators_activate (object o, EventArgs args) {
-		new DialogMessage(
-				Catalog.GetString("Use these keys in order to work faster."),
-				Constants.MessageTypes.NONE,  //NONE because window is vertically big and the INFO icon looks weird there
-				Catalog.GetString("Persons") + ":\n" +
-				"\t<tt><b>CTRL+p</b></tt> " + Catalog.GetString("Edit selected person") + "\n" +
-				"\t<tt><b>CTRL+" + Catalog.GetString("CURSOR_UP") + "</b></tt> " + Catalog.GetString("Select previous person") + "\n" +
-				"\t<tt><b>CTRL+" + Catalog.GetString("CURSOR_DOWN") + "</b></tt> " + Catalog.GetString("Select next person") + "\n" +
-
-				"\n" + Catalog.GetString("Capture tests") + ":\n" +
-				"\t<tt><b>CTRL+Space</b></tt> " + Catalog.GetString("Execute test") + "\n" +
-				"\t<tt><b>Enter</b></tt> " + Catalog.GetString("Finish test") + "\n" +
-				"\t<tt><b>Escape</b></tt> " + Catalog.GetString("Cancel test") + "\n" +
-
-				"\n" + Catalog.GetString("Jumps") + "/" +  Catalog.GetString("Races") + ". " +
-				Catalog.GetString("On capture tab:") + "\n" +
-				"\t<tt><b>CTRL+v</b></tt> " + Catalog.GetString("Play video of this test") + " " + Catalog.GetString("(if available)")+ "\n" +
-				"\t<tt><b>CTRL+d</b></tt> " + Catalog.GetString("Delete this test") + "\n" +
-
-				"\n" + Catalog.GetString("Jumps") + "/" +  Catalog.GetString("Races") + ". " +
-				Catalog.GetString("On analyze tab:") + "\n" +
-				"\t<tt><b>z</b></tt> " + Catalog.GetString("Zoom change") + "\n" +
-				"\t<tt><b>CTRL+v</b></tt> " + Catalog.GetString("Play video of selected test") + " " + Catalog.GetString("(if available)")+ "\n" +
-				"\t<tt><b>e</b></tt> " + Catalog.GetString("Edit selected test") + "\n" +
-				"\t<tt><b>d</b></tt> " + Catalog.GetString("Delete selected test") + "\n" +
-				"\t<tt><b>r</b></tt> " + Catalog.GetString("Repair selected test") + " " + Catalog.GetString("(if available)") + "\n" +
-
-				"\n" + Catalog.GetString("On encoder capture:") + "\n" +
-				"\t<tt><b>+</b></tt> " + Catalog.GetString("Add weight") + "\n" +
-				"\t<tt><b>-</b></tt> " + Catalog.GetString("Remove weight") + "\n" +
-
-				"\n<tt><b>Escape</b></tt>\n" +
-				"\t" + Catalog.GetString("Close any window") + "\n" +
-				"\t" + Catalog.GetString("Open menu")
-				);
-	}
-	
 	private void on_menuitem_check_last_version_activate (object o, EventArgs args) 
 	{
 		Json js = new Json();

@@ -557,7 +557,6 @@
                         <property name="tooltip" translatable="yes">Use Chronojump faster</property>
                         <property name="label" translatable="yes">_Accelerators</property>
                         <property name="use_underline">True</property>
-                        <signal name="activate" handler="on_menuitem_accelerators_activate" swapped="no"/>
                       </widget>
                     </child>
                     <child>
@@ -1060,17 +1059,17 @@
                                                       </packing>
                                                     </child>
                                                     <child>
-                                                      <widget class="GtkButton" id="button_menu_help_accelerators1">
+                                                      <widget class="GtkButton" id="button_menu_shortcuts1">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
-                                                        <signal name="clicked" handler="on_menuitem_accelerators_activate" swapped="no"/>
+                                                        <signal name="clicked" handler="on_shortcuts_clicked" swapped="no"/>
                                                         <child>
-                                                          <widget class="GtkEventBox" id="eventbox_button_menu_help_accelerators1">
+                                                          <widget class="GtkEventBox" id="eventbox_button_menu_help_shortcuts1">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
-                                                            <widget class="GtkImage" id="image_menu_help_accelerators1">
+                                                            <widget class="GtkImage" id="image_menu_help_shortcuts1">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
@@ -1915,13 +1914,13 @@
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkButton" id="button_menu_help_accelerators">
+                                                            <widget class="GtkButton" id="button_menu_help_shortcuts">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
-                                                            <signal name="clicked" handler="on_menuitem_accelerators_activate" swapped="no"/>
+                                                            <signal name="clicked" handler="on_shortcuts_clicked" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkEventBox" id="eventbox_button_menu_help_accelerators">
+                                                            <widget class="GtkEventBox" id="eventbox_button_menu_help_shortcuts">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
@@ -1929,7 +1928,7 @@
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
-                                                            <widget class="GtkImage" id="image_menu_help_accelerators">
+                                                            <widget class="GtkImage" id="image_menu_help_shortcuts">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
@@ -1941,7 +1940,7 @@
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label_menu_help_accelerators">
+                                                            <widget class="GtkLabel" id="label_menu_help_shortcuts">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label" translatable="yes">Shortcuts</property>

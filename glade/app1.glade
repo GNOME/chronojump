@@ -27031,6 +27031,7 @@ Concentric</property>
                                                             <property name="tooltip" translatable="yes">Delete set</property>
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_button_encoder_delete_signal_clicked" swapped="no"/>
+                                                            <accelerator key="d" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
                                                             <widget class="GtkImage" id="image_encoder_signal_delete">
                                                             <property name="visible">True</property>

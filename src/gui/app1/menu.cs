@@ -54,7 +54,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox eventbox_button_menu_preferences;
 	[Widget] Gtk.EventBox eventbox_check_menu_help;
 	[Widget] Gtk.EventBox eventbox_button_menu_help_documents;
-	[Widget] Gtk.EventBox eventbox_button_menu_help_accelerators;
+	[Widget] Gtk.EventBox eventbox_button_menu_help_shortcuts;
 	[Widget] Gtk.EventBox eventbox_button_menu_help_about;
 	[Widget] Gtk.EventBox eventbox_button_menu_exit;
 	[Widget] Gtk.CheckButton check_menu_session;
@@ -75,7 +75,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_menu_preferences;
 	[Widget] Gtk.Button button_menu_exit;
 	[Widget] Gtk.Button button_menu_help_documents;
-	[Widget] Gtk.Button button_menu_help_accelerators;
+	[Widget] Gtk.Button button_menu_help_shortcuts;
 	[Widget] Gtk.Button button_menu_help_about;
 
 	[Widget] Gtk.Image image_session_import;
@@ -93,7 +93,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_menu_preferences;
 	[Widget] Gtk.Image image_menu_help;
 	[Widget] Gtk.Image image_menu_help_documents;
-	[Widget] Gtk.Image image_menu_help_accelerators;
+	[Widget] Gtk.Image image_menu_help_shortcuts;
 	[Widget] Gtk.Image image_menu_help_about;
 	[Widget] Gtk.Image image_menu_quit;
 
@@ -157,7 +157,7 @@ public partial class ChronoJumpWindow
 		l.Add(button_menu_session_load.SizeRequest().Width + 16);
 		l.Add(button_menu_session_more.SizeRequest().Width + 16);
 		l.Add(button_menu_help_documents.SizeRequest().Width + 16);
-		l.Add(button_menu_help_accelerators.SizeRequest().Width + 16);
+		l.Add(button_menu_help_shortcuts.SizeRequest().Width + 16);
 		l.Add(button_menu_help_about.SizeRequest().Width + 16);
 
 		int maxWidth = getMenuButtonsMaxWidth(l) + 4 + 6; //4, 6 are alignments spaces.
@@ -220,7 +220,7 @@ public partial class ChronoJumpWindow
 		image_menu_preferences.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_menu_help.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_menu_help_documents.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
-		image_menu_help_accelerators.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
+		image_menu_help_shortcuts.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_menu_help_about.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_menu_quit.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 	}
@@ -255,7 +255,7 @@ public partial class ChronoJumpWindow
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_load, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_more, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_help_documents, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_help_accelerators, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_help_shortcuts, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_help_about, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 	}
 

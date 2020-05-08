@@ -6199,7 +6199,7 @@ msgstr "Terminar prueba"
 
 #: ../src/gui/app1/chronojump.cs:6523
 msgid "Cancel test"
-msgstr "Cancelar"
+msgstr "Cancelar test"
 
 #: ../src/gui/app1/chronojump.cs:6526
 msgid "On capture tab:"

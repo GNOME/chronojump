@@ -1244,7 +1244,7 @@
     <Compile Include="src\gui\person\addMultiple.cs" />
     <Compile Include="src\gui\person\addModify.cs" />
     <Compile Include="src\gui\person\personSelect.cs" />
-    <Compile Include="src\gui\app1\shortcuts.cs" />
+    <Compile Include="src\gui\dialogShortcuts.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />
@@ -2312,6 +2312,7 @@
     <None Include="images\md\baseline_keyboard_black_24dp.png" />
     <None Include="images\md\ic_import_yellow_1x.png" />
     <None Include="images\md\ic_folder_open_yellow_24dp_1x.png" />
+    <None Include="glade\dialog_shortcuts.glade" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\chronojump.desktop">

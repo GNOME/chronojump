@@ -21,7 +21,6 @@ SOURCES = \
 	gui/app1/session/addEdit.cs\
 	gui/app1/session/loadAndImport.cs\
 	gui/app1/session/main.cs\
-	gui/app1/shortcuts.cs\
 	gui/app1/jump.cs\
 	gui/app1/menu.cs\
 	gui/app1/menu_tiny.cs\
@@ -80,6 +79,7 @@ SOURCES = \
 	gui/dialogCalendar.cs\
 	gui/dialogImageTest.cs\
 	gui/dialogPersonPopup.cs\
+	gui/dialogShortcuts.cs\
 	gui/dialogThreshold.cs\
 	gui/repetitiveConditions.cs\
 	gui/convertWeight.cs\
@@ -276,6 +276,7 @@ RESOURCES = \
 	../glade/dialog_message.glade \
 	../glade/dialog_person_popup.glade \
 	../glade/dialog_server_stats.glade \
+	../glade/dialog_shortcuts.glade \
 	../glade/dialog_threshold.glade \
 	../glade/edit_event.glade \
 	../glade/encoder_configuration.glade \

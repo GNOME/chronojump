@@ -6524,6 +6524,11 @@ LogB.Debug("mc finished 5");
 		new DialogMessage(Constants.MessageTypes.INFO, "Here there will be bibliographic information about formulas and some notes.\n\nProbably this will be a window and not a dialog\n\nNote text is selectable");
 	}
 
+	private void on_shortcuts_clicked (object o, EventArgs args)
+	{
+		new DialogShortcuts();
+	}
+
 	private void on_menuitem_check_last_version_activate (object o, EventArgs args) 
 	{
 		Json js = new Json();

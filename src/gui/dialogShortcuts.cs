@@ -20,6 +20,7 @@
 
 using System;
 using Gtk;
+using Gdk;
 using Glade;
 
 public class DialogShortcuts
@@ -32,6 +33,36 @@ public class DialogShortcuts
 	[Widget] Gtk.Label label_ctrl4;
 	[Widget] Gtk.Label label_ctrl5;
 	[Widget] Gtk.Label label_enter;
+
+	//images on capture tab
+	[Widget] Gtk.Image image_enc_grav_1;
+	[Widget] Gtk.Image image_enc_inert_1;
+	[Widget] Gtk.Image image_fs_1;
+	[Widget] Gtk.Image image_ra_1;
+	[Widget] Gtk.Image image_enc_grav_2;
+	[Widget] Gtk.Image image_enc_inert_2;
+	[Widget] Gtk.Image image_fs_2;
+	[Widget] Gtk.Image image_ra_2;
+	[Widget] Gtk.Image image_enc_grav_3;
+	[Widget] Gtk.Image image_enc_inert_3;
+	[Widget] Gtk.Image image_fs_3;
+	[Widget] Gtk.Image image_ra_3;
+	[Widget] Gtk.Image image_enc_grav_4;
+	[Widget] Gtk.Image image_enc_inert_4;
+	[Widget] Gtk.Image image_enc_grav_5;
+	[Widget] Gtk.Image image_enc_inert_5;
+
+	//images on analyze tab
+	[Widget] Gtk.Image image_jump_1;
+	[Widget] Gtk.Image image_run_1;
+	[Widget] Gtk.Image image_jump_2;
+	[Widget] Gtk.Image image_run_2;
+	[Widget] Gtk.Image image_jump_3;
+	[Widget] Gtk.Image image_run_3;
+	[Widget] Gtk.Image image_jump_4;
+	[Widget] Gtk.Image image_run_4;
+	[Widget] Gtk.Image image_fs_4;
+
 
 	public DialogShortcuts (bool isMac)
 	{
@@ -52,6 +83,54 @@ public class DialogShortcuts
 			label_ctrl5.Text = "Command";
 			label_enter.Text = "Return";
 		}
+
+		putIcons();
+	}
+
+	private void putIcons()
+	{
+		Pixbuf pixbuf;
+
+		//capture tab
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_weight.png"); //encoder gravitatory
+		image_enc_grav_1.Pixbuf = pixbuf;
+		image_enc_grav_2.Pixbuf = pixbuf;
+		image_enc_grav_3.Pixbuf = pixbuf;
+		image_enc_grav_4.Pixbuf = pixbuf;
+		image_enc_grav_5.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_inertia.png");
+		image_enc_inert_1.Pixbuf = pixbuf;
+		image_enc_inert_2.Pixbuf = pixbuf;
+		image_enc_inert_3.Pixbuf = pixbuf;
+		image_enc_inert_4.Pixbuf = pixbuf;
+		image_enc_inert_5.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "force_sensor_icon.png");
+		image_fs_1.Pixbuf = pixbuf;
+		image_fs_2.Pixbuf = pixbuf;
+		image_fs_3.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "race_encoder_icon.png");
+		image_ra_1.Pixbuf = pixbuf;
+		image_ra_2.Pixbuf = pixbuf;
+		image_ra_3.Pixbuf = pixbuf;
+
+		//analyze tab
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_jump.png");
+		image_jump_1.Pixbuf = pixbuf;
+		image_jump_2.Pixbuf = pixbuf;
+		image_jump_3.Pixbuf = pixbuf;
+		image_jump_4.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run.png");
+		image_run_1.Pixbuf = pixbuf;
+		image_run_2.Pixbuf = pixbuf;
+		image_run_3.Pixbuf = pixbuf;
+		image_run_4.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "force_sensor_icon.png");
+		image_fs_4.Pixbuf = pixbuf;
 	}
 
 	public void on_button_close_clicked (object obj, EventArgs args) {

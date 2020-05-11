@@ -46,6 +46,13 @@ And inside the chronojump directory
 
 make osx-installer
 
+
+check new versions of ffmpeg/ffplay
+https://ffmpeg.zeranoe.com/builds/
+
+if there are new versions, download mac64/static
+and copy, ffmpeg, ffplay binaries to ffmpegBinariesMac, git commit/push
+
 #we have not succeded on adding ffmpeg and ffplay binaries using cerbero
 #it works on make install but not on creating the package
 #so this has to be done, adapted from: http://crazyedy.com/tech/?p=535

@@ -680,6 +680,9 @@ public partial class ChronoJumpWindow
 
 		encoderInitializeStuff();	
 
+		//done before configInitRead because that will change some Tooltips
+		addShortcutsToTooltips(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX);
+
 		LogB.Information("Calling configInitRead from gui / ChronojumpWindow");
 		configInitRead();
 

@@ -1256,6 +1256,7 @@
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">False</property>
+                                                        <property name="tooltip" translatable="yes">Open menu</property>
                                                         <property name="yalign">0</property>
                                                         <property name="active">True</property>
                                                         <property name="draw_indicator">False</property>
@@ -2955,8 +2956,7 @@
                                                             <property name="can_default">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Select previous person
-&lt;Control&gt;Up</property>
+                                                            <property name="tooltip" translatable="yes">Select previous person</property>
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_treeview_persons_up" swapped="no"/>
                                                             <accelerator key="Up" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
@@ -2981,8 +2981,7 @@
                                                             <property name="can_default">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Select next person
-&lt;Control&gt;Down</property>
+                                                            <property name="tooltip" translatable="yes">Select next person</property>
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_treeview_persons_down" swapped="no"/>
                                                             <accelerator key="Down" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
@@ -3372,8 +3371,7 @@
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Edit selected person
-&lt;Control&gt;p</property>
+                                                            <property name="tooltip" translatable="yes">Edit selected person</property>
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_edit_current_person_clicked_from_main_gui" swapped="no"/>
                                                             <accelerator key="p" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
@@ -3502,8 +3500,7 @@
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Edit selected person
-&lt;Control&gt;p</property>
+                                                            <property name="tooltip" translatable="yes">Edit selected person</property>
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_edit_current_person_clicked_from_main_gui" swapped="no"/>
                                                             <accelerator key="p" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
@@ -6978,6 +6975,7 @@ EncoderInertialCapture</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
+                                                            <property name="tooltip" translatable="yes">Test</property>
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_button_contacts_exercise_clicked" swapped="no"/>
                                                             <child>
@@ -7064,7 +7062,7 @@ EncoderInertialCapture</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Or press 'CTRL + space'</property>
+                                                            <property name="tooltip" translatable="yes">Execute test</property>
                                                             <signal name="clicked" handler="on_button_execute_test_clicked" swapped="no"/>
                                                             <accelerator key="space" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
@@ -7093,6 +7091,7 @@ EncoderInertialCapture</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="tooltip" translatable="yes">Overview of this session</property>
                                                             <signal name="clicked" handler="on_session_overview_clicked" swapped="no"/>
+                                                            <accelerator key="o" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
                                                             <widget class="GtkImage" id="image_contacts_session_overview">
                                                             <property name="visible">True</property>
@@ -7114,6 +7113,7 @@ EncoderInertialCapture</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="tooltip" translatable="yes">Load</property>
                                                             <signal name="clicked" handler="on_button_contacts_capture_load_clicked" swapped="no"/>
+                                                            <accelerator key="l" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
                                                             <widget class="GtkImage" id="image_contacts_capture_load">
                                                             <property name="visible">True</property>
@@ -7169,7 +7169,7 @@ EncoderInertialCapture</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Delete last test &lt;Control&gt;d</property>
+                                                            <property name="tooltip" translatable="yes">Delete last test.</property>
                                                             <signal name="clicked" handler="on_delete_last_test_clicked" swapped="no"/>
                                                             <accelerator key="d" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
@@ -7554,7 +7554,7 @@ EncoderInertialCapture</property>
                                                             <property name="can_default">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Finish test (save test until this moment).  Or press 'Enter'.</property>
+                                                            <property name="tooltip" translatable="yes">Finish test (save test until this moment).</property>
                                                             <property name="use_underline">True</property>
                                                             <signal name="clicked" handler="on_event_execute_finish_clicked" swapped="no"/>
                                                             <accelerator key="Return" signal="clicked"/>
@@ -7605,7 +7605,7 @@ EncoderInertialCapture</property>
                                                             <property name="can_default">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Cancel test. Or press 'escape'.</property>
+                                                            <property name="tooltip" translatable="yes">Cancel test</property>
                                                             <signal name="clicked" handler="on_event_execute_button_cancel_clicked" swapped="no"/>
                                                             <accelerator key="Escape" signal="clicked"/>
                                                             <child>
@@ -8561,7 +8561,7 @@ EncoderInertialCapture</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Play Video &lt;Control&gt;v</property>
+                                                            <property name="tooltip" translatable="yes">Play Video</property>
                                                             <signal name="clicked" handler="on_button_video_play_this_test_contacts_clicked" swapped="no"/>
                                                             <accelerator key="v" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
@@ -17000,7 +17000,7 @@ Resisted race analyzer</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_button_contacts_exercise_close_and_capture_clicked" swapped="no"/>
-                                                            <accelerator key="Escape" signal="clicked"/>
+                                                            <accelerator key="space" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox65">
                                                             <property name="visible">True</property>
@@ -17044,9 +17044,10 @@ Resisted race analyzer</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
+                                                            <property name="tooltip" translatable="yes">Recalculate set with changed parameters</property>
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_button_contacts_exercise_close_and_recalculate_clicked" swapped="no"/>
-                                                            <accelerator key="Escape" signal="clicked"/>
+                                                            <accelerator key="r" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox368">
                                                             <property name="visible">True</property>
@@ -24988,6 +24989,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -26609,6 +26613,7 @@ Concentric</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
+                                                            <property name="tooltip" translatable="yes">Test</property>
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_button_encoder_exercise_clicked" swapped="no"/>
                                                             <child>
@@ -26999,7 +27004,7 @@ Concentric</property>
                                                             <property name="can_default">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Or press 'CTRL + space'</property>
+                                                            <property name="tooltip" translatable="yes">Execute test</property>
                                                             <property name="relief">half</property>
                                                             <property name="use_underline">True</property>
                                                             <signal name="clicked" handler="on_button_encoder_capture_clicked" swapped="no"/>
@@ -27087,6 +27092,7 @@ Concentric</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="tooltip" translatable="yes">Overview of this session</property>
                                                             <signal name="clicked" handler="on_session_overview_clicked" swapped="no"/>
+                                                            <accelerator key="o" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
                                                             <widget class="GtkImage" id="image_encoder_session_overview">
                                                             <property name="visible">True</property>
@@ -27112,6 +27118,7 @@ Concentric</property>
                                                             <property name="relief">half</property>
                                                             <property name="use_underline">True</property>
                                                             <signal name="clicked" handler="on_button_encoder_load_signal_clicked" swapped="no"/>
+                                                            <accelerator key="l" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
                                                             <widget class="GtkImage" id="image_encoder_capture_open">
                                                             <property name="visible">True</property>
@@ -27193,7 +27200,7 @@ Concentric</property>
                                                             <property name="can_default">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Finish capture (save test until this moment).  Or press 'Enter'.</property>
+                                                            <property name="tooltip" translatable="yes">Finish capture (save test until this moment).</property>
                                                             <property name="use_underline">True</property>
                                                             <signal name="clicked" handler="on_button_encoder_capture_finish_clicked" swapped="no"/>
                                                             <accelerator key="Return" signal="clicked"/>
@@ -27221,7 +27228,7 @@ Concentric</property>
                                                             <property name="can_default">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Cancel process. Or press 'escape'.</property>
+                                                            <property name="tooltip" translatable="yes">Cancel process.</property>
                                                             <property name="use_underline">True</property>
                                                             <signal name="clicked" handler="on_button_encoder_cancel_clicked" swapped="no"/>
                                                             <accelerator key="Escape" signal="clicked"/>
@@ -27749,6 +27756,18 @@ Concentric</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
+                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Tests will be filmed</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkHBox" id="hbox_video_encoder_capturing">
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
@@ -27776,18 +27795,6 @@ Concentric</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack_type">end</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Tests will be filmed</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -27877,7 +27884,7 @@ Concentric</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Play Video &lt;Control&gt;v</property>
+                                                            <property name="tooltip" translatable="yes">Play Video</property>
                                                             <signal name="clicked" handler="on_button_video_play_this_test_encoder_clicked" swapped="no"/>
                                                             <accelerator key="v" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
@@ -30501,7 +30508,7 @@ then click this button.</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_button_encoder_exercise_close_and_capture_clicked" swapped="no"/>
-                                                            <accelerator key="Escape" signal="clicked"/>
+                                                            <accelerator key="space" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox360">
                                                             <property name="visible">True</property>
@@ -30548,7 +30555,7 @@ then click this button.</property>
                                                             <property name="tooltip" translatable="yes">Recalculate set with changed parameters</property>
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_button_encoder_exercise_close_and_recalculate_clicked" swapped="no"/>
-                                                            <accelerator key="Escape" signal="clicked"/>
+                                                            <accelerator key="r" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox363">
                                                             <property name="visible">True</property>
@@ -30816,6 +30823,7 @@ then click this button.</property>
                                                             <property name="tooltip" translatable="yes">Load set</property>
                                                             <property name="use_underline">True</property>
                                                             <signal name="clicked" handler="on_button_encoder_load_signal_clicked" swapped="no"/>
+                                                            <accelerator key="l" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox400">
                                                             <property name="visible">True</property>
@@ -33672,6 +33680,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

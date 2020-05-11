@@ -207,8 +207,6 @@ public partial class ChronoJumpWindow
 
 	//menus
 	[Widget] Gtk.MenuItem session_menuitem;
-	[Widget] Gtk.MenuItem help_menuitem;
-	[Widget] Gtk.MenuItem menuitem_ping;
 
 	//menu session
 	[Widget] Gtk.MenuItem menuitem_edit_session;
@@ -6556,10 +6554,12 @@ LogB.Debug("mc finished 5");
 		}
 	}
 
+	/*
 	private void on_menuitem_ping_activate (object o, EventArgs args) 
 	{
 		pingDo(true);
 	}
+	*/
 	private void pingAtStart()
 	{
 		pingDo(false);
@@ -6609,7 +6609,6 @@ LogB.Debug("mc finished 5");
 
 		hbox_gui_tests.Visible = true;
 		button_carles.Visible = true;
-		menuitem_ping.Visible = true;
 
 		menuitem_check_race_encoder_capture_simulate.Visible = true;
 
@@ -7147,9 +7146,6 @@ LogB.Debug("mc finished 5");
 			alignment_radio_mode_contacts_analyze.Hide();
 			radio_mode_contacts_sprint.Hide();
 		}
-		
-		
-		help_menuitem.Sensitive = false;
 
 		if(cont)
 		{
@@ -7209,8 +7205,6 @@ LogB.Debug("mc finished 5");
 		//but don't unsensitive the notebook because user need to "finish" or cancel"
 		//notebook_capture_analyze.Sensitive = true; 
 		radio_mode_contacts_analyze.Visible = true;
-
-		help_menuitem.Sensitive = true;
 
 		frame_persons.Sensitive = true;
 		//check this is sensitive (because on cont was unsensitive)
@@ -7380,7 +7374,6 @@ LogB.Debug("mc finished 5");
 		//if automode, sensitiveGuiEventDoing, sensitiveGuiEventDone don't work
 		session_menuitem.Sensitive 	= ! start;
 		menuitem_mode.Sensitive 	= ! start;
-		help_menuitem.Sensitive 	= ! start;
 		frame_persons.Sensitive 	= ! start;
 		button_contacts_exercise.Sensitive = ! start;
 

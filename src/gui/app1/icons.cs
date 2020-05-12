@@ -183,7 +183,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_force_sensor_laterality_l;
 
 	//race encoder
-	[Widget] Gtk.Image image_race_encoder_open_folder;
 	[Widget] Gtk.Image image_run_encoder_exercise_edit;
 	[Widget] Gtk.Image image_run_encoder_exercise_add;
 	[Widget] Gtk.Image image_run_encoder_exercise_delete;
@@ -309,9 +308,6 @@ public partial class ChronoJumpWindow
 		image_encoder_inertial_top_weights.Pixbuf = pixbuf;
 		image_encoder_inertial_weights.Pixbuf = pixbuf;
 		image_force_sensor_calibrate.Pixbuf = pixbuf;
-
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_check.png");
-		image_race_encoder_open_folder.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "portrait_zoom.png");
 		image_current_person_zoom.Pixbuf = pixbuf;

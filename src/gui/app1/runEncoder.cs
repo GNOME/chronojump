@@ -34,8 +34,7 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
-	[Widget] Gtk.MenuItem menuitem_race_encoder_open_folder;
-	[Widget] Gtk.CheckMenuItem menuitem_check_race_encoder_capture_simulate;
+	//[Widget] Gtk.CheckMenuItem menuitem_check_race_encoder_capture_simulate;
 
 	[Widget] Gtk.VBox vbox_run_encoder_capture_buttons;
 	[Widget] Gtk.VBox vbox_run_encoder_capture_options;
@@ -364,7 +363,8 @@ public partial class ChronoJumpWindow
 		usbDisconnectedLastTime = 0;
 		contactsShowCaptureDoingButtons(true);
 
-		runEncoderCaptureSimulated = menuitem_check_race_encoder_capture_simulate.Active;
+		//runEncoderCaptureSimulated = menuitem_check_race_encoder_capture_simulate.Active; //TODO: show this in some way on 2.0
+		runEncoderCaptureSimulated = false;
 
 		/*
 		//initialize
@@ -1286,6 +1286,9 @@ public partial class ChronoJumpWindow
 		image_run_encoder_graph.Sensitive = true;
 	}
 
+	/*
+	 * unused on 2.0
+	 *
 	private void on_menuitem_race_encoder_open_folder_activate (object o, EventArgs args)
 	{
 		if(currentSession == null || currentSession.UniqueID == -1)
@@ -1311,6 +1314,7 @@ public partial class ChronoJumpWindow
 		} else
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.DirectoryCannotOpenStr());
 	}
+	*/
 
 	// -------------------------------- exercise stuff --------------------
 

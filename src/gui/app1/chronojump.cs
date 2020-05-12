@@ -45,7 +45,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_open_session;
 	
 	//[Widget] Gtk.VBox vbox_menu_encoder;
-	[Widget] Gtk.MenuItem race_encoder_menuitem;
 
 	[Widget] Gtk.HBox hbox_gui_tests;
 	[Widget] Gtk.SpinButton spin_gui_tests;
@@ -3214,8 +3213,6 @@ public partial class ChronoJumpWindow
 
 		if(! configChronojump.Compujump)
 			showWebcamCaptureContactsControls(true);
-
-		race_encoder_menuitem.Visible = (m == Constants.Menuitem_modes.RUNSENCODER);
 	}
 
 	void setEncoderTypePixbuf()
@@ -6572,7 +6569,7 @@ LogB.Debug("mc finished 5");
 		hbox_gui_tests.Visible = true;
 		button_carles.Visible = true;
 
-		menuitem_check_race_encoder_capture_simulate.Visible = true;
+		//menuitem_check_race_encoder_capture_simulate.Visible = true;
 
 		preferencesWin.DebugActivated();
 	}
@@ -7095,7 +7092,6 @@ LogB.Debug("mc finished 5");
 		menus_sensitive(false);
 		session_menuitem.Sensitive = false;
 		//vbox_menu_encoder.Sensitive = false;
-		race_encoder_menuitem.Sensitive = false;
 		
 		//jumpsProfile has Sqlite calls. Don't do them while jumping
 		//but don't unsensitive the notebook because user need to "finish" or cancel"
@@ -7157,7 +7153,6 @@ LogB.Debug("mc finished 5");
 		menus_sensitive(true);
 		session_menuitem.Sensitive = true;
 		//vbox_menu_encoder.Sensitive = true;
-		race_encoder_menuitem.Sensitive = true;
 
 		//jumpsProfile has Sqlite calls. Don't do them while jumping
 		//but don't unsensitive the notebook because user need to "finish" or cancel"

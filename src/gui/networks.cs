@@ -422,7 +422,6 @@ public partial class ChronoJumpWindow
 		if(currentSession == null && //this is going to be called one time because currentSession will change
 			       ( configChronojump.SessionMode == Config.SessionModeEnum.UNIQUE || configChronojump.SessionMode == Config.SessionModeEnum.MONTHLY) )
 		{
-			//main_menu.Visible = false;
 			//app1.Decorated = false;
 			//hbox_menu_and_preferences_outside_menu_contacts.Visible = true;
 			//hbox_menu_and_preferences_outside_menu_encoder.Visible = true;
@@ -465,7 +464,6 @@ public partial class ChronoJumpWindow
 			changeMode (Constants.Menuitem_modes.POWER);
 			
 			//no mostrar menu
-			main_menu.Visible = false;
 			
 			//no mostrar persones
 			//vbox_persons.Visible = false;

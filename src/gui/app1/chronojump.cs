@@ -41,10 +41,6 @@ using System.Diagnostics;
 public partial class ChronoJumpWindow 
 {
 	[Widget] Gtk.Window app1;
-	[Widget] Gtk.MenuBar main_menu;
-	[Widget] Gtk.MenuItem menuitem_open_session;
-	
-	//[Widget] Gtk.VBox vbox_menu_encoder;
 
 	[Widget] Gtk.HBox hbox_gui_tests;
 	[Widget] Gtk.SpinButton spin_gui_tests;
@@ -114,8 +110,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_persons_open_1;
 	[Widget] Gtk.Image image_persons_open_plus;
 
-	[Widget] Gtk.Image image_import_database;
-	[Widget] Gtk.Image image_export_csv;
 	[Widget] Gtk.Image image_export_encoder_signal;
 
 	//contact tests execute buttons
@@ -188,16 +182,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ComboBox combo_result_jumps_rj;
 	[Widget] Gtk.ComboBox combo_result_runs;
 	[Widget] Gtk.ComboBox combo_result_runs_interval;
-	
 	[Widget] Gtk.ComboBox combo_pulses;
-
-	//menus
-	[Widget] Gtk.MenuItem session_menuitem;
-
-	//menu session
-	[Widget] Gtk.MenuItem menuitem_edit_session;
-	[Widget] Gtk.MenuItem menuitem_export_csv;
-	[Widget] Gtk.Image image_session_open;
 
 	//menu person
 	[Widget] Gtk.Button button_persons_up;
@@ -2808,10 +2793,6 @@ public partial class ChronoJumpWindow
 		//run simple will be the only one with its drawing are
 		frame_run_simple_double_contacts.Visible = false;
 
-		//default for everything except encoder
-		//vbox_menu_encoder.Visible = false;
-		menuitem_export_csv.Visible = true;
-
 		hbox_other.Visible = false;
 		sensitiveLastTestButtons(false);
 
@@ -2941,9 +2922,6 @@ public partial class ChronoJumpWindow
 		}
 		else if(m == Constants.Menuitem_modes.POWERGRAVITATORY || m == Constants.Menuitem_modes.POWERINERTIAL) 
 		{
-			//vbox_menu_encoder.Visible = true;
-			menuitem_export_csv.Visible = false;
-
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.ENCODER);
 
 
@@ -3165,12 +3143,6 @@ public partial class ChronoJumpWindow
 
 		menu_and_menu_tiny_show_modes();
 
-		//make main_menu visible because it's not visible at startup.
-		//but don't show if session == UNIQUE
-		//if(configChronojump.SessionMode == Config.SessionModeEnum.STANDARD)
-		//	main_menu.Visible = true;
-		//TODO: show preferences and exit button also on contacts
-
 		if(m != Constants.Menuitem_modes.POWERGRAVITATORY && m != Constants.Menuitem_modes.POWERINERTIAL)
 		{
 			//don't change threshold if changing from jumpssimple to jumpsreactive ...
@@ -3233,8 +3205,6 @@ public partial class ChronoJumpWindow
 	ChronopicDetect cpDetect;
 	private void autoDetectChronopic(Constants.Menuitem_modes m)
 	{
-		main_menu.Sensitive = false;
-
 		if(m == Constants.Menuitem_modes.POWERGRAVITATORY || m == Constants.Menuitem_modes.POWERINERTIAL) 
 		{
 			hbox_chronopic_encoder_detecting.Visible = true;
@@ -3255,7 +3225,6 @@ public partial class ChronoJumpWindow
 		else {
 			//disabled on Windows until is fixed //TODO
 			if(UtilAll.IsWindows()) {
-				main_menu.Sensitive = true;
 				return;
 			}
 
@@ -3333,7 +3302,7 @@ public partial class ChronoJumpWindow
 	}
 	private void on_autoDetectChronopic_all_done() 
 	{
-		main_menu.Sensitive = true;
+		//main_menu.Sensitive = true;
 	}
 	*/
 		
@@ -6944,7 +6913,6 @@ LogB.Debug("mc finished 5");
 		button_session_edit.Sensitive = option;
 		button_session_delete.Sensitive = option;
 
-		menuitem_export_csv.Sensitive = option;
 		button_session_export.Sensitive = option;
 	}
 	
@@ -7090,8 +7058,6 @@ LogB.Debug("mc finished 5");
 	private void sensitiveGuiEventDoing (bool cont)
 	{
 		menus_sensitive(false);
-		session_menuitem.Sensitive = false;
-		//vbox_menu_encoder.Sensitive = false;
 		
 		//jumpsProfile has Sqlite calls. Don't do them while jumping
 		//but don't unsensitive the notebook because user need to "finish" or cancel"
@@ -7151,8 +7117,6 @@ LogB.Debug("mc finished 5");
 		LogB.Information(" sensitiveGuiEventDone start ");
 
 		menus_sensitive(true);
-		session_menuitem.Sensitive = true;
-		//vbox_menu_encoder.Sensitive = true;
 
 		//jumpsProfile has Sqlite calls. Don't do them while jumping
 		//but don't unsensitive the notebook because user need to "finish" or cancel"
@@ -7325,7 +7289,7 @@ LogB.Debug("mc finished 5");
 	//start/end auto mode
 	private void sensitiveGuiAutoStartEnd (bool start) {
 		//if automode, sensitiveGuiEventDoing, sensitiveGuiEventDone don't work
-		session_menuitem.Sensitive 	= ! start;
+		menus_sensitive (! start);
 		frame_persons.Sensitive 	= ! start;
 		button_contacts_exercise.Sensitive = ! start;
 

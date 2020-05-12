@@ -41,7 +41,6 @@ public partial class ChronoJumpWindow
 				exhibitionStationType == ExhibitionTest.testTypes.FORCE_SHOT)
 			on_button_selector_start_force_sensor_clicked (new object (), new EventArgs());
 
-		menuitem_open_session.Sensitive = false; //do not allow menu open to work (it could be really slow)
 		frame_exhibition.Visible = true;
 		frame_persons.Sensitive = true;
 		frame_persons_top.Visible = false;

@@ -33,11 +33,7 @@ public partial class ChronoJumpWindow
 	//[Widget] Gtk.Image image_home1;
 	[Widget] Gtk.Image image_minimize;
 	//[Widget] Gtk.Image image_minimize1;
-	[Widget] Gtk.Image image_quit_from_app1;
-	[Widget] Gtk.Image image_session_new2;
-	[Widget] Gtk.Image image_session_edit;
 	[Widget] Gtk.Image image_session_delete;
-	[Widget] Gtk.Image image_session_preferences;
 	[Widget] Gtk.Image image_mode_encoder_capture;
 	[Widget] Gtk.Image image_current_person_zoom;
 	[Widget] Gtk.Image image_current_person_zoom_h;
@@ -240,7 +236,6 @@ public partial class ChronoJumpWindow
 		 */
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_settings.png");
-		image_session_preferences.Pixbuf = pixbuf;
 		image_menu_preferences.Pixbuf = pixbuf;
 		image_menu_preferences1.Pixbuf = pixbuf;
 
@@ -249,7 +244,6 @@ public partial class ChronoJumpWindow
 		//image_minimize1.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_quit.png");
-		image_quit_from_app1.Pixbuf = pixbuf;
 		image_menu_quit.Pixbuf = pixbuf;
 		image_menu_quit1.Pixbuf = pixbuf;
 
@@ -390,11 +384,9 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_new.png");
 		image_session_new1.Pixbuf = pixbuf;
-		image_session_new2.Pixbuf = pixbuf;
 		image_session_new3.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_open.png");
-		image_session_open.Pixbuf = pixbuf;
 		image_session_load1.Pixbuf = pixbuf;
 		image_session_load2.Pixbuf = pixbuf;
 		image_session_load3_blue.Pixbuf = pixbuf;
@@ -421,7 +413,6 @@ public partial class ChronoJumpWindow
 		image_run_encoder_exercise_edit.Pixbuf = pixbuf;
 		image_edit_current_person.Pixbuf = pixbuf;
 		image_edit_current_person_h.Pixbuf = pixbuf;
-		image_session_edit.Pixbuf = pixbuf;
 		image_session_edit2.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
@@ -583,13 +574,11 @@ public partial class ChronoJumpWindow
 		image_line_person_max_all_sessions.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameImport);
-		image_import_database.Pixbuf = pixbuf;
 		image_session_import.Pixbuf = pixbuf;
 		image_session_import1_blue.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameImportYellow);
 		image_session_import1_yellow.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameExport);
-		image_export_csv.Pixbuf = pixbuf;
 		image_export_encoder_signal.Pixbuf = pixbuf;
 		image_session_export.Pixbuf = pixbuf;
 
@@ -617,7 +606,6 @@ public partial class ChronoJumpWindow
 
 		//open buttons (this is shown better in windows than the default open icon)
 		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameOpen);
-		//image_session_open.Pixbuf = pixbuf;
 		//not changed because it's small. TODO: do bigger
 		//image_encoder_capture_open.Pixbuf = pixbuf;
 

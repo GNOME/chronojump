@@ -68,7 +68,6 @@ public partial class ChronoJumpWindow
 	/*
 		Gtk.Button button = (Gtk.Button) o;
 
-		//main_menu.Visible =	( button != button_presentation_fullscreen);
 		vbox_persons.Visible =	( button != button_presentation_fullscreen);
 		notebook_sup.ShowTabs =	( button != button_presentation_fullscreen);
 		//button_presentation_fullscreen.Sensitive =	( button != button_presentation_fullscreen);

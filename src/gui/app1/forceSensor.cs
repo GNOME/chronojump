@@ -34,9 +34,6 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
-	[Widget] Gtk.MenuItem menuitem_force_sensor_open_folder;
-	[Widget] Gtk.MenuItem menuitem_force_sensor_check_version;
-
 	//capture tab
 	[Widget] Gtk.HBox hbox_force_capture_buttons;
 	[Widget] Gtk.HBox hbox_combo_force_sensor_exercise;
@@ -2232,6 +2229,8 @@ LogB.Information(" fs R ");
 	}
 
 
+	/*
+	 * unused since 2.0
 	private void on_menuitem_force_sensor_open_folder_activate (object o, EventArgs args)
 	{
 		if(currentSession == null || currentSession.UniqueID == -1)
@@ -2258,6 +2257,7 @@ LogB.Information(" fs R ");
 		else
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.DirectoryCannotOpenStr());
 	}
+	*/
 
 	private void on_button_force_sensor_adjust_clicked (object o, EventArgs args)
 	{

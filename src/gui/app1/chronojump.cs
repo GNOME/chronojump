@@ -45,7 +45,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_open_session;
 	
 	//[Widget] Gtk.VBox vbox_menu_encoder;
-	[Widget] Gtk.MenuItem force_sensor_menuitem;
 	[Widget] Gtk.MenuItem race_encoder_menuitem;
 
 	[Widget] Gtk.HBox hbox_gui_tests;
@@ -3216,7 +3215,6 @@ public partial class ChronoJumpWindow
 		if(! configChronojump.Compujump)
 			showWebcamCaptureContactsControls(true);
 
-		force_sensor_menuitem.Visible = (m == Constants.Menuitem_modes.FORCESENSOR);
 		race_encoder_menuitem.Visible = (m == Constants.Menuitem_modes.RUNSENCODER);
 	}
 
@@ -7097,7 +7095,6 @@ LogB.Debug("mc finished 5");
 		menus_sensitive(false);
 		session_menuitem.Sensitive = false;
 		//vbox_menu_encoder.Sensitive = false;
-		force_sensor_menuitem.Sensitive = false;
 		race_encoder_menuitem.Sensitive = false;
 		
 		//jumpsProfile has Sqlite calls. Don't do them while jumping
@@ -7160,7 +7157,6 @@ LogB.Debug("mc finished 5");
 		menus_sensitive(true);
 		session_menuitem.Sensitive = true;
 		//vbox_menu_encoder.Sensitive = true;
-		force_sensor_menuitem.Sensitive = true;
 		race_encoder_menuitem.Sensitive = true;
 
 		//jumpsProfile has Sqlite calls. Don't do them while jumping

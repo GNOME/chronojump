@@ -26,7 +26,6 @@ using Glade;
 
 public partial class ChronoJumpWindow 
 {
-	[Widget] Gtk.Image image_mode_main_menu;
 	[Widget] Gtk.Frame frame_image_logo_icon;
 	[Widget] Gtk.Image image_logo_icon;
 	[Widget] Gtk.Image image_logo_icon_transp;
@@ -101,17 +100,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_selector_start_rt;
 	[Widget] Gtk.Image image_selector_start_other;
 	[Widget] Gtk.Image image_selector_start_back;
-
-	[Widget] Gtk.Image image_menuitem_mode_jumps_simple;
-	[Widget] Gtk.Image image_menuitem_mode_jumps_reactive;
-	[Widget] Gtk.Image image_menuitem_mode_runs_simple;
-	[Widget] Gtk.Image image_menuitem_mode_runs_intervallic;
-	[Widget] Gtk.Image image_menuitem_mode_race_encoder;
-	[Widget] Gtk.Image image_menuitem_mode_power_gravitatory;
-	[Widget] Gtk.Image image_menuitem_mode_power_inertial;
-	[Widget] Gtk.Image image_menuitem_mode_force_sensor;
-	[Widget] Gtk.Image image_menuitem_mode_reaction_time;
-	[Widget] Gtk.Image image_menuitem_mode_other;
 
 	[Widget] Gtk.Image image_mode_jumps_small;
 	[Widget] Gtk.Image image_mode_jumps_reactive_small;
@@ -254,11 +242,6 @@ public partial class ChronoJumpWindow
 		 * start of material design icons ---->
 		 */
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_home.png");
-		image_mode_main_menu.Pixbuf = pixbuf;
-		//image_home.Pixbuf = pixbuf;
-		//image_home1.Pixbuf = pixbuf;
-
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_settings.png");
 		image_session_preferences.Pixbuf = pixbuf;
 		image_menu_preferences.Pixbuf = pixbuf;
@@ -344,17 +327,8 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_weight.png");
 		image_mode_encoder_gravitatory.Pixbuf = pixbuf;
-		image_menuitem_mode_power_gravitatory.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_inertia.png");
 		image_mode_encoder_inertial.Pixbuf = pixbuf;
-		image_menuitem_mode_power_inertial.Pixbuf = pixbuf;
-
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "force_sensor_icon.png");
-		image_menuitem_mode_force_sensor.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "reaction_time_icon.png");
-		image_menuitem_mode_reaction_time.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "other_icon.png");
-		image_menuitem_mode_other.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_capture.png");
 		image_tests_capture.Pixbuf = pixbuf;
@@ -566,20 +540,15 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_simple.png");
 		image_mode_jumps_small.Pixbuf = pixbuf;
-		image_menuitem_mode_jumps_simple.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_reactive.png");
 		image_mode_jumps_reactive_small.Pixbuf = pixbuf;
-		image_menuitem_mode_jumps_reactive.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run_simple.png");
 		image_mode_runs_small.Pixbuf = pixbuf;
 		image_mode_runs_small1.Pixbuf = pixbuf;
-		image_menuitem_mode_runs_simple.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run_multiple.png");
 		image_mode_runs_intervallic_small.Pixbuf = pixbuf;
 		image_mode_runs_intervallic_small1.Pixbuf = pixbuf;
-		image_menuitem_mode_runs_intervallic.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "race_encoder_icon.png");
-		image_menuitem_mode_race_encoder.Pixbuf = pixbuf;
 		image_mode_race_encoder_small.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "run_2x.png");

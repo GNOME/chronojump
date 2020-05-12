@@ -5013,7 +5013,7 @@ public partial class ChronoJumpWindow
 	
 	/* called on:
 	 * encoderPersonChanged()
-	 * select_menuitem_mode_toggled(Constants.Menuitem_modes m)
+	 * changeMode (Constants.Menuitem_modes m)
 	 */
 	private void blankEncoderInterface()
 	{

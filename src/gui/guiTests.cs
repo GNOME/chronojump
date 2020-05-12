@@ -433,15 +433,15 @@ public partial class ChronoJumpWindow
 		//configAutodetectPort = Config.AutodetectPortEnum.INACTIVE;
 
 		if(m == Constants.Menuitem_modes.JUMPSSIMPLE)
-			on_menuitem_mode_activate(menuitem_mode_jumps_simple, new EventArgs());
+			changeMode (Constants.Menuitem_modes.JUMPSSIMPLE);
 		else if(m == Constants.Menuitem_modes.JUMPSREACTIVE)
-			on_menuitem_mode_activate(menuitem_mode_jumps_reactive, new EventArgs());
+			changeMode (Constants.Menuitem_modes.JUMPSREACTIVE);
 		else if(m == Constants.Menuitem_modes.RUNSSIMPLE)
-			on_menuitem_mode_activate(menuitem_mode_runs_simple, new EventArgs());
+			changeMode (Constants.Menuitem_modes.RUNSSIMPLE);
 		else if(m == Constants.Menuitem_modes.POWERGRAVITATORY)
-			select_menuitem_mode_toggled(Constants.Menuitem_modes.POWERGRAVITATORY);
+			changeMode (Constants.Menuitem_modes.POWERGRAVITATORY);
 		else if(m == Constants.Menuitem_modes.POWERINERTIAL)
-			select_menuitem_mode_toggled(Constants.Menuitem_modes.POWERINERTIAL);
+			changeMode (Constants.Menuitem_modes.POWERINERTIAL);
 
 		LogB.TestEnd("chronojumpWindowTestsMode");
 	}

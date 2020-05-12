@@ -188,7 +188,7 @@ public partial class ChronoJumpWindow
 
 			if(configChronojump.CompujumpStationMode != Constants.Menuitem_modes.UNDEFINED)
 			{
-				//select_menuitem_mode_toggled(configChronojump.CompujumpStationMode);
+				//changeMode (configChronojump.CompujumpStationMode);
 				//better do like this because radiobuttons are not set. TODO: remove radiobuttons checks
 				if(configChronojump.CompujumpStationMode == Constants.Menuitem_modes.RUNSINTERVALLIC)
 					on_button_selector_start_runs_intervallic_clicked(new object (), new EventArgs());
@@ -199,10 +199,6 @@ public partial class ChronoJumpWindow
 
 				vbox_runs_interval.Visible = false;
 				vbox_runs_interval_compujump.Visible = true;
-
-				menuitem_mode.Visible = false;
-				//button_menu_outside_menu.Visible = false;
-				//button_menu_outside_menu1.Visible = false;
 			}
 
 			Json.ChangeServerUrl(configChronojump.CompujumpServerURL);
@@ -466,7 +462,7 @@ public partial class ChronoJumpWindow
 		/*
 		if(linuxType == linuxTypeEnum.NETWORKS) {
 			//mostrar directament el power
-			select_menuitem_mode_toggled(Constants.Menuitem_modes.POWER);
+			changeMode (Constants.Menuitem_modes.POWER);
 			
 			//no mostrar menu
 			main_menu.Visible = false;

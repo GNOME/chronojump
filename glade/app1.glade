@@ -178,54 +178,6 @@
               </widget>
             </child>
             <child>
-              <widget class="GtkMenuItem" id="force_sensor_menuitem">
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">_Force sensor</property>
-                <property name="use_underline">True</property>
-                <child>
-                  <widget class="GtkMenu" id="menu4">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <widget class="GtkImageMenuItem" id="menuitem_force_sensor_open_folder">
-                        <property name="label" translatable="yes">Open data folder</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="use_stock">False</property>
-                        <property name="always_show_image">True</property>
-                        <signal name="activate" handler="on_menuitem_force_sensor_open_folder_activate" swapped="no"/>
-                        <child internal-child="image">
-                          <widget class="GtkImage" id="image_force_sensor_open_folder">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="stock">gtk-open</property>
-                          </widget>
-                        </child>
-                      </widget>
-                    </child>
-                    <child>
-                      <widget class="GtkImageMenuItem" id="menuitem_force_sensor_check_version">
-                        <property name="label" translatable="yes">Force sensor - Check version</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="tooltip" translatable="yes">Check version</property>
-                        <property name="use_stock">False</property>
-                        <property name="always_show_image">True</property>
-                        <signal name="activate" handler="on_buttons_force_sensor_clicked" swapped="no"/>
-                        <child internal-child="image">
-                          <widget class="GtkImage" id="image_force_sensor_check_version">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="stock">gtk-missing-image</property>
-                          </widget>
-                        </child>
-                      </widget>
-                    </child>
-                  </widget>
-                </child>
-              </widget>
-            </child>
-            <child>
               <widget class="GtkMenuItem" id="race_encoder_menuitem">
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Races with encoder</property>

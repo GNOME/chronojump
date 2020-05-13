@@ -1474,8 +1474,19 @@ public partial class ChronoJumpWindow
 					( difference < 0 && aValue > 1 && bValue > 1 ) )
 			{
 				//move a and b
-				hscale_force_sensor_ai_a.Value += difference;
-				hscale_force_sensor_ai_b.Value += difference;
+				/*
+				 * if we move to the right and first we move a
+				 * on moving a, maybe a >= b so on_hscale_force_sensor_ai_a_value_changed will make b = a
+				 * and then the on_hscale_force_sensor_ai_ab_value_changed will move also b.
+				 * For this reason when we go to the right, first we move b
+				 */
+				if(difference > 0) {
+					hscale_force_sensor_ai_b.Value += difference;
+					hscale_force_sensor_ai_a.Value += difference;
+				} else {
+					hscale_force_sensor_ai_a.Value += difference;
+					hscale_force_sensor_ai_b.Value += difference;
+				}
 			} else {
 				//do not move ab (so also a and b will not be moved)
 				updateForceSensorHScales = false;

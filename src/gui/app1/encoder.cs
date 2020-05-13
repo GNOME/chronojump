@@ -696,7 +696,7 @@ public partial class ChronoJumpWindow
 		{
 			foreach(EncoderSQL es in arrayTemp)
 			{
-				if(es.encoderConfiguration == encoderConfigurationCurrent)
+				if(encoderConfigurationCurrent.Equals(es.encoderConfiguration))
 				{
 					if(Convert.ToDouble(es.future1) > maxPowerIntersession)
 						maxPowerIntersession = Convert.ToDouble(es.future1);

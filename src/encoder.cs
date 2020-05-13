@@ -1905,6 +1905,11 @@ public class EncoderConfiguration
 		inertiaTotal = UtilEncoder.CalculeInertiaTotal(this);
 	}
 
+	public bool Equals(EncoderConfiguration other)
+	{
+		return (this.ToStringOutput(Outputs.SQL) == other.ToStringOutput(Outputs.SQL));
+	}
+
 	public void ReadParamsFromSQL (string [] strFull) 
 	{
 		//adds other params

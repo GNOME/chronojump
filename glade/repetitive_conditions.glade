@@ -1698,10 +1698,10 @@
                                     <property name="can_focus">False</property>
                                     <property name="spacing">20</property>
                                     <child>
-                                      <widget class="GtkHBox" id="hbox37">
+                                      <widget class="GtkVBox" id="vbox13">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="spacing">12</property>
+                                        <property name="spacing">8</property>
                                         <child>
                                           <widget class="GtkRadioButton" id="radio_encoder_relative_to_set">
                                             <property name="label" translatable="yes">this set</property>
@@ -1713,17 +1713,18 @@
                                             <signal name="toggled" handler="on_radio_encoder_relative_to_toggled" swapped="no"/>
                                           </widget>
                                           <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">False</property>
+                                            <property name="expand">True</property>
+                                            <property name="fill">True</property>
                                             <property name="position">0</property>
                                           </packing>
                                         </child>
                                         <child>
                                           <widget class="GtkRadioButton" id="radio_encoder_relative_to_historical">
-                                            <property name="label" translatable="yes">historical of this person</property>
+                                            <property name="label" translatable="yes">historical of this person on same exercise/encoder configuration</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
+                                            <property name="active">True</property>
                                             <property name="draw_indicator">True</property>
                                             <property name="group">radio_encoder_relative_to_set</property>
                                             <signal name="toggled" handler="on_radio_encoder_relative_to_toggled" swapped="no"/>
@@ -1736,8 +1737,8 @@
                                         </child>
                                       </widget>
                                       <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
                                         <property name="position">0</property>
                                       </packing>
                                     </child>

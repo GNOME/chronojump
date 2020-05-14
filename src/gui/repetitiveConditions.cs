@@ -783,9 +783,11 @@ public class RepetitiveConditionsWindow
 	//called from previous function, gui/encoder.cs plotCurvesGraphDoPlot
 	public string AssignColorAutomatic(BestSetValueEnum b, double currentValue, Preferences.EncoderPhasesEnum phaseEnum)
 	{
-		if(radio_encoder_eccon_ecc.Active && phaseEnum != Preferences.EncoderPhasesEnum.ECC)
+		//note on "c" phaseEnum will be BOTH
+
+		if(radio_encoder_eccon_ecc.Active && phaseEnum == Preferences.EncoderPhasesEnum.CON)
 			return UtilGtk.ColorNothing;
-		else if(radio_encoder_eccon_con.Active && phaseEnum != Preferences.EncoderPhasesEnum.CON)
+		else if(radio_encoder_eccon_con.Active && phaseEnum == Preferences.EncoderPhasesEnum.ECC)
 			return UtilGtk.ColorNothing;
 
 		if(EncoderAutomaticHigherActive && currentValue > getBestSetValue(b) * EncoderAutomaticHigherValue / 100)

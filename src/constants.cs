@@ -87,7 +87,7 @@ public class Constants
 					"\n\t" + Catalog.GetString("Translation of Firmware to C.") + ", " +
 					Catalog.GetString("New firmware features.") + ", " +
 					Catalog.GetString("Encoder hardware layer."),
-				"\nJuan Gonzalez Gómez <http://www.iearobotics.com>, 2004-2010\n\t" + Catalog.GetString("Skypic, Chronopic, connection between hardware aind software."), //2010 he made the visit to the lab
+				"\nJuan Gonzalez Gómez <http://www.iearobotics.com>, 2004-2010\n\t" + Catalog.GetString("Skypic, Chronopic, connection between hardware and software."), //2010 he made the visit to the lab
 				"\nRicardo Gómez González <http://www.iearobotics.com>, 2007\n\t" + Catalog.GetString("Chronopic3 industrial prototype."),
 				"\nXavier de Blas Foix <info@chronojump.org>, 2015-2017\n\t" +
 					Catalog.GetString("Chronopic validation.") + " " +

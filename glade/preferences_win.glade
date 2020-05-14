@@ -927,20 +927,7 @@
                             <property name="border_width">8</property>
                             <property name="spacing">20</property>
                             <child>
-                              <widget class="GtkButton" id="button_data_folder_open">
-                                <property name="label" translatable="yes">Open data folder</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
-                                <property name="use_underline">True</property>
-                                <signal name="clicked" handler="on_button_data_folder_open_clicked" swapped="no"/>
-                              </widget>
-                              <packing>
-                                <property name="expand">True</property>
-                                <property name="fill">False</property>
-                                <property name="padding">10</property>
-                                <property name="position">0</property>
-                              </packing>
+                              <placeholder/>
                             </child>
                             <child>
                               <widget class="GtkButton" id="button_db_restore">

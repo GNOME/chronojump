@@ -316,6 +316,7 @@ public partial class ChronoJumpWindow
 	private void on_button_menu_session_more_clicked (object o, EventArgs args)
 	{
 		menus_sensitive_import_not_danger(false);
+		show_modes_sensitive(false);
 
 		//store which page we are on notebook_sup, except if we clicked on "more" from the session tab
 		if(notebook_sup.CurrentPage != Convert.ToInt32(notebook_sup_pages.SESSION))
@@ -341,6 +342,12 @@ public partial class ChronoJumpWindow
 		vbox_menu_session1.Sensitive = danger;
 		button_menu_preferences.Sensitive = danger;
 		button_menu_preferences1.Sensitive = danger;
+	}
+
+	private void show_modes_sensitive(bool s)
+	{
+		button_show_modes.Sensitive = s;
+		button_show_modes1.Sensitive = s;
 	}
 
 	private void on_button_show_modes_clicked (object o, EventArgs args)

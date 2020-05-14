@@ -2459,6 +2459,7 @@ public partial class ChronoJumpWindow
 	private void on_edit_session_accepted ()
 	{
 		setApp1Title(currentSession.Name, current_menuitem_mode);
+		app1s_label_session_set_name();
 
 		if(createdStatsWin) {
 			stats_win_initializeSession();
@@ -2546,10 +2547,12 @@ public partial class ChronoJumpWindow
 	
 	private void closeSession()
 	{
-		setApp1Title("", current_menuitem_mode);
 		definedSession = false;
 		currentSession = null;
 		sensitiveGuiNoSession();
+
+		setApp1Title("", current_menuitem_mode);
+		app1s_label_session_set_name();
 	}
 
 	private void reloadSession()
@@ -6913,10 +6916,7 @@ LogB.Debug("mc finished 5");
 
 	private void menuSessionSensitive(bool option)
 	{
-		button_session_edit.Sensitive = option;
-		button_session_delete.Sensitive = option;
-
-		button_session_export.Sensitive = option;
+		frame_session_more_this_session.Sensitive = option;
 	}
 	
 	private void menuPersonSelectedSensitive(bool option)

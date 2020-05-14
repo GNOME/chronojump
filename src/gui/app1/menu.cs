@@ -65,9 +65,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Alignment alignment_menu_help_options;
 
 	[Widget] Gtk.Button button_show_modes;
-	[Widget] Gtk.Button button_session_edit;
-	[Widget] Gtk.Button button_session_delete;
-	[Widget] Gtk.Button button_session_export;
 
 	[Widget] Gtk.Button button_menu_session_new;
 	[Widget] Gtk.Button button_menu_session_load;
@@ -324,6 +321,7 @@ public partial class ChronoJumpWindow
 
 		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.SESSION);
 		app1s_notebook.CurrentPage = Convert.ToInt32(app1s_PAGE_MODES);
+		app1s_label_session_set_name();
 	}
 
 	/* if import started we need to reload at the end

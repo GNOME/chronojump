@@ -30,6 +30,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook app1s_notebook;
 
 	//notebook tab 0
+	[Widget] Gtk.Frame frame_session_more_this_session;
+	[Widget] Gtk.Label label_session_more_session_name;
 	[Widget] Gtk.EventBox app1s_eventbox_button_close0;
 
 	//notebook tab 1
@@ -122,6 +124,14 @@ public partial class ChronoJumpWindow
 		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_import_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_import_again, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_delete_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+	}
+
+	private void app1s_label_session_set_name()
+	{
+		if(currentSession == null)
+			label_session_more_session_name.Text = "";
+		else
+			label_session_more_session_name.Text = currentSession.Name;
 	}
 
 }

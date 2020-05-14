@@ -1082,7 +1082,8 @@ public partial class ChronoJumpWindow
 	}
 	
 	//private void on_treeview_persons_cursor_changed (object o, EventArgs args) {
-	private void onTreeviewPersonsSelectionEntry (object o, EventArgs args) {
+	private void onTreeviewPersonsSelectionEntry (object o, EventArgs args)
+	{
 		TreeModel model;
 		TreeIter iter;
 
@@ -1094,7 +1095,9 @@ public partial class ChronoJumpWindow
 			currentPersonSession = SqlitePersonSession.Select(Convert.ToInt32(selectedID), currentSession.UniqueID);
 			label_person_change();
 	
-			personChanged();	
+			personChanged();
+			button_persons_up.Sensitive = ! myTreeViewPersons.IsFirst(currentPerson.UniqueID);
+			button_persons_down.Sensitive = ! myTreeViewPersons.IsLast(currentPerson.UniqueID);
 		}
 	}
 
@@ -6918,8 +6921,14 @@ LogB.Debug("mc finished 5");
 	
 	private void menuPersonSelectedSensitive(bool option)
 	{
-		button_persons_up.Sensitive = option;
-		button_persons_down.Sensitive = option;
+		if(! option || currentPerson == null)
+		{
+			button_persons_up.Sensitive = false;
+			button_persons_down.Sensitive = false;
+		} else {
+			button_persons_up.Sensitive = ! myTreeViewPersons.IsFirst(currentPerson.UniqueID);
+			button_persons_down.Sensitive = ! myTreeViewPersons.IsLast(currentPerson.UniqueID);
+		}
 
 		hbox_persons_bottom_photo.Sensitive = option;
 		hbox_persons_bottom_no_photo.Sensitive = option;

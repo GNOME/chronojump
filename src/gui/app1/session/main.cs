@@ -105,6 +105,8 @@ public partial class ChronoJumpWindow
 		//but if it is start page, ensure notebook_mode_selector is 0
 		if(notebook_sup.CurrentPage == Convert.ToInt32(notebook_sup_pages.START))
 			notebook_mode_selector.CurrentPage = 0;
+
+		show_modes_sensitive(notebook_sup.CurrentPage != Convert.ToInt32(notebook_sup_pages.START));
 	}
 
 	private void app1s_eventboxes_paint()

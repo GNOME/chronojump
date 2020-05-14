@@ -217,6 +217,16 @@ public class TreeViewPersons
 		return(store.IterNChildren());
 	}
 
+	public bool IsFirst(int personID)
+	{
+		return (FindRow(personID) <= 0);
+	}
+
+	public bool IsLast(int personID)
+	{
+		return (FindRow(personID) == CountRows() -1);
+	}
+
 	
 	//add in the row position by alfabetical order
 	public void Add (string jumperID, string jumperName)

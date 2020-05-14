@@ -75,7 +75,7 @@ public class PreferencesWindow
 	[Widget] Gtk.CheckButton check_logo_animated;
 
 	//database tab
-	[Widget] Gtk.Button button_data_folder_open;
+//	[Widget] Gtk.Button button_data_folder_open;
 
 	//[Widget] Gtk.CheckButton check_backup_multimedia_and_encoder;
 	
@@ -1404,29 +1404,6 @@ public class PreferencesWindow
 		}
 	}
 	
-	void on_button_data_folder_open_clicked (object o, EventArgs args)
-	{
-		System.IO.FileInfo file1 = new System.IO.FileInfo(databaseURL); //potser cal una arrobar abans (a windows)
-		System.IO.FileInfo file2 = new System.IO.FileInfo(databaseTempURL); //potser cal una arrobar abans (a windows)
-
-		if(! file1.Exists && ! file2.Exists)
-			new DialogMessage(Constants.MessageTypes.WARNING, Constants.DatabaseNotFoundStr());
-
-		string dir = "";
-		if(file1.Exists)
-			dir = Util.GetParentDir(false);
-		else if(file2.Exists)
-			dir = Util.GetDatabaseTempDir();
-
-		try {
-			System.Diagnostics.Process.Start(dir);
-		} catch {
-			new DialogMessage(Constants.MessageTypes.WARNING,
-					Catalog.GetString("Error. Cannot open directory.") + "\n\n" + dir);
-			return;
-		}
-	}
-
 	void on_button_db_restore_clicked (object o, EventArgs args)
 	{
 		/*
@@ -1850,7 +1827,7 @@ public class PreferencesWindow
 		hbox_backup_doing.Visible = start;
 
 		button_db_backup.Sensitive = ! start;
-		button_data_folder_open.Sensitive = ! start;
+//		button_data_folder_open.Sensitive = ! start;
 		
 		button_cancel.Sensitive = ! start;
 		button_accept.Sensitive = ! start;

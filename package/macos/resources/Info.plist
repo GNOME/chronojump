@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+<key>CFBundleIdentifier</key>
+<string>org.chronojump</string>
+<key>CFBundleName</key>
+<string>Chronojump</string>
+<key>CFBundleExecutable</key>
+<string>Chronojump</string>
+<key>CFBundlePackageGetInfoString</key>
+<string>Chronojump</string>
+<key>CFBundlePackageType</key>
+<string>APPL</string>
+<key>CFBundleVersion</key>
+<string>{version}</string>
+<key>CFBundleShortVersionString</key>
+<string>{version}</string>
+<key>LSMinimumSystemVersion</key>
+<string>10.7</string>
+<key>CFBundleInfoDictionaryVersion</key>
+<string>6.0</string>
+<key>CFBundleIconFile</key>
+<string>icon.icns</string>
+</dict>
+</plist>

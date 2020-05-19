@@ -31,14 +31,12 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Arrow arrow_menu_show_session_down1;
 	[Widget] Gtk.Arrow arrow_menu_show_help_up1;
 	[Widget] Gtk.Arrow arrow_menu_show_help_down1;
-	[Widget] Gtk.Button button_show_modes1;
 	[Widget] Gtk.VBox vbox_menu_tiny;
 	[Widget] Gtk.VBox vbox_menu_tiny_menu; //really the menu (without the logos at the bottom)
 	[Widget] Gtk.EventBox eventbox_check_menu_session1;
 	[Widget] Gtk.EventBox eventbox_button_menu_session_more1;
 	[Widget] Gtk.EventBox eventbox_button_menu_session_new1;
 	[Widget] Gtk.EventBox eventbox_button_menu_session_load1;
-	[Widget] Gtk.EventBox eventbox_button_show_modes1;
 	[Widget] Gtk.EventBox eventbox_button_menu_preferences1;
 	[Widget] Gtk.EventBox eventbox_check_menu_help1;
 	[Widget] Gtk.EventBox eventbox_button_menu_help_documents1;
@@ -60,7 +58,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_session_new1;
 	[Widget] Gtk.Image image_session_load1;
 	[Widget] Gtk.Image image_session_more1;
-	[Widget] Gtk.Image image_button_show_modes1;
 	[Widget] Gtk.Image image_menu_preferences1;
 	[Widget] Gtk.Image image_menu_help1;
 	[Widget] Gtk.Image image_menu_help_documents1;
@@ -114,7 +111,6 @@ public partial class ChronoJumpWindow
 		UtilGtk.ViewportColor(viewport_rest_time_encoder, color);
 		UtilGtk.ViewportColor(viewport_image_logo_icon, UtilGtk.BLUE_CHRONOJUMP);
 
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_show_modes1, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_session1, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_preferences1, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_help1, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
@@ -155,11 +151,4 @@ public partial class ChronoJumpWindow
 		} else
 			alignment_menu_help_options1.Visible = false;
 	}
-
-	private void on_button_show_modes1_clicked (object o, EventArgs args)
-	{
-		show_start_page();
-		button_show_modes1.Sensitive = false;
-	}
-
 }

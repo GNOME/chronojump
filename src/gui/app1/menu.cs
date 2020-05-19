@@ -46,7 +46,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Viewport viewport_persons;
 	[Widget] Gtk.EventBox eventbox_radio_show_menu;
 	[Widget] Gtk.EventBox eventbox_radio_show_persons;
-	[Widget] Gtk.EventBox eventbox_button_show_modes;
 	[Widget] Gtk.EventBox eventbox_check_menu_session;
 	[Widget] Gtk.EventBox eventbox_button_menu_session_new;
 	[Widget] Gtk.EventBox eventbox_button_menu_session_load;
@@ -64,7 +63,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Alignment alignment_menu_person_options;
 	[Widget] Gtk.Alignment alignment_menu_help_options;
 
-	[Widget] Gtk.Button button_show_modes;
 
 	[Widget] Gtk.Button button_menu_session_new;
 	[Widget] Gtk.Button button_menu_session_load;
@@ -86,7 +84,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_session_load2;
 	[Widget] Gtk.Image image_session_more;
 	[Widget] Gtk.Image image_session_edit2;
-	[Widget] Gtk.Image image_button_show_modes;
 	[Widget] Gtk.Image image_menu_preferences;
 	[Widget] Gtk.Image image_menu_help;
 	[Widget] Gtk.Image image_menu_help_documents;
@@ -102,18 +99,13 @@ public partial class ChronoJumpWindow
 			menuInitialize();
 	}
 
-	private void menu_and_menu_tiny_show_modes()
-	{
-		//need to change both because user can change PersonWinHide
-		button_show_modes1.Sensitive = true;
-		button_show_modes.Sensitive = true;
-	}
-
-	private void menus_sensitive(bool sensitive)
+	private void menus_and_mode_sensitive(bool sensitive)
 	{
 		radio_show_menu.Sensitive = sensitive;
 		viewport_menu.Sensitive = sensitive;
 		vbox_menu_tiny_menu.Sensitive = sensitive;
+		button_show_modes_contacts.Sensitive = sensitive;
+		button_show_modes_encoder.Sensitive = sensitive;
 	}
 
 	private void menuInitialize ()
@@ -144,7 +136,6 @@ public partial class ChronoJumpWindow
 
 		//menus
 		l.Add(check_menu_session.SizeRequest().Width);
-		l.Add(button_show_modes.SizeRequest().Width);
 		l.Add(check_menu_help.SizeRequest().Width);
 		l.Add(button_menu_exit.SizeRequest().Width);
 		l.Add(button_menu_preferences.SizeRequest().Width);
@@ -213,7 +204,6 @@ public partial class ChronoJumpWindow
 		image_session_new3.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_session_load2.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_session_edit2.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
-		image_button_show_modes.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_menu_preferences.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_menu_help.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_menu_help_documents.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
@@ -242,7 +232,6 @@ public partial class ChronoJumpWindow
 
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_show_menu, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_show_persons, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_show_modes, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_session, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_preferences, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_help, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
@@ -313,7 +302,6 @@ public partial class ChronoJumpWindow
 	private void on_button_menu_session_more_clicked (object o, EventArgs args)
 	{
 		menus_sensitive_import_not_danger(false);
-		show_modes_sensitive(false);
 
 		//store which page we are on notebook_sup, except if we clicked on "more" from the session tab
 		if(notebook_sup.CurrentPage != Convert.ToInt32(notebook_sup_pages.SESSION))
@@ -341,19 +329,6 @@ public partial class ChronoJumpWindow
 		button_menu_preferences.Sensitive = danger;
 		button_menu_preferences1.Sensitive = danger;
 	}
-
-	private void show_modes_sensitive(bool s)
-	{
-		button_show_modes.Sensitive = s;
-		button_show_modes1.Sensitive = s;
-	}
-
-	private void on_button_show_modes_clicked (object o, EventArgs args)
-	{
-		show_start_page();
-		button_show_modes.Sensitive = false;
-	}
-
 }
 
 

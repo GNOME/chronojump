@@ -249,9 +249,6 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_menu.png");
 		image_radio_show_menu.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_modes.png");
-		image_button_show_modes.Pixbuf = pixbuf;
-		image_button_show_modes1.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_folders.png");
 		image_menu_folders.Pixbuf = pixbuf;
 		image_menu_folders1.Pixbuf = pixbuf;
@@ -377,9 +374,14 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_build_16.png");
 		image_encoder_analyze_mode_options.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_simple.png"); //but will change depending on mode
+		//assign here to have gui ok and not having chronojump logo at top right outside the screen
+		//all these will change when mode is selected
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_modes.png");
+		image_button_show_modes_contacts_grid.Pixbuf = pixbuf;
+		image_button_show_modes_encoder_grid.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_simple.png");
 		image_contacts_exercise.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_weight.png"); //but will change depending on mode
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_weight.png");
 		image_encoder_exercise.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_new.png");

@@ -827,6 +827,19 @@ class ImportSession:
             os.makedirs(statusPath)
         open(statusPath + name + ".txt", 'a').close()
 
+    @staticmethod
+    def _fix_strange_chars(name):
+        """
+        check if there are ñ and change to ñ or backwards.
+        yes, these characters are different,
+        copy on browser url to see differences.
+        """
+        if "ñ" in name:
+            name = name.replace("ñ", "ñ")
+        elif "ñ" in name:
+            name = name.replace("ñ", "ñ")
+
+        return name
 
     def _import_encoder_files(self, encoder_table):
         if self.source_base_directory is None:
@@ -859,7 +872,20 @@ class ImportSession:
             if not os.path.isdir(destination_directory):
                 os.makedirs(destination_directory)
 
-            shutil.copy(source_file, destination_filename)
+            """
+            if sys.version_info >= (3, 0):
+                print ("python 3")
+            else:
+                print ("python 2")
+            """
+
+            if os.path.exists(source_file):
+                shutil.copy(source_file, destination_filename)
+            else:
+                source_file = self._fix_strange_chars(source_file)
+                if os.path.exists(source_file):
+                    shutil.copy(source_file, destination_filename)
+
 
             # If on origin there are no curves, curve folder will not be created
             # and after import curves will not be saved on clicking at capture treeview
@@ -921,7 +947,12 @@ class ImportSession:
             if not os.path.isdir(destination_directory):
                 os.makedirs(destination_directory)
 
-            shutil.copy(source_file, destination_filename)
+            if os.path.exists(source_file):
+                shutil.copy(source_file, destination_filename)
+            else:
+                source_file = self._fix_strange_chars(source_file)
+                if os.path.exists(source_file):
+                    shutil.copy(source_file, destination_filename)
 
 
 def json_information(database_path):

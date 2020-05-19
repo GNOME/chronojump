@@ -68,6 +68,11 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_message_camera_at_boot;
 	[Widget] Gtk.Notebook notebook_import;
 
+	[Widget] Gtk.Button button_show_modes_contacts;
+	[Widget] Gtk.Button button_show_modes_encoder;
+
+	[Widget] Gtk.EventBox eventbox_button_show_modes_contacts;
+	[Widget] Gtk.EventBox eventbox_button_show_modes_encoder;
 	[Widget] Gtk.EventBox eventbox_radio_mode_contacts_capture;
 	[Widget] Gtk.EventBox eventbox_radio_mode_contacts_analyze;
 	[Widget] Gtk.EventBox eventbox_radio_mode_encoder_capture_small;
@@ -79,6 +84,11 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_contacts_sup_capture_analyze_two_buttons;
 	[Widget] Gtk.Alignment alignment_radio_mode_contacts_analyze;
 	[Widget] Gtk.HBox hbox_radio_mode_contacts_analyze_jump_buttons;
+
+	[Widget] Gtk.Image image_button_show_modes_contacts_grid;
+	[Widget] Gtk.Image image_button_show_modes_contacts_current;
+	[Widget] Gtk.Image image_button_show_modes_encoder_grid;
+	[Widget] Gtk.Image image_button_show_modes_encoder_current;
 
 	//radio group
 	[Widget] Gtk.RadioButton radio_mode_contacts_capture;
@@ -567,6 +577,8 @@ public partial class ChronoJumpWindow
 		initForceSensor();
 		initRunEncoder();
 
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_show_modes_contacts, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_show_modes_encoder, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_contacts_capture, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_contacts_analyze, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_encoder_capture_small, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
@@ -683,8 +695,6 @@ public partial class ChronoJumpWindow
 			LogB.Information("Ping discarded (Compujump)");
 
 		initialize_menu_or_menu_tiny();
-		if(notebook_sup.CurrentPage != Convert.ToInt32(notebook_sup_pages.START))
-			menu_and_menu_tiny_show_modes();
 
 		testNewStuff();
 
@@ -2473,7 +2483,7 @@ public partial class ChronoJumpWindow
 		if(notebook_sup.CurrentPage != Convert.ToInt32(notebook_sup_pages.SESSION))
 			app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
 
-		menus_sensitive(false);
+		menus_and_mode_sensitive(false);
 		sessionLoadWindowShow(app1s_windowType.LOAD_SESSION);
 		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.SESSION);
 	}
@@ -2499,7 +2509,7 @@ public partial class ChronoJumpWindow
 			foundPersons = selectRowTreeView_persons(treeview_persons, 0);
 
 		//show hidden widgets, and sensitivize
-		menus_sensitive(true);
+		menus_and_mode_sensitive(true);
 		sensitiveGuiNoSession();
 		sensitiveGuiYesSession();
 
@@ -2761,10 +2771,6 @@ public partial class ChronoJumpWindow
 
 		setApp1Title(tempSessionName, Constants.Menuitem_modes.UNDEFINED);
 		new ChronojumpLogo (drawingarea_chronojump_logo, viewport_chronojump_logo, preferences.logoAnimatedShow);
-
-		Pixbuf pixbufMode = new Pixbuf (null, Util.GetImagePath(false) + "image_modes.png");
-		image_button_show_modes.Pixbuf = pixbufMode;
-		image_button_show_modes1.Pixbuf = pixbufMode;
 	}
 
 	private void on_button_start_selector_show_more_clicked (object o, EventArgs args)
@@ -2781,6 +2787,11 @@ public partial class ChronoJumpWindow
 
 		table_start_selector_rt_other.Visible = false;
 	}
+
+	private void on_button_show_modes_clicked (object o, EventArgs args)
+        {
+                show_start_page();
+        }
 
 	private Constants.Menuitem_modes current_menuitem_mode;
 	private Constants.Menuitem_modes last_menuitem_mode; //store it to decide not change threshold when change from jumps to jumpsRj
@@ -2854,7 +2865,8 @@ public partial class ChronoJumpWindow
 		}
 
 
-		Pixbuf pixbufMode = new Pixbuf (null, Util.GetImagePath(false) + "image_modes.png");
+		Pixbuf pixbufModeGrid = new Pixbuf (null, Util.GetImagePath(false) + "image_modes.png");
+		Pixbuf pixbufModeCurrent;
 
 		if(m == Constants.Menuitem_modes.JUMPSSIMPLE || m == Constants.Menuitem_modes.JUMPSREACTIVE)
 		{
@@ -2868,7 +2880,7 @@ public partial class ChronoJumpWindow
 				on_extra_window_jumps_test_changed(new object(), new EventArgs());
 				hbox_results_legend.Visible = true;
 				frame_jumps_automatic.Visible = true;
-				image_contacts_exercise.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_simple.png");
+				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_simple.png");
 
 				if(radio_mode_contacts_analyze.Active)
 				{
@@ -2879,13 +2891,13 @@ public partial class ChronoJumpWindow
 				button_contacts_bells.Sensitive = true;
 				on_extra_window_jumps_rj_test_changed(new object(), new EventArgs());
 				hbox_results_legend.Visible = false;
-				image_contacts_exercise.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_reactive.png");
+				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_reactive.png");
 
 				if(radio_mode_contacts_jumps_profile.Active || radio_mode_contacts_jumps_dj_optimal_fall.Active ||
 						radio_mode_contacts_jumps_weight_fv_profile.Active || radio_mode_contacts_jumps_evolution.Active)
 					radio_mode_contacts_capture.Active = true;
 			}
-			pixbufMode = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_jump.png");
+			pixbufModeGrid = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_jump.png");
 		}
 		else if(m == Constants.Menuitem_modes.RUNSSIMPLE || m == Constants.Menuitem_modes.RUNSINTERVALLIC)
 		{
@@ -2900,7 +2912,7 @@ public partial class ChronoJumpWindow
 				on_extra_window_runs_test_changed(new object(), new EventArgs());
 				hbox_results_legend.Visible = true;
 				frame_run_simple_double_contacts.Visible = true;
-				image_contacts_exercise.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run_simple.png");
+				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_run_simple.png");
 			}
 			else
 			{
@@ -2910,7 +2922,7 @@ public partial class ChronoJumpWindow
 				on_extra_window_runs_interval_test_changed(new object(), new EventArgs());
 				hbox_results_legend.Visible = false;
 				createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
-				image_contacts_exercise.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run_multiple.png");
+				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_run_multiple.png");
 
 				if(radio_mode_contacts_analyze.Active)
 				{
@@ -2924,7 +2936,7 @@ public partial class ChronoJumpWindow
 			if(radio_mode_contacts_sprint.Active)
 				radio_mode_contacts_capture.Active = true;
 
-			pixbufMode = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_run.png");
+			pixbufModeGrid = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_run.png");
 		}
 		else if(m == Constants.Menuitem_modes.POWERGRAVITATORY || m == Constants.Menuitem_modes.POWERINERTIAL) 
 		{
@@ -2966,7 +2978,7 @@ public partial class ChronoJumpWindow
 				vbox_encoder_exercise_mass.Visible = true;
 				label_encoder_exercise_inertia.Visible = false;
 				vbox_encoder_exercise_inertia.Visible = false;
-				image_encoder_exercise.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_weight.png");
+				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_weight.png");
 
 				if(radio_encoder_analyze_individual_current_set.Active || radio_encoder_analyze_individual_current_session.Active)
 				{
@@ -3011,7 +3023,7 @@ public partial class ChronoJumpWindow
 				label_gravitatory_vpf_propulsive.Visible = false;
 
 				notebook_encoder_top.Page = 1;
-				image_encoder_exercise.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_inertia.png");
+				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_inertia.png");
 			}
 			encoderGuiChangesAfterEncoderConfigurationWin(true);
 			if(changed) {
@@ -3024,7 +3036,7 @@ public partial class ChronoJumpWindow
 				encoderPreferencesSet = true;
 			}
 
-			pixbufMode = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_encoder.png");
+			pixbufModeGrid = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_encoder.png");
 		} 
 		else if(m == Constants.Menuitem_modes.FORCESENSOR)
 		{
@@ -3049,8 +3061,8 @@ public partial class ChronoJumpWindow
 			notebook_capture_graph_table.ShowTabs = false;
 			setLabelContactsExerciseSelected(m);
 
-			image_contacts_exercise.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "force_sensor_icon.png");
-			pixbufMode = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_force.png");
+			pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "force_sensor_icon.png");
+			pixbufModeGrid = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_force.png");
 		}
 		else if(m == Constants.Menuitem_modes.RUNSENCODER)
 		{
@@ -3076,8 +3088,8 @@ public partial class ChronoJumpWindow
 			forceSensorImageTestChange();
 			setLabelContactsExerciseSelected(m);
 
-			image_contacts_exercise.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "race_encoder_icon.png");
-			pixbufMode = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_run.png");
+			pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "race_encoder_icon.png");
+			pixbufModeGrid = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_run.png");
 		}
 		else if(m == Constants.Menuitem_modes.RT)
 		{
@@ -3091,8 +3103,8 @@ public partial class ChronoJumpWindow
 			button_threshold.Visible = true;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 
-			image_contacts_exercise.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "reaction_time_icon.png");
-			pixbufMode = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_rt.png");
+			pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "reaction_time_icon.png");
+			pixbufModeGrid = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_rt.png");
 		}
 		else {	//m == Constants.Menuitem_modes.OTHER (contacts / other)
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
@@ -3109,12 +3121,19 @@ public partial class ChronoJumpWindow
 			button_threshold.Visible = true;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 
-			image_contacts_exercise.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "other_icon.png");
-			pixbufMode = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_other.png");
+			pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "other_icon.png");
+			pixbufModeGrid = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_other.png");
 		}
 
-		image_button_show_modes.Pixbuf = pixbufMode;
-		image_button_show_modes1.Pixbuf = pixbufMode;
+		image_button_show_modes_contacts_grid.Pixbuf = pixbufModeGrid;
+		image_button_show_modes_contacts_current.Pixbuf = pixbufModeCurrent;
+		image_button_show_modes_encoder_grid.Pixbuf = pixbufModeGrid;
+		image_button_show_modes_encoder_current.Pixbuf = pixbufModeCurrent;
+
+		if(m == Constants.Menuitem_modes.POWERGRAVITATORY || m == Constants.Menuitem_modes.POWERINERTIAL)
+			image_encoder_exercise.Pixbuf = pixbufModeCurrent;
+		else
+			image_contacts_exercise.Pixbuf = pixbufModeCurrent;
 
 		//show feedback icon
 		Pixbuf pixbufBellActive = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_active.png");
@@ -3146,8 +3165,6 @@ public partial class ChronoJumpWindow
 			//on_radio_show_persons_clicked (new object (), new EventArgs ());
 			radio_show_persons.Active = true;
 		}
-
-		menu_and_menu_tiny_show_modes();
 
 		if(m != Constants.Menuitem_modes.POWERGRAVITATORY && m != Constants.Menuitem_modes.POWERINERTIAL)
 		{
@@ -7066,7 +7083,7 @@ LogB.Debug("mc finished 5");
 	
 	private void sensitiveGuiEventDoing (bool cont)
 	{
-		menus_sensitive(false);
+		menus_and_mode_sensitive(false);
 		
 		//jumpsProfile has Sqlite calls. Don't do them while jumping
 		//but don't unsensitive the notebook because user need to "finish" or cancel"
@@ -7125,7 +7142,7 @@ LogB.Debug("mc finished 5");
 	{
 		LogB.Information(" sensitiveGuiEventDone start ");
 
-		menus_sensitive(true);
+		menus_and_mode_sensitive(true);
 
 		//jumpsProfile has Sqlite calls. Don't do them while jumping
 		//but don't unsensitive the notebook because user need to "finish" or cancel"
@@ -7298,7 +7315,7 @@ LogB.Debug("mc finished 5");
 	//start/end auto mode
 	private void sensitiveGuiAutoStartEnd (bool start) {
 		//if automode, sensitiveGuiEventDoing, sensitiveGuiEventDone don't work
-		menus_sensitive (! start);
+		menus_and_mode_sensitive (! start);
 		frame_persons.Sensitive 	= ! start;
 		button_contacts_exercise.Sensitive = ! start;
 

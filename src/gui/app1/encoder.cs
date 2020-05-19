@@ -3734,7 +3734,7 @@ public partial class ChronoJumpWindow
 
 		table_encoder_analyze_options.Sensitive = s;
 		viewport_persons.Sensitive = s;
-		menus_sensitive(s);
+		menus_and_mode_sensitive(s);
 		hbox_encoder_sup_capture_analyze_two_buttons.Sensitive = s;
 		hbox_top_person_encoder.Sensitive = s;
 	}
@@ -4680,7 +4680,7 @@ public partial class ChronoJumpWindow
 				notebook_encoder_capture_main.GetNthPage(1).Show();
 		}
 
-		menus_sensitive(! show);
+		menus_and_mode_sensitive(! show);
 		hbox_encoder_sup_capture_analyze.Sensitive = ! show;
 		viewport_persons.Sensitive = ! show;
 		hbox_encoder_configuration.Sensitive = ! show;

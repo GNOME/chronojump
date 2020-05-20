@@ -558,10 +558,8 @@ public partial class ChronoJumpWindow
 	}
 	void app1s_on_button_import_clicked (object o, EventArgs args)
 	{
-		if(app1s_selected != "-1") {
-			currentSession = SqliteSession.Select (app1s_selected);
+		if(app1s_selected != "-1")
 			on_load_session_accepted_to_import(o, args);
-		}
 	}
 
 	// ---- notebook page 4 buttons ----

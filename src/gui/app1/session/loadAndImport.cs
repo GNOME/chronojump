@@ -19,7 +19,6 @@
  */
 
 using System;
-using Gdk; //Pixbuf
 using Gtk;
 using Glade;
 using GLib; //for Value
@@ -91,10 +90,6 @@ public partial class ChronoJumpWindow
 			app1s_notebook.CurrentPage = app1s_PAGE_IMPORT_START;
 		}
 		app1s_entry_search_filter.Text = "";
-
-		app1s_image_open_database.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_open.png");
-		app1s_image_import.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameImport);
-		app1s_image_import1.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameImport);
 
 		app1s_createTreeView(app1s_treeview_session_load, false, false, false);
 		app1s_store = app1s_getStore(false, false, false);

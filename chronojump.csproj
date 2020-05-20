@@ -1226,6 +1226,7 @@
     <Compile Include="src\gui\app1\session\loadAndImport.cs" />
     <Compile Include="src\gui\app1\session\delete.cs" />
     <Compile Include="src\gui\app1\session\addEdit.cs" />
+    <Compile Include="src\gui\app1\session\backup.cs" />
     <Compile Include="src\json\compujumpEncoder.cs" />
     <Compile Include="src\json\compujumpForceSensor.cs" />
     <Compile Include="src\json\compujumpOther.cs" />

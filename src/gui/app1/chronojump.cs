@@ -364,6 +364,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_forcesensor_analyze_save_rfd_auto;
 	[Widget] Gtk.Image image_forcesensor_analyze_save_rfd_manual;
 
+	[Widget] Gtk.VBox vbox_help;
+
 	Random rand;
 
 	//persons
@@ -461,7 +463,7 @@ public partial class ChronoJumpWindow
 	private string progVersion;
 	private string progName;
 	private enum notebook_start_pages { PROGRAM, SENDLOG, EXITCONFIRM }
-	private enum notebook_sup_pages { START, CONTACTS, ENCODER, SESSION, NETWORKSPROBLEMS }
+	private enum notebook_sup_pages { START, CONTACTS, ENCODER, SESSION, NETWORKSPROBLEMS, HELP }
 	private enum notebook_analyze_pages { STATISTICS, JUMPSPROFILE, JUMPSDJOPTIMALFALL, JUMPSWEIGHTFVPROFILE, JUMPSEVOLUTION, SPRINT, FORCESENSOR, RACEENCODER }
 
 	private string runningFileName; //useful for knowing if there are two chronojump instances
@@ -754,6 +756,7 @@ public partial class ChronoJumpWindow
 		}
 
 		UtilGtk.ContrastLabelsNotebook (preferences.colorBackgroundIsDark, app1s_notebook);
+		UtilGtk.ContrastLabelsVBox (preferences.colorBackgroundIsDark, vbox_help);
 
 		if(preferences.colorBackgroundIsDark)
 		{

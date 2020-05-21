@@ -30,8 +30,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Alignment alignment_buttons_menu_and_persons;
 	[Widget] Gtk.Arrow arrow_menu_show_session_up;
 	[Widget] Gtk.Arrow arrow_menu_show_session_down;
-	[Widget] Gtk.Arrow arrow_menu_show_help_up;
-	[Widget] Gtk.Arrow arrow_menu_show_help_down;
 	[Widget] Gtk.HBox hbox_radio_show_menu_and_persons;
 	[Widget] Gtk.RadioButton radio_show_menu;
 	[Widget] Gtk.RadioButton radio_show_persons;
@@ -51,17 +49,13 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox eventbox_button_menu_session_load;
 	[Widget] Gtk.EventBox eventbox_button_menu_session_more;
 	[Widget] Gtk.EventBox eventbox_button_menu_preferences;
-	[Widget] Gtk.EventBox eventbox_check_menu_help;
-	[Widget] Gtk.EventBox eventbox_button_menu_help_documents;
-	[Widget] Gtk.EventBox eventbox_button_menu_help_shortcuts;
-	[Widget] Gtk.EventBox eventbox_button_menu_help_about;
+	[Widget] Gtk.EventBox eventbox_button_menu_help;
 	[Widget] Gtk.EventBox eventbox_button_menu_exit;
 	[Widget] Gtk.CheckButton check_menu_session;
-	[Widget] Gtk.CheckButton check_menu_help;
+	[Widget] Gtk.Button button_menu_help;
 	[Widget] Gtk.VBox vbox_menu_session;
 	[Widget] Gtk.Alignment alignment_menu_session_options;
 	[Widget] Gtk.Alignment alignment_menu_person_options;
-	[Widget] Gtk.Alignment alignment_menu_help_options;
 
 
 	[Widget] Gtk.Button button_menu_session_new;
@@ -115,11 +109,6 @@ public partial class ChronoJumpWindow
 
 		//LogB.Information("hpaned MinPosition: " + hpaned_contacts_main.MinPosition.ToString());
 
-		//unselect menu_help if selected
-		if(check_menu_help.Active)
-			check_menu_help.Active = false;
-		alignment_menu_help_options.Visible = false;
-
 		/*
 		//do 1 and then 2 to ensure menu is shrinked after changing to icons
 		//1
@@ -136,7 +125,7 @@ public partial class ChronoJumpWindow
 
 		//menus
 		l.Add(check_menu_session.SizeRequest().Width);
-		l.Add(check_menu_help.SizeRequest().Width);
+		l.Add(button_menu_help.SizeRequest().Width);
 		l.Add(button_menu_exit.SizeRequest().Width);
 		l.Add(button_menu_preferences.SizeRequest().Width);
 
@@ -234,15 +223,12 @@ public partial class ChronoJumpWindow
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_show_persons, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_session, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_preferences, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_help, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_help, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_exit, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_new, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_load, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_more, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_help_documents, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_help_shortcuts, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_help_about, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 	}
 
 	private void menuShowVerticalArrow (bool selected, Gtk.Arrow a_up, Gtk.Arrow a_down)
@@ -253,9 +239,6 @@ public partial class ChronoJumpWindow
 
 	private void on_radio_show_menu_toggled (object o, EventArgs args)
 	{
-		if(check_menu_help.Active)
-			check_menu_help.Active = false;
-
 		viewport_menu.Visible = true;
 		viewport_persons.Visible = false;
 	}
@@ -270,23 +253,23 @@ public partial class ChronoJumpWindow
 		menuShowVerticalArrow (check_menu_session.Active, arrow_menu_show_session_up, arrow_menu_show_session_down);
 		if(check_menu_session.Active)
 		{
-			check_menu_help.Active = false;
 			alignment_menu_session_options.Visible = true;
-
 			alignment_menu_session_options.Show();
 		} else
 			alignment_menu_session_options.Visible = false;
 	}
 
-	private void on_check_menu_help_clicked (object o, EventArgs args)
+	private void on_button_menu_help_clicked (object o, EventArgs args)
 	{
-		menuShowVerticalArrow (check_menu_help.Active, arrow_menu_show_help_up, arrow_menu_show_help_down);
-		if(check_menu_help.Active)
-		{
-			check_menu_session.Active = false;
-			alignment_menu_help_options.Visible = true;
-		} else
-			alignment_menu_help_options.Visible = false;
+		menus_and_mode_sensitive(false);
+		app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
+		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.HELP);
+	}
+
+	private void on_button_help_close_clicked (object o, EventArgs args)
+	{
+		menus_and_mode_sensitive(true);
+		notebook_sup.CurrentPage = app1s_notebook_sup_entered_from;
 	}
 
 	private int getMenuButtonsMaxWidth(List<int> l)

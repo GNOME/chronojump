@@ -2277,13 +2277,13 @@ public partial class ChronoJumpWindow
 			}
 		}
 
-		if(threadImport != null || threadImport.IsAlive)
+		if(threadImport != null && threadImport.IsAlive)
 		{
 			LogB.Information("Closing threadImport");
 			threadImport.Abort();
 		}
 
-		if(app1s_threadBackup != null || app1s_threadBackup.IsAlive)
+		if(app1s_threadBackup != null && app1s_threadBackup.IsAlive)
 		{
 			LogB.Information("Closing app1s_threadBackup");
 			app1s_threadBackup.Abort();
@@ -2310,8 +2310,8 @@ public partial class ChronoJumpWindow
 		try {	
 			File.Delete(runningFileName);
 		} catch {
-			new DialogMessage(Constants.MessageTypes.WARNING, 
-					string.Format(Catalog.GetString("Could not delete file:\n{0}"), runningFileName));
+			LogB.Information(string.Format(Catalog.GetString("Could not delete file:\n{0}"),
+						runningFileName));
 		}
 		
 		if(File.Exists(Util.GetDatabaseTempDir() + System.IO.Path.DirectorySeparatorChar + "chronojump.db"))

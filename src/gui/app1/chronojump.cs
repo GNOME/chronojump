@@ -2642,7 +2642,7 @@ public partial class ChronoJumpWindow
 		else
 			preferencesWin = PreferencesWindow.Show(preferences, current_menuitem_mode, configChronojump.Compujump, progVersion);
 
-		preferencesWin.FakeButtonImported.Clicked += new EventHandler(on_preferences_import_configuration);
+		preferencesWin.FakeButtonConfigurationImported.Clicked += new EventHandler(on_preferences_import_configuration);
 		preferencesWin.FakeButtonDebugModeStart.Clicked += new EventHandler(on_preferences_debug_mode_start);
 		preferencesWin.Button_accept.Clicked += new EventHandler(on_preferences_accepted);
 	}
@@ -2650,7 +2650,7 @@ public partial class ChronoJumpWindow
 	private void on_preferences_import_configuration (object o, EventArgs args)
 	{
 		/*
-		preferencesWin.FakeButtonImported.Clicked -= new EventHandler(on_preferences_import_configuration);
+		preferencesWin.FakeButtonConfigurationImported.Clicked -= new EventHandler(on_preferences_import_configuration);
 		
 		configInit();
 		LogB.Information("Initialized configuration");

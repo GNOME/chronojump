@@ -102,8 +102,8 @@ public partial class ChronoJumpWindow
 			LogB.ThreadEnding();
 			importSessionFromDatabaseEnd();
 
-			app1s_Pulse(chronojumpImporter.MessageToPulsebar);
-			app1s_PulseEnd();
+			app1s_ImportPulse(chronojumpImporter.MessageToPulsebar);
+			app1s_ImportPulseEnd();
 
 			LogB.ThreadEnded();
 			return false;
@@ -125,7 +125,7 @@ public partial class ChronoJumpWindow
 		if(File.Exists(statusDir + "allData.txt"))
 			message = "All data imported, finishing";
 
-		app1s_Pulse(message);
+		app1s_ImportPulse(message);
 
 		Thread.Sleep (100);
 		//LogB.Debug(threadImport.ThreadState.ToString());

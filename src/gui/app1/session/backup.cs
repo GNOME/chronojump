@@ -31,7 +31,7 @@ public partial class ChronoJumpWindow
 	string app1s_fileCopy;
 	Gtk.FileChooserDialog app1s_fc;
 	static UtilCopy app1s_uc;
-	private Thread app1s_threadBackup; //TODO: ensure this ended on quit program
+	private Thread app1s_threadBackup;
 
 	private void on_button_db_backup_pre_clicked (object o, EventArgs args)
 	{

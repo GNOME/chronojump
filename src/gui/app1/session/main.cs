@@ -85,13 +85,18 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox app1s_eventbox_button_delete_close;
 
 	//notebook tab 6 (backup)
+	[Widget] Gtk.Button app1s_button_backup_select;
+	[Widget] Gtk.Button app1s_button_backup_start;
+	[Widget] Gtk.Button app1s_button_backup_cancel_close;
+	[Widget] Gtk.Label app1s_label_backup_cancel_close;
+	[Widget] Gtk.EventBox app1s_eventbox_button_backup_cancel_close;
 	[Widget] Gtk.Image app1s_image_button_backup_select;
 	[Widget] Gtk.Label app1s_label_backup_destination;
-	[Widget] Gtk.Button app1s_button_backup_start;
-	[Widget] Gtk.Button app1s_button_backup_cancel;
-	[Widget] Gtk.Button app1s_button_backup_close;
-	[Widget] Gtk.EventBox app1s_eventbox_button_backup_cancel;
-	[Widget] Gtk.EventBox app1s_eventbox_button_backup_close;
+	[Widget] Gtk.HBox app1s_hbox_backup_doing;
+	[Widget] Gtk.Label app1s_label_backup_progress;
+	[Widget] Gtk.ProgressBar app1s_pulsebarBackupActivity;
+	[Widget] Gtk.ProgressBar app1s_pulsebarBackupDirs;
+	[Widget] Gtk.ProgressBar app1s_pulsebarBackupSecondDirs;
 
 	const int app1s_PAGE_MODES = 0;
 	const int app1s_PAGE_IMPORT_START = 1;
@@ -133,8 +138,7 @@ public partial class ChronoJumpWindow
 		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_import_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_import_again, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_delete_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_backup_cancel, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_backup_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_backup_cancel_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 	}
 
 	private void app1s_label_session_set_name()

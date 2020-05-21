@@ -29,7 +29,6 @@ using System.Text; //StringBuilder
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List<T>
 using Mono.Unix;
-using System.Threading;
 using System.Globalization; //CultureInfo stuff
 
 using System.Diagnostics;  //Stopwatch
@@ -74,19 +73,6 @@ public class PreferencesWindow
 	[Widget] Gtk.DrawingArea drawingarea_background_color;
 	[Widget] Gtk.CheckButton check_logo_animated;
 
-	//database tab
-//	[Widget] Gtk.Button button_data_folder_open;
-
-	//[Widget] Gtk.CheckButton check_backup_multimedia_and_encoder;
-	
-	[Widget] Gtk.Button button_db_backup;
-	[Widget] Gtk.HBox hbox_backup_doing;
-	[Widget] Gtk.Label label_backup;
-	[Widget] Gtk.ProgressBar pulsebarBackupActivity;
-	[Widget] Gtk.ProgressBar pulsebarBackupDirs;
-	[Widget] Gtk.ProgressBar pulsebarBackupSecondDirs;
-
-	
 	//jumps tab	
 	[Widget] Gtk.CheckButton checkbutton_power;
 	[Widget] Gtk.CheckButton checkbutton_stiffness;
@@ -250,7 +236,7 @@ public class PreferencesWindow
 
 	[Widget] Gtk.Button button_accept;
 	[Widget] Gtk.Button button_cancel;
-	public Gtk.Button FakeButtonImported;
+	public Gtk.Button FakeButtonConfigurationImported;
 	public Gtk.Button FakeButtonDebugModeStart;
 	
 	static PreferencesWindow PreferencesWindowBox;
@@ -259,19 +245,19 @@ public class PreferencesWindow
 
 	private UtilAll.OperatingSystems operatingSystem;
 	private Preferences preferences; //stored to update SQL if anything changed
-	private Thread thread;
+//	private Thread thread;
 
 	string databaseURL;
 	string databaseTempURL;
 	
 	ListStore langsStore;
 
-	const int JUMPSPAGE = 2;
-	const int RUNSPAGE = 3;
-	const int ENCODERCAPTUREPAGE = 4;
-	const int ENCODEROTHERPAGE = 5;
-	const int FORCESENSORPAGE = 6;
-	const int RUNENCODERPAGE = 7;
+	const int JUMPSPAGE = 1;
+	const int RUNSPAGE = 2;
+	const int ENCODERCAPTUREPAGE = 3;
+	const int ENCODEROTHERPAGE = 4;
+	const int FORCESENSORPAGE = 5;
+	const int RUNENCODERPAGE = 6;
 
 	static private WebcamDeviceList wd_list;
 	private WebcamFfmpegSupportedModes wfsm;
@@ -289,7 +275,7 @@ public class PreferencesWindow
 		databaseURL = Util.GetDatabaseDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
 		databaseTempURL = Util.GetDatabaseTempDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
 		
-		FakeButtonImported = new Gtk.Button();
+		FakeButtonConfigurationImported = new Gtk.Button();
 		FakeButtonDebugModeStart = new Gtk.Button();
 	}
 
@@ -1395,35 +1381,35 @@ public class PreferencesWindow
 	
 	void on_preferences_delete_event (object o, DeleteEventArgs args)
 	{
+/*
 		//do not hide/exit if copyiing
 		if (thread != null && thread.IsAlive)
 			args.RetVal = true;
 		else {
+*/
 			PreferencesWindowBox.preferences_win.Hide();
 			PreferencesWindowBox = null;
-		}
+//		}
 	}
-	
-	void on_button_db_restore_clicked (object o, EventArgs args)
-	{
-		/*
-		 * TODO: problem is database stored is a chronojump.db or a folder (if images and videos were saved).
-		 * FileChooserAction only lets you use one type
-		 * In the future backup db as tgz or similar
-		 */
 
-		/*
+	/*
+	 * TODO: problem is database stored is a chronojump.db or a folder (if images and videos were saved).
+	 * FileChooserAction only lets you use one type
+	 * In the future backup db as tgz or similar
+
+	 void on_button_db_restore_clicked (object o, EventArgs args)
+	 {
 		fc = new Gtk.FileChooserDialog(Catalog.GetString("Restore database from:"),
-				preferences_win,
-				FileChooserAction.SelectFolder,
-				Catalog.GetString("Cancel"),ResponseType.Cancel,
-				Catalog.GetString("Restore"),ResponseType.Accept
-				);
+			preferences_win,
+			FileChooserAction.SelectFolder,
+			Catalog.GetString("Cancel"),ResponseType.Cancel,
+			Catalog.GetString("Restore"),ResponseType.Accept
+		);
 
 		ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to restore?"));
 		confirmWin.Button_accept.Clicked += new EventHandler(on_overwrite_file_accepted);
-		*/
-	}
+	 }
+	 */
 
 	
 	void on_button_logs_folder_open_clicked (object o, EventArgs args)
@@ -1466,107 +1452,9 @@ public class PreferencesWindow
 		LogB.Warning(dir);
 	}
 
-
-
-	string fileDB;
-	string fileCopy;
-	Gtk.FileChooserDialog fc;
-	void on_button_db_backup_clicked (object o, EventArgs args)
-	{
-		System.IO.FileInfo file1 = new System.IO.FileInfo(databaseURL); //potser cal una arrobar abans (a windows)
-		System.IO.FileInfo file2 = new System.IO.FileInfo(databaseTempURL); //potser cal una arrobar abans (a windows)
-		fileDB = "";
-
-		long length1 = 0;
-		if(file1.Exists)
-			length1 = file1.Length;
-		long length2 = 0;
-		if(file2.Exists)
-			length2 = file2.Length;
-		
-		if(length1 == 0 && length2 == 0) 
-			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Error. Cannot find database."));
-		else if(length1 > length2)
-			fileDB = databaseURL;
-		else
-			fileDB = databaseTempURL;
-
-		fc = new Gtk.FileChooserDialog(Catalog.GetString("Copy database to:"),
-				preferences_win,
-				FileChooserAction.SelectFolder,
-				Catalog.GetString("Cancel"),ResponseType.Cancel,
-				Catalog.GetString("Copy"),ResponseType.Accept
-				);
-
-		if (fc.Run() == (int)ResponseType.Accept) 
-		{
-			//if multimedia_and_encoder, then copy the folder. If not checked, then copy only the db file
-			//if(check_backup_multimedia_and_encoder.Active)
-				fileCopy = fc.Filename + Path.DirectorySeparatorChar + "chronojump";
-			//else
-			//	fileCopy = fc.Filename + Path.DirectorySeparatorChar + "chronojump_copy.db";
-
-			try {
-				fc.Hide ();
-			
-				bool exists = false;
-				//if(check_backup_multimedia_and_encoder.Active) {
-					if(Directory.Exists(fileCopy)) {
-						LogB.Information(string.Format("Directory {0} exists, created at {1}", 
-									fileCopy, Directory.GetCreationTime(fileCopy)));
-						exists = true;
-					}
-				/*} else {
-					if (File.Exists(fileCopy)) {
-						LogB.Information(string.Format("File {0} exists with attributes {1}, created at {2}", 
-									fileCopy, File.GetAttributes(fileCopy), File.GetCreationTime(fileCopy)));
-						exists = true;
-					}
-				}
-				*/
-
-				if(exists) {
-					LogB.Information("Overwrite...");
-					ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to overwrite: "), "", fileCopy);
-					confirmWin.Button_accept.Clicked += new EventHandler(on_overwrite_file_accepted);
-				} else {
-					//if multimedia_and_encoder, then copy the folder. If not checked, then copy only the db file
-					//if(check_backup_multimedia_and_encoder.Active) {
-						uc = new UtilCopy();
-						thread = new Thread(new ThreadStart(copyRecursive));
-						GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
-		
-						backup_doing_sensitive_start_end(true);	
-						
-						LogB.ThreadStart(); 
-						thread.Start(); 
-					/*} else {
-						File.Copy(fileDB, fileCopy);
-					
-						string myString = string.Format(Catalog.GetString("Copied to {0}"), fileCopy);
-						label_backup.Text = myString;
-					}
-					*/
-				}
-			} 
-			catch {
-				string myString = string.Format(Catalog.GetString("Cannot copy to {0} "), fileCopy);
-				new DialogMessage(Constants.MessageTypes.WARNING, myString);
-			}
-		}
-		else {
-			fc.Hide ();
-			return ;
-		}
-		
-		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
-		fc.Destroy();
-		
-	}
-	
 	void on_button_import_configuration_clicked (object o, EventArgs args)
 	{
-		fc = new Gtk.FileChooserDialog(Catalog.GetString("Import configuration file"),
+		Gtk.FileChooserDialog fc = new Gtk.FileChooserDialog(Catalog.GetString("Import configuration file"),
 				preferences_win,
 				FileChooserAction.Open,
 				Catalog.GetString("Cancel"),ResponseType.Cancel,
@@ -1586,7 +1474,7 @@ public class PreferencesWindow
 				LogB.Information("Imported configuration");
 
 				//will launch configInit() from gui/chronojump.cs
-				FakeButtonImported.Click();
+				FakeButtonConfigurationImported.Click();
 
 				success = true;
 			} catch {
@@ -1600,104 +1488,6 @@ public class PreferencesWindow
 		if(success)
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Successfully imported."));
 	}
-	
-	private void on_overwrite_file_accepted(object o, EventArgs args)
-	{
-		try {
-			//if multimedia_and_encoder, then copy the folder. If not checked, then copy only the db file
-			//if(check_backup_multimedia_and_encoder.Active) {
-				Directory.Delete(fileCopy, true);
-				uc = new UtilCopy();
-				thread = new Thread(new ThreadStart(copyRecursive));
-				GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
-		
-				backup_doing_sensitive_start_end(true);	
-				
-				LogB.ThreadStart(); 
-				thread.Start(); 
-			/* } else {
-				File.Delete(fileCopy);
-				File.Copy(fileDB, fileCopy);
-						
-				fc.Hide ();
-				string myString = string.Format(Catalog.GetString("Copied to {0}"), fileCopy);
-				label_backup.Text = myString;
-			} */
-		} catch {
-			string myString = string.Format(Catalog.GetString("Cannot copy to {0} "), fileCopy);
-			new DialogMessage(Constants.MessageTypes.WARNING, myString);
-		}
-	}
-
-	/*
-	 * deprecated since 1.6.0. Use backup method below
-	*/
-	static long copyRecursiveElapsedMs;
-	static int backupMainDirsDone;
-	static UtilCopy uc;
-	private void copyRecursive()
-	{
-		copyRecursiveElapsedMs = 0;
-		Stopwatch sw = new Stopwatch();
-		sw.Start();
-
-		//Util.CopyFilesRecursively(new DirectoryInfo(Util.GetParentDir(false)), new DirectoryInfo(fileCopy), out backupMainDirsDone);
-		uc.CopyFilesRecursively(new DirectoryInfo(Util.GetParentDir(false)), new DirectoryInfo(fileCopy), 0);
-		sw.Stop();
-
-		copyRecursiveElapsedMs = sw.ElapsedMilliseconds;
-	}
-
-	/*
-	 * Temprarily disabled
-	 *
-	//from Longomatch
-	//https://raw.githubusercontent.com/ylatuya/longomatch/master/LongoMatch.DB/CouchbaseStorage.cs
-	private bool backup(string path)
-	{
-		try {   
-			string storageName = path + Path.DirectorySeparatorChar + "chronojump_backup-" + DateTime.UtcNow.ToString() + ".tar.gz";
-			using (FileStream fs = new FileStream (outputFilename, FileMode.Create, FileAccess.Write, FileShare.None)) {
-				using (Stream gzipStream = new GZipOutputStream (fs)) {
-					using (TarArchive tarArchive = TarArchive.CreateOutputTarArchive (gzipStream)) {
-						//foreach (string n in new string[] {"", "-wal", "-shm"}) {
-						//	TarEntry tarEntry = TarEntry.CreateEntryFromFile (
-						//			Path.Combine (Config.DBDir, storageName + ".cblite" + n));
-						//	tarArchive.WriteEntry (tarEntry, true);
-						//}
-						//AddDirectoryFilesToTar (tarArchive, Path.Combine (Config.DBDir, storageName + " attachments"), true);
-						AddDirectoryFilesToTar (tarArchive, Util.GetParentDir(false), true);
-					}
-				}
-			}
-			//LastBackup = DateTime.UtcNow;
-		} catch (Exception ex) {
-			LogB.Error (ex);
-			return false;
-		}
-		return true;
-	}
-
-
-	//from Longomatch
-	//https://raw.githubusercontent.com/ylatuya/longomatch/master/LongoMatch.DB/CouchbaseStorage.cs
-	void AddDirectoryFilesToTar (TarArchive tarArchive, string sourceDirectory, bool recurse)
-	{
-		// Recursively add sub-folders
-		if (recurse) {
-			string[] directories = Directory.GetDirectories (sourceDirectory);
-			foreach (string directory in directories)
-				AddDirectoryFilesToTar (tarArchive, directory, recurse);
-		}
-
-		// Add files
-		string[] filenames = Directory.GetFiles (sourceDirectory);
-		foreach (string filename in filenames) {
-			TarEntry tarEntry = TarEntry.CreateEntryFromFile (filename);
-			tarArchive.WriteEntry (tarEntry, true);
-		}
-	}
-	*/
 
 	//encoder
 	private void on_button_inactivity_help_clicked (object o, EventArgs args)
@@ -1784,53 +1574,6 @@ public class PreferencesWindow
 			Sqlite.NeverCloseDB = false;
 			new DialogMessage(Constants.MessageTypes.INFO, "Never close: UNACTIVE! (default)");
 		}
-	}
-
-	private bool PulseGTK ()
-	{
-		if ( ! thread.IsAlive ) {
-			LogB.ThreadEnding();
-			endPulse();
-
-			LogB.ThreadEnded();
-			return false;
-		}
-	
-		pulsebarBackupActivity.Pulse();
-		pulsebarBackupDirs.Fraction = UtilAll.DivideSafeFraction(uc.BackupMainDirsCount, 6); //6 for: database, encoder, forceSensor, logs, multimedia, raceAnalyzer
-		pulsebarBackupDirs.Text = uc.LastMainDir;
-		pulsebarBackupSecondDirs.Fraction = UtilAll.DivideSafeFraction(uc.BackupSecondDirsCount, uc.BackupSecondDirsLength);
-		pulsebarBackupSecondDirs.Text = uc.LastSecondDir;
-
-		Thread.Sleep (30);
-		//LogB.Debug(thread.ThreadState.ToString());
-		return true;
-	}
-
-	private void endPulse()
-	{
-		pulsebarBackupActivity.Fraction = 1;
-		pulsebarBackupDirs.Fraction = 1;
-		pulsebarBackupSecondDirs.Fraction = 1;
-		backup_doing_sensitive_start_end(false);
-		fc.Hide ();
-		string myString = string.Format(Catalog.GetString("Copied to {0} in {1} ms"), fileCopy, copyRecursiveElapsedMs);
-		label_backup.Text = myString;
-	}
-	
-	private void backup_doing_sensitive_start_end(bool start) 
-	{
-		if(start)
-			label_backup.Text = Catalog.GetString("Please, wait.");
-
-		pulsebarBackupActivity.Visible = start;
-		hbox_backup_doing.Visible = start;
-
-		button_db_backup.Sensitive = ! start;
-//		button_data_folder_open.Sensitive = ! start;
-		
-		button_cancel.Sensitive = ! start;
-		button_accept.Sensitive = ! start;
 	}
 
 	//change stuff in Sqlite and in preferences object that will be retrieved by GetPreferences

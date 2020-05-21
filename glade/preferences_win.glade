@@ -724,267 +724,6 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkVBox" id="vbox27">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="border_width">16</property>
-                <property name="spacing">25</property>
-                <child>
-                  <widget class="GtkFrame" id="frame3">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label_xalign">0</property>
-                    <property name="shadow_type">in</property>
-                    <child>
-                      <widget class="GtkVBox" id="vbox9">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="border_width">8</property>
-                        <property name="spacing">20</property>
-                        <child>
-                          <widget class="GtkVButtonBox" id="vbuttonbox2">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="spacing">20</property>
-                            <child>
-                              <widget class="GtkButton" id="button_db_backup">
-                                <property name="label" translatable="yes">Backup all data</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
-                                <property name="tooltip" translatable="yes">Make a copy of all the data</property>
-                                <property name="use_underline">True</property>
-                                <signal name="clicked" handler="on_button_db_backup_clicked" swapped="no"/>
-                              </widget>
-                              <packing>
-                                <property name="expand">True</property>
-                                <property name="fill">False</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                          </widget>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkHBox" id="hbox49">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <child>
-                              <widget class="GtkHBox" id="hbox50">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="spacing">20</property>
-                                <child>
-                                  <widget class="GtkLabel" id="label_backup">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkProgressBar" id="pulsebarBackupActivity">
-                                    <property name="width_request">50</property>
-                                    <property name="can_focus">False</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
-                              </widget>
-                              <packing>
-                                <property name="expand">True</property>
-                                <property name="fill">False</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                          </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkHBox" id="hbox_backup_doing">
-                            <property name="can_focus">False</property>
-                            <child>
-                              <widget class="GtkTable" id="table2">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="n_rows">2</property>
-                                <property name="n_columns">2</property>
-                                <property name="column_spacing">8</property>
-                                <property name="row_spacing">12</property>
-                                <child>
-                                  <widget class="GtkProgressBar" id="pulsebarBackupDirs">
-                                    <property name="width_request">300</property>
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
-                                    <property name="x_options"/>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkProgressBar" id="pulsebarBackupSecondDirs">
-                                    <property name="width_request">300</property>
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
-                                    <property name="top_attach">1</property>
-                                    <property name="bottom_attach">2</property>
-                                    <property name="x_options"/>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkLabel" id="label99">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">Directory</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="x_options"/>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkLabel" id="label101">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">Subdirectory</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="top_attach">1</property>
-                                    <property name="bottom_attach">2</property>
-                                    <property name="x_options"/>
-                                  </packing>
-                                </child>
-                              </widget>
-                              <packing>
-                                <property name="expand">True</property>
-                                <property name="fill">False</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                          </widget>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">2</property>
-                          </packing>
-                        </child>
-                      </widget>
-                    </child>
-                    <child>
-                      <widget class="GtkLabel" id="label18">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Backup data</property>
-                        <property name="use_markup">True</property>
-                      </widget>
-                      <packing>
-                        <property name="type">label_item</property>
-                      </packing>
-                    </child>
-                  </widget>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkFrame" id="frame7">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label_xalign">0</property>
-                    <property name="shadow_type">in</property>
-                    <child>
-                      <widget class="GtkAlignment" id="alignment7">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="left_padding">12</property>
-                        <child>
-                          <widget class="GtkVButtonBox" id="vbuttonbox1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="border_width">8</property>
-                            <property name="spacing">20</property>
-                            <child>
-                              <placeholder/>
-                            </child>
-                            <child>
-                              <widget class="GtkButton" id="button_db_restore">
-                                <property name="label" translatable="yes">Restore data</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
-                                <property name="use_underline">True</property>
-                                <signal name="clicked" handler="on_button_db_restore_clicked" swapped="no"/>
-                              </widget>
-                              <packing>
-                                <property name="expand">True</property>
-                                <property name="fill">False</property>
-                                <property name="padding">10</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                          </widget>
-                        </child>
-                      </widget>
-                    </child>
-                    <child>
-                      <widget class="GtkLabel" id="label36">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Others</property>
-                        <property name="use_markup">True</property>
-                      </widget>
-                      <packing>
-                        <property name="type">label_item</property>
-                      </packing>
-                    </child>
-                  </widget>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-              </widget>
-              <packing>
-                <property name="position">1</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="GtkLabel" id="label69">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="yalign">0</property>
-                <property name="label" translatable="yes">Database</property>
-              </widget>
-              <packing>
-                <property name="position">1</property>
-                <property name="tab_fill">False</property>
-                <property name="type">tab</property>
-              </packing>
-            </child>
-            <child>
               <widget class="GtkVBox" id="vbox1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
@@ -1619,7 +1358,7 @@
                 </child>
               </widget>
               <packing>
-                <property name="position">2</property>
+                <property name="position">1</property>
               </packing>
             </child>
             <child>
@@ -1630,7 +1369,7 @@
                 <property name="label" translatable="yes">Jumps</property>
               </widget>
               <packing>
-                <property name="position">2</property>
+                <property name="position">1</property>
                 <property name="tab_fill">False</property>
                 <property name="type">tab</property>
               </packing>
@@ -2157,7 +1896,7 @@ It starts before and arrives there with some speed.</property>
                 </child>
               </widget>
               <packing>
-                <property name="position">3</property>
+                <property name="position">2</property>
               </packing>
             </child>
             <child>
@@ -2169,7 +1908,7 @@ It starts before and arrives there with some speed.</property>
                 <property name="label" translatable="yes">Races</property>
               </widget>
               <packing>
-                <property name="position">3</property>
+                <property name="position">2</property>
                 <property name="tab_fill">False</property>
                 <property name="type">tab</property>
               </packing>
@@ -3334,7 +3073,7 @@ It starts before and arrives there with some speed.</property>
                 </child>
               </widget>
               <packing>
-                <property name="position">4</property>
+                <property name="position">3</property>
               </packing>
             </child>
             <child>
@@ -3380,7 +3119,7 @@ It starts before and arrives there with some speed.</property>
                 </child>
               </widget>
               <packing>
-                <property name="position">4</property>
+                <property name="position">3</property>
                 <property name="tab_fill">False</property>
                 <property name="type">tab</property>
               </packing>
@@ -3804,7 +3543,7 @@ It starts before and arrives there with some speed.</property>
                 </child>
               </widget>
               <packing>
-                <property name="position">5</property>
+                <property name="position">4</property>
               </packing>
             </child>
             <child>
@@ -3850,7 +3589,7 @@ It starts before and arrives there with some speed.</property>
                 </child>
               </widget>
               <packing>
-                <property name="position">5</property>
+                <property name="position">4</property>
                 <property name="tab_fill">False</property>
                 <property name="type">tab</property>
               </packing>
@@ -4455,7 +4194,7 @@ It starts before and arrives there with some speed.</property>
                 </child>
               </widget>
               <packing>
-                <property name="position">6</property>
+                <property name="position">5</property>
               </packing>
             </child>
             <child>
@@ -4465,7 +4204,7 @@ It starts before and arrives there with some speed.</property>
                 <property name="label" translatable="yes">Force sensor</property>
               </widget>
               <packing>
-                <property name="position">6</property>
+                <property name="position">5</property>
                 <property name="tab_fill">False</property>
                 <property name="type">tab</property>
               </packing>
@@ -4624,7 +4363,7 @@ It starts before and arrives there with some speed.</property>
                 </child>
               </widget>
               <packing>
-                <property name="position">7</property>
+                <property name="position">6</property>
               </packing>
             </child>
             <child>
@@ -4634,7 +4373,7 @@ It starts before and arrives there with some speed.</property>
                 <property name="label" translatable="yes">Race analyzer</property>
               </widget>
               <packing>
-                <property name="position">7</property>
+                <property name="position">6</property>
                 <property name="tab_fill">False</property>
                 <property name="type">tab</property>
               </packing>
@@ -5835,7 +5574,7 @@ It starts before and arrives there with some speed.</property>
                 </child>
               </widget>
               <packing>
-                <property name="position">8</property>
+                <property name="position">7</property>
               </packing>
             </child>
             <child>
@@ -5846,7 +5585,7 @@ It starts before and arrives there with some speed.</property>
                 <property name="label" translatable="yes">Multimedia</property>
               </widget>
               <packing>
-                <property name="position">8</property>
+                <property name="position">7</property>
                 <property name="tab_fill">False</property>
                 <property name="type">tab</property>
               </packing>
@@ -6228,7 +5967,7 @@ It starts before and arrives there with some speed.</property>
                 </child>
               </widget>
               <packing>
-                <property name="position">9</property>
+                <property name="position">8</property>
               </packing>
             </child>
             <child>
@@ -6239,7 +5978,7 @@ It starts before and arrives there with some speed.</property>
                 <property name="label" translatable="yes">Language</property>
               </widget>
               <packing>
-                <property name="position">9</property>
+                <property name="position">8</property>
                 <property name="tab_fill">False</property>
                 <property name="type">tab</property>
               </packing>
@@ -6707,7 +6446,7 @@ version:</property>
                 </child>
               </widget>
               <packing>
-                <property name="position">10</property>
+                <property name="position">9</property>
               </packing>
             </child>
             <child>
@@ -6718,7 +6457,7 @@ version:</property>
                 <property name="label" translatable="yes">Advanced</property>
               </widget>
               <packing>
-                <property name="position">10</property>
+                <property name="position">9</property>
                 <property name="tab_fill">False</property>
                 <property name="type">tab</property>
               </packing>

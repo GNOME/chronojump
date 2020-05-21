@@ -447,13 +447,13 @@ public partial class ChronoJumpWindow
 	}
 
 	//TODO: do not need to be public ? maybe for import
-	public void app1s_Pulse(string str)
+	public void app1s_ImportPulse(string str)
 	{
 		app1s_progressbarImport.Pulse();
 		app1s_progressbarImport.Text = str;
 	}
 	//TODO: do not need to be public ? maybe for import
-	public void app1s_PulseEnd()
+	public void app1s_ImportPulseEnd()
 	{
 		app1s_progressbarImport.Fraction = 1;
 		app1s_hbuttonbox_page4.Sensitive = true;

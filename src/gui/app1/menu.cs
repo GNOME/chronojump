@@ -95,11 +95,25 @@ public partial class ChronoJumpWindow
 
 	private void menus_and_mode_sensitive(bool sensitive)
 	{
-		radio_show_menu.Sensitive = sensitive;
+		alignment_buttons_menu_and_persons.Sensitive = sensitive;
 		viewport_menu.Sensitive = sensitive;
 		vbox_menu_tiny_menu.Sensitive = sensitive;
 		button_show_modes_contacts.Sensitive = sensitive;
 		button_show_modes_encoder.Sensitive = sensitive;
+	}
+
+	/* if import started we need to reload at the end
+	 * we will reload if there's a cancel there
+	 * dangerous situation is when treeview of sessions have been loaded
+	 * and then we exit, eg. with back and then cancel
+	 * so that cancel has a reloadSession()
+	 * but ensure user will not be able to manage database in other way by clicking session or preferences
+	 *
+	 * also is nice to have the menu_more unsensitive
+	 */
+	private void menus_sensitive_import_not_danger(bool danger)
+	{
+		menus_and_mode_sensitive(danger);
 	}
 
 	private void menuInitialize ()
@@ -295,23 +309,6 @@ public partial class ChronoJumpWindow
 		app1s_label_session_set_name();
 	}
 
-	/* if import started we need to reload at the end
-	 * we will reload if there's a cancel there
-	 * dangerous situation is when treeview of sessions have been loaded
-	 * and then we exit, eg. with back and then cancel
-	 * so that cancel has a reloadSession()
-	 * but ensure user will not be able to manage database in other way by clicking session or preferences
-	 *
-	 * also is nice to have the menu_more unsensitive
-	 */
-	private void menus_sensitive_import_not_danger(bool danger)
-	{
-		alignment_buttons_menu_and_persons.Sensitive = danger;
-		vbox_menu_session.Sensitive = danger;
-		vbox_menu_session1.Sensitive = danger;
-		button_menu_preferences.Sensitive = danger;
-		button_menu_preferences1.Sensitive = danger;
-	}
 }
 
 

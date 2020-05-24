@@ -19,7 +19,7 @@ MACOSX
 
 install cerbero
 
-git clone git://git.gnome.org/chronojump
+git clone https://gitlab.gnome.org/GNOME/chronojump.git
 
 start cerbero shell
 #this works from terminal or from ssh

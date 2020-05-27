@@ -539,7 +539,6 @@ RESOURCES = \
 	../images/md/baseline_mail_outline_blue_24dp.png,image_email.png \
 	../images/md/baseline_check_box_blue_24dp.png,image_check.png \
 	../images/md/baseline_save_blue_24dp.png,save.png \
-	../images/md/baseline_grid_on_blue_24dp.png,grid.png \
 	../images/md/baseline_new_releases_blue_24dp.png,new.png \
 	../images/md/baseline_menu_blue_24dp.png,image_menu.png \
 	../images/md/baseline_apps_6_separated_blue_24dp.png,image_modes.png \

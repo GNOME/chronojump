@@ -679,6 +679,7 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_grid_on.png");
 		image_contacts_session_overview.Pixbuf = pixbuf;
 		image_encoder_session_overview.Pixbuf = pixbuf;
+		image_encoder_analyze_table_save.Pixbuf = pixbuf;
 
 		//encoder
 		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_powerbars);
@@ -728,9 +729,6 @@ public partial class ChronoJumpWindow
 		image_forcesensor_analyze_image_save7.Pixbuf = pixbuf;
 		image_sprint_analyze_image_save.Pixbuf = pixbuf;
 		image_run_encoder_analyze_image_save_disk.Pixbuf = pixbuf;
-
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "grid.png");
-		image_encoder_analyze_table_save.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_email.png");
 		image_encoder_analyze_image_compujump_send_email_send.Pixbuf = pixbuf;

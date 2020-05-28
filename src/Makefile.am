@@ -76,7 +76,6 @@ SOURCES = \
 	gui/presentation.cs\
 	gui/report.cs\
 	gui/about.cs\
-	gui/helpPorts.cs\
 	gui/dialogMessage.cs\
 	gui/dialogCalendar.cs\
 	gui/dialogImageTest.cs\
@@ -273,7 +272,6 @@ RESOURCES = \
 	../glade/convert_weight.glade \
 	../glade/dialog_about.glade \
 	../glade/dialog_calendar.glade \
-	../glade/dialog_help_ports.glade \
 	../glade/dialog_image_test.glade \
 	../glade/dialog_message.glade \
 	../glade/dialog_person_popup.glade \

@@ -32,7 +32,7 @@ install_mono:
 	cp -r $(MONO_DIR)/lib/lib*dylib $(APP_DIR)/Home/lib/
 	cp $(MONO_DIR)/lib/*sharpglue*.so $(APP_DIR)/Home/lib/
 	codesign --remove-signature $(APP_DIR)/Home/lib/lib*dylib
-	python $(RESOURCES_DIR)/osxrelocator.py lib/ $(APP_DIR)/Home/ /Library/Frameworks/Mono.framework/Versions/6.8.0/ --recursive
+	python3 $(RESOURCES_DIR)/osxrelocator.py lib/ $(APP_DIR)/Home/ /Library/Frameworks/Mono.framework/Versions/6.8.0/ --recursive
 
 bundle:
 	# Generate Info.plist file

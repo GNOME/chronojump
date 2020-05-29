@@ -272,6 +272,8 @@ class SqlitePreferences : Sqlite
 				Insert (EncoderAutoSaveCurveBestNValue, "3", dbcmdTr);
 				Insert ("email", "", dbcmdTr);
 				Insert ("muteLogs", "False", dbcmdTr);
+				//Insert (Preferences.importerPythonVersion, Preferences.pythonVersion.Python.ToString(), dbcmdTr);
+
 				
 				//removed on 1.37
 				//Insert ("encoderConfiguration", new EncoderConfiguration().ToStringOutput(EncoderConfiguration.Outputs.SQL), dbcmdTr);

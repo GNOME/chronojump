@@ -2712,7 +2712,17 @@ class Sqlite
 
 				currentVersion = updateVersion("1.94");
 			}
+			/*
+			if(currentVersion == "1.94")
+			{
+				LogB.SQL("Inserted into preferences: importerPythonVersion");
 
+				SqlitePreferences.Insert (Preferences.importerPythonVersion,
+					Preferences.pythonVersion.Python.ToString());
+
+				currentVersion = updateVersion("1.95");
+			}
+			*/
 			/*
 			if(currentVersion == "1.79")
 			{
@@ -2925,6 +2935,9 @@ class Sqlite
 
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
+//just testing: 1.94 - 1.95 Converted DB to 1.95 Inserted into preferences: importerPythonVersion
+//
+//
 //
 		//1.93 - 1.94 Converted DB to 1.94 Inserted into preferences: RunEncoderAnalyzeAccel/Force/Power
 		//1.92 - 1.93 Converted DB to 1.93 Inserted into preferences: EncoderCaptureInfinite, LogoAnimatedShow

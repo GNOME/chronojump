@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2020-04-29 09:34+0000\n"
-"PO-Revision-Date: 2020-05-07 16:50+0300\n"
+"POT-Creation-Date: 2020-05-21 13:24+0000\n"
+"PO-Revision-Date: 2020-05-21 16:53+0300\n"
 "Last-Translator: Florentina Mușat <emryslokadottir [at] gmail [dot] com>\n"
 "Language-Team: Romanian <kde-i18n-doc@kde.org>\n"
 "Language: ro\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2);\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.3.1\n"
 
 #: ../glade/app1.glade.h:1 ../glade/error_window.glade.h:1
 #: ../glade/force_sensor_elastic_bands.glade.h:1
@@ -26,500 +26,405 @@ msgstr ""
 msgid "Chronojump"
 msgstr "Chronojump"
 
-#: ../glade/app1.glade.h:2
-msgid "_Session"
-msgstr "_Sersiune"
+#: ../glade/app1.glade.h:2 ../glade/preferences_win.glade.h:20
+#: ../glade/report_window.glade.h:9 ../src/exportSession.cs:208
+#: ../src/gui/app1/encoder.cs:4969 ../src/gui/app1/forceSensor.cs:2494
+#: ../src/gui/app1/runEncoder.cs:1538 ../src/report.cs:141
+msgid "Session"
+msgstr "Sesiune"
 
 #: ../glade/app1.glade.h:3
 msgid "New session"
 msgstr "Sesiune nouă"
 
-#: ../glade/app1.glade.h:4
-msgid "_Load"
-msgstr "Î_ncarcă"
+#: ../glade/app1.glade.h:4 ../src/gui/app1/session/loadAndImport.cs:75
+msgid "Load session"
+msgstr "Încarcă o sesiune"
 
-#: ../glade/app1.glade.h:5
-msgid "_Edit"
-msgstr "_Editează"
-
-#: ../glade/app1.glade.h:6
-msgid "Import session from another Chronojump database"
-msgstr "Importă sesiunea de la altă bază de date Chronojump"
-
-#: ../glade/app1.glade.h:7
-msgid "Export session to _CSV (Spreadsheet)"
-msgstr "Exportă sesiunea la _CSV (foaie de calcul)"
-
-#: ../glade/app1.glade.h:8
-msgid ""
-"Useful to export to a Spreadsheet like MS Excel, LibreOffice or Google "
-"Spreadsheets"
-msgstr ""
-"Util pentru a exporta la o foaie de calcul precum MS Excel, LibreOffice sau "
-"foi de calcul Google"
-
-#: ../glade/app1.glade.h:9
-msgid "Export session to _XML"
-msgstr "Exportă sesiunea la _XML"
-
-#: ../glade/app1.glade.h:10 ../glade/preferences_win.glade.h:1
+#: ../glade/app1.glade.h:5 ../glade/preferences_win.glade.h:1
 msgid "Preferences"
 msgstr "Preferințe"
 
-#: ../glade/app1.glade.h:11
-msgid "_Mode"
-msgstr "_Mod"
+#: ../glade/app1.glade.h:6
+msgid "Help"
+msgstr "Ajutor"
+
+#: ../glade/app1.glade.h:7
+msgid "Exit"
+msgstr "Ieșire"
+
+#: ../glade/app1.glade.h:8 ../glade/dialog_shortcuts.glade.h:7
+msgid "Open menu"
+msgstr "Deschide meniul"
+
+#: ../glade/app1.glade.h:9 ../glade/dialog_shortcuts.glade.h:4
+#: ../glade/person_multiple_infinite.glade.h:4
+#: ../glade/report_window.glade.h:13 ../src/exportSession.cs:211
+#: ../src/gui/app1/session/loadAndImport.cs:190 ../src/report.cs:146
+msgid "Persons"
+msgstr "Persoane"
+
+#: ../glade/app1.glade.h:10 ../glade/encoder_configuration.glade.h:28
+msgid "New"
+msgstr "Nou"
+
+#: ../glade/app1.glade.h:11 ../glade/person_recuperate.glade.h:7
+#: ../src/gui/app1/encoder.cs:1652 ../src/gui/app1/forceSensor.cs:1449
+#: ../src/gui/app1/forceSensor.cs:1478 ../src/gui/app1/runEncoder.cs:673
+#: ../src/gui/app1/runEncoder.cs:702 ../src/gui/person/addMultiple.cs:244
+msgid "Load"
+msgstr "Încarcă"
 
 #: ../glade/app1.glade.h:12
-msgid "Main menu"
-msgstr "Meniu principal"
+msgid "More"
+msgstr "Mai mult"
 
-#: ../glade/app1.glade.h:13 ../glade/dialog_threshold.glade.h:3
+#: ../glade/app1.glade.h:13
+msgid "Documents"
+msgstr "Documente"
+
+#: ../glade/app1.glade.h:14 ../glade/dialog_shortcuts.glade.h:1
+msgid "Shortcuts"
+msgstr "Scurtături"
+
+#: ../glade/app1.glade.h:15 ../glade/dialog_about.glade.h:1
+msgid "About"
+msgstr "Despre"
+
+#: ../glade/app1.glade.h:16 ../glade/person_select_window.glade.h:21
+msgid "Manage persons"
+msgstr "Administrează persoane"
+
+#: ../glade/app1.glade.h:17 ../glade/encoder_configuration.glade.h:5
+msgid "Manage"
+msgstr "Administrare"
+
+#: ../glade/app1.glade.h:18 ../glade/dialog_shortcuts.glade.h:3
+msgid "Select previous person"
+msgstr "Selectați persoana anterioară"
+
+#: ../glade/app1.glade.h:19
+msgid "Select next person"
+msgstr "Selectați persoana următoare"
+
+#: ../glade/app1.glade.h:20 ../glade/person_select_window.glade.h:3
+msgid "Create new"
+msgstr "Creează nou"
+
+#: ../glade/app1.glade.h:21 ../glade/person_select_window.glade.h:4
+#: ../glade/person_win.glade.h:1 ../src/gui/person/addModify.cs:224
+msgid "New person"
+msgstr "Persoană nouă"
+
+#: ../glade/app1.glade.h:22 ../glade/person_select_window.glade.h:5
+msgid "One"
+msgstr "Unu"
+
+#: ../glade/app1.glade.h:23 ../glade/person_select_window.glade.h:6
+msgid "New persons (multiple)"
+msgstr "Persoane noi (multiple)"
+
+#: ../glade/app1.glade.h:24 ../glade/person_select_window.glade.h:7
+msgid "Multiple"
+msgstr "Multiple"
+
+#: ../glade/app1.glade.h:25 ../glade/person_select_window.glade.h:8
+msgid "Load into session"
+msgstr "Încarcă în sesiune"
+
+#: ../glade/app1.glade.h:26 ../glade/person_select_window.glade.h:9
+#: ../glade/person_win.glade.h:43
+msgid "Load person"
+msgstr "Încarcă o persoană"
+
+#: ../glade/app1.glade.h:27 ../glade/person_select_window.glade.h:10
+#: ../src/gui/person/recuperate.cs:315
+msgid "Load persons from other session"
+msgstr "Încarcă persoane de la altă sesiune"
+
+#: ../glade/app1.glade.h:28
+msgid "Zoom image"
+msgstr "Focalizează imaginea"
+
+#: ../glade/app1.glade.h:29 ../glade/dialog_shortcuts.glade.h:2
+#: ../glade/person_select_window.glade.h:15
+msgid "Edit selected person"
+msgstr "Editează persoana selectată"
+
+#: ../glade/app1.glade.h:30 ../glade/person_select_window.glade.h:17
+msgid "Show all tests of this person"
+msgstr "Arată toate testele acestei persoane"
+
+#: ../glade/app1.glade.h:31
+msgid "Delete person from this session."
+msgstr "Șterge persoana din această sesiune."
+
+#: ../glade/app1.glade.h:32
+msgid "Manage rest time"
+msgstr "Administrează timpul de odihnă"
+
+#: ../glade/app1.glade.h:33
+msgid "Highlight rest"
+msgstr "Evidențiază odihna"
+
+#: ../glade/app1.glade.h:34
+msgid "Highlight longer resting times than this value"
+msgstr "Evidențiază timpii de odihnă mai lungi decât această valoare"
+
+#: ../glade/app1.glade.h:35
+msgid "Camera seem to be recording"
+msgstr "Camera pare a înregistra"
+
+#: ../glade/app1.glade.h:36
+msgid "Stop"
+msgstr "Stop"
+
+#: ../glade/app1.glade.h:37 ../glade/dialog_threshold.glade.h:3
 #: ../glade/preferences_win.glade.h:3 ../glade/report_window.glade.h:10
-#: ../src/exportSession.cs:429 ../src/gui/app1/chronojump.cs:4258
-#: ../src/gui/app1/chronojump.cs:6525 ../src/gui/app1/chronojump.cs:6530
+#: ../src/exportSession.cs:429 ../src/gui/app1/chronojump.cs:4240
 #: ../src/gui/jump.cs:1267 ../src/gui/jump.cs:1322 ../src/gui/jump.cs:1372
 #: ../src/sqlite/speciallity.cs:174 ../src/stats/rjAVGSD.cs:36
 #: ../src/stats/rjPotencyBosco.cs:35
 msgid "Jumps"
 msgstr "Sărituri"
 
-#: ../glade/app1.glade.h:14 ../glade/report_window.glade.h:4
-#: ../src/constants.cs:520 ../src/gui/convertWeight.cs:61
-#: ../src/gui/convertWeight.cs:108
-msgid "Simple"
-msgstr "Simplu"
-
-#: ../glade/app1.glade.h:15 ../glade/person_select_window.glade.h:7
-msgid "Multiple"
-msgstr "Multiple"
-
-#: ../glade/app1.glade.h:16 ../glade/dialog_threshold.glade.h:4
+#: ../glade/app1.glade.h:38 ../glade/dialog_threshold.glade.h:4
 #: ../glade/preferences_win.glade.h:4 ../glade/report_window.glade.h:11
-#: ../src/gui/app1/chronojump.cs:6525 ../src/gui/app1/chronojump.cs:6530
 msgid "Races"
 msgstr "Alergări"
 
-#: ../glade/app1.glade.h:17 ../glade/report_window.glade.h:6
-msgid "Intervallic"
-msgstr "Cu interval"
+#: ../glade/app1.glade.h:39 ../glade/preferences_win.glade.h:6
+#: ../src/chronopicRegister.cs:79 ../src/gui/app1/chronojump.cs:2402
+#: ../src/gui/app1/session/loadAndImport.cs:212
+#: ../src/gui/person/showAllEvents.cs:161
+msgid "Force sensor"
+msgstr "Senzor de forță"
 
-#: ../glade/app1.glade.h:18
-msgid "Races with encoder"
-msgstr "Curse cu codor"
-
-#: ../glade/app1.glade.h:19 ../glade/preferences_win.glade.h:5
+#: ../glade/app1.glade.h:40 ../glade/preferences_win.glade.h:5
 #: ../src/chronopicRegister.cs:75 ../src/gui/app1/encoder.cs:1608
 #: ../src/gui/encoderSelectRepetitions.cs:221
 msgid "Encoder"
 msgstr "Codor"
 
-#: ../glade/app1.glade.h:20 ../glade/preferences_win.glade.h:73
-#: ../src/gui/overview.cs:198
-msgid "Gravitatory"
-msgstr "Gravitațional"
-
-#: ../glade/app1.glade.h:21 ../glade/preferences_win.glade.h:77
-#: ../src/gui/overview.cs:200
-msgid "Inertial"
-msgstr "Inerțial"
-
-#: ../glade/app1.glade.h:22 ../glade/preferences_win.glade.h:6
-#: ../src/chronopicRegister.cs:79 ../src/gui/app1/chronojump.cs:2414
-#: ../src/gui/app1/session/loadAndImport.cs:205
-#: ../src/gui/person/showAllEvents.cs:161
-msgid "Force sensor"
-msgstr "Senzor de forță"
-
-#: ../glade/app1.glade.h:23 ../src/gui/app1/chronojump.cs:2416
+#: ../glade/app1.glade.h:41 ../src/gui/app1/chronojump.cs:2404
 #: ../src/gui/app1/reactionTime.cs:56
-#: ../src/gui/app1/session/loadAndImport.cs:194
+#: ../src/gui/app1/session/loadAndImport.cs:201
 msgid "Reaction time"
 msgstr "Timp de reacție"
 
-#: ../glade/app1.glade.h:24 ../glade/event_graph_configure.glade.h:10
+#: ../glade/app1.glade.h:42 ../glade/event_graph_configure.glade.h:10
 #: ../glade/force_sensor_exercise.glade.h:21 ../glade/report_window.glade.h:14
-#: ../src/constants.cs:286 ../src/gui/app1/chronojump.cs:2418
+#: ../src/constants.cs:300 ../src/gui/app1/chronojump.cs:2406
 msgid "Other"
 msgstr "Altele"
 
-#: ../glade/app1.glade.h:25
-msgid "_Force sensor"
-msgstr "Senzor de _forță"
-
-#: ../glade/app1.glade.h:26 ../glade/preferences_win.glade.h:31
-msgid "Open data folder"
-msgstr "Deschide dosarul de date"
-
-#: ../glade/app1.glade.h:27
-msgid "Force sensor - Check version"
-msgstr "Senzor de forță - verifică versiunea"
-
-#: ../glade/app1.glade.h:28
-msgid "Check version"
-msgstr "Verifică versiunea"
-
-#: ../glade/app1.glade.h:29
-msgid "_Help"
-msgstr "_Ajutor"
-
-#: ../glade/app1.glade.h:30
-msgid "Documents"
-msgstr "Documente"
-
-#: ../glade/app1.glade.h:31
-msgid "_Formulas"
-msgstr "_Formule"
-
-#: ../glade/app1.glade.h:32
-msgid "Use Chronojump faster"
-msgstr "Utilizează Chronojump mai rapid"
-
-#: ../glade/app1.glade.h:33
-msgid "_Accelerators"
-msgstr "_Acceleratori"
-
-#: ../glade/app1.glade.h:34
-msgid "Ping"
-msgstr "Ping"
-
-#: ../glade/app1.glade.h:35
-msgid "Check last version"
-msgstr "Verifică ultima versiune"
-
-#: ../glade/app1.glade.h:36 ../glade/dialog_about.glade.h:1
-msgid "About"
-msgstr "Despre"
-
-#: ../glade/app1.glade.h:37 ../glade/preferences_win.glade.h:20
-#: ../glade/report_window.glade.h:9 ../src/exportSession.cs:208
-#: ../src/gui/app1/encoder.cs:4971 ../src/gui/app1/forceSensor.cs:2496
-#: ../src/gui/app1/runEncoder.cs:1535 ../src/report.cs:141
-msgid "Session"
-msgstr "Sesiune"
-
-#: ../glade/app1.glade.h:38 ../src/gui/app1/session/loadAndImport.cs:69
-msgid "Load session"
-msgstr "Încarcă o sesiune"
-
-#: ../glade/app1.glade.h:39
-msgid "Help"
-msgstr "Ajutor"
-
-#: ../glade/app1.glade.h:40
-msgid "Exit"
-msgstr "Ieșire"
-
-#. NONE because window is vertically big and the INFO icon looks weird there
-#: ../glade/app1.glade.h:41 ../glade/person_multiple_infinite.glade.h:4
-#: ../glade/report_window.glade.h:13 ../src/exportSession.cs:211
-#: ../src/gui/app1/chronojump.cs:6515
-#: ../src/gui/app1/session/loadAndImport.cs:183 ../src/report.cs:146
-msgid "Persons"
-msgstr "Persoane"
-
-#: ../glade/app1.glade.h:42 ../glade/encoder_configuration.glade.h:28
-msgid "New"
-msgstr "Nou"
-
-#: ../glade/app1.glade.h:43 ../glade/person_recuperate.glade.h:7
-#: ../src/gui/app1/encoder.cs:1652 ../src/gui/app1/forceSensor.cs:1453
-#: ../src/gui/app1/forceSensor.cs:1482 ../src/gui/app1/runEncoder.cs:673
-#: ../src/gui/app1/runEncoder.cs:702 ../src/gui/person/addMultiple.cs:244
-msgid "Load"
-msgstr "Încarcă"
-
-#: ../glade/app1.glade.h:44
-msgid "More"
-msgstr "Mai mult"
-
-#: ../glade/app1.glade.h:45 ../src/gui/executeAuto.cs:190
-msgid "Mode"
-msgstr "Mod"
-
-#: ../glade/app1.glade.h:46
-msgid "Shortcuts"
-msgstr "Scurtături"
-
-#: ../glade/app1.glade.h:47 ../glade/person_select_window.glade.h:21
-msgid "Manage persons"
-msgstr "Administrează persoane"
-
-#: ../glade/app1.glade.h:48 ../glade/encoder_configuration.glade.h:5
-msgid "Manage"
-msgstr "Administrare"
-
-#: ../glade/app1.glade.h:49
-msgid ""
-"Select previous person\n"
-"<Control>Up"
-msgstr ""
-"Selectați persoana anterioară\n"
-"<Control>Sus"
-
-#: ../glade/app1.glade.h:51
-msgid ""
-"Select next person\n"
-"<Control>Down"
-msgstr ""
-"Selectați persoana următoare\n"
-"<Control>Jos"
-
-#: ../glade/app1.glade.h:53 ../glade/person_select_window.glade.h:3
-msgid "Create new"
-msgstr "Creează nou"
-
-#: ../glade/app1.glade.h:54 ../glade/person_select_window.glade.h:4
-#: ../glade/person_win.glade.h:1 ../src/gui/person/addModify.cs:224
-msgid "New person"
-msgstr "Persoană nouă"
-
-#: ../glade/app1.glade.h:55 ../glade/person_select_window.glade.h:5
-msgid "One"
-msgstr "Unu"
-
-#: ../glade/app1.glade.h:56 ../glade/person_select_window.glade.h:6
-msgid "New persons (multiple)"
-msgstr "Persoane noi (multiple)"
-
-#: ../glade/app1.glade.h:57 ../glade/person_select_window.glade.h:8
-msgid "Load into session"
-msgstr "Încarcă în sesiune"
-
-#: ../glade/app1.glade.h:58 ../glade/person_select_window.glade.h:9
-#: ../glade/person_win.glade.h:43
-msgid "Load person"
-msgstr "Încarcă o persoană"
-
-#: ../glade/app1.glade.h:59 ../glade/person_select_window.glade.h:10
-#: ../src/gui/person/recuperate.cs:315
-msgid "Load persons from other session"
-msgstr "Încarcă persoane de la altă sesiune"
-
-#: ../glade/app1.glade.h:60
-msgid "Zoom image"
-msgstr "Focalizează imaginea"
-
-#: ../glade/app1.glade.h:61
-msgid ""
-"Edit selected person\n"
-"<Control>p"
-msgstr ""
-"Editează persoana selectată\n"
-"<Control>p"
-
-#: ../glade/app1.glade.h:63 ../glade/person_select_window.glade.h:17
-msgid "Show all tests of this person"
-msgstr "Arată toate testele acestei persoane"
-
-#: ../glade/app1.glade.h:64
-msgid "Delete person from this session."
-msgstr "Șterge persoana din această sesiune."
-
-#: ../glade/app1.glade.h:65
-msgid "Manage rest time"
-msgstr "Administrează timpul de odihnă"
-
-#: ../glade/app1.glade.h:66
-msgid "Highlight rest"
-msgstr "Evidențiază odihna"
-
-#: ../glade/app1.glade.h:67
-msgid "Highlight longer resting times than this value"
-msgstr "Evidențiază timpii de odihnă mai lungi decât această valoare"
-
-#: ../glade/app1.glade.h:68
-msgid "Camera seem to be recording"
-msgstr "Camera pare a înregistra"
-
-#: ../glade/app1.glade.h:69
-msgid "Stop"
-msgstr "Stop"
-
-#: ../glade/app1.glade.h:70 ../glade/execute_auto.glade.h:4
+#: ../glade/app1.glade.h:43 ../glade/execute_auto.glade.h:4
 #: ../glade/person_select_window.glade.h:2
 #: ../glade/repetitive_conditions.glade.h:57
 msgid "page 1"
 msgstr "pagina 1"
 
-#: ../glade/app1.glade.h:71
+#: ../glade/app1.glade.h:44 ../glade/report_window.glade.h:4
+#: ../src/constants.cs:534 ../src/gui/convertWeight.cs:61
+#: ../src/gui/convertWeight.cs:108
+msgid "Simple"
+msgstr "Simplu"
+
+#: ../glade/app1.glade.h:45
 msgid "Tests have 1 flight phase"
 msgstr "Testele au 1 fază de zbor"
 
-#: ../glade/app1.glade.h:72
+#: ../glade/app1.glade.h:46
 msgid "Tests have >1 flight phase"
 msgstr "Testele au >1 faze de zbor"
 
-#: ../glade/app1.glade.h:73
+#: ../glade/app1.glade.h:47
 msgid "Measured with photocells"
 msgstr "Măsurat cu fotocelule"
 
-#: ../glade/app1.glade.h:74
+#: ../glade/app1.glade.h:48
 msgid "Measured with encoder\t"
 msgstr "Măsurată cu codorul\t"
 
-#: ../glade/app1.glade.h:75
+#: ../glade/app1.glade.h:49
 msgid "Races with photocells"
 msgstr "Curse cu fotocelule"
 
-#: ../glade/app1.glade.h:76
+#: ../glade/app1.glade.h:50 ../glade/report_window.glade.h:6
+msgid "Intervallic"
+msgstr "Cu interval"
+
+#: ../glade/app1.glade.h:51
 msgid "Tests have 1 lap"
 msgstr "Testele au 1 tură"
 
-#: ../glade/app1.glade.h:77
+#: ../glade/app1.glade.h:52
 msgid "Tests have >1 lap"
 msgstr "Teste au >1 ture"
 
-#: ../glade/app1.glade.h:78
+#: ../glade/app1.glade.h:53 ../glade/preferences_win.glade.h:64
+#: ../src/gui/overview.cs:202
+msgid "Gravitatory"
+msgstr "Gravitațional"
+
+#: ../glade/app1.glade.h:54 ../glade/preferences_win.glade.h:68
+#: ../src/gui/overview.cs:204
+msgid "Inertial"
+msgstr "Inerțial"
+
+#: ../glade/app1.glade.h:55
 msgid "Resistance is gravity"
 msgstr "Rezistența este gravitație"
 
-#: ../glade/app1.glade.h:79
+#: ../glade/app1.glade.h:56
 msgid "Resistance is inertia"
 msgstr "Rezistența este interție"
 
-#: ../glade/app1.glade.h:80 ../glade/force_sensor_exercise.glade.h:26
+#: ../glade/app1.glade.h:57 ../glade/force_sensor_exercise.glade.h:26
 msgid "Back"
 msgstr "Înapoi"
 
-#: ../glade/app1.glade.h:81 ../glade/execute_auto.glade.h:15
+#: ../glade/app1.glade.h:58 ../glade/execute_auto.glade.h:15
 #: ../glade/person_select_window.glade.h:13
 #: ../glade/repetitive_conditions.glade.h:58
 msgid "page 2"
 msgstr "pagina 2"
 
-#: ../glade/app1.glade.h:82 ../glade/encoder_configuration.glade.h:34
-#: ../glade/preferences_win.glade.h:142
+#: ../glade/app1.glade.h:59 ../glade/encoder_configuration.glade.h:34
+#: ../glade/preferences_win.glade.h:133
 msgid "Capture"
 msgstr "Capturează"
 
-#: ../glade/app1.glade.h:83
+#: ../glade/app1.glade.h:60
 msgid "Analyze"
 msgstr "Analizează"
 
-#: ../glade/app1.glade.h:84
+#: ../glade/app1.glade.h:61
 msgid "Sprint"
 msgstr "Sprint"
 
-#: ../glade/app1.glade.h:85 ../glade/preferences_win.glade.h:174
+#: ../glade/app1.glade.h:62 ../glade/preferences_win.glade.h:165
 msgid "Advanced"
 msgstr "Avansat"
 
-#: ../glade/app1.glade.h:86 ../glade/report_window.glade.h:16
-#: ../src/exportSession.cs:226 ../src/gui/app1/chronojump.cs:4926
-#: ../src/gui/app1/session/loadAndImport.cs:195
+#: ../glade/app1.glade.h:63 ../glade/report_window.glade.h:16
+#: ../src/exportSession.cs:226 ../src/gui/app1/chronojump.cs:4908
+#: ../src/gui/app1/session/loadAndImport.cs:202
 #: ../src/gui/person/showAllEvents.cs:157 ../src/report.cs:184
 msgid "Pulses"
 msgstr "Pulsuri"
 
-#: ../glade/app1.glade.h:87 ../src/exportSession.cs:228
-#: ../src/gui/app1/session/loadAndImport.cs:196
+#: ../glade/app1.glade.h:64 ../src/exportSession.cs:228
+#: ../src/gui/app1/session/loadAndImport.cs:203
 #: ../src/gui/person/showAllEvents.cs:158
 msgid "MultiChronopic"
 msgstr "MultiChronopic"
 
 #. column where the uniqueID of event will be (and will be hidden)
-#: ../glade/app1.glade.h:88 ../glade/edit_event.glade.h:6
-#: ../src/gui/app1/encoder.cs:1112 ../src/gui/app1/encoder.cs:4970
-#: ../src/gui/app1/forceSensor.cs:2495 ../src/gui/app1/runEncoder.cs:1534
+#: ../glade/app1.glade.h:65 ../glade/edit_event.glade.h:6
+#: ../src/gui/app1/encoder.cs:1112 ../src/gui/app1/encoder.cs:4968
+#: ../src/gui/app1/forceSensor.cs:2493 ../src/gui/app1/runEncoder.cs:1537
 #: ../src/gui/executeAuto.cs:501 ../src/gui/overview.cs:87
-#: ../src/gui/overview.cs:231 ../src/gui/overview.cs:239
+#: ../src/gui/overview.cs:235 ../src/gui/overview.cs:243
 #: ../src/stats/runIntervallic.cs:64 ../src/treeview/multiChronopic.cs:30
 #: ../src/treeview/pulse.cs:46 ../src/treeview/reactionTime.cs:30
 msgid "Person"
 msgstr "Persoană"
 
-#: ../glade/app1.glade.h:89
+#: ../glade/app1.glade.h:66
 msgid "Please, Wait!"
 msgstr "Așteptați!"
 
-#: ../glade/app1.glade.h:90
-msgid "Or press 'CTRL + space'"
-msgstr "Sau apăsați „CTRL + space”"
+#: ../glade/app1.glade.h:67 ../glade/query_server_window.glade.h:4
+#: ../src/gui/executeAuto.cs:502
+msgid "Test"
+msgstr "Test"
 
-#: ../glade/app1.glade.h:91
+#: ../glade/app1.glade.h:68 ../glade/dialog_shortcuts.glade.h:9
+msgid "Execute test"
+msgstr "Execută testul"
+
+#: ../glade/app1.glade.h:69
 msgid "Overview of this session"
 msgstr "Prezentarea generală a acestei sesiuni"
 
-#: ../glade/app1.glade.h:92 ../glade/repetitive_conditions.glade.h:40
+#: ../glade/app1.glade.h:70 ../glade/repetitive_conditions.glade.h:40
 msgid "Feedback"
 msgstr "Feedback"
 
-#: ../glade/app1.glade.h:93
-msgid "Delete last test <Control>d"
-msgstr "Șterge ultimul test <Control>d"
+#: ../glade/app1.glade.h:71
+msgid "Delete last test."
+msgstr "Șterge ultimul test."
 
-#: ../glade/app1.glade.h:94 ../src/gui/app1/chronojump.cs:3761
-#: ../src/gui/app1/encoder.cs:1272 ../src/gui/app1/encoder.cs:6719
+#: ../glade/app1.glade.h:72 ../src/gui/app1/chronojump.cs:3743
+#: ../src/gui/app1/encoder.cs:1272 ../src/gui/app1/encoder.cs:6717
 msgid "Save comment"
 msgstr "Salvează comentariul"
 
-#: ../glade/app1.glade.h:95 ../glade/edit_event.glade.h:25
+#: ../glade/app1.glade.h:73 ../glade/edit_event.glade.h:25
 #: ../src/gui/encoderTreeviews.cs:75 ../src/gui/encoderTreeviews.cs:608
 msgid "Start"
 msgstr "Începe"
 
-#: ../glade/app1.glade.h:96
+#: ../glade/app1.glade.h:74
 msgid "Start automatic mode"
 msgstr "Începe modul automat"
 
-#: ../glade/app1.glade.h:97
+#: ../glade/app1.glade.h:75
 msgid "See order"
 msgstr "Vedeți ordinea"
 
-#: ../glade/app1.glade.h:98
+#: ../glade/app1.glade.h:76
 msgid "Skip this person (will perform tests at the end)"
 msgstr "Sari această persoană (se vor executa testele la sfârșit)"
 
-#: ../glade/app1.glade.h:99
+#: ../glade/app1.glade.h:77
 msgid "Remove this person from automatic sequence"
 msgstr "Elimină această persoană de la secvența automată"
 
-#: ../glade/app1.glade.h:100
+#: ../glade/app1.glade.h:78
 msgid "End"
 msgstr "Sfârșit"
 
-#: ../glade/app1.glade.h:101
+#: ../glade/app1.glade.h:79
 msgid "End automatic mode"
 msgstr "Termină modul automat"
 
-#: ../glade/app1.glade.h:102 ../glade/execute_auto.glade.h:1
+#: ../glade/app1.glade.h:80 ../glade/execute_auto.glade.h:1
 msgid "Automatic mode"
 msgstr "Mod automat"
 
-#: ../glade/app1.glade.h:103
-msgid "Finish test (save test until this moment).  Or press 'Enter'."
-msgstr ""
-"Termină testul (salvează testul până la acest moment).  Sau apăsați tasta "
-"„Enter”."
+#: ../glade/app1.glade.h:81
+msgid "Finish test (save test until this moment)."
+msgstr "Termină testul (salvează testul până la acest moment)."
 
-#: ../glade/app1.glade.h:104
+#: ../glade/app1.glade.h:82
 msgid "Finish"
 msgstr "Termină"
 
-#: ../glade/app1.glade.h:105
-msgid "Cancel test. Or press 'escape'."
-msgstr "Anulați testul. Sau apăsați „spațiu”."
+#: ../glade/app1.glade.h:83 ../glade/dialog_shortcuts.glade.h:22
+msgid "Cancel test"
+msgstr "Anulează testul"
 
-#: ../glade/app1.glade.h:106 ../glade/force_sensor_elastic_bands.glade.h:14
+#: ../glade/app1.glade.h:84 ../glade/force_sensor_elastic_bands.glade.h:14
 #: ../glade/force_sensor_exercise.glade.h:25
 #: ../glade/person_select_window.glade.h:12 ../src/exportSession.cs:75
-#: ../src/gui/app1/encoder.cs:2129 ../src/gui/encoderConfiguration.cs:657
+#: ../src/gui/app1/encoder.cs:2129 ../src/gui/app1/session/backup.cs:49
+#: ../src/gui/app1/session/backup.cs:87 ../src/gui/encoderConfiguration.cs:657
 #: ../src/gui/encoderConfiguration.cs:714 ../src/gui/person/addModify.cs:320
-#: ../src/gui/person/addMultiple.cs:243 ../src/gui/preferences.cs:1520
-#: ../src/gui/preferences.cs:1595
+#: ../src/gui/person/addMultiple.cs:243 ../src/gui/preferences.cs:1460
 msgid "Cancel"
 msgstr "Anulează"
 
-#: ../glade/app1.glade.h:107 ../src/gui/app1/chronojump.cs:3945
-#: ../src/gui/app1/chronojump.cs:4394 ../src/gui/app1/chronojump.cs:4742
+#: ../glade/app1.glade.h:85 ../src/gui/app1/chronojump.cs:3927
+#: ../src/gui/app1/chronojump.cs:4376 ../src/gui/app1/chronojump.cs:4724
 #: ../src/gui/app1/jump.cs:267 ../src/gui/app1/reactionTime.cs:101
 #: ../src/gui/app1/run.cs:151
 msgid "Phases"
 msgstr "Faze"
 
-#: ../glade/app1.glade.h:108 ../glade/edit_event.glade.h:11
-#: ../src/encoder.cs:2345 ../src/exportSession.cs:430
+#: ../glade/app1.glade.h:86 ../glade/edit_event.glade.h:11
+#: ../src/encoder.cs:2350 ../src/exportSession.cs:430
 #: ../src/exportSession.cs:572 ../src/exportSession.cs:724
 #: ../src/exportSession.cs:785 ../src/exportSession.cs:870
 #: ../src/forceSensor.cs:1923 ../src/gui/old/queryServer.cs:116
@@ -531,100 +436,101 @@ msgstr "Faze"
 msgid "Time"
 msgstr "Timp"
 
-#: ../glade/app1.glade.h:109
+#: ../glade/app1.glade.h:87
 msgid "Jump distance"
 msgstr "Distanța săriturii"
 
-#: ../glade/app1.glade.h:110 ../glade/edit_event.glade.h:21
-#: ../glade/preferences_win.glade.h:72
+#: ../glade/app1.glade.h:88 ../glade/edit_event.glade.h:21
+#: ../glade/preferences_win.glade.h:63
 msgid "cm"
 msgstr "cm"
 
-#: ../glade/app1.glade.h:111 ../glade/edit_event.glade.h:69
+#: ../glade/app1.glade.h:89 ../glade/edit_event.glade.h:69
 msgid "Jump angle"
 msgstr "Unghi de săritură"
 
-#: ../glade/app1.glade.h:112 ../glade/edit_event.glade.h:20
+#: ../glade/app1.glade.h:90 ../glade/edit_event.glade.h:20
 msgid "degrees"
 msgstr "grade"
 
-#: ../glade/app1.glade.h:113
+#: ../glade/app1.glade.h:91
 msgid "Tare"
 msgstr "Tară"
 
-#: ../glade/app1.glade.h:114
+#: ../glade/app1.glade.h:92
 msgid "Calibrate"
 msgstr "Calibrează"
 
-#: ../glade/app1.glade.h:115 ../glade/force_sensor_elastic_bands.glade.h:15
+#: ../glade/app1.glade.h:93 ../glade/force_sensor_elastic_bands.glade.h:15
 #: ../glade/person_select_window.glade.h:22 ../src/gui/app1/encoder.cs:1158
-#: ../src/gui/app1/encoder.cs:1653 ../src/gui/app1/encoder.cs:4957
-#: ../src/gui/app1/forceSensor.cs:1483 ../src/gui/app1/forceSensor.cs:2482
-#: ../src/gui/app1/runEncoder.cs:703 ../src/gui/app1/runEncoder.cs:1521
+#: ../src/gui/app1/encoder.cs:1653 ../src/gui/app1/encoder.cs:4955
+#: ../src/gui/app1/forceSensor.cs:1479 ../src/gui/app1/forceSensor.cs:2480
+#: ../src/gui/app1/runEncoder.cs:703 ../src/gui/app1/runEncoder.cs:1524
+#: ../src/gui/app1/session/backup.cs:209
 #: ../src/gui/encoderSelectRepetitions.cs:282 ../src/gui/executeAuto.cs:305
 #: ../src/gui/genericWindow.cs:918
 msgid "Close"
 msgstr "Închide"
 
-#: ../glade/app1.glade.h:116
+#: ../glade/app1.glade.h:94
 msgid "Connect Chronopics"
 msgstr "Conectează Chonopics"
 
-#: ../glade/app1.glade.h:117 ../glade/evaluator_window.glade.h:29
+#: ../glade/app1.glade.h:95 ../glade/evaluator_window.glade.h:29
 #: ../src/gui/app1/runEncoder.cs:656 ../src/gui/chronopicRegister.cs:171
 msgid "Device"
 msgstr "Dispozitiv"
 
-#: ../glade/app1.glade.h:118
+#: ../glade/app1.glade.h:96
 msgid "Adjust"
 msgstr "Ajustează"
 
-#: ../glade/app1.glade.h:119
+#: ../glade/app1.glade.h:97
 msgid "Record video (on / off)"
 msgstr "Înregistrează video (pornit / oprit)"
 
-#: ../glade/app1.glade.h:120 ../glade/preferences_win.glade.h:137
+#: ../glade/app1.glade.h:98 ../glade/preferences_win.glade.h:128
 msgid "Preview video"
 msgstr "Previzualizează video-ul"
 
-#: ../glade/app1.glade.h:121
-msgid "Play Video <Control>v"
-msgstr "Redă video <Control>v"
+#: ../glade/app1.glade.h:99
+msgid "Play Video"
+msgstr "Redă video"
 
-#: ../glade/app1.glade.h:122
+#: ../glade/app1.glade.h:100
 msgid "Tests will be filmed"
 msgstr "Testele vor fi filmate"
 
-#: ../glade/app1.glade.h:123
+#: ../glade/app1.glade.h:101
 msgid "Inspect"
 msgstr "Inspectează"
 
-#: ../glade/app1.glade.h:124
+#: ../glade/app1.glade.h:102
 msgid "Group"
 msgstr "Grup"
 
-#: ../glade/app1.glade.h:125 ../src/encoder.cs:2370 ../src/forceSensor.cs:1968
+#: ../glade/app1.glade.h:103 ../src/encoder.cs:2375 ../src/forceSensor.cs:1968
 #: ../src/runType.cs:241
 msgid "Average"
 msgstr "Medie"
 
-#: ../glade/app1.glade.h:126
+#: ../glade/app1.glade.h:104
 msgid "Best"
 msgstr "Cel mai bun"
 
-#: ../glade/app1.glade.h:127
+#: ../glade/app1.glade.h:105
 msgid "Best (all sessions)"
 msgstr "Cele mai bune (toate sesiunile)"
 
-#: ../glade/app1.glade.h:128
+#: ../glade/app1.glade.h:106
 msgid "Properties"
 msgstr "Proprietăți"
 
-#: ../glade/app1.glade.h:129
+#: ../glade/app1.glade.h:107
 msgid "Update"
 msgstr "Actualizează"
 
-#: ../glade/app1.glade.h:130 ../glade/repetitive_conditions.glade.h:9
+#: ../glade/app1.glade.h:108 ../glade/repetitive_conditions.glade.h:9
 #: ../src/exportSession.cs:320 ../src/exportSession.cs:499
 #: ../src/gui/convertWeight.cs:122 ../src/gui/jump.cs:687
 #: ../src/stats/djIndex.cs:35 ../src/stats/djPower.cs:35 ../src/stats/djQ.cs:35
@@ -637,7 +543,7 @@ msgstr "TC"
 
 #. cols: 4, 6, 8, ...
 #. cols: 3, 5, 7, ...
-#: ../glade/app1.glade.h:131 ../glade/repetitive_conditions.glade.h:8
+#: ../glade/app1.glade.h:109 ../glade/repetitive_conditions.glade.h:8
 #: ../src/exportSession.cs:321 ../src/exportSession.cs:500
 #: ../src/gui/convertWeight.cs:114 ../src/gui/jump.cs:696
 #: ../src/stats/djIndex.cs:34 ../src/stats/djPower.cs:34 ../src/stats/djQ.cs:34
@@ -649,7 +555,7 @@ msgstr "TC"
 msgid "TF"
 msgstr "TF"
 
-#: ../glade/app1.glade.h:132 ../glade/preferences_win.glade.h:131
+#: ../glade/app1.glade.h:110 ../glade/preferences_win.glade.h:122
 #: ../glade/repetitive_conditions.glade.h:10 ../src/exportSession.cs:263
 #: ../src/exportSession.cs:324 ../src/exportSession.cs:501
 #: ../src/stats/djIndex.cs:33 ../src/stats/djPower.cs:33 ../src/stats/djQ.cs:33
@@ -659,22 +565,22 @@ msgstr "TF"
 msgid "Height"
 msgstr "Înălțime"
 
-#: ../glade/app1.glade.h:133
+#: ../glade/app1.glade.h:111
 msgid " "
 msgstr " "
 
-#: ../glade/app1.glade.h:134
+#: ../glade/app1.glade.h:112
 msgid "TF / TC"
 msgstr "TF / TC"
 
-#: ../glade/app1.glade.h:135
+#: ../glade/app1.glade.h:113
 msgid "Last jump"
 msgstr "Ultima săritură"
 
 #. don't plot AVG and SD rows
 #. if multisession, add AVG and SD cols
 #. don't plot AVG row on multisession
-#: ../glade/app1.glade.h:136 ../src/exportSession.cs:510
+#: ../glade/app1.glade.h:114 ../src/exportSession.cs:510
 #: ../src/exportSession.cs:672 ../src/exportSession.cs:790
 #: ../src/exportSession.cs:892 ../src/stats/graphs/djIndex.cs:111
 #: ../src/stats/graphs/djPower.cs:116 ../src/stats/graphs/djQ.cs:111
@@ -698,9 +604,9 @@ msgstr "Ultima săritură"
 msgid "AVG"
 msgstr "AVG"
 
-#: ../glade/app1.glade.h:137 ../glade/edit_event.glade.h:12
-#: ../glade/repetitive_conditions.glade.h:29 ../src/constants.cs:1343
-#: ../src/encoder.cs:2347 ../src/exportSession.cs:573
+#: ../glade/app1.glade.h:115 ../glade/edit_event.glade.h:12
+#: ../glade/repetitive_conditions.glade.h:29 ../src/constants.cs:1358
+#: ../src/encoder.cs:2352 ../src/exportSession.cs:573
 #: ../src/forceSensor.cs:1929 ../src/stats/runIntervallic.cs:65
 #: ../src/stats/runIntervallic.cs:70 ../src/stats/runIntervallic.cs:74
 #: ../src/stats/runSimple.cs:52 ../src/treeview/run.cs:50
@@ -708,135 +614,126 @@ msgstr "AVG"
 msgid "Speed"
 msgstr "Viteză"
 
-#: ../glade/app1.glade.h:138
+#: ../glade/app1.glade.h:116
 msgid "Last lap"
 msgstr "Ultima tură"
 
 #. print Total, AVG, SD
-#: ../glade/app1.glade.h:139 ../src/exportSession.cs:507
+#: ../glade/app1.glade.h:117 ../src/exportSession.cs:507
 #: ../src/exportSession.cs:669 ../src/exportSession.cs:788
 #: ../src/treeview/jump.cs:431 ../src/treeview/pulse.cs:130
 #: ../src/treeview/run.cs:256
 msgid "Total"
 msgstr "Total"
 
-#: ../glade/app1.glade.h:140
+#: ../glade/app1.glade.h:118
 msgid "Last pulse"
 msgstr "Ultimul puls"
 
-#: ../glade/app1.glade.h:141
+#: ../glade/app1.glade.h:119
 msgid "Deleted test"
 msgstr "S-a șters testul"
 
-#: ../glade/app1.glade.h:142
+#: ../glade/app1.glade.h:120
 msgid "Show graph"
 msgstr "Arată graficul"
 
-#: ../glade/app1.glade.h:143
+#: ../glade/app1.glade.h:121
 msgid "Change zoom (z)"
 msgstr "Schimbă zoom (z)"
 
-#: ../glade/app1.glade.h:144
-msgid "Play Video"
-msgstr "Redă video"
-
-#: ../glade/app1.glade.h:145
+#: ../glade/app1.glade.h:122
 msgid "Edit selected (e)"
 msgstr "Editează selectate (e)"
 
-#: ../glade/app1.glade.h:146 ../glade/force_sensor_elastic_bands.glade.h:6
-#: ../src/gui/app1/chronojump.cs:1349 ../src/gui/app1/chronojump.cs:1456
-#: ../src/gui/app1/chronojump.cs:1551 ../src/gui/app1/chronojump.cs:1654
-#: ../src/gui/app1/chronojump.cs:1742 ../src/gui/app1/chronojump.cs:1837
-#: ../src/gui/app1/chronojump.cs:1945 ../src/gui/executeAuto.cs:237
+#: ../glade/app1.glade.h:123 ../glade/force_sensor_elastic_bands.glade.h:6
+#: ../src/gui/app1/chronojump.cs:1325 ../src/gui/app1/chronojump.cs:1432
+#: ../src/gui/app1/chronojump.cs:1527 ../src/gui/app1/chronojump.cs:1630
+#: ../src/gui/app1/chronojump.cs:1718 ../src/gui/app1/chronojump.cs:1813
+#: ../src/gui/app1/chronojump.cs:1921 ../src/gui/executeAuto.cs:237
 msgid "Delete selected"
 msgstr "Șterge selectate"
 
-#: ../glade/app1.glade.h:147 ../glade/preferences_win.glade.h:35
-#: ../glade/repetitive_conditions.glade.h:35 ../src/constants.cs:1346
-#: ../src/encoder.cs:2350 ../src/exportSession.cs:325
+#: ../glade/app1.glade.h:124 ../glade/preferences_win.glade.h:26
+#: ../glade/repetitive_conditions.glade.h:35 ../src/constants.cs:1361
+#: ../src/encoder.cs:2355 ../src/exportSession.cs:325
 #: ../src/exportSession.cs:502 ../src/forceSensor.cs:1931
-#: ../src/gui/overview.cs:245 ../src/stats/djPower.cs:32
+#: ../src/gui/overview.cs:249 ../src/stats/djPower.cs:32
 #: ../src/treeview/jump.cs:34
 msgid "Power"
 msgstr "Putere"
 
-#: ../glade/app1.glade.h:148 ../glade/dialog_message.glade.h:2
+#: ../glade/app1.glade.h:125 ../glade/dialog_message.glade.h:2
 #: ../glade/force_sensor_elastic_bands.glade.h:8
-#: ../glade/preferences_win.glade.h:36 ../src/exportSession.cs:326
+#: ../glade/preferences_win.glade.h:27 ../src/exportSession.cs:326
 #: ../src/exportSession.cs:503 ../src/gui/forceSensorElasticBands.cs:188
 #: ../src/treeview/jump.cs:35
 msgid "Stiffness"
 msgstr "Rigiditate"
 
 #. this.heightPreferred = heightPreferred;
-#: ../glade/app1.glade.h:149 ../src/stats/global.cs:52
+#: ../glade/app1.glade.h:126 ../src/stats/global.cs:52
 #: ../src/stats/sjCmjAbk.cs:52
 msgid "Jump"
 msgstr "Săritură"
 
-#: ../glade/app1.glade.h:150
+#: ../glade/app1.glade.h:127
 msgid "Play Video (v)"
 msgstr "Redă video (v)"
 
-#: ../glade/app1.glade.h:151
+#: ../glade/app1.glade.h:128
 msgid "Repair selected (r)"
 msgstr "Repară selectate (r)"
 
-#: ../glade/app1.glade.h:152
+#: ../glade/app1.glade.h:129
 msgid "Delete selected (d)"
 msgstr "Șterge selectate (d)"
 
-#: ../glade/app1.glade.h:153
+#: ../glade/app1.glade.h:130
 msgid "Jump multiple"
 msgstr "Săritură multiplă"
 
-#: ../glade/app1.glade.h:154 ../src/stats/runSimple.cs:52
+#: ../glade/app1.glade.h:131 ../src/stats/runSimple.cs:52
 msgid "Race"
 msgstr "Alergare"
 
-#: ../glade/app1.glade.h:155
+#: ../glade/app1.glade.h:132
 msgid "Race Intervallic"
 msgstr "Alergare cu interval"
 
-#: ../glade/app1.glade.h:156
+#: ../glade/app1.glade.h:133
 msgid "Max:"
 msgstr "Max:"
 
-#: ../glade/app1.glade.h:157
+#: ../glade/app1.glade.h:134
 msgid "Current:"
 msgstr "Curent:"
 
-#: ../glade/app1.glade.h:158
+#: ../glade/app1.glade.h:135
 msgid "Min:"
 msgstr "Min:"
 
-#: ../glade/app1.glade.h:159 ../src/gui/app1/encoder.cs:2061
+#: ../glade/app1.glade.h:136 ../src/gui/app1/encoder.cs:2061
 msgid "Save image"
 msgstr "Salvează imaginea"
 
-#: ../glade/app1.glade.h:160
+#: ../glade/app1.glade.h:137
 msgid "Pulse"
 msgstr "Puls"
 
-#: ../glade/app1.glade.h:161
+#: ../glade/app1.glade.h:138
 msgid "runs encoder"
 msgstr "rulează codorul"
 
-#: ../glade/app1.glade.h:162
+#: ../glade/app1.glade.h:139
 msgid "Show table"
 msgstr "Arată tabelul"
 
-#: ../glade/app1.glade.h:163 ../glade/query_server_window.glade.h:4
-#: ../src/gui/executeAuto.cs:502
-msgid "Test"
-msgstr "Test"
-
-#: ../glade/app1.glade.h:164
+#: ../glade/app1.glade.h:140
 msgid "See all"
 msgstr "Vedeți toate"
 
-#: ../glade/app1.glade.h:165
+#: ../glade/app1.glade.h:141
 msgid "Add jump type"
 msgstr "Adaugă tip de săritură"
 
@@ -849,139 +746,139 @@ msgstr "Adaugă tip de săritură"
 #. genericWin.SetSpin3Range(0,90);
 #. genericWin.SetSpin3Value(90);
 #.
-#: ../glade/app1.glade.h:166 ../src/gui/app1/encoder.cs:4831
-#: ../src/gui/app1/runEncoder.cs:1423
+#: ../glade/app1.glade.h:142 ../src/gui/app1/encoder.cs:4829
+#: ../src/gui/app1/runEncoder.cs:1426
 msgid "Add"
 msgstr "Adaugă"
 
-#: ../glade/app1.glade.h:167
+#: ../glade/app1.glade.h:143
 msgid "Delete jump type"
 msgstr "Șterge tipul de săritură"
 
-#: ../glade/app1.glade.h:168
+#: ../glade/app1.glade.h:144
 msgid "Add race type"
 msgstr "Adaugă tip de alergare"
 
-#: ../glade/app1.glade.h:169
+#: ../glade/app1.glade.h:145
 msgid "Delete race type"
 msgstr "Șterge tipul de alergare"
 
-#: ../glade/app1.glade.h:170
+#: ../glade/app1.glade.h:146
 msgid "Races:"
 msgstr "Alergări:"
 
-#: ../glade/app1.glade.h:171
+#: ../glade/app1.glade.h:147
 msgid "5 m"
 msgstr "5 m"
 
-#: ../glade/app1.glade.h:172
+#: ../glade/app1.glade.h:148
 msgid "10 m"
 msgstr "10 m"
 
-#: ../glade/app1.glade.h:173
+#: ../glade/app1.glade.h:149
 msgid "15 m"
 msgstr "15 m"
 
-#: ../glade/app1.glade.h:174
+#: ../glade/app1.glade.h:150
 msgid "20 m"
 msgstr "20 m"
 
-#: ../glade/app1.glade.h:175
+#: ../glade/app1.glade.h:151
 msgid "Edit exercise type"
 msgstr "Editează tipul de exercițiu"
 
-#: ../glade/app1.glade.h:176 ../glade/edit_event.glade.h:1
+#: ../glade/app1.glade.h:152 ../glade/edit_event.glade.h:1
 #: ../glade/encoder_configuration.glade.h:32 ../glade/generic_window.glade.h:7
-#: ../glade/person_select_window.glade.h:16 ../src/gui/app1/chronojump.cs:1198
+#: ../glade/person_select_window.glade.h:16 ../src/gui/app1/chronojump.cs:1174
 msgid "Edit"
 msgstr "Editează"
 
-#: ../glade/app1.glade.h:177
+#: ../glade/app1.glade.h:153
 msgid "Add exercise type"
 msgstr "Adaugă un tip de exercițiu"
 
-#: ../glade/app1.glade.h:178
+#: ../glade/app1.glade.h:154
 msgid "Delete exercise type"
 msgstr "Șterge tipul de exercițiu"
 
-#: ../glade/app1.glade.h:179
+#: ../glade/app1.glade.h:155
 msgid "Execute reaction time"
 msgstr "Execută timpul de reacție"
 
-#: ../glade/app1.glade.h:180 ../src/gui/app1/reactionTime.cs:74
+#: ../glade/app1.glade.h:156 ../src/gui/app1/reactionTime.cs:74
 msgid "Discriminative"
 msgstr "Caracteristic"
 
-#: ../glade/app1.glade.h:181 ../src/gui/app1/reactionTime.cs:62
+#: ../glade/app1.glade.h:157 ../src/gui/app1/reactionTime.cs:62
 msgid "Animation lights"
 msgstr "Lumini de animație"
 
-#: ../glade/app1.glade.h:182 ../src/gui/app1/reactionTime.cs:68
+#: ../glade/app1.glade.h:158 ../src/gui/app1/reactionTime.cs:68
 msgid "Flicker"
 msgstr "Tremur"
 
-#: ../glade/app1.glade.h:183
+#: ../glade/app1.glade.h:159
 msgid "This test needs Chronojump reaction time device."
 msgstr "Acest test necesită dispozitivul de timp de reacție Chronojump."
 
-#: ../glade/app1.glade.h:184 ../src/gui/app1/pulse.cs:66
+#: ../glade/app1.glade.h:160 ../src/gui/app1/pulse.cs:66
 msgid "Free"
 msgstr "Liber"
 
-#: ../glade/app1.glade.h:185 ../src/gui/app1/pulse.cs:64
-#: ../src/gui/preferences.cs:1039 ../src/gui/preferences.cs:1041
-#: ../src/gui/preferences.cs:1050 ../src/gui/preferences.cs:1221
-#: ../src/gui/preferences.cs:1229
+#: ../glade/app1.glade.h:161 ../src/gui/app1/pulse.cs:64
+#: ../src/gui/preferences.cs:1025 ../src/gui/preferences.cs:1027
+#: ../src/gui/preferences.cs:1036 ../src/gui/preferences.cs:1207
+#: ../src/gui/preferences.cs:1215
 msgid "Custom"
 msgstr "Personalizat"
 
-#: ../glade/app1.glade.h:186
+#: ../glade/app1.glade.h:162
 msgid "Multi Chronopic test"
 msgstr "Test Chronopic Multi"
 
-#: ../glade/app1.glade.h:187 ../src/gui/multiChronopic.cs:83
+#: ../glade/app1.glade.h:163 ../src/gui/multiChronopic.cs:83
 msgid "Race analysis"
 msgstr "Analiza alergării"
 
-#: ../glade/app1.glade.h:188
+#: ../glade/app1.glade.h:164
 msgid "Using arms"
 msgstr "Se folosesc brațele"
 
-#: ../glade/app1.glade.h:189
+#: ../glade/app1.glade.h:165
 msgid "Additional weight"
 msgstr "Greutate adițională"
 
-#: ../glade/app1.glade.h:191
+#: ../glade/app1.glade.h:167
 #, no-c-format
 msgid "% body weight"
 msgstr "% greutate corporală"
 
-#: ../glade/app1.glade.h:192
+#: ../glade/app1.glade.h:168
 msgid "Calculate falling height using a previous jump"
 msgstr "Calculează înălțimea de cădere utilizând o săritură anterioară"
 
-#: ../glade/app1.glade.h:193
+#: ../glade/app1.glade.h:169
 msgid "Fall from a predefined height"
 msgstr "Cădere de la o înălțime predefinită"
 
-#: ../glade/app1.glade.h:194 ../src/gui/jump.cs:1014 ../src/gui/jump.cs:1232
+#: ../glade/app1.glade.h:170 ../src/gui/jump.cs:1014 ../src/gui/jump.cs:1232
 msgid "Start inside"
 msgstr "Pornește înăuntru"
 
-#: ../glade/app1.glade.h:195
+#: ../glade/app1.glade.h:171
 msgid "Start outside"
 msgstr "Începe în exterior"
 
-#: ../glade/app1.glade.h:196 ../glade/edit_event.glade.h:3
+#: ../glade/app1.glade.h:172 ../glade/edit_event.glade.h:3
 #: ../src/gui/eventExecute.cs:1139
 msgid "Falling height"
 msgstr "Înălțimea de cădere"
 
-#: ../glade/app1.glade.h:197 ../glade/edit_event.glade.h:63
+#: ../glade/app1.glade.h:173 ../glade/edit_event.glade.h:63
 msgid "Dominance"
 msgstr "Dominanță"
 
-#: ../glade/app1.glade.h:198 ../glade/edit_event.glade.h:5
+#: ../glade/app1.glade.h:174 ../glade/edit_event.glade.h:5
 #: ../glade/jump_type_add.glade.h:4 ../glade/run_type_add.glade.h:7
 #: ../src/exportSession.cs:319 ../src/exportSession.cs:570
 #: ../src/exportSession.cs:623 ../src/exportSession.cs:723
@@ -991,7 +888,7 @@ msgstr "Dominanță"
 msgid "Type"
 msgstr "Tip"
 
-#: ../glade/app1.glade.h:199 ../glade/edit_event.glade.h:67
+#: ../glade/app1.glade.h:175 ../glade/edit_event.glade.h:67
 #: ../src/exportSession.cs:322 ../src/exportSession.cs:427
 #: ../src/stats/djIndex.cs:36 ../src/stats/djPower.cs:36 ../src/stats/djQ.cs:36
 #: ../src/stats/rjEvolution.cs:67 ../src/stats/rjIndex.cs:35
@@ -999,7 +896,7 @@ msgstr "Tip"
 msgid "Fall"
 msgstr "Cădere"
 
-#: ../glade/app1.glade.h:200 ../glade/edit_event.glade.h:64
+#: ../glade/app1.glade.h:176 ../glade/edit_event.glade.h:64
 #: ../src/chronopicRegister.cs:85 ../src/sqlite/forceSensor.cs:284
 #: ../src/sqlite/forceSensor.cs:286 ../src/sqlite/forceSensor.cs:319
 #: ../src/sqlite/forceSensor.cs:327 ../src/sqlite/forceSensor.cs:358
@@ -1007,45 +904,45 @@ msgstr "Cădere"
 msgid "Unknown"
 msgstr "Necunoscut"
 
-#: ../glade/app1.glade.h:201
+#: ../glade/app1.glade.h:177
 msgid "This"
 msgstr "Aceasta"
 
-#: ../glade/app1.glade.h:202 ../glade/edit_event.glade.h:65
+#: ../glade/app1.glade.h:178 ../glade/edit_event.glade.h:65
 msgid "This limb"
 msgstr "Acest membru"
 
-#: ../glade/app1.glade.h:203 ../glade/edit_event.glade.h:66
+#: ../glade/app1.glade.h:179 ../glade/edit_event.glade.h:66
 msgid "Opposite"
 msgstr "Opus"
 
-#: ../glade/app1.glade.h:204 ../glade/edit_event.glade.h:60
+#: ../glade/app1.glade.h:180 ../glade/edit_event.glade.h:60
 msgid "Vertical"
 msgstr "Vertical"
 
-#: ../glade/app1.glade.h:205 ../glade/edit_event.glade.h:61
+#: ../glade/app1.glade.h:181 ../glade/edit_event.glade.h:61
 msgid "Horizontal"
 msgstr "Orizontal"
 
-#: ../glade/app1.glade.h:206 ../glade/edit_event.glade.h:62
+#: ../glade/app1.glade.h:182 ../glade/edit_event.glade.h:62
 msgid "Lateral"
 msgstr "Lateral"
 
-#: ../glade/app1.glade.h:207 ../glade/edit_event.glade.h:68
+#: ../glade/app1.glade.h:183 ../glade/edit_event.glade.h:68
 #: ../src/sqlite/main.cs:1467
 msgid "Both"
 msgstr "Amândouă"
 
-#: ../glade/app1.glade.h:208 ../glade/edit_event.glade.h:8
+#: ../glade/app1.glade.h:184 ../glade/edit_event.glade.h:8
 #: ../src/gui/jump.cs:1230 ../src/gui/run.cs:1128
 msgid "Limited by"
 msgstr "Limitat de"
 
-#: ../glade/app1.glade.h:209
+#: ../glade/app1.glade.h:185
 msgid "Allow finish after time"
 msgstr "Permite terminarea după timp"
 
-#: ../glade/app1.glade.h:210
+#: ../glade/app1.glade.h:186
 msgid ""
 "If a multiple jump is limited by time, and time has running out, allow "
 "finish jump"
@@ -1053,55 +950,55 @@ msgstr ""
 "Dacă o săritură multiplă este limitată de timp, și timpul se termină, "
 "permite săritura finală"
 
-#: ../glade/app1.glade.h:211
+#: ../glade/app1.glade.h:187
 msgid "Measure reaction time"
 msgstr "Măsoară timpul de reacție"
 
-#: ../glade/app1.glade.h:212 ../src/json/compujumpOther.cs:78
+#: ../glade/app1.glade.h:188 ../src/json/compujumpOther.cs:78
 #: ../src/sqlite/main.cs:1473
 msgid "Left"
 msgstr "Stânga"
 
-#: ../glade/app1.glade.h:213 ../src/json/compujumpOther.cs:76
+#: ../glade/app1.glade.h:189 ../src/json/compujumpOther.cs:76
 #: ../src/sqlite/main.cs:1470
 msgid "Right"
 msgstr "Dreapta"
 
-#: ../glade/app1.glade.h:214
+#: ../glade/app1.glade.h:190
 msgid "Lights"
 msgstr "Lumini"
 
-#: ../glade/app1.glade.h:215 ../src/gui/app1/chronojump.cs:4764
+#: ../glade/app1.glade.h:191 ../src/gui/app1/chronojump.cs:4746
 msgid "red"
 msgstr "roșu"
 
-#: ../glade/app1.glade.h:216 ../src/gui/app1/chronojump.cs:4768
+#: ../glade/app1.glade.h:192 ../src/gui/app1/chronojump.cs:4750
 msgid "yellow"
 msgstr "galben"
 
-#: ../glade/app1.glade.h:217 ../src/gui/app1/chronojump.cs:4772
+#: ../glade/app1.glade.h:193 ../src/gui/app1/chronojump.cs:4754
 msgid "green"
 msgstr "verde"
 
-#: ../glade/app1.glade.h:218 ../src/gui/app1/chronojump.cs:4776
+#: ../glade/app1.glade.h:194 ../src/gui/app1/chronojump.cs:4758
 msgid "buzzer"
 msgstr "semnal"
 
-#: ../glade/app1.glade.h:219 ../glade/event_graph_configure.glade.h:3
+#: ../glade/app1.glade.h:195 ../glade/event_graph_configure.glade.h:3
 msgid "Minimum"
 msgstr "Minim"
 
-#: ../glade/app1.glade.h:220 ../glade/event_graph_configure.glade.h:2
-#: ../src/encoder.cs:2379 ../src/forceSensor.cs:1989
+#: ../glade/app1.glade.h:196 ../glade/event_graph_configure.glade.h:2
+#: ../src/encoder.cs:2384 ../src/forceSensor.cs:1989
 msgid "Maximum"
 msgstr "Maxim"
 
-#: ../glade/app1.glade.h:221
+#: ../glade/app1.glade.h:197
 msgid "pulse step"
 msgstr "pasul de puls"
 
 #. update the totaltime label
-#: ../glade/app1.glade.h:222 ../glade/edit_event.glade.h:19
+#: ../glade/app1.glade.h:198 ../glade/edit_event.glade.h:19
 #: ../glade/repetitive_conditions.glade.h:45 ../src/gui/app1/jump.cs:298
 #: ../src/gui/app1/run.cs:192 ../src/gui/jump.cs:627 ../src/gui/jump.cs:722
 #: ../src/gui/jump.cs:746 ../src/gui/jump.cs:880
@@ -1111,49 +1008,49 @@ msgstr "pasul de puls"
 msgid "seconds"
 msgstr "secunde"
 
-#: ../glade/app1.glade.h:223
+#: ../glade/app1.glade.h:199
 msgid "ppm"
 msgstr "ppm"
 
-#: ../glade/app1.glade.h:224 ../glade/jump_type_add.glade.h:15
+#: ../glade/app1.glade.h:200 ../glade/jump_type_add.glade.h:15
 #: ../glade/run_type_add.glade.h:13
 msgid "unlimited"
 msgstr "nelimitat"
 
-#: ../glade/app1.glade.h:225
+#: ../glade/app1.glade.h:201
 msgid "unlimited pulses"
 msgstr "pulsuri nelimitate"
 
-#: ../glade/app1.glade.h:226
+#: ../glade/app1.glade.h:202
 msgid "total pulses"
 msgstr "pulsuri totale"
 
-#: ../glade/app1.glade.h:227
+#: ../glade/app1.glade.h:203
 msgid "Need to connect two Chronopics"
 msgstr "Este necesară conectarea a două Chronopics"
 
-#: ../glade/app1.glade.h:228
+#: ../glade/app1.glade.h:204
 msgid "Delete first"
 msgstr "Șterge primul"
 
-#: ../glade/app1.glade.h:229
+#: ../glade/app1.glade.h:205
 msgid "Delete first TC and TF of each chronopic"
 msgstr "Șterge primul TC și TF pentru fiecare chronopic"
 
-#: ../glade/app1.glade.h:230
+#: ../glade/app1.glade.h:206
 msgid "Synchronize"
 msgstr "Sincronizează"
 
-#: ../glade/app1.glade.h:231
+#: ../glade/app1.glade.h:207
 msgid "Synchronize chronopics"
 msgstr "Sincronizează chronopicuri"
 
-#: ../glade/app1.glade.h:232
+#: ../glade/app1.glade.h:208
 msgid "Total distance"
 msgstr "Distanță totală"
 
-#: ../glade/app1.glade.h:233 ../glade/edit_event.glade.h:10
-#: ../glade/run_type_add.glade.h:17 ../src/constants.cs:1349
+#: ../glade/app1.glade.h:209 ../glade/edit_event.glade.h:10
+#: ../glade/run_type_add.glade.h:17 ../src/constants.cs:1364
 #: ../src/exportSession.cs:571 ../src/gui/app1/runEncoder.cs:657
 #: ../src/gui/encoderTreeviews.cs:77 ../src/gui/encoderTreeviews.cs:610
 #: ../src/gui/run.cs:939 ../src/gui/run.cs:1127 ../src/gui/runType.cs:129
@@ -1161,59 +1058,63 @@ msgstr "Distanță totală"
 msgid "Distance"
 msgstr "Distanță"
 
-#: ../glade/app1.glade.h:234
+#: ../glade/app1.glade.h:210
 msgid "Temperature"
 msgstr "Temperatură"
 
-#: ../glade/app1.glade.h:235
+#: ../glade/app1.glade.h:211
 msgid "Close and capture"
 msgstr "Închide și capurează"
 
-#: ../glade/app1.glade.h:236
+#: ../glade/app1.glade.h:212
+msgid "Recalculate set with changed parameters"
+msgstr "Recalculează setul cu parametri modificați"
+
+#: ../glade/app1.glade.h:213
 msgid "Close and recalculate"
 msgstr "Închide și recalculează"
 
-#: ../glade/app1.glade.h:237
+#: ../glade/app1.glade.h:214
 msgid "Jumps profile"
 msgstr "Profil de sărituri"
 
-#: ../glade/app1.glade.h:238
+#: ../glade/app1.glade.h:215
 msgid "FV Profile"
 msgstr "Profil FV"
 
-#: ../glade/app1.glade.h:239 ../src/gui/report.cs:136
+#: ../glade/app1.glade.h:216 ../src/gui/report.cs:136
 msgid "Subtype"
 msgstr "Subtip"
 
-#: ../glade/app1.glade.h:240 ../src/gui/report.cs:137
+#: ../glade/app1.glade.h:217 ../src/gui/report.cs:137
 msgid "Apply to"
 msgstr "Aplică la"
 
-#: ../glade/app1.glade.h:241
+#: ../glade/app1.glade.h:218
 msgid "Subtraction between"
 msgstr "Scădere între"
 
-#: ../glade/app1.glade.h:242
+#: ../glade/app1.glade.h:219
 msgid "and"
 msgstr "și"
 
-#: ../glade/app1.glade.h:243
+#: ../glade/app1.glade.h:220
 msgid "subtraction"
 msgstr "scădere"
 
-#: ../glade/app1.glade.h:244
+#: ../glade/app1.glade.h:221
 msgid "mark consecutives"
 msgstr "marchează consecutive"
 
-#: ../glade/app1.glade.h:245
+#: ../glade/app1.glade.h:222
 msgid "mark best 'n' consecutives"
 msgstr "marchează cele mai bune „n” consecutive"
 
-#: ../glade/app1.glade.h:246
+#: ../glade/app1.glade.h:223
 msgid "Current"
 msgstr "Curent"
 
-#: ../glade/app1.glade.h:247 ../src/gui/genericWindow.cs:470
+#: ../glade/app1.glade.h:224 ../src/gui/genericWindow.cs:470
 #: ../src/gui/genericWindow.cs:500 ../src/gui/genericWindow.cs:506
 #: ../src/gui/genericWindow.cs:833 ../src/gui/person/recuperate.cs:301
 #: ../src/gui/person/recuperate.cs:413 ../src/gui/person/recuperate.cs:467
@@ -1221,11 +1122,11 @@ msgstr "Curent"
 msgid "Selected"
 msgstr "Selectat"
 
-#: ../glade/app1.glade.h:248
+#: ../glade/app1.glade.h:225
 msgid "select"
 msgstr "selectează"
 
-#: ../glade/app1.glade.h:249 ../src/gui/genericWindow.cs:467
+#: ../glade/app1.glade.h:226 ../src/gui/genericWindow.cs:467
 #: ../src/gui/genericWindow.cs:520 ../src/gui/person/recuperate.cs:299
 #: ../src/gui/person/recuperate.cs:426 ../src/gui/stats.cs:211
 #: ../src/gui/stats.cs:963 ../src/gui/stats.cs:1319 ../src/report.cs:275
@@ -1233,128 +1134,128 @@ msgstr "selectează"
 msgid "All"
 msgstr "Toate"
 
-#: ../glade/app1.glade.h:250 ../src/gui/stats.cs:1321 ../src/report.cs:277
+#: ../glade/app1.glade.h:227 ../src/gui/stats.cs:1321 ../src/report.cs:277
 msgid "Limit"
 msgstr "Limită"
 
-#: ../glade/app1.glade.h:251
+#: ../glade/app1.glade.h:228
 msgid "Person's average"
 msgstr "Media persoanei"
 
-#: ../glade/app1.glade.h:252
+#: ../glade/app1.glade.h:229
 msgid "Person's bests"
 msgstr "Cele mai bune rezultate ale persoanei"
 
-#: ../glade/app1.glade.h:253 ../glade/person_select_window.glade.h:18
+#: ../glade/app1.glade.h:230 ../glade/person_select_window.glade.h:18
 msgid "Show tests"
 msgstr "Afișează teste"
 
-#: ../glade/app1.glade.h:254 ../src/gui/report.cs:140
+#: ../glade/app1.glade.h:231 ../src/gui/report.cs:140
 msgid "Show sex"
 msgstr "Afișează sexul"
 
-#: ../glade/app1.glade.h:255
+#: ../glade/app1.glade.h:232
 msgid "Show description"
 msgstr "Afișează descriere"
 
-#: ../glade/app1.glade.h:256
+#: ../glade/app1.glade.h:233
 msgid "After a test, use it to update statistics"
 msgstr "După un test, utilizați-l pentru a actualiza statisticile"
 
-#: ../glade/app1.glade.h:257
+#: ../glade/app1.glade.h:234
 msgid "Update stats"
 msgstr "Actualizează statistici"
 
-#: ../glade/app1.glade.h:258 ../glade/generic_window.glade.h:4
+#: ../glade/app1.glade.h:235 ../glade/generic_window.glade.h:4
 msgid "Mark"
 msgstr "Marchează"
 
-#: ../glade/app1.glade.h:259
+#: ../glade/app1.glade.h:236
 msgid "statistic's description"
 msgstr "descrierea statisticii"
 
-#: ../glade/app1.glade.h:260
+#: ../glade/app1.glade.h:237
 msgid "Variables"
 msgstr "Variabile"
 
-#: ../glade/app1.glade.h:261
+#: ../glade/app1.glade.h:238
 msgid "Transpose graph"
 msgstr "Transpune graficul"
 
-#: ../glade/app1.glade.h:262
+#: ../glade/app1.glade.h:239
 msgid "Transpose"
 msgstr "Transpune"
 
-#: ../glade/app1.glade.h:263 ../glade/person_multiple_infinite.glade.h:14
+#: ../glade/app1.glade.h:240 ../glade/person_multiple_infinite.glade.h:14
 msgid "Options"
 msgstr "Opțiuni"
 
-#: ../glade/app1.glade.h:264 ../glade/report_window.glade.h:20
+#: ../glade/app1.glade.h:241 ../glade/report_window.glade.h:20
 msgid "Graph this statistic"
 msgstr "Alcătuiește graficul pentru această statistică"
 
-#: ../glade/app1.glade.h:265
+#: ../glade/app1.glade.h:242
 msgid "Graph"
 msgstr "Grafic"
 
-#: ../glade/app1.glade.h:266
+#: ../glade/app1.glade.h:243
 msgid "Report"
 msgstr "Raport"
 
-#: ../glade/app1.glade.h:267
+#: ../glade/app1.glade.h:244
 msgid "Add this statistic and its graph to report window"
 msgstr "Adaugă această statistică și graficul ei la fereastra de raport"
 
-#: ../glade/app1.glade.h:268
+#: ../glade/app1.glade.h:245
 msgid "View report window"
 msgstr "Vizualizează fereastra de raport"
 
-#: ../glade/app1.glade.h:269 ../glade/preferences_win.glade.h:130
+#: ../glade/app1.glade.h:246 ../glade/preferences_win.glade.h:121
 #: ../src/treeview/multiChronopic.cs:227
 msgid "Width"
 msgstr "Lățime"
 
-#: ../glade/app1.glade.h:270
+#: ../glade/app1.glade.h:247
 msgid "Width of the line"
 msgstr "Lățimea liniei"
 
-#: ../glade/app1.glade.h:271
+#: ../glade/app1.glade.h:248
 msgid "Line width"
 msgstr "Lățime linie"
 
-#: ../glade/app1.glade.h:272
+#: ../glade/app1.glade.h:249
 msgid "Legend"
 msgstr "Legendă"
 
-#: ../glade/app1.glade.h:273
+#: ../glade/app1.glade.h:250
 msgid "Palette"
 msgstr "Paletă"
 
-#: ../glade/app1.glade.h:274
+#: ../glade/app1.glade.h:251
 msgid "Bottom"
 msgstr "Capăt"
 
-#: ../glade/app1.glade.h:275
+#: ../glade/app1.glade.h:252
 msgid "Top"
 msgstr "Vârf"
 
-#: ../glade/app1.glade.h:276
+#: ../glade/app1.glade.h:253
 msgid "Adjust this and bottom margin if athlete's names are long."
 msgstr "Ajustează asta și marginea de jos dacă numele atleților sunt lungi."
 
-#: ../glade/app1.glade.h:277
+#: ../glade/app1.glade.h:254
 msgid "X axis font size"
 msgstr "Dimensiunea fontului axei X"
 
-#: ../glade/app1.glade.h:278
+#: ../glade/app1.glade.h:255
 msgid "Graph and report"
 msgstr "Grafic și raport"
 
-#: ../glade/app1.glade.h:279
+#: ../glade/app1.glade.h:256
 msgid "stats"
 msgstr "statistici"
 
-#: ../glade/app1.glade.h:280
+#: ../glade/app1.glade.h:257
 msgid ""
 "Sorry, no statistics for this test type\n"
 "on current Chronojump version."
@@ -1362,40 +1263,40 @@ msgstr ""
 "Nu sunt statistici pentru acest tip de test\n"
 "în versiunea Chronojump curentă."
 
-#: ../glade/app1.glade.h:282
+#: ../glade/app1.glade.h:259
 msgid "error"
 msgstr "eroare"
 
-#: ../glade/app1.glade.h:283
+#: ../glade/app1.glade.h:260
 msgid "<b>Maximum Force</b>"
 msgstr "<b>Forță maximă</b>"
 
-#: ../glade/app1.glade.h:284
+#: ../glade/app1.glade.h:261
 msgid "<b>Explosive Force</b>"
 msgstr "<b>Forță explozivă</b>"
 
-#: ../glade/app1.glade.h:285
+#: ../glade/app1.glade.h:262
 msgid "<b>Elastic</b>"
 msgstr "<b>Elastic</b>"
 
-#: ../glade/app1.glade.h:286
+#: ../glade/app1.glade.h:263
 msgid "<b>Arms using</b>"
 msgstr "<b>Utilizarea brațelor</b>"
 
-#: ../glade/app1.glade.h:287
+#: ../glade/app1.glade.h:264
 msgid "<b>Reactive-reflex</b>"
 msgstr "<b>Reflex reactiv</b>"
 
-#: ../glade/app1.glade.h:288
+#: ../glade/app1.glade.h:265
 msgid ""
 "Related to the part of the absolute force that can be activated voluntarily."
 msgstr "Legat de partea forței absolute care poate fi activată voluntar."
 
-#: ../glade/app1.glade.h:289
+#: ../glade/app1.glade.h:266
 msgid "Ability to mobilise a submaximal load at a maximum speed."
 msgstr "Capabil de a mobiliza o încărcare submaximală la o viteză maximă."
 
-#: ../glade/app1.glade.h:290
+#: ../glade/app1.glade.h:267
 msgid ""
 "Increasing of strength due to the elastic energy accumulated during the "
 "stretch-shortening cycle."
@@ -1403,11 +1304,11 @@ msgstr ""
 "Creșterea puterii datorită energiei elastice acumulate în timpul ciclului de "
 "scurtare-întindere."
 
-#: ../glade/app1.glade.h:291
+#: ../glade/app1.glade.h:268
 msgid "Increasing of strength due to arm movement."
 msgstr "Creșterea puterii datorită mișcării brațelor."
 
-#: ../glade/app1.glade.h:292
+#: ../glade/app1.glade.h:269
 msgid ""
 "Increasing of strength by previous falling from height (reflex mechanisms "
 "activation)."
@@ -1415,53 +1316,53 @@ msgstr ""
 "Creșterea puterii prin căderea de la înălțime anterioară (activarea "
 "mecanismelor de reflex)."
 
-#: ../glade/app1.glade.h:293
+#: ../glade/app1.glade.h:270
 msgid "All the definitions are related to jumps."
 msgstr "Toate definițiile sunt legate de sărituri."
 
-#: ../glade/app1.glade.h:294
+#: ../glade/app1.glade.h:271
 msgid "Drop jump goal in this profile is maximum height."
 msgstr "Scopul săriturii de cădere în acest profil este înălțimea maximă."
 
-#: ../glade/app1.glade.h:295
+#: ../glade/app1.glade.h:272
 msgid "Help on indexes"
 msgstr "Ajutor la indici"
 
-#: ../glade/app1.glade.h:296
+#: ../glade/app1.glade.h:273
 msgid "<b>Type of training</b>"
 msgstr "<b>Tip de antrenament</b>"
 
-#: ../glade/app1.glade.h:297
+#: ../glade/app1.glade.h:274
 msgid "<b>Contraction</b>"
 msgstr "<b>Contractare</b>"
 
-#: ../glade/app1.glade.h:299
+#: ../glade/app1.glade.h:276
 #, no-c-format
 msgid "<b>% max load</b>"
 msgstr "<b>% greutate maximă</b>"
 
-#: ../glade/app1.glade.h:301
+#: ../glade/app1.glade.h:278
 #, no-c-format
 msgid "<b>% max power</b>"
 msgstr "<b>% putere maximă</b>"
 
-#: ../glade/app1.glade.h:302
+#: ../glade/app1.glade.h:279
 msgid "<b>Repetitions</b>"
 msgstr "<b>Repetiții</b>"
 
-#: ../glade/app1.glade.h:303
+#: ../glade/app1.glade.h:280
 msgid "<b>Series</b>"
 msgstr "<b>Serie</b>"
 
-#: ../glade/app1.glade.h:304
+#: ../glade/app1.glade.h:281
 msgid "<b>Recuperation (min)</b>"
 msgstr "<b>Recuperare (min)</b>"
 
-#: ../glade/app1.glade.h:305
+#: ../glade/app1.glade.h:282
 msgid "<b>Maximum force</b>"
 msgstr "<b>Forță maximă</b>"
 
-#: ../glade/app1.glade.h:306
+#: ../glade/app1.glade.h:283
 msgid ""
 "Weight lifting,\n"
 "gym machines"
@@ -1469,7 +1370,7 @@ msgstr ""
 "Ridicare de greutăți,\n"
 "mașini de sală de fitness"
 
-#: ../glade/app1.glade.h:308
+#: ../glade/app1.glade.h:285
 msgid ""
 "Jumps,\n"
 "inertial machines"
@@ -1477,7 +1378,7 @@ msgstr ""
 "Sărituri,\n"
 "mașini inerțiale"
 
-#: ../glade/app1.glade.h:310
+#: ../glade/app1.glade.h:287
 msgid ""
 "Jumps,\n"
 "elastic bands"
@@ -1485,7 +1386,7 @@ msgstr ""
 "Sărituri,\n"
 "benzi elastice"
 
-#: ../glade/app1.glade.h:312
+#: ../glade/app1.glade.h:289
 msgid ""
 "Concentric,\n"
 "isometric"
@@ -1493,12 +1394,12 @@ msgstr ""
 "Concentric,\n"
 "izometric"
 
-#: ../glade/app1.glade.h:314 ../glade/force_sensor_exercise.glade.h:18
-#: ../glade/preferences_win.glade.h:117 ../src/encoder.cs:929
+#: ../glade/app1.glade.h:291 ../glade/force_sensor_exercise.glade.h:18
+#: ../glade/preferences_win.glade.h:108 ../src/encoder.cs:929
 msgid "Concentric"
 msgstr "Concentric"
 
-#: ../glade/app1.glade.h:315
+#: ../glade/app1.glade.h:292
 msgid ""
 "Eccentric-\n"
 "Concentric"
@@ -1506,7 +1407,7 @@ msgstr ""
 "Excentric-\n"
 "Concentric"
 
-#: ../glade/app1.glade.h:317
+#: ../glade/app1.glade.h:294
 msgid ""
 "Body weight,\n"
 "low resistance"
@@ -1514,185 +1415,184 @@ msgstr ""
 "Greutate corporală,\n"
 "rezistență scăzută"
 
-#: ../glade/app1.glade.h:319
+#: ../glade/app1.glade.h:296
 msgid "General recommendations on improving indexes"
 msgstr "Recomandări generale privind îmbunătățirea indexurilor"
 
-#: ../glade/app1.glade.h:320
+#: ../glade/app1.glade.h:297
 msgid "Jump type"
 msgstr "Tip de săritură"
 
-#: ../glade/app1.glade.h:321
+#: ../glade/app1.glade.h:298
 msgid "Load file"
 msgstr "Încarcă un fișier"
 
-#: ../glade/app1.glade.h:322
+#: ../glade/app1.glade.h:299
 msgid "Analysis:"
 msgstr "Analiză:"
 
-#: ../glade/app1.glade.h:323
+#: ../glade/app1.glade.h:300
 msgid "General analysis"
 msgstr "Analiză generală"
 
-#: ../glade/app1.glade.h:324
+#: ../glade/app1.glade.h:301
 msgid "RFD Automatic"
 msgstr "RFD automat"
 
-#: ../glade/app1.glade.h:325
+#: ../glade/app1.glade.h:302
 msgid "Length of analysis:"
 msgstr "Lungimea analizei:"
 
-#: ../glade/app1.glade.h:326
+#: ../glade/app1.glade.h:303
 msgid "Length:"
 msgstr "Lungime:"
 
-#: ../glade/app1.glade.h:327
+#: ../glade/app1.glade.h:304
 msgid "Until this seconds:"
 msgstr "Până la aceste secunde:"
 
-#: ../glade/app1.glade.h:328
+#: ../glade/app1.glade.h:305
 msgid "Until this decrease in max force:"
 msgstr "Până la această descreștere în forța max:"
 
-#: ../glade/app1.glade.h:329 ../src/forceSensor.cs:1925
+#: ../glade/app1.glade.h:306 ../src/forceSensor.cs:1925
 msgid "RFD"
 msgstr "RFD"
 
-#: ../glade/app1.glade.h:330
+#: ../glade/app1.glade.h:307
 msgid "At"
 msgstr "La"
 
-#: ../glade/app1.glade.h:332
+#: ../glade/app1.glade.h:309
 #, no-c-format
 msgid "% maximum force"
 msgstr "% forță maximă"
 
-#: ../glade/app1.glade.h:333
+#: ../glade/app1.glade.h:310
 msgid "From"
 msgstr "De la"
 
-#: ../glade/app1.glade.h:334
+#: ../glade/app1.glade.h:311
 msgid "to"
 msgstr "la"
 
-#: ../glade/app1.glade.h:335 ../src/constants.cs:1378
+#: ../glade/app1.glade.h:312 ../src/constants.cs:1393
 #: ../src/gui/encoderTreeviews.cs:90 ../src/gui/encoderTreeviews.cs:623
 msgid "Impulse"
 msgstr "Impuls"
 
-#: ../glade/app1.glade.h:336
+#: ../glade/app1.glade.h:313
 msgid "Until"
 msgstr "Până când"
 
-#: ../glade/app1.glade.h:337 ../glade/repetitive_conditions.glade.h:53
+#: ../glade/app1.glade.h:314 ../glade/repetitive_conditions.glade.h:53
 msgid "Back to default values"
 msgstr "Înapoi la valorile implicite"
 
-#: ../glade/app1.glade.h:338
+#: ../glade/app1.glade.h:315
 msgid "RFD calculation"
 msgstr "Calcul RFD"
 
-#: ../glade/app1.glade.h:339
+#: ../glade/app1.glade.h:316
 msgid "Close and analyze"
 msgstr "Închide și analizează"
 
-#: ../glade/app1.glade.h:340 ../glade/repetitive_conditions.glade.h:32
-#: ../src/constants.cs:1345 ../src/encoder.cs:2349 ../src/forceSensor.cs:1924
+#: ../glade/app1.glade.h:317 ../glade/repetitive_conditions.glade.h:32
+#: ../src/constants.cs:1360 ../src/encoder.cs:2354 ../src/forceSensor.cs:1924
 msgid "Force"
 msgstr "Forță"
 
-#: ../glade/app1.glade.h:341 ../src/forceSensor.cs:1928
+#: ../glade/app1.glade.h:318 ../src/forceSensor.cs:1928
 msgid "Position"
 msgstr "Poziție"
 
-#: ../glade/app1.glade.h:342 ../src/encoder.cs:2357 ../src/forceSensor.cs:1948
+#: ../glade/app1.glade.h:319 ../src/encoder.cs:2362 ../src/forceSensor.cs:1948
 #: ../src/treeview/pulse.cs:48 ../src/treeview/pulse.cs:49
 msgid "Difference"
 msgstr "Diferență"
 
-#: ../glade/app1.glade.h:343 ../src/encoder.cs:2348 ../src/forceSensor.cs:1930
+#: ../glade/app1.glade.h:320 ../src/encoder.cs:2353 ../src/forceSensor.cs:1930
 msgid "Acceleration"
 msgstr "Accelerație"
 
-#: ../glade/app1.glade.h:344
+#: ../glade/app1.glade.h:321
 msgid "Variability"
 msgstr "Variabilitate"
 
-#: ../glade/app1.glade.h:345
+#: ../glade/app1.glade.h:322
 msgid "Export data from A to B"
 msgstr "Exportă datele de la A la B"
 
-#: ../glade/app1.glade.h:346
+#: ../glade/app1.glade.h:323
 msgid "Triggers found on this set"
 msgstr "Declanșatorii găsiți în acest set"
 
-#: ../glade/app1.glade.h:347
+#: ../glade/app1.glade.h:324
 msgid "Show triggers"
 msgstr "Arată declanșatorii"
 
-#: ../glade/app1.glade.h:348
+#: ../glade/app1.glade.h:325
 msgid "Cálculos"
 msgstr "Cálculos"
 
-#: ../glade/app1.glade.h:349
+#: ../glade/app1.glade.h:326
 msgid "Contacts (platform or photocell)"
 msgstr "Contacte (platformă or celulă foto)"
 
-#: ../glade/app1.glade.h:350 ../src/gui/networks.cs:563
+#: ../glade/app1.glade.h:327 ../src/gui/networks.cs:557
 msgid "Please, wait!"
 msgstr "Așteptați!"
 
-#: ../glade/app1.glade.h:351 ../src/gui/overview.cs:243
+#: ../glade/app1.glade.h:328 ../src/gui/overview.cs:247
 msgid "Extra mass"
 msgstr "Masă suplimentară"
 
-#: ../glade/app1.glade.h:352 ../src/gui/app1/encoder.cs:4080
+#: ../glade/app1.glade.h:329 ../src/gui/app1/encoder.cs:4079
 msgid "Weights"
 msgstr "Greutăți"
 
-#: ../glade/app1.glade.h:353
+#: ../glade/app1.glade.h:330
 msgid "Delete set"
 msgstr "Șterge setul"
 
-#: ../glade/app1.glade.h:354 ../src/gui/app1/encoder.cs:1625
+#: ../glade/app1.glade.h:331 ../glade/dialog_shortcuts.glade.h:15
+#: ../src/gui/app1/encoder.cs:1625
 msgid "Load set"
 msgstr "Încarcă un set"
 
-#: ../glade/app1.glade.h:355
-msgid "Finish capture (save test until this moment).  Or press 'Enter'."
-msgstr ""
-"Termină captura (salvează testul până la acest moment).  Sau apăsați tasta "
-"„Enter”."
+#: ../glade/app1.glade.h:332
+msgid "Finish capture (save test until this moment)."
+msgstr "Termină captura (salvează testul până la acest moment)."
 
-#: ../glade/app1.glade.h:356
-msgid "Cancel process. Or press 'escape'."
-msgstr "Anulați procesul. Sau apăsați „escape”."
+#: ../glade/app1.glade.h:333
+msgid "Cancel process."
+msgstr "Anulează procesul."
 
-#: ../glade/app1.glade.h:357
+#: ../glade/app1.glade.h:334
 msgid "Finish continuous mode"
 msgstr "Termină modul continuu"
 
-#: ../glade/app1.glade.h:358
+#: ../glade/app1.glade.h:335
 msgid "Adaptative rhythm"
 msgstr "Ritm adaptiv"
 
-#: ../glade/app1.glade.h:359 ../src/gui/repetitiveConditions.cs:239
+#: ../glade/app1.glade.h:336 ../src/gui/repetitiveConditions.cs:239
 msgid "Rhythm"
 msgstr "Ritm"
 
-#: ../glade/app1.glade.h:360
+#: ../glade/app1.glade.h:337
 msgid "Capturing with triggers"
 msgstr "Capturare cu declanșatori"
 
-#: ../glade/app1.glade.h:361 ../src/constants.cs:717
+#: ../glade/app1.glade.h:338 ../src/constants.cs:732
 msgid "Detecting ..."
 msgstr "Se detectează ..."
 
-#: ../glade/app1.glade.h:362
+#: ../glade/app1.glade.h:339
 msgid "Connect encoder"
 msgstr "Conectați codorul"
 
-#: ../glade/app1.glade.h:363
+#: ../glade/app1.glade.h:340
 msgid "Select them to save"
 msgstr "Selectați elementele pentru a salva"
 
@@ -1705,23 +1605,23 @@ msgstr "Selectați elementele pentru a salva"
 #. encoderExercisesNames = Util.AddToArrayListIfNotExist(encoderExercisesNames, Catalog.GetString(es.exerciseName));
 #. }
 #.
-#: ../glade/app1.glade.h:364 ../glade/overview.glade.h:3
-#: ../src/gui/app1/session/loadAndImport.cs:200
-#: ../src/gui/app1/session/loadAndImport.cs:203
+#: ../glade/app1.glade.h:341 ../glade/overview.glade.h:3
+#: ../src/gui/app1/session/loadAndImport.cs:207
+#: ../src/gui/app1/session/loadAndImport.cs:210
 #: ../src/gui/encoderSelectRepetitions.cs:255
 #: ../src/gui/encoderSelectRepetitions.cs:499
 msgid "Repetitions"
 msgstr "Repetiții"
 
-#: ../glade/app1.glade.h:365 ../src/gui/app1/encoder.cs:4337
+#: ../glade/app1.glade.h:342 ../src/gui/app1/encoder.cs:4336
 msgid "Save repetitions"
 msgstr "Salvează repetările"
 
-#: ../glade/app1.glade.h:366
+#: ../glade/app1.glade.h:343
 msgid "v,p,f are averages of propulsive phase."
 msgstr "v,p,f sunt medii ale fazei de propulsie."
 
-#: ../glade/app1.glade.h:367
+#: ../glade/app1.glade.h:344
 msgid ""
 "Start with the rope completely unwrapped,\n"
 "then click this button."
@@ -1729,506 +1629,522 @@ msgstr ""
 "Începeți cu coarda complet desfăcută,\n"
 "apoi apăsați clic pe acest buton."
 
-#: ../glade/app1.glade.h:369
+#: ../glade/app1.glade.h:346
 msgid "Calbrate again"
 msgstr "Calibrează din nou"
 
-#: ../glade/app1.glade.h:370 ../glade/force_sensor_exercise.glade.h:17
-#: ../glade/preferences_win.glade.h:116
+#: ../glade/app1.glade.h:347 ../glade/force_sensor_exercise.glade.h:17
+#: ../glade/preferences_win.glade.h:107
 msgid "Eccentric"
 msgstr "Excentric"
 
-#: ../glade/app1.glade.h:371
+#: ../glade/app1.glade.h:348
 msgid "Record"
 msgstr "Înregistrează"
 
-#: ../glade/app1.glade.h:372 ../glade/preferences_win.glade.h:143
+#: ../glade/app1.glade.h:349 ../glade/preferences_win.glade.h:134
 msgid "Play"
 msgstr "Redă"
 
-#: ../glade/app1.glade.h:373 ../glade/preferences_win.glade.h:148
-#: ../src/gui/app1/encoder.cs:1611 ../src/gui/app1/forceSensor.cs:1439
+#: ../glade/app1.glade.h:350 ../glade/preferences_win.glade.h:139
+#: ../src/gui/app1/encoder.cs:1611 ../src/gui/app1/forceSensor.cs:1435
 #: ../src/gui/app1/runEncoder.cs:659
 msgid "Video"
 msgstr "Video"
 
-#: ../glade/app1.glade.h:374
+#: ../glade/app1.glade.h:351
 msgid "Record video on capture"
 msgstr "Înregistrează video la captură"
 
-#: ../glade/app1.glade.h:375
+#: ../glade/app1.glade.h:352
 msgid "Filename"
 msgstr "Nume de fișier"
 
-#: ../glade/app1.glade.h:376
+#: ../glade/app1.glade.h:353
 msgid "Folder"
 msgstr "Dosar"
 
-#: ../glade/app1.glade.h:377
+#: ../glade/app1.glade.h:354
 msgid "Open Folder"
 msgstr "Deschide dosarul"
 
-#: ../glade/app1.glade.h:378 ../src/gui/app1/encoder.cs:1604
-#: ../src/gui/app1/forceSensor.cs:1433 ../src/gui/app1/runEncoder.cs:654
+#: ../glade/app1.glade.h:355 ../src/gui/app1/encoder.cs:1604
+#: ../src/gui/app1/forceSensor.cs:1429 ../src/gui/app1/runEncoder.cs:654
 msgid "Set"
 msgstr "Set"
 
-#: ../glade/app1.glade.h:379
+#: ../glade/app1.glade.h:356
 msgid "Data without smoothing"
 msgstr "Date fără netezire"
 
-#: ../glade/app1.glade.h:380 ../glade/preferences_win.glade.h:92
+#: ../glade/app1.glade.h:357 ../glade/preferences_win.glade.h:83
 msgid "capture"
 msgstr "captură"
 
-#: ../glade/app1.glade.h:381
+#: ../glade/app1.glade.h:358
 msgid "Show/edit description of this exercise."
 msgstr "Arată/editează descrierea acestui exercițiu."
 
-#: ../glade/app1.glade.h:382
+#: ../glade/app1.glade.h:359
 msgid "Add new exercise"
 msgstr "Adaugă exercițiu nou"
 
-#: ../glade/app1.glade.h:383
+#: ../glade/app1.glade.h:360
 msgid "Eccentric-Concentric"
 msgstr "Excentric-concentric"
 
-#: ../glade/app1.glade.h:384
+#: ../glade/app1.glade.h:361
 msgid "Extra"
 msgstr "Suplimentară"
 
-#: ../glade/app1.glade.h:385
+#: ../glade/app1.glade.h:362
 msgid "Total mass"
 msgstr "Masă totală"
 
-#: ../glade/app1.glade.h:386
+#: ../glade/app1.glade.h:363
 msgid "1RM window"
 msgstr "fereastră 1RM"
 
-#: ../glade/app1.glade.h:387
+#: ../glade/app1.glade.h:364
 msgid "Diameter"
 msgstr "Diametru"
 
-#: ../glade/app1.glade.h:388
+#: ../glade/app1.glade.h:365
 msgid "Inertia moment"
 msgstr "Moment interție"
 
-#: ../glade/app1.glade.h:389 ../glade/encoder_configuration.glade.h:13
-#: ../src/constants.cs:1373 ../src/gui/app1/encoder.cs:555
+#: ../glade/app1.glade.h:366 ../glade/encoder_configuration.glade.h:13
+#: ../src/constants.cs:1388 ../src/gui/app1/encoder.cs:555
 #: ../src/gui/app1/encoder.cs:609 ../src/gui/app1/encoder.cs:1441
-#: ../src/gui/app1/encoder.cs:1908 ../src/gui/app1/encoder.cs:4081
-#: ../src/gui/app1/encoder.cs:5289 ../src/gui/app1/encoder.cs:5293
+#: ../src/gui/app1/encoder.cs:1908 ../src/gui/app1/encoder.cs:4080
+#: ../src/gui/app1/encoder.cs:5287 ../src/gui/app1/encoder.cs:5291
 #: ../src/gui/encoderTreeviews.cs:607
 msgid "Inertia M."
 msgstr "Inerție m."
 
-#: ../glade/app1.glade.h:390
+#: ../glade/app1.glade.h:367
 msgid "Kg*cm^2"
 msgstr "Kg*cm^2"
 
-#: ../glade/app1.glade.h:391 ../src/constants.cs:961 ../src/constants.cs:1355
+#: ../glade/app1.glade.h:368 ../src/constants.cs:976 ../src/constants.cs:1370
 msgid "Mass"
 msgstr "Masă"
 
-#: ../glade/app1.glade.h:392 ../glade/preferences_win.glade.h:136
+#: ../glade/app1.glade.h:369 ../glade/preferences_win.glade.h:127
 msgid "Configure"
 msgstr "Configurează"
 
-#: ../glade/app1.glade.h:393 ../src/gui/app1/encoder.cs:1113
-#: ../src/gui/app1/encoder.cs:1605 ../src/gui/app1/encoder.cs:4814
-#: ../src/gui/app1/encoder.cs:4950 ../src/gui/app1/forceSensor.cs:1434
-#: ../src/gui/app1/forceSensor.cs:2420 ../src/gui/app1/forceSensor.cs:2430
-#: ../src/gui/app1/runEncoder.cs:655 ../src/gui/app1/runEncoder.cs:1391
-#: ../src/gui/app1/runEncoder.cs:1419 ../src/gui/app1/runEncoder.cs:1514
+#: ../glade/app1.glade.h:370 ../src/gui/app1/encoder.cs:1113
+#: ../src/gui/app1/encoder.cs:1605 ../src/gui/app1/encoder.cs:4812
+#: ../src/gui/app1/encoder.cs:4948 ../src/gui/app1/forceSensor.cs:1430
+#: ../src/gui/app1/forceSensor.cs:2418 ../src/gui/app1/forceSensor.cs:2428
+#: ../src/gui/app1/runEncoder.cs:655 ../src/gui/app1/runEncoder.cs:1394
+#: ../src/gui/app1/runEncoder.cs:1422 ../src/gui/app1/runEncoder.cs:1517
 #: ../src/gui/encoderSelectRepetitions.cs:215
 #: ../src/gui/encoderTreeviews.cs:603 ../src/gui/overview.cs:89
-#: ../src/gui/overview.cs:233 ../src/gui/overview.cs:241
+#: ../src/gui/overview.cs:237 ../src/gui/overview.cs:245
 msgid "Exercise"
 msgstr "Exercițiu"
 
-#: ../glade/app1.glade.h:394
+#: ../glade/app1.glade.h:371
 msgid "Phase"
 msgstr "Fază"
 
-#: ../glade/app1.glade.h:395 ../src/constants.cs:1372
-#: ../src/gui/app1/encoder.cs:1606 ../src/gui/app1/forceSensor.cs:1437
+#: ../glade/app1.glade.h:372 ../src/constants.cs:1387
+#: ../src/gui/app1/encoder.cs:1606 ../src/gui/app1/forceSensor.cs:1433
 #: ../src/gui/encoderTreeviews.cs:604
 msgid "Laterality"
 msgstr "Lateralitate"
 
-#: ../glade/app1.glade.h:396
-msgid "Recalculate set with changed parameters"
-msgstr "Recalculează setul cu parametri modificați"
-
-#: ../glade/app1.glade.h:397
+#: ../glade/app1.glade.h:373
 msgid "Data:"
 msgstr "Data:"
 
-#: ../glade/app1.glade.h:398
+#: ../glade/app1.glade.h:374
 msgid "Individual / current set"
 msgstr "Set individual / curent"
 
-#: ../glade/app1.glade.h:399
+#: ../glade/app1.glade.h:375
 msgid "Individual / current session"
 msgstr "Sesiune individuală / curentă"
 
-#: ../glade/app1.glade.h:400
+#: ../glade/app1.glade.h:376
 msgid "Individual / all sessions"
 msgstr "Sesiuni individuale / toate"
 
-#: ../glade/app1.glade.h:401
+#: ../glade/app1.glade.h:377
 msgid "Groupal / current session"
 msgstr "Sesiune de grup / curentă"
 
-#: ../glade/app1.glade.h:402
+#: ../glade/app1.glade.h:378
 msgid "Current set"
 msgstr "Setul curent"
 
-#: ../glade/app1.glade.h:403
+#: ../glade/app1.glade.h:379
 msgid "Load another set"
 msgstr "Încarcă un alt set"
 
-#: ../glade/app1.glade.h:404
+#: ../glade/app1.glade.h:380
 msgid "Export (to raw data)"
 msgstr "Exportă (la date brute)"
 
-#: ../glade/app1.glade.h:405
+#: ../glade/app1.glade.h:381
 msgid "("
 msgstr "("
 
-#: ../glade/app1.glade.h:406 ../src/gui/encoderSelectRepetitions.cs:213
+#: ../glade/app1.glade.h:382 ../src/gui/encoderSelectRepetitions.cs:213
 msgid "Active"
 msgstr "Activ"
 
-#: ../glade/app1.glade.h:407 ../glade/edit_event.glade.h:35
-#: ../glade/preferences_win.glade.h:132
+#: ../glade/app1.glade.h:383 ../glade/edit_event.glade.h:35
+#: ../glade/preferences_win.glade.h:123
 msgid "0"
 msgstr "0"
 
-#: ../glade/app1.glade.h:408 ../glade/preferences_win.glade.h:91
+#: ../glade/app1.glade.h:384 ../glade/preferences_win.glade.h:82
 msgid "/"
 msgstr "/"
 
-#: ../glade/app1.glade.h:409
+#: ../glade/app1.glade.h:385
 msgid ")"
 msgstr ")"
 
-#: ../glade/app1.glade.h:410 ../glade/encoder_configuration.glade.h:26
+#: ../glade/app1.glade.h:386 ../glade/encoder_configuration.glade.h:26
 msgid "Select"
 msgstr "Selectează"
 
-#: ../glade/app1.glade.h:411 ../glade/execute_auto.glade.h:23
+#: ../glade/app1.glade.h:387 ../glade/execute_auto.glade.h:23
 msgid "page 3"
 msgstr "pagina 3"
 
-#: ../glade/app1.glade.h:412
+#: ../glade/app1.glade.h:388
 msgid "page 4"
 msgstr "pagina 4"
 
-#: ../glade/app1.glade.h:413
+#: ../glade/app1.glade.h:389
 msgid "page 5"
 msgstr "pagina 5"
 
-#: ../glade/app1.glade.h:414
+#: ../glade/app1.glade.h:390
 msgid "Change current session"
 msgstr "Modifică sesiunea curentă"
 
-#: ../glade/app1.glade.h:415
+#: ../glade/app1.glade.h:391
 msgid "Mode:"
 msgstr "Mod:"
 
-#: ../glade/app1.glade.h:416
+#: ../glade/app1.glade.h:392
 msgid "Powerbars"
 msgstr "Bare de putere"
 
-#: ../glade/app1.glade.h:417
+#: ../glade/app1.glade.h:393
 msgid "Cross variables"
 msgstr "Variabile de cross"
 
-#: ../glade/app1.glade.h:418
+#: ../glade/app1.glade.h:394
 msgid "Instantaneous analysis"
 msgstr "Analiză instantanee"
 
-#: ../glade/app1.glade.h:419
+#: ../glade/app1.glade.h:395
 msgid "Neuromuscular profile"
 msgstr "Profil neuromuscular"
 
-#: ../glade/app1.glade.h:420
+#: ../glade/app1.glade.h:396
 msgid "Eccentric-concentric together"
 msgstr "Excentric-concentric împreună"
 
-#: ../glade/app1.glade.h:421
+#: ../glade/app1.glade.h:397
 msgid "Eccentric-concentric separated"
 msgstr "Excentric-concentric separat"
 
-#: ../glade/app1.glade.h:422
+#: ../glade/app1.glade.h:398
 msgid "Analyze mean values"
 msgstr "Analizează valorile medii"
 
-#: ../glade/app1.glade.h:423
+#: ../glade/app1.glade.h:399
 msgid "Mean values"
 msgstr "Valori medii"
 
-#: ../glade/app1.glade.h:424
+#: ../glade/app1.glade.h:400
 msgid "Analyze max values"
 msgstr "Analizează valorile maxime"
 
-#: ../glade/app1.glade.h:425
+#: ../glade/app1.glade.h:401
 msgid "Max values"
 msgstr "Valori max"
 
-#: ../glade/app1.glade.h:426
+#: ../glade/app1.glade.h:402
 msgid "Date on X"
 msgstr "Data la X"
 
-#: ../glade/app1.glade.h:427
+#: ../glade/app1.glade.h:403
 msgid "Profile:"
 msgstr "Profil:"
 
-#: ../glade/app1.glade.h:428
+#: ../glade/app1.glade.h:404
 msgid "By days"
 msgstr "După zile"
 
-#: ../glade/app1.glade.h:429
+#: ../glade/app1.glade.h:405
 msgid "Separate session by days"
 msgstr "Separează sesiunea după zile"
 
-#: ../glade/app1.glade.h:430
+#: ../glade/app1.glade.h:406
 msgid "Show:"
 msgstr "Arată:"
 
-#: ../glade/app1.glade.h:431
+#: ../glade/app1.glade.h:407
 msgid "Show impulse"
 msgstr "Arată impulsul"
 
-#: ../glade/app1.glade.h:432
+#: ../glade/app1.glade.h:408
 msgid "Show range"
 msgstr "Arată intervalul"
 
-#: ../glade/app1.glade.h:433
+#: ../glade/app1.glade.h:409
 msgid "Show Time to Peak Power"
 msgstr "Arată timpul până la puterea de vârf"
 
-#: ../glade/app1.glade.h:434 ../src/gui/app1/encoder.cs:3767
+#: ../glade/app1.glade.h:410 ../src/gui/app1/encoder.cs:3766
 msgid "Single repetition"
 msgstr "Repetiție unică"
 
-#: ../glade/app1.glade.h:435
+#: ../glade/app1.glade.h:411
 msgid "Show position"
 msgstr "Arată poziția"
 
-#: ../glade/app1.glade.h:436
+#: ../glade/app1.glade.h:412
 msgid "Show speed"
 msgstr "Afișează viteză"
 
-#: ../glade/app1.glade.h:437
+#: ../glade/app1.glade.h:413
 msgid "Show acceleration"
 msgstr "Arată accelerația"
 
-#: ../glade/app1.glade.h:438
+#: ../glade/app1.glade.h:414
 msgid "Show force"
 msgstr "Arată forța"
 
-#: ../glade/app1.glade.h:439
+#: ../glade/app1.glade.h:415
 msgid "Show power"
 msgstr "Afișează putere"
 
-#: ../glade/app1.glade.h:440
+#: ../glade/app1.glade.h:416
 msgid "Repetition number"
 msgstr "Numărul repetiției"
 
-#: ../glade/app1.glade.h:441
+#: ../glade/app1.glade.h:417
 msgid "Side compare allows a maximum of 12 graphs."
 msgstr "Comparația laterală permite un maxim de 12 grafice."
 
-#: ../glade/app1.glade.h:442
+#: ../glade/app1.glade.h:418
 msgid "Max. 12 graphs"
 msgstr "Max. 12 grafice"
 
-#: ../glade/app1.glade.h:443
+#: ../glade/app1.glade.h:419
 msgid "Cancel process"
 msgstr "Anulează procesul"
 
-#: ../glade/app1.glade.h:444
+#: ../glade/app1.glade.h:420
 msgid "Option:"
 msgstr "Opțiune:"
 
-#: ../glade/app1.glade.h:445 ../src/gui/app1/encoder.cs:3779
+#: ../glade/app1.glade.h:421 ../src/gui/app1/encoder.cs:3778
 msgid "Side compare"
 msgstr "Comparație laterală"
 
-#: ../glade/app1.glade.h:446 ../src/gui/app1/encoder.cs:3788
+#: ../glade/app1.glade.h:422 ../src/gui/app1/encoder.cs:3787
 msgid "Superpose"
 msgstr "Suprapune"
 
-#: ../glade/app1.glade.h:447 ../src/gui/app1/encoder.cs:3795
+#: ../glade/app1.glade.h:423 ../src/gui/app1/encoder.cs:3794
 msgid "All set"
 msgstr "Totul este pregătit"
 
-#: ../glade/app1.glade.h:448
+#: ../glade/app1.glade.h:424
 msgid "Same X scale"
 msgstr "Aceeași scală X"
 
-#: ../glade/app1.glade.h:449 ../src/encoder.cs:2346
+#: ../glade/app1.glade.h:425 ../src/encoder.cs:2351
 msgid "Displacement"
 msgstr "Deplasare"
 
-#: ../glade/app1.glade.h:450
+#: ../glade/app1.glade.h:426
 msgid "Send by email"
 msgstr "Trimite după email"
 
-#: ../glade/app1.glade.h:451
+#: ../glade/app1.glade.h:427
 msgid "Save 1RM value"
 msgstr "Salvează valoarea 1RM"
 
-#: ../glade/app1.glade.h:452
+#: ../glade/app1.glade.h:428
 msgid "Export repetition from A to B"
 msgstr "Exportă repetiția de la A la B"
 
-#: ../glade/app1.glade.h:453 ../src/gui/app1/encoder.cs:2067
+#: ../glade/app1.glade.h:429 ../src/gui/app1/encoder.cs:2067
 msgid "Save table"
 msgstr "Salvează tabelul"
 
-#: ../glade/app1.glade.h:454
+#: ../glade/app1.glade.h:430
 msgid "Edit session"
 msgstr "Editează sesiunea"
 
-#: ../glade/app1.glade.h:455
+#: ../glade/app1.glade.h:431
 msgid "Delete session"
 msgstr "Șterge sesiunea"
 
-#: ../glade/app1.glade.h:456 ../glade/encoder_configuration.glade.h:27
+#: ../glade/app1.glade.h:432 ../glade/encoder_configuration.glade.h:27
 #: ../glade/generic_window.glade.h:8 ../glade/person_select_window.glade.h:19
 msgid "Delete"
 msgstr "Șterge"
 
-#: ../glade/app1.glade.h:457
+#: ../glade/app1.glade.h:433
 msgid "Import / Export"
 msgstr "Import / Export"
 
-#: ../glade/app1.glade.h:458
-msgid "Import from another database"
-msgstr "Importă de la altă bază de date"
-
-#: ../glade/app1.glade.h:459
+#: ../glade/app1.glade.h:434
 msgid "Export to CSV"
 msgstr "Exportă la CSV"
 
-#: ../glade/app1.glade.h:460
+#: ../glade/app1.glade.h:435
 msgid "Jumps and races with photocells"
 msgstr "Sărituri sau curse cu fotocelule"
 
-#: ../glade/app1.glade.h:461
+#: ../glade/app1.glade.h:436
+msgid "This session:"
+msgstr "Această sesiune:"
+
+#: ../glade/app1.glade.h:437
+msgid "Import a session from another database"
+msgstr "Importă o sesiune de la altă bază de date"
+
+#: ../glade/app1.glade.h:438
+msgid "Backup all data"
+msgstr "Alcătuiți o copie de rezervă a tuturor datelor"
+
+#: ../glade/app1.glade.h:439
+msgid "Make a copy of all the data"
+msgstr "Alcătuiește o copie a tuturor datelor"
+
+#: ../glade/app1.glade.h:440
+msgid "Open data folder"
+msgstr "Deschide dosarul de date"
+
+#: ../glade/app1.glade.h:441
+msgid "Database"
+msgstr "Bază de date"
+
+#: ../glade/app1.glade.h:442
 msgid "Where do you want to import?"
 msgstr "Unde doriți să importați?"
 
-#: ../glade/app1.glade.h:462
+#: ../glade/app1.glade.h:443
 msgid "Import into a new session"
 msgstr "Importă într-o sesiune nouă"
 
-#: ../glade/app1.glade.h:463
+#: ../glade/app1.glade.h:444
 msgid "Import into the current session"
 msgstr "Importă în sesiunea curentă"
 
-#: ../glade/app1.glade.h:464
+#: ../glade/app1.glade.h:445
 msgid "Import from already opened database"
 msgstr "Importă de la o bază de date deja deschisă"
 
-#: ../glade/app1.glade.h:465
+#: ../glade/app1.glade.h:446
 msgid "Use same database"
 msgstr "Utilizează aceeași bază de date"
 
-#: ../glade/app1.glade.h:466
+#: ../glade/app1.glade.h:447
 msgid "Open database file"
 msgstr "Deschide fișierul bazei de date"
 
-#: ../glade/app1.glade.h:467 ../glade/encoder_configuration.glade.h:24
-#: ../src/gui/preferences.cs:1596
+#: ../glade/app1.glade.h:448 ../glade/encoder_configuration.glade.h:24
+#: ../src/gui/preferences.cs:1461
 msgid "Import"
 msgstr "Importă"
 
-#: ../glade/app1.glade.h:468 ../glade/person_recuperate.glade.h:6
+#: ../glade/app1.glade.h:449 ../glade/person_recuperate.glade.h:6
 msgid "Search filter"
 msgstr "Caută filtru"
 
-#: ../glade/app1.glade.h:469
+#: ../glade/app1.glade.h:450
 msgid "Show more data"
 msgstr "Arată mai multe date"
 
-#: ../glade/app1.glade.h:470
+#: ../glade/app1.glade.h:451
 msgid "Jumps and races"
 msgstr "Sărituri și curse"
 
-#: ../glade/app1.glade.h:471 ../glade/dialog_threshold.glade.h:5
+#: ../glade/app1.glade.h:452 ../glade/dialog_threshold.glade.h:5
 msgid "Other tests"
 msgstr "Alte teste"
 
-#: ../glade/app1.glade.h:472 ../src/gui/app1/encoder.cs:2130
+#: ../glade/app1.glade.h:453 ../src/gui/app1/encoder.cs:2130
 #: ../src/gui/encoderConfiguration.cs:658
 #: ../src/gui/encoderConfiguration.cs:715 ../src/gui/executeAuto.cs:540
 #: ../src/gui/person/addModify.cs:321
 msgid "Accept"
 msgstr "Acceptă"
 
-#: ../glade/app1.glade.h:473
+#: ../glade/app1.glade.h:454
 msgid "Loading ..."
 msgstr "Se încarcă ..."
 
-#: ../glade/app1.glade.h:474
+#: ../glade/app1.glade.h:455
 msgid "The current session will be modified."
 msgstr "Sesiunea curentă va fi modificată."
 
-#: ../glade/app1.glade.h:475
+#: ../glade/app1.glade.h:456
 msgid "The data from session:"
 msgstr "Datele de la sesiunea:"
 
-#: ../glade/app1.glade.h:476
+#: ../glade/app1.glade.h:457
 msgid "From file:"
 msgstr "Din fișierul:"
 
-#: ../glade/app1.glade.h:477
+#: ../glade/app1.glade.h:458
 msgid "Will be imported into the current session."
 msgstr "Se va importa în sesiunea curentă."
 
-#: ../glade/app1.glade.h:478
+#: ../glade/app1.glade.h:459
 msgid "Imported to a new session. You can load it now in Session - Load."
 msgstr ""
 "S-a importat o sesiune nouă. Puteți să o încărcați acum în Sesiune - încarcă."
 
-#: ../glade/app1.glade.h:479
+#: ../glade/app1.glade.h:460
 msgid "Data merged into the open session."
 msgstr "Date integrate în sesiunea deschisă."
 
-#: ../glade/app1.glade.h:480 ../src/stats/jumpSimpleSubtraction.cs:60
+#: ../glade/app1.glade.h:461 ../src/stats/jumpSimpleSubtraction.cs:60
 #: ../src/stats/jumpSimpleSubtraction.cs:61
 msgid "Result"
 msgstr "Rezultat"
 
-#: ../glade/app1.glade.h:481
+#: ../glade/app1.glade.h:462
 msgid "Import another session"
 msgstr "Importă altă sesiune"
 
-#: ../glade/app1.glade.h:482
+#: ../glade/app1.glade.h:463
 msgid "Are you sure you want to delete the current session"
 msgstr "Sigur doriți să ștergeți sesiunea curentă"
 
-#: ../glade/app1.glade.h:483
+#: ../glade/app1.glade.h:464
 msgid "and all the session tests?"
 msgstr "și toate testele sesiunii?"
 
-#: ../glade/app1.glade.h:484 ../src/constants.cs:220
+#: ../glade/app1.glade.h:465 ../src/constants.cs:234
 msgid "Sorry, this session cannot be modified."
 msgstr "Nu se poate modifica această sesiune."
 
-#: ../glade/app1.glade.h:485
+#: ../glade/app1.glade.h:466
 msgid "Deleted session and all its tests."
 msgstr "S-a șters sesiunea și toate testele acesteia."
 
-#: ../glade/app1.glade.h:486 ../glade/encoder_configuration.glade.h:29
+#: ../glade/app1.glade.h:467 ../glade/encoder_configuration.glade.h:29
 #: ../glade/evaluator_window.glade.h:4 ../glade/execute_auto.glade.h:20
 #: ../glade/jump_type_add.glade.h:3 ../glade/run_type_add.glade.h:3
 #: ../src/exportSession.cs:245 ../src/exportSession.cs:260
-#: ../src/gui/app1/session/loadAndImport.cs:177
+#: ../src/gui/app1/session/loadAndImport.cs:184
 #: ../src/gui/encoderConfiguration.cs:573 ../src/gui/executeAuto.cs:189
 #: ../src/gui/jump.cs:1013 ../src/gui/jump.cs:1229
 #: ../src/gui/person/recuperate.cs:110 ../src/gui/run.cs:938
@@ -2237,32 +2153,32 @@ msgstr "S-a șters sesiunea și toate testele acesteia."
 msgid "Name"
 msgstr "Nume"
 
-#: ../glade/app1.glade.h:487 ../src/exportSession.cs:246
-#: ../src/gui/app1/session/loadAndImport.cs:182
+#: ../glade/app1.glade.h:468 ../src/exportSession.cs:246
+#: ../src/gui/app1/session/loadAndImport.cs:189
 #: ../src/gui/person/showAllEvents.cs:150 ../src/gui/session/selectStats.cs:79
 #: ../src/report.cs:230
 msgid "Place"
 msgstr "Loc"
 
 #. tv.AppendColumn ( Catalog.GetString ("Date"), new CellRendererText(), "text", count++);
-#: ../glade/app1.glade.h:488 ../src/exportSession.cs:247
-#: ../src/gui/app1/encoder.cs:1610 ../src/gui/app1/encoder.cs:4971
-#: ../src/gui/app1/forceSensor.cs:1438 ../src/gui/app1/forceSensor.cs:2496
-#: ../src/gui/app1/runEncoder.cs:658 ../src/gui/app1/runEncoder.cs:1535
-#: ../src/gui/app1/session/loadAndImport.cs:172
+#: ../glade/app1.glade.h:469 ../src/exportSession.cs:247
+#: ../src/gui/app1/encoder.cs:1610 ../src/gui/app1/encoder.cs:4969
+#: ../src/gui/app1/forceSensor.cs:1434 ../src/gui/app1/forceSensor.cs:2494
+#: ../src/gui/app1/runEncoder.cs:658 ../src/gui/app1/runEncoder.cs:1538
+#: ../src/gui/app1/session/loadAndImport.cs:179
 #: ../src/gui/encoderSelectRepetitions.cs:223
 #: ../src/gui/session/selectStats.cs:80 ../src/report.cs:230
 #: ../src/treeview/jump.cs:38
 msgid "Date"
 msgstr "Dată"
 
-#: ../glade/app1.glade.h:489 ../glade/evaluator_window.glade.h:6
+#: ../glade/app1.glade.h:470 ../glade/evaluator_window.glade.h:6
 msgid "change"
 msgstr "modifică"
 
-#: ../glade/app1.glade.h:490 ../glade/evaluator_window.glade.h:11
+#: ../glade/app1.glade.h:471 ../glade/evaluator_window.glade.h:11
 #: ../glade/person_win.glade.h:35 ../src/exportSession.cs:248
-#: ../src/exportSession.cs:265 ../src/gui/app1/session/loadAndImport.cs:208
+#: ../src/exportSession.cs:265 ../src/gui/app1/session/loadAndImport.cs:215
 #: ../src/gui/forceSensorElasticBands.cs:191
 #: ../src/gui/session/selectStats.cs:81 ../src/report.cs:231
 #: ../src/runType.cs:201 ../src/runType.cs:217 ../src/runType.cs:284
@@ -2270,112 +2186,136 @@ msgstr "modifică"
 msgid "Comments"
 msgstr "Comentarii"
 
-#: ../glade/app1.glade.h:491
+#: ../glade/app1.glade.h:472
 msgid "Session data"
 msgstr "Datele sesiunii"
 
-#: ../glade/app1.glade.h:492 ../glade/person_win.glade.h:32
+#: ../glade/app1.glade.h:473 ../glade/person_win.glade.h:32
 #: ../glade/query_server_window.glade.h:9 ../src/exportSession.cs:264
-#: ../src/gui/app1/session/loadAndImport.cs:185
+#: ../src/gui/app1/session/loadAndImport.cs:192
 #: ../src/gui/person/addMultiple.cs:429
 msgid "Sport"
 msgstr "Sport"
 
-#: ../glade/app1.glade.h:493
+#: ../glade/app1.glade.h:474
 msgid "Different sports"
 msgstr "Sporturi diferite"
 
-#: ../glade/app1.glade.h:494
+#: ../glade/app1.glade.h:475
 msgid "All the same"
 msgstr "Toate la fel"
 
-#: ../glade/app1.glade.h:495 ../glade/person_win.glade.h:36
+#: ../glade/app1.glade.h:476 ../glade/person_win.glade.h:36
 msgid "Add new sport"
 msgstr "Adaugă sport nou"
 
-#: ../glade/app1.glade.h:496 ../glade/person_win.glade.h:33
+#: ../glade/app1.glade.h:477 ../glade/person_win.glade.h:33
 #: ../glade/query_server_window.glade.h:11 ../src/exportSession.cs:264
-#: ../src/gui/app1/session/loadAndImport.cs:186
+#: ../src/gui/app1/session/loadAndImport.cs:193
 #: ../src/gui/person/addMultiple.cs:431
 msgid "Specialty"
 msgstr "Specialitate"
 
-#: ../glade/app1.glade.h:497
+#: ../glade/app1.glade.h:478
 msgid "Different specialties"
 msgstr "Specialități diferite"
 
-#: ../glade/app1.glade.h:498 ../glade/person_win.glade.h:34
+#: ../glade/app1.glade.h:479 ../glade/person_win.glade.h:34
 #: ../glade/query_server_window.glade.h:10 ../src/exportSession.cs:265
-#: ../src/gui/app1/session/loadAndImport.cs:187
+#: ../src/gui/app1/session/loadAndImport.cs:194
 #: ../src/gui/person/addMultiple.cs:433
 msgid "Level"
 msgstr "Nivel"
 
-#: ../glade/app1.glade.h:499
+#: ../glade/app1.glade.h:480
 msgid "Different levels"
 msgstr "Niveluri diferite"
 
-#: ../glade/app1.glade.h:500
+#: ../glade/app1.glade.h:481
 msgid "Person's data"
 msgstr "Datele persoanei"
 
-#: ../glade/app1.glade.h:501
+#: ../glade/app1.glade.h:482
+msgid "Select destination"
+msgstr "Selectați destinația"
+
+#: ../glade/app1.glade.h:483
+msgid "Start backup"
+msgstr "Începe copierea de rezervă"
+
+#: ../glade/app1.glade.h:484
+msgid "Directory"
+msgstr "Director"
+
+#: ../glade/app1.glade.h:485
+msgid "Subdirectory"
+msgstr "Subdirector"
+
+#: ../glade/app1.glade.h:486
+msgid "Backup"
+msgstr "Copie de rezervă"
+
+#: ../glade/app1.glade.h:487
 msgid "Encoder disconnected."
 msgstr "Codor deconectat."
 
-#: ../glade/app1.glade.h:502
+#: ../glade/app1.glade.h:488
 msgid "Please, connect it and click here:"
 msgstr "Conectați și dați clic aici:"
 
-#: ../glade/app1.glade.h:503
+#: ../glade/app1.glade.h:489
 msgid "Check connection"
 msgstr "Verificare conexiune"
 
-#: ../glade/app1.glade.h:504 ../src/constants.cs:231
+#: ../glade/app1.glade.h:490 ../src/constants.cs:245
 msgid "RFID has been disconnected!"
 msgstr "RFID a fost deconectat!"
 
-#: ../glade/app1.glade.h:505 ../src/constants.cs:232
+#: ../glade/app1.glade.h:491 ../src/constants.cs:246
 msgid "Please, connect it and restart Chronojump."
 msgstr "Conectați și reporniți Chronojump."
 
-#: ../glade/app1.glade.h:506
+#: ../glade/app1.glade.h:492
 msgid "Your email"
 msgstr "Adresa e-mail"
 
-#: ../glade/app1.glade.h:507
+#: ../glade/app1.glade.h:493
 msgid "Preferred response language "
 msgstr "Limba de răspuns preferată "
 
-#: ../glade/app1.glade.h:508
+#: ../glade/app1.glade.h:494
 msgid "English"
 msgstr "Engleză"
 
-#: ../glade/app1.glade.h:509
+#: ../glade/app1.glade.h:495
 msgid "Spanish"
 msgstr "Spaniolă"
 
-#: ../glade/app1.glade.h:510
+#: ../glade/app1.glade.h:496
 msgid "Portuguese"
 msgstr "Portugheză"
 
-#: ../glade/app1.glade.h:511
+#: ../glade/app1.glade.h:497
 msgid "Catalan"
 msgstr "Catalană"
 
-#: ../glade/app1.glade.h:512
+#: ../glade/app1.glade.h:498
 msgid "Add comments"
 msgstr "Adaugă comentarii"
 
-#: ../glade/app1.glade.h:513 ../src/chronojump.cs:724
+#: ../glade/app1.glade.h:499 ../src/chronojump.cs:724
 msgid "Send error log"
 msgstr "Trimite istoricul erorilor"
 
-#: ../glade/app1.glade.h:514
+#: ../glade/app1.glade.h:500
+msgid "Check last version"
+msgstr "Verifică ultima versiune"
+
+#: ../glade/app1.glade.h:501
 msgid "Open Chronojump"
 msgstr "Deschide Chronojump"
 
-#: ../glade/app1.glade.h:515
+#: ../glade/app1.glade.h:502
 msgid "Are you sure you want to exit Chronojump?"
 msgstr "Sigur doriți să ieșiți din Chronojump?"
 
@@ -2402,38 +2342,26 @@ msgid "New jumper weight"
 msgstr "Greutate de săritor nouă"
 
 #: ../glade/dialog_about.glade.h:2
-msgid "<b>Chronojump CEO's</b>"
-msgstr "<b>CEO's Chronojump</b>"
-
-#: ../glade/dialog_about.glade.h:3
 msgid "<b>Software</b>"
 msgstr "<b>Program</b>"
+
+#: ../glade/dialog_about.glade.h:3
+msgid "<b>Scientific support</b>"
+msgstr "<b>Suport științific</b>"
 
 #: ../glade/dialog_about.glade.h:4
 msgid "<b>Hardware: Chronopic</b>"
 msgstr "<b>Hardware: Chronopic</b>"
 
 #: ../glade/dialog_about.glade.h:5
-msgid "<b>Hardware: Devices</b>"
-msgstr "<b>Hardware: dispozitive</b>"
-
-#: ../glade/dialog_about.glade.h:6
-msgid "<b>Mathematics and Statistics support</b>"
-msgstr "<b>Suport de matematică și statistici</b>"
-
-#: ../glade/dialog_about.glade.h:7
-msgid "<b>OpenCV</b>"
-msgstr "<b>OpenCV</b>"
-
-#: ../glade/dialog_about.glade.h:8
 msgid "Developers"
 msgstr "Dezvoltatori"
 
-#: ../glade/dialog_about.glade.h:9
+#: ../glade/dialog_about.glade.h:6
 msgid "Documenters"
 msgstr "Redactori de documente"
 
-#: ../glade/dialog_about.glade.h:10
+#: ../glade/dialog_about.glade.h:7
 msgid "Translators"
 msgstr "Traducători"
 
@@ -2493,6 +2421,86 @@ msgstr "Alte stații cu sarcini atribuite"
 msgid "Server stats"
 msgstr "Statisticile serverului"
 
+#: ../glade/dialog_shortcuts.glade.h:5
+msgid "Cancel any test"
+msgstr "Anulează orice test"
+
+#: ../glade/dialog_shortcuts.glade.h:6
+msgid "Close any window"
+msgstr "Închide orice fereastră"
+
+#: ../glade/dialog_shortcuts.glade.h:8 ../glade/person_win.glade.h:15
+msgid "General"
+msgstr "General"
+
+#: ../glade/dialog_shortcuts.glade.h:10
+msgid "Finish test"
+msgstr "Termină testul"
+
+#: ../glade/dialog_shortcuts.glade.h:11
+msgid "Delete test"
+msgstr "Șterge testul"
+
+#: ../glade/dialog_shortcuts.glade.h:12 ../glade/edit_event.glade.h:18
+msgid "Play video"
+msgstr "Redă video"
+
+#: ../glade/dialog_shortcuts.glade.h:13 ../src/gui/app1/shortcuts.cs:43
+msgid "Space"
+msgstr "Spațiu"
+
+#: ../glade/dialog_shortcuts.glade.h:14 ../glade/overview.glade.h:1
+msgid "Overview"
+msgstr "Prezentare generală"
+
+#: ../glade/dialog_shortcuts.glade.h:16
+msgid "t"
+msgstr "t"
+
+#: ../glade/dialog_shortcuts.glade.h:17
+msgid "Configure test"
+msgstr "Configurează testul"
+
+#: ../glade/dialog_shortcuts.glade.h:18
+msgid "Add weight"
+msgstr "Adaugă greutate"
+
+#: ../glade/dialog_shortcuts.glade.h:19
+msgid "Remove weight"
+msgstr "Elimină greutatea"
+
+#: ../glade/dialog_shortcuts.glade.h:20 ../glade/jumps_runs_more.glade.h:1
+msgid "All tests"
+msgstr "Toate testele"
+
+#: ../glade/dialog_shortcuts.glade.h:21
+msgid "Recalculate"
+msgstr "Recalculează"
+
+#: ../glade/dialog_shortcuts.glade.h:23
+msgid "Tests capture"
+msgstr "Capturează testele"
+
+#: ../glade/dialog_shortcuts.glade.h:24
+msgid "Zoom change"
+msgstr "Focalizează modificarea"
+
+#: ../glade/dialog_shortcuts.glade.h:25
+msgid "Edit selected test"
+msgstr "Editează testul selectat"
+
+#: ../glade/dialog_shortcuts.glade.h:26
+msgid "Delete selected test"
+msgstr "Șterge testele selectate"
+
+#: ../glade/dialog_shortcuts.glade.h:27
+msgid "Repair selected test"
+msgstr "Repară testul selectat"
+
+#: ../glade/dialog_shortcuts.glade.h:28
+msgid "Tests analyze"
+msgstr "Analizează testele"
+
 #: ../glade/dialog_threshold.glade.h:1
 msgid "Chronojump threshold"
 msgstr "Prag Chronojump"
@@ -2525,7 +2533,7 @@ msgstr "Timp de contact"
 msgid "<b>Simulated</b>"
 msgstr "<b>Simulat</b>"
 
-#: ../glade/edit_event.glade.h:14 ../glade/preferences_win.glade.h:40
+#: ../glade/edit_event.glade.h:14 ../glade/preferences_win.glade.h:31
 msgid "Knee angle"
 msgstr "Unghiul de genunchi"
 
@@ -2538,7 +2546,7 @@ msgid "Video available"
 msgstr "Video disponibil"
 
 #: ../glade/edit_event.glade.h:17 ../glade/preferences_win.glade.h:11
-#: ../src/constants.cs:910 ../src/encoder.cs:1013 ../src/forceSensor.cs:163
+#: ../src/constants.cs:925 ../src/encoder.cs:1013 ../src/forceSensor.cs:163
 #: ../src/gui/event.cs:302 ../src/gui/genericWindow.cs:706
 #: ../src/gui/jump.cs:1031 ../src/gui/jump.cs:1036 ../src/gui/jump.cs:1073
 #: ../src/gui/jump.cs:1076 ../src/gui/jump.cs:1105 ../src/gui/jump.cs:1108
@@ -2547,10 +2555,6 @@ msgstr "Video disponibil"
 #: ../src/runEncoder.cs:136
 msgid "Yes"
 msgstr "Da"
-
-#: ../glade/edit_event.glade.h:18
-msgid "Play video"
-msgstr "Redă video"
 
 #: ../glade/edit_event.glade.h:22
 msgid "m"
@@ -2835,8 +2839,8 @@ msgstr "Exportă"
 #: ../src/exportSession.cs:433 ../src/exportSession.cs:574
 #: ../src/exportSession.cs:630 ../src/exportSession.cs:725
 #: ../src/exportSession.cs:767 ../src/exportSession.cs:827
-#: ../src/gui/app1/encoder.cs:4765 ../src/gui/app1/encoder.cs:4819
-#: ../src/gui/app1/runEncoder.cs:1393 ../src/gui/app1/runEncoder.cs:1421
+#: ../src/gui/app1/encoder.cs:4763 ../src/gui/app1/encoder.cs:4817
+#: ../src/gui/app1/runEncoder.cs:1396 ../src/gui/app1/runEncoder.cs:1424
 #: ../src/gui/encoderConfiguration.cs:574 ../src/gui/executeAuto.cs:191
 #: ../src/gui/jump.cs:1016 ../src/gui/jump.cs:1234
 #: ../src/gui/person/recuperate.cs:113 ../src/gui/run.cs:940
@@ -2908,8 +2912,8 @@ msgstr "Datele evaluatorului"
 msgid "Select your Chronometer"
 msgstr "Selectați cronometrul"
 
-#: ../glade/evaluator_window.glade.h:14 ../src/constants.cs:174
-#: ../src/constants.cs:175 ../src/gui/person/addModify.cs:687
+#: ../glade/evaluator_window.glade.h:14 ../src/constants.cs:188
+#: ../src/constants.cs:189 ../src/gui/person/addModify.cs:687
 #: ../src/gui/person/addModify.cs:729
 msgid "Undefined"
 msgstr "Nedefinit"
@@ -3151,13 +3155,13 @@ msgid "Fixation"
 msgstr "Fixare"
 
 #: ../glade/force_sensor_exercise.glade.h:6
-#: ../glade/preferences_win.glade.h:113 ../src/gui/app1/forceSensor.cs:1435
+#: ../glade/preferences_win.glade.h:104 ../src/gui/app1/forceSensor.cs:1431
 #: ../src/gui/forceSensorExercise.cs:407
 msgid "Elastic"
 msgstr "Elastic"
 
 #: ../glade/force_sensor_exercise.glade.h:7
-#: ../glade/preferences_win.glade.h:114
+#: ../glade/preferences_win.glade.h:105
 msgid "Not elastic"
 msgstr "Nu este elastic"
 
@@ -3182,7 +3186,7 @@ msgid "Subtract the effect of mass from raw data"
 msgstr "Scade efectul masei din datele brute"
 
 #: ../glade/force_sensor_exercise.glade.h:13
-#: ../glade/preferences_win.glade.h:118
+#: ../glade/preferences_win.glade.h:109
 msgid "Detect repetitions"
 msgstr "Detectă repetițiile"
 
@@ -3195,17 +3199,17 @@ msgid "Use value on preferences to detect repetitions"
 msgstr "Utilizează valoarea pe preferințe pentru a detecta repetările"
 
 #: ../glade/force_sensor_exercise.glade.h:16
-#: ../glade/preferences_win.glade.h:70
+#: ../glade/preferences_win.glade.h:61
 msgid "Minimal range of movement"
 msgstr "Interval minimal de mișcări"
 
 #: ../glade/force_sensor_exercise.glade.h:19
-#: ../glade/preferences_win.glade.h:71
+#: ../glade/preferences_win.glade.h:62
 msgid "Minimal height"
 msgstr "Înălțime minimă"
 
 #: ../glade/force_sensor_exercise.glade.h:20
-#: ../glade/preferences_win.glade.h:115
+#: ../glade/preferences_win.glade.h:106
 msgid "Minimal force"
 msgstr "Forță minimă"
 
@@ -3226,14 +3230,10 @@ msgid "button"
 msgstr "buton"
 
 #: ../glade/generic_window.glade.h:6 ../src/gui/app1/encoder.cs:1612
-#: ../src/gui/app1/forceSensor.cs:1440 ../src/gui/app1/runEncoder.cs:660
+#: ../src/gui/app1/forceSensor.cs:1436 ../src/gui/app1/runEncoder.cs:660
 #: ../src/gui/encoderSelectRepetitions.cs:224 ../src/gui/report.cs:143
 msgid "Comment"
 msgstr "Comentează"
-
-#: ../glade/jumps_runs_more.glade.h:1
-msgid "All tests"
-msgstr "Toate testele"
 
 #: ../glade/jumps_runs_more.glade.h:2
 msgid "Delete type"
@@ -3271,12 +3271,12 @@ msgstr "Limitat de "
 msgid "value"
 msgstr "valoare"
 
-#: ../glade/jump_type_add.glade.h:13 ../src/gui/app1/contactsExercise.cs:184
+#: ../glade/jump_type_add.glade.h:13 ../src/gui/app1/contactsExercise.cs:182
 #: ../src/gui/app1/jump.cs:297 ../src/gui/old/queryServer.cs:777
 msgid "jumps"
 msgstr "sărituri"
 
-#: ../glade/jump_type_add.glade.h:14 ../src/constants.cs:1351
+#: ../glade/jump_type_add.glade.h:14 ../src/constants.cs:1366
 msgid "time"
 msgstr "timp"
 
@@ -3304,16 +3304,12 @@ msgstr "Săritură în cădere"
 msgid "Drop jump can also start inside platform."
 msgstr "Saltul de cădere poate începe, de asemenea, în interiorul platformei."
 
-#: ../glade/overview.glade.h:1
-msgid "Overview"
-msgstr "Prezentare generală"
-
 #. not shown, unused
-#: ../glade/overview.glade.h:2 ../src/gui/app1/encoder.cs:4970
-#: ../src/gui/app1/forceSensor.cs:2495 ../src/gui/app1/runEncoder.cs:1534
-#: ../src/gui/app1/session/loadAndImport.cs:200
-#: ../src/gui/app1/session/loadAndImport.cs:203 ../src/gui/overview.cs:90
-#: ../src/gui/overview.cs:237
+#: ../glade/overview.glade.h:2 ../src/gui/app1/encoder.cs:4968
+#: ../src/gui/app1/forceSensor.cs:2493 ../src/gui/app1/runEncoder.cs:1537
+#: ../src/gui/app1/session/loadAndImport.cs:207
+#: ../src/gui/app1/session/loadAndImport.cs:210 ../src/gui/overview.cs:90
+#: ../src/gui/overview.cs:241
 msgid "Sets"
 msgstr "Seturi"
 
@@ -3413,10 +3409,6 @@ msgstr "Selectați persoana"
 msgid "<b>Manage persons</b>"
 msgstr "<b>Administrează persoanele</b>"
 
-#: ../glade/person_select_window.glade.h:15 ../src/gui/app1/chronojump.cs:6516
-msgid "Edit selected person"
-msgstr "Editează persoana selectată"
-
 #: ../glade/person_select_window.glade.h:20
 msgid "Are you sure?"
 msgstr "Sunteți sigur?"
@@ -3439,7 +3431,7 @@ msgstr "Nume complet"
 
 #: ../glade/person_win.glade.h:3 ../glade/query_server_window.glade.h:7
 #: ../src/exportSession.cs:261 ../src/gui/overview.cs:88
-#: ../src/gui/overview.cs:232 ../src/gui/overview.cs:240
+#: ../src/gui/overview.cs:236 ../src/gui/overview.cs:244
 #: ../src/gui/person/addMultiple.cs:364 ../src/gui/person/recuperate.cs:111
 msgid "Sex"
 msgstr "Sex"
@@ -3462,7 +3454,7 @@ msgid "Club ID"
 msgstr "ID de club"
 
 #. decimals
-#: ../glade/person_win.glade.h:9 ../src/constants.cs:1354
+#: ../glade/person_win.glade.h:9 ../src/constants.cs:1369
 #: ../src/exportSession.cs:263 ../src/exportSession.cs:305
 #: ../src/exportSession.cs:404 ../src/gui/person/addMultiple.cs:365
 #: ../src/stats/djPower.cs:37
@@ -3477,7 +3469,7 @@ msgstr "Încarcă dintr-un fișier"
 msgid "Add photo from file"
 msgstr "Adaugă o fotografie din fișier"
 
-#: ../glade/person_win.glade.h:12 ../glade/preferences_win.glade.h:138
+#: ../glade/person_win.glade.h:12 ../glade/preferences_win.glade.h:129
 msgid "Preview"
 msgstr "Previzualizare"
 
@@ -3488,10 +3480,6 @@ msgstr "Fă instantaneu"
 #: ../glade/person_win.glade.h:14
 msgid "Photo"
 msgstr "Fotografie"
-
-#: ../glade/person_win.glade.h:15
-msgid "General"
-msgstr "General"
 
 #: ../glade/person_win.glade.h:16
 msgid "Person's height"
@@ -3571,7 +3559,7 @@ msgid "View"
 msgstr "Vizualizare"
 
 #: ../glade/preferences_win.glade.h:7
-#: ../src/gui/app1/session/loadAndImport.cs:206
+#: ../src/gui/app1/session/loadAndImport.cs:213
 msgid "Race analyzer"
 msgstr "Analizatorul de cursă"
 
@@ -3593,7 +3581,7 @@ msgid "Only icons"
 msgstr "Doar iconițe"
 
 #. aka == -1.0
-#: ../glade/preferences_win.glade.h:13 ../src/constants.cs:906
+#: ../glade/preferences_win.glade.h:13 ../src/constants.cs:921
 #: ../src/encoder.cs:1015 ../src/forceSensor.cs:165 ../src/forceSensor.cs:175
 #: ../src/gui/event.cs:306 ../src/gui/jump.cs:1033 ../src/gui/jump.cs:1038
 #: ../src/gui/jump.cs:1251 ../src/gui/jump.cs:1256 ../src/runEncoder.cs:138
@@ -3644,107 +3632,75 @@ msgstr "Importă configurația"
 msgid "Appearance"
 msgstr "Aspect"
 
-#: ../glade/preferences_win.glade.h:26
-msgid "Backup all data"
-msgstr "Alcătuiți o copie de rezervă a tuturor datelor"
-
-#: ../glade/preferences_win.glade.h:27
-msgid "Make a copy of all the data"
-msgstr "Alcătuiește o copie a tuturor datelor"
-
 #: ../glade/preferences_win.glade.h:28
-msgid "Directory"
-msgstr "Director"
-
-#: ../glade/preferences_win.glade.h:29
-msgid "Subdirectory"
-msgstr "Subdirector"
-
-#: ../glade/preferences_win.glade.h:30
-msgid "Backup data"
-msgstr "Alcătuiți o copie de rezervă a datelor"
-
-#: ../glade/preferences_win.glade.h:32
-msgid "Restore data"
-msgstr "Restaurează datele"
-
-#: ../glade/preferences_win.glade.h:33
-msgid "Others"
-msgstr "Altele"
-
-#: ../glade/preferences_win.glade.h:34
-msgid "Database"
-msgstr "Bază de date"
-
-#: ../glade/preferences_win.glade.h:37
 msgid "Indexes between TF and TC"
 msgstr "Indicii între TF și TC"
 
-#: ../glade/preferences_win.glade.h:38
+#: ../glade/preferences_win.glade.h:29
 msgid "QIndex"
 msgstr "IndexQ"
 
-#: ../glade/preferences_win.glade.h:39
+#: ../glade/preferences_win.glade.h:30
 msgid "DjIndex"
 msgstr "IndexDj"
 
-#: ../glade/preferences_win.glade.h:41
+#: ../glade/preferences_win.glade.h:32
 msgid "Initial speed"
 msgstr "Viteză inițială"
 
-#: ../glade/preferences_win.glade.h:42
+#: ../glade/preferences_win.glade.h:33
 msgid "Variables to show at capture graphs of reactive jumps:"
 msgstr "Variabilele de arătat la graficele de captură a săriturilor reactive:"
 
-#: ../glade/preferences_win.glade.h:43
+#: ../glade/preferences_win.glade.h:34
 msgid "Heights: fall height, jump height"
 msgstr "Înălțimi: înălțime de cădere, înălțime de săritură"
 
-#: ../glade/preferences_win.glade.h:44
+#: ../glade/preferences_win.glade.h:35
 msgid "Times: contact time, flight time"
 msgstr "Timpi: timp de contact, timp de zbor"
 
-#: ../glade/preferences_win.glade.h:45
+#: ../glade/preferences_win.glade.h:36
 msgid "On statistics show elevation as:"
 msgstr "La statistici afișează ridicare ca:"
 
-#: ../glade/preferences_win.glade.h:46
+#: ../glade/preferences_win.glade.h:37
 msgid "Height (cm)"
 msgstr "Înălțime (cm)"
 
-#: ../glade/preferences_win.glade.h:47
+#: ../glade/preferences_win.glade.h:38
 msgid "Weight units:"
 msgstr "Unități de greutate:"
 
-#: ../glade/preferences_win.glade.h:48
+#: ../glade/preferences_win.glade.h:39
 msgid "Show"
 msgstr "Afișează"
 
-#: ../glade/preferences_win.glade.h:49
+#: ../glade/preferences_win.glade.h:40
 msgid "Arms Use Index"
 msgstr "Indicele de utilizare a brațelor"
 
-#: ../glade/preferences_win.glade.h:50
+#: ../glade/preferences_win.glade.h:41
 msgid "Use height"
 msgstr "Utilizează înălțimea"
 
-#: ../glade/preferences_win.glade.h:51
+#: ../glade/preferences_win.glade.h:42
 msgid "default"
 msgstr "implicit"
 
-#: ../glade/preferences_win.glade.h:52
+#: ../glade/preferences_win.glade.h:43
 msgid "Use flight time"
 msgstr "Utilizează timpul de zbor"
 
-#: ../glade/preferences_win.glade.h:53
+#: ../glade/preferences_win.glade.h:44
 msgid "Calculations"
 msgstr "Calcule"
 
-#: ../glade/preferences_win.glade.h:54
+#: ../glade/preferences_win.glade.h:45
 msgid "Speed units:"
 msgstr "Unități de viteză:"
 
-#: ../glade/preferences_win.glade.h:55 ../src/gui/preferences.cs:1370
+#: ../glade/preferences_win.glade.h:46 ../src/gui/preferences.cs:1356
 msgid ""
 "\"Speed start\" means when athlete does not start with \"contact\" on the "
 "first platform or photocell.\n"
@@ -3754,388 +3710,388 @@ msgstr ""
 "platformă sau celulă foto.\n"
 "Începe înainte și sosește acolo cu o anumită viteză."
 
-#: ../glade/preferences_win.glade.h:57
+#: ../glade/preferences_win.glade.h:48
 msgid "What to do on speed start or reaction time measurement?"
 msgstr ""
 "Ce se poate face la începerea din viteză sau la măsurarea timpului de "
 "reacție?"
 
-#: ../glade/preferences_win.glade.h:58
+#: ../glade/preferences_win.glade.h:49
 msgid "Race time starts on arrival at first device or pressing push button"
 msgstr ""
 "Timpul alergării începe de la sosirea primului dispozitiv sau de la apăsarea "
 "butonului de împingere"
 
-#: ../glade/preferences_win.glade.h:59
+#: ../glade/preferences_win.glade.h:50
 msgid "Race time starts on leaving first device"
 msgstr "Timpul alergării începe la părăsirea primului dispozitiv"
 
-#: ../glade/preferences_win.glade.h:60
+#: ../glade/preferences_win.glade.h:51
 msgid "Prevent double contacts (recommended)"
 msgstr "Previne contactele duble (recomandat)"
 
-#: ../glade/preferences_win.glade.h:61
+#: ../glade/preferences_win.glade.h:52
 msgid "Fix if found two or more contacts in"
 msgstr "Repară dacă s-au găsit două sau mai multe contacte în"
 
-#: ../glade/preferences_win.glade.h:62
+#: ../glade/preferences_win.glade.h:53
 msgid "ms"
 msgstr "ms"
 
-#: ../glade/preferences_win.glade.h:63
+#: ../glade/preferences_win.glade.h:54
 msgid "Each track ends before biggest contact time."
 msgstr "Fiecare traseu se termină înaintea celui mai mare timp de contact."
 
-#: ../glade/preferences_win.glade.h:64
+#: ../glade/preferences_win.glade.h:55
 msgid "on simple races"
 msgstr "la alergările simple"
 
-#: ../glade/preferences_win.glade.h:65
+#: ../glade/preferences_win.glade.h:56
 msgid "on intervallic races"
 msgstr "la alergările cu interval"
 
-#: ../glade/preferences_win.glade.h:66
+#: ../glade/preferences_win.glade.h:57
 msgid "Prevent double contacts"
 msgstr "Previne contactele duble"
 
-#: ../glade/preferences_win.glade.h:67
+#: ../glade/preferences_win.glade.h:58
 msgid "Recording time"
 msgstr "Timp înregistrare"
 
-#: ../glade/preferences_win.glade.h:68
+#: ../glade/preferences_win.glade.h:59
 msgid "s"
 msgstr "s"
 
-#: ../glade/preferences_win.glade.h:69
+#: ../glade/preferences_win.glade.h:60
 msgid "End at n inactivity seconds"
 msgstr "Termină după n secunde de inactivitate"
 
-#: ../glade/preferences_win.glade.h:74
+#: ../glade/preferences_win.glade.h:65
 msgid "Minimal length"
 msgstr "Lungime minimă"
 
-#: ../glade/preferences_win.glade.h:75
+#: ../glade/preferences_win.glade.h:66
 msgid "Discard first repetitions"
 msgstr "Renunță la primele repetări"
 
-#: ../glade/preferences_win.glade.h:76
+#: ../glade/preferences_win.glade.h:67
 msgid "Recommended: 3"
 msgstr "Recomandat: 3"
 
-#: ../glade/preferences_win.glade.h:78
+#: ../glade/preferences_win.glade.h:69
 msgid "Show only bars"
 msgstr "Arată doar barele"
 
-#: ../glade/preferences_win.glade.h:79
+#: ../glade/preferences_win.glade.h:70
 msgid "This change needs restarting Chronojump"
 msgstr "Această modificare necesită repornirea Chronojump"
 
-#: ../glade/preferences_win.glade.h:80
+#: ../glade/preferences_win.glade.h:71
 msgid "Repetitions to show during capture graph"
 msgstr "Repetări de arătat în timpul graficului de captură"
 
-#: ../glade/preferences_win.glade.h:81
+#: ../glade/preferences_win.glade.h:72
 msgid "Show all repetitions"
 msgstr "Arată toate repetările"
 
-#: ../glade/preferences_win.glade.h:82
+#: ../glade/preferences_win.glade.h:73
 msgid "Show only last repetitions"
 msgstr "Arată doar ultimele repetări"
 
-#: ../glade/preferences_win.glade.h:83
+#: ../glade/preferences_win.glade.h:74
 msgid "Font size at capture"
 msgstr "Dimensiunea fontului la captură"
 
-#: ../glade/preferences_win.glade.h:84
+#: ../glade/preferences_win.glade.h:75
 msgid "Show start and duration of each repetition"
 msgstr "Arată începutul și durata fiecărei repetiții"
 
-#: ../glade/preferences_win.glade.h:85
+#: ../glade/preferences_win.glade.h:76
 msgid "Do not use triggers"
 msgstr "Nu utiliza declanșatori"
 
-#: ../glade/preferences_win.glade.h:86
+#: ../glade/preferences_win.glade.h:77
 msgid "Cut sets into repetitions using triggers"
 msgstr "Taie seturile în repetiții utilizând declanșatori"
 
-#: ../glade/preferences_win.glade.h:87
+#: ../glade/preferences_win.glade.h:78
 msgid "First repetition starts when \"capture\" button is pressed"
 msgstr "Prima repetiție începe când butonul „capturează” este apăsat"
 
-#: ../glade/preferences_win.glade.h:88
+#: ../glade/preferences_win.glade.h:79
 msgid "First repetition starts when trigger button is pressed"
 msgstr "Prima repetiție începe când butonul de declanșator este apăsat"
 
-#: ../glade/preferences_win.glade.h:89
+#: ../glade/preferences_win.glade.h:80
 msgid "Capture sets continuously"
 msgstr "Capturează seturile continuu"
 
-#: ../glade/preferences_win.glade.h:90
+#: ../glade/preferences_win.glade.h:81
 msgid "Not recommended"
 msgstr "Nu este recomandat"
 
-#: ../glade/preferences_win.glade.h:93 ../src/constants.cs:1376
+#: ../glade/preferences_win.glade.h:84 ../src/constants.cs:1391
 msgid "Propulsive"
 msgstr "Propulsiv"
 
-#: ../glade/preferences_win.glade.h:94
+#: ../glade/preferences_win.glade.h:85
 msgid "On concentric evaluate only propulsive phase"
 msgstr "La concentric evaluează doar faza de propulsie"
 
-#: ../glade/preferences_win.glade.h:95
+#: ../glade/preferences_win.glade.h:86
 msgid "On inertial machines this option is not used."
 msgstr "La mașinile inerțiale această opțiune nu este utilizată."
 
-#: ../glade/preferences_win.glade.h:96 ../src/gui/encoderTreeviews.cs:67
+#: ../glade/preferences_win.glade.h:87 ../src/gui/encoderTreeviews.cs:67
 #: ../src/gui/encoderTreeviews.cs:594
 msgid "Work"
 msgstr "Serviciu"
 
-#: ../glade/preferences_win.glade.h:97
+#: ../glade/preferences_win.glade.h:88
 msgid "Units"
 msgstr "Unități"
 
-#: ../glade/preferences_win.glade.h:98
+#: ../glade/preferences_win.glade.h:89
 msgid "Smooth"
 msgstr "Neted"
 
-#: ../glade/preferences_win.glade.h:99
+#: ../glade/preferences_win.glade.h:90
 msgid "Recommended:"
 msgstr "Recomandat:"
 
-#: ../glade/preferences_win.glade.h:100
+#: ../glade/preferences_win.glade.h:91
 msgid "Smoothing"
 msgstr "Netezire"
 
-#: ../glade/preferences_win.glade.h:101
+#: ../glade/preferences_win.glade.h:92
 msgid "Non weighted"
 msgstr "Nu este cântărit"
 
-#: ../glade/preferences_win.glade.h:102
+#: ../glade/preferences_win.glade.h:93
 msgid "Weighted"
 msgstr "Cântărit"
 
-#: ../glade/preferences_win.glade.h:103
+#: ../glade/preferences_win.glade.h:94
 msgid "Weighted^2"
 msgstr "Cântărit^2"
 
-#: ../glade/preferences_win.glade.h:104
+#: ../glade/preferences_win.glade.h:95
 msgid "Weighted^3"
 msgstr "Cântărit^3"
 
-#: ../glade/preferences_win.glade.h:105
+#: ../glade/preferences_win.glade.h:96
 msgid "Recommended: Weighted^2"
 msgstr "Recomandat: cântărit^2"
 
-#: ../glade/preferences_win.glade.h:106
+#: ../glade/preferences_win.glade.h:97
 msgid "1RM prediction"
 msgstr "prezicere 1RM"
 
-#: ../glade/preferences_win.glade.h:107
+#: ../glade/preferences_win.glade.h:98
 msgid "other"
 msgstr "altele"
 
-#: ../glade/preferences_win.glade.h:108
+#: ../glade/preferences_win.glade.h:99
 msgid "Interval displayed on graph"
 msgstr "Interval afișat pe grafic"
 
-#: ../glade/preferences_win.glade.h:109
+#: ../glade/preferences_win.glade.h:100
 msgid "Behaviour when signal gets to the right of the screen"
 msgstr "Comportament când semnalul ajunge la dreapta ecranului"
 
-#: ../glade/preferences_win.glade.h:110
+#: ../glade/preferences_win.glade.h:101
 msgid "Scroll"
 msgstr "Derulare"
 
-#: ../glade/preferences_win.glade.h:111
+#: ../glade/preferences_win.glade.h:102
 msgid "Zoom out"
 msgstr "Mărire"
 
-#: ../glade/preferences_win.glade.h:112
+#: ../glade/preferences_win.glade.h:103
 msgid "Capture graph"
 msgstr "Capturează graficul"
 
-#: ../glade/preferences_win.glade.h:119
+#: ../glade/preferences_win.glade.h:110
 msgid "Graphs line width"
 msgstr "Lățime linie grafic"
 
-#: ../glade/preferences_win.glade.h:120
+#: ../glade/preferences_win.glade.h:111
 msgid "Minimum acceleration"
 msgstr "Accelerație minimă"
 
-#: ../glade/preferences_win.glade.h:121
+#: ../glade/preferences_win.glade.h:112
 msgid "Detection"
 msgstr "Detecție"
 
-#: ../glade/preferences_win.glade.h:122
+#: ../glade/preferences_win.glade.h:113
 msgid "Play sounds while capturing"
 msgstr "Redă sunete în timpul capturării"
 
-#: ../glade/preferences_win.glade.h:123
+#: ../glade/preferences_win.glade.h:114
 msgid "Play sound (on / off)"
 msgstr "Redă sunetul (pornit / oprit)"
 
-#: ../glade/preferences_win.glade.h:124
+#: ../glade/preferences_win.glade.h:115
 #: ../glade/repetitive_conditions.glade.h:37
 msgid "Test \"Good\" bell"
 msgstr "Testează soneria „bună”"
 
-#: ../glade/preferences_win.glade.h:125
+#: ../glade/preferences_win.glade.h:116
 msgid "Test sound"
 msgstr "Testează sunetul"
 
-#: ../glade/preferences_win.glade.h:126
+#: ../glade/preferences_win.glade.h:117
 msgid "Sounds"
 msgstr "Sunete"
 
-#: ../glade/preferences_win.glade.h:127
+#: ../glade/preferences_win.glade.h:118
 msgid "Select camera"
 msgstr "Selectează camera"
 
-#: ../glade/preferences_win.glade.h:128
+#: ../glade/preferences_win.glade.h:119
 msgid "Resolution"
 msgstr "Rezoluție"
 
-#: ../glade/preferences_win.glade.h:129
+#: ../glade/preferences_win.glade.h:120
 msgid "Framerate"
 msgstr "Rată de cadru"
 
-#: ../glade/preferences_win.glade.h:133
+#: ../glade/preferences_win.glade.h:124
 msgid "Pixel format"
 msgstr "Format pixel"
 
 #. Substantive
-#: ../glade/preferences_win.glade.h:135
+#: ../glade/preferences_win.glade.h:126
 msgid "Format"
 msgstr "Format"
 
-#: ../glade/preferences_win.glade.h:139
+#: ../glade/preferences_win.glade.h:130
 msgid "On Windows at least Windows 7 is required."
 msgstr "Pe Windows cel puțin Windows 7 este necesar."
 
-#: ../glade/preferences_win.glade.h:140
+#: ../glade/preferences_win.glade.h:131
 msgid "Show advanced controls"
 msgstr "Arată controale avansate"
 
-#: ../glade/preferences_win.glade.h:141
+#: ../glade/preferences_win.glade.h:132
 msgid "Check if camera is running"
 msgstr "Verifică dacă camera rulează"
 
-#: ../glade/preferences_win.glade.h:144
+#: ../glade/preferences_win.glade.h:135
 msgid "Force stop"
 msgstr "Oprirea forței"
 
-#: ../glade/preferences_win.glade.h:145
+#: ../glade/preferences_win.glade.h:136
 msgid "Camera will be stopped n seconds after end test"
 msgstr "Camera va fi oprită la n secunde după testul de sfârșit"
 
-#: ../glade/preferences_win.glade.h:146
+#: ../glade/preferences_win.glade.h:137
 msgid "To ensure the end of test is recorded, it is recommended 2 seconds."
 msgstr ""
 "Pentru a vă asigura că sfârșitul testului este înregistrat, se recomandă 2 "
 "secunde."
 
-#: ../glade/preferences_win.glade.h:147
+#: ../glade/preferences_win.glade.h:138
 msgid "<b>Advanced</b>"
 msgstr "<b>Avansat</b>"
 
-#: ../glade/preferences_win.glade.h:149
+#: ../glade/preferences_win.glade.h:140
 msgid "Multimedia"
 msgstr "Multimedia"
 
-#: ../glade/preferences_win.glade.h:150
+#: ../glade/preferences_win.glade.h:141
 msgid "Language"
 msgstr "Limbă"
 
-#: ../glade/preferences_win.glade.h:151
+#: ../glade/preferences_win.glade.h:142
 msgid "Use detected language"
 msgstr "Utilizează limba detectată"
 
-#: ../glade/preferences_win.glade.h:152
+#: ../glade/preferences_win.glade.h:143
 msgid "recommended"
 msgstr "recomandat"
 
-#: ../glade/preferences_win.glade.h:153
+#: ../glade/preferences_win.glade.h:144
 msgid "Force language"
 msgstr "Forțează limba"
 
-#: ../glade/preferences_win.glade.h:154
+#: ../glade/preferences_win.glade.h:145
 msgid "Spreadsheet import and export format"
 msgstr "Format de importare și exportare de foi de calcul"
 
-#: ../glade/preferences_win.glade.h:155
+#: ../glade/preferences_win.glade.h:146
 msgid "Latin"
 msgstr "Latină"
 
-#: ../glade/preferences_win.glade.h:156
+#: ../glade/preferences_win.glade.h:147
 msgid "Non-Latin"
 msgstr "Nu este latină"
 
-#: ../glade/preferences_win.glade.h:157
+#: ../glade/preferences_win.glade.h:148
 msgid "Translate statistics graphs"
 msgstr "Tradu graficele de statistici"
 
-#: ../glade/preferences_win.glade.h:158
+#: ../glade/preferences_win.glade.h:149
 msgid "Translate"
 msgstr "Traduce"
 
-#: ../glade/preferences_win.glade.h:159
+#: ../glade/preferences_win.glade.h:150
 msgid "Do not translate"
 msgstr "Nu tradu"
 
-#: ../glade/preferences_win.glade.h:160
+#: ../glade/preferences_win.glade.h:151
 msgid "Allow to change devices"
 msgstr "Permite să modifice dispozitivele"
 
-#: ../glade/preferences_win.glade.h:161
+#: ../glade/preferences_win.glade.h:152
 msgid "Networks"
 msgstr "Rețele"
 
-#: ../glade/preferences_win.glade.h:162
+#: ../glade/preferences_win.glade.h:153
 msgid "Ask for confirm test deletion"
 msgstr "Întreabă pentru confirmarea ștergerii testului"
 
-#: ../glade/preferences_win.glade.h:163
+#: ../glade/preferences_win.glade.h:154
 msgid "Ask user if really wants to delete a test"
 msgstr "Întreabă utilizatorul dacă sigur dorește să șteargă un test"
 
-#: ../glade/preferences_win.glade.h:164
+#: ../glade/preferences_win.glade.h:155
 msgid "Decimal number"
 msgstr "Număr zecimal"
 
-#: ../glade/preferences_win.glade.h:165
+#: ../glade/preferences_win.glade.h:156
 msgid "Do not write debug messages"
 msgstr "Nu scrie mesajele de depanare"
 
-#: ../glade/preferences_win.glade.h:166
+#: ../glade/preferences_win.glade.h:157
 msgid "Mute logs"
 msgstr "Dezactivează istoricul"
 
-#: ../glade/preferences_win.glade.h:167
+#: ../glade/preferences_win.glade.h:158
 msgid "default: False"
 msgstr "implicit: fals"
 
-#: ../glade/preferences_win.glade.h:168
+#: ../glade/preferences_win.glade.h:159
 msgid "Open logs folder"
 msgstr "Deschide dosarul de înregistrări"
 
-#: ../glade/preferences_win.glade.h:169
+#: ../glade/preferences_win.glade.h:160
 msgid "Open temp folder"
 msgstr "Deschide dosarul temporar"
 
-#: ../glade/preferences_win.glade.h:170
+#: ../glade/preferences_win.glade.h:161
 msgid "Enter debug mode"
 msgstr "Intră în modul de depanare"
 
-#: ../glade/preferences_win.glade.h:171
+#: ../glade/preferences_win.glade.h:162
 msgid "SQL short test"
 msgstr "Test scurt SQL"
 
-#: ../glade/preferences_win.glade.h:172
+#: ../glade/preferences_win.glade.h:163
 msgid "SQL long test"
 msgstr "Test lung SQL"
 
-#: ../glade/preferences_win.glade.h:173
+#: ../glade/preferences_win.glade.h:164
 msgid "Developer options"
 msgstr "Opțiuni dezvoltator"
 
@@ -4256,8 +4212,8 @@ msgid "this set"
 msgstr "acest set"
 
 #: ../glade/repetitive_conditions.glade.h:16
-msgid "historical of this person"
-msgstr "istoricul acestei persoane"
+msgid "historical of this person on same exercise/encoder configuration"
+msgstr "istoricul acestei persoane la același exercițiu/configurare de codor"
 
 #: ../glade/repetitive_conditions.glade.h:17
 msgid "On eccentric-concentric have feedback ..."
@@ -4356,7 +4312,7 @@ msgid "Rest between repetitions"
 msgstr "Odihnă între repetiții"
 
 #: ../glade/repetitive_conditions.glade.h:47
-#: ../src/gui/repetitiveConditions.cs:845
+#: ../src/gui/repetitiveConditions.cs:847
 msgid "Use clusters"
 msgstr "Utilizează grupuri"
 
@@ -4434,11 +4390,11 @@ msgstr "Timpi de reacție"
 msgid "general data"
 msgstr "date generale"
 
-#: ../glade/report_window.glade.h:18
+#: ../glade/report_window.glade.h:18 ../src/gui/app1/shortcuts.cs:44
 msgid "Up"
 msgstr "Sus"
 
-#: ../glade/report_window.glade.h:19
+#: ../glade/report_window.glade.h:19 ../src/gui/app1/shortcuts.cs:45
 msgid "Down"
 msgstr "Jos"
 
@@ -4478,7 +4434,7 @@ msgstr ""
 "Limitat de\n"
 "(cum se termină)"
 
-#: ../glade/run_type_add.glade.h:11 ../src/gui/app1/contactsExercise.cs:232
+#: ../glade/run_type_add.glade.h:11 ../src/gui/app1/contactsExercise.cs:230
 #: ../src/gui/app1/run.cs:191
 msgid "laps"
 msgstr "ture"
@@ -4731,87 +4687,140 @@ msgstr "Dați clic pe săgeata din dreapta!"
 msgid "Jumps/Races"
 msgstr "Sărituri/alergări"
 
-#: ../src/constants.cs:43
+#: ../src/constants.cs:38
 msgid "Main developer."
 msgstr "Dezvoltator principal."
 
-#: ../src/constants.cs:45
+#: ../src/constants.cs:40
 msgid "Installation support: Autotools, packaging, bundle."
 msgstr "Suport de instalare: autotools, împachetare, pachet."
 
-#: ../src/constants.cs:47
+#: ../src/constants.cs:42
+msgid "R scripts."
+msgstr "Scripturi R."
+
+#: ../src/constants.cs:44
 msgid "Backend developer."
 msgstr "Dezvoltator de backend."
 
+#: ../src/constants.cs:44
+msgid "Import sessions."
+msgstr "Importă sesiunea."
+
+#: ../src/constants.cs:49
+msgid "Django developer."
+msgstr "Dezvoltator Django."
+
 #: ../src/constants.cs:51
-msgid "Translation of Firmware to C."
-msgstr "Traducerea de firmware în C."
-
-#: ../src/constants.cs:52
-msgid "New firmware features."
-msgstr "Funcționalități de firmware noi."
-
-#: ../src/constants.cs:52
-msgid "Encoder hardware layer."
-msgstr "Stratul de hardware al codorului."
+msgid "Django migration."
+msgstr "Migrare Django."
 
 #: ../src/constants.cs:53
-msgid "Skypic, Chronopic, connection between hardware and software."
-msgstr "Skypic, Chronopic, conexiune între hardware și software."
+msgid "Client-Server integration."
+msgstr "Integrare client-server."
 
-#: ../src/constants.cs:54
-msgid "Chronopic reaction time advanced implementation."
-msgstr "Implementare avansată a timpului de reacție Chronopic."
+#: ../src/constants.cs:53
+msgid "First Flask iteration."
+msgstr "Prima iterare Flask."
 
 #: ../src/constants.cs:55
-msgid "Chronopic3 industrial prototype."
-msgstr "Prototip industrial Chronopic3."
+msgid "Web services support."
+msgstr "Suport de servicii web."
 
-#: ../src/constants.cs:81
-msgid "Chronojump Manual author."
-msgstr "Autorul de manual Chronojump."
+#: ../src/constants.cs:60
+msgid "Sports sciences"
+msgstr "Științe sportive"
 
-#: ../src/constants.cs:83
+#: ../src/constants.cs:60 ../src/constants.cs:62
+msgid "Engineering"
+msgstr "Inginerie"
+
+#: ../src/constants.cs:64
+msgid "Electronics"
+msgstr "Electronice"
+
+#: ../src/constants.cs:66 ../src/constants.cs:68
+msgid "Maths and statistics"
+msgstr "Matematică și statistici"
+
+#: ../src/constants.cs:82
 msgid "Chronojump Manual English translation."
 msgstr "Traducerea în limba engleză a manualului Chronojump."
 
-#: ../src/constants.cs:102
+#: ../src/constants.cs:87
+msgid "Translation of Firmware to C."
+msgstr "Traducerea de firmware în C."
+
+#: ../src/constants.cs:88
+msgid "New firmware features."
+msgstr "Funcționalități de firmware noi."
+
+#: ../src/constants.cs:89
+msgid "Encoder hardware layer."
+msgstr "Stratul de hardware al codorului."
+
+#: ../src/constants.cs:90
+msgid "Skypic, Chronopic, connection between hardware and software."
+msgstr "Skypic, Chronopic, conexiune între hardware și software."
+
+#. 2010 he made the visit to the lab
+#: ../src/constants.cs:91
+msgid "Chronopic3 industrial prototype."
+msgstr "Prototip industrial Chronopic3."
+
+#: ../src/constants.cs:93
+msgid "Chronopic validation."
+msgstr "Validare Chronopic."
+
+#: ../src/constants.cs:94 ../src/constants.cs:97
+msgid "Chronopic reaction time advanced implementation."
+msgstr "Implementare avansată a timpului de reacție Chronopic."
+
+#: ../src/constants.cs:95
+msgid "Other functionalities."
+msgstr "Alte funcționalități."
+
+#: ../src/constants.cs:96
+msgid "Improved timers."
+msgstr "Cronometre îmbunătățite."
+
+#: ../src/constants.cs:116
 msgid "Chronojump profile"
 msgstr "Profil Chronojump"
 
 #. Dummy variables that exists for translating purposes
 #. pragma warning is to avoid warnings of "defined and not used" for these variables.
-#: ../src/constants.cs:170
+#: ../src/constants.cs:184
 msgid "Any"
 msgstr "Oricare"
 
-#: ../src/constants.cs:171
+#: ../src/constants.cs:185
 msgid "--Undefined"
 msgstr "--Nedefinit"
 
-#: ../src/constants.cs:172
+#: ../src/constants.cs:186
 msgid "--Any"
 msgstr "--Oricare"
 
-#: ../src/constants.cs:173
+#: ../src/constants.cs:187
 msgid "-None"
 msgstr "-Nimic"
 
-#: ../src/constants.cs:176
+#: ../src/constants.cs:190
 msgid "Sedentary/Occasional practice"
 msgstr "Exersare sedentară/ocazională"
 
-#: ../src/constants.cs:177
+#: ../src/constants.cs:191
 msgid "Bench press"
 msgstr "Banc de presare"
 
-#: ../src/constants.cs:178
+#: ../src/constants.cs:192
 msgid "Squat"
 msgstr "Genuflexiune"
 
 #. The next two variables got moved from src/execute/event.cs from EventExecute::runATouchPlatform() and
 #. EventExecute::RunANoStrides() and I'm not sure that are used. Left it here for now to avoid any regressions.
-#: ../src/constants.cs:182
+#: ../src/constants.cs:196
 msgid ""
 "Always remember to touch platform at ending. If you don't do it, Chronojump "
 "will crash at next execution."
@@ -4819,36 +4828,36 @@ msgstr ""
 "Amintiți-vă întotdeauna să atingeți platforma la sfârșit. Dacă nu faceți "
 "acest lucru, Chronojump va cădea la următoarea execuție."
 
-#: ../src/constants.cs:183
+#: ../src/constants.cs:197
 msgid "This Run Analysis is not valid because there are no strides."
 msgstr "Această analiză de alergare nu este validă pentru că nu există pași."
 
-#: ../src/constants.cs:224
+#: ../src/constants.cs:238
 msgid "Chronopic is disconnected."
 msgstr "Chronopic nu este conectat."
 
-#: ../src/constants.cs:225
+#: ../src/constants.cs:239
 #, csharp-format
 msgid "If you want to simulate tests, use {0} session."
 msgstr "Dacă doriți să simulați teste, utilizați sesiunea {0}."
 
-#: ../src/constants.cs:236
+#: ../src/constants.cs:250
 msgid "This RFID is not registered on server."
 msgstr "Acest RFID nu este înregistrat pe server."
 
-#: ../src/constants.cs:240
+#: ../src/constants.cs:254
 msgid "Cannot connect with server!"
 msgstr "Nu se poate conecta cu serverul!"
 
-#: ../src/constants.cs:250
+#: ../src/constants.cs:264
 msgid "Server is connected."
 msgstr "Serverul este conectat."
 
-#: ../src/constants.cs:254
+#: ../src/constants.cs:268
 msgid "Sorry, server is currently offline. Try later."
 msgstr "Ne pare rău, serverul este momentan deconectat. Încercați mai târziu."
 
-#: ../src/constants.cs:255
+#: ../src/constants.cs:269
 msgid ""
 "Or maybe you are not connected to the Internet or your firewall is "
 "restricting connections"
@@ -4856,179 +4865,179 @@ msgstr ""
 "Sau este posibil să nu fiți conectat la Internet sau firewallul "
 "dumneavoastră restricționează conexiunile"
 
-#: ../src/constants.cs:298
+#: ../src/constants.cs:312
 msgid "Your software is updated!"
 msgstr "Programul este actualizat!"
 
-#: ../src/constants.cs:302
+#: ../src/constants.cs:316
 #, csharp-format
 msgid "Update software at {0}"
 msgstr "Actualizează programul la {0}"
 
-#: ../src/constants.cs:306
+#: ../src/constants.cs:320
 msgid "Your software is more updated than last published version."
 msgstr "Software-ul este mai actualizat decât ultima versiune publicată."
 
-#: ../src/constants.cs:306
+#: ../src/constants.cs:320
 msgid "Please, don't update!"
 msgstr "Nu actualizați!"
 
-#: ../src/constants.cs:315
+#: ../src/constants.cs:329
 msgid "Importing from your spreadsheet (LibreOffice, R, MS Excel, ...)"
 msgstr "Se importă de la foaia de calcul (LibreOffice, R, MS Excel, ...)"
 
-#: ../src/constants.cs:316
+#: ../src/constants.cs:330
 msgid "Remember the separator character is:"
 msgstr "Țineți minte caracterul de separare este:"
 
-#: ../src/constants.cs:317
+#: ../src/constants.cs:331
 msgid "This can be changed at preferences."
 msgstr "Aceasta poate fi modificată la preferințe."
 
-#: ../src/constants.cs:322
+#: ../src/constants.cs:336
 msgid "Please, perform the needed jumps marked in red above."
 msgstr "Performați săriturile necesare marcare cu roșu deasupra."
 
-#: ../src/constants.cs:332 ../src/constants.cs:371 ../src/constants.cs:382
-#: ../src/constants.cs:393 ../src/constants.cs:405 ../src/constants.cs:416
-#: ../src/constants.cs:434 ../src/constants.cs:446 ../src/constants.cs:458
-#: ../src/constants.cs:470 ../src/constants.cs:475 ../src/constants.cs:483
-#: ../src/constants.cs:488
+#: ../src/constants.cs:346 ../src/constants.cs:385 ../src/constants.cs:396
+#: ../src/constants.cs:407 ../src/constants.cs:419 ../src/constants.cs:430
+#: ../src/constants.cs:448 ../src/constants.cs:460 ../src/constants.cs:472
+#: ../src/constants.cs:484 ../src/constants.cs:489 ../src/constants.cs:497
+#: ../src/constants.cs:502
 msgid "Peak power"
 msgstr "Putere maximă"
 
-#: ../src/constants.cs:332
+#: ../src/constants.cs:346
 msgid "(Watts)"
 msgstr "(wați)"
 
-#: ../src/constants.cs:337 ../src/constants.cs:377 ../src/constants.cs:388
-#: ../src/constants.cs:399 ../src/constants.cs:411 ../src/constants.cs:422
-#: ../src/constants.cs:441 ../src/constants.cs:453 ../src/constants.cs:465
-#: ../src/constants.cs:478 ../src/constants.cs:490
+#: ../src/constants.cs:351 ../src/constants.cs:391 ../src/constants.cs:402
+#: ../src/constants.cs:413 ../src/constants.cs:425 ../src/constants.cs:436
+#: ../src/constants.cs:455 ../src/constants.cs:467 ../src/constants.cs:479
+#: ../src/constants.cs:492 ../src/constants.cs:504
 msgid "body weight"
 msgstr "greutate corp"
 
-#: ../src/constants.cs:337 ../src/constants.cs:377 ../src/constants.cs:388
-#: ../src/constants.cs:399 ../src/constants.cs:411 ../src/constants.cs:422
-#: ../src/constants.cs:441 ../src/constants.cs:453 ../src/constants.cs:465
-#: ../src/constants.cs:478 ../src/constants.cs:490
+#: ../src/constants.cs:351 ../src/constants.cs:391 ../src/constants.cs:402
+#: ../src/constants.cs:413 ../src/constants.cs:425 ../src/constants.cs:436
+#: ../src/constants.cs:455 ../src/constants.cs:467 ../src/constants.cs:479
+#: ../src/constants.cs:492 ../src/constants.cs:504
 msgid "extra weight"
 msgstr "greutate suplimentară"
 
-#: ../src/constants.cs:337 ../src/constants.cs:376 ../src/constants.cs:387
-#: ../src/constants.cs:398 ../src/constants.cs:410 ../src/constants.cs:421
-#: ../src/constants.cs:440 ../src/constants.cs:452 ../src/constants.cs:464
-#: ../src/constants.cs:477 ../src/constants.cs:489 ../src/stats/fv.cs:51
+#: ../src/constants.cs:351 ../src/constants.cs:390 ../src/constants.cs:401
+#: ../src/constants.cs:412 ../src/constants.cs:424 ../src/constants.cs:435
+#: ../src/constants.cs:454 ../src/constants.cs:466 ../src/constants.cs:478
+#: ../src/constants.cs:491 ../src/constants.cs:503 ../src/stats/fv.cs:51
 #: ../src/stats/fv.cs:52 ../src/stats/jumpIndexes.cs:74
 #: ../src/stats/jumpIndexes.cs:78
 msgid "height"
 msgstr "înălțime"
 
-#: ../src/constants.cs:439
+#: ../src/constants.cs:453
 msgid "Male applicants to a Faculty of Sport Sciences"
 msgstr "Aplicanții de sex masculin la o facultate de științe ale sportului"
 
-#: ../src/constants.cs:451
+#: ../src/constants.cs:465
 msgid "Female elite volleyball"
 msgstr "Volei feminin de elită"
 
-#: ../src/constants.cs:463
+#: ../src/constants.cs:477
 msgid "Female medium volleyball"
 msgstr "Volei feminin de nivel mediu"
 
-#: ../src/constants.cs:476
+#: ../src/constants.cs:490
 msgid "Female sports sciences students"
 msgstr "Studente la științele sporturilor"
 
-#: ../src/constants.cs:488
+#: ../src/constants.cs:502
 msgid "Female university students"
 msgstr "Studente de universitate"
 
-#: ../src/constants.cs:497 ../src/constants.cs:1348 ../src/stats/potency.cs:60
+#: ../src/constants.cs:511 ../src/constants.cs:1363 ../src/stats/potency.cs:60
 msgid "Peak Power"
 msgstr "Putere maximă"
 
-#: ../src/constants.cs:512
+#: ../src/constants.cs:526
 msgid "Session summary"
 msgstr "Rezumat sesiune"
 
-#: ../src/constants.cs:516
+#: ../src/constants.cs:530
 msgid "Jumper summary"
 msgstr "Rezumat săritor"
 
-#: ../src/constants.cs:524
+#: ../src/constants.cs:538
 msgid "Simple with TC"
 msgstr "Simple cu TC"
 
-#: ../src/constants.cs:528
+#: ../src/constants.cs:542
 msgid "Jumps: Reactive"
 msgstr "Sărituri: reactive"
 
-#: ../src/constants.cs:532
+#: ../src/constants.cs:546
 msgid "Races: Simple"
 msgstr "Alergări: simplu"
 
-#: ../src/constants.cs:537
+#: ../src/constants.cs:551
 msgid "Races: Intervallic"
 msgstr "Alergări: cu interval"
 
-#: ../src/constants.cs:544
+#: ../src/constants.cs:558
 msgid "See all jumps"
 msgstr "Vedeți toate săriturile"
 
-#: ../src/constants.cs:548
+#: ../src/constants.cs:562
 msgid "See all races"
 msgstr "Arată toate alergările"
 
-#: ../src/constants.cs:552
+#: ../src/constants.cs:566
 msgid "See all pulses"
 msgstr "Vedeți toate pulsurile"
 
-#: ../src/constants.cs:685
+#: ../src/constants.cs:700
 msgid "Typical serial and USB-serial ports on Windows:"
 msgstr "Porturi serial și serial-USB tipice în Windows:"
 
-#: ../src/constants.cs:687
+#: ../src/constants.cs:702
 msgid "Also, these are possible:"
 msgstr "De asemenea, acestea sunt posibile:"
 
-#: ../src/constants.cs:694
+#: ../src/constants.cs:709
 msgid "Typical serial ports on GNU/Linux:"
 msgstr "Porturi seriale tipice pe GNU/Linux:"
 
-#: ../src/constants.cs:696
+#: ../src/constants.cs:711
 msgid "Typical USB-serial ports on GNU/Linux:"
 msgstr "Porturil seriale-USB tipice pe GNU/Linux:"
 
-#: ../src/constants.cs:698
+#: ../src/constants.cs:713
 msgid "If you use Chronopic3, you will have an USB-serial port."
 msgstr "Dacă utilizați Chronopic3, veți avea un port serial-USB."
 
-#: ../src/constants.cs:704
+#: ../src/constants.cs:719
 msgid "Serial ports found:"
 msgstr "Porturi seriale găsite:"
 
-#: ../src/constants.cs:708
+#: ../src/constants.cs:723
 msgid "USB-serial ports found:"
 msgstr "Porturi seriale-USB găsite:"
 
-#: ../src/constants.cs:712
+#: ../src/constants.cs:727
 msgid "Not found any USB-serial ports."
 msgstr "Nu s-au găsit porturi seriale-USB."
 
-#: ../src/constants.cs:712
+#: ../src/constants.cs:727
 msgid "Is Chronopic connected?"
 msgstr "Chronopic este conectat?"
 
-#: ../src/constants.cs:721
+#: ../src/constants.cs:736
 msgid "Touch device."
 msgstr "Dispozitiv tactil."
 
-#: ../src/constants.cs:726
+#: ../src/constants.cs:741
 msgid "Chronopic driver has to be installed."
 msgstr "Driverul Chronopic trebuie să fie instalat."
 
-#: ../src/constants.cs:731
+#: ../src/constants.cs:746
 msgid ""
 "If you have problems connecting with Chronopic, ensure you have the "
 "<b>driver</b> installed at 'Windows Start Menu / Chronojump / Install "
@@ -5038,48 +5047,48 @@ msgstr ""
 "<b>driverul</b> instalat la „Meniu Start Windows / Chronojump / Instalează "
 "driver Chronopic”."
 
-#: ../src/constants.cs:735
+#: ../src/constants.cs:750
 msgid "Check Chronojump software website."
 msgstr "Verificați pagina web a programului Chronojump."
 
-#: ../src/constants.cs:739
+#: ../src/constants.cs:754
 msgid "Error. Nothing has been captured."
 msgstr "Eroare. Nu s-a capturat nimic."
 
-#: ../src/constants.cs:784
+#: ../src/constants.cs:799
 msgid "Africa"
 msgstr "Africa"
 
-#: ../src/constants.cs:785
+#: ../src/constants.cs:800
 msgid "Antarctica"
 msgstr "Antarctica"
 
-#: ../src/constants.cs:786
+#: ../src/constants.cs:801
 msgid "Asia"
 msgstr "Asia"
 
-#: ../src/constants.cs:787
+#: ../src/constants.cs:802
 msgid "Europe"
 msgstr "Europa"
 
-#: ../src/constants.cs:788
+#: ../src/constants.cs:803
 msgid "North America"
 msgstr "America de Nord"
 
-#: ../src/constants.cs:789
+#: ../src/constants.cs:804
 msgid "Oceania"
 msgstr "Oceania"
 
-#: ../src/constants.cs:790
+#: ../src/constants.cs:805
 msgid "South America"
 msgstr "America de Sud"
 
-#: ../src/constants.cs:797
+#: ../src/constants.cs:812
 msgid "Tests are <b>simulated</b> until Chronopic is connected."
 msgstr "Testele sunt <b>simulate</b> până când Chronopic este conectat."
 
 #. Catalog.GetString("Angles") + ":" +
-#: ../src/constants.cs:801 ../src/exportSession.cs:331
+#: ../src/constants.cs:816 ../src/exportSession.cs:331
 #: ../src/exportSession.cs:435 ../src/exportSession.cs:575
 #: ../src/exportSession.cs:631 ../src/exportSession.cs:726
 #: ../src/exportSession.cs:768 ../src/exportSession.cs:828
@@ -5087,70 +5096,68 @@ msgstr "Testele sunt <b>simulate</b> până când Chronopic este conectat."
 msgid "Simulated"
 msgstr "Simulat"
 
-#: ../src/constants.cs:806
+#: ../src/constants.cs:821
 msgid "All tests available except MultiChronopic."
 msgstr "Toate testele disponibile cu excepția MultiChronopic."
 
-#: ../src/constants.cs:810
+#: ../src/constants.cs:825
 msgid "All tests available."
 msgstr "Toate testele disponibile."
 
-#: ../src/constants.cs:815
+#: ../src/constants.cs:830
 msgid "Default"
 msgstr "Implicit"
 
-#: ../src/constants.cs:830
+#: ../src/constants.cs:845
 msgid "Regular practice"
 msgstr "Practică programată"
 
-#: ../src/constants.cs:831
+#: ../src/constants.cs:846
 msgid "Competition"
 msgstr "Competiție"
 
-#: ../src/constants.cs:832
+#: ../src/constants.cs:847
 msgid "Elite"
 msgstr "Elită"
 
-#: ../src/constants.cs:855 ../src/gui/preferences.cs:1511
+#: ../src/constants.cs:870 ../src/gui/app1/session/backup.cs:40
 msgid "Error. Cannot find database."
 msgstr "Eroare. Nu se poate găsi baza de date."
 
-#: ../src/constants.cs:859
+#: ../src/constants.cs:874
 msgid "Sorry, cannot open website."
 msgstr "Nu se poate deschide pagina web."
 
-#: ../src/constants.cs:863 ../src/gui/app1/forceSensor.cs:2243
-#: ../src/gui/app1/forceSensor.cs:2255 ../src/gui/app1/runEncoder.cs:1297
-#: ../src/gui/app1/runEncoder.cs:1309 ../src/gui/preferences.cs:1425
+#: ../src/constants.cs:878 ../src/gui/app1/session/main.cs:173
 #: ../src/gui/splash.cs:143
 msgid "Error. Cannot open directory."
 msgstr "Nu se poate deschide directorul."
 
-#: ../src/constants.cs:867
+#: ../src/constants.cs:882
 msgid "Error. File not found."
 msgstr "Nu s-a găsit fișierul."
 
-#: ../src/constants.cs:871
+#: ../src/constants.cs:886
 msgid "Error. File is empty."
 msgstr "Eroare. Fișierul este gol."
 
-#: ../src/constants.cs:875
+#: ../src/constants.cs:890
 msgid "Error. Cannot copy file."
 msgstr "Nu se poate copia fișierul."
 
-#: ../src/constants.cs:879
+#: ../src/constants.cs:894
 msgid "Error. File cannot be saved."
 msgstr "Eroare. Fișierul nu poate fi salvat."
 
-#: ../src/constants.cs:914
+#: ../src/constants.cs:929
 msgid "In"
 msgstr "Înăuntru"
 
-#: ../src/constants.cs:918
+#: ../src/constants.cs:933
 msgid "Out"
 msgstr "Înafară"
 
-#: ../src/constants.cs:937
+#: ../src/constants.cs:952
 msgid "On jumps results tab, power is calculated depending on jump type:"
 msgstr ""
 "La tabul de rezultate ale săriturilor, puterea este calculată în funcție de "
@@ -5159,44 +5166,44 @@ msgstr ""
 #. Catalog.GetString("Jumps with TC & TF: Bosco Relative Power (W/Kg)") +
 #. "\n" +
 #. Catalog.GetString("P = 24.6 * (Total time + Flight time) / Contact time") +
-#: ../src/constants.cs:942
+#: ../src/constants.cs:957
 msgid "Jumps with TC and TF:"
 msgstr "Sărituri cu TC și TF:"
 
-#: ../src/constants.cs:942
+#: ../src/constants.cs:957
 msgid "Developed by Chronojump team"
 msgstr "Dezvoltat de echipa Chronojump"
 
-#: ../src/constants.cs:944
+#: ../src/constants.cs:959
 msgid "Calculate the potential energies on fall and after the jump."
 msgstr "Calculează energiile potențiale la cădere și după săritură."
 
-#: ../src/constants.cs:945
+#: ../src/constants.cs:960
 msgid "Divide them by time during force is applied."
 msgstr "Împarte-le la timpul în care forța este aplicată."
 
 #. P = mass * g * ( fallHeight + 1.226 * Math.Pow(tf,2) ) / (Double)tt;
-#: ../src/constants.cs:948
+#: ../src/constants.cs:963
 msgid "mass"
 msgstr "masă"
 
-#: ../src/constants.cs:949
+#: ../src/constants.cs:964
 msgid "falling height"
 msgstr "înălțime de cădere"
 
-#: ../src/constants.cs:949
+#: ../src/constants.cs:964
 msgid "flight time"
 msgstr "timp de zbor"
 
-#: ../src/constants.cs:950
+#: ../src/constants.cs:965
 msgid "contact time"
 msgstr "timp de contact"
 
-#: ../src/constants.cs:952
+#: ../src/constants.cs:967
 msgid "Jumps without TC: Lewis Peak Power 1974 (W)"
 msgstr "Sărituri fără TC: putere de vârf Lewis 1974 (W)"
 
-#: ../src/constants.cs:954
+#: ../src/constants.cs:969
 msgid ""
 "P = SQRT(4.9) * 9.8 * (body weight+extra weight) * SQRT(jump height in "
 "meters)"
@@ -5204,163 +5211,163 @@ msgstr ""
 "P = SQRT(4.9) * 9.8 * (greutate corporală+greutate suplimentară) * "
 "SQRT(înălțimea săriturii în metri)"
 
-#: ../src/constants.cs:956
+#: ../src/constants.cs:971
 msgid "If you want to use other formulas, go to Analyze."
 msgstr "Dacă doriți să utilizați alte formule, navigați la analizează."
 
-#: ../src/constants.cs:962
+#: ../src/constants.cs:977
 msgid "Contact Time"
 msgstr "Timp de contact"
 
-#: ../src/constants.cs:963
+#: ../src/constants.cs:978
 msgid "Flight Time"
 msgstr "Timp de zbor"
 
-#: ../src/constants.cs:964
+#: ../src/constants.cs:979
 msgid "See:"
 msgstr "Vedeți:"
 
-#: ../src/constants.cs:991
+#: ../src/constants.cs:1006
 msgid "Sorry, this multimedia file does not exists."
 msgstr "Acest fișier multimedia nu există."
 
-#: ../src/constants.cs:998
+#: ../src/constants.cs:1013
 msgid "Running start. Started with initial speed."
 msgstr "Start din alergare. S-a început cu viteza inițială."
 
-#: ../src/constants.cs:1002
+#: ../src/constants.cs:1017
 msgid "Standing start. Started without initial speed."
 msgstr "Start din picioare. S-a început fără viteza inițială."
 
-#: ../src/constants.cs:1007
+#: ../src/constants.cs:1022
 msgid "Sorry, no cameras found."
 msgstr "Nu s-au găsit camere."
 
-#: ../src/constants.cs:1340 ../src/gui/jump.cs:67
+#: ../src/constants.cs:1355 ../src/gui/jump.cs:67
 msgid "jump"
 msgstr "săritură"
 
-#: ../src/constants.cs:1341
+#: ../src/constants.cs:1356
 msgid "body speed"
 msgstr "viteza corpului"
 
-#: ../src/constants.cs:1342
+#: ../src/constants.cs:1357
 msgid "speed"
 msgstr "viteză"
 
-#: ../src/constants.cs:1344
+#: ../src/constants.cs:1359
 msgid "Accel."
 msgstr "Accel."
 
-#: ../src/constants.cs:1347
+#: ../src/constants.cs:1362
 msgid "Average Power"
 msgstr "Putere medie"
 
-#: ../src/constants.cs:1350
+#: ../src/constants.cs:1365
 msgid "Time to Peak Power"
 msgstr "Timpul până la puterea de vârf"
 
-#: ../src/constants.cs:1352
+#: ../src/constants.cs:1367
 msgid "Range"
 msgstr "Interval"
 
-#: ../src/constants.cs:1353
+#: ../src/constants.cs:1368
 msgid "distance"
 msgstr "distanță"
 
-#: ../src/constants.cs:1356
+#: ../src/constants.cs:1371
 msgid "eccentric"
 msgstr "excentric"
 
-#: ../src/constants.cs:1357
+#: ../src/constants.cs:1372
 msgid "concentric"
 msgstr "concentric"
 
-#: ../src/constants.cs:1358
+#: ../src/constants.cs:1373
 msgid "land"
 msgstr "aterizare"
 
-#: ../src/constants.cs:1359
+#: ../src/constants.cs:1374
 msgid "air"
 msgstr "aer"
 
-#: ../src/constants.cs:1360
+#: ../src/constants.cs:1375
 msgid "jump height"
 msgstr "înălțimea săriturii"
 
 #. checkboxes
-#: ../src/constants.cs:1361 ../src/forceSensor.cs:1922
+#: ../src/constants.cs:1376 ../src/forceSensor.cs:1922
 #: ../src/gui/encoderSelectRepetitions.cs:214
 #: ../src/gui/encoderTreeviews.cs:601
 msgid "Repetition"
 msgstr "Repetiție"
 
-#: ../src/constants.cs:1362 ../src/gui/app1/encoder.cs:4527
-#: ../src/gui/app1/encoder.cs:4545
+#: ../src/constants.cs:1377 ../src/gui/app1/encoder.cs:4526
+#: ../src/gui/app1/encoder.cs:4544
 msgid "Not enough data."
 msgstr "Nu sunt destule date."
 
-#: ../src/constants.cs:1363
+#: ../src/constants.cs:1378
 msgid "Encoder is not connected."
 msgstr "Codorul nu este conectat."
 
-#: ../src/constants.cs:1364
+#: ../src/constants.cs:1379
 msgid "prediction"
 msgstr "prezicere"
 
-#: ../src/constants.cs:1365
+#: ../src/constants.cs:1380
 msgid "Concentric mean speed on bench press 1RM ="
 msgstr "Viteza medie concentrică la presa de bancă 1RM ="
 
-#: ../src/constants.cs:1366
+#: ../src/constants.cs:1381
 msgid "Concentric mean speed on squat 1RM ="
 msgstr "Viteza medie concentrică la genuflexiunea 1RM ="
 
-#: ../src/constants.cs:1367
+#: ../src/constants.cs:1382
 msgid "Estimated percentual load ="
 msgstr "Greutate procentuală estimată ="
 
-#: ../src/constants.cs:1368
+#: ../src/constants.cs:1383
 msgid "Adapted from"
 msgstr "Adaptat de la"
 
-#: ../src/constants.cs:1369
+#: ../src/constants.cs:1384
 msgid "Mean speed in concentric propulsive phase"
 msgstr "Viteza media în faza de propulsie concentrică"
 
-#: ../src/constants.cs:1370 ../src/gui/app1/encoder.cs:1311
+#: ../src/constants.cs:1385 ../src/gui/app1/encoder.cs:1311
 msgid "Sorry, no repetitions matched your criteria."
 msgstr "Nu s-au găsit repetiții care se potrivesc cu criteriile."
 
-#: ../src/constants.cs:1371
+#: ../src/constants.cs:1386
 msgid "Need at least three jumps"
 msgstr "Sunt necesare cel puțin trei sărituri"
 
 #. laterality is stored on English but translated on encoder sqlite select
-#: ../src/constants.cs:1372 ../src/gui/app1/encoder.cs:1692
+#: ../src/constants.cs:1387 ../src/gui/app1/encoder.cs:1692
 #: ../src/sqlite/main.cs:1900 ../src/sqlite/main.cs:1901
 msgid "RL"
 msgstr "RL"
 
-#: ../src/constants.cs:1372 ../src/gui/app1/encoder.cs:1694
+#: ../src/constants.cs:1387 ../src/gui/app1/encoder.cs:1694
 #: ../src/sqlite/main.cs:1903 ../src/sqlite/main.cs:1904
 msgid "R"
 msgstr "R"
 
-#: ../src/constants.cs:1372 ../src/sqlite/main.cs:1906
+#: ../src/constants.cs:1387 ../src/sqlite/main.cs:1906
 #: ../src/sqlite/main.cs:1907
 msgid "L"
 msgstr "L"
 
-#: ../src/constants.cs:1374
+#: ../src/constants.cs:1389
 msgid "Maximum mean power using the F-V profile"
 msgstr "Puterea medie maximă utilizând profilul F-V"
 
-#: ../src/constants.cs:1375
+#: ../src/constants.cs:1390
 msgid "Mean power parabole using the Power-Load data"
 msgstr "Parabola puterii medii utilizând datele putere-greutate"
 
-#: ../src/constants.cs:1377
+#: ../src/constants.cs:1392
 msgid "Non propulsive"
 msgstr "Nepropulsivă"
 
@@ -5700,8 +5707,8 @@ msgstr "Nu se poate exporta la fișierul {0} "
 #: ../src/exportSession.cs:161 ../src/gui/app1/encoder.cs:2231
 #: ../src/gui/app1/encoder.cs:2262 ../src/gui/app1/encoder.cs:2270
 #: ../src/gui/app1/encoder.cs:2277 ../src/gui/app1/encoder.cs:2285
-#: ../src/gui/app1/encoder.cs:2292 ../src/gui/app1/forceSensor.cs:2195
-#: ../src/gui/app1/forceSensor.cs:2207 ../src/gui/app1/forceSensor.cs:2230
+#: ../src/gui/app1/encoder.cs:2292 ../src/gui/app1/forceSensor.cs:2191
+#: ../src/gui/app1/forceSensor.cs:2203 ../src/gui/app1/forceSensor.cs:2226
 #: ../src/gui/app1/jumpsDjOptimalFall.cs:151
 #: ../src/gui/app1/jumpsEvolution.cs:149 ../src/gui/app1/jumpsProfile.cs:116
 #: ../src/gui/app1/jumpsWeightFVProfile.cs:172
@@ -5741,7 +5748,7 @@ msgid "SessionID"
 msgstr "IDSesiune"
 
 #: ../src/exportSession.cs:260 ../src/gui/app1/encoder.cs:1603
-#: ../src/gui/app1/forceSensor.cs:1432 ../src/gui/app1/runEncoder.cs:653
+#: ../src/gui/app1/forceSensor.cs:1428 ../src/gui/app1/runEncoder.cs:653
 #: ../src/gui/convertWeight.cs:106 ../src/gui/encoderSelectRepetitions.cs:212
 #: ../src/gui/encoderSelectRepetitions.cs:475
 #: ../src/gui/encoderSelectRepetitions.cs:648
@@ -5862,7 +5869,7 @@ msgstr "Viteză medie"
 msgid "Distance interval"
 msgstr "Interval de distanță"
 
-#: ../src/exportSession.cs:628 ../src/gui/app1/chronojump.cs:4534
+#: ../src/exportSession.cs:628 ../src/gui/app1/chronojump.cs:4516
 #: ../src/gui/run.cs:1161 ../src/gui/run.cs:1229 ../src/gui/run.cs:1281
 msgid "Laps"
 msgstr "Ture"
@@ -5925,25 +5932,25 @@ msgstr "Statistici"
 msgid "Sample"
 msgstr "Mostră"
 
-#: ../src/gui/app1/chronojump.cs:877
+#: ../src/gui/app1/chronojump.cs:850
 #, csharp-format
 msgid "Chronojump database version file: {0}"
 msgstr "Fișier cu versiune a bazei de date Chronojump: {0}"
 
-#: ../src/gui/app1/chronojump.cs:919
+#: ../src/gui/app1/chronojump.cs:892
 msgid "Preferences loaded"
 msgstr "S-au încărcat preferințele"
 
-#: ../src/gui/app1/chronojump.cs:1179
+#: ../src/gui/app1/chronojump.cs:1155
 #, csharp-format
 msgid "Sprints of {0}"
 msgstr "Sprinturi de {0}"
 
-#: ../src/gui/app1/chronojump.cs:1202
+#: ../src/gui/app1/chronojump.cs:1178
 msgid "Show all tests of"
 msgstr "Afișează toate testele ale"
 
-#: ../src/gui/app1/chronojump.cs:1209
+#: ../src/gui/app1/chronojump.cs:1185
 #, csharp-format
 msgid "Delete {0} from this session"
 msgstr "Șterge {0} din această sesiune"
@@ -6025,19 +6032,19 @@ msgstr "Șterge {0} din această sesiune"
 #. myItem.Sensitive = false;
 #. myMenu.Attach( myItem, 0, 1, 0, 1 );
 #.
-#: ../src/gui/app1/chronojump.cs:1342 ../src/gui/app1/chronojump.cs:1445
-#: ../src/gui/app1/chronojump.cs:1544 ../src/gui/app1/chronojump.cs:1643
-#: ../src/gui/app1/chronojump.cs:1735 ../src/gui/app1/chronojump.cs:1826
-#: ../src/gui/app1/chronojump.cs:1932 ../src/gui/forceSensorElasticBands.cs:257
+#: ../src/gui/app1/chronojump.cs:1318 ../src/gui/app1/chronojump.cs:1421
+#: ../src/gui/app1/chronojump.cs:1520 ../src/gui/app1/chronojump.cs:1619
+#: ../src/gui/app1/chronojump.cs:1711 ../src/gui/app1/chronojump.cs:1802
+#: ../src/gui/app1/chronojump.cs:1908 ../src/gui/forceSensorElasticBands.cs:257
 msgid "Edit selected"
 msgstr "Editează selectate"
 
-#: ../src/gui/app1/chronojump.cs:1449 ../src/gui/app1/chronojump.cs:1647
-#: ../src/gui/app1/chronojump.cs:1830
+#: ../src/gui/app1/chronojump.cs:1425 ../src/gui/app1/chronojump.cs:1623
+#: ../src/gui/app1/chronojump.cs:1806
 msgid "Repair selected"
 msgstr "Repară selectate"
 
-#: ../src/gui/app1/chronojump.cs:2326
+#: ../src/gui/app1/chronojump.cs:2313
 #, csharp-format
 msgid ""
 "Could not delete file:\n"
@@ -6046,209 +6053,112 @@ msgstr ""
 "Nu s-a putut șterge fișierul:\n"
 "{0}"
 
-#: ../src/gui/app1/chronojump.cs:2399
-#: ../src/gui/app1/session/loadAndImport.cs:190
+#: ../src/gui/app1/chronojump.cs:2387
+#: ../src/gui/app1/session/loadAndImport.cs:197
 msgid "Jumps simple"
 msgstr "Sare simplu"
 
-#: ../src/gui/app1/chronojump.cs:2401
+#: ../src/gui/app1/chronojump.cs:2389
 msgid "Jumps multiple"
 msgstr "Sărituri multiple"
 
-#: ../src/gui/app1/chronojump.cs:2403
-#: ../src/gui/app1/session/loadAndImport.cs:192
+#: ../src/gui/app1/chronojump.cs:2391
+#: ../src/gui/app1/session/loadAndImport.cs:199
 msgid "Races simple"
 msgstr "Alergări simplu"
 
-#: ../src/gui/app1/chronojump.cs:2405
+#: ../src/gui/app1/chronojump.cs:2393
 msgid "Races intervallic"
 msgstr "Alergări cu interval"
 
-#: ../src/gui/app1/chronojump.cs:2410
+#: ../src/gui/app1/chronojump.cs:2398
 msgid "Encoder (gravitatory)"
 msgstr "Codor (gravitațional)"
 
-#: ../src/gui/app1/chronojump.cs:2412
+#: ../src/gui/app1/chronojump.cs:2400
 msgid "Encoder (inertial)"
 msgstr "Codor (interțial)"
 
 #. reportWin is still not created, not need to Fill again
 #. feedback (more in 1st session created)
-#: ../src/gui/app1/chronojump.cs:2477
+#: ../src/gui/app1/chronojump.cs:2465
 msgid "Session created, now add or load persons."
 msgstr "Sesiunea a fost creată, acum adăugați sau încărcați persoane."
 
-#: ../src/gui/app1/chronojump.cs:2883
+#: ../src/gui/app1/chronojump.cs:2871
 msgid "Sorry, R software is not installed."
 msgstr "Programul R nu este instalat."
 
-#: ../src/gui/app1/chronojump.cs:2884 ../src/gui/app1/encoder.cs:6644
+#: ../src/gui/app1/chronojump.cs:2872 ../src/gui/app1/encoder.cs:6642
 #: ../src/stats/main.cs:1517
 msgid "Please, install it from here:"
 msgstr "Instalați-l de aici:"
 
 #. manage show threshold stuff
 #. t_stored_on_chronopic will be 50, and later firmware will be changed
-#: ../src/gui/app1/chronojump.cs:3202 ../src/gui/app1/chronojump.cs:3546
+#: ../src/gui/app1/chronojump.cs:3197 ../src/gui/app1/chronojump.cs:3535
 #: ../src/gui/chronopic.cs:132
 msgid "Threshold"
 msgstr "Prag"
 
-#: ../src/gui/app1/chronojump.cs:3695
+#: ../src/gui/app1/chronojump.cs:3680
 msgid "Sorry, RSA tests cannot be simulated."
 msgstr "Testele RSA nu pot fi simulate."
 
-#: ../src/gui/app1/chronojump.cs:3777 ../src/gui/app1/encoder.cs:1285
+#: ../src/gui/app1/chronojump.cs:3759 ../src/gui/app1/encoder.cs:1285
 msgid "Saved comment."
 msgstr "Comentariu salvat."
 
-#: ../src/gui/app1/chronojump.cs:5212
+#: ../src/gui/app1/chronojump.cs:5194
 msgid "Changes"
 msgstr "Modificări"
 
-#: ../src/gui/app1/chronojump.cs:5723
+#: ../src/gui/app1/chronojump.cs:5705
 msgid "Inspector"
 msgstr "Inspector"
 
-#: ../src/gui/app1/chronojump.cs:5743 ../src/gui/app1/chronojump.cs:5759
+#: ../src/gui/app1/chronojump.cs:5725 ../src/gui/app1/chronojump.cs:5741
 msgid "Do you want to delete this jump?"
 msgstr "Doriți să ștergeți această săritură?"
 
-#: ../src/gui/app1/chronojump.cs:5760
+#: ../src/gui/app1/chronojump.cs:5742
 msgid "Attention: Deleting a Reactive subjump will delete the whole jump"
 msgstr ""
 "Atenție: ștergerea unei subsărituri reactive va șterge întreaga săritură"
 
-#: ../src/gui/app1/chronojump.cs:5834 ../src/gui/app1/chronojump.cs:5851
+#: ../src/gui/app1/chronojump.cs:5816 ../src/gui/app1/chronojump.cs:5833
 msgid "Do you want to delete this race?"
 msgstr "Doriți să ștergeți această alergare?"
 
-#: ../src/gui/app1/chronojump.cs:5852
+#: ../src/gui/app1/chronojump.cs:5834
 msgid "Attention: Deleting a lap will delete the whole race"
 msgstr "Atenție: ștergerea unei ture va șterge întreaga alergare"
 
-#: ../src/gui/app1/chronojump.cs:5990
+#: ../src/gui/app1/chronojump.cs:5972
 msgid "Do you want to delete this test?"
 msgstr "Doriți să ștergeți acest test?"
 
-#: ../src/gui/app1/chronojump.cs:6054
+#: ../src/gui/app1/chronojump.cs:6036
 msgid "Added simple jump type."
 msgstr "S-a adăugat tipul de săritură simplă."
 
-#: ../src/gui/app1/chronojump.cs:6064
+#: ../src/gui/app1/chronojump.cs:6046
 msgid "Added reactive jump type."
 msgstr "S-a adăugat tipul de săritură reactivă."
 
-#: ../src/gui/app1/chronojump.cs:6094
+#: ../src/gui/app1/chronojump.cs:6076
 msgid "Added simple race type."
 msgstr "S-a adăugat tipul de alergare simplă."
 
-#: ../src/gui/app1/chronojump.cs:6104
+#: ../src/gui/app1/chronojump.cs:6086
 msgid "Added intervallic race type."
 msgstr "S-a adăugat un tip de alergare cu interval."
 
-#: ../src/gui/app1/chronojump.cs:6513
-msgid "Use these keys in order to work faster."
-msgstr "Utilizați aceste taste pentru a lucra mai rapid."
-
-#: ../src/gui/app1/chronojump.cs:6517
-msgid "CURSOR_UP"
-msgstr "CURSOR_SUS"
-
-#: ../src/gui/app1/chronojump.cs:6517
-msgid "Select previous person"
-msgstr "Selectați persoana anterioară"
-
-#: ../src/gui/app1/chronojump.cs:6518
-msgid "CURSOR_DOWN"
-msgstr "CURSOR_JOS"
-
-#: ../src/gui/app1/chronojump.cs:6518
-msgid "Select next person"
-msgstr "Selectați persoana următoare"
-
-#: ../src/gui/app1/chronojump.cs:6520
-msgid "Capture tests"
-msgstr "Capturează testele"
-
-#: ../src/gui/app1/chronojump.cs:6521
-msgid "Execute test"
-msgstr "Execută testul"
-
-#: ../src/gui/app1/chronojump.cs:6522
-msgid "Finish test"
-msgstr "Termină testul"
-
-#: ../src/gui/app1/chronojump.cs:6523
-msgid "Cancel test"
-msgstr "Anulează testul"
-
-#: ../src/gui/app1/chronojump.cs:6526
-msgid "On capture tab:"
-msgstr "La tabul de captură:"
-
-#: ../src/gui/app1/chronojump.cs:6527
-msgid "Play video of this test"
-msgstr "Redă video al acestui test"
-
-#: ../src/gui/app1/chronojump.cs:6527 ../src/gui/app1/chronojump.cs:6533
-#: ../src/gui/app1/chronojump.cs:6536
-msgid "(if available)"
-msgstr "(dacă este disponibil)"
-
-#: ../src/gui/app1/chronojump.cs:6528
-msgid "Delete this test"
-msgstr "Șterge acest test"
-
-#: ../src/gui/app1/chronojump.cs:6531
-msgid "On analyze tab:"
-msgstr "La tabul de analiză:"
-
-#: ../src/gui/app1/chronojump.cs:6532
-msgid "Zoom change"
-msgstr "Focalizează modificarea"
-
-#: ../src/gui/app1/chronojump.cs:6533
-msgid "Play video of selected test"
-msgstr "Redă video al testului selectat"
-
-#: ../src/gui/app1/chronojump.cs:6534
-msgid "Edit selected test"
-msgstr "Editează testul selectat"
-
-#: ../src/gui/app1/chronojump.cs:6535
-msgid "Delete selected test"
-msgstr "Șterge testele selectate"
-
-#: ../src/gui/app1/chronojump.cs:6536
-msgid "Repair selected test"
-msgstr "Repară testul selectat"
-
-#: ../src/gui/app1/chronojump.cs:6538
-msgid "On encoder capture:"
-msgstr "La captura de codor:"
-
-#: ../src/gui/app1/chronojump.cs:6539
-msgid "Add weight"
-msgstr "Adaugă greutate"
-
-#: ../src/gui/app1/chronojump.cs:6540
-msgid "Remove weight"
-msgstr "Elimină greutatea"
-
-#: ../src/gui/app1/chronojump.cs:6543
-msgid "Close any window"
-msgstr "Închide orice fereastră"
-
-#: ../src/gui/app1/chronojump.cs:6544
-msgid "Open menu"
-msgstr "Deschide meniul"
-
-#: ../src/gui/app1/chronojump.cs:6711
+#: ../src/gui/app1/chronojump.cs:6662
 msgid "translator-credits"
 msgstr "Florentina Mușat <emryslokadottir [at] gmail [dot] com>, 2018-2020"
 
-#: ../src/gui/app1/chronojump.cs:7477
+#: ../src/gui/app1/chronojump.cs:7413
 msgid "Done for testing purposes. Chronojump will exit badly"
 msgstr "Efectuat în scopuri de testare. Chronojump va ieși grav"
 
@@ -6278,11 +6188,11 @@ msgstr "Sunt conectate mai mult de 1 codor"
 msgid "Calibrated"
 msgstr "Calibrat"
 
-#: ../src/gui/app1/encoder.cs:909 ../src/gui/app1/encoder.cs:4720
-#: ../src/gui/app1/encoder.cs:4939 ../src/gui/app1/forceSensor.cs:340
-#: ../src/gui/app1/forceSensor.cs:2411 ../src/gui/app1/forceSensor.cs:2463
-#: ../src/gui/app1/runEncoder.cs:215 ../src/gui/app1/runEncoder.cs:1370
-#: ../src/gui/app1/runEncoder.cs:1500
+#: ../src/gui/app1/encoder.cs:909 ../src/gui/app1/encoder.cs:4718
+#: ../src/gui/app1/encoder.cs:4937 ../src/gui/app1/forceSensor.cs:337
+#: ../src/gui/app1/forceSensor.cs:2409 ../src/gui/app1/forceSensor.cs:2461
+#: ../src/gui/app1/runEncoder.cs:214 ../src/gui/app1/runEncoder.cs:1373
+#: ../src/gui/app1/runEncoder.cs:1503
 msgid "Need to create/select an exercise."
 msgstr "Trebuie să creați/selectați un exercițiu."
 
@@ -6333,30 +6243,30 @@ msgid "Contraction"
 msgstr "Contracție"
 
 #. don't show now
-#: ../src/gui/app1/encoder.cs:1626 ../src/gui/app1/forceSensor.cs:1454
+#: ../src/gui/app1/encoder.cs:1626 ../src/gui/app1/forceSensor.cs:1450
 #: ../src/gui/app1/runEncoder.cs:674
 #, csharp-format
 msgid "Select set of athlete {0} on this session."
 msgstr "Selectați setul atletului {0} din această sesiune."
 
-#: ../src/gui/app1/encoder.cs:1628 ../src/gui/app1/forceSensor.cs:1457
+#: ../src/gui/app1/encoder.cs:1628 ../src/gui/app1/forceSensor.cs:1453
 #: ../src/gui/app1/runEncoder.cs:677
 msgid "If you want to edit or delete a row, right click on it."
 msgstr ""
 "Dacă doriți să editați sau să ștergeți un rând, apăsați clic dreapta pe "
 "acesta."
 
-#: ../src/gui/app1/encoder.cs:1641 ../src/gui/app1/forceSensor.cs:1471
+#: ../src/gui/app1/encoder.cs:1641 ../src/gui/app1/forceSensor.cs:1467
 #: ../src/gui/app1/runEncoder.cs:691
 msgid "Change the owner of selected set"
 msgstr "Modifică deținătorul setului selectat"
 
-#: ../src/gui/app1/encoder.cs:1642 ../src/gui/app1/forceSensor.cs:1472
+#: ../src/gui/app1/encoder.cs:1642 ../src/gui/app1/forceSensor.cs:1468
 #: ../src/gui/app1/runEncoder.cs:692
 msgid "code"
 msgstr "cod"
 
-#: ../src/gui/app1/encoder.cs:1642 ../src/gui/app1/forceSensor.cs:1472
+#: ../src/gui/app1/encoder.cs:1642 ../src/gui/app1/forceSensor.cs:1468
 #: ../src/gui/app1/runEncoder.cs:692
 msgid "name"
 msgstr "nume"
@@ -6381,7 +6291,7 @@ msgid "copy"
 msgstr "copiază"
 
 #: ../src/gui/app1/encoder.cs:1856 ../src/gui/app1/encoder.cs:2302
-#: ../src/gui/app1/forceSensor.cs:1647 ../src/gui/app1/forceSensor.cs:1683
+#: ../src/gui/app1/forceSensor.cs:1643 ../src/gui/app1/forceSensor.cs:1679
 #: ../src/gui/app1/runEncoder.cs:843 ../src/gui/app1/runEncoder.cs:880
 msgid "Are you sure you want to delete this set?"
 msgstr "Sigur doriți să ștergeți acest set?"
@@ -6402,8 +6312,8 @@ msgstr "Exportă repetiția în format CSV"
 msgid "Export data in CSV format"
 msgstr "Exportă datele în formatul CSV"
 
-#: ../src/gui/app1/encoder.cs:2241 ../src/gui/app1/encoder.cs:4446
-#: ../src/gui/app1/encoder.cs:4516 ../src/gui/app1/runEncoderAnalyze.cs:177
+#: ../src/gui/app1/encoder.cs:2241 ../src/gui/app1/encoder.cs:4445
+#: ../src/gui/app1/encoder.cs:4515 ../src/gui/app1/runEncoderAnalyze.cs:177
 #: ../src/gui/encoderConfiguration.cs:747 ../src/gui/person/addModify.cs:351
 #: ../src/gui/sprint.cs:295
 #, csharp-format
@@ -6437,17 +6347,17 @@ msgstr "Nu s-au selectat repetiții."
 
 #. cannot do 1RM Any exercise without the "speed at 1RM" exercise parameter
 #: ../src/gui/app1/encoder.cs:2685 ../src/gui/app1/encoder.cs:2713
-#: ../src/gui/app1/encoder.cs:2765 ../src/gui/app1/encoder.cs:4003
+#: ../src/gui/app1/encoder.cs:2765 ../src/gui/app1/encoder.cs:4002
 msgid "1RM Any exercise"
 msgstr "Orice exercițiu 1RM"
 
 #: ../src/gui/app1/encoder.cs:2687 ../src/gui/app1/encoder.cs:2767
-#: ../src/gui/app1/encoder.cs:4003
+#: ../src/gui/app1/encoder.cs:4002
 msgid "1RM Bench Press"
 msgstr "Presare de bancă 1RM"
 
 #: ../src/gui/app1/encoder.cs:2689 ../src/gui/app1/encoder.cs:2769
-#: ../src/gui/app1/encoder.cs:4004
+#: ../src/gui/app1/encoder.cs:4003
 msgid "1RM Squat"
 msgstr "Genuflexiune 1RM"
 
@@ -6473,7 +6383,7 @@ msgid "Please edit exercise parameters on capture tab."
 msgstr "Editați parametrii exercițiului în fila capturii."
 
 #. will not be translated
-#: ../src/gui/app1/encoder.cs:2743 ../src/gui/app1/encoder.cs:4168
+#: ../src/gui/app1/encoder.cs:2743 ../src/gui/app1/encoder.cs:4167
 msgid "Speed,Power / Load"
 msgstr "Viteză,putere / greutate"
 
@@ -6486,23 +6396,23 @@ msgstr "Acest grafic nu este suportat încă."
 msgid "All weights"
 msgstr "Toate greutățile"
 
-#: ../src/gui/app1/encoder.cs:3838
+#: ../src/gui/app1/encoder.cs:3837
 msgid "About Neuromuscular Profile"
 msgstr "Despre profilul neuromuscular"
 
-#: ../src/gui/app1/encoder.cs:3839
+#: ../src/gui/app1/encoder.cs:3838
 msgid "Load = Average eccentric RFD (Ratio of Force Development)"
 msgstr "Greutate = RFD excentric mediu (proporția de dezvoltare a forței)"
 
-#: ../src/gui/app1/encoder.cs:3840
+#: ../src/gui/app1/encoder.cs:3839
 msgid "Explode = Average relative concentric RFD"
 msgstr "Explodează = RFD concentric relativ mediu"
 
-#: ../src/gui/app1/encoder.cs:3841
+#: ../src/gui/app1/encoder.cs:3840
 msgid "Drive = Average relative concentric Impulse"
 msgstr "Propulsie = impuls concentric relativ mediu"
 
-#: ../src/gui/app1/encoder.cs:3842
+#: ../src/gui/app1/encoder.cs:3841
 msgid ""
 "General trends to try to develop an 'equilibrated' neuromuscular profile "
 "(always add individual considerations as previous or actual injuries, sport "
@@ -6513,7 +6423,7 @@ msgstr ""
 "accidentările anterioare sau actuale, specificitatea sportului, lanțurile "
 "musculare, etc.)."
 
-#: ../src/gui/app1/encoder.cs:3843
+#: ../src/gui/app1/encoder.cs:3842
 msgid ""
 "If one of the metrics is under developed (weak) compared with the other two, "
 "prescribe exercises that emphasize its development."
@@ -6522,7 +6432,7 @@ msgstr ""
 "comparație cu celelalte două, prescrieți exerciții care subliniază "
 "dezvoltarea acesteia."
 
-#: ../src/gui/app1/encoder.cs:3844
+#: ../src/gui/app1/encoder.cs:3843
 msgid ""
 "If one of the metrics is over developed (extreme) compared with the other "
 "two, prescribe exercises to emphasize those, but paying attention to "
@@ -6533,11 +6443,11 @@ msgstr ""
 "urmă, dar acordând atenție flexibilității și relaxării mușchilor "
 "suprasolicitați."
 
-#: ../src/gui/app1/encoder.cs:3846
+#: ../src/gui/app1/encoder.cs:3845
 msgid "General guidelines to improve the neuromuscular profile:"
 msgstr "Recomandări generale pentru îmbunătățirea profilului neuromuscular:"
 
-#: ../src/gui/app1/encoder.cs:3848
+#: ../src/gui/app1/encoder.cs:3847
 msgid ""
 "Load: Perform exercises that develop maximum force (eccentric, isometric or "
 "concentric)."
@@ -6545,13 +6455,13 @@ msgstr ""
 "Greutate: executați exerciții care dezvoltă forța maximă (excentrică, "
 "izometrică sau concentrică)."
 
-#: ../src/gui/app1/encoder.cs:3849
+#: ../src/gui/app1/encoder.cs:3848
 msgid "Then switch to exercises that develop eccentric force in short time."
 msgstr ""
 "Atunci comutați la exerciții care dezvoltă forța excentrică într-un timp "
 "scurt."
 
-#: ../src/gui/app1/encoder.cs:3851
+#: ../src/gui/app1/encoder.cs:3850
 msgid ""
 "Explode: Perform exercises that develop force in short time, and maximum "
 "force."
@@ -6559,218 +6469,218 @@ msgstr ""
 "Explodează: executați exerciții care dezvoltă forță într-un timp scurt, și "
 "forță maximă."
 
-#: ../src/gui/app1/encoder.cs:3852
+#: ../src/gui/app1/encoder.cs:3851
 msgid "Drive: Perform exercises where force is developed during more time."
 msgstr ""
 "Propulsie: executați exerciții când forța se dezvoltă într-un timp mai "
 "îndelungat."
 
-#: ../src/gui/app1/encoder.cs:3854
+#: ../src/gui/app1/encoder.cs:3853
 msgid "Analysis uses the best three jumps using 'jump height' criterion."
 msgstr ""
 "Analiza utilizează cele mai bune trei sărituri folosind criteriul „înălțimea "
 "săriturii”."
 
-#: ../src/gui/app1/encoder.cs:3855
+#: ../src/gui/app1/encoder.cs:3854
 msgid "Lapuente and De Blas. Adapted from Wagner:"
 msgstr "Lapuente și De Blas. Adaptat de la Wagner:"
 
-#: ../src/gui/app1/encoder.cs:4004
+#: ../src/gui/app1/encoder.cs:4003
 msgid "1RM Indirect"
 msgstr "Indirect 1RM"
 
-#: ../src/gui/app1/encoder.cs:4140 ../src/gui/app1/encoder.cs:4143
+#: ../src/gui/app1/encoder.cs:4139 ../src/gui/app1/encoder.cs:4142
 msgid "All exercises"
 msgstr "Toate exercițiile"
 
-#: ../src/gui/app1/encoder.cs:4165
+#: ../src/gui/app1/encoder.cs:4164
 msgid "Power / Load"
 msgstr "Putere / greutate"
 
-#: ../src/gui/app1/encoder.cs:4165
+#: ../src/gui/app1/encoder.cs:4164
 msgid "Speed / Load"
 msgstr "Viteză / greutate"
 
-#: ../src/gui/app1/encoder.cs:4166
+#: ../src/gui/app1/encoder.cs:4165
 msgid "Force / Load"
 msgstr "Forță / greutate"
 
-#: ../src/gui/app1/encoder.cs:4169
+#: ../src/gui/app1/encoder.cs:4168
 msgid "Force,Power / Speed"
 msgstr "Forță,putere / viteză"
 
-#: ../src/gui/app1/encoder.cs:4169
+#: ../src/gui/app1/encoder.cs:4168
 msgid "Power / Speed"
 msgstr "Putere / viteză"
 
-#: ../src/gui/app1/encoder.cs:4179
+#: ../src/gui/app1/encoder.cs:4178
 msgid "Power / Date"
 msgstr "Putere / dată"
 
-#: ../src/gui/app1/encoder.cs:4180
+#: ../src/gui/app1/encoder.cs:4179
 msgid "Speed / Date"
 msgstr "Viteză / dată"
 
-#: ../src/gui/app1/encoder.cs:4181
+#: ../src/gui/app1/encoder.cs:4180
 msgid "Force / Date"
 msgstr "Forță / dată"
 
-#: ../src/gui/app1/encoder.cs:4334
+#: ../src/gui/app1/encoder.cs:4333
 msgid "Done"
 msgstr "Gata"
 
-#: ../src/gui/app1/encoder.cs:4537
+#: ../src/gui/app1/encoder.cs:4536
 msgid "Error doing operation."
 msgstr "Eroare la executarea operației."
 
-#: ../src/gui/app1/encoder.cs:4538
+#: ../src/gui/app1/encoder.cs:4537
 msgid "Operation cancelled."
 msgstr "Operație anulată."
 
-#: ../src/gui/app1/encoder.cs:4592
+#: ../src/gui/app1/encoder.cs:4591
 #, csharp-format
 msgid "Saved 1RM: {0} Kg."
 msgstr "Salvat 1RM: {0} kg."
 
-#: ../src/gui/app1/encoder.cs:4754 ../src/gui/app1/forceSensor.cs:2475
+#: ../src/gui/app1/encoder.cs:4752 ../src/gui/app1/forceSensor.cs:2473
 msgid "Delete exercise"
 msgstr "Șterge exercițiul"
 
-#: ../src/gui/app1/encoder.cs:4755
+#: ../src/gui/app1/encoder.cs:4753
 msgid "Encoder exercise name:"
 msgstr "Nume exercițiu de codor:"
 
-#: ../src/gui/app1/encoder.cs:4758 ../src/gui/app1/encoder.cs:4816
+#: ../src/gui/app1/encoder.cs:4756 ../src/gui/app1/encoder.cs:4814
 msgid "Displaced body weight"
 msgstr "Greutate corporală deplasată"
 
-#: ../src/gui/app1/encoder.cs:4764 ../src/gui/app1/encoder.cs:4818
+#: ../src/gui/app1/encoder.cs:4762 ../src/gui/app1/encoder.cs:4816
 msgid "Resistance"
 msgstr "Rezistență"
 
-#: ../src/gui/app1/encoder.cs:4766 ../src/gui/app1/encoder.cs:4820
+#: ../src/gui/app1/encoder.cs:4764 ../src/gui/app1/encoder.cs:4818
 msgid "Speed at 1RM"
 msgstr "Viteza la 1RM"
 
 #. don't show now
-#: ../src/gui/app1/encoder.cs:4815 ../src/gui/app1/runEncoder.cs:1420
+#: ../src/gui/app1/encoder.cs:4813 ../src/gui/app1/runEncoder.cs:1423
 msgid "Write the name of the exercise:"
 msgstr "Scrieți numele exercițiului:"
 
-#: ../src/gui/app1/encoder.cs:4868 ../src/gui/app1/runEncoder.cs:1460
+#: ../src/gui/app1/encoder.cs:4866 ../src/gui/app1/runEncoder.cs:1463
 #: ../src/gui/forceSensorExercise.cs:618
 msgid "Error: Missing name of exercise."
 msgstr "Lipsește numele exercițiului."
 
 #. if we add, check that this name does not exists
-#: ../src/gui/app1/encoder.cs:4874 ../src/gui/app1/encoder.cs:4884
-#: ../src/gui/app1/runEncoder.cs:1466 ../src/gui/app1/runEncoder.cs:1476
+#: ../src/gui/app1/encoder.cs:4872 ../src/gui/app1/encoder.cs:4882
+#: ../src/gui/app1/runEncoder.cs:1469 ../src/gui/app1/runEncoder.cs:1479
 #: ../src/gui/forceSensorExercise.cs:625 ../src/gui/forceSensorExercise.cs:635
 #, csharp-format
 msgid "Error: An exercise named '{0}' already exists."
 msgstr "Un exercițiu cu numele „{0}” există deja."
 
-#: ../src/gui/app1/encoder.cs:4951 ../src/gui/app1/forceSensor.cs:2476
-#: ../src/gui/app1/runEncoder.cs:1515
+#: ../src/gui/app1/encoder.cs:4949 ../src/gui/app1/forceSensor.cs:2474
+#: ../src/gui/app1/runEncoder.cs:1518
 msgid "Exercise name:"
 msgstr "Nume exercițiu:"
 
-#: ../src/gui/app1/encoder.cs:4961 ../src/gui/app1/forceSensor.cs:2486
-#: ../src/gui/app1/runEncoder.cs:1525
+#: ../src/gui/app1/encoder.cs:4959 ../src/gui/app1/forceSensor.cs:2484
+#: ../src/gui/app1/runEncoder.cs:1528
 msgid "Sorry, this exercise cannot be deleted until these tests are deleted:"
 msgstr "Acest exercițiu nu poate fi șters până când aceste teste sunt șterse:"
 
-#: ../src/gui/app1/encoder.cs:4987 ../src/gui/app1/forceSensor.cs:2508
-#: ../src/gui/app1/runEncoder.cs:1547
+#: ../src/gui/app1/encoder.cs:4985 ../src/gui/app1/forceSensor.cs:2506
+#: ../src/gui/app1/runEncoder.cs:1550
 msgid "Exercise deleted."
 msgstr "Exercițiu șters."
 
-#: ../src/gui/app1/encoder.cs:5598 ../src/gui/encoderConfiguration.cs:914
+#: ../src/gui/app1/encoder.cs:5596 ../src/gui/encoderConfiguration.cs:914
 msgid "Capturing"
 msgstr "Se capturează"
 
-#: ../src/gui/app1/encoder.cs:5653 ../src/gui/app1/encoder.cs:5713
+#: ../src/gui/app1/encoder.cs:5651 ../src/gui/app1/encoder.cs:5711
 msgid "Sorry, cannot start capture."
 msgstr "Nu s-a putut începe captura."
 
 #. to allow hslides and table
-#: ../src/gui/app1/encoder.cs:5817 ../src/gui/app1/encoder.cs:6382
-#: ../src/gui/preferences.cs:1847
+#: ../src/gui/app1/encoder.cs:5815 ../src/gui/app1/encoder.cs:6380
+#: ../src/gui/app1/session/backup.cs:197
 msgid "Please, wait."
 msgstr "Așteptați."
 
-#: ../src/gui/app1/encoder.cs:6401
+#: ../src/gui/app1/encoder.cs:6399
 msgid "R tasks done"
 msgstr "Sarcini R terminate"
 
-#: ../src/gui/app1/encoder.cs:6413
+#: ../src/gui/app1/encoder.cs:6411
 msgid "Repetitions processed"
 msgstr "Repetiții procesate"
 
-#: ../src/gui/app1/encoder.cs:6420
+#: ../src/gui/app1/encoder.cs:6418
 msgid "Starting process"
 msgstr "Se începe procesul"
 
-#: ../src/gui/app1/encoder.cs:6424
+#: ../src/gui/app1/encoder.cs:6422
 msgid "Loading libraries"
 msgstr "Se încarcă bibliotecile"
 
-#: ../src/gui/app1/encoder.cs:6428
+#: ../src/gui/app1/encoder.cs:6426
 msgid "Starting R"
 msgstr "Se lansează R"
 
-#: ../src/gui/app1/encoder.cs:6642 ../src/stats/main.cs:1515
+#: ../src/gui/app1/encoder.cs:6640 ../src/stats/main.cs:1515
 msgid "Sorry. Error doing graph."
 msgstr "Nu s-a putut desena graficul."
 
-#: ../src/gui/app1/encoder.cs:6643 ../src/stats/main.cs:1516
+#: ../src/gui/app1/encoder.cs:6641 ../src/stats/main.cs:1516
 msgid "Maybe R is not installed."
 msgstr "Poate că R nu este instalat."
 
 #. signal is raised and managed in gui/encoder.cs
-#: ../src/gui/app1/encoder.cs:6651 ../src/gui/app1/encoder.cs:6878
+#: ../src/gui/app1/encoder.cs:6649 ../src/gui/app1/encoder.cs:6876
 #: ../src/gui/encoderConfiguration.cs:972
 msgid "Cancelled"
 msgstr "Anulat"
 
-#: ../src/gui/app1/encoder.cs:6656 ../src/gui/app1/encoder.cs:6827
+#: ../src/gui/app1/encoder.cs:6654 ../src/gui/app1/encoder.cs:6825
 msgid "Finished"
 msgstr "Terminat"
 
-#: ../src/gui/app1/encoder.cs:6874
+#: ../src/gui/app1/encoder.cs:6872
 msgid "Set corrected. string was not fully extended at the beginning."
 msgstr "Set corectat. șirul nu a fost complet extins la început."
 
-#: ../src/gui/app1/forceSensor.cs:126
+#: ../src/gui/app1/forceSensor.cs:123
 msgid "Force sensor is not detected!"
 msgstr "Senzorul de forță nu este detectat!"
 
-#: ../src/gui/app1/forceSensor.cs:127 ../src/gui/app1/runEncoder.cs:87
+#: ../src/gui/app1/forceSensor.cs:124 ../src/gui/app1/runEncoder.cs:86
 msgid "Plug cable and click on 'device' button."
 msgstr "Conectați cablul și apăsați clic pe butonul „dispozitiv”."
 
-#: ../src/gui/app1/forceSensor.cs:351 ../src/gui/app1/forceSensor.cs:1725
+#: ../src/gui/app1/forceSensor.cs:348 ../src/gui/app1/forceSensor.cs:1721
 msgid "Need to configure fixture to know stiffness of this elastic exercise."
 msgstr ""
 "Trebuie să configurați accesoriul să cunoască rigiditatea acestui exercițiu "
 "elastic."
 
-#: ../src/gui/app1/forceSensor.cs:632
+#: ../src/gui/app1/forceSensor.cs:628
 msgid "Version of the firmware:"
 msgstr "Versiunea de firmware:"
 
-#: ../src/gui/app1/forceSensor.cs:1436
+#: ../src/gui/app1/forceSensor.cs:1432
 msgid "Capture option"
 msgstr "Opțiune de capturare"
 
-#: ../src/gui/app1/forceSensor.cs:1551
+#: ../src/gui/app1/forceSensor.cs:1547
 msgid ""
 "Loaded set used elastic bands removed from database or with changed values."
 msgstr ""
 "Setul încărcat a folosit benzi elastice eliminate din baza de date sau cu "
 "valori modificate."
 
-#: ../src/gui/app1/forceSensor.cs:1552
+#: ../src/gui/app1/forceSensor.cs:1548
 msgid ""
 "Stiffness calculation is correct but stiffness configuration window will not "
 "be able to match elastic bands and total stiffness."
@@ -6778,37 +6688,37 @@ msgstr ""
 "Calculul rigidității este corect, dar fereastra de configurare a rigidității "
 "nu va putea să corespundă benzilor elastice și rigidității totale."
 
-#: ../src/gui/app1/forceSensor.cs:1824
+#: ../src/gui/app1/forceSensor.cs:1820
 msgid "Error doing graph."
 msgstr "Eroare la construirea graficului."
 
-#: ../src/gui/app1/forceSensor.cs:1825
+#: ../src/gui/app1/forceSensor.cs:1821
 msgid "Probably not sustained force."
 msgstr "Probabil că nu este forță susținută."
 
-#: ../src/gui/app1/forceSensor.cs:2274
+#: ../src/gui/app1/forceSensor.cs:2273
 msgid "If you want to calibrate, please tare first."
 msgstr "Dacă doriți să calibrați, tăiați mai întâi."
 
 #. don't show now
-#: ../src/gui/app1/forceSensor.cs:2421 ../src/gui/app1/forceSensor.cs:2431
-#: ../src/gui/app1/runEncoder.cs:1392
+#: ../src/gui/app1/forceSensor.cs:2419 ../src/gui/app1/forceSensor.cs:2429
+#: ../src/gui/app1/runEncoder.cs:1395
 msgid "Force sensor exercise:"
 msgstr "Exercițiu al senzorului de forță:"
 
-#: ../src/gui/app1/forceSensor.cs:2537
+#: ../src/gui/app1/forceSensor.cs:2535
 msgid "Stiffness configuration"
 msgstr "Configurarea rigidității"
 
-#: ../src/gui/app1/forceSensor.cs:2537
+#: ../src/gui/app1/forceSensor.cs:2535
 msgid "Configure attached elastic bands/tubes"
 msgstr "Configurează benzile/tuburile elastice atașate"
 
-#: ../src/gui/app1/forceSensor.cs:2549
+#: ../src/gui/app1/forceSensor.cs:2547
 msgid "Configure bands/tubes"
 msgstr "Configurați benzi/tuburi"
 
-#: ../src/gui/app1/forceSensor.cs:2552
+#: ../src/gui/app1/forceSensor.cs:2550
 msgid "Stiffness:"
 msgstr "Rigiditate:"
 
@@ -6832,42 +6742,13 @@ msgstr "Distanța în milimetri"
 msgid "Track distance"
 msgstr "Distanță pistă"
 
-#: ../src/gui/app1/runEncoder.cs:221 ../src/gui/sprint.cs:240
+#: ../src/gui/app1/runEncoder.cs:220 ../src/gui/sprint.cs:240
 msgid "Error, weight of the person cannot be 0"
 msgstr "Eroare, greutatea persoanei nu poate fi 0"
 
-#: ../src/gui/app1/runEncoder.cs:228 ../src/gui/sprint.cs:247
+#: ../src/gui/app1/runEncoder.cs:227 ../src/gui/sprint.cs:247
 msgid "Error, height of the person cannot be 0"
 msgstr "Eroare, înălțimea persoanei nu poate fi 0"
-
-#: ../src/gui/app1/session/loadAndImport.cs:76
-msgid "Import session"
-msgstr "Importă sesiunea"
-
-#: ../src/gui/app1/session/loadAndImport.cs:165
-#: ../src/gui/session/selectStats.cs:77
-msgid "Number"
-msgstr "Număr"
-
-#: ../src/gui/app1/session/loadAndImport.cs:191
-msgid "Jumps reactive"
-msgstr "Sărituri reactive"
-
-#: ../src/gui/app1/session/loadAndImport.cs:193
-msgid "Races interval"
-msgstr "Interval de alergări"
-
-#: ../src/gui/app1/session/loadAndImport.cs:199
-msgid "Gravitatory encoder"
-msgstr "Codor gravitațional"
-
-#: ../src/gui/app1/session/loadAndImport.cs:202
-msgid "Inertial encoder"
-msgstr "Codor inerțial"
-
-#: ../src/gui/app1/session/loadAndImport.cs:579
-msgid "Open another database"
-msgstr "Deschide altă bază de date"
 
 #: ../src/gui/app1/session/addEdit.cs:591 ../src/gui/person/addModify.cs:838
 msgid "Select session date"
@@ -6890,6 +6771,57 @@ msgstr "Ne pare rău, acest sport „{0}” există deja în baza de date"
 #, csharp-format
 msgid "Session: '{0}' exists. Please, use another name"
 msgstr "Sesiunea: „{0}” există. Utilizați alt nume"
+
+#: ../src/gui/app1/session/backup.cs:84
+msgid "Copy database to:"
+msgstr "Copiază baza de date la:"
+
+#: ../src/gui/app1/session/backup.cs:88
+msgid "Copy"
+msgstr "Copiază"
+
+#: ../src/gui/app1/session/backup.cs:131
+msgid "Are you sure you want to overwrite: "
+msgstr "Sigur doriți să suprascrieți: "
+
+#: ../src/gui/app1/session/backup.cs:153 ../src/gui/app1/session/backup.cs:237
+#, csharp-format
+msgid "Cannot copy to {0} "
+msgstr "Nu se poate copia la {0} "
+
+#: ../src/gui/app1/session/backup.cs:190
+#, csharp-format
+msgid "Copied in {0} ms"
+msgstr "Copiat în {0} ms"
+
+#: ../src/gui/app1/session/loadAndImport.cs:85
+msgid "Import session"
+msgstr "Importă sesiunea"
+
+#: ../src/gui/app1/session/loadAndImport.cs:172
+#: ../src/gui/session/selectStats.cs:77
+msgid "Number"
+msgstr "Număr"
+
+#: ../src/gui/app1/session/loadAndImport.cs:198
+msgid "Jumps reactive"
+msgstr "Sărituri reactive"
+
+#: ../src/gui/app1/session/loadAndImport.cs:200
+msgid "Races interval"
+msgstr "Interval de alergări"
+
+#: ../src/gui/app1/session/loadAndImport.cs:206
+msgid "Gravitatory encoder"
+msgstr "Codor gravitațional"
+
+#: ../src/gui/app1/session/loadAndImport.cs:209
+msgid "Inertial encoder"
+msgstr "Codor inerțial"
+
+#: ../src/gui/app1/session/loadAndImport.cs:584
+msgid "Open another database"
+msgstr "Deschide altă bază de date"
 
 #: ../src/gui/chronopic.cs:123
 msgid "Please, touch the platform or click Chronopic TEST button."
@@ -7114,7 +7046,7 @@ msgid "If you still want to import it, change to gravitatory mode."
 msgstr "Dacă încă doriți să o importați, schimbați la modul gravitațional."
 
 #: ../src/gui/encoderConfiguration.cs:700 ../src/gui/person/addMultiple.cs:307
-#: ../src/gui/preferences.cs:1617
+#: ../src/gui/preferences.cs:1482
 msgid "Error importing data."
 msgstr "Eroare la importarea de date."
 
@@ -7140,7 +7072,7 @@ msgstr "Timp max: {0} s."
 msgid "Ends at inactivity during {0} s."
 msgstr "Se termină la inactivitate timp de {0} s."
 
-#: ../src/gui/encoderGraphObjects.cs:850
+#: ../src/gui/encoderGraphObjects.cs:849
 msgid "saved"
 msgstr "salvat"
 
@@ -7270,6 +7202,10 @@ msgstr "Înălțimea săriturii"
 #: ../src/gui/eventExecute.cs:2301
 msgid "Platforms"
 msgstr "Platforme"
+
+#: ../src/gui/executeAuto.cs:190
+msgid "Mode"
+msgstr "Mod"
 
 #: ../src/gui/executeAuto.cs:455
 #, csharp-format
@@ -7773,7 +7709,7 @@ msgstr ""
 msgid "multi chronopic"
 msgstr "chronopic multi"
 
-#: ../src/gui/networks.cs:603
+#: ../src/gui/networks.cs:597
 #, csharp-format
 msgid "Identify with admin ID wristband before {0} s."
 msgstr "Identificați-vă cu brățara de ID de admin înainte de {0} s."
@@ -7806,19 +7742,19 @@ msgstr "alergări"
 msgid "watts"
 msgstr "wați"
 
-#: ../src/gui/overview.cs:198 ../src/gui/overview.cs:200
+#: ../src/gui/overview.cs:202 ../src/gui/overview.cs:204
 msgid "Encoder Overview"
 msgstr "Prezentare generală codor"
 
-#: ../src/gui/overview.cs:235
+#: ../src/gui/overview.cs:239
 msgid "Displaced mass"
 msgstr "Masă deplasată"
 
-#: ../src/gui/overview.cs:316
+#: ../src/gui/overview.cs:320
 msgid "Force sensor overview"
 msgstr "Prezentarea generală a senzorului de forță"
 
-#: ../src/gui/overview.cs:372
+#: ../src/gui/overview.cs:376
 msgid "Race analyzer overview"
 msgstr "Prezentare generală a analizatorului de cursă"
 
@@ -7984,26 +7920,26 @@ msgstr "Repetiții de codor"
 msgid "Run encoder"
 msgstr "Rulează codorul"
 
-#: ../src/gui/preferences.cs:754
+#: ../src/gui/preferences.cs:740
 msgid "Select color"
 msgstr "Selectează culoarea"
 
-#: ../src/gui/preferences.cs:816
+#: ../src/gui/preferences.cs:802
 msgid "If active, repetitions will be cut from set using triggers."
 msgstr ""
 "Dacă este activ, repetițiile vor fi tăiate din set utilizând declanșatori."
 
-#: ../src/gui/preferences.cs:817
+#: ../src/gui/preferences.cs:803
 msgid "Trigger signal will be produced by a button connected to the Chronopic."
 msgstr ""
 "Semnalul de declanșator va fi produs de un buton conectat la Chronopic."
 
-#: ../src/gui/preferences.cs:818
+#: ../src/gui/preferences.cs:804
 msgid "This will be only used on gravitatory mode, concentric contraction."
 msgstr ""
 "Aceasta va fi utilizată doar în modul gravitațional, contractare concentrică."
 
-#: ../src/gui/preferences.cs:819
+#: ../src/gui/preferences.cs:805
 msgid ""
 "If \"Cut by triggers\" is inactive, repetitions will be cut automatically "
 "(default behaviour),"
@@ -8011,7 +7947,7 @@ msgstr ""
 "Dacă „taie cu declanșatori” nu este activ, repetițiile vor fi tăiate automat "
 "(comportament implicit),"
 
-#: ../src/gui/preferences.cs:820
+#: ../src/gui/preferences.cs:806
 msgid ""
 "but pressing trigger button while capturing will plot vertical lines during "
 "analyze instant graphs."
@@ -8019,11 +7955,11 @@ msgstr ""
 "dar apăsarea butonului de declanșator în timpul capturării va plota linii "
 "verticale pe parcursul analizării graficelor instante."
 
-#: ../src/gui/preferences.cs:821
+#: ../src/gui/preferences.cs:807
 msgid "Encoder Chronopics have trigger functionality since 2017."
 msgstr "Chronopics de codor au funcționalitate de declanșare din 2017."
 
-#: ../src/gui/preferences.cs:822
+#: ../src/gui/preferences.cs:808
 msgid ""
 "You can check if your encoder Chronopic accepts triggers pressing test "
 "button."
@@ -8031,7 +7967,7 @@ msgstr ""
 "Puteți să verificați dacă Chronopic-ul de codor acceptă declanșatori apăsând "
 "butonul de test."
 
-#: ../src/gui/preferences.cs:823
+#: ../src/gui/preferences.cs:809
 msgid ""
 "Your Chronopic is ready for triggers if the green light at the side of "
 "Chronopic test button changes it's state on pressing this button."
@@ -8039,7 +7975,7 @@ msgstr ""
 "Chronopic este gata pentru declanșatori dacă lumina verde de lângă butonul "
 "de test Chronopic își modifică starea la apăsarea acestui buton."
 
-#: ../src/gui/preferences.cs:824
+#: ../src/gui/preferences.cs:810
 msgid ""
 "At Chronojump website there's a hand push button for using triggers with "
 "ease."
@@ -8047,19 +7983,19 @@ msgstr ""
 "Pe pagina web Chronojump există un buton care se poate apăsa cu mâna pentru "
 "utilizarea de declanșatori cu ușurință."
 
-#: ../src/gui/preferences.cs:1113 ../src/gui/repetitiveConditions.cs:521
+#: ../src/gui/preferences.cs:1099 ../src/gui/repetitiveConditions.cs:521
 msgid "Sound working"
 msgstr "Sunetul funcționează"
 
-#: ../src/gui/preferences.cs:1115 ../src/gui/repetitiveConditions.cs:523
+#: ../src/gui/preferences.cs:1101 ../src/gui/repetitiveConditions.cs:523
 msgid "Sound not working"
 msgstr "Sunetul nu funcționează"
 
-#: ../src/gui/preferences.cs:1367
+#: ../src/gui/preferences.cs:1353
 msgid "Race measurement"
 msgstr "Măsurare de alergare"
 
-#: ../src/gui/preferences.cs:1374
+#: ../src/gui/preferences.cs:1360
 msgid ""
 "Chronojump race reaction time device allows to record reaction time and race "
 "time."
@@ -8067,52 +8003,35 @@ msgstr ""
 "Dispozitivul pentru timpul de reacție la alergare Chronojump permite "
 "înregistrarea timpului de reacție și de alergare."
 
-#: ../src/gui/preferences.cs:1376
+#: ../src/gui/preferences.cs:1362
 msgid "Reaction time is displayed on Description column."
 msgstr "Timpul de reacție este afișat la coloana descriere."
 
-#: ../src/gui/preferences.cs:1378
+#: ../src/gui/preferences.cs:1364
 msgid "If first option is choosen, race time includes reaction time."
 msgstr ""
 "Dacă s-a ales prima opțiune, timpul de alergare include timpul de reacție."
 
-#: ../src/gui/preferences.cs:1462
+#: ../src/gui/preferences.cs:1425
 msgid "Cannot create directory."
 msgstr "Nu se poate crea directorul."
 
-#: ../src/gui/preferences.cs:1517
-msgid "Copy database to:"
-msgstr "Copiază baza de date la:"
-
-#: ../src/gui/preferences.cs:1521
-msgid "Copy"
-msgstr "Copiază"
-
-#: ../src/gui/preferences.cs:1553
-msgid "Are you sure you want to overwrite: "
-msgstr "Sigur doriți să suprascrieți: "
-
-#: ../src/gui/preferences.cs:1576 ../src/gui/preferences.cs:1650
-#, csharp-format
-msgid "Cannot copy to {0} "
-msgstr "Nu se poate copia la {0} "
-
-#: ../src/gui/preferences.cs:1592
+#: ../src/gui/preferences.cs:1457
 msgid "Import configuration file"
 msgstr "Importă fișierul de configurație"
 
-#: ../src/gui/preferences.cs:1624
+#: ../src/gui/preferences.cs:1489
 msgid "Successfully imported."
 msgstr "Importat cu succes."
 
-#: ../src/gui/preferences.cs:1729
+#: ../src/gui/preferences.cs:1496
 msgid ""
 "If a repetition has been found, test will end at selected inactivity seconds."
 msgstr ""
 "Dacă s-a găsit o repetiție, testul se va termina după secundele de "
 "inactivitate selectate."
 
-#: ../src/gui/preferences.cs:1730
+#: ../src/gui/preferences.cs:1497
 msgid ""
 "If a repetition has not been found, test will end at selected inactivity "
 "seconds (x2)."
@@ -8120,15 +8039,10 @@ msgstr ""
 "Dacă nu s-a găsit o repetiție, testul se va termina după secundele de "
 "inactivitate selectate (x2)."
 
-#: ../src/gui/preferences.cs:1731
+#: ../src/gui/preferences.cs:1498
 msgid "This will let the person to have more time to start movement."
 msgstr ""
 "Aceasta va permite persoanei să aibă mai mult timp pentru începerea mișcării."
-
-#: ../src/gui/preferences.cs:1840
-#, csharp-format
-msgid "Copied to {0} in {1} ms"
-msgstr "Copiat la {0} în {1} ms"
 
 #: ../src/gui/pulse.cs:48
 msgid "pulse"
@@ -8155,7 +8069,7 @@ msgstr "Protocol"
 msgid "You need to activate sounds in preferences / multimedia."
 msgstr "Trebuie să activați sunetele în preferințe / multimedia."
 
-#: ../src/gui/repetitiveConditions.cs:847
+#: ../src/gui/repetitiveConditions.cs:849
 msgid ""
 "Use clusters in order to group repetitions inside a set separated by rest "
 "time."
@@ -8163,7 +8077,7 @@ msgstr ""
 "Utilizați grupurile pentru a grupa repetițiile într-un set separate după "
 "timpul de odihnă."
 
-#: ../src/gui/repetitiveConditions.cs:849
+#: ../src/gui/repetitiveConditions.cs:851
 msgid ""
 "Set will end when user press Finish or Cancel or when there's no change in "
 "the encoder during this time:\n"
@@ -10858,6 +10772,154 @@ msgstr "Eroare. {0} nu poate salva video."
 msgid "Preview. Press any key to exit."
 msgstr "Previzualizare. Apăsați orice tastă pentru a ieși."
 
+#~ msgid "Backup data"
+#~ msgstr "Alcătuiți o copie de rezervă a datelor"
+
+#~ msgid "Restore data"
+#~ msgstr "Restaurează datele"
+
+#~ msgid "Others"
+#~ msgstr "Altele"
+
+#~ msgid "_Session"
+#~ msgstr "_Sersiune"
+
+#~ msgid "_Load"
+#~ msgstr "Î_ncarcă"
+
+#~ msgid "_Edit"
+#~ msgstr "_Editează"
+
+#~ msgid "Import session from another Chronojump database"
+#~ msgstr "Importă sesiunea de la altă bază de date Chronojump"
+
+#~ msgid "Export session to _CSV (Spreadsheet)"
+#~ msgstr "Exportă sesiunea la _CSV (foaie de calcul)"
+
+#~ msgid ""
+#~ "Useful to export to a Spreadsheet like MS Excel, LibreOffice or Google "
+#~ "Spreadsheets"
+#~ msgstr ""
+#~ "Util pentru a exporta la o foaie de calcul precum MS Excel, LibreOffice "
+#~ "sau foi de calcul Google"
+
+#~ msgid "Export session to _XML"
+#~ msgstr "Exportă sesiunea la _XML"
+
+#~ msgid "_Mode"
+#~ msgstr "_Mod"
+
+#~ msgid "Main menu"
+#~ msgstr "Meniu principal"
+
+#~ msgid "Races with encoder"
+#~ msgstr "Curse cu codor"
+
+#~ msgid "_Force sensor"
+#~ msgstr "Senzor de _forță"
+
+#~ msgid "Force sensor - Check version"
+#~ msgstr "Senzor de forță - verifică versiunea"
+
+#~ msgid "Check version"
+#~ msgstr "Verifică versiunea"
+
+#~ msgid "_Help"
+#~ msgstr "_Ajutor"
+
+#~ msgid "_Formulas"
+#~ msgstr "_Formule"
+
+#~ msgid "Use Chronojump faster"
+#~ msgstr "Utilizează Chronojump mai rapid"
+
+#~ msgid "_Accelerators"
+#~ msgstr "_Acceleratori"
+
+#~ msgid "Ping"
+#~ msgstr "Ping"
+
+#~ msgid ""
+#~ "Select previous person\n"
+#~ "<Control>Up"
+#~ msgstr ""
+#~ "Selectați persoana anterioară\n"
+#~ "<Control>Sus"
+
+#~ msgid ""
+#~ "Select next person\n"
+#~ "<Control>Down"
+#~ msgstr ""
+#~ "Selectați persoana următoare\n"
+#~ "<Control>Jos"
+
+#~ msgid ""
+#~ "Edit selected person\n"
+#~ "<Control>p"
+#~ msgstr ""
+#~ "Editează persoana selectată\n"
+#~ "<Control>p"
+
+#~ msgid "Or press 'CTRL + space'"
+#~ msgstr "Sau apăsați „CTRL + space”"
+
+#~ msgid "Delete last test <Control>d"
+#~ msgstr "Șterge ultimul test <Control>d"
+
+#~ msgid "Cancel test. Or press 'escape'."
+#~ msgstr "Anulați testul. Sau apăsați „spațiu”."
+
+#~ msgid "Play Video <Control>v"
+#~ msgstr "Redă video <Control>v"
+
+#~ msgid "Cancel process. Or press 'escape'."
+#~ msgstr "Anulați procesul. Sau apăsați „escape”."
+
+#~ msgid "<b>Chronojump CEO's</b>"
+#~ msgstr "<b>CEO's Chronojump</b>"
+
+#~ msgid "<b>Hardware: Devices</b>"
+#~ msgstr "<b>Hardware: dispozitive</b>"
+
+#~ msgid "<b>OpenCV</b>"
+#~ msgstr "<b>OpenCV</b>"
+
+#~ msgid "historical of this person"
+#~ msgstr "istoricul acestei persoane"
+
+#~ msgid "Chronojump Manual author."
+#~ msgstr "Autorul de manual Chronojump."
+
+#~ msgid "Use these keys in order to work faster."
+#~ msgstr "Utilizați aceste taste pentru a lucra mai rapid."
+
+#~ msgid "CURSOR_UP"
+#~ msgstr "CURSOR_SUS"
+
+#~ msgid "CURSOR_DOWN"
+#~ msgstr "CURSOR_JOS"
+
+#~ msgid "Capture tests"
+#~ msgstr "Capturează testele"
+
+#~ msgid "On capture tab:"
+#~ msgstr "La tabul de captură:"
+
+#~ msgid "Play video of this test"
+#~ msgstr "Redă video al acestui test"
+
+#~ msgid "(if available)"
+#~ msgstr "(dacă este disponibil)"
+
+#~ msgid "On analyze tab:"
+#~ msgstr "La tabul de analiză:"
+
+#~ msgid "Play video of selected test"
+#~ msgstr "Redă video al testului selectat"
+
+#~ msgid "On encoder capture:"
+#~ msgstr "La captura de codor:"
+
 #~ msgid "Fake live source"
 #~ msgstr "Falsifică sursa în direct"
 
@@ -10963,9 +11025,6 @@ msgstr "Previzualizare. Apăsați orice tastă pentru a ieși."
 #~ "\n"
 #~ "Testele simulate vor fi ignorate.\n"
 #~ "Evaluatorul poate utiliza un nume real sau un pseudonim."
-
-#~ msgid "Server actions"
-#~ msgstr "Acțiuni de server"
 
 #~ msgid "Chronojump - Confirm"
 #~ msgstr "Chronojump - confirmare"
@@ -11678,9 +11737,6 @@ msgstr "Previzualizare. Apăsați orice tastă pentru a ieși."
 
 #~ msgid "OpenCV Detection of knee angle."
 #~ msgstr "Deschide detectarea CV a unghiului genunchiului."
-
-#~ msgid "Statistics support."
-#~ msgstr "Suport statistici."
 
 #~ msgid "Jumps: Simple"
 #~ msgstr "Sărituri: simple"

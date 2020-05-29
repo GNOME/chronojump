@@ -6,7 +6,6 @@ glade/confirm_window.glade
 glade/convert_weight.glade
 glade/dialog_about.glade
 glade/dialog_calendar.glade
-glade/dialog_help_ports.glade
 glade/dialog_image_test.glade
 glade/dialog_message.glade
 glade/dialog_person_popup.glade
@@ -72,8 +71,10 @@ src/gui/app1/reactionTime.cs
 src/gui/app1/run.cs
 src/gui/app1/runEncoder.cs
 src/gui/app1/runEncoderAnalyze.cs
-src/gui/app1/session/loadAndImport.cs
 src/gui/app1/session/addEdit.cs
+src/gui/app1/session/backup.cs
+src/gui/app1/session/loadAndImport.cs
+src/gui/app1/session/main.cs
 src/gui/app1/shortcuts.cs
 src/gui/chronopic.cs
 src/gui/chronopicRegister.cs
@@ -91,7 +92,6 @@ src/gui/executeAuto.cs
 src/gui/forceSensorElasticBands.cs
 src/gui/forceSensorExercise.cs
 src/gui/genericWindow.cs
-src/gui/helpPorts.cs
 src/gui/jump.cs
 src/gui/jumpType.cs
 src/gui/multiChronopic.cs

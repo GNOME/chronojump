@@ -249,9 +249,6 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_menu.png");
 		image_radio_show_menu.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_modes.png");
-		image_button_show_modes.Pixbuf = pixbuf;
-		image_button_show_modes1.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_folders.png");
 		image_menu_folders.Pixbuf = pixbuf;
 		image_menu_folders1.Pixbuf = pixbuf;
@@ -263,13 +260,10 @@ public partial class ChronoJumpWindow
 		image_menu_help1.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_book.png");
 		image_menu_help_documents.Pixbuf = pixbuf;
-		image_menu_help_documents1.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_keyboard.png");
 		image_menu_help_shortcuts.Pixbuf = pixbuf;
-		image_menu_help_shortcuts1.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_about.png");
 		image_menu_help_about.Pixbuf = pixbuf;
-		image_menu_help_about1.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_warning_red.png");
 		image_message_permissions_at_boot.Pixbuf = pixbuf;
@@ -377,9 +371,14 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_build_16.png");
 		image_encoder_analyze_mode_options.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_simple.png"); //but will change depending on mode
+		//assign here to have gui ok and not having chronojump logo at top right outside the screen
+		//all these will change when mode is selected
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_modes.png");
+		image_button_show_modes_contacts_grid.Pixbuf = pixbuf;
+		image_button_show_modes_encoder_grid.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_simple.png");
 		image_contacts_exercise.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_weight.png"); //but will change depending on mode
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_weight.png");
 		image_encoder_exercise.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_new.png");
@@ -390,6 +389,9 @@ public partial class ChronoJumpWindow
 		image_session_load1.Pixbuf = pixbuf;
 		image_session_load2.Pixbuf = pixbuf;
 		image_session_load3_blue.Pixbuf = pixbuf;
+		app1s_image_open_database.Pixbuf = pixbuf;
+		app1s_image_button_backup_select.Pixbuf = pixbuf;
+
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_open_yellow.png");
 		image_session_load3_yellow.Pixbuf = pixbuf;
 
@@ -576,6 +578,8 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameImport);
 		image_session_import.Pixbuf = pixbuf;
 		image_session_import1_blue.Pixbuf = pixbuf;
+		app1s_image_import.Pixbuf = pixbuf;
+		app1s_image_import1.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameImportYellow);
 		image_session_import1_yellow.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameExport);
@@ -675,6 +679,7 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_grid_on.png");
 		image_contacts_session_overview.Pixbuf = pixbuf;
 		image_encoder_session_overview.Pixbuf = pixbuf;
+		image_encoder_analyze_table_save.Pixbuf = pixbuf;
 
 		//encoder
 		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_powerbars);
@@ -724,9 +729,6 @@ public partial class ChronoJumpWindow
 		image_forcesensor_analyze_image_save7.Pixbuf = pixbuf;
 		image_sprint_analyze_image_save.Pixbuf = pixbuf;
 		image_run_encoder_analyze_image_save_disk.Pixbuf = pixbuf;
-
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "grid.png");
-		image_encoder_analyze_table_save.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_email.png");
 		image_encoder_analyze_image_compujump_send_email_send.Pixbuf = pixbuf;

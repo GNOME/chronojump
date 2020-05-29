@@ -17,6 +17,11 @@ http://foro.chronojump.org/showthread.php?tid=1282&pid=2290#pid2290
 MACOSX
 -------------------------------------------------------------------
 
+If you need to create a virtual machine with MacOS it is recommended to use:
+https://github.com/myspaghetti/macos-virtualbox
+It is inportant not to interact with the virtual machine and only press enter when promnpted by the script
+If something fails the script can be resumed at the desired point. See documentation
+
 install cerbero
 
 git clone git://git.gnome.org/chronojump

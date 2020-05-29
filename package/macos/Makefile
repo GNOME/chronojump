@@ -8,7 +8,7 @@ APP_DIR = "$(PACKAGE_DIR)/app/Chronojump.app/Contents/"
 RESOURCES_DIR = "$(PACKAGE_DIR)/resources"
 SIGNING = "$(PACKAGE_DIR)/../signing"
 USER = $(shell whoami)
-PACKAGE_VERSION = $(shell git describe --abbrev=0)
+PACKAGE_VERSION = $(shell git describe --abbrev=1)
 PACKAGE_NAME = "chronojump-$(PACKAGE_VERSION)-x86_64"
 BUILD_DIR = "$(SOURCES_DIR)/build"
 MONO_DIR = "/Library/Frameworks/Mono.framework/Versions/Current/"

@@ -19,6 +19,7 @@ SOURCES = \
 	gui/app1/forceSensorAnalyze.cs\
 	gui/app1/session/delete.cs\
 	gui/app1/session/addEdit.cs\
+	gui/app1/session/backup.cs\
 	gui/app1/session/loadAndImport.cs\
 	gui/app1/session/main.cs\
 	gui/app1/jump.cs\
@@ -75,7 +76,6 @@ SOURCES = \
 	gui/presentation.cs\
 	gui/report.cs\
 	gui/about.cs\
-	gui/helpPorts.cs\
 	gui/dialogMessage.cs\
 	gui/dialogCalendar.cs\
 	gui/dialogImageTest.cs\
@@ -272,7 +272,6 @@ RESOURCES = \
 	../glade/convert_weight.glade \
 	../glade/dialog_about.glade \
 	../glade/dialog_calendar.glade \
-	../glade/dialog_help_ports.glade \
 	../glade/dialog_image_test.glade \
 	../glade/dialog_message.glade \
 	../glade/dialog_person_popup.glade \
@@ -538,7 +537,6 @@ RESOURCES = \
 	../images/md/baseline_mail_outline_blue_24dp.png,image_email.png \
 	../images/md/baseline_check_box_blue_24dp.png,image_check.png \
 	../images/md/baseline_save_blue_24dp.png,save.png \
-	../images/md/baseline_grid_on_blue_24dp.png,grid.png \
 	../images/md/baseline_new_releases_blue_24dp.png,new.png \
 	../images/md/baseline_menu_blue_24dp.png,image_menu.png \
 	../images/md/baseline_apps_6_separated_blue_24dp.png,image_modes.png \

@@ -28,7 +28,7 @@ public partial class ChronoJumpWindow
 {
 	private void on_button_contacts_exercise_clicked (object o, EventArgs args)
 	{
-		menus_sensitive(false);
+		menus_and_mode_sensitive(false);
 		notebook_contacts_capture_doing_wait.Sensitive = false;
 		vbox_contacts_device_adjust_threshold.Sensitive = false;
 		viewport_persons.Sensitive = false;
@@ -41,7 +41,7 @@ public partial class ChronoJumpWindow
 	}
 	private void on_button_contacts_exercise_close_clicked (object o, EventArgs args)
 	{
-		menus_sensitive(true);
+		menus_and_mode_sensitive(true);
 		notebook_contacts_capture_doing_wait.Sensitive = true;
 		vbox_contacts_device_adjust_threshold.Sensitive = true;
 		viewport_persons.Sensitive = true;

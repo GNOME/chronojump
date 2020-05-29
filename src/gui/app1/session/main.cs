@@ -19,8 +19,10 @@
  */
 
 using System;
+using System.IO;
 using Gtk;
 using Glade;
+using Mono.Unix;
 
 //here using app1s_ , "s" means session
 //this file has been moved from his old window to be part of app1 on Chronojump 2.0
@@ -30,6 +32,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook app1s_notebook;
 
 	//notebook tab 0
+	[Widget] Gtk.Frame frame_session_more_this_session;
+	[Widget] Gtk.Label label_session_more_session_name;
 	[Widget] Gtk.EventBox app1s_eventbox_button_close0;
 
 	//notebook tab 1
@@ -80,6 +84,19 @@ public partial class ChronoJumpWindow
 	//notebook tab 5
 	[Widget] Gtk.EventBox app1s_eventbox_button_delete_close;
 
+	//notebook tab 6 (backup)
+	[Widget] Gtk.Button app1s_button_backup_select;
+	[Widget] Gtk.Button app1s_button_backup_start;
+	[Widget] Gtk.Button app1s_button_backup_cancel_close;
+	[Widget] Gtk.Label app1s_label_backup_cancel_close;
+	[Widget] Gtk.EventBox app1s_eventbox_button_backup_cancel_close;
+	[Widget] Gtk.Image app1s_image_button_backup_select;
+	[Widget] Gtk.Label app1s_label_backup_destination;
+	[Widget] Gtk.HBox app1s_hbox_backup_doing;
+	[Widget] Gtk.Label app1s_label_backup_progress;
+	[Widget] Gtk.ProgressBar app1s_pulsebarBackupActivity;
+	[Widget] Gtk.ProgressBar app1s_pulsebarBackupDirs;
+	[Widget] Gtk.ProgressBar app1s_pulsebarBackupSecondDirs;
 
 	const int app1s_PAGE_MODES = 0;
 	const int app1s_PAGE_IMPORT_START = 1;
@@ -87,7 +104,8 @@ public partial class ChronoJumpWindow
 	public const int app1s_PAGE_IMPORT_CONFIRM = 3;
 	public const int app1s_PAGE_IMPORT_RESULT = 4;
 	public const int app1s_PAGE_DELETE_CONFIRM = 5;
-	public const int app1s_PAGE_ADD_EDIT = 6;
+	const int app1s_PAGE_ADD_EDIT = 6;
+	const int app1s_PAGE_BACKUP = 7;
 
 	private int app1s_notebook_sup_entered_from; //to store from which page we entered (to return at it)
 
@@ -105,8 +123,6 @@ public partial class ChronoJumpWindow
 		//but if it is start page, ensure notebook_mode_selector is 0
 		if(notebook_sup.CurrentPage == Convert.ToInt32(notebook_sup_pages.START))
 			notebook_mode_selector.CurrentPage = 0;
-
-		show_modes_sensitive(notebook_sup.CurrentPage != Convert.ToInt32(notebook_sup_pages.START));
 	}
 
 	private void app1s_eventboxes_paint()
@@ -122,6 +138,41 @@ public partial class ChronoJumpWindow
 		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_import_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_import_again, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_delete_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_backup_cancel_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+	}
+
+	private void app1s_label_session_set_name()
+	{
+		if(currentSession == null)
+			label_session_more_session_name.Text = "";
+		else
+			label_session_more_session_name.Text = currentSession.Name;
+	}
+
+	void on_button_data_folder_open_clicked (object o, EventArgs args)
+	{
+		string databaseURL = Util.GetDatabaseDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
+		string databaseTempURL = Util.GetDatabaseTempDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
+
+		System.IO.FileInfo file1 = new System.IO.FileInfo(databaseURL); //potser cal una arrobar abans (a windows)
+		System.IO.FileInfo file2 = new System.IO.FileInfo(databaseTempURL); //potser cal una arrobar abans (a windows)
+
+		if(! file1.Exists && ! file2.Exists)
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.DatabaseNotFoundStr());
+
+		string dir = "";
+		if(file1.Exists)
+			dir = Util.GetParentDir(false);
+		else if(file2.Exists)
+			dir = Util.GetDatabaseTempDir();
+
+		try {
+			System.Diagnostics.Process.Start(dir);
+		} catch {
+			new DialogMessage(Constants.MessageTypes.WARNING,
+					Catalog.GetString("Error. Cannot open directory.") + "\n\n" + dir);
+			return;
+		}
 	}
 
 }

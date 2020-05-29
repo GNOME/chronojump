@@ -420,7 +420,7 @@ public partial class ChronoJumpWindow
 		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = sensitive;
 		frame_persons.Sensitive = sensitive;
 		viewport_persons.Sensitive = sensitive;
-		menus_sensitive(sensitive);
+		menus_and_mode_sensitive(sensitive);
 
 		hbox_top_person.Sensitive = sensitive;
 		hbox_chronopics_and_more.Sensitive = sensitive;
@@ -2297,7 +2297,7 @@ LogB.Information(" fs R ");
 		button_force_sensor_image_save_signal.Sensitive = s;
 
 		viewport_persons.Sensitive = s;
-		menus_sensitive(s);
+		menus_and_mode_sensitive(s);
 
 		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = s;
 		hbox_top_person.Sensitive = s;

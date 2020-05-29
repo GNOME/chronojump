@@ -19,7 +19,6 @@
  */
 
 using System;
-using Gdk; //Pixbuf
 using Gtk;
 using Glade;
 using GLib; //for Value
@@ -91,10 +90,6 @@ public partial class ChronoJumpWindow
 			app1s_notebook.CurrentPage = app1s_PAGE_IMPORT_START;
 		}
 		app1s_entry_search_filter.Text = "";
-
-		app1s_image_open_database.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_open.png");
-		app1s_image_import.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameImport);
-		app1s_image_import1.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameImport);
 
 		app1s_createTreeView(app1s_treeview_session_load, false, false, false);
 		app1s_store = app1s_getStore(false, false, false);
@@ -452,13 +447,13 @@ public partial class ChronoJumpWindow
 	}
 
 	//TODO: do not need to be public ? maybe for import
-	public void app1s_Pulse(string str)
+	public void app1s_ImportPulse(string str)
 	{
 		app1s_progressbarImport.Pulse();
 		app1s_progressbarImport.Text = str;
 	}
 	//TODO: do not need to be public ? maybe for import
-	public void app1s_PulseEnd()
+	public void app1s_ImportPulseEnd()
 	{
 		app1s_progressbarImport.Fraction = 1;
 		app1s_hbuttonbox_page4.Sensitive = true;
@@ -509,7 +504,7 @@ public partial class ChronoJumpWindow
 	// ---- notebook page 2 (load sesion) buttons ----
 	void app1s_on_button_cancel2_clicked (object o, EventArgs args)
 	{
-		menus_sensitive(true);
+		menus_and_mode_sensitive(true);
 		notebook_supSetOldPage();
 	}
 
@@ -558,10 +553,8 @@ public partial class ChronoJumpWindow
 	}
 	void app1s_on_button_import_clicked (object o, EventArgs args)
 	{
-		if(app1s_selected != "-1") {
-			currentSession = SqliteSession.Select (app1s_selected);
+		if(app1s_selected != "-1")
 			on_load_session_accepted_to_import(o, args);
-		}
 	}
 
 	// ---- notebook page 4 buttons ----

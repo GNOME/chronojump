@@ -23,6 +23,7 @@ glade/force_sensor_exercise.glade
 glade/generic_window.glade
 glade/jumps_runs_more.glade
 glade/jump_type_add.glade
+glade/old/dialog_help_ports.glade
 glade/overview.glade
 glade/person_multiple_infinite.glade
 glade/person_recuperate.glade
@@ -59,8 +60,8 @@ src/gui/app1/chronojump.cs
 src/gui/app1/chronojumpPersons.cs
 src/gui/app1/contactsExercise.cs
 src/gui/app1/encoder.cs
-src/gui/app1/forceSensor.cs
 src/gui/app1/forceSensorAnalyze.cs
+src/gui/app1/forceSensor.cs
 src/gui/app1/jump.cs
 src/gui/app1/jumpsDjOptimalFall.cs
 src/gui/app1/jumpsEvolution.cs
@@ -69,8 +70,8 @@ src/gui/app1/jumpsWeightFVProfile.cs
 src/gui/app1/pulse.cs
 src/gui/app1/reactionTime.cs
 src/gui/app1/run.cs
-src/gui/app1/runEncoder.cs
 src/gui/app1/runEncoderAnalyze.cs
+src/gui/app1/runEncoder.cs
 src/gui/app1/session/addEdit.cs
 src/gui/app1/session/backup.cs
 src/gui/app1/session/loadAndImport.cs
@@ -97,6 +98,7 @@ src/gui/jumpType.cs
 src/gui/multiChronopic.cs
 src/gui/networks.cs
 src/gui/old/chronojumpServerOld.cs
+src/gui/old/helpPorts.cs
 src/gui/old/queryServer.cs
 src/gui/overview.cs
 src/gui/person/addModify.cs
@@ -122,13 +124,13 @@ src/json/compujumpOther.cs
 src/json/json.cs
 src/jumpsProfile.cs
 src/jumpType.cs
-src/networks.cs
 src/Mini/chronojump_mini.cs
+src/networks.cs
 src/old/server.cs
 src/pulseType.cs
 src/report.cs
-src/runType.cs
 src/runEncoder.cs
+src/runType.cs
 src/serverPing.cs
 src/sprint.cs
 src/sqlite/country.cs

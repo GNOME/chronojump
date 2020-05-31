@@ -1,0 +1,219 @@
+----------------------------
+All this is not used anymore
+----------------------------
+
+
+-------------------------------------------------------------------
+MACOSX
+-------------------------------------------------------------------
+
+If you need to create a virtual machine with MacOS it is recommended to use:
+https://github.com/myspaghetti/macos-virtualbox
+It is inportant not to interact with the virtual machine and only press enter when promnpted by the script
+If something fails the script can be resumed at the desired point. See documentation
+
+install cerbero
+
+git clone https://gitlab.gnome.org/GNOME/chronojump.git
+
+start cerbero shell
+#this works from terminal or from ssh
+cerbero-cj shell
+
+cd chronojump
+
+git pull
+
+sh autogen.sh --prefix=/Users/chronojump/ChronojumpBuild/
+
+compile with make && make install (like Linux and windows)
+
+at same shell, cd bin and execute chronojump (if shell is opened from RDP)
+cd bin
+chronojump (enter)
+
+
+---- MacOSX packaging ----
+Following cerbero commands will take stuff from git, then all have to be commited and pushed
+
+Outside the cerbero shell (to get out: exit)
+And inside the chronojump directory
+
+make osx-installer
+
+
+check new versions of ffmpeg/ffplay
+https://ffmpeg.zeranoe.com/builds/
+
+if there are new versions, download mac64/static
+and copy, ffmpeg, ffplay binaries to ffmpegBinariesMac, git commit/push
+
+#we have not succeded on adding ffmpeg and ffplay binaries using cerbero
+#it works on make install but not on creating the package
+#so this has to be done, adapted from: http://crazyedy.com/tech/?p=535
+#create writeable image
+
+export VERSION=Chronojump-1.8.1-466-g57258ca-x86_64
+hdiutil convert $VERSION.dmg -format UDRW -o $VERSION-ff.dmg
+
+#know size
+hdiutil resize -limits $VERSION-ff.dmg
+#note on 1.8.1-466 is:
+# min 	 cur 	 max 
+#514384	514384	18043744
+
+#resize it. 700000 was not enough for ffmpeg and ffplay
+hdiutil resize -sectors 730000 $VERSION-ff.dmg
+
+#Option A) from the command line:
+#check there's no Chronojump mounted:
+ls /Volumes
+#if it is, unmount it with:
+	umount /Volumes/Chronojump
+	#or
+	hdiutil detach /Volumes/Chronojump
+
+hdiutil attach $VERSION-ff.dmg 	#attach
+ls /Volumes/Chronojump/Chronojump.app/Contents/Home/bin/
+cp ffmpegBinariesMac/ff* /Volumes/Chronojump/Chronojump.app/Contents/Home/bin/
+hdiutil detach /Volumes/Chronojump
+
+#Option B) from the gui do:
+hdiutil attach $VERSION-ff.dmg 	#attach
+#double click on drive icon
+#right click on Chronojump and click "Mostrar el contenido del paquete"
+#copy it to Contents/Home/bin
+
+
+
+
+#to be used by Owncloud
+mv $VERSION-ff.dmg ~/BinarisMac/
+
+#if there are problems on hdiuti do:
+hdiutil create -size 200m ...
+
+#if the hard disk is busy, reset MacOSX, and free space:
+#if on packaging says: "diskimages-helper: DI_kextDriveDisconnect returned 268435459 ((ipc/send) invalid destination port).", free space:
+
+#free space:
+empty trash folder (should be enough) ~/.Trash
+rm *.pkg
+rm *.dmg
+
+Find and delete big files:
+du -h -d 1
+delete the pkg, dmg and the "user"/Library/Caches
+also run top command to see stuck processes and kill them
+
+...and then do again the 
+cerbero-cj buildone chronojump
+cerbero-cj package chronojump
+
+the 'package chronojump' command should be fast (specially the hdiutil part, if it's slow or the progress is not displayed: "........" CTRL-C reset, top, kill processes and try again both commands
+)
+
+#previous to 1.5.0: as in 64 bit there's problems with the video drivers  do:
+cerbero-cj package chronojump --skip-deps-build
+
+
+#once installed package on Mac, can be tested from the terminal:
+cd /Applications/Chronojump.app/Contents/MacOS/
+and execute the script:
+./Chronojump
+
+last line of the script can be changed to:
+./mono --config $PREFIX/etc/mono/config $PREFIX/lib/chronojump/ChronoJump.exe > /Users/<dir of the user>/log.txt 2>&1
+and executed from commandline or directly (GUI) from the installed app on /Applications
+
+To install the dmg need to open it and move to Applications folder
+If it opens blank (no contents( do from the command line:
+hdiutil mount Chronojump-1.4.9-x86_64.dmg
+sudo cp -R "/Volumes/Chronojump/Chronojump.app" /Applications
+hdiutil unmount "/Volumes/Chronojump/"
+
+
+-------------------------------------------------------------------
+WINDOWS
+-------------------------------------------------------------------
+
+
+a) Prepare stuff
+
+Install cerbero:
+http://docs.gstreamer.com/display/GstSDK/Building+from+source+using+Cerbero
+
+.cerbero/cerbero.cbc in a 64 bits machine is:
+
+from cerbero.config import Architecture
+arch=Architecture.X86
+target_arch=Architecture.X86
+prefix='/c/gstreamer-sdk/0.10/x86/'
+
+Execute bootstrap
+alias don't worked, from MinGW shell do this:
+
+cerbero/cerbero-uninstalled bootstrap
+
+
+Download this tarball:
+http://people.gnome.org/~amorales/gstreamer-sdk.7z
+extract here:
+c:\gstreamer-sdk\0.10\x86\...
+
+at win32/xbuild_files
+Copy xbuild to /c/gstreamer-sdk/0.10/x86/bin
+Copy xbuild.exe to /c/gstreamer-sdk/0.10/x86/lib/mono/4.0
+
+Install all the Python stuff for encoder capture:
+py2exe and pygame will not run fine in a XP if compiled on a 64 bits machine.
+Install 32 bits stuff:
+
+python 32 bits
+py2exe win 32
+pygame: http://pygame.org/ftp/pygame-1.9.2a0.win32-py2.7.msi
+pyper: http://sourceforge.net/projects/rinpy/files/  download: PypeR-1.1.1.zip
+pyserial
+
+chronopic-firmwarecord needs wxpython:
+www.wxpython.org/download.php#stable
+wxPython2.8-win32-unicode-py27
+
+
+if the python packages have not installation executable, put them at Lib/site-packages and the install like this:
+
+c:\Python27-32\python.exe setup.py install
+
+b) Compile
+
+#if python 32 bits is at "c:\Python27-32" do:
+#Windows command line window at chronojump\win32
+#c:\Python27-32\python.exe ..\encoder\setup-pyserial_pyper_windows.py install
+#c:\Python27-32\python.exe ..\encoder\setup-pyserial_pyper_windows.py py2exe -d "deps/bin/encoder"
+#don't do last four because it's done in win32\Makefile automatically when make win32-installer is executed 
+
+
+
+from MinGW:
+cerbero/cerbero-uninstalled shell
+
+at new shell:
+
+#Andoni:  hay un problema cuando se lanza la shell esto es para que use las autoconf de cerbero:
+export PATH=~/cerbero/build-tools/bin:$PATH
+
+sh autogen.sh --prefix /home/windblows/chronojump/win32/dist
+make
+make install
+make win32-installer
+
+If there are "copy" problems on make win32-installer, just delete the dist folder and execute it again
+
+Alternaively to test gstreamer stuff autogen command can be:
+sh autogen.sh --prefix /c/gstreamer-sdk/0.10/x86
+
+
+OLD -------------------
+Note: currently on windows rdotnet is not ok and make crashes:
+- remove 'rdotnet' in chronojump/Makefile SUBDIRS and DIST_SUBIDRS
+- comment "DLL_REFERENCES = \" and "../rdotnet/R.NET/bin/Debug/RDotNet.dll" in chronojump/src/Makefile

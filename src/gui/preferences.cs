@@ -1439,17 +1439,19 @@ public class PreferencesWindow
 	void on_button_tmp_folder_open_clicked (object o, EventArgs args)
 	{
 		string dir = UtilAll.GetTempDir(); //potser cal una arrobar abans (a windows)
-		System.IO.FileInfo fInfo = new System.IO.FileInfo(dir);
+
+		if( ! new System.IO.DirectoryInfo(dir).Exists)
+		{
+			LogB.Warning(dir);
+			return;
+		}
 
 		try {
-			if(fInfo.Exists)
-				System.Diagnostics.Process.Start(dir);
+			System.Diagnostics.Process.Start(dir);
 		} catch {
 			new DialogMessage(Constants.MessageTypes.WARNING, 
 					Constants.DirectoryCannotOpenStr() + "\n\n" + dir);
 		}
-
-		LogB.Warning(dir);
 	}
 
 	void on_button_import_configuration_clicked (object o, EventArgs args)

@@ -234,6 +234,10 @@ public class PreferencesWindow
 	[Widget] Gtk.Frame frame_networks;
 	[Widget] Gtk.CheckButton check_networks_devices;
 
+	[Widget] Gtk.RadioButton radio_python_default;
+	[Widget] Gtk.RadioButton radio_python_2;
+	[Widget] Gtk.RadioButton radio_python_3;
+
 	[Widget] Gtk.Button button_accept;
 	[Widget] Gtk.Button button_cancel;
 	public Gtk.Button FakeButtonConfigurationImported;
@@ -676,6 +680,13 @@ public class PreferencesWindow
 		else
 			PreferencesWindowBox.radio_do_not_use_heights_on_jump_indexes.Active = true;
 			
+		if(preferences.importerPythonVersion == Preferences.pythonVersionEnum.Python)
+			PreferencesWindowBox.radio_python_default.Active = true;
+		else if(preferences.importerPythonVersion == Preferences.pythonVersionEnum.Python2)
+			PreferencesWindowBox.radio_python_2.Active = true;
+		else //if(preferences.importerPythonVersion == Preferences.pythonVersionEnum.Python3)
+			PreferencesWindowBox.radio_python_3.Active = true;
+
 
 		PreferencesWindowBox.preferences_win.Show ();
 		return PreferencesWindowBox;
@@ -2012,6 +2023,13 @@ public class PreferencesWindow
 			preferences.useHeightsOnJumpIndexes = PreferencesWindowBox.radio_use_heights_on_jump_indexes.Active;
 		}
 
+		Preferences.pythonVersionEnum pythonVersionFromGUI = get_pythonVersion_from_gui();
+		if(preferences.importerPythonVersion != pythonVersionFromGUI)
+		{
+			SqlitePreferences.Update(SqlitePreferences.ImporterPythonVersion, pythonVersionFromGUI.ToString(), true);
+			preferences.importerPythonVersion = pythonVersionFromGUI;
+		}
+
 
 		Sqlite.Close();
 
@@ -2028,6 +2046,16 @@ public class PreferencesWindow
 			return Preferences.MaximizedTypes.YES;
 
 		return Preferences.MaximizedTypes.YESUNDECORATED;
+	}
+
+	private Preferences.pythonVersionEnum get_pythonVersion_from_gui()
+	{
+		if( PreferencesWindowBox.radio_python_default.Active)
+			return Preferences.pythonVersionEnum.Python;
+		else if( PreferencesWindowBox.radio_python_2.Active)
+			return Preferences.pythonVersionEnum.Python2;
+		else //if( PreferencesWindowBox.radio_python_3.Active)
+			return Preferences.pythonVersionEnum.Python3;
 	}
 
 	public Button Button_accept 

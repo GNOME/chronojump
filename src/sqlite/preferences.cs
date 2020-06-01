@@ -90,6 +90,8 @@ class SqlitePreferences : Sqlite
 	//runEncoder
 	public const string RunEncoderMinAccel = "runEncoderMinAccel";
 
+	//advanced
+	public const string ImporterPythonVersion = "importerPythonVersion";
 
 	protected internal static new void createTable()
 	{
@@ -272,7 +274,7 @@ class SqlitePreferences : Sqlite
 				Insert (EncoderAutoSaveCurveBestNValue, "3", dbcmdTr);
 				Insert ("email", "", dbcmdTr);
 				Insert ("muteLogs", "False", dbcmdTr);
-				//Insert (Preferences.importerPythonVersion, Preferences.pythonVersion.Python.ToString(), dbcmdTr);
+				Insert (ImporterPythonVersion, Preferences.pythonVersionEnum.Python.ToString(), dbcmdTr);
 
 				
 				//removed on 1.37
@@ -630,6 +632,9 @@ class SqlitePreferences : Sqlite
 			else if(reader[0].ToString() == "multimediaStorage")
 				preferences.multimediaStorage = (Constants.MultimediaStorage) 
 					Enum.Parse(typeof(Constants.MultimediaStorage), reader[1].ToString()); 
+			else if(reader[0].ToString() == ImporterPythonVersion)
+				preferences.importerPythonVersion = (Preferences.pythonVersionEnum)
+					Enum.Parse(typeof(Preferences.pythonVersionEnum), reader[1].ToString());
 			else if(reader[0].ToString() == "databaseVersion")
 				preferences.databaseVersion = reader[1].ToString();
 		}

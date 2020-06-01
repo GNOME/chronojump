@@ -143,10 +143,8 @@ public class Preferences
 	public bool muteLogs;
 	public bool networksAllowChangeDevices; //managed on preferences;
 
-	/*
-	public enum pythonVersion { Python, Python2, Python3 };
-	public PythonVersion importerPythonVersion;
-	*/
+	public enum pythonVersionEnum { Python, Python2, Python3 };
+	public pythonVersionEnum importerPythonVersion;
 
 	/*
 	 * these are NOT sent to preferences window

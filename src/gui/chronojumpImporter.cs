@@ -62,7 +62,8 @@ public partial class ChronoJumpWindow
 		else
 			destinationSessionId = destinationSession.UniqueID;
 
-		chronojumpImporter = new ChronojumpImporter (app1, source_filename, destination_filename, sourceSession, destinationSessionId, preferences.debugMode);
+		chronojumpImporter = new ChronojumpImporter (app1, source_filename, destination_filename, sourceSession, destinationSessionId,
+				preferences.debugMode, preferences.importerPythonVersion);
 
 		if(destinationSessionId == 0)
 		{
@@ -70,7 +71,7 @@ public partial class ChronoJumpWindow
 			importSessionFromDatabasePrepare2 (new object(), new EventArgs());
 		} else
 		{
-			string sessionName = ChronojumpImporter.GetSessionName (chronojumpImporter.SourceFile, chronojumpImporter.SourceSession);
+			string sessionName = ChronojumpImporter.GetSessionName (chronojumpImporter.SourceFile, chronojumpImporter.SourceSession, preferences.importerPythonVersion);
 			app1s_LabelImportSessionName(sessionName);
 			app1s_LabelImportFile(chronojumpImporter.SourceFile);
 

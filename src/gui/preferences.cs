@@ -679,13 +679,13 @@ public class PreferencesWindow
 			PreferencesWindowBox.radio_use_heights_on_jump_indexes.Active = true;
 		else
 			PreferencesWindowBox.radio_do_not_use_heights_on_jump_indexes.Active = true;
-			
-		if(preferences.importerPythonVersion == Preferences.pythonVersionEnum.Python)
-			PreferencesWindowBox.radio_python_default.Active = true;
-		else if(preferences.importerPythonVersion == Preferences.pythonVersionEnum.Python2)
+
+		if(preferences.importerPythonVersion == Preferences.pythonVersionEnum.Python2)
 			PreferencesWindowBox.radio_python_2.Active = true;
-		else //if(preferences.importerPythonVersion == Preferences.pythonVersionEnum.Python3)
+		else if(preferences.importerPythonVersion == Preferences.pythonVersionEnum.Python3)
 			PreferencesWindowBox.radio_python_3.Active = true;
+		else //if(preferences.importerPythonVersion == Preferences.pythonVersionEnum.Python)
+			PreferencesWindowBox.radio_python_default.Active = true;
 
 
 		PreferencesWindowBox.preferences_win.Show ();

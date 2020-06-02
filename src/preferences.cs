@@ -147,6 +147,21 @@ public class Preferences
 	public pythonVersionEnum importerPythonVersion;
 
 	/*
+	 * at DB: 1.95, vales pythonVersionEnum were Python, Python2, Python3
+	 * so we need the executable: python, python2, python3
+	 * chronojump_importer.py works on python2 and python3
+	 */
+	public static string GetPythonExecutable (pythonVersionEnum pv)
+	{
+		if(pv == pythonVersionEnum.Python2)
+			return "python2";
+		else if(pv == pythonVersionEnum.Python3)
+			return "python3";
+
+		return "python";
+	}
+
+	/*
 	 * these are NOT sent to preferences window
 	 */
 	

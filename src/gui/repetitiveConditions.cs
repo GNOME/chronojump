@@ -123,11 +123,8 @@ public class RepetitiveConditionsWindow
 
 
 	[Widget] Gtk.Button button_test_good;
-	[Widget] Gtk.Button button_test_good1;
 	[Widget] Gtk.Button button_test_bad;
-	[Widget] Gtk.Button button_test_bad1;
 	[Widget] Gtk.Label label_test_sound_result;
-	[Widget] Gtk.Label label_test_sound_result1;
 	[Widget] Gtk.Button button_close;
 
 	//bells good (green)
@@ -199,6 +196,7 @@ public class RepetitiveConditionsWindow
 	const int ENCODERPAGE = 1;
 	const int ENCODERRHYTHMPAGE = 2;
 	const int FORCESENSORPAGE = 3;
+	const int TESTBELLSPAGE = 4;
 
 	public Gtk.Button FakeButtonClose;
 
@@ -307,26 +305,29 @@ public class RepetitiveConditionsWindow
 		notebook_main.GetNthPage(ENCODERPAGE).Hide();
 		notebook_main.GetNthPage(ENCODERRHYTHMPAGE).Hide();
 		notebook_main.GetNthPage(FORCESENSORPAGE).Hide();
+		notebook_main.GetNthPage(TESTBELLSPAGE).Hide();
 		notebook_main.ShowTabs = false;
 
-		if(bellMode == Constants.BellModes.JUMPS)
+		if(bellMode == Constants.BellModes.JUMPS || bellMode == Constants.BellModes.RUNS)
 		{
-			hbox_jump_best_worst.Show();
-			hbox_jump_conditions.Show();
+			if(bellMode == Constants.BellModes.JUMPS)
+			{
+				hbox_jump_best_worst.Show();
+				hbox_jump_conditions.Show();
+			}
+			else if(bellMode == Constants.BellModes.RUNS)
+			{
+				hbox_run_best_worst.Show();
+				hbox_run_conditions.Show();
+			}
 
 			notebook_main.GetNthPage(JUMPSRUNSPAGE).Show();
-		}
-		else if(bellMode == Constants.BellModes.RUNS)
-		{
-			hbox_run_best_worst.Show();
-			hbox_run_conditions.Show();
-
-			notebook_main.GetNthPage(JUMPSRUNSPAGE).Show();
+			notebook_main.GetNthPage(TESTBELLSPAGE).Show();
+			notebook_main.CurrentPage = JUMPSRUNSPAGE;
+			notebook_main.ShowTabs = true;
 		}
 		else if (bellMode == Constants.BellModes.ENCODERGRAVITATORY || bellMode == Constants.BellModes.ENCODERINERTIAL)
 		{
-			notebook_main.ShowTabs = true;
-
 			vbox_encoder_manual.Show();
 			if(checkbutton_encoder_show_manual_feedback.Active)
 				notebook_encoder_conditions.Show();
@@ -385,7 +386,9 @@ public class RepetitiveConditionsWindow
 
 			notebook_main.GetNthPage(ENCODERPAGE).Show();
 			notebook_main.GetNthPage(ENCODERRHYTHMPAGE).Show();
+			notebook_main.GetNthPage(TESTBELLSPAGE).Show();
 			notebook_main.CurrentPage = ENCODERPAGE;
+			notebook_main.ShowTabs = true;
 
 			encoder_rhythm_set_values(encoderRhythm);
 		}
@@ -407,7 +410,6 @@ public class RepetitiveConditionsWindow
 		}
 
 		label_test_sound_result.Text = "";
-		label_test_sound_result1.Text = "";
 	}
 		
 	private void createComboEncoderMainAndSecondaryVariables()
@@ -479,7 +481,6 @@ public class RepetitiveConditionsWindow
 		image_encoder_power_higher.Pixbuf = pixbuf;
 		image_encoder_peakpower_higher.Pixbuf = pixbuf;
 		image_repetitive_test_good.Pixbuf = pixbuf;
-		image_repetitive_test_good1.Pixbuf = pixbuf;
 		
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_red.png");
 		image_repetitive_worst_tf_tc.Pixbuf = pixbuf;
@@ -498,7 +499,6 @@ public class RepetitiveConditionsWindow
 		image_encoder_power_lower.Pixbuf = pixbuf;
 		image_encoder_peakpower_lower.Pixbuf = pixbuf;
 		image_repetitive_test_bad.Pixbuf = pixbuf;
-		image_repetitive_test_bad1.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_info.png");
 		image_clusters_info.Pixbuf = pixbuf;
@@ -511,21 +511,17 @@ public class RepetitiveConditionsWindow
 			Util.TestSound = true;
 
 			label_test_sound_result.Text = "";
-			label_test_sound_result1.Text = "";
 
 			Util.SoundCodes sc;
-			if (o == button_test_good || o == button_test_good1)
+			if (o == button_test_good)
 				sc = Util.PlaySound(Constants.SoundTypes.GOOD, true, gstreamer);
-			else //if (o == button_test_bad || o == button_test_good1)
+			else //if (o == button_test_bad)
 				sc = Util.PlaySound(Constants.SoundTypes.BAD, true, gstreamer);
 
-			if(sc == Util.SoundCodes.OK) {
+			if(sc == Util.SoundCodes.OK)
 				label_test_sound_result.Text = Catalog.GetString("Sound working");
-				label_test_sound_result1.Text = Catalog.GetString("Sound working");
-			} else {
+			else
 				label_test_sound_result.Text = Catalog.GetString("Sound not working");
-				label_test_sound_result1.Text = Catalog.GetString("Sound working");
-			}
 
 			Util.TestSound = false;
 		} else

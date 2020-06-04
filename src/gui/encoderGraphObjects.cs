@@ -326,11 +326,17 @@ public class EncoderGraphDoPlot
 		count = 0;
 
 		//Get max min avg values of this set
-		double maxThisSet = -100000;
+		double maxThisSetForGraph = -100000;
+		double maxThisSetForCalc = -100000;
 		double minThisSet = 100000;
+		/*
+		 * if ! Preferences.EncoderPhasesEnum.BOTH, eg: ECC, we can graph max CON (that maybe is the highest value) , but for calculations we want only the max ECC value, so:
+		 * maxThisSetForGraph will be to plot the margins,
+		 * maxThisSetForCalc will be to calculate feedback (% of max)
+		 */
 
 		//only used for loss. For loss only con phase is used
-		double maxThisSetValidAndCon = maxThisSet;
+		double maxThisSetValidAndCon = maxThisSetForCalc;
 		double minThisSetValidAndCon = minThisSet;
 		//we need the position to draw the loss line and maybe to manage that the min should be after the max (for being real loss)
 		int maxThisSetValidAndConPos = 0;
@@ -342,8 +348,18 @@ public class EncoderGraphDoPlot
 
 		foreach(double d in data)
 		{
-			if(d > maxThisSet)
-				maxThisSet = d;
+			if(d > maxThisSetForGraph)
+				maxThisSetForGraph = d;
+
+			if(eccon == "c" ||
+					preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.BOTH ||
+					preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.ECC && ! Util.IsEven(count +1) || //odd (impar)
+					preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.CON && Util.IsEven(count +1) 	//even (par)
+					) {
+				if(d > maxThisSetForCalc)
+					maxThisSetForCalc = d;
+			}
+
 			if(d < minThisSet)
 				minThisSet = d;
 
@@ -376,10 +392,11 @@ public class EncoderGraphDoPlot
 
 			count ++;
 		}
-		if(maxThisSet <= 0)
+		if(maxThisSetForCalc <= 0)
 			return;	
 
-		double maxAbsolute = maxThisSet;
+		double maxAbsoluteForCalc = maxThisSetForCalc;
+		double maxAbsoluteForGraph = maxThisSetForGraph;
 		//can be on meanPower, meanSpeed, meanForce
 		if(! relativeToSet)
 		{
@@ -390,9 +407,11 @@ public class EncoderGraphDoPlot
 			 * if there's a set captured but without repetitions saved, maxPowerSpeedForceIntersession will be 0
 			 * and current set (loaded or captured) will have a power that will be out of the graph
 			 * for this reason use maxAbsolute or maxThisSet, whatever is higher
+			 *
+			 * if ! relativeToSet, then Preferences.EncoderPhasesEnum.BOTH, so maxAbsoluteForCalc == maxAbsoluteForGraph
 			 */
-			if(maxPowerSpeedForceIntersession > maxAbsolute)
-				maxAbsolute = maxPowerSpeedForceIntersession;
+			if(maxPowerSpeedForceIntersession > maxAbsoluteForCalc)
+				maxAbsoluteForCalc = maxPowerSpeedForceIntersession;
 		}
 
 		//calculate maxAbsoluteSecondary (will be secondary variable)
@@ -403,7 +422,7 @@ public class EncoderGraphDoPlot
 
 		repetitiveConditionsWin.ResetBestSetValue(RepetitiveConditionsWindow.BestSetValueEnum.CAPTURE_MAIN_VARIABLE);
 		repetitiveConditionsWin.UpdateBestSetValue(
-				RepetitiveConditionsWindow.BestSetValueEnum.CAPTURE_MAIN_VARIABLE, maxAbsolute);
+				RepetitiveConditionsWindow.BestSetValueEnum.CAPTURE_MAIN_VARIABLE, maxAbsoluteForCalc);
 
 		int textWidth = 1;
 		int textHeight = 1;
@@ -481,7 +500,7 @@ public class EncoderGraphDoPlot
 				decs = 2;
 			} else if(mainVariable == Constants.MeanForce)
 				units = " N";
-			layout_encoder_capture_curves_bars_text.SetMarkup(Util.TrimDecimals(maxAbsolute, decs) + units);
+			layout_encoder_capture_curves_bars_text.SetMarkup(Util.TrimDecimals(maxAbsoluteForCalc, decs) + units);
 			layout_encoder_capture_curves_bars_text.GetPixelSize(out textWidth, out textHeight);
 			pixmap.DrawLayout (pen_black_encoder_capture,
 						graphWidth - (right_margin + textWidth),
@@ -540,7 +559,7 @@ public class EncoderGraphDoPlot
 			if(d < 0)
 				d *= -1;
 
-			dHeight = Convert.ToInt32(graphHeightSafe * d / maxAbsolute * 1.0);
+			dHeight = Convert.ToInt32(graphHeightSafe * d / maxAbsoluteForGraph * 1.0);
 			dBottom = graphHeight - bottom_margin;
 			dTop = dBottom - dHeight;
 
@@ -909,9 +928,9 @@ public class EncoderGraphDoPlot
 				}
 
 				int x0 = dLeftMax + Convert.ToInt32(dWidth/2);
-				int y0 = Convert.ToInt32(dBottom - UtilAll.DivideSafeAndGetInt(graphHeightSafe * maxThisSetValidAndCon, maxAbsolute * 1.0));
+				int y0 = Convert.ToInt32(dBottom - UtilAll.DivideSafeAndGetInt(graphHeightSafe * maxThisSetValidAndCon, maxAbsoluteForGraph * 1.0));
 				int x1 = dLeftMin + Convert.ToInt32(dWidth/2);
-				int y1 = Convert.ToInt32(dBottom - UtilAll.DivideSafeAndGetInt(graphHeightSafe * minThisSetValidAndCon, maxAbsolute * 1.0));
+				int y1 = Convert.ToInt32(dBottom - UtilAll.DivideSafeAndGetInt(graphHeightSafe * minThisSetValidAndCon, maxAbsoluteForGraph * 1.0));
 
 				pixmap.DrawLine(pen_gray_loss, x0, y0, x1, y1);
 				UtilGtk.DrawArrow(pixmap, pen_gray_loss, x1, x0, y1, y0, 20);

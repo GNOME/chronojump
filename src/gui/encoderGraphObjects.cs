@@ -878,17 +878,24 @@ public class EncoderGraphDoPlot
 		if(countSaved > 0)
 			title += "X" + Catalog.GetString("saved") + " = " +
 				Util.TrimDecimals( (sumSaved / countSaved), decimals) + 
-				" " + units + "; ";
+				" " + units;
 
-		string lossString = "Loss: ";
-		if(eccon != "c")
-			lossString = "Loss (con): "; //on ecc/con use only con for loss calculation
+		string lossString = "";
 
-		if(maxThisSetValidAndCon > 0)
+		//do not show lossString on Preferences.EncoderPhasesEnum.ECC
+		if(eccon == "c" || preferences.encoderCaptureFeedbackEccon != Preferences.EncoderPhasesEnum.ECC)
 		{
-			lossString += Util.TrimDecimals(
-					100.0 * (maxThisSetValidAndCon - minThisSetValidAndCon) / maxThisSetValidAndCon, decimals) + "%";
-			//LogB.Information(string.Format("Loss at plot: {0}", 100.0 * (maxThisSetValidAndCon - minThisSetValidAndCon) / maxThisSetValidAndCon));
+			title += "; ";
+			lossString = "Loss: ";
+			if(eccon != "c")
+				lossString = "Loss (con): "; //on ecc/con use only con for loss calculation
+
+			if(maxThisSetValidAndCon > 0)
+			{
+				lossString += Util.TrimDecimals(
+						100.0 * (maxThisSetValidAndCon - minThisSetValidAndCon) / maxThisSetValidAndCon, decimals) + "%";
+				//LogB.Information(string.Format("Loss at plot: {0}", 100.0 * (maxThisSetValidAndCon - minThisSetValidAndCon) / maxThisSetValidAndCon));
+			}
 		}
 
 		//have title and titleFull to be able to position all perfectly but having two pens (colors)
@@ -927,9 +934,9 @@ public class EncoderGraphDoPlot
 		// <------ end plot title
 
 		// paint loss arrow
-		if(maxThisSetValidAndCon > 0)
+		if(eccon == "c" || preferences.encoderCaptureFeedbackEccon != Preferences.EncoderPhasesEnum.ECC)
 		{
-			if(maxThisSetValidAndConPos < minThisSetValidAndConPos)
+			if(maxThisSetValidAndCon > 0 && maxThisSetValidAndConPos < minThisSetValidAndConPos)
 			{
 				int dLeftMax = Convert.ToInt32(left_margin + dWidthPre * maxThisSetValidAndConPos);
 				int dLeftMin = Convert.ToInt32(left_margin + dWidthPre * minThisSetValidAndConPos);

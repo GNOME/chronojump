@@ -490,8 +490,9 @@ public class UtilGtk
 	public static string ColorGood = "ForestGreen";
 	public static string ColorBad = "red";
 	public static string ColorNothing = "";
+	public static string ColorGray = "gray";
 
-	
+
 	public static Gdk.Color SELECTED = GetBackgroundColorSelected();
 
 	public static bool ColorIsDark(Gdk.Color color)

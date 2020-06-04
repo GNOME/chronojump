@@ -626,6 +626,17 @@ public class EncoderGraphDoPlot
 				if(preferences.volumeOn && count == data.Count -1 && capturing)
 					Util.PlaySound(Constants.SoundTypes.BAD, preferences.volumeOn, preferences.gstreamer);
 			}
+			else if(myColor == UtilGtk.ColorGray)
+			{
+				/*
+				 * on ecS when feedback is only in the opposite phase,
+				 * AssignColorAutomatic will return ColorGray
+				 * this helps to distinguins the phase that we want
+				 */
+				my_pen_ecc_con_e = pen_gray;
+				my_pen_ecc_con_c = pen_gray;
+				my_pen_con = pen_gray;
+			}
 			else {
 				my_pen_ecc_con_e = pen_blue_dark_encoder_capture;
 				my_pen_ecc_con_c = pen_blue_light_encoder_capture;

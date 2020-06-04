@@ -30,13 +30,9 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.Notebook notebook_main;
 	//[Widget] Gtk.ScrolledWindow scrolled_conditions;
 
-	[Widget] Gtk.Frame frame_best_and_worst;
 	[Widget] Gtk.Box hbox_jump_best_worst;
 	[Widget] Gtk.Box hbox_run_best_worst;
 	
-	[Widget] Gtk.VBox vbox_encoder_stuff;
-	[Widget] Gtk.Frame frame_conditions;
-
 	/* jumps */	
 	[Widget] Gtk.Box hbox_jump_conditions;
 	[Widget] Gtk.CheckButton checkbutton_jump_tf_tc_best;
@@ -72,12 +68,10 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.SpinButton spinbutton_time_lower;
 
 	/* encoder */
-	[Widget] Gtk.Frame frame_encoder_automatic_conditions;
 	[Widget] Gtk.HBox hbox_combo_encoder_main_variable;
 	[Widget] Gtk.ComboBox combo_encoder_main_variable;
 	[Widget] Gtk.RadioButton radio_encoder_relative_to_set;
 	[Widget] Gtk.RadioButton radio_encoder_relative_to_historical;
-	[Widget] Gtk.Label label_main_variable_text;
 	[Widget] Gtk.CheckButton checkbutton_encoder_automatic_greater;
 	[Widget] Gtk.CheckButton checkbutton_encoder_automatic_lower;
 	[Widget] Gtk.SpinButton spinbutton_encoder_automatic_greater;
@@ -129,10 +123,13 @@ public class RepetitiveConditionsWindow
 
 
 	[Widget] Gtk.Button button_test_good;
+	[Widget] Gtk.Button button_test_good1;
+	[Widget] Gtk.Button button_test_bad;
+	[Widget] Gtk.Button button_test_bad1;
 	[Widget] Gtk.Label label_test_sound_result;
+	[Widget] Gtk.Label label_test_sound_result1;
 	[Widget] Gtk.Button button_close;
 
-	[Widget] Gtk.HBox hbox_test_bells;
 	//bells good (green)
 	[Widget] Gtk.Image image_repetitive_best_tf_tc;
 	[Widget] Gtk.Image image_repetitive_best_time;
@@ -150,6 +147,7 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.Image image_encoder_power_higher;
 	[Widget] Gtk.Image image_encoder_peakpower_higher;
 	[Widget] Gtk.Image image_repetitive_test_good;
+	[Widget] Gtk.Image image_repetitive_test_good1;
 	//bells bad (red)
 	[Widget] Gtk.Image image_repetitive_worst_tf_tc;
 	[Widget] Gtk.Image image_repetitive_worst_time;
@@ -167,6 +165,7 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.Image image_encoder_power_lower;
 	[Widget] Gtk.Image image_encoder_peakpower_lower;
 	[Widget] Gtk.Image image_repetitive_test_bad;
+	[Widget] Gtk.Image image_repetitive_test_bad1;
 
 	//encoder rhythm
 	[Widget] Gtk.Label label_rhythm_tab;
@@ -191,14 +190,15 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.CheckButton check_rhythm_rest_reps;
 
 	//forceSensor
-	[Widget] Gtk.VBox vbox_force_capture_feedback;
 	[Widget] Gtk.CheckButton check_force_sensor_capture_feedback;
 	[Widget] Gtk.HBox hbox_force_sensor_capture_feedback;
 	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_at;
 	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_range;
 
-	const int FEEDBACKPAGE = 0;
-	const int RHYTHMPAGE = 1;
+	const int JUMPSRUNSPAGE = 0;
+	const int ENCODERPAGE = 1;
+	const int ENCODERRHYTHMPAGE = 2;
+	const int FORCESENSORPAGE = 3;
 
 	public Gtk.Button FakeButtonClose;
 
@@ -296,38 +296,35 @@ public class RepetitiveConditionsWindow
 			int forceSensorCaptureFeedbackAt,
 			int forceSensorCaptureFeedbackRange)
 	{
-		frame_best_and_worst.Hide();
-		frame_conditions.Hide();
 		hbox_jump_best_worst.Hide();
 		hbox_run_best_worst.Hide();
 		hbox_jump_conditions.Hide();
 		hbox_run_conditions.Hide();
-		frame_encoder_automatic_conditions.Hide();
 		vbox_encoder_manual.Hide();
 		notebook_encoder_conditions.Hide();
-		vbox_encoder_stuff.Hide();
-		vbox_force_capture_feedback.Hide();
-		hbox_test_bells.Hide();
 
-		notebook_main.GetNthPage(RHYTHMPAGE).Hide();
+		notebook_main.GetNthPage(JUMPSRUNSPAGE).Hide();
+		notebook_main.GetNthPage(ENCODERPAGE).Hide();
+		notebook_main.GetNthPage(ENCODERRHYTHMPAGE).Hide();
+		notebook_main.GetNthPage(FORCESENSORPAGE).Hide();
 		notebook_main.ShowTabs = false;
 
-		if(bellMode == Constants.BellModes.JUMPS) {
-			frame_best_and_worst.Show();
+		if(bellMode == Constants.BellModes.JUMPS)
+		{
 			hbox_jump_best_worst.Show();
 			hbox_jump_conditions.Show();
-			frame_conditions.Show();
-			hbox_test_bells.Show();
-		} else if(bellMode == Constants.BellModes.RUNS) {
-			frame_best_and_worst.Show();
+
+			notebook_main.GetNthPage(JUMPSRUNSPAGE).Show();
+		}
+		else if(bellMode == Constants.BellModes.RUNS)
+		{
 			hbox_run_best_worst.Show();
 			hbox_run_conditions.Show();
-			frame_conditions.Show();
-			hbox_test_bells.Show();
-		} else if (bellMode == Constants.BellModes.ENCODERGRAVITATORY || bellMode == Constants.BellModes.ENCODERINERTIAL)
+
+			notebook_main.GetNthPage(JUMPSRUNSPAGE).Show();
+		}
+		else if (bellMode == Constants.BellModes.ENCODERGRAVITATORY || bellMode == Constants.BellModes.ENCODERINERTIAL)
 		{
-			vbox_encoder_stuff.Show();
-			frame_encoder_automatic_conditions.Show();
 			notebook_main.ShowTabs = true;
 
 			vbox_encoder_manual.Show();
@@ -386,9 +383,11 @@ public class RepetitiveConditionsWindow
 			else
 				radio_encoder_eccon_both.Active = true;
 
-			notebook_main.GetNthPage(RHYTHMPAGE).Show();
+			notebook_main.GetNthPage(ENCODERPAGE).Show();
+			notebook_main.GetNthPage(ENCODERRHYTHMPAGE).Show();
+			notebook_main.CurrentPage = ENCODERPAGE;
+
 			encoder_rhythm_set_values(encoderRhythm);
-			hbox_test_bells.Show();
 		}
 		else if(bellMode == Constants.BellModes.FORCESENSOR)
 		{
@@ -404,10 +403,11 @@ public class RepetitiveConditionsWindow
 			spin_force_sensor_capture_feedback_at.Value = forceSensorCaptureFeedbackAt;
 			spin_force_sensor_capture_feedback_range.Value = forceSensorCaptureFeedbackRange;
 
-			vbox_force_capture_feedback.Visible = true;
+			notebook_main.GetNthPage(FORCESENSORPAGE).Show();
 		}
 
 		label_test_sound_result.Text = "";
+		label_test_sound_result1.Text = "";
 	}
 		
 	private void createComboEncoderMainAndSecondaryVariables()
@@ -446,8 +446,6 @@ public class RepetitiveConditionsWindow
 
 		if(mainVariable != "Mean power" && mainVariable != "Mean speed" && mainVariable != "Mean force")
 			radio_encoder_relative_to_set.Active = true;
-
-		label_main_variable_text.Text = mainVariable;
 	}
 
 	private void on_check_encoder_show_secondary_variable_toggled (object o, EventArgs args)
@@ -481,6 +479,7 @@ public class RepetitiveConditionsWindow
 		image_encoder_power_higher.Pixbuf = pixbuf;
 		image_encoder_peakpower_higher.Pixbuf = pixbuf;
 		image_repetitive_test_good.Pixbuf = pixbuf;
+		image_repetitive_test_good1.Pixbuf = pixbuf;
 		
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_red.png");
 		image_repetitive_worst_tf_tc.Pixbuf = pixbuf;
@@ -499,6 +498,7 @@ public class RepetitiveConditionsWindow
 		image_encoder_power_lower.Pixbuf = pixbuf;
 		image_encoder_peakpower_lower.Pixbuf = pixbuf;
 		image_repetitive_test_bad.Pixbuf = pixbuf;
+		image_repetitive_test_bad1.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_info.png");
 		image_clusters_info.Pixbuf = pixbuf;
@@ -511,16 +511,21 @@ public class RepetitiveConditionsWindow
 			Util.TestSound = true;
 
 			label_test_sound_result.Text = "";
+			label_test_sound_result1.Text = "";
+
 			Util.SoundCodes sc;
-			if (o == button_test_good) 
+			if (o == button_test_good || o == button_test_good1)
 				sc = Util.PlaySound(Constants.SoundTypes.GOOD, true, gstreamer);
-			else //button_test_bad
+			else //if (o == button_test_bad || o == button_test_good1)
 				sc = Util.PlaySound(Constants.SoundTypes.BAD, true, gstreamer);
 
-			if(sc == Util.SoundCodes.OK)
+			if(sc == Util.SoundCodes.OK) {
 				label_test_sound_result.Text = Catalog.GetString("Sound working");
-			else
+				label_test_sound_result1.Text = Catalog.GetString("Sound working");
+			} else {
 				label_test_sound_result.Text = Catalog.GetString("Sound not working");
+				label_test_sound_result1.Text = Catalog.GetString("Sound working");
+			}
 
 			Util.TestSound = false;
 		} else

@@ -805,9 +805,9 @@ public class RepetitiveConditionsWindow
 		//note on "c" phaseEnum will be BOTH
 
 		if(radio_encoder_eccon_ecc.Active && phaseEnum == Preferences.EncoderPhasesEnum.CON)
-			return UtilGtk.ColorNothing;
+			return UtilGtk.ColorGray;
 		else if(radio_encoder_eccon_con.Active && phaseEnum == Preferences.EncoderPhasesEnum.ECC)
-			return UtilGtk.ColorNothing;
+			return UtilGtk.ColorGray;
 
 		if(EncoderAutomaticHigherActive && currentValue > getBestSetValue(b) * EncoderAutomaticHigherValue / 100)
 			return UtilGtk.ColorGood;

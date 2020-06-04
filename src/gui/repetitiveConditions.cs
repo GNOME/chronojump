@@ -365,9 +365,23 @@ public class RepetitiveConditionsWindow
 						encoderMainVariable != Constants.EncoderVariablesCapture.MeanSpeed &&
 						encoderMainVariable != Constants.EncoderVariablesCapture.MeanForce
 					  ) )
+			{
 				radio_encoder_relative_to_set.Active = true;
-			else
+
+				if(encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.ECC)
+					radio_encoder_eccon_ecc.Active = true;
+				else if(encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.CON)
+					radio_encoder_eccon_con.Active = true;
+				else
+					radio_encoder_eccon_both.Active = true;
+			} else
+			{
 				radio_encoder_relative_to_historical.Active = true;
+
+				radio_encoder_eccon_both.Active = true;
+				radio_encoder_eccon_ecc.Sensitive = false;
+				radio_encoder_eccon_con.Sensitive = false;
+			}
 
 			//the change on spinbuttons here will not have to provoque changes on checkbuttons
 			update_checkbuttons_encoder_automatic = false;
@@ -376,13 +390,6 @@ public class RepetitiveConditionsWindow
 			checkbutton_encoder_automatic_lower.Active = encoderCaptureMainVariableLowerActive;
 			spinbutton_encoder_automatic_lower.Value = encoderCaptureMainVariableLowerValue;
 			update_checkbuttons_encoder_automatic = true;
-
-			if(encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.ECC)
-				radio_encoder_eccon_ecc.Active = true;
-			else if(encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.CON)
-				radio_encoder_eccon_con.Active = true;
-			else
-				radio_encoder_eccon_both.Active = true;
 
 			notebook_main.GetNthPage(ENCODERPAGE).Show();
 			notebook_main.GetNthPage(ENCODERRHYTHMPAGE).Show();
@@ -635,6 +642,17 @@ public class RepetitiveConditionsWindow
 		else
 			comboEncoderAutomaticVariableFillHistorical();
 			*/
+
+		//historical does not allow to differentiate between phases
+		if(radio_encoder_relative_to_set.Active)
+		{
+			radio_encoder_eccon_ecc.Sensitive = true;
+			radio_encoder_eccon_con.Sensitive = true;
+		} else {
+			radio_encoder_eccon_both.Active = true;
+			radio_encoder_eccon_ecc.Sensitive = false;
+			radio_encoder_eccon_con.Sensitive = false;
+		}
 	}
 
 

@@ -156,10 +156,18 @@ public partial class ChronoJumpWindow
 		encoderCaptureListStore = new Gtk.ListStore (typeof (EncoderCurve));
 		
 		repetitiveConditionsWin.ResetBestSetValue(RepetitiveConditionsWindow.BestSetValueEnum.AUTOMATIC_FEEDBACK);
-		foreach (EncoderCurve curve in encoderCaptureCurves) {
+		bool eccPhase = true;
+		foreach (EncoderCurve curve in encoderCaptureCurves)
+		{
 			encoderCaptureListStore.AppendValues (curve);
 				
-			repetitiveConditionsWin.UpdateBestSetValue(curve);
+			if( ecconLast == "c" ||
+					preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.BOTH ||
+					preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.ECC && eccPhase ||
+					preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.CON && ! eccPhase )
+				repetitiveConditionsWin.UpdateBestSetValue(curve);
+
+			eccPhase = ! eccPhase;
 		}
 
 		treeview_encoder_capture_curves.Model = encoderCaptureListStore;
@@ -716,10 +724,18 @@ public partial class ChronoJumpWindow
 		encoderAnalyzeListStore = new Gtk.ListStore (typeof (EncoderCurve));
 	
 		repetitiveConditionsWin.ResetBestSetValue(RepetitiveConditionsWindow.BestSetValueEnum.AUTOMATIC_FEEDBACK);
-		foreach (EncoderCurve curve in encoderAnalyzeCurves) {
+		bool eccPhase = true;
+		foreach (EncoderCurve curve in encoderAnalyzeCurves)
+		{
 			encoderAnalyzeListStore.AppendValues (curve);
-		
-			repetitiveConditionsWin.UpdateBestSetValue(curve);
+
+			if( ecconLast == "c" ||
+					preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.BOTH ||
+					preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.ECC && eccPhase ||
+					preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.CON && ! eccPhase )
+				repetitiveConditionsWin.UpdateBestSetValue(curve);
+
+			eccPhase = ! eccPhase;
 		}
 
 		treeview_encoder_analyze_curves.Model = encoderAnalyzeListStore;

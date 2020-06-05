@@ -354,8 +354,8 @@ public class EncoderGraphDoPlot
 			if(eccon == "c" ||
 					preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.BOTH ||
 					preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.ECC && ! Util.IsEven(count +1) || //odd (impar)
-					preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.CON && Util.IsEven(count +1) 	//even (par)
-					) {
+					preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.CON && Util.IsEven(count +1) ) //even (par)
+			{
 				if(d > maxThisSetForCalc)
 					maxThisSetForCalc = d;
 			}
@@ -366,7 +366,11 @@ public class EncoderGraphDoPlot
 			if( hasInertia && discardFirstN > 0 &&
 					  ((eccon == "c" && count < discardFirstN) || (eccon != "c" && count < discardFirstN * 2)) )
 				LogB.Information("Discarded phase");
-			else {
+			else if(eccon == "c" ||
+					preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.BOTH ||
+					preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.ECC && ! Util.IsEven(count +1) || //odd (impar)
+					preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.CON && Util.IsEven(count +1) )	//even (par)
+			{
 				countValid ++;
 				sumValid += d;
 				bool needChangeMin = false;
@@ -795,10 +799,18 @@ public class EncoderGraphDoPlot
 						d ) );
 			
 			bool curveSaved = false;	
-			if( iterOk && ((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record ) {
+			if( iterOk && ((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record )
+			{
 				curveSaved = true;
-				sumSaved += dFor;
-				countSaved ++;
+
+				if(eccon == "c" ||
+						preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.BOTH ||
+						preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.ECC && ! Util.IsEven(count +1) || //odd (impar)
+						preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.CON && Util.IsEven(count +1) ) //even (par)
+				{
+					sumSaved += dFor;
+					countSaved ++;
+				}
 			}
 			
 			//add text on the bottom

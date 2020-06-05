@@ -906,30 +906,59 @@ public class EncoderGraphDoPlot
 		int titleFullWidth = 1;
 		int titleWidth = 1;
 		int lossStringWidth = 1;
+
 		layout_encoder_capture_curves_bars_text.SetMarkup(titleFull);
 		layout_encoder_capture_curves_bars_text.GetPixelSize(out titleFullWidth, out textHeight);
+
+		// 2) reduce font size title is longer than graphWidth
+		//LogB.Information("font size: " + layout_encoder_capture_curves_bars_text.FontDescription.Size.ToString());
+		int savedFontSize = Convert.ToInt32(layout_encoder_capture_curves_bars_text.FontDescription.Size / Pango.Scale.PangoScale);
+		if (titleFullWidth > graphWidth)
+		{
+			int i = 1;
+			do {
+				layout_encoder_capture_curves_bars_text.FontDescription.Size -= Convert.ToInt32(Pango.Scale.PangoScale);
+
+				if(layout_encoder_capture_curves_bars_text.FontDescription.Size / Pango.Scale.PangoScale < 1)
+					break;
+
+				layout_encoder_capture_curves_bars_text.SetMarkup(titleFull);
+				layout_encoder_capture_curves_bars_text.GetPixelSize(out titleFullWidth, out textHeight);
+
+				//LogB.Information(string.Format("titleFullWidth: {0}, graphWidth: {1}, i: {2}, savedFontSize: {3}, fontSize: {4}",
+				//			titleFullWidth, graphWidth, i, savedFontSize,
+				//			layout_encoder_capture_curves_bars_text.FontDescription.Size/Pango.Scale.PangoScale));
+
+				i ++;
+			} while (titleFullWidth > graphWidth);
+		}
+
 		layout_encoder_capture_curves_bars_text.SetMarkup(title);
 		layout_encoder_capture_curves_bars_text.GetPixelSize(out titleWidth, out textHeight);
 		layout_encoder_capture_curves_bars_text.SetMarkup(lossString);
 		layout_encoder_capture_curves_bars_text.GetPixelSize(out lossStringWidth, out textHeight);
 
-		// 2) paint only title text (with black pen)
+		// 3) paint only title text (with black pen)
 		layout_encoder_capture_curves_bars_text.SetMarkup(title);
 		pixmap.DrawLayout (pen_black_encoder_capture,
 				Convert.ToInt32( (graphWidth/2) - titleFullWidth/2), 0, //x, y
 				layout_encoder_capture_curves_bars_text);
 
-		// 3) paint loss string
+		// 4) paint loss string
 		layout_encoder_capture_curves_bars_text.SetMarkup(lossString);
 		pixmap.DrawLayout (pen_gray, //darker than pen_gray_loss
 				Convert.ToInt32( (graphWidth/2) - titleFullWidth/2 + titleWidth), 0, //x, y
 				layout_encoder_capture_curves_bars_text);
 
-		// 3) paint the "]";
+		// 5) paint the "]";
 		layout_encoder_capture_curves_bars_text.SetMarkup("]");
 		pixmap.DrawLayout (pen_black_encoder_capture,
 				Convert.ToInt32( (graphWidth/2) - titleFullWidth/2 + titleWidth + lossStringWidth), 0, //x, y
 				layout_encoder_capture_curves_bars_text);
+
+		// 6) return layout font size to its original value
+		layout_encoder_capture_curves_bars_text.FontDescription.Size = savedFontSize;
+
 
 		// <------ end plot title
 

@@ -1440,6 +1440,12 @@ public partial class ChronoJumpWindow
 
 	private Preferences.EncoderPhasesEnum getEncoderCurvePhaseEnum(EncoderCurve curve)
 	{
+		//LogB.Information("getEncoderCurvePhaseEnum curve: " + curve.ToCSV(false, ";", false, ""));
+
+		//if N contains the e or c, use that
+		if(curve.IsNumberNandEorC())
+			return curve.GetPhaseEnum();
+
 		if (ecconLast == "ec" || ecconLast == "ecS")
 		{
 			bool isEven = Util.IsEven(Convert.ToInt32(curve.N));

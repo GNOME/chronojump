@@ -4503,8 +4503,19 @@ public partial class ChronoJumpWindow
 							GetTreeviewEncoderAnalyzeHeaders(false), sep), false));
 				//write curves rows
 				ArrayList array = getTreeViewCurves(encoderAnalyzeListStore);
+
 				foreach (EncoderCurve ec in array)
-					writer.WriteLine(ec.ToCSV(false, preferences.CSVExportDecimalSeparator, preferences.encoderWorkKcal));
+				{
+					string phase = "";
+					if(radio_encoder_analyze_individual_current_set.Active && findEccon(false) == "ecS" && ec.IsNumberN())
+					{
+						phase = "e";
+						if(Util.IsEven(Convert.ToInt32(ec.N)))
+							phase = "c";
+					}
+
+					writer.WriteLine(ec.ToCSV(false, preferences.CSVExportDecimalSeparator, preferences.encoderWorkKcal, phase));
+				}
 			}
 			
 			writer.Flush();

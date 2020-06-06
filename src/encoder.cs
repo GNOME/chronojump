@@ -378,6 +378,18 @@ public class EncoderCurve
 
 		return false;
 	}
+
+	//note this only works if IsNumberNandEorC()
+	public Preferences.EncoderPhasesEnum GetPhaseEnum()
+	{
+		char lastChar = N[N.Length-1];
+		if(lastChar == 'e')
+			return Preferences.EncoderPhasesEnum.ECC;
+		else
+			return Preferences.EncoderPhasesEnum.CON;
+	}
+
+
 	//at least for RenderNAnalyze
 	public bool IsValidN() {
 		if (N == "MAX" || N == "AVG" || N == "SD" || IsNumberN() || IsNumberNandEorC())

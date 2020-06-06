@@ -1013,7 +1013,7 @@ public partial class ChronoJumpWindow
 		//Check if it's number
 		if(! curve.IsNumberN()) {
 			(cell as Gtk.CellRendererText).Text = "";
-			LogB.Error("Curve is not number at RenderN:" + curve.ToCSV(true, "COMMA", preferences.encoderWorkKcal));
+			LogB.Error("Curve is not number at RenderN:" + curve.ToCSV(true, "COMMA", preferences.encoderWorkKcal, ""));
 			return;
 		}
 		
@@ -1050,7 +1050,7 @@ public partial class ChronoJumpWindow
 		//Check if it's valid
 		if(! curve.IsValidN()) {
 			(cell as Gtk.CellRendererText).Text = "";
-			LogB.Error("Curve is not valid at RenderNAnalyze:" + curve.ToCSV(false, "COMMA", preferences.encoderWorkKcal));
+			LogB.Error("Curve is not valid at RenderNAnalyze:" + curve.ToCSV(false, "COMMA", preferences.encoderWorkKcal, ""));
 			return;
 		}
 			

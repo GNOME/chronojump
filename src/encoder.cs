@@ -418,7 +418,9 @@ public class EncoderCurve
 		}
 	}
 
-	public string ToCSV(bool captureOrAnalyze, string decimalSeparator, bool useWorkKcal)
+	//ecChar adds an 'e', 'c' or nothing to N
+	//if e or c then N will be /2
+	public string ToCSV (bool captureOrAnalyze, string decimalSeparator, bool useWorkKcal, string ecChar)
 	{
 		//latin:	2,3 ; 2,5
 		//non-latin:	2.3 , 2.5
@@ -432,8 +434,14 @@ public class EncoderCurve
 		string str = "";
 		//TODO: if capture not shown because some variables like Inertia are not defined
 		if(! captureOrAnalyze)
+		{
+			string nprint = N;
+			if(ecChar == "e" || ecChar == "c")
+				nprint = decimal.Truncate((Convert.ToInt32(nprint) +1) /2).ToString() + ecChar;
+
 			str = 
-				N + sep + Series + sep + Exercise + sep + Laterality + sep +
+				nprint + sep +
+				Series + sep + Exercise + sep + Laterality + sep +
 				ExtraWeight + sep + DisplacedWeight + sep + Inertia + sep + 
 				Start + sep + Duration + sep + Height + sep + 
 				MeanSpeed + sep + MaxSpeed + sep + MaxSpeedT + sep + 
@@ -442,6 +450,7 @@ public class EncoderCurve
 				MeanForce + sep + MaxForce + sep + MaxForceT + sep +
 				MaxForce_MaxForceT + sep +
 				work.ToString() + sep + Impulse;
+		}
 		
 		if(decimalSeparator == "COMMA")
 			str = Util.ConvertToComma(str);

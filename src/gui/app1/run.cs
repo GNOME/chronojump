@@ -162,11 +162,25 @@ public partial class ChronoJumpWindow
 	}
 	private void updateGraphRunsInterval ()
 	{
+		if(currentPerson == null || currentSession == null)
+			return;
+
 		if(event_execute_drawingarea == null || event_execute_pixmap == null)
 			return;
 
 		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
 		event_execute_table_run_interval_values.Hide();
+
+		//we do not plot graph, but we want to update label event_graph_label_graph_test
+		//intializeVariables if not done before
+		event_execute_initializeVariables(
+			! cp2016.StoredCanCaptureContacts, //is simulated
+			currentPerson.UniqueID,
+			currentPerson.Name,
+			Catalog.GetString("Phases"),  	  //name of the different moments
+			Constants.RunIntervalTable, //tableName
+			currentRunIntervalType.Name
+			);
 
 		//TODO paint graph of num of intervallic runs
 	}
@@ -214,6 +228,7 @@ public partial class ChronoJumpWindow
 
 		button_run_type_delete_interval.Sensitive = ! myRunType.IsPredefined;
 
+		updateGraphRunsInterval();
 		setLabelContactsExerciseSelectedOptionsRunsInterval();
 	}
 

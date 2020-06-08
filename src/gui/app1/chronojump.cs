@@ -5743,8 +5743,7 @@ LogB.Debug("mc finished 5");
 		if (myTreeViewJumpsRj.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (preferences.askDeletion) {
-				confirmWinJumpRun = ConfirmWindowJumpRun.Show( Catalog.GetString("Do you want to delete this jump?"), 
-						 Catalog.GetString("Attention: Deleting a Reactive subjump will delete the whole jump"));
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show( Catalog.GetString("Do you want to delete this jump?"), "");
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_rj_accepted);
 			} else {
 				on_delete_selected_jump_rj_accepted(o, args);
@@ -5835,8 +5834,7 @@ LogB.Debug("mc finished 5");
 		if (myTreeViewRunsInterval.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (preferences.askDeletion) {
-				confirmWinJumpRun = ConfirmWindowJumpRun.Show( Catalog.GetString("Do you want to delete this race?"),
-						 Catalog.GetString("Attention: Deleting a lap will delete the whole race"));
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show(Catalog.GetString("Do you want to delete this race?"), "");
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_run_interval_accepted);
 			} else {
 				on_delete_selected_run_interval_accepted(o, args);

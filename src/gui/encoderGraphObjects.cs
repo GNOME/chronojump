@@ -415,7 +415,10 @@ public class EncoderGraphDoPlot
 			 * if ! relativeToSet, then Preferences.EncoderPhasesEnum.BOTH, so maxAbsoluteForCalc == maxAbsoluteForGraph
 			 */
 			if(maxPowerSpeedForceIntersession > maxAbsoluteForCalc)
+			{
 				maxAbsoluteForCalc = maxPowerSpeedForceIntersession;
+				maxAbsoluteForGraph = maxPowerSpeedForceIntersession;
+			}
 		}
 
 		//calculate maxAbsoluteSecondary (will be secondary variable)

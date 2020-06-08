@@ -35,28 +35,32 @@ Changed also the mail of es translator, and: "Project-Id-Version: es\n"
 
 for ** UPDATE ** , i do:
 
-1.- check for missing files
-chronojump/po $ ./intltool-update -m
+/* 
+ * this is not needed, is not working, and its done automatically on git constantly by Piotr Drąg (being a person or a script, who knows)
+ *
+ * 1 OLD .- check for missing files
+ * chronojump/po $ ./intltool-update -m
+ *
+ * 2 OLD .- add missing files to POTFILES.in
+ * if all are needed:
+ * chronojump/po $ cat missing >> POTFILES.in
+ * if some not, add them to POTFILES.skip
+*/
 
-2.- add missing files to POTFILES.in
-if all are needed:
-chronojump/po $ cat missing >> POTFILES.in
-if some not, add them to POTFILES.skip
-
-3.- check creating a .pot (creates chronojump.pot)
+1.- check creating a .pot (creates chronojump.pot)
 chronojump/po $ intltool-update -p
 
-4.- merge chronojump.pot with old catalan translation
+2.- merge chronojump.pot with old catalan translation
 mv ca.po ca_old.po
 msgmerge -o ca.po ca_old.po chronojump.pot
 
 mv es.po es_old.po
 msgmerge -o es.po es_old.po chronojump.pot
 
-5.- edit the ca.po with a multipurpose editor like vim, or a po editor like poedit
+3.- edit the ca.po with a multipurpose editor like vim, or a po editor like poedit
 poedit it's better because it fast finds what needs to be translated
 
-6.- make, sudo make install
+4.- make, sudo make install
 ---------
 ---------
 

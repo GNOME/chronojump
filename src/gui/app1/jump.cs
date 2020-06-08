@@ -277,12 +277,25 @@ public partial class ChronoJumpWindow
 	}
 	private void updateGraphJumpsReactive ()
 	{
+		if(currentPerson == null || currentSession == null)
+			return;
+
 		if(event_execute_drawingarea == null || event_execute_pixmap == null)
 			return;
 
 		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
 		event_execute_table_jump_reactive_values.Hide();
 
+		//we do not plot graph, but we want to update label event_graph_label_graph_test
+		//intializeVariables if not done before
+		event_execute_initializeVariables(
+			! cp2016.StoredCanCaptureContacts, //is simulated
+			currentPerson.UniqueID,
+			currentPerson.Name,
+			Catalog.GetString("Phases"),  	  //name of the different moments
+			Constants.JumpRjTable, //tableName
+			currentJumpRjType.Name
+			);
 		//TODO paint graph of num of reactive jumps
 	}
 	
@@ -333,6 +346,12 @@ public partial class ChronoJumpWindow
 			extra_window_jumps_rj_radiobutton_kg.Active = true;
 		} else {
 			extra_window_jumps_rj_radiobutton_weight.Active = true;
+		}
+
+		if(! configChronojump.Exhibition)
+		{
+			//do not update graph, but erase it and change label event_graph_label_graph_test
+			updateGraphJumpsReactive();
 		}
 
 		setLabelContactsExerciseSelectedOptionsJumpsReactive();

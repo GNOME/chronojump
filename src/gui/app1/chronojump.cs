@@ -7258,6 +7258,7 @@ LogB.Debug("mc finished 5");
 	{
 		LogB.Information("sensitiveLastTestButtons: " + sensitive.ToString());
 		//vbox_last_test_buttons.Sensitive = sensitive; TODO:
+		button_delete_last_test.Sensitive = sensitive;
 	}
 	/*
 	 * sensitive GUI on executeAuto methods 

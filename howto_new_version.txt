@@ -129,8 +129,25 @@ wait 5'
 
 windows stuff
 ------------
-See: howto_compile.txt
 
+1) if chronojump_importer.py has changed, need to manually create the importer for python3
+because windows compile machine has cerbero with python2 and we do not want to break stuff installing python3
+
+on my local laptop:
+
+cp src/chronojump-importer/py2exec_chronojump_importer.py ~/informatica/virtualbox_windows_shared/
+cp src/chronojump-importer/chronojump_importer.py ~/informatica/virtualbox_windows_shared/
+there move them to python34 folder
+open python34 comandline, and there:
+python py2exec_chronojump_importer.py py2exe -d chronojump-importer-pyhon3
+copy chronojump-importer-python3 dir to  ~/informatica/virtualbox_windows_shared/
+and there move to win32/deps/bin
+git commit / push
+--
+
+2) See: howto_compile.txt
+
+3) Upload
 If is for internal use, copy int: c:/Usuarios/chronojump/BinarisWin/
 to be automatically available on owncloud
 

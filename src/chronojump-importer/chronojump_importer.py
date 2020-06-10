@@ -497,6 +497,7 @@ class ImportSession:
         return persons77
 
     def _import_jumps(self):
+        self._print_status(self, "jumps")
         # Imports JumpType table
         jump_types = self.source_db.read(table_name="JumpType",
                                          where_condition="Session.uniqueID={}".format(self.source_session),
@@ -538,6 +539,7 @@ class ImportSession:
         self.destination_db.write(table=jump, matches_columns=self.destination_db.column_names("Jump", skip_columns=["uniqueID", "personID"]))
 
     def _import_runs(self):
+        self._print_status(self, "runs")
         # Imports RunTypes table
         run_types = self.source_db.read(table_name="RunType",
                                         where_condition="Run.sessionID={}".format(self.source_session),
@@ -574,9 +576,10 @@ class ImportSession:
         run_interval.update_session_ids(self.new_session_id)
         run_interval.update_ids("type", run_interval_types, "old_name", "new_name")
         self.destination_db.write(table=run_interval,
-                                  matches_columns=self.destination_db.column_names("RunInterval", skip_columns=["uniqueID", "personID", "sessionID"]))
+                                  matches_columns=self.destination_db.column_names("RunInterval", skip_columns=["uniqueID", "personID", "sessionID"])) #TODO
 
     def _import_pulse(self):
+        #self._print_status(self, "pulses")
         # Imports PulseTypes table
         pulse_types = self.source_db.read(table_name="PulseType",
                                           where_condition="Session.uniqueID={}".format(self.source_session),

@@ -114,23 +114,41 @@ public partial class ChronoJumpWindow
 		string statusDir = Util.GetDatabaseTempImportDir() + Path.DirectorySeparatorChar +
 			"status" + Path.DirectorySeparatorChar;
 
-		//files are created on this order
-		if(File.Exists(statusDir + "persons.txt"))
-			message = "Importing persons";
-		if(File.Exists(statusDir + "encoder.txt"))
-			message = "Importing encoder files";
-		if(File.Exists(statusDir + "forceSensor.txt"))
-			message = "Importing forceSensor files";
-		if(File.Exists(statusDir + "runEncoder.txt"))
-			message = "Importing race analyzer files";
-		if(File.Exists(statusDir + "allData.txt"))
-			message = "All data imported, finishing";
+		message = getRealtimeMessage(statusDir, message);
 
 		app1s_ImportPulse(message);
 
 		Thread.Sleep (100);
 		//LogB.Debug(threadImport.ThreadState.ToString());
 		return true;
+	}
+
+	private string getRealtimeMessage(string statusDir, string message)
+	{
+		// files are created in opposite order as shown here
+
+		if(File.Exists(statusDir + "allData.txt"))
+			return "All data imported, finishing";
+
+		if(File.Exists(statusDir + "runEncoder.txt"))
+			return "Importing race analyzer files";
+
+		if(File.Exists(statusDir + "forceSensor.txt"))
+			return "Importing forceSensor files";
+
+		if(File.Exists(statusDir + "encoder.txt"))
+			return "Importing encoder files";
+
+		if(File.Exists(statusDir + "runs.txt"))
+			return "Importing races";
+
+		if(File.Exists(statusDir + "jumps.txt"))
+			return "Importing jumps";
+
+		if(File.Exists(statusDir + "persons.txt"))
+			return "Importing persons";
+
+		return message;
 	}
 
 	private void importSessionFromDatabaseEnd()

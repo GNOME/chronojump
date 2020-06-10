@@ -527,7 +527,7 @@ class ImportSession:
         jump_rj.update_session_ids(self.new_session_id)
         jump_rj.update_ids("type", jump_rj, "old_name", "new_name")
 
-        self.destination_db.write(table=jump_rj, matches_columns=self.destination_db.column_names("JumpRj", skip_columns=["uniqueID", "personID", "sessionID"]))
+        self.destination_db.write(table=jump_rj, matches_columns=self.destination_db.column_names("JumpRj", skip_columns=["uniqueID", "personID"]))
 
         # Imports Jump table (with the new Person77's uniqueIDs)
         jump = self.source_db.read(table_name="Jump",
@@ -543,8 +543,8 @@ class ImportSession:
         self._print_status(self, "runs")
         # Imports RunTypes table
         run_types = self.source_db.read(table_name="RunType",
-                                        where_condition="Run.sessionID={}".format(self.source_session),
-                                        join_clause="LEFT JOIN Run ON RunType.name=Run.type",
+                                        where_condition="Session.uniqueID={}".format(self.source_session),
+                                        join_clause="LEFT JOIN Run ON RunType.name=Run.type LEFT JOIN Session ON Run.sessionID=Session.uniqueID",
                                         group_by_clause="RunType.uniqueID")
 
         self.destination_db.write(table=run_types,
@@ -553,12 +553,12 @@ class ImportSession:
 
         # Imports RunIntervalTypes table
         run_interval_types = self.source_db.read(table_name="RunIntervalType",
-                                                 where_condition="RunInterval.sessionID={}".format(self.source_session),
-                                                 join_clause="LEFT JOIN RunInterval ON RunIntervalType.name=RunInterval.type",
+                                                 where_condition="Session.uniqueID={}".format(self.source_session),
+                                                 join_clause="LEFT JOIN RunInterval ON RunIntervalType.name=RunInterval.type LEFT JOIN Session on RunInterval.sessionID=Session.uniqueID",
                                                  group_by_clause="RunIntervalType.uniqueID")
 
         self.destination_db.write(table=run_interval_types,
-                                  matches_columns=self.destination_db.column_names("RunIntervalType", skip_columns=["uniqueID"]),
+                                  matches_columns=self.destination_db.column_names("RunIntervalType", ["uniqueID"]),
                                   avoids_duplicate_column="name")
 
         # Imports Run table (with the new Person77's uniqueIDs)
@@ -568,7 +568,7 @@ class ImportSession:
         run.update_session_ids(self.new_session_id)
         run.update_ids("type", run_types, "old_name", "new_name")
         self.destination_db.write(table=run,
-                                  matches_columns=self.destination_db.column_names("Run", skip_columns=["uniqueID", "personID", "sessionID"]))
+                                  matches_columns=self.destination_db.column_names("Run", skip_columns=["uniqueID", "personID"]))
 
         # Imports RunInterval table (with the new Person77's uniqueIDs)
         run_interval = self.source_db.read(table_name="RunInterval",
@@ -577,7 +577,7 @@ class ImportSession:
         run_interval.update_session_ids(self.new_session_id)
         run_interval.update_ids("type", run_interval_types, "old_name", "new_name")
         self.destination_db.write(table=run_interval,
-                                  matches_columns=self.destination_db.column_names("RunInterval", skip_columns=["uniqueID", "personID", "sessionID"])) #TODO
+                                  matches_columns=self.destination_db.column_names("RunInterval", skip_columns=["uniqueID", "personID"]))
 
     def _import_pulse(self):
         #self._print_status(self, "pulses")
@@ -596,7 +596,7 @@ class ImportSession:
                                     where_condition="Pulse.sessionID={}".format(self.source_session))
         pulse.update_session_ids(self.new_session_id)
         pulse.update_ids("type", pulse_types, "old_name", "new_name")
-        self.destination_db.write(pulse, self.destination_db.column_names("Pulse", skip_columns=["uniqueID", "personID", "sessionID"]))
+        self.destination_db.write(pulse, self.destination_db.column_names("Pulse", skip_columns=["uniqueID", "personID"]))
 
     def _import_person_session77(self):
         # Imports PersonSession77
@@ -650,7 +650,7 @@ class ImportSession:
         self._import_encoder_files(encoder)
 
         self.destination_db.write(table=encoder,
-                                  matches_columns=self.destination_db.column_names("encoder", skip_columns=["uniqueID", "personID", "sessionID", "exerciseID"]))
+                                  matches_columns=self.destination_db.column_names("encoder", skip_columns=["uniqueID", "personID", "exerciseID"]))
 
         # Imports EncoderSignalCurve
         encoder_signal_curve_signals = self.source_db.read(table_name="EncoderSignalCurve",
@@ -720,7 +720,7 @@ class ImportSession:
         self._import_forceSensor_or_runEncoder_files(forceSensor, "forceSensor")
 
         self.destination_db.write(table=forceSensor,
-                                  matches_columns=self.destination_db.column_names("forceSensor", skip_columns=["uniqueID", "personID", "sessionID", "exerciseID"]))
+                                  matches_columns=self.destination_db.column_names("forceSensor", skip_columns=["uniqueID", "personID", "exerciseID"]))
 
         if(DEBUGTOFILE):
             debugFile.write(" end _import_forceSensor\n")
@@ -754,7 +754,7 @@ class ImportSession:
         self._import_forceSensor_or_runEncoder_files(runEncoder, "runEncoder")
 
         self.destination_db.write(table=runEncoder,
-                                  matches_columns=self.destination_db.column_names("runEncoder", skip_columns=["uniqueID", "personID", "sessionID", "exerciseID"]))
+                                  matches_columns=self.destination_db.column_names("runEncoder", skip_columns=["uniqueID", "personID", "exerciseID"]))
 
         # Imports trigger (can be encoder, forceSensor or raceanalyzer. Right now force sensor is not programmed)
         trigger = self.source_db.read(table_name="trigger",

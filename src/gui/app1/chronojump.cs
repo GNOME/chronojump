@@ -6573,8 +6573,8 @@ LogB.Debug("mc finished 5");
 		preferences.debugMode = true; //be used by force sensor, importer (can be used easily for all software)
 		LogB.PrintAllThreads = true;
 
-		hbox_gui_tests.Visible = true;
-		button_carles.Visible = true;
+		//hbox_gui_tests.Visible = true;
+		//button_carles.Visible = true;
 
 		//menuitem_check_race_encoder_capture_simulate.Visible = true;
 

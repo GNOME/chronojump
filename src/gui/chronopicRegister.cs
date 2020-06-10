@@ -52,7 +52,7 @@ public static class TypePixList
 		l.Add(new TypePix(ChronopicRegisterPort.Types.ARDUINO_FORCE, new Pixbuf (null, Util.GetImagePath(false) + "board-arduino-force.png")));
 		l.Add(new TypePix(ChronopicRegisterPort.Types.ARDUINO_RFID, new Pixbuf (null, Util.GetImagePath(false) + "board-arduino-rfid.png")));
 		l.Add(new TypePix(ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER, new Pixbuf (null, Util.GetImagePath(false) + "board-arduino-run-encoder.png")));
-		l.Add(new TypePix(ChronopicRegisterPort.Types.ACCELEROMETER, new Pixbuf (null, Util.GetImagePath(false) + "board-accelerometer.png")));
+		//l.Add(new TypePix(ChronopicRegisterPort.Types.ACCELEROMETER, new Pixbuf (null, Util.GetImagePath(false) + "board-accelerometer.png")));
 	}
 
 	public static Pixbuf GetPix(ChronopicRegisterPort.Types type)

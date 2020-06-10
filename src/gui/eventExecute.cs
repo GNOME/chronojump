@@ -1067,6 +1067,10 @@ public partial class ChronoJumpWindow
 
 		drawGuideOrAVG(pen_yellow_discont, eventGraph.personAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
 
+		//paint the 0 line
+		event_execute_pixmap.DrawLine(pen_black_90,
+				10, alto -bottomMargin -1,
+				ancho -10, alto -bottomMargin -1);
 
 		//calculate separation between series and bar width
 		int tctfSep = 0; //separation between tc and tf
@@ -1356,6 +1360,11 @@ public partial class ChronoJumpWindow
 
 		drawGuideOrAVG(pen_yellow_discont, eventGraph.personAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
 
+		//paint the 0 line
+		event_execute_pixmap.DrawLine(pen_black_90,
+				10, alto -bottomMargin -1,
+				ancho -10, alto -bottomMargin -1);
+
 		//calculate bar width
 		int distanceBetweenCols = Convert.ToInt32((ancho-event_execute_rightMargin)*(1+.5)/eventGraph.runsAtSQL.Length) -
 			Convert.ToInt32((ancho-event_execute_rightMargin)*(0+.5)/eventGraph.runsAtSQL.Length);
@@ -1416,6 +1425,11 @@ public partial class ChronoJumpWindow
 		drawGuideOrAVG(pen_black_discont, eventGraph.sessionAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
 		drawGuideOrAVG(pen_yellow, eventGraph.personMINAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
 		drawGuideOrAVG(pen_yellow_discont, eventGraph.personAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
+
+		//paint the 0 line
+		event_execute_pixmap.DrawLine(pen_black_90,
+				10, alto -bottomMargin -1,
+				ancho -10, alto -bottomMargin -1);
 
 		int x = 0;
 		int y = 0;

@@ -216,9 +216,6 @@ class Database:
                        "join_clause": join_clause, "where": where_condition, "group_by": group_by}
 
         sql = "SELECT {column_names} FROM {table_names_str} {join_clause} {where} {group_by}".format(**format_data)
-        if(DEBUGTOFILE):
-                debugFile.write(str(sql) + "\n")
-
         self._execute_query_and_log(sql, [])
 
         results = self._cursor.fetchall()
@@ -383,6 +380,10 @@ class Database:
 
     def _execute_query_and_log(self, sql, where_values):
         logging.debug("SQL: {} - values: {}".format(sql, where_values))
+        if(DEBUGTOFILE):
+                debugFile.write("\n")
+                debugFile.write("SQL: {} - values: {}".format(sql, where_values))
+
         self._cursor.execute(sql, where_values)
 
 

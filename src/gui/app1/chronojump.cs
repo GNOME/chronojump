@@ -505,9 +505,15 @@ public partial class ChronoJumpWindow
 		UtilGtk.IconWindow(app1);
 
 		string buildVersion = UtilAll.ReadVersionFromBuildInfo();
+		LogB.Information("Build version:" + buildVersion);
+
+		//if buildVersion has eg. 1.9.0-1980-gc4b2941f remove the git hash (only show 1.9.0-1980)
+		string [] buildVersionSplit = buildVersion.Split(new char[] {'-'});
+		if(buildVersionSplit.Length == 3)
+			buildVersion = buildVersionSplit[0] + "-" + buildVersionSplit[1];
+
 		label_version.Text = buildVersion;
 		label_version_hidden.Text = buildVersion;
-		LogB.Information("Build version:" + buildVersion);
 
 		//manage app1 will not be hiding other windows at start
 		app1Shown = false;

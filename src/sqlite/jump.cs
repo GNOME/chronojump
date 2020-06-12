@@ -195,22 +195,34 @@ class SqliteJump : Sqlite
 
 	//like SelectJumpsSA above method but much better: return list of jumps
 	//sID -1 means all sessions
-	public static List<Jump> SelectJumps (int pID, int sID, string jumpType)
+	//limit -1 means no limit
+	public static List<Jump> SelectJumps (int sID, int pID, string jumpType, Orders_by order, int limit)
 	{
 	  //jumps previous to DB 1.82 have no datetime on jump
 	  //find session datetime for that jumps
 	  List<Session> session_l = SqliteSession.SelectAll();
 
-	  string personID = pID.ToString();
 	  string filterSessionString = "";
 	  if(sID != -1)
 		  filterSessionString = " AND sessionID == " + sID.ToString();
+
+	  string personID = pID.ToString();
+
+	  string orderByString = " ORDER BY jump.uniqueID ";
+	  if(order == Orders_by.ID_DESC)
+		  orderByString = " ORDER BY jump.uniqueID DESC ";
+
+	  string limitString = "";
+	  if(limit != -1)
+		  limitString = " LIMIT " + limit;
+
 
 	  Sqlite.Open();
 
 	  // Selecciona les dades de tots els salts
 	  dbcmd.CommandText = "SELECT * FROM jump WHERE personID = " + personID +
-		  filterSessionString +  " AND jump.type = \"" + jumpType + "\"";
+		  filterSessionString +  " AND jump.type = \"" + jumpType + "\"" +
+		  orderByString + limitString;
 
 	  LogB.SQL(dbcmd.CommandText.ToString());
 	  dbcmd.ExecuteNonQuery();

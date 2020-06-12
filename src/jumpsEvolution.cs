@@ -36,7 +36,7 @@ public class JumpsEvolution
 	public void Calculate (int personID, string jumpType)
 	{
 		//1 get data
-                List<Jump> jump_l = SqliteJump.SelectJumps (personID, -1, jumpType);
+                List<Jump> jump_l = SqliteJump.SelectJumps (-1, personID, jumpType, Sqlite.Orders_by.DEFAULT, -1);
 
 		//2 convert to list of PointF
 		point_l = new List<PointF>();

@@ -2007,7 +2007,7 @@ msgstr "Salts i curses amb fotocèl·lules"
 
 #: ../glade/app1.glade.h:433
 msgid "This session:"
-msgstr "Aquest sessió:"
+msgstr "Aquesta sessió:"
 
 #: ../glade/app1.glade.h:434
 msgid "Import a session from another database"
@@ -3512,7 +3512,7 @@ msgstr "Alçada del maluc en flexió SJ"
 
 #: ../glade/person_win.glade.h:23
 msgid "Measured from trochanter to the ground in Squat jump flexion"
-msgstr "Mesurat de del trocànter fins el terra en posició d'esquat"
+msgstr "Mesurat des del trocànter fins el terra en posició d'esquat"
 
 #: ../glade/person_win.glade.h:24
 msgid "Used on jump force/speed profile"
@@ -3658,7 +3658,7 @@ msgstr "Velocitat inicial"
 
 #: ../glade/preferences_win.glade.h:33
 msgid "Variables to show at capture graphs of reactive jumps:"
-msgstr "Variables a mostra en el gráfic de salts reactius:"
+msgstr "Variables a mostra en el gràfic de salts reactius:"
 
 #: ../glade/preferences_win.glade.h:34
 msgid "Heights: fall height, jump height"
@@ -3907,7 +3907,7 @@ msgstr "Interval mostrat al gràfic"
 
 #: ../glade/preferences_win.glade.h:100
 msgid "Behaviour when signal gets to the right of the screen"
-msgstr "Comportament quan la senyal arribi a la dreta de la pantalla"
+msgstr "Comportament quan el senyal arribi a la dreta de la pantalla"
 
 #: ../glade/preferences_win.glade.h:101
 msgid "Scroll"
@@ -4782,7 +4782,7 @@ msgstr "Creador del prototip industrial de Chronopic3."
 
 #: ../src/constants.cs:93
 msgid "Chronopic validation."
-msgstr "Validació del Chronopic"
+msgstr "Validació del Chronopic."
 
 #: ../src/constants.cs:94 ../src/constants.cs:97
 msgid "Chronopic reaction time advanced implementation."
@@ -6700,7 +6700,7 @@ msgid ""
 "be able to match elastic bands and total stiffness."
 msgstr ""
 "Els càlcul de la rigidesa és correcte però la finestra de configuració de la "
-"rigidesa no podrà reflectir a questa goma ni la rigidesa total."
+"rigidesa no podrà reflectir aquesta goma ni la rigidesa total."
 
 #: ../src/gui/app1/forceSensor.cs:1820
 msgid "Error doing graph."
@@ -7330,7 +7330,7 @@ msgid ""
 "supported by the measured limb. If the effect of the mass is not "
 "significant, use this option also."
 msgstr ""
-"En elguns casos el pes és transmès al sensor i aquest també és suportat per "
+"En alguns casos el pes és transmès al sensor i aquest també és suportat per "
 "l'extremitat mesurada. Si l'efecte de la massa no és significant, useu "
 "aquesta opció també."
 
@@ -7344,7 +7344,7 @@ msgstr ""
 
 #: ../src/gui/forceSensorExercise.cs:358
 msgid "These values will be used to detect repetitions."
-msgstr "Aquest valors s'usaran per la detecció de repeticions."
+msgstr "Aquests valors s'usaran per a la detecció de repeticions."
 
 #. if(o == Options.OTHER)
 #: ../src/gui/forceSensorExercise.cs:360
@@ -7409,7 +7409,7 @@ msgid ""
 "threadmill. The body weight is added to the total force exerted by the "
 "subject."
 msgstr ""
-"Córrer en una cinta con contra d'una goma. El sensor està mesurant la força "
+"Córrer en una cinta en contra d'una goma. El sensor està mesurant la força "
 "que la goma transmet horitzontalment al subjecte. El pes corporal s'afegeix "
 "a la força total exercida pel subjecte."
 
@@ -7672,7 +7672,7 @@ msgstr "Feu clic al «+» que hi ha a l'esquerra de ports COM i LPT."
 msgid ""
 "The port name will be what it's written like COM? on the USB-serial line."
 msgstr ""
-"El nom del port és on posa COM? a la línia que fa referència a USB-serial."
+"El nom del port és on posa COM? A la línia que fa referència a USB-serial."
 
 #: ../src/gui/old/helpPorts.cs:106
 msgid ""
@@ -7768,7 +7768,7 @@ msgstr "Resum del Sensor de Força"
 
 #: ../src/gui/overview.cs:376
 msgid "Race analyzer overview"
-msgstr "Resum del analitzador de cursa"
+msgstr "Resum de l'analitzador de cursa"
 
 #: ../src/gui/person/addModify.cs:227
 msgid "Edit person"
@@ -10756,7 +10756,7 @@ msgstr "Error. {0} s'ha tancat."
 #: ../src/webcam/webcam.cs:109
 #, csharp-format
 msgid "Error. {0} cannot save video."
-msgstr "Error. {0} no pot desar el video."
+msgstr "Error. {0} no pot desar el vídeo."
 
 #: ../src/webcam/webcamFfmpeg.cs:290
 msgid "Preview. Press any key to exit."

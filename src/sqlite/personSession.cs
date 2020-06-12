@@ -257,7 +257,50 @@ class SqlitePersonSession : Sqlite
 
 		return ps;
 	}
-	
+
+	//sessionID can be -1
+	//TODO: add the sessionID -1 code
+	public static List<Person> SelectCurrentSessionPersonsAsList (int sessionID)
+	{
+		string tp = Constants.PersonTable;
+		string tps = Constants.PersonSessionTable;
+
+		string tpsString = "";
+
+		Sqlite.Open();
+		dbcmd.CommandText = "SELECT " + tp + ".*" +
+			" FROM " + tp + ", " + tps +
+			" WHERE " + tps + ".sessionID == " + sessionID +
+			" AND " + tp + ".uniqueID == " + tps + ".personID " +
+			" ORDER BY upper(" + tp + ".name)";
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		List<Person> person_l = new List<Person>();
+		while(reader.Read())
+		{
+			Person person = new Person(
+					Convert.ToInt32(reader[0].ToString()),	//uniqueID
+					reader[1].ToString(),			//name
+					reader[2].ToString(),			//sex
+					UtilDate.FromSql(reader[3].ToString()),	//dateBorn
+					Convert.ToInt32(reader[4].ToString()),	//race
+					Convert.ToInt32(reader[5].ToString()),	//countryID
+					reader[6].ToString(),			//description
+					reader[7].ToString(),			//future1: rfid
+					reader[8].ToString(),			//future2: clubID
+					Convert.ToInt32(reader[9].ToString())	//serverUniqueID
+					);
+			person_l.Add(person);
+		}
+
+		reader.Close();
+		Sqlite.Close();
+
+		return person_l;
+	}
 	//the difference between this select and others, is that this returns and ArrayList of Persons
 	//this is better than return the strings that can produce bugs in the future
 	//use this in the future:

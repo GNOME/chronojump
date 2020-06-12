@@ -1180,13 +1180,18 @@ public partial class ChronoJumpWindow
 		
 		movingBar.Next();
 		Rectangle rect = new Rectangle(movingBar.X, movingBar.Y, movingBar.Width, movingBar.Step);
+		//paint the 0 line
+		event_execute_pixmap.DrawLine(pen_black_90,
+				movingBar.X, movingBar.AltoTop -1,
+				movingBar.X + movingBar.Width, movingBar.AltoTop -1);
+
 		event_execute_pixmap.DrawRectangle(movingBar.Pen_bar_bg, true, rect);
 		event_execute_drawingarea.QueueDrawArea(movingBar.X, movingBar.Y, movingBar.Width, movingBar.Step);
 		
 		if(movingBar.Y <= movingBar.YTop) {
 			rect = new Rectangle(movingBar.X, movingBar.YTop, movingBar.Width, movingBar.AltoTop);
 			event_execute_pixmap.DrawRectangle(pen_black, false, rect);
-			
+
 			if(movingBar.Simulated)
 				plotSimulatedMessage(movingBar.X + movingBar.Width/2, movingBar.AltoTop, movingBar.Layout);
 

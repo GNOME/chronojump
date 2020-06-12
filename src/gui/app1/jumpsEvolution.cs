@@ -75,7 +75,7 @@ public partial class ChronoJumpWindow
 			calculateData = true;
 		}
 
-		string jumpType = UtilGtk.ComboGetActive(combo_select_jumps_evolution);
+		string jumpType = comboSelectJumpsEvolution.GetSelectedNameEnglish();
 
 		if(calculateData)
 			jumpsEvolution.Calculate(currentPerson.UniqueID, jumpType);

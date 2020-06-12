@@ -603,15 +603,14 @@ public partial class ChronoJumpWindow
 
 			//fix if there's a max tc or falling height that's higher than max tv
 
-			foreach(string myStr in eventGraph.jumpsAtSQL) {
-				string [] jump = myStr.Split(new char[] {':'});
-
-				string valueToPlot = jump[6]; //tc
+			foreach(Jump jump in eventGraph.jumpsAtSQL)
+			{
+				double valueToPlot = jump.Tc;
 				if(eventGraph.djShowHeights && eventGraph.tc > 0 && eventGraph.tv > 0)
-					valueToPlot = jump[7]; //fall
+					valueToPlot = jump.Fall;
 
-				if(Convert.ToDouble(valueToPlot) > maxValue)
-					maxValue = Convert.ToDouble(valueToPlot);
+				if(valueToPlot > maxValue)
+					maxValue = valueToPlot;
 			}
 		} else {
 			maxValue = eventGraphConfigureWin.Max;
@@ -1055,7 +1054,7 @@ public partial class ChronoJumpWindow
 		// if has jumped on another session, magenta line: personMAXAtSQLAllSessions will be displayed
 		// if other persons have been jumped on this session, eventGraph.sessionMAXAtSQL and eventGraph.sessionAVGAtSQL will be displayed
 		// don't need the rest of the method
-		if(eventGraph.jumpsAtSQL.Length == 0)
+		if(eventGraph.jumpsAtSQL.Count == 0)
 			return;
 		
 		//if person max in all sessions == person max this session, this session max will be only at left,
@@ -1074,8 +1073,8 @@ public partial class ChronoJumpWindow
 
 		//calculate separation between series and bar width
 		int tctfSep = 0; //separation between tc and tf
-		int distanceBetweenCols = Convert.ToInt32((ancho-event_execute_rightMargin)*(1+.5)/eventGraph.jumpsAtSQL.Length) -
-			Convert.ToInt32((ancho-event_execute_rightMargin)*(0+.5)/eventGraph.jumpsAtSQL.Length);
+		int distanceBetweenCols = Convert.ToInt32((ancho-event_execute_rightMargin)*(1+.5)/eventGraph.jumpsAtSQL.Count) -
+			Convert.ToInt32((ancho-event_execute_rightMargin)*(0+.5)/eventGraph.jumpsAtSQL.Count);
 
 		if(eventGraph.tc > 0)
 			tctfSep = Convert.ToInt32(.3*distanceBetweenCols);
@@ -1085,55 +1084,55 @@ public partial class ChronoJumpWindow
 		bool animateBar = animate;
 		int x = 0;
 		int y = 0;
-		int count = eventGraph.jumpsAtSQL.Length;
-		foreach(string myStr in eventGraph.jumpsAtSQL) 
+		int countToDraw = eventGraph.jumpsAtSQL.Count;
+		int countJumps = eventGraph.jumpsAtSQL.Count;
+
+		foreach(Jump jump in eventGraph.jumpsAtSQL)
 		{
-			string [] jump = myStr.Split(new char[] {':'});
-	
 			//if tc, maybe also tv	
 			if(eventGraph.tc > 0) {
 				//small layout when tc and tv and there are more than 4 jumps
 				Pango.Layout layout = layoutMid;
-				if(eventGraph.tv > 0 && eventGraph.jumpsAtSQL.Length > 4)
+				if(eventGraph.tv > 0 && countJumps > 4)
 					layout = layoutSmall;
 				
 				//do not animate last tc, if tv is animated because then tc is not shown
 				if(eventGraph.tv >0)
 					animateBar = false;
 
-				string valueToPlot = jump[6]; //tc
+				double valueToPlot = jump.Tc;
 				if(eventGraph.djShowHeights && eventGraph.tc > 0 && eventGraph.tv > 0)
-					valueToPlot = jump[7]; //fall
+					valueToPlot = jump.Fall;
 
-				x = Convert.ToInt32((ancho-event_execute_rightMargin)*(count-.5)/eventGraph.jumpsAtSQL.Length)-barDesplLeft;
-				y = calculatePaintHeight(Convert.ToDouble(valueToPlot), alto, maxValue, minValue, topMargin, bottomMargin);
+				x = Convert.ToInt32((ancho-event_execute_rightMargin)*(countToDraw-.5)/countJumps)-barDesplLeft;
+				y = calculatePaintHeight(valueToPlot, alto, maxValue, minValue, topMargin, bottomMargin);
 				
-				drawBar(x, y, barWidth, alto, pen_rojo, count == eventGraph.jumpsAtSQL.Length,
-						jump[11] == "-1", Convert.ToDouble(valueToPlot), layout, animateBar);
+				drawBar(x, y, barWidth, alto, pen_rojo, countToDraw == countJumps,
+						jump.Simulated == -1, valueToPlot, layout, animateBar);
 
 				//tv
 				if(eventGraph.tv > 0)
 				{
-					valueToPlot = jump[5]; //tv
+					valueToPlot = jump.Tv;
 					if(eventGraph.djShowHeights && eventGraph.tc > 0 && eventGraph.tv > 0)
-						valueToPlot = Util.GetHeightInCentimeters(jump[5]); //jump height
+						valueToPlot = Util.GetHeightInCentimeters(jump.Tv); //jump height
 
-					x = Convert.ToInt32((ancho-event_execute_rightMargin)*(count-.5)/eventGraph.jumpsAtSQL.Length)-barDesplLeft +tctfSep;
-					y = calculatePaintHeight(Convert.ToDouble(valueToPlot), alto, maxValue, minValue, topMargin, bottomMargin);
+					x = Convert.ToInt32((ancho-event_execute_rightMargin)*(countToDraw-.5)/countJumps)-barDesplLeft +tctfSep;
+					y = calculatePaintHeight(valueToPlot, alto, maxValue, minValue, topMargin, bottomMargin);
 					
-					drawBar(x, y, barWidth, alto, pen_azul_claro, count == eventGraph.jumpsAtSQL.Length,
-							jump[11] == "-1", Convert.ToDouble(valueToPlot), layout, animateBar);
+					drawBar(x, y, barWidth, alto, pen_azul_claro, countToDraw == countJumps,
+							jump.Simulated == -1, valueToPlot, layout, animateBar);
 				}
 
 			} else { //has not tc. Show only height
-				x = Convert.ToInt32((ancho-event_execute_rightMargin)*(count-.5)/eventGraph.jumpsAtSQL.Length)-barDesplLeft +tctfSep;
-				y = calculatePaintHeight(Convert.ToDouble(Util.GetHeightInCentimeters(jump[5])), 
+				x = Convert.ToInt32((ancho-event_execute_rightMargin)*(countToDraw-.5)/countJumps)-barDesplLeft +tctfSep;
+				y = calculatePaintHeight(Util.GetHeightInCentimeters(jump.Tv),
 						alto, maxValue, minValue, topMargin, bottomMargin);
 
-				drawBar(x, y, barWidth, alto, pen_azul_claro, count == eventGraph.jumpsAtSQL.Length,
-						jump[11] == "-1", Convert.ToDouble(Util.GetHeightInCentimeters(jump[5])), layoutMid, animateBar);
+				drawBar(x, y, barWidth, alto, pen_azul_claro, countToDraw == countJumps,
+						jump.Simulated == -1, Util.GetHeightInCentimeters(jump.Tv), layoutMid, animateBar);
 			}
-			count --;
+			countToDraw --;
 		}
 
 		//add legend box

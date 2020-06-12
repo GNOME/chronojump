@@ -1081,7 +1081,7 @@ public class PersonAddModifyWindow
 						(! radio_metric.Active && Util.ConvertPoundsToKg(spinbutton_weight_imperial.Value) != weightIniMetric)
 				      ) ) {
 				//see if this person has done jumps with weight
-				string [] myJumpsNormal = SqliteJump.SelectJumps(false, currentSession.UniqueID, currentPerson.UniqueID, "withWeight", "",
+				string [] myJumpsNormal = SqliteJump.SelectJumpsSA (false, currentSession.UniqueID, currentPerson.UniqueID, "withWeight", "",
 						Sqlite.Orders_by.DEFAULT, -1);
 				string [] myJumpsReactive = SqliteJumpRj.SelectJumps(false, currentSession.UniqueID, currentPerson.UniqueID, "withWeight", "");
 

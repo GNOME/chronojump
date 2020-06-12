@@ -60,6 +60,7 @@ public class ExecutingGraphData
 public class PrepareEventGraphJumpSimple {
 	//sql data of previous jumps to plot graph and show stats at bottom
 	public string [] jumpsAtSQL;
+	//public List<Jump> jumpsAtSQL;
 	
 	public double personMAXAtSQLAllSessions;
 	public double personMAXAtSQL;
@@ -84,8 +85,11 @@ public class PrepareEventGraphJumpSimple {
 		Sqlite.Open();
 
 		//select data from SQL to update graph	
-		jumpsAtSQL = SqliteJump.SelectJumps(true, sessionID, personID, "", type,
+		jumpsAtSQL = SqliteJump.SelectJumpsSA(true, sessionID, personID, "", type,
 				Sqlite.Orders_by.ID_DESC, 10); //select only last 10
+		//jumpsAtSQL = SqliteJump.SelectJumps (true, sessionID, personID, "", type,
+		//		Sqlite.Orders_by.ID_DESC, 10); //select only last 10
+
 
 		string sqlSelect = "";
 		if(tv > 0) {

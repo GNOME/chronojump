@@ -1272,7 +1272,7 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		string [] myJumps = SqliteJump.SelectJumps(dbconOpened, currentSession.UniqueID, -1, "", "",
+		string [] myJumps = SqliteJump.SelectJumpsSA (dbconOpened, currentSession.UniqueID, -1, "", "",
 				Sqlite.Orders_by.DEFAULT, -1);
 
 		myTreeViewJumps.Fill(myJumps, filter);

@@ -181,7 +181,7 @@ public class ExportSession
 		//Leave SQL opened in all this process
 		Sqlite.Open(); // ------------------------------
 		
-		myJumps= SqliteJump.SelectJumps(true, mySession.UniqueID, -1, "", "",
+		myJumps= SqliteJump.SelectJumpsSA (true, mySession.UniqueID, -1, "", "",
 				Sqlite.Orders_by.DEFAULT, -1);
 
 		myJumpsRj = SqliteJumpRj.SelectJumps(true, mySession.UniqueID, -1, "", "");

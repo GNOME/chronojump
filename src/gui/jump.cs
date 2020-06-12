@@ -1125,7 +1125,7 @@ public class JumpsMoreWindow : EventMoreWindow
 	}
 
 	protected override string [] findTestTypesInSessions() {
-		return SqliteJump.SelectJumps(false, -1, -1, "", selectedEventName,
+		return SqliteJump.SelectJumpsSA (false, -1, -1, "", selectedEventName,
 				Sqlite.Orders_by.DEFAULT, -1);
 	}
 	

@@ -91,7 +91,7 @@ public class Jump : Event
 	
 
 	public override string ToString() {
-		return uniqueID + ":" + personID + ":" + sessionID + ":" + type + ":" + tv + ":" + tc + ":" + datetime; //...
+		return uniqueID + ":" + personID + ":" + sessionID + ":" + type + ":" + tv + ":" + tc + ":" + datetime + ":" + description;
 	}
 
 	public virtual bool TypeHasWeight {

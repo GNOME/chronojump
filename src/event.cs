@@ -85,10 +85,12 @@ public class Event
 		get { return simulated; }
 		set { simulated = value; }
 	}
-	
+
 	public string PersonName
 	{
 		//get { return personName; }
+
+		//this is very inneficient if we are processing a list of events, eg. jumps
 		get { return SqlitePerson.SelectAttribute(personID, Constants.Name); }
 	}
 	

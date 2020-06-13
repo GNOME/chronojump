@@ -936,6 +936,9 @@ public partial class ChronoJumpWindow
 			sensitiveLastTestButtons(false);
 			notebooks_change(Constants.Menuitem_modes.OTHER);
 			on_extra_window_pulses_test_changed(obj, args);
+
+			hbox_contacts_graph_last_limit.Visible = false;
+			hbox_contacts_graph_person.Visible = false;
 			hbox_results_legend.Visible = false;
 		}
 	}
@@ -946,6 +949,9 @@ public partial class ChronoJumpWindow
 			sensitiveLastTestButtons(false);
 			notebooks_change(Constants.Menuitem_modes.OTHER);
 			on_extra_window_multichronopic_test_changed(obj, args);
+
+			hbox_contacts_graph_last_limit.Visible = false;
+			hbox_contacts_graph_person.Visible = false;
 			hbox_results_legend.Visible = false;
 		}
 	}
@@ -2901,7 +2907,11 @@ public partial class ChronoJumpWindow
 			{
 				notebooks_change(m);
 				on_extra_window_jumps_test_changed(new object(), new EventArgs());
+
+				hbox_contacts_graph_last_limit.Visible = true;
+				hbox_contacts_graph_person.Visible = true;
 				hbox_results_legend.Visible = true;
+
 				frame_jumps_automatic.Visible = true;
 				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_simple.png");
 
@@ -2913,7 +2923,11 @@ public partial class ChronoJumpWindow
 				notebooks_change(m);
 				button_contacts_bells.Sensitive = true;
 				on_extra_window_jumps_rj_test_changed(new object(), new EventArgs());
+
+				hbox_contacts_graph_last_limit.Visible = false;
+				hbox_contacts_graph_person.Visible = false;
 				hbox_results_legend.Visible = false;
+
 				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_reactive.png");
 
 				if(radio_mode_contacts_jumps_profile.Active || radio_mode_contacts_jumps_dj_optimal_fall.Active ||
@@ -2933,7 +2947,11 @@ public partial class ChronoJumpWindow
 			{
 				notebooks_change(m);
 				on_extra_window_runs_test_changed(new object(), new EventArgs());
+
+				hbox_contacts_graph_last_limit.Visible = true;
+				hbox_contacts_graph_person.Visible = true;
 				hbox_results_legend.Visible = true;
+
 				frame_run_simple_double_contacts.Visible = true;
 				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_run_simple.png");
 			}
@@ -2943,7 +2961,11 @@ public partial class ChronoJumpWindow
 				notebooks_change(m);
 				button_contacts_bells.Sensitive = true;
 				on_extra_window_runs_interval_test_changed(new object(), new EventArgs());
+
+				hbox_contacts_graph_last_limit.Visible = false;
+				hbox_contacts_graph_person.Visible = false;
 				hbox_results_legend.Visible = false;
+
 				createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
 				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_run_multiple.png");
 
@@ -3077,6 +3099,9 @@ public partial class ChronoJumpWindow
 			button_threshold.Visible = false;
 			button_force_sensor_adjust.Visible = true;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
+
+			hbox_contacts_graph_last_limit.Visible = false;
+			hbox_contacts_graph_person.Visible = false;
 			hbox_results_legend.Visible = false;
 
 			//on force sensor only show table
@@ -3101,6 +3126,9 @@ public partial class ChronoJumpWindow
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
 			button_threshold.Visible = false;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
+
+			hbox_contacts_graph_last_limit.Visible = false;
+			hbox_contacts_graph_person.Visible = false;
 			hbox_results_legend.Visible = false;
 
 			//on run encoder only show table
@@ -3958,7 +3986,9 @@ public partial class ChronoJumpWindow
 				//chronopicWin.CP, event_execute_label_message, app1, preferences.digitsNumber, preferences.volumeOn,
 				cp2016.CP, app1, preferences.digitsNumber,
 				preferences.volumeOn, preferences.gstreamer,
-				progressbarLimit, egd, description, configChronojump.Exhibition, preferences.jumpsDjGraphHeights);
+				progressbarLimit, egd, description, configChronojump.Exhibition,
+				preferences.jumpsDjGraphHeights,
+				Convert.ToInt32(spin_contacts_graph_last_limit.Value), radio_contacts_graph_allPersons.Active);
 
 
 		//UtilGtk.ChronopicColors(viewport_chronopics, label_chronopics, label_connected_chronopics, chronopicWin.Connected);

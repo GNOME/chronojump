@@ -129,7 +129,8 @@ public partial class ChronoJumpWindow
 
 		//manage show threshold stuff
 		threshold.ChronopicFirmwareReconnected(numCP); 	//t_stored_on_chronopic will be 50, and later firmware will be changed
-		label_threshold.Text = Catalog.GetString("Threshold") + " " + threshold.GetLabel() + " ms";
+		label_threshold.Text = //Catalog.GetString("Threshold") + " " +
+			threshold.GetLabel() + " ms";
 		if(threshold.GetT == 50)
 			label_threshold.Text += " (" + Catalog.GetString("Applied") + ")";
 	}

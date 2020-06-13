@@ -30,7 +30,7 @@ public partial class ChronoJumpWindow
 	{
 		menus_and_mode_sensitive(false);
 		notebook_contacts_capture_doing_wait.Sensitive = false;
-		vbox_contacts_device_adjust_threshold.Sensitive = false;
+		hbox_contacts_device_adjust_threshold.Sensitive = false;
 		viewport_persons.Sensitive = false;
 		button_contacts_exercise.Sensitive = false;
 		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = false;
@@ -43,7 +43,7 @@ public partial class ChronoJumpWindow
 	{
 		menus_and_mode_sensitive(true);
 		notebook_contacts_capture_doing_wait.Sensitive = true;
-		vbox_contacts_device_adjust_threshold.Sensitive = true;
+		hbox_contacts_device_adjust_threshold.Sensitive = true;
 		viewport_persons.Sensitive = true;
 		button_contacts_exercise.Sensitive = true;
 		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = true;

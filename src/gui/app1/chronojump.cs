@@ -220,7 +220,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_contacts_signal_save_comment;
 	[Widget] Gtk.Frame frame_jumps_automatic;
 	[Widget] Gtk.Notebook notebook_jumps_automatic;
-	[Widget] Gtk.VBox vbox_contacts_device_adjust_threshold;
+	[Widget] Gtk.HBox hbox_contacts_device_adjust_threshold;
 
 	//jumps
 	[Widget] Gtk.Button button_edit_selected_jump;
@@ -320,8 +320,8 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.HBox hbox_chronopics_and_more;
 	[Widget] Gtk.Button button_activate_chronopics;
-	[Widget] Gtk.Button button_threshold;
-	[Widget] Gtk.Button button_force_sensor_adjust;
+	[Widget] Gtk.Alignment alignment_button_threshold;
+	[Widget] Gtk.Alignment alignment_button_force_sensor_adjust;
 
 	//non standard icons	
 	[Widget] Gtk.Image image_jump_reactive_bell;
@@ -2868,7 +2868,7 @@ public partial class ChronoJumpWindow
 		radio_mode_contacts_sprint.Visible = false;
 		notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.STATISTICS);
 		button_inspect_last_test_run_intervallic.Visible = false;
-		button_force_sensor_adjust.Visible = false;
+		alignment_button_force_sensor_adjust.Visible = false;
 		vbox_contacts_load_recalculate.Visible = false;
 		vbox_contacts_signal_comment.Visible = false;
 		frame_jumps_automatic.Visible = false;
@@ -2902,7 +2902,7 @@ public partial class ChronoJumpWindow
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			//notebook_capture_analyze.ShowTabs = true;
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
-			button_threshold.Visible = true;
+			alignment_button_threshold.Visible = true;
 			if(m == Constants.Menuitem_modes.JUMPSSIMPLE) 
 			{
 				notebooks_change(m);
@@ -2941,7 +2941,7 @@ public partial class ChronoJumpWindow
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			//notebook_capture_analyze.ShowTabs = true;
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
-			button_threshold.Visible = true;
+			alignment_button_threshold.Visible = true;
 
 			if(m == Constants.Menuitem_modes.RUNSSIMPLE) 
 			{
@@ -3096,8 +3096,8 @@ public partial class ChronoJumpWindow
 			button_contacts_bells.Sensitive = true;
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
-			button_threshold.Visible = false;
-			button_force_sensor_adjust.Visible = true;
+			alignment_button_threshold.Visible = false;
+			alignment_button_force_sensor_adjust.Visible = true;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 
 			hbox_contacts_graph_last_limit.Visible = false;
@@ -3124,7 +3124,7 @@ public partial class ChronoJumpWindow
 
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
-			button_threshold.Visible = false;
+			alignment_button_threshold.Visible = false;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 
 			hbox_contacts_graph_last_limit.Visible = false;
@@ -3151,7 +3151,7 @@ public partial class ChronoJumpWindow
 			notebook_capture_analyze.CurrentPage = 0;
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = false;
-			button_threshold.Visible = true;
+			alignment_button_threshold.Visible = true;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 
 			pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "reaction_time_icon.png");
@@ -3169,7 +3169,7 @@ public partial class ChronoJumpWindow
 			notebook_capture_analyze.CurrentPage = 0;
 			//notebook_capture_analyze.ShowTabs = false; //only capture tab is shown (only valid for "OTHER" tests)
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = false;
-			button_threshold.Visible = true;
+			alignment_button_threshold.Visible = true;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 
 			pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "other_icon.png");
@@ -7037,7 +7037,7 @@ LogB.Debug("mc finished 5");
 		vbox_execute_test.Sensitive = false;
 		button_execute_test.Sensitive = false;
 		button_auto_start.Sensitive = false;
-		button_force_sensor_adjust.Sensitive = false;
+		alignment_button_force_sensor_adjust.Sensitive = false;
 
 		encoderButtonsSensitive(encoderSensEnum.NOSESSION);
 		
@@ -7056,7 +7056,7 @@ LogB.Debug("mc finished 5");
 		
 		button_contacts_person_change.Sensitive = true;
 		button_encoder_person_change.Sensitive = true;
-		button_force_sensor_adjust.Sensitive = true;
+		alignment_button_force_sensor_adjust.Sensitive = true;
 		
 		menuSessionSensitive(true);
 		vbox_stats.Sensitive = true;
@@ -7182,8 +7182,8 @@ LogB.Debug("mc finished 5");
 		
 		button_activate_chronopics.Sensitive = false;
 		button_activate_chronopics_encoder.Sensitive = false;
-		button_threshold.Sensitive = false;
-		button_force_sensor_adjust.Sensitive = false;
+		alignment_button_threshold.Sensitive = false;
+		alignment_button_force_sensor_adjust.Sensitive = false;
 		button_auto_start.Sensitive = false;
 		button_contacts_exercise.Sensitive = false;
 		event_execute_button_update.Sensitive = false;
@@ -7246,8 +7246,8 @@ LogB.Debug("mc finished 5");
 		if(! configChronojump.Compujump)
 			button_activate_chronopics_encoder.Sensitive = true;
 
-		button_threshold.Sensitive = true;
-		button_force_sensor_adjust.Sensitive = true;
+		alignment_button_threshold.Sensitive = true;
+		alignment_button_force_sensor_adjust.Sensitive = true;
 		button_auto_start.Sensitive = true;
 		button_contacts_exercise.Sensitive = true;
 		event_execute_button_update.Sensitive = true;
@@ -7395,7 +7395,7 @@ LogB.Debug("mc finished 5");
 	private void sensitiveGuiAutoExecuteOrWait (bool execute) {
 		//if automode, sensitiveGuiEventDoing, sensitiveGuiEventDone don't work
 		button_activate_chronopics.Sensitive 	= ! execute;
-		button_threshold.Sensitive 		= ! execute;
+		alignment_button_threshold.Sensitive 		= ! execute;
 		button_execute_test.Sensitive 		= ! execute;
 		sensitiveLastTestButtons(! execute);
 	}

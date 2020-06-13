@@ -80,10 +80,19 @@ public class PrepareEventGraphJumpSimple
 	public PrepareEventGraphJumpSimple() {
 	}
 
-	public PrepareEventGraphJumpSimple(double tv, double tc, int sessionID, int personID, string table, string type, bool djShowHeights)
+	//allPersons is for searching the jumps of current of allpersons
+	//personID we need to the personsMAX/AVG sql calls
+	public PrepareEventGraphJumpSimple(double tv, double tc, int sessionID,
+			int personID, bool allPersons, int limit,
+			string table, string type, bool djShowHeights)
 	{
-		jumpsAtSQL = SqliteJump.SelectJumps (sessionID, personID, type,
-				Sqlite.Orders_by.ID_DESC, 10); //select only last 10
+		int personIDTemp = personID;
+		if(allPersons)
+			personIDTemp = -1;
+
+		jumpsAtSQL = SqliteJump.SelectJumps (sessionID, personIDTemp, type,
+				Sqlite.Orders_by.ID_DESC, limit,
+				allPersons); //show names on comments only if "all persons"
 
 		Sqlite.Open();
 
@@ -389,14 +398,14 @@ public class MovingStartButton
 public class MovingBar 
 {
 	public int X;
-	public int Y; 
+	public int Y;  //current value on animation
 	/*
 	 * y will go from (y + alto -speed) to (ytop)
 	 * eg a vertical bar that goes from the bottom to the top, will go from:
 	 * YTop 37, Y 380
 	 * to
 	 * YTop 37, Y 37
-	 * so y will be decreasing
+	 * so it will be decreasing
 	 */
 	
 	public int Width;
@@ -405,20 +414,19 @@ public class MovingBar
 	public int AltoTop; //stored alto value
 	
 	public Gdk.GC Pen_bar_bg;
-	public bool Simulated;
 	public double Result;
 	public int Step;
 	public Pango.Layout Layout;
-	
+
 	public MovingBar(int x, int y, int width, int yTop, int altoTop, 
-			Gdk.GC pen_bar_bg, bool simulated, double result, Pango.Layout layout) {
+			Gdk.GC pen_bar_bg, double result, Pango.Layout layout)
+	{
 		this.X = x;
 		this.Y = y;
 		this.Width = width;
 		this.YTop = yTop;
 		this.AltoTop = altoTop;
 		this.Pen_bar_bg = pen_bar_bg;
-		this.Simulated = simulated;
 		this.Result = result;
 		this.Layout = layout;
 	} 

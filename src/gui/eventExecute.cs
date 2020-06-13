@@ -44,6 +44,13 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label event_execute_label_phases_name;
 	[Widget] Gtk.Label event_execute_label_message;
 	[Widget] Gtk.Label event_graph_label_graph_test;
+
+
+	[Widget] Gtk.HBox hbox_contacts_graph_last_limit;
+	[Widget] Gtk.SpinButton spin_contacts_graph_last_limit;
+	[Widget] Gtk.HBox hbox_contacts_graph_person;
+	[Widget] Gtk.RadioButton radio_contacts_graph_currentPerson;
+	[Widget] Gtk.RadioButton radio_contacts_graph_allPersons;
 	
 	[Widget] Gtk.ProgressBar event_execute_progressbar_event;
 	[Widget] Gtk.ProgressBar event_execute_progressbar_time;
@@ -186,7 +193,7 @@ public partial class ChronoJumpWindow
 	
 		event_execute_label_simulated = "";
 		if(simulated) 
-			event_execute_label_simulated = Catalog.GetString("Simulated");
+			event_execute_label_simulated = "(" + Catalog.GetString("Simulated") + ")";
 
 		event_graph_label_graph_test.Text = "<b>" + event_execute_eventType + "</b>";
 		event_graph_label_graph_test.UseMarkup = true;
@@ -307,13 +314,18 @@ public partial class ChronoJumpWindow
 	
 	private void showJumpSimpleLabels() 
 	{
+		hbox_contacts_graph_last_limit.Visible = true;
+		hbox_contacts_graph_person.Visible = true;
 		hbox_results_legend.Visible = true;
+
 		notebook_results_data.Visible = false;
 	}
 	
 	
 	private void showJumpReactiveLabels() 
 	{
+		hbox_contacts_graph_last_limit.Visible = false;
+		hbox_contacts_graph_person.Visible = false;
 		hbox_results_legend.Visible = false;
 
 		//show reactive info
@@ -336,12 +348,17 @@ public partial class ChronoJumpWindow
 	
 	private void showRunSimpleLabels() 
 	{
+		hbox_contacts_graph_last_limit.Visible = true;
+		hbox_contacts_graph_person.Visible = true;
 		hbox_results_legend.Visible = true;
+
 		notebook_results_data.Visible = false;
 	}
 		
 	private void showRunIntervalLabels() 
 	{
+		hbox_contacts_graph_last_limit.Visible = false;
+		hbox_contacts_graph_person.Visible = false;
 		hbox_results_legend.Visible = false;
 
 		//show run interval info
@@ -361,12 +378,17 @@ public partial class ChronoJumpWindow
 	
 	private void showReactionTimeLabels() 
 	{
+		hbox_contacts_graph_last_limit.Visible = true;
+		hbox_contacts_graph_person.Visible = true;
 		hbox_results_legend.Visible = true;
+
 		notebook_results_data.Visible = false;
 	}
 
 	private void showPulseLabels() 
 	{
+		hbox_contacts_graph_last_limit.Visible = false;
+		hbox_contacts_graph_person.Visible = false;
 		hbox_results_legend.Visible = false;
 
 		//show pulse info
@@ -467,7 +489,7 @@ public partial class ChronoJumpWindow
 
 	public void on_event_execute_drawingarea_expose_event(object o, ExposeEventArgs args)
 	{
-		LogB.Information("EXPOSE START");
+		//LogB.Information("EXPOSE START");
 		Gdk.Rectangle allocation = event_execute_drawingarea.Allocation;
 
 		/* in some mono installations, configure_event is not called, but expose_event yes. 
@@ -498,7 +520,7 @@ public partial class ChronoJumpWindow
 
 		if(sizeChanged)
 		{
-			LogB.Information("caring for resize screen and correctly update event_execute_drawingarea");
+			//LogB.Information("caring for resize screen and correctly update event_execute_drawingarea");
 			if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
 				on_extra_window_jumps_test_changed(o, new EventArgs ());
 			else if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSREACTIVE)
@@ -520,7 +542,7 @@ public partial class ChronoJumpWindow
 
 		allocationXOld = allocation.Width;
 		allocationYOld = allocation.Height;
-		LogB.Information("EXPOSE END");
+		//LogB.Information("EXPOSE END");
 	}
 
 	
@@ -593,7 +615,7 @@ public partial class ChronoJumpWindow
 		double maxValue = 0;
 		double minValue = 0;
 		int topMargin = 20; 
-		int bottomMargin = 0; 
+		int bottomMargin = 0;
 
 		//if max value of graph is automatic
 		if(eventGraphConfigureWin.Max == -1) {
@@ -993,6 +1015,7 @@ public partial class ChronoJumpWindow
 	}
 	
 	
+	/*
 	//used on simple tests
 	private void plotSimulatedMessageIfNeededAtLast(int x, int alto) {
 		if(event_execute_label_simulated != "") {
@@ -1008,6 +1031,7 @@ public partial class ChronoJumpWindow
 					layoutBig);
 		}
 	}
+	*/
 	//used on jumps reactive, runs interval
 	private void plotSimulatedMessageIfNeededAtCenter(int ancho, int alto) {
 		if(event_execute_label_simulated != "") {
@@ -1015,7 +1039,7 @@ public partial class ChronoJumpWindow
 			int lWidth = 1;
 			int lHeight = 1;
 			layoutBig.GetPixelSize(out lWidth, out lHeight); 
-			event_execute_pixmap.DrawLayout (pen_black, 
+			event_execute_pixmap.DrawLayout (pen_gris,
 					Convert.ToInt32(ancho/2 - lWidth/2), 
 					Convert.ToInt32(alto/2 - lHeight/2), 
 					layoutBig);
@@ -1027,6 +1051,10 @@ public partial class ChronoJumpWindow
 	{
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
+
+		//person name or test type
+		//note that this could be a problem if there is a jump with Description of several lines and current person, current test is used
+		bool showTextOnBar = true;
 
 		if(eventGraph.tc > 0)
 			addUnitsToLabel("s");
@@ -1044,19 +1072,38 @@ public partial class ChronoJumpWindow
 		if(maxValue - minValue <= 0)
 			return;
 		
-		//paint first the horizontal guides in order to be behind the bars of each jump
-		drawGuideOrAVG(pen_black_90, eventGraph.sessionMAXAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
-		drawGuideOrAVG(pen_black_discont, eventGraph.sessionAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
-		
-		drawGuideOrAVG(pen_magenta, eventGraph.personMAXAtSQLAllSessions, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
-
 		//if currentPerson has not jumped on this session, 
 		// if has jumped on another session, magenta line: personMAXAtSQLAllSessions will be displayed
 		// if other persons have been jumped on this session, eventGraph.sessionMAXAtSQL and eventGraph.sessionAVGAtSQL will be displayed
 		// don't need the rest of the method
 		if(eventGraph.jumpsAtSQL.Count == 0)
 			return;
+
+		int countToDraw = eventGraph.jumpsAtSQL.Count;
+		int countJumps = eventGraph.jumpsAtSQL.Count;
+		int maxRowsForText = 0;
+
+		Pango.Layout layout = layoutMid;
+		if(eventGraph.tc > 0 && eventGraph.tv > 0 && countJumps > 4)
+		{
+			//small layout when tc and tv and there are more than 4 jumps
+			layout = layoutSmall;
+		}
+
+		Pango.Layout layoutText = layout;
+		if (showTextOnBar)
+		{
+			layoutText = calculateLayoutFontForText (eventGraph.jumpsAtSQL, layoutText, ancho);
+			maxRowsForText = calculateMaxRowsForText (eventGraph.jumpsAtSQL); //also adds +1 if simulated
+			bottomMargin = calculateBottomMarginForText (maxRowsForText, layoutText);
+		}
+
+		//paint first the horizontal guides in order to be behind the bars of each jump
+		drawGuideOrAVG(pen_black_90, eventGraph.sessionMAXAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
+		drawGuideOrAVG(pen_black_discont, eventGraph.sessionAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
 		
+		drawGuideOrAVG(pen_magenta, eventGraph.personMAXAtSQLAllSessions, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
+
 		//if person max in all sessions == person max this session, this session max will be only at left,
 		//overwriting maxAllSesions that will be only at right
 		if(eventGraph.personMAXAtSQLAllSessions == eventGraph.personMAXAtSQL)
@@ -1078,24 +1125,21 @@ public partial class ChronoJumpWindow
 
 		if(eventGraph.tc > 0)
 			tctfSep = Convert.ToInt32(.3*distanceBetweenCols);
+
+		//TODO: when we mix tests we need to also manage tctfSep
+
 		int barWidth = Convert.ToInt32(.3*distanceBetweenCols);
 		int barDesplLeft = Convert.ToInt32(.5*barWidth);
 
 		bool animateBar = animate;
 		int x = 0;
 		int y = 0;
-		int countToDraw = eventGraph.jumpsAtSQL.Count;
-		int countJumps = eventGraph.jumpsAtSQL.Count;
 
 		foreach(Jump jump in eventGraph.jumpsAtSQL)
 		{
 			//if tc, maybe also tv	
-			if(eventGraph.tc > 0) {
-				//small layout when tc and tv and there are more than 4 jumps
-				Pango.Layout layout = layoutMid;
-				if(eventGraph.tv > 0 && countJumps > 4)
-					layout = layoutSmall;
-				
+			if(eventGraph.tc > 0)
+			{
 				//do not animate last tc, if tv is animated because then tc is not shown
 				if(eventGraph.tv >0)
 					animateBar = false;
@@ -1106,9 +1150,9 @@ public partial class ChronoJumpWindow
 
 				x = Convert.ToInt32((ancho-event_execute_rightMargin)*(countToDraw-.5)/countJumps)-barDesplLeft;
 				y = calculatePaintHeight(valueToPlot, alto, maxValue, minValue, topMargin, bottomMargin);
-				
-				drawBar(x, y, barWidth, alto, pen_rojo, countToDraw == countJumps,
-						jump.Simulated == -1, valueToPlot, layout, animateBar);
+
+				drawBar(x, y, barWidth, alto, bottomMargin, pen_rojo, countToDraw == countJumps,
+						valueToPlot, layout, animateBar);
 
 				//tv
 				if(eventGraph.tv > 0)
@@ -1120,8 +1164,11 @@ public partial class ChronoJumpWindow
 					x = Convert.ToInt32((ancho-event_execute_rightMargin)*(countToDraw-.5)/countJumps)-barDesplLeft +tctfSep;
 					y = calculatePaintHeight(valueToPlot, alto, maxValue, minValue, topMargin, bottomMargin);
 					
-					drawBar(x, y, barWidth, alto, pen_azul_claro, countToDraw == countJumps,
-							jump.Simulated == -1, valueToPlot, layout, animateBar);
+					drawBar(x, y, barWidth, alto, bottomMargin, pen_azul_claro, countToDraw == countJumps,
+							valueToPlot, layout, animateBar);
+
+					//adjust x for plotSimulatedMessage() and plotTextOnBar()
+					x -= Convert.ToInt32(.5 * tctfSep);
 				}
 
 			} else { //has not tc. Show only height
@@ -1129,9 +1176,17 @@ public partial class ChronoJumpWindow
 				y = calculatePaintHeight(Util.GetHeightInCentimeters(jump.Tv),
 						alto, maxValue, minValue, topMargin, bottomMargin);
 
-				drawBar(x, y, barWidth, alto, pen_azul_claro, countToDraw == countJumps,
-						jump.Simulated == -1, Util.GetHeightInCentimeters(jump.Tv), layoutMid, animateBar);
+				drawBar(x, y, barWidth, alto, bottomMargin, pen_azul_claro, countToDraw == countJumps,
+						Util.GetHeightInCentimeters(jump.Tv), layout, animateBar);
 			}
+
+			//these two methods are out of drawBar because can be related to two bars TC,TF
+			if(jump.Simulated == -1)
+				plotSimulatedMessage(x + barWidth/2, alto, layout);
+
+			if (showTextOnBar && jump.Description != "")
+				plotTextOnBar(x + barWidth/2, y, alto, jump.Description, layoutText, maxRowsForText);
+
 			countToDraw --;
 		}
 
@@ -1151,24 +1206,21 @@ public partial class ChronoJumpWindow
 
 	MovingBar movingBar;
 
-	//TODO: if last tc and tf have to be painted, tc is not painted
-	private void drawBar(int x, int y, int barWidth, int alto, Gdk.GC pen_bar_bg, 
-			bool isLast, bool simulated, double result, Pango.Layout layout, bool animate)
+	private void drawBar(int x, int y, int barWidth, int alto, int bottomMargin, Gdk.GC pen_bar_bg,
+			bool isLast, double result, Pango.Layout layout, bool animate)
 	{
 		if(isLast && animate) {
 			timerBar = true;
-			movingBar = new MovingBar(x, y + alto, barWidth, y, alto, pen_bar_bg, simulated, result, layout);
+			movingBar = new MovingBar(x, alto - bottomMargin, barWidth, y, alto - bottomMargin,
+					pen_bar_bg, result, layout);
 			GLib.Timeout.Add(1, new GLib.TimeoutHandler(OnTimerBar));
 		}
 		else {
-			Rectangle rect = new Rectangle(x, y, barWidth, alto-y-1);
+			Rectangle rect = new Rectangle(x, y, barWidth, alto-bottomMargin-y-1);
 			event_execute_pixmap.DrawRectangle(pen_bar_bg, true, rect);
 			event_execute_pixmap.DrawRectangle(pen_black, false, rect);
-			
-			if(simulated)
-				plotSimulatedMessage(x + barWidth/2, alto, layout);
 
-			plotResultOnBar(x + barWidth/2, y, alto, result, layout);
+			plotResultOnBar(x + barWidth/2, y, alto - bottomMargin, result, layout);
 		}
 	}
 
@@ -1180,6 +1232,7 @@ public partial class ChronoJumpWindow
 		
 		movingBar.Next();
 		Rectangle rect = new Rectangle(movingBar.X, movingBar.Y, movingBar.Width, movingBar.Step);
+
 		//paint the 0 line
 		event_execute_pixmap.DrawLine(pen_black_90,
 				movingBar.X, movingBar.AltoTop -1,
@@ -1187,13 +1240,14 @@ public partial class ChronoJumpWindow
 
 		event_execute_pixmap.DrawRectangle(movingBar.Pen_bar_bg, true, rect);
 		event_execute_drawingarea.QueueDrawArea(movingBar.X, movingBar.Y, movingBar.Width, movingBar.Step);
-		
-		if(movingBar.Y <= movingBar.YTop) {
-			rect = new Rectangle(movingBar.X, movingBar.YTop, movingBar.Width, movingBar.AltoTop);
+
+		if(movingBar.Y <= movingBar.YTop)
+		{
+			rect = new Rectangle(movingBar.X, movingBar.YTop, movingBar.Width, movingBar.AltoTop-movingBar.YTop -1);
 			event_execute_pixmap.DrawRectangle(pen_black, false, rect);
 
-			if(movingBar.Simulated)
-				plotSimulatedMessage(movingBar.X + movingBar.Width/2, movingBar.AltoTop, movingBar.Layout);
+			//LogB.Information(string.Format("movinBar: Y: {0}, YTop: {1}, AltoTop: {2}",
+			//			movingBar.Y, movingBar.YTop, movingBar.AltoTop));
 
 			plotResultOnBar(movingBar.X + movingBar.Width/2, movingBar.YTop, movingBar.AltoTop, movingBar.Result, movingBar.Layout);
 			
@@ -1204,17 +1258,127 @@ public partial class ChronoJumpWindow
 		}
 
 		return true;
-	}      
-	private void plotSimulatedMessage(int x, int alto, Pango.Layout layout) {
+	}
+
+	private void plotSimulatedMessage(int x, int y, Pango.Layout layout)
+	{
 		layout.SetMarkup(event_execute_label_simulated);
 		int lWidth = 1;
 		int lHeight = 1;
 		layout.GetPixelSize(out lWidth, out lHeight); 
-		event_execute_pixmap.DrawLayout (pen_black, 
+		event_execute_pixmap.DrawLayout (pen_gris,
 				Convert.ToInt32(x - lWidth/2), 
-				alto - lHeight, 
+				y - lHeight,
 				layout);
 	}
+
+	private int calculateMaxRowsForText (List<Jump> jumps)
+	{
+		int maxRows = 0;
+
+		foreach(Jump jump in jumps)
+		{
+			int rows = jump.Description.Split(new char[] {' '}).Length;
+
+			if(jump.Simulated == -1)
+				rows ++;
+			if(rows > maxRows)
+				maxRows = rows;
+		}
+
+		return maxRows;
+	}
+
+	private int calculateBottomMarginForText (int maxRows, Pango.Layout layout)
+	{
+
+		layout.SetMarkup("a");
+		int lWidth = 1;
+		int lHeight = 1;
+		layout.GetPixelSize(out lWidth, out lHeight);
+
+		return lHeight * maxRows;
+	}
+
+	private Pango.Layout calculateLayoutFontForText (List<Jump> jumps, Pango.Layout layout, int ancho)
+	{
+		int maxLength = 0;
+
+		//set marginBetweenTexts to 1.1 character
+		layout.SetMarkup("a");
+		int lWidth = 1;
+		int lHeight = 1;
+		layout.GetPixelSize(out lWidth, out lHeight);
+		int marginBetweenTexts = Convert.ToInt32(1.1 * lWidth);
+
+		foreach(Jump jump in jumps)
+		{
+			string [] textArray = jump.Description.Split(new char[] {' '});
+			foreach(string text in textArray)
+			{
+				if(text.Length > maxLength)
+					maxLength = text.Length;
+				if(jump.Simulated == -1 && event_execute_label_simulated.Length > maxLength)
+				       maxLength = event_execute_label_simulated.Length;
+			}
+		}
+
+		string longestString = new string('*', maxLength);
+
+		layout.SetMarkup(longestString);
+		lWidth = 1;
+		lHeight = 1;
+		layout.GetPixelSize(out lWidth, out lHeight);
+
+		int savedFontSize = Convert.ToInt32(layout.FontDescription.Size / Pango.Scale.PangoScale);
+		if(jumps.Count * (lWidth + marginBetweenTexts) > ancho)
+		{
+			int i = 1;
+			do {
+				layout.FontDescription.Size -= Convert.ToInt32(Pango.Scale.PangoScale);
+				if(layout.FontDescription.Size / Pango.Scale.PangoScale < 1)
+					break;
+
+				layout.SetMarkup(longestString);
+				layout.GetPixelSize(out lWidth, out lHeight);
+
+				i ++;
+			} while (jumps.Count * (lWidth + marginBetweenTexts) > ancho);
+		}
+
+		return layout;
+	}
+
+	//person name or test type
+	//this can separate name with spaces on rows
+	private void plotTextOnBar(int x, int y, int alto, string text, Pango.Layout layout, int maxRowsForText)
+	{
+		// 1) to get the height of the font
+		layout.SetMarkup(text);
+		int lWidth = 1;
+		int lHeight = 1;
+		layout.GetPixelSize(out lWidth, out lHeight);
+
+		// 2 )separate in rows and send it to plotTextOnBarDo()
+		string [] textArray = text.Split(new char[] {' '});
+
+		for(int i = 1; i <= textArray.Length; i ++)
+			plotTextOnBarDo(x,
+					Convert.ToInt32(alto - (maxRowsForText -i +1) * lHeight),
+					textArray[i-1], layout);
+	}
+	private void plotTextOnBarDo(int x, int y, string text, Pango.Layout layout)
+	{
+		//just to get the width of every row
+		layout.SetMarkup(text);
+		int lWidth = 1;
+		int lHeight = 1;
+		layout.GetPixelSize(out lWidth, out lHeight);
+
+		//write text
+		event_execute_pixmap.DrawLayout (pen_black, Convert.ToInt32(x - lWidth/2), y, layout);
+	}
+
 	private void plotResultOnBar(int x, int y, int alto, double result, Pango.Layout layout)
 	{
 		layout.SetMarkup(Util.TrimDecimals(result,2));
@@ -1386,8 +1550,8 @@ public partial class ChronoJumpWindow
 				y = calculatePaintHeight(Convert.ToDouble(run[5])/Convert.ToDouble(run[6]), alto, maxValue, minValue, 
 						topMargin, bottomMargin);
 
-				drawBar(x, y, barWidth, alto, pen_azul_claro, count == eventGraph.runsAtSQL.Length,
-						run[8] == "-1", Convert.ToDouble(run[5])/Convert.ToDouble(run[6]), layoutMid, animate);
+				drawBar(x, y, barWidth, alto, bottomMargin, pen_azul_claro, count == eventGraph.runsAtSQL.Length,
+						Convert.ToDouble(run[5])/Convert.ToDouble(run[6]), layoutMid, animate);//, "", layoutMid, 0, animate);
 			}
 
 			count --;
@@ -1444,8 +1608,8 @@ public partial class ChronoJumpWindow
 			y = calculatePaintHeight(Convert.ToDouble(rts[5]), alto, maxValue, minValue, 
 					topMargin, bottomMargin);
 
-			drawBar(x, y, barWidth, alto, pen_azul_claro, count == eventGraph.rtsAtSQL.Length,
-					rts[7] == "-1", Convert.ToDouble(rts[5]), layoutMid, animate);
+			drawBar(x, y, barWidth, alto, bottomMargin, pen_azul_claro, count == eventGraph.rtsAtSQL.Length,
+					Convert.ToDouble(rts[5]), layoutMid, animate);//, "", layoutMid, 0, animate);
 
 			count --;
 		}
@@ -2318,6 +2482,22 @@ public partial class ChronoJumpWindow
 		event_execute_pixmap.DrawLayout (pen_gris, 20, yCp1Out -20, layoutSmall);
 		layoutSmall.SetMarkup(Catalog.GetString("Platforms"));
 		event_execute_pixmap.DrawLayout (pen_gris, 20, yCp2Out -20, layoutSmall);
+	}
+
+	private void on_radio_contacts_graph_person_toggled (object o, EventArgs args)
+	{
+		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
+			updateGraphJumpsSimple ();
+
+		//TODO: run simple, rt
+	}
+	private void on_spin_contacts_graph_last_limit_value_changed (object o, EventArgs args)
+	{
+		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
+			updateGraphJumpsSimple ();
+
+
+		//TODO: run simple, rt
 	}
 
 	private void on_event_execute_update_graph_in_progress_clicked(object o, EventArgs args)

@@ -193,20 +193,44 @@ class SqliteJump : Sqlite
 		return myJumps;
 	}
 
-	//like SelectJumpsSA above method but much better: return list of jumps
-	//sID -1 means all sessions
-	//limit -1 means no limit
-	public static List<Jump> SelectJumps (int sID, int pID, string jumpType, Orders_by order, int limit)
+	/*
+	 * like SelectJumpsSA above method but much better: return list of jumps
+	 * sID -1 means all sessions
+	 * pID -1 means all persons
+	 * limit -1 means no limit
+	 * personNameInComment is used to be able to display names in graphs
+	 *   because event.PersonName makes individual SQL SELECTs
+	 */
+	public static List<Jump> SelectJumps (int sID, int pID, string jumpType, Orders_by order, int limit, bool personNameInComment)
 	{
 	  //jumps previous to DB 1.82 have no datetime on jump
 	  //find session datetime for that jumps
 	  List<Session> session_l = SqliteSession.SelectAll();
 
-	  string filterSessionString = "";
-	  if(sID != -1)
-		  filterSessionString = " AND sessionID == " + sID.ToString();
+	  //for personNameInComment
+	  List<Person> person_l =
+			SqlitePersonSession.SelectCurrentSessionPersonsAsList(sID);
 
-	  string personID = pID.ToString();
+	  string andString = "";
+	  string sessionString = "";
+	  if(sID != -1)
+	  {
+		  sessionString = " sessionID == " + sID.ToString();
+		  andString = " AND ";
+	  }
+
+	  string personString = "";
+	  if(pID != -1)
+	  {
+		  personString = andString + " personID == " + pID.ToString();
+		  andString = " AND ";
+	  }
+
+	  string jumpTypeString = andString + " jump.type = \"" + jumpType + "\"";
+
+	  string whereString = "";
+	  if(sessionString != "" || personString != "" || jumpTypeString != "")
+		  whereString = " WHERE ";
 
 	  string orderByString = " ORDER BY jump.uniqueID ";
 	  if(order == Orders_by.ID_DESC)
@@ -217,11 +241,11 @@ class SqliteJump : Sqlite
 		  limitString = " LIMIT " + limit;
 
 
-	  Sqlite.Open();
+	  Sqlite.Open(); //  --------------------
 
 	  // Selecciona les dades de tots els salts
-	  dbcmd.CommandText = "SELECT * FROM jump WHERE personID = " + personID +
-		  filterSessionString +  " AND jump.type = \"" + jumpType + "\"" +
+	  dbcmd.CommandText = "SELECT * FROM jump " +
+		  whereString + sessionString + personString + jumpTypeString +
 		  orderByString + limitString;
 
 	  LogB.SQL(dbcmd.CommandText.ToString());
@@ -230,10 +254,10 @@ class SqliteJump : Sqlite
 	  SqliteDataReader reader;
 	  reader = dbcmd.ExecuteReader();
 
-	  List<Jump> jmp_l = DataReaderToJump (reader, session_l);
+	  List<Jump> jmp_l = DataReaderToJump (reader, session_l, person_l, personNameInComment);
 
 	  reader.Close();
-	  Sqlite.Close();
+	  Sqlite.Close(); // --------------------
 
 	  return jmp_l;
 	}
@@ -353,6 +377,11 @@ class SqliteJump : Sqlite
 
 	private static List<Jump> DataReaderToJump (SqliteDataReader reader, List<Session> session_l)
 	{
+		return DataReaderToJump (reader, session_l, new List<Person> (), false);
+	}
+	private static List<Jump> DataReaderToJump (SqliteDataReader reader, List<Session> session_l,
+			List<Person> person_l, bool personNameInComment)
+	{
 	  List<Jump> jmp_l = new List<Jump>();
 	  Jump jmp;
 
@@ -384,6 +413,12 @@ class SqliteJump : Sqlite
 			  foreach(Session session in session_l)
 				  if(session.UniqueID == jmp.SessionID)
 					  jmp.Datetime = UtilDate.ToFile(session.Date);
+
+		  if(personNameInComment)
+			  foreach(Person person in person_l)
+				  if(person.UniqueID == jmp.PersonID)
+					  jmp.Description = person.Name;
+
 
 		  jmp_l.Add(jmp);
 		  LogB.Information(jmp.ToString());

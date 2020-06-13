@@ -40434,6 +40434,7 @@ then click this button.</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">True</property>
                                                     <signal name="clicked" handler="on_button_exit_cancel_clicked" swapped="no"/>
+						    <accelerator key="Escape" signal="clicked"/>
                                                     <child>
                                                       <widget class="GtkEventBox" id="eventbox_button_exit_cancel">
                                                         <property name="visible">True</property>

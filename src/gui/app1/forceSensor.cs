@@ -2260,7 +2260,7 @@ LogB.Information(" fs R ");
 
 	private void on_button_force_sensor_adjust_clicked (object o, EventArgs args)
 	{
-		button_force_sensor_adjust.Sensitive = false; //to not be called again
+		alignment_button_force_sensor_adjust.Sensitive = false; //to not be called again
 
 		//hbox_force_capture_buttons.Sensitive = false;
 		notebook_contacts_execute_or_instructions.Sensitive = false;
@@ -2274,7 +2274,7 @@ LogB.Information(" fs R ");
 	}
 	private void on_button_force_sensor_adjust_close_clicked (object o, EventArgs args)
 	{
-		button_force_sensor_adjust.Sensitive = true;
+		alignment_button_force_sensor_adjust.Sensitive = true;
 
 		//hbox_force_capture_buttons.Sensitive = true;
 		notebook_contacts_execute_or_instructions.Sensitive = true;

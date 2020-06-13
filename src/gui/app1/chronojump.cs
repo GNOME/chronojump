@@ -3233,7 +3233,8 @@ public partial class ChronoJumpWindow
 			{
 				if(threshold.SelectTresholdForThisMode(m))
 				{
-					label_threshold.Text = Catalog.GetString("Threshold") + " " + threshold.GetLabel() + " ms";
+					label_threshold.Text = //Catalog.GetString("Threshold") + " " +
+						threshold.GetLabel() + " ms";
 
 					last_menuitem_mode = m;
 				}
@@ -3571,7 +3572,8 @@ public partial class ChronoJumpWindow
 		dialogThreshold.FakeButtonClose.Clicked -= new EventHandler(on_threshold_close);
 
 		threshold.UpdateFromGUI(dialogThreshold.ThresholdCurrent);
-		label_threshold.Text = Catalog.GetString("Threshold") + " " + threshold.GetLabel() + " ms";
+		label_threshold.Text = //Catalog.GetString("Threshold") + " " +
+			threshold.GetLabel() + " ms";
 
 		dialogThreshold.DestroyDialog();
 	}

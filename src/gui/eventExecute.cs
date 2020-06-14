@@ -51,6 +51,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_contacts_graph_person;
 	[Widget] Gtk.RadioButton radio_contacts_graph_currentPerson;
 	[Widget] Gtk.RadioButton radio_contacts_graph_allPersons;
+	[Widget] Gtk.Image image_radio_contacts_graph_currentPerson;
+	[Widget] Gtk.Image image_radio_contacts_graph_allPersons;
 	
 	[Widget] Gtk.ProgressBar event_execute_progressbar_event;
 	[Widget] Gtk.ProgressBar event_execute_progressbar_time;

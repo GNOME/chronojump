@@ -598,6 +598,8 @@ RESOURCES = \
 	../images/laterality-both.png,laterality-both.png \
 	../images/laterality-right.png,laterality-right.png \
 	../images/laterality-left.png,laterality-left.png \
+	../images/individual.png,individual.png \
+	../images/grupal.png,grupal.png \
 	../images/encoder-analyze-individual-current-set.png,encoder-analyze-individual-current-set.png \
 	../images/encoder-analyze-individual-current-session.png,encoder-analyze-individual-current-session.png \
 	../images/encoder-analyze-individual-all-sessions.png,encoder-analyze-individual-all-sessions.png \

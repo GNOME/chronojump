@@ -939,7 +939,8 @@ public partial class ChronoJumpWindow
 
 			hbox_contacts_graph_last_limit.Visible = false;
 			hbox_contacts_graph_person.Visible = false;
-			hbox_results_legend.Visible = false;
+			check_vbox_contacts_graph_legend.Visible = false;
+			vbox_contacts_graph_legend.Visible = false;
 		}
 	}
 
@@ -952,7 +953,8 @@ public partial class ChronoJumpWindow
 
 			hbox_contacts_graph_last_limit.Visible = false;
 			hbox_contacts_graph_person.Visible = false;
-			hbox_results_legend.Visible = false;
+			check_vbox_contacts_graph_legend.Visible = false;
+			vbox_contacts_graph_legend.Visible = false;
 		}
 	}
 
@@ -2910,7 +2912,8 @@ public partial class ChronoJumpWindow
 
 				hbox_contacts_graph_last_limit.Visible = true;
 				hbox_contacts_graph_person.Visible = true;
-				hbox_results_legend.Visible = true;
+				check_vbox_contacts_graph_legend.Visible = true;
+				vbox_contacts_graph_legend.Visible = false;
 
 				frame_jumps_automatic.Visible = true;
 				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_simple.png");
@@ -2926,7 +2929,8 @@ public partial class ChronoJumpWindow
 
 				hbox_contacts_graph_last_limit.Visible = false;
 				hbox_contacts_graph_person.Visible = false;
-				hbox_results_legend.Visible = false;
+				check_vbox_contacts_graph_legend.Visible = false;
+				vbox_contacts_graph_legend.Visible = false;
 
 				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_reactive.png");
 
@@ -2950,7 +2954,8 @@ public partial class ChronoJumpWindow
 
 				hbox_contacts_graph_last_limit.Visible = true;
 				hbox_contacts_graph_person.Visible = true;
-				hbox_results_legend.Visible = true;
+				check_vbox_contacts_graph_legend.Visible = true;
+				vbox_contacts_graph_legend.Visible = false;
 
 				frame_run_simple_double_contacts.Visible = true;
 				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_run_simple.png");
@@ -2964,7 +2969,8 @@ public partial class ChronoJumpWindow
 
 				hbox_contacts_graph_last_limit.Visible = false;
 				hbox_contacts_graph_person.Visible = false;
-				hbox_results_legend.Visible = false;
+				check_vbox_contacts_graph_legend.Visible = false;
+				vbox_contacts_graph_legend.Visible = false;
 
 				createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
 				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_run_multiple.png");
@@ -3102,7 +3108,8 @@ public partial class ChronoJumpWindow
 
 			hbox_contacts_graph_last_limit.Visible = false;
 			hbox_contacts_graph_person.Visible = false;
-			hbox_results_legend.Visible = false;
+			check_vbox_contacts_graph_legend.Visible = false;
+			vbox_contacts_graph_legend.Visible = false;
 
 			//on force sensor only show table
 			notebook_capture_graph_table.CurrentPage = 1; //"Show table"
@@ -3129,7 +3136,8 @@ public partial class ChronoJumpWindow
 
 			hbox_contacts_graph_last_limit.Visible = false;
 			hbox_contacts_graph_person.Visible = false;
-			hbox_results_legend.Visible = false;
+			check_vbox_contacts_graph_legend.Visible = false;
+			vbox_contacts_graph_legend.Visible = false;
 
 			//on run encoder only show table
 			notebook_capture_graph_table.CurrentPage = 1; //"Show table"

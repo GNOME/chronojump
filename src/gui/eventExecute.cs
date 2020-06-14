@@ -1115,7 +1115,8 @@ public partial class ChronoJumpWindow
 		Pango.Layout layoutText = layout;
 		if (showTextOnBar)
 		{
-			layoutText = calculateLayoutFontForText (eventGraph.jumpsAtSQL, layoutText, ancho);
+			int longestWordSize = findLongestWordSize (eventGraph.jumpsAtSQL);
+			layoutText = calculateLayoutFontForText (eventGraph.jumpsAtSQL, longestWordSize, layoutText, ancho);
 			maxRowsForText = calculateMaxRowsForText (eventGraph.jumpsAtSQL); //also adds +1 if simulated
 			bottomMargin = calculateBottomMarginForText (maxRowsForText, layoutText);
 		}
@@ -1322,37 +1323,42 @@ public partial class ChronoJumpWindow
 		return lHeight * maxRows;
 	}
 
-	private Pango.Layout calculateLayoutFontForText (List<Jump> jumps, Pango.Layout layout, int ancho)
+	private int findLongestWordSize (List<Jump> jumps)
 	{
-		int maxLength = 0;
-
-		//set marginBetweenTexts to 1.1 character
-		layout.SetMarkup("a");
-		int lWidth = 1;
-		int lHeight = 1;
-		layout.GetPixelSize(out lWidth, out lHeight);
-		int marginBetweenTexts = Convert.ToInt32(1.1 * lWidth);
+		int longestWordSize = 0;
 
 		foreach(Jump jump in jumps)
 		{
 			string [] textArray = jump.Description.Split(new char[] {' '});
 			foreach(string text in textArray)
 			{
-				if(text.Length > maxLength)
-					maxLength = text.Length;
-				if(jump.Simulated == -1 && event_execute_label_simulated.Length > maxLength)
-				       maxLength = event_execute_label_simulated.Length;
+				if(text.Length > longestWordSize)
+					longestWordSize = text.Length;
+				if(jump.Simulated == -1 && event_execute_label_simulated.Length > longestWordSize)
+				       longestWordSize = event_execute_label_simulated.Length;
 			}
 		}
 
-		string longestString = new string('*', maxLength);
+		return longestWordSize;
+	}
 
-		layout.SetMarkup(longestString);
+	private Pango.Layout calculateLayoutFontForText (List<Jump> jumps, int longestWordSize, Pango.Layout layout, int ancho)
+	{
+		// 1) set marginBetweenTexts to 1.1 character
+		layout.SetMarkup("a");
+		int lWidth = 1;
+		int lHeight = 1;
+		layout.GetPixelSize(out lWidth, out lHeight);
+		int marginBetweenTexts = Convert.ToInt32(1.1 * lWidth);
+
+		// 2) create the longestWord to find its width
+		string longestWord = new string('*', longestWordSize);
+		layout.SetMarkup(longestWord);
 		lWidth = 1;
 		lHeight = 1;
 		layout.GetPixelSize(out lWidth, out lHeight);
 
-		int savedFontSize = Convert.ToInt32(layout.FontDescription.Size / Pango.Scale.PangoScale);
+		// 3) if longestWord * jumps.Count does not fit, iterate to find correct font size
 		if(jumps.Count * (lWidth + marginBetweenTexts) > ancho)
 		{
 			int i = 1;
@@ -1361,7 +1367,7 @@ public partial class ChronoJumpWindow
 				if(layout.FontDescription.Size / Pango.Scale.PangoScale < 1)
 					break;
 
-				layout.SetMarkup(longestString);
+				layout.SetMarkup(longestWord);
 				layout.GetPixelSize(out lWidth, out lHeight);
 
 				i ++;

@@ -1113,11 +1113,12 @@ public partial class ChronoJumpWindow
 		}
 
 		Pango.Layout layoutText = layout;
+		int longestWordSize = 0;
 		if (showTextOnBar)
 		{
-			int longestWordSize = findLongestWordSize (eventGraph.jumpsAtSQL);
+			longestWordSize = findLongestWordSize (eventGraph.jumpsAtSQL);
 			layoutText = calculateLayoutFontForText (eventGraph.jumpsAtSQL, longestWordSize, layoutText, ancho);
-			maxRowsForText = calculateMaxRowsForText (eventGraph.jumpsAtSQL); //also adds +1 if simulated
+			maxRowsForText = calculateMaxRowsForText (eventGraph.jumpsAtSQL, longestWordSize); //also adds +1 if simulated
 			bottomMargin = calculateBottomMarginForText (maxRowsForText, layoutText);
 		}
 
@@ -1190,7 +1191,7 @@ public partial class ChronoJumpWindow
 					drawBar(x, y, barWidth, alto, bottomMargin, pen_azul_claro, countToDraw == countJumps,
 							valueToPlot, layout, animateBar);
 
-					//adjust x for plotSimulatedMessage() and plotTextOnBar()
+					//adjust x for plotSimulatedMessage() and plotTextBelowBar()
 					x -= Convert.ToInt32(.5 * tctfSep);
 				}
 
@@ -1208,7 +1209,8 @@ public partial class ChronoJumpWindow
 				plotSimulatedMessage(x + barWidth/2, alto, layout);
 
 			if (showTextOnBar && jump.Description != "")
-				plotTextOnBar(x + barWidth/2, y, alto, jump.Description, layoutText, maxRowsForText);
+				plotTextBelowBar(x + barWidth/2, y, alto, jump.Description, layoutText,
+						longestWordSize, maxRowsForText);
 
 			countToDraw --;
 		}
@@ -1295,16 +1297,33 @@ public partial class ChronoJumpWindow
 				layout);
 	}
 
-	private int calculateMaxRowsForText (List<Jump> jumps)
+	private int calculateMaxRowsForText (List<Jump> jumps, int longestWordSize)
 	{
 		int maxRows = 0;
 
 		foreach(Jump jump in jumps)
 		{
-			int rows = jump.Description.Split(new char[] {' '}).Length;
-
+			int rows = 0;
 			if(jump.Simulated == -1)
 				rows ++;
+
+			//try to pack small words if they fit in a row using wordsAccu (accumulated)
+			string wordsAccu = "";
+			string [] words = jump.Description.Split(new char[] {' '});
+
+			foreach(string word in words)
+			{
+				if(wordsAccu == "")
+					wordsAccu = word;
+				else if( (wordsAccu + " " + word).Length <= longestWordSize )
+					wordsAccu += " " + word;
+				else {
+					wordsAccu = word;
+					rows ++;
+				}
+			}
+			rows ++;
+
 			if(rows > maxRows)
 				maxRows = rows;
 		}
@@ -1379,7 +1398,7 @@ public partial class ChronoJumpWindow
 
 	//person name or test type
 	//this can separate name with spaces on rows
-	private void plotTextOnBar(int x, int y, int alto, string text, Pango.Layout layout, int maxRowsForText)
+	private void plotTextBelowBar(int x, int y, int alto, string text, Pango.Layout layout, int longestWordSize, int maxRowsForText)
 	{
 		// 1) to get the height of the font
 		layout.SetMarkup(text);
@@ -1387,15 +1406,33 @@ public partial class ChronoJumpWindow
 		int lHeight = 1;
 		layout.GetPixelSize(out lWidth, out lHeight);
 
-		// 2 )separate in rows and send it to plotTextOnBarDo()
-		string [] textArray = text.Split(new char[] {' '});
+		// 2) separate in rows and send it to plotTextBelowBarDoRow()
+		//    packing small words if they fit in a row using wordsAccu (accumulated)
 
-		for(int i = 1; i <= textArray.Length; i ++)
-			plotTextOnBarDo(x,
-					Convert.ToInt32(alto - (maxRowsForText -i +1) * lHeight),
-					textArray[i-1], layout);
+		string wordsAccu = "";
+		string [] words = text.Split(new char[] {' '});
+		int i = 1;
+
+		foreach(string word in words)
+		{
+			if(wordsAccu == "")
+				wordsAccu = word;
+			else if( (wordsAccu + " " + word).Length <= longestWordSize )
+				wordsAccu += " " + word;
+			else {
+				plotTextBelowBarDoRow (x,
+						Convert.ToInt32(alto - (maxRowsForText -i +1) * lHeight),
+						wordsAccu, layout);
+
+				wordsAccu = word;
+				i ++;
+			}
+		}
+		plotTextBelowBarDoRow (x,
+				Convert.ToInt32(alto - (maxRowsForText -i +1) * lHeight),
+				wordsAccu, layout);
 	}
-	private void plotTextOnBarDo(int x, int y, string text, Pango.Layout layout)
+	private void plotTextBelowBarDoRow (int x, int y, string text, Pango.Layout layout)
 	{
 		//just to get the width of every row
 		layout.SetMarkup(text);

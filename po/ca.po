@@ -504,7 +504,7 @@ msgstr "Grup"
 #: ../glade/app1.glade.h:100 ../src/encoder.cs:2396 ../src/forceSensor.cs:1968
 #: ../src/runType.cs:241
 msgid "Average"
-msgstr "Mitja"
+msgstr "Mitjana"
 
 #: ../glade/app1.glade.h:101
 msgid "Best"
@@ -5276,7 +5276,7 @@ msgstr "Accel."
 
 #: ../src/constants.cs:1362
 msgid "Average Power"
-msgstr "Potència mitja"
+msgstr "Potència mitjana"
 
 #: ../src/constants.cs:1365
 msgid "Time to Peak Power"

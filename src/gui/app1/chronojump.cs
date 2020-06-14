@@ -2913,7 +2913,7 @@ public partial class ChronoJumpWindow
 				hbox_contacts_graph_last_limit.Visible = true;
 				hbox_contacts_graph_person.Visible = true;
 				check_vbox_contacts_graph_legend.Visible = true;
-				vbox_contacts_graph_legend.Visible = false;
+				//vbox_contacts_graph_legend.Visible = false;
 
 				frame_jumps_automatic.Visible = true;
 				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_simple.png");
@@ -2955,7 +2955,7 @@ public partial class ChronoJumpWindow
 				hbox_contacts_graph_last_limit.Visible = true;
 				hbox_contacts_graph_person.Visible = true;
 				check_vbox_contacts_graph_legend.Visible = true;
-				vbox_contacts_graph_legend.Visible = false;
+				//vbox_contacts_graph_legend.Visible = false;
 
 				frame_run_simple_double_contacts.Visible = true;
 				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_run_simple.png");

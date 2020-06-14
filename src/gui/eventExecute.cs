@@ -73,7 +73,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Table event_execute_table_run_interval_values;
 	[Widget] Gtk.Table event_execute_table_pulse_values;
 	
-	[Widget] Gtk.HBox hbox_results_legend;
+	[Widget] Gtk.CheckButton check_vbox_contacts_graph_legend;
+	[Widget] Gtk.VBox vbox_contacts_graph_legend;
 
 	//for the color change in the background of the cell label
 	//[Widget] Gtk.EventBox event_execute_eventbox_jump_reactive_height;
@@ -316,7 +317,8 @@ public partial class ChronoJumpWindow
 	{
 		hbox_contacts_graph_last_limit.Visible = true;
 		hbox_contacts_graph_person.Visible = true;
-		hbox_results_legend.Visible = true;
+		check_vbox_contacts_graph_legend.Visible = true;
+		//vbox_contacts_graph_legend.Visible = false;
 
 		notebook_results_data.Visible = false;
 	}
@@ -326,7 +328,8 @@ public partial class ChronoJumpWindow
 	{
 		hbox_contacts_graph_last_limit.Visible = false;
 		hbox_contacts_graph_person.Visible = false;
-		hbox_results_legend.Visible = false;
+		check_vbox_contacts_graph_legend.Visible = false;
+		vbox_contacts_graph_legend.Visible = false;
 
 		//show reactive info
 		event_execute_table_jump_reactive.Show();
@@ -350,7 +353,8 @@ public partial class ChronoJumpWindow
 	{
 		hbox_contacts_graph_last_limit.Visible = true;
 		hbox_contacts_graph_person.Visible = true;
-		hbox_results_legend.Visible = true;
+		check_vbox_contacts_graph_legend.Visible = true;
+		//vbox_contacts_graph_legend.Visible = false;
 
 		notebook_results_data.Visible = false;
 	}
@@ -359,7 +363,8 @@ public partial class ChronoJumpWindow
 	{
 		hbox_contacts_graph_last_limit.Visible = false;
 		hbox_contacts_graph_person.Visible = false;
-		hbox_results_legend.Visible = false;
+		check_vbox_contacts_graph_legend.Visible = false;
+		vbox_contacts_graph_legend.Visible = false;
 
 		//show run interval info
 		event_execute_table_run_interval.Show();
@@ -380,7 +385,8 @@ public partial class ChronoJumpWindow
 	{
 		hbox_contacts_graph_last_limit.Visible = true;
 		hbox_contacts_graph_person.Visible = true;
-		hbox_results_legend.Visible = true;
+		check_vbox_contacts_graph_legend.Visible = true;
+		//vbox_contacts_graph_legend.Visible = false;
 
 		notebook_results_data.Visible = false;
 	}
@@ -389,7 +395,8 @@ public partial class ChronoJumpWindow
 	{
 		hbox_contacts_graph_last_limit.Visible = false;
 		hbox_contacts_graph_person.Visible = false;
-		hbox_results_legend.Visible = false;
+		check_vbox_contacts_graph_legend.Visible = false;
+		vbox_contacts_graph_legend.Visible = false;
 
 		//show pulse info
 		event_execute_table_pulse.Show();
@@ -670,6 +677,7 @@ public partial class ChronoJumpWindow
 
 	private void on_button_person_max_all_sessions_info_clicked(object o, EventArgs args) 
 	{
+		/*
 		string [] str;
 		string testName;
 		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE) {
@@ -694,8 +702,20 @@ public partial class ChronoJumpWindow
 
 			new DialogMessage(Constants.MessageTypes.INFO, message);
 		}
+		*/
 	}
-	
+
+	private void on_check_vbox_contacts_graph_legend_clicked (object o, EventArgs args)
+	{
+		LogB.Information("on_check_vbox_contacts_graph_legend_clicked (), check active: " +
+				check_vbox_contacts_graph_legend.Active.ToString());
+
+		if(check_vbox_contacts_graph_legend.Active)
+			vbox_contacts_graph_legend.Visible = true;
+		else
+			vbox_contacts_graph_legend.Visible = false;
+	}
+
 	// Reactive jump 
 	public void PrepareJumpReactiveGraph(double lastTv, double lastTc, string tvString, string tcString, 
 			bool volumeOn, Preferences.GstreamerTypes gstreamer, RepetitiveConditionsWindow repetitiveConditionsWin) {

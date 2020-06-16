@@ -112,7 +112,7 @@ getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength
         #Instantaneous RFD
         rfd = getRFD(originalTest)
         
-        #Finding the decrease of the foce to detect the end of the maximum voluntary force
+        #Finding the increase and decrease of the force to detect the start and end of the maximum voluntary force test
         trimmingSamples = getTrimmingSamples(originalTest, rfd, averageLength = averageLength, percentChange = percentChange,
 					     testLength = op$testLength, startDetectingMethod = "SD")
         startSample = trimmingSamples$startSample
@@ -146,8 +146,8 @@ getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength
         # print(paste("Relative Error:", meanError))
         # print("--------")
         
-        
-        if(bestFit)     #looking for the startSample that best fits the data
+        #If bestFit is TRUE, this overrides the startSample calculus and find the startSample that makes the best fit of the curve  
+        if(bestFit)
         {
                 while(meanError < lastmeanError)
                 {
@@ -156,7 +156,7 @@ getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength
                         startSample = startSample + 1
                         startTime = originalTest$time[startSample]
                         
-                        #Make this only if testLength = -1
+                        #If the lenght of the test is fixed, moving the startSample implies moving the endSample also
                         if (testLength != -1){
                                 endSample = endSample + 1
                                 endTime = originalTest$time[endSample]
@@ -666,8 +666,15 @@ getDynamicsFromLoadCellFolder <- function(folderName, resultFileName, export2Pdf
         
 }
 
-#Finds the sample in which the force start incresing (RFD > 20% of maxRFD)
-#and decrease a given percentage of the maximum force.
+#Finds the sample in which the force start incresing with two optional methods
+# - SD method: When the force increase 3 times the standard deviation
+# - RFD method: When the RFD is at least 20% of the maximum RFD
+#
+#If bestFit is TRUE then the startSample is changed in order to find the startSample that minimizes the mean error of the model.
+#bestFit gives better resuls for model variables. The counterpart is that there's no scientific papers using it and some control of the procerss is lost
+#as it is more difficult to predict the startSample by humans.
+#
+#This function also finds the sample at which there is a decrease of a given percentage of the maximum force.
 #The maximum force is calculed from the moving average of averageLength seconds
 getTrimmingSamples <- function(test, rfd, movingAverageForce, averageLength = 0.1, percentChange = 5, testLength = -1, startDetectingMethod = "SD")
 {
@@ -675,7 +682,7 @@ getTrimmingSamples <- function(test, rfd, movingAverageForce, averageLength = 0.
         maxRFD = max(rfd[2:(length(rfd) - 1)])
         maxRFDSample = which.max(rfd[2:(length(rfd) - 1)])
         
-        #Detecting when the force is greater of the mean + 3*SD of 20 samples
+        #Detecting when the force is greater than (mean of 20 samples) + 3*SD
         #If in various sample the force are greater, the last one before the maxRFD are taken
         #See Rate of force development: physiological and methodological considerations. Nicola A. Maffiuletti1 et al.
         

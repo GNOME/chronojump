@@ -197,6 +197,7 @@ class SqliteJump : Sqlite
 	 * like SelectJumpsSA above method but much better: return list of jumps
 	 * sID -1 means all sessions
 	 * pID -1 means all persons
+	 * jumpType "" means all jumps
 	 * limit -1 means no limit
 	 * personNameInComment is used to be able to display names in graphs
 	 *   because event.PersonName makes individual SQL SELECTs
@@ -226,7 +227,12 @@ class SqliteJump : Sqlite
 		  andString = " AND ";
 	  }
 
-	  string jumpTypeString = andString + " jump.type = \"" + jumpType + "\"";
+	  string jumpTypeString = "";
+	  if(jumpType != "")
+	  {
+		  jumpTypeString = andString + " jump.type = \"" + jumpType + "\" ";
+		  andString = " AND ";
+	  }
 
 	  string whereString = "";
 	  if(sessionString != "" || personString != "" || jumpTypeString != "")

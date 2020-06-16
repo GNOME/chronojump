@@ -48,7 +48,10 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.HBox hbox_contacts_graph_last_limit;
 	[Widget] Gtk.SpinButton spin_contacts_graph_last_limit;
+	[Widget] Gtk.HBox hbox_contacts_simple_graph_controls;
 	[Widget] Gtk.HBox hbox_contacts_graph_person;
+	[Widget] Gtk.RadioButton radio_contacts_graph_currentTest;
+	[Widget] Gtk.RadioButton radio_contacts_graph_allTests;
 	[Widget] Gtk.RadioButton radio_contacts_graph_currentPerson;
 	[Widget] Gtk.RadioButton radio_contacts_graph_allPersons;
 	[Widget] Gtk.Image image_radio_contacts_graph_currentPerson;
@@ -200,6 +203,7 @@ public partial class ChronoJumpWindow
 
 		event_graph_label_graph_test.Text = "<b>" + event_execute_eventType + "</b>";
 		event_graph_label_graph_test.UseMarkup = true;
+		radio_contacts_graph_currentTest.Label = event_execute_eventType;
 				
 		event_execute_label_message.Text = "";
 
@@ -317,8 +321,9 @@ public partial class ChronoJumpWindow
 	
 	private void showJumpSimpleLabels() 
 	{
-		hbox_contacts_graph_last_limit.Visible = true;
-		hbox_contacts_graph_person.Visible = true;
+		event_graph_label_graph_test.Visible = false;
+		hbox_contacts_simple_graph_controls.Visible = true;
+
 		check_vbox_contacts_graph_legend.Visible = true;
 		//vbox_contacts_graph_legend.Visible = false;
 
@@ -328,8 +333,9 @@ public partial class ChronoJumpWindow
 	
 	private void showJumpReactiveLabels() 
 	{
-		hbox_contacts_graph_last_limit.Visible = false;
-		hbox_contacts_graph_person.Visible = false;
+		event_graph_label_graph_test.Visible = true;
+		hbox_contacts_simple_graph_controls.Visible = false;
+
 		check_vbox_contacts_graph_legend.Visible = false;
 		vbox_contacts_graph_legend.Visible = false;
 
@@ -353,8 +359,9 @@ public partial class ChronoJumpWindow
 	
 	private void showRunSimpleLabels() 
 	{
-		hbox_contacts_graph_last_limit.Visible = true;
-		hbox_contacts_graph_person.Visible = true;
+		event_graph_label_graph_test.Visible = false;
+		hbox_contacts_simple_graph_controls.Visible = true;
+
 		check_vbox_contacts_graph_legend.Visible = true;
 		//vbox_contacts_graph_legend.Visible = false;
 
@@ -363,8 +370,9 @@ public partial class ChronoJumpWindow
 		
 	private void showRunIntervalLabels() 
 	{
-		hbox_contacts_graph_last_limit.Visible = false;
-		hbox_contacts_graph_person.Visible = false;
+		event_graph_label_graph_test.Visible = true;
+		hbox_contacts_simple_graph_controls.Visible = false;
+
 		check_vbox_contacts_graph_legend.Visible = false;
 		vbox_contacts_graph_legend.Visible = false;
 
@@ -385,8 +393,9 @@ public partial class ChronoJumpWindow
 	
 	private void showReactionTimeLabels() 
 	{
-		hbox_contacts_graph_last_limit.Visible = true;
-		hbox_contacts_graph_person.Visible = true;
+		event_graph_label_graph_test.Visible = false;
+		hbox_contacts_simple_graph_controls.Visible = true;
+
 		check_vbox_contacts_graph_legend.Visible = true;
 		//vbox_contacts_graph_legend.Visible = false;
 
@@ -395,8 +404,9 @@ public partial class ChronoJumpWindow
 
 	private void showPulseLabels() 
 	{
-		hbox_contacts_graph_last_limit.Visible = false;
-		hbox_contacts_graph_person.Visible = false;
+		event_graph_label_graph_test.Visible = true;
+		hbox_contacts_simple_graph_controls.Visible = false;
+
 		check_vbox_contacts_graph_legend.Visible = false;
 		vbox_contacts_graph_legend.Visible = false;
 
@@ -1116,9 +1126,9 @@ public partial class ChronoJumpWindow
 		int longestWordSize = 0;
 		if (showTextOnBar)
 		{
-			longestWordSize = findLongestWordSize (eventGraph.jumpsAtSQL);
+			longestWordSize = findLongestWordSize (eventGraph.jumpsAtSQL, eventGraph.type == ""); // condition for "all jumps"
 			layoutText = calculateLayoutFontForText (eventGraph.jumpsAtSQL, longestWordSize, layoutText, ancho);
-			maxRowsForText = calculateMaxRowsForText (eventGraph.jumpsAtSQL, longestWordSize); //also adds +1 if simulated
+			maxRowsForText = calculateMaxRowsForText (eventGraph.jumpsAtSQL, longestWordSize, eventGraph.type == ""); //also adds +1 if simulated
 			bottomMargin = calculateBottomMarginForText (maxRowsForText, layoutText);
 		}
 
@@ -1208,9 +1218,17 @@ public partial class ChronoJumpWindow
 			if(jump.Simulated == -1)
 				plotSimulatedMessage(x + barWidth/2, alto, layout);
 
-			if (showTextOnBar && jump.Description != "")
-				plotTextBelowBar(x + barWidth/2, y, alto, jump.Description, layoutText,
-						longestWordSize, maxRowsForText);
+			if (showTextOnBar && (eventGraph.type == "" || jump.Description != ""))
+			{
+				string jumpTypeRowString = "";
+				if (eventGraph.type == "") //if "all jumps" show jump.Type
+					jumpTypeRowString = jump.Type;
+
+				plotTextBelowBar(x + barWidth/2, y, alto,
+						jumpTypeRowString,
+						jump.Description, //is the name of the person
+						layoutText, longestWordSize, maxRowsForText);
+			}
 
 			countToDraw --;
 		}
@@ -1297,14 +1315,14 @@ public partial class ChronoJumpWindow
 				layout);
 	}
 
-	private int calculateMaxRowsForText (List<Jump> jumps, int longestWordSize)
+	private int calculateMaxRowsForText (List<Jump> jumps, int longestWordSize, bool allJumps)
 	{
 		int maxRows = 0;
 
 		foreach(Jump jump in jumps)
 		{
 			int rows = 0;
-			if(jump.Simulated == -1)
+			if(allJumps) 			//to write the jump type (1st the jump type because it's only one row)
 				rows ++;
 
 			//try to pack small words if they fit in a row using wordsAccu (accumulated)
@@ -1322,7 +1340,11 @@ public partial class ChronoJumpWindow
 					rows ++;
 				}
 			}
-			rows ++;
+			if(wordsAccu != "")
+				rows ++;
+
+			if(jump.Simulated == -1) //to write simulated at bottom
+				rows ++;
 
 			if(rows > maxRows)
 				maxRows = rows;
@@ -1342,7 +1364,7 @@ public partial class ChronoJumpWindow
 		return lHeight * maxRows;
 	}
 
-	private int findLongestWordSize (List<Jump> jumps)
+	private int findLongestWordSize (List<Jump> jumps, bool allJumps)
 	{
 		int longestWordSize = 0;
 
@@ -1353,9 +1375,15 @@ public partial class ChronoJumpWindow
 			{
 				if(text.Length > longestWordSize)
 					longestWordSize = text.Length;
-				if(jump.Simulated == -1 && event_execute_label_simulated.Length > longestWordSize)
-				       longestWordSize = event_execute_label_simulated.Length;
 			}
+
+			//note jump type will be in one line
+			//TODO: check it in local user language (Catalog)
+			if(allJumps && jump.Type.Length > longestWordSize)
+				longestWordSize = jump.Type.Length;
+
+			if(jump.Simulated == -1 && event_execute_label_simulated.Length > longestWordSize)
+				longestWordSize = event_execute_label_simulated.Length;
 		}
 
 		return longestWordSize;
@@ -1396,22 +1424,35 @@ public partial class ChronoJumpWindow
 		return layout;
 	}
 
-	//person name or test type
+	//person name or test type, or both
 	//this can separate name with spaces on rows
-	private void plotTextBelowBar(int x, int y, int alto, string text, Pango.Layout layout, int longestWordSize, int maxRowsForText)
+	private void plotTextBelowBar(int x, int y, int alto,
+			string jumpType,
+			string personName,
+			Pango.Layout layout, int longestWordSize, int maxRowsForText)
 	{
 		// 1) to get the height of the font
-		layout.SetMarkup(text);
+		layout.SetMarkup(personName);
 		int lWidth = 1;
 		int lHeight = 1;
 		layout.GetPixelSize(out lWidth, out lHeight);
+
+		int row = 1;
+
+		//if have to print jump type, print it first in one row
+		if(jumpType != "")
+		{
+			plotTextBelowBarDoRow (x,
+					Convert.ToInt32(alto - (maxRowsForText) * lHeight),
+					jumpType, layout, pen_azul);
+			row ++;
+		}
 
 		// 2) separate in rows and send it to plotTextBelowBarDoRow()
 		//    packing small words if they fit in a row using wordsAccu (accumulated)
 
 		string wordsAccu = "";
-		string [] words = text.Split(new char[] {' '});
-		int i = 1;
+		string [] words = personName.Split(new char[] {' '});
 
 		foreach(string word in words)
 		{
@@ -1421,18 +1462,18 @@ public partial class ChronoJumpWindow
 				wordsAccu += " " + word;
 			else {
 				plotTextBelowBarDoRow (x,
-						Convert.ToInt32(alto - (maxRowsForText -i +1) * lHeight),
-						wordsAccu, layout);
+						Convert.ToInt32(alto - (maxRowsForText -row +1) * lHeight),
+						wordsAccu, layout, pen_black);
 
 				wordsAccu = word;
-				i ++;
+				row ++;
 			}
 		}
 		plotTextBelowBarDoRow (x,
-				Convert.ToInt32(alto - (maxRowsForText -i +1) * lHeight),
-				wordsAccu, layout);
+				Convert.ToInt32(alto - (maxRowsForText -row +1) * lHeight),
+				wordsAccu, layout, pen_black);
 	}
-	private void plotTextBelowBarDoRow (int x, int y, string text, Pango.Layout layout)
+	private void plotTextBelowBarDoRow (int x, int y, string text, Pango.Layout layout, Gdk.GC pen)
 	{
 		//just to get the width of every row
 		layout.SetMarkup(text);
@@ -1441,7 +1482,7 @@ public partial class ChronoJumpWindow
 		layout.GetPixelSize(out lWidth, out lHeight);
 
 		//write text
-		event_execute_pixmap.DrawLayout (pen_black, Convert.ToInt32(x - lWidth/2), y, layout);
+		event_execute_pixmap.DrawLayout (pen, Convert.ToInt32(x - lWidth/2), y, layout);
 	}
 
 	private void plotResultOnBar(int x, int y, int alto, double result, Pango.Layout layout)
@@ -1473,9 +1514,13 @@ public partial class ChronoJumpWindow
 				layout);
 	}
 
-	private void addUnitsToLabel(string unit) {
+	private void addUnitsToLabel(string unit)
+	{
 		event_graph_label_graph_test.Text = "<b>" + event_graph_label_graph_test.Text + " </b>(" + unit + ")";
 		event_graph_label_graph_test.UseMarkup = true;
+
+		//no because looks ugly
+		//radio_contacts_graph_currentTest.Label = radio_contacts_graph_currentTest.Label + " (" + unit + ")";
 	}
 
 	private void addLegend(Gdk.GC pen1, string text1, Gdk.GC pen2, string text2, Pango.Layout layout)
@@ -2549,13 +2594,8 @@ public partial class ChronoJumpWindow
 		event_execute_pixmap.DrawLayout (pen_gris, 20, yCp2Out -20, layoutSmall);
 	}
 
-	private void on_radio_contacts_graph_person_toggled (object o, EventArgs args)
-	{
-		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
-			updateGraphJumpsSimple ();
+	// ---- test simple controls ----->
 
-		//TODO: run simple, rt
-	}
 	private void on_spin_contacts_graph_last_limit_value_changed (object o, EventArgs args)
 	{
 		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
@@ -2564,6 +2604,24 @@ public partial class ChronoJumpWindow
 
 		//TODO: run simple, rt
 	}
+
+	private void on_radio_contacts_graph_test_toggled (object o, EventArgs args)
+	{
+		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
+			updateGraphJumpsSimple ();
+
+		//TODO: run simple, rt
+	}
+
+	private void on_radio_contacts_graph_person_toggled (object o, EventArgs args)
+	{
+		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
+			updateGraphJumpsSimple ();
+
+		//TODO: run simple, rt
+	}
+
+	// <---- end of test simple controls -----
 
 	private void on_event_execute_update_graph_in_progress_clicked(object o, EventArgs args)
 	{

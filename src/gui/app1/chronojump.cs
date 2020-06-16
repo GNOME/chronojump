@@ -937,8 +937,9 @@ public partial class ChronoJumpWindow
 			notebooks_change(Constants.Menuitem_modes.OTHER);
 			on_extra_window_pulses_test_changed(obj, args);
 
-			hbox_contacts_graph_last_limit.Visible = false;
-			hbox_contacts_graph_person.Visible = false;
+			event_graph_label_graph_test.Visible = true;
+			hbox_contacts_simple_graph_controls.Visible = false;
+
 			check_vbox_contacts_graph_legend.Visible = false;
 			vbox_contacts_graph_legend.Visible = false;
 		}
@@ -951,8 +952,9 @@ public partial class ChronoJumpWindow
 			notebooks_change(Constants.Menuitem_modes.OTHER);
 			on_extra_window_multichronopic_test_changed(obj, args);
 
-			hbox_contacts_graph_last_limit.Visible = false;
-			hbox_contacts_graph_person.Visible = false;
+			event_graph_label_graph_test.Visible = true;
+			hbox_contacts_simple_graph_controls.Visible = false;
+
 			check_vbox_contacts_graph_legend.Visible = false;
 			vbox_contacts_graph_legend.Visible = false;
 		}
@@ -2910,8 +2912,9 @@ public partial class ChronoJumpWindow
 				notebooks_change(m);
 				on_extra_window_jumps_test_changed(new object(), new EventArgs());
 
-				hbox_contacts_graph_last_limit.Visible = true;
-				hbox_contacts_graph_person.Visible = true;
+				event_graph_label_graph_test.Visible = false;
+				hbox_contacts_simple_graph_controls.Visible = true;
+
 				check_vbox_contacts_graph_legend.Visible = true;
 				//vbox_contacts_graph_legend.Visible = false;
 
@@ -2927,8 +2930,9 @@ public partial class ChronoJumpWindow
 				button_contacts_bells.Sensitive = true;
 				on_extra_window_jumps_rj_test_changed(new object(), new EventArgs());
 
-				hbox_contacts_graph_last_limit.Visible = false;
-				hbox_contacts_graph_person.Visible = false;
+				event_graph_label_graph_test.Visible = true;
+				hbox_contacts_simple_graph_controls.Visible = false;
+
 				check_vbox_contacts_graph_legend.Visible = false;
 				vbox_contacts_graph_legend.Visible = false;
 
@@ -2952,8 +2956,9 @@ public partial class ChronoJumpWindow
 				notebooks_change(m);
 				on_extra_window_runs_test_changed(new object(), new EventArgs());
 
-				hbox_contacts_graph_last_limit.Visible = true;
-				hbox_contacts_graph_person.Visible = true;
+				event_graph_label_graph_test.Visible = false;
+				hbox_contacts_simple_graph_controls.Visible = true;
+
 				check_vbox_contacts_graph_legend.Visible = true;
 				//vbox_contacts_graph_legend.Visible = false;
 
@@ -2967,8 +2972,9 @@ public partial class ChronoJumpWindow
 				button_contacts_bells.Sensitive = true;
 				on_extra_window_runs_interval_test_changed(new object(), new EventArgs());
 
-				hbox_contacts_graph_last_limit.Visible = false;
-				hbox_contacts_graph_person.Visible = false;
+				event_graph_label_graph_test.Visible = true;
+				hbox_contacts_simple_graph_controls.Visible = false;
+
 				check_vbox_contacts_graph_legend.Visible = false;
 				vbox_contacts_graph_legend.Visible = false;
 
@@ -3106,8 +3112,9 @@ public partial class ChronoJumpWindow
 			alignment_button_force_sensor_adjust.Visible = true;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 
-			hbox_contacts_graph_last_limit.Visible = false;
-			hbox_contacts_graph_person.Visible = false;
+			event_graph_label_graph_test.Visible = true;
+			hbox_contacts_simple_graph_controls.Visible = false;
+
 			check_vbox_contacts_graph_legend.Visible = false;
 			vbox_contacts_graph_legend.Visible = false;
 
@@ -3998,7 +4005,8 @@ public partial class ChronoJumpWindow
 				preferences.volumeOn, preferences.gstreamer,
 				progressbarLimit, egd, description, configChronojump.Exhibition,
 				preferences.jumpsDjGraphHeights,
-				Convert.ToInt32(spin_contacts_graph_last_limit.Value), radio_contacts_graph_allPersons.Active);
+				Convert.ToInt32(spin_contacts_graph_last_limit.Value),
+				radio_contacts_graph_allTests.Active, radio_contacts_graph_allPersons.Active);
 
 
 		//UtilGtk.ChronopicColors(viewport_chronopics, label_chronopics, label_connected_chronopics, chronopicWin.Connected);

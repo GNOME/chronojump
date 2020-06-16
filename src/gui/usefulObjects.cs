@@ -72,6 +72,7 @@ public class PrepareEventGraphJumpSimple
 	//current data
 	public double tv;
 	public double tc;
+	public string type; //jumpType (useful to know if "all jumps" (type == "")
 	public bool djShowHeights; //if djShowHeights and is a dj, graph falling height and jump height
 
 		
@@ -82,6 +83,7 @@ public class PrepareEventGraphJumpSimple
 
 	//allPersons is for searching the jumps of current of allpersons
 	//personID we need to the personsMAX/AVG sql calls
+	//type can be "" for all jumps, then write it under bar
 	public PrepareEventGraphJumpSimple(double tv, double tc, int sessionID,
 			int personID, bool allPersons, int limit,
 			string table, string type, bool djShowHeights)
@@ -121,6 +123,7 @@ public class PrepareEventGraphJumpSimple
 			
 		this.tv = tv;
 		this.tc = tc;
+		this.type = type;
 		this.djShowHeights = djShowHeights;
 		
 		Sqlite.Close();

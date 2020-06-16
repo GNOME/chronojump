@@ -805,6 +805,7 @@ class SqliteSession : Sqlite
 
 	//called from gui/event.cs for doing the graph
 	//we need to know the avg of events of a type (SJ, CMJ, free (pulse).. of a person, or of all persons on the session
+	//from 2.0 type can be "" so all types
 	public static double SelectAVGEventsOfAType(bool dbconOpened, int sessionID, int personID, string table, string type, string valueToSelect) 
 	{
 		return selectEventsOfAType(dbconOpened, sessionID, personID, table, type, valueToSelect, "AVG");
@@ -823,21 +824,34 @@ class SqliteSession : Sqlite
 		if(!dbconOpened)
 			Sqlite.Open();
 
-		//if personIDString == -1, the applies for all persons
-		
-		string personIDString = "";
-		if(personID != -1)
-			personIDString = " AND personID = " + personID; 
+		string connector = " WHERE "; //WHERE or AND
 		
 		string sessionIDString = "";
 		if(sessionID != -1)
-			sessionIDString = " AND sessionID = " + sessionID; 
+		{
+			sessionIDString = connector + "sessionID = " + sessionID;
+			connector = " AND ";
+		}
+
+		string personIDString = "";
+		if(personID != -1)
+		{
+			personIDString = connector + "personID = " + personID;
+			connector = " AND ";
+		}
+
+		string typeString = "";
+		if(type != "")
+		{
+			typeString = connector + "type = \"" + type + "\"";
+			connector = " AND ";
+		}
 		
 		dbcmd.CommandText = "SELECT " + statistic + "(" + valueToSelect + ")" +
 			" FROM " + table +				
-			" WHERE type = \"" + type + "\" " +
+			sessionIDString +
 			personIDString + 
-			sessionIDString;
+			typeString;
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

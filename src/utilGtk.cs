@@ -509,6 +509,22 @@ public class UtilGtk
 		return ColorIsDark(ColorParse(colorString));
 	}
 
+
+	//darker or clearer
+	public static Gdk.Color GetColorShifted (Gdk.Color color, bool darker)
+	{
+		if(darker)
+			return new Gdk.Color(
+					(byte) Convert.ToDouble(.25 * color.Red),
+					(byte) Convert.ToDouble(.25 * color.Green),
+					(byte) Convert.ToDouble(.25 * color.Blue) );
+		else
+			return new Gdk.Color(
+					(byte) Convert.ToDouble(.25 * (65535 - color.Red)),
+					(byte) Convert.ToDouble(.25 * (65535 - color.Green)),
+					(byte) Convert.ToDouble(.25 * (65535 - color.Blue)) );
+	}
+
 	//if color is too white or too yellow, it will not be ok
 	public static bool ColorIsOkWithLogoTransparent (Gdk.Color color)
 	{

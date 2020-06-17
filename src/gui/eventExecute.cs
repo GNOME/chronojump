@@ -1198,7 +1198,7 @@ public partial class ChronoJumpWindow
 					x = Convert.ToInt32((ancho-event_execute_rightMargin)*(countToDraw-.5)/countJumps)-barDesplLeft +tctfSep;
 					y = calculatePaintHeight(valueToPlot, alto, maxValue, minValue, topMargin, bottomMargin);
 					
-					drawBar(x, y, barWidth, alto, bottomMargin, pen_azul_claro, countToDraw == countJumps,
+					drawBar(x, y, barWidth, alto, bottomMargin, pen_background, countToDraw == countJumps,
 							valueToPlot, layout, animateBar);
 
 					//adjust x for plotSimulatedMessage() and plotTextBelowBar()
@@ -1210,7 +1210,7 @@ public partial class ChronoJumpWindow
 				y = calculatePaintHeight(Util.GetHeightInCentimeters(jump.Tv),
 						alto, maxValue, minValue, topMargin, bottomMargin);
 
-				drawBar(x, y, barWidth, alto, bottomMargin, pen_azul_claro, countToDraw == countJumps,
+				drawBar(x, y, barWidth, alto, bottomMargin, pen_background, countToDraw == countJumps,
 						Util.GetHeightInCentimeters(jump.Tv), layout, animateBar);
 			}
 
@@ -1237,9 +1237,9 @@ public partial class ChronoJumpWindow
 		if(eventGraph.tc > 0 && eventGraph.tv > 0)
 		{
 			if(eventGraph.djShowHeights)
-				addLegend(pen_rojo, Catalog.GetString("Falling height"), pen_azul_claro, Catalog.GetString("Jump height"), layoutSmallMid);
+				addLegend(pen_rojo, Catalog.GetString("Falling height"), pen_background, Catalog.GetString("Jump height"), layoutSmallMid);
 			else
-				addLegend(pen_rojo, Catalog.GetString("Contact time"), pen_azul_claro, Catalog.GetString("Flight time"), layoutSmallMid);
+				addLegend(pen_rojo, Catalog.GetString("Contact time"), pen_background, Catalog.GetString("Flight time"), layoutSmallMid);
 		}
 
 		//paint reference guide black and green if needed
@@ -2754,6 +2754,7 @@ public partial class ChronoJumpWindow
 	Gdk.GC pen_brown_bold; //best tv/tc in rj;
 	Gdk.GC pen_violet_bold; //worst tv/tc in rj
 	Gdk.GC pen_white;
+	Gdk.GC pen_background;
 	
 
 	void event_execute_configureColors()
@@ -2773,6 +2774,7 @@ public partial class ChronoJumpWindow
 		Gdk.Color brown = new Gdk.Color(0xd6,0x88,0x33);
 		Gdk.Color violet = new Gdk.Color(0xc4,0x20,0xf3);
 		Gdk.Color white = new Gdk.Color(0xff,0xff,0xff);
+		Gdk.Color colorBackground = UtilGtk.ColorParse(preferences.colorBackgroundString);
 
 		Gdk.Colormap colormap = Gdk.Colormap.System;
 		colormap.AllocColor (ref UtilGtk.RED_PLOTS, true, true);
@@ -2788,6 +2790,7 @@ public partial class ChronoJumpWindow
 		colormap.AllocColor (ref brown,true,true);
 		colormap.AllocColor (ref violet,true,true);
 		colormap.AllocColor (ref white,true,true);
+		colormap.AllocColor (ref colorBackground,true,true);
 
 		//-- Configurar los contextos graficos (pinceles)
 		pen_rojo = new Gdk.GC(event_execute_drawingarea.GdkWindow);
@@ -2810,6 +2813,7 @@ public partial class ChronoJumpWindow
 		pen_beige_discont = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_brown_bold = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_violet_bold = new Gdk.GC(event_execute_drawingarea.GdkWindow);
+		pen_background = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 
 		
 		pen_rojo.Foreground = UtilGtk.RED_PLOTS;
@@ -2850,6 +2854,8 @@ public partial class ChronoJumpWindow
 		pen_brown_bold.SetLineAttributes(2, Gdk.LineStyle.Solid, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 		pen_violet_bold.Foreground = violet;
 		pen_violet_bold.SetLineAttributes(2, Gdk.LineStyle.Solid, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
+
+		pen_background.Foreground = colorBackground;
 	}
 	void on_event_execute_button_cancel_clicked (object o, EventArgs args)
 	{

@@ -1756,7 +1756,7 @@ public partial class ChronoJumpWindow
 				y = calculatePaintHeight(Convert.ToDouble(run[5])/Convert.ToDouble(run[6]), alto, maxValue, minValue, 
 						topMargin, bottomMargin);
 
-				drawBar(x, y, barWidth, alto, bottomMargin, pen_azul_claro, count == eventGraph.runsAtSQL.Length,
+				drawBar(x, y, barWidth, alto, bottomMargin, pen_background, count == eventGraph.runsAtSQL.Length,
 						Convert.ToDouble(run[5])/Convert.ToDouble(run[6]), layoutMid, animate);//, "", layoutMid, 0, animate);
 			}
 
@@ -1814,7 +1814,7 @@ public partial class ChronoJumpWindow
 			y = calculatePaintHeight(Convert.ToDouble(rts[5]), alto, maxValue, minValue, 
 					topMargin, bottomMargin);
 
-			drawBar(x, y, barWidth, alto, bottomMargin, pen_azul_claro, count == eventGraph.rtsAtSQL.Length,
+			drawBar(x, y, barWidth, alto, bottomMargin, pen_background, count == eventGraph.rtsAtSQL.Length,
 					Convert.ToDouble(rts[5]), layoutMid, animate);//, "", layoutMid, 0, animate);
 
 			count --;
@@ -2831,10 +2831,10 @@ public partial class ChronoJumpWindow
 	//projecte cubevirtual de juan gonzalez
 	
 	Gdk.GC pen_rojo; //tc, also time; jump avg personTc
-	Gdk.GC pen_azul_claro; //tf, also speed and pulse; jump avg personTv. This for bars
+	//Gdk.GC pen_azul_claro; //tf, also speed and pulse; jump avg personTv. This for bars
 	Gdk.GC pen_azul; //tf, also speed and pulse; jump avg personTv. This for lines
 	Gdk.GC pen_rojo_discont; //avg tc in reactive; jump avg sessionTc 
-	Gdk.GC pen_azul_claro_discont; //avg tf in reactive; jump avg sessionTv
+	//Gdk.GC pen_azul_claro_discont; //avg tf in reactive; jump avg sessionTv
 	Gdk.GC pen_azul_discont; //avg tf in reactive; jump avg sessionTv
 	Gdk.GC pen_black; //borders of rectangle
 	Gdk.GC pen_black_90; //max value on the top
@@ -2898,10 +2898,10 @@ public partial class ChronoJumpWindow
 		pen_yellow_discont = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_yellow_bg = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_magenta = new Gdk.GC(event_execute_drawingarea.GdkWindow);
-		pen_azul_claro = new Gdk.GC(event_execute_drawingarea.GdkWindow);
+		//pen_azul_claro = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_azul = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_rojo_discont = new Gdk.GC(event_execute_drawingarea.GdkWindow);
-		pen_azul_claro_discont = new Gdk.GC(event_execute_drawingarea.GdkWindow);
+		//pen_azul_claro_discont = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_azul_discont = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_white= new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_black = new Gdk.GC(event_execute_drawingarea.GdkWindow);
@@ -2918,14 +2918,14 @@ public partial class ChronoJumpWindow
 
 		
 		pen_rojo.Foreground = UtilGtk.RED_PLOTS;
-		pen_azul_claro.Foreground = UtilGtk.LIGHT_BLUE_PLOTS;
+		//pen_azul_claro.Foreground = UtilGtk.LIGHT_BLUE_PLOTS;
 		pen_azul.Foreground = UtilGtk.BLUE_PLOTS;
 		
 		pen_rojo_discont.Foreground = UtilGtk.RED_PLOTS;
-		pen_azul_claro_discont.Foreground = UtilGtk.LIGHT_BLUE_PLOTS;
+		//pen_azul_claro_discont.Foreground = UtilGtk.LIGHT_BLUE_PLOTS;
 		pen_azul_discont.Foreground = UtilGtk.BLUE_PLOTS;
 		pen_rojo_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
-		pen_azul_claro_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
+		//pen_azul_claro_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 		pen_azul_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 		
 		pen_black.Foreground = black;

@@ -100,6 +100,7 @@ public class PrepareEventGraphJumpSimple
 
 
 		string sqlSelect = "";
+		/*
 		if(tv > 0) {
 			if(tc <= 0)
 				sqlSelect = "100*4.9*(TV/2)*(TV/2)";
@@ -111,7 +112,10 @@ public class PrepareEventGraphJumpSimple
 			}
 		} else
 			sqlSelect = "TC";
-		
+		*/
+		//always use heights to be able to do comparisons between different jump types
+		sqlSelect = "100*4.9*(TV/2)*(TV/2)";
+
 		personMAXAtSQLAllSessions = SqliteSession.SelectMAXEventsOfAType(true, -1, personID, table, type, sqlSelect);
 		personMAXAtSQL = SqliteSession.SelectMAXEventsOfAType(true, sessionID, personID, table, type, sqlSelect);
 		sessionMAXAtSQL = SqliteSession.SelectMAXEventsOfAType(true, sessionID, -1, table, type, sqlSelect);

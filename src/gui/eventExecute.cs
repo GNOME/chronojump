@@ -633,7 +633,7 @@ public partial class ChronoJumpWindow
 		
 		double maxValue = 0;
 		double minValue = 0;
-		int topMargin = 20; 
+		int topMargin = 30;
 		int bottomMargin = 0;
 
 		//if max value of graph is automatic
@@ -646,9 +646,10 @@ public partial class ChronoJumpWindow
 
 			foreach(Jump jump in eventGraph.jumpsAtSQL)
 			{
-				double valueToPlot = jump.Tc;
-				if(eventGraph.djShowHeights && eventGraph.tc > 0 && eventGraph.tv > 0)
-					valueToPlot = jump.Fall;
+				//always use fall (cm) to be able to do comparisons between different jump types
+				//double valueToPlot = jump.Tc;
+				//if(eventGraph.djShowHeights)
+					double valueToPlot = jump.Fall;
 
 				if(valueToPlot > maxValue)
 					maxValue = valueToPlot;
@@ -1088,11 +1089,6 @@ public partial class ChronoJumpWindow
 		//note that this could be a problem if there is a jump with Description of several lines and current person, current test is used
 		bool showTextOnBar = true;
 
-		if(eventGraph.tc > 0)
-			addUnitsToLabel("s");
-		else
-			addUnitsToLabel("cm");
-
 		//fix problem on show graph at Chronojump start
 		if(event_execute_drawingarea == null || event_execute_pixmap == null)
 			return;
@@ -1147,23 +1143,59 @@ public partial class ChronoJumpWindow
 
 		drawGuideOrAVG(pen_yellow_discont, eventGraph.personAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
 
-		//paint the 0 line
+		//paint the 0 X line
 		event_execute_pixmap.DrawLine(pen_black_90,
 				10, alto -bottomMargin -1,
 				ancho -10, alto -bottomMargin -1);
+		//paint the 0 Y line
+		event_execute_pixmap.DrawLine(pen_black_90,
+				10, alto -bottomMargin -1,
+				10, topMargin - 5); //-5 to be a bit upper than the horizontal guides
+		//write units
+		//always use fall (cm) to be able to do comparisons between different jump types
+		//if(eventGraph.djShowHeights)
+			layout.SetMarkup("cm");
+		//else
+		//	layout.SetMarkup("s");
+
+		int lWidth = 1;
+		int lHeight = 1;
+		layout.GetPixelSize(out lWidth, out lHeight);
+		event_execute_pixmap.DrawLayout (pen_gris, Convert.ToInt32(10 - .5 * lWidth),
+				Convert.ToInt32(.5 * topMargin -7), layout); //-7 for aligning with Courier 7 font baseline
+
 
 		//calculate separation between series and bar width
-		int tctfSep = 0; //separation between tc and tf
 		int distanceBetweenCols = Convert.ToInt32((ancho-event_execute_rightMargin)*(1+.5)/eventGraph.jumpsAtSQL.Count) -
 			Convert.ToInt32((ancho-event_execute_rightMargin)*(0+.5)/eventGraph.jumpsAtSQL.Count);
 
-		if(eventGraph.tc > 0)
-			tctfSep = Convert.ToInt32(.3*distanceBetweenCols);
+		/*
+		 * check if one bar has to be shown or two
+		 * this is important when we are showing multitests
+		 */
+		bool showBarA = false; //tc or fall
+		bool showBarB = false; //tv
+		foreach(Jump jump in eventGraph.jumpsAtSQL)
+		{
+			/*
+			always use fall (cm) to be able to do comparisons between different jump types
+			if(
+					(eventGraph.djShowHeights && jump.Fall > 0) ||
+					(! eventGraph.djShowHeights && jump.Tc > 0) )
+					*/
+			if(jump.Fall > 0)
+				showBarA = true;
+			if(jump.Tv > 0)
+				showBarB = true;
 
-		//TODO: when we mix tests we need to also manage tctfSep
+			//if both found do not need to search more
+			if(showBarA && showBarB)
+				break;
+		}
 
 		int barWidth = Convert.ToInt32(.3*distanceBetweenCols);
 		int barDesplLeft = Convert.ToInt32(.5*barWidth);
+		int valueABSep = barDesplLeft; //AB bars are separated half of the with of a bar
 
 		bool animateBar = animate;
 		int x = 0;
@@ -1171,52 +1203,67 @@ public partial class ChronoJumpWindow
 
 		foreach(Jump jump in eventGraph.jumpsAtSQL)
 		{
-			//if tc, maybe also tv	
-			if(eventGraph.tc > 0)
+			if(showBarA) //if (tc or fall), maybe also tv
 			{
 				//do not animate last tc, if tv is animated because then tc is not shown
 				if(eventGraph.tv >0)
 					animateBar = false;
 
-				double valueToPlot = jump.Tc;
-				if(eventGraph.djShowHeights && eventGraph.tc > 0 && eventGraph.tv > 0)
-					valueToPlot = jump.Fall;
-
-				x = Convert.ToInt32((ancho-event_execute_rightMargin)*(countToDraw-.5)/countJumps)-barDesplLeft;
-				y = calculatePaintHeight(valueToPlot, alto, maxValue, minValue, topMargin, bottomMargin);
-
-				drawBar(x, y, barWidth, alto, bottomMargin, pen_rojo, countToDraw == countJumps,
-						valueToPlot, layout, animateBar);
-
-				//tv
-				if(eventGraph.tv > 0)
+				/*
+				always use heights to be able to do comparisons between different jump types
+				double valueA = jump.Tc;
+				double valueB = jump.Tv;
+				if(eventGraph.djShowHeights)
 				{
-					valueToPlot = jump.Tv;
-					if(eventGraph.djShowHeights && eventGraph.tc > 0 && eventGraph.tv > 0)
-						valueToPlot = Util.GetHeightInCentimeters(jump.Tv); //jump height
+					valueA = jump.Fall;
+					valueB = Util.GetHeightInCentimeters(jump.Tv); //jump height
+				}
+				*/
+				double valueA = jump.Fall;
+				double valueB = Util.GetHeightInCentimeters(jump.Tv); //jump height
 
-					x = Convert.ToInt32((ancho-event_execute_rightMargin)*(countToDraw-.5)/countJumps)-barDesplLeft +tctfSep;
-					y = calculatePaintHeight(valueToPlot, alto, maxValue, minValue, topMargin, bottomMargin);
-					
-					drawBar(x, y, barWidth, alto, bottomMargin, pen_background, countToDraw == countJumps,
-							valueToPlot, layout, animateBar);
+				if(valueA > 0)
+				{
+					int adjustX = -barDesplLeft;
+					if(valueB > 0)
+						adjustX = Convert.ToInt32(-2 * barDesplLeft -.5 * valueABSep);
 
-					//adjust x for plotSimulatedMessage() and plotTextBelowBar()
-					x -= Convert.ToInt32(.5 * tctfSep);
+					x = Convert.ToInt32((ancho-event_execute_rightMargin)*(countToDraw-.5)/countJumps) + adjustX;
+					y = calculatePaintHeight(valueA, alto, maxValue, minValue, topMargin, bottomMargin);
+
+					drawBar(x, y, barWidth, alto, bottomMargin, pen_background_shifted, countToDraw == countJumps,
+							valueA, layout, animateBar);
 				}
 
-			} else { //has not tc. Show only height
-				x = Convert.ToInt32((ancho-event_execute_rightMargin)*(countToDraw-.5)/countJumps)-barDesplLeft +tctfSep;
-				y = calculatePaintHeight(Util.GetHeightInCentimeters(jump.Tv),
-						alto, maxValue, minValue, topMargin, bottomMargin);
+				if(showBarB && valueB > 0) 	//tv or height
+				{
+					int adjustX = -barDesplLeft;
+					if(valueA > 0)
+						adjustX = Convert.ToInt32(.5 * valueABSep);
 
-				drawBar(x, y, barWidth, alto, bottomMargin, pen_background, countToDraw == countJumps,
-						Util.GetHeightInCentimeters(jump.Tv), layout, animateBar);
+					x = Convert.ToInt32((ancho-event_execute_rightMargin)*(countToDraw-.5)/countJumps) + adjustX;
+					y = calculatePaintHeight(valueB, alto, maxValue, minValue, topMargin, bottomMargin);
+
+					drawBar(x, y, barWidth, alto, bottomMargin, pen_background, countToDraw == countJumps,
+							valueB, layout, animateBar);
+				}
+			} else { //Show only height
+				if(jump.Tv > 0)
+				{
+					x = Convert.ToInt32((ancho-event_execute_rightMargin)*(countToDraw-.5)/countJumps)-barDesplLeft;
+					y = calculatePaintHeight(Util.GetHeightInCentimeters(jump.Tv),
+							alto, maxValue, minValue, topMargin, bottomMargin);
+
+					drawBar(x, y, barWidth, alto, bottomMargin, pen_background, countToDraw == countJumps,
+							Util.GetHeightInCentimeters(jump.Tv), layout, animateBar);
+				}
 			}
 
 			//these two methods are out of drawBar because can be related to two bars TC,TF
 			if(jump.Simulated == -1)
-				plotSimulatedMessage(x + barWidth/2, alto, layout);
+				plotSimulatedMessage(
+						Convert.ToInt32((ancho-event_execute_rightMargin)*(countToDraw-.5)/countJumps),
+						alto, layout);
 
 			if (showTextOnBar && (eventGraph.type == "" || jump.Description != ""))
 			{
@@ -1224,7 +1271,9 @@ public partial class ChronoJumpWindow
 				if (eventGraph.type == "") //if "all jumps" show jump.Type
 					jumpTypeRowString = jump.Type;
 
-				plotTextBelowBar(x + barWidth/2, y, alto,
+				plotTextBelowBar(
+						Convert.ToInt32((ancho-event_execute_rightMargin)*(countToDraw-.5)/countJumps),
+						y, alto,
 						jumpTypeRowString,
 						jump.Description, //is the name of the person
 						layoutText, longestWordSize, maxRowsForText);
@@ -1234,12 +1283,12 @@ public partial class ChronoJumpWindow
 		}
 
 		//add legend box
-		if(eventGraph.tc > 0 && eventGraph.tv > 0)
+		if(showBarA && showBarB)
 		{
-			if(eventGraph.djShowHeights)
-				addLegend(pen_rojo, Catalog.GetString("Falling height"), pen_background, Catalog.GetString("Jump height"), layoutSmallMid);
-			else
-				addLegend(pen_rojo, Catalog.GetString("Contact time"), pen_background, Catalog.GetString("Flight time"), layoutSmallMid);
+			//if(eventGraph.djShowHeights)
+				addLegend (pen_background_shifted, Catalog.GetString("Falling height"), pen_background, Catalog.GetString("Jump height"), layoutSmallMid, ancho, topMargin, true);
+			//else
+			//	addLegend (pen_background_shifted, Catalog.GetString("Contact time"), pen_background, Catalog.GetString("Flight time"), layoutSmallMid, ancho, topMargin, true);
 		}
 
 		//paint reference guide black and green if needed
@@ -1260,6 +1309,8 @@ public partial class ChronoJumpWindow
 		}
 		else {
 			Rectangle rect = new Rectangle(x, y, barWidth, alto-bottomMargin-y-1);
+			//LogB.Information(string.Format("drawBar rect y: {0}, height: {1}", y, alto-bottomMargin-y-1));
+
 			event_execute_pixmap.DrawRectangle(pen_bar_bg, true, rect);
 			event_execute_pixmap.DrawRectangle(pen_black, false, rect);
 
@@ -1303,14 +1354,14 @@ public partial class ChronoJumpWindow
 		return true;
 	}
 
-	private void plotSimulatedMessage(int x, int y, Pango.Layout layout)
+	private void plotSimulatedMessage(int xcenter, int y, Pango.Layout layout)
 	{
 		layout.SetMarkup(event_execute_label_simulated);
 		int lWidth = 1;
 		int lHeight = 1;
 		layout.GetPixelSize(out lWidth, out lHeight); 
 		event_execute_pixmap.DrawLayout (pen_gris,
-				Convert.ToInt32(x - lWidth/2), 
+				Convert.ToInt32(xcenter - lWidth/2),
 				y - lHeight,
 				layout);
 	}
@@ -1523,11 +1574,11 @@ public partial class ChronoJumpWindow
 		//radio_contacts_graph_currentTest.Label = radio_contacts_graph_currentTest.Label + " (" + unit + ")";
 	}
 
-	private void addLegend(Gdk.GC pen1, string text1, Gdk.GC pen2, string text2, Pango.Layout layout)
+	private void addLegend (Gdk.GC pen1, string text1, Gdk.GC pen2, string text2, Pango.Layout layout, int ancho, int topMargin, bool horizontal)
 	{
 		int marginOut = 2;
 		int marginIn = 2;
-		int boxSize = 9;
+		int boxSize = 9; //the colored rectangle drawn
 
 		layout.SetMarkup(text1);
 		int lWidth1 = 1;
@@ -1539,31 +1590,76 @@ public partial class ChronoJumpWindow
 		int lHeight2 = 1;
 		layout.GetPixelSize(out lWidth2, out lHeight2);
 
-		int maxWidth = lWidth1;
-		if(lWidth2 > maxWidth)
-			maxWidth = lWidth2;
-		maxWidth += 2 * marginIn + boxSize;
+		if (horizontal)
+			addLegendH (pen1, text1, pen2, text2, layout, ancho, topMargin, marginOut, marginIn, boxSize, lWidth1, lHeight1, lWidth2, lHeight2);
+		else
+			addLegendV (pen1, text1, pen2, text2, layout, ancho, topMargin, marginOut, marginIn, boxSize, lWidth1, lHeight1, lWidth2, lHeight2);
+	}
 
-		int totalHeight = lHeight1 + lHeight2 + 4 * marginIn;
+	private void addLegendH (Gdk.GC pen1, string text1, Gdk.GC pen2, string text2, Pango.Layout layout, int ancho, int topMargin,
+			int marginOut, int marginIn, int boxSize, int lWidth1, int lHeight1, int lWidth2, int lHeight2)
+	{
+		int horizVarSep = 6 * marginIn; //horizontal separation between variables
+		int totalWidth = lWidth1 + lWidth2 + 2 * boxSize + 2 * marginIn + horizVarSep; //8 * marginIn (2 are the margins, and 6 the separation between variables)
+		int marginLeft = Convert.ToInt32(.5 * ancho - .5 * totalWidth);
+
+		int maxHeight = lHeight1;
+		if(lHeight2 > maxHeight)
+			maxHeight = lHeight2;
+		int totalHeight = 2 * marginIn + maxHeight;
+		int marginTop = Convert.ToInt32(.5 * topMargin - .5 * totalHeight);
 
 		//A rectangle drawn filled is 1 pixel smaller in both dimensions than a rectangle outlined.
-		Rectangle rect = new Rectangle(marginOut -1, marginOut -1,  maxWidth +1, totalHeight +1);
-		event_execute_pixmap.DrawRectangle(pen_yellow_bg, false, rect);
-		rect = new Rectangle(marginOut, marginOut,  maxWidth, totalHeight);
+		//Rectangle rect = new Rectangle(marginLeft + marginOut -1, marginTop + marginOut -1,  totalWidth +1, totalHeight +1);
+		//event_execute_pixmap.DrawRectangle(pen_yellow_bg, false, rect);
+		Rectangle rect = new Rectangle(marginLeft + marginOut, marginTop + marginOut,  totalWidth, totalHeight);
 		event_execute_pixmap.DrawRectangle(pen_white, true, rect); //filled
 
 		//box of text1 && text2
-		rect = new Rectangle(marginOut + marginIn, marginOut + marginIn + 2, boxSize, boxSize); //+2 to align similar to text
+		rect = new Rectangle(marginLeft + marginOut + marginIn, marginTop + marginOut + marginIn + 2, boxSize, boxSize); //+2 to align similar to text
 		event_execute_pixmap.DrawRectangle(pen1, true, rect); //filled
 
-		rect = new Rectangle(marginOut + marginIn, 2 * (marginOut + marginIn) + 2 + lHeight1, boxSize, boxSize);
+		rect = new Rectangle(marginLeft + marginOut + marginIn + boxSize + marginIn + lWidth1 + horizVarSep, marginTop + marginOut + marginIn + 2, boxSize, boxSize);
 		event_execute_pixmap.DrawRectangle(pen2, true, rect); //filled
 
 		//write text
 		layout.SetMarkup(text1);
-		event_execute_pixmap.DrawLayout (pen_black, marginOut + 2 * marginIn + boxSize, marginOut + marginIn, layout);
+		event_execute_pixmap.DrawLayout (pen_black, marginLeft + marginOut + 2 * marginIn + boxSize, marginTop + marginOut + marginIn, layout);
 		layout.SetMarkup(text2);
-		event_execute_pixmap.DrawLayout (pen_black, marginOut + 2 * marginIn + boxSize, 2 * (marginOut + marginIn) + lHeight1, layout);
+		event_execute_pixmap.DrawLayout (pen_black, marginLeft + marginOut + marginIn + boxSize + marginIn + lWidth1 + horizVarSep + boxSize + marginIn, marginTop + marginOut + marginIn, layout);
+	}
+
+	private void addLegendV (Gdk.GC pen1, string text1, Gdk.GC pen2, string text2, Pango.Layout layout, int ancho, int topMargin,
+			int marginOut, int marginIn, int boxSize, int lWidth1, int lHeight1, int lWidth2, int lHeight2)
+	{
+		int maxWidth = lWidth1;
+		if(lWidth2 > maxWidth)
+			maxWidth = lWidth2;
+		maxWidth += 2 * marginIn + boxSize;
+		int marginLeft = Convert.ToInt32(.5 * ancho - .5 * maxWidth);
+
+		int totalHeight = lHeight1 + lHeight2 + 4 * marginIn;
+		int marginTop = Convert.ToInt32(.5 * topMargin - .5 * totalHeight);
+		//TODO: need to implement marginTop below
+
+		//A rectangle drawn filled is 1 pixel smaller in both dimensions than a rectangle outlined.
+		Rectangle rect = new Rectangle(marginLeft + marginOut -1, marginOut -1,  maxWidth +1, totalHeight +1);
+		event_execute_pixmap.DrawRectangle(pen_yellow_bg, false, rect);
+		rect = new Rectangle(marginLeft + marginOut, marginOut,  maxWidth, totalHeight);
+		event_execute_pixmap.DrawRectangle(pen_white, true, rect); //filled
+
+		//box of text1 && text2
+		rect = new Rectangle(marginLeft + marginOut + marginIn, marginOut + marginIn + 2, boxSize, boxSize); //+2 to align similar to text
+		event_execute_pixmap.DrawRectangle(pen1, true, rect); //filled
+
+		rect = new Rectangle(marginLeft + marginOut + marginIn, 2 * (marginOut + marginIn) + 2 + lHeight1, boxSize, boxSize);
+		event_execute_pixmap.DrawRectangle(pen2, true, rect); //filled
+
+		//write text
+		layout.SetMarkup(text1);
+		event_execute_pixmap.DrawLayout (pen_black, marginLeft + marginOut + 2 * marginIn + boxSize, marginOut + marginIn, layout);
+		layout.SetMarkup(text2);
+		event_execute_pixmap.DrawLayout (pen_black, marginLeft + marginOut + 2 * marginIn + boxSize, 2 * (marginOut + marginIn) + lHeight1, layout);
 	}
 
 	private void paintRunSimple (Gtk.DrawingArea drawingarea, PrepareEventGraphRunSimple eventGraph,
@@ -2755,6 +2851,7 @@ public partial class ChronoJumpWindow
 	Gdk.GC pen_violet_bold; //worst tv/tc in rj
 	Gdk.GC pen_white;
 	Gdk.GC pen_background;
+	Gdk.GC pen_background_shifted; //bit darker or lighter than background depending on if background is dark
 	
 
 	void event_execute_configureColors()
@@ -2775,6 +2872,8 @@ public partial class ChronoJumpWindow
 		Gdk.Color violet = new Gdk.Color(0xc4,0x20,0xf3);
 		Gdk.Color white = new Gdk.Color(0xff,0xff,0xff);
 		Gdk.Color colorBackground = UtilGtk.ColorParse(preferences.colorBackgroundString);
+		Gdk.Color colorBackgroundShifted = UtilGtk.GetColorShifted (colorBackground,
+				! UtilGtk.ColorIsDark(colorBackground));
 
 		Gdk.Colormap colormap = Gdk.Colormap.System;
 		colormap.AllocColor (ref UtilGtk.RED_PLOTS, true, true);
@@ -2791,6 +2890,7 @@ public partial class ChronoJumpWindow
 		colormap.AllocColor (ref violet,true,true);
 		colormap.AllocColor (ref white,true,true);
 		colormap.AllocColor (ref colorBackground,true,true);
+		colormap.AllocColor (ref colorBackgroundShifted,true,true);
 
 		//-- Configurar los contextos graficos (pinceles)
 		pen_rojo = new Gdk.GC(event_execute_drawingarea.GdkWindow);
@@ -2814,6 +2914,7 @@ public partial class ChronoJumpWindow
 		pen_brown_bold = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_violet_bold = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_background = new Gdk.GC(event_execute_drawingarea.GdkWindow);
+		pen_background_shifted = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 
 		
 		pen_rojo.Foreground = UtilGtk.RED_PLOTS;
@@ -2856,6 +2957,7 @@ public partial class ChronoJumpWindow
 		pen_violet_bold.SetLineAttributes(2, Gdk.LineStyle.Solid, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 
 		pen_background.Foreground = colorBackground;
+		pen_background_shifted.Foreground = colorBackgroundShifted;
 	}
 	void on_event_execute_button_cancel_clicked (object o, EventArgs args)
 	{

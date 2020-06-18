@@ -85,7 +85,43 @@ class SqliteRun : Sqlite
 
 		return myLast;
 	}
-	
+
+	//note this is selecting also the person.name
+	private static string selectRunsCreateSelection (int sessionID, int personID, string filterType,
+			Orders_by order, int limit) 
+	{
+		string tp = Constants.PersonTable;
+
+		string filterSessionString = "";
+		if(sessionID != -1)
+			filterSessionString = " AND run.sessionID = " + sessionID;
+
+		string filterPersonString = "";
+		if(personID != -1)
+			filterPersonString = " AND " + tp + ".uniqueID = " + personID;
+
+		string filterTypeString = "";
+		if(filterType != "")
+			filterTypeString = " AND run.type = \"" + filterType + "\" " ;
+
+		string orderByString = " ORDER BY upper(" + tp + ".name), run.uniqueID ";
+		if(order == Orders_by.ID_DESC)
+			orderByString = " ORDER BY run.uniqueID DESC ";
+
+		string limitString = "";
+		if(limit != -1)
+			limitString = " LIMIT " + limit;
+
+		return "SELECT " + tp + ".name, run.* " +
+			" FROM " + tp + ", run " +
+			" WHERE " + tp + ".uniqueID = run.personID" +
+			filterSessionString +
+			filterPersonString +
+			filterTypeString +
+			orderByString +
+			limitString;
+	}
+
 	//like SelectRuns, but this returns a string[] :( better use below method if possible
 	//if all sessions, put -1 in sessionID
 	//if all persons, put -1 in personID
@@ -93,42 +129,12 @@ class SqliteRun : Sqlite
 	//unlimited put -1 in limit
 	//SA for String Array
 	public static string[] SelectRunsSA (bool dbconOpened, int sessionID, int personID, string filterType,
-			Orders_by order, int limit) 
+			Orders_by order, int limit)
 	{
 		if(!dbconOpened)
 			Sqlite.Open();
 
-		string tp = Constants.PersonTable;
-
-		string filterSessionString = "";
-		if(sessionID != -1)
-			filterSessionString = " AND run.sessionID == " + sessionID;
-
-		string filterPersonString = "";
-		if(personID != -1)
-			filterPersonString = " AND " + tp + ".uniqueID == " + personID;
-
-		string filterTypeString = "";
-		if(filterType != "")
-			filterTypeString = " AND run.type == \"" + filterType + "\" " ;
-
-		string orderByString = " ORDER BY upper(" + tp + ".name), run.uniqueID ";
-		if(order == Orders_by.ID_DESC)
-			orderByString = " ORDER BY run.uniqueID DESC ";
-		
-		string limitString = "";
-		if(limit != -1)
-			limitString = " LIMIT " + limit;
-
-
-		dbcmd.CommandText = "SELECT " + tp + ".name, run.* " +
-			" FROM " + tp + ", run " +
-			" WHERE " + tp + ".uniqueID == run.personID" + 
-			filterSessionString +
-			filterPersonString +
-			filterTypeString +
-			orderByString +
-			limitString;
+		dbcmd.CommandText = selectRunsCreateSelection (sessionID, personID, filterType, order, limit);
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

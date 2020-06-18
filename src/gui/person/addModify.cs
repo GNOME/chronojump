@@ -1186,7 +1186,7 @@ public class PersonAddModifyWindow
 		}
 
 		//convert margarias (it's power is calculated using weight and it's written on description)
-		string [] myMargarias = SqliteRun.SelectRuns(false, currentSession.UniqueID, currentPerson.UniqueID, "Margaria",
+		string [] myMargarias = SqliteRun.SelectRunsSA (false, currentSession.UniqueID, currentPerson.UniqueID, "Margaria",
 				Sqlite.Orders_by.DEFAULT, -1);
 
 		foreach(string myStr in myMargarias) {

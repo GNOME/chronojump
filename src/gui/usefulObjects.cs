@@ -177,7 +177,7 @@ public class PrepareEventGraphRunSimple {
 		Sqlite.Open();
 		
 		//obtain data
-		runsAtSQL = SqliteRun.SelectRuns(true, sessionID, personID, type,
+		runsAtSQL = SqliteRun.SelectRunsSA (true, sessionID, personID, type,
 				Sqlite.Orders_by.ID_DESC, 10); //select only last 10
 
 		

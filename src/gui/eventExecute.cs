@@ -2731,9 +2731,8 @@ public partial class ChronoJumpWindow
 	{
 		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
 			updateGraphJumpsSimple ();
-
-
-		//TODO: run simple, rt
+		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSSIMPLE)
+			updateGraphRunsSimple ();
 	}
 
 	private void on_radio_contacts_graph_test_toggled (object o, EventArgs args)

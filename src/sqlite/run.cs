@@ -22,6 +22,7 @@ using System;
 using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
+using System.Collections.Generic; //List<T>
 using Mono.Data.Sqlite;
 
 
@@ -174,6 +175,59 @@ class SqliteRun : Sqlite
 		}
 
 		return myRuns;
+	}
+
+        /*
+         * like SelectRunsSA above method but much better: return list of Run
+         * sID -1 means all sessions
+         * pID -1 means all persons
+         * runType "" means all runs
+         * limit -1 means no limit
+         * personNameInComment is used to be able to display names in graphs
+         *   because event.PersonName makes individual SQL SELECTs
+         */
+
+	public static List<Run> SelectRuns (bool dbconOpened, int sessionID, int personID, string runType,
+			Orders_by order, int limit, bool personNameInComment)
+	{
+		dbcmd.CommandText = selectRunsCreateSelection (sessionID, personID, runType, order, limit);
+		LogB.SQL(dbcmd.CommandText.ToString());
+
+		if(! dbconOpened)
+			Sqlite.Open();
+
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		List<Run> run_l = new List<Run>();
+
+		while(reader.Read())
+		{
+			Run run = new Run(
+					Convert.ToInt32(reader[1].ToString()),	//run.uniqueID
+					Convert.ToInt32(reader[2].ToString()), 	//run.personID
+					Convert.ToInt32(reader[3].ToString()), 	//run.sessionID
+					reader[4].ToString(), 	//run.type
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[5].ToString())), //run.distance
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[6].ToString())), //run.time
+					reader[7].ToString(), 	//description
+					Convert.ToInt32(reader[8].ToString()),	//simulated
+					Util.IntToBool(Convert.ToInt32(reader[9])) //initialSpeed
+					);
+
+			if(personNameInComment)
+				run.Description = reader[0].ToString();
+
+			run_l.Add(run);
+		}
+
+		reader.Close();
+
+		if(!dbconOpened)
+			Sqlite.Close();
+
+		return run_l;
 	}
 
 	public static Run SelectRunData(int uniqueID, bool dbconOpened)

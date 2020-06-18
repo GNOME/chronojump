@@ -83,7 +83,8 @@ public class RunExecute : EventExecute
 			double progressbarLimit, ExecutingGraphData egd,
 			Constants.DoubleContact checkDoubleContactMode, int checkDoubleContactTime, 
 			bool speedStartArrival, bool measureReactionTime,
-			Gtk.Image image_run_execute_running, Gtk.Image image_run_execute_photocell
+			Gtk.Image image_run_execute_running, Gtk.Image image_run_execute_photocell,
+			int graphLimit, bool graphAllTypes, bool graphAllPersons
 			)
 	{
 		this.personID = personID;
@@ -106,6 +107,9 @@ public class RunExecute : EventExecute
 		this.measureReactionTime = measureReactionTime;
 		this.image_run_execute_running = image_run_execute_running;
 		this.image_run_execute_photocell = image_run_execute_photocell;
+		this.graphLimit = graphLimit;
+		this.graphAllTypes = graphAllTypes;
+		this.graphAllPersons = graphAllPersons;
 
 		reactionTimeMS = 0;
 
@@ -702,8 +706,15 @@ public class RunExecute : EventExecute
 		//define the created object
 		eventDone = new Run(uniqueID, personID, sessionID, type, distance, trackTime, description, Util.BoolToNegativeInt(simulated), !startIn);
 
+		if(graphAllTypes)
+			type = "";
+
 		//app1.PrepareRunSimpleGraph(time, distance/time);
-		PrepareEventGraphRunSimpleObject = new PrepareEventGraphRunSimple(trackTime, distance/trackTime, sessionID, personID, table, type);
+		PrepareEventGraphRunSimpleObject = new PrepareEventGraphRunSimple(
+				trackTime, distance/trackTime, sessionID,
+				personID, graphAllPersons, graphLimit,
+				table, type);
+
 		needUpdateGraphType = eventType.RUN;
 		needUpdateGraph = true;
 		

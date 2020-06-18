@@ -1487,7 +1487,7 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		string [] myRuns = SqliteRun.SelectRuns(dbconOpened, currentSession.UniqueID, -1, "",
+		string [] myRuns = SqliteRun.SelectRunsSA (dbconOpened, currentSession.UniqueID, -1, "",
 				Sqlite.Orders_by.DEFAULT, -1);
 
 		myTreeViewRuns.Fill(myRuns, filter);

@@ -86,11 +86,13 @@ class SqliteRun : Sqlite
 		return myLast;
 	}
 	
+	//like SelectRuns, but this returns a string[] :( better use below method if possible
 	//if all sessions, put -1 in sessionID
 	//if all persons, put -1 in personID
 	//if all types, put "" in filterType
 	//unlimited put -1 in limit
-	public static string[] SelectRuns(bool dbconOpened, int sessionID, int personID, string filterType,
+	//SA for String Array
+	public static string[] SelectRunsSA (bool dbconOpened, int sessionID, int personID, string filterType,
 			Orders_by order, int limit) 
 	{
 		if(!dbconOpened)

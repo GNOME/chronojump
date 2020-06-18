@@ -1039,7 +1039,7 @@ public class RunsMoreWindow : EventMoreWindow
 	}
 
 	protected override string [] findTestTypesInSessions() {
-		return SqliteRun.SelectRuns(false, -1, -1, selectedEventName,
+		return SqliteRun.SelectRunsSA (false, -1, -1, selectedEventName,
 				Sqlite.Orders_by.DEFAULT, -1);
 	}
 

@@ -20,7 +20,7 @@
 
 using System;
 using System.Data;
-
+using System.Collections.Generic; //List
 using System.Threading;
 using Mono.Unix;
 
@@ -78,6 +78,15 @@ public class Run : Event
 		this.initialSpeed = Util.IntToBool(Convert.ToInt32(eventString[8]));
 	}
 	
+	public static List<Event> RunListToEventList(List<Run> runs)
+	{
+		List<Event> events = new List<Event>();
+		foreach(Run run in runs)
+			events.Add((Event) run);
+
+		return events;
+	}
+
 
 	public override int InsertAtDB (bool dbconOpened, string tableName) {
 		return SqliteRun.Insert(dbconOpened, tableName, 

@@ -21,7 +21,7 @@
 using System;
 using System.Data;
 using System.Text; //StringBuilder
-
+using System.Collections.Generic; //List
 using Mono.Unix;
 
 public class Jump : Event 
@@ -74,6 +74,14 @@ public class Jump : Event
 		this.datetime = eventString[11];
 	}
 
+	public static List<Event> JumpListToEventList(List<Jump> jumps)
+	{
+		List<Event> events = new List<Event>();
+		foreach(Jump jump in jumps)
+			events.Add((Event) jump);
+
+		return events;
+	}
 
 	public override int InsertAtDB (bool dbconOpened, string tableName) {
 		return SqliteJump.Insert(dbconOpened, tableName, 

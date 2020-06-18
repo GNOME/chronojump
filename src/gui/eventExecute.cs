@@ -393,8 +393,8 @@ public partial class ChronoJumpWindow
 	
 	private void showReactionTimeLabels() 
 	{
-		event_graph_label_graph_test.Visible = false;
-		hbox_contacts_simple_graph_controls.Visible = true;
+		event_graph_label_graph_test.Visible = true;
+		hbox_contacts_simple_graph_controls.Visible = false;
 
 		check_vbox_contacts_graph_legend.Visible = true;
 		//vbox_contacts_graph_legend.Visible = false;

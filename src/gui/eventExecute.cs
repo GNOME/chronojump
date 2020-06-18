@@ -826,7 +826,7 @@ public partial class ChronoJumpWindow
 	
 		double maxValue = 0;
 		double minValue = 0;
-		int topMargin = 20; 
+		int topMargin = 30;
 		int bottomMargin = 0; 
 
 		//if max value of graph is automatic
@@ -1143,27 +1143,7 @@ public partial class ChronoJumpWindow
 
 		drawGuideOrAVG(pen_yellow_discont, eventGraph.personAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
 
-		//paint the 0 X line
-		event_execute_pixmap.DrawLine(pen_black_90,
-				10, alto -bottomMargin -1,
-				ancho -10, alto -bottomMargin -1);
-		//paint the 0 Y line
-		event_execute_pixmap.DrawLine(pen_black_90,
-				10, alto -bottomMargin -1,
-				10, topMargin - 5); //-5 to be a bit upper than the horizontal guides
-		//write units
-		//always use fall (cm) to be able to do comparisons between different jump types
-		//if(eventGraph.djShowHeights)
-			layout.SetMarkup("cm");
-		//else
-		//	layout.SetMarkup("s");
-
-		int lWidth = 1;
-		int lHeight = 1;
-		layout.GetPixelSize(out lWidth, out lHeight);
-		event_execute_pixmap.DrawLayout (pen_gris, Convert.ToInt32(10 - .5 * lWidth),
-				Convert.ToInt32(.5 * topMargin -7), layout); //-7 for aligning with Courier 7 font baseline
-
+		paintSimpleAxis(ancho, alto, topMargin, bottomMargin, layout, "cm");
 
 		//calculate separation between series and bar width
 		int distanceBetweenCols = Convert.ToInt32((ancho-event_execute_rightMargin)*(1+.5)/eventGraph.jumpsAtSQL.Count) -
@@ -1352,6 +1332,26 @@ public partial class ChronoJumpWindow
 		}
 
 		return true;
+	}
+
+	private void paintSimpleAxis(int ancho, int alto, int topMargin, int bottomMargin, Pango.Layout layout, string text)
+	{
+		// 1) paint the 0 X line
+		event_execute_pixmap.DrawLine(pen_black_90,
+				10, alto -bottomMargin -1,
+				ancho -10, alto -bottomMargin -1);
+		// 2) paint the 0 Y line
+		event_execute_pixmap.DrawLine(pen_black_90,
+				10, alto -bottomMargin -1,
+				10, topMargin - 5); //-5 to be a bit upper than the horizontal guides
+		// 3) write units
+		layout.SetMarkup(text);
+
+		int lWidth = 1;
+		int lHeight = 1;
+		layout.GetPixelSize(out lWidth, out lHeight);
+		event_execute_pixmap.DrawLayout (pen_gris, Convert.ToInt32(10 - .5 * lWidth),
+				Convert.ToInt32(.5 * topMargin -7), layout); //-7 for aligning with Courier 7 font baseline
 	}
 
 	private void plotSimulatedMessage(int xcenter, int y, Pango.Layout layout)
@@ -1668,7 +1668,6 @@ public partial class ChronoJumpWindow
 	{
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
-		addUnitsToLabel("m/s");
 
 		//fix problem on show graph at Chronojump start
 		if(event_execute_drawingarea == null ||
@@ -1734,10 +1733,7 @@ public partial class ChronoJumpWindow
 
 		drawGuideOrAVG(pen_yellow_discont, eventGraph.personAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
 
-		//paint the 0 line
-		event_execute_pixmap.DrawLine(pen_black_90,
-				10, alto -bottomMargin -1,
-				ancho -10, alto -bottomMargin -1);
+		paintSimpleAxis(ancho, alto, topMargin, bottomMargin, layoutSmallMid, "m/s");
 
 		//calculate bar width
 		int distanceBetweenCols = Convert.ToInt32((ancho-event_execute_rightMargin)*(1+.5)/eventGraph.runsAtSQL.Length) -

@@ -273,10 +273,10 @@ public partial class ChronoJumpWindow
 		if(radio_contacts_graph_allTests.Active)
 			typeTemp = "";
 
-
 		PrepareEventGraphJumpSimple eventGraph = new PrepareEventGraphJumpSimple(
 				tv, tc, currentSession.UniqueID,
-				currentPerson.UniqueID, radio_contacts_graph_allPersons.Active, Convert.ToInt32(spin_contacts_graph_last_limit.Value),
+				currentPerson.UniqueID, radio_contacts_graph_allPersons.Active,
+				Convert.ToInt32(spin_contacts_graph_last_limit.Value),
 				Constants.JumpTable, typeTemp, preferences.jumpsDjGraphHeights);
 		
 		if(eventGraph.personMAXAtSQLAllSessions > 0 || eventGraph.jumpsAtSQL.Count > 0)

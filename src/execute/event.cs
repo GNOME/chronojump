@@ -80,7 +80,7 @@ public class EventExecute
 	protected bool volumeOn;
 	protected Preferences.GstreamerTypes gstreamer;
 	protected int graphLimit;
-	protected bool graphAllJumps;
+	protected bool graphAllTypes;
 	protected bool graphAllPersons;
 	protected double progressbarLimit;
 	protected RepetitiveConditionsWindow repetitiveConditionsWin;

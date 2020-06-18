@@ -157,7 +157,7 @@ public class PrepareEventGraphJumpReactive {
 
 public class PrepareEventGraphRunSimple {
 	//sql data of previous runs to plot graph and show stats at bottom
-	public string [] runsAtSQL;
+	public List<Run> runsAtSQL;
 	
 	public double personMAXAtSQLAllSessions;
 	public double personMAXAtSQL;
@@ -168,17 +168,25 @@ public class PrepareEventGraphRunSimple {
 	
 	public double time;
 	public double speed;
+	public string type; //jumpType (useful to know if "all jumps" (type == "")
 
 	public PrepareEventGraphRunSimple() {
 	}
 
-	public PrepareEventGraphRunSimple(double time, double speed, int sessionID, int personID, string table, string type) 
+	public PrepareEventGraphRunSimple(double time, double speed, int sessionID,
+			int personID, bool allPersons, int limit,
+			string table, string type)
 	{
 		Sqlite.Open();
 		
+		int personIDTemp = personID;
+		if(allPersons)
+			personIDTemp = -1;
+
 		//obtain data
-		runsAtSQL = SqliteRun.SelectRunsSA (true, sessionID, personID, type,
-				Sqlite.Orders_by.ID_DESC, 10); //select only last 10
+		runsAtSQL = SqliteRun.SelectRuns (true, sessionID, personIDTemp, type,
+				Sqlite.Orders_by.ID_DESC, limit,
+				allPersons); //show names on comments only if "all persons"
 
 		
 		string sqlSelect = "distance/time";
@@ -199,6 +207,7 @@ public class PrepareEventGraphRunSimple {
 		
 		this.time = time;
 		this.speed = speed;
+		this.type = type;
 		
 		Sqlite.Close();
 	}

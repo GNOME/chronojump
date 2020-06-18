@@ -1122,9 +1122,10 @@ public partial class ChronoJumpWindow
 		int longestWordSize = 0;
 		if (showTextOnBar)
 		{
-			longestWordSize = findLongestWordSize (eventGraph.jumpsAtSQL, eventGraph.type == ""); // condition for "all jumps"
-			layoutText = calculateLayoutFontForText (eventGraph.jumpsAtSQL, longestWordSize, layoutText, ancho);
-			maxRowsForText = calculateMaxRowsForText (eventGraph.jumpsAtSQL, longestWordSize, eventGraph.type == ""); //also adds +1 if simulated
+			List<Event> events = Jump.JumpListToEventList(eventGraph.jumpsAtSQL);
+			longestWordSize = findLongestWordSize (events, eventGraph.type == ""); // condition for "all jumps"
+			layoutText = calculateLayoutFontForText (events, longestWordSize, layoutText, ancho);
+			maxRowsForText = calculateMaxRowsForText (events, longestWordSize, eventGraph.type == ""); //also adds +1 if simulated
 			bottomMargin = calculateBottomMarginForText (maxRowsForText, layoutText);
 		}
 
@@ -1146,8 +1147,8 @@ public partial class ChronoJumpWindow
 		paintSimpleAxis(ancho, alto, topMargin, bottomMargin, layout, "cm");
 
 		//calculate separation between series and bar width
-		int distanceBetweenCols = Convert.ToInt32((ancho-event_execute_rightMargin)*(1+.5)/eventGraph.jumpsAtSQL.Count) -
-			Convert.ToInt32((ancho-event_execute_rightMargin)*(0+.5)/eventGraph.jumpsAtSQL.Count);
+		int distanceBetweenCols = Convert.ToInt32((ancho-event_execute_rightMargin)*(1+.5)/countJumps) -
+			Convert.ToInt32((ancho-event_execute_rightMargin)*(0+.5)/countJumps);
 
 		/*
 		 * check if one bar has to be shown or two
@@ -1366,11 +1367,11 @@ public partial class ChronoJumpWindow
 				layout);
 	}
 
-	private int calculateMaxRowsForText (List<Jump> jumps, int longestWordSize, bool allJumps)
+	private int calculateMaxRowsForText (List<Event> events, int longestWordSize, bool allJumps)
 	{
 		int maxRows = 0;
 
-		foreach(Jump jump in jumps)
+		foreach(Event ev in events)
 		{
 			int rows = 0;
 			if(allJumps) 			//to write the jump type (1st the jump type because it's only one row)
@@ -1378,7 +1379,7 @@ public partial class ChronoJumpWindow
 
 			//try to pack small words if they fit in a row using wordsAccu (accumulated)
 			string wordsAccu = "";
-			string [] words = jump.Description.Split(new char[] {' '});
+			string [] words = ev.Description.Split(new char[] {' '});
 
 			foreach(string word in words)
 			{
@@ -1394,7 +1395,7 @@ public partial class ChronoJumpWindow
 			if(wordsAccu != "")
 				rows ++;
 
-			if(jump.Simulated == -1) //to write simulated at bottom
+			if(ev.Simulated == -1) //to write simulated at bottom
 				rows ++;
 
 			if(rows > maxRows)
@@ -1415,13 +1416,13 @@ public partial class ChronoJumpWindow
 		return lHeight * maxRows;
 	}
 
-	private int findLongestWordSize (List<Jump> jumps, bool allJumps)
+	private int findLongestWordSize (List<Event> events, bool allTypes)
 	{
 		int longestWordSize = 0;
 
-		foreach(Jump jump in jumps)
+		foreach(Event ev in events)
 		{
-			string [] textArray = jump.Description.Split(new char[] {' '});
+			string [] textArray = ev.Description.Split(new char[] {' '});
 			foreach(string text in textArray)
 			{
 				if(text.Length > longestWordSize)
@@ -1430,17 +1431,17 @@ public partial class ChronoJumpWindow
 
 			//note jump type will be in one line
 			//TODO: check it in local user language (Catalog)
-			if(allJumps && jump.Type.Length > longestWordSize)
-				longestWordSize = jump.Type.Length;
+			if(allTypes && ev.Type.Length > longestWordSize)
+				longestWordSize = ev.Type.Length;
 
-			if(jump.Simulated == -1 && event_execute_label_simulated.Length > longestWordSize)
+			if(ev.Simulated == -1 && event_execute_label_simulated.Length > longestWordSize)
 				longestWordSize = event_execute_label_simulated.Length;
 		}
 
 		return longestWordSize;
 	}
 
-	private Pango.Layout calculateLayoutFontForText (List<Jump> jumps, int longestWordSize, Pango.Layout layout, int ancho)
+	private Pango.Layout calculateLayoutFontForText (List<Event> events, int longestWordSize, Pango.Layout layout, int ancho)
 	{
 		// 1) set marginBetweenTexts to 1.1 character
 		layout.SetMarkup("a");
@@ -1457,7 +1458,7 @@ public partial class ChronoJumpWindow
 		layout.GetPixelSize(out lWidth, out lHeight);
 
 		// 3) if longestWord * jumps.Count does not fit, iterate to find correct font size
-		if(jumps.Count * (lWidth + marginBetweenTexts) > ancho)
+		if(events.Count * (lWidth + marginBetweenTexts) > ancho)
 		{
 			int i = 1;
 			do {
@@ -1469,7 +1470,7 @@ public partial class ChronoJumpWindow
 				layout.GetPixelSize(out lWidth, out lHeight);
 
 				i ++;
-			} while (jumps.Count * (lWidth + marginBetweenTexts) > ancho);
+			} while (events.Count * (lWidth + marginBetweenTexts) > ancho);
 		}
 
 		return layout;
@@ -1669,6 +1670,10 @@ public partial class ChronoJumpWindow
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
 
+		//person name or test type
+		//note that this could be a problem if there is a run with Description of several lines and current person, current test is used
+		bool showTextOnBar = true;
+
 		//fix problem on show graph at Chronojump start
 		if(event_execute_drawingarea == null ||
 				event_execute_pixmap == null ||
@@ -1709,7 +1714,20 @@ public partial class ChronoJumpWindow
 		drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 		*/
 
-		//blue for TF
+		int countToDraw = eventGraph.runsAtSQL.Count;
+		int countRuns = eventGraph.runsAtSQL.Count;
+		int maxRowsForText = 0;
+
+		Pango.Layout layoutText = layoutMid;
+		int longestWordSize = 0;
+		if (showTextOnBar)
+		{
+			List<Event> events = Run.RunListToEventList(eventGraph.runsAtSQL);
+			longestWordSize = findLongestWordSize (events, eventGraph.type == ""); // condition for "all runs"
+			layoutText = calculateLayoutFontForText (events, longestWordSize, layoutText, ancho);
+			maxRowsForText = calculateMaxRowsForText (events, longestWordSize, eventGraph.type == ""); //also adds +1 if simulated
+			bottomMargin = calculateBottomMarginForText (maxRowsForText, layoutText);
+		}
 			
 		drawGuideOrAVG(pen_black_90, eventGraph.sessionMAXAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
 		drawGuideOrAVG(pen_black_discont, eventGraph.sessionAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
@@ -1721,7 +1739,7 @@ public partial class ChronoJumpWindow
 		// if has run on another session, magenta line: personMAXAtSQLAllSessions will be displayed
 		// if other persons have run on this session, eventGraph.sessionMAXAtSQL and eventGraph.sessionAVGAtSQL will be displayed
 		// don't need the rest of the method
-		if(eventGraph.runsAtSQL.Length == 0)
+		if(countRuns == 0)
 			return;
 		
 		//if person max in all sessions == person max this session, this session max will be only at left,
@@ -1736,27 +1754,48 @@ public partial class ChronoJumpWindow
 		paintSimpleAxis(ancho, alto, topMargin, bottomMargin, layoutSmallMid, "m/s");
 
 		//calculate bar width
-		int distanceBetweenCols = Convert.ToInt32((ancho-event_execute_rightMargin)*(1+.5)/eventGraph.runsAtSQL.Length) -
-			Convert.ToInt32((ancho-event_execute_rightMargin)*(0+.5)/eventGraph.runsAtSQL.Length);
+		int distanceBetweenCols = Convert.ToInt32((ancho-event_execute_rightMargin)*(1+.5)/countRuns) -
+			Convert.ToInt32((ancho-event_execute_rightMargin)*(0+.5)/countRuns);
 		int barWidth = Convert.ToInt32(.3*distanceBetweenCols);
 		int barDesplLeft = Convert.ToInt32(.5*barWidth);
 
 
 		int x = 0;
 		int y = 0;
-		int count = eventGraph.runsAtSQL.Length;
-		foreach(string myStr in eventGraph.runsAtSQL) {
-			string [] run = myStr.Split(new char[] {':'});
-			if(Convert.ToDouble(run[5]) > 0 && Convert.ToDouble(run[6]) > 0) {
-				x = Convert.ToInt32((ancho-event_execute_rightMargin)*(count-.5)/eventGraph.runsAtSQL.Length)-barDesplLeft;
-				y = calculatePaintHeight(Convert.ToDouble(run[5])/Convert.ToDouble(run[6]), alto, maxValue, minValue, 
+		foreach(Run run in eventGraph.runsAtSQL)
+		{
+			//string [] run = myStr.Split(new char[] {':'});
+			if(run.Distance > 0 && run.Time > 0)
+			{
+				x = Convert.ToInt32((ancho-event_execute_rightMargin)*(countToDraw-.5)/countRuns)-barDesplLeft;
+				y = calculatePaintHeight(run.Distance/run.Time, alto, maxValue, minValue,
 						topMargin, bottomMargin);
 
-				drawBar(x, y, barWidth, alto, bottomMargin, pen_background, count == eventGraph.runsAtSQL.Length,
-						Convert.ToDouble(run[5])/Convert.ToDouble(run[6]), layoutMid, animate);//, "", layoutMid, 0, animate);
+				drawBar(x, y, barWidth, alto, bottomMargin, pen_background, countToDraw == countRuns,
+						run.Distance/run.Time, layoutMid, animate);//, "", layoutMid, 0, animate);
 			}
 
-			count --;
+			//these two methods are out of drawBar because (on jumps) can be related to two bars TC,TF
+			if(run.Simulated == -1)
+				plotSimulatedMessage(
+						Convert.ToInt32((ancho-event_execute_rightMargin)*(countToDraw-.5)/countRuns),
+						alto, layoutText);
+
+			if (showTextOnBar && (eventGraph.type == "" || run.Description != ""))
+			{
+				string typeRowString = "";
+				if (eventGraph.type == "") //if "all runs" show run.Type
+					typeRowString = run.Type;
+
+				plotTextBelowBar(
+						Convert.ToInt32((ancho-event_execute_rightMargin)*(countToDraw-.5)/countRuns),
+						y, alto,
+						typeRowString,
+						run.Description, //is the name of the person
+						layoutText, longestWordSize, maxRowsForText);
+			}
+
+			countToDraw --;
 		}
 	}
 
@@ -2701,16 +2740,16 @@ public partial class ChronoJumpWindow
 	{
 		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
 			updateGraphJumpsSimple ();
-
-		//TODO: run simple, rt
+		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSSIMPLE)
+			updateGraphRunsSimple ();
 	}
 
 	private void on_radio_contacts_graph_person_toggled (object o, EventArgs args)
 	{
 		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
 			updateGraphJumpsSimple ();
-
-		//TODO: run simple, rt
+		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSSIMPLE)
+			updateGraphRunsSimple ();
 	}
 
 	// <---- end of test simple controls -----

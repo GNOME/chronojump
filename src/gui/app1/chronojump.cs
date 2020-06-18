@@ -4468,7 +4468,9 @@ public partial class ChronoJumpWindow
 				preferences.runSpeedStartArrival,
 				check_run_simple_with_reaction_time.Active,
 				image_run_execute_running,
-				image_run_execute_photocell
+				image_run_execute_photocell,
+				Convert.ToInt32(spin_contacts_graph_last_limit.Value),
+				radio_contacts_graph_allTests.Active, radio_contacts_graph_allPersons.Active
 				);
 
 		if (! canCaptureC)

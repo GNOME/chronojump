@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2020-06-14 01:07+0000\n"
-"PO-Revision-Date: 2020-06-14 12:20+0300\n"
+"POT-Creation-Date: 2020-06-14 09:21+0000\n"
+"PO-Revision-Date: 2020-06-18 09:28+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -519,7 +519,6 @@ msgid "Best"
 msgstr "Найкращий"
 
 #: ../glade/app1.glade.h:105
-#| msgid "Best (all sessions)"
 msgid "(all sessions)"
 msgstr "(усі сеанси)"
 
@@ -7333,32 +7332,36 @@ msgstr ""
 
 #: ../src/gui/old/helpPorts.cs:79
 msgid "Ports above COM4 may not work."
-msgstr ""
+msgstr "Порти, вище COM4, можуть виявитися непридатними для роботи."
 
 #: ../src/gui/old/helpPorts.cs:80
 msgid "If you want a safer port, press:"
-msgstr ""
+msgstr "Якщо вам потрібен безпечний порт, натисніть:"
 
 #: ../src/gui/old/helpPorts.cs:81
 msgid "Force Chronopic to port <b>COM1 - COM4</b>'."
-msgstr ""
+msgstr "Примусово пов'язати Chronopic з портом <b>COM1 - COM4</b>'."
 
 #: ../src/gui/old/helpPorts.cs:88
 msgid "More information on <b>Chronojump Manual</b>"
-msgstr ""
+msgstr "Докладніші відомості можна знайти у <b>Підручнику з Chronojump</b>"
 
 #: ../src/gui/old/helpPorts.cs:90
 msgid "Newer versions will be on this site:"
-msgstr ""
+msgstr "Новішу версію можна буде знайти на цьому сайті:"
 
 #: ../src/gui/old/helpPorts.cs:99
 msgid ""
 "Click with the right button on <i>MyPC</i> icon at desktop or Start Menu."
 msgstr ""
+"Натисніть на відповідну кнопку на піктограмі <i>Мій комп'ютер</i> на"
+" стільниці або у меню «Пуск»."
 
 #: ../src/gui/old/helpPorts.cs:100
 msgid "Note <i>MyPC</i> can be called <i>System</i> in Windows Vista."
 msgstr ""
+"Зауважте, що <i>Мій комп'ютер</i> може називатися <i>Система</i> у Windows"
+" Vista."
 
 #: ../src/gui/old/helpPorts.cs:101
 msgid ""
@@ -7369,11 +7372,11 @@ msgstr ""
 
 #: ../src/gui/old/helpPorts.cs:102
 msgid "Select <i>properties</i> (last option)."
-msgstr ""
+msgstr "Виберіть <i>властивості</i> (останній пункт)."
 
 #: ../src/gui/old/helpPorts.cs:103
 msgid "Go to <i>hardware</i>."
-msgstr ""
+msgstr "Перейдіть до пункту <i>обладнання</i>."
 
 #: ../src/gui/old/helpPorts.cs:104
 msgid "Select <i>administrate dispositives</i>. It's first button."
@@ -7381,7 +7384,7 @@ msgstr ""
 
 #: ../src/gui/old/helpPorts.cs:105
 msgid "Click on the '+' at left of COM and LPT ports."
-msgstr ""
+msgstr "Натисніть «+» ліворуч від пунктів портів COM і LPT."
 
 #: ../src/gui/old/helpPorts.cs:106
 msgid ""
@@ -7411,19 +7414,21 @@ msgstr ""
 
 #: ../src/gui/old/helpPorts.cs:117
 msgid "Go to <i>Port configurations</i>."
-msgstr ""
+msgstr "Перейдіть до <i>Налаштувань портів</i>."
 
 #: ../src/gui/old/helpPorts.cs:118
 msgid "Go to <i>Advanced options</i>."
-msgstr ""
+msgstr "Перейдіть до <i>Додаткових параметрів</i>."
 
 #: ../src/gui/old/helpPorts.cs:119
 msgid "Select COM1, COM2, COM3 or COM4 on the list shown on that window."
-msgstr ""
+msgstr "Виберіть COM1, COM2, COM3 або COM4 у списку у цьому випадку."
 
 #: ../src/gui/old/helpPorts.cs:120
 msgid "If COM1 - COM4 are <i>used</i>, then select unused ports below 10."
 msgstr ""
+"Якщо COM1 - COM4 вже <i>використано</i>, потім виберіть невикористані порти,"
+" нижчі за 10."
 
 #: ../src/gui/old/helpPorts.cs:120
 msgid ""
@@ -7434,18 +7439,18 @@ msgstr ""
 #: ../src/gui/old/queryServer.cs:109 ../src/gui/old/queryServer.cs:682
 #: ../src/gui/stats.cs:179 ../src/statType.cs:344
 msgid "Average Index"
-msgstr ""
+msgstr "Середній індекс"
 
 #. static string equalThan = Constants.EqualThanCode + " " + Catalog.GetString("Equal than");
 #: ../src/gui/old/queryServer.cs:128
 msgid "Lower than"
-msgstr ""
+msgstr "Нижче за"
 
 #. static string higherThan = Constants.HigherThanCode + " " + Catalog.GetString("Higher than");
 #. static string lowerOrEqualThan = Constants.LowerOrEqualThanCode + " " + Catalog.GetString("Lower or equal than");
 #: ../src/gui/old/queryServer.cs:131
 msgid "Higher or equal than"
-msgstr ""
+msgstr "Вище або дорівнює"
 
 #: ../src/gui/old/queryServer.cs:779
 msgid "races"
@@ -7457,15 +7462,15 @@ msgstr "вати"
 
 #: ../src/gui/overview.cs:202 ../src/gui/overview.cs:204
 msgid "Encoder Overview"
-msgstr ""
+msgstr "Огляд засобів кодування"
 
 #: ../src/gui/overview.cs:239
 msgid "Displaced mass"
-msgstr ""
+msgstr "Переміщена маса"
 
 #: ../src/gui/overview.cs:320
 msgid "Force sensor overview"
-msgstr ""
+msgstr "Примусовий огляд датчиків"
 
 #: ../src/gui/overview.cs:376
 msgid "Race analyzer overview"
@@ -7473,7 +7478,7 @@ msgstr ""
 
 #: ../src/gui/person/addModify.cs:227
 msgid "Edit person"
-msgstr ""
+msgstr "Редагувати особу"
 
 #: ../src/gui/person/addModify.cs:317
 msgid "Select file"
@@ -7481,63 +7486,66 @@ msgstr "Вибір файла"
 
 #: ../src/gui/person/addModify.cs:1037
 msgid "Please, write the name of the person."
-msgstr ""
+msgstr "Будь ласка, впишіть назву особи."
 
 #: ../src/gui/person/addModify.cs:1040 ../src/gui/person/addModify.cs:1042
 msgid "Please, complete the weight of the person."
-msgstr ""
+msgstr "Будь ласка, вкажіть вагу особи."
 
 #: ../src/gui/person/addModify.cs:1072
 #, csharp-format
 msgid "Person: '{0}' exists. Please, use another name."
-msgstr ""
+msgstr "Особа: існує «{0}». Будь ласка, вкажіть інше ім'я."
 
 #: ../src/gui/person/addModify.cs:1075
 msgid "Or load this person from another session using this button:"
 msgstr ""
+"Або завантажте цей запис особи з іншого сеансу за допомогою цієї кнопки:"
 
 #: ../src/gui/person/addMultiple.cs:159 ../src/gui/person/addMultiple.cs:200
 msgid "CSV file has headers"
-msgstr ""
+msgstr "У файлі CSV є заголовки"
 
 #: ../src/gui/person/addMultiple.cs:160 ../src/gui/person/addMultiple.cs:216
 msgid "Full name in one column"
-msgstr ""
+msgstr "Ім'я повністю у першому стовпчику"
 
 #: ../src/gui/person/addMultiple.cs:163
 #, csharp-format
 msgid "Expected column separator character is '<b>{0}</b>'"
-msgstr ""
+msgstr "Очікуваний символ роздільника стовпчиків — «<b>{0}</b>»"
 
 #: ../src/gui/person/addMultiple.cs:164
 msgid "You can change this on Preferences / Language."
-msgstr ""
+msgstr "Змінити це можна за допомогою пункту Параметри -> Мова."
 
 #: ../src/gui/person/addMultiple.cs:205
 msgid "CSV file does not have headers"
-msgstr ""
+msgstr "У файлі CSV немає заголовків"
 
 #: ../src/gui/person/addMultiple.cs:220
 msgid "Full name in two columns"
-msgstr ""
+msgstr "Ім'я повністю у двох стовпчиках"
 
 #: ../src/gui/person/addMultiple.cs:240
 msgid "Select CSV file"
-msgstr ""
+msgstr "Виберіть файл CSV"
 
 #: ../src/gui/person/addMultiple.cs:262
 msgid ""
 "Maybe this file is opened by an SpreadSheet software like Excel. Please, "
 "close that program."
 msgstr ""
+"Можливо, цей файл відкрито у електронних таблицях, наприклад Excel. Будь"
+" ласка, закрийте цю програму."
 
 #: ../src/gui/person/addMultiple.cs:309
 msgid "Seems there's a header row and you have not marked it."
-msgstr ""
+msgstr "Здається у таблиці є рядок заголовків і ви його не позначили."
 
 #: ../src/gui/person/addMultiple.cs:437
 msgid "Persons will be created with default session values"
-msgstr ""
+msgstr "Особ буде створено із типовими значеннями сеансу"
 
 #: ../src/gui/person/recuperate.cs:166
 msgid "Man"
@@ -7556,14 +7564,14 @@ msgstr "Завантажено"
 #, csharp-format
 msgid "Successfully added one person."
 msgid_plural "Successfully added {0} persons."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Успішно додано {0} особу."
+msgstr[1] "Успішно додано {0} особи."
+msgstr[2] "Успішно додано {0} осіб."
+msgstr[3] "Успішно додано одну особу."
 
 #: ../src/gui/person/recuperate.cs:666
 msgid "Include / Discard athletes"
-msgstr ""
+msgstr "Включити або відкинути атлетів"
 
 #: ../src/gui/person/recuperate.cs:675
 msgid ""
@@ -7574,19 +7582,23 @@ msgstr ""
 
 #: ../src/gui/person/showAllEvents.cs:151
 msgid "Date\n"
-msgstr ""
+msgstr "Дата\n"
 
 #: ../src/gui/person/showAllEvents.cs:152
 msgid ""
 "Jumps\n"
 "simple"
 msgstr ""
+"Стрибки\n"
+"просто"
 
 #: ../src/gui/person/showAllEvents.cs:153
 msgid ""
 "Jumps\n"
 "reactive"
 msgstr ""
+"Стрибки\n"
+"реактивні"
 
 #: ../src/gui/person/showAllEvents.cs:154
 msgid ""
@@ -7605,18 +7617,20 @@ msgid ""
 "Reaction\n"
 "time"
 msgstr ""
+"Час\n"
+"реакції"
 
 #: ../src/gui/person/showAllEvents.cs:159
 msgid "Encoder sets"
-msgstr ""
+msgstr "Набори кодувальників"
 
 #: ../src/gui/person/showAllEvents.cs:160
 msgid "Encoder repetitions"
-msgstr ""
+msgstr "Повторення кодувальників"
 
 #: ../src/gui/person/showAllEvents.cs:162
 msgid "Run encoder"
-msgstr ""
+msgstr "Запустити кодувальник"
 
 #: ../src/gui/preferences.cs:751
 msgid "Select color"
@@ -7625,10 +7639,11 @@ msgstr "Вибір кольору"
 #: ../src/gui/preferences.cs:813
 msgid "If active, repetitions will be cut from set using triggers."
 msgstr ""
+"Якщо позначено, повторення буде вирізано із набору за допомогою тригерів."
 
 #: ../src/gui/preferences.cs:814
 msgid "Trigger signal will be produced by a button connected to the Chronopic."
-msgstr ""
+msgstr "Сигнал тригера буде створено кнопкою, яку з'єднано із Chronopic."
 
 #: ../src/gui/preferences.cs:815
 msgid "This will be only used on gravitatory mode, concentric contraction."
@@ -7648,7 +7663,7 @@ msgstr ""
 
 #: ../src/gui/preferences.cs:818
 msgid "Encoder Chronopics have trigger functionality since 2017."
-msgstr ""
+msgstr "Кодувальник Chronopics має можливість перемикача з 2017 року."
 
 #: ../src/gui/preferences.cs:819
 msgid ""
@@ -7670,11 +7685,11 @@ msgstr ""
 
 #: ../src/gui/preferences.cs:1110 ../src/gui/repetitiveConditions.cs:529
 msgid "Sound working"
-msgstr ""
+msgstr "Звук працює"
 
 #: ../src/gui/preferences.cs:1112 ../src/gui/repetitiveConditions.cs:531
 msgid "Sound not working"
-msgstr ""
+msgstr "Звук не працює"
 
 #: ../src/gui/preferences.cs:1364
 msgid "Race measurement"
@@ -7688,7 +7703,7 @@ msgstr ""
 
 #: ../src/gui/preferences.cs:1373
 msgid "Reaction time is displayed on Description column."
-msgstr ""
+msgstr "Час реакції буде показано у стовпчику «Опис»."
 
 #: ../src/gui/preferences.cs:1375
 msgid "If first option is choosen, race time includes reaction time."

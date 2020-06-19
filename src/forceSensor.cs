@@ -674,6 +674,7 @@ public class ForceSensorElasticBand
 	public int Active
 	{
 		get { return active; }
+		set { active = value; }
 	}
 	public string Brand
 	{

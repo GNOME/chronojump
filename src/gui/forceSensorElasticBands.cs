@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2019   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -36,18 +36,24 @@ public class ForceSensorElasticBandsWindow
 
 	//fist tab "add/edit"
 	[Widget] Gtk.Image image_add;
+	[Widget] Gtk.Image image_edit;
 	[Widget] Gtk.Image image_delete;
 	[Widget] Gtk.Image image_save;
 	[Widget] Gtk.Image image_cancel;
-	[Widget] Gtk.Button button_save;
+	[Widget] Gtk.Button button_edit_save;
 	[Widget] Gtk.Button button_delete;
-	[Widget] Gtk.CheckButton check_active;
-	[Widget] Gtk.HBox hbox_active;
-	[Widget] Gtk.SpinButton spin_active_units;
-	[Widget] Gtk.SpinButton spin_stiffness;
-	[Widget] Gtk.Label label_stiffness_of_each_fixture;
+	[Widget] Gtk.CheckButton check_active_view;
+	[Widget] Gtk.CheckButton check_active_edit;
+	[Widget] Gtk.HBox hbox_active_view;
+	[Widget] Gtk.HBox hbox_active_edit;
+	[Widget] Gtk.SpinButton spin_active_units_view;
+	[Widget] Gtk.SpinButton spin_active_units_edit;
+	[Widget] Gtk.SpinButton spin_stiffness_view;
+	[Widget] Gtk.SpinButton spin_stiffness_edit;
+	[Widget] Gtk.Label label_stiffness_of_each_fixture_view;
+	[Widget] Gtk.Label label_stiffness_of_each_fixture_edit;
 	[Widget] Gtk.Label label_total_stiffness_value;
-	[Widget] Gtk.Frame frame_add_edit;
+	[Widget] Gtk.Frame frame_in_use;
 	[Widget] Gtk.Label label_edit_or_add;
 	[Widget] Gtk.Entry entry_brand;
 	[Widget] Gtk.Entry entry_color;
@@ -69,6 +75,7 @@ public class ForceSensorElasticBandsWindow
 
 	public int uniqueID; 			//used on encoder & forceSensor edit exercise
 	private int stiffnessColumn;
+	private bool followSignals;
 
 	private enum modes { EDITING, ADDING } 
 	private modes currentMode;
@@ -82,6 +89,8 @@ public class ForceSensorElasticBandsWindow
 		Pixbuf pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_add.png");
 		image_add.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_edit.png");
+		image_edit.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
 		image_delete.Pixbuf = pixbuf;
 		image_delete_confirm.Pixbuf = pixbuf;
@@ -104,7 +113,8 @@ public class ForceSensorElasticBandsWindow
 		label_header.Text = textHeader;
 
 		initializeGui(title, textHeader);
-		frame_add_edit.Sensitive = false;
+		frame_in_use.Sensitive = false;
+		followSignals = true;
 		force_sensor_elastic_bands.Show ();
 	}
 
@@ -155,28 +165,36 @@ public class ForceSensorElasticBandsWindow
 
 	private void empty_frame()
 	{
-		check_active.Active = false;
-		spin_active_units.Value = 1;
+		check_active_view.Active = false;
+		check_active_edit.Active = false;
+		spin_active_units_view.Value = 1;
+		spin_active_units_edit.Value = 1;
 		entry_brand.Text = "";
 		entry_color.Text = "";
 		entry_comments.Text = "";
-		spin_stiffness.Value = 0;
+		spin_stiffness_view.Value = 0;
+		spin_stiffness_edit.Value = 0;
 	}
 	private void fill_frame(ForceSensorElasticBand fseb)
 	{
 		if(fseb.Active == 0) {
-			check_active.Active = false;
-			spin_active_units.Value = 1;
+			check_active_view.Active = false;
+			check_active_edit.Active = false;
+			spin_active_units_view.Value = 1;
+			spin_active_units_edit.Value = 1;
 		}
 		else {
-			check_active.Active = true;
-			spin_active_units.Value = fseb.Active;
+			check_active_view.Active = true;
+			check_active_edit.Active = true;
+			spin_active_units_view.Value = fseb.Active;
+			spin_active_units_edit.Value = fseb.Active;
 		}
 
 		entry_brand.Text = fseb.Brand;
 		entry_color.Text = fseb.Color;
 		entry_comments.Text = fseb.Comments;
-		spin_stiffness.Value = fseb.Stiffness;
+		spin_stiffness_view.Value = fseb.Stiffness;
+		spin_stiffness_edit.Value = fseb.Stiffness;
 	}
 
 	//data is an ArrayList of strings[], each string [] is a row, each of its strings is a column
@@ -253,11 +271,35 @@ public class ForceSensorElasticBandsWindow
 		if (treeview.Selection.GetSelected (out myModel, out iter))
 		{
 			currentMode = modes.EDITING;
-			button_delete.Sensitive = true;
+		//	button_delete.Sensitive = true;
 			label_edit_or_add.Text = Catalog.GetString("Edit selected");
 			ForceSensorElasticBand fseb = getSelectedForceSensorElasticBand();
 			fill_frame(fseb);
-			frame_add_edit.Sensitive = true;
+			frame_in_use.Sensitive = true;
+		}
+	}
+
+	private int getSelectedID()
+	{
+		TreeIter iter = new TreeIter();
+		TreeModel model = treeview.Model;
+		if (treeview.Selection.GetSelected (out model, out iter))
+			return Convert.ToInt32(model.GetValue(iter, 0).ToString());
+
+		return -1;
+	}
+	//pass 0 for first row
+	private void selectRow(int rowNumber)
+	{
+		TreeIter iter;
+		bool iterOk = store.GetIterFirst(out iter);
+		if(iterOk) {
+			int count = 0;
+			while (count < rowNumber) {
+				store.IterNext(ref iter);
+				count ++;
+			}
+			treeview.Selection.SelectIter(iter);
 		}
 	}
 
@@ -266,61 +308,81 @@ public class ForceSensorElasticBandsWindow
 		currentMode = modes.ADDING;
 		empty_frame(); //empty all
 		label_edit_or_add.Text = Catalog.GetString("Add new elastic band/tube");
-		frame_add_edit.Sensitive = true;
+		frame_in_use.Sensitive = true;
 		treeview.Selection.UnselectAll();
-		button_delete.Sensitive = false;
+		//button_delete.Sensitive = false;
+
+		notebook.CurrentPage = 1;
 	}
-	private void on_button_save_clicked (object o, EventArgs args)
+
+	private void on_button_edit_clicked (object o, EventArgs args)
+	{
+		notebook.CurrentPage = 1;
+	}
+
+	private void on_button_edit_save_clicked (object o, EventArgs args)
 	{
 		int active = 0;
-		if(check_active.Active)
-			active = Convert.ToInt32(spin_active_units.Value);
+		if(check_active_edit.Active)
+			active = Convert.ToInt32(spin_active_units_edit.Value);
 
 		//1) insert on SQL
 		if(currentMode == modes.ADDING)
 		{
-			//create fseb from frame_add_edit
-			ForceSensorElasticBand fseb = new ForceSensorElasticBand(-1, active, entry_brand.Text, entry_color.Text, spin_stiffness.Value, entry_comments.Text);
+			//create fseb from frame_in_use
+			ForceSensorElasticBand fseb = new ForceSensorElasticBand(-1, active, entry_brand.Text, entry_color.Text, spin_stiffness_edit.Value, entry_comments.Text);
 
 			//insert on SQL
 			SqliteForceSensorElasticBand.Insert(false, fseb);
 
-			//unsensitivize frame_add_edit
-			frame_add_edit.Sensitive = false;
+			//unsensitivize frame_in_use
+			frame_in_use.Sensitive = false;
 		}
 		else //(currentMode == modes.EDITING)
 		{
 			//get selected just to know uniqueID and if it is active
 			ForceSensorElasticBand fseb = getSelectedForceSensorElasticBand();
 
-			//change the params on frame_add_edit
-			fseb.Update(active, entry_brand.Text, entry_color.Text, spin_stiffness.Value, entry_comments.Text);
+			//change the params on frame_in_use
+			fseb.Update(active, entry_brand.Text, entry_color.Text, spin_stiffness_edit.Value, entry_comments.Text);
 
 			//update SQL
 			SqliteForceSensorElasticBand.Update(false, fseb);
 
-			//unsensitivize frame_add_edit
-			frame_add_edit.Sensitive = false;
+			//unsensitivize frame_in_use
+			frame_in_use.Sensitive = false;
 		}
-		
+
+		//udpate the main (view) tab
+		spin_stiffness_view.Value = spin_stiffness_edit.Value;
+
+		followSignals = false;
+		check_active_view.Active = check_active_edit.Active;
+		spin_active_units_view.Value = spin_active_units_edit.Value;
+		followSignals = true;
+
 		//vbox_bands.Sensitive = true;
 
 		//2) regenerate treeview
 		UtilGtk.RemoveColumns(treeview);
 		setTreeview();
+		notebook.CurrentPage = 0;
 	}
 
-	private void on_button_cancel_clicked (object o, EventArgs args)
+	private void on_button_edit_cancel_clicked (object o, EventArgs args)
 	{
-		//unsensitivize frame_add_edit
-		frame_add_edit.Sensitive = false;
-		button_delete.Sensitive = false;
+		//unsensitivize frame_in_use
+		//frame_in_use.Sensitive = false;
+		//button_delete.Sensitive = false;
+
+		notebook.CurrentPage = 0;
 	}
+
 
 	private void on_button_delete_clicked (object o, EventArgs args)
 	{
 		//TODO: only if there are captures done with this
-		notebook.CurrentPage = 1;
+		notebook.CurrentPage = 2;
 	}
 	private void on_button_cancel_delete_clicked (object o, EventArgs args)
 	{
@@ -340,8 +402,10 @@ public class ForceSensorElasticBandsWindow
 
 		//4) fix the rest of the gui
 		empty_frame(); //empty all
-		frame_add_edit.Sensitive = false;
-		button_delete.Sensitive = false;
+		frame_in_use.Sensitive = false;
+		//button_delete.Sensitive = false;
+
+		notebook.CurrentPage = 0;
 	}
 
 	private void stiffnessTotalUpdate()
@@ -359,15 +423,56 @@ public class ForceSensorElasticBandsWindow
 		fakeButton_stiffness_changed.Click();
 	}
 
-	private void on_check_active_toggled (object o, EventArgs args)
+	private void on_check_active_view_toggled (object o, EventArgs args)
 	{
-		hbox_active.Visible = check_active.Active;
-		on_spin_active_units_value_changed (new object (), new EventArgs ());
+		hbox_active_view.Visible = check_active_view.Active;
+		on_spin_active_units_view_value_changed (new object (), new EventArgs ());
+
+		check_active_edit.Active = check_active_view.Active;
+	}
+	private void on_check_active_edit_toggled (object o, EventArgs args)
+	{
+		hbox_active_edit.Visible = check_active_edit.Active;
 	}
 
-	private void on_spin_active_units_value_changed (object o, EventArgs args)
+
+	private void on_spin_active_units_view_value_changed (object o, EventArgs args)
 	{
-		label_stiffness_of_each_fixture.Visible = (Convert.ToInt32(spin_active_units.Value) > 1);
+		label_stiffness_of_each_fixture_view.Visible = (Convert.ToInt32(spin_active_units_view.Value) > 1);
+		label_stiffness_of_each_fixture_edit.Visible = (Convert.ToInt32(spin_active_units_edit.Value) > 1);
+
+		spin_active_units_edit.Value = spin_active_units_view.Value;
+
+		/*
+		//save and update treeview
+		currentMode = modes.EDITING;
+		on_button_edit_save_clicked (new object (), new EventArgs ());
+		*/
+
+		if(followSignals)
+			updateFixtures();
+	}
+
+	private void updateFixtures()
+	{
+		TreeIter iter = new TreeIter();
+		TreeModel model = treeview.Model;
+		int active = 0;
+		if (treeview.Selection.GetSelected (out model, out iter))
+			if(check_active_view.Active)
+				active = Convert.ToInt32(spin_active_units_view.Value);
+
+		model.SetValue(iter, 1, active.ToString());
+
+		ForceSensorElasticBand fseb = getSelectedForceSensorElasticBand();
+
+		//change the params on frame_in_use
+		fseb.Active = active;
+
+		//update SQL
+		SqliteForceSensorElasticBand.Update(false, fseb);
+
+		stiffnessTotalUpdate();
 	}
 
 	private void on_entries_changed (object o, EventArgs args)
@@ -378,7 +483,7 @@ public class ForceSensorElasticBandsWindow
 
 		entry.Text = Util.MakeValidSQL(entry.Text);
 
-		button_save.Sensitive = ( entry_brand.Text != "" || entry_color.Text != "" || entry_comments.Text != "" );
+		button_edit_save.Sensitive = ( entry_brand.Text != "" || entry_color.Text != "" || entry_comments.Text != "" );
 	}
 
 	private void on_button_close_clicked (object o, EventArgs args)

@@ -41,7 +41,6 @@ public class ForceSensorElasticBandsWindow
 	[Widget] Gtk.Image image_save;
 	[Widget] Gtk.Image image_cancel;
 	[Widget] Gtk.Button button_edit_save;
-	[Widget] Gtk.Button button_delete;
 	[Widget] Gtk.CheckButton check_active_view;
 	[Widget] Gtk.CheckButton check_active_edit;
 	[Widget] Gtk.HBox hbox_active_view;
@@ -271,7 +270,6 @@ public class ForceSensorElasticBandsWindow
 		if (treeview.Selection.GetSelected (out myModel, out iter))
 		{
 			currentMode = modes.EDITING;
-		//	button_delete.Sensitive = true;
 			label_edit_or_add.Text = Catalog.GetString("Edit selected");
 			ForceSensorElasticBand fseb = getSelectedForceSensorElasticBand();
 			fill_frame(fseb);
@@ -308,9 +306,7 @@ public class ForceSensorElasticBandsWindow
 		currentMode = modes.ADDING;
 		empty_frame(); //empty all
 		label_edit_or_add.Text = Catalog.GetString("Add new elastic band/tube");
-		frame_in_use.Sensitive = true;
 		treeview.Selection.UnselectAll();
-		//button_delete.Sensitive = false;
 
 		notebook.CurrentPage = 1;
 	}
@@ -371,13 +367,11 @@ public class ForceSensorElasticBandsWindow
 
 	private void on_button_edit_cancel_clicked (object o, EventArgs args)
 	{
-		//unsensitivize frame_in_use
-		//frame_in_use.Sensitive = false;
-		//button_delete.Sensitive = false;
+		if(currentMode == modes.ADDING)
+			frame_in_use.Sensitive = false;
 
 		notebook.CurrentPage = 0;
 	}
-
 
 	private void on_button_delete_clicked (object o, EventArgs args)
 	{
@@ -403,7 +397,6 @@ public class ForceSensorElasticBandsWindow
 		//4) fix the rest of the gui
 		empty_frame(); //empty all
 		frame_in_use.Sensitive = false;
-		//button_delete.Sensitive = false;
 
 		notebook.CurrentPage = 0;
 	}

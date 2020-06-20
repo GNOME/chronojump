@@ -813,6 +813,52 @@ class SqliteForceSensorElasticBand : Sqlite
 		return list_fseb;
 	}
 
+	public static List<string> SelectSessionNamesWithCapturesWithElasticBand (int elasticBandID)
+	{
+		Sqlite.Open();
+		dbcmd.CommandText =
+			"SELECT session.name, forceSensor.stiffnessString " +
+			"FROM session, forceSensor, forceSensorExercise " +
+			"WHERE forceSensor.sessionID = session.uniqueID " +
+			"AND forceSensor.exerciseID = forceSensorExercise.uniqueID " +
+			"AND forceSensorExercise.elastic = 1 " +
+			"AND forceSensorExercise.forceResultant = 1 " +
+			"ORDER BY session.name";
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		List<string> sessionsWithThisEB = new List<string>();
+
+		while(reader.Read())
+		{
+			//if we already have this session on list, continue
+			string sessionName = reader[0].ToString();
+			foreach(string s in sessionsWithThisEB)
+				if(s == sessionName)
+					continue;
+
+			string stiffnessString = reader[1].ToString();
+			string [] stiffPairs = stiffnessString.Split(new char[] {';'});
+			foreach(string str in stiffPairs)
+			{
+				string [] strPair = str.Split(new char[] {'*'});
+				if(Util.IsNumber(strPair[0], false) && Convert.ToInt32(strPair[0]) == elasticBandID)
+				{
+					sessionsWithThisEB.Add(sessionName);
+					continue;
+				}
+			}
+		}
+
+		reader.Close();
+		Sqlite.Close();
+
+		return sessionsWithThisEB;
+	}
+
 	//stiffnessString is a parameter of forceSensor table
 	public static double GetStiffnessOfACapture (bool dbconOpened, string stiffnessString)
 	{

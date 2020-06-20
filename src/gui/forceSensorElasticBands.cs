@@ -61,7 +61,8 @@ public class ForceSensorElasticBandsWindow
 	//second tab "delete confirm"
 	[Widget] Gtk.Image image_delete_confirm;
 	[Widget] Gtk.Image image_cancel_delete;
-	[Widget] Gtk.TreeView treeview_delete;
+	//[Widget] Gtk.TreeView treeview_delete;
+	[Widget] Gtk.TextView textview_delete;
 
 	[Widget] Gtk.Image image_close;
 	[Widget] Gtk.Button button_close;
@@ -375,8 +376,15 @@ public class ForceSensorElasticBandsWindow
 
 	private void on_button_delete_clicked (object o, EventArgs args)
 	{
-		//TODO: only if there are captures done with this
-		notebook.CurrentPage = 2;
+		ForceSensorElasticBand fseb = getSelectedForceSensorElasticBand();
+		List<string> sessionsWithThisEB = SqliteForceSensorElasticBand.SelectSessionNamesWithCapturesWithElasticBand (fseb.UniqueID);
+
+		if(sessionsWithThisEB.Count == 0)
+			on_button_delete_confirm_clicked (o, args);
+		else {
+			textview_delete.Buffer.Text = Util.ListStringToString(sessionsWithThisEB);
+			notebook.CurrentPage = 2;
+		}
 	}
 	private void on_button_cancel_delete_clicked (object o, EventArgs args)
 	{

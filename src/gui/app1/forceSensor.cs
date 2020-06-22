@@ -1536,6 +1536,7 @@ LogB.Information(" fs R ");
 		{
 			setStiffnessButtonLabel(fs.Stiffness);
 			button_force_sensor_stiffness.Visible = true;
+			changeTestImage("", "", "FORCESENSOR_ELASTIC");
 
 			// stiffness 2: update elastic bands table
 			if(! ForceSensorElasticBand.UpdateBandsStatusToSqlite (
@@ -1553,6 +1554,7 @@ LogB.Information(" fs R ");
 		{
 			label_button_force_sensor_stiffness.Text = "0";
 			button_force_sensor_stiffness.Visible = false;
+			changeTestImage("", "", "FORCESENSOR_NOT_ELASTIC");
 		}
 
 		forceSensorCopyTempAndDoGraphs(forceSensorGraphsEnum.SIGNAL);
@@ -2342,11 +2344,15 @@ LogB.Information(" fs R ");
 		ArrayList array = SqliteForceSensorExercise.Select (
                                 false, getExerciseIDFromAnyCombo(
 					combo_force_sensor_exercise, forceSensorComboExercisesString, false), false );
+
 		if(array.Count == 0)
 		{
 			label_button_force_sensor_stiffness.Text = "0";
 			image_button_force_sensor_stiffness_problem.Visible = true;
+
 			button_force_sensor_stiffness.Visible = false;
+			changeTestImage("", "", "FORCESENSOR_NOT_ELASTIC");
+
 			combo_force_sensor_button_sensitive_exercise(false);
 			return;
 		}
@@ -2359,9 +2365,11 @@ LogB.Information(" fs R ");
 
 			setStiffnessButtonLabel(stiffness);
 			button_force_sensor_stiffness.Visible = true;
+			changeTestImage("", "", "FORCESENSOR_ELASTIC");
 		} else {
 			label_button_force_sensor_stiffness.Text = "0";
 			button_force_sensor_stiffness.Visible = false;
+			changeTestImage("", "", "FORCESENSOR_NOT_ELASTIC");
 			image_button_force_sensor_stiffness_problem.Visible = false;
 		}
 		setLabelContactsExerciseSelected(Catalog.GetString(fse.Name));

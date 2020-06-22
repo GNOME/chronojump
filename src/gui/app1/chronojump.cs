@@ -3865,8 +3865,12 @@ public partial class ChronoJumpWindow
 				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogo);
 				button_image_test_zoom.Hide();
 			break;
-			case "FORCESENSOR":
-				pixbuf = new Pixbuf (null, Util.GetImagePath(true) + Constants.FileNameForceSensor);
+			case "FORCESENSOR_NOT_ELASTIC":
+				pixbuf = new Pixbuf (null, Util.GetImagePath(true) + Constants.FileNameForceSensorNotElastic);
+				button_image_test_zoom.Hide();
+			break;
+			case "FORCESENSOR_ELASTIC":
+				pixbuf = new Pixbuf (null, Util.GetImagePath(true) + Constants.FileNameForceSensorElastic);
 				button_image_test_zoom.Hide();
 			break;
 			case "RUNSENCODER":
@@ -6462,7 +6466,7 @@ LogB.Debug("mc finished 5");
 			notebook_execute.CurrentPage = 4;
 			notebook_options_top.CurrentPage = 4; //but at FORCESENSOR this notebook is not shown until adjust button is clicked
 			notebook_results.CurrentPage = 4;
-			changeTestImage("", "", "FORCESENSOR");
+			changeTestImage("", "", "FORCESENSOR_NOT_ELASTIC"); //when click on adjust button we will check if elastic or not elastic and change icon
 			event_execute_button_finish.Sensitive = false;
 		} else if(mode == Constants.Menuitem_modes.RT)
 		{

@@ -626,7 +626,8 @@ public class Constants
 	public static string FileNameEncoderGravitatory = "stock_down.png";
 	public static string FileNameEncoderInertial = "stock_inertial.png";
 	public static string FileNamePulse = "pulse_menu.png";
-	public static string FileNameForceSensor = "force_sensor.png";
+	public static string FileNameForceSensorElastic = "force_sensor_elastic.png";
+	public static string FileNameForceSensorNotElastic = "force_sensor_not_elastic.png";
 	public static string FileNameMultiChronopic = "multichronopic_menu.png";
 	
 	public static string FileNameJumpsFallCalculate = "dj-from-in.png";

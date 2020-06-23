@@ -6466,7 +6466,12 @@ LogB.Debug("mc finished 5");
 			notebook_execute.CurrentPage = 4;
 			notebook_options_top.CurrentPage = 4; //but at FORCESENSOR this notebook is not shown until adjust button is clicked
 			notebook_results.CurrentPage = 4;
-			changeTestImage("", "", "FORCESENSOR_NOT_ELASTIC"); //when click on adjust button we will check if elastic or not elastic and change icon
+
+			if(button_force_sensor_stiffness.Visible)
+				changeTestImage("", "", "FORCESENSOR_ELASTIC");
+			else
+				changeTestImage("", "", "FORCESENSOR_NOT_ELASTIC");
+
 			event_execute_button_finish.Sensitive = false;
 		} else if(mode == Constants.Menuitem_modes.RT)
 		{

@@ -97,9 +97,6 @@
     <EmbeddedResource Include="glade\dialog_calendar.glade">
       <LogicalName>dialog_calendar.glade</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="glade\dialog_help_ports.glade">
-      <LogicalName>dialog_help_ports.glade</LogicalName>
-    </EmbeddedResource>
     <EmbeddedResource Include="glade\dialog_image_test.glade">
       <LogicalName>dialog_image_test.glade</LogicalName>
     </EmbeddedResource>
@@ -235,15 +232,6 @@
     <EmbeddedResource Include="images\chronojump-logo-transparent.png">
       <LogicalName>chronojump-logo-transparent.png</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="images\chronojump-boscosystem.png">
-      <LogicalName>chronojump-boscosystem.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="images\chronojump-boscosystem_320.png">
-      <LogicalName>chronojump-boscosystem_320.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="images\chronojump-boscosystem_white_bg.png">
-      <LogicalName>chronojump-boscosystem_white_bg.png</LogicalName>
-    </EmbeddedResource>
     <EmbeddedResource Include="images\chronojump-encoder-small.png">
       <LogicalName>chronojump-encoder-small.png</LogicalName>
     </EmbeddedResource>
@@ -262,23 +250,11 @@
     <EmbeddedResource Include="images\chronojump-runs-small.png">
       <LogicalName>chronojump-runs-small.png</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="images\chronojump_320.png">
-      <LogicalName>chronojump_320.png</LogicalName>
-    </EmbeddedResource>
     <EmbeddedResource Include="images\chronojump_icon.png">
       <LogicalName>chronojump_icon.png</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="images\chronojump_icon_512.png">
-      <LogicalName>chronojump_icon_512.png</LogicalName>
-    </EmbeddedResource>
     <EmbeddedResource Include="images\chronojump_icon_graph.png">
       <LogicalName>chronojump_icon_graph.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="images\chronojump_icon_install_win.ico">
-      <LogicalName>chronojump_icon_install_win.ico</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="images\chronojump_logo.png">
-      <LogicalName>chronojump_logo.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\chronopic1.jpg">
       <LogicalName>chronopic1.jpg</LogicalName>
@@ -294,9 +270,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="images\chronopic_24.png">
       <LogicalName>chronopic_24.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="images\delete_last.png">
-      <LogicalName>delete_last.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\dj-from-in.png">
       <LogicalName>dj-from-in.png</LogicalName>
@@ -315,9 +288,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-analyze-cross.png">
       <LogicalName>encoder-analyze-cross.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="images\encoder-analyze-current-signal.png">
-      <LogicalName>encoder-analyze-current-signal.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-analyze-eccon-separated.png">
       <LogicalName>encoder-analyze-eccon-separated.png</LogicalName>
@@ -357,9 +327,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-analyze-range.png">
       <LogicalName>encoder-analyze-range.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="images\encoder-analyze-saved-curves.png">
-      <LogicalName>encoder-analyze-saved-curves.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\encoder-analyze-side.png">
       <LogicalName>encoder-analyze-side.png</LogicalName>
@@ -755,10 +722,10 @@
       <LogicalName>cont.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images/md/ic_directions_run_blue_24dp_2x.png">
-      <LogicalName>run.png</LogicalName>
+      <LogicalName>run_2x.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images/md/ic_build_blue_24dp_1x.png">
-      <LogicalName>image_build.png</LogicalName>
+      <LogicalName>image_build_24.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images/md/ic_edit_blue_24dp_1x.png">
       <LogicalName>image_edit.png</LogicalName>
@@ -816,9 +783,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="images\import-24.png">
       <LogicalName>import.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="images\export-24.png">
-      <LogicalName>export.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\md\ic_notifications_blue_24dp_1x.png">
       <LogicalName>stock_bell.png</LogicalName>
@@ -976,11 +940,299 @@
     <EmbeddedResource Include="images\stock_inertial.png">
       <LogicalName>stock_inertial.png</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="images\finish.png">
-      <LogicalName>finish.png</LogicalName>
-    </EmbeddedResource>
     <EmbeddedResource Include="images\gtk-cancel.png">
       <LogicalName>gtk-cancel.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\mini\force_sensor_elastic.png">
+      <LogicalName>mini/force_sensor_elastic.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\mini\force_sensor_not_elastic.png">
+      <LogicalName>mini/force_sensor_not_elastic.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\baseline_menu_blue_24dp.png">
+      <LogicalName>image_menu.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\baseline_menu_book_blue_24dp.png">
+      <LogicalName>image_book.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\baseline_more_horiz_blue_24dp.png">
+      <LogicalName>image_more_horiz.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\baseline_keyboard_blue_24dp.png">
+      <LogicalName>image_keyboard.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\folders_blue.png">
+      <LogicalName>image_folders.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\baseline_help_blue_24dp.png">
+      <LogicalName>image_help.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\about.png">
+      <LogicalName>image_about.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\baseline_apps_6_separated_blue_24dp.png">
+      <LogicalName>image_modes.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\baseline_apps_6_separated_encoder_blue_24dp.png">
+      <LogicalName>image_modes_encoder.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\baseline_apps_6_separated_force_blue_24dp.png">
+      <LogicalName>image_modes_force.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\baseline_apps_6_separated_jump_blue_24dp.png">
+      <LogicalName>image_modes_jump.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\baseline_apps_6_separated_other_blue_24dp.png">
+      <LogicalName>image_modes_other.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\baseline_apps_6_separated_rt_blue_24dp.png">
+      <LogicalName>image_modes_rt.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\baseline_apps_6_separated_run_blue_24dp.png">
+      <LogicalName>image_modes_run.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\baseline_warning_blue_24dp.png">
+      <LogicalName>image_warning_blue.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\baseline_warning_red_24dp.png">
+      <LogicalName>image_warning_red.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\baseline_portrait_search_blue_24dp.png">
+      <LogicalName>portrait_zoom.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\ic_photo_camera_blue_24dp_2x.png">
+      <LogicalName>image_no_photo.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\weight.png">
+      <LogicalName>image_weight.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\weight_yellow.png">
+      <LogicalName>image_weight_yellow.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\baseline_arrow_backward_blue_24dp.png">
+      <LogicalName>arrow_backward.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\baseline_arrow_forward_blue_24dp.png">
+      <LogicalName>arrow_forward.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\baseline_arrow_forward_red_yellow_24dp.png">
+      <LogicalName>arrow_forward_emphasis.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\baseline_arrow_back_blue_24dp.png">
+      <LogicalName>arrow_back.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\individual.png">
+      <LogicalName>individual.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\grupal.png">
+      <LogicalName>grupal.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\ic_test_inspect_blue_24dp_1x.png">
+      <LogicalName>image_test_inspect.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\ic_build_blue_16dp_1x.png">
+      <LogicalName>image_build_16.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\ic_folder_open_yellow_24dp_1x.png">
+      <LogicalName>folder_open_yellow.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\ic_folder_open_set_blue_24dp_1x.png">
+      <LogicalName>folder_open_set.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\ic_looks_zero_blue_24dp_1x.png">
+      <LogicalName>zero.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\ic_weekend_yellow_24dp_1x.png">
+      <LogicalName>image_rest_yellow.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\ic_folder_check_blue_24dp_1x.png">
+      <LogicalName>folder_check.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\ic_videocam_blue_24dp_1x.png">
+      <LogicalName>videocamera_on.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\ic_videocam_off_blue_24dp_1x.png">
+      <LogicalName>videocamera_off.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\baseline_photo_camera_do_red_24dp.png">
+      <LogicalName>image_photo_do.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\baseline_photo_camera_end_blue_24dp.png">
+      <LogicalName>image_photo_end_camera.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\baseline_photo_camera_preview_blue_24dp.png">
+      <LogicalName>image_photo_preview.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\baseline_photo_camera_start_blue_24dp.png">
+      <LogicalName>image_photo_start_camera.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\chronojump-logo-transparent-40h.png">
+      <LogicalName>chronojump-logo-transparent-40h.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\chronojump_icon_transp.png">
+      <LogicalName>chronojump_icon_transp.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\ic_directions_run_blue_24dp_1x.png">
+      <LogicalName>image_run.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\ic_jump_blue_24dp_1x.png">
+      <LogicalName>image_jump.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\ic_import_yellow_1x.png">
+      <LogicalName>import_yellow.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\mini\run-encoder-resisted.png">
+      <LogicalName>mini/run-encoder-resisted.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\mini\run-encoder-manual.png">
+      <LogicalName>mini/run-encoder-manual.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\ic_directions_race_encoder_yellow_24dp_1x.png">
+      <LogicalName>race_encoder_icon_yellow.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\ic_directions_race_encoder_blue_24dp_1x.png">
+      <LogicalName>race_encoder_icon.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\board-arduino-run-encoder.png">
+      <LogicalName>board-arduino-run-encoder.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\board-accelerometer.png">
+      <LogicalName>board-accelerometer.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\board-arduino-force.png">
+      <LogicalName>board-arduino-force.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\board-arduino-rfid.png">
+      <LogicalName>board-arduino-rfid.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\board-encoder.png">
+      <LogicalName>board-encoder.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\board-jump-run.png">
+      <LogicalName>board-jump-run.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\board-unknown.png">
+      <LogicalName>board-unknown.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\ic_directions_run_photocell_blue_24dp_2x.png">
+      <LogicalName>run_photocell.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\jumps-fv.png">
+      <LogicalName>jumps-fv.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\other_icon.png">
+      <LogicalName>other_icon.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\other_icon_yellow.png">
+      <LogicalName>other_icon_yellow.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\reaction_time_icon.png">
+      <LogicalName>reaction_time_icon.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\reaction_time_icon_yellow.png">
+      <LogicalName>reaction_time_icon_yellow.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\force_sensor_icon.png">
+      <LogicalName>force_sensor_icon.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\force_sensor_icon_yellow.png">
+      <LogicalName>force_sensor_icon_yellow.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\encoder-linear-pneumatic.png">
+      <LogicalName>encoder-linear-pneumatic.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\ic_notifications_active_blue_24dp_1x.png">
+      <LogicalName>stock_bell_active.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\ic_notifications_none_blue_24dp_1x.png">
+      <LogicalName>stock_bell_none.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\baseline_play_arrow_blue_24dp.png">
+      <LogicalName>video_play.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\baseline_grid_on_blue_24dp.png">
+      <LogicalName>image_grid_on.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\baseline_save_blue_24dp.png">
+      <LogicalName>save.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\baseline_mail_outline_blue_24dp.png">
+      <LogicalName>image_email.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\ic_assignment_blue_24dp_1x.png">
+      <LogicalName>image_analyze_general.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\gtk-floppy.png">
+      <LogicalName>floppy.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\encoder-analyze-instantaneous.png">
+      <LogicalName>encoder-analyze-instantaneous.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\encoder-analyze-superpose.png">
+      <LogicalName>encoder-analyze-superpose.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\encoder-analyze-all-set.png">
+      <LogicalName>encoder-analyze-all-set.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\encoder-analyze-position.png">
+      <LogicalName>encoder-analyze-position.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\trigger_2x.png">
+      <LogicalName>image_encoder_triggers.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\trigger_no_2x.png">
+      <LogicalName>image_encoder_triggers_no.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\baseline_check_box_blue_24dp.png">
+      <LogicalName>image_check.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\ic_audio_blue_24dp_1x.png">
+      <LogicalName>audio.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\dialog_shortcuts.glade">
+      <LogicalName>dialog_shortcuts.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\ic_close_blue_24dp_1x.png">
+      <LogicalName>image_close_blue.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\encoder-rotary-axis-blue.png">
+      <LogicalName>encoder-rotary-axis-blue.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\encoder-rotary-friction-blue.png">
+      <LogicalName>encoder-rotary-friction-blue.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\overview.glade">
+      <LogicalName>overview.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\force_sensor_exercise.glade">
+      <LogicalName>force_sensor_exercise.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\force_sensor_elastic_bands.glade">
+      <LogicalName>force_sensor_elastic_bands.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\ic_developer_board_blue_24dp_2x.png">
+      <LogicalName>image_chronopic_connect_big.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glade\dialog_threshold.glade">
+      <LogicalName>dialog_threshold.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\chronopic.png">
+      <LogicalName>chronopic.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\encoder-linear-inclined-plane-weight-diff-angle-mov-pulley.png">
+      <LogicalName>encoder-linear-inclined-plane-weight-diff-angle-mov-pulley.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\encoder-rotary-axis-inertial-mov-pulley-lateral.png">
+      <LogicalName>encoder-rotary-axis-inertial-mov-pulley-lateral.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\ic_last_page_blue_24dp_1x.png">
+      <LogicalName>finish.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\ic_export_1x.png">
+      <LogicalName>export.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\md\baseline_attachment_blue_24dp.png">
+      <LogicalName>image_attachment.png</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -1125,7 +1377,6 @@
     <Compile Include="src\RFID.cs" />
     <Compile Include="src\json\exhibitions.cs" />
     <Compile Include="src\json\utils.cs" />
-    <Compile Include="src\json\compujump.cs" />
     <Compile Include="src\json\json.cs" />
     <Compile Include="src\treeview\run.cs" />
     <Compile Include="src\treeview\jump.cs" />
@@ -1182,12 +1433,10 @@
     <Compile Include="src\gui\forceSensorExercise.cs" />
     <Compile Include="src\gui\genericWindow.cs" />
     <Compile Include="src\gui\guiTests.cs" />
-    <Compile Include="src\gui\helpPorts.cs" />
     <Compile Include="src\gui\jump.cs" />
     <Compile Include="src\gui\jumpType.cs" />
     <Compile Include="src\gui\movingStartWindow.cs" />
     <Compile Include="src\gui\multiChronopic.cs" />
-    <Compile Include="src\gui\networks.cs" />
     <Compile Include="src\gui\presentation.cs" />
     <Compile Include="src\gui\pulse.cs" />
     <Compile Include="src\gui\reactionTime.cs" />
@@ -1247,6 +1496,8 @@
     <Compile Include="src\gui\person\personSelect.cs" />
     <Compile Include="src\gui\dialogShortcuts.cs" />
     <Compile Include="src\gui\app1\shortcuts.cs" />
+    <Compile Include="src\json\compujump.cs" />
+    <Compile Include="src\gui\networks.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />
@@ -2255,21 +2506,7 @@
     <None Include="src\chronojump-importer\venv\lib\python3.4\site-packages\setuptools-5.5.1.dist-info\top_level.txt" />
     <None Include="src\chronojump-importer\venv\lib\python3.4\site-packages\setuptools-5.5.1.dist-info\zip-safe" />
     <None Include="src\oldCodeNeedToDBConvert\readme.txt" />
-    <None Include="images\svg\bosco_jumps.svg" />
-    <None Include="images\svg\chronojump-logo-2013.svg" />
     <None Include="images\svg\chronojump_icon.svg" />
-    <None Include="images\svg\chronojump_icon_install.svg" />
-    <None Include="images\svg\encoder-mode-icons.svg" />
-    <None Include="images\svg\icons.svg" />
-    <None Include="images\svg\reaction-time-icons.svg" />
-    <None Include="images\svg\runs.svg" />
-    <None Include="images\svg\stock_menu_buttons.svg" />
-    <None Include="images\xcf\chronojump-encoder-small.xcf" />
-    <None Include="images\xcf\chronojump-jumps-small.xcf" />
-    <None Include="images\xcf\chronojump_icon.xcf" />
-    <None Include="images\xcf\chronojump_icon_graph.xcf" />
-    <None Include="images\xcf\delete_last.xcf" />
-    <None Include="images\xcf\pulses.xcf" />
     <None Include="src\buildInfo.cs.in" />
     <None Include="src\chronojump-importer\howto_easily_debug.txt" />
     <None Include="src\chronojump-importer\Makefile" />
@@ -2282,39 +2519,6 @@
     <None Include="src\Mini\Makefile" />
     <None Include="src\Mini\Makefile.am" />
     <None Include="src\Mini\Makefile.in" />
-    <None Include="images\md\ic_folder_open_set_blue_24dp_1x.png" />
-    <None Include="images\md\baseline_apps_6_separated_other_blue_24dp.png" />
-    <None Include="images\md\baseline_apps_6_separated_rt_blue_24dp.png" />
-    <None Include="images\md\baseline_apps_6_separated_encoder_blue_24dp.png" />
-    <None Include="images\md\baseline_apps_6_separated_force_blue_24dp.png" />
-    <None Include="images\md\baseline_apps_6_separated_jump_blue_24dp.png" />
-    <None Include="images\md\baseline_apps_6_separated_run_blue_24dp.png" />
-    <None Include="images\md\baseline_apps_6_separated_blue_24dp.png" />
-    <None Include="images\md\ic_weekend_yellow_24dp_1x.png" />
-    <None Include="images\md\baseline_more_horiz_blue_24dp.png" />
-    <None Include="images\md\ic_directions_run_blue_24dp_1x.png" />
-    <None Include="images\md\ic_jump_blue_24dp_1x.png" />
-    <None Include="images\md\baseline_menu_book_blue_24dp.png" />
-    <None Include="images\md\about.png" />
-    <None Include="images\md\baseline_keyboard_blue_24dp.png" />
-    <None Include="images\md\folders_blue.png" />
-    <None Include="images\md\baseline_apps_6_blue_24dp.png" />
-    <None Include="images\md\baseline_apps_6_black_24dp.png" />
-    <None Include="images\md\baseline_menu_blue_24dp.png" />
-    <None Include="images\md\baseline_help_blue_24dp.png" />
-    <None Include="images\md\baseline_local_library_black_24dp.png" />
-    <None Include="images\md\baseline_menu_book_black_24dp.png" />
-    <None Include="images\md\baseline_face_black_24dp.png" />
-    <None Include="images\md\baseline_nature_people_black_24dp.png" />
-    <None Include="images\md\baseline_help_black_24dp.png" />
-    <None Include="images\md\baseline_menu_black_24dp.png" />
-    <None Include="images\md\baseline_apps_black_24dp.png" />
-    <None Include="images\md\baseline_computer_black_24dp.png" />
-    <None Include="images\md\baseline_recent_actors_black_24dp.png" />
-    <None Include="images\md\baseline_keyboard_black_24dp.png" />
-    <None Include="images\md\ic_import_yellow_1x.png" />
-    <None Include="images\md\ic_folder_open_yellow_24dp_1x.png" />
-    <None Include="glade\dialog_shortcuts.glade" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\chronojump.desktop">

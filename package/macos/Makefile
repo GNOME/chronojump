@@ -13,6 +13,7 @@ PACKAGE_NAME = "chronojump-$(PACKAGE_VERSION)-x86_64"
 BUILD_DIR = "$(SOURCES_DIR)/build"
 MONO_DIR = "/Library/Frameworks/Mono.framework/Versions/Current/"
 MONO_PKG_CONFIG = "$(MONO_DIR)/lib/pkgconfig"
+MONO_VERSION = 6.10.0
 PATH := $(PATH):/usr/local/Cellar/gettext/0.20.1/bin
 
 all: configure chronojump install_chronojump install_mono bundle package
@@ -32,7 +33,7 @@ install_mono:
 	cp -r $(MONO_DIR)/lib/lib*dylib $(APP_DIR)/Home/lib/
 	cp $(MONO_DIR)/lib/*sharpglue*.so $(APP_DIR)/Home/lib/
 	codesign --remove-signature $(APP_DIR)/Home/lib/lib*dylib
-	python3 $(RESOURCES_DIR)/osxrelocator.py lib/ $(APP_DIR)/Home/ /Library/Frameworks/Mono.framework/Versions/6.8.0/ --recursive
+	python3 $(RESOURCES_DIR)/osxrelocator.py lib/ $(APP_DIR)/Home/ /Library/Frameworks/Mono.framework/Versions/$(MONO_VERSION)/ --recursive
 
 bundle:
 	# Generate Info.plist file
@@ -42,7 +43,7 @@ bundle:
 	# otherwise modifying the binary invalidates the signature
 	cp $(MONO_DIR)/bin/mono $(PACKAGE_DIR)
 	codesign --remove-signature $(PACKAGE_DIR)/mono
-	install_name_tool -add_rpath @executable_path/../lib -add_rpath @loader_path $(PACKAGE_DIR)/mono
+	install_name_tool -add_rpath @executable_path/.. -add_rpath @loader_path $(PACKAGE_DIR)/mono
 	mkbundle \
 		$(APP_DIR)/Home/lib/chronojump/Chronojump.exe \
 		-o $(PACKAGE_DIR)/Chronojump \

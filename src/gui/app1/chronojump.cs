@@ -2891,7 +2891,7 @@ public partial class ChronoJumpWindow
 			new DialogMessage(Constants.MessageTypes.WARNING,
 					Catalog.GetString("Sorry, R software is not installed.") +
 					"\n" + Catalog.GetString("Please, install it from here:") +
-					"\n\nhttp://cran.cnr.berkeley.edu/bin/macosx/R-latest.pkg",
+					"\n\n" + Constants.RmacDownload,
 					"button_go_r_mac");
 			show_start_page();
 			return;

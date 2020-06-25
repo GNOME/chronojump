@@ -59,7 +59,7 @@ public class DialogMessage
 			hbox_stiffness_formula.Show();
 		else if(objectToShow == "button_go_r_mac")
 		{
-			button_go_link = "http://cran.cnr.berkeley.edu/bin/macosx/R-latest.pkg";
+			button_go_link = Constants.RmacDownload;
 			button_go.Show();
 		}
 	}

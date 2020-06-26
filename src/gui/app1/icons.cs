@@ -590,6 +590,7 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameExport);
 		image_export_encoder_signal.Pixbuf = pixbuf;
 		image_session_export.Pixbuf = pixbuf;
+		image_session_export_csv.Pixbuf = pixbuf;
 
 		//reaction times changes
 		//UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_reaction_time);

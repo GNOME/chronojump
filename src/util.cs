@@ -2303,17 +2303,22 @@ public class UtilCopy
 	public int BackupSecondDirsLength;
 	public string LastMainDir;
 	public string LastSecondDir;
+	private int sessionID;
 
 	//to go faster on CopyFilesRecursively
 	static string backupDir = Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "backup";
 
-	public UtilCopy()
+	//-1 is the default on a backup, means all sessions (regular backup)
+	//4 will only copy files related to session 4 (for export session)
+	public UtilCopy(int sessionID)
 	{
 		BackupMainDirsCount = 0;
 		BackupSecondDirsCount = 0;
 		BackupSecondDirsLength = 0;
 		LastMainDir = "";
 		LastSecondDir = "";
+
+		this.sessionID = sessionID;
 	}
 
 	//http://stackoverflow.com/a/58779
@@ -2329,14 +2334,22 @@ public class UtilCopy
 					LastMainDir = Util.GetLastPartOfPath (dir.ToString());
 					BackupSecondDirsCount = 0;
 					//LogB.Information("at level 0: " + dir);
-				} else if(level == 1) {
+				} else if(level == 1)
+				{
+					//discard the unwanted sessions
+					if(sessionID > 0 && Util.IsNumber(Util.GetLastPartOfPath(dir.ToString()), false) &&
+							Convert.ToInt32(Util.GetLastPartOfPath(dir.ToString())) != sessionID)
+					{
+						//LogB.Information("Discarded: " + dir.ToString());
+						continue;
+					}
+
 					BackupSecondDirsLength = diArray.Length;
 					BackupSecondDirsCount ++;
 					LastSecondDir = Util.GetLastPartOfPath (dir.ToString());
 					//LogB.Information("at level 1: " + dir);
 				}
 				CopyFilesRecursively(dir, target.CreateSubdirectory(dir.Name), level +1);
-
 			}
 		foreach (FileInfo file in source.GetFiles())
 			file.CopyTo(Path.Combine(target.FullName, file.Name));

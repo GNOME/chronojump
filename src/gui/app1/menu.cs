@@ -69,7 +69,9 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.Image image_session_import;
 	[Widget] Gtk.Image image_session_export;
+	[Widget] Gtk.Image image_session_export1;
 	[Widget] Gtk.Image image_session_export_csv;
+	[Widget] Gtk.Image image_session_export_csv1;
 
 	//menu icons
 	[Widget] Gtk.Image image_radio_show_menu;

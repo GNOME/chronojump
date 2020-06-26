@@ -310,6 +310,8 @@ public partial class ChronoJumpWindow
 		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.SESSION);
 		app1s_notebook.CurrentPage = Convert.ToInt32(app1s_PAGE_MODES);
 		app1s_label_session_set_name();
+		//do not allow to export session SIMULATED because it could also not be imported
+		button_menu_session_export.Sensitive = (currentSession != null && currentSession.Name != Constants.SessionSimulatedName);
 	}
 
 }

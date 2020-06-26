@@ -34,6 +34,7 @@ public partial class ChronoJumpWindow
 	//notebook tab 0
 	[Widget] Gtk.Frame frame_session_more_this_session;
 	[Widget] Gtk.Label label_session_more_session_name;
+	[Widget] Gtk.Button button_menu_session_export;
 	[Widget] Gtk.EventBox app1s_eventbox_button_close0;
 
 	//notebook tab 1
@@ -84,7 +85,9 @@ public partial class ChronoJumpWindow
 	//notebook tab 5
 	[Widget] Gtk.EventBox app1s_eventbox_button_delete_close;
 
-	//notebook tab 6 (backup)
+	//notebook tab 6 (add/edit)
+
+	//notebook tab 7 (backup)
 	[Widget] Gtk.Button app1s_button_backup_select;
 	[Widget] Gtk.Button app1s_button_backup_start;
 	[Widget] Gtk.Button app1s_button_backup_cancel_close;
@@ -98,6 +101,17 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ProgressBar app1s_pulsebarBackupDirs;
 	[Widget] Gtk.ProgressBar app1s_pulsebarBackupSecondDirs;
 
+	//notebook tab 8 (export)
+	[Widget] Gtk.Button app1s_button_export_select;
+	[Widget] Gtk.Button app1s_button_export_start;
+	[Widget] Gtk.Button app1s_button_export_cancel_close;
+	[Widget] Gtk.EventBox app1s_eventbox_button_export_cancel_close;
+	[Widget] Gtk.Label app1s_label_export_cancel_close;
+	[Widget] Gtk.Image app1s_image_button_export_select;
+	[Widget] Gtk.Label app1s_label_export_destination;
+	[Widget] Gtk.Label app1s_label_export_progress;
+	[Widget] Gtk.ProgressBar app1s_pulsebarExportActivity;
+
 	const int app1s_PAGE_MODES = 0;
 	const int app1s_PAGE_IMPORT_START = 1;
 	const int app1s_PAGE_SELECT_SESSION = 2; //for load session and for import
@@ -106,6 +120,7 @@ public partial class ChronoJumpWindow
 	public const int app1s_PAGE_DELETE_CONFIRM = 5;
 	const int app1s_PAGE_ADD_EDIT = 6;
 	const int app1s_PAGE_BACKUP = 7;
+	const int app1s_PAGE_EXPORT = 8;
 
 	private int app1s_notebook_sup_entered_from; //to store from which page we entered (to return at it)
 
@@ -139,6 +154,7 @@ public partial class ChronoJumpWindow
 		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_import_again, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_delete_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_backup_cancel_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_export_cancel_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 	}
 
 	private void app1s_label_session_set_name()

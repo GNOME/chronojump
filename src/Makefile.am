@@ -20,6 +20,7 @@ SOURCES = \
 	gui/app1/session/delete.cs\
 	gui/app1/session/addEdit.cs\
 	gui/app1/session/backup.cs\
+	gui/app1/session/export.cs\
 	gui/app1/session/loadAndImport.cs\
 	gui/app1/session/main.cs\
 	gui/app1/jump.cs\

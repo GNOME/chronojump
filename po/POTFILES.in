@@ -74,6 +74,7 @@ src/gui/app1/runEncoderAnalyze.cs
 src/gui/app1/runEncoder.cs
 src/gui/app1/session/addEdit.cs
 src/gui/app1/session/backup.cs
+src/gui/app1/session/export.cs
 src/gui/app1/session/loadAndImport.cs
 src/gui/app1/session/main.cs
 src/gui/app1/shortcuts.cs

@@ -34,6 +34,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_minimize;
 	//[Widget] Gtk.Image image_minimize1;
 	[Widget] Gtk.Image image_session_delete;
+	[Widget] Gtk.Image image_db_backup;
+	[Widget] Gtk.Image image_db_view;
 	[Widget] Gtk.Image image_mode_encoder_capture;
 	[Widget] Gtk.Image image_current_person_zoom;
 	[Widget] Gtk.Image image_current_person_zoom_h;
@@ -252,6 +254,9 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_folders.png");
 		image_menu_folders.Pixbuf = pixbuf;
 		image_menu_folders1.Pixbuf = pixbuf;
+		image_session_export1.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_db_backup.png");
+		image_db_backup.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_more_horiz.png");
 		image_session_more.Pixbuf = pixbuf;
 		image_session_more1.Pixbuf = pixbuf;
@@ -465,6 +470,7 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_check.png");
 		image_all_persons_events.Pixbuf = pixbuf;
 		image_all_persons_events_h.Pixbuf = pixbuf;
+		image_db_view.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "inertial_rolled.png");
 		image_inertial_rolled.Pixbuf = pixbuf;
@@ -686,6 +692,7 @@ public partial class ChronoJumpWindow
 		image_contacts_session_overview.Pixbuf = pixbuf;
 		image_encoder_session_overview.Pixbuf = pixbuf;
 		image_encoder_analyze_table_save.Pixbuf = pixbuf;
+		image_session_export_csv1.Pixbuf = pixbuf;
 
 		//encoder
 		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_powerbars);

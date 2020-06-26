@@ -35597,8 +35597,8 @@ then click this button.</property>
                                                         <property name="spacing">25</property>
                                                         <child>
                                                           <widget class="GtkFrame" id="frame11">
-                                                            <property name="width_request">500</property>
-                                                            <property name="height_request">400</property>
+                                                            <property name="width_request">550</property>
+                                                            <property name="height_request">425</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label_xalign">0</property>
@@ -35613,7 +35613,7 @@ then click this button.</property>
                                                             <widget class="GtkVBox" id="vbox191">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="border_width">20</property>
+                                                            <property name="border_width">16</property>
                                                             <property name="spacing">6</property>
                                                             <child>
                                                             <widget class="GtkFrame" id="frame_session_more_this_session">
@@ -35790,10 +35790,34 @@ then click this button.</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
                                                             <child>
+                                                            <widget class="GtkHBox" id="hbox392">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">2</property>
+                                                            <child>
                                                             <widget class="GtkImage" id="image_session_export_csv">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-open</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_session_export_csv1">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-open</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -35866,10 +35890,34 @@ then click this button.</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
                                                             <child>
+                                                            <widget class="GtkHBox" id="hbox393">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">2</property>
+                                                            <child>
                                                             <widget class="GtkImage" id="image_session_export">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-open</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_session_export1">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-open</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -36068,16 +36116,47 @@ then click this button.</property>
                                                             <widget class="GtkHButtonBox" id="hbuttonbox16">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <property name="spacing">16</property>
                                                             <property name="layout_style">spread</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_db_backup_pre">
-                                                            <property name="label" translatable="yes">Backup all data</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="tooltip" translatable="yes">Make a copy of all the data</property>
                                                             <property name="use_underline">True</property>
                                                             <signal name="clicked" handler="on_button_db_backup_pre_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox397">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_db_backup">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-open</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label545">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Backup all data</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -36087,12 +36166,42 @@ then click this button.</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkButton" id="button_data_folder_open">
-                                                            <property name="label" translatable="yes">View data folder</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="use_underline">True</property>
                                                             <signal name="clicked" handler="on_button_data_folder_open_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox403">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_db_view">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-open</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label546">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">View data folder</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -36272,8 +36381,8 @@ then click this button.</property>
                                                         <property name="spacing">25</property>
                                                         <child>
                                                           <widget class="GtkFrame" id="frame13">
-                                                            <property name="width_request">500</property>
-                                                            <property name="height_request">400</property>
+                                                            <property name="width_request">550</property>
+                                                            <property name="height_request">425</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label_xalign">0</property>
@@ -36288,7 +36397,7 @@ then click this button.</property>
                                                             <widget class="GtkVBox" id="vbox175">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="border_width">20</property>
+                                                            <property name="border_width">16</property>
                                                             <property name="spacing">30</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="label471">
@@ -37145,8 +37254,8 @@ then click this button.</property>
                                                         <property name="spacing">30</property>
                                                         <child>
                                                           <widget class="GtkFrame" id="frame15">
-                                                            <property name="width_request">500</property>
-                                                            <property name="height_request">400</property>
+                                                            <property name="width_request">550</property>
+                                                            <property name="height_request">425</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label_xalign">0</property>
@@ -37161,7 +37270,7 @@ then click this button.</property>
                                                             <widget class="GtkVBox" id="vbox179">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="border_width">20</property>
+                                                            <property name="border_width">16</property>
                                                             <property name="spacing">30</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="label450">
@@ -37493,8 +37602,8 @@ then click this button.</property>
                                                         <property name="spacing">25</property>
                                                         <child>
                                                           <widget class="GtkFrame" id="frame14">
-                                                            <property name="width_request">500</property>
-                                                            <property name="height_request">400</property>
+                                                            <property name="width_request">550</property>
+                                                            <property name="height_request">425</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label_xalign">0</property>
@@ -37509,7 +37618,7 @@ then click this button.</property>
                                                             <widget class="GtkVBox" id="vbox178">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="border_width">20</property>
+                                                            <property name="border_width">16</property>
                                                             <property name="spacing">30</property>
                                                             <child>
                                                             <widget class="GtkProgressBar" id="app1s_progressbarImport">
@@ -37830,8 +37939,8 @@ then click this button.</property>
                                                         <property name="spacing">30</property>
                                                         <child>
                                                           <widget class="GtkFrame" id="frame16">
-                                                            <property name="width_request">500</property>
-                                                            <property name="height_request">400</property>
+                                                            <property name="width_request">550</property>
+                                                            <property name="height_request">425</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label_xalign">0</property>
@@ -37846,7 +37955,7 @@ then click this button.</property>
                                                             <widget class="GtkVBox" id="vbox198">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="border_width">20</property>
+                                                            <property name="border_width">16</property>
                                                             <child>
                                                             <widget class="GtkVBox" id="app1s_vbox_delete_question">
                                                             <property name="visible">True</property>
@@ -37861,7 +37970,6 @@ then click this button.</property>
                                                             <widget class="GtkLabel" id="label487">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
                                                             <property name="label" translatable="yes">Are you sure you want to delete the current session</property>
                                                             </widget>
                                                             <packing>
@@ -37879,7 +37987,6 @@ then click this button.</property>
                                                             <widget class="GtkLabel" id="app1s_label_delete_session_confirm_name">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
                                                             <property name="wrap">True</property>
                                                             </widget>
                                                             </child>
@@ -37906,7 +38013,6 @@ then click this button.</property>
                                                             <widget class="GtkLabel" id="label493">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
                                                             <property name="label" translatable="yes">and all the session tests?</property>
                                                             </widget>
                                                             <packing>
@@ -38202,8 +38308,8 @@ then click this button.</property>
                                                         <property name="spacing">30</property>
                                                         <child>
                                                           <widget class="GtkFrame" id="frame18">
-                                                            <property name="width_request">500</property>
-                                                            <property name="height_request">450</property>
+                                                            <property name="width_request">550</property>
+                                                            <property name="height_request">425</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label_xalign">0</property>
@@ -38218,7 +38324,7 @@ then click this button.</property>
                                                             <widget class="GtkVBox" id="vbox206">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="border_width">20</property>
+                                                            <property name="border_width">16</property>
                                                             <property name="spacing">30</property>
                                                             <child>
                                                             <widget class="GtkNotebook" id="notebook3">
@@ -39000,8 +39106,8 @@ then click this button.</property>
                                                         <property name="spacing">25</property>
                                                         <child>
                                                           <widget class="GtkFrame" id="frame22">
-                                                            <property name="width_request">500</property>
-                                                            <property name="height_request">400</property>
+                                                            <property name="width_request">550</property>
+                                                            <property name="height_request">425</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label_xalign">0</property>
@@ -39016,7 +39122,7 @@ then click this button.</property>
                                                             <widget class="GtkVBox" id="vbox220">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="border_width">20</property>
+                                                            <property name="border_width">16</property>
                                                             <property name="spacing">20</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="label539">

@@ -2310,6 +2310,12 @@ public partial class ChronoJumpWindow
 			app1s_threadBackup.Abort();
 		}
 
+		if(app1s_threadExport != null && app1s_threadExport.IsAlive)
+		{
+			LogB.Information("Closing app1s_threadExport");
+			app1s_threadExport.Abort();
+		}
+
 		//if capturing on the background finish it
 		if(eCaptureInertialBG != null)
 			stopCapturingInertialBG();

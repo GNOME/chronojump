@@ -2240,7 +2240,7 @@ msgstr ""
 
 #: ../glade/app1.glade.h:480
 msgid "Select destination"
-msgstr "Seleccionau el destí"
+msgstr "Seleccioneu el destí"
 
 #: ../glade/app1.glade.h:481
 msgid "Start backup"

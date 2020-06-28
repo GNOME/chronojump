@@ -115,6 +115,7 @@ public class SqliteSessionSwitcher
 				values[7] = reader[7].ToString();
 				values[8] = reader[8].ToString();
 			}
+			reader.Close();
 
 			Session mySession = new Session(values[0], 
 			                                values[1], values[2], UtilDate.FromSql(values[3]), 

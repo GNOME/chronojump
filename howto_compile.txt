@@ -21,12 +21,12 @@ https://brew.sh
 
 install these brew packages:
 brew install autoconf intltool automake gettext libtool glib pkg-config
+(gettext maybe is not needed)
 
 git clone https://gitlab.gnome.org/GNOME/chronojump.git
 git pull
 cd package/macos
 make
-
 
 -------------------------------------------------------------------
 WINDOWS

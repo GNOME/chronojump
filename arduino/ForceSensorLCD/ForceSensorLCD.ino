@@ -74,7 +74,7 @@ unsigned long elapsedTime = 0;
 unsigned long totalTime = 0;
 unsigned int samples = 0;
 
-const int buttonPin = 7;
+const int buttonPin = 6;
 int buttonState;
 float voltage;
 
@@ -86,7 +86,7 @@ float measuredMax = 0; // The max since starting capture
 float measured = scale.get_units();
 
 
-LiquidCrystal lcd(12, 11, 10, 8, 3, 2);
+LiquidCrystal lcd(12, 11, 10, 9, 8, 7);
 
 void setup() {
   pinMode(buttonPin, INPUT);
@@ -99,7 +99,8 @@ void setup() {
     lcd.print("CHRONOJUMP");
     lcd.setCursor(2, 1);
     lcd.print("Boscosystem");
-    kangaroo();
+//    kangaroo();
+//      printLcdMeu (-1.23456, 3, 0, 3);
   }
 
 
@@ -189,7 +190,7 @@ void printOnLcd() {
     //print Battery level
     float sensorValue = analogRead(A0);
     voltage = sensorValue * (5.00 / 1023.00) * 3;
-    Serial.println(voltage);
+    //Serial.println(voltage);
     float percent = (voltage - 6.35) / 0.0635;
 
     if (voltage < 4.5) {

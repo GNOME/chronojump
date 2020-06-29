@@ -295,7 +295,7 @@ public partial class ChronoJumpWindow
 		if (app1s_type == app1s_windowType.LOAD_SESSION) {
 			databaseType = SqliteSessionSwitcher.DatabaseType.DEFAULT;
 		} else {
-			databaseType = SqliteSessionSwitcher.DatabaseType.SPECIFIC;
+			databaseType = SqliteSessionSwitcher.DatabaseType.IMPORT;
 		}
 		SqliteSessionSwitcher sessionSwitcher = new SqliteSessionSwitcher (databaseType, app1s_import_file_path);
 		

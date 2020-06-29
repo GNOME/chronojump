@@ -51,4 +51,5 @@
 	<dllmap dll="libgdk-win32-2.0-0.dll" target="libgdk-quartz-2.0.0.dylib"/>
 	<dllmap dll="libgdk_pixbuf-2.0-0.dll" target="libgdk_pixbuf-2.0.0.dylib"/>
 	<dllmap dll="libglade-2.0-0.dll" target="libglade-2.0.0.dylib"/>
+	<dllmap dll="libpango-1.0-0.dll" target="libpango-1.0.0.dylib"/>
 </configuration>

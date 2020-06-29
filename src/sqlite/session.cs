@@ -44,7 +44,8 @@ public class SqliteSessionSwitcher
 	public enum DatabaseType
 	{
 		DEFAULT,
-		SPECIFIC
+		IMPORT,
+		EXPORT
 	};
 	
 	public SqliteSessionSwitcher(DatabaseType type, string databasePath)
@@ -368,7 +369,7 @@ class SqliteSession : Sqlite
 	private static string[] selectAllSessionsDo(string filterName, SqliteConnection dbcon)
 	{
 		// This method should NOT use Sqlite.open() / Sqlite.close(): it should only use dbcon
-		// to connect to the database. This methos is used by the importer after opening an arbitrary
+		// to connect to the database. This method is used by the importer after opening an arbitrary
 		// ChronoJump sqlite database. It needs to be refactored to the new database system.
 
 		dbcmd = dbcon.CreateCommand();

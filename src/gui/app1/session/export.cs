@@ -21,6 +21,7 @@
 using System;
 using System.IO;
 using Gtk;
+using System.Collections.Generic;
 using System.Diagnostics;  //Stopwatch
 using System.Threading;
 using Mono.Unix;
@@ -40,6 +41,7 @@ public partial class ChronoJumpWindow
 
 		app1s_label_export_destination.Text = "";
 		app1s_label_export_progress.Text = "";
+		app1s_exportText = "";
 		app1s_button_export_select.Sensitive = true;
 		app1s_button_export_start.Sensitive = false;
 		app1s_button_export_cancel_close.Sensitive = true;
@@ -88,11 +90,12 @@ public partial class ChronoJumpWindow
 				ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to overwrite: "), "", app1s_fileCopy);
 				confirmWin.Button_accept.Clicked += new EventHandler(app1s_export_on_overwrite_file_accepted);
 			} else {
-				app1s_uc = new UtilCopy(currentSession.UniqueID);
-				app1s_threadExport = new Thread(new ThreadStart(app1s_copyRecursive));
+				app1s_pulsebarExportActivity.Visible = true;
+				app1s_uc = new UtilCopy(currentSession.UniqueID, false);
+				app1s_threadExport = new Thread(new ThreadStart(app1s_export));
 				GLib.Idle.Add (new GLib.IdleHandler (app1s_ExportPulseGTK));
 
-//				app1s_backup_doing_sensitive_start_end(true);
+				app1s_export_doing_sensitive_start_end(true);
 
 				LogB.ThreadStart();
 				app1s_threadExport.Start();
@@ -107,40 +110,60 @@ public partial class ChronoJumpWindow
 	private bool app1s_ExportPulseGTK ()
 	{
 		if ( ! app1s_threadExport.IsAlive ) {
-		/*
 			LogB.ThreadEnding();
 			app1s_ExportPulseEnd();
 
 			LogB.ThreadEnded();
-			*/
 			return false;
 		}
 
-		/*
 		app1s_pulsebarExportActivity.Pulse();
-		app1s_pulsebarExportDirs.Fraction = UtilAll.DivideSafeFraction(app1s_uc.ExportMainDirsCount, 6);
-		//6 for: database, encoder, forceSensor, logs, multimedia, raceAnalyzer
-
-		app1s_pulsebarExportDirs.Text = app1s_uc.LastMainDir;
-		app1s_pulsebarExportSecondDirs.Fraction =
-			UtilAll.DivideSafeFraction(app1s_uc.ExportSecondDirsCount, app1s_uc.ExportSecondDirsLength);
-		app1s_pulsebarExportSecondDirs.Text = app1s_uc.LastSecondDir;
+		app1s_label_export_progress.Text = app1s_exportText;
 
 		Thread.Sleep (30);
-		//LogB.Debug(app1s_threadExport.ThreadState.ToString());
-		*/
+		LogB.Debug(app1s_threadExport.ThreadState.ToString());
 		return true;
+	}
+
+	private void app1s_ExportPulseEnd()
+	{
+		app1s_pulsebarExportActivity.Fraction = 1;
+		app1s_label_export_progress.Text =
+			string.Format(Catalog.GetString("Exported in {0} ms"),
+					app1s_exportElapsedMs);
+
+		app1s_export_doing_sensitive_start_end(false);
+	}
+
+	private void app1s_export_doing_sensitive_start_end(bool start)
+	{
+		if(start)
+			app1s_label_export_progress.Text = "";
+
+		app1s_pulsebarExportActivity.Visible = start;
+
+		app1s_button_export_select.Sensitive = ! start;
+		app1s_button_export_start.Sensitive = false;
+
+		if(start) {
+			app1s_button_export_cancel_close.Sensitive = false; //or make cancel sensitive while process?
+		} else {
+			app1s_button_export_cancel_close.Sensitive = true;
+			app1s_label_export_cancel_close.Text = Catalog.GetString("Close");
+		}
 	}
 
 	private void app1s_export_on_overwrite_file_accepted(object o, EventArgs args)
 	{
 		try {
 			Directory.Delete(app1s_fileCopy, true);
-			app1s_uc = new UtilCopy(currentSession.UniqueID);
-			app1s_threadExport = new Thread(new ThreadStart(app1s_copyRecursive));
+
+			app1s_pulsebarExportActivity.Visible = true;
+			app1s_uc = new UtilCopy(currentSession.UniqueID, false);
+			app1s_threadExport = new Thread(new ThreadStart(app1s_export));
 			GLib.Idle.Add (new GLib.IdleHandler (app1s_ExportPulseGTK));
 
-//			app1s_backup_doing_sensitive_start_end(true);
+			app1s_export_doing_sensitive_start_end(true);
 
 			LogB.ThreadStart();
 			app1s_threadExport.Start();
@@ -150,6 +173,7 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	static string app1s_exportText;
 	static long app1s_exportElapsedMs;
 	private void app1s_export()
 	{
@@ -157,12 +181,53 @@ public partial class ChronoJumpWindow
 		Stopwatch sw = new Stopwatch();
 		sw.Start();
 
+		app1s_exportText = Catalog.GetString("Copying files");
+
+		//TODO: copy only needed multimedia (photos), videos are discarded by sessions
 		app1s_uc.CopyFilesRecursively(new DirectoryInfo(Util.GetParentDir(false)), new DirectoryInfo(app1s_fileCopy), 0);
 
-		//TODO: now need to open database and delete unwanted sessions, and all stuff related to those sessions
+		//TODO: check that db exists and manage sessionSwitcher to go back
+		string exportedDB = app1s_fileCopy + System.IO.Path.DirectorySeparatorChar  +
+			 "database" + System.IO.Path.DirectorySeparatorChar + "chronojump.db";
+		LogB.Information("exporting to:" + exportedDB);
+		if(! File.Exists(exportedDB))
+		{
+			//TODO: some error message
+			return;
+		}
+
+		SqliteSessionSwitcher sessionSwitcher = new SqliteSessionSwitcher
+			(SqliteSessionSwitcher.DatabaseType.EXPORT, exportedDB);
+
+		/*
+		 * TODO (optional): use this to have objects intead of strings []
+		List<Session> session_l = SqliteSession.SelectAll();
+		foreach(Session session in session_l)
+			if(session.UniqueID != currentSession.UniqueID)
+				SqliteSession.DeleteAllStuff(session.UniqueID.ToString());
+				*/
+
+		string [] mySessions = sessionSwitcher.SelectAllSessions(""); //returns a string of values separated by ':'
+
+		int count = 1;
+		foreach (string session in mySessions)
+		{
+			app1s_exportText = string.Format("Adjusting new database {0}/{1}", count, mySessions.Length);
+			LogB.Information(string.Format("session: {0}", session));
+			string [] myStringFull = session.Split(new char[] {':'});
+			string sessionID = myStringFull[0];
+			if(sessionID != currentSession.UniqueID.ToString())
+			{
+				LogB.Information(string.Format("session: {0}, will be deleted", sessionID));
+				sessionSwitcher.DeleteAllStuff(sessionID);
+			}
+			count ++;
+		}
+
+		//TODO: check if we really need this
+		reloadSession(); //to use default db again
 
 		sw.Stop();
-
 		app1s_exportElapsedMs = sw.ElapsedMilliseconds;
 	}
 

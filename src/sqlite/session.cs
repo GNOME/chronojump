@@ -38,6 +38,9 @@ public class SqliteSessionSwitcher
 	* Doing this SessionLoadWindow can display sessions from other databases when SessionLoadWindow
 	* is used to import sessions from another Chronojump database instead of displaying sessions of the current
 	* database.
+	*
+	* on import we want to hide simulated, because we do not want to see that session
+	* on export we want to show it to delete it and all its tests
 	*/
 	private string databasePath;
 	private DatabaseType type;
@@ -71,13 +74,14 @@ public class SqliteSessionSwitcher
 
 			string[] allSessions = SqliteSession.SelectAllSessions (filterName, dbcon);
 
-			// Filtered sessions will contain all sessions but not the "SIMULATED"
+			// on IMPORT, filtered sessions will contain all sessions but not the "SIMULATED"
 			List<string> filteredSessions = new List<string> ();
+			foreach(string session in allSessions)
+			{
+				if (type == DatabaseType.IMPORT && session.Split (':') [1] != "SIMULATED")
+					continue;
 
-			foreach(string session in allSessions) {
-				if (session.Split (':') [1] != "SIMULATED") {
-					filteredSessions.Add (session);
-				}
+				filteredSessions.Add (session);
 			}
 
 			return filteredSessions.ToArray();
@@ -125,6 +129,22 @@ public class SqliteSessionSwitcher
 
 			return mySession;
 		}
+	}
+
+	//for export session
+	//TODO; at the moment use the above string[] SelectAllSessions(string filterName)
+	/*
+	public List<Session> SelectAll()
+	{
+	}
+	*/
+
+	public void DeleteAllStuff(string sessionID)
+	{
+		SqliteGeneral sqliteGeneral = new SqliteGeneral(databasePath);
+		SqliteConnection dbcon = sqliteGeneral.connection;
+
+		SqliteSession.DeleteAllStuff (sessionID, dbcon);
 	}
 }
 
@@ -879,81 +899,140 @@ class SqliteSession : Sqlite
 		}
 	}
 
-	
-	public static void DeleteAllStuff(string uniqueID)
+	// It's used by export and receives a specific database
+	// we want to delete all stuff of unwanted sessions
+	public static void DeleteAllStuff(string sessionID, SqliteConnection dbcon)
 	{
 		Sqlite.Open();
 
+		deleteAllStuffDo (sessionID, dbcon, true);
+
+		Sqlite.Close();
+	}
+	
+	// This is the usual chronojump's call (default database)
+	public static void DeleteAllStuff(string sessionID)
+	{
+		Sqlite.Open();
+
+		deleteAllStuffDo (sessionID, dbcon, false);
+
+		Sqlite.Close();
+	}
+
+	private static void deleteAllStuffDo (string sessionID, SqliteConnection dbcon, bool export)
+	{
+		LogB.Information("DeleteAllStuffDo 0");
+		dbcmd = dbcon.CreateCommand();
+
 		//delete the session
-		dbcmd.CommandText = "Delete FROM " + Constants.SessionTable + " WHERE uniqueID == " + uniqueID;
+		dbcmd.CommandText = "Delete FROM " + Constants.SessionTable + " WHERE uniqueID == " + sessionID;
 		dbcmd.ExecuteNonQuery();
 		
 		//delete relations (existance) within persons and sessions in this session
-		dbcmd.CommandText = "Delete FROM " + Constants.PersonSessionTable + " WHERE sessionID == " + uniqueID;
+		dbcmd.CommandText = "Delete FROM " + Constants.PersonSessionTable + " WHERE sessionID == " + sessionID;
 		dbcmd.ExecuteNonQuery();
 
-		Sqlite.deleteOrphanedPersons();
+		LogB.Information("DeleteAllStuffDo 1");
+		//TODO: take care on export to do that but passing dbcon
+		if(! export)
+			Sqlite.deleteOrphanedPersons();
+		LogB.Information("DeleteAllStuffDo 2");
 		
 		//delete normal jumps
-		dbcmd.CommandText = "Delete FROM " + Constants.JumpTable + " WHERE sessionID == " + uniqueID;
+		dbcmd.CommandText = "Delete FROM " + Constants.JumpTable + " WHERE sessionID == " + sessionID;
 		dbcmd.ExecuteNonQuery();
 		
 		//delete repetitive jumps
-		dbcmd.CommandText = "Delete FROM " + Constants.JumpRjTable + " WHERE sessionID == " + uniqueID;
+		dbcmd.CommandText = "Delete FROM " + Constants.JumpRjTable + " WHERE sessionID == " + sessionID;
 		dbcmd.ExecuteNonQuery();
 		
 		//delete normal runs
-		dbcmd.CommandText = "Delete FROM " + Constants.RunTable + " WHERE sessionID == " + uniqueID;
+		dbcmd.CommandText = "Delete FROM " + Constants.RunTable + " WHERE sessionID == " + sessionID;
 		dbcmd.ExecuteNonQuery();
 		
 		//delete intervallic runs
-		dbcmd.CommandText = "Delete FROM " + Constants.RunIntervalTable + " WHERE sessionID == " + uniqueID;
+		dbcmd.CommandText = "Delete FROM " + Constants.RunIntervalTable + " WHERE sessionID == " + sessionID;
 		dbcmd.ExecuteNonQuery();
 		
 		//delete reaction times
-		dbcmd.CommandText = "Delete FROM " + Constants.ReactionTimeTable + " WHERE sessionID == " + uniqueID;
+		dbcmd.CommandText = "Delete FROM " + Constants.ReactionTimeTable + " WHERE sessionID == " + sessionID;
 		dbcmd.ExecuteNonQuery();
 		
 		//delete pulses
-		dbcmd.CommandText = "Delete FROM " + Constants.PulseTable + " WHERE sessionID == " + uniqueID;
+		dbcmd.CommandText = "Delete FROM " + Constants.PulseTable + " WHERE sessionID == " + sessionID;
 		dbcmd.ExecuteNonQuery();
 		
 		//delete multiChronopic
-		dbcmd.CommandText = "Delete FROM " + Constants.MultiChronopicTable + " WHERE sessionID == " + uniqueID;
+		dbcmd.CommandText = "Delete FROM " + Constants.MultiChronopicTable + " WHERE sessionID == " + sessionID;
 		dbcmd.ExecuteNonQuery();
 		
 		//delete from encoder start ------>
 
-		//signals
-		ArrayList encoderArray = SqliteEncoder.Select(
-				true, -1, -1, Convert.ToInt32(uniqueID), Constants.EncoderGI.ALL,
-				-1, "signal", EncoderSQL.Eccons.ALL, "",
-				false, true);
-		
-		foreach(EncoderSQL eSQL in encoderArray) {
-			Util.FileDelete(eSQL.GetFullURL(false));	//signal, don't convertPathToR
-			if(eSQL.videoURL != "")
-				Util.FileDelete(eSQL.videoURL);		//video
-			Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));
-		}
-		
-		//curves
-		encoderArray = SqliteEncoder.Select(
-				true, -1, -1, Convert.ToInt32(uniqueID), Constants.EncoderGI.ALL,
-				-1, "curve",  EncoderSQL.Eccons.ALL, "",
-				false, true);
-		
-		foreach(EncoderSQL eSQL in encoderArray) {
-			Util.FileDelete(eSQL.GetFullURL(false));	//don't convertPathToR
-			/* commented: curve has no video
-			if(eSQL.videoURL != "")
-				Util.FileDelete(eSQL.videoURL);
-			*/
-			Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));
-			SqliteEncoder.DeleteSignalCurveWithCurveID(true, Convert.ToInt32(eSQL.uniqueID));
+		/*
+		 * on export we only want to delete SQL stuff, because files of other sessions will not be copied
+		 * but note if we want to call some other SQL method, we need to take care to pass dbcon or dbcmd
+		 */
+		if(export)
+		{
+			// 1 get all the encoder signals of that session
+			dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.EncoderTable +
+				" WHERE signalOrCurve = \"signal\"" +
+				" AND sessionID = " + sessionID;
 
-			//delete related triggers
-			SqliteTrigger.DeleteByModeID(true, Convert.ToInt32(eSQL.uniqueID));
+			SqliteDataReader reader;
+			reader = dbcmd.ExecuteReader();
+			List<string> signal_l = new List<string>();
+
+			// 2 delete all the EncoderSignalCurves (relation with signal and curves) of that signals
+			while(reader.Read())
+				signal_l.Add(reader[0].ToString());
+
+			reader.Close();
+
+			foreach(string signal in signal_l)
+			{
+				dbcmd.CommandText = "Delete FROM " + Constants.EncoderSignalCurveTable +
+					" WHERE signalID = " + signal;
+				dbcmd.ExecuteNonQuery();
+			}
+
+			// 3 delete all encoder table stuff (signals and curves)
+			dbcmd.CommandText = "Delete FROM " + Constants.EncoderTable + " WHERE sessionID = " + sessionID;
+			dbcmd.ExecuteNonQuery();
+		} else
+		{
+			//signals
+			ArrayList encoderArray = SqliteEncoder.Select(
+					true, -1, -1, Convert.ToInt32(sessionID), Constants.EncoderGI.ALL,
+					-1, "signal", EncoderSQL.Eccons.ALL, "",
+					false, true);
+
+			foreach(EncoderSQL eSQL in encoderArray) {
+				Util.FileDelete(eSQL.GetFullURL(false));	//signal, don't convertPathToR
+				if(eSQL.videoURL != "")
+					Util.FileDelete(eSQL.videoURL);		//video
+				Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));
+			}
+
+			//curves
+			encoderArray = SqliteEncoder.Select(
+					true, -1, -1, Convert.ToInt32(sessionID), Constants.EncoderGI.ALL,
+					-1, "curve",  EncoderSQL.Eccons.ALL, "",
+					false, true);
+
+			foreach(EncoderSQL eSQL in encoderArray) {
+				Util.FileDelete(eSQL.GetFullURL(false));	//don't convertPathToR
+				/* commented: curve has no video
+				   if(eSQL.videoURL != "")
+				   Util.FileDelete(eSQL.videoURL);
+				   */
+				Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));
+				SqliteEncoder.DeleteSignalCurveWithCurveID(true, Convert.ToInt32(eSQL.uniqueID));
+
+				//delete related triggers
+				SqliteTrigger.DeleteByModeID(true, Convert.ToInt32(eSQL.uniqueID));
+			}
 		}
 		
 		//<------- delete from encoder end

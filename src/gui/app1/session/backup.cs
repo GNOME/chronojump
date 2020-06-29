@@ -133,7 +133,7 @@ public partial class ChronoJumpWindow
 			} else {
 				//if multimedia_and_encoder, then copy the folder. If not checked, then copy only the db file
 				//if(check_backup_multimedia_and_encoder.Active) {
-				app1s_uc = new UtilCopy(-1); //all sessions
+				app1s_uc = new UtilCopy(-1, true); //all sessions, backup
 				app1s_threadBackup = new Thread(new ThreadStart(app1s_copyRecursive));
 				GLib.Idle.Add (new GLib.IdleHandler (app1s_BackupPulseGTK));
 
@@ -185,7 +185,7 @@ public partial class ChronoJumpWindow
 		app1s_pulsebarBackupDirs.Fraction = 1;
 		app1s_pulsebarBackupSecondDirs.Fraction = 1;
 		app1s_backup_doing_sensitive_start_end(false);
-		app1s_fc.Hide ();
+		//app1s_fc.Hide ();
 		app1s_label_backup_progress.Text =
 			string.Format(Catalog.GetString("Copied in {0} ms"),
 					app1s_copyRecursiveElapsedMs);
@@ -216,7 +216,7 @@ public partial class ChronoJumpWindow
 			//if multimedia_and_encoder, then copy the folder. If not checked, then copy only the db file
 			//if(check_backup_multimedia_and_encoder.Active) {
 				Directory.Delete(app1s_fileCopy, true);
-				app1s_uc = new UtilCopy(-1); //all sessions
+				app1s_uc = new UtilCopy(-1, true); //all sessions, backup
 				app1s_threadBackup = new Thread(new ThreadStart(app1s_copyRecursive));
 				GLib.Idle.Add (new GLib.IdleHandler (app1s_BackupPulseGTK));
 

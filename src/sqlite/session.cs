@@ -957,9 +957,37 @@ class SqliteSession : Sqlite
 		}
 		
 		//<------- delete from encoder end
-				
-		
-		Sqlite.Close();
+
+		// delete forceSensor
+		dbcmd.CommandText = "Delete FROM " + Constants.ForceSensorTable + " WHERE sessionID = " + sessionID;
+		dbcmd.ExecuteNonQuery();
+
+		System.IO.DirectoryInfo folderSession;
+		//on export we only want to delete SQL stuff, because files of other sessions will not be copied
+		if(! export)
+		{
+			folderSession = new System.IO.DirectoryInfo(
+					Util.GetForceSensorSessionDir(Convert.ToInt32(sessionID)));
+
+			foreach (FileInfo file in folderSession.GetFiles())
+				Util.FileDelete(file.Name);
+		}
+
+		// delete runEncoder
+		dbcmd.CommandText = "Delete FROM " + Constants.RunEncoderTable + " WHERE sessionID = " + sessionID;
+		dbcmd.ExecuteNonQuery();
+
+		//on export we only want to delete SQL stuff, because files of other sessions will not be copied
+		if(! export)
+		{
+			folderSession = new System.IO.DirectoryInfo(
+					Util.GetRunEncoderSessionDir(Convert.ToInt32(sessionID)));
+
+			foreach (FileInfo file in folderSession.GetFiles())
+				Util.FileDelete(file.Name);
+		}
+
+		//TODO: delete multimedia stuff of persons that have to be deleted, eg. on export: persons that are not in session (just for privacity)
 	}
 
 }

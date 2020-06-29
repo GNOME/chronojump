@@ -2304,13 +2304,15 @@ public class UtilCopy
 	public string LastMainDir;
 	public string LastSecondDir;
 	private int sessionID;
+	private bool backup;
 
 	//to go faster on CopyFilesRecursively
 	static string backupDir = Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "backup";
 
 	//-1 is the default on a backup, means all sessions (regular backup)
 	//4 will only copy files related to session 4 (for export session)
-	public UtilCopy(int sessionID)
+	//on export do not copy logs
+	public UtilCopy(int sessionID, bool backup)
 	{
 		BackupMainDirsCount = 0;
 		BackupSecondDirsCount = 0;
@@ -2319,6 +2321,7 @@ public class UtilCopy
 		LastSecondDir = "";
 
 		this.sessionID = sessionID;
+		this.backup = backup;
 	}
 
 	//http://stackoverflow.com/a/58779
@@ -2330,13 +2333,16 @@ public class UtilCopy
 			{
 				if(level == 0)
 				{
+					if(! backup && Util.GetLastPartOfPath(dir.ToString()) == "logs")
+						continue;
+
 					BackupMainDirsCount ++;
 					LastMainDir = Util.GetLastPartOfPath (dir.ToString());
 					BackupSecondDirsCount = 0;
 					//LogB.Information("at level 0: " + dir);
 				} else if(level == 1)
 				{
-					//discard the unwanted sessions
+					//on export, discard the unwanted sessions
 					if(sessionID > 0 && Util.IsNumber(Util.GetLastPartOfPath(dir.ToString()), false) &&
 							Convert.ToInt32(Util.GetLastPartOfPath(dir.ToString())) != sessionID)
 					{
@@ -2348,10 +2354,25 @@ public class UtilCopy
 					BackupSecondDirsCount ++;
 					LastSecondDir = Util.GetLastPartOfPath (dir.ToString());
 					//LogB.Information("at level 1: " + dir);
+				} else if(level == 2)
+				{
+					//on export, discard the unwanted sessions of multimedia videos
+					if(sessionID > 0 && dir.ToString().Contains("multimedia") && dir.ToString().Contains("videos") &&
+							Util.IsNumber(Util.GetLastPartOfPath(dir.ToString()), false) &&
+							Convert.ToInt32(Util.GetLastPartOfPath(dir.ToString())) != sessionID)
+					{
+						LogB.Information("Discarded video dir: " + dir.ToString());
+						continue;
+					}
 				}
 				CopyFilesRecursively(dir, target.CreateSubdirectory(dir.Name), level +1);
 			}
 		foreach (FileInfo file in source.GetFiles())
+		{
+			if(file.Name == "chronojump_running") 	//do not copy chronojump_running file
+				continue;
+
 			file.CopyTo(Path.Combine(target.FullName, file.Name));
+		}
 	}
 }

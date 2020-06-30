@@ -99,8 +99,8 @@ void setup() {
     lcd.print("CHRONOJUMP");
     lcd.setCursor(2, 1);
     lcd.print("Boscosystem");
-//    kangaroo();
-//      printLcdMeu (-1.23456, 3, 0, 3);
+    //    kangaroo();
+    //      printLcdMeu (-1.23456, 3, 0, 3);
   }
 
 
@@ -169,10 +169,10 @@ void loop()
     rfdDataPreOk = true;
     //<------- RFD stuff end
 
-    if (measured > measuredLcdDelayMax) {
+    if (abs(measured) > abs(measuredLcdDelayMax)) {
       measuredLcdDelayMax = measured;
     }
-    if (measured > measuredMax) {
+    if (abs(measured) > abs(measuredMax)) {
       measuredMax = measured;
     }
 
@@ -206,8 +206,9 @@ void printOnLcd() {
       lcd.print(percent, 0);
       lcd.print("%");
     }
-    printLcdMeu (measuredLcdDelayMax, 3, 0, 1);
-    printLcdMeu (measuredMax, 3, 1, 1);
+    printLcdMeu (measuredLcdDelayMax, 4, 0, 1);
+
+    printLcdMeu (measuredMax, 4, 1, 1);
     int totalTimeInSec = totalTime / 1000000;
     printLcdMeu (totalTimeInSec, 10, 0, 0);
 
@@ -224,69 +225,69 @@ void printOnLcd() {
 
 void printLcdMeu (float val, int xStart, int y, int decimal) {
 
-  if (val < 10) {
-    lcd.setCursor(xStart  , y);
-    lcd.print(val, decimal);
+  /*How many characters are to the left of the units number.
+   * Examples:
+   * 1.23   -> 0 charachters
+   * 12.34  -> 1 characters
+   * 123.45 -> 2 characters
+   */
+ 
+  int valLength = floor(log10(abs(val)));
+  
+  // Adding the extra characters to the left
+  if (valLength > 0) {
+    xStart -= valLength;
   }
-  if (val >= 10 && val < 100) {
-    lcd.setCursor(xStart - 1, y);
-    lcd.print(val, decimal);
+
+  // In negatives numbers the units are in the same position and the minus one position to the left
+  if (val < 0){
+    xStart--;
   }
-  if (val >= 100 && val < 1000) {
-    lcd.setCursor(xStart - 2, y);
-    lcd.print(val, decimal);
-  }
-  if (val >= 1000 && val < 10000) {
-    lcd.setCursor(xStart - 3, y);
-    lcd.print(val, decimal);
-  }
-  if (val > 10000) {
-    lcd.setCursor(xStart - 4, y);
-    lcd.print(val, decimal);
-  }
+  lcd.setCursor(xStart  , y);
+  lcd.print(val, decimal);
 }
 
-void kangaroo() {
-  byte kangaroo1[] = {
-    B00000,
-    B00000,
-    B00000,
-    B10001,
-    B11011,
-    B01110,
-    B00100,
-    B00000
-  };
-  byte kangaroo2[] = {
-    B00110,
-    B01111,
-    B11111,
-    B11111,
-    B01000,
-    B01100,
-    B00100,
-    B00110
-  };
-  byte kangaroo3[] = {
-    B01000,
-    B00100,
-    B11110,
-    B11111,
-    B11000,
-    B01000,
-    B10000,
-    B00000
-  };
-  lcd.createChar(0, kangaroo1);
-  lcd.setCursor(13, 0);
-  lcd.write(byte (0));
-  lcd.createChar(1, kangaroo2);
-  lcd.setCursor(14, 0);
-  lcd.write(byte(1));
-  lcd.createChar(2, kangaroo3);
-  lcd.setCursor(15, 0);
-  lcd.write(byte(2));
-}
+//void kangaroo() {
+//  byte kangaroo1[] = {
+//    B00000,
+//    B00000,
+//    B00000,
+//    B10001,
+//    B11011,
+//    B01110,
+//    B00100,
+//    B00000
+//  };
+//  byte kangaroo2[] = {
+//    B00110,
+//    B01111,
+//    B11111,
+//    B11111,
+//    B01000,
+//    B01100,
+//    B00100,
+//    B00110
+//  };
+//  byte kangaroo3[] = {
+//    B01000,
+//    B00100,
+//    B11110,
+//    B11111,
+//    B11000,
+//    B01000,
+//    B10000,
+//    B00000
+//  };
+//  lcd.createChar(0, kangaroo1);
+//  lcd.setCursor(13, 0);
+//  lcd.write(byte (0));
+//  lcd.createChar(1, kangaroo2);
+//  lcd.setCursor(14, 0);
+//  lcd.write(byte(1));
+//  lcd.createChar(2, kangaroo3);
+//  lcd.setCursor(15, 0);
+//  lcd.write(byte(2));
+//}
 
 
 void serialEvent() {

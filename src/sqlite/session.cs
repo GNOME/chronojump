@@ -78,7 +78,7 @@ public class SqliteSessionSwitcher
 			List<string> filteredSessions = new List<string> ();
 			foreach(string session in allSessions)
 			{
-				if (type == DatabaseType.IMPORT && session.Split (':') [1] != "SIMULATED")
+				if (type == DatabaseType.IMPORT && session.Split (':') [1] == "SIMULATED")
 					continue;
 
 				filteredSessions.Add (session);
@@ -657,7 +657,6 @@ class SqliteSession : Sqlite
 			}
 			reader_re.Close();
 		}
-
 
 		//mix ten arrayLists
 		string [] mySessions = new string[count];

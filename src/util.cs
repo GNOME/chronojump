@@ -1256,7 +1256,14 @@ public class Util
 			"share" + Path.DirectorySeparatorChar + "doc" + Path.DirectorySeparatorChar + "chronojump");
 	}
 
-	public static string GetPrefixDir(){
+	public static string GetPrefixDir()
+	{
+		//on mac with the bundle we use this method to return PrefixDir, as BaseDirectory and GetCurrentDirectory() do not work
+		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
+			return (System.IO.Path.Combine(
+						Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName),
+						".."));
+
 		string baseDirectory = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "..");
 		if (! Directory.Exists(Path.Combine(baseDirectory, "lib" + Path.DirectorySeparatorChar + "chronojump"))) {
 			baseDirectory = System.IO.Path.Combine(baseDirectory, "..");

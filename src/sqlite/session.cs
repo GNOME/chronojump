@@ -1047,8 +1047,9 @@ class SqliteSession : Sqlite
 			folderSession = new System.IO.DirectoryInfo(
 					Util.GetForceSensorSessionDir(Convert.ToInt32(sessionID)));
 
-			foreach (FileInfo file in folderSession.GetFiles())
-				Util.FileDelete(file.Name);
+			if(folderSession.Exists)
+				foreach (FileInfo file in folderSession.GetFiles())
+					Util.FileDelete(file.Name);
 		}
 
 		// delete runEncoder
@@ -1061,8 +1062,9 @@ class SqliteSession : Sqlite
 			folderSession = new System.IO.DirectoryInfo(
 					Util.GetRunEncoderSessionDir(Convert.ToInt32(sessionID)));
 
-			foreach (FileInfo file in folderSession.GetFiles())
-				Util.FileDelete(file.Name);
+			if(folderSession.Exists)
+				foreach (FileInfo file in folderSession.GetFiles())
+					Util.FileDelete(file.Name);
 		}
 
 		//TODO: delete multimedia stuff of persons that have to be deleted, eg. on export: persons that are not in session (just for privacity)

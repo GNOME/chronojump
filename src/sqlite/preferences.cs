@@ -233,8 +233,8 @@ class SqlitePreferences : Sqlite
 				Insert (ForceSensorCaptureScroll, "True", dbcmdTr); //scroll. not zoom out
 				Insert (ForceSensorElasticEccMinDispl, ".1", dbcmdTr);
 				Insert (ForceSensorElasticConMinDispl, ".1", dbcmdTr);
-				Insert (ForceSensorNotElasticEccMinForce, "10", dbcmdTr);
-				Insert (ForceSensorNotElasticConMinForce, "10", dbcmdTr);
+				Insert (ForceSensorNotElasticEccMinForce, "100", dbcmdTr);
+				Insert (ForceSensorNotElasticConMinForce, "100", dbcmdTr);
 				Insert (ForceSensorGraphsLineWidth, "2", dbcmdTr);
 				Insert (ForceSensorCaptureFeedbackActive, "False", dbcmdTr);
 				Insert (ForceSensorCaptureFeedbackAt, "100", dbcmdTr);

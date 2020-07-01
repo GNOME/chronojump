@@ -135,7 +135,7 @@ public abstract class EncoderCapture
 		}
 		else if(! simulated && ! capturingInertialBG)
 		{
-			LogB.Debug("runEncoderCaptureCsharp start port:", port);
+			LogB.Debug("encoderCaptureCsharp start port:", port);
 			sp = new SerialPort(port);
 			sp.BaudRate = 115200;
 			LogB.Information("sp created");

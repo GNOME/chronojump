@@ -68,6 +68,20 @@ public partial class ChronoJumpWindow
 
 	private void app1s_initializeGui()
 	{
+		/*
+		 * need these two lines for macOS because there are strange glitches if we do not put them here
+		 * eg. if we start Chronojump and try to import without having done this first:
+		 * app1s_notebook.CurrentPage = app1s_PAGE_SELECT_SESSION;
+		 * then import buttons do not work.
+		 * And if we do not do:
+		 * app1s_notebook.CurrentPage = app1s_PAGE_IMPORT_START;
+		 * before load session, buttons are displaced.
+		 * All gets fixed resizing a bit the windows, but using Visible=true or .Show() does not solve the problem.
+		 * So we need these (or destroy all the mac computers on the planet).
+		 */
+		app1s_notebook.CurrentPage = app1s_PAGE_SELECT_SESSION;
+		app1s_notebook.CurrentPage = app1s_PAGE_IMPORT_START;
+
 		if (app1s_type == app1s_windowType.LOAD_SESSION) {
 			app1s_file_path_import.Visible = false;
 			app1s_notebook_load_button_animation.Visible = true;

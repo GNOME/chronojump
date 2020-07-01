@@ -114,6 +114,11 @@ dput chronojump-ppa build-deb/chronojump..._source.changes
 
 macosx stuff
 ------------
+
+Check if there are new static ffmpeg binaries on:
+https://ffmpeg.zeranoe.com/builds/
+download zip and put ffmpeg and ffplay on ffmpegBinariesMac dir
+
 If is for internal use, mv into: /Users/chronojump/BinarisMac/
 to be automatically available on owncloud
 

@@ -73,6 +73,9 @@ public class DialogShortcuts
 		//put an icon to window
 		UtilGtk.IconWindow(dialog_shortcuts);
 
+		/*
+		 * on 2.0 mac will also use ctrl until we find the way to use command
+		 *
 		if(isMac)
 		{
 			label_ctrl.Text = "Command";
@@ -83,6 +86,7 @@ public class DialogShortcuts
 			label_ctrl5.Text = "Command";
 			label_enter.Text = "Return";
 		}
+		*/
 
 		putIcons();
 	}

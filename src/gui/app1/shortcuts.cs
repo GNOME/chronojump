@@ -35,10 +35,15 @@ public partial class ChronoJumpWindow
 	{
 		string kCtrl = "Ctrl";
 		string kEnter = "Enter";
+
+		/*
+		 * on 2.0 mac will also use ctrl until we find the way to use command
+		 *
 		if(isMac) {
 			kCtrl = "Command";
 			kEnter = "Command";
 		}
+		*/
 
 		string space = Catalog.GetString("Space");
 		string up = Catalog.GetString("Up");

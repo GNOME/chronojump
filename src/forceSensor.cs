@@ -263,6 +263,20 @@ public class ForceSensor
 		return (this);
 	}
 
+	public static string ReadTrigger (string s)
+	{
+		if(s == "R")
+			return "RCA ON";
+		else if(s == "r")
+			return "RCA OFF";
+		else if(s == "B")
+			return "Button ON";
+		else if(s == "b")
+			return "Button OFF";
+		else
+			return "RCA or button unknown, readed: " + s;
+	}
+
 	public string FullURL
 	{
 		get { return Util.GetForceSensorSessionDir(sessionID) + Path.DirectorySeparatorChar + filename; }

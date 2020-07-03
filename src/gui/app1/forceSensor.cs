@@ -82,6 +82,7 @@ public partial class ChronoJumpWindow
 	private ForceSensor currentForceSensor;
 	private ForceSensorExercise currentForceSensorExercise;
 	DateTime forceSensorTimeStartCapture;
+	private string forceSensorFirmwareVersion;
 
 
 	//non GTK on this method
@@ -236,10 +237,10 @@ public partial class ChronoJumpWindow
 
 		LogB.Information(" FS connect 6: get version");
 
-		string version = forceSensorCheckVersionDo();
-		LogB.Information("Version found: [" + version + "]");
+		forceSensorFirmwareVersion = forceSensorCheckVersionDo();
+		LogB.Information("Version found: [" + forceSensorFirmwareVersion + "]");
 
-		if(version == "0.1")
+		if(forceSensorFirmwareVersion == "0.1")
 		{
 			LogB.Information(" FS connect 6b, version 0.1: adjusting parameters...");
 
@@ -264,7 +265,7 @@ public partial class ChronoJumpWindow
 		}
 
 		bool forceSensorBinaryCapture = false;
-                double versionDouble = Convert.ToDouble(Util.ChangeDecimalSeparator(version));
+                double versionDouble = Convert.ToDouble(Util.ChangeDecimalSeparator(forceSensorFirmwareVersion));
 		if(versionDouble >= Convert.ToDouble(Util.ChangeDecimalSeparator("0.3"))) //from 0.3 versions can be binary
 			forceSensorBinaryCapture = forceSensorCheckBinaryCapture();
 
@@ -894,6 +895,11 @@ public partial class ChronoJumpWindow
 		int firstTime = 0;
 //		bool forceSensorBinary = forceSensorBinaryCapture();
 
+		bool readTriggers = false;
+		double versionDouble = Convert.ToDouble(Util.ChangeDecimalSeparator(forceSensorFirmwareVersion));
+		if(versionDouble >= Convert.ToDouble(Util.ChangeDecimalSeparator("0.5"))) //from 0.5 versions have trigger
+			readTriggers = true;
+
 		//LogB.Information("pre bucle");
 		//LogB.Information(string.Format("forceProcessFinish: {0}, forceProcessCancel: {1}, forceProcessError: {2}", forceProcessFinish, forceProcessCancel, forceProcessError));
 		while(! forceProcessFinish && ! forceProcessCancel && ! forceProcessError)
@@ -901,6 +907,7 @@ public partial class ChronoJumpWindow
 			LogB.Information("at bucle");
 			int time = 0;
 			double force = 0;
+			string trigger = "";
 
 			if(forceSensorBinaryCapture)
 			{
@@ -926,8 +933,11 @@ public partial class ChronoJumpWindow
 				if(! Util.IsNumber(Util.ChangeDecimalSeparator(strFull[0]), true))
 					continue;
 
-				LogB.Information("force: " + strFull[1]);
-				if(! Util.IsNumber(Util.ChangeDecimalSeparator(strFull[1]), true))
+				if(Util.IsNumber(Util.ChangeDecimalSeparator(strFull[1]), true))
+					LogB.Information("force: " + strFull[1]);
+				else if(readTriggers)
+					trigger = strFull[1];
+				else
 					continue;
 
 				time = Convert.ToInt32(strFull[0]);
@@ -940,6 +950,14 @@ public partial class ChronoJumpWindow
 
 			//use this to have time starting at 0
 			time -= firstTime;
+
+			//if RCA or button at the moment just print it here (now that time has been corrected using firstTime)
+			if(readTriggers && trigger != "")
+			{
+				LogB.Information(string.Format("At: {0}, trigger: {1}",
+							time.ToString(), ForceSensor.ReadTrigger(trigger)));
+				continue;
+			}
 
 			LogB.Information(string.Format("time: {0}, force: {1}", time, force));
 			//forceCalculated have abs or inverted

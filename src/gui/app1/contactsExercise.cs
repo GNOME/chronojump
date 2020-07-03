@@ -112,6 +112,9 @@ public partial class ChronoJumpWindow
 		else if(m == Constants.Menuitem_modes.RUNSENCODER)
 			name = UtilGtk.ComboGetActive(combo_run_encoder_exercise);
 
+		if(name == "")
+			name = Catalog.GetString("Need to create an exercise.");
+
 		label_contacts_exercise_selected_name.Text = name;
 	}
 	private void setLabelContactsExerciseSelected(string name)

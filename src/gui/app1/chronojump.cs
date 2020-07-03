@@ -3107,7 +3107,11 @@ public partial class ChronoJumpWindow
 			notebooks_change(m);
 
 			vbox_contacts_load_recalculate.Visible = true;
+
 			vbox_contacts_signal_comment.Visible = true;
+			vbox_contacts_signal_comment.SetSizeRequest(
+					button_contacts_signal_save_comment.SizeRequest().Width, -1);
+
 			button_contacts_capture_load.Sensitive = myTreeViewPersons.IsThereAnyRecord();
 			button_contacts_capture_session_overview.Sensitive = myTreeViewPersons.IsThereAnyRecord();
 
@@ -3138,7 +3142,11 @@ public partial class ChronoJumpWindow
 			notebooks_change(m);
 
 			vbox_contacts_load_recalculate.Visible = true;
+
 			vbox_contacts_signal_comment.Visible = true;
+			vbox_contacts_signal_comment.SetSizeRequest(
+					button_contacts_signal_save_comment.SizeRequest().Width, -1);
+
 			button_contacts_capture_load.Sensitive = myTreeViewPersons.IsThereAnyRecord();
 			button_contacts_capture_session_overview.Sensitive = myTreeViewPersons.IsThereAnyRecord();
 

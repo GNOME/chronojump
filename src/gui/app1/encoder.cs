@@ -108,6 +108,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.VBox vbox_encoder_signal_comment;
 	[Widget] Gtk.Notebook notebook_encoder_signal_comment_rhythm_and_triggers;
 	[Widget] Gtk.TextView textview_encoder_signal_comment;
+	[Widget] Gtk.Frame frame_encoder_signal_comment;
 	[Widget] Gtk.Button button_encoder_signal_save_comment;
 	[Widget] Gtk.Button button_export_encoder_signal;
 //	[Widget] Gtk.Button button_menu_encoder_export_set;
@@ -497,6 +498,10 @@ public partial class ChronoJumpWindow
 		LogB.Information("after play 6");
 
 		encoderGraphDoPlot = null; 	//initialize
+
+		vbox_encoder_signal_comment.SetSizeRequest (button_encoder_signal_save_comment.SizeRequest().Width, -1);
+		notebook_encoder_signal_comment_rhythm_and_triggers.SetSizeRequest
+			(button_encoder_signal_save_comment.SizeRequest().Width, -1);
 	}
 
 	void on_button_encoder_select_clicked (object o, EventArgs args)

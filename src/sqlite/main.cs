@@ -2250,7 +2250,13 @@ class Sqlite
 			{
 				LogB.SQL("Updated preferences: added gstreamer");
 
-				SqlitePreferences.Insert (Preferences.GstreamerStr, Preferences.GstreamerTypes.GST_0_1.ToString());
+				UtilAll.OperatingSystems os = UtilAll.GetOSEnum();
+				if(os == UtilAll.OperatingSystems.WINDOWS)
+					SqlitePreferences.Insert (Preferences.GstreamerStr, Preferences.GstreamerTypes.SYSTEMSOUNDS.ToString());
+				else if(os == UtilAll.OperatingSystems.MACOSX)
+					SqlitePreferences.Insert (Preferences.GstreamerStr, Preferences.GstreamerTypes.FFPLAY.ToString());
+				else
+					SqlitePreferences.Insert (Preferences.GstreamerStr, Preferences.GstreamerTypes.GST_1_0.ToString());
 
 				currentVersion = updateVersion("1.48");
 			}
@@ -2721,7 +2727,6 @@ class Sqlite
 
 				currentVersion = updateVersion("1.95");
 			}
-
 
 			/*
 			if(currentVersion == "1.79")

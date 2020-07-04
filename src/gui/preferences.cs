@@ -164,9 +164,9 @@ public class PreferencesWindow
 
 	//multimedia tab
 	[Widget] Gtk.CheckButton checkbutton_volume;
-	[Widget] Gtk.Table table_gstreamer;
 	[Widget] Gtk.RadioButton radio_gstreamer_0_1;
 	[Widget] Gtk.RadioButton radio_gstreamer_1_0;
+	[Widget] Gtk.RadioButton radio_ffplay;
 	[Widget] Gtk.RadioButton radio_sound_systemsounds;
 	[Widget] Gtk.HBox hbox_not_recommended_when_not_on_windows;
 	[Widget] Gtk.Label label_test_sound_result;
@@ -394,24 +394,35 @@ public class PreferencesWindow
 
 		PreferencesWindowBox.label_camera_error.Visible = false;
 
-		if(UtilAll.IsWindows())
-			PreferencesWindowBox.label_webcam_windows.Visible = true;
+		PreferencesWindowBox.label_webcam_windows.Visible =
+			(PreferencesWindowBox.operatingSystem == UtilAll.OperatingSystems.WINDOWS);
 
-		if(UtilAll.IsWindows())
+		PreferencesWindowBox.hbox_not_recommended_when_not_on_windows.Visible =
+			! (PreferencesWindowBox.operatingSystem == UtilAll.OperatingSystems.WINDOWS);
+
+		if(PreferencesWindowBox.operatingSystem == UtilAll.OperatingSystems.WINDOWS ||
+				PreferencesWindowBox.operatingSystem == UtilAll.OperatingSystems.MACOSX)
 		{
-			PreferencesWindowBox.table_gstreamer.Visible = false;
-			PreferencesWindowBox.hbox_not_recommended_when_not_on_windows.Visible = false;
-		} else {
-			PreferencesWindowBox.table_gstreamer.Visible = true;
-			PreferencesWindowBox.hbox_not_recommended_when_not_on_windows.Visible = true;
+			if(preferences.gstreamer == Preferences.GstreamerTypes.FFPLAY)
+				PreferencesWindowBox.radio_ffplay.Active = true;
+			else //(preferences.gstreamer == Preferences.GstreamerTypes.SYSTEMSOUNDS)
+				PreferencesWindowBox.radio_sound_systemsounds.Active = true;
+
+			PreferencesWindowBox.radio_gstreamer_0_1.Visible = false;
+			PreferencesWindowBox.radio_gstreamer_1_0.Visible = false;
+		}
+		else //LINUX
+		{
+			if(preferences.gstreamer == Preferences.GstreamerTypes.GST_0_1)
+				PreferencesWindowBox.radio_gstreamer_0_1.Active = true;
+			else if(preferences.gstreamer == Preferences.GstreamerTypes.GST_1_0)
+				PreferencesWindowBox.radio_gstreamer_1_0.Active = true;
+			else if(preferences.gstreamer == Preferences.GstreamerTypes.FFPLAY)
+				PreferencesWindowBox.radio_ffplay.Active = true;
+			else //(preferences.gstreamer == Preferences.GstreamerTypes.SYSTEMSOUNDS)
+				PreferencesWindowBox.radio_sound_systemsounds.Active = true;
 		}
 
-		if(preferences.gstreamer == Preferences.GstreamerTypes.GST_0_1)
-			PreferencesWindowBox.radio_gstreamer_0_1.Active = true;
-		else if(preferences.gstreamer == Preferences.GstreamerTypes.GST_1_0)
-			PreferencesWindowBox.radio_gstreamer_1_0.Active = true;
-		else //(preferences.gstreamer == Preferences.GstreamerTypes.SYSTEMSOUNDS)
-			PreferencesWindowBox.radio_sound_systemsounds.Active = true;
 		PreferencesWindowBox.label_test_sound_result.Text = "";
 
 		wd_list = UtilMultimedia.GetVideoDevices();
@@ -1103,6 +1114,8 @@ public class PreferencesWindow
 			sc = Util.PlaySound(Constants.SoundTypes.GOOD, true, Preferences.GstreamerTypes.GST_0_1);
 		else if(radio_gstreamer_1_0.Active)
 			sc = Util.PlaySound(Constants.SoundTypes.GOOD, true, Preferences.GstreamerTypes.GST_1_0);
+		else if(radio_ffplay.Active)
+			sc = Util.PlaySound(Constants.SoundTypes.GOOD, true, Preferences.GstreamerTypes.FFPLAY);
 		else
 			sc = Util.PlaySound(Constants.SoundTypes.GOOD, true, Preferences.GstreamerTypes.SYSTEMSOUNDS);
 
@@ -1244,19 +1257,19 @@ public class PreferencesWindow
 		button_video_ffplay_kill.Visible = false;
 		label_camera_check_running.Text = "";
 
-		bool runningFfmpeg = false;
-		bool runningFfplay = false;
+		//bool runningFfmpeg = false;
+		//bool runningFfplay = false;
 
 		if(ExecuteProcess.IsRunning3 (-1, WebcamFfmpeg.GetExecutableCapture(operatingSystem)))
 		{
-			runningFfmpeg = true;
+			//runningFfmpeg = true;
 			label_video_check_ffmpeg_running.Text = "Running";
 			button_video_ffmpeg_kill.Visible = true;
 		}
 
 		if(ExecuteProcess.IsRunning3 (-1, WebcamFfmpeg.GetExecutablePlay(operatingSystem)))
 		{
-			runningFfplay = true;
+			//runningFfplay = true;
 			label_video_check_ffplay_running.Text = "Running";
 			button_video_ffplay_kill.Visible = true;
 		}
@@ -1945,6 +1958,11 @@ public class PreferencesWindow
 		{
 			SqlitePreferences.Update(Preferences.GstreamerStr, Preferences.GstreamerTypes.GST_0_1.ToString(), true);
 			preferences.gstreamer = Preferences.GstreamerTypes.GST_0_1;
+		}
+		else if( preferences.gstreamer != Preferences.GstreamerTypes.FFPLAY && radio_ffplay.Active)
+		{
+			SqlitePreferences.Update(Preferences.GstreamerStr, Preferences.GstreamerTypes.FFPLAY.ToString(), true);
+			preferences.gstreamer = Preferences.GstreamerTypes.FFPLAY;
 		}
 		else if( preferences.gstreamer != Preferences.GstreamerTypes.SYSTEMSOUNDS && radio_sound_systemsounds.Active)
 		{

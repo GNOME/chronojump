@@ -217,7 +217,9 @@ public class Preferences
 				
 	public int encoderCaptureTimeIM = 180; //hardcoded 3 minutes.
 
-	public enum GstreamerTypes { GST_0_1, GST_1_0, SYSTEMSOUNDS }; //SYSTEMSOUNDS is the default sounds played on Windows
+	public enum GstreamerTypes { GST_0_1, GST_1_0, FFPLAY, SYSTEMSOUNDS };
+	//SYSTEMSOUNDS is the default sounds played on Windows, FFPLAY on mac (to avoid installing gstreamer)
+
 	public GstreamerTypes gstreamer;
 	public static string GstreamerStr = "gstreamer"; //in order to ensure write correctly on SQL
 

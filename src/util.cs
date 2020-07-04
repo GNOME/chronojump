@@ -1512,7 +1512,6 @@ public class Util
 			return playSoundGstreamer(mySound, gstreamer);
 	}
 	
-//	private enum gstreamerVersions { GST_0_1, GST_1_0, SYSTEMSOUNDS }
 	private static SoundCodes playSoundGstreamer (Constants.SoundTypes mySound, Preferences.GstreamerTypes gstreamer)
 	{
 		string fileName = "";
@@ -1535,9 +1534,24 @@ public class Util
 				pBin="gst-launch-0.10";
 				pinfo.Arguments = "playbin2 " + @"uri=file://" + fileName;
 			}
-			else { //gstreamer == Preferences.GstreamerTypes.GST_1_0
+			else if (gstreamer == Preferences.GstreamerTypes.GST_1_0) {
 				pBin="gst-launch-1.0";
 				pinfo.Arguments = "playbin " + @"uri=file://" + fileName;
+			}
+			else if (gstreamer == Preferences.GstreamerTypes.FFPLAY)
+			{
+				pBin="ffplay";
+				if(operatingSystem == UtilAll.OperatingSystems.WINDOWS)
+				{
+					if(System.Environment.Is64BitProcess)
+						pBin = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffplay.exe");
+					else
+						pBin = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/i386/ffplay.exe");
+				}
+				else if(operatingSystem == UtilAll.OperatingSystems.MACOSX)
+					pBin = System.IO.Path.Combine(Util.GetPrefixDir(), "bin/ffplay");
+
+				pinfo.Arguments = fileName + " -nodisp -nostats -hide_banner -autoexit";
 			}
 
 			pinfo.FileName=pBin;

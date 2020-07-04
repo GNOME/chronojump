@@ -144,8 +144,16 @@ class SqlitePreferences : Sqlite
 				Insert ("language", "", dbcmdTr); 
 				Insert ("crashLogLanguage", "", dbcmdTr);
 				Insert ("allowFinishRjAfterTime", "True", dbcmdTr); 
-				Insert ("volumeOn", "True", dbcmdTr); 
-				Insert (Preferences.GstreamerStr, Preferences.GstreamerTypes.GST_0_1.ToString(), dbcmdTr);
+				Insert ("volumeOn", "True", dbcmdTr);
+
+				UtilAll.OperatingSystems os = UtilAll.GetOSEnum();
+				if(os == UtilAll.OperatingSystems.WINDOWS)
+					Insert (Preferences.GstreamerStr, Preferences.GstreamerTypes.SYSTEMSOUNDS.ToString());
+				else if(os == UtilAll.OperatingSystems.MACOSX)
+					Insert (Preferences.GstreamerStr, Preferences.GstreamerTypes.FFPLAY.ToString(), dbcmdTr);
+				else
+					Insert (Preferences.GstreamerStr, Preferences.GstreamerTypes.GST_1_0.ToString(), dbcmdTr);
+
 				Insert ("videoOn", "True", dbcmdTr); 
 				Insert ("evaluatorServerID", "-1", dbcmdTr);
 				Insert ("versionAvailable", "", dbcmdTr);
@@ -529,8 +537,16 @@ class SqlitePreferences : Sqlite
 			else if(reader[0].ToString() == "volumeOn")
 				preferences.volumeOn = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == Preferences.GstreamerStr)
+			{
 				preferences.gstreamer = (Preferences.GstreamerTypes)
 					Enum.Parse(typeof(Preferences.GstreamerTypes), reader[1].ToString());
+
+				//on 2.0 gstreamer is disabled on mac
+				if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX && (
+						preferences.gstreamer == Preferences.GstreamerTypes.GST_0_1 ||
+						preferences.gstreamer == Preferences.GstreamerTypes.GST_1_0 ) )
+					preferences.gstreamer = Preferences.GstreamerTypes.FFPLAY;
+			}
 			else if(reader[0].ToString() == "videoOn")
 				preferences.videoOn = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "evaluatorServerID")

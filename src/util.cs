@@ -30,6 +30,8 @@ using System.Globalization; 	//Unicode
 //this class tries to be a space for methods that are used in different classes
 public class Util
 {
+	public static UtilAll.OperatingSystems operatingSystem;
+
 	/*
 	 * sometimes two doubles are similar "human eye" but different when they are compared with equal
 	 * just return true if the difference between them is lower than 0.001
@@ -1259,7 +1261,7 @@ public class Util
 	public static string GetPrefixDir()
 	{
 		//on mac with the bundle we use this method to return PrefixDir, as BaseDirectory and GetCurrentDirectory() do not work
-		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
+		if(operatingSystem == UtilAll.OperatingSystems.MACOSX)
 			return (System.IO.Path.Combine(
 						Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName),
 						".."));
@@ -1450,7 +1452,7 @@ public class Util
  
 		if (UtilAll.IsWindows())
 			rBin=System.IO.Path.Combine(GetPrefixDir(), "bin/R.exe");
-		else if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
+		else if(operatingSystem == UtilAll.OperatingSystems.MACOSX)
 			rBin = Constants.ROSX;
 
 		pinfo = new ProcessStartInfo();
@@ -1503,7 +1505,7 @@ public class Util
 		 * and some MacOSX users have 300% CPU
 		 */
 
-		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.WINDOWS ||
+		if(operatingSystem == UtilAll.OperatingSystems.WINDOWS ||
 				gstreamer == Preferences.GstreamerTypes.SYSTEMSOUNDS)
 			return playSoundWindows(mySound);
 		else

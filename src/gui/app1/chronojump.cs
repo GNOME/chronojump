@@ -461,6 +461,7 @@ public partial class ChronoJumpWindow
 
 	private bool createdStatsWin;
 	
+	private UtilAll.OperatingSystems operatingSystem;
 	private string progVersion;
 	private string progName;
 	private enum notebook_start_pages { PROGRAM, SENDLOG, EXITCONFIRM }
@@ -496,6 +497,9 @@ public partial class ChronoJumpWindow
 		this.progVersion = progVersion;
 		this.progName = progName;
 		this.runningFileName = runningFileName;
+
+		//record GetOsEnum on variables to not call it all the time
+		operatingSystem = UtilAll.GetOSEnum();
 
 		Glade.XML gxml;
 		gxml = Glade.XML.FromAssembly (Util.GetGladePath() + "app1.glade", "app1", "chronojump");
@@ -670,7 +674,7 @@ public partial class ChronoJumpWindow
 		encoderInitializeStuff();	
 
 		//done before configInitRead because that will change some Tooltips
-		addShortcutsToTooltips(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX);
+		addShortcutsToTooltips(operatingSystem == UtilAll.OperatingSystems.MACOSX);
 
 		LogB.Information("Calling configInitRead from gui / ChronojumpWindow");
 		configInitRead();
@@ -2276,7 +2280,7 @@ public partial class ChronoJumpWindow
 			LogB.Information("Done!");
 
 			LogB.Information("Closing camera if opened...");
-			ExecuteProcess.KillExternalProcess (WebcamFfmpeg.GetExecutableCapture(UtilAll.GetOSEnum()));
+			ExecuteProcess.KillExternalProcess (WebcamFfmpeg.GetExecutableCapture(operatingSystem));
 			LogB.Information("Done!");
 
 			//do not need this, above cancelling is enough
@@ -2891,7 +2895,7 @@ public partial class ChronoJumpWindow
 				( m == Constants.Menuitem_modes.POWERGRAVITATORY ||
 				  m == Constants.Menuitem_modes.POWERINERTIAL ||
 				  m == Constants.Menuitem_modes.FORCESENSOR ) &&
-				UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX &&
+				operatingSystem == UtilAll.OperatingSystems.MACOSX &&
 				! Util.FileExists(Constants.ROSX) )
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING,
@@ -6574,7 +6578,7 @@ LogB.Debug("mc finished 5");
 
 	private void on_shortcuts_clicked (object o, EventArgs args)
 	{
-		new DialogShortcuts(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX);
+		new DialogShortcuts(operatingSystem == UtilAll.OperatingSystems.MACOSX);
 	}
 
 	private void on_menuitem_check_last_version_activate (object o, EventArgs args) 
@@ -7357,7 +7361,7 @@ LogB.Debug("mc finished 5");
 		 * (no new tty is assigned until serial port is closed)
 		 * maybe need to reconnect USB cables
 		 */
-		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX && 
+		if(operatingSystem == UtilAll.OperatingSystems.MACOSX &&
 				chronopicRegister.Crpl.L.Count == 0)
 		{
 			cp2016.SerialPortsCloseIfNeeded(true);

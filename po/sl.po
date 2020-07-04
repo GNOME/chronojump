@@ -6417,7 +6417,7 @@ msgid ""
 "because can be a link to the real <i>MyPC</i> icon, if you cannot see "
 "<i>Properties</i>, please use another MyPC icon."
 msgstr ""
-"V kolikor na ikoni <i>Moj računalnik</i> ni <i>lastnosti</>, to pomeni, da "
+"V kolikor na ikoni <i>Moj računalnik</i> ni <i>lastnosti</i>, to pomeni, da "
 "je ikona le povezava do prave ikone <i>Moj računalnik</i>. V tem primeru "
 "poiščite pravo ikono."
 

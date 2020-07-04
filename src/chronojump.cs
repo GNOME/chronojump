@@ -38,6 +38,7 @@ public class ChronoJump
 	
 	private static string progVersion = ""; //now in "version" file
 	private static string progName = "Chronojump";
+	private static UtilAll.OperatingSystems operatingSystem;
 	
 	private string runningFileName; //useful for knowing if there are two chronojump instances
 	private string messageToShowOnBoot = "";
@@ -77,6 +78,12 @@ public class ChronoJump
 
 		var envPath = Environment.GetEnvironmentVariable ("PATH");
 		var rBinPath = "";
+
+		//record GetOsEnum on variables to not call it all the time
+		operatingSystem = UtilAll.GetOSEnum();
+		Util.operatingSystem = operatingSystem;
+
+		//we need to set Util.operatingSytem before GetPrefixDir()
 		baseDirectory = Util.GetPrefixDir();
 
 		/*
@@ -113,7 +120,7 @@ public class ChronoJump
 			Environment.SetEnvironmentVariable ("R_HOME", baseDirectory);
 			LogB.Information("R_HOME:", baseDirectory);
 		} else {
-			switch (UtilAll.GetOSEnum()) {
+			switch (operatingSystem) {
 				case UtilAll.OperatingSystems.MACOSX:
 					LogB.Information(Environment.GetEnvironmentVariable("R_HOME"));
 					rBinPath = "/Library/Frameworks/R.Framework/Libraries";
@@ -574,11 +581,11 @@ public class ChronoJump
 		LogB.SQL("all SQL done! starting Chronojump");
 
 		string topMessage = "";
-		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX && ! linuxUserHasDialout())
+		if(operatingSystem == UtilAll.OperatingSystems.LINUX && ! linuxUserHasDialout())
 			topMessage = Catalog.GetString("Need dialout permissions to read from device.") + "\n" +
 				Catalog.GetString("Check software page on Chronojump website");
 
-		bool showCameraStop = (ExecuteProcess.IsRunning3 (-1, WebcamFfmpeg.GetExecutableCapture(UtilAll.GetOSEnum())));
+		bool showCameraStop = (ExecuteProcess.IsRunning3 (-1, WebcamFfmpeg.GetExecutableCapture(operatingSystem)));
 
 		new ChronoJumpWindow(progVersion, progName, runningFileName, splashWin, sendLog, messageToShowOnBoot, topMessage, showCameraStop);
 	}

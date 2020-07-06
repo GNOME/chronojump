@@ -72,7 +72,6 @@ copy all PDFs:
 cp manual/*.pdf win32/deps/share/doc/chronojump/.
 and to: (not sure which one we can delete)
 cp manual/*.pdf win32/share/doc/chronojump/.
-created old folder on each one and chronojump_crash-pdf and troubleshoting.pdf moved there. TODO: delete them.
 
 cd win32
 make installer

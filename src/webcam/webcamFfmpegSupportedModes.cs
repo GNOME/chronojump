@@ -507,12 +507,28 @@ public class WebcamFfmpegSupportedModesMac : WebcamFfmpegSupportedModes
 			return;
 		}
 
+		/*
 		//select and impossible mode just to get an error on mac, this error will give us the "Supported modes"
 		Webcam webcamPlay = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(),
 				cameraCode, "", "8000x8000", "8000");
+				*/
+
+		//Try with 640x480 at 30Hz
+		Webcam webcamPlay = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(),
+				cameraCode, "", "640x480", "30");
 
 		Webcam.Result result = webcamPlay.PlayPreviewNoBackgroundWantStdoutAndStderr();
-		modesStr = parseSupportedModes(result.output);
+		if(result.success)
+		{
+			WebcamSupportedMode currentMode = new WebcamSupportedMode("640x480");
+			currentMode.AddFramerate("30");
+
+			WebcamSupportedModesList wsmList = new WebcamSupportedModesList("avfoundation");
+			wsmList.Add(currentMode);
+			wsmListOfLists.Add(wsmList);
+			modesStr = printListOfLists();
+		} else
+			modesStr = parseSupportedModes(result.output);
 	}
 
 	protected override string parseSupportedModes(string allOutput)

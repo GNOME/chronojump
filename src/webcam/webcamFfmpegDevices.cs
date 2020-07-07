@@ -368,7 +368,8 @@ public class WebcamFfmpegGetDevicesMac : WebcamFfmpegGetDevicesWinMac
 
 	protected override void parseMatch(string l)
 	{
-		if(! l.Contains("AVFoundation input device"))
+		//ffmpeg 4.3 seems to return "indev"
+		if( ! l.Contains("AVFoundation input device") && ! l.Contains("AVFoundation indev") )
 			return;
 
 		int firstBracketEnd = l.IndexOf(']');

@@ -53,13 +53,14 @@ MCS = yes
 to
 MCS = C:/MinGW/msys/1.0/home/chronojump/chronojump-build/dist/windows_x86/bin/dmcs
 
-2) on main dir create folders g and i
-3) copy all glade stuff into g
-4) copy all images stuff into i
-5) fixes on src/Makefile RESOURCES (670-1064),
-rename glade/ to g/
-rename images/ to i/
-
+2) fixes on src/Makefile RESOURCES (670-1064),
+rename (on Notepad++ select rows and CTRL+h) glade/ to g/
+rename (on Notepad++ select rows and CTRL+h) images/ to i/
+rename (on Notepad++ select rows and CTRL+h) ../i/mini/ to ../i/m/
+3) on main dir create folders g and i
+4) copy all glade stuff into g
+5) copy all images stuff into i
+6) on i, rename mini folder to m
 
 make
 make install
@@ -70,8 +71,6 @@ Just do 'make install' if compiled before
 
 copy all PDFs:
 cp manual/*.pdf win32/deps/share/doc/chronojump/.
-and to: (not sure which one we can delete)
-cp manual/*.pdf win32/share/doc/chronojump/.
 
 cd win32
 make installer

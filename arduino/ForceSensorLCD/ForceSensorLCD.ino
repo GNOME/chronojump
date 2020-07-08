@@ -75,7 +75,10 @@ unsigned long totalTime = 0;
 unsigned int samples = 0;
 
 const int button1Pin = 6;
-int button1State;
+bool button1State;
+
+const int button2Pin = 13;
+bool button2State;
 float voltage;
 
 
@@ -137,6 +140,23 @@ void setup() {
 
 void loop()
 {
+  button2State = digitalRead(button2Pin);
+  if (button2State == 1) {
+    lcd.clear();
+    lcd.setCursor(3, 0);
+    lcd.print("Taring...");
+    tare();
+    lcd.setCursor(3, 0);
+    lcd.print("Taring OK");
+    delay(1000);
+    lcd.setCursor(2, 0);
+    lcd.print("CHRONOJUMP");
+    lcd.setCursor(2, 1);
+    lcd.print("Boscosystem");
+//    lcd.setCursor(2,1);
+//    lcd.print("Press Start");
+
+  }
   button1State = digitalRead(button1Pin);
   if (button1State == 1) {
     start_capture();

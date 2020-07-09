@@ -6618,6 +6618,7 @@ LogB.Debug("mc finished 5");
 	Json jsPing;
 	private void pingDo(bool showInWindow)
 	{
+		LogB.Information("version at pingDo:" + UtilAll.ReadVersionFromBuildInfo());
 		jsPing = new Json();
 		bool success = jsPing.Ping(UtilAll.GetOS(), UtilAll.ReadVersionFromBuildInfo(), preferences.machineID);
 

@@ -214,7 +214,9 @@ public class Json
 		// Creates the json object
 		JsonObject json = new JsonObject();
 		json.Add("os_version", osVersion);
-		json.Add("cj_version", cjVersion.Substring(0,11)); //send only the first 11 chars
+		if(cjVersion.Length > 11)
+			cjVersion = cjVersion.Substring(0,11); //send only the first 11 chars, but not if version is just 2.0.0, see: buildInfo.cs
+		json.Add("cj_version", cjVersion);
 		json.Add("machine_id", machineID);
 
 		// Converts it to a String

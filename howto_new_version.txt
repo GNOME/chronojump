@@ -178,7 +178,7 @@ chronojump_stable_version=1.8.1
 example for minor version:
 chronojump_stable_version=1.8.1-37-g2e4a586
 
-/etc/init.d/gunicorn restart
+systemctl restart gunicorn
 verify:
 curl http://api.chronojump.org:8080/version
 

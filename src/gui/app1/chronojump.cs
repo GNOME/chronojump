@@ -772,13 +772,19 @@ public partial class ChronoJumpWindow
 
 		if(preferences.colorBackgroundIsDark)
 		{
+			image_session_new_blue.Visible = false;
 			image_session_load3_blue.Visible = false;
 			image_session_import1_blue.Visible = false;
+
+			image_session_new_yellow.Visible = true;
 			image_session_load3_yellow.Visible = true;
 			image_session_import1_yellow.Visible = true;
 		} else {
+			image_session_new_blue.Visible = true;
 			image_session_load3_blue.Visible = true;
 			image_session_import1_blue.Visible = true;
+
+			image_session_new_yellow.Visible = false;
 			image_session_load3_yellow.Visible = false;
 			image_session_import1_yellow.Visible = false;
 		}

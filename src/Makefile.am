@@ -481,6 +481,7 @@ RESOURCES = \
 	../images/md/ic_delete_blue_24dp_1x.png,stock_delete.png \
 	../images/md/ic_create_new_folder_blue_24dp_2x.png,folder_new_big.png \
 	../images/md/ic_create_new_folder_blue_24dp_1x.png,folder_new.png \
+	../images/md/ic_create_new_folder_yellow_24dp_1x.png,folder_new_yellow.png \
 	../images/md/ic_fullscreen_exit_blue_24dp_1x.png,image_minimize.png \
 	../images/md/ic_folder_open_blue_24dp_2x.png,folder_open_big.png \
 	../images/md/ic_folder_open_blue_24dp_1x.png,folder_open.png \

@@ -394,6 +394,10 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_new.png");
 		image_session_new1.Pixbuf = pixbuf;
 		image_session_new3.Pixbuf = pixbuf;
+		image_session_new_blue.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_new_yellow.png");
+		image_session_new_yellow.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_open.png");
 		image_session_load1.Pixbuf = pixbuf;

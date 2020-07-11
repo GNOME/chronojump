@@ -30,7 +30,7 @@ make dist
 
 scp "chronojump-$VERSION.tar.gz" xaviblas@master.gnome.org:.
 ssh xaviblas@master.gnome.org
-ftpadmin install "chronojump-$VERSION.tar.gz"
+ftpadmin install (filename)
 
 #with branching:
 #Go back to master:

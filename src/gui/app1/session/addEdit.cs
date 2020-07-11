@@ -31,44 +31,9 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow
 {
-	[Widget] Gtk.Window app1sae_session_add_edit;
-	[Widget] Gtk.Entry app1sae_entry_name;
-	[Widget] Gtk.Entry app1sae_entry_place;
-
-	[Widget] Gtk.Label app1sae_label_session_add;
-	[Widget] Gtk.Label app1sae_label_session_edit;
-	[Widget] Gtk.Label app1sae_label_name;
-	[Widget] Gtk.Label app1sae_label_date;
-	
-	[Widget] Gtk.TextView app1sae_textview_comments;
 	//[Widget] Gtk.Button button_delete; //now disabled on edit window, just do it with special button on session/more
-	[Widget] Gtk.Button app1sae_button_accept;
-
-	[Widget] Gtk.Image image_sport_undefined;
-	[Widget] Gtk.Image image_speciallity_undefined;
-	[Widget] Gtk.Image image_level_undefined;
-	[Widget] Gtk.RadioButton app1sae_radiobutton_diff_sports;
-	[Widget] Gtk.RadioButton app1sae_radiobutton_same_sport;
-	[Widget] Gtk.RadioButton app1sae_radiobutton_diff_speciallities;
-	[Widget] Gtk.RadioButton app1sae_radiobutton_same_speciallity;
-	[Widget] Gtk.RadioButton app1sae_radiobutton_diff_levels;
-	[Widget] Gtk.RadioButton app1sae_radiobutton_same_level;
-	[Widget] Gtk.Box app1sae_hbox_sports;
-	[Widget] Gtk.Box app1sae_hbox_combo_sports;
-	[Widget] Gtk.ComboBox app1sae_combo_sports;
-	[Widget] Gtk.Box app1sae_vbox_speciallity;
-	[Widget] Gtk.Label app1sae_label_speciallity;
-	[Widget] Gtk.Box app1sae_hbox_speciallities;
-	[Widget] Gtk.Box app1sae_hbox_combo_speciallities;
-	[Widget] Gtk.ComboBox app1sae_combo_speciallities;
-	[Widget] Gtk.Box app1sae_vbox_level;
-	[Widget] Gtk.Label app1sae_label_level;
-	[Widget] Gtk.Box app1sae_hbox_levels;
-	[Widget] Gtk.Box app1sae_hbox_combo_levels;
-	[Widget] Gtk.ComboBox app1sae_combo_levels;
-	
-//	[Widget] Gtk.Label app1sae_label_persons_data;
-//	[Widget] Gtk.TextView app1sae_textview_persons_data;
+	//[Widget] Gtk.Label app1sae_label_persons_data;
+	//[Widget] Gtk.TextView app1sae_textview_persons_data;
 
 	DialogCalendar app1sae_dialogCalendar;
 	DateTime app1sae_dateTime;
@@ -112,8 +77,8 @@ public partial class ChronoJumpWindow
 		app1sae_hbox_levels.Visible = false;
 
 		if(addSession) {
-			app1sae_label_session_add.Visible = true;
-			app1sae_label_session_edit.Visible = false;
+			hbox_session_add.Visible = true;
+			hbox_session_more_edit.Visible = false;
 			app1sae_dateTime = DateTime.Today;
 			app1sae_entry_name.Text = "";
 			app1sae_entry_place.Text = "";
@@ -131,8 +96,8 @@ public partial class ChronoJumpWindow
 			app1sae_button_accept.Sensitive = false;
 		
 		} else {
-			app1sae_label_session_add.Visible = false;
-			app1sae_label_session_edit.Visible = true;
+			hbox_session_add.Visible = false;
+			hbox_session_more_edit.Visible = true;
 
 			app1sae_dateTime = currentSession.Date;
 

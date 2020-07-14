@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2020-07-03 11:25+0000\n"
-"PO-Revision-Date: 2020-07-05 15:44+0300\n"
+"POT-Creation-Date: 2020-07-14 11:02+0000\n"
+"PO-Revision-Date: 2020-07-14 18:01+0300\n"
 "Last-Translator: Florentina Mușat <florentina.musat.28@gmail.com>\n"
 "Language-Team: Romanian <kde-i18n-doc@kde.org>\n"
 "Language: ro\n"
@@ -169,7 +169,7 @@ msgstr "Stop"
 
 #: ../glade/app1.glade.h:34 ../glade/dialog_threshold.glade.h:3
 #: ../glade/preferences_win.glade.h:3 ../glade/report_window.glade.h:10
-#: ../src/exportSession.cs:429 ../src/gui/app1/chronojump.cs:4317
+#: ../src/exportSession.cs:429 ../src/gui/app1/chronojump.cs:4327
 #: ../src/gui/jump.cs:1267 ../src/gui/jump.cs:1322 ../src/gui/jump.cs:1372
 #: ../src/sqlite/speciallity.cs:174 ../src/stats/rjAVGSD.cs:36
 #: ../src/stats/rjPotencyBosco.cs:35
@@ -182,7 +182,7 @@ msgid "Races"
 msgstr "Alergări"
 
 #: ../glade/app1.glade.h:36 ../glade/preferences_win.glade.h:6
-#: ../src/chronopicRegister.cs:79 ../src/gui/app1/chronojump.cs:2429
+#: ../src/chronopicRegister.cs:79 ../src/gui/app1/chronojump.cs:2439
 #: ../src/gui/app1/session/loadAndImport.cs:226
 #: ../src/gui/person/showAllEvents.cs:161
 msgid "Force sensor"
@@ -194,7 +194,7 @@ msgstr "Senzor de forță"
 msgid "Encoder"
 msgstr "Codor"
 
-#: ../glade/app1.glade.h:38 ../src/gui/app1/chronojump.cs:2431
+#: ../glade/app1.glade.h:38 ../src/gui/app1/chronojump.cs:2441
 #: ../src/gui/app1/reactionTime.cs:56
 #: ../src/gui/app1/session/loadAndImport.cs:215
 msgid "Reaction time"
@@ -202,7 +202,7 @@ msgstr "Timp de reacție"
 
 #: ../glade/app1.glade.h:39 ../glade/event_graph_configure.glade.h:10
 #: ../glade/force_sensor_exercise.glade.h:21 ../glade/report_window.glade.h:14
-#: ../src/constants.cs:300 ../src/gui/app1/chronojump.cs:2433
+#: ../src/constants.cs:300 ../src/gui/app1/chronojump.cs:2443
 msgid "Other"
 msgstr "Altele"
 
@@ -296,7 +296,7 @@ msgid "Advanced"
 msgstr "Avansat"
 
 #: ../glade/app1.glade.h:60 ../glade/report_window.glade.h:16
-#: ../src/exportSession.cs:226 ../src/gui/app1/chronojump.cs:4987
+#: ../src/exportSession.cs:226 ../src/gui/app1/chronojump.cs:4997
 #: ../src/gui/app1/session/loadAndImport.cs:216
 #: ../src/gui/person/showAllEvents.cs:157 ../src/report.cs:184
 msgid "Pulses"
@@ -344,7 +344,7 @@ msgstr "Feedback"
 msgid "Delete last test."
 msgstr "Șterge ultimul test."
 
-#: ../glade/app1.glade.h:69 ../src/gui/app1/chronojump.cs:3813
+#: ../glade/app1.glade.h:69 ../src/gui/app1/chronojump.cs:3823
 #: ../src/gui/app1/encoder.cs:1277 ../src/gui/app1/encoder.cs:6733
 msgid "Save comment"
 msgstr "Salvează comentariul"
@@ -401,12 +401,12 @@ msgstr "Anulează testul"
 #: ../src/gui/app1/session/backup.cs:87 ../src/gui/app1/session/export.cs:48
 #: ../src/gui/app1/session/export.cs:58 ../src/gui/encoderConfiguration.cs:657
 #: ../src/gui/encoderConfiguration.cs:714 ../src/gui/person/addModify.cs:320
-#: ../src/gui/person/addMultiple.cs:243 ../src/gui/preferences.cs:1473
+#: ../src/gui/person/addMultiple.cs:243 ../src/gui/preferences.cs:1486
 msgid "Cancel"
 msgstr "Anulează"
 
-#: ../glade/app1.glade.h:82 ../src/gui/app1/chronojump.cs:4001
-#: ../src/gui/app1/chronojump.cs:4453 ../src/gui/app1/chronojump.cs:4803
+#: ../glade/app1.glade.h:82 ../src/gui/app1/chronojump.cs:4011
+#: ../src/gui/app1/chronojump.cs:4463 ../src/gui/app1/chronojump.cs:4813
 #: ../src/gui/app1/jump.cs:267 ../src/gui/app1/jump.cs:302
 #: ../src/gui/app1/reactionTime.cs:101 ../src/gui/app1/run.cs:151
 #: ../src/gui/app1/run.cs:187
@@ -645,10 +645,10 @@ msgstr "Schimbă zoom (z)"
 msgid "Edit selected (e)"
 msgstr "Editează selectate (e)"
 
-#: ../glade/app1.glade.h:122 ../src/gui/app1/chronojump.cs:1346
-#: ../src/gui/app1/chronojump.cs:1453 ../src/gui/app1/chronojump.cs:1548
-#: ../src/gui/app1/chronojump.cs:1651 ../src/gui/app1/chronojump.cs:1739
-#: ../src/gui/app1/chronojump.cs:1834 ../src/gui/app1/chronojump.cs:1942
+#: ../glade/app1.glade.h:122 ../src/gui/app1/chronojump.cs:1356
+#: ../src/gui/app1/chronojump.cs:1463 ../src/gui/app1/chronojump.cs:1558
+#: ../src/gui/app1/chronojump.cs:1661 ../src/gui/app1/chronojump.cs:1749
+#: ../src/gui/app1/chronojump.cs:1844 ../src/gui/app1/chronojump.cs:1952
 #: ../src/gui/executeAuto.cs:237
 msgid "Delete selected"
 msgstr "Șterge selectate"
@@ -790,7 +790,7 @@ msgstr "Editează tipul de exercițiu"
 #: ../glade/encoder_configuration.glade.h:32
 #: ../glade/force_sensor_elastic_bands.glade.h:11
 #: ../glade/generic_window.glade.h:7 ../glade/person_select_window.glade.h:16
-#: ../src/gui/app1/chronojump.cs:1195
+#: ../src/gui/app1/chronojump.cs:1205
 msgid "Edit"
 msgstr "Editează"
 
@@ -827,9 +827,9 @@ msgid "Free"
 msgstr "Liber"
 
 #: ../glade/app1.glade.h:160 ../src/gui/app1/pulse.cs:64
-#: ../src/gui/preferences.cs:1036 ../src/gui/preferences.cs:1038
-#: ../src/gui/preferences.cs:1047 ../src/gui/preferences.cs:1218
-#: ../src/gui/preferences.cs:1226
+#: ../src/gui/preferences.cs:1047 ../src/gui/preferences.cs:1049
+#: ../src/gui/preferences.cs:1058 ../src/gui/preferences.cs:1231
+#: ../src/gui/preferences.cs:1239
 msgid "Custom"
 msgstr "Personalizat"
 
@@ -970,19 +970,19 @@ msgstr "Dreapta"
 msgid "Lights"
 msgstr "Lumini"
 
-#: ../glade/app1.glade.h:190 ../src/gui/app1/chronojump.cs:4825
+#: ../glade/app1.glade.h:190 ../src/gui/app1/chronojump.cs:4835
 msgid "red"
 msgstr "roșu"
 
-#: ../glade/app1.glade.h:191 ../src/gui/app1/chronojump.cs:4829
+#: ../glade/app1.glade.h:191 ../src/gui/app1/chronojump.cs:4839
 msgid "yellow"
 msgstr "galben"
 
-#: ../glade/app1.glade.h:192 ../src/gui/app1/chronojump.cs:4833
+#: ../glade/app1.glade.h:192 ../src/gui/app1/chronojump.cs:4843
 msgid "green"
 msgstr "verde"
 
-#: ../glade/app1.glade.h:193 ../src/gui/app1/chronojump.cs:4837
+#: ../glade/app1.glade.h:193 ../src/gui/app1/chronojump.cs:4847
 msgid "buzzer"
 msgstr "semnal"
 
@@ -2066,7 +2066,7 @@ msgid "Open database file"
 msgstr "Deschide fișierul bazei de date"
 
 #: ../glade/app1.glade.h:448 ../glade/encoder_configuration.glade.h:24
-#: ../src/gui/preferences.cs:1474
+#: ../src/gui/preferences.cs:1487
 msgid "Import"
 msgstr "Importă"
 
@@ -2270,84 +2270,88 @@ msgstr "Subdirector"
 msgid "Backup"
 msgstr "Copie de rezervă"
 
-#: ../glade/app1.glade.h:488 ../glade/encoder_configuration.glade.h:25
+#: ../glade/app1.glade.h:488
+msgid "Start export"
+msgstr "Începe exportarea"
+
+#: ../glade/app1.glade.h:489 ../glade/encoder_configuration.glade.h:25
 #: ../src/exportSession.cs:76 ../src/gui/app1/session/export.cs:59
 msgid "Export"
 msgstr "Exportă"
 
-#: ../glade/app1.glade.h:489
+#: ../glade/app1.glade.h:490
 msgid "Encoder disconnected."
 msgstr "Codor deconectat."
 
-#: ../glade/app1.glade.h:490
+#: ../glade/app1.glade.h:491
 msgid "Please, connect it and click here:"
 msgstr "Conectați și dați clic aici:"
 
-#: ../glade/app1.glade.h:491
+#: ../glade/app1.glade.h:492
 msgid "Check connection"
 msgstr "Verificare conexiune"
 
-#: ../glade/app1.glade.h:492 ../src/constants.cs:245
+#: ../glade/app1.glade.h:493 ../src/constants.cs:245
 msgid "RFID has been disconnected!"
 msgstr "RFID a fost deconectat!"
 
-#: ../glade/app1.glade.h:493 ../src/constants.cs:246
+#: ../glade/app1.glade.h:494 ../src/constants.cs:246
 msgid "Please, connect it and restart Chronojump."
 msgstr "Conectați și reporniți Chronojump."
 
-#: ../glade/app1.glade.h:494
+#: ../glade/app1.glade.h:495
 msgid "Documents"
 msgstr "Documente"
 
-#: ../glade/app1.glade.h:495 ../glade/dialog_shortcuts.glade.h:1
+#: ../glade/app1.glade.h:496 ../glade/dialog_shortcuts.glade.h:1
 msgid "Shortcuts"
 msgstr "Scurtături"
 
-#: ../glade/app1.glade.h:496 ../glade/dialog_about.glade.h:1
+#: ../glade/app1.glade.h:497 ../glade/dialog_about.glade.h:1
 msgid "About"
 msgstr "Despre"
 
-#: ../glade/app1.glade.h:497
+#: ../glade/app1.glade.h:498
 msgid "Your email"
 msgstr "Adresa e-mail"
 
-#: ../glade/app1.glade.h:498
+#: ../glade/app1.glade.h:499
 msgid "Preferred response language "
 msgstr "Limba de răspuns preferată "
 
-#: ../glade/app1.glade.h:499
+#: ../glade/app1.glade.h:500
 msgid "English"
 msgstr "Engleză"
 
-#: ../glade/app1.glade.h:500
+#: ../glade/app1.glade.h:501
 msgid "Spanish"
 msgstr "Spaniolă"
 
-#: ../glade/app1.glade.h:501
+#: ../glade/app1.glade.h:502
 msgid "Portuguese"
 msgstr "Portugheză"
 
-#: ../glade/app1.glade.h:502
+#: ../glade/app1.glade.h:503
 msgid "Catalan"
 msgstr "Catalană"
 
-#: ../glade/app1.glade.h:503
+#: ../glade/app1.glade.h:504
 msgid "Add comments"
 msgstr "Adaugă comentarii"
 
-#: ../glade/app1.glade.h:504 ../src/chronojump.cs:724
+#: ../glade/app1.glade.h:505 ../src/chronojump.cs:733
 msgid "Send error log"
 msgstr "Trimite istoricul erorilor"
 
-#: ../glade/app1.glade.h:505
+#: ../glade/app1.glade.h:506
 msgid "Check last version"
 msgstr "Verifică ultima versiune"
 
-#: ../glade/app1.glade.h:506
+#: ../glade/app1.glade.h:507
 msgid "Open Chronojump"
 msgstr "Deschide Chronojump"
 
-#: ../glade/app1.glade.h:507
+#: ../glade/app1.glade.h:508
 msgid "Are you sure you want to exit Chronojump?"
 msgstr "Sigur doriți să ieșiți din Chronojump?"
 
@@ -3736,7 +3740,7 @@ msgstr "Calcule"
 msgid "Speed units:"
 msgstr "Unități de viteză:"
 
-#: ../glade/preferences_win.glade.h:47 ../src/gui/preferences.cs:1367
+#: ../glade/preferences_win.glade.h:47 ../src/gui/preferences.cs:1380
 msgid ""
 "\"Speed start\" means when athlete does not start with \"contact\" on the "
 "first platform or photocell.\n"
@@ -4551,28 +4555,28 @@ msgstr "toate"
 msgid "none"
 msgstr "nimic"
 
-#: ../src/chronojump.cs:251
+#: ../src/chronojump.cs:260
 msgid "Chronojump is already running"
 msgstr "Chronojump rulează deja"
 
-#: ../src/chronojump.cs:252 ../src/chronojump.cs:513 ../src/chronojump.cs:891
-#: ../src/chronojump.cs:899
+#: ../src/chronojump.cs:261 ../src/chronojump.cs:522 ../src/chronojump.cs:900
+#: ../src/chronojump.cs:908
 msgid "Chronojump will exit now."
 msgstr "Chronojump va ieși acum."
 
-#: ../src/chronojump.cs:307
+#: ../src/chronojump.cs:316
 msgid "no tables, creating ..."
 msgstr "fără tabele, se creează ..."
 
 #. check (spanish)
 #. http://mail.gnome.org/archives/chronojump-devel-list/2008-March/msg00011.html
-#: ../src/chronojump.cs:357
+#: ../src/chronojump.cs:366
 msgid "Failed database conversion, ensure you have libsqlite3-0 installed."
 msgstr ""
 "Conversie eșuată a bazei de date, asigurați-vă că aveți instalat "
 "libsqlite3-0."
 
-#: ../src/chronojump.cs:358
+#: ../src/chronojump.cs:367
 #, csharp-format
 msgid ""
 "If you have no data on your database (you just installed Chronojump), you "
@@ -4581,17 +4585,17 @@ msgstr ""
 "Dacă nu aveți date în baza de date (abia ați instalat Chronojump), puteți "
 "repara această problemă prin ștergerea acestui fișier: {0}"
 
-#: ../src/chronojump.cs:360
+#: ../src/chronojump.cs:369
 msgid "And starting Chronojump again."
 msgstr "Și se pornește Chronojump din nou."
 
-#: ../src/chronojump.cs:373
+#: ../src/chronojump.cs:382
 msgid "All DJ jumps have been renamed as 'DJna' (Drop Jumps with No Arms)."
 msgstr ""
 "Toate săriturile DJ au fost redenumite ca „DJna” (sărituri în cădere fără "
 "brațe)."
 
-#: ../src/chronojump.cs:374
+#: ../src/chronojump.cs:383
 msgid ""
 "If your Drop Jumps were executed using the arms, please rename them manually "
 "as 'DJa'."
@@ -4600,22 +4604,22 @@ msgstr ""
 "manual ca „DJa”."
 
 #. Console.Clear();
-#: ../src/chronojump.cs:384
+#: ../src/chronojump.cs:393
 #, csharp-format
 msgid "Sorry, this Chronojump version ({0}) is too old for your database."
 msgstr ""
 "Ne pare rău, această versiune de Chronojump ({0}) este prea veche pentru "
 "baza de date."
 
-#: ../src/chronojump.cs:385
+#: ../src/chronojump.cs:394
 msgid "Please update Chronojump"
 msgstr "Actualizați Chronojump"
 
-#: ../src/chronojump.cs:393
+#: ../src/chronojump.cs:402
 msgid "tables already created"
 msgstr "tabele create deja"
 
-#: ../src/chronojump.cs:456
+#: ../src/chronojump.cs:465
 #, csharp-format
 msgid ""
 "\n"
@@ -4626,32 +4630,32 @@ msgstr ""
 "O nouă versiune de Chronojump este disponibilă pe pagina web.\n"
 "Versiunea curentă de Chronojump este: {1}"
 
-#: ../src/chronojump.cs:458
+#: ../src/chronojump.cs:467
 msgid "Please, update to new version."
 msgstr "Actualizați la noua versiune."
 
-#: ../src/chronojump.cs:466
+#: ../src/chronojump.cs:475
 msgid "Chronojump crashed before."
 msgstr "Chronojump a mai căzut înainte."
 
-#: ../src/chronojump.cs:467 ../src/gui/old/chronojumpServerOld.cs:71
+#: ../src/chronojump.cs:476 ../src/gui/old/chronojumpServerOld.cs:71
 msgid "Please, update to new version: "
 msgstr "Actualizați la noua versiune: "
 
-#: ../src/chronojump.cs:578
+#: ../src/chronojump.cs:587
 msgid "Need dialout permissions to read from device."
 msgstr "Aveți nevoie de permisiuni de apelare pentru a citi de pe dispozitiv."
 
-#: ../src/chronojump.cs:579
+#: ../src/chronojump.cs:588
 msgid "Check software page on Chronojump website"
 msgstr "Verificați pagina software a paginii web Chronojump"
 
-#: ../src/chronojump.cs:726
+#: ../src/chronojump.cs:735
 #, csharp-format
 msgid "Chronojump {0} crashed before."
 msgstr "{0} Chronojump a mai căzut înainte."
 
-#: ../src/chronojump.cs:727
+#: ../src/chronojump.cs:736
 #, csharp-format
 msgid ""
 "Please, fill your email and click on '{0}' in order to fix this fast and "
@@ -4660,43 +4664,43 @@ msgstr ""
 "Completați e-mailul și apăsați clic pe „{0}” pentru a repara acest lucru "
 "rapid și pentru a vă contacta dacă este cazul."
 
-#: ../src/chronojump.cs:728
+#: ../src/chronojump.cs:737
 msgid "Your help is needed."
 msgstr "Ajutorul dumneavoastră este necesar."
 
-#: ../src/chronojump.cs:858
+#: ../src/chronojump.cs:867
 #, csharp-format
 msgid "Cannot move database directory from {0} to {1}"
 msgstr "Nu se poate muta dosarul bazei de date de la {0} la {1}"
 
-#: ../src/chronojump.cs:860
+#: ../src/chronojump.cs:869
 msgid "Trying to move/copy each file now"
 msgstr "Se încearcă mutarea/copierea fiecărui fișier acum"
 
-#: ../src/chronojump.cs:889
+#: ../src/chronojump.cs:898
 #, csharp-format
 msgid "Cannot create directory {0}"
 msgstr "Nu se poate crea dosarul {0}"
 
-#: ../src/chronojump.cs:890 ../src/chronojump.cs:898
+#: ../src/chronojump.cs:899 ../src/chronojump.cs:907
 msgid "Please, do it manually."
 msgstr "Executați asta manual."
 
-#: ../src/chronojump.cs:897
+#: ../src/chronojump.cs:906
 #, csharp-format
 msgid "Cannot copy {0} files from {1} to {2}"
 msgstr "Nu se pot copia {0} fișiere de la {1} la {2}"
 
-#: ../src/chronojump.cs:905
+#: ../src/chronojump.cs:914
 #, csharp-format
 msgid "Cannot move {0} files from {1} to {2}"
 msgstr "Nu se pot muta {0} fișiere de la {1} la {2}"
 
-#: ../src/chronojump.cs:906
+#: ../src/chronojump.cs:915
 msgid "Please, do it manually"
 msgstr "Executați asta manual"
 
-#: ../src/chronojump.cs:912
+#: ../src/chronojump.cs:921
 #, csharp-format
 msgid "Database is now here: {0}"
 msgstr "Baza de date se află acum aici: {0}"
@@ -5169,7 +5173,7 @@ msgstr "Eroare. Nu se poate găsi baza de date."
 msgid "Sorry, cannot open website."
 msgstr "Nu se poate deschide pagina web."
 
-#: ../src/constants.cs:879 ../src/gui/app1/session/main.cs:189
+#: ../src/constants.cs:879 ../src/gui/app1/session/main.cs:222
 #: ../src/gui/splash.cs:143
 msgid "Error. Cannot open directory."
 msgstr "Nu se poate deschide directorul."
@@ -5910,7 +5914,7 @@ msgstr "Viteză medie"
 msgid "Distance interval"
 msgstr "Interval de distanță"
 
-#: ../src/exportSession.cs:628 ../src/gui/app1/chronojump.cs:4595
+#: ../src/exportSession.cs:628 ../src/gui/app1/chronojump.cs:4605
 #: ../src/gui/run.cs:1161 ../src/gui/run.cs:1229 ../src/gui/run.cs:1281
 msgid "Laps"
 msgstr "Ture"
@@ -5973,25 +5977,25 @@ msgstr "Statistici"
 msgid "Sample"
 msgstr "Mostră"
 
-#: ../src/gui/app1/chronojump.cs:861
+#: ../src/gui/app1/chronojump.cs:871
 #, csharp-format
 msgid "Chronojump database version file: {0}"
 msgstr "Fișier cu versiune a bazei de date Chronojump: {0}"
 
-#: ../src/gui/app1/chronojump.cs:903
+#: ../src/gui/app1/chronojump.cs:913
 msgid "Preferences loaded"
 msgstr "S-au încărcat preferințele"
 
-#: ../src/gui/app1/chronojump.cs:1176
+#: ../src/gui/app1/chronojump.cs:1186
 #, csharp-format
 msgid "Sprints of {0}"
 msgstr "Sprinturi de {0}"
 
-#: ../src/gui/app1/chronojump.cs:1199
+#: ../src/gui/app1/chronojump.cs:1209
 msgid "Show all tests of"
 msgstr "Afișează toate testele ale"
 
-#: ../src/gui/app1/chronojump.cs:1206
+#: ../src/gui/app1/chronojump.cs:1216
 #, csharp-format
 msgid "Delete {0} from this session"
 msgstr "Șterge {0} din această sesiune"
@@ -6073,19 +6077,19 @@ msgstr "Șterge {0} din această sesiune"
 #. myItem.Sensitive = false;
 #. myMenu.Attach( myItem, 0, 1, 0, 1 );
 #.
-#: ../src/gui/app1/chronojump.cs:1339 ../src/gui/app1/chronojump.cs:1442
-#: ../src/gui/app1/chronojump.cs:1541 ../src/gui/app1/chronojump.cs:1640
-#: ../src/gui/app1/chronojump.cs:1732 ../src/gui/app1/chronojump.cs:1823
-#: ../src/gui/app1/chronojump.cs:1929 ../src/gui/forceSensorElasticBands.cs:274
+#: ../src/gui/app1/chronojump.cs:1349 ../src/gui/app1/chronojump.cs:1452
+#: ../src/gui/app1/chronojump.cs:1551 ../src/gui/app1/chronojump.cs:1650
+#: ../src/gui/app1/chronojump.cs:1742 ../src/gui/app1/chronojump.cs:1833
+#: ../src/gui/app1/chronojump.cs:1939 ../src/gui/forceSensorElasticBands.cs:274
 msgid "Edit selected"
 msgstr "Editează selectate"
 
-#: ../src/gui/app1/chronojump.cs:1446 ../src/gui/app1/chronojump.cs:1644
-#: ../src/gui/app1/chronojump.cs:1827
+#: ../src/gui/app1/chronojump.cs:1456 ../src/gui/app1/chronojump.cs:1654
+#: ../src/gui/app1/chronojump.cs:1837
 msgid "Repair selected"
 msgstr "Repară selectate"
 
-#: ../src/gui/app1/chronojump.cs:2340
+#: ../src/gui/app1/chronojump.cs:2350
 #, csharp-format
 msgid ""
 "Could not delete file:\n"
@@ -6094,98 +6098,98 @@ msgstr ""
 "Nu s-a putut șterge fișierul:\n"
 "{0}"
 
-#: ../src/gui/app1/chronojump.cs:2414
+#: ../src/gui/app1/chronojump.cs:2424
 #: ../src/gui/app1/session/loadAndImport.cs:211
 msgid "Jumps simple"
 msgstr "Sare simplu"
 
-#: ../src/gui/app1/chronojump.cs:2416
+#: ../src/gui/app1/chronojump.cs:2426
 msgid "Jumps multiple"
 msgstr "Sărituri multiple"
 
-#: ../src/gui/app1/chronojump.cs:2418
+#: ../src/gui/app1/chronojump.cs:2428
 #: ../src/gui/app1/session/loadAndImport.cs:213
 msgid "Races simple"
 msgstr "Alergări simplu"
 
-#: ../src/gui/app1/chronojump.cs:2420
+#: ../src/gui/app1/chronojump.cs:2430
 msgid "Races intervallic"
 msgstr "Alergări cu interval"
 
-#: ../src/gui/app1/chronojump.cs:2425
+#: ../src/gui/app1/chronojump.cs:2435
 msgid "Encoder (gravitatory)"
 msgstr "Codor (gravitațional)"
 
-#: ../src/gui/app1/chronojump.cs:2427
+#: ../src/gui/app1/chronojump.cs:2437
 msgid "Encoder (inertial)"
 msgstr "Codor (interțial)"
 
 #. reportWin is still not created, not need to Fill again
 #. feedback (more in 1st session created)
-#: ../src/gui/app1/chronojump.cs:2492
+#: ../src/gui/app1/chronojump.cs:2502
 msgid "Session created, now add or load persons."
 msgstr "Sesiunea a fost creată, acum adăugați sau încărcați persoane."
 
-#: ../src/gui/app1/chronojump.cs:2898
+#: ../src/gui/app1/chronojump.cs:2908
 msgid "Sorry, R software is not installed."
 msgstr "Programul R nu este instalat."
 
-#: ../src/gui/app1/chronojump.cs:2899 ../src/gui/app1/encoder.cs:6658
+#: ../src/gui/app1/chronojump.cs:2909 ../src/gui/app1/encoder.cs:6658
 #: ../src/stats/main.cs:1517
 msgid "Please, install it from here:"
 msgstr "Instalați-l de aici:"
 
-#: ../src/gui/app1/chronojump.cs:3750
+#: ../src/gui/app1/chronojump.cs:3760
 msgid "Sorry, RSA tests cannot be simulated."
 msgstr "Testele RSA nu pot fi simulate."
 
-#: ../src/gui/app1/chronojump.cs:3829 ../src/gui/app1/encoder.cs:1290
+#: ../src/gui/app1/chronojump.cs:3839 ../src/gui/app1/encoder.cs:1290
 msgid "Saved comment."
 msgstr "Comentariu salvat."
 
-#: ../src/gui/app1/chronojump.cs:5273
+#: ../src/gui/app1/chronojump.cs:5283
 msgid "Changes"
 msgstr "Modificări"
 
-#: ../src/gui/app1/chronojump.cs:5784
+#: ../src/gui/app1/chronojump.cs:5794
 msgid "Inspector"
 msgstr "Inspector"
 
-#: ../src/gui/app1/chronojump.cs:5804 ../src/gui/app1/chronojump.cs:5820
+#: ../src/gui/app1/chronojump.cs:5814 ../src/gui/app1/chronojump.cs:5830
 msgid "Do you want to delete this jump?"
 msgstr "Doriți să ștergeți această săritură?"
 
-#: ../src/gui/app1/chronojump.cs:5894 ../src/gui/app1/chronojump.cs:5911
+#: ../src/gui/app1/chronojump.cs:5904 ../src/gui/app1/chronojump.cs:5921
 msgid "Do you want to delete this race?"
 msgstr "Doriți să ștergeți această alergare?"
 
-#: ../src/gui/app1/chronojump.cs:6049
+#: ../src/gui/app1/chronojump.cs:6059
 msgid "Do you want to delete this test?"
 msgstr "Doriți să ștergeți acest test?"
 
-#: ../src/gui/app1/chronojump.cs:6113
+#: ../src/gui/app1/chronojump.cs:6123
 msgid "Added simple jump type."
 msgstr "S-a adăugat tipul de săritură simplă."
 
-#: ../src/gui/app1/chronojump.cs:6123
+#: ../src/gui/app1/chronojump.cs:6133
 msgid "Added reactive jump type."
 msgstr "S-a adăugat tipul de săritură reactivă."
 
-#: ../src/gui/app1/chronojump.cs:6153
+#: ../src/gui/app1/chronojump.cs:6163
 msgid "Added simple race type."
 msgstr "S-a adăugat tipul de alergare simplă."
 
-#: ../src/gui/app1/chronojump.cs:6163
+#: ../src/gui/app1/chronojump.cs:6173
 msgid "Added intervallic race type."
 msgstr "S-a adăugat un tip de alergare cu interval."
 
-#: ../src/gui/app1/chronojump.cs:6744
+#: ../src/gui/app1/chronojump.cs:6755
 msgid "translator-credits"
 msgstr ""
 "Florentina Mușat <florentina [dot] musat [dot] 28 [at] gmail [dot] com>, "
 "2018-2020"
 
-#: ../src/gui/app1/chronojump.cs:7496
+#: ../src/gui/app1/chronojump.cs:7507
 msgid "Done for testing purposes. Chronojump will exit badly"
 msgstr "Efectuat în scopuri de testare. Chronojump va ieși grav"
 
@@ -6781,24 +6785,24 @@ msgstr "Eroare, greutatea persoanei nu poate fi 0"
 msgid "Error, height of the person cannot be 0"
 msgstr "Eroare, înălțimea persoanei nu poate fi 0"
 
-#: ../src/gui/app1/session/addEdit.cs:591 ../src/gui/person/addModify.cs:838
+#: ../src/gui/app1/session/addEdit.cs:556 ../src/gui/person/addModify.cs:838
 msgid "Select session date"
 msgstr "Selectați data sesiunii"
 
-#: ../src/gui/app1/session/addEdit.cs:604 ../src/gui/person/addModify.cs:984
+#: ../src/gui/app1/session/addEdit.cs:569 ../src/gui/person/addModify.cs:984
 msgid "Add sport"
 msgstr "Adaugă sport"
 
-#: ../src/gui/app1/session/addEdit.cs:605 ../src/gui/person/addModify.cs:985
+#: ../src/gui/app1/session/addEdit.cs:570 ../src/gui/person/addModify.cs:985
 msgid "Add new sport to database"
 msgstr "Adaugă un sport nou la baza de date"
 
-#: ../src/gui/app1/session/addEdit.cs:620 ../src/gui/person/addModify.cs:1000
+#: ../src/gui/app1/session/addEdit.cs:585 ../src/gui/person/addModify.cs:1000
 #, csharp-format
 msgid "Sorry, this sport '{0}' already exists in database"
 msgstr "Ne pare rău, acest sport „{0}” există deja în baza de date"
 
-#: ../src/gui/app1/session/addEdit.cs:655
+#: ../src/gui/app1/session/addEdit.cs:620
 #, csharp-format
 msgid "Session: '{0}' exists. Please, use another name"
 msgstr "Sesiunea: „{0}” există. Utilizați alt nume"
@@ -7091,7 +7095,7 @@ msgid "If you still want to import it, change to gravitatory mode."
 msgstr "Dacă încă doriți să o importați, schimbați la modul gravitațional."
 
 #: ../src/gui/encoderConfiguration.cs:700 ../src/gui/person/addMultiple.cs:307
-#: ../src/gui/preferences.cs:1495
+#: ../src/gui/preferences.cs:1508
 msgid "Error importing data."
 msgstr "Eroare la importarea de date."
 
@@ -7956,26 +7960,26 @@ msgstr "Repetiții de codor"
 msgid "Run encoder"
 msgstr "Rulează codorul"
 
-#: ../src/gui/preferences.cs:751
+#: ../src/gui/preferences.cs:762
 msgid "Select color"
 msgstr "Selectează culoarea"
 
-#: ../src/gui/preferences.cs:813
+#: ../src/gui/preferences.cs:824
 msgid "If active, repetitions will be cut from set using triggers."
 msgstr ""
 "Dacă este activ, repetițiile vor fi tăiate din set utilizând declanșatori."
 
-#: ../src/gui/preferences.cs:814
+#: ../src/gui/preferences.cs:825
 msgid "Trigger signal will be produced by a button connected to the Chronopic."
 msgstr ""
 "Semnalul de declanșator va fi produs de un buton conectat la Chronopic."
 
-#: ../src/gui/preferences.cs:815
+#: ../src/gui/preferences.cs:826
 msgid "This will be only used on gravitatory mode, concentric contraction."
 msgstr ""
 "Aceasta va fi utilizată doar în modul gravitațional, contractare concentrică."
 
-#: ../src/gui/preferences.cs:816
+#: ../src/gui/preferences.cs:827
 msgid ""
 "If \"Cut by triggers\" is inactive, repetitions will be cut automatically "
 "(default behaviour),"
@@ -7983,7 +7987,7 @@ msgstr ""
 "Dacă „taie cu declanșatori” nu este activ, repetițiile vor fi tăiate automat "
 "(comportament implicit),"
 
-#: ../src/gui/preferences.cs:817
+#: ../src/gui/preferences.cs:828
 msgid ""
 "but pressing trigger button while capturing will plot vertical lines during "
 "analyze instant graphs."
@@ -7991,11 +7995,11 @@ msgstr ""
 "dar apăsarea butonului de declanșator în timpul capturării va plota linii "
 "verticale pe parcursul analizării graficelor instante."
 
-#: ../src/gui/preferences.cs:818
+#: ../src/gui/preferences.cs:829
 msgid "Encoder Chronopics have trigger functionality since 2017."
 msgstr "Chronopics de codor au funcționalitate de declanșare din 2017."
 
-#: ../src/gui/preferences.cs:819
+#: ../src/gui/preferences.cs:830
 msgid ""
 "You can check if your encoder Chronopic accepts triggers pressing test "
 "button."
@@ -8003,7 +8007,7 @@ msgstr ""
 "Puteți să verificați dacă Chronopic-ul de codor acceptă declanșatori apăsând "
 "butonul de test."
 
-#: ../src/gui/preferences.cs:820
+#: ../src/gui/preferences.cs:831
 msgid ""
 "Your Chronopic is ready for triggers if the green light at the side of "
 "Chronopic test button changes it's state on pressing this button."
@@ -8011,7 +8015,7 @@ msgstr ""
 "Chronopic este gata pentru declanșatori dacă lumina verde de lângă butonul "
 "de test Chronopic își modifică starea la apăsarea acestui buton."
 
-#: ../src/gui/preferences.cs:821
+#: ../src/gui/preferences.cs:832
 msgid ""
 "At Chronojump website there's a hand push button for using triggers with "
 "ease."
@@ -8019,19 +8023,19 @@ msgstr ""
 "Pe pagina web Chronojump există un buton care se poate apăsa cu mâna pentru "
 "utilizarea de declanșatori cu ușurință."
 
-#: ../src/gui/preferences.cs:1110 ../src/gui/repetitiveConditions.cs:529
+#: ../src/gui/preferences.cs:1123 ../src/gui/repetitiveConditions.cs:529
 msgid "Sound working"
 msgstr "Sunetul funcționează"
 
-#: ../src/gui/preferences.cs:1112 ../src/gui/repetitiveConditions.cs:531
+#: ../src/gui/preferences.cs:1125 ../src/gui/repetitiveConditions.cs:531
 msgid "Sound not working"
 msgstr "Sunetul nu funcționează"
 
-#: ../src/gui/preferences.cs:1364
+#: ../src/gui/preferences.cs:1377
 msgid "Race measurement"
 msgstr "Măsurare de alergare"
 
-#: ../src/gui/preferences.cs:1371
+#: ../src/gui/preferences.cs:1384
 msgid ""
 "Chronojump race reaction time device allows to record reaction time and race "
 "time."
@@ -8039,35 +8043,35 @@ msgstr ""
 "Dispozitivul pentru timpul de reacție la alergare Chronojump permite "
 "înregistrarea timpului de reacție și de alergare."
 
-#: ../src/gui/preferences.cs:1373
+#: ../src/gui/preferences.cs:1386
 msgid "Reaction time is displayed on Description column."
 msgstr "Timpul de reacție este afișat la coloana descriere."
 
-#: ../src/gui/preferences.cs:1375
+#: ../src/gui/preferences.cs:1388
 msgid "If first option is choosen, race time includes reaction time."
 msgstr ""
 "Dacă s-a ales prima opțiune, timpul de alergare include timpul de reacție."
 
-#: ../src/gui/preferences.cs:1436
+#: ../src/gui/preferences.cs:1449
 msgid "Cannot create directory."
 msgstr "Nu se poate crea directorul."
 
-#: ../src/gui/preferences.cs:1470
+#: ../src/gui/preferences.cs:1483
 msgid "Import configuration file"
 msgstr "Importă fișierul de configurație"
 
-#: ../src/gui/preferences.cs:1502
+#: ../src/gui/preferences.cs:1515
 msgid "Successfully imported."
 msgstr "Importat cu succes."
 
-#: ../src/gui/preferences.cs:1509
+#: ../src/gui/preferences.cs:1522
 msgid ""
 "If a repetition has been found, test will end at selected inactivity seconds."
 msgstr ""
 "Dacă s-a găsit o repetiție, testul se va termina după secundele de "
 "inactivitate selectate."
 
-#: ../src/gui/preferences.cs:1510
+#: ../src/gui/preferences.cs:1523
 msgid ""
 "If a repetition has not been found, test will end at selected inactivity "
 "seconds (x2)."
@@ -8075,7 +8079,7 @@ msgstr ""
 "Dacă nu s-a găsit o repetiție, testul se va termina după secundele de "
 "inactivitate selectate (x2)."
 
-#: ../src/gui/preferences.cs:1511
+#: ../src/gui/preferences.cs:1524
 msgid "This will let the person to have more time to start movement."
 msgstr ""
 "Aceasta va permite persoanei să aibă mai mult timp pentru începerea mișcării."
@@ -8374,8 +8378,8 @@ msgstr "Versiunea instalată este: "
 msgid "Last version published: "
 msgstr "Ultima versiune publicată: "
 
-#: ../src/json/json.cs:270 ../src/json/json.cs:287 ../src/json/json.cs:303
-#: ../src/json/json.cs:319
+#: ../src/json/json.cs:272 ../src/json/json.cs:289 ../src/json/json.cs:305
+#: ../src/json/json.cs:321
 #, csharp-format
 msgid ""
 "You are not connected to the Internet\n"

@@ -33,15 +33,25 @@ public class JumpsEvolution
 	{
 	}
 	
-	public void Calculate (int personID, string jumpType)
+	public void Calculate (int personID, string jumpType, bool onlyBestInSession)
 	{
 		//1 get data
-                List<Jump> jump_l = SqliteJump.SelectJumps (-1, personID, jumpType, Sqlite.Orders_by.DEFAULT, -1, false);
+                List<Jump> jump_l = SqliteJump.SelectJumps (-1, personID, jumpType, Sqlite.Orders_by.DEFAULT, -1, false, onlyBestInSession);
 
 		//2 convert to list of PointF
 		point_l = new List<PointF>();
+		int currentSession = -1;
                 foreach(Jump j in jump_l)
 		{
+			if(onlyBestInSession)
+			{
+				//at onlyBestInSession they return ordered by sessionID, jump.Tv DESC
+				if(j.SessionID == currentSession)
+					continue;
+				else
+					currentSession = j.SessionID;
+			}
+
 			DateTime dt = UtilDate.FromFile(j.Datetime);
 			double dtDouble = UtilDate.DateTimeYearDayAsDouble(dt);
 

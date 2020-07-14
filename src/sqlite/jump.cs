@@ -202,7 +202,7 @@ class SqliteJump : Sqlite
 	 * personNameInComment is used to be able to display names in graphs
 	 *   because event.PersonName makes individual SQL SELECTs
 	 */
-	public static List<Jump> SelectJumps (int sID, int pID, string jumpType, Orders_by order, int limit, bool personNameInComment)
+	public static List<Jump> SelectJumps (int sID, int pID, string jumpType, Orders_by order, int limit, bool personNameInComment, bool onlyBestInSession)
 	{
 	  //jumps previous to DB 1.82 have no datetime on jump
 	  //find session datetime for that jumps
@@ -241,6 +241,8 @@ class SqliteJump : Sqlite
 	  string orderByString = " ORDER BY jump.uniqueID ";
 	  if(order == Orders_by.ID_DESC)
 		  orderByString = " ORDER BY jump.uniqueID DESC ";
+	  if(onlyBestInSession)
+		  orderByString = " ORDER BY jump.sessionID, jump.Tv DESC ";
 
 	  string limitString = "";
 	  if(limit != -1)

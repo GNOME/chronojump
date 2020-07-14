@@ -32,6 +32,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_combo_select_jumps_evolution;
 	[Widget] Gtk.ComboBox combo_select_jumps_evolution;
 	[Widget] Gtk.Button button_jumps_evolution_save_image;
+	[Widget] Gtk.CheckButton check_jumps_evolution_only_best_in_session;
 
 	JumpsEvolution jumpsEvolution;
 	JumpsEvolutionGraph jumpsEvolutionGraph;
@@ -61,6 +62,11 @@ public partial class ChronoJumpWindow
 	}
 	// combo (end)
 
+	private void on_check_jumps_evolution_only_best_in_session_clicked (object o, EventArgs args)
+	{
+		jumpsEvolutionDo(true);
+	}
+
 	private void jumpsEvolutionDo (bool calculateData)
 	{
 		if(currentPerson == null || currentSession == null ||
@@ -78,7 +84,7 @@ public partial class ChronoJumpWindow
 		string jumpType = comboSelectJumpsEvolution.GetSelectedNameEnglish();
 
 		if(calculateData)
-			jumpsEvolution.Calculate(currentPerson.UniqueID, jumpType);
+			jumpsEvolution.Calculate(currentPerson.UniqueID, jumpType, check_jumps_evolution_only_best_in_session.Active);
 
 		if(jumpsEvolution.Point_l.Count == 0)
 		{

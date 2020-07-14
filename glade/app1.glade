@@ -20004,7 +20004,7 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkCheckButton" id="check_jumps_evolution_only_best_in_session">
-                                                            <property name="label" translatable="yes">Only best jump each session</property>
+                                                            <property name="label" translatable="yes">Only the best jump on each session</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>

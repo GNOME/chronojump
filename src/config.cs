@@ -51,6 +51,7 @@ public class Config
 
 	public bool Exhibition; //like YOMO. does not have rfid capture, user autologout management, and automatic configuration of gui
 	public ExhibitionTest.testTypes ExhibitionStationType;
+	public bool Raspberry;
 	/*
 	 * unused because the default serverURL chronojump.org is ok:
 	 * public string ExhibitionServerURL = "";
@@ -95,7 +96,7 @@ public class Config
 					if(parts.Length != 2)
 						continue;
 
-					if(parts[0] == "Compujump" && Util.StringToBool(parts[1]))
+					if(parts[0] == "Compujump" && Util.StringToBool(parts[1])) //Compujump is related to networks (usually the big screens)
 						Compujump = true;
 					else if(parts[0] == "CompujumpDjango" && Util.StringToBool(parts[1]))
 						CompujumpDjango = true;
@@ -128,6 +129,8 @@ public class Config
 					else if(parts[0] == "ExhibitionStationID" && parts[1] != "" && Util.IsNumber(parts[1], false))
 						ExhibitionStationID = Convert.ToInt32(parts[1]);
 						*/
+					if(parts[0] == "Raspberry" && Util.StringToBool(parts[1])) //Raspberry: small screens, could be networks or not. They are usually disconnected by cable removal, so do not show send log at start
+						Raspberry = true;
 				} while(true);
 			}
 		}

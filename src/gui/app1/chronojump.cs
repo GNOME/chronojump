@@ -6570,12 +6570,9 @@ LogB.Debug("mc finished 5");
 				Catalog.GetString("Newer versions will be on this site:") +"\n" + 
 				"<i>http://www.chronojump.org/multimedia.html</i>");
 				*/
-		LogB.Information("Opening manual at: " + System.IO.Path.GetFullPath(Util.GetManualDir())); 
-		try {
-			System.Diagnostics.Process.Start(System.IO.Path.GetFullPath(Util.GetManualDir())); 
-		} catch {
+
+		if(! Util.OpenFolder(System.IO.Path.GetFullPath(Util.GetManualDir())))
 			new DialogMessage(Constants.MessageTypes.WARNING, "Sorry, manual folder does not exist.");
-		}
 	}
 
 	private void on_menuitem_formulas_activate (object o, EventArgs args) {

@@ -136,13 +136,9 @@ public class SplashWindow
 		else if(file2.Exists)
 			dir = Util.GetDatabaseTempDir();
 
-		try {
-			System.Diagnostics.Process.Start(dir);
-		} catch {
+		if(! Util.OpenFolder(dir))
 			new DialogMessage(Constants.MessageTypes.WARNING,
 					Catalog.GetString("Error. Cannot open directory.") + "\n\n" + dir);
-			return;
-		}
 	}
 
 	public void Show_button_open_docs_folder () {
@@ -150,15 +146,11 @@ public class SplashWindow
 	}
 	private void on_button_open_docs_folder_clicked (object o, EventArgs args)
 	{
-		LogB.Information("Opening docs at: " + Path.GetFullPath(Util.GetManualDir()));
-		try {
-			System.Diagnostics.Process.Start(Path.GetFullPath(Util.GetManualDir()));
-		} catch {
+		if(! Util.OpenFolder(Path.GetFullPath(Util.GetManualDir())))
 			new DialogMessage(Constants.MessageTypes.WARNING,
 					"Sorry, folder does not exist." + "\n\n" +
 					Path.GetFullPath(Util.GetManualDir())
 					);
-		}
 	}
 
 	public void ShowButtonClose()

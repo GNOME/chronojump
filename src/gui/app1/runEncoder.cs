@@ -1293,7 +1293,7 @@ public partial class ChronoJumpWindow
 		if(currentSession == null || currentSession.UniqueID == -1)
 		{
 			try {
-				System.Diagnostics.Process.Start(RunEncoderGraph.GetDataDir(-1));
+				System.Diagnostics.Process.Start(RunEncoderGraph.GetDataDir(-1)); //also use Util.OpenFolder
 			} catch {
 				new DialogMessage(Constants.MessageTypes.WARNING,
 						Catalog.GetString("Error. Cannot open directory.") + "\n\n" + RunEncoderGraph.GetDataDir(-1));
@@ -1305,7 +1305,7 @@ public partial class ChronoJumpWindow
 		if(dataDir != "")
 		{
 			try {
-				System.Diagnostics.Process.Start(dataDir);
+				System.Diagnostics.Process.Start(dataDir); //also use Util.OpenFolder
 			} catch {
 				new DialogMessage(Constants.MessageTypes.WARNING,
 						Catalog.GetString("Error. Cannot open directory.") + "\n\n" + dataDir);

@@ -7287,7 +7287,7 @@ public partial class ChronoJumpWindow
 		/*
 		string dir = textview_video_encoder_folder.Buffer.Text;
 		try {
-			System.Diagnostics.Process.Start(dir); 
+			System.Diagnostics.Process.Start(dir); //also use Util.OpenFolder
 		}
 		catch {
 			new DialogMessage(Constants.MessageTypes.WARNING, 

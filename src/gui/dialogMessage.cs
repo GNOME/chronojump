@@ -127,11 +127,8 @@ public class DialogMessage
 	public void on_button_go_clicked (object obj, EventArgs args)
 	{
 		LogB.Information("Opening browser (r mac install) to: " + button_go_link);
-		try {
-			System.Diagnostics.Process.Start(button_go_link);
-		} catch {
+		if(! Util.OpenFolder(button_go_link))
 			label_message.Text = Constants.WebsiteNotFoundStr();
-		}
 	}
 
 	public void on_close_button_clicked (object obj, EventArgs args)

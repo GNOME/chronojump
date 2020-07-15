@@ -215,13 +215,9 @@ public partial class ChronoJumpWindow
 		else if(file2.Exists)
 			dir = Util.GetDatabaseTempDir();
 
-		try {
-			System.Diagnostics.Process.Start(dir);
-		} catch {
+		if(! Util.OpenFolder(dir))
 			new DialogMessage(Constants.MessageTypes.WARNING,
 					Catalog.GetString("Error. Cannot open directory.") + "\n\n" + dir);
-			return;
-		}
 	}
 
 }

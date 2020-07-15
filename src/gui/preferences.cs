@@ -1450,14 +1450,10 @@ public class PreferencesWindow
 				return;
 			}
 		}
-		
-		try {
-			System.Diagnostics.Process.Start(dir); 
-		}
-		catch {
+
+		if(! Util.OpenFolder(dir))
 			new DialogMessage(Constants.MessageTypes.WARNING, 
 					Constants.DirectoryCannotOpenStr() + "\n\n" + dir);
-		}
 	}
 	
 	void on_button_tmp_folder_open_clicked (object o, EventArgs args)
@@ -1470,12 +1466,9 @@ public class PreferencesWindow
 			return;
 		}
 
-		try {
-			System.Diagnostics.Process.Start(dir);
-		} catch {
+		if(! Util.OpenFolder(dir))
 			new DialogMessage(Constants.MessageTypes.WARNING, 
 					Constants.DirectoryCannotOpenStr() + "\n\n" + dir);
-		}
 	}
 
 	void on_button_import_configuration_clicked (object o, EventArgs args)

@@ -349,7 +349,6 @@ public partial class ChronoJumpWindow
 		capturingRunEncoder = arduinoCaptureStatus.STARTING;
 
 		button_execute_test.Sensitive = false;
-		event_execute_button_finish.Sensitive = true;
 		event_execute_button_cancel.Sensitive = true;
 
 		//forceCaptureStartMark = false;
@@ -384,6 +383,8 @@ public partial class ChronoJumpWindow
 		runEncoderCaptureThread.Start();
 		return true;
 	}
+
+	string capturingMessage = "Capturing ...";
 
 	//non GTK on this method
 	private void runEncoderCaptureDo()
@@ -431,7 +432,7 @@ public partial class ChronoJumpWindow
 				pps = Convert.ToInt32(strPPS[1]);
 		}
 
-		runEncoderPulseMessage = "Capturing ...";
+		runEncoderPulseMessage = capturingMessage;
 
 		//forceCaptureStartMark = true;
 		capturingRunEncoder = arduinoCaptureStatus.CAPTURING;
@@ -1194,7 +1195,12 @@ public partial class ChronoJumpWindow
 			return false;
 		}
 		else
+		{
 			event_execute_label_message.Text = runEncoderPulseMessage;
+
+			if(runEncoderPulseMessage == capturingMessage)
+				event_execute_button_finish.Sensitive = true;
+		}
 
 
 		LogB.Information(" re E ");

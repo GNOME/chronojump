@@ -526,7 +526,7 @@ public class ChronoJump
 				}
 				splashWin.ShowButtonClose();
 			} else {
-				if(configChronojump.Compujump)
+				if(configChronojump.Compujump || configChronojump.Raspberry)
 					startChronojump(false); //don't sendLog
 				else
 					startChronojump(true); //sendLog

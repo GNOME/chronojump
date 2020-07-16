@@ -183,21 +183,21 @@ void loop() {
     //Printing in binary format
     Serial.write((byte*)&data, 9);
 
-//    //Printing in text mode
-//    Serial.println("");
-//    Serial.print(data.encoderDisplacement);
-//    Serial.print("\t");
-//    Serial.print(data.totalTime);
-//    Serial.print("\t");
-//    Serial.print(data.offsettedData);
-//    Serial.print("\t");
-//    Serial.println(data.sensor);
-//    Serial.print("\t");
-//    Serial.println(elapsedTime);
-//    Serial.println(data[frameNumber].offsettedData);
-//    Serial.print(lastTriggerTime);
-//    Serial.print("\t");
-//    Serial.println(triggerTime);
+    //    //Printing in text mode
+    //    Serial.println("");
+    //    Serial.print(data.encoderDisplacement);
+    //    Serial.print("\t");
+    //    Serial.print(data.totalTime);
+    //    Serial.print("\t");
+    //    Serial.print(data.offsettedData);
+    //    Serial.print("\t");
+    //    Serial.println(data.sensor);
+    //    Serial.print("\t");
+    //    Serial.println(elapsedTime);
+    //    Serial.println(data[frameNumber].offsettedData);
+    //    Serial.print(lastTriggerTime);
+    //    Serial.print("\t");
+    //    Serial.println(triggerTime);
 
 
     if (data.sensor != 0) {
@@ -236,10 +236,10 @@ void changingRCA() {
   //bool rcaState = (PIND & 0b00000100) >> 3      //In case of triggers optimization try to manipulate ports directly in order to be faster
 
   //TODO: With the below code it is not sent correctly the data.sensor
-//  if (abs(triggerTime - lastTriggerTime) < 10000) {   //Checking that it is not an spurious signal. abs because the spurioustrigger times in CJ are in inverted order
-//    attachInterrupt(digitalPinToInterrupt(rcaPin), changingRCA, CHANGE);
-//    return;
-//  }
+  //  if (abs(triggerTime - lastTriggerTime) < 10000) {   //Checking that it is not an spurious signal. abs because the spurioustrigger times in CJ are in inverted order
+  //    attachInterrupt(digitalPinToInterrupt(rcaPin), changingRCA, CHANGE);
+  //    return;
+  //  }
 
   if (rcaState) { //Button pressed
     data.sensor = 2;
@@ -248,7 +248,7 @@ void changingRCA() {
   }
   data.encoderDisplacement = encoderDisplacement;
   encoderDisplacement = 0;
-  procesSample = true;  
+  procesSample = true;
   attachInterrupt(digitalPinToInterrupt(rcaPin), changingRCA, CHANGE);
 }
 
@@ -501,11 +501,10 @@ void set_baud_rate(String inputString)
   Serial.println(baudRate);
 }
 
-//TODO: Write in binary mode
 void start_simulation(void)
 {
   float vmax = 10.0;
-  float k = 1.0;
+  float k = 0.7;
   float currentPosition = 0.0;
   float lastPosition = 0.0;
   float displacement;
@@ -513,40 +512,54 @@ void start_simulation(void)
 
   Serial.println("Starting capture...");
 
-  Serial.print(0);
-  Serial.print(";");
-  Serial.print(1);
-  Serial.print(";");
-  Serial.println(0);
+  //First sample
 
-  Serial.print(0);
-  Serial.print(";");
-  Serial.print(round(1E4));
-  Serial.print(";");
-  Serial.println(0);
+  //  Serial.print(0);
+  //  Serial.print(";");
+  //  Serial.print(1);
+  //  Serial.print(";");
+  //  Serial.println(0);
 
-  for (float totalTime = 2E4; totalTime < 1E7; totalTime = totalTime + 1E4)
-  {
-    //Sending in text mode
-    //    Serial.print(round( displacement / 0.003003 ));
-    Serial.print(0);
-    Serial.print(";");
-    Serial.print(round(totalTime));
-    Serial.print(";");
-    Serial.println(0);
 
-  }
+  data.encoderDisplacement = 0;
+  data.totalTime = 1;
+  data.offsettedData = 0;
+  data.sensor = 0;
+
+  //Printing in binary format
+  Serial.write((byte*)&data, 9);
+
+  //  Serial.print(0);
+  //  Serial.print(";");
+  //  Serial.print(round(1E4));
+  //  Serial.print(";");
+  //  Serial.println(0);
+
+  data.encoderDisplacement = 0;
+  data.totalTime = 1E4;
+
+  //Inverse monoexponential speed
   for (float totalTime = 0; totalTime <= 1E7; totalTime = totalTime + 1E4)
   {
     currentPosition = vmax * (totalTime / 1E6 + pow(2.7182818, (-k * totalTime / 1E6)) / k ) - vmax / k ;
-    displacement = currentPosition - lastPosition;
 
-    //Sending in text mode
-    //    Serial.print(round( displacement / 0.003003 ));
-    Serial.print(round( displacement ));
-    Serial.print(";");
-    Serial.print(round(totalTime + 1E7));
-    Serial.print(";");
-    Serial.println(0);
+    displacement = (currentPosition - lastPosition) / 0.003003;
+    if (displacement >= 1) {
+      lastPosition = currentPosition;
+//
+//      //Sending in text mode
+//
+//      Serial.print(round( displacement ));
+//      Serial.print(";");
+//      Serial.print(round(totalTime + 1E7));
+//      Serial.print(";");
+//      Serial.println(0);
+      
+      data.encoderDisplacement = round(displacement);
+      data.totalTime = round(totalTime + random(100, 1000)) + 1E7;
+  
+      //Printing in binary format
+      Serial.write((byte*)&data, 9);
+    }
   }
 }

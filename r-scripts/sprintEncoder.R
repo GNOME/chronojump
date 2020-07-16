@@ -648,6 +648,8 @@ getTrimmingSamples <- function(totalTime, position, speed, accel, testLength, st
 
 tryNLS <- function(data){
         print("#######Entering tryNLS#########")
+        print("data:")
+        print(data)
         tryCatch (
                 {
                         model = nls(speed ~ Vmax*(1-exp(-K*time)), data,

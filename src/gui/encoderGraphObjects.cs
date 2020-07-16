@@ -47,6 +47,7 @@ public class EncoderGraphDoPlot
 	private Gtk.ListStore encoderCaptureListStore;
 	private bool relativeToSet;
 	private double maxPowerSpeedForceIntersession; //it will be one of these 3
+	private string maxPowerSpeedForceIntersessionDate;
 
 	private int discardFirstN;
 	private int showNRepetitions;
@@ -146,7 +147,7 @@ public class EncoderGraphDoPlot
 			bool hasInertia, bool playSoundsFromFile,
 			ArrayList data7Variables, Gtk.ListStore encoderCaptureListStore,
 			bool relativeToSet,
-			double maxPowerSpeedForceIntersession)
+			double maxPowerSpeedForceIntersession, string maxPowerSpeedForceIntersessionDate)
 	{
 		this.mainVariable = mainVariable;
 		this.mainVariableHigher = mainVariableHigher;
@@ -161,6 +162,7 @@ public class EncoderGraphDoPlot
         	this.encoderCaptureListStore = encoderCaptureListStore;
 		this.relativeToSet = relativeToSet;
 		this.maxPowerSpeedForceIntersession = maxPowerSpeedForceIntersession;
+		this.maxPowerSpeedForceIntersessionDate = maxPowerSpeedForceIntersessionDate;
 
 		graphWidth = drawingarea.Allocation.Width;
 		graphHeight = drawingarea.Allocation.Height;
@@ -499,6 +501,15 @@ public class EncoderGraphDoPlot
 					graphWidth - right_margin, top_margin);
 
 
+			//write date
+			layout_encoder_capture_curves_bars_text.SetMarkup(maxPowerSpeedForceIntersessionDate);
+			layout_encoder_capture_curves_bars_text.GetPixelSize(out textWidth, out textHeight);
+			pixmap.DrawLayout (pen_black_encoder_capture,
+						graphWidth - (right_margin + textWidth),
+						top_margin - 2*textHeight,
+						layout_encoder_capture_curves_bars_text);
+
+			//write value
 			int decs = 0;
 			if(mainVariable == Constants.MeanPower)
 				units = " W";

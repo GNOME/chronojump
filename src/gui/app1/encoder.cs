@@ -369,6 +369,13 @@ public partial class ChronoJumpWindow
 	bool firstSetOfCont; //used to don't erase the screen on cont after first set
 	bool encoderInertialCalibratedFirstTime; //allow showing the recalibrate button
 
+	private double maxPowerIntersession;
+	private double maxSpeedIntersession;
+	private double maxForceIntersession;
+	private string maxPowerIntersessionDate;
+	private string maxSpeedIntersessionDate;
+	private string maxForceIntersessionDate;
+
 	/* 
 	 * this contains last EncoderSQL captured, recalculated or loaded
 	 * 
@@ -680,6 +687,10 @@ public partial class ChronoJumpWindow
 		maxPowerIntersession = 0;
 		maxSpeedIntersession = 0;
 		maxForceIntersession = 0;
+		maxPowerIntersessionDate = "";
+		maxSpeedIntersessionDate = "";
+		maxForceIntersessionDate = "";
+
 		if(encGI == Constants.EncoderGI.GRAVITATORY)
 		{
 			//TODO: do a regression to find maxPower with a value of extraWeight unused
@@ -689,11 +700,20 @@ public partial class ChronoJumpWindow
 				if(Util.SimilarDouble(Convert.ToDouble(Util.ChangeDecimalSeparator(es.extraWeight)), extraWeight))
 				{
 					if(Convert.ToDouble(es.future1) > maxPowerIntersession)
+					{
 						maxPowerIntersession = Convert.ToDouble(es.future1);
+						maxPowerIntersessionDate = es.GetDateStr();
+					}
 					if(Convert.ToDouble(es.future2) > maxSpeedIntersession)
+					{
 						maxSpeedIntersession = Convert.ToDouble(es.future2);
+						maxSpeedIntersessionDate = es.GetDateStr();
+					}
 					if(Convert.ToDouble(es.future3) > maxForceIntersession)
+					{
 						maxForceIntersession = Convert.ToDouble(es.future3);
+						maxForceIntersessionDate = es.GetDateStr();
+					}
 				}
 			}
 		}
@@ -903,9 +923,6 @@ public partial class ChronoJumpWindow
 
 	}
 
-	double maxPowerIntersession;
-	double maxSpeedIntersession;
-	double maxForceIntersession;
 	//called from main GUI
 	void on_button_encoder_capture_clicked (object o, EventArgs args) 
 	{
@@ -1715,7 +1732,7 @@ public partial class ChronoJumpWindow
 				//but check if more info have to be shown on this process
 
 				textview_encoder_signal_comment.Buffer.Text = eSQL.description;
-				encoderTimeStamp = eSQL.GetDate(false); 
+				encoderTimeStamp = eSQL.GetDatetimeStr(false);
 				encoderSignalUniqueID = eSQL.uniqueID;
 
 				//has to be done here, because if done in encoderThreadStart or in finishPulsebar it crashes 
@@ -3183,7 +3200,7 @@ public partial class ChronoJumpWindow
 						ex.name + "," +
 						Util.ConvertToPoint(iteratingMassBody).ToString() + "," + 
 						Util.ConvertToPoint(Convert.ToDouble(eSQL.extraWeight)) + "," +
-						eSQL.GetDate(true) + "," + 
+						eSQL.GetDatetimeStr(true) + "," +
 						fullURL + "," +	
 						eSQL.eccon + "," + 	//this is the eccon of every curve
 						ex.percentBodyWeight.ToString() + "," +
@@ -5371,7 +5388,8 @@ public partial class ChronoJumpWindow
 					captureCurvesBarsData,
 					encoderCaptureListStore,
 					preferences.encoderCaptureMainVariableThisSetOrHistorical,
-					sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable));
+					sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
+					sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable));
 		}
 	}
 
@@ -5527,6 +5545,17 @@ public partial class ChronoJumpWindow
 		       return maxForceIntersession;
 
 		return maxPowerIntersession; //default if any problem
+	}
+	private string sendMaxPowerSpeedForceIntersessionDate(Constants.EncoderVariablesCapture evc)
+	{
+		if(evc == Constants.EncoderVariablesCapture.MeanPower)
+		       return maxPowerIntersessionDate;
+		else if(evc == Constants.EncoderVariablesCapture.MeanSpeed)
+		       return maxSpeedIntersessionDate;
+		else if(evc == Constants.EncoderVariablesCapture.MeanForce)
+		       return maxForceIntersessionDate;
+
+		return maxPowerIntersessionDate; //default if any problem
 	}
 
 
@@ -6228,7 +6257,8 @@ public partial class ChronoJumpWindow
 						captureCurvesBarsData,
 						encoderCaptureListStore,
 						preferences.encoderCaptureMainVariableThisSetOrHistorical,
-						sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable));
+						sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
+						sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable));
 				//}
 
 				needToRefreshTreeviewCapture = false;
@@ -6728,8 +6758,9 @@ public partial class ChronoJumpWindow
 						captureCurvesBarsData,
 						encoderCaptureListStore,
 						preferences.encoderCaptureMainVariableThisSetOrHistorical,
-						sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable));
-		
+						sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
+						sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable));
+
 				button_encoder_signal_save_comment.Label = Catalog.GetString("Save comment");
 				button_encoder_signal_save_comment.Sensitive = false;
 		
@@ -7087,7 +7118,7 @@ public partial class ChronoJumpWindow
 		bool deletedUserCurves = false;
 		foreach(EncoderSQL eSQL in data)
 		{
-			if(currentSignalSQL.GetDate(false) == eSQL.GetDate(false)) 		// (1)
+			if(currentSignalSQL.GetDatetimeStr(false) == eSQL.GetDatetimeStr(false)) 		// (1)
 			{
 				// (1a)
 				if(findEccon(true) != eSQL.eccon ||

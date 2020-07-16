@@ -957,7 +957,8 @@ public class EncoderSQL
 	//used on encoder table
 	public enum Eccons { ALL, ecS, ceS, c } 
 
-	public string GetDate(bool pretty) {
+	public string GetDatetimeStr (bool pretty)
+	{
 		int pointPos = filename.LastIndexOf('.');
 		int dateLength = 19; //YYYY-MM-DD_hh-mm-ss
 		string date = filename.Substring(pointPos - dateLength, dateLength);
@@ -966,6 +967,15 @@ public class EncoderSQL
 			date = dateParts[0] + " " + dateParts[1].Replace('-',':');
 		}
 		return date;
+	}
+
+	public string GetDateStr ()
+	{
+		int pointPos = filename.LastIndexOf('.');
+		int dateLength = 19; //YYYY-MM-DD_hh-mm-ss
+		string date = filename.Substring(pointPos - dateLength, dateLength);
+		string [] dateParts = date.Split(new char[] {'_'});
+		return dateParts[0];
 	}
 
 	public string GetFullURL(bool convertPathToR) {
@@ -1027,7 +1037,7 @@ public class EncoderSQL
 			str[i++] = encoderConfiguration.code.ToString();
 		
 		str[i++] = ecconLong;
-		str[i++] = GetDate(true);
+		str[i++] = GetDatetimeStr (true);
 		
 		if(video) {
 			if(videoURL != "")
@@ -1078,9 +1088,9 @@ public class EncoderSQL
 		 */
 
 		if(signalOrCurve == "curve") 
-			newFilename = newPersonID + "-" + newPersonName + "-" + uniqueID + "-" + GetDate(false) + ".txt";
+			newFilename = newPersonID + "-" + newPersonName + "-" + uniqueID + "-" + GetDatetimeStr (false) + ".txt";
 		else 
-			newFilename = newPersonID + "-" + newPersonName + "-" + GetDate(false) + ".txt";
+			newFilename = newPersonID + "-" + newPersonName + "-" + GetDatetimeStr (false) + ".txt";
 
 		bool success = false;
 		success = Util.FileMove(url, filename, newFilename);

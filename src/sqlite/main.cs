@@ -1657,7 +1657,7 @@ class Sqlite
 
 					foreach(EncoderSQL c in curves) {
 						conversionSubRate ++;
-						if(s.GetDate(false) == c.GetDate(false) && s.eccon == c.eccon) {
+						if(s.GetDatetimeStr (false) == c.GetDatetimeStr (false) && s.eccon == c.eccon) {
 							int msCentral = SqliteEncoder.FindCurveInSignal(
 									s.GetFullURL(false), c.GetFullURL(false));
 

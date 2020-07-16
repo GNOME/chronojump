@@ -26,6 +26,8 @@ using Gdk;
 
 public static class CairoUtil
 {
+	const int textHeight = 12;
+
 	/*
 	 * public methods
 	 */
@@ -65,11 +67,11 @@ public static class CairoUtil
 		//add rectangle
 		g.SetSourceRGBA(0.906, 0.745, 0.098, 1); //Chronojump yellow
 
-		paintVerticalLine(g, xposA, height);
+		paintVerticalLine(g, xposA, height, "A");
 
 		if(posBuse && xposA != xposB)
 		{
-			paintVerticalLine(g, xposB, height);
+			paintVerticalLine(g, xposB, height, "B");
 
 			//g.SetSourceRGBA(0.906, 0.745, 0.098, .5); //Chronojump yellow, half transp
 			g.SetSourceRGBA(0.9, 0.9, 0.01, .33); //More yellow and very transp
@@ -85,19 +87,23 @@ public static class CairoUtil
 		}
 	}
 
-	private static void paintVerticalLine (Cairo.Context g, int x, int height)
+	private static void paintVerticalLine (Cairo.Context g, int x, int height, string letter)
 	{
 		//vertical line
 		g.MoveTo(x, 9);
 		g.LineTo(x, height);
 		g.Stroke();
 
-		//top triangle
+		/*
+		//show top triangle
 		g.MoveTo(x -4, 0);
 		g.LineTo(x   , 8);
 		g.LineTo(x +4, 0);
 		g.LineTo(x -4, 0);
 		g.Fill();
+		*/
+		//show letter
+		printText(x, 2, 0, textHeight, letter, g, true);
 
 		/*
 		//bottom triangle currently not drawn because bottom space changes and half of triangle is not shown
@@ -107,4 +113,16 @@ public static class CairoUtil
 		*/
 	}
 
+	private static void printText (int x, int y, int height, int textHeight, string text, Cairo.Context g, bool centered)
+	{
+		int moveToLeft = 0;
+		if(centered)
+		{
+			Cairo.TextExtents te;
+			te = g.TextExtents(text);
+			moveToLeft = Convert.ToInt32(te.Width/2);
+		}
+		g.MoveTo( x - moveToLeft, ((y+y+height)/2) + textHeight/2 );
+		g.ShowText(text);
+	}
 }

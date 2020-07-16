@@ -6879,7 +6879,8 @@ LogB.Debug("mc finished 5");
 							captureCurvesBarsData,
 							encoderCaptureListStore,
 							preferences.encoderCaptureMainVariableThisSetOrHistorical,
-							sendMaxPowerSpeedForceIntersession(mainVariable));
+							sendMaxPowerSpeedForceIntersession(mainVariable),
+							sendMaxPowerSpeedForceIntersessionDate(mainVariable));
 				} else
 					UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 			}

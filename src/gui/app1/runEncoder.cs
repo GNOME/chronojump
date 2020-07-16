@@ -551,7 +551,7 @@ public partial class ChronoJumpWindow
 			File.Copy(fileName, RunEncoder.GetCSVFileName(), true); //can be overwritten
 			lastRunEncoderFullPath = fileName;
 
-			raceEncoderCaptureGraphDo();
+			//raceEncoderCaptureGraphDo(); moved to pulseGTKRunEncoderCapture () where currentRunEncoder is created
 
 			capturingRunEncoder = arduinoCaptureStatus.COPIED_TO_TMP;
 		}
@@ -958,13 +958,6 @@ public partial class ChronoJumpWindow
 		string title = Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "-" +
 			Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_run_encoder_exercise));
 
-		string dateTimeGraph = "";
-		if(currentRunEncoder != null)
-			dateTimeGraph = currentRunEncoder.DateTimePublic;
-		else
-			dateTimeGraph = UtilDate.ToFile(runEncoderTimeStartCapture);
-
-
 		bool plotRawAccel =
 			( Preferences.runEncoderAnalyzeAccel.SqlCurrentName ==  Preferences.runEncoderAnalyzeAFPSqlRAW ||
 			 Preferences.runEncoderAnalyzeAccel.SqlCurrentName == Preferences.runEncoderAnalyzeAFPSqlBOTH );
@@ -992,7 +985,7 @@ public partial class ChronoJumpWindow
 				race_analyzer_temperature,
 				race_analyzer_device,
 				title,
-				dateTimeGraph,
+				currentRunEncoder.DateTimePublic,
 				preferences.runEncoderMinAccel,
 				plotRawAccel, plotFittedAccel,
 				plotRawForce, plotFittedForce,
@@ -1125,6 +1118,8 @@ public partial class ChronoJumpWindow
 					Thread.Sleep (250); //Wait a bit to ensure is copied
 					sensitiveLastTestButtons(true);
 					contactsShowCaptureDoingButtons(false);
+
+					raceEncoderCaptureGraphDo();
 
 					runEncoderAnalyzeOpenImage();
 					notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RACEENCODER);

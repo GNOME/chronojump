@@ -1231,12 +1231,12 @@ public partial class ChronoJumpWindow
 				//no need to graph two green lines together ir rep starts just on previous rep ends
 				if(xposRepStart > xposRepEnd)
 					force_sensor_ai_pixmap.DrawLine(pen_green_force_ai,
-							xposRepStart, 0, xposRepStart, allocation.Height - textHeight - 6);
+							xposRepStart, 6, xposRepStart, allocation.Height - textHeight - 6);
 			}
 			if(sampleEnd >= 0) {
 				xposRepEnd = fsAI.GetXFromSampleCount(sampleEnd);
 				force_sensor_ai_pixmap.DrawLine(pen_green_force_ai,
-						xposRepEnd, 0, xposRepEnd, allocation.Height -20);
+						xposRepEnd, 6, xposRepEnd, allocation.Height -20);
 				//LogB.Information(string.Format("repetition paint, j: {0}, xposRepEnd: {1}", j, xposRepEnd));
 			}
 
@@ -1331,16 +1331,16 @@ public partial class ChronoJumpWindow
 		int xposNumber = Convert.ToInt32((xposRepStart + xposRepEnd)/2 - textWidth/2);
 
 		force_sensor_ai_pixmap.DrawLayout (pen_green_force_ai,
-				xposNumber, 0, layout_force_ai_text);
+				xposNumber, 6, layout_force_ai_text);
 
 		//if it does not fit, do not plot the horizontal lines + arrows
 		if(xposNumber - xposRepStart < 16)
 			return;
 
 		//draw arrow to the left
-		UtilGtk.DrawHorizontalLine(force_sensor_ai_pixmap, pen_green_force_ai, xposRepStart, xposNumber, textHeight/2,
+		UtilGtk.DrawHorizontalLine(force_sensor_ai_pixmap, pen_green_force_ai, xposRepStart, xposNumber, 6 + textHeight/2,
 			6, endsAtLeft, false, 4);
-		UtilGtk.DrawHorizontalLine(force_sensor_ai_pixmap, pen_green_force_ai, xposNumber + textWidth, xposRepEnd, textHeight/2,
+		UtilGtk.DrawHorizontalLine(force_sensor_ai_pixmap, pen_green_force_ai, xposNumber + textWidth, xposRepEnd, 6 + textHeight/2,
 			6, false, endsAtRight, 4);
 	}
 

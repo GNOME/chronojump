@@ -371,7 +371,7 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
                 print("########")
                 lapTime = diff(c(0, splitTime))
                 textXPos = c(0,splitTime[1:length(splitTime) -1]) + lapTime/2
-                text(textXPos, meanSpeed, round(meanSpeed, digits = 2), pos = 3)
+                text(textXPos, meanSpeed/2, round(meanSpeed, digits = 2), pos = 3)
                 text(textXPos, 0, paste(round(lapTime, digits = 3), " s", sep = ""), pos = 3)
         } else
         {

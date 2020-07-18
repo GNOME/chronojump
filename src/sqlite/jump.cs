@@ -418,9 +418,23 @@ class SqliteJump : Sqlite
 		  //jumps previous to DB 1.82 have no datetime on jump
 		  //find session datetime for that jumps
 		  if(jmp.Datetime == "")
+		  {
+			  bool found = false;
 			  foreach(Session session in session_l)
+			  {
 				  if(session.UniqueID == jmp.SessionID)
+				  {
 					  jmp.Datetime = UtilDate.ToFile(session.Date);
+					  found = true;
+					  break;
+				  }
+
+			  }
+			  //on really old versions of Chronojump, deleting a session maybe does not delete the jumps
+			  //so could be to found a jump without a session, so assign here the MinValue possible of DateTime
+			  if(! found)
+				  jmp.Datetime = UtilDate.ToFile(DateTime.MinValue);
+		  }
 
 		  if(personNameInComment)
 			  foreach(Person person in person_l)

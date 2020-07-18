@@ -56,10 +56,17 @@ public class UtilDate
 	//used also on SQL when time wants to be stored also
 	public static DateTime FromFile (string s)
 	{
-		//TODO: check possible errors
 		string [] allFull = s.Split(new char[] {'_'});
+
+		if(allFull.Length != 2)
+			return DateTime.MinValue;
+
 		string [] dateFull = allFull[0].Split(new char[] {'-'});
 		string [] timeFull = allFull[1].Split(new char[] {'-'});
+
+		if(dateFull.Length != 3 || timeFull.Length != 3)
+			return DateTime.MinValue;
+
 		return new DateTime(
 				Convert.ToInt32(dateFull[0]),
 				Convert.ToInt32(dateFull[1]),

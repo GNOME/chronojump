@@ -6308,6 +6308,7 @@ LogB.Debug("mc finished 5");
 		
 		treeview_runs_interval_storeReset();
 		fillTreeView_runs_interval(UtilGtk.ComboGetActive(combo_result_runs_interval));
+		createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
 		
 		if(createdStatsWin) {
 			stats_win_fillTreeView_stats(false, false);

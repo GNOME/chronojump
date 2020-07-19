@@ -119,6 +119,7 @@ public partial class ChronoJumpWindow
 	//run
 	[Widget] Gtk.Image image_run_execute_running;
 	[Widget] Gtk.Image image_run_execute_photocell;
+	[Widget] Gtk.Image image_sprint_analyze_save;
 
 	//encoder images
 	[Widget] Gtk.Image image_top_eccon;
@@ -728,6 +729,7 @@ public partial class ChronoJumpWindow
 		image_jumps_dj_optimal_fall_save.Pixbuf = pixbuf;
 		image_jumps_weight_fv_profile_save.Pixbuf = pixbuf;
 		image_jumps_evolution_save.Pixbuf = pixbuf;
+		image_sprint_analyze_save.Pixbuf = pixbuf;
 		image_encoder_analyze_image_compujump_send_email_image.Pixbuf = pixbuf;
 		image_run_encoder_analyze_image_save_graph.Pixbuf = pixbuf;
 

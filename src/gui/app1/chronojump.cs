@@ -77,6 +77,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox eventbox_radio_mode_contacts_analyze;
 	[Widget] Gtk.EventBox eventbox_radio_mode_encoder_capture_small;
 	[Widget] Gtk.EventBox eventbox_radio_mode_encoder_analyze_small;
+	[Widget] Gtk.EventBox eventbox_radio_mode_contacts_sprint;
+	[Widget] Gtk.EventBox eventbox_radio_mode_contacts_runs_interval_advanced;
+	[Widget] Gtk.EventBox eventbox_radio_mode_pulses_small;
+	[Widget] Gtk.EventBox eventbox_radio_mode_multi_chronopic_small;
 	[Widget] Gtk.EventBox eventbox_button_open_chronojump;
 	[Widget] Gtk.EventBox eventbox_button_help_close;
 	[Widget] Gtk.EventBox eventbox_button_exit_cancel;
@@ -596,6 +600,10 @@ public partial class ChronoJumpWindow
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_contacts_analyze, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_encoder_capture_small, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_encoder_analyze_small, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_contacts_sprint, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_contacts_runs_interval_advanced, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_pulses_small, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_multi_chronopic_small, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_open_chronojump, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_help_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_exit_cancel, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);

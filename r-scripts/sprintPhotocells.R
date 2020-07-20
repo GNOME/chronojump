@@ -127,10 +127,12 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
         #Calculating measured average speeds
         avg.speeds = diff(positions)/diff(splitTimes)
         textXPos = splitTimes[1:length(splitTimes) - 1] + diff(splitTimes)/2
+        xlims = c(0, splitTimes[length(splitTimes)])
         
         # Plotting average speed
         par(mar = c(7, 4, 5, 7.5))
-        barplot(height = avg.speeds, width = diff(splitTimes), space = 0, ylim = c(0, max(c(avg.speeds, sprintDynamics$Vmax) + 1)),
+        barplot(height = avg.speeds, width = diff(splitTimes), space = 0,
+                ylim = c(0, max(c(avg.speeds, sprintDynamics$Vmax) + 1)), xlim = xlims,
                 main=title,
                 #sub = substitute(v(t) == Vmax*(1-e^(-K*t)), list(Vmax="Vmax", K="K")),
                 xlab="Time[s]", ylab="Velocity[m/s]",
@@ -140,7 +142,8 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
         
         # Fitted speed plotting
         par(new=T)
-        plot(time, sprintDynamics$v.fitted, type = "l", xlab="", ylab = "",  ylim = c(0, max(c(avg.speeds, sprintDynamics$Vmax) + 1)),
+        plot(time, sprintDynamics$v.fitted, type = "l", xlab="", ylab = "",
+             ylim = c(0, max(c(avg.speeds, sprintDynamics$Vmax) + 1)), xlim = xlims,
              yaxs= "i", xaxs = "i", axis = F) # Fitted data
         axis(2, at = seq(0, sprintDynamics$Vmax + 1, by = 1))
         abline(h = sprintDynamics$Vmax, lty = 2)
@@ -150,7 +153,8 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
         {
                 par(new = T)
                 plot(time, sprintDynamics$a.fitted, type = "l", col = "magenta", yaxs= "i", xaxs = "i", xlab="", ylab = "",
-                     ylim=c(0,sprintDynamics$amax.fitted), axes = FALSE )
+                     ylim=c(0,sprintDynamics$amax.fitted), xlim = xlims,
+                     axes = FALSE )
                 axis(side = 4, col ="magenta", at = seq(0,max(sprintDynamics$a.fitted), by = 1))
         }
         
@@ -159,7 +163,8 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
         {
                 par(new=T)
                 plot(time, sprintDynamics$f.fitted, type="l", col="blue", yaxs= "i", xaxs = "i", xlab="", ylab="",
-                     ylim=c(0,sprintDynamics$fmax.fitted), axes = FALSE)
+                     ylim=c(0,sprintDynamics$fmax.fitted), xlim = xlims,
+                     axes = FALSE)
                 axis(line = 2.5, side = 4, col ="blue", at = seq(0, sprintDynamics$fmax.fitted + 100, by = 100))
 
         }
@@ -168,7 +173,9 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
         if(plotFittedPower)
         {
                 par(new=T)
-                plot(time, sprintDynamics$p.fitted, type="l", axes = FALSE, xlab="", ylab="", col="red", ylim=c(0,sprintDynamics$pmax.fitted + .1 * sprintDynamics$pmax.fitted), yaxs= "i", xaxs = "i")
+                plot(time, sprintDynamics$p.fitted, type="l", axes = FALSE, xlab="", ylab="", col="red"
+                     , ylim=c(0,sprintDynamics$pmax.fitted + .1 * sprintDynamics$pmax.fitted), xlim = xlims
+                     , yaxs= "i", xaxs = "i")
                 abline(v = sprintDynamics$tpmax.fitted, col="red", lty = 2)
                 axis(line = 5, side = 4, col ="red", at = seq(0, sprintDynamics$pmax.fitted, by = 200))
                 axis(3, at = sprintDynamics$tpmax.fitted, labels = round(sprintDynamics$tpmax.fitted, 3))
@@ -190,7 +197,7 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
                            paste("Amax =", round(sprintDynamics$amax.fitted, digits = 2), "m/s\u00b2"),
                            paste("fmax =", round(sprintDynamics$fmax.rel.fitted, digits = 2), "N/kg"),
                            paste("pmax =", round(sprintDynamics$pmax.rel.fitted, digits = 2), "W/kg")),
-                text.col = c("black", "black", "magenta", "blue", "red"))
+                text.col = c("black", "black", "black", "magenta", "blue", "red"))
         
         exportSprintDynamics(sprintDynamics)
 }

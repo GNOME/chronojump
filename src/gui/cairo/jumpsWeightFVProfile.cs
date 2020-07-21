@@ -92,9 +92,20 @@ public class JumpsWeightFVProfileGraph : CairoXY
 
 	protected override void writeTitle()
 	{
-		writeTextAtRight(-5, title, true);
-		writeTextAtRight(-4, "FV Profile", false);
-		//writeTextAtRight(-3, "Jumptype: " + jumpType, false);
-		writeTextAtRight(-2, date, false);
+		int ypos = -6;
+
+		writeTextAtRight(ypos++, title, true);
+		writeTextAtRight(ypos++, "FV Profile", false);
+		writeTextAtRight(ypos++, date, false);
+
+		double f0 = intercept;
+		double v0 = -f0 / slope;
+		double pmax = (f0 * v0) /4;
+
+		ypos++;
+		writeTextAtRight(ypos++, string.Format("F0: {0} N", Math.Round(f0,2)), false);
+		writeTextAtRight(ypos++, string.Format("V0: {0} m/s", Math.Round(v0,2)), false);
+		writeTextAtRight(ypos++, string.Format("Pmax: {0} W", Math.Round(pmax,1)), false);
+//		writeTextAtRight(ypos++, "Imbalance: ?", false);
 	}
 }

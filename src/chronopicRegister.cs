@@ -34,7 +34,7 @@ public class ChronopicRegisterPort
 	public string Port;
 	public bool FTDI;
 	public string SerialNumber;
-	public enum Types { UNKNOWN, CONTACTS, ENCODER, ARDUINO_RFID, ARDUINO_FORCE, ARDUINO_RUN_ENCODER, ACCELEROMETER }
+	public enum Types { UNKNOWN, CONTACTS, ENCODER, ARDUINO_RFID, ARDUINO_FORCE, ARDUINO_RUN_ENCODER, ACCELEROMETER, RUN_WIRELESS }
 	public Types Type;
 
 	public bool ConnectedReal; 	//if connexion has been done by ChronopicInit.Do
@@ -81,6 +81,8 @@ public class ChronopicRegisterPort
 			return "Race encoder";
 		else if(typeStatic == Types.ACCELEROMETER)
 			return "Accelerometer";
+		else if(typeStatic == Types.RUN_WIRELESS)
+			return "Races (wireless)";
 
 		return Catalog.GetString("Unknown");
 	}

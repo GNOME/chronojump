@@ -19892,6 +19892,51 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <widget class="GtkHBox" id="hbox434">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">12</property>
+                                                            <child>
+                                                            <widget class="GtkRadioButton" id="radio_jumps_weight_fv_profile_show_full_graph">
+                                                            <property name="label" translatable="yes">Show full graph</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">True</property>
+                                                            <signal name="toggled" handler="on_radio_jumps_weight_fv_profile_show_full_graph_toggled" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkRadioButton" id="radio_jumps_weight_fv_profile_zoom_to_points">
+                                                            <property name="label" translatable="yes">Zoom to points</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">True</property>
+                                                            <property name="group">radio_jumps_weight_fv_profile_show_full_graph</property>
+                                                            <signal name="toggled" handler="on_radio_jumps_weight_fv_profile_zoom_to_points_toggled" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkHBox" id="hbox237">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -19970,7 +20015,7 @@ Concentric</property>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                           </widget>

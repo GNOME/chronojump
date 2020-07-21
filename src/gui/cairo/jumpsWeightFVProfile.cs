@@ -29,6 +29,8 @@ using Cairo;
 public class JumpsWeightFVProfileGraph : CairoXY
 {
 	public enum ErrorAtStart { NEEDLEGPARAMS, BADLEGPARAMS, NEEDJUMPS }
+	private double pmax;
+	private bool showFullGraph;
 
 	//constructor when there are no points
 	public JumpsWeightFVProfileGraph (DrawingArea area, ErrorAtStart error)//, string title, string jumpType, string date)
@@ -55,7 +57,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 	public JumpsWeightFVProfileGraph (
 			List<PointF> point_l, double slope, double intercept,
 			DrawingArea area, string title, //string jumpType,
-			string date)
+			string date, bool showFullGraph)
 	{
 		this.point_l = point_l;
 		this.slope = slope;
@@ -64,13 +66,20 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		this.title = title;
 		//this.jumpType = jumpType;
 		this.date = date;
+		this.showFullGraph = showFullGraph;
 
 		outerMargins = 50; //blank space outside the axis
+		if(showFullGraph)
+			innerMargins = 0;
 
 		xVariable = "Speed";
 		yVariable = "Force";
 		xUnits = "m/s";
 		yUnits = "N";
+
+		f0 = intercept;
+		v0 = -f0 / slope;
+		pmax = (f0 * v0) /4;
 	}
 
 	public override void Do()
@@ -78,7 +87,11 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		LogB.Information("at JumpsWeightFVProfileGraph.Do");
 		initGraph();
 
-		findPointMaximums();
+		if(showFullGraph)
+			findPointMaximums(true);
+		else
+			findPointMaximums(false);
+
 		//findAbsoluteMaximums();
 		paintAxisAndGrid(gridTypes.BOTH);
 
@@ -97,10 +110,6 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		writeTextAtRight(ypos++, title, true);
 		writeTextAtRight(ypos++, "FV Profile", false);
 		writeTextAtRight(ypos++, date, false);
-
-		double f0 = intercept;
-		double v0 = -f0 / slope;
-		double pmax = (f0 * v0) /4;
 
 		ypos++;
 		writeTextAtRight(ypos++, string.Format("F0: {0} N", Math.Round(f0,2)), false);

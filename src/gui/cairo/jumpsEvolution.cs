@@ -65,7 +65,7 @@ public class JumpsEvolutionGraph : CairoXY
 		LogB.Information("at JumpsEvolutionGraph.Do");
 		initGraph();
 
-                findPointMaximums();
+                findPointMaximums(false);
                 //findAbsoluteMaximums();
 		paintAxisAndGrid(gridTypes.HORIZONTALLINES);
 		paintGridDatetime();

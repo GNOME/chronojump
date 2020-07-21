@@ -100,7 +100,7 @@ public partial class ChronoJumpWindow
 	//[Widget] Gtk.Button button_menu_outside_menu;
 	//[Widget] Gtk.Button button_menu_outside_menu1;
 
-	private enum linuxTypeEnum { NOTLINUX, LINUX, RASPBERRY, NETWORKS }
+	//private enum linuxTypeEnum { NOTLINUX, LINUX, RASPBERRY, NETWORKS }
 	private bool encoderUpdateTreeViewWhileCapturing = true;
 
 	static Thread threadRFID;

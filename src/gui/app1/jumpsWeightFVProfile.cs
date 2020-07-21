@@ -32,6 +32,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_combo_select_jumps_weight_fv_profile;
 	[Widget] Gtk.ComboBox combo_select_jumps_weight_fv_profile;
 	[Widget] Gtk.Button button_jumps_weight_fv_profile_save_image;
+	[Widget] Gtk.RadioButton radio_jumps_weight_fv_profile_show_full_graph;
+	[Widget] Gtk.RadioButton radio_jumps_weight_fv_profile_zoom_to_points;
 
 	JumpsWeightFVProfile jumpsWeightFVProfile;
 	JumpsWeightFVProfileGraph jumpsWeightFVProfileGraph;
@@ -116,7 +118,8 @@ public partial class ChronoJumpWindow
 					jumpsWeightFVProfile.Intercept,
 					drawingarea_jumps_weight_fv_profile,
 					currentPerson.Name, //jumpType,
-					currentSession.DateShort);
+					currentSession.DateShort,
+					radio_jumps_weight_fv_profile_show_full_graph.Active);
 			jumpsWeightFVProfileGraph.Do();
 
 			button_jumps_weight_fv_profile_save_image.Sensitive = true;
@@ -129,6 +132,17 @@ public partial class ChronoJumpWindow
 
 		jumpsWeightFVProfileDo(false); //do not calculate data
 		//data is calculated on switch page (at notebook_capture_analyze) or on change person
+	}
+
+	private void on_radio_jumps_weight_fv_profile_show_full_graph_toggled (object o, EventArgs args)
+	{
+		if(radio_jumps_weight_fv_profile_show_full_graph.Active)
+			jumpsWeightFVProfileDo (false);
+	}
+	private void on_radio_jumps_weight_fv_profile_zoom_to_points_toggled (object o, EventArgs args)
+	{
+		if(radio_jumps_weight_fv_profile_zoom_to_points.Active)
+			jumpsWeightFVProfileDo (false);
 	}
 
 	private void on_drawingarea_jumps_weight_fv_profile_button_press_event (object o, ButtonPressEventArgs args)

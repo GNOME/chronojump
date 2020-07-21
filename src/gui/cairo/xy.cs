@@ -33,6 +33,8 @@ public abstract class CairoXY
 	//regression line straight
 	protected double slope;
 	protected double intercept;
+	protected double f0;
+	protected double v0;
 
 	//regression line parabole
 	protected double[] coefs;
@@ -103,7 +105,9 @@ public abstract class CairoXY
 		predictedPointDone = false;
 	}
 
-	protected void findPointMaximums()
+	//showFullGraph means that has to plot both axis at 0 and maximums have to be f0,v0
+	//used by default on jumpsWeightFVProfile
+	protected void findPointMaximums(bool showFullGraph)
 	{
 		foreach(PointF p in point_l)
 		{
@@ -115,6 +119,13 @@ public abstract class CairoXY
 				minY = p.Y;
 			if(p.Y > maxY)
 				maxY = p.Y;
+		}
+
+		if (showFullGraph) {
+			minX = 0;
+			minY = 0;
+			maxX = v0;
+			maxY = f0;
 		}
 
 		//if there is only one point, or by any reason mins == maxs, have mins and maxs separated

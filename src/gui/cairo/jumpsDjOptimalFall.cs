@@ -78,7 +78,7 @@ public class JumpsDjOptimalFallGraph : CairoXY
 
 		LogB.Information(string.Format("coef length:{0}", coefs.Length));
 		if(coefs.Length == 3)
-			plotPredictedLine(predictedLineTypes.PARABOLE);
+			plotPredictedLine(predictedLineTypes.PARABOLE, predictedLineCrossMargins.TOUCH);
 
 		plotRealPoints();
 

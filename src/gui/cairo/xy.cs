@@ -72,6 +72,7 @@ public abstract class CairoXY
 	//for all 4 sides
 	protected int outerMargins = 40; //blank space outside the axis.
 	protected int innerMargins = 30; //space between the axis and the real coordinates.
+	private int crossMargins = 10; //cross slope line with margins will have this length
 	int totalMargins;
 
 	public abstract void Do();
@@ -121,11 +122,16 @@ public abstract class CairoXY
 				maxY = p.Y;
 		}
 
-		if (showFullGraph) {
+		if (showFullGraph)
+		{
 			minX = 0;
 			minY = 0;
 			maxX = v0;
 			maxY = f0;
+
+			//have maxX and maxY a 2.5% bigger to have a nicer cut with the predicted line
+			maxX += .025 * maxX;
+			maxY += .025 * maxY;
 		}
 
 		//if there is only one point, or by any reason mins == maxs, have mins and maxs separated
@@ -200,7 +206,8 @@ public abstract class CairoXY
 	}
 
 	protected enum predictedLineTypes { STRAIGHT, PARABOLE }
-	protected void plotPredictedLine(predictedLineTypes plt)
+	protected enum predictedLineCrossMargins { TOUCH, CROSS, DONOTTOUCH }
+	protected void plotPredictedLine(predictedLineTypes plt, predictedLineCrossMargins crossMarginType)
 	{
 		bool firstValue = false;
 		double range = absoluteMaxX - minX;
@@ -229,10 +236,18 @@ public abstract class CairoXY
 			else //(plt == predictedLineTypes.PARABOLE)
 				ygraph = calculatePaintY(coefs[0] + coefs[1]*x + coefs[2]*Math.Pow(x,2));
 
-			//do not plot line outer the axis
+			// ---- do not plot line outer the axis ---->
+			int om = outerMargins;
+
+			// have a bit more distance
+			if(crossMarginType == predictedLineCrossMargins.CROSS)
+				om -= crossMargins;
+			else if(crossMarginType == predictedLineCrossMargins.DONOTTOUCH)
+				om += crossMargins;
+
 			if(
-					xgraph < outerMargins || xgraph > graphWidth - outerMargins ||
-					ygraph < outerMargins || ygraph > graphHeight - outerMargins )
+					xgraph < om || xgraph > graphWidth - om ||
+					ygraph < om || ygraph > graphHeight - om )
 			{
 				wasOutOfMargins = true;
 				continue;
@@ -242,6 +257,7 @@ public abstract class CairoXY
 
 				wasOutOfMargins = false;
 			}
+			// <---- end of do not plot line outer the axis ----
 
 			if(! firstValue)
 				g.LineTo(xgraph, ygraph);

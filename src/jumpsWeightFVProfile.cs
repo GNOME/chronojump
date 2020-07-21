@@ -25,6 +25,8 @@ public class JumpsWeightFVProfile
 {
 	private List<PointF> point_l;
 	LeastSquaresLine ls;
+	private double hp0; //meters
+	private double g = 9.81;
 
 	//constructor
 	public JumpsWeightFVProfile()
@@ -33,6 +35,8 @@ public class JumpsWeightFVProfile
 	
 	public void Calculate (int personID, int sessionID, double personWeight, double trochanterToe, double trochanterFloorOnFlexion)
 	{
+		hp0 = (trochanterToe - trochanterFloorOnFlexion) / 100.0;
+
 		//1 get data
                 List<Jump> jump_l = SqliteJump.SelectJumpsWeightFVProfile (personID, sessionID, false); //TODO:true);
 
@@ -51,7 +55,7 @@ public class JumpsWeightFVProfile
 			//Samozino formula is F = m*g*( (h/hp0) +1)
 			//h is jump's height
 			//hp0 = trochanterToe - trochanterFloorOnFlexion
-			double force = (personWeight + j.Weight) * 9.81 * ( ( Util.GetHeightInCentimeters(j.Tv) / (trochanterToe - trochanterFloorOnFlexion) ) + 1 );
+			double force = (personWeight + (personWeight * j.Weight / 100.0)) * 9.81 * ( ( Util.GetHeightInMeters(j.Tv) / hp0 ) + 1 );
 
 			point_l.Add(new PointF(
 						Util.GetInitialSpeed(j.Tv, true), //TODO: pass preferences.metersSecondsPreferred and show it on graph label

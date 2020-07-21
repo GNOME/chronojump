@@ -472,8 +472,12 @@ public class Util
 	}
 	//new code (2019 ...) sends and returns doubles
 	public static double GetHeightInCentimeters (double tv) {
-		// s = 4.9 * (tv/2)^2
+		// s = 100 * 4.9 * (tv/2)^2
 		return 100 * 4.9 * Math.Pow( tv / 2.0 , 2 );
+	}
+	public static double GetHeightInMeters (double tv) {
+		// s = 4.9 * (tv/2)^2
+		return 4.9 * Math.Pow( tv / 2.0 , 2 );
 	}
 	
 	public static double WeightFromKgToPercent (double jumpKg, double personKg) {

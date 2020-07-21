@@ -320,8 +320,8 @@ public abstract class CairoXY
 		if(bold)
 			g.SelectFontFace("Helvetica", Cairo.FontSlant.Normal, Cairo.FontWeight.Bold);
 
-		printText(graphWidth + Convert.ToInt32(outerMargins/2), Convert.ToInt32(graphHeight/2) + textHeight*2*line, 0, textHeight, text, g, false);
-		
+		printText(graphWidth, Convert.ToInt32(graphHeight/2) + textHeight*2*line, 0, textHeight, text, g, false);
+
 		if(bold)
 			g.SelectFontFace("Helvetica", Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
 	}

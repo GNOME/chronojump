@@ -102,10 +102,12 @@ public class JumpsDjOptimalFallGraph : CairoXY
 
 	protected override void writeTitle()
 	{
-		writeTextAtRight(-5, title, true);
-		writeTextAtRight(-4, "Optimal fall height", false);
-		writeTextAtRight(-3, "Jumptype: " + jumpType, false);
-		writeTextAtRight(-2, date, false);
+		int ypos = -6;
+
+		writeTextAtRight(ypos++, title, true);
+		writeTextAtRight(ypos++, "Optimal fall height", false);
+		writeTextAtRight(ypos++, "Jumptype: " + jumpType, false);
+		writeTextAtRight(ypos++, date, false);
 	}
 
 }

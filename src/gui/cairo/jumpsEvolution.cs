@@ -145,9 +145,11 @@ public class JumpsEvolutionGraph : CairoXY
 
 	protected override void writeTitle()
 	{
-		writeTextAtRight(-5, title, true);
-		writeTextAtRight(-3, "Jumptype: " + jumpType, false);
-		writeTextAtRight(-2, date, false);
+		int ypos = -6;
+
+		writeTextAtRight(ypos++, title, true);
+		writeTextAtRight(ypos++, "Jumptype: " + jumpType, false);
+		writeTextAtRight(ypos++, date, false);
 	}
 
 }

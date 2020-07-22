@@ -44,23 +44,15 @@ public class JumpsWeightFVProfile
 		point_l = new List<PointF>();
                 foreach(Jump j in jump_l)
 		{
-			/*
-			point_l.Add(new PointF(
-						j.Weight,
-						Util.GetHeightInCentimeters(j.Tv)
-						));
-			LogB.Information("Added point: {0}", j.ToString());
-			LogB.Information("with weight: {0}", j.Weight.ToString());
-			*/
+			double jumpHeightM = Util.GetHeightInMeters(j.Tv);
+
 			//Samozino formula is F = m*g*( (h/hp0) +1)
 			//h is jump's height
 			//hp0 = trochanterToe - trochanterFloorOnFlexion
-			double force = (personWeight + (personWeight * j.Weight / 100.0)) * 9.81 * ( ( Util.GetHeightInMeters(j.Tv) / hp0 ) + 1 );
+			double force = (personWeight + (personWeight * j.Weight / 100.0)) * 9.81 * ( ( jumpHeightM / hp0 ) + 1 );
 
-			point_l.Add(new PointF(
-						Util.GetInitialSpeed(j.Tv, true), //TODO: pass preferences.metersSecondsPreferred and show it on graph label
-						force
-						));
+			//TODO: pass also info on height to be displayed on select point
+			point_l.Add(new PointF(Util.GetAverageImpulsionSpeed (jumpHeightM), force));
 		}
 
 		//3 get LeastSquaresLine (straight line)

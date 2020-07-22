@@ -743,6 +743,11 @@ public class Util
 
 		return initialSpeed;
 	}
+
+	public static double GetAverageImpulsionSpeed(double jumpHeightM)
+	{
+		return Math.Sqrt( (9.81 * jumpHeightM) / 2);
+	}
 	
 	public static double GetDjPower (double tc, double tf, double mass, double fallHeight) 
 	{

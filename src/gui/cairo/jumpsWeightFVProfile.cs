@@ -145,6 +145,14 @@ public class JumpsWeightFVProfileGraph : CairoXY
 
 	protected override void writeSelectedValues(int line, PointF pClosest)
 	{
+		double lineVertSpacing = 1;
+
+		// first check if it fits at right, if does not fit reduce lineVertSpacing
+		if(Convert.ToInt32(graphHeight/2) + textHeight*2*(line+4) > graphHeight - outerMargins)
+		{
+			lineVertSpacing = .5;
+		}
+
 		writeTextAtRight(line, "Selected:", false);
 
 		List<KeyDouble> l_keydouble = pClosest.l_keydouble;
@@ -156,10 +164,9 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		double heightCm = (double) l_keydouble[0].D;
 		double extraWeight = (double) l_keydouble[1].D;
 
-		writeTextAtRight(line +1, string.Format("- Height: {0} cm", Util.TrimDecimals(heightCm, 2)), false);
-		writeTextAtRight(line +2, string.Format("- Extra weight: {0} Kg", Util.TrimDecimals(extraWeight, 2)), false);
-		writeTextAtRight(line +3, string.Format("- {0}: {1} {2}", xVariable, Util.TrimDecimals(pClosest.X, 2), xUnits), false);
-		writeTextAtRight(line +4, string.Format("- {0}: {1} {2}", yVariable, Util.TrimDecimals(pClosest.Y, 2), yUnits), false);
+		writeTextAtRight(line + lineVertSpacing, string.Format("- Height: {0} cm", Util.TrimDecimals(heightCm, 2)), false);
+		writeTextAtRight(line + 2*lineVertSpacing, string.Format("- Extra weight: {0} Kg", Util.TrimDecimals(extraWeight, 2)), false);
+		writeTextAtRight(line + 3*lineVertSpacing, string.Format("- {0}: {1} {2}", xVariable, Util.TrimDecimals(pClosest.X, 2), xUnits), false);
+		writeTextAtRight(line + 4*lineVertSpacing, string.Format("- {0}: {1} {2}", yVariable, Util.TrimDecimals(pClosest.Y, 2), yUnits), false);
 	}
-
 }

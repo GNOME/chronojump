@@ -29,8 +29,11 @@ using Cairo;
 public class JumpsWeightFVProfileGraph : CairoXY
 {
 	public enum ErrorAtStart { NEEDLEGPARAMS, BADLEGPARAMS, NEEDJUMPS }
-	private double pmax;
 	private bool showFullGraph;
+	private double pmax;
+	public double fvprofile90;
+	public bool needDevelopForce;
+	private int imbalance;
 
 	//constructor when there are no points
 	public JumpsWeightFVProfileGraph (DrawingArea area, ErrorAtStart error)//, string title, string jumpType, string date)
@@ -55,13 +58,13 @@ public class JumpsWeightFVProfileGraph : CairoXY
 
 	//regular constructor
 	public JumpsWeightFVProfileGraph (
-			List<PointF> point_l, double slope, double intercept,
+			JumpsWeightFVProfile jwp,
 			DrawingArea area, string title, //string jumpType,
 			string date, bool showFullGraph)
 	{
-		this.point_l = point_l;
-		this.slope = slope;
-		this.intercept = intercept;
+		this.point_l = jwp.Point_l;
+		this.slope = jwp.Slope;
+		this.intercept = jwp.Intercept;
 		this.area = area;
 		this.title = title;
 		//this.jumpType = jumpType;
@@ -77,9 +80,14 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		xUnits = "m/s";
 		yUnits = "N";
 
-		f0 = intercept;
-		v0 = -f0 / slope;
-		pmax = (f0 * v0) /4;
+		f0 = jwp.F0;
+		v0 = jwp.V0;
+		pmax = jwp.Pmax;
+		fvprofile90 = jwp.FvProfileFor90();
+		needDevelopForce = jwp.NeedDevelopForce();
+		imbalance = jwp.Imbalance();
+
+		LogB.Information(string.Format("Imbalance: {0}", imbalance));
 	}
 
 	public override void Do()
@@ -109,7 +117,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 
 	protected override void writeTitle()
 	{
-		int ypos = -6;
+		int ypos = -8;
 
 		writeTextAtRight(ypos++, title, true);
 		writeTextAtRight(ypos++, "FV Profile", false);
@@ -119,6 +127,13 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		writeTextAtRight(ypos++, string.Format("F0: {0} N", Math.Round(f0,2)), false);
 		writeTextAtRight(ypos++, string.Format("V0: {0} m/s", Math.Round(v0,2)), false);
 		writeTextAtRight(ypos++, string.Format("Pmax: {0} W", Math.Round(pmax,1)), false);
-//		writeTextAtRight(ypos++, "Imbalance: ?", false);
+
+		writeTextAtRight(ypos++, "Samozino & col. 2008-13:", false);
+		writeTextAtRight(ypos++, string.Format("- FV profile for 90º: {0} %", Math.Round(fvprofile90,1)), false);
+		if(needDevelopForce)
+			writeTextAtRight(ypos++, "- Need to develop force", false);
+		else
+			writeTextAtRight(ypos++, "- Need to develop speed", false);
+		writeTextAtRight(ypos++, string.Format("- Imbalance: {0} %", imbalance), false);
 	}
 }

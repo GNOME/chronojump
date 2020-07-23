@@ -113,9 +113,7 @@ public partial class ChronoJumpWindow
 		} else {
 			//regular constructor
 			jumpsWeightFVProfileGraph = new JumpsWeightFVProfileGraph(
-					jumpsWeightFVProfile.Point_l,
-					jumpsWeightFVProfile.Slope,
-					jumpsWeightFVProfile.Intercept,
+					jumpsWeightFVProfile,
 					drawingarea_jumps_weight_fv_profile,
 					currentPerson.Name, //jumpType,
 					currentSession.DateShort,

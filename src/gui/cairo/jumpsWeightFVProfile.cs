@@ -28,7 +28,7 @@ using Cairo;
 
 public class JumpsWeightFVProfileGraph : CairoXY
 {
-	public enum ErrorAtStart { NEEDLEGPARAMS, BADLEGPARAMS, NEEDJUMPS }
+	public enum ErrorAtStart { NEEDLEGPARAMS, BADLEGPARAMS, NEEDJUMPS, NEEDJUMPSX, F0NOTPOSITIVE, V0NOTPOSITIVE }
 	private bool showFullGraph;
 	private double pmax;
 	public double fvprofile90;
@@ -47,8 +47,14 @@ public class JumpsWeightFVProfileGraph : CairoXY
 			message = "Need to fill person's leg parameters.";
 		else if(error == ErrorAtStart.BADLEGPARAMS)
 			message = "Person's leg parameters are incorrect.";
-		else //if(error == ErrorAtStart.NEEDJUMPS)
+		else if(error == ErrorAtStart.NEEDJUMPS)
 			message = "Need to execute jumps SJl and/or SJ.";
+		else if(error == ErrorAtStart.NEEDJUMPSX)
+			message = "Need to execute jumps with different weights.";
+		else if(error == ErrorAtStart.F0NOTPOSITIVE)
+			message = "F0 is not > 0.";
+		else //if(error == ErrorAtStart.V0NOTPOSITIVE)
+			message = "V0 is not > 0.";
 
 		g.SetFontSize(16);
 		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight, message, g, true);
@@ -129,7 +135,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		writeTextAtRight(ypos++, string.Format("Pmax: {0} W", Math.Round(pmax,1)), false);
 
 		writeTextAtRight(ypos++, "Samozino & col. 2008-13:", false);
-		writeTextAtRight(ypos++, string.Format("- FV profile for 90º: {0} %", Math.Round(fvprofile90,1)), false);
+		writeTextAtRight(ypos++, string.Format("- Profile (90º): {0} %", Math.Round(fvprofile90,0)), false);
 		if(needDevelopForce)
 			writeTextAtRight(ypos++, "- Need to develop force", false);
 		else

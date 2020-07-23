@@ -23,6 +23,8 @@ using System.Collections.Generic; //List
 
 public class JumpsWeightFVProfile
 {
+	public bool NeedMoreXData;
+
 	private List<PointF> point_l;
 	LeastSquaresLine ls;
 	private double personWeight;
@@ -61,6 +63,15 @@ public class JumpsWeightFVProfile
 		//3 get LeastSquaresLine (straight line)
 		ls = new LeastSquaresLine();
 		ls.Calculate(point_l);
+
+		if(ls.SlopeIsNaN())
+		{
+			LogB.Information("Slope is NaN");
+			NeedMoreXData = true;
+			return;
+		}
+
+		NeedMoreXData = false;
 
 		LogB.Information(string.Format("Slope (sfv): {0}", Math.Round(Slope,2)));
 		//LogB.Information(string.Format("Z: {0}", Math.Round(z(),2)));

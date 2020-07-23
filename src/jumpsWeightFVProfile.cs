@@ -35,13 +35,13 @@ public class JumpsWeightFVProfile
 	{
 	}
 	
-	public void Calculate (int personID, int sessionID, double personWeight, double trochanterToe, double trochanterFloorOnFlexion)
+	public void Calculate (int personID, int sessionID, double personWeight, double trochanterToe, double trochanterFloorOnFlexion, bool onlyBestInWeight)
 	{
 		this.personWeight = personWeight;
 		hp0 = (trochanterToe - trochanterFloorOnFlexion) / 100.0;
 
 		//1 get data
-                List<Jump> jump_l = SqliteJump.SelectJumpsWeightFVProfile (personID, sessionID, false); //TODO:read a boolean, default is true);
+                List<Jump> jump_l = SqliteJump.SelectJumpsWeightFVProfile (personID, sessionID, onlyBestInWeight);
 
 		//2 convert to list of PointF
 		point_l = new List<PointF>();

@@ -32,6 +32,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_combo_select_jumps_weight_fv_profile;
 	[Widget] Gtk.ComboBox combo_select_jumps_weight_fv_profile;
 	[Widget] Gtk.Button button_jumps_weight_fv_profile_save_image;
+	[Widget] Gtk.CheckButton check_jumps_weight_fv_profile_only_best_in_weight;
 	[Widget] Gtk.RadioButton radio_jumps_weight_fv_profile_show_full_graph;
 	[Widget] Gtk.RadioButton radio_jumps_weight_fv_profile_zoom_to_points;
 
@@ -103,7 +104,10 @@ public partial class ChronoJumpWindow
 
 		if(calculateData)
 			jumpsWeightFVProfile.Calculate(currentPerson.UniqueID, currentSession.UniqueID,
-					currentPersonSession.Weight, currentPersonSession.TrochanterToe, currentPersonSession.TrochanterFloorOnFlexion);
+					currentPersonSession.Weight,
+					currentPersonSession.TrochanterToe,
+					currentPersonSession.TrochanterFloorOnFlexion,
+					check_jumps_weight_fv_profile_only_best_in_weight.Active);
 
 		if(jumpsWeightFVProfile.Point_l.Count == 0)
 		{
@@ -130,6 +134,11 @@ public partial class ChronoJumpWindow
 
 		jumpsWeightFVProfileDo(false); //do not calculate data
 		//data is calculated on switch page (at notebook_capture_analyze) or on change person
+	}
+
+	private void on_check_jumps_weight_fv_profile_only_best_in_weight_clicked (object o, EventArgs args)
+	{
+		jumpsWeightFVProfileDo (true);
 	}
 
 	private void on_radio_jumps_weight_fv_profile_show_full_graph_toggled (object o, EventArgs args)

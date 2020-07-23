@@ -390,9 +390,7 @@ public abstract class CairoXY
 		PointF pClosest = findClosestGraphPoint(graphX, graphY);
 
 		// 4) write text at right
-		writeTextAtRight(line, "Selected:", false);
-		writeTextAtRight(line +1, string.Format("{0}: {1} {2}", xVariable, Util.TrimDecimals(pClosest.X, 2), xUnits), false);
-		writeTextAtRight(line +2, string.Format("{0}: {1} {2}", yVariable, Util.TrimDecimals(pClosest.Y, 2), yUnits), false);
+		writeSelectedValues(line, pClosest);
 
 		// 5) paint rectangle around that point
 		g.Color = red;
@@ -424,6 +422,13 @@ public abstract class CairoXY
 			pClosest = new PointF(xAtMMaxY, yAtMMaxY);
 
 		return pClosest;
+	}
+
+	protected virtual void writeSelectedValues(int line, PointF pClosest)
+	{
+		writeTextAtRight(line, "Selected:", false);
+		writeTextAtRight(line +1, string.Format("- {0}: {1} {2}", xVariable, Util.TrimDecimals(pClosest.X, 2), xUnits), false);
+		writeTextAtRight(line +2, string.Format("- {0}: {1} {2}", yVariable, Util.TrimDecimals(pClosest.Y, 2), yUnits), false);
 	}
 
 	protected void endGraph()

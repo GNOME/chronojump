@@ -276,3 +276,54 @@ public static class MathCJ
 		return angdeg / 180 * Math.PI;
 	}
 }
+
+public static class MathUtil
+{
+	/// <summary>
+	/// Wrapper for Math.Pow()
+	/// Can handle cases like (-8)^(1/3) or  (-1/64)^(1/3)
+	/// https://stackoverflow.com/a/14510824/12366369
+	/// (used for jumpsWeightFVProfile.cs where need to pow a negative value to a 1/3)
+	/// </summary>
+	public static double Powfix (double expBase, double power)
+	{
+		bool sign = (expBase < 0);
+		if (sign && HasEvenDenominator(power))
+			return double.NaN;  //sqrt(-1) = i
+		else
+		{
+			if (sign && HasOddDenominator(power))
+				return -1 * Math.Pow(Math.Abs(expBase), power);
+			else
+				return Math.Pow(expBase, power);
+		}
+	}
+
+	private static bool HasEvenDenominator(double input)
+	{
+		if(input == 0)
+			return false;
+		else if (input % 1 == 0)
+			return false;
+
+		double inverse = 1 / input;
+		if (inverse % 2 < double.Epsilon)
+			return true;
+		else
+			return false;
+	}
+
+	private static bool HasOddDenominator(double input)
+	{
+		if (input == 0)
+			return false;
+		else if (input % 1 == 0)
+			return false;
+
+		double inverse = 1 / input;
+		if ((inverse + 1) % 2 < double.Epsilon)
+			return true;
+		else
+			return false;
+	}
+}

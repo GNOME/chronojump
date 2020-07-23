@@ -28,10 +28,15 @@ public class PointF
 	private double x;
 	private double y;
 
+	//used sometimes to have more info of each point
+	public List<KeyDouble> l_keydouble;
+
 	public PointF(double x, double y)
 	{
 		this.x = x;
 		this.y = y;
+
+		l_keydouble = new List<KeyDouble>();
 	}
 
 	public double X {
@@ -46,7 +51,31 @@ public class PointF
 	{
 		return string.Format("X:{0}, Y:{1}", x, y);
 	}
+}
 
+public class KeyDouble
+{
+	private string key;
+	private double d;
+
+	public KeyDouble (string key, double d)
+	{
+		this.key = key;
+		this.d = d;
+	}
+
+	public string Key {
+		get { return key; }
+	}
+
+	public double D {
+		get { return d; }
+	}
+
+	public override string ToString()
+	{
+		return string.Format("key:{0}, double:{1}", key, d);
+	}
 }
 
 //like Point but for having an xStart and xEnd

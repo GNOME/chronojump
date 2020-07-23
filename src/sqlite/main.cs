@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.95";
+	static string lastChronojumpDatabaseVersion = "1.96";
 
 	public Sqlite()
 	{
@@ -2727,6 +2727,16 @@ class Sqlite
 
 				currentVersion = updateVersion("1.95");
 			}
+			if(currentVersion == "1.95")
+			{
+				LogB.SQL("Inserted into preferences: jumpsFVProfileOnlyBestInWeight, jumpsFVProfileShowFullGraph, jumpsEvolutionOnlyBestInSession");
+
+				SqlitePreferences.Insert (SqlitePreferences.JumpsFVProfileOnlyBestInWeight, "True");
+				SqlitePreferences.Insert (SqlitePreferences.JumpsFVProfileShowFullGraph, "True");
+				SqlitePreferences.Insert (SqlitePreferences.JumpsEvolutionOnlyBestInSession, "False");
+
+				currentVersion = updateVersion("1.96");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -2942,6 +2952,7 @@ class Sqlite
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
 
+		//1.95 - 1.96 Converted DB to 1.96 Inserted into preferences: jumpsFVProfileOnlyBestInWeight, jumpsFVProfileShowFullGraph, jumpsEvolutionOnlyBestInSession
 		//1.94 - 1.95 Converted DB to 1.95 Inserted into preferences: importerPythonVersion
 		//1.93 - 1.94 Converted DB to 1.94 Inserted into preferences: RunEncoderAnalyzeAccel/Force/Power
 		//1.92 - 1.93 Converted DB to 1.93 Inserted into preferences: EncoderCaptureInfinite, LogoAnimatedShow

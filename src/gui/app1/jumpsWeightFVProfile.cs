@@ -139,17 +139,30 @@ public partial class ChronoJumpWindow
 	private void on_check_jumps_weight_fv_profile_only_best_in_weight_clicked (object o, EventArgs args)
 	{
 		jumpsWeightFVProfileDo (true);
+
+		SqlitePreferences.Update(SqlitePreferences.JumpsFVProfileOnlyBestInWeight,
+				check_jumps_weight_fv_profile_only_best_in_weight.Active, false);
 	}
 
 	private void on_radio_jumps_weight_fv_profile_show_full_graph_toggled (object o, EventArgs args)
 	{
 		if(radio_jumps_weight_fv_profile_show_full_graph.Active)
+		{
 			jumpsWeightFVProfileDo (false);
+
+			SqlitePreferences.Update(SqlitePreferences.JumpsFVProfileShowFullGraph,
+					radio_jumps_weight_fv_profile_show_full_graph.Active, false);
+		}
 	}
 	private void on_radio_jumps_weight_fv_profile_zoom_to_points_toggled (object o, EventArgs args)
 	{
 		if(radio_jumps_weight_fv_profile_zoom_to_points.Active)
+		{
 			jumpsWeightFVProfileDo (false);
+
+			SqlitePreferences.Update(SqlitePreferences.JumpsFVProfileShowFullGraph,
+					radio_jumps_weight_fv_profile_show_full_graph.Active, false);
+		}
 	}
 
 	private void on_drawingarea_jumps_weight_fv_profile_button_press_event (object o, ButtonPressEventArgs args)

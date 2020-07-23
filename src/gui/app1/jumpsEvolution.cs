@@ -65,6 +65,9 @@ public partial class ChronoJumpWindow
 	private void on_check_jumps_evolution_only_best_in_session_clicked (object o, EventArgs args)
 	{
 		jumpsEvolutionDo(true);
+
+		SqlitePreferences.Update(SqlitePreferences.JumpsEvolutionOnlyBestInSession,
+				check_jumps_evolution_only_best_in_session.Active, false);
 	}
 
 	private void jumpsEvolutionDo (bool calculateData)

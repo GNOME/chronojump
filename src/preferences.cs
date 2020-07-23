@@ -174,6 +174,11 @@ public class Preferences
 	public Constants.MultimediaStorage multimediaStorage;
 	public string databaseVersion;
 
+	//jumps
+	public bool jumpsFVProfileOnlyBestInWeight;
+	public bool jumpsFVProfileShowFullGraph;
+	public bool jumpsEvolutionOnlyBestInSession;
+
 	//encoder
 	public Constants.EncoderAutoSaveCurve encoderAutoSaveCurve;
 	public int encoderAutoSaveCurveBestNValue;

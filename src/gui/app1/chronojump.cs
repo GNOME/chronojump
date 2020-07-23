@@ -893,6 +893,12 @@ public partial class ChronoJumpWindow
 		//---- jumps ----
 
 		checkbutton_allow_finish_rj_after_time.Active = preferences.allowFinishRjAfterTime;
+		check_jumps_weight_fv_profile_only_best_in_weight.Active = preferences.jumpsFVProfileOnlyBestInWeight;
+		if(preferences.jumpsFVProfileShowFullGraph)
+			radio_jumps_weight_fv_profile_show_full_graph.Active = true;
+		else
+			radio_jumps_weight_fv_profile_zoom_to_points.Active = true;
+		check_jumps_evolution_only_best_in_session.Active = preferences.jumpsEvolutionOnlyBestInSession;
 
 		//---- video ----
 

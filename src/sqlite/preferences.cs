@@ -34,6 +34,9 @@ class SqlitePreferences : Sqlite
 
 	//contacts
 	public const string JumpsDjGraphHeights = "jumpsDjGraphHeights";
+	public const string JumpsFVProfileOnlyBestInWeight = "jumpsFVProfileOnlyBestInWeight";
+	public const string JumpsFVProfileShowFullGraph = "jumpsFVProfileShowFullGraph";
+	public const string JumpsEvolutionOnlyBestInSession = "jumpsEvolutionOnlyBestInSession";
 
 	//encoder
 	public const string EncoderCaptureInfinite = "encoderCaptureInfinite";
@@ -135,7 +138,6 @@ class SqlitePreferences : Sqlite
 				Insert ("showAngle", "False", dbcmdTr); //for treeviewjumps
 				Insert ("showQIndex", "False", dbcmdTr); //for treeviewJumps
 				Insert ("showDjIndex", "False", dbcmdTr); //for treeviewJumps
-				Insert (JumpsDjGraphHeights, "True", dbcmdTr);
 				Insert ("simulated", "True", dbcmdTr);
 				Insert ("weightStatsPercent", "False", dbcmdTr);
 				Insert ("askDeletion", "True", dbcmdTr);
@@ -175,6 +177,12 @@ class SqlitePreferences : Sqlite
 				Insert ("machineID", machineID, dbcmdTr);
 
 				Insert ("multimediaStorage", Constants.MultimediaStorage.BYSESSION.ToString(), dbcmdTr);
+
+				//jumps
+				Insert (JumpsDjGraphHeights, "True", dbcmdTr);
+				SqlitePreferences.Insert (JumpsFVProfileOnlyBestInWeight, "True", dbcmdTr);
+				SqlitePreferences.Insert (JumpsFVProfileShowFullGraph, "True", dbcmdTr);
+				SqlitePreferences.Insert (JumpsEvolutionOnlyBestInSession, "False", dbcmdTr);
 
 				//encoder
 				Insert ("encoderCaptureTime", "60", dbcmdTr);
@@ -311,6 +319,10 @@ class SqlitePreferences : Sqlite
 		//Sqlite.Close();
 	}
 
+	public static void Update(string myName, bool myValue, bool dbconOpened)
+	{
+		Update(myName, myValue.ToString(), dbconOpened);
+	}
 	public static void Update(string myName, string myValue, bool dbconOpened)
 	{
 		if(! dbconOpened)
@@ -415,14 +427,21 @@ class SqlitePreferences : Sqlite
 				preferences.showQIndex = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "showDjIndex")
 				preferences.showDjIndex = reader[1].ToString() == "True";
-			else if(reader[0].ToString() == JumpsDjGraphHeights)
-				preferences.jumpsDjGraphHeights = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "weightStatsPercent")
 				preferences.weightStatsPercent = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "heightPreferred")
 				preferences.heightPreferred = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "metersSecondsPreferred")
 				preferences.metersSecondsPreferred = reader[1].ToString() == "True";
+			//jumps
+			else if(reader[0].ToString() == JumpsDjGraphHeights)
+				preferences.jumpsDjGraphHeights = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == JumpsFVProfileOnlyBestInWeight)
+				preferences.jumpsFVProfileOnlyBestInWeight = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == JumpsFVProfileShowFullGraph)
+				preferences.jumpsFVProfileShowFullGraph = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == JumpsEvolutionOnlyBestInSession)
+				preferences.jumpsEvolutionOnlyBestInSession = reader[1].ToString() == "True";
 			//encoder capture
 			else if(reader[0].ToString() == "encoderCaptureTime")
 				preferences.encoderCaptureTime = Convert.ToInt32(reader[1].ToString());

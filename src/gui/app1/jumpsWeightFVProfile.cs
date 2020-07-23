@@ -109,11 +109,18 @@ public partial class ChronoJumpWindow
 					currentPersonSession.TrochanterFloorOnFlexion,
 					check_jumps_weight_fv_profile_only_best_in_weight.Active);
 
-		if(jumpsWeightFVProfile.Point_l.Count == 0)
-		{
+		if(jumpsWeightFVProfile.Point_l.Count == 0) {
 			//constructor for showing blank screen with a message
 			new JumpsWeightFVProfileGraph(drawingarea_jumps_weight_fv_profile, JumpsWeightFVProfileGraph.ErrorAtStart.NEEDJUMPS);
-					//currentPerson.Name, jumpType, currentSession.DateShort);
+		} else if(jumpsWeightFVProfile.NeedMoreXData) {
+			//constructor for showing blank screen with a message
+			new JumpsWeightFVProfileGraph(drawingarea_jumps_weight_fv_profile, JumpsWeightFVProfileGraph.ErrorAtStart.NEEDJUMPSX);
+		} else if(jumpsWeightFVProfile.F0 <= 0) {
+			//constructor for showing blank screen with a message
+			new JumpsWeightFVProfileGraph(drawingarea_jumps_weight_fv_profile, JumpsWeightFVProfileGraph.ErrorAtStart.F0NOTPOSITIVE);
+		} else if(jumpsWeightFVProfile.V0 <= 0) {
+			//constructor for showing blank screen with a message
+			new JumpsWeightFVProfileGraph(drawingarea_jumps_weight_fv_profile, JumpsWeightFVProfileGraph.ErrorAtStart.V0NOTPOSITIVE);
 		} else {
 			//regular constructor
 			jumpsWeightFVProfileGraph = new JumpsWeightFVProfileGraph(

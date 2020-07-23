@@ -25,8 +25,10 @@ public class JumpsWeightFVProfile
 {
 	private List<PointF> point_l;
 	LeastSquaresLine ls;
+	private double personWeight;
 	private double hp0; //meters
 	private double g = 9.81;
+	private double sfvOpt;
 
 	//constructor
 	public JumpsWeightFVProfile()
@@ -35,10 +37,11 @@ public class JumpsWeightFVProfile
 	
 	public void Calculate (int personID, int sessionID, double personWeight, double trochanterToe, double trochanterFloorOnFlexion)
 	{
+		this.personWeight = personWeight;
 		hp0 = (trochanterToe - trochanterFloorOnFlexion) / 100.0;
 
 		//1 get data
-                List<Jump> jump_l = SqliteJump.SelectJumpsWeightFVProfile (personID, sessionID, false); //TODO:true);
+                List<Jump> jump_l = SqliteJump.SelectJumpsWeightFVProfile (personID, sessionID, false); //TODO:read a boolean, default is true);
 
 		//2 convert to list of PointF
 		point_l = new List<PointF>();
@@ -51,13 +54,19 @@ public class JumpsWeightFVProfile
 			//hp0 = trochanterToe - trochanterFloorOnFlexion
 			double force = (personWeight + (personWeight * j.Weight / 100.0)) * 9.81 * ( ( jumpHeightM / hp0 ) + 1 );
 
-			//TODO: pass also info on height to be displayed on select point
+			//TODO: pass also info on height, extra weight to be displayed on select point
 			point_l.Add(new PointF(Util.GetAverageImpulsionSpeed (jumpHeightM), force));
 		}
 
 		//3 get LeastSquaresLine (straight line)
 		ls = new LeastSquaresLine();
 		ls.Calculate(point_l);
+
+		LogB.Information(string.Format("Slope (sfv): {0}", Math.Round(Slope,2)));
+		//LogB.Information(string.Format("Z: {0}", Math.Round(z(),2)));
+
+		sfvOpt = calculateSfvOpt();
+		LogB.Information(string.Format("sfvOpt: {0}", Math.Round(sfvOpt, 2)));
 
 		//4 print data
 		LogB.Information(string.Format("slope = {0}; intercept = {1}", ls.Slope, ls.Intercept));
@@ -77,18 +86,142 @@ public class JumpsWeightFVProfile
 		return maxValue;
 	}
 
+	//just to be shorter on below formulas
+	private double pow(double x, double y)
+	{
+		return Math.Pow(x, y);
+	}
+
+	//TODO: to be calculated on constructor as private methods, and then accessed out if needed with public accessors
+
+	//TODO: check values that need to be > 0...
+	//Optimal Force–Velocity Profile in Ballistic Movements—Altius: Citius or Fortius? (Appendix)
+	private double z()
+	{
+		/*
+		LogB.Information(string.Format("z row 1: {0}", - (pow(g,6) * pow(hp0,6)) ));
+		LogB.Information(string.Format("z row 2: {0}", - (18 * pow(g,3) * pow(hp0,5) * pow(PmaxRel,2)) ));
+		LogB.Information(string.Format("z row 3: {0}", - (54 * pow(hp0,4) * pow(PmaxRel,4)) ));
+		LogB.Information(string.Format("z row 4: {0}", 6 * Math.Sqrt(3) * Math.Sqrt( (2 * pow(g,3) * pow(hp0,9) * pow(PmaxRel,6)) + (27 * pow(hp0,8) * pow(PmaxRel,8)) ) ));
+		LogB.Information(string.Format("z operation: {0}",
+				- (pow(g,6) * pow(hp0,6))
+				- (18 * pow(g,3) * pow(hp0,5) * pow(PmaxRel,2))
+				- (54 * pow(hp0,4) * pow(PmaxRel,4))
+				+ ( 6 * Math.Sqrt(3) * Math.Sqrt( (2 * pow(g,3) * pow(hp0,9) * pow(PmaxRel,6)) + (27 * pow(hp0,8) * pow(PmaxRel,8)) ) ) ));
+
+		LogB.Information(string.Format("prova: {0}", MathUtil.Powfix(-1547882.26541462, 1/3.0)));
+		*/
+
+		/*
+		 * Z(Pmax, hp0) = (
+		 * 	- (g^6) * hp0^6
+		 * 	- 18 * g^3 * hp0^5 * PmaxRel^2
+		 * 	- 54 * hp0^4 * PmaxRel^4
+		 * 	+ 6 * sqrt(3) * sqrt( (2 * g^3 * hp0^9 * pmax^6) + (27 * hp0^8 * PmaxRel^8) )
+		 * 	) / 3
+		 */
+		return ( MathUtil.Powfix (
+					- (pow(g,6) * pow(hp0,6))
+					- (18 * pow(g,3) * pow(hp0,5) * pow(PmaxRel,2))
+					- (54 * pow(hp0,4) * pow(PmaxRel,4))
+					+ ( 6 * Math.Sqrt(3) * Math.Sqrt( (2 * pow(g,3) * pow(hp0,9) * pow(PmaxRel,6)) + (27 * pow(hp0,8) * pow(PmaxRel,8)) ) )
+					, 1/3.0 ) );
+	}
+
+	//TODO: check values that need to be > 0...
+	//Optimal Force–Velocity Profile in Ballistic Movements—Altius: Citius or Fortius? (Appendix)
+	//private double sfvOpt()
+	private double calculateSfvOpt()
+	{
+		/*
+		LogB.Information(string.Format("sfvOpt row 1: {0}", - (pow(g,2) / (3.0 * PmaxRel)) ));
+		LogB.Information(string.Format("sfvOpt row 2: {0}", - ( ( ((pow(g,4)) * pow(hp0,4)) - (12 * g * pow(hp0,3) * pow(PmaxRel,2)) ) / ( 3.0 * pow(hp0,2) * PmaxRel * z() ) ) ));
+		LogB.Information(string.Format("sfvOpt row 2 num: {0}", - ( (-pow(g,4) * pow(hp0,4)) - (12 * g * pow(hp0,3) * pow(PmaxRel,2)) ) ));
+		LogB.Information(string.Format("sfvOpt row 2 den: {0}", 3.0 * pow(hp0,2) * PmaxRel * z() ));
+		LogB.Information(string.Format("sfvOpt row 3: {0}", - (z() / (3.0 * pow(hp0,2) * PmaxRel)) ));
+		*/
+		/*
+		 * SFVopt =
+		 * 	- g^2 / (3 * PmaxRel)
+		 * 	- ( ( -(g^4) * hp0^4 - (12 * g * hp0^3 * PmaxRel^2) ) / ( 3 * hp0^2 * PmaxRel * Z(PmaxRel,hp0) ) )
+		 * 	- Z(Pmax,hp0) / (3 * hp0^2 * PmaxRel)
+		 */
+		return
+			- (pow(g,2) / (3.0 * PmaxRel))
+			- ( ( (- pow(g,4) * pow(hp0,4)) - (12 * g * pow(hp0,3) * pow(PmaxRel,2)) ) / ( 3.0 * pow(hp0,2) * PmaxRel * z() ) )
+			- (z() / (3.0 * pow(hp0,2) * PmaxRel));
+	}
+
+
+	//similar to imbalance, see spreadsheet at:
+	//https://www.researchgate.net/publication/320146284_JUMP_FVP_profile_spreadsheet
+	public double FvProfileFor90()
+	{
+		return 100 * SfvRel / sfvOpt;
+	}
+
+	public bool NeedDevelopForce()
+	{
+		return (FvProfileFor90() < 1);
+	}
+
+	//TODO: check values that need to be > 0...
+	//Optimal Force–Velocity Profile in Ballistic Movements—Altius: Citius or Fortius? (Appendix)
+	public int Imbalance()
+	{
+		// Fvimb = 100 * | 1- (SfvRel / Sfvopt) |
+		return Convert.ToInt32(100 * Math.Abs( 1 - (SfvRel / sfvOpt) ));
+	}
+
 	public List<PointF> Point_l
 	{
 		get { return point_l; }
 	}
 
+	//Slope is Sfv
 	public double Slope
 	{
 		get { return ls.Slope; }
+	}
+	//Slope is Sfv
+	public double Sfv
+	{
+		get { return ls.Slope; }
+	}
+	//Slope is Sfv
+	public double SfvRel
+	{
+		get { return ls.Slope / personWeight; }
 	}
 
 	public double Intercept
 	{
 		get { return ls.Intercept; }
+	}
+	//f0 = intercept
+	public double F0
+	{
+		get { return ls.Intercept; }
+	}
+
+	public double V0
+	{
+		get { return - F0 / Slope; }
+	}
+
+	public double Pmax
+	{
+		get { return (F0 * V0) / 4.0; }
+	}
+
+	//relative to weight
+	public double PmaxRel
+	{
+		get { return (F0 * V0) / 4.0 / personWeight; }
+	}
+
+	public double Hp0
+	{
+		get { return hp0; }
 	}
 }

@@ -124,6 +124,11 @@ public class LeastSquaresLine
 			yFit[i] = slope * x[i] + intercept;
 			*/
 	}
+
+	public bool SlopeIsNaN()
+	{
+		return Double.IsNaN(Slope);
+	}
 }
 
 public class LeastSquaresParabole 

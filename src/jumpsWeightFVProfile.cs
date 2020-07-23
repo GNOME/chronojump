@@ -51,13 +51,23 @@ public class JumpsWeightFVProfile
 		{
 			double jumpHeightM = Util.GetHeightInMeters(j.Tv);
 
+			// 1 calcule force
 			//Samozino formula is F = m*g*( (h/hp0) +1)
 			//h is jump's height
 			//hp0 = trochanterToe - trochanterFloorOnFlexion
 			double force = (personWeight + (personWeight * j.Weight / 100.0)) * 9.81 * ( ( jumpHeightM / hp0 ) + 1 );
 
-			//TODO: pass also info on height, extra weight to be displayed on select point
-			point_l.Add(new PointF(Util.GetAverageImpulsionSpeed (jumpHeightM), force));
+			// 2 create point
+			PointF p = new PointF(Util.GetAverageImpulsionSpeed (jumpHeightM), force);
+
+			// 3 add informational height and extra weight
+			List<KeyDouble> lkd = new List<KeyDouble>();
+			lkd.Add(new KeyDouble("Height (cm)", jumpHeightM * 100.0));
+			lkd.Add(new KeyDouble("Extra weight (Kg)", personWeight * j.Weight / 100.0));
+			p.l_keydouble = lkd;
+
+			//4 add to point_l
+			point_l.Add(p);
 		}
 
 		//3 get LeastSquaresLine (straight line)

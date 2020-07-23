@@ -142,4 +142,24 @@ public class JumpsWeightFVProfileGraph : CairoXY
 			writeTextAtRight(ypos++, "- Need to develop speed", false);
 		writeTextAtRight(ypos++, string.Format("- Imbalance: {0} %", imbalance), false);
 	}
+
+	protected override void writeSelectedValues(int line, PointF pClosest)
+	{
+		writeTextAtRight(line, "Selected:", false);
+
+		List<KeyDouble> l_keydouble = pClosest.l_keydouble;
+		/*
+		foreach(KeyDouble kd in l_keydouble)
+			LogB.Information(kd.ToString());
+			*/
+
+		double heightCm = (double) l_keydouble[0].D;
+		double extraWeight = (double) l_keydouble[1].D;
+
+		writeTextAtRight(line +1, string.Format("- Height: {0} cm", Util.TrimDecimals(heightCm, 2)), false);
+		writeTextAtRight(line +2, string.Format("- Extra weight: {0} Kg", Util.TrimDecimals(extraWeight, 2)), false);
+		writeTextAtRight(line +3, string.Format("- {0}: {1} {2}", xVariable, Util.TrimDecimals(pClosest.X, 2), xUnits), false);
+		writeTextAtRight(line +4, string.Format("- {0}: {1} {2}", yVariable, Util.TrimDecimals(pClosest.Y, 2), yUnits), false);
+	}
+
 }

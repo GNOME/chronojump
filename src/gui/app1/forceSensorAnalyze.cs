@@ -1244,14 +1244,14 @@ public partial class ChronoJumpWindow
 			{
 				if(sampleStart >= 0)
 				{
-					forceSensorWriteRepetitionNumber(j, xposRepStart, xposRepEnd, true, true);
+					forceSensorWriteRepetitionCode (j, reps_l[j].TypeShort(), xposRepStart, xposRepEnd, true, true);
 
 					if(! forceSensorZoomApplied)
 						fsAIRepetitionMouseLimits.Add(xposRepStart, xposRepEnd);
 				} else {
 					//write the rep and arrow, but just if there is enough space
 					if(xposRepEnd - fsAI.GetXFromSampleCount(0) > 30)
-						forceSensorWriteRepetitionNumber(j,
+						forceSensorWriteRepetitionCode (j, reps_l[j].TypeShort(),
 								//fsAI.GetXFromSampleCount(hscale_force_sensor_ai_a_BeforeZoom),
 								fsAI.GetXFromSampleCount(0),
 								xposRepEnd, false, true);
@@ -1262,7 +1262,7 @@ public partial class ChronoJumpWindow
 		//but only if zoomed and that repetition exists (has an end)
 		if(xposRepEnd - xposRepStart > 30)
 			if(forceSensorZoomApplied && j >= 0 && j < reps_l.Count) // write last repetition count
-				forceSensorWriteRepetitionNumber(j, xposRepStart, xposRepEnd, true, false);
+				forceSensorWriteRepetitionCode (j, reps_l[j].TypeShort(), xposRepStart, xposRepEnd, true, false);
 
 
 		/*
@@ -1320,11 +1320,16 @@ public partial class ChronoJumpWindow
 		LogB.Information("forceSensorAnalyzeManualGraphDo() END");
 	}
 
-	private void forceSensorWriteRepetitionNumber(int rep, int xposRepStart, int xposRepEnd, bool endsAtLeft, bool endsAtRight)
+	private void forceSensorWriteRepetitionCode (int number, string type, int xposRepStart, int xposRepEnd, bool endsAtLeft, bool endsAtRight)
 	{
-		LogB.Information(string.Format("at forceSensorWriteRepetitionNumber with (rep+1): {0}, endsAtLeft: {1}, endsAtRight: {2}", rep +1, endsAtLeft, endsAtRight));
+//		LogB.Information(string.Format("at forceSensorWriteRepetitionNumber with (rep+1): {0}, endsAtLeft: {1}, endsAtRight: {2}", rep +1, endsAtLeft, endsAtRight));
+//		layout_force_ai_text.SetMarkup((rep+1).ToString());
 
-		layout_force_ai_text.SetMarkup((rep+1).ToString());
+		if(! currentForceSensorExercise.EccReps)
+			layout_force_ai_text.SetMarkup((number+1).ToString());
+		else
+			layout_force_ai_text.SetMarkup(string.Format("{0}{1}", Math.Ceiling((number +1)/2.0), type));
+
 		int textWidth = 1; int textHeight = 1;
 		layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
 

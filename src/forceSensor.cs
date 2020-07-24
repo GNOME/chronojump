@@ -2023,7 +2023,8 @@ public class ForceSensorAnalyzeInstant
 
 		string str = (i+1).ToString() + sep; //sample
 
-		str += ForceSensorRepetition.GetRepetitionNumFromList(ForceSensorRepetition_l, i).ToString() + sep + 	//repetition
+		//str += ForceSensorRepetition.GetRepetitionNumFromList(ForceSensorRepetition_l, i).ToString() + sep + 	//repetition
+		str += ForceSensorRepetition.GetRepetitionCodeFromList(ForceSensorRepetition_l, i, fse.EccReps) + sep + 	//repetition
 			Util.DoubleToCSV(timeAtCount, sepString) + sep +
 			Util.DoubleToCSV(fscAIPoints.GetForceAtCount(i), sepString) + sep +
 			Util.DoubleToCSV(CalculateRFD(i-1, i+1), 3, sepString);

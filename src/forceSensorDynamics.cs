@@ -394,7 +394,15 @@ public class ForceSensorDynamicsNotElastic : ForceSensorDynamics
 	{
 		//TODO: need to cut reps with low force prolonged at start or end
 
-		forceSensorRepetition_l.Add(new ForceSensorRepetition(sampleStart, sampleEnd));
+		ForceSensorRepetition.Types fsrType = ForceSensorRepetition.Types.DONOTSHOW;
+		if(fse.EccReps)
+		{
+			if(yList[sampleEnd] < yList[sampleStart])
+				fsrType = ForceSensorRepetition.Types.ECC;
+			else
+				fsrType = ForceSensorRepetition.Types.CON;
+		}
+		forceSensorRepetition_l.Add(new ForceSensorRepetition(sampleStart, sampleEnd, fsrType));
 	}
 
 	protected override void cutSamplesForZoomDo(int startAtSample, int endAtSample)
@@ -578,11 +586,20 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 	{
 		//TODO: need to cut reps with low force prolonged at start or end
 
+		ForceSensorRepetition.Types fsrType = ForceSensorRepetition.Types.DONOTSHOW;
+		if(fse.EccReps)
+		{
+			if(yList[sampleEnd] < yList[sampleStart])
+				fsrType = ForceSensorRepetition.Types.ECC;
+			else
+				fsrType = ForceSensorRepetition.Types.CON;
+		}
+
 		//Calculate mean RFD and mean speed of the phase
 		double lastRFD = (force_l[sampleEnd] - force_l[sampleStart]) / (time_l[sampleEnd] - time_l[sampleStart]);
 		double lastMeanSpeed = (yList[sampleEnd] - yList[sampleStart]) / (time_l[sampleEnd] - time_l[sampleStart]);
 
-		forceSensorRepetition_l.Add(new ForceSensorRepetition(sampleStart, sampleEnd, lastMeanSpeed, lastRFD));
+		forceSensorRepetition_l.Add(new ForceSensorRepetition(sampleStart, sampleEnd, fsrType, lastMeanSpeed, lastRFD));
 	}
 
 	protected override void cutSamplesForZoomDo(int startAtSample, int endAtSample)
@@ -640,22 +657,30 @@ public class ForceSensorRepetition
 {
 	public int sampleStart; // this is sample, not graph in pixels.
 	public int sampleEnd; // this is sample, not graph in pixels.
+
+	//if !fse.EccReps, then DONOTSHOW
+	public enum Types { DONOTSHOW, CON, ECC }
+	public Types type;
+
+	public bool con; // false is ecc
 	public double meanSpeed;
 	public double RFD;
 
 	//not elastic
-	public ForceSensorRepetition(int sampleStart, int sampleEnd)
+	public ForceSensorRepetition(int sampleStart, int sampleEnd, Types type)
 	{
 		this.sampleStart = sampleStart;
 		this.sampleEnd = sampleEnd;
+		this.type = type;
 		this.meanSpeed = 0;
 		this.RFD = 0;
 	}
 	//elastic
-	public ForceSensorRepetition(int sampleStart, int sampleEnd, double meanSpeed, double RFD)
+	public ForceSensorRepetition(int sampleStart, int sampleEnd, Types type, double meanSpeed, double RFD)
 	{
 		this.sampleStart = sampleStart;
 		this.sampleEnd = sampleEnd;
+		this.type = type;
 		this.meanSpeed = meanSpeed;
 		this.RFD = RFD;
 	}
@@ -665,6 +690,7 @@ public class ForceSensorRepetition
 		return string.Format("sampleStart:{0}; sampleEnd:{1}; meanSpeed:{2}; RFD:{3}", sampleStart, sampleEnd, meanSpeed, RFD);
 	}
 
+	/*
 	//gets repetition num form a list
 	public static int GetRepetitionNumFromList(List<ForceSensorRepetition> l, int sampleEnd)
 	{
@@ -680,5 +706,51 @@ public class ForceSensorRepetition
 			rep ++;
 		}
 		return rep;
+	}
+	*/
+
+	public static string GetRepetitionCodeFromList(List<ForceSensorRepetition> l, int sampleEnd, bool eccReps)
+	{
+		int rep = 1;
+		foreach(ForceSensorRepetition fsr in l)
+		{
+			if(sampleEnd >= fsr.sampleStart && sampleEnd <= fsr.sampleEnd)
+			{
+				LogB.Information(string.Format("fsr.sampleStart: {0}; fsr.sampleEnd: {1}; sampleEnd: {2}; rep: {3}", fsr.sampleStart, fsr.sampleEnd, sampleEnd, rep));
+				if(! eccReps || rep == 0)
+					return rep.ToString();
+				else
+					return string.Format("{0}{1}", Math.Ceiling(rep/2.0), typeShort(fsr.type));
+			}
+			rep ++;
+		}
+
+		/*
+		if(! eccReps || rep == 0)
+			return rep.ToString();
+		else
+			return string.Format("{0}{1}", Math.Ceiling(rep/2.0), typeShort(((ForceSensorRepetition) l[l.Count - 1]).type));
+		*/
+		return "0";
+	}
+
+	private static string typeShort(Types type)
+	{
+		if(type == Types.CON)
+			return "c";
+		else if (type == Types.ECC)
+			return "e";
+		else
+			return "";
+	}
+
+	public string TypeShort()
+	{
+		if(type == Types.CON)
+			return "c";
+		else if (type == Types.ECC)
+			return "e";
+		else
+			return "";
 	}
 }

@@ -165,6 +165,7 @@ SOURCES = \
 	sqlite/country.cs\
 	sqlite/oldConvert.cs\
 	sqlite/server.cs\
+	execute/arduinoCapture.cs\
 	execute/event.cs\
 	execute/jump.cs\
 	execute/run.cs\

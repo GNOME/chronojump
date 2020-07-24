@@ -46,6 +46,7 @@ public partial class ChronoJumpWindow
 	//[Widget] Gtk.Image image_persons_up;
 	//[Widget] Gtk.Image image_persons_down;
 	[Widget] Gtk.Image image_contacts_exercise;
+	[Widget] Gtk.Image image_contacts_exercise_settings;
 	[Widget] Gtk.Image image_contacts_exercise_close;
 	[Widget] Gtk.Image image_contacts_capture_load;
 	[Widget] Gtk.Image image_contacts_session_overview;
@@ -136,6 +137,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_recalculate;
 	[Widget] Gtk.Image image_encoder_configuration;
 	[Widget] Gtk.Image image_encoder_exercise;
+	[Widget] Gtk.Image image_encoder_exercise_settings;
 	[Widget] Gtk.Image image_encoder_exercise_close;
 	[Widget] Gtk.Image image_encoder_capture_open;
 	[Widget] Gtk.Image image_encoder_capture_open1;
@@ -241,6 +243,8 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_settings.png");
 		image_menu_preferences.Pixbuf = pixbuf;
 		image_menu_preferences1.Pixbuf = pixbuf;
+		image_contacts_exercise_settings.Pixbuf = pixbuf;
+		image_encoder_exercise_settings.Pixbuf = pixbuf;
 
 		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_minimize.png");
 		//image_minimize.Pixbuf = pixbuf;

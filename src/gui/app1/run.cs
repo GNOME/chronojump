@@ -145,7 +145,7 @@ public partial class ChronoJumpWindow
 
 		//intializeVariables if not done before
 		event_execute_initializeVariables(
-			! cp2016.StoredCanCaptureContacts, //is simulated
+			(! cp2016.StoredCanCaptureContacts && ! cp2016.StoredWireless), //is simulated
 			currentPerson.UniqueID, 
 			currentPerson.Name, 
 			Catalog.GetString("Phases"),  	  //name of the different moments
@@ -181,7 +181,7 @@ public partial class ChronoJumpWindow
 		//we do not plot graph, but we want to update label event_graph_label_graph_test
 		//intializeVariables if not done before
 		event_execute_initializeVariables(
-			! cp2016.StoredCanCaptureContacts, //is simulated
+			(! cp2016.StoredCanCaptureContacts && ! cp2016.StoredWireless), //is simulated
 			currentPerson.UniqueID,
 			currentPerson.Name,
 			Catalog.GetString("Phases"),  	  //name of the different moments

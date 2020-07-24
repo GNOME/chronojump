@@ -32,7 +32,12 @@ public class RunExecute : EventExecute
 	protected bool startIn;
 	
 	protected Chronopic cp;
-	//private Chronopic cp; //thi doesn't work
+	//private Chronopic cp; //this doesn't work
+
+	protected string wirelessPort; //"" if not using wireless
+	protected int wirelessBauds; //0 if not using wireless
+	protected bool wireless;
+
 	protected bool metersSecondsPreferred;
 
 	//used by the updateTimeProgressBar for display its time information
@@ -76,8 +81,9 @@ public class RunExecute : EventExecute
 	}
 
 	//run execution
+	//if wireless: string wirelessPort, wirelessBauds will be used instead of Chronopic cp
 	public RunExecute(int personID, int sessionID, string type, double distance,   
-			Chronopic cp, Gtk.Window app,
+			Chronopic cp, string wirelessPort, int wirelessBauds, Gtk.Window app,
 			int pDN, bool metersSecondsPreferred,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
 			double progressbarLimit, ExecutingGraphData egd,
@@ -93,6 +99,10 @@ public class RunExecute : EventExecute
 		this.distance = distance;
 		
 		this.cp = cp;
+		this.wirelessPort = wirelessPort;
+		this.wirelessBauds = wirelessBauds;
+		wireless = (wirelessPort != "" && wirelessBauds > 0);
+		LogB.Information(string.Format("This is a run simple capture with wireless?: {0}", wireless));
 		this.app = app;
 
 		this.pDN = pDN;
@@ -153,6 +163,8 @@ public class RunExecute : EventExecute
 
 		if (simulated) 
 			platformState = Chronopic.Plataforma.ON;
+		else if (wireless)
+			platformState = Chronopic.Plataforma.OFF; //TODO: fix this for wireless
 		else
 			platformState = chronopicInitialValue(cp);
 		
@@ -234,6 +246,7 @@ public class RunExecute : EventExecute
 		//firstTrackDone = false;
 
 		double timestamp = 0;
+		double timestampAccumulated = 0; //for wireless (because instead of split times, it comes absolute time)
 		bool ok;
 
 		timestampDCInitValues();
@@ -241,7 +254,7 @@ public class RunExecute : EventExecute
 
 		//prepare variables to allow being cancelled or finished
 		if(! simulated)
-			Chronopic.InitCancelAndFinish();
+			Chronopic.InitCancelAndFinish(); //ok for wireless
 
 		runEI = new RunExecuteInspector(
 				runEIType,
@@ -262,11 +275,37 @@ public class RunExecute : EventExecute
 				checkDoubleContactTime
 				);
 
+		PhotocellWirelessCapture pwc = null;
+		if(wireless)
+		{
+			pwc = new PhotocellWirelessCapture(wirelessPort);
+			pwc.CaptureStart ();
+		}
+
 		bool firstFromChronopicReceived = false;
 		bool exitWaitEventBucle = false;
 		do {
 			if(simulated)
 				ok = true;
+			if (wireless)
+			{
+				if(! pwc.CaptureLine())
+					cancel = true; //problem reading line (capturing)
+
+				ok = false;
+				if(pwc.CanRead())
+				{
+					PhotocellWirelessEvent pwe = pwc.PhotocellWirelessCaptureReadNext();
+					LogB.Information("wait_event pwe: " + pwe.ToString());
+					//TODO: photocell = pwe.photocell;
+					timestamp = pwe.timeMs - timestampAccumulated; //photocell does not send splittime, sends absolute time
+					timestampAccumulated += timestamp;
+
+					platformState = pwe.status;
+
+					ok = true;
+				}
+			}
 			else 
 				ok = cp.Read_event(out timestamp, out platformState);
 			
@@ -285,6 +324,7 @@ public class RunExecute : EventExecute
 				//LogB.Information("timestamp:" + timestamp);
 				if (has_arrived()) // timestamp is tf
 				{
+LogB.Information("has arrived");
 					loggedState = States.ON;
 					runChangeImage.Current = RunChangeImage.Types.PHOTOCELL;
 
@@ -339,6 +379,7 @@ public class RunExecute : EventExecute
 				}
 				else if (has_lifted()) // timestamp is tc
 				{
+LogB.Information("has lifted");
 					loggedState = States.OFF;
 					runChangeImage.Current = RunChangeImage.Types.RUNNING;
 
@@ -404,6 +445,11 @@ public class RunExecute : EventExecute
 			}
 
 		} while ( ! exitWaitEventBucle );
+
+		if(wireless)
+		{
+			pwc.Stop();
+		}
 
 		onlyInterval_FinishWaitEventWrite();
 	}
@@ -780,7 +826,8 @@ public class RunIntervalExecute : RunExecute
 
 	//run execution
 	public RunIntervalExecute(int personID, int sessionID, string type, double distanceInterval, double limitAsDouble, bool tracksLimited,  
-			Chronopic cp, Gtk.Window app, int pDN, bool metersSecondsPreferred,
+			Chronopic cp, string wirelessPort, int wirelessBauds, Gtk.Window app,
+			int pDN, bool metersSecondsPreferred,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
 			RepetitiveConditionsWindow repetitiveConditionsWin,
 			double progressbarLimit, ExecutingGraphData egd ,
@@ -813,6 +860,10 @@ public class RunIntervalExecute : RunExecute
 		
 		
 		this.cp = cp;
+		this.wirelessPort = wirelessPort;
+		this.wirelessBauds = wirelessBauds;
+		wireless = (wirelessPort != "" && wirelessBauds > 0);
+		LogB.Information(string.Format("This is a run interval capture with wireless?: {0}", wireless));
 		this.app = app;
 
 		this.metersSecondsPreferred = metersSecondsPreferred;

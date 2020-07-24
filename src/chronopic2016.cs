@@ -253,6 +253,7 @@ public class Chronopic2016
 	*/
 
 	public bool StoredCanCaptureContacts; //store a boolean in order to read info faster
+	public bool StoredWireless; //store a boolean in order to read info faster
 
 	//<-----ConnectContactsReal END -----
 

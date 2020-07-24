@@ -3666,6 +3666,18 @@ public partial class ChronoJumpWindow
 
 		chronopicRegisterUpdate(false);
 
+		if( chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.RUN_WIRELESS) == 1 && (
+			current_menuitem_mode == Constants.Menuitem_modes.RUNSSIMPLE ||
+			current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC) )
+		{
+			//cp2016.StoredCanCaptureContacts = true;
+			cp2016.StoredWireless = true;
+
+			on_button_execute_test_acceptedPre_start_camera(WebcamStartedTestStart.CHRONOPIC);
+			return;
+		}
+		cp2016.StoredWireless = false;
+
 		int numContacts = chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.CONTACTS);
 		LogB.Information("numContacts: " + numContacts);
 
@@ -3712,6 +3724,7 @@ public partial class ChronoJumpWindow
 
 	private void on_button_execute_test_acceptedPre_start_camera(WebcamStartedTestStart wsts)
 	{
+		LogB.Information("on_button_execute_test_acceptedPre_start_camera " + wsts.ToString());
 		button_video_play_this_test_contacts_sensitive (WebcamManage.GuiContactsEncoder.CONTACTS, false);
 
 		webcamManage = new WebcamManage();
@@ -3743,6 +3756,7 @@ public partial class ChronoJumpWindow
 	void on_button_execute_test_accepted ()
 	{
 		bool canCaptureC = cp2016.StoredCanCaptureContacts;
+		bool wireless = cp2016.StoredWireless;
 
 		/*
 		 * We need to do this to ensure no cancel_clicked calls accumulate
@@ -3764,7 +3778,7 @@ public partial class ChronoJumpWindow
 		{
 			extra_window_runs_distance = Convert.ToDouble(label_runs_simple_track_distance_value.Text);
 
-			on_normal_run_activate(canCaptureC);
+			on_normal_run_activate(canCaptureC, wireless);
 		}
 		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
 		{
@@ -3779,7 +3793,7 @@ public partial class ChronoJumpWindow
 			extra_window_runs_interval_distance = Convert.ToDouble(label_runs_interval_track_distance_value.Text);
 			extra_window_runs_interval_limit = extra_window_runs_interval_spinbutton_limit.Value;
 			
-			on_run_interval_activate(canCaptureC);
+			on_run_interval_activate(canCaptureC, wireless);
 		}
 		else if(current_menuitem_mode == Constants.Menuitem_modes.RT)
 		{
@@ -4444,8 +4458,9 @@ public partial class ChronoJumpWindow
 	 */
 
 	//suitable for all runs not repetitive
-	private void on_normal_run_activate (bool canCaptureC)
+	private void on_normal_run_activate (bool canCaptureC, bool wireless)
 	{
+		LogB.Information("on_normal_run_activate");
 		//if distance can be always different in this run,
 		//show values selected in runExtraWin
 		double myDistance = 0;		
@@ -4470,8 +4485,15 @@ public partial class ChronoJumpWindow
 		if(createdStatsWin)
 			showUpdateStatsAndHideData(false);
 
+		string wirelessPort = "";
+		int wirelessBauds = 0;
+		if(wireless) {
+			wirelessPort = chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.RUN_WIRELESS).Port;
+			wirelessBauds = 115200;
+		}
+
 		event_execute_initializeVariables(
-			! canCaptureC,	//is simulated
+			(! canCaptureC && ! wireless),	//is simulated
 			currentPerson.UniqueID, 
 			currentPerson.Name, 
 			Catalog.GetString("Phases"),  	  //name of the different moments
@@ -4497,11 +4519,10 @@ public partial class ChronoJumpWindow
 		event_execute_ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
 		*/
 
-
 		currentEventExecute = new RunExecute(
 				currentPerson.UniqueID, currentSession.UniqueID, 
 				currentRunType.Name, myDistance, 
-				cp2016.CP, app1,
+				cp2016.CP, wirelessPort, wirelessBauds, app1,
 				preferences.digitsNumber, preferences.metersSecondsPreferred,
 				preferences.volumeOn, preferences.gstreamer,
 				progressbarLimit, egd,
@@ -4515,7 +4536,7 @@ public partial class ChronoJumpWindow
 				radio_contacts_graph_allTests.Active, radio_contacts_graph_allPersons.Active
 				);
 
-		if (! canCaptureC)
+		if (! canCaptureC && ! wireless)
 			currentEventExecute.SimulateInitValues(rand);
 
 		contactsShowCaptureDoingButtons(true);
@@ -4574,7 +4595,7 @@ public partial class ChronoJumpWindow
 	 */
 
 
-	private void on_run_interval_activate (bool canCaptureC)
+	private void on_run_interval_activate (bool canCaptureC, bool wireless)
 	{
 		LogB.Information("run interval accepted");
 
@@ -4611,9 +4632,16 @@ public partial class ChronoJumpWindow
 		if(createdStatsWin)
 			showUpdateStatsAndHideData(false);
 
+		string wirelessPort = "";
+		int wirelessBauds = 0;
+		if(wireless) {
+			wirelessPort = chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.RUN_WIRELESS).Port;
+			wirelessBauds = 115200;
+		}
+
 		//show the event doing window
 		event_execute_initializeVariables(
-			! canCaptureC,	//is simulated
+			(! canCaptureC && ! wireless),	//is simulated
 			currentPerson.UniqueID, 
 			currentPerson.Name, 
 			Catalog.GetString("Laps"),  	  //name of the different moments
@@ -4637,7 +4665,7 @@ public partial class ChronoJumpWindow
 		currentEventExecute = new RunIntervalExecute(
 				currentPerson.UniqueID, currentSession.UniqueID, currentRunIntervalType.Name, 
 				distanceInterval, progressbarLimit, currentRunIntervalType.TracksLimited, 
-				cp2016.CP, app1,
+				cp2016.CP, wirelessPort, wirelessBauds, app1,
 				preferences.digitsNumber, preferences.metersSecondsPreferred,
 				preferences.volumeOn, preferences.gstreamer,
 				repetitiveConditionsWin,
@@ -4651,7 +4679,7 @@ public partial class ChronoJumpWindow
 				);
 
 		//suitable for limited by tracks and time
-		if(! canCaptureC)
+		if(! canCaptureC && ! wireless)
 			currentEventExecute.SimulateInitValues(rand);
 
 		contactsShowCaptureDoingButtons(true);

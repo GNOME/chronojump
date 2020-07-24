@@ -813,13 +813,13 @@ public partial class ChronoJumpWindow
 			layout_force_ai_text.SetMarkup("Force (N)");
 			layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
 			force_sensor_ai_pixmap.DrawLayout (pen_gray_cont_force_ai,
-					xPx - textWidth/2, 0, layout_force_ai_text);
+					xPx - textWidth/2, 6, layout_force_ai_text);
 
 			force_sensor_ai_pixmap.DrawLine(pen_gray_cont_force_ai,
-					xPx, textHeight, xPx, force_sensor_ai_drawingarea.Allocation.Height - textHeight -6);
+					xPx, textHeight +6, xPx, force_sensor_ai_drawingarea.Allocation.Height - textHeight -6);
 		} else
 			force_sensor_ai_pixmap.DrawLine(pen_gray_discont_force_ai,
-					xPx, 6, xPx, force_sensor_ai_drawingarea.Allocation.Height - textHeight -6);
+					xPx, textHeight +6, xPx, force_sensor_ai_drawingarea.Allocation.Height - textHeight -6);
 	}
 
 	private void forcePaintAnalyzeGeneralHLine(int yForce, bool solid)
@@ -1147,6 +1147,11 @@ public partial class ChronoJumpWindow
 				force_sensor_ai_pixmap.DrawLayout (pen_green_force_ai,
 						xPxEnd +2, fsAI.GetPxAtDispl(fsAI.FscAIPointsDispl.ForceMin) - textHeight/2, layout_force_ai_text);
 			}
+		} else
+		{
+			//we just need to set textHeight
+			layout_force_ai_text.SetMarkup("a");
+			layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
 		}
 
 		// 3) paint points as line (can be done also with DrawPoints to debug)
@@ -1231,12 +1236,12 @@ public partial class ChronoJumpWindow
 				//no need to graph two green lines together ir rep starts just on previous rep ends
 				if(xposRepStart > xposRepEnd)
 					force_sensor_ai_pixmap.DrawLine(pen_green_force_ai,
-							xposRepStart, 6, xposRepStart, allocation.Height - textHeight - 6);
+							xposRepStart, textHeight +6, xposRepStart, allocation.Height - textHeight -6);
 			}
 			if(sampleEnd >= 0) {
 				xposRepEnd = fsAI.GetXFromSampleCount(sampleEnd);
 				force_sensor_ai_pixmap.DrawLine(pen_green_force_ai,
-						xposRepEnd, 6, xposRepEnd, allocation.Height -20);
+						xposRepEnd, textHeight +6, xposRepEnd, allocation.Height -textHeight -6);
 				//LogB.Information(string.Format("repetition paint, j: {0}, xposRepEnd: {1}", j, xposRepEnd));
 			}
 

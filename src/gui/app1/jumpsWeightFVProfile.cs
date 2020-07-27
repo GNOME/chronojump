@@ -115,20 +115,25 @@ public partial class ChronoJumpWindow
 		} else if(jumpsWeightFVProfile.NeedMoreXData) {
 			//constructor for showing blank screen with a message
 			new JumpsWeightFVProfileGraph(drawingarea_jumps_weight_fv_profile, JumpsWeightFVProfileGraph.ErrorAtStart.NEEDJUMPSX);
-		} else if(jumpsWeightFVProfile.F0 <= 0) {
-			//constructor for showing blank screen with a message
-			new JumpsWeightFVProfileGraph(drawingarea_jumps_weight_fv_profile, JumpsWeightFVProfileGraph.ErrorAtStart.F0NOTPOSITIVE);
-		} else if(jumpsWeightFVProfile.V0 <= 0) {
-			//constructor for showing blank screen with a message
-			new JumpsWeightFVProfileGraph(drawingarea_jumps_weight_fv_profile, JumpsWeightFVProfileGraph.ErrorAtStart.V0NOTPOSITIVE);
 		} else {
+			//create the graph showing the points but showing also the error (if any)
+			JumpsWeightFVProfileGraph.ErrorAtStart errorAtStart = JumpsWeightFVProfileGraph.ErrorAtStart.ALLOK;
+			if(jumpsWeightFVProfile.F0 <= 0 && jumpsWeightFVProfile.V0 <= 0)
+				errorAtStart = JumpsWeightFVProfileGraph.ErrorAtStart.F0ANDV0NOTPOSITIVE;
+			else if (jumpsWeightFVProfile.F0 <= 0)
+				errorAtStart = JumpsWeightFVProfileGraph.ErrorAtStart.F0NOTPOSITIVE;
+			else if (jumpsWeightFVProfile.V0 <= 0)
+				errorAtStart = JumpsWeightFVProfileGraph.ErrorAtStart.V0NOTPOSITIVE;
+
 			//regular constructor
 			jumpsWeightFVProfileGraph = new JumpsWeightFVProfileGraph(
 					jumpsWeightFVProfile,
 					drawingarea_jumps_weight_fv_profile,
 					currentPerson.Name, //jumpType,
 					currentSession.DateShort,
-					radio_jumps_weight_fv_profile_show_full_graph.Active);
+					radio_jumps_weight_fv_profile_show_full_graph.Active,
+					errorAtStart
+					);
 			jumpsWeightFVProfileGraph.Do();
 
 			button_jumps_weight_fv_profile_save_image.Sensitive = true;

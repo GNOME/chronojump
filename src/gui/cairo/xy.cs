@@ -126,8 +126,13 @@ public abstract class CairoXY
 		{
 			minX = 0;
 			minY = 0;
-			maxX = v0;
-			maxY = f0;
+
+			//fix axis problems if F0 or V0 are not ok
+			if(f0 > 0 && v0 > 0)
+			{
+				maxX = v0;
+				maxY = f0;
+			}
 
 			//have maxX and maxY a 2.5% bigger to have a nicer cut with the predicted line
 			maxX += .025 * maxX;

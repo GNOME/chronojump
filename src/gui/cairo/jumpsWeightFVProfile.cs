@@ -28,12 +28,14 @@ using Cairo;
 
 public class JumpsWeightFVProfileGraph : CairoXY
 {
-	public enum ErrorAtStart { NEEDLEGPARAMS, BADLEGPARAMS, NEEDJUMPS, NEEDJUMPSX, F0NOTPOSITIVE, V0NOTPOSITIVE }
 	private bool showFullGraph;
 	private double pmax;
 	public double fvprofile90;
 	public bool needDevelopForce;
 	private int imbalance;
+
+	public enum ErrorAtStart { ALLOK, NEEDLEGPARAMS, BADLEGPARAMS, NEEDJUMPS, NEEDJUMPSX, F0ANDV0NOTPOSITIVE, F0NOTPOSITIVE, V0NOTPOSITIVE }
+	private ErrorAtStart errorMessage;
 
 	//constructor when there are no points
 	public JumpsWeightFVProfileGraph (DrawingArea area, ErrorAtStart error)//, string title, string jumpType, string date)
@@ -42,22 +44,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 
 		initGraph();
 
-		string message = "";
-		if(error == ErrorAtStart.NEEDLEGPARAMS)
-			message = "Need to fill person's leg parameters.";
-		else if(error == ErrorAtStart.BADLEGPARAMS)
-			message = "Person's leg parameters are incorrect.";
-		else if(error == ErrorAtStart.NEEDJUMPS)
-			message = "Need to execute jumps SJl and/or SJ.";
-		else if(error == ErrorAtStart.NEEDJUMPSX)
-			message = "Need to execute jumps with different weights.";
-		else if(error == ErrorAtStart.F0NOTPOSITIVE)
-			message = "F0 is not > 0.";
-		else //if(error == ErrorAtStart.V0NOTPOSITIVE)
-			message = "V0 is not > 0.";
-
-		g.SetFontSize(16);
-		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight, message, g, true);
+		plotError(error);
 
 		endGraph();
 	}
@@ -66,7 +53,8 @@ public class JumpsWeightFVProfileGraph : CairoXY
 	public JumpsWeightFVProfileGraph (
 			JumpsWeightFVProfile jwp,
 			DrawingArea area, string title, //string jumpType,
-			string date, bool showFullGraph)
+			string date, bool showFullGraph,
+			ErrorAtStart errorMessage) //errorMessage, can make the graph but show the error
 	{
 		this.point_l = jwp.Point_l;
 		this.slope = jwp.Slope;
@@ -76,6 +64,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		//this.jumpType = jumpType;
 		this.date = date;
 		this.showFullGraph = showFullGraph;
+		this.errorMessage = errorMessage;
 
 		outerMargins = 50; //blank space outside the axis
 		if(showFullGraph)
@@ -94,6 +83,28 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		imbalance = jwp.Imbalance();
 
 		LogB.Information(string.Format("Imbalance: {0}", imbalance));
+	}
+
+	private void plotError(ErrorAtStart error)
+	{
+		string message = "";
+		if(error == ErrorAtStart.NEEDLEGPARAMS)
+			message = "Need to fill person's leg parameters.";
+		else if(error == ErrorAtStart.BADLEGPARAMS)
+			message = "Person's leg parameters are incorrect.";
+		else if(error == ErrorAtStart.NEEDJUMPS)
+			message = "Need to execute jumps SJl and/or SJ.";
+		else if(error == ErrorAtStart.NEEDJUMPSX)
+			message = "Need to execute jumps with different weights.";
+		else if(error == ErrorAtStart.F0ANDV0NOTPOSITIVE)
+			message = "F0 and V0 are not > 0.";
+		else if(error == ErrorAtStart.F0NOTPOSITIVE)
+			message = "F0 is not > 0.";
+		else if(error == ErrorAtStart.V0NOTPOSITIVE)
+			message = "V0 is not > 0.";
+
+		g.SetFontSize(16);
+		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight, message, g, true);
 	}
 
 	public override void Do()
@@ -117,6 +128,9 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		plotRealPoints();
 
 		writeTitle();
+
+		if(errorMessage != ErrorAtStart.ALLOK)
+			plotError(errorMessage);
 
 		endGraph();
 	}

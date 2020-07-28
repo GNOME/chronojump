@@ -40,6 +40,7 @@ public class PersonAddModifyWindow
 
 	[Widget] Gtk.Notebook notebook_main;
 	[Widget] Gtk.HButtonBox hbuttonbox_main;
+	[Widget] Gtk.HBox hbox_units;
 	[Widget] Gtk.VBox vbox_error;
 	[Widget] Gtk.Label label_error;
 	[Widget] Gtk.Button button_load_person;
@@ -1117,6 +1118,7 @@ public class PersonAddModifyWindow
 	{
 		vbox_error.Visible = show;
 		notebook_main.Visible = ! show;
+		hbox_units.Visible = ! show;
 		hbuttonbox_main.Visible = ! show;
 
 		button_load_person.Visible = showLoadPerson;

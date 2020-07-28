@@ -437,7 +437,7 @@
                                                         <property name="active">True</property>
                                                         <property name="draw_indicator">False</property>
                                                         <signal name="toggled" handler="on_radio_show_menu_toggled" swapped="no"/>
-                                                        <accelerator key="Escape" signal="clicked"/>
+                                                        <accelerator key="m" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                         <child>
                                                           <widget class="GtkEventBox" id="eventbox_radio_show_menu">
                                                             <property name="visible">True</property>

@@ -66,6 +66,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_contacts_close_and_capture;
 	[Widget] Gtk.Image image_encoder_close_and_capture;
 	[Widget] Gtk.Image image_tests_capture;
+	[Widget] Gtk.Image image_tests_analyze_jump_rj;
 	[Widget] Gtk.Image image_tests_sprint;
 	[Widget] Gtk.Image image_tests_analyze_general;
 	[Widget] Gtk.Image image_tests_analyze_general1;
@@ -547,6 +548,7 @@ public partial class ChronoJumpWindow
 		image_mode_jumps_small.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_reactive.png");
 		image_mode_jumps_reactive_small.Pixbuf = pixbuf;
+		image_tests_analyze_jump_rj.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run_simple.png");
 		image_mode_runs_small.Pixbuf = pixbuf;
 		image_mode_runs_small1.Pixbuf = pixbuf;

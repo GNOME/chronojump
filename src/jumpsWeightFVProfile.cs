@@ -188,7 +188,7 @@ public class JumpsWeightFVProfile
 
 	public bool NeedDevelopForce()
 	{
-		return (FvProfileFor90() < 1);
+		return (FvProfileFor90() < 100);
 	}
 
 	//TODO: check values that need to be > 0...

@@ -152,6 +152,11 @@ public class JumpsWeightFVProfile
 	//TODO: check values that need to be > 0...
 	//Optimal Force–Velocity Profile in Ballistic Movements—Altius: Citius or Fortius? (Appendix)
 	//private double sfvOpt()
+
+	/*
+	 * note the formula was not ok on the original paper but it was ok on the spreadsheet. It has been commented to authors and corrected on the original paper. See:
+	 * https://www.researchgate.net/publication/320146284_JUMP_FVP_profile_spreadsheet/comments
+	 */
 	private double calculateSfvOpt()
 	{
 		/*
@@ -159,18 +164,18 @@ public class JumpsWeightFVProfile
 		LogB.Information(string.Format("sfvOpt row 2: {0}", - ( ( ((pow(g,4)) * pow(hp0,4)) - (12 * g * pow(hp0,3) * pow(PmaxRel,2)) ) / ( 3.0 * pow(hp0,2) * PmaxRel * z() ) ) ));
 		LogB.Information(string.Format("sfvOpt row 2 num: {0}", - ( (-pow(g,4) * pow(hp0,4)) - (12 * g * pow(hp0,3) * pow(PmaxRel,2)) ) ));
 		LogB.Information(string.Format("sfvOpt row 2 den: {0}", 3.0 * pow(hp0,2) * PmaxRel * z() ));
-		LogB.Information(string.Format("sfvOpt row 3: {0}", - (z() / (3.0 * pow(hp0,2) * PmaxRel)) ));
+		LogB.Information(string.Format("sfvOpt row 3: {0}", + (z() / (3.0 * pow(hp0,2) * PmaxRel)) ));
 		*/
 		/*
 		 * SFVopt =
 		 * 	- g^2 / (3 * PmaxRel)
 		 * 	- ( ( -(g^4) * hp0^4 - (12 * g * hp0^3 * PmaxRel^2) ) / ( 3 * hp0^2 * PmaxRel * Z(PmaxRel,hp0) ) )
-		 * 	- Z(Pmax,hp0) / (3 * hp0^2 * PmaxRel)
+		 * 	+ Z(Pmax,hp0) / (3 * hp0^2 * PmaxRel)
 		 */
 		return
 			- (pow(g,2) / (3.0 * PmaxRel))
 			- ( ( (- pow(g,4) * pow(hp0,4)) - (12 * g * pow(hp0,3) * pow(PmaxRel,2)) ) / ( 3.0 * pow(hp0,2) * PmaxRel * z() ) )
-			- (z() / (3.0 * pow(hp0,2) * PmaxRel));
+			+ (z() / (3.0 * pow(hp0,2) * PmaxRel));
 	}
 
 

@@ -43,7 +43,7 @@
                 </child>
                 <child>
                   <widget class="GtkRadioButton" id="radio_reps">
-                    <property name="label" translatable="yes">Repetitions</property>
+                    <property name="label" translatable="yes">Saved repetitions</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>

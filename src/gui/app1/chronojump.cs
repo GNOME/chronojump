@@ -77,9 +77,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox eventbox_radio_mode_contacts_analyze;
 	[Widget] Gtk.EventBox eventbox_radio_mode_encoder_capture_small;
 	[Widget] Gtk.EventBox eventbox_radio_mode_encoder_analyze_small;
-	[Widget] Gtk.EventBox eventbox_radio_mode_contacts_jump_rj;
-	[Widget] Gtk.EventBox eventbox_radio_mode_contacts_sprint;
-	[Widget] Gtk.EventBox eventbox_radio_mode_contacts_jumps_rj_runs_i_advanced;
 	[Widget] Gtk.EventBox eventbox_radio_mode_pulses_small;
 	[Widget] Gtk.EventBox eventbox_radio_mode_multi_chronopic_small;
 	[Widget] Gtk.EventBox eventbox_button_open_chronojump;
@@ -88,8 +85,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox eventbox_button_exit_confirm;
 
 	[Widget] Gtk.HBox hbox_contacts_sup_capture_analyze_two_buttons;
-	[Widget] Gtk.Alignment alignment_radio_mode_contacts_analyze;
-	[Widget] Gtk.HBox hbox_radio_mode_contacts_analyze_jump_buttons;
+	[Widget] Gtk.HBox hbox_radio_mode_contacts_analyze_buttons;
+	[Widget] Gtk.HBox hbox_radio_mode_contacts_analyze_jump_simple_buttons;
 
 	[Widget] Gtk.Image image_button_show_modes_contacts_grid;
 	[Widget] Gtk.Image image_button_show_modes_contacts_current;
@@ -105,10 +102,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_mode_contacts_jumps_dj_optimal_fall;
 	[Widget] Gtk.RadioButton radio_mode_contacts_jumps_weight_fv_profile;
 	[Widget] Gtk.RadioButton radio_mode_contacts_jumps_evolution;
-	[Widget] Gtk.RadioButton radio_mode_contacts_jumps_advanced;
 	[Widget] Gtk.RadioButton radio_mode_contacts_jump_rj;
-	[Widget] Gtk.RadioButton radio_mode_contacts_jumps_rj_runs_i_advanced;
 	[Widget] Gtk.RadioButton radio_mode_contacts_sprint;
+	[Widget] Gtk.RadioButton radio_mode_contacts_advanced;
 
 	[Widget] Gtk.Label label_sprint_person_name;
 
@@ -602,9 +598,6 @@ public partial class ChronoJumpWindow
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_contacts_analyze, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_encoder_capture_small, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_encoder_analyze_small, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_contacts_jump_rj, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_contacts_sprint, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_contacts_jumps_rj_runs_i_advanced, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_pulses_small, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_multi_chronopic_small, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_open_chronojump, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
@@ -2900,8 +2893,7 @@ public partial class ChronoJumpWindow
 		button_contacts_bells.Sensitive = false;
 		radio_mode_contacts_capture.Active = true;
 		radio_mode_contacts_jumps_profile.Active = true;
-		alignment_radio_mode_contacts_analyze.Visible = false;
-		hbox_radio_mode_contacts_analyze_jump_buttons.Visible = false;
+		hbox_radio_mode_contacts_analyze_buttons.Visible = false;
 		radio_mode_contacts_jump_rj.Visible = false;
 		radio_mode_contacts_sprint.Visible = false;
 		notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.STATISTICS);
@@ -2956,9 +2948,7 @@ public partial class ChronoJumpWindow
 				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_simple.png");
 
 				if(radio_mode_contacts_analyze.Active)
-				{
-					hbox_radio_mode_contacts_analyze_jump_buttons.Visible = true;
-				}
+					radio_mode_contacts_analyze_buttons_visible (m);
 			} else {
 				notebooks_change(m);
 				button_contacts_bells.Sensitive = true;
@@ -2977,16 +2967,8 @@ public partial class ChronoJumpWindow
 					radio_mode_contacts_capture.Active = true;
 
 				if(radio_mode_contacts_analyze.Active)
-				{
-					alignment_radio_mode_contacts_analyze.Visible = true;
-					radio_mode_contacts_jump_rj.Active = true;
-					radio_mode_contacts_jumps_rj_runs_i_advanced.Visible = true;
-					radio_mode_contacts_jump_rj.Visible = true;
-				}
+					radio_mode_contacts_analyze_buttons_visible (m);
 			}
-
-			if(radio_mode_contacts_jump_rj.Active)
-				radio_mode_contacts_capture.Active = true;
 
 			pixbufModeGrid = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_jump.png");
 		}
@@ -3028,16 +3010,8 @@ public partial class ChronoJumpWindow
 				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_run_multiple.png");
 
 				if(radio_mode_contacts_analyze.Active)
-				{
-					alignment_radio_mode_contacts_analyze.Visible = true;
-					radio_mode_contacts_sprint.Active = true;
-					radio_mode_contacts_jumps_rj_runs_i_advanced.Visible = true;
-					radio_mode_contacts_sprint.Visible = true;
-				}
+					radio_mode_contacts_analyze_buttons_visible (m);
 			}
-
-			if(radio_mode_contacts_sprint.Active)
-				radio_mode_contacts_capture.Active = true;
 
 			pixbufModeGrid = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_run.png");
 		}
@@ -3321,6 +3295,35 @@ public partial class ChronoJumpWindow
 
 		setLabelContactsExerciseSelectedOptions();
 
+	}
+
+	private void radio_mode_contacts_analyze_buttons_visible (Constants.Menuitem_modes m)
+	{
+		if(m == Constants.Menuitem_modes.JUMPSSIMPLE)
+		{
+			hbox_radio_mode_contacts_analyze_buttons.Visible = true;
+			hbox_radio_mode_contacts_analyze_jump_simple_buttons.Visible = true;
+			radio_mode_contacts_jump_rj.Visible = false;
+			radio_mode_contacts_sprint.Visible = false;
+		}
+		else if(m == Constants.Menuitem_modes.JUMPSREACTIVE)
+		{
+			hbox_radio_mode_contacts_analyze_buttons.Visible = true;
+			hbox_radio_mode_contacts_analyze_jump_simple_buttons.Visible = false;
+			radio_mode_contacts_jump_rj.Visible = true;
+			radio_mode_contacts_sprint.Visible = false;
+
+			radio_mode_contacts_jump_rj.Active = true;
+		}
+		else if(m == Constants.Menuitem_modes.RUNSINTERVALLIC)
+		{
+			hbox_radio_mode_contacts_analyze_buttons.Visible = true;
+			hbox_radio_mode_contacts_analyze_jump_simple_buttons.Visible = false;
+			radio_mode_contacts_jump_rj.Visible = false;
+			radio_mode_contacts_sprint.Visible = true;
+
+			radio_mode_contacts_sprint.Active = true;
+		}
 	}
 
 	private void showHideCaptureSpecificControls(Constants.Menuitem_modes m)
@@ -6983,8 +6986,6 @@ LogB.Debug("mc finished 5");
 		if(! radio_mode_contacts_capture.Active)
 			return;
 
-		alignment_radio_mode_contacts_analyze.Visible = false;
-
 		notebook_capture_analyze.CurrentPage = 0;
 	}
 	private void on_radio_mode_contacts_analyze_toggled (object o, EventArgs args)
@@ -6996,9 +6997,10 @@ LogB.Debug("mc finished 5");
 				current_menuitem_mode == Constants.Menuitem_modes.JUMPSREACTIVE ||
 				current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
 		{
+			radio_mode_contacts_analyze_buttons_visible (current_menuitem_mode);
+
 			if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
 			{
-				hbox_radio_mode_contacts_analyze_jump_buttons.Visible = true;
 				if(radio_mode_contacts_jumps_profile.Active)
 				{
 					notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.JUMPSPROFILE);
@@ -7022,20 +7024,6 @@ LogB.Debug("mc finished 5");
 					notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.JUMPSEVOLUTION);
 					jumpsEvolutionDo(true);
 				}
-			}
-			else if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSREACTIVE)
-			{
-				alignment_radio_mode_contacts_analyze.Visible = true;
-				radio_mode_contacts_jumps_rj_runs_i_advanced.Visible = true;
-				radio_mode_contacts_jump_rj.Active = true;
-				radio_mode_contacts_jump_rj.Visible = true;
-			}
-			else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
-			{
-				alignment_radio_mode_contacts_analyze.Visible = true;
-				radio_mode_contacts_jumps_rj_runs_i_advanced.Visible = true;
-				radio_mode_contacts_sprint.Active = true;
-				radio_mode_contacts_sprint.Visible = true;
 			}
 		}
 		else if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR)
@@ -7080,14 +7068,9 @@ LogB.Debug("mc finished 5");
 			jumpsEvolutionDo(true);
 		}
 	}
-	private void on_radio_mode_contacts_jumps_advanced_toggled (object o, EventArgs args)
+	private void on_radio_mode_contacts_advanced_toggled (object o, EventArgs args)
 	{
-		if(radio_mode_contacts_jumps_advanced.Active)
-			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.STATISTICS);
-	}
-	private void on_radio_mode_contacts_jumps_rj_runs_i_advanced_toggled (object o, EventArgs args)
-	{
-		if(radio_mode_contacts_jumps_rj_runs_i_advanced.Active)
+		if(radio_mode_contacts_advanced.Active)
 			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.STATISTICS);
 	}
 	private void on_radio_mode_contacts_jump_rj_toggled (object o, EventArgs args)
@@ -7264,16 +7247,6 @@ LogB.Debug("mc finished 5");
 		//but don't unsensitive the notebook because user need to "finish" or cancel"
 		//notebook_capture_analyze.Sensitive = true; 
 		radio_mode_contacts_analyze.Hide();
-		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSREACTIVE)
-		{
-			alignment_radio_mode_contacts_analyze.Hide();
-			radio_mode_contacts_jump_rj.Hide();
-		}
-		if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
-		{
-			alignment_radio_mode_contacts_analyze.Hide();
-			radio_mode_contacts_sprint.Hide();
-		}
 
 		if(cont)
 		{
@@ -7504,17 +7477,7 @@ LogB.Debug("mc finished 5");
 
 		radio_mode_contacts_analyze.Visible = ! start;
 		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
-		{
-			hbox_radio_mode_contacts_analyze_jump_buttons.Visible = ! start;
-		} else if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSREACTIVE)
-		{
-			alignment_radio_mode_contacts_analyze.Visible = ! start;
-			radio_mode_contacts_jump_rj.Visible = ! start;
-		} else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
-		{
-			alignment_radio_mode_contacts_analyze.Visible = ! start;
-			radio_mode_contacts_sprint.Visible = ! start;
-		}
+			hbox_radio_mode_contacts_analyze_buttons.Visible = ! start;
 
 		//when start, put button delete_last_test as not sensitive
 		//(just for the test previous to the auto process)

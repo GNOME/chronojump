@@ -488,7 +488,7 @@ public abstract class CairoXY
 			for(double i = gridXTuple.Item1; i <= gridXTuple.Item2 ; i += gridXTuple.Item3)
 			{
 				int xtemp = Convert.ToInt32(calculatePaintX(i));
-				if(xtemp < outerMargins || xtemp > graphWidth - outerMargins)
+				if(xtemp <= outerMargins || xtemp >= graphWidth - outerMargins)
 					continue;
 
 				paintVerticalGridLine(xtemp, Util.TrimDecimals(i, 2));
@@ -498,7 +498,7 @@ public abstract class CairoXY
 			for(double i = gridYTuple.Item1; i <= gridYTuple.Item2 ; i += gridYTuple.Item3)
 			{
 				int ytemp = Convert.ToInt32(calculatePaintY(i));
-				if(ytemp < outerMargins || ytemp > graphHeight - outerMargins)
+				if(ytemp <= outerMargins || ytemp >= graphHeight - outerMargins)
 					continue;
 
 				paintHorizontalGridLine(ytemp, Util.TrimDecimals(i, 2));

@@ -1,4 +1,3 @@
-
 /*
  * This file is part of ChronoJump
  *
@@ -56,9 +55,16 @@ public class JumpsWeightFVProfileGraph : CairoXY
 			string date, bool showFullGraph,
 			ErrorAtStart errorMessage) //errorMessage, can make the graph but show the error
 	{
-		this.point_l = jwp.Point_l;
-		this.slope = jwp.Slope;
-		this.intercept = jwp.Intercept;
+		this.point_l = jwp.Point_l_relative;
+
+		//this.slope = jwp.Slope;
+		//relative:
+		this.slope = jwp.SfvRel;
+
+		//this.intercept = jwp.Intercept;
+		//relative:
+		this.intercept = jwp.F0Rel;
+
 		this.area = area;
 		this.title = title;
 		//this.jumpType = jumpType;
@@ -73,15 +79,22 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		xVariable = "Speed";
 		yVariable = "Force";
 		xUnits = "m/s";
-		yUnits = "N";
+		yUnits = "N/Kg";
 
 		f0 = jwp.F0;
+		f0Rel = jwp.F0Rel;
 		v0 = jwp.V0;
 		pmax = jwp.Pmax;
 		fvprofile90 = jwp.FvProfileFor90();
 		needDevelopForce = jwp.NeedDevelopForce();
 		imbalance = jwp.Imbalance();
+		f0Opt = jwp.F0Opt;
+		v0Opt = jwp.V0Opt;
 
+		LogB.Information(string.Format("pmaxRel: {0}", jwp.PmaxRel));
+		LogB.Information(string.Format("z: {0}", jwp.Z));
+		LogB.Information(string.Format("sfvOpt: {0}", jwp.SfvOpt));
+		LogB.Information(string.Format("f0Opt: {0}, v0Opt: {1}", f0Opt, v0Opt));
 		LogB.Information(string.Format("Imbalance: {0}", imbalance));
 	}
 
@@ -125,6 +138,8 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		else
 			plotPredictedLine(predictedLineTypes.STRAIGHT, predictedLineCrossMargins.DONOTTOUCH);
 
+		plotAlternativeLineWithRealPoints (0, f0Opt, v0Opt, 0, showFullGraph);
+
 		plotRealPoints();
 
 		writeTitle();
@@ -144,7 +159,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		writeTextAtRight(ypos++, date, false);
 
 		ypos++;
-		writeTextAtRight(ypos++, string.Format("F0: {0} N", Math.Round(f0,2)), false);
+		writeTextAtRight(ypos++, string.Format("F0: {0} N", Math.Round(f0Rel,2)), false);
 		writeTextAtRight(ypos++, string.Format("V0: {0} m/s", Math.Round(v0,2)), false);
 		writeTextAtRight(ypos++, string.Format("Pmax: {0} W", Math.Round(pmax,1)), false);
 
@@ -167,7 +182,9 @@ public class JumpsWeightFVProfileGraph : CairoXY
 			lineVertSpacing = .5;
 		}
 
+		g.Color = bluePlots;
 		writeTextAtRight(line, "Selected:", false);
+		g.SetSourceRGB(0, 0, 0);
 
 		List<KeyDouble> l_keydouble = pClosest.l_keydouble;
 		/*

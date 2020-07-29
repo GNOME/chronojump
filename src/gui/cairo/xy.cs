@@ -34,7 +34,11 @@ public abstract class CairoXY
 	protected double slope;
 	protected double intercept;
 	protected double f0;
+	protected double f0Rel;
 	protected double v0;
+	//samozino fv
+	protected double f0Opt;
+	protected double v0Opt;
 
 	//regression line parabole
 	protected double[] coefs;
@@ -68,6 +72,7 @@ public abstract class CairoXY
 	Cairo.Color white;
 	Cairo.Color red;
 	Cairo.Color blue;
+	protected Cairo.Color bluePlots;
 
 	//for all 4 sides
 	protected int outerMargins = 40; //blank space outside the axis.
@@ -102,6 +107,7 @@ public abstract class CairoXY
 		white = colorFromRGB(255,255,255);
 		red = colorFromRGB(200,0,0);
 		blue = colorFromRGB(178, 223, 238); //lightblue
+		bluePlots = colorFromRGB(0, 0, 200);
 
 		predictedPointDone = false;
 	}
@@ -128,10 +134,15 @@ public abstract class CairoXY
 			minY = 0;
 
 			//fix axis problems if F0 or V0 are not ok
-			if(f0 > 0 && v0 > 0)
+			if(f0Rel > 0 && v0 > 0)
 			{
 				maxX = v0;
-				maxY = f0;
+				if(v0Opt > v0)
+					maxX = v0Opt;
+
+				maxY = f0Rel;
+				if(f0Opt > f0Rel)
+					maxY = f0Opt;
 			}
 
 			//have maxX and maxY a 2.5% bigger to have a nicer cut with the predicted line
@@ -145,6 +156,21 @@ public abstract class CairoXY
 
 		absoluteMaxX = maxX;
 		absoluteMaxY = maxY;
+	}
+
+	protected void plotAlternativeLineWithRealPoints (double ax, double ay, double bx, double by, bool showFullGraph)
+	{
+		LeastSquaresLine lsl = new LeastSquaresLine();
+		List<PointF> measures = new List<PointF> {
+			new PointF(ax, ay), new PointF(bx, by) };
+		lsl.Calculate(measures);
+
+		g.SetSourceRGB(255,0,0);
+		if(showFullGraph)
+			plotPredictedLine(predictedLineTypes.STRAIGHT, predictedLineCrossMargins.CROSS, lsl.Slope, lsl.Intercept);
+		else
+			plotPredictedLine(predictedLineTypes.STRAIGHT, predictedLineCrossMargins.DONOTTOUCH, lsl.Slope, lsl.Intercept);
+		g.SetSourceRGB(0,0,0);
 	}
 
 	protected virtual void separateMinXMaxXIfNeeded()
@@ -213,6 +239,10 @@ public abstract class CairoXY
 	protected enum predictedLineTypes { STRAIGHT, PARABOLE }
 	protected enum predictedLineCrossMargins { TOUCH, CROSS, DONOTTOUCH }
 	protected void plotPredictedLine(predictedLineTypes plt, predictedLineCrossMargins crossMarginType)
+	{
+		plotPredictedLine(plt, crossMarginType, slope, intercept);
+	}
+	protected void plotPredictedLine(predictedLineTypes plt, predictedLineCrossMargins crossMarginType, double slope, double intercept)
 	{
 		bool firstValue = false;
 		double range = absoluteMaxX - minX;
@@ -398,7 +428,7 @@ public abstract class CairoXY
 		writeSelectedValues(line, pClosest);
 
 		// 5) paint rectangle around that point
-		g.Color = red;
+		g.Color = bluePlots;
 		g.Rectangle(calculatePaintX(pClosest.X) -12, calculatePaintY(pClosest.Y) -12, 24, 24);
 		g.Stroke();
 		g.Color = black;
@@ -422,7 +452,7 @@ public abstract class CairoXY
 			}
 		}
 
-		//also check predicted point if exits
+		//also check predicted point if exists
 		if(predictedPointDone && Math.Sqrt(Math.Pow(graphX - calculatePaintX(xAtMMaxY), 2) + Math.Pow(graphY - calculatePaintY(yAtMMaxY), 2)) < distMin)
 			pClosest = new PointF(xAtMMaxY, yAtMMaxY);
 
@@ -431,7 +461,10 @@ public abstract class CairoXY
 
 	protected virtual void writeSelectedValues(int line, PointF pClosest)
 	{
+		g.Color = bluePlots;
 		writeTextAtRight(line, "Selected:", false);
+		g.SetSourceRGB(0, 0, 0);
+
 		writeTextAtRight(line +1, string.Format("- {0}: {1} {2}", xVariable, Util.TrimDecimals(pClosest.X, 2), xUnits), false);
 		writeTextAtRight(line +2, string.Format("- {0}: {1} {2}", yVariable, Util.TrimDecimals(pClosest.Y, 2), yUnits), false);
 	}

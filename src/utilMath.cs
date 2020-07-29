@@ -49,7 +49,15 @@ public class PointF
 
 	public override string ToString()
 	{
-		return string.Format("X:{0}, Y:{1}", x, y);
+		//return string.Format("X:{0}, Y:{1}", x, y);
+		string str = string.Format("X:{0}, Y:{1}", x, y);
+		string sep = "";
+		foreach(KeyDouble kd in l_keydouble)
+		{
+			str += sep + kd.ToString();
+			sep = "\t";
+		}
+		return str;
 	}
 }
 

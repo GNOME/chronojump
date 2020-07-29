@@ -37,13 +37,14 @@ public class JumpsWeightFVProfileGraph : CairoXY
 	private ErrorAtStart errorMessage;
 
 	//constructor when there are no points
-	public JumpsWeightFVProfileGraph (DrawingArea area, ErrorAtStart error)//, string title, string jumpType, string date)
+	public JumpsWeightFVProfileGraph (DrawingArea area, ErrorAtStart errorMessage)//, string title, string jumpType, string date)
 	{
 		this.area = area;
+		this.errorMessage = errorMessage;
 
 		initGraph();
 
-		plotError(error);
+		plotError();
 
 		endGraph();
 	}
@@ -98,22 +99,22 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		LogB.Information(string.Format("Imbalance: {0}", imbalance));
 	}
 
-	private void plotError(ErrorAtStart error)
+	private void plotError()
 	{
 		string message = "";
-		if(error == ErrorAtStart.NEEDLEGPARAMS)
+		if(errorMessage == ErrorAtStart.NEEDLEGPARAMS)
 			message = "Need to fill person's leg parameters.";
-		else if(error == ErrorAtStart.BADLEGPARAMS)
+		else if(errorMessage == ErrorAtStart.BADLEGPARAMS)
 			message = "Person's leg parameters are incorrect.";
-		else if(error == ErrorAtStart.NEEDJUMPS)
+		else if(errorMessage == ErrorAtStart.NEEDJUMPS)
 			message = "Need to execute jumps SJl and/or SJ.";
-		else if(error == ErrorAtStart.NEEDJUMPSX)
+		else if(errorMessage == ErrorAtStart.NEEDJUMPSX)
 			message = "Need to execute jumps with different weights.";
-		else if(error == ErrorAtStart.F0ANDV0NOTPOSITIVE)
+		else if(errorMessage == ErrorAtStart.F0ANDV0NOTPOSITIVE)
 			message = "F0 and V0 are not > 0.";
-		else if(error == ErrorAtStart.F0NOTPOSITIVE)
+		else if(errorMessage == ErrorAtStart.F0NOTPOSITIVE)
 			message = "F0 is not > 0.";
-		else if(error == ErrorAtStart.V0NOTPOSITIVE)
+		else if(errorMessage == ErrorAtStart.V0NOTPOSITIVE)
 			message = "V0 is not > 0.";
 
 		g.SetFontSize(16);
@@ -138,14 +139,25 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		else
 			plotPredictedLine(predictedLineTypes.STRAIGHT, predictedLineCrossMargins.DONOTTOUCH);
 
-		plotAlternativeLineWithRealPoints (0, f0Opt, v0Opt, 0, showFullGraph);
+		if(errorMessage == ErrorAtStart.ALLOK)
+		{
+			plotAlternativeLineWithRealPoints (0, f0Opt, v0Opt, 0, showFullGraph);
+
+			if(showFullGraph)
+			{
+				if(f0Opt > f0Rel)
+					plotArrow (0, f0Rel, 0, f0Opt, false, 12);
+				if(v0Opt > v0)
+					plotArrow (v0, 0, v0Opt, 0, true, 12);
+			}
+		}
 
 		plotRealPoints();
 
 		writeTitle();
 
 		if(errorMessage != ErrorAtStart.ALLOK)
-			plotError(errorMessage);
+			plotError();
 
 		endGraph();
 	}
@@ -165,11 +177,14 @@ public class JumpsWeightFVProfileGraph : CairoXY
 
 		writeTextAtRight(ypos++, "Samozino & col. 2008-13:", false);
 		writeTextAtRight(ypos++, string.Format("- Profile (90º): {0} %", Math.Round(fvprofile90,0)), false);
+		writeTextAtRight(ypos++, string.Format("- Imbalance: {0} %", imbalance), false);
+
+		g.Color = red;
 		if(needDevelopForce)
 			writeTextAtRight(ypos++, "- Need to develop force", false);
 		else
 			writeTextAtRight(ypos++, "- Need to develop speed", false);
-		writeTextAtRight(ypos++, string.Format("- Imbalance: {0} %", imbalance), false);
+		g.SetSourceRGB(0, 0, 0);
 	}
 
 	protected override void writeSelectedValues(int line, PointF pClosest)

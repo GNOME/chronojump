@@ -636,6 +636,20 @@ public partial class ChronoJumpWindow
 		int topMargin = 30;
 		int bottomMargin = 0;
 
+		/*
+		 * if not dj show heights
+		 * and it is a single jump type, and it has tc, tv (it is a dj or similar)
+		 * then show tc, tf
+		 */
+		bool useHeights = true;
+		if(! eventGraph.djShowHeights &&
+				eventGraph.type != "" && //it is a concrete type, not all jumps
+				eventGraph.jumpsAtSQL.Count > 0 &&
+				eventGraph.jumpsAtSQL[0].Tc > 0 &&
+				eventGraph.jumpsAtSQL[0].Tv > 0
+				)
+			useHeights = false;
+
 		//if max value of graph is automatic
 		if(eventGraphConfigureWin.Max == -1) {
 			maxValue = eventGraph.sessionMAXAtSQL;
@@ -646,10 +660,9 @@ public partial class ChronoJumpWindow
 
 			foreach(Jump jump in eventGraph.jumpsAtSQL)
 			{
-				//always use fall (cm) to be able to do comparisons between different jump types
-				//double valueToPlot = jump.Tc;
-				//if(eventGraph.djShowHeights)
-					double valueToPlot = jump.Fall;
+				double valueToPlot = jump.Fall;
+				if(! useHeights)
+					valueToPlot = jump.Tc;
 
 				if(valueToPlot > maxValue)
 					maxValue = valueToPlot;
@@ -682,7 +695,7 @@ public partial class ChronoJumpWindow
 		
 		//paint graph
 		paintJumpSimple (event_execute_drawingarea, eventGraph, 
-			       	maxValue, minValue, topMargin, bottomMargin, animate);
+				maxValue, minValue, topMargin, bottomMargin, animate, useHeights);
 
 		// -- refresh
 		event_execute_drawingarea.QueueDraw();
@@ -1080,7 +1093,7 @@ public partial class ChronoJumpWindow
 	}
 	
 	private void paintJumpSimple (Gtk.DrawingArea drawingarea, PrepareEventGraphJumpSimple eventGraph, 
-			double maxValue, double minValue, int topMargin, int bottomMargin, bool animate)
+			double maxValue, double minValue, int topMargin, int bottomMargin, bool animate, bool useHeights)
 	{
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
@@ -1144,7 +1157,10 @@ public partial class ChronoJumpWindow
 
 		drawGuideOrAVG(pen_yellow_discont, eventGraph.personAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
 
-		paintSimpleAxis(ancho, alto, topMargin, bottomMargin, layout, "cm");
+		if(useHeights)
+			paintSimpleAxis(ancho, alto, topMargin, bottomMargin, layout, "cm");
+		else
+			paintSimpleAxis(ancho, alto, topMargin, bottomMargin, layout, "s");
 
 		//calculate separation between series and bar width
 		int distanceBetweenCols = Convert.ToInt32((ancho-event_execute_rightMargin)*(1+.5)/countJumps) -
@@ -1158,12 +1174,6 @@ public partial class ChronoJumpWindow
 		bool showBarB = false; //tv
 		foreach(Jump jump in eventGraph.jumpsAtSQL)
 		{
-			/*
-			always use fall (cm) to be able to do comparisons between different jump types
-			if(
-					(eventGraph.djShowHeights && jump.Fall > 0) ||
-					(! eventGraph.djShowHeights && jump.Tc > 0) )
-					*/
 			if(jump.Fall > 0)
 				showBarA = true;
 			if(jump.Tv > 0)
@@ -1190,18 +1200,12 @@ public partial class ChronoJumpWindow
 				if(eventGraph.tv >0)
 					animateBar = false;
 
-				/*
-				always use heights to be able to do comparisons between different jump types
-				double valueA = jump.Tc;
-				double valueB = jump.Tv;
-				if(eventGraph.djShowHeights)
-				{
-					valueA = jump.Fall;
-					valueB = Util.GetHeightInCentimeters(jump.Tv); //jump height
-				}
-				*/
 				double valueA = jump.Fall;
 				double valueB = Util.GetHeightInCentimeters(jump.Tv); //jump height
+				if(! useHeights) {
+					valueA = jump.Tc;
+					valueB = jump.Tv;
+				}
 
 				if(valueA > 0)
 				{
@@ -1232,11 +1236,16 @@ public partial class ChronoJumpWindow
 				if(jump.Tv > 0)
 				{
 					x = Convert.ToInt32((ancho-event_execute_rightMargin)*(countToDraw-.5)/countJumps)-barDesplLeft;
-					y = calculatePaintHeight(Util.GetHeightInCentimeters(jump.Tv),
+
+					double valueB = Util.GetHeightInCentimeters(jump.Tv); //jump height
+					if(! useHeights)
+						valueB = jump.Tv;
+
+					y = calculatePaintHeight(valueB,
 							alto, maxValue, minValue, topMargin, bottomMargin);
 
 					drawBar(x, y, barWidth, alto, bottomMargin, pen_background, countToDraw == countJumps,
-							Util.GetHeightInCentimeters(jump.Tv), layout, animateBar);
+							valueB, layout, animateBar);
 				}
 			}
 
@@ -1266,10 +1275,10 @@ public partial class ChronoJumpWindow
 		//add legend box
 		if(showBarA && showBarB)
 		{
-			//if(eventGraph.djShowHeights)
+			if(useHeights)
 				addLegend (pen_background_shifted, Catalog.GetString("Falling height"), pen_background, Catalog.GetString("Jump height"), layoutSmallMid, ancho, topMargin, true);
-			//else
-			//	addLegend (pen_background_shifted, Catalog.GetString("Contact time"), pen_background, Catalog.GetString("Flight time"), layoutSmallMid, ancho, topMargin, true);
+			else
+				addLegend (pen_background_shifted, Catalog.GetString("Contact time"), pen_background, Catalog.GetString("Flight time"), layoutSmallMid, ancho, topMargin, true);
 		}
 
 		//paint reference guide black and green if needed

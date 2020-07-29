@@ -914,7 +914,8 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkVBox" id="vbox4_hidden">
+                                          <widget class="GtkVBox" id="vbox4_">
+                                            <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="spacing">8</property>
                                             <child>

@@ -26,10 +26,12 @@ public class JumpsWeightFVProfile
 	public bool NeedMoreXData;
 
 	private List<PointF> point_l;
+	private List<PointF> point_l_relative;
 	LeastSquaresLine ls;
 	private double personWeight;
 	private double hp0; //meters
 	private double g = 9.81;
+	private double z;
 	private double sfvOpt;
 
 	//constructor
@@ -47,6 +49,7 @@ public class JumpsWeightFVProfile
 
 		//2 convert to list of PointF
 		point_l = new List<PointF>();
+		point_l_relative = new List<PointF>();
                 foreach(Jump j in jump_l)
 		{
 			double jumpHeightM = Util.GetHeightInMeters(j.Tv);
@@ -56,6 +59,9 @@ public class JumpsWeightFVProfile
 			//h is jump's height
 			//hp0 = trochanterToe - trochanterFloorOnFlexion
 			double force = (personWeight + (personWeight * j.Weight / 100.0)) * 9.81 * ( ( jumpHeightM / hp0 ) + 1 );
+			//use force relative
+			//force /= personWeight;
+			//not because affects z and other calculations, do it later, just on the cairo graph
 
 			// 2 create point
 			PointF p = new PointF(Util.GetAverageImpulsionSpeed (jumpHeightM), force);
@@ -68,6 +74,11 @@ public class JumpsWeightFVProfile
 
 			//4 add to point_l
 			point_l.Add(p);
+
+			//5 add to point_l_relative
+			p = new PointF(Util.GetAverageImpulsionSpeed (jumpHeightM), force / personWeight);
+			p.l_keydouble = lkd;
+			point_l_relative.Add(p);
 		}
 
 		//3 get LeastSquaresLine (straight line)
@@ -86,6 +97,7 @@ public class JumpsWeightFVProfile
 		LogB.Information(string.Format("Slope (sfv): {0}", Math.Round(Slope,2)));
 		//LogB.Information(string.Format("Z: {0}", Math.Round(z(),2)));
 
+		z = calculateZ();
 		sfvOpt = calculateSfvOpt();
 		LogB.Information(string.Format("sfvOpt: {0}", Math.Round(sfvOpt, 2)));
 
@@ -117,7 +129,7 @@ public class JumpsWeightFVProfile
 
 	//TODO: check values that need to be > 0...
 	//Optimal Force–Velocity Profile in Ballistic Movements—Altius: Citius or Fortius? (Appendix)
-	private double z()
+	private double calculateZ()
 	{
 		/*
 		LogB.Information(string.Format("z row 1: {0}", - (pow(g,6) * pow(hp0,6)) ));
@@ -163,8 +175,8 @@ public class JumpsWeightFVProfile
 		LogB.Information(string.Format("sfvOpt row 1: {0}", - (pow(g,2) / (3.0 * PmaxRel)) ));
 		LogB.Information(string.Format("sfvOpt row 2: {0}", - ( ( ((pow(g,4)) * pow(hp0,4)) - (12 * g * pow(hp0,3) * pow(PmaxRel,2)) ) / ( 3.0 * pow(hp0,2) * PmaxRel * z() ) ) ));
 		LogB.Information(string.Format("sfvOpt row 2 num: {0}", - ( (-pow(g,4) * pow(hp0,4)) - (12 * g * pow(hp0,3) * pow(PmaxRel,2)) ) ));
-		LogB.Information(string.Format("sfvOpt row 2 den: {0}", 3.0 * pow(hp0,2) * PmaxRel * z() ));
-		LogB.Information(string.Format("sfvOpt row 3: {0}", + (z() / (3.0 * pow(hp0,2) * PmaxRel)) ));
+		LogB.Information(string.Format("sfvOpt row 2 den: {0}", 3.0 * pow(hp0,2) * PmaxRel * z ));
+		LogB.Information(string.Format("sfvOpt row 3: {0}", + (z / (3.0 * pow(hp0,2) * PmaxRel)) ));
 		*/
 		/*
 		 * SFVopt =
@@ -174,8 +186,8 @@ public class JumpsWeightFVProfile
 		 */
 		return
 			- (pow(g,2) / (3.0 * PmaxRel))
-			- ( ( (- pow(g,4) * pow(hp0,4)) - (12 * g * pow(hp0,3) * pow(PmaxRel,2)) ) / ( 3.0 * pow(hp0,2) * PmaxRel * z() ) )
-			+ (z() / (3.0 * pow(hp0,2) * PmaxRel));
+			- ( ( (- pow(g,4) * pow(hp0,4)) - (12 * g * pow(hp0,3) * pow(PmaxRel,2)) ) / ( 3.0 * pow(hp0,2) * PmaxRel * z ) )
+			+ (z / (3.0 * pow(hp0,2) * PmaxRel));
 	}
 
 
@@ -203,6 +215,10 @@ public class JumpsWeightFVProfile
 	{
 		get { return point_l; }
 	}
+	public List<PointF> Point_l_relative
+	{
+		get { return point_l_relative; }
+	}
 
 	//Slope is Sfv
 	public double Slope
@@ -229,6 +245,10 @@ public class JumpsWeightFVProfile
 	{
 		get { return ls.Intercept; }
 	}
+	public double F0Rel
+	{
+		get { return F0 / personWeight; }
+	}
 
 	public double V0
 	{
@@ -249,5 +269,26 @@ public class JumpsWeightFVProfile
 	public double Hp0
 	{
 		get { return hp0; }
+	}
+
+	//to debug
+	public double Z
+	{
+		get { return z; }
+	}
+	//to debug
+	public double SfvOpt
+	{
+		get { return sfvOpt; }
+	}
+
+	//to draw the optimum line
+	public double F0Opt
+	{
+		get { return 2 * Math.Sqrt(- PmaxRel * sfvOpt); }
+	}
+	public double V0Opt
+	{
+		get { return 4 * PmaxRel / F0Opt; }
 	}
 }

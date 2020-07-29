@@ -210,7 +210,12 @@ public abstract class CairoXY
 
 	protected void paintAxisAndGrid(gridTypes gridType)
 	{
-		//1 paint axis
+		g.LineWidth = 1; //to allow to be shown the red arrows on jumpsWeightFVProfile
+
+		//1 paint grid
+		paintGrid (minX, absoluteMaxX, minY, absoluteMaxY, 5, gridType);
+
+		//2 paint axis (to show axis on overlap)
 		g.MoveTo(outerMargins, outerMargins);
 		g.LineTo(outerMargins, graphHeight - outerMargins);
 		g.LineTo(graphWidth - outerMargins, graphHeight - outerMargins);
@@ -218,7 +223,7 @@ public abstract class CairoXY
 		printText(2, Convert.ToInt32(outerMargins/2), 0, textHeight, getYAxisLabel(), g, false);
 		printText(graphWidth - Convert.ToInt32(outerMargins/2), graphHeight - outerMargins, 0, textHeight, getXAxisLabel(), g, false);
 
-		paintGrid (minX, absoluteMaxX, minY, absoluteMaxY, 5, gridType);
+		g.LineWidth = 2;
 	}
 
 	private string getXAxisLabel()

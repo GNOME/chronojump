@@ -609,51 +609,66 @@ public partial class ChronoJumpWindow
 	
 	void app1sae_on_button_accept_clicked (object o, EventArgs args)
 	{
+		//there is a bug here, just print some stuff to find it in next log
+		LogB.Information("app1sae_on_button_accept_clicked 0");
 		//check if name of session exists (is owned by other session),
 		//but all is ok if the name is the same as the old name (editing)
 		string name = Util.RemoveTildeAndColon(app1sae_entry_name.Text);
 		name = Util.RemoveChar(name, '/');
+		LogB.Information("app1sae_on_button_accept_clicked 1");
 
 		bool sessionNameExists = Sqlite.Exists (false, Constants.SessionTable, name);
 		if(sessionNameExists && name != currentSession.Name )
 		{
+			LogB.Information("app1sae_on_button_accept_clicked 2");
 			string myString = string.Format(Catalog.GetString("Session: '{0}' exists. Please, use another name"), name);
 			ErrorWindow.Show(myString);
+			LogB.Information("app1sae_on_button_accept_clicked 3");
 		} else {
+			LogB.Information("app1sae_on_button_accept_clicked 4");
 			int sportID;
 			if(app1sae_radiobutton_diff_sports.Active)
 				sportID = Constants.SportUndefinedID;
 			else {
 				sportID = Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(app1sae_combo_sports), app1sae_sports));
 			}
+			LogB.Information("app1sae_on_button_accept_clicked 5");
 
 			int speciallityID;
 			if(! app1sae_label_speciallity.Visible || app1sae_radiobutton_diff_speciallities.Active)
 				speciallityID = Constants.SpeciallityUndefinedID; 
 			else
 				speciallityID = Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(app1sae_combo_speciallities), app1sae_speciallities));
+			LogB.Information("app1sae_on_button_accept_clicked 6");
 
 			int levelID;
 			if(! app1sae_label_level.Visible || app1sae_radiobutton_diff_levels.Active)
 				levelID = Constants.LevelUndefinedID;
 			else
 				levelID = Util.FetchID(UtilGtk.ComboGetActive(app1sae_combo_levels));
+			LogB.Information("app1sae_on_button_accept_clicked 7");
 
 			string place = Util.RemoveTildeAndColon(app1sae_entry_place.Text);
 			string comments = Util.RemoveTildeAndColon(app1sae_textview_comments.Buffer.Text);
+			LogB.Information("app1sae_on_button_accept_clicked 8");
 
 			if(app1sae_addSession)
 			{
+				LogB.Information("app1sae_on_button_accept_clicked 9");
 				currentSession = new Session (name, place,
 						app1sae_dateTime,
 						sportID, speciallityID, levelID,
 						comments,
 						Constants.ServerUndefinedID);
 
+				LogB.Information("app1sae_on_button_accept_clicked A");
 				on_new_session_accepted();
+				LogB.Information("app1sae_on_button_accept_clicked B");
 				notebook_supSetOldPage();
+				LogB.Information("app1sae_on_button_accept_clicked C");
 			} else
 			{
+				LogB.Information("app1sae_on_button_accept_clicked D");
 				currentSession.Name = name;
 				currentSession.Place = place;
 				currentSession.Date = app1sae_dateTime;
@@ -662,15 +677,21 @@ public partial class ChronoJumpWindow
 				currentSession.PersonsPractice = levelID;
 				currentSession.Comments = comments;
 
+				LogB.Information("app1sae_on_button_accept_clicked E");
 				SqliteSession.Update(currentSession.UniqueID, currentSession.Name, 
 						currentSession.Place, currentSession.Date, 
 						sportID, speciallityID, levelID,
 						currentSession.Comments);
+				LogB.Information("app1sae_on_button_accept_clicked F");
 
 				on_edit_session_accepted ();
+				LogB.Information("app1sae_on_button_accept_clicked G");
 				app1s_notebook.CurrentPage = app1s_PAGE_MODES;
+				LogB.Information("app1sae_on_button_accept_clicked H");
 			}
+			LogB.Information("app1sae_on_button_accept_clicked I");
 		}
+		LogB.Information("app1sae_on_button_accept_clicked J");
 	}
 
 }

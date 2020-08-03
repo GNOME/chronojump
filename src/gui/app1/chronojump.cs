@@ -2458,6 +2458,9 @@ public partial class ChronoJumpWindow
 				title += " - " + modePrint;
 		}
 
+		if(preferences.debugMode)
+			title += " - DEBUG MODE";
+
 		app1.Title = title;
 	}
 	
@@ -6728,6 +6731,12 @@ LogB.Debug("mc finished 5");
 		//menuitem_check_race_encoder_capture_simulate.Visible = true;
 
 		preferencesWin.DebugActivated();
+
+		//app1.Title += " - DEBUG MODE";
+		if(currentSession == null)
+			setApp1Title("", current_menuitem_mode);
+		else
+			setApp1Title(currentSession.Name, current_menuitem_mode);
 	}
 
 	private void on_button_gui_tests_clicked (object o, EventArgs args)

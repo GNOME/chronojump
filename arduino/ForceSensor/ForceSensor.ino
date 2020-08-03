@@ -101,9 +101,13 @@ void loop() {
     Serial.print(";");
     Serial.println(scale.get_units(), 2); //scale.get_units() returns a float
   }
+
+  //Checking if there's incoming serial data
+  if (Serial.available()) { processSerial();}
 }
 
-void serialEvent()
+//In old version SerialEvent() was used but the nano every don't support it
+void processSerial()
 {
   String inputString = Serial.readString();
   String commandString = inputString.substring(0, inputString.lastIndexOf(":"));

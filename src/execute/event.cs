@@ -345,10 +345,17 @@ public class EventExecute
 			needCallTrackDone = false;
 		}
 		//Race track with DoubleContacts mode != NONE
+		//LogB.Information("needCheckIfTrackEnded: " + needCheckIfTrackEnded.ToString());
 		if(needCheckIfTrackEnded && lastTfCheckTimeEnded())
 		{
-			trackDone();
-			needCheckIfTrackEnded = false;
+			if(trackDone())
+			{
+				//LogB.Information("needCheckIfTrackEnded changing to false");
+				needCheckIfTrackEnded = false;
+			} else {
+				//LogB.Information("needCheckIfTrackEnded continue true, trackDone() will be called again");
+				//this helps to fix when contact time display when it is bigger than double contact time * 1.5
+			}
 		}
 
 		//RSA
@@ -399,8 +406,9 @@ public class EventExecute
 	{
 	}
 
-	protected virtual void trackDone()
+	protected virtual bool trackDone()
 	{
+		return true;
 	}
 
 	// <-------------------------- end of races specific

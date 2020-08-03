@@ -324,7 +324,7 @@ public class RunExecute : EventExecute
 				//LogB.Information("timestamp:" + timestamp);
 				if (has_arrived()) // timestamp is tf
 				{
-LogB.Information("has arrived");
+					LogB.Information("has arrived");
 					loggedState = States.ON;
 					runChangeImage.Current = RunChangeImage.Types.PHOTOCELL;
 
@@ -551,13 +551,13 @@ LogB.Information("has lifted");
 	//big change in 1.8.1: this is called from GTK thread
 	//so don't write to SQL here
 	//and use static variables where needed
-	protected override void trackDone()
+	protected override bool trackDone()
 	{
 		LogB.Information("In trackDone() A");
 
 		runDC.TrackDoneHasToBeCalledAgain = false;
 		if(success)
-			return;
+			return true;
 
 		LogB.Information("In trackDone() B");
 		//double myTrackTime = 0;
@@ -588,7 +588,7 @@ LogB.Information("has lifted");
 						runPTL.FirstRPIs = posOfBiggestTC +1;
 
 					runDC.UpdateStartPos(posOfBiggestTC);
-					return;
+					return true;
 				}
 				else
 				{
@@ -615,7 +615,7 @@ LogB.Information("has lifted");
 		LogB.Information("trackTime: " + trackTime.ToString());
 		//solve possible problems of bad copied data between threads on start
 		if(trackTime == 0)
-			return;
+			return false; //helps to fix display of a contact time bigger than double contact time * 1.5
 
 		runEI.ChangePhase(RunExecuteInspector.Phases.IN,
 				string.Format("; timestamp: {0}; <b>trackTime: {1}</b>",
@@ -630,6 +630,7 @@ LogB.Information("has lifted");
 		if(! success && runDC.TrackDoneHasToBeCalledAgain)
 			trackDone();
 
+		return true;
 	}
 
 	protected virtual void trackDoneRunSpecificStuff ()

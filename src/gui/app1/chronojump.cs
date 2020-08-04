@@ -712,6 +712,14 @@ public partial class ChronoJumpWindow
 		} else
 			LogB.Information("Ping discarded (Compujump)");
 
+		if(preferences.loadLastSessionAtStart && preferences.lastSessionID > 0 && ! configChronojump.Compujump)
+		{
+			currentSession = SqliteSession.Select (preferences.lastSessionID.ToString());
+			on_load_session_accepted();
+		}
+		if(preferences.loadLastModeAtStart && preferences.lastMode != Constants.Menuitem_modes.UNDEFINED && ! configChronojump.Compujump)
+			changeMode(preferences.lastMode);
+
 		initialize_menu_or_menu_tiny();
 
 		testNewStuff();
@@ -743,14 +751,6 @@ public partial class ChronoJumpWindow
 
 		if(! showSendLog && notebook_sup.CurrentPage == Convert.ToInt32(notebook_sup_pages.START))
 			new ChronojumpLogo (drawingarea_chronojump_logo, viewport_chronojump_logo, preferences.logoAnimatedShow);
-
-		if(preferences.loadLastSessionAtStart && preferences.lastSessionID > 0 && ! configChronojump.Compujump)
-		{
-			currentSession = SqliteSession.Select (preferences.lastSessionID.ToString());
-			on_load_session_accepted();
-		}
-		if(preferences.loadLastModeAtStart && preferences.lastMode != Constants.Menuitem_modes.UNDEFINED && ! configChronojump.Compujump)
-			changeMode(preferences.lastMode);
 
 		LogB.Information("Chronojump window started");
 	}

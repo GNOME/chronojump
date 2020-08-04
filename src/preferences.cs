@@ -28,7 +28,7 @@ public class Preferences
 	 * these are sent to preferences window
 	 */
 
-	//appearance tab
+	//main tab
 	public enum MaximizedTypes { NO, YES, YESUNDECORATED};
 	public MaximizedTypes maximized;
 	public bool personWinHide;
@@ -39,6 +39,12 @@ public class Preferences
 	public string colorBackgroundString;
 	public bool colorBackgroundIsDark; //this is assigned when colorBackgroundString changes. And this is used by the rest of the program. Not stored on SQL.
 	public bool logoAnimatedShow;
+
+	public bool loadLastSessionAtStart;
+	public int lastSessionID;
+	public bool loadLastModeAtStart;
+	public Constants.Menuitem_modes lastMode;
+
 
 	public enum UnitsEnum { METRIC, IMPERIAL };
 	public UnitsEnum units;
@@ -229,12 +235,6 @@ public class Preferences
 	public static string GstreamerStr = "gstreamer"; //in order to ensure write correctly on SQL
 
 	public bool debugMode;
-
-	//session
-	public bool loadLastSessionAtStart;
-	public int lastSessionID;
-	public bool loadLastModeAtStart;
-	public Constants.Menuitem_modes lastMode;
 
 	/*
 	 * these are unused on SqlitePreferences.SelectAll

@@ -72,6 +72,7 @@ public class PreferencesWindow
 	[Widget] Gtk.Label label_recommended_undecorated;
 	[Widget] Gtk.DrawingArea drawingarea_background_color;
 	[Widget] Gtk.CheckButton check_logo_animated;
+	[Widget] Gtk.HBox hbox_last_session_and_mode;
 	[Widget] Gtk.CheckButton check_session_autoload_at_start;
 	[Widget] Gtk.CheckButton check_mode_autoload_at_start;
 
@@ -384,6 +385,8 @@ public class PreferencesWindow
 			PreferencesWindowBox.check_logo_animated.Active = true;
 		else
 			PreferencesWindowBox.check_logo_animated.Active = false;
+
+		PreferencesWindowBox.hbox_last_session_and_mode.Visible = ! compujump;
 
 		if(preferences.loadLastSessionAtStart)
 			PreferencesWindowBox.check_session_autoload_at_start.Active = true;

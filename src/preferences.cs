@@ -230,6 +230,12 @@ public class Preferences
 
 	public bool debugMode;
 
+	//session
+	public bool loadLastSessionAtStart;
+	public int lastSessionID;
+	public bool loadLastModeAtStart;
+	public Constants.Menuitem_modes lastMode;
+
 	/*
 	 * these are unused on SqlitePreferences.SelectAll
 	 */

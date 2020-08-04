@@ -96,6 +96,12 @@ class SqlitePreferences : Sqlite
 	//advanced
 	public const string ImporterPythonVersion = "importerPythonVersion";
 
+	//session
+	public const string LoadLastSessionAtStart = "loadLastSessionAtStart";
+	public const string LastSessionID = "lastSessionID";
+	public const string LoadLastModeAtStart = "loadLastModeAtStart";
+	public const string LastMode = "lastMode";
+
 	protected internal static new void createTable()
 	{
 		dbcmd.CommandText = 
@@ -292,7 +298,12 @@ class SqlitePreferences : Sqlite
 				Insert ("muteLogs", "False", dbcmdTr);
 				Insert (ImporterPythonVersion, Preferences.pythonVersionEnum.Python.ToString(), dbcmdTr);
 
-				
+				//session
+				Insert (LoadLastSessionAtStart, "True", dbcmdTr);
+				Insert (LastSessionID, "-1", dbcmdTr);
+				Insert (LoadLastModeAtStart, "True", dbcmdTr);
+				Insert (LastMode, Constants.Menuitem_modes.UNDEFINED.ToString(), dbcmdTr);
+
 				//removed on 1.37
 				//Insert ("encoderConfiguration", new EncoderConfiguration().ToStringOutput(EncoderConfiguration.Outputs.SQL), dbcmdTr);
 
@@ -672,6 +683,22 @@ class SqlitePreferences : Sqlite
 					Enum.Parse(typeof(Preferences.pythonVersionEnum), reader[1].ToString());
 			else if(reader[0].ToString() == "databaseVersion")
 				preferences.databaseVersion = reader[1].ToString();
+
+			//session
+			else if(reader[0].ToString() == LoadLastSessionAtStart)
+				preferences.loadLastSessionAtStart = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == LastSessionID)
+			{
+				if(Util.IsNumber(reader[1].ToString(), false))
+					preferences.lastSessionID = Convert.ToInt32(reader[1].ToString());
+				else
+					preferences.lastSessionID = -1;
+			}
+			else if(reader[0].ToString() == LoadLastModeAtStart)
+				preferences.loadLastModeAtStart = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == LastMode)
+				preferences.lastMode = (Constants.Menuitem_modes)
+					Enum.Parse(typeof(Constants.Menuitem_modes), reader[1].ToString());
 		}
 
 		reader.Close();

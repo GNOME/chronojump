@@ -744,6 +744,16 @@ public partial class ChronoJumpWindow
 		if(! showSendLog && notebook_sup.CurrentPage == Convert.ToInt32(notebook_sup_pages.START))
 			new ChronojumpLogo (drawingarea_chronojump_logo, viewport_chronojump_logo, preferences.logoAnimatedShow);
 
+		//TODO: only if not networks
+		if(preferences.loadLastSessionAtStart && preferences.lastSessionID > 0)
+		{
+			currentSession = SqliteSession.Select (preferences.lastSessionID.ToString());
+			on_load_session_accepted();
+		}
+		//TODO: only if not networks
+		if(preferences.loadLastModeAtStart && preferences.lastMode != Constants.Menuitem_modes.UNDEFINED)
+			changeMode(preferences.lastMode);
+
 		LogB.Information("Chronojump window started");
 	}
 
@@ -2514,6 +2524,8 @@ public partial class ChronoJumpWindow
 		//feedback (more in 1st session created)
 		string feedbackLoadUsers = Catalog.GetString ("Session created, now add or load persons.");
 		new DialogMessage(Constants.MessageTypes.INFO, feedbackLoadUsers);
+
+		SqlitePreferences.Update(SqlitePreferences.LastSessionID, currentSession.UniqueID.ToString(), false);
 	}
 	
 	private void on_edit_session_activate (object o, EventArgs args) 
@@ -2615,6 +2627,8 @@ public partial class ChronoJumpWindow
 			reportWin.FillTreeView();
 
 		chronojumpWindowTestsNext();
+
+		SqlitePreferences.Update(SqlitePreferences.LastSessionID, currentSession.UniqueID.ToString(), false);
 	}
 	
 	private void closeSession()
@@ -3291,6 +3305,8 @@ public partial class ChronoJumpWindow
 		showHideCaptureSpecificControls (m);
 
 		last_menuitem_mode_defined = true;
+
+		SqlitePreferences.Update(SqlitePreferences.LastMode, m.ToString(), false);
 
 		chronopicRegisterUpdate(false);
 

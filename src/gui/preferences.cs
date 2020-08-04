@@ -72,6 +72,9 @@ public class PreferencesWindow
 	[Widget] Gtk.Label label_recommended_undecorated;
 	[Widget] Gtk.DrawingArea drawingarea_background_color;
 	[Widget] Gtk.CheckButton check_logo_animated;
+	[Widget] Gtk.CheckButton check_session_autoload_at_start;
+	[Widget] Gtk.CheckButton check_mode_autoload_at_start;
+
 
 	//jumps tab	
 	[Widget] Gtk.CheckButton checkbutton_power;
@@ -381,6 +384,16 @@ public class PreferencesWindow
 			PreferencesWindowBox.check_logo_animated.Active = true;
 		else
 			PreferencesWindowBox.check_logo_animated.Active = false;
+
+		if(preferences.loadLastSessionAtStart)
+			PreferencesWindowBox.check_session_autoload_at_start.Active = true;
+		else
+			PreferencesWindowBox.check_session_autoload_at_start.Active = false;
+
+		if(preferences.loadLastModeAtStart)
+			PreferencesWindowBox.check_mode_autoload_at_start.Active = true;
+		else
+			PreferencesWindowBox.check_mode_autoload_at_start.Active = false;
 
 		//multimedia tab
 		if(preferences.volumeOn)  
@@ -1642,6 +1655,15 @@ public class PreferencesWindow
 		preferences.logoAnimatedShow = Preferences.PreferencesChange(
 				SqlitePreferences.LogoAnimatedShow, preferences.logoAnimatedShow,
 				PreferencesWindowBox.check_logo_animated.Active);
+
+		preferences.loadLastSessionAtStart = Preferences.PreferencesChange(
+				SqlitePreferences.LoadLastSessionAtStart, preferences.loadLastSessionAtStart,
+				PreferencesWindowBox.check_session_autoload_at_start.Active);
+
+		preferences.loadLastModeAtStart = Preferences.PreferencesChange(
+				SqlitePreferences.LoadLastModeAtStart, preferences.loadLastModeAtStart,
+				PreferencesWindowBox.check_mode_autoload_at_start.Active);
+
 
 		if( preferences.digitsNumber != Convert.ToInt32(UtilGtk.ComboGetActive(combo_decimals)) ) {
 			SqlitePreferences.Update("digitsNumber", UtilGtk.ComboGetActive(combo_decimals), true);

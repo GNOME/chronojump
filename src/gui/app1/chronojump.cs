@@ -744,14 +744,12 @@ public partial class ChronoJumpWindow
 		if(! showSendLog && notebook_sup.CurrentPage == Convert.ToInt32(notebook_sup_pages.START))
 			new ChronojumpLogo (drawingarea_chronojump_logo, viewport_chronojump_logo, preferences.logoAnimatedShow);
 
-		//TODO: only if not networks
-		if(preferences.loadLastSessionAtStart && preferences.lastSessionID > 0)
+		if(preferences.loadLastSessionAtStart && preferences.lastSessionID > 0 && ! configChronojump.Compujump)
 		{
 			currentSession = SqliteSession.Select (preferences.lastSessionID.ToString());
 			on_load_session_accepted();
 		}
-		//TODO: only if not networks
-		if(preferences.loadLastModeAtStart && preferences.lastMode != Constants.Menuitem_modes.UNDEFINED)
+		if(preferences.loadLastModeAtStart && preferences.lastMode != Constants.Menuitem_modes.UNDEFINED && ! configChronojump.Compujump)
 			changeMode(preferences.lastMode);
 
 		LogB.Information("Chronojump window started");
@@ -6748,7 +6746,6 @@ LogB.Debug("mc finished 5");
 
 		preferencesWin.DebugActivated();
 
-		//app1.Title += " - DEBUG MODE";
 		if(currentSession == null)
 			setApp1Title("", current_menuitem_mode);
 		else

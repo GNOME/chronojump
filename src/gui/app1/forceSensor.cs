@@ -71,7 +71,11 @@ public partial class ChronoJumpWindow
 
 	Thread forceOtherThread; //for messages on: capture, tare, calibrate
 	static string forceSensorOtherMessage = "";
-	static bool forceSensorOtherMessageShowSeconds;
+
+	enum secondsEnum { NO, ASC, DESC };
+	static secondsEnum forceSensorOtherMessageShowSeconds;
+	static int forceSensorOtherMessageShowSecondsInit; //for DESC
+
 	static DateTime forceSensorTimeStart;
 	static string lastForceSensorFile = "";
 	static string lastForceSensorFullPath = "";
@@ -360,7 +364,7 @@ public partial class ChronoJumpWindow
 
 		capturingForce = arduinoCaptureStatus.STOP;
 		forceSensorTimeStart = DateTime.Now;
-		forceSensorOtherMessageShowSeconds = true;
+		forceSensorOtherMessageShowSeconds = secondsEnum.ASC;
 
 		if(pen_black_force_capture == null)
 			force_graphs_init();
@@ -466,7 +470,7 @@ public partial class ChronoJumpWindow
 		string secondsStr = "";
 		if(forceSensorOtherMessage != "")
 		{
-			if(forceSensorOtherMessageShowSeconds)
+			if(forceSensorOtherMessageShowSeconds == secondsEnum.ASC)
 			{
 				TimeSpan ts = DateTime.Now.Subtract(forceSensorTimeStart);
 				double seconds = ts.TotalSeconds;
@@ -560,7 +564,7 @@ public partial class ChronoJumpWindow
 			preferences.UpdateForceSensorTare(Convert.ToDouble(str));
 
 		// 5 print message
-		forceSensorOtherMessageShowSeconds = false;
+		forceSensorOtherMessageShowSeconds = secondsEnum.NO;
 		forceSensorOtherMessage = "Tared!";
 	}
 
@@ -615,7 +619,7 @@ public partial class ChronoJumpWindow
 					spin_force_sensor_calibration_kg_value.Value, Convert.ToDouble(str));
 
 		// 5 print message
-		forceSensorOtherMessageShowSeconds = false;
+		forceSensorOtherMessageShowSeconds = secondsEnum.NO;
 		forceSensorOtherMessage = "Calibrated!";
 	}
 
@@ -651,7 +655,7 @@ public partial class ChronoJumpWindow
 		}
 		while(! str.Contains("Force_Sensor-"));
 
-		forceSensorOtherMessageShowSeconds = false;
+		forceSensorOtherMessageShowSeconds = secondsEnum.NO;
 		forceSensorOtherMessage = str;
 
 		/*
@@ -689,7 +693,7 @@ public partial class ChronoJumpWindow
 		}
 		while(! (str.Contains("binary") || str.Contains("text") || str.Contains("Not a valid command")) );
 
-		forceSensorOtherMessageShowSeconds = false;
+		forceSensorOtherMessageShowSeconds = secondsEnum.NO;
 		forceSensorOtherMessage = str;
 
 		return (str.Contains("binary"));
@@ -888,9 +892,9 @@ public partial class ChronoJumpWindow
 		//lastForceSensorFile to save the images
 		lastForceSensorFile = fileNamePre;
 
-
 		TextWriter writer = File.CreateText(fileName);
 		writer.WriteLine("Time (micros);Force(N)");
+
 		str = "";
 		int firstTime = 0;
 //		bool forceSensorBinary = forceSensorBinaryCapture();
@@ -1020,6 +1024,7 @@ public partial class ChronoJumpWindow
 		writer.Flush();
 		writer.Close();
 		((IDisposable)writer).Dispose();
+
 		capturingForce = arduinoCaptureStatus.STOP;
 
 		if(forceProcessCancel || forceProcessError)
@@ -1173,7 +1178,7 @@ LogB.Information(" fs E ");
 		if(forceCaptureStartMark)
 		{
 			event_execute_label_message.Text = "Capturing" +
-					" (" + Util.TrimDecimals(DateTime.Now.Subtract(forceSensorTimeStart).TotalSeconds, 0) + " s)";
+				" (" + Util.TrimDecimals(DateTime.Now.Subtract(forceSensorTimeStart).TotalSeconds, 0) + " s)";
 		}
 LogB.Information(" fs F ");
 

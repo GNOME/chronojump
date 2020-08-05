@@ -22,6 +22,7 @@ using System;
 using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
+using System.Collections.Generic; //List<T>
 using Mono.Data.Sqlite;
 
 
@@ -92,6 +93,61 @@ class SqliteJumpRj : SqliteJump
 			Sqlite.Close();
 
 		return myLast;
+	}
+
+	public static List<JumpRj> SelectJumps (bool dbconOpened, int sessionID, int personID, string filterType)
+	{
+		if(!dbconOpened)
+			Sqlite.Open();
+
+		string sep = " WHERE ";
+
+		string filterSessionString = "";
+		if(sessionID != -1)
+		{
+			filterSessionString = sep + "jumpRj.sessionID = " + sessionID;
+			if(sep == " WHERE ")
+				sep = " AND ";
+		}
+
+		string filterPersonString = "";
+		if(personID != -1)
+		{
+			filterPersonString = sep + "jumpRj.personID = " + personID;
+			if(sep == " WHERE ")
+				sep = " AND ";
+		}
+
+		string filterTypeString = "";
+		if(filterType != "")
+		{
+			filterTypeString = sep + "jumpRj.type = \"" + filterType + "\"";
+			if(sep == " WHERE ")
+				sep = " AND ";
+		}
+
+		dbcmd.CommandText = "SELECT * FROM jumpRj" +
+			filterSessionString +
+			filterPersonString +
+			filterTypeString;
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		List<JumpRj> jmpRj_l = new List<JumpRj>();
+
+		while(reader.Read())
+			jmpRj_l.Add (new JumpRj(DataReaderToStringArray(reader, 19)));
+
+		reader.Close();
+
+		if(!dbconOpened)
+			Sqlite.Close();
+
+		return jmpRj_l;
 	}
 
 	public static string[] SelectJumpsSA(bool dbconOpened, int sessionID, int personID, string filterWeight, string filterType) 

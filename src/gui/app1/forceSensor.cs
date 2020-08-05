@@ -925,27 +925,9 @@ public partial class ChronoJumpWindow
 			}
 			else {
 				str = portFS.ReadLine();
-
-				//check if there is one and only one ';'
-				if( ! (str.Contains(";") && str.IndexOf(";") == str.LastIndexOf(";")) )
+				if(! forceSensorProcessCapturedLine(str, out time, out force,
+							readTriggers, out trigger))
 					continue;
-
-				string [] strFull = str.Split(new char[] {';'});
-				//LogB.Information("str: " + str);
-
-				LogB.Information("time: " + strFull[0]);
-				if(! Util.IsNumber(Util.ChangeDecimalSeparator(strFull[0]), true))
-					continue;
-
-				if(Util.IsNumber(Util.ChangeDecimalSeparator(strFull[1]), true))
-					LogB.Information("force: " + strFull[1]);
-				else if(readTriggers)
-					trigger = strFull[1];
-				else
-					continue;
-
-				time = Convert.ToInt32(strFull[0]);
-				force = Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1]));
 			}
 
 			//measurement does not start at 0 time. When we start receiving data, mark this as firstTime
@@ -963,14 +945,14 @@ public partial class ChronoJumpWindow
 				continue;
 			}
 
-			LogB.Information(string.Format("time: {0}, force: {1}", time, force));
+			//LogB.Information(string.Format("time: {0}, force: {1}", time, force));
 			//forceCalculated have abs or inverted
 
 			double forceCalculated = ForceSensor.CalculeForceResultantIfNeeded (force, forceSensorCaptureOption,
 					currentForceSensorExercise, currentPersonSession.Weight);
 
-			if(forceSensorCaptureOption != ForceSensor.CaptureOptions.NORMAL)
-				LogB.Information(string.Format("with abs or inverted flag: time: {0}, force: {1}", time, forceCalculated));
+			//if(forceSensorCaptureOption != ForceSensor.CaptureOptions.NORMAL)
+			//	LogB.Information(string.Format("with abs or inverted flag: time: {0}, force: {1}", time, forceCalculated));
 
 			writer.WriteLine(time.ToString() + ";" + force.ToString()); //on file force is stored without flags
 
@@ -1035,6 +1017,39 @@ public partial class ChronoJumpWindow
 			lastForceSensorFullPath = fileName;
 			capturingForce = arduinoCaptureStatus.COPIED_TO_TMP;
 		}
+	}
+
+	private bool forceSensorProcessCapturedLine (string str,
+			out int time, out double force,
+			bool readTriggers, out string trigger)
+	{
+		time = 0;
+		force = 0;
+		trigger = "";
+
+		//check if there is one and only one ';'
+		if( ! (str.Contains(";") && str.IndexOf(";") == str.LastIndexOf(";")) )
+			return false;
+
+		string [] strFull = str.Split(new char[] {';'});
+		//LogB.Information("str: " + str);
+
+		//LogB.Information("time: " + strFull[0]);
+		if(! Util.IsNumber(Util.ChangeDecimalSeparator(strFull[0]), true))
+			return false;
+
+		if(Util.IsNumber(Util.ChangeDecimalSeparator(strFull[1]), true))
+		{
+			//LogB.Information("force: " + strFull[1]);
+		}
+		else if(readTriggers)
+			trigger = strFull[1];
+		else
+			return false;
+
+		time = Convert.ToInt32(strFull[0]);
+		force = Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1]));
+		return true;
 	}
 
 	private bool pulseGTKForceSensorCapture ()

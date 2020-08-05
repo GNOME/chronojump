@@ -184,7 +184,7 @@ public class ExportSession
 		myJumps= SqliteJump.SelectJumpsSA (true, mySession.UniqueID, -1, "", "",
 				Sqlite.Orders_by.DEFAULT, -1);
 
-		myJumpsRj = SqliteJumpRj.SelectJumps(true, mySession.UniqueID, -1, "", "");
+		myJumpsRj = SqliteJumpRj.SelectJumpsSA (true, mySession.UniqueID, -1, "", "");
 		myRuns= SqliteRun.SelectRunsSA (true, mySession.UniqueID, -1, "",
 				Sqlite.Orders_by.DEFAULT, -1);
 

@@ -107,7 +107,7 @@ public class Report : ExportSession
 					Sqlite.Orders_by.DEFAULT, -1);
 		}
 		if(ShowReactiveJumps) {
-			myJumpsRj = SqliteJumpRj.SelectJumps(true, sessionID, -1, "", "");
+			myJumpsRj = SqliteJumpRj.SelectJumpsSA(true, sessionID, -1, "", "");
 		}
 		if(ShowSimpleRuns) {
 			myRuns= SqliteRun.SelectRunsSA (true, sessionID, -1, "",

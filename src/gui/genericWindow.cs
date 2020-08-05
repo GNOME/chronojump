@@ -389,6 +389,12 @@ public class GenericWindow
 	public void SetSize(int width, int height) {
 		generic_window.SetDefaultSize(width, height);
 	}
+
+	//this works (but can resize lower than needed)
+	public void SetSizeRequest(int width, int height) {
+		generic_window.SetSizeRequest(width, height);
+	}
+
 	
 	public void SetTreeviewSize(int width, int height) {
 		treeview.SetSizeRequest(width, height);

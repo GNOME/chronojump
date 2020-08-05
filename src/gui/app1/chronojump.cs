@@ -715,11 +715,28 @@ public partial class ChronoJumpWindow
 
 		if(preferences.loadLastSessionAtStart && preferences.lastSessionID > 0 && ! configChronojump.Compujump)
 		{
+			// 1) to avoid impossibility to start Chronojump if there's any problem with this session, first put this to false
+			SqlitePreferences.Update(SqlitePreferences.LoadLastSessionAtStart, false, false);
+
+			// 2) load the session
 			currentSession = SqliteSession.Select (preferences.lastSessionID.ToString());
 			on_load_session_accepted();
+
+			// 3) put preference to true again
+			SqlitePreferences.Update(SqlitePreferences.LoadLastSessionAtStart, true, false);
 		}
+
 		if(preferences.loadLastModeAtStart && preferences.lastMode != Constants.Menuitem_modes.UNDEFINED && ! configChronojump.Compujump)
+		{
+			// 1) to avoid impossibility to start Chronojump if there's any problem with this mode, first put this to false
+			SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, false, false);
+
+			// 2) change mode
 			changeMode(preferences.lastMode);
+
+			// 3) put preference to true again
+			SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, true, false);
+		}
 
 		initialize_menu_or_menu_tiny();
 

@@ -38,7 +38,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_force_capture_buttons;
 	[Widget] Gtk.HBox hbox_combo_force_sensor_exercise;
 	[Widget] Gtk.ComboBox combo_force_sensor_exercise;
-	[Widget] Gtk.Button button_force_sensor_stiffness;
+	[Widget] Gtk.Frame frame_force_sensor_elastic;
+	[Widget] Gtk.Button button_stiffness_detect;
 	[Widget] Gtk.Label label_button_force_sensor_stiffness;
 	[Widget] Gtk.Image image_button_force_sensor_stiffness_problem;
 	[Widget] Gtk.ComboBox combo_force_sensor_capture_options;
@@ -74,7 +75,7 @@ public partial class ChronoJumpWindow
 
 	enum secondsEnum { NO, ASC, DESC };
 	static secondsEnum forceSensorOtherMessageShowSeconds;
-	static int forceSensorOtherMessageShowSecondsInit; //for DESC
+	static double forceSensorOtherMessageShowSecondsInit; //for DESC
 
 	static DateTime forceSensorTimeStart;
 	static string lastForceSensorFile = "";
@@ -88,6 +89,8 @@ public partial class ChronoJumpWindow
 	DateTime forceSensorTimeStartCapture;
 	private string forceSensorFirmwareVersion;
 
+	int forceSensorStiffMinCm;
+	int forceSensorStiffMaxCm;
 
 	//non GTK on this method
 
@@ -329,7 +332,7 @@ public partial class ChronoJumpWindow
 		return true;
 	}
 
-	enum forceSensorOtherModeEnum { TARE, CALIBRATE, CAPTURE_PRE, TARE_AND_CAPTURE_PRE, CHECK_VERSION }
+	enum forceSensorOtherModeEnum { TARE, CALIBRATE, CAPTURE_PRE, TARE_AND_CAPTURE_PRE, STIFFNESS_DETECT, CHECK_VERSION }
 	static forceSensorOtherModeEnum forceSensorOtherMode;
 
 	//buttons: tare, calibrate, check version and capture (via on_button_execute_test_cicked) come here
@@ -400,6 +403,13 @@ public partial class ChronoJumpWindow
 				forceOtherThread = new Thread(new ThreadStart(forceSensorCapturePre_noGTK));
 			}
 		}
+		else if (o == (object) button_stiffness_detect)
+		{
+			hbox_contacts_capture_top.Sensitive = false;
+			forceSensorButtonsSensitive(false);
+			forceSensorOtherMode = forceSensorOtherModeEnum.STIFFNESS_DETECT;
+			forceOtherThread = new Thread(new ThreadStart(forceSensorDetectStiffness));
+		}
 		else { //if (o == (object) button_check_version)
 			forceSensorButtonsSensitive(false);
 			forceSensorOtherMode = forceSensorOtherModeEnum.CHECK_VERSION;
@@ -429,6 +439,58 @@ public partial class ChronoJumpWindow
 
 		hbox_top_person.Sensitive = sensitive;
 		hbox_chronopics_and_more.Sensitive = sensitive;
+	}
+
+	private void on_button_force_sensor_stiffness_detect_clicked (object o, EventArgs args)
+	{
+		forceSensorStiffMinCm = 0;
+		forceSensorStiffMaxCm = 0;
+
+		ArrayList bigArray = new ArrayList();
+		ArrayList a1 = new ArrayList();
+		ArrayList a2 = new ArrayList();
+
+		//0 is the widgget to show; 1 is the editable; 2 id default value
+		a1.Add(Constants.GenericWindowShow.SPININT2); a1.Add(true); a1.Add("");
+		bigArray.Add(a1);
+
+		a2.Add(Constants.GenericWindowShow.SPININT3); a2.Add(true); a2.Add("");
+		bigArray.Add(a2);
+
+		genericWin = GenericWindow.Show("", true,	//show now
+				Catalog.GetString("Detect stiffness of one band/tube") + "\n\n" +
+				"Eschema of the band/tube:" + "\n" +
+				"0------------------d-----A----------B---\n\n" +
+				Catalog.GetString("Legend:") + "\n" +
+				"0-d: " + Catalog.GetString("Length without tension") + "\n" +
+				"d-A: " + Catalog.GetString("Minimum working distance") + "\n" +
+				"d-B: " + Catalog.GetString("Maximum working distance") + "\n",
+				bigArray);
+
+		genericWin.LabelSpinInt2 = "d-A (cm)";
+		genericWin.LabelSpinInt3 = "d-B (cm)";
+		genericWin.SetSpin2Range(0, 30000);
+		genericWin.SetSpin3Range(0, 30000);
+		genericWin.SetButtonAcceptLabel(Catalog.GetString("Start"));
+		//genericWin.SetSizeRequest(300, -1);
+		genericWin.Button_accept.Clicked += new EventHandler(force_sensor_stiffness_detect_start);
+	}
+	private void force_sensor_stiffness_detect_start (object o, EventArgs args)
+	{
+		genericWin.Button_accept.Clicked -= new EventHandler(force_sensor_stiffness_detect_start);
+
+		forceSensorStiffMinCm = genericWin.SpinInt2Selected;
+		forceSensorStiffMaxCm = genericWin.SpinInt3Selected;
+		genericWin.HideAndNull();
+
+		if(forceSensorStiffMinCm == forceSensorStiffMaxCm)
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, "Error: Distances cannot be the same");
+			return;
+		}
+
+		on_button_contacts_exercise_close_clicked (o, args);
+		on_buttons_force_sensor_clicked (button_stiffness_detect, new EventArgs ());
 	}
 
 	private void forceSensorPersonChanged()
@@ -476,6 +538,14 @@ public partial class ChronoJumpWindow
 				double seconds = ts.TotalSeconds;
 				secondsStr = " (" + Util.TrimDecimals(seconds, 0) + " s)";
 			}
+			else if(forceSensorOtherMessageShowSeconds == secondsEnum.DESC)
+			{
+				TimeSpan ts = DateTime.Now.Subtract(forceSensorTimeStart);
+				double seconds = forceSensorOtherMessageShowSecondsInit - ts.TotalSeconds;
+				if(seconds < 0)
+					seconds = 0;
+				secondsStr = " (" + Util.TrimDecimals(seconds, 0) + " s)";
+			}
 		}
 
 		if(forceOtherThread.IsAlive)
@@ -486,7 +556,16 @@ public partial class ChronoJumpWindow
 				event_execute_label_message.Text = forceSensorOtherMessage + secondsStr;
 			else
 			*/
-				event_execute_label_message.Text = forceSensorOtherMessage + secondsStr;
+			event_execute_label_message.Text = forceSensorOtherMessage + secondsStr;
+			event_execute_label_message.UseMarkup = true;
+
+			if(forceSensorOtherMode == forceSensorOtherModeEnum.STIFFNESS_DETECT &&
+					forceSensorValues != null)
+			{
+				label_force_sensor_value_max.Text = string.Format("{0:0.##} N", forceSensorValues.Max);
+				label_force_sensor_value_min.Text = string.Format("{0:0.##} N", forceSensorValues.Min);
+				label_force_sensor_value.Text = string.Format("{0:0.##} N", forceSensorValues.ValueLast);
+			}
 		}
 		else
 		{
@@ -498,6 +577,12 @@ public partial class ChronoJumpWindow
 			{
 				hbox_force_sensor_adjust_actions.Sensitive = true;
 				return false;
+			}
+			else if(forceSensorOtherMode == forceSensorOtherModeEnum.STIFFNESS_DETECT)
+			{
+				forceSensorButtonsSensitive(true);
+				hbox_contacts_capture_top.Sensitive = true;
+				event_execute_label_message.Text = forceSensorOtherMessage;
 			}
 			else if(forceSensorOtherMode == forceSensorOtherModeEnum.CHECK_VERSION)
 			{
@@ -672,6 +757,118 @@ public partial class ChronoJumpWindow
 			return str = match.Value;
 		else
 			return "0.3"; //if there is a problem default to 0.3
+	}
+
+	//Attention: no GTK here!!
+	private void forceSensorDetectStiffness()
+	{
+		// 0 connect if needed
+		if(! portFSOpened)
+			if(! forceSensorConnect())
+				return;
+
+		forceSensorOtherMessageShowSeconds = secondsEnum.NO;
+
+		double forceAtMin = forceSensorDetectStiffnessDo (forceSensorStiffMinCm, "A");
+		//LogB.Information("forceAtMin: " + forceAtMin.ToString());
+		if(forceAtMin < 0)
+		{
+			forceSensorOtherMessage = "Error. Force is lower than 0.";
+			return;
+		}
+
+		double forceAtMax = forceSensorDetectStiffnessDo (forceSensorStiffMaxCm, "B");
+		//LogB.Information("forceAtMax: " + forceAtMax.ToString());
+		if(forceAtMax < 0)
+		{
+			forceSensorOtherMessage = "Error. Force is lower than 0.";
+			return;
+		}
+		if(forceAtMin >= forceAtMax)
+		{
+			forceSensorOtherMessage = "Error. Force in second situation has to be higher.";
+			return;
+		}
+
+		forceSensorOtherMessage = string.Format("Stiffness: {0} N/m", Math.Round(
+					(forceAtMax-forceAtMin)/(forceSensorStiffMaxCm-forceSensorStiffMinCm), 3));
+	}
+	//Attention: no GTK here!!
+	private double forceSensorDetectStiffnessDo (int distanceCm, string letter)
+	{
+		// 1 send tare command
+		if(! forceSensorSendCommand("start_capture:", "Preparing capture...", "Catched force capturing"))
+			return -1;
+
+		// 2 read confirmation data
+		string str = "";
+		do {
+			Thread.Sleep(100); //sleep to let arduino start reading
+			try {
+				str = portFS.ReadLine();
+			} catch {
+				forceSensorOtherMessage = "Disconnected";
+				return -1;
+			}
+			LogB.Information("init string: " + str);
+		}
+		while(! str.Contains("Starting capture"));
+
+		//forceSensorOtherMessage = string.Format("Please elongate the band/tube to {0} cm from its length without tension. You have 10 seconds.", distanceCm);
+		forceSensorOtherMessage = string.Format("0-------d---A---B--\t\tElongate to <b>{0}</b> \t(d-{0} = {1} cm). \t", letter, distanceCm);
+
+		forceSensorOtherMessageShowSecondsInit = 10.999;
+		forceSensorOtherMessageShowSeconds = secondsEnum.DESC;
+
+		forceSensorValues = new ForceSensorValues();
+		label_force_sensor_value_max.Text = "0 N";
+		label_force_sensor_value.Text = "0 N";
+		label_force_sensor_value_min.Text = "0 N";
+
+		int count = 0;
+		do {
+			str = portFS.ReadLine();
+
+			int time;
+			double force;
+			string trigger;
+			if(! forceSensorProcessCapturedLine(str, out time, out force,
+						false, out trigger))
+				continue;
+
+			forceSensorValues.TimeLast = time;
+			forceSensorValues.ValueLast = force;
+			forceSensorValues.SetMaxMinIfNeeded(force, time);
+
+			count ++;
+		} while (forceSensorValues.TimeLast < 10000000 && count < 1000);
+		//if there is a problem on getting time, it will end at 1000 count
+
+		forceSensorOtherMessageShowSeconds = secondsEnum.NO;
+		LogB.Information("timeLast: " + forceSensorValues.TimeLast.ToString());
+
+		LogB.Information("Calling end_capture");
+		if(! forceSensorSendCommand("end_capture:", "Ending capture ...", "Catched ending capture"))
+			return -1;
+
+		LogB.Information("Waiting end_capture");
+		do {
+			Thread.Sleep(10);
+			try {
+				str = portFS.ReadLine();
+			} catch {
+				LogB.Information("Catched waiting end_capture feedback");
+			}
+			LogB.Information("waiting \"Capture ended\" string: " + str);
+		}
+		while(! str.Contains("Capture ended"));
+		LogB.Information("Success: received end_capture");
+
+		// 5 print message
+		forceSensorOtherMessageShowSeconds = secondsEnum.NO;
+		forceSensorOtherMessage = string.Format("max force detected: {0}", forceSensorValues.Max);
+
+		return(forceSensorValues.Max);
 	}
 
 	//Attention: no GTK here!!
@@ -1573,7 +1770,7 @@ LogB.Information(" fs R ");
 		if(currentForceSensorExercise.ComputeAsElastic)
 		{
 			setStiffnessButtonLabel(fs.Stiffness);
-			button_force_sensor_stiffness.Visible = true;
+			frame_force_sensor_elastic.Visible = true;
 			changeTestImage("", "", "FORCESENSOR_ELASTIC");
 
 			// stiffness 2: update elastic bands table
@@ -1591,7 +1788,7 @@ LogB.Information(" fs R ");
 		} else
 		{
 			label_button_force_sensor_stiffness.Text = "0";
-			button_force_sensor_stiffness.Visible = false;
+			frame_force_sensor_elastic.Visible = false;
 			changeTestImage("", "", "FORCESENSOR_NOT_ELASTIC");
 		}
 
@@ -2388,7 +2585,7 @@ LogB.Information(" fs R ");
 			label_button_force_sensor_stiffness.Text = "0";
 			image_button_force_sensor_stiffness_problem.Visible = true;
 
-			button_force_sensor_stiffness.Visible = false;
+			frame_force_sensor_elastic.Visible = false;
 			changeTestImage("", "", "FORCESENSOR_NOT_ELASTIC");
 
 			combo_force_sensor_button_sensitive_exercise(false);
@@ -2402,11 +2599,11 @@ LogB.Information(" fs R ");
 			double stiffness = ForceSensorElasticBand.GetStiffnessOfActiveBands(list_fseb);
 
 			setStiffnessButtonLabel(stiffness);
-			button_force_sensor_stiffness.Visible = true;
+			frame_force_sensor_elastic.Visible = true;
 			changeTestImage("", "", "FORCESENSOR_ELASTIC");
 		} else {
 			label_button_force_sensor_stiffness.Text = "0";
-			button_force_sensor_stiffness.Visible = false;
+			frame_force_sensor_elastic.Visible = false;
 			changeTestImage("", "", "FORCESENSOR_NOT_ELASTIC");
 			image_button_force_sensor_stiffness_problem.Visible = false;
 		}

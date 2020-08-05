@@ -59,6 +59,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_start_selector_show_less;
 	[Widget] Gtk.Notebook notebook_sup;
 	[Widget] Gtk.HBox hbox_other;
+	[Widget] Gtk.HBox hbox_contacts_capture_top;
 	[Widget] Gtk.Notebook notebook_capture_analyze; //not encoder
 	[Widget] Gtk.Notebook notebook_contacts_execute_or_instructions;
 	[Widget] Gtk.Notebook notebook_analyze; //not encoder
@@ -6570,7 +6571,7 @@ LogB.Debug("mc finished 5");
 			notebook_options_top.CurrentPage = 4; //but at FORCESENSOR this notebook is not shown until adjust button is clicked
 			notebook_results.CurrentPage = 4;
 
-			if(button_force_sensor_stiffness.Visible)
+			if(frame_force_sensor_elastic.Visible)
 				changeTestImage("", "", "FORCESENSOR_ELASTIC");
 			else
 				changeTestImage("", "", "FORCESENSOR_NOT_ELASTIC");

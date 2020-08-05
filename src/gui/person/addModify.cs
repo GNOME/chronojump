@@ -1084,7 +1084,7 @@ public class PersonAddModifyWindow
 				//see if this person has done jumps with weight
 				string [] myJumpsNormal = SqliteJump.SelectJumpsSA (false, currentSession.UniqueID, currentPerson.UniqueID, "withWeight", "",
 						Sqlite.Orders_by.DEFAULT, -1);
-				string [] myJumpsReactive = SqliteJumpRj.SelectJumps(false, currentSession.UniqueID, currentPerson.UniqueID, "withWeight", "");
+				string [] myJumpsReactive = SqliteJumpRj.SelectJumpsSA (false, currentSession.UniqueID, currentPerson.UniqueID, "withWeight", "");
 
 				if(myJumpsNormal.Length > 0 || myJumpsReactive.Length > 0) {
 					//create the convertWeight Window

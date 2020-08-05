@@ -1429,7 +1429,7 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		string [] myJumps = SqliteJumpRj.SelectJumps(dbconOpened, currentSession.UniqueID, -1, "", "");
+		string [] myJumps = SqliteJumpRj.SelectJumpsSA (dbconOpened, currentSession.UniqueID, -1, "", "");
 		myTreeViewJumpsRj.Fill(myJumps, filter);
 
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewJumpsRj, treeview_jumps_rj);

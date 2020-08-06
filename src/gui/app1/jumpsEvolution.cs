@@ -112,7 +112,7 @@ public partial class ChronoJumpWindow
 	}
 	private void on_drawingarea_jumps_evolution_expose_event (object o, ExposeEventArgs args) 
 	{
-		//needed to have mouse clicks at: on_drawingarea_jumps_weight_fv_profile_button_press_event ()
+		//needed to have mouse clicks at: on_drawingarea_jumps_evolution_button_press_event ()
 		drawingarea_jumps_evolution.AddEvents((int) (Gdk.EventMask.ButtonPressMask | Gdk.EventMask.ButtonReleaseMask));
 
 		jumpsEvolutionDo(false); //do not calculate data

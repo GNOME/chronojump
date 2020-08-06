@@ -70,7 +70,7 @@ public class JumpsRjFatigueGraph : CairoXY
 		paintAxisAndGrid(gridTypes.HORIZONTALLINES);
 
 		plotPredictedLine(predictedLineTypes.STRAIGHT, predictedLineCrossMargins.TOUCH);
-		plotRealPoints();
+		plotRealPoints(true);
 
 		writeTitle();
 

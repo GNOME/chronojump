@@ -359,15 +359,30 @@ public abstract class CairoXY
 		g.Stroke ();
 	}
 
-	protected void plotRealPoints()
+	protected void plotRealPoints(bool joinByLine)
 	{
+		if(joinByLine) //draw line first to not overlap the points
+		{
+			bool firstDone = false;
+			foreach(PointF p in point_l)
+			{
+				double xgraph = calculatePaintX(p.X);
+				double ygraph = calculatePaintY(p.Y);
+
+				if(! firstDone)
+				{
+					g.MoveTo(xgraph, ygraph);
+					firstDone = true;
+				} else
+					g.LineTo(xgraph, ygraph);
+			}
+			g.Stroke ();
+		}
+
 		foreach(PointF p in point_l)
 		{
-			LogB.Information(string.Format("point: {0}", p));
 			double xgraph = calculatePaintX(p.X);
 			double ygraph = calculatePaintY(p.Y);
-			LogB.Information(string.Format("{0}, {1}", xgraph, ygraph));
-			g.MoveTo(xgraph+6, ygraph);
 			g.Arc(xgraph, ygraph, 6.0, 0.0, 2.0 * Math.PI); //full circle
 			g.Color = blue;
 			g.FillPreserve();
@@ -379,13 +394,8 @@ public abstract class CairoXY
 			printText(xgraph, graphHeight - Convert.ToInt32(bottomMargin/2), 0, textHeight, Util.TrimDecimals(p.X, 2), g, true);
 			printText(Convert.ToInt32(leftMargin/2), ygraph, 0, textHeight, Util.TrimDecimals(p.Y, 2), g, true);
 			*/
-
-			LogB.Information(string.Format("xgraph: {0} corresponds to x real point: {1}", xgraph,
-						calculateRealX(xgraph)));
-			LogB.Information(string.Format("ygraph: {0} corresponds to y real point: {1}", ygraph,
-						calculateRealY(ygraph)));
 		}
-		getMinMaxXDrawable(graphWidth, absoluteMaxX, minX, totalMargins, totalMargins);
+		//getMinMaxXDrawable(graphWidth, absoluteMaxX, minX, totalMargins, totalMargins);
 	}
 
 	protected void plotPredictedMaxPoint()
@@ -686,6 +696,7 @@ public abstract class CairoXY
 		writeCoordinatesOfMouseClick(graphX, graphY, calculateRealX(graphX), calculateRealY(graphY));
 	}
 
+	/*
 	private void getMinMaxXDrawable(int ancho, double maxValue, double minValue, int rightMargin, int leftMargin)
 	{
 		LogB.Information(string.Format("Real points fitting on graph margins:  {0} , {1}",
@@ -693,6 +704,7 @@ public abstract class CairoXY
 					calculateRealX(graphWidth - totalMargins)
 					));
 	}
+	*/
 
 	protected Cairo.Color colorFromRGB(int red, int green, int blue)
 	{

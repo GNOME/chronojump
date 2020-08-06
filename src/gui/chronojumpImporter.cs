@@ -166,6 +166,7 @@ public partial class ChronoJumpWindow
 			createComboSelectJumpsDjOptimalFall(false);
 			createComboSelectJumpsWeightFVProfile(false);
 			createComboSelectJumpsEvolution(false);
+			createComboSelectJumpsRjFatigue(false);
 
 			//2) reactive jump
 			createComboSelectJumpsRj(false);

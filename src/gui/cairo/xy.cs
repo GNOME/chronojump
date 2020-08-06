@@ -574,6 +574,34 @@ public abstract class CairoXY
 		g.Restore();
 	}
 
+	//for a grid of integers
+	protected void paintGridInt (double minX, double maxX, double minY, double maxY, int by, gridTypes gridType)
+	{
+		g.Save();
+		g.SetDash(new double[]{1, 2}, 0);
+		if(gridType != gridTypes.HORIZONTALLINES)
+			for(double i = Math.Floor(minX); i <= Math.Ceiling(maxX) ; i += by)
+			{
+				int xtemp = Convert.ToInt32(calculatePaintX(i));
+				if(xtemp <= outerMargins || xtemp >= graphWidth - outerMargins)
+					continue;
+
+				paintVerticalGridLine(xtemp, Util.TrimDecimals(i, 2));
+			}
+
+		if(gridType != gridTypes.VERTICALLINES)
+			for(double i = Math.Floor(minX); i <= Math.Ceiling(maxY) ; i += by)
+			{
+				int ytemp = Convert.ToInt32(calculatePaintY(i));
+				if(ytemp <= outerMargins || ytemp >= graphHeight - outerMargins)
+					continue;
+
+				paintHorizontalGridLine(ytemp, Util.TrimDecimals(i, 2));
+			}
+		g.Stroke ();
+		g.Restore();
+	}
+
 	protected void paintHorizontalGridLine(int ytemp, string text)
 	{
 		g.MoveTo(outerMargins, ytemp);

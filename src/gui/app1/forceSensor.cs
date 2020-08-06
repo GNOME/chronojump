@@ -814,8 +814,8 @@ public partial class ChronoJumpWindow
 		}
 		while(! str.Contains("Starting capture"));
 
-		//forceSensorOtherMessage = string.Format("Please elongate the band/tube to {0} cm from its length without tension. You have 10 seconds.", distanceCm);
-		forceSensorOtherMessage = string.Format("0-------d---A---B--\t\tElongate to <b>{0}</b> \t(d-{0} = {1} cm). \t", letter, distanceCm);
+		//forceSensorOtherMessage = string.Format("Please pull the band/tube to {0} cm from its length without tension. You have 10 seconds.", distanceCm);
+		forceSensorOtherMessage = string.Format("0-------d---A---B--\t\tPull to <b>{0}</b> \t(d-{0} = {1} cm). \t", letter, distanceCm);
 
 		forceSensorOtherMessageShowSecondsInit = 10.999;
 		forceSensorOtherMessageShowSeconds = secondsEnum.DESC;

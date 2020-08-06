@@ -71,7 +71,7 @@ public class JumpsEvolutionGraph : CairoXY
 		paintGridDatetime();
 
 		plotPredictedLine(predictedLineTypes.STRAIGHT, predictedLineCrossMargins.TOUCH);
-		plotRealPoints();
+		plotRealPoints(false);
 
 		writeTitle();
 

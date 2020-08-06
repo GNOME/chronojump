@@ -259,12 +259,15 @@ public abstract class CairoXY
 		}
 	}
 
-	protected void paintAxisAndGrid(gridTypes gridType)
+	protected void paintAxisAndGrid(gridTypes gridType, bool niceAutoValues)
 	{
 		g.LineWidth = 1; //to allow to be shown the red arrows on jumpsWeightFVProfile
 
 		//1 paint grid
-		paintGrid (minX, absoluteMaxX, minY, absoluteMaxY, 5, gridType);
+		if(niceAutoValues)
+			paintGridNiceAutoValues (minX, absoluteMaxX, minY, absoluteMaxY, 5, gridType);
+		else
+			paintGridInt (minX, absoluteMaxX, minY, absoluteMaxY, 1, gridType);
 
 		//2 paint axis (to show axis on overlap)
 		g.MoveTo(outerMargins, outerMargins);
@@ -544,7 +547,7 @@ public abstract class CairoXY
 
 	//TODO: fix if min == max (crashes)
 	protected enum gridTypes { BOTH, HORIZONTALLINES, VERTICALLINES }
-	protected void paintGrid (double minX, double maxX, double minY, double maxY, int seps, gridTypes gridType)
+	protected void paintGridNiceAutoValues (double minX, double maxX, double minY, double maxY, int seps, gridTypes gridType)
 	{
 		var gridXTuple = getGridStepAndBoundaries ((decimal) minX, (decimal) maxX, seps);
 		var gridYTuple = getGridStepAndBoundaries ((decimal) minY, (decimal) maxY, seps);

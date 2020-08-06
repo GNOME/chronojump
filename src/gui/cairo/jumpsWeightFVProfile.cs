@@ -132,7 +132,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 			findPointMaximums(false);
 
 		//findAbsoluteMaximums();
-		paintAxisAndGrid(gridTypes.BOTH);
+		paintAxisAndGrid(gridTypes.BOTH, true);
 
 		if(showFullGraph)
 			plotPredictedLine(predictedLineTypes.STRAIGHT, predictedLineCrossMargins.CROSS);

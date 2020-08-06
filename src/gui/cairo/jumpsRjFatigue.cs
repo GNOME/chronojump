@@ -67,7 +67,8 @@ public class JumpsRjFatigueGraph : CairoXY
 
                 findPointMaximums(false);
                 //findAbsoluteMaximums();
-		paintAxisAndGrid(gridTypes.HORIZONTALLINES);
+		paintAxisAndGrid(gridTypes.HORIZONTALLINES, true);
+		paintAxisAndGrid(gridTypes.VERTICALLINES, false);
 
 		plotPredictedLine(predictedLineTypes.STRAIGHT, predictedLineCrossMargins.TOUCH);
 		plotRealPoints(true);

@@ -265,15 +265,22 @@ public class JumpRj : Jump
 		set { tvString = value; }
 	}
 
-	public List<double> TvList
+	public List<double> TvTcList
 	{
 		get {
 			List<double> l = new List<double>();
-			string [] strFull = TvString.Split(new char[] {'='});
-			foreach(string str in strFull)
+			string [] tvFull = TvString.Split(new char[] {'='});
+			string [] tcFull = TcString.Split(new char[] {'='});
+			if(tvFull.Length != tcFull.Length)
+				return l;
+
+			for(int i = 0; i < tvFull.Length ; i ++)
 			{
-				if(Util.IsNumber(Util.ChangeDecimalSeparator(str), true))
-					l.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(str)));
+				if( Util.IsNumber(Util.ChangeDecimalSeparator(tvFull[i]), true) &&
+					Util.IsNumber(Util.ChangeDecimalSeparator(tcFull[i]), true) )
+					l.Add(
+							Convert.ToDouble(Util.ChangeDecimalSeparator(tvFull[i])) /
+							Convert.ToDouble(Util.ChangeDecimalSeparator(tcFull[i])) );
 			}
 			return l;
 		}

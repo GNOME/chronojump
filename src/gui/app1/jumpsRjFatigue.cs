@@ -34,6 +34,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_jumps_rj_fatigue_image_save;
 	[Widget] Gtk.HBox hbox_combo_select_jumps_rj_fatigue;
 	[Widget] Gtk.ComboBox combo_select_jumps_rj_fatigue;
+	[Widget] Gtk.RadioButton radio_jumps_rj_fatigue_heights;
+	[Widget] Gtk.RadioButton radio_jumps_rj_fatigue_tv_tc;
 
 	JumpsRjFatigue jumpsRjFatigue;
 	JumpsRjFatigueGraph jumpsRjFatigueGraph;
@@ -77,6 +79,17 @@ public partial class ChronoJumpWindow
 	}
 	// combo (end)
 
+	private void on_radio_jumps_rj_fatigue_heights_toggled (object o, EventArgs args)
+	{
+		if(radio_jumps_rj_fatigue_heights.Active)
+			jumpsRjFatigueDo(true);
+	}
+	private void on_radio_jumps_rj_fatigue_tv_tc_toggled (object o, EventArgs args)
+	{
+		if(radio_jumps_rj_fatigue_tv_tc.Active)
+			jumpsRjFatigueDo(true);
+	}
+
 	private void jumpsRjFatigueDo (bool calculateData)
 	{
 		if(currentPerson == null || currentSession == null ||
@@ -95,7 +108,8 @@ public partial class ChronoJumpWindow
 		string jumpType = "";
 
 		if(calculateData)
-			jumpsRjFatigue.Calculate(currentSession.UniqueID, currentPerson.UniqueID, jumpType);
+			jumpsRjFatigue.Calculate(currentSession.UniqueID, currentPerson.UniqueID,
+					jumpType, radio_jumps_rj_fatigue_heights.Active);
 
 		if(jumpsRjFatigue.Point_l.Count == 0)
 		{

@@ -33,7 +33,7 @@ public class JumpsRjFatigue
 	{
 	}
 	
-	public void Calculate (int sessionID, int personID, string jumpType)
+	public void Calculate (int sessionID, int personID, string jumpType, bool useHeights)
 	{
 		//1 get data
                 List<JumpRj> jrj_l = SqliteJumpRj.SelectJumps (false, sessionID, personID, jumpType);
@@ -43,7 +43,12 @@ public class JumpsRjFatigue
 		int currentSession = -1;
                 foreach(JumpRj j in jrj_l)
 		{
-                	List<double> y_l = j.HeightList;
+			List<double> y_l;
+			if(useHeights)
+				y_l = j.HeightList;
+			else
+				y_l = j.TvTcList;
+
                 	for(int i = 0; i < y_l.Count ; i ++)
 				point_l.Add(new PointF(
 							i+1,

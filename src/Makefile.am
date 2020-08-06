@@ -36,6 +36,7 @@ SOURCES = \
 	gui/cairo/jumpsDjOptimalFall.cs\
 	gui/cairo/jumpsEvolution.cs\
 	gui/cairo/jumpsProfile.cs\
+	gui/cairo/jumpsRjFatigue.cs\
 	gui/cairo/jumpsWeightFVProfile.cs\
 	gui/cairo/util.cs\
 	gui/cairo/xy.cs\
@@ -203,6 +204,7 @@ SOURCES = \
 	jumpsProfile.cs\
 	jumpsDjOptimalFall.cs\
 	jumpsEvolution.cs\
+	jumpsRjFatigue.cs\
 	jumpsWeightFVProfile.cs\
 	jumpType.cs\
 	networks.cs\

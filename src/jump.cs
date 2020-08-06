@@ -264,7 +264,35 @@ public class JumpRj : Jump
 		get { return tvString; }
 		set { tvString = value; }
 	}
-		
+
+	public List<double> TvList
+	{
+		get {
+			List<double> l = new List<double>();
+			string [] strFull = TvString.Split(new char[] {'='});
+			foreach(string str in strFull)
+			{
+				if(Util.IsNumber(Util.ChangeDecimalSeparator(str), true))
+					l.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(str)));
+			}
+			return l;
+		}
+	}
+
+	public List<double> HeightList
+	{
+		get {
+			List<double> l = new List<double>();
+			string [] strFull = TvString.Split(new char[] {'='});
+			foreach(string str in strFull)
+			{
+				if(Util.IsNumber(Util.ChangeDecimalSeparator(str), true))
+					l.Add(Util.GetHeightInCentimeters(Convert.ToDouble(Util.ChangeDecimalSeparator(str))));
+			}
+			return l;
+		}
+	}
+
 	public string TcString
 	{
 		get { return tcString; }

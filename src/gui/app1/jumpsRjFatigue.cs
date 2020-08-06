@@ -41,20 +41,6 @@ public partial class ChronoJumpWindow
 	JumpsRjFatigueGraph jumpsRjFatigueGraph;
 	CjComboSelectJumpsRj comboSelectJumpsRjFatigue;
 
-	/* OLD, first test
-	private void on_jumps_rj_analyze_fatigue_clicked (object o, EventArgs args)
-	{
-		if(currentPerson == null || currentSession == null)
-			return;
-
-		List<JumpRj> l = SqliteJumpRj.SelectJumps(false, currentSession.UniqueID, currentPerson.UniqueID, "");
-
-		LogB.Information("printing list of jumps...");
-		foreach(JumpRj jrj in l)
-			LogB.Information(jrj.ToString());
-	}
-	*/
-
 	// combo (start)
 	private void createComboSelectJumpsRjFatigue(bool create)
 	{
@@ -104,8 +90,7 @@ public partial class ChronoJumpWindow
 			calculateData = true;
 		}
 
-//		string jumpType = comboSelectJumpsRjFatigue.GetSelectedNameEnglish();
-		string jumpType = "";
+		string jumpType = comboSelectJumpsRjFatigue.GetSelectedNameEnglish();
 
 		if(calculateData)
 			jumpsRjFatigue.Calculate(currentSession.UniqueID, currentPerson.UniqueID,

@@ -612,6 +612,7 @@ public partial class ChronoJumpWindow
 		createComboSelectJumpsWeightFVProfile(true);
 		createComboSelectJumpsEvolution(true);
 		createComboSelectJumpsRj(true);
+		createComboSelectJumpsRjFatigue(true);
 		createComboSelectRuns(true);
 		createComboSelectRunsInterval(true);
 		
@@ -6223,6 +6224,7 @@ LogB.Debug("mc finished 5");
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added simple jump type."));
 		} else {
 			createComboSelectJumpsRj(false);
+			createComboSelectJumpsRjFatigue(false);
 			
 			UtilGtk.ComboUpdate(combo_result_jumps_rj, 
 					SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsNameStr(), true), ""); //without filter, only select name

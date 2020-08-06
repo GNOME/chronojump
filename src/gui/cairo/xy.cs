@@ -274,6 +274,7 @@ public abstract class CairoXY
 		printText(2, Convert.ToInt32(outerMargins/2), 0, textHeight, getYAxisLabel(), g, false);
 		printText(graphWidth - Convert.ToInt32(outerMargins/2), graphHeight - outerMargins, 0, textHeight, getXAxisLabel(), g, false);
 
+		g.Stroke ();
 		g.LineWidth = 2;
 	}
 

@@ -957,6 +957,7 @@ public class EncoderSQL
 	//used on encoder table
 	public enum Eccons { ALL, ecS, ceS, c } 
 
+	//for new code on other parts, use static method: UtilDate.GetDatetimePrint (DateTime dt)
 	public string GetDatetimeStr (bool pretty)
 	{
 		int pointPos = filename.LastIndexOf('.');

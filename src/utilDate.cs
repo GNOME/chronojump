@@ -52,6 +52,17 @@ public class UtilDate
 			UtilAll.DigitsCreate(dt.Second,2);
 	}
 
+	//returns YYYY-MM-DD hh:mm:ss
+	public static string GetDatetimePrint (DateTime dt)
+	{
+		return UtilAll.DigitsCreate(dt.Year,4) + "-" +
+			UtilAll.DigitsCreate(dt.Month,2) + "-" +
+			UtilAll.DigitsCreate(dt.Day,2) + " " +
+			UtilAll.DigitsCreate(dt.Hour,2) + ":" +
+			UtilAll.DigitsCreate(dt.Minute,2) + ":" +
+			UtilAll.DigitsCreate(dt.Second,2);
+	}
+
 	//records date & time, useful to backup database without having strange chars on filename
 	//used also on SQL when time wants to be stored also
 	public static DateTime FromFile (string s)

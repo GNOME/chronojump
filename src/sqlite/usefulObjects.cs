@@ -120,6 +120,13 @@ public class SelectTypes
 	public SelectTypes()
 	{
 	}
+
+	public SelectTypes(int id, string nameEnglish, string nameTranslated)
+	{
+		this.Id = id;
+		this.NameEnglish = nameEnglish;
+		this.NameTranslated = nameTranslated;
+	}
 }
 
 public class SelectJumpTypes : SelectTypes

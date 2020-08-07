@@ -613,6 +613,7 @@ public partial class ChronoJumpWindow
 		createComboSelectJumpsEvolution(true);
 		createComboSelectJumpsRj(true);
 		createComboSelectJumpsRjFatigue(true);
+		createComboSelectJumpsRjFatigueNum(true);
 		createComboSelectRuns(true);
 		createComboSelectRunsInterval(true);
 		
@@ -1215,7 +1216,7 @@ public partial class ChronoJumpWindow
 					(currentJumpRjType.HasWeight && extra_window_jumps_rj_radiobutton_weight.Active));
 
 			if(notebook_analyze.CurrentPage == Convert.ToInt32(notebook_analyze_pages.JUMPSRJFATIGUE))
-				jumpsRjFatigueDo(true); //calculate data
+				createComboSelectJumpsRjFatigue (false);
 		}
 		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSSIMPLE)
 			updateGraphRunsSimple();
@@ -6225,6 +6226,7 @@ LogB.Debug("mc finished 5");
 		} else {
 			createComboSelectJumpsRj(false);
 			createComboSelectJumpsRjFatigue(false);
+			//createComboSelectJumpsRjFatigueNum(false); do not need because will be updated by createComboSelectJumpsRjFatigue
 			
 			UtilGtk.ComboUpdate(combo_result_jumps_rj, 
 					SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsNameStr(), true), ""); //without filter, only select name
@@ -7076,7 +7078,7 @@ LogB.Debug("mc finished 5");
 				if(radio_mode_contacts_jumps_rj_fatigue.Active)
 				{
 					notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.JUMPSRJFATIGUE);
-					jumpsRjFatigueDo(true); //calculate data
+					createComboSelectJumpsRjFatigue (false);
 				}
 			}
 		}
@@ -7132,7 +7134,7 @@ LogB.Debug("mc finished 5");
 		if(radio_mode_contacts_jumps_rj_fatigue.Active)
 		{
 			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.JUMPSRJFATIGUE);
-			jumpsRjFatigueDo(true);
+			createComboSelectJumpsRjFatigue (false);
 		}
 	}
 	private void on_radio_mode_contacts_sprint_toggled (object o, EventArgs args)

@@ -32,17 +32,23 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_jumps_rj_fatigue_save_image;
 	[Widget] Gtk.Image image_jumps_rj_fatigue_save;
 	[Widget] Gtk.Image image_jumps_rj_fatigue_image_save;
+
 	[Widget] Gtk.HBox hbox_combo_select_jumps_rj_fatigue;
 	[Widget] Gtk.ComboBox combo_select_jumps_rj_fatigue;
+
+	[Widget] Gtk.HBox hbox_combo_select_jumps_rj_fatigue_num;
+	[Widget] Gtk.ComboBox combo_select_jumps_rj_fatigue_num;
+
 	[Widget] Gtk.RadioButton radio_jumps_rj_fatigue_heights;
 	[Widget] Gtk.RadioButton radio_jumps_rj_fatigue_tv_tc;
 
 	JumpsRjFatigue jumpsRjFatigue;
 	JumpsRjFatigueGraph jumpsRjFatigueGraph;
 	CjComboSelectJumpsRj comboSelectJumpsRjFatigue;
+	CjComboGeneric comboSelectJumpsRjFatigueNum; //it has num and date
 
-	// combo (start)
-	private void createComboSelectJumpsRjFatigue(bool create)
+	// combo comboSelectJumpsRjFatigue (start)
+	private void createComboSelectJumpsRjFatigue (bool create)
 	{
 		if(create)
 		{
@@ -55,7 +61,35 @@ public partial class ChronoJumpWindow
 		}
 		combo_select_jumps_rj_fatigue.Sensitive = true;
 	}
-	private void on_combo_select_jumps_rj_fatigue_changed(object o, EventArgs args)
+	private void on_combo_select_jumps_rj_fatigue_changed (object o, EventArgs args)
+	{
+		ComboBox combo = o as ComboBox;
+		if (o == null)
+			return;
+
+		//Update the combo with hidden jumpRj uniqueID, viewed and num, datetime
+		createComboSelectJumpsRjFatigueNum (false);
+	}
+	// combo comboSelectJumpsRjFatigue (end)
+
+	// combo comboSelectJumpsRjFatigueNum (start)
+	private void createComboSelectJumpsRjFatigueNum (bool create)
+	{
+		if(create)
+		{
+			comboSelectJumpsRjFatigueNum = new CjComboGeneric (
+					combo_select_jumps_rj_fatigue_num, hbox_combo_select_jumps_rj_fatigue_num);
+			combo_select_jumps_rj_fatigue_num = comboSelectJumpsRjFatigueNum.Combo;
+			combo_select_jumps_rj_fatigue_num.Changed += new EventHandler (
+					on_combo_select_jumps_rj_fatigue_num_changed);
+		} else {
+			comboSelectJumpsRjFatigueNum.L_types = jumpsRjFatigueSelectJumpsOfType ();
+			comboSelectJumpsRjFatigueNum.Fill();
+			combo_select_jumps_rj_fatigue_num = comboSelectJumpsRjFatigueNum.Combo;
+		}
+		combo_select_jumps_rj_fatigue_num.Sensitive = true;
+	}
+	private void on_combo_select_jumps_rj_fatigue_num_changed (object o, EventArgs args)
 	{
 		ComboBox combo = o as ComboBox;
 		if (o == null)
@@ -63,7 +97,8 @@ public partial class ChronoJumpWindow
 
 		jumpsRjFatigueDo(true);
 	}
-	// combo (end)
+
+	// combo comboSelectJumpsRjFatigueNum (end)
 
 	private void on_radio_jumps_rj_fatigue_heights_toggled (object o, EventArgs args)
 	{
@@ -76,10 +111,32 @@ public partial class ChronoJumpWindow
 			jumpsRjFatigueDo(true);
 	}
 
+	private List<object> jumpsRjFatigueSelectJumpsOfType ()
+	{
+		List<object> types = new List<object>();
+		if(currentPerson == null || currentSession == null ||
+				comboSelectJumpsRjFatigue == null && comboSelectJumpsRjFatigue.Count == 0)
+			return types;
+
+		List <JumpRj> jrj_l = SqliteJumpRj.SelectJumps (false, currentSession.UniqueID, currentPerson.UniqueID,
+				comboSelectJumpsRjFatigue.GetSelectedNameEnglish());
+
+		int count = 1;
+		foreach(JumpRj jrj in jrj_l)
+		{
+			string name = string.Format("{0} {1}", count++,
+					UtilDate.GetDatetimePrint (UtilDate.FromFile(jrj.Datetime)));
+			types.Add(new SelectTypes(jrj.UniqueID, name, name)); //is not translated
+		}
+
+		return types;
+	}
+
 	private void jumpsRjFatigueDo (bool calculateData)
 	{
 		if(currentPerson == null || currentSession == null ||
-				drawingarea_jumps_rj_fatigue == null || drawingarea_jumps_rj_fatigue.GdkWindow == null) //it happens at start on click on analyze
+				drawingarea_jumps_rj_fatigue == null || drawingarea_jumps_rj_fatigue.GdkWindow == null || //it happens at start on click on analyze
+				comboSelectJumpsRjFatigueNum.GetSelectedId() < 0)
 		{
 			button_jumps_rj_fatigue_save_image.Sensitive = false;
 			return;
@@ -93,14 +150,13 @@ public partial class ChronoJumpWindow
 		string jumpType = comboSelectJumpsRjFatigue.GetSelectedNameEnglish();
 
 		if(calculateData)
-			jumpsRjFatigue.Calculate(currentSession.UniqueID, currentPerson.UniqueID,
-					jumpType, radio_jumps_rj_fatigue_heights.Active);
+			jumpsRjFatigue.Calculate(comboSelectJumpsRjFatigueNum.GetSelectedId(),
+					radio_jumps_rj_fatigue_heights.Active);
 
 		if(jumpsRjFatigue.Point_l.Count == 0)
 		{
 			//constructor for showing blank screen with a message
 			new JumpsRjFatigueGraph(drawingarea_jumps_rj_fatigue, jumpType);
-					//currentPerson.Name, jumpType, currentSession.DateShort);
 
 			button_jumps_rj_fatigue_save_image.Sensitive = false;
 
@@ -123,10 +179,12 @@ public partial class ChronoJumpWindow
 		//needed to have mouse clicks at: on_drawingarea_jumps_rj_fatigue_button_press_event ()
 		drawingarea_jumps_rj_fatigue.AddEvents((int) (Gdk.EventMask.ButtonPressMask | Gdk.EventMask.ButtonReleaseMask));
 
-		jumpsRjFatigueDo(false); //do not calculate data
+		createComboSelectJumpsRjFatigueNum (false); //TODO: seguir canviant lo de dalt per aixo
+
 		//data is calculated on switch page (at notebook_capture_analyze) or on change person
 	}
 
+	//TODO:
 	private void on_drawingarea_jumps_rj_fatigue_button_press_event (object o, ButtonPressEventArgs args)
 	{
 		/*

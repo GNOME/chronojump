@@ -33,29 +33,22 @@ public class JumpsRjFatigue
 	{
 	}
 	
-	public void Calculate (int sessionID, int personID, string jumpType, bool useHeights)
+	public void Calculate (int uniqueID, bool useHeights)
 	{
 		//1 get data
-                List<JumpRj> jrj_l = SqliteJumpRj.SelectJumps (false, sessionID, personID, jumpType);
+		JumpRj jumpRj = SqliteJumpRj.SelectJumpData (Constants.JumpRjTable, uniqueID, false);
 
 		//2 convert to list of PointF
-		point_l = new List<PointF>();
-		int currentSession = -1;
-                foreach(JumpRj j in jrj_l)
-		{
-			List<double> y_l;
-			if(useHeights)
-				y_l = j.HeightList;
-			else
-				y_l = j.TvTcList;
+		List<double> y_l;
+		if(useHeights)
+			y_l = jumpRj.HeightList;
+		else
+			y_l = jumpRj.TvTcList;
 
-                	for(int i = 0; i < y_l.Count ; i ++)
-				point_l.Add(new PointF(
-							i+1,
-							y_l[i]
-						      ));
-			break; //at the moment only do it for one jump
-		}
+		point_l = new List<PointF>();
+
+		for(int i = 0; i < y_l.Count ; i ++)
+			point_l.Add(new PointF(i+1, y_l[i]));
 
 		//3 get LeastSquaresLine (straight line)
 		ls = new LeastSquaresLine();

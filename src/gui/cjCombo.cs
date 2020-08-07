@@ -76,6 +76,12 @@ public class CjCombo
 	{
 		select();
 
+		if(l_types == null || l_types.Count == 0)
+		{
+			UtilGtk.ComboDelAll(combo);
+			return;
+		}
+
 		string [] namesToCombo = new String [l_types.Count];
 		int i =0;
 		foreach(SelectTypes type in l_types)
@@ -103,6 +109,19 @@ public class CjCombo
 		hbox.PackStart(combo, true, true, 0);
 		hbox.ShowAll();
 		combo.Sensitive = false;
+	}
+
+	public int GetSelectedId()
+	{
+		if(l_types == null || l_types.Count == 0)
+			return -1;
+
+		string nameTranslatedSelected = UtilGtk.ComboGetActive(combo);
+		foreach(SelectTypes type in l_types)
+			if(type.NameTranslated == nameTranslatedSelected)
+				return type.Id;
+
+		return -1;
 	}
 	
 	public string GetSelectedNameEnglish()
@@ -157,6 +176,15 @@ public class CjCombo
 
 	public Gtk.ComboBox Combo {
 		get { return combo; }
+	}
+
+	public int Count {
+		get { return l_types.Count; }
+	}
+
+	//to assign l_types on CjComboGeneric
+	public List<object> L_types {
+		set { l_types = value; }
 	}
 }
 
@@ -262,4 +290,26 @@ public class CjComboForceSensorPorts : CjCombo
 		foreach(string str in strArray)
 			l_types.Add(str);
 	}
+}
+
+//------------ generic -------------
+
+public class CjComboGeneric : CjCombo
+{
+	public CjComboGeneric (Gtk.ComboBox combo, Gtk.HBox hbox_combo)
+	{
+		this.combo = combo;
+		this.hbox = hbox_combo;
+
+		create();
+		Fill();
+		package();
+	}
+
+	//select does nothing, use the L_types accessor on base class
+	/*
+	protected override void select()
+	{
+	}
+	*/
 }

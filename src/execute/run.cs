@@ -44,8 +44,9 @@ public class RunExecute : EventExecute
 	//changes a bit on runSimple and runInterval
 	//explained at each of the updateTimeProgressBar()
 	//measureRectionTime will be PLATFORM_INI_YES_TIME
+	//START_WIRELESS_UNKNOWN is because we do not know initial status on photocells
 	protected enum runPhases {
-		PRE_RUNNING, PLATFORM_INI_YES_TIME, PLATFORM_INI_NO_TIME, RUNNING, PLATFORM_END
+		START_WIRELESS_UNKNOWN, PRE_RUNNING, PLATFORM_INI_YES_TIME, PLATFORM_INI_NO_TIME, RUNNING, PLATFORM_END
 	}
 	protected static runPhases runPhase;
 		
@@ -160,22 +161,67 @@ public class RunExecute : EventExecute
 
 		//boolean to know if chronopic has been disconnected	
 		chronopicDisconnected = false;
-
-		if (simulated) 
-			platformState = Chronopic.Plataforma.ON;
-		else if (wireless)
-			platformState = Chronopic.Plataforma.OFF; //TODO: fix this for wireless
-		else
-			platformState = chronopicInitialValue(cp);
-		
-		LogB.Debug("MANAGE(b)!!!!");
 		runChangeImage = new RunChangeImage();
 
-		//you can start ON or OFF the platform, 
+		//if(wireless)
+		//	manageIniWireless();
+		//else
+		if(! wireless)
+			manageIniNotWireless();
+
+		//prepare jump for being cancelled if desired
+		cancel = false;
+
+		//start thread
+		thread = new Thread(new ThreadStart(waitEvent));
+		GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
+
+		LogB.ThreadStart();
+		thread.Start();
+	}
+
+	private void manageIniWireless()
+	{
+		/*
+		 * on wireless we cannot know if on start we are in contact or not
+		 * so we cannot set at the moment startIn, loggedState, runPhase
+		 */
+		LogB.Debug("MANAGE(wireless)!!!!");
+
+		feedbackMessage = Catalog.GetString("RUN when prepared!");
+		needShowFeedbackMessage = true;
+		Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn, gstreamer);
+
+
+		//runPhase = runPhases.START_WIRELESS_UNKNOWN;
+		//provem de forçar a que comencem en off, a veure si va be
+		platformState = Chronopic.Plataforma.OFF;
+		if (platformState==Chronopic.Plataforma.OFF) {
+			feedbackMessage = Catalog.GetString("You are OUT, RUN when prepared!");
+			needShowFeedbackMessage = true;
+			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn, gstreamer);
+
+			loggedState = States.OFF;
+			startIn = false;
+			runPhase = runPhases.PRE_RUNNING;
+			runChangeImage.Current = RunChangeImage.Types.RUNNING;
+		}
+	}
+
+	private void manageIniNotWireless()
+	{
+		if (simulated)
+			platformState = Chronopic.Plataforma.ON;
+		else
+			platformState = chronopicInitialValue(cp);
+
+		LogB.Debug("MANAGE(Not wireless)!!!!");
+
+		//you can start ON or OFF the platform,
 		//we record always de TF (or time between we abandonate the platform since we arrive)
 		if (platformState==Chronopic.Plataforma.ON) {
 			feedbackMessage = Catalog.GetString("You are IN, RUN when prepared!");
-			needShowFeedbackMessage = true; 
+			needShowFeedbackMessage = true;
 			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn, gstreamer);
 
 			loggedState = States.ON;
@@ -184,7 +230,7 @@ public class RunExecute : EventExecute
 			runChangeImage.Current = RunChangeImage.Types.PHOTOCELL;
 		} else if (platformState==Chronopic.Plataforma.OFF) {
 			feedbackMessage = Catalog.GetString("You are OUT, RUN when prepared!");
-			needShowFeedbackMessage = true; 
+			needShowFeedbackMessage = true;
 			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn, gstreamer);
 
 			loggedState = States.OFF;
@@ -197,14 +243,13 @@ public class RunExecute : EventExecute
 			return;
 		}
 
-	
 		if (simulated) {
 			if(startIn) {
 				//values of simulation will be the flightTime (between two platforms)
 				//at the first time (and the only)
 				//start running being on the platform
 				simulatedCurrentTimeIntervalsAreContact = false;
-			
+
 				//in simulated mode, make the run start just when we arrive to waitEvent at the first time
 				//mark now that we have abandoned platform:
 				platformState = Chronopic.Plataforma.OFF;
@@ -213,22 +258,12 @@ public class RunExecute : EventExecute
 				//at the first time, the second will be flightTime (between two platforms)
 				//come with previous run ("salida lanzada")
 				simulatedCurrentTimeIntervalsAreContact = true;
-				
+
 				//in simulated mode, make the run start just when we arrive to waitEvent at the first time
 				//mark now that we have reached the platform:
 				platformState = Chronopic.Plataforma.ON;
 			}
 		}
-
-		//prepare jump for being cancelled if desired
-		cancel = false;
-
-		//start thread
-		thread = new Thread(new ThreadStart(waitEvent));
-		GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
-			
-		LogB.ThreadStart(); 
-		thread.Start(); 
 	}
 
 	protected void timestampDCInitValues()
@@ -275,18 +310,21 @@ public class RunExecute : EventExecute
 				checkDoubleContactTime
 				);
 
+LogB.Information("going to call pwc.CaptureStart ()");
 		PhotocellWirelessCapture pwc = null;
 		if(wireless)
 		{
+			feedbackMessage = Catalog.GetString("Please, wait!");
+			needShowFeedbackMessage = true;
 			pwc = new PhotocellWirelessCapture(wirelessPort);
 			pwc.CaptureStart ();
+
+			manageIniWireless();
 		}
 
 		bool firstFromChronopicReceived = false;
 		bool exitWaitEventBucle = false;
 		do {
-			if(simulated)
-				ok = true;
 			if (wireless)
 			{
 				if(! pwc.CaptureLine())
@@ -295,6 +333,7 @@ public class RunExecute : EventExecute
 				ok = false;
 				if(pwc.CanRead())
 				{
+					LogB.Information("waitEvent 3");
 					PhotocellWirelessEvent pwe = pwc.PhotocellWirelessCaptureReadNext();
 					LogB.Information("wait_event pwe: " + pwe.ToString());
 					//TODO: photocell = pwe.photocell;
@@ -304,13 +343,17 @@ public class RunExecute : EventExecute
 					platformState = pwe.status;
 
 					ok = true;
+					LogB.Information("waitEvent 4");
 				}
 			}
+			else if(simulated)
+				ok = true;
 			else 
 				ok = cp.Read_event(out timestamp, out platformState);
 			
 			if (ok && ! cancel && ! finish)
 			{
+				LogB.Information("waitEvent 7");
 				if( ! firstFromChronopicReceived )
 				{
 					speedStart = has_arrived();
@@ -330,11 +373,19 @@ public class RunExecute : EventExecute
 
 					onlyInterval_NeedShowCountDownFalse();
 
+					//it has confirmed that first phase is PRE_RUNNING
+					if(wireless && runPhase == runPhases.START_WIRELESS_UNKNOWN)
+					{
+						runPhase = runPhases.PRE_RUNNING;
+						startIn = false;
+					}
+
 					if(runPhase == runPhases.PRE_RUNNING)
 					{
 						if(speedStartArrival || measureReactionTime) {
 							runPhase = runPhases.PLATFORM_INI_YES_TIME;
 							//run starts
+							LogB.Information("\ninitializeTimer at has_arrived");
 							initializeTimer(); //timerCount = 0
 							runEI.ChangePhase(RunExecuteInspector.Phases.IN,
 								"TimerStart");
@@ -379,15 +430,27 @@ public class RunExecute : EventExecute
 				}
 				else if (has_lifted()) // timestamp is tc
 				{
-LogB.Information("has lifted");
+					LogB.Information("has lifted");
 					loggedState = States.OFF;
 					runChangeImage.Current = RunChangeImage.Types.RUNNING;
 
 					lastTc = 0;
 
+					//it has confirmed that first phase is PLATFORM_INI_YES/NO_TIME
+					if(wireless && runPhase == runPhases.START_WIRELESS_UNKNOWN)
+					{
+						if(speedStartArrival || measureReactionTime)
+							runPhase = runPhases.PLATFORM_INI_YES_TIME;
+						else
+							runPhase = runPhases.PLATFORM_INI_NO_TIME;
+
+						startIn = true;
+					}
+
 					if(runPhase == runPhases.PLATFORM_INI_NO_TIME)
 					{
 						//run starts
+						LogB.Information("\ninitializeTimer at has_lifted");
 						initializeTimer(); //timerCount = 0
 						runEI.ChangePhase(RunExecuteInspector.Phases.OUT, "Timer start");
 
@@ -456,11 +519,17 @@ LogB.Information("has lifted");
 
 	protected bool has_arrived()
 	{
-		return (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF);
+		if(wireless && runPhase == runPhases.START_WIRELESS_UNKNOWN)
+			return (platformState == Chronopic.Plataforma.ON);
+		else
+			return (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF);
 	}
 	protected bool has_lifted()
 	{
-		return (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON);
+		if(wireless && runPhase == runPhases.START_WIRELESS_UNKNOWN)
+			return (platformState == Chronopic.Plataforma.OFF);
+		else
+			return (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON);
 	}
 	
 	/* only run interval functions */
@@ -689,8 +758,11 @@ LogB.Information("has lifted");
 		
 		double myTimeValue = 0;
 		switch (runPhase) {
+			case runPhases.START_WIRELESS_UNKNOWN:
+				myTimeValue = -1; //don't show nothing on label_timer
+				break;
 			case runPhases.PRE_RUNNING:
-				myTimeValue = -1; //don't show nothing on label_timer 
+				myTimeValue = -1; //don't show nothing on label_timer
 				break;
 			case runPhases.PLATFORM_INI_NO_TIME:
 				myTimeValue = -1;
@@ -1073,6 +1145,7 @@ public class RunIntervalExecute : RunExecute
 		//check that the run started
 		//if( ! tracksLimited && limitAsDouble != -1 && timerCount > limitAsDouble 
 		if( ! tracksLimited && limitAsDouble != -1
+				&& !(runPhase == runPhases.START_WIRELESS_UNKNOWN)
 				&& !(runPhase == runPhases.PRE_RUNNING) 
 				&& !(runPhase == runPhases.PLATFORM_INI_NO_TIME)
 				&& !(runPhase == runPhases.PLATFORM_INI_YES_TIME)
@@ -1118,9 +1191,13 @@ public class RunIntervalExecute : RunExecute
 		double myTimeValue = 0;
 		bool percentageMode = true; //false is activity mode
 		switch (runPhase) {
+			case runPhases.START_WIRELESS_UNKNOWN:
+				percentageMode = false;
+				myTimeValue = -1; //don't show nothing on label_timer
+				break;
 			case runPhases.PRE_RUNNING:
 				percentageMode = false;
-				myTimeValue = -1; //don't show nothing on label_timer 
+				myTimeValue = -1; //don't show nothing on label_timer
 				break;
 			case runPhases.PLATFORM_INI_NO_TIME:
 				percentageMode = false;

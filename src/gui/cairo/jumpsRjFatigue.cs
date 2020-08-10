@@ -52,14 +52,14 @@ public class JumpsRjFatigueGraph : CairoXY
 		this.jumpType = jumpType;
 		this.date = date;
 
-		xVariable = "Count";
+		xVariable = countStr;
 		xUnits = "";
 
 		if(heights) {
-			yVariable = "Height";
+			yVariable = heightStr;
 			yUnits = "cm";
 		} else {
-			yVariable = "TF/TC";
+			yVariable = tfStr + "/" + tcStr;
 			yUnits = "";
 		}
 	}
@@ -98,7 +98,7 @@ public class JumpsRjFatigueGraph : CairoXY
 		int ypos = -6;
 
 		writeTextAtRight(ypos++, title, true);
-		writeTextAtRight(ypos++, "Jumptype: " + jumpType, false);
+		writeTextAtRight(ypos++, jumpTypeStr + " " + jumpType, false);
 		writeTextAtRight(ypos++, date, false);
 	}
 

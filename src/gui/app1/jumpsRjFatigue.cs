@@ -167,7 +167,8 @@ public partial class ChronoJumpWindow
 					jumpsRjFatigue.Slope,
 					jumpsRjFatigue.Intercept,
 					drawingarea_jumps_rj_fatigue,
-					currentPerson.Name, jumpType, currentSession.DateShort);
+					currentPerson.Name, jumpType, currentSession.DateShort,
+					radio_jumps_rj_fatigue_heights.Active);
 			jumpsRjFatigueGraph.Do();
 
 			button_jumps_rj_fatigue_save_image.Sensitive = true;

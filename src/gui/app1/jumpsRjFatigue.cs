@@ -180,15 +180,13 @@ public partial class ChronoJumpWindow
 		//needed to have mouse clicks at: on_drawingarea_jumps_rj_fatigue_button_press_event ()
 		drawingarea_jumps_rj_fatigue.AddEvents((int) (Gdk.EventMask.ButtonPressMask | Gdk.EventMask.ButtonReleaseMask));
 
-		createComboSelectJumpsRjFatigueNum (false); //TODO: seguir canviant lo de dalt per aixo
+		createComboSelectJumpsRjFatigueNum (false);
 
 		//data is calculated on switch page (at notebook_capture_analyze) or on change person
 	}
 
-	//TODO:
 	private void on_drawingarea_jumps_rj_fatigue_button_press_event (object o, ButtonPressEventArgs args)
 	{
-		/*
 		//if there is no data and nothing to show, nothing to press, and also this is null
 		if(jumpsRjFatigueGraph == null)
 			return;
@@ -199,9 +197,5 @@ public partial class ChronoJumpWindow
 		jumpsRjFatigueGraph.Do();
 		LogB.Information(string.Format("Mouse X: {0}; Mouse Y: {1}", args.Event.X, args.Event.Y));
 		jumpsRjFatigueGraph.CalculateAndWriteRealXY(args.Event.X, args.Event.Y);
-		*/
 	}
-
-
-
 }

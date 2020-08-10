@@ -40,8 +40,6 @@ public class JumpsRjFatigueGraph : CairoXY
 
 		endGraph();
 	}
-
-	//regular constructor
 	public JumpsRjFatigueGraph (
 			List<PointF> point_l, double slope, double intercept,
 			DrawingArea area, string title, string jumpType, string date)
@@ -67,8 +65,9 @@ public class JumpsRjFatigueGraph : CairoXY
 
                 findPointMaximums(false);
                 //findAbsoluteMaximums();
-		paintAxisAndGrid(gridTypes.HORIZONTALLINES, true);
-		paintAxisAndGrid(gridTypes.VERTICALLINES, false);
+		paintGrid(gridTypes.HORIZONTALLINES, true);
+		paintGrid(gridTypes.VERTICALLINES, false);
+		paintAxis();
 
 		plotPredictedLine(predictedLineTypes.STRAIGHT, predictedLineCrossMargins.TOUCH);
 		plotRealPoints(true);

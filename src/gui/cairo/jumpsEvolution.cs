@@ -67,7 +67,8 @@ public class JumpsEvolutionGraph : CairoXY
 
                 findPointMaximums(false);
                 //findAbsoluteMaximums();
-		paintAxisAndGrid(gridTypes.HORIZONTALLINES, true);
+		paintGrid(gridTypes.HORIZONTALLINES, true);
+		paintAxis();
 		paintGridDatetime();
 
 		plotPredictedLine(predictedLineTypes.STRAIGHT, predictedLineCrossMargins.TOUCH);

@@ -39,7 +39,7 @@ public abstract class ArduinoCapture
 	public abstract bool CanRead();
 
 	//have methods for get objects on each of the derived classes
-	public abstract List<PhotocellWirelessEvent> PhotocellWirelssCaptureGetList();
+	public abstract List<PhotocellWirelessEvent> PhotocellWirelessCaptureGetList();
 	public abstract PhotocellWirelessEvent PhotocellWirelessCaptureReadNext();
 
 	public int ReadedPos
@@ -77,6 +77,25 @@ public abstract class ArduinoCapture
 		return true;
 	}
 
+	protected void waitResponse (string response)
+	{
+		string str = "";
+		do {
+			Thread.Sleep(25);
+			if (port.BytesToRead > 0)
+			{
+				try {
+					str = port.ReadLine();
+				} catch {
+					LogB.Information(string.Format("Catched waiting: |{0}|", response));
+				}
+			}
+			//LogB.Information("waiting \"Capture ended\" string: " + str);
+		}
+		while(! str.Contains(response));
+		LogB.Information("waitResponse success: " + str);
+	}
+
 	protected bool readLine (out string str)
 	{
 		str = "";
@@ -84,6 +103,7 @@ public abstract class ArduinoCapture
 			if (port.BytesToRead > 0)
 			{
 				str = port.ReadLine();
+				LogB.Information(string.Format("at readLine BytesToRead>0, readed:|{0}|", str));
 			}
 		} catch (System.IO.IOException)
 		{
@@ -122,10 +142,17 @@ public class PhotocellWirelessCapture: ArduinoCapture
 
 		LogB.Information("port successfully opened");
 
+		//TODO: Val, caldria que quedés clar a la interficie que estem esperant aquest temps, a veure com ho fa el sensor de força, ...
+		//just print on gui somthing like "please, wait, ..."
+		//-----------------------------
+		//el que cal és el connect !!!!
+		//-----------------------------
+		//
 		Thread.Sleep(3000); //sleep to let arduino start reading serial event
 
 		if (! sendCommand("start_capture:", "Catched at start_capture:"))
 			return false;
+		waitResponse("Starting capture");
 
 		return true;
 	}
@@ -163,20 +190,7 @@ public class PhotocellWirelessCapture: ArduinoCapture
 		if (! sendCommand("end_capture:", "Catched at end_capture:"))
 			return false;
 
-		do {
-			Thread.Sleep(25);
-			if (port.BytesToRead > 0)
-			{
-				try {
-					str = port.ReadLine();
-				} catch {
-					LogB.Information("Catched waiting end_capture feedback");
-				}
-			}
-			//LogB.Information("waiting \"Capture ended\" string: " + str);
-		}
-		while(! str.Contains("Capture ended"));
-
+		waitResponse("Capture ended");
 		LogB.Information("AT Capture: STOPPED");
 
 		port.Close();
@@ -189,7 +203,7 @@ public class PhotocellWirelessCapture: ArduinoCapture
 		return (list.Count > readedPos);
 	}
 
-	public override List<PhotocellWirelessEvent> PhotocellWirelssCaptureGetList()
+	public override List<PhotocellWirelessEvent> PhotocellWirelessCaptureGetList()
 	{
 		return list;
 	}
@@ -221,7 +235,7 @@ public class PhotocellWirelessCapture: ArduinoCapture
 		if(str == "")
 			return false;
 
-		//LogB.Information("No trim str" + str);
+		LogB.Information("No trim str" + str);
 
 		//get only the first line
 		if(str.IndexOf(Environment.NewLine) > 0)

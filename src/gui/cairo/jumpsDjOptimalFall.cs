@@ -37,7 +37,7 @@ public class JumpsDjOptimalFallGraph : CairoXY
 
 		g.SetFontSize(16);
 		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight,
-				string.Format("Need to execute jumps: {0}.", jumpType), g, true);
+				needToExecuteJumpsStr + " " + jumpType + ".", g, true);
 
 		endGraph();
 	}
@@ -61,8 +61,8 @@ public class JumpsDjOptimalFallGraph : CairoXY
 		this.jumpType = jumpType;
 		this.date = date;
 
-		xVariable = "Fall";
-		yVariable = "Height";
+		xVariable = fallStr;
+		yVariable = heightStr;
 		xUnits = "cm";
 		yUnits = "cm";
 	}
@@ -106,8 +106,8 @@ public class JumpsDjOptimalFallGraph : CairoXY
 		int ypos = -6;
 
 		writeTextAtRight(ypos++, title, true);
-		writeTextAtRight(ypos++, "Optimal fall height", false);
-		writeTextAtRight(ypos++, "Jumptype: " + jumpType, false);
+		writeTextAtRight(ypos++, optimalFallHeightStr, false);
+		writeTextAtRight(ypos++, jumpTypeStr + " " + jumpType, false);
 		writeTextAtRight(ypos++, date, false);
 	}
 

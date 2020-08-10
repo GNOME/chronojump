@@ -36,7 +36,7 @@ public class JumpsEvolutionGraph : CairoXY
 
 		g.SetFontSize(16);
 		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight,
-				string.Format("Need to execute jumps: {0}.", jumpType), g, true);
+				needToExecuteJumpsStr + " " + jumpType + ".", g, true);
 
 		endGraph();
 	}
@@ -54,8 +54,8 @@ public class JumpsEvolutionGraph : CairoXY
 		this.jumpType = jumpType;
 		this.date = date;
 
-		xVariable = "Date";
-		yVariable = "Height";
+		xVariable = dateStr;
+		yVariable = heightStr;
 		xUnits = "";
 		yUnits = "cm";
 	}
@@ -149,7 +149,7 @@ public class JumpsEvolutionGraph : CairoXY
 		int ypos = -6;
 
 		writeTextAtRight(ypos++, title, true);
-		writeTextAtRight(ypos++, "Jumptype: " + jumpType, false);
+		writeTextAtRight(ypos++, jumpTypeStr + " " + jumpType, false);
 		writeTextAtRight(ypos++, date, false);
 	}
 

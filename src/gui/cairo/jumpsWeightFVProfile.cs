@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic; //List
 using Gtk;
 using Cairo;
+using Mono.Unix;
 
 
 public class JumpsWeightFVProfileGraph : CairoXY
@@ -77,8 +78,8 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		if(showFullGraph)
 			innerMargins = 0;
 
-		xVariable = "Speed";
-		yVariable = "Force";
+		xVariable = speedStr;
+		yVariable = forceStr;
 		xUnits = "m/s";
 		yUnits = "N/Kg";
 
@@ -103,19 +104,19 @@ public class JumpsWeightFVProfileGraph : CairoXY
 	{
 		string message = "";
 		if(errorMessage == ErrorAtStart.NEEDLEGPARAMS)
-			message = "Need to fill person's leg parameters.";
+			message = Catalog.GetString("Need to fill person's leg parameters.");
 		else if(errorMessage == ErrorAtStart.BADLEGPARAMS)
-			message = "Person's leg parameters are incorrect.";
+			message = Catalog.GetString("Person's leg parameters are incorrect.");
 		else if(errorMessage == ErrorAtStart.NEEDJUMPS)
-			message = "Need to execute jumps SJl and/or SJ.";
+			message = Catalog.GetString("Need to execute jumps SJl and/or SJ.");
 		else if(errorMessage == ErrorAtStart.NEEDJUMPSX)
-			message = "Need to execute jumps with different weights.";
+			message = Catalog.GetString("Need to execute jumps with different weights.");
 		else if(errorMessage == ErrorAtStart.F0ANDV0NOTPOSITIVE)
-			message = "F0 and V0 are not > 0.";
+			message = Catalog.GetString("F0 and V0 are not > 0.");
 		else if(errorMessage == ErrorAtStart.F0NOTPOSITIVE)
-			message = "F0 is not > 0.";
+			message = Catalog.GetString("F0 is not > 0.");
 		else if(errorMessage == ErrorAtStart.V0NOTPOSITIVE)
-			message = "V0 is not > 0.";
+			message = Catalog.GetString("V0 is not > 0.");
 
 		g.SetFontSize(16);
 		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight, message, g, true);
@@ -182,9 +183,9 @@ public class JumpsWeightFVProfileGraph : CairoXY
 
 		g.Color = red;
 		if(needDevelopForce)
-			writeTextAtRight(ypos++, "- Need to develop force", false);
+			writeTextAtRight(ypos++, "- " + Catalog.GetString("Need to develop force"), false);
 		else
-			writeTextAtRight(ypos++, "- Need to develop speed", false);
+			writeTextAtRight(ypos++, "- " + Catalog.GetString("Need to develop speed"), false);
 		g.SetSourceRGB(0, 0, 0);
 	}
 
@@ -211,8 +212,8 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		double heightCm = (double) l_keydouble[0].D;
 		double extraWeight = (double) l_keydouble[1].D;
 
-		writeTextAtRight(line + lineVertSpacing, string.Format("- Height: {0} cm", Util.TrimDecimals(heightCm, 2)), false);
-		writeTextAtRight(line + 2*lineVertSpacing, string.Format("- Extra weight: {0} Kg", Util.TrimDecimals(extraWeight, 2)), false);
+		writeTextAtRight(line + lineVertSpacing, "- " + heightStr + string.Format(" : {0} cm", Util.TrimDecimals(heightCm, 2)), false);
+		writeTextAtRight(line + 2*lineVertSpacing, "- " + extraWeightStr + string.Format(" : {0} Kg", Util.TrimDecimals(extraWeight, 2)), false);
 		writeTextAtRight(line + 3*lineVertSpacing, string.Format("- {0}: {1} {2}", xVariable, Util.TrimDecimals(pClosest.X, 2), xUnits), false);
 		writeTextAtRight(line + 4*lineVertSpacing, string.Format("- {0}: {1} {2}", yVariable, Util.TrimDecimals(pClosest.Y, 2), yUnits), false);
 	}

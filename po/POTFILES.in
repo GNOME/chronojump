@@ -78,6 +78,8 @@ src/gui/app1/session/export.cs
 src/gui/app1/session/loadAndImport.cs
 src/gui/app1/session/main.cs
 src/gui/app1/shortcuts.cs
+src/gui/cairo/jumpsWeightFVProfile.cs
+src/gui/cairo/xy.cs
 src/gui/chronopic.cs
 src/gui/chronopicRegister.cs
 src/gui/confirm.cs

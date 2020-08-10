@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic; //List
 using Gtk;
 using Cairo;
+using Mono.Unix;
 
 public abstract class CairoXY
 {
@@ -79,6 +80,22 @@ public abstract class CairoXY
 	protected int innerMargins = 30; //space between the axis and the real coordinates.
 	private int crossMargins = 10; //cross slope line with margins will have this length
 	int totalMargins;
+
+	//translated strings
+	//done to use Catalog just only on gui/cairo/xy.cs
+	//but jumpsWeightFVProfile has many messages, so done also there
+	protected string needToExecuteJumpsStr = Catalog.GetString("Need to execute jumps:");
+	protected string optimalFallHeightStr = Catalog.GetString("Optimal fall height");
+	protected string heightStr = Catalog.GetString("Height");
+	protected string extraWeightStr = Catalog.GetString("Extra weight");
+	protected string fallStr = Catalog.GetString("Fall");
+	protected string speedStr = Catalog.GetString("Speed");
+	protected string forceStr = Catalog.GetString("Force");
+	protected string dateStr = Catalog.GetString("Date");
+	protected string tfStr = Catalog.GetString("TF");
+	protected string tcStr = Catalog.GetString("TC");
+	protected string countStr = Catalog.GetString("Count");
+	protected string jumpTypeStr = Catalog.GetString("Jump type:");
 
 	public abstract void Do();
 
@@ -432,21 +449,21 @@ public abstract class CairoXY
 
 	protected void writeTextPredictedPoint()
 	{
-		writeTextAtRight(0, "Fall: " + Util.TrimDecimals(xAtMMaxY, 2) + " cm", false);
-		writeTextAtRight(1, "Jump height: " + Util.TrimDecimals(yAtMMaxY, 2) + " cm", false);
+		writeTextAtRight(0, fallStr + ": " + Util.TrimDecimals(xAtMMaxY, 2) + " cm", false);
+		writeTextAtRight(1, heightStr + ": " + Util.TrimDecimals(yAtMMaxY, 2) + " cm", false);
 	}
 
 	protected void writeTextConcaveParabole()
 	{
-		writeTextAtRight(0, "Error:", false);
-		writeTextAtRight(1, "Parabole is concave", false);
+		writeTextAtRight(0, Catalog.GetString("Error") + ":", false);
+		writeTextAtRight(1, Catalog.GetString("Parabole is concave"), false);
 	}
 
 	protected void writeTextNeed3PointsWithDifferentFall()
 	{
-		writeTextAtRight(0, "Error:", false);
-		writeTextAtRight(1, "Need at least 3 points", false);
-		writeTextAtRight(2, "with different falling heights", false);
+		writeTextAtRight(0, Catalog.GetString("Error") + ":", false);
+		writeTextAtRight(1, Catalog.GetString("Need at least 3 points"), false);
+		writeTextAtRight(2, Catalog.GetString("with different falling heights"), false);
 	}
 
 	protected void writeTextAtRight(double line, string text, bool bold)
@@ -534,7 +551,7 @@ public abstract class CairoXY
 	protected virtual void writeSelectedValues(int line, PointF pClosest)
 	{
 		g.Color = bluePlots;
-		writeTextAtRight(line, "Selected:", false);
+		writeTextAtRight(line, Catalog.GetString("Selected") + ":", false);
 		g.SetSourceRGB(0, 0, 0);
 
 		writeTextAtRight(line +1, string.Format("- {0}: {1} {2}", xVariable, Util.TrimDecimals(pClosest.X, 2), xUnits), false);

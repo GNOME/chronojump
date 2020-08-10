@@ -125,7 +125,7 @@ public partial class ChronoJumpWindow
 		foreach(JumpRj jrj in jrj_l)
 		{
 			string name = string.Format("{0} {1}", count++,
-					UtilDate.GetDatetimePrint (UtilDate.FromFile(jrj.Datetime)));
+					UtilDate.FromFile(jrj.Datetime).ToString());
 			types.Add(new SelectTypes(jrj.UniqueID, name, name)); //is not translated
 		}
 

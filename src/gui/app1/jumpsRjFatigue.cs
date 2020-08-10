@@ -161,13 +161,19 @@ public partial class ChronoJumpWindow
 			button_jumps_rj_fatigue_save_image.Sensitive = false;
 
 		} else {
+			string jumpDateStr = currentSession.DateShort;
+			string [] strFull = (comboSelectJumpsRjFatigueNum.GetSelectedNameEnglish()).Split(new char[] {' '});
+			if(strFull.Length == 3)
+				jumpDateStr = strFull[1];
+
 			//regular constructor
 			jumpsRjFatigueGraph = new JumpsRjFatigueGraph(
 					jumpsRjFatigue.Point_l,
 					jumpsRjFatigue.Slope,
 					jumpsRjFatigue.Intercept,
 					drawingarea_jumps_rj_fatigue,
-					currentPerson.Name, jumpType, currentSession.DateShort,
+					currentPerson.Name, jumpType,
+					jumpDateStr,
 					radio_jumps_rj_fatigue_heights.Active);
 			jumpsRjFatigueGraph.Do();
 

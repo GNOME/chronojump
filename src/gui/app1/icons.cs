@@ -734,11 +734,13 @@ public partial class ChronoJumpWindow
 		image_jumps_dj_optimal_fall_save.Pixbuf = pixbuf;
 		image_jumps_weight_fv_profile_save.Pixbuf = pixbuf;
 		image_jumps_evolution_save.Pixbuf = pixbuf;
+		image_jumps_rj_fatigue_save.Pixbuf = pixbuf;
 		image_sprint_analyze_save.Pixbuf = pixbuf;
 		image_encoder_analyze_image_compujump_send_email_image.Pixbuf = pixbuf;
 		image_run_encoder_analyze_image_save_graph.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "save.png");
+		image_jumps_rj_fatigue_image_save.Pixbuf = pixbuf;
 		image_encoder_capture_curves_save.Pixbuf = pixbuf;
 		image_encoder_analyze_table_save_1.Pixbuf = pixbuf;
 		image_encoder_analyze_image_save_1.Pixbuf = pixbuf;

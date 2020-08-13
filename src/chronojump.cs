@@ -583,8 +583,8 @@ public class ChronoJump
 		LogB.SQL("all SQL done! starting Chronojump");
 
 		string topMessage = "";
-		if(operatingSystem == UtilAll.OperatingSystems.LINUX && ! linuxUserHasDialout())
-			topMessage = Catalog.GetString("Need dialout permissions to read from device.") + "\n" +
+		if(operatingSystem == UtilAll.OperatingSystems.LINUX && ! linuxUserHasPermissions())
+			topMessage = Catalog.GetString("Need permissions to read from device.") + "\n" +
 				Catalog.GetString("Check software page on Chronojump website");
 
 		bool showCameraStop = (ExecuteProcess.IsRunning3 (-1, WebcamFfmpeg.GetExecutableCapture(operatingSystem)));
@@ -592,15 +592,16 @@ public class ChronoJump
 		new ChronoJumpWindow(progVersion, progName, runningFileName, splashWin, sendLog, messageToShowOnBoot, topMessage, showCameraStop);
 	}
 
-	private bool linuxUserHasDialout()
+	private bool linuxUserHasPermissions ()
 	{
-		LogB.Information("Finding dialout:");
+		LogB.Information("Finding dialout or uucp:");
 		string executable = "groups";
 		ExecuteProcess.Result execute_result = ExecuteProcess.run (executable, true, true);
 		if(execute_result.success)
 		{
 			LogB.Information(execute_result.stdout);
-			return (execute_result.stdout.Contains("dialout"));
+			return (execute_result.stdout.Contains("dialout") || //debian based
+					execute_result.stdout.Contains("uucp")); //arch/manjaro
 		}
 
 		//if script has failed, don't bother the user

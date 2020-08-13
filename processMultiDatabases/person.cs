@@ -100,7 +100,8 @@ public class Person {
 			nameClean = nameClean.Replace("a3", "");
 			nameClean = nameClean.Replace("A3", "");
 			nameClean = nameClean.Replace("a4", "");
-			nameClean = nameClean.Replace("A5", "");
+			//nameClean = nameClean.Replace("A5", "");
+			nameClean = nameClean.Replace("A4", "");
 
 			//then return the number
 			Match match = Regex.Match(nameClean, @"(\d+)");

@@ -133,7 +133,8 @@ class ComputerDBManage
 	 * select * from encoderExercise;
 	 * select exerciseID, count(*) from encoder group by exerciseID;
 	 */
-	string path = "/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/carpetes-chronojump-senceres/";
+	//string path = "/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/carpetes-chronojump-senceres/";
+	string path = "/home/xavier/Documents/sitless-no-git/";
 
 	public List<ComputerDB> list;
 	public ComputerDBManage()
@@ -154,6 +155,7 @@ class ComputerDBManage
 				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/arxius-processats-per-ells/barcelona",
 				8, 4, 7,
 				"", "", "", ""));
+		//belfast is ok except the double exercise on biceps
 		list.Add(new ComputerDB(
 				"belfast",
 				"belfast",

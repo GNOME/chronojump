@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2020-08-10 18:46+0000\n"
-"PO-Revision-Date: 2020-08-13 10:48+0200\n"
+"POT-Creation-Date: 2020-08-13 15:38+0000\n"
+"PO-Revision-Date: 2020-08-14 10:12+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
@@ -501,7 +501,6 @@ msgid "Last"
 msgstr "Últimos"
 
 #: ../glade/app1.glade.h:98
-#| msgid "Test"
 msgid "Test:"
 msgstr "Prueba:"
 
@@ -1455,17 +1454,14 @@ msgid "Jump type"
 msgstr "Tipo de salto"
 
 #: ../glade/app1.glade.h:300
-#| msgid "Old jumper weight"
 msgid "Only the best jump on each weight"
 msgstr "Sólo el mejor salto en cada peso"
 
 #: ../glade/app1.glade.h:301
-#| msgid "Show graph"
 msgid "Show full graph"
 msgstr "Mostrar gráfica completa"
 
 #: ../glade/app1.glade.h:302
-#| msgid "Zoom out"
 msgid "Zoom to points"
 msgstr "Ampliar los puntos"
 
@@ -1474,7 +1470,6 @@ msgid "Only the best jump on each session"
 msgstr "Sólo el mejor salto en cada sesión"
 
 #: ../glade/app1.glade.h:304
-#| msgid "N/m"
 msgid "Num"
 msgstr "Núm"
 
@@ -2093,7 +2088,6 @@ msgid "This session:"
 msgstr "Esta sesión:"
 
 #: ../glade/app1.glade.h:448
-#| msgid "Import session"
 msgid "Import a session"
 msgstr "Importar una sesión"
 
@@ -2415,7 +2409,7 @@ msgstr "Catalán"
 msgid "Add comments"
 msgstr "Añadir comentarios"
 
-#: ../glade/app1.glade.h:517 ../src/chronojump.cs:733
+#: ../glade/app1.glade.h:517 ../src/chronojump.cs:734
 msgid "Send error log"
 msgstr "Enviar registro de error"
 
@@ -3732,7 +3726,6 @@ msgid "Show animated logo"
 msgstr "Mostrar logo animado"
 
 #: ../glade/preferences_win.glade.h:25
-#| msgid "and all the session tests?"
 msgid "Load last session at start"
 msgstr "Cargar la última sesión al iniciar"
 
@@ -4636,8 +4629,8 @@ msgstr "ninguno"
 msgid "Chronojump is already running"
 msgstr "Chronojump ya está en ejecución"
 
-#: ../src/chronojump.cs:261 ../src/chronojump.cs:522 ../src/chronojump.cs:900
-#: ../src/chronojump.cs:908
+#: ../src/chronojump.cs:261 ../src/chronojump.cs:522 ../src/chronojump.cs:901
+#: ../src/chronojump.cs:909
 msgid "Chronojump will exit now."
 msgstr "Chronojump finalizará ahora."
 
@@ -4720,19 +4713,20 @@ msgid "Please, update to new version: "
 msgstr "Por favor, actualice a la nueva versión:"
 
 #: ../src/chronojump.cs:587
-msgid "Need dialout permissions to read from device."
-msgstr "Se necesitan permisos de «dialout» para leer del dispositivo."
+#| msgid "Need dialout permissions to read from device."
+msgid "Need permissions to read from device."
+msgstr "Se necesitan permisos para leer del dispositivo."
 
 #: ../src/chronojump.cs:588
 msgid "Check software page on Chronojump website"
 msgstr "Comprobar el software en la página Chronojump"
 
-#: ../src/chronojump.cs:735
+#: ../src/chronojump.cs:736
 #, csharp-format
 msgid "Chronojump {0} crashed before."
 msgstr "Chronojump {0} ha fallado anteriormente"
 
-#: ../src/chronojump.cs:736
+#: ../src/chronojump.cs:737
 #, csharp-format
 msgid ""
 "Please, fill your email and click on '{0}' in order to fix this fast and "
@@ -4741,43 +4735,43 @@ msgstr ""
 "Rellene su correo-e y pulse en «{0}» para corregir esto rápidamente y "
 "contactarle si es necesario."
 
-#: ../src/chronojump.cs:737
+#: ../src/chronojump.cs:738
 msgid "Your help is needed."
 msgstr "Necesitamos su ayuda."
 
-#: ../src/chronojump.cs:867
+#: ../src/chronojump.cs:868
 #, csharp-format
 msgid "Cannot move database directory from {0} to {1}"
 msgstr "No se puede mover la carpeta de la base de datos de {0} a {1}"
 
-#: ../src/chronojump.cs:869
+#: ../src/chronojump.cs:870
 msgid "Trying to move/copy each file now"
 msgstr "Tratando ahora de mover/copiar archivo a archivo"
 
-#: ../src/chronojump.cs:898
+#: ../src/chronojump.cs:899
 #, csharp-format
 msgid "Cannot create directory {0}"
 msgstr "No se puede exportar la carpeta {0} "
 
-#: ../src/chronojump.cs:899 ../src/chronojump.cs:907
+#: ../src/chronojump.cs:900 ../src/chronojump.cs:908
 msgid "Please, do it manually."
 msgstr "Por favor, hágalo manualmente"
 
-#: ../src/chronojump.cs:906
+#: ../src/chronojump.cs:907
 #, csharp-format
 msgid "Cannot copy {0} files from {1} to {2}"
 msgstr "No se puede copiar {0} archivos desde {1} hacia {2}"
 
-#: ../src/chronojump.cs:914
+#: ../src/chronojump.cs:915
 #, csharp-format
 msgid "Cannot move {0} files from {1} to {2}"
 msgstr "No se puede mover {0} archivos de {1} a {2}"
 
-#: ../src/chronojump.cs:915
+#: ../src/chronojump.cs:916
 msgid "Please, do it manually"
 msgstr "Por favor, hágalo manualmente"
 
-#: ../src/chronojump.cs:921
+#: ../src/chronojump.cs:922
 #, csharp-format
 msgid "Database is now here: {0}"
 msgstr "La base de datos se encuentra ahora aquí: {0}"
@@ -5768,7 +5762,6 @@ msgid "You are OUT, come inside and press the 'accept' button"
 msgstr "está FUERA, entre y pulse el botón 'aceptar'"
 
 #: ../src/execute/run.cs:191
-#| msgid "Jump when prepared"
 msgid "RUN when prepared!"
 msgstr "¡CORRA cuando esté preparado!"
 
@@ -6791,7 +6784,6 @@ msgstr ""
 "ejercicio elástico."
 
 #: ../src/gui/app1/forceSensor.cs:464
-#| msgid "Legend"
 msgid "Legend:"
 msgstr "Leyenda:"
 
@@ -6800,12 +6792,10 @@ msgid "Length without tension"
 msgstr "Leyenda sin tensión"
 
 #: ../src/gui/app1/forceSensor.cs:466
-#| msgid "Continue running in n distance"
 msgid "Minimum working distance"
 msgstr "Distancia mínima de trabajo"
 
 #: ../src/gui/app1/forceSensor.cs:467
-#| msgid "Runs, Long-distance"
 msgid "Maximum working distance"
 msgstr "Distancia máxima de trabajo"
 
@@ -6992,12 +6982,10 @@ msgid "Person's leg parameters are incorrect."
 msgstr "Los parámetros de la pierna del atleta no son correctos."
 
 #: ../src/gui/cairo/jumpsWeightFVProfile.cs:111
-#| msgid "Need to execute jump/s"
 msgid "Need to execute jumps SJl and/or SJ."
 msgstr "Debe hacer saltos SJl y/o SJ."
 
 #: ../src/gui/cairo/jumpsWeightFVProfile.cs:113
-#| msgid "Need to execute jump/s"
 msgid "Need to execute jumps with different weights."
 msgstr "Debe hacer saltos con diferentes pesos"
 
@@ -7025,12 +7013,10 @@ msgstr "Debe desarrollar la velocidad"
 #. done to use Catalog just only on gui/cairo/xy.cs
 #. but jumpsWeightFVProfile has many messages, so done also there
 #: ../src/gui/cairo/xy.cs:87
-#| msgid "Need to execute jump/s"
 msgid "Need to execute jumps:"
 msgstr "Debe hacer los saltos:"
 
 #: ../src/gui/cairo/xy.cs:88
-#| msgid "Minimal height"
 msgid "Optimal fall height"
 msgstr "Altura de caída óptima"
 
@@ -7041,7 +7027,6 @@ msgid "Count"
 msgstr "Conteo"
 
 #: ../src/gui/cairo/xy.cs:98
-#| msgid "Jump type"
 msgid "Jump type:"
 msgstr "Tipo de salto:"
 
@@ -7055,12 +7040,10 @@ msgid "Parabole is concave"
 msgstr "La parábola es cóncava"
 
 #: ../src/gui/cairo/xy.cs:465
-#| msgid "Need at least three jumps"
 msgid "Need at least 3 points"
 msgstr "Se necesitan al menos 3 puntos"
 
 #: ../src/gui/cairo/xy.cs:466
-#| msgid "falling height"
 msgid "with different falling heights"
 msgstr "con diferentes alturas de caída"
 

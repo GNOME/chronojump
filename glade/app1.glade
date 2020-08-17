@@ -20318,8 +20318,8 @@ Concentric</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="n_rows">2</property>
-                                                            <property name="n_columns">3</property>
-                                                            <property name="column_spacing">16</property>
+                                                            <property name="n_columns">4</property>
+                                                            <property name="column_spacing">20</property>
                                                             <property name="row_spacing">2</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="label563">
@@ -20473,6 +20473,37 @@ Concentric</property>
                                                             <packing>
                                                             <property name="left_attach">2</property>
                                                             <property name="right_attach">3</property>
+                                                            <property name="top_attach">1</property>
+                                                            <property name="bottom_attach">2</property>
+                                                            <property name="x_options">GTK_FILL</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label568">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label" translatable="yes">Divide in</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">3</property>
+                                                            <property name="right_attach">4</property>
+                                                            <property name="x_options">GTK_FILL</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkComboBox" id="combo_jumps_rj_fatigue_divide_in">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="active">0</property>
+                                                            <property name="items">2
+3
+4</property>
+                                                            <signal name="changed" handler="on_combo_jumps_rj_fatigue_divide_in_changed" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">3</property>
+                                                            <property name="right_attach">4</property>
                                                             <property name="top_attach">1</property>
                                                             <property name="bottom_attach">2</property>
                                                             <property name="x_options">GTK_FILL</property>

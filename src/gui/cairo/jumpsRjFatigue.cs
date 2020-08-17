@@ -27,6 +27,8 @@ using Cairo;
 
 public class JumpsRjFatigueGraph : CairoXY
 {
+	private int divideIn;
+
 	//constructor when there are no points
 	public JumpsRjFatigueGraph (DrawingArea area, string jumpType)//, string title, string jumpType, string date)
 	{
@@ -42,7 +44,7 @@ public class JumpsRjFatigueGraph : CairoXY
 	}
 	public JumpsRjFatigueGraph (
 			List<PointF> point_l, double slope, double intercept,
-			DrawingArea area, string title, string jumpType, string date, bool heights)
+			DrawingArea area, string title, string jumpType, string date, bool heights, int divideIn)
 	{
 		this.point_l = point_l;
 		this.slope = slope;
@@ -51,6 +53,7 @@ public class JumpsRjFatigueGraph : CairoXY
 		this.title = title;
 		this.jumpType = jumpType;
 		this.date = date;
+		this.divideIn = divideIn;
 
 		xVariable = countStr;
 		xUnits = "";
@@ -79,7 +82,7 @@ public class JumpsRjFatigueGraph : CairoXY
 		plotPredictedLine(predictedLineTypes.STRAIGHT, predictedLineCrossMargins.TOUCH);
 		g.Color = black;
 
-		divideInTwoAndPlotAverage();
+		divideAndPlotAverage(divideIn);
 
 		plotRealPoints(true);
 
@@ -107,34 +110,24 @@ public class JumpsRjFatigueGraph : CairoXY
 		writeTextAtRight(ypos++, date, false);
 	}
 
-	private void divideInTwoAndPlotAverage()
+	private void divideAndPlotAverage(int parts)
 	{
-		if(point_l.Count < 4)
+		if(point_l.Count < parts * 2)
 			return;
 
-		List<PointF> point_l_start = new List<PointF>();
-		List<PointF> point_l_end = new List<PointF>();
-		double sumIni = 0;
-		double sumEnd = 0;
-
-		for(int i = 0; i < point_l.Count; i ++)
+		List<List<PointF>> l_l = SplitList(point_l, Convert.ToInt32(Math.Floor(point_l.Count / (1.0 * parts))));
+		int done = 0;
+		foreach(List<PointF> l in l_l)
 		{
-			if(i < Math.Floor(point_l.Count / 2.0))
-			{
-				point_l_start.Add(point_l[i]);
-				sumIni += point_l[i].Y;
-				//LogB.Information(string.Format("Added to point_l_start: {0}", point_l[i]));
-			}
-			if(point_l.Count - i -1 < Math.Floor(point_l.Count / 2.0))
-			{
-				point_l_end.Add(point_l[i]);
-				sumEnd += point_l[i].Y;
-				//LogB.Information(string.Format("Added to point_l_end: {0}", point_l[i]));
-			}
-		}
+			if(done >= parts)
+				break; //to fix i SplitList returned more chunks than wanted
 
-		paintHorizSegment (point_l_start[0].X, point_l_start[point_l_start.Count -1].X, sumIni / point_l_start.Count);
-		paintHorizSegment (point_l_end[0].X, point_l_end[point_l_end.Count -1].X, sumEnd / point_l_end.Count);
+			double sum = 0;
+			foreach(PointF p in l)
+				sum += p.Y;
+			paintHorizSegment (l[0].X, l[l.Count -1].X, sum / l.Count);
+			done ++;
+		}
 	}
 
 	private void paintHorizSegment (double xa, double xb, double y)
@@ -148,4 +141,16 @@ public class JumpsRjFatigueGraph : CairoXY
 
 		g.Stroke ();
 	}
+
+	//https://stackoverflow.com/a/11463800
+	public static List<List<PointF>> SplitList(List<PointF> listMain, int nSize)
+	{
+		var l_l = new List<List<PointF>>();
+
+		for (int i = 0; i < listMain.Count; i += nSize)
+			l_l.Add(listMain.GetRange(i, Math.Min(nSize, listMain.Count - i)));
+
+		return l_l;
+	}
+
 }

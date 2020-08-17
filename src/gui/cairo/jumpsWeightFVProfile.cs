@@ -119,7 +119,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 			message = Catalog.GetString("V0 is not > 0.");
 
 		g.SetFontSize(16);
-		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight, message, g, true);
+		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight, message, g, alignTypes.CENTER);
 	}
 
 	public override void Do()

@@ -36,7 +36,7 @@ public class JumpsEvolutionGraph : CairoXY
 
 		g.SetFontSize(16);
 		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight,
-				needToExecuteJumpsStr + " " + jumpType + ".", g, true);
+				needToExecuteJumpsStr + " " + jumpType + ".", g, alignTypes.CENTER);
 
 		endGraph();
 	}

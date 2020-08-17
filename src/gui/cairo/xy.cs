@@ -293,8 +293,8 @@ public abstract class CairoXY
 		g.LineTo(outerMargins, graphHeight - outerMargins);
 		g.LineTo(graphWidth - outerMargins, graphHeight - outerMargins);
 		g.Stroke ();
-		printText(2, Convert.ToInt32(outerMargins/2), 0, textHeight, getYAxisLabel(), g, false);
-		printText(graphWidth - Convert.ToInt32(outerMargins/2), graphHeight - outerMargins, 0, textHeight, getXAxisLabel(), g, false);
+		printText(2, Convert.ToInt32(outerMargins/2), 0, textHeight, getYAxisLabel(), g, alignTypes.LEFT);
+		printText(graphWidth - Convert.ToInt32(outerMargins/2), graphHeight - outerMargins, 0, textHeight, getXAxisLabel(), g, alignTypes.LEFT);
 
 		g.Stroke ();
 		g.LineWidth = 2;
@@ -471,7 +471,7 @@ public abstract class CairoXY
 		if(bold)
 			g.SelectFontFace("Helvetica", Cairo.FontSlant.Normal, Cairo.FontWeight.Bold);
 
-		printText(graphWidth, Convert.ToInt32(graphHeight/2 + textHeight*2*line), 0, textHeight, text, g, false);
+		printText(graphWidth, Convert.ToInt32(graphHeight/2 + textHeight*2*line), 0, textHeight, text, g, alignTypes.LEFT);
 
 		if(bold)
 			g.SelectFontFace("Helvetica", Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
@@ -628,13 +628,13 @@ public abstract class CairoXY
 	{
 		g.MoveTo(outerMargins, ytemp);
 		g.LineTo(graphWidth - outerMargins, ytemp);
-		printText(Convert.ToInt32(outerMargins/2), ytemp, 0, textHeight, text, g, true);
+		printText(Convert.ToInt32(outerMargins/2), ytemp, 0, textHeight, text, g, alignTypes.CENTER);
 	}
 	protected void paintVerticalGridLine(int xtemp, string text)
 	{
 		g.MoveTo(xtemp, graphHeight - outerMargins);
 		g.LineTo(xtemp, outerMargins);
-		printText(xtemp, graphHeight - Convert.ToInt32(outerMargins/2), 0, textHeight, text, g, true);
+		printText(xtemp, graphHeight - Convert.ToInt32(outerMargins/2), 0, textHeight, text, g, alignTypes.CENTER);
 	}
 
 
@@ -762,15 +762,21 @@ public abstract class CairoXY
 		return new Cairo.Color(red/256.0, green/256.0, blue/256.0);
 	}
 
-	protected void printText (int x, int y, int height, int textHeight, string text, Cairo.Context g, bool centered)
+	protected enum alignTypes { LEFT, CENTER, RIGHT }
+	protected void printText (int x, int y, int height, int textHeight, string text, Cairo.Context g, alignTypes align)
 	{
 		int moveToLeft = 0;
-		if(centered)
+		if(align == alignTypes.CENTER || align == alignTypes.RIGHT)
 		{
 			Cairo.TextExtents te;
 			te = g.TextExtents(text);
-			moveToLeft = Convert.ToInt32(te.Width/2);
+			
+			if(align == alignTypes.CENTER)
+				moveToLeft = Convert.ToInt32(te.Width/2);
+			else
+				moveToLeft = Convert.ToInt32(te.Width);
 		}
+
 		g.MoveTo( x - moveToLeft, ((y+y+height)/2) + textHeight/2 );
 		g.ShowText(text);
 	}

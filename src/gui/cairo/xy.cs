@@ -54,6 +54,7 @@ public abstract class CairoXY
 
 	protected Cairo.Context g;
 	protected const int textHeight = 12;
+	protected const int pointsRadius = 6;
 	protected string xVariable = "";
 	protected string yVariable = "";
 	protected string xUnits = "";
@@ -70,6 +71,7 @@ public abstract class CairoXY
 	protected int graphHeight;
 
 	protected Cairo.Color black;
+	protected Cairo.Color gray99;
 	Cairo.Color white;
 	protected Cairo.Color red;
 	Cairo.Color blue;
@@ -121,6 +123,7 @@ public abstract class CairoXY
 		g.SetFontSize(textHeight);
 
 		black = colorFromRGB(0,0,0);
+		gray99 = colorFromRGB(99,99,99);
 		white = colorFromRGB(255,255,255);
 		red = colorFromRGB(200,0,0);
 		blue = colorFromRGB(178, 223, 238); //lightblue
@@ -406,7 +409,7 @@ public abstract class CairoXY
 		{
 			double xgraph = calculatePaintX(p.X);
 			double ygraph = calculatePaintY(p.Y);
-			g.Arc(xgraph, ygraph, 6.0, 0.0, 2.0 * Math.PI); //full circle
+			g.Arc(xgraph, ygraph, pointsRadius, 0.0, 2.0 * Math.PI); //full circle
 			g.Color = blue;
 			g.FillPreserve();
 			g.SetSourceRGB(0, 0, 0);
@@ -518,7 +521,8 @@ public abstract class CairoXY
 
 		// 5) paint rectangle around that point
 		g.Color = bluePlots;
-		g.Rectangle(calculatePaintX(pClosest.X) -12, calculatePaintY(pClosest.Y) -12, 24, 24);
+		g.Rectangle(calculatePaintX(pClosest.X) - 2*pointsRadius, calculatePaintY(pClosest.Y) -2*pointsRadius,
+				4*pointsRadius, 4*pointsRadius);
 		g.Stroke();
 		g.Color = black;
 	}

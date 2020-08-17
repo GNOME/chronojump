@@ -80,9 +80,10 @@ public class JumpsRjFatigueGraph : CairoXY
 
 		g.Color = red;
 		plotPredictedLine(predictedLineTypes.STRAIGHT, predictedLineCrossMargins.TOUCH);
-		g.Color = black;
-
+		//g.Color = black;
+		g.Color = gray99;
 		divideAndPlotAverage(divideIn);
+		g.Color = black;
 
 		plotRealPoints(true);
 
@@ -132,11 +133,22 @@ public class JumpsRjFatigueGraph : CairoXY
 
 	private void paintHorizSegment (double xa, double xb, double y)
 	{
-		g.MoveTo(calculatePaintX(xa), calculatePaintY(y));
-		g.LineTo(calculatePaintX(xb), calculatePaintY(y));
+		double xap = calculatePaintX(xa);
+		double xbp = calculatePaintX(xb);
+		double yp = calculatePaintY(y);
+
+		g.MoveTo(xap, yp);
+		g.LineTo(xbp, yp);
+
+		//paint also small y marks
+		g.MoveTo(xap, yp - pointsRadius);
+		g.LineTo(xap, yp + pointsRadius);
+		g.MoveTo(xbp, yp - pointsRadius);
+		g.LineTo(xbp, yp + pointsRadius);
+
 		printText(
 				graphWidth - outerMargins,
-				Convert.ToInt32(calculatePaintY(y)),
+				Convert.ToInt32(yp),
 				0, textHeight, Util.TrimDecimals(y, 2), g, alignTypes.CENTER);
 
 		g.Stroke ();

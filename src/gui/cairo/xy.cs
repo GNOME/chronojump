@@ -69,7 +69,7 @@ public abstract class CairoXY
 	protected int graphWidth;
 	protected int graphHeight;
 
-	Cairo.Color black;
+	protected Cairo.Color black;
 	Cairo.Color white;
 	protected Cairo.Color red;
 	Cairo.Color blue;

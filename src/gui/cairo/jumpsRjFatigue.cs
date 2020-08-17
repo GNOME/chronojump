@@ -109,51 +109,42 @@ public class JumpsRjFatigueGraph : CairoXY
 
 	private void divideInTwoAndPlotAverage()
 	{
+		if(point_l.Count < 4)
+			return;
+
 		List<PointF> point_l_start = new List<PointF>();
 		List<PointF> point_l_end = new List<PointF>();
 		double sumIni = 0;
 		double sumEnd = 0;
 
-		int i = 0;
-		foreach(PointF point in point_l)
+		for(int i = 0; i < point_l.Count; i ++)
 		{
 			if(i < Math.Floor(point_l.Count / 2.0))
 			{
-				point_l_start.Add(point);
-				sumIni += point.Y;
-				//LogB.Information(string.Format("Added to point_l_start: {0}", point));
+				point_l_start.Add(point_l[i]);
+				sumIni += point_l[i].Y;
+				//LogB.Information(string.Format("Added to point_l_start: {0}", point_l[i]));
 			}
 			if(point_l.Count - i -1 < Math.Floor(point_l.Count / 2.0))
 			{
-				point_l_end.Add(point);
-				sumEnd += point.Y;
-				//LogB.Information(string.Format("Added to point_l_end: {0}", point));
+				point_l_end.Add(point_l[i]);
+				sumEnd += point_l[i].Y;
+				//LogB.Information(string.Format("Added to point_l_end: {0}", point_l[i]));
 			}
-
-			i ++;
 		}
 
-		if(point_l_start.Count == 0 || point_l_end.Count == 0)
-			return;
+		paintHorizSegment (point_l_start[0].X, point_l_start[point_l_start.Count -1].X, sumIni / point_l_start.Count);
+		paintHorizSegment (point_l_end[0].X, point_l_end[point_l_end.Count -1].X, sumEnd / point_l_end.Count);
+	}
 
-		double avgIni = sumIni / point_l_start.Count;
-		double avgEnd = sumEnd / point_l_end.Count;
-
-		g.MoveTo(calculatePaintX(point_l_start[0].X), calculatePaintY(avgIni));
-		g.LineTo(calculatePaintX(point_l_start[point_l_start.Count -1].X), calculatePaintY(avgIni));
+	private void paintHorizSegment (double xa, double xb, double y)
+	{
+		g.MoveTo(calculatePaintX(xa), calculatePaintY(y));
+		g.LineTo(calculatePaintX(xb), calculatePaintY(y));
 		printText(
-				//Convert.ToInt32(calculatePaintX(point_l_start[0].X)) -2,
 				graphWidth - outerMargins,
-				Convert.ToInt32(calculatePaintY(avgIni)),
-				0, textHeight, Util.TrimDecimals(avgIni, 2), g, alignTypes.CENTER);
-
-		g.MoveTo(calculatePaintX(point_l_end[0].X), calculatePaintY(avgEnd));
-		g.LineTo(calculatePaintX(point_l_end[point_l_end.Count -1].X), calculatePaintY(avgEnd));
-		printText(
-				//Convert.ToInt32(calculatePaintX(point_l_end[point_l_end.Count -1].X)) +2,
-				graphWidth - outerMargins,
-				Convert.ToInt32(calculatePaintY(avgEnd)),
-				0, textHeight, Util.TrimDecimals(avgEnd, 2), g, alignTypes.CENTER);
+				Convert.ToInt32(calculatePaintY(y)),
+				0, textHeight, Util.TrimDecimals(y, 2), g, alignTypes.CENTER);
 
 		g.Stroke ();
 	}

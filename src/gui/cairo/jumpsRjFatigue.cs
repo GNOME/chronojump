@@ -133,6 +133,9 @@ public class JumpsRjFatigueGraph : CairoXY
 			i ++;
 		}
 
+		if(point_l_start.Count == 0 || point_l_end.Count == 0)
+			return;
+
 		double avgIni = sumIni / point_l_start.Count;
 		double avgEnd = sumEnd / point_l_end.Count;
 

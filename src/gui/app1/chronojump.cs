@@ -1219,7 +1219,7 @@ public partial class ChronoJumpWindow
 					(currentJumpRjType.HasWeight && extra_window_jumps_rj_radiobutton_weight.Active));
 
 			if(notebook_analyze.CurrentPage == Convert.ToInt32(notebook_analyze_pages.JUMPSRJFATIGUE))
-				createComboSelectJumpsRjFatigue (false);
+				createComboSelectJumpsRjFatigueNum (false);
 		}
 		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSSIMPLE)
 			updateGraphRunsSimple();
@@ -7082,6 +7082,13 @@ LogB.Debug("mc finished 5");
 				{
 					notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.JUMPSRJFATIGUE);
 					createComboSelectJumpsRjFatigue (false);
+
+					//Active should be the same than on capture tab
+					combo_select_jumps_rj_fatigue.Active = combo_select_jumps_rj.Active;
+
+					//Active should be the last one to see the correct test after a capture
+					if(comboSelectJumpsRjFatigueNum.Count > 0)
+						combo_select_jumps_rj_fatigue_num.Active = comboSelectJumpsRjFatigueNum.Count -1;
 				}
 			}
 		}

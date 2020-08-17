@@ -133,7 +133,22 @@ public partial class ChronoJumpWindow
 	private void on_button_open_chronojump_clicked(object o, EventArgs args)
 	{
 		notebook_start.CurrentPage = Convert.ToInt32(notebook_start_pages.PROGRAM);
-		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.START);
-		new ChronojumpLogo (drawingarea_chronojump_logo, viewport_chronojump_logo, preferences.logoAnimatedShow);
+
+		if(preferences.loadLastModeAtStart &&
+				preferences.lastMode != Constants.Menuitem_modes.UNDEFINED && ! configChronojump.Compujump)
+		{
+			// 0) note this code is repeated on gui/app1/chronojump.cs public ChronoJumpWindow()
+			// 1) to avoid impossibility to start Chronojump if there's any problem with this mode, first put this to false
+			SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, false, false);
+
+			// 2) change mode
+			changeMode(preferences.lastMode);
+
+			// 3) put preference to true again
+			SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, true, false);
+		} else {
+			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.START);
+			new ChronojumpLogo (drawingarea_chronojump_logo, viewport_chronojump_logo, preferences.logoAnimatedShow);
+		}
 	}
 }

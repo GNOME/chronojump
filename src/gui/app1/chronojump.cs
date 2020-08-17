@@ -729,8 +729,10 @@ public partial class ChronoJumpWindow
 			SqlitePreferences.Update(SqlitePreferences.LoadLastSessionAtStart, true, false);
 		}
 
-		if(preferences.loadLastModeAtStart && preferences.lastMode != Constants.Menuitem_modes.UNDEFINED && ! configChronojump.Compujump)
+		if(! showSendLog && preferences.loadLastModeAtStart &&
+				preferences.lastMode != Constants.Menuitem_modes.UNDEFINED && ! configChronojump.Compujump)
 		{
+			// 0) note this code is repeated on gui/sendLog.cs on_button_open_chronojump_clicked()
 			// 1) to avoid impossibility to start Chronojump if there's any problem with this mode, first put this to false
 			SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, false, false);
 

@@ -614,6 +614,7 @@ public partial class ChronoJumpWindow
 		createComboSelectJumpsRj(true);
 		createComboSelectJumpsRjFatigue(true);
 		createComboSelectJumpsRjFatigueNum(true);
+		combo_jumps_rj_fatigue_divide_in.Active = 0;
 		createComboSelectRuns(true);
 		createComboSelectRunsInterval(true);
 		

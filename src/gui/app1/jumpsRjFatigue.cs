@@ -42,6 +42,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_jumps_rj_fatigue_heights;
 	[Widget] Gtk.RadioButton radio_jumps_rj_fatigue_tv_tc;
 
+	[Widget] Gtk.ComboBox combo_jumps_rj_fatigue_divide_in;
+
 	JumpsRjFatigue jumpsRjFatigue;
 	JumpsRjFatigueGraph jumpsRjFatigueGraph;
 	CjComboSelectJumpsRj comboSelectJumpsRjFatigue;
@@ -111,6 +113,11 @@ public partial class ChronoJumpWindow
 			jumpsRjFatigueDo(true);
 	}
 
+	private void on_combo_jumps_rj_fatigue_divide_in_changed (object o, EventArgs args)
+	{
+		jumpsRjFatigueDo(false);
+	}
+
 	private List<object> jumpsRjFatigueSelectJumpsOfType ()
 	{
 		List<object> types = new List<object>();
@@ -166,6 +173,11 @@ public partial class ChronoJumpWindow
 			if(strFull.Length == 3)
 				jumpDateStr = strFull[1];
 
+			int divideIn = 2;
+			string divideInStr = UtilGtk.ComboGetActive(combo_jumps_rj_fatigue_divide_in);
+			if(divideInStr == "2" || divideInStr == "3" || divideInStr == "4")
+				divideIn = Convert.ToInt32(divideInStr);
+
 			//regular constructor
 			jumpsRjFatigueGraph = new JumpsRjFatigueGraph(
 					jumpsRjFatigue.Point_l,
@@ -174,7 +186,8 @@ public partial class ChronoJumpWindow
 					drawingarea_jumps_rj_fatigue,
 					currentPerson.Name, jumpType,
 					jumpDateStr,
-					radio_jumps_rj_fatigue_heights.Active);
+					radio_jumps_rj_fatigue_heights.Active,
+					divideIn);
 			jumpsRjFatigueGraph.Do();
 
 			button_jumps_rj_fatigue_save_image.Sensitive = true;

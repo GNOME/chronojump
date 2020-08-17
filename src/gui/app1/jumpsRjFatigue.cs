@@ -186,7 +186,8 @@ public partial class ChronoJumpWindow
 		//needed to have mouse clicks at: on_drawingarea_jumps_rj_fatigue_button_press_event ()
 		drawingarea_jumps_rj_fatigue.AddEvents((int) (Gdk.EventMask.ButtonPressMask | Gdk.EventMask.ButtonReleaseMask));
 
-		createComboSelectJumpsRjFatigueNum (false);
+		//createComboSelectJumpsRjFatigueNum (false);
+		jumpsRjFatigueDo(false);
 
 		//data is calculated on switch page (at notebook_capture_analyze) or on change person
 	}

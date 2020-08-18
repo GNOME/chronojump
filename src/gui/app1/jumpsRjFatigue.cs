@@ -23,7 +23,7 @@
 using System;
 using Gtk;
 using Glade;
-//using Mono.Unix;
+using Mono.Unix;
 using System.Collections.Generic; //List<T> 
 
 public partial class ChronoJumpWindow 
@@ -221,4 +221,31 @@ public partial class ChronoJumpWindow
 		LogB.Information(string.Format("Mouse X: {0}; Mouse Y: {1}", args.Event.X, args.Event.Y));
 		jumpsRjFatigueGraph.CalculateAndWriteRealXY(args.Event.X, args.Event.Y);
 	}
+
+	private void on_button_jumps_rj_fatigue_save_image_clicked (object o, EventArgs args)
+	{
+		checkFile(Constants.CheckFileOp.JUMPS_RJ_FATIGUE_SAVE_IMAGE);
+	}
+
+	private void on_button_jumps_rj_fatigue_save_image_selected (string destination)
+	{
+		if(drawingarea_jumps_rj_fatigue == null)
+			return;
+
+		Gdk.Pixbuf pixbuf = Gdk.Pixbuf.FromDrawable(drawingarea_jumps_rj_fatigue.GdkWindow, Gdk.Colormap.System,
+				0, 0, 0, 0,
+				UtilGtk.WidgetWidth(drawingarea_jumps_rj_fatigue),
+				UtilGtk.WidgetHeight(drawingarea_jumps_rj_fatigue) );
+
+		LogB.Information("Saving");
+		pixbuf.Save(destination,"png");
+	}
+	private void on_overwrite_file_jumps_rj_fatigue_save_image_accepted (object o, EventArgs args)
+	{
+		on_button_jumps_rj_fatigue_save_image_selected (exportFileName);
+
+		string myString = string.Format(Catalog.GetString("Saved to {0}"), exportFileName);
+		new DialogMessage(Constants.MessageTypes.INFO, myString);
+	}
+
 }

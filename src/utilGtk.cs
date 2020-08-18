@@ -602,6 +602,11 @@ public class UtilGtk
 		}
 	}
 
+	public static void WindowColor(Gtk.Window w, Gdk.Color color)
+	{
+		w.ModifyBg(StateType.Normal, color);
+	}
+
 	public static void ViewportColor(Gtk.Viewport v, Gdk.Color color)
 	{
 		v.ModifyBg(StateType.Normal, color);

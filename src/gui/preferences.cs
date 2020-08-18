@@ -49,6 +49,7 @@ public class PreferencesWindow
 	//view more tabs
 	[Widget] Gtk.Button button_view_more_tabs;
 	[Widget] Gtk.HBox hbox_more_tabs;
+	[Widget] Gtk.Label label_view_more_tabs;
 	[Widget] Gtk.CheckButton check_view_jumps;
 	[Widget] Gtk.CheckButton check_view_runs;
 	[Widget] Gtk.CheckButton check_view_encoder;
@@ -78,6 +79,7 @@ public class PreferencesWindow
 
 
 	//jumps tab	
+//	[Widget] Gtk.Label label_jumps;
 	[Widget] Gtk.CheckButton checkbutton_power;
 	[Widget] Gtk.CheckButton checkbutton_stiffness;
 	[Widget] Gtk.CheckButton checkbutton_initial_speed;
@@ -375,9 +377,6 @@ public class PreferencesWindow
 			PreferencesWindowBox.radio_menu_show_text.Active = true;
 		else //if(preferences.menuType == Preferences.MenuTypes.ICONS)
 			PreferencesWindowBox.radio_menu_show_icons.Active = true;
-
-		PreferencesWindowBox.colorBackground = UtilGtk.ColorParse(preferences.colorBackgroundString);
-		PreferencesWindowBox.paintColorDrawingArea(PreferencesWindowBox.colorBackground);
 
 		if(preferences.logoAnimatedShow)
 			PreferencesWindowBox.check_logo_animated.Active = true;
@@ -705,6 +704,11 @@ public class PreferencesWindow
 		else //if(preferences.importerPythonVersion == Preferences.pythonVersionEnum.Python)
 			PreferencesWindowBox.radio_python_default.Active = true;
 
+		PreferencesWindowBox.colorBackground = UtilGtk.ColorParse(preferences.colorBackgroundString);
+		PreferencesWindowBox.paintColorDrawingArea(PreferencesWindowBox.colorBackground);
+
+		UtilGtk.WindowColor(PreferencesWindowBox.preferences_win, PreferencesWindowBox.colorBackground);
+		UtilGtk.ContrastLabelsLabel (preferences.colorBackgroundIsDark, PreferencesWindowBox.label_view_more_tabs);
 
 		PreferencesWindowBox.preferences_win.Show ();
 		return PreferencesWindowBox;

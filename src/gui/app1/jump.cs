@@ -277,7 +277,7 @@ public partial class ChronoJumpWindow
 				tv, tc, currentSession.UniqueID,
 				currentPerson.UniqueID, radio_contacts_graph_allPersons.Active,
 				Convert.ToInt32(spin_contacts_graph_last_limit.Value),
-				Constants.JumpTable, typeTemp, preferences.jumpsDjGraphHeights);
+				Constants.JumpTable, typeTemp, preferences.heightPreferred);
 		
 		if(eventGraph.personMAXAtSQLAllSessions > 0 || eventGraph.jumpsAtSQL.Count > 0)
 			PrepareJumpSimpleGraph(eventGraph, false); //don't animate

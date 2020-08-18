@@ -49,7 +49,7 @@ public class JumpExecute : EventExecute
 
 	private int angle = -1;
 	private bool avoidGraph;
-	private bool jumpsDjGraphHeights;
+	private bool heightPreferred;
 	
 	public JumpExecute() {
 	}
@@ -60,7 +60,7 @@ public class JumpExecute : EventExecute
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
 			double progressbarLimit, ExecutingGraphData egd, string description,
 			bool avoidGraph, //on configChronojump.Exhibition do not show graph because it gets too slow with big database
-			bool jumpsDjGraphHeights, int graphLimit, bool graphAllTypes, bool graphAllPersons
+			bool heightPreferred, int graphLimit, bool graphAllTypes, bool graphAllPersons
 			)
 	{
 		this.personID = personID;
@@ -80,7 +80,7 @@ public class JumpExecute : EventExecute
 		this.egd = egd;
 		this.description = description;
 		this.avoidGraph = avoidGraph;
-		this.jumpsDjGraphHeights = jumpsDjGraphHeights;
+		this.heightPreferred = heightPreferred;
 		this.graphLimit = graphLimit;
 		this.graphAllTypes = graphAllTypes;
 		this.graphAllPersons = graphAllPersons;
@@ -489,7 +489,7 @@ public class JumpExecute : EventExecute
 			PrepareEventGraphJumpSimpleObject = new PrepareEventGraphJumpSimple(
 					tv, tc, sessionID,
 					personID, graphAllPersons, graphLimit,
-					table, type, jumpsDjGraphHeights);
+					table, type, heightPreferred);
 
 			needUpdateGraphType = eventType.JUMP;
 			needUpdateGraph = true;

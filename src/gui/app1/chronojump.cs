@@ -4123,7 +4123,7 @@ public partial class ChronoJumpWindow
 				cp2016.CP, app1, preferences.digitsNumber,
 				preferences.volumeOn, preferences.gstreamer,
 				progressbarLimit, egd, description, configChronojump.Exhibition,
-				preferences.jumpsDjGraphHeights,
+				preferences.heightPreferred,
 				Convert.ToInt32(spin_contacts_graph_last_limit.Value),
 				radio_contacts_graph_allTests.Active, radio_contacts_graph_allPersons.Active);
 

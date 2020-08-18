@@ -2492,9 +2492,10 @@ class Sqlite
 			}
 			if(currentVersion == "1.72")
 			{
-				LogB.SQL("Inserted into preferences: jumpsDjGraphHeights");
+				//LogB.SQL("Inserted into preferences: jumpsDjGraphHeights");
 
-				SqlitePreferences.Insert (SqlitePreferences.JumpsDjGraphHeights, "True");
+				//SqlitePreferences.Insert (SqlitePreferences.JumpsDjGraphHeights, "True");
+				//unused, now using heightPreferred
 
 				currentVersion = updateVersion("1.73");
 			}

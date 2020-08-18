@@ -1,3 +1,6 @@
+----
+Check that on windows we can compile (for the length of the compile order on cygwin, see: how_to_compile.txt)
+----
 
 1) copy manual PDFs from chronojump-docs repository, because in chronojump repository PDFs are not updated
 check is "updated to last version"

@@ -33,7 +33,6 @@ class SqlitePreferences : Sqlite
 	public const string LogoAnimatedShow = "logoAnimatedShow";
 
 	//contacts
-	public const string JumpsDjGraphHeights = "jumpsDjGraphHeights";
 	public const string JumpsFVProfileOnlyBestInWeight = "jumpsFVProfileOnlyBestInWeight";
 	public const string JumpsFVProfileShowFullGraph = "jumpsFVProfileShowFullGraph";
 	public const string JumpsEvolutionOnlyBestInSession = "jumpsEvolutionOnlyBestInSession";
@@ -185,7 +184,6 @@ class SqlitePreferences : Sqlite
 				Insert ("multimediaStorage", Constants.MultimediaStorage.BYSESSION.ToString(), dbcmdTr);
 
 				//jumps
-				Insert (JumpsDjGraphHeights, "True", dbcmdTr);
 				SqlitePreferences.Insert (JumpsFVProfileOnlyBestInWeight, "True", dbcmdTr);
 				SqlitePreferences.Insert (JumpsFVProfileShowFullGraph, "True", dbcmdTr);
 				SqlitePreferences.Insert (JumpsEvolutionOnlyBestInSession, "False", dbcmdTr);
@@ -445,8 +443,6 @@ class SqlitePreferences : Sqlite
 			else if(reader[0].ToString() == "metersSecondsPreferred")
 				preferences.metersSecondsPreferred = reader[1].ToString() == "True";
 			//jumps
-			else if(reader[0].ToString() == JumpsDjGraphHeights)
-				preferences.jumpsDjGraphHeights = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == JumpsFVProfileOnlyBestInWeight)
 				preferences.jumpsFVProfileOnlyBestInWeight = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == JumpsFVProfileShowFullGraph)

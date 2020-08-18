@@ -2126,19 +2126,28 @@ public partial class ChronoJumpWindow
 
 		if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL)
 			nameString += "_encoder_set_export.csv";
-		else if(
-				checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE ||
-				checkFileOp == Constants.CheckFileOp.JUMPS_DJ_OPTIMAL_FALL_SAVE_IMAGE ||
-				checkFileOp == Constants.CheckFileOp.JUMPS_WEIGHT_FV_PROFILE_SAVE_IMAGE ||
-				checkFileOp == Constants.CheckFileOp.JUMPS_EVOLUTION_SAVE_IMAGE ||
-				checkFileOp == Constants.CheckFileOp.JUMPS_RJ_FATIGUE_SAVE_IMAGE ||
-				checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_SAVE_IMAGE ||
-				checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE ||
-				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL ||
-				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_AUTO ||
-				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_MANUAL ||
-				checkFileOp == Constants.CheckFileOp.RUNENCODER_SAVE_IMAGE)
-			nameString += ".png";
+		else if(checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE)
+			nameString += "_jumps_profile.png";
+		else if(checkFileOp == Constants.CheckFileOp.JUMPS_DJ_OPTIMAL_FALL_SAVE_IMAGE)
+			nameString += "_jumps_dj_optimal_fall.png";
+		else if(checkFileOp == Constants.CheckFileOp.JUMPS_WEIGHT_FV_PROFILE_SAVE_IMAGE)
+			nameString += "_jumps_fv_profile.png";
+		else if(checkFileOp == Constants.CheckFileOp.JUMPS_EVOLUTION_SAVE_IMAGE)
+			nameString += "_jumps_by_time.png";
+		else if(checkFileOp == Constants.CheckFileOp.JUMPS_RJ_FATIGUE_SAVE_IMAGE)
+			nameString += "_jumps_rj_fatigue.png";
+		else if(checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_SAVE_IMAGE)
+			nameString += "_runs_sprint.png";
+		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE)
+			nameString += "_encoder.png";
+		else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL)
+			nameString += "_force_sensor_set.png";
+		else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_AUTO)
+			nameString += "_force_sensor_rfd_auto.png";
+		else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_MANUAL)
+			nameString += "_force_sensor_general_analysis.png";
+		else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_SAVE_IMAGE)
+			nameString += "_race_analyzer.png";
 		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB)
 			nameString += "_encoder_repetition_export.csv";
 		else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB)

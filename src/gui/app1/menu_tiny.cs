@@ -69,7 +69,7 @@ public partial class ChronoJumpWindow
 		 * +4 is vbox_contacts spacing
 		 * (same for encoder)
 		 */
-		alignment_menu_tiny.TopPadding = (uint) radio_mode_contacts_capture.SizeRequest().Height + 4 + 4;
+		alignment_menu_tiny.TopPadding = (uint) scrolled_rest_time_contacts.SizeRequest().Height + 4 + 4;
 
 		image_logo_contacts_transp.Visible = false;
 		frame_logo_contacts.Visible = false;

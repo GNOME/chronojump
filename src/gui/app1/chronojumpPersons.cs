@@ -262,7 +262,7 @@ public partial class ChronoJumpWindow
 
 	private void person_add_multiple ()
 	{
-		personAddMultipleWin = PersonAddMultipleWindow.Show(app1, currentSession, preferences.CSVColumnDelimiter);
+		personAddMultipleWin = PersonAddMultipleWindow.Show(app1, currentSession, preferences.CSVColumnDelimiter, preferences.colorBackground);
 		personAddMultipleWin.Button_accept.Clicked -= new EventHandler(on_person_add_multiple_accepted);
 		personAddMultipleWin.Button_accept.Clicked += new EventHandler(on_person_add_multiple_accepted);
 	}

@@ -83,7 +83,7 @@ public class PersonAddMultipleWindow
 	
 	int rows;
 	
-	[Widget] Gtk.ScrolledWindow scrolledwindow;
+	//[Widget] Gtk.ScrolledWindow scrolledwindow;
 	[Widget] Gtk.Table table_main;
 	[Widget] Gtk.Label label_message;
 	
@@ -100,7 +100,7 @@ public class PersonAddMultipleWindow
 	string errorRepeatedEntryString;
 
 	
-	PersonAddMultipleWindow (Gtk.Window parent, Session currentSession, char columnDelimiter)
+	PersonAddMultipleWindow (Gtk.Window parent, Session currentSession, char columnDelimiter, Gdk.Color colorBackground)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_multiple_infinite.glade", "person_multiple_infinite", null);
@@ -108,16 +108,17 @@ public class PersonAddMultipleWindow
 		
 		//put an icon to window
 		UtilGtk.IconWindow(person_multiple_infinite);
+		UtilGtk.WindowColor(person_multiple_infinite, colorBackground);
 	
 		person_multiple_infinite.Parent = parent;
 		this.currentSession = currentSession;
 		this.columnDelimiter = columnDelimiter;
 	}
 	
-	static public PersonAddMultipleWindow Show (Gtk.Window parent, Session currentSession, char columnDelimiter)
+	static public PersonAddMultipleWindow Show (Gtk.Window parent, Session currentSession, char columnDelimiter, Gdk.Color colorBackground)
 	{
 		if (PersonAddMultipleWindowBox == null) {
-			PersonAddMultipleWindowBox = new PersonAddMultipleWindow (parent, currentSession, columnDelimiter);
+			PersonAddMultipleWindowBox = new PersonAddMultipleWindow (parent, currentSession, columnDelimiter, colorBackground);
 		}
 		
 		PersonAddMultipleWindowBox.putNonStandardIcons ();
@@ -442,7 +443,7 @@ public class PersonAddMultipleWindow
 		}
 
 		table_main.Show();
-		scrolledwindow.Visible = true;
+		table_main.Visible = true;
 		notebook.CurrentPage = 0;
 
 		button_accept.Sensitive = true;

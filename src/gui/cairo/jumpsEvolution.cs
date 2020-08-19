@@ -44,7 +44,8 @@ public class JumpsEvolutionGraph : CairoXY
 	//regular constructor
 	public JumpsEvolutionGraph (
 			List<PointF> point_l, double slope, double intercept,
-			DrawingArea area, string title, string jumpType, string date)
+			DrawingArea area, string title, string jumpType, string date,
+			Gdk.Color colorBackground)
 	{
 		this.point_l = point_l;
 		this.slope = slope;
@@ -53,6 +54,7 @@ public class JumpsEvolutionGraph : CairoXY
 		this.title = title;
 		this.jumpType = jumpType;
 		this.date = date;
+		this.colorBackground = colorFromGdk(colorBackground);
 
 		xVariable = dateStr;
 		yVariable = heightStr;

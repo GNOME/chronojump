@@ -6689,7 +6689,7 @@ LogB.Debug("mc finished 5");
 
 	private void on_shortcuts_clicked (object o, EventArgs args)
 	{
-		new DialogShortcuts(operatingSystem == UtilAll.OperatingSystems.MACOSX);
+		new DialogShortcuts(operatingSystem == UtilAll.OperatingSystems.MACOSX, preferences.colorBackground);
 	}
 
 	private void on_menuitem_check_last_version_activate (object o, EventArgs args) 

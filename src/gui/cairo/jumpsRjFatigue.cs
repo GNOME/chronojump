@@ -44,7 +44,8 @@ public class JumpsRjFatigueGraph : CairoXY
 	}
 	public JumpsRjFatigueGraph (
 			List<PointF> point_l, double slope, double intercept,
-			DrawingArea area, string title, string jumpType, string date, bool heights, int divideIn)
+			DrawingArea area, string title, string jumpType, string date,
+			bool heights, int divideIn, Gdk.Color colorBackground)
 	{
 		this.point_l = point_l;
 		this.slope = slope;
@@ -54,6 +55,7 @@ public class JumpsRjFatigueGraph : CairoXY
 		this.jumpType = jumpType;
 		this.date = date;
 		this.divideIn = divideIn;
+		this.colorBackground = colorFromGdk(colorBackground);
 
 		xVariable = countStr;
 		xUnits = "";

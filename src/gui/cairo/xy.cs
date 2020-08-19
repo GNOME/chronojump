@@ -51,6 +51,7 @@ public abstract class CairoXY
 	protected string title;
 	protected string jumpType;
 	protected string date;
+	protected Cairo.Color colorBackground;
 
 	protected Cairo.Context g;
 	protected const int textHeight = 12;
@@ -410,7 +411,7 @@ public abstract class CairoXY
 			double xgraph = calculatePaintX(p.X);
 			double ygraph = calculatePaintY(p.Y);
 			g.Arc(xgraph, ygraph, pointsRadius, 0.0, 2.0 * Math.PI); //full circle
-			g.Color = blue;
+			g.Color = colorBackground;
 			g.FillPreserve();
 			g.SetSourceRGB(0, 0, 0);
 			g.Stroke ();
@@ -761,9 +762,15 @@ public abstract class CairoXY
 	}
 	*/
 
+	//0 - 255
 	protected Cairo.Color colorFromRGB(int red, int green, int blue)
 	{
 		return new Cairo.Color(red/256.0, green/256.0, blue/256.0);
+	}
+	//0 - 65535
+	protected Cairo.Color colorFromGdk(Gdk.Color color)
+	{
+		return new Cairo.Color(color.Red/65536.0, color.Green/65536.0, color.Blue/65536.0);
 	}
 
 	protected enum alignTypes { LEFT, CENTER, RIGHT }

@@ -190,7 +190,8 @@ public partial class ChronoJumpWindow
 					currentPerson.Name, jumpType,
 					jumpDateStr,
 					radio_jumps_rj_fatigue_heights.Active,
-					divideIn);
+					divideIn,
+					preferences.colorBackground);
 			jumpsRjFatigueGraph.Do();
 
 			button_jumps_rj_fatigue_save_image.Sensitive = true;

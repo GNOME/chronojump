@@ -55,7 +55,8 @@ public class JumpsWeightFVProfileGraph : CairoXY
 			JumpsWeightFVProfile jwp,
 			DrawingArea area, string title, //string jumpType,
 			string date, bool showFullGraph,
-			ErrorAtStart errorMessage) //errorMessage, can make the graph but show the error
+			ErrorAtStart errorMessage, //errorMessage, can make the graph but show the error
+			Gdk.Color colorBackground)
 	{
 		this.point_l = jwp.Point_l_relative;
 
@@ -73,6 +74,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		this.date = date;
 		this.showFullGraph = showFullGraph;
 		this.errorMessage = errorMessage;
+		this.colorBackground = colorFromGdk(colorBackground);
 
 		outerMargins = 50; //blank space outside the axis
 		if(showFullGraph)

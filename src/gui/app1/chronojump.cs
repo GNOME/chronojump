@@ -6867,7 +6867,7 @@ LogB.Debug("mc finished 5");
 		if(translator_credits == "translator-credits") 
 			translator_credits = "";
 
-		new About(progVersion, translator_credits);
+		new About(progVersion, translator_credits, preferences.colorBackground);
 	}
 
 	private void on_repetitive_conditions_closed(object o, EventArgs args)

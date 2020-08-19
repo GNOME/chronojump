@@ -27,6 +27,7 @@ public class About
 {
 	[Widget] Gtk.Dialog dialog_about;
 	[Widget] Gtk.Image image_logo;
+	[Widget] Gtk.Label dialog_about_label_chronojump;
 	[Widget] Gtk.Label dialog_about_label_version;
 	
 	[Widget] Gtk.Label dialog_about_label_developers_software;
@@ -37,7 +38,7 @@ public class About
 	[Widget] Gtk.Label dialog_about_label_documenters;
 	[Widget] Gtk.Label dialog_about_label_translators;
 
-	public About (string version, string translators)
+	public About (string version, string translators, Gdk.Color colorBackground)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "dialog_about.glade", "dialog_about", "chronojump");
@@ -63,7 +64,10 @@ public class About
 		dialog_about_label_translators.Text = translators; 
 
 		//white bg
-		dialog_about.ModifyBg(StateType.Normal, new Gdk.Color(0xff,0xff,0xff));
+		//dialog_about.ModifyBg(StateType.Normal, new Gdk.Color(0xff,0xff,0xff));
+		UtilGtk.DialogColor(dialog_about, colorBackground);
+		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), dialog_about_label_chronojump);
+		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), dialog_about_label_version);
 		
 		//put authors
 		textLabel(Constants.Authors(Constants.AuthorsEnum.SOFTWARE), dialog_about_label_developers_software);

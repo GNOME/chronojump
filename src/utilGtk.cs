@@ -607,6 +607,11 @@ public class UtilGtk
 		w.ModifyBg(StateType.Normal, color);
 	}
 
+	public static void DialogColor(Gtk.Dialog d, Gdk.Color color)
+	{
+		d.ModifyBg(StateType.Normal, color);
+	}
+
 	public static void ViewportColor(Gtk.Viewport v, Gdk.Color color)
 	{
 		v.ModifyBg(StateType.Normal, color);

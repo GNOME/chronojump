@@ -459,6 +459,11 @@ public class Preferences
 		return sNew;
 	}
 
+	public Gdk.Color colorBackground
+	{
+		get { return UtilGtk.ColorParse(colorBackgroundString); }
+	}
+
 	~Preferences() {}
 	   
 }

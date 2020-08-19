@@ -37,7 +37,7 @@
             <property name="can_focus">False</property>
             <property name="spacing">6</property>
             <child>
-              <widget class="GtkLabel" id="label157">
+              <widget class="GtkLabel" id="label_from_session">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">From session</property>
@@ -75,7 +75,7 @@
             <property name="can_focus">False</property>
             <property name="spacing">6</property>
             <child>
-              <widget class="GtkLabel" id="label503">
+              <widget class="GtkLabel" id="label_check">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Check</property>
@@ -113,7 +113,7 @@
             <property name="can_focus">False</property>
             <property name="spacing">6</property>
             <child>
-              <widget class="GtkLabel" id="label215">
+              <widget class="GtkLabel" id="label_filter">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Search filter</property>
@@ -149,15 +149,37 @@
           </packing>
         </child>
         <child>
-          <widget class="GtkScrolledWindow" id="scrolledwindow6">
+          <widget class="GtkFrame" id="frame1">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
+            <property name="can_focus">False</property>
+            <property name="label_xalign">0</property>
+            <property name="label_yalign">1</property>
+            <property name="shadow_type">in</property>
             <child>
-              <widget class="GtkTreeView" id="treeview_person_recuperate">
+              <widget class="GtkScrolledWindow" id="scrolledwindow6">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <signal name="row_activated" handler="on_row_double_clicked" swapped="no"/>
+                <child>
+                  <widget class="GtkViewport" id="viewport1">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="border_width">4</property>
+                    <child>
+                      <widget class="GtkTreeView" id="treeview_person_recuperate">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <signal name="row_activated" handler="on_row_double_clicked" swapped="no"/>
+                      </widget>
+                    </child>
+                  </widget>
+                </child>
               </widget>
+            </child>
+            <child>
+              <placeholder/>
+              <packing>
+                <property name="type">label_item</property>
+              </packing>
             </child>
           </widget>
           <packing>

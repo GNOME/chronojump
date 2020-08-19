@@ -176,7 +176,7 @@ public partial class ChronoJumpWindow
 				//preferences.digitsNumber, checkbutton_video, configChronojump.UseVideo,
 				preferences.digitsNumber, checkbutton_video_contacts,
 				preferences.videoDevice, preferences.videoDevicePixelFormat, preferences.videoDeviceResolution, preferences.videoDeviceFramerate,
-				configChronojump.Compujump, preferences.units == Preferences.UnitsEnum.METRIC
+				configChronojump.Compujump, preferences.units == Preferences.UnitsEnum.METRIC, preferences.colorBackground
 				);
 		//-1 means we are adding a new person
 		//if we were modifying it will be it's uniqueID
@@ -309,7 +309,7 @@ public partial class ChronoJumpWindow
 				//preferences.digitsNumber, checkbutton_video, configChronojump.UseVideo,
 				preferences.digitsNumber, checkbutton_video_contacts,
 				preferences.videoDevice, preferences.videoDevicePixelFormat, preferences.videoDeviceResolution, preferences.videoDeviceFramerate,
-				configChronojump.Compujump, preferences.units == Preferences.UnitsEnum.METRIC
+				configChronojump.Compujump, preferences.units == Preferences.UnitsEnum.METRIC, preferences.colorBackground
 				); 
 		personAddModifyWin.FakeButtonAccept.Clicked += new EventHandler(on_edit_current_person_accepted);
 	}

@@ -38,7 +38,7 @@ public class PersonAddModifyWindow
 	[Widget] Gtk.TextView textview_description;
 	[Widget] Gtk.TextView textview_ps_comments;
 
-	[Widget] Gtk.Notebook notebook_main;
+	[Widget] Gtk.Frame frame_main;
 	[Widget] Gtk.HButtonBox hbuttonbox_main;
 	[Widget] Gtk.HBox hbox_units;
 	[Widget] Gtk.VBox vbox_error;
@@ -149,7 +149,7 @@ public class PersonAddModifyWindow
 	//if we are modifying a person, currentPerson.UniqueID is obviously it's ID
 	//showCapturePhoto is false on raspberry to not use camera
 	//PersonAddModifyWindow (Gtk.Window parent, Session currentSession, Person currentPerson, bool showCapturePhoto)
-	PersonAddModifyWindow (Gtk.Window parent, Session currentSession, Person currentPerson)
+	PersonAddModifyWindow (Gtk.Window parent, Session currentSession, Person currentPerson, Gdk.Color colorBackground)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_win.glade", "person_win", null);
@@ -157,7 +157,9 @@ public class PersonAddModifyWindow
 		
 		//put an icon to window
 		UtilGtk.IconWindow(person_win);
-	
+		UtilGtk.WindowColor(person_win, colorBackground);
+		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), label_error);
+
 		person_win.Parent = parent;
 		this.currentSession = currentSession;
 		this.currentPerson = currentPerson;
@@ -536,11 +538,11 @@ public class PersonAddModifyWindow
 			//Gtk.CheckButton app1_checkbutton_video, bool showCapturePhoto,
 			Gtk.CheckButton app1_checkbutton_video_contacts,
 			string videoDevice, string videoDevicePixelFormat, string videoDeviceResolution, string videoDeviceFramerate,
-			bool compujump, bool metric)
+			bool compujump, bool metric, Gdk.Color colorBackground)
 	{
 		if (PersonAddModifyWindowBox == null) {
 			//PersonAddModifyWindowBox = new PersonAddModifyWindow (parent, mySession, currentPerson, showCapturePhoto);
-			PersonAddModifyWindowBox = new PersonAddModifyWindow (parent, mySession, currentPerson);
+			PersonAddModifyWindowBox = new PersonAddModifyWindow (parent, mySession, currentPerson, colorBackground);
 		}
 
 		PersonAddModifyWindowBox.pDN = pDN;
@@ -1117,7 +1119,7 @@ public class PersonAddModifyWindow
 	private void showErrorMessage(bool show, bool showLoadPerson)
 	{
 		vbox_error.Visible = show;
-		notebook_main.Visible = ! show;
+		frame_main.Visible = ! show;
 		hbox_units.Visible = ! show;
 		hbuttonbox_main.Visible = ! show;
 

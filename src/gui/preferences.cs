@@ -705,10 +705,7 @@ public class PreferencesWindow
 			PreferencesWindowBox.radio_python_default.Active = true;
 
 		PreferencesWindowBox.colorBackground = UtilGtk.ColorParse(preferences.colorBackgroundString);
-		PreferencesWindowBox.paintColorDrawingArea(PreferencesWindowBox.colorBackground);
-
-		UtilGtk.WindowColor(PreferencesWindowBox.preferences_win, PreferencesWindowBox.colorBackground);
-		UtilGtk.ContrastLabelsLabel (preferences.colorBackgroundIsDark, PreferencesWindowBox.label_view_more_tabs);
+		PreferencesWindowBox.paintColorDrawingAreaAndBg (PreferencesWindowBox.colorBackground);
 
 		PreferencesWindowBox.preferences_win.Show ();
 		return PreferencesWindowBox;
@@ -764,10 +761,13 @@ public class PreferencesWindow
 		check_example_menu_icons.Visible = (o == (object) radio_menu_show_icons && radio_menu_show_icons.Active);
 	}
 
-	private void paintColorDrawingArea(Gdk.Color color)
+	private void paintColorDrawingAreaAndBg (Gdk.Color color)
 	{
 		UtilGtk.PaintColorDrawingArea(drawingarea_background_color, color);
+		UtilGtk.WindowColor(preferences_win, color);
+		UtilGtk.ContrastLabelsLabel (preferences.colorBackgroundIsDark, label_view_more_tabs);
 	}
+
 	private void on_button_color_choose_clicked(object o, EventArgs args)
 	{
 		using (ColorSelectionDialog colorSelectionDialog = new ColorSelectionDialog (Catalog.GetString("Select color")))
@@ -778,7 +778,7 @@ public class PreferencesWindow
 
 			if (colorSelectionDialog.Run () == (int) ResponseType.Ok) {
 				colorBackground = colorSelectionDialog.ColorSelection.CurrentColor;
-				paintColorDrawingArea(colorBackground);
+				paintColorDrawingAreaAndBg(colorBackground);
 
 				/*
 				LogB.Information(string.Format("color: red {0}, green {1}, blue {2}",

@@ -35,7 +35,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_show_persons;
 	[Widget] Gtk.HPaned hpaned_contacts_main;
 	[Widget] Gtk.Alignment alignment_viewport_menu_top;
-	[Widget] Gtk.Viewport viewport_hpaned_contacts_main;
 	[Widget] Gtk.Viewport viewport_send_log;
 	[Widget] Gtk.Viewport viewport_exit_confirm;
 	[Widget] Gtk.Viewport viewport_start_modes;
@@ -226,7 +225,7 @@ public partial class ChronoJumpWindow
 
 		Gdk.Color color = UtilGtk.ColorParse(preferences.colorBackgroundString);
 
-		UtilGtk.ViewportColor(viewport_hpaned_contacts_main, color);
+		UtilGtk.WindowColor(app1, color);
 		UtilGtk.ViewportColor(viewport_send_log, color);
 		UtilGtk.ViewportColor(viewport_exit_confirm, color);
 		UtilGtk.ViewportColor(viewport_menu_top, color);

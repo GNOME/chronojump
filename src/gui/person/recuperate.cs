@@ -30,6 +30,11 @@ using Mono.Unix;
 public class PersonRecuperateWindow {
 	
 	[Widget] protected Gtk.Window person_recuperate;
+
+	[Widget] protected Gtk.Label label_top;
+	[Widget] protected Gtk.Label label_from_session;
+	[Widget] protected Gtk.Label label_check;
+	[Widget] protected Gtk.Label label_filter;
 	
 	[Widget] protected Gtk.CheckButton checkbutton_sorted_by_creation_date;
 	
@@ -61,7 +66,7 @@ public class PersonRecuperateWindow {
 	protected PersonRecuperateWindow () {
 	}
 
-	PersonRecuperateWindow (Gtk.Window parent, Session currentSession) {
+	PersonRecuperateWindow (Gtk.Window parent, Session currentSession, Gdk.Color colorBackground) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_recuperate.glade", "person_recuperate", null);
 		gladeXML.Autoconnect(this);
@@ -69,6 +74,11 @@ public class PersonRecuperateWindow {
 		
 		//put an icon to window
 		UtilGtk.IconWindow(person_recuperate);
+		UtilGtk.WindowColor(person_recuperate, colorBackground);
+		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), label_top);
+		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), label_from_session);
+		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), label_check);
+		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), label_filter);
 
 		this.currentSession = currentSession;
 		
@@ -91,10 +101,10 @@ public class PersonRecuperateWindow {
 		treeview_person_recuperate.Selection.Changed += onSelectionEntry;
 	}
 	
-	static public PersonRecuperateWindow Show (Gtk.Window parent, Session currentSession, int pDN)
+	static public PersonRecuperateWindow Show (Gtk.Window parent, Session currentSession, int pDN, Gdk.Color colorBackground)
 	{
 		if (PersonRecuperateWindowBox == null) {
-			PersonRecuperateWindowBox = new PersonRecuperateWindow (parent, currentSession);
+			PersonRecuperateWindowBox = new PersonRecuperateWindow (parent, currentSession, colorBackground);
 		}
 		PersonRecuperateWindowBox.pDN = pDN;
 
@@ -304,7 +314,7 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 	protected PersonsRecuperateFromOtherSessionWindow () {
 	}
 
-	PersonsRecuperateFromOtherSessionWindow (Gtk.Window parent, Session currentSession) {
+	PersonsRecuperateFromOtherSessionWindow (Gtk.Window parent, Session currentSession, Gdk.Color colorBackground) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_recuperate.glade", "person_recuperate", null);
 		gladeXML.Autoconnect(this);
@@ -312,6 +322,11 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 		
 		//put an icon to window
 		UtilGtk.IconWindow(person_recuperate);
+		UtilGtk.WindowColor(person_recuperate, colorBackground);
+		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), label_top);
+		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), label_from_session);
+		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), label_check);
+		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), label_filter);
 		person_recuperate.Title = Catalog.GetString("Load persons from other session");
 
 	
@@ -350,11 +365,11 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 	}
 
 	static public PersonsRecuperateFromOtherSessionWindow Show (
-			Gtk.Window parent, Session currentSession)
+			Gtk.Window parent, Session currentSession, Gdk.Color colorBackground)
 	{
 		if (PersonsRecuperateFromOtherSessionWindowBox == null) {
 			PersonsRecuperateFromOtherSessionWindowBox = 
-				new PersonsRecuperateFromOtherSessionWindow (parent, currentSession);
+				new PersonsRecuperateFromOtherSessionWindow (parent, currentSession, colorBackground);
 		}
 		PersonsRecuperateFromOtherSessionWindowBox.person_recuperate.Show ();
 		
@@ -637,7 +652,6 @@ public class PersonNotUploadWindow : PersonsRecuperateFromOtherSessionWindow
 	static PersonNotUploadWindow PersonNotUploadWindowBox;
 	ArrayList initiallyUnchecked;
 	
-	[Widget] Gtk.Label label_top;
 	[Widget] Gtk.Button button_go_forward;
 	[Widget] Gtk.Button button_close;
 

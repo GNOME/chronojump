@@ -104,7 +104,7 @@ public partial class ChronoJumpWindow
 	private void person_load_single ()
 	{
 		LogB.Information("recuperate person");
-		personRecuperateWin = PersonRecuperateWindow.Show(app1, currentSession, preferences.digitsNumber);
+		personRecuperateWin = PersonRecuperateWindow.Show(app1, currentSession, preferences.digitsNumber, preferences.colorBackground);
 		personRecuperateWin.FakeButtonDone.Clicked += new EventHandler(on_recuperate_person_accepted);
 	}
 
@@ -138,7 +138,7 @@ public partial class ChronoJumpWindow
 
 	private void person_load_multiple () {
 		LogB.Information("recuperate persons from other session");
-		personsRecuperateFromOtherSessionWin = PersonsRecuperateFromOtherSessionWindow.Show(app1, currentSession);
+		personsRecuperateFromOtherSessionWin = PersonsRecuperateFromOtherSessionWindow.Show(app1, currentSession, preferences.colorBackground);
 		personsRecuperateFromOtherSessionWin.FakeButtonDone.Clicked += new EventHandler(on_recuperate_persons_from_session_accepted);
 	}
 	

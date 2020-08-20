@@ -889,6 +889,15 @@ public partial class ChronoJumpWindow
 	}
 
 
+	/*
+	//just to debug dialog without networks
+	public void ShowDialogPersonPopup()
+	{
+		currentPerson = SqlitePerson.Select(1);
+		compujumpAutologout = new CompujumpAutologout();
+		showDialogPersonPopup(new List<Task> (), new List<StationCount> (), "some net dev", true);
+	}
+	*/
 	private void showDialogPersonPopup(List<Task> tasks, List<StationCount> stationsCount, string networkDevices, bool serverConnected)
 	{
 		if(dialogPersonPopup != null)
@@ -900,7 +909,8 @@ public partial class ChronoJumpWindow
 		dialogPersonPopup = new DialogPersonPopup(
 				currentPerson.UniqueID, currentPerson.Name, capturedRFID, tasks, stationsCount,
 				networkDevices, serverConnected, compujumpAutologout.Active,
-				configChronojump.CompujumpDjango, configChronojump.CompujumpHideTaskDone);
+				configChronojump.CompujumpDjango, configChronojump.CompujumpHideTaskDone,
+				preferences.colorBackground);
 
 		dialogPersonPopup.Fake_button_start_task.Clicked -= new EventHandler(compujumpTaskStart);
 		dialogPersonPopup.Fake_button_start_task.Clicked += new EventHandler(compujumpTaskStart);

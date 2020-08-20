@@ -24,6 +24,10 @@ using System.IO;
 
 public class Config
 {
+	//to avoid passing this info to all the windows and dialogs, just read it here
+	public static Gdk.Color ColorBackground;
+	public static bool ColorBackgroundIsDark;
+
 	public enum SessionModeEnum { STANDARD, UNIQUE, MONTHLY }
 
 	public Preferences.MaximizedTypes Maximized;

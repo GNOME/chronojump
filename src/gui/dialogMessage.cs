@@ -25,8 +25,6 @@ using Glade;
 
 public class DialogMessage
 {
-	public static Gdk.Color colorBackground; //static to avoid passing colorBackground on all its calls
-
 	[Widget] Gtk.Dialog dialog_message;
 	[Widget] Gtk.ScrolledWindow scrolledwindow;
 	[Widget] Gtk.Label label_message;
@@ -60,7 +58,7 @@ public class DialogMessage
 		if(objectToShow == "hbox_stiffness_formula")
 		{
 			hbox_stiffness_formula.Show();
-			UtilGtk.ContrastLabelsHBox (UtilGtk.ColorIsDark(colorBackground), hbox_stiffness_formula);
+			UtilGtk.ContrastLabelsHBox (Config.ColorBackgroundIsDark, hbox_stiffness_formula);
 		}
 		else if(objectToShow == "button_go_r_mac")
 		{
@@ -84,7 +82,7 @@ public class DialogMessage
 
 		//put an icon to window
 		UtilGtk.IconWindow(dialog_message);
-		UtilGtk.DialogColor(dialog_message, colorBackground);
+		UtilGtk.DialogColor(dialog_message, Config.ColorBackground);
 	
 		//with this, user doesn't see a moving/changing creation window
 		//if uncommented, then does weird bug in windows not showing dialog as its correct size until window is moves

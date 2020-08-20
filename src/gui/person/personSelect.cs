@@ -38,6 +38,7 @@ public class PersonSelectWindow
 	[Widget] Gtk.Button button_delete;
 	[Widget] Gtk.VBox vbox_button_delete_confirm;
 	[Widget] Gtk.Label label_selected_person_name;
+	[Widget] Gtk.Label label_confirm;
 	[Widget] Gtk.Button button_manage_persons;
 	[Widget] Gtk.Image image_manage_persons;
 	[Widget] Gtk.Image image_person_new;
@@ -68,7 +69,7 @@ public class PersonSelectWindow
 	private List<PersonPhotoButton> list_ppb;
 
 	
-	PersonSelectWindow (Gtk.Window parent) {
+	PersonSelectWindow (Gtk.Window parent, Gdk.Color colorBackground) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_select_window.glade", "person_select_window", "chronojump");
 		gladeXML.Autoconnect(this);
@@ -77,6 +78,9 @@ public class PersonSelectWindow
 
 		//put an icon to window
 		UtilGtk.IconWindow(person_select_window);
+		UtilGtk.WindowColor(person_select_window, colorBackground);
+		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), label_confirm);
+
 		person_select_window.Parent = parent;
 		
 		FakeButtonAddPerson = new Gtk.Button();
@@ -111,10 +115,10 @@ public class PersonSelectWindow
 		image_close.Pixbuf = pixbuf;
 	}
 	
-	static public PersonSelectWindow Show (Gtk.Window parent, ArrayList persons, Person currentPerson)
+	static public PersonSelectWindow Show (Gtk.Window parent, ArrayList persons, Person currentPerson, Gdk.Color colorBackground)
 	{
 		if (PersonSelectWindowBox == null) {
-			PersonSelectWindowBox = new PersonSelectWindow (parent);
+			PersonSelectWindowBox = new PersonSelectWindow (parent, colorBackground);
 		}
 
 		PersonSelectWindowBox.persons = persons;

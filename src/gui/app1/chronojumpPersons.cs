@@ -410,7 +410,7 @@ public partial class ChronoJumpWindow
 				currentSession.UniqueID, 
 				false); //means: do not returnPersonAndPSlist
 
-		personSelectWin = PersonSelectWindow.Show(app1, myPersons, currentPerson);
+		personSelectWin = PersonSelectWindow.Show(app1, myPersons, currentPerson, preferences.colorBackground);
 		personSelectWin.FakeButtonAddPerson.Clicked += new EventHandler(on_button_top_person_add_person);
 		personSelectWin.FakeButtonAddPersonMultiple.Clicked += new EventHandler(on_button_top_person_add_person_multiple);
 		personSelectWin.FakeButtonLoadPerson.Clicked += new EventHandler(on_button_top_person_load_person);

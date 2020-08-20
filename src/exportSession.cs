@@ -103,7 +103,8 @@ public class ExportSession
 				LogB.Warning(string.Format("File {0} exists with attributes {1}, created at {2}",
 							fileName, File.GetAttributes(fileName), File.GetCreationTime(fileName)));
 				LogB.Information("Overwrite...");
-				ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to overwrite file: "), "", fileName);
+				ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to overwrite file: "),
+						"", fileName, preferences.colorBackground);
 				confirmWin.Button_accept.Clicked += new EventHandler(on_overwrite_file_accepted);
 			} else {
 				writeFile();

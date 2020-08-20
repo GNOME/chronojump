@@ -121,6 +121,7 @@ public class EncoderConfigurationWindow
 	Pixbuf pixbuf;
 
 	Constants.EncoderGI encoderGI;
+	Gdk.Color colorBackground;
 
 	/*
 	 * this params are used on inertial
@@ -157,7 +158,7 @@ public class EncoderConfigurationWindow
 
 	static public EncoderConfigurationWindow View (
 			Constants.EncoderGI encoderGI, EncoderConfigurationSQLObject econfSO,
-			string anchorage_str, int extraWeightN)
+			string anchorage_str, int extraWeightN, Gdk.Color colorBackground)
 	{
 		if (EncoderConfigurationWindowBox == null) {
 			EncoderConfigurationWindowBox = new EncoderConfigurationWindow ();
@@ -167,6 +168,7 @@ public class EncoderConfigurationWindow
 		EncoderConfigurationWindowBox.updateGUIFromEncoderConfiguration(econfSO.encoderConfiguration);
 		EncoderConfigurationWindowBox.main_gui_anchorage_str = anchorage_str;
 		EncoderConfigurationWindowBox.main_gui_extraWeightN = extraWeightN;
+		EncoderConfigurationWindowBox.colorBackground = colorBackground;
 
 		EncoderConfigurationWindowBox.createTreeView();
 		EncoderConfigurationWindowBox.fillTreeView(
@@ -730,7 +732,7 @@ public class EncoderConfigurationWindow
 					LogB.Information("Overwrite...");
 					ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
 								"Are you sure you want to overwrite file: "), "",
-							exportFileName);
+							exportFileName, colorBackground);
 
 					confirmWin.Button_accept.Clicked +=
 						new EventHandler(on_overwrite_file_export_accepted);

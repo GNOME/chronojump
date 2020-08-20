@@ -368,7 +368,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("delete current person from this session");
 		ConfirmWindow confirmWin = ConfirmWindow.Show(
 				Catalog.GetString("Are you sure you want to delete the current person and all his/her tests (jumps, races, pulses, ...) from this session?\n(His/her personal data and tests in other sessions will remain intact.)"), "",
-				Catalog.GetString("Current Person: ") + "<b>" + currentPerson.Name + "</b>");
+				Catalog.GetString("Current Person: ") + "<b>" + currentPerson.Name + "</b>", preferences.colorBackground);
 
 		confirmWin.Button_accept.Clicked += new EventHandler(on_delete_current_person_from_session_accepted);
 	}

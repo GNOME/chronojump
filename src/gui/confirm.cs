@@ -37,7 +37,7 @@ public class ConfirmWindowJumpRun
 
 	static ConfirmWindowJumpRun ConfirmWindowJumpRunBox;
 	
-	public ConfirmWindowJumpRun (string text1, string question)
+	public ConfirmWindowJumpRun (string text1, string question, Gdk.Color colorBackground)
 	{
 		//Setup (text, table, uniqueID);
 		Glade.XML gladeXML;
@@ -47,6 +47,9 @@ public class ConfirmWindowJumpRun
 		confirm_window.Title = "Chronojump - " + Catalog.GetString("Confirm");
 		//put an icon to window
 		UtilGtk.IconWindow(confirm_window);
+		UtilGtk.WindowColor(confirm_window, colorBackground);
+		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), label1);
+		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), label_question);
 		
 		label1.Text = text1;
 		if(question == "")
@@ -55,10 +58,10 @@ public class ConfirmWindowJumpRun
 			label_question.Text = question;
 	}
 
-	static public ConfirmWindowJumpRun Show (string text1, string question)
+	static public ConfirmWindowJumpRun Show (string text1, string question, Gdk.Color colorBackground)
 	{
 		if (ConfirmWindowJumpRunBox == null) {
-			ConfirmWindowJumpRunBox = new ConfirmWindowJumpRun(text1, question);
+			ConfirmWindowJumpRunBox = new ConfirmWindowJumpRun(text1, question, colorBackground);
 		}
 		ConfirmWindowJumpRunBox.confirm_window.Show ();
 		
@@ -105,15 +108,20 @@ public class ConfirmWindow
 
 	static ConfirmWindow ConfirmWindowBox;
 	
-	public ConfirmWindow (string text1, string link, string question)
+	public ConfirmWindow (string text1, string link, string question, Gdk.Color colorBackground)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "confirm_window.glade", "confirm_window", null);
 		gladeXML.Autoconnect(this);
 		
 		confirm_window.Title = "Chronojump - " + Catalog.GetString("Confirm");
+
 		//put an icon to window
 		UtilGtk.IconWindow(confirm_window);
+		UtilGtk.WindowColor(confirm_window, colorBackground);
+		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), label1);
+		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), label_link);
+		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), label_question);
 		
 		label1.Text = text1;
 		label1.UseMarkup = true;
@@ -132,10 +140,10 @@ public class ConfirmWindow
 
 	}
 
-	static public ConfirmWindow Show (string text1, string link, string question)
+	static public ConfirmWindow Show (string text1, string link, string question, Gdk.Color colorBackground)
 	{
 		if (ConfirmWindowBox == null) {
-			ConfirmWindowBox = new ConfirmWindow(text1, link, question);
+			ConfirmWindowBox = new ConfirmWindow(text1, link, question, colorBackground);
 		}
 		ConfirmWindowBox.confirm_window.Show ();
 		

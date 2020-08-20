@@ -87,7 +87,8 @@ public partial class ChronoJumpWindow
 
 			if(exists) {
 				LogB.Information("Overwrite...");
-				ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to overwrite: "), "", app1s_fileCopy);
+				ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to overwrite: "),
+						"", app1s_fileCopy, preferences.colorBackground);
 				confirmWin.Button_accept.Clicked += new EventHandler(app1s_export_on_overwrite_file_accepted);
 			} else {
 				app1s_pulsebarExportActivity.Visible = true;

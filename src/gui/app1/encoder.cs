@@ -515,7 +515,8 @@ public partial class ChronoJumpWindow
 	{
 		encoder_configuration_win = EncoderConfigurationWindow.View(
 				currentEncoderGI, SqliteEncoderConfiguration.SelectActive(currentEncoderGI),
-				UtilGtk.ComboGetActive(combo_encoder_anchorage), (int) spin_encoder_im_weights_n.Value); //used on inertial
+				UtilGtk.ComboGetActive(combo_encoder_anchorage), (int) spin_encoder_im_weights_n.Value, //used on inertial
+				preferences.colorBackground);
 
 		encoder_configuration_win.Button_close.Clicked += new EventHandler(on_encoder_configuration_win_closed);
 
@@ -1276,7 +1277,7 @@ public partial class ChronoJumpWindow
 		{
 			ConfirmWindow confirmWin = ConfirmWindow.Show(
 					Catalog.GetString("Recalculate this set will remove existing triggers."),
-					Catalog.GetString("Are you sure!"), "");
+					Catalog.GetString("Are you sure!"), "", preferences.colorBackground);
 			confirmWin.Button_accept.Clicked += new EventHandler(on_button_encoder_recalculate_clicked_do);
 		}
 		else
@@ -1522,7 +1523,7 @@ public partial class ChronoJumpWindow
 		if(radio_encoder_analyze_individual_current_session.Active) 
 		{
 			if(encSelReps == null || encSelReps.Type != EncoderSelectRepetitions.Types.INDIVIDUAL_CURRENT_SESSION)
-				encSelReps = new EncoderSelectRepetitionsIndividualCurrentSession();
+				encSelReps = new EncoderSelectRepetitionsIndividualCurrentSession(preferences.colorBackground);
 
 			encSelReps.FakeButtonDeleteCurve.Clicked -= new EventHandler(on_delete_encoder_curve);
 			encSelReps.FakeButtonDeleteCurve.Clicked += new EventHandler(on_delete_encoder_curve);
@@ -1875,7 +1876,7 @@ public partial class ChronoJumpWindow
 	{
 		if(preferences.askDeletion) {
 			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
-						"Are you sure you want to delete this set?"), Catalog.GetString("Saved repetitions related to this set will also be deleted."), "");
+						"Are you sure you want to delete this set?"), Catalog.GetString("Saved repetitions related to this set will also be deleted."), "", preferences.colorBackground);
 			confirmWin.Button_accept.Clicked += new EventHandler(on_encoder_load_signal_row_delete);
 		} else
 			on_encoder_load_signal_row_delete (o, args);
@@ -2186,7 +2187,7 @@ public partial class ChronoJumpWindow
 					LogB.Information("Overwrite...");
 					ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
 								"Are you sure you want to overwrite file: "), "", 
-							exportFileName);
+							exportFileName, preferences.colorBackground);
 
 					if(checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE)
 						confirmWin.Button_accept.Clicked +=
@@ -2337,7 +2338,7 @@ public partial class ChronoJumpWindow
 	{
 		if(preferences.askDeletion) {
 			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
-						"Are you sure you want to delete this set?"), Catalog.GetString("Saved repetitions related to this set will also be deleted."), "");
+						"Are you sure you want to delete this set?"), Catalog.GetString("Saved repetitions related to this set will also be deleted."), "", preferences.colorBackground);
 			confirmWin.Button_accept.Clicked += new EventHandler(on_button_encoder_delete_signal_accepted);
 		} else
 			on_button_encoder_delete_signal_accepted (o, args);

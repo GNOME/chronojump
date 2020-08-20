@@ -57,7 +57,7 @@ public class PulseExecute : EventExecute
 			Chronopic cp, Gtk.Window app, int pDN,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
 			//double progressbarLimit, 
-			ExecutingGraphData egd
+			ExecutingGraphData egd, Gdk.Color colorBackground
 			)
 	{
 		this.personID = personID;
@@ -66,6 +66,7 @@ public class PulseExecute : EventExecute
 		this.type = type;
 		this.fixedPulse = fixedPulse;
 		this.totalPulsesNum = totalPulsesNum;
+		this.colorBackground = colorBackground;
 		
 	
 		this.cp = cp;
@@ -128,7 +129,7 @@ public class PulseExecute : EventExecute
 			string myMessage = Catalog.GetString("You are IN, please leave the platform, prepare for start, and press the 'accept' button!");
 
 			ConfirmWindow confirmWin;		
-			confirmWin = ConfirmWindow.Show(myMessage, "", "");
+			confirmWin = ConfirmWindow.Show(myMessage, "", "", colorBackground);
 			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn, gstreamer);
 
 			//we call again this function

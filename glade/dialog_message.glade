@@ -258,26 +258,44 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkScrolledWindow" id="scrolledwindow">
+                  <widget class="GtkFrame" id="frame1">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="hscrollbar_policy">never</property>
-                    <property name="vscrollbar_policy">never</property>
+                    <property name="can_focus">False</property>
+                    <property name="label_xalign">0</property>
+                    <property name="label_yalign">1</property>
+                    <property name="shadow_type">in</property>
                     <child>
-                      <widget class="GtkViewport" id="viewport1">
+                      <widget class="GtkScrolledWindow" id="scrolledwindow">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can_focus">True</property>
+                        <property name="border_width">4</property>
+                        <property name="hscrollbar_policy">never</property>
+                        <property name="vscrollbar_policy">never</property>
                         <child>
-                          <widget class="GtkLabel" id="label_message">
+                          <widget class="GtkViewport" id="viewport1">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="xalign">0</property>
-                            <property name="use_markup">True</property>
-                            <property name="wrap">True</property>
-                            <property name="selectable">True</property>
+                            <property name="can_focus">False</property>
+                            <child>
+                              <widget class="GtkLabel" id="label_message">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="xalign">0</property>
+                                <property name="xpad">4</property>
+                                <property name="ypad">4</property>
+                                <property name="use_markup">True</property>
+                                <property name="wrap">True</property>
+                                <property name="selectable">True</property>
+                              </widget>
+                            </child>
                           </widget>
                         </child>
                       </widget>
+                    </child>
+                    <child>
+                      <placeholder/>
+                      <packing>
+                        <property name="type">label_item</property>
+                      </packing>
                     </child>
                   </widget>
                   <packing>

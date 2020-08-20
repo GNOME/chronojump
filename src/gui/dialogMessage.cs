@@ -36,7 +36,7 @@ public class DialogMessage
 	[Widget] Gtk.Image image_help;
 	[Widget] Gtk.Image image_inspect;
 
-	[Widget] Gtk.Box hbox_stiffness_formula;
+	[Widget] Gtk.HBox hbox_stiffness_formula;
 	[Widget] Gtk.Button button_go;
 	public bool Visible;
 	private string button_go_link = "";
@@ -58,7 +58,10 @@ public class DialogMessage
 	{
 		initialize("", type, message, false);
 		if(objectToShow == "hbox_stiffness_formula")
+		{
 			hbox_stiffness_formula.Show();
+			UtilGtk.ContrastLabelsHBox (UtilGtk.ColorIsDark(colorBackground), hbox_stiffness_formula);
+		}
 		else if(objectToShow == "button_go_r_mac")
 		{
 			button_go_link = Constants.RmacDownload;

@@ -19,7 +19,6 @@
         <property name="spacing">6</property>
         <child>
           <widget class="GtkCheckButton" id="checkbutton_only_current_session">
-            <property name="label" translatable="yes">show only persons in current session</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>
@@ -27,6 +26,13 @@
             <property name="active">True</property>
             <property name="draw_indicator">True</property>
             <signal name="clicked" handler="on_checkbutton_only_current_session_clicked" swapped="no"/>
+            <child>
+              <widget class="GtkLabel" id="label_checkbutton_only_current_session">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">show only persons in current session</property>
+              </widget>
+            </child>
           </widget>
           <packing>
             <property name="expand">False</property>
@@ -40,7 +46,7 @@
             <property name="can_focus">False</property>
             <property name="spacing">10</property>
             <child>
-              <widget class="GtkLabel" id="label166">
+              <widget class="GtkLabel" id="label_person">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Person:</property>
@@ -88,11 +94,19 @@
           <widget class="GtkScrolledWindow" id="scrolledwindow20">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="shadow_type">in</property>
             <child>
-              <widget class="GtkTreeView" id="treeview_person_show_all_events">
+              <widget class="GtkViewport" id="viewport1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="headers_clickable">False</property>
+                <property name="border_width">4</property>
+                <child>
+                  <widget class="GtkTreeView" id="treeview_person_show_all_events">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="headers_clickable">False</property>
+                  </widget>
+                </child>
               </widget>
             </child>
           </widget>

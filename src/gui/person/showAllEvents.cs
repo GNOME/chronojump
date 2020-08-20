@@ -31,6 +31,8 @@ public class PersonShowAllEventsWindow
 	[Widget] Gtk.Window person_show_all_events;
 
 	[Widget] Gtk.CheckButton checkbutton_only_current_session;
+	[Widget] Gtk.Label label_checkbutton_only_current_session;
+	[Widget] Gtk.Label label_person;
 	[Widget] Gtk.Label label_person_name;
 
 	[Widget] Gtk.TreeView treeview_person_show_all_events;
@@ -46,7 +48,7 @@ public class PersonShowAllEventsWindow
 	
 	protected Person currentPerson;
 	
-	PersonShowAllEventsWindow (Gtk.Window parent, int sessionID, Person currentPerson)
+	PersonShowAllEventsWindow (Gtk.Window parent, int sessionID, Person currentPerson, Gdk.Color colorBackground)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_show_all_events.glade", "person_show_all_events", "chronojump");
@@ -54,6 +56,10 @@ public class PersonShowAllEventsWindow
 		
 		//put an icon to window
 		UtilGtk.IconWindow(person_show_all_events);
+		UtilGtk.WindowColor(person_show_all_events, colorBackground);
+		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), label_checkbutton_only_current_session);
+		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), label_person);
+		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), label_person_name);
 
 		person_show_all_events.Parent = parent;
 		this.sessionID = sessionID;
@@ -71,10 +77,11 @@ public class PersonShowAllEventsWindow
 		fillTreeView(treeview_person_show_all_events,store, currentPerson.UniqueID);
 	}
 	
-	static public PersonShowAllEventsWindow Show (Gtk.Window parent, int sessionID, Person currentPerson, bool allowChangePerson)
+	static public PersonShowAllEventsWindow Show (Gtk.Window parent,
+			int sessionID, Person currentPerson, bool allowChangePerson, Gdk.Color colorBackground)
 	{
 		if (PersonShowAllEventsWindowBox == null) {
-			PersonShowAllEventsWindowBox = new PersonShowAllEventsWindow (parent, sessionID, currentPerson);
+			PersonShowAllEventsWindowBox = new PersonShowAllEventsWindow (parent, sessionID, currentPerson, colorBackground);
 		}
 
 		if(allowChangePerson)

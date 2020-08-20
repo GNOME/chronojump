@@ -31,6 +31,8 @@ using Mono.Unix;
 
 public class GenericWindow
 {
+	public static Gdk.Color colorBackground; //static to avoid passing colorBackground on all its calls
+
 	[Widget] Gtk.Window generic_window;
 	[Widget] Gtk.Label label_header;
 	[Widget] Gtk.Box hbox_error;
@@ -131,6 +133,10 @@ public class GenericWindow
 	
 		//put an icon to window
 		UtilGtk.IconWindow(generic_window);
+		UtilGtk.WindowColor(generic_window, colorBackground);
+		bool bgIsDark = UtilGtk.ColorIsDark(colorBackground);
+		UtilGtk.ContrastLabelsLabel (bgIsDark, label_header);
+		UtilGtk.ContrastLabelsLabel (bgIsDark, label_error);
 		
 		generic_window.Resizable = false;
 		setTitle(title);

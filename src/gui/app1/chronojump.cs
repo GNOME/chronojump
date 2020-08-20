@@ -554,6 +554,7 @@ public partial class ChronoJumpWindow
 		loadPreferencesAtStart ();
 
 		DialogMessage.colorBackground = preferences.colorBackground;
+		GenericWindow.colorBackground = preferences.colorBackground;
 
 		checkbutton_video_contacts.Visible = true;
 
@@ -2851,6 +2852,7 @@ public partial class ChronoJumpWindow
 		//TODO: only if color changed or personWinHide
 		doLabelsContrast(configChronojump.PersonWinHide);
 		DialogMessage.colorBackground = preferences.colorBackground;
+		GenericWindow.colorBackground = preferences.colorBackground;
 
 		// update force_capture_drawingarea
 		if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR && radiobutton_force_sensor_analyze_manual.Active)

@@ -608,15 +608,19 @@ public class EventMoreWindow
 	protected bool testOrDelete; //are we going to do a test or to delete a test type (test is true)
 	protected string [] typesTranslated;
 
+	private Gdk.Color colorBackground;
+
 	public EventMoreWindow () {
 	}
 
-	public EventMoreWindow (Gtk.Window parent, bool testOrDelete) {
+	public EventMoreWindow (Gtk.Window parent, bool testOrDelete, Gdk.Color colorBackground) {
 		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "jumps_runs_more.glade", "jumps_runs_more", "chronojump");
 		gladeXML.Autoconnect(this);
 		*/
+
+		this.colorBackground = colorBackground;
 
 		//name, startIn, weight, description
 		store = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string));
@@ -696,7 +700,8 @@ public class EventMoreWindow
 					Util.ArrayListToSingleString(sessionValues, ", ") + "\n\n" +
 					Catalog.GetString("please first edit or delete them."));
 		else {
-			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to delete this test type?"), "", selectedEventName);
+			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to delete this test type?"), "",
+					selectedEventName, colorBackground);
 			confirmWin.Button_accept.Clicked += new EventHandler(on_button_delete_type_accepted);
 		}
 	}

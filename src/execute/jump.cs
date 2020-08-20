@@ -60,7 +60,7 @@ public class JumpExecute : EventExecute
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
 			double progressbarLimit, ExecutingGraphData egd, string description,
 			bool avoidGraph, //on configChronojump.Exhibition do not show graph because it gets too slow with big database
-			bool heightPreferred, int graphLimit, bool graphAllTypes, bool graphAllPersons
+			bool heightPreferred, int graphLimit, bool graphAllTypes, bool graphAllPersons, Gdk.Color colorBackground
 			)
 	{
 		this.personID = personID;
@@ -84,6 +84,7 @@ public class JumpExecute : EventExecute
 		this.graphLimit = graphLimit;
 		this.graphAllTypes = graphAllTypes;
 		this.graphAllPersons = graphAllPersons;
+		this.colorBackground = colorBackground;
 	
 		if(TypeHasFall) {
 			hasFall = true;
@@ -165,7 +166,8 @@ public class JumpExecute : EventExecute
 		else if (platformState==Chronopic.Plataforma.OFF) {
 			ConfirmWindow confirmWin;		
 			confirmWin = ConfirmWindow.Show(Catalog.GetString(
-						"You are OUT, please enter the platform, prepare for jump and press the 'accept' button"), "", "");
+						"You are OUT, please enter the platform, prepare for jump and press the 'accept' button"),
+					"", "", colorBackground);
 
 			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn, gstreamer);
 
@@ -254,7 +256,7 @@ public class JumpExecute : EventExecute
 			if(fall == -1)
 				message = Catalog.GetString("You are OUT, please enter the platform, prepare for jump and press the 'accept' button");
 
-			confirmWin = ConfirmWindow.Show(message, "", "");
+			confirmWin = ConfirmWindow.Show(message, "", "", colorBackground);
 
 			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn, gstreamer);
 
@@ -564,7 +566,7 @@ public class JumpRjExecute : JumpExecute
 			Chronopic cp, Gtk.Window app, int pDN, bool allowFinishAfterTime,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
 			RepetitiveConditionsWindow repetitiveConditionsWin,
-			double progressbarLimit, ExecutingGraphData egd
+			double progressbarLimit, ExecutingGraphData egd, Gdk.Color colorBackground
 			)
 	{
 		this.personID = personID;
@@ -592,6 +594,7 @@ public class JumpRjExecute : JumpExecute
 		this.repetitiveConditionsWin = repetitiveConditionsWin;
 		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
+		this.colorBackground = colorBackground;
 	
 		if(TypeHasFall) { hasFall = true; } 
 		else { hasFall = false; }
@@ -651,7 +654,7 @@ public class JumpRjExecute : JumpExecute
 				myMessage = Catalog.GetString("You are OUT, please enter the platform, prepare for jump and press the 'accept' button");
 			}
 			ConfirmWindow confirmWin;		
-			confirmWin = ConfirmWindow.Show(myMessage, "","");
+			confirmWin = ConfirmWindow.Show(myMessage, "","", colorBackground);
 			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn, gstreamer);
 
 			//we call again this function

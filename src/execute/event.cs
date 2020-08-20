@@ -86,7 +86,8 @@ public class EventExecute
 	protected RepetitiveConditionsWindow repetitiveConditionsWin;
 
 	protected ExecutingGraphData egd;
-	
+	protected Gdk.Color colorBackground;
+
 	//for runs
 	public RunPhaseTimeList runPTL;
 

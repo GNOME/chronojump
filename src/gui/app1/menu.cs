@@ -178,15 +178,15 @@ public partial class ChronoJumpWindow
 
 		if(UtilGtk.ColorIsOkWithLogoTransparent (UtilGtk.ColorParse(preferences.colorBackgroundString)))
 		{
-			frame_logo_contacts.Visible = false;
+			image_logo_contacts.Visible = false;
 			image_logo_contacts_transp.Visible = true;
-			frame_logo_encoder.Visible = false;
+			image_logo_encoder.Visible = false;
 			image_logo_encoder_transp.Visible = true;
 			radio_show_menu_and_persons_adjust_height(true);
 		} else {
-			frame_logo_contacts.Visible = true;
+			image_logo_contacts.Visible = true;
 			image_logo_contacts_transp.Visible = false;
-			frame_logo_encoder.Visible = true;
+			image_logo_encoder.Visible = true;
 			image_logo_encoder_transp.Visible = false;
 			radio_show_menu_and_persons_adjust_height(false);
 		}
@@ -199,7 +199,7 @@ public partial class ChronoJumpWindow
 				(-1, image_logo_contacts_transp.SizeRequest().Height);
 		else
 			hbox_radio_show_menu_and_persons.SetSizeRequest
-				(-1, frame_logo_contacts.SizeRequest().Height);
+				(-1, image_logo_contacts.SizeRequest().Height);
 	}
 
 	private void menuSetTextAndIcons ()

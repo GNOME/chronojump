@@ -553,8 +553,8 @@ public partial class ChronoJumpWindow
 		//at initialization of chronojump and gives problems if this signals are raised while preferences are loading
 		loadPreferencesAtStart ();
 
-		DialogMessage.colorBackground = preferences.colorBackground;
-		GenericWindow.colorBackground = preferences.colorBackground;
+		Config.ColorBackground = preferences.colorBackground;
+		Config.ColorBackgroundIsDark = UtilGtk.ColorIsDark(preferences.colorBackground);
 
 		checkbutton_video_contacts.Visible = true;
 
@@ -2851,8 +2851,8 @@ public partial class ChronoJumpWindow
 		//repaint labels that are on the background
 		//TODO: only if color changed or personWinHide
 		doLabelsContrast(configChronojump.PersonWinHide);
-		DialogMessage.colorBackground = preferences.colorBackground;
-		GenericWindow.colorBackground = preferences.colorBackground;
+		Config.ColorBackground = preferences.colorBackground;
+		Config.ColorBackgroundIsDark = UtilGtk.ColorIsDark(preferences.colorBackground);
 
 		// update force_capture_drawingarea
 		if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR && radiobutton_force_sensor_analyze_manual.Active)

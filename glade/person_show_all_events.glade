@@ -91,23 +91,38 @@
           </packing>
         </child>
         <child>
-          <widget class="GtkScrolledWindow" id="scrolledwindow20">
+          <widget class="GtkFrame" id="frame1">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
+            <property name="can_focus">False</property>
+            <property name="label_xalign">0</property>
+            <property name="label_yalign">1</property>
             <property name="shadow_type">in</property>
             <child>
-              <widget class="GtkViewport" id="viewport1">
+              <widget class="GtkScrolledWindow" id="scrolledwindow20">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can_focus">True</property>
                 <property name="border_width">4</property>
+                <property name="shadow_type">in</property>
                 <child>
-                  <widget class="GtkTreeView" id="treeview_person_show_all_events">
+                  <widget class="GtkViewport" id="viewport1">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="headers_clickable">False</property>
+                    <child>
+                      <widget class="GtkTreeView" id="treeview_person_show_all_events">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="headers_clickable">False</property>
+                      </widget>
+                    </child>
                   </widget>
                 </child>
               </widget>
+            </child>
+            <child>
+              <placeholder/>
+              <packing>
+                <property name="type">label_item</property>
+              </packing>
             </child>
           </widget>
           <packing>

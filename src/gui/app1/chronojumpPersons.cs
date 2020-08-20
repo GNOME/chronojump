@@ -359,7 +359,8 @@ public partial class ChronoJumpWindow
 
 	private void on_show_all_person_events_activate (object o, EventArgs args)
 	{
-		personShowAllEventsWin = PersonShowAllEventsWindow.Show(app1, currentSession.UniqueID, currentPerson, true);
+		personShowAllEventsWin = PersonShowAllEventsWindow.Show(app1,
+				currentSession.UniqueID, currentPerson, true, preferences.colorBackground);
 	}
 	
 	
@@ -449,7 +450,8 @@ public partial class ChronoJumpWindow
 	}
 	private void on_button_top_person_show_all_events (object o, EventArgs args)
 	{
-		personShowAllEventsWin = PersonShowAllEventsWindow.Show(app1, currentSession.UniqueID, currentPerson, false);
+		personShowAllEventsWin = PersonShowAllEventsWindow.Show(app1,
+				currentSession.UniqueID, currentPerson, false, preferences.colorBackground);
 		personShowAllEventsWin.FakeButtonDone.Clicked -= new EventHandler(on_person_show_all_persons_event_close);
 		personShowAllEventsWin.FakeButtonDone.Clicked += new EventHandler(on_person_show_all_persons_event_close);
 	}

@@ -100,6 +100,7 @@ public static class TypePixList
 public class ChronopicRegisterWindow
 {
 	Gtk.Window chronopic_register_win;
+	Gtk.VBox vbox_top;
 	Gtk.VBox vbox_main;
 	private List<ChronopicRegisterPort> listConnected;
 	public Gtk.Button FakeButtonCloseSerialPort;
@@ -108,6 +109,7 @@ public class ChronopicRegisterWindow
 	{
 		createWindow(app1);
 		UtilGtk.IconWindow(chronopic_register_win); //put an icon to window
+		UtilGtk.WindowColor(chronopic_register_win, Config.ColorBackground);
 
 		listConnected = new List<ChronopicRegisterPort>();
 
@@ -126,7 +128,7 @@ public class ChronopicRegisterWindow
 			}
 		}
 
-		createVBoxMain();
+		createVBoxsViewportAndFrame();
 		createContent(connectedCount, unknownCount);
 		createButtons();
 	}
@@ -151,10 +153,25 @@ public class ChronopicRegisterWindow
 		chronopic_register_win.BorderWidth= 20;
 	}
 
-	private void createVBoxMain()
+	private void createVBoxsViewportAndFrame()
 	{
-		vbox_main = new Gtk.VBox(false, 20);
-		chronopic_register_win.Add(vbox_main);
+		vbox_main = new Gtk.VBox(false, 12);
+		Gtk.Viewport viewport = new Gtk.Viewport(null, null);
+		Gtk.Frame frame = new Gtk.Frame();
+		frame.LabelXalign = 0;
+		frame.LabelYalign = 1;
+		frame.ShadowType = ShadowType.In;
+
+		vbox_main.BorderWidth = 8;
+		viewport.Add(vbox_main);
+
+		viewport.BorderWidth = 4;
+		frame.Add(viewport);
+
+		vbox_top = new Gtk.VBox(false, 20);
+		vbox_top.Add(frame);
+
+		chronopic_register_win.Add(vbox_top);
 	}
 
 	Gtk.Table table_main;
@@ -366,7 +383,7 @@ public class ChronopicRegisterWindow
 
 		hbox.Add(button_close);
 
-		vbox_main.Add(hbox);
+		vbox_top.Add(hbox);
 	}
 
 	private void on_button_left_clicked(object o, EventArgs args)

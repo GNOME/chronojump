@@ -38,8 +38,11 @@ public class ForceSensorExerciseWindow
 	[Widget] Gtk.Entry entry_name;
 	[Widget] Gtk.Notebook notebook_main;
 	[Widget] Gtk.Notebook notebook_desc_examples;
-	[Widget] Gtk.Label label_notebook_desc_examples_desc;
-	[Widget] Gtk.Label label_notebook_desc_examples_examples;
+	[Widget] Gtk.RadioButton radio_desc_examples_desc;
+	[Widget] Gtk.RadioButton radio_desc_examples_examples;
+	[Widget] Gtk.Label label_help;
+	[Widget] Gtk.Label label_radio_desc_examples_desc;
+	[Widget] Gtk.Label label_radio_desc_examples_examples;
 	[Widget] Gtk.TextView textview_description;
 	[Widget] Gtk.TextView textview_examples;
 	[Widget] Gtk.Button button_back;
@@ -125,6 +128,11 @@ public class ForceSensorExerciseWindow
 
 		//put an icon to window
 		UtilGtk.IconWindow(force_sensor_exercise);
+		UtilGtk.WindowColor(force_sensor_exercise, Config.ColorBackground);
+		UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_header);
+		UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_help);
+		UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_radio_desc_examples_desc);
+		UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_radio_desc_examples_examples);
 
 		force_sensor_exercise.Resizable = false;
 		setTitle(title);
@@ -420,8 +428,8 @@ public class ForceSensorExerciseWindow
 		else //if(o == Options.OTHER)
 			str = Catalog.GetString("Angle explanation");
 
-		label_notebook_desc_examples_desc.Text = str;
-		label_notebook_desc_examples_examples.Text = Catalog.GetString("Examples of:") + " " + str;
+		label_radio_desc_examples_desc.Text = str;
+		label_radio_desc_examples_examples.Text = Catalog.GetString("Examples of:") + " " + str;
 	}
 
 	private void managePage(int i)
@@ -439,6 +447,7 @@ public class ForceSensorExerciseWindow
 		button_next.Visible = true;
 		button_accept.Visible = false;
 		button_back.Sensitive = true;
+		radio_desc_examples_examples.Show();
 		notebook_desc_examples.GetNthPage(1).Show();
 
 		if(p == Pages.FORCE)
@@ -524,7 +533,9 @@ public class ForceSensorExerciseWindow
 			ex = getExample(o);
 			set_notebook_desc_example_labels(o);
 
-			notebook_desc_examples.CurrentPage = 0;
+			radio_desc_examples_desc.Active = true;
+			radio_desc_examples_examples.Hide();
+			//notebook_desc_examples.CurrentPage = 0;
 			notebook_desc_examples.GetNthPage(1).Hide();
 		}
 		else // if(p == Pages.OTHER)
@@ -537,7 +548,9 @@ public class ForceSensorExerciseWindow
 			ex = getExample(Options.OTHER);
 			set_notebook_desc_example_labels(Options.OTHER);
 
-			notebook_desc_examples.CurrentPage = 0;
+			radio_desc_examples_desc.Active = true;
+			radio_desc_examples_examples.Hide();
+			//notebook_desc_examples.CurrentPage = 0;
 			notebook_desc_examples.GetNthPage(1).Hide();
 		}
 
@@ -545,6 +558,14 @@ public class ForceSensorExerciseWindow
 		textview_examples.Buffer.Text = ex;
 	}
 
+	private void on_radio_desc_examples_desc_toggled (object o, EventArgs args)
+	{
+		notebook_desc_examples.CurrentPage = 0;
+	}
+	private void on_radio_desc_examples_examples_toggled (object o, EventArgs args)
+	{
+		notebook_desc_examples.CurrentPage = 1;
+	}
 
 	private void on_button_next_clicked (object o, EventArgs args)
 	{

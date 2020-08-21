@@ -250,7 +250,7 @@ public class EncoderConfigurationWindow
 	}
 	
 	private void on_check_rotary_friction_inertia_on_axis_toggled (object obj, EventArgs args) {
-		initializeList(Constants.EncoderType.ROTARYFRICTION, true, check_rotary_friction_inertia_on_axis.Active, 0);
+		initializeList(Constants.EncoderType.ROTARYFRICTION, true, check_rotary_friction_inertia_on_axis.Active, listCurrent);
 	}
 	
 

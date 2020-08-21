@@ -661,7 +661,7 @@ RESOURCES = \
 	../images/er-axis-inertial.png,encoder-rotary-axis-inertial.png \
 	../images/er-axis-inertial-lateral.png,encoder-rotary-axis-inertial-lateral.png \
 	../images/er-axis-inertial-mov-pulley.png,encoder-rotary-axis-inertial-mov-pulley.png \
-	../images/er-axis-inertial-mov-pulley-lateral.png,er-axis-inertial-mov-pulley-lateral.png \
+	../images/er-axis-inertial-mov-pulley-lateral.png,encoder-rotary-axis-inertial-mov-pulley-lateral.png \
 	../images/encoder-calcule-im.png,encoder-calcule-im.png \
 	../images/er-axis-on-fixed-pulley-with-weighted-moving-pulley.png,encoder-rotary-axis-on-fixed-pulley-with-weighted-moving-pulley.png \
 	../images/inertial-start.png,inertial-start.png \

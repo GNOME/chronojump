@@ -44,6 +44,13 @@ public class EncoderConfigurationWindow
 	
 	[Widget] Gtk.Button button_previous;
 	[Widget] Gtk.Button button_next;
+
+	//to colorize
+	[Widget] Gtk.Label label_radio_linear;
+	[Widget] Gtk.Label label_radio_rotary_friction;
+	[Widget] Gtk.Label label_radio_rotary_axis;
+	[Widget] Gtk.Label label_check_rotary_friction_inertia_on_axis;
+	[Widget] Gtk.Label label_selected;
 	[Widget] Gtk.Label label_count;
 
 	[Widget] Gtk.TextView textview;
@@ -131,7 +138,8 @@ public class EncoderConfigurationWindow
 	int main_gui_extraWeightN;
 
 
-	EncoderConfigurationWindow () {
+	EncoderConfigurationWindow ()
+	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "encoder_configuration.glade", "encoder_configuration", "chronojump");
 		gladeXML.Autoconnect(this);
@@ -178,9 +186,20 @@ public class EncoderConfigurationWindow
 		//A) side is hidden at start to ensure scr_treeview_select is scrolled and displays correctly the last row
 		EncoderConfigurationWindowBox.notebook_side.Visible = false;
 
+		//B) done colors here because this win is created only once
+		//if done in constructor will not be updated on another color change
+		UtilGtk.WindowColor(EncoderConfigurationWindowBox.encoder_configuration, colorBackground);
+		bool bgIsDark = UtilGtk.ColorIsDark(colorBackground);
+		UtilGtk.ContrastLabelsLabel(bgIsDark, EncoderConfigurationWindowBox.label_radio_linear);
+		UtilGtk.ContrastLabelsLabel(bgIsDark, EncoderConfigurationWindowBox.label_radio_rotary_friction);
+		UtilGtk.ContrastLabelsLabel(bgIsDark, EncoderConfigurationWindowBox.label_radio_rotary_axis);
+		UtilGtk.ContrastLabelsLabel(bgIsDark, EncoderConfigurationWindowBox.label_check_rotary_friction_inertia_on_axis);
+		UtilGtk.ContrastLabelsLabel(bgIsDark, EncoderConfigurationWindowBox.label_selected);
+		UtilGtk.ContrastLabelsLabel(bgIsDark, EncoderConfigurationWindowBox.label_count);
+
 		EncoderConfigurationWindowBox.encoder_configuration.Show ();
 
-		//B) side is shown now, after showing the window in order to be displayed correctly (see A)
+		//C) side is shown now, after showing the window in order to be displayed correctly (see A)
 		EncoderConfigurationWindowBox.notebook_side.Visible = (EncoderConfigurationWindowBox.sideMode != sideModes.HIDDEN);
 
 		return EncoderConfigurationWindowBox;

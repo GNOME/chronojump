@@ -131,6 +131,7 @@ public class ForceSensorElasticBandsWindow
 
 		//put an icon to window
 		UtilGtk.IconWindow(force_sensor_elastic_bands);
+		UtilGtk.WindowColor(force_sensor_elastic_bands, Config.ColorBackground);
 	
 		setTreeview();
 	}

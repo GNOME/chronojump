@@ -158,7 +158,6 @@ public class ForceSensorExerciseWindow
 
 		ForceSensorExerciseWindowBox.Success = false;
 		ForceSensorExerciseWindowBox.modeEnum = modesEnum.EDIT;
-		ForceSensorExerciseWindowBox.initializeGuiAtShow();
 		ForceSensorExerciseWindowBox.exercise = exercise;
 		ForceSensorExerciseWindowBox.exerciseToGUI();
 
@@ -208,6 +207,7 @@ public class ForceSensorExerciseWindow
 					Convert.ToInt32(em), Convert.ToInt32(cm));
 		}
 
+		ForceSensorExerciseWindowBox.initializeGuiAtShow();
 		ForceSensorExerciseWindowBox.force_sensor_exercise.Show ();
 
 		return ForceSensorExerciseWindowBox;
@@ -226,7 +226,6 @@ public class ForceSensorExerciseWindow
 
 		ForceSensorExerciseWindowBox.Success = false;
 		ForceSensorExerciseWindowBox.modeEnum = modesEnum.ADD;
-		ForceSensorExerciseWindowBox.initializeGuiAtShow();
 		ForceSensorExerciseWindowBox.exercise = null;
 
 		ForceSensorExerciseWindowBox.prefsForceSensorElasticEccMinDispl = prefsForceSensorElasticEccMinDispl;
@@ -239,6 +238,7 @@ public class ForceSensorExerciseWindow
 				prefsForceSensorElasticEccMinDispl, prefsForceSensorElasticConMinDispl,
 				prefsForceSensorNotElasticEccMinForce, prefsForceSensorNotElasticConMinForce);
 
+		ForceSensorExerciseWindowBox.initializeGuiAtShow();
 		ForceSensorExerciseWindowBox.force_sensor_exercise.Show ();
 
 		return ForceSensorExerciseWindowBox;

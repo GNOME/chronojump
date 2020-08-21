@@ -94,6 +94,7 @@ public class EncoderConfigurationWindow
 	[Widget] Gtk.ComboBox combo_gearedUp;
 		
 	[Widget] Gtk.Box vbox_select_encoder;
+	[Widget] Gtk.Frame frame_notebook_side;
 	[Widget] Gtk.Notebook notebook_side;
 	[Widget] Gtk.TreeView treeview_select;
 	[Widget] Gtk.Image image_import;
@@ -184,7 +185,7 @@ public class EncoderConfigurationWindow
 				econfSO);
 
 		//A) side is hidden at start to ensure scr_treeview_select is scrolled and displays correctly the last row
-		EncoderConfigurationWindowBox.notebook_side.Visible = false;
+		EncoderConfigurationWindowBox.frame_notebook_side.Visible = false;
 
 		//B) done colors here because this win is created only once
 		//if done in constructor will not be updated on another color change
@@ -200,7 +201,7 @@ public class EncoderConfigurationWindow
 		EncoderConfigurationWindowBox.encoder_configuration.Show ();
 
 		//C) side is shown now, after showing the window in order to be displayed correctly (see A)
-		EncoderConfigurationWindowBox.notebook_side.Visible = (EncoderConfigurationWindowBox.sideMode != sideModes.HIDDEN);
+		EncoderConfigurationWindowBox.frame_notebook_side.Visible = (EncoderConfigurationWindowBox.sideMode != sideModes.HIDDEN);
 
 		return EncoderConfigurationWindowBox;
 	}
@@ -559,7 +560,7 @@ public class EncoderConfigurationWindow
 		else if(sideMode == sideModes.CAPTUREINERTIAL)
 			notebook_side.CurrentPage = 1;
 
-		notebook_side.Visible = (sideMode != sideModes.HIDDEN);
+		frame_notebook_side.Visible = (sideMode != sideModes.HIDDEN);
 
 		button_encoder_capture_inertial_cancel.Sensitive = (sideMode != sideModes.CAPTUREINERTIAL);
 		//button_encoder_capture_inertial_finish.Sensitive = (sideMode != sideModes.CAPTUREINERTIAL);

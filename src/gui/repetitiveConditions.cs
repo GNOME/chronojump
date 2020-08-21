@@ -85,8 +85,6 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.CheckButton check_encoder_inertial_ecc_overload;
 	[Widget] Gtk.CheckButton check_encoder_inertial_ecc_overload_percent;
 
-	[Widget] Gtk.VBox vbox_encoder_manual;
-	[Widget] Gtk.CheckButton checkbutton_encoder_show_manual_feedback;
 	[Widget] Gtk.Notebook notebook_encoder_conditions;
 	[Widget] Gtk.CheckButton checkbutton_encoder_height_higher;
 	[Widget] Gtk.CheckButton checkbutton_encoder_height_lower;
@@ -193,10 +191,11 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_range;
 
 	const int JUMPSRUNSPAGE = 0;
-	const int ENCODERPAGE = 1;
-	const int ENCODERRHYTHMPAGE = 2;
-	const int FORCESENSORPAGE = 3;
-	const int TESTBELLSPAGE = 4;
+	const int ENCODERAUTOPAGE = 1;
+	const int ENCODERMANUALPAGE = 2;
+	const int ENCODERRHYTHMPAGE = 3;
+	const int FORCESENSORPAGE = 4;
+	const int TESTBELLSPAGE = 5;
 
 	public Gtk.Button FakeButtonClose;
 
@@ -272,7 +271,10 @@ public class RepetitiveConditionsWindow
 				preferences.forceSensorCaptureFeedbackRange);
 
 		if(viewWindow)
+		{
+			UtilGtk.WindowColor(RepetitiveConditionsWindowBox.repetitive_conditions, Config.ColorBackground);
 			RepetitiveConditionsWindowBox.repetitive_conditions.Show ();
+		}
 
 		RepetitiveConditionsWindowBox.volumeOn = preferences.volumeOn;
 		RepetitiveConditionsWindowBox.gstreamer = preferences.gstreamer;
@@ -298,11 +300,10 @@ public class RepetitiveConditionsWindow
 		hbox_run_best_worst.Hide();
 		hbox_jump_conditions.Hide();
 		hbox_run_conditions.Hide();
-		vbox_encoder_manual.Hide();
-		notebook_encoder_conditions.Hide();
 
 		notebook_main.GetNthPage(JUMPSRUNSPAGE).Hide();
-		notebook_main.GetNthPage(ENCODERPAGE).Hide();
+		notebook_main.GetNthPage(ENCODERAUTOPAGE).Hide();
+		notebook_main.GetNthPage(ENCODERMANUALPAGE).Hide();
 		notebook_main.GetNthPage(ENCODERRHYTHMPAGE).Hide();
 		notebook_main.GetNthPage(FORCESENSORPAGE).Hide();
 		notebook_main.GetNthPage(TESTBELLSPAGE).Hide();
@@ -328,10 +329,6 @@ public class RepetitiveConditionsWindow
 		}
 		else if (bellMode == Constants.BellModes.ENCODERGRAVITATORY || bellMode == Constants.BellModes.ENCODERINERTIAL)
 		{
-			vbox_encoder_manual.Show();
-			if(checkbutton_encoder_show_manual_feedback.Active)
-				notebook_encoder_conditions.Show();
-
 			combo_encoder_main_variable.Active = UtilGtk.ComboMakeActive(combo_encoder_main_variable,
 					Constants.GetEncoderVariablesCapture(encoderMainVariable));
 			combo_encoder_secondary_variable.Active = UtilGtk.ComboMakeActive(combo_encoder_secondary_variable,
@@ -391,10 +388,11 @@ public class RepetitiveConditionsWindow
 			spinbutton_encoder_automatic_lower.Value = encoderCaptureMainVariableLowerValue;
 			update_checkbuttons_encoder_automatic = true;
 
-			notebook_main.GetNthPage(ENCODERPAGE).Show();
+			notebook_main.GetNthPage(ENCODERAUTOPAGE).Show();
+			notebook_main.GetNthPage(ENCODERMANUALPAGE).Show();
 			notebook_main.GetNthPage(ENCODERRHYTHMPAGE).Show();
 			notebook_main.GetNthPage(TESTBELLSPAGE).Show();
-			notebook_main.CurrentPage = ENCODERPAGE;
+			notebook_main.CurrentPage = ENCODERAUTOPAGE;
 			notebook_main.ShowTabs = true;
 
 			encoder_rhythm_set_values(encoderRhythm);
@@ -683,14 +681,7 @@ public class RepetitiveConditionsWindow
 	{
 		spinbutton_encoder_automatic_lower.Value ++;
 	}
-			
-	void on_checkbutton_encoder_show_manual_feedback_toggled (object o, EventArgs args) {
-		if(checkbutton_encoder_show_manual_feedback.Active)
-			notebook_encoder_conditions.Show();
-		else
-			notebook_encoder_conditions.Hide();
-	}
-	
+
 	void on_spinbutton_encoder_height_higher_value_changed (object o, EventArgs args) {
 		checkbutton_encoder_height_higher.Active = true;
 	}
@@ -1142,7 +1133,12 @@ public class RepetitiveConditionsWindow
 	}
 
 	public bool Encoder_show_manual_feedback {
-		set { checkbutton_encoder_show_manual_feedback.Active = value; }
+		set {
+			if(value)
+				notebook_main.GetNthPage(ENCODERMANUALPAGE).Show();
+			else
+				notebook_main.GetNthPage(ENCODERMANUALPAGE).Hide();
+		}
 	}
 
 	//height

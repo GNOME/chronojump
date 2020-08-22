@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2020-08-21 12:56+0000\n"
-"PO-Revision-Date: 2020-08-21 19:35+0300\n"
+"POT-Creation-Date: 2020-08-21 19:29+0000\n"
+"PO-Revision-Date: 2020-08-22 09:26+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -207,7 +207,7 @@ msgstr "Інше"
 
 #: ../glade/app1.glade.h:40 ../glade/execute_auto.glade.h:4
 #: ../glade/person_select_window.glade.h:2
-#: ../glade/repetitive_conditions.glade.h:53
+#: ../glade/repetitive_conditions.glade.h:54
 msgid "page 1"
 msgstr "сторінка 1"
 
@@ -250,12 +250,12 @@ msgid "Tests have >1 lap"
 msgstr ""
 
 #: ../glade/app1.glade.h:50 ../glade/preferences_win.glade.h:64
-#: ../src/gui/overview.cs:202
+#: ../src/gui/overview.cs:203
 msgid "Gravitatory"
 msgstr "Гравітаційний"
 
 #: ../glade/app1.glade.h:51 ../glade/preferences_win.glade.h:68
-#: ../src/gui/overview.cs:204
+#: ../src/gui/overview.cs:205
 msgid "Inertial"
 msgstr "Інерційний"
 
@@ -273,7 +273,7 @@ msgstr "Назад"
 
 #: ../glade/app1.glade.h:55 ../glade/execute_auto.glade.h:15
 #: ../glade/person_select_window.glade.h:13
-#: ../glade/repetitive_conditions.glade.h:54
+#: ../glade/repetitive_conditions.glade.h:55
 msgid "page 2"
 msgstr "сторінка 2"
 
@@ -304,7 +304,7 @@ msgstr ""
 #: ../src/gui/app1/encoder.cs:1135 ../src/gui/app1/encoder.cs:5018
 #: ../src/gui/app1/forceSensor.cs:2736 ../src/gui/app1/runEncoder.cs:1538
 #: ../src/gui/executeAuto.cs:501 ../src/gui/overview.cs:87
-#: ../src/gui/overview.cs:235 ../src/gui/overview.cs:243
+#: ../src/gui/overview.cs:236 ../src/gui/overview.cs:244
 #: ../src/stats/runIntervallic.cs:64 ../src/treeview/multiChronopic.cs:30
 #: ../src/treeview/pulse.cs:46 ../src/treeview/reactionTime.cs:30
 msgid "Person"
@@ -656,7 +656,7 @@ msgstr "Вилучити позначене"
 #: ../glade/repetitive_conditions.glade.h:36 ../src/constants.cs:1365
 #: ../src/encoder.cs:2387 ../src/exportSession.cs:326
 #: ../src/exportSession.cs:503 ../src/forceSensor.cs:1946
-#: ../src/gui/overview.cs:249 ../src/stats/djPower.cs:32
+#: ../src/gui/overview.cs:250 ../src/stats/djPower.cs:32
 #: ../src/treeview/jump.cs:34
 msgid "Power"
 msgstr "Потужність"
@@ -1009,7 +1009,7 @@ msgstr "крок приросту"
 
 #. update the totaltime label
 #: ../glade/app1.glade.h:198 ../glade/edit_event.glade.h:19
-#: ../glade/repetitive_conditions.glade.h:41 ../src/gui/app1/jump.cs:318
+#: ../glade/repetitive_conditions.glade.h:42 ../src/gui/app1/jump.cs:318
 #: ../src/gui/app1/run.cs:213 ../src/gui/jump.cs:627 ../src/gui/jump.cs:722
 #: ../src/gui/jump.cs:746 ../src/gui/jump.cs:880
 #: ../src/gui/old/queryServer.cs:785 ../src/gui/pulse.cs:174
@@ -1530,7 +1530,7 @@ msgstr "Імпульс"
 msgid "Until"
 msgstr "До"
 
-#: ../glade/app1.glade.h:325 ../glade/repetitive_conditions.glade.h:49
+#: ../glade/app1.glade.h:325 ../glade/repetitive_conditions.glade.h:50
 msgid "Back to default values"
 msgstr "Повернутися до типових значень"
 
@@ -1590,7 +1590,7 @@ msgstr ""
 msgid "Please, wait!"
 msgstr "Будь ласка, зачекайте."
 
-#: ../glade/app1.glade.h:339 ../src/gui/overview.cs:247
+#: ../glade/app1.glade.h:339 ../src/gui/overview.cs:248
 msgid "Extra mass"
 msgstr "Зайва вага"
 
@@ -1623,7 +1623,7 @@ msgstr "Завершити неперервний режим"
 msgid "Adaptative rhythm"
 msgstr "Адаптивний ритм"
 
-#: ../glade/app1.glade.h:347 ../src/gui/repetitiveConditions.cs:237
+#: ../glade/app1.glade.h:347 ../src/gui/repetitiveConditions.cs:236
 msgid "Rhythm"
 msgstr "Ритм"
 
@@ -1787,7 +1787,7 @@ msgstr "Налаштувати"
 #: ../src/gui/app1/runEncoder.cs:1423 ../src/gui/app1/runEncoder.cs:1518
 #: ../src/gui/encoderSelectRepetitions.cs:218
 #: ../src/gui/encoderTreeviews.cs:611 ../src/gui/overview.cs:89
-#: ../src/gui/overview.cs:237 ../src/gui/overview.cs:245
+#: ../src/gui/overview.cs:238 ../src/gui/overview.cs:246
 msgid "Exercise"
 msgstr "Вправа"
 
@@ -3237,7 +3237,6 @@ msgid "Minimal force"
 msgstr "Мінімальна сила"
 
 #: ../glade/force_sensor_exercise.glade.h:24
-#| msgid "Help"
 msgid "Help:"
 msgstr "Довідка:"
 
@@ -3349,7 +3348,7 @@ msgstr "Примусово використати порт Chronopic COM1 - COM4
 #: ../src/gui/app1/forceSensor.cs:2736 ../src/gui/app1/runEncoder.cs:1538
 #: ../src/gui/app1/session/loadAndImport.cs:221
 #: ../src/gui/app1/session/loadAndImport.cs:224 ../src/gui/overview.cs:90
-#: ../src/gui/overview.cs:241
+#: ../src/gui/overview.cs:242
 msgid "Sets"
 msgstr "Набори"
 
@@ -3475,7 +3474,7 @@ msgstr "Повне ім'я"
 
 #: ../glade/person_win.glade.h:3 ../glade/query_server_window.glade.h:7
 #: ../src/exportSession.cs:262 ../src/gui/overview.cs:88
-#: ../src/gui/overview.cs:236 ../src/gui/overview.cs:244
+#: ../src/gui/overview.cs:237 ../src/gui/overview.cs:245
 #: ../src/gui/person/addMultiple.cs:365 ../src/gui/person/recuperate.cs:121
 msgid "Sex"
 msgstr "Стать"
@@ -3972,7 +3971,7 @@ msgid "Play sound (on / off)"
 msgstr ""
 
 #: ../glade/preferences_win.glade.h:117
-#: ../glade/repetitive_conditions.glade.h:57
+#: ../glade/repetitive_conditions.glade.h:58
 msgid "Test \"Good\" bell"
 msgstr ""
 
@@ -4290,7 +4289,7 @@ msgid "Show secondary variable"
 msgstr ""
 
 #: ../glade/repetitive_conditions.glade.h:26
-msgid "Show manual feedback"
+msgid "Feedback - Automatic"
 msgstr ""
 
 #: ../glade/repetitive_conditions.glade.h:27
@@ -4322,85 +4321,90 @@ msgid "<b>Peak power</b> (W)"
 msgstr ""
 
 #: ../glade/repetitive_conditions.glade.h:37
-msgid "Show rhythm while capturing"
-msgstr ""
+#| msgid "Feedback"
+msgid "Feedback - Manual"
+msgstr "Відгук — вручну"
 
 #: ../glade/repetitive_conditions.glade.h:38
-msgid "Duration of eccentric phase"
-msgstr ""
+msgid "Show rhythm while capturing"
+msgstr "Показувати ритм під час захоплення"
 
 #: ../glade/repetitive_conditions.glade.h:39
-msgid "Duration of concentric phase"
-msgstr ""
+msgid "Duration of eccentric phase"
+msgstr "Тривалість ексцентричної фази"
 
 #: ../glade/repetitive_conditions.glade.h:40
-msgid "Total duration"
-msgstr ""
+msgid "Duration of concentric phase"
+msgstr "Тривалість концентричної фази"
 
-#: ../glade/repetitive_conditions.glade.h:42
-msgid "Rest between repetitions"
-msgstr ""
+#: ../glade/repetitive_conditions.glade.h:41
+msgid "Total duration"
+msgstr "Загальна тривалість"
 
 #: ../glade/repetitive_conditions.glade.h:43
-#: ../src/gui/repetitiveConditions.cs:866
-msgid "Use clusters"
-msgstr ""
+msgid "Rest between repetitions"
+msgstr "Відпочинок між повтореннями"
 
 #: ../glade/repetitive_conditions.glade.h:44
-msgid "Repetitions in cluster"
-msgstr ""
+#: ../src/gui/repetitiveConditions.cs:857
+msgid "Use clusters"
+msgstr "Використовувати групи"
 
 #: ../glade/repetitive_conditions.glade.h:45
-msgid "Rest between clusters"
-msgstr ""
+msgid "Repetitions in cluster"
+msgstr "Повторень у групі"
 
 #: ../glade/repetitive_conditions.glade.h:46
+msgid "Rest between clusters"
+msgstr "Відпочинок між групами"
+
+#: ../glade/repetitive_conditions.glade.h:47
 msgid "On encoder (gravitatory mode) rest starts ..."
 msgstr ""
 
-#: ../glade/repetitive_conditions.glade.h:47
-msgid "after eccentric"
-msgstr ""
-
 #: ../glade/repetitive_conditions.glade.h:48
-msgid "after concentric"
-msgstr ""
+msgid "after eccentric"
+msgstr "після ексцентричної"
 
-#: ../glade/repetitive_conditions.glade.h:50
-msgid "Rhythm of the repetition"
-msgstr ""
+#: ../glade/repetitive_conditions.glade.h:49
+msgid "after concentric"
+msgstr "після концентричної"
 
 #: ../glade/repetitive_conditions.glade.h:51
-msgid "Rhythm by phases"
-msgstr ""
+msgid "Rhythm of the repetition"
+msgstr "Ритм повторення"
 
 #: ../glade/repetitive_conditions.glade.h:52
-msgid "Duration of repetition"
-msgstr ""
+msgid "Rhythm by phases"
+msgstr "Ритм за фазами"
 
-#: ../glade/repetitive_conditions.glade.h:55
-msgid "Configure rhythm"
-msgstr ""
+#: ../glade/repetitive_conditions.glade.h:53
+msgid "Duration of repetition"
+msgstr "Тривалість повторення"
 
 #: ../glade/repetitive_conditions.glade.h:56
-msgid "Show feedback rectangle"
-msgstr ""
+msgid "Configure rhythm"
+msgstr "Налаштувати ритм"
 
-#: ../glade/repetitive_conditions.glade.h:58
+#: ../glade/repetitive_conditions.glade.h:57
+msgid "Show feedback rectangle"
+msgstr "Показувати прямокутник відгуку"
+
+#: ../glade/repetitive_conditions.glade.h:59
 msgid "Test \"Bad\" bell"
 msgstr ""
 
-#: ../glade/repetitive_conditions.glade.h:59
+#: ../glade/repetitive_conditions.glade.h:60
 msgid "Test bells"
 msgstr ""
 
 #: ../glade/report_window.glade.h:1
 msgid "Chronojump Report window"
-msgstr ""
+msgstr "Вікно звіту Chronojump"
 
 #: ../glade/report_window.glade.h:2
 msgid "Select data for HTML report"
-msgstr ""
+msgstr "Виберіть дані для звіту HTML"
 
 #: ../glade/report_window.glade.h:3
 msgid "show..."
@@ -4417,7 +4421,7 @@ msgstr ""
 
 #: ../glade/report_window.glade.h:8
 msgid "Include individual"
-msgstr ""
+msgstr "Включити окремі"
 
 #: ../glade/report_window.glade.h:12
 msgid "Data"
@@ -4450,15 +4454,15 @@ msgstr "Додати коментар"
 
 #: ../glade/report_window.glade.h:23
 msgid "Remove"
-msgstr ""
+msgstr "Вилучити"
 
 #: ../glade/report_window.glade.h:24
 msgid "statistics data"
-msgstr ""
+msgstr "статистичні дані"
 
 #: ../glade/report_window.glade.h:25
 msgid "Make report"
-msgstr ""
+msgstr "Створити звіт"
 
 #: ../glade/run_type_add.glade.h:1
 msgid "Create new race type"
@@ -4551,22 +4555,23 @@ msgstr "нічого"
 
 #: ../src/chronojump.cs:260
 msgid "Chronojump is already running"
-msgstr ""
+msgstr "Chronojump вже запущено"
 
 #: ../src/chronojump.cs:261 ../src/chronojump.cs:522 ../src/chronojump.cs:901
 #: ../src/chronojump.cs:909
 msgid "Chronojump will exit now."
-msgstr ""
+msgstr "Зараз Chronojump завершить роботу."
 
 #: ../src/chronojump.cs:316
 msgid "no tables, creating ..."
-msgstr ""
+msgstr "немає таблиць, створюємо…"
 
 #. check (spanish)
 #. http://mail.gnome.org/archives/chronojump-devel-list/2008-March/msg00011.html
 #: ../src/chronojump.cs:366
 msgid "Failed database conversion, ensure you have libsqlite3-0 installed."
 msgstr ""
+"Не вдалося перетворити базу даних, переконайтеся, що встановлено libsqlite3-0."
 
 #: ../src/chronojump.cs:367
 #, csharp-format
@@ -4577,7 +4582,7 @@ msgstr ""
 
 #: ../src/chronojump.cs:369
 msgid "And starting Chronojump again."
-msgstr ""
+msgstr "І запускаємо Chronojump знову."
 
 #: ../src/chronojump.cs:382
 msgid "All DJ jumps have been renamed as 'DJna' (Drop Jumps with No Arms)."
@@ -7685,19 +7690,19 @@ msgstr ""
 msgid "watts"
 msgstr "вати"
 
-#: ../src/gui/overview.cs:202 ../src/gui/overview.cs:204
+#: ../src/gui/overview.cs:203 ../src/gui/overview.cs:205
 msgid "Encoder Overview"
 msgstr "Огляд засобів кодування"
 
-#: ../src/gui/overview.cs:239
+#: ../src/gui/overview.cs:240
 msgid "Displaced mass"
 msgstr "Переміщена маса"
 
-#: ../src/gui/overview.cs:320
+#: ../src/gui/overview.cs:322
 msgid "Force sensor overview"
 msgstr "Примусовий огляд датчиків"
 
-#: ../src/gui/overview.cs:376
+#: ../src/gui/overview.cs:379
 msgid "Race analyzer overview"
 msgstr ""
 
@@ -7908,11 +7913,11 @@ msgid ""
 "ease."
 msgstr ""
 
-#: ../src/gui/preferences.cs:1134 ../src/gui/repetitiveConditions.cs:529
+#: ../src/gui/preferences.cs:1134 ../src/gui/repetitiveConditions.cs:527
 msgid "Sound working"
 msgstr "Звук працює"
 
-#: ../src/gui/preferences.cs:1136 ../src/gui/repetitiveConditions.cs:531
+#: ../src/gui/preferences.cs:1136 ../src/gui/repetitiveConditions.cs:529
 msgid "Sound not working"
 msgstr "Звук не працює"
 
@@ -7978,21 +7983,21 @@ msgstr ""
 msgid "reaction time"
 msgstr ""
 
-#: ../src/gui/repetitiveConditions.cs:237 ../src/runType.cs:162
+#: ../src/gui/repetitiveConditions.cs:236 ../src/runType.cs:162
 msgid "Protocol"
 msgstr "Протокол"
 
-#: ../src/gui/repetitiveConditions.cs:536
+#: ../src/gui/repetitiveConditions.cs:534
 msgid "You need to activate sounds in preferences / multimedia."
 msgstr ""
 
-#: ../src/gui/repetitiveConditions.cs:868
+#: ../src/gui/repetitiveConditions.cs:859
 msgid ""
 "Use clusters in order to group repetitions inside a set separated by rest "
 "time."
 msgstr ""
 
-#: ../src/gui/repetitiveConditions.cs:870
+#: ../src/gui/repetitiveConditions.cs:861
 msgid ""
 "Set will end when user press Finish or Cancel or when there's no change in "
 "the encoder during this time:\n"

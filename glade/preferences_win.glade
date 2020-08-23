@@ -176,6 +176,7 @@
                     <property name="can_focus">True</property>
                     <property name="border_width">6</property>
                     <property name="show_border">False</property>
+                    <property name="scrollable">True</property>
                     <property name="tab_hborder">10</property>
                     <property name="tab_vborder">4</property>
                     <child>

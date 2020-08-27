@@ -760,15 +760,6 @@ public partial class ChronoJumpWindow
 		//done after app1.Show in order to be able to gather the colors
 		doLabelsContrast(configChronojump.PersonWinHide);
 
-		if(splashWin != null) {
-			LogB.Information("Destroying splashWin");
-			splashWin.Destroy();
-		}
-		else {
-			LogB.Information("Hiding splashWin");
-			SplashWindow.Hide();
-		}
-
 		if(needToShowChronopicRegisterWindow)
 		{
 			LogB.Information("Show chronopic resgister win");
@@ -777,6 +768,16 @@ public partial class ChronoJumpWindow
 
 		if(! showSendLog && notebook_sup.CurrentPage == Convert.ToInt32(notebook_sup_pages.START))
 			new ChronojumpLogo (drawingarea_chronojump_logo, viewport_chronojump_logo, preferences.logoAnimatedShow);
+
+		//done at the end to ensure main window is shown
+		if(splashWin != null) {
+			LogB.Information("Destroying splashWin");
+			splashWin.Destroy();
+		}
+		else {
+			LogB.Information("Hiding splashWin");
+			SplashWindow.Hide();
+		}
 
 		LogB.Information("Chronojump window started");
 	}

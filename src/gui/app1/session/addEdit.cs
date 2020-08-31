@@ -618,12 +618,22 @@ public partial class ChronoJumpWindow
 		LogB.Information("app1sae_on_button_accept_clicked 1");
 
 		bool sessionNameExists = Sqlite.Exists (false, Constants.SessionTable, name);
-		if(sessionNameExists && name != currentSession.Name )
+		if(sessionNameExists && app1sae_addSession)
 		{
-			LogB.Information("app1sae_on_button_accept_clicked 2");
+			//if we try to add a new session with same name ...
+			LogB.Information("app1sae_on_button_accept_clicked add existing ...");
 			string myString = string.Format(Catalog.GetString("Session: '{0}' exists. Please, use another name"), name);
 			ErrorWindow.Show(myString);
-			LogB.Information("app1sae_on_button_accept_clicked 3");
+			LogB.Information("app1sae_on_button_accept_clicked add existing done!");
+		}
+		else if( sessionNameExists && ! app1sae_addSession && (currentSession == null || name != currentSession.Name) )
+		{
+			//if we edit a session but we changed name and it matches another existing session ...
+			LogB.Information("app1sae_on_button_accept_clicked edit existing not me ...");
+			string myString = string.Format(Catalog.GetString("Session: '{0}' exists. Please, use another name"), name);
+			ErrorWindow.Show(myString);
+			LogB.Information("app1sae_on_button_accept_clicked edit existing not me done!");
+
 		} else {
 			LogB.Information("app1sae_on_button_accept_clicked 4");
 			int sportID;

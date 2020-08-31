@@ -2145,7 +2145,7 @@ msgstr "Resultat"
 
 #: ../glade/app1.glade.h:463
 msgid "Import another session"
-msgstr "Importar una altre sessió"
+msgstr "Importar una altra sessió"
 
 #: ../glade/app1.glade.h:464
 msgid "Are you sure you want to delete the current session"
@@ -4898,7 +4898,7 @@ msgstr "Si voleu simular tests, useu {0} session."
 
 #: ../src/constants.cs:250
 msgid "This RFID is not registered on server."
-msgstr "L'RFID no està registrat al servidor."
+msgstr "La RFID no està registrat al servidor."
 
 #: ../src/constants.cs:254
 msgid "Cannot connect with server!"
@@ -6147,7 +6147,7 @@ msgstr "Sessió creada, ara cal afegir o carregar les persones."
 
 #: ../src/gui/app1/chronojump.cs:2908
 msgid "Sorry, R software is not installed."
-msgstr "Ho sentim, l'R no està instal·lat."
+msgstr "Ho sentim, R no està instal·lat."
 
 #: ../src/gui/app1/chronojump.cs:2909 ../src/gui/app1/encoder.cs:6688
 #: ../src/stats/main.cs:1517
@@ -6634,7 +6634,7 @@ msgstr "Nom de l'exercici:"
 #: ../src/gui/app1/runEncoder.cs:1529
 msgid "Sorry, this exercise cannot be deleted until these tests are deleted:"
 msgstr ""
-"Ho sentim, aquest exercici no es pot esborrar fins s'esborrin aquests tests:"
+"Ho sentim, aquest exercici no es pot esborrar fins que s'esborrin aquests tests:"
 
 #: ../src/gui/app1/encoder.cs:5018 ../src/gui/app1/forceSensor.cs:2532
 #: ../src/gui/app1/runEncoder.cs:1551
@@ -6886,7 +6886,7 @@ msgstr "Encoder inercial"
 
 #: ../src/gui/app1/session/loadAndImport.cs:598
 msgid "Open another database"
-msgstr "Obrir una altre base de dades"
+msgstr "Obrir una altra base de dades"
 
 #: ../src/gui/chronopic.cs:123
 msgid "Please, touch the platform or click Chronopic TEST button."
@@ -7308,7 +7308,7 @@ msgid ""
 "calculations)."
 msgstr ""
 "En la configuració de l'exercici actual, l'angle és merament descriptiu (no "
-"es fa servir pels càlculs)."
+"es fa servir per als càlculs)."
 
 #: ../src/gui/forceSensorExercise.cs:342
 msgid ""
@@ -7418,7 +7418,7 @@ msgstr "Esquat isomètric amb el sensor de força fixat entre el terra i el cos.
 
 #: ../src/gui/forceSensorExercise.cs:375
 msgid "Movements where a significant mass is accelerated."
-msgstr "Moviments en els que s'accelera una massa significativa."
+msgstr "Moviments en els quals s'accelera una massa significativa."
 
 #: ../src/gui/forceSensorExercise.cs:376
 msgid ""
@@ -7470,7 +7470,7 @@ msgid ""
 "supported by the hamstrings we are measuring."
 msgstr ""
 "Nordic hamstring. En un Nordic Hamstring amb el sensor fixat al turmell, el "
-"pes afecta als valors del sensor però aquest pes està suportat pels "
+"pes afecta els valors del sensor però aquest pes està suportat pels "
 "isquiotibials que s'estan mesurant."
 
 #: ../src/gui/forceSensorExercise.cs:389

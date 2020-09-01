@@ -106,6 +106,12 @@ public partial class ChronoJumpWindow
 			app1s_ImportPulse(chronojumpImporter.MessageToPulsebar);
 			app1s_ImportPulseEnd();
 
+			//do not show persons, show menu:
+			radio_show_menu.Toggle();
+			radio_show_menu.Active = true;
+			//to not allow to load a session or create a new session until close session/more
+			menus_sensitive_import_not_danger(false);
+
 			LogB.ThreadEnded();
 			return false;
 		}

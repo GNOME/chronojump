@@ -104,8 +104,7 @@ public partial class ChronoJumpWindow
 					jumpsEvolution.Slope,
 					jumpsEvolution.Intercept,
 					drawingarea_jumps_evolution,
-					currentPerson.Name, jumpType, currentSession.DateShort,
-					preferences.colorBackground);
+					currentPerson.Name, jumpType, currentSession.DateShort);
 			jumpsEvolutionGraph.Do();
 
 			button_jumps_evolution_save_image.Sensitive = true;

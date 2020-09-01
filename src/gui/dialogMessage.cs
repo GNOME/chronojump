@@ -82,7 +82,10 @@ public class DialogMessage
 
 		//put an icon to window
 		UtilGtk.IconWindow(dialog_message);
-		UtilGtk.DialogColor(dialog_message, Config.ColorBackground);
+
+		//manage window color
+		if(! Config.UseSystemColor)
+			UtilGtk.DialogColor(dialog_message, Config.ColorBackground);
 	
 		//with this, user doesn't see a moving/changing creation window
 		//if uncommented, then does weird bug in windows not showing dialog as its correct size until window is moves

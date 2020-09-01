@@ -1877,7 +1877,7 @@ LogB.Information(" fs R ");
 	{
 		if(preferences.askDeletion) {
 			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
-						"Are you sure you want to delete this set?"), "", "", preferences.colorBackground);
+						"Are you sure you want to delete this set?"), "", "");
 			confirmWin.Button_accept.Clicked += new EventHandler(on_force_sensor_load_signal_row_delete);
 		} else
 			on_force_sensor_load_signal_row_delete (o, args);
@@ -1913,7 +1913,7 @@ LogB.Information(" fs R ");
 
 		if(preferences.askDeletion) {
 			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
-						"Are you sure you want to delete this set?"), "", "", preferences.colorBackground);
+						"Are you sure you want to delete this set?"), "", "");
 			confirmWin.Button_accept.Clicked += new EventHandler(force_sensor_delete_current_test_accepted);
 		} else
 			force_sensor_delete_current_test_accepted(new object(), new EventArgs());

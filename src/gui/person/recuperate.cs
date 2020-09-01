@@ -66,7 +66,7 @@ public class PersonRecuperateWindow {
 	protected PersonRecuperateWindow () {
 	}
 
-	PersonRecuperateWindow (Gtk.Window parent, Session currentSession, Gdk.Color colorBackground) {
+	PersonRecuperateWindow (Gtk.Window parent, Session currentSession) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_recuperate.glade", "person_recuperate", null);
 		gladeXML.Autoconnect(this);
@@ -74,11 +74,16 @@ public class PersonRecuperateWindow {
 		
 		//put an icon to window
 		UtilGtk.IconWindow(person_recuperate);
-		UtilGtk.WindowColor(person_recuperate, colorBackground);
-		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), label_top);
-		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), label_from_session);
-		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), label_check);
-		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), label_filter);
+
+		//manage window color
+		if(! Config.UseSystemColor)
+		{
+			UtilGtk.WindowColor(person_recuperate, Config.ColorBackground);
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_top);
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_from_session);
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_check);
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_filter);
+		}
 
 		this.currentSession = currentSession;
 		
@@ -101,10 +106,10 @@ public class PersonRecuperateWindow {
 		treeview_person_recuperate.Selection.Changed += onSelectionEntry;
 	}
 	
-	static public PersonRecuperateWindow Show (Gtk.Window parent, Session currentSession, int pDN, Gdk.Color colorBackground)
+	static public PersonRecuperateWindow Show (Gtk.Window parent, Session currentSession, int pDN)
 	{
 		if (PersonRecuperateWindowBox == null) {
-			PersonRecuperateWindowBox = new PersonRecuperateWindow (parent, currentSession, colorBackground);
+			PersonRecuperateWindowBox = new PersonRecuperateWindow (parent, currentSession);
 		}
 		PersonRecuperateWindowBox.pDN = pDN;
 
@@ -314,7 +319,7 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 	protected PersonsRecuperateFromOtherSessionWindow () {
 	}
 
-	PersonsRecuperateFromOtherSessionWindow (Gtk.Window parent, Session currentSession, Gdk.Color colorBackground) {
+	PersonsRecuperateFromOtherSessionWindow (Gtk.Window parent, Session currentSession) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_recuperate.glade", "person_recuperate", null);
 		gladeXML.Autoconnect(this);
@@ -322,11 +327,17 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 		
 		//put an icon to window
 		UtilGtk.IconWindow(person_recuperate);
-		UtilGtk.WindowColor(person_recuperate, colorBackground);
-		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), label_top);
-		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), label_from_session);
-		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), label_check);
-		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), label_filter);
+
+		//manage window color
+		if(! Config.UseSystemColor)
+		{
+			UtilGtk.WindowColor(person_recuperate, Config.ColorBackground);
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_top);
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_from_session);
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_check);
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_filter);
+		}
+
 		person_recuperate.Title = Catalog.GetString("Load persons from other session");
 
 	
@@ -365,11 +376,11 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 	}
 
 	static public PersonsRecuperateFromOtherSessionWindow Show (
-			Gtk.Window parent, Session currentSession, Gdk.Color colorBackground)
+			Gtk.Window parent, Session currentSession)
 	{
 		if (PersonsRecuperateFromOtherSessionWindowBox == null) {
 			PersonsRecuperateFromOtherSessionWindowBox = 
-				new PersonsRecuperateFromOtherSessionWindow (parent, currentSession, colorBackground);
+				new PersonsRecuperateFromOtherSessionWindow (parent, currentSession);
 		}
 		PersonsRecuperateFromOtherSessionWindowBox.person_recuperate.Show ();
 		

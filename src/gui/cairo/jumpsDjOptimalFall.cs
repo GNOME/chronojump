@@ -49,8 +49,7 @@ public class JumpsDjOptimalFallGraph : CairoXY
 			double xAtMMaxY, //x at Model MaxY
 			double pointsMaxValue,
 			DrawingArea area,
-			string title, string jumpType, string date,
-			Gdk.Color colorBackground)
+			string title, string jumpType, string date)
 	{
 		this.point_l = point_l;
 		this.coefs = coefs;
@@ -61,7 +60,7 @@ public class JumpsDjOptimalFallGraph : CairoXY
 		this.title = title;
 		this.jumpType = jumpType;
 		this.date = date;
-		this.colorBackground = colorFromGdk(colorBackground);
+		this.colorBackground = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
 
 		xVariable = fallStr;
 		yVariable = heightStr;

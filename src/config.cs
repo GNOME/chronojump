@@ -25,6 +25,7 @@ using System.IO;
 public class Config
 {
 	//to avoid passing this info to all the windows and dialogs, just read it here
+	public static bool UseSystemColor; //do nothing at all
 	public static Gdk.Color ColorBackground;
 	public static bool ColorBackgroundIsDark;
 

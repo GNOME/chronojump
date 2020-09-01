@@ -64,7 +64,7 @@ public class DialogShortcuts
 	[Widget] Gtk.Image image_fs_4;
 
 
-	public DialogShortcuts (bool isMac, Gdk.Color colorBackground)
+	public DialogShortcuts (bool isMac)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "dialog_shortcuts.glade", "dialog_shortcuts", "chronojump");
@@ -72,7 +72,10 @@ public class DialogShortcuts
 
 		//put an icon to window
 		UtilGtk.IconWindow(dialog_shortcuts);
-		UtilGtk.DialogColor(dialog_shortcuts, colorBackground);
+
+		//manage window color
+		if(! Config.UseSystemColor)
+			UtilGtk.DialogColor(dialog_shortcuts, Config.ColorBackground);
 
 		/*
 		 * on 2.0 mac will also use ctrl until we find the way to use command

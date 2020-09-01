@@ -179,7 +179,10 @@ public class EncoderOverviewWindow : OverviewWindow
 
 		//put an icon to window
 		UtilGtk.IconWindow(overview_win);
-		UtilGtk.WindowColor(overview_win, Config.ColorBackground);
+
+		//manage window color
+		if(! Config.UseSystemColor)
+			UtilGtk.WindowColor(overview_win, Config.ColorBackground);
 	}
 
 	static public EncoderOverviewWindow Show (Gtk.Window parent, Constants.EncoderGI encoderGI, int sessionID)
@@ -297,7 +300,10 @@ public class ForceSensorOverviewWindow : OverviewWindow
 
 		//put an icon to window
 		UtilGtk.IconWindow(overview_win);
-		UtilGtk.WindowColor(overview_win, Config.ColorBackground);
+
+		//manage window color
+		if(! Config.UseSystemColor)
+			UtilGtk.WindowColor(overview_win, Config.ColorBackground);
 	}
 
 	static public ForceSensorOverviewWindow Show (Gtk.Window parent, int sessionID)
@@ -354,7 +360,10 @@ public class RunEncoderOverviewWindow : OverviewWindow
 
 		//put an icon to window
 		UtilGtk.IconWindow(overview_win);
-		UtilGtk.WindowColor(overview_win, Config.ColorBackground);
+
+		//manage window color
+		if(! Config.UseSystemColor)
+			UtilGtk.WindowColor(overview_win, Config.ColorBackground);
 	}
 
 	static public RunEncoderOverviewWindow Show (Gtk.Window parent, int sessionID)

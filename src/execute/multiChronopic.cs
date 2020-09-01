@@ -76,7 +76,7 @@ public class MultiChronopicExecute : EventExecute
 	public MultiChronopicExecute(int personID, string personName, int sessionID, string type, 
 			Chronopic cp, bool syncFirst, bool deleteFirst, string vars, Gtk.Window app,
 			//double progressbarLimit, 
-			ExecutingGraphData egd, Gdk.Color colorBackground
+			ExecutingGraphData egd
 			) {
 		this.personID = personID;
 		this.personName = personName;
@@ -91,7 +91,6 @@ public class MultiChronopicExecute : EventExecute
 		this.app = app;
 //		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
-		this.colorBackground = colorBackground;
 	
 		chronopics = 1; 
 		initValues();	
@@ -302,7 +301,7 @@ public class MultiChronopicExecute : EventExecute
 			ConfirmWindow confirmWin;		
 			confirmWin = ConfirmWindow.Show( 
 					string.Format(Catalog.GetString("There's contact in {0}. Please leave."), platformsProblems),
-					"", "", colorBackground);
+					"", "");
 
 			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn, gstreamer);
 

@@ -76,7 +76,7 @@ public partial class ChronoJumpWindow
 		image_logo_encoder_transp.Visible = false;
 		image_logo_encoder.Visible = false;
 
-		if(UtilGtk.ColorIsOkWithLogoTransparent (UtilGtk.ColorParse(preferences.colorBackgroundString)))
+		if(! Config.UseSystemColor && UtilGtk.ColorIsOkWithLogoTransparent (UtilGtk.ColorParse(preferences.colorBackgroundString)))
 		{
 			image_logo_icon_transp.Visible = true;
 			frame_image_logo_icon.Visible = false;
@@ -88,13 +88,17 @@ public partial class ChronoJumpWindow
 
 	private void menuTinySetColors ()
 	{
-		Gdk.Color color = UtilGtk.ColorParse(preferences.colorBackgroundString);
+		if(! Config.UseSystemColor)
+		{
+			Gdk.Color color = UtilGtk.ColorParse(preferences.colorBackgroundString);
 
-		UtilGtk.WindowColor(app1, color);
-		UtilGtk.ViewportColor(viewport_send_log, color);
-		UtilGtk.ViewportColor(viewport_exit_confirm, color);
-		UtilGtk.ViewportColor(viewport_rest_time_contacts, color);
-		UtilGtk.ViewportColor(viewport_rest_time_encoder, color);
+			UtilGtk.WindowColor(app1, color);
+			UtilGtk.ViewportColor(viewport_send_log, color);
+			UtilGtk.ViewportColor(viewport_exit_confirm, color);
+			UtilGtk.ViewportColor(viewport_rest_time_contacts, color);
+			UtilGtk.ViewportColor(viewport_rest_time_encoder, color);
+		}
+
 		UtilGtk.ViewportColor(viewport_image_logo_icon, UtilGtk.BLUE_CHRONOJUMP);
 
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_session1, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);

@@ -60,7 +60,7 @@ public class DialogPersonPopup
 	public DialogPersonPopup (int personID, string name, string rfid,
 			List<Task> tasks, List<StationCount> stationsCount,
 			string networkDevices, bool serverConnected, bool Autologout,
-			bool compujumpDjango, bool compujumpHideTaskDone, Gdk.Color colorBackground)
+			bool compujumpDjango, bool compujumpHideTaskDone)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "dialog_person_popup.glade", "dialog_person_popup", null);
@@ -68,7 +68,10 @@ public class DialogPersonPopup
 
 		//put an icon to window
 		UtilGtk.IconWindow(dialog_person_popup);
-		UtilGtk.DialogColor(dialog_person_popup, colorBackground);
+
+		//manage window color
+		if(! Config.UseSystemColor)
+			UtilGtk.DialogColor(dialog_person_popup, Config.ColorBackground);
 
 		Visible = true;
 		this.Autologout = Autologout;

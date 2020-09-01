@@ -37,7 +37,7 @@ public class ConfirmWindowJumpRun
 
 	static ConfirmWindowJumpRun ConfirmWindowJumpRunBox;
 	
-	public ConfirmWindowJumpRun (string text1, string question, Gdk.Color colorBackground)
+	public ConfirmWindowJumpRun (string text1, string question)
 	{
 		//Setup (text, table, uniqueID);
 		Glade.XML gladeXML;
@@ -47,9 +47,13 @@ public class ConfirmWindowJumpRun
 		confirm_window.Title = "Chronojump - " + Catalog.GetString("Confirm");
 		//put an icon to window
 		UtilGtk.IconWindow(confirm_window);
-		UtilGtk.WindowColor(confirm_window, colorBackground);
-		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), label1);
-		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), label_question);
+
+		if(! Config.UseSystemColor)
+		{
+			UtilGtk.WindowColor(confirm_window, Config.ColorBackground);
+			UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(Config.ColorBackground), label1);
+			UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(Config.ColorBackground), label_question);
+		}
 		
 		label1.Text = text1;
 		if(question == "")
@@ -58,10 +62,10 @@ public class ConfirmWindowJumpRun
 			label_question.Text = question;
 	}
 
-	static public ConfirmWindowJumpRun Show (string text1, string question, Gdk.Color colorBackground)
+	static public ConfirmWindowJumpRun Show (string text1, string question)
 	{
 		if (ConfirmWindowJumpRunBox == null) {
-			ConfirmWindowJumpRunBox = new ConfirmWindowJumpRun(text1, question, colorBackground);
+			ConfirmWindowJumpRunBox = new ConfirmWindowJumpRun(text1, question);
 		}
 		ConfirmWindowJumpRunBox.confirm_window.Show ();
 		
@@ -108,7 +112,7 @@ public class ConfirmWindow
 
 	static ConfirmWindow ConfirmWindowBox;
 	
-	public ConfirmWindow (string text1, string link, string question, Gdk.Color colorBackground)
+	public ConfirmWindow (string text1, string link, string question)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "confirm_window.glade", "confirm_window", null);
@@ -118,10 +122,14 @@ public class ConfirmWindow
 
 		//put an icon to window
 		UtilGtk.IconWindow(confirm_window);
-		UtilGtk.WindowColor(confirm_window, colorBackground);
-		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), label1);
-		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), label_link);
-		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), label_question);
+
+		if(! Config.UseSystemColor)
+		{
+			UtilGtk.WindowColor(confirm_window, Config.ColorBackground);
+			UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(Config.ColorBackground), label1);
+			UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(Config.ColorBackground), label_link);
+			UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(Config.ColorBackground), label_question);
+		}
 		
 		label1.Text = text1;
 		label1.UseMarkup = true;
@@ -140,10 +148,10 @@ public class ConfirmWindow
 
 	}
 
-	static public ConfirmWindow Show (string text1, string link, string question, Gdk.Color colorBackground)
+	static public ConfirmWindow Show (string text1, string link, string question)
 	{
 		if (ConfirmWindowBox == null) {
-			ConfirmWindowBox = new ConfirmWindow(text1, link, question, colorBackground);
+			ConfirmWindowBox = new ConfirmWindow(text1, link, question);
 		}
 		ConfirmWindowBox.confirm_window.Show ();
 		

@@ -71,7 +71,15 @@ public class PreferencesWindow
 	[Widget] Gtk.CheckButton check_appearance_person_photo;
 	[Widget] Gtk.Alignment alignment_undecorated;
 	[Widget] Gtk.Label label_recommended_undecorated;
+
+	[Widget] Gtk.RadioButton radio_color_custom;
+	[Widget] Gtk.RadioButton radio_color_chronojump_blue;
+	[Widget] Gtk.RadioButton radio_color_os;
 	[Widget] Gtk.DrawingArea drawingarea_background_color;
+	[Widget] Gtk.Button button_color_choose;
+	[Widget] Gtk.DrawingArea drawingarea_background_color_chronojump_blue;
+	[Widget] Gtk.Label label_radio_color_os_needs_restart;
+
 	[Widget] Gtk.CheckButton check_logo_animated;
 	[Widget] Gtk.HBox hbox_last_session_and_mode;
 	[Widget] Gtk.CheckButton check_session_autoload_at_start;
@@ -704,8 +712,22 @@ public class PreferencesWindow
 		else //if(preferences.importerPythonVersion == Preferences.pythonVersionEnum.Python)
 			PreferencesWindowBox.radio_python_default.Active = true;
 
+		if(preferences.colorBackgroundString == "") {
+			PreferencesWindowBox.radio_color_os.Active = true;
+			PreferencesWindowBox.button_color_choose.Sensitive = false;
+		}
+		else if((preferences.colorBackgroundString).ToLower() == "#0e1e46") {
+			PreferencesWindowBox.radio_color_chronojump_blue.Active = true;
+			PreferencesWindowBox.button_color_choose.Sensitive = false;
+		}
+		else {
+			PreferencesWindowBox.radio_color_custom.Active = true;
+			PreferencesWindowBox.button_color_choose.Sensitive = true;
+		}
+
 		PreferencesWindowBox.colorBackground = UtilGtk.ColorParse(preferences.colorBackgroundString);
 		PreferencesWindowBox.paintColorDrawingAreaAndBg (PreferencesWindowBox.colorBackground);
+		UtilGtk.PaintColorDrawingArea(PreferencesWindowBox.drawingarea_background_color_chronojump_blue, UtilGtk.BLUE_CHRONOJUMP);
 
 		PreferencesWindowBox.preferences_win.Show ();
 		return PreferencesWindowBox;
@@ -766,6 +788,22 @@ public class PreferencesWindow
 		UtilGtk.PaintColorDrawingArea(drawingarea_background_color, color);
 		UtilGtk.WindowColor(preferences_win, color);
 		UtilGtk.ContrastLabelsLabel (preferences.colorBackgroundIsDark, label_view_more_tabs);
+	}
+
+	private void on_radio_color_custom_toggled (object o, EventArgs args)
+	{
+		button_color_choose.Sensitive = true;
+		label_radio_color_os_needs_restart.Visible = false;
+	}
+	private void on_radio_color_chronojump_blue_toggled (object o, EventArgs args)
+	{
+		button_color_choose.Sensitive = false;
+		label_radio_color_os_needs_restart.Visible = false;
+	}
+	private void on_radio_color_os_toggled (object o, EventArgs args)
+	{
+		button_color_choose.Sensitive = false;
+		label_radio_color_os_needs_restart.Visible = true;
 	}
 
 	private void on_button_color_choose_clicked(object o, EventArgs args)
@@ -1645,10 +1683,24 @@ public class PreferencesWindow
 			preferences.menuType = Preferences.MenuTypes.ICONS;
 		}
 
-		preferences.colorBackgroundString = Preferences.PreferencesChange(
-				SqlitePreferences.ColorBackground, preferences.colorBackgroundString,
-				UtilGtk.ColorToColorString(colorBackground)); //this does the reverse of Gdk.Color.Parse on UtilGtk.ColorParse()
-		preferences.colorBackgroundIsDark = UtilGtk.ColorIsDark(colorBackground);
+		if(radio_color_chronojump_blue.Active) 
+		{
+			preferences.colorBackgroundString = Preferences.PreferencesChange(
+					SqlitePreferences.ColorBackground, preferences.colorBackgroundString,
+					"#0e1e46");
+			preferences.colorBackgroundIsDark = true;
+		} else if(radio_color_os.Active)
+		{
+			preferences.colorBackgroundString = Preferences.PreferencesChange(
+					SqlitePreferences.ColorBackground, preferences.colorBackgroundString,
+					"");
+			preferences.colorBackgroundIsDark = false; //is not important as it is not going to be used
+		} else {
+			preferences.colorBackgroundString = Preferences.PreferencesChange(
+					SqlitePreferences.ColorBackground, preferences.colorBackgroundString,
+					UtilGtk.ColorToColorString(colorBackground)); //this does the reverse of Gdk.Color.Parse on UtilGtk.ColorParse()
+			preferences.colorBackgroundIsDark = UtilGtk.ColorIsDark(colorBackground);
+		}
 
 		preferences.logoAnimatedShow = Preferences.PreferencesChange(
 				SqlitePreferences.LogoAnimatedShow, preferences.logoAnimatedShow,

@@ -87,6 +87,7 @@ public partial class ChronoJumpWindow
 
 	//notebook tab 6 (add/edit)
 	[Widget] Gtk.Window app1sae_session_add_edit;
+	[Widget] Gtk.Notebook app1sae_notebook_add_edit;
 	[Widget] Gtk.Entry app1sae_entry_name;
 	[Widget] Gtk.Entry app1sae_entry_place;
 	[Widget] Gtk.HBox hbox_session_add;

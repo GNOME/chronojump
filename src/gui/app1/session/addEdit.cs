@@ -54,6 +54,7 @@ public partial class ChronoJumpWindow
 	private void sessionAddEditShow (bool addSession)
 	{
 		app1s_notebook.CurrentPage = app1s_PAGE_ADD_EDIT;
+		app1sae_notebook_add_edit.CurrentPage = 0;
 
 		app1sae_addSession = addSession;
 

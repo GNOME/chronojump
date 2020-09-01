@@ -363,7 +363,7 @@ public partial class ChronoJumpWindow
 		contactsShowCaptureDoingButtons(true);
 
 		//runEncoderCaptureSimulated = menuitem_check_race_encoder_capture_simulate.Active; //TODO: show this in some way on 2.0
-		runEncoderCaptureSimulated = false;
+		runEncoderCaptureSimulated = true;
 
 		/*
 		//initialize
@@ -841,7 +841,7 @@ public partial class ChronoJumpWindow
 	{
 		if(preferences.askDeletion) {
 			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
-						"Are you sure you want to delete this set?"), "", "", preferences.colorBackground);
+						"Are you sure you want to delete this set?"), "", "");
 			confirmWin.Button_accept.Clicked += new EventHandler(on_run_encoder_load_signal_row_delete);
 		} else
 			on_run_encoder_load_signal_row_delete (o, args);
@@ -878,7 +878,7 @@ public partial class ChronoJumpWindow
 
 		if(preferences.askDeletion) {
 			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
-						"Are you sure you want to delete this set?"), "", "", preferences.colorBackground);
+						"Are you sure you want to delete this set?"), "", "");
 			confirmWin.Button_accept.Clicked += new EventHandler(run_encoder_delete_current_test_accepted);
 		} else
 			run_encoder_delete_current_test_accepted(new object(), new EventArgs());

@@ -178,13 +178,10 @@ public class EncoderSelectRepetitions
 public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRepetitions
 {
 	ArrayList dataPrint;
-	Gdk.Color colorBackground;
 
-	public EncoderSelectRepetitionsIndividualCurrentSession(Gdk.Color colorBackground)
+	public EncoderSelectRepetitionsIndividualCurrentSession()
 	{
 		Type = Types.INDIVIDUAL_CURRENT_SESSION;
-		this.colorBackground = colorBackground;
-
 		FakeButtonDeleteCurve = new Gtk.Button();
 	}
 
@@ -388,7 +385,7 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 	{
 		if(askDeletion) {
 			confirmWin = ConfirmWindow.Show(Catalog.GetString(
-						"Are you sure you want to delete this repetition?"), "", "", colorBackground);
+						"Are you sure you want to delete this repetition?"), "", "");
 			confirmWin.Button_accept.Clicked -= new EventHandler(on_show_repetitions_row_delete);
 			confirmWin.Button_accept.Clicked += new EventHandler(on_show_repetitions_row_delete);
 		} else

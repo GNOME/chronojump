@@ -176,7 +176,7 @@ public partial class ChronoJumpWindow
 
 		viewport_menu_top.SetSizeRequest(maxWidth, -1); //-1 is height
 
-		if(UtilGtk.ColorIsOkWithLogoTransparent (UtilGtk.ColorParse(preferences.colorBackgroundString)))
+		if(! Config.UseSystemColor && UtilGtk.ColorIsOkWithLogoTransparent (UtilGtk.ColorParse(preferences.colorBackgroundString)))
 		{
 			image_logo_contacts.Visible = false;
 			image_logo_contacts_transp.Visible = true;
@@ -223,13 +223,17 @@ public partial class ChronoJumpWindow
 		//Gdk.Color color = UtilGtk.BLUE_CHRONOJUMP;
 		//Gdk.Color color = //#FFE891 //this is nice
 
-		Gdk.Color color = UtilGtk.ColorParse(preferences.colorBackgroundString);
+		if(! Config.UseSystemColor)
+		{
+			Gdk.Color color = UtilGtk.ColorParse(preferences.colorBackgroundString);
 
-		UtilGtk.WindowColor(app1, color);
-		UtilGtk.ViewportColor(viewport_send_log, color);
-		UtilGtk.ViewportColor(viewport_exit_confirm, color);
-		UtilGtk.ViewportColor(viewport_menu_top, color);
-		UtilGtk.ViewportColor(viewport_menu, color);
+			UtilGtk.WindowColor(app1, color);
+			UtilGtk.ViewportColor(viewport_send_log, color);
+			UtilGtk.ViewportColor(viewport_exit_confirm, color);
+			UtilGtk.ViewportColor(viewport_menu_top, color);
+			UtilGtk.ViewportColor(viewport_menu, color);
+		}
+
 		//UtilGtk.ViewportColor(viewport_menu, UtilGtk.BLUE_CLEAR2);
 		//UtilGtk.ViewportColor(viewport_menu, UtilGtk.YELLOW);
 		//UtilGtk.ViewportColor(viewport_menu, UtilGtk.GRAY_LIGHT);

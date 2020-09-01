@@ -129,7 +129,6 @@ public class EncoderConfigurationWindow
 	Pixbuf pixbuf;
 
 	Constants.EncoderGI encoderGI;
-	Gdk.Color colorBackground;
 
 	/*
 	 * this params are used on inertial
@@ -167,7 +166,7 @@ public class EncoderConfigurationWindow
 
 	static public EncoderConfigurationWindow View (
 			Constants.EncoderGI encoderGI, EncoderConfigurationSQLObject econfSO,
-			string anchorage_str, int extraWeightN, Gdk.Color colorBackground)
+			string anchorage_str, int extraWeightN)
 	{
 		if (EncoderConfigurationWindowBox == null) {
 			EncoderConfigurationWindowBox = new EncoderConfigurationWindow ();
@@ -177,7 +176,6 @@ public class EncoderConfigurationWindow
 		EncoderConfigurationWindowBox.updateGUIFromEncoderConfiguration(econfSO.encoderConfiguration);
 		EncoderConfigurationWindowBox.main_gui_anchorage_str = anchorage_str;
 		EncoderConfigurationWindowBox.main_gui_extraWeightN = extraWeightN;
-		EncoderConfigurationWindowBox.colorBackground = colorBackground;
 
 		EncoderConfigurationWindowBox.createTreeView();
 		EncoderConfigurationWindowBox.fillTreeView(
@@ -189,14 +187,18 @@ public class EncoderConfigurationWindow
 
 		//B) done colors here because this win is created only once
 		//if done in constructor will not be updated on another color change
-		UtilGtk.WindowColor(EncoderConfigurationWindowBox.encoder_configuration, colorBackground);
-		bool bgIsDark = UtilGtk.ColorIsDark(colorBackground);
-		UtilGtk.ContrastLabelsLabel(bgIsDark, EncoderConfigurationWindowBox.label_radio_linear);
-		UtilGtk.ContrastLabelsLabel(bgIsDark, EncoderConfigurationWindowBox.label_radio_rotary_friction);
-		UtilGtk.ContrastLabelsLabel(bgIsDark, EncoderConfigurationWindowBox.label_radio_rotary_axis);
-		UtilGtk.ContrastLabelsLabel(bgIsDark, EncoderConfigurationWindowBox.label_check_rotary_friction_inertia_on_axis);
-		UtilGtk.ContrastLabelsLabel(bgIsDark, EncoderConfigurationWindowBox.label_selected);
-		UtilGtk.ContrastLabelsLabel(bgIsDark, EncoderConfigurationWindowBox.label_count);
+
+		//manage window color
+		if(! Config.UseSystemColor)
+		{
+			UtilGtk.WindowColor(EncoderConfigurationWindowBox.encoder_configuration, Config.ColorBackground);
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, EncoderConfigurationWindowBox.label_radio_linear);
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, EncoderConfigurationWindowBox.label_radio_rotary_friction);
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, EncoderConfigurationWindowBox.label_radio_rotary_axis);
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, EncoderConfigurationWindowBox.label_check_rotary_friction_inertia_on_axis);
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, EncoderConfigurationWindowBox.label_selected);
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, EncoderConfigurationWindowBox.label_count);
+		}
 
 		EncoderConfigurationWindowBox.encoder_configuration.Show ();
 
@@ -752,7 +754,7 @@ public class EncoderConfigurationWindow
 					LogB.Information("Overwrite...");
 					ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
 								"Are you sure you want to overwrite file: "), "",
-							exportFileName, colorBackground);
+							exportFileName);
 
 					confirmWin.Button_accept.Clicked +=
 						new EventHandler(on_overwrite_file_export_accepted);

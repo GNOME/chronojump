@@ -131,9 +131,14 @@ public class GenericWindow
 	
 		//put an icon to window
 		UtilGtk.IconWindow(generic_window);
-		UtilGtk.WindowColor(generic_window, Config.ColorBackground);
-		UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_header);
-		UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_error);
+
+		//manage window color
+		if(! Config.UseSystemColor)
+		{
+			UtilGtk.WindowColor(generic_window, Config.ColorBackground);
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_header);
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_error);
+		}
 		
 		generic_window.Resizable = false;
 		setTitle(title);

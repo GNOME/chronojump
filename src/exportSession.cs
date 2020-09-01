@@ -104,7 +104,7 @@ public class ExportSession
 							fileName, File.GetAttributes(fileName), File.GetCreationTime(fileName)));
 				LogB.Information("Overwrite...");
 				ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to overwrite file: "),
-						"", fileName, preferences.colorBackground);
+						"", fileName);
 				confirmWin.Button_accept.Clicked += new EventHandler(on_overwrite_file_accepted);
 			} else {
 				writeFile();

@@ -41,7 +41,7 @@ public class ReactionTimeExecute : EventExecute
 	public ReactionTimeExecute(int personID, string personName, int sessionID, string type,
 			Chronopic cp, Gtk.Window app, int pDN,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
-			double progressbarLimit, ExecutingGraphData egd, string description, Gdk.Color colorBackground
+			double progressbarLimit, ExecutingGraphData egd, string description
 			)
 	{
 		this.personID = personID;
@@ -58,7 +58,6 @@ public class ReactionTimeExecute : EventExecute
 		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
 		this.description = description;
-		this.colorBackground = colorBackground;
 	
 		fakeButtonUpdateGraph = new Gtk.Button();
 		fakeButtonThreadDyed = new Gtk.Button();
@@ -145,7 +144,7 @@ public class ReactionTimeExecute : EventExecute
 		{
 			ConfirmWindow confirmWin;		
 			confirmWin = ConfirmWindow.Show( 
-					Catalog.GetString("You are OUT, come inside and press the 'accept' button"), "", "", colorBackground); //TODO:change this
+					Catalog.GetString("You are OUT, come inside and press the 'accept' button"), "", ""); //TODO:change this
 			//System.Media.SystemSounds.Beep.Play();
 			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn, gstreamer);
 

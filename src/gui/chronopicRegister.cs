@@ -109,7 +109,10 @@ public class ChronopicRegisterWindow
 	{
 		createWindow(app1);
 		UtilGtk.IconWindow(chronopic_register_win); //put an icon to window
-		UtilGtk.WindowColor(chronopic_register_win, Config.ColorBackground);
+
+		//manage window color
+		if(! Config.UseSystemColor)
+			UtilGtk.WindowColor(chronopic_register_win, Config.ColorBackground);
 
 		listConnected = new List<ChronopicRegisterPort>();
 

@@ -272,7 +272,10 @@ public class RepetitiveConditionsWindow
 
 		if(viewWindow)
 		{
-			UtilGtk.WindowColor(RepetitiveConditionsWindowBox.repetitive_conditions, Config.ColorBackground);
+			//manage window color
+			if(! Config.UseSystemColor)
+				UtilGtk.WindowColor(RepetitiveConditionsWindowBox.repetitive_conditions, Config.ColorBackground);
+
 			RepetitiveConditionsWindowBox.repetitive_conditions.Show ();
 		}
 

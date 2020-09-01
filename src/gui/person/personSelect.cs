@@ -69,7 +69,7 @@ public class PersonSelectWindow
 	private List<PersonPhotoButton> list_ppb;
 
 	
-	PersonSelectWindow (Gtk.Window parent, Gdk.Color colorBackground) {
+	PersonSelectWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_select_window.glade", "person_select_window", "chronojump");
 		gladeXML.Autoconnect(this);
@@ -78,8 +78,13 @@ public class PersonSelectWindow
 
 		//put an icon to window
 		UtilGtk.IconWindow(person_select_window);
-		UtilGtk.WindowColor(person_select_window, colorBackground);
-		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), label_confirm);
+
+		//manage window color
+		if(! Config.UseSystemColor)
+		{
+			UtilGtk.WindowColor(person_select_window, Config.ColorBackground);
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_confirm);
+		}
 
 		person_select_window.Parent = parent;
 		
@@ -118,7 +123,7 @@ public class PersonSelectWindow
 	static public PersonSelectWindow Show (Gtk.Window parent, ArrayList persons, Person currentPerson, Gdk.Color colorBackground)
 	{
 		if (PersonSelectWindowBox == null) {
-			PersonSelectWindowBox = new PersonSelectWindow (parent, colorBackground);
+			PersonSelectWindowBox = new PersonSelectWindow (parent);
 		}
 
 		PersonSelectWindowBox.persons = persons;

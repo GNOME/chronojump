@@ -100,7 +100,7 @@ public class PersonAddMultipleWindow
 	string errorRepeatedEntryString;
 
 	
-	PersonAddMultipleWindow (Gtk.Window parent, Session currentSession, char columnDelimiter, Gdk.Color colorBackground)
+	PersonAddMultipleWindow (Gtk.Window parent, Session currentSession, char columnDelimiter)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_multiple_infinite.glade", "person_multiple_infinite", null);
@@ -108,17 +108,20 @@ public class PersonAddMultipleWindow
 		
 		//put an icon to window
 		UtilGtk.IconWindow(person_multiple_infinite);
-		UtilGtk.WindowColor(person_multiple_infinite, colorBackground);
+
+		//manage window color
+		if(! Config.UseSystemColor)
+			UtilGtk.WindowColor(person_multiple_infinite, Config.ColorBackground);
 	
 		person_multiple_infinite.Parent = parent;
 		this.currentSession = currentSession;
 		this.columnDelimiter = columnDelimiter;
 	}
 	
-	static public PersonAddMultipleWindow Show (Gtk.Window parent, Session currentSession, char columnDelimiter, Gdk.Color colorBackground)
+	static public PersonAddMultipleWindow Show (Gtk.Window parent, Session currentSession, char columnDelimiter)
 	{
 		if (PersonAddMultipleWindowBox == null) {
-			PersonAddMultipleWindowBox = new PersonAddMultipleWindow (parent, currentSession, columnDelimiter, colorBackground);
+			PersonAddMultipleWindowBox = new PersonAddMultipleWindow (parent, currentSession, columnDelimiter);
 		}
 		
 		PersonAddMultipleWindowBox.putNonStandardIcons ();

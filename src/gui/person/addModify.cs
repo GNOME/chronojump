@@ -149,7 +149,7 @@ public class PersonAddModifyWindow
 	//if we are modifying a person, currentPerson.UniqueID is obviously it's ID
 	//showCapturePhoto is false on raspberry to not use camera
 	//PersonAddModifyWindow (Gtk.Window parent, Session currentSession, Person currentPerson, bool showCapturePhoto)
-	PersonAddModifyWindow (Gtk.Window parent, Session currentSession, Person currentPerson, Gdk.Color colorBackground)
+	PersonAddModifyWindow (Gtk.Window parent, Session currentSession, Person currentPerson)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_win.glade", "person_win", null);
@@ -157,8 +157,13 @@ public class PersonAddModifyWindow
 		
 		//put an icon to window
 		UtilGtk.IconWindow(person_win);
-		UtilGtk.WindowColor(person_win, colorBackground);
-		UtilGtk.ContrastLabelsLabel(UtilGtk.ColorIsDark(colorBackground), label_error);
+
+		//manage window color
+		if(! Config.UseSystemColor)
+		{
+			UtilGtk.WindowColor(person_win, Config.ColorBackground);
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_error);
+		}
 
 		person_win.Parent = parent;
 		this.currentSession = currentSession;
@@ -538,11 +543,11 @@ public class PersonAddModifyWindow
 			//Gtk.CheckButton app1_checkbutton_video, bool showCapturePhoto,
 			Gtk.CheckButton app1_checkbutton_video_contacts,
 			string videoDevice, string videoDevicePixelFormat, string videoDeviceResolution, string videoDeviceFramerate,
-			bool compujump, bool metric, Gdk.Color colorBackground)
+			bool compujump, bool metric)
 	{
 		if (PersonAddModifyWindowBox == null) {
 			//PersonAddModifyWindowBox = new PersonAddModifyWindow (parent, mySession, currentPerson, showCapturePhoto);
-			PersonAddModifyWindowBox = new PersonAddModifyWindow (parent, mySession, currentPerson, colorBackground);
+			PersonAddModifyWindowBox = new PersonAddModifyWindow (parent, mySession, currentPerson);
 		}
 
 		PersonAddModifyWindowBox.pDN = pDN;

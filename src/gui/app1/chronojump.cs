@@ -553,6 +553,7 @@ public partial class ChronoJumpWindow
 		//at initialization of chronojump and gives problems if this signals are raised while preferences are loading
 		loadPreferencesAtStart ();
 
+		Config.UseSystemColor = (preferences.colorBackgroundString == "");
 		Config.ColorBackground = preferences.colorBackground;
 		Config.ColorBackgroundIsDark = UtilGtk.ColorIsDark(preferences.colorBackground);
 
@@ -787,12 +788,15 @@ public partial class ChronoJumpWindow
 	{
 		if(personsAtTop)
 		{
-			UtilGtk.ContrastLabelsHBox (preferences.colorBackgroundIsDark, hbox_top_person);
-			UtilGtk.ContrastLabelsHBox (preferences.colorBackgroundIsDark, hbox_top_person_encoder);
-			UtilGtk.ContrastLabelsTable (preferences.colorBackgroundIsDark, table_rest_time_contacts);
-			UtilGtk.ContrastLabelsTable (preferences.colorBackgroundIsDark, table_rest_time_encoder);
+			if(! Config.UseSystemColor)
+			{
+				UtilGtk.ContrastLabelsHBox (Config.ColorBackgroundIsDark, hbox_top_person);
+				UtilGtk.ContrastLabelsHBox (Config.ColorBackgroundIsDark, hbox_top_person_encoder);
+				UtilGtk.ContrastLabelsTable (Config.ColorBackgroundIsDark, table_rest_time_contacts);
+				UtilGtk.ContrastLabelsTable (Config.ColorBackgroundIsDark, table_rest_time_encoder);
+			}
 
-			if(preferences.colorBackgroundIsDark)
+			if(! Config.UseSystemColor && Config.ColorBackgroundIsDark)
 			{
 				image_contacts_rest_time_dark_blue.Visible = false;
 				image_contacts_rest_time_clear_yellow.Visible = true;
@@ -806,10 +810,14 @@ public partial class ChronoJumpWindow
 			}
 		}
 
-		UtilGtk.ContrastLabelsNotebook (preferences.colorBackgroundIsDark, app1s_notebook);
-		UtilGtk.ContrastLabelsVBox (preferences.colorBackgroundIsDark, vbox_help);
+		if(! Config.UseSystemColor)
+		{
+			UtilGtk.ContrastLabelsNotebook (Config.ColorBackgroundIsDark, app1s_notebook);
+			UtilGtk.ContrastLabelsVBox (Config.ColorBackgroundIsDark, vbox_help);
+		}
 
-		if(preferences.colorBackgroundIsDark)
+		LogB.Information(string.Format("UseSystemColor: {0}, ColorBackgroundIsDark: {1}", Config.UseSystemColor, Config.ColorBackgroundIsDark));
+		if(! Config.UseSystemColor && Config.ColorBackgroundIsDark)
 		{
 			image_session_new_blue.Visible = false;
 			image_session_load3_blue.Visible = false;
@@ -2846,14 +2854,16 @@ public partial class ChronoJumpWindow
 		if(pen_black_force_ai != null)
 			pen_black_force_ai.SetLineAttributes (preferences.forceSensorGraphsLineWidth, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
 
-		//TODO: only if personWinHide changed
-		initialize_menu_or_menu_tiny();
+		Config.ColorBackground = preferences.colorBackground;
+		Config.ColorBackgroundIsDark = UtilGtk.ColorIsDark(preferences.colorBackground);
 
 		//repaint labels that are on the background
 		//TODO: only if color changed or personWinHide
-		doLabelsContrast(configChronojump.PersonWinHide);
-		Config.ColorBackground = preferences.colorBackground;
-		Config.ColorBackgroundIsDark = UtilGtk.ColorIsDark(preferences.colorBackground);
+		Config.UseSystemColor = (preferences.colorBackgroundString == "");
+			doLabelsContrast(configChronojump.PersonWinHide);
+
+		//TODO: only if personWinHide changed
+		initialize_menu_or_menu_tiny();
 
 		// update force_capture_drawingarea
 		if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR && radiobutton_force_sensor_analyze_manual.Active)
@@ -4131,8 +4141,7 @@ public partial class ChronoJumpWindow
 				progressbarLimit, egd, description, configChronojump.Exhibition,
 				preferences.heightPreferred,
 				Convert.ToInt32(spin_contacts_graph_last_limit.Value),
-				radio_contacts_graph_allTests.Active, radio_contacts_graph_allPersons.Active,
-				preferences.colorBackground);
+				radio_contacts_graph_allTests.Active, radio_contacts_graph_allPersons.Active);
 
 
 		//UtilGtk.ChronopicColors(viewport_chronopics, label_chronopics, label_connected_chronopics, chronopicWin.Connected);
@@ -4446,8 +4455,7 @@ public partial class ChronoJumpWindow
 				cp2016.CP, app1, preferences.digitsNumber,
 				checkbutton_allow_finish_rj_after_time.Active,
 				preferences.volumeOn, preferences.gstreamer,
-				repetitiveConditionsWin, progressbarLimit, egd,
-				preferences.colorBackground);
+				repetitiveConditionsWin, progressbarLimit, egd);
 		
 		//suitable for limited by jump and time
 		//simulated always simulate limited by jumps
@@ -4967,8 +4975,7 @@ public partial class ChronoJumpWindow
 				currentSession.UniqueID, currentReactionTimeType.Name, 
 				cp2016.CP, app1, preferences.digitsNumber,
 				preferences.volumeOn, preferences.gstreamer,
-				progressbarLimit, egd, description, preferences.colorBackground
-				);
+				progressbarLimit, egd, description);
 
 		if (! canCaptureC)
 			currentEventExecute.SimulateInitValues(rand);
@@ -5128,8 +5135,7 @@ public partial class ChronoJumpWindow
 				currentSession.UniqueID, currentPulseType.Name, pulseStep, totalPulses, 
 				cp2016.CP,
 				app1, preferences.digitsNumber,
-				preferences.volumeOn, preferences.gstreamer, egd, preferences.colorBackground
-				);
+				preferences.volumeOn, preferences.gstreamer, egd);
 		
 		if(! canCaptureC)
 			currentEventExecute.SimulateInitValues(rand);
@@ -5923,8 +5929,7 @@ LogB.Debug("mc finished 5");
 		if (myTreeViewJumps.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (preferences.askDeletion) {
-				confirmWinJumpRun = ConfirmWindowJumpRun.Show(Catalog.GetString("Do you want to delete this jump?"),
-						"", preferences.colorBackground);
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show(Catalog.GetString("Do you want to delete this jump?"), "");
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_accepted);
 			} else {
 				on_delete_selected_jump_accepted(o, args);
@@ -5940,8 +5945,7 @@ LogB.Debug("mc finished 5");
 		if (myTreeViewJumpsRj.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (preferences.askDeletion) {
-				confirmWinJumpRun = ConfirmWindowJumpRun.Show( Catalog.GetString("Do you want to delete this jump?"),
-						"", preferences.colorBackground);
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show( Catalog.GetString("Do you want to delete this jump?"), "");
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_rj_accepted);
 			} else {
 				on_delete_selected_jump_rj_accepted(o, args);
@@ -6015,8 +6019,7 @@ LogB.Debug("mc finished 5");
 		if (myTreeViewRuns.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (preferences.askDeletion) {
-				confirmWinJumpRun = ConfirmWindowJumpRun.Show(Catalog.GetString("Do you want to delete this race?"),
-						"", preferences.colorBackground);
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show(Catalog.GetString("Do you want to delete this race?"), "");
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_run_accepted);
 			} else {
 				on_delete_selected_run_accepted(o, args);
@@ -6034,7 +6037,7 @@ LogB.Debug("mc finished 5");
 			//3.- display confirmwindow of deletion 
 			if (preferences.askDeletion) {
 				confirmWinJumpRun = ConfirmWindowJumpRun.Show(
-						Catalog.GetString("Do you want to delete this race?"), "", preferences.colorBackground);
+						Catalog.GetString("Do you want to delete this race?"), "");
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_run_interval_accepted);
 			} else {
 				on_delete_selected_run_interval_accepted(o, args);
@@ -6098,7 +6101,7 @@ LogB.Debug("mc finished 5");
 		if (myTreeViewReactionTimes.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (preferences.askDeletion) {
-				confirmWinJumpRun = ConfirmWindowJumpRun.Show("Do you want to delete this test?", "", preferences.colorBackground);
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show("Do you want to delete this test?", "");
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_reaction_time_accepted);
 			} else {
 				on_delete_selected_reaction_time_accepted(o, args);
@@ -6137,7 +6140,7 @@ LogB.Debug("mc finished 5");
 		if (myTreeViewPulses.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (preferences.askDeletion) {
-				confirmWinJumpRun = ConfirmWindowJumpRun.Show("Do you want to delete this test?", "", preferences.colorBackground);
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show("Do you want to delete this test?", "");
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_pulse_accepted);
 			} else {
 				on_delete_selected_pulse_accepted(o, args);
@@ -6172,8 +6175,7 @@ LogB.Debug("mc finished 5");
 		if (myTreeViewMultiChronopic.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (preferences.askDeletion) {
-				confirmWinJumpRun = ConfirmWindowJumpRun.Show( Catalog.GetString("Do you want to delete this test?"),
-						"", preferences.colorBackground);
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show( Catalog.GetString("Do you want to delete this test?"), "");
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_multi_chronopic_accepted);
 			} else {
 				on_delete_selected_multi_chronopic_accepted(o, args);
@@ -6701,7 +6703,7 @@ LogB.Debug("mc finished 5");
 
 	private void on_shortcuts_clicked (object o, EventArgs args)
 	{
-		new DialogShortcuts(operatingSystem == UtilAll.OperatingSystems.MACOSX, preferences.colorBackground);
+		new DialogShortcuts(operatingSystem == UtilAll.OperatingSystems.MACOSX);
 	}
 
 	private void on_menuitem_check_last_version_activate (object o, EventArgs args) 
@@ -6879,7 +6881,7 @@ LogB.Debug("mc finished 5");
 		if(translator_credits == "translator-credits") 
 			translator_credits = "";
 
-		new About(progVersion, translator_credits, preferences.colorBackground);
+		new About(progVersion, translator_credits);
 	}
 
 	private void on_repetitive_conditions_closed(object o, EventArgs args)
@@ -7628,7 +7630,7 @@ LogB.Debug("mc finished 5");
 		bool voluntaryCrashAllowed = true;
 		if(voluntaryCrashAllowed) {
 			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Done for testing purposes. Chronojump will exit badly"),
-					"", "Are you sure you want to crash application?", preferences.colorBackground);
+					"", "Are you sure you want to crash application?");
 			confirmWin.Button_accept.Clicked += new EventHandler(crashing);
 		} else {
 			new DialogMessage(Constants.MessageTypes.INFO, "Currently disabled.");

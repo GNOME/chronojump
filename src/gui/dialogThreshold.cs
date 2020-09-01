@@ -58,13 +58,18 @@ public class DialogThreshold
 		
 		//put an icon to window
 		UtilGtk.IconWindow(dialog_threshold);
-		UtilGtk.DialogColor(dialog_threshold, Config.ColorBackground);
-		UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_threshold_name);
-		UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_threshold_value);
-		UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_about);
-		UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_radio_jumps);
-		UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_radio_races);
-		UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_radio_other);
+
+		//manage window color
+		if(! Config.UseSystemColor)
+		{
+			UtilGtk.DialogColor(dialog_threshold, Config.ColorBackground);
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_threshold_name);
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_threshold_value);
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_about);
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_radio_jumps);
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_radio_races);
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_radio_other);
+		}
 
 		FakeButtonClose = new Gtk.Button();
 

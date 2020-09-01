@@ -97,8 +97,7 @@ public partial class ChronoJumpWindow
 					jumpsDjOptimalFall.XatMaxY, //model
 					jumpsDjOptimalFall.GetMaxValue(),
 					drawingarea_jumps_dj_optimal_fall,
-					currentPerson.Name, jumpType, currentSession.DateShort,
-					preferences.colorBackground);
+					currentPerson.Name, jumpType, currentSession.DateShort);
 			jumpsDjOptimalFallGraph.Do();
 
 			button_jumps_dj_optimal_fall_save_image.Sensitive = true;

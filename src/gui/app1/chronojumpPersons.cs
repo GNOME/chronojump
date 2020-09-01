@@ -104,7 +104,7 @@ public partial class ChronoJumpWindow
 	private void person_load_single ()
 	{
 		LogB.Information("recuperate person");
-		personRecuperateWin = PersonRecuperateWindow.Show(app1, currentSession, preferences.digitsNumber, preferences.colorBackground);
+		personRecuperateWin = PersonRecuperateWindow.Show(app1, currentSession, preferences.digitsNumber);
 		personRecuperateWin.FakeButtonDone.Clicked += new EventHandler(on_recuperate_person_accepted);
 	}
 
@@ -138,7 +138,7 @@ public partial class ChronoJumpWindow
 
 	private void person_load_multiple () {
 		LogB.Information("recuperate persons from other session");
-		personsRecuperateFromOtherSessionWin = PersonsRecuperateFromOtherSessionWindow.Show(app1, currentSession, preferences.colorBackground);
+		personsRecuperateFromOtherSessionWin = PersonsRecuperateFromOtherSessionWindow.Show(app1, currentSession);
 		personsRecuperateFromOtherSessionWin.FakeButtonDone.Clicked += new EventHandler(on_recuperate_persons_from_session_accepted);
 	}
 	
@@ -176,7 +176,7 @@ public partial class ChronoJumpWindow
 				//preferences.digitsNumber, checkbutton_video, configChronojump.UseVideo,
 				preferences.digitsNumber, checkbutton_video_contacts,
 				preferences.videoDevice, preferences.videoDevicePixelFormat, preferences.videoDeviceResolution, preferences.videoDeviceFramerate,
-				configChronojump.Compujump, preferences.units == Preferences.UnitsEnum.METRIC, preferences.colorBackground
+				configChronojump.Compujump, preferences.units == Preferences.UnitsEnum.METRIC
 				);
 		//-1 means we are adding a new person
 		//if we were modifying it will be it's uniqueID
@@ -262,7 +262,7 @@ public partial class ChronoJumpWindow
 
 	private void person_add_multiple ()
 	{
-		personAddMultipleWin = PersonAddMultipleWindow.Show(app1, currentSession, preferences.CSVColumnDelimiter, preferences.colorBackground);
+		personAddMultipleWin = PersonAddMultipleWindow.Show(app1, currentSession, preferences.CSVColumnDelimiter);
 		personAddMultipleWin.Button_accept.Clicked -= new EventHandler(on_person_add_multiple_accepted);
 		personAddMultipleWin.Button_accept.Clicked += new EventHandler(on_person_add_multiple_accepted);
 	}
@@ -309,7 +309,7 @@ public partial class ChronoJumpWindow
 				//preferences.digitsNumber, checkbutton_video, configChronojump.UseVideo,
 				preferences.digitsNumber, checkbutton_video_contacts,
 				preferences.videoDevice, preferences.videoDevicePixelFormat, preferences.videoDeviceResolution, preferences.videoDeviceFramerate,
-				configChronojump.Compujump, preferences.units == Preferences.UnitsEnum.METRIC, preferences.colorBackground
+				configChronojump.Compujump, preferences.units == Preferences.UnitsEnum.METRIC
 				); 
 		personAddModifyWin.FakeButtonAccept.Clicked += new EventHandler(on_edit_current_person_accepted);
 	}
@@ -368,7 +368,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("delete current person from this session");
 		ConfirmWindow confirmWin = ConfirmWindow.Show(
 				Catalog.GetString("Are you sure you want to delete the current person and all his/her tests (jumps, races, pulses, ...) from this session?\n(His/her personal data and tests in other sessions will remain intact.)"), "",
-				Catalog.GetString("Current Person: ") + "<b>" + currentPerson.Name + "</b>", preferences.colorBackground);
+				Catalog.GetString("Current Person: ") + "<b>" + currentPerson.Name + "</b>");
 
 		confirmWin.Button_accept.Clicked += new EventHandler(on_delete_current_person_from_session_accepted);
 	}

@@ -2914,7 +2914,7 @@ public partial class ChronoJumpWindow
 		Gdk.Color brown = new Gdk.Color(0xd6,0x88,0x33);
 		Gdk.Color violet = new Gdk.Color(0xc4,0x20,0xf3);
 		Gdk.Color white = new Gdk.Color(0xff,0xff,0xff);
-		Gdk.Color colorBackground = UtilGtk.ColorParse(preferences.colorBackgroundString);
+		Gdk.Color colorBackground = UtilGtk.ColorParse(preferences.colorBackgroundString); //but note if we are using system colors, this will not match
 		Gdk.Color colorBackgroundShifted = UtilGtk.GetColorShifted (colorBackground,
 				! UtilGtk.ColorIsDark(colorBackground));
 

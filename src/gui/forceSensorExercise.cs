@@ -128,11 +128,16 @@ public class ForceSensorExerciseWindow
 
 		//put an icon to window
 		UtilGtk.IconWindow(force_sensor_exercise);
-		UtilGtk.WindowColor(force_sensor_exercise, Config.ColorBackground);
-		UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_header);
-		UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_help);
-		UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_radio_desc_examples_desc);
-		UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_radio_desc_examples_examples);
+
+		//manage window color
+		if(! Config.UseSystemColor)
+		{
+			UtilGtk.WindowColor(force_sensor_exercise, Config.ColorBackground);
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_header);
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_help);
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_radio_desc_examples_desc);
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_radio_desc_examples_examples);
+		}
 
 		force_sensor_exercise.Resizable = false;
 		setTitle(title);

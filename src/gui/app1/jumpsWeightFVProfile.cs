@@ -132,7 +132,7 @@ public partial class ChronoJumpWindow
 					currentPerson.Name, //jumpType,
 					currentSession.DateShort,
 					radio_jumps_weight_fv_profile_show_full_graph.Active,
-					errorAtStart, preferences.colorBackground);
+					errorAtStart);
 			jumpsWeightFVProfileGraph.Do();
 
 			button_jumps_weight_fv_profile_save_image.Sensitive = true;

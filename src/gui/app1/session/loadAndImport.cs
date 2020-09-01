@@ -507,6 +507,9 @@ public partial class ChronoJumpWindow
 		//but after reloading session do not show persons, show menu:
 		radio_show_menu.Toggle();
 		radio_show_menu.Active = true;
+
+		//to not allow to load a session or create a new session until close session/more
+		menus_sensitive_import_not_danger(false);
 	}
 	protected void app1s_on_button_select_file_import_clicked(object o, EventArgs args) {
 		app1s_chooseDatabaseToImport ();

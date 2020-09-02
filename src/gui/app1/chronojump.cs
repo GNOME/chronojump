@@ -553,7 +553,7 @@ public partial class ChronoJumpWindow
 		//at initialization of chronojump and gives problems if this signals are raised while preferences are loading
 		loadPreferencesAtStart ();
 
-		Config.UseSystemColor = (preferences.colorBackgroundString == "");
+		Config.UseSystemColor = preferences.colorBackgroundOsColor;
 		Config.ColorBackground = preferences.colorBackground;
 		Config.ColorBackgroundIsDark = UtilGtk.ColorIsDark(preferences.colorBackground);
 
@@ -2859,8 +2859,8 @@ public partial class ChronoJumpWindow
 
 		//repaint labels that are on the background
 		//TODO: only if color changed or personWinHide
-		Config.UseSystemColor = (preferences.colorBackgroundString == "");
-			doLabelsContrast(configChronojump.PersonWinHide);
+		Config.UseSystemColor = preferences.colorBackgroundOsColor;
+		doLabelsContrast(configChronojump.PersonWinHide);
 
 		//TODO: only if personWinHide changed
 		initialize_menu_or_menu_tiny();

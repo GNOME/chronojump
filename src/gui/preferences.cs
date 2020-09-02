@@ -712,9 +712,12 @@ public class PreferencesWindow
 		else //if(preferences.importerPythonVersion == Preferences.pythonVersionEnum.Python)
 			PreferencesWindowBox.radio_python_default.Active = true;
 
-		if(preferences.colorBackgroundString == "") {
+		if(preferences.colorBackgroundOsColor) {
 			PreferencesWindowBox.radio_color_os.Active = true;
 			PreferencesWindowBox.button_color_choose.Sensitive = false;
+
+			//do not show the visible tag at open the window, only when user changes to this option.
+			PreferencesWindowBox.label_radio_color_os_needs_restart.Visible = false;
 		}
 		else if((preferences.colorBackgroundString).ToLower() == "#0e1e46") {
 			PreferencesWindowBox.radio_color_chronojump_blue.Active = true;
@@ -786,8 +789,11 @@ public class PreferencesWindow
 	private void paintColorDrawingAreaAndBg (Gdk.Color color)
 	{
 		UtilGtk.PaintColorDrawingArea(drawingarea_background_color, color);
-		UtilGtk.WindowColor(preferences_win, color);
-		UtilGtk.ContrastLabelsLabel (preferences.colorBackgroundIsDark, label_view_more_tabs);
+		if(! preferences.colorBackgroundOsColor)
+		{
+			UtilGtk.WindowColor(preferences_win, color);
+			UtilGtk.ContrastLabelsLabel (preferences.colorBackgroundIsDark, label_view_more_tabs);
+		}
 	}
 
 	private void on_radio_color_custom_toggled (object o, EventArgs args)
@@ -1688,17 +1694,25 @@ public class PreferencesWindow
 			preferences.colorBackgroundString = Preferences.PreferencesChange(
 					SqlitePreferences.ColorBackground, preferences.colorBackgroundString,
 					"#0e1e46");
+			preferences.colorBackgroundOsColor = Preferences.PreferencesChange(
+					SqlitePreferences.ColorBackgroundOsColor, preferences.colorBackgroundOsColor,
+					false);
 			preferences.colorBackgroundIsDark = true;
 		} else if(radio_color_os.Active)
 		{
-			preferences.colorBackgroundString = Preferences.PreferencesChange(
-					SqlitePreferences.ColorBackground, preferences.colorBackgroundString,
-					"");
+			//radio_color_os does not change the colorBackgroundString, it changes the Config.UseSystemColor
+			//but note that on showing cairo and execute graphs, primary color will be colorBackground
+			preferences.colorBackgroundOsColor = Preferences.PreferencesChange(
+					SqlitePreferences.ColorBackgroundOsColor, preferences.colorBackgroundOsColor,
+					true);
 			preferences.colorBackgroundIsDark = false; //is not important as it is not going to be used
 		} else {
 			preferences.colorBackgroundString = Preferences.PreferencesChange(
 					SqlitePreferences.ColorBackground, preferences.colorBackgroundString,
 					UtilGtk.ColorToColorString(colorBackground)); //this does the reverse of Gdk.Color.Parse on UtilGtk.ColorParse()
+			preferences.colorBackgroundOsColor = Preferences.PreferencesChange(
+					SqlitePreferences.ColorBackgroundOsColor, preferences.colorBackgroundOsColor,
+					false);
 			preferences.colorBackgroundIsDark = UtilGtk.ColorIsDark(colorBackground);
 		}
 

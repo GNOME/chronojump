@@ -30,6 +30,7 @@ class SqlitePreferences : Sqlite
 	public const string UnitsStr = "units";
 	public const string MenuType = "menuType";
 	public const string ColorBackground = "colorBackground";
+	public const string ColorBackgroundOsColor = "colorBackgroundOsColor";
 	public const string LogoAnimatedShow = "logoAnimatedShow";
 
 	//contacts
@@ -132,6 +133,7 @@ class SqlitePreferences : Sqlite
 				Insert (MenuType, Preferences.MenuTypes.ALL.ToString(), dbcmdTr);
 				Insert (LogoAnimatedShow, "True", dbcmdTr);
 				Insert (ColorBackground, "#0e1e46", dbcmdTr);
+				Insert (ColorBackgroundOsColor, "False", dbcmdTr);
 				Insert (UnitsStr, Preferences.UnitsEnum.METRIC.ToString(), dbcmdTr);
 				Insert (EncoderCaptureInfinite, "False", dbcmdTr);
 				Insert ("encoderCaptureShowOnlyBars", "False", dbcmdTr);
@@ -413,6 +415,8 @@ class SqlitePreferences : Sqlite
 				preferences.colorBackgroundString = reader[1].ToString();
 				preferences.colorBackgroundIsDark = UtilGtk.ColorIsDark(reader[1].ToString());
 			}
+			else if(reader[0].ToString() == ColorBackgroundOsColor)
+				preferences.colorBackgroundOsColor = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == LogoAnimatedShow)
 				preferences.logoAnimatedShow = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == UnitsStr)

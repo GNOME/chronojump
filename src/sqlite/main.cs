@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.97";
+	static string lastChronojumpDatabaseVersion = "1.98";
 
 	public Sqlite()
 	{
@@ -2749,6 +2749,12 @@ class Sqlite
 
 				currentVersion = updateVersion("1.97");
 			}
+			if(currentVersion == "1.97")
+			{
+				LogB.SQL("Inserted into preferences: colorBackgroundOsColor");
+				SqlitePreferences.Insert (SqlitePreferences.ColorBackgroundOsColor, "False");
+				currentVersion = updateVersion("1.98");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -2964,6 +2970,7 @@ class Sqlite
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
 
+		//1.97 - 1.98 Converted DB to 1.98 Inserted into preferences: colorBackgroundOsColor
 		//1.96 - 1.97 Converted DB to 1.97 Inserted into preferences: loadLastSessionAtStart, lastSessionID, loadLastModAtStart, lastMode
 		//1.95 - 1.96 Converted DB to 1.96 Inserted into preferences: jumpsFVProfileOnlyBestInWeight, jumpsFVProfileShowFullGraph, jumpsEvolutionOnlyBestInSession
 		//1.94 - 1.95 Converted DB to 1.95 Inserted into preferences: importerPythonVersion

@@ -38,6 +38,7 @@ public class Preferences
 	public MenuTypes menuType;
 	public string colorBackgroundString; //"" means system color (do not do nothing)
 	public bool colorBackgroundIsDark; //this is assigned when colorBackgroundString changes. And this is used by the rest of the program. Not stored on SQL.
+	public bool colorBackgroundOsColor;
 	public bool logoAnimatedShow;
 
 	public bool loadLastSessionAtStart;

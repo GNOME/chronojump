@@ -552,6 +552,9 @@ public class EncoderSignal
 		if(curves.Count - start < n)
 			n = curves.Count - start;
 
+		if(n <= 0)
+			return new List<int>();
+
 		//2) make a copy of curves and have a new EncoderSignal to work with
 		ArrayList curvesCopy = new ArrayList();
 		foreach(EncoderCurve curve in curves)

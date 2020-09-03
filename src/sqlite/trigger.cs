@@ -102,11 +102,13 @@ class SqliteTrigger : Sqlite
 	}
 
 	//on mode == ENCODER, modeID is encoder.uniqueID
-	public static void DeleteByModeID(bool dbconOpened, int modeID)
+	public static void DeleteByModeID(bool dbconOpened, Trigger.Modes mode, int modeID)
 	{
 		openIfNeeded(dbconOpened);
 
-		dbcmd.CommandText = "Delete FROM " + table + " WHERE modeID = " + modeID;
+		dbcmd.CommandText = "Delete FROM " + table +
+			" WHERE mode = \"" + mode.ToString() +
+			"\" AND modeID = " + modeID;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 

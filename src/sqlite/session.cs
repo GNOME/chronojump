@@ -999,7 +999,8 @@ class SqliteSession : Sqlite
 				//SqliteTrigger.DeleteByModeID(true, Convert.ToInt32(signal));
 				//to export we have to do it with the dbcmd:
 				dbcmd.CommandText = "Delete FROM " + Constants.TriggerTable +
-					" WHERE modeID = " + Convert.ToInt32(signal);
+					" WHERE mode = \"" + Trigger.Modes.ENCODER.ToString() +
+					"\" AND modeID = " + Convert.ToInt32(signal);
 				LogB.SQL(dbcmd.CommandText.ToString());
 				dbcmd.ExecuteNonQuery();
 			}
@@ -1038,7 +1039,7 @@ class SqliteSession : Sqlite
 				SqliteEncoder.DeleteSignalCurveWithCurveID(true, Convert.ToInt32(eSQL.uniqueID));
 
 				//delete related triggers
-				SqliteTrigger.DeleteByModeID(true, Convert.ToInt32(eSQL.uniqueID));
+				SqliteTrigger.DeleteByModeID(true, Trigger.Modes.ENCODER, Convert.ToInt32(eSQL.uniqueID));
 			}
 		}
 		

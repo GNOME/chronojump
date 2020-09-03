@@ -505,7 +505,7 @@ class SqlitePersonSession : Sqlite
 			SqliteEncoder.DeleteSignalCurveWithCurveID(true, Convert.ToInt32(eSQL.uniqueID));
 
 			//delete related triggers
-			SqliteTrigger.DeleteByModeID(true, Convert.ToInt32(eSQL.uniqueID));
+			SqliteTrigger.DeleteByModeID(true, Trigger.Modes.ENCODER, Convert.ToInt32(eSQL.uniqueID));
 		}
 
 				

@@ -970,7 +970,7 @@ class SqliteSession : Sqlite
 
 		/*
 		 * on export we only want to delete SQL stuff, because files of other sessions will not be copied
-		 * but note if we want to call some other SQL method, we need to take care to pass dbcon or dbcmd
+		 * but note we use dbcmd, if we want to call some other SQL method, we need to take care to pass dbcon or dbcmd
 		 */
 		if(export)
 		{
@@ -996,7 +996,12 @@ class SqliteSession : Sqlite
 				dbcmd.ExecuteNonQuery();
 
 				// delete related triggers
-				SqliteTrigger.DeleteByModeID(true, Convert.ToInt32(signal));
+				//SqliteTrigger.DeleteByModeID(true, Convert.ToInt32(signal));
+				//to export we have to do it with the dbcmd:
+				dbcmd.CommandText = "Delete FROM " + Constants.TriggerTable +
+					" WHERE modeID = " + Convert.ToInt32(signal);
+				LogB.SQL(dbcmd.CommandText.ToString());
+				dbcmd.ExecuteNonQuery();
 			}
 
 			// 3 delete all encoder table stuff (signals and curves)

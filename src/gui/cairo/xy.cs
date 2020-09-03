@@ -514,18 +514,23 @@ public abstract class CairoXY
 		writeTextAtRight(line +1, "Y: " + Util.TrimDecimals(realY, 2), false);
 		*/
 
+		LogB.Information("calling findClosestGraphPoint ...");
 		// 3) find closest point (including predicted point if any)
 		PointF pClosest = findClosestGraphPoint(graphX, graphY);
 
+		LogB.Information("writeSelectedValues ...");
 		// 4) write text at right
 		writeSelectedValues(line, pClosest);
 
+		LogB.Information("painting rectangle ...");
+		// 4) write text at right
 		// 5) paint rectangle around that point
 		g.Color = bluePlots;
 		g.Rectangle(calculatePaintX(pClosest.X) - 2*pointsRadius, calculatePaintY(pClosest.Y) -2*pointsRadius,
 				4*pointsRadius, 4*pointsRadius);
 		g.Stroke();
 		g.Color = black;
+		LogB.Information("writeCoordinatesOfMouseClick done!");
 	}
 
 	/*

@@ -68,7 +68,8 @@ public class JumpsDjOptimalFallGraph : CairoXY
 		yUnits = "cm";
 
 		//needed to have mouse clicks at: on_drawingarea_jumps_weight_fv_profile_button_press_event ()
-		area.AddEvents((int) (Gdk.EventMask.ButtonPressMask | Gdk.EventMask.ButtonReleaseMask));
+//		area.AddEvents((int) (Gdk.EventMask.ButtonPressMask | Gdk.EventMask.ButtonReleaseMask));
+		area.AddEvents((int) Gdk.EventMask.ButtonPressMask);
 	}
 
 	public override void Do()

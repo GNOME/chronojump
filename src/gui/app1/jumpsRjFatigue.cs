@@ -200,7 +200,8 @@ public partial class ChronoJumpWindow
 	private void on_drawingarea_jumps_rj_fatigue_expose_event (object o, ExposeEventArgs args)
 	{
 		//needed to have mouse clicks at: on_drawingarea_jumps_rj_fatigue_button_press_event ()
-		drawingarea_jumps_rj_fatigue.AddEvents((int) (Gdk.EventMask.ButtonPressMask | Gdk.EventMask.ButtonReleaseMask));
+//		drawingarea_jumps_rj_fatigue.AddEvents((int) (Gdk.EventMask.ButtonPressMask | Gdk.EventMask.ButtonReleaseMask));
+		drawingarea_jumps_rj_fatigue.AddEvents((int) Gdk.EventMask.ButtonPressMask);
 
 		//createComboSelectJumpsRjFatigueNum (false);
 		jumpsRjFatigueDo(false);

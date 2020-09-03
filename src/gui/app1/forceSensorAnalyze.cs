@@ -891,7 +891,8 @@ public partial class ChronoJumpWindow
 			return;
 
 		//needed to have mouse clicks button_press_event ()
-		force_sensor_ai_drawingarea.AddEvents((int) (Gdk.EventMask.ButtonPressMask | Gdk.EventMask.ButtonReleaseMask));
+//		force_sensor_ai_drawingarea.AddEvents((int) (Gdk.EventMask.ButtonPressMask | Gdk.EventMask.ButtonReleaseMask));
+		force_sensor_ai_drawingarea.AddEvents((int) Gdk.EventMask.ButtonPressMask);
 
 		/* in some mono installations, configure_event is not called, but expose_event yes.
 		 * Do here the initialization

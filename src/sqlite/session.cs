@@ -983,7 +983,7 @@ class SqliteSession : Sqlite
 			reader = dbcmd.ExecuteReader();
 			List<string> signal_l = new List<string>();
 
-			// 2 delete all the EncoderSignalCurves (relation with signal and curves) of that signals
+			// 2 delete all the EncoderSignalCurves (relation with signal and curves) of that signals, and also triggers
 			while(reader.Read())
 				signal_l.Add(reader[0].ToString());
 
@@ -994,6 +994,9 @@ class SqliteSession : Sqlite
 				dbcmd.CommandText = "Delete FROM " + Constants.EncoderSignalCurveTable +
 					" WHERE signalID = " + signal;
 				dbcmd.ExecuteNonQuery();
+
+				// delete related triggers
+				SqliteTrigger.DeleteByModeID(true, Convert.ToInt32(signal));
 			}
 
 			// 3 delete all encoder table stuff (signals and curves)

@@ -105,8 +105,12 @@ public partial class ChronoJumpWindow
 	}
 	private void on_drawingarea_jumps_dj_optimal_fall_expose_event (object o, ExposeEventArgs args) 
 	{
+		/*
+		   moved to creation:
+
 		//needed to have mouse clicks at: on_drawingarea_jumps_weight_fv_profile_button_press_event ()
 		drawingarea_jumps_dj_optimal_fall.AddEvents((int) (Gdk.EventMask.ButtonPressMask | Gdk.EventMask.ButtonReleaseMask));
+		*/
 
 		jumpsDjOptimalFallDo(false); //do not calculate data
 		//data is calculated on switch page (at notebook_capture_analyze) or on change person

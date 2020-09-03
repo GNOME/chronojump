@@ -5427,7 +5427,8 @@ public partial class ChronoJumpWindow
 		bool encoderGraphDoPlotJustCreated = false;
 
 		//needed to have mouse clicks button_press_event ()
-		encoder_capture_curves_bars_drawingarea.AddEvents((int) (Gdk.EventMask.ButtonPressMask | Gdk.EventMask.ButtonReleaseMask));
+//		encoder_capture_curves_bars_drawingarea.AddEvents((int) (Gdk.EventMask.ButtonPressMask | Gdk.EventMask.ButtonReleaseMask));
+		encoder_capture_curves_bars_drawingarea.AddEvents((int) Gdk.EventMask.ButtonPressMask);
 
 		Gdk.Rectangle allocation = encoder_capture_curves_bars_drawingarea.Allocation;
 		if(encoder_capture_curves_bars_pixmap == null || encoder_capture_curves_sizeChanged || 

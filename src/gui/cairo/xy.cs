@@ -530,7 +530,11 @@ public abstract class CairoXY
 				4*pointsRadius, 4*pointsRadius);
 		g.Stroke();
 		g.Color = black;
-		LogB.Information("writeCoordinatesOfMouseClick done!");
+		LogB.Information("writeCoordinatesOfMouseClick done! disposing");
+
+		endGraphDisposing();
+
+		LogB.Information("writeCoordinatesOfMouseClick disposed!");
 	}
 
 	/*
@@ -568,7 +572,13 @@ public abstract class CairoXY
 		writeTextAtRight(line +2, string.Format("- {0}: {1} {2}", yVariable, Util.TrimDecimals(pClosest.Y, 2), yUnits), false);
 	}
 
-	protected void endGraph()
+	/*
+	   need to dispose because Cairo does not clean ok on win and mac:
+	   Don’t forget to manually dispose the Context and the target Surface at the end of the expose event. Automatic garbage collecting is not yet 100% working in Cairo.
+		https://www.mono-project.com/docs/tools+libraries/libraries/Mono.Cairo/
+		eg. on Linux can do the writeCoordinatesOfMouseClick() without disposing, but on win and mac does not work, so dispose always.
+	 */
+	protected void endGraphDisposing()
 	{
 		g.GetTarget().Dispose ();
 		g.Dispose ();

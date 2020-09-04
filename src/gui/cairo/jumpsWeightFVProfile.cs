@@ -47,7 +47,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 
 		plotError();
 
-		endGraph();
+		endGraphDisposing();
 	}
 
 	//regular constructor
@@ -162,7 +162,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		if(errorMessage != ErrorAtStart.ALLOK)
 			plotError();
 
-		endGraph();
+		endGraphDisposing();
 	}
 
 	protected override void writeTitle()

@@ -39,6 +39,7 @@ public class JumpTypeAddWindow
 	[Widget] Gtk.Entry entry_name;
 
 
+	[Widget] Gtk.Label label_header;
 	[Widget] Gtk.Label label_main_options;
 	[Widget] Gtk.Table table_main_options;
 
@@ -72,6 +73,12 @@ public class JumpTypeAddWindow
 
 		//put an icon to window
 		UtilGtk.IconWindow(jump_type_add);
+
+		//manage window color
+		if(! Config.UseSystemColor) {
+			UtilGtk.WindowColor(jump_type_add, Config.ColorBackground);
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_header);
+		}
 	}
 	
 	static public JumpTypeAddWindow Show (Gtk.Window parent, bool simple)
@@ -80,8 +87,8 @@ public class JumpTypeAddWindow
 			JumpTypeAddWindowBox = new JumpTypeAddWindow (parent, simple);
 		}
 		
-		JumpTypeAddWindowBox.jump_type_add.Show ();
 		JumpTypeAddWindowBox.fillDialog (simple);
+		JumpTypeAddWindowBox.jump_type_add.Show ();
 
 		return JumpTypeAddWindowBox;
 	}

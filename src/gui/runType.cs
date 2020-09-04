@@ -38,6 +38,7 @@ public class RunTypeAddWindow
 	public Gtk.Button fakeButtonAccept;
 	[Widget] Gtk.Entry entry_name;
 	
+	[Widget] Gtk.Label label_header;
 	[Widget] Gtk.Label label_main_options;
 	[Widget] Gtk.Table table_main_options;
 
@@ -55,10 +56,10 @@ public class RunTypeAddWindow
 	[Widget] Gtk.RadioButton radiobutton_dist_fixed;
 	[Widget] Gtk.RadioButton radiobutton_dist_different;
 
-	[Widget] Gtk.HBox hbox_distance_fixed;
+	[Widget] Gtk.Alignment alignment_hbox_distance_fixed;
 	[Widget] Gtk.SpinButton spin_distance_fixed;
 
-	[Widget] Gtk.VBox vbox_distance_variable;
+	[Widget] Gtk.Alignment alignment_vbox_distance_variable;
 	[Widget] Gtk.ComboBox combo_distance_different_tracks;
 	[Widget] Gtk.HBox hbox_distance_variable;
 
@@ -93,6 +94,12 @@ public class RunTypeAddWindow
 
 		//put an icon to window
 		UtilGtk.IconWindow(run_type_add);
+
+		//manage window color
+		if(! Config.UseSystemColor) {
+			UtilGtk.WindowColor(run_type_add, Config.ColorBackground);
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_header);
+		}
 	}
 	
 	static public RunTypeAddWindow Show (Gtk.Window parent, bool simple)
@@ -101,8 +108,8 @@ public class RunTypeAddWindow
 			RunTypeAddWindowBox = new RunTypeAddWindow (parent, simple);
 		}
 		
-		RunTypeAddWindowBox.run_type_add.Show ();
 		RunTypeAddWindowBox.fillDialog (simple);
+		RunTypeAddWindowBox.run_type_add.Show ();
 
 		return RunTypeAddWindowBox;
 	}
@@ -130,8 +137,18 @@ public class RunTypeAddWindow
 		//System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
 		
 		radiobutton_dist_different.Visible = ! simple;
+		/*
+		   instead of hidden, made unsensitive to have no problems on being inside a viewport
 		hbox_distance_fixed.Hide();	
 		vbox_distance_variable.Hide();	
+		*/
+		alignment_hbox_distance_fixed.Sensitive = false;
+		alignment_vbox_distance_variable.Sensitive = false;
+		if(simple)
+		{
+			alignment_hbox_distance_fixed.Hide();
+			alignment_vbox_distance_variable.Hide();
+		}
 					
 		dd0 = new Gtk.Entry(); 	dd0.Changed += new EventHandler(on_entries_required_changed);
 		dd1 = new Gtk.Entry(); 	dd1.Changed += new EventHandler(on_entries_required_changed);
@@ -295,20 +312,20 @@ public class RunTypeAddWindow
 	
 	void on_radiobutton_dist_variable_toggled (object o, EventArgs args)
 	{
-		hbox_distance_fixed.Hide();	
-		vbox_distance_variable.Hide();	
+		alignment_hbox_distance_fixed.Sensitive = false;
+		alignment_vbox_distance_variable.Sensitive = false;
 	}
 	
 	void on_radiobutton_dist_fixed_toggled (object o, EventArgs args)
 	{
-		hbox_distance_fixed.Show();	
-		vbox_distance_variable.Hide();	
+		alignment_hbox_distance_fixed.Sensitive = true;
+		alignment_vbox_distance_variable.Sensitive = false;
 	}
 	
 	void on_radiobutton_dist_different_toggled (object o, EventArgs args)
 	{
-		hbox_distance_fixed.Hide();	
-		vbox_distance_variable.Show();	
+		alignment_hbox_distance_fixed.Sensitive = false;
+		alignment_vbox_distance_variable.Sensitive = true;
 		combo_distance_different_tracks.Sensitive = true;
 	}
 	

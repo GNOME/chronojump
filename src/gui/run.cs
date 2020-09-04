@@ -914,6 +914,10 @@ public class RunsMoreWindow : EventMoreWindow
 		//put an icon to window
 		UtilGtk.IconWindow(jumps_runs_more);
 
+		//manage window color
+		if(! Config.UseSystemColor)
+			UtilGtk.WindowColor(jumps_runs_more, Config.ColorBackground);
+
 		selectedEventType = EventType.Types.RUN.ToString();
 		//name, distance, description
 		store = new TreeStore(typeof (string), typeof (string), typeof (string));

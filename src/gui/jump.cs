@@ -987,7 +987,11 @@ public class JumpsMoreWindow : EventMoreWindow
 		
 		//put an icon to window
 		UtilGtk.IconWindow(jumps_runs_more);
-		
+
+		//manage window color
+		if(! Config.UseSystemColor)
+			UtilGtk.WindowColor(jumps_runs_more, Config.ColorBackground);
+
 		selectedEventType = EventType.Types.JUMP.ToString();
 		
 		//name, startIn, weight, description

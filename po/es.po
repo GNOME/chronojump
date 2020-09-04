@@ -6795,7 +6795,7 @@ msgstr "Leyenda:"
 
 #: ../src/gui/app1/forceSensor.cs:465
 msgid "Length without tension"
-msgstr "Leyenda sin tensión"
+msgstr "Longitud sin tensión"
 
 #: ../src/gui/app1/forceSensor.cs:466
 msgid "Minimum working distance"

@@ -32,7 +32,9 @@ public class ChronojumpLogo
 	private bool timer;
 	private double alpha;
 	private double size;
-	private Stopwatch stopwatch;
+	private Stopwatch stopwatch1;
+	private Stopwatch stopwatch2;
+	private Stopwatch stopwatch3;
 
 	private Gtk.DrawingArea drawingarea; 	//contains the animation
 	private Gtk.Viewport viewport; 		//contains the logo and version number
@@ -57,9 +59,14 @@ public class ChronojumpLogo
 		timer = true;
 		alpha = 1.0;
 		size = 1.0;
-		stopwatch = new Stopwatch();
+		stopwatch1 = new Stopwatch();
+		stopwatch2 = new Stopwatch();
+		stopwatch3 = new Stopwatch();
 
 		GLib.Timeout.Add(12, new GLib.TimeoutHandler(onTimer));
+		//GLib.Timeout.Add(30, new GLib.TimeoutHandler(onTimer));
+		stopwatch1.Start();
+
 		LogB.Information("Chronojump logo constructor end");
 	}
 
@@ -92,19 +99,24 @@ public class ChronojumpLogo
 
 		bool showVersion = false;
 		if (size <= 80)
-			size += 0.6;
+			//size += 0.6;
+			size = stopwatch1.Elapsed.TotalMilliseconds / 20.0;
 
 		if(size > 20)
 		{
-			alpha -= 0.01;
+			//alpha -= 0.01;
+			if(! stopwatch2.IsRunning)
+				stopwatch2.Start();
+			alpha = 1 - stopwatch2.Elapsed.TotalMilliseconds * 0.00083;
+
 			if(alpha < 0)
 			{
 				alpha = 0;
-				stopwatch.Start();
+				stopwatch3.Start();
 			}
 		}
 
-		if (stopwatch.Elapsed.TotalMilliseconds >= 300)
+		if (stopwatch3.Elapsed.TotalMilliseconds >= 300)
 			timer = false;
 
 		chronojumpLogo_showChronojump (cr, x, y);

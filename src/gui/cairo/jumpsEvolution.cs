@@ -38,7 +38,7 @@ public class JumpsEvolutionGraph : CairoXY
 		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight,
 				needToExecuteJumpsStr + " " + jumpType + ".", g, alignTypes.CENTER);
 
-		endGraph();
+		endGraphDisposing();
 	}
 
 	//regular constructor
@@ -77,7 +77,7 @@ public class JumpsEvolutionGraph : CairoXY
 
 		writeTitle();
 
-		endGraph();
+		endGraphDisposing();
 	}
 
 	//here X is year, add/subtract third of a year

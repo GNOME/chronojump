@@ -156,6 +156,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_analyze_image_compujump_send_email_image;
 	[Widget] Gtk.Image image_encoder_analyze_image_compujump_send_email_send;
 	[Widget] Gtk.Image image_encoder_analyze_check;
+	[Widget] Gtk.Image image_encoder_capture_inertial_ecc;
+	[Widget] Gtk.Image image_encoder_capture_inertial_con;
 
 	//force sensor
 	[Widget] Gtk.Image image_selector_start_force_sensor;
@@ -275,13 +277,18 @@ public partial class ChronoJumpWindow
 		image_message_permissions_at_boot.Pixbuf = pixbuf;
 		image_button_force_sensor_stiffness_problem.Pixbuf = pixbuf;
 
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "muscle-excentric.png");
+		image_encoder_capture_inertial_ecc.Pixbuf = pixbuf;
+
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "muscle-concentric.png");
 		image_top_eccon.Pixbuf = pixbuf;
+		image_encoder_capture_inertial_con.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "muscle-concentric.png");
 		image_encoder_eccon_concentric.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "muscle-excentric-concentric.png");
 		image_encoder_eccon_eccentric_concentric.Pixbuf = pixbuf;
+
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "laterality-both.png");
 		image_top_laterality.Pixbuf = pixbuf;

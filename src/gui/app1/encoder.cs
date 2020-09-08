@@ -78,8 +78,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.VScale vscale_encoder_capture_inertial_angle_now;
 	[Widget] Gtk.VBox vbox_angle_now;
 	[Widget] Gtk.Label label_encoder_capture_inertial_angle_now;
-	[Widget] Gtk.Label label_encoder_capture_inertial_ecc;
-	[Widget] Gtk.Label label_encoder_capture_inertial_con;
 
 	[Widget] Gtk.Button button_encoder_capture;
 
@@ -2858,8 +2856,8 @@ public partial class ChronoJumpWindow
 		EncoderCaptureInertialBackgroundStatic.Abort();
 		eCaptureInertialBG = null;
 		vscale_encoder_capture_inertial_angle_now.Value = 0;
-		label_encoder_capture_inertial_ecc.Sensitive = false;
-		label_encoder_capture_inertial_con.Sensitive = false;
+		image_encoder_capture_inertial_ecc.Visible = false;
+		image_encoder_capture_inertial_con.Visible = false;
 	}
 
 	//this is called by non gtk thread. Don't do gtk stuff here
@@ -6126,18 +6124,18 @@ public partial class ChronoJumpWindow
 		int newValue = eCaptureInertialBG.AngleNow;
 		if(eCaptureInertialBG.Phase == EncoderCaptureInertialBackground.Phases.ATCALIBRATEDPOINT)
 		{
-			label_encoder_capture_inertial_ecc.Sensitive = false;
-			label_encoder_capture_inertial_con.Sensitive = false;
+			image_encoder_capture_inertial_ecc.Visible = false;
+			image_encoder_capture_inertial_con.Visible = false;
 		}
 		else if(eCaptureInertialBG.Phase == EncoderCaptureInertialBackground.Phases.CON)
 		{
-			label_encoder_capture_inertial_ecc.Sensitive = false;
-			label_encoder_capture_inertial_con.Sensitive = true;
+			image_encoder_capture_inertial_ecc.Visible = false;
+			image_encoder_capture_inertial_con.Visible = true;
 		}
 		else if(eCaptureInertialBG.Phase == EncoderCaptureInertialBackground.Phases.ECC)
 		{
-			label_encoder_capture_inertial_ecc.Sensitive = true;
-			label_encoder_capture_inertial_con.Sensitive = false;
+			image_encoder_capture_inertial_ecc.Visible = true;
+			image_encoder_capture_inertial_con.Visible = false;
 		}
 		/*
 		else if(eCaptureInertialBG.Phase == EncoderCaptureInertialBackground.Phases.NOTMOVED)

@@ -136,7 +136,7 @@ class SqlitePreferences : Sqlite
 				Insert (ColorBackgroundOsColor, "False", dbcmdTr);
 				Insert (UnitsStr, Preferences.UnitsEnum.METRIC.ToString(), dbcmdTr);
 				Insert (EncoderCaptureInfinite, "False", dbcmdTr);
-				Insert ("encoderCaptureShowOnlyBars", "False", dbcmdTr);
+				Insert ("encoderCaptureShowOnlyBars", "True", dbcmdTr);
 				Insert ("encoderCaptureShowNRepetitions", "-1", dbcmdTr);
 				Insert ("digitsNumber", "3", dbcmdTr);
 				Insert ("showPower", "True", dbcmdTr);

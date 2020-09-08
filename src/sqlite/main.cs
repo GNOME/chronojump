@@ -2159,7 +2159,7 @@ class Sqlite
 
 				SqlitePreferences.Insert ("maximized", "0");
 				SqlitePreferences.Insert ("personWinHide", "False");
-				SqlitePreferences.Insert ("encoderCaptureShowOnlyBars", "False");
+				SqlitePreferences.Insert ("encoderCaptureShowOnlyBars", "True");
 
 				currentVersion = updateVersion("1.40");
 			}

@@ -97,7 +97,7 @@ public abstract class CairoXY
 	protected string dateStr = Catalog.GetString("Date");
 	protected string tfStr = Catalog.GetString("TF");
 	protected string tcStr = Catalog.GetString("TC");
-	protected string countStr = Catalog.GetString("Count");
+	protected string countStr = Catalog.GetString("Num");
 	protected string jumpTypeStr = Catalog.GetString("Jump type:");
 
 	public abstract void Do();

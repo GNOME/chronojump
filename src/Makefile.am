@@ -599,6 +599,7 @@ RESOURCES = \
 	../images/chronojump-logo-2013.png,chronojump-logo-2013.png \
 	../images/muscle-concentric.png,muscle-concentric.png \
 	../images/extra-mass.png,extra-mass.png \
+	../images/muscle-excentric.png,muscle-excentric.png \
 	../images/muscle-excentric-concentric.png,muscle-excentric-concentric.png \
 	../images/laterality-both.png,laterality-both.png \
 	../images/laterality-right.png,laterality-right.png \

@@ -708,7 +708,7 @@ msgstr "Cursa d'intervals"
 
 #: ../glade/app1.glade.h:132
 msgid "Max:"
-msgstr "Max:"
+msgstr "Màx:"
 
 #: ../glade/app1.glade.h:133
 msgid "Current:"
@@ -716,7 +716,7 @@ msgstr "Actual:"
 
 #: ../glade/app1.glade.h:134
 msgid "Min:"
-msgstr "Min:"
+msgstr "Mín:"
 
 #: ../glade/app1.glade.h:135 ../src/gui/app1/encoder.cs:2083
 msgid "Save image"
@@ -6733,7 +6733,7 @@ msgid ""
 "Stiffness calculation is correct but stiffness configuration window will not "
 "be able to match elastic bands and total stiffness."
 msgstr ""
-"Els càlcul de la rigidesa és correcte però la finestra de configuració de la "
+"El càlcul de la rigidesa és correcte però la finestra de configuració de la "
 "rigidesa no podrà reflectir aquesta goma ni la rigidesa total."
 
 #: ../src/gui/app1/forceSensor.cs:1840

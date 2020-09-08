@@ -28516,7 +28516,6 @@ then click this button.</property>
                                                             <widget class="GtkAlignment" id="alignment20">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="top_padding">5</property>
                                                             <property name="bottom_padding">3</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_encoder_inertial_recalibrate">

@@ -230,7 +230,7 @@ public class PreferencesWindow
 	[Widget] Gtk.RadioButton radio_language_force;
 	[Widget] Gtk.RadioButton radio_graphs_translate;
 	[Widget] Gtk.RadioButton radio_graphs_no_translate;
-	[Widget] Gtk.Box hbox_need_restart;
+	[Widget] Gtk.VBox vbox_need_restart;
 		
 	//advanced tab
 	[Widget] Gtk.ComboBox combo_decimals;
@@ -1391,15 +1391,15 @@ public class PreferencesWindow
 		hbox_combo_language.Sensitive = radio_language_force.Active;
 
 		if(hbox_language_signalOn)
-			hbox_need_restart.Visible = true;
+			vbox_need_restart.Visible = true;
 	}
 	private void on_radio_translate_toggled (object obj, EventArgs args) {
 		if(hbox_language_signalOn)
-			hbox_need_restart.Visible = true;
+			vbox_need_restart.Visible = true;
 	}
 	private	void combo_language_changed (object obj, EventArgs args) {
 		if(hbox_language_signalOn)
-			hbox_need_restart.Visible = true;
+			vbox_need_restart.Visible = true;
 	}
 
 

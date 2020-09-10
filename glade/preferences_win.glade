@@ -6152,7 +6152,7 @@ It starts before and arrives there with some speed.</property>
                               <widget class="GtkLabel" id="label87">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">Networks</property>
+                                <property name="label">Chronojump-Networks</property>
                                 <property name="use_markup">True</property>
                               </widget>
                               <packing>

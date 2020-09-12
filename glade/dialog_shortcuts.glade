@@ -1839,7 +1839,7 @@
                           <widget class="GtkLabel" id="label73">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">Tests capture</property>
+                            <property name="label" translatable="yes">Capture</property>
                           </widget>
                           <packing>
                             <property name="position">1</property>
@@ -2187,7 +2187,7 @@
                           <widget class="GtkLabel" id="label74">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">Tests analyze</property>
+                            <property name="label" translatable="yes">Analyze</property>
                           </widget>
                           <packing>
                             <property name="position">2</property>

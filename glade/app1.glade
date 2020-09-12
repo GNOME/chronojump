@@ -32147,6 +32147,12 @@ then click this button.</property>
                                                             <property name="xalign">1</property>
                                                             <signal name="clicked" handler="on_button_encoder_analyze_clicked" swapped="no"/>
                                                             <child>
+                                                            <widget class="GtkAlignment" id="alignment33">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="left_padding">6</property>
+                                                            <property name="right_padding">6</property>
+                                                            <child>
                                                             <widget class="GtkHBox" id="hbox194">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -32173,6 +32179,8 @@ then click this button.</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">1</property>
                                                             </packing>
+                                                            </child>
+                                                            </widget>
                                                             </child>
                                                             </widget>
                                                             </child>

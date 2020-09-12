@@ -177,7 +177,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_analyze;
 	[Widget] Gtk.Box hbox_encoder_analyze_progress;
 	[Widget] Gtk.Button button_encoder_analyze_cancel;
-	[Widget] Gtk.Box hbox_encoder_user_curves;
+	[Widget] Gtk.Button button_encoder_analyze_data_select_curves;
 	[Widget] Gtk.Label label_encoder_user_curves_active_num;
 	[Widget] Gtk.Label label_encoder_user_curves_all_num;
 
@@ -3360,7 +3360,7 @@ public partial class ChronoJumpWindow
 
 		updateComboEncoderAnalyzeCurveNumFromCurrentSet ();
 
-		hbox_encoder_user_curves.Visible = false;
+		button_encoder_analyze_data_select_curves.Visible = false;
 		hbox_combo_encoder_exercise_analyze.Visible = false;
 		
 		//this analysis only when not comparing
@@ -3407,7 +3407,7 @@ public partial class ChronoJumpWindow
 
 		createComboAnalyzeCross(false, false); //first creation: false, dateOnX: false
 		
-		hbox_encoder_user_curves.Visible = currentPerson != null;
+		button_encoder_analyze_data_select_curves.Visible = currentPerson != null;
 		
 		hbox_combo_encoder_exercise_analyze.Visible = true;
 
@@ -3451,7 +3451,7 @@ public partial class ChronoJumpWindow
 		createComboAnalyzeCross(false, check_encoder_intersession_x_is_date.Active);
 		combo_encoder_analyze_weights.Visible = check_encoder_intersession_x_is_date.Active;
 
-		hbox_encoder_user_curves.Visible = currentPerson != null;
+		button_encoder_analyze_data_select_curves.Visible = currentPerson != null;
 		
 		hbox_combo_encoder_exercise_analyze.Visible = true;
 		
@@ -3484,7 +3484,7 @@ public partial class ChronoJumpWindow
 		
 		createComboAnalyzeCross(false, false); //first creation: false, dateOnX: false
 		
-		hbox_encoder_user_curves.Visible = currentPerson != null;
+		button_encoder_analyze_data_select_curves.Visible = currentPerson != null;
 		
 		hbox_combo_encoder_exercise_analyze.Visible = true;
 		
@@ -5072,7 +5072,7 @@ public partial class ChronoJumpWindow
 		//	and images: image_encoder_capture , image_encoder_analyze.Sensitive. Update: both NOT managed here
 		//UNUSED c4 button_encoder_save_curve, entry_encoder_curve_comment
 		//c5 button_encoder_analyze
-		//c6 hbox_encoder_user_curves
+		//c6 button_encoder_analyze_data_select_curves
 		//c7 button_encoder_capture_cancel and button_encoder_analyze_cancel (on capture and analyze)
 		//c8 button_encoder_capture_finish (only on capture)
 
@@ -5158,7 +5158,7 @@ public partial class ChronoJumpWindow
 
 		button_encoder_analyze.Sensitive = analyze_sensitive;
 
-		hbox_encoder_user_curves.Visible = 
+		button_encoder_analyze_data_select_curves.Visible =
 			(Util.IntToBool(table[6]) && ! radio_encoder_analyze_individual_current_set.Active);
 		
 		button_encoder_capture_cancel.Sensitive = Util.IntToBool(table[7]);

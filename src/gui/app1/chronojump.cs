@@ -1028,20 +1028,19 @@ public partial class ChronoJumpWindow
 			notebook_encoder_sup.CurrentPage = 0;
 	}
 
-	public void on_radio_mode_encoder_analyze_small_toggled (object obj, EventArgs args) {
+	public void on_radio_mode_encoder_analyze_small_toggled (object o, EventArgs args) {
 		if(radio_mode_encoder_analyze_small.Active)
 		{
 			notebook_encoder_sup.CurrentPage = 1;
 
-			//to display the explanation animation
 			if(radio_encoder_analyze_individual_current_set.Active)
-				on_radio_encoder_analyze_pre (radio_encoder_analyze_individual_current_set, new EventArgs());
+				on_radio_encoder_analyze_individual_current_set (o, args);
 			else if(radio_encoder_analyze_individual_current_session.Active)
-				on_radio_encoder_analyze_pre (radio_encoder_analyze_individual_current_session, new EventArgs());
+				on_radio_encoder_analyze_individual_current_session (o, args);
 			else if(radio_encoder_analyze_individual_all_sessions.Active)
-				on_radio_encoder_analyze_pre (radio_encoder_analyze_individual_all_sessions, new EventArgs());
+				on_radio_encoder_analyze_individual_all_sessions (o, args);
 			else if(radio_encoder_analyze_groupal_current_session.Active)
-				on_radio_encoder_analyze_pre (radio_encoder_analyze_groupal_current_session, new EventArgs());
+				on_radio_encoder_analyze_groupal_current_session (o, args);
 		}
 	}
 

@@ -31490,7 +31490,6 @@ then click this button.</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkCheckButton" id="check_encoder_analyze_mean_or_max">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="active">True</property>

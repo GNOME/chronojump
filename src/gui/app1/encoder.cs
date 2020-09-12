@@ -264,7 +264,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_combo_encoder_analyze_weights;
 	[Widget] Gtk.ComboBox combo_encoder_analyze_weights;
 	
-	[Widget] Gtk.Button button_encoder_analyze_help;
+	[Widget] Gtk.Button button_encoder_analyze_neuromuscular_help;
 
 
 	[Widget] Gtk.CheckButton check_encoder_analyze_eccon_together;
@@ -3592,7 +3592,7 @@ public partial class ChronoJumpWindow
 		check_encoder_analyze_eccon_together.Sensitive=true;
 		block_check_encoder_analyze_eccon_together_if_needed();
 
-		button_encoder_analyze_help.Visible = false;
+		button_encoder_analyze_neuromuscular_help.Visible = false;
 		label_encoder_analyze_side_max.Visible = false;
 
 		//restore 1RM Bench Press sensitiveness
@@ -3619,7 +3619,7 @@ public partial class ChronoJumpWindow
 		//done here:
 		on_combo_encoder_analyze_cross_changed (obj, args);
 
-		button_encoder_analyze_help.Visible = false;
+		button_encoder_analyze_neuromuscular_help.Visible = false;
 		label_encoder_analyze_side_max.Visible = false;
 
 		encoderButtonsSensitive(encoderSensEnumStored);
@@ -3643,7 +3643,7 @@ public partial class ChronoJumpWindow
 		//done here:
 		on_combo_encoder_analyze_1RM_changed (obj, args);
 
-		button_encoder_analyze_help.Visible = false;
+		button_encoder_analyze_neuromuscular_help.Visible = false;
 		label_encoder_analyze_side_max.Visible = false;
 
 		encoderButtonsSensitive(encoderSensEnumStored);
@@ -3665,7 +3665,7 @@ public partial class ChronoJumpWindow
 		check_encoder_analyze_eccon_together.Sensitive=false;
 		check_encoder_analyze_eccon_together.Active = false;
 	
-		button_encoder_analyze_help.Visible = true;
+		button_encoder_analyze_neuromuscular_help.Visible = true;
 		label_encoder_analyze_side_max.Visible = false;
 		check_encoder_analyze_mean_or_max.Sensitive = false;
 
@@ -3693,7 +3693,7 @@ public partial class ChronoJumpWindow
 		check_encoder_analyze_eccon_together.Sensitive=false;
 		check_encoder_analyze_eccon_together.Active = true;
 
-		button_encoder_analyze_help.Visible = false;
+		button_encoder_analyze_neuromuscular_help.Visible = false;
 		label_encoder_analyze_side_max.Visible = false;
 
 		//restore 1RM Bench Press sensitiveness
@@ -3829,7 +3829,7 @@ public partial class ChronoJumpWindow
 	}
 	
 	
-	private void on_button_encoder_analyze_help_clicked (object obj, EventArgs args) {
+	private void on_button_encoder_analyze_neuromuscular_help_clicked (object obj, EventArgs args) {
 		//currently only active on neuromuscular profile
 
 		string str = 

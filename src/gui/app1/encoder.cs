@@ -3852,7 +3852,7 @@ public partial class ChronoJumpWindow
 			Catalog.GetString("Analysis uses the best three jumps using 'jump height' criterion.") + "\n\n" +
 			Catalog.GetString("Lapuente and De Blas. Adapted from Wagner:") + "\nhttp://spartapoint.com/category/spartapoint-101/";
 		
-		new DialogMessage(Constants.MessageTypes.INFO, str);
+		new DialogMessage(Catalog.GetString("Neuromuscular profile"), Constants.MessageTypes.INFO, str, true);
 	}
 
 

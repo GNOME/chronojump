@@ -31062,19 +31062,39 @@ then click this button.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox_encoder_user_curves">
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">4</property>
+                                                            <widget class="GtkButton" id="button_encoder_analyze_data_select_curves">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_button_encoder_analyze_data_select_curves_clicked" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label_encoder_analyze_saved_curves">
+                                                            <widget class="GtkHBox" id="hbox285">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Repetitions</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_encoder_analyze_check">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            <property name="icon-size">2</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label404">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Select repetitions</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -31150,53 +31170,10 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkButton" id="button_encoder_analyze_data_select_curves">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">True</property>
-                                                            <signal name="clicked" handler="on_button_encoder_analyze_data_select_curves_clicked" swapped="no"/>
-                                                            <child>
-                                                            <widget class="GtkHBox" id="hbox285">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
-                                                            <widget class="GtkImage" id="image_encoder_analyze_check">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            <property name="icon-size">2</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label404">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Select</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
                                                             <property name="position">2</property>
                                                             </packing>
+                                                            </child>
+                                                            </widget>
                                                             </child>
                                                             </widget>
                                                             <packing>
@@ -31413,21 +31390,15 @@ then click this button.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <widget class="GtkAlignment" id="alignment62">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="left_padding">12</property>
+                                                            <child>
                                                             <widget class="GtkHBox" id="hbox92">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">8</property>
-                                                            <child>
-                                                            <widget class="GtkVSeparator" id="vseparator2">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
                                                             <child>
                                                             <widget class="GtkButton" id="button_encoder_analyze_help">
                                                             <property name="can_focus">True</property>
@@ -31445,7 +31416,7 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -31493,7 +31464,7 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">2</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -31589,7 +31560,7 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">3</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -31629,7 +31600,7 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">4</property>
+                                                            <property name="position">3</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -31666,7 +31637,7 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">5</property>
+                                                            <property name="position">4</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -31681,7 +31652,7 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">6</property>
+                                                            <property name="position">5</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -31694,18 +31665,7 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">7</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkVSeparator" id="vseparator3">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">8</property>
+                                                            <property name="position">6</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -31926,6 +31886,97 @@ then click this button.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <widget class="GtkHBox" id="hbox_encoder_analyze_show_SAFE">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">8</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label343">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Show:</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_encoder_analyze_show_SAFE_position">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="tooltip" translatable="yes">Show position</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            <property name="icon-size">2</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_encoder_analyze_show_SAFE_speed">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="tooltip" translatable="yes">Show speed</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            <property name="icon-size">2</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_encoder_analyze_show_SAFE_accel">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="tooltip" translatable="yes">Show acceleration</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            <property name="icon-size">2</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">3</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_encoder_analyze_show_SAFE_force">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="tooltip" translatable="yes">Show force</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            <property name="icon-size">2</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">4</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_encoder_analyze_show_SAFE_power">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="tooltip" translatable="yes">Show power</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            <property name="icon-size">2</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">5</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkHBox" id="hbox_encoder_analyze_curve_num">
                                                             <property name="can_focus">False</property>
                                                             <child>
@@ -31961,109 +32012,6 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">2</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkHBox" id="hbox_encoder_analyze_show_SAFE">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">8</property>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label343">
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Show:</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkHSeparator" id="hseparator3">
-                                                            <property name="width_request">12</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkImage" id="image_encoder_analyze_show_SAFE_position">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="tooltip" translatable="yes">Show position</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            <property name="icon-size">2</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">2</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkImage" id="image_encoder_analyze_show_SAFE_speed">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="tooltip" translatable="yes">Show speed</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            <property name="icon-size">2</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">3</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkImage" id="image_encoder_analyze_show_SAFE_accel">
-                                                            <property name="can_focus">False</property>
-                                                            <property name="tooltip" translatable="yes">Show acceleration</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            <property name="icon-size">2</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">4</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkImage" id="image_encoder_analyze_show_SAFE_force">
-                                                            <property name="can_focus">False</property>
-                                                            <property name="tooltip" translatable="yes">Show force</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            <property name="icon-size">2</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">5</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkImage" id="image_encoder_analyze_show_SAFE_power">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="tooltip" translatable="yes">Show power</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            <property name="icon-size">2</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">6</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
                                                             <property name="position">3</property>
                                                             </packing>
                                                             </child>
@@ -32078,7 +32026,7 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">9</property>
+                                                            <property name="position">7</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -32091,8 +32039,10 @@ then click this button.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">10</property>
+                                                            <property name="position">8</property>
                                                             </packing>
+                                                            </child>
+                                                            </widget>
                                                             </child>
                                                             </widget>
                                                             <packing>

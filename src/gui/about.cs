@@ -89,6 +89,7 @@ public class About
 			paragraph = "\n";
 		}
 		dialog_about_label_documenters.Text = docsString;
+		dialog_about.Show();
 	}
 
 	private void textLabel(string [] text, Gtk.Label label) {

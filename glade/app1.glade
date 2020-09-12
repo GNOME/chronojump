@@ -30608,7 +30608,7 @@ then click this button.</property>
                                               <widget class="GtkVBox" id="vbox_encoder_analyze">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="spacing">6</property>
+                                                <property name="spacing">8</property>
                                                 <child>
                                                   <widget class="GtkHBox" id="hbox56">
                                                     <property name="visible">True</property>
@@ -30625,7 +30625,7 @@ then click this button.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="border_width">4</property>
-                                                            <property name="spacing">16</property>
+                                                            <property name="spacing">12</property>
                                                             <child>
                                                             <widget class="GtkRadioButton" id="radio_encoder_analyze_individual_current_set">
                                                             <property name="visible">True</property>
@@ -30861,7 +30861,6 @@ then click this button.</property>
                                                   <widget class="GtkAlignment" id="alignment33">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="top_padding">6</property>
                                                     <property name="left_padding">6</property>
                                                     <property name="right_padding">6</property>
                                                     <child>
@@ -30897,7 +30896,7 @@ then click this button.</property>
                                                             <widget class="GtkHBox" id="hbox_encoder_analyze_current_signal">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">8</property>
+                                                            <property name="spacing">12</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_encoder_analyze_current_signal">
                                                             <property name="visible">True</property>
@@ -31266,16 +31265,6 @@ then click this button.</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">12</property>
                                                             <child>
-                                                            <widget class="GtkScrolledWindow" id="scrolledwindow17">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="hscrollbar_policy">automatic</property>
-                                                            <property name="vscrollbar_policy">never</property>
-                                                            <child>
-                                                            <widget class="GtkViewport" id="viewport16">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <child>
                                                             <widget class="GtkAlignment" id="alignment54">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -31347,7 +31336,7 @@ then click this button.</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Cross variables</property>
+                                                            <property name="tooltip">1RM</property>
                                                             <property name="draw_indicator">False</property>
                                                             <property name="group">radiobutton_encoder_analyze_powerbars</property>
                                                             <signal name="toggled" handler="on_radiobutton_encoder_analyze_1RM_toggled" swapped="no"/>
@@ -31920,7 +31909,6 @@ then click this button.</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_encoder_analyze_selected">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label" translatable="yes">Single repetition</property>
                                                             </widget>
@@ -31940,10 +31928,8 @@ then click this button.</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox_encoder_analyze_curve_num">
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">8</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="label83">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="has_tooltip">True</property>
                                                             <property name="tooltip" translatable="yes">Repetition number</property>
@@ -32114,10 +32100,6 @@ then click this button.</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">2</property>
                                                             </packing>
-                                                            </child>
-                                                            </widget>
-                                                            </child>
-                                                            </widget>
                                                             </child>
                                                             </widget>
                                                             </child>

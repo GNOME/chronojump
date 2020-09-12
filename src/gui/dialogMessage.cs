@@ -26,7 +26,7 @@ using Glade;
 public class DialogMessage
 {
 	[Widget] Gtk.Dialog dialog_message;
-	[Widget] Gtk.ScrolledWindow scrolledwindow;
+	[Widget] Gtk.ScrolledWindow scrolledwindow_by_software;
 	[Widget] Gtk.Label label_message;
 
 	[Widget] Gtk.Image image_warning;
@@ -67,7 +67,7 @@ public class DialogMessage
 		}
 	}
 
-	private void initialize(string title, Constants.MessageTypes type, string message, bool showScroledWinBar)
+	private void initialize(string title, Constants.MessageTypes type, string message, bool showScrolledWinBar)
 	{
 		LogB.Information("Dialog message: " + message);
 
@@ -119,13 +119,13 @@ public class DialogMessage
 			break;
 		}
 
-		if(showScroledWinBar)
+		if(showScrolledWinBar)
 		{
 			dialog_message.HeightRequest = 450;
-			scrolledwindow.SetPolicy(PolicyType.Never, PolicyType.Automatic);
+			scrolledwindow_by_software.SetPolicy(PolicyType.Never, PolicyType.Automatic);
 		}
 		else
-			scrolledwindow.SetPolicy(PolicyType.Never, PolicyType.Never);
+			scrolledwindow_by_software.SetPolicy(PolicyType.Never, PolicyType.Never);
 
 		label_message.Show();	
 		dialog_message.Show();	

@@ -265,7 +265,7 @@
                     <property name="label_yalign">1</property>
                     <property name="shadow_type">in</property>
                     <child>
-                      <widget class="GtkScrolledWindow" id="scrolledwindow">
+                      <widget class="GtkScrolledWindow" id="scrolledwindow_by_software">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="border_width">4</property>

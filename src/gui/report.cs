@@ -35,7 +35,11 @@ public class ReportWindow {
 
 	[Widget] Gtk.Window report_window;
 	[Widget] Gtk.TreeView treeview1;
-	
+
+	[Widget] Gtk.Label label_header;
+	[Widget] Gtk.Label label_general;
+	[Widget] Gtk.Label label_statistics;
+
 	[Widget] Gtk.CheckButton cb_session_data;
 	[Widget] Gtk.CheckButton cb_jumpers;
 	[Widget] Gtk.CheckButton cb_jumps_simple;
@@ -115,7 +119,16 @@ public class ReportWindow {
 				ReportWindowBox.report_window.Show ();
 			}
 		}
-		
+
+		//manage window color
+		if(! Config.UseSystemColor)
+		{
+			UtilGtk.WindowColor(ReportWindowBox.report_window, Config.ColorBackground);
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, ReportWindowBox.label_header);
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, ReportWindowBox.label_general);
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, ReportWindowBox.label_statistics);
+		}
+
 		return ReportWindowBox;
 	}
 

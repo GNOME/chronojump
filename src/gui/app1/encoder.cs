@@ -2762,7 +2762,23 @@ public partial class ChronoJumpWindow
 				}
 			}
 		} //end individual current session
-		
+
+		//1RM Any exercise cannot be calculated with just one set (needs different weights)
+		if(radio_encoder_analyze_individual_current_set.Active)
+		{
+			if(encoderSelectedAnalysis == "1RM")
+			{
+				string nameTemp = Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_1RM),
+						encoderAnalyze1RMTranslation);
+				if(nameTemp == "1RM Any exercise" || nameTemp == Catalog.GetString("1RM Any exercise"))
+				{
+					new DialogMessage(Constants.MessageTypes.WARNING,
+							Catalog.GetString("Sorry, cannot calculate this 1RM test on one set."));
+					return;
+				}
+			}
+		}
+
 		if( ! radio_encoder_analyze_individual_current_set.Active)
 		{
 			//cannot do inter/intra person with some cross graphs

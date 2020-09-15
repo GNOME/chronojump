@@ -121,6 +121,7 @@ public class EditPulseWindow : EditEventWindow
 public class RepairPulseWindow 
 {
 	[Widget] Gtk.Window repair_sub_event;
+	[Widget] Gtk.HBox hbox_notes_and_totaltime;
 	[Widget] Gtk.Label label_header;
 	[Widget] Gtk.Label label_totaltime_value;
 	[Widget] Gtk.TreeView treeview_subevents;
@@ -181,7 +182,15 @@ public class RepairPulseWindow
 		if (RepairPulseWindowBox == null) {
 			RepairPulseWindowBox = new RepairPulseWindow (parent, myPulse, pDN);
 		}
-		
+
+		//manage window color
+		if(! Config.UseSystemColor)
+		{
+			UtilGtk.WindowColor(RepairPulseWindowBox.repair_sub_event, Config.ColorBackground);
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, RepairPulseWindowBox.label_header);
+			UtilGtk.ContrastLabelsHBox(Config.ColorBackgroundIsDark, RepairPulseWindowBox.hbox_notes_and_totaltime);
+		}
+
 		RepairPulseWindowBox.repair_sub_event.Show ();
 
 		return RepairPulseWindowBox;

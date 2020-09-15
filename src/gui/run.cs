@@ -564,6 +564,7 @@ public class EditRunIntervalWindow : EditRunWindow
 public class RepairRunIntervalWindow 
 {
 	[Widget] Gtk.Window repair_sub_event;
+	[Widget] Gtk.HBox hbox_notes_and_totaltime;
 	[Widget] Gtk.Label label_header;
 	[Widget] Gtk.Label label_totaltime_value;
 	[Widget] Gtk.TreeView treeview_subevents;
@@ -626,6 +627,14 @@ public class RepairRunIntervalWindow
 			RepairRunIntervalWindowBox = new RepairRunIntervalWindow (parent, myRun, pDN);
 		}
 		
+		//manage window color
+		if(! Config.UseSystemColor)
+		{
+			UtilGtk.WindowColor(RepairRunIntervalWindowBox.repair_sub_event, Config.ColorBackground);
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, RepairRunIntervalWindowBox.label_header);
+			UtilGtk.ContrastLabelsHBox(Config.ColorBackgroundIsDark, RepairRunIntervalWindowBox.hbox_notes_and_totaltime);
+		}
+
 		RepairRunIntervalWindowBox.repair_sub_event.Show ();
 
 		return RepairRunIntervalWindowBox;

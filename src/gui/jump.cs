@@ -571,6 +571,7 @@ public class EditJumpRjWindow : EditJumpWindow
 public class RepairJumpRjWindow 
 {
 	[Widget] Gtk.Window repair_sub_event;
+	[Widget] Gtk.HBox hbox_notes_and_totaltime;
 	[Widget] Gtk.Label label_header;
 	[Widget] Gtk.Label label_totaltime_value;
 	[Widget] Gtk.TreeView treeview_subevents;
@@ -636,6 +637,14 @@ public class RepairJumpRjWindow
 			RepairJumpRjWindowBox = new RepairJumpRjWindow (parent, myJump, pDN);
 		}
 		
+		//manage window color
+		if(! Config.UseSystemColor)
+		{
+			UtilGtk.WindowColor(RepairJumpRjWindowBox.repair_sub_event, Config.ColorBackground);
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, RepairJumpRjWindowBox.label_header);
+			UtilGtk.ContrastLabelsHBox(Config.ColorBackgroundIsDark, RepairJumpRjWindowBox.hbox_notes_and_totaltime);
+		}
+
 		RepairJumpRjWindowBox.repair_sub_event.Show ();
 
 		return RepairJumpRjWindowBox;

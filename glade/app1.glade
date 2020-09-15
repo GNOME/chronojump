@@ -32161,7 +32161,6 @@ then click this button.</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkButton" id="button_encoder_analyze">
-                                                            <property name="width_request">100</property>
                                                             <property name="visible">True</property>
                                                             <property name="sensitive">False</property>
                                                             <property name="can_focus">True</property>

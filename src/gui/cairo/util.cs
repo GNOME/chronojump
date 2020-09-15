@@ -58,6 +58,18 @@ public static class CairoUtil
 		}
 	}
 
+	public static void Blank (
+		Gtk.DrawingArea darea)
+	{
+		using (Cairo.Context g = Gdk.CairoHelper.Create (darea.GdkWindow))
+		{
+			g.SetSourceRGBA(1, 1, 1, 1);
+			g.Paint();
+			g.Stroke();
+			g.GetTarget ().Dispose ();
+		}
+	}
+
 	/*
 	 * private methods
 	 */

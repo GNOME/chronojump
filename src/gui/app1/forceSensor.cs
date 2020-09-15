@@ -791,7 +791,7 @@ public partial class ChronoJumpWindow
 		}
 
 		forceSensorOtherMessage = string.Format("Stiffness: {0} N/m", Math.Round(
-					(forceAtMax-forceAtMin)/(forceSensorStiffMaxCm-forceSensorStiffMinCm), 3));
+					(forceAtMax-forceAtMin)/(forceSensorStiffMaxCm/100.0 - forceSensorStiffMinCm/100.0), 3));
 	}
 	//Attention: no GTK here!!
 	private double forceSensorDetectStiffnessDo (int distanceCm, string letter)

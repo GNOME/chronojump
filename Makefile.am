@@ -8,7 +8,7 @@ CLEANFILES = win32/Makefile win32/chronojump_innosetup.iss
 
 ACLOCAL_AMFLAGS = -I build/m4 -I build/m4/shave -I build/m4/shamrock
 
-SUBDIRS = build chronopic-firmware rfid \
+SUBDIRS = build chronopic-firmware \
 	  encoder r-scripts data src po manual
 
 if OSTYPE_LINUX

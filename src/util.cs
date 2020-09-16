@@ -1247,12 +1247,16 @@ public class Util
 
 	/********** start of rfid paths ************/
 
+	/*
+	   Not used anymore, read: src/gui/networks.cs
+
 	public static string GetRFIDCaptureScript() {
 		return Path.Combine(GetPrefixDir(), "bin/chronojump_rfid_capture.py");
 	}
 	public static string GetRFIDCapturedFile() {
 		return Path.Combine(Path.GetTempPath(), "chronojump_rfid.txt");
 	}
+	*/
 
 
 	/********** end of rfid paths ************/

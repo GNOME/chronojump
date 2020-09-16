@@ -146,7 +146,6 @@ ffmpegBinariesMac/Makefile
 src/Makefile
 src/Mini/Makefile
 src/chronojump-importer/Makefile
-rfid/Makefile
 po/Makefile.in
 encoder/Makefile
 r-scripts/Makefile

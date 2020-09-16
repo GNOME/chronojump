@@ -211,6 +211,8 @@ public class DialogPersonPopup
 			label_other_stations.Text = stationsString;
 			image_new_tasks_other_stations.Visible = true;
 		}
+
+		dialog_person_popup.Show();
 	}
 
 	private Gtk.HBox createHBoxStartAndLabel(Task t, Pixbuf pixbuf)

@@ -34,9 +34,12 @@ public class Json
 	public string ResultMessage;
 
 	protected bool connected; //know if server is connected. Do it when there's a change on RFID (pulse)
+	protected string authToken; //authentification token. If the string is empty auth call must be done.
 	protected WebRequest request; //generic request (for all methods except ping)
+	protected enum requestType { GENERIC, PING };
 	protected static string serverUrl = "http://api.chronojump.org:8080";
 	//string serverUrl = "http://192.168.200.1:8080";
+	protected static string authPath = "/login";
 
 	public static void ChangeServerUrl(string url)
 	{
@@ -46,6 +49,14 @@ public class Json
 	public Json()
 	{
 		ResultMessage = "";
+	}
+
+	public bool Connected {
+		get { return connected; }
+	}
+
+	protected bool isAuthenticated() {
+		return ! string.IsNullOrEmpty(authToken);
 	}
 
 	public bool PostCrashLog(string email, string comments) 
@@ -418,15 +429,87 @@ public class Json
 		return true;
 	}
 
-	protected enum requestType { GENERIC, PING };
+	protected bool authenticate()
+	{
+		if (isAuthenticated()) {
+			LogB.Debug("already authenticated");
+			return true;
+		}
+		LogB.Debug("authentication started");
+
+		// Create a request using a the authentication URL
+		WebRequest req = WebRequest.Create (serverUrl + authPath);
+
+		// Set the Method property of the request to POST.
+		req.Method = "POST";
+
+		// Creates the json object
+		JsonObject json = new JsonObject();
+
+		// Use only machineId
+		string machineID = SqlitePreferences.Select("machineID", false);
+		if (string.IsNullOrEmpty(machineID)) {
+			LogB.Error("The parameter machineId is null or not setted");
+//			this.ResultMessage = string.Format("The parameter machineId is null or not setted");
+			return false;
+		}
+		json.Add("machine_id", machineID);
+
+		// Converts it to a String
+		String reqData = json.ToString();
+		LogB.Debug("authentication msg: "+reqData);
+
+		// Writes the json object into the request dataStream and close the stream
+		Stream dataStream;
+		if(! getWebRequestStream (req, out dataStream, "Unauthorized MachineId")) { //Catalog.GetString?
+			return false;
+		}
+		dataStream.Write (Encoding.UTF8.GetBytes(reqData), 0, reqData.Length);
+		dataStream.Close ();
+
+		// call req.GetResponse ()
+		HttpWebResponse response;
+		if(! getHttpWebResponse (req, out response, "Could not get retrive authToken")) //Catalog.GetString?
+			return false;
+
+		// Read the response stream and save the content in authToken
+		using (var sr = new StreamReader(response.GetResponseStream()))
+		{
+			authToken = sr.ReadToEnd();
+		}
+		if (string.IsNullOrEmpty(authToken)) {
+			LogB.Error("authToken retrieved, but is empty or null");
+//			this.ResultMessage = string.Format("authToken retrieved, but is empty or null");
+			return false;
+		}
+
+		LogB.Debug("authToken: " + authToken);
+		return true;
+	}
 
 	protected bool createWebRequest(Json.requestType rt, string webService)
 	{
 		try {
-			if(rt == Json.requestType.GENERIC)
+			if(! authenticate()) {
+				this.ResultMessage = string.Format("Unauthorized StationId");
+				LogB.Warning ("Unauthorized StationId (Error code 401)");
+				return false;
+			}
+		} catch {
+			this.ResultMessage = string.Format("Unauthorized StationId");
+			LogB.Warning ("Unauthorized StationId (Error code 401)");
+			return false;
+		}
+
+		try {
+			if(rt == Json.requestType.GENERIC) {
 				request = WebRequest.Create (serverUrl + webService);
-			else //(rt == Json.requestType.PING)
+				request.Headers["Authorization"] = "Bearer " + authToken;
+
+			} else { //(rt == Json.requestType.PING)
 				requestPing = WebRequest.Create (serverUrl + webService);
+				request.Headers["Authorization"] = "Bearer " + authToken;
+			}
 
 		} catch {
 			this.ResultMessage =
@@ -487,10 +570,7 @@ public class Json
 		return true;
 	}
 
-	public bool Connected {
-		get { return connected; }
-	}
-
+	// Destructor function
 	~Json() {}
 }
 

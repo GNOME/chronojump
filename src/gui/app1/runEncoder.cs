@@ -363,7 +363,7 @@ public partial class ChronoJumpWindow
 		contactsShowCaptureDoingButtons(true);
 
 		//runEncoderCaptureSimulated = menuitem_check_race_encoder_capture_simulate.Active; //TODO: show this in some way on 2.0
-		runEncoderCaptureSimulated = true;
+		runEncoderCaptureSimulated = false; //note that on simulated we need to click finish not so late
 
 		/*
 		//initialize
@@ -567,6 +567,7 @@ public partial class ChronoJumpWindow
 		// 1) encoderDisplacement (2 bytes)
                 int b0 = portRE.ReadByte(); //encoderDisplacement least significative
                 int b1 = portRE.ReadByte(); //encoderDisplacement most significative
+		LogB.Information(" 1 readed b0,b1");
 		/*
 		LogB.Information("bbbencDispl0:" + b0.ToString());
 		LogB.Information("bbbencDispl1:" + b1.ToString());
@@ -584,6 +585,7 @@ public partial class ChronoJumpWindow
                 b1 = portRE.ReadByte();
                 int b2 = portRE.ReadByte();
                 int b3 = portRE.ReadByte(); //most significative
+		LogB.Information(" 2 readed b0-b3");
 
 		/*
 		LogB.Information("bbbtime0:" + b0.ToString());
@@ -608,6 +610,7 @@ public partial class ChronoJumpWindow
 		b0 = portRE.ReadByte(); //least significative
 		b1 = portRE.ReadByte(); //most significative
 		readedNum = Convert.ToInt32(256 * b1 + b0);
+		LogB.Information(" 3 readed b0,b1");
 
 		/*
 		LogB.Information("bbbforce0:" + b0.ToString());

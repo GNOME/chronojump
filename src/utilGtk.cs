@@ -1029,4 +1029,14 @@ public class UtilGtk
 		pixmap.DrawPolygon(pen, true, points);
 	}
 
+	public static void FindPangoFonts(Gtk.DrawingArea drawingarea)
+	{
+		LogB.Information("Available Pango fonts:");
+		foreach(Pango.FontFamily ff in drawingarea.PangoContext.Families)
+		{
+			LogB.Information(ff.Name);
+			foreach(Pango.FontFace faces in ff.Faces)
+				LogB.Information("- " + faces.FaceName);
+		}
+	}
 }

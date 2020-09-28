@@ -64,7 +64,7 @@ public partial class ChronoJumpWindow
 
 		bool showStartAndDuration = preferences.encoderShowStartAndDuration;
 
-		string workString = Catalog.GetString("Work");
+		string workString = "|" + Catalog.GetString("Work") + "|";
 		if(preferences.encoderWorkKcal)
 			workString += "\n (KCal)";
 		else
@@ -599,7 +599,7 @@ public partial class ChronoJumpWindow
 			distanceUnits = "(mm)";
 		}
 
-		string workString = Catalog.GetString("Work");
+		string workString = "|" + Catalog.GetString("Work") + "|";
 		if(preferences.encoderWorkKcal)
 			workString += "\n (KCal)";
 		else

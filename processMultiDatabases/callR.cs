@@ -191,7 +191,8 @@ public class CallR
 				*/
 
 		//but note if graph.R changes, we need to do make install there to be able to use new graph.R on processMultiDatabases
-		return "/home/xavier/informatica/progs_meus/chronojump/chronojump/encoder/call_graph.R"; //hardcoded
+		//return "/home/xavier/informatica/progs_meus/chronojump/chronojump/encoder/call_graph.R"; //hardcoded (computer)
+		return "/home/xavier/informatica/progs_meus/chronojump/encoder/call_graph.R"; //hardcoded (laptop)
 	}
 	
 	private string getEncoderStatusTempBaseFileName() {

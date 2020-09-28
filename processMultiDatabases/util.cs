@@ -134,5 +134,31 @@ public class Util
 			return null;
 		}
 	}
+
+	//gets a string and returns if all the chars are numbers or the decimal point in current localization
+	public static bool IsNumber(string str, bool canBeDecimal)
+	{
+		//false if it's blank
+		if(str.Length == 0)
+			return false;
+
+		if(canBeDecimal) {
+			double numD;
+			//param 2 && 3 are needed on latin languages to achieve a negative result on "23.75"
+			//without those params, "23.75" and "23,75" will be true on latin. Undesired
+			if (double.TryParse(
+						str,
+						System.Globalization.NumberStyles.Float,
+						System.Globalization.NumberFormatInfo.CurrentInfo,
+						out numD))
+				return true;
+		}
+
+		int numI;
+		if (int.TryParse(str, out numI))
+			return true;
+
+		return false;
+	}
 }
 

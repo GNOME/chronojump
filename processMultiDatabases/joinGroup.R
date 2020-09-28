@@ -22,6 +22,9 @@ mergeAndWrite <- function (filename, data, centre = "BL")
 	if(centre == "UL") {
 		data = data[data$centre==4,]
 	}	
+	if(centre == "BA") {
+		data = data[data$centre==2,]
+	}
 	data <- data[c(2,4,7)] # nos quedamos solo con la columna grupo y la del identificador
 	names(df)[10] = "exercise2" 	# En df hay dos columnas con el nombre "exercise", cambiamos la segunda
 	df2 <- merge(df, data, by.x = "personCode", by.y ="participante", all = F)
@@ -30,9 +33,10 @@ mergeAndWrite <- function (filename, data, centre = "BL")
 
 data <- read_excel(paste(path, "ID_GROUP.xlsx", sep=""))
 
-mergeAndWrite (paste(path, "chronojump-processMultiEncoder-belfast-done.csv", sep=""), data, centre = "BL")
-mergeAndWrite (paste(path, "chronojump-processMultiEncoder-denmark-done.csv", sep=""), data, centre = "DN")
-mergeAndWrite (paste(path, "chronojump-processMultiEncoder-ulm-done.csv", sep=""), data, centre = "UL")
+#mergeAndWrite (paste(path, "chronojump-processMultiEncoder-belfast-done.csv", sep=""), data, centre = "BL")
+#mergeAndWrite (paste(path, "chronojump-processMultiEncoder-denmark-done.csv", sep=""), data, centre = "DN")
+#mergeAndWrite (paste(path, "chronojump-processMultiEncoder-ulm-done.csv", sep=""), data, centre = "UL")
+mergeAndWrite (paste(path, "chronojump-processMultiEncoder-barcelona-done.csv", sep=""), data, centre = "BA")
 
 
 # ---- start of initial code to test denmark data and check number of observations ---->

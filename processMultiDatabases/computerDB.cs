@@ -139,8 +139,12 @@ class ComputerDBManage
 	public List<ComputerDB> list;
 	public ComputerDBManage()
 	{
+		//atencio pq a barcelona1 hi ha:
+		///home/xavier/Documents/academic/investigacio/Encoder_SITLESS_nogit/carpetes-chronojump-senceres/barcelona/wetransfer-8ba4dd/Encoder_Copies_17_07_2019/database/chronojump.db (604 Kb)
+		//	i
+		///home/xavier/Documents/academic/investigacio/Encoder_SITLESS_nogit/carpetes-chronojump-senceres/barcelona/wetransfer-8ba4dd/Encoder_Copies_17_07_2019/database/chronojump/database/chronojump.db (186 Kb)
+
 		list = new List<ComputerDB>();
-		/*
 		list.Add(new ComputerDB(
 				"barcelona",
 				"barcelona1", 
@@ -155,6 +159,7 @@ class ComputerDBManage
 				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/arxius-processats-per-ells/barcelona",
 				8, 4, 7,
 				"", "", "", ""));
+		/*
 		//belfast is ok except the double exercise on biceps
 		list.Add(new ComputerDB(
 				"belfast",
@@ -178,6 +183,7 @@ class ComputerDBManage
 				8, 11, 7,
 				"PRE", "POST", "FU12", "FU18"));
 		*/
+		/*
 		list.Add(new ComputerDB(
 				"ulm",
 				"ulm1",
@@ -185,6 +191,7 @@ class ComputerDBManage
 				"",
 				8,4,7,
 				"PRE", "A2", "A3", "A4")); //in caps because comparison is done in caps
+		*/
 		/*
 		list.Add(new ComputerDB(
 				"ulm",

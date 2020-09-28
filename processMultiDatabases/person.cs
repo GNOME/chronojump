@@ -107,6 +107,48 @@ public class Person {
 			Match match = Regex.Match(nameClean, @"(\d+)");
 			if(match.Groups.Count == 2)
 				return match.Value;
+		} else if (city == "barcelona")
+		{
+			//first num is the centre, second is the personCode, third is the moment
+			//but need to return both first numbers without the _
+			//02_092_4 should be 2092
+			//10_317_3 should be 10317
+			Match match = Regex.Match(name, @"^(\d+)_(\d+)_\d+");
+			if(match.Groups.Count == 3)
+			{
+				string firstChars = match.Groups[1].Value;
+				if(firstChars[0] == 0)
+					firstChars = firstChars.Substring(1,1);
+
+				return firstChars + match.Groups[2].Value;
+			}
+
+			//043_2 should be 1043
+			match = Regex.Match(name, @"^(\d+)_\d+");
+			if(match.Groups.Count == 2)
+			{
+				return "1" + match.Groups[1].Value;
+			}
+
+			//062 should be: 1062
+			//123 should be: 1123
+			if(Util.IsNumber(name, false))
+			{
+				int num = Convert.ToInt32(name);
+				if(num < 1000)
+					num += 1000;
+
+				return num.ToString();
+			}
+
+			//sometimes the code is: 01035 and should be: 1035
+			if(name.Length > 0 && name[0] == '0')
+			{
+				return name.Substring(1, name.Length -1);
+			}
+
+			//many of them come with the personCode correct, like 1025
+			return name;
 		}
 
 		return "";

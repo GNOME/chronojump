@@ -118,6 +118,7 @@ class ProcessMultiDatabases
 		ExerciseManage exManage = new ExerciseManage();
 
 		writer = File.CreateText("/tmp/chronojump-processMultiEncoder.csv");
+		//writer = File.CreateText("/home/xavier/chronojump-processMultiEncoder.csv");
 		writer.WriteLine("city,computer,person,personCode,sex,exercise,moment,rep,series,exercise,massBody,massExtra,start,width,height,meanSpeed,maxSpeed,maxSpeedT,meanPower,peakPower,peakPowerT,RPD,meanForce,maxForce,maxForceT,RFD,workJ,impulse,laterality,inertiaM");
 
 		foreach(ComputerDB compDB in compDBManage.list)

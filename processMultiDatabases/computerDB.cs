@@ -133,8 +133,8 @@ class ComputerDBManage
 	 * select * from encoderExercise;
 	 * select exerciseID, count(*) from encoder group by exerciseID;
 	 */
-	//string path = "/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/carpetes-chronojump-senceres/";
-	string path = "/home/xavier/Documents/sitless-no-git/";
+	string path = "/home/xavier/Documents/academic/investigacio/Encoder_SITLESS_nogit/carpetes-chronojump-senceres/"; //laptop
+	//string path = "/home/xavier/Documents/sitless-no-git/"; //computer
 
 	public List<ComputerDB> list;
 	public ComputerDBManage()
@@ -149,14 +149,14 @@ class ComputerDBManage
 				"barcelona",
 				"barcelona1", 
 				path + "barcelona/wetransfer-8ba4dd/Encoder_Copies_17_07_2019/database",
-				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/arxius-processats-per-ells/barcelona",
+				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS_nogit/arxius-processats-per-ells/barcelona",
 				8, -1, 7,
 				"", "", "", ""));
 		list.Add(new ComputerDB(
 				"barcelona",
 				"barcelona2", 
 				path + "barcelona/wetransfer-8ba4dd/Encoder_Copies_17_07_2019/Darrera_còpia_pc_prèstec/chronojump/database",
-				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS/arxius-processats-per-ells/barcelona",
+				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS_nogit/arxius-processats-per-ells/barcelona",
 				8, 4, 7,
 				"", "", "", ""));
 		/*

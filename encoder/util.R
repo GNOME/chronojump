@@ -800,7 +800,7 @@ pafGenerate <- function(eccon, kinematics, massBody, massExtra, laterality, iner
 					  abs(cumsum(kinematics$displ))[length(cumsum(kinematics$displ))] / 1000 #position displaced in m
 					  ) + .5*((kinematics$speedy[lastValue])^2 - (kinematics$speedy[1])^2) )
 	if(inertiaMomentum > 0) #if is not inertial Roptions has a -1
-		workJ = workJ + .5 * inertiaMomentum * ( (kinematics$speedyangular[lastValue])^2 - (kinematics$speedyangular[1]^2) )
+		workJ = workJ + .5 * inertiaMomentum * abs( (kinematics$speedyangular[lastValue])^2 - (kinematics$speedyangular[1]^2) )
 
 	#print ("workJ decomposed:")
 	#print (workJ)

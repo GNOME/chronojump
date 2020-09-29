@@ -1983,7 +1983,7 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                         coef.c <- fit$coefficient[1]
                                         
                                         #2) plot graph
-                                        plot(x,y, ylim=c(min(c(y,y1)), max(c(y,y1))),
+                                        plot(x,y, ylim=c(min(c(y,y1)), max(c(y,y1+8))), #+8 to allow to be seen the pmax circle
                                              xlab=varXut, ylab="", pch=pchVector, col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
                                         
                                         paintCrossVariablesLaterality(x, y, laterality, colBalls, varX = varX, varY = varY)
@@ -2024,7 +2024,7 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                                 pmax <- xmax^2 * coef.a + xmax * coef.b + coef.c
                                                 
                                                 abline(v=xmax,lty=3)
-                                                points(xmax, pmax, pch=1, cex=3)
+                                                points(xmax, pmax, pch=1, cex=3, col="red")
                                                 
                                                 massUnit <- "Kg"
                                                 if(hasInertia)
@@ -2034,7 +2034,8 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                                 if(title != "")
                                                         title = paste(title, " (pmax = ", round(pmax,1), " W with ", 
                                                                       round(xmax,1), " ", massUnit, sep="")
-                                                text(xmax, pmax, label = paste("Pmax=", round(pmax,1), "W*"), pos = 3, col = "red")
+						#do not show pmax because it can go out of graph, just show in the legend
+						#text(xmax, pmax, label = paste("Pmax=", round(pmax,1), "W*"), pos = 3, col = "red")
                                                 legend(x = par("usr")[2], y = par("usr")[4]-(par("usr")[4] - par("usr")[3])*0.1, 
                                                        legend = c(paste("Pmax = ", round(pmax,1), "W", sep=""),
                                                                   paste("Load: ", round(xmax,1), massUnit, sep = "")),

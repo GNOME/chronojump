@@ -347,6 +347,7 @@ public class EncoderGraphDoPlot
 		//know not-discarded phases
 		double countValid = 0;
 		double sumValid = 0;
+		double workTotal = 0; //can be J or Kcal (shown in cal)
 
 		foreach(double d in data)
 		{
@@ -826,7 +827,15 @@ public class EncoderGraphDoPlot
 					countSaved ++;
 				}
 			}
-			
+
+			//work
+			if(iterOk) {
+				if(preferences.encoderWorkKcal)
+					workTotal += ((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).WorkKcalD * 1000; //in cal
+				else
+					workTotal += ((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).WorkJD;
+			}
+
 			//add text on the bottom
 			if (eccon == "c" || Util.IsEven(count +1)) //par
 			{
@@ -905,6 +914,13 @@ public class EncoderGraphDoPlot
 			title += "X" + Catalog.GetString("saved") + ": " +
 				Util.TrimDecimals( (sumSaved / countSaved), decimals) + 
 				" " + units;
+
+		//work
+		title += "; " + Catalog.GetString("Work") + ": " + Util.TrimDecimals(workTotal, decimals);
+		if(preferences.encoderWorkKcal)
+			title += " Cal"; //show total work in cal
+		else
+			title += " J";
 
 		string lossString = "";
 

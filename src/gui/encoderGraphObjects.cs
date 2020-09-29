@@ -897,12 +897,12 @@ public class EncoderGraphDoPlot
 		//LogB.Information(string.Format("sumSaved: {0}, countSaved: {1}, div: {2}", sumSaved, countSaved, sumSaved / countSaved));
 
 		//add avg and avg of saved values
-		string title = mainVariable + " [X = " + 
+		string title = mainVariable + " [X: " +
 			Util.TrimDecimals( (sumValid / countValid), decimals) +
 			" " + units + "; ";
 
 		if(countSaved > 0)
-			title += "X" + Catalog.GetString("saved") + " = " +
+			title += "X" + Catalog.GetString("saved") + ": " +
 				Util.TrimDecimals( (sumSaved / countSaved), decimals) + 
 				" " + units;
 

@@ -35,6 +35,7 @@ public class PersonRecuperateWindow {
 	[Widget] protected Gtk.Label label_from_session;
 	[Widget] protected Gtk.Label label_check;
 	[Widget] protected Gtk.Label label_filter;
+	[Widget] protected Gtk.Label label_feedback;
 	
 	[Widget] protected Gtk.CheckButton checkbutton_sorted_by_creation_date;
 	
@@ -42,7 +43,6 @@ public class PersonRecuperateWindow {
 	protected string selected;
 	[Widget] protected Gtk.TreeView treeview_person_recuperate;
 	[Widget] protected Gtk.Button button_recuperate;
-	[Widget] protected Gtk.Statusbar statusbar1;
 	[Widget] protected Gtk.Entry entry_search_filter;
 	
 	[Widget] protected Gtk.Box hbox_from_session_hide; //used in person recuperate multiple (hided in current class)
@@ -83,6 +83,7 @@ public class PersonRecuperateWindow {
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_from_session);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_check);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_filter);
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_feedback);
 		}
 
 		this.currentSession = currentSession;
@@ -273,7 +274,7 @@ public class PersonRecuperateWindow {
 
 			fillTreeView(treeview_person_recuperate,store, entry_search_filter.Text.ToString());
 
-			statusbar1.Push( 1, Catalog.GetString("Loaded") + " " + currentPerson.Name );
+			label_feedback.Text = Catalog.GetString("Loaded") + " " + currentPerson.Name;
 
 			//no posible to recuperate until one person is selected
 			button_recuperate.Sensitive = false;
@@ -336,6 +337,7 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_from_session);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_check);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_filter);
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_feedback);
 		}
 
 		person_recuperate.Title = Catalog.GetString("Load persons from other session");
@@ -629,13 +631,13 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 
 			if(inserted >= 1) {
 				if(inserted == 1)
-					statusbar1.Push( 1, Catalog.GetString("Loaded") + " " + currentPerson.Name );
+					label_feedback.Text = Catalog.GetString("Loaded") + " " + currentPerson.Name;
 				else 
-					statusbar1.Push( 1, string.Format(Catalog.GetPluralString(
+					label_feedback.Text = string.Format(Catalog.GetPluralString(
 									"Successfully added one person.",
 									"Successfully added {0} persons.",
 									inserted),
-								inserted));
+								inserted);
 				fakeButtonDone.Click();
 			}
 		}
@@ -682,8 +684,8 @@ public class PersonNotUploadWindow : PersonsRecuperateFromOtherSessionWindow
 		hbox_search_filter_hide.Hide();
 		//this class doesn't use button recuperate
 		button_recuperate.Hide();
-		//this class doesn't use status bar
-		statusbar1.Hide();
+		//this class doesn't use feedback on bottom
+		label_feedback.Hide();
 		//it's clearer to use go_forward instead of close
 		button_go_forward.Show();
 		button_close.Hide();

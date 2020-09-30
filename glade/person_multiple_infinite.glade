@@ -9,7 +9,7 @@
     <property name="border_width">10</property>
     <property name="title" translatable="yes">Add multiple persons</property>
     <property name="default_width">500</property>
-    <property name="default_height">500</property>
+    <property name="default_height">550</property>
     <property name="type_hint">dialog</property>
     <signal name="delete_event" handler="on_delete_event" swapped="no"/>
     <child>
@@ -267,6 +267,24 @@
                                     <child>
                                       <placeholder/>
                                     </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
                                   </widget>
                                   <packing>
                                     <property name="expand">True</property>
@@ -300,7 +318,7 @@
                                     <property name="can_focus">False</property>
                                     <property name="spacing">16</property>
                                     <child>
-                                      <widget class="GtkFrame" id="frame1">
+                                      <widget class="GtkFrame" id="frame2">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="label_xalign">0</property>
@@ -486,7 +504,7 @@
                                                         <property name="n_rows">3</property>
                                                         <property name="n_columns">3</property>
                                                         <property name="column_spacing">40</property>
-                                                        <property name="row_spacing">12</property>
+                                                        <property name="row_spacing">8</property>
                                                         <child>
                                                           <widget class="GtkLabel" id="label5">
                                                             <property name="visible">True</property>
@@ -617,7 +635,7 @@
                                                         <property name="n_rows">2</property>
                                                         <property name="n_columns">3</property>
                                                         <property name="column_spacing">40</property>
-                                                        <property name="row_spacing">12</property>
+                                                        <property name="row_spacing">8</property>
                                                         <child>
                                                           <widget class="GtkLabel" id="label16">
                                                             <property name="visible">True</property>
@@ -705,7 +723,7 @@
                                                         <property name="n_rows">3</property>
                                                         <property name="n_columns">4</property>
                                                         <property name="column_spacing">40</property>
-                                                        <property name="row_spacing">12</property>
+                                                        <property name="row_spacing">8</property>
                                                         <child>
                                                           <widget class="GtkLabel" id="label25">
                                                             <property name="visible">True</property>
@@ -877,7 +895,7 @@
                                                         <property name="n_rows">2</property>
                                                         <property name="n_columns">4</property>
                                                         <property name="column_spacing">40</property>
-                                                        <property name="row_spacing">12</property>
+                                                        <property name="row_spacing">8</property>
                                                         <child>
                                                           <widget class="GtkLabel" id="label34">
                                                             <property name="visible">True</property>

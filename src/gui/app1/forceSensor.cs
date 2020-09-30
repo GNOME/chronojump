@@ -283,11 +283,14 @@ public partial class ChronoJumpWindow
 		LogB.Information(" FS connect 7: connected and adjusted!");
 		return true;
 	}
+
+	//this is called on change mode
 	private void forceSensorDisconnect()
 	{
 		portFS.Close();
 		portFSOpened = false;
-		event_execute_label_message.Text = "Disconnected!";
+		//event_execute_label_message.Text = "Disconnected!";
+		LogB.Information("PortFS Disconnected!");
 	}
 
 	//Attention: no GTK here!!

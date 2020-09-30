@@ -2922,6 +2922,10 @@ public partial class ChronoJumpWindow
 
 		setApp1Title(tempSessionName, current_menuitem_mode);
 
+		//maybe we have the force sensor port opened, close it:
+		if(portFSOpened)
+			forceSensorDisconnect();
+
 		//run simple will be the only one with its drawing are
 		frame_run_simple_double_contacts.Visible = false;
 

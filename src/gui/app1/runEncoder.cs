@@ -692,8 +692,9 @@ public partial class ChronoJumpWindow
 	        foreach	(Person p in personsPre)
 			persons[count++] = p.UniqueID.ToString() + ":" + p.Name;
 		genericWin.SetComboValues(persons, currentPerson.UniqueID + ":" + currentPerson.Name);
-		genericWin.SetComboLabel(Catalog.GetString("Change the owner of selected set") +
-				" (" + Catalog.GetString("code") + ":" + Catalog.GetString("name") + ")");
+		//genericWin.SetComboLabel(Catalog.GetString("Change the owner of selected set") +
+		//		" (" + Catalog.GetString("code") + ":" + Catalog.GetString("name") + ")");
+		genericWin.SetComboLabel(Catalog.GetString("Change person"));
 		genericWin.ShowEditRow(false);
 
 		//select row corresponding to current signal

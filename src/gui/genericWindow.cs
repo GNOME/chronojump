@@ -58,6 +58,7 @@ public class GenericWindow
 	//Edit row
 	[Widget] Gtk.Box hbox_edit_row;
 	[Widget] Gtk.Label hbox_combo_label;
+	[Widget] Gtk.Label label_comment;
 	[Widget] Gtk.Box hbox_combo;
 	[Widget] Gtk.ComboBox combo;
 	[Widget] Gtk.Button hbox_combo_button_apply;
@@ -138,6 +139,8 @@ public class GenericWindow
 			UtilGtk.WindowColor(generic_window, Config.ColorBackground);
 			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_header);
 			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_error);
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, hbox_combo_label);
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_comment);
 		}
 		
 		generic_window.Resizable = false;

@@ -472,6 +472,7 @@ public class EncoderCurve
 
 	public double WorkJD  { get { return Convert.ToDouble(WorkJ);  } }
 	public double WorkKcalD  { get { return Convert.ToDouble(WorkJ) * 0.000239006;  } }
+	public double ImpulseD  { get { return Convert.ToDouble(Impulse); } }
 	
 	~EncoderCurve() {}
 }

@@ -135,7 +135,7 @@ class SqlitePreferences : Sqlite
 				Insert (LogoAnimatedShow, "True", dbcmdTr);
 				Insert (ColorBackground, "#0e1e46", dbcmdTr);
 				Insert (ColorBackgroundOsColor, "False", dbcmdTr);
-				Insert (FontsOnGraphs, Preferences.FontTypes.Courier.ToString(), dbcmdTr);
+				Insert (FontsOnGraphs, Preferences.FontTypes.Helvetica.ToString(), dbcmdTr);
 				Insert (UnitsStr, Preferences.UnitsEnum.METRIC.ToString(), dbcmdTr);
 				Insert (EncoderCaptureInfinite, "False", dbcmdTr);
 				Insert ("encoderCaptureShowOnlyBars", "True", dbcmdTr);

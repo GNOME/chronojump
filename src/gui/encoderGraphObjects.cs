@@ -348,6 +348,7 @@ public class EncoderGraphDoPlot
 		double countValid = 0;
 		double sumValid = 0;
 		double workTotal = 0; //can be J or Kcal (shown in cal)
+		double impulseTotal = 0;
 
 		foreach(double d in data)
 		{
@@ -834,6 +835,8 @@ public class EncoderGraphDoPlot
 					workTotal += ((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).WorkKcalD;
 				else
 					workTotal += ((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).WorkJD;
+
+				impulseTotal += ((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).ImpulseD;
 			}
 
 			//add text on the bottom
@@ -933,6 +936,7 @@ public class EncoderGraphDoPlot
 			}
 		}
 
+		//work and impulse are in separate string variables because maybe we will select to show one or the other
 		//work
 		string workString = "]    " + Catalog.GetString("Work") + ": " + Util.TrimDecimals(workTotal, decimals);
 		if(preferences.encoderWorkKcal)
@@ -940,8 +944,11 @@ public class EncoderGraphDoPlot
 		else
 			workString += " J";
 
+		//impulse
+		string impulseString = "    " + Catalog.GetString("Impulse") + ": " + Util.TrimDecimals(impulseTotal, decimals) + " N*s";
+
 		//have title and titleFull to be able to position all perfectly but having two pens (colors)
-		string titleFull = title + lossString + workString;
+		string titleFull = title + lossString + workString + impulseString;
 
 
 		// 1) get the width of titleFull, title, lossString
@@ -950,6 +957,7 @@ public class EncoderGraphDoPlot
 		int titleWidth = 1;
 		int lossStringWidth = 1;
 		int workStringWidth = 1;
+		int impulseStringWidth = 1;
 
 		layout_encoder_capture_curves_bars_text.SetMarkup(titleFull);
 		layout_encoder_capture_curves_bars_text.GetPixelSize(out titleFullWidth, out textHeight);
@@ -981,7 +989,10 @@ public class EncoderGraphDoPlot
 		layout_encoder_capture_curves_bars_text.GetPixelSize(out titleWidth, out textHeight);
 		layout_encoder_capture_curves_bars_text.SetMarkup(lossString);
 		layout_encoder_capture_curves_bars_text.GetPixelSize(out lossStringWidth, out textHeight);
+		layout_encoder_capture_curves_bars_text.SetMarkup(workString);
 		layout_encoder_capture_curves_bars_text.GetPixelSize(out workStringWidth, out textHeight);
+		layout_encoder_capture_curves_bars_text.SetMarkup(impulseString);
+		layout_encoder_capture_curves_bars_text.GetPixelSize(out impulseStringWidth, out textHeight);
 
 		// 3) paint only title text (with black pen)
 		layout_encoder_capture_curves_bars_text.SetMarkup(title);
@@ -995,10 +1006,15 @@ public class EncoderGraphDoPlot
 				Convert.ToInt32( (graphWidth/2) - titleFullWidth/2 + titleWidth), 0, //x, y
 				layout_encoder_capture_curves_bars_text);
 
-		// 5) paint workString;
+		// 5) paint workString && impulse string;
 		layout_encoder_capture_curves_bars_text.SetMarkup(workString);
 		pixmap.DrawLayout (pen_black_encoder_capture,
 				Convert.ToInt32( (graphWidth/2) - titleFullWidth/2 + titleWidth + lossStringWidth), 0, //x, y
+				layout_encoder_capture_curves_bars_text);
+
+		layout_encoder_capture_curves_bars_text.SetMarkup(impulseString);
+		pixmap.DrawLayout (pen_black_encoder_capture,
+				Convert.ToInt32( (graphWidth/2) - titleFullWidth/2 + titleWidth + lossStringWidth + workStringWidth), 0, //x, y
 				layout_encoder_capture_curves_bars_text);
 
 		// 6) return layout font size to its original value

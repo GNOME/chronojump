@@ -423,13 +423,13 @@ public partial class ChronoJumpWindow
 	private void on_more_jumps_cancelled (object o, EventArgs args) 
 	{
 		currentJumpType = previousJumpType;
-		extra_window_jumps_initialize(currentJumpType);
+		combo_select_jumps.Active = UtilGtk.ComboMakeActive(combo_select_jumps, currentJumpType.Name);
 	}
 	
 	private void on_more_jumps_rj_cancelled (object o, EventArgs args) 
 	{
 		currentJumpRjType = previousJumpRjType;
-		extra_window_jumps_rj_initialize(currentJumpRjType);
+		combo_select_jumps_rj.Active = UtilGtk.ComboMakeActive(combo_select_jumps_rj, currentJumpRjType.Name);
 	}
 	
 	private void extra_window_showWeightData (JumpType myJumpType, bool show) {

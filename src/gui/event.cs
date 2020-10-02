@@ -611,13 +611,8 @@ public class EventMoreWindow
 	public EventMoreWindow () {
 	}
 
-	public EventMoreWindow (Gtk.Window parent, bool testOrDelete) {
-		/*
-		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "jumps_runs_more.glade", "jumps_runs_more", "chronojump");
-		gladeXML.Autoconnect(this);
-		*/
-
+	public EventMoreWindow (Gtk.Window parent, bool testOrDelete)
+	{
 		//name, startIn, weight, description
 		store = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string));
 

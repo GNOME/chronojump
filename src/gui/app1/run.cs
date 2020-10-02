@@ -281,13 +281,13 @@ public partial class ChronoJumpWindow
 	private void on_more_runs_cancelled (object o, EventArgs args) 
 	{
 		currentRunType = previousRunType;
-		extra_window_runs_initialize(currentRunType);
+		combo_select_runs.Active = UtilGtk.ComboMakeActive(combo_select_runs, currentRunType.Name);
 	}
 	
 	private void on_more_runs_interval_cancelled (object o, EventArgs args) 
 	{
 		currentRunIntervalType = previousRunIntervalType;
-		extra_window_runs_interval_initialize(currentRunIntervalType);
+		combo_select_runs_interval.Active = UtilGtk.ComboMakeActive(combo_select_runs_interval, currentRunIntervalType.Name);
 	}
 
 	private void extra_window_showDistanceData (RunType myRunType, bool show, bool sensitive ) {

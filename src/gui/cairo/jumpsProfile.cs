@@ -53,7 +53,8 @@ public static class JumpsProfileGraph
 		}
 	}
 
-	public static void Do (List<JumpsProfileIndex> l_jpi, DrawingArea area, string title, string date)
+	public static void Do (List<JumpsProfileIndex> l_jpi, DrawingArea area,
+			string title, string date, string font)
 	{
 		//LogB.Information(string.Format("is area null: {0}", (area == null)));
 		//LogB.Information(string.Format("is area.GdkWindow null: {0}", (area.GdkWindow == null)));
@@ -72,7 +73,7 @@ public static class JumpsProfileGraph
 				sum += jpi.Result;
 
 		//4 prepare font
-		g.SelectFontFace("Helvetica", Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
+		g.SelectFontFace(font, Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
 		int textHeight = 12;
 		g.SetFontSize(textHeight);
 
@@ -110,7 +111,7 @@ public static class JumpsProfileGraph
 		int y = 40;
 		//R seq(from=50,to=(350-24),length.out=5)
 		//[1] 50 119 188 257 326 #difference is 69
-		//g.SelectFontFace("Helvetica", Cairo.FontSlant.Normal, Cairo.FontWeight.Bold);
+		//g.SelectFontFace(font, Cairo.FontSlant.Normal, Cairo.FontWeight.Bold);
 		foreach(JumpsProfileIndex jpi in l_jpi)
 		{
 			double percent = 100 * UtilAll.DivideSafe(jpi.Result, sum);
@@ -126,7 +127,7 @@ public static class JumpsProfileGraph
 		g.SetFontSize(textHeight);
 		printText(200, y+20, 0, textHeight, "Chronojump profile (" + date + ")", g, true);
 
-		//g.SelectFontFace("Helvetica", Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
+		//g.SelectFontFace(font, Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
 	
 		//7 print errors (if any)
 		g.SetSourceRGB(0.5, 0, 0);

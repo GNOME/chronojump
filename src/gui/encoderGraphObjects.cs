@@ -137,7 +137,7 @@ public class EncoderGraphDoPlot
 		
 		if(layout_encoder_capture_curves_bars != null)
 			layout_encoder_capture_curves_bars.FontDescription =
-				Pango.FontDescription.FromString ("Courier " + preferences.encoderCaptureBarplotFontSize.ToString());
+				Pango.FontDescription.FromString (preferences.GetFontTypeWithSize(preferences.encoderCaptureBarplotFontSize));
 	}
 
 	public void Start (
@@ -241,13 +241,13 @@ public class EncoderGraphDoPlot
 
 		layout_encoder_capture_curves_bars = new Pango.Layout (drawingarea.PangoContext);
 		layout_encoder_capture_curves_bars.FontDescription =
-			Pango.FontDescription.FromString ("Courier " + preferences.encoderCaptureBarplotFontSize.ToString());
+			Pango.FontDescription.FromString (preferences.GetFontTypeWithSize(preferences.encoderCaptureBarplotFontSize));
 		
 		layout_encoder_capture_curves_bars_text = new Pango.Layout (drawingarea.PangoContext);
-		layout_encoder_capture_curves_bars_text.FontDescription = Pango.FontDescription.FromString ("Courier 10");
+		layout_encoder_capture_curves_bars_text.FontDescription = Pango.FontDescription.FromString (preferences.GetFontTypeWithSize(10));
 
 		layout_encoder_capture_curves_bars_superbig = new Pango.Layout (drawingarea.PangoContext);
-		layout_encoder_capture_curves_bars_superbig.FontDescription = Pango.FontDescription.FromString ("Courier 300");
+		layout_encoder_capture_curves_bars_superbig.FontDescription = Pango.FontDescription.FromString (preferences.GetFontTypeWithSize(300));
 
 		//defined as drawingarea instead of encoder_capture_signal_drawingarea
 		//because the 2nd is null if config.EncoderCaptureShowOnlyBars == TRUE
@@ -450,11 +450,11 @@ public class EncoderGraphDoPlot
 		if (data.Count >= 10 && data.Count < 20) {
 			sep = 10;
 			layout_encoder_capture_curves_bars.FontDescription =
-				Pango.FontDescription.FromString ("Courier " + (preferences.encoderCaptureBarplotFontSize -2).ToString());
+				Pango.FontDescription.FromString (preferences.GetFontTypeWithSize(preferences.encoderCaptureBarplotFontSize -2));
 		} else if (data.Count >= 20) {
 			sep = 2;
 			layout_encoder_capture_curves_bars.FontDescription =
-				Pango.FontDescription.FromString ("Courier " + (preferences.encoderCaptureBarplotFontSize -4).ToString());
+				Pango.FontDescription.FromString (preferences.GetFontTypeWithSize(preferences.encoderCaptureBarplotFontSize -4));
 			left_margin = 2;
 		}
 
@@ -462,12 +462,12 @@ public class EncoderGraphDoPlot
 		{
 			sep = 2;
 			layout_encoder_capture_curves_bars.FontDescription =
-				Pango.FontDescription.FromString ("Courier " + (preferences.encoderCaptureBarplotFontSize -4).ToString());
+				Pango.FontDescription.FromString (preferences.GetFontTypeWithSize(preferences.encoderCaptureBarplotFontSize -4));
 			left_margin = 2;
 		}
 
 		layout_encoder_capture_curves_bars_text.FontDescription =
-			Pango.FontDescription.FromString ("Courier " + preferences.encoderCaptureBarplotFontSize.ToString());
+			Pango.FontDescription.FromString (preferences.GetFontTypeWithSize(preferences.encoderCaptureBarplotFontSize));
 		layout_encoder_capture_curves_bars_text.FontDescription.Weight = Pango.Weight.Bold;
 		
 		Rectangle rect;
@@ -1073,7 +1073,7 @@ public class EncoderGraphDoPlot
 			//rect = new Rectangle(dLeft, dTop, dWidth, dHeight);
 			rect = new Rectangle(
 					Convert.ToInt32( (graphWidth/2) - (textWidth/2) -30),
-					Convert.ToInt32( (graphHeight/2) - (textHeight/2) ), //textHeight is too high on Courier font 300
+					Convert.ToInt32( (graphHeight/2) - (textHeight/2) ), //textHeight is too high on font 300
 					textWidth + 60,
 					textHeight);
 			pixmap.DrawRectangle(pen_black_encoder_capture, true, rect);
@@ -1098,9 +1098,9 @@ public class EncoderGraphDoPlot
 	{
 		Pango.Layout layout_message = new Pango.Layout (drawingarea.PangoContext);
 		if(big)
-			layout_message.FontDescription = Pango.FontDescription.FromString ("Courier 16");
+			layout_message.FontDescription = Pango.FontDescription.FromString (preferences.GetFontTypeWithSize(16));
 		else
-			layout_message.FontDescription = Pango.FontDescription.FromString ("Courier 10");
+			layout_message.FontDescription = Pango.FontDescription.FromString (preferences.GetFontTypeWithSize(10));
 		
 		int graphWidth = drawingarea.Allocation.Width;
 		int graphHeight = drawingarea.Allocation.Height;

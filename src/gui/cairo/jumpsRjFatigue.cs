@@ -30,11 +30,11 @@ public class JumpsRjFatigueGraph : CairoXY
 	private int divideIn;
 
 	//constructor when there are no points
-	public JumpsRjFatigueGraph (DrawingArea area, string jumpType)//, string title, string jumpType, string date)
+	public JumpsRjFatigueGraph (DrawingArea area, string jumpType, string font)//, string title, string jumpType, string date)
 	{
 		this.area = area;
 
-		initGraph();
+		initGraph(font);
 
 		g.SetFontSize(16);
 		//printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight,
@@ -72,7 +72,7 @@ public class JumpsRjFatigueGraph : CairoXY
 	public override void Do()
 	{
 		LogB.Information("at JumpsRjFatigueGraph.Do");
-		initGraph();
+		initGraph(font);
 
                 findPointMaximums(false);
                 //findAbsoluteMaximums();

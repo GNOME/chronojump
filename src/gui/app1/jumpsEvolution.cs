@@ -92,7 +92,7 @@ public partial class ChronoJumpWindow
 		if(jumpsEvolution.Point_l.Count == 0)
 		{
 			//constructor for showing blank screen with a message
-			new JumpsEvolutionGraph(drawingarea_jumps_evolution, jumpType);
+			new JumpsEvolutionGraph(drawingarea_jumps_evolution, jumpType, preferences.fontType.ToString());
 					//currentPerson.Name, jumpType, currentSession.DateShort);
 
 			button_jumps_evolution_save_image.Sensitive = false;

@@ -80,7 +80,7 @@ public partial class ChronoJumpWindow
 				currentPersonSession.TrochanterFloorOnFlexion == Constants.TrochanterFloorOnFlexionUndefinedID)
 		{
 			//constructor for showing blank screen with a message
-			new JumpsWeightFVProfileGraph(drawingarea_jumps_weight_fv_profile, JumpsWeightFVProfileGraph.ErrorAtStart.NEEDLEGPARAMS);
+			new JumpsWeightFVProfileGraph(drawingarea_jumps_weight_fv_profile, JumpsWeightFVProfileGraph.ErrorAtStart.NEEDLEGPARAMS, preferences.fontType.ToString());
 					//currentPerson.Name, jumpType, currentSession.DateShort);
 
 			return;
@@ -88,7 +88,7 @@ public partial class ChronoJumpWindow
 		else if(currentPersonSession.TrochanterToe <= currentPersonSession.TrochanterFloorOnFlexion)
 		{
 			//constructor for showing blank screen with a message
-			new JumpsWeightFVProfileGraph(drawingarea_jumps_weight_fv_profile, JumpsWeightFVProfileGraph.ErrorAtStart.BADLEGPARAMS);
+			new JumpsWeightFVProfileGraph(drawingarea_jumps_weight_fv_profile, JumpsWeightFVProfileGraph.ErrorAtStart.BADLEGPARAMS, preferences.fontType.ToString());
 					//currentPerson.Name, jumpType, currentSession.DateShort);
 
 			return;
@@ -111,10 +111,10 @@ public partial class ChronoJumpWindow
 
 		if(jumpsWeightFVProfile.Point_l.Count == 0) {
 			//constructor for showing blank screen with a message
-			new JumpsWeightFVProfileGraph(drawingarea_jumps_weight_fv_profile, JumpsWeightFVProfileGraph.ErrorAtStart.NEEDJUMPS);
+			new JumpsWeightFVProfileGraph(drawingarea_jumps_weight_fv_profile, JumpsWeightFVProfileGraph.ErrorAtStart.NEEDJUMPS, preferences.fontType.ToString());
 		} else if(jumpsWeightFVProfile.NeedMoreXData) {
 			//constructor for showing blank screen with a message
-			new JumpsWeightFVProfileGraph(drawingarea_jumps_weight_fv_profile, JumpsWeightFVProfileGraph.ErrorAtStart.NEEDJUMPSX);
+			new JumpsWeightFVProfileGraph(drawingarea_jumps_weight_fv_profile, JumpsWeightFVProfileGraph.ErrorAtStart.NEEDJUMPSX, preferences.fontType.ToString());
 		} else {
 			//create the graph showing the points but showing also the error (if any)
 			JumpsWeightFVProfileGraph.ErrorAtStart errorAtStart = JumpsWeightFVProfileGraph.ErrorAtStart.ALLOK;

@@ -148,7 +148,7 @@ public partial class ChronoJumpWindow
 			SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, true, false);
 		} else {
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.START);
-			new ChronojumpLogo (drawingarea_chronojump_logo, viewport_chronojump_logo, preferences.logoAnimatedShow);
+			new ChronojumpLogo (drawingarea_chronojump_logo, viewport_chronojump_logo, preferences.logoAnimatedShow, preferences.fontType.ToString());
 		}
 	}
 }

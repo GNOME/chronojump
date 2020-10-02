@@ -29,11 +29,11 @@ using Cairo;
 public class JumpsDjOptimalFallGraph : CairoXY
 {
 	//constructor when there are no points
-	public JumpsDjOptimalFallGraph (DrawingArea area, string jumpType)//, string title, string jumpType, string date)
+	public JumpsDjOptimalFallGraph (DrawingArea area, string jumpType, string font)//, string title, string jumpType, string date)
 	{
 		this.area = area;
 
-		initGraph();
+		initGraph(font);
 
 		g.SetFontSize(16);
 		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight,
@@ -75,7 +75,7 @@ public class JumpsDjOptimalFallGraph : CairoXY
 	public override void Do()
 	{
 		LogB.Information("at JumpsDjOptimalFallGraph.Do");
-		initGraph();
+		initGraph(font);
 
                 findPointMaximums(false);
                 findAbsoluteMaximums();

@@ -38,9 +38,10 @@ public class ChronojumpLogo
 
 	private Gtk.DrawingArea drawingarea; 	//contains the animation
 	private Gtk.Viewport viewport; 		//contains the logo and version number
+	private string font;
 
 	//constructor
-	public ChronojumpLogo (Gtk.DrawingArea drawingarea, Gtk.Viewport viewport, bool showAnimated)
+	public ChronojumpLogo (Gtk.DrawingArea drawingarea, Gtk.Viewport viewport, bool showAnimated, string font)
 	{
 		if(! showAnimated)
 		{
@@ -52,6 +53,7 @@ public class ChronojumpLogo
 		LogB.Information("Chronojump logo constructor start");
 		this.drawingarea = drawingarea;
 		this.viewport = viewport;
+		this.font = font;
 
 		viewport.Visible = false;
 		drawingarea.Visible = true;
@@ -94,8 +96,9 @@ public class ChronojumpLogo
                 cr.SetSourceRGB(.055, .118, .275);
                 cr.Paint();
 
-		//cr.SelectFontFace("Courier", FontSlant.Normal, FontWeight.Bold);
-                cr.SelectFontFace("Ubuntu", FontSlant.Normal, FontWeight.Bold); //TODO: need to check if they have this font
+                //cr.SelectFontFace("Ubuntu", FontSlant.Normal, FontWeight.Bold); //need to check if they have this font
+                //cr.SelectFontFace(font, FontSlant.Normal, FontWeight.Bold); //Courier is so ugly on logo
+		cr.SelectFontFace("Helvetica", FontSlant.Normal, FontWeight.Bold);
 
 		bool showVersion = false;
 		if (size <= 80)

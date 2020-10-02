@@ -73,6 +73,7 @@ public class PreferencesWindow
 	[Widget] Gtk.Label label_recommended_undecorated;
 	[Widget] Gtk.RadioButton radio_font_courier;
 	[Widget] Gtk.RadioButton radio_font_helvetica;
+	[Widget] Gtk.Label label_radio_font_needs_restart;
 
 	[Widget] Gtk.RadioButton radio_color_custom;
 	[Widget] Gtk.RadioButton radio_color_chronojump_blue;
@@ -842,6 +843,15 @@ public class PreferencesWindow
 
 			colorSelectionDialog.Hide ();
 		}
+	}
+
+	private void on_radio_font_courier_toggled (object o, EventArgs args)
+	{
+		label_radio_font_needs_restart.Visible = true;
+	}
+	private void on_radio_font_helvetica_toggled (object o, EventArgs args)
+	{
+		label_radio_font_needs_restart.Visible = true;
 	}
 
 	private void on_radio_encoder_capture_show_all_bars_toggled (object o, EventArgs args)

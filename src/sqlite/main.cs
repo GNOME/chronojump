@@ -2767,7 +2767,7 @@ class Sqlite
 			{
 				LogB.SQL("Inserted into preferences: fontsOnGraphs");
 
-				SqlitePreferences.Insert (SqlitePreferences.FontsOnGraphs, Preferences.FontTypes.Courier.ToString());
+				SqlitePreferences.Insert (SqlitePreferences.FontsOnGraphs, Preferences.FontTypes.Helvetica.ToString());
 
 				currentVersion = updateVersion("2.00");
 			}

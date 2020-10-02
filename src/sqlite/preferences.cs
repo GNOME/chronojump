@@ -32,6 +32,7 @@ class SqlitePreferences : Sqlite
 	public const string ColorBackground = "colorBackground";
 	public const string ColorBackgroundOsColor = "colorBackgroundOsColor";
 	public const string LogoAnimatedShow = "logoAnimatedShow";
+	public const string FontsOnGraphs = "fontsOnGraphs";
 
 	//contacts
 	public const string JumpsFVProfileOnlyBestInWeight = "jumpsFVProfileOnlyBestInWeight";
@@ -134,6 +135,7 @@ class SqlitePreferences : Sqlite
 				Insert (LogoAnimatedShow, "True", dbcmdTr);
 				Insert (ColorBackground, "#0e1e46", dbcmdTr);
 				Insert (ColorBackgroundOsColor, "False", dbcmdTr);
+				Insert (FontsOnGraphs, Preferences.FontTypes.Courier.ToString(), dbcmdTr);
 				Insert (UnitsStr, Preferences.UnitsEnum.METRIC.ToString(), dbcmdTr);
 				Insert (EncoderCaptureInfinite, "False", dbcmdTr);
 				Insert ("encoderCaptureShowOnlyBars", "True", dbcmdTr);
@@ -419,6 +421,9 @@ class SqlitePreferences : Sqlite
 				preferences.colorBackgroundOsColor = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == LogoAnimatedShow)
 				preferences.logoAnimatedShow = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == FontsOnGraphs)
+				preferences.fontType = (Preferences.FontTypes)
+					Enum.Parse(typeof(Preferences.FontTypes), reader[1].ToString());
 			else if(reader[0].ToString() == UnitsStr)
 				preferences.units = (Preferences.UnitsEnum)
 					Enum.Parse(typeof(Preferences.UnitsEnum), reader[1].ToString());

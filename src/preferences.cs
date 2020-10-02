@@ -40,6 +40,8 @@ public class Preferences
 	public bool colorBackgroundIsDark; //this is assigned when colorBackgroundString changes. And this is used by the rest of the program. Not stored on SQL.
 	public bool colorBackgroundOsColor;
 	public bool logoAnimatedShow;
+	public enum FontTypes { Courier, Helvetica};
+	public FontTypes fontType;
 
 	public bool loadLastSessionAtStart;
 	public int lastSessionID;

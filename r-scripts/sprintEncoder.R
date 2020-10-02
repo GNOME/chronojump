@@ -313,8 +313,9 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
         #Plotting rawSpeed
         ylimits = c(0, sprintRawDynamics$rawVmax*1.05)
         xlimits =c(0, sprintRawDynamics$time[sprintRawDynamics$endSample])
-        #Calculing 5m lap times
-        splitPosition = min(sprintRawDynamics$testLength, 5)
+        #Calculing 5m lap times, this will be configurable as an exercise
+	segmentMeters = 5
+        splitPosition = min(sprintRawDynamics$testLength, segmentMeters)
         splitTime = interpolateXAtY(sprintRawDynamics$time[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
                                   sprintRawDynamics$rawPosition[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
                                   splitPosition)
@@ -322,9 +323,9 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
         meanForce =getMeanValue(sprintRawDynamics$time, sprintRawDynamics$rawForce, sprintRawDynamics$time[sprintRawDynamics$startSample], splitTime)
         meanPower =getMeanValue(sprintRawDynamics$time, sprintRawDynamics$rawPower, sprintRawDynamics$time[sprintRawDynamics$startSample], splitTime)
 
-        while(splitPosition[length(splitPosition)] + 5 < sprintRawDynamics$testLength)
+        while(splitPosition[length(splitPosition)] + segmentMeters < sprintRawDynamics$testLength)
         {
-                splitPosition = c(splitPosition, splitPosition[length(splitPosition)] + 5)
+                splitPosition = c(splitPosition, splitPosition[length(splitPosition)] + segmentMeters)
                 splitTime = c(splitTime, interpolateXAtY(sprintRawDynamics$time[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
                                                      sprintRawDynamics$rawPosition[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
                                                      splitPosition[length(splitPosition)]))

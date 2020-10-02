@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2020-10-01 15:34+0000\n"
-"PO-Revision-Date: 2020-10-01 19:51+0300\n"
+"POT-Creation-Date: 2020-10-02 10:50+0000\n"
+"PO-Revision-Date: 2020-10-02 17:10+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -22,11 +22,11 @@ msgstr ""
 #: ../glade/app1.glade.h:1 ../glade/error_window.glade.h:1
 #: ../glade/force_sensor_elastic_bands.glade.h:1
 #: ../glade/force_sensor_exercise.glade.h:1 ../glade/generic_window.glade.h:1
-#: ../glade/preferences_win.glade.h:24
+#: ../glade/preferences_win.glade.h:11
 msgid "Chronojump"
 msgstr "Chronojump"
 
-#: ../glade/app1.glade.h:2 ../glade/preferences_win.glade.h:19
+#: ../glade/app1.glade.h:2 ../glade/preferences_win.glade.h:32
 #: ../glade/report_window.glade.h:9 ../src/exportSession.cs:209
 #: ../src/gui/app1/encoder.cs:5000 ../src/gui/app1/forceSensor.cs:2741
 #: ../src/gui/app1/runEncoder.cs:1543 ../src/report.cs:141
@@ -250,12 +250,12 @@ msgstr ""
 msgid "Tests have >1 lap"
 msgstr ""
 
-#: ../glade/app1.glade.h:50 ../glade/preferences_win.glade.h:68
+#: ../glade/app1.glade.h:50 ../glade/preferences_win.glade.h:71
 #: ../src/gui/overview.cs:206
 msgid "Gravitatory"
 msgstr "Гравітаційний"
 
-#: ../glade/app1.glade.h:51 ../glade/preferences_win.glade.h:72
+#: ../glade/app1.glade.h:51 ../glade/preferences_win.glade.h:75
 #: ../src/gui/overview.cs:208
 msgid "Inertial"
 msgstr "Інерційний"
@@ -280,7 +280,7 @@ msgstr "сторінка 2"
 
 #: ../glade/app1.glade.h:56 ../glade/dialog_shortcuts.glade.h:22
 #: ../glade/encoder_configuration.glade.h:34
-#: ../glade/preferences_win.glade.h:139
+#: ../glade/preferences_win.glade.h:141
 msgid "Capture"
 msgstr "Захоплення"
 
@@ -396,7 +396,7 @@ msgstr "Скасувати тест"
 #: ../src/gui/app1/session/backup.cs:87 ../src/gui/app1/session/export.cs:48
 #: ../src/gui/app1/session/export.cs:58 ../src/gui/encoderConfiguration.cs:681
 #: ../src/gui/encoderConfiguration.cs:738 ../src/gui/person/addModify.cs:328
-#: ../src/gui/person/addMultiple.cs:247 ../src/gui/preferences.cs:1534
+#: ../src/gui/person/addMultiple.cs:247 ../src/gui/preferences.cs:1541
 msgid "Cancel"
 msgstr "Скасувати"
 
@@ -426,7 +426,7 @@ msgid "Jump distance"
 msgstr "Відстань стрибка"
 
 #: ../glade/app1.glade.h:83 ../glade/edit_event.glade.h:21
-#: ../glade/preferences_win.glade.h:67
+#: ../glade/preferences_win.glade.h:70
 msgid "cm"
 msgstr "см"
 
@@ -474,7 +474,7 @@ msgstr "Пристрій"
 msgid "Record video (on / off)"
 msgstr "Запис відео (увімкнути/вимкнути)"
 
-#: ../glade/app1.glade.h:93 ../glade/preferences_win.glade.h:134
+#: ../glade/app1.glade.h:93 ../glade/preferences_win.glade.h:136
 msgid "Preview video"
 msgstr "Попередній перегляд відео"
 
@@ -556,7 +556,7 @@ msgstr ""
 msgid "TF"
 msgstr ""
 
-#: ../glade/app1.glade.h:108 ../glade/preferences_win.glade.h:128
+#: ../glade/app1.glade.h:108 ../glade/preferences_win.glade.h:130
 #: ../glade/repetitive_conditions.glade.h:10 ../src/exportSession.cs:264
 #: ../src/exportSession.cs:325 ../src/exportSession.cs:502
 #: ../src/gui/cairo/xy.cs:92 ../src/stats/djIndex.cs:33
@@ -655,7 +655,7 @@ msgstr "Редагувати позначене (e)"
 msgid "Delete selected"
 msgstr "Вилучити позначене"
 
-#: ../glade/app1.glade.h:122 ../glade/preferences_win.glade.h:32
+#: ../glade/app1.glade.h:122 ../glade/preferences_win.glade.h:35
 #: ../glade/repetitive_conditions.glade.h:36 ../src/constants.cs:1365
 #: ../src/encoder.cs:2390 ../src/exportSession.cs:326
 #: ../src/exportSession.cs:503 ../src/forceSensor.cs:1946
@@ -666,7 +666,7 @@ msgstr "Потужність"
 
 #: ../glade/app1.glade.h:123 ../glade/dialog_message.glade.h:2
 #: ../glade/force_sensor_elastic_bands.glade.h:6
-#: ../glade/preferences_win.glade.h:33 ../src/exportSession.cs:327
+#: ../glade/preferences_win.glade.h:36 ../src/exportSession.cs:327
 #: ../src/exportSession.cs:504 ../src/gui/forceSensorElasticBands.cs:210
 #: ../src/treeview/jump.cs:35
 msgid "Stiffness"
@@ -828,10 +828,10 @@ msgstr ""
 msgid "Free"
 msgstr "Вільний"
 
-#: ../glade/app1.glade.h:159 ../glade/preferences_win.glade.h:22
-#: ../src/gui/app1/pulse.cs:64 ../src/gui/preferences.cs:1102
-#: ../src/gui/preferences.cs:1104 ../src/gui/preferences.cs:1113
-#: ../src/gui/preferences.cs:1286 ../src/gui/preferences.cs:1294
+#: ../glade/app1.glade.h:159 ../glade/preferences_win.glade.h:12
+#: ../src/gui/app1/pulse.cs:64 ../src/gui/preferences.cs:1109
+#: ../src/gui/preferences.cs:1111 ../src/gui/preferences.cs:1120
+#: ../src/gui/preferences.cs:1293 ../src/gui/preferences.cs:1301
 msgid "Custom"
 msgstr "Нетиповий"
 
@@ -972,7 +972,7 @@ msgid "Detect stiffness of one band/tube"
 msgstr ""
 
 #: ../glade/app1.glade.h:189 ../glade/force_sensor_exercise.glade.h:6
-#: ../glade/preferences_win.glade.h:110 ../src/gui/app1/forceSensor.cs:1669
+#: ../glade/preferences_win.glade.h:112 ../src/gui/app1/forceSensor.cs:1669
 #: ../src/gui/forceSensorExercise.cs:420
 msgid "Elastic"
 msgstr "Гнучке"
@@ -1103,7 +1103,7 @@ msgstr ""
 msgid "Sprint"
 msgstr "Спринт"
 
-#: ../glade/app1.glade.h:218 ../glade/preferences_win.glade.h:171
+#: ../glade/app1.glade.h:218 ../glade/preferences_win.glade.h:173
 msgid "Advanced"
 msgstr "Додатково"
 
@@ -1228,7 +1228,7 @@ msgstr "Додати цю статистику і її графік до вік�
 msgid "View report window"
 msgstr "Вікно перегляду звіту"
 
-#: ../glade/app1.glade.h:248 ../glade/preferences_win.glade.h:127
+#: ../glade/app1.glade.h:248 ../glade/preferences_win.glade.h:129
 #: ../src/treeview/multiChronopic.cs:227
 msgid "Width"
 msgstr "Ширина"
@@ -1405,7 +1405,7 @@ msgstr ""
 "ізометричний"
 
 #: ../glade/app1.glade.h:293 ../glade/force_sensor_exercise.glade.h:18
-#: ../glade/preferences_win.glade.h:114 ../src/encoder.cs:953
+#: ../glade/preferences_win.glade.h:116 ../src/encoder.cs:953
 msgid "Concentric"
 msgstr "Концентричний"
 
@@ -1453,7 +1453,7 @@ msgstr "Лише найкращий стрибок у кожному з сеан
 msgid "Num"
 msgstr "Число"
 
-#: ../glade/app1.glade.h:305 ../glade/preferences_win.glade.h:43
+#: ../glade/app1.glade.h:305 ../glade/preferences_win.glade.h:46
 msgid "Show"
 msgstr "Показати"
 
@@ -1685,11 +1685,11 @@ msgstr "Калібрувати знову"
 msgid "Record"
 msgstr "Записати"
 
-#: ../glade/app1.glade.h:359 ../glade/preferences_win.glade.h:140
+#: ../glade/app1.glade.h:359 ../glade/preferences_win.glade.h:142
 msgid "Play"
 msgstr "Відтворити"
 
-#: ../glade/app1.glade.h:360 ../glade/preferences_win.glade.h:145
+#: ../glade/app1.glade.h:360 ../glade/preferences_win.glade.h:147
 #: ../src/gui/app1/encoder.cs:1634 ../src/gui/app1/forceSensor.cs:1673
 #: ../src/gui/app1/runEncoder.cs:663
 msgid "Video"
@@ -1720,7 +1720,7 @@ msgstr "Набір"
 msgid "Data without smoothing"
 msgstr "Дані без згладжування"
 
-#: ../glade/app1.glade.h:367 ../glade/preferences_win.glade.h:89
+#: ../glade/app1.glade.h:367 ../glade/preferences_win.glade.h:91
 msgid "capture"
 msgstr "захоплення"
 
@@ -1773,7 +1773,7 @@ msgstr "кг·см²"
 msgid "Mass"
 msgstr "Маса"
 
-#: ../glade/app1.glade.h:379 ../glade/preferences_win.glade.h:133
+#: ../glade/app1.glade.h:379 ../glade/preferences_win.glade.h:135
 msgid "Configure"
 msgstr "Налаштувати"
 
@@ -1844,11 +1844,11 @@ msgid "Active"
 msgstr "Активний"
 
 #: ../glade/app1.glade.h:394 ../glade/edit_event.glade.h:35
-#: ../glade/preferences_win.glade.h:129
+#: ../glade/preferences_win.glade.h:131
 msgid "0"
 msgstr "0"
 
-#: ../glade/app1.glade.h:395 ../glade/preferences_win.glade.h:88
+#: ../glade/app1.glade.h:395 ../glade/preferences_win.glade.h:90
 msgid "/"
 msgstr "/"
 
@@ -2103,7 +2103,7 @@ msgid "Open database file"
 msgstr "Відкрити файл бази даних"
 
 #: ../glade/app1.glade.h:458 ../glade/encoder_configuration.glade.h:24
-#: ../src/gui/preferences.cs:1535
+#: ../src/gui/preferences.cs:1542
 msgid "Import"
 msgstr "Імпортувати"
 
@@ -2581,7 +2581,7 @@ msgstr "Ідентифікатор"
 msgid "<b>Simulated</b>"
 msgstr "<b>Імітовано</b>"
 
-#: ../glade/edit_event.glade.h:14 ../glade/preferences_win.glade.h:37
+#: ../glade/edit_event.glade.h:14 ../glade/preferences_win.glade.h:40
 msgid "Knee angle"
 msgstr "Кут у колінях"
 
@@ -2593,7 +2593,7 @@ msgstr "Помилки"
 msgid "Video available"
 msgstr "Доступне відео"
 
-#: ../glade/edit_event.glade.h:17 ../glade/preferences_win.glade.h:11
+#: ../glade/edit_event.glade.h:17 ../glade/preferences_win.glade.h:24
 #: ../src/constants.cs:926 ../src/encoder.cs:1048 ../src/forceSensor.cs:163
 #: ../src/gui/event.cs:302 ../src/gui/genericWindow.cs:723
 #: ../src/gui/jump.cs:1044 ../src/gui/jump.cs:1049 ../src/gui/jump.cs:1086
@@ -3174,7 +3174,7 @@ msgid "Fixation"
 msgstr "Зосередженість"
 
 #: ../glade/force_sensor_exercise.glade.h:7
-#: ../glade/preferences_win.glade.h:111
+#: ../glade/preferences_win.glade.h:113
 msgid "Not elastic"
 msgstr "Нееластичний"
 
@@ -3199,7 +3199,7 @@ msgid "Subtract the effect of mass from raw data"
 msgstr "Відняти ефект маси від необроблених даних"
 
 #: ../glade/force_sensor_exercise.glade.h:13
-#: ../glade/preferences_win.glade.h:115
+#: ../glade/preferences_win.glade.h:117
 msgid "Detect repetitions"
 msgstr "Виявити повторення"
 
@@ -3212,22 +3212,22 @@ msgid "Use value on preferences to detect repetitions"
 msgstr "Використовувати значення у налаштуваннях для виявлення повторень"
 
 #: ../glade/force_sensor_exercise.glade.h:16
-#: ../glade/preferences_win.glade.h:65
+#: ../glade/preferences_win.glade.h:68
 msgid "Minimal range of movement"
 msgstr "Мінімальний діапазон руху"
 
 #: ../glade/force_sensor_exercise.glade.h:17
-#: ../glade/preferences_win.glade.h:113
+#: ../glade/preferences_win.glade.h:115
 msgid "Eccentric"
 msgstr "Ексцентричний"
 
 #: ../glade/force_sensor_exercise.glade.h:19
-#: ../glade/preferences_win.glade.h:66
+#: ../glade/preferences_win.glade.h:69
 msgid "Minimal height"
 msgstr "Мінімальна висота"
 
 #: ../glade/force_sensor_exercise.glade.h:20
-#: ../glade/preferences_win.glade.h:112
+#: ../glade/preferences_win.glade.h:114
 msgid "Minimal force"
 msgstr "Мінімальна сила"
 
@@ -3509,7 +3509,7 @@ msgstr "Завантажити з файла"
 msgid "Add photo from file"
 msgstr "Додати фотографію з файла"
 
-#: ../glade/person_win.glade.h:12 ../glade/preferences_win.glade.h:135
+#: ../glade/person_win.glade.h:12 ../glade/preferences_win.glade.h:137
 msgid "Preview"
 msgstr "Перегляд"
 
@@ -3608,539 +3608,549 @@ msgid "View more tabs"
 msgstr "Переглянути інші вкладки"
 
 #: ../glade/preferences_win.glade.h:9
+msgid "Background color:"
+msgstr "Колір тла:"
+
+#: ../glade/preferences_win.glade.h:10
+msgid "System color"
+msgstr "Загальносистемний колір"
+
+#: ../glade/preferences_win.glade.h:13
+msgid "Choose"
+msgstr "Вибрати"
+
+#: ../glade/preferences_win.glade.h:14
+msgid "(needs restart)"
+msgstr "(потребує перезапуску)"
+
+#: ../glade/preferences_win.glade.h:15
+msgid "Load last session at start"
+msgstr "Завантажувати останній сеанс під час запуску"
+
+#: ../glade/preferences_win.glade.h:16
+msgid "Load last mode at start"
+msgstr "Завантажувати останній режим під час запуску"
+
+#: ../glade/preferences_win.glade.h:17
+msgid "Show animated logo"
+msgstr "Показувати анімований логотип"
+
+#: ../glade/preferences_win.glade.h:18
+#| msgid "Interval displayed on graph"
+msgid "Fonts used on graphs:"
+msgstr "Шрифти на графіках:"
+
+#: ../glade/preferences_win.glade.h:19
+msgid "Import configuration"
+msgstr "Налаштування імпортування"
+
+#: ../glade/preferences_win.glade.h:20
+msgid "Main"
+msgstr "Основне"
+
+#: ../glade/preferences_win.glade.h:21
+msgid "Recommended options for small screens"
+msgstr "Рекомендовані параметри для малих екранів"
+
+#: ../glade/preferences_win.glade.h:22
 msgid "Show persons photo"
 msgstr "Показати фотографії осіб"
 
-#: ../glade/preferences_win.glade.h:10
+#: ../glade/preferences_win.glade.h:23
 msgid "Persons on top  (manage them by clicking a button)"
 msgstr "Особи згори (керування за допомогою натискання кнопки)"
 
-#: ../glade/preferences_win.glade.h:12
+#: ../glade/preferences_win.glade.h:25
 msgid "Only icons"
 msgstr "Лише піктограми"
 
 #. aka == -1.0
-#: ../glade/preferences_win.glade.h:13 ../src/constants.cs:922
+#: ../glade/preferences_win.glade.h:26 ../src/constants.cs:922
 #: ../src/encoder.cs:1050 ../src/forceSensor.cs:165 ../src/forceSensor.cs:175
 #: ../src/gui/event.cs:306 ../src/gui/jump.cs:1046 ../src/gui/jump.cs:1051
 #: ../src/gui/jump.cs:1264 ../src/gui/jump.cs:1269 ../src/runEncoder.cs:138
 msgid "No"
 msgstr "Ні"
 
-#: ../glade/preferences_win.glade.h:14
+#: ../glade/preferences_win.glade.h:27
 msgid "Start Chronojump maximized"
 msgstr "Запускати вікно Chronojump розгорнутим"
 
-#: ../glade/preferences_win.glade.h:15
+#: ../glade/preferences_win.glade.h:28
 msgid "Undecorated (remove title bar and resize controls)"
 msgstr ""
 "Без декорацій (вилучити смужку заголовка і змінити розмір елементів "
 "керування)"
 
-#: ../glade/preferences_win.glade.h:16
+#: ../glade/preferences_win.glade.h:29
 msgid "At menu show:"
 msgstr "У меню показувати:"
 
-#: ../glade/preferences_win.glade.h:17
+#: ../glade/preferences_win.glade.h:30
 msgid "Everything"
 msgstr "Усе"
 
-#: ../glade/preferences_win.glade.h:18
+#: ../glade/preferences_win.glade.h:31
 msgid "Only text"
 msgstr "Лише текст"
 
-#: ../glade/preferences_win.glade.h:20
-msgid "Recommended options for small screens"
-msgstr "Рекомендовані параметри для малих екранів"
-
-#: ../glade/preferences_win.glade.h:21
-msgid "Background color:"
-msgstr "Колір тла:"
-
-#: ../glade/preferences_win.glade.h:23
-msgid "Choose"
-msgstr "Вибрати"
-
-#: ../glade/preferences_win.glade.h:25
-msgid "System color"
-msgstr "Загальносистемний колір"
-
-#: ../glade/preferences_win.glade.h:26
-msgid "(needs restart)"
-msgstr "(потребує перезапуску)"
-
-#: ../glade/preferences_win.glade.h:27
-msgid "Load last session at start"
-msgstr "Завантажувати останній сеанс під час запуску"
-
-#: ../glade/preferences_win.glade.h:28
-msgid "Load last mode at start"
-msgstr "Завантажувати останній режим під час запуску"
-
-#: ../glade/preferences_win.glade.h:29
-msgid "Show animated logo"
-msgstr "Показувати анімований логотип"
-
-#: ../glade/preferences_win.glade.h:30
-msgid "Import configuration"
-msgstr "Налаштування імпортування"
-
-#: ../glade/preferences_win.glade.h:31
-msgid "Main"
-msgstr "Основне"
+#: ../glade/preferences_win.glade.h:33
+msgid "Recommended"
+msgstr "Рекомендований"
 
 #: ../glade/preferences_win.glade.h:34
+#| msgid "Show all repetitions"
+msgid "Small screens"
+msgstr "Малі екрани"
+
+#: ../glade/preferences_win.glade.h:37
 msgid "Indexes between TF and TC"
 msgstr ""
 
-#: ../glade/preferences_win.glade.h:35
+#: ../glade/preferences_win.glade.h:38
 msgid "QIndex"
 msgstr "QIndex"
 
-#: ../glade/preferences_win.glade.h:36
+#: ../glade/preferences_win.glade.h:39
 msgid "DjIndex"
 msgstr "DjIndex"
 
-#: ../glade/preferences_win.glade.h:38
+#: ../glade/preferences_win.glade.h:41
 msgid "Initial speed"
 msgstr "Початкова швидкість"
 
-#: ../glade/preferences_win.glade.h:39
+#: ../glade/preferences_win.glade.h:42
 msgid "Variables to show at reactive jumps:"
 msgstr "Змінні, які слід показувати для реактивних стрибків:"
 
-#: ../glade/preferences_win.glade.h:40
+#: ../glade/preferences_win.glade.h:43
 msgid "Heights: fall height, jump height"
 msgstr "Висоти: висота падіння, висота стрибка"
 
-#: ../glade/preferences_win.glade.h:41
+#: ../glade/preferences_win.glade.h:44
 msgid "Times: contact time, flight time"
 msgstr "Моменти: час контакту, час польоту"
 
-#: ../glade/preferences_win.glade.h:42
+#: ../glade/preferences_win.glade.h:45
 msgid "Weight units:"
 msgstr "Одиниці ваги:"
 
-#: ../glade/preferences_win.glade.h:44
+#: ../glade/preferences_win.glade.h:47
 msgid "Arms Use Index"
 msgstr ""
 
-#: ../glade/preferences_win.glade.h:45
+#: ../glade/preferences_win.glade.h:48
 msgid "Use height"
 msgstr "Використовувати висоту"
 
-#: ../glade/preferences_win.glade.h:46
+#: ../glade/preferences_win.glade.h:49
 msgid "default"
 msgstr "типовий"
 
-#: ../glade/preferences_win.glade.h:47
+#: ../glade/preferences_win.glade.h:50
 msgid "Use flight time"
 msgstr "Використовувати час польоту"
 
-#: ../glade/preferences_win.glade.h:48
+#: ../glade/preferences_win.glade.h:51
 msgid "Calculations"
 msgstr "Обчислення"
 
-#: ../glade/preferences_win.glade.h:49
+#: ../glade/preferences_win.glade.h:52
 msgid "Speed units:"
 msgstr "Одиниці швидкості:"
 
-#: ../glade/preferences_win.glade.h:50 ../src/gui/preferences.cs:1435
+#: ../glade/preferences_win.glade.h:53 ../src/gui/preferences.cs:1442
 msgid ""
 "\"Speed start\" means when athlete does not start with \"contact\" on the "
 "first platform or photocell.\n"
 "It starts before and arrives there with some speed."
 msgstr ""
 
-#: ../glade/preferences_win.glade.h:52
+#: ../glade/preferences_win.glade.h:55
 msgid "What to do on speed start or reaction time measurement?"
-msgstr ""
+msgstr "Що робити при швидкому старті або вимірюванні часу реакції?"
 
-#: ../glade/preferences_win.glade.h:53
+#: ../glade/preferences_win.glade.h:56
 msgid "Race time starts on arrival at first device or pressing push button"
 msgstr ""
 
-#: ../glade/preferences_win.glade.h:54
+#: ../glade/preferences_win.glade.h:57
 msgid "Race time starts on leaving first device"
 msgstr ""
 
-#: ../glade/preferences_win.glade.h:55
+#: ../glade/preferences_win.glade.h:58
 msgid "Prevent double contacts (recommended)"
 msgstr "Запобігати подвійним контактами (рекомендовано)"
 
-#: ../glade/preferences_win.glade.h:56
+#: ../glade/preferences_win.glade.h:59
 msgid "Fix if found two or more contacts in"
 msgstr ""
 
-#: ../glade/preferences_win.glade.h:57
+#: ../glade/preferences_win.glade.h:60
 msgid "ms"
 msgstr "мс"
 
-#: ../glade/preferences_win.glade.h:58
+#: ../glade/preferences_win.glade.h:61
 msgid "Each track ends before biggest contact time."
 msgstr ""
 
-#: ../glade/preferences_win.glade.h:59
+#: ../glade/preferences_win.glade.h:62
 msgid "on simple races"
 msgstr ""
 
-#: ../glade/preferences_win.glade.h:60
+#: ../glade/preferences_win.glade.h:63
 msgid "on intervallic races"
 msgstr ""
 
-#: ../glade/preferences_win.glade.h:61
+#: ../glade/preferences_win.glade.h:64
 msgid "Prevent double contacts"
 msgstr "Запобігати подвійним контактам"
 
-#: ../glade/preferences_win.glade.h:62
+#: ../glade/preferences_win.glade.h:65
 msgid "Recording time"
 msgstr "Час запису"
 
-#: ../glade/preferences_win.glade.h:63
+#: ../glade/preferences_win.glade.h:66
 msgid "s"
 msgstr "с"
 
-#: ../glade/preferences_win.glade.h:64
+#: ../glade/preferences_win.glade.h:67
 msgid "End at n inactivity seconds"
 msgstr "Завершувати за вказаної кількості секунд без активності"
 
-#: ../glade/preferences_win.glade.h:69
+#: ../glade/preferences_win.glade.h:72
 msgid "Minimal length"
 msgstr "Мінімальна довжина"
 
-#: ../glade/preferences_win.glade.h:70
+#: ../glade/preferences_win.glade.h:73
 msgid "Discard first repetitions"
 msgstr "Відкидати перші повторення"
 
-#: ../glade/preferences_win.glade.h:71
+#: ../glade/preferences_win.glade.h:74
 msgid "Recommended: 3"
 msgstr "Рекомендовано: 3"
 
-#: ../glade/preferences_win.glade.h:73
+#: ../glade/preferences_win.glade.h:76
 msgid "Show only bars"
 msgstr "Показувати лише смужки"
 
-#: ../glade/preferences_win.glade.h:74
+#: ../glade/preferences_win.glade.h:77
 msgid "This change needs restarting Chronojump"
 msgstr "Ця зміна потребує перезапуску Chronojump для застосування"
 
-#: ../glade/preferences_win.glade.h:75
+#: ../glade/preferences_win.glade.h:78
 msgid "Repetitions to show during capture graph"
 msgstr "Повторення, які слід показувати під час захоплення графіка"
 
-#: ../glade/preferences_win.glade.h:76
+#: ../glade/preferences_win.glade.h:79
 msgid "Show all repetitions"
 msgstr "Показувати усі повторення"
 
-#: ../glade/preferences_win.glade.h:77
+#: ../glade/preferences_win.glade.h:80
 msgid "Show only last repetitions"
 msgstr "Показувати лише останні повторення"
 
-#: ../glade/preferences_win.glade.h:78
+#: ../glade/preferences_win.glade.h:81
 msgid "Font size at capture"
 msgstr "Розмір шрифту при захопленні"
 
-#: ../glade/preferences_win.glade.h:79
+#: ../glade/preferences_win.glade.h:82
 msgid "Appearance"
 msgstr "Вигляд"
 
-#: ../glade/preferences_win.glade.h:80
+#: ../glade/preferences_win.glade.h:83
 msgid "Show start and duration of each repetition"
 msgstr "Показувати початок і тривалість кожного повторення"
 
-#: ../glade/preferences_win.glade.h:81
+#: ../glade/preferences_win.glade.h:84
 msgid "Do not use triggers"
 msgstr "Не використовувати перемикачі"
 
-#: ../glade/preferences_win.glade.h:82
-msgid "Recommended"
-msgstr "Рекомендований"
-
-#: ../glade/preferences_win.glade.h:83
+#: ../glade/preferences_win.glade.h:85
 msgid "Cut sets into repetitions using triggers"
 msgstr "Обрізати набори до повторень за допомогою перемикачів"
 
-#: ../glade/preferences_win.glade.h:84
+#: ../glade/preferences_win.glade.h:86
 msgid "First repetition starts when \"capture\" button is pressed"
 msgstr ""
 "Перше повторення розпочинається у відповідь на натискання кнопки «Захопити»"
 
-#: ../glade/preferences_win.glade.h:85
+#: ../glade/preferences_win.glade.h:87
 msgid "First repetition starts when trigger button is pressed"
 msgstr ""
 "Перше повторення розпочинається у відповідь на натискання кнопки перемикача"
 
-#: ../glade/preferences_win.glade.h:86
+#: ../glade/preferences_win.glade.h:88
 msgid "Capture sets continuously"
 msgstr "Захоплювати набори неперервно"
 
-#: ../glade/preferences_win.glade.h:87
+#: ../glade/preferences_win.glade.h:89
 msgid "Not recommended"
 msgstr "Не рекомендуємо"
 
-#: ../glade/preferences_win.glade.h:90 ../src/constants.cs:1395
+#: ../glade/preferences_win.glade.h:92 ../src/constants.cs:1395
 msgid "Propulsive"
 msgstr "Спонукальна"
 
-#: ../glade/preferences_win.glade.h:91
+#: ../glade/preferences_win.glade.h:93
 msgid "On concentric evaluate only propulsive phase"
 msgstr "У концентричному режимі оцінювати лише спонукальну фазу"
 
-#: ../glade/preferences_win.glade.h:92
+#: ../glade/preferences_win.glade.h:94
 msgid "On inertial machines this option is not used."
 msgstr "На інерційних машинах цей варіант не використовується."
 
 #. work
-#: ../glade/preferences_win.glade.h:93 ../src/gui/encoderGraphObjects.cs:919
+#: ../glade/preferences_win.glade.h:95 ../src/gui/encoderGraphObjects.cs:919
 #: ../src/gui/encoderTreeviews.cs:67 ../src/gui/encoderTreeviews.cs:602
 msgid "Work"
 msgstr "Робота"
 
-#: ../glade/preferences_win.glade.h:94
+#: ../glade/preferences_win.glade.h:96
 msgid "Units"
 msgstr "Одиниці"
 
-#: ../glade/preferences_win.glade.h:95
+#: ../glade/preferences_win.glade.h:97
 msgid "Smooth"
 msgstr "Згладити"
 
-#: ../glade/preferences_win.glade.h:96
+#: ../glade/preferences_win.glade.h:98
 msgid "Recommended:"
 msgstr "Рекомендовано:"
 
-#: ../glade/preferences_win.glade.h:97
+#: ../glade/preferences_win.glade.h:99
 msgid "Smoothing"
 msgstr "Згладжування"
 
-#: ../glade/preferences_win.glade.h:98
+#: ../glade/preferences_win.glade.h:100
 msgid "Non weighted"
 msgstr "Незважене"
 
-#: ../glade/preferences_win.glade.h:99
+#: ../glade/preferences_win.glade.h:101
 msgid "Weighted"
 msgstr "Зважене"
 
-#: ../glade/preferences_win.glade.h:100
+#: ../glade/preferences_win.glade.h:102
 msgid "Weighted^2"
 msgstr "Зважене^2"
 
-#: ../glade/preferences_win.glade.h:101
+#: ../glade/preferences_win.glade.h:103
 msgid "Weighted^3"
 msgstr "Зважене^3"
 
-#: ../glade/preferences_win.glade.h:102
+#: ../glade/preferences_win.glade.h:104
 msgid "Recommended: Weighted^2"
 msgstr "Рекомендовано: Зважене^2"
 
-#: ../glade/preferences_win.glade.h:103
+#: ../glade/preferences_win.glade.h:105
 msgid "1RM prediction"
 msgstr ""
 
-#: ../glade/preferences_win.glade.h:104
+#: ../glade/preferences_win.glade.h:106
 msgid "other"
 msgstr "інше"
 
-#: ../glade/preferences_win.glade.h:105
+#: ../glade/preferences_win.glade.h:107
 msgid "Interval displayed on graph"
 msgstr "Інтервал, який показано на графіку"
 
-#: ../glade/preferences_win.glade.h:106
+#: ../glade/preferences_win.glade.h:108
 msgid "Behaviour when signal gets to the right of the screen"
 msgstr "Поведінка, коли сигнал доходить до правої частини екрана"
 
-#: ../glade/preferences_win.glade.h:107
+#: ../glade/preferences_win.glade.h:109
 msgid "Scroll"
 msgstr "Гортати"
 
-#: ../glade/preferences_win.glade.h:108
+#: ../glade/preferences_win.glade.h:110
 msgid "Zoom out"
 msgstr "Зменшити"
 
-#: ../glade/preferences_win.glade.h:109
+#: ../glade/preferences_win.glade.h:111
 msgid "Capture graph"
 msgstr "Захопити графік"
 
-#: ../glade/preferences_win.glade.h:116
+#: ../glade/preferences_win.glade.h:118
 msgid "Graphs line width"
 msgstr "Товщина лінії графіка"
 
-#: ../glade/preferences_win.glade.h:117
+#: ../glade/preferences_win.glade.h:119
 msgid "Minimum acceleration"
 msgstr "Мінімальне прискорення"
 
-#: ../glade/preferences_win.glade.h:118
+#: ../glade/preferences_win.glade.h:120
 msgid "Detection"
 msgstr "Виявлення"
 
-#: ../glade/preferences_win.glade.h:119
+#: ../glade/preferences_win.glade.h:121
 msgid "Play sounds while capturing"
 msgstr "Відтворювати звуки під час захоплення"
 
-#: ../glade/preferences_win.glade.h:120
+#: ../glade/preferences_win.glade.h:122
 msgid "Play sound (on / off)"
 msgstr "Відтворення звуку (увімкн. / вимкн.)"
 
-#: ../glade/preferences_win.glade.h:121
+#: ../glade/preferences_win.glade.h:123
 #: ../glade/repetitive_conditions.glade.h:58
 msgid "Test \"Good\" bell"
 msgstr "Перевірити гудок «Добре»"
 
-#: ../glade/preferences_win.glade.h:122
+#: ../glade/preferences_win.glade.h:124
 msgid "Test sound"
 msgstr "Перевірити звук"
 
-#: ../glade/preferences_win.glade.h:123
+#: ../glade/preferences_win.glade.h:125
 msgid "Sounds"
 msgstr "Звуки"
 
-#: ../glade/preferences_win.glade.h:124
+#: ../glade/preferences_win.glade.h:126
 msgid "Select camera"
 msgstr "Вибір камери"
 
-#: ../glade/preferences_win.glade.h:125
+#: ../glade/preferences_win.glade.h:127
 msgid "Resolution"
 msgstr "Роздільна здатність"
 
-#: ../glade/preferences_win.glade.h:126
+#: ../glade/preferences_win.glade.h:128
 msgid "Framerate"
 msgstr "Частота кадрів"
 
-#: ../glade/preferences_win.glade.h:130
+#: ../glade/preferences_win.glade.h:132
 msgid "Pixel format"
 msgstr "Розміри у пікселях"
 
 #. Substantive
-#: ../glade/preferences_win.glade.h:132
+#: ../glade/preferences_win.glade.h:134
 msgid "Format"
 msgstr "Формат"
 
-#: ../glade/preferences_win.glade.h:136
+#: ../glade/preferences_win.glade.h:138
 msgid "On Windows at least Windows 7 is required."
 msgstr "У Windows потрібна принаймні Windows 7."
 
-#: ../glade/preferences_win.glade.h:137
+#: ../glade/preferences_win.glade.h:139
 msgid "Show advanced controls"
 msgstr "Показати додаткове керування"
 
-#: ../glade/preferences_win.glade.h:138
+#: ../glade/preferences_win.glade.h:140
 msgid "Check if camera is running"
 msgstr "Перевірте, чи запущено камеру"
 
-#: ../glade/preferences_win.glade.h:141
+#: ../glade/preferences_win.glade.h:143
 msgid "Force stop"
 msgstr "Примусово зупинити"
 
-#: ../glade/preferences_win.glade.h:142
+#: ../glade/preferences_win.glade.h:144
 msgid "Camera will be stopped n seconds after end test"
 msgstr "Камеру буде вимкнено за n секунд після завершення тесту"
 
-#: ../glade/preferences_win.glade.h:143
+#: ../glade/preferences_win.glade.h:145
 msgid "To ensure the end of test is recorded, it is recommended 2 seconds."
 msgstr ""
 "Щоб переконатися, що тест справді записано, рекомендуємо значення у 2 "
 "секунди."
 
-#: ../glade/preferences_win.glade.h:144
+#: ../glade/preferences_win.glade.h:146
 msgid "<b>Advanced</b>"
 msgstr "<b>Додатково</b>"
 
-#: ../glade/preferences_win.glade.h:146
+#: ../glade/preferences_win.glade.h:148
 msgid "Multimedia"
 msgstr "Звук та відео"
 
-#: ../glade/preferences_win.glade.h:147
+#: ../glade/preferences_win.glade.h:149
 msgid "Language"
 msgstr "Мова"
 
-#: ../glade/preferences_win.glade.h:148
+#: ../glade/preferences_win.glade.h:150
 msgid "Use detected language"
 msgstr "Використати визначену мову"
 
-#: ../glade/preferences_win.glade.h:149
+#: ../glade/preferences_win.glade.h:151
 msgid "recommended"
 msgstr "рекомендовано"
 
-#: ../glade/preferences_win.glade.h:150
+#: ../glade/preferences_win.glade.h:152
 msgid "Force language"
 msgstr "Примусова мова"
 
-#: ../glade/preferences_win.glade.h:151
+#: ../glade/preferences_win.glade.h:153
 msgid "Spreadsheet import and export format"
 msgstr "Формат імпортування та експортування електронної таблиці"
 
-#: ../glade/preferences_win.glade.h:152
+#: ../glade/preferences_win.glade.h:154
 msgid "Latin"
 msgstr "Латиниця"
 
-#: ../glade/preferences_win.glade.h:153
+#: ../glade/preferences_win.glade.h:155
 msgid "Non-Latin"
 msgstr "Не латиниця"
 
-#: ../glade/preferences_win.glade.h:154
+#: ../glade/preferences_win.glade.h:156
 msgid "Translate statistics graphs"
 msgstr "Перекласти статистичні графіки"
 
-#: ../glade/preferences_win.glade.h:155
+#: ../glade/preferences_win.glade.h:157
 msgid "Translate"
 msgstr "Перекласти"
 
-#: ../glade/preferences_win.glade.h:156
+#: ../glade/preferences_win.glade.h:158
 msgid "Do not translate"
 msgstr "Не перекладати"
 
-#: ../glade/preferences_win.glade.h:157
+#: ../glade/preferences_win.glade.h:159
 msgid "Allow to change devices"
 msgstr "Дозволити зміну пристроїв"
 
-#: ../glade/preferences_win.glade.h:158
+#: ../glade/preferences_win.glade.h:160
 msgid "Ask for confirm test deletion"
 msgstr "Питати підтвердження при вилученні тесту"
 
-#: ../glade/preferences_win.glade.h:159
+#: ../glade/preferences_win.glade.h:161
 msgid "Ask user if really wants to delete a test"
 msgstr "Питати, чи справді користувач хоче вилучити тест"
 
-#: ../glade/preferences_win.glade.h:160
+#: ../glade/preferences_win.glade.h:162
 msgid "Decimal number"
 msgstr "Десяткове число"
 
-#: ../glade/preferences_win.glade.h:161
+#: ../glade/preferences_win.glade.h:163
 msgid "Do not write debug messages"
 msgstr "Не записувати діагностичні повідомлення"
 
-#: ../glade/preferences_win.glade.h:162
+#: ../glade/preferences_win.glade.h:164
 msgid "Mute logs"
 msgstr "Вимкнути журналювання"
 
-#: ../glade/preferences_win.glade.h:163
+#: ../glade/preferences_win.glade.h:165
 msgid "default: False"
 msgstr "типове значення: False"
 
-#: ../glade/preferences_win.glade.h:164
+#: ../glade/preferences_win.glade.h:166
 msgid "Open logs folder"
 msgstr "Відкрити теку журналу"
 
-#: ../glade/preferences_win.glade.h:165
+#: ../glade/preferences_win.glade.h:167
 msgid "Open temp folder"
 msgstr "Відкрити тимчасову теку"
 
-#: ../glade/preferences_win.glade.h:166
+#: ../glade/preferences_win.glade.h:168
 msgid "Enter debug mode"
 msgstr "Увійти до режиму діагностики"
 
-#: ../glade/preferences_win.glade.h:167
+#: ../glade/preferences_win.glade.h:169
 msgid "SQL short test"
 msgstr "Короткий тест SQL"
 
-#: ../glade/preferences_win.glade.h:168
+#: ../glade/preferences_win.glade.h:170
 msgid "SQL long test"
 msgstr "Довгий тест SQL"
 
-#: ../glade/preferences_win.glade.h:169
+#: ../glade/preferences_win.glade.h:171
 msgid "Python version"
 msgstr "Версія Python"
 
-#: ../glade/preferences_win.glade.h:170
+#: ../glade/preferences_win.glade.h:172
 msgid "Developer options"
 msgstr "Параметри для розробників"
 
@@ -4498,11 +4508,11 @@ msgstr "інтервальний"
 
 #: ../glade/run_type_add.glade.h:17
 msgid "Variable (user will select distance at each test)"
-msgstr ""
+msgstr "Змінна (користувач вибиратиме відстань на кожному тесті)"
 
 #: ../glade/run_type_add.glade.h:18
 msgid "Fixed (distance will be always the same)"
-msgstr ""
+msgstr "Фіксована (відстань завжди буде однаковою)"
 
 #: ../glade/run_type_add.glade.h:19
 msgid "(m)"
@@ -4516,7 +4526,7 @@ msgstr ""
 
 #: ../glade/run_type_add.glade.h:22
 msgid "Number of different laps"
-msgstr ""
+msgstr "Кількість різних кіл"
 
 #: ../glade/run_type_add.glade.h:23
 msgid "Help RSA"
@@ -4524,7 +4534,7 @@ msgstr ""
 
 #: ../glade/run_type_add.glade.h:24
 msgid "Distance of each lap"
-msgstr ""
+msgstr "Відстань на кожному колі"
 
 #: ../glade/session_upload.glade.h:1
 msgid "Upload session to server"
@@ -4605,6 +4615,7 @@ msgstr ""
 #, csharp-format
 msgid "Sorry, this Chronojump version ({0}) is too old for your database."
 msgstr ""
+"Вибачте, ця версія Chronojump ({0}) є надто старою для вашої бази даних."
 
 #: ../src/chronojump.cs:394
 msgid "Please update Chronojump"
@@ -4627,28 +4638,28 @@ msgstr ""
 
 #: ../src/chronojump.cs:467
 msgid "Please, update to new version."
-msgstr ""
+msgstr "Будь ласка, оновіть програму до нової версії."
 
 #: ../src/chronojump.cs:475
 msgid "Chronojump crashed before."
-msgstr ""
+msgstr "Раніше Chronojump завершив роботу в аварійному режимі."
 
 #: ../src/chronojump.cs:476 ../src/gui/old/chronojumpServerOld.cs:71
 msgid "Please, update to new version: "
-msgstr ""
+msgstr "Будь ласка, оновіть програму до нової версії: "
 
 #: ../src/chronojump.cs:587
 msgid "Need permissions to read from device."
-msgstr ""
+msgstr "Потрібні права доступу до читання з пристрою."
 
 #: ../src/chronojump.cs:588
 msgid "Check software page on Chronojump website"
-msgstr ""
+msgstr "Ознайомтеся із сторінкою програмного забезпечення на сайті Chronojump"
 
 #: ../src/chronojump.cs:736
 #, csharp-format
 msgid "Chronojump {0} crashed before."
-msgstr ""
+msgstr "Раніше Chronojump {0} завершив роботу в аварійному режимі."
 
 #: ../src/chronojump.cs:737
 #, csharp-format
@@ -4659,16 +4670,16 @@ msgstr ""
 
 #: ../src/chronojump.cs:738
 msgid "Your help is needed."
-msgstr ""
+msgstr "Потрібна ваша допомога."
 
 #: ../src/chronojump.cs:868
 #, csharp-format
 msgid "Cannot move database directory from {0} to {1}"
-msgstr ""
+msgstr "Не вдалося пересунути каталог бази даних з {0} до {1}"
 
 #: ../src/chronojump.cs:870
 msgid "Trying to move/copy each file now"
-msgstr ""
+msgstr "Намагаємося пересунути або скопіювати кожний файл окремо"
 
 #: ../src/chronojump.cs:899
 #, csharp-format
@@ -4677,32 +4688,34 @@ msgstr "Не вдалося створити каталог {0}"
 
 #: ../src/chronojump.cs:900 ../src/chronojump.cs:908
 msgid "Please, do it manually."
-msgstr ""
+msgstr "Будь ласка, зробіть це вручну."
 
 #: ../src/chronojump.cs:907
 #, csharp-format
 msgid "Cannot copy {0} files from {1} to {2}"
-msgstr ""
+msgstr "Не вдалося скопіювати {0} файлів з {1} до {2}"
 
 #: ../src/chronojump.cs:915
 #, csharp-format
 msgid "Cannot move {0} files from {1} to {2}"
-msgstr ""
+msgstr "Не вдалося пересунути {0} файлів з {1} до {2}"
 
 #: ../src/chronojump.cs:916
 msgid "Please, do it manually"
-msgstr ""
+msgstr "Будь ласка, зробіть це вручну"
 
 #: ../src/chronojump.cs:922
 #, csharp-format
 msgid "Database is now here: {0}"
-msgstr ""
+msgstr "Тепер база даних зберігається тут: {0}"
 
 #: ../src/chronojumpImporter.cs:200
 msgid ""
 "Trying to import a newer database version than this Chronojump\n"
 "Please, update the running Chronojump."
 msgstr ""
+"Спроба імпорту бази даних новішої версії, ніж ця версія Chronojump\n"
+"Будь ласка, оновіть запущену версію Chronojump."
 
 #: ../src/chronopic2016.cs:91
 msgid "Port"
@@ -4715,7 +4728,7 @@ msgstr "Серійний номер"
 #. return Catalog.GetString("Not configured");
 #: ../src/chronopicRegister.cs:71
 msgid "Click on right arrow!"
-msgstr ""
+msgstr "Натисніть стрілку праворуч!"
 
 #: ../src/chronopicRegister.cs:73
 msgid "Jumps/Races"
@@ -4739,19 +4752,19 @@ msgstr "Розробник основного модуля."
 
 #: ../src/constants.cs:44
 msgid "Import sessions."
-msgstr ""
+msgstr "Імпорт сеансів."
 
 #: ../src/constants.cs:49
 msgid "Django developer."
-msgstr ""
+msgstr "Розробник Django."
 
 #: ../src/constants.cs:51
 msgid "Django migration."
-msgstr ""
+msgstr "Перенесення на Django."
 
 #: ../src/constants.cs:53
 msgid "Client-Server integration."
-msgstr ""
+msgstr "Інтеграція клієнт-сервер."
 
 #: ../src/constants.cs:53
 msgid "First Flask iteration."
@@ -4779,32 +4792,32 @@ msgstr "Математика і статистика"
 
 #: ../src/constants.cs:82
 msgid "Chronojump Manual English translation."
-msgstr ""
+msgstr "Переклад підручника з Chronojump англійською."
 
 #: ../src/constants.cs:87
 msgid "Translation of Firmware to C."
-msgstr ""
+msgstr "Перенесення мікропрограми на C."
 
 #: ../src/constants.cs:88
 msgid "New firmware features."
-msgstr ""
+msgstr "Нові можливості мікропрограми."
 
 #: ../src/constants.cs:89
 msgid "Encoder hardware layer."
-msgstr ""
+msgstr "Апаратний шар кодувальника."
 
 #: ../src/constants.cs:90
 msgid "Skypic, Chronopic, connection between hardware and software."
-msgstr ""
+msgstr "Skypic, Chronopic, зв'язок між апаратною і програмною частинами."
 
 #. 2010 he made the visit to the lab
 #: ../src/constants.cs:91
 msgid "Chronopic3 industrial prototype."
-msgstr ""
+msgstr "Індустріальний прототип Chronopic3."
 
 #: ../src/constants.cs:93
 msgid "Chronopic validation."
-msgstr ""
+msgstr "Перевірка Chronopic."
 
 #: ../src/constants.cs:94 ../src/constants.cs:97
 msgid "Chronopic reaction time advanced implementation."
@@ -4812,11 +4825,11 @@ msgstr ""
 
 #: ../src/constants.cs:95
 msgid "Other functionalities."
-msgstr ""
+msgstr "Інші функціональні можливості."
 
 #: ../src/constants.cs:96
 msgid "Improved timers."
-msgstr ""
+msgstr "Удосконалені таймери."
 
 #: ../src/constants.cs:116
 msgid "Chronojump profile"
@@ -6235,14 +6248,13 @@ msgstr "Виберіть набір атлета {0} на цей сеанс."
 #: ../src/gui/app1/runEncoder.cs:681
 msgid "If you want to edit or delete a row, right click on it."
 msgstr ""
-"Якщо ви хочете редагувати або вилучити рядок, клацніть на ньому правою"
-" кнопкою миші."
+"Якщо ви хочете редагувати або вилучити рядок, клацніть на ньому правою "
+"кнопкою миші."
 
 #. genericWin.SetComboLabel(Catalog.GetString("Change the owner of selected set") +
 #. " (" + Catalog.GetString("code") + ":" + Catalog.GetString("name") + ")");
 #: ../src/gui/app1/encoder.cs:1666 ../src/gui/app1/forceSensor.cs:1707
 #: ../src/gui/app1/runEncoder.cs:697
-#| msgid "Manage persons"
 msgid "Change person"
 msgstr "Змінити особу"
 
@@ -7087,7 +7099,7 @@ msgstr ""
 "режим."
 
 #: ../src/gui/encoderConfiguration.cs:724 ../src/gui/person/addMultiple.cs:311
-#: ../src/gui/preferences.cs:1556
+#: ../src/gui/preferences.cs:1563
 msgid "Error importing data."
 msgstr "Помилка під час імпорту даних."
 
@@ -7206,15 +7218,15 @@ msgid ""
 "(decimal separator: '{0}')"
 msgstr ""
 
-#: ../src/gui/event.cs:695
+#: ../src/gui/event.cs:690
 msgid "There are tests of that type on database on sessions:"
 msgstr ""
 
-#: ../src/gui/event.cs:697
+#: ../src/gui/event.cs:692
 msgid "please first edit or delete them."
 msgstr ""
 
-#: ../src/gui/event.cs:699
+#: ../src/gui/event.cs:694
 msgid "Are you sure you want to delete this test type?"
 msgstr ""
 
@@ -7878,107 +7890,107 @@ msgstr "Повторення кодувальників"
 msgid "Run encoder"
 msgstr "Запустити кодувальник"
 
-#: ../src/gui/preferences.cs:817
+#: ../src/gui/preferences.cs:824
 msgid "Select color"
 msgstr "Вибір кольору"
 
-#: ../src/gui/preferences.cs:879
+#: ../src/gui/preferences.cs:886
 msgid "If active, repetitions will be cut from set using triggers."
 msgstr ""
 "Якщо позначено, повторення буде вирізано із набору за допомогою тригерів."
 
-#: ../src/gui/preferences.cs:880
+#: ../src/gui/preferences.cs:887
 msgid "Trigger signal will be produced by a button connected to the Chronopic."
 msgstr "Сигнал тригера буде створено кнопкою, яку з'єднано із Chronopic."
 
-#: ../src/gui/preferences.cs:881
+#: ../src/gui/preferences.cs:888
 msgid "This will be only used on gravitatory mode, concentric contraction."
 msgstr ""
 
-#: ../src/gui/preferences.cs:882
+#: ../src/gui/preferences.cs:889
 msgid ""
 "If \"Cut by triggers\" is inactive, repetitions will be cut automatically "
 "(default behaviour),"
 msgstr ""
 
-#: ../src/gui/preferences.cs:883
+#: ../src/gui/preferences.cs:890
 msgid ""
 "but pressing trigger button while capturing will plot vertical lines during "
 "analyze instant graphs."
 msgstr ""
 
-#: ../src/gui/preferences.cs:884
+#: ../src/gui/preferences.cs:891
 msgid "Encoder Chronopics have trigger functionality since 2017."
 msgstr "Кодувальник Chronopics має можливість перемикача з 2017 року."
 
-#: ../src/gui/preferences.cs:885
+#: ../src/gui/preferences.cs:892
 msgid ""
 "You can check if your encoder Chronopic accepts triggers pressing test "
 "button."
 msgstr ""
 
-#: ../src/gui/preferences.cs:886
+#: ../src/gui/preferences.cs:893
 msgid ""
 "Your Chronopic is ready for triggers if the green light at the side of "
 "Chronopic test button changes it's state on pressing this button."
 msgstr ""
 
-#: ../src/gui/preferences.cs:887
+#: ../src/gui/preferences.cs:894
 msgid ""
 "At Chronojump website there's a hand push button for using triggers with "
 "ease."
 msgstr ""
 
-#: ../src/gui/preferences.cs:1178 ../src/gui/repetitiveConditions.cs:530
+#: ../src/gui/preferences.cs:1185 ../src/gui/repetitiveConditions.cs:530
 msgid "Sound working"
 msgstr "Звук працює"
 
-#: ../src/gui/preferences.cs:1180 ../src/gui/repetitiveConditions.cs:532
+#: ../src/gui/preferences.cs:1187 ../src/gui/repetitiveConditions.cs:532
 msgid "Sound not working"
 msgstr "Звук не працює"
 
-#: ../src/gui/preferences.cs:1432
+#: ../src/gui/preferences.cs:1439
 msgid "Race measurement"
 msgstr ""
 
-#: ../src/gui/preferences.cs:1439
+#: ../src/gui/preferences.cs:1446
 msgid ""
 "Chronojump race reaction time device allows to record reaction time and race "
 "time."
 msgstr ""
 
-#: ../src/gui/preferences.cs:1441
+#: ../src/gui/preferences.cs:1448
 msgid "Reaction time is displayed on Description column."
 msgstr "Час реакції буде показано у стовпчику «Опис»."
 
-#: ../src/gui/preferences.cs:1443
+#: ../src/gui/preferences.cs:1450
 msgid "If first option is choosen, race time includes reaction time."
 msgstr ""
 
-#: ../src/gui/preferences.cs:1504
+#: ../src/gui/preferences.cs:1511
 msgid "Cannot create directory."
 msgstr "Не вдалося створити каталог."
 
-#: ../src/gui/preferences.cs:1531
+#: ../src/gui/preferences.cs:1538
 msgid "Import configuration file"
 msgstr ""
 
-#: ../src/gui/preferences.cs:1563
+#: ../src/gui/preferences.cs:1570
 msgid "Successfully imported."
 msgstr "Успішно імпортовано."
 
-#: ../src/gui/preferences.cs:1570
+#: ../src/gui/preferences.cs:1577
 msgid ""
 "If a repetition has been found, test will end at selected inactivity seconds."
 msgstr ""
 
-#: ../src/gui/preferences.cs:1571
+#: ../src/gui/preferences.cs:1578
 msgid ""
 "If a repetition has not been found, test will end at selected inactivity "
 "seconds (x2)."
 msgstr ""
 
-#: ../src/gui/preferences.cs:1572
+#: ../src/gui/preferences.cs:1579
 msgid "This will let the person to have more time to start movement."
 msgstr ""
 

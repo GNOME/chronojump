@@ -268,12 +268,12 @@ public class PreferencesWindow
 	
 	ListStore langsStore;
 
-	const int JUMPSPAGE = 1;
-	const int RUNSPAGE = 2;
-	const int ENCODERCAPTUREPAGE = 3;
-	const int ENCODEROTHERPAGE = 4;
-	const int FORCESENSORPAGE = 5;
-	const int RUNENCODERPAGE = 6;
+	const int JUMPSPAGE = 2;
+	const int RUNSPAGE = 3;
+	const int ENCODERCAPTUREPAGE = 4;
+	const int ENCODEROTHERPAGE = 5;
+	const int FORCESENSORPAGE = 6;
+	const int RUNENCODERPAGE = 7;
 
 	static private WebcamDeviceList wd_list;
 	private WebcamFfmpegSupportedModes wfsm;

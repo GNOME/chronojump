@@ -28,11 +28,11 @@ using Cairo;
 public class JumpsEvolutionGraph : CairoXY
 {
 	//constructor when there are no points
-	public JumpsEvolutionGraph (DrawingArea area, string jumpType)//, string title, string jumpType, string date)
+	public JumpsEvolutionGraph (DrawingArea area, string jumpType, string font)//, string title, string jumpType, string date)
 	{
 		this.area = area;
 
-		initGraph();
+		initGraph(font);
 
 		g.SetFontSize(16);
 		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight,
@@ -64,7 +64,7 @@ public class JumpsEvolutionGraph : CairoXY
 	public override void Do()
 	{
 		LogB.Information("at JumpsEvolutionGraph.Do");
-		initGraph();
+		initGraph(font);
 
                 findPointMaximums(false);
                 //findAbsoluteMaximums();

@@ -245,20 +245,20 @@ public partial class ChronoJumpWindow
 		event_execute_eventbox_pulse_time.ModifyBg(Gtk.StateType.Normal, UtilGtk.BLUE_PLOTS); //only one serie in pulse, leave blue
 		
 		layoutSmall = new Pango.Layout (event_execute_drawingarea.PangoContext);
-		layoutSmall.FontDescription = Pango.FontDescription.FromString ("Courier 7");
+		layoutSmall.FontDescription = Pango.FontDescription.FromString (preferences.GetFontTypeWithSize(7));
 		
 		layoutSmallMid = new Pango.Layout (event_execute_drawingarea.PangoContext);
-		layoutSmallMid.FontDescription = Pango.FontDescription.FromString ("Courier 9");
+		layoutSmallMid.FontDescription = Pango.FontDescription.FromString (preferences.GetFontTypeWithSize(9));
 
 		layoutMid = new Pango.Layout (event_execute_drawingarea.PangoContext);
-		layoutMid.FontDescription = Pango.FontDescription.FromString ("Courier 11");
+		layoutMid.FontDescription = Pango.FontDescription.FromString (preferences.GetFontTypeWithSize(11));
 
 		layoutBig = new Pango.Layout (event_execute_drawingarea.PangoContext);
-		layoutBig.FontDescription = Pango.FontDescription.FromString ("Courier 14");
+		layoutBig.FontDescription = Pango.FontDescription.FromString (preferences.GetFontTypeWithSize(14));
 		//layoutBig.Alignment = Pango.Alignment.Center; //doesn't work, see GetPixelSize below
 
 		layoutMid_run_simple = new Pango.Layout (event_execute_drawingarea_run_simple_double_contacts.PangoContext);
-		layoutMid_run_simple.FontDescription = Pango.FontDescription.FromString ("Courier 9");
+		layoutMid_run_simple.FontDescription = Pango.FontDescription.FromString (preferences.GetFontTypeWithSize(9));
 	}
 	private ExecutingGraphData event_execute_prepareForTest () 
 	{
@@ -1361,7 +1361,7 @@ public partial class ChronoJumpWindow
 		int lHeight = 1;
 		layout.GetPixelSize(out lWidth, out lHeight);
 		event_execute_pixmap.DrawLayout (pen_gris, Convert.ToInt32(10 - .5 * lWidth),
-				Convert.ToInt32(.5 * topMargin -7), layout); //-7 for aligning with Courier 7 font baseline
+				Convert.ToInt32(.5 * topMargin -7), layout); //-7 for aligning with font 7 baseline
 	}
 
 	private void plotSimulatedMessage(int xcenter, int y, Pango.Layout layout)
@@ -2646,7 +2646,7 @@ public partial class ChronoJumpWindow
 	{
 		//write text
 		layoutSmall.SetMarkup((Math.Round(myValue,3)).ToString());
-		event_execute_pixmap.DrawLayout (myPen, ancho -event_execute_rightMargin, (int)calculatePaintHeight(myValue, alto, maxValue, minValue, topMargin, bottomMargin) -7, layoutSmall); //-7 for aligning (is baseline) (font is Courier 7)
+		event_execute_pixmap.DrawLayout (myPen, ancho -event_execute_rightMargin, (int)calculatePaintHeight(myValue, alto, maxValue, minValue, topMargin, bottomMargin) -7, layoutSmall); //-7 for aligning (is baseline) (font size is 7)
 	}
 
 	enum guideWidthEnum { FULL, LEFT, RIGHT }
@@ -2675,7 +2675,7 @@ public partial class ChronoJumpWindow
 					xRight, calculatePaintHeight(guideHeight, alto, maxValue, minValue, topMargin, bottomMargin));
 			//write textual data
 			layoutSmall.SetMarkup((Math.Round(guideHeight,1)).ToString());
-			event_execute_pixmap.DrawLayout (pen_gris, ancho -event_execute_rightMargin, (int)calculatePaintHeight(guideHeight, alto, maxValue, minValue, topMargin, bottomMargin) -7, layoutSmall); //-7 for aligning with Courier 7 font baseline
+			event_execute_pixmap.DrawLayout (pen_gris, ancho -event_execute_rightMargin, (int)calculatePaintHeight(guideHeight, alto, maxValue, minValue, topMargin, bottomMargin) -7, layoutSmall); //-7 for aligning with font 7 baseline
 		}
 	}
 

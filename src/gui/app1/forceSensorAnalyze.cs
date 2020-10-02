@@ -791,9 +791,9 @@ public partial class ChronoJumpWindow
 		pen_green_discont_force_ai.SetLineAttributes (1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 
 		layout_force_ai_text = new Pango.Layout (force_sensor_ai_drawingarea.PangoContext);
-		layout_force_ai_text.FontDescription = Pango.FontDescription.FromString ("Courier 10");
+		layout_force_ai_text.FontDescription = Pango.FontDescription.FromString (preferences.GetFontTypeWithSize(10));
 		layout_force_ai_text_big = new Pango.Layout (force_sensor_ai_drawingarea.PangoContext);
-		layout_force_ai_text_big.FontDescription = Pango.FontDescription.FromString ("Courier 12");
+		layout_force_ai_text_big.FontDescription = Pango.FontDescription.FromString (preferences.GetFontTypeWithSize(12));
 	}
 
 	private void forcePaintAnalyzeGeneralTimeValue(int time, bool solid)

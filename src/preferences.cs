@@ -43,6 +43,10 @@ public class Preferences
 	public enum FontTypes { Courier, Helvetica};
 	public FontTypes fontType;
 
+	public string GetFontTypeWithSize(int size) {
+		return string.Format("{0} {1}", fontType, size);
+	}
+
 	public bool loadLastSessionAtStart;
 	public int lastSessionID;
 	public bool loadLastModeAtStart;

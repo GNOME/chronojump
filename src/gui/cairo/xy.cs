@@ -99,11 +99,14 @@ public abstract class CairoXY
 	protected string tcStr = Catalog.GetString("TC");
 	protected string countStr = Catalog.GetString("Num");
 	protected string jumpTypeStr = Catalog.GetString("Jump type:");
+	protected string font;
 
 	public abstract void Do();
 
-	protected void initGraph()
+	protected void initGraph(string font)
 	{
+		this.font = font;
+
 		totalMargins = outerMargins + innerMargins;
 
 		//1 create context
@@ -120,7 +123,7 @@ public abstract class CairoXY
 		g.LineWidth = 2;
 
 		//4 prepare font
-		g.SelectFontFace("Helvetica", Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
+		g.SelectFontFace(font, Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
 		g.SetFontSize(textHeight);
 
 		black = colorFromRGB(0,0,0);
@@ -473,12 +476,12 @@ public abstract class CairoXY
 	protected void writeTextAtRight(double line, string text, bool bold)
 	{
 		if(bold)
-			g.SelectFontFace("Helvetica", Cairo.FontSlant.Normal, Cairo.FontWeight.Bold);
+			g.SelectFontFace(font, Cairo.FontSlant.Normal, Cairo.FontWeight.Bold);
 
 		printText(graphWidth, Convert.ToInt32(graphHeight/2 + textHeight*2*line), 0, textHeight, text, g, alignTypes.LEFT);
 
 		if(bold)
-			g.SelectFontFace("Helvetica", Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
+			g.SelectFontFace(font, Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
 	}
 
 	protected void writeCoordinatesOfMouseClick(double graphX, double graphY, double realX, double realY)

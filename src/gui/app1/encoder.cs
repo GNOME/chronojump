@@ -5901,7 +5901,7 @@ public partial class ChronoJumpWindow
 			UtilGtk.ErasePaint(encoder_capture_signal_drawingarea, encoder_capture_signal_pixmap);
 
 		layout_encoder_capture_signal = new Pango.Layout (encoder_capture_signal_drawingarea.PangoContext);
-		layout_encoder_capture_signal.FontDescription = Pango.FontDescription.FromString ("Courier 10");
+		layout_encoder_capture_signal.FontDescription = Pango.FontDescription.FromString (preferences.GetFontTypeWithSize(10));
 
 		pen_black_encoder_signal = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
 		pen_blue_encoder_signal = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);

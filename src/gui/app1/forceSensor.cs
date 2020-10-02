@@ -200,7 +200,7 @@ public partial class ChronoJumpWindow
 		pen_gray_force_capture.SetLineAttributes (1, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
 
 		layout_force_text = new Pango.Layout (force_capture_drawingarea.PangoContext);
-		layout_force_text.FontDescription = Pango.FontDescription.FromString ("Courier 10");
+		layout_force_text.FontDescription = Pango.FontDescription.FromString (preferences.GetFontTypeWithSize(10));
 	}
 
 

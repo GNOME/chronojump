@@ -38,12 +38,12 @@ public class JumpsWeightFVProfileGraph : CairoXY
 	private ErrorAtStart errorMessage;
 
 	//constructor when there are no points
-	public JumpsWeightFVProfileGraph (DrawingArea area, ErrorAtStart errorMessage)//, string title, string jumpType, string date)
+	public JumpsWeightFVProfileGraph (DrawingArea area, ErrorAtStart errorMessage, string font)//, string title, string jumpType, string date)
 	{
 		this.area = area;
 		this.errorMessage = errorMessage;
 
-		initGraph();
+		initGraph(font);
 
 		plotError();
 
@@ -126,7 +126,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 	public override void Do()
 	{
 		LogB.Information("at JumpsWeightFVProfileGraph.Do");
-		initGraph();
+		initGraph(font);
 
 		if(showFullGraph)
 			findPointMaximums(true);

@@ -83,7 +83,7 @@ public partial class ChronoJumpWindow
 		if(jumpsDjOptimalFall.Point_l.Count == 0)
 		{
 			//constructor for showing blank screen with a message
-			new JumpsDjOptimalFallGraph(drawingarea_jumps_dj_optimal_fall, jumpType);
+			new JumpsDjOptimalFallGraph(drawingarea_jumps_dj_optimal_fall, jumpType, preferences.fontType.ToString());
 					//currentPerson.Name, jumpType, currentSession.DateShort);
 
 			button_jumps_dj_optimal_fall_save_image.Sensitive = false;

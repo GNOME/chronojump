@@ -915,13 +915,6 @@ public class EncoderGraphDoPlot
 				Util.TrimDecimals( (sumSaved / countSaved), decimals) + 
 				" " + units;
 
-		//work
-		title += "; " + Catalog.GetString("Work") + ": " + Util.TrimDecimals(workTotal, decimals);
-		if(preferences.encoderWorkKcal)
-			title += " Kcal";
-		else
-			title += " J";
-
 		string lossString = "";
 
 		//do not show lossString on Preferences.EncoderPhasesEnum.ECC
@@ -940,14 +933,23 @@ public class EncoderGraphDoPlot
 			}
 		}
 
+		//work
+		string workString = "]    " + Catalog.GetString("Work") + ": " + Util.TrimDecimals(workTotal, decimals);
+		if(preferences.encoderWorkKcal)
+			workString += " Kcal";
+		else
+			workString += " J";
+
 		//have title and titleFull to be able to position all perfectly but having two pens (colors)
-		string titleFull = title + lossString + "]";
+		string titleFull = title + lossString + workString;
+
 
 		// 1) get the width of titleFull, title, lossString
 		textHeight = 1;
 		int titleFullWidth = 1;
 		int titleWidth = 1;
 		int lossStringWidth = 1;
+		int workStringWidth = 1;
 
 		layout_encoder_capture_curves_bars_text.SetMarkup(titleFull);
 		layout_encoder_capture_curves_bars_text.GetPixelSize(out titleFullWidth, out textHeight);
@@ -979,6 +981,7 @@ public class EncoderGraphDoPlot
 		layout_encoder_capture_curves_bars_text.GetPixelSize(out titleWidth, out textHeight);
 		layout_encoder_capture_curves_bars_text.SetMarkup(lossString);
 		layout_encoder_capture_curves_bars_text.GetPixelSize(out lossStringWidth, out textHeight);
+		layout_encoder_capture_curves_bars_text.GetPixelSize(out workStringWidth, out textHeight);
 
 		// 3) paint only title text (with black pen)
 		layout_encoder_capture_curves_bars_text.SetMarkup(title);
@@ -992,8 +995,8 @@ public class EncoderGraphDoPlot
 				Convert.ToInt32( (graphWidth/2) - titleFullWidth/2 + titleWidth), 0, //x, y
 				layout_encoder_capture_curves_bars_text);
 
-		// 5) paint the "]";
-		layout_encoder_capture_curves_bars_text.SetMarkup("]");
+		// 5) paint workString;
+		layout_encoder_capture_curves_bars_text.SetMarkup(workString);
 		pixmap.DrawLayout (pen_black_encoder_capture,
 				Convert.ToInt32( (graphWidth/2) - titleFullWidth/2 + titleWidth + lossStringWidth), 0, //x, y
 				layout_encoder_capture_curves_bars_text);

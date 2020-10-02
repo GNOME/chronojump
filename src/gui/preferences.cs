@@ -71,6 +71,8 @@ public class PreferencesWindow
 	[Widget] Gtk.CheckButton check_appearance_person_photo;
 	[Widget] Gtk.Alignment alignment_undecorated;
 	[Widget] Gtk.Label label_recommended_undecorated;
+	[Widget] Gtk.RadioButton radio_font_courier;
+	[Widget] Gtk.RadioButton radio_font_helvetica;
 
 	[Widget] Gtk.RadioButton radio_color_custom;
 	[Widget] Gtk.RadioButton radio_color_chronojump_blue;
@@ -402,6 +404,11 @@ public class PreferencesWindow
 			PreferencesWindowBox.check_mode_autoload_at_start.Active = true;
 		else
 			PreferencesWindowBox.check_mode_autoload_at_start.Active = false;
+
+		if(preferences.fontType == Preferences.FontTypes.Courier)
+			PreferencesWindowBox.radio_font_courier.Active = true;
+		else
+			PreferencesWindowBox.radio_font_helvetica.Active = true;
 
 		//multimedia tab
 		if(preferences.volumeOn)  
@@ -1728,6 +1735,17 @@ public class PreferencesWindow
 				SqlitePreferences.LoadLastModeAtStart, preferences.loadLastModeAtStart,
 				PreferencesWindowBox.check_mode_autoload_at_start.Active);
 
+
+		if(preferences.fontType == Preferences.FontTypes.Courier && radio_font_helvetica.Active)
+		{
+			SqlitePreferences.Update(SqlitePreferences.FontsOnGraphs, Preferences.FontTypes.Helvetica.ToString(), true);
+			preferences.fontType = Preferences.FontTypes.Helvetica;
+		}
+		else if(preferences.fontType == Preferences.FontTypes.Helvetica && radio_font_courier.Active)
+		{
+			SqlitePreferences.Update(SqlitePreferences.FontsOnGraphs, Preferences.FontTypes.Courier.ToString(), true);
+			preferences.fontType = Preferences.FontTypes.Courier;
+		}
 
 		if( preferences.digitsNumber != Convert.ToInt32(UtilGtk.ComboGetActive(combo_decimals)) ) {
 			SqlitePreferences.Update("digitsNumber", UtilGtk.ComboGetActive(combo_decimals), true);

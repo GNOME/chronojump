@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.98";
+	static string lastChronojumpDatabaseVersion = "1.99";
 
 	public Sqlite()
 	{
@@ -2755,6 +2755,14 @@ class Sqlite
 				SqlitePreferences.Insert (SqlitePreferences.ColorBackgroundOsColor, "False");
 				currentVersion = updateVersion("1.98");
 			}
+			if(currentVersion == "1.98")
+			{
+				LogB.SQL("Updated 3L3R tracks fixedValue (just affected description)");
+				Update(true, Constants.RunIntervalTypeTable, "fixedValue",
+						"", "2",
+						"name", "Agility-3L3R");
+				currentVersion = updateVersion("1.99");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -2970,6 +2978,7 @@ class Sqlite
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
 
+		//1.98 - 1.99 Converted DB to 1.99 Updated 3L3R tracks fixedValue (just affected description)
 		//1.97 - 1.98 Converted DB to 1.98 Inserted into preferences: colorBackgroundOsColor
 		//1.96 - 1.97 Converted DB to 1.97 Inserted into preferences: loadLastSessionAtStart, lastSessionID, loadLastModAtStart, lastMode
 		//1.95 - 1.96 Converted DB to 1.96 Inserted into preferences: jumpsFVProfileOnlyBestInWeight, jumpsFVProfileShowFullGraph, jumpsEvolutionOnlyBestInSession
@@ -3947,6 +3956,7 @@ LogB.SQL("5" + tableName);
 	}
 
 	//if we want to use the condition2 but not the searchValue, leave this as ""
+	//note that eg. newValue could be an int or others
 	public static void Update(
 			bool dbconOpened, string tableName, string columnName, 
 			string searchValue, string newValue, 

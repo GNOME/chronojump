@@ -831,7 +831,7 @@ public class EncoderGraphDoPlot
 			//work
 			if(iterOk) {
 				if(preferences.encoderWorkKcal)
-					workTotal += ((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).WorkKcalD * 1000; //in cal
+					workTotal += ((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).WorkKcalD;
 				else
 					workTotal += ((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).WorkJD;
 			}
@@ -918,7 +918,7 @@ public class EncoderGraphDoPlot
 		//work
 		title += "; " + Catalog.GetString("Work") + ": " + Util.TrimDecimals(workTotal, decimals);
 		if(preferences.encoderWorkKcal)
-			title += " Cal"; //show total work in cal
+			title += " Kcal";
 		else
 			title += " J";
 

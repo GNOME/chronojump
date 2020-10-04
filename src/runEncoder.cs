@@ -249,6 +249,8 @@ public class RunEncoderExercise
 	private int uniqueID;
 	private string name;
 	private string description;
+	private int segmentMeters;
+	public static int SegmentMetersDefault = 5;
 
 	public RunEncoderExercise()
 	{
@@ -259,16 +261,17 @@ public class RunEncoderExercise
 		this.name = name;
 	}
 
-	public RunEncoderExercise(int uniqueID, string name, string description)
+	public RunEncoderExercise(int uniqueID, string name, string description, int segmentMeters)
 	{
 		this.uniqueID = uniqueID;
 		this.name = name;
 		this.description = description;
+		this.segmentMeters = segmentMeters;
 	}
 
 	public override string ToString()
 	{
-		return uniqueID.ToString() + ":" + name + ":" + description + ":";
+		return string.Format("{0}:{1}:{2}:{3}", uniqueID, name, description, segmentMeters);
 	}
 
 	public int UniqueID
@@ -282,6 +285,10 @@ public class RunEncoderExercise
 	public string Description
 	{
 		get { return description; }
+	}
+	public int SegmentMeters
+	{
+		get { return segmentMeters; }
 	}
 }
 

@@ -988,6 +988,7 @@ public partial class ChronoJumpWindow
 				currentPersonSession.Height,
 				race_analyzer_temperature,
 				race_analyzer_device,
+				currentRunEncoderExercise, //TODO: do not let capture if there's no exercise
 				title,
 				currentRunEncoder.DateTimePublic,
 				preferences.runEncoderMinAccel,
@@ -1388,6 +1389,7 @@ public partial class ChronoJumpWindow
 
 		ArrayList a1 = new ArrayList();
 		ArrayList a2 = new ArrayList();
+		ArrayList a3 = new ArrayList();
 
 		//0 is the widgget to show; 1 is the editable; 2 id default value
 		a1.Add(Constants.GenericWindowShow.ENTRY); a1.Add(true); a1.Add(ex.Name);
@@ -1395,6 +1397,9 @@ public partial class ChronoJumpWindow
 
 		a2.Add(Constants.GenericWindowShow.ENTRY2); a2.Add(true); a2.Add(ex.Description);
 		bigArray.Add(a2);
+
+		a3.Add(Constants.GenericWindowShow.SPININT2); a3.Add(true); a3.Add("");
+		bigArray.Add(a3);
 
 		genericWin = GenericWindow.Show(Catalog.GetString("Exercise"), false,	//don't show now
 				Catalog.GetString("Force sensor exercise:"), bigArray);
@@ -1404,6 +1409,9 @@ public partial class ChronoJumpWindow
 		genericWin.HideOnAccept = false;
 
 		genericWin.uniqueID = ex.UniqueID;
+		genericWin.LabelSpinInt2 = "Segments size (m)";
+		genericWin.SetSpin2Range(1, 30);
+		genericWin.SetSpin2Value(ex.SegmentMeters);
 
 		genericWin.Button_accept.Clicked -= new EventHandler(on_button_run_encoder_exercise_edit_accepted);
 		genericWin.Button_accept.Clicked += new EventHandler(on_button_run_encoder_exercise_edit_accepted);
@@ -1416,6 +1424,7 @@ public partial class ChronoJumpWindow
 
 		ArrayList a1 = new ArrayList();
 		ArrayList a2 = new ArrayList();
+		ArrayList a3 = new ArrayList();
 
 		//0 is the widgget to show; 1 is the editable; 2 id default value
 		a1.Add(Constants.GenericWindowShow.ENTRY); a1.Add(true); a1.Add("");
@@ -1424,12 +1433,19 @@ public partial class ChronoJumpWindow
 		a2.Add(Constants.GenericWindowShow.ENTRY2); a2.Add(true); a2.Add("");
 		bigArray.Add(a2);
 
+		a3.Add(Constants.GenericWindowShow.SPININT2); a3.Add(true); a3.Add("");
+		bigArray.Add(a3);
+
 		genericWin = GenericWindow.Show(Catalog.GetString("Exercise"), false,	//don't show now
 				Catalog.GetString("Write the name of the exercise:"), bigArray);
 		genericWin.LabelEntry2 = Catalog.GetString("Description");
 
 		genericWin.SetButtonAcceptLabel(Catalog.GetString("Add"));
 		genericWin.HideOnAccept = false;
+
+		genericWin.LabelSpinInt2 = "Segments size (m)";
+		genericWin.SetSpin2Range(1, 30);
+		genericWin.SetSpin2Value(RunEncoderExercise.SegmentMetersDefault);
 
 		genericWin.Button_accept.Clicked -= new EventHandler(on_button_run_encoder_exercise_add_accepted);
 		genericWin.Button_accept.Clicked += new EventHandler(on_button_run_encoder_exercise_add_accepted);
@@ -1488,9 +1504,12 @@ public partial class ChronoJumpWindow
 		}
 
 		if(adding)
-			SqliteRunEncoderExercise.Insert(false, -1, name, genericWin.Entry2Selected);
+			SqliteRunEncoderExercise.Insert(false, -1, name,
+					genericWin.Entry2Selected, genericWin.SpinInt2Selected);
 		else {
-			RunEncoderExercise ex = new RunEncoderExercise(genericWin.uniqueID, name, genericWin.Entry2Selected);
+			RunEncoderExercise ex = new RunEncoderExercise(genericWin.uniqueID, name,
+					genericWin.Entry2Selected, genericWin.SpinInt2Selected);
+
 			SqliteRunEncoderExercise.Update(false, ex);
 		}
 

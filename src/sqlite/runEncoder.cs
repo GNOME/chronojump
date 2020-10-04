@@ -328,7 +328,7 @@ class SqliteRunEncoder : Sqlite
 
 		//need to create an exercise to assign to the imported files
 		if(importedSomething)
-			SqliteRunEncoderExercise.Insert(true, 0, "Sprint", "");
+			SqliteRunEncoderExercise.Insert(true, 0, "Sprint", "", RunEncoderExercise.SegmentMetersDefault);
 
 		LogB.Information("end of import_from_1_70_to_1_71()");
 		//LogB.PrintAllThreads = false; //TODO: remove this
@@ -355,14 +355,15 @@ class SqliteRunEncoderExercise : Sqlite
 			"CREATE TABLE " + table + " ( " +
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"name TEXT, " +
-			"description TEXT)";
+			"description TEXT, " +
+			"segmentMeters INT)";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}
 
 	//undefined defaultAngle will be 1000
 	//note execution can have a different angle than the default angle
-	public static int Insert (bool dbconOpened, int uniqueID, string name, string description)
+	public static int Insert (bool dbconOpened, int uniqueID, string name, string description, int segmentMeters)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -372,8 +373,8 @@ class SqliteRunEncoderExercise : Sqlite
 			uniqueIDStr = uniqueID.ToString();
 
 		dbcmd.CommandText = "INSERT INTO " + table +
-				" (uniqueID, name, description) VALUES (" +
-				uniqueIDStr + ", \"" + name + "\", \"" + description + "\")";
+				" (uniqueID, name, description, segmentMeters) VALUES (" +
+				uniqueIDStr + ", \"" + name + "\", \"" + description + "\", " + segmentMeters + ")";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -401,7 +402,8 @@ class SqliteRunEncoderExercise : Sqlite
 		dbcmd.CommandText = "UPDATE " + table + " SET " +
 			" name = \"" + ex.Name +
 			"\", description = \"" + ex.Description +
-			"\" WHERE uniqueID = " + ex.UniqueID;
+			"\", segmentMeters = " + ex.SegmentMeters +
+			" WHERE uniqueID = " + ex.UniqueID;
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -458,7 +460,8 @@ class SqliteRunEncoderExercise : Sqlite
 				ex = new RunEncoderExercise (
 						Convert.ToInt32(reader[0].ToString()),	//uniqueID
 						reader[1].ToString(),			//name
-						reader[2].ToString()			//description
+						reader[2].ToString(),			//description
+						Convert.ToInt32(reader[3].ToString())	//segmentMeters
 						);
 				array.Add(ex);
 			}

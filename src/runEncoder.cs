@@ -299,6 +299,7 @@ public class RunEncoderGraph
 	private double personHeight;
 	private double tempC;
 	private RunEncoder.Devices device;
+	private RunEncoderExercise rex;
 	private string title;
 	private string datetime;
 	private double startAccel;
@@ -311,6 +312,7 @@ public class RunEncoderGraph
 	private TriggerList triggerList;
 
 	public RunEncoderGraph(int testLength, double mass, double personHeight, double tempC, RunEncoder.Devices device,
+			RunEncoderExercise rex,
 			string title, string datetime, double startAccel,
 			bool plotRawAccel, bool plotFittedAccel,
 			bool plotRawForce, bool plotFittedForce,
@@ -322,6 +324,7 @@ public class RunEncoderGraph
 		this.personHeight = personHeight;
 		this.tempC = tempC;
 		this.device = device;
+		this.rex = rex;
 		this.title = title;
 		this.datetime = datetime;
 		this.startAccel = startAccel;
@@ -361,6 +364,7 @@ public class RunEncoderGraph
 			"#graphWidth\n" + 		graphWidth.ToString() + "\n" +
 			"#graphHeight\n" + 		graphHeight.ToString() + "\n" +
 			"#device\n" + 			device.ToString() + "\n" +
+			"#segmentMeters\n" + 		rex.SegmentMeters + "\n" +
 			"#title\n" + 			title + "\n" +
 			"#datetime\n" + 		datetime + "\n" +
 			"#startAccel\n" + 		Util.ConvertToPoint(startAccel) + "\n" +

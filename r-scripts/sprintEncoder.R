@@ -46,17 +46,18 @@ assignOptions <- function(options) {
                 graphWidth 	= as.numeric(options[8]),
                 graphHeight	= as.numeric(options[9]),
                 device  	= options[10],
-                title 	 	= options[11],
-                datetime 	= options[12],
-                startAccel 	= options[13],
-                plotRawAccel 	= as.logical(options[14]),
-                plotFittedAccel = as.logical(options[15]),
-                plotRawForce 	= as.logical(options[16]),
-                plotFittedForce = as.logical(options[17]),
-                plotRawPower 	= as.logical(options[18]),
-                plotFittedPower = as.logical(options[19]),
-		triggersOnList  = as.numeric(unlist(strsplit(options[20], "\\;"))),
-		triggersOffList  = as.numeric(unlist(strsplit(options[21], "\\;")))
+		segmentMeters	= as.numeric(options[11]),
+                title 	 	= options[12],
+                datetime 	= options[13],
+                startAccel 	= options[14],
+                plotRawAccel 	= as.logical(options[15]),
+                plotFittedAccel = as.logical(options[16]),
+                plotRawForce 	= as.logical(options[17]),
+                plotFittedForce = as.logical(options[18]),
+                plotRawPower 	= as.logical(options[19]),
+                plotFittedPower = as.logical(options[20]),
+		triggersOnList  = as.numeric(unlist(strsplit(options[21], "\\;"))),
+		triggersOffList  = as.numeric(unlist(strsplit(options[22], "\\;")))
         ))
 }
 
@@ -234,6 +235,7 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
 }
 
 plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
+				  segmentMeters,
 				  title = "Test graph",
 				  subtitle = "",
 				  triggersOn = "",
@@ -313,8 +315,8 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
         #Plotting rawSpeed
         ylimits = c(0, sprintRawDynamics$rawVmax*1.05)
         xlimits =c(0, sprintRawDynamics$time[sprintRawDynamics$endSample])
-        #Calculing 5m lap times, this will be configurable as an exercise
-	segmentMeters = 5
+
+	#Calculing 5m lap times, this ca be configured as an exercise
         splitPosition = min(sprintRawDynamics$testLength, segmentMeters)
         splitTime = interpolateXAtY(sprintRawDynamics$time[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
                                   sprintRawDynamics$rawPosition[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
@@ -685,6 +687,7 @@ testEncoderCJ <- function(filename, testLength, mass, personHeight, tempC, start
                 sprintFittedDynamics = getDynamicsFromSprint(K = sprintRawDynamics$K, Vmax = sprintRawDynamics$Vmax, mass, tempC, personHeight)
                 print(paste("K =",sprintFittedDynamics$K.fitted, "Vmax =", sprintFittedDynamics$Vmax.fitted))
                 plotSprintFromEncoder(sprintRawDynamic = sprintRawDynamics, sprintFittedDynamics = sprintFittedDynamics,
+				      segmentMeters = op$segmentMeters,
                                       title = op$title,
                                       subtitle = op$datetime,
 				      triggersOn = op$triggersOnList,

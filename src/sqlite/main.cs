@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.00";
+	static string lastChronojumpDatabaseVersion = "2.01";
 
 	public Sqlite()
 	{
@@ -2770,6 +2770,20 @@ class Sqlite
 				SqlitePreferences.Insert (SqlitePreferences.FontsOnGraphs, Preferences.FontTypes.Helvetica.ToString());
 
 				currentVersion = updateVersion("2.00");
+			}
+			if(currentVersion == "2.00")
+			{
+				LogB.SQL("RunEncoderExercise ALTER TABLE: added column segmentMeters");
+				try {
+					//sqlite does not have drop column
+					executeSQL("ALTER TABLE " + Constants.RunEncoderExerciseTable + " ADD COLUMN segmentMeters INT DEFAULT 5;");
+				} catch {
+					LogB.SQL("Catched. ");
+
+				}
+				LogB.SQL("Done!");
+
+				currentVersion = updateVersion("2.01");
 			}
 
 			/*

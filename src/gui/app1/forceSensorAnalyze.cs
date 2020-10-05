@@ -1234,7 +1234,7 @@ public partial class ChronoJumpWindow
 			// paint vertical line for each rep
 			if(sampleStart >= 0) {
 				xposRepStart = fsAI.GetXFromSampleCount(sampleStart);
-				//no need to graph two green lines together ir rep starts just on previous rep ends
+				//no need to graph two green lines together if rep starts just on previous rep ends
 				if(xposRepStart > xposRepEnd)
 					force_sensor_ai_pixmap.DrawLine(pen_green_force_ai,
 							xposRepStart, textHeight +6, xposRepStart, allocation.Height - textHeight -6);
@@ -1264,11 +1264,18 @@ public partial class ChronoJumpWindow
 				}
 			}
 		}
-		//show the number of last repetition (when obviously no new rep will make writting it)
+		//show the start vertical line and the number of last repetition (when obviously no new rep will make writting it)
 		//but only if zoomed and that repetition exists (has an end)
-		if(xposRepEnd - xposRepStart > 30)
-			if(forceSensorZoomApplied && j >= 0 && j < reps_l.Count) // write last repetition count
+		if(forceSensorZoomApplied && j >= 0 && j < reps_l.Count)
+		{
+			//write the vertical start line
+			force_sensor_ai_pixmap.DrawLine(pen_green_force_ai,
+					xposRepStart, textHeight +6, xposRepStart, allocation.Height - textHeight -6);
+
+			//write last repetition count
+			if(xposRepEnd - xposRepStart > 30)
 				forceSensorWriteRepetitionCode (j, reps_l[j].TypeShort(), xposRepStart, xposRepEnd, true, false);
+		}
 
 
 		/*

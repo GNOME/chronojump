@@ -3206,7 +3206,11 @@ public partial class ChronoJumpWindow
 			//on force sensor only show table
 			notebook_capture_graph_table.CurrentPage = 1; //"Show table"
 			notebook_capture_graph_table.ShowTabs = false;
-			setLabelContactsExerciseSelected(m);
+
+			//setLabelContactsExerciseSelected(m);
+			//better use the followin so we will have the Elastic/not elastic display on mode change
+			on_combo_force_sensor_exercise_changed (new object(), new EventArgs ());
+			setLabelContactsExerciseSelectedOptionsForceSensor();
 
 			pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "force_sensor_icon.png");
 			pixbufModeGrid = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_force.png");

@@ -2611,7 +2611,12 @@ LogB.Information(" fs R ");
 			changeTestImage("", "", "FORCESENSOR_NOT_ELASTIC");
 			image_button_force_sensor_stiffness_problem.Visible = false;
 		}
-		setLabelContactsExerciseSelected(Catalog.GetString(fse.Name));
+
+		string isElasticStr = " (" + Catalog.GetString("Elastic") + ")";
+		if(! fse.ComputeAsElastic)
+			isElasticStr = " (" + Catalog.GetString("Not elastic") + ")";
+
+		setLabelContactsExerciseSelected(Catalog.GetString(fse.Name) + isElasticStr);
 		combo_force_sensor_button_sensitive_exercise(true);
 	}
 
@@ -2825,6 +2830,11 @@ LogB.Information(" fs R ");
 		combo_force_sensor_capture_options.Active = UtilGtk.ComboMakeActive(
 				combo_force_sensor_capture_options,
 				Catalog.GetString(ForceSensor.GetCaptureOptionsString(co)));
+	}
+
+	private void on_radio_force_sensor_laterality_toggled (object o, EventArgs args)
+	{
+		setLabelContactsExerciseSelectedOptionsForceSensor();
 	}
 
 	private string getLaterality(bool translated)

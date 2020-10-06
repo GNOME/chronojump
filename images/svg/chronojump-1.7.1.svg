@@ -4188,8 +4188,8 @@
      showgrid="false"
      inkscape:current-layer="layer1"
      inkscape:document-units="pc"
-     inkscape:cy="-2077.527"
-     inkscape:cx="1830.1547"
+     inkscape:cy="-2044.697"
+     inkscape:cx="1807.1737"
      inkscape:zoom="1.2183986"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0"
@@ -12771,7 +12771,10 @@
     </g>
     <g
        id="g3245"
-       transform="translate(84.227731,1.9479312)">
+       transform="translate(84.227731,1.9479312)"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/selector-other.png"
+       inkscape:export-xdpi="100.12"
+       inkscape:export-ydpi="100.12">
       <rect
          inkscape:export-ydpi="108"
          inkscape:export-xdpi="108"
@@ -12846,7 +12849,7 @@
          id="tspan5919-4-9-9-2-2-0-8-9"
          x="628.26904"
          y="-110.93064"
-         style="font-size:6.35px;stroke-width:0.264583px">selector-other.png  222x177</tspan><tspan
+         style="font-size:6.35px;stroke-width:0.264583px">selector-other.png  222x17</tspan><tspan
          sodipodi:role="line"
          x="628.26904"
          y="-100.86271"

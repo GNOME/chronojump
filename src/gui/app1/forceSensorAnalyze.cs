@@ -1561,9 +1561,44 @@ public partial class ChronoJumpWindow
 	{
 		hscale_force_sensor_ai_b.Value += 1;
 	}
+
 	private void on_button_hscale_force_sensor_ai_b_last_clicked (object o, EventArgs args)
 	{
 		hscale_force_sensor_ai_b.Value = fsAI.GetLength() -2;
+	}
+
+	private void on_button_hscale_force_sensor_ai_b_pre_1s_clicked (object o, EventArgs args)
+	{
+		if(fsAI == null || fsAI.GetLength() == 0)
+			return;
+
+		int startB = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+		double startBMs = fsAI.GetTimeMS(startB);
+		for(int i = startB; i > 0; i --)
+		{
+			if(startBMs - fsAI.GetTimeMS(i) >= 1000)
+			{
+				hscale_force_sensor_ai_b.Value += i - startB;
+				return;
+			}
+		}
+	}
+
+	private void on_button_hscale_force_sensor_ai_b_post_1s_clicked (object o, EventArgs args)
+	{
+		if(fsAI == null || fsAI.GetLength() == 0)
+			return;
+
+		int startB = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+		double startBMs = fsAI.GetTimeMS(startB);
+		for(int i = startB; i < fsAI.GetLength() -1; i ++)
+		{
+			if(fsAI.GetTimeMS(i) - startBMs >= 1000)
+			{
+				hscale_force_sensor_ai_b.Value += i - startB;
+				return;
+			}
+		}
 	}
 
 	private void manage_force_sensor_ai_table_visibilities()

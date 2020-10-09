@@ -61,7 +61,7 @@ public class JumpsEvolutionGraph : CairoXY
 		yUnits = "cm";
 	}
 
-	public override void Do()
+	public override void Do (string font)
 	{
 		LogB.Information("at JumpsEvolutionGraph.Do");
 		initGraph(font);

@@ -101,11 +101,12 @@ public abstract class CairoXY
 	protected string jumpTypeStr = Catalog.GetString("Jump type:");
 	protected string font;
 
-	public abstract void Do();
+	public abstract void Do(string font);
 
 	protected void initGraph(string font)
 	{
 		this.font = font;
+		LogB.Information("Font: " + font);
 
 		totalMargins = outerMargins + innerMargins;
 

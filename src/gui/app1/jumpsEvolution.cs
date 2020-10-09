@@ -105,7 +105,7 @@ public partial class ChronoJumpWindow
 					jumpsEvolution.Intercept,
 					drawingarea_jumps_evolution,
 					currentPerson.Name, jumpType, currentSession.DateShort);
-			jumpsEvolutionGraph.Do();
+			jumpsEvolutionGraph.Do(preferences.fontType.ToString());
 
 			button_jumps_evolution_save_image.Sensitive = true;
 		}
@@ -129,7 +129,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("Button press done!");
 
 		//redo the graph to delete previous rectangles of previous mouse clicks
-		jumpsEvolutionGraph.Do();
+		jumpsEvolutionGraph.Do(preferences.fontType.ToString());
 		LogB.Information(string.Format("Mouse X: {0}; Mouse Y: {1}", args.Event.X, args.Event.Y));
 		jumpsEvolutionGraph.CalculateAndWriteRealXY(args.Event.X, args.Event.Y);
 	}

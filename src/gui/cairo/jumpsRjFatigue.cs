@@ -69,7 +69,7 @@ public class JumpsRjFatigueGraph : CairoXY
 		}
 	}
 
-	public override void Do()
+	public override void Do(string font)
 	{
 		LogB.Information("at JumpsRjFatigueGraph.Do");
 		initGraph(font);

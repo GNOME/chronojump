@@ -191,7 +191,7 @@ public partial class ChronoJumpWindow
 					jumpDateStr,
 					radio_jumps_rj_fatigue_heights.Active,
 					divideIn);
-			jumpsRjFatigueGraph.Do();
+			jumpsRjFatigueGraph.Do(preferences.fontType.ToString());
 
 			button_jumps_rj_fatigue_save_image.Sensitive = true;
 		}
@@ -218,7 +218,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("Button press done!");
 
 		//redo the graph to delete previous rectangles of previous mouse clicks
-		jumpsRjFatigueGraph.Do();
+		jumpsRjFatigueGraph.Do(preferences.fontType.ToString());
 		LogB.Information(string.Format("Mouse X: {0}; Mouse Y: {1}", args.Event.X, args.Event.Y));
 		jumpsRjFatigueGraph.CalculateAndWriteRealXY(args.Event.X, args.Event.Y);
 	}

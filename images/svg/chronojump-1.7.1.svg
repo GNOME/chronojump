@@ -4369,9 +4369,9 @@
      showgrid="false"
      inkscape:current-layer="layer1"
      inkscape:document-units="pc"
-     inkscape:cy="-2787.3837"
-     inkscape:cx="2166.1834"
-     inkscape:zoom="0.28001809"
+     inkscape:cy="-2175.7886"
+     inkscape:cx="3330.8819"
+     inkscape:zoom="0.56003618"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0"
      borderopacity="1.0"
@@ -13732,6 +13732,108 @@
        height="149.12607"
        x="575.67371"
        y="-361.88751" />
+    <g
+       id="g13411-3"
+       transform="translate(415.89073,-588.81995)"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/web-selector-race-analyzer.png"
+       inkscape:export-xdpi="146.12"
+       inkscape:export-ydpi="146.12">
+      <path
+         id="rect96-2-0-6-7-0-3-1-1-1-1-0-6"
+         d="m 643.11749,295.32666 c -1.57176,0 -2.83705,1.33789 -2.83705,2.99984 v 19.64934 L 696.60052,305.742 v -7.4155 c 0,-1.66195 -1.26526,-2.99984 -2.83702,-2.99984 z m 53.48303,25.44194 -45.54347,19.30016 h 42.70645 c 1.57176,0 2.83702,-1.3379 2.83702,-2.99985 z"
+         style="opacity:1;fill:#fecb2f;fill-opacity:1;stroke:none;stroke-width:1.357;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         inkscape:connector-curvature="0" />
+      <path
+         id="path22387-7-4-4-7"
+         d="m 668.81344,310.84979 c 0.96177,0 1.74867,-0.7869 1.74867,-1.74867 0,-0.96177 -0.7869,-1.74865 -1.74867,-1.74865 -0.96176,0 -1.74866,0.78689 -1.74866,1.74865 0,0.96177 0.7869,1.74867 1.74866,1.74867 z m -3.14759,12.15318 0.87433,-3.84704 1.8361,1.74865 v 5.24597 h 1.74866 v -6.55747 l -1.8361,-1.74866 0.5246,-2.623 c 1.13663,1.3115 2.88529,2.18584 4.80882,2.18584 v -1.74868 c -1.66123,0 -3.06015,-0.87432 -3.75963,-2.09839 l -0.87432,-1.39891 c -0.34973,-0.5246 -0.87433,-0.87434 -1.48637,-0.87434 -0.2623,0 -0.43716,0.0874 -0.69946,0.0874 l -4.54652,1.92351 v 4.10938 h 1.74865 v -2.97274 l 1.5738,-0.61203 -1.39892,7.08207 -4.28422,-0.87432 -0.34974,1.74866 z"
+         inkscape:connector-curvature="0"
+         style="fill:#0e1e46;fill-opacity:1;stroke-width:0.529167" />
+      <path
+         sodipodi:nodetypes="ccccc"
+         inkscape:connector-curvature="0"
+         id="path13289-8-5"
+         d="m 640.31247,324.57315 26.59726,-7.45299 0.16533,0.63102 -26.76259,7.40473 z"
+         style="fill:#fecb2f;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:7.7611px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="1038.4373"
+       y="-240.50002"
+       id="text5921-0-0-1-6-51-9-2-7-3"
+       transform="scale(1.0053982,0.99463078)"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/gui2-blau-chronojump-prova4.png"
+       inkscape:export-xdpi="108"
+       inkscape:export-ydpi="108"><tspan
+         sodipodi:role="line"
+         x="1038.4373"
+         y="-240.50002"
+         style="font-size:6.35px;stroke-width:0.264583px"
+         id="tspan3186">web-selector-race-analyzer.png</tspan><tspan
+         sodipodi:role="line"
+         x="1038.4373"
+         y="-230.43208"
+         style="font-size:6.35px;stroke-width:0.264583px"
+         id="tspan3103-6">324x259</tspan><tspan
+         sodipodi:role="line"
+         x="1038.4373"
+         y="-220.36415"
+         style="font-size:6.35px;stroke-width:0.264583px"
+         id="tspan3265-2">(for website)</tspan></text>
+    <g
+       transform="translate(725.64473,-228.50221)"
+       id="g13330-2-9"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/web-selector-races-photocells.png"
+       inkscape:export-xdpi="146.12"
+       inkscape:export-ydpi="146.12">
+      <path
+         id="rect96-2-0-6-7-0-3-1-1-1-9-1"
+         d="m 431.81244,-59.75236 c -1.57176,0 -2.83705,1.33789 -2.83705,2.99984 v 19.64934 l 56.32008,-12.23384 v -7.4155 c 0,-1.66195 -1.26526,-2.99984 -2.83702,-2.99984 z m 53.48303,25.44193 -45.54347,19.30017 h 42.70645 c 1.57176,0 2.83702,-1.3379 2.83702,-2.99985 z"
+         style="opacity:1;fill:#fecb2f;fill-opacity:1;stroke:none;stroke-width:1.357;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         inkscape:connector-curvature="0" />
+      <path
+         id="path22387-7-0-2"
+         d="m 451.4834,-44.784691 c 0.96177,0 1.74867,-0.78689 1.74867,-1.74867 0,-0.96176 -0.7869,-1.74865 -1.74867,-1.74865 -0.96176,0 -1.74866,0.78689 -1.74866,1.74865 0,0.96178 0.7869,1.74867 1.74866,1.74867 z m -3.14759,12.15319 0.87433,-3.84705 1.8361,1.74865 v 5.24598 h 1.74866 v -6.55747 l -1.8361,-1.74866 0.5246,-2.623 c 1.13663,1.3115 2.88529,2.18584 4.80882,2.18584 v -1.74868 c -1.66123,0 -3.06015,-0.87432 -3.75963,-2.09839 l -0.87432,-1.39891 c -0.34973,-0.5246 -0.87433,-0.87434 -1.48637,-0.87434 -0.2623,0 -0.43716,0.0874 -0.69946,0.0874 l -4.54652,1.92351 v 4.10937 h 1.74865 v -2.97273 l 1.5738,-0.61204 -1.39892,7.08208 -4.28422,-0.87432 -0.34974,1.74866 z"
+         inkscape:connector-curvature="0"
+         style="fill:#0e1e46;fill-opacity:1;stroke-width:0.529167" />
+      <path
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path13296-2-7"
+         d="m 471.37134,-48.651589 12.72936,18.538055"
+         style="fill:none;fill-rule:evenodd;stroke:#fecb2f;stroke-width:0.635;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path13296-1-8-0"
+         d="m 433.17627,-39.331256 13.00652,23.342252"
+         style="fill:none;fill-rule:evenodd;stroke:#fecb2f;stroke-width:0.635;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:7.7611px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="1147.3641"
+       y="-236.99088"
+       id="text5921-0-0-1-6-51-9-2-7-5-9"
+       transform="scale(1.0053982,0.99463078)"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/gui2-blau-chronojump-prova4.png"
+       inkscape:export-xdpi="108"
+       inkscape:export-ydpi="108"><tspan
+         sodipodi:role="line"
+         id="tspan5919-4-9-9-2-2-0-8-9-3-3"
+         x="1147.3641"
+         y="-236.99088"
+         style="font-size:6.35px;stroke-width:0.264583px">web-selector-races-photocells.png</tspan><tspan
+         sodipodi:role="line"
+         x="1147.3641"
+         y="-226.92294"
+         style="font-size:6.35px;stroke-width:0.264583px"
+         id="tspan3103-5-6">324x257</tspan><tspan
+         sodipodi:role="line"
+         x="1147.3641"
+         y="-216.85501"
+         style="font-size:6.35px;stroke-width:0.264583px"
+         id="tspan3265-6-0">(for website)</tspan></text>
   </g>
   <script
      id="mesh_polyfill"

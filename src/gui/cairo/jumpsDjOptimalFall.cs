@@ -72,7 +72,7 @@ public class JumpsDjOptimalFallGraph : CairoXY
 		area.AddEvents((int) Gdk.EventMask.ButtonPressMask);
 	}
 
-	public override void Do()
+	public override void Do(string font)
 	{
 		LogB.Information("at JumpsDjOptimalFallGraph.Do");
 		initGraph(font);

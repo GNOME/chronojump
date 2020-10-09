@@ -123,7 +123,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight, message, g, alignTypes.CENTER);
 	}
 
-	public override void Do()
+	public override void Do(string font)
 	{
 		LogB.Information("at JumpsWeightFVProfileGraph.Do");
 		initGraph(font);

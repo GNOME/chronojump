@@ -133,7 +133,7 @@ public partial class ChronoJumpWindow
 					currentSession.DateShort,
 					radio_jumps_weight_fv_profile_show_full_graph.Active,
 					errorAtStart);
-			jumpsWeightFVProfileGraph.Do();
+			jumpsWeightFVProfileGraph.Do(preferences.fontType.ToString());
 
 			button_jumps_weight_fv_profile_save_image.Sensitive = true;
 		}
@@ -186,7 +186,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("Button press done!");
 
 		//redo the graph to delete previous rectangles of previous mouse clicks
-		jumpsWeightFVProfileGraph.Do();
+		jumpsWeightFVProfileGraph.Do(preferences.fontType.ToString());
 		LogB.Information(string.Format("Mouse X: {0}; Mouse Y: {1}", args.Event.X, args.Event.Y));
 		//LogB.Information(string.Format("Real X: {0}; Real Y: {1}",
 		//			jumpsWeightFVProfileGraph.CalculateAndWriteRealXY(args.Event.X, args.Event.Y)));

@@ -573,6 +573,7 @@ class SqliteEncoder : Sqlite
 					reader[0].ToString(), 	//person uniqueID
 					reader[1].ToString(), 	//person name
 					reader[2].ToString(), 	//person sex
+					econf.ToStringPretty(), //encoder configuration
 					reader[4].ToString(), 	//encoder exercise name
 					Util.ChangeDecimalSeparator(reader[5].ToString()),	//extra mass
 					reader[6].ToString()	//power
@@ -584,6 +585,7 @@ class SqliteEncoder : Sqlite
 					reader[0].ToString(), 	//person uniqueID
 					reader[1].ToString(), 	//person name
 					reader[2].ToString(), 	//person sex
+					econf.ToStringPretty(), //encoder configuration
 					reader[4].ToString(), 	//encoder exercise name
 					reader[6].ToString()	//power
 						//TODO: speed, force

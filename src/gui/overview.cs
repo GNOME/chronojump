@@ -247,6 +247,7 @@ public class EncoderOverviewWindow : OverviewWindow
 		} else {
 			tv.AppendColumn (Catalog.GetString ("Person"), new CellRendererText(), "text", count++);
 			tv.AppendColumn (Catalog.GetString ("Sex"), new CellRendererText(), "text", count++);
+			tv.AppendColumn (Catalog.GetString ("Encoder configuration"), new CellRendererText(), "text", count++);
 			tv.AppendColumn (Catalog.GetString ("Exercise"), new CellRendererText(), "text", count++);
 			if(encoderGI == Constants.EncoderGI.GRAVITATORY)
 				tv.AppendColumn (Catalog.GetString ("Extra mass"), new CellRendererText(), "text", count++);
@@ -266,9 +267,9 @@ public class EncoderOverviewWindow : OverviewWindow
 				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string)); //personID (hidden), person name, sex, encoderConfiguration, exercise, sets
 		} else {
 			if(encoderGI == Constants.EncoderGI.GRAVITATORY)
-				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof(string)); //personID (hidden), person name, sex, exercise, extra mass, power
+				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof(string)); //personID (hidden), person name, sex, encoderConfiguration, exercise, extra mass, power
 			else
-				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string)); //personID (hidden), person name, sex, exercise, power
+				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string)); //personID (hidden), person name, sex, encoderConfiguration, exercise, power
 		}
 
 		return s;

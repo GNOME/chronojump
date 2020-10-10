@@ -427,7 +427,7 @@ class SqlitePersonSession : Sqlite
 				File.Delete(Util.UserPhotoURL(true, Convert.ToInt32(personID)));
 		}
 
-		//3.- Delete tests
+		//3.- Delete tests without files
 				
 		//delete normal jumps
 		dbcmd.CommandText = "Delete FROM jump WHERE sessionID == " + sessionID +
@@ -470,26 +470,25 @@ class SqlitePersonSession : Sqlite
 			
 		dbcmd.ExecuteNonQuery();
 	
-		//delete from encoder
-		dbcmd.CommandText = "Delete FROM " + Constants.EncoderTable + " WHERE sessionID == " + sessionID +
-			" AND personID == " + personID;
-			
-		dbcmd.ExecuteNonQuery();
-		
-
+		// 4) delete from encoder
 		//delete encoder signal and curves (and it's videos)
 		ArrayList encoderArray = SqliteEncoder.Select(
 				true, -1, Convert.ToInt32(personID), Convert.ToInt32(sessionID), Constants.EncoderGI.ALL,
 				-1, "signal", EncoderSQL.Eccons.ALL, "",
 				false, true);
 
-		foreach(EncoderSQL eSQL in encoderArray) {
+		foreach(EncoderSQL eSQL in encoderArray)
+		{
 			Util.FileDelete(eSQL.GetFullURL(false));	//signal, don't convertPathToR
 			if(eSQL.future2 != "")
 				Util.FileDelete(eSQL.future2);		//video
 			Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));
+
+			//delete related triggers
+			SqliteTrigger.DeleteByModeID(true, Trigger.Modes.ENCODER, Convert.ToInt32(eSQL.uniqueID));
 		}
 
+		//curves
 		encoderArray = SqliteEncoder.Select(
 				true, -1, Convert.ToInt32(personID), Convert.ToInt32(sessionID), Constants.EncoderGI.ALL,
 				-1, "curve", EncoderSQL.Eccons.ALL, "",
@@ -503,15 +502,29 @@ class SqlitePersonSession : Sqlite
 			*/
 			Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));
 			SqliteEncoder.DeleteSignalCurveWithCurveID(true, Convert.ToInt32(eSQL.uniqueID));
-
-			//delete related triggers
-			SqliteTrigger.DeleteByModeID(true, Trigger.Modes.ENCODER, Convert.ToInt32(eSQL.uniqueID));
 		}
 
-				
-		
-		//4.- TODO: delete videos
+		// 5) delete forceSensor and related triggers
+		List<ForceSensor> fs_l = SqliteForceSensor.Select (true, -1, -1, Convert.ToInt32(sessionID));
+		foreach(ForceSensor fs in fs_l)
+		{
+			SqliteForceSensor.DeleteSQLAndFiles (true, fs); //deletes also the .csv
 
+			//delete related triggers
+			SqliteTrigger.DeleteByModeID(true, Trigger.Modes.FORCESENSOR, fs.UniqueID);
+		}
+
+		// 6) delete runEncoder and related triggers
+		ArrayList re_a = SqliteRunEncoder.Select (true, -1, -1, Convert.ToInt32(sessionID));
+		foreach(RunEncoder re in re_a)
+		{
+			SqliteRunEncoder.DeleteSQLAndFiles (true, re); //deletes also the .csv
+
+			//delete related triggers
+			SqliteTrigger.DeleteByModeID(true, Trigger.Modes.RACEANALYZER, re.UniqueID);
+		}
+
+		// 7).- TODO: delete videos
 
 		Sqlite.Close();
 	}

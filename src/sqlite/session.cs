@@ -1133,7 +1133,19 @@ class SqliteSession : Sqlite
 					Util.FileDelete(file.Name);
 		}
 
-		//TODO: delete multimedia stuff of persons that have to be deleted, eg. on export: persons that are not in session (just for privacity)
+		// <----- delete runEncoder end
+
+		// 7) delete videos
+		//on export we only want to delete SQL stuff, because files of other sessions will not be copied
+		if(! export)
+		{
+			folderSession = new System.IO.DirectoryInfo(
+					Util.GetVideoSessionDir (Convert.ToInt32(sessionID)));
+
+			if(folderSession.Exists)
+				foreach (FileInfo file in folderSession.GetFiles())
+					Util.FileDelete(file.Name);
+		}
 	}
 
 }

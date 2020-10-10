@@ -238,6 +238,7 @@ public class EncoderOverviewWindow : OverviewWindow
 		{
 			tv.AppendColumn (Catalog.GetString ("Person"), new CellRendererText(), "text", count++);
 			tv.AppendColumn (Catalog.GetString ("Sex"), new CellRendererText(), "text", count++);
+			tv.AppendColumn (Catalog.GetString ("Encoder configuration"), new CellRendererText(), "text", count++);
 			tv.AppendColumn (Catalog.GetString ("Exercise"), new CellRendererText(), "text", count++);
 			if(encoderGI == Constants.EncoderGI.GRAVITATORY)
 				tv.AppendColumn (Catalog.GetString ("Displaced mass"), new CellRendererText(), "text", count++);
@@ -260,9 +261,9 @@ public class EncoderOverviewWindow : OverviewWindow
 		if(type == treeviewType.SETS)
 		{
 			if(encoderGI == Constants.EncoderGI.GRAVITATORY)
-				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof(string)); //personID (hidden), person name, sex, exercise, displaced mass, sets
+				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof(string)); //personID (hidden), person name, sex, encoderConfiguration, exercise, displaced mass, sets
 			else
-				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string)); //personID (hidden), person name, sex, exercise, sets
+				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof (string)); //personID (hidden), person name, sex, encoderConfiguration, exercise, sets
 		} else {
 			if(encoderGI == Constants.EncoderGI.GRAVITATORY)
 				s = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string), typeof(string)); //personID (hidden), person name, sex, exercise, extra mass, power

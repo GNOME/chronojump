@@ -478,7 +478,7 @@ class SqliteEncoder : Sqlite
 			"SELECT person77.uniqueID, person77.name, person77.sex, encoder.encoderConfiguration, encoderExercise.name, (personSession77.weight * encoderExercise.percentBodyWeight/100) + encoder.extraWeight, COUNT(*)" +
 			" FROM person77, personSession77, encoderExercise, encoder" + 
 			" WHERE person77.uniqueID == encoder.personID AND personSession77.personID == encoder.personID AND personSession77.sessionID == encoder.sessionID AND encoderExercise.uniqueID==encoder.exerciseID AND signalOrCurve == \"signal\" AND encoder.sessionID == " + sessionID + 
-			" GROUP BY encoder.personID, exerciseID, extraWeight" +
+			" GROUP BY encoder.personID, encoderConfiguration, exerciseID, extraWeight" +
 			" ORDER BY person77.name";
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -507,6 +507,7 @@ class SqliteEncoder : Sqlite
 					reader[0].ToString(), 	//person uniqueID
 					reader[1].ToString(), 	//person name
 					reader[2].ToString(), 	//person sex
+					econf.ToStringPretty(), //encoder configuration
 					reader[4].ToString(), 	//encoder exercise name
 					reader[5].ToString(),	//displaced mass (includes percentBodyeight)
 					reader[6].ToString()	//sets count
@@ -517,6 +518,7 @@ class SqliteEncoder : Sqlite
 					reader[0].ToString(), 	//person uniqueID
 					reader[1].ToString(), 	//person name
 					reader[2].ToString(), 	//person sex
+					econf.ToStringPretty(),	//encoder configuration
 					reader[4].ToString(), 	//encoder exercise name
 					reader[6].ToString()	//sets count
 				};

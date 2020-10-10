@@ -924,11 +924,11 @@ class SqliteSession : Sqlite
 		LogB.Information("DeleteAllStuffDo 0");
 		dbcmd = dbcon.CreateCommand();
 
-		//delete the session
+		// 1) delete the session
 		dbcmd.CommandText = "Delete FROM " + Constants.SessionTable + " WHERE uniqueID == " + sessionID;
 		dbcmd.ExecuteNonQuery();
 		
-		//delete relations (existance) within persons and sessions in this session
+		// 2) delete relations (existance) within persons and sessions in this session
 		dbcmd.CommandText = "Delete FROM " + Constants.PersonSessionTable + " WHERE sessionID == " + sessionID;
 		dbcmd.ExecuteNonQuery();
 
@@ -938,6 +938,8 @@ class SqliteSession : Sqlite
 			Sqlite.deleteOrphanedPersons();
 		LogB.Information("DeleteAllStuffDo 2");
 		
+		// 3) delete tests without files
+
 		//delete normal jumps
 		dbcmd.CommandText = "Delete FROM " + Constants.JumpTable + " WHERE sessionID == " + sessionID;
 		dbcmd.ExecuteNonQuery();
@@ -966,12 +968,14 @@ class SqliteSession : Sqlite
 		dbcmd.CommandText = "Delete FROM " + Constants.MultiChronopicTable + " WHERE sessionID == " + sessionID;
 		dbcmd.ExecuteNonQuery();
 		
-		//delete from encoder start ------>
+		// 4) delete from encoder start ------>
 
 		/*
 		 * on export we only want to delete SQL stuff, because files of other sessions will not be copied
 		 * but note we use dbcmd, if we want to call some other SQL method, we need to take care to pass dbcon or dbcmd
 		 */
+
+		SqliteDataReader reader;
 		if(export)
 		{
 			// 1 get all the encoder signals of that session
@@ -979,7 +983,6 @@ class SqliteSession : Sqlite
 				" WHERE signalOrCurve = \"signal\"" +
 				" AND sessionID = " + sessionID;
 
-			SqliteDataReader reader;
 			reader = dbcmd.ExecuteReader();
 			List<string> signal_l = new List<string>();
 
@@ -1045,7 +1048,33 @@ class SqliteSession : Sqlite
 		
 		//<------- delete from encoder end
 
-		// delete forceSensor
+		// 5) delete forceSensor start ----->
+
+		// delete triggers
+		//List<ForceSensor> fs_l = SqliteForceSensor.Select (true, -1, -1, Convert.ToInt32(sessionID)); //this will not work on export because we cannot use this dbcmd
+		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.ForceSensorTable +
+				" WHERE sessionID = " + sessionID;
+
+		reader = dbcmd.ExecuteReader();
+		List<int> uniqueID_l = new List<int>();
+		while(reader.Read())
+			uniqueID_l.Add(Convert.ToInt32(reader[0].ToString()));
+
+		reader.Close();
+
+		foreach(int id in uniqueID_l)
+		{
+			//delete related triggers
+			//SqliteTrigger.DeleteByModeID(true, Convert.ToInt32(fs.UniqueID));
+			//to export we have to do it with the dbcmd:
+			dbcmd.CommandText = "Delete FROM " + Constants.TriggerTable +
+				" WHERE mode = \"" + Trigger.Modes.FORCESENSOR.ToString() +
+				"\" AND modeID = " + id;
+			LogB.SQL(dbcmd.CommandText.ToString());
+			dbcmd.ExecuteNonQuery();
+		}
+
+		// delete forceSensor sets
 		dbcmd.CommandText = "Delete FROM " + Constants.ForceSensorTable + " WHERE sessionID = " + sessionID;
 		dbcmd.ExecuteNonQuery();
 
@@ -1061,7 +1090,35 @@ class SqliteSession : Sqlite
 					Util.FileDelete(file.Name);
 		}
 
-		// delete runEncoder
+		// <----- delete forceSensor end
+
+		// 6) delete runEncoder start ----->
+
+		// delete triggers
+		//ArrayList re_array = SqliteRunEncoder.Select (true, -1, -1, Convert.ToInt32(sessionID));  //this will not work on export because we cannot use this dbcmd
+		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.RunEncoderTable +
+				" WHERE sessionID = " + sessionID;
+
+		reader = dbcmd.ExecuteReader();
+		uniqueID_l = new List<int>();
+		while(reader.Read())
+			uniqueID_l.Add(Convert.ToInt32(reader[0].ToString()));
+
+		reader.Close();
+
+		foreach(int id in uniqueID_l)
+		{
+			//delete related triggers
+			//SqliteTrigger.DeleteByModeID(true, Convert.ToInt32(re.UniqueID));
+			//to export we have to do it with the dbcmd:
+			dbcmd.CommandText = "Delete FROM " + Constants.TriggerTable +
+				" WHERE mode = \"" + Trigger.Modes.RACEANALYZER.ToString() +
+				"\" AND modeID = " + id;
+			LogB.SQL(dbcmd.CommandText.ToString());
+			dbcmd.ExecuteNonQuery();
+		}
+
+		// delete runEncoder sets
 		dbcmd.CommandText = "Delete FROM " + Constants.RunEncoderTable + " WHERE sessionID = " + sessionID;
 		dbcmd.ExecuteNonQuery();
 

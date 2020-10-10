@@ -1628,7 +1628,7 @@ public partial class ChronoJumpWindow
 			Catalog.GetString("Exercise"),
 			Catalog.GetString("Laterality"),
 			Catalog.GetString("Extra weight"),
-			Catalog.GetString("Encoder"),
+			Catalog.GetString("Encoder configuration"),
 			Catalog.GetString("Contraction"),
 			Catalog.GetString("Date"),
 			Catalog.GetString("Video"),

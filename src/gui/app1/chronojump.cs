@@ -7492,6 +7492,7 @@ LogB.Debug("mc finished 5");
 	 * sensitive GUI on executeAuto methods 
 	 */
 
+	bool showRunWirelessDevice = false;
 	private void chronopicRegisterUpdate(bool openWindow)
 	{
 		//on Windows need to close the port before reading with FTDI dll
@@ -7499,7 +7500,7 @@ LogB.Debug("mc finished 5");
 			cp2016.SerialPortsCloseIfNeeded(false);
 
 		ChronopicRegisterSelectOS cros = new ChronopicRegisterSelectOS();
-		chronopicRegister = cros.Do();
+		chronopicRegister = cros.Do(configChronojump.Compujump, showRunWirelessDevice);
 		
 		/*
 		 * If Chronopic has been disconnected on OSX, port gets blocked
@@ -7511,7 +7512,7 @@ LogB.Debug("mc finished 5");
 		{
 			cp2016.SerialPortsCloseIfNeeded(true);
 			Thread.Sleep(250);
-			chronopicRegister = cros.Do();
+			chronopicRegister = cros.Do(configChronojump.Compujump, showRunWirelessDevice);
 		}
 
 
@@ -7529,7 +7530,9 @@ LogB.Debug("mc finished 5");
 
 		if(openWindow)
 		{
-			chronopicRegisterWin = new ChronopicRegisterWindow(app1, chronopicRegister.Crpl.L);
+			chronopicRegisterWin = new ChronopicRegisterWindow(app1, chronopicRegister.Crpl.L,
+					configChronojump.Compujump,	//to show/hide ARDUINO_RFID
+					showRunWirelessDevice);
 
 			cp2016.WindowOpened = true;
 

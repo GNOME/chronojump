@@ -93,9 +93,9 @@ public class ChronopicRegisterPortList
 	public List<ChronopicRegisterPort> L;
 
 	//constructor
-	public ChronopicRegisterPortList ()
+	public ChronopicRegisterPortList (bool showArduinoRFID, bool showRunWireless)
 	{
-		this.L = SqliteChronopicRegister.SelectAll(false);
+		this.L = SqliteChronopicRegister.SelectAll(false, showArduinoRFID, showRunWireless);
 	}
 
 	public void Print()
@@ -179,14 +179,14 @@ public class ChronopicRegisterSelectOS
 	public ChronopicRegisterSelectOS() {
 	}
 
-	public ChronopicRegister Do()
+	public ChronopicRegister Do(bool compujump, bool showRunWireless)
 	{
 		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX)
-			return new ChronopicRegisterLinux();
+			return new ChronopicRegisterLinux(compujump, showRunWireless);
 		else if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
-			return new ChronopicRegisterMac();
+			return new ChronopicRegisterMac(compujump, showRunWireless);
 		else // WINDOWS
-			return new ChronopicRegisterWindows();
+			return new ChronopicRegisterWindows(compujump, showRunWireless);
 	}
 }
 
@@ -194,10 +194,10 @@ public abstract class ChronopicRegister
 {
 	protected ChronopicRegisterPortList crpl;
 
-	protected void process()
+	protected void process(bool compujump, bool showRunWireless)
 	{
 		//1 print the registered ports on SQL
-		crpl = new ChronopicRegisterPortList();
+		crpl = new ChronopicRegisterPortList(compujump, showRunWireless); //compujump means: showArduinoRFID
 		crpl.Print();
 
 		//2 create list
@@ -328,9 +328,9 @@ public abstract class ChronopicRegister
 
 public class ChronopicRegisterLinux : ChronopicRegister
 {
-	public ChronopicRegisterLinux ()
+	public ChronopicRegisterLinux (bool compujump, bool showRunWireless)
 	{
-		process();
+		process(compujump, showRunWireless);
 	}
 
 	protected override ChronopicRegisterPort readFTDI(ChronopicRegisterPort crp) 
@@ -378,9 +378,9 @@ public class ChronopicRegisterLinux : ChronopicRegister
 
 public class ChronopicRegisterMac : ChronopicRegister
 {
-	public ChronopicRegisterMac ()
+	public ChronopicRegisterMac (bool compujump, bool showRunWireless)
 	{
-		process();
+		process(compujump, showRunWireless);
 	}
 
 	protected override ChronopicRegisterPort readFTDI(ChronopicRegisterPort crp)
@@ -402,9 +402,9 @@ public class ChronopicRegisterWindows : ChronopicRegister
 {
 	FTDI ftdiDeviceWin;
 
-	public ChronopicRegisterWindows ()
+	public ChronopicRegisterWindows (bool compujump, bool showRunWireless)
 	{
-		process();
+		process(compujump, showRunWireless);
 	}
 
 	protected override void createList()

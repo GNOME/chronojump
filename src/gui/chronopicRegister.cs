@@ -56,6 +56,26 @@ public static class TypePixList
 		l.Add(new TypePix(ChronopicRegisterPort.Types.RUN_WIRELESS, new Pixbuf (null, Util.GetImagePath(false) + "board-run-wireless.png")));
 	}
 
+	//used to hide new unfinished devices on chronojump release
+	public static void RemovePix(ChronopicRegisterPort.Types type)
+	{
+		int i = 0;
+		int pos = -1;
+		foreach(TypePix tp in l)
+		{
+			if(tp.Type == type)
+			{
+				pos = i;
+				break;
+			}
+
+			i ++;
+		}
+
+		if(pos >= 0)
+			l.RemoveAt(pos);
+	}
+
 	public static Pixbuf GetPix(ChronopicRegisterPort.Types type)
 	{
 		foreach(TypePix tp in l)
@@ -105,8 +125,17 @@ public class ChronopicRegisterWindow
 	private List<ChronopicRegisterPort> listConnected;
 	public Gtk.Button FakeButtonCloseSerialPort;
 
-	public ChronopicRegisterWindow(Gtk.Window app1, List<ChronopicRegisterPort> listAll)
+	public ChronopicRegisterWindow(Gtk.Window app1, List<ChronopicRegisterPort> listAll, bool compujump, bool showRunWireless)
 	{
+		// 1) remove undesired Pixs from list
+		if(! compujump)
+			TypePixList.RemovePix(ChronopicRegisterPort.Types.ARDUINO_RFID);
+
+		if(! showRunWireless)
+			TypePixList.RemovePix(ChronopicRegisterPort.Types.RUN_WIRELESS);
+
+		// 2) create window
+
 		createWindow(app1);
 		UtilGtk.IconWindow(chronopic_register_win); //put an icon to window
 
@@ -116,7 +145,8 @@ public class ChronopicRegisterWindow
 
 		listConnected = new List<ChronopicRegisterPort>();
 
-		//create listConnected with connected chronopics
+		// 3)create listConnected with connected chronopics
+
 		int connectedCount = 0;
 		int unknownCount = 0;
 		foreach(ChronopicRegisterPort crp in listAll)

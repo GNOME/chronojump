@@ -46,7 +46,7 @@ class SqliteChronopicRegister : Sqlite
 		dbcmd.ExecuteNonQuery();
 	}
 	
-	public static List<ChronopicRegisterPort> SelectAll (bool dbconOpened)
+	public static List<ChronopicRegisterPort> SelectAll (bool dbconOpened, bool showArduinoRFID, bool showRunWireless)
 	{
 		openIfNeeded(dbconOpened);
 		
@@ -63,6 +63,13 @@ class SqliteChronopicRegister : Sqlite
 					(ChronopicRegisterPort.Types) Enum.Parse(
 						typeof(ChronopicRegisterPort.Types), reader[1].ToString()) //type
 					);
+
+			if(! showArduinoRFID && crp.Type == ChronopicRegisterPort.Types.ARDUINO_RFID)
+				crp.Type = ChronopicRegisterPort.Types.UNKNOWN;
+
+			if(! showRunWireless && crp.Type == ChronopicRegisterPort.Types.RUN_WIRELESS)
+				crp.Type = ChronopicRegisterPort.Types.UNKNOWN;
+
 			l.Add(crp);
 		}
 

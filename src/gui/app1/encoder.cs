@@ -6825,8 +6825,10 @@ public partial class ChronoJumpWindow
 						}
 					}
 
-				} else
+				} else { //action == encoderActions.LOAD
 					encoder_pulsebar_capture.Text = "";
+					manageButton_button_encoder_capture_curves_save (false);
+				}
 		
 
 				/*

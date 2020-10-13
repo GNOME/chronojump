@@ -52,6 +52,9 @@ float weight = 0.0;
 //Wether the sensor has to capture or not
 boolean capturing = false;
 
+//Wether the sync time must be sent or not
+bool sendSyncTime = false;
+
 //wether the tranmission is in binary format or not
 boolean binaryFormat = false;
 
@@ -72,6 +75,7 @@ float rfdValueMax = 0;
 unsigned long currentTime = 0;
 unsigned long elapsedTime = 0;
 unsigned long totalTime = 0;
+unsigned long syncTime = 0;
 unsigned int samples = 0;
 
 const int button1Pin = 6;
@@ -100,6 +104,7 @@ bool lastRcaState = rcaState;
 
 void setup() {
   pinMode(button1Pin, INPUT);
+  pinMode(button2Pin, INPUT);
   analogWrite(6, 20);
   lcd.begin(16, 2);
   Serial.begin(115200);
@@ -153,14 +158,20 @@ void loop()
     lcd.print("CHRONOJUMP");
     lcd.setCursor(2, 1);
     lcd.print("Boscosystem");
-//    lcd.setCursor(2,1);
-//    lcd.print("Press Start");
+    //    lcd.setCursor(2,1);
+    //    lcd.print("Press Start");
 
   }
   button1State = digitalRead(button1Pin);
   if (button1State == 1) {
     start_capture();
     delay(1000);
+  }
+
+  if(sendSyncTime) {
+    Serial.print("sync:");
+    Serial.println(syncTime);
+    sendSyncTime = false;  
   }
 
   if (capturing)
@@ -361,6 +372,10 @@ void serialEvent() {
     tare();
   } else if (commandString == "get_transmission_format") {
     get_transmission_format();
+  } else if (commandString == "send_sync_signal") {
+    sendSyncSignal();
+  } else if (commandString == "get_sync_signal") {
+    getSyncSignal();
   } else {
     Serial.println("Not a valid command");
   }
@@ -494,4 +509,29 @@ void checkTimeOverflow() {
   //calculations
   totalTime += elapsedTime;
   lastTime = currentTime;
+}
+
+void sendSyncSignal() {
+  pinMode(rcaPin, OUTPUT);
+
+  digitalWrite(rcaPin, HIGH);
+  delay(200);
+  digitalWrite(rcaPin, LOW);
+
+  syncTime = micros();
+  sendSyncTime = true;
+
+  pinMode(rcaPin, INPUT);
+}
+
+void getSyncSignal() {
+  //detachInterrupt(digitalPinToInterrupt(rcaPin));
+  attachInterrupt(digitalPinToInterrupt(rcaPin), getSyncTime, FALLING);  
+}
+
+void getSyncTime() {
+  syncTime = micros();
+  sendSyncTime = true; 
+  //detachInterrupt(digitalPinToInterrupt(rcaPin));
+  attachInterrupt(digitalPinToInterrupt(rcaPin), changingRCA, FALLING);
 }

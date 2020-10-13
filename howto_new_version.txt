@@ -167,6 +167,10 @@ chmod +rx Chrono...exe
 signal-ftp-sync
 wait 5'
 
+Wordpress
+---------
+Update shortcode variables on wordpress
+
 API (GetLastVersion)
 --------------------
 ssh to chronojump server

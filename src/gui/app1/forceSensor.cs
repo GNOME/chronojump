@@ -756,8 +756,11 @@ public partial class ChronoJumpWindow
 		 */
 
 		Match match = Regex.Match(str, @"Force_Sensor-(\d+\.\d+)");
-		if(match.Groups.Count == 1)
-			return str = match.Value;
+		if(match.Groups.Count == 2)
+		{
+			LogB.Information("match: " + match.Groups[1].Value);
+			return str = match.Groups[1].Value;
+		}
 		else
 			return "0.3"; //if there is a problem default to 0.3
 	}
@@ -1103,6 +1106,9 @@ public partial class ChronoJumpWindow
 		double versionDouble = Convert.ToDouble(Util.ChangeDecimalSeparator(forceSensorFirmwareVersion));
 		if(versionDouble >= Convert.ToDouble(Util.ChangeDecimalSeparator("0.5"))) //from 0.5 versions have trigger
 			readTriggers = true;
+
+		LogB.Information("forceSensor versionDouble: " + versionDouble.ToString());
+		//LogB.Information("> 0.5" + (versionDouble >= Convert.ToDouble(Util.ChangeDecimalSeparator("0.5"))).ToString());
 
 		//LogB.Information("pre bucle");
 		//LogB.Information(string.Format("forceProcessFinish: {0}, forceProcessCancel: {1}, forceProcessError: {2}", forceProcessFinish, forceProcessCancel, forceProcessError));

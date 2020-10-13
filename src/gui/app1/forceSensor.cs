@@ -1249,12 +1249,16 @@ public partial class ChronoJumpWindow
 			//LogB.Information("force: " + strFull[1]);
 		}
 		else if(readTriggers)
+		{
+			time = Convert.ToInt32(strFull[0]);
 			trigger = strFull[1];
-		else
+			return true;
+		} else
 			return false;
 
 		time = Convert.ToInt32(strFull[0]);
 		force = Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1]));
+
 		return true;
 	}
 

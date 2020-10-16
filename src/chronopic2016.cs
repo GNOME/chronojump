@@ -284,6 +284,11 @@ public class Chronopic2016
 	{
 		LogB.Information("ChangeMultitestFirmwareMaybe (A)");
 
+		if(cp == null) {
+			LogB.Information("Chronopic has been disconnected, cp == null");
+			return false;
+		}
+
 		cpDoing = cpCount;
 
 		//---- 1

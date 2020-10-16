@@ -2988,6 +2988,8 @@ public partial class ChronoJumpWindow
 
 		if(m == Constants.Menuitem_modes.JUMPSSIMPLE || m == Constants.Menuitem_modes.JUMPSREACTIVE)
 		{
+			button_execute_test_show_connect_or_execute(! cp2016.SuccededConnectContactsRealThread);
+
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			//notebook_capture_analyze.ShowTabs = true;
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
@@ -3035,6 +3037,8 @@ public partial class ChronoJumpWindow
 		}
 		else if(m == Constants.Menuitem_modes.RUNSSIMPLE || m == Constants.Menuitem_modes.RUNSINTERVALLIC)
 		{
+			button_execute_test_show_connect_or_execute(! cp2016.SuccededConnectContactsRealThread);
+
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			//notebook_capture_analyze.ShowTabs = true;
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
@@ -3178,6 +3182,8 @@ public partial class ChronoJumpWindow
 		} 
 		else if(m == Constants.Menuitem_modes.FORCESENSOR)
 		{
+			button_execute_test_show_connect_or_execute(false);
+
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			notebooks_change(m);
 
@@ -3217,6 +3223,8 @@ public partial class ChronoJumpWindow
 		}
 		else if(m == Constants.Menuitem_modes.RUNSENCODER)
 		{
+			button_execute_test_show_connect_or_execute(false);
+
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			notebooks_change(m);
 
@@ -3252,6 +3260,8 @@ public partial class ChronoJumpWindow
 		}
 		else if(m == Constants.Menuitem_modes.RT)
 		{
+			button_execute_test_show_connect_or_execute(! cp2016.SuccededConnectContactsRealThread);
+
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			notebooks_change(m);
 			on_extra_window_reaction_times_test_changed(new object(), new EventArgs());
@@ -3266,6 +3276,8 @@ public partial class ChronoJumpWindow
 			pixbufModeGrid = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_rt.png");
 		}
 		else {	//m == Constants.Menuitem_modes.OTHER (contacts / other)
+			button_execute_test_show_connect_or_execute(! cp2016.SuccededConnectContactsRealThread);
+
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			hbox_other.Visible = true;
 			notebooks_change(m);
@@ -3595,6 +3607,25 @@ public partial class ChronoJumpWindow
 			notebook_mode_selector2.CurrentPage = 1; //runs
 		else
 			notebook_mode_selector.CurrentPage = 0; //main
+	}
+
+	[Widget] Gtk.Label label_button_execute_connect;
+
+	private void button_execute_test_show_connect_or_execute (bool connect_or_execute)
+	{
+		string space = Catalog.GetString("Space");
+
+		if(connect_or_execute)
+		{
+			label_button_execute_connect.Visible = true;
+			image_button_execute.Visible = false;
+			button_execute_test.TooltipText = Catalog.GetString("Connect") + string.Format(" ({0}+{1})", kCtrl, space);
+		} else
+		{
+			label_button_execute_connect.Visible = false;
+			image_button_execute.Visible = true;
+			button_execute_test.TooltipText = Catalog.GetString("Execute test") + string.Format(" ({0}+{1})", kCtrl, space);
+		}
 	}
 
 	/*

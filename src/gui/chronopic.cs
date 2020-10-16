@@ -149,6 +149,10 @@ public partial class ChronoJumpWindow
 			connectingSequence = connectingSequenceEnum.FIRMWAREIFNEEDED;
 			chronopicConnectionSequenceDo();
 			*/
+
+			//change appearance of execute test button
+			button_execute_test_show_connect_or_execute(false);
+
 		} else
 			LogB.Warning("Failure at Connecting real! (main GUI)");
 	}

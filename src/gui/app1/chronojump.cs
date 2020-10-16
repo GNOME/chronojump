@@ -3844,6 +3844,13 @@ public partial class ChronoJumpWindow
 		bool canCaptureC = cp2016.StoredCanCaptureContacts;
 		bool wireless = cp2016.StoredWireless;
 
+		if(canCaptureC && cp2016.CP == null)
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING,
+					"Problems connecting with Chronopic." + "\n\n" + "Please, restart Chronojump");
+			return;
+		}
+
 		/*
 		 * We need to do this to ensure no cancel_clicked calls accumulate
 		 * if we don't do tue -= now, after 10 tests, if we cancel last one,

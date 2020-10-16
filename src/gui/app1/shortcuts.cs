@@ -31,11 +31,11 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_exercise;
 	[Widget] Gtk.Button button_encoder_exercise_close_and_capture;
 
+	private string kCtrl = "Ctrl";
+	private string kEnter = "Enter";
+
 	private void addShortcutsToTooltips(bool isMac)
 	{
-		string kCtrl = "Ctrl";
-		string kEnter = "Enter";
-
 		/*
 		 * on 2.0 mac will also use ctrl until we find the way to use command
 		 *

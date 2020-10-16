@@ -96,11 +96,11 @@ public partial class ChronoJumpWindow
 		//2 update sequence
 		if(connectingSequence == connectingSequenceEnum.START)
 		{
-			if(cp2016.IsLastConnectedReal(crpDoing, connectNum)) {
+			if(cp2016.IsLastConnectedReal(crpDoing, connectNum))
 				connectingSequence = connectingSequenceEnum.FIRMWAREIFNEEDED;
-			} else {
+			else
 				connectingSequence = connectingSequenceEnum.CONNECTINGREAL;
-			}
+
 			chronopicConnectionSequenceDo();
 		}
 		else if (connectingSequence == connectingSequenceEnum.CONNECTINGREAL)
@@ -144,8 +144,11 @@ public partial class ChronoJumpWindow
 		{
 			LogB.Information("Success at Connecting real! (main GUI)");
 
+			//new on 2.0.3 do not continue with sequence, exit, and execute test will be another press button
+			/*
 			connectingSequence = connectingSequenceEnum.FIRMWAREIFNEEDED;
 			chronopicConnectionSequenceDo();
+			*/
 		} else
 			LogB.Warning("Failure at Connecting real! (main GUI)");
 	}

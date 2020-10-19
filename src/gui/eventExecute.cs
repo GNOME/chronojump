@@ -2154,7 +2154,7 @@ public partial class ChronoJumpWindow
 			layoutMid_run_simple.SetMarkup("Start");
 			layoutMid_run_simple.GetPixelSize(out lWidth, out lHeight);
 			pixmap.DrawLayout (pen_azul,
-					xStart2 -lWidth/2, 0 - lHeight/4, layoutMid_run_simple);
+					xStart2 -lWidth/2, 0, layoutMid_run_simple);
 		}
 
 		if(drawEnd)
@@ -2167,7 +2167,7 @@ public partial class ChronoJumpWindow
 			layoutMid_run_simple.SetMarkup("End");
 			layoutMid_run_simple.GetPixelSize(out lWidth, out lHeight);
 			pixmap.DrawLayout (pen_azul,
-					xEnd2 -lWidth/2, 0 - lHeight/4, layoutMid_run_simple);
+					xEnd2 -lWidth/2, 0, layoutMid_run_simple);
 		}
 	}
 

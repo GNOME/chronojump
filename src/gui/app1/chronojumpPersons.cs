@@ -378,14 +378,14 @@ public partial class ChronoJumpWindow
 		new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Deleted person and all his/her tests on this session."));
 		SqlitePersonSession.DeletePersonFromSessionAndTests(
 				currentSession.UniqueID.ToString(), currentPerson.UniqueID.ToString());
-		
-		resetAllTreeViews(false, true, true); //fill, resetPersons, fillPersons
+
+		resetAllTreeViews(true, true, true); //fillTests, resetPersons, fillPersons
 		bool foundPersons = selectRowTreeView_persons(treeview_persons, 0);
-			
+
 		if(createdStatsWin) {
 			stats_win_fillTreeView_stats(false, true);
 		}
-		
+
 		//if there are no persons
 		if(! foundPersons) {
 			currentPerson = null;

@@ -1357,9 +1357,10 @@ public class ForceSensorGraph
 	string title;
 	string exercise;
 	string datetime;
+	private TriggerList triggerList;
 
 	public ForceSensorGraph(ForceSensor.CaptureOptions fsco, List<ForceSensorRFD> rfdList,
-			ForceSensorImpulse impulse, int testLength, int percentChange, string title, string exercise, string datetime)
+			ForceSensorImpulse impulse, int testLength, int percentChange, string title, string exercise, string datetime, TriggerList triggerList)
 	{
 		this.fsco = fsco;
 		this.rfdList = rfdList;
@@ -1369,6 +1370,7 @@ public class ForceSensorGraph
 		this.title = title;
 		this.exercise = exercise;
 		this.datetime = datetime;
+		this.triggerList = triggerList;
 
 		averageLength = 0.1;
 		vlineT0 = false;
@@ -1425,13 +1427,20 @@ public class ForceSensorGraph
 			"#title\n" + 			title + "\n" +
 			"#exercise\n" + 		exercise + "\n" +
 			"#datetime\n" + 		datetime + "\n" +
-			"#scriptsPath\n" + 		UtilEncoder.GetScriptsPath() + "\n";
+			"#scriptsPath\n" + 		UtilEncoder.GetScriptsPath() + "\n" +
+			printTriggers(TriggerList.Type3.ON) + "\n" +
+			printTriggers(TriggerList.Type3.OFF);
 
 		TextWriter writer = File.CreateText(Path.GetTempPath() + "Roptions.txt");
 		writer.Write(scriptOptions);
 		writer.Flush();
 		writer.Close();
 		((IDisposable)writer).Dispose();
+	}
+
+	private string printTriggers(TriggerList.Type3 type3)
+	{
+		return triggerList.ToRCurvesString(type3);
 	}
 
 	public static string GetDataDir(int sessionID)

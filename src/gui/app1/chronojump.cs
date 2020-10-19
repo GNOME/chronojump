@@ -1277,7 +1277,7 @@ public partial class ChronoJumpWindow
 	}
 		
 
-	private void resetAllTreeViews(bool fill, bool resetPersons, bool fillPersons)
+	private void resetAllTreeViews(bool fillTests, bool resetPersons, bool fillPersons)
 	{
 		//persons
 		if(resetPersons) {
@@ -1298,7 +1298,7 @@ public partial class ChronoJumpWindow
 
 		treeview_multi_chronopic_storeReset(true); //this neeed DB
 
-		if(fill)
+		if(fillTests)
 		{
 			fillTreeView_jumps(Constants.AllJumpsNameStr(), true);
 			fillTreeView_jumps_rj(Constants.AllJumpsNameStr(), true);
@@ -2520,7 +2520,7 @@ public partial class ChronoJumpWindow
 			stats_win_initializeSession();
 		}
 
-		resetAllTreeViews(false, true, false); //fill, resetPersons, fillPersons
+		resetAllTreeViews(false, true, false); //fillTests, resetPersons, fillPersons
 
 		//if we are on analyze tab, switch to capture tab
 		radio_mode_contacts_capture.Active = true;
@@ -2605,7 +2605,7 @@ public partial class ChronoJumpWindow
 		if(createdStatsWin && ! configChronojump.Exhibition) //slow Sqlite calls for Exhibition big data
 			stats_win_initializeSession();
 
-		resetAllTreeViews(! configChronojump.Exhibition, true, true); //fill, resetPersons, fillPersons
+		resetAllTreeViews(! configChronojump.Exhibition, true, true); //fillTests, resetPersons, fillPersons
 
 		//if we are on analyze tab, switch to capture tab
 		radio_mode_contacts_capture.Active = true;

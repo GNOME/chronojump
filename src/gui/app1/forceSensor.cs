@@ -2077,7 +2077,7 @@ LogB.Information(" fs R ");
 
 		ForceSensorGraph fsg = new ForceSensorGraph(getForceSensorCaptureOptions(), rfdList, impulse,
 				duration, Convert.ToInt32(spin_force_rfd_duration_percent.Value),
-				title, exercise, currentForceSensor.DateTimePublic); //TODO: add triggers
+				title, exercise, currentForceSensor.DateTimePublic, triggerListForceSensor);
 
 		int imageWidth = UtilGtk.WidgetWidth(viewport_force_sensor_graph);
 		int imageHeight = UtilGtk.WidgetHeight(viewport_force_sensor_graph);

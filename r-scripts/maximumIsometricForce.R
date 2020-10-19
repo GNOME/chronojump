@@ -51,7 +51,9 @@ assignOptions <- function(options)
 		title 	 		= options[19],
 		exercise 	 	= options[20],
 		datetime 	 	= options[21],
-                scriptsPath 		= options[22]
+                scriptsPath 		= options[22],
+		triggersOnList  = as.numeric(unlist(strsplit(options[23], "\\;"))),
+		triggersOffList  = as.numeric(unlist(strsplit(options[24], "\\;")))
         ))
 }
 
@@ -213,7 +215,7 @@ getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength
 drawDynamicsFromLoadCell <- function(
         dynamics, captureOptions, vlineT0=T, vline50fmax.raw=F, vline50fmax.fitted=F,
         hline50fmax.raw=F, hline50fmax.fitted=F,
-        rfdDrawingOptions, xlimits = NA)
+        rfdDrawingOptions, triggersOn = "", triggersOff = "", xlimits = NA)
 {
         dynamics$time = dynamics$time - dynamics$startTime
         dynamics$tfmax.raw = dynamics$tfmax.raw - dynamics$startTime
@@ -419,6 +421,11 @@ drawDynamicsFromLoadCell <- function(
         #Drawing the RFD data
         print("-----------RFD-----------")
         print(paste("op$drawRfdOptions =", op$drawRfdOptions))
+
+	#triggers
+	abline(v=triggersOn, col="green")
+	abline(v=triggersOff, col="red")
+
         
         legendText = c(
 		       paste("Fmax =", round(dynamics$fmax.fitted, digits = 2), "N"),
@@ -800,7 +807,7 @@ prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
 
 dynamics = getDynamicsFromLoadCellFile(op$captureOptions, dataFile, op$averageLength, op$percentChange, bestFit = TRUE, testLength = -1)
 drawDynamicsFromLoadCell(dynamics, op$captureOptions, op$vlineT0, op$vline50fmax.raw, op$vline50fmax.fitted, op$hline50fmax.raw, op$hline50fmax.fitted,
-                         op$drawRfdOptions)
+                         op$drawRfdOptions, triggersOn = op$triggersOnList, triggersOff = op$triggersOffList)
 #                         op$drawRfdOptions, xlimits = c(0.5, 1.5))
 endGraph()
 

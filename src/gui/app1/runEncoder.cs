@@ -1105,7 +1105,7 @@ public partial class ChronoJumpWindow
 							currentRunEncoderExercise.Name);
 
 					currentRunEncoder.UniqueID = currentRunEncoder.InsertSQL(false);
-					SaveTriggers(currentRunEncoder.UniqueID);
+					triggerListRunEncoder.SQLInsert(currentRunEncoder.UniqueID);
 					showRaceAnalyzerTriggers ();
 
 					//stop camera
@@ -1246,11 +1246,6 @@ public partial class ChronoJumpWindow
 		Thread.Sleep (25);
 		//LogB.Information(" RunEncoder:"+ runEncoderCaptureThread.ThreadState.ToString());
 		return true;
-	}
-
-	public void SaveTriggers(int signalID)
-	{
-		triggerListRunEncoder.SQLInsert(signalID);
 	}
 
 	private bool button_run_encoder_analyze_analyze_was_sensitive; //needed this temp variable

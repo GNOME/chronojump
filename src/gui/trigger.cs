@@ -57,24 +57,40 @@ public partial class ChronoJumpWindow
 	}
 
 	// <--------------- end of encoder
-	// start of race analyzer ------------->
 
+	// start of force sensor & race analyzer ------------->
+
+	//[Widget] Gtk.TextView textview_force_sensor_triggers; //TODO: until know where to put it
 	[Widget] Gtk.TextView textview_run_encoder_triggers;
+	TriggerList triggerListForceSensor;
 	TriggerList triggerListRunEncoder;
 
+	/*
+	TODO: until know where to put it
+	private void showForceSensorTriggers()
+	{
+		showTestTriggers(triggerListForceSensor, textview_force_sensor_triggers);
+	}
+	*/
 	private void showRaceAnalyzerTriggers()
 	{
-		triggerListRunEncoder.Print();
-		if(triggerListRunEncoder.Count() > 0)
+		showTestTriggers(triggerListRunEncoder, textview_run_encoder_triggers);
+	}
+
+	private void showTestTriggers(TriggerList trigger_l, Gtk.TextView textview)
+	{
+		trigger_l.Print();
+		if(trigger_l.Count() > 0)
 		{
 			//fill textview
 			TextBuffer tb1 = new TextBuffer (new TextTagTable());
-			tb1.Text = triggerListRunEncoder.ToString();
-			textview_run_encoder_triggers.Buffer = tb1;
+			tb1.Text = trigger_l.ToString();
+			textview.Buffer = tb1;
 		} else {
 			TextBuffer tb1 = new TextBuffer (new TextTagTable());
 			tb1.Text = "";
-			textview_run_encoder_triggers.Buffer = tb1;
+			textview.Buffer = tb1;
 		}
 	}
+	// <--------------- end of force sensor & race_analyzer
 }

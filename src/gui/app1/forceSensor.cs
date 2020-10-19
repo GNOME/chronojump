@@ -837,9 +837,9 @@ public partial class ChronoJumpWindow
 
 			int time;
 			double force;
-			string trigger;
+			string triggerCode;
 			if(! forceSensorProcessCapturedLine(str, out time, out force,
-						false, out trigger))
+						false, out triggerCode)) //false: do not read triggers
 				continue;
 
 			forceSensorValues.TimeLast = time;
@@ -1098,6 +1098,7 @@ public partial class ChronoJumpWindow
 		TextWriter writer = File.CreateText(fileName);
 		writer.WriteLine("Time (micros);Force(N)");
 
+		triggerListForceSensor = new TriggerList();
 		str = "";
 		int firstTime = 0;
 //		bool forceSensorBinary = forceSensorBinaryCapture();
@@ -1117,7 +1118,7 @@ public partial class ChronoJumpWindow
 			LogB.Information("at bucle");
 			int time = 0;
 			double force = 0;
-			string trigger = "";
+			string triggerCode = "";
 
 			if(forceSensorBinaryCapture)
 			{
@@ -1132,7 +1133,7 @@ public partial class ChronoJumpWindow
 			else {
 				str = portFS.ReadLine();
 				if(! forceSensorProcessCapturedLine(str, out time, out force,
-							readTriggers, out trigger))
+							readTriggers, out triggerCode))
 					continue;
 			}
 
@@ -1144,10 +1145,21 @@ public partial class ChronoJumpWindow
 			time -= firstTime;
 
 			//if RCA or button at the moment just print it here (now that time has been corrected using firstTime)
-			if(readTriggers && trigger != "")
+			if( readTriggers && (triggerCode == "r" || triggerCode == "R") )
 			{
-				LogB.Information(string.Format("At: {0}, trigger: {1}",
-							time.ToString(), ForceSensor.ReadTrigger(trigger)));
+				LogB.Information(string.Format("At: {0}, triggerCode: {1}",
+							time.ToString(), ForceSensor.ReadTrigger(triggerCode)));
+
+				Trigger trigger;
+				if(triggerCode == "r")
+					trigger = new Trigger(Trigger.Modes.FORCESENSOR, time, false);
+				else //if(triggerCode == "R")
+					trigger = new Trigger(Trigger.Modes.FORCESENSOR, time, true);
+
+				if(! triggerListForceSensor.NewSameTypeThanBefore(trigger) &&
+						! triggerListForceSensor.IsSpurious(trigger, TriggerList.Type3.BOTH, 50))
+					triggerListForceSensor.Add(trigger);
+
 				continue;
 			}
 
@@ -1227,11 +1239,11 @@ public partial class ChronoJumpWindow
 
 	private bool forceSensorProcessCapturedLine (string str,
 			out int time, out double force,
-			bool readTriggers, out string trigger)
+			bool readTriggers, out string triggerCode)
 	{
 		time = 0;
 		force = 0;
-		trigger = "";
+		triggerCode = "";
 
 		//check if there is one and only one ';'
 		if( ! (str.Contains(";") && str.IndexOf(";") == str.LastIndexOf(";")) )
@@ -1251,7 +1263,7 @@ public partial class ChronoJumpWindow
 		else if(readTriggers)
 		{
 			time = Convert.ToInt32(strFull[0]);
-			trigger = strFull[1];
+			triggerCode = strFull[1];
 			return true;
 		} else
 			return false;
@@ -1304,6 +1316,8 @@ LogB.Information(" fs C ");
 							currentForceSensorExercise.Name);
 
 					currentForceSensor.UniqueID = currentForceSensor.InsertSQL(false);
+					triggerListForceSensor.SQLInsert(currentForceSensor.UniqueID);
+					//showForceSensorTriggers (); TODO until know where to put it
 
 					//stop camera
 					if(webcamEnd (Constants.TestTypes.FORCESENSOR, currentForceSensor.UniqueID))
@@ -1806,6 +1820,14 @@ LogB.Information(" fs R ");
 			changeTestImage("", "", "FORCESENSOR_NOT_ELASTIC");
 		}
 
+		//triggers
+		triggerListForceSensor = new TriggerList(
+				SqliteTrigger.Select(
+					false, Trigger.Modes.FORCESENSOR,
+					Convert.ToInt32(currentForceSensor.UniqueID))
+				);
+		//showForceSensorTriggers (); TODO until know where to put it
+
 		forceSensorCopyTempAndDoGraphs(forceSensorGraphsEnum.SIGNAL);
 		image_force_sensor_graph.Sensitive = false; //unsensitivize the RFD image (can contain info of previous data)
 
@@ -2055,7 +2077,7 @@ LogB.Information(" fs R ");
 
 		ForceSensorGraph fsg = new ForceSensorGraph(getForceSensorCaptureOptions(), rfdList, impulse,
 				duration, Convert.ToInt32(spin_force_rfd_duration_percent.Value),
-				title, exercise, currentForceSensor.DateTimePublic);
+				title, exercise, currentForceSensor.DateTimePublic); //TODO: add triggers
 
 		int imageWidth = UtilGtk.WidgetWidth(viewport_force_sensor_graph);
 		int imageHeight = UtilGtk.WidgetHeight(viewport_force_sensor_graph);

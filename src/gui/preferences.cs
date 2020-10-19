@@ -1587,8 +1587,8 @@ public class PreferencesWindow
 				Catalog.GetString("If a repetition has been found, test will end at selected inactivity seconds.") + "\n\n" +
 				Catalog.GetString("If a repetition has not been found, test will end at selected inactivity seconds (x2).") + "\n" +
 				Catalog.GetString("This will let the person to have more time to start movement.") + "\n\n" +
-				"On inertial, to avoid never ending capture because cone is slowly moving at the end, this criteria is added:" + "\n" +
-				"If passed the double of configured inactivity seconds since last phase, capture will end."
+				Catalog.GetString("On inertial, to avoid never ending capture because cone is slowly moving at the end, this criteria is added:") + "\n" +
+				Catalog.GetString("If passed the double of configured inactivity seconds since last phase, capture will end.")
 				);
 	}
 

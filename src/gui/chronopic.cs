@@ -153,6 +153,8 @@ public partial class ChronoJumpWindow
 			//change appearance of execute test button
 			button_execute_test_show_connect_or_execute(false);
 
+			UtilGtk.PrintLabelWithTooltip(event_execute_label_message,
+					Catalog.GetString("Connected to Chronopic"));
 		} else
 			LogB.Warning("Failure at Connecting real! (main GUI)");
 	}

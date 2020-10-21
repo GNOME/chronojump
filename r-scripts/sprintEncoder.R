@@ -49,7 +49,7 @@ assignOptions <- function(options) {
 		segmentMeters	= as.numeric(options[11]),
                 title 	 	= options[12],
                 datetime 	= options[13],
-                startAccel 	= options[14],
+                startAccel 	= as.numeric(options[14]),
                 plotRawAccel 	= as.logical(options[15]),
                 plotFittedAccel = as.logical(options[16]),
                 plotRawForce 	= as.logical(options[17]),
@@ -599,14 +599,17 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
 getTrimmingSamples <- function(totalTime, position, speed, accel, testLength, startAccel)
 {
         print("#########Entering getTrimmingSamples###########33")
+        print(paste("startAccel =", startAccel))
         #The test starts when the acceleration is greater than startAccel m/s²
         startSample = 0
-        startingSample = FALSE
-        while(!startingSample & startSample < (length(speed)-2))
+        startingSample = FALSE          #Wether the starting sample has been found or not
+        while(!startingSample & startSample < (length(speed)-2))        #While starting sample not found and not at the end of the signal
         {
                 startSample = startSample +1
                 if(accel[startSample] > startAccel)
                 {
+                        print("Current accel > startAccel")
+                        print(paste("startAccel =", startAccel))
                         print(paste("accel[", startSample,"] = ", accel[startSample], sep = ""))
                         
                         #Looking if after 1 second the position has increased at least .5m.
@@ -655,8 +658,8 @@ getTrimmingSamples <- function(totalTime, position, speed, accel, testLength, st
 
 tryNLS <- function(data){
         print("#######Entering tryNLS#########")
-        print("data:")
-        print(data)
+        # print("data:")
+        # print(data)
         tryCatch (
                 {
                         model = nls(speed ~ Vmax*(1-exp(-K*time)), data,
@@ -703,7 +706,7 @@ testEncoderCJ <- function(filename, testLength, mass, personHeight, tempC, start
                                       plotFittedAccel = op$plotFittedAccel,
                                       plotFittedForce = op$plotFittedForce,
                                       plotFittedPower = op$plotFittedPower,
-				      startAccel,
+				      startAccel = startAccel,
                                       plotStartDetection = TRUE)
                 exportSprintDynamics(sprintFittedDynamics)
         } else

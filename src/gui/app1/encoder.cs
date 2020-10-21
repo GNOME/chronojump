@@ -6071,7 +6071,9 @@ public partial class ChronoJumpWindow
 			double maxForce = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[12]));
 			double meanPower = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[7]));
 			double peakPower = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[8]));
-			captureCurvesBarsData.Add(new EncoderBarsData(range, meanSpeed, maxSpeed, meanForce, maxForce, meanPower, peakPower));
+			double workJ = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[15]));
+			double impulse = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[16]));
+			captureCurvesBarsData.Add(new EncoderBarsData(range, meanSpeed, maxSpeed, meanForce, maxForce, meanPower, peakPower, workJ, impulse));
 			
 			LogB.Information("activating needToRefreshTreeviewCapture");
 
@@ -6740,7 +6742,9 @@ public partial class ChronoJumpWindow
 									Convert.ToDouble(curve.MeanForce),
 									Convert.ToDouble(curve.MaxForce),
 									Convert.ToDouble(curve.MeanPower),
-									Convert.ToDouble(curve.PeakPower)
+									Convert.ToDouble(curve.PeakPower),
+									Convert.ToDouble(curve.WorkJ),
+									Convert.ToDouble(curve.Impulse)
 									));
 					}
 				}

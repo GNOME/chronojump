@@ -1375,8 +1375,11 @@ public class EncoderBarsData
 	public double MaxForce;
 	public double MeanPower;
 	public double PeakPower;
+	public double WorkJ;
+	public double Impulse;
 	
-	public EncoderBarsData(double range, double meanSpeed, double maxSpeed, double meanForce, double maxForce, double meanPower, double peakPower)
+	public EncoderBarsData(double range, double meanSpeed, double maxSpeed, double meanForce, double maxForce,
+			double meanPower, double peakPower, double workJ, double impulse)
 	{
 		this.Range = range;
 		this.MeanSpeed = meanSpeed;
@@ -1385,6 +1388,8 @@ public class EncoderBarsData
 		this.MaxForce  = maxForce;
 		this.MeanPower = meanPower;
 		this.PeakPower = peakPower;
+		this.WorkJ = workJ;
+		this.Impulse = impulse;
 	}
 
 	public double GetValue (string option)
@@ -1403,8 +1408,14 @@ public class EncoderBarsData
 			return MaxForce;
 		else if(option == Constants.MeanPower)
 			return MeanPower;
-		else // option == Constants.PeakPower
+		else if(option == Constants.PeakPower)
 			return PeakPower;
+		else if(option == Constants.WorkJ)
+			return WorkJ;
+		else if(option == Constants.Impulse)
+			return Impulse;
+
+		return MeanPower;
 	}
 	
 	~EncoderBarsData() {}

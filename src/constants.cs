@@ -1189,11 +1189,13 @@ public class Constants
 	public const string MaxForce = "Max force";
 	public const string MeanPower = "Mean power";
 	public const string PeakPower = "Peak power";
+	public const string WorkJ = "WorkJ";
+	public const string Impulse = "Impulse";
 	public static string [] EncoderVariablesCaptureList = {
-		RangeAbsolute, MeanSpeed, MaxSpeed, MeanForce, MaxForce, MeanPower, PeakPower
+		RangeAbsolute, MeanSpeed, MaxSpeed, MeanForce, MaxForce, MeanPower, PeakPower, WorkJ, Impulse
 	};
 	public enum EncoderVariablesCapture {
-		RangeAbsolute, MeanSpeed, MaxSpeed, MeanForce, MaxForce, MeanPower, PeakPower
+		RangeAbsolute, MeanSpeed, MaxSpeed, MeanForce, MaxForce, MeanPower, PeakPower, WorkJ, Impulse
 	}
 	public static string GetEncoderVariablesCapture(EncoderVariablesCapture enumVariable) {
 		switch(enumVariable) {
@@ -1211,6 +1213,10 @@ public class Constants
 				return MeanPower;
 			case EncoderVariablesCapture.PeakPower:
 				return PeakPower;
+			case EncoderVariablesCapture.WorkJ:
+				return WorkJ;
+			case EncoderVariablesCapture.Impulse:
+				return Impulse;
 		}
 		return MeanPower;
 	}
@@ -1230,6 +1236,10 @@ public class Constants
 				return EncoderVariablesCapture.MeanPower;
 			case PeakPower:
 				return EncoderVariablesCapture.PeakPower;
+			case WorkJ:
+				return EncoderVariablesCapture.WorkJ;
+			case Impulse:
+				return EncoderVariablesCapture.Impulse;
 		}
 		return EncoderVariablesCapture.MeanPower;
 	}

@@ -43,7 +43,7 @@ public class EncoderGraphDoPlot
 	private RepetitiveConditionsWindow repetitiveConditionsWin;
 	private bool hasInertia;
 	private bool playSoundsFromFile;
-	private ArrayList data7Variables;
+	private ArrayList data9Variables;
 	private Gtk.ListStore encoderCaptureListStore;
 	private bool relativeToSet;
 	private double maxPowerSpeedForceIntersession; //it will be one of these 3
@@ -56,6 +56,8 @@ public class EncoderGraphDoPlot
 	private ArrayList data; //data is related to mainVariable (barplot)
 	private ArrayList dataSecondary; //dataSecondary is related to secondary variable (by default range)
 	private ArrayList dataRangeOfMovement; //ROM, need it to discard last rep for loss. Is not the same as dataSecondary because maybe user selected another variable as secondary. only checks con.
+	private ArrayList dataWorkJ;
+	private ArrayList dataImpulse;
 
 	private RepetitionMouseLimits encoderRepetitionMouseLimits;
 
@@ -145,7 +147,7 @@ public class EncoderGraphDoPlot
 			string secondaryVariable, bool capturing, string eccon,
 			RepetitiveConditionsWindow repetitiveConditionsWin,
 			bool hasInertia, bool playSoundsFromFile,
-			ArrayList data7Variables, Gtk.ListStore encoderCaptureListStore,
+			ArrayList data9Variables, Gtk.ListStore encoderCaptureListStore,
 			bool relativeToSet,
 			double maxPowerSpeedForceIntersession, string maxPowerSpeedForceIntersessionDate)
 	{
@@ -158,7 +160,7 @@ public class EncoderGraphDoPlot
 		this.repetitiveConditionsWin = repetitiveConditionsWin;
 		this.hasInertia = hasInertia;
 		this.playSoundsFromFile = playSoundsFromFile;
-		this.data7Variables = data7Variables;
+		this.data9Variables = data9Variables;
         	this.encoderCaptureListStore = encoderCaptureListStore;
 		this.relativeToSet = relativeToSet;
 		this.maxPowerSpeedForceIntersession = maxPowerSpeedForceIntersession;
@@ -174,14 +176,16 @@ public class EncoderGraphDoPlot
 
 	private void fillDataVariables()
 	{
-		data = new ArrayList (data7Variables.Count); //data is related to mainVariable (barplot)
-		dataSecondary = new ArrayList (data7Variables.Count); //dataSecondary is related to secondary variable (by default range)
-		dataRangeOfMovement = new ArrayList (data7Variables.Count);
+		data = new ArrayList (data9Variables.Count); //data is related to mainVariable (barplot)
+		dataSecondary = new ArrayList (data9Variables.Count); //dataSecondary is related to secondary variable (by default range)
+		dataRangeOfMovement = new ArrayList (data9Variables.Count);
+		dataWorkJ = new ArrayList (data9Variables.Count);
+		dataImpulse = new ArrayList (data9Variables.Count);
 		bool lastIsEcc = false;
 		int count = 0;
 
 		//discard repetitions according to showNRepetitions
-		foreach(EncoderBarsData ebd in data7Variables)
+		foreach(EncoderBarsData ebd in data9Variables)
 		{
 			//LogB.Information(string.Format("count: {0}, value: {1}", count, ebd.GetValue(mainVariable)));
 			//when capture ended, show all repetitions
@@ -191,19 +195,23 @@ public class EncoderGraphDoPlot
 				if(secondaryVariable != "")
 					dataSecondary.Add(ebd.GetValue(secondaryVariable));
 				dataRangeOfMovement.Add(ebd.GetValue(Constants.RangeAbsolute));
+				dataWorkJ.Add(ebd.GetValue(Constants.WorkJ));
+				dataImpulse.Add(ebd.GetValue(Constants.Impulse));
 			}
 			else {
-				if(eccon == "c" && ( data7Variables.Count <= showNRepetitions || 	//total repetitions are less than show repetitions threshold ||
-						count >= data7Variables.Count - showNRepetitions ) ) 	//count is from the last group of reps (reps that have to be shown)
+				if(eccon == "c" && ( data9Variables.Count <= showNRepetitions || 	//total repetitions are less than show repetitions threshold ||
+						count >= data9Variables.Count - showNRepetitions ) ) 	//count is from the last group of reps (reps that have to be shown)
 				{
 					data.Add(ebd.GetValue(mainVariable));
 					if(secondaryVariable != "")
 						dataSecondary.Add(ebd.GetValue(secondaryVariable));
 					dataRangeOfMovement.Add(ebd.GetValue(Constants.RangeAbsolute));
+					dataWorkJ.Add(ebd.GetValue(Constants.WorkJ));
+					dataImpulse.Add(ebd.GetValue(Constants.Impulse));
 				}
 				else if(eccon != "c" && (
-						data7Variables.Count <= 2 * showNRepetitions ||
-						count >= data7Variables.Count - 2 * showNRepetitions) )
+						data9Variables.Count <= 2 * showNRepetitions ||
+						count >= data9Variables.Count - 2 * showNRepetitions) )
 				{
 					if(! Util.IsEven(count +1))  	//if it is "impar"
 					{
@@ -212,6 +220,8 @@ public class EncoderGraphDoPlot
 						if(secondaryVariable != "")
 							dataSecondary.Add(ebd.GetValue(secondaryVariable));
 						dataRangeOfMovement.Add(ebd.GetValue(Constants.RangeAbsolute));
+						dataWorkJ.Add(ebd.GetValue(Constants.WorkJ));
+						dataImpulse.Add(ebd.GetValue(Constants.Impulse));
 						lastIsEcc = true;
 					} else {  			//it is "par"
 						if(lastIsEcc)
@@ -220,12 +230,15 @@ public class EncoderGraphDoPlot
 							if(secondaryVariable != "")
 								dataSecondary.Add(ebd.GetValue(secondaryVariable));
 							dataRangeOfMovement.Add(ebd.GetValue(Constants.RangeAbsolute));
+							dataWorkJ.Add(ebd.GetValue(Constants.WorkJ));
+							dataImpulse.Add(ebd.GetValue(Constants.Impulse));
 							LogB.Information("added con");
 							lastIsEcc = false;
 						}
 					}
 				}
 			}
+			//LogB.Information("data workJ: " + dataWorkJ[count].ToString());
 			count ++;
 		}
 	}
@@ -829,15 +842,17 @@ public class EncoderGraphDoPlot
 				}
 			}
 
-			//work
-			if(iterOk) {
+			//work and impulse
+			if(dataWorkJ.Count > 0)
+			{
 				if(preferences.encoderWorkKcal)
-					workTotal += ((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).WorkKcalD;
+					workTotal += Convert.ToDouble(dataWorkJ[count]) * 0.000239006;
 				else
-					workTotal += ((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).WorkJD;
-
-				impulseTotal += ((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).ImpulseD;
+					workTotal += Convert.ToDouble(dataWorkJ[count]);
 			}
+
+			if(dataImpulse.Count > 0)
+				impulseTotal += Convert.ToDouble(dataImpulse[count]);
 
 			//add text on the bottom
 			if (eccon == "c" || Util.IsEven(count +1)) //par
@@ -853,14 +868,14 @@ public class EncoderGraphDoPlot
 				if(showNRepetitions > 0 && capturing)
 				{
 
-					if (eccon == "c" && data7Variables.Count > showNRepetitions)
-						bottomText = ( (data7Variables.Count - showNRepetitions) + count +1).ToString();
-					else if (eccon != "c" && data7Variables.Count > showNRepetitions*2)
+					if (eccon == "c" && data9Variables.Count > showNRepetitions)
+						bottomText = ( (data9Variables.Count - showNRepetitions) + count +1).ToString();
+					else if (eccon != "c" && data9Variables.Count > showNRepetitions*2)
 					{
-						//LogB.Information(string.Format("bottomText vars B: {0}, {1}, {2}, {3}", data7Variables.Count, showNRepetitions*2, count,
-						//			Math.Floor(Convert.ToDouble((data7Variables.Count +1)/2)) - showNRepetitions + Math.Floor(Convert.ToDouble(((count +1)/2)))
+						//LogB.Information(string.Format("bottomText vars B: {0}, {1}, {2}, {3}", data9Variables.Count, showNRepetitions*2, count,
+						//			Math.Floor(Convert.ToDouble((data9Variables.Count +1)/2)) - showNRepetitions + Math.Floor(Convert.ToDouble(((count +1)/2)))
 						//			));
-						bottomText = ( Math.Floor(Convert.ToDouble((data7Variables.Count +1)/2)) - showNRepetitions + Math.Floor(Convert.ToDouble(((count +1)/2))) ).ToString();
+						bottomText = ( Math.Floor(Convert.ToDouble((data9Variables.Count +1)/2)) - showNRepetitions + Math.Floor(Convert.ToDouble(((count +1)/2))) ).ToString();
 					}
 				}
 

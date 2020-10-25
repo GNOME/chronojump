@@ -3709,9 +3709,6 @@ public partial class ChronoJumpWindow
 		hbox_encoder_analyze_show_powerbars.Visible=false;
 		hbox_encoder_analyze_instantaneous.Visible=true;
 		//checkbutton_encoder_analyze_side_share_x.Visible = false; //defined in "4 radiobuttons"
-		encoderSelectedAnalysis = "single";
-notebook_encoder_analyze.CurrentPage = 1;
-vbox_encoder_analyze_instant.Visible = true;
 
 		//together, mandatory
 		check_encoder_analyze_eccon_together.Sensitive=false;
@@ -3789,6 +3786,9 @@ vbox_encoder_analyze_instant.Visible = true;
 			label_encoder_analyze_selected.Text = Catalog.GetString("Single repetition");
 
 			hbox_encoder_analyze_curve_num.Visible=true;
+
+			notebook_encoder_analyze.CurrentPage = 1;
+			vbox_encoder_analyze_instant.Visible = true;
 		}
 		else if (mode == "side")
 		{
@@ -3801,6 +3801,9 @@ vbox_encoder_analyze_instant.Visible = true;
 			label_encoder_analyze_selected.Text = Catalog.GetString("Side compare");
 
 			checkbutton_encoder_analyze_side_share_x.Visible = true;
+
+			notebook_encoder_analyze.CurrentPage = 0;
+			vbox_encoder_analyze_instant.Visible = false;
 		}
 		else if (mode == "superpose")
 		{
@@ -3808,6 +3811,9 @@ vbox_encoder_analyze_instant.Visible = true;
 
 			image_encoder_analyze_selected_superpose.Visible = (radiobutton_encoder_analyze_superpose.Active);
 			label_encoder_analyze_selected.Text = Catalog.GetString("Superpose");
+
+			notebook_encoder_analyze.CurrentPage = 0;
+			vbox_encoder_analyze_instant.Visible = false;
 		}
 		else if (mode == "singleAllSet")
 		{
@@ -3815,6 +3821,9 @@ vbox_encoder_analyze_instant.Visible = true;
 
 			image_encoder_analyze_selected_all_set.Visible = (radiobutton_encoder_analyze_all_set.Active);
 			label_encoder_analyze_selected.Text = Catalog.GetString("All set");
+
+			notebook_encoder_analyze.CurrentPage = 1;
+			vbox_encoder_analyze_instant.Visible = true;
 		}
 	}
 

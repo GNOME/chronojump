@@ -6938,7 +6938,8 @@ vbox_encoder_analyze_instant.Visible = true;
 				//TODO pensar en si s'ha de fer 1er amb mida petita i despres amb gran (en el zoom),
 				//o si es una sola i fa alguna edicio
 				
-				if(encoderSelectedAnalysis == "single" || encoderSelectedAnalysis == "singleAllSet") {
+				if(encoderSelectedAnalysis == "single" || encoderSelectedAnalysis == "singleAllSet")
+				{
 					drawingarea_encoder_analyze_cairo_pixbuf = UtilGtk.OpenPixbufSafe(
 							UtilEncoder.GetEncoderGraphTempFileName(),
 							drawingarea_encoder_analyze_cairo_pixbuf);
@@ -6948,6 +6949,8 @@ vbox_encoder_analyze_instant.Visible = true;
 					vbox_encoder_analyze_instant.Visible = true;
 
 					button_encoder_analyze_AB_save.Visible = checkbutton_encoder_analyze_b.Active;
+
+					notebook_encoder_analyze.CurrentPage = 1;
 				} else {
 					//maybe image is still not readable
 					image_encoder_analyze = UtilGtk.OpenImageSafe(
@@ -6955,6 +6958,8 @@ vbox_encoder_analyze_instant.Visible = true;
 							image_encoder_analyze);
 					
 					button_encoder_analyze_AB_save.Visible = false;
+
+					notebook_encoder_analyze.CurrentPage = 0;
 				}
 
 				encoder_pulsebar_analyze.Text = "";

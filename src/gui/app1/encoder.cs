@@ -182,7 +182,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_encoder_user_curves_all_num;
 
 	[Widget] Gtk.VBox vbox_encoder_analyze_instant;
-	[Widget] Gtk.Label label_encoder_analyze_instant_need_click_analyze;
 	[Widget] Gtk.Table table_encoder_analyze_instant;
 	[Widget] Gtk.HScale hscale_encoder_analyze_a;
 	[Widget] Gtk.CheckButton checkbutton_encoder_analyze_b;
@@ -508,8 +507,6 @@ public partial class ChronoJumpWindow
 		vbox_encoder_signal_comment.SetSizeRequest (button_encoder_signal_save_comment.SizeRequest().Width, -1);
 		notebook_encoder_signal_comment_rhythm_and_triggers.SetSizeRequest
 			(button_encoder_signal_save_comment.SizeRequest().Width, -1);
-
-		label_encoder_analyze_instant_need_click_analyze.Text = string.Format(Catalog.GetString("Click '{0}' button"), Catalog.GetString("Analyze"));
 	}
 
 	void on_button_encoder_select_clicked (object o, EventArgs args)
@@ -3609,6 +3606,7 @@ public partial class ChronoJumpWindow
 		hbox_encoder_analyze_instantaneous.Visible=false;
 		checkbutton_encoder_analyze_side_share_x.Visible = false;
 		encoderSelectedAnalysis = "powerBars";
+		notebook_encoder_analyze.CurrentPage = 0;
 		
 		check_encoder_analyze_eccon_together.Sensitive=true;
 		block_check_encoder_analyze_eccon_together_if_needed();
@@ -3633,6 +3631,7 @@ public partial class ChronoJumpWindow
 		hbox_encoder_analyze_instantaneous.Visible=false;
 		checkbutton_encoder_analyze_side_share_x.Visible = false;
 		encoderSelectedAnalysis = "cross";
+		notebook_encoder_analyze.CurrentPage = 0;
 		
 		check_encoder_analyze_eccon_together.Sensitive=true;
 		
@@ -3657,6 +3656,7 @@ public partial class ChronoJumpWindow
 		hbox_encoder_analyze_instantaneous.Visible=false;
 		checkbutton_encoder_analyze_side_share_x.Visible = false;
 		encoderSelectedAnalysis = "1RM";
+		notebook_encoder_analyze.CurrentPage = 0;
 		
 		check_encoder_analyze_eccon_together.Sensitive=true;
 		
@@ -3681,6 +3681,7 @@ public partial class ChronoJumpWindow
 		hbox_encoder_analyze_instantaneous.Visible=false;
 		checkbutton_encoder_analyze_side_share_x.Visible = false;
 		encoderSelectedAnalysis = "neuromuscularProfile";
+		notebook_encoder_analyze.CurrentPage = 0;
 		
 		//separated, mandatory
 		check_encoder_analyze_eccon_together.Sensitive=false;
@@ -3709,6 +3710,8 @@ public partial class ChronoJumpWindow
 		hbox_encoder_analyze_instantaneous.Visible=true;
 		//checkbutton_encoder_analyze_side_share_x.Visible = false; //defined in "4 radiobuttons"
 		encoderSelectedAnalysis = "single";
+notebook_encoder_analyze.CurrentPage = 1;
+vbox_encoder_analyze_instant.Visible = true;
 
 		//together, mandatory
 		check_encoder_analyze_eccon_together.Sensitive=false;
@@ -5070,7 +5073,6 @@ public partial class ChronoJumpWindow
 		image_encoder_capture.Sensitive = false;
 		image_encoder_analyze.Sensitive = false;
 		vbox_encoder_analyze_instant.Visible = false; //play with Visible instead of Sensitive because with Sensitive the pixmap is fully shown
-		label_encoder_analyze_instant_need_click_analyze.Visible = true;
 		treeview_encoder_analyze_curves.Sensitive = false;
 
 		button_encoder_analyze_image_save.Sensitive = false;
@@ -5846,7 +5848,6 @@ public partial class ChronoJumpWindow
 				encoderButtonsSensitive(encoderSensEnum.PROCESSINGR);
 			}
 		} else { //encoderActions.ANALYZE
-			
 			//the -5 is because image is inside (is smaller than) viewport
 			image_encoder_width = UtilGtk.WidgetWidth(scrolledwindow_image_encoder_analyze)-5;
 			if(image_encoder_width < 100)
@@ -6902,7 +6903,6 @@ public partial class ChronoJumpWindow
 			//analyze_image_save only has not to be sensitive now because capture graph will be saved
 			image_encoder_analyze.Sensitive = false;
 			vbox_encoder_analyze_instant.Visible = false; //play with Visible instead of Sensitive because with Sensitive the pixmap is fully shown
-			label_encoder_analyze_instant_need_click_analyze.Visible = true;
 
 			button_encoder_analyze_image_save.Sensitive = false;
 			button_encoder_analyze_image_compujump_send_email.Sensitive = false;
@@ -6945,12 +6945,9 @@ public partial class ChronoJumpWindow
 
 					drawingarea_encoder_analyze_instant.QueueDraw(); //will fire ExposeEvent
 
-		vbox_encoder_analyze_instant.Visible = true;
-		label_encoder_analyze_instant_need_click_analyze.Visible = false;
-					
-					button_encoder_analyze_AB_save.Visible = checkbutton_encoder_analyze_b.Active;
+					vbox_encoder_analyze_instant.Visible = true;
 
-					notebook_encoder_analyze.CurrentPage = 1;
+					button_encoder_analyze_AB_save.Visible = checkbutton_encoder_analyze_b.Active;
 				} else {
 					//maybe image is still not readable
 					image_encoder_analyze = UtilGtk.OpenImageSafe(
@@ -6958,8 +6955,6 @@ public partial class ChronoJumpWindow
 							image_encoder_analyze);
 					
 					button_encoder_analyze_AB_save.Visible = false;
-					
-					notebook_encoder_analyze.CurrentPage = 0;
 				}
 
 				encoder_pulsebar_analyze.Text = "";

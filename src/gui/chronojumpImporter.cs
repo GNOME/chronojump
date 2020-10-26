@@ -210,6 +210,8 @@ public partial class ChronoJumpWindow
 
 			reloadSession ();
 
+			app1s_scrolledwindow_import_error.Visible = false;
+
 			//chronojumpImporter.showImportCorrectlyFinished ();
 			app1s_ShowLabelImportedOk();
 		} else {

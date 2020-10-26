@@ -8424,7 +8424,7 @@ msgstr "Distancias"
 
 #: ../src/gui/sprint.cs:55
 msgid "Split times"
-msgstr "Dividir tiempos"
+msgstr "Tiempo acumulado"
 
 #: ../src/gui/sprint.cs:56
 msgid "Total time"

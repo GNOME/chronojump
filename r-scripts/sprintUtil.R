@@ -120,7 +120,7 @@ exportSprintDynamics <- function(sprintDynamics)
                           V0 = sprintDynamics$V0,
                           pmax.lm = sprintDynamics$pmax.lm,
                           pmax.rel.lm = sprintDynamics$pmax.rel.lm)
-        write.csv2(exportData, file = paste(tempPath, "/sprintResults.csv", sep = ""))
+        write.csv2(exportData, file = paste(tempPath, "/sprintResults.csv", sep = ""), row.names = FALSE)
 }
 
 #Finds the time correspondig to a given position in the formula x(t) = Vmax*(t + (1/K)*exp(-K*t)) -Vmax - 1/K

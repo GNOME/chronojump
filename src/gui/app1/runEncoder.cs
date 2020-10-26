@@ -272,6 +272,8 @@ public partial class ChronoJumpWindow
 		button_contacts_exercise_close_and_recalculate.Sensitive = false;
 		textview_contacts_signal_comment.Buffer.Text = "";
 		image_run_encoder_graph.Sensitive = false;
+		treeview_raceAnalyzer = UtilGtk.RemoveColumns(treeview_raceAnalyzer);
+		clearRaceAnalyzerTriggers();
 
 		button_run_encoder_analyze_options.Sensitive = false;
 		button_run_encoder_analyze_analyze.Sensitive = false;
@@ -954,7 +956,6 @@ public partial class ChronoJumpWindow
 		button_run_encoder_analyze_analyze.Sensitive = true;
 
 		// 3) display table
-		//treeviewRaceAnalyzerRemoveColumns();
 		treeview_raceAnalyzer = UtilGtk.RemoveColumns(treeview_raceAnalyzer);
 
 		string contents = Util.ReadFile(RunEncoder.GetCSVResultsFileName(), false);

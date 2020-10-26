@@ -766,7 +766,11 @@ public class UtilGtk
 		return s;
 	}
 
-	
+	public static void TextViewClear (Gtk.TextView tv)
+	{
+		tv.Buffer.Text = "";
+	}
+
 	public static TextBuffer TextViewPrint(string message) {
 		TextBuffer tb = new TextBuffer (new TextTagTable());
 		tb.Text = message;

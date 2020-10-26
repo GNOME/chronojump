@@ -45,6 +45,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ComboBox combo_race_analyzer_device;
 	[Widget] Gtk.Image image_run_encoder_graph;
 	[Widget] Gtk.Viewport viewport_run_encoder_graph;
+	[Widget] Gtk.TreeView treeview_raceAnalyzer;
 
 	int race_analyzer_distance;
 	int race_analyzer_temperature;
@@ -939,8 +940,10 @@ public partial class ChronoJumpWindow
 
 	private void raceEncoderCopyTempAndDoGraphs()
 	{
+		// 1) copy file
 		File.Copy(lastRunEncoderFullPath, RunEncoder.GetCSVFileName(), true); //can be overwritten
 
+		// 2) create and open graph
 		raceEncoderCaptureGraphDo();
 
 		Thread.Sleep (250); //Wait a bit to ensure is copied
@@ -949,6 +952,13 @@ public partial class ChronoJumpWindow
 		notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RACEENCODER);
 		radio_mode_contacts_analyze.Active = true;
 		button_run_encoder_analyze_analyze.Sensitive = true;
+
+		// 3) display table
+		//treeviewRaceAnalyzerRemoveColumns();
+		treeview_raceAnalyzer = UtilGtk.RemoveColumns(treeview_raceAnalyzer);
+
+		string contents = Util.ReadFile(RunEncoder.GetCSVResultsFileName(), false);
+		createTreeViewRaceEncoder(contents);
 	}
 
 	private void raceEncoderCaptureGraphDo()
@@ -1024,6 +1034,73 @@ public partial class ChronoJumpWindow
 			LogB.Information("File does not exist on png (after 5 seconds)");
 			captureEndedMessage += " (png not created, problem doing the graph)";
 		}
+	}
+
+	private void createTreeViewRaceEncoder (string contents)
+	{
+		string [] columnsString = getTreeviewRaceAnalyzerHeaders();
+		int count = 0;
+		foreach(string column in columnsString)
+			treeview_raceAnalyzer.AppendColumn (column, new CellRendererText(), "text", count++);
+
+		TreeStore store = new TreeStore(
+				typeof (string), typeof (string), typeof (string),
+				typeof (string), typeof (string), typeof (string),
+				typeof (string), typeof (string), typeof (string),
+				typeof (string), typeof (string), typeof (string),
+				typeof (string), typeof (string), typeof (string),
+				typeof (string), typeof (string), typeof (string),
+				typeof (string), typeof (string), typeof (string),
+				typeof (string)
+				);
+
+		string line;
+		using (StringReader reader = new StringReader (contents))
+		{
+			line = reader.ReadLine ();      //headers
+			//LogB.Information(line);
+			do {
+				line = reader.ReadLine ();
+				LogB.Information(line);
+				if (line == null)
+					break;
+
+				string [] cells = line.Split(new char[] {';'});
+
+				RunEncoderCSV recsv = new RunEncoderCSV(
+							Convert.ToDouble(cells[0]), Convert.ToDouble(cells[1]), Convert.ToInt32(cells[2]),
+							Convert.ToDouble(cells[3]), Convert.ToDouble(cells[4]), Convert.ToDouble(cells[5]),
+							Convert.ToDouble(cells[6]), Convert.ToDouble(cells[7]), Convert.ToDouble(cells[8]),
+							Convert.ToDouble(cells[9]), Convert.ToDouble(cells[10]), Convert.ToDouble(cells[11]),
+							Convert.ToDouble(cells[12]), Convert.ToDouble(cells[13]), Convert.ToDouble(cells[14]),
+							Convert.ToDouble(cells[15]), Convert.ToDouble(cells[16]), Convert.ToDouble(cells[17]),
+							Convert.ToDouble(cells[18]), Convert.ToDouble(cells[19]), Convert.ToDouble(cells[20]),
+							Convert.ToDouble(cells[21])
+						);
+
+				store.AppendValues (recsv.ToTreeView());
+
+			} while(true);
+		}
+
+		treeview_raceAnalyzer.Model = store;
+		treeview_raceAnalyzer.Selection.Mode = SelectionMode.None;
+                treeview_raceAnalyzer.HeadersVisible=true;
+
+	}
+	private string [] getTreeviewRaceAnalyzerHeaders ()
+        {
+                string [] headers = {
+			"Mass\n\n(Kg)", "Height\n\n(m)", "Temperature\n\n(ºC)",
+			"V (wind)\n\n(m/s)", "Ka\n\n", "K\nfitted\n(s^-1)",
+			"Vmax\nfitted\n(m/s)", "Amax\nfitted\n(m/s^2)", "Fmax\nfitted\n(N)",
+			"Fmax\nrel fitted\n(N/Kg)", "Sfv\nfitted\n", "Sfv\nrel fitted\n",
+			"Sfv\nlm\n", "Sfv\nrel lm\n", "Pmax\nfitted\n(W)",
+			"Pmax\nrel fitted\n(W/Kg)", "Time to pmax\nfitted\n(s)", "F0\n\n(N)",
+			"F0\nrel\n(N/Kg)", "V0\n\n(m/s)", "Pmax\nlm\n(W)",
+			"Pmax\nrel lm\n(W/Kg)"
+		};
+		return headers;
 	}
 
 	private string readFromRunEncoderIfDataArrived()

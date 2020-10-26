@@ -2886,12 +2886,12 @@ LogB.Information(" fs R ");
 	}
 	private void setLaterality(string s)
 	{
-		if(s == Catalog.GetString(Constants.ForceSensorLateralityBoth))
-			radio_force_sensor_laterality_both.Active = true;
-		else if(s == Catalog.GetString(Constants.ForceSensorLateralityLeft))
+		if(s == Constants.ForceSensorLateralityLeft)
 			radio_force_sensor_laterality_l.Active = true;
-		else if(s == Catalog.GetString(Constants.ForceSensorLateralityRight))
+		else if(s == Constants.ForceSensorLateralityRight)
 			radio_force_sensor_laterality_r.Active = true;
+		else //if(s == Constants.ForceSensorLateralityBoth)
+			radio_force_sensor_laterality_both.Active = true;
 	}
 
 	// -------------------------------- end of options, laterality and comment stuff ------

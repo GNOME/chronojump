@@ -1022,6 +1022,10 @@ public partial class ChronoJumpWindow
 			dialogPersonPopup.DestroyDialog();
 		}
 
+		//close the encoder exercise config win if it was opened
+		if(notebook_hpaned_encoder_or_exercise_config.CurrentPage == 1) //frame_encoder_exercise_config
+			notebook_hpaned_encoder_or_exercise_config.CurrentPage = 0;
+
 		currentPerson = null;
 		currentPersonSession = null;
 		sensitiveGuiNoPerson ();

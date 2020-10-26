@@ -92,5 +92,10 @@ public partial class ChronoJumpWindow
 			textview.Buffer = tb1;
 		}
 	}
+
+	private void clearRaceAnalyzerTriggers()
+	{
+		UtilGtk.TextViewClear(textview_run_encoder_triggers);
+	}
 	// <--------------- end of force sensor & race_analyzer
 }

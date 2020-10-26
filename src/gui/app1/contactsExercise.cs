@@ -238,6 +238,7 @@ public partial class ChronoJumpWindow
 		label_contacts_exercise_selected_options.Text = name;
 	}
 
+	/* Now just showing laterality icon with setForceSensorLateralityPixbuf()
 	private void setLabelContactsExerciseSelectedOptionsForceSensor()
 	{
 		string name = Catalog.GetString("Laterality:");
@@ -250,4 +251,5 @@ public partial class ChronoJumpWindow
 
 		label_contacts_exercise_selected_options.Text = name;
 	}
+	*/
 }

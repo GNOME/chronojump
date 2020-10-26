@@ -2866,7 +2866,8 @@ LogB.Information(" fs R ");
 
 	private void on_radio_force_sensor_laterality_toggled (object o, EventArgs args)
 	{
-		setLabelContactsExerciseSelectedOptionsForceSensor();
+		//setLabelContactsExerciseSelectedOptionsForceSensor();
+		setForceSensorLateralityPixbuf();
 	}
 
 	private string getLaterality(bool translated)
@@ -2892,8 +2893,22 @@ LogB.Information(" fs R ");
 			radio_force_sensor_laterality_r.Active = true;
 		else //if(s == Constants.ForceSensorLateralityBoth)
 			radio_force_sensor_laterality_both.Active = true;
+
+		setForceSensorLateralityPixbuf();
 	}
 
+	private void setForceSensorLateralityPixbuf()
+	{
+		Pixbuf pixbuf;
+		if(radio_force_sensor_laterality_r.Active)
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "laterality-right.png");
+		else if(radio_force_sensor_laterality_l.Active)
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "laterality-left.png");
+		else
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "laterality-both.png");
+
+		image_top_laterality_contacts.Pixbuf = pixbuf;
+	}
 	// -------------------------------- end of options, laterality and comment stuff ------
 
 	// ------------------------------------------------ slides stuff for presentations

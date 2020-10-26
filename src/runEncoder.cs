@@ -172,8 +172,13 @@ public class RunEncoder
 	public static string GetScript() {
 		return System.IO.Path.Combine(UtilEncoder.GetSprintPath(), "sprintEncoder.R");
 	}
+	//this contains only Pulses;Time(useconds);Force(N)
 	public static string GetCSVFileName() {
 		return Path.Combine(Path.GetTempPath(), "cj_race_analyzer_data.csv");
+	}
+	//this contains: "Mass";"Height";"Temperature";"Vw";"Ka";"K.fitted";"Vmax.fitted"; ...
+	public static string GetCSVResultsFileName() {
+		return Path.Combine(Path.GetTempPath(), "sprintResults.csv");
 	}
 	public static string GetTempFileName() {
 		return Path.Combine(Path.GetTempPath(), "cj_race_analyzer_graph.png");
@@ -289,6 +294,91 @@ public class RunEncoderExercise
 	public int SegmentMeters
 	{
 		get { return segmentMeters; }
+	}
+}
+
+//results coming from analyze (load) using R. To be published on exportable table
+public class RunEncoderCSV
+{
+	public double Mass;
+	public double Height;
+	public int Temperature;
+	public double Vw;
+	public double Ka;
+	public double K_fitted;
+	public double Vmax_fitted;
+	public double Amax_fitted;
+	public double Fmax_fitted;
+	public double Fmax_rel_fitted;
+	public double Sfv_fitted;
+	public double Sfv_rel_fitted;
+	public double Sfv_lm;
+	public double Sfv_rel_lm;
+	public double Pmax_fitted;
+	public double Pmax_rel_fitted;
+	public double Tpmax_fitted;
+	public double F0;
+	public double F0_rel;
+	public double V0;
+	public double Pmax_lm;
+	public double Pmax_rel_lm;
+
+	public RunEncoderCSV ()
+	{
+	}
+
+	public RunEncoderCSV (double mass, double height, int temperature, double vw, double ka, double k_fitted, double vmax_fitted, double amax_fitted, double fmax_fitted, double fmax_rel_fitted, double sfv_fitted, double sfv_rel_fitted, double sfv_lm, double sfv_rel_lm, double pmax_fitted, double pmax_rel_fitted, double tpmax_fitted, double f0, double f0_rel, double v0, double pmax_lm, double pmax_rel_lm)
+	{
+		this.Mass = mass;
+		this.Height = height;
+		this.Temperature = temperature;
+		this.Vw = vw;
+		this.Ka = ka;
+		this.K_fitted = k_fitted;
+		this.Vmax_fitted = vmax_fitted;
+		this.Amax_fitted = amax_fitted;
+		this.Fmax_fitted = fmax_fitted;
+		this.Fmax_rel_fitted = fmax_rel_fitted;
+		this.Sfv_fitted = sfv_fitted;
+		this.Sfv_rel_fitted = sfv_rel_fitted;
+		this.Sfv_lm = sfv_lm;
+		this.Sfv_rel_lm = sfv_rel_lm;
+		this.Pmax_fitted = pmax_fitted;
+		this.Pmax_rel_fitted = pmax_rel_fitted;
+		this.Tpmax_fitted = tpmax_fitted;
+		this.F0 = f0;
+		this.F0_rel = f0_rel;
+		this.V0 = v0;
+		this.Pmax_lm = pmax_lm;
+		this.Pmax_rel_lm = pmax_rel_lm;
+	}
+
+	public string [] ToTreeView()
+	{
+		return new string [] {
+			Util.TrimDecimals(Mass, 1),
+				Util.TrimDecimals(Height, 1),
+				Temperature.ToString(),
+				Util.TrimDecimals(Vw, 3),
+				Util.TrimDecimals(Ka, 3),
+				Util.TrimDecimals(K_fitted, 3),
+				Util.TrimDecimals(Vmax_fitted, 3),
+				Util.TrimDecimals(Amax_fitted, 3),
+				Util.TrimDecimals(Fmax_fitted, 3),
+				Util.TrimDecimals(Fmax_rel_fitted, 3),
+				Util.TrimDecimals(Sfv_fitted, 3),
+				Util.TrimDecimals(Sfv_rel_fitted, 3),
+				Util.TrimDecimals(Sfv_lm, 3),
+				Util.TrimDecimals(Sfv_rel_lm, 3),
+				Util.TrimDecimals(Pmax_fitted, 3),
+				Util.TrimDecimals(Pmax_rel_fitted, 3),
+				Util.TrimDecimals(Tpmax_fitted, 3),
+				Util.TrimDecimals(F0, 3),
+				Util.TrimDecimals(F0_rel, 3),
+				Util.TrimDecimals(V0, 3),
+				Util.TrimDecimals(Pmax_lm, 3),
+				Util.TrimDecimals(Pmax_rel_lm, 3)
+		};
 	}
 }
 

@@ -46,6 +46,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_run_encoder_graph;
 	[Widget] Gtk.Viewport viewport_run_encoder_graph;
 	[Widget] Gtk.TreeView treeview_raceAnalyzer;
+	[Widget] Gtk.Button button_raceAnalyzer_table_save;
 
 	int race_analyzer_distance;
 	int race_analyzer_temperature;
@@ -273,6 +274,7 @@ public partial class ChronoJumpWindow
 		textview_contacts_signal_comment.Buffer.Text = "";
 		image_run_encoder_graph.Sensitive = false;
 		treeview_raceAnalyzer = UtilGtk.RemoveColumns(treeview_raceAnalyzer);
+		button_raceAnalyzer_table_save.Sensitive = false;
 		clearRaceAnalyzerTriggers();
 
 		button_run_encoder_analyze_options.Sensitive = false;
@@ -960,6 +962,7 @@ public partial class ChronoJumpWindow
 
 		string contents = Util.ReadFile(RunEncoder.GetCSVResultsFileName(), false);
 		createTreeViewRaceEncoder(contents);
+		button_raceAnalyzer_table_save.Sensitive = true;
 	}
 
 	private void raceEncoderCaptureGraphDo()

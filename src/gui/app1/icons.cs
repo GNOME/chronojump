@@ -123,6 +123,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_eccon_concentric;
 	[Widget] Gtk.Image image_encoder_eccon_eccentric_concentric;
 	[Widget] Gtk.Image image_top_laterality;
+	[Widget] Gtk.Image image_top_laterality_contacts;
 	[Widget] Gtk.Image image_encoder_laterality_both;
 	[Widget] Gtk.Image image_encoder_laterality_r;
 	[Widget] Gtk.Image image_encoder_laterality_l;
@@ -294,6 +295,7 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "laterality-both.png");
 		image_top_laterality.Pixbuf = pixbuf;
+		image_top_laterality_contacts.Pixbuf = pixbuf;
 		image_encoder_laterality_both.Pixbuf = pixbuf;
 		image_force_sensor_laterality_both.Pixbuf = pixbuf;
 

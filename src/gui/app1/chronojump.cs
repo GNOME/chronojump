@@ -2994,6 +2994,10 @@ public partial class ChronoJumpWindow
 			//notebook_capture_analyze.ShowTabs = true;
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
 			alignment_button_threshold.Visible = true;
+
+			label_contacts_exercise_selected_options.Visible = true;
+			image_top_laterality_contacts.Visible = false;
+
 			if(m == Constants.Menuitem_modes.JUMPSSIMPLE) 
 			{
 				notebooks_change(m);
@@ -3043,6 +3047,9 @@ public partial class ChronoJumpWindow
 			//notebook_capture_analyze.ShowTabs = true;
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
 			alignment_button_threshold.Visible = true;
+
+			label_contacts_exercise_selected_options.Visible = true;
+			image_top_laterality_contacts.Visible = false;
 
 			if(m == Constants.Menuitem_modes.RUNSSIMPLE) 
 			{
@@ -3216,7 +3223,11 @@ public partial class ChronoJumpWindow
 			//setLabelContactsExerciseSelected(m);
 			//better use the followin so we will have the Elastic/not elastic display on mode change
 			on_combo_force_sensor_exercise_changed (new object(), new EventArgs ());
-			setLabelContactsExerciseSelectedOptionsForceSensor();
+			//setLabelContactsExerciseSelectedOptionsForceSensor();
+
+			label_contacts_exercise_selected_options.Visible = false;
+			image_top_laterality_contacts.Visible = true;
+			setForceSensorLateralityPixbuf();
 
 			pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "force_sensor_icon.png");
 			pixbufModeGrid = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_force.png");
@@ -3255,6 +3266,9 @@ public partial class ChronoJumpWindow
 			forceSensorImageTestChange();
 			setLabelContactsExerciseSelected(m);
 
+			label_contacts_exercise_selected_options.Visible = true;
+			image_top_laterality_contacts.Visible = false;
+
 			pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "race_encoder_icon.png");
 			pixbufModeGrid = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_run.png");
 		}
@@ -3271,6 +3285,9 @@ public partial class ChronoJumpWindow
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = false;
 			alignment_button_threshold.Visible = true;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
+
+			label_contacts_exercise_selected_options.Visible = true;
+			image_top_laterality_contacts.Visible = false;
 
 			pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "reaction_time_icon.png");
 			pixbufModeGrid = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_rt.png");
@@ -3291,6 +3308,9 @@ public partial class ChronoJumpWindow
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = false;
 			alignment_button_threshold.Visible = true;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
+
+			label_contacts_exercise_selected_options.Visible = true;
+			image_top_laterality_contacts.Visible = false;
 
 			pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "other_icon.png");
 			pixbufModeGrid = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_other.png");

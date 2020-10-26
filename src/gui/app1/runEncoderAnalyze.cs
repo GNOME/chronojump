@@ -187,4 +187,52 @@ public partial class ChronoJumpWindow
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
 
+	private void on_button_raceAnalyzer_save_table_file_selected (string destination)
+	{
+		try {
+			//this overwrites if needed
+			TextWriter writer = File.CreateText(destination);
+
+			string sep = " ";
+			if (preferences.CSVExportDecimalSeparator == "COMMA")
+				sep = ";";
+			else
+				sep = ",";
+
+			//write header
+			writer.WriteLine(Util.RemoveNewLine(Util.StringArrayToString(
+							getTreeviewRaceAnalyzerHeaders(), sep), false));
+
+			string contents = Util.ReadFile(RunEncoder.GetCSVResultsFileName(), false);
+			RunEncoderCSV recsv = readRunEncoderCSVContents(contents);
+
+			writer.WriteLine(recsv.ToCSV(preferences.CSVExportDecimalSeparator));
+/*
+
+			//write curves rows
+			ArrayList array = getTreeViewCurves(encoderAnalyzeListStore);
+
+			foreach (EncoderCurve ec in array)
+			{
+				writer.WriteLine(ec.ToCSV(false, preferences.CSVExportDecimalSeparator, preferences.encoderWorkKcal, phase));
+			}
+			*/
+
+			writer.Flush();
+			writer.Close();
+			((IDisposable)writer).Dispose();
+		} catch {
+			string myString = string.Format(
+					Catalog.GetString("Cannot save file {0} "), destination);
+			new DialogMessage(Constants.MessageTypes.WARNING, myString);
+		}
+	}
+
+	private void on_overwrite_file_raceAnalyzer_save_table_accepted(object o, EventArgs args)
+	{
+		on_button_raceAnalyzer_save_table_file_selected (exportFileName);
+
+		string myString = string.Format(Catalog.GetString("Saved to {0}"), exportFileName);
+		new DialogMessage(Constants.MessageTypes.INFO, myString);
+	}
 }

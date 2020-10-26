@@ -1058,40 +1058,14 @@ public partial class ChronoJumpWindow
 				typeof (string)
 				);
 
-		string line;
-		using (StringReader reader = new StringReader (contents))
-		{
-			line = reader.ReadLine ();      //headers
-			//LogB.Information(line);
-			do {
-				line = reader.ReadLine ();
-				LogB.Information(line);
-				if (line == null)
-					break;
-
-				string [] cells = line.Split(new char[] {';'});
-
-				RunEncoderCSV recsv = new RunEncoderCSV(
-							Convert.ToDouble(cells[0]), Convert.ToDouble(cells[1]), Convert.ToInt32(cells[2]),
-							Convert.ToDouble(cells[3]), Convert.ToDouble(cells[4]), Convert.ToDouble(cells[5]),
-							Convert.ToDouble(cells[6]), Convert.ToDouble(cells[7]), Convert.ToDouble(cells[8]),
-							Convert.ToDouble(cells[9]), Convert.ToDouble(cells[10]), Convert.ToDouble(cells[11]),
-							Convert.ToDouble(cells[12]), Convert.ToDouble(cells[13]), Convert.ToDouble(cells[14]),
-							Convert.ToDouble(cells[15]), Convert.ToDouble(cells[16]), Convert.ToDouble(cells[17]),
-							Convert.ToDouble(cells[18]), Convert.ToDouble(cells[19]), Convert.ToDouble(cells[20]),
-							Convert.ToDouble(cells[21])
-						);
-
-				store.AppendValues (recsv.ToTreeView());
-
-			} while(true);
-		}
+		RunEncoderCSV recsv = readRunEncoderCSVContents (contents);
+		store.AppendValues (recsv.ToTreeView());
 
 		treeview_raceAnalyzer.Model = store;
 		treeview_raceAnalyzer.Selection.Mode = SelectionMode.None;
                 treeview_raceAnalyzer.HeadersVisible=true;
-
 	}
+
 	private string [] getTreeviewRaceAnalyzerHeaders ()
         {
                 string [] headers = {
@@ -1105,6 +1079,44 @@ public partial class ChronoJumpWindow
 			"Pmax\nrel lm\n(W/Kg)"
 		};
 		return headers;
+	}
+
+	//right now it only returns one line
+	private RunEncoderCSV readRunEncoderCSVContents (string contents)
+	{
+		RunEncoderCSV recsv = new RunEncoderCSV();
+		string line;
+		using (StringReader reader = new StringReader (contents))
+		{
+			line = reader.ReadLine ();      //headers
+			//LogB.Information(line);
+			do {
+				line = reader.ReadLine ();
+				LogB.Information(line);
+				if (line == null)
+					break;
+
+				string [] cells = line.Split(new char[] {';'});
+
+				recsv = new RunEncoderCSV(
+						Convert.ToDouble(cells[0]), Convert.ToDouble(cells[1]), Convert.ToInt32(cells[2]),
+						Convert.ToDouble(cells[3]), Convert.ToDouble(cells[4]), Convert.ToDouble(cells[5]),
+						Convert.ToDouble(cells[6]), Convert.ToDouble(cells[7]), Convert.ToDouble(cells[8]),
+						Convert.ToDouble(cells[9]), Convert.ToDouble(cells[10]), Convert.ToDouble(cells[11]),
+						Convert.ToDouble(cells[12]), Convert.ToDouble(cells[13]), Convert.ToDouble(cells[14]),
+						Convert.ToDouble(cells[15]), Convert.ToDouble(cells[16]), Convert.ToDouble(cells[17]),
+						Convert.ToDouble(cells[18]), Convert.ToDouble(cells[19]), Convert.ToDouble(cells[20]),
+						Convert.ToDouble(cells[21])
+						);
+			} while(true);
+		}
+
+		return recsv;
+	}
+
+	private void on_button_raceAnalyzer_table_save_clicked (object o, EventArgs args)
+	{
+		checkFile(Constants.CheckFileOp.RUNENCODER_SAVE_TABLE);
 	}
 
 	private string readFromRunEncoderIfDataArrived()

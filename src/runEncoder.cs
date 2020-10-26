@@ -380,6 +380,25 @@ public class RunEncoderCSV
 				Util.TrimDecimals(Pmax_rel_lm, 3)
 		};
 	}
+
+	public string ToCSV(string decimalSeparator)
+	{
+		//latin:	2,3 ; 2,5
+		//non-latin:	2.3 , 2.5
+
+		string sep = ":::";
+		string str = Util.StringArrayToString(ToTreeView(), sep);
+
+		if(decimalSeparator == "COMMA")
+			str = Util.ConvertToComma(str);
+		else
+			str = Util.ConvertToPoint(str);
+
+		if(decimalSeparator == "COMMA")
+			return Util.ChangeChars(str, ":::", ";");
+		else
+			return Util.ChangeChars(str, ":::", ",");
+	}
 }
 
 public class RunEncoderGraph

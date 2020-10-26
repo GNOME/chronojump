@@ -2085,7 +2085,8 @@ public partial class ChronoJumpWindow
 			exportString = Catalog.GetString ("Export repetition in CSV format");
 		else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB)
 			exportString = Catalog.GetString ("Export data in CSV format");
-		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE)
+		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE ||
+				checkFileOp == Constants.CheckFileOp.RUNENCODER_SAVE_TABLE)
 			exportString = Catalog.GetString ("Save table");
 
 		string nameString = currentPerson.Name + "_" + currentSession.DateShortAsSQL;
@@ -2153,6 +2154,8 @@ public partial class ChronoJumpWindow
 			nameString += "_forcesensor_analyze_AB_export.csv";
 		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE)
 			nameString += "_encoder_curves_table.csv";
+		else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_SAVE_TABLE)
+			nameString += "_raceAnalyzer_table.csv";
 		
 		Gtk.FileChooserDialog fc=
 			new Gtk.FileChooserDialog(exportString,
@@ -2170,7 +2173,8 @@ public partial class ChronoJumpWindow
 			if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL ||
 					checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB ||
 					checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB ||
-					checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE)
+					checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE ||
+					checkFileOp == Constants.CheckFileOp.RUNENCODER_SAVE_TABLE)
 				exportFileName = Util.AddCsvIfNeeded(exportFileName);
 			else 	//ENCODER_ANALYZE_SAVE_IMAGE, FORCESENSOR_SAVE_IMAGE_SIGNAL,
 				//FORCESENSOR_SAVE_IMAGE_RFD_AUTO, FORCESENSOR_SAVE_IMAGE_RFD_MANUAL
@@ -2232,6 +2236,9 @@ public partial class ChronoJumpWindow
 					else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_SAVE_IMAGE)
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_runencoder_image_save_accepted);
+					else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_SAVE_TABLE)
+						confirmWin.Button_accept.Clicked +=
+							new EventHandler(on_overwrite_file_raceAnalyzer_save_table_accepted);
 
 				} else {
 					if(checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE)
@@ -2264,6 +2271,8 @@ public partial class ChronoJumpWindow
 						on_button_force_sensor_save_AB_file_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_SAVE_IMAGE)
 						on_button_run_encoder_image_save_selected (exportFileName);
+					else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_SAVE_TABLE)
+						on_button_raceAnalyzer_save_table_file_selected (exportFileName);
 
 					string myString = string.Format(Catalog.GetString("Saved to {0}"), 
 							exportFileName);

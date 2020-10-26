@@ -25728,6 +25728,7 @@ Concentric</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="tooltip" translatable="yes">Save table</property>
+                                                            <signal name="clicked" handler="on_button_raceAnalyzer_table_save_clicked" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkVBox" id="vbox237">
                                                             <property name="visible">True</property>

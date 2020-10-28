@@ -29,7 +29,7 @@ bool rcaState = false;
 //short  sensor = 0;
 
 //Version of the firmware
-String version = "Race_Analyzer-0.3";
+String version = "Race_Analyzer-0.4";
 
 int pps = 10; //Pulses Per Sample. How many pulses are needed to get a sample
 int ppsAddress = 0; //Where is stored the pps value in the EEPROM
@@ -295,6 +295,10 @@ void serialEvent()
     start_simulation();
   } else {
     Serial.println("Not a valid command");
+    Serial.println("Switching to 9600 bits/s communication");
+    set_baud_rate("9600");
+    Serial.println("Communication set to 9600 bits/s");
+
   }
   inputString = "";
 }

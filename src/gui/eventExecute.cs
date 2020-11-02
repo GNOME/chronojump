@@ -2321,7 +2321,8 @@ public partial class ChronoJumpWindow
 				layoutSmall.GetPixelSize(out lWidth, out lHeight);
 				event_execute_pixmap.DrawLayout (pen_black, xEnd -lWidth/2, alto -18, layoutSmall);
 
-				
+
+				/*
 				//paint Y lines
 				if(eventGraphConfigureWin.VerticalGrid) {
 					if(count == 0)
@@ -2337,13 +2338,14 @@ public partial class ChronoJumpWindow
 							xEnd,
 							alto-topMargin);
 				}
+				*/
 			
 				oldValue = myValue;
 				count ++;
 			}
 			
 			//writeValue(myPen, myValue, (--count) + added0Value, tracks, ancho, alto, maxValue, minValue, topMargin, bottomMargin);
-		
+
 
 			//bells & images
 			event_execute_image_run_interval_time_good.Hide();

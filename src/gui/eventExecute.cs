@@ -2115,14 +2115,14 @@ public partial class ChronoJumpWindow
 			int xEnd = event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) *
 					(inPTL.tcEnd + negativePTLTime) / timeTotalWithExtraPTL);
 
-			pixmap.DrawRectangle(pen_gris, true,
+			pixmap.DrawRectangle(pen_background_shifted, true,
 					new Rectangle (xStart, alto-bottomMargin-4, xEnd-xStart, 4));
 
 			//manage chunks indications
 			if(inPTL.phase == RunPhaseTimeListObject.Phases.START)
 			{
 				//draw the vertical start line
-				pixmap.DrawLine(pen_gris,
+				pixmap.DrawLine(pen_background_shifted,
 						xStart - chunkMargins, alto-bottomMargin -4,
 						xStart - chunkMargins, alto-bottomMargin -(4 + chunkMargins));
 				lastChunkStart = xStart;
@@ -2130,12 +2130,12 @@ public partial class ChronoJumpWindow
 			else if(inPTL.phase == RunPhaseTimeListObject.Phases.END)
 			{
 				//draw the vertical end line
-				pixmap.DrawLine(pen_gris,
+				pixmap.DrawLine(pen_background_shifted,
 						xEnd + chunkMargins, alto-bottomMargin -4,
 						xEnd + chunkMargins, alto-bottomMargin -(4 + chunkMargins));
 
 				//draw the horizontal start-end line
-				pixmap.DrawLine(pen_gris,
+				pixmap.DrawLine(pen_background_shifted,
 						lastChunkStart - chunkMargins, alto-bottomMargin -(4 + chunkMargins),
 						xEnd + chunkMargins, alto-bottomMargin -(4 + chunkMargins));
 			}

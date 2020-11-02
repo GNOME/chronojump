@@ -173,6 +173,8 @@ public class TreeViewPersons
 				count ++;
 			}
 			treeview.Selection.SelectIter(iter);
+			TreePath path = store.GetPath (iter);
+			treeview.ScrollToCell (path, null, true, 0, 0);
 		}
 	}
 	

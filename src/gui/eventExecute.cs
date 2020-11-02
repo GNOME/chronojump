@@ -2224,21 +2224,19 @@ public partial class ChronoJumpWindow
 			// start of contact chunks
 			double negativePTLTime = 0;
 			double timeTotalWithExtraPTL = timeTotal;
+			List<RunPhaseTimeListObject> runPTLInListForPainting = new List<RunPhaseTimeListObject>();
 			if(runPTL != null && runPTL.UseDoubleContacts())
 			{
-				List<RunPhaseTimeListObject> runPTLInListForPainting = runPTL.InListForPainting();
-
+				runPTLInListForPainting = runPTL.InListForPainting();
 				negativePTLTime = getRunSRunINegativePTLTime(runPTLInListForPainting);
 				timeTotalWithExtraPTL = getRunSRunITimeTotalWithExtraPTLTime (timeTotal, runPTLInListForPainting, negativePTLTime);
 
 				LogB.Information(string.Format("timeTotal: {0}, negativePTLTime: {1}, timeTotalWithExtraPTL: {2}",
 							timeTotal, negativePTLTime, timeTotalWithExtraPTL));
 
-
-				paintRunSRunIContactChunks(event_execute_pixmap, alto, ancho, bottomMargin,
-						runPTLInListForPainting, timeTotal, timeTotalWithExtraPTL, negativePTLTime, true, finished);
+				//paint contact chunks later
 			}
-			// end of contact chunks
+			// end of creation of contact chunks (chunks are painted later)
 
 			foreach (string myTime in myTimesStringFull) 
 			{
@@ -2293,24 +2291,29 @@ public partial class ChronoJumpWindow
 				//LogB.Information("xStart: " + xStart.ToString() + "; xEnd: " + xEnd);
 
 
-				if(count == 0 && startIn) {
-					event_execute_pixmap.DrawLine(myPen,
+				if(myDistance != 0) //on RSA don't plot speed on the rest phase
+				{
+					int myHeight = calculatePaintHeight(myValue, alto, maxValue, minValue, topMargin, bottomMargin);
+					Rectangle rect = new Rectangle(
 							xStart,
-							alto-bottomMargin,
-							xEnd,
-							calculatePaintHeight(myValue, alto, maxValue, minValue, topMargin, bottomMargin));
-				} 
-				else if(myDistance != 0) //on RSA don't plot speed on the rest phase
-					event_execute_pixmap.DrawLine(myPen,
-							xStart,
-							calculatePaintHeight(oldValue, alto, maxValue, minValue, topMargin, bottomMargin),
-							xEnd,
-							calculatePaintHeight(myValue, alto, maxValue, minValue, topMargin, bottomMargin));
+							myHeight,
+							xEnd - xStart,
+							alto-bottomMargin - myHeight
+							);
+					//LogB.Information(string.Format("drawBar rect y: {0}, height: {1}", y, alto-bottomMargin-y-1));
+
+					event_execute_pixmap.DrawRectangle(pen_background, true, rect);
+					event_execute_pixmap.DrawRectangle(pen_background_shifted, false, rect);
+				}
 				
 				if(myDistance > 0) { //on RSA don't plot speed on the rest phase
 					layoutSmall.SetMarkup((Math.Round(myValue,2)).ToString() + " m/s");
 					layoutSmall.GetPixelSize(out lWidth, out lHeight);
-					event_execute_pixmap.DrawLayout (pen_black, ((xStart + xEnd)/2) -lWidth/2, 10, layoutSmall);
+					int myHeight = calculatePaintHeight(myValue, alto, maxValue, minValue, topMargin, bottomMargin);
+					event_execute_pixmap.DrawLayout (pen_black,
+							((xStart + xEnd)/2) -lWidth/2,
+							myHeight - lHeight,
+							layoutSmall);
 				}
 				
 				layoutSmall.SetMarkup((Math.Round(myDistance,1)).ToString() + " m");
@@ -2343,7 +2346,12 @@ public partial class ChronoJumpWindow
 				oldValue = myValue;
 				count ++;
 			}
-			
+
+			//paint contact chunks
+			if(runPTL != null && runPTL.UseDoubleContacts())
+				paintRunSRunIContactChunks(event_execute_pixmap, alto, ancho, bottomMargin,
+						runPTLInListForPainting, timeTotal, timeTotalWithExtraPTL, negativePTLTime, true, finished);
+
 			//writeValue(myPen, myValue, (--count) + added0Value, tracks, ancho, alto, maxValue, minValue, topMargin, bottomMargin);
 
 

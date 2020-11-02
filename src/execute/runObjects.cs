@@ -716,6 +716,10 @@ public class RunPhaseTimeListObject
 	public double tcStart;
 	public double tcEnd;
 
+	public RunPhaseTimeListObject ()
+	{
+	}
+
 	public RunPhaseTimeListObject (Phases phase, double tcStart, double tcEnd)
 	{
 		this.phase = phase;

@@ -2149,7 +2149,7 @@ public partial class ChronoJumpWindow
 			//paint start vertical line
 			int xStart2 = event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) *
 					(negativePTLTime) / timeTotalWithExtraPTL) -1;
-			pixmap.DrawLine(pen_azul, xStart2 +1, 10, xStart2 +1, 20);
+			pixmap.DrawLine(pen_azul, xStart2 +1, 10, xStart2 +1, alto-bottomMargin-4);
 
 			layoutMid_run_simple.SetMarkup("Start");
 			layoutMid_run_simple.GetPixelSize(out lWidth, out lHeight);
@@ -2162,7 +2162,7 @@ public partial class ChronoJumpWindow
 			//paint end vertical line
 			int xEnd2 = event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) *
 					(timeTotal + negativePTLTime) / timeTotalWithExtraPTL);
-			pixmap.DrawLine(pen_azul, xEnd2, 10, xEnd2, 20);
+			pixmap.DrawLine(pen_azul, xEnd2, 10, xEnd2, alto-bottomMargin-4);
 
 			layoutMid_run_simple.SetMarkup("End");
 			layoutMid_run_simple.GetPixelSize(out lWidth, out lHeight);

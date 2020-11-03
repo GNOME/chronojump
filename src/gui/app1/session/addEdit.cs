@@ -47,7 +47,6 @@ public partial class ChronoJumpWindow
 
 	bool app1sae_addSession;
 	bool app1sae_combosCreated = false;
-	private bool app1sae_textviewChanging = false;
 	
 	GenericWindow app1sae_genericWin;
 	
@@ -115,9 +114,6 @@ public partial class ChronoJumpWindow
 		//app1sae_labelUpdate();
 		app1sae_radios_changed();
 
-		app1sae_textview_comments.Buffer.Changed += new EventHandler(app1sae_textviewChanged);
-		app1sae_textviewChanging = false;
-
 		if(! addSession)
 			app1sae_showSportStuffWithLoadedData();
 	}
@@ -182,21 +178,6 @@ public partial class ChronoJumpWindow
 	private void app1sae_on_entry_place_changed (object o, EventArgs args)
 	{
 		app1sae_entry_place.Text = Util.MakeValidSQL(app1sae_entry_place.Text);
-	}
-
-	private void app1sae_textviewChanged(object o,EventArgs args)
-	{
-		if(app1sae_textviewChanging)
-			return;
-
-		app1sae_textviewChanging = true;
-
-		TextBuffer tb = o as TextBuffer;
-		if (o == null)
-			return;
-
-		tb.Text = Util.MakeValidSQL(tb.Text);
-		app1sae_textviewChanging = false;
 	}
 
 	void app1sae_sensitiveButtonAccept()
@@ -660,7 +641,7 @@ public partial class ChronoJumpWindow
 			LogB.Information("app1sae_on_button_accept_clicked 7");
 
 			string place = Util.RemoveTildeAndColon(app1sae_entry_place.Text);
-			string comments = Util.RemoveTildeAndColon(app1sae_textview_comments.Buffer.Text);
+			string comments = Util.RemoveTildeAndColon(Util.MakeValidSQL(app1sae_textview_comments.Buffer.Text));
 			LogB.Information("app1sae_on_button_accept_clicked 8");
 
 			if(app1sae_addSession)

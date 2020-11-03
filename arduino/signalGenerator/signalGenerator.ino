@@ -21,14 +21,18 @@
 #define   signalPin   2
 #define   ledPin      13
 
+
+//Version number //it always need to start with: "Sigan_Generator-"
+String version = "Signal_Generator-0.1";
+
 // -------------- CHANGE variable here ----------->
 //modes:
 //  -1 random sequence
 //  0 read sequence 0
 //  1 read sequence 1
 //  ...
-//TODO: assign mode by serial port
-int mode = -1;
+
+int mode = 3;
 bool generateSignal = false;
 //this can be quite real data promoting a bit double contacts
 const int randomTCMin = 4;
@@ -42,7 +46,8 @@ const int randomTFMax = 1200;
 const String sequences [] = {
   "7;IN;30;25;15;1000;25;40;19;60;24;800,30",
   "5;IN;100;1500;200;5000",
-  "6;OUT;1100;40;1200;30;8000"
+  "6;OUT;1100;40;1200;30;8000",
+  "3;OUT;2000;1000"
 };
 // <---------- end of CHANGE variable here --------
 
@@ -76,7 +81,6 @@ void loop() {
 void processString(int n)
 {
   String sequence = sequences[n]; //TODO: check n is not greater than sequences length
-
   int last = getValue(sequence, ';', 0).toInt();
   String currentStatus = getValue(sequence, ';', 1);
   for (int i = 2; i <= last; i++)
@@ -146,9 +150,18 @@ void serialEvent()
   {
     generateSignal = false;
     Serial.println("Stoping signal");
+  } else if( inputString == "get_version" )
+  {
+    get_version();
   } else
   {
     Serial.println("mode = " + inputString);
     mode = inputString.toInt();
   }
+}
+
+
+void get_version()
+{
+  Serial.println(version);
 }

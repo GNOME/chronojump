@@ -2315,7 +2315,12 @@ public partial class ChronoJumpWindow
 			on_quit2_activate(new object(), new EventArgs());
 		
 		*/
-		notebook_start.CurrentPage = Convert.ToInt32(notebook_start_pages.EXITCONFIRM);
+
+		bool needConfirmOnExit = false;
+		if(needConfirmOnExit)
+			notebook_start.CurrentPage = Convert.ToInt32(notebook_start_pages.EXITCONFIRM);
+		else
+			on_quit2_activate(new object(), new EventArgs());
 	}
 
 	private void on_button_exit_cancel_clicked (object o, EventArgs args)

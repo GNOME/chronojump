@@ -110,9 +110,14 @@ public partial class ChronoJumpWindow
 
 	private bool app1s_ExportPulseGTK ()
 	{
-		if ( ! app1s_threadExport.IsAlive ) {
+		if ( ! app1s_threadExport.IsAlive )
+		{
 			LogB.ThreadEnding();
 			app1s_ExportPulseEnd();
+
+			LogB.Information("calling reloadSession");
+			reloadSession(); //to use default db again
+			LogB.Information("called reloadSession");
 
 			LogB.ThreadEnded();
 			return false;
@@ -176,6 +181,7 @@ public partial class ChronoJumpWindow
 
 	static string app1s_exportText;
 	static long app1s_exportElapsedMs;
+	//No GTK here!
 	private void app1s_export()
 	{
 		app1s_exportElapsedMs = 0;
@@ -222,14 +228,13 @@ public partial class ChronoJumpWindow
 				LogB.Information(string.Format("session: {0}, will be deleted", sessionID));
 				sessionSwitcher.DeleteAllStuff(sessionID);
 			}
+			LogB.Information(string.Format("export session {0}/{1} done!", count, mySessions.Length ));
 			count ++;
 		}
 
-		//TODO: check if we really need this
-		reloadSession(); //to use default db again
-
 		sw.Stop();
 		app1s_exportElapsedMs = sw.ElapsedMilliseconds;
+		LogB.Information("ended app1s_export()");
 	}
 
 	private void on_app1s_button_export_cancel_or_close_clicked (object o, EventArgs args)

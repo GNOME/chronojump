@@ -502,6 +502,10 @@ public class PersonPhotoButton
 		Gtk.Viewport viewport = new Gtk.Viewport();
 		UtilGtk.ViewportColorDefault(viewport);
 		Gtk.Label label_name = new Gtk.Label(personName);
+		label_name.LineWrap = true;
+		label_name.WidthRequest = 140; //same width as label_selected_person_name, to ensure contents are correctly shown on both
+		label_name.HeightRequest = -1;
+		label_name.LineWrapMode = Pango.WrapMode.Word;
 		label_name.Visible = true;
 		label_name.Show();
 		viewport.Add(label_name);
@@ -514,8 +518,8 @@ public class PersonPhotoButton
 		vbox.Show();
 
 		button = new Button(vbox);
-		button.WidthRequest = 150;
-		button.HeightRequest = 170;
+		button.WidthRequest = 150; //commentin this will make columns longer with enough space for labels
+		button.HeightRequest = 170; //commenting this will make the rows be of different height depending on image and lines of text
 	}
 
 	private Array getButtonBoxElements (Gtk.Button button)

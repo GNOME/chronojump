@@ -16,6 +16,8 @@
 
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+  BUGS, TODO: note when capture starts it cannot be stopped, mode changed or get_version
 */
 
 #define   signalPin   2

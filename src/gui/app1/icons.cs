@@ -52,7 +52,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_contacts_session_overview;
 	[Widget] Gtk.Image image_encoder_session_overview;
 	[Widget] Gtk.Image image_contacts_recalculate;
-	[Widget] Gtk.Image image_rest;
 	[Widget] Gtk.Image image_all_persons_events;
 	[Widget] Gtk.Image image_all_persons_events_h;
 	[Widget] Gtk.Image image_person_delete;
@@ -475,7 +474,6 @@ public partial class ChronoJumpWindow
 		//image_persons_open_plus_2.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_rest.png");
-		image_rest.Pixbuf = pixbuf;
 		image_encoder_rhythm_rest.Pixbuf = pixbuf;
 		image_contacts_rest_time_dark_blue.Pixbuf = pixbuf;
 		image_encoder_rest_time_dark_blue.Pixbuf = pixbuf;

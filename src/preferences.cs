@@ -42,6 +42,8 @@ public class Preferences
 	public bool logoAnimatedShow;
 	public enum FontTypes { Courier, Helvetica};
 	public FontTypes fontType;
+	public int restTimeMinutes; //-1 deactivated minutes and seconds
+	public int restTimeSeconds;
 
 	public string GetFontTypeWithSize(int size) {
 		return string.Format("{0} {1}", fontType, size);

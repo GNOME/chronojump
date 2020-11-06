@@ -33,6 +33,8 @@ class SqlitePreferences : Sqlite
 	public const string ColorBackgroundOsColor = "colorBackgroundOsColor";
 	public const string LogoAnimatedShow = "logoAnimatedShow";
 	public const string FontsOnGraphs = "fontsOnGraphs";
+	public const string RestTimeMinutes = "restTimeMinutes";
+	public const string RestTimeSeconds = "restTimeSeconds";
 
 	//contacts
 	public const string JumpsFVProfileOnlyBestInWeight = "jumpsFVProfileOnlyBestInWeight";
@@ -136,6 +138,8 @@ class SqlitePreferences : Sqlite
 				Insert (ColorBackground, "#0e1e46", dbcmdTr);
 				Insert (ColorBackgroundOsColor, "False", dbcmdTr);
 				Insert (FontsOnGraphs, Preferences.FontTypes.Helvetica.ToString(), dbcmdTr);
+				Insert (RestTimeMinutes, "2", dbcmdTr);
+				Insert (RestTimeSeconds, "0", dbcmdTr);
 				Insert (UnitsStr, Preferences.UnitsEnum.METRIC.ToString(), dbcmdTr);
 				Insert (EncoderCaptureInfinite, "False", dbcmdTr);
 				Insert ("encoderCaptureShowOnlyBars", "True", dbcmdTr);
@@ -424,6 +428,20 @@ class SqlitePreferences : Sqlite
 			else if(reader[0].ToString() == FontsOnGraphs)
 				preferences.fontType = (Preferences.FontTypes)
 					Enum.Parse(typeof(Preferences.FontTypes), reader[1].ToString());
+			else if(reader[0].ToString() == RestTimeMinutes)
+			{
+				if(Util.IsNumber(reader[1].ToString(), false))
+					preferences.restTimeMinutes = Convert.ToInt32(reader[1].ToString());
+				else
+					preferences.restTimeMinutes = 0;
+			}
+			else if(reader[0].ToString() == RestTimeSeconds)
+			{
+				if(Util.IsNumber(reader[1].ToString(), false))
+					preferences.restTimeSeconds = Convert.ToInt32(reader[1].ToString());
+				else
+					preferences.restTimeSeconds = 0;
+			}
 			else if(reader[0].ToString() == UnitsStr)
 				preferences.units = (Preferences.UnitsEnum)
 					Enum.Parse(typeof(Preferences.UnitsEnum), reader[1].ToString());

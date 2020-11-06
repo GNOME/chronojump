@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.01";
+	static string lastChronojumpDatabaseVersion = "2.02";
 
 	public Sqlite()
 	{
@@ -2785,6 +2785,14 @@ class Sqlite
 
 				currentVersion = updateVersion("2.01");
 			}
+			if(currentVersion == "2.01")
+			{
+				LogB.SQL("Inserted into preferences: restTimeMinutes, restTimeSeconds");
+				SqlitePreferences.Insert (SqlitePreferences.RestTimeMinutes, "2");
+				SqlitePreferences.Insert (SqlitePreferences.RestTimeSeconds, "0");
+
+				currentVersion = updateVersion("2.02");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -3000,7 +3008,9 @@ class Sqlite
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
 
-		//1.93 - 2.00 Converted DB to 2.00 Inserted into preferences: fontsOnGraphs
+		//2.01 - 2.02 Converted DB to 2.02 Inserted into preferences: restTimeMinutes, restTimeSeconds")
+		//2.00 - 2.01 Converted DB to 2.01 RunEncoderExercise ALTER TABLE: added column segmentMeters
+		//1.99 - 2.00 Converted DB to 2.00 Inserted into preferences: fontsOnGraphs
 		//1.98 - 1.99 Converted DB to 1.99 Updated 3L3R tracks fixedValue (just affected description)
 		//1.97 - 1.98 Converted DB to 1.98 Inserted into preferences: colorBackgroundOsColor
 		//1.96 - 1.97 Converted DB to 1.97 Inserted into preferences: loadLastSessionAtStart, lastSessionID, loadLastModAtStart, lastMode

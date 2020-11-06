@@ -252,7 +252,6 @@ public class PersonSelectWindow
 			{
 				if(ppb.PersonID == selectedFirstClickPersonID)
 				{
-					FakeButtonDone.Click();
 					close_window();
 					return;
 				}
@@ -388,7 +387,10 @@ public class PersonSelectWindow
 	//end of delete person stuff	
 
 
-	private void close_window() {	
+	private void close_window()
+	{
+		FakeButtonDone.Click(); //change person on main gui
+
 		PersonSelectWindowBox.person_select_window.Hide();
 		PersonSelectWindowBox = null;
 	}
@@ -401,8 +403,8 @@ public class PersonSelectWindow
 	
 	private void on_delete_event (object o, DeleteEventArgs args)
 	{
-		PersonSelectWindowBox.person_select_window.Hide();
-		PersonSelectWindowBox = null;
+		args.RetVal = true;
+		close_window();
 	}
 }
 

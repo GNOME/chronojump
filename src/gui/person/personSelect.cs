@@ -344,12 +344,18 @@ public class PersonSelectWindow
 
 	private void on_button_up_clicked (object o, EventArgs args)
 	{
-		vertical_scroll_change(viewport1.Vadjustment.Value - viewport1.Vadjustment.PageSize);
+		//vertical_scroll_change(viewport1.Vadjustment.Value - viewport1.Vadjustment.PageSize); //this is not very usable, better go row by row
+
+		//row by row
+		vertical_scroll_change(viewport1.Vadjustment.Value - 170 + 8); //a row + its padding (another solution could be viewport height / rows)
 	}
 
 	private void on_button_down_clicked (object o, EventArgs args)
 	{
-		vertical_scroll_change(viewport1.Vadjustment.Value + viewport1.Vadjustment.PageSize);
+		//vertical_scroll_change(viewport1.Vadjustment.Value + viewport1.Vadjustment.PageSize); //this is not very usable, better go row by row
+
+		//row by row
+		vertical_scroll_change(viewport1.Vadjustment.Value + 170 + 8); //a row + its padding
 	}
 
 	private void vertical_scroll_change (double newValue)

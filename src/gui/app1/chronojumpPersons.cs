@@ -418,7 +418,7 @@ public partial class ChronoJumpWindow
 		personSelectWin.FakeButtonEditPerson.Clicked += new EventHandler(on_button_top_person_edit_person);
 		personSelectWin.FakeButtonPersonShowAllEvents.Clicked += new EventHandler(on_button_top_person_show_all_events);
 		personSelectWin.FakeButtonDeletePerson.Clicked += new EventHandler(on_button_top_person_delete_person);
-		personSelectWin.FakeButtonDone.Clicked += new EventHandler(on_button_top_person_change_done);
+		personSelectWin.FakeButtonDone.Clicked += new EventHandler(on_button_top_person_change_done); //on window close, and on double click (it also closes the window)
 	}
 	private void on_button_top_person_add_person(object o, EventArgs args)
 	{
@@ -480,6 +480,12 @@ public partial class ChronoJumpWindow
 	}
 	private void on_button_top_person_change_done(object o, EventArgs args)
 	{
+		if(personSelectWin.SelectedPerson == null)
+			return;
+
+		if(currentPerson.UniqueID == personSelectWin.SelectedPerson.UniqueID)
+			return;
+
 		currentPerson = personSelectWin.SelectedPerson; 
 		currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
 		label_person_change();

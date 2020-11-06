@@ -201,13 +201,6 @@ public partial class ChronoJumpWindow
 	//menu person
 	[Widget] Gtk.Button button_persons_up;
 	[Widget] Gtk.Button button_persons_down;
-	[Widget] Gtk.CheckButton checkbutton_rest;
-	[Widget] Gtk.Label label_rest;
-	[Widget] Gtk.HBox hbox_rest_time;
-	[Widget] Gtk.HBox hbox_rest_time_values;
-	[Widget] Gtk.VBox vbox_rest_time_set;
-	[Widget] Gtk.SpinButton spinbutton_rest_minutes;
-	[Widget] Gtk.SpinButton spinbutton_rest_seconds;
 
 	//tests
 	[Widget] Gtk.Button button_contacts_exercise;
@@ -696,7 +689,6 @@ public partial class ChronoJumpWindow
 		videoCaptureInitialize();
 
 		initializeRestTimeLabels();
-		label_rest.Text = get_configured_rest_time_as_string();
 		restTime = new RestTime();
 		updatingRestTimes = true;
 		GLib.Timeout.Add(1000, new GLib.TimeoutHandler(updateRestTimes)); //each s, better than 5s for don't have problems sorting data on treeview
@@ -962,6 +954,9 @@ public partial class ChronoJumpWindow
 		//pass to report
 		report.preferences = preferences;
 		report.Progversion = progVersion;
+
+		if(myTreeViewPersons != null)
+			myTreeViewPersons.RestSecondsMark = get_configured_rest_time_in_seconds();
 
 		LogB.Information ( Catalog.GetString ("Preferences loaded") );
 	}
@@ -2866,6 +2861,9 @@ public partial class ChronoJumpWindow
 		Config.UseSystemColor = preferences.colorBackgroundOsColor;
 		doLabelsContrast(configChronojump.PersonWinHide);
 
+		if(myTreeViewPersons != null)
+			myTreeViewPersons.RestSecondsMark = get_configured_rest_time_in_seconds();
+
 		//TODO: only if personWinHide changed
 		initialize_menu_or_menu_tiny();
 
@@ -4407,49 +4405,13 @@ public partial class ChronoJumpWindow
 		return true;
 	}
 
-	private void on_button_rest_show_clicked(object o, EventArgs args)
-	{
-		label_rest.Visible = vbox_rest_time_set.Visible;
-		vbox_rest_time_set.Visible = ! vbox_rest_time_set.Visible;
-	}
-
-	private void on_checkbutton_rest_clicked(object o, EventArgs args)
-	{
-		Pixbuf pixbuf;
-		if(checkbutton_rest.Active) {
-			hbox_rest_time_values.Sensitive = true;
-			myTreeViewPersons.RestSecondsMark = get_configured_rest_time_in_seconds();
-			label_rest.Text = get_configured_rest_time_as_string();
-
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_rest.png");
-			image_rest.Pixbuf = pixbuf;
-		} else {
-			hbox_rest_time_values.Sensitive = false;
-			myTreeViewPersons.RestSecondsMark = 0;
-			label_rest.Text = "";
-
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_rest_inactive.png");
-			image_rest.Pixbuf = pixbuf;
-		}
-	}
-
-	private void on_spinbutton_rest_time_value_changed(object o, EventArgs args)
-	{
-		myTreeViewPersons.RestSecondsMark = get_configured_rest_time_in_seconds();
-		if(checkbutton_rest.Active)
-			label_rest.Text = get_configured_rest_time_as_string();
-	}
-
 	private int get_configured_rest_time_in_seconds()
 	{
-		return 60 * Convert.ToInt32(spinbutton_rest_minutes.Value) + Convert.ToInt32(spinbutton_rest_seconds.Value);
+		if(preferences.restTimeMinutes < 0)
+			return 0;
+		else
+			return 60 * preferences.restTimeMinutes + preferences.restTimeSeconds;
 	}
-
-	private string get_configured_rest_time_as_string()
-	{
-		return Convert.ToInt32(spinbutton_rest_minutes.Value).ToString() + "m " + Convert.ToInt32(spinbutton_rest_seconds.Value).ToString() + "s";
-	}
-
 
 	/* ---------------------------------------------------------
 	 * ----------------  JUMPS RJ EXECUTION  ------------------
@@ -7405,7 +7367,7 @@ LogB.Debug("mc finished 5");
 		{
 			frame_persons_top.Sensitive = false;
 			//treeview_persons is shown (person can be changed)
-			hbox_rest_time.Sensitive = false;
+
 			vbox_persons_bottom.Sensitive = false;
 		} else
 			frame_persons.Sensitive = false;
@@ -7459,8 +7421,6 @@ LogB.Debug("mc finished 5");
 		//check this is sensitive (because on cont was unsensitive)
 		if(! frame_persons_top.Sensitive)
 			frame_persons_top.Sensitive = true;
-		if(! hbox_rest_time.Sensitive)
-			hbox_rest_time.Sensitive = true;
 		if(! vbox_persons_bottom.Sensitive)
 			vbox_persons_bottom.Sensitive = true;
 

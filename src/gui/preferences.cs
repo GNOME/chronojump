@@ -74,6 +74,11 @@ public class PreferencesWindow
 	[Widget] Gtk.RadioButton radio_font_courier;
 	[Widget] Gtk.RadioButton radio_font_helvetica;
 	[Widget] Gtk.Label label_radio_font_needs_restart;
+	[Widget] Gtk.CheckButton check_rest_time;
+	[Widget] Gtk.Image image_rest;
+	[Widget] Gtk.HBox hbox_rest_time_values;
+	[Widget] Gtk.SpinButton spinbutton_rest_minutes;
+	[Widget] Gtk.SpinButton spinbutton_rest_seconds;
 
 	[Widget] Gtk.RadioButton radio_color_custom;
 	[Widget] Gtk.RadioButton radio_color_chronojump_blue;
@@ -282,7 +287,8 @@ public class PreferencesWindow
 	private WebcamFfmpegSupportedModes wfsm;
 
 
-	PreferencesWindow () {
+	PreferencesWindow ()
+	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "preferences_win.glade", "preferences_win", "chronojump");
 		gladeXML.Autoconnect(this);
@@ -344,7 +350,11 @@ public class PreferencesWindow
 		PreferencesWindowBox.createComboLanguage();
 		Pixbuf pixbuf;
 
-		//appearence tab
+		//appearance tab
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_rest.png");
+		PreferencesWindowBox.image_rest.Pixbuf = pixbuf;
+
 		if(preferences.maximized == Preferences.MaximizedTypes.NO)
 		{
 			PreferencesWindowBox.check_appearance_maximized.Active = false;
@@ -410,6 +420,18 @@ public class PreferencesWindow
 			PreferencesWindowBox.radio_font_courier.Active = true;
 		else
 			PreferencesWindowBox.radio_font_helvetica.Active = true;
+
+		PreferencesWindowBox.check_rest_time.Active = (preferences.restTimeMinutes >= 0);
+		PreferencesWindowBox.on_check_rest_time_toggled (new object (), new EventArgs ());
+
+		if(preferences.restTimeMinutes >= 0)
+		{
+			PreferencesWindowBox.spinbutton_rest_minutes.Value = preferences.restTimeMinutes;
+			PreferencesWindowBox.spinbutton_rest_seconds.Value = preferences.restTimeSeconds;
+		} else { //min == -1 means no restTime
+			PreferencesWindowBox.spinbutton_rest_minutes.Value = 2;
+			PreferencesWindowBox.spinbutton_rest_seconds.Value = 0;
+		}
 
 		//multimedia tab
 		if(preferences.volumeOn)  
@@ -852,6 +874,21 @@ public class PreferencesWindow
 	private void on_radio_font_helvetica_toggled (object o, EventArgs args)
 	{
 		label_radio_font_needs_restart.Visible = true;
+	}
+
+	private void on_check_rest_time_toggled (object o, EventArgs args)
+	{
+		Pixbuf pixbuf;
+		if(check_rest_time.Active)
+		{
+			hbox_rest_time_values.Visible = true;
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_rest.png");
+		} else
+		{
+			hbox_rest_time_values.Visible = false;
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_rest_inactive.png");
+		}
+		PreferencesWindowBox.image_rest.Pixbuf = pixbuf;
 	}
 
 	private void on_radio_encoder_capture_show_all_bars_toggled (object o, EventArgs args)
@@ -1756,6 +1793,34 @@ public class PreferencesWindow
 			SqlitePreferences.Update(SqlitePreferences.FontsOnGraphs, Preferences.FontTypes.Courier.ToString(), true);
 			preferences.fontType = Preferences.FontTypes.Courier;
 		}
+
+		//rest time change start ---->
+		bool changeRestTime = false;
+		int minutes = (int) PreferencesWindowBox.spinbutton_rest_minutes.Value;
+		int seconds = (int) PreferencesWindowBox.spinbutton_rest_seconds.Value;
+
+		//if we had some time selected previously and now we selected no rest time
+		if(preferences.restTimeMinutes >= 0 && ! PreferencesWindowBox.check_rest_time.Active)
+		{
+			changeRestTime = true;
+			minutes = -1;
+			seconds = 0;
+		} else
+		{
+			if(preferences.restTimeMinutes != minutes)
+				changeRestTime = true;
+			if(preferences.restTimeSeconds != seconds)
+				changeRestTime = true;
+		}
+
+		if(changeRestTime)
+		{
+				SqlitePreferences.Update(SqlitePreferences.RestTimeMinutes, minutes.ToString(), true);
+				preferences.restTimeMinutes = minutes;
+				SqlitePreferences.Update(SqlitePreferences.RestTimeSeconds, seconds.ToString(), true);
+				preferences.restTimeSeconds = seconds;
+		}
+		//<---- rest time change end
 
 		if( preferences.digitsNumber != Convert.ToInt32(UtilGtk.ComboGetActive(combo_decimals)) ) {
 			SqlitePreferences.Update("digitsNumber", UtilGtk.ComboGetActive(combo_decimals), true);

@@ -231,6 +231,10 @@ public partial class ChronoJumpWindow
 				button_encoder_analyze_image_compujump_send_email.Visible = true;
 		}
 
+		//on raspberry with VNC the main hpaned cannot be moved, so show this buttons
+		if(configChronojump.Raspberry)
+			hbox_persons_raspberry.Visible = true;
+
 		if(configChronojump.Exhibition)
 		{
 			exhibitionGuiAtStart(configChronojump.ExhibitionStationType);

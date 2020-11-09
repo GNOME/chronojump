@@ -49,6 +49,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_session_import1_yellow;
 	[Widget] Gtk.Label app1s_label_load;
 	[Widget] Gtk.Label app1s_label_import;
+	[Widget] Gtk.ScrolledWindow scrolledwin_session_load;
 
 	/*
 	 * when fillTreeView() is called, it executes:
@@ -561,6 +562,17 @@ public partial class ChronoJumpWindow
 		app1s_notebook_load_button_animation.CurrentPage = 0;
 
 		return false; //do not call this again
+	}
+
+	private void on_button_sessions_raspberry_up_clicked (object o, EventArgs args)
+	{
+		Gtk.Scrollbar sb = (Gtk.Scrollbar) scrolledwin_session_load.VScrollbar;
+		sb.Value -= sb.Adjustment.PageIncrement; //or StepIncrement if want small steps
+	}
+	private void on_button_sessions_raspberry_down_clicked (object o, EventArgs args)
+	{
+		Gtk.Scrollbar sb = (Gtk.Scrollbar) scrolledwin_session_load.VScrollbar;
+		sb.Value += sb.Adjustment.PageIncrement;
 	}
 
 	// ---- notebook page 3 (import) buttons ----

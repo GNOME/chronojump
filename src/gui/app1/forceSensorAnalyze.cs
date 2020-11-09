@@ -54,8 +54,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_force_sensor_analyze; //decide between automatic and manual
 	[Widget] Gtk.RadioButton radiobutton_force_sensor_analyze_automatic;
 	[Widget] Gtk.RadioButton radiobutton_force_sensor_analyze_manual;
-	[Widget] Gtk.HBox hbox_force_sensor_analyze_automatic_options;
-	[Widget] Gtk.Notebook notebook_force_analyze_automatic;
+//	[Widget] Gtk.HBox hbox_force_sensor_analyze_automatic_options;
+//	[Widget] Gtk.Notebook notebook_force_analyze_automatic;
 	[Widget] Gtk.Button button_force_sensor_analyze_options;
 	[Widget] Gtk.HBox hbox_force_1;
 	[Widget] Gtk.HBox hbox_force_2;
@@ -160,7 +160,7 @@ public partial class ChronoJumpWindow
 
 	private void on_button_force_sensor_analyze_options_clicked (object o, EventArgs args)
 	{
-		notebook_force_analyze_automatic.CurrentPage = 1;
+		notebook_force_sensor_analyze.CurrentPage = 2;
 		forceSensorAnalyzeOptionsSensitivity(false);
 	}
 
@@ -214,7 +214,7 @@ public partial class ChronoJumpWindow
 
 		// 2 change sensitivity of widgets
 
-		notebook_force_analyze_automatic.CurrentPage = 0;
+		notebook_force_sensor_analyze.CurrentPage = 0;
 		forceSensorAnalyzeOptionsSensitivity(true);
 	}
 
@@ -586,7 +586,7 @@ public partial class ChronoJumpWindow
 		if(! radiobutton_force_sensor_analyze_automatic.Active)
 			return;
 
-		hbox_force_sensor_analyze_automatic_options.Visible = true;
+//		hbox_force_sensor_analyze_automatic_options.Visible = true;
 		notebook_force_sensor_analyze.CurrentPage = 0;
 	}
 	bool force_sensor_ai_drawingareaShown = false;
@@ -595,7 +595,7 @@ public partial class ChronoJumpWindow
 		if(! radiobutton_force_sensor_analyze_manual.Active)
 			return;
 
-		hbox_force_sensor_analyze_automatic_options.Visible = false;
+//		hbox_force_sensor_analyze_automatic_options.Visible = false;
 		notebook_force_sensor_analyze.CurrentPage = 1;
 		force_sensor_ai_drawingareaShown = true;
 		forceSensorDoGraphAI(false);

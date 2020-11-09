@@ -49,6 +49,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_logout_seconds_encoder;
 	
 	//better raspberry controls
+	[Widget] Gtk.VBox vbox_sessions_raspberry;
+	[Widget] Gtk.HBox hbox_persons_raspberry;
 	[Widget] Gtk.Box hbox_encoder_capture_extra_mass_no_raspberry;
 	[Widget] Gtk.Box hbox_encoder_capture_extra_mass_raspberry;
 	[Widget] Gtk.HBox hbox_encoder_im_weights_n;
@@ -231,9 +233,14 @@ public partial class ChronoJumpWindow
 				button_encoder_analyze_image_compujump_send_email.Visible = true;
 		}
 
-		//on raspberry with VNC the main hpaned cannot be moved, so show this buttons
 		if(configChronojump.Raspberry)
+		{
+			//make easiers to use some treeviews
+			vbox_sessions_raspberry.Visible = true;
+
+			//on raspberry with VNC the main hpaned cannot be moved, so show this buttons
 			hbox_persons_raspberry.Visible = true;
+		}
 
 		if(configChronojump.Exhibition)
 		{

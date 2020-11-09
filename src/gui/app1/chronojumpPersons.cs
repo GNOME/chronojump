@@ -34,7 +34,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.VBox vbox_manage_persons;
 	[Widget] Gtk.Arrow arrow_manage_persons_up;
 	[Widget] Gtk.Arrow arrow_manage_persons_down;
-	[Widget] Gtk.HBox hbox_persons_raspberry;
 
 	private void showPersonsOnTop (bool onTop)
 	{

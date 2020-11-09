@@ -1033,6 +1033,9 @@ public partial class ChronoJumpWindow
 
 	private void on_button_force_sensor_ai_zoom_clicked (object o, EventArgs args)
 	{
+		if(fsAI == null || fsAI.GetLength() == 0)
+			return;
+
 		forceSensorZoomApplied = true;
 
 		//store hscale a to help return to position on unzoom
@@ -1051,6 +1054,9 @@ public partial class ChronoJumpWindow
 	}
 	private void on_button_force_sensor_ai_zoom_out_clicked (object o, EventArgs args)
 	{
+		if(fsAI == null || fsAI.GetLength() == 0)
+			return;
+
 		forceSensorZoomApplied = false;
 
 		hscale_force_sensor_ai_a_AtZoom = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
@@ -1551,6 +1557,9 @@ public partial class ChronoJumpWindow
 	}
 	private void on_button_hscale_force_sensor_ai_a_last_clicked (object o, EventArgs args)
 	{
+		if(fsAI == null || fsAI.GetLength() < 2)
+			return;
+
 		hscale_force_sensor_ai_a.Value = fsAI.GetLength() -2;
 	}
 
@@ -1569,6 +1578,9 @@ public partial class ChronoJumpWindow
 
 	private void on_button_hscale_force_sensor_ai_b_last_clicked (object o, EventArgs args)
 	{
+		if(fsAI == null || fsAI.GetLength() < 2)
+			return;
+
 		hscale_force_sensor_ai_b.Value = fsAI.GetLength() -2;
 	}
 

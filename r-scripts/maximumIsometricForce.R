@@ -53,7 +53,9 @@ assignOptions <- function(options)
 		datetime 	 	= options[21],
                 scriptsPath 		= options[22],
 		triggersOnList  = as.numeric(unlist(strsplit(options[23], "\\;"))),
-		triggersOffList  = as.numeric(unlist(strsplit(options[24], "\\;")))
+		triggersOffList  = as.numeric(unlist(strsplit(options[24], "\\;"))),
+		startSample = as.numeric(options[25]),
+		endSample = as.numeric(options[26])
         ))
 }
 
@@ -114,13 +116,30 @@ getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength
         #Instantaneous RFD
         rfd = getRFD(originalTest)
         
-        #Finding the increase and decrease of the force to detect the start and end of the maximum voluntary force test
-        trimmingSamples = getTrimmingSamples(originalTest, rfd, averageLength = averageLength, percentChange = percentChange,
-					     testLength = op$testLength, startDetectingMethod = "SD")
-        startSample = trimmingSamples$startSample
+        #The start and end samples are manualy selected
+        print(paste("op$startSample: ", op$startSample))
+        print(paste("op$endtSample: ", op$endSample))
+        if(is.na(op$startSample) || is.na(op$endSample))
+        {
+                op$startSample = 0
+                op$endSample = 0
+        }
+        if( (op$startSample > 0 || op$endSample > 0) && op$startSample <= length(originalTest$time) )
+        {
+                startSample = op$startSample
+                endSample = op$endSample
+        } else
+        #The start and end samples are automatically selected
+        {  
+                #Finding the increase and decrease of the force to detect the start and end of the maximum voluntary force test
+                trimmingSamples = getTrimmingSamples(originalTest, rfd, averageLength = averageLength, percentChange = percentChange,
+                                                     testLength = op$testLength, startDetectingMethod = "SD")
+                
+                startSample = trimmingSamples$startSample
+                endSample = trimmingSamples$endSample
+        }
         startTime = originalTest$time[startSample]
         
-        endSample = trimmingSamples$endSample
         endTime = originalTest$time[endSample]
         
         # Initial force. It is needed to perform an initial steady force to avoid jerks and great peaks in the force

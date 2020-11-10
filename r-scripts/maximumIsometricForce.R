@@ -55,7 +55,8 @@ assignOptions <- function(options)
 		triggersOnList  = as.numeric(unlist(strsplit(options[23], "\\;"))),
 		triggersOffList  = as.numeric(unlist(strsplit(options[24], "\\;"))),
 		startSample = as.numeric(options[25]),
-		endSample = as.numeric(options[26])
+		endSample = as.numeric(options[26]),
+		startEndOptimized = options[27] #bool
         ))
 }
 
@@ -124,7 +125,7 @@ getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength
                 op$startSample = 0
                 op$endSample = 0
         }
-        if( (op$startSample > 0 || op$endSample > 0) && op$startSample <= length(originalTest$time) )
+        if( (op$startSample > 0 && op$endSample > 0) && op$startSample <= length(originalTest$time) )
         {
                 startSample = op$startSample
                 endSample = op$endSample
@@ -138,6 +139,8 @@ getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength
                 startSample = trimmingSamples$startSample
                 endSample = trimmingSamples$endSample
         }
+	#print(paste("startSample: ", startSample))
+	#print(paste("endtSample: ", endSample))
         startTime = originalTest$time[startSample]
         
         endTime = originalTest$time[endSample]

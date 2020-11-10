@@ -134,7 +134,7 @@ public partial class ChronoJumpWindow
 
 	private void initForceSensor ()
 	{
-		notebook_force_sensor_analyze.CurrentPage = 1; 	//start on 1: force_general_analysis
+		notebook_force_sensor_analyze.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_pages.MANUAL);
 		createForceExerciseCombo();
 		createComboForceSensorCaptureOptions();
 		createForceAnalyzeCombos();
@@ -389,6 +389,7 @@ public partial class ChronoJumpWindow
 		}
 		else if (o == (object) button_execute_test)
 		{
+			notebook_force_sensor_analyze.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_pages.MANUAL);
 			forceSensorButtonsSensitive(false);
 			sensitiveLastTestButtons(false);
 			contactsShowCaptureDoingButtons(true);
@@ -1845,6 +1846,7 @@ LogB.Information(" fs R ");
 		force_capture_drawingarea.Sensitive = true;
 		notebook_force_sensor_analyze.Sensitive = true;
 		button_force_sensor_analyze_options.Sensitive = true;
+		notebook_force_sensor_analyze.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_pages.MANUAL);
 	}
 
 	protected void on_force_sensor_load_signal_row_play (object o, EventArgs args)
@@ -2024,18 +2026,7 @@ LogB.Information(" fs R ");
 		}
 
 		currentForceSensor.UpdateSQL(false);
-	}
-
-	private void on_button_force_sensor_analyze_analyze_clicked (object o, EventArgs args)
-	{
-		if(! Util.FileExists(lastForceSensorFullPath))
-		{
-			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFoundStr());
-			return;
-		}
-
-		if(lastForceSensorFullPath != null && lastForceSensorFullPath != "")
-			forceSensorCopyTempAndDoGraphs(forceSensorGraphsEnum.RFD);
+		notebook_force_sensor_analyze.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_pages.MANUAL);
 	}
 
 	private enum forceSensorGraphsEnum { SIGNAL, RFD }

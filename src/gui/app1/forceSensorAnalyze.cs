@@ -44,6 +44,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_force_sensor_ai_zoom;
 	[Widget] Gtk.Button button_force_sensor_ai_zoom_out;
 
+	[Widget] Gtk.Button button_force_sensor_analyze_back_to_signal;
+
 	[Widget] Gtk.SpinButton spin_force_duration_seconds;
 	[Widget] Gtk.RadioButton radio_force_duration_seconds;
 	[Widget] Gtk.HBox hbox_force_rfd_duration_percent;
@@ -134,6 +136,7 @@ public partial class ChronoJumpWindow
 
 	private RepetitionMouseLimits fsAIRepetitionMouseLimits;
 
+	private enum notebook_force_sensor_analyze_pages { AUTOMATIC, MANUAL, AUTOMATICOPTIONS }
 	/*
 	 * analyze options -------------------------->
 	 */
@@ -158,14 +161,21 @@ public partial class ChronoJumpWindow
 		hbox_top_person.Sensitive = s;
 	}
 
+	private int notebook_force_sensor_analyze_LastPage;
 	private void on_button_force_sensor_analyze_options_clicked (object o, EventArgs args)
 	{
-		notebook_force_sensor_analyze.CurrentPage = 2;
+		//store the notebook to return to same place
+		notebook_force_sensor_analyze_LastPage = notebook_force_sensor_analyze.CurrentPage;
+		notebook_force_sensor_analyze.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_pages.AUTOMATICOPTIONS);
+
 		forceSensorAnalyzeOptionsSensitivity(false);
 	}
 
 	private void on_button_force_sensor_analyze_options_close_clicked (object o, EventArgs args)
 	{
+		//we can go to manual or to automatic
+		notebook_force_sensor_analyze.CurrentPage = notebook_force_sensor_analyze_LastPage;
+
 		// 1 change stuff on Sqlite if needed
 
 		Sqlite.Open();
@@ -214,7 +224,6 @@ public partial class ChronoJumpWindow
 
 		// 2 change sensitivity of widgets
 
-		notebook_force_sensor_analyze.CurrentPage = 0;
 		forceSensorAnalyzeOptionsSensitivity(true);
 	}
 
@@ -222,6 +231,27 @@ public partial class ChronoJumpWindow
 	{
 		on_button_force_sensor_analyze_options_close_clicked (o, args);
 		on_button_force_sensor_analyze_analyze_clicked (o, args);
+	}
+
+	private void on_button_force_sensor_analyze_analyze_clicked (object o, EventArgs args)
+	{
+		notebook_force_sensor_analyze.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_pages.AUTOMATIC);
+		button_force_sensor_analyze_back_to_signal.Sensitive = true;
+
+		if(! Util.FileExists(lastForceSensorFullPath))
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFoundStr());
+			return;
+		}
+
+		if(lastForceSensorFullPath != null && lastForceSensorFullPath != "")
+			forceSensorCopyTempAndDoGraphs(forceSensorGraphsEnum.RFD);
+	}
+
+	private void on_button_force_sensor_analyze_back_to_signal_clicked (object o, EventArgs args)
+	{
+		notebook_force_sensor_analyze.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_pages.MANUAL);
+		button_force_sensor_analyze_back_to_signal.Sensitive = false;
 	}
 
 	private void check_force_visibilities()
@@ -587,7 +617,7 @@ public partial class ChronoJumpWindow
 			return;
 
 //		hbox_force_sensor_analyze_automatic_options.Visible = true;
-		notebook_force_sensor_analyze.CurrentPage = 0;
+		notebook_force_sensor_analyze.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_pages.AUTOMATIC);
 	}
 	bool force_sensor_ai_drawingareaShown = false;
 	private void on_radiobutton_force_sensor_analyze_manual_toggled (object o, EventArgs args)
@@ -596,7 +626,7 @@ public partial class ChronoJumpWindow
 			return;
 
 //		hbox_force_sensor_analyze_automatic_options.Visible = false;
-		notebook_force_sensor_analyze.CurrentPage = 1;
+		notebook_force_sensor_analyze.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_pages.MANUAL);
 		force_sensor_ai_drawingareaShown = true;
 		forceSensorDoGraphAI(false);
 	}

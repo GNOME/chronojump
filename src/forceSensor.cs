@@ -1358,9 +1358,13 @@ public class ForceSensorGraph
 	string exercise;
 	string datetime;
 	private TriggerList triggerList;
+	private int startSample;
+	private int endSample;
 
 	public ForceSensorGraph(ForceSensor.CaptureOptions fsco, List<ForceSensorRFD> rfdList,
-			ForceSensorImpulse impulse, int testLength, int percentChange, string title, string exercise, string datetime, TriggerList triggerList)
+			ForceSensorImpulse impulse, int testLength, int percentChange,
+			string title, string exercise, string datetime, TriggerList triggerList,
+			int startSample, int endSample)
 	{
 		this.fsco = fsco;
 		this.rfdList = rfdList;
@@ -1371,6 +1375,8 @@ public class ForceSensorGraph
 		this.exercise = exercise;
 		this.datetime = datetime;
 		this.triggerList = triggerList;
+		this.startSample = startSample;
+		this.endSample = endSample;
 
 		averageLength = 0.1;
 		vlineT0 = false;
@@ -1429,7 +1435,17 @@ public class ForceSensorGraph
 			"#datetime\n" + 		datetime + "\n" +
 			"#scriptsPath\n" + 		UtilEncoder.GetScriptsPath() + "\n" +
 			printTriggers(TriggerList.Type3.ON) + "\n" +
-			printTriggers(TriggerList.Type3.OFF);
+			printTriggers(TriggerList.Type3.OFF) + "\n" +
+			"#startSample\n" + 		startSample.ToString() + "\n" +
+			"#endSample\n" + 		endSample.ToString() + "\n" +
+			"#startEndOptimized\n" +	"TRUE" + "\n";
+
+		/*
+		#startEndOptimized on gui can be:
+		Range of analysis:
+		- startEndOptimized FALSE: user AB selection (use AB selected range)
+		- startEndOptimized TRUE (default): optimized range (program will find best fitting samples on user selected range)
+		*/
 
 		TextWriter writer = File.CreateText(Path.GetTempPath() + "Roptions.txt");
 		writer.Write(scriptOptions);

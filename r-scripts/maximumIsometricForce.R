@@ -96,8 +96,9 @@ getForceModel <- function(time, force, startTime, # startTime is the instant whe
         time = time - startTime
         
         data = data.frame(time = time, force = force)
+        print(data)
         model = nls( force ~ fmax*(1-exp(-K*time)), data, start=list(fmax=fmaxi, K=1), control=nls.control(warnOnly=TRUE))
-
+        print(model)
         fmax = summary(model)$coeff[1,1]
         K = summary(model)$coeff[2,1]
         return(list(fmax = fmax, K = K, error = 100*residuals(model)/data$force))
@@ -120,6 +121,8 @@ getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength
         #The start and end samples are manualy selected
         print(paste("op$startSample: ", op$startSample))
         print(paste("op$endtSample: ", op$endSample))
+        
+        #Just in case the Roptions.txt don't have the parameters
         if(is.na(op$startSample) || is.na(op$endSample))
         {
                 op$startSample = 0
@@ -127,11 +130,38 @@ getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength
         }
         if( (op$startSample > 0 && op$endSample > 0) && op$startSample <= length(originalTest$time) )
         {
-                startSample = op$startSample
-                endSample = op$endSample
+                print("Type of startEndOptimized")
+                print(typeof(op$startEndOptimized))
+                print(op$startEndOptimized)
+                if( op$startEndOptimized == "FALSE")
+                {
+                        print("A")
+                        startSample = op$startSample
+                        endSample = op$endSample
+                        print("B")
+                } else if( op$startEndOptimized == "TRUE")
+                {
+                        print("originalTest without trimming")
+                        print(originalTest)
+                        originalTest = originalTest[op$startSample:op$endSample,]
+                        row.names(originalTest) <- 1:nrow(originalTest)
+                        print("originalTest trimmed")
+                        print(originalTest)
+                        
+                        #Finding the increase and decrease of the force to detect the start and end of the maximum voluntary force test
+                        trimmingSamples = getTrimmingSamples(originalTest, rfd, averageLength = averageLength, percentChange = percentChange,
+                                                             testLength = op$testLength, startDetectingMethod = "SD")
+                        
+                        startSample = trimmingSamples$startSample
+                        endSample = trimmingSamples$endSample
+                        print("start and end sample:")
+                        print(startSample)
+                        print(endSample)
+                }
         } else
         #The start and end samples are automatically selected
         {  
+                
                 #Finding the increase and decrease of the force to detect the start and end of the maximum voluntary force test
                 trimmingSamples = getTrimmingSamples(originalTest, rfd, averageLength = averageLength, percentChange = percentChange,
                                                      testLength = op$testLength, startDetectingMethod = "SD")
@@ -148,6 +178,7 @@ getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength
         # Initial force. It is needed to perform an initial steady force to avoid jerks and great peaks in the force
         if(startSample <= 20)
         {
+                #TODO. Manage the situation where the signal starts once the force has begun to increase
                 print("Not previos steady tension applied before performing the test")
                 return(NA)
         }

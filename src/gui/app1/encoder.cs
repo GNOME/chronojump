@@ -6997,7 +6997,7 @@ public partial class ChronoJumpWindow
 					} else {
 						treeviewEncoderAnalyzeRemoveColumns();
 						encoderAnalyzeListStore = new Gtk.ListStore (typeof (EncoderCurve));
-						createTreeViewEncoderAnalyze(contents);
+						createTreeViewEncoderAnalyze(contents, current_menuitem_mode);
 					}
 				}
 

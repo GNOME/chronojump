@@ -235,6 +235,7 @@ public class EncoderCurve
 	public double DisplacedWeight;
 	public int Inertia; 		//analyze inertial
 	public double Diameter;		//analyze inertial
+	public double MassEquivalent;	//analyze inertial
 	public string Start;
 	public string Duration;
 	public string Height;
@@ -290,7 +291,7 @@ public class EncoderCurve
 	public EncoderCurve (string n, string series, string exercise, 
 			string laterality,
 			double extraWeight, double displacedWeight,
-			int inertia, double diameter,
+			int inertia, double diameter, double massEquivalent, 	//3 inertial params
 			string start, string duration, string height,
 			string meanSpeed, string maxSpeed, string maxSpeedT,
 			string meanPower, string peakPower, string peakPowerT, 
@@ -307,6 +308,7 @@ public class EncoderCurve
 		this.DisplacedWeight = displacedWeight;
 		this.Inertia = inertia;		//inertial
 		this.Diameter = diameter;	//inertial
+		this.MassEquivalent = massEquivalent;	//inertial
 		this.Start = start;
 		this.Duration = duration;
 		this.Height = height;

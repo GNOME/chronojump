@@ -760,7 +760,7 @@ findPropulsiveEnd <- function(accel, concentric, maxSpeedTInConcentric,
 	return (propulsiveEnd)
 }
 
-pafGenerate <- function(eccon, kinematics, massBody, massExtra, laterality, inertiaMomentum, diameter)
+pafGenerate <- function(eccon, kinematics, massBody, massExtra, laterality, inertiaMomentum, diameter, gearedDown)
 {
 	meanSpeed <- mean(kinematics$speedy)
 
@@ -823,13 +823,20 @@ pafGenerate <- function(eccon, kinematics, massBody, massExtra, laterality, iner
 	#meanForce and maxForce are not used by pafGenerate, but used by F/S (forceVSSpeed)
 	mass = kinematics$mass
 	#names will be used on graph.R writeCurves
+
+	#massEq calculation
+	massEq <- 0
+	if(inertiaMomentum > 0 && gearedDown > 0 && diameter > 0)
+		massEq <- 10000 * inertiaMomentum * gearedDown / 4 / (diameter^2)
+
 	return(data.frame(
 			  meanSpeed, maxSpeed, maxSpeedT,
 			  meanPower, peakPower, peakPowerT, pp_ppt,
 			  meanForce, maxForce, maxForceT, maxForce_maxForceT,
 			  mass, massBody, massExtra,		#kinematics$mass is Load
 			  workJ, impulse,
-			  laterality, inertiaMomentum, diameter
+			  laterality, inertiaMomentum, diameter,
+			  massEq
 			  ))
 }
 

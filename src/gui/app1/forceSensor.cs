@@ -2615,6 +2615,7 @@ LogB.Information(" fs R ");
 			frame_force_sensor_elastic.Visible = false;
 			changeTestImage("", "", "FORCESENSOR_NOT_ELASTIC");
 
+			setLabelContactsExerciseSelected(Constants.Menuitem_modes.FORCESENSOR);
 			combo_force_sensor_button_sensitive_exercise(false);
 			return;
 		}

@@ -233,7 +233,8 @@ public class EncoderCurve
 	public string Laterality;	//only on analyze
 	public double ExtraWeight;
 	public double DisplacedWeight;
-	public int Inertia;
+	public int Inertia; 		//analyze inertial
+	public double Diameter;		//analyze inertial
 	public string Start;
 	public string Duration;
 	public string Height;
@@ -289,7 +290,7 @@ public class EncoderCurve
 	public EncoderCurve (string n, string series, string exercise, 
 			string laterality,
 			double extraWeight, double displacedWeight,
-			int inertia,
+			int inertia, double diameter,
 			string start, string duration, string height,
 			string meanSpeed, string maxSpeed, string maxSpeedT,
 			string meanPower, string peakPower, string peakPowerT, 
@@ -304,7 +305,8 @@ public class EncoderCurve
 		this.Laterality = laterality;
 		this.ExtraWeight = extraWeight;
 		this.DisplacedWeight = displacedWeight;
-		this.Inertia = inertia;
+		this.Inertia = inertia;		//inertial
+		this.Diameter = diameter;	//inertial
 		this.Start = start;
 		this.Duration = duration;
 		this.Height = height;

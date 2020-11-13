@@ -635,7 +635,8 @@ public partial class ChronoJumpWindow
 
 	bool lastTreeviewEncoderAnalyzeIsNeuromuscular = false;
 
-	private int createTreeViewEncoderAnalyze(string contents) {
+	private int createTreeViewEncoderAnalyze(string contents, Constants.Menuitem_modes encoderMode)
+	{
 		string [] columnsString = GetTreeviewEncoderAnalyzeHeaders(true); //screen
 
 		ArrayList encoderAnalyzeCurves = new ArrayList ();
@@ -745,7 +746,15 @@ public partial class ChronoJumpWindow
 		treeview_encoder_analyze_curves.HeadersVisible=true;
 
 		int i=0;
-		foreach(string myCol in columnsString) {
+		foreach(string myCol in columnsString)
+		{
+			//do not show inertia moment on powergravitatory
+			if(encoderMode == Constants.Menuitem_modes.POWERGRAVITATORY && i == 6)
+			{
+				i ++;
+				continue;
+			}
+
 			Gtk.TreeViewColumn aColumn = new Gtk.TreeViewColumn ();
 			CellRendererText aCell = new CellRendererText();
 			aColumn.Title=myCol;
@@ -753,8 +762,7 @@ public partial class ChronoJumpWindow
 
 			//crt1.Foreground = "red";
 			//crt1.Background = "blue";
-		
-		
+
 			switch(i){	
 				case 0:
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderNAnalyze));

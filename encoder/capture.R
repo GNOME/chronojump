@@ -84,7 +84,7 @@ calcule <- function(displacement, op, curveNum, startInSet)
 
 	paf = data.frame()
 	myLaterality = "" #TODO
-	paf = pafGenerate(op$Eccon, kinematicsResult, op$MassBody, op$MassExtra, myLaterality, op$inertiaMomentum)
+	paf = pafGenerate(op$Eccon, kinematicsResult, op$MassBody, op$MassExtra, myLaterality, op$inertiaMomentum, op$diameter)
 		
 	position = cumsum(displacement)
 

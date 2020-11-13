@@ -612,7 +612,8 @@ public partial class ChronoJumpWindow
 			Catalog.GetString("Laterality") + "\n",
 			Catalog.GetString("Extra weight") + "\n(Kg)",
 			Catalog.GetString("Total weight") + "\n(Kg)",
-			Catalog.GetString("Inertia M.") + "\n(Kg*cm^2)",
+			Catalog.GetString("Inertia M.") + "\n(Kg*cm^2)", 	//inertial
+			Catalog.GetString("Diameter") + "\n(cm)",		//inertial
 			Catalog.GetString("Start") + "\n" + timeUnits,
 			Catalog.GetString("Duration") + "\n" + timeUnits,
 			Catalog.GetString("Distance") + "\n" + distanceUnits,
@@ -709,7 +710,8 @@ public partial class ChronoJumpWindow
 							cells[21],	//laterality
 							Convert.ToDouble(Util.ChangeDecimalSeparator(cells[4])), 	//extraWeight
 							totalMass, 							//displaceWeight
-							Convert.ToInt32(cells[22]), 					//inertia
+							Convert.ToInt32(cells[22]), 					//inertia M. (inertial)
+							Convert.ToDouble(cells[23]), 					//diameter (inertial)
 							cells[5], cells[6], cells[7], 
 							cells[8], cells[9], cells[10], 
 							cells[11], cells[12], cells[13],
@@ -748,8 +750,8 @@ public partial class ChronoJumpWindow
 		int i=0;
 		foreach(string myCol in columnsString)
 		{
-			//do not show inertia moment on powergravitatory
-			if(encoderMode == Constants.Menuitem_modes.POWERGRAVITATORY && i == 6)
+			//do not show inertia moment and diameter on powergravitatory
+			if(encoderMode == Constants.Menuitem_modes.POWERGRAVITATORY && (i == 6 || i == 7))
 			{
 				i ++;
 				continue;
@@ -783,54 +785,57 @@ public partial class ChronoJumpWindow
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderDisplacedWeight));
 					break;
 				case 6:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderInertia));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderInertia)); 	//inertial
 					break;
 				case 7:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderStart));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderDiameter)); 	//inertial
 					break;
 				case 8:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderDuration));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderStart));
 					break;
 				case 9:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderHeight));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderDuration));
 					break;
 				case 10:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanSpeed));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderHeight));
 					break;
 				case 11:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxSpeed));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanSpeed));
 					break;
 				case 12:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxSpeedT));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxSpeed));
 					break;
 				case 13:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanPower));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxSpeedT));
 					break;
 				case 14:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPower));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanPower));
 					break;
 				case 15:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPowerT));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPower));
 					break;
 				case 16:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPP_PPT));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPowerT));
 					break;
 				case 17:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanForce));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPP_PPT));
 					break;
 				case 18:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxForce));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanForce));
 					break;
 				case 19:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxForceT));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxForce));
 					break;
 				case 20:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxForce_maxForceT));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxForceT));
 					break;
 				case 21:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderWork));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxForce_maxForceT));
 					break;
 				case 22:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderWork));
+					break;
+				case 23:
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderImpulse));
 					break;
 			}
@@ -1166,6 +1171,14 @@ public partial class ChronoJumpWindow
 		renderBoldIfNeeded(cell, curve, str);
 	}
 
+	private void RenderDiameter (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+
+		string str = String.Format(UtilGtk.TVNumPrint(curve.Diameter.ToString(),1,0),Convert.ToDouble(curve.Diameter));
+
+		renderBoldIfNeeded(cell, curve, str);
+	}
 
 	private void RenderStart (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
@@ -1590,7 +1603,7 @@ public partial class ChronoJumpWindow
 		//LogB.Information(string.Format("cellsString: {0}", Util.StringArrayToString(cells, ";")));
 		if(captureOrAnalyze && cells.Length < 21) 		//from 0 to 20
 			return false;
-		else if(! captureOrAnalyze && cells.Length < 23) 	//from 0 to 22
+		else if(! captureOrAnalyze && cells.Length < 24) 	//from 0 to 23
 			return false;
 
 		return true;
@@ -1630,9 +1643,11 @@ public partial class ChronoJumpWindow
 
 		//capture does not return inerta
 		//analyze returns inertia (can be different on "saved curves") comes as Kg*m^2, convert it to Kg*cm^2
+		//analyze returns also diameter (used on inertial)
 		if(! captureOrAnalyze) {
 			double inertiaInM = Convert.ToDouble(Util.ChangeDecimalSeparator(cells[22]));
 			cells[22] = (Convert.ToInt32(inertiaInM * 10000)).ToString();
+			cells[23] = Util.ChangeDecimalSeparator(cells[23]);
 		}
 
 		return cells;

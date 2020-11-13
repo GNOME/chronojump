@@ -760,7 +760,7 @@ findPropulsiveEnd <- function(accel, concentric, maxSpeedTInConcentric,
 	return (propulsiveEnd)
 }
 
-pafGenerate <- function(eccon, kinematics, massBody, massExtra, laterality, inertiaMomentum) 
+pafGenerate <- function(eccon, kinematics, massBody, massExtra, laterality, inertiaMomentum, diameter)
 {
 	meanSpeed <- mean(kinematics$speedy)
 
@@ -829,7 +829,7 @@ pafGenerate <- function(eccon, kinematics, massBody, massExtra, laterality, iner
 			  meanForce, maxForce, maxForceT, maxForce_maxForceT,
 			  mass, massBody, massExtra,		#kinematics$mass is Load
 			  workJ, impulse,
-			  laterality, inertiaMomentum
+			  laterality, inertiaMomentum, diameter
 			  ))
 }
 

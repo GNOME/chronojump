@@ -3676,7 +3676,7 @@ doProcess <- function(options)
                                             repOpSeparated,
                                             SmoothingsEC[i],op$SmoothingOneC, 
                                             g, isPropulsive, TRUE),
-                                repOp$massBody, repOp$massExtra, repOp$laterality, repOp$inertiaM, repOp$diameter
+                                repOp$massBody, repOp$massExtra, repOp$laterality, repOp$inertiaM, repOp$diameter, repOp$gearedDown
                         )))
                 }
                 
@@ -3910,7 +3910,8 @@ doProcess <- function(options)
                                                 "meanForce", "maxForce", "maxForceT",
                                                 "maxForce_maxForceT",
 						"workJ", "impulse",
-                                                "laterality", "inertiaM", "diameter"
+                                                "laterality", "inertiaM", "diameter",
+						"massEq" #calculation of massEquivalent using gearedDown
                         )
                         
                         #Add "Max", "AVG" and "SD" when analyzing, not on "curves", not on "curvesAC", not on "curvesProcessMultiDB"
@@ -3930,7 +3931,7 @@ doProcess <- function(options)
                                                          max(pafCurves$meanForce), max(pafCurves$maxForce), max(pafCurves$maxForceT),
                                                          max(pafCurves$maxForce_maxForceT),
 							 max(pafCurves$workJ), max(pafCurves$impulse),
-                                                         "", max(pafCurves$inertiaM), max(pafCurves$diameter)
+                                                         "", max(pafCurves$inertiaM), max(pafCurves$diameter), max(pafCurves$massEq)
                                         )
                                         
                                         #2) AVG
@@ -3942,7 +3943,7 @@ doProcess <- function(options)
                                                          mean(pafCurves$meanForce), mean(pafCurves$maxForce), mean(pafCurves$maxForceT),
                                                          mean(pafCurves$maxForce_maxForceT),
 							 mean(pafCurves$workJ), mean(pafCurves$impulse),
-                                                         "", mean(pafCurves$inertiaM), mean(pafCurves$diameter)
+                                                         "", mean(pafCurves$inertiaM), mean(pafCurves$diameter), mean(pafCurves$massEq)
                                         )
                                         
                                         #3) Add SD if there's more than one data row.
@@ -3955,7 +3956,7 @@ doProcess <- function(options)
                                                                 sd(pafCurves$meanForce), sd(pafCurves$maxForce), sd(pafCurves$maxForceT),
 								sd(pafCurves$maxForce_maxForceT),
 								sd(pafCurves$workJ), sd(pafCurves$impulse),
-                                                                "", sd(pafCurves$inertiaM), sd(pafCurves$diameter)
+                                                                "", sd(pafCurves$inertiaM), sd(pafCurves$diameter), sd(pafCurves$massEq)
                                                 )
                                         
                                         

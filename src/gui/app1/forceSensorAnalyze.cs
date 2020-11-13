@@ -1137,6 +1137,29 @@ public partial class ChronoJumpWindow
 		int textWidth = 1;
 		int textHeight = 1;
 
+		//this is nice in order to save the image having the most relevant of the set
+		//note max force is of all the set, BUT maxRFD is of last calculation done (moving the A or B) in order to update fsAI.LastRFDMax
+		//so decide if use maxForce also of the AB interval
+		bool writeForceAndRFD = true;
+		if(writeForceAndRFD)
+		{
+			if(label_force_sensor_ai_force_max.Text != "")
+			{
+				layout_force_ai_text.SetMarkup("Max force: " + label_force_sensor_ai_force_max.Text);
+				layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
+				force_sensor_ai_pixmap.DrawLayout (pen_black_force_ai,
+						xPxEnd - textWidth, 2, layout_force_ai_text);
+			}
+
+			if(label_force_sensor_ai_rfd_max.Text != "")
+			{
+				layout_force_ai_text.SetMarkup("Max RFD: " + label_force_sensor_ai_rfd_max.Text);
+				layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);
+				force_sensor_ai_pixmap.DrawLayout (pen_red_force_ai,
+						xPxEnd - textWidth, 2 + textHeight, layout_force_ai_text);
+			}
+		}
+
 		// 2b) draw horizontal 0 line on elastic, and Y right axis
 		if(fsAI.CalculedElasticPSAP)
 		{

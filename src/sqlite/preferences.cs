@@ -219,7 +219,6 @@ class SqlitePreferences : Sqlite
 				Insert ("encoderCaptureCutByTriggers", Preferences.TriggerTypes.NO_TRIGGERS.ToString(), dbcmdTr);
 				Insert ("encoderPropulsive", "True", dbcmdTr);
 				Insert (EncoderWorkKcal, "True", dbcmdTr);
-				Insert ("encoderWorkKcal", "True", dbcmdTr);
 				Insert ("encoderSmoothEccCon", "0.6", dbcmdTr);
 				Insert ("encoderSmoothCon", "0.7", dbcmdTr);
 				Insert ("encoder1RMMethod", Constants.Encoder1RMMethod.WEIGHTED2.ToString(), dbcmdTr);

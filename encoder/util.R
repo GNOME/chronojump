@@ -824,11 +824,6 @@ pafGenerate <- function(eccon, kinematics, massBody, massExtra, laterality, iner
 	mass = kinematics$mass
 	#names will be used on graph.R writeCurves
 
-	#massEq calculation
-	massEq <- 0
-	if(inertiaMomentum > 0 && gearedDown > 0 && diameter > 0)
-		massEq <- 10000 * inertiaMomentum * 1/gearedDown / 4 / (diameter^2)
-
 	return(data.frame(
 			  meanSpeed, maxSpeed, maxSpeedT,
 			  meanPower, peakPower, peakPowerT, pp_ppt,
@@ -836,8 +831,16 @@ pafGenerate <- function(eccon, kinematics, massBody, massExtra, laterality, iner
 			  mass, massBody, massExtra,		#kinematics$mass is Load
 			  workJ, impulse,
 			  laterality, inertiaMomentum, diameter,
-			  massEq
+			  calculateMassEquivalent(inertiaMomentum, gearedDown, diameter)
 			  ))
+}
+
+calculateMassEquivalent <- function(inertiaMomentum, gearedDown, diameter)
+{
+	if(inertiaMomentum > 0 && gearedDown > 0 && diameter > 0)
+		return (10000 * inertiaMomentum * 1/gearedDown / 4 / (diameter^2))
+	else
+		return (0)
 }
 
 isInertial <- function(encoderConfigurationName) {

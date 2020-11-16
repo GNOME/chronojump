@@ -162,6 +162,10 @@ public class PreferencesWindow
 	[Widget] Gtk.CheckButton checkbutton_encoder_propulsive;
 	[Widget] Gtk.RadioButton radio_encoder_work_kcal;
 	[Widget] Gtk.RadioButton radio_encoder_work_joules;
+	[Widget] Gtk.RadioButton radio_encoder_inertial_analyze_equivalent_mass;
+	[Widget] Gtk.RadioButton radio_encoder_inertial_analyze_inertia_moment;
+	[Widget] Gtk.RadioButton radio_encoder_inertial_analyze_diameter;
+	[Widget] Gtk.Image image_encoder_inertial_analyze_eq_mass_help;
 	[Widget] Gtk.SpinButton spin_encoder_smooth_con;
 	[Widget] Gtk.Label label_encoder_con;
 	[Widget] Gtk.RadioButton radio_encoder_1RM_nonweighted;
@@ -574,6 +578,7 @@ public class PreferencesWindow
 		PreferencesWindowBox.image_run_speed_start_help.Pixbuf = pixbuf;
 		PreferencesWindowBox.image_encoder_inactivity_help.Pixbuf = pixbuf;
 		PreferencesWindowBox.image_encoder_capture_cut_by_triggers_help.Pixbuf = pixbuf;
+		PreferencesWindowBox.image_encoder_inertial_analyze_eq_mass_help.Pixbuf = pixbuf;
 
 		if(menu_mode ==	Constants.Menuitem_modes.RUNSSIMPLE)
 			PreferencesWindowBox.notebook_races_double_contacts.CurrentPage = 0;
@@ -682,7 +687,14 @@ public class PreferencesWindow
 			PreferencesWindowBox.radio_encoder_work_kcal.Active = true;
 		else
 			PreferencesWindowBox.radio_encoder_work_joules.Active = true;
-		
+
+		if(preferences.encoderInertialGraphsX == Preferences.EncoderInertialGraphsXTypes.INERTIA_MOMENT)
+			PreferencesWindowBox.radio_encoder_inertial_analyze_inertia_moment.Active = true;
+		else if(preferences.encoderInertialGraphsX == Preferences.EncoderInertialGraphsXTypes.DIAMETER)
+			PreferencesWindowBox.radio_encoder_inertial_analyze_diameter.Active = true;
+		else
+			PreferencesWindowBox.radio_encoder_inertial_analyze_equivalent_mass.Active = true;
+
 		PreferencesWindowBox.spin_encoder_smooth_con.Value = preferences.encoderSmoothCon;
 
 		if(preferences.encoder1RMMethod == Constants.Encoder1RMMethod.NONWEIGHTED)
@@ -1629,7 +1641,11 @@ public class PreferencesWindow
 				);
 	}
 
-	
+	private void on_button_encoder_inertial_analyze_eq_mass_help_clicked (object o, EventArgs args)
+	{
+		new DialogMessage(Constants.MessageTypes.INFO, "TODO");
+	}
+
 	// ---- start SQL stress tests ---->
 
 	private void on_SQL_stress_test_safe_short_clicked (object o, EventArgs args) {
@@ -2052,7 +2068,14 @@ public class PreferencesWindow
 				"encoderSmoothCon",
 				preferences.encoderSmoothCon,
 				(double) PreferencesWindowBox.spin_encoder_smooth_con.Value);
-		
+
+		Preferences.EncoderInertialGraphsXTypes encoderInertialGraphsXFromGUI = get_encoderInertialGraphsX_from_gui();
+		if(preferences.encoderInertialGraphsX != encoderInertialGraphsXFromGUI)
+		{
+			SqlitePreferences.Update(SqlitePreferences.EncoderInertialGraphsX, encoderInertialGraphsXFromGUI.ToString(), true);
+			preferences.encoderInertialGraphsX = encoderInertialGraphsXFromGUI;
+		}
+
 		Constants.Encoder1RMMethod encoder1RMMethod;
 		if(PreferencesWindowBox.radio_encoder_1RM_nonweighted.Active)
 			encoder1RMMethod = Constants.Encoder1RMMethod.NONWEIGHTED;
@@ -2231,6 +2254,16 @@ public class PreferencesWindow
 			return Preferences.MaximizedTypes.YES;
 
 		return Preferences.MaximizedTypes.YESUNDECORATED;
+	}
+
+	private Preferences.EncoderInertialGraphsXTypes get_encoderInertialGraphsX_from_gui()
+	{
+		if(PreferencesWindowBox.radio_encoder_inertial_analyze_inertia_moment.Active)
+			return Preferences.EncoderInertialGraphsXTypes.INERTIA_MOMENT;
+		else if(PreferencesWindowBox.radio_encoder_inertial_analyze_diameter.Active)
+			return Preferences.EncoderInertialGraphsXTypes.DIAMETER;
+		else
+			return Preferences.EncoderInertialGraphsXTypes.EQUIVALENT_MASS;
 	}
 
 	private Preferences.pythonVersionEnum get_pythonVersion_from_gui()

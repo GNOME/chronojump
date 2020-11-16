@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.02";
+	static string lastChronojumpDatabaseVersion = "2.03";
 
 	public Sqlite()
 	{
@@ -2793,6 +2793,14 @@ class Sqlite
 
 				currentVersion = updateVersion("2.02");
 			}
+			if(currentVersion == "2.02")
+			{
+				LogB.SQL("Inserted into preferences: encoderInertialGraphsX");
+				SqlitePreferences.Insert (SqlitePreferences.EncoderInertialGraphsX,
+						Preferences.EncoderInertialGraphsXTypes.EQUIVALENT_MASS.ToString());
+
+				currentVersion = updateVersion("2.03");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -3008,6 +3016,7 @@ class Sqlite
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
 
+		//2.02 - 2.03 Converted DB to 2.03 Inserted into preferences: encoderInertialGraphsX
 		//2.01 - 2.02 Converted DB to 2.02 Inserted into preferences: restTimeMinutes, restTimeSeconds")
 		//2.00 - 2.01 Converted DB to 2.01 RunEncoderExercise ALTER TABLE: added column segmentMeters
 		//1.99 - 2.00 Converted DB to 2.00 Inserted into preferences: fontsOnGraphs

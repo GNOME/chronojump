@@ -449,7 +449,7 @@ public class EncoderCurve
 				ExtraWeight + sep + DisplacedWeight + sep;
 
 			if(currentMode == Constants.Menuitem_modes.POWERINERTIAL)
-				str += Inertia + sep + Diameter + sep + MassEquivalent + sep;
+				str += Inertia + sep + Util.TrimDecimals(Diameter,1) + sep + Util.TrimDecimals(MassEquivalent,3) + sep;
 
 			str +=
 				Start + sep + Duration + sep + Height + sep + 

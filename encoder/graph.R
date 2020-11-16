@@ -1875,13 +1875,13 @@ paintCrossVariables <- function (paf, varX, varY, option,
         
         varYut = addUnitsAndTranslate(varY)
         
-        
-        #if diameter or gearedDown changes in this data, the use resistant momentum 
-        if(length(unique(diameter)) > 1 || length(unique(gearedDown)) > 1) {
-                x = x * gearedDown / diameter
-                varX = "Resistant torque"
-                varXut = "Resistant torque (Kg*cm)"
-        }
+        #right now we can select if use equivalent mass, inertia moment or diameter, so this block gets commented:
+	#if diameter or gearedDown changes in this data, the use resistant momentum
+        #if(length(unique(diameter)) > 1 || length(unique(gearedDown)) > 1) {
+        #        x = x * gearedDown / diameter
+        #        varX = "Resistant torque"
+        #        varXut = "Resistant torque (Kg*cm)"
+        #}
         
         if(dateAsX) {
                 xCopy <- x

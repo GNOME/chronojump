@@ -54,6 +54,7 @@ class SqlitePreferences : Sqlite
 
 	public const string EncoderAutoSaveCurveBestNValue = "encoderAutoSaveCurveBestNValue";
 	public const string EncoderWorkKcal = "encoderWorkKcal";
+	public const string EncoderInertialGraphsX = "encoderInertialGraphsX";
 
 	public const string EncoderRhythmActiveStr = "encoderRhythmActive";
 	public const string EncoderRhythmRepsOrPhasesStr = "encoderRhythmRepsOrPhases";
@@ -219,6 +220,7 @@ class SqlitePreferences : Sqlite
 				Insert ("encoderCaptureCutByTriggers", Preferences.TriggerTypes.NO_TRIGGERS.ToString(), dbcmdTr);
 				Insert ("encoderPropulsive", "True", dbcmdTr);
 				Insert (EncoderWorkKcal, "True", dbcmdTr);
+				Insert (EncoderInertialGraphsX, Preferences.EncoderInertialGraphsXTypes.EQUIVALENT_MASS.ToString(), dbcmdTr);
 				Insert ("encoderSmoothEccCon", "0.6", dbcmdTr);
 				Insert ("encoderSmoothCon", "0.7", dbcmdTr);
 				Insert ("encoder1RMMethod", Constants.Encoder1RMMethod.WEIGHTED2.ToString(), dbcmdTr);
@@ -531,6 +533,9 @@ class SqlitePreferences : Sqlite
 				preferences.encoderPropulsive = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == EncoderWorkKcal)
 				preferences.encoderWorkKcal = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == EncoderInertialGraphsX)
+				preferences.encoderInertialGraphsX = (Preferences.EncoderInertialGraphsXTypes)
+					Enum.Parse(typeof(Preferences.EncoderInertialGraphsXTypes), reader[1].ToString());
 			else if(reader[0].ToString() == "encoderSmoothCon")
 				preferences.encoderSmoothCon = Convert.ToDouble(
 						Util.ChangeDecimalSeparator(reader[1].ToString()));

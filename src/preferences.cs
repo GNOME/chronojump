@@ -98,6 +98,8 @@ public class Preferences
 	//encoder other
 	public bool encoderPropulsive;
 	public bool encoderWorkKcal;
+	public enum EncoderInertialGraphsXTypes { EQUIVALENT_MASS, INERTIA_MOMENT, DIAMETER };
+	public EncoderInertialGraphsXTypes encoderInertialGraphsX;
 	public double encoderSmoothCon;
 	public Constants.Encoder1RMMethod encoder1RMMethod;
 

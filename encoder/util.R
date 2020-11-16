@@ -827,7 +827,7 @@ pafGenerate <- function(eccon, kinematics, massBody, massExtra, laterality, iner
 	#massEq calculation
 	massEq <- 0
 	if(inertiaMomentum > 0 && gearedDown > 0 && diameter > 0)
-		massEq <- 10000 * inertiaMomentum * gearedDown / 4 / (diameter^2)
+		massEq <- 10000 * inertiaMomentum * 1/gearedDown / 4 / (diameter^2)
 
 	return(data.frame(
 			  meanSpeed, maxSpeed, maxSpeedT,

@@ -4541,7 +4541,7 @@ public partial class ChronoJumpWindow
 			} else {
 				//write header
 				writer.WriteLine(Util.RemoveNewLine(Util.StringArrayToString(
-							GetTreeviewEncoderAnalyzeHeaders(false), sep), false));
+							GetTreeviewEncoderAnalyzeHeaders(false, current_menuitem_mode), sep), false));
 				//write curves rows
 				ArrayList array = getTreeViewCurves(encoderAnalyzeListStore);
 
@@ -4555,7 +4555,7 @@ public partial class ChronoJumpWindow
 							phase = "c";
 					}
 
-					writer.WriteLine(ec.ToCSV(false, preferences.CSVExportDecimalSeparator, preferences.encoderWorkKcal, phase));
+					writer.WriteLine(ec.ToCSV(false, current_menuitem_mode, preferences.CSVExportDecimalSeparator, preferences.encoderWorkKcal, phase));
 				}
 			}
 			

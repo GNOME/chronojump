@@ -424,7 +424,8 @@ public class EncoderCurve
 
 	//ecChar adds an 'e', 'c' or nothing to N
 	//if e or c then N will be /2
-	public string ToCSV (bool captureOrAnalyze, string decimalSeparator, bool useWorkKcal, string ecChar)
+	public string ToCSV (bool captureOrAnalyze, Constants.Menuitem_modes currentMode,
+			string decimalSeparator, bool useWorkKcal, string ecChar)
 	{
 		//latin:	2,3 ; 2,5
 		//non-latin:	2.3 , 2.5

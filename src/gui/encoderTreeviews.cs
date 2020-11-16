@@ -589,7 +589,7 @@ public partial class ChronoJumpWindow
 
 
 	//on screen shown on s but export is in ms
-	public string [] GetTreeviewEncoderAnalyzeHeaders(bool screenOrCSV)
+	public string [] GetTreeviewEncoderAnalyzeHeaders(bool screenOrCSV, Constants.Menuitem_modes encoderMode)
 	{
 		string timeUnits = "(s)";
 		string distanceUnits = "(cm)";
@@ -605,16 +605,22 @@ public partial class ChronoJumpWindow
 		else
 			workString += "\n (J)";
 
-		string [] treeviewEncoderAnalyzeHeaders = {
+		string [] startArray = {
 			Catalog.GetString("Repetition") + "\n",
 			Catalog.GetString("Series") + "\n",
 			Catalog.GetString("Exercise") + "\n",
 			Catalog.GetString("Laterality") + "\n",
 			Catalog.GetString("Extra weight") + "\n(Kg)",
-			Catalog.GetString("Total weight") + "\n(Kg)",
+			Catalog.GetString("Total weight") + "\n(Kg)"
+		};
+
+		string [] inertiaArray = {
 			Catalog.GetString("Inertia M.") + "\n(Kg*cm^2)", 	//inertial
 			Catalog.GetString("Diameter") + "\n(cm)",		//inertial
-			Catalog.GetString("Equivalent mass") + "\n(Kg)",		//inertial
+			Catalog.GetString("Equivalent mass") + "\n(Kg)"		//inertial
+		};
+
+		string [] endArray = {
 			Catalog.GetString("Start") + "\n" + timeUnits,
 			Catalog.GetString("Duration") + "\n" + timeUnits,
 			Catalog.GetString("Distance") + "\n" + distanceUnits,
@@ -632,14 +638,30 @@ public partial class ChronoJumpWindow
 			workString,
 			Catalog.GetString("Impulse") + "\n (N*s)"
 		};
-		return treeviewEncoderAnalyzeHeaders;
+
+		if(encoderMode == Constants.Menuitem_modes.POWERGRAVITATORY)
+		{
+			string [] headers = new string[startArray.Length + endArray.Length];
+			startArray.CopyTo(headers, 0);
+			endArray.CopyTo(headers, startArray.Length);
+			return headers;
+		} else {
+			string [] headers = new string[startArray.Length + inertiaArray.Length + endArray.Length];
+			startArray.CopyTo(headers, 0);
+			inertiaArray.CopyTo(headers, startArray.Length);
+			endArray.CopyTo(headers, startArray.Length + inertiaArray.Length);
+			return headers;
+		}
 	}
 
 	bool lastTreeviewEncoderAnalyzeIsNeuromuscular = false;
 
 	private int createTreeViewEncoderAnalyze(string contents, Constants.Menuitem_modes encoderMode)
 	{
-		string [] columnsString = GetTreeviewEncoderAnalyzeHeaders(true); //screen
+		//note we pass powerinertial because we want here all columns but only relevant will shown
+		//on the other hand, on_button_encoder_save_table_file_selected will need to show the relevant columns
+		string [] columnsString = GetTreeviewEncoderAnalyzeHeaders(true, //screen
+				Constants.Menuitem_modes.POWERINERTIAL);
 
 		ArrayList encoderAnalyzeCurves = new ArrayList ();
 
@@ -1031,7 +1053,7 @@ public partial class ChronoJumpWindow
 		//Check if it's number
 		if(! curve.IsNumberN()) {
 			(cell as Gtk.CellRendererText).Text = "";
-			LogB.Error("Curve is not number at RenderN:" + curve.ToCSV(true, "COMMA", preferences.encoderWorkKcal, ""));
+			LogB.Error("Curve is not number at RenderN:" + curve.ToCSV(true, current_menuitem_mode, "COMMA", preferences.encoderWorkKcal, ""));
 			return;
 		}
 		
@@ -1068,7 +1090,7 @@ public partial class ChronoJumpWindow
 		//Check if it's valid
 		if(! curve.IsValidN()) {
 			(cell as Gtk.CellRendererText).Text = "";
-			LogB.Error("Curve is not valid at RenderNAnalyze:" + curve.ToCSV(false, "COMMA", preferences.encoderWorkKcal, ""));
+			LogB.Error("Curve is not valid at RenderNAnalyze:" + curve.ToCSV(false, current_menuitem_mode, "COMMA", preferences.encoderWorkKcal, ""));
 			return;
 		}
 			

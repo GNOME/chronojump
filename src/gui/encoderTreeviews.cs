@@ -614,7 +614,7 @@ public partial class ChronoJumpWindow
 			Catalog.GetString("Total weight") + "\n(Kg)",
 			Catalog.GetString("Inertia M.") + "\n(Kg*cm^2)", 	//inertial
 			Catalog.GetString("Diameter") + "\n(cm)",		//inertial
-			Catalog.GetString("Mass equivalent") + "\n(Kg)",		//inertial
+			Catalog.GetString("Equivalent mass") + "\n(Kg)",		//inertial
 			Catalog.GetString("Start") + "\n" + timeUnits,
 			Catalog.GetString("Duration") + "\n" + timeUnits,
 			Catalog.GetString("Distance") + "\n" + distanceUnits,
@@ -713,7 +713,7 @@ public partial class ChronoJumpWindow
 							totalMass, 							//displaceWeight
 							Convert.ToInt32(cells[22]), 					//inertia M. (inertial)
 							Convert.ToDouble(cells[23]), 					//diameter (inertial)
-							Convert.ToDouble(cells[24]), 					//mass equivalent (inertial)
+							Convert.ToDouble(cells[24]), 					//equivalent mass (inertial)
 							cells[5], cells[6], cells[7], 
 							cells[8], cells[9], cells[10], 
 							cells[11], cells[12], cells[13],
@@ -752,7 +752,7 @@ public partial class ChronoJumpWindow
 		int i=0;
 		foreach(string myCol in columnsString)
 		{
-			//do not show inertia moment, diameter, mass equivalent on powergravitatory
+			//do not show inertia moment, diameter, equivalent mass on powergravitatory
 			if(encoderMode == Constants.Menuitem_modes.POWERGRAVITATORY && (i == 6 || i == 7 || i == 8))
 			{
 				i ++;

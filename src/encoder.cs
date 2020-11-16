@@ -431,9 +431,9 @@ public class EncoderCurve
 
 		string sep = ":::";
 
-		double work = WorkJD;
+		string workString = Util.TrimDecimals(WorkJD, 1);
 		if(useWorkKcal)
-			work = WorkKcalD;
+			workString = Util.TrimDecimals(WorkKcalD, 3);
 		
 		string str = "";
 		//TODO: if capture not shown because some variables like Inertia are not defined
@@ -446,14 +446,19 @@ public class EncoderCurve
 			str = 
 				nprint + sep +
 				Series + sep + Exercise + sep + Laterality + sep +
-				ExtraWeight + sep + DisplacedWeight + sep + Inertia + sep + 
+				ExtraWeight + sep + DisplacedWeight + sep;
+
+			if(currentMode == Constants.Menuitem_modes.POWERINERTIAL)
+				str += Inertia + sep + Diameter + sep + MassEquivalent + sep;
+
+			str +=
 				Start + sep + Duration + sep + Height + sep + 
 				MeanSpeed + sep + MaxSpeed + sep + MaxSpeedT + sep + 
 				MeanPower + sep + PeakPower + sep + PeakPowerT + sep + 
 				PP_PPT + sep +
 				MeanForce + sep + MaxForce + sep + MaxForceT + sep +
 				MaxForce_MaxForceT + sep +
-				work.ToString() + sep + Impulse;
+				workString + sep + Impulse;
 		}
 		
 		if(decimalSeparator == "COMMA")

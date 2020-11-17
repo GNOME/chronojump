@@ -134,17 +134,26 @@ getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength
     #If Roptions.txt does have startSample and endSample values greater than 0
     if( op$startSample != op$endSample && (op$startSample > 0 && op$endSample > 0) && op$startSample <= length(originalTest$time) )
     {
-        print("Type of startEndOptimized")
-        print(typeof(op$startEndOptimized))
-        print(op$startEndOptimized)
-        print("originalTest without trimming")
-        print(originalTest)
+        # print("Type of startEndOptimized")
+        # print(typeof(op$startEndOptimized))
+        # print(op$startEndOptimized)
+        # print("originalTest without trimming")
+        # print(originalTest)
         
-        originalTest = originalTest[op$startSample:op$endSample,]
-        row.names(originalTest) <- 1:nrow(originalTest)
+        # print(paste("Samples: ", op$startSample,":", op$endSample))
+        # print(originalTest[op$startSample:op$endSample,])
+        originalTest = originalTest[(op$startSample:op$endSample),]
+        # print("originalTest trimmed")
+        # print(originalTest)
         originalTest$time = originalTest$time - originalTest$time[1]
-        print("originalTest trimmed")
-        print(originalTest)
+        # print("originalTest$time:")
+        # print(originalTest$time)
+        
+        # print("originalTest with time zero at startSample")
+        # print(originalTest)
+        row.names(originalTest) <- 1:nrow(originalTest)
+        # print("originalTest renumbered")
+        # print(originalTest)
         
         if( op$startEndOptimized == "FALSE")
         {
@@ -196,15 +205,19 @@ getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength
     endTime = originalTest$time[endSample]
     
     # Initial force. It is needed to perform an initial steady force to avoid jerks and great peaks in the force
-    if(startSample <= 20)
+    if(!bestFit)
     {
-        #TODO. Manage the situation where the signal starts once the force has begun to increase
-        print("Not previos steady tension applied before performing the test")
-        return(NA)
+            if(startSample <= 20)
+            {
+                    #TODO. Manage the situation where the signal starts once the force has begun to increase
+                    print("Not previos steady tension applied before performing the test")
+                    return(NA)
+            }
+            
+            
+            previousForce = mean(originalTest$force[(startSample - 20):(startSample - 10)]) #ATENTION. This value is different from f0.raw
     }
     
-    
-    previousForce = mean(originalTest$force[(startSample - 20):(startSample - 10)]) #ATENTION. This value is different from f0.raw
     fmax.raw = max(originalTest$force[startSample:endSample])
     
     f.smoothed = getMovingAverageForce(originalTest, averageLength = averageLength) #Running average with equal weight averageLength seconds
@@ -260,7 +273,8 @@ getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength
         #       trimmedTest = originalTest[startSample:endSample,]
         #       
         #       model = getForceModel(trimmedTest$time, trimmedTest$force, startTime, fmax.smoothed, previousForce)
-        bestFit = getBestFit(inputFile = "/home/xpadulles/.local/share/Chronojump/forceSensor/39/100_Carmelo_2019-09-26_12-49-09.csv"
+        bestFit = getBestFit(originalTest
+                             #inputFile = "/home/xpadulles/.local/share/Chronojump/forceSensor/39/100_Carmelo_2019-09-26_12-49-09.csv"
                              , averageLength = averageLength
                              , percentChange = percentChange
                              # , percentChange = -1
@@ -273,9 +287,7 @@ getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength
         endTime = bestFit$endTime
         model = bestFit$model
         print(originalTest)
-        
-        
-        
+        previousForce = originalTest$force[startSample]
     }
     print("####### model ######")
     print(model)
@@ -305,6 +317,8 @@ drawDynamicsFromLoadCell <- function(
     hline50fmax.raw=F, hline50fmax.fitted=F,
     rfdDrawingOptions, triggersOn = "", triggersOff = "", xlimits = NA)
 {
+        print("dynamics$time")
+        print(dynamics$time)
     dynamics$time = dynamics$time - dynamics$startTime
     dynamics$tfmax.raw = dynamics$tfmax.raw - dynamics$startTime
     dynamics$endTime = dynamics$endTime - dynamics$startTime
@@ -316,7 +330,7 @@ drawDynamicsFromLoadCell <- function(
     }
     par(mar = c(6, 4, 6, 4))
     
-    #Detecting if the duration of the sustained force enough
+    #Detecting if the duration of the sustained force is enough
     print("f.raw")
     print(dynamics$f.raw)
     print(paste("samples:", dynamics$startSample, dynamics$endSample))
@@ -777,7 +791,7 @@ getDynamicsFromLoadCellFolder <- function(folderName, resultFileName, export2Pdf
 #The maximum force is calculed from the moving average of averageLength seconds
 getAnalysisRange <- function(test, rfd, movingAverageForce, averageLength = 0.1, percentChange = 5, testLength = -1, startDetectingMethod = "SD")
 {
-    print("Entering getAnalysisRange")
+    print("Entered in getAnalysisRange")
     print("test:")
     print(test)
     movingAverageForce = getMovingAverageForce(test, averageLength = 0.1)
@@ -869,23 +883,30 @@ extrapolateToZero <- function(x, y)
     return(list(x = x, y = y))
 }
 
-getBestFit <- function(inputFile = "/home/xpadulles/.local/share/Chronojump/forceSensor/39/100_Carmelo_2019-09-26_12-49-09.csv"
+getBestFit <- function(originalTest
                        , averageLength = 0.1, percentChange = 5, testLength = -1)
 {
-    originalTest = read.csv2(inputFile)
-    colnames(originalTest) <- c("time", "force")
-    originalTest$time = as.numeric(originalTest$time / 1000000)  # Time is converted from microseconds to seconds
+        print("Entered in bestFit")
+    #originalTest = read.csv2(inputFile)
+    # colnames(originalTest) <- c("time", "force")
+    # originalTest$time = as.numeric(originalTest$time / 1000000)  # Time is converted from microseconds to seconds
     
     rfd = getRFD(originalTest)
     maxRFDSample = which.max(rfd)
+    print(paste("maxRFDSample:", maxRFDSample))
     
     maxForce = max(originalTest$force)
     
     #Going back from maxRFD sample until the force increase
     startSample = maxRFDSample -1
+    print(paste("originalTest$force[startSample]", originalTest$force[startSample]))
+    print(paste("originalTest$force[startSample +1]", originalTest$force[startSample +1]))
     while(originalTest$force[startSample] < originalTest$force[startSample + 1])
     {
+        print(startSample)
         startSample = startSample - 1
+        if(startSample < 1)
+                break()
     }
     
     startSample = startSample + 1
@@ -900,8 +921,11 @@ getBestFit <- function(inputFile = "/home/xpadulles/.local/share/Chronojump/forc
         print("End detection by decrease in the force")
         print(paste("percentChange: ", percentChange))
         movingAverageForce = getMovingAverageForce(originalTest, averageLength)
+        print("movingAverageForce:")
+        print(movingAverageForce)
         endSample = maxRFDSample
-        maxMovingAverageForce = max(movingAverageForce[startSample:endSample])
+        print(!is.na(movingAverageForce[startSample:endSample]))
+        maxMovingAverageForce = max(movingAverageForce[ !is.na(movingAverageForce[startSample:endSample])])
         print(paste("MaxMovingAverageForce: ", maxMovingAverageForce, "Current Limit: ", maxMovingAverageForce*(100 - percentChange) / 100))
         print(paste("Current movingAverageForce: ", movingAverageForce[endSample]))
         while(movingAverageForce[endSample] >= maxMovingAverageForce*(100 - percentChange) / 100 &

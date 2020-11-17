@@ -260,7 +260,9 @@ public class EncoderRProcCapture : EncoderRProc
 				(CutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS),
 				printTriggers(TriggerList.Type3.ON),
 				false, 	//separateSessionInDays (false at capture)
-				EncoderGraphROptions.AnalysisModes.CAPTURE).ToString();
+				EncoderGraphROptions.AnalysisModes.CAPTURE,
+				Preferences.EncoderInertialGraphsXTypes.EQUIVALENT_MASS //unused on capture
+				).ToString();
 
 		TextWriter writer = File.CreateText(optionsFile);
 		writer.Write(scriptOptions);
@@ -289,6 +291,7 @@ public class EncoderRProcAnalyze : EncoderRProc
 	private bool cutByTriggers;
 	private TriggerList triggerList;
 	private EncoderGraphROptions.AnalysisModes analysisMode;
+	private Preferences.EncoderInertialGraphsXTypes inertialGraphX;
 
 	/*
 	 * to avoid problems on some windows. R exports csv to Util.GetEncoderExportTempFileName()
@@ -302,7 +305,8 @@ public class EncoderRProcAnalyze : EncoderRProc
 	}
 
 	public void SendData(string title, bool neuromuscularProfileDo, bool translate,
-			bool cutByTriggers, TriggerList triggerList, EncoderGraphROptions.AnalysisModes analysisMode)
+			bool cutByTriggers, TriggerList triggerList,
+			EncoderGraphROptions.AnalysisModes analysisMode, Preferences.EncoderInertialGraphsXTypes inertialGraphX)
 	{
 		this.title = title;
 		this.neuromuscularProfileDo = neuromuscularProfileDo;
@@ -310,6 +314,7 @@ public class EncoderRProcAnalyze : EncoderRProc
 		this.cutByTriggers = cutByTriggers;
 		this.triggerList = triggerList;
 		this.analysisMode = analysisMode;
+		this.inertialGraphX = inertialGraphX;
 		
 		CancelRScript = false;
 	}
@@ -520,7 +525,8 @@ public class EncoderRProcAnalyze : EncoderRProc
 				cutByTriggers,
 				printTriggers(TriggerList.Type3.ON),
 				SeparateSessionInDays,
-				analysisMode
+				analysisMode,
+				inertialGraphX
 				).ToString();
 
 		TextWriter writer = File.CreateText(optionsFile);

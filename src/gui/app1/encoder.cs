@@ -1477,7 +1477,8 @@ public partial class ChronoJumpWindow
 				preferences.RGraphsTranslate,
 				(preferences.encoderCaptureCutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS),
 				triggerListEncoder,
-				getAnalysisMode()
+				getAnalysisMode(),
+				preferences.encoderInertialGraphsX
 				); 
 		bool result = encoderRProcAnalyze.StartOrContinue(es);
 				
@@ -2030,7 +2031,8 @@ public partial class ChronoJumpWindow
 				preferences.RGraphsTranslate,
 				(preferences.encoderCaptureCutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS),
 				new TriggerList(),
-				getAnalysisMode()
+				getAnalysisMode(),
+				preferences.encoderInertialGraphsX
 				);
 		encoderRProcAnalyze.StartOrContinue(encoderStruct);
 
@@ -3345,7 +3347,8 @@ public partial class ChronoJumpWindow
 				preferences.RGraphsTranslate,
 				(preferences.encoderCaptureCutByTriggers != Preferences.TriggerTypes.NO_TRIGGERS),
 				triggerListEncoder,
-				getAnalysisMode()
+				getAnalysisMode(),
+				preferences.encoderInertialGraphsX
 				);
 
 		encoderRProcAnalyze.StartOrContinue(encoderStruct);

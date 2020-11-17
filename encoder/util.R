@@ -99,7 +99,8 @@ assignOptions <- function(options) {
 		    #	englishWords [29]
 		    #	translatedWords [30]
 		    SeparateSessionInDays = options[35],
-		    AnalysisMode 	 = options[36]
+		    AnalysisMode 	 = options[36],
+		    InertialGraphX	 = options[37]
 		    ))
 }
 
@@ -824,6 +825,8 @@ pafGenerate <- function(eccon, kinematics, massBody, massExtra, laterality, iner
 	mass = kinematics$mass
 	#names will be used on graph.R writeCurves
 
+	equivalentMass = calculateEquivalentMass(inertiaMomentum, gearedDown, diameter)
+
 	return(data.frame(
 			  meanSpeed, maxSpeed, maxSpeedT,
 			  meanPower, peakPower, peakPowerT, pp_ppt,
@@ -831,11 +834,11 @@ pafGenerate <- function(eccon, kinematics, massBody, massExtra, laterality, iner
 			  mass, massBody, massExtra,		#kinematics$mass is Load
 			  workJ, impulse,
 			  laterality, inertiaMomentum, diameter,
-			  calculateMassEquivalent(inertiaMomentum, gearedDown, diameter)
+			  equivalentMass
 			  ))
 }
 
-calculateMassEquivalent <- function(inertiaMomentum, gearedDown, diameter)
+calculateEquivalentMass <- function(inertiaMomentum, gearedDown, diameter)
 {
 	if(inertiaMomentum > 0 && gearedDown > 0 && diameter > 0)
 		return (10000 * inertiaMomentum * 1/gearedDown / 4 / (diameter^2))

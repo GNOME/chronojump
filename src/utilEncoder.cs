@@ -340,7 +340,8 @@ public class UtilEncoder
 
 	public static EncoderGraphROptions PrepareEncoderGraphOptions(
 			string title, EncoderStruct es, bool neuromuscularProfileDo, bool translate, bool debug, bool crossValidate,
-			bool cutByTriggers, string triggerStr, bool separateSessionInDays, EncoderGraphROptions.AnalysisModes analysisMode)
+			bool cutByTriggers, string triggerStr, bool separateSessionInDays,
+			EncoderGraphROptions.AnalysisModes analysisMode, Preferences.EncoderInertialGraphsXTypes inertialGraphX)
 	{
 		string operatingSystem = OperatingSystemForRGraphs();
 			
@@ -395,7 +396,8 @@ public class UtilEncoder
 				title, operatingSystem,
 				Util.StringArrayToString(Constants.EncoderEnglishWords,";"),
 				Util.StringArrayToString(encoderTranslatedWordsOK,";"),
-				debug, crossValidate, cutByTriggers, triggerStr, separateSessionInDays, analysisMode
+				debug, crossValidate, cutByTriggers, triggerStr, separateSessionInDays,
+				analysisMode, inertialGraphX
 				);
 	}
 

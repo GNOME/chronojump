@@ -815,7 +815,7 @@ public partial class ChronoJumpWindow
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderDiameter)); 	//inertial
 					break;
 				case 8:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMassEquivalent)); 	//inertial
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderEquivalentMass)); 	//inertial
 					break;
 				case 9:
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderStart));
@@ -1207,11 +1207,11 @@ public partial class ChronoJumpWindow
 		renderBoldIfNeeded(cell, curve, str);
 	}
 
-	private void RenderMassEquivalent (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void RenderEquivalentMass (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 
-		string str = String.Format(UtilGtk.TVNumPrint(curve.MassEquivalent.ToString(),6,2),Convert.ToDouble(curve.MassEquivalent));
+		string str = String.Format(UtilGtk.TVNumPrint(curve.EquivalentMass.ToString(),6,2),Convert.ToDouble(curve.EquivalentMass));
 
 		renderBoldIfNeeded(cell, curve, str);
 	}
@@ -1679,7 +1679,7 @@ public partial class ChronoJumpWindow
 
 		//capture does not return inerta
 		//analyze returns inertia (can be different on "saved curves") comes as Kg*m^2, convert it to Kg*cm^2
-		//analyze returns also diameter and massEquivalent (both used on inertial)
+		//analyze returns also diameter and equivalentMass (both used on inertial)
 		if(! captureOrAnalyze) {
 			double inertiaInM = Convert.ToDouble(Util.ChangeDecimalSeparator(cells[22]));
 			cells[22] = (Convert.ToInt32(inertiaInM * 10000)).ToString();

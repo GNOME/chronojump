@@ -1574,6 +1574,10 @@ findPosInPaf <- function(var, option) {
                 pos = 17
         else if(var == "Inertia")
                 pos = 18
+        else if(var == "Diameter") #Inertial
+                pos = 19
+        else if(var == "EquivalentMass") #Inertial
+                pos = 20
         
         if( ( var == "Speed" || var == "Power" || var == "Force") & option == "max")
                 pos=pos+1
@@ -1839,17 +1843,24 @@ paintCrossVariablesLaterality <- function(x, y, laterality, colBalls, varX = "Lo
 paintCrossVariables <- function (paf, varX, varY, option, 
                                  dateAsX, dateTime,
                                  isAlone, title, singleFile, Eccon, ecconVector, seriesName,
-                                 diameter, gearedDown,
+				 inertialGraphX,
                                  do1RM, do1RMMethod, outputData1) 
 {
         hasInertia <- FALSE
         if(findInertialCurves(paf))
                 hasInertia <- TRUE
-        
+
         #if there's one or more inertial curves: show inertia instead of mass
         if(varX == "Load" && hasInertia)
-                varX = "Inertia"
-        
+	{
+		if(inertialGraphX == "EQUIVALENT_MASS")
+			varX = "EquivalentMass"
+		else if(inertialGraphX == "INERTIA_MOMENT")
+			varX = "Inertia"
+		else
+			varX = "Diameter"
+	}
+
         if(varX == "Load")
                 x = (paf[,findPosInPaf("MassExtra", option)])
         else
@@ -1882,6 +1893,7 @@ paintCrossVariables <- function (paf, varX, varY, option,
         #        varX = "Resistant torque"
         #        varXut = "Resistant torque (Kg*cm)"
         #}
+	#if in the future we use this code again, use cols from paf
         
         if(dateAsX) {
                 xCopy <- x
@@ -3743,7 +3755,7 @@ doProcess <- function(options)
                                                     op$Eccon,
                                                     ecconVector,
                                                     mySeries, 
-                                                    repOp$diameter, repOp$gearedDown,
+                                                    op$InertialGraphX,
                                                     FALSE, FALSE, op$OutputData1) 
                                 par(new=T)
                                 paintCrossVariables(paf, op$AnalysisVariables[2], analysisVertVars[2], op$AnalysisVariables[3], 
@@ -3753,7 +3765,7 @@ doProcess <- function(options)
                                                     op$Eccon,
                                                     ecconVector,
                                                     mySeries, 
-                                                    repOp$diameter, repOp$gearedDown,
+                                                    op$InertialGraphX,
                                                     FALSE, FALSE, op$OutputData1) 
                         } else {
 				#if Force,Power is on Y, then send only force to paintCrossVariables. Power will be added on that function
@@ -3771,7 +3783,7 @@ doProcess <- function(options)
                                                     op$Eccon,
                                                     ecconVector,
                                                     mySeries, 
-                                                    repOp$diameter, repOp$gearedDown,
+                                                    op$InertialGraphX,
                                                     FALSE, FALSE, op$OutputData1) 
                         }
                 }
@@ -3789,7 +3801,7 @@ doProcess <- function(options)
                                             op$Eccon,
                                             ecconVector,
                                             mySeries, 
-                                            repOp$diameter, repOp$gearedDown,
+					    op$InertialGraphX,
                                             op$AnalysisVariables[1], op$AnalysisVariables[2], #speed1RM, method
                                             op$OutputData1) 
                 }
@@ -3911,7 +3923,7 @@ doProcess <- function(options)
                                                 "maxForce_maxForceT",
 						"workJ", "impulse",
                                                 "laterality", "inertiaM", "diameter",
-						"massEq" #calculation of massEquivalent using gearedDown
+						"equivalentMass"
                         )
                         
                         #Add "Max", "AVG" and "SD" when analyzing, not on "curves", not on "curvesAC", not on "curvesProcessMultiDB"
@@ -3931,7 +3943,7 @@ doProcess <- function(options)
                                                          max(pafCurves$meanForce), max(pafCurves$maxForce), max(pafCurves$maxForceT),
                                                          max(pafCurves$maxForce_maxForceT),
 							 max(pafCurves$workJ), max(pafCurves$impulse),
-                                                         "", max(pafCurves$inertiaM), max(pafCurves$diameter), max(pafCurves$massEq)
+                                                         "", max(pafCurves$inertiaM), max(pafCurves$diameter), max(pafCurves$equivalentMass)
                                         )
                                         
                                         #2) AVG
@@ -3943,7 +3955,7 @@ doProcess <- function(options)
                                                          mean(pafCurves$meanForce), mean(pafCurves$maxForce), mean(pafCurves$maxForceT),
                                                          mean(pafCurves$maxForce_maxForceT),
 							 mean(pafCurves$workJ), mean(pafCurves$impulse),
-                                                         "", mean(pafCurves$inertiaM), mean(pafCurves$diameter), mean(pafCurves$massEq)
+                                                         "", mean(pafCurves$inertiaM), mean(pafCurves$diameter), mean(pafCurves$equivalentMass)
                                         )
                                         
                                         #3) Add SD if there's more than one data row.
@@ -3956,7 +3968,7 @@ doProcess <- function(options)
                                                                 sd(pafCurves$meanForce), sd(pafCurves$maxForce), sd(pafCurves$maxForceT),
 								sd(pafCurves$maxForce_maxForceT),
 								sd(pafCurves$workJ), sd(pafCurves$impulse),
-                                                                "", sd(pafCurves$inertiaM), sd(pafCurves$diameter), sd(pafCurves$massEq)
+                                                                "", sd(pafCurves$inertiaM), sd(pafCurves$diameter), sd(pafCurves$equivalentMass)
                                                 )
                                         
                                         

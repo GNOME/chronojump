@@ -163,6 +163,7 @@ public class EncoderGraphROptions
 	private string triggerList;
 	public bool separateSessionInDays;
 	public AnalysisModes analysisMode; //the four analysisModes
+	Preferences.EncoderInertialGraphsXTypes inertialGraphX;
 
 	public enum AnalysisModes { CAPTURE, INDIVIDUAL_CURRENT_SET, INDIVIDUAL_CURRENT_SESSION, INDIVIDUAL_ALL_SESSIONS, GROUPAL_CURRENT_SESSION }
 
@@ -173,7 +174,7 @@ public class EncoderGraphROptions
 			string title, string operatingSystem,
 			string englishWords, string translatedWords,
 			bool debug, bool crossValidate, bool cutByTriggers, string triggerList,
-			bool separateSessionInDays, AnalysisModes analysisMode)
+			bool separateSessionInDays, AnalysisModes analysisMode, Preferences.EncoderInertialGraphsXTypes inertialGraphX)
 	{
 		this.inputData = inputData;
 		this.outputGraph = outputGraph;
@@ -191,6 +192,7 @@ public class EncoderGraphROptions
 		this.triggerList = triggerList;
 		this.separateSessionInDays = separateSessionInDays;
 		this.analysisMode = analysisMode;
+		this.inertialGraphX = inertialGraphX;
 
 		//ensure triggerList is not null or blank
 		if(triggerList == null || triggerList == "")
@@ -214,7 +216,8 @@ public class EncoderGraphROptions
 			"#cutByTriggers\n" +	Util.BoolToRBool(cutByTriggers) + "\n" +
 			"#triggerList\n" +	triggerList + "\n" +
 			"#separateSessionInDays\n" +	Util.BoolToRBool(separateSessionInDays) + "\n" +
-			"#analysisMode\n" + 	analysisMode.ToString() + "\n";
+			"#analysisMode\n" + 	analysisMode.ToString() + "\n" +
+			"#inertialGraphX\n" + 	inertialGraphX.ToString() + "\n";
 	}
 	
 
@@ -235,7 +238,7 @@ public class EncoderCurve
 	public double DisplacedWeight;
 	public int Inertia; 		//analyze inertial
 	public double Diameter;		//analyze inertial
-	public double MassEquivalent;	//analyze inertial
+	public double EquivalentMass;	//analyze inertial
 	public string Start;
 	public string Duration;
 	public string Height;
@@ -291,7 +294,7 @@ public class EncoderCurve
 	public EncoderCurve (string n, string series, string exercise, 
 			string laterality,
 			double extraWeight, double displacedWeight,
-			int inertia, double diameter, double massEquivalent, 	//3 inertial params
+			int inertia, double diameter, double EquivalentMass, 	//3 inertial params
 			string start, string duration, string height,
 			string meanSpeed, string maxSpeed, string maxSpeedT,
 			string meanPower, string peakPower, string peakPowerT, 
@@ -308,7 +311,7 @@ public class EncoderCurve
 		this.DisplacedWeight = displacedWeight;
 		this.Inertia = inertia;		//inertial
 		this.Diameter = diameter;	//inertial
-		this.MassEquivalent = massEquivalent;	//inertial
+		this.EquivalentMass = EquivalentMass;	//inertial
 		this.Start = start;
 		this.Duration = duration;
 		this.Height = height;
@@ -450,7 +453,7 @@ public class EncoderCurve
 				ExtraWeight + sep + DisplacedWeight + sep;
 
 			if(currentMode == Constants.Menuitem_modes.POWERINERTIAL)
-				str += Inertia + sep + Util.TrimDecimals(Diameter,1) + sep + Util.TrimDecimals(MassEquivalent,3) + sep;
+				str += Inertia + sep + Util.TrimDecimals(Diameter,1) + sep + Util.TrimDecimals(EquivalentMass,3) + sep;
 
 			str +=
 				Start + sep + Duration + sep + Height + sep + 

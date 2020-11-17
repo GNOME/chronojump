@@ -26,38 +26,38 @@
 
 assignOptions <- function(options)
 {
-        drawRfdOptions = rep(NA, 4)
-        drawRfdOptions[1]      = options[12]
-        drawRfdOptions[2]      = options[13]
-        drawRfdOptions[3]      = options[14]
-        drawRfdOptions[4]      = options[15]
-        
-        return(list(
-                os 			= options[1],
-                decimalChar 		= options[2],
-                graphWidth 		= as.numeric(options[3]),
-                graphHeight		= as.numeric(options[4]),
-                averageLength 		= as.numeric(options[5]),
-                percentChange 		= as.numeric(options[6]),
-                vlineT0 		= options[7],
-                vline50fmax.raw 	= options[8],
-                vline50fmax.fitted 	= options[9],
-                hline50fmax.raw 	= options[10],
-                hline50fmax.fitted 	= options[11],
-                drawRfdOptions          = drawRfdOptions,
-                drawImpulseOptions      = options[16],
-		testLength 		= as.numeric(options[17]),
-		captureOptions 		= options[18],
-		title 	 		= options[19],
-		exercise 	 	= options[20],
-		datetime 	 	= options[21],
-                scriptsPath 		= options[22],
-		triggersOnList  = as.numeric(unlist(strsplit(options[23], "\\;"))),
-		triggersOffList  = as.numeric(unlist(strsplit(options[24], "\\;"))),
-		startSample = as.numeric(options[25]),
-		endSample = as.numeric(options[26]),
-		startEndOptimized = options[27] #bool
-        ))
+    drawRfdOptions = rep(NA, 4)
+    drawRfdOptions[1]      = options[12]
+    drawRfdOptions[2]      = options[13]
+    drawRfdOptions[3]      = options[14]
+    drawRfdOptions[4]      = options[15]
+    
+    return(list(
+        os 			= options[1],
+        decimalChar 		= options[2],
+        graphWidth 		= as.numeric(options[3]),
+        graphHeight		= as.numeric(options[4]),
+        averageLength 		= as.numeric(options[5]),
+        percentChange 		= as.numeric(options[6]),
+        vlineT0 		= options[7],
+        vline50fmax.raw 	= options[8],
+        vline50fmax.fitted 	= options[9],
+        hline50fmax.raw 	= options[10],
+        hline50fmax.fitted 	= options[11],
+        drawRfdOptions          = drawRfdOptions,
+        drawImpulseOptions      = options[16],
+        testLength 		= as.numeric(options[17]),
+        captureOptions 		= options[18],
+        title 	 		= options[19],
+        exercise 	 	= options[20],
+        datetime 	 	= options[21],
+        scriptsPath 		= options[22],
+        triggersOnList  = as.numeric(unlist(strsplit(options[23], "\\;"))),
+        triggersOffList  = as.numeric(unlist(strsplit(options[24], "\\;"))),
+        startSample = as.numeric(options[25]),
+        endSample = as.numeric(options[26]),
+        startEndOptimized = options[27] #bool
+    ))
 }
 
 
@@ -86,662 +86,683 @@ op$datetime = fixDatetime(op$datetime)
 
 
 #Fits the data to the model f = fmax*(1 - exp(-K*t))
-#Important! It fits the data with the axes moved to initf and startTime. The real maximum force is fmax + initf
+#Important! It fits the data with the axes moved to previousForce and startTime. The real maximum force is fmax + previousForce
 getForceModel <- function(time, force, startTime, # startTime is the instant when the force start to increase
                           fmaxi,           # fmaxi is the initial value for the fmax. For numeric purpouses
-                          initf)              # initf is the sustained force before the increase
+                          previousForce)              # previousForce is the sustained force before the increase
 {
-        print("Entered in getForceModel() function")
-        #We force that the function crosses the (0,0) to better fit the monoexponential
-        force = force
-        time = time - startTime
-        
-        data = data.frame(time = time, force = force)
-        print(data)
-        model = nls( force ~ fmax*(1-exp(-K*time)), data, start=list(fmax=fmaxi, K=1), control=nls.control(warnOnly=TRUE))
-        print(model)
-        fmax = summary(model)$coeff[1,1]
-        K = summary(model)$coeff[2,1]
-        return(list(fmax = fmax, K = K, error = 100*residuals(model)/data$force))
+    print("Entered in getForceModel() function")
+    #We force that the function crosses the (0,0) to better fit the monoexponential
+    force = force
+    time = time - startTime
+    
+    data = data.frame(time = time, force = force)
+    # print(data)
+    model = nls( force ~ fmax*(1-exp(-K*time)), data, start=list(fmax=fmaxi, K=1), control=nls.control(warnOnly=TRUE))
+    # print(model)
+    fmax = summary(model)$coeff[1,1]
+    K = summary(model)$coeff[2,1]
+    # print(summary(model))
+    return(list(fmax = fmax, K = K, error = 100*residuals(model)/data$force))
 }
 
 getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength = 0.1, percentChange = 5, bestFit = TRUE, testLength = -1)
 {
-  # op$startSample = 529
-  # op$endSample = 1145
-  print(paste("bestFit =", bestFit))
-  originalTest = read.csv(inputFile, header = F, dec = op$decimalChar, sep = ";", skip = 2)
-  colnames(originalTest) <- c("time", "force")
-  originalTest$time = as.numeric(originalTest$time / 1000000)  # Time is converted from microseconds to seconds
-
-	if(captureOptions == "ABS")
-		originalTest$force = abs(originalTest$force)
-	else if(captureOptions == "INVERTED")
-		originalTest$force = -1 * originalTest$force
-
-        #The start and end samples are manualy selected
-        print(paste("op$startSample: ", op$startSample))
-        print(paste("op$endtSample: ", op$endSample))
+    # op$startSample = 529
+    # op$endSample = 1145
+    print(paste("bestFit =", bestFit))
+    originalTest = read.csv(inputFile, header = F, dec = op$decimalChar, sep = ";", skip = 2)
+    colnames(originalTest) <- c("time", "force")
+    originalTest$time = as.numeric(originalTest$time / 1000000)  # Time is converted from microseconds to seconds
+    
+    if(captureOptions == "ABS")
+        originalTest$force = abs(originalTest$force)
+    else if(captureOptions == "INVERTED")
+        originalTest$force = -1 * originalTest$force
+    
+    #The start and end samples are manualy selected
+    print(paste("op$startSample: ", op$startSample))
+    print(paste("op$endtSample: ", op$endSample))
+    
+    #Just in case the Roptions.txt don't have the parameters
+    if(is.na(op$startSample) || is.na(op$endSample))
+    {
+        op$startSample = 0
+        op$endSample = 0
+    }
+    
+    #If Roptions.txt does have startSample and endSample values greater than 0
+    if( op$startSample != op$endSample && (op$startSample > 0 && op$endSample > 0) && op$startSample <= length(originalTest$time) )
+    {
+        print("Type of startEndOptimized")
+        print(typeof(op$startEndOptimized))
+        print(op$startEndOptimized)
+        print("originalTest without trimming")
+        print(originalTest)
         
-        #Just in case the Roptions.txt don't have the parameters
-        if(is.na(op$startSample) || is.na(op$endSample))
+        originalTest = originalTest[op$startSample:op$endSample,]
+        row.names(originalTest) <- 1:nrow(originalTest)
+        originalTest$time = originalTest$time - originalTest$time[1]
+        print("originalTest trimmed")
+        print(originalTest)
+        
+        if( op$startEndOptimized == "FALSE")
         {
-                op$startSample = 0
-                op$endSample = 0
+            print("A")
+            startSample = op$startSample
+            endSample = op$endSample
+            print("B")
+        } else if( op$startEndOptimized == "TRUE")
+        {
+            print("Entering in startEndOptimized mode")
+            #Finding the increase and decrease of the force to detect the start and end of the maximum voluntary force test
+            
+            #Instantaneous RFD
+            rfd = getRFD(originalTest)
+            analysisRange = getAnalysisRange(originalTest, rfd, averageLength = averageLength, percentChange = percentChange,
+                                             testLength = op$testLength, startDetectingMethod = "RFD")
+            
+            startSample = analysisRange$startSample
+            endSample = analysisRange$endSample
+            
+            trimmedTest = originalTest[startSample:endSample,]
         }
         
-        #If Roptions.txt does have startSample and endSample values greater than 0
-        if( op$startSample != op$endSample && (op$startSample > 0 && op$endSample > 0) && op$startSample <= length(originalTest$time) )
-        {
-                print("Type of startEndOptimized")
-                print(typeof(op$startEndOptimized))
-                print(op$startEndOptimized)
-                print("originalTest without trimming")
-                print(originalTest)
-                
-                originalTest = originalTest[op$startSample:op$endSample,]
-                row.names(originalTest) <- 1:nrow(originalTest)
-                originalTest$time = originalTest$time - originalTest$time[1]
-                print("originalTest trimmed")
-                print(originalTest)
-                
-                if( op$startEndOptimized == "FALSE")
-                {
-                        print("A")
-                        startSample = op$startSample
-                        endSample = op$endSample
-                        print("B")
-                } else if( op$startEndOptimized == "TRUE")
-                {
-                        print("Entering in startEndOptimized mode")
-                        #Finding the increase and decrease of the force to detect the start and end of the maximum voluntary force test
-                        
-                        #Instantaneous RFD
-                        rfd = getRFD(originalTest)
-                        analysisRange = getAnalysisRange(originalTest, rfd, averageLength = averageLength, percentChange = percentChange,
-                                                             testLength = op$testLength, startDetectingMethod = "RFD")
-                        
-                        startSample = analysisRange$startSample
-                        endSample = analysisRange$endSample
-                        
-                        testTrimmed = originalTest[startSample:endSample,]
-                }
-                
-                print("start and end sample:")
-                print(startSample)
-                print(endSample)
-        } else
+        print("start and end sample:")
+        print(startSample)
+        print(endSample)
+    } else
         #The start and end samples are automatically selected
-        {
-                
-                #Finding the increase and decrease of the force to detect the start and end of the maximum voluntary force test
-                
-                #Instantaneous RFD
-                rfd = getRFD(originalTest)
-                analysisRange = getAnalysisRange(originalTest, rfd, averageLength = averageLength, percentChange = percentChange,
-                                                     testLength = op$testLength, startDetectingMethod = "SD")
-                
-                startSample = analysisRange$startSample
-                endSample = analysisRange$endSample
-                
-                #Trimming the data before and after contraction
-                #TODO: Check the row.names
-                testTrimmed = originalTest[startSample:endSample,]
-        }
-	#print(paste("startSample: ", startSample))
-	#print(paste("endtSample: ", endSample))
-        startTime = originalTest$time[startSample]
+    {
         
-        endTime = originalTest$time[endSample]
+        #Finding the increase and decrease of the force to detect the start and end of the maximum voluntary force test
         
-        # Initial force. It is needed to perform an initial steady force to avoid jerks and great peaks in the force
-        if(startSample <= 20)
-        {
-                #TODO. Manage the situation where the signal starts once the force has begun to increase
-                print("Not previos steady tension applied before performing the test")
-                return(NA)
-        }
+        #Instantaneous RFD
+        rfd = getRFD(originalTest)
+        analysisRange = getAnalysisRange(originalTest, rfd, averageLength = averageLength, percentChange = percentChange,
+                                         testLength = op$testLength, startDetectingMethod = "SD")
         
-
-        initf = mean(originalTest$force[(startSample - 20):(startSample - 10)]) #ATENTION. This value is different from f0.raw
-        fmax.raw = max(originalTest$force[startSample:endSample])
+        startSample = analysisRange$startSample
+        endSample = analysisRange$endSample
         
-        f.smoothed = getMovingAverageForce(originalTest, averageLength = averageLength) #Running average with equal weight averageLength seconds
-        fmax.smoothed = max(f.smoothed, na.rm = TRUE)
-        lastmeanError = 1E16
+        #Trimming the data before and after contraction
+        #TODO: Check the row.names
+        trimmedTest = originalTest[startSample:endSample,]
+    }
+    #print(paste("startSample: ", startSample))
+    #print(paste("endtSample: ", endSample))
+    startTime = originalTest$time[startSample]
+    
+    endTime = originalTest$time[endSample]
+    
+    # Initial force. It is needed to perform an initial steady force to avoid jerks and great peaks in the force
+    if(startSample <= 20)
+    {
+        #TODO. Manage the situation where the signal starts once the force has begun to increase
+        print("Not previos steady tension applied before performing the test")
+        return(NA)
+    }
+    
+    
+    previousForce = mean(originalTest$force[(startSample - 20):(startSample - 10)]) #ATENTION. This value is different from f0.raw
+    fmax.raw = max(originalTest$force[startSample:endSample])
+    
+    f.smoothed = getMovingAverageForce(originalTest, averageLength = averageLength) #Running average with equal weight averageLength seconds
+    fmax.smoothed = max(f.smoothed, na.rm = TRUE)
+    lastmeanError = 1E16
+    
+    model = getForceModel(trimmedTest$time, trimmedTest$force, startTime, fmax.smoothed, previousForce)
+    meanError = mean(abs(model$error))
+    
+    # print(paste("Error:", model$error))
+    # print(paste("length:", length(trimmedTest$force)))
+    # print(paste("Relative Error:", meanError))
+    # print("--------")
+    
+    #If bestFit is TRUE, this overrides the startSample calculus and find the startSample that makes the best fit of the curve  
+    if(bestFit)
+    {
+        # print("bestFit Mode--------")
+        #       while(meanError < lastmeanError)
+        #       {
+        #               lastmeanError = meanError
+        #               
+        #               startSample = startSample + 1
+        #               startTime = originalTest$time[startSample]
+        #               
+        #               #If the lenght of the test is fixed, moving the startSample implies moving the endSample also
+        #               if (testLength != -1){
+        #                       endSample = endSample + 1
+        #                       endTime = originalTest$time[endSample]
+        #               }
+        #               
+        #               
+        #               #Trimming the data before and after contraction
+        #               trimmedTest = originalTest[startSample:endSample,]
+        #               
+        #               model = getForceModel(trimmedTest$time, trimmedTest$force, startTime, fmax.smoothed, previousForce)
+        #               meanError = mean(abs(model$error))
+        #               
+        #               print(paste("Error:", model$error))
+        #               print(paste("length:", length(trimmedTest$force)))
+        #               print(paste("Relative Error:", model$error / length(trimmedTest$force)))
+        #               print("--------")
+        #       }
+        #       
+        #       #going back to the last sample
+        #       startSample = startSample - 1
+        #       startTime = originalTest$time[startSample]
+        #       
+        #       endTime = originalTest$time[endSample]
+        #       
+        #       
+        #       #Trimming the data before and after contraction
+        #       trimmedTest = originalTest[startSample:endSample,]
+        #       
+        #       model = getForceModel(trimmedTest$time, trimmedTest$force, startTime, fmax.smoothed, previousForce)
+        bestFit = getBestFit(inputFile = "/home/xpadulles/.local/share/Chronojump/forceSensor/39/100_Carmelo_2019-09-26_12-49-09.csv"
+                             , averageLength = averageLength
+                             , percentChange = percentChange
+                             # , percentChange = -1
+                             , testLength = testLength
+        )
+        print(bestFit)
+        startSample = bestFit$startSample
+        startTime = bestFit$startTime
+        endSample = bestFit$endSample
+        endTime = bestFit$endTime
+        model = bestFit$model
+        print(originalTest)
         
-        model = getForceModel(testTrimmed$time, testTrimmed$force, startTime, fmax.smoothed, initf)
-        meanError = mean(abs(model$error))
-        
-        # print(paste("Error:", model$error))
-        # print(paste("length:", length(testTrimmed$force)))
-        # print(paste("Relative Error:", meanError))
-        # print("--------")
-        
-        #If bestFit is TRUE, this overrides the startSample calculus and find the startSample that makes the best fit of the curve  
-        if(bestFit)
-        {
-          print("bestFit Mode--------")
-                while(meanError < lastmeanError)
-                {
-                        lastmeanError = meanError
-                        
-                        startSample = startSample + 1
-                        startTime = originalTest$time[startSample]
-                        
-                        #If the lenght of the test is fixed, moving the startSample implies moving the endSample also
-                        if (testLength != -1){
-                                endSample = endSample + 1
-                                endTime = originalTest$time[endSample]
-                        }
-                        
-                        
-                        #Trimming the data before and after contraction
-                        testTrimmed = originalTest[startSample:endSample,]
-                        
-                        model = getForceModel(testTrimmed$time, testTrimmed$force, startTime, fmax.smoothed, initf)
-                        meanError = mean(abs(model$error))
-                        
-                        print(paste("Error:", model$error))
-                        print(paste("length:", length(testTrimmed$force)))
-                        print(paste("Relative Error:", model$error / length(testTrimmed$force)))
-                        print("--------")
-                }
-                
-                #going back to the last sample
-                startSample = startSample - 1
-                startTime = originalTest$time[startSample]
-                
-                endTime = originalTest$time[endSample]
-                
-                
-                #Trimming the data before and after contraction
-                testTrimmed = originalTest[startSample:endSample,]
-                
-                model = getForceModel(testTrimmed$time, testTrimmed$force, startTime, fmax.smoothed, initf)
-        }
         
         
-        f.fitted =model$fmax*(1-exp(-model$K*(originalTest$time - startTime)))
-        
-        f0.raw = testTrimmed$force[1]                                                  # Force at t=0ms. ATENTION. This value is different than initf
-        rfd0.fitted = model$fmax * model$K                                      # RFD at t=0ms using the exponential model
-        tfmax.raw = testTrimmed$time[which.min(abs(testTrimmed$force - fmax.raw))]            # Time needed to reach the Fmax
-        
-        return(list(nameOfFile = inputFile, time = originalTest[, "time"],
-                    fmax.fitted = model$fmax, k.fitted = model$K, tau.fitted = 1/model$K,
-                    startTime = startTime, endTime = endTime,
-                    startSample = startSample, endSample = endSample,
-                    totalSample = length(originalTest$time),
-                    initf = initf,
-                    f0.raw = f0.raw,
-                    fmax.raw = fmax.raw, fmax.smoothed = fmax.smoothed,
-                    tfmax.raw = tfmax.raw,
-                    rfd = rfd,
-                    f.raw = originalTest$force, f.smoothed = f.smoothed, f.fitted = f.fitted,
-                    endTime = endTime,
-                    meanError = meanError))
+    }
+    print("####### model ######")
+    print(model)
+    f.fitted =model$fmax*(1-exp(-model$K*(originalTest$time - startTime)))
+    
+    f0.raw = originalTest$force[startSample]                              # Force at startTime. ATENTION. This value is different than previousForce
+    rfd0.fitted = model$fmax * model$K                                  # RFD at t=0ms using the exponential model
+    tfmax.raw = originalTest$time[which.min(abs(originalTest$force - fmax.raw))] - startTime            # Time needed to reach the Fmax
+    
+    return(list(nameOfFile = inputFile, time = originalTest[, "time"],
+                fmax.fitted = model$fmax, k.fitted = model$K, tau.fitted = 1/model$K,
+                startTime = startTime, endTime = endTime,
+                startSample = startSample, endSample = endSample,
+                totalSample = length(originalTest$time),
+                previousForce = previousForce,
+                f0.raw = f0.raw,
+                fmax.raw = fmax.raw, fmax.smoothed = fmax.smoothed,
+                tfmax.raw = tfmax.raw,
+                rfd = rfd,
+                f.raw = originalTest$force, f.smoothed = f.smoothed, f.fitted = f.fitted,
+                endTime = endTime,
+                meanError = meanError))
 }
 
 drawDynamicsFromLoadCell <- function(
-        dynamics, captureOptions, vlineT0=T, vline50fmax.raw=F, vline50fmax.fitted=F,
-        hline50fmax.raw=F, hline50fmax.fitted=F,
-        rfdDrawingOptions, triggersOn = "", triggersOff = "", xlimits = NA)
+    dynamics, captureOptions, vlineT0=T, vline50fmax.raw=F, vline50fmax.fitted=F,
+    hline50fmax.raw=F, hline50fmax.fitted=F,
+    rfdDrawingOptions, triggersOn = "", triggersOff = "", xlimits = NA)
 {
-        dynamics$time = dynamics$time - dynamics$startTime
-        dynamics$tfmax.raw = dynamics$tfmax.raw - dynamics$startTime
-        dynamics$endTime = dynamics$endTime - dynamics$startTime
-        dynamics$startTime = 0
-        if(is.na(dynamics$time[1]))
-        {
-                print("Dynamics not available:")
-                return(NA)
-        }
-        par(mar = c(6, 4, 6, 4))
-        
-        #Detecting if the duration of the sustained force enough
-        meanForce = mean(dynamics$f.raw[dynamics$startSample:dynamics$endSample])
-        if( meanForce < dynamics$fmax.raw*0.75 ){
-                sustainedForce = F
-                yHeight = dynamics$fmax.raw
-        } else if( meanForce >= dynamics$fmax.raw*0.75 ){
-                sustainedForce = T
-                yHeight = max(dynamics$fmax.raw, dynamics$fmax.fitted) * 1.1
-        }
-                
-	par(mar=c(4,4,3,1))
-        #Plotting raw data from startTime to endTime (Only the analysed data)
-        if (!is.na(xlimits[1])){
-                xWidth = xlimits[2] - xlimits[1]
-                plot(dynamics$time[dynamics$startSample:dynamics$endSample], dynamics$f.raw[dynamics$startSample:dynamics$endSample],
-                     type="l", xlab="Time[s]", ylab="Force[N]",
-                     xlim = xlimits, ylim=c(0, yHeight),
-                     #main = dynamics$nameOfFile,
-		     main = paste(parse(text = paste0("'", titleFull, "'"))), #process unicode, needed paste because its an expression. See graph.R
-		     yaxs= "i", xaxs = "i")
-		mtext(op$datetime, line = 0)
-                xmin = xlimits[1]
-                xmax = xlimits[2]
-                #points(dynamics$time[dynamics$startSample:dynamics$endSample] , dynamics$f.raw[dynamics$startSample:dynamics$endSample])
-        } else if (is.na(xlimits[1])){
-                xmin = -0.2
-                xmax = dynamics$endTime*1.1 - dynamics$startTime*0.1
-                xWidth = xmax - xmin
-                plot(dynamics$time[dynamics$startSample:dynamics$endSample], dynamics$f.raw[dynamics$startSample:dynamics$endSample],
-                     type="l", xlab="Time[s]", ylab="Force[N]",
-                     xlim = c(xmin, xmax),
-                     ylim=c(0, yHeight),
-                     #main = dynamics$nameOfFile,
-		     main = paste(parse(text = paste0("'", titleFull, "'"))), #process unicode, needed paste because its an expression. See graph.R
-		     yaxs= "i", xaxs = "i")
-		mtext(op$datetime, line = 0)
-        }
-        
-
-        if(!sustainedForce){
-                text(x = (xmax + xmin)/2, y = yHeight/2, labels = "Bad execution. Probably not sustained force", adj = c(0.5, 0.5), cex = 2, col = "red")
-                #Plotting not analysed data
-                lines(dynamics$time[1:dynamics$startSample] , dynamics$f.raw[1:dynamics$startSample], col = "grey") #Pre-analysis
-                lines(dynamics$time[dynamics$endSample: dynamics$totalSample] , dynamics$f.raw[dynamics$endSample: dynamics$totalSample], col = "grey") #Post-analysis
-                return()
-        }
-        
-        #Plotting Impulse
-        
-        print("--------Impulse-----------")
-        print(op$drawImpulseOptions)
-        impulseOptions = readImpulseOptions(op$drawImpulseOptions)
-
-	impulseLegend = ""
-        
-        if(impulseOptions$impulseFunction != "-1")
-        {
-                print(impulseOptions)
-                if(impulseOptions$type == "IMP_RANGE")
-                {
-                        startImpulseSample = which.min(abs(dynamics$time - impulseOptions$start/1000))
-                        endImpulseSample = which.min(abs(dynamics$time - impulseOptions$end/1000))
-                } else if(impulseOptions$type == "IMP_UNTIL_PERCENT_F_MAX")
-                {
-                        startImpulseSample = dynamics$startSample
-                        
-                        #Finding the sample at which the force is greater that percentage of fmax
-                        endImpulseSample = startImpulseSample
-                        while(dynamics$f.raw[endImpulseSample + 1] < dynamics$fmax.raw*impulseOptions$end/100)
-                        {
-                                endImpulseSample = endImpulseSample +1
-                                
-                        }
-                }
-
-                if(impulseOptions$impulseFunction == "RAW")
-                {
-                        impulseColor = "black"
-                        
-                        #Drawing the area under the force curve (Impulse)
-                        polygon(c(dynamics$time[startImpulseSample:endImpulseSample], dynamics$time[endImpulseSample] , dynamics$time[startImpulseSample]),
-                                c(dynamics$f.raw[startImpulseSample:endImpulseSample], 0, 0), col = "grey")
-                        
-                        #Calculation of the impulse
-                        impulse = getAreaUnderCurve(dynamics$time[startImpulseSample:endImpulseSample], dynamics$f.raw[startImpulseSample:endImpulseSample])
-             
-                } else if(impulseOptions$impulseFunction == "FITTED")
-                {
-                        impulseColor = "blue"
-                        
-                        #Drawing the area under the force curve (Impulse)
-                        polygon(c(dynamics$time[startImpulseSample:endImpulseSample], dynamics$time[endImpulseSample] , dynamics$time[startImpulseSample]),
-                                c(dynamics$f.fitted[startImpulseSample:endImpulseSample], 0, 0), col = "grey")
-                        #Redraw the raw force
-                        lines(x = dynamics$time[startImpulseSample:endImpulseSample] , y = dynamics$f.raw[startImpulseSample:endImpulseSample])
-                        
-                        #Calculation of the impulse
-                        #Sum of the area of all the triangles formed with a vertex in the origin and the other vertex in the
-                        #n-th and (n+1)-th point of the polygon
-                        # impulse = 0
-                        # for(n in startImpulseSample:(endImpulseSample - 1))
-                        # {
-                        #         #Area of the paralelograms, not the triangle
-                        #         area = ((dynamics$time[n+1] - dynamics$time[dynamics$startSample]) * dynamics$f.fitted[n] - (dynamics$time[n] - dynamics$time[dynamics$startSample]) * dynamics$f.fitted[n+1])
-                        #         impulse = impulse + area
-                        # }
-                        # 
-                        # area = (dynamics$time[endImpulseSample] - dynamics$time[dynamics$startSample]) * dynamics$f.fitted[endImpulseSample]
-                        # impulse = impulse + area
-                        #Area under the curve is one half of the sum of the area of paralelograms
-                        #impulse = impulse / 2
-                        impulse = getAreaUnderCurve(dynamics$time[startImpulseSample:endImpulseSample], dynamics$f.fitted[startImpulseSample:endImpulseSample])
-                        
-                        
-                }
-                
-                text(x = (dynamics$startTime + (dynamics$time[endImpulseSample] - dynamics$time[startImpulseSample])*0.66), y = mean(dynamics$f.raw[startImpulseSample:endImpulseSample])*0.66,
-                     labels = paste("Impulse =", round(impulse, digits = 2), "N\u00B7s"), pos = 4, cex = 1.5)
-
-		impulseLegend = paste("Impulse", impulseOptions$start, "-", impulseOptions$end, " = ", round(impulse, digits = 2), " N\u00B7s", sep = "") #\u00B7 is ·
-        }
-        
+    dynamics$time = dynamics$time - dynamics$startTime
+    dynamics$tfmax.raw = dynamics$tfmax.raw - dynamics$startTime
+    dynamics$endTime = dynamics$endTime - dynamics$startTime
+    dynamics$startTime = 0
+    if(is.na(dynamics$time[1]))
+    {
+        print("Dynamics not available:")
+        return(NA)
+    }
+    par(mar = c(6, 4, 6, 4))
+    
+    #Detecting if the duration of the sustained force enough
+    print("f.raw")
+    print(dynamics$f.raw)
+    print(paste("samples:", dynamics$startSample, dynamics$endSample))
+    meanForce = mean(dynamics$f.raw[dynamics$startSample:dynamics$endSample])
+    print(paste("meanForce: ", meanForce, "fmax.raw: ", dynamics$fmax.raw))
+    if( meanForce < dynamics$fmax.raw*0.75 ){
+        sustainedForce = F
+        yHeight = dynamics$fmax.raw
+    } else if( meanForce >= dynamics$fmax.raw*0.75 ){
+        sustainedForce = T
+        yHeight = max(dynamics$fmax.raw, dynamics$fmax.fitted) * 1.1
+    }
+    
+    par(mar=c(4,4,3,1))
+    #Plotting raw data from startTime to endTime (Only the analysed data)
+    if (!is.na(xlimits[1])){
+        xWidth = xlimits[2] - xlimits[1]
+        plot(dynamics$time[dynamics$startSample:dynamics$endSample], dynamics$f.raw[dynamics$startSample:dynamics$endSample],
+             type="l", xlab="Time[s]", ylab="Force[N]",
+             xlim = xlimits, ylim=c(0, yHeight),
+             #main = dynamics$nameOfFile,
+             main = paste(parse(text = paste0("'", titleFull, "'"))), #process unicode, needed paste because its an expression. See graph.R
+             yaxs= "i", xaxs = "i")
+        mtext(op$datetime, line = 0)
+        xmin = xlimits[1]
+        xmax = xlimits[2]
+        #points(dynamics$time[dynamics$startSample:dynamics$endSample] , dynamics$f.raw[dynamics$startSample:dynamics$endSample])
+    } else if (is.na(xlimits[1])){
+        xmin = -0.2
+        xmax = dynamics$endTime*1.1 - dynamics$startTime*0.1
+        xWidth = xmax - xmin
+        plot(dynamics$time[dynamics$startSample:dynamics$endSample], dynamics$f.raw[dynamics$startSample:dynamics$endSample],
+             type="l", xlab="Time[s]", ylab="Force[N]",
+             xlim = c(xmin, xmax),
+             ylim=c(0, yHeight),
+             #main = dynamics$nameOfFile,
+             main = paste(parse(text = paste0("'", titleFull, "'"))), #process unicode, needed paste because its an expression. See graph.R
+             yaxs= "i", xaxs = "i")
+        mtext(op$datetime, line = 0)
+    }
+    
+    
+    if(!sustainedForce){
+        text(x = (xmax + xmin)/2, y = yHeight/2, labels = "Bad execution. Probably not sustained force", adj = c(0.5, 0.5), cex = 2, col = "red")
         #Plotting not analysed data
         lines(dynamics$time[1:dynamics$startSample] , dynamics$f.raw[1:dynamics$startSample], col = "grey") #Pre-analysis
         lines(dynamics$time[dynamics$endSample: dynamics$totalSample] , dynamics$f.raw[dynamics$endSample: dynamics$totalSample], col = "grey") #Post-analysis
-        
-        
-        #Plotting fitted data
-        lines(dynamics$time, dynamics$f.fitted, col="blue")
-        abline(h = dynamics$fmax.fitted, lty = 2, col = "blue")
-	text(x = xmax, y = dynamics$fmax.fitted,
-	     labels = paste("Fmax =", round(dynamics$fmax.fitted,digits = 2), "N"),
-             col = "blue", cex = 1.5, adj=c(1,0))
-        
-        #Plottting smoothed data
-        #lines(dynamics$time, dynamics$f.smoothed, col="grey")
-        
-        #Plotting RFD
-        #lines(dynamics$time, dynamics$rfd/100, col = "red")
-        
-        #Plotting tau
-        abline(v = dynamics$tau.fitted, col = "green4", lty = 3)
-        abline(h = dynamics$fmax.fitted*0.6321206, col = "green4", lty = 3)
-        points(dynamics$tau.fitted, dynamics$fmax.fitted*0.6321206, col = "green4")
-        arrows(x0 = 0, y0 = dynamics$f0.raw,
-               x1 = dynamics$tau.fitted, y1 = dynamics$f0.raw)
-        text(x = (dynamics$tau.fitted / 2), y = dynamics$f0.raw,
-              labels = paste(round(dynamics$tau.fitted, digits = 2), "s"), pos = 3, cex = 1.5, col = "blue")
-        # text(x = (dynamics$tau.fitted / 2), y = -20,
-        #      labels = paste(round(dynamics$tau.fitted, digits = 2), "s"), pos = 3, cex = 1.5, xpd = TRUE)
-        
-        arrows(x0 = 0, y0 = 0,
-               x1 = 0, y1 = dynamics$fmax.fitted*0.6321206)
-        
-        text(x = 0, y = dynamics$fmax.fitted*0.6321206 / 2,
-              labels = "63% of fmax", pos = 2, cex = 1.5, srt = 90, col = "blue")
-        
-        #Plotting fmax.raw
-        text( x = dynamics$tfmax.raw, y = dynamics$fmax.raw,
-              labels = paste("Fmax = ", round(dynamics$fmax.raw, digits=2), " N", sep=""), pos = 3, cex = 1.5)
-        points(x = dynamics$tfmax.raw, y = dynamics$fmax.raw)
-        
-        if(vlineT0){
-                abline(v = dynamics$startTime, lty = 2)
-                axis(3, at = dynamics$startTime, labels = dynamics$startTime)
-        }
-        if(hline50fmax.raw){
-                abline(h = dynamics$fmax.raw/2, lty = 2)
-                text( x = dynamics$t50fmax.raw + 0.5, y = dynamics$fmax.raw/2, labels = paste("Fmax/2 =", round(dynamics$fmax.raw/2, digits=2), "N", sep=""), pos = 3)
-        }
-        if(hline50fmax.fitted){
-                abline( h = (dynamics$fmax.fitted)/2, lty = 2, col = "blue")
-                text( x =dynamics$t50fmax.fitted + 0.5, y = (dynamics$fmax.fitted)/2, labels = paste("Fmax/2 =", round((dynamics$fmax.fitted)/2, digits=2), "N", sep=""), pos = 1, col="blue")
-        }
-        if(vline50fmax.raw){
-                abline(v = dynamics$t50fmax.raw, lty = 2)
-                axis(3, at = dynamics$t50fmax.raw, labels = dynamics$t50fmax.raw)
-        }
-        if(vline50fmax.fitted){
-                abline(v = dynamics$t50fmax.fitted, lty = 2)
-                axis(3, at = dynamics$t50fmax.fitted, labels = dynamics$t50fmax.fitted)
-        }
-        
-        #The angle in the srt parameter of the text is an absolute angle seen in the window, not the angle in the coordinates system of the plot area.
-        pixelsPerLine = 14    #This value has been found with test and error.
-        
-        # 72 dpi is the default resolutions for pdf. Margins units are text hight
-        plotWidth = dev.size()[1]*72 - (par()$mar[2] + par()$mar[4])*pixelsPerLine      
-        plotHeight = dev.size()[2]*72 - (par()$mar[1] + par()$mar[3])*pixelsPerLine
-        
-        #Drawing the RFD data
-        print("-----------RFD-----------")
-        print(paste("op$drawRfdOptions =", op$drawRfdOptions))
-
-	#triggers
-	abline(v=triggersOn, col="green")
-	abline(v=triggersOff, col="red")
-
-        
-        legendText = c(
-		       paste("Fmax =", round(dynamics$fmax.fitted, digits = 2), "N"),
-		       paste("K = ", round(dynamics$k.fitted, digits = 2),"s\u207B\u00B9"),
-		       paste("\u03C4 = ", round(dynamics$tau.fitted, digits = 2),"s")
-		       )
-        legendColor = c("blue", "blue", "blue")
-        
-        #The coordinates where the lines and dots are plotted are calculated with the sampled data in raw and fitted data.
-        #The slopes are calculated in that points
-        for (n in 1:length(rfdDrawingOptions))
+        return()
+    }
+    
+    #Plotting Impulse
+    
+    print("--------Impulse-----------")
+    print(op$drawImpulseOptions)
+    impulseOptions = readImpulseOptions(op$drawImpulseOptions)
+    
+    impulseLegend = ""
+    
+    if(impulseOptions$impulseFunction != "-1")
+    {
+        print(impulseOptions)
+        if(impulseOptions$type == "IMP_RANGE")
         {
-                RFDoptions = readRFDOptions(op$drawRfdOptions[n])
+            startImpulseSample = which.min(abs(dynamics$time - impulseOptions$start/1000))
+            endImpulseSample = which.min(abs(dynamics$time - impulseOptions$end/1000))
+        } else if(impulseOptions$type == "IMP_UNTIL_PERCENT_F_MAX")
+        {
+            startImpulseSample = dynamics$startSample
+            
+            #Finding the sample at which the force is greater that percentage of fmax
+            endImpulseSample = startImpulseSample
+            while(dynamics$f.raw[endImpulseSample + 1] < dynamics$fmax.raw*impulseOptions$end/100)
+            {
+                endImpulseSample = endImpulseSample +1
                 
-                print(paste("---- RFD number", n, "--------"))
-                print(options)
-                if(RFDoptions$type == "AVERAGE" & (RFDoptions$start == RFDoptions$end)){
-                        RFDoptions$type = "INSTANTANEOUS"
-                }
-                if(RFDoptions$rfdFunction == "-1")        
-                {
-                        next
-                } else
-                {
-                        
-                        RFD = NULL
-                        pointForce1 = NULL
-                        color = ""
-                        
-                        #Needed when only one point is plotted
-                        sample2 = NULL
-                        pointForce2 = NULL
-                        time2 = NULL
-                        force2 = NULL
-                        
-                        if(RFDoptions$rfdFunction == "FITTED")
-                        {
-                                color = "blue"
-                        } else if(RFDoptions$rfdFunction == "RAW")
-                        {
-                                color = "black"
-                        }
-                        
-                        if(RFDoptions$type == "INSTANTANEOUS") # TODO: || percent ...(all except AVG)
-                        {
-                                #Converting RFDoptions$start to seconds
-                                RFDoptions$start = RFDoptions$start/1000
-                                
-                                time1 = RFDoptions$start
-                                
-                                if (RFDoptions$rfdFunction == "FITTED")
-                                {
-                                        #Slope of the line. Deriving the model:
-                                        RFD = dynamics$fmax.fitted * dynamics$k.fitted * exp(-dynamics$k.fitted * time1)
-                                        #Y coordinate of a point of the line
-                                        force1 = dynamics$fmax.fitted * (1 - exp(-dynamics$k.fitted * RFDoptions$start))
-                                        
-                                        legendText = c(legendText, paste("RFD", RFDoptions$start*1000, " = ", round(RFD, digits = 1), " N/s", sep = ""))
-                                        legendColor = c(legendColor, "blue")
-                                        
-                                } else if(RFDoptions$rfdFunction == "RAW")
-                                {
-                                        #Slope of the line of the sampled point.
-                                        RFD = interpolateXAtY(dynamics$rfd, dynamics$time, time1)
-                                        
-                                        #Y coordinate of a point of the line
-                                        force1 = interpolateXAtY(dynamics$f.raw, dynamics$time, RFDoptions$start)
-                                        
-                                        legendText = c(legendText, paste("RFD", RFDoptions$start*1000, " = ", round(RFD, digits = 1), " N/s", sep = ""))
-                                        legendColor = c(legendColor, "black")
-                                }
-                        } else if(RFDoptions$type == "AVERAGE")
-                        {
-                                #Converting RFDoptions to seconds
-                                RFDoptions$start = RFDoptions$start/1000
-                                RFDoptions$end = RFDoptions$end/1000
-                                
-                                time1 = RFDoptions$start
-                                time2 = RFDoptions$end
-                                
-                                if (RFDoptions$rfdFunction == "FITTED")
-                                {
-                                        #Y axis of the points
-                                        force1 = dynamics$fmax.fitted * (1 - exp(-dynamics$k.fitted * RFDoptions$start))
-                                        force2 = dynamics$fmax.fitted * (1 - exp(-dynamics$k.fitted * RFDoptions$end))
-                                        
-                                        #Slope of the line
-                                        RFD = (force2 - force1) / (time2 - time1)
-                                        
-                                        legendText = c(legendText, paste("RFD", RFDoptions$start*1000, "-", RFDoptions$end*1000, " = ", round(RFD, digits = 1), " N/s", sep = ""))
-                                        legendColor = c(legendColor, "blue")
-                                        
-                                } else if(RFDoptions$rfdFunction == "RAW")
-                                {
-                                        force1 = interpolateXAtY(dynamics$f.raw, dynamics$time, RFDoptions$start)
-                                        force2 = interpolateXAtY(dynamics$f.raw, dynamics$time, RFDoptions$end)
-                                        
-                                        #Slope of the line
-                                        RFD = (force2 - force1) / (time2 - time1)
-                                        
-                                        legendText = c(legendText, paste("RFD", RFDoptions$start*1000, "-", RFDoptions$end*1000, " = ", round(RFD, digits = 1), " N/s", sep = ""))
-                                        legendColor = c(legendColor, "black")
-                                }
-                                
-                        } else if(RFDoptions$type == "PERCENT_F_MAX")
-                        {
-                                percent = RFDoptions$start
-                                
-                                if (RFDoptions$rfdFunction == "FITTED")
-                                {
-                                        time1 = - log(1 - percent/100) / dynamics$k.fitted
-                                        
-                                        #RFD at the point with a % of the fmax.fitted
-                                        RFD = dynamics$fmax.fitted * dynamics$k.fitted * exp(-dynamics$k.fitted * time1)
-                                        
-                                        #Y coordinate of a point of the line
-                                        
-                                        force1 = dynamics$fmax.fitted * (1 - exp(-dynamics$k.fitted * time1))
-                                        
-                                        legendText = c(legendText, paste("RFD", percent, "%Fmax", " = ", round(RFD, digits = 1), " N/s", sep = ""))
-                                        legendColor = c(legendColor, "blue")
-                                        
-                                } else if(RFDoptions$rfdFunction == "RAW")
-                                {
-                                        time1 = interpolateXAtY(dynamics$time, dynamics$f.raw, dynamics$fmax.raw * percent / 100)
-                                        
-                                        #Slope of the line
-                                        RFD = interpolateXAtY(dynamics$rfd, dynamics$time, time1)
-                                        
-                                        #Y coordinate of a point of the line
-                                        force1 = interpolateXAtY(dynamics$f.raw, dynamics$time, time1)
-                                        
-                                        legendText = c(legendText, paste("RFD", percent, "%", "Fmax", " = ", round(RFD, digits = 1), " N/s", sep = ""))
-                                        legendColor = c(legendColor, "black")
-                                        
-                                }
-                        } else if(RFDoptions$type == "RFD_MAX")
-                        {
-                                
-                                if (RFDoptions$rfdFunction == "FITTED")
-                                {
-                                        #max is always in the initial point.
-                                        time1 = 0
-                                        
-                                        #Slope of the line. Deriving the model:
-                                        RFD = dynamics$fmax.fitted * dynamics$k.fitted
-                                        
-                                        #Y coordinate of a point of the line
-                                        pointForce1 = 0
-                                        
-                                        force1 = 0
-                                        
-                                        legendText = c(legendText, paste("RFDMax", " = ", round(RFD, digits = 1), " N/s", sep = ""))
-                                        legendColor = c(legendColor, "blue")
-                                        
-                                } else if(RFDoptions$rfdFunction == "RAW")
-                                {
-                                        #Calculing the sample at which the rfd is max. Using only the initial
-                                        sample1 = dynamics$startSample + which.max(dynamics$rfd[dynamics$startSample:dynamics$endSample]) -1
-                                        
-                                        time1 = dynamics$time[sample1]
-                                        
-                                        #Translating RFDoptions$start to time in seconds
-                                        RFDoptions$start = dynamics$time[sample1]
-                                        
-                                        #Slope of the line
-                                        RFD = dynamics$rfd[sample1]
-                                        
-                                        #Y coordinate of a point of the line
-                                        force1 = dynamics$f.raw[sample1]
-                                        
-                                        legendText = c(legendText, paste("RFDmax = ", round(RFD, digits = 1), " N/s", sep = ""))
-                                        legendColor = c(legendColor, "black")
-                                        
-                                }
-                                
-                        }
-                        
-                        #The Y coordinate of the line when it crosses the Y axis
-                        intercept = force1 - RFD * time1
-                        
-                        #The slope of the line seen in the screen(pixels units), NOT in the time-force units
-                        windowSlope = RFD*(plotHeight/yHeight)/(plotWidth/xWidth)
-                        
-                        #Drawing the line
-                        text(x = (yHeight - 5 - intercept)/RFD, y = yHeight - 5,
-                             label = paste(round(RFD, digits=0), "N/s"),
-                             srt=atan(windowSlope)*180/pi, pos = 2, col = color)
-                        #Drawing the points where the line touch the function
-                        points(x = c(time1, time2), y = c(force1, force2), col = color)
-                        abline(a = intercept, b = RFD, lty = 2, col = color)
-                }
+            }
         }
-	if(impulseLegend != ""){
-		legendText = c(legendText, impulseLegend)
-                legendColor = c(legendColor, impulseColor)
-	}
         
-        legendText = c(legendText, paste("MeanError = ", round(dynamics$meanError, digits = 2), "%", sep =""))
-        if (dynamics$meanError >= 5){
-                legendColor = c(legendColor, "red")
-                text(x = xmax, y = dynamics$fmax.fitted*0.01, labels = "The mean error is larger than 5%. Possible bad execution", col = "red", pos = 2)
-        } else {
-                legendColor = c(legendColor, "grey40")
+        if(impulseOptions$impulseFunction == "RAW")
+        {
+            impulseColor = "black"
+            
+            #Drawing the area under the force curve (Impulse)
+            polygon(c(dynamics$time[startImpulseSample:endImpulseSample], dynamics$time[endImpulseSample] , dynamics$time[startImpulseSample]),
+                    c(dynamics$f.raw[startImpulseSample:endImpulseSample], 0, 0), col = "grey")
+            
+            #Calculation of the impulse
+            impulse = getAreaUnderCurve(dynamics$time[startImpulseSample:endImpulseSample], dynamics$f.raw[startImpulseSample:endImpulseSample])
+            
+        } else if(impulseOptions$impulseFunction == "FITTED")
+        {
+            impulseColor = "blue"
+            
+            #Drawing the area under the force curve (Impulse)
+            polygon(c(dynamics$time[startImpulseSample:endImpulseSample], dynamics$time[endImpulseSample] , dynamics$time[startImpulseSample]),
+                    c(dynamics$f.fitted[startImpulseSample:endImpulseSample], 0, 0), col = "grey")
+            #Redraw the raw force
+            lines(x = dynamics$time[startImpulseSample:endImpulseSample] , y = dynamics$f.raw[startImpulseSample:endImpulseSample])
+            
+            #Calculation of the impulse
+            #Sum of the area of all the triangles formed with a vertex in the origin and the other vertex in the
+            #n-th and (n+1)-th point of the polygon
+            # impulse = 0
+            # for(n in startImpulseSample:(endImpulseSample - 1))
+            # {
+            #         #Area of the paralelograms, not the triangle
+            #         area = ((dynamics$time[n+1] - dynamics$time[dynamics$startSample]) * dynamics$f.fitted[n] - (dynamics$time[n] - dynamics$time[dynamics$startSample]) * dynamics$f.fitted[n+1])
+            #         impulse = impulse + area
+            # }
+            # 
+            # area = (dynamics$time[endImpulseSample] - dynamics$time[dynamics$startSample]) * dynamics$f.fitted[endImpulseSample]
+            # impulse = impulse + area
+            #Area under the curve is one half of the sum of the area of paralelograms
+            #impulse = impulse / 2
+            impulse = getAreaUnderCurve(dynamics$time[startImpulseSample:endImpulseSample], dynamics$f.fitted[startImpulseSample:endImpulseSample])
+            
+            
         }
-
-	legend(x = xmax, y = dynamics$fmax.fitted/2, legend = legendText, xjust = 1, yjust = 0.1, text.col = legendColor)
+        
+        text(x = (dynamics$startTime + (dynamics$time[endImpulseSample] - dynamics$time[startImpulseSample])*0.66), y = mean(dynamics$f.raw[startImpulseSample:endImpulseSample])*0.66,
+             labels = paste("Impulse =", round(impulse, digits = 2), "N\u00B7s"), pos = 4, cex = 1.5)
+        
+        impulseLegend = paste("Impulse", impulseOptions$start, "-", impulseOptions$end, " = ", round(impulse, digits = 2), " N\u00B7s", sep = "") #\u00B7 is ·
+    }
+    
+    #Plotting not analysed data
+    lines(dynamics$time[1:dynamics$startSample] , dynamics$f.raw[1:dynamics$startSample], col = "grey") #Pre-analysis
+    lines(dynamics$time[dynamics$endSample: dynamics$totalSample] , dynamics$f.raw[dynamics$endSample: dynamics$totalSample], col = "grey") #Post-analysis
+    
+    
+    #Plotting fitted data
+    lines(dynamics$time, dynamics$f.fitted, col="blue")
+    abline(h = dynamics$fmax.fitted, lty = 2, col = "blue")
+    text(x = xmax, y = dynamics$fmax.fitted,
+         labels = paste("Fmax =", round(dynamics$fmax.fitted,digits = 2), "N"),
+         col = "blue", cex = 1.5, adj=c(1,0))
+    
+    #Plottting smoothed data
+    #lines(dynamics$time, dynamics$f.smoothed, col="grey")
+    
+    #Plotting RFD
+    #lines(dynamics$time, dynamics$rfd/100, col = "red")
+    
+    #Plotting tau
+    abline(v = dynamics$tau.fitted, col = "green4", lty = 3)
+    abline(h = dynamics$fmax.fitted*0.6321206, col = "green4", lty = 3)
+    points(dynamics$tau.fitted, dynamics$fmax.fitted*0.6321206, col = "green4")
+    arrows(x0 = 0, y0 = dynamics$f0.raw,
+           x1 = dynamics$tau.fitted, y1 = dynamics$f0.raw)
+    text(x = (dynamics$tau.fitted / 2), y = dynamics$f0.raw,
+         labels = paste(round(dynamics$tau.fitted, digits = 2), "s"), pos = 3, cex = 1.5, col = "blue")
+    # text(x = (dynamics$tau.fitted / 2), y = -20,
+    #      labels = paste(round(dynamics$tau.fitted, digits = 2), "s"), pos = 3, cex = 1.5, xpd = TRUE)
+    
+    arrows(x0 = 0, y0 = 0,
+           x1 = 0, y1 = dynamics$fmax.fitted*0.6321206)
+    
+    text(x = 0, y = dynamics$fmax.fitted*0.6321206 / 2,
+         labels = "63% of fmax", pos = 2, cex = 1.5, srt = 90, col = "blue")
+    
+    #Plotting fmax.raw
+    text( x = dynamics$tfmax.raw, y = dynamics$fmax.raw,
+          labels = paste("Fmax = ", round(dynamics$fmax.raw, digits=2), " N", sep=""), pos = 3, cex = 1.5)
+    points(x = dynamics$tfmax.raw, y = dynamics$fmax.raw)
+    
+    if(vlineT0){
+        abline(v = dynamics$startTime, lty = 2)
+        axis(3, at = dynamics$startTime, labels = dynamics$startTime)
+    }
+    if(hline50fmax.raw){
+        abline(h = dynamics$fmax.raw/2, lty = 2)
+        text( x = dynamics$t50fmax.raw + 0.5, y = dynamics$fmax.raw/2, labels = paste("Fmax/2 =", round(dynamics$fmax.raw/2, digits=2), "N", sep=""), pos = 3)
+    }
+    if(hline50fmax.fitted){
+        abline( h = (dynamics$fmax.fitted)/2, lty = 2, col = "blue")
+        text( x =dynamics$t50fmax.fitted + 0.5, y = (dynamics$fmax.fitted)/2, labels = paste("Fmax/2 =", round((dynamics$fmax.fitted)/2, digits=2), "N", sep=""), pos = 1, col="blue")
+    }
+    if(vline50fmax.raw){
+        abline(v = dynamics$t50fmax.raw, lty = 2)
+        axis(3, at = dynamics$t50fmax.raw, labels = dynamics$t50fmax.raw)
+    }
+    if(vline50fmax.fitted){
+        abline(v = dynamics$t50fmax.fitted, lty = 2)
+        axis(3, at = dynamics$t50fmax.fitted, labels = dynamics$t50fmax.fitted)
+    }
+    
+    #The angle in the srt parameter of the text is an absolute angle seen in the window, not the angle in the coordinates system of the plot area.
+    pixelsPerLine = 14    #This value has been found with test and error.
+    
+    # 72 dpi is the default resolutions for pdf. Margins units are text hight
+    plotWidth = dev.size()[1]*72 - (par()$mar[2] + par()$mar[4])*pixelsPerLine      
+    plotHeight = dev.size()[2]*72 - (par()$mar[1] + par()$mar[3])*pixelsPerLine
+    
+    #Drawing the RFD data
+    print("-----------RFD-----------")
+    print(paste("op$drawRfdOptions =", op$drawRfdOptions))
+    
+    #triggers
+    abline(v=triggersOn, col="green")
+    abline(v=triggersOff, col="red")
+    
+    
+    legendText = c(
+        paste("Fmax =", round(dynamics$fmax.fitted, digits = 2), "N"),
+        paste("K = ", round(dynamics$k.fitted, digits = 2),"s\u207B\u00B9"),
+        paste("\u03C4 = ", round(dynamics$tau.fitted, digits = 2),"s")
+    )
+    legendColor = c("blue", "blue", "blue")
+    
+    #The coordinates where the lines and dots are plotted are calculated with the sampled data in raw and fitted data.
+    #The slopes are calculated in that points
+    for (n in 1:length(rfdDrawingOptions))
+    {
+        RFDoptions = readRFDOptions(op$drawRfdOptions[n])
+        
+        print(paste("---- RFD number", n, "--------"))
+        print(options)
+        if(RFDoptions$type == "AVERAGE" & (RFDoptions$start == RFDoptions$end)){
+            RFDoptions$type = "INSTANTANEOUS"
+        }
+        if(RFDoptions$rfdFunction == "-1")        
+        {
+            next
+        } else
+        {
+            
+            RFD = NULL
+            pointForce1 = NULL
+            color = ""
+            
+            #Needed when only one point is plotted
+            sample2 = NULL
+            pointForce2 = NULL
+            time2 = NULL
+            force2 = NULL
+            
+            if(RFDoptions$rfdFunction == "FITTED")
+            {
+                color = "blue"
+            } else if(RFDoptions$rfdFunction == "RAW")
+            {
+                color = "black"
+            }
+            
+            if(RFDoptions$type == "INSTANTANEOUS") # TODO: || percent ...(all except AVG)
+            {
+                #Converting RFDoptions$start to seconds
+                RFDoptions$start = RFDoptions$start/1000
+                
+                time1 = RFDoptions$start
+                
+                if (RFDoptions$rfdFunction == "FITTED")
+                {
+                    #Slope of the line. Deriving the model:
+                    RFD = dynamics$fmax.fitted * dynamics$k.fitted * exp(-dynamics$k.fitted * time1)
+                    #Y coordinate of a point of the line
+                    force1 = dynamics$fmax.fitted * (1 - exp(-dynamics$k.fitted * RFDoptions$start))
+                    
+                    legendText = c(legendText, paste("RFD", RFDoptions$start*1000, " = ", round(RFD, digits = 1), " N/s", sep = ""))
+                    legendColor = c(legendColor, "blue")
+                    
+                } else if(RFDoptions$rfdFunction == "RAW")
+                {
+                    #Slope of the line of the sampled point.
+                    RFD = interpolateXAtY(dynamics$rfd, dynamics$time, time1)
+                    
+                    #Y coordinate of a point of the line
+                    force1 = interpolateXAtY(dynamics$f.raw, dynamics$time, RFDoptions$start)
+                    
+                    legendText = c(legendText, paste("RFD", RFDoptions$start*1000, " = ", round(RFD, digits = 1), " N/s", sep = ""))
+                    legendColor = c(legendColor, "black")
+                }
+            } else if(RFDoptions$type == "AVERAGE")
+            {
+                #Converting RFDoptions to seconds
+                RFDoptions$start = RFDoptions$start/1000
+                RFDoptions$end = RFDoptions$end/1000
+                
+                time1 = RFDoptions$start
+                time2 = RFDoptions$end
+                
+                if (RFDoptions$rfdFunction == "FITTED")
+                {
+                    #Y axis of the points
+                    force1 = dynamics$fmax.fitted * (1 - exp(-dynamics$k.fitted * RFDoptions$start))
+                    force2 = dynamics$fmax.fitted * (1 - exp(-dynamics$k.fitted * RFDoptions$end))
+                    
+                    #Slope of the line
+                    RFD = (force2 - force1) / (time2 - time1)
+                    
+                    legendText = c(legendText, paste("RFD", RFDoptions$start*1000, "-", RFDoptions$end*1000, " = ", round(RFD, digits = 1), " N/s", sep = ""))
+                    legendColor = c(legendColor, "blue")
+                    
+                } else if(RFDoptions$rfdFunction == "RAW")
+                {
+                    force1 = interpolateXAtY(dynamics$f.raw, dynamics$time, RFDoptions$start)
+                    force2 = interpolateXAtY(dynamics$f.raw, dynamics$time, RFDoptions$end)
+                    
+                    #Slope of the line
+                    RFD = (force2 - force1) / (time2 - time1)
+                    
+                    legendText = c(legendText, paste("RFD", RFDoptions$start*1000, "-", RFDoptions$end*1000, " = ", round(RFD, digits = 1), " N/s", sep = ""))
+                    legendColor = c(legendColor, "black")
+                }
+                
+            } else if(RFDoptions$type == "PERCENT_F_MAX")
+            {
+                percent = RFDoptions$start
+                
+                if (RFDoptions$rfdFunction == "FITTED")
+                {
+                    time1 = - log(1 - percent/100) / dynamics$k.fitted
+                    
+                    #RFD at the point with a % of the fmax.fitted
+                    RFD = dynamics$fmax.fitted * dynamics$k.fitted * exp(-dynamics$k.fitted * time1)
+                    
+                    #Y coordinate of a point of the line
+                    
+                    force1 = dynamics$fmax.fitted * (1 - exp(-dynamics$k.fitted * time1))
+                    
+                    legendText = c(legendText, paste("RFD", percent, "%Fmax", " = ", round(RFD, digits = 1), " N/s", sep = ""))
+                    legendColor = c(legendColor, "blue")
+                    
+                } else if(RFDoptions$rfdFunction == "RAW")
+                {
+                    time1 = interpolateXAtY(dynamics$time, dynamics$f.raw, dynamics$fmax.raw * percent / 100)
+                    
+                    #Slope of the line
+                    RFD = interpolateXAtY(dynamics$rfd, dynamics$time, time1)
+                    
+                    #Y coordinate of a point of the line
+                    force1 = interpolateXAtY(dynamics$f.raw, dynamics$time, time1)
+                    
+                    legendText = c(legendText, paste("RFD", percent, "%", "Fmax", " = ", round(RFD, digits = 1), " N/s", sep = ""))
+                    legendColor = c(legendColor, "black")
+                    
+                }
+            } else if(RFDoptions$type == "RFD_MAX")
+            {
+                
+                if (RFDoptions$rfdFunction == "FITTED")
+                {
+                    #max is always in the initial point.
+                    time1 = 0
+                    
+                    #Slope of the line. Deriving the model:
+                    RFD = dynamics$fmax.fitted * dynamics$k.fitted
+                    
+                    #Y coordinate of a point of the line
+                    pointForce1 = 0
+                    
+                    force1 = 0
+                    
+                    legendText = c(legendText, paste("RFDMax", " = ", round(RFD, digits = 1), " N/s", sep = ""))
+                    legendColor = c(legendColor, "blue")
+                    
+                } else if(RFDoptions$rfdFunction == "RAW")
+                {
+                    #Calculing the sample at which the rfd is max. Using only the initial
+                    sample1 = dynamics$startSample + which.max(dynamics$rfd[dynamics$startSample:dynamics$endSample]) -1
+                    
+                    time1 = dynamics$time[sample1]
+                    
+                    #Translating RFDoptions$start to time in seconds
+                    RFDoptions$start = dynamics$time[sample1]
+                    
+                    #Slope of the line
+                    RFD = dynamics$rfd[sample1]
+                    
+                    #Y coordinate of a point of the line
+                    force1 = dynamics$f.raw[sample1]
+                    
+                    legendText = c(legendText, paste("RFDmax = ", round(RFD, digits = 1), " N/s", sep = ""))
+                    legendColor = c(legendColor, "black")
+                    
+                }
+                
+            }
+            
+            #The Y coordinate of the line when it crosses the Y axis
+            intercept = force1 - RFD * time1
+            
+            #The slope of the line seen in the screen(pixels units), NOT in the time-force units
+            windowSlope = RFD*(plotHeight/yHeight)/(plotWidth/xWidth)
+            
+            #Drawing the line
+            text(x = (yHeight - 5 - intercept)/RFD, y = yHeight - 5,
+                 label = paste(round(RFD, digits=0), "N/s"),
+                 srt=atan(windowSlope)*180/pi, pos = 2, col = color)
+            #Drawing the points where the line touch the function
+            points(x = c(time1, time2), y = c(force1, force2), col = color)
+            abline(a = intercept, b = RFD, lty = 2, col = color)
+        }
+    }
+    if(impulseLegend != ""){
+        legendText = c(legendText, impulseLegend)
+        legendColor = c(legendColor, impulseColor)
+    }
+    
+    legendText = c(legendText, paste("MeanError = ", round(dynamics$meanError, digits = 2), "%", sep =""))
+    if (dynamics$meanError >= 5){
+        legendColor = c(legendColor, "red")
+        text(x = xmax, y = dynamics$fmax.fitted*0.01, labels = "The mean error is larger than 5%. Possible bad execution", col = "red", pos = 2)
+    } else {
+        legendColor = c(legendColor, "grey40")
+    }
+    
+    legend(x = xmax, y = dynamics$fmax.fitted/2, legend = legendText, xjust = 1, yjust = 0.1, text.col = legendColor)
 }
 
 getDynamicsFromLoadCellFolder <- function(folderName, resultFileName, export2Pdf)
 {
-        originalFiles = list.files(path=folderName, pattern="*")
-        nFiles = length(originalFiles)
-        results = matrix(rep(NA, 16*nFiles), ncol = 16)
-        colnames(results)=c("fileName", "fmax.fitted", "k.fitted", "fmax.raw", "startTime", "initf", "fmax.smoothed",
-                            "rfd0.fitted", "rfd100.raw", "rfd0_100.raw", "rfd0_100.fitted",
-                            "rfd200.raw", "rfd0_200.raw", "rfd0_200.fitted",
-                            "rfd50pfmax.raw", "rfd50pfmax.fitted")
+    originalFiles = list.files(path=folderName, pattern="*")
+    nFiles = length(originalFiles)
+    results = matrix(rep(NA, 16*nFiles), ncol = 16)
+    colnames(results)=c("fileName", "fmax.fitted", "k.fitted", "fmax.raw", "startTime", "previousForce", "fmax.smoothed",
+                        "rfd0.fitted", "rfd100.raw", "rfd0_100.raw", "rfd0_100.fitted",
+                        "rfd200.raw", "rfd0_200.raw", "rfd0_200.fitted",
+                        "rfd50pfmax.raw", "rfd50pfmax.fitted")
+    
+    results[,"fileName"] = originalFiles
+    
+    for(i in 1:nFiles)
+    {
+        dynamics = getDynamicsFromLoadCellFile(op$captureOptions, paste(folderName,originalFiles[i], sep = ""))
         
-        results[,"fileName"] = originalFiles
-        
-        for(i in 1:nFiles)
-        {
-                dynamics = getDynamicsFromLoadCellFile(op$captureOptions, paste(folderName,originalFiles[i], sep = ""))
-                
-                results[i, "fileName"] = dynamics$nameOfFile
-                results[i, "fmax.fitted"] = dynamics$fmax.fitted
-                results[i, "k.fitted"] = dynamics$k.fitted
-                results[i, "fmax.raw"] = dynamics$fmax.raw
-                results[i, "startTime"] = dynamics$startTime
-                results[i, "initf"] = dynamics$initf
-                results[i, "fmax.smoothed"] = dynamics$fmax.smoothed
-                results[i, "rfd0.fitted"] = dynamics$rfd0.fitted
-                results[i, "rfd100.raw"] = dynamics$rfd100.raw
-                results[i, "rfd0_100.raw"] = dynamics$rfd0_100.raw
-                results[i, "rfd0_100.fitted"] = dynamics$rfd0_100.fitted
-                results[i, "rfd200.raw"] = dynamics$rfd200.raw
-                results[i, "rfd0_200.raw"] = dynamics$rfd0_200.raw
-                results[i, "rfd0_200.fitted"] = dynamics$rfd0_200.fitted
-                results[i, "rfd50pfmax.raw"] = dynamics$rfd50pfmax.rawfilter(test$force, rep(1/19, 19), sides = 2)
-                results[i, "rfd50pfmax.fitted"] = dynamics$rfd50pfmax.fitted
-        }
-        write.table(results, file = resultFileName, sep = ";", dec = ",", col.names = NA)
-        return(results)
-        
+        results[i, "fileName"] = dynamics$nameOfFile
+        results[i, "fmax.fitted"] = dynamics$fmax.fitted
+        results[i, "k.fitted"] = dynamics$k.fitted
+        results[i, "fmax.raw"] = dynamics$fmax.raw
+        results[i, "startTime"] = dynamics$startTime
+        results[i, "previousForce"] = dynamics$previousForce
+        results[i, "fmax.smoothed"] = dynamics$fmax.smoothed
+        results[i, "rfd0.fitted"] = dynamics$rfd0.fitted
+        results[i, "rfd100.raw"] = dynamics$rfd100.raw
+        results[i, "rfd0_100.raw"] = dynamics$rfd0_100.raw
+        results[i, "rfd0_100.fitted"] = dynamics$rfd0_100.fitted
+        results[i, "rfd200.raw"] = dynamics$rfd200.raw
+        results[i, "rfd0_200.raw"] = dynamics$rfd0_200.raw
+        results[i, "rfd0_200.fitted"] = dynamics$rfd0_200.fitted
+        results[i, "rfd50pfmax.raw"] = dynamics$rfd50pfmax.rawfilter(test$force, rep(1/19, 19), sides = 2)
+        results[i, "rfd50pfmax.fitted"] = dynamics$rfd50pfmax.fitted
+    }
+    write.table(results, file = resultFileName, sep = ";", dec = ",", col.names = NA)
+    return(results)
+    
 }
 
 #Finds the sample in which the force start incresing with two optional methods
@@ -756,130 +777,281 @@ getDynamicsFromLoadCellFolder <- function(folderName, resultFileName, export2Pdf
 #The maximum force is calculed from the moving average of averageLength seconds
 getAnalysisRange <- function(test, rfd, movingAverageForce, averageLength = 0.1, percentChange = 5, testLength = -1, startDetectingMethod = "SD")
 {
-        print("Entering getAnalysisRange")
-        print("test:")
-        print(test)
-        movingAverageForce = getMovingAverageForce(test, averageLength = 0.1)
-        maxRFD = max(rfd[2:(length(rfd) - 1)])
-        maxRFDSample = which.max(rfd[2:(length(rfd) - 1)])
-        print(maxRFDSample)
+    print("Entering getAnalysisRange")
+    print("test:")
+    print(test)
+    movingAverageForce = getMovingAverageForce(test, averageLength = 0.1)
+    maxRFD = max(rfd[2:(length(rfd) - 1)])
+    maxRFDSample = which.max(rfd[2:(length(rfd) - 1)])
+    print(maxRFDSample)
+    
+    #Detecting when the force is greater than (mean of 20 samples) + 3*SD
+    #If in various sample the force are greater, the last one before the maxRFD are taken
+    #See Rate of force development: physiological and methodological considerations. Nicola A. Maffiuletti1 et al.
+    
+    startSample = NULL
+    if (startDetectingMethod == "SD"){
         
-        #Detecting when the force is greater than (mean of 20 samples) + 3*SD
-        #If in various sample the force are greater, the last one before the maxRFD are taken
-        #See Rate of force development: physiological and methodological considerations. Nicola A. Maffiuletti1 et al.
-        
-        startSample = NULL
-        if (startDetectingMethod == "SD"){
+        for(currentSample in 21:maxRFDSample)
+        {
+            print(paste(currentSample, test$time[currentSample], test$force[currentSample]))
             
-                for(currentSample in 21:maxRFDSample)
-                {
-                        print(paste(currentSample, test$time[currentSample], test$force[currentSample]))
-                        
-                        if(test$force[currentSample] < mean(test$force[currentSample:(currentSample - 20)]) + 3*sd(test$force[currentSample:(currentSample - 20)]))
-                                startSample = currentSample
-                }
-                
-                while(test$force[startSample] - test$force[startSample -1] >= 0){ #Going back to the last sample that decreased
-                        startSample = startSample - 1
-                }
+            if(test$force[currentSample] < mean(test$force[currentSample:(currentSample - 20)]) + 3*sd(test$force[currentSample:(currentSample - 20)]))
+                startSample = currentSample
+        }
+        
+        while(test$force[startSample] - test$force[startSample -1] >= 0){ #Going back to the last sample that decreased
+            startSample = startSample - 1
+        }
         #Detecting when accurs a great growth of the force (great RFD)
-        } else if (startDetectingMethod == "RFD"){
-                for(currentSample in 2:maxRFDSample)
-                {
-                        if(rfd[currentSample] <= maxRFD*0.2)
-                                startSample = currentSample
-                }
+    } else if (startDetectingMethod == "RFD"){
+        for(currentSample in 2:maxRFDSample)
+        {
+            if(rfd[currentSample] <= maxRFD*0.2)
+                startSample = currentSample
         }
-        #Using the decrease of the force to detect endingSample
-        if (testLength <= -1){
-                endSample = startSample + 1
-                maxAverageForce = movingAverageForce[endSample]
-                while(movingAverageForce[endSample] > maxAverageForce*(100 - percentChange) / 100 &
-                      endSample < length(test$time))
-                {
-                        if(movingAverageForce[endSample] > maxAverageForce)
-                        {
-                                maxAverageForce = movingAverageForce[endSample]
-                        }
-                        endSample = endSample + 1
-                }
-        } else if(testLength >= 0 && testLength < 0.1){
-                print("Test interval too short")
-                
+    }
+    #Using the decrease of the force to detect endingSample
+    if (testLength <= -1){
+        endSample = startSample + 1
+        maxMovingAverageForce = movingAverageForce[endSample]
+        while(movingAverageForce[endSample] > maxMovingAverageForce*(100 - percentChange) / 100 &
+              endSample < length(test$time))
+        {
+            if(movingAverageForce[endSample] > maxMovingAverageForce)
+            {
+                maxMovingAverageForce = movingAverageForce[endSample]
+            }
+            endSample = endSample + 1
+        }
+    } else if(testLength >= 0 && testLength < 0.1){
+        print("Test interval too short")
+        
         #Using the fixed time to detect endSample
-        } else {
-                endSample = which.min(abs(test$time[startSample] + testLength - test$time))
-        }
-        print(paste("startSample:", startSample, "endSample:", endSample))
-
-        return(list(startSample = startSample, endSample = endSample))
+    } else {
+        endSample = which.min(abs(test$time[startSample] + testLength - test$time))
+    }
+    print(paste("startSample:", startSample, "endSample:", endSample))
+    
+    return(list(startSample = startSample, endSample = endSample))
 }
 
 getRFD <- function(test)
 {
-        #Instantaneous RFD
-        rfd = rep(NA, length(test$time))
-        for (n in 2:(length(test$time) - 1))
-        {
-                rfd[n] = (test$force[n + 1] - test$force[n - 1])/(test$time[n + 1] - test$time[n - 1])
-        }
-        return(rfd)
+    #Instantaneous RFD
+    rfd = rep(NA, length(test$time))
+    for (n in 2:(length(test$time) - 1))
+    {
+        rfd[n] = (test$force[n + 1] - test$force[n - 1])/(test$time[n + 1] - test$time[n - 1])
+    }
+    return(rfd)
 }
 getMovingAverageForce <- function(test, averageLength = 0.1)
 {
-        sampleRate = (length(test$time) - 1) / (test$time[length(test$time)] - test$time[1])
-        lengthSamples = round(averageLength * sampleRate, digits = 0)
-        movingAverageForce = filter(test$force, rep(1/lengthSamples, lengthSamples), sides = 2)
-        return(movingAverageForce)
+    sampleRate = (length(test$time) - 1) / (test$time[length(test$time)] - test$time[1])
+    lengthSamples = round(averageLength * sampleRate, digits = 0)
+    movingAverageForce = filter(test$force, rep(1/lengthSamples, lengthSamples), sides = 2)
+    return(movingAverageForce)
+}
+
+#estrapolate a function to extend the line joining the two first samples until it cross the horizontal axe
+extrapolateToZero <- function(x, y)
+{
+    #t0 is the x at which an extrapolation of the two first samples would cross the horizontal axis
+    t0 = y[1] * (x[2] - x[1]) / (y[2] - y[1])
+    print(paste("t0: ", t0))
+    
+    
+    #Adding the (0,0)
+    x = c(x[1] - t0, x)
+    y = c(0, y)
+    
+    return(list(x = x, y = y))
+}
+
+getBestFit <- function(inputFile = "/home/xpadulles/.local/share/Chronojump/forceSensor/39/100_Carmelo_2019-09-26_12-49-09.csv"
+                       , averageLength = 0.1, percentChange = 5, testLength = -1)
+{
+    originalTest = read.csv2(inputFile)
+    colnames(originalTest) <- c("time", "force")
+    originalTest$time = as.numeric(originalTest$time / 1000000)  # Time is converted from microseconds to seconds
+    
+    rfd = getRFD(originalTest)
+    maxRFDSample = which.max(rfd)
+    
+    maxForce = max(originalTest$force)
+    
+    #Going back from maxRFD sample until the force increase
+    startSample = maxRFDSample -1
+    while(originalTest$force[startSample] < originalTest$force[startSample + 1])
+    {
+        startSample = startSample - 1
+    }
+    
+    startSample = startSample + 1
+    
+    #Calculing the end sample of the analysis
+    if(testLength > 0)      #The user selected the fixed length of the test
+    {
+        print("End detection by test length")
+        endSample = which.min(abs(originalTest$time - (originalTest$time[startSample] + testLenght)))
+    } else if (testLength <= -1)    #The user selected to detect a decrease in the force
+    {
+        print("End detection by decrease in the force")
+        print(paste("percentChange: ", percentChange))
+        movingAverageForce = getMovingAverageForce(originalTest, averageLength)
+        endSample = maxRFDSample
+        maxMovingAverageForce = max(movingAverageForce[startSample:endSample])
+        print(paste("MaxMovingAverageForce: ", maxMovingAverageForce, "Current Limit: ", maxMovingAverageForce*(100 - percentChange) / 100))
+        print(paste("Current movingAverageForce: ", movingAverageForce[endSample]))
+        while(movingAverageForce[endSample] >= maxMovingAverageForce*(100 - percentChange) / 100 &
+              endSample < length(originalTest$time))
+        {
+            print(paste("Current movingAverageForce: ", movingAverageForce[endSample]))
+            if(movingAverageForce[endSample] > maxMovingAverageForce)
+            {
+                print("New max")
+                maxMovingAverageForce = movingAverageForce[endSample]
+            }
+            endSample = endSample + 1
+        }
+    }
+    
+    #Moving all the sample to make the fisrt sample of the trimmed test the (t0, f0)
+    trimmedTest = originalTest[startSample:endSample,]
+    
+    #Extrapolating the test
+    trimmedTest = extrapolateToZero(trimmedTest$time, trimmedTest$force)
+    names(trimmedTest) <- c("time", "force")
+    trimmedTest$time = trimmedTest$time - trimmedTest$time[1]
+    print("trimmedTest:")
+    print(trimmedTest)
+    
+    print(paste("startTime: ", trimmedTest$time[1], "fmaxi: ", maxForce, "previousForce: ", originalTest$force[1]))
+    forceModel <- getForceModel(time = trimmedTest$time
+                                , force = trimmedTest$force
+                                , startTime = trimmedTest$time[1]
+                                , fmaxi = maxForce
+                                , previousForce = originalTest$force[1])
+    currentMeanError = mean(abs(forceModel$error[!is.nan(forceModel$error)]))
+    
+    lastMeanError = 1E6
+    
+    
+    print(paste("currentMeanError: ", currentMeanError, "lastMeanError: ", lastMeanError))
+    print(paste(startSample, ":", endSample, sep = ""))
+    print("Entering the while")
+    
+    while(currentMeanError <= lastMeanError & endSample < length(originalTest$time))
+    {
+        startSample = startSample +1
+        endSample = endSample +1
+        
+        lastMeanError = currentMeanError
+        
+        trimmedTest = originalTest[startSample:endSample,]
+        
+        #Extrapolating the test
+        trimmedTest = extrapolateToZero(trimmedTest$time, trimmedTest$force)
+        names(trimmedTest) <- c("time", "force")
+        trimmedTest$time = trimmedTest$time - trimmedTest$time[1]
+        
+        forceModel <- getForceModel(trimmedTest$time, trimmedTest$force, trimmedTest$time[1], maxForce, trimmedTest$force[1])
+        currentMeanError = mean(abs(forceModel$error[!is.nan(forceModel$error)]))
+        print("----------")
+        print(paste("currentMeanError: ", currentMeanError, "lastMeanError: ", lastMeanError))
+        print(paste(startSample, ":", endSample, sep = ""))
+    }
+    
+    print("--------------")
+    print("|while exited|")
+    print("--------------")
+    
+    startSample = startSample -1
+    endSample = endSample -1
+    
+    lastMeanError = currentMeanError
+    
+    trimmedTest = originalTest[startSample:endSample,]
+    
+    #Extrapolating the test
+    trimmedTest = extrapolateToZero(trimmedTest$time, trimmedTest$force)
+    names(trimmedTest) <- c("time", "force")
+    trimmedTest$time = trimmedTest$time - trimmedTest$time[1]
+    
+    #Saving the time of startSample and endSample before all the times are adjusted to the onset
+    startTime = originalTest$time[startSample]
+    endTime = originalTest$time[endSample]
+    #Moving the original test to match the times in trimmedTest
+    originalTest$time = originalTest$time - originalTest$time[startSample] + trimmedTest$time[2]
+    
+    forceModel <- getForceModel(trimmedTest$time, trimmedTest$force, trimmedTest$time[1], maxMovingAverageForce, trimmedTest$force[1])
+    currentMeanError = mean(abs(forceModel$error[!is.nan(forceModel$error)]))
+    
+    print(paste("currentMeanError: ", currentMeanError, "lastMeanError: ", lastMeanError))
+    print(paste("samples: ", startSample, ":", endSample, sep = ""))
+    print(paste("time: ", startTime, ":", endTime))
+    
+    # plot(originalTest$time[(startSample - 10):(endSample +10)], originalTest$force[(startSample - 10):(endSample +10)], type = "l", col = "grey")
+    # lines(trimmedTest$time, trimmedTest$force)
+    # print(paste("forceModel$K: ", forceModel$K))
+    # 
+    # fittedTime = seq(0, 10, by = 0.01)
+    # fittedForce = forceModel$fmax*(1-exp(-forceModel$K*fittedTime))
+    # lines(fittedTime, fittedForce, lty = 2)
+    return(list(model = forceModel
+                , startSample = startSample, startTime = startTime - trimmedTest$time[2]
+                , endSample = endSample, endTime = endTime
+    ))
 }
 
 #Converts the drawRfdOptions string to a list of parameters
 readRFDOptions <- function(optionsStr)
 {
-        if(optionsStr == "-1")          #Not drawing
-        {
-                return(list(
-                        rfdFunction     = "-1",
-                        type            = "-1",
-                        start           = -1,
-                        end             = -1
-                ))
-        } else
-        {
-                options = unlist(strsplit(optionsStr, "\\;"))
-                
-                return(list(
-                        rfdFunction     = options[1],            # raw or fitted
-                        type            = options[2],            # instantaeous, average, %fmax, rfdmax
-                        #start and end can be in milliseconds (instant and average RFD), percentage (%fmax) or -1 if not needed
-                        start           = as.numeric(options[3]),            # instant at which the analysis starts
-                        end             = as.numeric(options[4])             # instant at which the analysis ends
-                ))
-        } 
+    if(optionsStr == "-1")          #Not drawing
+    {
+        return(list(
+            rfdFunction     = "-1",
+            type            = "-1",
+            start           = -1,
+            end             = -1
+        ))
+    } else
+    {
+        options = unlist(strsplit(optionsStr, "\\;"))
+        
+        return(list(
+            rfdFunction     = options[1],            # raw or fitted
+            type            = options[2],            # instantaeous, average, %fmax, rfdmax
+            #start and end can be in milliseconds (instant and average RFD), percentage (%fmax) or -1 if not needed
+            start           = as.numeric(options[3]),            # instant at which the analysis starts
+            end             = as.numeric(options[4])             # instant at which the analysis ends
+        ))
+    } 
 }
 
 #Converts the line string of Roptions to a list of parameters
 readImpulseOptions <- function(optionsStr)
 {
-        if(optionsStr == "-1")          #Not drawing
-        {
-                return(list(
-                        impulseFunction     = "-1",
-                        type            = "-1",
-                        start           = -1,
-                        end             = -1
-                ))
-        } else
-        {
-                options = unlist(strsplit(optionsStr, "\\;"))
-                
-                return(list(
-                        impulseFunction     = options[1],                    # RAW or FITTED
-                        type            = options[2],                        # IMP_RANGE or IMP_UNTIL_PERCENT_F_MAX
-                        start           = as.numeric(options[3]),            # instant at which the analysis starts in ms
-                        end             = as.numeric(options[4])             # instant at which the analysis ends in ms
-                ))
-        } 
+    if(optionsStr == "-1")          #Not drawing
+    {
+        return(list(
+            impulseFunction     = "-1",
+            type            = "-1",
+            start           = -1,
+            end             = -1
+        ))
+    } else
+    {
+        options = unlist(strsplit(optionsStr, "\\;"))
+        
+        return(list(
+            impulseFunction     = options[1],                    # RAW or FITTED
+            type            = options[2],                        # IMP_RANGE or IMP_UNTIL_PERCENT_F_MAX
+            start           = as.numeric(options[3]),            # instant at which the analysis starts in ms
+            end             = as.numeric(options[4])             # instant at which the analysis ends in ms
+        ))
+    } 
 }
 
 prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)

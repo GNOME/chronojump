@@ -23,7 +23,6 @@
 #Rscript path_to/maximumIsometricForce.R path_tmp
 
 #Read each non commented line of the Roptions file
-
 assignOptions <- function(options)
 {
     drawRfdOptions = rep(NA, 4)
@@ -78,6 +77,7 @@ print(op)
 
 source(paste(op$scriptsPath, "/scripts-util.R", sep=""))
 
+
 op$title = fixTitleAndOtherStrings(op$title)
 op$exercise = fixTitleAndOtherStrings(op$exercise)
 titleFull = paste(op$title, op$exercise, sep=" - ")
@@ -108,6 +108,7 @@ getForceModel <- function(time, force, startTime, # startTime is the instant whe
 
 getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength = 0.1, percentChange = 5, bestFit = TRUE, testLength = -1)
 {
+    print("Entered getDynamicsFromLoadCellFile")
     # op$startSample = 529
     # op$endSample = 1145
     print(paste("bestFit =", bestFit))
@@ -120,20 +121,24 @@ getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength
     else if(captureOptions == "INVERTED")
         originalTest$force = -1 * originalTest$force
     
-    #The start and end samples are manualy selected
     print(paste("op$startSample: ", op$startSample))
     print(paste("op$endtSample: ", op$endSample))
     
-    #Just in case the Roptions.txt don't have the parameters
-    if(is.na(op$startSample) || is.na(op$endSample))
-    {
-        op$startSample = 0
-        op$endSample = 0
-    }
+    # #Just in case the Roptions.txt don't have the parameters
+    # if(is.na(op$startSample) || is.na(op$endSample))
+    # {
+    #     op$startSample = 0
+    #     op$endSample = 0
+    # }
     
     #If Roptions.txt does have startSample and endSample values greater than 0
-    if( op$startSample != op$endSample && (op$startSample > 0 && op$endSample > 0) && op$startSample <= length(originalTest$time) )
+    if( op$startSample != op$endSample
+        & (op$startSample > 0 && op$endSample > 0)
+        & op$startSample <= length(originalTest$time)
+        & op$endSample <= length(originalTest$time))
     {
+        print("Range selected by user. Analyzed the specified range")
+        
         # print("Type of startEndOptimized")
         # print(typeof(op$startEndOptimized))
         # print(op$startEndOptimized)
@@ -142,9 +147,10 @@ getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength
         
         # print(paste("Samples: ", op$startSample,":", op$endSample))
         # print(originalTest[op$startSample:op$endSample,])
+        
         originalTest = originalTest[(op$startSample:op$endSample),]
-        # print("originalTest trimmed")
-        # print(originalTest)
+        print("originalTest trimmed")
+        print(originalTest)
         originalTest$time = originalTest$time - originalTest$time[1]
         # print("originalTest$time:")
         # print(originalTest$time)
@@ -155,77 +161,88 @@ getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength
         # print("originalTest renumbered")
         # print(originalTest)
         
-        if( op$startEndOptimized == "FALSE")
-        {
-            print("A")
-            startSample = op$startSample
-            endSample = op$endSample
-            print("B")
-        } else if( op$startEndOptimized == "TRUE")
-        {
-            print("Entering in startEndOptimized mode")
-            #Finding the increase and decrease of the force to detect the start and end of the maximum voluntary force test
-            
-            #Instantaneous RFD
-            rfd = getRFD(originalTest)
-            analysisRange = getAnalysisRange(originalTest, rfd, averageLength = averageLength, percentChange = percentChange,
-                                             testLength = op$testLength, startDetectingMethod = "RFD")
-            
-            startSample = analysisRange$startSample
-            endSample = analysisRange$endSample
-            
-            trimmedTest = originalTest[startSample:endSample,]
-        }
+        ################
+        # if( op$startEndOptimized == "FALSE")
+        # {
+        #     print("A")
+        #     startSample = op$startSample
+        #     endSample = op$endSample
+        #     print("B")
+        # } else if( op$startEndOptimized == "TRUE")
         
-        print("start and end sample:")
-        print(startSample)
-        print(endSample)
-    } else
-        #The start and end samples are automatically selected
-    {
-        
-        #Finding the increase and decrease of the force to detect the start and end of the maximum voluntary force test
-        
-        #Instantaneous RFD
-        rfd = getRFD(originalTest)
-        analysisRange = getAnalysisRange(originalTest, rfd, averageLength = averageLength, percentChange = percentChange,
-                                         testLength = op$testLength, startDetectingMethod = "SD")
-        
-        startSample = analysisRange$startSample
-        endSample = analysisRange$endSample
-        
-        #Trimming the data before and after contraction
-        #TODO: Check the row.names
-        trimmedTest = originalTest[startSample:endSample,]
+        # ##############
+        # if( op$startEndOptimized == "TRUE")
+        # {
+        #     print("Entering in startEndOptimized mode")
+        #     #Finding the increase and decrease of the force to detect the start and end of the maximum voluntary force test
+        #     
+        #     #Instantaneous RFD
+        #     rfd = getRFD(originalTest)
+        #     analysisRange = getAnalysisRange(originalTest, rfd, averageLength = averageLength, percentChange = percentChange,
+        #                                      testLength = op$testLength, startDetectingMethod = "RFD")
+        #     
+        #     startSample = analysisRange$startSample
+        #     endSample = analysisRange$endSample
+        #     
+        #     trimmedTest = originalTest[startSample:endSample,]
+        # }
+        # 
+        # print("start and end sample:")
+        # print(startSample)
+        # print(endSample)
+    } else {
+        print("No range selected by user. Analysing the whole signal")
     }
+    # } else
+    #     #The start and end samples are automatically selected
+    # {
+    #     
+    #     #Finding the increase and decrease of the force to detect the start and end of the maximum voluntary force test
+    #
+    #     analysisRange = getAnalysisRange(originalTest, rfd, averageLength = averageLength, percentChange = percentChange,
+    #                                      testLength = op$testLength, startDetectingMethod = "SD")
+    #     
+    #     startSample = analysisRange$startSample
+    #     endSample = analysisRange$endSample
+    #     
+    #     #Trimming the data before and after contraction
+    #     #TODO: Check the row.names
+    #     trimmedTest = originalTest[startSample:endSample,]
+    # }
     #print(paste("startSample: ", startSample))
     #print(paste("endtSample: ", endSample))
+    startSample = 1
+    endSample = length(originalTest$time)
+    #Instantaneous RFD
+    rfd = getRFD(originalTest)
     startTime = originalTest$time[startSample]
     
     endTime = originalTest$time[endSample]
     
     # Initial force. It is needed to perform an initial steady force to avoid jerks and great peaks in the force
-    if(!bestFit)
-    {
-            if(startSample <= 20)
-            {
-                    #TODO. Manage the situation where the signal starts once the force has begun to increase
-                    print("Not previos steady tension applied before performing the test")
-                    return(NA)
-            }
-            
-            
-            previousForce = mean(originalTest$force[(startSample - 20):(startSample - 10)]) #ATENTION. This value is different from f0.raw
-    }
+    
+    ###############
+    # if(!bestFit)
+    # {
+    #         if(startSample <= 20)
+    #         {
+    #                 #TODO. Manage the situation where the signal starts once the force has begun to increase
+    #                 print("Not previos steady tension applied before performing the test")
+    #                 return(NA)
+    #         }
+    #         
+    #         
+    #         previousForce = mean(originalTest$force[(startSample - 20):(startSample - 10)]) #ATENTION. This value is different from f0.raw
+    # }
     
     fmax.raw = max(originalTest$force[startSample:endSample])
     
     f.smoothed = getMovingAverageForce(originalTest, averageLength = averageLength) #Running average with equal weight averageLength seconds
     fmax.smoothed = max(f.smoothed, na.rm = TRUE)
-    lastmeanError = 1E16
-    
-    model = getForceModel(trimmedTest$time, trimmedTest$force, startTime, fmax.smoothed, previousForce)
-    meanError = mean(abs(model$error))
+    # lastmeanError = 1E16
+    # 
+    # model = getForceModel(trimmedTest$time, trimmedTest$force, startTime, fmax.smoothed, previousForce)
+    # meanError = mean(abs(model$error))
     
     # print(paste("Error:", model$error))
     # print(paste("length:", length(trimmedTest$force)))
@@ -309,7 +326,8 @@ getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength
                 rfd = rfd,
                 f.raw = originalTest$force, f.smoothed = f.smoothed, f.fitted = f.fitted,
                 endTime = endTime,
-                meanError = meanError))
+                meanError = mean(abs(model$error[!is.nan(model$error)]))
+    ))
 }
 
 drawDynamicsFromLoadCell <- function(
@@ -336,6 +354,7 @@ drawDynamicsFromLoadCell <- function(
     print(paste("samples:", dynamics$startSample, dynamics$endSample))
     meanForce = mean(dynamics$f.raw[dynamics$startSample:dynamics$endSample])
     print(paste("meanForce: ", meanForce, "fmax.raw: ", dynamics$fmax.raw))
+    #TODO: Is this necessary?. Is this value acceptable?
     if( meanForce < dynamics$fmax.raw*0.75 ){
         sustainedForce = F
         yHeight = dynamics$fmax.raw
@@ -829,14 +848,17 @@ getAnalysisRange <- function(test, rfd, movingAverageForce, averageLength = 0.1,
     if (testLength <= -1){
         endSample = startSample + 1
         maxMovingAverageForce = movingAverageForce[endSample]
-        while(movingAverageForce[endSample] > maxMovingAverageForce*(100 - percentChange) / 100 &
+        while(movingAverageForce[endSample] >= maxMovingAverageForce*(100 - percentChange) / 100 &
               endSample < length(test$time))
         {
             if(movingAverageForce[endSample] > maxMovingAverageForce)
             {
+                print("New max")
                 maxMovingAverageForce = movingAverageForce[endSample]
             }
             endSample = endSample + 1
+            print(paste("Current endSample: ", endSample))
+            print(paste("Current movingAverageForce: ", movingAverageForce[endSample]))
         }
     } else if(testLength >= 0 && testLength < 0.1){
         print("Test interval too short")
@@ -862,11 +884,23 @@ getRFD <- function(test)
 }
 getMovingAverageForce <- function(test, averageLength = 0.1)
 {
+    print("Entered getMovingAverageForce()")
     sampleRate = (length(test$time) - 1) / (test$time[length(test$time)] - test$time[1])
     lengthSamples = round(averageLength * sampleRate, digits = 0)
+    print(paste("lengthSamples: ", lengthSamples))
     movingAverageForce = filter(test$force, rep(1/lengthSamples, lengthSamples), sides = 2)
-    return(movingAverageForce)
-}
+    
+    print("movingAverageForce:")
+    print(movingAverageForce)
+    
+    #filling the NAs with the closest value
+    movingAverageForce[1:(lengthSamples %/% 2)] = movingAverageForce[(lengthSamples %/% 2) +1]
+    movingAverageForce[(length(movingAverageForce) - ceiling(lengthSamples / 2)): length(movingAverageForce)] = movingAverageForce[(length(movingAverageForce) - ceiling(lengthSamples / 2) +1)]
+    
+    print("reconstructed force:")
+    print(movingAverageForce)
+
+    }
 
 #estrapolate a function to extend the line joining the two first samples until it cross the horizontal axe
 extrapolateToZero <- function(x, y)
@@ -914,30 +948,51 @@ getBestFit <- function(originalTest
     #Calculing the end sample of the analysis
     if(testLength > 0)      #The user selected the fixed length of the test
     {
-        print("End detection by test length")
+        print("Detection of endSample by test length")
         endSample = which.min(abs(originalTest$time - (originalTest$time[startSample] + testLenght)))
     } else if (testLength <= -1)    #The user selected to detect a decrease in the force
     {
-        print("End detection by decrease in the force")
+        print("Detection of endSample by decrease in the force")
         print(paste("percentChange: ", percentChange))
+        
+        print(originalTest)
+        
         movingAverageForce = getMovingAverageForce(originalTest, averageLength)
+        
         print("movingAverageForce:")
         print(movingAverageForce)
+        
         endSample = maxRFDSample
-        print(!is.na(movingAverageForce[startSample:endSample]))
-        maxMovingAverageForce = max(movingAverageForce[ !is.na(movingAverageForce[startSample:endSample])])
+        print(paste("startSample: ", startSample))
+        print(paste("initial endSample: ", endSample))
+        
+        print("movingAverageForce[startSample:endSample]: ")
+        print(movingAverageForce[startSample:endSample])
+        
+        # print("What are NOT NA:")
+        # print(!is.na(movingAverageForce[startSample:endSample]))
+        # print("!is.na(movingAverageForce)[startSample:endSample]")
+        # print(!is.na(movingAverageForce)[startSample:endSample])
+        
+        # print("printing only the values that ar not NA")
+        # print(length(!is.na(movingAverageForce)))
+        # print(movingAverageForce[!is.na(movingAverageForce)])
+        # print(movingAverageForce[!is.na(movingAverageForce)[startSample:endSample]])
+        
+        maxMovingAverageForce = max(movingAverageForce[startSample:endSample])
         print(paste("MaxMovingAverageForce: ", maxMovingAverageForce, "Current Limit: ", maxMovingAverageForce*(100 - percentChange) / 100))
         print(paste("Current movingAverageForce: ", movingAverageForce[endSample]))
         while(movingAverageForce[endSample] >= maxMovingAverageForce*(100 - percentChange) / 100 &
               endSample < length(originalTest$time))
         {
-            print(paste("Current movingAverageForce: ", movingAverageForce[endSample]))
             if(movingAverageForce[endSample] > maxMovingAverageForce)
             {
                 print("New max")
                 maxMovingAverageForce = movingAverageForce[endSample]
             }
             endSample = endSample + 1
+            print(paste("Current endSample: ", endSample))
+            print(paste("Current movingAverageForce: ", movingAverageForce[endSample]))
         }
     }
     
@@ -948,8 +1003,8 @@ getBestFit <- function(originalTest
     trimmedTest = extrapolateToZero(trimmedTest$time, trimmedTest$force)
     names(trimmedTest) <- c("time", "force")
     trimmedTest$time = trimmedTest$time - trimmedTest$time[1]
-    print("trimmedTest:")
-    print(trimmedTest)
+    # print("trimmedTest:")
+    # print(trimmedTest)
     
     print(paste("startTime: ", trimmedTest$time[1], "fmaxi: ", maxForce, "previousForce: ", originalTest$force[1]))
     forceModel <- getForceModel(time = trimmedTest$time
@@ -1010,6 +1065,7 @@ getBestFit <- function(originalTest
     originalTest$time = originalTest$time - originalTest$time[startSample] + trimmedTest$time[2]
     
     forceModel <- getForceModel(trimmedTest$time, trimmedTest$force, trimmedTest$time[1], maxMovingAverageForce, trimmedTest$force[1])
+    
     currentMeanError = mean(abs(forceModel$error[!is.nan(forceModel$error)]))
     
     print(paste("currentMeanError: ", currentMeanError, "lastMeanError: ", lastMeanError))
@@ -1078,8 +1134,9 @@ readImpulseOptions <- function(optionsStr)
     } 
 }
 
+print("Going to enter prepareGraph")
 prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
-
+print("Going to enter getDynamicsFromLoadCellFille")
 dynamics = getDynamicsFromLoadCellFile(op$captureOptions, dataFile, op$averageLength, op$percentChange, bestFit = TRUE, testLength = -1)
 drawDynamicsFromLoadCell(dynamics, op$captureOptions, op$vlineT0, op$vline50fmax.raw, op$vline50fmax.fitted, op$hline50fmax.raw, op$hline50fmax.fitted,
                          op$drawRfdOptions, triggersOn = op$triggersOnList, triggersOff = op$triggersOffList)

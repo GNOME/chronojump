@@ -97,7 +97,7 @@ getForceModel <- function(time, force, startTime, # startTime is the instant whe
     time = time - startTime
     
     data = data.frame(time = time, force = force)
-    # print(data)
+    print(data)
     model = nls( force ~ fmax*(1-exp(-K*time)), data, start=list(fmax=fmaxi, K=1), control=nls.control(warnOnly=TRUE))
     # print(model)
     fmax = summary(model)$coeff[1,1]
@@ -134,6 +134,7 @@ getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength
         
         #Atention! The row names of the list are not automaticaly renumbered but the rownames of the objects of the list are changed
         row.names(originalTest) <- 1:nrow(originalTest)
+        print("AAAAA")
     }
     
     if(op$startEndOptimized == "TRUE")
@@ -156,16 +157,18 @@ getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength
   
     } else if(op$startEndOptimized == "FALSE")
     {
-        #Extrapolating the test to cross the horizontal axe.
-        originalTest = extrapolateToZero(originalTest$time, originalTest$force)
-        names(originalTest) <- c("time", "force")
+        print("startEndOptimized == FALSE")
+        # #Extrapolating the test to cross the horizontal axe.
+        # originalTest = extrapolateToZero(originalTest$time, originalTest$force)
+        # names(originalTest) <- c("time", "force")
         originalTest$time = originalTest$time - originalTest$time[1]
+        print(originalTest)
         
-        startSample = op$startSample
-        startTime = 0
-        endSample = op$endSample
+        startSample = 1
+        startTime = originalTest$time[2]
+        endSample = length(originalTest$time)
         endTime = originalTest$time[length(originalTest$time)]
-        model = getForceModel(originalTest$time, originalTest$force, max(originalTest$force), originalTest[2])
+        model = getForceModel(originalTest$time, originalTest$force, 0, max(originalTest$force), originalTest$force[2])
         previousForce = originalTest$force[2]
     }
     
@@ -187,7 +190,7 @@ getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength
     rfd0.fitted = model$fmax * model$K                                  # RFD at t=0ms using the exponential model
     tfmax.raw = originalTest$time[which.min(abs(originalTest$force - fmax.raw))] - startTime            # Time needed to reach the Fmax
     
-    return(list(nameOfFile = inputFile, time = originalTest[, "time"],
+    return(list(nameOfFile = inputFile, time = originalTest$time,
                 fmax.fitted = model$fmax, k.fitted = model$K, tau.fitted = 1/model$K,
                 startTime = startTime, endTime = endTime,
                 startSample = startSample, endSample = endSample,
@@ -676,7 +679,7 @@ getDynamicsFromLoadCellFolder <- function(folderName, resultFileName, export2Pdf
 # - RFD method: When the RFD is at least 20% of the maximum RFD
 #
 
-#
+#### DEPRECATED ########
 #This function also finds the sample at which there is a decrease of a given percentage of the maximum force.
 #The maximum force is calculed from the moving average of averageLength seconds
 getAnalysisRange <- function(test, rfd, movingAverageForce, averageLength = 0.1, percentChange = 5, testLength = -1, startDetectingMethod = "SD")

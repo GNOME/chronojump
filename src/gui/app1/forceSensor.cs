@@ -2105,6 +2105,9 @@ LogB.Information(" fs R ");
 				Catalog.GetString("Probably not sustained force.");
 			label_force_sensor_analyze.Visible = true;
 
+			image_force_sensor_graph.Visible = false;
+			button_force_sensor_image_save_rfd_auto.Sensitive = false;
+
 			return;
 		}
 		label_force_sensor_analyze.Visible = false;
@@ -2116,6 +2119,7 @@ LogB.Information(" fs R ");
 				imagePath,
 				image_force_sensor_graph);
 		image_force_sensor_graph.Sensitive = true;
+		image_force_sensor_graph.Visible = true;
 		button_force_sensor_image_save_rfd_auto.Sensitive = true;
 	}
 

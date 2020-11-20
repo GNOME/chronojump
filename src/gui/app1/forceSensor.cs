@@ -1349,6 +1349,11 @@ LogB.Information(" fs C ");
 						forceSensorZoomDefaultValues();
 						forceSensorDoGraphAI(false);
 					}
+
+					hbox_force_sensor_ai_a.Sensitive = true;
+					hbox_force_sensor_ai_b.Sensitive = true;
+					hbox_force_sensor_ai_ab.Sensitive = true;
+
 					button_contacts_exercise_close_and_recalculate.Sensitive = true;
 					button_delete_last_test.Sensitive = true;
 					force_capture_drawingarea.Sensitive = true;
@@ -1842,6 +1847,11 @@ LogB.Information(" fs R ");
 			forceSensorDoGraphAI(false);
 		}
 		//event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(filechooser.Filename);
+
+		hbox_force_sensor_ai_a.Sensitive = true;
+		hbox_force_sensor_ai_b.Sensitive = true;
+		hbox_force_sensor_ai_ab.Sensitive = true;
+
 		button_contacts_exercise_close_and_recalculate.Sensitive = true;
 		force_capture_drawingarea.Sensitive = true;
 		notebook_force_sensor_analyze.Sensitive = true;

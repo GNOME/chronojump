@@ -240,12 +240,20 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
+		hbox_force_sensor_ai_a.Sensitive = false;
+		hbox_force_sensor_ai_b.Sensitive = false;
+		hbox_force_sensor_ai_ab.Sensitive = false;
+
 		if(lastForceSensorFullPath != null && lastForceSensorFullPath != "")
 			forceSensorCopyTempAndDoGraphs(forceSensorGraphsEnum.RFD);
 	}
 
 	private void on_button_force_sensor_analyze_back_to_signal_clicked (object o, EventArgs args)
 	{
+		hbox_force_sensor_ai_a.Sensitive = true;
+		hbox_force_sensor_ai_b.Sensitive = true;
+		hbox_force_sensor_ai_ab.Sensitive = true;
+
 		notebook_force_sensor_analyze.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_pages.MANUAL);
 		button_force_sensor_analyze_back_to_signal.Sensitive = false;
 	}
@@ -568,6 +576,9 @@ public partial class ChronoJumpWindow
 		get { return impulse;  }
 	}
 
+	[Widget] Gtk.HBox hbox_force_sensor_ai_a;
+	[Widget] Gtk.HBox hbox_force_sensor_ai_b;
+	[Widget] Gtk.HBox hbox_force_sensor_ai_ab;
 	[Widget] Gtk.DrawingArea force_sensor_ai_drawingarea;
 	[Widget] Gtk.HScale hscale_force_sensor_ai_a;
 	[Widget] Gtk.HScale hscale_force_sensor_ai_b;

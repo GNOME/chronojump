@@ -145,6 +145,8 @@ public class Constants
 	public const string PersonSessionOldWeightTable = "personSessionWeight"; //old table, used from db 0.53 to 0.76
 
 	public const string SessionTable = "session";
+	public const string TagSessionTable = "tagSession";
+	public const string SessionTagSessionTable = "sessionTagSession";
 	public const string PersonNotUploadTable = "personSessionNotUpload"; 
 	public const string SportTable = "sport";
 	public const string SpeciallityTable = "speciallity";

@@ -2076,11 +2076,18 @@ LogB.Information(" fs R ");
 		//else
 		//	title = Util.RemoveChar(title, '_');
 
+		int sampleA = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
+		int sampleB = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+		if(forceSensorZoomApplied)
+		{
+			sampleA += hscale_force_sensor_ai_a_BeforeZoom;
+			sampleB += hscale_force_sensor_ai_b_BeforeZoom;
+		}
+
 		ForceSensorGraph fsg = new ForceSensorGraph(getForceSensorCaptureOptions(), rfdList, impulse,
 				duration, Convert.ToInt32(spin_force_rfd_duration_percent.Value),
 				title, exercise, currentForceSensor.DateTimePublic, triggerListForceSensor,
-				Convert.ToInt32(hscale_force_sensor_ai_a.Value),
-				Convert.ToInt32(hscale_force_sensor_ai_b.Value)
+				sampleA, sampleB
 				);
 
 		int imageWidth = UtilGtk.WidgetWidth(viewport_force_sensor_graph);

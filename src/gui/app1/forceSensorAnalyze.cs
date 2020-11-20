@@ -158,11 +158,16 @@ public partial class ChronoJumpWindow
 	}
 
 	private int notebook_force_sensor_analyze_LastPage;
+	private bool button_force_sensor_analyze_back_to_signal_LastSensitive;
 	private void on_button_force_sensor_analyze_options_clicked (object o, EventArgs args)
 	{
 		//store the notebook to return to same place
 		notebook_force_sensor_analyze_LastPage = notebook_force_sensor_analyze.CurrentPage;
 		notebook_force_sensor_analyze.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_pages.AUTOMATICOPTIONS);
+
+		//do not allow to click Back while in options
+		button_force_sensor_analyze_back_to_signal_LastSensitive = button_force_sensor_analyze_back_to_signal.Sensitive;
+		button_force_sensor_analyze_back_to_signal.Sensitive = false;
 
 		forceSensorAnalyzeOptionsSensitivity(false);
 	}
@@ -171,6 +176,8 @@ public partial class ChronoJumpWindow
 	{
 		//we can go to manual or to automatic
 		notebook_force_sensor_analyze.CurrentPage = notebook_force_sensor_analyze_LastPage;
+
+		button_force_sensor_analyze_back_to_signal.Sensitive = button_force_sensor_analyze_back_to_signal_LastSensitive;
 
 		// 1 change stuff on Sqlite if needed
 

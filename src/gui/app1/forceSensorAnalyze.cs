@@ -45,6 +45,8 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.Button button_force_sensor_analyze_back_to_signal;
 
+	[Widget] Gtk.RadioButton radio_force_rfd_search_optimized_ab;
+	[Widget] Gtk.RadioButton radio_force_rfd_use_ab_range;
 	[Widget] Gtk.SpinButton spin_force_duration_seconds;
 	[Widget] Gtk.RadioButton radio_force_duration_seconds;
 	[Widget] Gtk.HBox hbox_force_rfd_duration_percent;
@@ -55,6 +57,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_force_sensor_analyze; //decide between automatic and manual
 //	[Widget] Gtk.HBox hbox_force_sensor_analyze_automatic_options;
 //	[Widget] Gtk.Notebook notebook_force_analyze_automatic;
+	[Widget] Gtk.VBox vbox_force_rfd_duration_end;
 	[Widget] Gtk.Button button_force_sensor_analyze_options;
 	[Widget] Gtk.HBox hbox_force_1;
 	[Widget] Gtk.HBox hbox_force_2;
@@ -201,6 +204,13 @@ public partial class ChronoJumpWindow
 			impulse = newImpulse;
 		}
 
+		if(preferences.forceSensorStartEndOptimized != radio_force_rfd_search_optimized_ab.Active)
+		{
+			preferences.forceSensorStartEndOptimized = radio_force_rfd_search_optimized_ab.Active;
+			SqlitePreferences.Update(SqlitePreferences.ForceSensorStartEndOptimized,
+					radio_force_rfd_search_optimized_ab.Active.ToString(), true);
+		}
+
 		if(preferences.forceSensorMIFDurationMode == Preferences.ForceSensorMIFDurationModes.SECONDS &&
 				radio_force_rfd_duration_percent.Active)
 		{
@@ -263,6 +273,15 @@ public partial class ChronoJumpWindow
 
 		notebook_force_sensor_analyze.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_pages.MANUAL);
 		button_force_sensor_analyze_back_to_signal.Sensitive = false;
+	}
+
+	private void on_radio_force_rfd_search_optimized_ab_toggled (object o, EventArgs args)
+	{
+		vbox_force_rfd_duration_end.Sensitive = true;
+	}
+	private void on_radio_force_rfd_use_ab_range_toggled (object o, EventArgs args)
+	{
+		vbox_force_rfd_duration_end.Sensitive = false;
 	}
 
 	private void check_force_visibilities()
@@ -376,7 +395,15 @@ public partial class ChronoJumpWindow
 
 	private void setForceDurationRadios()
 	{
-		//TODO: assignar aquí lo que hi hagi de les preferencies: del radio actiu is els dos spinbuttons
+		if(preferences.forceSensorStartEndOptimized)
+		{
+			radio_force_rfd_search_optimized_ab.Active = true;
+			vbox_force_rfd_duration_end.Sensitive = true;
+		} else {
+			radio_force_rfd_use_ab_range.Active = true;
+			vbox_force_rfd_duration_end.Sensitive = false;
+		}
+
 		if(preferences.forceSensorMIFDurationMode == Preferences.ForceSensorMIFDurationModes.SECONDS)
 			radio_force_duration_seconds.Active = true;
 		else //(preferences.forceSensorMIFDurationMode == Preferences.ForceSensorMIFDurationModes.PERCENT)

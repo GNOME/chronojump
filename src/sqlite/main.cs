@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.03";
+	static string lastChronojumpDatabaseVersion = "2.04";
 
 	public Sqlite()
 	{
@@ -2801,6 +2801,15 @@ class Sqlite
 
 				currentVersion = updateVersion("2.03");
 			}
+			if(currentVersion == "2.03")
+			{
+				LogB.SQL("Created tables: tagSession, sessionTagSession");
+
+				SqliteTagSession.createTable();
+				SqliteSessionTagSession.createTable();
+
+				currentVersion = updateVersion("2.04");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -2898,7 +2907,9 @@ class Sqlite
 			SqlitePersonSessionNotUpload.CreateTable();
 			creationRate ++;
 		}
-		
+
+		SqliteTagSession.createTable();
+		SqliteSessionTagSession.createTable();
 
 		SqlitePerson sqlitePersonObject = new SqlitePerson();
 		sqlitePersonObject.createTable(Constants.PersonTable);
@@ -3016,6 +3027,7 @@ class Sqlite
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
 
+		//2.03 - 2.04 Converted DB to 2.04 Created tables: tagSession, sessionTagSession
 		//2.02 - 2.03 Converted DB to 2.03 Inserted into preferences: encoderInertialGraphsX
 		//2.01 - 2.02 Converted DB to 2.02 Inserted into preferences: restTimeMinutes, restTimeSeconds")
 		//2.00 - 2.01 Converted DB to 2.01 RunEncoderExercise ALTER TABLE: added column segmentMeters

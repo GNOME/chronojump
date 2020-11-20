@@ -31,7 +31,6 @@ using Mono.Unix;
 public partial class ChronoJumpWindow 
 {
 	//analyze tab
-	[Widget] Gtk.HBox hbox_force_sensor_analyze_modes;
 	[Widget] Gtk.Button button_force_sensor_analyze_load;
 	[Widget] Gtk.Button button_force_sensor_analyze_analyze;
 	[Widget] Gtk.Label label_force_sensor_analyze;
@@ -54,8 +53,6 @@ public partial class ChronoJumpWindow
 
 	//analyze options
 	[Widget] Gtk.Notebook notebook_force_sensor_analyze; //decide between automatic and manual
-	[Widget] Gtk.RadioButton radiobutton_force_sensor_analyze_automatic;
-	[Widget] Gtk.RadioButton radiobutton_force_sensor_analyze_manual;
 //	[Widget] Gtk.HBox hbox_force_sensor_analyze_automatic_options;
 //	[Widget] Gtk.Notebook notebook_force_analyze_automatic;
 	[Widget] Gtk.Button button_force_sensor_analyze_options;
@@ -146,7 +143,6 @@ public partial class ChronoJumpWindow
 	{
 		button_force_sensor_analyze_options.Sensitive = s;
 		button_force_sensor_analyze_load.Sensitive = s;
-		hbox_force_sensor_analyze_modes.Sensitive = s;
 
 		if(s)
 			button_force_sensor_analyze_analyze.Sensitive = button_force_sensor_analyze_analyze_was_sensitive;
@@ -611,6 +607,7 @@ public partial class ChronoJumpWindow
 
 	ForceSensorAnalyzeInstant fsAI;
 
+	/*
 	private void on_radiobutton_force_sensor_analyze_automatic_toggled (object o, EventArgs args)
 	{
 		if(! radiobutton_force_sensor_analyze_automatic.Active)
@@ -619,17 +616,9 @@ public partial class ChronoJumpWindow
 //		hbox_force_sensor_analyze_automatic_options.Visible = true;
 		notebook_force_sensor_analyze.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_pages.AUTOMATIC);
 	}
-	bool force_sensor_ai_drawingareaShown = false;
-	private void on_radiobutton_force_sensor_analyze_manual_toggled (object o, EventArgs args)
-	{
-		if(! radiobutton_force_sensor_analyze_manual.Active)
-			return;
+	*/
 
-//		hbox_force_sensor_analyze_automatic_options.Visible = false;
-		notebook_force_sensor_analyze.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_pages.MANUAL);
-		force_sensor_ai_drawingareaShown = true;
-		forceSensorDoGraphAI(false);
-	}
+	bool force_sensor_ai_drawingareaShown = false;
 
 	private void forceSensorDoGraphAI(bool windowResizedAndZoom)
 	{
@@ -1340,7 +1329,6 @@ public partial class ChronoJumpWindow
 			if(xposRepEnd - xposRepStart > 30)
 				forceSensorWriteRepetitionCode (j, reps_l[j].TypeShort(), xposRepStart, xposRepEnd, true, false);
 		}
-
 
 		/*
 		 * 7) Invert AB if needed to paint correctly blue and red lines

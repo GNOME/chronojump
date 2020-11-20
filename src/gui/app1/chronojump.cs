@@ -2868,7 +2868,7 @@ public partial class ChronoJumpWindow
 		initialize_menu_or_menu_tiny();
 
 		// update force_capture_drawingarea
-		if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR && radiobutton_force_sensor_analyze_manual.Active)
+		if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR)// && radiobutton_force_sensor_analyze_manual.Active)
 			forceSensorDoGraphAI(false);
 	}
 

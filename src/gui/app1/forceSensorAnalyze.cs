@@ -1637,6 +1637,39 @@ public partial class ChronoJumpWindow
 		hscale_force_sensor_ai_b.Value = fsAI.GetLength() -2;
 	}
 
+	private void on_button_hscale_force_sensor_ai_a_pre_1s_clicked (object o, EventArgs args)
+	{
+		if(fsAI == null || fsAI.GetLength() == 0)
+			return;
+
+		int startA = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
+		double startAMs = fsAI.GetTimeMS(startA);
+		for(int i = startA; i > 0; i --)
+		{
+			if(startAMs - fsAI.GetTimeMS(i) >= 1000)
+			{
+				hscale_force_sensor_ai_a.Value += i - startA;
+				return;
+			}
+		}
+	}
+	private void on_button_hscale_force_sensor_ai_a_post_1s_clicked (object o, EventArgs args)
+	{
+		if(fsAI == null || fsAI.GetLength() == 0)
+			return;
+
+		int startA = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
+		double startAMs = fsAI.GetTimeMS(startA);
+		for(int i = startA; i < fsAI.GetLength() -1; i ++)
+		{
+			if(fsAI.GetTimeMS(i) - startAMs >= 1000)
+			{
+				hscale_force_sensor_ai_a.Value += i - startA;
+				return;
+			}
+		}
+	}
+
 	private void on_button_hscale_force_sensor_ai_b_pre_1s_clicked (object o, EventArgs args)
 	{
 		if(fsAI == null || fsAI.GetLength() == 0)
@@ -1653,7 +1686,6 @@ public partial class ChronoJumpWindow
 			}
 		}
 	}
-
 	private void on_button_hscale_force_sensor_ai_b_post_1s_clicked (object o, EventArgs args)
 	{
 		if(fsAI == null || fsAI.GetLength() == 0)

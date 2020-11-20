@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.04";
+	static string lastChronojumpDatabaseVersion = "2.05";
 
 	public Sqlite()
 	{
@@ -2810,6 +2810,14 @@ class Sqlite
 
 				currentVersion = updateVersion("2.04");
 			}
+			if(currentVersion == "2.04")
+			{
+				LogB.SQL("Inserted into preferences: forceSensorStartEndOptimized");
+				SqlitePreferences.Insert (SqlitePreferences.ForceSensorStartEndOptimized,
+						"True");
+
+				currentVersion = updateVersion("2.05");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -3027,6 +3035,7 @@ class Sqlite
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
 
+		//2.04 - 2.05 Converted DB to 2.05 Inserted into preferences: forceSensorStartEndOptimized
 		//2.03 - 2.04 Converted DB to 2.04 Created tables: tagSession, sessionTagSession
 		//2.02 - 2.03 Converted DB to 2.03 Inserted into preferences: encoderInertialGraphsX
 		//2.01 - 2.02 Converted DB to 2.02 Inserted into preferences: restTimeMinutes, restTimeSeconds")

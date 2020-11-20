@@ -20780,7 +20780,7 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox339">
+                                                            <widget class="GtkHBox" id="hbox_force_sensor_ai_a">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
@@ -20977,7 +20977,7 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox340">
+                                                            <widget class="GtkHBox" id="hbox_force_sensor_ai_b">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
@@ -21176,7 +21176,7 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox342">
+                                                            <widget class="GtkHBox" id="hbox_force_sensor_ai_ab">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>

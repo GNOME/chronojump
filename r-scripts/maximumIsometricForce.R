@@ -270,13 +270,13 @@ drawDynamicsFromLoadCell <- function(
     }
     
     
-    if(!sustainedForce){
-        text(x = (xmax + xmin)/2, y = yHeight/2, labels = "Bad execution. Probably not sustained force", adj = c(0.5, 0.5), cex = 2, col = "red")
-        #Plotting not analysed data
-        lines(dynamics$time[1:dynamics$startSample] , dynamics$f.raw[1:dynamics$startSample], col = "grey") #Pre-analysis
-        lines(dynamics$time[dynamics$endSample: dynamics$totalSample] , dynamics$f.raw[dynamics$endSample: dynamics$totalSample], col = "grey") #Post-analysis
-        return()
-    }
+    # if(!sustainedForce){
+    #     text(x = (xmax + xmin)/2, y = yHeight/2, labels = "Bad execution. Probably not sustained force", adj = c(0.5, 0.5), cex = 2, col = "red")
+    #     #Plotting not analysed data
+    #     lines(dynamics$time[1:dynamics$startSample] , dynamics$f.raw[1:dynamics$startSample], col = "grey") #Pre-analysis
+    #     lines(dynamics$time[dynamics$endSample: dynamics$totalSample] , dynamics$f.raw[dynamics$endSample: dynamics$totalSample], col = "grey") #Post-analysis
+    #     return()
+    # }
     
     #Plotting Impulse
     

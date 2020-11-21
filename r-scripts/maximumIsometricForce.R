@@ -97,12 +97,14 @@ getForceModel <- function(time, force, startTime, # startTime is the instant whe
     time = time - startTime
     
     data = data.frame(time = time, force = force)
-    print(data)
+    # print(data)
+    print(paste("startTime:", startTime, "fmaxi: ", fmaxi, "previousForce:", previousForce))
     model = nls( force ~ fmax*(1-exp(-K*time)), data, start=list(fmax=fmaxi, K=1), control=nls.control(warnOnly=TRUE))
     # print(model)
     fmax = summary(model)$coeff[1,1]
     K = summary(model)$coeff[2,1]
     # print(summary(model))
+    print("leaving getForceModel()")
     return(list(fmax = fmax, K = K, error = 100*residuals(model)/data$force))
 }
 
@@ -764,15 +766,15 @@ getMovingAverageForce <- function(test, averageLength = 0.1)
     print(paste("lengthSamples: ", lengthSamples))
     movingAverageForce = filter(test$force, rep(1/lengthSamples, lengthSamples), sides = 2)
     
-    print("movingAverageForce:")
-    print(movingAverageForce)
+    # print("movingAverageForce:")
+    # print(movingAverageForce)
     
     #filling the NAs with the closest value
     movingAverageForce[1:(lengthSamples %/% 2)] = movingAverageForce[(lengthSamples %/% 2) +1]
     movingAverageForce[(length(movingAverageForce) - ceiling(lengthSamples / 2)): length(movingAverageForce)] = movingAverageForce[(length(movingAverageForce) - ceiling(lengthSamples / 2) +1)]
     
-    print("reconstructed force:")
-    print(movingAverageForce)
+    # print("reconstructed force:")
+    # print(movingAverageForce)
     
 }
 
@@ -798,12 +800,16 @@ getBestFit <- function(originalTest
                        , averageLength = 0.1, percentChange = 5, testLength = -1)
 {
     print("Entered in bestFit")
-    
+    print("originalTest:")
+    print(originalTest)
     rfd = getRFD(originalTest)
     maxRFDSample = which.max(rfd)
     print(paste("maxRFDSample:", maxRFDSample))
     
     maxForce = max(originalTest$force)
+    print(paste("maxForce: ", maxForce))
+    
+    movingAverageForce = getMovingAverageForce(originalTest, averageLength)
     
     #Going back from maxRFD sample until the force increase
     startSample = maxRFDSample -1
@@ -825,13 +831,14 @@ getBestFit <- function(originalTest
     if(testLength > 0)      #The user selected the fixed length of the test
     {
         print("Detection of endSample by test length")
-        endSample = which.min(abs(originalTest$time - (originalTest$time[startSample] + testLenght)))
+        endSample = which.min(abs(originalTest$time - (originalTest$time[startSample] + testLength)))
+        
+        maxMovingAverageForce = max(movingAverageForce[startSample:endSample])
+        
     } else if (testLength <= -1)    #The user selected to detect a decrease in the force
     {
         print("Detection of endSample by decrease in the force")
         print(paste("percentChange: ", percentChange))
-        
-        movingAverageForce = getMovingAverageForce(originalTest, averageLength)
         
         endSample = maxRFDSample
         
@@ -869,7 +876,7 @@ getBestFit <- function(originalTest
     names(trimmedTest) <- c("time", "force")
     trimmedTest$time = trimmedTest$time - trimmedTest$time[1]
     
-    print(paste("startTime: ", trimmedTest$time[1], "fmaxi: ", maxForce, "previousForce: ", originalTest$force[1]))
+    print(paste("startTime:", trimmedTest$time[1], "fmaxi:", maxForce, "previousForce: ", originalTest$force[1]))
     
     #In each iteration the error of the current model is compared with the last error of the last model
     forceModel <- getForceModel(time = trimmedTest$time
@@ -885,7 +892,7 @@ getBestFit <- function(originalTest
     # print(paste(startSample, ":", endSample, sep = ""))
     # print("Entering the while")
     
-    while(currentMeanError <= lastMeanError & endSample < length(originalTest$time))
+    while(currentMeanError <= lastMeanError & startSample <= maxRFDSample & endSample < length(originalTest$time))
     {
         startSample = startSample +1
         endSample = endSample +1
@@ -899,6 +906,8 @@ getBestFit <- function(originalTest
         names(trimmedTest) <- c("time", "force")
         trimmedTest$time = trimmedTest$time - trimmedTest$time[1]
         
+        # print("In getBestFit during the while")
+        # print(paste("startTime: ", trimmedTest$time[1], "fmaxi: ", maxForce, "previousForce: ", originalTest$force[1]))
         forceModel <- getForceModel(trimmedTest$time, trimmedTest$force, trimmedTest$time[1], maxForce, trimmedTest$force[1])
         currentMeanError = mean(abs(forceModel$error[!is.nan(forceModel$error)]))
         # print("----------")
@@ -924,7 +933,9 @@ getBestFit <- function(originalTest
     #Moving the original test to match the times in trimmedTest
     originalTest$time = originalTest$time - originalTest$time[startSample] + trimmedTest$time[2]
     
-    forceModel <- getForceModel(trimmedTest$time, trimmedTest$force, trimmedTest$time[1], maxMovingAverageForce, trimmedTest$force[1])
+    print("In getBestFit after the while")
+    print(paste("startTime: ", trimmedTest$time[1], "fmaxi: ", maxForce, "previousForce: ", trimmedTest$force[1]))
+    forceModel <- getForceModel(trimmedTest$time, trimmedTest$force, trimmedTest$time[1], maxForce, trimmedTest$force[1])
     
     currentMeanError = mean(abs(forceModel$error[!is.nan(forceModel$error)]))
     
@@ -990,7 +1001,7 @@ readImpulseOptions <- function(optionsStr)
 print("Going to enter prepareGraph")
 prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
 print("Going to enter getDynamicsFromLoadCellFille")
-dynamics = getDynamicsFromLoadCellFile(op$captureOptions, dataFile, op$averageLength, op$percentChange, testLength = -1)
+dynamics = getDynamicsFromLoadCellFile(op$captureOptions, dataFile, op$averageLength, op$percentChange, testLength = op$testLength)
 drawDynamicsFromLoadCell(dynamics, op$captureOptions, op$vlineT0, op$vline50fmax.raw, op$vline50fmax.fitted, op$hline50fmax.raw, op$hline50fmax.fitted,
                          op$drawRfdOptions, triggersOn = op$triggersOnList, triggersOff = op$triggersOffList)
 #                         op$drawRfdOptions, xlimits = c(0.5, 1.5))

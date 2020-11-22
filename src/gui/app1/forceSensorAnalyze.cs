@@ -31,7 +31,6 @@ using Mono.Unix;
 public partial class ChronoJumpWindow 
 {
 	//analyze tab
-	[Widget] Gtk.HBox hbox_force_sensor_analyze_modes;
 	[Widget] Gtk.Button button_force_sensor_analyze_load;
 	[Widget] Gtk.Button button_force_sensor_analyze_analyze;
 	[Widget] Gtk.Label label_force_sensor_analyze;
@@ -46,6 +45,8 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.Button button_force_sensor_analyze_back_to_signal;
 
+	[Widget] Gtk.RadioButton radio_force_rfd_search_optimized_ab;
+	[Widget] Gtk.RadioButton radio_force_rfd_use_ab_range;
 	[Widget] Gtk.SpinButton spin_force_duration_seconds;
 	[Widget] Gtk.RadioButton radio_force_duration_seconds;
 	[Widget] Gtk.HBox hbox_force_rfd_duration_percent;
@@ -54,10 +55,9 @@ public partial class ChronoJumpWindow
 
 	//analyze options
 	[Widget] Gtk.Notebook notebook_force_sensor_analyze; //decide between automatic and manual
-	[Widget] Gtk.RadioButton radiobutton_force_sensor_analyze_automatic;
-	[Widget] Gtk.RadioButton radiobutton_force_sensor_analyze_manual;
 //	[Widget] Gtk.HBox hbox_force_sensor_analyze_automatic_options;
 //	[Widget] Gtk.Notebook notebook_force_analyze_automatic;
+	[Widget] Gtk.VBox vbox_force_rfd_duration_end;
 	[Widget] Gtk.Button button_force_sensor_analyze_options;
 	[Widget] Gtk.HBox hbox_force_1;
 	[Widget] Gtk.HBox hbox_force_2;
@@ -146,7 +146,6 @@ public partial class ChronoJumpWindow
 	{
 		button_force_sensor_analyze_options.Sensitive = s;
 		button_force_sensor_analyze_load.Sensitive = s;
-		hbox_force_sensor_analyze_modes.Sensitive = s;
 
 		if(s)
 			button_force_sensor_analyze_analyze.Sensitive = button_force_sensor_analyze_analyze_was_sensitive;
@@ -162,11 +161,16 @@ public partial class ChronoJumpWindow
 	}
 
 	private int notebook_force_sensor_analyze_LastPage;
+	private bool button_force_sensor_analyze_back_to_signal_LastSensitive;
 	private void on_button_force_sensor_analyze_options_clicked (object o, EventArgs args)
 	{
 		//store the notebook to return to same place
 		notebook_force_sensor_analyze_LastPage = notebook_force_sensor_analyze.CurrentPage;
 		notebook_force_sensor_analyze.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_pages.AUTOMATICOPTIONS);
+
+		//do not allow to click Back while in options
+		button_force_sensor_analyze_back_to_signal_LastSensitive = button_force_sensor_analyze_back_to_signal.Sensitive;
+		button_force_sensor_analyze_back_to_signal.Sensitive = false;
 
 		forceSensorAnalyzeOptionsSensitivity(false);
 	}
@@ -175,6 +179,8 @@ public partial class ChronoJumpWindow
 	{
 		//we can go to manual or to automatic
 		notebook_force_sensor_analyze.CurrentPage = notebook_force_sensor_analyze_LastPage;
+
+		button_force_sensor_analyze_back_to_signal.Sensitive = button_force_sensor_analyze_back_to_signal_LastSensitive;
 
 		// 1 change stuff on Sqlite if needed
 
@@ -196,6 +202,13 @@ public partial class ChronoJumpWindow
 		{
 			SqliteForceSensorRFD.UpdateImpulse(true, newImpulse);
 			impulse = newImpulse;
+		}
+
+		if(preferences.forceSensorStartEndOptimized != radio_force_rfd_search_optimized_ab.Active)
+		{
+			preferences.forceSensorStartEndOptimized = radio_force_rfd_search_optimized_ab.Active;
+			SqlitePreferences.Update(SqlitePreferences.ForceSensorStartEndOptimized,
+					radio_force_rfd_search_optimized_ab.Active.ToString(), true);
 		}
 
 		if(preferences.forceSensorMIFDurationMode == Preferences.ForceSensorMIFDurationModes.SECONDS &&
@@ -244,14 +257,31 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
+		hbox_force_sensor_ai_a.Sensitive = false;
+		hbox_force_sensor_ai_b.Sensitive = false;
+		hbox_force_sensor_ai_ab.Sensitive = false;
+
 		if(lastForceSensorFullPath != null && lastForceSensorFullPath != "")
 			forceSensorCopyTempAndDoGraphs(forceSensorGraphsEnum.RFD);
 	}
 
 	private void on_button_force_sensor_analyze_back_to_signal_clicked (object o, EventArgs args)
 	{
+		hbox_force_sensor_ai_a.Sensitive = true;
+		hbox_force_sensor_ai_b.Sensitive = true;
+		hbox_force_sensor_ai_ab.Sensitive = true;
+
 		notebook_force_sensor_analyze.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_pages.MANUAL);
 		button_force_sensor_analyze_back_to_signal.Sensitive = false;
+	}
+
+	private void on_radio_force_rfd_search_optimized_ab_toggled (object o, EventArgs args)
+	{
+		vbox_force_rfd_duration_end.Sensitive = true;
+	}
+	private void on_radio_force_rfd_use_ab_range_toggled (object o, EventArgs args)
+	{
+		vbox_force_rfd_duration_end.Sensitive = false;
 	}
 
 	private void check_force_visibilities()
@@ -365,7 +395,15 @@ public partial class ChronoJumpWindow
 
 	private void setForceDurationRadios()
 	{
-		//TODO: assignar aquí lo que hi hagi de les preferencies: del radio actiu is els dos spinbuttons
+		if(preferences.forceSensorStartEndOptimized)
+		{
+			radio_force_rfd_search_optimized_ab.Active = true;
+			vbox_force_rfd_duration_end.Sensitive = true;
+		} else {
+			radio_force_rfd_use_ab_range.Active = true;
+			vbox_force_rfd_duration_end.Sensitive = false;
+		}
+
 		if(preferences.forceSensorMIFDurationMode == Preferences.ForceSensorMIFDurationModes.SECONDS)
 			radio_force_duration_seconds.Active = true;
 		else //(preferences.forceSensorMIFDurationMode == Preferences.ForceSensorMIFDurationModes.PERCENT)
@@ -572,6 +610,9 @@ public partial class ChronoJumpWindow
 		get { return impulse;  }
 	}
 
+	[Widget] Gtk.HBox hbox_force_sensor_ai_a;
+	[Widget] Gtk.HBox hbox_force_sensor_ai_b;
+	[Widget] Gtk.HBox hbox_force_sensor_ai_ab;
 	[Widget] Gtk.DrawingArea force_sensor_ai_drawingarea;
 	[Widget] Gtk.HScale hscale_force_sensor_ai_a;
 	[Widget] Gtk.HScale hscale_force_sensor_ai_b;
@@ -611,6 +652,7 @@ public partial class ChronoJumpWindow
 
 	ForceSensorAnalyzeInstant fsAI;
 
+	/*
 	private void on_radiobutton_force_sensor_analyze_automatic_toggled (object o, EventArgs args)
 	{
 		if(! radiobutton_force_sensor_analyze_automatic.Active)
@@ -619,17 +661,9 @@ public partial class ChronoJumpWindow
 //		hbox_force_sensor_analyze_automatic_options.Visible = true;
 		notebook_force_sensor_analyze.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_pages.AUTOMATIC);
 	}
-	bool force_sensor_ai_drawingareaShown = false;
-	private void on_radiobutton_force_sensor_analyze_manual_toggled (object o, EventArgs args)
-	{
-		if(! radiobutton_force_sensor_analyze_manual.Active)
-			return;
+	*/
 
-//		hbox_force_sensor_analyze_automatic_options.Visible = false;
-		notebook_force_sensor_analyze.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_pages.MANUAL);
-		force_sensor_ai_drawingareaShown = true;
-		forceSensorDoGraphAI(false);
-	}
+	bool force_sensor_ai_drawingareaShown = false;
 
 	private void forceSensorDoGraphAI(bool windowResizedAndZoom)
 	{
@@ -1341,7 +1375,6 @@ public partial class ChronoJumpWindow
 				forceSensorWriteRepetitionCode (j, reps_l[j].TypeShort(), xposRepStart, xposRepEnd, true, false);
 		}
 
-
 		/*
 		 * 7) Invert AB if needed to paint correctly blue and red lines
 		 * making it work also when B is higher than A
@@ -1637,6 +1670,39 @@ public partial class ChronoJumpWindow
 		hscale_force_sensor_ai_b.Value = fsAI.GetLength() -2;
 	}
 
+	private void on_button_hscale_force_sensor_ai_a_pre_1s_clicked (object o, EventArgs args)
+	{
+		if(fsAI == null || fsAI.GetLength() == 0)
+			return;
+
+		int startA = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
+		double startAMs = fsAI.GetTimeMS(startA);
+		for(int i = startA; i > 0; i --)
+		{
+			if(startAMs - fsAI.GetTimeMS(i) >= 1000)
+			{
+				hscale_force_sensor_ai_a.Value += i - startA;
+				return;
+			}
+		}
+	}
+	private void on_button_hscale_force_sensor_ai_a_post_1s_clicked (object o, EventArgs args)
+	{
+		if(fsAI == null || fsAI.GetLength() == 0)
+			return;
+
+		int startA = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
+		double startAMs = fsAI.GetTimeMS(startA);
+		for(int i = startA; i < fsAI.GetLength() -1; i ++)
+		{
+			if(fsAI.GetTimeMS(i) - startAMs >= 1000)
+			{
+				hscale_force_sensor_ai_a.Value += i - startA;
+				return;
+			}
+		}
+	}
+
 	private void on_button_hscale_force_sensor_ai_b_pre_1s_clicked (object o, EventArgs args)
 	{
 		if(fsAI == null || fsAI.GetLength() == 0)
@@ -1653,7 +1719,6 @@ public partial class ChronoJumpWindow
 			}
 		}
 	}
-
 	private void on_button_hscale_force_sensor_ai_b_post_1s_clicked (object o, EventArgs args)
 	{
 		if(fsAI == null || fsAI.GetLength() == 0)

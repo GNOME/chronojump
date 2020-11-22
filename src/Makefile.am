@@ -24,6 +24,7 @@ SOURCES = \
 	gui/app1/session/export.cs\
 	gui/app1/session/loadAndImport.cs\
 	gui/app1/session/main.cs\
+	gui/app1/session/tagSessionSelect.cs\
 	gui/app1/jump.cs\
 	gui/app1/menu.cs\
 	gui/app1/menu_tiny.cs\
@@ -162,6 +163,7 @@ SOURCES = \
 	sqlite/json.cs\
 	sqlite/sport.cs\
 	sqlite/speciallity.cs\
+	sqlite/tagSession.cs\
 	sqlite/trigger.cs\
 	sqlite/usefulObjects.cs\
 	sqlite/country.cs\
@@ -224,6 +226,7 @@ SOURCES = \
 	preferences.cs\
 	restTime.cs\
 	sprint.cs\
+	tagSession.cs\
 	threshold.cs\
 	treeview/event.cs\
 	treeview/person.cs\

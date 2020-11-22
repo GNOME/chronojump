@@ -231,6 +231,7 @@ public class Preferences
 	public bool forceSensorCaptureFeedbackActive;
 	public int forceSensorCaptureFeedbackAt;
 	public int forceSensorCaptureFeedbackRange;
+	public bool forceSensorStartEndOptimized;
 	public enum ForceSensorMIFDurationModes { SECONDS, PERCENT };
 	public ForceSensorMIFDurationModes forceSensorMIFDurationMode;
 	public double forceSensorMIFDurationSeconds;

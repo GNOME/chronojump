@@ -1349,6 +1349,11 @@ LogB.Information(" fs C ");
 						forceSensorZoomDefaultValues();
 						forceSensorDoGraphAI(false);
 					}
+
+					hbox_force_sensor_ai_a.Sensitive = true;
+					hbox_force_sensor_ai_b.Sensitive = true;
+					hbox_force_sensor_ai_ab.Sensitive = true;
+
 					button_contacts_exercise_close_and_recalculate.Sensitive = true;
 					button_delete_last_test.Sensitive = true;
 					force_capture_drawingarea.Sensitive = true;
@@ -1842,6 +1847,11 @@ LogB.Information(" fs R ");
 			forceSensorDoGraphAI(false);
 		}
 		//event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(filechooser.Filename);
+
+		hbox_force_sensor_ai_a.Sensitive = true;
+		hbox_force_sensor_ai_b.Sensitive = true;
+		hbox_force_sensor_ai_ab.Sensitive = true;
+
 		button_contacts_exercise_close_and_recalculate.Sensitive = true;
 		force_capture_drawingarea.Sensitive = true;
 		notebook_force_sensor_analyze.Sensitive = true;
@@ -2066,11 +2076,18 @@ LogB.Information(" fs R ");
 		//else
 		//	title = Util.RemoveChar(title, '_');
 
+		int sampleA = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
+		int sampleB = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+		if(forceSensorZoomApplied)
+		{
+			sampleA += hscale_force_sensor_ai_a_BeforeZoom;
+			sampleB += hscale_force_sensor_ai_b_BeforeZoom;
+		}
+
 		ForceSensorGraph fsg = new ForceSensorGraph(getForceSensorCaptureOptions(), rfdList, impulse,
 				duration, Convert.ToInt32(spin_force_rfd_duration_percent.Value),
 				title, exercise, currentForceSensor.DateTimePublic, triggerListForceSensor,
-				Convert.ToInt32(hscale_force_sensor_ai_a.Value),
-				Convert.ToInt32(hscale_force_sensor_ai_b.Value)
+				sampleA, sampleB, preferences.forceSensorStartEndOptimized
 				);
 
 		int imageWidth = UtilGtk.WidgetWidth(viewport_force_sensor_graph);
@@ -2088,6 +2105,9 @@ LogB.Information(" fs R ");
 				Catalog.GetString("Probably not sustained force.");
 			label_force_sensor_analyze.Visible = true;
 
+			image_force_sensor_graph.Visible = false;
+			button_force_sensor_image_save_rfd_auto.Sensitive = false;
+
 			return;
 		}
 		label_force_sensor_analyze.Visible = false;
@@ -2099,6 +2119,7 @@ LogB.Information(" fs R ");
 				imagePath,
 				image_force_sensor_graph);
 		image_force_sensor_graph.Sensitive = true;
+		image_force_sensor_graph.Visible = true;
 		button_force_sensor_image_save_rfd_auto.Sensitive = true;
 	}
 

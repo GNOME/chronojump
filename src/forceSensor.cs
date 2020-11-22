@@ -1360,11 +1360,12 @@ public class ForceSensorGraph
 	private TriggerList triggerList;
 	private int startSample;
 	private int endSample;
+	private bool startEndOptimized;
 
 	public ForceSensorGraph(ForceSensor.CaptureOptions fsco, List<ForceSensorRFD> rfdList,
 			ForceSensorImpulse impulse, int testLength, int percentChange,
 			string title, string exercise, string datetime, TriggerList triggerList,
-			int startSample, int endSample)
+			int startSample, int endSample, bool startEndOptimized)
 	{
 		this.fsco = fsco;
 		this.rfdList = rfdList;
@@ -1377,6 +1378,7 @@ public class ForceSensorGraph
 		this.triggerList = triggerList;
 		this.startSample = startSample;
 		this.endSample = endSample;
+		this.startEndOptimized = startEndOptimized;
 
 		averageLength = 0.1;
 		vlineT0 = false;
@@ -1438,7 +1440,7 @@ public class ForceSensorGraph
 			printTriggers(TriggerList.Type3.OFF) + "\n" +
 			"#startSample\n" + 		startSample.ToString() + "\n" +
 			"#endSample\n" + 		endSample.ToString() + "\n" +
-			"#startEndOptimized\n" +	"TRUE" + "\n";
+			"#startEndOptimized\n" +	Util.BoolToRBool(startEndOptimized) + "\n";
 
 		/*
 		#startEndOptimized on gui can be:

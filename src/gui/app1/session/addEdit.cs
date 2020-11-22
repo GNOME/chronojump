@@ -532,7 +532,12 @@ public partial class ChronoJumpWindow
 		else
 			app1s_notebook.CurrentPage = app1s_PAGE_MODES;
 	}
-	
+
+	private void on_app1sae_button_select_tags_clicked (object o, EventArgs args)
+	{
+		new TagSessionSelect();
+	}
+
 	void app1sae_on_button_change_date_clicked (object o, EventArgs args)
 	{
 		app1sae_dialogCalendar = new DialogCalendar(Catalog.GetString("Select session date"), app1sae_dateTime);

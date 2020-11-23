@@ -73,5 +73,10 @@ public class TagSession
 
 		return str;
 	}
+
+	public int UniqueID
+	{
+		get { return uniqueID; }
+	}
 }
 

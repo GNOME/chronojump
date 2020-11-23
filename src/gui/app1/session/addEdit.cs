@@ -535,7 +535,14 @@ public partial class ChronoJumpWindow
 
 	private void on_app1sae_button_select_tags_clicked (object o, EventArgs args)
 	{
-		new TagSessionSelect();
+		//just be cautious
+		if(currentSession == null)
+			return;
+
+		TagSessionSelect tagSessionSelect = new TagSessionSelect();
+		tagSessionSelect.PassVariables(currentSession.UniqueID);
+		tagSessionSelect.Do();
+		tagSessionSelect.Show();
 	}
 
 	void app1sae_on_button_change_date_clicked (object o, EventArgs args)

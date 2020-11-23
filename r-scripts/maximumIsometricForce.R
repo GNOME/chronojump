@@ -792,7 +792,7 @@ getMovingAverageForce <- function(test, averageLength = 0.1)
     # print( movingAverageForce[(lengthSamples %/% 2) +1])
 
     print("reconstructed movingAverageForce:")
-    print(movingAverageForce)
+    # print(movingAverageForce)
     
 }
 
@@ -863,16 +863,16 @@ getBestFit <- function(originalTest
         
         endSample = maxRFDSample
         
-        print(paste("startSample: ", startSample))
-        print(paste("initial endSample: ", endSample))
+        # print(paste("startSample: ", startSample))
+        # print(paste("initial endSample: ", endSample))
 
-        print("movingAverageForce[startSample:endSample]:")
-        print(movingAverageForce[startSample:endSample])
+        # print("movingAverageForce[startSample:endSample]:")
+        # print(movingAverageForce[startSample:endSample])
         
         maxMovingAverageForce = max(movingAverageForce[startSample:endSample])
         
-        print(paste("MaxMovingAverageForce: ", maxMovingAverageForce, "Current Limit: ", maxMovingAverageForce*(100 - percentChange) / 100))
-        print(paste("Current movingAverageForce: ", movingAverageForce[endSample], "rawForce: ", originalTest$force[endSample]))
+        # print(paste("MaxMovingAverageForce: ", maxMovingAverageForce, "Current Limit: ", maxMovingAverageForce*(100 - percentChange) / 100))
+        # print(paste("Current movingAverageForce: ", movingAverageForce[endSample], "rawForce: ", originalTest$force[endSample]))
         
         while(movingAverageForce[endSample] >= maxMovingAverageForce*(100 - percentChange) / 100 &
               endSample < length(originalTest$time))
@@ -880,12 +880,12 @@ getBestFit <- function(originalTest
             if(movingAverageForce[endSample] > maxMovingAverageForce)
             {
                 maxMovingAverageForce = movingAverageForce[endSample]
-                print(paste("New max:", maxMovingAverageForce))
+                # print(paste("New max:", maxMovingAverageForce))
             }
             endSample = endSample + 1
             
-            print(paste("Current endSample: ", endSample))
-            print(paste("Current movingAverageForce: ", movingAverageForce[endSample]))
+            # print(paste("Current endSample: ", endSample))
+            # print(paste("Current movingAverageForce: ", movingAverageForce[endSample]))
         }
     }
     

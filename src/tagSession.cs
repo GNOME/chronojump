@@ -65,11 +65,12 @@ public class TagSession
 
 	public string [] ToStringArray ()
 	{
-		string [] str = new String [4];
+		string [] str = new String [5];
 		str[0] = uniqueID.ToString();
-		str[1] = name;
-		str[2] = color;
-		str[3] = comments;
+		str[1] = ""; 	//checkbox
+		str[2] = name;
+		str[3] = color;
+		str[4] = comments;
 
 		return str;
 	}

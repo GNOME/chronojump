@@ -92,6 +92,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Entry app1sae_entry_place;
 	[Widget] Gtk.HBox hbox_session_add;
 	[Widget] Gtk.HBox hbox_session_more_edit;
+	[Widget] Gtk.Label app1sae_label_tags_selected;
 	[Widget] Gtk.Label app1sae_label_name;
 	[Widget] Gtk.Label app1sae_label_date;
 	[Widget] Gtk.Image image_session_new_blue;

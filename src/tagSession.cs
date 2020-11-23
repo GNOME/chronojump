@@ -75,9 +75,27 @@ public class TagSession
 		return str;
 	}
 
+	public static string GetActiveTagNamesOfThisSession(int sessionID)
+	{
+		string str = "";
+		List<TagSession> tagSession_l = SqliteSessionTagSession.Select(false, sessionID);
+		string sep = "";
+
+		foreach(TagSession tagSession in tagSession_l)
+		{
+			str += sep + tagSession.Name;
+			sep = ", ";
+		}
+		return str;
+	}
+
 	public int UniqueID
 	{
 		get { return uniqueID; }
+	}
+	public string Name
+	{
+		get { return name; }
 	}
 }
 

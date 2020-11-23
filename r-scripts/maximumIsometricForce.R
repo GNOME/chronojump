@@ -169,7 +169,7 @@ getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength
         # originalTest = extrapolateToZero(originalTest$time, originalTest$force)
         # names(originalTest) <- c("time", "force")
         originalTest$time = originalTest$time - originalTest$time[1]
-        print(originalTest)
+        # print(originalTest)
         
         startSample = 1
         startTime = originalTest$time[2]
@@ -219,7 +219,7 @@ drawDynamicsFromLoadCell <- function(
     rfdDrawingOptions, triggersOn = "", triggersOff = "", xlimits = NA)
 {
     print("Dynamics in Draw:")
-    print(dynamics$time)
+    # print(dynamics$time)
     dynamics$time = dynamics$time - dynamics$startTime
     dynamics$tfmax.raw = dynamics$tfmax.raw - dynamics$startTime
     dynamics$endTime = dynamics$endTime - dynamics$startTime
@@ -233,9 +233,8 @@ drawDynamicsFromLoadCell <- function(
     par(mar = c(6, 4, 6, 4))
     
     #Detecting if the duration of the sustained force is enough
-    print("f.raw")
-    print(dynamics$f.raw)
-    print(paste("samples:", dynamics$startSample, dynamics$endSample))
+    # print("f.raw")
+    # print(dynamics$f.raw)
     meanForce = mean(dynamics$f.raw[dynamics$startSample:dynamics$endSample])
     print(paste("meanForce: ", meanForce, "fmax.raw: ", dynamics$fmax.raw))
     #TODO: Is this necessary?. Is this value acceptable?
@@ -818,8 +817,8 @@ getBestFit <- function(originalTest
                        , averageLength = 0.1, percentChange = 5, testLength = -1)
 {
     print("Entered in bestFit")
-    print("originalTest:")
-    print(originalTest)
+    # print("originalTest:")
+    # print(originalTest)
     rfd = getRFD(originalTest)
     maxRFDSample = which.max(rfd)
     print(paste("maxRFDSample:", maxRFDSample))
@@ -829,8 +828,8 @@ getBestFit <- function(originalTest
     
     movingAverageForce = getMovingAverageForce(originalTest, averageLength)
     
-    print("movingAverageForce:")
-    print(movingAverageForce)
+    # print("movingAverageForce:")
+    # print(movingAverageForce)
     
     #Going back from maxRFD sample until the force increase
     startSample = maxRFDSample -1
@@ -866,21 +865,21 @@ getBestFit <- function(originalTest
         print(paste("startSample: ", startSample))
         print(paste("initial endSample: ", endSample))
 
-        print("movingAverageForce[startSample:endSample]:")
-        print(movingAverageForce[startSample:endSample])
+        # print("movingAverageForce[startSample:endSample]:")
+        # print(movingAverageForce[startSample:endSample])
         
         maxMovingAverageForce = max(movingAverageForce[startSample:endSample])
         
         # print(paste("MaxMovingAverageForce: ", maxMovingAverageForce, "Current Limit: ", maxMovingAverageForce*(100 - percentChange) / 100))
         # print(paste("Current movingAverageForce: ", movingAverageForce[endSample]))
         
-        while(movingAverageForce[endSample] >= maxMovingAverageForce*(100 - percentChange) / 100 &
+        while(originalTest$force[endSample] >= maxMovingAverageForce*(100 - percentChange) / 100 &
               endSample < length(originalTest$time))
         {
             if(movingAverageForce[endSample] > maxMovingAverageForce)
             {
-                print("New max")
                 maxMovingAverageForce = movingAverageForce[endSample]
+                # print(paste("New max:", maxMovingAverageForce))
             }
             endSample = endSample + 1
             
@@ -892,12 +891,14 @@ getBestFit <- function(originalTest
     #Moving all the sample to make the fisrt sample of the trimmed test the (t0, f0)
     trimmedTest = originalTest[startSample:endSample,]
     
+    # print(paste("endSample in getBestFit: ", endSample, "   endForce: ", originalTest$force[endSample]))
+    
     #Extrapolating the test to cross the horizontal axe.
     trimmedTest = extrapolateToZero(trimmedTest$time, trimmedTest$force)
     names(trimmedTest) <- c("time", "force")
     trimmedTest$time = trimmedTest$time - trimmedTest$time[1]
     
-    print(paste("startTime:", trimmedTest$time[1], "fmaxi:", maxForce, "previousForce: ", originalTest$force[1]))
+    # print(paste("startTime:", trimmedTest$time[1], "fmaxi:", maxForce, "previousForce: ", originalTest$force[1]))
     
     #In each iteration the error of the current model is compared with the last error of the last model
     forceModel <- getForceModel(time = trimmedTest$time
@@ -917,7 +918,10 @@ getBestFit <- function(originalTest
     while(currentMeanError <= lastMeanError & startSample <= maxRFDSample & endSample < length(originalTest$time))
     {
         startSample = startSample +1
-        endSample = endSample +1
+        if (testLength > 0)
+        {
+          endSample = endSample +1
+        }
         
         lastMeanError = currentMeanError
         
@@ -943,7 +947,10 @@ getBestFit <- function(originalTest
     }
     
     startSample = startSample -1
-    endSample = endSample -1
+    if (testLength <= -1)
+    {
+      endSample = endSample -1
+    }
     
     lastMeanError = currentMeanError
     

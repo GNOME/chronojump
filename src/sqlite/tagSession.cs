@@ -78,7 +78,7 @@ class SqliteTagSession : Sqlite
 		if(uniqueID != -1)
 			uniqueIDStr = " WHERE " + table + ".uniqueID = " + uniqueID;
 
-		dbcmd.CommandText = selectStr + uniqueIDStr + " Order BY " + table + ".uniqueID";
+		dbcmd.CommandText = selectStr + uniqueIDStr + " Order BY " + table + ".name";
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

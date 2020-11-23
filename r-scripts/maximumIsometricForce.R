@@ -195,7 +195,8 @@ getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength
     
     f0.raw = originalTest$force[startSample]                              # Force at startTime. ATENTION. This value is different than previousForce
     rfd0.fitted = model$fmax * model$K                                  # RFD at t=0ms using the exponential model
-    tfmax.raw = originalTest$time[which.min(abs(originalTest$force - fmax.raw))] - startTime            # Time needed to reach the Fmax
+    # tfmax.raw = originalTest$time[which.min(abs(originalTest$force - fmax.raw))] - startTime            # Time needed to reach the Fmax
+    tfmax.raw = originalTest$time[which.min(abs(originalTest$force - fmax.raw))]            # Time needed to reach the Fmax
 
     return(list(nameOfFile = inputFile, time = originalTest$time,
                 fmax.fitted = model$fmax, k.fitted = model$K, tau.fitted = 1/model$K,

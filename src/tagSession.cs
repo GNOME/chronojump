@@ -78,7 +78,7 @@ public class TagSession
 	public static string GetActiveTagNamesOfThisSession(int sessionID)
 	{
 		string str = "";
-		List<TagSession> tagSession_l = SqliteSessionTagSession.Select(false, sessionID);
+		List<TagSession> tagSession_l = SqliteSessionTagSession.SelectTagsOfASession(false, sessionID);
 		string sep = "";
 
 		foreach(TagSession tagSession in tagSession_l)
@@ -99,3 +99,49 @@ public class TagSession
 	}
 }
 
+//manages the tagSession and its session
+public class SessionTagSession
+{
+	private int sessionID;
+	private TagSession ts;
+
+	public SessionTagSession (int sessionID, TagSession ts)
+	{
+		this.sessionID = sessionID;
+		this.ts = ts;
+	}
+
+	//methods for managing list of TagSesssion or SessionTagSession
+
+	public static List<TagSession> FindTagSessionsOfSession (int sessionID, List<SessionTagSession> tagsAndSessions_list)
+	{
+		List<TagSession> tags_list = new List<TagSession>();
+		foreach(SessionTagSession sts in tagsAndSessions_list)
+			if(sts.SessionID == sessionID)
+				tags_list.Add(sts.Ts);
+
+		return tags_list;
+	}
+
+	public static string PrintTagNamesOfSession (List<TagSession> tags_list)
+	{
+		string str = "";
+		string sep = "";
+		foreach(TagSession ts in tags_list)
+		{
+			str += sep + ts.Name;
+			sep = ", ";
+		}
+
+		return str;
+	}
+
+	public int SessionID
+	{
+		get { return sessionID; }
+	}
+	public TagSession Ts
+	{
+		get { return ts; }
+	}
+}

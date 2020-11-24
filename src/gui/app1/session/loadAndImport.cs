@@ -23,6 +23,7 @@ using Gtk;
 using Glade;
 using GLib; //for Value
 using System.Text; //StringBuilder
+using System.Collections.Generic; //List<T>
 using System.Collections; //ArrayList
 using Mono.Unix;
 
@@ -106,8 +107,8 @@ public partial class ChronoJumpWindow
 		}
 		app1s_entry_search_filter.Text = "";
 
-		app1s_createTreeView(app1s_treeview_session_load, false, false, false);
-		app1s_store = app1s_getStore(false, false, false);
+		app1s_createTreeView(app1s_treeview_session_load, true, false, false, false);
+		app1s_store = app1s_getStore(true, false, false, false);
 		app1s_treeview_session_load.Model = app1s_store;
 		app1s_fillTreeView(app1s_treeview_session_load, app1s_store, false, false, false);
 
@@ -131,9 +132,12 @@ public partial class ChronoJumpWindow
 		*/
 	}
 
-	private TreeStore app1s_getStore(bool showPersons, bool showContacts, bool showOtherTests)
+	private TreeStore app1s_getStore(bool loadOrImport, bool showPersons, bool showContacts, bool showOtherTests)
 	{
 		int columns = 6;
+		if(loadOrImport)
+			columns ++; //on load we have the tags column
+
 		if(showPersons)
 			columns += 3;
 		if(showContacts)
@@ -179,7 +183,7 @@ public partial class ChronoJumpWindow
 		app1s_recreateTreeView("loaded the dialog");
 	}
 	
-	private void app1s_createTreeView (Gtk.TreeView tv, bool showPersons, bool showContacts, bool showOtherTests)
+	private void app1s_createTreeView (Gtk.TreeView tv, bool loadOrImport, bool showPersons, bool showContacts, bool showOtherTests)
 	{
 		tv.HeadersVisible=true;
 		int count = 0;
@@ -200,7 +204,10 @@ public partial class ChronoJumpWindow
 		colName.SortColumnId = count ++;
 		colName.SortIndicator = true;
 		tv.AppendColumn (colName);
-		
+
+		if(loadOrImport)
+			tv.AppendColumn ( Catalog.GetString ("Tags"), new CellRendererText(), "text", count++);
+
 		tv.AppendColumn ( Catalog.GetString ("Place"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Persons"), new CellRendererText(), "text", count++);
 		if(showPersons) {
@@ -273,11 +280,12 @@ public partial class ChronoJumpWindow
 
 		UtilGtk.RemoveColumns(app1s_treeview_session_load);
 		
-		app1s_createTreeView(app1s_treeview_session_load,
+		app1s_createTreeView(app1s_treeview_session_load, true,
 				app1s_checkbutton_show_data_persons.Active,
 				app1s_checkbutton_show_data_jump_run.Active,
 				app1s_checkbutton_show_data_other_tests.Active);
 		app1s_store = app1s_getStore(
+				true,
 				app1s_checkbutton_show_data_persons.Active,
 				app1s_checkbutton_show_data_jump_run.Active,
 				app1s_checkbutton_show_data_other_tests.Active);
@@ -315,6 +323,24 @@ public partial class ChronoJumpWindow
 		SqliteSessionSwitcher sessionSwitcher = new SqliteSessionSwitcher (databaseType, app1s_import_file_path);
 		
 		string [] mySessions = sessionSwitcher.SelectAllSessions(filterName); //returns a string of values separated by ':'
+
+		//new 2.0 code
+		int columns = 6;
+		if(showPersons)
+			columns += 3;
+		if(showContacts)
+			columns += 7;
+		if(showOtherTests)
+			columns += 4;
+
+		//tags are not going to be imported right now, so use only on load session
+		List<SessionTagSession> tagsOfAllSessions = new List<SessionTagSession>();
+		if (app1s_type == app1s_windowType.LOAD_SESSION)
+		{
+			tagsOfAllSessions = SqliteSessionTagSession.SelectTagsOfAllSessions(false);
+			columns ++;
+		}
+
 		foreach (string session in mySessions)
 		{
 			string [] myStringFull = session.Split(new char[] {':'});
@@ -332,15 +358,6 @@ public partial class ChronoJumpWindow
 			if (myStringFull[6] != Catalog.GetString(Constants.LevelUndefined)) 
 				myLevel = Catalog.GetString(myStringFull[6]);
 
-			//new 2.0 code
-			int columns = 6;
-			if(showPersons)
-				columns += 3;
-			if(showContacts)
-				columns += 7;
-			if(showOtherTests)
-				columns += 4;
-
 			string [] strings = new string [columns];
 			//for (int i=0; i < columns; i++) {
 			//	types[i] = typeof (string);
@@ -349,6 +366,15 @@ public partial class ChronoJumpWindow
 			strings[i ++] = myStringFull[0]; 	//session num
 			strings[i ++] = myStringFull[3];	//session date
 			strings[i ++] = myStringFull[1]; 	//session name
+
+			if (app1s_type == app1s_windowType.LOAD_SESSION)
+			{
+				List<TagSession> tagSession_list = SessionTagSession.FindTagSessionsOfSession(
+						Convert.ToInt32(myStringFull[0]),
+						tagsOfAllSessions);
+				strings[i ++] = SessionTagSession.PrintTagNamesOfSession(tagSession_list);
+			}
+
 			strings[i ++] = myStringFull[2]; 	//session place
 			strings[i ++] = myStringFull[8];	//number of jumpers x session
 

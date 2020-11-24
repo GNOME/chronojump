@@ -78,7 +78,7 @@ public class TagSessionSelect
 	private void getData()
         {
 		allTags_list = SqliteTagSession.Select(false, -1);
-		tagsActiveThisSession_list = SqliteSessionTagSession.Select(false, currentSessionID);
+		tagsActiveThisSession_list = SqliteSessionTagSession.SelectTagsOfASession(false, currentSessionID);
         }
 
 	private void createBigArray()

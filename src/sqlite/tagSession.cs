@@ -173,7 +173,7 @@ class SqliteSessionTagSession : Sqlite
 	}
 
 	//gets the active tagSessions in session
-	public static List<TagSession> Select (bool dbconOpened, int sessionID)
+	public static List<TagSession> SelectTagsOfASession (bool dbconOpened, int sessionID)
 	{
 		openIfNeeded(dbconOpened);
 
@@ -197,6 +197,42 @@ class SqliteSessionTagSession : Sqlite
 					reader[3].ToString()			//comments
 					);
 			list.Add(tagS);
+		}
+
+		reader.Close();
+		closeIfNeeded(dbconOpened);
+
+		return list;
+	}
+
+	public static List<SessionTagSession> SelectTagsOfAllSessions (bool dbconOpened)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = "SELECT sessionTagSession.sessionID, tagSession.* FROM tagSession, sessionTagSession " +
+			"WHERE tagSession.uniqueID = sessionTagSession.tagSessionID ORDER BY NAME";
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		List<SessionTagSession> list = new List<SessionTagSession>();
+
+		while(reader.Read())
+		{
+			SessionTagSession sts = new SessionTagSession
+				(
+					Convert.ToInt32(reader[0].ToString()),	//sessionID
+					new TagSession (
+						Convert.ToInt32(reader[1].ToString()),	//uniqueID
+						reader[2].ToString(),			//name
+						reader[3].ToString(),			//color
+						reader[4].ToString()			//comments
+						)
+					);
+			list.Add(sts);
 		}
 
 		reader.Close();

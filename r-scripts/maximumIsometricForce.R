@@ -792,7 +792,7 @@ getMovingAverageForce <- function(test, averageLength = 0.1)
     # print( movingAverageForce[(lengthSamples %/% 2) +1])
 
     print("reconstructed movingAverageForce:")
-    # print(movingAverageForce)
+    print(movingAverageForce)
     
 }
 

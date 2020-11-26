@@ -120,7 +120,7 @@ public class GenericWindow
 	public int uniqueID; 			//used on encoder & forceSensor edit exercise
 
 	public enum Types { UNDEFINED, ENCODER_SESSION_LOAD, 
-		ENCODER_SEL_REPS_IND_CURRENT_SESS, ENCODER_SEL_REPS_IND_ALL_SESS, ENCODER_SEL_REPS_GROUP_CURRENT_SESS };
+		ENCODER_SEL_REPS_IND_CURRENT_SESS, ENCODER_SEL_REPS_IND_ALL_SESS, ENCODER_SEL_REPS_GROUP_CURRENT_SESS, TAGSESSION };
 	//used to decide if a genericWin has to be recreated
 	public Types Type;
 

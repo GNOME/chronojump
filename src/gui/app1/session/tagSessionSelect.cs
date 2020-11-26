@@ -30,14 +30,24 @@ using Mono.Unix;
 //adapted from src/gui/encoderSelectRepetitions.cs
 public class TagSessionSelect
 {
-	private ArrayList data;
-	private ArrayList dataPrint;
+	//passed variables
+	private int currentSessionID;
+
+	private ArrayList allTags_list; //all available tags
+	private ArrayList allTags_listPrint;
+	private List<TagSession> tagsActiveThisSession_list;
 	private static GenericWindow genericWin;
 	private string [] columnsString;
         private ArrayList bigArray;
 	private string [] checkboxes;
 
-        //passed variables
+	public Gtk.Button FakeButtonDone;
+
+	public void PassVariables(int currentSessionID)
+	{
+		this.currentSessionID = currentSessionID;
+		FakeButtonDone = new Gtk.Button();
+	}
 
 	public void Do() {
                 getData();
@@ -46,23 +56,53 @@ public class TagSessionSelect
                 createGenericWindow();
         }
 
+	private void nullifyGenericWindow()
+	{
+		if(genericWin != null && ! genericWin.GenericWindowBoxIsNull())
+			genericWin.HideAndNull();
+	}
+
+	//used when click on "Select" button
+	public void Show()
+	{
+		//if user destroyed window (on_delete_event), recreate it again
+		if(genericWin.GenericWindowBoxIsNull() || ! createdGenericWinIsOfThisType())
+			Do();
+
+		activateCallbacks();
+		genericWin.ShowNow();
+		genericWin.SetButtonAcceptSensitive(true);
+	}
+
+
 	private void getData()
         {
-		data = SqliteTagSession.Select(false, -1);
+		allTags_list = SqliteTagSession.Select(false, -1);
+		tagsActiveThisSession_list = SqliteSessionTagSession.SelectTagsOfASession(false, currentSessionID);
         }
 
 	private void createBigArray()
 	{
-		dataPrint = new ArrayList();
-		checkboxes = new string[data.Count]; //to store active or inactive status of tags
+		allTags_listPrint = new ArrayList();
+		checkboxes = new string[allTags_list.Count]; //to store active or inactive status of tags
 		int count = 0;
-		foreach(TagSession tagS in data) {
-			checkboxes[count++] = "inactive";
-			dataPrint.Add(tagS.ToStringArray());
+		foreach(TagSession tagS in allTags_list)
+		{
+			string str = "inactive";
+			foreach(TagSession tagActiveThisSession in tagsActiveThisSession_list)
+				if(tagActiveThisSession.UniqueID == tagS.UniqueID)
+				{
+					str = "active";
+					break;
+				}
+
+			checkboxes[count++] = str;
+			allTags_listPrint.Add(tagS.ToStringArray());
 		}
 
 		columnsString = new string[] {
 			"ID",
+			Catalog.GetString("Active"),
 			Catalog.GetString("Name"),
 			Catalog.GetString("Color"),
 			Catalog.GetString("Comments")
@@ -76,22 +116,50 @@ public class TagSessionSelect
 		bigArray.Add(a1);
 	}
 
-	private void nullifyGenericWindow()
-	{
-		if(genericWin != null && ! genericWin.GenericWindowBoxIsNull())
-			genericWin.HideAndNull();
-	}
-
 	private void createGenericWindow()
 	{
                 genericWin = GenericWindow.Show(Catalog.GetString("Tags"), false,       //don't show now
                                 "", bigArray);
 
-		genericWin.SetTreeview(columnsString, true, dataPrint, new ArrayList(), GenericWindow.EditActions.NONE, false);
+		genericWin.SetTreeview(columnsString, true, allTags_listPrint, new ArrayList(), GenericWindow.EditActions.NONE, false);
 
-		//TODO: continue...
+		genericWin.ResetComboCheckBoxesOptions();
+		genericWin.CreateComboCheckBoxes();
+		genericWin.MarkActiveCurves(checkboxes);
+
+		genericWin.Type = GenericWindow.Types.TAGSESSION;
 	}
 
+	private bool createdGenericWinIsOfThisType() {
+		if(genericWin.Type == GenericWindow.Types.TAGSESSION)
+			return true;
 
-       
+		return false;
+	}
+
+	private void activateCallbacks() {
+		//manage selected, unselected curves
+		genericWin.Button_accept.Clicked -= new EventHandler(on_tag_session_win_done);
+		genericWin.Button_accept.Clicked += new EventHandler(on_tag_session_win_done);
+	}
+
+	private void removeCallbacks() {
+		genericWin.Button_accept.Clicked -= new EventHandler(on_tag_session_win_done);
+	}
+
+	private void on_tag_session_win_done (object o, EventArgs args)
+	{
+		removeCallbacks();
+
+		//get selected/deselected rows
+		checkboxes = genericWin.GetColumn(1, false);
+
+		//update on database the what has been selected/deselected
+		//doing it as a transaction: FAST
+		SqliteSessionTagSession.UpdateTransaction(currentSessionID, allTags_list,
+				tagsActiveThisSession_list, checkboxes);
+
+		FakeButtonDone.Click();
+	}
+
 }

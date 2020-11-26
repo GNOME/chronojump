@@ -30,6 +30,7 @@ public class PersonSelectWindow
 {
 	[Widget] Gtk.Window person_select_window;
 	[Widget] Gtk.Notebook notebook;
+	[Widget] Gtk.ScrolledWindow scrolled1;
 	[Widget] Gtk.Viewport viewport1;
 	[Widget] Gtk.Viewport viewport_person_name;
 	[Widget] Gtk.Table table1;
@@ -69,12 +70,20 @@ public class PersonSelectWindow
 	private List<PersonPhotoButton> list_ppb;
 
 	
-	PersonSelectWindow (Gtk.Window parent) {
+	PersonSelectWindow (Gtk.Window parent, bool raspberry)
+	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_select_window.glade", "person_select_window", "chronojump");
 		gladeXML.Autoconnect(this);
 		
-		viewport1.HeightRequest = 170 * 3 + 8 * 2 + 4 * 2; //170 is button height, 8 is padding top botton (4+4), 4 the top and bottom of viewport1
+		int slidebarSize = 20;
+		if(raspberry)
+			slidebarSize = 40;
+
+		scrolled1.WidthRequest = 150 * 4 + 8 * 2 + 12 * 2 + slidebarSize; //150 is button width, 8 is padding left and right (4+4), 12 the left and right of scrolled1
+
+		//there's no side slidebar for going horizontal, but the last +10 is to have a bit of space for the widget
+		scrolled1.HeightRequest = 170 * 3 + 8 * 2 + 12 * 2; //170 is button height, 8 is padding top botton (4+4), 12 the top and bottom of scrolled1
 
 		//put an icon to window
 		UtilGtk.IconWindow(person_select_window);
@@ -120,10 +129,10 @@ public class PersonSelectWindow
 		image_close.Pixbuf = pixbuf;
 	}
 	
-	static public PersonSelectWindow Show (Gtk.Window parent, ArrayList persons, Person currentPerson, Gdk.Color colorBackground)
+	static public PersonSelectWindow Show (Gtk.Window parent, ArrayList persons, Person currentPerson, Gdk.Color colorBackground, bool raspberry)
 	{
 		if (PersonSelectWindowBox == null) {
-			PersonSelectWindowBox = new PersonSelectWindow (parent);
+			PersonSelectWindowBox = new PersonSelectWindow (parent, raspberry);
 		}
 
 		PersonSelectWindowBox.persons = persons;
@@ -135,9 +144,9 @@ public class PersonSelectWindow
 		PersonSelectWindowBox.hbox_up_down_close.Sensitive = true;
 
 		PersonSelectWindowBox.createTable();
-		
+
 		PersonSelectWindowBox.person_select_window.Show ();
-		
+
 		return PersonSelectWindowBox;
 	}
 

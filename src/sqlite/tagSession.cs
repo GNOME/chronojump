@@ -78,7 +78,7 @@ class SqliteTagSession : Sqlite
 		if(uniqueID != -1)
 			uniqueIDStr = " WHERE " + table + ".uniqueID = " + uniqueID;
 
-		dbcmd.CommandText = selectStr + uniqueIDStr + " Order BY " + table + ".uniqueID";
+		dbcmd.CommandText = selectStr + uniqueIDStr + " Order BY " + table + ".name";
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -130,4 +130,155 @@ class SqliteSessionTagSession : Sqlite
 			"tagSessionID INT )";
 		dbcmd.ExecuteNonQuery();
 	}
+
+	//default insertion
+	public static void Insert (bool dbconOpened, int sessionID, int tagSessionID)
+	{
+		Insert (dbconOpened, sessionID, tagSessionID, dbcmd);
+	}
+	//the method, can be called passing an special SqliteCommand to perform transactions
+	public static void Insert (bool dbconOpened, int sessionID, int tagSessionID, SqliteCommand mycmd)
+	{
+		openIfNeeded(dbconOpened);
+
+		mycmd.CommandText = "INSERT INTO " + table +
+				" (uniqueID, sessionID, tagSessionID)" +
+				" VALUES (NULL, " +
+				sessionID.ToString() + ", " +
+				tagSessionID.ToString() + ")";
+
+		LogB.SQL(mycmd.CommandText.ToString());
+		mycmd.ExecuteNonQuery();
+
+		closeIfNeeded(dbconOpened);
+	}
+
+	public static void Delete (bool dbconOpened, int sessionID, int tagSessionID)
+	{
+		Delete (dbconOpened, sessionID, tagSessionID, dbcmd);
+	}
+	//the method, can be called passing an special SqliteCommand to perform transactions
+	public static void Delete (bool dbconOpened, int sessionID, int tagSessionID, SqliteCommand mycmd)
+	{
+		openIfNeeded(dbconOpened);
+
+		mycmd.CommandText = "DELETE FROM " + table +
+				" WHERE sessionID = " + sessionID +
+				" AND tagSessionID = " + tagSessionID;
+
+		LogB.SQL(mycmd.CommandText.ToString());
+		mycmd.ExecuteNonQuery();
+
+		closeIfNeeded(dbconOpened);
+	}
+
+	//gets the active tagSessions in session
+	public static List<TagSession> SelectTagsOfASession (bool dbconOpened, int sessionID)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = "SELECT tagSession.* FROM tagSession, sessionTagSession " +
+			"WHERE tagSession.uniqueID = sessionTagSession.tagSessionID AND " +
+			"sessionTagSession.sessionID = " + sessionID + " ORDER BY NAME";
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		List<TagSession> list = new List<TagSession>();
+
+		while(reader.Read()) {
+			TagSession tagS = new TagSession (
+					Convert.ToInt32(reader[0].ToString()),	//uniqueID
+					reader[1].ToString(),			//name
+					reader[2].ToString(),			//color
+					reader[3].ToString()			//comments
+					);
+			list.Add(tagS);
+		}
+
+		reader.Close();
+		closeIfNeeded(dbconOpened);
+
+		return list;
+	}
+
+	public static List<SessionTagSession> SelectTagsOfAllSessions (bool dbconOpened)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = "SELECT sessionTagSession.sessionID, tagSession.* FROM tagSession, sessionTagSession " +
+			"WHERE tagSession.uniqueID = sessionTagSession.tagSessionID ORDER BY NAME";
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		List<SessionTagSession> list = new List<SessionTagSession>();
+
+		while(reader.Read())
+		{
+			SessionTagSession sts = new SessionTagSession
+				(
+					Convert.ToInt32(reader[0].ToString()),	//sessionID
+					new TagSession (
+						Convert.ToInt32(reader[1].ToString()),	//uniqueID
+						reader[2].ToString(),			//name
+						reader[3].ToString(),			//color
+						reader[4].ToString()			//comments
+						)
+					);
+			list.Add(sts);
+		}
+
+		reader.Close();
+		closeIfNeeded(dbconOpened);
+
+		return list;
+	}
+
+	public static void UpdateTransaction(int sessionID, ArrayList allTags_list,
+			List<TagSession> tagsActiveThisSession_list, string [] checkboxes)
+	{
+		LogB.SQL("Starting sessionTagSession transaction");
+		Sqlite.Open();
+
+		int count = 0;
+		using(SqliteTransaction tr = dbcon.BeginTransaction())
+		{
+			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+			{
+				dbcmdTr.Transaction = tr;
+
+				foreach(TagSession tagSession in allTags_list)
+				{
+					string statusOld = "inactive";
+					foreach(TagSession tagSearchIfActive in tagsActiveThisSession_list)
+						if(tagSearchIfActive.UniqueID == tagSession.UniqueID)
+						{
+							statusOld = "active";
+							break;
+						}
+
+					if(statusOld != checkboxes[count]) {
+						if(checkboxes[count] == "active")
+							Insert(true, sessionID, tagSession.UniqueID, dbcmdTr);
+						else
+							Delete(true, sessionID, tagSession.UniqueID, dbcmdTr);
+					}
+
+					count ++;
+				}
+			}
+			tr.Commit();
+		}
+
+		Sqlite.Close();
+		LogB.SQL("Ended transaction");
+	}
+
 }

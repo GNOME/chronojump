@@ -35,6 +35,7 @@ public partial class ChronoJumpWindow
 	//[Widget] Gtk.Label app1sae_label_persons_data;
 	//[Widget] Gtk.TextView app1sae_textview_persons_data;
 
+	TagSessionSelect tagSessionSelect;
 	DialogCalendar app1sae_dialogCalendar;
 	DateTime app1sae_dateTime;
 
@@ -75,6 +76,7 @@ public partial class ChronoJumpWindow
 		app1sae_hbox_sports.Visible = false;
 		app1sae_hbox_speciallities.Visible = false;
 		app1sae_hbox_levels.Visible = false;
+		app1sae_label_tags_selected.Text = "";
 
 		if(addSession) {
 			hbox_session_add.Visible = true;
@@ -109,6 +111,8 @@ public partial class ChronoJumpWindow
 			TextBuffer tb = new TextBuffer (new TextTagTable());
 			tb.Text = currentSession.Comments;
 			app1sae_textview_comments.Buffer = tb;
+
+			app1sae_label_tags_selected.Text = TagSession.GetActiveTagNamesOfThisSession(currentSession.UniqueID);
 		}
 
 		//app1sae_labelUpdate();
@@ -535,7 +539,25 @@ public partial class ChronoJumpWindow
 
 	private void on_app1sae_button_select_tags_clicked (object o, EventArgs args)
 	{
-		new TagSessionSelect();
+		//just be cautious
+		if(currentSession == null)
+			return;
+
+		tagSessionSelect = new TagSessionSelect();
+
+		tagSessionSelect.PassVariables(currentSession.UniqueID);
+
+		tagSessionSelect.FakeButtonDone.Clicked -= new EventHandler(on_select_tags_clicked_done);
+		tagSessionSelect.FakeButtonDone.Clicked += new EventHandler(on_select_tags_clicked_done);
+
+		tagSessionSelect.Do();
+		tagSessionSelect.Show();
+	}
+
+	private void on_select_tags_clicked_done (object o, EventArgs args)
+	{
+		tagSessionSelect.FakeButtonDone.Clicked -= new EventHandler(on_select_tags_clicked_done);
+		app1sae_label_tags_selected.Text = TagSession.GetActiveTagNamesOfThisSession(currentSession.UniqueID);
 	}
 
 	void app1sae_on_button_change_date_clicked (object o, EventArgs args)

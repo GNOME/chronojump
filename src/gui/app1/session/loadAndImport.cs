@@ -52,6 +52,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label app1s_label_import;
 	[Widget] Gtk.ScrolledWindow scrolledwin_session_load;
 
+	[Widget] Gtk.HBox app1s_hbox_combo_tags;
+	[Widget] Gtk.ComboBox app1s_combo_tags;
+	CjComboGeneric app1sComboTags;
+
 	/*
 	 * when fillTreeView() is called, it executes:
 	 * SqliteSessionSwitcher sessionSwitcher = new SqliteSessionSwitcher (databaseType, import_file_path);
@@ -105,6 +109,8 @@ public partial class ChronoJumpWindow
 			app1s_button_select_file_import_same_database.Visible = false; //is shown when user want to import a second session
 			app1s_notebook.CurrentPage = app1s_PAGE_IMPORT_START;
 		}
+
+		createComboSessionLoadTags (false); //TODO: care because this is only related to load (not report)
 		app1s_entry_search_filter.Text = "";
 
 		app1s_createTreeView(app1s_treeview_session_load, true, false, false, false);
@@ -236,7 +242,26 @@ public partial class ChronoJumpWindow
 		}
 		tv.AppendColumn ( Catalog.GetString ("Comments"), new CellRendererText(), "text", count++);
 	}
-	
+
+        private void createComboSessionLoadTags (bool create)
+        {
+                if(create)
+                {
+                        app1sComboTags = new CjComboGeneric(app1s_combo_tags, app1s_hbox_combo_tags);
+                        app1s_combo_tags = app1sComboTags.Combo;
+                        app1s_combo_tags.Changed += new EventHandler (app1s_on_combo_tags_changed);
+                } else {
+			app1sComboTags.L_types = TagSession.ListSelectTypesOnSQL();
+                        app1sComboTags.Fill();
+                        app1s_combo_tags = app1sComboTags.Combo;
+                }
+                app1s_combo_tags.Sensitive = true;
+        }
+
+	private void app1s_on_combo_tags_changed (object o, EventArgs args) {
+		app1s_recreateTreeView("changed tag");
+	}
+
 	protected void app1s_on_entry_search_filter_changed (object o, EventArgs args) {
 		app1s_recreateTreeView("changed search filter");
 	}
@@ -367,12 +392,25 @@ public partial class ChronoJumpWindow
 			strings[i ++] = myStringFull[3];	//session date
 			strings[i ++] = myStringFull[1]; 	//session name
 
+			//to show tag column
 			if (app1s_type == app1s_windowType.LOAD_SESSION)
 			{
 				List<TagSession> tagSession_list = SessionTagSession.FindTagSessionsOfSession(
 						Convert.ToInt32(myStringFull[0]),
 						tagsOfAllSessions);
 				strings[i ++] = SessionTagSession.PrintTagNamesOfSession(tagSession_list);
+
+				//do not show this session depending on tags
+				if(app1sComboTags.GetSelectedId() > 0)
+				{
+					bool found = false;
+					foreach(TagSession ts in tagSession_list)
+						if(ts.UniqueID == app1sComboTags.GetSelectedId())
+							found = true;
+
+					if(! found)
+						continue;
+				}
 			}
 
 			strings[i ++] = myStringFull[2]; 	//session place

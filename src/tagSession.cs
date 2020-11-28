@@ -75,6 +75,21 @@ public class TagSession
 		return str;
 	}
 
+	public static List<object> ListSelectTypesOnSQL ()
+	{
+		List<object> list = new List<object>();
+
+		foreach(TagSession ts in SqliteTagSession.Select(false, -1))
+		{
+			if(list.Count == 0)
+				list.Add(new SelectTypes(0, "Select tag", Catalog.GetString("Select tag")));
+
+			list.Add(new SelectTypes(ts.UniqueID, ts.Name, ts.Name)); //no translation on tags
+		}
+
+		return list;
+	}
+
 	public static string GetActiveTagNamesOfThisSession(int sessionID)
 	{
 		string str = "";

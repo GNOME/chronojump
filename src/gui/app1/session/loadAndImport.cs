@@ -212,7 +212,12 @@ public partial class ChronoJumpWindow
 		tv.AppendColumn (colName);
 
 		if(loadOrImport)
-			tv.AppendColumn ( Catalog.GetString ("Tags"), new CellRendererText(), "text", count++);
+		{
+			Gtk.TreeViewColumn colTags = new Gtk.TreeViewColumn(Catalog.GetString ("Tags"), new CellRendererText(), "text", count);
+			colTags.SortColumnId = count ++;
+			colTags.SortIndicator = true;
+			tv.AppendColumn (colTags);
+		}
 
 		tv.AppendColumn ( Catalog.GetString ("Place"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Persons"), new CellRendererText(), "text", count++);

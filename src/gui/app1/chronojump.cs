@@ -624,7 +624,9 @@ public partial class ChronoJumpWindow
 		createComboPulses();
 		//createComboMultiChronopic();
 		createdStatsWin = false;
-		
+
+		createComboSessionLoadTags(true);
+
 		repetitiveConditionsWin = RepetitiveConditionsWindow.Create();
 		//to have objects ok to be able to be readed before viewing the repetitiveConditionsWin
 		repetitiveConditionsWin.View(Constants.BellModes.ENCODERGRAVITATORY, preferences, encoderRhythm, false); //not viewWindow

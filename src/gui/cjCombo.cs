@@ -292,6 +292,21 @@ public class CjComboForceSensorPorts : CjCombo
 	}
 }
 
+/*
+public class CjComboSessionSelectTags : CjCombo
+{
+	public CjComboSessionSelectTags (Gtk.ComboBox combo, Gtk.HBox hbox_combo)
+	{
+		this.combo = combo;
+		this.hbox = hbox_combo;
+
+		create();
+		FillNoTranslate();
+		package();
+	}
+
+}
+*/
 //------------ generic -------------
 
 public class CjComboGeneric : CjCombo

@@ -69,8 +69,8 @@ public class TagSession
 		str[0] = uniqueID.ToString();
 		str[1] = ""; 	//checkbox
 		str[2] = name;
-		str[3] = color;
-		str[4] = comments;
+		//str[3] = color;
+		//str[4] = comments;
 
 		return str;
 	}

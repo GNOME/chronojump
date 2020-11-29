@@ -78,6 +78,7 @@ src/gui/app1/session/backup.cs
 src/gui/app1/session/export.cs
 src/gui/app1/session/loadAndImport.cs
 src/gui/app1/session/main.cs
+src/gui/app1/session/tagSessionSelect.cs
 src/gui/app1/shortcuts.cs
 src/gui/cairo/jumpsWeightFVProfile.cs
 src/gui/cairo/xy.cs

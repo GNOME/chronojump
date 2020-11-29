@@ -104,8 +104,8 @@ public class TagSessionSelect
 			"ID",
 			Catalog.GetString("Active"),
 			Catalog.GetString("Name"),
-			Catalog.GetString("Color"),
-			Catalog.GetString("Comments")
+			//Catalog.GetString("Color"),
+			//Catalog.GetString("Comments")
 		};
 
 		bigArray = new ArrayList();

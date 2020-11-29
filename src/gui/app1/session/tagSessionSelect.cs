@@ -121,7 +121,12 @@ public class TagSessionSelect
                 genericWin = GenericWindow.Show(Catalog.GetString("Tags"), false,       //don't show now
                                 "", bigArray);
 
-		genericWin.SetTreeview(columnsString, true, allTags_listPrint, new ArrayList(), GenericWindow.EditActions.NONE, false);
+		genericWin.SetTreeview(columnsString, true, allTags_listPrint, new ArrayList(), GenericWindow.EditActions.EDITDELETE, false);
+
+		genericWin.ShowEditRow(false);
+		genericWin.HideEditRowCombo();
+		genericWin.SetLabelComment(Catalog.GetString("Change name"));
+		genericWin.CommentColumn = 2; //used for the name
 
 		genericWin.ResetComboCheckBoxesOptions();
 		genericWin.CreateComboCheckBoxes();
@@ -141,10 +146,18 @@ public class TagSessionSelect
 		//manage selected, unselected curves
 		genericWin.Button_accept.Clicked -= new EventHandler(on_tag_session_win_done);
 		genericWin.Button_accept.Clicked += new EventHandler(on_tag_session_win_done);
+
+		genericWin.Button_row_edit.Clicked += new EventHandler(on_tag_session_win_row_edit);
+		genericWin.Button_row_edit_apply.Clicked += new EventHandler(on_tag_session_win_row_edit_apply);
+		genericWin.Button_row_delete.Clicked += new EventHandler(on_tag_session_win_row_delete_prequestion);
 	}
 
 	private void removeCallbacks() {
 		genericWin.Button_accept.Clicked -= new EventHandler(on_tag_session_win_done);
+
+		genericWin.Button_row_edit.Clicked -= new EventHandler(on_tag_session_win_row_edit);
+		genericWin.Button_row_edit_apply.Clicked -= new EventHandler(on_tag_session_win_row_edit_apply);
+		genericWin.Button_row_delete.Clicked -= new EventHandler(on_tag_session_win_row_delete_prequestion);
 	}
 
 	private void on_tag_session_win_done (object o, EventArgs args)
@@ -162,4 +175,48 @@ public class TagSessionSelect
 		FakeButtonDone.Click();
 	}
 
+	private void on_tag_session_win_row_edit (object o, EventArgs args)
+	{
+		genericWin.ShowEditRow(true);
+	}
+	private void on_tag_session_win_row_edit_apply (object o, EventArgs args)
+	{
+		LogB.Information("on_tag_session_win_row_row_edit_apply. Opening db:");
+
+		Sqlite.Open();
+
+		//1) select set
+		int id = genericWin.TreeviewSelectedUniqueID;
+		ArrayList tsArray = SqliteTagSession.Select(true, -1);
+		TagSession ts = (TagSession) SqliteTagSession.Select(true, id)[0];
+
+		//2) if changed comment, update SQL, and update treeview
+		//first remove conflictive characters
+		string nameNew = Util.RemoveTildeAndColonAndDot(genericWin.EntryEditRow);
+		if(nameNew != ts.Name)
+		{
+			foreach(TagSession ts2 in tsArray)
+				if(ts2.Name == nameNew)
+				{
+					new DialogMessage(Constants.MessageTypes.WARNING, string.Format("Error: a tag named: '{0}' already exists.", nameNew));
+					return;
+				}
+
+			ts.Name = nameNew;
+			Sqlite.Update(true, Constants.TagSessionTable, "name",
+					"", ts.Name,
+					"uniqueID", ts.UniqueID.ToString());
+
+			//update treeview
+			genericWin.on_edit_selected_done_update_treeview();
+		}
+
+		genericWin.ShowEditRow(false);
+		genericWin.SensitiveEditDeleteIfSelected();
+
+		Sqlite.Close();
+	}
+	private void on_tag_session_win_row_delete_prequestion (object o, EventArgs args)
+	{
+	}
 }

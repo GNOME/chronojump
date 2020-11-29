@@ -104,7 +104,7 @@ public class GenericWindow
 	private TreeStore store;
 	private bool textviewChanging = false;
 
-	public enum EditActions { NONE, EDITPLAYDELETE, DELETE }
+	public enum EditActions { NONE, EDITDELETE, EDITPLAYDELETE, DELETE }
 
 	//used to read data, see if it's ok, and print an error message.
 	//if all is ok, destroy it with HideAndNull()
@@ -627,7 +627,15 @@ public class GenericWindow
 
 		this.activateRowAcceptsWindow = activateRowAcceptsWindow;
 
-		if(editAction == EditActions.EDITPLAYDELETE)
+		if(editAction == EditActions.EDITDELETE)
+		{
+			button_treeviewload_row_edit.Sensitive = false;
+			button_treeviewload_row_edit.Visible = true;
+			button_treeviewload_row_delete.Sensitive = false;
+			button_treeviewload_row_delete.Visible = true;
+			button_row_edit = new Gtk.Button();
+			button_row_delete = new Gtk.Button();
+		} else if(editAction == EditActions.EDITPLAYDELETE)
 		{
 			button_treeviewload_row_edit.Sensitive = false;
 			button_treeviewload_row_edit.Visible = true;

@@ -1075,6 +1075,16 @@ public class GenericWindow
 		set { commentColumn = value; }
 	}
 
+	public void HideEditRowCombo()
+	{
+		hbox_combo.Visible = false;
+		hbox_combo_label.Visible = false;
+	}
+
+	public void SetLabelComment(string l) {
+		label_comment.Text = l;
+	}
+
 	public Button Button_row_delete {
 		set { button_row_delete = value; }
 		get { return button_row_delete; }

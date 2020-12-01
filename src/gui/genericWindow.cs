@@ -854,7 +854,7 @@ public class GenericWindow
 			if(! Util.FoundInArrayList(nonSensitiveRows, 
 						Convert.ToInt32(args.Path))) {
 				bool val = (bool) store.GetValue (iter, column);
-				//Log.WriteLine (string.Format("toggled {0} with value {1}", args.Path, !val));
+				LogB.Information (string.Format("toggled {0} with value {1}", args.Path, !val));
 
 				store.SetValue (iter, column, !val);
 

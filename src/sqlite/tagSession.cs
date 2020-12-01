@@ -55,7 +55,7 @@ class SqliteTagSession : Sqlite
 
 		dbcmd.CommandText = "INSERT INTO " + table +
 				" (uniqueID, name, color, comments)" +
-				" VALUES " + insertString;
+				" VALUES (" + insertString + ")";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 

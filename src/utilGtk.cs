@@ -414,15 +414,15 @@ public class UtilGtk
 		return tv;
 	}
 
-	//startOrEnd is true at start, false at end
-	public static void TreeviewAddRow(Gtk.TreeView tv, TreeStore store, string [] row, bool startOrEnd) {
+	//position 0 is start, -1 is end
+	public static void TreeviewAddRow(Gtk.TreeView tv, TreeStore store, string [] row, int position) {
 		TreeIter iter = new TreeIter();
 		store.GetIterFirst(out iter);
 		
-		if(startOrEnd)
-			iter = store.InsertWithValues(0,row);
-		else
+		if(position == -1)
 			iter = store.AppendValues(row);
+		else
+			iter = store.InsertWithValues(position, row);
 
 		//scroll treeview if needed
 		TreePath path = store.GetPath (iter);

@@ -78,7 +78,7 @@ class SqliteTagSession : Sqlite
 		if(uniqueID != -1)
 			uniqueIDStr = " WHERE " + table + ".uniqueID = " + uniqueID;
 
-		dbcmd.CommandText = selectStr + uniqueIDStr + " Order BY " + table + ".name";
+		dbcmd.CommandText = selectStr + uniqueIDStr + " Order BY LOWER(" + table + ".name)";
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -179,7 +179,7 @@ class SqliteSessionTagSession : Sqlite
 
 		dbcmd.CommandText = "SELECT tagSession.* FROM tagSession, sessionTagSession " +
 			"WHERE tagSession.uniqueID = sessionTagSession.tagSessionID AND " +
-			"sessionTagSession.sessionID = " + sessionID + " ORDER BY NAME";
+			"sessionTagSession.sessionID = " + sessionID + " ORDER BY LOWER(NAME)";
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

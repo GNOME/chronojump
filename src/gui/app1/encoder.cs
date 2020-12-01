@@ -1201,7 +1201,7 @@ public partial class ChronoJumpWindow
 		int uniqueID = SqliteEncoder.Insert1RM(false, currentPerson.UniqueID, currentSession.UniqueID, 
 				getExerciseIDFromEncoderCombo (exerciseCombos.CAPTURE), genericWin.SpinDouble2Selected);
 
-		genericWin.Row_add(new string[] {
+		genericWin.Row_add_beginning_or_end (new string[] {
 				uniqueID.ToString(), currentPerson.Name, UtilGtk.ComboGetActive(combo_encoder_exercise_capture),
 				d.ToString(), currentSession.DateShort
 				}, true

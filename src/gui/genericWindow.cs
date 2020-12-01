@@ -975,8 +975,33 @@ public class GenericWindow
 	}
 
 	//add row to treeview
-	public void Row_add(string [] row, bool atBeginning) {
-		UtilGtk.TreeviewAddRow(treeview, store, row, atBeginning);
+	public void Row_add_beginning_or_end (string [] row, bool atBeginning)
+	{
+		if(atBeginning)
+			UtilGtk.TreeviewAddRow(treeview, store, row, 0);
+		else
+			UtilGtk.TreeviewAddRow(treeview, store, row, -1);
+	}
+	//columnAlphabetical is the column that is going to be checked
+	public void Row_add_alphabetical (string [] row, int columnAlphabetical)
+	{
+		int rowToInsert = 0;
+		Gtk.TreeIter iter;
+		bool okIter = store.GetIterFirst(out iter);
+		if(okIter) {
+			do {
+				string word = (string) store.GetValue (iter, columnAlphabetical);
+				LogB.Information(string.Format("row[columnAphabetical]: {0}, word: {1}, compare: {2}",
+							row[columnAlphabetical], word, row[columnAlphabetical].ToLower().CompareTo(word.ToLower()) > 0));
+				if(row[columnAlphabetical].ToLower().CompareTo(word.ToLower()) > 0)
+					rowToInsert ++;
+				else
+					break;
+			} while ( store.IterNext(ref iter) );
+		}
+
+		LogB.Information("Row to insert: " + rowToInsert.ToString());
+		UtilGtk.TreeviewAddRow(treeview, store, row, rowToInsert);
 	}
 	
 	public void ShowTextview() {

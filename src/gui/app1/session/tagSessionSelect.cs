@@ -208,18 +208,10 @@ public class TagSessionSelect
 
 		TagSession ts = new TagSession(-1, nameNew, "#000000", "");
 		int uniqueID = ts.InsertSQL(false);
-
-		/*
-		//update treeview
-		genericWin.on_edit_selected_done_update_treeview();
-		*/
-		genericWin.Row_add(new string[] { uniqueID.ToString(), "", ts.Name }, false );
-		//aixo no acaba d'anar bé pq el seu checkbox no va després, potser el millor és refer el treeview, a veure que es fa al delete
-		//i si no el refa, com a mínim que afegeixi la row en ordre alfabètic
-
-//TODO: Add button should only be active when entry2 changed, can check "on_entries_changed"
-
 		genericWin.Entry2Selected = "";
+
+		//update treeview
+		genericWin.Row_add_alphabetical (new string[] { uniqueID.ToString(), "", ts.Name }, 2);
 	}
 
 	private void on_tag_session_win_row_edit (object o, EventArgs args)

@@ -69,6 +69,7 @@ public class GenericWindow
 	[Widget] Gtk.ComboBox combo_all_none_selected;
 	[Widget] Gtk.SpinButton spin_feet;
 	[Widget] Gtk.SpinButton spin_inches;
+	[Widget] Gtk.Label label_before_textview_treeview;
 	[Widget] Gtk.ScrolledWindow scrolled_window_textview;
 	[Widget] Gtk.TextView textview;
 	[Widget] Gtk.ScrolledWindow scrolled_window_treeview;
@@ -231,6 +232,7 @@ public class GenericWindow
 		hbox_all_none_selected.Hide();
 		hbox_combo_all_none_selected.Hide();
 		hbuttonbox_middle.Hide();
+		label_before_textview_treeview.Hide();
 		scrolled_window_textview.Hide();
 		scrolled_window_treeview.Hide();
 	}
@@ -302,6 +304,9 @@ public class GenericWindow
 		}
 		else if(stuff == Constants.GenericWindowShow.BUTTONMIDDLE) {
 			hbuttonbox_middle.Show();
+		}
+		else if(stuff == Constants.GenericWindowShow.LABELBEFORETEXTVIEWTREEVIEW) {
+			label_before_textview_treeview.Show();
 		}
 		else if(stuff == Constants.GenericWindowShow.TEXTVIEW) {
 			scrolled_window_textview.Show();
@@ -1109,6 +1114,10 @@ public class GenericWindow
 	public string Entry3Selected {
 		set { entry3.Text = value; }
 		get { return entry3.Text.ToString(); }
+	}
+
+	public string LabelBeforeTextViewTreeView {
+		set { label_before_textview_treeview.Text = value; }
 	}
 
 	public string EntryEditRow {

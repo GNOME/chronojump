@@ -219,7 +219,7 @@ public class TagSessionSelect
 
 //TODO: Add button should only be active when entry2 changed, can check "on_entries_changed"
 
-//TODO: and has to select the new tag, and hide the edit row if visible
+		genericWin.Entry2Selected = "";
 	}
 
 	private void on_tag_session_win_row_edit (object o, EventArgs args)

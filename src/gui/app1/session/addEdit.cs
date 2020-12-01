@@ -545,7 +545,7 @@ public partial class ChronoJumpWindow
 
 		tagSessionSelect = new TagSessionSelect();
 
-		tagSessionSelect.PassVariables(currentSession.UniqueID);
+		tagSessionSelect.PassVariables(currentSession.UniqueID, preferences.askDeletion);
 
 		tagSessionSelect.FakeButtonDone.Clicked -= new EventHandler(on_select_tags_clicked_done);
 		tagSessionSelect.FakeButtonDone.Clicked += new EventHandler(on_select_tags_clicked_done);

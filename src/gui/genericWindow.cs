@@ -973,12 +973,11 @@ public class GenericWindow
 		//remove selected row from treeview
 		store = UtilGtk.RemoveRow(treeview, store);
 	}
-	
-	public void Row_add(string [] row) {
-		//add row to treeview
-		UtilGtk.TreeviewAddRow(treeview, store, row, true); //insert at beginning
+
+	//add row to treeview
+	public void Row_add(string [] row, bool atBeginning) {
+		UtilGtk.TreeviewAddRow(treeview, store, row, atBeginning);
 	}
-	
 	
 	public void ShowTextview() {
 		scrolled_window_textview.Show();

@@ -260,9 +260,13 @@ public class TagSessionSelect
 
 	private void on_tag_session_win_row_delete_prequestion (object o, EventArgs args)
 	{
-		if(askDeletion) {
+		if(askDeletion)
+		{
+			int id = genericWin.TreeviewSelectedUniqueID;
+			TagSession ts = (TagSession) SqliteTagSession.Select(false, id)[0];
+
 			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
-						"Are you sure you want to delete this tag?"), "", "");
+						"Are you sure you want to delete this tag?"), "", ts.Name);
 			confirmWin.Button_accept.Clicked += new EventHandler(on_tag_session_win_row_delete);
 		} else
 			on_tag_session_win_row_delete (o, args);

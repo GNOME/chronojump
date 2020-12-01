@@ -105,6 +105,24 @@ class SqliteTagSession : Sqlite
 		return array;
 	}
 
+	//deletes the tag and also all related rows on sessionTagSession
+	public static void Delete (bool dbconOpened, int uniqueID)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = "DELETE FROM " + table +
+				" WHERE uniqueID = " + uniqueID.ToString();
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		dbcmd.CommandText = "DELETE FROM " + Constants.SessionTagSessionTable +
+				" WHERE tagSessionID = " + uniqueID.ToString();
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		closeIfNeeded(dbconOpened);
+	}
+
 }
 
 class SqliteSessionTagSession : Sqlite

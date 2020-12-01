@@ -32,6 +32,7 @@ public class TagSessionSelect
 {
 	//passed variables
 	private int currentSessionID;
+	private bool askDeletion;
 
 	private ArrayList allTags_list; //all available tags
 	private ArrayList allTags_listPrint;
@@ -43,9 +44,11 @@ public class TagSessionSelect
 
 	public Gtk.Button FakeButtonDone;
 
-	public void PassVariables(int currentSessionID)
+	public void PassVariables(int currentSessionID, bool askDeletion)
 	{
 		this.currentSessionID = currentSessionID;
+		this.askDeletion = askDeletion;
+
 		FakeButtonDone = new Gtk.Button();
 	}
 
@@ -254,7 +257,25 @@ public class TagSessionSelect
 
 		Sqlite.Close();
 	}
+
 	private void on_tag_session_win_row_delete_prequestion (object o, EventArgs args)
 	{
+		if(askDeletion) {
+			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
+						"Are you sure you want to delete this tag?"), "", "");
+			confirmWin.Button_accept.Clicked += new EventHandler(on_tag_session_win_row_delete);
+		} else
+			on_tag_session_win_row_delete (o, args);
+	}
+	private void on_tag_session_win_row_delete (object o, EventArgs args)
+	{
+		LogB.Information("row delete at tag_session");
+
+		int tagID = genericWin.TreeviewSelectedUniqueID;
+		LogB.Information(tagID.ToString());
+
+		SqliteTagSession.Delete(false, tagID);
+
+		genericWin.Delete_row_accepted();
 	}
 }

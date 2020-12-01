@@ -82,6 +82,7 @@ public class GenericWindow
 	[Widget] Gtk.Button button_row_play;
 	[Widget] Gtk.Button button_row_delete;
 
+	[Widget] Gtk.Label label_treeviewload_row;
 	[Widget] Gtk.Button button_treeviewload_row_edit;
 	[Widget] Gtk.Button button_treeviewload_row_delete;
 	[Widget] Gtk.Button button_treeviewload_row_play;
@@ -226,6 +227,7 @@ public class GenericWindow
 		hbox_height_metric.Hide();
 		check1.Hide();
 		hbox_edit_row.Hide();
+		label_treeviewload_row.Hide();
 		button_treeviewload_row_edit.Hide();
 		button_treeviewload_row_play.Hide();
 		button_treeviewload_row_delete.Hide();
@@ -634,6 +636,8 @@ public class GenericWindow
 
 		if(editAction == EditActions.EDITDELETE)
 		{
+			label_treeviewload_row.Sensitive = false;
+			label_treeviewload_row.Visible = true;
 			button_treeviewload_row_edit.Sensitive = false;
 			button_treeviewload_row_edit.Visible = true;
 			button_treeviewload_row_delete.Sensitive = false;
@@ -642,6 +646,8 @@ public class GenericWindow
 			button_row_delete = new Gtk.Button();
 		} else if(editAction == EditActions.EDITPLAYDELETE)
 		{
+			label_treeviewload_row.Sensitive = false;
+			label_treeviewload_row.Visible = true;
 			button_treeviewload_row_edit.Sensitive = false;
 			button_treeviewload_row_edit.Visible = true;
 			button_treeviewload_row_play.Sensitive = false;
@@ -653,6 +659,8 @@ public class GenericWindow
 			button_row_delete = new Gtk.Button();
 		} else if(editAction == EditActions.DELETE)
 		{
+			label_treeviewload_row.Sensitive = false;
+			label_treeviewload_row.Visible = true;
 			button_row_delete = new Gtk.Button();
 			button_treeviewload_row_delete.Sensitive = false;
 			button_treeviewload_row_delete.Visible = true;
@@ -729,6 +737,7 @@ public class GenericWindow
 		if (treeview.Selection.GetSelected (out myModel, out iter))
 		{
 			SetButtonAcceptSensitive(true);
+			label_treeviewload_row.Sensitive = true;
 			button_treeviewload_row_edit.Sensitive = true;
 			button_treeviewload_row_delete.Sensitive = true;
 
@@ -738,6 +747,7 @@ public class GenericWindow
 		else
 		{
 			SetButtonAcceptSensitive(false);
+			label_treeviewload_row.Sensitive = false;
 			button_treeviewload_row_edit.Sensitive = false;
 			button_treeviewload_row_delete.Sensitive = false;
 			button_treeviewload_row_play.Sensitive = false;
@@ -752,6 +762,7 @@ public class GenericWindow
 		TreeModel myModel = treeview.Model;
 		if (treeview.Selection.GetSelected (out myModel, out iter))
 		{
+			label_treeviewload_row.Sensitive = false;
 			button_treeviewload_row_edit.Sensitive = true;
 			button_treeviewload_row_play.Sensitive = true;
 			button_treeviewload_row_delete.Sensitive = true;
@@ -898,6 +909,7 @@ public class GenericWindow
 
 		entry_edit_row.Text = (string) model.GetValue (iter, commentColumn);
 
+		label_treeviewload_row.Sensitive = false;
 		button_treeviewload_row_edit.Sensitive = false;
 		button_treeviewload_row_play.Sensitive = false;
 		button_treeviewload_row_delete.Sensitive = false;
@@ -929,6 +941,7 @@ public class GenericWindow
 
 	public void on_hbox_combo_button_cancel_clicked (object o, EventArgs args)
 	{
+		label_treeviewload_row.Sensitive = true;
 		button_treeviewload_row_edit.Sensitive = true;
 		button_treeviewload_row_play.Sensitive = true;
 		button_treeviewload_row_delete.Sensitive = true;
@@ -960,6 +973,7 @@ public class GenericWindow
 			return;
 
 		TreeviewSelectedUniqueID = Convert.ToInt32((string) store.GetValue (iter, 0));
+		label_treeviewload_row.Sensitive = false;
 		button_treeviewload_row_edit.Sensitive = false;
 		button_treeviewload_row_play.Sensitive = false;
 		button_treeviewload_row_delete.Sensitive = false;

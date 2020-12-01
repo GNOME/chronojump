@@ -90,6 +90,15 @@ public class TagSession
 		return list;
 	}
 
+	public static bool CheckIfTagNameExists(bool dbconOpened, string name)
+	{
+		foreach(TagSession ts in SqliteTagSession.Select(dbconOpened, -1))
+			if(ts.Name == name)
+				return true;
+
+		return false;
+	}
+
 	public static string GetActiveTagNamesOfThisSession(int sessionID)
 	{
 		string str = "";

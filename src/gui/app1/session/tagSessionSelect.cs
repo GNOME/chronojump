@@ -110,10 +110,22 @@ public class TagSessionSelect
 
 		bigArray = new ArrayList();
 		ArrayList a1 = new ArrayList();
+		ArrayList a2 = new ArrayList();
+		ArrayList a3 = new ArrayList();
+		ArrayList a4 = new ArrayList();
 
 		//0 is the widgget to show; 1 is the editable; 2 id default value
-		a1.Add(Constants.GenericWindowShow.TREEVIEW); a1.Add(true); a1.Add("");
+		a1.Add(Constants.GenericWindowShow.ENTRY2); a1.Add(true); a1.Add("");
 		bigArray.Add(a1);
+
+		a2.Add(Constants.GenericWindowShow.BUTTONMIDDLE); a2.Add(true); a2.Add("");
+                bigArray.Add(a2);
+
+		a3.Add(Constants.GenericWindowShow.LABELBEFORETEXTVIEWTREEVIEW); a3.Add(true); a3.Add("");
+		bigArray.Add(a3);
+
+		a4.Add(Constants.GenericWindowShow.TREEVIEW); a4.Add(true); a4.Add("");
+		bigArray.Add(a4);
 	}
 
 	private void createGenericWindow()
@@ -122,6 +134,11 @@ public class TagSessionSelect
                                 "", bigArray);
 
 		genericWin.SetTreeview(columnsString, true, allTags_listPrint, new ArrayList(), GenericWindow.EditActions.EDITDELETE, false);
+
+
+		genericWin.LabelEntry2 = Catalog.GetString("Create new tag");
+		genericWin.SetButtonMiddleLabel(Catalog.GetString("Create"));
+		genericWin.LabelBeforeTextViewTreeView = Catalog.GetString("Select tags for this session");
 
 		genericWin.ShowEditRow(false);
 		genericWin.HideEditRowCombo();
@@ -147,6 +164,7 @@ public class TagSessionSelect
 		genericWin.Button_accept.Clicked -= new EventHandler(on_tag_session_win_done);
 		genericWin.Button_accept.Clicked += new EventHandler(on_tag_session_win_done);
 
+		genericWin.Button_middle.Clicked += new EventHandler(on_tag_session_win_tag_added);
 		genericWin.Button_row_edit.Clicked += new EventHandler(on_tag_session_win_row_edit);
 		genericWin.Button_row_edit_apply.Clicked += new EventHandler(on_tag_session_win_row_edit_apply);
 		genericWin.Button_row_delete.Clicked += new EventHandler(on_tag_session_win_row_delete_prequestion);
@@ -155,6 +173,7 @@ public class TagSessionSelect
 	private void removeCallbacks() {
 		genericWin.Button_accept.Clicked -= new EventHandler(on_tag_session_win_done);
 
+		genericWin.Button_middle.Clicked -= new EventHandler(on_tag_session_win_tag_added);
 		genericWin.Button_row_edit.Clicked -= new EventHandler(on_tag_session_win_row_edit);
 		genericWin.Button_row_edit_apply.Clicked -= new EventHandler(on_tag_session_win_row_edit_apply);
 		genericWin.Button_row_delete.Clicked -= new EventHandler(on_tag_session_win_row_delete_prequestion);
@@ -167,12 +186,40 @@ public class TagSessionSelect
 		//get selected/deselected rows
 		checkboxes = genericWin.GetColumn(1, false);
 
+		//need to refresh allTags_list because tasks could have been added/deleted
+		allTags_list = SqliteTagSession.Select(false, -1);
 		//update on database the what has been selected/deselected
 		//doing it as a transaction: FAST
 		SqliteSessionTagSession.UpdateTransaction(currentSessionID, allTags_list,
 				tagsActiveThisSession_list, checkboxes);
 
 		FakeButtonDone.Click();
+	}
+
+	private void on_tag_session_win_tag_added (object o, EventArgs args)
+	{
+		string nameNew = genericWin.Entry2Selected;
+		if(TagSession.CheckIfTagNameExists(false, nameNew))
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING,
+					string.Format("Error: a tag named: '{0}' already exists.", nameNew));
+			return;
+		}
+
+		TagSession ts = new TagSession(-1, nameNew, "#000000", "");
+		int uniqueID = ts.InsertSQL(false);
+
+		/*
+		//update treeview
+		genericWin.on_edit_selected_done_update_treeview();
+		*/
+		genericWin.Row_add(new string[] { uniqueID.ToString(), "", ts.Name }, false );
+		//aixo no acaba d'anar bé pq el seu checkbox no va després, potser el millor és refer el treeview, a veure que es fa al delete
+		//i si no el refa, com a mínim que afegeixi la row en ordre alfabètic
+
+//TODO: Add button should only be active when entry2 changed, can check "on_entries_changed"
+
+//TODO: and has to select the new tag, and hide the edit row if visible
 	}
 
 	private void on_tag_session_win_row_edit (object o, EventArgs args)
@@ -187,7 +234,6 @@ public class TagSessionSelect
 
 		//1) select set
 		int id = genericWin.TreeviewSelectedUniqueID;
-		ArrayList tsArray = SqliteTagSession.Select(true, -1);
 		TagSession ts = (TagSession) SqliteTagSession.Select(true, id)[0];
 
 		//2) if changed comment, update SQL, and update treeview
@@ -195,12 +241,12 @@ public class TagSessionSelect
 		string nameNew = Util.RemoveTildeAndColonAndDot(genericWin.EntryEditRow);
 		if(nameNew != ts.Name)
 		{
-			foreach(TagSession ts2 in tsArray)
-				if(ts2.Name == nameNew)
-				{
-					new DialogMessage(Constants.MessageTypes.WARNING, string.Format("Error: a tag named: '{0}' already exists.", nameNew));
-					return;
-				}
+			if(TagSession.CheckIfTagNameExists(true, nameNew))
+			{
+				new DialogMessage(Constants.MessageTypes.WARNING,
+						string.Format("Error: a tag named: '{0}' already exists.", nameNew));
+				return;
+			}
 
 			ts.Name = nameNew;
 			Sqlite.Update(true, Constants.TagSessionTable, "name",

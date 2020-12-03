@@ -66,7 +66,7 @@ class SqliteRunEncoder : Sqlite
 				" (uniqueID, personID, sessionID, exerciseID, device, distance, temperature, filename, url, dateTime, comments, videoURL)" +
 				" VALUES " + insertString;
 		LogB.SQL(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery(); //TODO uncomment this again
+		dbcmd.ExecuteNonQuery();
 
 		string myString = @"select last_insert_rowid()";
 		dbcmd.CommandText = myString;

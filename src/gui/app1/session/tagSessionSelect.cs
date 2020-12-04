@@ -31,6 +31,7 @@ using Mono.Unix;
 public class TagSessionSelect
 {
 	//passed variables
+	private bool addSession;
 	private int currentSessionID;
 	private bool askDeletion;
 
@@ -41,11 +42,13 @@ public class TagSessionSelect
 	private string [] columnsString;
         private ArrayList bigArray;
 	private string [] checkboxes;
+	private string tagsListStringForAddSession;
 
 	public Gtk.Button FakeButtonDone;
 
-	public void PassVariables(int currentSessionID, bool askDeletion)
+	public void PassVariables(bool addSession, int currentSessionID, bool askDeletion)
 	{
+		this.addSession = addSession;
 		this.currentSessionID = currentSessionID;
 		this.askDeletion = askDeletion;
 
@@ -81,7 +84,11 @@ public class TagSessionSelect
 	private void getData()
         {
 		allTags_list = SqliteTagSession.Select(false, -1);
-		tagsActiveThisSession_list = SqliteSessionTagSession.SelectTagsOfASession(false, currentSessionID);
+
+		if(addSession)
+			tagsActiveThisSession_list = new List<TagSession>();
+		else
+			tagsActiveThisSession_list = SqliteSessionTagSession.SelectTagsOfASession(false, currentSessionID);
         }
 
 	private void createBigArray()
@@ -184,6 +191,7 @@ public class TagSessionSelect
 
 	private void on_tag_session_win_done (object o, EventArgs args)
 	{
+		LogB.Information("on_tag_session_win_done");
 		removeCallbacks();
 
 		//get selected/deselected rows
@@ -191,12 +199,39 @@ public class TagSessionSelect
 
 		//need to refresh allTags_list because tasks could have been added/deleted
 		allTags_list = SqliteTagSession.Select(false, -1);
-		//update on database the what has been selected/deselected
-		//doing it as a transaction: FAST
-		SqliteSessionTagSession.UpdateTransaction(currentSessionID, allTags_list,
-				tagsActiveThisSession_list, checkboxes);
+
+		if(addSession) {
+			int count = 0;
+			string sep = "";
+			tagsListStringForAddSession = "";
+			foreach(TagSession tag in allTags_list)
+			{
+				//LogB.Information("TagSession: " + tag.ToString() + "; checkboxes[count]: " + checkboxes[count]);
+				if(checkboxes[count] == "active")
+				{
+					tagsListStringForAddSession += sep + tag.Name;
+					sep = ", ";
+				}
+				count ++;
+			}
+		} else
+			SQLUpdateTransaction(currentSessionID);
 
 		FakeButtonDone.Click();
+	}
+
+	/*
+	   this is called on edit session just on close genericWin
+	   and on add, when session is added (and there is a sessionID)
+	   */
+	public void SQLUpdateTransaction(int sID)
+	{
+		LogB.Information("SQLUpdateTransaction sID: " + sID.ToString());
+
+		//update on database the what has been selected/deselected
+		//doing it as a transaction: FAST
+		SqliteSessionTagSession.UpdateTransaction(sID, allTags_list,
+				tagsActiveThisSession_list, checkboxes);
 	}
 
 	private void on_tag_session_win_tag_added (object o, EventArgs args)
@@ -281,5 +316,10 @@ public class TagSessionSelect
 		SqliteTagSession.Delete(false, tagID);
 
 		genericWin.Delete_row_accepted();
+	}
+
+	public string TagsListStringForAddSession
+	{
+		get { return tagsListStringForAddSession; }
 	}
 }

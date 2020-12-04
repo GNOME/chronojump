@@ -545,7 +545,10 @@ public partial class ChronoJumpWindow
 
 		tagSessionSelect = new TagSessionSelect();
 
-		tagSessionSelect.PassVariables(currentSession.UniqueID, preferences.askDeletion);
+		if(app1sae_addSession)
+			tagSessionSelect.PassVariables(true, -1, preferences.askDeletion);
+		else
+			tagSessionSelect.PassVariables(false, currentSession.UniqueID, preferences.askDeletion);
 
 		tagSessionSelect.FakeButtonDone.Clicked -= new EventHandler(on_select_tags_clicked_done);
 		tagSessionSelect.FakeButtonDone.Clicked += new EventHandler(on_select_tags_clicked_done);
@@ -557,7 +560,11 @@ public partial class ChronoJumpWindow
 	private void on_select_tags_clicked_done (object o, EventArgs args)
 	{
 		tagSessionSelect.FakeButtonDone.Clicked -= new EventHandler(on_select_tags_clicked_done);
-		app1sae_label_tags_selected.Text = TagSession.GetActiveTagNamesOfThisSession(currentSession.UniqueID);
+
+		if(app1sae_addSession)
+			app1sae_label_tags_selected.Text = tagSessionSelect.TagsListStringForAddSession;
+		else
+			app1sae_label_tags_selected.Text = TagSession.GetActiveTagNamesOfThisSession(currentSession.UniqueID);
 	}
 
 	void app1sae_on_button_change_date_clicked (object o, EventArgs args)
@@ -685,6 +692,10 @@ public partial class ChronoJumpWindow
 				LogB.Information("app1sae_on_button_accept_clicked B");
 				notebook_supSetOldPage();
 				LogB.Information("app1sae_on_button_accept_clicked C");
+
+				//tags have not been added yet because there was no sessionID
+				tagSessionSelect.SQLUpdateTransaction(currentSession.UniqueID);
+				LogB.Information("app1sae_on_button_accept_clicked C2");
 			} else
 			{
 				LogB.Information("app1sae_on_button_accept_clicked D");

@@ -145,7 +145,6 @@ public class TagSessionSelect
 
 		genericWin.SetTreeview(columnsString, true, allTags_listPrint, new ArrayList(), GenericWindow.EditActions.EDITDELETE, false);
 
-		genericWin.ShowButtonCancel(false);
 		genericWin.LabelEntry2 = Catalog.GetString("Create new tag");
 		genericWin.SetButtonMiddleLabel(Catalog.GetString("Create"));
 		genericWin.LabelBeforeTextViewTreeView = Catalog.GetString("Select tags for this session");

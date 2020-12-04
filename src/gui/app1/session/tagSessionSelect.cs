@@ -141,7 +141,7 @@ public class TagSessionSelect
 	private void createGenericWindow()
 	{
                 genericWin = GenericWindow.Show(Catalog.GetString("Tags"), false,       //don't show now
-                                "", bigArray);
+                                Catalog.GetString("Manage tags"), bigArray);
 
 		genericWin.SetTreeview(columnsString, true, allTags_listPrint, new ArrayList(), GenericWindow.EditActions.EDITDELETE, false);
 

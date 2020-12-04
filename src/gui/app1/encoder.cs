@@ -140,6 +140,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_encoder_capture_curves_save;
 	[Widget] Gtk.ComboBox combo_encoder_capture_curves_save;
 	[Widget] Gtk.Button button_encoder_capture_curves_save;
+	[Widget] Gtk.Button button_encoder_capture_image_save;
 
 	[Widget] Gtk.Notebook notebook_analyze_results;
 	[Widget] Gtk.Box hbox_combo_encoder_exercise_analyze;
@@ -2128,6 +2129,8 @@ public partial class ChronoJumpWindow
 
 		if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL)
 			nameString += "_encoder_set_export.csv";
+		else if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_SAVE_IMAGE)
+			nameString += "_encoder_set.png";
 		else if(checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE)
 			nameString += "_jumps_profile.png";
 		else if(checkFileOp == Constants.CheckFileOp.JUMPS_DJ_OPTIMAL_FALL_SAVE_IMAGE)
@@ -2211,12 +2214,15 @@ public partial class ChronoJumpWindow
 					if(checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_SAVE_IMAGE)
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_runs_sprint_save_image_accepted);
+					else if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_SAVE_IMAGE)
+						confirmWin.Button_accept.Clicked +=
+							new EventHandler(on_overwrite_file_encoder_capture_save_image_accepted);
 					else if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL)
 						confirmWin.Button_accept.Clicked += 
 							new EventHandler(on_overwrite_file_export_all_curves_accepted);
 					else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE)
 						confirmWin.Button_accept.Clicked += 
-							new EventHandler(on_overwrite_file_encoder_save_image_accepted);
+							new EventHandler(on_overwrite_file_encoder_analyze_save_image_accepted);
 					else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB)
 						confirmWin.Button_accept.Clicked += 
 							new EventHandler(on_overwrite_file_encoder_save_AB_accepted);
@@ -2255,10 +2261,12 @@ public partial class ChronoJumpWindow
 						on_button_jumps_rj_fatigue_save_image_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_SAVE_IMAGE)
 						on_button_runs_sprint_save_image_selected (exportFileName);
+					else if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_SAVE_IMAGE)
+						on_button_encoder_capture_save_image_file_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL)
 						on_button_encoder_export_all_curves_file_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE)
-						on_button_encoder_save_image_file_selected (exportFileName);
+						on_button_encoder_analyze_save_image_file_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB)
 						on_button_encoder_save_AB_file_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE)
@@ -2311,9 +2319,16 @@ public partial class ChronoJumpWindow
 				exportFileName) + Constants.GetSpreadsheetString(preferences.CSVExportDecimalSeparator);
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
-	private void on_overwrite_file_encoder_save_image_accepted(object o, EventArgs args)
+	private void on_overwrite_file_encoder_capture_save_image_accepted(object o, EventArgs args)
 	{
-		on_button_encoder_save_image_file_selected (exportFileName);
+		on_button_encoder_capture_save_image_file_selected (exportFileName);
+
+		string myString = string.Format(Catalog.GetString("Saved to {0}"), exportFileName);
+		new DialogMessage(Constants.MessageTypes.INFO, myString);
+	}
+	private void on_overwrite_file_encoder_analyze_save_image_accepted(object o, EventArgs args)
+	{
+		on_button_encoder_analyze_save_image_file_selected (exportFileName);
 
 		string myString = string.Format(Catalog.GetString("Saved to {0}"), exportFileName);
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
@@ -4469,6 +4484,29 @@ public partial class ChronoJumpWindow
 		button_encoder_analyze_sensitiveness();
 	}
 	
+	void on_button_encoder_capture_image_save_clicked (object o, EventArgs args)
+	{
+		checkFile(Constants.CheckFileOp.ENCODER_CAPTURE_SAVE_IMAGE);
+	}
+	void on_button_encoder_capture_save_image_file_selected (string destination)
+	{
+		try {
+			if(encoder_capture_curves_bars_drawingarea == null)
+				return;
+
+			Gdk.Pixbuf pixbuf = Gdk.Pixbuf.FromDrawable(encoder_capture_curves_bars_drawingarea.GdkWindow, Gdk.Colormap.System,
+					0, 0, 0, 0,
+					UtilGtk.WidgetWidth(encoder_capture_curves_bars_drawingarea),
+					UtilGtk.WidgetHeight(encoder_capture_curves_bars_drawingarea) );
+
+			LogB.Information("Saving");
+			pixbuf.Save(destination,"png");
+		} catch {
+			string myString = string.Format(
+					Catalog.GetString("Cannot save file {0} "), destination);
+			new DialogMessage(Constants.MessageTypes.WARNING, myString);
+		}
+	}
 	void on_button_encoder_analyze_image_save_clicked (object o, EventArgs args)
 	{
 		/* file is in:
@@ -4480,7 +4518,7 @@ public partial class ChronoJumpWindow
 
 		checkFile(Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE);
 	}
-	void on_button_encoder_save_image_file_selected (string destination)
+	void on_button_encoder_analyze_save_image_file_selected (string destination)
 	{
 		try {
 			File.Copy(UtilEncoder.GetEncoderGraphTempFileName(), destination, true);
@@ -5117,6 +5155,7 @@ public partial class ChronoJumpWindow
 		//c3 hbox_encoder_capture_curves_save_all_none, button_export_encoder_signal,
 		//	button_encoder_delete_signal, vbox_encoder_signal_comment,
 		//	and images: image_encoder_capture , image_encoder_analyze.Sensitive. Update: both NOT managed here
+		//	button_encoder_capture_image_save
 		//UNUSED c4 button_encoder_save_curve, entry_encoder_curve_comment
 		//c5 button_encoder_analyze
 		//c6 button_encoder_analyze_data_select_curves
@@ -5179,6 +5218,7 @@ public partial class ChronoJumpWindow
 		button_export_encoder_signal.Sensitive = Util.IntToBool(table[3]);
 		button_encoder_delete_signal.Sensitive = Util.IntToBool(table[3]);
 		vbox_encoder_signal_comment.Sensitive = Util.IntToBool(table[3]);
+		button_encoder_capture_image_save.Sensitive = Util.IntToBool(table[3]);
 		//image_encoder_capture.Sensitive = Util.IntToBool(table[3]);
 		//image_encoder_analyze.Sensitive = Util.IntToBool(table[3]);
 		

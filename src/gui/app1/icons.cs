@@ -202,6 +202,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_video_contacts_preview;
 	[Widget] Gtk.Image image_video_encoder_preview;
 
+	[Widget] Gtk.Image image_encoder_capture_image_save;
+	[Widget] Gtk.Image image_encoder_capture_image_save_1;
 	[Widget] Gtk.Image image_encoder_capture_curves_save;
 	[Widget] Gtk.Image image_encoder_analyze_table_save_1;
 	[Widget] Gtk.Image image_encoder_analyze_image_save_1;
@@ -725,6 +727,7 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_analyze.png");
 		image_encoder_analyze_stats.Pixbuf = pixbuf;
+		image_encoder_capture_image_save.Pixbuf = pixbuf;
 		image_encoder_analyze_image_save.Pixbuf = pixbuf;
 		image_forcesensor_analyze_save_signal.Pixbuf = pixbuf;
 		image_forcesensor_analyze_save_rfd_auto.Pixbuf = pixbuf;
@@ -746,6 +749,7 @@ public partial class ChronoJumpWindow
 		image_jumps_rj_fatigue_image_save.Pixbuf = pixbuf;
 		image_encoder_capture_curves_save.Pixbuf = pixbuf;
 		image_encoder_analyze_table_save_1.Pixbuf = pixbuf;
+		image_encoder_capture_image_save_1.Pixbuf = pixbuf;
 		image_encoder_analyze_image_save_1.Pixbuf = pixbuf;
 		image_encoder_analyze_1RM_save_1.Pixbuf = pixbuf;
 		image_encoder_analyze_image_save_2.Pixbuf = pixbuf;

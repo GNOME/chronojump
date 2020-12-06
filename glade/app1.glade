@@ -38021,12 +38021,12 @@ then click this button.</property>
                                                           <widget class="GtkHBox" id="app1s_hbox_load_controls">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">12</property>
+                                                            <property name="spacing">20</property>
                                                             <child>
                                                             <widget class="GtkVBox" id="vbox208">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">4</property>
+                                                            <property name="spacing">2</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox240">
                                                             <property name="visible">True</property>
@@ -38135,22 +38135,17 @@ then click this button.</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label494">
+                                                            <widget class="GtkFrame" id="frame12">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">Show more data</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
+                                                            <property name="label_xalign">0.5</property>
+                                                            <property name="label_yalign">1</property>
+                                                            <property name="shadow_type">none</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox405">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <property name="border_width">6</property>
                                                             <property name="spacing">6</property>
                                                             <child>
                                                             <widget class="GtkCheckButton" id="app1s_checkbutton_show_data_persons">
@@ -38199,10 +38194,24 @@ then click this button.</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label575">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Show more columns</property>
+                                                            <property name="use_markup">True</property>
+                                                            </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
+                                                            <property name="type">label_item</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             </widget>

@@ -112,6 +112,7 @@ public partial class ChronoJumpWindow
 
 		createComboSessionLoadTags (false); //TODO: care because this is only related to load (not report)
 		app1s_entry_search_filter.Text = "";
+		app1s_button_manage_tags.Sensitive = (app1s_selected != "-1");
 
 		app1s_createTreeView(app1s_treeview_session_load, true, false, false, false);
 		app1s_store = app1s_getStore(true, false, false, false);
@@ -483,6 +484,8 @@ public partial class ChronoJumpWindow
 			app1s_button_accept.Sensitive = false;
 			app1s_button_import.Sensitive = false;
 		}
+
+		app1s_button_manage_tags.Sensitive = (app1s_selected != "-1");
 	}
 
 	//TODO: do not need to be public ? maybe for import
@@ -642,6 +645,32 @@ public partial class ChronoJumpWindow
 	{
 		Gtk.Scrollbar sb = (Gtk.Scrollbar) scrolledwin_session_load.VScrollbar;
 		sb.Value += sb.Adjustment.PageIncrement;
+	}
+
+	private void on_app1s_button_manage_tags_clicked (object o, EventArgs args)
+	{
+		if(app1s_selected == "" || app1s_selected == "-1")
+			return;
+
+		int sessionID = app1s_CurrentSessionId();
+		if(sessionID == -1)
+			return;
+
+		tagSessionSelect = new TagSessionSelect();
+
+		tagSessionSelect.PassVariables(false, sessionID, preferences.askDeletion);
+
+		tagSessionSelect.FakeButtonDone.Clicked -= new EventHandler(on_select_tags_clicked_done_loadSession);
+		tagSessionSelect.FakeButtonDone.Clicked += new EventHandler(on_select_tags_clicked_done_loadSession);
+
+		tagSessionSelect.Do();
+		tagSessionSelect.Show();
+	}
+	private void on_select_tags_clicked_done_loadSession (object o, EventArgs args)
+	{
+		tagSessionSelect.FakeButtonDone.Clicked -= new EventHandler(on_select_tags_clicked_done_loadSession);
+
+		app1s_recreateTreeView("changed tags on manage");
 	}
 
 	// ---- notebook page 3 (import) buttons ----

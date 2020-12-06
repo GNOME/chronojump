@@ -550,16 +550,15 @@ public partial class ChronoJumpWindow
 		else
 			tagSessionSelect.PassVariables(false, currentSession.UniqueID, preferences.askDeletion);
 
-		tagSessionSelect.FakeButtonDone.Clicked -= new EventHandler(on_select_tags_clicked_done);
-		tagSessionSelect.FakeButtonDone.Clicked += new EventHandler(on_select_tags_clicked_done);
+		tagSessionSelect.FakeButtonDone.Clicked -= new EventHandler(on_select_tags_clicked_done_addEdit);
+		tagSessionSelect.FakeButtonDone.Clicked += new EventHandler(on_select_tags_clicked_done_addEdit);
 
 		tagSessionSelect.Do();
 		tagSessionSelect.Show();
 	}
-
-	private void on_select_tags_clicked_done (object o, EventArgs args)
+	private void on_select_tags_clicked_done_addEdit (object o, EventArgs args)
 	{
-		tagSessionSelect.FakeButtonDone.Clicked -= new EventHandler(on_select_tags_clicked_done);
+		tagSessionSelect.FakeButtonDone.Clicked -= new EventHandler(on_select_tags_clicked_done_addEdit);
 
 		if(app1sae_addSession)
 			app1sae_label_tags_selected.Text = tagSessionSelect.TagsListStringForAddSession;

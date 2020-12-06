@@ -33,6 +33,7 @@ public class TagSessionSelect
 	//passed variables
 	private bool addSession;
 	private int currentSessionID;
+	private string sessionName;
 	private bool askDeletion;
 
 	private ArrayList allTags_list; //all available tags
@@ -46,10 +47,11 @@ public class TagSessionSelect
 
 	public Gtk.Button FakeButtonDone;
 
-	public void PassVariables(bool addSession, int currentSessionID, bool askDeletion)
+	public void PassVariables(bool addSession, int currentSessionID, string sessionName, bool askDeletion)
 	{
 		this.addSession = addSession;
 		this.currentSessionID = currentSessionID;
+		this.sessionName = sessionName;
 		this.askDeletion = askDeletion;
 
 		FakeButtonDone = new Gtk.Button();
@@ -147,7 +149,11 @@ public class TagSessionSelect
 
 		genericWin.LabelEntry2 = Catalog.GetString("Create new tag");
 		genericWin.SetButtonMiddleLabel(Catalog.GetString("Create"));
-		genericWin.LabelBeforeTextViewTreeView = Catalog.GetString("Select tags for this session");
+
+		if(sessionName == "")
+			genericWin.LabelBeforeTextViewTreeView = Catalog.GetString("Select tags for this session");
+		else
+			genericWin.LabelBeforeTextViewTreeView = Catalog.GetString("Select tags for session: ") + sessionName;
 
 		genericWin.ShowEditRow(false);
 		genericWin.HideEditRowCombo();

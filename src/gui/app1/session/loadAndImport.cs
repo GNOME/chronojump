@@ -499,6 +499,15 @@ public partial class ChronoJumpWindow
 		}
 		return -1;
 	}
+	private string app1s_CurrentSessionName() {
+		TreeModel model;
+		TreeIter iter;
+
+		if (app1s_treeview_session_load.Selection.GetSelected (out model, out iter)) {
+			return (string)model.GetValue (iter, 2);
+		}
+		return "";
+	}
 
 	//TODO: do not need to be public ? maybe for import
 	public string app1s_ImportDatabasePath() {
@@ -658,7 +667,7 @@ public partial class ChronoJumpWindow
 
 		tagSessionSelect = new TagSessionSelect();
 
-		tagSessionSelect.PassVariables(false, sessionID, preferences.askDeletion);
+		tagSessionSelect.PassVariables(false, sessionID, app1s_CurrentSessionName(), preferences.askDeletion);
 
 		tagSessionSelect.FakeButtonDone.Clicked -= new EventHandler(on_select_tags_clicked_done_loadSession);
 		tagSessionSelect.FakeButtonDone.Clicked += new EventHandler(on_select_tags_clicked_done_loadSession);

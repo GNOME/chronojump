@@ -38026,7 +38026,7 @@ then click this button.</property>
                                                             <widget class="GtkVBox" id="vbox208">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">6</property>
+                                                            <property name="spacing">4</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox240">
                                                             <property name="visible">True</property>
@@ -38076,7 +38076,18 @@ then click this button.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <placeholder/>
+                                                            <widget class="GtkButton" id="app1s_button_manage_tags">
+                                                            <property name="label" translatable="yes">Manage</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_app1s_button_manage_tags_clicked" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
                                                             </child>
                                                             </widget>
                                                             <packing>

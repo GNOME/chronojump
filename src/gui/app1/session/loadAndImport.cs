@@ -670,6 +670,9 @@ public partial class ChronoJumpWindow
 	{
 		tagSessionSelect.FakeButtonDone.Clicked -= new EventHandler(on_select_tags_clicked_done_loadSession);
 
+		//update combo tags
+		createComboSessionLoadTags (false);
+
 		app1s_recreateTreeView("changed tags on manage");
 	}
 

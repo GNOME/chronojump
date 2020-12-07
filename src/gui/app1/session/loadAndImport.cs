@@ -98,6 +98,7 @@ public partial class ChronoJumpWindow
 			app1s_hbox_frame_import.Visible = false;
 			app1s_notebook.CurrentPage = app1s_PAGE_SELECT_SESSION;
 			app1s_notebook_load_button_animation.CurrentPage = 0;
+			app1s_hbox_manage.Visible = true;
 		} else {
 			app1s_file_path_import.Visible = true;
 			app1s_notebook_load_button_animation.Visible = false;
@@ -108,13 +109,14 @@ public partial class ChronoJumpWindow
 			app1s_hbox_frame_import.Visible = true;
 			app1s_button_select_file_import_same_database.Visible = false; //is shown when user want to import a second session
 			app1s_notebook.CurrentPage = app1s_PAGE_IMPORT_START;
+			app1s_hbox_manage.Visible = false;
 		}
 
 		createComboSessionLoadTags (false); //TODO: care because this is only related to load (not report)
 		app1s_entry_search_filter.Text = "";
 		app1s_button_manage_tags.Sensitive = (app1s_selected != "-1");
 
-		app1s_createTreeView(app1s_treeview_session_load, true, false, false, false);
+		app1s_createTreeView(app1s_treeview_session_load, app1s_type == app1s_windowType.LOAD_SESSION, false, false, false);
 		app1s_store = app1s_getStore(true, false, false, false);
 		app1s_treeview_session_load.Model = app1s_store;
 		app1s_fillTreeView(app1s_treeview_session_load, app1s_store, false, false, false);
@@ -189,7 +191,7 @@ public partial class ChronoJumpWindow
 		app1s_initializeGui();
 		app1s_recreateTreeView("loaded the dialog");
 	}
-	
+
 	private void app1s_createTreeView (Gtk.TreeView tv, bool loadOrImport, bool showPersons, bool showContacts, bool showOtherTests)
 	{
 		tv.HeadersVisible=true;
@@ -311,7 +313,8 @@ public partial class ChronoJumpWindow
 
 		UtilGtk.RemoveColumns(app1s_treeview_session_load);
 		
-		app1s_createTreeView(app1s_treeview_session_load, true,
+		app1s_createTreeView(app1s_treeview_session_load,
+				app1s_type == app1s_windowType.LOAD_SESSION,
 				app1s_checkbutton_show_data_persons.Active,
 				app1s_checkbutton_show_data_jump_run.Active,
 				app1s_checkbutton_show_data_other_tests.Active);

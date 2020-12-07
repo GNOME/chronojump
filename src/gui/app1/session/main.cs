@@ -88,13 +88,12 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox app1s_eventbox_button_delete_close;
 
 	//notebook tab 6 (add/edit)
-	[Widget] Gtk.Window app1sae_session_add_edit;
 	[Widget] Gtk.Notebook app1sae_notebook_add_edit;
 	[Widget] Gtk.Entry app1sae_entry_name;
 	[Widget] Gtk.Entry app1sae_entry_place;
 	[Widget] Gtk.HBox hbox_session_add;
 	[Widget] Gtk.HBox hbox_session_more_edit;
-	[Widget] Gtk.Label app1sae_label_tags_selected;
+	[Widget] Gtk.TextView app1sae_textview_tags;
 	[Widget] Gtk.Label app1sae_label_name;
 	[Widget] Gtk.Label app1sae_label_date;
 	[Widget] Gtk.Image image_session_new_blue;

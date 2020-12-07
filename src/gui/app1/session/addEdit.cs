@@ -693,7 +693,9 @@ public partial class ChronoJumpWindow
 				LogB.Information("app1sae_on_button_accept_clicked C");
 
 				//tags have not been added yet because there was no sessionID
-				tagSessionSelect.SQLUpdateTransaction(currentSession.UniqueID);
+				if(tagSessionSelect != null)
+					tagSessionSelect.SQLUpdateTransaction(currentSession.UniqueID);
+
 				LogB.Information("app1sae_on_button_accept_clicked C2");
 			} else
 			{

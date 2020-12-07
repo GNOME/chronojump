@@ -41,6 +41,7 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.RadioButton radio_jumps_rj_fatigue_heights;
 	[Widget] Gtk.RadioButton radio_jumps_rj_fatigue_tv_tc;
+	[Widget] Gtk.RadioButton radio_jumps_rj_fatigue_rsi;
 
 	[Widget] Gtk.ComboBox combo_jumps_rj_fatigue_divide_in;
 
@@ -112,6 +113,11 @@ public partial class ChronoJumpWindow
 		if(radio_jumps_rj_fatigue_tv_tc.Active)
 			jumpsRjFatigueDo(true);
 	}
+	private void on_radio_jumps_rj_fatigue_rsi_toggled (object o, EventArgs args)
+	{
+		if(radio_jumps_rj_fatigue_rsi.Active)
+			jumpsRjFatigueDo(true);
+	}
 
 	private void on_combo_jumps_rj_fatigue_divide_in_changed (object o, EventArgs args)
 	{
@@ -159,9 +165,15 @@ public partial class ChronoJumpWindow
 
 		string jumpType = comboSelectJumpsRjFatigue.GetSelectedNameEnglish();
 
+		JumpsRjFatigue.Statistic statistic = JumpsRjFatigue.Statistic.HEIGHTS;
+		if(radio_jumps_rj_fatigue_tv_tc.Active)
+			statistic = JumpsRjFatigue.Statistic.Q;
+		else if(radio_jumps_rj_fatigue_rsi.Active)
+			statistic = JumpsRjFatigue.Statistic.RSI;
+
 		if(calculateData)
 			jumpsRjFatigue.Calculate(comboSelectJumpsRjFatigueNum.GetSelectedId(),
-					radio_jumps_rj_fatigue_heights.Active);
+					statistic);
 
 		if(jumpsRjFatigue.Point_l.Count == 0)
 		{
@@ -189,7 +201,7 @@ public partial class ChronoJumpWindow
 					drawingarea_jumps_rj_fatigue,
 					currentPerson.Name, jumpType,
 					jumpDateStr,
-					radio_jumps_rj_fatigue_heights.Active,
+					statistic,
 					divideIn);
 			jumpsRjFatigueGraph.Do(preferences.fontType.ToString());
 

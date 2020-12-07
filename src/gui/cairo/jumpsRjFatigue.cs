@@ -27,6 +27,8 @@ using Cairo;
 
 public class JumpsRjFatigueGraph : CairoXY
 {
+	private JumpsRjFatigue.Statistic statistic;
+
 	private int divideIn;
 
 	//constructor when there are no points
@@ -45,7 +47,7 @@ public class JumpsRjFatigueGraph : CairoXY
 	public JumpsRjFatigueGraph (
 			List<PointF> point_l, double slope, double intercept,
 			DrawingArea area, string title, string jumpType, string date,
-			bool heights, int divideIn)
+			JumpsRjFatigue.Statistic statistic, int divideIn)
 	{
 		this.point_l = point_l;
 		this.slope = slope;
@@ -60,12 +62,18 @@ public class JumpsRjFatigueGraph : CairoXY
 		xVariable = countStr;
 		xUnits = "";
 
-		if(heights) {
+		if(statistic == JumpsRjFatigue.Statistic.HEIGHTS)
+		{
 			yVariable = heightStr;
 			yUnits = "cm";
-		} else {
+		} else if(statistic == JumpsRjFatigue.Statistic.Q)
+		{
 			yVariable = tfStr + "/" + tcStr;
 			yUnits = "";
+		} else //if(statistic == JumpsRjFatigue.Statistic.RSI)
+		{
+			yVariable = heightStr + "/" + tcStr;
+			yUnits = "m/s";
 		}
 	}
 

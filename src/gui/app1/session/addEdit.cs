@@ -76,7 +76,9 @@ public partial class ChronoJumpWindow
 		app1sae_hbox_sports.Visible = false;
 		app1sae_hbox_speciallities.Visible = false;
 		app1sae_hbox_levels.Visible = false;
-		app1sae_label_tags_selected.Text = "";
+		TextBuffer tbtags = new TextBuffer (new TextTagTable());
+		tbtags.Text = "";
+		app1sae_textview_tags.Buffer = tbtags;
 
 		if(addSession) {
 			hbox_session_add.Visible = true;
@@ -112,7 +114,8 @@ public partial class ChronoJumpWindow
 			tb.Text = currentSession.Comments;
 			app1sae_textview_comments.Buffer = tb;
 
-			app1sae_label_tags_selected.Text = TagSession.GetActiveTagNamesOfThisSession(currentSession.UniqueID);
+			tbtags.Text = TagSession.GetActiveTagNamesOfThisSession(currentSession.UniqueID);
+			app1sae_textview_tags.Buffer = tbtags;
 		}
 
 		//app1sae_labelUpdate();
@@ -560,10 +563,14 @@ public partial class ChronoJumpWindow
 	{
 		tagSessionSelect.FakeButtonDone.Clicked -= new EventHandler(on_select_tags_clicked_done_addEdit);
 
+		TextBuffer tbtags = new TextBuffer (new TextTagTable());
+		tbtags.Text = "";
 		if(app1sae_addSession)
-			app1sae_label_tags_selected.Text = tagSessionSelect.TagsListStringForAddSession;
+			tbtags.Text = tagSessionSelect.TagsListStringForAddSession;
 		else
-			app1sae_label_tags_selected.Text = TagSession.GetActiveTagNamesOfThisSession(currentSession.UniqueID);
+			tbtags.Text = TagSession.GetActiveTagNamesOfThisSession(currentSession.UniqueID);
+
+		app1sae_textview_tags.Buffer = tbtags;
 	}
 
 	void app1sae_on_button_change_date_clicked (object o, EventArgs args)

@@ -27,23 +27,24 @@ public class JumpsRjFatigue
 {
 	private List<PointF> point_l;
 	LeastSquaresLine ls;
+	public enum Statistic { HEIGHTS, Q, RSI } //RSI is jump height (m)/ contact time (s)
 
 	//constructor
 	public JumpsRjFatigue()
 	{
 	}
 	
-	public void Calculate (int uniqueID, bool useHeights)
+	public void Calculate (int uniqueID, Statistic statistic)
 	{
 		//1 get data
 		JumpRj jumpRj = SqliteJumpRj.SelectJumpData (Constants.JumpRjTable, uniqueID, false);
 
 		//2 convert to list of PointF
-		List<double> y_l;
-		if(useHeights)
-			y_l = jumpRj.HeightList;
-		else
+		List<double> y_l = jumpRj.HeightList; //(statistic == Statistic.HEIGHTS)
+		if(statistic == Statistic.Q)
 			y_l = jumpRj.TvTcList;
+		else if(statistic == Statistic.RSI)
+			y_l = jumpRj.RSIList;
 
 		point_l = new List<PointF>();
 

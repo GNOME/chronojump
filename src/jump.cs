@@ -300,6 +300,27 @@ public class JumpRj : Jump
 		}
 	}
 
+	public List<double> RSIList
+	{
+		get {
+			List<double> l = new List<double>();
+			List<double> heightFull = HeightList;
+			string [] tcFull = TcString.Split(new char[] {'='});
+			if(heightFull.Count != tcFull.Length)
+				return l;
+
+			for(int i = 0; i < heightFull.Count ; i ++)
+			{
+				if(Util.IsNumber(Util.ChangeDecimalSeparator(tcFull[i]), true))
+					l.Add(
+							(heightFull[i] / 100.0) //cm to m
+							/
+							Convert.ToDouble(Util.ChangeDecimalSeparator(tcFull[i])) );
+			}
+			return l;
+		}
+	}
+
 	public string TcString
 	{
 		get { return tcString; }

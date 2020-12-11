@@ -505,7 +505,7 @@ canJump <- function(encoderConfigurationName)
 
 paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, paintMode, nrep, highlight,
                   startX, startH, smoothingOneEC, smoothingOneC, massBody, massExtra, 
-                  encoderConfigurationName,diameter,diameterExt,anglePush,angleWeight,inertiaMomentum,gearedDown, #encoderConfiguration stuff
+                  encoderConfigurationName,diameter,diameterExt,anglePush,angleWeight,inertiaMomentum,gearedDown,laterality, #encoderConfiguration stuff
                   title, subtitle, draw, width, showLabels, marShrink, showAxes, legend,
                   Analysis, isPropulsive, inertialType, exercisePercentBodyWeight,
                   showPosition, showSpeed, showAccel, showForce, showPower,
@@ -608,7 +608,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
 			     xlab="",ylab="",col=colPosition,lty=ltyPosition,lwd=2,axes=F)
 
 			if(paintMode == "superpose")
-				addRepCharsAboveLine(yValues, colPosition, nrep)
+				addRepCharsAboveLine(yValues, colPosition, nrep, laterality)
 
 			# show horizontal bars on all graphs except on superpose (on this mode only on first graph)
 			if(paintMode != "superpose" || nrep == 1)
@@ -785,7 +785,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
                              xlim=xlim,ylim=ylim,xlab="",ylab="",col=colSpeed,lty=ltySpeed,lwd=1,axes=F)
 
 		if(paintMode == "superpose")
-			addRepCharsAboveLine(speedPlot, colSpeed, nrep)
+			addRepCharsAboveLine(speedPlot, colSpeed, nrep, laterality)
                 #else
                 #        plot(startX:length(speedPlot),speedPlot[startX:length(speedPlot)],type="l",
                 #             xlim=xlim,ylim=ylim,xlab="",ylab="",col="darkgreen",lty=2,lwd=3,axes=F)
@@ -854,7 +854,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
                                      xlim=xlim,ylim=ylim,xlab="",ylab="",col=colAccel,lty=ltyAccel,lwd=1,axes=F)
 
 			if(paintMode == "superpose")
-				addRepCharsAboveLine(accel$y, colAccel, nrep)
+				addRepCharsAboveLine(accel$y, colAccel, nrep, laterality)
 
                         #else
                         #        plot(startX:length(accel$y),accel$y[startX:length(accel$y)],type="l",
@@ -930,7 +930,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
                 #             xlim=xlim,ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
 
 		if(paintMode == "superpose")
-			addRepCharsAboveLine(force, colForce, nrep)
+			addRepCharsAboveLine(force, colForce, nrep, laterality)
 
      #           if(showAxes) {
                         #axis(4, col=colForce, lty=ltyForce, line=axisLineRight, lwd=1, padj=-.5)
@@ -1035,7 +1035,7 @@ paint <- function(displacement, eccon, xmin, xmax, xrange, yrange, knRanges, pai
                 #             xlim=xlim,ylim=ylim,xlab="",ylab="",col="darkred",lty=2,lwd=3,axes=F)
 
 		if(paintMode == "superpose")
-			addRepCharsAboveLine(power, colPower, nrep)
+			addRepCharsAboveLine(power, colPower, nrep, laterality)
                 
                 if(isInertial(encoderConfigurationName) && debugOld) {
                         par(new=T)
@@ -1266,10 +1266,10 @@ paintVariablesLegend <- function(showPosition, showSpeed, showAccel, showForce, 
                cex=1, bg="white", ncol=ncol, bty="n", plot=T, xpd=NA)
 }
 
-addRepCharsAboveLine <- function(variable, col, label)
+addRepCharsAboveLine <- function(variable, col, label, laterality)
 {
 	seqChars = seq(from=1, to=length(variable), length.out=5)
-	text(x=seqChars, y=variable[seqChars], labels=label, col=col, adj=c(.5,0)) #this adjust writes letter on the top of line
+	text(x=seqChars, y=variable[seqChars], labels=paste(label, laterality) , col=col, adj=c(.5,0)) #this adjust writes letter on the top of line
 }
 
 
@@ -2695,6 +2695,16 @@ quitIfNoData <- function(curvesPlot, n, curves, outputData1, minHeight)
         }
 }
 
+
+#check if there are different values of laterality
+checkLateralityDifferent <- function(curves)
+{
+	if(length(unique(curves$laterality)) > 1)
+		return(TRUE)
+
+	return(FALSE)
+}
+
 loadLibraries <- function(os) {
         #library("EMD")
         #library("sfsmisc")
@@ -3192,7 +3202,7 @@ doProcess <- function(options)
                                 op$MassBody, op$MassExtra, op$Eccon, op$ExercisePercentBodyWeight, 
                                 op$EncoderConfigurationName, op$diameter, op$diameterExt, 
                                 op$anglePush, op$angleWeight, op$inertiaMomentum, op$gearedDown,
-                                "") #laterality 
+                                "") #op$laterality
                         
                         
                         
@@ -3215,7 +3225,7 @@ doProcess <- function(options)
 
                         paint(displacement, repOp$eccon, myStart, myEnd, "undefined","undefined","undefined",op$Analysis,1,FALSE,
                               1,curves[op$Jump,3],SmoothingsEC[smoothingPos],op$SmoothingOneC,repOp$massBody,repOp$massExtra,
-                              repOp$econfName,repOp$diameter,repOp$diameterExt,repOp$anglePush,repOp$angleWeight,repOp$inertiaM,repOp$gearedDown,
+                              repOp$econfName,repOp$diameter,repOp$diameterExt,repOp$anglePush,repOp$angleWeight,repOp$inertiaM,repOp$gearedDown,"", #laterality
                               paste(op$Title, " ", op$Analysis, " ", repOp$eccon, ". ", myCurveStr, sep=""),
                               "", #subtitle
                               TRUE,	#draw
@@ -3483,7 +3493,7 @@ doProcess <- function(options)
                                 op$MassBody, op$MassExtra, op$Eccon, op$ExercisePercentBodyWeight, 
                                 op$EncoderConfigurationName, op$diameter, op$diameterExt, 
                                 op$anglePush, op$angleWeight, op$inertiaMomentum, op$gearedDown,
-                                "") #laterality 
+                                "") #op$laterality
                         
                         myTitle = ""
                         if(i == 1)
@@ -3497,7 +3507,7 @@ doProcess <- function(options)
 
                         paint(displacement, repOp$eccon, curves[i,1],curves[i,2],xrange,yrange,knRanges,op$Analysis,i,FALSE,
                               1,curves[i,3],SmoothingsEC[i],op$SmoothingOneC,repOp$massBody,repOp$massExtra,
-                              repOp$econfName,repOp$diameter,repOp$diameterExt,repOp$anglePush,repOp$angleWeight,repOp$inertiaM,repOp$gearedDown,
+                              repOp$econfName,repOp$diameter,repOp$diameterExt,repOp$anglePush,repOp$angleWeight,repOp$inertiaM,repOp$gearedDown,"", #laterality
                               myTitle,mySubtitle,
                               TRUE,	#draw
                               op$Width,
@@ -3566,13 +3576,19 @@ doProcess <- function(options)
 					 SmoothingsEC, op$SmoothingOneC,
 					 g, op$Eccon, isPropulsive)
 
+		#check if there are different values of laterality
+		lateralityDifferent = checkLateralityDifferent(curves)
+
 		for(i in 1:n) {
 			repOp <- assignRepOptions(
 						  singleFile, curves, i,
 						  op$MassBody, op$MassExtra, op$Eccon, op$ExercisePercentBodyWeight,
 						  op$EncoderConfigurationName, op$diameter, op$diameterExt,
 						  op$anglePush, op$angleWeight, op$inertiaMomentum, op$gearedDown,
-						  "") #laterality
+						  op$laterality)
+
+			if(! lateralityDifferent)
+				repOp$laterality = ""
 
 			myTitle = ""
 			if(i == 1)
@@ -3588,7 +3604,7 @@ doProcess <- function(options)
 
 			paint(displacement, repOp$eccon, curves[i,1],curves[i,2],xrange,yrange,knRanges, op$Analysis, rownames(curves)[i], FALSE,
 			      1,curves[i,3],SmoothingsEC[i],op$SmoothingOneC,repOp$massBody,repOp$massExtra,
-			      repOp$econfName,repOp$diameter,repOp$diameterExt,repOp$anglePush,repOp$angleWeight,repOp$inertiaM,repOp$gearedDown,
+			      repOp$econfName,repOp$diameter,repOp$diameterExt,repOp$anglePush,repOp$angleWeight,repOp$inertiaM,repOp$gearedDown,repOp$laterality,
 			      myTitle, "", #title, subtitle
 			      TRUE,	#draw
 			      op$Width,

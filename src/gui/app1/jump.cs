@@ -35,6 +35,7 @@ public partial class ChronoJumpWindow
 	//options jumps
 	[Widget] Gtk.Button button_jump_type_delete_simple;
 	[Widget] Gtk.SpinButton extra_window_jumps_spinbutton_weight;
+	[Widget] Gtk.HBox extra_window_jumps_simple_hbox_start_inside;
 	[Widget] Gtk.Box extra_window_jumps_hbox_fall;
 	[Widget] Gtk.CheckButton extra_window_jumps_check_dj_fall_calculate;
 	[Widget] Gtk.Label extra_window_jumps_label_dj_start_inside;
@@ -462,8 +463,10 @@ public partial class ChronoJumpWindow
 		
 			//only on simple jumps	
 			extra_window_jumps_hbox_fall.Visible = false;
-		} else 
+		} else {
+			extra_window_jumps_simple_hbox_start_inside.Visible = ! show;
 			extra_window_jumps_hbox_fall.Visible = show;
+		}
 	}
 	
 	private void extra_window_showLimitData (bool show) {

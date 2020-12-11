@@ -6829,7 +6829,23 @@ LogB.Debug("mc finished 5");
 			setApp1Title(currentSession.Name, current_menuitem_mode);
 	}
 
+	//use chronojumpConfig
 	private void on_button_gui_tests_clicked (object o, EventArgs args)
+	{
+		if(currentSession == null)
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, "Need to open a session");
+			return;
+		}
+
+		chronojumpWindowTestsStart(
+				currentSession.UniqueID,
+				CJTests.SequenceEncoderGraphSetBars);
+	}
+
+	//use DEBUG and selector on main gui (previous to 2.0)
+	/*
+	private void on_button_gui_tests_old_clicked (object o, EventArgs args)
 	{
 		string selected = UtilGtk.ComboGetActive(combo_gui_tests);
 		if(selected == "")
@@ -6858,11 +6874,11 @@ LogB.Debug("mc finished 5");
 		else
 			new DialogMessage(Constants.MessageTypes.WARNING, "Selected test: " + selected);
 
-		/* other tests:
+		// other tests:
 		//CJTests.SequenceChangeMultitest
 		//CJTests.SequenceRJsSimulatedFinishCancel
-		*/
 	}
+	*/
 	
 	private void on_button_carles_clicked (object o, EventArgs args)
 	{

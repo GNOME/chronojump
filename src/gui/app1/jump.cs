@@ -74,6 +74,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label extra_window_jumps_rj_label_weight;
 	[Widget] Gtk.Label extra_window_jumps_rj_label_fall;
 	[Widget] Gtk.Label extra_window_jumps_rj_label_cm;
+	[Widget] Gtk.Label extra_window_jumps_label_rj_start_inside;
+	[Widget] Gtk.Label extra_window_jumps_label_rj_start_outside;
 	[Widget] Gtk.CheckButton checkbutton_allow_finish_rj_after_time;
 
 	
@@ -447,11 +449,16 @@ public partial class ChronoJumpWindow
 		extra_window_jumps_check_dj_arms.Sensitive = sensitive;
 	}
 	
-	private void extra_window_showFallData (JumpType myJumpType, bool show) {
-		if(myJumpType.IsRepetitive) {
+	private void extra_window_showFallData (JumpType myJumpType, bool show)
+	{
+		if(myJumpType.IsRepetitive)
+		{
 			extra_window_jumps_rj_label_fall.Visible = show;
 			extra_window_jumps_rj_spinbutton_fall.Visible = show;
 			extra_window_jumps_rj_label_cm.Visible = show;
+
+			extra_window_jumps_label_rj_start_inside.Visible = ! show;
+			extra_window_jumps_label_rj_start_outside.Visible = show;
 		
 			//only on simple jumps	
 			extra_window_jumps_hbox_fall.Visible = false;

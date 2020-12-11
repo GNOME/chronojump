@@ -406,7 +406,7 @@ options</property>
                             <property name="spacing">20</property>
                             <child>
                               <widget class="GtkRadioButton" id="radiobutton_simple_startIn_yes">
-                                <property name="label" translatable="yes">Normal jump</property>
+                                <property name="label" translatable="yes">Jump</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -423,7 +423,7 @@ options</property>
                             </child>
                             <child>
                               <widget class="GtkRadioButton" id="radiobutton_simple_startIn_no">
-                                <property name="label" translatable="yes">Drop jump</property>
+                                <property name="label" translatable="yes">Rebound</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -449,7 +449,7 @@ options</property>
                           <widget class="GtkLabel" id="label_drop_jump">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">Drop jump can also start inside platform.</property>
+                            <property name="label" translatable="yes">Rebound can also start inside platform.</property>
                           </widget>
                           <packing>
                             <property name="expand">True</property>

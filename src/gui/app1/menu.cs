@@ -65,6 +65,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_menu_help_documents;
 	[Widget] Gtk.Button button_menu_help_shortcuts;
 	[Widget] Gtk.Button button_menu_help_about;
+	[Widget] Gtk.Button button_menu_guiTest;
 
 	//just to manage width
 	[Widget] Gtk.HButtonBox hbuttonbox_person_admin_create;

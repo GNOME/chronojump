@@ -61,6 +61,8 @@ public class CJTests
 		ENCODER_CAPTURE,
 		ENCODER_CAPTURE_CALIBRATE,
 		ENCODER_RECALCULATE,
+		//ENCODER_SET_SAVE_GRAPH,
+		ENCODER_SIGNAL_LOAD_AND_GRAPH_BARS,
 		ENCODER_SET_SAVE_REPS,
 		ENCODER_SET_SAVE_REPS_BUCLE,
 		WAIT_5_SECONDS,
@@ -103,6 +105,20 @@ public class CJTests
 			CJTests.Types.BUCLE_2_ON,
 				CJTests.Types.ENCODER_SIGNAL_LOAD, //bucle2startPos
 				CJTests.Types.ENCODER_RECALCULATE,
+			CJTests.Types.BUCLE_2_OFF,
+		CJTests.Types.BUCLE_1_OFF,
+		CJTests.Types.END
+	};
+
+	public static List<Types> SequenceEncoderGraphSetBars = new List<Types>
+	{
+		//CJTests.Types.MODE_POWERGRAVITATORY, 
+		CJTests.Types.SESSION_LOAD,
+		CJTests.Types.BUCLE_1_ON,
+			CJTests.Types.PERSON_SELECT, //bucle1startPos //repeat from here
+			CJTests.Types.BUCLE_2_ON,
+				CJTests.Types.ENCODER_SIGNAL_LOAD_AND_GRAPH_BARS, //bucle2startPos
+		//		CJTests.Types.ENCODER_SET_SAVE_GRAPH,
 			CJTests.Types.BUCLE_2_OFF,
 		CJTests.Types.BUCLE_1_OFF,
 		CJTests.Types.END
@@ -210,6 +226,7 @@ public class CJTests
 
 		if(sequence[sequencePos] == Types.BUCLE_1_ON) 
 		{
+			LogB.Information("BUCLE_1_ON");
 			bucleCurrent = 1;
 			bucle1ended = false;
 			bucle1count = 0;
@@ -219,6 +236,7 @@ public class CJTests
 		
 		if(sequence[sequencePos] == Types.BUCLE_2_ON) 
 		{
+			LogB.Information("BUCLE_2_ON");
 			bucleCurrent = 2;
 			bucle2ended = false;
 			bucle2count = 0;
@@ -228,6 +246,7 @@ public class CJTests
 		
 		if(sequence[sequencePos] == Types.BUCLE_2_OFF) 
 		{
+			LogB.Information("BUCLE_2_OFF");
 			if(bucle2ended) {
 				bucleCurrent --;
 				sequencePos ++;
@@ -239,6 +258,7 @@ public class CJTests
 		
 		if(sequence[sequencePos] == Types.BUCLE_1_OFF) 
 		{
+			LogB.Information("BUCLE_1_OFF");
 			if(bucle1ended) {
 				bucleCurrent --;
 				sequencePos ++;
@@ -250,7 +270,10 @@ public class CJTests
 		} 
 		
 		if(sequence[sequencePos] == CJTests.Types.END)
+		{
+			LogB.Information("SEQUENCE END");
 			return false;
+		}
 
 		return true;
 	}
@@ -291,6 +314,7 @@ public partial class ChronoJumpWindow
 
 	private void chronojumpWindowTestsStart(int sessionID, List<CJTests.Types> sequence)
 	{
+		LogB.Information("At chronojumpWindowTestsStart");
 		testsActive = true;
 		this.sessionID = sessionID;
 
@@ -338,6 +362,7 @@ public partial class ChronoJumpWindow
 		
 		bool bucleContinues = true;
 		int bcount = cjTest.GetBucleCount();
+		LogB.Information(cjTest.GetSequencePos().ToString());
 
 		switch(cjTest.GetSequencePos()) 
 		{
@@ -386,6 +411,11 @@ public partial class ChronoJumpWindow
 				if(bucleContinues)
 					callNext = true;
 				break;
+			case CJTests.Types.ENCODER_SIGNAL_LOAD_AND_GRAPH_BARS:
+				bucleContinues = chronojumpWindowTestsEncoderLoadSignalAndGraphBars(bcount);
+//				if(bucleContinues)
+					callNext = true;
+				break;
 			case CJTests.Types.ENCODER_ECC_CON_INVERT:
 				chronojumpWindowTestsEncoderEccConInvert();
 				callNext = true;
@@ -400,6 +430,10 @@ public partial class ChronoJumpWindow
 			case CJTests.Types.ENCODER_RECALCULATE:
 				chronojumpWindowTestsEncoderRecalculate();
 				break;
+//			case CJTests.Types.ENCODER_SET_SAVE_GRAPH:
+//				chronojumpWindowTestsEncoderSetSaveGraph();
+//				callNext = true;
+//				break;
 			case CJTests.Types.ENCODER_SET_SAVE_REPS:
 				chronojumpWindowTestsEncoderSetSaveReps();
 				callNext = true;
@@ -412,6 +446,9 @@ public partial class ChronoJumpWindow
 				callNext = true;
 				break;
 		}
+
+		LogB.Information("bucleContinues: " + bucleContinues.ToString());
+		LogB.Information("callNext: " + callNext.ToString());
 
 		if(! bucleContinues)
 			cjTest.EndBucleCurrent();
@@ -568,6 +605,31 @@ public partial class ChronoJumpWindow
 		LogB.TestEnd("chronojumpWindowTestsLoadSignal_continuing");
 		return true;
 	}
+	private bool chronojumpWindowTestsEncoderLoadSignalAndGraphBars(int count)
+	{
+		LogB.TestStart("chronojumpWindowTestsLoadSignal");
+
+		ArrayList data = encoderLoadSignalData(); //selects signals of this person, this session, this encoderGI
+
+		/*
+		if(count >= data.Count) {
+			LogB.TestEnd("chronojumpWindowTestsLoadSignal_ended");
+			return false;
+		}
+		*/
+		
+		EncoderSQL es = (EncoderSQL) data[count]; //first is 0
+
+		on_encoder_load_signal_clicked (Convert.ToInt32(es.uniqueID)); //opens load window with first selected
+
+		genericWin.Button_accept.Click(); //this will call accepted
+
+		chronojumpWindowTestsEncoderSetSaveGraph();
+
+		LogB.TestEnd("chronojumpWindowTestsLoadSignal_continuing");
+		return true;
+	}
+	
 	
 	private void chronojumpWindowTestsEncoderEccConInvert()
 	{
@@ -605,6 +667,16 @@ public partial class ChronoJumpWindow
 		LogB.TestEnd("chronojumpWindowTestsEncoderRecalculate");
 	}
 
+
+	private void chronojumpWindowTestsEncoderSetSaveGraph()
+	{
+		LogB.TestStart("chronojumpWindowTestsEncoderSetSaveGraph");
+
+//TODO: but have a checkFile that can have a path and writes without asking about rewrite if file exists
+		on_button_encoder_capture_image_save_clicked (new Object (), new EventArgs ());
+
+		LogB.TestEnd("chronojumpWindowTestsEncoderSetSaveGraph");
+	}
 
 	//saves all best none 4top randomly
 	private void chronojumpWindowTestsEncoderSetSaveReps()

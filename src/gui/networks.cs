@@ -242,6 +242,12 @@ public partial class ChronoJumpWindow
 			hbox_persons_raspberry.Visible = true;
 		}
 
+		if(configChronojump.GuiTest)
+		{
+			button_menu_guiTest.Visible = true;
+			button_menu_guiTest1.Visible = true;
+		}
+
 		if(configChronojump.Exhibition)
 		{
 			exhibitionGuiAtStart(configChronojump.ExhibitionStationType);

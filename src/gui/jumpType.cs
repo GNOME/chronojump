@@ -53,8 +53,10 @@ public class JumpTypeAddWindow
 	[Widget] Gtk.SpinButton spin_fixed_num;
 
 	[Widget] Gtk.RadioButton radiobutton_startIn_yes;
+	[Widget] Gtk.RadioButton radiobutton_startIn_no;
 	[Widget] Gtk.RadioButton radiobutton_extra_weight_yes;
 	[Widget] Gtk.RadioButton radiobutton_extra_weight_no;
+	[Widget] Gtk.Label label_drop_jump;
 	[Widget] Gtk.TextView textview_description;
 
 	static JumpTypeAddWindow JumpTypeAddWindowBox;
@@ -100,6 +102,7 @@ public class JumpTypeAddWindow
 		button_accept.Sensitive = false;
 		spin_fixed_num.Sensitive = false;
 		radiobutton_extra_weight_no.Active = true;
+		label_drop_jump.Sensitive = false;
 
 		//active the desired radio
 		if(simple)
@@ -250,6 +253,17 @@ public class JumpTypeAddWindow
 		} else {
 			spin_fixed_num.Sensitive = false;
 		}
+	}
+
+	private void on_radiobutton_startIn_yes_toggled (object o, EventArgs args)
+	{
+		if(radiobutton_startIn_yes.Active)
+			label_drop_jump.Sensitive = false;
+	}
+	private void on_radiobutton_startIn_no_toggled (object o, EventArgs args)
+	{
+		if(radiobutton_startIn_no.Active)
+			label_drop_jump.Sensitive = true;
 	}
 
 	void on_entries_required_changed (object o, EventArgs args)

@@ -52,8 +52,15 @@ public class JumpTypeAddWindow
 	[Widget] Gtk.CheckButton checkbutton_limited_fixed;
 	[Widget] Gtk.SpinButton spin_fixed_num;
 
-	[Widget] Gtk.RadioButton radiobutton_startIn_yes;
-	[Widget] Gtk.RadioButton radiobutton_startIn_no;
+	[Widget] Gtk.Label label_jump_type_simple;
+	[Widget] Gtk.Label label_jump_type_multiple;
+	[Widget] Gtk.VBox vbox_simple_type;
+	[Widget] Gtk.HBox hbox_multiple_type;
+
+	[Widget] Gtk.RadioButton radiobutton_simple_startIn_yes;
+	[Widget] Gtk.RadioButton radiobutton_simple_startIn_no;
+	[Widget] Gtk.RadioButton radiobutton_multiple_startIn_yes;
+	[Widget] Gtk.RadioButton radiobutton_multiple_startIn_no;
 	[Widget] Gtk.RadioButton radiobutton_extra_weight_yes;
 	[Widget] Gtk.RadioButton radiobutton_extra_weight_no;
 	[Widget] Gtk.Label label_drop_jump;
@@ -105,10 +112,21 @@ public class JumpTypeAddWindow
 		label_drop_jump.Sensitive = false;
 
 		//active the desired radio
-		if(simple)
+		if(simple) {
 			radiobutton_simple.Active = true;
-		else
+
+			label_jump_type_simple.Visible = true;
+			vbox_simple_type.Visible = true;
+			label_jump_type_multiple.Visible = false;
+			hbox_multiple_type.Visible = false;
+		} else {
 			radiobutton_repetitive.Active = true;
+
+			label_jump_type_simple.Visible = false;
+			vbox_simple_type.Visible = false;
+			label_jump_type_multiple.Visible = true;
+			hbox_multiple_type.Visible = true;
+		}
 
 		//don't show the radios
 		radiobutton_simple.Visible = false;
@@ -169,11 +187,18 @@ public class JumpTypeAddWindow
 			ErrorWindow.Show(myString);
 		} else {
 			string myJump = name;
-			if(radiobutton_startIn_yes.Active) {
-				myJump = myJump + ":1"; 
+			if(radiobutton_simple.Active) {
+				if(radiobutton_simple_startIn_yes.Active)
+					myJump = myJump + ":1";
+				else
+					myJump = myJump + ":0";
 			} else {
-				myJump = myJump + ":0"; 
+				if(radiobutton_multiple_startIn_yes.Active)
+					myJump = myJump + ":1";
+				else
+					myJump = myJump + ":0";
 			}
+
 			if(radiobutton_extra_weight_yes.Active) {
 				myJump = myJump + ":1"; 
 			} else {
@@ -255,14 +280,14 @@ public class JumpTypeAddWindow
 		}
 	}
 
-	private void on_radiobutton_startIn_yes_toggled (object o, EventArgs args)
+	private void on_radiobutton_simple_startIn_yes_toggled (object o, EventArgs args)
 	{
-		if(radiobutton_startIn_yes.Active)
+		if(radiobutton_simple_startIn_yes.Active)
 			label_drop_jump.Sensitive = false;
 	}
-	private void on_radiobutton_startIn_no_toggled (object o, EventArgs args)
+	private void on_radiobutton_simple_startIn_no_toggled (object o, EventArgs args)
 	{
-		if(radiobutton_startIn_no.Active)
+		if(radiobutton_simple_startIn_no.Active)
 			label_drop_jump.Sensitive = true;
 	}
 

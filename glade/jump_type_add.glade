@@ -44,7 +44,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="border_width">10</property>
-                    <property name="n_rows">5</property>
+                    <property name="n_rows">6</property>
                     <property name="n_columns">2</property>
                     <property name="column_spacing">20</property>
                     <property name="row_spacing">10</property>
@@ -69,8 +69,8 @@
                         <property name="label" translatable="yes">Description</property>
                       </widget>
                       <packing>
-                        <property name="top_attach">4</property>
-                        <property name="bottom_attach">5</property>
+                        <property name="top_attach">5</property>
+                        <property name="bottom_attach">6</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"/>
                       </packing>
@@ -89,8 +89,8 @@
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
-                        <property name="top_attach">4</property>
-                        <property name="bottom_attach">5</property>
+                        <property name="top_attach">5</property>
+                        <property name="bottom_attach">6</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options">GTK_FILL</property>
                       </packing>
@@ -119,8 +119,8 @@
                         <property name="label" translatable="yes">Extra weight</property>
                       </widget>
                       <packing>
-                        <property name="top_attach">3</property>
-                        <property name="bottom_attach">4</property>
+                        <property name="top_attach">4</property>
+                        <property name="bottom_attach">5</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"/>
                       </packing>
@@ -165,8 +165,8 @@
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
-                        <property name="top_attach">3</property>
-                        <property name="bottom_attach">4</property>
+                        <property name="top_attach">4</property>
+                        <property name="bottom_attach">5</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options">GTK_FILL</property>
                       </packing>
@@ -395,7 +395,7 @@ options</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkVBox" id="vbox1">
+                      <widget class="GtkVBox" id="vbox_simple_type">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="spacing">6</property>
@@ -405,7 +405,7 @@ options</property>
                             <property name="can_focus">False</property>
                             <property name="spacing">20</property>
                             <child>
-                              <widget class="GtkRadioButton" id="radiobutton_startIn_yes">
+                              <widget class="GtkRadioButton" id="radiobutton_simple_startIn_yes">
                                 <property name="label" translatable="yes">Normal jump</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
@@ -413,7 +413,7 @@ options</property>
                                 <property name="use_underline">True</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
-                                <signal name="toggled" handler="on_radiobutton_startIn_yes_toggled" swapped="no"/>
+                                <signal name="toggled" handler="on_radiobutton_simple_startIn_yes_toggled" swapped="no"/>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
@@ -422,15 +422,15 @@ options</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkRadioButton" id="radiobutton_startIn_no">
+                              <widget class="GtkRadioButton" id="radiobutton_simple_startIn_no">
                                 <property name="label" translatable="yes">Drop jump</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
                                 <property name="use_underline">True</property>
                                 <property name="draw_indicator">True</property>
-                                <property name="group">radiobutton_startIn_yes</property>
-                                <signal name="toggled" handler="on_radiobutton_startIn_no_toggled" swapped="no"/>
+                                <property name="group">radiobutton_simple_startIn_yes</property>
+                                <signal name="toggled" handler="on_radiobutton_simple_startIn_no_toggled" swapped="no"/>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
@@ -466,7 +466,7 @@ options</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label83">
+                      <widget class="GtkLabel" id="label_jump_type_simple">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
@@ -477,6 +477,66 @@ options</property>
                         <property name="bottom_attach">3</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options">GTK_FILL</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkLabel" id="label_jump_type_multiple">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">0</property>
+                        <property name="label" translatable="yes">Type</property>
+                      </widget>
+                      <packing>
+                        <property name="top_attach">3</property>
+                        <property name="bottom_attach">4</property>
+                        <property name="x_options">GTK_FILL</property>
+                        <property name="y_options">GTK_FILL</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkHBox" id="hbox_multiple_type">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="spacing">20</property>
+                        <child>
+                          <widget class="GtkRadioButton" id="radiobutton_multiple_startIn_yes">
+                            <property name="label" translatable="yes">Start inside</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="use_underline">True</property>
+                            <property name="active">True</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkRadioButton" id="radiobutton_multiple_startIn_no">
+                            <property name="label" translatable="yes">Start outside</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="use_underline">True</property>
+                            <property name="active">True</property>
+                            <property name="draw_indicator">True</property>
+                            <property name="group">radiobutton_multiple_startIn_yes</property>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="right_attach">2</property>
+                        <property name="top_attach">3</property>
+                        <property name="bottom_attach">4</property>
                       </packing>
                     </child>
                   </widget>

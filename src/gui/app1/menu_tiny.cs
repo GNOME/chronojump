@@ -55,6 +55,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_menu_preferences1;
 	[Widget] Gtk.Image image_menu_help1;
 	[Widget] Gtk.Image image_menu_quit1;
+	[Widget] Gtk.Button button_menu_guiTest1;
 
 	[Widget] Gtk.Viewport viewport_image_logo_icon;
 

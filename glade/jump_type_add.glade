@@ -413,6 +413,7 @@ options</property>
                                 <property name="use_underline">True</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
+                                <signal name="toggled" handler="on_radiobutton_startIn_yes_toggled" swapped="no"/>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
@@ -429,6 +430,7 @@ options</property>
                                 <property name="use_underline">True</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">radiobutton_startIn_yes</property>
+                                <signal name="toggled" handler="on_radiobutton_startIn_no_toggled" swapped="no"/>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
@@ -444,7 +446,7 @@ options</property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkLabel" id="label2">
+                          <widget class="GtkLabel" id="label_drop_jump">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="label" translatable="yes">Drop jump can also start inside platform.</property>

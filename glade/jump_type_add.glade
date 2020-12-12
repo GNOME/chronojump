@@ -423,7 +423,7 @@ options</property>
                             </child>
                             <child>
                               <widget class="GtkRadioButton" id="radiobutton_simple_startIn_no">
-                                <property name="label" translatable="yes">Rebound</property>
+                                <property name="label" translatable="yes" comments="A rebound jump means: when a person fall from some height to the floor and just after this person performs the jump.">Rebound</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -449,7 +449,7 @@ options</property>
                           <widget class="GtkLabel" id="label_drop_jump">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">Rebound can also start inside platform.</property>
+                            <property name="label" translatable="yes" comments="A rebound jump means: when a person fall from some height to the floor and just after this person performs the jump.">Rebound can also start inside platform.</property>
                           </widget>
                           <packing>
                             <property name="expand">True</property>

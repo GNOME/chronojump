@@ -47,6 +47,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Viewport viewport_run_encoder_graph;
 	[Widget] Gtk.TreeView treeview_raceAnalyzer;
 	[Widget] Gtk.Button button_raceAnalyzer_table_save;
+	[Widget] Gtk.Label label_race_analyzer_capture_speed;
 
 	int race_analyzer_distance;
 	int race_analyzer_temperature;
@@ -58,6 +59,7 @@ public partial class ChronoJumpWindow
 	static bool runEncoderProcessCancel;
 	static bool runEncoderProcessError;
         static string runEncoderPulseMessage = "";
+	static double runEncoderCaptureSpeed = 0;
 	
 	private RunEncoder currentRunEncoder;
 	private RunEncoderExercise currentRunEncoderExercise;
@@ -381,6 +383,7 @@ public partial class ChronoJumpWindow
 		event_execute_ButtonCancel.Clicked -= new EventHandler(on_cancel_clicked);
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 
+        	runEncoderCaptureSpeed = 0;
 		runEncoderCaptureThread = new Thread(new ThreadStart(runEncoderCaptureDo));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKRunEncoderCapture));
 
@@ -487,6 +490,8 @@ public partial class ChronoJumpWindow
 			int time = binaryReaded[1];
 			int force = binaryReaded[2];
 			int encoderOrRCA = binaryReaded[3];
+
+        		runEncoderCaptureSpeed = UtilAll.DivideSafe(0.003003, time); //hardcoded: same as sprintEncoder.R
 
 			LogB.Information(string.Format("{0};{1};{2};{3};{4}", pps, encoderDisplacement, time, force, encoderOrRCA));
 			writer.WriteLine(string.Format("{0};{1};{2}", encoderDisplacement, time, force));
@@ -1290,6 +1295,7 @@ public partial class ChronoJumpWindow
 		else
 		{
 			event_execute_label_message.Text = runEncoderPulseMessage;
+			label_race_analyzer_capture_speed.Text = Util.TrimDecimals(runEncoderCaptureSpeed,3) + " m/s";
 
 			if(runEncoderPulseMessage == capturingMessage)
 				event_execute_button_finish.Sensitive = true;

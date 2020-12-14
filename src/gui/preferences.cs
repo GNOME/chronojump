@@ -258,7 +258,6 @@ public class PreferencesWindow
 	[Widget] Gtk.Frame frame_networks;
 	[Widget] Gtk.CheckButton check_networks_devices;
 
-	[Widget] Gtk.RadioButton radio_python_default;
 	[Widget] Gtk.RadioButton radio_python_2;
 	[Widget] Gtk.RadioButton radio_python_3;
 
@@ -749,10 +748,8 @@ public class PreferencesWindow
 
 		if(preferences.importerPythonVersion == Preferences.pythonVersionEnum.Python2)
 			PreferencesWindowBox.radio_python_2.Active = true;
-		else if(preferences.importerPythonVersion == Preferences.pythonVersionEnum.Python3)
+		else //if(preferences.importerPythonVersion == Preferences.pythonVersionEnum.Python3)
 			PreferencesWindowBox.radio_python_3.Active = true;
-		else //if(preferences.importerPythonVersion == Preferences.pythonVersionEnum.Python)
-			PreferencesWindowBox.radio_python_default.Active = true;
 
 		if(preferences.colorBackgroundOsColor) {
 			PreferencesWindowBox.radio_color_os.Active = true;
@@ -2268,9 +2265,7 @@ public class PreferencesWindow
 
 	private Preferences.pythonVersionEnum get_pythonVersion_from_gui()
 	{
-		if( PreferencesWindowBox.radio_python_default.Active)
-			return Preferences.pythonVersionEnum.Python;
-		else if( PreferencesWindowBox.radio_python_2.Active)
+		if( PreferencesWindowBox.radio_python_2.Active)
 			return Preferences.pythonVersionEnum.Python2;
 		else //if( PreferencesWindowBox.radio_python_3.Active)
 			return Preferences.pythonVersionEnum.Python3;

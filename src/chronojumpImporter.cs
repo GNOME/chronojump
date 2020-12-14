@@ -335,8 +335,7 @@ LogB.Information("import A ");
 		if (UtilAll.IsWindows()) {
 			// On Windows we execute the .exe file (it's the Python with py2exe)
 			// right now default to python2
-			if(pythonVersion == Preferences.pythonVersionEnum.Python ||
-					pythonVersion == Preferences.pythonVersionEnum.Python2)
+			if(pythonVersion == Preferences.pythonVersionEnum.Python2)
 				importer_executable = System.IO.Path.Combine (Util.GetPrefixDir (), "bin\\chronojump-importer\\chronojump_importer.exe");
 			else
 				importer_executable = System.IO.Path.Combine (Util.GetPrefixDir (), "bin\\chronojump-importer-python3\\chronojump_importer.exe");

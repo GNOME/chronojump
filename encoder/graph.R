@@ -3610,7 +3610,7 @@ doProcess <- function(options)
 			      op$Width,
 			      FALSE,	#showLabels
 			      FALSE,	#marShrink
-			      TRUE,	#showAxes
+			      (i==1),	#showAxes
 			      (i==1),	#legend
 			      op$Analysis, isPropulsive, inertialType, repOp$exPercentBodyWeight,
                               (op$AnalysisVariables[1] == "Position"), #show position

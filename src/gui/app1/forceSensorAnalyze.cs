@@ -1427,6 +1427,21 @@ public partial class ChronoJumpWindow
 					plotRFDLineDebugConstruction(countRFDMax);
 			}
 		}
+
+		/*
+		// triggers
+		double lowerMs = fsAI.GetTimeMS(hscaleLower);
+		double higherMs = fsAI.GetTimeMS(hscaleHigher);
+		foreach(Trigger trigger in triggerListForceSensor)
+		{
+			if(trigger.Ms > lowerMs && trigger.Ms < HigherMs)	
+				//write the vertical start line
+				force_sensor_ai_pixmap.DrawLine(pen_green_force_ai,
+						???, textHeight +6, ???, allocation.Height - textHeight -6);
+			//TODO: do green for on, red for off
+		}
+		*/
+
 		LogB.Information("forceSensorAnalyzeManualGraphDo() END");
 	}
 

@@ -48,6 +48,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.TreeView treeview_raceAnalyzer;
 	[Widget] Gtk.Button button_raceAnalyzer_table_save;
 	[Widget] Gtk.Label label_race_analyzer_capture_speed;
+	[Widget] Gtk.DrawingArea drawingarea_race_analyzer_capture;
+	[Widget] Gtk.SpinButton spin_race_analyzer_capture_speed_test;
 
 	int race_analyzer_distance;
 	int race_analyzer_temperature;
@@ -1673,4 +1675,14 @@ public partial class ChronoJumpWindow
 	}
 	// -------------------------------- end of exercise stuff --------------------
 
+	CairoRadial cairoRadial;
+	private void on_drawingarea_race_analyzer_capture_expose_event (object o, ExposeEventArgs args)
+	{
+		cairoRadial = new CairoRadial(drawingarea_race_analyzer_capture, preferences.fontType.ToString());
+	}
+
+	private void on_button_race_analyzer_capture_speed_test_clicked (object o, EventArgs args)
+	{
+		cairoRadial.GraphSpeed(spin_race_analyzer_capture_speed_test.Value);
+	}
 }

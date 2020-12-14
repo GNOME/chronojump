@@ -2990,6 +2990,7 @@ public partial class ChronoJumpWindow
 
 		//see doProcess at encoder/graph.R
 		string analysisVariables = "none"; //cannot be blank
+		string titleStr = "";
 
 		string crossName = "";
 		if(sendAnalysis == "cross") {
@@ -3220,7 +3221,13 @@ public partial class ChronoJumpWindow
 				{
 					foreach(string str in encSelReps.EncoderCompareInter)
 						if(Util.FetchID(str) == eSQL.personID)
+						{
 							seriesName = Util.FetchName(str);
+							//to show correctly name of person on title if there is only one serie (one person)
+							//because if is multiseries it displays	correctly the names as series, but if not, it displayed currentPerson.Name
+							//so just display one person name and if it has only one serie (one person), name will be ok
+							titleStr = seriesName;
+						}
 				} else if(radio_encoder_analyze_individual_all_sessions.Active)
 				{
 					foreach(string str in encSelReps.EncoderCompareInter) {
@@ -3332,8 +3339,9 @@ public partial class ChronoJumpWindow
 				ep);
 
 
-		string titleStr = Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name);
-	
+		if(! radio_encoder_analyze_groupal_current_session.Active)
+			titleStr = Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name);
+
 		if(encoderSelectedAnalysis == "neuromuscularProfile")
 			titleStr = "Neuromuscular Profile" + "-" + titleStr;
 		else {

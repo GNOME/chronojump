@@ -463,6 +463,7 @@ public partial class ChronoJumpWindow
 		triggerListRunEncoder = new TriggerList();
 		str = "";
 		int firstTime = 0;
+		int timePre = 0;
 
 		int rowsCount = 0;
 		while(! runEncoderProcessFinish && ! runEncoderProcessCancel && ! runEncoderProcessError)
@@ -491,7 +492,9 @@ public partial class ChronoJumpWindow
 			int force = binaryReaded[2];
 			int encoderOrRCA = binaryReaded[3];
 
-        		runEncoderCaptureSpeed = UtilAll.DivideSafe(0.003003, time); //hardcoded: same as sprintEncoder.R
+			runEncoderCaptureSpeed = UtilAll.DivideSafe(Math.Abs(encoderDisplacement) * 1000000 * 0.003003, (time - timePre)); //hardcoded: same as sprintEncoder.R
+			//LogB.Information("runEncoderCaptureSpeed: " + UtilAll.DivideSafe(Math.Abs(encoderDisplacement) * 1000000 * 0.003003, (time - timePre)).ToString()); //hardcoded: same as sprintEncoder.R
+			timePre = time;
 
 			LogB.Information(string.Format("{0};{1};{2};{3};{4}", pps, encoderDisplacement, time, force, encoderOrRCA));
 			writer.WriteLine(string.Format("{0};{1};{2}", encoderDisplacement, time, force));

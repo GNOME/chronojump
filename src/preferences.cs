@@ -159,10 +159,12 @@ public class Preferences
 	public bool muteLogs;
 	public bool networksAllowChangeDevices; //managed on preferences;
 
-	public enum pythonVersionEnum { Python, Python2, Python3 };
+	public enum pythonVersionEnum { Python2, Python3 };
 	public pythonVersionEnum importerPythonVersion;
 
 	/*
+	 * at DB: 2.06, vales pythonVersionEnum were Python2, Python3, we do not use "Python" anymore
+	 *
 	 * at DB: 1.95, vales pythonVersionEnum were Python, Python2, Python3
 	 * so we need the executable: python, python2, python3
 	 * chronojump_importer.py works on python2 and python3

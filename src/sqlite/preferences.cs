@@ -305,7 +305,7 @@ class SqlitePreferences : Sqlite
 				Insert (EncoderAutoSaveCurveBestNValue, "3", dbcmdTr);
 				Insert ("email", "", dbcmdTr);
 				Insert ("muteLogs", "False", dbcmdTr);
-				Insert (ImporterPythonVersion, Preferences.pythonVersionEnum.Python.ToString(), dbcmdTr);
+				Insert (ImporterPythonVersion, Preferences.pythonVersionEnum.Python3.ToString(), dbcmdTr);
 
 				//session
 				Insert (LoadLastSessionAtStart, "True", dbcmdTr);

@@ -239,6 +239,8 @@ public partial class ChronoJumpWindow
 		runEncoderButtonsSensitive(false);
 		sensitiveLastTestButtons(false);
 		runEncoderCaptureSpeed = 0;
+		if(cairoRadial != null)
+			cairoRadial.ResetSpeedMax();
 
 		if(chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER) == 0)
 		{

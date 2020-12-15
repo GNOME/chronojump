@@ -34,8 +34,10 @@ public class CairoRadial
 	private string font;
 	private int graphWidth;
 	private int graphHeight;
+	private double minSide;
 	private Cairo.Color black;
 	private Cairo.Color red;
+	private Cairo.Color gray;
 
 	public CairoRadial (Gtk.DrawingArea area, string font)
 	{
@@ -66,19 +68,19 @@ public class CairoRadial
 		g.SetFontSize(textHeight);
 
 		black = colorFromRGB(0,0,0);
-		//gray99 = colorFromRGB(99,99,99);
+		gray = colorFromRGB(99,99,99); //gray99
 		//white = colorFromRGB(255,255,255);
 		red = colorFromRGB(200,0,0);
 		//blue = colorFromRGB(178, 223, 238); //lightblue
 		//bluePlots = colorFromRGB(0, 0, 200);
 
 		g.Color = black;
-		double minSide = graphWidth;
+		minSide = graphWidth;
 		if(graphHeight < minSide)
 			minSide = graphHeight;
 		for(int i = 0; i < 20; i ++)
 		{
-			double iArc = (2*Math.PI / maxValue) * i;
+			double iArc = (2*Math.PI / maxPossibleValue) * i;
 			printText(Convert.ToInt32(margin + graphWidth/2 + (minSide/2) * 1 * Math.Cos(iArc - Math.PI/2)),
 					Convert.ToInt32(margin + graphHeight/2 + (minSide/2) * 1 * Math.Sin(iArc - Math.PI/2)),
 					0, textHeight, i.ToString(), g, alignTypes.CENTER);
@@ -87,27 +89,40 @@ public class CairoRadial
 
 	//TODO: currently max is 20
 	//TODO: make this go from bottom left to bottom right like a car
-	int maxValue = 20;
+	int maxPossibleValue = 20;
+	double speedMax = 0;
+	public void ResetSpeedMax()
+	{
+		speedMax = 0;
+	}
+
 	public void GraphSpeed(double speed)
 	{
+		if(speed > speedMax)
+			speedMax = speed;
+
 		initGraph();
 
-		double speedArc = (2*Math.PI / maxValue) * speed;
-
 		//g.SetSourceRGB(0.5, 0.5, 0.5);
-		g.MoveTo(margin + graphWidth/2, margin + graphHeight/2);
 
-		double minSide = graphWidth;
-		if(graphHeight < minSide)
-			minSide = graphHeight;
-
-		//thanks to: http://ralph-glass.homepage.t-online.de/clock/readme.html
-		g.LineTo(margin + graphWidth/2 + (minSide/2) * .9 * Math.Cos(speedArc - Math.PI/2),
-				margin + graphHeight/2 + (minSide/2) * .9 * Math.Sin(speedArc - Math.PI/2));
-		g.Color = red;
-		g.Stroke();
+		graphLineFromCenter(speed, red);
+		if(speedMax > speed)
+			graphLineFromCenter(speedMax, gray);
 
 		endGraphDisposing();
+	}
+
+	private void graphLineFromCenter(double toValue, Cairo.Color color)
+	{
+		double arc = (2*Math.PI / maxPossibleValue) * toValue;
+		g.MoveTo(margin + graphWidth/2, margin + graphHeight/2);
+
+		//thanks to: http://ralph-glass.homepage.t-online.de/clock/readme.html
+		g.LineTo(margin + graphWidth/2 + (minSide/2) * .9 * Math.Cos(arc - Math.PI/2),
+				margin + graphHeight/2 + (minSide/2) * .9 * Math.Sin(arc - Math.PI/2));
+
+		g.Color = color;
+		g.Stroke();
 	}
 
 	//TODO: all this methods have to be shared with xy.cs

@@ -32,7 +32,7 @@
 #define CLK  4
 
 //Version number //it always need to start with: "Force_Sensor-"
-String version = "Force_Sensor-0.5";
+String version = "Force_Sensor-0.6";
 
 
 int tareAddress = 0;
@@ -374,7 +374,7 @@ void serialEvent() {
     get_transmission_format();
   } else if (commandString == "send_sync_signal") {
     sendSyncSignal();
-  } else if (commandString == "get_sync_signal") {
+  } else if (commandString == "listen_sync_signal") {
     getSyncSignal();
   } else {
     Serial.println("Not a valid command");
@@ -514,19 +514,21 @@ void checkTimeOverflow() {
 void sendSyncSignal() {
   pinMode(rcaPin, OUTPUT);
 
+  syncTime = micros();
+  
   digitalWrite(rcaPin, HIGH);
   delay(200);
   digitalWrite(rcaPin, LOW);
 
-  syncTime = micros();
   sendSyncTime = true;
 
   pinMode(rcaPin, INPUT);
 }
 
-void getSyncSignal() {
+void listenSyncSignal() {
   //detachInterrupt(digitalPinToInterrupt(rcaPin));
-  attachInterrupt(digitalPinToInterrupt(rcaPin), getSyncTime, FALLING);  
+  attachInterrupt(digitalPinToInterrupt(rcaPin), getSyncTime, FALLING);
+  Serial.println("listening sync signal");
 }
 
 void getSyncTime() {

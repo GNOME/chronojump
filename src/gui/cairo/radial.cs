@@ -55,9 +55,8 @@ public class CairoRadial
 		g.SetSourceRGB(1,1,1);
 		g.Paint();
 
-		//graphWidth = Convert.ToInt32(area.Allocation.Width *.8);
-		graphWidth = area.Allocation.Width;
-		graphHeight = area.Allocation.Height;
+		graphWidth = area.Allocation.Width - 2*margin;
+		graphHeight = area.Allocation.Height - 2*margin;
 
 		g.SetSourceRGB(0,0,0);
 		g.LineWidth = 2;
@@ -73,17 +72,17 @@ public class CairoRadial
 		//blue = colorFromRGB(178, 223, 238); //lightblue
 		//bluePlots = colorFromRGB(0, 0, 200);
 
-		g.MoveTo(5,10);
-		g.LineTo(20,30);
-		g.Color = red;
-		g.Stroke();
-		
 		g.Color = black;
-		//TODO: correctly operate with the margins
-		printText(graphWidth/2 -margin, margin, 0, textHeight, "0", g, alignTypes.CENTER);
-		printText(graphWidth -margin, graphHeight/2 -margin, 0, textHeight, "5", g, alignTypes.CENTER);
-		printText(graphWidth/2 -margin, graphHeight-margin, 0, textHeight, "10", g, alignTypes.CENTER);
-		printText(margin, graphHeight/2-margin, 0, textHeight, "15", g, alignTypes.CENTER);
+		double minSide = graphWidth;
+		if(graphHeight < minSide)
+			minSide = graphHeight;
+		for(int i = 0; i < 20; i ++)
+		{
+			double iArc = (2*Math.PI / maxValue) * i;
+			printText(Convert.ToInt32(margin + graphWidth/2 + (minSide/2) * 1 * Math.Cos(iArc - Math.PI/2)),
+					Convert.ToInt32(margin + graphHeight/2 + (minSide/2) * 1 * Math.Sin(iArc - Math.PI/2)),
+					0, textHeight, i.ToString(), g, alignTypes.CENTER);
+		}
 	}
 
 	//TODO: currently max is 20
@@ -95,21 +94,20 @@ public class CairoRadial
 
 		double speedArc = (2*Math.PI / maxValue) * speed;
 
-		g.SetSourceRGB(0.5, 0.5, 0.5);
-		g.MoveTo(graphWidth/2, graphHeight/2);
+		//g.SetSourceRGB(0.5, 0.5, 0.5);
+		g.MoveTo(margin + graphWidth/2, margin + graphHeight/2);
 
 		double minSide = graphWidth;
 		if(graphHeight < minSide)
 			minSide = graphHeight;
 
 		//thanks to: http://ralph-glass.homepage.t-online.de/clock/readme.html
-		g.LineTo(graphWidth/2 + (minSide/2 -2*margin) * 0.9 * Math.Cos(speedArc - Math.PI/2),
-				graphHeight/2 + (minSide/2 -2*margin) * 0.9 * Math.Sin(speedArc - Math.PI/2));
+		g.LineTo(margin + graphWidth/2 + (minSide/2) * .9 * Math.Cos(speedArc - Math.PI/2),
+				margin + graphHeight/2 + (minSide/2) * .9 * Math.Sin(speedArc - Math.PI/2));
 		g.Color = red;
 		g.Stroke();
 
 		endGraphDisposing();
-		LogB.Information("Graph speed done!");
 	}
 
 	//TODO: all this methods have to be shared with xy.cs

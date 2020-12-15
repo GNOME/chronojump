@@ -29,6 +29,7 @@ using System.Text; //StringBuilder
 using System.Collections;
 using System.Collections.Generic; //List<T>
 using System.Text.RegularExpressions; //Regex
+using System.Diagnostics;  //Stopwatch
 using Mono.Unix;
 
 
@@ -237,6 +238,7 @@ public partial class ChronoJumpWindow
 		runEncoderPulseMessage = "";
 		runEncoderButtonsSensitive(false);
 		sensitiveLastTestButtons(false);
+		runEncoderCaptureSpeed = 0;
 
 		if(chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER) == 0)
 		{
@@ -385,7 +387,6 @@ public partial class ChronoJumpWindow
 		event_execute_ButtonCancel.Clicked -= new EventHandler(on_cancel_clicked);
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 
-        	runEncoderCaptureSpeed = 0;
 		runEncoderCaptureThread = new Thread(new ThreadStart(runEncoderCaptureDo));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKRunEncoderCapture));
 
@@ -466,6 +467,7 @@ public partial class ChronoJumpWindow
 		str = "";
 		int firstTime = 0;
 		int timePre = 0;
+		Stopwatch sw = new Stopwatch();
 
 		int rowsCount = 0;
 		while(! runEncoderProcessFinish && ! runEncoderProcessCancel && ! runEncoderProcessError)
@@ -485,7 +487,16 @@ public partial class ChronoJumpWindow
 			 */
 
 			if (portRE.BytesToRead == 0)
+			{
+				//runEncoder sends changes. If there is no movement in certain time, just show a 0 on screen and capture graph
+				if(sw.ElapsedMilliseconds > 500)
+				{
+					runEncoderCaptureSpeed = 0;
+					sw.Stop();
+				}
+
 				continue;
+			}
 
 			//time (4 bytes: long at Arduino, uint at c-sharp), force (2 bytes: uint)
 			List<int> binaryReaded = readBinaryRunEncoderValues();
@@ -494,9 +505,17 @@ public partial class ChronoJumpWindow
 			int force = binaryReaded[2];
 			int encoderOrRCA = binaryReaded[3];
 
-			runEncoderCaptureSpeed = UtilAll.DivideSafe(Math.Abs(encoderDisplacement) * 1000000 * 0.003003, (time - timePre)); //hardcoded: same as sprintEncoder.R
-			//LogB.Information("runEncoderCaptureSpeed: " + UtilAll.DivideSafe(Math.Abs(encoderDisplacement) * 1000000 * 0.003003, (time - timePre)).ToString()); //hardcoded: same as sprintEncoder.R
-			timePre = time;
+			if(time > timePre)
+			{
+				if(timePre > 0)
+				{
+					runEncoderCaptureSpeed = UtilAll.DivideSafe(Math.Abs(encoderDisplacement) * 1000000 * 0.003003, (time - timePre)); //hardcoded: same as sprintEncoder.R
+					LogB.Information(string.Format("encoderDisplacement: {0}; runEncoderCaptureSpeed: {1}; time: {2}; timePre: {3}",
+								encoderDisplacement, runEncoderCaptureSpeed, time, timePre));
+				}
+				timePre = time;
+				sw.Restart();
+			}
 
 			LogB.Information(string.Format("{0};{1};{2};{3};{4}", pps, encoderDisplacement, time, force, encoderOrRCA));
 			writer.WriteLine(string.Format("{0};{1};{2}", encoderDisplacement, time, force));
@@ -514,6 +533,7 @@ public partial class ChronoJumpWindow
 					triggerListRunEncoder.Add(trigger);
 			}
 		}
+		sw.Stop();
 
 		LogB.Information(string.Format("FINISHED WITH conditions: {0}-{1}-{2}",
 						runEncoderProcessFinish, runEncoderProcessCancel, runEncoderProcessError));
@@ -1301,6 +1321,8 @@ public partial class ChronoJumpWindow
 		{
 			event_execute_label_message.Text = runEncoderPulseMessage;
 			label_race_analyzer_capture_speed.Text = Util.TrimDecimals(runEncoderCaptureSpeed,3) + " m/s";
+
+			cairoRadial.GraphSpeed(runEncoderCaptureSpeed);
 
 			if(runEncoderPulseMessage == capturingMessage)
 				event_execute_button_finish.Sensitive = true;

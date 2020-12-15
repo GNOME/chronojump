@@ -318,6 +318,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_activate_chronopics;
 	[Widget] Gtk.Alignment alignment_button_threshold;
 	[Widget] Gtk.Alignment alignment_button_force_sensor_adjust;
+	[Widget] Gtk.Button button_force_sensor_sync;
 
 	//non standard icons	
 	[Widget] Gtk.Image image_jump_reactive_bell;
@@ -2963,6 +2964,7 @@ public partial class ChronoJumpWindow
 		notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.STATISTICS);
 		button_inspect_last_test_run_intervallic.Visible = false;
 		alignment_button_force_sensor_adjust.Visible = false;
+		button_force_sensor_sync.Visible = false;
 		vbox_contacts_load_recalculate.Visible = false;
 		vbox_contacts_signal_comment.Visible = false;
 		frame_jumps_automatic.Visible = false;
@@ -3213,6 +3215,7 @@ public partial class ChronoJumpWindow
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
 			alignment_button_threshold.Visible = false;
 			alignment_button_force_sensor_adjust.Visible = true;
+			button_force_sensor_sync.Visible = true;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 
 			event_graph_label_graph_test.Visible = true;
@@ -7276,6 +7279,7 @@ LogB.Debug("mc finished 5");
 		button_execute_test.Sensitive = false;
 		button_auto_start.Sensitive = false;
 		alignment_button_force_sensor_adjust.Sensitive = false;
+		button_force_sensor_sync.Sensitive = false;
 
 		encoderButtonsSensitive(encoderSensEnum.NOSESSION);
 		
@@ -7295,6 +7299,7 @@ LogB.Debug("mc finished 5");
 		button_contacts_person_change.Sensitive = true;
 		button_encoder_person_change.Sensitive = true;
 		alignment_button_force_sensor_adjust.Sensitive = true;
+		button_force_sensor_sync.Sensitive = true;
 		
 		menuSessionSensitive(true);
 		vbox_stats.Sensitive = true;
@@ -7417,6 +7422,7 @@ LogB.Debug("mc finished 5");
 		button_activate_chronopics_encoder.Sensitive = false;
 		alignment_button_threshold.Sensitive = false;
 		alignment_button_force_sensor_adjust.Sensitive = false;
+		button_force_sensor_sync.Sensitive = false;
 		button_auto_start.Sensitive = false;
 		button_contacts_exercise.Sensitive = false;
 		event_execute_button_update.Sensitive = false;
@@ -7479,6 +7485,7 @@ LogB.Debug("mc finished 5");
 
 		alignment_button_threshold.Sensitive = true;
 		alignment_button_force_sensor_adjust.Sensitive = true;
+		button_force_sensor_sync.Sensitive = true;
 		button_auto_start.Sensitive = true;
 		button_contacts_exercise.Sensitive = true;
 		event_execute_button_update.Sensitive = true;

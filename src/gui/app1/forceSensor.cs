@@ -114,6 +114,11 @@ public partial class ChronoJumpWindow
 	bool forceSensorBinaryCapture;
 	int forceSensorTopRectangleAtOperationStart; //operation can be capture, load
 
+	//for a second forceSensor
+	string forceSensorPortName_B = "/dev/ttyUSB1"; //TODO: hardcoded
+	SerialPort portFS_B; //Attention!! Don't reopen port because arduino makes reset and tare, calibration... is lost
+	bool portFSOpened_B;
+
 	Gdk.GC pen_black_force_capture;
 	Gdk.GC pen_red_force_capture;
 	Gdk.GC pen_white_force_capture;
@@ -257,7 +262,7 @@ public partial class ChronoJumpWindow
 				return false;
 
 			//read confirmation data
-			if(! forceSensorReceiveFeedback("Tare set"))
+			if(forceSensorReceiveFeedback("Tare set") == "")
 				return false;
 
 
@@ -267,7 +272,7 @@ public partial class ChronoJumpWindow
 				return false;
 
 			//read confirmation data
-			if(! forceSensorReceiveFeedback("Calibration factor set"))
+			if(forceSensorReceiveFeedback("Calibration factor set") == "")
 				return false;
 		}
 
@@ -281,6 +286,23 @@ public partial class ChronoJumpWindow
 		portFSOpened = true;
 		forceSensorOtherMessage = "Connected!";
 		LogB.Information(" FS connect 7: connected and adjusted!");
+		return true;
+	}
+	private bool forceSensorConnect_Port_B()
+	{
+		portFS_B = new SerialPort(forceSensorPortName_B, 115200); //forceSensor
+
+		try {
+			portFS_B.Open();
+		}
+		catch (System.IO.IOException)
+		{
+			return false;
+		}
+
+		Thread.Sleep(3000); //sleep to let arduino start reading serial event
+
+		portFSOpened_B = true;
 		return true;
 	}
 
@@ -317,22 +339,53 @@ public partial class ChronoJumpWindow
 		return true;
 	}
 
+	//Attention: no GTK here!!
+	private bool forceSensorSendCommand_B(string command, string displayMessage, string errorMessage)
+	{
+		try {
+			LogB.Information("Force sensor command |" + command + "|");
+			portFS_B.WriteLine(command);
+		}
+		catch (Exception ex)
+		{
+			if(ex is System.IO.IOException || ex is System.TimeoutException)
+			{
+				LogB.Information(errorMessage);
+//portFS_B.Close(); //TODO: seguir investigant
+				portFSOpened_B = false;
+				return false;
+			}
+			//throw;
+		}
+		return true;
+	}
+
+	//PORT_B is used when there are two devices (and have to be in sync)
+	private enum forceSensorPortEnum { PORT_A, PORT_B };
+
+	private string forceSensorReceiveFeedback(string expected)
+	{
+		return forceSensorReceiveFeedback(expected, forceSensorPortEnum.PORT_A);
+	}
 	//use this method for other feedback, but beware some of the commands do a Trim on ReadLine
-	private bool forceSensorReceiveFeedback(string expected)
+	private string forceSensorReceiveFeedback(string expected, forceSensorPortEnum myPort)
 	{
 		string str = "";
 		do {
 			Thread.Sleep(100); //sleep to let arduino start reading
 			try {
-				str = portFS.ReadLine();
+				if(myPort == forceSensorPortEnum.PORT_A)
+					str = portFS.ReadLine();
+				else
+					str = portFS_B.ReadLine();
 			} catch {
 				forceSensorOtherMessage = "Disconnected";
-				return false;
+				return "";
 			}
 			LogB.Information("init string: " + str);
 		}
 		while(! str.Contains(expected));
-		return true;
+		return str;
 	}
 
 	enum forceSensorOtherModeEnum { TARE, CALIBRATE, CAPTURE_PRE, TARE_AND_CAPTURE_PRE, STIFFNESS_DETECT, CHECK_VERSION }
@@ -723,6 +776,7 @@ public partial class ChronoJumpWindow
 	}
 
 	//Attention: no GTK here!!
+	//we do not pass the port because there are problems passing ports
 	private string forceSensorCheckVersionDo()
 	{
 		if (portFS.BytesToRead > 0)
@@ -747,6 +801,26 @@ public partial class ChronoJumpWindow
 		forceSensorOtherMessageShowSeconds = secondsEnum.NO;
 		forceSensorOtherMessage = str;
 
+		return forceSensorCheckVersionMatch(str);
+	}
+
+	private string forceSensorCheckVersionDo_Port_B()
+	{
+		if (portFS_B.BytesToRead > 0)
+			LogB.Information("Port_B check_version read possible bytes: " + portFS_B.ReadExisting());
+
+		if(! forceSensorSendCommand_B("get_version:", "Checking version ...", "Catched checking version"))
+			return "";
+
+		string str = forceSensorReceiveFeedback("Force_Sensor-", forceSensorPortEnum.PORT_B);
+		if(str == "")
+			return str;
+
+		return forceSensorCheckVersionMatch(str.Trim());
+	}
+
+	private string forceSensorCheckVersionMatch(string str)
+	{
 		/*
 		 * //return the version without "Force_Sensor-"
 		 * return(str.Remove(0,13));
@@ -2549,6 +2623,7 @@ LogB.Information(" fs R ");
 	private void on_button_force_sensor_adjust_clicked (object o, EventArgs args)
 	{
 		alignment_button_force_sensor_adjust.Sensitive = false; //to not be called again
+		button_force_sensor_sync.Sensitive = false;
 
 		//hbox_force_capture_buttons.Sensitive = false;
 		notebook_contacts_execute_or_instructions.Sensitive = false;
@@ -2563,6 +2638,7 @@ LogB.Information(" fs R ");
 	private void on_button_force_sensor_adjust_close_clicked (object o, EventArgs args)
 	{
 		alignment_button_force_sensor_adjust.Sensitive = true;
+		button_force_sensor_sync.Sensitive = true;
 
 		//hbox_force_capture_buttons.Sensitive = true;
 		notebook_contacts_execute_or_instructions.Sensitive = true;
@@ -2595,6 +2671,48 @@ LogB.Information(" fs R ");
 	{
 		new DialogMessage("Force sensor adjust data", Constants.MessageTypes.INFO,
 				preferences.GetForceSensorAdjustString());
+	}
+
+	private void on_button_force_sensor_sync_clicked (object o, EventArgs args)
+	{
+		LogB.Information("on_button_force_sensor_sync_clicked 0");
+		//port A check connection
+		if(! portFSOpened)
+			if(! forceSensorConnect())
+			{
+				new DialogMessage(Constants.MessageTypes.WARNING, "Cannot connect port A");
+				return;
+			}
+
+		LogB.Information("on_button_force_sensor_sync_clicked 1");
+		string versionStr = forceSensorCheckVersionDo();
+                double versionDouble = Convert.ToDouble(Util.ChangeDecimalSeparator(versionStr));
+		if(versionDouble < Convert.ToDouble(Util.ChangeDecimalSeparator("0.6")))
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, "Force version A == " + versionStr);
+			return;
+		}
+
+		LogB.Information("on_button_force_sensor_sync_clicked 2");
+		//port B check connection
+		if(! portFSOpened_B)
+			if(! forceSensorConnect_Port_B())
+			{
+				new DialogMessage(Constants.MessageTypes.WARNING, "Cannot connect port B");
+				return;
+			}
+
+		LogB.Information("on_button_force_sensor_sync_clicked 3");
+		versionStr = forceSensorCheckVersionDo_Port_B();
+                versionDouble = Convert.ToDouble(Util.ChangeDecimalSeparator(versionStr));
+		if(versionDouble < Convert.ToDouble(Util.ChangeDecimalSeparator("0.6")))
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, "Force version B == " + versionStr);
+			return;
+		}
+
+		LogB.Information("on_button_force_sensor_sync_clicked 4");
+		new DialogMessage(Constants.MessageTypes.WARNING, "Success! Both dispositives with >= 0.6");
 	}
 
 	private void createComboForceSensorCaptureOptions()

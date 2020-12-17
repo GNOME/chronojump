@@ -57,12 +57,17 @@ op <- assignOptions(options)
 #Returns the K and Vmax parameters of the sprint using a number of pairs (time, position)
 getSprintFromPhotocell <- function(positions, splitTimes, noise=0)
 {
+        #noise is for testing purpouses.        
         # TODO: If the photocell is not in the 0 meters we must find how long is the time from
         #starting the race to the reaching of the photocell
         # t0 = 0
         # splitTimes = splitTimes + t0
-                                                
-	#noise is for testing purpouses.
+        
+        print("positions:")
+        print(positions)
+        print("splitTimes:")
+        print(splitTimes)
+        
 	# Checking that time and positions have the same length
         if(length(splitTimes) != length(positions)){
                 print("Positions and splitTimes have diferent lengths")
@@ -74,23 +79,43 @@ getSprintFromPhotocell <- function(positions, splitTimes, noise=0)
                 print("Not enough data")
                 return()
         }
-        
-        #Asuming that the first time and position are 0s it is not necessary to use the non linear regression
-        #if there's only three positions. Substituting x1 = x(t1), and x2 = x(t2) whe have an exact solution.
-        #2 variables (K and Vmax) and 2 equations.
+
         if (length(positions) == 3){
-                return(getSprintFrom2SplitTimes(positions[2], positions[3], splitTimes[2], splitTimes[3], tolerance = 0.0001, initK = 1 ))
+                #Asuming that the first time and position are 0s it is not necessary to use the non linear regression
+                #if there's only three positions. Substituting x1 = x(t1), and x2 = x(t2) whe have an exact solution.
+                #2 variables (K and Vmax) and 2 equations.
+                model = getSprintFrom2SplitTimes(positions[2], positions[3], splitTimes[2], splitTimes[3], tolerance = 0.0001, initK = 1 )
+                K = model$K
+                Vmax = model$Vmax
+        } else if (length(positions) == 4){
+                require(shorts)
+                model <- model_using_splits(positions[2:length(positions)], splitTimes[2:length(positions)])
+                K = 1/ model$parameters$TAU
+                Vmax = model$parameters$MSS
+        } else if (length(positions) == 5){
+                require(shorts)
+                model <- model_using_splits_with_time_correction(positions[2:length(positions)], splitTimes[2:length(positions)])
+                K = 1/ model$parameters$TAU
+                Vmax = model$parameters$MSS
+        }else if (length(positions) >= 6){
+                require(shorts)
+                model <- model_using_splits_with_corrections(positions[2:length(positions)], splitTimes[2:length(positions)])
+                K = 1/ model$parameters$TAU
+                Vmax = model$parameters$MSS
         }
         
-        photocell = data.frame(time = splitTimes, position = positions)
-        
+        # photocell = data.frame(time = splitTimes, position = positions)
+        # 
         # Using the model of v = Vmax(1 - exp(-K*t)). If this function are integrated and we calculate the integration constant (t=0 -> position = 0)
         # position = Vmax*(time + (1/K)*exp(-K*time)) -Vmax/K
-        pos.model = nls(position ~ Vmax*(time + (1/K)*exp(-K*time)) -Vmax/K, photocell, start = list(K = 0.81, Vmax = 10), control=nls.control(maxiter=1000, warnOnly=TRUE))
-        K = summary(pos.model)$coeff[1,1]
-        Vmax = summary(pos.model)$coeff[2,1]
+        # pos.model = nls(position ~ Vmax*(time + (1/K)*exp(-K*time)) -Vmax/K, photocell, start = list(K = 0.81, Vmax = 10), control=nls.control(maxiter=1000, warnOnly=TRUE))
+        # 
+        # K = summary(pos.model)$coeff[1,1]
+        # Vmax = summary(pos.model)$coeff[2,1]
+        # 
+        # summary(pos.model)$coef[1:2,1]
+        
 
-        summary(pos.model)$coef[1:2,1]
         return(list(K = K, Vmax = Vmax))
 }
 

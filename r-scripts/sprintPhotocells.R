@@ -89,17 +89,23 @@ getSprintFromPhotocell <- function(positions, splitTimes, noise=0)
                 Vmax = model$Vmax
         } else if (length(positions) == 4){
                 require(shorts)
-                model <- model_using_splits(positions[2:length(positions)], splitTimes[2:length(positions)])
+                model <- getModelWithOptimalTimeCorrection(data.frame(
+                        distance = positions[2:length(positions)],
+                        time= splitTimes[2:length(positions)]))
                 K = 1/ model$parameters$TAU
                 Vmax = model$parameters$MSS
         } else if (length(positions) == 5){
                 require(shorts)
-                model <- model_using_splits_with_time_correction(positions[2:length(positions)], splitTimes[2:length(positions)])
+                model <- model_using_splits_with_time_correction(data.frame(
+                        distance = positions[2:length(positions)],
+                        time= splitTimes[2:length(positions)]))
                 K = 1/ model$parameters$TAU
                 Vmax = model$parameters$MSS
         }else if (length(positions) >= 6){
                 require(shorts)
-                model <- model_using_splits_with_corrections(positions[2:length(positions)], splitTimes[2:length(positions)])
+                model <- model_using_splits_with_corrections(data.frame(
+                        distance = positions[2:length(positions)],
+                        time= splitTimes[2:length(positions)]))
                 K = 1/ model$parameters$TAU
                 Vmax = model$parameters$MSS
         }
@@ -142,6 +148,52 @@ getSprintFrom2SplitTimes <- function(x1, x2, t1, t2, tolerance = 0.0001, initK =
         #Calculing Vmax substituting the K found in the eq. (1)
         Vmax = x1/(t1 + exp(-K*t1)/K -1/K)
         return(list(K = K, Vmax = Vmax))
+}
+
+# get the model adjusting the time_correction to the best fit
+getModelWithOptimalTimeCorrection <- function(split_times)
+{
+        print("In getModelWithOptimalTimeCorrection()")
+        bestTimeCorrection = 0
+        currentTimeCorrection = bestTimeCorrection
+        
+        model <- with(
+                split_times,
+                model_using_splits(distance, time, time_correction = bestTimeCorrection)
+        )
+        # 
+        # print("### Without correction ###")
+        # print(model)
+        
+        minError = 1E6
+        
+        #TODO: Use better algorithm for finding optimal correction
+        while(model$model_fit$RSE < minError){
+                minError = model$model_fit$RSE
+                # print(paste("New minError:", minError))
+                # print(paste("current RSE:", model$model_fit$RSE))
+                currentTimeCorrection = currentTimeCorrection + 0.001
+                # Simple model
+                model <- with(
+                        split_times,
+                        model_using_splits(distance, time, time_correction = currentTimeCorrection)
+                )
+                # print(model$model_fit$RSE)
+                if (model$model_fit$RSE < minError){
+                        bestTimeCorrection = currentTimeCorrection
+                }
+        }
+        
+        model <- with(
+                split_times,
+                model_using_splits(distance, time, time_correction = bestTimeCorrection)
+        )
+        
+        print("### With optimal correction ###")
+        print(paste("Time correction:", bestTimeCorrection))
+        print(model)
+        
+        return(model)
 }
 
 drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, title, plotFittedSpeed = T, plotFittedAccel = T, plotFittedForce = T, plotFittedPower = T)

@@ -89,16 +89,24 @@ getSprintFromPhotocell <- function(positions, splitTimes, noise=0)
                 Vmax = model$Vmax
         } else if (length(positions) == 4){
                 require(shorts)
+<<<<<<< HEAD
                 model <- getModelWithOptimalTimeCorrection(data.frame(
                         distance = positions[2:length(positions)],
                         time= splitTimes[2:length(positions)]))
+=======
+                model <- model_using_splits(positions[2:length(positions)], splitTimes[2:length(positions)])
+>>>>>>> Testing the use of shorts library
                 K = 1/ model$parameters$TAU
                 Vmax = model$parameters$MSS
         } else if (length(positions) == 5){
                 require(shorts)
+<<<<<<< HEAD
                 model <- model_using_splits_with_time_correction(data.frame(
                         distance = positions[2:length(positions)],
                         time= splitTimes[2:length(positions)]))
+=======
+                model <- model_using_splits_with_time_correction(positions[2:length(positions)], splitTimes[2:length(positions)])
+>>>>>>> Testing the use of shorts library
                 K = 1/ model$parameters$TAU
                 Vmax = model$parameters$MSS
         }else if (length(positions) >= 6){

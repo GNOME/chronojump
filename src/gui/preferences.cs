@@ -182,6 +182,8 @@ public class PreferencesWindow
 	[Widget] Gtk.SpinButton spin_force_sensor_not_elastic_ecc_min_force;
 	[Widget] Gtk.SpinButton spin_force_sensor_not_elastic_con_min_force;
 	[Widget] Gtk.SpinButton spin_force_sensor_graphs_line_width;
+	[Widget] Gtk.RadioButton radio_force_sensor_variability_old;
+	[Widget] Gtk.RadioButton radio_force_sensor_variability_cvrmssd;
 
 	//runEncoder tab
 	[Widget] Gtk.SpinButton spin_force_sensor_acceleration;
@@ -723,6 +725,11 @@ public class PreferencesWindow
 		PreferencesWindowBox.spin_force_sensor_not_elastic_con_min_force.Value = preferences.forceSensorNotElasticConMinForce;
 
 		PreferencesWindowBox.spin_force_sensor_graphs_line_width.Value = preferences.forceSensorGraphsLineWidth;
+
+		if(preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.CHRONOJUMP_OLD)
+			PreferencesWindowBox.radio_force_sensor_variability_old.Active = true;
+		else
+			PreferencesWindowBox.radio_force_sensor_variability_cvrmssd.Active = true;
 
 		//runEncoder -->
 		PreferencesWindowBox.spin_force_sensor_acceleration.Value = preferences.runEncoderMinAccel;
@@ -2122,6 +2129,19 @@ public class PreferencesWindow
 				SqlitePreferences.ForceSensorGraphsLineWidth,
 				preferences.forceSensorGraphsLineWidth,
 				Convert.ToInt32(spin_force_sensor_graphs_line_width.Value));
+
+		if(preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.CHRONOJUMP_OLD &&
+				PreferencesWindowBox.radio_force_sensor_variability_cvrmssd.Active)
+		{
+			SqlitePreferences.Update(SqlitePreferences.ForceSensorVariabilityMethod, Preferences.VariabilityMethodEnum.CVRMSSD.ToString(), true);
+			preferences.forceSensorVariabilityMethod = Preferences.VariabilityMethodEnum.CVRMSSD;
+		}
+		else if(preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.CVRMSSD &&
+				PreferencesWindowBox.radio_force_sensor_variability_old.Active)
+		{
+			SqlitePreferences.Update(SqlitePreferences.ForceSensorVariabilityMethod, Preferences.VariabilityMethodEnum.CHRONOJUMP_OLD.ToString(), true);
+			preferences.forceSensorVariabilityMethod = Preferences.VariabilityMethodEnum.CHRONOJUMP_OLD;
+		}
 
 		//runEncoder ----
 

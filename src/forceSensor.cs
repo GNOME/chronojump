@@ -952,6 +952,7 @@ public class ForceSensorCapturePoints
 		double elapsedSeconds = times[countB]/1000000.0 - times[countA]/1000000.0;
 		return sum * UtilAll.DivideSafe(elapsedSeconds, samples);
 	}
+
 	public void GetVariabilityAndAccuracy(int countA, int countB, int feedbackF, out double variability, out double feedbackDifference)
 	{
 		if(countA == countB)
@@ -961,10 +962,34 @@ public class ForceSensorCapturePoints
 			return;
 		}
 
-		//calculate numSamples. Note countA and countB are included, so
+		// 1) calculate numSamples. Note countA and countB are included, so
 		//countA = 2; countB = 4; samples are: 2,3,4; 3 samples
 		int numSamples = (countB - countA) + 1;
 
+		// 2) get variability
+		variability = getVariabilityCVRMSSD (countA, countB, numSamples);
+
+		// 3) Calculate difference.
+		// Average of the differences between force and average
+		//feedbackDifference = Math.Abs(feedbackF - avg);
+		double sum = 0;
+		for(int i = countA; i <= countB; i ++)
+			sum += Math.Abs(forces[i]-feedbackF);
+
+		feedbackDifference = UtilAll.DivideSafe(sum, numSamples);
+	}
+	private double getVariabilityCVRMSSD (int countA, int countB, int numSamples)
+	{
+		//Σ(x_i - x_{i+1})^2 /(n-1)  )
+		double sum = 0;
+		for(int i = countA; i < countB; i ++)
+			sum += forces[i] - forces[i+1];
+
+		return UtilAll.DivideSafe(Math.Pow(sum, 2), numSamples -1);
+
+	}
+	private double getVariabilityOldMethod (int countA, int countB, int numSamples)
+	{
 		// 1) get average
 		double sum = 0;
 		for(int i = countA; i <= countB; i ++)
@@ -977,17 +1002,7 @@ public class ForceSensorCapturePoints
 		for(int i = countA; i <= countB; i ++)
 			sum += Math.Abs(forces[i]-avg);
 
-		variability = UtilAll.DivideSafe(sum, numSamples);
-
-		// 3) Calculate difference.
-		// Average of the differences between force and average
-
-		//feedbackDifference = Math.Abs(feedbackF - avg);
-		sum = 0;
-		for(int i = countA; i <= countB; i ++)
-			sum += Math.Abs(forces[i]-feedbackF);
-
-		feedbackDifference = UtilAll.DivideSafe(sum, numSamples);
+		return UtilAll.DivideSafe(sum, numSamples);
 	}
 
 	public int MarginLeft

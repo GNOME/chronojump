@@ -6884,7 +6884,7 @@ public partial class ChronoJumpWindow
 						//check if encoderCaptureCurves > 0
 						//(this is the case of a capture without repetitions or can have on ending cont mode)
 
-						if(configChronojump.Compujump && encoderCaptureCurves.Count > 0)
+						if(configChronojump.Compujump && check_encoder_networks_upload.Active && encoderCaptureCurves.Count > 0)
 						{
 							uploadEncoderDataObjectIfPossible();
 						}

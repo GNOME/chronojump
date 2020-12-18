@@ -78,6 +78,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.VBox vbox_treeview_encoder_at_second_page;
 
 	//encoder ...
+	[Widget] Gtk.Alignment alignment_check_encoder_networks_upload;
+	[Widget] Gtk.CheckButton check_encoder_networks_upload;
 	[Widget] Gtk.Button button_encoder_monthly_change_current_session;
 	[Widget] Gtk.Button button_encoder_analyze_image_compujump_send_email;
 	/*
@@ -180,6 +182,8 @@ public partial class ChronoJumpWindow
 			//do not allow camera controls
 			showWebcamCaptureContactsControls (false); //contacts
 			hbox_video_encoder.Visible = false;
+
+			alignment_check_encoder_networks_upload.Visible = true;
 
 			//networks always without lateral person win
 			//also this is important for seing label_rfid_encoder_wait

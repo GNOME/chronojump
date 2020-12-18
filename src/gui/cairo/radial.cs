@@ -36,7 +36,7 @@ public class CairoRadial
 	private int graphHeight;
 	private double minSide;
 	private Cairo.Color black;
-	private Cairo.Color red;
+	private Cairo.Color colorArrow;
 	private Cairo.Color gray;
 
 	public CairoRadial (Gtk.DrawingArea area, string font)
@@ -72,10 +72,7 @@ public class CairoRadial
 
 		black = colorFromRGB(0,0,0);
 		gray = colorFromRGB(99,99,99); //gray99
-		//white = colorFromRGB(255,255,255);
-		red = colorFromRGB(200,0,0);
-		//blue = colorFromRGB(178, 223, 238); //lightblue
-		//bluePlots = colorFromRGB(0, 0, 200);
+		colorArrow = colorFromGdk(Config.ColorBackground);
 
 		g.Color = black;
 		minSide = graphWidth;
@@ -110,11 +107,11 @@ public class CairoRadial
 		/*
 		//TEST:
 		g.LineWidth = 2;
-		graphLineFromCenter(3, red);
+		graphLineFromCenter(3, colorArrow);
 		printText(Convert.ToInt32(margin + graphWidth/2),
 				Convert.ToInt32(margin + (.66 * graphHeight)),
 				0, textHeight, "Speed: 3 m/s", g, alignTypes.CENTER);
-		*/
+				*/
 	}
 
 	//TODO: currently max is 20
@@ -135,13 +132,13 @@ public class CairoRadial
 		//g.SetSourceRGB(0.5, 0.5, 0.5);
 
 		g.LineWidth = 2;
-		graphLineFromCenter(speed, red);
-		if(speedMax > speed)
-			graphLineFromCenter(speedMax, gray);
-
+		graphLineFromCenter(speed, colorArrow);
 		printText(Convert.ToInt32(margin + graphWidth/2),
 				Convert.ToInt32(margin + (.66 * graphHeight)),
 				0, textHeight, "Speed: " + Util.TrimDecimals(speed, 1) + " m/s", g, alignTypes.CENTER);
+
+		if(speedMax > speed)
+			graphLineFromCenter(speedMax, gray);
 
 		endGraphDisposing();
 	}
@@ -173,7 +170,11 @@ public class CairoRadial
 	{
 		return new Cairo.Color(red/256.0, green/256.0, blue/256.0);
 	}
-	
+	protected Cairo.Color colorFromGdk(Gdk.Color color)
+	{
+		return new Cairo.Color(color.Red/65536.0, color.Green/65536.0, color.Blue/65536.0);
+	}
+
 	private enum alignTypes { LEFT, CENTER, RIGHT }
 	private void printText (int x, int y, int height, int textHeight, string text, Cairo.Context g, alignTypes align)
 	{

@@ -134,6 +134,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_force_sensor_ai_impulse_values;
 	[Widget] Gtk.Label label_force_sensor_ai_variability_values;
 	[Widget] Gtk.Label label_force_sensor_ai_feedback_values;
+	[Widget] Gtk.Label label_force_sensor_ai_variability_cvrmssd;
+	[Widget] Gtk.Label label_force_sensor_ai_variability_units;
 
 	private RepetitionMouseLimits fsAIRepetitionMouseLimits;
 
@@ -1905,6 +1907,11 @@ public partial class ChronoJumpWindow
 		}
 
 		table_force_sensor_ai_impulse_variability_and_feedback.Visible = (countA != countB);
+		label_force_sensor_ai_variability_cvrmssd.Visible = (preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.CVRMSSD);
+		if(preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.CVRMSSD)
+			label_force_sensor_ai_variability_units.Text = "%";
+		else
+			label_force_sensor_ai_variability_units.Text = "N";
 
 		if(countA != countB)
 		{

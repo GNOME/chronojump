@@ -32,7 +32,7 @@ for(i in 1:length(WorlChampionshipSplitTimes[,1])){
         position = c(10,20,30),
         time = c(WorlChampionshipSplitTimes[i,5], WorlChampionshipSplitTimes[i,6], WorlChampionshipSplitTimes[i,7])
     )
-    
+
     # Padu's 3 split times model without correction
     model = nls(position ~ Vmax*(time + (1/K)*exp(-K*time)) -Vmax/K, splitTimes3
                 , start = list(K = 0.81, Vmax = 10), control=nls.control(warnOnly=TRUE))

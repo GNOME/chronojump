@@ -10,6 +10,7 @@ split_times3 <- data.frame(
     time = c(1.614, 2.821, 3.966)
 )
 
+
 # get the model adjusting the time_correction to the best fit
 getModelWithOptimalTimeCorrection <- function(split_times)
 {

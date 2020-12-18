@@ -128,8 +128,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_force_sensor_ai_accel;
 	[Widget] Gtk.HBox hbox_force_sensor_ai_power;
 
-	[Widget] Gtk.VBox vbox_force_sensor_ai_impulse_variability_and_feedback;
-	[Widget] Gtk.VBox vbox_force_sensor_ai_feedback;
+	[Widget] Gtk.Table table_force_sensor_ai_impulse_variability_and_feedback;
+	[Widget] Gtk.Label label_force_sensor_ai_feedback;
+	[Widget] Gtk.HBox hbox_force_sensor_ai_feedback;
 	[Widget] Gtk.Label label_force_sensor_ai_impulse_values;
 	[Widget] Gtk.Label label_force_sensor_ai_variability_values;
 	[Widget] Gtk.Label label_force_sensor_ai_feedback_values;
@@ -1903,7 +1904,7 @@ public partial class ChronoJumpWindow
 			label_force_sensor_ai_rfd_max.Text = "";
 		}
 
-		vbox_force_sensor_ai_impulse_variability_and_feedback.Visible = (countA != countB);
+		table_force_sensor_ai_impulse_variability_and_feedback.Visible = (countA != countB);
 
 		if(countA != countB)
 		{
@@ -1924,9 +1925,12 @@ public partial class ChronoJumpWindow
 			if(preferences.forceSensorCaptureFeedbackActive && feedbackF > 0)
 			{
 				label_force_sensor_ai_feedback_values.Text = Math.Round(feedbackDiff, 3).ToString();
-				vbox_force_sensor_ai_feedback.Visible = true;
-			} else
-				vbox_force_sensor_ai_feedback.Visible = false;
+				label_force_sensor_ai_feedback.Visible = true;
+				hbox_force_sensor_ai_feedback.Visible = true;
+			} else {
+				label_force_sensor_ai_feedback.Visible = false;
+				hbox_force_sensor_ai_feedback.Visible = false;
+			}
 		}
 	}
 

@@ -48,7 +48,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Viewport viewport_run_encoder_graph;
 	[Widget] Gtk.TreeView treeview_raceAnalyzer;
 	[Widget] Gtk.Button button_raceAnalyzer_table_save;
-	[Widget] Gtk.Label label_race_analyzer_capture_speed;
+	//[Widget] Gtk.Label label_race_analyzer_capture_speed;
 	[Widget] Gtk.DrawingArea drawingarea_race_analyzer_capture;
 
 	int race_analyzer_distance;
@@ -1321,8 +1321,8 @@ public partial class ChronoJumpWindow
 		else
 		{
 			event_execute_label_message.Text = runEncoderPulseMessage;
-			label_race_analyzer_capture_speed.Text = Util.TrimDecimals(runEncoderCaptureSpeed,3) + " m/s";
 
+			//label_race_analyzer_capture_speed.Text = Util.TrimDecimals(runEncoderCaptureSpeed,3) + " m/s";
 			cairoRadial.GraphSpeed(runEncoderCaptureSpeed);
 
 			if(runEncoderPulseMessage == capturingMessage)

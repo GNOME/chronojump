@@ -28,7 +28,7 @@ using Mono.Unix;
 public class CairoRadial
 {
 	private Cairo.Context g;
-	private const int textHeight = 12;
+	private int textHeight = 12;
 	private int margin = 20;
 	private Gtk.DrawingArea area;
 	private string font;
@@ -60,8 +60,11 @@ public class CairoRadial
 		graphWidth = area.Allocation.Width - 2*margin;
 		graphHeight = area.Allocation.Height - 2*margin;
 
+		if(graphWidth > 1200 || graphHeight > 1000)
+			textHeight = 16;
+
 		g.SetSourceRGB(0,0,0);
-		g.LineWidth = 2;
+		g.LineWidth = 1;
 
 		//4 prepare font
 		g.SelectFontFace(font, Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
@@ -78,17 +81,43 @@ public class CairoRadial
 		minSide = graphWidth;
 		if(graphHeight < minSide)
 			minSide = graphHeight;
-		for(int i = 0; i < 20; i ++)
+
+		double tickLength = .1;
+		for(int i = 0; i <= 20; i ++)
 		{
-			double iArc = (2*Math.PI / maxPossibleValue) * i;
+			double iArc = (2*Math.PI / (maxPossibleValue +7)) * (i+17); //+7 for have the maxvalue at bottom right, +17 to have 0 on the bottom left
+
+			//numbers
 			printText(Convert.ToInt32(margin + graphWidth/2 + (minSide/2) * 1 * Math.Cos(iArc - Math.PI/2)),
 					Convert.ToInt32(margin + graphHeight/2 + (minSide/2) * 1 * Math.Sin(iArc - Math.PI/2)),
 					0, textHeight, i.ToString(), g, alignTypes.CENTER);
+
+			//ticks
+			g.MoveTo (
+					margin + graphWidth/2 + (minSide/2) * .9 * Math.Cos(iArc - Math.PI/2),
+					margin + graphHeight/2 + (minSide/2) * .9 * Math.Sin(iArc - Math.PI/2));
+			g.LineTo (
+					margin + graphWidth/2 + (minSide/2) * (.9-tickLength) * Math.Cos(iArc - Math.PI/2),
+					margin + graphHeight/2 + (minSide/2) * (.9-tickLength) * Math.Sin(iArc - Math.PI/2));
+			g.Stroke();
+
+			if(tickLength == .1)
+				tickLength = .05;
+			else
+				tickLength = .1;
 		}
+
+		/*
+		//TEST:
+		g.LineWidth = 2;
+		graphLineFromCenter(3, red);
+		printText(Convert.ToInt32(margin + graphWidth/2),
+				Convert.ToInt32(margin + (.66 * graphHeight)),
+				0, textHeight, "Speed: 3 m/s", g, alignTypes.CENTER);
+		*/
 	}
 
 	//TODO: currently max is 20
-	//TODO: make this go from bottom left to bottom right like a car
 	int maxPossibleValue = 20;
 	double speedMax = 0;
 	public void ResetSpeedMax()
@@ -105,16 +134,22 @@ public class CairoRadial
 
 		//g.SetSourceRGB(0.5, 0.5, 0.5);
 
+		g.LineWidth = 2;
 		graphLineFromCenter(speed, red);
 		if(speedMax > speed)
 			graphLineFromCenter(speedMax, gray);
+
+		printText(Convert.ToInt32(margin + graphWidth/2),
+				Convert.ToInt32(margin + (.66 * graphHeight)),
+				0, textHeight, "Speed: " + Util.TrimDecimals(speed, 1) + " m/s", g, alignTypes.CENTER);
 
 		endGraphDisposing();
 	}
 
 	private void graphLineFromCenter(double toValue, Cairo.Color color)
 	{
-		double arc = (2*Math.PI / maxPossibleValue) * toValue;
+		//double arc = (2*Math.PI / maxPossibleValue) * toValue;
+		double arc = (2*Math.PI / (maxPossibleValue +7)) * (toValue+17); //+7 for have the maxvalue at bottom right, +17 to have 0 on the bottom left
 		g.MoveTo(margin + graphWidth/2, margin + graphHeight/2);
 
 		//thanks to: http://ralph-glass.homepage.t-online.de/clock/readme.html

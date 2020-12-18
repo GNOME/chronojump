@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.06";
+	static string lastChronojumpDatabaseVersion = "2.07";
 
 	public Sqlite()
 	{
@@ -2825,6 +2825,15 @@ class Sqlite
 
 				currentVersion = updateVersion("2.06");
 			}
+			if(currentVersion == "2.06")
+			{
+				LogB.SQL("Inserted into preferences: forceSensorVariabilityMethod");
+
+				SqlitePreferences.Insert (SqlitePreferences.ForceSensorVariabilityMethod,
+						Preferences.VariabilityMethodEnum.CVRMSSD.ToString());
+
+				currentVersion = updateVersion("2.07");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -3042,6 +3051,7 @@ class Sqlite
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
 
+		//2.06 - 2.07 Converted DB to 2.07 Inserted into preferences: forceSensorVariabilityMethod
 		//2.05 - 2.06 Converted DB to 2.06 Default python version for all users: Python3
 		//2.04 - 2.05 Converted DB to 2.05 Inserted into preferences: forceSensorStartEndOptimized
 		//2.03 - 2.04 Converted DB to 2.04 Created tables: tagSession, sessionTagSession

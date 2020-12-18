@@ -123,6 +123,8 @@ public class Preferences
 	public int forceSensorNotElasticEccMinForce;
 	public int forceSensorNotElasticConMinForce;
 	public int forceSensorGraphsLineWidth;
+	public enum VariabilityMethodEnum { CHRONOJUMP_OLD, CVRMSSD };
+	public VariabilityMethodEnum forceSensorVariabilityMethod;
 
 	//runEncoder
 	public double runEncoderMinAccel;

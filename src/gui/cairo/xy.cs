@@ -25,7 +25,7 @@ using Gtk;
 using Cairo;
 using Mono.Unix;
 
-public abstract class CairoXY
+public abstract class CairoXY : CairoGeneric
 {
 	//used on construction
 	protected List<PointF> point_l;
@@ -536,7 +536,7 @@ public abstract class CairoXY
 		g.Color = black;
 		LogB.Information("writeCoordinatesOfMouseClick done! disposing");
 
-		endGraphDisposing();
+		endGraphDisposing(g);
 
 		LogB.Information("writeCoordinatesOfMouseClick disposed!");
 	}
@@ -574,18 +574,6 @@ public abstract class CairoXY
 
 		writeTextAtRight(line +1, string.Format("- {0}: {1} {2}", xVariable, Util.TrimDecimals(pClosest.X, 2), xUnits), false);
 		writeTextAtRight(line +2, string.Format("- {0}: {1} {2}", yVariable, Util.TrimDecimals(pClosest.Y, 2), yUnits), false);
-	}
-
-	/*
-	   need to dispose because Cairo does not clean ok on win and mac:
-	   Don’t forget to manually dispose the Context and the target Surface at the end of the expose event. Automatic garbage collecting is not yet 100% working in Cairo.
-		https://www.mono-project.com/docs/tools+libraries/libraries/Mono.Cairo/
-		eg. on Linux can do the writeCoordinatesOfMouseClick() without disposing, but on win and mac does not work, so dispose always.
-	 */
-	protected void endGraphDisposing()
-	{
-		g.GetTarget().Dispose ();
-		g.Dispose ();
 	}
 
 	//TODO: fix if min == max (crashes)
@@ -780,17 +768,6 @@ public abstract class CairoXY
 					));
 	}
 	*/
-
-	//0 - 255
-	protected Cairo.Color colorFromRGB(int red, int green, int blue)
-	{
-		return new Cairo.Color(red/256.0, green/256.0, blue/256.0);
-	}
-	//0 - 65535
-	protected Cairo.Color colorFromGdk(Gdk.Color color)
-	{
-		return new Cairo.Color(color.Red/65536.0, color.Green/65536.0, color.Blue/65536.0);
-	}
 
 	protected enum alignTypes { LEFT, CENTER, RIGHT }
 	protected void printText (int x, int y, int height, int textHeight, string text, Cairo.Context g, alignTypes align)

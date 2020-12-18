@@ -42,7 +42,7 @@ public class JumpsRjFatigueGraph : CairoXY
 		//printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight,
 		//		string.Format("Need to execute jumps: {0}.", jumpType), g, true);
 
-		endGraphDisposing();
+		endGraphDisposing(g);
 	}
 	public JumpsRjFatigueGraph (
 			List<PointF> point_l, double slope, double intercept,
@@ -99,7 +99,7 @@ public class JumpsRjFatigueGraph : CairoXY
 
 		writeTitle();
 
-		endGraphDisposing();
+		endGraphDisposing(g);
 	}
 
 	//here X is year, add/subtract third of a year

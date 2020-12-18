@@ -39,7 +39,7 @@ public class JumpsDjOptimalFallGraph : CairoXY
 		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight,
 				needToExecuteJumpsStr + " " + jumpType + ".", g, alignTypes.CENTER);
 
-		endGraphDisposing();
+		endGraphDisposing(g);
 	}
 
 	//regular constructor
@@ -103,7 +103,7 @@ public class JumpsDjOptimalFallGraph : CairoXY
 		}
 		writeTitle();
 
-		endGraphDisposing();
+		endGraphDisposing(g);
 	}
 
 	protected override void writeTitle()

@@ -34,6 +34,7 @@ SOURCES = \
 	gui/app1/runEncoder.cs\
 	gui/app1/runEncoderAnalyze.cs\
 	gui/app1/shortcuts.cs\
+	gui/cairo/generic.cs\
 	gui/cairo/jumpsDjOptimalFall.cs\
 	gui/cairo/jumpsEvolution.cs\
 	gui/cairo/jumpsProfile.cs\

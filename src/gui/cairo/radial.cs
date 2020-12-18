@@ -25,7 +25,7 @@ using Gtk;
 using Cairo;
 using Mono.Unix;
 
-public class CairoRadial
+public class CairoRadial : CairoGeneric
 {
 	private Cairo.Context g;
 	private int textHeight = 12;
@@ -45,7 +45,7 @@ public class CairoRadial
 		this.font = font;
 
 		initGraph();
-		endGraphDisposing();
+		endGraphDisposing(g);
 	}
 
 	private void initGraph()
@@ -140,7 +140,7 @@ public class CairoRadial
 		if(speedMax > speed)
 			graphLineFromCenter(speedMax, gray);
 
-		endGraphDisposing();
+		endGraphDisposing(g);
 	}
 
 	private void graphLineFromCenter(double toValue, Cairo.Color color)
@@ -157,41 +157,5 @@ public class CairoRadial
 		g.Stroke();
 	}
 
-	//TODO: all this methods have to be shared with xy.cs
-
-	protected void endGraphDisposing()
-	{
-		g.GetTarget().Dispose ();
-		g.Dispose ();
-	}
-
-	//0 - 255
-	private Cairo.Color colorFromRGB(int red, int green, int blue)
-	{
-		return new Cairo.Color(red/256.0, green/256.0, blue/256.0);
-	}
-	protected Cairo.Color colorFromGdk(Gdk.Color color)
-	{
-		return new Cairo.Color(color.Red/65536.0, color.Green/65536.0, color.Blue/65536.0);
-	}
-
-	private enum alignTypes { LEFT, CENTER, RIGHT }
-	private void printText (int x, int y, int height, int textHeight, string text, Cairo.Context g, alignTypes align)
-	{
-		int moveToLeft = 0;
-		if(align == alignTypes.CENTER || align == alignTypes.RIGHT)
-		{
-			Cairo.TextExtents te;
-			te = g.TextExtents(text);
-			
-			if(align == alignTypes.CENTER)
-				moveToLeft = Convert.ToInt32(te.Width/2);
-			else
-				moveToLeft = Convert.ToInt32(te.Width);
-		}
-
-		g.MoveTo( x - moveToLeft, ((y+y+height)/2) + textHeight/2 );
-		g.ShowText(text);
-	}
 }
 

@@ -81,6 +81,7 @@ class SqlitePreferences : Sqlite
 	public const string ForceSensorNotElasticEccMinForce = "forceSensorNotElasticEccMinForce";
 	public const string ForceSensorNotElasticConMinForce = "forceSensorNotElasticConMinForce";
 	public const string ForceSensorGraphsLineWidth = "forceSensorGraphsLineWidth";
+	public const string ForceSensorVariabilityMethod = "forceSensorVariabilityMethod";
 
 	public const string ForceSensorTareDateTimeStr = "forceSensorTareDateTime";
 	public const string ForceSensorTareStr = "forceSensorTare";
@@ -266,6 +267,7 @@ class SqlitePreferences : Sqlite
 				Insert (ForceSensorNotElasticEccMinForce, "100", dbcmdTr);
 				Insert (ForceSensorNotElasticConMinForce, "100", dbcmdTr);
 				Insert (ForceSensorGraphsLineWidth, "2", dbcmdTr);
+				Insert (ForceSensorVariabilityMethod, Preferences.VariabilityMethodEnum.CVRMSSD.ToString(), dbcmdTr);
 				Insert (ForceSensorCaptureFeedbackActive, "False", dbcmdTr);
 				Insert (ForceSensorCaptureFeedbackAt, "100", dbcmdTr);
 				Insert (ForceSensorCaptureFeedbackRange, "40", dbcmdTr);
@@ -648,6 +650,9 @@ class SqlitePreferences : Sqlite
 				preferences.forceSensorNotElasticConMinForce = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == ForceSensorGraphsLineWidth)
 				preferences.forceSensorGraphsLineWidth = Convert.ToInt32(reader[1].ToString());
+			else if(reader[0].ToString() == ForceSensorVariabilityMethod)
+				preferences.forceSensorVariabilityMethod = (Preferences.VariabilityMethodEnum)
+					Enum.Parse(typeof(Preferences.VariabilityMethodEnum), reader[1].ToString());
 			else if(reader[0].ToString() == ForceSensorCaptureFeedbackActive)
 				preferences.forceSensorCaptureFeedbackActive = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == ForceSensorCaptureFeedbackAt)

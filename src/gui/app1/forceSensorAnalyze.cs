@@ -1917,7 +1917,8 @@ public partial class ChronoJumpWindow
 			double feedbackDiff = 0;
 			int feedbackF = preferences.forceSensorCaptureFeedbackAt;
 
-			fsAI.CalculateVariabilityAndAccuracy(countA, countB, feedbackF, out variability, out feedbackDiff);
+			fsAI.CalculateVariabilityAndAccuracy(countA, countB, feedbackF, out variability, out feedbackDiff,
+					(preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.CVRMSSD));
 
 			label_force_sensor_ai_variability_values.Text = Math.Round(variability, 3).ToString();
 

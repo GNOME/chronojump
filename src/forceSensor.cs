@@ -953,7 +953,7 @@ public class ForceSensorCapturePoints
 		return sum * UtilAll.DivideSafe(elapsedSeconds, samples);
 	}
 
-	public void GetVariabilityAndAccuracy(int countA, int countB, int feedbackF, out double variability, out double feedbackDifference)
+	public void GetVariabilityAndAccuracy(int countA, int countB, int feedbackF, out double variability, out double feedbackDifference, bool cvRMSSD)
 	{
 		if(countA == countB)
 		{
@@ -967,7 +967,10 @@ public class ForceSensorCapturePoints
 		int numSamples = (countB - countA) + 1;
 
 		// 2) get variability
-		variability = getVariabilityCVRMSSD (countA, countB, numSamples);
+		if(cvRMSSD)
+			variability = getVariabilityCVRMSSD (countA, countB, numSamples);
+		else
+			variability = getVariabilityOldMethod (countA, countB, numSamples);
 
 		// 3) Calculate difference.
 		// Average of the differences between force and average
@@ -1846,9 +1849,9 @@ public class ForceSensorAnalyzeInstant
 	}
 
 	public void CalculateVariabilityAndAccuracy(int countA, int countB,
-			int feedbackF, out double variability, out double feedbackDifference)
+			int feedbackF, out double variability, out double feedbackDifference, bool cvrmssd)
 	{
-		fscAIPoints.GetVariabilityAndAccuracy(countA, countB, feedbackF, out variability, out feedbackDifference);
+		fscAIPoints.GetVariabilityAndAccuracy(countA, countB, feedbackF, out variability, out feedbackDifference, cvrmssd);
 	}
 	/*
 	 * Calculates RFD in a point using previous and next point

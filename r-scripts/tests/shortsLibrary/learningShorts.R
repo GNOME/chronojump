@@ -1,13 +1,16 @@
 
 require(shorts)
 bolt = data.frame(distance = c(10, 20, 30, 40, 50, 60, 70, 80, 90, 100)
-                  , time = c(1.85, 1.02, 0.91, 0.87, 0.85, 0.82, 0.82, 0.82, 0.83, 0.90))
+                  , time = cumsum(c(1.85, 1.02, 0.91, 0.87, 0.85, 0.82, 0.82, 0.82, 0.83, 0.90)))
 bolt = data.frame(time = bolt$time, position = bolt$distance, distance = bolt$distance)
+
+WorlChampionshipSplitTimes <- read.csv2("~/chronojump/r-scripts/tests/shortsLibrary/WorlChampionshipSplitTimes.csv")
 
 split_times3 <- data.frame(
     distance = c(10, 20, 30),
     time = c(1.614, 2.821, 3.966)
 )
+
 
 # get the model adjusting the time_correction to the best fit
 getModelWithOptimalTimeCorrection <- function(split_times)

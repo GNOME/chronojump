@@ -49,9 +49,11 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox eventbox_button_menu_session_more;
 	[Widget] Gtk.EventBox eventbox_button_menu_preferences;
 	[Widget] Gtk.EventBox eventbox_button_menu_help;
+	[Widget] Gtk.EventBox eventbox_button_menu_news;
 	[Widget] Gtk.EventBox eventbox_button_menu_exit;
 	[Widget] Gtk.CheckButton check_menu_session;
 	[Widget] Gtk.Button button_menu_help;
+	[Widget] Gtk.Button button_menu_news;
 	[Widget] Gtk.VBox vbox_menu_session;
 	[Widget] Gtk.Alignment alignment_menu_session_options;
 	[Widget] Gtk.Alignment alignment_menu_person_options;
@@ -90,6 +92,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_menu_help_documents;
 	[Widget] Gtk.Image image_menu_help_shortcuts;
 	[Widget] Gtk.Image image_menu_help_about;
+	[Widget] Gtk.Image image_menu_news;
 	[Widget] Gtk.Image image_menu_quit;
 
 	private void initialize_menu_or_menu_tiny()
@@ -147,6 +150,7 @@ public partial class ChronoJumpWindow
 		//menus
 		l.Add(check_menu_session.SizeRequest().Width);
 		l.Add(button_menu_help.SizeRequest().Width);
+		l.Add(button_menu_news.SizeRequest().Width);
 		l.Add(button_menu_exit.SizeRequest().Width);
 		l.Add(button_menu_preferences.SizeRequest().Width);
 
@@ -222,6 +226,7 @@ public partial class ChronoJumpWindow
 		image_menu_help_documents.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_menu_help_shortcuts.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_menu_help_about.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
+		image_menu_news.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 		image_menu_quit.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
 	}
 
@@ -252,6 +257,7 @@ public partial class ChronoJumpWindow
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_session, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_preferences, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_help, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_news, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_exit, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_session_new, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);

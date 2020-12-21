@@ -184,6 +184,34 @@ public class Json
 		return true;
 	}
 
+	public bool GetNews()
+	{
+		// Create a request using a URL that can receive a post.
+		if (! createWebRequest(requestType.GENERIC, "/getNews"))
+			return false;
+
+		// Set the Method property of the request to GET.
+		request.Method = "GET";
+
+		// Set the ContentType property of the WebRequest.
+		//request.ContentType = "application/x-www-form-urlencoded";
+
+		HttpWebResponse response;
+		if(! getHttpWebResponse (request, out response, "Could not get last news."))
+			return false;
+
+		string responseFromServer;
+		using (var sr = new StreamReader(response.GetResponseStream()))
+		{
+			responseFromServer = sr.ReadToEnd();
+		}
+
+		string str = responseFromServer;
+
+		this.ResultMessage = str;
+
+		return true;
+	}
 	/*
 	 * if software just started, ping gets stuck by network problems, and user try to exit software,
 	 * thread.Abort doesn't kill the thread properly

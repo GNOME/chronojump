@@ -149,6 +149,7 @@ SOURCES = \
 	sqlite/jump.cs\
 	sqlite/jumpRj.cs\
 	sqlite/jumpType.cs\
+	sqlite/news.cs\
 	sqlite/run.cs\
 	sqlite/runInterval.cs\
 	sqlite/runType.cs\
@@ -212,6 +213,7 @@ SOURCES = \
 	jumpsWeightFVProfile.cs\
 	jumpType.cs\
 	networks.cs\
+	news.cs\
 	person.cs\
 	personSession.cs\
 	run.cs\

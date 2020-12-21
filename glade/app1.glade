@@ -21505,6 +21505,7 @@ Concentric</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <signal name="clicked" handler="on_button_force_sensor_analyze_back_to_signal_clicked" swapped="no"/>
+                                                            <accelerator key="Escape" signal="clicked"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>

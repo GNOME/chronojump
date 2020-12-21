@@ -1379,11 +1379,12 @@ public class ForceSensorGraph
 	private int startSample;
 	private int endSample;
 	private bool startEndOptimized;
+	private bool decimalIsPoint;
 
 	public ForceSensorGraph(ForceSensor.CaptureOptions fsco, List<ForceSensorRFD> rfdList,
 			ForceSensorImpulse impulse, int testLength, int percentChange,
 			string title, string exercise, string datetime, TriggerList triggerList,
-			int startSample, int endSample, bool startEndOptimized)
+			int startSample, int endSample, bool startEndOptimized, bool decimalIsPoint)
 	{
 		this.fsco = fsco;
 		this.rfdList = rfdList;
@@ -1397,6 +1398,7 @@ public class ForceSensorGraph
 		this.startSample = startSample;
 		this.endSample = endSample;
 		this.startEndOptimized = startEndOptimized;
+		this.decimalIsPoint = decimalIsPoint;
 
 		averageLength = 0.1;
 		vlineT0 = false;
@@ -1422,9 +1424,14 @@ public class ForceSensorGraph
 		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
 		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
 
+		//since 2.0.3 decimalChar is . (before it was locale specific)
+		string decimalChar = ".";
+		if(! decimalIsPoint)
+			decimalChar = localeInfo.NumberDecimalSeparator;
+
 		string scriptOptions =
 			"#os\n" + 			UtilEncoder.OperatingSystemForRGraphs() + "\n" +
-			"#decimalChar\n" + 		localeInfo.NumberDecimalSeparator + "\n" +
+			"#decimalChar\n" + 		decimalChar + "\n" +
 			"#graphWidth\n" + 		graphWidth.ToString() + "\n" +
 			"#graphHeight\n" + 		graphHeight.ToString() + "\n" +
 			"#averageLength\n" + 		Util.ConvertToPoint(averageLength) + "\n" +
@@ -1608,12 +1615,10 @@ public class ForceSensorAnalyzeInstant
 				if(strFull.Length != 2)
 					continue;
 
-				/*
-				 * TODO: Make this work with decimals as comma and decimals as point
-				 * to fix problems on importing data on different localised computer
-				 */
+				//this can takt forces recorded as , or as . because before 2.0.3 forces decimal was locale specific.
+				//since 2.0.3 forces are recorded with .
 
-				if(Util.IsNumber(strFull[0], false) && Util.IsNumber(strFull[1], true))
+				if(Util.IsNumber(strFull[0], false) && Util.IsNumber(Util.ChangeDecimalSeparator(strFull[1]), true))
 				{
 					double timeD = Convert.ToDouble(strFull[0]);
 
@@ -1633,7 +1638,7 @@ public class ForceSensorAnalyzeInstant
 					*/
 
 					times.Add(Convert.ToInt32(timeD));
-					forces.Add(Convert.ToDouble(strFull[1]));
+					forces.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1])));
 				}
 			}
 		}

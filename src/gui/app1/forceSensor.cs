@@ -1247,7 +1247,8 @@ public partial class ChronoJumpWindow
 			//if(forceSensorCaptureOption != ForceSensor.CaptureOptions.NORMAL)
 			//	LogB.Information(string.Format("with abs or inverted flag: time: {0}, force: {1}", time, forceCalculated));
 
-			writer.WriteLine(time.ToString() + ";" + force.ToString()); //on file force is stored without flags
+			//force decimal is . since 2.0.3 Before was culture specific.
+			writer.WriteLine(time.ToString() + ";" + Util.ConvertToPoint(force)); //on file force is stored without flags
 
 			forceSensorValues.TimeLast = time;
 			forceSensorValues.ValueLast = forceCalculated;
@@ -2158,10 +2159,18 @@ LogB.Information(" fs R ");
 			sampleB += hscale_force_sensor_ai_b_BeforeZoom;
 		}
 
+
+		/*
+		 * (*) check if decimal is point
+		 * before 2.0.3 decimal point of forces was culture specific. From 2.0.3 is .
+		 * read this file to see which is the decimal point
+		 */
+
 		ForceSensorGraph fsg = new ForceSensorGraph(getForceSensorCaptureOptions(), rfdList, impulse,
 				duration, Convert.ToInt32(spin_force_rfd_duration_percent.Value),
 				title, exercise, currentForceSensor.DateTimePublic, triggerListForceSensor,
-				sampleA, sampleB, preferences.forceSensorStartEndOptimized
+				sampleA, sampleB, preferences.forceSensorStartEndOptimized,
+				Util.CSVDecimalColumnIsPoint(UtilEncoder.GetmifCSVFileName(), 1)		// (*)
 				);
 
 		int imageWidth = UtilGtk.WidgetWidth(viewport_force_sensor_graph);
@@ -2230,15 +2239,13 @@ LogB.Information(" fs R ");
 				if(strFull.Length != 2)
 					continue;
 
-				/*
-				 * TODO: Make this work with decimals as comma and decimals as point
-				 * to fix problems on importing data on different localised computer
-				 */
+				//this can take forces recorded as , or as . because before 2.0.3 forces decimal was locale specific.
+				//since 2.0.3 forces are recorded with .
 
-				if(Util.IsNumber(strFull[0], false) && Util.IsNumber(strFull[1], true))
+				if(Util.IsNumber(strFull[0], false) && Util.IsNumber(Util.ChangeDecimalSeparator(strFull[1]), true))
 				{
 					times.Add(Convert.ToInt32(strFull[0]));
-					forces.Add(Convert.ToDouble(strFull[1]));
+					forces.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1])));
 				}
 			}
 		}

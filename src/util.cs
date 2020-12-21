@@ -44,6 +44,36 @@ public class Util
 		return false;
 	}
 
+	/*
+	 * before 2.0.3 decimal point of forceSensor forces was culture specific. From 2.0.3 is .
+	 * this method helps to see how is stored to be opened in R
+	 */
+	public static bool CSVDecimalColumnIsPoint(string filename, int column) //column starts at 0
+	{
+		List<string> contents = Util.ReadFileAsStringList(filename);
+		bool headersRow = true;
+
+		foreach(string str in contents)
+		{
+			//avoid header row (if any)
+			if(headersRow)
+				headersRow = false;
+			else {
+				string [] strFull = str.Split(new char[] {';'});
+				if(strFull.Length < column)
+					continue;
+
+				//check that is a number when converted to current locale
+				if(! Util.IsNumber(Util.ChangeDecimalSeparator(strFull[column]), true))
+					continue;
+
+				return(strFull[column].Contains("."));
+			}
+		}
+		//if nothing is found, just say is point '.' Is not relevant
+		return(true);
+	}
+
 	//all numbers are saved in database with '.' as decimal separator (method for numbers)
 	public static string ConvertToPoint (double myDouble)
 	{

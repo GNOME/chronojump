@@ -375,7 +375,7 @@ void serialEvent() {
   } else if (commandString == "send_sync_signal") {
     sendSyncSignal();
   } else if (commandString == "listen_sync_signal") {
-    getSyncSignal();
+    listenSyncSignal();
   } else {
     Serial.println("Not a valid command");
   }

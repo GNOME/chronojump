@@ -3141,7 +3141,7 @@ msgstr "Unitats fixades"
 
 #: ../glade/force_sensor_elastic_bands.glade.h:10
 msgid "In use"
-msgstr "En us"
+msgstr "En ús"
 
 #: ../glade/force_sensor_elastic_bands.glade.h:14
 #: ../src/gui/forceSensorElasticBands.cs:207
@@ -3542,7 +3542,7 @@ msgstr "Longitud de la cama"
 
 #: ../glade/person_win.glade.h:21
 msgid "Measured from trochanter to toe with foot extended"
-msgstr "Mesurat des del trocànter fins el dit gros del peu amb el peu estès"
+msgstr "Mesurat des del trocànter fins al dit gros del peu amb el peu estès"
 
 #: ../glade/person_win.glade.h:22
 msgid "Hips height on SJ flexion"
@@ -3550,7 +3550,7 @@ msgstr "Alçada del maluc en flexió SJ"
 
 #: ../glade/person_win.glade.h:23
 msgid "Measured from trochanter to the ground in Squat jump flexion"
-msgstr "Mesurat des del trocànter fins el terra en posició d'esquat"
+msgstr "Mesurat des del trocànter fins al terra en posició d'esquat"
 
 #: ../glade/person_win.glade.h:24
 msgid "Used on jump force/speed profile"
@@ -3837,7 +3837,7 @@ msgstr "Mostrar només les barres"
 
 #: ../glade/preferences_win.glade.h:71
 msgid "This change needs restarting Chronojump"
-msgstr "Aquest canvi requereix el re-inici de Chronojump"
+msgstr "Aquest canvi requereix el reinici de Chronojump"
 
 #: ../glade/preferences_win.glade.h:72
 msgid "Repetitions to show during capture graph"
@@ -6503,7 +6503,7 @@ msgid ""
 "concentric)."
 msgstr ""
 "Load: Realitzeu exercicis que desenvolupin la força màxima (excèntrica, "
-"isomètrica o concèntrica)"
+"isomètrica o concèntrica)."
 
 #: ../src/gui/app1/encoder.cs:3870
 msgid "Then switch to exercises that develop eccentric force in short time."
@@ -8355,7 +8355,7 @@ msgstr "No s'ha pogut enviar les dades de l'encoder."
 
 #: ../src/json/compujump.cs:718 ../src/json/compujump.cs:727
 msgid "Could not upload force sensor data."
-msgstr "No s'han pogut pujar les dades del sensor de força"
+msgstr "No s'han pogut pujar les dades del sensor de força."
 
 #: ../src/json/json.cs:56
 msgid ""
@@ -8553,7 +8553,7 @@ msgstr "Exemples:"
 
 #: ../src/Mini/chronojump_mini.cs:303
 msgid "Do you want to output data to a file?"
-msgstr "Voleu redireccionar la sortida a un arxiu?"
+msgstr "Voleu redirigir la sortida a un arxiu?"
 
 #: ../src/Mini/chronojump_mini.cs:307
 msgid ""

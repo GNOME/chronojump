@@ -34,9 +34,10 @@ mergeAndWrite <- function (filename, data, centre = "BL")
 data <- read_excel(paste(path, "ID_GROUP.xlsx", sep=""))
 
 #mergeAndWrite (paste(path, "chronojump-processMultiEncoder-belfast-done.csv", sep=""), data, centre = "BL")
+mergeAndWrite (paste(path, "chronojump-processMultiEncoder-belfast-done-biceps-4Kg.csv", sep=""), data, centre = "BL")
 #mergeAndWrite (paste(path, "chronojump-processMultiEncoder-denmark-done.csv", sep=""), data, centre = "DN")
 #mergeAndWrite (paste(path, "chronojump-processMultiEncoder-ulm-done.csv", sep=""), data, centre = "UL")
-mergeAndWrite (paste(path, "chronojump-processMultiEncoder-barcelona-done.csv", sep=""), data, centre = "BA")
+#mergeAndWrite (paste(path, "chronojump-processMultiEncoder-barcelona-done.csv", sep=""), data, centre = "BA")
 
 
 # ---- start of initial code to test denmark data and check number of observations ---->

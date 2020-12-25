@@ -119,7 +119,7 @@ class ProcessMultiDatabases
 
 		writer = File.CreateText("/tmp/chronojump-processMultiEncoder.csv");
 		//writer = File.CreateText("/home/xavier/chronojump-processMultiEncoder.csv");
-		writer.WriteLine("city,computer,person,personCode,sex,exercise,moment,rep,series,exercise,massBody,massExtra,start,width,height,meanSpeed,maxSpeed,maxSpeedT,meanPower,peakPower,peakPowerT,RPD,meanForce,maxForce,maxForceT,RFD,workJ,impulse,laterality,inertiaM");
+		writer.WriteLine("city,computer,person,personCode,sex,exercise,moment,rep,series,exercise,massBody,massExtra,start,width,height,meanSpeed,maxSpeed,maxSpeedT,meanPower,peakPower,peakPowerT,RPD,meanForce,maxForce,maxForceT,RFD,workJ,impulse,laterality,inertiaM,gearedDownREMOVECOL,lateralityREMOVECOL");
 
 		foreach(ComputerDB compDB in compDBManage.list)
 		{
@@ -142,7 +142,7 @@ class ProcessMultiDatabases
 		writer.Close();
 		((IDisposable)writer).Dispose();
 
-		Console.WriteLine("processMultiDatabases done!");
+		Console.WriteLine("processMultiDatabases done!\n\nAttention!\nLast two columns have to be REMOVED: gearedDown, laterality for compatibility with previous sitless results\n");
 	}
 
 	private void processCompDBEx (ComputerDB compDB, Exercise exercise, int exerciseID, int percentBodyWeight)

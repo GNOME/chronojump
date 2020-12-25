@@ -126,13 +126,11 @@ class ProcessMultiDatabases
 			sqlite.CreateConnection(compDB.path);
 			sqlite.Open();
 
-			/*
 			if(compDB.exBicepsCurlID != -1)
 				processCompDBEx(compDB, exManage.GetExercise(Exercise.Names.BICEPSCURL), compDB.exBicepsCurlID, 0);
 
 			if(compDB.exJumpID != -1)
 				processCompDBEx(compDB, exManage.GetExercise(Exercise.Names.JUMP), compDB.exJumpID, 100);
-				*/
 
 			if(compDB.exSitToStandID != -1)
 				processCompDBEx(compDB, exManage.GetExercise(Exercise.Names.SITTOSTAND), compDB.exSitToStandID, 100);

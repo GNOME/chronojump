@@ -184,6 +184,7 @@ src/stats/runSimple.cs
 src/stats/sjCmjAbk.cs
 src/stats/sjCmjAbkPlus.cs
 src/statType.cs
+src/tagSession.cs
 src/treeview/event.cs
 src/treeview/jump.cs
 src/treeview/multiChronopic.cs

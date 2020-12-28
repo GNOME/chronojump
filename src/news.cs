@@ -25,54 +25,118 @@ using Mono.Unix;
 
 public class News
 {
-	private int uniqueID;
 	private int code; //regular integer
 	private int category; //at the moment: 0 software, 1 products
 	private int version; //is NOT version of the software, is version of the news, because can be updated with new text or image. New version of the sofware will be simply a new code
-	private string versionDateTime;
 	private bool viewed;
-	private string title;
-	private string link;
-	private string description;
+	//En and Es because there are two versions of the web site
+	private string titleEn;
+	private string titleEs;
+	private string linkEn;
+	private string linkEs;
+	private string descriptionEn;
+	private string descriptionEs;
+	private string linkServerImage; //stored to download again if changed (future)
 
 	/* constructors */
 
-	//have a uniqueID -1 contructor, useful when set is deleted
+	//have a code -1 contructor
 	public News()
 	{
-		uniqueID = -1;
+		code = -1;
 	}
 
 	//constructor
-	public News(int uniqueID, int code, int category, int version, string versionDateTime,
-			bool viewed, string title, string link, string description)
+	public News(int code, int category, int version, bool viewed,
+			string titleEn, string titleEs, string linkEn, string linkEs,
+			string descriptionEn, string descriptionEs, string linkServerImage)
 	{
-		this.uniqueID = uniqueID;
 		this.code = code;
 		this.category = category;
 		this.version = version;
-		this.versionDateTime = versionDateTime;
 		this.viewed = viewed;
-		this.title = title;
-		this.link = link;
-		this.description = description;
+		this.titleEn = titleEn;
+		this.titleEs = titleEs;
+		this.linkEn = linkEn;
+		this.linkEs = linkEs;
+		this.descriptionEn = descriptionEn;
+		this.descriptionEs = descriptionEs;
+		this.linkServerImage = linkServerImage;
 	}
 
-	/* methods */
+	/* public methods */
+
+	public override string ToString()
+	{
+		return string.Format("{0}:{1}:{2}:{3}:{4}:{5}:{6}:{7}:{8}:{9}:{10}",
+				code, category, version, viewed, titleEn, titleEs, linkEn, linkEs, descriptionEn, descriptionEs, linkServerImage);
+	}
 
 	public int InsertSQL(bool dbconOpened)
 	{
 		return SqliteNews.Insert(dbconOpened, toSQLInsertString());
 	}
-	private string toSQLInsertString()
-	{
-		string uniqueIDStr = "NULL";
-		if(uniqueID != -1)
-			uniqueIDStr = uniqueID.ToString();
 
-		return uniqueIDStr + ", " + code + ", " + category + ", " +
-			version + ", \"" + versionDateTime + "\", " + Util.BoolToInt(viewed).ToString() + ", \"" +
-			       title + "\", \"" + link + "\", \"" + description + "\"";
+	/* public static methods */
+
+	public static void InsertAndDownloadImageIfNeeded(Json js, List<News> newsAtServer_l)
+	{
+		List<News> newsAtDB_l = SqliteNews.Select(false, -1);
+		foreach(News nAtServer in newsAtServer_l)
+		{
+			bool found = false;
+			foreach(News nAtDB in newsAtDB_l)
+				if(nAtServer.Code == nAtDB.Code)
+				{
+					found = true;
+					break;
+				}
+			if(! found)
+			{
+				nAtServer.InsertSQL(false);
+				js.DownloadNewsImage(nAtServer.LinkServerImage, nAtServer.Code);
+			}
+		}
 	}
 
+	public static string GetNewsDir()
+	{
+		return Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				"Chronojump" + Path.DirectorySeparatorChar + "news");
+	}
+	public static void CreateNewsDirIfNeeded ()
+	{
+		string dir = GetNewsDir();
+		if( ! Directory.Exists(dir)) {
+			Directory.CreateDirectory (dir);
+			LogB.Information ("created dir:", dir);
+		}
+	}
+
+	/* private methods */
+
+	private string toSQLInsertString()
+	{
+		string codeStr = "NULL";
+		if(code != -1)
+			codeStr = code.ToString();
+
+		return codeStr + ", " + category + ", " + version + ", " +
+			Util.BoolToInt(viewed).ToString() + ", \"" +
+			titleEn + "\", \"" + titleEs + "\", \"" +
+			linkEn + "\", \"" + linkEs + "\", \"" +
+			descriptionEn + "\", \"" + descriptionEs + "\", \"" +
+			linkServerImage + "\"";
+	}
+
+	public int Code
+	{
+		get { return code; }
+	}
+
+	public string LinkServerImage
+	{
+		get { return linkServerImage; }
+	}
 }

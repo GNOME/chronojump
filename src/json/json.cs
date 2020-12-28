@@ -184,21 +184,22 @@ public class Json
 		return true;
 	}
 
-	public bool GetNews()
+	//get all the news, news class will decide if something have to be inserted or selected
+	public List<News> GetNews()
 	{
 		// Create a request using a URL that can receive a post.
 		if (! createWebRequest(requestType.GENERIC, "/getNews"))
-			return false;
+			return new List<News>();
 
 		// Set the Method property of the request to GET.
 		request.Method = "GET";
 
 		// Set the ContentType property of the WebRequest.
-		//request.ContentType = "application/x-www-form-urlencoded";
+		request.ContentType = "application/json; Charset=UTF-8";
 
 		HttpWebResponse response;
 		if(! getHttpWebResponse (request, out response, "Could not get last news."))
-			return false;
+			return new List<News>();
 
 		string responseFromServer;
 		using (var sr = new StreamReader(response.GetResponseStream()))
@@ -206,12 +207,68 @@ public class Json
 			responseFromServer = sr.ReadToEnd();
 		}
 
-		string str = responseFromServer;
+		this.ResultMessage = responseFromServer;
 
-		this.ResultMessage = str;
+		return newsDeserialize(responseFromServer);
+	}
+	private List<News> newsDeserialize(string str)
+	{
+		LogB.Information("newsDeserialize:|" + str + "|");
+
+		List<News> news_l = new List<News>();
+		JsonValue jsonNewsAll = JsonValue.Parse(str);
+
+		foreach (JsonValue jsonNews in jsonNewsAll)
+		{
+			Int32 code = jsonNews ["code"];
+			Int32 category = jsonNews ["category"];
+			Int32 version = jsonNews ["version"];
+			string titleEn = jsonNews ["titleEn"];
+			string titleEs = jsonNews ["titleEs"];
+			string linkEn = jsonNews ["linkEn"];
+			string linkEs = jsonNews ["linkEs"];
+			string descriptionEn = jsonNews ["descriptionEn"];
+			string descriptionEs = jsonNews ["descriptionEs"];
+			string linkServerImage = jsonNews ["linkImage"];
+			LogB.Information("Deserialize linkServerImage: " + linkServerImage);
+
+			news_l.Add(new News(code, category, version, false,
+						titleEn, titleEs, linkEn, linkEs, descriptionEn, descriptionEs, linkServerImage));
+		}
+
+		return news_l;
+	}
+
+	//can be a jpeg or a png
+	public bool DownloadNewsImage(string imageServerUrl, int code)
+	{
+		LogB.Information("imageServerUrl:");
+		LogB.Information(imageServerUrl);
+		string extension = "";
+		if(Util.IsJpeg(imageServerUrl))
+			extension = ".jpg";
+		else if (Util.IsPng(imageServerUrl))
+			extension = ".png";
+		else
+			return false;
+
+		try {
+			string copyTo = Path.Combine(News.GetNewsDir(), code.ToString() + extension);
+			using (WebClient client = new WebClient())
+			{
+				LogB.Information (string.Format("News DownloadImage from: {0} to: {1}",
+							imageServerUrl, copyTo));
+
+				client.DownloadFile(new Uri(imageServerUrl), copyTo); //if exists, it overwrites
+			}
+		} catch {
+			LogB.Warning("DownloadImage catched");
+			return false;
+		}
 
 		return true;
 	}
+
 	/*
 	 * if software just started, ping gets stuck by network problems, and user try to exit software,
 	 * thread.Abort doesn't kill the thread properly

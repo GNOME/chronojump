@@ -78,9 +78,31 @@ public class News
 
 	/* public static methods */
 
-	public static void InsertAndDownloadImageIfNeeded(Json js, List<News> newsAtServer_l)
+	/*
+	//this method does not use SQL, called by pingThread
+	public static bool AnythingNew (List<News> newsAtDB_l, List<News> newsAtServer_l)
 	{
-		List<News> newsAtDB_l = SqliteNews.Select(false, -1);
+		foreach(News nAtServer in newsAtServer_l)
+		{
+			bool found = false;
+			foreach(News nAtDB in newsAtDB_l)
+				if(nAtServer.Code == nAtDB.Code)
+				{
+					found = true;
+					break;
+				}
+			if(! found)
+				return true;
+		}
+
+		return false;
+	}
+	*/
+
+	//this method uses SQL, called by main thread
+	public static bool InsertIfNeeded(List<News> newsAtDB_l, List<News> newsAtServer_l)
+	{
+		bool newStuff = false;
 		foreach(News nAtServer in newsAtServer_l)
 		{
 			bool found = false;
@@ -93,9 +115,10 @@ public class News
 			if(! found)
 			{
 				nAtServer.InsertSQL(false);
-				js.DownloadNewsImage(nAtServer.LinkServerImage, nAtServer.Code);
+				newStuff = true;
 			}
 		}
+		return newStuff;
 	}
 
 	public static string GetNewsDir()

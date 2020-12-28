@@ -38,23 +38,25 @@ class SqliteNews : Sqlite
 	 */
 
 	//server table is created like this:
-	//create table news (code INT NOT NULL AUTO_INCREMENT PRIMARY KEY, category INT, version INT, versionDateTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP, title char(255), linkWeb char(255), linkImage char(255), description char(255));
-	//INSERT INTO news VALUES (NULL, 1, 0, current_timestamp(), "my title", "http://chronojump.org/test", "https://chronojump.org/wp-content/uploads/2019/08/Adaptadors-scaled.jpeg", "This is the description");
+	//create table news (code INT NOT NULL AUTO_INCREMENT PRIMARY KEY, category INT, version INT, titleEn char(255), titleEs char(255), linkEn char(255), linkEs char(255), descriptionEn char(255), descriptionEs char(255), linkServerImage char(255));
+	//INSERT INTO news VALUES (NULL, 1, 0, "my title", "mi título", "https://chronojump.org/software/", "https://chronojump.org/es/programa/", "This is the description", "Esta es la descripción", "https://chronojump.org/wp-content/uploads/2019/08/Adaptadors-scaled.jpeg");
 
 
 	protected internal static void createTable ()
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE " + table + " ( " +
-			"uniqueID INTEGER PRIMARY KEY, " +
 			"code INT, " +
 			"category INT, " +
 			"version INT, " +
-			"versionDateTime TEXT, " +
 			"viewed INT, " +
-			"title TEXT, " +
-			"link TEXT, " +
-			"description TEXT )";
+			"titleEn TEXT, " +
+			"titleEs TEXT, " +
+			"linkEn TEXT, " +
+			"linkEs TEXT, " +
+			"descriptionEn TEXT, " +
+			"descriptionEs TEXT, " +
+			"linkServerImage TEXT )";
 		dbcmd.ExecuteNonQuery();
 	}
 
@@ -63,7 +65,7 @@ class SqliteNews : Sqlite
 		openIfNeeded(dbconOpened);
 
 		dbcmd.CommandText = "INSERT INTO " + table +
-				" (uniqueID, code, category, version, versionDateTime, viewed, title, link, description)" +
+				" (code, category, version, viewed, titleEn, titleEs, linkEn, linkEs, descriptionEn, descriptionEs, linkServerImage)" +
 				" VALUES (" + insertString + ")";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -77,5 +79,43 @@ class SqliteNews : Sqlite
 		return myLast;
 	}
 
+	//code -1 (select all)
+	public static List<News> Select (bool dbconOpened, int code)
+	{
+		openIfNeeded(dbconOpened);
+
+		string codeStr = "";
+		if(code != -1)
+			codeStr = " WHERE code = " + code;
+
+		dbcmd.CommandText = "SELECT * FROM " + table + codeStr;
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		List<News> news_l = new List<News>();
+
+		while(reader.Read())
+			news_l.Add(new News (
+					Convert.ToInt32(reader[0].ToString()),	//code
+					Convert.ToInt32(reader[1].ToString()),	//category
+					Convert.ToInt32(reader[2].ToString()),	//version
+					Util.IntToBool(Convert.ToInt32(reader[3].ToString())),	//viewed
+					reader[4].ToString(), 			//titleEn
+					reader[5].ToString(), 			//titleEs
+					reader[6].ToString(), 			//linkEn (web)
+					reader[7].ToString(), 			//linkEs (web)
+					reader[8].ToString(), 			//descriptionEn
+					reader[9].ToString(), 			//descriptionEs
+					reader[10].ToString()			//linkServerImage
+					));
+
+		reader.Close();
+		closeIfNeeded(dbconOpened);
+		return news_l;
+	}
 }
 

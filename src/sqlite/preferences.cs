@@ -35,6 +35,7 @@ class SqlitePreferences : Sqlite
 	public const string FontsOnGraphs = "fontsOnGraphs";
 	public const string RestTimeMinutes = "restTimeMinutes";
 	public const string RestTimeSeconds = "restTimeSeconds";
+	public const string NewsLanguageEs = "newsLanguageEs";
 
 	//contacts
 	public const string JumpsFVProfileOnlyBestInWeight = "jumpsFVProfileOnlyBestInWeight";
@@ -308,6 +309,7 @@ class SqlitePreferences : Sqlite
 				Insert ("email", "", dbcmdTr);
 				Insert ("muteLogs", "False", dbcmdTr);
 				Insert (ImporterPythonVersion, Preferences.pythonVersionEnum.Python3.ToString(), dbcmdTr);
+				Insert (NewsLanguageEs, "False", dbcmdTr);
 
 				//session
 				Insert (LoadLastSessionAtStart, "True", dbcmdTr);

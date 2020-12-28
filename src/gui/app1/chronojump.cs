@@ -6768,14 +6768,25 @@ LogB.Debug("mc finished 5");
 	private void on_button_menu_news_clicked (object o, EventArgs args)
 	{
 		Json js = new Json();
-		bool success = js.GetNews();
+		List<News> news_l = js.GetNews();
 
-		if(success) {
+		string strNews = "";
+		string sep = "";
+		foreach(News news in news_l)
+		{
+			strNews += sep + news.ToString();
+			sep = "\n";
+		}
+
+		if(news_l.Count >= 0)
+		{
+			News.InsertAndDownloadImageIfNeeded(js, news_l);
+
 			LogB.Information(js.ResultMessage);
 			new DialogMessage(
 					"Chronojump",
 					Constants.MessageTypes.INFO,
-					js.ResultMessage
+					strNews
 					);
 		}
 		else {

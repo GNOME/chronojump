@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.07";
+	static string lastChronojumpDatabaseVersion = "2.08";
 
 	public Sqlite()
 	{
@@ -2834,6 +2834,15 @@ class Sqlite
 
 				currentVersion = updateVersion("2.07");
 			}
+			if(currentVersion == "2.07")
+			{
+				LogB.SQL("Create table news and insert newsLanguageEs on preferences");
+
+				SqliteNews.createTable();
+				SqlitePreferences.Insert (SqlitePreferences.NewsLanguageEs, "False");
+
+				currentVersion = updateVersion("2.08");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -2934,6 +2943,7 @@ class Sqlite
 
 		SqliteTagSession.createTable();
 		SqliteSessionTagSession.createTable();
+		SqliteNews.createTable();
 
 		SqlitePerson sqlitePersonObject = new SqlitePerson();
 		sqlitePersonObject.createTable(Constants.PersonTable);
@@ -3051,6 +3061,7 @@ class Sqlite
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
 
+		//2.07 - 2.08 Converted DB to 2.08 Create table news and insert newsLanguageEs on preferences
 		//2.06 - 2.07 Converted DB to 2.07 Inserted into preferences: forceSensorVariabilityMethod
 		//2.05 - 2.06 Converted DB to 2.06 Default python version for all users: Python3
 		//2.04 - 2.05 Converted DB to 2.05 Inserted into preferences: forceSensorStartEndOptimized

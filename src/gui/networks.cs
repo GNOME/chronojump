@@ -159,6 +159,10 @@ public partial class ChronoJumpWindow
 			//dont't show persons_bottom hbox where users can be edited, deleted if persons at lateral is selected on preferences
 			vbox_persons_bottom.Visible = false;
 
+			//do not show new products on networks
+			button_menu_news.Visible = false;
+			button_menu_news1.Visible = false;
+
 			//don't allow to change encoderConfiguration
 			label_encoder_exercise_encoder.Visible = false;
 			hbox_encoder_exercise_encoder.Visible = false;

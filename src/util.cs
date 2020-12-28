@@ -1172,6 +1172,16 @@ public class Util
 	 * --------------------- End of GetPhoto stuff
 	 */
 
+	public static bool IsJpeg(string filename)
+	{
+		return (filename.ToLower().EndsWith("jpeg") || filename.ToLower().EndsWith("jpg"));
+	}
+
+	public static bool IsPng(string filename)
+	{
+		return (filename.ToLower().EndsWith("png"));
+	}
+
 	/*
 	 * --------------------- Start of video stuff
 	 */

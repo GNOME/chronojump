@@ -185,6 +185,7 @@ public class Json
 	}
 
 	//get all the news, news class will decide if something have to be inserted or selected
+	//called by pingThread at start
 	public List<News> GetNews()
 	{
 		// Create a request using a URL that can receive a post.
@@ -220,6 +221,7 @@ public class Json
 
 		foreach (JsonValue jsonNews in jsonNewsAll)
 		{
+			// 1) create news from json
 			Int32 code = jsonNews ["code"];
 			Int32 category = jsonNews ["category"];
 			Int32 version = jsonNews ["version"];
@@ -230,36 +232,36 @@ public class Json
 			string descriptionEn = jsonNews ["descriptionEn"];
 			string descriptionEs = jsonNews ["descriptionEs"];
 			string linkServerImage = jsonNews ["linkImage"];
-			LogB.Information("Deserialize linkServerImage: " + linkServerImage);
 
 			news_l.Add(new News(code, category, version, false,
 						titleEn, titleEs, linkEn, linkEs, descriptionEn, descriptionEs, linkServerImage));
+
+			// 2) download image
+			//if image does not exist, download here (in pingThread)
+			//can be a jpeg or a png
+			string extension = "";
+			if(Util.IsJpeg(linkServerImage))
+				extension = ".jpg";
+			else if (Util.IsPng(linkServerImage))
+				extension = ".png";
+
+			string copyTo = Path.Combine(News.GetNewsDir(), code.ToString() + extension);
+			if(! File.Exists(copyTo))
+				downloadNewsImage(linkServerImage, copyTo);
 		}
 
 		return news_l;
 	}
 
-	//can be a jpeg or a png
-	public bool DownloadNewsImage(string imageServerUrl, int code)
+	private bool downloadNewsImage(string linkServerImage, string copyTo)
 	{
-		LogB.Information("imageServerUrl:");
-		LogB.Information(imageServerUrl);
-		string extension = "";
-		if(Util.IsJpeg(imageServerUrl))
-			extension = ".jpg";
-		else if (Util.IsPng(imageServerUrl))
-			extension = ".png";
-		else
-			return false;
-
 		try {
-			string copyTo = Path.Combine(News.GetNewsDir(), code.ToString() + extension);
 			using (WebClient client = new WebClient())
 			{
 				LogB.Information (string.Format("News DownloadImage from: {0} to: {1}",
-							imageServerUrl, copyTo));
+							linkServerImage, copyTo));
 
-				client.DownloadFile(new Uri(imageServerUrl), copyTo); //if exists, it overwrites
+				client.DownloadFile(new Uri(linkServerImage), copyTo); //if exists, it overwrites
 			}
 		} catch {
 			LogB.Warning("DownloadImage catched");

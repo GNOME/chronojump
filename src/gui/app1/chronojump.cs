@@ -416,6 +416,8 @@ public partial class ChronoJumpWindow
 	private static ReactionTimeType currentReactionTimeType;
 	private static MultiChronopicType currentMultiChronopicType;
 	private static Report report;
+	private static List<News> newsAtDB_l; //to not read/write SQL on pingThread and at the same time outside of thread
+	private static List<News> newsAtServer_l; //to not read/write SQL on pingThread and at the same time outside of thread
 
 	//windows needed
 	ChronopicRegisterWindow chronopicRegisterWin;
@@ -710,7 +712,10 @@ public partial class ChronoJumpWindow
 		if( ! configChronojump.Compujump)
 		{
 			LogB.Information("Ping thread will start");
-			pingThread = new Thread (new ThreadStart (pingAtStart));
+
+			newsAtDB_l = SqliteNews.Select(false, -1);
+			pingThread = new Thread (new ThreadStart (pingAndNewsAtStart));
+			GLib.Idle.Add (new GLib.IdleHandler (pulsePingAndNewsGTK));
 			pingThread.Start();
 		} else
 			LogB.Information("Ping discarded (Compujump)");
@@ -6767,82 +6772,59 @@ LogB.Debug("mc finished 5");
 
 	private void on_button_menu_news_clicked (object o, EventArgs args)
 	{
-		Json js = new Json();
-		List<News> news_l = js.GetNews();
-
-		string strNews = "";
-		string sep = "";
-		foreach(News news in news_l)
-		{
-			strNews += sep + news.ToString();
-			sep = "\n";
-		}
-
-		if(news_l.Count >= 0)
-		{
-			News.InsertAndDownloadImageIfNeeded(js, news_l);
-
-			LogB.Information(js.ResultMessage);
-			new DialogMessage(
-					"Chronojump",
-					Constants.MessageTypes.INFO,
-					strNews
-					);
-		}
-		else {
-			LogB.Error(js.ResultMessage);
-			new DialogMessage(
-					"Chronojump",
-					Constants.MessageTypes.WARNING,
-					js.ResultMessage);
-		}
+		getNews();
 	}
 
-	/*
-	private void on_menuitem_ping_activate (object o, EventArgs args) 
+	private bool pulsePingAndNewsGTK ()
 	{
-		pingDo(true);
-	}
-	*/
-	private void pingAtStart()
-	{
-		pingDo(false);
+		if(! pingThread.IsAlive)
+		{
+			if(News.InsertIfNeeded (newsAtDB_l, newsAtServer_l))
+			{
+				Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_store_news.png");
+				image_menu_news.Pixbuf = pixbuf;
+				image_menu_news1.Pixbuf = pixbuf;
+			}
+
+			LogB.Information("pulsePingAndNews ending here");
+			LogB.ThreadEnded();
+			return false;
+		}
+
+		Thread.Sleep (250);
+		//Log.Write(" (PulseGTK:" + thread.ThreadState.ToString() + ") ");
+		return true;
 	}
 
-	//declared here in order to be easy closed on exit
+	//declared here in order to be easy closed on exit Chronojump
 	Json jsPing;
-	private void pingDo(bool showInWindow)
+	private void pingAndNewsAtStart()
+	{
+		jsPing = new Json();
+		if(pingDo())
+			getNews();
+	}
+
+	private bool pingDo()
 	{
 		LogB.Information("version at pingDo:" + UtilAll.ReadVersionFromBuildInfo());
-		jsPing = new Json();
 		bool success = jsPing.Ping(UtilAll.GetOS(), UtilAll.ReadVersionFromBuildInfo(), preferences.machineID);
 
-		if(success) {
+		if(success)
 			LogB.Information(jsPing.ResultMessage);
-			if(showInWindow)
-				new DialogMessage(
-						"Chronojump",
-						Constants.MessageTypes.INFO, 
-						jsPing.ResultMessage);
-		}
-		else {
+		else
 			LogB.Error(jsPing.ResultMessage);
-			if(showInWindow)
-				new DialogMessage(
-						"Chronojump",
-						Constants.MessageTypes.WARNING, 
-						jsPing.ResultMessage);
-		}
 
-		/*
-		new DialogMessage(
-				"Chronojump",
-				Constants.MessageTypes.INFO, 
-				"Temporarily Disabled");
-		*/
+		return success;
+
 	}
-	
-	
+
+	private void getNews()
+	{
+		LogB.Information("getNews()");
+		newsAtServer_l = jsPing.GetNews();
+	}
+
 	private void on_preferences_debug_mode_start (object o, EventArgs args) {
 		//first delete debug file
 		Util.FileDelete(System.IO.Path.GetTempPath() + "chronojump-debug.txt");

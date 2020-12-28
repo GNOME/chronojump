@@ -21,7 +21,6 @@
 using System;
 using System.IO; 		//for detect OS //TextWriter
 using System.Collections.Generic; //List<T>
-using Mono.Unix;
 
 public class News
 {

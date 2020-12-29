@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2020-12-21 22:09+0000\n"
-"PO-Revision-Date: 2020-12-22 13:42+0200\n"
+"POT-Creation-Date: 2020-12-28 18:45+0000\n"
+"PO-Revision-Date: 2020-12-29 12:28+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -50,8 +50,9 @@ msgid "Help"
 msgstr "Довідка"
 
 #: ../glade/app1.glade.h:7
-msgid "News"
-msgstr "Новини"
+#| msgid "New person"
+msgid "New products"
+msgstr "Нові продукти"
 
 #: ../glade/app1.glade.h:8
 msgid "Exit"
@@ -530,7 +531,7 @@ msgstr "(усі сеанси)"
 #: ../src/stats/rjIndex.cs:34 ../src/stats/rjPotencyBosco.cs:34
 #: ../src/treeview/jump.cs:71 ../src/treeview/jump.cs:270
 msgid "TC"
-msgstr ""
+msgstr "ЧК"
 
 #. cols: 4, 6, 8, ...
 #. cols: 3, 5, 7, ...
@@ -544,7 +545,7 @@ msgstr ""
 #: ../src/stats/sjCmjAbk.cs:53 ../src/stats/sjCmjAbkPlus.cs:64
 #: ../src/treeview/jump.cs:72 ../src/treeview/jump.cs:271
 msgid "TF"
-msgstr ""
+msgstr "ЧП"
 
 #: ../glade/app1.glade.h:106 ../glade/preferences_win.glade.h:138
 #: ../glade/repetitive_conditions.glade.h:10 ../src/exportSession.cs:264
@@ -562,7 +563,7 @@ msgstr " "
 
 #: ../glade/app1.glade.h:108
 msgid "TF / TC"
-msgstr ""
+msgstr "ЧП/ЧК"
 
 #: ../glade/app1.glade.h:109
 msgid "Last jump"
@@ -2396,7 +2397,7 @@ msgstr "каталонська"
 msgid "Add comments"
 msgstr "Додати коментарі"
 
-#: ../glade/app1.glade.h:517 ../src/chronojump.cs:734
+#: ../glade/app1.glade.h:517 ../src/chronojump.cs:735
 msgid "Send error log"
 msgstr "Надіслати журнал помилок"
 
@@ -4623,60 +4624,60 @@ msgstr "нічого"
 msgid "Chronojump is already running"
 msgstr "Chronojump вже запущено"
 
-#: ../src/chronojump.cs:261 ../src/chronojump.cs:522 ../src/chronojump.cs:901
-#: ../src/chronojump.cs:909
+#: ../src/chronojump.cs:261 ../src/chronojump.cs:523 ../src/chronojump.cs:902
+#: ../src/chronojump.cs:910
 msgid "Chronojump will exit now."
 msgstr "Зараз Chronojump завершить роботу."
 
-#: ../src/chronojump.cs:316
+#: ../src/chronojump.cs:317
 msgid "no tables, creating ..."
 msgstr "немає таблиць, створюємо…"
 
 #. check (spanish)
 #. http://mail.gnome.org/archives/chronojump-devel-list/2008-March/msg00011.html
-#: ../src/chronojump.cs:366
+#: ../src/chronojump.cs:367
 msgid "Failed database conversion, ensure you have libsqlite3-0 installed."
 msgstr ""
 "Не вдалося перетворити базу даних, переконайтеся, що встановлено "
 "libsqlite3-0."
 
-#: ../src/chronojump.cs:367
+#: ../src/chronojump.cs:368
 #, csharp-format
 msgid ""
 "If you have no data on your database (you just installed Chronojump), you "
 "can fix this problem deleting this file: {0}"
 msgstr ""
 
-#: ../src/chronojump.cs:369
+#: ../src/chronojump.cs:370
 msgid "And starting Chronojump again."
 msgstr "І запускаємо Chronojump знову."
 
-#: ../src/chronojump.cs:382
+#: ../src/chronojump.cs:383
 msgid "All DJ jumps have been renamed as 'DJna' (Drop Jumps with No Arms)."
 msgstr ""
 
-#: ../src/chronojump.cs:383
+#: ../src/chronojump.cs:384
 msgid ""
 "If your Drop Jumps were executed using the arms, please rename them manually "
 "as 'DJa'."
 msgstr ""
 
 #. Console.Clear();
-#: ../src/chronojump.cs:393
+#: ../src/chronojump.cs:394
 #, csharp-format
 msgid "Sorry, this Chronojump version ({0}) is too old for your database."
 msgstr ""
 "Вибачте, ця версія Chronojump ({0}) є надто старою для вашої бази даних."
 
-#: ../src/chronojump.cs:394
+#: ../src/chronojump.cs:395
 msgid "Please update Chronojump"
 msgstr "Будь ласка, оновіть Chronojump"
 
-#: ../src/chronojump.cs:402
+#: ../src/chronojump.cs:403
 msgid "tables already created"
 msgstr "таблиці вже створено"
 
-#: ../src/chronojump.cs:465
+#: ../src/chronojump.cs:466
 #, csharp-format
 msgid ""
 "\n"
@@ -4687,75 +4688,75 @@ msgstr ""
 "На сайті доступна нова версія Chronojump.\n"
 "Ваша версія Chronojump: {1}"
 
-#: ../src/chronojump.cs:467
+#: ../src/chronojump.cs:468
 msgid "Please, update to new version."
 msgstr "Будь ласка, оновіть програму до нової версії."
 
-#: ../src/chronojump.cs:475
+#: ../src/chronojump.cs:476
 msgid "Chronojump crashed before."
 msgstr "Раніше Chronojump завершив роботу в аварійному режимі."
 
-#: ../src/chronojump.cs:476 ../src/gui/old/chronojumpServerOld.cs:71
+#: ../src/chronojump.cs:477 ../src/gui/old/chronojumpServerOld.cs:71
 msgid "Please, update to new version: "
 msgstr "Будь ласка, оновіть програму до нової версії: "
 
-#: ../src/chronojump.cs:587
+#: ../src/chronojump.cs:588
 msgid "Need permissions to read from device."
 msgstr "Потрібні права доступу до читання з пристрою."
 
-#: ../src/chronojump.cs:588
+#: ../src/chronojump.cs:589
 msgid "Check software page on Chronojump website"
 msgstr "Ознайомтеся із сторінкою програмного забезпечення на сайті Chronojump"
 
-#: ../src/chronojump.cs:736
+#: ../src/chronojump.cs:737
 #, csharp-format
 msgid "Chronojump {0} crashed before."
 msgstr "Раніше Chronojump {0} завершив роботу в аварійному режимі."
 
-#: ../src/chronojump.cs:737
+#: ../src/chronojump.cs:738
 #, csharp-format
 msgid ""
 "Please, fill your email and click on '{0}' in order to fix this fast and "
 "contact you if appropriate."
 msgstr ""
 
-#: ../src/chronojump.cs:738
+#: ../src/chronojump.cs:739
 msgid "Your help is needed."
 msgstr "Потрібна ваша допомога."
 
-#: ../src/chronojump.cs:868
+#: ../src/chronojump.cs:869
 #, csharp-format
 msgid "Cannot move database directory from {0} to {1}"
 msgstr "Не вдалося пересунути каталог бази даних з {0} до {1}"
 
-#: ../src/chronojump.cs:870
+#: ../src/chronojump.cs:871
 msgid "Trying to move/copy each file now"
 msgstr "Намагаємося пересунути або скопіювати кожний файл окремо"
 
-#: ../src/chronojump.cs:899
+#: ../src/chronojump.cs:900
 #, csharp-format
 msgid "Cannot create directory {0}"
 msgstr "Не вдалося створити каталог {0}"
 
-#: ../src/chronojump.cs:900 ../src/chronojump.cs:908
+#: ../src/chronojump.cs:901 ../src/chronojump.cs:909
 msgid "Please, do it manually."
 msgstr "Будь ласка, зробіть це вручну."
 
-#: ../src/chronojump.cs:907
+#: ../src/chronojump.cs:908
 #, csharp-format
 msgid "Cannot copy {0} files from {1} to {2}"
 msgstr "Не вдалося скопіювати {0} файлів з {1} до {2}"
 
-#: ../src/chronojump.cs:915
+#: ../src/chronojump.cs:916
 #, csharp-format
 msgid "Cannot move {0} files from {1} to {2}"
 msgstr "Не вдалося пересунути {0} файлів з {1} до {2}"
 
-#: ../src/chronojump.cs:916
+#: ../src/chronojump.cs:917
 msgid "Please, do it manually"
 msgstr "Будь ласка, зробіть це вручну"
 
-#: ../src/chronojump.cs:922
+#: ../src/chronojump.cs:923
 #, csharp-format
 msgid "Database is now here: {0}"
 msgstr "Тепер база даних зберігається тут: {0}"
@@ -6199,11 +6200,11 @@ msgstr ""
 msgid "Added intervallic race type."
 msgstr ""
 
-#: ../src/gui/app1/chronojump.cs:6954
+#: ../src/gui/app1/chronojump.cs:6965
 msgid "translator-credits"
 msgstr "Юрій Чорноіван <yurchor@ukr.net>, 2020"
 
-#: ../src/gui/app1/chronojump.cs:7712
+#: ../src/gui/app1/chronojump.cs:7723
 msgid "Done for testing purposes. Chronojump will exit badly"
 msgstr ""
 "Створено з метою тестування. Chronojump завершить роботу у нештатному режимі"
@@ -8412,8 +8413,8 @@ msgstr ""
 msgid "Last version published: "
 msgstr ""
 
-#: ../src/json/json.cs:307 ../src/json/json.cs:324 ../src/json/json.cs:340
-#: ../src/json/json.cs:356
+#: ../src/json/json.cs:364 ../src/json/json.cs:381 ../src/json/json.cs:397
+#: ../src/json/json.cs:413
 #, csharp-format
 msgid ""
 "You are not connected to the Internet\n"
@@ -10151,11 +10152,11 @@ msgstr ""
 
 #: ../src/sqlite/speciallity.cs:173
 msgid "Runs, Long-distance"
-msgstr ""
+msgstr "Біг на довгі дистанції"
 
 #: ../src/sqlite/speciallity.cs:175
 msgid "Throws"
-msgstr ""
+msgstr "Кидки"
 
 #: ../src/sqlite/speciallity.cs:176
 msgid "Combined"
@@ -10171,11 +10172,11 @@ msgstr "Скелетон"
 
 #: ../src/sqlite/speciallity.cs:181
 msgid "Flatwater"
-msgstr ""
+msgstr "Веслування на каное"
 
 #: ../src/sqlite/speciallity.cs:182
 msgid "Slalom"
-msgstr ""
+msgstr "Слалом"
 
 #: ../src/sqlite/speciallity.cs:184
 msgid "Cycling BMX"
@@ -10183,11 +10184,11 @@ msgstr ""
 
 #: ../src/sqlite/speciallity.cs:185
 msgid "Cycling Road"
-msgstr ""
+msgstr "Велоспорт на трасі"
 
 #: ../src/sqlite/speciallity.cs:186
 msgid "Cycling Track"
-msgstr ""
+msgstr "Велоспорт на треку"
 
 #: ../src/sqlite/speciallity.cs:187
 msgid "Mountain Bike"
@@ -10195,11 +10196,11 @@ msgstr "Гірський велосипед"
 
 #: ../src/sqlite/speciallity.cs:189
 msgid "Dressage"
-msgstr ""
+msgstr "Виїздка"
 
 #: ../src/sqlite/speciallity.cs:190
 msgid "Eventing"
-msgstr ""
+msgstr "Кінськоспортивні змагання"
 
 #: ../src/sqlite/speciallity.cs:191
 msgid "jumping"
@@ -10211,51 +10212,51 @@ msgstr "Художня гімнастика"
 
 #: ../src/sqlite/speciallity.cs:194
 msgid "Rhythmic"
-msgstr ""
+msgstr "Ритміка"
 
 #: ../src/sqlite/speciallity.cs:195
 msgid "Trampoline"
-msgstr ""
+msgstr "Стрибки на батуті"
 
 #: ../src/sqlite/speciallity.cs:197
 msgid "Figure skating"
-msgstr ""
+msgstr "Фігурне катання"
 
 #: ../src/sqlite/speciallity.cs:198
 msgid "Short Track Speed Skating"
-msgstr ""
+msgstr "Шорт-трек"
 
 #: ../src/sqlite/speciallity.cs:199
 msgid "Speed skating"
-msgstr ""
+msgstr "Швидкісний біг на ковзанах"
 
 #: ../src/sqlite/speciallity.cs:201
 msgid "Alpine Skiing"
-msgstr ""
+msgstr "Гірські лижі"
 
 #: ../src/sqlite/speciallity.cs:202
 msgid "Cross Country Skiing"
-msgstr ""
+msgstr "Біг на лижах"
 
 #: ../src/sqlite/speciallity.cs:203
 msgid "Freestyle Skiing"
-msgstr ""
+msgstr "Біг на лижах вільним стилем"
 
 #: ../src/sqlite/speciallity.cs:204
 msgid "Nordic Combined"
-msgstr ""
+msgstr "Лижне двоборство"
 
 #: ../src/sqlite/speciallity.cs:205
 msgid "Ski Jumping"
-msgstr ""
+msgstr "Лижні стрибки"
 
 #: ../src/sqlite/speciallity.cs:206
 msgid "Snowboard"
-msgstr ""
+msgstr "Сноуборд"
 
 #: ../src/sqlite/speciallity.cs:208
 msgid "Beach volleyball"
-msgstr ""
+msgstr "Пляжний волейбол"
 
 #: ../src/sqlite/speciallity.cs:209 ../src/sqlite/sport.cs:250
 msgid "Volleyball"
@@ -10267,7 +10268,7 @@ msgstr "Вільний стиль"
 
 #: ../src/sqlite/speciallity.cs:212
 msgid "Greco-Roman"
-msgstr ""
+msgstr "Греко-римська боротьба"
 
 #: ../src/sqlite/sport.cs:188
 msgid "user"
@@ -10278,23 +10279,23 @@ msgstr "користувач"
 #. will be 2 (it's also written in Constants.SportNoneID
 #: ../src/sqlite/sport.cs:218
 msgid "Aquatics"
-msgstr ""
+msgstr "Водний спорт"
 
 #: ../src/sqlite/sport.cs:219
 msgid "Archery"
-msgstr ""
+msgstr "Стрільба з лука"
 
 #: ../src/sqlite/sport.cs:220
 msgid "Athletics"
-msgstr ""
+msgstr "Атлетика"
 
 #: ../src/sqlite/sport.cs:221
 msgid "Badminton"
-msgstr ""
+msgstr "Бадмінтон"
 
 #: ../src/sqlite/sport.cs:222
 msgid "Baseball"
-msgstr ""
+msgstr "Бейсбол"
 
 #: ../src/sqlite/sport.cs:223
 msgid "Basketball"
@@ -10302,19 +10303,19 @@ msgstr "Баскетбол"
 
 #: ../src/sqlite/sport.cs:224
 msgid "Biathlon"
-msgstr ""
+msgstr "Біатлон"
 
 #: ../src/sqlite/sport.cs:226
 msgid "Boxing"
-msgstr ""
+msgstr "Бокс"
 
 #: ../src/sqlite/sport.cs:227
 msgid "Canoe-Cayak"
-msgstr ""
+msgstr "Каное-каяк"
 
 #: ../src/sqlite/sport.cs:228
 msgid "Curling"
-msgstr ""
+msgstr "Керлінг"
 
 #: ../src/sqlite/sport.cs:229
 msgid "Cycling"
@@ -10322,19 +10323,19 @@ msgstr "Велоспорт"
 
 #: ../src/sqlite/sport.cs:230
 msgid "Equestrian"
-msgstr ""
+msgstr "Кінні змагання"
 
 #: ../src/sqlite/sport.cs:231
 msgid "Fencing"
-msgstr ""
+msgstr "Фехтування"
 
 #: ../src/sqlite/sport.cs:232
 msgid "Football"
-msgstr ""
+msgstr "Футбол"
 
 #: ../src/sqlite/sport.cs:233
 msgid "Gymnastics"
-msgstr ""
+msgstr "Гімнастика"
 
 #: ../src/sqlite/sport.cs:234
 msgid "Handball"
@@ -10354,11 +10355,11 @@ msgstr "Дзюдо"
 
 #: ../src/sqlite/sport.cs:238
 msgid "Luge"
-msgstr ""
+msgstr "Санний спорт"
 
 #: ../src/sqlite/sport.cs:239
 msgid "Modern Pentathlon"
-msgstr ""
+msgstr "Сучасний пентатлон"
 
 #: ../src/sqlite/sport.cs:240
 msgid "Rowing"
@@ -10374,23 +10375,23 @@ msgstr "Стрілецький спорт"
 
 #: ../src/sqlite/sport.cs:243
 msgid "Skating"
-msgstr ""
+msgstr "Катання на ковзанах"
 
 #: ../src/sqlite/sport.cs:244
 msgid "Skiing"
-msgstr ""
+msgstr "Лижний спорт"
 
 #: ../src/sqlite/sport.cs:245
 msgid "Softball"
-msgstr ""
+msgstr "Софтбол"
 
 #: ../src/sqlite/sport.cs:246
 msgid "Table Tennis"
-msgstr ""
+msgstr "Настільний теніс"
 
 #: ../src/sqlite/sport.cs:247
 msgid "Taekwondo"
-msgstr ""
+msgstr "Тхеквондо"
 
 #: ../src/sqlite/sport.cs:248
 msgid "Tennis"
@@ -10398,15 +10399,15 @@ msgstr "Теніс"
 
 #: ../src/sqlite/sport.cs:249
 msgid "Triathlon"
-msgstr ""
+msgstr "Тріатлон"
 
 #: ../src/sqlite/sport.cs:251
 msgid "Weightlifting"
-msgstr ""
+msgstr "Важковаговик"
 
 #: ../src/sqlite/sport.cs:252
 msgid "Wrestling"
-msgstr ""
+msgstr "Боротьба"
 
 #: ../src/stats/chronojumpProfile.cs:31 ../src/stats/djIndex.cs:31
 #: ../src/stats/djPower.cs:31 ../src/stats/djQ.cs:31 ../src/stats/fv.cs:49
@@ -10416,7 +10417,7 @@ msgstr ""
 #: ../src/stats/rjPotencyBosco.cs:31 ../src/stats/sjCmjAbkPlus.cs:63
 #: ../src/treeview/jump.cs:30
 msgid "Jumper"
-msgstr ""
+msgstr "Стрибки"
 
 #: ../src/stats/chronojumpProfile.cs:32
 msgid "F max"
@@ -10440,7 +10441,7 @@ msgstr ""
 
 #: ../src/stats/djIndex.cs:32
 msgid "Dj Index"
-msgstr ""
+msgstr "Індекс Dj"
 
 #: ../src/stats/djIndex.cs:116 ../src/stats/djPower.cs:118
 #: ../src/stats/djQ.cs:116 ../src/stats/jumpIndexes.cs:127
@@ -10467,10 +10468,10 @@ msgstr[3] "Перше значення"
 #, csharp-format
 msgid "Max value of each person"
 msgid_plural "Max {0} values of each person"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Максимальне {0} значення для кожної особи"
+msgstr[1] "Максимальні {0} значення для кожної особи"
+msgstr[2] "Максимальних {0} значень для кожної особи"
+msgstr[3] "Максимальне значення для кожної особи"
 
 #: ../src/stats/djIndex.cs:126 ../src/stats/djPower.cs:128
 #: ../src/stats/djQ.cs:126 ../src/stats/fv.cs:118 ../src/stats/global.cs:109
@@ -10479,7 +10480,7 @@ msgstr[3] ""
 #: ../src/stats/rjPotencyBosco.cs:130 ../src/stats/runSimple.cs:124
 #: ../src/stats/sjCmjAbk.cs:124 ../src/stats/sjCmjAbkPlus.cs:143
 msgid " various sessions "
-msgstr ""
+msgstr " різні сеанси "
 
 #: ../src/stats/djIndex.cs:129 ../src/stats/djPower.cs:131
 #: ../src/stats/djQ.cs:129 ../src/stats/fv.cs:121 ../src/stats/global.cs:112
@@ -10506,7 +10507,7 @@ msgstr ""
 
 #: ../src/stats/djQ.cs:32
 msgid "Q Index"
-msgstr ""
+msgstr "Q-індекс"
 
 #: ../src/stats/djQ.cs:133
 #, csharp-format
@@ -10525,12 +10526,12 @@ msgstr "Значення"
 #: ../src/stats/global.cs:119
 #, csharp-format
 msgid " for person {0}({1})"
-msgstr ""
+msgstr " для особи {0}({1})"
 
 #: ../src/stats/global.cs:122
 #, csharp-format
 msgid "{0} in some jumps and statistics on {1}{2}"
-msgstr ""
+msgstr "{0} у деяких стрибках і статистика щодо {1}{2}"
 
 #.
 #. } else {
@@ -10547,12 +10548,12 @@ msgstr ""
 #: ../src/stats/graphs/runIntervallic.cs:65 ../src/stats/graphs/runSimple.cs:51
 #: ../src/stats/graphs/sjCmjAbk.cs:50 ../src/stats/graphs/sjCmjAbkPlus.cs:51
 msgid "Chronojump graph"
-msgstr ""
+msgstr "Графік Chronojump"
 
 #: ../src/stats/graphs/jumpSimpleSubtraction.cs:66
 #, csharp-format
 msgid "Subtraction between {0} {1} and {0} {2}"
-msgstr ""
+msgstr "Різниця між {0} {1} і {0} {2}"
 
 #: ../src/stats/jumpIndexes.cs:152
 #, csharp-format
@@ -10562,28 +10563,28 @@ msgstr ""
 #: ../src/stats/jumpSimpleSubtraction.cs:129
 #, csharp-format
 msgid "{0} in test {1} - test {2} on {3}"
-msgstr ""
+msgstr "{0} у тесті {1} - тест {2} {3}"
 
 #. for toString() in every stat
 #: ../src/stats/main.cs:86
 msgid "All values"
-msgstr ""
+msgstr "Усі значення"
 
 #: ../src/stats/main.cs:87
 msgid "Avg values of each person"
-msgstr ""
+msgstr "Середні значення для кожної з осіб"
 
 #: ../src/stats/main.cs:1331
 msgid "Dispersion"
-msgstr ""
+msgstr "Дисперсія"
 
 #: ../src/stats/main.cs:1520
 msgid "Chronojump Graph"
-msgstr ""
+msgstr "Графік Chronojump"
 
 #: ../src/stats/potency.cs:61
 msgid "Person's Weight"
-msgstr ""
+msgstr "Вага особи"
 
 #: ../src/stats/potency.cs:62
 msgid "Extra Weight"
@@ -10654,15 +10655,19 @@ msgstr ""
 #: ../src/stats/sjCmjAbkPlus.cs:150
 #, csharp-format
 msgid "{0} in {1} on {2}"
-msgstr ""
+msgstr "{0} у {1} на {2}"
+
+#: ../src/tagSession.cs:85
+msgid "------"
+msgstr "------"
 
 #: ../src/treeview/jump.cs:362
 msgid "First photocell"
-msgstr ""
+msgstr "Перший фотоелемент"
 
 #: ../src/treeview/jump.cs:471 ../src/treeview/jump.cs:540
 msgid "photocells not included"
-msgstr ""
+msgstr "фотоелементи не включено"
 
 #: ../src/treeview/multiChronopic.cs:58 ../src/treeview/multiChronopic.cs:66
 #: ../src/treeview/multiChronopic.cs:74
@@ -10703,21 +10708,24 @@ msgstr "Час поділу"
 #: ../src/webcam/webcam.cs:105
 #, csharp-format
 msgid "Error. {0} is not installed."
-msgstr ""
+msgstr "Помилка. {0} не встановлено."
 
 #: ../src/webcam/webcam.cs:107
 #, csharp-format
 msgid "Error. {0} has been closed."
-msgstr ""
+msgstr "Помилка. {0} було закрито."
 
 #: ../src/webcam/webcam.cs:109
 #, csharp-format
 msgid "Error. {0} cannot save video."
-msgstr ""
+msgstr "Помилка. {0} не вдалося зберегти відео."
 
 #: ../src/webcam/webcamFfmpeg.cs:290
 msgid "Preview. Press any key to exit."
-msgstr ""
+msgstr "Попередній перегляд. Натисніть будь-яку клавішу, щоб вийти."
+
+#~ msgid "News"
+#~ msgstr "Новини"
 
 #~ msgid "Normal jump"
 #~ msgstr "Звичайний стрибок"

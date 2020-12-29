@@ -21,6 +21,7 @@
 //this file has methods of ChronoJumpWindow related to manage menu
 
 using System;
+using Gdk;
 using Gtk;
 using Glade;
 using System.Collections.Generic; //List
@@ -304,6 +305,28 @@ public partial class ChronoJumpWindow
 	{
 		menus_and_mode_sensitive(true);
 		notebook_sup.CurrentPage = app1s_notebook_sup_entered_from;
+	}
+
+	private void on_button_menu_news_clicked (object o, EventArgs args)
+	{
+		//fill the widget
+		news_fill(newsAtDB_l);
+
+		//sensitivity and notebook management
+		menus_and_mode_sensitive(false);
+		app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
+		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.NEWS);
+	}
+
+	private void on_button_news_close_clicked (object o, EventArgs args)
+	{
+		menus_and_mode_sensitive(true);
+		notebook_sup.CurrentPage = app1s_notebook_sup_entered_from;
+
+		//put default news store icon because window has been opened (and hopefully seen)
+		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_store_blue.png");
+		image_menu_news.Pixbuf = pixbuf;
+		image_menu_news1.Pixbuf = pixbuf;
 	}
 
 	private int getMenuButtonsMaxWidth(List<int> l)

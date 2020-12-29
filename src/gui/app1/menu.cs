@@ -310,7 +310,7 @@ public partial class ChronoJumpWindow
 	private void on_button_menu_news_clicked (object o, EventArgs args)
 	{
 		//fill the widget
-		news_fill(newsAtDB_l, preferences.newsLanguageEs);
+		news_fill(preferences.newsLanguageEs);
 
 		//sensitivity and notebook management
 		menus_and_mode_sensitive(false);

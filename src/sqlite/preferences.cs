@@ -449,6 +449,8 @@ class SqlitePreferences : Sqlite
 				else
 					preferences.restTimeSeconds = 0;
 			}
+			else if(reader[0].ToString() == NewsLanguageEs )
+				preferences.newsLanguageEs = reader[1].ToString() == "True"; //bool
 			else if(reader[0].ToString() == UnitsStr)
 				preferences.units = (Preferences.UnitsEnum)
 					Enum.Parse(typeof(Preferences.UnitsEnum), reader[1].ToString());

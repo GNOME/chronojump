@@ -25,7 +25,7 @@ using System.Collections.Generic; //List<T>
 public class Preferences 
 {
 	/*
-	 * these are sent to preferences window
+	 * these are managed on preferences window
 	 */
 
 	//main tab
@@ -182,7 +182,7 @@ public class Preferences
 	}
 
 	/*
-	 * these are NOT sent to preferences window
+	 * these are NOT managed on preferences window
 	 */
 	
 	public bool allowFinishRjAfterTime;
@@ -193,6 +193,7 @@ public class Preferences
 	public string machineID;
 	public Constants.MultimediaStorage multimediaStorage;
 	public string databaseVersion;
+	public bool newsLanguageEs;
 
 	//jumps
 	public bool jumpsFVProfileOnlyBestInWeight;

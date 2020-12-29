@@ -36,16 +36,16 @@ public partial class ChronoJumpWindow
 
 	Pixbuf image_news_pixbuf;
 
-	private void news_fill (List<News> news_l)
+	private void news_fill (List<News> news_l, bool langEs)
 	{
 		if(news_l.Count == 0)
 			return;
 
 		News news = news_l[0];
 
-		label_news_title.Text = "<b>" + news.GetTitle(false) + "</b>";
+		label_news_title.Text = "<b>" + news.GetTitle(langEs) + "</b>";
 		label_news_title.UseMarkup = true;
-		label_news_description_and_link.Text = news.GetDescription(false) + "\n\n" + news.GetLink(false);
+		label_news_description_and_link.Text = news.GetDescription(langEs) + "\n\n" + news.GetLink(langEs);
 
 		news_loadImage(news);
 		alignment_news.Show(); // is hidden at beginning to allow being well shown when filled

@@ -18,6 +18,7 @@ SOURCES = \
 	gui/app1/contactsExercise.cs\
 	gui/app1/forceSensor.cs\
 	gui/app1/forceSensorAnalyze.cs\
+	gui/app1/news.cs\
 	gui/app1/session/delete.cs\
 	gui/app1/session/addEdit.cs\
 	gui/app1/session/backup.cs\
@@ -564,8 +565,9 @@ RESOURCES = \
 	../images/md/folders_blue.png,image_folders.png \
 	../images/md/folders_backup_blue.png,image_db_backup.png \
 	../images/md/baseline_help_blue_24dp.png,image_help.png \
-	../images/md/baseline_store_blue_24dp.png,image_store.png \
-	../images/md/baseline_store_blue_news_24dp.png,image_store_news.png \
+	../images/md/baseline_store_blue_24dp.png,image_store_blue.png \
+	../images/md/baseline_store_yellow_24dp.png,image_store_yellow.png \
+	../images/md/baseline_store_blue_news_24dp.png,image_store_has_new_products.png \
 	../images/chronojump_icon.png,chronojump_icon.png \
 	../images/chronojump_icon_transp.png,chronojump_icon_transp.png \
 	../images/chronojump_icon_graph.png,chronojump_icon_graph.png \

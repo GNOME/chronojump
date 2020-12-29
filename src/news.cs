@@ -76,6 +76,31 @@ public class News
 		return SqliteNews.Insert(dbconOpened, toSQLInsertString());
 	}
 
+	public string GetTitle(bool es)
+	{
+		if(es)
+			return titleEs;
+		else
+			return titleEn;
+	}
+
+	public string GetLink(bool es)
+	{
+		if(es)
+			return linkEs;
+		else
+			return linkEn;
+	}
+
+	public string GetDescription(bool es)
+	{
+		if(es)
+			return descriptionEs;
+		else
+			return descriptionEn;
+	}
+
+
 	/* public static methods */
 
 	/*

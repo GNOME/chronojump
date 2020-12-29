@@ -248,9 +248,12 @@ public partial class ChronoJumpWindow
 		image_contacts_exercise_settings.Pixbuf = pixbuf;
 		image_encoder_exercise_settings.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_store.png");
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_store_blue.png");
 		image_menu_news.Pixbuf = pixbuf;
 		image_menu_news1.Pixbuf = pixbuf;
+		image_news_blue.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_store_yellow.png");
+		image_news_yellow.Pixbuf = pixbuf;
 
 		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_minimize.png");
 		//image_minimize.Pixbuf = pixbuf;

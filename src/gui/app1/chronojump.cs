@@ -82,6 +82,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox eventbox_radio_mode_multi_chronopic_small;
 	[Widget] Gtk.EventBox eventbox_button_open_chronojump;
 	[Widget] Gtk.EventBox eventbox_button_help_close;
+	[Widget] Gtk.EventBox eventbox_button_news_close;
 	[Widget] Gtk.EventBox eventbox_button_exit_cancel;
 	[Widget] Gtk.EventBox eventbox_button_exit_confirm;
 
@@ -464,7 +465,7 @@ public partial class ChronoJumpWindow
 	private string progVersion;
 	private string progName;
 	private enum notebook_start_pages { PROGRAM, SENDLOG, EXITCONFIRM }
-	private enum notebook_sup_pages { START, CONTACTS, ENCODER, SESSION, NETWORKSPROBLEMS, HELP }
+	private enum notebook_sup_pages { START, CONTACTS, ENCODER, SESSION, NETWORKSPROBLEMS, HELP, NEWS }
 	private enum notebook_analyze_pages { STATISTICS, JUMPSPROFILE, JUMPSDJOPTIMALFALL, JUMPSWEIGHTFVPROFILE, JUMPSEVOLUTION, JUMPSRJFATIGUE, SPRINT, FORCESENSOR, RACEENCODER }
 
 	private string runningFileName; //useful for knowing if there are two chronojump instances
@@ -603,6 +604,7 @@ public partial class ChronoJumpWindow
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_multi_chronopic_small, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_open_chronojump, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_help_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_news_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_exit_cancel, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_exit_confirm, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		app1s_eventboxes_paint();
@@ -822,19 +824,24 @@ public partial class ChronoJumpWindow
 			image_session_new_blue.Visible = false;
 			image_session_load3_blue.Visible = false;
 			image_session_import1_blue.Visible = false;
+			image_news_blue.Visible = false;
 
 			image_session_new_yellow.Visible = true;
 			image_session_load3_yellow.Visible = true;
 			image_session_import1_yellow.Visible = true;
+			image_news_yellow.Visible = true;
 		} else {
 			image_session_new_blue.Visible = true;
 			image_session_load3_blue.Visible = true;
 			image_session_import1_blue.Visible = true;
+			image_news_blue.Visible = true;
 
 			image_session_new_yellow.Visible = false;
 			image_session_load3_yellow.Visible = false;
 			image_session_import1_yellow.Visible = false;
+			image_news_yellow.Visible = false;
 		}
+		UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_news_frame);
 	}
 
 	private void testNewStuff()
@@ -6770,22 +6777,22 @@ LogB.Debug("mc finished 5");
 		}
 	}
 
-	private void on_button_menu_news_clicked (object o, EventArgs args)
-	{
-		getNews();
-	}
-
 	private bool pulsePingAndNewsGTK ()
 	{
 		if(! pingThread.IsAlive)
 		{
-			if(News.InsertIfNeeded (newsAtDB_l, newsAtServer_l))
+			// 1) Insert if needed
+			if(newsAtServer_l != null && News.InsertIfNeeded (newsAtDB_l, newsAtServer_l))
 			{
-				Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_store_news.png");
+				Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_store_has_new_products.png");
 				image_menu_news.Pixbuf = pixbuf;
 				image_menu_news1.Pixbuf = pixbuf;
 			}
 
+			// 2) update newsAtDB_l
+			newsAtDB_l = SqliteNews.Select(false, -1);
+
+			// 3) end this pulse
 			LogB.Information("pulsePingAndNews ending here");
 			LogB.ThreadEnded();
 			return false;

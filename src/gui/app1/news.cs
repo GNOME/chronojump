@@ -30,25 +30,37 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_news_yellow;
 	[Widget] Gtk.Label label_news_frame;
 	[Widget] Gtk.Alignment alignment_news;
+	[Widget] Gtk.RadioButton radio_news_language_english;
+	[Widget] Gtk.RadioButton radio_news_language_spanish;
 	[Widget] Gtk.Label label_news_title;
 	[Widget] Gtk.Label label_news_description_and_link;
         [Widget] Gtk.Image image_news;
 
 	Pixbuf image_news_pixbuf;
 
-	private void news_fill (List<News> news_l, bool langEs)
+	private void news_fill (bool langEs)
 	{
-		if(news_l.Count == 0)
+		if(newsAtDB_l.Count == 0)
 			return;
 
-		News news = news_l[0];
+		if(langEs)
+			radio_news_language_spanish.Active = true;
+		else
+			radio_news_language_english.Active = true;
 
+		News news = newsAtDB_l[0];
+
+		news_setLabels(news, langEs);
+		news_loadImage(news);
+
+		alignment_news.Show(); // is hidden at beginning to allow being well shown when filled
+	}
+
+	private void news_setLabels(News news, bool langEs)
+	{
 		label_news_title.Text = "<b>" + news.GetTitle(langEs) + "</b>";
 		label_news_title.UseMarkup = true;
 		label_news_description_and_link.Text = news.GetDescription(langEs) + "\n\n" + news.GetLink(langEs);
-
-		news_loadImage(news);
-		alignment_news.Show(); // is hidden at beginning to allow being well shown when filled
 	}
 
 	private void news_loadImage(News news)
@@ -70,4 +82,28 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	private void on_radio_news_language_english_toggled (object o, EventArgs args)
+	{
+		newsLanguageRadioChanged(false);
+	}
+	private void on_radio_news_language_spanish_toggled (object o, EventArgs args)
+	{
+		newsLanguageRadioChanged(true);
+	}
+	private void newsLanguageRadioChanged (bool langEs)
+	{
+		// 1) update preferences.newsLanguageEs and also SQL
+		Sqlite.Open();
+		preferences.newsLanguageEs = Preferences.PreferencesChange(
+				SqlitePreferences.NewsLanguageEs, preferences.newsLanguageEs,
+				langEs);
+		Sqlite.Close();
+
+		// 2) rewrite the labels
+		if(newsAtDB_l.Count == 0)
+			return;
+
+		News news = newsAtDB_l[0];
+		news_setLabels(news, langEs);
+	}
 }

@@ -39,7 +39,7 @@ class SqliteNews : Sqlite
 
 	//server table is created like this:
 	//create table news (code INT NOT NULL AUTO_INCREMENT PRIMARY KEY, category INT, version INT, titleEn char(255), titleEs char(255), linkEn char(255), linkEs char(255), descriptionEn char(255), descriptionEs char(255), linkServerImage char(255));
-	//INSERT INTO news VALUES (NULL, 1, 0, "my title", "mi título", "https://chronojump.org/software/", "https://chronojump.org/es/programa/", "This is the description", "Esta es la descripción", "https://chronojump.org/wp-content/uploads/2019/08/Adaptadors-scaled.jpeg");
+	//INSERT INTO news VALUES (NULL, 1, 0, "Race Analyzer kit", "Kit Analizador Carreras", "https://chronojump.org/product-category/races/race_analyzer_kit/", "https://chronojump.org/es/categoria-producto/carreras/kit_analizador_carreras/", "Device that allows you to analyze and graph races from the time obtained every 3cm of race.\nThe mathematical model implemented by Chronojump allows you to graph speeds, accelerations, forces and instantaneous powers.", "Dispositivo que permite analizar y graficar carreras a partir del tiempo obtenido cada 3cm.\nEl modelo matemático implementado por Chronojump le permite graficar velocidades, aceleraciones, fuerzas y potencias instantáneas.", "https://chronojump.org/wp-content/uploads/2020/12/Race-Analyzer_new_products_400w.jpeg");
 
 
 	protected internal static void createTable ()
@@ -88,7 +88,7 @@ class SqliteNews : Sqlite
 		if(code != -1)
 			codeStr = " WHERE code = " + code;
 
-		dbcmd.CommandText = "SELECT * FROM " + table + codeStr;
+		dbcmd.CommandText = "SELECT * FROM " + table + codeStr + " ORDER BY code DESC";
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

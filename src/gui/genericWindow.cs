@@ -143,6 +143,7 @@ public class GenericWindow
 			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_error);
 			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, hbox_combo_label);
 			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_comment);
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_treeviewload_row);
 		}
 		
 		generic_window.Resizable = false;

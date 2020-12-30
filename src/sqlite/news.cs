@@ -83,7 +83,8 @@ class SqliteNews : Sqlite
 	}
 
 	//code -1 (select all)
-	public static List<News> Select (bool dbconOpened, int code)
+	//limit is 10 by default on show news
+	public static List<News> Select (bool dbconOpened, int code, int limit)
 	{
 		openIfNeeded(dbconOpened);
 
@@ -91,7 +92,7 @@ class SqliteNews : Sqlite
 		if(code != -1)
 			codeStr = " WHERE code = " + code;
 
-		dbcmd.CommandText = "SELECT * FROM " + table + codeStr + " ORDER BY code DESC";
+		dbcmd.CommandText = "SELECT * FROM " + table + codeStr + " ORDER BY code DESC LIMIT " + limit.ToString();
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

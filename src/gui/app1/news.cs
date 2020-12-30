@@ -30,6 +30,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_news_yellow;
 	[Widget] Gtk.Label label_news_frame;
 	[Widget] Gtk.Alignment alignment_news;
+	[Widget] Gtk.HBox hbox_news_newer_older;
+	[Widget] Gtk.Button button_news_newer;
+	[Widget] Gtk.Button button_news_older;
+	[Widget] Gtk.Label label_news_current_all;
 	[Widget] Gtk.RadioButton radio_news_language_english;
 	[Widget] Gtk.RadioButton radio_news_language_spanish;
 	[Widget] Gtk.Label label_news_title;
@@ -40,17 +44,69 @@ public partial class ChronoJumpWindow
 	Pixbuf image_news_pixbuf;
 	private int currentNewsPos;
 
-	private void news_setup()
+	private void news_setup(int currentPos)
 	{
+		currentNewsPos = currentPos;
+
 		if(preferences.newsLanguageEs)
 			radio_news_language_spanish.Active = true;
 		else
 			radio_news_language_english.Active = true;
+
+		news_setNewerOlderStuff();
 	}
 
-	private void news_fill (int currentPos, bool textAndVideo)
+
+	// ----------------- newer, older management ---------->
+	/*
+	 * code 1 is the first news in the server (the older)
+	 * but newsAtDB_l is a SELECT ORDER BY code DESC
+	 * so if there are three news, currentNewsPos == 0 should be the newer (that should be code 3, if there have not been removals on server)
+	 */
+	private void news_setNewerOlderStuff()
 	{
-		currentNewsPos = currentPos;
+		//do not show newer/older controls if there is one product
+		if(newsAtDB_l.Count < 2)
+			return;
+
+		hbox_news_newer_older.Visible = true;
+		newsNewerOlderUpdateWidgets();
+	}
+
+	private void newsNewerOlderUpdateWidgets()
+	{
+		label_news_current_all.Text = string.Format("{0} / {1}", currentNewsPos +1, newsAtDB_l.Count);
+
+		button_news_newer.Sensitive = currentNewsPos > 0;
+		button_news_older.Sensitive = currentNewsPos +1 < newsAtDB_l.Count;
+	}
+
+	private void on_button_news_newer_clicked (object o, EventArgs args)
+	{
+		//just a precaution
+		if(currentNewsPos <= 0)
+			return;
+
+		currentNewsPos --;
+		newsNewerOlderUpdateWidgets();
+		news_fill (true);
+	}
+	private void on_button_news_older_clicked (object o, EventArgs args)
+	{
+		//just a precaution
+		if(currentNewsPos +1 >= newsAtDB_l.Count)
+			return;
+
+		currentNewsPos ++;
+		newsNewerOlderUpdateWidgets();
+		news_fill (true);
+	}
+
+	// <----------------- end of newer, older management ----------
+
+
+	private void news_fill (bool textAndVideo)
+	{
 
 		News news = newsAtDB_l[currentNewsPos];
 
@@ -72,6 +128,7 @@ public partial class ChronoJumpWindow
 
 	private void news_loadImage(News news)
 	{
+		LogB.Information("news_loadImage: " + news.ToString());
 		//TODO: share method for getting extension
 		string extension = "";
 		if(Util.IsJpeg(news.LinkServerImage))
@@ -107,7 +164,7 @@ public partial class ChronoJumpWindow
 		Sqlite.Close();
 
 		// 2) rewrite the labels
-		news_fill (currentNewsPos, false);
+		news_fill (false);
 	}
 
 	private void on_button_new_open_browser_clicked (object o, EventArgs args)

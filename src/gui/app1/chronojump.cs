@@ -2862,12 +2862,6 @@ public partial class ChronoJumpWindow
 			LogB.Information("catched at on_preferences_accepted ()");
 		}
 
-		//forceSensor (check that pen has already been defined)
-		if(pen_black_force_capture != null)
-			pen_black_force_capture.SetLineAttributes (preferences.forceSensorGraphsLineWidth, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
-		if(pen_black_force_ai != null)
-			pen_black_force_ai.SetLineAttributes (preferences.forceSensorGraphsLineWidth, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
-
 		Config.ColorBackground = preferences.colorBackground;
 		Config.ColorBackgroundIsDark = UtilGtk.ColorIsDark(preferences.colorBackground);
 
@@ -2882,9 +2876,21 @@ public partial class ChronoJumpWindow
 		//TODO: only if personWinHide changed
 		initialize_menu_or_menu_tiny();
 
+		// ---------- force sensor changes -------------->
+
+		//(check that pen has already been defined)
+		if(pen_black_force_capture != null)
+			pen_black_force_capture.SetLineAttributes (preferences.forceSensorGraphsLineWidth, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
+		if(pen_black_force_ai != null)
+			pen_black_force_ai.SetLineAttributes (preferences.forceSensorGraphsLineWidth, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
+
+		//TODO: only if have changed
+		setForceSensorAnalyzeABSliderIncrements();
 		// update force_capture_drawingarea
 		if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR)// && radiobutton_force_sensor_analyze_manual.Active)
 			forceSensorDoGraphAI(false);
+
+		// <---------- end of force sensor changes --------------
 	}
 
 

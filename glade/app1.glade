@@ -21164,10 +21164,9 @@ Concentric</property>
                                                             <property name="receives_default">True</property>
                                                             <signal name="clicked" handler="on_button_hscale_force_sensor_ai_a_pre_1s_clicked" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label185">
+                                                            <widget class="GtkLabel" id="label_hscale_force_sensor_ai_a_pre_1s">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label">-1s</property>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -21237,10 +21236,9 @@ Concentric</property>
                                                             <property name="receives_default">True</property>
                                                             <signal name="clicked" handler="on_button_hscale_force_sensor_ai_a_post_1s_clicked" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label261">
+                                                            <widget class="GtkLabel" id="label_hscale_force_sensor_ai_a_post_1s">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label">+1s</property>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -21361,10 +21359,9 @@ Concentric</property>
                                                             <property name="receives_default">True</property>
                                                             <signal name="clicked" handler="on_button_hscale_force_sensor_ai_b_pre_1s_clicked" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label33">
+                                                            <widget class="GtkLabel" id="label_hscale_force_sensor_ai_b_pre_1s">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label">-1s</property>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -21434,10 +21431,9 @@ Concentric</property>
                                                             <property name="receives_default">True</property>
                                                             <signal name="clicked" handler="on_button_hscale_force_sensor_ai_b_post_1s_clicked" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label104">
+                                                            <widget class="GtkLabel" id="label_hscale_force_sensor_ai_b_post_1s">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label">+1s</property>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -22780,6 +22776,12 @@ Concentric</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options">GTK_SHRINK</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -34423,6 +34425,12 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

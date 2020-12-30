@@ -184,6 +184,7 @@ public class PreferencesWindow
 	[Widget] Gtk.SpinButton spin_force_sensor_graphs_line_width;
 	[Widget] Gtk.RadioButton radio_force_sensor_variability_old;
 	[Widget] Gtk.RadioButton radio_force_sensor_variability_cvrmssd;
+	[Widget] Gtk.SpinButton spin_force_sensor_analyze_ab_slider_increment;
 
 	//runEncoder tab
 	[Widget] Gtk.SpinButton spin_force_sensor_acceleration;
@@ -730,6 +731,8 @@ public class PreferencesWindow
 			PreferencesWindowBox.radio_force_sensor_variability_old.Active = true;
 		else
 			PreferencesWindowBox.radio_force_sensor_variability_cvrmssd.Active = true;
+
+		PreferencesWindowBox.spin_force_sensor_analyze_ab_slider_increment.Value = preferences.forceSensorAnalyzeABSliderIncrement;
 
 		//runEncoder -->
 		PreferencesWindowBox.spin_force_sensor_acceleration.Value = preferences.runEncoderMinAccel;
@@ -2142,6 +2145,11 @@ public class PreferencesWindow
 			SqlitePreferences.Update(SqlitePreferences.ForceSensorVariabilityMethod, Preferences.VariabilityMethodEnum.CHRONOJUMP_OLD.ToString(), true);
 			preferences.forceSensorVariabilityMethod = Preferences.VariabilityMethodEnum.CHRONOJUMP_OLD;
 		}
+
+		preferences.forceSensorAnalyzeABSliderIncrement = Preferences.PreferencesChange(
+				SqlitePreferences.ForceSensorAnalyzeABSliderIncrement,
+				preferences.forceSensorAnalyzeABSliderIncrement,
+				Convert.ToDouble(spin_force_sensor_analyze_ab_slider_increment.Value));
 
 		//runEncoder ----
 

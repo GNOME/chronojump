@@ -57,6 +57,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_force_sensor_analyze; //decide between automatic and manual
 //	[Widget] Gtk.HBox hbox_force_sensor_analyze_automatic_options;
 //	[Widget] Gtk.Notebook notebook_force_analyze_automatic;
+	[Widget] Gtk.Label label_hscale_force_sensor_ai_a_pre_1s;
+	[Widget] Gtk.Label label_hscale_force_sensor_ai_a_post_1s;
+	[Widget] Gtk.Label label_hscale_force_sensor_ai_b_pre_1s;
+	[Widget] Gtk.Label label_hscale_force_sensor_ai_b_post_1s;
 	[Widget] Gtk.VBox vbox_force_rfd_duration_end;
 	[Widget] Gtk.Button button_force_sensor_analyze_options;
 	[Widget] Gtk.HBox hbox_force_1;
@@ -581,6 +585,14 @@ public partial class ChronoJumpWindow
 		}
 
 		return new ForceSensorImpulse(active, function, type, num1, num2);
+	}
+
+	private void setForceSensorAnalyzeABSliderIncrements()
+	{
+		label_hscale_force_sensor_ai_a_pre_1s.Text = string.Format("-{0}s", preferences.forceSensorAnalyzeABSliderIncrement);
+		label_hscale_force_sensor_ai_a_post_1s.Text = string.Format("+{0}s", preferences.forceSensorAnalyzeABSliderIncrement);
+		label_hscale_force_sensor_ai_b_pre_1s.Text = string.Format("-{0}s", preferences.forceSensorAnalyzeABSliderIncrement);
+		label_hscale_force_sensor_ai_b_post_1s.Text = string.Format("+{0}s", preferences.forceSensorAnalyzeABSliderIncrement);
 	}
 
 	private void on_button_force_rfd_default_clicked (object o, EventArgs args)
@@ -1697,7 +1709,7 @@ public partial class ChronoJumpWindow
 		double startAMs = fsAI.GetTimeMS(startA);
 		for(int i = startA; i > 0; i --)
 		{
-			if(startAMs - fsAI.GetTimeMS(i) >= 1000)
+			if(startAMs - fsAI.GetTimeMS(i) >= preferences.forceSensorAnalyzeABSliderIncrement * 1000)
 			{
 				hscale_force_sensor_ai_a.Value += i - startA;
 				return;
@@ -1713,7 +1725,7 @@ public partial class ChronoJumpWindow
 		double startAMs = fsAI.GetTimeMS(startA);
 		for(int i = startA; i < fsAI.GetLength() -1; i ++)
 		{
-			if(fsAI.GetTimeMS(i) - startAMs >= 1000)
+			if(fsAI.GetTimeMS(i) - startAMs >= preferences.forceSensorAnalyzeABSliderIncrement * 1000)
 			{
 				hscale_force_sensor_ai_a.Value += i - startA;
 				return;
@@ -1730,7 +1742,7 @@ public partial class ChronoJumpWindow
 		double startBMs = fsAI.GetTimeMS(startB);
 		for(int i = startB; i > 0; i --)
 		{
-			if(startBMs - fsAI.GetTimeMS(i) >= 1000)
+			if(startBMs - fsAI.GetTimeMS(i) >= preferences.forceSensorAnalyzeABSliderIncrement * 1000)
 			{
 				hscale_force_sensor_ai_b.Value += i - startB;
 				return;
@@ -1746,7 +1758,7 @@ public partial class ChronoJumpWindow
 		double startBMs = fsAI.GetTimeMS(startB);
 		for(int i = startB; i < fsAI.GetLength() -1; i ++)
 		{
-			if(fsAI.GetTimeMS(i) - startBMs >= 1000)
+			if(fsAI.GetTimeMS(i) - startBMs >= preferences.forceSensorAnalyzeABSliderIncrement * 1000)
 			{
 				hscale_force_sensor_ai_b.Value += i - startB;
 				return;

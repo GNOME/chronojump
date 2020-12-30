@@ -715,7 +715,7 @@ public partial class ChronoJumpWindow
 		{
 			LogB.Information("Ping thread will start");
 
-			newsAtDB_l = SqliteNews.Select(false, -1);
+			newsAtDB_l = SqliteNews.Select(false, -1, 10);
 			pingThread = new Thread (new ThreadStart (pingAndNewsAtStart));
 			GLib.Idle.Add (new GLib.IdleHandler (pulsePingAndNewsGTK));
 			pingThread.Start();
@@ -6790,7 +6790,7 @@ LogB.Debug("mc finished 5");
 			}
 
 			// 2) update newsAtDB_l
-			newsAtDB_l = SqliteNews.Select(false, -1);
+			newsAtDB_l = SqliteNews.Select(false, -1, 10);
 
 			// 3) if there are news (locally is not 0), make it sensitive
 			if(newsAtDB_l.Count > 0)

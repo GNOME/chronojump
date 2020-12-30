@@ -22,11 +22,12 @@ using System;
 using System.IO; 		//for detect OS //TextWriter
 using System.Collections.Generic; //List<T>
 
+//software will not be managed here! only products
 public class News
 {
 	private int code; //regular integer
-	private int category; //at the moment: 0 software, 1 products
-	private int version; //is NOT version of the software, is version of the news, because can be updated with new text or image. New version of the sofware will be simply a new code
+	private int category; //unused at the moment
+	private int version; //is NOT version of the software (software is not managed here), is version of each news, because can be updated with new text or image. New version of the sofware will be simply a new code
 	private bool viewed;
 	//En and Es because there are two versions of the web site
 	private string titleEn;
@@ -102,27 +103,6 @@ public class News
 
 
 	/* public static methods */
-
-	/*
-	//this method does not use SQL, called by pingThread
-	public static bool AnythingNew (List<News> newsAtDB_l, List<News> newsAtServer_l)
-	{
-		foreach(News nAtServer in newsAtServer_l)
-		{
-			bool found = false;
-			foreach(News nAtDB in newsAtDB_l)
-				if(nAtServer.Code == nAtDB.Code)
-				{
-					found = true;
-					break;
-				}
-			if(! found)
-				return true;
-		}
-
-		return false;
-	}
-	*/
 
 	//this method uses SQL, called by main thread
 	public static bool InsertIfNeeded(List<News> newsAtDB_l, List<News> newsAtServer_l)

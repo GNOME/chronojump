@@ -984,12 +984,21 @@ getBestFit <- function(originalTest
     
     currentMeanError = mean(abs(forceModel$error[!is.nan(forceModel$error)]))
     
+    #Correcting the startSample to the closest to the beginning of the model
+    startSampleCorrected = which.min(abs(originalTest$time - forceModel$T0))
+    endSample = endSample - (startSample - startSampleCorrected)
+    startSample = startSampleCorrected
+    
+    # startTime = originalTest$time[startSample]
+    # endTime = originalTest$time[endSample]
+    
     print(paste("currentMeanError: ", currentMeanError, "lastMeanError: ", lastMeanError))
     print(paste("samples: ", startSample, ":", endSample, sep = ""))
+    print(paste("time without T0:", startTime, "T0:", forceModel$T0, "StartSampleCorrecte:", startSampleCorrected))
     print(paste("time: ", startTime + forceModel$T0, ":", endTime + forceModel$T0))
     
     return(list(model = forceModel
-                , startSample = startSample, startTime = startTime + forceModel$T0
+                , startSample = startSampleCorrected, startTime = startTime + forceModel$T0
                 , endSample = endSample, endTime = endTime + forceModel$T0
     ))
 }

@@ -303,7 +303,7 @@
                                         <property name="sensitive">False</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
-                                        <property name="tooltip" translatable="yes">New products</property>
+                                        <property name="tooltip" translatable="yes">Latest products</property>
                                         <signal name="clicked" handler="on_button_menu_news_clicked" swapped="no"/>
                                         <child>
                                           <widget class="GtkEventBox" id="eventbox_button_menu_news1">
@@ -998,7 +998,7 @@
                                                             <widget class="GtkLabel" id="label_menu_news">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">New products</property>
+                                                            <property name="label" translatable="yes">Latest products</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -42635,7 +42635,7 @@ then click this button.</property>
                                                   <widget class="GtkLabel" id="label_news_frame">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label" translatable="yes">New products</property>
+                                                    <property name="label" translatable="yes">Latest products</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">True</property>

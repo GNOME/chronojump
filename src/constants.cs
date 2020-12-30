@@ -875,7 +875,7 @@ public class Constants
 	}
 	public static string WebsiteNotFoundStr()
 	{
-		return Catalog.GetString("Sorry, cannot open website.");
+		return Catalog.GetString("Sorry, cannot open website."); //note this message is also in Glade
 	}
 	public static string DirectoryCannotOpenStr()
 	{

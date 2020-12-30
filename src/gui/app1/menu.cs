@@ -309,8 +309,15 @@ public partial class ChronoJumpWindow
 
 	private void on_button_menu_news_clicked (object o, EventArgs args)
 	{
-		//fill the widget
-		news_fill(preferences.newsLanguageEs);
+		/*
+		 * this will not happen because button will be unresponsive
+		if(newsAtDB_l.Count == 0)
+			return;
+		*/
+
+		news_setup(); //setup radios: language and arrows
+		news_fill(0, true); //fill the widget
+		alignment_news.Show(); // is hidden at beginning to allow being well shown when filled
 
 		//sensitivity and notebook management
 		menus_and_mode_sensitive(false);

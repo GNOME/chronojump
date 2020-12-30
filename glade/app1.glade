@@ -42624,7 +42624,7 @@ then click this button.</property>
                                                           <widget class="GtkHBox" id="hbox452">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">16</property>
+                                                            <property name="spacing">8</property>
                                                             <child>
                                                             <widget class="GtkRadioButton" id="radio_news_language_english">
                                                             <property name="label" translatable="yes">English</property>
@@ -42632,7 +42632,7 @@ then click this button.</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="active">True</property>
-                                                            <property name="draw_indicator">True</property>
+                                                            <property name="draw_indicator">False</property>
                                                             <signal name="toggled" handler="on_radio_news_language_english_toggled" swapped="no"/>
                                                             </widget>
                                                             <packing>
@@ -42648,7 +42648,7 @@ then click this button.</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="active">True</property>
-                                                            <property name="draw_indicator">True</property>
+                                                            <property name="draw_indicator">False</property>
                                                             <property name="group">radio_news_language_english</property>
                                                             <signal name="toggled" handler="on_radio_news_language_spanish_toggled" swapped="no"/>
                                                             </widget>

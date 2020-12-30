@@ -315,8 +315,12 @@ public partial class ChronoJumpWindow
 			return;
 		*/
 
-		news_setup(); //setup radios: language and arrows
-		news_fill(0, true); //fill the widget
+		//news print debug
+		foreach(News news in newsAtDB_l)
+			LogB.Information(news.ToString());
+
+		news_setup(0); //setup radios: language and arrows
+		news_fill(true); //fill the widget
 		alignment_news.Show(); // is hidden at beginning to allow being well shown when filled
 
 		//sensitivity and notebook management

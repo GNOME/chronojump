@@ -231,7 +231,7 @@ public class Json
 			string linkEs = jsonNews ["linkEs"];
 			string descriptionEn = jsonNews ["descriptionEn"];
 			string descriptionEs = jsonNews ["descriptionEs"];
-			string linkServerImage = jsonNews ["linkImage"];
+			string linkServerImage = jsonNews ["linkServerImage"];
 
 			news_l.Add(new News(code, category, version, false,
 						titleEn, titleEs, linkEn, linkEs, descriptionEn, descriptionEs, linkServerImage));

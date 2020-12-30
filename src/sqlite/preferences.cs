@@ -96,6 +96,7 @@ class SqlitePreferences : Sqlite
 	public const string ForceSensorMIFDurationMode = "forceSensorMIFDurationMode";
 	public const string ForceSensorMIFDurationSeconds = "forceSensorMIFDurationSeconds";
 	public const string ForceSensorMIFDurationPercent = "forceSensorMIFDurationPercent";
+	public const string ForceSensorAnalyzeABSliderIncrement = "forceSensorAnalyzeABSliderIncrement";
 
 	//runEncoder
 	public const string RunEncoderMinAccel = "runEncoderMinAccel";
@@ -281,6 +282,7 @@ class SqlitePreferences : Sqlite
 				Insert (ForceSensorMIFDurationMode, Preferences.ForceSensorMIFDurationModes.SECONDS.ToString(), dbcmdTr);
 				Insert (ForceSensorMIFDurationSeconds, "2", dbcmdTr);
 				Insert (ForceSensorMIFDurationPercent, "5", dbcmdTr);
+				Insert (ForceSensorAnalyzeABSliderIncrement, "1", dbcmdTr);
 
 				//runEncoder
 				Insert (RunEncoderMinAccel, "10.0", dbcmdTr);
@@ -692,6 +694,10 @@ class SqlitePreferences : Sqlite
 			else if(reader[0].ToString() == ForceSensorMIFDurationPercent)
 				preferences.forceSensorMIFDurationPercent = Convert.ToInt32(
 						reader[1].ToString());
+
+			else if(reader[0].ToString() == ForceSensorAnalyzeABSliderIncrement)
+				preferences.forceSensorAnalyzeABSliderIncrement = Convert.ToDouble(
+						Util.ChangeDecimalSeparator(reader[1].ToString()));
 
 			//runEncoder
 			else if(reader[0].ToString() == RunEncoderMinAccel)

@@ -122,9 +122,10 @@ public class Preferences
 	public double forceSensorElasticConMinDispl;
 	public int forceSensorNotElasticEccMinForce;
 	public int forceSensorNotElasticConMinForce;
-	public int forceSensorGraphsLineWidth;
 	public enum VariabilityMethodEnum { CHRONOJUMP_OLD, CVRMSSD };
 	public VariabilityMethodEnum forceSensorVariabilityMethod;
+	public double forceSensorAnalyzeABSliderIncrement;
+	public int forceSensorGraphsLineWidth;
 
 	//runEncoder
 	public double runEncoderMinAccel;

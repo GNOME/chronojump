@@ -6792,7 +6792,14 @@ LogB.Debug("mc finished 5");
 			// 2) update newsAtDB_l
 			newsAtDB_l = SqliteNews.Select(false, -1);
 
-			// 3) end this pulse
+			// 3) if there are news (locally is not 0), make it sensitive
+			if(newsAtDB_l.Count > 0)
+			{
+				button_menu_news.Sensitive = true;
+				button_menu_news1.Sensitive = true;
+			}
+
+			// 4) end this pulse
 			LogB.Information("pulsePingAndNews ending here");
 			LogB.ThreadEnded();
 			return false;

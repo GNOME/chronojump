@@ -34,26 +34,33 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_news_language_spanish;
 	[Widget] Gtk.Label label_news_title;
 	[Widget] Gtk.Label label_news_description_and_link;
+	[Widget] Gtk.Label label_news_open_error;
         [Widget] Gtk.Image image_news;
 
 	Pixbuf image_news_pixbuf;
+	private int currentNewsPos;
 
-	private void news_fill (bool langEs)
+	private void news_setup()
 	{
-		if(newsAtDB_l.Count == 0)
-			return;
-
-		if(langEs)
+		if(preferences.newsLanguageEs)
 			radio_news_language_spanish.Active = true;
 		else
 			radio_news_language_english.Active = true;
+	}
 
-		News news = newsAtDB_l[0];
+	private void news_fill (int currentPos, bool textAndVideo)
+	{
+		currentNewsPos = currentPos;
 
-		news_setLabels(news, langEs);
-		news_loadImage(news);
+		News news = newsAtDB_l[currentNewsPos];
 
-		alignment_news.Show(); // is hidden at beginning to allow being well shown when filled
+		news_setLabels(news, preferences.newsLanguageEs);
+
+		if(textAndVideo)
+			news_loadImage(news);
+
+		//hide the error opening web (if it is visible)
+		label_news_open_error.Visible = false;
 	}
 
 	private void news_setLabels(News news, bool langEs)
@@ -100,10 +107,14 @@ public partial class ChronoJumpWindow
 		Sqlite.Close();
 
 		// 2) rewrite the labels
-		if(newsAtDB_l.Count == 0)
-			return;
+		news_fill (currentNewsPos, false);
+	}
 
-		News news = newsAtDB_l[0];
-		news_setLabels(news, langEs);
+	private void on_button_new_open_browser_clicked (object o, EventArgs args)
+	{
+		string link = newsAtDB_l[currentNewsPos].GetLink(preferences.newsLanguageEs);
+
+		LogB.Information("Opening browser (r mac install) to: " + link);
+		label_news_open_error.Visible = ! Util.OpenFolder(link);
 	}
 }

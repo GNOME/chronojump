@@ -68,6 +68,7 @@ public partial class ChronoJumpWindow
 	private RunEncoderExercise currentRunEncoderExercise;
 	DateTime runEncoderTimeStartCapture;
 	bool runEncoderCaptureSimulated;
+	string runEncoderFirmwareVersion;
 
 	static string lastRunEncoderFile = "";
 	static string lastRunEncoderFullPath = "";
@@ -139,8 +140,8 @@ public partial class ChronoJumpWindow
 
 		LogB.Information(" RE connect 6: get version");
 
-		string version = runEncoderCheckVersionDo();
-		LogB.Information("Version found: [" + version + "]");
+		runEncoderFirmwareVersion = runEncoderCheckVersionDo();
+		LogB.Information("Version found: [" + runEncoderFirmwareVersion + "]");
 
 		portREOpened = true;
 		runEncoderPulseMessage = "Connected!";
@@ -212,6 +213,23 @@ public partial class ChronoJumpWindow
 		}
 
 		return true;
+	}
+
+	private string runEncoderReceiveFeedback(string expected)
+	{
+		string str = "";
+		do {
+			Thread.Sleep(100); //sleep to let arduino start reading
+			try {
+				str = portRE.ReadLine();
+			} catch {
+				runEncoderProcessError = true;
+				return "";
+			}
+			LogB.Information("runEncoder feedback string: " + str);
+		}
+		while(! str.Contains(expected));
+		return str;
 	}
 
 	private void on_runs_encoder_capture_clicked ()
@@ -411,6 +429,19 @@ public partial class ChronoJumpWindow
 				return;
 
 		lastChangedTime = 0;
+
+                double versionDouble = Convert.ToDouble(Util.ChangeDecimalSeparator(runEncoderFirmwareVersion));
+		if(preferences.runEncoderPPS != 10 && //10 is the default value on the .ino
+				versionDouble >= Convert.ToDouble(Util.ChangeDecimalSeparator("0.4"))
+				)
+		{
+			if(! runEncoderSendCommand(string.Format("set_pps:{0};", preferences.runEncoderPPS), "Sending pps", "Catched at set_pps"))
+				return;
+
+			//read confirmation data
+			if(runEncoderReceiveFeedback("pps set to") == "")
+				return;
+		}
 
 		string command = "start_capture:";
 		if(runEncoderCaptureSimulated)

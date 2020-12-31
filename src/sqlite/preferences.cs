@@ -73,6 +73,7 @@ class SqlitePreferences : Sqlite
 	public const string EncoderCaptureMainVariableLowerValue = "encoderCaptureMainVariableLowerValue";
 	public const string EncoderCaptureFeedbackEccon = "encoderCaptureFeedbackEccon";
 	public const string EncoderCaptureInertialEccOverloadMode = "encoderCaptureInertialEccOverloadMode";
+	public const string EncoderCaptureShowLoss = "encoderCaptureShowLoss";
 
 	//forceSensor
 	public const string ForceSensorCaptureWidthSeconds = "forceSensorCaptureWidthSeconds";
@@ -100,6 +101,7 @@ class SqlitePreferences : Sqlite
 
 	//runEncoder
 	public const string RunEncoderMinAccel = "runEncoderMinAccel";
+	public const string RunEncoderPPS = "runEncoderPPS";
 
 	//advanced
 	public const string ImporterPythonVersion = "importerPythonVersion";
@@ -214,6 +216,7 @@ class SqlitePreferences : Sqlite
 				Insert (EncoderCaptureMainVariableGreaterValue, "90", dbcmdTr);
 				Insert (EncoderCaptureMainVariableLowerActive, "False", dbcmdTr);
 				Insert (EncoderCaptureMainVariableLowerValue, "70", dbcmdTr);
+				Insert (EncoderCaptureShowLoss, "True", dbcmdTr);
 				Insert ("encoderCaptureMinHeightGravitatory", "20", dbcmdTr);
 				Insert ("encoderCaptureMinHeightInertial", "5", dbcmdTr);
 				Insert ("encoderCaptureInertialDiscardFirstN", "3", dbcmdTr);
@@ -286,6 +289,7 @@ class SqlitePreferences : Sqlite
 
 				//runEncoder
 				Insert (RunEncoderMinAccel, "10.0", dbcmdTr);
+				Insert (RunEncoderPPS, "10", dbcmdTr);
 
 				Insert (Preferences.runEncoderAnalyzeAccel.Name,
 					Preferences.runEncoderAnalyzeAccel.SqlDefaultName, dbcmdTr);
@@ -516,6 +520,8 @@ class SqlitePreferences : Sqlite
 				preferences.encoderCaptureMainVariableLowerActive = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == EncoderCaptureMainVariableLowerValue)
 				preferences.encoderCaptureMainVariableLowerValue = Convert.ToInt32(reader[1].ToString());
+			else if(reader[0].ToString() == EncoderCaptureShowLoss)
+				preferences.encoderCaptureShowLoss = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "encoderCaptureMinHeightGravitatory")
 				preferences.encoderCaptureMinHeightGravitatory = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == "encoderCaptureMinHeightInertial")
@@ -703,6 +709,8 @@ class SqlitePreferences : Sqlite
 			else if(reader[0].ToString() == RunEncoderMinAccel)
 				preferences.runEncoderMinAccel = Convert.ToDouble(
 						Util.ChangeDecimalSeparator(reader[1].ToString()));
+			else if(reader[0].ToString() == RunEncoderPPS)
+				preferences.runEncoderPPS = Convert.ToInt32(reader[1].ToString());
 
 			else if(reader[0].ToString() == Preferences.runEncoderAnalyzeAccel.Name)
 				Preferences.runEncoderAnalyzeAccel.SetCurrentFromSQL(reader[1].ToString());

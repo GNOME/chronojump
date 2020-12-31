@@ -7063,6 +7063,10 @@ LogB.Debug("mc finished 5");
 				preferences.encoderCaptureMainVariableLowerValue,
 				repetitiveConditionsWin.EncoderAutomaticLowerValue);
 
+			preferences.encoderCaptureShowLoss = Preferences.PreferencesChange(
+				SqlitePreferences.EncoderCaptureShowLoss,
+				preferences.encoderCaptureShowLoss,
+				repetitiveConditionsWin.EncoderCaptureShowLoss);
 
 			Sqlite.Close();
 
@@ -7085,7 +7089,7 @@ LogB.Debug("mc finished 5");
 					encoderGraphDoPlot.NewPreferences(preferences);
 					encoderGraphDoPlot.Start(
 							mainVariableStr, mainVariableHigher, mainVariableLower,
-							secondaryVariableStr,
+							secondaryVariableStr, preferences.encoderCaptureShowLoss,
 							false,
 							findEccon(true),
 							repetitiveConditionsWin,

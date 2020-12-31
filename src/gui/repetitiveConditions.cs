@@ -84,6 +84,7 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.RadioButton radio_encoder_eccon_con;
 	[Widget] Gtk.CheckButton check_encoder_inertial_ecc_overload;
 	[Widget] Gtk.CheckButton check_encoder_inertial_ecc_overload_percent;
+	[Widget] Gtk.CheckButton check_encoder_show_loss;
 
 	[Widget] Gtk.Notebook notebook_encoder_conditions;
 	[Widget] Gtk.CheckButton checkbutton_encoder_height_higher;
@@ -265,6 +266,7 @@ public class RepetitiveConditionsWindow
 				preferences.encoderCaptureMainVariableLowerActive,
 				preferences.encoderCaptureMainVariableLowerValue,
 				preferences.encoderCaptureFeedbackEccon,
+				preferences.encoderCaptureShowLoss,
 				encoderRhythm,
 				preferences.forceSensorCaptureFeedbackActive,
 				preferences.forceSensorCaptureFeedbackAt,
@@ -294,6 +296,7 @@ public class RepetitiveConditionsWindow
 			bool encoderCaptureMainVariableLowerActive,
 			int encoderCaptureMainVariableLowerValue,
 			Preferences.EncoderPhasesEnum encoderCaptureFeedbackEccon,
+			bool encoderCaptureShowLoss,
 			EncoderRhythm encoderRhythm,
 			bool forceSensorCaptureFeedbackActive,
 			int forceSensorCaptureFeedbackAt,
@@ -350,6 +353,7 @@ public class RepetitiveConditionsWindow
 				check_encoder_inertial_ecc_overload_percent.Active = true;
 				check_encoder_inertial_ecc_overload_percent.Visible = true;
 			}
+			check_encoder_show_loss.Active = encoderCaptureShowLoss;
 
 			if(encoderSecondaryVariableShow)
 				check_encoder_show_secondary_variable.Active = true;
@@ -1093,6 +1097,10 @@ public class RepetitiveConditionsWindow
 			else
 				return Preferences.encoderCaptureEccOverloadModes.NOT_SHOW;
 		}
+	}
+
+	public bool EncoderCaptureShowLoss {
+		get { return check_encoder_show_loss.Active; }
 	}
 
 	public double GetMainVariableHigher(string mainVariable) 

@@ -38,6 +38,7 @@ public class EncoderGraphDoPlot
 	private double mainVariableHigher;
 	private double mainVariableLower;
 	private string secondaryVariable;
+	private bool showLoss;
 	private bool capturing;
 	private string eccon;
 	private RepetitiveConditionsWindow repetitiveConditionsWin;
@@ -144,7 +145,8 @@ public class EncoderGraphDoPlot
 
 	public void Start (
 			string mainVariable, double mainVariableHigher, double mainVariableLower,
-			string secondaryVariable, bool capturing, string eccon,
+			string secondaryVariable, bool showLoss,
+			bool capturing, string eccon,
 			RepetitiveConditionsWindow repetitiveConditionsWin,
 			bool hasInertia, bool playSoundsFromFile,
 			ArrayList data9Variables, Gtk.ListStore encoderCaptureListStore,
@@ -155,6 +157,7 @@ public class EncoderGraphDoPlot
 		this.mainVariableHigher = mainVariableHigher;
 		this.mainVariableLower = mainVariableLower;
 		this.secondaryVariable = secondaryVariable;
+		this.showLoss = showLoss;
 		this.capturing = capturing;
 		this.eccon = eccon;
 		this.repetitiveConditionsWin = repetitiveConditionsWin;
@@ -936,7 +939,7 @@ public class EncoderGraphDoPlot
 		string lossString = "";
 
 		//do not show lossString on Preferences.EncoderPhasesEnum.ECC
-		if(eccon == "c" || preferences.encoderCaptureFeedbackEccon != Preferences.EncoderPhasesEnum.ECC)
+		if( showLoss && (eccon == "c" || preferences.encoderCaptureFeedbackEccon != Preferences.EncoderPhasesEnum.ECC) )
 		{
 			title += "; ";
 			lossString = "Loss: ";
@@ -1016,10 +1019,13 @@ public class EncoderGraphDoPlot
 				layout_encoder_capture_curves_bars_text);
 
 		// 4) paint loss string
-		layout_encoder_capture_curves_bars_text.SetMarkup(lossString);
-		pixmap.DrawLayout (pen_gray, //darker than pen_gray_loss
-				Convert.ToInt32( (graphWidth/2) - titleFullWidth/2 + titleWidth), 0, //x, y
-				layout_encoder_capture_curves_bars_text);
+		if(showLoss)
+		{
+			layout_encoder_capture_curves_bars_text.SetMarkup(lossString);
+			pixmap.DrawLayout (pen_gray, //darker than pen_gray_loss
+					Convert.ToInt32( (graphWidth/2) - titleFullWidth/2 + titleWidth), 0, //x, y
+					layout_encoder_capture_curves_bars_text);
+		}
 
 		// 5) paint workString && impulse string;
 		layout_encoder_capture_curves_bars_text.SetMarkup(workString);
@@ -1039,7 +1045,7 @@ public class EncoderGraphDoPlot
 		// <------ end plot title
 
 		// paint loss arrow
-		if(eccon == "c" || preferences.encoderCaptureFeedbackEccon != Preferences.EncoderPhasesEnum.ECC)
+		if( showLoss && (eccon == "c" || preferences.encoderCaptureFeedbackEccon != Preferences.EncoderPhasesEnum.ECC) )
 		{
 			if(maxThisSetValidAndCon > 0 && maxThisSetValidAndConPos < minThisSetValidAndConPos)
 			{

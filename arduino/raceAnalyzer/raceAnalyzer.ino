@@ -31,7 +31,7 @@ bool rcaState = false;
 //Version of the firmware
 String version = "Race_Analyzer-0.4";
 
-int pps = 10; //Pulses Per Sample. How many pulses are needed to get a sample
+int pps = 10; //Pulses Per Sample. How many pulses are needed to get a sample. Note 10 is the default value and Chronojump knows it, so it does sent pps if is different than 10 there.
 int ppsAddress = 0; //Where is stored the pps value in the EEPROM
 
 int offset = 1030;

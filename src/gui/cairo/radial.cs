@@ -122,7 +122,7 @@ public class CairoRadial : CairoGeneric
 		speedMax = 0;
 	}
 
-	public void GraphSpeed(double speed)
+	public void GraphSpeedAndDistance(double speed, double distance)
 	{
 		if(speed > speedMax)
 			speedMax = speed;
@@ -135,7 +135,10 @@ public class CairoRadial : CairoGeneric
 		graphLineFromCenter(speed, colorArrow);
 		printText(Convert.ToInt32(margin + graphWidth/2),
 				Convert.ToInt32(margin + (.66 * graphHeight)),
-				0, textHeight, "Speed: " + Util.TrimDecimals(speed, 1) + " m/s", g, alignTypes.CENTER);
+				0, textHeight,
+				"Speed: " + Util.TrimDecimals(speed, 1) + " m/s" +
+				"\nDistance: " + Util.TrimDecimals(distance, 3) + " m",
+				g, alignTypes.CENTER);
 
 		if(speedMax > speed)
 			graphLineFromCenter(speedMax, gray);

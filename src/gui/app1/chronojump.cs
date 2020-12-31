@@ -3233,7 +3233,7 @@ public partial class ChronoJumpWindow
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
 			alignment_button_threshold.Visible = false;
 			alignment_button_force_sensor_adjust.Visible = true;
-			button_force_sensor_sync.Visible = true;
+			//button_force_sensor_sync.Visible = true; //TODO: show again when it fully works, now is hidden for 2.1.0 release
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 
 			event_graph_label_graph_test.Visible = true;

@@ -5451,7 +5451,7 @@ public partial class ChronoJumpWindow
 			double mainVariableLower = repetitiveConditionsWin.GetMainVariableLower(mainVariable);
 			encoderGraphDoPlot.Start(
 					mainVariable, mainVariableHigher, mainVariableLower,
-					secondaryVariable,
+					secondaryVariable, preferences.encoderCaptureShowLoss,
 					false, //not capturing
 					findEccon(true),
 					repetitiveConditionsWin,
@@ -6322,7 +6322,7 @@ public partial class ChronoJumpWindow
 				encoderGraphDoPlot.NewPreferences(preferences);
 				encoderGraphDoPlot.Start(
 						mainVariable, mainVariableHigher, mainVariableLower,
-						secondaryVariable,
+						secondaryVariable, preferences.encoderCaptureShowLoss,
 						true, //capturing
 						findEccon(true),
 						repetitiveConditionsWin,
@@ -6825,7 +6825,7 @@ public partial class ChronoJumpWindow
 				encoderGraphDoPlot.NewPreferences(preferences);
 				encoderGraphDoPlot.Start(
 						mainVariable, mainVariableHigher, mainVariableLower,
-						secondaryVariable,
+						secondaryVariable, preferences.encoderCaptureShowLoss,
 						false, //not capturing
 						findEccon(true),
 						repetitiveConditionsWin,

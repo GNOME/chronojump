@@ -129,6 +129,7 @@ public class Preferences
 
 	//runEncoder
 	public double runEncoderMinAccel;
+	public double runEncoderPPS;
 
 	public static string runEncoderAnalyzeAFPSqlNO = "NO";
 	public static string runEncoderAnalyzeAFPSqlFITTED = "FITTED";
@@ -227,6 +228,7 @@ public class Preferences
 	public int encoderCaptureMainVariableLowerValue;
 	public enum EncoderPhasesEnum { BOTH, ECC, CON}
 	public EncoderPhasesEnum encoderCaptureFeedbackEccon;
+	public bool encoderCaptureShowLoss;
 
 	//forceSensor
 	public string forceSensorTareDateTime;

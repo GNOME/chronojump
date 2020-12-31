@@ -190,7 +190,16 @@ public partial class ChronoJumpWindow
 
 		// you get the iter and the model if something is selected
 		if (((TreeSelection)o).GetSelected(out model, out iter))
-			button_sprint.Sensitive = true;
+		{
+			//only allow sprint calculation when there are three tracks
+			string splitTimes = (string) model.GetValue(iter, 3);
+			if(splitTimes.Split(new char[] {';'}).Length >= 3)
+				button_sprint.Sensitive = true;
+			else
+				button_sprint.Sensitive = false;
+		}
+		else
+			button_sprint.Sensitive = false;
 	}
 
 	public static bool GetSelectedSprint (Gtk.TreeView tv)

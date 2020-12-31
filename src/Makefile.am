@@ -468,7 +468,7 @@ RESOURCES = \
 	../images/md/ic_close_blue_24dp_1x.png,image_close_blue.png \
 	../images/md/ic_close_red_24dp_1x.png,image_close.png \
 	../images/md/ic_close_blue_24dp_2x.png,image_close_big.png \
-	../images/md/ic_power_settings_new_blue_24dp_1x.png,image_quit.png \
+	../images/md/ic_power_settings_new_red_24dp_1x.png,image_quit.png \
 	../images/md/weight.png,image_weight.png \
 	../images/md/weight_yellow.png,image_weight_yellow.png \
 	../images/md/ic_settings_backup_restore_blue_24dp_1x.png,image_inertia.png \

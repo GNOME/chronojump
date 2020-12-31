@@ -61,6 +61,7 @@ public partial class ChronoJumpWindow
 	static bool runEncoderProcessCancel;
 	static bool runEncoderProcessError;
         static string runEncoderPulseMessage = "";
+	static double runEncoderCaptureDistance = 0;
 	static double runEncoderCaptureSpeed = 0;
 	
 	private RunEncoder currentRunEncoder;
@@ -237,6 +238,8 @@ public partial class ChronoJumpWindow
 		runEncoderPulseMessage = "";
 		runEncoderButtonsSensitive(false);
 		sensitiveLastTestButtons(false);
+
+		runEncoderCaptureDistance = 0;
 		runEncoderCaptureSpeed = 0;
 		if(cairoRadial != null)
 			cairoRadial.ResetSpeedMax();
@@ -510,7 +513,9 @@ public partial class ChronoJumpWindow
 			{
 				if(timePre > 0)
 				{
-					runEncoderCaptureSpeed = UtilAll.DivideSafe(Math.Abs(encoderDisplacement) * 1000000 * 0.003003, (time - timePre)); //hardcoded: same as sprintEncoder.R
+					runEncoderCaptureDistance = Math.Abs(encoderDisplacement) * 1000000 * 0.003003; //hardcoded: same as sprintEncoder.R
+					runEncoderCaptureSpeed = UtilAll.DivideSafe(runEncoderCaptureDistance, (time - timePre));
+
 					LogB.Information(string.Format("encoderDisplacement: {0}; runEncoderCaptureSpeed: {1}; time: {2}; timePre: {3}",
 								encoderDisplacement, runEncoderCaptureSpeed, time, timePre));
 				}
@@ -1322,8 +1327,7 @@ public partial class ChronoJumpWindow
 		{
 			event_execute_label_message.Text = runEncoderPulseMessage;
 
-			//label_race_analyzer_capture_speed.Text = Util.TrimDecimals(runEncoderCaptureSpeed,3) + " m/s";
-			cairoRadial.GraphSpeed(runEncoderCaptureSpeed);
+			cairoRadial.GraphSpeedAndDistance(runEncoderCaptureSpeed, runEncoderCaptureDistance);
 
 			if(runEncoderPulseMessage == capturingMessage)
 				event_execute_button_finish.Sensitive = true;

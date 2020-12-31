@@ -23,6 +23,7 @@
 using System;
 using Gtk;
 using Glade;
+//using System.Collections.Generic; //List
 
 public partial class ChronoJumpWindow
 {
@@ -61,7 +62,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_menu_guiTest1;
 
 	[Widget] Gtk.Viewport viewport_image_logo_icon;
-
+	[Widget] Gtk.HBox hbox_top_contacts;
 
 	private void menuTinyInitialize ()
 	{
@@ -73,7 +74,19 @@ public partial class ChronoJumpWindow
 		 * +4 is vbox_contacts spacing
 		 * (same for encoder)
 		 */
-		alignment_menu_tiny.TopPadding = (uint) scrolled_rest_time_contacts.SizeRequest().Height + 4 + 4;
+		/*
+		List <int> l = new List<int>();
+		l.Add(hbox_top_contacts.SizeRequest().Height);
+		l.Add(hbox_encoder_sup_capture_analyze.SizeRequest().Height);
+		int maxHeight = getMenuButtonsMaxWidthOrHeight(l);
+
+		alignment_menu_tiny.TopPadding = (uint) maxHeight + 4;
+		*/
+
+		//doing with Allocation, but wait 1s to have correctly allocated widgets in order to vertical align menu
+		//of course it will be much better using a table, but I do not want to risk in moving all big notebooks to a table cell
+
+		GLib.Timeout.Add(200, new GLib.TimeoutHandler(menuTinyTopAlign));
 
 		image_logo_contacts_transp.Visible = false;
 		image_logo_contacts.Visible = false;
@@ -88,6 +101,30 @@ public partial class ChronoJumpWindow
 			image_logo_icon_transp.Visible = false;
 			frame_image_logo_icon.Visible = true;
 		}
+	}
+
+	private bool menuTinyTopAlign()
+	{
+		/*
+		sadly this is not a correct info on Chronojump starts: says 52 when it should be 48
+		but called in this Timeout it works as a charm
+
+		LogB.Information("notebook_capture_analyze.Allocation.Y = " + notebook_capture_analyze.Allocation.Y.ToString());
+		LogB.Information("hbox_top_contacts.Allocation.Y = " + hbox_top_contacts.Allocation.Y.ToString());
+		LogB.Information("hbox_top_contacts.Allocation.Height = " + hbox_top_contacts.Allocation.Height.ToString());
+		LogB.Information("button_show_modes_contacts.Allocation.Height = " + button_show_modes_contacts.Allocation.Height.ToString());
+		LogB.Information("hbox_contacts_sup_capture_analyze_two_buttons.Allocation.Height = " + hbox_contacts_sup_capture_analyze_two_buttons.Allocation.Height.ToString());
+		LogB.Information("hbox_top_person.Allocation.Height = " + hbox_top_person.Allocation.Height.ToString());
+		LogB.Information("hbox_other.Allocation.Height = " + hbox_other.Allocation.Height.ToString());
+		LogB.Information("hbox_top_contacts.Allocation.Height = " + hbox_top_contacts.Allocation.Height.ToString());
+
+		//LogB.Information("notebook_capture_analyze.Allocation.Y = " + notebook_capture_analyze.Allocation.Y.ToString());
+		//LogB.Information("notebook_encoder_sup.Allocation.Y = " + notebook_encoder_sup.Allocation.Y.ToString());
+		*/
+
+		alignment_menu_tiny.TopPadding = (uint) notebook_capture_analyze.Allocation.Y;
+
+		return false; //do not call this again
 	}
 
 	private void menuTinySetColors ()

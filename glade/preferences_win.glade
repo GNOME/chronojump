@@ -5056,12 +5056,12 @@ It starts before and arrives there with some speed.</property>
                                         <property name="can_focus">False</property>
                                         <property name="spacing">20</property>
                                         <child>
-                                          <widget class="GtkHBox" id="hbox_force_sensor_acceleration_start">
+                                          <widget class="GtkHBox" id="hbox_run_encoder_acceleration_start">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="spacing">6</property>
                                             <child>
-                                              <widget class="GtkLabel" id="label_force_sensor_acceleration">
+                                              <widget class="GtkLabel" id="label_run_encoder_acceleration">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="label" translatable="yes">Minimum acceleration</property>
@@ -5073,7 +5073,7 @@ It starts before and arrives there with some speed.</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkSpinButton" id="spin_force_sensor_acceleration">
+                                              <widget class="GtkSpinButton" id="spin_run_encoder_acceleration">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="invisible_char">●</property>

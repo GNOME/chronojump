@@ -187,7 +187,7 @@ public class PreferencesWindow
 	[Widget] Gtk.SpinButton spin_force_sensor_analyze_ab_slider_increment;
 
 	//runEncoder tab
-	[Widget] Gtk.SpinButton spin_force_sensor_acceleration;
+	[Widget] Gtk.SpinButton spin_run_encoder_acceleration;
 
 	//multimedia tab
 	[Widget] Gtk.CheckButton checkbutton_volume;
@@ -735,7 +735,7 @@ public class PreferencesWindow
 		PreferencesWindowBox.spin_force_sensor_analyze_ab_slider_increment.Value = preferences.forceSensorAnalyzeABSliderIncrement;
 
 		//runEncoder -->
-		PreferencesWindowBox.spin_force_sensor_acceleration.Value = preferences.runEncoderMinAccel;
+		PreferencesWindowBox.spin_run_encoder_acceleration.Value = preferences.runEncoderMinAccel;
 
 		//language -->
 		if(preferences.language == "")
@@ -2156,7 +2156,7 @@ public class PreferencesWindow
 		preferences.runEncoderMinAccel = Preferences.PreferencesChange(
 				SqlitePreferences.RunEncoderMinAccel,
 				preferences.runEncoderMinAccel,
-				Convert.ToDouble(spin_force_sensor_acceleration.Value));
+				Convert.ToDouble(spin_run_encoder_acceleration.Value));
 
 		//multimedia ----
 		if( preferences.volumeOn != PreferencesWindowBox.checkbutton_volume.Active ) {

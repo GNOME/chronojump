@@ -32,6 +32,8 @@ public class ChronojumpLogo
 	private bool timer;
 	private double alpha;
 	private double size;
+	private double xpos;
+	private double ypos;
 	private Stopwatch stopwatch1;
 	private Stopwatch stopwatch2;
 	private Stopwatch stopwatch3;
@@ -61,6 +63,8 @@ public class ChronojumpLogo
 		timer = true;
 		alpha = 1.0;
 		size = 1.0;
+		xpos = 0;
+		ypos = .5;
 		stopwatch1 = new Stopwatch();
 		stopwatch2 = new Stopwatch();
 		stopwatch3 = new Stopwatch();
@@ -90,8 +94,13 @@ public class ChronojumpLogo
 	{
                 Cairo.Context cr =  Gdk.CairoHelper.Create(drawingarea.GdkWindow);
 
-                int x = drawingarea.Allocation.Width / 2;
-                int y = drawingarea.Allocation.Height / 2;
+		double elapsedMs1 = stopwatch1.Elapsed.TotalMilliseconds;
+
+		xpos = UtilAll.DivideSafeFraction(elapsedMs1, 500);
+		ypos = Math.Pow(xpos,3);
+
+                int x = Convert.ToInt32(xpos * drawingarea.Allocation.Width / 2);
+                int y = Convert.ToInt32(ypos * drawingarea.Allocation.Height / 2);
 
                 cr.SetSourceRGB(.055, .118, .275);
                 cr.Paint();
@@ -103,7 +112,7 @@ public class ChronojumpLogo
 		bool showVersion = false;
 		if (size <= 80)
 			//size += 0.6;
-			size = stopwatch1.Elapsed.TotalMilliseconds / 20.0;
+			size = elapsedMs1 / 20.0;
 
 		if(size > 20)
 		{
@@ -133,7 +142,7 @@ public class ChronojumpLogo
                 cr.SetFontSize(size);
                 cr.SetSourceRGB(1, 1, 1);
 
-		string	message = "CHRONOJUMP   2.0";
+		string	message = "CHRONOJUMP   2.1";
                 TextExtents extents = cr.TextExtents(message);
 
                 cr.MoveTo(x - extents.Width/2, y + extents.Height/2);

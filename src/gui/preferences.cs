@@ -188,6 +188,7 @@ public class PreferencesWindow
 
 	//runEncoder tab
 	[Widget] Gtk.SpinButton spin_run_encoder_acceleration;
+	[Widget] Gtk.SpinButton spin_run_encoder_pps;
 
 	//multimedia tab
 	[Widget] Gtk.CheckButton checkbutton_volume;
@@ -736,6 +737,7 @@ public class PreferencesWindow
 
 		//runEncoder -->
 		PreferencesWindowBox.spin_run_encoder_acceleration.Value = preferences.runEncoderMinAccel;
+		PreferencesWindowBox.spin_run_encoder_pps.Value = preferences.runEncoderPPS;
 
 		//language -->
 		if(preferences.language == "")
@@ -2157,6 +2159,11 @@ public class PreferencesWindow
 				SqlitePreferences.RunEncoderMinAccel,
 				preferences.runEncoderMinAccel,
 				Convert.ToDouble(spin_run_encoder_acceleration.Value));
+
+		preferences.runEncoderPPS = Preferences.PreferencesChange(
+				SqlitePreferences.RunEncoderPPS,
+				preferences.runEncoderPPS,
+				Convert.ToInt32(spin_run_encoder_pps.Value));
 
 		//multimedia ----
 		if( preferences.volumeOn != PreferencesWindowBox.checkbutton_volume.Active ) {

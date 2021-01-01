@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
 "POT-Creation-Date: 2020-12-31 12:29+0000\n"
-"PO-Revision-Date: 2021-01-01 12:36+0200\n"
+"PO-Revision-Date: 2021-01-01 12:57+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -2735,7 +2735,7 @@ msgstr "Може координувати рух із лічбою із одні
 #: ../glade/edit_event.glade.h:46
 msgid ""
 "Poor coordination between walking and counting with more than one mistake."
-msgstr "Погана координація між рухом і лічбою і декількома помилками."
+msgstr "Погана координація між рухом і лічбою із декількома помилками."
 
 #: ../glade/edit_event.glade.h:47
 msgid "Needs help or cannot perform the counting task."
@@ -2750,38 +2750,48 @@ msgid ""
 "Able to go around the cone without touching it, without going outside the "
 "marked area, but slowing down the pace."
 msgstr ""
+"Може обійти конус без його торкання, без виходу за позначену області, але із"
+" уповільненням руху."
 
 #: ../glade/edit_event.glade.h:50
 msgid "Able to go around with obvious signs of insecurity."
-msgstr ""
+msgstr "Може обійти без явних ознак втрати безпеки."
 
 #: ../glade/edit_event.glade.h:51
 msgid ""
 "Able to go around the cone without touching it, without going outside the "
 "marked area, and keeping up the pace."
 msgstr ""
+"Може обійти конус без його торкання, без виходу за позначену області, зі"
+" збереженням швидкості руху."
 
 #: ../glade/edit_event.glade.h:52
 msgid "Step into circles"
-msgstr ""
+msgstr "Вхід у кола"
 
 #: ../glade/edit_event.glade.h:53
 msgid ""
 "Able to walk, stepping one foot into each circle without touching them and "
 "without losing balance."
 msgstr ""
+"Може рухатися, входячи однією ногою до кожного кола без торкання межі і без"
+" втрати рівноваги."
 
 #: ../glade/edit_event.glade.h:54
 msgid ""
 "Able to walk, stepping one foot into each circle, touching one or needing to "
 "take an extra step outside the rings to regain balance."
 msgstr ""
+"Може рухатися, входячи однією ногою до кожного кола, торкаючись кола або з"
+" потребою у додатковому кроці за межі кола для відновлення рівноваги."
 
 #: ../glade/edit_event.glade.h:55
 msgid ""
 "Able to walk stepping one foot in each circle, touching more than one, or "
 "needing more than one extra step to regain balance."
 msgstr ""
+"Може рухатися, входячи однією ногою до кожного кола, торкаючись декількох кіл"
+" або з потребою у додаткових кроках для відновлення рівноваги."
 
 #: ../glade/edit_event.glade.h:56
 msgid "Sit back down"
@@ -2837,6 +2847,8 @@ msgid ""
 "Average diameter (cm) of the cone or axis where the rope is wrapped on each "
 "anchorage."
 msgstr ""
+"Середній діаметр (у см) конуса або вісі, на яку намотано шпагат на кожній з"
+" опор."
 
 #: ../glade/encoder_configuration.glade.h:10
 msgid "Push angle"
@@ -2859,10 +2871,12 @@ msgid ""
 "Distance from the center of the axis\n"
 "to the center of the loads."
 msgstr ""
+"Відстань від центру вісі\n"
+"до центру навантажень."
 
 #: ../glade/encoder_configuration.glade.h:17
 msgid "Distance: center-loads"
-msgstr ""
+msgstr "Відстань: центр-навантаження"
 
 #: ../glade/encoder_configuration.glade.h:18
 msgid ""

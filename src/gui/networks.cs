@@ -645,9 +645,9 @@ public partial class ChronoJumpWindow
 			return true;
 		}
 
-		//show a Readed message nice if the network is slow or there is any problem with the web services
-		label_rfid_wait.Text = Catalog.GetString("Readed");
-		label_rfid_encoder_wait.Text = Catalog.GetString("Readed");
+		//show a Read message nice if the network is slow or there is any problem with the web services
+		label_rfid_wait.Text = Catalog.GetString("Read");
+		label_rfid_encoder_wait.Text = Catalog.GetString("Read");
 		label_rfid_wait.Visible = true;
 		label_rfid_encoder_wait.Visible = true;
 

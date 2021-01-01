@@ -82,6 +82,18 @@ class SqliteNews : Sqlite
 		return myLast;
 	}
 
+	public static void Update (bool dbconOpened, string updateString)
+	{
+		openIfNeeded(dbconOpened);
+
+		dbcmd.CommandText = "UPDATE " + table + " SET " + updateString;
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		closeIfNeeded(dbconOpened);
+	}
+
 	//code -1 (select all)
 	//limit is 10 by default on show news
 	public static List<News> Select (bool dbconOpened, int code, int limit)

@@ -595,7 +595,7 @@ public partial class ChronoJumpWindow
 				 * note this can make the rowsCount differ
 				 */
 			} catch {
-				LogB.Information("Catched waiting end_capture feedback");
+				LogB.Information("Caught waiting end_capture feedback");
 			}
 			LogB.Information("waiting \"Capture ended\" string: " + str);
 		}
@@ -605,7 +605,7 @@ public partial class ChronoJumpWindow
 		string [] strEnded = str.Split(new char[] {':'});
 		if(strEnded.Length == 2 && Util.IsNumber(strEnded[1], false))
 		{
-			LogB.Information(string.Format("Readed {0} rows, sended {1} rows, match: {2}",
+			LogB.Information(string.Format("Read {0} rows, sent {1} rows, match: {2}",
 						rowsCount, strEnded[1], rowsCount == Convert.ToInt32(strEnded[1]) ));
 		}
 

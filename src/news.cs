@@ -77,6 +77,11 @@ public class News
 		return SqliteNews.Insert(dbconOpened, toSQLInsertString());
 	}
 
+	public void UpdateSQL(bool dbconOpened)
+	{
+		SqliteNews.Update(dbconOpened, toSQLUpdateString());
+	}
+
 	public string GetTitle(bool es)
 	{
 		if(es)
@@ -105,19 +110,25 @@ public class News
 	/* public static methods */
 
 	//this method uses SQL, called by main thread
-	public static bool InsertIfNeeded(List<News> newsAtDB_l, List<News> newsAtServer_l)
+	public static bool InsertOrUpdateIfNeeded(List<News> newsAtDB_l, List<News> newsAtServer_l)
 	{
 		bool newStuff = false;
 		foreach(News nAtServer in newsAtServer_l)
 		{
-			bool found = false;
+			bool existsLocally = false;
 			foreach(News nAtDB in newsAtDB_l)
 				if(nAtServer.Code == nAtDB.Code)
 				{
-					found = true;
+					existsLocally = true;
+					if(nAtServer.Version > nAtDB.Version)
+					{
+						nAtServer.UpdateSQL(false);
+						newStuff = true;
+					}
+
 					break;
 				}
-			if(! found)
+			if(! existsLocally)
 			{
 				nAtServer.InsertSQL(false);
 				newStuff = true;
@@ -157,9 +168,31 @@ public class News
 			linkServerImage + "\"";
 	}
 
+	private string toSQLUpdateString()
+	{
+		return
+			" code = " + code +
+			", category = " + category +
+			", version = " + version +
+			", viewed = \"False\"" +
+			", titleEn = \"" + titleEn +
+			"\", titleEs = \"" + titleEs +
+			"\", linkEn = \"" + linkEn +
+			"\", linkEs = \"" + linkEs +
+			"\", descriptionEn = \"" + descriptionEn +
+			"\", descriptionEs = \"" + descriptionEs +
+			"\", linkServerImage = \"" + linkServerImage +
+			"\" WHERE code = " + code;
+	}
+
 	public int Code
 	{
 		get { return code; }
+	}
+
+	public int Version
+	{
+		get { return version; }
 	}
 
 	public string LinkServerImage

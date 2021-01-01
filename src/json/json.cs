@@ -186,7 +186,7 @@ public class Json
 
 	//get all the news, news class will decide if something have to be inserted or selected
 	//called by pingThread at start
-	public List<News> GetNews()
+	public List<News> GetNews(List<News> newsAtDB_l)
 	{
 		// Create a request using a URL that can receive a post.
 		if (! createWebRequest(requestType.GENERIC, "/getNews"))
@@ -210,9 +210,9 @@ public class Json
 
 		this.ResultMessage = responseFromServer;
 
-		return newsDeserialize(responseFromServer);
+		return newsDeserialize(responseFromServer, newsAtDB_l);
 	}
-	private List<News> newsDeserialize(string str)
+	private List<News> newsDeserialize(string str, List<News> newsAtDB_l)
 	{
 		LogB.Information("newsDeserialize:|" + str + "|");
 
@@ -233,8 +233,9 @@ public class Json
 			string descriptionEs = jsonNews ["descriptionEs"];
 			string linkServerImage = jsonNews ["linkServerImage"];
 
-			news_l.Add(new News(code, category, version, false,
-						titleEn, titleEs, linkEn, linkEs, descriptionEn, descriptionEs, linkServerImage));
+			News newsAtJson = new News(code, category, version, false,
+						titleEn, titleEs, linkEn, linkEs, descriptionEn, descriptionEs, linkServerImage);
+			news_l.Add(newsAtJson);
 
 			// 2) download image
 			//if image does not exist, download here (in pingThread)
@@ -246,7 +247,19 @@ public class Json
 				extension = ".png";
 
 			string copyTo = Path.Combine(News.GetNewsDir(), code.ToString() + extension);
-			if(! File.Exists(copyTo))
+
+			//download the image if (1 version has changed OR 2 linkServerImage has changed OR 3 image does not exists locally)
+			bool needToDownloadImage = false;
+			foreach(News newsAtDB in newsAtDB_l)
+				if( newsAtJson.Code == newsAtDB.Code &&
+						(newsAtJson.Version > newsAtDB.Version || 			// 1
+						 newsAtJson.LinkServerImage != newsAtDB.LinkServerImage) 	// 2
+						)
+					needToDownloadImage = true;
+
+			if(needToDownloadImage ||
+					! File.Exists(copyTo) 							// 3
+					)
 				downloadNewsImage(linkServerImage, copyTo);
 		}
 

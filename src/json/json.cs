@@ -248,7 +248,11 @@ public class Json
 
 			string copyTo = Path.Combine(News.GetNewsDir(), code.ToString() + extension);
 
-			//download the image if (1 version has changed OR 2 linkServerImage has changed OR 3 image does not exists locally)
+			/*
+			 * download the image if (1 version has changed OR 2 linkServerImage has changed OR 3 image does not exists locally)
+			 * but note is much better to CHANGE ALSO THE VERSION if the linkServerImage has changed
+			 * if version does not change, maybe local db url never changes forcing the client to redownload the image every time Chronojump is opened
+			 */
 			bool needToDownloadImage = false;
 			foreach(News newsAtDB in newsAtDB_l)
 				if( newsAtJson.Code == newsAtDB.Code &&

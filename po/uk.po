@@ -2,13 +2,13 @@
 # Copyright (C) 2020 chronojump's COPYRIGHT HOLDER
 # This file is distributed under the same license as the chronojump package.
 #
-# Yuri Chornoivan <yurchor@ukr.net>, 2020.
+# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
 "POT-Creation-Date: 2020-12-31 12:29+0000\n"
-"PO-Revision-Date: 2020-12-31 18:21+0200\n"
+"PO-Revision-Date: 2021-01-01 12:36+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -1251,7 +1251,7 @@ msgstr "Вгорі"
 
 #: ../glade/app1.glade.h:253
 msgid "Adjust this and bottom margin if athlete's names are long."
-msgstr ""
+msgstr "Скоригуйте це і нижнє поле, якщо імена атлетів є надто довгими."
 
 #: ../glade/app1.glade.h:254
 msgid "X axis font size"
@@ -1270,6 +1270,8 @@ msgid ""
 "Sorry, no statistics for this test type\n"
 "on current Chronojump version."
 msgstr ""
+"Вибачте, для цього типу тестування у поточній\n"
+"версії Chronojump не передбачено."
 
 #: ../glade/app1.glade.h:259
 msgid "error"
@@ -1293,22 +1295,27 @@ msgstr "<b>Використання рук</b>"
 
 #: ../glade/app1.glade.h:264
 msgid "<b>Reactive-reflex</b>"
-msgstr ""
+msgstr "<b>Реактивно-рефлексивний</b>"
 
 #: ../glade/app1.glade.h:265
 msgid ""
 "Related to the part of the absolute force that can be activated voluntarily."
 msgstr ""
+"Пов'язано із частиною абсолютної сили, яку може бути активовано довільним"
+" чином."
 
 #: ../glade/app1.glade.h:266
 msgid "Ability to mobilise a submaximal load at a maximum speed."
 msgstr ""
+"Можливість мобілізації субмаксимального навантаження з максимальною швидкістю."
 
 #: ../glade/app1.glade.h:267
 msgid ""
 "Increasing of strength due to the elastic energy accumulated during the "
 "stretch-shortening cycle."
 msgstr ""
+"Збільшення сили через пружну енергію, накопичену під час циклу"
+" розтягування-стискання."
 
 #: ../glade/app1.glade.h:268
 msgid "Increasing of strength due to arm movement."
@@ -1319,6 +1326,7 @@ msgid ""
 "Increasing of strength by previous falling from height (reflex mechanisms "
 "activation)."
 msgstr ""
+"Збільшення сили попереднім падінням з висоти (активація механізмів відгуку)."
 
 #: ../glade/app1.glade.h:270
 msgid "All the definitions are related to jumps."
@@ -1326,7 +1334,7 @@ msgstr "Усі визначення пов'язано із стрибками."
 
 #: ../glade/app1.glade.h:271
 msgid "Drop jump goal in this profile is maximum height."
-msgstr ""
+msgstr "У цьому профілі метою зістрибування є максимальна висота."
 
 #: ../glade/app1.glade.h:272
 msgid "Help on indexes"
@@ -1682,7 +1690,7 @@ msgstr "Зберегти повторення"
 
 #: ../glade/app1.glade.h:356
 msgid "v,p,f are averages of propulsive phase."
-msgstr ""
+msgstr "v,p,f є середніми за поступальною фазою."
 
 #: ../glade/app1.glade.h:357
 msgid ""
@@ -2727,7 +2735,7 @@ msgstr "Може координувати рух із лічбою із одні
 #: ../glade/edit_event.glade.h:46
 msgid ""
 "Poor coordination between walking and counting with more than one mistake."
-msgstr ""
+msgstr "Погана координація між рухом і лічбою і декількома помилками."
 
 #: ../glade/edit_event.glade.h:47
 msgid "Needs help or cannot perform the counting task."

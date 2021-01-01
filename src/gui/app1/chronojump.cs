@@ -6788,7 +6788,7 @@ LogB.Debug("mc finished 5");
 		if(! pingThread.IsAlive)
 		{
 			// 1) Insert if needed
-			if(newsAtServer_l != null && News.InsertIfNeeded (newsAtDB_l, newsAtServer_l))
+			if(newsAtServer_l != null && News.InsertOrUpdateIfNeeded (newsAtDB_l, newsAtServer_l))
 			{
 				Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_store_has_new_products.png");
 				image_menu_news.Pixbuf = pixbuf;
@@ -6842,7 +6842,7 @@ LogB.Debug("mc finished 5");
 	private void getNews()
 	{
 		LogB.Information("getNews()");
-		newsAtServer_l = jsPing.GetNews();
+		newsAtServer_l = jsPing.GetNews(newsAtDB_l); //send the local list to know if images have to be re-downloaded on a version update
 	}
 
 	private void on_preferences_debug_mode_start (object o, EventArgs args) {

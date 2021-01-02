@@ -1,0 +1,92 @@
+<p><span class="highlight2"><i class="fa fa-area-chart fa-2x"></i>  General Chronojump changes</span></p>
+<ul>
+	<li><b>By default Chronojump opens last session and last mode (can be changed on preferences).</b></li>
+	<li><b>Almost all the windows are shown in user selected color</b> this involves improvements in many windows.</li>
+	<li><b>User while selecting background color, can select its own color, Chronojump color or color of it's operating system theme.</b></li>
+	<li>On preferences there's a new tab for "Small screens" options.</li>
+	<li>Chronojump graphs can use font Helvetica or Courier (see preferences). This fixes encoding problems of some users whith Courier.</li>
+	<li>Some graphs have dots color the same than user selected background color to have a nicer interface overall.</i>
+	<li>Devices window cannot be minimized (avoid fake hangs when is minimized and user do not find it).</li>
+	<li>Fixed a crash on creating/editing session with same name when no session loaded since version 2.0.</i>
+	<li>Chronojump logo animation now is shown more smooth, better for slow systems.</li>
+	<li>Fixed open folders on Linux.</li>
+	<li>Better buttons sensitiveness after import a session.</li>
+	<li>Splash window on start is hidden a bit later, this is supposed to solve a problems of few users on start.</i>
+	<li>Several improvements on export session.</li>
+	<li>Fixed fitting of person manage windows that got out of space on e.g. English translation.</li>
+	<!-- <li>Fixed ping on Windows.</li> -->
+</ul>
+
+<p><span class="highlight2"><i class="fa fa-clock-o fa-2x"></i>  Jumps, Races</span></p>
+<ul>
+	<li><b>Jumps FV profile changes:</b></li>
+	<ul>
+		<li>Shows all Samozino's calculations and also adds an arrow to clarify what to develop</li>
+		<li>Fixed a sign because formula on original paper was not ok</li>
+		<li>Changes on speed calculation</li>
+		<li>Force is now relative.</li>
+	</ul>
+	<li><b>Added Jumps rj Fatigue analysis with this features:</b>
+	<ul>
+		<li>Use heights or flight time/contact time.</li>
+		<li>Shows a trend line.</li>
+		<li>Show averages of 2,3,4 parts.</li>
+		<li>Image can be saved.</li>
+	</ul>
+	<li><b>Jumps simple evolution graph can show all or only best in session</b></li>
+	<li>New jump/run analyze graphs can show information of a selected point just clicking close to it.</i>
+	<li>Jumps simple capture graph can show heights or times according to preferences. Also two preferences related to showing height of jumps instead of flight time have been merged to not confuse the user.</li>
+	<li>Better icons for jumps simple/multiple.</li>
+	<li>All the analysis jumps, jumpsRj graphs can be translated now.</li>
+	<li>race multiple: Fixed a problem on realtime visualization of a very big contact time.</li>
+	<li>race with photocells: Fixed X scale and legend colors.</li>
+	<li>Fixed potentially bugs with dates of really old jumps.</li>
+	<li>On seeing all jump types or all race types, if window is cancelled now graphical interface shows all the correct buttons and labels.</li>
+	<!--<li>Added race wireless device</li>-->
+</ul>
+
+<p><span class="highlight2"><i class="fa fa-area-chart fa-2x"></i>  Force sensor</span></p>
+<ul>
+	<li><b>Force sensor can calculate stiffness of a band/tube. This is a must to effectively work with elastic bands.</b></li>
+	<li><b>Graph analyze general changes:</b>
+	<ul>
+		<li>Can move B mark -1s and +1s</li>
+		<li>Several fixes on force sensor repetitions show and export.</li>
+		<li>At each repetition display the vertical start lines if they fit.</li>
+		<li>Graph vert AB lines, shown AB instead of triangle, and other minor improvements specially on preferences and encoder configuration window.</li>
+	</ul>
+	<li>At top options: show elastic/not elastic and laterality to help the user and avoid common mistakes.</li>
+	<li>Force sensor port is disconnected on change mode.</li>
+	<li>Fixed a mistake on explanations of exercise examples.</li>
+</ul>
+
+<p><span class="highlight2"><i class="fa fa-bar-chart fa-2x"></i>  Encoder</span></p>
+<ul>
+	<li><b>On set capture/load, Total work and total impulse is shown.</b></li>
+	<li><b>On inertial, work on eccentric phase is always positive</b> to have work as a better variable to express effort.</li>
+	<li><b>Encoder barplot feedback historical shows date.</b></li>
+	<li><b>Analyze buttons have been greatly improved.</b> Specially 4 main modes, also distribution of other buttons have been changed.</li>
+	<li>Inertial ecc/con icons shown on bottom of slider (much clear and they do not get out the window).</li>
+	<li>At cross chart: power/load better shown of pmax.</li>
+	<li>Encoder analyze instant graph is hidden at load set or capture, to avoid confusing analyze of previous set with new set.</li>
+	<li>Manual feedback moved to another tab.</i>
+	<li>Fixed bug on encoder bestN repetitions at inertial if curves wanted to be saved > curves.Count - start.</li>
+	<li>Fixed crash on bad image reference on 4th encoder inertial config.</li>
+	<li>Now default capture method on new Chronojump installs is to show only bars.</li>
+</ul>
+
+<p><span class="highlight2">  Race analyzer</span></p>
+<ul>
+	<li>Segments (or tracks) size can be set on exercise.</li>
+	<li>Minor gui improvements on race analyzer.</li>
+</ul>
+
+<p><span class="highlight2"><i class="fa fa-flag-o fa-2x"></i>  Translations</span></p>
+<ul>
+	<li>Updated translations: Catalan, German, Greek, Romanian, Spanish, Slovenian, Ukrainian.</li>
+</ul>
+
+<p><span class="highlight2"><i class="fa fa-book fa-2x"></i>  Documentation</span></p>
+<ul>
+	<li>Updated English and Spanish manuals with Race analyzer info.</li>
+</ul>

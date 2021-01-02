@@ -145,7 +145,6 @@ class ComputerDBManage
 		///home/xavier/Documents/academic/investigacio/Encoder_SITLESS_nogit/carpetes-chronojump-senceres/barcelona/wetransfer-8ba4dd/Encoder_Copies_17_07_2019/database/chronojump/database/chronojump.db (186 Kb)
 
 		list = new List<ComputerDB>();
-		/*
 		list.Add(new ComputerDB(
 				"barcelona",
 				"barcelona1", 
@@ -160,7 +159,6 @@ class ComputerDBManage
 				"/home/xavier/Documents/academic/investigacio/Encoder_SITLESS_nogit/arxius-processats-per-ells/barcelona",
 				8, 4, 7,
 				"", "", "", ""));
-		*/
 		/*
 		//belfast is ok except the double exercise on biceps
 		list.Add(new ComputerDB(
@@ -170,7 +168,6 @@ class ComputerDBManage
 				"",
 				12, 14, 15, 	//note: belfast has biceps curl 12 (2kg), and 13 (4kg)
 				"PRE", "PI", "12M", "18M"));
-				*/
 		//to process onlh the 4Kg biceps on Belfast
 		list.Add(new ComputerDB(
 				"belfast",
@@ -179,7 +176,6 @@ class ComputerDBManage
 				"",
 				13, -1, -1, 	//note: belfast has biceps curl 12 (2kg), and 13 (4kg)
 				"PRE", "PI", "12M", "18M"));
-		/*
 		list.Add(new ComputerDB(
 				"denmark",
 				"denmark1",

@@ -217,7 +217,7 @@ getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength
 drawDynamicsFromLoadCell <- function(
     dynamics, captureOptions, vlineT0=T, vline50fmax.raw=F, vline50fmax.fitted=F,
     hline50fmax.raw=F, hline50fmax.fitted=F,
-    rfdDrawingOptions, triggersOn = "", triggersOff = "", xlimits = NA)
+    rfdDrawingOptions, triggersOn = "", triggersOff = "", xlimits = NA, forceLines = TRUE, timeLines = TRUE)
 {
     print("Dynamics in Draw:")
     # print(dynamics$time)
@@ -556,6 +556,7 @@ drawDynamicsFromLoadCell <- function(
                     
                     legendText = c(legendText, paste("RFD", percent, "%Fmax", " = ", round(RFD, digits = 1), " N/s", sep = ""))
                     legendColor = c(legendColor, "blue")
+                    valuesCol = "blue"
                     
                 } else if(RFDoptions$rfdFunction == "RAW")
                 {
@@ -569,7 +570,17 @@ drawDynamicsFromLoadCell <- function(
                     
                     legendText = c(legendText, paste("RFD", percent, "%", "Fmax", " = ", round(RFD, digits = 1), " N/s", sep = ""))
                     legendColor = c(legendColor, "black")
+                    valuesCol = "black"
                     
+                }
+                
+                if(timeLines){
+                  abline(v=time1, lty = 3, col ="brown1")
+                  text(x = time1, y = 0, labels = paste(round(time1, digits = 3),"s"), pos = 3, col = valuesCol)
+                }
+                if(forceLines){
+                  abline(h=force1, lty = 3, col ="brown1")
+                  text(x = xmin, y = force1, labels = paste(round(force1, digits = 2),"N"), pos = 4, col = valuesCol)
                 }
             } else if(RFDoptions$type == "RFD_MAX")
             {
@@ -984,12 +995,21 @@ getBestFit <- function(originalTest
     
     currentMeanError = mean(abs(forceModel$error[!is.nan(forceModel$error)]))
     
+    #Correcting the startSample to the closest to the beginning of the model
+    startSampleCorrected = which.min(abs(originalTest$time - forceModel$T0))
+    endSample = endSample - (startSample - startSampleCorrected)
+    startSample = startSampleCorrected
+    
+    # startTime = originalTest$time[startSample]
+    # endTime = originalTest$time[endSample]
+    
     print(paste("currentMeanError: ", currentMeanError, "lastMeanError: ", lastMeanError))
     print(paste("samples: ", startSample, ":", endSample, sep = ""))
+    print(paste("time without T0:", startTime, "T0:", forceModel$T0, "StartSampleCorrecte:", startSampleCorrected))
     print(paste("time: ", startTime + forceModel$T0, ":", endTime + forceModel$T0))
     
     return(list(model = forceModel
-                , startSample = startSample, startTime = startTime + forceModel$T0
+                , startSample = startSampleCorrected, startTime = startTime + forceModel$T0
                 , endSample = endSample, endTime = endTime + forceModel$T0
     ))
 }

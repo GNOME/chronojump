@@ -544,7 +544,7 @@ public partial class ChronoJumpWindow
 			{
 				if(timePre > 0)
 				{
-					double runEncoderCaptureDistanceAtThisSample = Math.Abs(encoderDisplacement) * 1000000 * 0.003003; //hardcoded: same as sprintEncoder.R
+					double runEncoderCaptureDistanceAtThisSample = Math.Abs(encoderDisplacement) * 0.003003; //hardcoded: same as sprintEncoder.R
 					runEncoderCaptureSpeed = UtilAll.DivideSafe(runEncoderCaptureDistanceAtThisSample, (time - timePre));
 
 					runEncoderCaptureDistance += runEncoderCaptureDistanceAtThisSample;

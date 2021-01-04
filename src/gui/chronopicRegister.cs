@@ -397,7 +397,7 @@ public class ChronopicRegisterWindow
 		button_close_serial_port.Clicked += new EventHandler(on_button_close_serial_port_clicked);
 
 		//---- button close start --->
-		Gtk.Button button_close = new Gtk.Button("Close Window");
+		Gtk.Button button_close = new Gtk.Button(Catalog.GetString("Close"));
 		button_close.CanFocus = true;
 		button_close.IsFocus = true;
 		button_close.Clicked += new EventHandler(on_button_close_clicked);

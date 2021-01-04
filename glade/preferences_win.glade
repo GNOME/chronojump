@@ -6679,6 +6679,8 @@ It starts before and arrives there with some speed.</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="label" translatable="yes">This change needs restarting Chronojump</property>
+                                        <property name="wrap">True</property>
+                                        <property name="width_chars">30</property>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>

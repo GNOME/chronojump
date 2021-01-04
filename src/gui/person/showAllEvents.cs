@@ -160,7 +160,7 @@ public class PersonShowAllEventsWindow
 		int count = 0;
 		tv.AppendColumn ( Catalog.GetString ("Session name"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Place"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString ("Date\n"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Date"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Jumps\nsimple"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Jumps\nreactive"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Races\nsimple"), new CellRendererText(), "text", count++);

@@ -544,11 +544,16 @@ public partial class ChronoJumpWindow
 			{
 				if(timePre > 0)
 				{
-					runEncoderCaptureDistance = Math.Abs(encoderDisplacement) * 1000000 * 0.003003; //hardcoded: same as sprintEncoder.R
-					runEncoderCaptureSpeed = UtilAll.DivideSafe(runEncoderCaptureDistance, (time - timePre));
+					double runEncoderCaptureDistanceAtThisSample = Math.Abs(encoderDisplacement) * 1000000 * 0.003003; //hardcoded: same as sprintEncoder.R
+					runEncoderCaptureSpeed = UtilAll.DivideSafe(runEncoderCaptureDistanceAtThisSample, (time - timePre));
 
-					LogB.Information(string.Format("encoderDisplacement: {0}; runEncoderCaptureSpeed: {1}; time: {2}; timePre: {3}",
-								encoderDisplacement, runEncoderCaptureSpeed, time, timePre));
+					runEncoderCaptureDistance += runEncoderCaptureDistanceAtThisSample;
+
+					LogB.Information(string.Format("encoderDisplacement: {0}; runEncoderCaptureDistanceAtThisSample: {1}, runEncoderDistance: {2}, runEncoderCaptureSpeed: {3}; time: {4}; timePre: {5}",
+								encoderDisplacement,
+								runEncoderCaptureDistanceAtThisSample,
+								runEncoderCaptureDistance,
+								runEncoderCaptureSpeed, time, timePre));
 				}
 				timePre = time;
 				sw.Restart();

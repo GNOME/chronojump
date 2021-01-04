@@ -31592,7 +31592,7 @@ then click this button.</property>
                                                           <widget class="GtkLabel" id="label573">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Groupal</property>
+                                                            <property name="label" translatable="yes">Groupwise</property>
                                                             <property name="use_markup">True</property>
                                                           </widget>
                                                           <packing>

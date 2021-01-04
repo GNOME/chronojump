@@ -98,7 +98,7 @@ public class EditRunWindow : EditEventWindow
 		if(metersSecondsPreferred)
 			label_speed_units.Text = "m/s";
 		else
-			label_speed_units.Text = "Km/h";
+			label_speed_units.Text = "km/h";
 	}
 
 	protected override string [] findTypes(Event myEvent) {
@@ -144,7 +144,7 @@ public class EditRunWindow : EditEventWindow
 		if(metersSecondsPreferred)
 			label_speed_units.Text = "m/s";
 		else
-			label_speed_units.Text = "Km/h";
+			label_speed_units.Text = "km/h";
 	}
 
 	protected override void createSignal() {
@@ -307,7 +307,7 @@ public class EditRunIntervalWindow : EditRunWindow
 		if(metersSecondsPreferred)
 			label_speed_units.Text = "m/s";
 		else
-			label_speed_units.Text = "Km/h";
+			label_speed_units.Text = "km/h";
 	}
 
 	//this disallows loops on radio actions	

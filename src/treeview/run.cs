@@ -51,7 +51,7 @@ public class TreeViewRuns : TreeViewEvent
 		if(metersSecondsPreferred)
 			speedName += "\n(m/s)";
 		else
-			speedName += "\n(Km/h)";
+			speedName += "\n(km/h)";
 
 		string distanceName = Catalog.GetString("Distance") + "\n(m)";
 		string timeName = Catalog.GetString("Time") + "\n(s)";
@@ -127,7 +127,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 		if(metersSecondsPreferred)
 			speedName += "\n(m/s)";
 		else
-			speedName += "\n(Km/h)";
+			speedName += "\n(km/h)";
 
 		string lapTimeName = Catalog.GetString("Lap time") + "\n(s)";
 		string splitTimeName = Catalog.GetString("Split time") + "\n(s)";

@@ -126,7 +126,7 @@ public class TreeViewJumps : TreeViewEvent
 		if(preferences.metersSecondsPreferred)
 			initialSpeedName += "\n(m/s)";
 		else
-			initialSpeedName += "\n(Km/h)";
+			initialSpeedName += "\n(km/h)";
 
 
 		//fill names

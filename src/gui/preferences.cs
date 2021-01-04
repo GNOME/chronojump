@@ -1381,8 +1381,8 @@ public class PreferencesWindow
 
 	private void on_button_video_check_ffmpeg_ffplay_running_clicked(object o, EventArgs args)
 	{
-		label_video_check_ffmpeg_running.Text = "Not running";
-		label_video_check_ffplay_running.Text = "Not running";
+		label_video_check_ffmpeg_running.Text = Catalog.GetString("Not running");
+		label_video_check_ffplay_running.Text = Catalog.GetString("Not running");
 		button_video_ffmpeg_kill.Visible = false;
 		button_video_ffplay_kill.Visible = false;
 		label_camera_check_running.Text = "";
@@ -1393,14 +1393,14 @@ public class PreferencesWindow
 		if(ExecuteProcess.IsRunning3 (-1, WebcamFfmpeg.GetExecutableCapture(operatingSystem)))
 		{
 			//runningFfmpeg = true;
-			label_video_check_ffmpeg_running.Text = "Running";
+			label_video_check_ffmpeg_running.Text = Catalog.GetString("Running");
 			button_video_ffmpeg_kill.Visible = true;
 		}
 
 		if(ExecuteProcess.IsRunning3 (-1, WebcamFfmpeg.GetExecutablePlay(operatingSystem)))
 		{
 			//runningFfplay = true;
-			label_video_check_ffplay_running.Text = "Running";
+			label_video_check_ffplay_running.Text = Catalog.GetString("Running");
 			button_video_ffplay_kill.Visible = true;
 		}
 
@@ -1412,7 +1412,7 @@ public class PreferencesWindow
 		if(ExecuteProcess.KillExternalProcess (WebcamFfmpeg.GetExecutableCapture(operatingSystem)))
 		{
 			label_camera_check_running.Text = "Killed camera process";
-			label_video_check_ffmpeg_running.Text = "Not running";
+			label_video_check_ffmpeg_running.Text = Catalog.GetString("Not running");
 			button_video_ffmpeg_kill.Visible = false;
 		}
 		else
@@ -1423,7 +1423,7 @@ public class PreferencesWindow
 		if(ExecuteProcess.KillExternalProcess (WebcamFfmpeg.GetExecutablePlay(operatingSystem)))
 		{
 			label_camera_check_running.Text = "Killed play process";
-			label_video_check_ffplay_running.Text = "Not running";
+			label_video_check_ffplay_running.Text = Catalog.GetString("Not running");
 			button_video_ffplay_kill.Visible = false;
 		}
 		else

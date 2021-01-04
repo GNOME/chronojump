@@ -1847,7 +1847,7 @@
                             </child>
                             <child>
                               <widget class="GtkRadioButton" id="radio_speed_km">
-                                <property name="label">Km/h</property>
+                                <property name="label">km/h</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -6991,7 +6991,7 @@ It starts before and arrives there with some speed.</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="xalign">0</property>
-                                        <property name="label" translatable="yes">Decimal number</property>
+                                        <property name="label" translatable="yes">Decimal places</property>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>

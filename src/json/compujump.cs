@@ -107,7 +107,7 @@ public class JsonCompujump : Json
 	{
 		JsonValue jsonPerson = JsonValue.Parse(strPerson);
 
-		Int32 id = jsonPerson ["id"];
+		Int32 id = jsonPerson ["user_id"];
 		string player = jsonPerson ["name"];
 		double weight = jsonPerson ["weight"];
 		double height = jsonPerson ["height"];

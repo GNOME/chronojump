@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2017-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2017-2021   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -28,7 +28,7 @@ using Mono.Unix;
 public partial class ChronoJumpWindow
 {
 	[Widget] Gtk.Box hbox_send_log;
-	[Widget] Gtk.Label label_send_log;
+	[Widget] Gtk.TextView textview_send_log;
 	[Widget] Gtk.Image image_send_log_no;
 	[Widget] Gtk.Image image_send_log_yes;
 	[Widget] Gtk.Entry entry_send_log;
@@ -43,7 +43,11 @@ public partial class ChronoJumpWindow
 	string emailStored;
 	private void show_send_log(string sendLogMessage, string logLanguage)
 	{
-		label_send_log.Text = sendLogMessage;
+		TextBuffer tb = new TextBuffer (new TextTagTable());
+		tb.Text = sendLogMessage;
+		textview_send_log.Buffer = tb;
+		textview_send_log.WrapMode = Gtk.WrapMode.Word; //Wrap words on a TextViewiew! (cannot be done on Glade)
+
 		emailStored = SqlitePreferences.Select("email");
 		if(emailStored != null && emailStored != "" && emailStored != "0")
 			entry_send_log.Text = emailStored;

@@ -450,16 +450,16 @@ RESOURCES = \
 	../images/spreadsheet.png,spreadsheet.png \
 	../images/report_view.png,report_view.png \
 	../images/preferences-system.png,preferences-system.png \
-	../images/md/baseline_attachment_blue_24dp.png,image_attachment.png \
-	../images/md/baseline_grid_on_blue_24dp.png,image_grid_on.png \
-	../images/md/baseline_photo_camera_start_blue_24dp.png,image_photo_start_camera.png \
-	../images/md/baseline_photo_camera_end_blue_24dp.png,image_photo_end_camera.png \
-	../images/md/baseline_photo_camera_do_red_24dp.png,image_photo_do.png \
-	../images/md/baseline_photo_camera_preview_blue_24dp.png,image_photo_preview.png \
+	../images/md/attachment_blue_24dp.png,image_attachment.png \
+	../images/md/grid_on_blue_24dp.png,image_grid_on.png \
+	../images/md/photo_camera_start_blue_24dp.png,image_photo_start_camera.png \
+	../images/md/photo_camera_end_blue_24dp.png,image_photo_end_camera.png \
+	../images/md/photo_camera_do_red_24dp.png,image_photo_do.png \
+	../images/md/photo_camera_preview_blue_24dp.png,image_photo_preview.png \
 	../images/md/ic_audio_blue_24dp_1x.png,audio.png \
 	../images/md/ic_videocam_blue_24dp_1x.png,videocamera_on.png \
 	../images/md/ic_videocam_off_blue_24dp_1x.png,videocamera_off.png \
-	../images/md/baseline_play_arrow_blue_24dp.png,video_play.png \
+	../images/md/play_arrow_blue_24dp.png,video_play.png \
 	../images/md/ic_home_blue_24dp_1x.png,image_home.png \
 	../images/md/ic_import_1x.png,import.png \
 	../images/md/ic_import_yellow_1x.png,import_yellow.png \
@@ -477,7 +477,7 @@ RESOURCES = \
 	../images/md/ic_timer_blue_24dp_2x.png,image_capture_big.png \
 	../images/md/ic_last_page_blue_24dp_1x.png,finish.png \
 	../images/gtk-floppy.png,floppy.png \
-	../images/md/baseline_arrow_back_blue_24dp.png,arrow_back.png \
+	../images/md/arrow_back_blue_24dp.png,arrow_back.png \
 	../images/md/ic_cancel_red_24dp_1x.png,image_cancel.png \
 	../images/md/ic_insert_chart_blue_24dp_1x.png,image_analyze.png \
 	../images/md/ic_assignment_blue_24dp_1x.png,image_analyze_general.png \
@@ -515,14 +515,14 @@ RESOURCES = \
 	../images/md/ic_jump_blue_24dp_1x.png,image_jump.png \
 	../images/md/ic_jump_simple_blue_24dp_1x.png,image_jump_simple.png \
 	../images/md/ic_jump_reactive_blue_24dp_1x.png,image_jump_reactive.png \
-	../images/md/ic_directions_run_blue_24dp_2x.png,run_2x.png \
-	../images/md/ic_directions_run_blue_24dp_1x.png,image_run.png \
-	../images/md/ic_directions_run_simple_blue_24dp_1x.png,image_run_simple.png \
-	../images/md/ic_directions_run_simple_yellow_24dp_1x.png,image_run_simple_yellow.png \
-	../images/md/ic_directions_run_multiple_blue_24dp_1x.png,image_run_multiple.png \
-	../images/md/ic_directions_run_multiple_yellow_24dp_1x.png,image_run_multiple_yellow.png \
-	../images/md/ic_directions_run_photocell_blue_24dp_2x.png,run_photocell.png \
-	../images/md/ic_directions_run_track_blue_24dp_1x.png,run_track_distance.png \
+	../images/md/ic_direct_run_blue_24dp_2x.png,run_2x.png \
+	../images/md/ic_direct_run_blue_24dp_1x.png,image_run.png \
+	../images/md/ic_direct_run_simple_blue_24dp_1x.png,image_run_simple.png \
+	../images/md/ic_direct_run_simple_yellow_24dp_1x.png,image_run_simple_yellow.png \
+	../images/md/ic_direct_run_multiple_blue_24dp_1x.png,image_run_multiple.png \
+	../images/md/ic_direct_run_multiple_yellow_24dp_1x.png,image_run_multiple_yellow.png \
+	../images/md/ic_direct_run_photocell_blue_24dp_2x.png,run_photocell.png \
+	../images/md/ic_direct_run_track_blue_24dp_1x.png,run_track_distance.png \
 	../images/md/ic_build_blue_24dp_1x.png,image_build_24.png \
 	../images/md/ic_build_blue_16dp_1x.png,image_build_16.png \
 	../images/md/ic_edit_blue_24dp_1x.png,image_edit.png \
@@ -531,9 +531,9 @@ RESOURCES = \
 	../images/md/ic_fitness_center_blue_24dp_1x.png,image_exercise.png \
 	../images/md/ic_keyboard_arrow_up_blue_24dp_1x.png,image_up.png \
 	../images/md/ic_keyboard_arrow_down_blue_24dp_1x.png,image_down.png \
-	../images/md/baseline_arrow_forward_blue_24dp.png,arrow_forward.png \
-	../images/md/baseline_arrow_backward_blue_24dp.png,arrow_backward.png \
-	../images/md/baseline_arrow_forward_red_yellow_24dp.png,arrow_forward_emphasis.png \
+	../images/md/arrow_forward_blue_24dp.png,arrow_forward.png \
+	../images/md/arrow_backward_blue_24dp.png,arrow_backward.png \
+	../images/md/arrow_forward_red_yellow_24dp.png,arrow_forward_emphasis.png \
 	../images/md/inertial_rolled.png,inertial_rolled.png \
 	../images/md/inertial_half_rolled.png,inertial_half_rolled.png \
 	../images/md/inertial_extended.png,inertial_extended.png \
@@ -541,33 +541,33 @@ RESOURCES = \
 	../images/md/ic_folder_check_blue_24dp_1x.png,folder_check.png \
 	../images/md/ic_test_inspect_blue_24dp_1x.png,image_test_inspect.png \
 	../images/md/ic_zoom_blue_24dp_1x.png,zoom.png \
-	../images/md/baseline_portrait_search_blue_24dp.png,portrait_zoom.png \
+	../images/md/portrait_search_blue_24dp.png,portrait_zoom.png \
 	../images/md/trigger_2x.png,image_encoder_triggers.png \
 	../images/md/trigger_no_2x.png,image_encoder_triggers_no.png \
-	../images/md/baseline_warning_blue_24dp.png,image_warning_blue.png \
-	../images/md/baseline_warning_red_24dp.png,image_warning_red.png \
-	../images/md/baseline_mail_outline_blue_24dp.png,image_email.png \
-	../images/md/baseline_check_box_blue_24dp.png,image_check.png \
-	../images/md/baseline_save_blue_24dp.png,save.png \
-	../images/md/baseline_new_releases_blue_24dp.png,new.png \
-	../images/md/baseline_menu_blue_24dp.png,image_menu.png \
-	../images/md/baseline_apps_6_separated_blue_24dp.png,image_modes.png \
-	../images/md/baseline_apps_6_separated_jump_blue_24dp.png,image_modes_jump.png \
-	../images/md/baseline_apps_6_separated_run_blue_24dp.png,image_modes_run.png \
-	../images/md/baseline_apps_6_separated_force_blue_24dp.png,image_modes_force.png \
-	../images/md/baseline_apps_6_separated_encoder_blue_24dp.png,image_modes_encoder.png \
-	../images/md/baseline_apps_6_separated_rt_blue_24dp.png,image_modes_rt.png \
-	../images/md/baseline_apps_6_separated_other_blue_24dp.png,image_modes_other.png \
-	../images/md/baseline_menu_book_blue_24dp.png,image_book.png \
-	../images/md/baseline_keyboard_blue_24dp.png,image_keyboard.png \
-	../images/md/baseline_more_horiz_blue_24dp.png,image_more_horiz.png \
+	../images/md/warning_blue_24dp.png,image_warning_blue.png \
+	../images/md/warning_red_24dp.png,image_warning_red.png \
+	../images/md/mail_outline_blue_24dp.png,image_email.png \
+	../images/md/check_box_blue_24dp.png,image_check.png \
+	../images/md/save_blue_24dp.png,save.png \
+	../images/md/new_releases_blue_24dp.png,new.png \
+	../images/md/menu_blue_24dp.png,image_menu.png \
+	../images/md/apps_6_sep_blue_24dp.png,image_modes.png \
+	../images/md/apps_6_sep_jump_blue_24dp.png,image_modes_jump.png \
+	../images/md/apps_6_sep_run_blue_24dp.png,image_modes_run.png \
+	../images/md/apps_6_sep_force_blue_24dp.png,image_modes_force.png \
+	../images/md/apps_6_sep_encoder_blue_24dp.png,image_modes_encoder.png \
+	../images/md/apps_6_sep_rt_blue_24dp.png,image_modes_rt.png \
+	../images/md/apps_6_sep_other_blue_24dp.png,image_modes_other.png \
+	../images/md/menu_book_blue_24dp.png,image_book.png \
+	../images/md/keyboard_blue_24dp.png,image_keyboard.png \
+	../images/md/more_horiz_blue_24dp.png,image_more_horiz.png \
 	../images/md/about.png,image_about.png \
 	../images/md/folders_blue.png,image_folders.png \
 	../images/md/folders_backup_blue.png,image_db_backup.png \
-	../images/md/baseline_help_blue_24dp.png,image_help.png \
-	../images/md/baseline_store_blue_24dp.png,image_store_blue.png \
-	../images/md/baseline_store_yellow_24dp.png,image_store_yellow.png \
-	../images/md/baseline_store_blue_news_24dp.png,image_store_has_new_products.png \
+	../images/md/help_blue_24dp.png,image_help.png \
+	../images/md/store_blue_24dp.png,image_store_blue.png \
+	../images/md/store_yellow_24dp.png,image_store_yellow.png \
+	../images/md/store_blue_news_24dp.png,image_store_has_new_products.png \
 	../images/chronojump_icon.png,chronojump_icon.png \
 	../images/chronojump_icon_transp.png,chronojump_icon_transp.png \
 	../images/chronojump_icon_graph.png,chronojump_icon_graph.png \
@@ -587,8 +587,8 @@ RESOURCES = \
 	../images/reaction_time_icon_yellow.png,reaction_time_icon_yellow.png \
 	../images/other_icon.png,other_icon.png \
 	../images/other_icon_yellow.png,other_icon_yellow.png \
-	../images/md/ic_directions_race_encoder_blue_24dp_1x.png,race_encoder_icon.png \
-	../images/md/ic_directions_race_encoder_yellow_24dp_1x.png,race_encoder_icon_yellow.png \
+	../images/md/ic_direct_race_encoder_blue_24dp_1x.png,race_encoder_icon.png \
+	../images/md/ic_direct_race_encoder_yellow_24dp_1x.png,race_encoder_icon_yellow.png \
 	../images/gtk-apply.png,gtk-apply.png \
 	../images/gtk-cancel.png,gtk-cancel.png \
 	../images/gtk-zoom-fit.png,gtk-zoom-fit.png \

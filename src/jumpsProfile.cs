@@ -27,7 +27,7 @@ public class JumpsProfileIndex
 {
 	public string name;
 
-	public enum ErrorCodes { NEEDJUMP, NEGATIVE, NONE_OK }
+	public enum ErrorCodes { NEEDJUMP, NEGATIVE, DJATOOLOW, NONE_OK }
 	public ErrorCodes errorCode;
 	public string Text;
 	public Cairo.Color Color;
@@ -76,6 +76,8 @@ public class JumpsProfileIndex
 			ErrorMessage = Catalog.GetString("Need to execute jump/s"); //TODO: write which jumps
 		else if(errorCode == ErrorCodes.NEGATIVE)
 			ErrorMessage = string.Format(Catalog.GetString("Negative index: {0} is higher than {1}"), jumpLowerName, jumpHigherName);
+		else if(errorCode == ErrorCodes.DJATOOLOW)
+			ErrorMessage = string.Format("Jump {0} too low", "Dja"); //TODO: Catalog on this string
 	}
 
 	private double calculateIndex (Types type, double higher, double lower, double dja) 
@@ -88,7 +90,17 @@ public class JumpsProfileIndex
 		}
 
 		if(type == Types.FMAX)	//this index only uses higher
+		{
+			if(higher > dja)
+			{
+				errorCode = ErrorCodes.DJATOOLOW;
+				return 0;
+			}
+
+			LogB.Information(string.Format("calculateIndex, type:{0}, higher:{1}, lower:{2}, dja:{3}, value:{4}",
+					type, higher, lower, dja, higher/dja));
 			return higher / dja;
+		}
 
 		if(lower == 0) {
 			errorCode = ErrorCodes.NEEDJUMP;
@@ -99,6 +111,15 @@ public class JumpsProfileIndex
 			errorCode = ErrorCodes.NEGATIVE;
 			//return 0;
 		}
+
+		if(higher > dja) // at least a jump is higher than DJa
+		{
+			errorCode = ErrorCodes.DJATOOLOW;
+			return 0;
+		}
+
+		LogB.Information(string.Format("calculateIndex, type:{0}, higher:{1}, lower:{2}, dja:{3}, value:{4}",
+					type, higher, lower, dja, (higher-lower)/dja));
 
 		return (higher - lower) / dja;
 	}

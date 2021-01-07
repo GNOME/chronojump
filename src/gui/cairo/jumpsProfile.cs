@@ -67,6 +67,9 @@ public static class JumpsProfileGraph
 		g.Paint();
 
 		//3 calculate sum
+		//but is not needed, because sum has to be dja
+		//so if we have sum = 1 we can plot grey areas when not all indexes are calculated
+		//so later sum will be 1, now is ok to just show an error message
 		double sum = 0;
 		foreach(JumpsProfileIndex jpi in l_jpi)
 			if(jpi.Result >= 0)
@@ -87,18 +90,30 @@ public static class JumpsProfileGraph
 			return;
 		}
 
-
 		//5 plot arcs
-		if(sum > 0 ) {
+		if(sum > 0 )
+		{
 			double acc = 0; //accumulated
+			bool someIndexNotPositive = false; //is not positive if does not exist (need jumps) or is negative
 			foreach(JumpsProfileIndex jpi in l_jpi) {
-				double percent = 2 * jpi.Result / sum; //*2 to be in range 0*pi - 2*pi
+				//double percent = 2 * jpi.Result / sum; //*2 to be in range 0*pi - 2*pi
+				double percent = 2 * jpi.Result / 1; //*2 to be in range 0*pi - 2*pi
+				//LogB.Information("percent: " + percent.ToString());
+
 				if(percent > 0)
 				{
 					plotArc(200, 200, 150, acc -.5, acc + percent -.5, g, jpi.Color); //-.5 to start at top of the pie
 					acc += percent;
-				}
+				} else
+					someIndexNotPositive = true;
 			}
+			if(someIndexNotPositive) //then draw in white to complete the circle
+			{
+				//Cairo.Color white90 = new Cairo.Color(233/256.0, 233/256.0, 233/256.0);
+				Cairo.Color white100 = new Cairo.Color(1,1,1);
+				plotArc(200, 200, 150, acc -.5, 2 -.5, g, white100); //-.5 to start at top of the pie
+			}
+
 			//fix last radius line, because ClosePath has been disabled
 			g.MoveTo (200,50);
 			g.LineTo (200, 200);

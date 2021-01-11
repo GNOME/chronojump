@@ -237,7 +237,6 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         print(paste("T0:", T0))
         time = time + T0
         print(paste("P0:", P0))
-        time = time + P0
 
         print("startTime:")
         print(totalTime[trimmingSamples$start] + T0)

@@ -106,9 +106,9 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         speed = raceAnalyzer$displacement[2:length(raceAnalyzer$displacement)] / elapsedTime
         
         #Adjusting the time of each sample to the mean time between two samples
-        for( i in 2:length(totalTime)){
-                totalTime[i] = totalTime[i] - elapsedTime[i-1] / 2
-        }
+        # for( i in 2:length(totalTime)){
+        #         totalTime[i] = totalTime[i] - elapsedTime[i-1] / 2
+        # }
         
         #Accel of the sample N is the mean accel between N-1 and N+1 samples.
         #The time of the accel sample is the same as the speed sample.
@@ -199,7 +199,8 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
 
         # timeBefore = speed[trimmingSamples$start] * ((time[trimmingSamples$start + 1]) / (speed[trimmingSamples$start + 1] - speed[trimmingSamples$start]))
         # time = time + timeBefore
-        data = data.frame(time = time[trimmingSamples$start:trimmingSamples$end], speed = speed[trimmingSamples$start:trimmingSamples$end])
+        # data = data.frame(time = time[trimmingSamples$start:trimmingSamples$end], speed = speed[trimmingSamples$start:trimmingSamples$end])
+        data = data.frame(time = time[trimmingSamples$start:trimmingSamples$end], position = position[trimmingSamples$start:trimmingSamples$end])
         print(data)
         
         print("Trying nls")
@@ -229,16 +230,21 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
                 
         #model = nls(speed ~ Vmax*(1-exp(-K*time)), data,
         #            start = list(Vmax = max(speed), K = 1), control=nls.control(warnOnly=TRUE))
-        Vmax =summary(regression$model)$coeff[1,1]
-        K = summary(regression$model)$coeff[2,1]
+        Vmax =summary(regression$model)$coeff[2,1]
+        K = summary(regression$model)$coeff[1,1]
         T0 = summary(regression$model)$coeff[3,1]
+        P0 = summary(regression$model)$coeff[4,1]
         print(paste("T0:", T0))
         time = time + T0
-        
+        print(paste("P0:", P0))
+        time = time + P0
+
+        print("startTime:")
+        print(totalTime[trimmingSamples$start] + T0)
         return(list(Vmax = Vmax, K = K, T0,
-                    time = time, rawPosition = position, rawSpeed = speed, rawAccel = accel, rawForce = totalForce, rawPower = power,
+                    time = time, rawPosition = position + P0, rawSpeed = speed, rawAccel = accel, rawForce = totalForce, rawPower = power,
                     rawVmax = max(speed[trimmingSamples$start:trimmingSamples$end]), rawAmax = max(accel[trimmingSamples$start:trimmingSamples$end]), rawFmax = max(totalForce[trimmingSamples$start:trimmingSamples$end]), rawPmax = max(power[trimmingSamples$start:trimmingSamples$end]),
-                    startSample = trimmingSamples$start, endSample = trimmingSamples$end, testLength = testLength, longEnough = longEnough, regressionDone = regression$regressionDone, timeBefore = T0, startAccel = startAccel))
+                    startSample = trimmingSamples$start, startTime = totalTime[trimmingSamples$start] + T0, endSample = trimmingSamples$end, testLength = testLength, longEnough = longEnough, regressionDone = regression$regressionDone, timeBefore = T0, startAccel = startAccel))
 }
 
 plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
@@ -543,9 +549,9 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
                 {
                         #Plotting fittedPower
                         par(new = TRUE)
-                        plot(sprintFittedDynamics$t.fitted, sprintFittedDynamics$p.fitted
+                        plot(x = sprintFittedDynamics$t.fitted, y = sprintFittedDynamics$p.fitted
                              ,ylim = ylimits , xlim = xlimits
-                             ,type = "l", col = "red", lty = 2, lwd = 2,
+                             ,type = "l", col = "red", lty = 2, lwd = 2
                              ,xlab = "", ylab = ""
                              ,axes = FALSE, yaxs = "i", xaxs = "i")
                         text(x = sprintFittedDynamics$tpmax.fitted, y = sprintFittedDynamics$pmax.fitted
@@ -587,6 +593,8 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
         }
 
 	#triggers
+        print("triggersOn on plot:")
+        print(triggersOn)
 	abline(v=triggersOn, col="green")
 	abline(v=triggersOff, col="red")
 
@@ -669,8 +677,10 @@ tryNLS <- function(data){
         # print(data)
         tryCatch (
                 {
-                        model = nls(speed ~ Vmax*(1-exp(-K*(time + T0))), data,
-                                    start = list(Vmax = max(data[,"speed"]), K = 1, T0 = 0.2), control=nls.control(warnOnly=TRUE))
+                        # model = nls(speed ~ Vmax*(1-exp(-K*(time + T0))), data,
+                        #             start = list(Vmax = max(data[,"speed"]), K = 1, T0 = 0.2), control=nls.control(warnOnly=TRUE))
+                        model = nls(position ~ Vmax*(time + T0 + (1/K)*exp(-K*(time + T0))) -Vmax/K + P0, data
+                                    , start = list(K = 0.81, Vmax = 10, T0 = 0.2, P0 = 0.1), control=nls.control(warnOnly=TRUE))
                         # print("model:")
                         # print(model)
                         if (! model$convInfo$isConv){
@@ -694,8 +704,14 @@ testEncoderCJ <- function(filename, testLength, mass, personHeight, tempC, start
         # print(sprintRawDynamics)
         if (sprintRawDynamics$longEnough & sprintRawDynamics$regressionDone)
         {
+                print(paste("Vmax:", sprintRawDynamics$Vmax))
                 sprintFittedDynamics = getDynamicsFromSprint(K = sprintRawDynamics$K, Vmax = sprintRawDynamics$Vmax, mass, tempC, personHeight)
                 print(paste("K =",sprintFittedDynamics$K.fitted, "Vmax =", sprintFittedDynamics$Vmax.fitted))
+                print("triggersOn in testEncoderCJ:")
+                print(op$triggersOnList)
+                op$triggersOnList = op$triggersOnList/1E6 - sprintRawDynamics$startTime
+                print("triggersOn in testEncoderCJ:")
+                print(op$triggersOnList)
                 plotSprintFromEncoder(sprintRawDynamic = sprintRawDynamics, sprintFittedDynamics = sprintFittedDynamics,
 				      segmentMeters = op$segmentMeters,
                                       title = op$title,

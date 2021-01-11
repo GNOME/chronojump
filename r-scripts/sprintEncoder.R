@@ -197,8 +197,8 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         #2. Look for the cross with the X axis.
         #3. X of the cross is the time whe need to add to all the samples
 
-        timeBefore = speed[trimmingSamples$start] * ((time[trimmingSamples$start + 1]) / (speed[trimmingSamples$start + 1] - speed[trimmingSamples$start]))
-        time = time + timeBefore
+        # timeBefore = speed[trimmingSamples$start] * ((time[trimmingSamples$start + 1]) / (speed[trimmingSamples$start + 1] - speed[trimmingSamples$start]))
+        # time = time + timeBefore
         data = data.frame(time = c(0,time[trimmingSamples$start:trimmingSamples$end]), speed = c(0,speed[trimmingSamples$start:trimmingSamples$end]))
         #print(data)
         
@@ -231,7 +231,10 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         #            start = list(Vmax = max(speed), K = 1), control=nls.control(warnOnly=TRUE))
         Vmax =summary(regression$model)$coeff[1,1]
         K = summary(regression$model)$coeff[2,1]
-        return(list(Vmax = Vmax, K = K,
+        T0 = summary(regression$model)$coeff[3,1]
+        time = totalTime + T0
+        
+        return(list(Vmax = Vmax, K = K, T0,
                     time = time, rawPosition = position, rawSpeed = speed, rawAccel = accel, rawForce = totalForce, rawPower = power,
                     rawVmax = max(speed[trimmingSamples$start:trimmingSamples$end]), rawAmax = max(accel[trimmingSamples$start:trimmingSamples$end]), rawFmax = max(totalForce[trimmingSamples$start:trimmingSamples$end]), rawPmax = max(power[trimmingSamples$start:trimmingSamples$end]),
                     startSample = trimmingSamples$start, endSample = trimmingSamples$end, testLength = testLength, longEnough = longEnough, regressionDone = regression$regressionDone, timeBefore = timeBefore, startAccel = startAccel))
@@ -665,8 +668,8 @@ tryNLS <- function(data){
         # print(data)
         tryCatch (
                 {
-                        model = nls(speed ~ Vmax*(1-exp(-K*time)), data,
-                                    start = list(Vmax = max(data[,"speed"]), K = 1), control=nls.control(warnOnly=TRUE))
+                        model = nls(speed ~ Vmax*(1-exp(-K*(time - T0))), data,
+                                    start = list(Vmax = max(data[,"speed"]), K = 1, T0 = 0.2), control=nls.control(warnOnly=TRUE))
                         # print("model:")
                         # print(model)
                         if (! model$convInfo$isConv){

@@ -68,7 +68,7 @@ public partial class ChronoJumpWindow
 			if(jumpsProfile.AllJumpsDone)
 			{
 				hbox_jumps_profile_jumps_done.Visible = false;
-				button_jumps_profile_save_image.Sensitive = true;
+				//button_jumps_profile_save_image.Sensitive = true;
 			} else {
 				hbox_jumps_profile_jumps_done.Visible = true;
 				JumpsProfileGraph.ShowDoneJumps(jumpsProfile.JumpsDone,
@@ -78,8 +78,9 @@ public partial class ChronoJumpWindow
 						image_jumps_profile_abk_yes, image_jumps_profile_abk_no,
 						image_jumps_profile_dja_yes, image_jumps_profile_dja_no
 						);
-				button_jumps_profile_save_image.Sensitive = false;
+				//button_jumps_profile_save_image.Sensitive = false;
 			}
+			button_jumps_profile_save_image.Sensitive = true; //allow to save image without having all 5 indexes
 		}
 
 		JumpsProfileGraph.Do(jumpsProfile.GetIndexes(), drawingarea_jumps_profile,

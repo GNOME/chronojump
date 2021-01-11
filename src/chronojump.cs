@@ -735,7 +735,7 @@ public class ChronoJump
 		string sendErrorLogStr = Catalog.GetString("Send error log");
 		messageCrashedBefore =
 			string.Format(Catalog.GetString("Chronojump {0} crashed before."), BuildInfo.chronojumpVersion) + "\n" +
-			string.Format(Catalog.GetString("Please, fill your email and click on '{0}' in order to fix this fast and contact you if appropriate."), sendErrorLogStr) + "\n" +
+			string.Format(Catalog.GetString("Please, fill your email and click on '{0}' in order to fix this fast and contact you if appropriate."), sendErrorLogStr) + " " +
 			Catalog.GetString("Your help is needed.");
 
 

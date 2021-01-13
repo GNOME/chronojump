@@ -23601,6 +23601,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -28447,18 +28450,6 @@ Concentric</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Tests will be filmed</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack_type">end</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <widget class="GtkHBox" id="hbox_video_encoder_capturing">
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
@@ -28486,6 +28477,18 @@ Concentric</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Tests will be filmed</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -36762,6 +36765,9 @@ then click this button.</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -42631,19 +42637,54 @@ then click this button.</property>
                                         <property name="can_focus">False</property>
                                         <property name="border_width">4</property>
                                         <child>
-                                          <widget class="GtkHBox" id="hbox453">
+                                          <widget class="GtkAlignment" id="alignment67">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
+                                            <property name="bottom_padding">2</property>
                                             <child>
-                                              <widget class="GtkHBox" id="hbox447">
+                                              <widget class="GtkHBox" id="hbox453">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="spacing">6</property>
                                                 <child>
-                                                  <widget class="GtkImage" id="image_news_blue">
+                                                  <widget class="GtkHBox" id="hbox447">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="stock">gtk-missing-image</property>
+                                                    <property name="spacing">6</property>
+                                                    <child>
+                                                      <widget class="GtkImage" id="image_news_blue">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="stock">gtk-missing-image</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">False</property>
+                                                        <property name="position">0</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkImage" id="image_news_yellow">
+                                                        <property name="can_focus">False</property>
+                                                        <property name="stock">gtk-missing-image</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">False</property>
+                                                        <property name="position">1</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label_news_frame">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="label" translatable="yes">Latest products</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="expand">True</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">2</property>
+                                                      </packing>
+                                                    </child>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -42652,79 +42693,51 @@ then click this button.</property>
                                                   </packing>
                                                 </child>
                                                 <child>
-                                                  <widget class="GtkImage" id="image_news_yellow">
+                                                  <widget class="GtkHBox" id="hbox452">
+                                                    <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="stock">gtk-missing-image</property>
+                                                    <property name="spacing">8</property>
+                                                    <child>
+                                                      <widget class="GtkRadioButton" id="radio_news_language_english">
+                                                        <property name="label" translatable="yes">English</property>
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="receives_default">False</property>
+                                                        <property name="active">True</property>
+                                                        <property name="draw_indicator">False</property>
+                                                        <signal name="toggled" handler="on_radio_news_language_english_toggled" swapped="no"/>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="expand">True</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">0</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkRadioButton" id="radio_news_language_spanish">
+                                                        <property name="label" translatable="yes">Spanish</property>
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="receives_default">False</property>
+                                                        <property name="draw_indicator">False</property>
+                                                        <property name="group">radio_news_language_english</property>
+                                                        <signal name="toggled" handler="on_radio_news_language_spanish_toggled" swapped="no"/>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="expand">True</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">1</property>
+                                                      </packing>
+                                                    </child>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>
                                                     <property name="fill">False</property>
-                                                    <property name="position">1</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <widget class="GtkLabel" id="label_news_frame">
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
-                                                    <property name="label" translatable="yes">Latest products</property>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="expand">True</property>
-                                                    <property name="fill">True</property>
-                                                    <property name="position">2</property>
-                                                  </packing>
-                                                </child>
-                                              </widget>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">False</property>
-                                                <property name="position">0</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <widget class="GtkHBox" id="hbox452">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="spacing">8</property>
-                                                <child>
-                                                  <widget class="GtkRadioButton" id="radio_news_language_english">
-                                                    <property name="label" translatable="yes">English</property>
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">True</property>
-                                                    <property name="receives_default">False</property>
-                                                    <property name="active">True</property>
-                                                    <property name="draw_indicator">False</property>
-                                                    <signal name="toggled" handler="on_radio_news_language_english_toggled" swapped="no"/>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="expand">True</property>
-                                                    <property name="fill">True</property>
-                                                    <property name="position">0</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <widget class="GtkRadioButton" id="radio_news_language_spanish">
-                                                    <property name="label" translatable="yes">Spanish</property>
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">True</property>
-                                                    <property name="receives_default">False</property>
-                                                    <property name="draw_indicator">False</property>
-                                                    <property name="group">radio_news_language_english</property>
-                                                    <signal name="toggled" handler="on_radio_news_language_spanish_toggled" swapped="no"/>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="expand">True</property>
-                                                    <property name="fill">True</property>
+                                                    <property name="pack_type">end</property>
                                                     <property name="position">1</property>
                                                   </packing>
                                                 </child>
                                               </widget>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">False</property>
-                                                <property name="pack_type">end</property>
-                                                <property name="position">1</property>
-                                              </packing>
                                             </child>
                                           </widget>
                                           <packing>
@@ -42750,15 +42763,22 @@ then click this button.</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                     <child>
-                                                      <widget class="GtkHBox" id="hbox451">
+                                                      <widget class="GtkAlignment" id="alignment55">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
+                                                        <property name="top_padding">2</property>
                                                         <child>
-                                                          <widget class="GtkHBox" id="hbox_news_newer_older">
+                                                          <widget class="GtkHBox" id="hbox451">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox_news_newer_older">
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">20</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_news_newer">
+                                                            <property name="width_request">40</property>
+                                                            <property name="height_request">30</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
@@ -42790,6 +42810,8 @@ then click this button.</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkButton" id="button_news_older">
+                                                            <property name="width_request">40</property>
+                                                            <property name="height_request">30</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
@@ -42807,12 +42829,14 @@ then click this button.</property>
                                                             <property name="position">2</property>
                                                             </packing>
                                                             </child>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">0</property>
-                                                          </packing>
+                                                            </packing>
+                                                            </child>
+                                                          </widget>
                                                         </child>
                                                       </widget>
                                                       <packing>

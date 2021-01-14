@@ -1049,7 +1049,13 @@ public partial class ChronoJumpWindow
 
 		//close the encoder exercise config win if it was opened
 		if(notebook_hpaned_encoder_or_exercise_config.CurrentPage == 1) //frame_encoder_exercise_config
+		{
+			/*
+			   not only this:
 			notebook_hpaned_encoder_or_exercise_config.CurrentPage = 0;
+			we need also to make menus_sensitive, ..., so do:*/
+			encoder_exercise_show_hide (false);
+		}
 
 		currentPerson = null;
 		currentPersonSession = null;

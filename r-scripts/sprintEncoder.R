@@ -201,7 +201,7 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         # time = time + timeBefore
         # data = data.frame(time = time[trimmingSamples$start:trimmingSamples$end], speed = speed[trimmingSamples$start:trimmingSamples$end])
         data = data.frame(time = time[trimmingSamples$start:trimmingSamples$end], position = position[trimmingSamples$start:trimmingSamples$end])
-        print(data)
+        # print(data)
         
         print("Trying nls")
         regression = tryNLS(data)
@@ -706,11 +706,14 @@ testEncoderCJ <- function(filename, testLength, mass, personHeight, tempC, start
                 print(paste("Vmax:", sprintRawDynamics$Vmax))
                 sprintFittedDynamics = getDynamicsFromSprint(K = sprintRawDynamics$K, Vmax = sprintRawDynamics$Vmax, mass, tempC, personHeight)
                 print(paste("K =",sprintFittedDynamics$K.fitted, "Vmax =", sprintFittedDynamics$Vmax.fitted))
-                print("triggersOn in testEncoderCJ:")
-                print(op$triggersOnList)
+                # print("triggersOn in testEncoderCJ:")
+                # print(op$triggersOnList)
                 op$triggersOnList = op$triggersOnList/1E6 - sprintRawDynamics$startTime
-                print("triggersOn in testEncoderCJ:")
-                print(op$triggersOnList)
+                # print("triggersOn in testEncoderCJ:")
+                # print(op$triggersOnList)
+                op$triggersOffList = op$triggersOffList/1E6 - sprintRawDynamics$startTime
+                # print("triggersOff in testEncoderCJ:")
+                print(op$triggersOffList)
                 plotSprintFromEncoder(sprintRawDynamic = sprintRawDynamics, sprintFittedDynamics = sprintFittedDynamics,
 				      segmentMeters = op$segmentMeters,
                                       title = op$title,

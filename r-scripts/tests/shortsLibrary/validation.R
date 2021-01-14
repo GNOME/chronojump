@@ -48,105 +48,118 @@ getModelWithOptimalTimeCorrection <- function(split_times)
 WorlChampionshipSplitTimes <- read.csv2("~/chronojump/r-scripts/tests/shortsLibrary/WorlChampionshipSplitTimes.csv")
 
 resultsColumns = c("Vmax3P", "Tau3P", "RSE3P"
-          , "Vmax3CorrectedP", "Tau3CorrectedP", "RSE3CorrectedP"
-          , "Vmax3S", "Tau3S", "RSE3S"
-          , "Vmax3CorrectedS", "Tau3CorrectedS", "RSE3CorrectedS"
-          , "Vmax4P", "Tau4P", "RSE4P"
-          , "Vmax4CorrectedP", "Tau4CorrectedP", "RSE4CorrectedP"
-          , "Vmax4S", "Tau4S", "RSE4S"
-          , "Vmax4CorrectedS", "Tau4CorrectedS", "RSE4CorrectedS"
-          , "Vmax5CorrectedS", "Tau5CorrectedS", "RSE5CorrectedS"
+                   , "Vmax3CorrectedP", "Tau3CorrectedP", "RSE3CorrectedP"
+                   , "Vmax3S", "Tau3S", "RSE3S"
+                   , "Vmax3CorrectedS", "Tau3CorrectedS", "RSE3CorrectedS"
+                   , "Vmax4P", "Tau4P", "RSE4P"
+                   , "Vmax4CorrectedP", "Tau4CorrectedP", "RSE4CorrectedP"
+                   , "Vmax4S", "Tau4S", "RSE4S"
+                   , "Vmax4CorrectedS", "Tau4CorrectedS", "RSE4CorrectedS"
+                   , "Vmax5CorrectedS", "Tau5CorrectedS", "RSE5CorrectedS"
 )
 results = matrix(nrow=length(WorlChampionshipSplitTimes[,1]), ncol = length(resultsColumns))
 colnames(results) = resultsColumns
 
-for(i in 1:length(WorlChampionshipSplitTimes[,1])){
+analyze_splits <- function(WorlChampionshipSplitTimes){
     
-    splitTimes5 = data.frame(
-        position = c(10,20,30,40, 50),
-        time = c(WorlChampionshipSplitTimes[i,5], WorlChampionshipSplitTimes[i,6], WorlChampionshipSplitTimes[i,7], WorlChampionshipSplitTimes[i,8], WorlChampionshipSplitTimes[i,9])
-    )
+    for(i in 1:length(WorlChampionshipSplitTimes[,1])){
+        print(i)
+        
+        splitTimes5 = data.frame(
+            position = c(10,20,30,40, 50),
+            time = c(WorlChampionshipSplitTimes[i,5], WorlChampionshipSplitTimes[i,6], WorlChampionshipSplitTimes[i,7], WorlChampionshipSplitTimes[i,8], WorlChampionshipSplitTimes[i,9])
+        )
+        
+        splitTimes4 = data.frame(
+            position = c(10,20,30,40),
+            time = c(WorlChampionshipSplitTimes[i,5], WorlChampionshipSplitTimes[i,6], WorlChampionshipSplitTimes[i,7], WorlChampionshipSplitTimes[i,8])
+        )
+        
+        
+        splitTimes3 = data.frame(
+            position = c(10,20,30),
+            time = c(WorlChampionshipSplitTimes[i,5], WorlChampionshipSplitTimes[i,6], WorlChampionshipSplitTimes[i,7])
+        )
+        
+        # Padu's 3 split times model without correction
+        model = stats::nls(
+            # position ~ I(Vmax*(time + (1/K)*exp(-K*time))) -Vmax/K, splitTimes3
+            # corrected_time ~ (1/K) * I(LambertW::W(-exp(1)^(-distance / (Vmax * 1/K) - 1))) + distance / Vmax + 1/K
+            time ~ ((1/K) * I(LambertW::W(-exp(1)^(-position / (Vmax / K) - 1))) + position / Vmax + 1/K), splitTimes3
+            , start = list(K = 1, Vmax = 10)
+            , control=nls.control(warnOnly=TRUE))
+        # print(model)
+        # print(paste("P --- Vmax:", summary(model)$parameters[2], "Tau:", 1/summary(model)$parameters[1]))
+        results[i, "Vmax3P"] = summary(model)$parameters[2]
+        results[i, "Tau3P"] = summary(model)$parameters[1]
+        results[i, "RSE3P"] = summary(model)$sigma
+        
+        #Shorts 3 split times model without correction
+        model = with(
+            splitTimes3,
+            model_using_splits(position, time)
+        )
+        # print(model)
+        results[i, "Vmax3S"] = summary(model)$parameters[1]
+        results[i, "Tau3S"] = summary(model)$parameters[2]
+        results[i, "RSE3S"] = model$model_fit$RSE
+        
+        # #Shorts 3 split times model with correction (Padu's correction)
+        # # model = getModelWithOptimalTimeCorrection(splitTimes3)
+        # model = getModelWithOptimalTimeCorrection(splitTimes3)
+        # results[i, "Vmax3CorrectedS"] = summary(model)$parameters[1]
+        # results[i, "Tau3CorrectedS"] = summary(model)$parameters[2]
+        # results[i, "RSE3CorrectedS"] = model$model_fit$RSE
+        
+        # Padu's 4 split times model without correction
+        model = nls(position ~ Vmax*(time + (1/K)*exp(-K*time)) -Vmax/K, splitTimes4
+                    , start = list(K = 0.81, Vmax = 10), control=nls.control(warnOnly=TRUE))
+        # print(paste("P --- Vmax:", summary(model)$parameters[2], "Tau:", 1/summary(model)$parameters[1]))
+        results[i, "Vmax4P"] = summary(model)$parameters[2]
+        results[i, "Tau4P"] = summary(model)$parameters[1]
+        results[i, "RSE4P"] = summary(model)$sigma
+        
+        # Padu's 4 split times model with correction
+        model = nls(position ~ Vmax*(time + T0 + (1/K)*exp(-K*(time + T0))) -Vmax/K, splitTimes4
+                    , start = list(K = 0.81, Vmax = 10, T0 = 0.2), control=nls.control(warnOnly=TRUE))
+        # print(paste("P --- Vmax:", summary(model)$parameters[2], "Tau:", 1/summary(model)$parameters[1]))
+        results[i, "Vmax4CorrectedP"] = summary(model)$parameters[2]
+        results[i, "Tau4CorrectedP"] = summary(model)$parameters[1]
+        results[i, "RSE4CorrectedP"] = summary(model)$sigma
+        
+        #Shorts 4 split times model without correction
+        model = with(
+            splitTimes4,
+            model_using_splits(position, time)
+        )
+        # print(paste("Shorts --- Vmax:", summary(model)$parameters[1], "Tau:", 1/summary(model)$parameters[2]))
+        results[i, "Vmax4S"] = summary(model)$parameters[1]
+        results[i, "Tau4S"] = summary(model)$parameters[2]
+        results[i, "RSE4S"] = model$model_fit$RSE
+        
+        #Shorts 4 split times model with time correction
+        model = with(
+            splitTimes4,
+            model_using_splits_with_time_correction(position, time)
+        )
+        # print(paste("Shorts --- Vmax:", summary(model)$parameters[1], "Tau:", 1/summary(model)$parameters[2]))
+        results[i, "Vmax4CorrectedS"] = summary(model)$parameters[1]
+        results[i, "Tau4CorrectedS"] = summary(model)$parameters[2]
+        results[i, "RSE4CorrectedS"] = model$model_fit$RSE
+        
+        #Shorts 5 split times model with time and distance correction
+        model = with(
+            splitTimes5,
+            model_using_splits_with_time_correction(position, time)
+        )
+        # print(paste("Shorts --- Vmax:", summary(model)$parameters[1], "Tau:", 1/summary(model)$parameters[2]))
+        results[i, "Vmax5CorrectedS"] = summary(model)$parameters[1]
+        results[i, "Tau5CorrectedS"] = summary(model)$parameters[2]
+        results[i, "RSE5CorrectedS"] = model$model_fit$RSE
+        
+    }
     
-    splitTimes4 = data.frame(
-        position = c(10,20,30,40),
-        time = c(WorlChampionshipSplitTimes[i,5], WorlChampionshipSplitTimes[i,6], WorlChampionshipSplitTimes[i,7], WorlChampionshipSplitTimes[i,8])
-    )
     
-    
-    splitTimes3 = data.frame(
-        position = c(10,20,30),
-        time = c(WorlChampionshipSplitTimes[i,5], WorlChampionshipSplitTimes[i,6], WorlChampionshipSplitTimes[i,7])
-    )
-    
-    # Padu's 3 split times model without correction
-    model = nls(position ~ Vmax*(time + (1/K)*exp(-K*time)) -Vmax/K, splitTimes3
-                , start = list(K = 0.81, Vmax = 10), control=nls.control(warnOnly=TRUE))
-    # print(paste("P --- Vmax:", summary(model)$parameters[2], "Tau:", 1/summary(model)$parameters[1]))
-    results[i, "Vmax3P"] = summary(model)$parameters[2]
-    results[i, "Tau3P"] = summary(model)$parameters[1]
-    results[i, "RSE3P"] = summary(model)$sigma
-    
-    #Shorts 3 split times model without correction
-    model = with(
-        splitTimes3,
-        model_using_splits(position, time)
-    )
-    results[i, "Vmax3S"] = summary(model)$parameters[1]
-    results[i, "Tau3S"] = summary(model)$parameters[2]
-    results[i, "RSE3S"] = model$model_fit$RSE
-    
-    #Shorts 3 split times model with correction (Padu's correction)
-    model = getModelWithOptimalTimeCorrection(splitTimes3)
-    results[i, "Vmax3CorrectedS"] = summary(model)$parameters[1]
-    results[i, "Tau3CorrectedS"] = summary(model)$parameters[2]
-    results[i, "RSE3CorrectedS"] = model$model_fit$RSE
-    
-    # Padu's 4 split times model without correction
-    model = nls(position ~ Vmax*(time + (1/K)*exp(-K*time)) -Vmax/K, splitTimes4
-                , start = list(K = 0.81, Vmax = 10), control=nls.control(warnOnly=TRUE))
-    # print(paste("P --- Vmax:", summary(model)$parameters[2], "Tau:", 1/summary(model)$parameters[1]))
-    results[i, "Vmax4P"] = summary(model)$parameters[2]
-    results[i, "Tau4P"] = summary(model)$parameters[1]
-    results[i, "RSE4P"] = summary(model)$sigma
-    
-    # Padu's 4 split times model with correction
-    model = nls(position ~ Vmax*(time + T0 + (1/K)*exp(-K*(time + T0))) -Vmax/K, splitTimes4
-                , start = list(K = 0.81, Vmax = 10, T0 = 0.2), control=nls.control(warnOnly=TRUE))
-    # print(paste("P --- Vmax:", summary(model)$parameters[2], "Tau:", 1/summary(model)$parameters[1]))
-    results[i, "Vmax4CorrectedP"] = summary(model)$parameters[2]
-    results[i, "Tau4CorrectedP"] = summary(model)$parameters[1]
-    results[i, "RSE4CorrectedP"] = summary(model)$sigma
-    
-    #Shorts 4 split times model without correction
-    model = with(
-        splitTimes4,
-        model_using_splits(position, time)
-    )
-    # print(paste("Shorts --- Vmax:", summary(model)$parameters[1], "Tau:", 1/summary(model)$parameters[2]))
-    results[i, "Vmax4S"] = summary(model)$parameters[1]
-    results[i, "Tau4S"] = summary(model)$parameters[2]
-    results[i, "RSE4S"] = model$model_fit$RSE
-    
-    #Shorts 4 split times model with time correction
-    model = with(
-        splitTimes4,
-        model_using_splits_with_time_correction(position, time)
-    )
-    # print(paste("Shorts --- Vmax:", summary(model)$parameters[1], "Tau:", 1/summary(model)$parameters[2]))
-    results[i, "Vmax4CorrectedS"] = summary(model)$parameters[1]
-    results[i, "Tau4CorrectedS"] = summary(model)$parameters[2]
-    results[i, "RSE4CorrectedS"] = model$model_fit$RSE
-    
-    #Shorts 5 split times model with time and distance correction
-    model = with(
-        splitTimes5,
-        model_using_splits_with_time_correction(position, time)
-    )
-    # print(paste("Shorts --- Vmax:", summary(model)$parameters[1], "Tau:", 1/summary(model)$parameters[2]))
-    results[i, "Vmax5CorrectedS"] = summary(model)$parameters[1]
-    results[i, "Tau5CorrectedS"] = summary(model)$parameters[2]
-    results[i, "RSE5CorrectedS"] = model$model_fit$RSE
-    
+    return(results)
 }
-
-print(results)
+analyze_splits(WorlChampionshipSplitTimes)

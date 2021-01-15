@@ -24,7 +24,7 @@ source(paste(options[1], "/scripts-util.R", sep=""))
 
 #Calculates all kinematic and dynamic variables using the sprint parameters (K and Vmax) and the conditions of the test (Mass and Height of the subject,
 #Temperature in the moment of the test and Velocity of the wind).
-getDynamicsFromSprint <- function(K, Vmax, Mass, Temperature = 25, Height , Vw = 0, maxTime = 10)
+getDynamicsFromSprint <- function(K, Vmax, Mass, T0 = 0, Temperature = 25, Height , Vw = 0, maxTime = 10)
 {
 	# maxTime is used for the numerical calculations
         # Constants for the air friction modeling
@@ -44,7 +44,7 @@ getDynamicsFromSprint <- function(K, Vmax, Mass, Temperature = 25, Height , Vw =
         sfv.rel.fitted = sfv.fitted / Mass
 
         # Getting values from the exponential model. Used for numerical calculations
-        time = seq(0,maxTime, by = 0.01)      
+        time = seq(0,maxTime + T0, by = 0.01)      
         v.fitted=Vmax*(1-exp(-K*time))
         a.fitted = Vmax*K*exp(-K*time)
         f.fitted = Mass*a.fitted + Ka*(v.fitted - Vw)^2
@@ -75,6 +75,7 @@ getDynamicsFromSprint <- function(K, Vmax, Mass, Temperature = 25, Height , Vw =
                     t.fitted = time,
                     K.fitted = K,
                     Vmax.fitted = Vmax,
+                    T0.fitted = T0,
                     amax.fitted = amax.fitted,
                     fmax.fitted = fmax.fitted,
                     fmax.rel.fitted = fmax.rel.fitted,

@@ -41,6 +41,7 @@ fixDatetime <- function(str)
 
 #Function to get the interpolated x at a given y
 interpolateXAtY <- function(X, Y, desiredY){
+    # print(paste("finding the X at desiredY:", desiredY))
         if(max(Y) < desiredY){
                 # print("desiredY is greater than max(Y)")
                 return(max(Y))

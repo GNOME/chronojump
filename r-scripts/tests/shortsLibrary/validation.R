@@ -96,9 +96,7 @@ analyze_splits <- function(WorlChampionshipSplitTimes){
         
     #Padu's 3 split times model without correction
         model = stats::nls(
-            # position ~ I(Vmax*(time + (1/K)*exp(-K*time))) -Vmax/K, splitTimes3
-            # corrected_time ~ (1/K) * I(LambertW::W(-exp(1)^(-distance / (Vmax * 1/K) - 1))) + distance / Vmax + 1/K
-            time ~ ((1/K) * I(LambertW::W(-exp(1)^(-position / (Vmax / K) - 1))) + position / Vmax + 1/K), splitTimes3
+            position ~ I(Vmax*(time + (1/K)*exp(-K*time))) -Vmax/K, splitTimes3
             , start = list(K = 1, Vmax = 10)
             , control=nls.control(warnOnly=TRUE))
         # print(model)

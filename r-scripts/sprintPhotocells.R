@@ -184,7 +184,7 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
         #Calculating measured average speeds
         avg.speeds = diff(positions)/diff(splitTimes)
         textXPos = splitTimes[1:length(splitTimes) - 1] + diff(splitTimes)/2
-        xlims = c(0, splitTimes[length(splitTimes)])
+        xlims = c(-sprintDynamics$T0, splitTimes[length(splitTimes)])
         
         # Plotting average speed
         par(mar = c(7, 4, 5, 7.5))
@@ -195,21 +195,20 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
                 xlab="Time[s]", ylab="Velocity[m/s]",
                 axes = FALSE, yaxs= "i", xaxs = "i")
         text(textXPos, avg.speeds, round(avg.speeds, digits = 2), pos = 3)
-        axis(3, at = splitTimes, labels = splitTimes)
+        axis(3, at = c(-sprintDynamics$T0,splitTimes), labels = c(-sprintDynamics$T0,splitTimes))
         
         # Fitted speed plotting
         par(new=T)
-        plot(time, sprintDynamics$v.fitted, type = "l", xlab="", ylab = "",
+        plot((sprintDynamics$t.fitted - sprintDynamics$T0), sprintDynamics$v.fitted, type = "l", xlab="", ylab = "",
              ylim = c(0, max(c(avg.speeds, sprintDynamics$Vmax) + 1)), xlim = xlims,
              yaxs= "i", xaxs = "i", axis = F) # Fitted data
         axis(2, at = seq(0, sprintDynamics$Vmax + 1, by = 1))
         abline(h = sprintDynamics$Vmax, lty = 2)
         mtext(side = 1, line = 3, at = splitTimes[length(splitTimes)]*0.25, cex = 1.5 , substitute(v(t) == Vmax*(1-e^(-K*t)), list(Vmax="Vmax", K="K")))
-        
         if(plotFittedAccel)
         {
                 par(new = T)
-                plot(time, sprintDynamics$a.fitted, type = "l", col = "magenta", yaxs= "i", xaxs = "i", xlab="", ylab = "",
+                plot((sprintDynamics$t.fitted - sprintDynamics$T0), sprintDynamics$a.fitted, type = "l", col = "magenta", yaxs= "i", xaxs = "i", xlab="", ylab = "",
                      ylim=c(0,sprintDynamics$amax.fitted), xlim = xlims,
                      axes = FALSE )
                 axis(side = 4, col ="magenta", at = seq(0,max(sprintDynamics$a.fitted), by = 1))
@@ -219,7 +218,7 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
         if(plotFittedForce)
         {
                 par(new=T)
-                plot(time, sprintDynamics$f.fitted, type="l", col="blue", yaxs= "i", xaxs = "i", xlab="", ylab="",
+                plot((sprintDynamics$t.fitted - sprintDynamics$T0), sprintDynamics$f.fitted, type="l", col="blue", yaxs= "i", xaxs = "i", xlab="", ylab="",
                      ylim=c(0,sprintDynamics$fmax.fitted), xlim = xlims,
                      axes = FALSE)
                 axis(line = 2.5, side = 4, col ="blue", at = seq(0, sprintDynamics$fmax.fitted + 100, by = 100))
@@ -230,7 +229,7 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
         if(plotFittedPower)
         {
                 par(new=T)
-                plot(time, sprintDynamics$p.fitted, type="l", axes = FALSE, xlab="", ylab="", col="red"
+                plot((sprintDynamics$t.fitted - sprintDynamics$T0), sprintDynamics$p.fitted, type="l", axes = FALSE, xlab="", ylab="", col="red"
                      , ylim=c(0,sprintDynamics$pmax.fitted + .1 * sprintDynamics$pmax.fitted), xlim = xlims
                      , yaxs= "i", xaxs = "i")
                 abline(v = sprintDynamics$tpmax.fitted, col="red", lty = 2)
@@ -263,7 +262,11 @@ testPhotocellsCJ <- function(positions, splitTimes, mass, personHeight, tempC, p
 {
         sprint = getSprintFromPhotocell(position = positions, splitTimes = splitTimes)
         print(sprint)
-        sprintDynamics = getDynamicsFromSprint(K = sprint$K, Vmax = sprint$Vmax, mass, tempC, personHeight, maxTime = max(splitTimes))
+        sprintDynamics = getDynamicsFromSprint(K = sprint$K, Vmax = sprint$Vmax, T0 = sprint$T0
+                                               , Mass = mass
+                                               , Temperature = tempC
+                                               , Height = personHeight
+                                               , maxTime = max(splitTimes))
         print(paste("K =",sprintDynamics$K.fitted, "Vmax =", sprintDynamics$Vmax.fitted))
         
         drawSprintFromPhotocells(sprintDynamics = sprintDynamics, splitTimes, positions, title = personName)

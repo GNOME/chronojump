@@ -113,7 +113,7 @@ getForceModel <- function(time, force, startTime, # startTime is the instant whe
     K = summary(model)$coeff[2,1]
     # print(summary(model))
     # print("leaving getForceModel()")
-    return(list(fmax = fmax, K = K, T0 = T0, error = 100*residuals(model)/data$force))
+    return(list(fmax = fmax, K = K, T0 = T0, error = 100*residuals(model)/mean(data$force)))
 }
 
 getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength = 0.1, percentChange = 5, testLength = -1)

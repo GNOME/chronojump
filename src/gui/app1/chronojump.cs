@@ -2709,19 +2709,19 @@ public partial class ChronoJumpWindow
 	private OverviewWindow overviewWin;
 	private void on_session_overview_clicked (object o, EventArgs args)
 	{
-		if (currentSession == null)
+		if (currentSession == null || currentPerson == null)
 			return;
 
 		Constants.Menuitem_modes m = current_menuitem_mode;
 
 		if(m == Constants.Menuitem_modes.POWERGRAVITATORY || m == Constants.Menuitem_modes.POWERINERTIAL)
 		{
-			overviewWin = EncoderOverviewWindow.Show (app1, currentEncoderGI, currentSession.UniqueID);
+			overviewWin = EncoderOverviewWindow.Show (app1, currentEncoderGI, currentSession.UniqueID, currentPerson.UniqueID);
 		}
 		else if(m == Constants.Menuitem_modes.FORCESENSOR)
-			overviewWin = ForceSensorOverviewWindow.Show (app1, currentSession.UniqueID);
+			overviewWin = ForceSensorOverviewWindow.Show (app1, currentSession.UniqueID, currentPerson.UniqueID);
 		else if(m == Constants.Menuitem_modes.RUNSENCODER)
-			overviewWin = RunEncoderOverviewWindow.Show (app1, currentSession.UniqueID);
+			overviewWin = RunEncoderOverviewWindow.Show (app1, currentSession.UniqueID, currentPerson.UniqueID);
 
 		overviewWin.Button_select_this_person.Clicked -= new EventHandler(on_overview_select_person);
 		overviewWin.Button_select_this_person.Clicked += new EventHandler(on_overview_select_person);

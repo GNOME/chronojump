@@ -148,10 +148,14 @@ public abstract class OverviewWindow
 		return new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string)); //personID (hidden), person name, sex, exercise, sets
 	}
 
-	public void Button_select_this_person_make_unsensitive()
+	public void HideAndNull ()
 	{
-		button_select_this_person.Sensitive = false;
+		on_button_close_clicked (new object (), new EventArgs ());
 	}
+	protected virtual void on_button_close_clicked (object o, EventArgs args)
+	{
+	}
+
 	public Button Button_select_this_person
 	{
 		set { button_select_this_person = value; }
@@ -275,7 +279,7 @@ public class EncoderOverviewWindow : OverviewWindow
 		return s;
 	}
 
-	void on_button_close_clicked (object o, EventArgs args)
+	protected override void on_button_close_clicked (object o, EventArgs args)
 	{
 		EncoderOverviewWindowBox.overview_win.Hide();
 		EncoderOverviewWindowBox = null;
@@ -335,7 +339,7 @@ public class ForceSensorOverviewWindow : OverviewWindow
 		return SqliteForceSensor.SelectSessionOverviewSets(false, sessionID);
 	}
 
-	void on_button_close_clicked (object o, EventArgs args)
+	protected override void on_button_close_clicked (object o, EventArgs args)
 	{
 		ForceSensorOverviewWindowBox.overview_win.Hide();
 		ForceSensorOverviewWindowBox = null;
@@ -395,7 +399,7 @@ public class RunEncoderOverviewWindow : OverviewWindow
 		return SqliteRunEncoder.SelectSessionOverviewSets(false, sessionID);
 	}
 
-	void on_button_close_clicked (object o, EventArgs args)
+	protected override void on_button_close_clicked (object o, EventArgs args)
 	{
 		RunEncoderOverviewWindowBox.overview_win.Hide();
 		RunEncoderOverviewWindowBox = null;

@@ -127,39 +127,45 @@ getModelWithOptimalTimeCorrection <- function(splitTimes)
         bestT0 = 0
         currentT0 = bestT0
         if(length(splitTimes$position) == 3){
+                steps = 1
                 model = nls(
                         position ~ Vmax*((time + bestT0) + (1/K)*exp(-K*(time + bestT0))) -Vmax/K, splitTimes
-                        , start = list(K = 1, Vmax = 10)
+                        , start = list(K = 1, Vmax = 8)
                         , control=nls.control(warnOnly=TRUE))
                 
-                # print("### Without correction ###")
-                # print(model)
-                
+                currentError = summary(model)$sigma
                 minError = 1E6
+                deltaT0 = 0.1
                 
-                #TODO: Use better algorithm for finding optimal correction
-                while( summary(model)$sigma < minError){
-                        bestT0 = currentT0
-                        minError = summary(model)$sigma
-                        print(paste("New minError:", minError))
-                        currentT0 = currentT0 + 0.001
-                        
+                #Looking for the T0 until the error increases
+                while(abs(deltaT0) > 0.0001){
+                        while( currentError <= minError){
+                                bestT0 = currentT0
+                                minError = currentError
+                                currentT0 = currentT0 + deltaT0
+                                steps = steps +1
+                                model = nls(
+                                        position ~ Vmax*((time + currentT0) + (1/K)*exp(-K*(time + currentT0))) -Vmax/K, splitTimes
+                                        , start = list(K = 1, Vmax = 10)
+                                        , control=nls.control(warnOnly=TRUE))
+                                currentError = summary(model)$sigma
+                        }
+                        #The error has increased. Inverting the direction and decreasing the deltaT0 size
+                        deltaT0 = - deltaT0/10
+                        currentT0 =  currentT0 + deltaT0
                         model = nls(
                                 position ~ Vmax*((time + currentT0) + (1/K)*exp(-K*(time + currentT0))) -Vmax/K, splitTimes
                                 , start = list(K = 1, Vmax = 10)
                                 , control=nls.control(warnOnly=TRUE))
                         
-                        print(paste("current error:", summary(model)$sigma))
-                        # print(model$model_fit$RSE)
+                        currentError = summary(model)$sigma
+                        minError = currentError
                 }
-                
-                
-                currentT0 = currentT0 - 0.001
-                
                 model = nls(
                         position ~ Vmax*((time + bestT0) + (1/K)*exp(-K*(time + bestT0))) -Vmax/K, splitTimes
                         , start = list(K = 1, Vmax = 10)
                         , control=nls.control(warnOnly=TRUE))
+
                 
         } else if(length(splitTimes$position) >= 3){
                 model = nls(

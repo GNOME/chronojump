@@ -36,9 +36,14 @@ public abstract class OverviewWindow
 	[Widget] protected Gtk.RadioButton radio_sets;
 	[Widget] protected Gtk.RadioButton radio_reps;
 	[Widget] protected Gtk.Button button_select_this_person;
-	
+
+	//used by personIDAtStart, because we need to select the row after showing the window
+	protected TreeStore storeSets;
+	protected TreeStore storeReps; //note this is not used because right now we cannot have both treeviews selected
+
 	protected enum treeviewType { SETS, REPS }
 	protected int sessionID;
+	protected int personIDAtStart;
 	protected int selectedPersonID;
 
 	protected void initialize()
@@ -67,6 +72,11 @@ public abstract class OverviewWindow
 		createTreeView(tv, tvType);
 		TreeStore store = getStore(tvType);
 		tv.Model = store;
+
+		if(tvType == treeviewType.SETS)
+			storeSets = store;
+		else if(tvType == treeviewType.REPS)
+			storeReps = store;
 
 		foreach (string [] line in array)
 			store.AppendValues (line);
@@ -117,6 +127,12 @@ public abstract class OverviewWindow
 					selectedPersonID = Convert.ToInt32(selected);
 			}
 		}
+	}
+
+	protected void selectRowWithID ()
+	{
+		if(personIDAtStart >= 0)
+			UtilGtk.TreeviewSelectRowWithID(treeview_sets, storeSets, 0, personIDAtStart, true); //last boolean is 'scroll to row'
 	}
 
 	protected void on_radio_sets_toggled (object o, EventArgs args)
@@ -189,18 +205,23 @@ public class EncoderOverviewWindow : OverviewWindow
 			UtilGtk.WindowColor(overview_win, Config.ColorBackground);
 	}
 
-	static public EncoderOverviewWindow Show (Gtk.Window parent, Constants.EncoderGI encoderGI, int sessionID)
+	//if personIDAtStart == -1, there is not currentPerson
+	static public EncoderOverviewWindow Show (Gtk.Window parent, Constants.EncoderGI encoderGI, int sessionID, int personIDAtStart)
 	{
 		if (EncoderOverviewWindowBox == null)
 			EncoderOverviewWindowBox = new EncoderOverviewWindow (parent);
 
 		EncoderOverviewWindowBox.encoderGI = encoderGI;
 		EncoderOverviewWindowBox.sessionID = sessionID;
+		EncoderOverviewWindowBox.personIDAtStart = personIDAtStart;
 
 		EncoderOverviewWindowBox.initialize();
 		EncoderOverviewWindowBox.hbox_radio_sets_repetitions.Visible = true;
 
 		EncoderOverviewWindowBox.overview_win.Show ();
+
+		//done after Show, to ensure the selected row is shown
+		EncoderOverviewWindowBox.selectRowWithID();
 		
 		return EncoderOverviewWindowBox;
 	}
@@ -312,12 +333,14 @@ public class ForceSensorOverviewWindow : OverviewWindow
 			UtilGtk.WindowColor(overview_win, Config.ColorBackground);
 	}
 
-	static public ForceSensorOverviewWindow Show (Gtk.Window parent, int sessionID)
+	//if personIDAtStart == -1, there is not currentPerson
+	static public ForceSensorOverviewWindow Show (Gtk.Window parent, int sessionID, int personIDAtStart)
 	{
 		if (ForceSensorOverviewWindowBox == null)
 			ForceSensorOverviewWindowBox = new ForceSensorOverviewWindow (parent);
 
 		ForceSensorOverviewWindowBox.sessionID = sessionID;
+		ForceSensorOverviewWindowBox.personIDAtStart = personIDAtStart;
 
 		ForceSensorOverviewWindowBox.initialize();
 
@@ -325,6 +348,9 @@ public class ForceSensorOverviewWindow : OverviewWindow
 		ForceSensorOverviewWindowBox.notebook.GetNthPage(1).Hide();
 
 		ForceSensorOverviewWindowBox.overview_win.Show ();
+
+		//done after Show, to ensure the selected row is shown
+		ForceSensorOverviewWindowBox.selectRowWithID();
 
 		return ForceSensorOverviewWindowBox;
 	}
@@ -372,12 +398,14 @@ public class RunEncoderOverviewWindow : OverviewWindow
 			UtilGtk.WindowColor(overview_win, Config.ColorBackground);
 	}
 
-	static public RunEncoderOverviewWindow Show (Gtk.Window parent, int sessionID)
+	//if personIDAtStart == -1, there is not currentPerson
+	static public RunEncoderOverviewWindow Show (Gtk.Window parent, int sessionID, int personIDAtStart)
 	{
 		if (RunEncoderOverviewWindowBox == null)
 			RunEncoderOverviewWindowBox = new RunEncoderOverviewWindow (parent);
 
 		RunEncoderOverviewWindowBox.sessionID = sessionID;
+		RunEncoderOverviewWindowBox.personIDAtStart = personIDAtStart;
 
 		RunEncoderOverviewWindowBox.initialize();
 
@@ -385,6 +413,9 @@ public class RunEncoderOverviewWindow : OverviewWindow
 		RunEncoderOverviewWindowBox.notebook.GetNthPage(1).Hide();
 
 		RunEncoderOverviewWindowBox.overview_win.Show ();
+
+		//done after Show, to ensure the selected row is shown
+		RunEncoderOverviewWindowBox.selectRowWithID();
 
 		return RunEncoderOverviewWindowBox;
 	}

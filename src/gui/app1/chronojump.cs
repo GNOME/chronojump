@@ -2735,7 +2735,7 @@ public partial class ChronoJumpWindow
 			selectRowTreeView_persons(treeview_persons,
 					myTreeViewPersons.FindRow(overviewWin.SelectedPersonID));
 
-			overviewWin.Button_select_this_person_make_unsensitive();
+			overviewWin.HideAndNull();
 		}
 	}
 

@@ -44,7 +44,7 @@ public partial class ChronoJumpWindow
 	Pixbuf image_news_pixbuf;
 	private int currentNewsPos;
 
-	private void news_setup(int currentPos)
+	private void news_setup_gui(int currentPos)
 	{
 		currentNewsPos = currentPos;
 
@@ -89,7 +89,7 @@ public partial class ChronoJumpWindow
 
 		currentNewsPos --;
 		newsNewerOlderUpdateWidgets();
-		news_fill (true);
+		news_fill_gui (true);
 	}
 	private void on_button_news_older_clicked (object o, EventArgs args)
 	{
@@ -99,14 +99,19 @@ public partial class ChronoJumpWindow
 
 		currentNewsPos ++;
 		newsNewerOlderUpdateWidgets();
-		news_fill (true);
+		news_fill_gui (true);
 	}
 
 	// <----------------- end of newer, older management ----------
 
 
-	private void news_fill (bool textAndVideo)
+	private void news_fill_gui (bool textAndVideo)
 	{
+		//LogB.Information(string.Format("newsAtDB_l: {0}, newsAtDB_l.Count: {1}, currentNewsPos: {2}",
+		//			newsAtDB_l, newsAtDB_l.Count, currentNewsPos));
+		//just a precaution
+		if(newsAtDB_l == null || currentNewsPos >= newsAtDB_l.Count)
+			return;
 
 		News news = newsAtDB_l[currentNewsPos];
 
@@ -164,7 +169,7 @@ public partial class ChronoJumpWindow
 		Sqlite.Close();
 
 		// 2) rewrite the labels
-		news_fill (false);
+		news_fill_gui (false);
 	}
 
 	private void on_button_new_open_browser_clicked (object o, EventArgs args)

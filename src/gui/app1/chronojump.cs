@@ -715,7 +715,6 @@ public partial class ChronoJumpWindow
 		{
 			LogB.Information("Ping thread will start");
 
-			newsAtDB_l = SqliteNews.Select(false, -1, 10);
 			pingThread = new Thread (new ThreadStart (pingAndNewsAtStart));
 			GLib.Idle.Add (new GLib.IdleHandler (pulsePingAndNewsGTK));
 			pingThread.Start();
@@ -6787,25 +6786,22 @@ LogB.Debug("mc finished 5");
 	{
 		if(! pingThread.IsAlive)
 		{
-			// 1) Insert if needed
-			if(newsAtServer_l != null && News.InsertOrUpdateIfNeeded (newsAtDB_l, newsAtServer_l))
+			// 1)  highlight news iccons if there are new news
+			//if there is no network serverNewsDatetime will be empty, so do not highligh new products
+			//highligh if server news date is not empty and server news date is different than client news date
+			if(preferences.serverNewsDatetime != "" &&
+					preferences.serverNewsDatetime != preferences.clientNewsDatetime)
 			{
 				Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_store_has_new_products.png");
 				image_menu_news.Pixbuf = pixbuf;
 				image_menu_news1.Pixbuf = pixbuf;
 			}
 
-			// 2) update newsAtDB_l
-			newsAtDB_l = SqliteNews.Select(false, -1, 10);
+			// 2) make news buttons sensitive
+			button_menu_news.Sensitive = true;
+			button_menu_news1.Sensitive = true;
 
-			// 3) if there are news (locally is not 0), make it sensitive
-			if(newsAtDB_l.Count > 0)
-			{
-				button_menu_news.Sensitive = true;
-				button_menu_news1.Sensitive = true;
-			}
-
-			// 4) end this pulse
+			// 3) end this pulse
 			LogB.Information("pulsePingAndNews ending here");
 			LogB.ThreadEnded();
 			return false;
@@ -6822,7 +6818,7 @@ LogB.Debug("mc finished 5");
 	{
 		jsPing = new Json();
 		if(pingDo())
-			getNews();
+			getNewsDatetime();
 	}
 
 	private bool pingDo()
@@ -6839,10 +6835,11 @@ LogB.Debug("mc finished 5");
 
 	}
 
-	private void getNews()
+	private void getNewsDatetime()
 	{
-		LogB.Information("getNews()");
-		newsAtServer_l = jsPing.GetNews(newsAtDB_l); //send the local list to know if images have to be re-downloaded on a version update
+		LogB.Information("getNewsDatetime()");
+		if(jsPing.GetNewsDatetime())
+			preferences.serverNewsDatetime = jsPing.ResultMessage;
 	}
 
 	private void on_preferences_debug_mode_start (object o, EventArgs args) {

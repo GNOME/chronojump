@@ -309,18 +309,30 @@ public partial class ChronoJumpWindow
 
 	private void on_button_menu_news_clicked (object o, EventArgs args)
 	{
-		/*
-		 * this will not happen because button will be unresponsive
-		if(newsAtDB_l.Count == 0)
-			return;
-		*/
+		// 1) select the news locally
+		newsAtDB_l = SqliteNews.Select(false, -1, 10);
 
-		//news print debug
+		// 2) get the news on the server
+		if(preferences.serverNewsDatetime != "" && preferences.serverNewsDatetime != preferences.clientNewsDatetime)
+		{
+			//TODO: start a thread here to allow news to download or be cancelled
+			newsAtServer_l = jsPing.GetNews(newsAtDB_l); //send the local list to know if images have to be re-downloaded on a version update
+
+			preferences.clientNewsDatetime = preferences.serverNewsDatetime;
+			SqlitePreferences.Update(SqlitePreferences.ClientNewsDatetime, preferences.clientNewsDatetime, false);
+		}
+
+		// 3) insert/update on SQL if needed
+		if(newsAtServer_l != null && News.InsertOrUpdateIfNeeded (newsAtDB_l, newsAtServer_l))
+			newsAtDB_l = SqliteNews.Select(false, -1, 10);
+
+		//debug stuff
 		foreach(News news in newsAtDB_l)
 			LogB.Information(news.ToString());
 
-		news_setup(0); //setup radios: language and arrows
-		news_fill(true); //fill the widget
+		// 4) fill the widgets
+		news_setup_gui(0); //setup radios: language and arrows
+		news_fill_gui(true); //fill the widget
 		alignment_news.Show(); // is hidden at beginning to allow being well shown when filled
 
 		//sensitivity and notebook management

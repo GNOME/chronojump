@@ -195,7 +195,11 @@ public class Preferences
 	public string machineID;
 	public Constants.MultimediaStorage multimediaStorage;
 	public string databaseVersion;
-	public bool newsLanguageEs;
+
+	//news
+	public bool newsLanguageEs; 		// on SQL
+	public string serverNewsDatetime;  	// NOT on SQL
+	public string clientNewsDatetime; 	// on SQL
 
 	//jumps
 	public bool jumpsFVProfileOnlyBestInWeight;

@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.10";
+	static string lastChronojumpDatabaseVersion = "2.11";
 
 	public Sqlite()
 	{
@@ -2861,6 +2861,14 @@ class Sqlite
 
 				currentVersion = updateVersion("2.10");
 			}
+			if(currentVersion == "2.10")
+			{
+				LogB.SQL("Inserted prefs: clientNewsDatetime");
+
+				SqlitePreferences.Insert (SqlitePreferences.ClientNewsDatetime, "");
+
+				currentVersion = updateVersion("2.11");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -3079,6 +3087,7 @@ class Sqlite
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
 
+		//2.10 - 2.11 Converted DB to 2.11 Inserted prefs: clientNewsDatetime
 		//2.09 - 2.10 Converted DB to 2.10 Inserted prefs: encoderCaptureShowLoss, runEncoderPPS
 		//2.08 - 2.09 Converted DB to 2.09 Inserted into preferences: forceSensorAnalyzeABSliderIncrement
 		//2.07 - 2.08 Converted DB to 2.08 Create table news and insert newsLanguageEs on preferences

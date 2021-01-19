@@ -184,6 +184,46 @@ public class Json
 		return true;
 	}
 
+	/*
+	 * ---- news stuff start ---->
+	 */
+
+	public bool GetNewsDatetime ()
+	{
+		// Create a request using a URL that can receive a post.
+		if (! createWebRequest(requestType.GENERIC, "/getNewsDatetime"))
+			return false;
+
+		// Set the Method property of the request to GET.
+		request.Method = "GET";
+
+		// Set the ContentType property of the WebRequest.
+		//request.ContentType = "application/x-www-form-urlencoded";
+
+		HttpWebResponse response;
+		if(! getHttpWebResponse (request, out response, "Could not get news datetime"))
+			return false;
+
+		string responseFromServer;
+		using (var sr = new StreamReader(response.GetResponseStream()))
+		{
+			responseFromServer = sr.ReadToEnd();
+		}
+
+		LogB.Information("getNewsServerDatetime:" + responseFromServer);
+
+		//responseFromServer comes as: "2020-01-18_12-13-00", need to remove double quotes because we do not want to insert them on sql
+
+		int startPos = responseFromServer.IndexOf('"') +1;
+		int endPos = responseFromServer.LastIndexOf('"') -1;
+		if(endPos > 0)
+			responseFromServer = responseFromServer.Substring(startPos,endPos);
+
+		this.ResultMessage = responseFromServer;
+
+		return true;
+	}
+
 	//get all the news, news class will decide if something have to be inserted or selected
 	//called by pingThread at start
 	public List<News> GetNews(List<News> newsAtDB_l)
@@ -287,6 +327,10 @@ public class Json
 
 		return true;
 	}
+
+	/*
+	 * <---- news stuff end ----
+	 */
 
 	/*
 	 * if software just started, ping gets stuck by network problems, and user try to exit software,

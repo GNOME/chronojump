@@ -77,9 +77,8 @@ pfvProfileGetAnalysisProfiles <- function(analyzeTable)
 
 #In the plane V0-F0, each point corresponds to a profile.
 #Each profile has unique Pmax. Each isopotential line corresponds to the points that have the same Pmax
-pfvProfileDrawProfilesEvolution <- function(analyzeTable)
+pfvProfileDrawProfilesEvolution <- function(profiles)
 {
-        profiles = pfvProfileGetAnalysisProfiles(analyzeTable)
         
         #Clean the data and discard the wrong profiles
         correctProfiles = which(profiles$f0 > 0 & profiles$v0 > 0)
@@ -179,6 +178,6 @@ pfvProfileExecute <- function(analyzeTable)
         analyzeTable = analyzeTable[which(analyzeTable$date != ""), ]
         print(analyzeTable)
         
-	#pfvProfileDrawProfilesEvolution(analyzeTable[1:(length(analyzeTable[,1]) -3),])
-        pfvProfileDrawProfilesEvolution(analyzeTable)
+        profiles = pfvProfileGetAnalysisProfiles(analyzeTable)
+        pfvProfileDrawProfilesEvolution(profiles)
 }

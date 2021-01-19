@@ -21,14 +21,16 @@
 #Returns the number of sessions analysed
 pfvProfileGetNumberSession <- function(analyzeTable)
 {
-        return(length(levels(analyzeTable$date)))
+        return(length(unique(analyzeTable$date)))
 }
 
 #Returns the table of force and velocity of each repetitions of a session
 pfvProfileGetSessionFV <- function(analyzeTable, sessionNum)
 {
-        f = analyzeTable$meanForce[which(analyzeTable$date == levels(analyzeTable$date)[sessionNum])]
-        v = analyzeTable$meanSpeed[which(analyzeTable$date == levels(analyzeTable$date)[sessionNum])]
+        print("In pfvProfileGetSessionFV()")
+        print(paste("SessionNum: ", sessionNum))
+        f = analyzeTable$meanForce[which(analyzeTable$date == unique(analyzeTable$date)[sessionNum])]
+        v = analyzeTable$meanSpeed[which(analyzeTable$date == unique(analyzeTable$date)[sessionNum])]
         return(list(f = f, v = v))
 }
 
@@ -44,8 +46,10 @@ pfvProfileGetSessionProfile <- function(force, speed)
 #Returns the profile F0 and V0 of each session
 pfvProfileGetAnalysisProfiles <- function(analyzeTable)
 {
-        sessionNumber = length(levels(analyzeTable$date))
-        dates = levels(analyzeTable$date)
+        print("In pfvProfileGetAnalysisProfiles()")
+        print(analyzeTable)
+        sessionNumber = length(unique(analyzeTable$date))
+        dates = unique(analyzeTable$date)
         session = 1
         #Get the force and velocity of each repetition in the first session
         sessionFV = pfvProfileGetSessionFV(analyzeTable, session)
@@ -171,9 +175,10 @@ pfvProfileDrawProfilesEvolution <- function(analyzeTable)
 pfvProfileExecute <- function(analyzeTable)
 {
 	print("analyzeTable")
-	#print(analyzeTable[1:(length(analyzeTable[,1]) -3),])
+        #Removing the rows that not contain date
+        analyzeTable = analyzeTable[which(analyzeTable$date != ""), ]
         print(analyzeTable)
-
+        
 	#pfvProfileDrawProfilesEvolution(analyzeTable[1:(length(analyzeTable[,1]) -3),])
         pfvProfileDrawProfilesEvolution(analyzeTable)
 }

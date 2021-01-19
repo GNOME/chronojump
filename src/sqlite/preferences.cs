@@ -35,7 +35,11 @@ class SqlitePreferences : Sqlite
 	public const string FontsOnGraphs = "fontsOnGraphs";
 	public const string RestTimeMinutes = "restTimeMinutes";
 	public const string RestTimeSeconds = "restTimeSeconds";
+
+	//news stuff
 	public const string NewsLanguageEs = "newsLanguageEs";
+	public const string ServerNewsDatetime = "serverNewsDatetime"; // NOT stored on SQL. string of last news in server, obtained on pingAtNewsAtStart
+	public const string ClientNewsDatetime = "clientNewsDatetime"; // stored on SQL. string of last news local, when user clicks on getNews(), if this is diff than server... news are downloaded and this is updated
 
 	//contacts
 	public const string JumpsFVProfileOnlyBestInWeight = "jumpsFVProfileOnlyBestInWeight";
@@ -315,7 +319,10 @@ class SqlitePreferences : Sqlite
 				Insert ("email", "", dbcmdTr);
 				Insert ("muteLogs", "False", dbcmdTr);
 				Insert (ImporterPythonVersion, Preferences.pythonVersionEnum.Python3.ToString(), dbcmdTr);
+
+				//news
 				Insert (NewsLanguageEs, "False", dbcmdTr);
+				Insert (ClientNewsDatetime, "", dbcmdTr);
 
 				//session
 				Insert (LoadLastSessionAtStart, "True", dbcmdTr);
@@ -457,6 +464,8 @@ class SqlitePreferences : Sqlite
 			}
 			else if(reader[0].ToString() == NewsLanguageEs )
 				preferences.newsLanguageEs = reader[1].ToString() == "True"; //bool
+			else if(reader[0].ToString() == ClientNewsDatetime )
+				preferences.clientNewsDatetime = reader[1].ToString();
 			else if(reader[0].ToString() == UnitsStr)
 				preferences.units = (Preferences.UnitsEnum)
 					Enum.Parse(typeof(Preferences.UnitsEnum), reader[1].ToString());

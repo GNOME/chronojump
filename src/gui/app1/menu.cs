@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2018-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2018-2021   Xavier de Blas <xaviblas@gmail.com>
  */
 
 //this file has methods of ChronoJumpWindow related to manage menu
@@ -300,7 +300,6 @@ public partial class ChronoJumpWindow
 		app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
 		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.HELP);
 	}
-
 	private void on_button_help_close_clicked (object o, EventArgs args)
 	{
 		menus_and_mode_sensitive(true);
@@ -309,38 +308,8 @@ public partial class ChronoJumpWindow
 
 	private void on_button_menu_news_clicked (object o, EventArgs args)
 	{
-		// 1) select the news locally
-		newsAtDB_l = SqliteNews.Select(false, -1, 10);
-
-		// 2) get the news on the server
-		if(preferences.serverNewsDatetime != "" && preferences.serverNewsDatetime != preferences.clientNewsDatetime)
-		{
-			//TODO: start a thread here to allow news to download or be cancelled
-			newsAtServer_l = jsPing.GetNews(newsAtDB_l); //send the local list to know if images have to be re-downloaded on a version update
-
-			preferences.clientNewsDatetime = preferences.serverNewsDatetime;
-			SqlitePreferences.Update(SqlitePreferences.ClientNewsDatetime, preferences.clientNewsDatetime, false);
-		}
-
-		// 3) insert/update on SQL if needed
-		if(newsAtServer_l != null && News.InsertOrUpdateIfNeeded (newsAtDB_l, newsAtServer_l))
-			newsAtDB_l = SqliteNews.Select(false, -1, 10);
-
-		//debug stuff
-		foreach(News news in newsAtDB_l)
-			LogB.Information(news.ToString());
-
-		// 4) fill the widgets
-		news_setup_gui(0); //setup radios: language and arrows
-		news_fill_gui(true); //fill the widget
-		alignment_news.Show(); // is hidden at beginning to allow being well shown when filled
-
-		//sensitivity and notebook management
-		menus_and_mode_sensitive(false);
-		app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
-		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.NEWS);
+		newsGetThreadPrepare();
 	}
-
 	private void on_button_news_close_clicked (object o, EventArgs args)
 	{
 		menus_and_mode_sensitive(true);

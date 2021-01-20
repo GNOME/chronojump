@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2020   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2021   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -23,9 +23,12 @@ using Gdk;  //pixbuf
 using Glade;
 using System.IO;
 using System.Collections.Generic; //List<T>
+using System.Threading;
 
 public partial class ChronoJumpWindow
 {
+	[Widget] Gtk.Notebook notebook_news;
+	[Widget] Gtk.ProgressBar progressbar_news_get;
 	[Widget] Gtk.Image image_news_blue;
 	[Widget] Gtk.Image image_news_yellow;
 	[Widget] Gtk.Label label_news_frame;
@@ -43,6 +46,86 @@ public partial class ChronoJumpWindow
 
 	Pixbuf image_news_pixbuf;
 	private int currentNewsPos;
+
+
+	private void newsGetThreadPrepare()
+	{
+		// 1) select the news locally
+		newsAtDB_l = SqliteNews.Select(false, -1, 10);
+
+		// 2) prepare the GUI
+		alignment_news.Show(); // is hidden at beginning to allow being well shown when filled
+		menus_and_mode_sensitive(false);
+		app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
+		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.NEWS);
+
+		// 3) get the news on the server
+		if(preferences.serverNewsDatetime != "" && preferences.serverNewsDatetime != preferences.clientNewsDatetime)
+		{
+			LogB.Information("newsGet thread will start");
+			pingThread = new Thread (new ThreadStart (newsGet));
+			GLib.Idle.Add (new GLib.IdleHandler (pulseNewsGetGTK));
+			pingThread.Start();
+		} else {
+			// 3b) or display old news
+			newsDisplay();
+		}
+	}
+
+	//No GTK here
+	private void newsGet()
+	{
+		newsAtServer_l = jsPing.GetNews(newsAtDB_l); //send the local list to know if images have to be re-downloaded on a version update
+	}
+	private bool pulseNewsGetGTK ()
+	{
+		if(! pingThread.IsAlive)
+		{
+			if(newsAtServer_l != null)
+			{
+				// 1) update clientNewsDatetime
+				preferences.clientNewsDatetime = preferences.serverNewsDatetime;
+				SqlitePreferences.Update(SqlitePreferences.ClientNewsDatetime, preferences.clientNewsDatetime, false);
+
+				// 2) insert/update on SQL if needed
+				News.InsertOrUpdateIfNeeded (newsAtDB_l, newsAtServer_l);
+			}
+
+			// 3) end this pulse
+			LogB.Information("pulseNewsGetGTK ending here");
+			LogB.ThreadEnded();
+
+			if(newsAtServer_l != null)
+				newsDisplay();
+
+			return false;
+		}
+
+		notebook_news.Page = 0;
+		progressbar_news_get.Pulse();
+		Thread.Sleep (100);
+		//Log.Write(" (pulseNewsGetGTK:" + thread.ThreadState.ToString() + ") ");
+		return true;
+	}
+
+	private void newsDisplay()
+	{
+		// 1) select
+		newsAtDB_l = SqliteNews.Select(false, -1, 10);
+
+		/*
+		//debug stuff
+		foreach(News news in newsAtDB_l)
+			LogB.Information(news.ToString());
+			*/
+
+		// 2) fill the widgets
+		news_setup_gui(0); //setup radios: language and arrows
+		news_fill_gui(true); //fill the widget
+
+		// 3) show the news tab
+		notebook_news.Page = 1;
+	}
 
 	private void news_setup_gui(int currentPos)
 	{

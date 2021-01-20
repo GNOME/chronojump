@@ -42663,19 +42663,24 @@ then click this button.</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                     <child>
-                                                      <widget class="GtkFrame" id="frame28">
+                                                      <widget class="GtkVBox" id="vbox244">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="label_xalign">0</property>
-                                                        <property name="label_yalign">1</property>
-                                                        <property name="shadow_type">in</property>
+                                                        <property name="spacing">20</property>
                                                         <child>
-                                                          <widget class="GtkViewport" id="viewport21">
+                                                          <widget class="GtkFrame" id="frame28">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label_xalign">0</property>
+                                                            <property name="label_yalign">1</property>
+                                                            <property name="shadow_type">in</property>
+                                                            <child>
+                                                            <widget class="GtkViewport" id="viewport21">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="border_width">4</property>
                                                             <child>
-                                                            <widget class="GtkVBox" id="vbox244">
+                                                            <widget class="GtkVBox" id="vbox245">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">12</property>
@@ -42705,12 +42710,46 @@ then click this button.</property>
                                                             </child>
                                                             </widget>
                                                             </child>
+                                                            </widget>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            <packing>
+                                                            <property name="type">label_item</property>
+                                                            </packing>
+                                                            </child>
                                                           </widget>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                          </packing>
                                                         </child>
                                                         <child>
-                                                          <placeholder/>
+                                                          <widget class="GtkHButtonBox" id="hbuttonbox16">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_news_cancel">
+                                                            <property name="label">gtk-cancel</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="use_stock">True</property>
+                                                            <signal name="clicked" handler="on_button_news_cancel_clicked" swapped="no"/>
+                                                            <accelerator key="Escape" signal="clicked"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                          </widget>
                                                           <packing>
-                                                            <property name="type">label_item</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
                                                           </packing>
                                                         </child>
                                                       </widget>

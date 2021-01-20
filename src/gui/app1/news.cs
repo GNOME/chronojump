@@ -46,6 +46,7 @@ public partial class ChronoJumpWindow
 
 	Pixbuf image_news_pixbuf;
 	private int currentNewsPos;
+	private bool newsDownloadCancel;
 
 
 	private void newsGetThreadPrepare()
@@ -62,6 +63,7 @@ public partial class ChronoJumpWindow
 		// 3) get the news on the server
 		if(preferences.serverNewsDatetime != "" && preferences.serverNewsDatetime != preferences.clientNewsDatetime)
 		{
+			newsDownloadCancel = false;
 			LogB.Information("newsGet thread will start");
 			pingThread = new Thread (new ThreadStart (newsGet));
 			GLib.Idle.Add (new GLib.IdleHandler (pulseNewsGetGTK));
@@ -79,8 +81,19 @@ public partial class ChronoJumpWindow
 	}
 	private bool pulseNewsGetGTK ()
 	{
-		if(! pingThread.IsAlive)
+		if(! pingThread.IsAlive || newsDownloadCancel)
 		{
+			if(newsDownloadCancel)
+			{
+				menus_and_mode_sensitive(true);
+				notebook_sup.CurrentPage = app1s_notebook_sup_entered_from;
+
+				LogB.Information("pulseNewsGetGTK ending here");
+				LogB.ThreadEnded();
+
+				return false;
+			}
+
 			if(newsAtServer_l != null)
 			{
 				// 1) update clientNewsDatetime
@@ -106,6 +119,14 @@ public partial class ChronoJumpWindow
 		Thread.Sleep (100);
 		//Log.Write(" (pulseNewsGetGTK:" + thread.ThreadState.ToString() + ") ");
 		return true;
+	}
+
+	private void on_button_news_cancel_clicked (object o, EventArgs args)
+	{
+		newsDownloadCancel = true;
+
+		if(pingThread.IsAlive)
+			pingThread.Abort();
 	}
 
 	private void newsDisplay()

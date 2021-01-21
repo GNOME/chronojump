@@ -6306,7 +6306,13 @@ msgstr "Afegida cursa amb intervals."
 
 #: ../src/gui/app1/chronojump.cs:6979
 msgid "translator-credits"
-msgstr "credits dels traductors"
+msgstr ""
+"Jordi Mas i Hernàndez <jmas@softcatala.org>, 2008, 2011-2020.\n"
+"Xavier Padullés <x.padulles@gmail.com>, 2015-2020.\n"
+"Xavier de Blas <xaviblas@gmail.com>, 2007-2011,2021.\n"
+"Jordi Serratosa <jordis@softcatala.cat>, 2017.\n"
+"Samuel Capellera <samuelcm@blanquerna.url.edu>, 2017.\n"
+"Elisabet Bermejo <elibermejo@gmail.com>, 2007."
 
 #: ../src/gui/app1/chronojump.cs:7741
 msgid "Done for testing purposes. Chronojump will exit badly"

@@ -1,0 +1,81 @@
+<p><span class="highlight2"><i class="fa fa-area-chart fa-2x"></i>  General Chronojump changes</span></p>
+<ul>
+	<li><b>Tags: Sessions can have user created tags, allowing users to organize much better their data. Tags can be edited/deleted, sessions can be filtered/sorted by tags. Tags cannot be imported/exported from another database.</b></li>
+	<li><b>Improved import session, now using Python 3 for all systems. This fixes occasional problems with non-English characters.</b></li>
+	<li><b>Improvements on overview window: force sensor, encoder, race analyzer. Current person is selected on the data table and selecting the desired person is easier.</b></li>
+	<li>Scroll to row on persons list at left when selecting a person from overview window.</li>
+	<li>Improvements on exporting a session.</li>
+	<li>Persons top window improvements: can select and close a window double clicking on person, displays correctly long names, bigger up/down buttons that displaces list row by row, and has better behaviour on selecting person.</li>
+	<li>Removed request to confirm on exit.</li>
+	<li>Rest time (minutes/seconds) is saved to be used automatically on next sessions.</li>
+	<li>Improved send error log window.</li>
+	<li>Better problem solving if user disconnected Chronopic.</li>
+	<li>New animated logo for Chronojump 2.1.x (versions of 2021).</li>
+	<li>Fixed session comments editing.</li>
+</ul>
+
+<p><span class="highlight2"><i class="fa fa-clock-o fa-2x"></i>  Jumps, Races</span></p>
+<ul>
+	<li><b>RSI on jumps reactive (jump height / contact time).</b></li>
+	<li><b>When opening Chronojump, the first click on execute jumps or races will connect with the Chronopic</b>.<br>On past versions it connected and started the jump and it was a bit confusing on some situations.</li>
+	<li><b>Better start detection on sprint model detecting initial force by time-shifting method.</b></li>
+	<li><b>On races with 2 tracks do not allow to do automatic sprint calculations (because model is not enough accurate for just two tracks).</b></li>
+	<li><b>Jump profile graph improvements</b>: When some of the indexes are not calculated a white area is shown on the graph. Image can be saved even if not all the indexes are calculated. Better display of problems like a low Dj height.</li>
+	<li>Improved intervallic races graph.</li>
+	<li>On jump simple creation renamed types: normal/drop to jump/rebound.</li>
+	<li>Clarified options on creation of a jump reactive test.</li>
+</ul>
+
+<p><span class="highlight2"><i class="fa fa-area-chart fa-2x"></i>  Force sensor</span></p>
+<ul>
+	<li><b>New features on analyze.</b></li>
+	<ul>
+		<li><b>Graphical interface: Changes on how raw and modelized analysis are shown. Bigger A,B sliders.</b></li>
+		<li><b>Can start/end analysis on a fixed millisecond or let Chronojump find the best start/end on some A,B range.</b></li>
+	</ul>
+	<li><b>Improvements on modelized data calculations and start/end detection.</b></li>
+	<li><b>Implemented CVRMSSD on force sensor variability (this method can be selected on preferences).</b></li>
+	<li><b>New button: Latest products, will show new Chronojump products on a non-intrusive way.</b></li>
+	<li>Analyze raw data graph displays now: force, rfd max of selected AB. nice for having relevant data at export image.</li>
+	<li>On analyze can move the A, B sliders (1s distance), and this value can be configured on preferences.</li>
+	<li>Show laterality icon at top.</li>
+	<li>Fixed: export/import of forceSensor files from systems with different decimal separator.</li>
+	<li>Fixed laterality reading on load set.</li>
+	<li>Fixed showing "Free" test after changing from jump mode to force sensor mode.</li>
+	<li>Fixed few potential problems on trying to analyze a set incorrecly captured.</li>
+</ul>
+
+<p><span class="highlight2"><i class="fa fa-bar-chart fa-2x"></i>  Encoder</span></p>
+<ul>
+	<li><b>New calculation for inertial: Equivalent mass. Uses inertia moment, diameter and force multiplier, can be crossed with other variables on analyze.</b></li>
+	<li><b>On inertial show equivalent mass and diameter on analyze data table</b>.</li>
+	<li><b>Encoder work and impulse shown real time (on previous version was shown at the end of the capture).</b></li>
+	<li><b>Capture graph (bars) can be saved</b></li>
+	<li><b>On analyze superpose, shown laterality if is different o selected repetitions</b>.</li>
+	<li>On capture showing loss can be disabled.</li>
+	<li>Improved decimal places of some variables on export.</li>
+	<li>On gravitatory now do not show inertia moment on data table.</li>
+	<li>Better display of preferences / encoder.</li>
+	<li>Better management of buttons when going to capture/analyze and backwards.</li>
+	<li>Fixed: Encoder, instantaneous analysis graphic size is wrong at first time.</li>
+</ul>
+
+<p><span class="highlight2"><i class="fa fa-running fa-2x"></i>  Race analyzer</span></p>
+<ul>
+	<li><b>At capture on realtime it shows a velocimeter graph, and variables: speed and distance.</b></li>
+	<li><b>Shown an exportable data table for race analyzer results</b>.</li>
+	<li><b>User can adjust the PPS (Pulses per Sample) on capture, allowing to channge space resolution on capture. Before space resolution was 3 cm, now it can be configured from 3 mm to 3 m.</b></li>
+	<li>Improved starting point detection.</li>
+</ul>
+
+<p><span class="highlight2"><i class="fa fa-sitemap fa-2x"></i>  Chronojump-networks</span></p>
+<ul>
+	<li>Added button for not upload a capture (eg. for warming up).</li>
+	<li>Networks person autologout will close the encoder exercise config.</li>
+	<li>Fixed system to 2021 server code.</li>
+</ul>
+
+<p><span class="highlight2"><i class="fa fa-flag-o fa-2x"></i>  Translations</span></p>
+<ul>
+	<li>Updated translations: Brazilian Portuguese, Catalan, Czech, Romanian, Spanish, Swedish, Ukrainian.</li>
+</ul>

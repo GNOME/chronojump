@@ -286,7 +286,10 @@ public class Json
 			else if (Util.IsPng(linkServerImage))
 				extension = ".png";
 
-			string copyTo = Path.Combine(News.GetNewsDir(), code.ToString() + extension);
+			//for windows specially, better download to temp and later copy to desired place,
+			//if download directly, it could create a 0 bytes file
+			string copyToTemp = Path.Combine(Path.GetTempPath(), code.ToString() + extension);
+			string copyToNewsDir = Path.Combine(News.GetNewsDir(), code.ToString() + extension);
 
 			/*
 			 * download the image if (1 version has changed OR 2 linkServerImage has changed OR 3 image does not exists locally)
@@ -302,9 +305,12 @@ public class Json
 					needToDownloadImage = true;
 
 			if(needToDownloadImage ||
-					! File.Exists(copyTo) 							// 3
+					! File.Exists(copyToNewsDir) 							// 3
 					)
-				downloadNewsImage(linkServerImage, copyTo);
+			{
+				if(downloadNewsImage(linkServerImage, copyToTemp))
+					File.Copy(copyToTemp, copyToNewsDir, true);
+			}
 		}
 
 		return news_l;

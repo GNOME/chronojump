@@ -232,7 +232,10 @@ public partial class ChronoJumpWindow
 	{
 		label_news_title.Text = "<b>" + news.GetTitle(langEs) + "</b>";
 		label_news_title.UseMarkup = true;
+
+		label_news_description_and_link.Visible = false;
 		label_news_description_and_link.Text = news.GetDescription(langEs) + "\n\n" + news.GetLink(langEs);
+		label_news_description_and_link.Visible = true;
 	}
 
 	private void news_loadImage(News news)
@@ -249,9 +252,11 @@ public partial class ChronoJumpWindow
 		LogB.Information("news image filename: " + filename);
 		if(File.Exists(filename))
 		{
-			Pixbuf pixbuf = new Pixbuf (filename);
-			image_news.Pixbuf = pixbuf;
 			LogB.Information("exists");
+			//Pixbuf pixbuf = new Pixbuf (filename);
+			//image_news.Pixbuf = pixbuf;
+			image_news.Pixbuf = UtilGtk.OpenPixbufSafe(filename, image_news.Pixbuf);
+			LogB.Information("opened");
 		}
 	}
 

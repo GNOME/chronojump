@@ -54,14 +54,26 @@ public partial class ChronoJumpWindow
 		// 1) select the news locally
 		newsAtDB_l = SqliteNews.Select(false, -1, 10);
 
-		// 2) prepare the GUI
+		// 2) check if any of the images is missing (because or images server is down or any other reason)
+		bool allImagesSaved = true;
+		foreach(News news in newsAtDB_l)
+			if(! news.ImageSavedOnDisc)
+			{
+				allImagesSaved = false;
+				break;
+			}
+
+
+		// 3) prepare the GUI
 		alignment_news.Show(); // is hidden at beginning to allow being well shown when filled
 		menus_and_mode_sensitive(false);
 		app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
 		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.NEWS);
 
-		// 3) get the news on the server
-		if(preferences.serverNewsDatetime != "" && preferences.serverNewsDatetime != preferences.clientNewsDatetime)
+		// 4) get the news on the server and/or display them
+		if(
+				(preferences.serverNewsDatetime != "" && preferences.serverNewsDatetime != preferences.clientNewsDatetime)
+				|| allImagesSaved == false )
 		{
 			newsDownloadCancel = false;
 			LogB.Information("newsGet thread will start");
@@ -69,7 +81,7 @@ public partial class ChronoJumpWindow
 			GLib.Idle.Add (new GLib.IdleHandler (pulseNewsGetGTK));
 			pingThread.Start();
 		} else {
-			// 3b) or display old news
+			// 4b) or display old news
 			newsDisplay();
 		}
 	}

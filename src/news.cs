@@ -185,6 +185,23 @@ public class News
 			"\" WHERE code = " + code;
 	}
 
+	//check if the image is saved or not, to download it if there where any problems on the server
+	public bool ImageSavedOnDisc
+	{
+		get {
+			if(linkServerImage == "")
+				return false;
+
+			string extension = "";
+			if(Util.IsJpeg(linkServerImage))
+				extension = ".jpg";
+			else if (Util.IsPng(linkServerImage))
+				extension = ".png";
+
+			return (File.Exists(Path.Combine(News.GetNewsDir(), code.ToString() + extension)));
+		}
+	}
+
 	public int Code
 	{
 		get { return code; }

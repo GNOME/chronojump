@@ -1,0 +1,13 @@
+Different Chronojump installations of a version by operating system
+
+SELECT COUNT(DISTINCT machineID), substring(osVersion, 1,6) AS osv FROM ping WHERE cjVersion LIKE "%2.0.2%" GROUP BY osv;
+
+or:
+
+SELECT COUNT(DISTINCT machineID), osVersion FROM ping WHERE cjVersion LIKE "%2.0.2%" GROUP BY osVersion;
+
+or:
+
+SELECT COUNT(*) FROM ping WHERE cjVersion LIKE "%2.0.2%" AND osVersion LIKE "%MacOSX%" GROUP BY machineID;
+SELECT COUNT(*) FROM ping WHERE cjVersion LIKE "%2.0.2%" AND osVersion LIKE "Unix, %" GROUP BY machineID;
+SELECT COUNT(*) FROM ping WHERE cjVersion LIKE "%2.0.2%" AND osVersion LIKE "%Win%" GROUP BY machineID;

@@ -1071,11 +1071,12 @@ public partial class ChronoJumpWindow
 		//Log.WriteLine("IS " + tvEvent.ExpandState);
 	}
 
-	private void on_treeview_button_release_event (object o, ButtonReleaseEventArgs args) {
+	private void on_treeview_button_release_event (object o, ButtonReleaseEventArgs args)
+	{
 		Gdk.EventButton e = args.Event;
 		Gtk.TreeView myTv = (Gtk.TreeView) o;
 		if (e.Button == 3) {
-			if(myTv == treeview_persons) {
+			if(myTv == treeview_persons && currentPerson != null) {
 				treeviewPersonsContextMenu(currentPerson);
 			} else if(myTv == treeview_jumps) {
 				if (myTreeViewJumps.EventSelectedID > 0) {

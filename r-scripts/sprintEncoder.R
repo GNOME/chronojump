@@ -708,7 +708,7 @@ testEncoderCJ <- function(filename, testLength, mass, personHeight, tempC, start
         if (sprintRawDynamics$longEnough & sprintRawDynamics$regressionDone)
         {
                 print(paste("Vmax:", sprintRawDynamics$Vmax))
-                sprintFittedDynamics = getDynamicsFromSprint(K = sprintRawDynamics$K, Vmax = sprintRawDynamics$Vmax, mass, tempC, personHeight)
+                sprintFittedDynamics = getDynamicsFromSprint(K = sprintRawDynamics$K, Vmax = sprintRawDynamics$Vmax, Mass = mass, T0 = 0, Temperature = tempC, Height = personHeight)
                 print(paste("K =",sprintFittedDynamics$K.fitted, "Vmax =", sprintFittedDynamics$Vmax.fitted))
                 # print("triggersOn in testEncoderCJ:")
                 # print(op$triggersOnList)

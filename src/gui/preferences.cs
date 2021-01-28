@@ -189,6 +189,7 @@ public class PreferencesWindow
 	//runEncoder tab
 	[Widget] Gtk.SpinButton spin_run_encoder_acceleration;
 	[Widget] Gtk.SpinButton spin_run_encoder_pps;
+	[Widget] Gtk.Label label_pps_equivalent;
 
 	//multimedia tab
 	[Widget] Gtk.CheckButton checkbutton_volume;
@@ -738,6 +739,7 @@ public class PreferencesWindow
 		//runEncoder -->
 		PreferencesWindowBox.spin_run_encoder_acceleration.Value = preferences.runEncoderMinAccel;
 		PreferencesWindowBox.spin_run_encoder_pps.Value = preferences.runEncoderPPS;
+		PreferencesWindowBox.update_run_encoder_pps_equivalence ();
 
 		//language -->
 		if(preferences.language == "")
@@ -970,6 +972,21 @@ public class PreferencesWindow
 	/*
 	 * end of triggers stuff
 	 */
+
+
+	// ---- race analyzer ---->
+
+	private void on_spin_run_encoder_pps_value_changed (object o, EventArgs args)
+	{
+		update_run_encoder_pps_equivalence ();
+	}
+	private void update_run_encoder_pps_equivalence ()
+	{
+		label_pps_equivalent.Text = string.Format(Catalog.GetString("{0} pps is equivalent to a resolution of {1} cm."),
+				spin_run_encoder_pps.Value, 0.3003 * spin_run_encoder_pps.Value);
+	}
+
+	// <---- end of race analyzer ----
 
 	private void createComboCamera(string current, string pixelFormat, string resolution, string framerate)
 	{

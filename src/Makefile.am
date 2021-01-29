@@ -643,6 +643,7 @@ RESOURCES = \
 	../images/ea-time-to-pp.png,encoder-analyze-time-to-pp.png \
 	../images/encoder-image-pending.png,encoder-image-pending.png \
 	../images/encoder-linear.png,encoder-linear.png \
+	../images/equivalentMass.png,equivalentMass.png \
 	../images/er-friction.png,encoder-rotary-friction.png \
 	../images/er-axis.png,encoder-rotary-axis.png \
 	../images/el-blue.png,encoder-linear-blue.png \

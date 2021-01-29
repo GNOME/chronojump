@@ -64,7 +64,13 @@ public class DialogImageTest
 	public enum ArchiveType { FILE, ASSEMBLY }
 	//useful to show only an image	
 	//in a future do a DialogImage class (with this). And the inherit to DialogImageTest
+
 	public DialogImageTest (string title, string imagePath, ArchiveType archiveType)
+	{
+		new DialogImageTest (title, imagePath, archiveType, "");
+	}
+
+	public DialogImageTest (string title, string imagePath, ArchiveType archiveType, string longText)
 	{
 		if(archiveType == ArchiveType.FILE && ! File.Exists(imagePath))
 		{
@@ -82,8 +88,13 @@ public class DialogImageTest
 		//put an icon to window
 		UtilGtk.IconWindow(dialog_image_test);
 
-		scrolledwindow28.Hide();
-	
+		if(longText == "")
+			scrolledwindow28.Hide();
+		else {
+			label_long_description.Text = longText;
+			label_long_description.UseMarkup = true;
+		}
+
 		Pixbuf pixbuf;
 		if(archiveType == ArchiveType.FILE)
 			pixbuf = new Pixbuf (imagePath);
@@ -91,7 +102,15 @@ public class DialogImageTest
 			pixbuf = new Pixbuf (null, imagePath);
 
 		image_test.Pixbuf = pixbuf;
-		dialog_image_test.WidthRequest = pixbuf.Width + 40; //allocate vertical scrollbar if needed
+
+		if(longText != "")
+		{
+			//2*to acomodate image and text
+			dialog_image_test.WidthRequest = 2 * pixbuf.Width + 40; //allocate vertical scrollbar if needed
+		} else {
+			dialog_image_test.WidthRequest = pixbuf.Width + 40; //allocate vertical scrollbar if needed
+		}
+
 		dialog_image_test.HeightRequest = pixbuf.Height + 85; //allocate button close
 	}
 				

@@ -1669,7 +1669,15 @@ public class PreferencesWindow
 
 	private void on_button_encoder_inertial_analyze_eq_mass_help_clicked (object o, EventArgs args)
 	{
-		new DialogMessage(Constants.MessageTypes.INFO, "TODO");
+		new DialogImageTest (
+				Catalog.GetString("Equivalent mass"),
+				Util.GetImagePath(false) + "equivalentMass.png",
+				DialogImageTest.ArchiveType.ASSEMBLY,
+				Catalog.GetString("The equivalent mass is a measure of the resistance of a body to change its velocity.") + "\n" +
+				Catalog.GetString("From the point of view of a person pulling from a rope, the situation in the image is equivalent to a rotary inertial machine.") + "\n" +
+				Catalog.GetString("The equivalent mass takes in account the different configurations of a inertial machine (diameters, inertia momentum, extra weights and force multipliers).") + "\n" +
+				Catalog.GetString("This way it is possible to compare the resistance of diferent configurations on diferent machines.")
+				);
 	}
 
 	// ---- start SQL stress tests ---->

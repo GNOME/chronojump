@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2021-01-28 16:31+0000\n"
-"PO-Revision-Date: 2021-01-28 19:37+0200\n"
+"POT-Creation-Date: 2021-01-29 16:54+0000\n"
+"PO-Revision-Date: 2021-01-29 19:44+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -684,8 +684,7 @@ msgstr "Вилучити позначене (d)"
 
 #: ../glade/app1.glade.h:126
 msgid "Jump multiple"
-msgstr ""
-"Кратність стрибка"
+msgstr "Кратність стрибка"
 
 #: ../glade/app1.glade.h:127 ../src/stats/runSimple.cs:52
 msgid "Race"
@@ -1123,13 +1122,11 @@ msgstr "віднімання"
 
 #: ../glade/app1.glade.h:222
 msgid "mark consecutives"
-msgstr ""
-"позначати послідовні"
+msgstr "позначати послідовні"
 
 #: ../glade/app1.glade.h:223
 msgid "mark best 'n' consecutives"
-msgstr ""
-"позначати найкращі «n» послідовні"
+msgstr "позначати найкращі «n» послідовні"
 
 #: ../glade/app1.glade.h:224
 msgid "Current"
@@ -3840,8 +3837,7 @@ msgstr ""
 
 #: ../glade/preferences_win.glade.h:59
 msgid "Race time starts on leaving first device"
-msgstr ""
-"Час вправи починається з моменту полишення першого пристрою"
+msgstr "Час вправи починається з моменту полишення першого пристрою"
 
 #: ../glade/preferences_win.glade.h:60
 msgid "Prevent double contacts (recommended)"
@@ -3849,8 +3845,7 @@ msgstr "Запобігати подвійним контактами (реком
 
 #: ../glade/preferences_win.glade.h:61
 msgid "Fix if found two or more contacts in"
-msgstr ""
-"Фіксувати, якщо виявлено два або більше контакти у"
+msgstr "Фіксувати, якщо виявлено два або більше контакти у"
 
 #: ../glade/preferences_win.glade.h:62
 msgid "ms"
@@ -3983,6 +3978,7 @@ msgstr "Змінна X для показу графіків інерційног
 
 #. inertial
 #: ../glade/preferences_win.glade.h:100 ../src/gui/encoderTreeviews.cs:620
+#: ../src/gui/preferences.cs:1673
 msgid "Equivalent mass"
 msgstr "Еквівалентна маса"
 
@@ -4952,13 +4948,11 @@ msgstr "-Немає"
 
 #: ../src/constants.cs:193
 msgid "Sedentary/Occasional practice"
-msgstr ""
-"Сидяче/Випадкове вправляння"
+msgstr "Сидяче/Випадкове вправляння"
 
 #: ../src/constants.cs:194
 msgid "Bench press"
-msgstr ""
-"Жим лежачи"
+msgstr "Жим лежачи"
 
 #: ../src/constants.cs:195
 msgid "Squat"
@@ -4971,7 +4965,8 @@ msgid ""
 "Always remember to touch platform at ending. If you don't do it, Chronojump "
 "will crash at next execution."
 msgstr ""
-"Слід завжди торкатися платформи наприкінці. Якщо ви цього не зробите, Chronojump завершить роботу в аварійному режимі під час наступного виконання."
+"Слід завжди торкатися платформи наприкінці. Якщо ви цього не зробите, "
+"Chronojump завершить роботу в аварійному режимі під час наступного виконання."
 
 #: ../src/constants.cs:200
 msgid "This Run Analysis is not valid because there are no strides."
@@ -5448,13 +5443,11 @@ msgstr "передбачення"
 
 #: ../src/constants.cs:1398
 msgid "Concentric mean speed on bench press 1RM ="
-msgstr ""
-"Концентрична середня швидкість при жимі лежачи, 1RM ="
+msgstr "Концентрична середня швидкість при жимі лежачи, 1RM ="
 
 #: ../src/constants.cs:1399
 msgid "Concentric mean speed on squat 1RM ="
-msgstr ""
-"Концентрична середня швидкість при присіданні, 1RM ="
+msgstr "Концентрична середня швидкість при присіданні, 1RM ="
 
 #: ../src/constants.cs:1400
 msgid "Estimated percentual load ="
@@ -5624,10 +5617,12 @@ msgstr ""
 #: ../src/encoder.cs:1929
 msgid "Inertial machine rolls twice faster than body."
 msgstr ""
+"Інерційна машина обертається удвічі швидше за тіло."
 
 #: ../src/encoder.cs:1831
 msgid "Rotary friction encoder on inertial machine axis."
 msgstr ""
+"Кодувальних обертального тертя на інерційній вісі машини."
 
 #: ../src/encoder.cs:1872
 msgid "Rotary axis encoder on pulley axis."
@@ -5925,6 +5920,7 @@ msgstr "Макс. висота"
 #: ../src/exportSession.cs:423
 msgid "Max Initial Speed"
 msgstr ""
+"Макс. початкова швидкість"
 
 #: ../src/exportSession.cs:424
 msgid "TC AVG"
@@ -5937,10 +5933,12 @@ msgstr ""
 #: ../src/exportSession.cs:426
 msgid "AVG Height"
 msgstr ""
+"Сер. висота"
 
 #: ../src/exportSession.cs:427
 msgid "AVG Initial Speed"
 msgstr ""
+"Сер. початкова швидкість"
 
 #: ../src/exportSession.cs:432 ../src/exportSession.cs:630
 msgid "Limited"
@@ -6459,11 +6457,13 @@ msgstr ""
 #: ../src/gui/app1/encoder.cs:4069
 msgid "1RM Bench Press"
 msgstr ""
+"Жим лежачи 1RM"
 
 #: ../src/gui/app1/encoder.cs:2752 ../src/gui/app1/encoder.cs:2848
 #: ../src/gui/app1/encoder.cs:4070
 msgid "1RM Squat"
 msgstr ""
+"Присідання 1RM"
 
 #: ../src/gui/app1/encoder.cs:2769
 msgid "Sorry, cannot calculate 1RM of different exercises."
@@ -6488,6 +6488,7 @@ msgstr ""
 #: ../src/gui/app1/encoder.cs:2804
 msgid "Sorry, cannot calculate this 1RM test on one set."
 msgstr ""
+"Вибачте, неможливо обчислити цю вправу 1RM за одним набором."
 
 #. will not be translated
 #: ../src/gui/app1/encoder.cs:2822 ../src/gui/app1/encoder.cs:4234
@@ -6631,6 +6632,7 @@ msgstr "Операцію скасовано."
 #, csharp-format
 msgid "Saved 1RM: {0} Kg."
 msgstr ""
+"Збережний 1RM: {0} кг."
 
 #: ../src/gui/app1/encoder.cs:4853 ../src/gui/app1/forceSensor.cs:2899
 msgid "Delete exercise"
@@ -6651,6 +6653,7 @@ msgstr "Опір"
 #: ../src/gui/app1/encoder.cs:4865 ../src/gui/app1/encoder.cs:4919
 msgid "Speed at 1RM"
 msgstr ""
+"Швидкість при 1RM"
 
 #. don't show now
 #: ../src/gui/app1/encoder.cs:4914 ../src/gui/app1/runEncoder.cs:1602
@@ -7449,6 +7452,7 @@ msgid ""
 "In current exercise configuration, angle is merely descriptive (not used in "
 "calculations)."
 msgstr ""
+"За поточних налаштувань вправи кут є лише описовим (не використовується в обчисленнях)."
 
 #: ../src/gui/forceSensorExercise.cs:355
 msgid ""
@@ -7552,6 +7556,7 @@ msgstr ""
 #: ../src/gui/forceSensorExercise.cs:391
 msgid "Rubber bands, springs, flexible material ..."
 msgstr ""
+"Гумові джгути, пружини, гнучкий матеріал…"
 
 #: ../src/gui/forceSensorExercise.cs:393 ../src/gui/forceSensorExercise.cs:396
 msgid ""
@@ -7728,6 +7733,7 @@ msgstr ""
 #: ../src/gui/multiChronopic.cs:136
 msgid "multi chronopic"
 msgstr ""
+"декілька Chronopic"
 
 #: ../src/gui/networks.cs:622
 #, csharp-format
@@ -8193,6 +8199,31 @@ msgid ""
 "capture will end."
 msgstr ""
 
+#: ../src/gui/preferences.cs:1676
+msgid ""
+"The equivalent mass is a measure of the resistance of a body to change its "
+"linear or rotary velocity."
+msgstr ""
+
+#: ../src/gui/preferences.cs:1677
+msgid ""
+"From the point of view of a person pulling from a rope, the situation in the "
+"image is equivalent to a rotary inertial machine."
+msgstr ""
+
+#: ../src/gui/preferences.cs:1678
+msgid ""
+"The equivalent mass takes in account the different configurations of a "
+"inertial machine (diameters, inertia momentum, extra weights and force "
+"multipliers)."
+msgstr ""
+
+#: ../src/gui/preferences.cs:1679
+msgid ""
+"This way it is possible to compare the resistance of diferent configurations "
+"on diferent machines."
+msgstr ""
+
 #: ../src/gui/pulse.cs:48
 msgid "pulse"
 msgstr "пульс"
@@ -8511,6 +8542,7 @@ msgstr "Простий стрибок без особливої техніки"
 #: ../src/jumpType.cs:84
 msgid "Squat Jump"
 msgstr ""
+"Підстрибування навсидячки"
 
 #: ../src/jumpType.cs:90
 msgid "CounterMovement Jump"

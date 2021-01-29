@@ -1,0 +1,725 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="121.9873mm"
+   height="81.315491mm"
+   viewBox="0 0 121.9873 81.315491"
+   version="1.1"
+   id="svg8"
+   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
+   sodipodi:docname="equivalentMass.svg"
+   inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/equivalentMass.png"
+   inkscape:export-xdpi="83.290001"
+   inkscape:export-ydpi="83.290001">
+  <defs
+     id="defs2">
+    <marker
+       style="overflow:visible"
+       id="marker1192"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="TriangleOutL"
+       inkscape:isstock="true">
+      <path
+         transform="scale(0.8)"
+         style="fill:#ffcc01;fill-opacity:1;fill-rule:evenodd;stroke:#ffcc01;stroke-width:1pt;stroke-opacity:1"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path1190" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker1116"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="TriangleOutL"
+       inkscape:isstock="true">
+      <path
+         transform="scale(0.8)"
+         style="fill:#ffcc01;fill-opacity:1;fill-rule:evenodd;stroke:#ffcc01;stroke-width:1pt;stroke-opacity:1"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path1114" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="TriangleOutL"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="TriangleOutL"
+       inkscape:isstock="true"
+       inkscape:collect="always">
+      <path
+         transform="scale(0.8)"
+         style="fill:#cffffe;fill-opacity:1;fill-rule:evenodd;stroke:#cffffe;stroke-width:1pt;stroke-opacity:1"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path1257" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="TriangleInL"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="TriangleInL"
+       inkscape:isstock="true">
+      <path
+         transform="scale(-0.8)"
+         style="fill:#cffffe;fill-opacity:1;fill-rule:evenodd;stroke:#cffffe;stroke-width:1pt;stroke-opacity:1"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path1248" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow1Lend"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Lend"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-0.8,0,0,-0.8,-10,0)"
+         style="fill:#ffcc01;fill-opacity:1;fill-rule:evenodd;stroke:#ffcc01;stroke-width:1pt;stroke-opacity:1"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path1118" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow2Lend"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow2Lend"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#ffcc01;stroke-width:0.625;stroke-linejoin:round;stroke-opacity:1"
+         id="path1136" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow1Lend-9"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Lend"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-0.8,0,0,-0.8,-10,0)"
+         style="fill:#ffcc01;fill-opacity:1;fill-rule:evenodd;stroke:#ffcc01;stroke-width:1pt;stroke-opacity:1"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path1118-3" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow1Lend-9-0"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Lend"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-0.8,0,0,-0.8,-10,0)"
+         style="fill:#ffcc01;fill-opacity:1;fill-rule:evenodd;stroke:#ffcc01;stroke-width:1pt;stroke-opacity:1"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path1118-3-6" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow1Lend-9-0-2"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Lend"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-0.8,0,0,-0.8,-10,0)"
+         style="fill:#ffcc01;fill-opacity:1;fill-rule:evenodd;stroke:#ffcc01;stroke-width:1pt;stroke-opacity:1"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path1118-3-6-0" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker1116-0"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="TriangleOutL"
+       inkscape:isstock="true">
+      <path
+         transform="scale(0.8)"
+         style="fill:#ffcc01;fill-opacity:1;fill-rule:evenodd;stroke:#ffcc01;stroke-width:1pt;stroke-opacity:1"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path1114-6" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.002258"
+     inkscape:cx="84.845063"
+     inkscape:cy="321.61339"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1024"
+     inkscape:window-x="0"
+     inkscape:window-y="28"
+     inkscape:window-maximized="1"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-30.506704,-174.47902)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="81.881119"
+       y="118.39715"
+       id="text2564"><tspan
+         sodipodi:role="line"
+         id="tspan2562"
+         x="81.881119"
+         y="118.39715"
+         style="stroke-width:0.264583" /></text>
+    <g
+       id="g2803">
+      <rect
+         style="fill:#cffffe;fill-opacity:1;stroke:none;stroke-width:0.299672;stroke-miterlimit:4;stroke-dasharray:0.299672, 0.599342;stroke-dashoffset:0;stroke-opacity:1"
+         id="rect2566"
+         width="121.987"
+         height="31.129122"
+         x="30.507"
+         y="174.47902"
+         inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/equivalentMass.png"
+         inkscape:export-xdpi="124.38092"
+         inkscape:export-ydpi="124.38092" />
+      <rect
+         style="fill:#0e1e46;fill-opacity:1;stroke:none;stroke-width:0.398754;stroke-miterlimit:4;stroke-dasharray:0.398754, 0.797506;stroke-dashoffset:0;stroke-opacity:1"
+         id="rect2566-3"
+         width="121.987"
+         height="55.117199"
+         x="30.506704"
+         y="200.67731"
+         inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/equivalentMass.png"
+         inkscape:export-xdpi="124.38092"
+         inkscape:export-ydpi="124.38092" />
+      <g
+         id="g2422"
+         transform="translate(5.8208336)"
+         style="fill:#cffffe;fill-opacity:1"
+         inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/equivalentMass.png"
+         inkscape:export-xdpi="124.38092"
+         inkscape:export-ydpi="124.38092">
+        <rect
+           style="fill:#cffffe;fill-opacity:1;stroke-width:0.1"
+           id="rect234-5"
+           width="13.887281"
+           height="7.9297957"
+           x="44.058144"
+           y="214.47739" />
+        <circle
+           style="fill:#cffffe;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-opacity:1"
+           id="path1094"
+           cx="46.882019"
+           cy="223.21454"
+           r="1.7655426" />
+        <circle
+           style="fill:#cffffe;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-opacity:1"
+           id="path1094-2"
+           cx="55.121548"
+           cy="223.21454"
+           r="1.7655426" />
+      </g>
+      <g
+         id="g1562-9"
+         transform="translate(84.996889)"
+         style="fill:#cffffe;fill-opacity:1"
+         inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/equivalentMass.png"
+         inkscape:export-xdpi="124.38092"
+         inkscape:export-ydpi="124.38092">
+        <rect
+           style="fill:#cffffe;fill-opacity:1;stroke-width:0.1"
+           id="rect234-5-1"
+           width="13.887281"
+           height="7.9297957"
+           x="44.587311"
+           y="214.47739" />
+        <circle
+           style="fill:#cffffe;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-opacity:1"
+           id="path1094-27"
+           cx="47.411186"
+           cy="223.21454"
+           r="1.7655426" />
+        <circle
+           style="fill:#cffffe;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-opacity:1"
+           id="path1094-2-0"
+           cx="55.650715"
+           cy="223.21454"
+           r="1.7655426" />
+      </g>
+      <path
+         style="fill:none;stroke:#ffcc01;stroke-width:0.4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker1192)"
+         d="m 95.655351,222.34601 0.002,29.29413"
+         id="path1113-6-2"
+         sodipodi:nodetypes="cc"
+         inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/equivalentMass.png"
+         inkscape:export-xdpi="124.38092"
+         inkscape:export-ydpi="124.38092" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="98.648262"
+         y="253.91313"
+         id="text1802"
+         inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/equivalentMass.png"
+         inkscape:export-xdpi="124.38092"
+         inkscape:export-ydpi="124.38092"><tspan
+           sodipodi:role="line"
+           id="tspan1800"
+           x="98.648262"
+           y="253.91313"
+           style="font-size:7.05556px;fill:#ffffff;stroke-width:0.264583">F</tspan></text>
+      <g
+         id="g1695">
+        <rect
+           style="fill:none;fill-opacity:1;stroke:#cffffe;stroke-width:0.7411;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="rect234-5-7"
+           width="13.1459"
+           height="7.1888995"
+           x="89.10955"
+           y="214.84793"
+           inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/equivalentMass.png"
+           inkscape:export-xdpi="124.38092"
+           inkscape:export-ydpi="124.38092" />
+        <circle
+           style="fill:#cffffe;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-opacity:1"
+           id="path1094-5"
+           cx="91.433716"
+           cy="223.21454"
+           r="1.7655426"
+           inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/equivalentMass.png"
+           inkscape:export-xdpi="124.38092"
+           inkscape:export-ydpi="124.38092" />
+        <circle
+           style="fill:#cffffe;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-opacity:1"
+           id="path1094-2-92"
+           cx="99.802124"
+           cy="223.21454"
+           r="1.7655426"
+           inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/equivalentMass.png"
+           inkscape:export-xdpi="124.38092"
+           inkscape:export-ydpi="124.38092" />
+      </g>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:4.93889px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="51.115643"
+         y="181.92404"
+         id="text1802-9"
+         inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/equivalentMass.png"
+         inkscape:export-xdpi="124.38092"
+         inkscape:export-ydpi="124.38092"><tspan
+           sodipodi:role="line"
+           id="tspan1800-7"
+           x="51.115643"
+           y="181.92404"
+           style="font-size:4.93889px;stroke-width:0.264583">ω=0</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:5.64444px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="-197.45448"
+         y="36.938034"
+         id="text1802-9-3"
+         transform="rotate(-90)"
+         inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/equivalentMass.png"
+         inkscape:export-xdpi="124.38092"
+         inkscape:export-ydpi="124.38092"><tspan
+           sodipodi:role="line"
+           id="tspan1800-7-6"
+           x="-197.45448"
+           y="36.938034"
+           style="font-size:5.64444px;stroke-width:0.264583">Rotary</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:5.64444px;line-height:1.25;font-family:sans-serif;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="-233.30922"
+         y="37.57193"
+         id="text1802-9-3-1"
+         transform="rotate(-90)"
+         inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/equivalentMass.png"
+         inkscape:export-xdpi="124.38092"
+         inkscape:export-ydpi="124.38092"><tspan
+           sodipodi:role="line"
+           id="tspan1800-7-6-2"
+           x="-233.30922"
+           y="37.57193"
+           style="font-size:5.64444px;fill:#ffffff;stroke-width:0.264583">Lineal</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:4.93889px;line-height:1.25;font-family:sans-serif;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="51.811382"
+         y="209.3282"
+         id="text1802-9-9"
+         inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/equivalentMass.png"
+         inkscape:export-xdpi="124.38092"
+         inkscape:export-ydpi="124.38092"><tspan
+           sodipodi:role="line"
+           id="tspan1800-7-3"
+           x="51.811382"
+           y="209.3282"
+           style="font-size:4.93889px;fill:#ffffff;stroke-width:0.264583">v=0</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:4.93889px;line-height:1.25;font-family:sans-serif;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="85.103256"
+         y="209.04364"
+         id="text1802-9-9-1"
+         inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/equivalentMass.png"
+         inkscape:export-xdpi="124.38092"
+         inkscape:export-ydpi="124.38092"><tspan
+           sodipodi:role="line"
+           id="tspan1800-7-3-9"
+           x="85.103256"
+           y="209.04364"
+           style="font-size:4.93889px;fill:#ffffff;stroke-width:0.264583">v=±v<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan2324">max</tspan></tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:4.93889px;line-height:1.25;font-family:sans-serif;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="131.5166"
+         y="209.3282"
+         id="text1802-9-9-4"
+         inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/equivalentMass.png"
+         inkscape:export-xdpi="124.38092"
+         inkscape:export-ydpi="124.38092"><tspan
+           sodipodi:role="line"
+           id="tspan1800-7-3-7"
+           x="131.5166"
+           y="209.3282"
+           style="font-size:4.93889px;fill:#ffffff;stroke-width:0.264583">v=0</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:4.93889px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="130.82088"
+         y="181.92404"
+         id="text1802-9-8"
+         inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/equivalentMass.png"
+         inkscape:export-xdpi="124.38092"
+         inkscape:export-ydpi="124.38092"><tspan
+           sodipodi:role="line"
+           id="tspan1800-7-4"
+           x="130.82088"
+           y="181.92404"
+           style="font-size:4.93889px;stroke-width:0.264583">ω=0</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:4.93889px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="83.80101"
+         y="181.63948"
+         id="text1802-9-9-1-5"
+         inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/equivalentMass.png"
+         inkscape:export-xdpi="124.38092"
+         inkscape:export-ydpi="124.38092"><tspan
+           sodipodi:role="line"
+           id="tspan1800-7-3-9-0"
+           x="83.80101"
+           y="181.63948"
+           style="font-size:4.93889px;stroke-width:0.264583">ω=±ω<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan2322">max</tspan></tspan></text>
+      <path
+         style="fill:none;stroke:#ffcc01;stroke-width:0.4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker1116)"
+         d="m 56.912199,222.4 c 36.954574,2.67403 38.801395,0.0468 38.71806,5.43204 l 0.0556,7.00153"
+         id="path1113"
+         sodipodi:nodetypes="ccc"
+         inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/equivalentMass.png"
+         inkscape:export-xdpi="124.38092"
+         inkscape:export-ydpi="124.38092" />
+      <path
+         style="fill:#cffffe;fill-opacity:1;stroke:#cffffe;stroke-width:0.425457;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-start:url(#TriangleInL);marker-end:url(#TriangleOutL)"
+         d="m 72.007648,218.7754 49.271012,-10e-4"
+         id="path1113-6-2-2"
+         sodipodi:nodetypes="cc"
+         inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/equivalentMass.png"
+         inkscape:export-xdpi="124.38092"
+         inkscape:export-ydpi="124.38092" />
+      <path
+         style="fill:#ffffff;stroke:#ffffff;stroke-width:0.499998;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M 40.243999,225.23 H 93.537001"
+         id="path1092-3"
+         inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/equivalentMass.png"
+         inkscape:export-xdpi="124.38092"
+         inkscape:export-ydpi="124.38092" />
+      <g
+         id="g2422-7"
+         transform="translate(-10.774665,28.784953)"
+         style="fill:#cffffe;fill-opacity:1"
+         inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/equivalentMass.png"
+         inkscape:export-xdpi="124.38092"
+         inkscape:export-ydpi="124.38092">
+        <rect
+           style="fill:#cffffe;fill-opacity:1;stroke-width:0.1"
+           id="rect234-5-5"
+           width="13.887281"
+           height="7.9297957"
+           x="44.058144"
+           y="214.47739" />
+        <circle
+           style="fill:#cffffe;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-opacity:1"
+           id="path1094-3"
+           cx="46.882019"
+           cy="223.21454"
+           r="1.7655426" />
+        <circle
+           style="fill:#cffffe;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-opacity:1"
+           id="path1094-2-5"
+           cx="55.121548"
+           cy="223.21454"
+           r="1.7655426" />
+      </g>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:4.9389px;line-height:1.35;font-family:sans-serif;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="49.700745"
+         y="246.94099"
+         id="text1802-9-9-1-6"
+         inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/equivalentMass.png"
+         inkscape:export-xdpi="124.38092"
+         inkscape:export-ydpi="124.38092"><tspan
+           sodipodi:role="line"
+           id="tspan1800-7-3-9-2"
+           x="49.700745"
+           y="246.94099"
+           style="font-size:4.9389px;fill:#ffffff;stroke-width:0.264583">Equivalent</tspan><tspan
+           sodipodi:role="line"
+           x="49.700745"
+           y="253.60851"
+           style="font-size:4.9389px;fill:#ffffff;stroke-width:0.264583"
+           id="tspan1481">mass</tspan></text>
+      <g
+         id="g1794"
+         transform="translate(-0.34706704,-2.1166667)">
+        <g
+           id="g1551"
+           transform="translate(-7.1106724,-1.0316346)">
+          <circle
+             style="fill:#0e1e46;fill-opacity:1;stroke-width:0.454756;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+             id="path1516-6"
+             cx="64.280357"
+             cy="190.95245"
+             r="3.5569649" />
+          <circle
+             style="fill:#ffffff;fill-opacity:1;stroke-width:0.223098;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+             id="path1516"
+             cx="64.280357"
+             cy="190.95245"
+             r="1.7450066" />
+          <circle
+             style="fill:#0e1e46;fill-opacity:1;stroke-width:0.0716677;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+             id="path1516-6-0"
+             cx="64.280357"
+             cy="190.95245"
+             r="0.56056422" />
+        </g>
+        <rect
+           style="fill:#0e1e46;fill-opacity:1;stroke-width:0.264999;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+           id="rect1553"
+           width="0.62507629"
+           height="3.5980363"
+           x="60.097801"
+           y="189.9593" />
+      </g>
+      <g
+         id="g1684"
+         transform="translate(0.88821936,-0.83365814)">
+        <g
+           id="g1677">
+          <circle
+             style="fill:#0e1e46;fill-opacity:1;stroke-width:0.268484;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+             id="path1516-6-2-2"
+             cx="94.794281"
+             cy="188.77032"
+             r="2.0999999" />
+          <circle
+             style="fill:#ffffff;fill-opacity:1;stroke-width:0.177188;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+             id="path1516-3-8"
+             cx="94.794281"
+             cy="188.77032"
+             r="1.3859129" />
+          <circle
+             style="fill:#0e1e46;fill-opacity:1;stroke-width:0.0569197;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+             id="path1516-6-0-7-9"
+             cx="94.794281"
+             cy="188.77032"
+             r="0.44520932" />
+        </g>
+        <rect
+           style="fill:#0e1e46;fill-opacity:1;stroke-width:0.265;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+           id="rect1553-5-7"
+           width="0.67128479"
+           height="10.085016"
+           x="94.481743"
+           y="190.15869" />
+      </g>
+      <g
+         id="g1811"
+         transform="translate(-5.7880021,3.71045)">
+        <g
+           id="g1703"
+           transform="matrix(0.79421645,0,0,0.79421645,30.988039,32.257544)">
+          <circle
+             style="fill:#0e1e46;fill-opacity:1;stroke-width:0.454756;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+             id="circle1697"
+             cx="64.280357"
+             cy="190.95245"
+             r="3.5569649" />
+          <circle
+             style="fill:#ffffff;fill-opacity:1;stroke-width:0.223098;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+             id="circle1699"
+             cx="64.280357"
+             cy="190.95245"
+             r="1.7450066" />
+          <circle
+             style="fill:#0e1e46;fill-opacity:1;stroke-width:0.0716677;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+             id="circle1701"
+             cx="64.280357"
+             cy="190.95245"
+             r="0.56056422" />
+        </g>
+        <rect
+           style="fill:#0e1e46;fill-opacity:1;stroke-width:0.265;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+           id="rect1705"
+           width="0.62507594"
+           height="6.949275"
+           x="84.240479"
+           y="183.89543" />
+      </g>
+      <g
+         id="g1749"
+         transform="matrix(-1,0,0,1,193.69753,-2.0824158)">
+        <g
+           id="g1551-1"
+           transform="translate(-7.1106724,-1.0316346)">
+          <circle
+             style="fill:#0e1e46;fill-opacity:1;stroke-width:0.454756;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+             id="path1516-6-9"
+             cx="64.280357"
+             cy="190.95245"
+             r="3.5569649" />
+          <circle
+             style="fill:#ffffff;fill-opacity:1;stroke-width:0.223098;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+             id="path1516-4"
+             cx="64.280357"
+             cy="190.95245"
+             r="1.7450066" />
+          <circle
+             style="fill:#0e1e46;fill-opacity:1;stroke-width:0.0716677;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+             id="path1516-6-0-78"
+             cx="64.280357"
+             cy="190.95245"
+             r="0.56056422" />
+        </g>
+        <rect
+           style="fill:#0e1e46;fill-opacity:1;stroke-width:0.264999;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+           id="rect1553-4"
+           width="0.62507629"
+           height="3.5980363"
+           x="60.097801"
+           y="189.9593" />
+      </g>
+      <g
+         id="g1811-5"
+         transform="matrix(-1,0,0,1,198.14572,3.6046792)">
+        <g
+           id="g1703-0"
+           transform="matrix(0.79421645,0,0,0.79421645,30.988039,32.257544)">
+          <circle
+             style="fill:#0e1e46;fill-opacity:1;stroke-width:0.454756;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+             id="circle1697-3"
+             cx="64.280357"
+             cy="190.95245"
+             r="3.5569649" />
+          <circle
+             style="fill:#ffffff;fill-opacity:1;stroke-width:0.223098;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+             id="circle1699-6"
+             cx="64.280357"
+             cy="190.95245"
+             r="1.7450066" />
+          <circle
+             style="fill:#0e1e46;fill-opacity:1;stroke-width:0.0716677;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+             id="circle1701-1"
+             cx="64.280357"
+             cy="190.95245"
+             r="0.56056422" />
+        </g>
+        <rect
+           style="fill:#0e1e46;fill-opacity:1;stroke-width:0.265;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+           id="rect1705-0"
+           width="0.62507594"
+           height="6.949275"
+           x="84.240479"
+           y="183.89543" />
+      </g>
+      <path
+         style="fill:#ffffff;stroke:#ffffff;stroke-width:0.499999;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M 97.844744,225.23 H 151.13774"
+         id="path1092-3-63"
+         inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/equivalentMass.png"
+         inkscape:export-xdpi="124.38092"
+         inkscape:export-ydpi="124.38092" />
+      <path
+         style="fill:none;stroke:#ffcc01;stroke-width:0.4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker1116-0)"
+         d="m 134.38423,222.4 c -36.954741,2.67404 -38.801561,0.0468 -38.718221,5.43205 l -0.0556,7.00152"
+         id="path1113-1"
+         sodipodi:nodetypes="ccc"
+         inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/equivalentMass.png"
+         inkscape:export-xdpi="124.38092"
+         inkscape:export-ydpi="124.38092" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="66.751808"
+       y="277.21536"
+       id="text2497"><tspan
+         sodipodi:role="line"
+         id="tspan2495"
+         x="66.751808"
+         y="277.21536"
+         style="stroke-width:0.264583">width: 400</tspan></text>
+  </g>
+</svg>

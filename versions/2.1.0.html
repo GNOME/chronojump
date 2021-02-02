@@ -10,6 +10,7 @@
 	<li><b>Tags: Sessions can have user created tags, allowing users to organize much better their data. Tags can be edited/deleted, sessions can be filtered/sorted by tags. Tags cannot be imported/exported from another database.</b></li>
 	<li><b>Improved import session, now using Python 3 for all systems. This fixes occasional problems with non-English characters.</b></li>
 	<li><b>Improvements on overview window: force sensor, encoder, race analyzer. Current person is selected on the data table and selecting the desired person is easier.</b></li>
+	<li><b>New button: Latest products, will show new Chronojump products on a non-intrusive way.</b></li>
 	<li>Scroll to row on persons list at left when selecting a person from overview window.</li>
 	<li>Improvements on exporting a session.</li>
 	<li>Persons top window improvements: can select and close a window double clicking on person, displays correctly long names, bigger up/down buttons that displaces list row by row, and has better behaviour on selecting person.</li>
@@ -37,19 +38,19 @@
 <ul>
 	<li><b>New features on analyze.</b></li>
 	<ul>
+		<li><b>On series of different repetitions, user can choose which repetition to analyze with the model.</b></li>
 		<li><b>Graphical interface: Changes on how raw and modelized analysis are shown. Bigger A,B sliders.</b></li>
 		<li><b>Can start/end analysis on a fixed millisecond or let Chronojump find the best start/end on some A,B range.</b></li>
 	</ul>
 	<li><b>Improvements on modelized data calculations and start/end detection.</b></li>
 	<li><b>Implemented CVRMSSD on force sensor variability (this method can be selected on preferences).</b></li>
-	<li><b>New button: Latest products, will show new Chronojump products on a non-intrusive way.</b></li>
 	<li>Analyze raw data graph displays now: force, rfd max of selected AB. nice for having relevant data at export image.</li>
 	<li>On analyze can move the A, B sliders (1s distance), and this value can be configured on preferences.</li>
 	<li>Show laterality icon at top.</li>
 	<li>Fixed: export/import of forceSensor files from systems with different decimal separator.</li>
 	<li>Fixed laterality reading on load set.</li>
 	<li>Fixed showing "Free" test after changing from jump mode to force sensor mode.</li>
-	<li>Fixed few potential problems on trying to analyze a set incorrecly captured.</li>
+	<li>Fixed few potential problems on trying to analyze a set incorrectly captured.</li>
 </ul>
 
 <p><span class="highlight2"><i class="fa fa-bar-chart fa-2x"></i>  Encoder</span></p>
@@ -71,14 +72,14 @@
 <ul>
 	<li><b>At capture on realtime it shows a velocimeter graph, and variables: speed and distance.</b></li>
 	<li><b>Shown an exportable data table for race analyzer results</b>.</li>
-	<li><b>User can adjust the PPS (Pulses per Sample) on capture, allowing to channge space resolution on capture. Before space resolution was 3 cm, now it can be configured from 3 mm to 3 m.</b></li>
+	<li><b>User can adjust the PPS (Pulses per Sample) on capture, allowing to change space resolution on capture. Before space resolution was 3 cm, now it can be configured from 3 mm to 3 m.</b></li>
 	<li>Improved starting point detection.</li>
 </ul>
 
 <p><span class="highlight2"><i class="fa fa-sitemap fa-2x"></i>  Chronojump-networks</span></p>
 <ul>
 	<li>Added button for not upload a capture (eg. for warming up).</li>
-	<li>Networks person autologout will close the encoder exercise config.</li>
+	<li>Networks person auto logout will close the encoder exercise config.</li>
 	<li>Fixed system to 2021 server code.</li>
 </ul>
 

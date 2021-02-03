@@ -131,7 +131,7 @@ scp -l 8192 Chronojump...dmg xaviblas@master.gnome.org:.
 ssh xaviblas@master.gnome.org
 mv Chrono...dmg /ftp/pub/gnome/binaries/mac/chronojump
 cd /ftp/pub/gnome/binaries/mac/chronojump
-chmod +r ...dmg
+chmod 644 ...dmg
 signal-ftp-sync
 wait 5'
 
@@ -163,7 +163,7 @@ scp -l 8192 Chronojump...exe xaviblas@master.gnome.org:.
 ssh xaviblas@master.gnome.org
 mv Chrono...exe /ftp/pub/gnome/binaries/win32/chronojump
 cd /ftp/pub/gnome/binaries/win32/chronojump
-chmod +rx Chrono...exe
+chmod 755 Chrono...exe
 signal-ftp-sync
 wait 5'
 

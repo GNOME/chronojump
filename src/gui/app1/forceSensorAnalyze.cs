@@ -680,14 +680,29 @@ public partial class ChronoJumpWindow
 
 	bool force_sensor_ai_drawingareaShown = false;
 
-	private void on_button_force_sensor_export_session_clicked (object o, EventArgs args)
+	private void on_button_force_sensor_export_currentperson_in_session_clicked (object o, EventArgs args)
+	{
+		if(currentPerson == null || currentSession == null)
+			return;
+
+		button_force_sensor_export_session (currentPerson.UniqueID);
+	}
+	private void on_button_force_sensor_export_all_persons_in_session_clicked (object o, EventArgs args)
+	{
+		if(currentSession == null)
+			return;
+
+		button_force_sensor_export_session (-1);
+	}
+
+	private void button_force_sensor_export_session (int personID)
 	{
 		int duration = -1;
 		if(radio_force_duration_seconds.Active)
 			duration = Convert.ToInt32(spin_force_duration_seconds.Value);
 
 		ForceSensorExport fse = new ForceSensorExport (
-				UtilAll.IsWindows(), currentSession.UniqueID,
+				UtilAll.IsWindows(), personID, currentSession.UniqueID,
 				rfdList, impulse,//getImpulseValue(),
 				duration, Convert.ToInt32(spin_force_rfd_duration_percent.Value),
 				preferences.forceSensorElasticEccMinDispl,

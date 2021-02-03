@@ -2127,6 +2127,7 @@ public class ForceSensorExport
 {
 	//passed variables
 	private bool isWindows;
+	private int personID; // -1: all
 	private int sessionID;
 	private List<ForceSensorRFD> rfdList;
 	private ForceSensorImpulse impulse;
@@ -2148,7 +2149,7 @@ public class ForceSensorExport
 
 	//constructor
 	public ForceSensorExport (
-			bool isWindows, int sessionID,
+			bool isWindows, int personID, int sessionID,
 			List<ForceSensorRFD> rfdList, ForceSensorImpulse impulse,
 			int duration, int durationPercent,
 			double forceSensorElasticEccMinDispl,
@@ -2160,6 +2161,7 @@ public class ForceSensorExport
 
 	{
 		this.isWindows = isWindows;
+		this.personID = personID;
 		this.sessionID = sessionID;
 		this.rfdList = rfdList;
 		this.impulse = impulse;
@@ -2183,7 +2185,7 @@ public class ForceSensorExport
 
 	private void getData ()
 	{
-		fs_l = SqliteForceSensor.Select(false, -1, -1, sessionID);
+		fs_l = SqliteForceSensor.Select(false, -1, personID, sessionID);
 		personSession_l = SqlitePersonSession.SelectCurrentSessionPersons(sessionID, true);
 		fsEx_l = SqliteForceSensorExercise.Select (false, -1, false);
 		exportedRFDs = new List<string>();

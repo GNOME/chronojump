@@ -180,6 +180,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_force_sensor_laterality_both;
 	[Widget] Gtk.Image image_force_sensor_laterality_r;
 	[Widget] Gtk.Image image_force_sensor_laterality_l;
+	[Widget] Gtk.Image image_force_sensor_export_currentperson_in_session;
+	[Widget] Gtk.Image image_force_sensor_export_all_persons_in_session;
 
 	//race encoder
 	[Widget] Gtk.Image image_run_encoder_exercise_edit;
@@ -801,13 +803,18 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeIndividualCurrentSetIcon);
 		image_encoder_analyze_individual_current_set.Pixbuf = pixbuf;
+
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeIndividualCurrentSessionIcon);
 		image_encoder_analyze_individual_current_session.Pixbuf = pixbuf;
+		image_force_sensor_export_currentperson_in_session.Pixbuf = pixbuf;
+
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeIndividualAllSessionsIcon);
 		image_encoder_analyze_individual_all_sessions.Pixbuf = pixbuf;
 		image_tab_jumps_evolution.Pixbuf = pixbuf;
+
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeGroupalCurrentSessionIcon);
 		image_encoder_analyze_groupal_current_session.Pixbuf = pixbuf;
+		image_force_sensor_export_all_persons_in_session.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzePowerbarsIcon);
 		image_encoder_analyze_powerbars.Pixbuf = pixbuf;

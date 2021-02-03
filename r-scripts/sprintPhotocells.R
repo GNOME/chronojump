@@ -201,7 +201,7 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
                 xlab="Time[s]", ylab="Velocity[m/s]",
                 axes = FALSE, yaxs= "i", xaxs = "i")
         text(textXPos, avg.speeds, round(avg.speeds, digits = 2), pos = 3)
-        axis(3, at = c(-sprintDynamics$T0,splitTimes), labels = c(-sprintDynamics$T0,splitTimes))
+        axis(3, at = c(-sprintDynamics$T0,splitTimes), labels = c(round(-sprintDynamics$T0, digits = 3),splitTimes))
         
         # Fitted speed plotting
         par(new=T)

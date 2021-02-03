@@ -24,7 +24,6 @@ using Gtk;
 using Gdk;
 using Glade;
 using System.Text; //StringBuilder
-using System.Collections; //ArrayList
 using System.Collections.Generic; //List<T>
 using Mono.Unix;
 
@@ -681,190 +680,24 @@ public partial class ChronoJumpWindow
 
 	bool force_sensor_ai_drawingareaShown = false;
 
-	//TODO: separate in thread
 	private void on_button_force_sensor_export_session_clicked (object o, EventArgs args)
 	{
-		// 1) Select force sensor files and force sensor exercises
-		List<ForceSensor> fs_l = SqliteForceSensor.Select(false, -1, -1, currentSession.UniqueID);
-		ArrayList personSession_l = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID, true);
-		ArrayList fsEx_l = SqliteForceSensorExercise.Select (false, -1, false);
-		List<string> exportedRFDs = new List<string>();
+		int duration = -1;
+		if(radio_force_duration_seconds.Active)
+			duration = Convert.ToInt32(spin_force_duration_seconds.Value);
 
-		foreach(ForceSensor fs in fs_l)
-		{
-			//check fs is ok
-			if(fs == null || ! Util.FileExists(fs.FullURL))
-				continue;
+		ForceSensorExport fse = new ForceSensorExport (
+				UtilAll.IsWindows(), currentSession.UniqueID,
+				rfdList, impulse,//getImpulseValue(),
+				duration, Convert.ToInt32(spin_force_rfd_duration_percent.Value),
+				preferences.forceSensorElasticEccMinDispl,
+				preferences.forceSensorNotElasticEccMinForce,
+				preferences.forceSensorElasticConMinDispl,
+				preferences.forceSensorNotElasticConMinForce,
+				preferences.forceSensorStartEndOptimized,
+				preferences.CSVExportDecimalSeparator);
 
-			//check fs has data
-			List<string> contents = Util.ReadFileAsStringList(fs.FullURL);
-			if(contents.Count < 3)
-			{
-				new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileEmptyStr());
-				return;
-			}
-
-			//get the person
-			string personName = "";
-			double personWeight = 0;
-			bool found = false;
-			foreach(PersonAndPS paps in personSession_l)
-			{
-				if(paps.p.UniqueID == fs.PersonID)
-				{
-					personName = paps.p.Name;
-					personWeight = paps.ps.Weight;
-					found = true;
-					break;
-				}
-			}
-			if(! found)
-				continue;
-
-			//get the exercise
-			found = false;
-			ForceSensorExercise fsEx = new ForceSensorExercise();
-			foreach(ForceSensorExercise fsExTemp in fsEx_l)
-				if(fsExTemp.UniqueID == fs.ExerciseID)
-				{
-					fsEx = fsExTemp;
-					found = true;
-					break;
-				}
-			if(! found)
-				continue;
-
-			double eccMinDispl = fsEx.GetEccOrConMinMaybePreferences(true,
-					preferences.forceSensorElasticEccMinDispl,
-					preferences.forceSensorNotElasticEccMinForce);
-			double conMinDispl = fsEx.GetEccOrConMinMaybePreferences(false,
-					preferences.forceSensorElasticConMinDispl,
-					preferences.forceSensorNotElasticConMinForce);
-
-			// 3) create fsAI (includes the repetitions
-			fsAI = new ForceSensorAnalyzeInstant(
-					fs.FullURL,
-					force_sensor_ai_drawingarea.Allocation.Width,
-					force_sensor_ai_drawingarea.Allocation.Height,
-					-1, -1,
-					fsEx, personWeight,
-					fs.CaptureOption, fs.Stiffness,
-					eccMinDispl, conMinDispl
-					);
-
-			// 4) call R
-			int imageWidth = UtilGtk.WidgetWidth(viewport_force_sensor_graph);
-			int imageHeight = UtilGtk.WidgetHeight(viewport_force_sensor_graph);
-			if(imageWidth < 300)
-				imageWidth = 300; //Not crash R with a png height of -1 or "figure margins too large"
-			if(imageHeight < 300)
-				imageHeight = 300; //Not crash R with a png height of -1 or "figure margins too large"
-
-			int duration = -1;
-			if(radio_force_duration_seconds.Active)
-				duration = Convert.ToInt32(spin_force_duration_seconds.Value);
-
-			//string title = lastForceSensorFile;
-			string title = personName;
-			string exercise = fsEx.Name;
-			if (UtilAll.IsWindows()) {
-				title = Util.ConvertToUnicode(title);
-				exercise = Util.ConvertToUnicode(exercise);
-			}
-			if (title == null || title == "")
-				title = "unnamed";
-
-			//copy file to tmp to be written readed by R
-			File.Copy(fs.FullURL, UtilEncoder.GetmifCSVFileName(), true); //can be overwritten
-
-			//delete result file
-			Util.FileDelete(UtilEncoder.GetmifExportFileName());
-
-			//TODO: només les concèntriques
-			foreach(ForceSensorRepetition rep in fsAI.ForceSensorRepetition_l)
-			{
-				ForceSensorGraph fsg = new ForceSensorGraph(fs.CaptureOption, rfdList, impulse,
-						duration, Convert.ToInt32(spin_force_rfd_duration_percent.Value),
-						title, exercise, fs.DateTimePublic, new TriggerList(),
-						rep.sampleStart, rep.sampleEnd, preferences.forceSensorStartEndOptimized,
-						Util.CSVDecimalColumnIsPoint(UtilEncoder.GetmifCSVFileName(), 1)		// (*)
-						);
-
-				bool success = fsg.CallR(imageWidth -5, imageHeight -5);
-			}
-
-			//TODO: or check cancel when there is a thread, also R should write something blank if there is any problem
-			//also the problem with this code is: if R code fails for any reason (bad data), will exit R code and this file will never be created
-			/*
-			LogB.Information("Waiting creation of file... ");
-			while ( ! ( Util.FileReadable(UtilEncoder.GetmifExportFileName())))
-				;
-				*/
-
-			if(File.Exists(UtilEncoder.GetmifExportFileName()))
-			{
-				List<string> repRFDs = Util.ReadFileAsStringList(UtilEncoder.GetmifExportFileName());
-				int countRep = 0; //0 will be the header
-				foreach(string row in repRFDs)
-				{
-					//discard header
-					if(countRep == 0)
-					{
-						countRep ++;
-						continue;
-					}
-					//TODO: respect latin/not latin (decimal character, column separator)
-					exportedRFDs.Add(personName + ";" + fs.DateTimePublic + ";" +
-							fsEx.Name + ";" + (countRep++).ToString() + ";" + fs.Laterality + ";" +
-							row);
-				}
-			}
-		}
-
-		string destination = UtilEncoder.GetmifExportFileName();
-		Util.FileDelete(destination);
-		try {
-			//this overwrites if needed
-			TextWriter writer = File.CreateText(destination);
-
-			string sep = " ";
-			if (preferences.CSVExportDecimalSeparator == "COMMA")
-				sep = ";";
-			else
-				sep = ",";
-
-			//write header
-			string [] headers = { "Person", "date", "Exercise", "Repetition", "Laterality"};
-			int i = 0;
-			foreach(ForceSensorRFD rfd in rfdList)
-			{
-				if(rfdList[i].Active)
-					headers = Util.AddArrayString(headers,
-							string.Format("RFD{0}", i+1) + "_" + rfd.ToExport(true, "_"),
-							false);
-				i ++;
-			}
-			ForceSensorImpulse tempImpulse = getImpulseValue ();
-			if(tempImpulse.Active)
-				headers = Util.AddArrayString(headers,
-						Catalog.GetString("Impulse") + "_" + tempImpulse.ToExport(true, "_"),
-						false);
-
-			writer.WriteLine(Util.RemoveNewLine(Util.StringArrayToString(headers, sep), false));
-
-			//write data
-			foreach(string str in exportedRFDs)
-				writer.WriteLine(str);
-
-			writer.Flush();
-			writer.Close();
-			((IDisposable)writer).Dispose();
-		} catch {
-			string myString = string.Format(
-					Catalog.GetString("Cannot save file {0} "), destination);
-			new DialogMessage(Constants.MessageTypes.WARNING, myString);
-		}
-
+		fse.Start();
 	}
 
 	private void forceSensorDoGraphAI(bool windowResizedAndZoom)

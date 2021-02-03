@@ -15,11 +15,12 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2017-2020   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2017-2021   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 using System.IO; 		//for detect OS //TextWriter
+using System.Collections; //ArrayList
 using System.Collections.Generic; //List<T>
 using Mono.Unix;
 
@@ -1434,6 +1435,7 @@ public class ForceSensorGraph
 
 	private void writeOptionsFile(int graphWidth, int graphHeight)
 	{
+LogB.Information("writeOptionsFile 0");
 		string scriptsPath = UtilEncoder.GetSprintPath();
 		if(UtilAll.IsWindows())
 			scriptsPath = scriptsPath.Replace("\\","/");
@@ -1441,6 +1443,7 @@ public class ForceSensorGraph
 		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
 		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
 
+LogB.Information("writeOptionsFile 1");
 		//since 2.0.3 decimalChar is . (before it was locale specific)
 		string decimalChar = ".";
 		if(! decimalIsPoint)
@@ -1460,17 +1463,20 @@ public class ForceSensorGraph
 			"#hline50fmax.fitted\n" + 	Util.BoolToRBool(hline50fmax_fitted) + "\n" +
 			"#RFDs";
 
+LogB.Information("writeOptionsFile 2");
 		foreach(ForceSensorRFD rfd in rfdList)
 			if(rfd.active)
 				scriptOptions += "\n" + rfd.ToR();
 			else
 				scriptOptions += "\n-1";
 
+LogB.Information("writeOptionsFile 3");
 		if(impulse.active)
 			scriptOptions += "\n" + impulse.ToR();
 		else
 			scriptOptions += "\n-1";
 
+LogB.Information("writeOptionsFile 4");
 		scriptOptions +=
 			"\n#testLength\n" + 		testLength.ToString() + "\n" +
 			"#captureOptions\n" + 		fsco.ToString() + "\n" +
@@ -1491,11 +1497,13 @@ public class ForceSensorGraph
 		- startEndOptimized TRUE (default): optimized range (program will find best fitting samples on user selected range)
 		*/
 
+LogB.Information("writeOptionsFile 5");
 		TextWriter writer = File.CreateText(Path.GetTempPath() + "Roptions.txt");
 		writer.Write(scriptOptions);
 		writer.Flush();
 		writer.Close();
 		((IDisposable)writer).Dispose();
+LogB.Information("writeOptionsFile 6");
 	}
 
 	private string printTriggers(TriggerList.Type3 type3)
@@ -2112,6 +2120,250 @@ public class ForceSensorAnalyzeInstant
 	public ForceSensorCapturePoints FscAIPointsDispl
 	{
 		get { return fscAIPointsDispl; }
+	}
+}
+
+public class ForceSensorExport
+{
+	//passed variables
+	private bool isWindows;
+	private int sessionID;
+	private List<ForceSensorRFD> rfdList;
+	private ForceSensorImpulse impulse;
+	private int duration;
+	private int durationPercent;
+	private double forceSensorElasticEccMinDispl;
+	public int forceSensorNotElasticEccMinForce;
+	public double forceSensorElasticConMinDispl;
+	public int forceSensorNotElasticConMinForce;
+	public bool forceSensorStartEndOptimized;
+	public string CSVExportDecimalSeparator;
+
+	List<ForceSensor> fs_l;
+	ArrayList personSession_l;
+	ArrayList fsEx_l;
+	List<string> exportedRFDs;
+	private int imageWidth = 300; //nothing is displayed, remove when R script has been adapted
+	private int imageHeight = 300; //nothing is displayed, remove when R script has been adapted
+
+	//constructor
+	public ForceSensorExport (
+			bool isWindows, int sessionID,
+			List<ForceSensorRFD> rfdList, ForceSensorImpulse impulse,
+			int duration, int durationPercent,
+			double forceSensorElasticEccMinDispl,
+			int forceSensorNotElasticEccMinForce,
+			double forceSensorElasticConMinDispl,
+			int forceSensorNotElasticConMinForce,
+			bool forceSensorStartEndOptimized,
+			string CSVExportDecimalSeparator)
+
+	{
+		this.isWindows = isWindows;
+		this.sessionID = sessionID;
+		this.rfdList = rfdList;
+		this.impulse = impulse;
+		this.duration = duration;
+		this.durationPercent = durationPercent;
+		this.forceSensorElasticEccMinDispl = forceSensorElasticEccMinDispl;
+		this.forceSensorNotElasticEccMinForce = forceSensorNotElasticEccMinForce;
+		this.forceSensorElasticConMinDispl = forceSensorElasticConMinDispl;
+		this.forceSensorNotElasticConMinForce = forceSensorNotElasticConMinForce;
+		this.forceSensorStartEndOptimized = forceSensorStartEndOptimized;
+		this.CSVExportDecimalSeparator = CSVExportDecimalSeparator;
+	}
+
+	///public method
+	public void Start()
+	{
+		getData();
+		processForceSensorSets();
+		writeFile();
+	}
+
+	private void getData ()
+	{
+		fs_l = SqliteForceSensor.Select(false, -1, -1, sessionID);
+		personSession_l = SqlitePersonSession.SelectCurrentSessionPersons(sessionID, true);
+		fsEx_l = SqliteForceSensorExercise.Select (false, -1, false);
+		exportedRFDs = new List<string>();
+	}
+
+	private void processForceSensorSets ()
+	{
+		Person p = new Person();
+		PersonSession ps = new PersonSession();
+
+		foreach(ForceSensor fs in fs_l)
+		{
+			// 1) checks
+			//check fs is ok
+			if(fs == null || ! Util.FileExists(fs.FullURL))
+				continue;
+
+			//check fs has data
+			List<string> contents = Util.ReadFileAsStringList(fs.FullURL);
+			if(contents.Count < 3)
+			{
+				//new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileEmptyStr());
+				//return;
+				continue;
+			}
+
+			// 2) get the person
+			bool found = false;
+			foreach(PersonAndPS paps in personSession_l)
+			{
+				if(paps.p.UniqueID == fs.PersonID)
+				{
+					p = paps.p;
+					ps = paps.ps;
+
+					found = true;
+					break;
+				}
+			}
+			if(! found)
+				continue;
+
+			// 3) get the exercise
+			found = false;
+			ForceSensorExercise fsEx = new ForceSensorExercise();
+			foreach(ForceSensorExercise fsExTemp in fsEx_l)
+				if(fsExTemp.UniqueID == fs.ExerciseID)
+				{
+					fsEx = fsExTemp;
+					found = true;
+					break;
+				}
+			if(! found)
+				continue;
+
+			double eccMinDispl = fsEx.GetEccOrConMinMaybePreferences(true,
+					forceSensorElasticEccMinDispl,
+					forceSensorNotElasticEccMinForce);
+			double conMinDispl = fsEx.GetEccOrConMinMaybePreferences(false,
+					forceSensorElasticConMinDispl,
+					forceSensorNotElasticConMinForce);
+
+			// 4) create fsAI (includes the repetitions)
+			ForceSensorAnalyzeInstant fsAI = new ForceSensorAnalyzeInstant(
+					fs.FullURL,
+					imageWidth, imageHeight,
+					-1, -1,
+					fsEx, ps.Weight,
+					fs.CaptureOption, fs.Stiffness,
+					eccMinDispl, conMinDispl
+					);
+
+			// 5) call R
+			string title = p.Name;
+			string exercise = fsEx.Name;
+			if (isWindows) {
+				title = Util.ConvertToUnicode(title);
+				exercise = Util.ConvertToUnicode(exercise);
+			}
+			if (title == null || title == "")
+				title = "unnamed";
+
+			//copy file to tmp to be written readed by R
+			File.Copy(fs.FullURL, UtilEncoder.GetmifCSVFileName(), true); //can be overwritten
+
+			//delete result file
+			Util.FileDelete(UtilEncoder.GetmifExportFileName());
+
+			//TODO: només les concèntriques
+			foreach(ForceSensorRepetition rep in fsAI.ForceSensorRepetition_l)
+			{
+				ForceSensorGraph fsg = new ForceSensorGraph(fs.CaptureOption, rfdList, impulse,
+						duration, durationPercent,
+						title, exercise, fs.DateTimePublic, new TriggerList(),
+						rep.sampleStart, rep.sampleEnd, forceSensorStartEndOptimized,
+						Util.CSVDecimalColumnIsPoint(UtilEncoder.GetmifCSVFileName(), 1)		// (*)
+						);
+
+				bool success = fsg.CallR(imageWidth -5, imageHeight -5);
+			}
+
+			//TODO: or check cancel when there is a thread, also R should write something blank if there is any problem
+			//also the problem with this code is: if R code fails for any reason (bad data), will exit R code and this file will never be created
+			/*
+			LogB.Information("Waiting creation of file... ");
+			while ( ! ( Util.FileReadable(UtilEncoder.GetmifExportFileName())))
+				;
+				*/
+
+			// 6) write exportedRFDs (includes impulse)
+			if(File.Exists(UtilEncoder.GetmifExportFileName()))
+			{
+				List<string> repRFDs = Util.ReadFileAsStringList(UtilEncoder.GetmifExportFileName());
+				int countRep = 0; //0 will be the header
+				foreach(string row in repRFDs)
+				{
+					//discard header
+					if(countRep == 0)
+					{
+						countRep ++;
+						continue;
+					}
+					//TODO: respect latin/not latin (decimal character, column separator)
+					exportedRFDs.Add(p.Name + ";" + fs.DateTimePublic + ";" +
+							fsEx.Name + ";" + (countRep++).ToString() + ";" + fs.Laterality + ";" +
+							row);
+				}
+			}
+		}
+	}
+
+	private bool writeFile()
+	{
+		string destination = UtilEncoder.GetmifExportFileName();
+		Util.FileDelete(destination);
+		try {
+			//this overwrites if needed
+			TextWriter writer = File.CreateText(destination);
+
+			string sep = " ";
+			if (CSVExportDecimalSeparator == "COMMA")
+				sep = ";";
+			else
+				sep = ",";
+
+			//write header
+			string [] headers = { "Person", "Datetime", "Exercise", "Repetition", "Laterality"};
+			int i = 0;
+			foreach(ForceSensorRFD rfd in rfdList)
+			{
+				if(rfdList[i].Active)
+					headers = Util.AddArrayString(headers,
+							string.Format("RFD{0}", i+1) + "_" + rfd.ToExport(true, "_"),
+							false);
+				i ++;
+			}
+			if(impulse.Active)
+				headers = Util.AddArrayString(headers,
+						Catalog.GetString("Impulse") + "_" + impulse.ToExport(true, "_"),
+						false);
+
+			writer.WriteLine(Util.RemoveNewLine(Util.StringArrayToString(headers, sep), false));
+
+			//write data
+			foreach(string str in exportedRFDs)
+				writer.WriteLine(str);
+
+			writer.Flush();
+			writer.Close();
+			((IDisposable)writer).Dispose();
+
+			return true;
+		} catch {
+			string myString = string.Format(
+					Catalog.GetString("Cannot save file {0} "), destination);
+			//new DialogMessage(Constants.MessageTypes.WARNING, myString);
+			LogB.Information("Error: " + myString);
+
+			return false;
+		}
 	}
 }
 

@@ -436,7 +436,7 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
                              
                         axis(side = 4)
                         #abline(h=c(0,sprintRawDynamics$startAccel), col = c("magenta", "magenta"), lty = c(1,2))
-                        legendText = c(legendText, paste("A max (raw) =", round(sprintRawDynamics$rawAmax, digits = 2), "m/s"))
+                        legendText = c(legendText, paste("A max (raw) =", round(sprintRawDynamics$rawAmax, digits = 2), "m/s\u00b2"))
                         legendColor = c(legendColor, "magenta")
 			legendLty = c(legendLty, ltyRaw)
 			legendLwd = c(legendLwd, lwdRaw)

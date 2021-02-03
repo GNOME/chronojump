@@ -306,6 +306,10 @@ public class ForceSensor
 		get { return uniqueID; }
 		set { uniqueID = value; }
 	}
+	public int PersonID
+	{
+		get { return personID; }
+	}
 	public int ExerciseID
 	{
 		get { return exerciseID; }
@@ -1261,6 +1265,19 @@ public class ForceSensorRFD
 	public string ToR()
 	{
 		return function.ToString() + ";" + type.ToString() + ";" + num1.ToString() + ";" + num2.ToString();
+	}
+
+	public string ToExport(bool translated, string sep)
+	{
+		return FunctionPrint(translated) + sep +
+			TypePrint(translated) + sep +
+			num1 + sep +
+			num2;
+	}
+
+	public bool Active
+	{
+		get { return active; }
 	}
 
 	public static string Function_RAW_name

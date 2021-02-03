@@ -16,7 +16,7 @@
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
 #   Copyright (C) 2017-2020   	Xavier Padullés <x.padulles@gmail.com>
-#   Copyright (C) 2017-2020     Xavier de Blas <xaviblas@gmail.com>
+#   Copyright (C) 2017-2021     Xavier de Blas <xaviblas@gmail.com>
 
 #call from Chronojump or:
 
@@ -232,7 +232,10 @@ drawDynamicsFromLoadCell <- function(
         return(NA)
     }
     par(mar = c(6, 4, 6, 4))
-    
+
+    exportNames = NULL
+    exportValues = NULL
+
     #Detecting if the duration of the sustained force is enough
     # print("f.raw")
     # print(dynamics$f.raw)
@@ -291,6 +294,7 @@ drawDynamicsFromLoadCell <- function(
     impulseOptions = readImpulseOptions(op$drawImpulseOptions)
     
     impulseLegend = ""
+    impulse = NULL
     
     if(impulseOptions$impulseFunction != "-1")
     {
@@ -357,6 +361,9 @@ drawDynamicsFromLoadCell <- function(
              labels = paste("Impulse =", round(impulse, digits = 2), "N\u00B7s"), pos = 4, cex = 1.5)
         
         impulseLegend = paste("Impulse", impulseOptions$start, "-", impulseOptions$end, " = ", round(impulse, digits = 2), " N\u00B7s", sep = "") #\u00B7 is ·
+
+#TODO: use it in the new dataframe
+#dfExport = c("impulse", impulseOptions$impulseFunction, impulseOptions$type, impulseOptions$start, impulseOptions$end, impulse)
     }
     
     #Plotting not analysed data
@@ -442,7 +449,8 @@ drawDynamicsFromLoadCell <- function(
         paste("\u03C4 = ", round(dynamics$tau.fitted, digits = 2),"s")
     )
     legendColor = c("blue", "blue", "blue")
-    
+ 
+
     #The coordinates where the lines and dots are plotted are calculated with the sampled data in raw and fitted data.
     #The slopes are calculated in that points
     for (n in 1:length(rfdDrawingOptions))
@@ -459,7 +467,6 @@ drawDynamicsFromLoadCell <- function(
             next
         } else
         {
-            
             RFD = NULL
             pointForce1 = NULL
             color = ""
@@ -637,8 +644,18 @@ drawDynamicsFromLoadCell <- function(
             #Drawing the points where the line touch the function
             points(x = c(time1, time2), y = c(force1, force2), col = color)
             abline(a = intercept, b = RFD, lty = 2, col = color)
-        }
+
+	    if(! is.null(RFD))
+	    {
+		    exportNames[n] = paste("RFD", RFDoptions$rfdFunction, RFDoptions$type, RFDoptions$start, RFDoptions$end, sep ="_")
+		    exportValues[n] = RFD
+	    }
+	}
+
     }
+    exportNames = c(exportNames, paste("Impulse", impulseOptions$impulseFunction, impulseOptions$type, impulseOptions$start, impulseOptions$end, sep ="_"))
+    exportValues = c(exportValues, impulse)
+
     if(impulseLegend != ""){
         legendText = c(legendText, impulseLegend)
         legendColor = c(legendColor, impulseColor)
@@ -653,6 +670,18 @@ drawDynamicsFromLoadCell <- function(
     }
     
     legend(x = xmax, y = dynamics$fmax.fitted/2, legend = legendText, xjust = 1, yjust = 0.1, text.col = legendColor)
+
+    if(is.null(exportValues))
+    {
+        write(0, file = paste(tempPath, "/cj_mif_export.csv", sep = "")) # write something blank to be able to know in C# that operation ended
+    }
+    else
+    {
+	exportValues = rbind(exportValues)
+	colnames(exportValues) = exportNames
+        write.csv2(exportValues, file = paste(tempPath, "/cj_mif_export.csv", sep = ""), row.names = FALSE, col.names = TRUE, quote = FALSE)
+    }
+
 }
 
 getDynamicsFromLoadCellFolder <- function(folderName, resultFileName, export2Pdf)

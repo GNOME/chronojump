@@ -1854,7 +1854,7 @@ msgstr "Individual"
 
 #: ../glade/app1.glade.h:389
 msgid "Groupwise"
-msgstr "Grupo de expertos"
+msgstr "Por grupo"
 
 #: ../glade/app1.glade.h:390
 msgid "Data:"

@@ -361,9 +361,6 @@ drawDynamicsFromLoadCell <- function(
              labels = paste("Impulse =", round(impulse, digits = 2), "N\u00B7s"), pos = 4, cex = 1.5)
         
         impulseLegend = paste("Impulse", impulseOptions$start, "-", impulseOptions$end, " = ", round(impulse, digits = 2), " N\u00B7s", sep = "") #\u00B7 is ·
-
-#TODO: use it in the new dataframe
-#dfExport = c("impulse", impulseOptions$impulseFunction, impulseOptions$type, impulseOptions$start, impulseOptions$end, impulse)
     }
     
     #Plotting not analysed data
@@ -450,6 +447,8 @@ drawDynamicsFromLoadCell <- function(
     )
     legendColor = c("blue", "blue", "blue")
  
+    exportNames = paste("Fmax")
+    exportValues = dynamics$fmax.fitted
 
     #The coordinates where the lines and dots are plotted are calculated with the sampled data in raw and fitted data.
     #The slopes are calculated in that points
@@ -647,12 +646,13 @@ drawDynamicsFromLoadCell <- function(
 
 	    if(! is.null(RFD))
 	    {
-		    exportNames[n] = paste("RFD", RFDoptions$rfdFunction, RFDoptions$type, RFDoptions$start, RFDoptions$end, sep ="_")
-		    exportValues[n] = RFD
+		    exportNames = c(exportNames, paste("RFD", RFDoptions$rfdFunction, RFDoptions$type, RFDoptions$start, RFDoptions$end, sep ="_"))
+		    exportValues = c(exportValues, RFD)
 	    }
 	}
 
     }
+
     exportNames = c(exportNames, paste("Impulse", impulseOptions$impulseFunction, impulseOptions$type, impulseOptions$start, impulseOptions$end, sep ="_"))
     exportValues = c(exportValues, impulse)
 

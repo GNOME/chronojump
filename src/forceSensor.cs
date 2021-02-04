@@ -22,6 +22,7 @@ using System;
 using System.IO; 		//for detect OS //TextWriter
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List<T>
+using System.Threading;
 using Mono.Unix;
 
 public class ForceSensor
@@ -2126,6 +2127,8 @@ public class ForceSensorAnalyzeInstant
 public class ForceSensorExport
 {
 	//passed variables
+	private Gtk.Notebook notebook;
+	private Gtk.ProgressBar progressbar;
 	private bool isWindows;
 	private int personID; // -1: all
 	private int sessionID;
@@ -2140,6 +2143,9 @@ public class ForceSensorExport
 	public bool forceSensorStartEndOptimized;
 	public string CSVExportDecimalSeparator;
 
+	private static Thread thread;
+	private static double pulseFraction;
+
 	List<ForceSensor> fs_l;
 	ArrayList personSession_l;
 	ArrayList fsEx_l;
@@ -2149,6 +2155,8 @@ public class ForceSensorExport
 
 	//constructor
 	public ForceSensorExport (
+			Gtk.Notebook notebook,
+			Gtk.ProgressBar progressbar,
 			bool isWindows, int personID, int sessionID,
 			List<ForceSensorRFD> rfdList, ForceSensorImpulse impulse,
 			int duration, int durationPercent,
@@ -2160,6 +2168,8 @@ public class ForceSensorExport
 			string CSVExportDecimalSeparator)
 
 	{
+		this.notebook = notebook;
+		this.progressbar = progressbar;
 		this.isWindows = isWindows;
 		this.personID = personID;
 		this.sessionID = sessionID;
@@ -2177,6 +2187,35 @@ public class ForceSensorExport
 
 	///public method
 	public void Start()
+	{
+		pulseFraction= 0;
+		progressbar.Fraction = 0;
+		notebook.CurrentPage = 1;
+
+		thread = new Thread (new ThreadStart (forceSensorExportDo));
+		GLib.Idle.Add (new GLib.IdleHandler (pulseForceSensorExportGTK));
+		thread.Start();
+	}
+
+	private bool pulseForceSensorExportGTK ()
+	{
+		if(! thread.IsAlive)// || cancel)
+		{
+			LogB.Information("pulseForceSensorExportGTK ending here");
+			LogB.ThreadEnded();
+
+			progressbar.Fraction = 1;
+			notebook.CurrentPage = 0;
+			return false;
+		}
+
+		progressbar.Fraction = pulseFraction;
+		Thread.Sleep (100);
+		//Log.Write(" (pulseForceSensorExportGTK:" + thread.ThreadState.ToString() + ") ");
+		return true;
+	}
+
+	private void forceSensorExportDo()
 	{
 		getData();
 		processForceSensorSets();
@@ -2196,6 +2235,7 @@ public class ForceSensorExport
 		Person p = new Person();
 		PersonSession ps = new PersonSession();
 
+		int count = 0;
 		foreach(ForceSensor fs in fs_l)
 		{
 			// 1) checks
@@ -2274,7 +2314,6 @@ public class ForceSensorExport
 			//delete result file
 			Util.FileDelete(UtilEncoder.GetmifExportFileName());
 
-			//TODO: només les concèntriques
 			foreach(ForceSensorRepetition rep in fsAI.ForceSensorRepetition_l)
 			{
 				ForceSensorGraph fsg = new ForceSensorGraph(fs.CaptureOption, rfdList, impulse,
@@ -2314,7 +2353,9 @@ public class ForceSensorExport
 							row);
 				}
 			}
+			pulseFraction = UtilAll.DivideSafeFraction (count ++, fs_l.Count);
 		}
+		pulseFraction = 1;
 	}
 
 	private bool writeFile()

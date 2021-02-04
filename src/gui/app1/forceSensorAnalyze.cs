@@ -141,6 +141,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_force_sensor_ai_variability_cvrmssd;
 	[Widget] Gtk.Label label_force_sensor_ai_variability_units;
 
+	[Widget] Gtk.Notebook notebook_force_sensor_export;
+	[Widget] Gtk.ProgressBar progressbar_force_sensor_export;
+
 	private RepetitionMouseLimits fsAIRepetitionMouseLimits;
 
 	private enum notebook_force_sensor_analyze_pages { AUTOMATIC, MANUAL, AUTOMATICOPTIONS }
@@ -702,6 +705,8 @@ public partial class ChronoJumpWindow
 			duration = Convert.ToInt32(spin_force_duration_seconds.Value);
 
 		ForceSensorExport fse = new ForceSensorExport (
+				notebook_force_sensor_export,
+				progressbar_force_sensor_export,
 				UtilAll.IsWindows(), personID, currentSession.UniqueID,
 				rfdList, impulse,//getImpulseValue(),
 				duration, Convert.ToInt32(spin_force_rfd_duration_percent.Value),

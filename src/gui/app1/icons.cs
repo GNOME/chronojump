@@ -182,6 +182,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_force_sensor_laterality_l;
 	[Widget] Gtk.Image image_force_sensor_export_currentperson_in_session;
 	[Widget] Gtk.Image image_force_sensor_export_all_persons_in_session;
+	[Widget] Gtk.Image image_force_sensor_export_cancel;
 
 	//race encoder
 	[Widget] Gtk.Image image_run_encoder_exercise_edit;
@@ -683,6 +684,7 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
 		image_encoder_analyze_cancel.Pixbuf = pixbuf;
+		image_force_sensor_export_cancel.Pixbuf = pixbuf;
 		
 		//zoom icons, done like this because there's one zoom icon created ad-hoc, 
 		//and is not nice that the other are different for an user theme change

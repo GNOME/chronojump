@@ -2144,6 +2144,7 @@ public class ForceSensorExport
 	public string CSVExportDecimalSeparator;
 
 	private static Thread thread;
+	private static bool cancel;
 	private static double pulseFraction;
 
 	List<ForceSensor> fs_l;
@@ -2188,6 +2189,7 @@ public class ForceSensorExport
 	///public method
 	public void Start()
 	{
+		cancel = false;
 		pulseFraction= 0;
 		progressbar.Fraction = 0;
 		notebook.CurrentPage = 1;
@@ -2197,10 +2199,18 @@ public class ForceSensorExport
 		thread.Start();
 	}
 
+	public void Cancel()
+	{
+		cancel = true;
+	}
+
 	private bool pulseForceSensorExportGTK ()
 	{
-		if(! thread.IsAlive)// || cancel)
+		if(! thread.IsAlive || cancel)
 		{
+			if(cancel)
+				LogB.Information("pulseForceSensorExportGTK cancelled");
+
 			LogB.Information("pulseForceSensorExportGTK ending here");
 			LogB.ThreadEnded();
 
@@ -2209,7 +2219,11 @@ public class ForceSensorExport
 			return false;
 		}
 
-		progressbar.Fraction = pulseFraction;
+		if(pulseFraction == 0)
+			progressbar.Pulse();
+		else
+			progressbar.Fraction = pulseFraction;
+
 		Thread.Sleep (100);
 		//Log.Write(" (pulseForceSensorExportGTK:" + thread.ThreadState.ToString() + ") ");
 		return true;
@@ -2218,8 +2232,8 @@ public class ForceSensorExport
 	private void forceSensorExportDo()
 	{
 		getData();
-		processForceSensorSets();
-		writeFile();
+		if(processForceSensorSets()) //false if cancelled
+			writeFile();
 	}
 
 	private void getData ()
@@ -2230,7 +2244,7 @@ public class ForceSensorExport
 		exportedRFDs = new List<string>();
 	}
 
-	private void processForceSensorSets ()
+	private bool processForceSensorSets ()
 	{
 		Person p = new Person();
 		PersonSession ps = new PersonSession();
@@ -2238,6 +2252,9 @@ public class ForceSensorExport
 		int count = 0;
 		foreach(ForceSensor fs in fs_l)
 		{
+			if(cancel)
+				return false;
+
 			// 1) checks
 			//check fs is ok
 			if(fs == null || ! Util.FileExists(fs.FullURL))
@@ -2316,6 +2333,9 @@ public class ForceSensorExport
 
 			foreach(ForceSensorRepetition rep in fsAI.ForceSensorRepetition_l)
 			{
+				if(cancel)
+					return false;
+
 				ForceSensorGraph fsg = new ForceSensorGraph(fs.CaptureOption, rfdList, impulse,
 						duration, durationPercent,
 						title, exercise, fs.DateTimePublic, new TriggerList(),
@@ -2356,6 +2376,7 @@ public class ForceSensorExport
 			pulseFraction = UtilAll.DivideSafeFraction (count ++, fs_l.Count);
 		}
 		pulseFraction = 1;
+		return true;
 	}
 
 	private bool writeFile()

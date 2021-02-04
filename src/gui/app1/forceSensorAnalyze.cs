@@ -698,13 +698,14 @@ public partial class ChronoJumpWindow
 		button_force_sensor_export_session (-1);
 	}
 
+	ForceSensorExport forceSensorExport;
 	private void button_force_sensor_export_session (int personID)
 	{
 		int duration = -1;
 		if(radio_force_duration_seconds.Active)
 			duration = Convert.ToInt32(spin_force_duration_seconds.Value);
 
-		ForceSensorExport fse = new ForceSensorExport (
+		forceSensorExport = new ForceSensorExport (
 				notebook_force_sensor_export,
 				progressbar_force_sensor_export,
 				UtilAll.IsWindows(), personID, currentSession.UniqueID,
@@ -717,7 +718,12 @@ public partial class ChronoJumpWindow
 				preferences.forceSensorStartEndOptimized,
 				preferences.CSVExportDecimalSeparator);
 
-		fse.Start();
+		forceSensorExport.Start();
+	}
+
+	private void on_button_force_sensor_export_cancel_clicked (object o, EventArgs args)
+	{
+		forceSensorExport.Cancel();
 	}
 
 	private void forceSensorDoGraphAI(bool windowResizedAndZoom)

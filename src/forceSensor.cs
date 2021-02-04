@@ -2332,7 +2332,7 @@ public class ForceSensorExport
 				sep = ",";
 
 			//write header
-			string [] headers = { "Person", "Datetime", "Exercise", "Repetition", "Laterality"};
+			string [] headers = { "Person", "Datetime", "Exercise", "Repetition", "Laterality", "Fmax"};
 			int i = 0;
 			foreach(ForceSensorRFD rfd in rfdList)
 			{

@@ -2216,6 +2216,14 @@ public class ForceSensorExport
 
 			progressbar.Fraction = 1;
 			notebook.CurrentPage = 0;
+
+			if(cancel)
+				new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Cancelled."));
+			else
+				new DialogMessage(Constants.MessageTypes.INFO,
+						string.Format("Exported to {0}",
+							UtilEncoder.GetmifCSVFileName()));
+
 			return false;
 		}
 

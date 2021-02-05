@@ -958,7 +958,7 @@ public class ForceSensorCapturePoints
 		double elapsedSeconds = times[countB]/1000000.0 - times[countA]/1000000.0;
 		return sum * UtilAll.DivideSafe(elapsedSeconds, samples);
 	}
-
+	
 	public void GetVariabilityAndAccuracy(int countA, int countB, int feedbackF, out double variability, out double feedbackDifference, bool cvRMSSD)
 	{
 		if(countA == countB)
@@ -983,18 +983,22 @@ public class ForceSensorCapturePoints
 		//feedbackDifference = Math.Abs(feedbackF - avg);
 		double sum = 0;
 		for(int i = countA; i <= countB; i ++)
+		{
 			sum += Math.Abs(forces[i]-feedbackF);
+		}
 
 		feedbackDifference = UtilAll.DivideSafe(sum, numSamples);
 	}
 	private double getVariabilityCVRMSSD (int countA, int countB, int numSamples)
 	{
-		//Σ(x_i - x_{i+1})^2 /(n-1)  )
+		//Σ(x_i - x_{i+1})^2 /(n-1))   //note pow should be inside the summation
 		double sum = 0;
 		for(int i = countA; i < countB; i ++)
-			sum += forces[i] - forces[i+1];
+		{
+			sum += Math.Pow(forces[i] - forces[i+1], 2);
+		}
 
-		return UtilAll.DivideSafe(Math.Pow(sum, 2), numSamples -1);
+		return UtilAll.DivideSafe(sum, numSamples -1);
 
 	}
 	private double getVariabilityOldMethod (int countA, int countB, int numSamples)

@@ -148,7 +148,7 @@ LogB.Information("import A ");
 				var dir = new DirectoryInfo(@tempImportDir);
 				dir.Delete(true); //recursive delete
 			} catch {
-				return new Result (false, "Could not delete directory: " + tempImportDir);
+				return new Result (false, "", "Could not delete directory: " + tempImportDir);
 			}
 		}
 LogB.Information("import B ");
@@ -183,7 +183,7 @@ LogB.Information("import H ");
 		Result sourceDatabaseVersion = getDatabaseVersionFromFile (temporarySourceFile);
 		Result destinationDatabaseVersion = getDatabaseVersionFromFile (destinationFile);
 
-LogB.Information("import A ");
+LogB.Information("import I ");
 		if (! sourceDatabaseVersion.success)
 			return sourceDatabaseVersion;
 
@@ -196,10 +196,13 @@ LogB.Information("import A ");
 		//3 check version of database to be imported
 
 		MessageToPulsebar = "Checking version";
-		if (destinationDatabaseVersionNum < sourceDatabaseVersionNum) {
-			return new Result (false, Catalog.GetString ("Trying to import a newer database version than this Chronojump\n" +
+		if (destinationDatabaseVersionNum < sourceDatabaseVersionNum)
+		{
+			MessageToPulsebar = Catalog.GetString("Please update Chronojump");
+			return new Result (false, "", Catalog.GetString ("Trying to import a newer database version than this Chronojump\n" +
 				"Please, update the running Chronojump."));
-		} else if (destinationDatabaseVersionNum > sourceDatabaseVersionNum) {
+		} else if (destinationDatabaseVersionNum > sourceDatabaseVersionNum)
+		{
 			LogB.Debug ("chronojump-importer version before update: ", sourceDatabaseVersion.output);
 			MessageToPulsebar = "Updating database";
 			updateDatabase (temporarySourceFile);

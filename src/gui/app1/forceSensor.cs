@@ -2167,11 +2167,16 @@ LogB.Information(" fs R ");
 		 * read this file to see which is the decimal point
 		 */
 
-		ForceSensorGraph fsg = new ForceSensorGraph(getForceSensorCaptureOptions(), rfdList, impulse,
+		ForceSensorGraph fsg = new ForceSensorGraph(
+				rfdList, impulse,
 				duration, Convert.ToInt32(spin_force_rfd_duration_percent.Value),
-				title, exercise, currentForceSensor.DateTimePublic, triggerListForceSensor,
-				sampleA, sampleB, preferences.forceSensorStartEndOptimized,
-				Util.CSVDecimalColumnIsPoint(UtilEncoder.GetmifCSVFileName(), 1)		// (*)
+				preferences.forceSensorStartEndOptimized,
+				Util.CSVDecimalColumnIsPoint(UtilEncoder.GetmifCSVFileName(), 1),
+				new ForceSensorGraphAB(
+					"", 	//unused on single graph (no export)
+					getForceSensorCaptureOptions(),
+					sampleA, sampleB,
+					title, exercise, currentForceSensor.DateTimePublic, triggerListForceSensor)
 				);
 
 		int imageWidth = UtilGtk.WidgetWidth(viewport_force_sensor_graph);
@@ -2181,7 +2186,7 @@ LogB.Information(" fs R ");
 		if(imageHeight < 300)
 			imageHeight = 300; //Not crash R with a png height of -1 or "figure margins too large"
 
-		bool success = fsg.CallR(imageWidth -5, imageHeight -5);
+		bool success = fsg.CallR(imageWidth -5, imageHeight -5, true);
 
 		if(! success)
 		{

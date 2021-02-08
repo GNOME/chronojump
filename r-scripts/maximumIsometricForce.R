@@ -55,7 +55,8 @@ assignOptions <- function(options)
         triggersOffList  = as.numeric(unlist(strsplit(options[24], "\\;"))),
         startSample = as.numeric(options[25]),
         endSample = as.numeric(options[26]),
-        startEndOptimized = options[27] #bool
+        startEndOptimized = options[27], 	#bool
+	singleOrMultiple = options[28]   	#bool (true is single)
     ))
 }
 
@@ -65,7 +66,6 @@ args <- commandArgs(TRUE)
 
 tempPath <- args[1]
 optionsFile <- paste(tempPath, "/Roptions.txt", sep="")
-dataFile <- paste(tempPath, "/cj_mif_Data.csv", sep="")
 pngFile <- paste(tempPath, "/cj_mif_Graph.png", sep="")
 
 #-------------- scan options file -------------
@@ -76,12 +76,7 @@ op <- assignOptions(options)
 print(op)
 
 source(paste(op$scriptsPath, "/scripts-util.R", sep=""))
-
-op$title = fixTitleAndOtherStrings(op$title)
-op$exercise = fixTitleAndOtherStrings(op$exercise)
-titleFull = paste(op$title, op$exercise, sep=" - ")
-op$datetime = fixDatetime(op$datetime)
-
+dfExport = NULL #global variable that will be changed by methods
 
 #Fits the data to the model f = fmax*(1 - exp(-K*t))
 #Important! It fits the data with the axes moved to startTime.
@@ -116,7 +111,7 @@ getForceModel <- function(time, force, startTime, # startTime is the instant whe
     return(list(fmax = fmax, K = K, T0 = T0, error = 100*residuals(model)/mean(data$force)))
 }
 
-getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength = 0.1, percentChange = 5, testLength = -1)
+getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength = 0.1, percentChange = 5, testLength = -1, startSample, endSample)
 {
     print("Entered getDynamicsFromLoadCellFile")
     
@@ -129,15 +124,15 @@ getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength
     else if(captureOptions == "INVERTED")
         originalTest$force = -1 * originalTest$force
     
-    print(paste("op$startSample: ", op$startSample))
-    print(paste("op$endtSample: ", op$endSample))
+    print(paste("startSample: ", startSample))
+    print(paste("endtSample: ", endSample))
     
     #If Roptions.txt does have endSample values greater than 1 it means that the user has selected a range
-    if( op$startSample != op$endSample  & (op$endSample > 1) & op$startSample <= length(originalTest$time) & op$endSample <= length(originalTest$time))
+    if( startSample != endSample  & (endSample > 1) & startSample <= length(originalTest$time) & endSample <= length(originalTest$time))
     {
         print("Range selected by user. Analyzed the specified range")
         
-        originalTest = originalTest[(op$startSample:op$endSample),]
+        originalTest = originalTest[(startSample:endSample),]
         originalTest$time = originalTest$time - originalTest$time[1]
         # print("originalTest$time:")
         # print(originalTest$time)
@@ -214,7 +209,7 @@ getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength
     ))
 }
 
-drawDynamicsFromLoadCell <- function(
+drawDynamicsFromLoadCell <- function(titleFull, datetime,
     dynamics, captureOptions, vlineT0=T, vline50fmax.raw=F, vline50fmax.fitted=F,
     hline50fmax.raw=F, hline50fmax.fitted=F,
     rfdDrawingOptions, triggersOn = "", triggersOff = "", xlimits = NA, forceLines = TRUE, timeLines = TRUE)
@@ -233,7 +228,6 @@ drawDynamicsFromLoadCell <- function(
     }
     par(mar = c(6, 4, 6, 4))
 
-    exportNames = NULL
     exportValues = NULL
 
     #Detecting if the duration of the sustained force is enough
@@ -260,7 +254,7 @@ drawDynamicsFromLoadCell <- function(
              #main = dynamics$nameOfFile,
              main = paste(parse(text = paste0("'", titleFull, "'"))), #process unicode, needed paste because its an expression. See graph.R
              yaxs= "i", xaxs = "i")
-        mtext(op$datetime, line = 0)
+        mtext(datetime, line = 0)
         xmin = xlimits[1]
         xmax = xlimits[2]
         #points(dynamics$time[dynamics$startSample:dynamics$endSample] , dynamics$f.raw[dynamics$startSample:dynamics$endSample])
@@ -275,7 +269,7 @@ drawDynamicsFromLoadCell <- function(
              #main = dynamics$nameOfFile,
              main = paste(parse(text = paste0("'", titleFull, "'"))), #process unicode, needed paste because its an expression. See graph.R
              yaxs= "i", xaxs = "i")
-        mtext(op$datetime, line = 0)
+        mtext(datetime, line = 0)
     }
     
     
@@ -447,7 +441,6 @@ drawDynamicsFromLoadCell <- function(
     )
     legendColor = c("blue", "blue", "blue")
  
-    exportNames = paste("Fmax")
     exportValues = dynamics$fmax.fitted
 
     #The coordinates where the lines and dots are plotted are calculated with the sampled data in raw and fitted data.
@@ -645,15 +638,11 @@ drawDynamicsFromLoadCell <- function(
             abline(a = intercept, b = RFD, lty = 2, col = color)
 
 	    if(! is.null(RFD))
-	    {
-		    exportNames = c(exportNames, paste("RFD", RFDoptions$rfdFunction, RFDoptions$type, RFDoptions$start, RFDoptions$end, sep ="_"))
 		    exportValues = c(exportValues, RFD)
-	    }
 	}
 
     }
 
-    exportNames = c(exportNames, paste("Impulse", impulseOptions$impulseFunction, impulseOptions$type, impulseOptions$start, impulseOptions$end, sep ="_"))
     exportValues = c(exportValues, impulse)
 
     if(impulseLegend != ""){
@@ -671,56 +660,48 @@ drawDynamicsFromLoadCell <- function(
     
     legend(x = xmax, y = dynamics$fmax.fitted/2, legend = legendText, xjust = 1, yjust = 0.1, text.col = legendColor)
 
-    if(is.null(exportValues))
-    {
-        write(0, file = paste(tempPath, "/cj_mif_export.csv", sep = "")) # write something blank to be able to know in C# that operation ended
-    }
-    else
-    {
-	exportValues = rbind(exportValues)
-	colnames(exportValues) = exportNames
-        write.csv2(exportValues, file = paste(tempPath, "/cj_mif_export.csv", sep = ""), row.names = FALSE, col.names = TRUE, quote = FALSE)
-    }
-
+    #modifying global variable:
+    if(op$singleOrMultiple == "FALSE")
+	dfExport <<- rbind(dfExport, exportValues)
 }
 
-getDynamicsFromLoadCellFolder <- function(folderName, resultFileName, export2Pdf)
-{
-    originalFiles = list.files(path=folderName, pattern="*")
-    nFiles = length(originalFiles)
-    results = matrix(rep(NA, 16*nFiles), ncol = 16)
-    colnames(results)=c("fileName", "fmax.fitted", "k.fitted", "fmax.raw", "startTime", "previousForce", "fmax.smoothed",
-                        "rfd0.fitted", "rfd100.raw", "rfd0_100.raw", "rfd0_100.fitted",
-                        "rfd200.raw", "rfd0_200.raw", "rfd0_200.fitted",
-                        "rfd50pfmax.raw", "rfd50pfmax.fitted")
-    
-    results[,"fileName"] = originalFiles
-    
-    for(i in 1:nFiles)
-    {
-        dynamics = getDynamicsFromLoadCellFile(op$captureOptions, paste(folderName,originalFiles[i], sep = ""))
-        
-        results[i, "fileName"] = dynamics$nameOfFile
-        results[i, "fmax.fitted"] = dynamics$fmax.fitted
-        results[i, "k.fitted"] = dynamics$k.fitted
-        results[i, "fmax.raw"] = dynamics$fmax.raw
-        results[i, "startTime"] = dynamics$startTime
-        results[i, "previousForce"] = dynamics$previousForce
-        results[i, "fmax.smoothed"] = dynamics$fmax.smoothed
-        results[i, "rfd0.fitted"] = dynamics$rfd0.fitted
-        results[i, "rfd100.raw"] = dynamics$rfd100.raw
-        results[i, "rfd0_100.raw"] = dynamics$rfd0_100.raw
-        results[i, "rfd0_100.fitted"] = dynamics$rfd0_100.fitted
-        results[i, "rfd200.raw"] = dynamics$rfd200.raw
-        results[i, "rfd0_200.raw"] = dynamics$rfd0_200.raw
-        results[i, "rfd0_200.fitted"] = dynamics$rfd0_200.fitted
-        results[i, "rfd50pfmax.raw"] = dynamics$rfd50pfmax.rawfilter(test$force, rep(1/19, 19), sides = 2)
-        results[i, "rfd50pfmax.fitted"] = dynamics$rfd50pfmax.fitted
-    }
-    write.table(results, file = resultFileName, sep = ";", dec = ",", col.names = NA)
-    return(results)
-    
-}
+#getDynamicsFromLoadCellFolder <- function(folderName, resultFileName, captureOptions)
+#{
+#    originalFiles = list.files(path=folderName, pattern="*")
+#    nFiles = length(originalFiles)
+#    results = matrix(rep(NA, 16*nFiles), ncol = 16)
+#    colnames(results)=c("fileName", "fmax.fitted", "k.fitted", "fmax.raw", "startTime", "previousForce", "fmax.smoothed",
+#                        "rfd0.fitted", "rfd100.raw", "rfd0_100.raw", "rfd0_100.fitted",
+#                        "rfd200.raw", "rfd0_200.raw", "rfd0_200.fitted",
+#                        "rfd50pfmax.raw", "rfd50pfmax.fitted")
+#    
+#    results[,"fileName"] = originalFiles
+#    
+#    for(i in 1:nFiles)
+#    {
+#        dynamics = getDynamicsFromLoadCellFile(captureOptions, paste(folderName,originalFiles[i], sep = ""))
+#        
+#        results[i, "fileName"] = dynamics$nameOfFile
+#        results[i, "fmax.fitted"] = dynamics$fmax.fitted
+#        results[i, "k.fitted"] = dynamics$k.fitted
+#        results[i, "fmax.raw"] = dynamics$fmax.raw
+#        results[i, "startTime"] = dynamics$startTime
+#        results[i, "previousForce"] = dynamics$previousForce
+#        results[i, "fmax.smoothed"] = dynamics$fmax.smoothed
+#        results[i, "rfd0.fitted"] = dynamics$rfd0.fitted
+#        results[i, "rfd100.raw"] = dynamics$rfd100.raw
+#        results[i, "rfd0_100.raw"] = dynamics$rfd0_100.raw
+#        results[i, "rfd0_100.fitted"] = dynamics$rfd0_100.fitted
+#        results[i, "rfd200.raw"] = dynamics$rfd200.raw
+#        results[i, "rfd0_200.raw"] = dynamics$rfd0_200.raw
+#        results[i, "rfd0_200.fitted"] = dynamics$rfd0_200.fitted
+#        results[i, "rfd50pfmax.raw"] = dynamics$rfd50pfmax.rawfilter(test$force, rep(1/19, 19), sides = 2)
+#        results[i, "rfd50pfmax.fitted"] = dynamics$rfd50pfmax.fitted
+#    }
+#    write.table(results, file = resultFileName, sep = ";", dec = ",", col.names = NA)
+#    return(results)
+#    
+#}
 
 #Finds the sample in which the force start incresing with two optional methods
 # - SD method: When the force increase 3 times the standard deviation
@@ -1092,17 +1073,80 @@ readImpulseOptions <- function(optionsStr)
     } 
 }
 
-print("Going to enter prepareGraph")
-prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
-print("Going to enter getDynamicsFromLoadCellFille")
-dynamics = getDynamicsFromLoadCellFile(op$captureOptions, dataFile, op$averageLength, op$percentChange, testLength = op$testLength)
-drawDynamicsFromLoadCell(dynamics, op$captureOptions, op$vlineT0, op$vline50fmax.raw, op$vline50fmax.fitted, op$hline50fmax.raw, op$hline50fmax.fitted,
-                         op$drawRfdOptions, triggersOn = op$triggersOnList, triggersOff = op$triggersOffList)
-#                         op$drawRfdOptions, xlimits = c(0.5, 1.5))
-endGraph()
+doProcess <- function(dataFile, title, exercise, datetime, captureOptions, startSample, endSample)
+{
+	title = fixTitleAndOtherStrings(title)
+	exercise = fixTitleAndOtherStrings(exercise)
+	titleFull = paste(title, exercise, sep=" - ")
+	datetime = fixDatetime(datetime)
+
+	print("Going to enter prepareGraph")
+	prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
+
+	print("Going to enter getDynamicsFromLoadCellFille")
+	dynamics = getDynamicsFromLoadCellFile(captureOptions, dataFile, op$averageLength, op$percentChange, testLength = op$testLength, startSample, endSample)
+
+	print("Going to draw")
+	drawDynamicsFromLoadCell(titleFull, datetime, dynamics, captureOptions, op$vlineT0, op$vline50fmax.raw, op$vline50fmax.fitted, op$hline50fmax.raw, op$hline50fmax.fitted,
+			op$drawRfdOptions, triggersOn = op$triggersOnList, triggersOff = op$triggersOffList)
+#                       op$drawRfdOptions, xlimits = c(0.5, 1.5))
+	endGraph()
+}
+
+if(op$singleOrMultiple == "TRUE")
+{
+	dataFile <- paste(tempPath, "/cj_mif_Data.csv", sep="")
+	doProcess(dataFile, op$title, op$exercise, op$datetime, op$captureOptions, op$startSample, op$endSample)
+} else
+{
+	#1) read the csv
+        dataFiles = read.csv(file = paste(tempPath, "/maximumIsometricForceInputMulti.csv", sep=""), sep=";", stringsAsFactors=F)
+	
+	#2) call doProcess
+        for(i in 1:length(dataFiles[,1])) {
+		print("fullURL")
+		print(as.vector(dataFiles$fullURL[i]))
+
+		executing  <- tryCatch({
+				doProcess(as.vector(dataFiles$fullURL[i]), dataFiles$title[i], dataFiles$exercise[i], dataFiles$datetime[i],
+						dataFiles$captureOptions[i], dataFiles$startSample[i], dataFiles$endSample[i])
+		}, error = function(e) {
+			print("error on doProcess:")
+			print(message(e))
+		})
+
+		print("done")
+	}
+
+	#3) write the file
+	if(is.null(dfExport))
+		write(0, file = paste(tempPath, "/cj_mif_export.csv", sep = "")) # write something blank to be able to know in C# that operation ended
+	else {
+		print("dfExport")
+		print(dfExport)
+
+		#preparing header row
+		exportNames = "Fmax"
+    		for(i in 1:length(op$drawRfdOptions))
+		{
+        		RFDoptions = readRFDOptions(op$drawRfdOptions[i])
+        		if(RFDoptions$rfdFunction != "-1")
+				exportNames = c(exportNames, paste("RFD", RFDoptions$rfdFunction, RFDoptions$type, RFDoptions$start, RFDoptions$end, sep ="_"))
+		}
+    
+    		impulseOptions = readImpulseOptions(op$drawImpulseOptions)
+		if(impulseOptions$impulseFunction != "-1")
+			exportNames = c(exportNames, paste("Impulse", impulseOptions$impulseFunction, impulseOptions$type, impulseOptions$start, impulseOptions$end, sep ="_"))
+
+    		colnames(dfExport) <- exportNames
+
+		#print csv
+		write.csv2(dfExport, file = paste(tempPath, "/cj_mif_export.csv", sep = ""), row.names = FALSE, col.names = TRUE, quote = FALSE)
+	}
+}
 
 #dynamics = getDynamicsFromLoadCellFile("~/ownCloud/Xavier/Recerca/Yoyo-Tests/Galga/RowData/APl1", averageLength = 0.1, percentChange = 5, sep = ";", dec = ",")
-#drawDynamicsFromLoadCell(dynamics, vlineT0=F, vline50fmax.raw=F, vline50fmax.fitted=T, hline50fmax.raw=F, hline50fmax.fitted=T, 
+#drawDynamicsFromLoadCell(titlefull, dynamics, vlineT0=F, vline50fmax.raw=F, vline50fmax.fitted=T, hline50fmax.raw=F, hline50fmax.fitted=T, 
 #                         rfd0.fitted=T, rfd100.raw=F, rfd0_100.raw=F, rfd0_100.fitted = F, rfd200.raw=F, rfd0_200.raw=F, rfd0_200.fitted = F,
 #                         rfd50pfmax.raw=F, rfd50pfmax.fitted=T)
-#getDynamicsFromLoadCellFolder("~/Documentos/RowData/", resultFileName = "~/Documentos/results.csv")
+#getDynamicsFromLoadCellFolder("~/Documentos/RowData/", resultFileName = "~/Documentos/results.csv", op$captureOptions)

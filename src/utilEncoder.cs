@@ -257,6 +257,9 @@ public class UtilEncoder
 	public static string GetmifScript() {
 		return System.IO.Path.Combine(GetSprintPath(), "maximumIsometricForce.R");
 	}
+	public static string GetmifCSVInputMulti() {
+		return Path.Combine(Path.GetTempPath(), "maximumIsometricForceInputMulti.csv");
+	}
 	public static string GetmifCSVFileName() {
 		return Path.Combine(Path.GetTempPath(), "cj_mif_Data.csv");
 	}

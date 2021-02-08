@@ -570,7 +570,7 @@ public partial class ChronoJumpWindow
 		button_contacts_exercise_close_and_recalculate.Sensitive = false;
 		textview_contacts_signal_comment.Buffer.Text = "";
 		notebook_force_sensor_analyze.Sensitive = false;
-		button_force_sensor_analyze_options.Sensitive = false;
+		button_force_sensor_analyze_options_close_and_analyze.Sensitive = false;
 		button_force_sensor_analyze_analyze.Sensitive = false;
 		button_delete_last_test.Sensitive = false;
 		if(force_capture_drawingarea != null && force_capture_pixmap != null)
@@ -1435,7 +1435,7 @@ LogB.Information(" fs C ");
 					force_capture_drawingarea.Sensitive = true;
 					button_force_sensor_image_save_signal.Sensitive = true;
 					notebook_force_sensor_analyze.Sensitive = true;
-					button_force_sensor_analyze_options.Sensitive = true;
+					button_force_sensor_analyze_options_close_and_analyze.Sensitive = true;
 					button_force_sensor_analyze_analyze.Sensitive = true;
 
 					if( configChronojump.Exhibition &&
@@ -1931,7 +1931,7 @@ LogB.Information(" fs R ");
 		button_contacts_exercise_close_and_recalculate.Sensitive = true;
 		force_capture_drawingarea.Sensitive = true;
 		notebook_force_sensor_analyze.Sensitive = true;
-		button_force_sensor_analyze_options.Sensitive = true;
+		button_force_sensor_analyze_options_close_and_analyze.Sensitive = true;
 		notebook_force_sensor_analyze.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_pages.MANUAL);
 	}
 

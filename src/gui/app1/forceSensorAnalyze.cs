@@ -31,6 +31,17 @@ using Mono.Unix;
 public partial class ChronoJumpWindow 
 {
 	//analyze tab
+	[Widget] Gtk.RadioButton radio_force_sensor_analyze_individual_current_set;
+	[Widget] Gtk.RadioButton radio_force_sensor_analyze_individual_current_session;
+	[Widget] Gtk.RadioButton radio_force_sensor_analyze_individual_all_sessions;
+	[Widget] Gtk.RadioButton radio_force_sensor_analyze_groupal_current_session;
+
+	[Widget] Gtk.Image image_force_sensor_analyze_individual_current_set;
+	[Widget] Gtk.Image image_force_sensor_analyze_individual_current_session;
+	[Widget] Gtk.Image image_force_sensor_analyze_individual_all_sessions;
+	[Widget] Gtk.Image image_force_sensor_analyze_groupal_current_session;
+
+	[Widget] Gtk.Notebook notebook_force_sensor_analyze_top;
 	[Widget] Gtk.Button button_force_sensor_analyze_load;
 	[Widget] Gtk.Button button_force_sensor_analyze_analyze;
 	[Widget] Gtk.Label label_force_sensor_analyze;
@@ -54,9 +65,11 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spin_force_rfd_duration_percent;
 
 	//analyze options
+	[Widget] Gtk.HBox hbox_force_sensor_analyze_top_modes;
 	[Widget] Gtk.Notebook notebook_force_sensor_analyze; //decide between automatic and manual
 //	[Widget] Gtk.HBox hbox_force_sensor_analyze_automatic_options;
 //	[Widget] Gtk.Notebook notebook_force_analyze_automatic;
+	[Widget] Gtk.Button button_force_sensor_analyze_options_close_and_analyze;
 	[Widget] Gtk.Label label_hscale_force_sensor_ai_a_pre_1s;
 	[Widget] Gtk.Label label_hscale_force_sensor_ai_a_post_1s;
 	[Widget] Gtk.Label label_hscale_force_sensor_ai_b_pre_1s;
@@ -146,7 +159,8 @@ public partial class ChronoJumpWindow
 
 	private RepetitionMouseLimits fsAIRepetitionMouseLimits;
 
-	private enum notebook_force_sensor_analyze_pages { AUTOMATIC, MANUAL, AUTOMATICOPTIONS }
+	private enum notebook_force_sensor_analyze_top_pages { CURRENTSET, CURRENTSESSION, AUTOMATICOPTIONS }
+	private enum notebook_force_sensor_analyze_pages { AUTOMATIC, MANUAL }
 	/*
 	 * analyze options -------------------------->
 	 */
@@ -170,25 +184,30 @@ public partial class ChronoJumpWindow
 		hbox_top_person.Sensitive = s;
 	}
 
-	private int notebook_force_sensor_analyze_LastPage;
+	private int notebook_force_sensor_analyze_top_LastPage;
 	private bool button_force_sensor_analyze_back_to_signal_LastSensitive;
 	private void on_button_force_sensor_analyze_options_clicked (object o, EventArgs args)
 	{
 		//store the notebook to return to same place
-		notebook_force_sensor_analyze_LastPage = notebook_force_sensor_analyze.CurrentPage;
-		notebook_force_sensor_analyze.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_pages.AUTOMATICOPTIONS);
+		notebook_force_sensor_analyze_top_LastPage = notebook_force_sensor_analyze_top.CurrentPage;
+		notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.AUTOMATICOPTIONS);
+
+		hbox_force_sensor_analyze_top_modes.Sensitive = false;
 
 		//do not allow to click Back while in options
 		button_force_sensor_analyze_back_to_signal_LastSensitive = button_force_sensor_analyze_back_to_signal.Sensitive;
 		button_force_sensor_analyze_back_to_signal.Sensitive = false;
+
+		button_force_sensor_analyze_options_close_and_analyze.Visible = radio_force_sensor_analyze_individual_current_set.Active;
 
 		forceSensorAnalyzeOptionsSensitivity(false);
 	}
 
 	private void on_button_force_sensor_analyze_options_close_clicked (object o, EventArgs args)
 	{
-		//we can go to manual or to automatic
-		notebook_force_sensor_analyze.CurrentPage = notebook_force_sensor_analyze_LastPage;
+		notebook_force_sensor_analyze_top.CurrentPage = notebook_force_sensor_analyze_top_LastPage;
+
+		hbox_force_sensor_analyze_top_modes.Sensitive = true;
 
 		button_force_sensor_analyze_back_to_signal.Sensitive = button_force_sensor_analyze_back_to_signal_LastSensitive;
 
@@ -683,19 +702,35 @@ public partial class ChronoJumpWindow
 
 	bool force_sensor_ai_drawingareaShown = false;
 
-	private void on_button_force_sensor_export_currentperson_in_session_clicked (object o, EventArgs args)
+	private void on_radio_force_sensor_analyze_individual_current_set_toggled (object o, EventArgs args)
 	{
-		if(currentPerson == null || currentSession == null)
-			return;
-
-		button_force_sensor_export_session (currentPerson.UniqueID);
+		notebook_force_sensor_analyze_top.CurrentPage = 0;
 	}
-	private void on_button_force_sensor_export_all_persons_in_session_clicked (object o, EventArgs args)
+	private void on_radio_force_sensor_analyze_individual_current_session_toggled (object o, EventArgs args)
+	{
+		notebook_force_sensor_analyze_top.CurrentPage = 1;
+	}
+	private void on_radio_force_sensor_analyze_groupal_current_session_toggled (object o, EventArgs args)
+	{
+		notebook_force_sensor_analyze_top.CurrentPage = 1;
+	}
+
+	private void on_button_force_sensor_export_current_session_clicked (object o, EventArgs args)
 	{
 		if(currentSession == null)
 			return;
 
-		button_force_sensor_export_session (-1);
+		if (radio_force_sensor_analyze_individual_current_session.Active)
+		{
+			if(currentPerson == null)
+				return;
+
+			button_force_sensor_export_session (currentPerson.UniqueID);
+		}
+		else if (radio_force_sensor_analyze_groupal_current_session.Active)
+		{
+			button_force_sensor_export_session (-1);
+		}
 	}
 
 	ForceSensorExport forceSensorExport;

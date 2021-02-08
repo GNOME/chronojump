@@ -637,7 +637,9 @@ drawDynamicsFromLoadCell <- function(titleFull, datetime,
             points(x = c(time1, time2), y = c(force1, force2), col = color)
             abline(a = intercept, b = RFD, lty = 2, col = color)
 
-	    if(! is.null(RFD))
+	    if(is.null(RFD))
+		    exportValues = c(exportValues, NA)
+	    else
 		    exportValues = c(exportValues, RFD)
 	}
 

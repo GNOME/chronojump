@@ -1382,6 +1382,54 @@ public class ForceSensorImpulse : ForceSensorRFD
 	}
 }
 
+//A-B data sent to R
+//can be just one on analyze or multiple (as a list) on export
+public class ForceSensorGraphAB
+{
+	public string fullURL;
+	public ForceSensor.CaptureOptions fsco;
+	public int startSample;
+	public int endSample;
+	public string title;
+	public string exercise;
+	public string datetime;
+	public TriggerList triggerList;
+
+	public ForceSensorGraphAB (string fullURL,
+			ForceSensor.CaptureOptions fsco, int startSample, int endSample,
+			string title, string exercise, string datetime, TriggerList triggerList)
+	{
+		this.fullURL = fullURL;
+		this.fsco = fsco;
+		this.startSample = startSample;
+		this.endSample = endSample;
+		this.title = title;
+		this.exercise = exercise;
+		this.datetime = datetime;
+		this.triggerList = triggerList;
+	}
+
+	public string ToCSVRow()
+	{
+		return fullURL + ";" +
+			fsco.ToString() + ";" +
+			title + ";" +
+			exercise + ";" +
+			datetime + ";" +
+			"\"\";\"\";" + 	// triggers unused on export
+			startSample.ToString() + ";" +
+			endSample.ToString();
+	}
+
+	public static string PrintCSVHeader()
+	{
+		return "fullURL;captureOptions;title;exercise;datetime;" +
+			"triggersON;triggersOFF;" + //unused on export
+			"startSample;endSample";
+	}
+
+}
+
 public class ForceSensorGraph
 {
 	ForceSensor.CaptureOptions fsco;
@@ -1404,22 +1452,17 @@ public class ForceSensorGraph
 	private bool startEndOptimized;
 	private bool decimalIsPoint;
 
-	public ForceSensorGraph(ForceSensor.CaptureOptions fsco, List<ForceSensorRFD> rfdList,
+	//private method to help on assigning params
+	private void assignGenericParams(
+			List<ForceSensorRFD> rfdList,
 			ForceSensorImpulse impulse, int testLength, int percentChange,
-			string title, string exercise, string datetime, TriggerList triggerList,
-			int startSample, int endSample, bool startEndOptimized, bool decimalIsPoint)
+			bool startEndOptimized, bool decimalIsPoint)
 	{
-		this.fsco = fsco;
+		//generic of any data
 		this.rfdList = rfdList;
 		this.impulse = impulse;
 		this.testLength = testLength;
 		this.percentChange = percentChange;
-		this.title = title;
-		this.exercise = exercise;
-		this.datetime = datetime;
-		this.triggerList = triggerList;
-		this.startSample = startSample;
-		this.endSample = endSample;
 		this.startEndOptimized = startEndOptimized;
 		this.decimalIsPoint = decimalIsPoint;
 
@@ -1431,16 +1474,52 @@ public class ForceSensorGraph
 		hline50fmax_fitted = false;
 	}
 
-	public bool CallR(int graphWidth, int graphHeight)
+	//constructor for analyze one graph of a set from startSample to endSample. singleOrMultiple = true
+	public ForceSensorGraph(
+			List<ForceSensorRFD> rfdList,
+			ForceSensorImpulse impulse, int testLength, int percentChange,
+			bool startEndOptimized, bool decimalIsPoint,
+			ForceSensorGraphAB fsgAB
+			)
+	{
+		assignGenericParams(rfdList, impulse, testLength, percentChange,
+			startEndOptimized, decimalIsPoint);
+
+		//this A-B data
+		this.fsco = fsgAB.fsco;
+		this.startSample = fsgAB.startSample;
+		this.endSample = fsgAB.endSample;
+		this.title = fsgAB.title;
+		this.exercise = fsgAB.exercise;
+		this.datetime = fsgAB.datetime;
+		this.triggerList = fsgAB.triggerList;
+	}
+
+	//constructor for export. singleOrMultiple = false
+	public ForceSensorGraph(
+			List<ForceSensorRFD> rfdList,
+			ForceSensorImpulse impulse, int testLength, int percentChange,
+			bool startEndOptimized, bool decimalIsPoint,
+			List<ForceSensorGraphAB> fsgAB_l
+			)
+	{
+		assignGenericParams(rfdList, impulse, testLength, percentChange,
+				startEndOptimized, decimalIsPoint);
+
+		writeMultipleFilesCSV(fsgAB_l);
+	}
+
+	//multiple is export
+	public bool CallR(int graphWidth, int graphHeight, bool singleOrMultiple)
 	{
 		LogB.Information("\nforceSensor CallR ----->");
-		writeOptionsFile(graphWidth, graphHeight);
+		writeOptionsFile(graphWidth, graphHeight, singleOrMultiple);
 		return ExecuteProcess.CallR(UtilEncoder.GetmifScript());
 	}
 
-	private void writeOptionsFile(int graphWidth, int graphHeight)
+	private void writeOptionsFile(int graphWidth, int graphHeight, bool singleOrMultiple)
 	{
-LogB.Information("writeOptionsFile 0");
+		LogB.Information("writeOptionsFile 0");
 		string scriptsPath = UtilEncoder.GetSprintPath();
 		if(UtilAll.IsWindows())
 			scriptsPath = scriptsPath.Replace("\\","/");
@@ -1448,7 +1527,7 @@ LogB.Information("writeOptionsFile 0");
 		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
 		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
 
-LogB.Information("writeOptionsFile 1");
+		LogB.Information("writeOptionsFile 1");
 		//since 2.0.3 decimalChar is . (before it was locale specific)
 		string decimalChar = ".";
 		if(! decimalIsPoint)
@@ -1468,32 +1547,49 @@ LogB.Information("writeOptionsFile 1");
 			"#hline50fmax.fitted\n" + 	Util.BoolToRBool(hline50fmax_fitted) + "\n" +
 			"#RFDs";
 
-LogB.Information("writeOptionsFile 2");
+		LogB.Information("writeOptionsFile 2");
 		foreach(ForceSensorRFD rfd in rfdList)
 			if(rfd.active)
 				scriptOptions += "\n" + rfd.ToR();
 			else
 				scriptOptions += "\n-1";
 
-LogB.Information("writeOptionsFile 3");
+		LogB.Information("writeOptionsFile 3");
 		if(impulse.active)
 			scriptOptions += "\n" + impulse.ToR();
 		else
 			scriptOptions += "\n-1";
 
-LogB.Information("writeOptionsFile 4");
+		LogB.Information("writeOptionsFile 4");
+
+		string captureOptionsStr = "-1";
+		string triggersOnStr = TriggerList.TriggersNotFoundString;
+		string triggersOffStr = TriggerList.TriggersNotFoundString;
+		if(singleOrMultiple)
+		{
+			captureOptionsStr = fsco.ToString();
+			triggersOnStr = printTriggers(TriggerList.Type3.ON);
+			triggersOffStr = printTriggers(TriggerList.Type3.OFF);
+		} else {
+			captureOptionsStr = "-1";
+			title = "-1";
+			exercise = "-1";
+			datetime = "-1";
+		}
+
 		scriptOptions +=
 			"\n#testLength\n" + 		testLength.ToString() + "\n" +
-			"#captureOptions\n" + 		fsco.ToString() + "\n" +
-			"#title\n" + 			title + "\n" +
-			"#exercise\n" + 		exercise + "\n" +
-			"#datetime\n" + 		datetime + "\n" +
+			"#captureOptions\n" + 		captureOptionsStr + "\n" + 	//unused on multiple
+			"#title\n" + 			title + "\n" + 			//unused on multiple
+			"#exercise\n" + 		exercise + "\n" +		//unused on multiple
+			"#datetime\n" + 		datetime + "\n" +		//unused on multiple
 			"#scriptsPath\n" + 		UtilEncoder.GetScriptsPath() + "\n" +
-			printTriggers(TriggerList.Type3.ON) + "\n" +
-			printTriggers(TriggerList.Type3.OFF) + "\n" +
-			"#startSample\n" + 		startSample.ToString() + "\n" +
-			"#endSample\n" + 		endSample.ToString() + "\n" +
-			"#startEndOptimized\n" +	Util.BoolToRBool(startEndOptimized) + "\n";
+			triggersOnStr + "\n" + 						//unused on multiple
+			triggersOffStr + "\n" + 						//unused on multiple
+			"#startSample\n" + 		startSample.ToString() + "\n" +	//unused on multiple
+			"#endSample\n" + 		endSample.ToString() + "\n" +	//unused on multiple
+			"#startEndOptimized\n" +	Util.BoolToRBool(startEndOptimized) + "\n" +
+			"#singleOrMultiple\n" +		Util.BoolToRBool(singleOrMultiple) + "\n";
 
 		/*
 		#startEndOptimized on gui can be:
@@ -1502,13 +1598,31 @@ LogB.Information("writeOptionsFile 4");
 		- startEndOptimized TRUE (default): optimized range (program will find best fitting samples on user selected range)
 		*/
 
-LogB.Information("writeOptionsFile 5");
+		LogB.Information("writeOptionsFile 5");
 		TextWriter writer = File.CreateText(Path.GetTempPath() + "Roptions.txt");
 		writer.Write(scriptOptions);
 		writer.Flush();
 		writer.Close();
 		((IDisposable)writer).Dispose();
-LogB.Information("writeOptionsFile 6");
+		LogB.Information("writeOptionsFile 6");
+	}
+
+	private void writeMultipleFilesCSV(List<ForceSensorGraphAB> fsgAB_l)
+	{
+		LogB.Information("writeMultipleFilesCSV start");
+		TextWriter writer = File.CreateText(UtilEncoder.GetmifCSVInputMulti());
+
+		//write header
+		writer.WriteLine(ForceSensorGraphAB.PrintCSVHeader());
+
+		//write fsgAB_l for
+		foreach(ForceSensorGraphAB fsgAB in fsgAB_l)
+			writer.WriteLine(fsgAB.ToCSVRow());
+
+		writer.Flush();
+		writer.Close();
+		((IDisposable)writer).Dispose();
+		LogB.Information("writeMultipleFilesCSV end");
 	}
 
 	private string printTriggers(TriggerList.Type3 type3)
@@ -2244,8 +2358,9 @@ public class ForceSensorExport
 	private void forceSensorExportDo()
 	{
 		getData();
-		if(processForceSensorSets()) //false if cancelled
-			writeFile();
+//		if(processForceSensorSets()) //false if cancelled
+//			writeFile();
+		processForceSensorSets();
 	}
 
 	private void getData ()
@@ -2260,6 +2375,8 @@ public class ForceSensorExport
 	{
 		Person p = new Person();
 		PersonSession ps = new PersonSession();
+
+		List<ForceSensorGraphAB> fsgAB_l = new List<ForceSensorGraphAB>();
 
 		int count = 0;
 		foreach(ForceSensor fs in fs_l)
@@ -2337,25 +2454,27 @@ public class ForceSensorExport
 			if (title == null || title == "")
 				title = "unnamed";
 
+
+			string destination = UtilEncoder.GetmifCSVInputMulti();
+			Util.FileDelete(destination);
+
+
+
+/*
 			//copy file to tmp to be written readed by R
 			File.Copy(fs.FullURL, UtilEncoder.GetmifCSVFileName(), true); //can be overwritten
 
 			//delete result file
 			Util.FileDelete(UtilEncoder.GetmifExportFileName());
+			*/
 
 			foreach(ForceSensorRepetition rep in fsAI.ForceSensorRepetition_l)
 			{
-				if(cancel)
-					return false;
-
-				ForceSensorGraph fsg = new ForceSensorGraph(fs.CaptureOption, rfdList, impulse,
-						duration, durationPercent,
-						title, exercise, fs.DateTimePublic, new TriggerList(),
-						rep.sampleStart, rep.sampleEnd, forceSensorStartEndOptimized,
-						Util.CSVDecimalColumnIsPoint(UtilEncoder.GetmifCSVFileName(), 1)		// (*)
-						);
-
-				bool success = fsg.CallR(imageWidth -5, imageHeight -5);
+				fsgAB_l.Add(new ForceSensorGraphAB (
+							fs.FullURL,
+							fs.CaptureOption, rep.sampleStart, rep.sampleEnd,
+							title, exercise, fs.DateTimePublic, new TriggerList()
+							));
 			}
 
 			//TODO: or check cancel when there is a thread, also R should write something blank if there is any problem
@@ -2365,7 +2484,7 @@ public class ForceSensorExport
 			while ( ! ( Util.FileReadable(UtilEncoder.GetmifExportFileName())))
 				;
 				*/
-
+/*
 			// 6) write exportedRFDs (includes impulse)
 			if(File.Exists(UtilEncoder.GetmifExportFileName()))
 			{
@@ -2386,11 +2505,38 @@ public class ForceSensorExport
 				}
 			}
 			pulseFraction = UtilAll.DivideSafeFraction (count ++, fs_l.Count);
+*/
 		}
+
+		if(fsgAB_l.Count > 0)
+		{
+			ForceSensorGraph fsg = new ForceSensorGraph(
+					rfdList, impulse,
+					duration, durationPercent,
+					forceSensorStartEndOptimized,
+					Util.CSVDecimalColumnIsPoint(UtilEncoder.GetmifCSVFileName(), 1),
+					fsgAB_l
+					);
+
+			bool success = fsg.CallR(imageWidth -5, imageHeight -5, false);
+		}
+		/*
+		ForceSensorGraph fsg = new ForceSensorGraph(
+				//fs.CaptureOption,
+				rfdList, impulse,
+				duration, durationPercent,
+				//title, exercise, fs.DateTimePublic, new TriggerList(),
+				//rep.sampleStart, rep.sampleEnd,
+				forceSensorStartEndOptimized,
+				);
+				*/
+
 		pulseFraction = 1;
 		return true;
 	}
 
+	/*
+	//this exports the csv... it should be done by R
 	private bool writeFile()
 	{
 		string destination = UtilEncoder.GetmifExportFileName();
@@ -2441,6 +2587,7 @@ public class ForceSensorExport
 			return false;
 		}
 	}
+	*/
 }
 
 //we need this class because we started using forcesensor without database (only text files)

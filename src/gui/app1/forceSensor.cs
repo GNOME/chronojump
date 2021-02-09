@@ -2174,6 +2174,7 @@ LogB.Information(" fs R ");
 				Util.CSVDecimalColumnIsPoint(UtilEncoder.GetmifCSVFileName(), 1),
 				new ForceSensorGraphAB(
 					"", 	//unused on single graph (no export)
+					true,	//unused on single graph (no export)
 					getForceSensorCaptureOptions(),
 					sampleA, sampleB,
 					title, exercise, currentForceSensor.DateTimePublic, triggerListForceSensor)

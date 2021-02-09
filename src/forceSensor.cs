@@ -1387,6 +1387,7 @@ public class ForceSensorImpulse : ForceSensorRFD
 public class ForceSensorGraphAB
 {
 	public string fullURL;
+	public bool decimalIsPoint;
 	public ForceSensor.CaptureOptions fsco;
 	public int startSample;
 	public int endSample;
@@ -1396,10 +1397,12 @@ public class ForceSensorGraphAB
 	public TriggerList triggerList;
 
 	public ForceSensorGraphAB (string fullURL,
+			bool decimalIsPoint,
 			ForceSensor.CaptureOptions fsco, int startSample, int endSample,
 			string title, string exercise, string datetime, TriggerList triggerList)
 	{
 		this.fullURL = fullURL;
+		this.decimalIsPoint = decimalIsPoint;
 		this.fsco = fsco;
 		this.startSample = startSample;
 		this.endSample = endSample;
@@ -1411,7 +1414,17 @@ public class ForceSensorGraphAB
 
 	public string ToCSVRow()
 	{
+		//since 2.0.3 decimalChar is . (before it was locale specific)
+		string decimalChar = ".";
+		if(! decimalIsPoint)
+		{
+			System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
+			localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
+			decimalChar = localeInfo.NumberDecimalSeparator;
+		}
+
 		return fullURL + ";" +
+			decimalChar + ";" +
 			fsco.ToString() + ";" +
 			title + ";" +
 			exercise + ";" +
@@ -1423,7 +1436,7 @@ public class ForceSensorGraphAB
 
 	public static string PrintCSVHeader()
 	{
-		return "fullURL;captureOptions;title;exercise;datetime;" +
+		return "fullURL;decimalChar;captureOptions;title;exercise;datetime;" +
 			"triggersON;triggersOFF;" + //unused on export
 			"startSample;endSample";
 	}
@@ -1450,7 +1463,7 @@ public class ForceSensorGraph
 	private int startSample;
 	private int endSample;
 	private bool startEndOptimized;
-	private bool decimalIsPoint;
+	private bool decimalIsPoint; //but on export this will be related to each set
 
 	//private method to help on assigning params
 	private void assignGenericParams(
@@ -1478,7 +1491,8 @@ public class ForceSensorGraph
 	public ForceSensorGraph(
 			List<ForceSensorRFD> rfdList,
 			ForceSensorImpulse impulse, int testLength, int percentChange,
-			bool startEndOptimized, bool decimalIsPoint,
+			bool startEndOptimized,
+			bool decimalIsPoint,
 			ForceSensorGraphAB fsgAB
 			)
 	{
@@ -1499,7 +1513,8 @@ public class ForceSensorGraph
 	public ForceSensorGraph(
 			List<ForceSensorRFD> rfdList,
 			ForceSensorImpulse impulse, int testLength, int percentChange,
-			bool startEndOptimized, bool decimalIsPoint,
+			bool startEndOptimized,
+			bool decimalIsPoint, //this param is not used here. it is in fsgAB_l
 			List<ForceSensorGraphAB> fsgAB_l
 			)
 	{
@@ -2472,6 +2487,7 @@ public class ForceSensorExport
 			{
 				fsgAB_l.Add(new ForceSensorGraphAB (
 							fs.FullURL,
+							Util.CSVDecimalColumnIsPoint(fs.FullURL, 1),
 							fs.CaptureOption, rep.sampleStart, rep.sampleEnd,
 							title, exercise, fs.DateTimePublic, new TriggerList()
 							));
@@ -2514,7 +2530,7 @@ public class ForceSensorExport
 					rfdList, impulse,
 					duration, durationPercent,
 					forceSensorStartEndOptimized,
-					Util.CSVDecimalColumnIsPoint(UtilEncoder.GetmifCSVFileName(), 1),
+					true, //unused on export
 					fsgAB_l
 					);
 

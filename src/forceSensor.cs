@@ -2537,8 +2537,11 @@ public class ForceSensorExport
 		}
 
 		LogB.Information("Waiting creation of file... ");
-		while ( ! ( Util.FileReadable(UtilEncoder.GetmifExportFileName())))
+		while ( ! ( Util.FileReadable(UtilEncoder.GetmifExportFileName()) || cancel ) )
 			;
+
+		if(cancel)
+			return false;
 
 		File.Copy(UtilEncoder.GetmifExportFileName(), exportFilename, true);
 

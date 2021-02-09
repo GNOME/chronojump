@@ -761,7 +761,14 @@ public partial class ChronoJumpWindow
 				preferences.forceSensorStartEndOptimized,
 				preferences.CSVExportDecimalSeparator);
 
-		forceSensorExport.Start();
+		if(personID == -1)
+			checkFile(Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION);
+		else
+			checkFile(Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION);
+	}
+	private void on_button_force_sensor_export_file_selected (string selectedFileName)
+	{
+		forceSensorExport.Start(selectedFileName);
 	}
 
 	private void on_button_force_sensor_export_cancel_clicked (object o, EventArgs args)

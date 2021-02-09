@@ -24336,9 +24336,10 @@ Concentric</property>
                                                             <widget class="GtkHBox" id="hbox456">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <property name="spacing">6</property>
                                                             <child>
                                                             <widget class="GtkProgressBar" id="progressbar_force_sensor_export">
-                                                            <property name="width_request">50</property>
+                                                            <property name="width_request">100</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             </widget>
@@ -24363,8 +24364,8 @@ Concentric</property>
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>

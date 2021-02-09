@@ -2262,6 +2262,7 @@ public class ForceSensorExport
 	//passed variables
 	private Gtk.Notebook notebook;
 	private Gtk.ProgressBar progressbar;
+	private string exportFilename;
 	private bool isWindows;
 	private int personID; // -1: all
 	private int sessionID;
@@ -2270,11 +2271,11 @@ public class ForceSensorExport
 	private int duration;
 	private int durationPercent;
 	private double forceSensorElasticEccMinDispl;
-	public int forceSensorNotElasticEccMinForce;
-	public double forceSensorElasticConMinDispl;
-	public int forceSensorNotElasticConMinForce;
-	public bool forceSensorStartEndOptimized;
-	public string CSVExportDecimalSeparator;
+	private int forceSensorNotElasticEccMinForce;
+	private double forceSensorElasticConMinDispl;
+	private int forceSensorNotElasticConMinForce;
+	private bool forceSensorStartEndOptimized;
+	private string CSVExportDecimalSeparator;
 
 	private static Thread thread;
 	private static bool cancel;
@@ -2320,8 +2321,10 @@ public class ForceSensorExport
 	}
 
 	///public method
-	public void Start()
+	public void Start(string exportFilename)
 	{
+		this.exportFilename = exportFilename;
+
 		cancel = false;
 		pulseFraction= 0;
 		progressbar.Fraction = 0;
@@ -2354,8 +2357,9 @@ public class ForceSensorExport
 				new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Cancelled."));
 			else
 				new DialogMessage(Constants.MessageTypes.INFO,
-						string.Format("Exported to {0}",
-							UtilEncoder.GetmifCSVFileName()));
+						string.Format("Exported to {0}", exportFilename) +
+						Constants.GetSpreadsheetString(CSVExportDecimalSeparator)
+						);
 
 			return false;
 		}
@@ -2478,10 +2482,10 @@ public class ForceSensorExport
 /*
 			//copy file to tmp to be written readed by R
 			File.Copy(fs.FullURL, UtilEncoder.GetmifCSVFileName(), true); //can be overwritten
+			*/
 
 			//delete result file
 			Util.FileDelete(UtilEncoder.GetmifExportFileName());
-			*/
 
 			foreach(ForceSensorRepetition rep in fsAI.ForceSensorRepetition_l)
 			{
@@ -2495,11 +2499,6 @@ public class ForceSensorExport
 
 			//TODO: or check cancel when there is a thread, also R should write something blank if there is any problem
 			//also the problem with this code is: if R code fails for any reason (bad data), will exit R code and this file will never be created
-			/*
-			LogB.Information("Waiting creation of file... ");
-			while ( ! ( Util.FileReadable(UtilEncoder.GetmifExportFileName())))
-				;
-				*/
 /*
 			// 6) write exportedRFDs (includes impulse)
 			if(File.Exists(UtilEncoder.GetmifExportFileName()))
@@ -2536,6 +2535,13 @@ public class ForceSensorExport
 
 			bool success = fsg.CallR(imageWidth -5, imageHeight -5, false);
 		}
+
+		LogB.Information("Waiting creation of file... ");
+		while ( ! ( Util.FileReadable(UtilEncoder.GetmifExportFileName())))
+			;
+
+		File.Copy(UtilEncoder.GetmifExportFileName(), exportFilename, true);
+
 		/*
 		ForceSensorGraph fsg = new ForceSensorGraph(
 				//fs.CaptureOption,

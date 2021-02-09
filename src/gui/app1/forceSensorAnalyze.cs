@@ -155,7 +155,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_force_sensor_ai_variability_units;
 
 	[Widget] Gtk.Notebook notebook_force_sensor_export;
-	[Widget] Gtk.Label label_export_data;
+	[Widget] Gtk.Label label_force_sensor_export_data;
 	[Widget] Gtk.ProgressBar progressbar_force_sensor_export;
 
 	private RepetitionMouseLimits fsAIRepetitionMouseLimits;
@@ -710,15 +710,15 @@ public partial class ChronoJumpWindow
 	private void on_radio_force_sensor_analyze_individual_current_session_toggled (object o, EventArgs args)
 	{
 		if(currentPerson != null)
-			label_export_data.Text = currentPerson.Name;
+			label_force_sensor_export_data.Text = currentPerson.Name;
 		else
-			label_export_data.Text = "";
+			label_force_sensor_export_data.Text = "";
 
 		notebook_force_sensor_analyze_top.CurrentPage = 1;
 	}
 	private void on_radio_force_sensor_analyze_groupal_current_session_toggled (object o, EventArgs args)
 	{
-		label_export_data.Text = currentSession.Name;
+		label_force_sensor_export_data.Text = currentSession.Name;
 
 		notebook_force_sensor_analyze_top.CurrentPage = 1;
 	}

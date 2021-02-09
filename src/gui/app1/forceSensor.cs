@@ -582,6 +582,14 @@ public partial class ChronoJumpWindow
 		label_force_sensor_value.Text = "";
 		label_force_sensor_value_min.Text = "";
 
+		if (radio_force_sensor_analyze_individual_current_session.Active)
+		{
+			if(currentPerson != null)
+				label_force_sensor_export_data.Text = currentPerson.Name;
+			else
+				label_force_sensor_export_data.Text = "";
+		}
+
 		button_force_sensor_image_save_signal.Sensitive = false;
 	}
 

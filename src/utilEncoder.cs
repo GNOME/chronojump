@@ -266,6 +266,7 @@ public class UtilEncoder
 	public static string GetmifTempFileName() {
 		return Path.Combine(Path.GetTempPath(), "cj_mif_Graph.png");
 	}
+	//R exports here, then C# move it and rename it
 	public static string GetmifExportFileName() {
 		return Path.Combine(Path.GetTempPath(), "cj_mif_export.csv");
 	}

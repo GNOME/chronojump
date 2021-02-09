@@ -33,7 +33,7 @@ assignOptions <- function(options)
     
     return(list(
         os 			= options[1],
-        decimalChar 		= options[2],
+        decimalChar 		= options[2], 	#unused on multiple
         graphWidth 		= as.numeric(options[3]),
         graphHeight		= as.numeric(options[4]),
         averageLength 		= as.numeric(options[5]),
@@ -111,11 +111,11 @@ getForceModel <- function(time, force, startTime, # startTime is the instant whe
     return(list(fmax = fmax, K = K, T0 = T0, error = 100*residuals(model)/mean(data$force)))
 }
 
-getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, averageLength = 0.1, percentChange = 5, testLength = -1, startSample, endSample)
+getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, decimalChar, averageLength = 0.1, percentChange = 5, testLength = -1, startSample, endSample)
 {
     print("Entered getDynamicsFromLoadCellFile")
     
-    originalTest = read.csv(inputFile, header = F, dec = op$decimalChar, sep = ";", skip = 2)
+    originalTest = read.csv(inputFile, header = F, dec = decimalChar, sep = ";", skip = 2)
     colnames(originalTest) <- c("time", "force")
     originalTest$time = as.numeric(originalTest$time / 1000000)  # Time is converted from microseconds to seconds
     
@@ -1075,7 +1075,7 @@ readImpulseOptions <- function(optionsStr)
     } 
 }
 
-doProcess <- function(dataFile, title, exercise, datetime, captureOptions, startSample, endSample)
+doProcess <- function(dataFile, decimalChar, title, exercise, datetime, captureOptions, startSample, endSample)
 {
 	title = fixTitleAndOtherStrings(title)
 	exercise = fixTitleAndOtherStrings(exercise)
@@ -1086,7 +1086,7 @@ doProcess <- function(dataFile, title, exercise, datetime, captureOptions, start
 	prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
 
 	print("Going to enter getDynamicsFromLoadCellFille")
-	dynamics = getDynamicsFromLoadCellFile(captureOptions, dataFile, op$averageLength, op$percentChange, testLength = op$testLength, startSample, endSample)
+	dynamics = getDynamicsFromLoadCellFile(captureOptions, dataFile, decimalChar, op$averageLength, op$percentChange, testLength = op$testLength, startSample, endSample)
 
 	print("Going to draw")
 	drawDynamicsFromLoadCell(titleFull, datetime, dynamics, captureOptions, op$vlineT0, op$vline50fmax.raw, op$vline50fmax.fitted, op$hline50fmax.raw, op$hline50fmax.fitted,
@@ -1098,7 +1098,7 @@ doProcess <- function(dataFile, title, exercise, datetime, captureOptions, start
 if(op$singleOrMultiple == "TRUE")
 {
 	dataFile <- paste(tempPath, "/cj_mif_Data.csv", sep="")
-	doProcess(dataFile, op$title, op$exercise, op$datetime, op$captureOptions, op$startSample, op$endSample)
+	doProcess(dataFile, op$decimalChar, op$title, op$exercise, op$datetime, op$captureOptions, op$startSample, op$endSample)
 } else
 {
 	#1) read the csv
@@ -1110,7 +1110,7 @@ if(op$singleOrMultiple == "TRUE")
 		print(as.vector(dataFiles$fullURL[i]))
 
 		executing  <- tryCatch({
-				doProcess(as.vector(dataFiles$fullURL[i]), dataFiles$title[i], dataFiles$exercise[i], dataFiles$datetime[i],
+				doProcess(as.vector(dataFiles$fullURL[i]), dataFiles$decimalChar[i], dataFiles$title[i], dataFiles$exercise[i], dataFiles$datetime[i],
 						dataFiles$captureOptions[i], dataFiles$startSample[i], dataFiles$endSample[i])
 		}, error = function(e) {
 			print("error on doProcess:")

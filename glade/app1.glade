@@ -24225,7 +24225,7 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label_export_data">
+                                                            <widget class="GtkLabel" id="label_force_sensor_export_data">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             </widget>

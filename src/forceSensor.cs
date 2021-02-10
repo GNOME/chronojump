@@ -2285,8 +2285,8 @@ public class ForceSensorExport
 	ArrayList personSession_l;
 	ArrayList fsEx_l;
 	List<string> exportedRFDs;
-	private int imageWidth = 300; //nothing is displayed, remove when R script has been adapted
-	private int imageHeight = 300; //nothing is displayed, remove when R script has been adapted
+	private int imageWidth = 900; //nothing is displayed, remove when R script has been adapted
+	private int imageHeight = 600; //nothing is displayed, remove when R script has been adapted
 
 	//constructor
 	public ForceSensorExport (
@@ -2329,8 +2329,17 @@ public class ForceSensorExport
 		progressbar.Fraction = 0;
 		notebook.CurrentPage = 1;
 
-		//create progressbar files dir or delete its contents
-		string dir = Util.GetForceSensorTempProgressDir();
+		//create progressbar and graph files dirs or delete their contents
+		createOrEmptyDir(Util.GetForceSensorTempProgressDir());
+		createOrEmptyDir(Util.GetForceSensorTempGraphsDir());
+
+		thread = new Thread (new ThreadStart (forceSensorExportDo));
+		GLib.Idle.Add (new GLib.IdleHandler (pulseForceSensorExportGTK));
+		thread.Start();
+	}
+
+	private void createOrEmptyDir(string dir)
+	{
 		if( ! Directory.Exists(dir))
 			Directory.CreateDirectory (dir);
 		else {
@@ -2338,10 +2347,6 @@ public class ForceSensorExport
 			foreach (FileInfo file in dirInfo.GetFiles())
 				file.Delete();
 		}
-
-		thread = new Thread (new ThreadStart (forceSensorExportDo));
-		GLib.Idle.Add (new GLib.IdleHandler (pulseForceSensorExportGTK));
-		thread.Start();
 	}
 
 	public void Cancel()

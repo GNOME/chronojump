@@ -1101,19 +1101,13 @@ if(op$singleOrMultiple == "TRUE")
 	doProcess(dataFile, op$decimalChar, op$title, op$exercise, op$datetime, op$captureOptions, op$startSample, op$endSample)
 } else
 {
-	#0) prepare progressFolder to show feedback on chronojump
-	progressFolder = paste(tempPath, "/chronojump_mif_progress", sep ="")
-	print (paste("progressFolder", progressFolder))
-	if(dir.exists(progressFolder))
-		do.call(file.remove, list(list.files(progressFolder, full.names = TRUE)))
-	else
-		dir.create(progressFolder)
-
 	#1) read the csv
         dataFiles = read.csv(file = paste(tempPath, "/maximumIsometricForceInputMulti.csv", sep=""), sep=";", stringsAsFactors=F)
 	
 	#2) call doProcess
-        for(i in 1:length(dataFiles[,1])) {
+	progressFolder = paste(tempPath, "/chronojump_mif_progress", sep ="")
+
+	for(i in 1:length(dataFiles[,1])) {
 		print("fullURL")
 		print(as.vector(dataFiles$fullURL[i]))
 

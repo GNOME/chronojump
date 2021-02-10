@@ -1123,6 +1123,7 @@ if(op$singleOrMultiple == "TRUE")
 		}, error = function(e) {
 			print("error on doProcess:")
 			print(message(e))
+			endGraph() #close graph that is being done to not receive error: too many open devices
 		})
 
 		progressFilename = paste(progressFolder, "/", i, sep="")

@@ -208,13 +208,15 @@ getDynamicsFromLoadCellFile <- function(captureOptions, inputFile, decimalChar, 
     ))
 }
 
-drawDynamicsFromLoadCell <- function(titleFull, datetime,
+drawDynamicsFromLoadCell <- function(title, exercise, datetime,
     dynamics, captureOptions, vlineT0=T, vline50fmax.raw=F, vline50fmax.fitted=F,
     hline50fmax.raw=F, hline50fmax.fitted=F,
     rfdDrawingOptions, triggersOn = "", triggersOff = "", xlimits = NA, forceLines = TRUE, timeLines = TRUE)
 {
     print("Dynamics in Draw:")
     # print(dynamics$time)
+
+    titleFull = paste(title, exercise, sep=" - ")
     dynamics$time = dynamics$time - dynamics$startTime
     dynamics$tfmax.raw = dynamics$tfmax.raw - dynamics$startTime
     dynamics$endTime = dynamics$endTime - dynamics$startTime
@@ -440,7 +442,7 @@ drawDynamicsFromLoadCell <- function(titleFull, datetime,
     )
     legendColor = c("blue", "blue", "blue")
  
-    exportValues = dynamics$fmax.fitted
+    exportValues = c(title, exercise, dynamics$fmax.fitted)
 
     #The coordinates where the lines and dots are plotted are calculated with the sampled data in raw and fitted data.
     #The slopes are calculated in that points
@@ -1078,7 +1080,6 @@ doProcess <- function(pngFile, dataFile, decimalChar, title, exercise, datetime,
 {
 	title = fixTitleAndOtherStrings(title)
 	exercise = fixTitleAndOtherStrings(exercise)
-	titleFull = paste(title, exercise, sep=" - ")
 	datetime = fixDatetime(datetime)
 
 	print("Going to enter prepareGraph")
@@ -1088,7 +1089,7 @@ doProcess <- function(pngFile, dataFile, decimalChar, title, exercise, datetime,
 	dynamics = getDynamicsFromLoadCellFile(captureOptions, dataFile, decimalChar, op$averageLength, op$percentChange, testLength = op$testLength, startSample, endSample)
 
 	print("Going to draw")
-	drawDynamicsFromLoadCell(titleFull, datetime, dynamics, captureOptions, op$vlineT0, op$vline50fmax.raw, op$vline50fmax.fitted, op$hline50fmax.raw, op$hline50fmax.fitted,
+	drawDynamicsFromLoadCell(title, exercise, datetime, dynamics, captureOptions, op$vlineT0, op$vline50fmax.raw, op$vline50fmax.fitted, op$hline50fmax.raw, op$hline50fmax.fitted,
 			op$drawRfdOptions, triggersOn = op$triggersOnList, triggersOff = op$triggersOffList)
 #                       op$drawRfdOptions, xlimits = c(0.5, 1.5))
 	endGraph()
@@ -1138,7 +1139,7 @@ if(op$singleOrMultiple == "TRUE")
 		print(dfExport)
 
 		#preparing header row
-		exportNames = "Fmax"
+		exportNames = c("Name","Exercise","Fmax")
     		for(i in 1:length(op$drawRfdOptions))
 		{
         		RFDoptions = readRFDOptions(op$drawRfdOptions[i])

@@ -1412,7 +1412,7 @@ public class ForceSensorGraphAB
 		this.triggerList = triggerList;
 	}
 
-	public string ToCSVRow()
+	public string ToCSVRowOnExport()
 	{
 		//since 2.0.3 decimalChar is . (before it was locale specific)
 		string decimalChar = ".";
@@ -1434,7 +1434,7 @@ public class ForceSensorGraphAB
 			endSample.ToString();
 	}
 
-	public static string PrintCSVHeader()
+	public static string PrintCSVHeaderOnExport()
 	{
 		return "fullURL;decimalChar;captureOptions;title;exercise;datetime;" +
 			"triggersON;triggersOFF;" + //unused on export
@@ -1628,11 +1628,11 @@ public class ForceSensorGraph
 		TextWriter writer = File.CreateText(UtilEncoder.GetmifCSVInputMulti());
 
 		//write header
-		writer.WriteLine(ForceSensorGraphAB.PrintCSVHeader());
+		writer.WriteLine(ForceSensorGraphAB.PrintCSVHeaderOnExport());
 
 		//write fsgAB_l for
 		foreach(ForceSensorGraphAB fsgAB in fsgAB_l)
-			writer.WriteLine(fsgAB.ToCSVRow());
+			writer.WriteLine(fsgAB.ToCSVRowOnExport());
 
 		writer.Flush();
 		writer.Close();

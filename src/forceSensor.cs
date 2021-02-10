@@ -2330,6 +2330,16 @@ public class ForceSensorExport
 		progressbar.Fraction = 0;
 		notebook.CurrentPage = 1;
 
+		//create progressbar files dir or delete its contents
+		string dir = Util.GetForceSensorTempProgressDir();
+		if( ! Directory.Exists(dir))
+			Directory.CreateDirectory (dir);
+		else {
+			DirectoryInfo dirInfo = new DirectoryInfo(dir);
+			foreach (FileInfo file in dirInfo.GetFiles())
+				file.Delete();
+		}
+
 		thread = new Thread (new ThreadStart (forceSensorExportDo));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseForceSensorExportGTK));
 		thread.Start();

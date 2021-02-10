@@ -878,7 +878,7 @@ getBestFit <- function(originalTest
         
         maxMovingAverageForce = max(movingAverageForce[startSample:endSample])
         
-    } else if (testLength <= -1)    #The user selected to detect a decrease in the force
+    } else #The user selected to detect a decrease in the force
     {
         print("Detection of endSample by decrease in the force")
         print(paste("percentChange: ", percentChange))
@@ -970,7 +970,7 @@ getBestFit <- function(originalTest
     }
     
     startSample = startSample -1
-    if (testLength <= -1)
+    if (testLength < 0)
     {
       endSample = endSample -1
     }

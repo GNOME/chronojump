@@ -1455,7 +1455,7 @@ public class ForceSensorGraph
 	bool vline50fmax_fitted;
 	bool hline50fmax_raw;
 	bool hline50fmax_fitted;
-	int testLength;
+	double testLength;
 	string title;
 	string exercise;
 	string datetime;
@@ -1468,7 +1468,7 @@ public class ForceSensorGraph
 	//private method to help on assigning params
 	private void assignGenericParams(
 			List<ForceSensorRFD> rfdList,
-			ForceSensorImpulse impulse, int testLength, int percentChange,
+			ForceSensorImpulse impulse, double testLength, int percentChange,
 			bool startEndOptimized, bool decimalIsPoint)
 	{
 		//generic of any data
@@ -1490,7 +1490,7 @@ public class ForceSensorGraph
 	//constructor for analyze one graph of a set from startSample to endSample. singleOrMultiple = true
 	public ForceSensorGraph(
 			List<ForceSensorRFD> rfdList,
-			ForceSensorImpulse impulse, int testLength, int percentChange,
+			ForceSensorImpulse impulse, double testLength, int percentChange,
 			bool startEndOptimized,
 			bool decimalIsPoint,
 			ForceSensorGraphAB fsgAB
@@ -1512,7 +1512,7 @@ public class ForceSensorGraph
 	//constructor for export. singleOrMultiple = false
 	public ForceSensorGraph(
 			List<ForceSensorRFD> rfdList,
-			ForceSensorImpulse impulse, int testLength, int percentChange,
+			ForceSensorImpulse impulse, double testLength, int percentChange,
 			bool startEndOptimized,
 			bool decimalIsPoint, //this param is not used here. it is in fsgAB_l
 			List<ForceSensorGraphAB> fsgAB_l
@@ -1593,7 +1593,7 @@ public class ForceSensorGraph
 		}
 
 		scriptOptions +=
-			"\n#testLength\n" + 		testLength.ToString() + "\n" +
+			"\n#testLength\n" + 		Util.ConvertToPoint(testLength) + "\n" +
 			"#captureOptions\n" + 		captureOptionsStr + "\n" + 	//unused on multiple
 			"#title\n" + 			title + "\n" + 			//unused on multiple
 			"#exercise\n" + 		exercise + "\n" +		//unused on multiple
@@ -2268,7 +2268,7 @@ public class ForceSensorExport
 	private int sessionID;
 	private List<ForceSensorRFD> rfdList;
 	private ForceSensorImpulse impulse;
-	private int duration;
+	private double duration;
 	private int durationPercent;
 	private double forceSensorElasticEccMinDispl;
 	private int forceSensorNotElasticEccMinForce;
@@ -2294,7 +2294,7 @@ public class ForceSensorExport
 			Gtk.ProgressBar progressbar,
 			bool isWindows, int personID, int sessionID,
 			List<ForceSensorRFD> rfdList, ForceSensorImpulse impulse,
-			int duration, int durationPercent,
+			double duration, int durationPercent,
 			double forceSensorElasticEccMinDispl,
 			int forceSensorNotElasticEccMinForce,
 			double forceSensorElasticConMinDispl,

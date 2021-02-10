@@ -2279,7 +2279,7 @@ public class ForceSensorExport
 
 	private static Thread thread;
 	private static bool cancel;
-	private static double pulseFraction;
+	//private static double pulseFraction; unused because its managed on pulse, better because on thread is working 100% on R call
 
 	List<ForceSensor> fs_l;
 	ArrayList personSession_l;
@@ -2326,7 +2326,6 @@ public class ForceSensorExport
 		this.exportFilename = exportFilename;
 
 		cancel = false;
-		pulseFraction= 0;
 		progressbar.Fraction = 0;
 		notebook.CurrentPage = 1;
 
@@ -2374,10 +2373,14 @@ public class ForceSensorExport
 			return false;
 		}
 
-		if(pulseFraction == 0)
+		DirectoryInfo dirInfo = new DirectoryInfo(Util.GetForceSensorTempProgressDir());
+		//LogB.Information(string.Format("pulse files: {0}", dirInfo.GetFiles().Length));
+
+		int files = dirInfo.GetFiles().Length;
+		if(files == 0)
 			progressbar.Pulse();
 		else
-			progressbar.Fraction = pulseFraction;
+			progressbar.Fraction = UtilAll.DivideSafeFraction(files, fs_l.Count);
 
 		Thread.Sleep (100);
 		//Log.Write(" (pulseForceSensorExportGTK:" + thread.ThreadState.ToString() + ") ");
@@ -2566,7 +2569,6 @@ public class ForceSensorExport
 				);
 				*/
 
-		pulseFraction = 1;
 		return true;
 	}
 

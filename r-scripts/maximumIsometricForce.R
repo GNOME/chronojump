@@ -66,7 +66,6 @@ args <- commandArgs(TRUE)
 
 tempPath <- args[1]
 optionsFile <- paste(tempPath, "/Roptions.txt", sep="")
-pngFile <- paste(tempPath, "/cj_mif_Graph.png", sep="")
 
 #-------------- scan options file -------------
 options <- scan(optionsFile, comment.char="#", what=character(), sep="\n")
@@ -1075,7 +1074,7 @@ readImpulseOptions <- function(optionsStr)
     } 
 }
 
-doProcess <- function(dataFile, decimalChar, title, exercise, datetime, captureOptions, startSample, endSample)
+doProcess <- function(pngFile, dataFile, decimalChar, title, exercise, datetime, captureOptions, startSample, endSample)
 {
 	title = fixTitleAndOtherStrings(title)
 	exercise = fixTitleAndOtherStrings(exercise)
@@ -1098,7 +1097,8 @@ doProcess <- function(dataFile, decimalChar, title, exercise, datetime, captureO
 if(op$singleOrMultiple == "TRUE")
 {
 	dataFile <- paste(tempPath, "/cj_mif_Data.csv", sep="")
-	doProcess(dataFile, op$decimalChar, op$title, op$exercise, op$datetime, op$captureOptions, op$startSample, op$endSample)
+	pngFile <- paste(tempPath, "/cj_mif_Graph.png", sep="")
+	doProcess(pngFile, dataFile, op$decimalChar, op$title, op$exercise, op$datetime, op$captureOptions, op$startSample, op$endSample)
 } else
 {
 	#1) read the csv
@@ -1106,14 +1106,19 @@ if(op$singleOrMultiple == "TRUE")
 	
 	#2) call doProcess
 	progressFolder = paste(tempPath, "/chronojump_mif_progress", sep ="")
+	tempGraphsFolder = paste(tempPath, "/chronojump_mif_graphs/", sep ="")
 
-	for(i in 1:length(dataFiles[,1])) {
+	countGraph = 1
+	for(i in 1:length(dataFiles[,1]))
+	{
 		print("fullURL")
 		print(as.vector(dataFiles$fullURL[i]))
+		pngFile <- paste(tempGraphsFolder, countGraph, ".png", sep="")
 
 		executing  <- tryCatch({
-				doProcess(as.vector(dataFiles$fullURL[i]), dataFiles$decimalChar[i], dataFiles$title[i], dataFiles$exercise[i], dataFiles$datetime[i],
+				doProcess(pngFile, as.vector(dataFiles$fullURL[i]), dataFiles$decimalChar[i], dataFiles$title[i], dataFiles$exercise[i], dataFiles$datetime[i],
 						dataFiles$captureOptions[i], dataFiles$startSample[i], dataFiles$endSample[i])
+				countGraph = countGraph +1 #only adds if not error, so the numbering of graphs matches rows in CSV
 		}, error = function(e) {
 			print("error on doProcess:")
 			print(message(e))

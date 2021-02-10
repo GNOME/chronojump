@@ -2143,9 +2143,9 @@ LogB.Information(" fs R ");
 		Util.FileDelete(imagePath);
 		image_force_sensor_graph.Sensitive = false;
 
-		int duration = -1;
+		double duration = -1;
 		if(radio_force_duration_seconds.Active)
-			duration = Convert.ToInt32(spin_force_duration_seconds.Value);
+			duration = Convert.ToDouble(spin_force_duration_seconds.Value);
 
 		//string title = lastForceSensorFile;
 		string title = currentPerson.Name;

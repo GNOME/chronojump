@@ -744,9 +744,9 @@ public partial class ChronoJumpWindow
 	ForceSensorExport forceSensorExport;
 	private void button_force_sensor_export_session (int personID)
 	{
-		int duration = -1;
+		double duration = -1;
 		if(radio_force_duration_seconds.Active)
-			duration = Convert.ToInt32(spin_force_duration_seconds.Value);
+			duration = Convert.ToDouble(spin_force_duration_seconds.Value);
 
 		forceSensorExport = new ForceSensorExport (
 				notebook_force_sensor_export,

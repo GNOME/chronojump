@@ -938,6 +938,51 @@ public class ForceSensorCapturePoints
 
 		avg = sum / ((countB - countA) +1);
 	}
+
+	public void GetMaxAverageForceInWindow (int countA, int countB, double windowSeconds, out double avgMax, out string error)
+	{
+//TODO: remember to store the result and countA and countB somewhere to not calculate it again everytime window refreshes or mouse is move. Same for other methods
+
+		double timeA = GetTimeAtCount(countA);
+		
+		if(GetTimeAtCount(countB) - timeA <= 1000000 * windowSeconds)
+		{
+			avgMax = 0;
+			error = "Need more time";
+			return;
+		}
+
+		avgMax = 0;
+		error = "";
+
+		double sum = 0;
+		int count = 0;
+
+		//note if countB - countA < 1s then can have higher values than all the set
+		// 1) get the first second (or whatever in windowSeconds)
+		int i;
+		for(i = countA; i <= countB && GetTimeAtCount(i) - timeA <= 1000000 * windowSeconds; i ++)
+		{
+			sum += forces[i];
+			count ++;
+			avgMax = sum / count;
+		}
+		LogB.Information(string.Format("avgMax 1st for: {0}", avgMax));
+		//note "count" has the window size in samples
+
+		// 2) continue until the end
+		for(int j = i+1; j < countB; j ++)
+		{
+			sum -= forces[j - count];
+			sum += forces[j];
+
+			double avg = sum / count;
+			if(avg > avgMax)
+				avgMax = avg;
+		}
+		LogB.Information(string.Format("Average max force in {0} seconds: {1}", windowSeconds, avgMax));
+	}
+
 	public double GetRFD(int countA, int countB)
 	{
 		double calc = (forces[countB] - forces[countA]) / (times[countB]/1000000.0 - times[countA]/1000000.0); //microsec to sec
@@ -1671,6 +1716,8 @@ public class ForceSensorAnalyzeInstant
 	public double AccelMAX;
 	public double PowerAVG;
 	public double PowerMAX;
+	public double ForceMaxAvgInWindow;
+	public string ForceMaxAvgInWindowError; //if there is any error
 
 	//for elastic
 	public bool CalculedElasticPSAP;
@@ -1972,6 +2019,7 @@ public class ForceSensorAnalyzeInstant
 		}
 
 		fscAIPoints.GetAverageAndMaxForce(countA, countB, out ForceAVG, out ForceMAX);
+		fscAIPoints.GetMaxAverageForceInWindow (countA, countB, 1, out ForceMaxAvgInWindow, out ForceMaxAvgInWindowError);
 
 		if(CalculedElasticPSAP)
 		{

@@ -687,6 +687,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_force_sensor_ai_rfd_diff;
 	[Widget] Gtk.Label label_force_sensor_ai_rfd_average;
 	[Widget] Gtk.Label label_force_sensor_ai_rfd_max;
+	[Widget] Gtk.Label label_force_sensor_ai_max_avg_in_window_values;
 
 	ForceSensorAnalyzeInstant fsAI;
 
@@ -1912,9 +1913,15 @@ public partial class ChronoJumpWindow
 			if(countA != countB) {
 				label_force_sensor_ai_force_average.Text = Math.Round(fsAI.ForceAVG, 1).ToString();
 				label_force_sensor_ai_force_max.Text = Math.Round(fsAI.ForceMAX, 1).ToString();
+
+				if(fsAI.ForceMaxAvgInWindowError == "")
+					label_force_sensor_ai_max_avg_in_window_values.Text = Math.Round(fsAI.ForceMaxAvgInWindow, 1).ToString();
+				else
+					label_force_sensor_ai_max_avg_in_window_values.Text = "----";
 			} else {
 				label_force_sensor_ai_force_average.Text = "";
 				label_force_sensor_ai_force_max.Text = "";
+				label_force_sensor_ai_max_avg_in_window_values.Text = "";
 			}
 		}
 

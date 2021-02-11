@@ -21403,7 +21403,7 @@ Concentric</property>
                                                             <property name="n_rows">2</property>
                                                             <property name="n_columns">3</property>
                                                             <property name="column_spacing">16</property>
-                                                            <property name="row_spacing">2</property>
+                                                            <property name="row_spacing">4</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox_force_sensor_ai_a">
                                                             <property name="visible">True</property>
@@ -21802,14 +21802,43 @@ Concentric</property>
                                                             <widget class="GtkHBox" id="hbox_force_sensor_ai_ab">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <property name="spacing">8</property>
                                                             <child>
                                                             <widget class="GtkCheckButton" id="check_force_sensor_ai_chained">
-                                                            <property name="label">A+B</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
-                                                            <property name="draw_indicator">True</property>
+                                                            <property name="draw_indicator">False</property>
                                                             <signal name="clicked" handler="on_check_force_sensor_ai_chained_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox464">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_force_sensor_ai_chained_link_off">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_force_sensor_ai_chained_link">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -21870,7 +21899,7 @@ Concentric</property>
                                                             <widget class="GtkHBox" id="hbox182">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">6</property>
+                                                            <property name="spacing">4</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_force_sensor_analyze_back_to_signal">
                                                             <property name="label" translatable="yes">Back</property>

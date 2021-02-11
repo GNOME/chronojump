@@ -603,6 +603,8 @@ RESOURCES = \
 	../images/import-csv-headers.png,import-csv-headers.png \
 	../images/import-csv-name-1-column.png,import-csv-name-1-column.png \
 	../images/import-csv-name-2-columns.png,import-csv-name-2-columns.png \
+	../images/md/link.png,link.png \
+	../images/md/link_off.png,link_off.png \
 	../images/calendar.png,calendar.png \
 	../images/chronojump-logo-transparent.png,chronojump-logo-transparent.png \
 	../images/chronojump-logo-transparent-40h.png,chronojump-logo-transparent-40h.png \

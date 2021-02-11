@@ -51,6 +51,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_force_sensor_image_save_rfd_manual;
 	[Widget] Gtk.ScrolledWindow scrolledwindow_force_sensor_ai;
 	[Widget] Gtk.Button button_force_sensor_analyze_AB_save;
+	[Widget] Gtk.CheckButton check_force_sensor_ai_chained;
 	[Widget] Gtk.Button button_force_sensor_ai_zoom;
 	[Widget] Gtk.Button button_force_sensor_ai_zoom_out;
 
@@ -654,7 +655,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.DrawingArea force_sensor_ai_drawingarea;
 	[Widget] Gtk.HScale hscale_force_sensor_ai_a;
 	[Widget] Gtk.HScale hscale_force_sensor_ai_b;
-	[Widget] Gtk.HScale hscale_force_sensor_ai_ab;
 	[Widget] Gtk.Label label_force_sensor_ai_time_a;
 	[Widget] Gtk.Label label_force_sensor_ai_force_a;
 	[Widget] Gtk.Label label_force_sensor_ai_rfd_a;
@@ -847,15 +847,12 @@ public partial class ChronoJumpWindow
 		*/
 		hscale_force_sensor_ai_a.Value = 1;
 		hscale_force_sensor_ai_b.Value = 1;
-		force_sensor_last_ab = 1;
 
 		forceSensorAIPlot();
 
 		//ranges should have max value the number of the lines of csv file minus the header
 		hscale_force_sensor_ai_a.SetRange(1, fsAI.GetLength() -2);
 		hscale_force_sensor_ai_b.SetRange(1, fsAI.GetLength() -2);
-
-		hscale_force_sensor_ai_ab.SetRange(1, fsAI.GetLength() -2);
 		LogB.Information(string.Format("hscale_force_sensor_ai_time_a,b,ab ranges: 1, {0}", fsAI.GetLength() -2));
 
 		//on zoom put hscale B at the right
@@ -1616,11 +1613,25 @@ public partial class ChronoJumpWindow
 	}
 
 	bool forceSensorAIChanged = false;
-	bool updateForceSensorHScales = true;
+	bool forceSensorHScalesDoNotFollow = false;
+	//to know change of slider in order to apply on the other slider if chained
+	int force_sensor_last_a = 1;
+	int force_sensor_last_b = 1;
+
 	private void on_hscale_force_sensor_ai_a_value_changed (object o, EventArgs args)
 	{
 		if(fsAI == null || fsAI.GetLength() == 0)
 			return;
+
+		int diffWithPrevious = Convert.ToInt32(hscale_force_sensor_ai_a.Value) - force_sensor_last_a;
+
+		//if chained and moving a to the right makes b higher than 1, do not move
+		if(check_force_sensor_ai_chained.Active &&
+				Convert.ToInt32(hscale_force_sensor_ai_b.Value) + diffWithPrevious >= fsAI.GetLength() -1)
+		{
+			hscale_force_sensor_ai_a.Value = force_sensor_last_a;
+			return;
+		}
 
 		//do not allow A to be higher than B (fix multiple possible problems)
 		if(hscale_force_sensor_ai_a.Value > hscale_force_sensor_ai_b.Value)
@@ -1648,10 +1659,23 @@ public partial class ChronoJumpWindow
 		else
 			label_force_sensor_ai_rfd_a.Text = "";
 
+		force_sensor_last_a = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
+
+		if(forceSensorHScalesDoNotFollow)
+		{
+			forceSensorHScalesDoNotFollow = false;
+			return;
+		}
+
+		//if chained move also B
+		if(check_force_sensor_ai_chained.Active)
+		{
+			forceSensorHScalesDoNotFollow = true;
+			hscale_force_sensor_ai_b.Value = hscale_force_sensor_ai_b.Value + diffWithPrevious;
+			forceSensorHScalesDoNotFollow = false;
+		}
+
 		force_sensor_analyze_instant_calculate_params();
-		updateForceSensorHScales = false;
-		hscale_force_sensor_ai_ab.Value = Convert.ToInt32(hscale_force_sensor_ai_a.Value + hscale_force_sensor_ai_b.Value) / 2;
-		updateForceSensorHScales = true;
 
 		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
 		forceSensorAIChanged = true;
@@ -1661,6 +1685,16 @@ public partial class ChronoJumpWindow
 	{
 		if(fsAI == null || fsAI.GetLength() == 0)
 			return;
+
+		int diffWithPrevious = Convert.ToInt32(hscale_force_sensor_ai_b.Value) - force_sensor_last_b;
+
+		//if chained and moving b to the left makes a lower than 0, do not move
+		if(check_force_sensor_ai_chained.Active &&
+				Convert.ToInt32(hscale_force_sensor_ai_a.Value) + diffWithPrevious <= 0)
+		{
+			hscale_force_sensor_ai_b.Value = force_sensor_last_b;
+			return;
+		}
 
 		//do not allow B to be lower than A (fix multiple possible problems)
 		if(hscale_force_sensor_ai_b.Value < hscale_force_sensor_ai_a.Value)
@@ -1688,56 +1722,32 @@ public partial class ChronoJumpWindow
 		else
 			label_force_sensor_ai_rfd_b.Text = "";
 
+		force_sensor_last_b = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+
+		if(forceSensorHScalesDoNotFollow)
+		{
+			forceSensorHScalesDoNotFollow = false;
+			return;
+		}
+
+		//if chained move also A
+		if(check_force_sensor_ai_chained.Active)
+		{
+			forceSensorHScalesDoNotFollow = true;
+			hscale_force_sensor_ai_a.Value = hscale_force_sensor_ai_a.Value + diffWithPrevious;
+			forceSensorHScalesDoNotFollow = false;
+		}
+
 		force_sensor_analyze_instant_calculate_params();
-		updateForceSensorHScales = false;
-		hscale_force_sensor_ai_ab.Value = Convert.ToInt32(hscale_force_sensor_ai_a.Value + hscale_force_sensor_ai_b.Value) / 2;
-		updateForceSensorHScales = true;
 
 		forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness();
 		forceSensorAIChanged = true;
 		force_sensor_ai_drawingarea.QueueDraw(); //will fire ExposeEvent
 	}
-	int force_sensor_last_ab = 1;
-	private void on_hscale_force_sensor_ai_ab_value_changed (object o, EventArgs args)
+
+	private void on_check_force_sensor_ai_chained_clicked (object o, EventArgs args)
 	{
-		if(fsAI == null || fsAI.GetLength() == 0)
-			return;
-
-		//avoid circular calls
-		if(updateForceSensorHScales)
-		{
-			int difference = Convert.ToInt32(hscale_force_sensor_ai_ab.Value) - force_sensor_last_ab;
-			int aValue = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
-			int bValue = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
-			//if a or b are at max, don't move the ab to the right
-			//if a or b are at min, don't move the ab to the left
-			if(
-					( difference > 0 && aValue < fsAI.GetLength() -2 && bValue < fsAI.GetLength() -2 ) ||
-					( difference < 0 && aValue > 1 && bValue > 1 ) )
-			{
-				//move a and b
-				/*
-				 * if we move to the right and first we move a
-				 * on moving a, maybe a >= b so on_hscale_force_sensor_ai_a_value_changed will make b = a
-				 * and then the on_hscale_force_sensor_ai_ab_value_changed will move also b.
-				 * For this reason when we go to the right, first we move b
-				 */
-				if(difference > 0) {
-					hscale_force_sensor_ai_b.Value += difference;
-					hscale_force_sensor_ai_a.Value += difference;
-				} else {
-					hscale_force_sensor_ai_a.Value += difference;
-					hscale_force_sensor_ai_b.Value += difference;
-				}
-			} else {
-				//do not move ab (so also a and b will not be moved)
-				updateForceSensorHScales = false;
-				hscale_force_sensor_ai_ab.Value = force_sensor_last_ab;
-				updateForceSensorHScales = true;
-			}
-		}
-
-		force_sensor_last_ab = Convert.ToInt32(hscale_force_sensor_ai_ab.Value);
+		//TODO: change on SQL
 	}
 
 	private void forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness()

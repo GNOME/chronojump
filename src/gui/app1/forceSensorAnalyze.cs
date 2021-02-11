@@ -706,10 +706,13 @@ public partial class ChronoJumpWindow
 
 	private void on_radio_force_sensor_analyze_individual_current_set_toggled (object o, EventArgs args)
 	{
+		button_force_sensor_analyze_load.Visible = true;
 		notebook_force_sensor_analyze_top.CurrentPage = 0;
 	}
 	private void on_radio_force_sensor_analyze_individual_current_session_toggled (object o, EventArgs args)
 	{
+		button_force_sensor_analyze_load.Visible = false;
+
 		if(currentPerson != null)
 			label_force_sensor_export_data.Text = currentPerson.Name;
 		else
@@ -719,6 +722,8 @@ public partial class ChronoJumpWindow
 	}
 	private void on_radio_force_sensor_analyze_groupal_current_session_toggled (object o, EventArgs args)
 	{
+		button_force_sensor_analyze_load.Visible = false;
+
 		label_force_sensor_export_data.Text = currentSession.Name;
 
 		notebook_force_sensor_analyze_top.CurrentPage = 1;

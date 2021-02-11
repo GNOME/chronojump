@@ -181,6 +181,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_force_sensor_laterality_r;
 	[Widget] Gtk.Image image_force_sensor_laterality_l;
 	[Widget] Gtk.Image image_force_sensor_export_cancel;
+	[Widget] Gtk.Image image_force_sensor_ai_chained_link;
+	[Widget] Gtk.Image image_force_sensor_ai_chained_link_off;
 
 	//race encoder
 	[Widget] Gtk.Image image_run_encoder_exercise_edit;
@@ -892,5 +894,8 @@ public partial class ChronoJumpWindow
 				
 		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogo320); //changed to 270 for the presentation
 		//image_presentation_logo.Pixbuf = pixbuf;
+
+		image_force_sensor_ai_chained_link.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "link.png"); 
+		image_force_sensor_ai_chained_link_off.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "link_off.png"); 
 	}
 }

@@ -1752,7 +1752,8 @@ public partial class ChronoJumpWindow
 
 	private void on_check_force_sensor_ai_chained_clicked (object o, EventArgs args)
 	{
-		//TODO: change on SQL
+		image_force_sensor_ai_chained_link.Visible = check_force_sensor_ai_chained.Active;
+		image_force_sensor_ai_chained_link_off.Visible = ! check_force_sensor_ai_chained.Active;
 	}
 
 	private void forceSensorAnalyzeGeneralButtonHscaleZoomSensitiveness()

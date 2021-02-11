@@ -603,6 +603,12 @@ RESOURCES = \
 	../images/import-csv-headers.png,import-csv-headers.png \
 	../images/import-csv-name-1-column.png,import-csv-name-1-column.png \
 	../images/import-csv-name-2-columns.png,import-csv-name-2-columns.png \
+	../images/md/first.png,first.png \
+	../images/md/last.png,last.png \
+	../images/md/left.png,left.png \
+	../images/md/left_cut.png,left_cut.png \
+	../images/md/right.png,right.png \
+	../images/md/right_cut.png,right_cut.png \
 	../images/md/link.png,link.png \
 	../images/md/link_off.png,link_off.png \
 	../images/calendar.png,calendar.png \

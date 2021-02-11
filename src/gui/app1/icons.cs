@@ -184,6 +184,20 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_force_sensor_ai_chained_link;
 	[Widget] Gtk.Image image_force_sensor_ai_chained_link_off;
 
+	[Widget] Gtk.Image image_hscale_force_sensor_ai_a_first;
+	[Widget] Gtk.Image image_hscale_force_sensor_ai_a_last;
+	[Widget] Gtk.Image image_hscale_force_sensor_ai_a_pre;
+	[Widget] Gtk.Image image_hscale_force_sensor_ai_a_pre_1s;
+	[Widget] Gtk.Image image_hscale_force_sensor_ai_a_post;
+	[Widget] Gtk.Image image_hscale_force_sensor_ai_a_post_1s;
+
+	[Widget] Gtk.Image image_hscale_force_sensor_ai_b_first;
+	[Widget] Gtk.Image image_hscale_force_sensor_ai_b_last;
+	[Widget] Gtk.Image image_hscale_force_sensor_ai_b_pre;
+	[Widget] Gtk.Image image_hscale_force_sensor_ai_b_pre_1s;
+	[Widget] Gtk.Image image_hscale_force_sensor_ai_b_post;
+	[Widget] Gtk.Image image_hscale_force_sensor_ai_b_post_1s;
+
 	//race encoder
 	[Widget] Gtk.Image image_run_encoder_exercise_edit;
 	[Widget] Gtk.Image image_run_encoder_exercise_add;
@@ -894,6 +908,26 @@ public partial class ChronoJumpWindow
 				
 		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogo320); //changed to 270 for the presentation
 		//image_presentation_logo.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "first.png");
+		image_hscale_force_sensor_ai_a_first.Pixbuf = pixbuf;
+		image_hscale_force_sensor_ai_b_first.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "left_cut.png");
+		image_hscale_force_sensor_ai_a_pre_1s.Pixbuf = pixbuf;
+		image_hscale_force_sensor_ai_b_pre_1s.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "left.png");
+		image_hscale_force_sensor_ai_a_pre.Pixbuf = pixbuf;
+		image_hscale_force_sensor_ai_b_pre.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "right.png");
+		image_hscale_force_sensor_ai_a_post.Pixbuf = pixbuf;
+		image_hscale_force_sensor_ai_b_post.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "right_cut.png");
+		image_hscale_force_sensor_ai_a_post_1s.Pixbuf = pixbuf;
+		image_hscale_force_sensor_ai_b_post_1s.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "last.png");
+		image_hscale_force_sensor_ai_a_last.Pixbuf = pixbuf;
+		image_hscale_force_sensor_ai_b_last.Pixbuf = pixbuf;
 
 		image_force_sensor_ai_chained_link.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "link.png"); 
 		image_force_sensor_ai_chained_link_off.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "link_off.png"); 

@@ -89,7 +89,7 @@ void setup() {
 
   EEPROM.get(ppsAddress, pps);
   //if pps is 0 it means that it has never been set. We use the default value
-  if (pps == -151) {
+  if (pps < 0) {
     pps = 10;
     EEPROM.put(ppsAddress, pps);
   }

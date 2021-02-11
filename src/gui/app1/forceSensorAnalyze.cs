@@ -613,10 +613,10 @@ public partial class ChronoJumpWindow
 
 	private void setForceSensorAnalyzeABSliderIncrements()
 	{
-		label_hscale_force_sensor_ai_a_pre_1s.Text = string.Format("-{0}s", preferences.forceSensorAnalyzeABSliderIncrement);
-		label_hscale_force_sensor_ai_a_post_1s.Text = string.Format("+{0}s", preferences.forceSensorAnalyzeABSliderIncrement);
-		label_hscale_force_sensor_ai_b_pre_1s.Text = string.Format("-{0}s", preferences.forceSensorAnalyzeABSliderIncrement);
-		label_hscale_force_sensor_ai_b_post_1s.Text = string.Format("+{0}s", preferences.forceSensorAnalyzeABSliderIncrement);
+		label_hscale_force_sensor_ai_a_pre_1s.Text = string.Format("{0}s", preferences.forceSensorAnalyzeABSliderIncrement);
+		label_hscale_force_sensor_ai_a_post_1s.Text = string.Format("{0}s", preferences.forceSensorAnalyzeABSliderIncrement);
+		label_hscale_force_sensor_ai_b_pre_1s.Text = string.Format("{0}s", preferences.forceSensorAnalyzeABSliderIncrement);
+		label_hscale_force_sensor_ai_b_post_1s.Text = string.Format("{0}s", preferences.forceSensorAnalyzeABSliderIncrement);
 	}
 
 	private void on_button_force_rfd_default_clicked (object o, EventArgs args)

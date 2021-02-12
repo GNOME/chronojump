@@ -183,6 +183,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_force_sensor_export_cancel;
 	[Widget] Gtk.Image image_force_sensor_ai_chained_link;
 	[Widget] Gtk.Image image_force_sensor_ai_chained_link_off;
+	[Widget] Gtk.Image image_force_sensor_ai_zoom;
+	[Widget] Gtk.Image image_force_sensor_ai_zoom_out;
 
 	[Widget] Gtk.Image image_hscale_force_sensor_ai_a_first;
 	[Widget] Gtk.Image image_hscale_force_sensor_ai_a_last;
@@ -931,5 +933,7 @@ public partial class ChronoJumpWindow
 
 		image_force_sensor_ai_chained_link.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "link.png"); 
 		image_force_sensor_ai_chained_link_off.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "link_off.png"); 
+		image_force_sensor_ai_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+		image_force_sensor_ai_zoom_out.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_out.png");
 	}
 }

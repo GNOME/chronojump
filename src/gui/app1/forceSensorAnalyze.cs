@@ -1631,6 +1631,13 @@ public partial class ChronoJumpWindow
 			hscale_force_sensor_ai_b.Value = hscale_force_sensor_ai_a.Value;
 
 		int count = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
+		if(count > 0 && count >= fsAI.GetLength() -1)
+		{
+			//it could happen when there is really little data
+			LogB.Information("hscale_force_sensor_ai_a outside of boundaries");
+			return;
+		}
+
 		label_force_sensor_ai_time_a.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
 		label_force_sensor_ai_force_a.Text = Math.Round(fsAI.GetForceAtCount(count), 1).ToString();
 
@@ -1694,6 +1701,13 @@ public partial class ChronoJumpWindow
 			hscale_force_sensor_ai_a.Value = hscale_force_sensor_ai_b.Value;
 
 		int count = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+		if(count > 0 && count >= fsAI.GetLength() -1)
+		{
+			//it could happen when there is really little data
+			LogB.Information("hscale_force_sensor_ai_b outside of boundaries");
+			return;
+		}
+
 		label_force_sensor_ai_time_b.Text = Math.Round(fsAI.GetTimeMS(count), 1).ToString();
 		label_force_sensor_ai_force_b.Text = Math.Round(fsAI.GetForceAtCount(count), 1).ToString();
 

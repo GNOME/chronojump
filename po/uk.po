@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2021-02-11 18:54+0000\n"
-"PO-Revision-Date: 2021-02-11 22:47+0200\n"
+"POT-Creation-Date: 2021-02-12 15:21+0000\n"
+"PO-Revision-Date: 2021-02-12 20:08+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -1498,13 +1498,13 @@ msgid "Load file"
 msgstr "Завантаження файла"
 
 #: ../glade/app1.glade.h:312
-#| msgid "Options"
 msgid "RFD options"
 msgstr "Параметри RFD"
 
 #: ../glade/app1.glade.h:313
-msgid "RFD model Analyze"
-msgstr "Аналізатор моделі RFD"
+#| msgid "RFD model Analyze"
+msgid "RFD Model"
+msgstr "Модель RFD"
 
 #: ../glade/app1.glade.h:314 ../glade/repetitive_conditions.glade.h:35
 #: ../src/constants.cs:1379 ../src/encoder.cs:2414 ../src/forceSensor.cs:2196
@@ -3389,8 +3389,7 @@ msgstr "Відскок"
 #. A rebound jump means: when a person fall from some height to the floor and just after this person performs the jump.
 #: ../glade/jump_type_add.glade.h:23
 msgid "Rebound can also start inside platform."
-msgstr ""
-"Відскік може починатися всередині платформи."
+msgstr "Відскік може починатися всередині платформи."
 
 #: ../glade/old/dialog_help_ports.glade.h:1
 msgid "Chronopic port help"
@@ -4696,7 +4695,8 @@ msgid ""
 "If you have no data on your database (you just installed Chronojump), you "
 "can fix this problem deleting this file: {0}"
 msgstr ""
-"Якщо у вашій базі даних немає даних (ви щойно встановили Chronojump), ви можете виправити цю проблему вилученням такого файла: {0}"
+"Якщо у вашій базі даних немає даних (ви щойно встановили Chronojump), ви "
+"можете виправити цю проблему вилученням такого файла: {0}"
 
 #: ../src/chronojump.cs:370
 msgid "And starting Chronojump again."
@@ -5584,7 +5584,8 @@ msgstr ""
 #: ../src/encoder.cs:1730
 msgid "In the example image demultiplier is 2, hence multiplier is 1/2."
 msgstr ""
-"У прикладі зменшувальний множник зображення дорівнює 2, отже, множник дорівнює 1/2."
+"У прикладі зменшувальний множник зображення дорівнює 2, отже, множник "
+"дорівнює 1/2."
 
 #: ../src/encoder.cs:1751
 msgid "Linear encoder on inertia machine."
@@ -5607,30 +5608,27 @@ msgstr ""
 
 #: ../src/encoder.cs:1765
 msgid "Rotary friction encoder on pulley."
-msgstr ""
-"Кодувальник обертального тертя на шківі."
+msgstr "Кодувальник обертального тертя на шківі."
 
 #: ../src/encoder.cs:1772
 msgid "Rotary friction encoder on pulley axis."
-msgstr ""
-"Кодувальник обертального тертя на вісі шківа."
+msgstr "Кодувальник обертального тертя на вісі шківа."
 
 #: ../src/encoder.cs:1782
 msgid "Rotary friction encoder on weighted moving pulley."
-msgstr ""
-"Кодувальник обертального тертя на зваженому рухомому шківі."
+msgstr "Кодувальник обертального тертя на зваженому рухомому шківі."
 
 #: ../src/encoder.cs:1791
 msgid "Rotary friction encoder on inertial machine side."
-msgstr ""
-"Кодувальних обертального тертя на боці інерційної машини."
+msgstr "Кодувальник обертального тертя на боці інерційної машини."
 
 #: ../src/encoder.cs:1803 ../src/encoder.cs:1843
 msgid ""
 "Rotary friction encoder on inertial machine when person is moving "
 "horizontally."
 msgstr ""
-"Кодувальних обертального тертя на інерційній машині, коли особа рухається горизонтально."
+"Кодувальник обертального тертя на інерційній машині, коли особа рухається "
+"горизонтально."
 
 #: ../src/encoder.cs:1815 ../src/encoder.cs:1855
 msgid "Rotary friction encoder on inertial machine geared up."
@@ -5643,25 +5641,28 @@ msgstr "Інерційна машина обертається удвічі шв
 
 #: ../src/encoder.cs:1831
 msgid "Rotary friction encoder on inertial machine axis."
-msgstr "Кодувальних обертального тертя на вісі інерційної машини."
+msgstr "Кодувальник обертального тертя на вісі інерційної машини."
 
 #: ../src/encoder.cs:1872
 msgid "Rotary axis encoder on pulley axis."
-msgstr ""
-"Кодувальник обертальної вісі на вісі шківа."
+msgstr "Кодувальник обертальної вісі на вісі шківа."
 
 #: ../src/encoder.cs:1881
 msgid "Rotary axis encoder on weighted moving pulley."
 msgstr ""
+"Кодувальник обертальної вісі на зваженому рухомому шківі."
 
 #: ../src/encoder.cs:1892
 msgid "Rotary axis encoder on inertial machine."
 msgstr ""
+"Кодувальник обертальної вісі на інерційній машині."
 
 #: ../src/encoder.cs:1903
 msgid ""
 "Rotary axis encoder on inertial machine when person is moving horizontally."
 msgstr ""
+"Кодувальник обертальної вісі на інерційній машині, коли особа рухається "
+"горизонтально."
 
 #: ../src/encoder.cs:1914
 msgid "Rotary axis encoder on inertial machine geared up."
@@ -7460,6 +7461,7 @@ msgid ""
 "In current exercise configuration, it is necessary to enter the angle in "
 "which the sensor is measuring."
 msgstr ""
+"Для поточних налаштувань вправи необхідно ввести кут, за яким виконуватиметься вимірювання датчиком."
 
 #: ../src/gui/forceSensorExercise.cs:345
 msgid ""
@@ -7678,6 +7680,8 @@ msgid ""
 "\n"
 "This jump type starts inside, the first time should be a flight time."
 msgstr ""
+"\n"
+"Це тип стрибка починається всередині, першим часом має бути час польоту."
 
 #: ../src/gui/jump.cs:669
 #, csharp-format
@@ -7743,6 +7747,8 @@ msgid ""
 "First Chronopic should be connected to photocells.\n"
 "Second Chronopic to platforms."
 msgstr ""
+"Спочатку Chronopic слід з'єднати із фотоелементами.\n"
+"Далі, Chronopic слід з'єднати з платформами."
 
 #: ../src/gui/multiChronopic.cs:136
 msgid "multi chronopic"
@@ -8825,10 +8831,12 @@ msgstr "Короткий опис"
 #: ../src/runType.cs:150
 msgid "Subjects had to walk over the bar as fast as possible."
 msgstr ""
+"Суб'єкти мали пройти брусом якомога швидше."
 
 #: ../src/runType.cs:151
 msgid "From one platform to another without falling down."
 msgstr ""
+"З однієї платформи на іншу без падіння."
 
 #: ../src/runType.cs:152
 msgid "If they touched the ground they had to continue."
@@ -8873,6 +8881,7 @@ msgstr "Роки на поясі."
 #: ../src/runType.cs:166
 msgid "In front of a wall in order to avoid distractions."
 msgstr ""
+"Перед стіною, щоб не відволікатися."
 
 #: ../src/runType.cs:167
 msgid "INSTRUCTIONS AND DEMONSTRATION: "
@@ -8953,6 +8962,7 @@ msgstr "Оцінювання"
 #: ../src/runType.cs:200
 msgid "Record the best time of two trials."
 msgstr ""
+"Записати найкращий час з двох спроб."
 
 #: ../src/runType.cs:202
 msgid ""

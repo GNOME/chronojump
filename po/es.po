@@ -233,7 +233,7 @@ msgstr "Medido con codificador"
 
 #: ../glade/app1.glade.h:44
 msgid "Races with photocells"
-msgstr "Carreras con células fotocélulas"
+msgstr "Carreras con células fotoeléctricas"
 
 #: ../glade/app1.glade.h:45 ../glade/report_window.glade.h:6
 msgid "Intervallic"

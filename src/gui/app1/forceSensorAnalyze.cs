@@ -53,8 +53,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_force_sensor_analyze_AB_save;
 	[Widget] Gtk.CheckButton check_force_sensor_ai_chained;
 	[Widget] Gtk.CheckButton check_force_sensor_ai_zoom;
-
-	[Widget] Gtk.Button button_force_sensor_analyze_back_to_signal;
+	[Widget] Gtk.Notebook notebook_force_sensor_analyze_sliders_buttons_back;
 
 	[Widget] Gtk.RadioButton radio_force_rfd_search_optimized_ab;
 	[Widget] Gtk.RadioButton radio_force_rfd_use_ab_range;
@@ -186,7 +185,6 @@ public partial class ChronoJumpWindow
 	}
 
 	private int notebook_force_sensor_analyze_top_LastPage;
-	private bool button_force_sensor_analyze_back_to_signal_LastSensitive;
 	private void on_button_force_sensor_analyze_options_clicked (object o, EventArgs args)
 	{
 		//store the notebook to return to same place
@@ -194,10 +192,6 @@ public partial class ChronoJumpWindow
 		notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.AUTOMATICOPTIONS);
 
 		hbox_force_sensor_analyze_top_modes.Sensitive = false;
-
-		//do not allow to click Back while in options
-		button_force_sensor_analyze_back_to_signal_LastSensitive = button_force_sensor_analyze_back_to_signal.Sensitive;
-		button_force_sensor_analyze_back_to_signal.Sensitive = false;
 
 		button_force_sensor_analyze_options_close_and_analyze.Visible = radio_force_sensor_analyze_individual_current_set.Active;
 
@@ -209,8 +203,6 @@ public partial class ChronoJumpWindow
 		notebook_force_sensor_analyze_top.CurrentPage = notebook_force_sensor_analyze_top_LastPage;
 
 		hbox_force_sensor_analyze_top_modes.Sensitive = true;
-
-		button_force_sensor_analyze_back_to_signal.Sensitive = button_force_sensor_analyze_back_to_signal_LastSensitive;
 
 		// 1 change stuff on Sqlite if needed
 
@@ -279,7 +271,6 @@ public partial class ChronoJumpWindow
 	private void on_button_force_sensor_analyze_analyze_clicked (object o, EventArgs args)
 	{
 		notebook_force_sensor_analyze.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_pages.AUTOMATIC);
-		button_force_sensor_analyze_back_to_signal.Sensitive = true;
 
 		if(! Util.FileExists(lastForceSensorFullPath))
 		{
@@ -287,9 +278,7 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		hbox_force_sensor_ai_a.Sensitive = false;
-		hbox_force_sensor_ai_b.Sensitive = false;
-		hbox_force_sensor_ai_ab.Sensitive = false;
+		notebook_force_sensor_analyze_sliders_buttons_back.CurrentPage = 1;
 
 		if(lastForceSensorFullPath != null && lastForceSensorFullPath != "")
 			forceSensorCopyTempAndDoGraphs(forceSensorGraphsEnum.RFD);
@@ -297,12 +286,8 @@ public partial class ChronoJumpWindow
 
 	private void on_button_force_sensor_analyze_back_to_signal_clicked (object o, EventArgs args)
 	{
-		hbox_force_sensor_ai_a.Sensitive = true;
-		hbox_force_sensor_ai_b.Sensitive = true;
-		hbox_force_sensor_ai_ab.Sensitive = true;
-
+		notebook_force_sensor_analyze_sliders_buttons_back.CurrentPage = 0;
 		notebook_force_sensor_analyze.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_pages.MANUAL);
-		button_force_sensor_analyze_back_to_signal.Sensitive = false;
 	}
 
 	private void on_radio_force_rfd_search_optimized_ab_toggled (object o, EventArgs args)
@@ -648,9 +633,7 @@ public partial class ChronoJumpWindow
 		get { return impulse;  }
 	}
 
-	[Widget] Gtk.HBox hbox_force_sensor_ai_a;
-	[Widget] Gtk.HBox hbox_force_sensor_ai_b;
-	[Widget] Gtk.HBox hbox_force_sensor_ai_ab;
+	[Widget] Gtk.HBox hbox_force_sensor_analyze_ai_sliders_and_buttons;
 	[Widget] Gtk.DrawingArea force_sensor_ai_drawingarea;
 	[Widget] Gtk.HScale hscale_force_sensor_ai_a;
 	[Widget] Gtk.HScale hscale_force_sensor_ai_b;

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2017-2020   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2017-2021   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -444,6 +444,7 @@ public partial class ChronoJumpWindow
 		else if (o == (object) button_execute_test)
 		{
 			notebook_force_sensor_analyze.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_pages.MANUAL);
+			notebook_force_sensor_analyze_sliders_buttons_back.CurrentPage = 0;
 			forceSensorButtonsSensitive(false);
 			sensitiveLastTestButtons(false);
 			contactsShowCaptureDoingButtons(true);
@@ -1434,9 +1435,7 @@ LogB.Information(" fs C ");
 						forceSensorDoGraphAI(false);
 					}
 
-					hbox_force_sensor_ai_a.Sensitive = true;
-					hbox_force_sensor_ai_b.Sensitive = true;
-					hbox_force_sensor_ai_ab.Sensitive = true;
+					hbox_force_sensor_analyze_ai_sliders_and_buttons.Sensitive = true;
 
 					button_contacts_exercise_close_and_recalculate.Sensitive = true;
 					button_delete_last_test.Sensitive = true;
@@ -1932,15 +1931,14 @@ LogB.Information(" fs R ");
 		}
 		//event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(filechooser.Filename);
 
-		hbox_force_sensor_ai_a.Sensitive = true;
-		hbox_force_sensor_ai_b.Sensitive = true;
-		hbox_force_sensor_ai_ab.Sensitive = true;
+		hbox_force_sensor_analyze_ai_sliders_and_buttons.Sensitive = true;
 
 		button_contacts_exercise_close_and_recalculate.Sensitive = true;
 		force_capture_drawingarea.Sensitive = true;
 		notebook_force_sensor_analyze.Sensitive = true;
 		button_force_sensor_analyze_options_close_and_analyze.Sensitive = true;
 		notebook_force_sensor_analyze.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_pages.MANUAL);
+		notebook_force_sensor_analyze_sliders_buttons_back.CurrentPage = 0;
 	}
 
 	protected void on_force_sensor_load_signal_row_play (object o, EventArgs args)

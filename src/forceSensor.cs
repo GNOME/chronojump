@@ -939,10 +939,24 @@ public class ForceSensorCapturePoints
 		avg = sum / ((countB - countA) +1);
 	}
 
-	public void GetMaxAverageForceInWindow (int countA, int countB, double windowSeconds, out double avgMax, out string error)
-	{
-//TODO: remember to store the result and countA and countB somewhere to not calculate it again everytime window refreshes or mouse is move. Same for other methods
 
+	//stored, to not calculate again with same data
+	CalculatedForceMaxAvgInWindow calculatedForceMaxAvgInWindow;
+
+	public void GetForceMaxAvgInWindow (int countA, int countB, double windowSeconds, out double avgMax, out string error)
+	{
+		// 1) check if ws calculated before
+		if(calculatedForceMaxAvgInWindow != null &&
+				calculatedForceMaxAvgInWindow.InputsToString() ==
+				new CalculatedForceMaxAvgInWindow(countA, countB, windowSeconds).InputsToString())
+		{
+			LogB.Information("Was calculated before");
+			avgMax = calculatedForceMaxAvgInWindow.Result;
+			error = ""; //there will be no error, because when is stored is without error
+			return;
+		}
+
+		// 2) check if countB - countA fits in window time
 		double timeA = GetTimeAtCount(countA);
 		
 		if(GetTimeAtCount(countB) - timeA <= 1000000 * windowSeconds)
@@ -959,7 +973,7 @@ public class ForceSensorCapturePoints
 		int count = 0;
 
 		//note if countB - countA < 1s then can have higher values than all the set
-		// 1) get the first second (or whatever in windowSeconds)
+		// 3) get the first second (or whatever in windowSeconds)
 		int i;
 		for(i = countA; i <= countB && GetTimeAtCount(i) - timeA <= 1000000 * windowSeconds; i ++)
 		{
@@ -970,7 +984,7 @@ public class ForceSensorCapturePoints
 		LogB.Information(string.Format("avgMax 1st for: {0}", avgMax));
 		//note "count" has the window size in samples
 
-		// 2) continue until the end
+		// 4) continue until the end (countB)
 		for(int j = i+1; j < countB; j ++)
 		{
 			sum -= forces[j - count];
@@ -980,7 +994,12 @@ public class ForceSensorCapturePoints
 			if(avg > avgMax)
 				avgMax = avg;
 		}
+
 		LogB.Information(string.Format("Average max force in {0} seconds: {1}", windowSeconds, avgMax));
+
+		// 5) store data to not calculate it again if data is the same
+		calculatedForceMaxAvgInWindow = new CalculatedForceMaxAvgInWindow (
+				countA, countB, windowSeconds, avgMax);
 	}
 
 	public double GetRFD(int countA, int countB)
@@ -1189,6 +1208,38 @@ public class ForceSensorCapturePoints
 	public int ScrollStartedAtCount
 	{
 		get { return scrollStartedAtCount; }
+	}
+}
+
+public class CalculatedForceMaxAvgInWindow
+{
+	private int countA;
+	private int countB;
+	private double windowSeconds;
+	private double result; //avgMax
+
+	public CalculatedForceMaxAvgInWindow (int countA, int countB, double windowSeconds, double result)
+	{
+		this.countA = countA;
+		this.countB = countB;
+		this.windowSeconds = windowSeconds;
+		this.result = result;
+	}
+	public CalculatedForceMaxAvgInWindow (int countA, int countB, double windowSeconds)
+	{
+		this.countA = countA;
+		this.countB = countB;
+		this.windowSeconds = windowSeconds;
+	}
+
+	public string InputsToString()
+	{
+		return string.Format("{0};{1};{2}", countA, countB, windowSeconds);
+	}
+
+	public double Result
+	{
+		get { return result; }
 	}
 }
 
@@ -2019,7 +2070,7 @@ public class ForceSensorAnalyzeInstant
 		}
 
 		fscAIPoints.GetAverageAndMaxForce(countA, countB, out ForceAVG, out ForceMAX);
-		fscAIPoints.GetMaxAverageForceInWindow (countA, countB, 1, out ForceMaxAvgInWindow, out ForceMaxAvgInWindowError);
+		fscAIPoints.GetForceMaxAvgInWindow (countA, countB, 1, out ForceMaxAvgInWindow, out ForceMaxAvgInWindowError);
 
 		if(CalculedElasticPSAP)
 		{

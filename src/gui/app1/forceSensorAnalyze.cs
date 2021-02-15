@@ -1112,10 +1112,19 @@ public partial class ChronoJumpWindow
 			if(fsAI.ForceMaxAvgInWindowError == "")
 			{
 				int yPx = fsAI.FscAIPoints.GetForceInPx(fsAI.ForceMaxAvgInWindow);
+
 				CairoUtil.PaintSegment(force_sensor_ai_drawingarea,
-						new Cairo.Color(0/256.0, 256/256.0, 0/256.0),
+						new Cairo.Color(0/256.0, 200/256.0, 0/256.0),
 						fsAI.GetXFromSampleCount(fsAI.ForceMaxAvgInWindowSampleStart), yPx,
 						fsAI.GetXFromSampleCount(fsAI.ForceMaxAvgInWindowSampleEnd), yPx);
+				CairoUtil.PaintSegment(force_sensor_ai_drawingarea,
+						new Cairo.Color(0/256.0, 200/256.0, 0/256.0),
+						fsAI.GetXFromSampleCount(fsAI.ForceMaxAvgInWindowSampleStart), yPx-10,
+						fsAI.GetXFromSampleCount(fsAI.ForceMaxAvgInWindowSampleStart), yPx+10);
+				CairoUtil.PaintSegment(force_sensor_ai_drawingarea,
+						new Cairo.Color(0/256.0, 200/256.0, 0/256.0),
+						fsAI.GetXFromSampleCount(fsAI.ForceMaxAvgInWindowSampleEnd), yPx-10,
+						fsAI.GetXFromSampleCount(fsAI.ForceMaxAvgInWindowSampleEnd), yPx+10);
 			}
 		}
 

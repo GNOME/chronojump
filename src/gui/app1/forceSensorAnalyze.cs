@@ -152,6 +152,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_force_sensor_ai_feedback_values;
 	[Widget] Gtk.Label label_force_sensor_ai_variability_cvrmssd;
 	[Widget] Gtk.Label label_force_sensor_ai_variability_units;
+	[Widget] Gtk.Label label_force_sensor_ai_max_avg_in_window;
 
 	[Widget] Gtk.Notebook notebook_force_sensor_export;
 	[Widget] Gtk.Label label_force_sensor_export_data;
@@ -601,6 +602,11 @@ public partial class ChronoJumpWindow
 		label_hscale_force_sensor_ai_a_post_1s.Text = string.Format("{0}s", preferences.forceSensorAnalyzeABSliderIncrement);
 		label_hscale_force_sensor_ai_b_pre_1s.Text = string.Format("{0}s", preferences.forceSensorAnalyzeABSliderIncrement);
 		label_hscale_force_sensor_ai_b_post_1s.Text = string.Format("{0}s", preferences.forceSensorAnalyzeABSliderIncrement);
+	}
+	private void setForceSensorAnalyzeMaxAVGInWindow()
+	{
+		label_force_sensor_ai_max_avg_in_window.Text = string.Format("Max AVG Force in {0} s",
+				preferences.forceSensorAnalyzeMaxAVGInWindow);
 	}
 
 	private void on_button_force_rfd_default_clicked (object o, EventArgs args)
@@ -1956,7 +1962,7 @@ public partial class ChronoJumpWindow
 		double timeB = fsAI.GetTimeMS(countB);
 		double forceA = fsAI.GetForceAtCount(countA);
 		double forceB = fsAI.GetForceAtCount(countB);
-		bool success = fsAI.CalculateRangeParams(countA, countB);
+		bool success = fsAI.CalculateRangeParams(countA, countB, preferences.forceSensorAnalyzeMaxAVGInWindow);
 		if(success) {
 			label_force_sensor_ai_time_diff.Text = Math.Round(timeB - timeA, 1).ToString();
 			label_force_sensor_ai_force_diff.Text = Math.Round(forceB - forceA, 1).ToString();

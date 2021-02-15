@@ -2886,6 +2886,8 @@ public partial class ChronoJumpWindow
 
 		//TODO: only if have changed
 		setForceSensorAnalyzeABSliderIncrements();
+		setForceSensorAnalyzeMaxAVGInWindow();
+
 		// update force_capture_drawingarea
 		if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR)// && radiobutton_force_sensor_analyze_manual.Active)
 			forceSensorDoGraphAI(false);

@@ -2090,7 +2090,7 @@ public class ForceSensorAnalyzeInstant
 	}
 
 	//calculates from a range
-	public bool CalculateRangeParams(int countA, int countB)
+	public bool CalculateRangeParams(int countA, int countB, double forceSensorAnalyzeMaxAVGInWindowSeconds)
 	{
 		//countA will be the lowest and countB the highest to calcule Avg and max correctly no matter if B is before A
 		if(countA > countB) {
@@ -2100,7 +2100,7 @@ public class ForceSensorAnalyzeInstant
 		}
 
 		fscAIPoints.GetAverageAndMaxForce(countA, countB, out ForceAVG, out ForceMAX);
-		fscAIPoints.GetForceMaxAvgInWindow (countA, countB, 1,
+		fscAIPoints.GetForceMaxAvgInWindow (countA, countB, forceSensorAnalyzeMaxAVGInWindowSeconds,
 				out ForceMaxAvgInWindow, out ForceMaxAvgInWindowSampleStart, out ForceMaxAvgInWindowSampleEnd,
 				out ForceMaxAvgInWindowError);
 

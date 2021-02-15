@@ -99,7 +99,7 @@ public static class CairoUtil
 			paintVerticalLine(g, xposB, height, "B");
 
 			//g.SetSourceRGBA(0.906, 0.745, 0.098, .5); //Chronojump yellow, half transp
-			g.SetSourceRGBA(0.9, 0.9, 0.01, .33); //More yellow and very transp
+			g.SetSourceRGBA(0.9, 0.9, 0.01, .15); //More yellow and very transp
 
 			//create rectangle
 			int min = Math.Min(xposA, xposB) +1;

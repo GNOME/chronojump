@@ -147,6 +147,7 @@ public partial class ChronoJumpWindow
 		setRFDValues();
 		setImpulseValue();
 		setForceSensorAnalyzeABSliderIncrements();
+		setForceSensorAnalyzeMaxAVGInWindow();
 	}
 
 

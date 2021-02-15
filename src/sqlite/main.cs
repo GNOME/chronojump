@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.11";
+	static string lastChronojumpDatabaseVersion = "2.12";
 
 	public Sqlite()
 	{
@@ -2869,7 +2869,14 @@ class Sqlite
 
 				currentVersion = updateVersion("2.11");
 			}
+			if(currentVersion == "2.11")
+			{
+				LogB.SQL("Inserted into preferences: forceSensorAnalyzeMaxAVGInWindow");
 
+				SqlitePreferences.Insert (SqlitePreferences.ForceSensorAnalyzeMaxAVGInWindow, "1");
+
+				currentVersion = updateVersion("2.12");
+			}
 			/*
 			if(currentVersion == "1.79")
 			{
@@ -3087,6 +3094,7 @@ class Sqlite
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
 
+		//2.11 - 2.12 Converted DB to 2.12 Inserted prefs: forceSensorAnalyzeMaxAVGInWindow
 		//2.10 - 2.11 Converted DB to 2.11 Inserted prefs: clientNewsDatetime
 		//2.09 - 2.10 Converted DB to 2.10 Inserted prefs: encoderCaptureShowLoss, runEncoderPPS
 		//2.08 - 2.09 Converted DB to 2.09 Inserted into preferences: forceSensorAnalyzeABSliderIncrement

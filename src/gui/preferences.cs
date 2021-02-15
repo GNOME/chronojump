@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -185,6 +185,7 @@ public class PreferencesWindow
 	[Widget] Gtk.RadioButton radio_force_sensor_variability_old;
 	[Widget] Gtk.RadioButton radio_force_sensor_variability_cvrmssd;
 	[Widget] Gtk.SpinButton spin_force_sensor_analyze_ab_slider_increment;
+	[Widget] Gtk.SpinButton spin_force_sensor_analyze_max_avg_force_in_window;
 
 	//runEncoder tab
 	[Widget] Gtk.SpinButton spin_run_encoder_acceleration;
@@ -735,6 +736,7 @@ public class PreferencesWindow
 			PreferencesWindowBox.radio_force_sensor_variability_cvrmssd.Active = true;
 
 		PreferencesWindowBox.spin_force_sensor_analyze_ab_slider_increment.Value = preferences.forceSensorAnalyzeABSliderIncrement;
+		PreferencesWindowBox.spin_force_sensor_analyze_max_avg_force_in_window.Value = preferences.forceSensorAnalyzeMaxAVGInWindow;
 
 		//runEncoder -->
 		PreferencesWindowBox.spin_run_encoder_acceleration.Value = preferences.runEncoderMinAccel;
@@ -2177,6 +2179,11 @@ public class PreferencesWindow
 				SqlitePreferences.ForceSensorAnalyzeABSliderIncrement,
 				preferences.forceSensorAnalyzeABSliderIncrement,
 				Convert.ToDouble(spin_force_sensor_analyze_ab_slider_increment.Value));
+
+		preferences.forceSensorAnalyzeMaxAVGInWindow = Preferences.PreferencesChange(
+				SqlitePreferences.ForceSensorAnalyzeMaxAVGInWindow,
+				preferences.forceSensorAnalyzeMaxAVGInWindow,
+				Convert.ToDouble(spin_force_sensor_analyze_max_avg_force_in_window.Value));
 
 		//runEncoder ----
 

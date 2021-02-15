@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -102,6 +102,7 @@ class SqlitePreferences : Sqlite
 	public const string ForceSensorMIFDurationSeconds = "forceSensorMIFDurationSeconds";
 	public const string ForceSensorMIFDurationPercent = "forceSensorMIFDurationPercent";
 	public const string ForceSensorAnalyzeABSliderIncrement = "forceSensorAnalyzeABSliderIncrement";
+	public const string ForceSensorAnalyzeMaxAVGInWindow = "forceSensorAnalyzeMaxAVGInWindow";
 
 	//runEncoder
 	public const string RunEncoderMinAccel = "runEncoderMinAccel";
@@ -290,6 +291,7 @@ class SqlitePreferences : Sqlite
 				Insert (ForceSensorMIFDurationSeconds, "2", dbcmdTr);
 				Insert (ForceSensorMIFDurationPercent, "5", dbcmdTr);
 				Insert (ForceSensorAnalyzeABSliderIncrement, "1", dbcmdTr);
+				Insert (ForceSensorAnalyzeMaxAVGInWindow, "1", dbcmdTr);
 
 				//runEncoder
 				Insert (RunEncoderMinAccel, "10.0", dbcmdTr);
@@ -712,6 +714,10 @@ class SqlitePreferences : Sqlite
 
 			else if(reader[0].ToString() == ForceSensorAnalyzeABSliderIncrement)
 				preferences.forceSensorAnalyzeABSliderIncrement = Convert.ToDouble(
+						Util.ChangeDecimalSeparator(reader[1].ToString()));
+
+			else if(reader[0].ToString() == ForceSensorAnalyzeMaxAVGInWindow)
+				preferences.forceSensorAnalyzeMaxAVGInWindow = Convert.ToDouble(
 						Util.ChangeDecimalSeparator(reader[1].ToString()));
 
 			//runEncoder

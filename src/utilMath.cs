@@ -368,4 +368,22 @@ public static class MathUtil
 		else
 			return false;
 	}
+
+	/*
+	public static double ClosestNumber(double num1, double num2, double numToCompare)
+	{
+		LogB.Information(string.Format("Compare: {0} and {1} with: {2}", num1, num2, numToCompare));
+		if( Math.Abs(num1 - numToCompare) <= Math.Abs(num2 - numToCompare) )
+			return num1;
+
+		return num2;
+	}
+	*/
+	public static bool PassedSampleIsCloserToCriteria (
+			double criteriaPassedValue, double previousToCriteriaValue, double numToCompare)
+	{
+		LogB.Information(string.Format("Compare: {0} and {1} with: {2}", criteriaPassedValue, previousToCriteriaValue, numToCompare));
+		return ( Math.Abs(criteriaPassedValue - numToCompare) <= Math.Abs(previousToCriteriaValue - numToCompare) );
+	}
+
 }

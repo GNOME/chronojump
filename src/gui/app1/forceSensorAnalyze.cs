@@ -1809,7 +1809,15 @@ public partial class ChronoJumpWindow
 		{
 			if(startAMs - fsAI.GetTimeMS(i) >= preferences.forceSensorAnalyzeABSliderIncrement * 1000)
 			{
-				hscale_force_sensor_ai_a.Value += i - startA;
+				//hscale_force_sensor_ai_a.Value += i - startA; is the sample where condition is done,
+				//but maybe the sample before that condition is more close to 1s than this
+				if(MathUtil.PassedSampleIsCloserToCriteria (
+						startAMs - fsAI.GetTimeMS(i), startAMs - fsAI.GetTimeMS(i+1),
+						preferences.forceSensorAnalyzeABSliderIncrement * 1000))
+					hscale_force_sensor_ai_a.Value += (i - startA);
+				else
+					hscale_force_sensor_ai_a.Value += (i+1 - startA);
+
 				return;
 			}
 		}
@@ -1825,7 +1833,14 @@ public partial class ChronoJumpWindow
 		{
 			if(fsAI.GetTimeMS(i) - startAMs >= preferences.forceSensorAnalyzeABSliderIncrement * 1000)
 			{
-				hscale_force_sensor_ai_a.Value += i - startA;
+				//hscale_force_sensor_ai_a.Value += i - startA;
+				if(MathUtil.PassedSampleIsCloserToCriteria (
+						fsAI.GetTimeMS(i) - startAMs, fsAI.GetTimeMS(i-1) - startAMs,
+						preferences.forceSensorAnalyzeABSliderIncrement * 1000))
+					hscale_force_sensor_ai_a.Value += (i - startA);
+				else
+					hscale_force_sensor_ai_a.Value += (i-1 - startA);
+
 				return;
 			}
 		}
@@ -1842,7 +1857,14 @@ public partial class ChronoJumpWindow
 		{
 			if(startBMs - fsAI.GetTimeMS(i) >= preferences.forceSensorAnalyzeABSliderIncrement * 1000)
 			{
-				hscale_force_sensor_ai_b.Value += i - startB;
+				//hscale_force_sensor_ai_b.Value += i - startB;
+				if(MathUtil.PassedSampleIsCloserToCriteria (
+						startBMs - fsAI.GetTimeMS(i), startBMs - fsAI.GetTimeMS(i+1),
+						preferences.forceSensorAnalyzeABSliderIncrement * 1000))
+					hscale_force_sensor_ai_b.Value += (i - startB);
+				else
+					hscale_force_sensor_ai_b.Value += (i+1 - startB);
+
 				return;
 			}
 		}
@@ -1858,7 +1880,14 @@ public partial class ChronoJumpWindow
 		{
 			if(fsAI.GetTimeMS(i) - startBMs >= preferences.forceSensorAnalyzeABSliderIncrement * 1000)
 			{
-				hscale_force_sensor_ai_b.Value += i - startB;
+				//hscale_force_sensor_ai_b.Value += i - startB;
+				if(MathUtil.PassedSampleIsCloserToCriteria (
+						fsAI.GetTimeMS(i) - startBMs, fsAI.GetTimeMS(i-1) - startBMs,
+						preferences.forceSensorAnalyzeABSliderIncrement * 1000))
+					hscale_force_sensor_ai_b.Value += (i - startB);
+				else
+					hscale_force_sensor_ai_b.Value += (i-1 - startB);
+
 				return;
 			}
 		}

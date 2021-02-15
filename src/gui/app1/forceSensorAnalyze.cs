@@ -1101,12 +1101,23 @@ public partial class ChronoJumpWindow
 		}
 
 		if(fsAI != null)
+		{
 			CairoUtil.PaintVerticalLinesAndRectangle (
 					force_sensor_ai_drawingarea,
 					fsAI.GetXFromSampleCount(Convert.ToInt32(hscale_force_sensor_ai_a.Value)),
 					fsAI.GetXFromSampleCount(Convert.ToInt32(hscale_force_sensor_ai_b.Value)),
 					true, //paint the second line and rectangle (if a != b)
 					15, 0); // top/bottom of the rectangle (top is greater than at encoder to acomodate the repetition green text), bottom 0 is ok.
+		
+			if(fsAI.ForceMaxAvgInWindowError == "")
+			{
+				int yPx = fsAI.FscAIPoints.GetForceInPx(fsAI.ForceMaxAvgInWindow);
+				CairoUtil.PaintSegment(force_sensor_ai_drawingarea,
+						new Cairo.Color(0/256.0, 256/256.0, 0/256.0),
+						fsAI.GetXFromSampleCount(fsAI.ForceMaxAvgInWindowSampleStart), yPx,
+						fsAI.GetXFromSampleCount(fsAI.ForceMaxAvgInWindowSampleEnd), yPx);
+			}
+		}
 
 		force_sensor_ai_allocationXOld = allocation.Width;
 
@@ -1447,6 +1458,7 @@ public partial class ChronoJumpWindow
 				}
 			}
 		}
+
 		//show the start vertical line and the number of last repetition (when obviously no new rep will make writting it)
 		//but only if zoomed and that repetition exists (has an end)
 		if(forceSensorZoomApplied && j >= 0 && j < reps_l.Count)

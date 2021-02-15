@@ -943,7 +943,8 @@ public class ForceSensorCapturePoints
 	//stored, to not calculate again with same data
 	CalculatedForceMaxAvgInWindow calculatedForceMaxAvgInWindow;
 
-	public void GetForceMaxAvgInWindow (int countA, int countB, double windowSeconds, out double avgMax, out string error)
+	public void GetForceMaxAvgInWindow (int countA, int countB, double windowSeconds,
+			out double avgMax, out int avgMaxSampleStart, out int avgMaxSampleEnd, out string error)
 	{
 		// 1) check if ws calculated before
 		if(calculatedForceMaxAvgInWindow != null &&
@@ -952,6 +953,8 @@ public class ForceSensorCapturePoints
 		{
 			LogB.Information("Was calculated before");
 			avgMax = calculatedForceMaxAvgInWindow.Result;
+			avgMaxSampleStart = calculatedForceMaxAvgInWindow.ResultSampleStart;
+			avgMaxSampleEnd = calculatedForceMaxAvgInWindow.ResultSampleEnd;
 			error = ""; //there will be no error, because when is stored is without error
 			return;
 		}
@@ -962,11 +965,15 @@ public class ForceSensorCapturePoints
 		if(GetTimeAtCount(countB) - timeA <= 1000000 * windowSeconds)
 		{
 			avgMax = 0;
+			avgMaxSampleStart = countA; //there is an error, this will not be used
+			avgMaxSampleEnd = countA; //there is an error, this will not be used
 			error = "Need more time";
 			return;
 		}
 
 		avgMax = 0;
+		avgMaxSampleStart = countA; 	//sample where avgMax starts (to draw a line)
+		avgMaxSampleEnd = countA; 	//sample where avgMax starts (to draw a line)
 		error = "";
 
 		double sum = 0;
@@ -979,8 +986,10 @@ public class ForceSensorCapturePoints
 		{
 			sum += forces[i];
 			count ++;
-			avgMax = sum / count;
 		}
+		avgMax = sum / count;
+		avgMaxSampleEnd = countA + count;
+
 		LogB.Information(string.Format("avgMax 1st for: {0}", avgMax));
 		//note "count" has the window size in samples
 
@@ -992,14 +1001,19 @@ public class ForceSensorCapturePoints
 
 			double avg = sum / count;
 			if(avg > avgMax)
+			{
 				avgMax = avg;
+				avgMaxSampleStart = j - count;
+				avgMaxSampleEnd = j;
+			}
 		}
 
-		LogB.Information(string.Format("Average max force in {0} seconds: {1}", windowSeconds, avgMax));
+		LogB.Information(string.Format("Average max force in {0} seconds: {1}, started at sample range: {2}:{3}",
+					windowSeconds, avgMax, avgMaxSampleStart, avgMaxSampleEnd));
 
 		// 5) store data to not calculate it again if data is the same
 		calculatedForceMaxAvgInWindow = new CalculatedForceMaxAvgInWindow (
-				countA, countB, windowSeconds, avgMax);
+				countA, countB, windowSeconds, avgMax, avgMaxSampleStart, avgMaxSampleEnd);
 	}
 
 	public double GetRFD(int countA, int countB)
@@ -1217,13 +1231,18 @@ public class CalculatedForceMaxAvgInWindow
 	private int countB;
 	private double windowSeconds;
 	private double result; //avgMax
+	private int resultSampleStart; //avgMaxSampleStart
+	private int resultSampleEnd; //avgMaxSampleEnd
 
-	public CalculatedForceMaxAvgInWindow (int countA, int countB, double windowSeconds, double result)
+	public CalculatedForceMaxAvgInWindow (int countA, int countB, double windowSeconds,
+			double result, int resultSampleStart, int resultSampleEnd)
 	{
 		this.countA = countA;
 		this.countB = countB;
 		this.windowSeconds = windowSeconds;
 		this.result = result;
+		this.resultSampleStart = resultSampleStart;
+		this.resultSampleEnd = resultSampleEnd;
 	}
 	public CalculatedForceMaxAvgInWindow (int countA, int countB, double windowSeconds)
 	{
@@ -1240,6 +1259,14 @@ public class CalculatedForceMaxAvgInWindow
 	public double Result
 	{
 		get { return result; }
+	}
+	public int ResultSampleStart
+	{
+		get { return resultSampleStart; }
+	}
+	public int ResultSampleEnd
+	{
+		get { return resultSampleEnd; }
 	}
 }
 
@@ -1767,8 +1794,11 @@ public class ForceSensorAnalyzeInstant
 	public double AccelMAX;
 	public double PowerAVG;
 	public double PowerMAX;
-	public double ForceMaxAvgInWindow;
-	public string ForceMaxAvgInWindowError; //if there is any error
+
+	public double ForceMaxAvgInWindow; 		//the result
+	public int ForceMaxAvgInWindowSampleStart;	//the start sample of the result
+	public int ForceMaxAvgInWindowSampleEnd;	//the end sample of the result
+	public string ForceMaxAvgInWindowError; 	//if there is any error
 
 	//for elastic
 	public bool CalculedElasticPSAP;
@@ -2070,7 +2100,9 @@ public class ForceSensorAnalyzeInstant
 		}
 
 		fscAIPoints.GetAverageAndMaxForce(countA, countB, out ForceAVG, out ForceMAX);
-		fscAIPoints.GetForceMaxAvgInWindow (countA, countB, 1, out ForceMaxAvgInWindow, out ForceMaxAvgInWindowError);
+		fscAIPoints.GetForceMaxAvgInWindow (countA, countB, 1,
+				out ForceMaxAvgInWindow, out ForceMaxAvgInWindowSampleStart, out ForceMaxAvgInWindowSampleEnd,
+				out ForceMaxAvgInWindowError);
 
 		if(CalculedElasticPSAP)
 		{

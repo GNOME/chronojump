@@ -994,7 +994,7 @@ public class ForceSensorCapturePoints
 		//note "count" has the window size in samples
 
 		// 4) continue until the end (countB)
-		for(int j = i+1; j < countB; j ++)
+		for(int j = i; j < countB; j ++)
 		{
 			sum -= forces[j - count];
 			sum += forces[j];

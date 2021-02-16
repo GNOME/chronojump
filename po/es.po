@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2021-02-12 15:26+0000\n"
-"PO-Revision-Date: 2021-02-15 11:00+0100\n"
+"POT-Creation-Date: 2021-02-15 21:36+0000\n"
+"PO-Revision-Date: 2021-02-16 15:33+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
@@ -34,7 +34,7 @@ msgstr "Chronojump"
 
 #: ../glade/app1.glade.h:2 ../glade/preferences_win.glade.h:34
 #: ../glade/report_window.glade.h:9 ../src/exportSession.cs:209
-#: ../src/gui/app1/encoder.cs:5106 ../src/gui/app1/forceSensor.cs:2934
+#: ../src/gui/app1/encoder.cs:5106 ../src/gui/app1/forceSensor.cs:2933
 #: ../src/gui/app1/runEncoder.cs:1724 ../src/report.cs:141
 msgid "Session"
 msgstr "Sesión"
@@ -167,7 +167,7 @@ msgstr "Parar"
 
 #: ../glade/app1.glade.h:32 ../glade/dialog_threshold.glade.h:3
 #: ../glade/preferences_win.glade.h:3 ../glade/report_window.glade.h:10
-#: ../src/exportSession.cs:430 ../src/gui/app1/chronojump.cs:4489
+#: ../src/exportSession.cs:430 ../src/gui/app1/chronojump.cs:4491
 #: ../src/gui/jump.cs:1280 ../src/gui/jump.cs:1335 ../src/gui/jump.cs:1385
 #: ../src/sqlite/speciallity.cs:174 ../src/stats/rjAVGSD.cs:36
 #: ../src/stats/rjPotencyBosco.cs:35
@@ -277,17 +277,17 @@ msgstr "página 2"
 
 #: ../glade/app1.glade.h:54 ../glade/dialog_shortcuts.glade.h:22
 #: ../glade/encoder_configuration.glade.h:34
-#: ../glade/preferences_win.glade.h:152
+#: ../glade/preferences_win.glade.h:117
 msgid "Capture"
 msgstr "Capturar"
 
 #: ../glade/app1.glade.h:55 ../glade/dialog_shortcuts.glade.h:27
-#: ../glade/preferences_win.glade.h:128
+#: ../glade/preferences_win.glade.h:129
 msgid "Analyze"
 msgstr "Analizar"
 
 #: ../glade/app1.glade.h:56 ../glade/report_window.glade.h:16
-#: ../src/exportSession.cs:227 ../src/gui/app1/chronojump.cs:5171
+#: ../src/exportSession.cs:227 ../src/gui/app1/chronojump.cs:5173
 #: ../src/gui/app1/session/loadAndImport.cs:238
 #: ../src/gui/person/showAllEvents.cs:169 ../src/report.cs:184
 msgid "Pulses"
@@ -302,7 +302,7 @@ msgstr "MultiChronopic"
 #. column where the uniqueID of event will be (and will be hidden)
 #: ../glade/app1.glade.h:58 ../glade/edit_event.glade.h:6
 #: ../src/gui/app1/encoder.cs:1133 ../src/gui/app1/encoder.cs:5105
-#: ../src/gui/app1/forceSensor.cs:2933 ../src/gui/app1/runEncoder.cs:1723
+#: ../src/gui/app1/forceSensor.cs:2932 ../src/gui/app1/runEncoder.cs:1723
 #: ../src/gui/executeAuto.cs:501 ../src/gui/overview.cs:97
 #: ../src/gui/overview.cs:264 ../src/gui/overview.cs:273
 #: ../src/stats/runIntervallic.cs:64 ../src/treeview/multiChronopic.cs:30
@@ -319,7 +319,7 @@ msgstr "Espere."
 msgid "Test"
 msgstr "Test"
 
-#: ../glade/app1.glade.h:61 ../src/gui/app1/chronojump.cs:3668
+#: ../glade/app1.glade.h:61 ../src/gui/app1/chronojump.cs:3670
 msgid "Connect"
 msgstr "Conectar"
 
@@ -335,13 +335,13 @@ msgstr "Retroalimentación"
 msgid "Delete last test."
 msgstr "Eliminar la última prueba."
 
-#: ../glade/app1.glade.h:65 ../src/gui/app1/chronojump.cs:4021
+#: ../glade/app1.glade.h:65 ../src/gui/app1/chronojump.cs:4023
 #: ../src/gui/app1/encoder.cs:1293 ../src/gui/app1/encoder.cs:6876
 msgid "Save comment"
 msgstr "Guardar comentario"
 
 #: ../glade/app1.glade.h:66 ../glade/edit_event.glade.h:25
-#: ../src/gui/app1/forceSensor.cs:532 ../src/gui/encoderTreeviews.cs:75
+#: ../src/gui/app1/forceSensor.cs:534 ../src/gui/encoderTreeviews.cs:75
 #: ../src/gui/encoderTreeviews.cs:624
 msgid "Start"
 msgstr "Inicio"
@@ -393,12 +393,12 @@ msgstr "Cancelar test"
 #: ../src/gui/app1/session/backup.cs:87 ../src/gui/app1/session/export.cs:48
 #: ../src/gui/app1/session/export.cs:58 ../src/gui/encoderConfiguration.cs:681
 #: ../src/gui/encoderConfiguration.cs:738 ../src/gui/person/addModify.cs:328
-#: ../src/gui/person/addMultiple.cs:247 ../src/gui/preferences.cs:1626
+#: ../src/gui/person/addMultiple.cs:247 ../src/gui/preferences.cs:1628
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: ../glade/app1.glade.h:78 ../src/gui/app1/chronojump.cs:4209
-#: ../src/gui/app1/chronojump.cs:4632 ../src/gui/app1/chronojump.cs:4988
+#: ../glade/app1.glade.h:78 ../src/gui/app1/chronojump.cs:4211
+#: ../src/gui/app1/chronojump.cs:4634 ../src/gui/app1/chronojump.cs:4990
 #: ../src/gui/app1/jump.cs:270 ../src/gui/app1/jump.cs:305
 #: ../src/gui/app1/reactionTime.cs:101 ../src/gui/app1/run.cs:151
 #: ../src/gui/app1/run.cs:187
@@ -409,7 +409,7 @@ msgstr "Fases"
 #: ../src/encoder.cs:2410 ../src/exportSession.cs:431
 #: ../src/exportSession.cs:573 ../src/exportSession.cs:725
 #: ../src/exportSession.cs:786 ../src/exportSession.cs:871
-#: ../src/forceSensor.cs:2195 ../src/gui/old/queryServer.cs:116
+#: ../src/forceSensor.cs:2278 ../src/gui/old/queryServer.cs:116
 #: ../src/gui/old/queryServer.cs:784 ../src/gui/pulse.cs:222
 #: ../src/stats/rjPotencyBosco.cs:36 ../src/stats/runSimple.cs:53
 #: ../src/treeview/multiChronopic.cs:55 ../src/treeview/multiChronopic.cs:63
@@ -447,7 +447,7 @@ msgstr "Calibrar"
 #: ../glade/app1.glade.h:86 ../glade/force_sensor_elastic_bands.glade.h:13
 #: ../glade/person_select_window.glade.h:22 ../src/gui/app1/encoder.cs:1179
 #: ../src/gui/app1/encoder.cs:1676 ../src/gui/app1/encoder.cs:5092
-#: ../src/gui/app1/forceSensor.cs:1832 ../src/gui/app1/forceSensor.cs:2920
+#: ../src/gui/app1/forceSensor.cs:1832 ../src/gui/app1/forceSensor.cs:2919
 #: ../src/gui/app1/runEncoder.cs:785 ../src/gui/app1/runEncoder.cs:1710
 #: ../src/gui/app1/session/backup.cs:210 ../src/gui/app1/session/export.cs:158
 #: ../src/gui/chronopicRegister.cs:400
@@ -475,7 +475,7 @@ msgstr "Dispositivo"
 msgid "Record video (on / off)"
 msgstr "Grabrar vídeo (encedido / apagado)"
 
-#: ../glade/app1.glade.h:91 ../glade/preferences_win.glade.h:147
+#: ../glade/app1.glade.h:91 ../glade/preferences_win.glade.h:148
 msgid "Preview video"
 msgstr "Vista previa del vídeo"
 
@@ -520,7 +520,7 @@ msgstr "Actualizar"
 msgid "Group"
 msgstr "Grupo"
 
-#: ../glade/app1.glade.h:101 ../src/encoder.cs:2435 ../src/forceSensor.cs:2240
+#: ../glade/app1.glade.h:101 ../src/encoder.cs:2435 ../src/forceSensor.cs:2323
 #: ../src/runType.cs:241
 msgid "Average"
 msgstr "Medio"
@@ -558,7 +558,7 @@ msgstr "TC"
 msgid "TF"
 msgstr "TV"
 
-#: ../glade/app1.glade.h:106 ../glade/preferences_win.glade.h:141
+#: ../glade/app1.glade.h:106 ../glade/preferences_win.glade.h:142
 #: ../glade/repetitive_conditions.glade.h:10 ../src/exportSession.cs:264
 #: ../src/exportSession.cs:325 ../src/exportSession.cs:502
 #: ../src/gui/cairo/xy.cs:92 ../src/stats/djIndex.cs:33
@@ -610,7 +610,7 @@ msgstr "Promedio"
 #: ../glade/app1.glade.h:111 ../glade/edit_event.glade.h:12
 #: ../glade/repetitive_conditions.glade.h:32 ../src/constants.cs:1377
 #: ../src/encoder.cs:2412 ../src/exportSession.cs:574
-#: ../src/forceSensor.cs:2201 ../src/gui/cairo/xy.cs:95
+#: ../src/forceSensor.cs:2284 ../src/gui/cairo/xy.cs:95
 #: ../src/stats/runIntervallic.cs:65 ../src/stats/runIntervallic.cs:70
 #: ../src/stats/runIntervallic.cs:74 ../src/stats/runSimple.cs:52
 #: ../src/treeview/run.cs:50 ../src/treeview/run.cs:126
@@ -660,7 +660,7 @@ msgstr "Eliminar seleccionado"
 #: ../glade/app1.glade.h:120 ../glade/preferences_win.glade.h:37
 #: ../glade/repetitive_conditions.glade.h:38 ../src/constants.cs:1380
 #: ../src/encoder.cs:2415 ../src/exportSession.cs:326
-#: ../src/exportSession.cs:503 ../src/forceSensor.cs:2203
+#: ../src/exportSession.cs:503 ../src/forceSensor.cs:2286
 #: ../src/gui/overview.cs:280 ../src/stats/djPower.cs:32
 #: ../src/treeview/jump.cs:34
 msgid "Power"
@@ -831,9 +831,9 @@ msgid "Free"
 msgstr "Libre"
 
 #: ../glade/app1.glade.h:157 ../glade/preferences_win.glade.h:12
-#: ../src/gui/app1/pulse.cs:64 ../src/gui/preferences.cs:1194
-#: ../src/gui/preferences.cs:1196 ../src/gui/preferences.cs:1205
-#: ../src/gui/preferences.cs:1378 ../src/gui/preferences.cs:1386
+#: ../src/gui/app1/pulse.cs:64 ../src/gui/preferences.cs:1196
+#: ../src/gui/preferences.cs:1198 ../src/gui/preferences.cs:1207
+#: ../src/gui/preferences.cs:1380 ../src/gui/preferences.cs:1388
 msgid "Custom"
 msgstr "Personalizado"
 
@@ -972,13 +972,13 @@ msgid "Right"
 msgstr "Derecha"
 
 #. show now
-#: ../glade/app1.glade.h:186 ../src/gui/app1/forceSensor.cs:519
+#: ../glade/app1.glade.h:186 ../src/gui/app1/forceSensor.cs:521
 msgid "Detect stiffness of one band/tube"
 msgstr "Detectar rigidez en una banda/tubo"
 
 #: ../glade/app1.glade.h:187 ../glade/force_sensor_exercise.glade.h:6
 #: ../glade/preferences_win.glade.h:119 ../src/gui/app1/forceSensor.cs:1783
-#: ../src/gui/app1/forceSensor.cs:2803 ../src/gui/forceSensorExercise.cs:420
+#: ../src/gui/app1/forceSensor.cs:2802 ../src/gui/forceSensorExercise.cs:420
 msgid "Elastic"
 msgstr "Elástico"
 
@@ -986,19 +986,19 @@ msgstr "Elástico"
 msgid "Lights"
 msgstr "Luces"
 
-#: ../glade/app1.glade.h:189 ../src/gui/app1/chronojump.cs:5010
+#: ../glade/app1.glade.h:189 ../src/gui/app1/chronojump.cs:5012
 msgid "red"
 msgstr "rojo"
 
-#: ../glade/app1.glade.h:190 ../src/gui/app1/chronojump.cs:5014
+#: ../glade/app1.glade.h:190 ../src/gui/app1/chronojump.cs:5016
 msgid "yellow"
 msgstr "amarillo"
 
-#: ../glade/app1.glade.h:191 ../src/gui/app1/chronojump.cs:5018
+#: ../glade/app1.glade.h:191 ../src/gui/app1/chronojump.cs:5020
 msgid "green"
 msgstr "verde"
 
-#: ../glade/app1.glade.h:192 ../src/gui/app1/chronojump.cs:5022
+#: ../glade/app1.glade.h:192 ../src/gui/app1/chronojump.cs:5024
 msgid "buzzer"
 msgstr "zumbador"
 
@@ -1007,7 +1007,7 @@ msgid "Minimum"
 msgstr "Mínimo"
 
 #: ../glade/app1.glade.h:194 ../glade/event_graph_configure.glade.h:2
-#: ../src/encoder.cs:2444 ../src/forceSensor.cs:2261
+#: ../src/encoder.cs:2444 ../src/forceSensor.cs:2344
 msgid "Maximum"
 msgstr "Máximo"
 
@@ -1233,7 +1233,7 @@ msgstr "Añadir este estadístico y su gráfica a la ventana de informes"
 msgid "View report window"
 msgstr "Ver ventana de informes"
 
-#: ../glade/app1.glade.h:246 ../glade/preferences_win.glade.h:140
+#: ../glade/app1.glade.h:246 ../glade/preferences_win.glade.h:141
 #: ../src/treeview/multiChronopic.cs:227
 msgid "Width"
 msgstr "Anchura"
@@ -1509,31 +1509,29 @@ msgid "Load file"
 msgstr "Cargar archivo"
 
 #: ../glade/app1.glade.h:312
-#| msgid "Test options"
 msgid "RFD options"
 msgstr "Opciones RFD"
 
 #: ../glade/app1.glade.h:313
-#| msgid "Mode"
 msgid "RFD Model"
 msgstr "Modelo RFD"
 
 #: ../glade/app1.glade.h:314 ../glade/repetitive_conditions.glade.h:35
-#: ../src/constants.cs:1379 ../src/encoder.cs:2414 ../src/forceSensor.cs:2196
+#: ../src/constants.cs:1379 ../src/encoder.cs:2414 ../src/forceSensor.cs:2279
 #: ../src/gui/cairo/xy.cs:96
 msgid "Force"
 msgstr "Fuerza"
 
-#: ../glade/app1.glade.h:315 ../src/forceSensor.cs:2200
+#: ../glade/app1.glade.h:315 ../src/forceSensor.cs:2283
 msgid "Position"
 msgstr "Posición:"
 
-#: ../glade/app1.glade.h:316 ../src/encoder.cs:2422 ../src/forceSensor.cs:2220
+#: ../glade/app1.glade.h:316 ../src/encoder.cs:2422 ../src/forceSensor.cs:2303
 #: ../src/treeview/pulse.cs:48 ../src/treeview/pulse.cs:49
 msgid "Difference"
 msgstr "Diferencia"
 
-#: ../glade/app1.glade.h:317 ../src/encoder.cs:2413 ../src/forceSensor.cs:2202
+#: ../glade/app1.glade.h:317 ../src/encoder.cs:2413 ../src/forceSensor.cs:2285
 msgid "Acceleration"
 msgstr "Aceleración"
 
@@ -1588,7 +1586,7 @@ msgstr "Hasta esta reducción de la fuerza máxima:"
 msgid "Start and duration"
 msgstr "Inicio y duración"
 
-#: ../glade/app1.glade.h:330 ../src/forceSensor.cs:2197
+#: ../glade/app1.glade.h:330 ../src/forceSensor.cs:2280
 msgid "RFD"
 msgstr "RFD"
 
@@ -1663,7 +1661,7 @@ msgid "Upload"
 msgstr "Subida"
 
 #: ../glade/app1.glade.h:349 ../glade/dialog_shortcuts.glade.h:9
-#: ../src/gui/app1/chronojump.cs:3673
+#: ../src/gui/app1/chronojump.cs:3675
 msgid "Execute test"
 msgstr "Ejecutar prueba"
 
@@ -1845,14 +1843,14 @@ msgstr "Kg*cm^2"
 msgid "Mass"
 msgstr "Masa"
 
-#: ../glade/app1.glade.h:388 ../glade/preferences_win.glade.h:146
+#: ../glade/app1.glade.h:388 ../glade/preferences_win.glade.h:147
 msgid "Configure"
 msgstr "Configurar"
 
 #: ../glade/app1.glade.h:389 ../src/gui/app1/encoder.cs:1134
 #: ../src/gui/app1/encoder.cs:1627 ../src/gui/app1/encoder.cs:4949
 #: ../src/gui/app1/encoder.cs:5085 ../src/gui/app1/forceSensor.cs:1782
-#: ../src/gui/app1/forceSensor.cs:2858 ../src/gui/app1/forceSensor.cs:2868
+#: ../src/gui/app1/forceSensor.cs:2857 ../src/gui/app1/forceSensor.cs:2867
 #: ../src/gui/app1/runEncoder.cs:736 ../src/gui/app1/runEncoder.cs:1566
 #: ../src/gui/app1/runEncoder.cs:1601 ../src/gui/app1/runEncoder.cs:1703
 #: ../src/gui/encoderSelectRepetitions.cs:215
@@ -1897,7 +1895,7 @@ msgid "Active"
 msgstr "Activar"
 
 #: ../glade/app1.glade.h:398 ../glade/edit_event.glade.h:35
-#: ../glade/preferences_win.glade.h:142
+#: ../glade/preferences_win.glade.h:143
 msgid "0"
 msgstr "0"
 
@@ -2148,7 +2146,7 @@ msgid "Open database file"
 msgstr "Abrir archivo de base de datos"
 
 #: ../glade/app1.glade.h:460 ../glade/encoder_configuration.glade.h:24
-#: ../src/gui/preferences.cs:1627
+#: ../src/gui/preferences.cs:1629
 msgid "Import"
 msgstr "Importar"
 
@@ -2258,7 +2256,7 @@ msgstr "Lugar"
 #. tv.AppendColumn ( Catalog.GetString ("Date"), new CellRendererText(), "text", count++);
 #: ../glade/app1.glade.h:482 ../src/exportSession.cs:248
 #: ../src/gui/app1/encoder.cs:1632 ../src/gui/app1/encoder.cs:5106
-#: ../src/gui/app1/forceSensor.cs:1786 ../src/gui/app1/forceSensor.cs:2934
+#: ../src/gui/app1/forceSensor.cs:1786 ../src/gui/app1/forceSensor.cs:2933
 #: ../src/gui/app1/runEncoder.cs:739 ../src/gui/app1/runEncoder.cs:1724
 #: ../src/gui/app1/session/loadAndImport.cs:207 ../src/gui/cairo/xy.cs:97
 #: ../src/gui/encoderSelectRepetitions.cs:223
@@ -2570,7 +2568,7 @@ msgstr "Reproducir vídeo"
 #. kEnter = "Command";
 #. }
 #.
-#: ../glade/dialog_shortcuts.glade.h:13 ../src/gui/app1/chronojump.cs:3662
+#: ../glade/dialog_shortcuts.glade.h:13 ../src/gui/app1/chronojump.cs:3664
 #: ../src/gui/app1/shortcuts.cs:48
 msgid "Space"
 msgstr "Espacio"
@@ -3267,7 +3265,7 @@ msgid "Fixation"
 msgstr "Fijación"
 
 #: ../glade/force_sensor_exercise.glade.h:7
-#: ../glade/preferences_win.glade.h:120 ../src/gui/app1/forceSensor.cs:2805
+#: ../glade/preferences_win.glade.h:120 ../src/gui/app1/forceSensor.cs:2804
 msgid "Not elastic"
 msgstr "No elástico"
 
@@ -3432,7 +3430,7 @@ msgstr "Forzar puerto de Chronopic a COM1 - COM4"
 
 #. not shown, unused
 #: ../glade/overview.glade.h:2 ../src/gui/app1/encoder.cs:5105
-#: ../src/gui/app1/forceSensor.cs:2933 ../src/gui/app1/runEncoder.cs:1723
+#: ../src/gui/app1/forceSensor.cs:2932 ../src/gui/app1/runEncoder.cs:1723
 #: ../src/gui/app1/session/loadAndImport.cs:243
 #: ../src/gui/app1/session/loadAndImport.cs:246 ../src/gui/overview.cs:100
 #: ../src/gui/overview.cs:271
@@ -3602,7 +3600,7 @@ msgstr "Cargar desde archivo"
 msgid "Add photo from file"
 msgstr "Añadir foto desde un archivo"
 
-#: ../glade/person_win.glade.h:12 ../glade/preferences_win.glade.h:148
+#: ../glade/person_win.glade.h:12 ../glade/preferences_win.glade.h:149
 msgid "Preview"
 msgstr "Vista previa"
 
@@ -3853,7 +3851,7 @@ msgstr "Usar tiempo de vuelo"
 msgid "Speed units:"
 msgstr "Unidades de velocidad:"
 
-#: ../glade/preferences_win.glade.h:55 ../src/gui/preferences.cs:1527
+#: ../glade/preferences_win.glade.h:55 ../src/gui/preferences.cs:1529
 msgid ""
 "\"Speed start\" means when athlete does not start with \"contact\" on the "
 "first platform or photocell.\n"
@@ -4013,7 +4011,7 @@ msgstr "Variable X que mostrar en gráficos de análisis inercial"
 
 #. inertial
 #: ../glade/preferences_win.glade.h:100 ../src/gui/encoderTreeviews.cs:620
-#: ../src/gui/preferences.cs:1673
+#: ../src/gui/preferences.cs:1675
 msgid "Equivalent mass"
 msgstr "Masa equivalente"
 
@@ -4073,10 +4071,6 @@ msgstr "Desplazamiento"
 msgid "Zoom out"
 msgstr "Disminuir el zoom"
 
-#: ../glade/preferences_win.glade.h:117
-msgid "Capture graph"
-msgstr "Gráfico de captura"
-
 #: ../glade/preferences_win.glade.h:124
 msgid "Method to calcule variability"
 msgstr "Método para calcular la variabilidad"
@@ -4093,69 +4087,74 @@ msgstr "Botón incremental de A, B"
 msgid "Default:"
 msgstr "Predeterminado:"
 
-#: ../glade/preferences_win.glade.h:129
+#: ../glade/preferences_win.glade.h:128
+#| msgid "Take average (recommended)"
+msgid "Max average force in"
+msgstr "Media máxima de la fuerza"
+
+#: ../glade/preferences_win.glade.h:130
 msgid "Graphs line width"
 msgstr "Anchura de línea de los gráficos"
 
-#: ../glade/preferences_win.glade.h:130
+#: ../glade/preferences_win.glade.h:131
 msgid "Minimum acceleration"
 msgstr "Aceleración mínima"
 
-#: ../glade/preferences_win.glade.h:131
+#: ../glade/preferences_win.glade.h:132
 msgid "Detection"
 msgstr "Detección"
 
-#: ../glade/preferences_win.glade.h:132
+#: ../glade/preferences_win.glade.h:133
 msgid "Play sounds while capturing"
 msgstr "Reproducir sonidos durante la captura"
 
-#: ../glade/preferences_win.glade.h:133
+#: ../glade/preferences_win.glade.h:134
 msgid "Play sound (on / off)"
 msgstr "Reproducir sonido (encendido / apagado)"
 
-#: ../glade/preferences_win.glade.h:134
+#: ../glade/preferences_win.glade.h:135
 #: ../glade/repetitive_conditions.glade.h:60
 msgid "Test \"Good\" bell"
 msgstr "Probar campana «buena»"
 
-#: ../glade/preferences_win.glade.h:135
+#: ../glade/preferences_win.glade.h:136
 msgid "Test sound"
 msgstr "Probar sonido"
 
-#: ../glade/preferences_win.glade.h:136
+#: ../glade/preferences_win.glade.h:137
 msgid "Sounds"
 msgstr "Sonidos"
 
-#: ../glade/preferences_win.glade.h:137
+#: ../glade/preferences_win.glade.h:138
 msgid "Select camera"
 msgstr "Seleccione la cámara"
 
-#: ../glade/preferences_win.glade.h:138
+#: ../glade/preferences_win.glade.h:139
 msgid "Resolution"
 msgstr "Resolución"
 
-#: ../glade/preferences_win.glade.h:139
+#: ../glade/preferences_win.glade.h:140
 msgid "Framerate"
 msgstr "Tasa de fotogramas"
 
-#: ../glade/preferences_win.glade.h:143
+#: ../glade/preferences_win.glade.h:144
 msgid "Pixel format"
 msgstr "Formato del píxel"
 
 #. Substantive
-#: ../glade/preferences_win.glade.h:145
+#: ../glade/preferences_win.glade.h:146
 msgid "Format"
 msgstr "Formato"
 
-#: ../glade/preferences_win.glade.h:149
+#: ../glade/preferences_win.glade.h:150
 msgid "On Windows at least Windows 7 is required."
 msgstr "En Windows se requiere al menos Windows 7."
 
-#: ../glade/preferences_win.glade.h:150
+#: ../glade/preferences_win.glade.h:151
 msgid "Show advanced controls"
 msgstr "Mostrar controles avanzados"
 
-#: ../glade/preferences_win.glade.h:151
+#: ../glade/preferences_win.glade.h:152
 msgid "Check if camera is running"
 msgstr "Compruebe si la cámara está funcionando"
 
@@ -5474,7 +5473,7 @@ msgid "jump height"
 msgstr "altura del salto"
 
 #. checkboxes
-#: ../src/constants.cs:1395 ../src/forceSensor.cs:2194
+#: ../src/constants.cs:1395 ../src/forceSensor.cs:2277
 #: ../src/gui/encoderSelectRepetitions.cs:214
 #: ../src/gui/encoderTreeviews.cs:609
 msgid "Repetition"
@@ -5892,8 +5891,8 @@ msgstr "No se puede exportar al archivo {0} "
 #: ../src/gui/app1/encoder.cs:2345 ../src/gui/app1/encoder.cs:2353
 #: ../src/gui/app1/encoder.cs:2360 ../src/gui/app1/encoder.cs:2367
 #: ../src/gui/app1/encoder.cs:2375 ../src/gui/app1/encoder.cs:2382
-#: ../src/gui/app1/forceSensor.cs:2575 ../src/gui/app1/forceSensor.cs:2587
-#: ../src/gui/app1/forceSensor.cs:2610
+#: ../src/gui/app1/forceSensor.cs:2574 ../src/gui/app1/forceSensor.cs:2586
+#: ../src/gui/app1/forceSensor.cs:2609
 #: ../src/gui/app1/jumpsDjOptimalFall.cs:155
 #: ../src/gui/app1/jumpsEvolution.cs:159 ../src/gui/app1/jumpsProfile.cs:117
 #: ../src/gui/app1/jumpsRjFatigue.cs:260
@@ -6056,7 +6055,7 @@ msgstr "Velocidad media"
 msgid "Distance interval"
 msgstr "Distancia de tramo"
 
-#: ../src/exportSession.cs:629 ../src/gui/app1/chronojump.cs:4780
+#: ../src/exportSession.cs:629 ../src/gui/app1/chronojump.cs:4782
 #: ../src/gui/run.cs:1174 ../src/gui/run.cs:1242 ../src/gui/run.cs:1294
 msgid "Laps"
 msgstr "Tramos"
@@ -6106,15 +6105,15 @@ msgstr "Valores absolutos"
 msgid "Inverted values"
 msgstr "Valor invertidos"
 
-#: ../src/forceSensor.cs:2190
+#: ../src/forceSensor.cs:2273
 msgid "Statistics"
 msgstr "Estadísticos"
 
-#: ../src/forceSensor.cs:2192
+#: ../src/forceSensor.cs:2275
 msgid "Sample"
 msgstr "Muestra"
 
-#: ../src/forceSensor.cs:2419 ../src/gui/encoderConfiguration.cs:777
+#: ../src/forceSensor.cs:2502 ../src/gui/encoderConfiguration.cs:777
 msgid "Cancelled."
 msgstr "Cancelado."
 
@@ -6271,60 +6270,60 @@ msgstr "Codificador (inercial)"
 msgid "Session created, now add or load persons."
 msgstr "Sesión creada, ahora es necesario crear o cargar atletas."
 
-#: ../src/gui/app1/chronojump.cs:3002
+#: ../src/gui/app1/chronojump.cs:3004
 msgid "Sorry, R software is not installed."
 msgstr "El programa R no esté instalado."
 
-#: ../src/gui/app1/chronojump.cs:3003 ../src/gui/app1/encoder.cs:6798
+#: ../src/gui/app1/chronojump.cs:3005 ../src/gui/app1/encoder.cs:6798
 #: ../src/stats/main.cs:1517
 msgid "Please, install it from here:"
 msgstr "Instálelo desde aquí:"
 
-#: ../src/gui/app1/chronojump.cs:3958
+#: ../src/gui/app1/chronojump.cs:3960
 msgid "Sorry, RSA tests cannot be simulated."
 msgstr "No se pueden simular las pruebas RSA"
 
-#: ../src/gui/app1/chronojump.cs:4037 ../src/gui/app1/encoder.cs:1306
+#: ../src/gui/app1/chronojump.cs:4039 ../src/gui/app1/encoder.cs:1306
 msgid "Saved comment."
 msgstr "Comentario guardado"
 
-#: ../src/gui/app1/chronojump.cs:5456
+#: ../src/gui/app1/chronojump.cs:5458
 msgid "Changes"
 msgstr "Cambios"
 
-#: ../src/gui/app1/chronojump.cs:5967
+#: ../src/gui/app1/chronojump.cs:5969
 msgid "Inspector"
 msgstr "Inspector"
 
-#: ../src/gui/app1/chronojump.cs:5987 ../src/gui/app1/chronojump.cs:6003
+#: ../src/gui/app1/chronojump.cs:5989 ../src/gui/app1/chronojump.cs:6005
 msgid "Do you want to delete this jump?"
 msgstr "¿Quiere eliminar este salto?"
 
-#: ../src/gui/app1/chronojump.cs:6077 ../src/gui/app1/chronojump.cs:6095
+#: ../src/gui/app1/chronojump.cs:6079 ../src/gui/app1/chronojump.cs:6097
 msgid "Do you want to delete this race?"
 msgstr "¿Quiere eliminar esta carrera?"
 
-#: ../src/gui/app1/chronojump.cs:6233
+#: ../src/gui/app1/chronojump.cs:6235
 msgid "Do you want to delete this test?"
 msgstr "¿Quiere eliminar esta prueba?"
 
-#: ../src/gui/app1/chronojump.cs:6297
+#: ../src/gui/app1/chronojump.cs:6299
 msgid "Added simple jump type."
 msgstr "Añadido salto simple."
 
-#: ../src/gui/app1/chronojump.cs:6309
+#: ../src/gui/app1/chronojump.cs:6311
 msgid "Added reactive jump type."
 msgstr "Añadido salto reactivo."
 
-#: ../src/gui/app1/chronojump.cs:6339
+#: ../src/gui/app1/chronojump.cs:6341
 msgid "Added simple race type."
 msgstr "Añadida carrera simple."
 
-#: ../src/gui/app1/chronojump.cs:6349
+#: ../src/gui/app1/chronojump.cs:6351
 msgid "Added intervallic race type."
 msgstr "Añadida carrera con tramos."
 
-#: ../src/gui/app1/chronojump.cs:6965
+#: ../src/gui/app1/chronojump.cs:6967
 msgid "translator-credits"
 msgstr ""
 "Daniel Mustieles <daniel.mustieles@gmail.com>, 2009 - 2020\n"
@@ -6334,7 +6333,7 @@ msgstr ""
 "QA: Francisco Javier F. Serrador <serrador@openshine.com>, 2006\n"
 "QA: Jorge González <jorgegonz@svn.gnome.org>, 2007-2008"
 
-#: ../src/gui/app1/chronojump.cs:7727
+#: ../src/gui/app1/chronojump.cs:7729
 msgid "Done for testing purposes. Chronojump will exit badly"
 msgstr ""
 "Programado para realizar pruebas de desarrollo. Chronojump fallará y se "
@@ -6371,8 +6370,8 @@ msgid "Calibrated"
 msgstr "Calibrado"
 
 #: ../src/gui/app1/encoder.cs:930 ../src/gui/app1/encoder.cs:4855
-#: ../src/gui/app1/encoder.cs:5074 ../src/gui/app1/forceSensor.cs:402
-#: ../src/gui/app1/forceSensor.cs:2849 ../src/gui/app1/forceSensor.cs:2901
+#: ../src/gui/app1/encoder.cs:5074 ../src/gui/app1/forceSensor.cs:403
+#: ../src/gui/app1/forceSensor.cs:2848 ../src/gui/app1/forceSensor.cs:2900
 #: ../src/gui/app1/runEncoder.cs:239 ../src/gui/app1/runEncoder.cs:1541
 #: ../src/gui/app1/runEncoder.cs:1689
 msgid "Need to create/select an exercise."
@@ -6469,7 +6468,7 @@ msgid "copy"
 msgstr "copiar"
 
 #: ../src/gui/app1/encoder.cs:1879 ../src/gui/app1/encoder.cs:2401
-#: ../src/gui/app1/forceSensor.cs:2012 ../src/gui/app1/forceSensor.cs:2048
+#: ../src/gui/app1/forceSensor.cs:2011 ../src/gui/app1/forceSensor.cs:2047
 #: ../src/gui/app1/runEncoder.cs:925 ../src/gui/app1/runEncoder.cs:962
 msgid "Are you sure you want to delete this set?"
 msgstr "¿Seguro que quiere eliminar esta serie?"
@@ -6726,7 +6725,7 @@ msgstr "Operación cancelada."
 msgid "Saved 1RM: {0} Kg."
 msgstr "1RM guardado: {0} Kg."
 
-#: ../src/gui/app1/encoder.cs:4889 ../src/gui/app1/forceSensor.cs:2913
+#: ../src/gui/app1/encoder.cs:4889 ../src/gui/app1/forceSensor.cs:2912
 msgid "Delete exercise"
 msgstr "Eliminar ejercicio"
 
@@ -6764,19 +6763,19 @@ msgstr "Error: falta el nombre del ejercicio"
 msgid "Error: An exercise named '{0}' already exists."
 msgstr "Error: ya existe un ejercicio llamado «{0}»."
 
-#: ../src/gui/app1/encoder.cs:5086 ../src/gui/app1/forceSensor.cs:2914
+#: ../src/gui/app1/encoder.cs:5086 ../src/gui/app1/forceSensor.cs:2913
 #: ../src/gui/app1/runEncoder.cs:1704
 msgid "Exercise name:"
 msgstr "Nombre del ejercicio:"
 
-#: ../src/gui/app1/encoder.cs:5096 ../src/gui/app1/forceSensor.cs:2924
+#: ../src/gui/app1/encoder.cs:5096 ../src/gui/app1/forceSensor.cs:2923
 #: ../src/gui/app1/runEncoder.cs:1714
 msgid "Sorry, this exercise cannot be deleted until these tests are deleted:"
 msgstr ""
 "No se puede eliminar este ejercicio hasta que se hayan eliminado todas las "
 "pruebas:"
 
-#: ../src/gui/app1/encoder.cs:5122 ../src/gui/app1/forceSensor.cs:2946
+#: ../src/gui/app1/encoder.cs:5122 ../src/gui/app1/forceSensor.cs:2945
 #: ../src/gui/app1/runEncoder.cs:1736
 msgid "Exercise deleted."
 msgstr "Ejercicio eliminado."
@@ -6845,29 +6844,29 @@ msgstr "Sensor de fuerza no detectado."
 msgid "Plug cable and click on 'device' button."
 msgstr "Conecte el cable y pulse en el botón «dispositivo»."
 
-#: ../src/gui/app1/forceSensor.cs:413 ../src/gui/app1/forceSensor.cs:2090
+#: ../src/gui/app1/forceSensor.cs:414 ../src/gui/app1/forceSensor.cs:2089
 msgid "Need to configure fixture to know stiffness of this elastic exercise."
 msgstr ""
 "Es necesario configurar el dispositivo para conocer la rigidez de este "
 "ejercicio elástico."
 
-#: ../src/gui/app1/forceSensor.cs:522
+#: ../src/gui/app1/forceSensor.cs:524
 msgid "Legend:"
 msgstr "Leyenda:"
 
-#: ../src/gui/app1/forceSensor.cs:523
+#: ../src/gui/app1/forceSensor.cs:525
 msgid "Length without tension"
 msgstr "Longitud sin tensión"
 
-#: ../src/gui/app1/forceSensor.cs:524
+#: ../src/gui/app1/forceSensor.cs:526
 msgid "Minimum working distance"
 msgstr "Distancia mínima de trabajo"
 
-#: ../src/gui/app1/forceSensor.cs:525
+#: ../src/gui/app1/forceSensor.cs:527
 msgid "Maximum working distance"
 msgstr "Distancia máxima de trabajo"
 
-#: ../src/gui/app1/forceSensor.cs:784
+#: ../src/gui/app1/forceSensor.cs:786
 msgid "Version of the firmware:"
 msgstr "Versión del firmware:"
 
@@ -6890,37 +6889,37 @@ msgstr ""
 "El cálculo de la rigidez es correcto pero la ventana de configuración no "
 "podrá hacer coincidir las bandas elásticas y la rigidez total."
 
-#: ../src/gui/app1/forceSensor.cs:2202
+#: ../src/gui/app1/forceSensor.cs:2201
 msgid "Error doing graph."
 msgstr "Error al hacer el gráfico."
 
-#: ../src/gui/app1/forceSensor.cs:2203
+#: ../src/gui/app1/forceSensor.cs:2202
 msgid "Probably not sustained force."
 msgstr "Probablemente no es fuerza sostenida."
 
-#: ../src/gui/app1/forceSensor.cs:2658
+#: ../src/gui/app1/forceSensor.cs:2657
 msgid "If you want to calibrate, please tare first."
 msgstr "Si quiere calibrar tare primero."
 
 #. don't show now
-#: ../src/gui/app1/forceSensor.cs:2859 ../src/gui/app1/forceSensor.cs:2869
+#: ../src/gui/app1/forceSensor.cs:2858 ../src/gui/app1/forceSensor.cs:2868
 #: ../src/gui/app1/runEncoder.cs:1567
 msgid "Force sensor exercise:"
 msgstr "Sensor de fuerza del ejercicio:"
 
-#: ../src/gui/app1/forceSensor.cs:2975
+#: ../src/gui/app1/forceSensor.cs:2974
 msgid "Stiffness configuration"
 msgstr "Configuración de la rigidez"
 
-#: ../src/gui/app1/forceSensor.cs:2975
+#: ../src/gui/app1/forceSensor.cs:2974
 msgid "Configure attached elastic bands/tubes"
 msgstr "Configurar tubos/bandas elásticas adjuntas"
 
-#: ../src/gui/app1/forceSensor.cs:2987
+#: ../src/gui/app1/forceSensor.cs:2986
 msgid "Configure bands/tubes"
 msgstr "Configurar tubos/bandas"
 
-#: ../src/gui/app1/forceSensor.cs:2990
+#: ../src/gui/app1/forceSensor.cs:2989
 msgid "Stiffness:"
 msgstr "Rigidez:"
 
@@ -7359,7 +7358,7 @@ msgid "If you still want to import it, change to gravitatory mode."
 msgstr "Si quiere importarla, cambie al modo gravitacional."
 
 #: ../src/gui/encoderConfiguration.cs:724 ../src/gui/person/addMultiple.cs:311
-#: ../src/gui/preferences.cs:1648
+#: ../src/gui/preferences.cs:1650
 msgid "Error importing data."
 msgstr "Error al importar los datos."
 
@@ -8210,23 +8209,23 @@ msgstr "Repeticiones del codificador"
 msgid "Run encoder"
 msgstr "Race analyzer"
 
-#: ../src/gui/preferences.cs:870
+#: ../src/gui/preferences.cs:872
 msgid "Select color"
 msgstr "Seleccionar color"
 
-#: ../src/gui/preferences.cs:956
+#: ../src/gui/preferences.cs:958
 msgid "If active, repetitions will be cut from set using triggers."
 msgstr "Si está activo, corta las repeticiones usando el disparador."
 
-#: ../src/gui/preferences.cs:957
+#: ../src/gui/preferences.cs:959
 msgid "Trigger signal will be produced by a button connected to the Chronopic."
 msgstr "La señal del disparador la producirá un botón conectado al Chronopic."
 
-#: ../src/gui/preferences.cs:958
+#: ../src/gui/preferences.cs:960
 msgid "This will be only used on gravitatory mode, concentric contraction."
 msgstr "Esto se usará solo en el modo gravitatoriom, contracción concéntrica."
 
-#: ../src/gui/preferences.cs:959
+#: ../src/gui/preferences.cs:961
 msgid ""
 "If \"Cut by triggers\" is inactive, repetitions will be cut automatically "
 "(default behaviour),"
@@ -8234,7 +8233,7 @@ msgstr ""
 "Si «Cortar por disparadores» está inactivo, las repeticiones se cortarán "
 "automáticamente (comportamiento predeterminado)"
 
-#: ../src/gui/preferences.cs:960
+#: ../src/gui/preferences.cs:962
 msgid ""
 "but pressing trigger button while capturing will plot vertical lines during "
 "analyze instant graphs."
@@ -8242,11 +8241,11 @@ msgstr ""
 "pero pulsar el botón durante la captura dibujará unas lineas verticales en "
 "el gráfico de análisis instantáneo."
 
-#: ../src/gui/preferences.cs:961
+#: ../src/gui/preferences.cs:963
 msgid "Encoder Chronopics have trigger functionality since 2017."
 msgstr "Los Chronopics tienen la funcionalidad de disparadores desde 2017"
 
-#: ../src/gui/preferences.cs:962
+#: ../src/gui/preferences.cs:964
 msgid ""
 "You can check if your encoder Chronopic accepts triggers pressing test "
 "button."
@@ -8254,7 +8253,7 @@ msgstr ""
 "Puede comprobar si su codificador de Chronopic acepta disparadores pulsando "
 "el botón de test."
 
-#: ../src/gui/preferences.cs:963
+#: ../src/gui/preferences.cs:965
 msgid ""
 "Your Chronopic is ready for triggers if the green light at the side of "
 "Chronopic test button changes it's state on pressing this button."
@@ -8262,7 +8261,7 @@ msgstr ""
 "Su Chronopic está preparado para disparadores si al pulsar el botón de test "
 "se enciende el LED verde de al lado."
 
-#: ../src/gui/preferences.cs:964
+#: ../src/gui/preferences.cs:966
 msgid ""
 "At Chronojump website there's a hand push button for using triggers with "
 "ease."
@@ -8270,35 +8269,35 @@ msgstr ""
 "En la web de Chronojump encontrará un pulsador para usar disparadores con "
 "facilidad."
 
-#: ../src/gui/preferences.cs:985
+#: ../src/gui/preferences.cs:987
 #, csharp-format
 msgid "{0} pps is equivalent to a resolution of {1} cm."
 msgstr "{0} pps equivalen a una resolución de {1} cm."
 
-#: ../src/gui/preferences.cs:1270 ../src/gui/repetitiveConditions.cs:534
+#: ../src/gui/preferences.cs:1272 ../src/gui/repetitiveConditions.cs:534
 msgid "Sound working"
 msgstr "El sonido funciona"
 
-#: ../src/gui/preferences.cs:1272 ../src/gui/repetitiveConditions.cs:536
+#: ../src/gui/preferences.cs:1274 ../src/gui/repetitiveConditions.cs:536
 msgid "Sound not working"
 msgstr "Sonido no funcionando"
 
-#: ../src/gui/preferences.cs:1401 ../src/gui/preferences.cs:1402
-#: ../src/gui/preferences.cs:1432 ../src/gui/preferences.cs:1443
+#: ../src/gui/preferences.cs:1403 ../src/gui/preferences.cs:1404
+#: ../src/gui/preferences.cs:1434 ../src/gui/preferences.cs:1445
 msgid "Not running"
 msgstr "No está en ejecución"
 
 #. runningFfmpeg = true;
 #. runningFfplay = true;
-#: ../src/gui/preferences.cs:1413 ../src/gui/preferences.cs:1420
+#: ../src/gui/preferences.cs:1415 ../src/gui/preferences.cs:1422
 msgid "Running"
 msgstr "Ejecutándose"
 
-#: ../src/gui/preferences.cs:1524
+#: ../src/gui/preferences.cs:1526
 msgid "Race measurement"
 msgstr "Medidas de la carrera"
 
-#: ../src/gui/preferences.cs:1531
+#: ../src/gui/preferences.cs:1533
 msgid ""
 "Chronojump race reaction time device allows to record reaction time and race "
 "time."
@@ -8306,36 +8305,36 @@ msgstr ""
 "El dispositivo Chronojump de tiempo de reacción le permite registrar el "
 "tiempo de reacción y de carrera."
 
-#: ../src/gui/preferences.cs:1533
+#: ../src/gui/preferences.cs:1535
 msgid "Reaction time is displayed on Description column."
 msgstr "El tiempo de reacción se muestra en la columna de descripción."
 
-#: ../src/gui/preferences.cs:1535
+#: ../src/gui/preferences.cs:1537
 msgid "If first option is choosen, race time includes reaction time."
 msgstr ""
 "Si se selecciona la primera opción, el tiempo de la carrera incluye el "
 "tiempo de reacción."
 
-#: ../src/gui/preferences.cs:1596
+#: ../src/gui/preferences.cs:1598
 msgid "Cannot create directory."
 msgstr "No se puede crear la carpeta."
 
-#: ../src/gui/preferences.cs:1623
+#: ../src/gui/preferences.cs:1625
 msgid "Import configuration file"
 msgstr "Importar archivo de configuración"
 
-#: ../src/gui/preferences.cs:1655
+#: ../src/gui/preferences.cs:1657
 msgid "Successfully imported."
 msgstr "Importado correctamente."
 
-#: ../src/gui/preferences.cs:1662
+#: ../src/gui/preferences.cs:1664
 msgid ""
 "If a repetition has been found, test will end at selected inactivity seconds."
 msgstr ""
 "Si se ha encontrado la repetición, la prueba terminará al pasar los segundos "
 "de inactividad."
 
-#: ../src/gui/preferences.cs:1663
+#: ../src/gui/preferences.cs:1665
 msgid ""
 "If a repetition has not been found, test will end at selected inactivity "
 "seconds (x2)."
@@ -8343,11 +8342,11 @@ msgstr ""
 "Si no se ha encontrado la repetición, la prueba terminará al pasar los "
 "segundos de inactividad (x2)."
 
-#: ../src/gui/preferences.cs:1664
+#: ../src/gui/preferences.cs:1666
 msgid "This will let the person to have more time to start movement."
 msgstr "Esto permitirá al atleta tener más tiempo para empezar el movimiento."
 
-#: ../src/gui/preferences.cs:1665
+#: ../src/gui/preferences.cs:1667
 msgid ""
 "On inertial, to avoid never ending capture because cone is slowly moving at "
 "the end, this criteria is added:"
@@ -8355,7 +8354,7 @@ msgstr ""
 "En inercial, para evitar una captura interminable porque el cono se mueve "
 "lentamente al final, se añade este criterio:"
 
-#: ../src/gui/preferences.cs:1666
+#: ../src/gui/preferences.cs:1668
 msgid ""
 "If passed the double of configured inactivity seconds since last phase, "
 "capture will end."
@@ -8363,7 +8362,7 @@ msgstr ""
 "Si se pasa del doble de lo segundos de inactividad configurados desde la "
 "última fase, la captura termina."
 
-#: ../src/gui/preferences.cs:1676
+#: ../src/gui/preferences.cs:1678
 msgid ""
 "The equivalent mass is a measure of the resistance of a body to change its "
 "linear or rotary velocity."
@@ -8371,7 +8370,7 @@ msgstr ""
 "La masa equivalente es una medida de la resistencia de un cuerpo a cambiar "
 "su velocidad lineal o angular."
 
-#: ../src/gui/preferences.cs:1677
+#: ../src/gui/preferences.cs:1679
 msgid ""
 "From the point of view of a person pulling from a rope, the situation in the "
 "image is equivalent to a rotary inertial machine."
@@ -8379,7 +8378,7 @@ msgstr ""
 "Desde el punto de vista de una persona que tira de una cuerda, la situación "
 "de la imagen es equivalente a una máquina inercial giratoria."
 
-#: ../src/gui/preferences.cs:1678
+#: ../src/gui/preferences.cs:1680
 msgid ""
 "The equivalent mass takes in account the different configurations of a "
 "inertial machine (diameters, inertia momentum, extra weights and force "
@@ -8389,7 +8388,7 @@ msgstr ""
 "máquina inercial (diámetros, momento de inercia, pesos adicionales y "
 "multiplicadores de fuerza)."
 
-#: ../src/gui/preferences.cs:1679
+#: ../src/gui/preferences.cs:1681
 msgid ""
 "This way it is possible to compare the resistance of diferent configurations "
 "on diferent machines."
@@ -11121,6 +11120,9 @@ msgstr "Error. {0} no puede guardar el vídeo."
 msgid "Preview. Press any key to exit."
 msgstr "Previsualización. Pulsa cualquier tecla para salir."
 
+#~ msgid "Capture graph"
+#~ msgstr "Gráfico de captura"
+
 #~ msgid "Model fitting"
 #~ msgstr "Ajuste del modelo"
 
@@ -11920,9 +11922,6 @@ msgstr "Previsualización. Pulsa cualquier tecla para salir."
 
 #~ msgid "Take last contact (recommended)"
 #~ msgstr "Considerar el último contacto (recomendado)"
-
-#~ msgid "Take average (recommended)"
-#~ msgstr "Considerar la media (recomendado)"
 
 #~ msgid "Take last contact"
 #~ msgstr "Considerar el último contacto"

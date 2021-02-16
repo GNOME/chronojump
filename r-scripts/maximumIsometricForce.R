@@ -1123,7 +1123,7 @@ start <- function(op)
 		exportModelVectorOnFail = c(exportModelVectorOnFail, NA) 		#impulse
 
 		#preparing header row (each set will have this in the result dataframe to be able to combine them)
-		exportNames = c("Name","Exercise","MaxAvgForceInWindow","Fmax")
+		exportNames = c("Name","Exercise","MaxForceRaw","MaxAvgForceInWindow","Fmax")
 		for(i in 1:length(op$drawRfdOptions))
 		{
 			RFDoptions = readRFDOptions(op$drawRfdOptions[i])
@@ -1170,6 +1170,7 @@ start <- function(op)
 
 			#mix strings and numbers directly in a data frame to not have numbers as text (and then cannot export with decimal , or .)
 			exportSetDF = data.frame(dataFiles$title[i], dataFiles$exercise[i])
+			exportSetDF = cbind (exportSetDF, dataFiles$maxForceRaw[i])
 			exportSetDF = cbind (exportSetDF, dataFiles$maxAvgForceInWindow[i])
 			for(j in 1:length(exportModelVector))
 				exportSetDF = cbind (exportSetDF, exportModelVector[j])

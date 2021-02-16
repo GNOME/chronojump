@@ -1513,6 +1513,7 @@ public class ForceSensorGraphAB
 	//for export
 	public string fullURL;
 	public bool decimalIsPoint;
+	public double maxForceRaw;
 	public double maxAvgForceInWindow; //TODO: need to pass the window widht in seconds on graph.R
 
 	//for graph and for export
@@ -1546,15 +1547,16 @@ public class ForceSensorGraphAB
 
 	//constructor for export
 	public ForceSensorGraphAB (
-			string fullURL, bool decimalIsPoint, double maxAvgForceInWindow,
+			string fullURL, bool decimalIsPoint, double maxForceRaw, double maxAvgForceInWindow,
 			ForceSensor.CaptureOptions fsco, int startSample, int endSample,
 			string title, string exercise, string datetime, TriggerList triggerList)
 	{
 		assignParams(fsco, startSample, endSample, title, exercise, datetime, triggerList);
 
-		this.maxAvgForceInWindow = maxAvgForceInWindow;
 		this.fullURL = fullURL;
 		this.decimalIsPoint = decimalIsPoint;
+		this.maxForceRaw = maxForceRaw;
+		this.maxAvgForceInWindow = maxAvgForceInWindow;
 	}
 
 	public string ToCSVRowOnExport()
@@ -1570,6 +1572,7 @@ public class ForceSensorGraphAB
 
 		return fullURL + ";" +
 			decimalChar + ";" +
+			Util.ConvertToPoint(maxForceRaw) + ";" +
 			Util.ConvertToPoint(maxAvgForceInWindow) + ";" +
 			fsco.ToString() + ";" +
 			title + ";" +
@@ -1582,7 +1585,7 @@ public class ForceSensorGraphAB
 
 	public static string PrintCSVHeaderOnExport()
 	{
-		return "fullURL;decimalChar;maxAvgForceInWindow;" +
+		return "fullURL;decimalChar;maxForceRaw;maxAvgForceInWindow;" +
 			"captureOptions;title;exercise;datetime;" +
 			"triggersON;triggersOFF;" + //unused on export
 			"startSample;endSample";
@@ -2687,7 +2690,8 @@ public class ForceSensorExport
 					fsgAB_l.Add(new ForceSensorGraphAB (
 								fs.FullURL,
 								Util.CSVDecimalColumnIsPoint(fs.FullURL, 1),
-								maxAvgForceInWindow,
+								fsAI.ForceMAX,			//raw
+								maxAvgForceInWindow,		//raw
 								fs.CaptureOption,
 								repConcentricSampleStart, 	//start of concentric rep
 								rep.sampleEnd,			//end of eccentric rep

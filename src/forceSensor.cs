@@ -526,6 +526,7 @@ public class ForceSensorExercise
 	public bool EccReps
 	{
 		get { return eccReps; }
+		set { eccReps = value; }
 	}
 	public double EccMin
 	{
@@ -2595,6 +2596,10 @@ public class ForceSensorExport
 			if(! found)
 				continue;
 
+			//make the exercise have EccReps = true in order to have an AB wiht the concentric and eccentric part
+			//and send both to R to be able to have the force window in that AB
+			fsEx.EccReps = true;
+
 			double eccMinDispl = fsEx.GetEccOrConMinMaybePreferences(true,
 					forceSensorElasticEccMinDispl,
 					forceSensorNotElasticEccMinForce);
@@ -2636,14 +2641,20 @@ public class ForceSensorExport
 			//delete result file
 			Util.FileDelete(UtilEncoder.GetmifExportFileName());
 
+			int repConcentricSampleStart = -1;
 			foreach(ForceSensorRepetition rep in fsAI.ForceSensorRepetition_l)
 			{
-				fsgAB_l.Add(new ForceSensorGraphAB (
-							fs.FullURL,
-							Util.CSVDecimalColumnIsPoint(fs.FullURL, 1),
-							fs.CaptureOption, rep.sampleStart, rep.sampleEnd,
-							title, exercise, fs.DateTimePublic, new TriggerList()
-							));
+				if(rep.type == ForceSensorRepetition.Types.CON)
+					repConcentricSampleStart = rep.sampleStart;
+				else if(rep.type == ForceSensorRepetition.Types.ECC && repConcentricSampleStart != -1)
+					fsgAB_l.Add(new ForceSensorGraphAB (
+								fs.FullURL,
+								Util.CSVDecimalColumnIsPoint(fs.FullURL, 1),
+								fs.CaptureOption,
+								repConcentricSampleStart, 	//start of concentric rep
+								rep.sampleEnd,			//end of eccentric rep
+								title, exercise, fs.DateTimePublic, new TriggerList()
+								));
 			}
 
 			//TODO: or check cancel when there is a thread, also R should write something blank if there is any problem

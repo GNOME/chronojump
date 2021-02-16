@@ -75,7 +75,6 @@ op <- assignOptions(options)
 print(op)
 
 source(paste(op$scriptsPath, "/scripts-util.R", sep=""))
-dfExport = NULL #global variable that will be changed by methods
 
 #Fits the data to the model f = fmax*(1 - exp(-K*t))
 #Important! It fits the data with the axes moved to startTime.
@@ -442,7 +441,7 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
     )
     legendColor = c("blue", "blue", "blue")
  
-    exportValues = c(title, exercise, dynamics$fmax.fitted)
+    exportValues = c(dynamics$fmax.fitted)
 
     #The coordinates where the lines and dots are plotted are calculated with the sampled data in raw and fitted data.
     #The slopes are calculated in that points
@@ -663,9 +662,10 @@ drawDynamicsFromLoadCell <- function(title, exercise, datetime,
     
     legend(x = xmax, y = dynamics$fmax.fitted/2, legend = legendText, xjust = 1, yjust = 0.1, text.col = legendColor)
 
-    #modifying global variable:
     if(op$singleOrMultiple == "FALSE")
-	dfExport <<- rbind(dfExport, exportValues)
+    {
+	return(exportValues)
+    }
 }
 
 #getDynamicsFromLoadCellFolder <- function(folderName, resultFileName, captureOptions)
@@ -1086,14 +1086,19 @@ doProcess <- function(pngFile, dataFile, decimalChar, title, exercise, datetime,
 	prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
 
 	print("Going to enter getDynamicsFromLoadCellFille")
-	dynamics = getDynamicsFromLoadCellFile(captureOptions, dataFile, decimalChar, op$averageLength, op$percentChange, testLength = op$testLength, startSample, endSample)
+	dynamics = getDynamicsFromLoadCellFile(captureOptions, dataFile, decimalChar,
+			op$averageLength, op$percentChange, testLength = op$testLength, startSample, endSample)
 
 	print("Going to draw")
-	drawDynamicsFromLoadCell(title, exercise, datetime, dynamics, captureOptions, op$vlineT0, op$vline50fmax.raw, op$vline50fmax.fitted, op$hline50fmax.raw, op$hline50fmax.fitted,
+	exportedValues = drawDynamicsFromLoadCell(title, exercise, datetime, dynamics, captureOptions,
+			op$vlineT0, op$vline50fmax.raw, op$vline50fmax.fitted, op$hline50fmax.raw, op$hline50fmax.fitted,
 			op$drawRfdOptions, triggersOn = op$triggersOnList, triggersOff = op$triggersOffList)
 #                       op$drawRfdOptions, xlimits = c(0.5, 1.5))
 	endGraph()
+
+	return(exportedValues)
 }
+
 
 if(op$singleOrMultiple == "TRUE")
 {
@@ -1102,29 +1107,73 @@ if(op$singleOrMultiple == "TRUE")
 	doProcess(pngFile, dataFile, op$decimalChar, op$title, op$exercise, op$datetime, op$captureOptions, op$startSample, op$endSample)
 } else
 {
-	#1) read the csv
+	#1) define exportDF and the model vector if model does not succeed
+	exportDF = NULL
+	exportModelVector = NULL
+
+	exportModelVectorOnFail = NA 						#fmax
+	for(i in 1:length(op$drawRfdOptions)) {					#RFDs
+		RFDoptions = readRFDOptions(op$drawRfdOptions[i])
+		if(RFDoptions$rfdFunction != "-1")
+			exportModelVectorOnFail = c(exportModelVectorOnFail, NA)
+	}
+	exportModelVectorOnFail = c(exportModelVectorOnFail, NA) 		#impulse
+
+	#preparing header row (each set will have this in the result dataframe to be able to combine them)
+	exportNames = c("Name","Exercise","Fmax")
+	for(i in 1:length(op$drawRfdOptions))
+	{
+		RFDoptions = readRFDOptions(op$drawRfdOptions[i])
+			if(RFDoptions$rfdFunction != "-1")
+					exportNames = c(exportNames, paste("RFD", RFDoptions$rfdFunction, RFDoptions$type,
+								RFDoptions$start, RFDoptions$end, sep ="_"))
+	}
+
+	impulseOptions = readImpulseOptions(op$drawImpulseOptions)
+	if(impulseOptions$impulseFunction != "-1")
+		exportNames = c(exportNames, paste("Impulse", impulseOptions$impulseFunction, impulseOptions$type,
+					impulseOptions$start, impulseOptions$end, sep ="_"))
+
+	#2) read the csv
         dataFiles = read.csv(file = paste(tempPath, "/maximumIsometricForceInputMulti.csv", sep=""), sep=";", stringsAsFactors=F)
 	
-	#2) call doProcess
+	#3) call doProcess
 	progressFolder = paste(tempPath, "/chronojump_mif_progress", sep ="")
 	tempGraphsFolder = paste(tempPath, "/chronojump_mif_graphs/", sep ="")
 
-	countGraph = 1
+	#countGraph = 1
 	for(i in 1:length(dataFiles[,1]))
 	{
 		print("fullURL")
 		print(as.vector(dataFiles$fullURL[i]))
-		pngFile <- paste(tempGraphsFolder, countGraph, ".png", sep="")
+		pngFile <- paste(tempGraphsFolder, i, ".png", sep="")  #but remember to graph also when model fails
 
+		modelOk = FALSE
 		executing  <- tryCatch({
-				doProcess(pngFile, as.vector(dataFiles$fullURL[i]), dataFiles$decimalChar[i], dataFiles$title[i], dataFiles$exercise[i], dataFiles$datetime[i],
+				exportModelVector = doProcess(pngFile, as.vector(dataFiles$fullURL[i]),
+						dataFiles$decimalChar[i], dataFiles$title[i], dataFiles$exercise[i], dataFiles$datetime[i],
 						dataFiles$captureOptions[i], dataFiles$startSample[i], dataFiles$endSample[i])
-				countGraph = countGraph +1 #only adds if not error, so the numbering of graphs matches rows in CSV
+				#countGraph = countGraph +1 #only adds if not error, so the numbering of graphs matches rows in CSV
+
+				modelOk = TRUE
 		}, error = function(e) {
 			print("error on doProcess:")
 			print(message(e))
 			endGraph() #close graph that is being done to not receive error: too many open devices
 		})
+
+		if(! modelOk)
+			exportModelVector = exportModelVectorOnFail #done here and not on the catch, because it didn't worked there
+
+		#mix strings and numbers directly in a data frame to not have numbers as text (and then cannot export with decimal , or .)
+		exportSetDF = data.frame(dataFiles$title[i], dataFiles$exercise[i])
+		for(j in 1:length(exportModelVector))
+			exportSetDF = cbind (exportSetDF, exportModelVector[j])
+
+		colnames(exportSetDF) = exportNames
+
+		#add to export data frame: exportDF
+		exportDF <- rbind(exportDF, exportSetDF)
 
 		progressFilename = paste(progressFolder, "/", i, sep="")
 		file.create(progressFilename)
@@ -1132,29 +1181,11 @@ if(op$singleOrMultiple == "TRUE")
 	}
 
 	#3) write the file
-	if(is.null(dfExport))
+	if(is.null(exportDF))
 		write(0, file = paste(tempPath, "/cj_mif_export.csv", sep = "")) # write something blank to be able to know in C# that operation ended
 	else {
-		print("dfExport")
-		print(dfExport)
-
-		#preparing header row
-		exportNames = c("Name","Exercise","Fmax")
-    		for(i in 1:length(op$drawRfdOptions))
-		{
-        		RFDoptions = readRFDOptions(op$drawRfdOptions[i])
-        		if(RFDoptions$rfdFunction != "-1")
-				exportNames = c(exportNames, paste("RFD", RFDoptions$rfdFunction, RFDoptions$type, RFDoptions$start, RFDoptions$end, sep ="_"))
-		}
-    
-    		impulseOptions = readImpulseOptions(op$drawImpulseOptions)
-		if(impulseOptions$impulseFunction != "-1")
-			exportNames = c(exportNames, paste("Impulse", impulseOptions$impulseFunction, impulseOptions$type, impulseOptions$start, impulseOptions$end, sep ="_"))
-
-    		colnames(dfExport) <- exportNames
-
 		#print csv
-		write.csv2(dfExport, file = paste(tempPath, "/cj_mif_export.csv", sep = ""), row.names = FALSE, col.names = TRUE, quote = FALSE)
+		write.csv2(exportDF, file = paste(tempPath, "/cj_mif_export.csv", sep = ""), row.names = FALSE, col.names = TRUE, quote = FALSE)
 	}
 }
 

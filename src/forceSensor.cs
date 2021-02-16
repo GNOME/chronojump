@@ -1520,13 +1520,9 @@ public class ForceSensorGraphAB
 	public string datetime;
 	public TriggerList triggerList;
 
-	public ForceSensorGraphAB (string fullURL,
-			bool decimalIsPoint,
-			ForceSensor.CaptureOptions fsco, int startSample, int endSample,
+	private void assignParams(ForceSensor.CaptureOptions fsco, int startSample, int endSample,
 			string title, string exercise, string datetime, TriggerList triggerList)
 	{
-		this.fullURL = fullURL;
-		this.decimalIsPoint = decimalIsPoint;
 		this.fsco = fsco;
 		this.startSample = startSample;
 		this.endSample = endSample;
@@ -1534,6 +1530,26 @@ public class ForceSensorGraphAB
 		this.exercise = exercise;
 		this.datetime = datetime;
 		this.triggerList = triggerList;
+	}
+
+	//constructor for graph on analyze
+	public ForceSensorGraphAB (
+			ForceSensor.CaptureOptions fsco, int startSample, int endSample,
+			string title, string exercise, string datetime, TriggerList triggerList)
+	{
+		assignParams(fsco, startSample, endSample, title, exercise, datetime, triggerList);
+	}
+
+	//constructor for export
+	public ForceSensorGraphAB (
+			string fullURL, bool decimalIsPoint,
+			ForceSensor.CaptureOptions fsco, int startSample, int endSample,
+			string title, string exercise, string datetime, TriggerList triggerList)
+	{
+		assignParams(fsco, startSample, endSample, title, exercise, datetime, triggerList);
+
+		this.fullURL = fullURL;
+		this.decimalIsPoint = decimalIsPoint;
 	}
 
 	public string ToCSVRowOnExport()

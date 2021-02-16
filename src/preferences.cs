@@ -445,6 +445,18 @@ public class Preferences
 		}
 	}
 
+	//get the decimalChar for R . or ,
+	public char CSVExportDecimalSeparatorChar
+	{
+		get {
+			char c = '.';
+			if(CSVExportDecimalSeparator == "COMMA")
+				c = ',';
+
+			return c;
+		}
+	}
+
 	public bool IsVideoConfigured()
 	{
 		return (videoDevice != "" &&

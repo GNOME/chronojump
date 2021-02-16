@@ -2178,7 +2178,8 @@ LogB.Information(" fs R ");
 				rfdList, impulse,
 				duration, Convert.ToInt32(spin_force_rfd_duration_percent.Value),
 				preferences.forceSensorStartEndOptimized,
-				Util.CSVDecimalColumnIsPoint(UtilEncoder.GetmifCSVFileName(), 1),
+				Util.CSVDecimalColumnIsPoint(UtilEncoder.GetmifCSVFileName(), 1), 	//decimalIsPointAtFile (read)
+				preferences.CSVExportDecimalSeparatorChar, 				//decimalIsPointAtExport (write)
 				new ForceSensorGraphAB(
 					"", 	//unused on single graph (no export)
 					true,	//unused on single graph (no export)

@@ -753,7 +753,8 @@ public partial class ChronoJumpWindow
 				preferences.forceSensorElasticConMinDispl,
 				preferences.forceSensorNotElasticConMinForce,
 				preferences.forceSensorStartEndOptimized,
-				preferences.CSVExportDecimalSeparator);
+				preferences.CSVExportDecimalSeparatorChar 	//decimalIsPointAtExport (write)
+				);
 
 		if(personID == -1)
 			checkFile(Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION);

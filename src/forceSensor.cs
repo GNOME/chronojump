@@ -1587,13 +1587,17 @@ public class ForceSensorGraph
 	private int startSample;
 	private int endSample;
 	private bool startEndOptimized;
-	private bool decimalIsPoint; //but on export this will be related to each set
+	private bool decimalIsPointAtReadFile; //but on export this will be related to each set
+	private char exportDecimalSeparator;
 
 	//private method to help on assigning params
 	private void assignGenericParams(
 			List<ForceSensorRFD> rfdList,
 			ForceSensorImpulse impulse, double testLength, int percentChange,
-			bool startEndOptimized, bool decimalIsPoint)
+			bool startEndOptimized,
+			bool decimalIsPointAtReadFile, 	//at read
+			char exportDecimalSeparator 	//at write
+			)
 	{
 		//generic of any data
 		this.rfdList = rfdList;
@@ -1601,7 +1605,8 @@ public class ForceSensorGraph
 		this.testLength = testLength;
 		this.percentChange = percentChange;
 		this.startEndOptimized = startEndOptimized;
-		this.decimalIsPoint = decimalIsPoint;
+		this.decimalIsPointAtReadFile = decimalIsPointAtReadFile;
+		this.exportDecimalSeparator = exportDecimalSeparator;
 
 		averageLength = 0.1;
 		vlineT0 = false;
@@ -1616,12 +1621,13 @@ public class ForceSensorGraph
 			List<ForceSensorRFD> rfdList,
 			ForceSensorImpulse impulse, double testLength, int percentChange,
 			bool startEndOptimized,
-			bool decimalIsPoint,
+			bool decimalIsPointAtReadFile,
+			char exportDecimalSeparator,
 			ForceSensorGraphAB fsgAB
 			)
 	{
-		assignGenericParams(rfdList, impulse, testLength, percentChange,
-			startEndOptimized, decimalIsPoint);
+		assignGenericParams(rfdList, impulse, testLength, percentChange, startEndOptimized,
+				decimalIsPointAtReadFile, exportDecimalSeparator);
 
 		//this A-B data
 		this.fsco = fsgAB.fsco;
@@ -1638,12 +1644,13 @@ public class ForceSensorGraph
 			List<ForceSensorRFD> rfdList,
 			ForceSensorImpulse impulse, double testLength, int percentChange,
 			bool startEndOptimized,
-			bool decimalIsPoint, //this param is not used here. it is in fsgAB_l
+			bool decimalIsPointAtReadFile, //this param is used here to print results. but to read data what id is used is in fsgAB_l
+			char exportDecimalSeparator,
 			List<ForceSensorGraphAB> fsgAB_l
 			)
 	{
-		assignGenericParams(rfdList, impulse, testLength, percentChange,
-				startEndOptimized, decimalIsPoint);
+		assignGenericParams(rfdList, impulse, testLength, percentChange, startEndOptimized,
+				decimalIsPointAtReadFile, exportDecimalSeparator);
 
 		writeMultipleFilesCSV(fsgAB_l);
 	}
@@ -1668,13 +1675,13 @@ public class ForceSensorGraph
 
 		LogB.Information("writeOptionsFile 1");
 		//since 2.0.3 decimalChar is . (before it was locale specific)
-		string decimalChar = ".";
-		if(! decimalIsPoint)
-			decimalChar = localeInfo.NumberDecimalSeparator;
+		string decimalCharAtFile = ".";
+		if(! decimalIsPointAtReadFile)
+			decimalCharAtFile = localeInfo.NumberDecimalSeparator;
 
 		string scriptOptions =
 			"#os\n" + 			UtilEncoder.OperatingSystemForRGraphs() + "\n" +
-			"#decimalChar\n" + 		decimalChar + "\n" +
+			"#decimalCharAtFile\n" +	decimalCharAtFile + "\n" +
 			"#graphWidth\n" + 		graphWidth.ToString() + "\n" +
 			"#graphHeight\n" + 		graphHeight.ToString() + "\n" +
 			"#averageLength\n" + 		Util.ConvertToPoint(averageLength) + "\n" +
@@ -1728,7 +1735,8 @@ public class ForceSensorGraph
 			"#startSample\n" + 		startSample.ToString() + "\n" +	//unused on multiple
 			"#endSample\n" + 		endSample.ToString() + "\n" +	//unused on multiple
 			"#startEndOptimized\n" +	Util.BoolToRBool(startEndOptimized) + "\n" +
-			"#singleOrMultiple\n" +		Util.BoolToRBool(singleOrMultiple) + "\n";
+			"#singleOrMultiple\n" +		Util.BoolToRBool(singleOrMultiple) + "\n" +
+			"#decimalCharAtExport\n" +	exportDecimalSeparator + "\n";
 
 		/*
 		#startEndOptimized on gui can be:
@@ -2407,7 +2415,7 @@ public class ForceSensorExport
 	private double forceSensorElasticConMinDispl;
 	private int forceSensorNotElasticConMinForce;
 	private bool forceSensorStartEndOptimized;
-	private string CSVExportDecimalSeparator;
+	private char CSVExportDecimalSeparatorChar;
 
 	private static Thread thread;
 	private static bool cancel;
@@ -2432,7 +2440,7 @@ public class ForceSensorExport
 			double forceSensorElasticConMinDispl,
 			int forceSensorNotElasticConMinForce,
 			bool forceSensorStartEndOptimized,
-			string CSVExportDecimalSeparator)
+			char CSVExportDecimalSeparatorChar)
 
 	{
 		this.notebook = notebook;
@@ -2449,7 +2457,7 @@ public class ForceSensorExport
 		this.forceSensorElasticConMinDispl = forceSensorElasticConMinDispl;
 		this.forceSensorNotElasticConMinForce = forceSensorNotElasticConMinForce;
 		this.forceSensorStartEndOptimized = forceSensorStartEndOptimized;
-		this.CSVExportDecimalSeparator = CSVExportDecimalSeparator;
+		this.CSVExportDecimalSeparatorChar = CSVExportDecimalSeparatorChar;
 	}
 
 	///public method
@@ -2503,8 +2511,8 @@ public class ForceSensorExport
 				new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Cancelled."));
 			else
 				new DialogMessage(Constants.MessageTypes.INFO,
-						string.Format("Exported to {0}", exportFilename) +
-						Constants.GetSpreadsheetString(CSVExportDecimalSeparator)
+						string.Format("Exported to {0}", exportFilename)// +
+						//Constants.GetSpreadsheetString(CSVExportDecimalSeparator)
 						);
 
 			return false;
@@ -2689,7 +2697,8 @@ public class ForceSensorExport
 					rfdList, impulse,
 					duration, durationPercent,
 					forceSensorStartEndOptimized,
-					true, //unused on export
+					true, //not used to read data, but used to print data
+					CSVExportDecimalSeparatorChar, // at write file
 					fsgAB_l
 					);
 

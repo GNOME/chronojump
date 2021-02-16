@@ -1510,8 +1510,12 @@ public class ForceSensorImpulse : ForceSensorRFD
 //can be just one on analyze or multiple (as a list) on export
 public class ForceSensorGraphAB
 {
+	//for export
 	public string fullURL;
 	public bool decimalIsPoint;
+	public double maxAvgForceInWindow; //TODO: need to pass the window widht in seconds on graph.R
+
+	//for graph and for export
 	public ForceSensor.CaptureOptions fsco;
 	public int startSample;
 	public int endSample;
@@ -1542,12 +1546,13 @@ public class ForceSensorGraphAB
 
 	//constructor for export
 	public ForceSensorGraphAB (
-			string fullURL, bool decimalIsPoint,
+			string fullURL, bool decimalIsPoint, double maxAvgForceInWindow,
 			ForceSensor.CaptureOptions fsco, int startSample, int endSample,
 			string title, string exercise, string datetime, TriggerList triggerList)
 	{
 		assignParams(fsco, startSample, endSample, title, exercise, datetime, triggerList);
 
+		this.maxAvgForceInWindow = maxAvgForceInWindow;
 		this.fullURL = fullURL;
 		this.decimalIsPoint = decimalIsPoint;
 	}
@@ -1565,6 +1570,7 @@ public class ForceSensorGraphAB
 
 		return fullURL + ";" +
 			decimalChar + ";" +
+			Util.ConvertToPoint(maxAvgForceInWindow) + ";" +
 			fsco.ToString() + ";" +
 			title + ";" +
 			exercise + ";" +
@@ -1576,7 +1582,8 @@ public class ForceSensorGraphAB
 
 	public static string PrintCSVHeaderOnExport()
 	{
-		return "fullURL;decimalChar;captureOptions;title;exercise;datetime;" +
+		return "fullURL;decimalChar;maxAvgForceInWindow;" +
+			"captureOptions;title;exercise;datetime;" +
 			"triggersON;triggersOFF;" + //unused on export
 			"startSample;endSample";
 	}
@@ -2671,14 +2678,22 @@ public class ForceSensorExport
 				if(rep.type == ForceSensorRepetition.Types.CON)
 					repConcentricSampleStart = rep.sampleStart;
 				else if(rep.type == ForceSensorRepetition.Types.ECC && repConcentricSampleStart != -1)
+				{
+					double maxAvgForceInWindow = 0;
+					bool success = fsAI.CalculateRangeParams(repConcentricSampleStart, rep.sampleEnd, 1);
+					if(success)
+						maxAvgForceInWindow = fsAI.ForceMaxAvgInWindow;
+
 					fsgAB_l.Add(new ForceSensorGraphAB (
 								fs.FullURL,
 								Util.CSVDecimalColumnIsPoint(fs.FullURL, 1),
+								maxAvgForceInWindow,
 								fs.CaptureOption,
 								repConcentricSampleStart, 	//start of concentric rep
 								rep.sampleEnd,			//end of eccentric rep
 								title, exercise, fs.DateTimePublic, new TriggerList()
 								));
+				}
 			}
 
 			//TODO: or check cancel when there is a thread, also R should write something blank if there is any problem

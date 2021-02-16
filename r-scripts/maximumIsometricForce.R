@@ -33,7 +33,7 @@ assignOptions <- function(options)
     
     return(list(
         os 			= options[1],
-        decimalChar 		= options[2], 	#unused on multiple
+        decimalCharAtFile 	= options[2], 	#unused on multiple
         graphWidth 		= as.numeric(options[3]),
         graphHeight		= as.numeric(options[4]),
         averageLength 		= as.numeric(options[5]),
@@ -51,12 +51,13 @@ assignOptions <- function(options)
         exercise 	 	= options[20],
         datetime 	 	= options[21],
         scriptsPath 		= options[22],
-        triggersOnList  = as.numeric(unlist(strsplit(options[23], "\\;"))),
-        triggersOffList  = as.numeric(unlist(strsplit(options[24], "\\;"))),
-        startSample = as.numeric(options[25]),
-        endSample = as.numeric(options[26]),
-        startEndOptimized = options[27], 	#bool
-	singleOrMultiple = options[28]   	#bool (true is single)
+        triggersOnList  	= as.numeric(unlist(strsplit(options[23], "\\;"))),
+        triggersOffList  	= as.numeric(unlist(strsplit(options[24], "\\;"))),
+        startSample 	= as.numeric(options[25]),
+        endSample 	= as.numeric(options[26]),
+        startEndOptimized 	= options[27], 	#bool
+	singleOrMultiple 	= options[28],   	#bool (true is single)
+	decimalCharAtExport	= options[29]
     ))
 }
 
@@ -1104,8 +1105,9 @@ start <- function(op)
 	if(op$singleOrMultiple == "TRUE")
 	{
 		dataFile <- paste(tempPath, "/cj_mif_Data.csv", sep="")
-			pngFile <- paste(tempPath, "/cj_mif_Graph.png", sep="")
-			doProcess(pngFile, dataFile, op$decimalChar, op$title, op$exercise, op$datetime, op$captureOptions, op$startSample, op$endSample)
+		pngFile <- paste(tempPath, "/cj_mif_Graph.png", sep="")
+		doProcess(pngFile, dataFile, op$decimalCharAtFile, op$title, op$exercise,
+				op$datetime, op$captureOptions, op$startSample, op$endSample)
 	} else {
 		#export
 		#1) define exportDF and the model vector if model does not succeed
@@ -1187,7 +1189,10 @@ start <- function(op)
 			write(0, file = paste(tempPath, "/cj_mif_export.csv", sep = ""))
 		} else {
 			#print csv
-			write.csv2(exportDF, file = paste(tempPath, "/cj_mif_export.csv", sep = ""), row.names = FALSE, col.names = TRUE, quote = FALSE)
+			if(op$decimalCharAtExport == ".")
+				write.csv(exportDF, file = paste(tempPath, "/cj_mif_export.csv", sep = ""), row.names = FALSE, col.names = TRUE, quote = FALSE)
+			else if(op$decimalCharAtExport == ",")
+				write.csv2(exportDF, file = paste(tempPath, "/cj_mif_export.csv", sep = ""), row.names = FALSE, col.names = TRUE, quote = FALSE)
 		}
 	}
 }

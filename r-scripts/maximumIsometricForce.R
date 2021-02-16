@@ -1099,95 +1099,100 @@ doProcess <- function(pngFile, dataFile, decimalChar, title, exercise, datetime,
 	return(exportedValues)
 }
 
-
-if(op$singleOrMultiple == "TRUE")
+start <- function(op)
 {
-	dataFile <- paste(tempPath, "/cj_mif_Data.csv", sep="")
-	pngFile <- paste(tempPath, "/cj_mif_Graph.png", sep="")
-	doProcess(pngFile, dataFile, op$decimalChar, op$title, op$exercise, op$datetime, op$captureOptions, op$startSample, op$endSample)
-} else
-{
-	#1) define exportDF and the model vector if model does not succeed
-	exportDF = NULL
-	exportModelVector = NULL
-
-	exportModelVectorOnFail = NA 						#fmax
-	for(i in 1:length(op$drawRfdOptions)) {					#RFDs
-		RFDoptions = readRFDOptions(op$drawRfdOptions[i])
-		if(RFDoptions$rfdFunction != "-1")
-			exportModelVectorOnFail = c(exportModelVectorOnFail, NA)
-	}
-	exportModelVectorOnFail = c(exportModelVectorOnFail, NA) 		#impulse
-
-	#preparing header row (each set will have this in the result dataframe to be able to combine them)
-	exportNames = c("Name","Exercise","Fmax")
-	for(i in 1:length(op$drawRfdOptions))
+	if(op$singleOrMultiple == "TRUE")
 	{
-		RFDoptions = readRFDOptions(op$drawRfdOptions[i])
-			if(RFDoptions$rfdFunction != "-1")
-					exportNames = c(exportNames, paste("RFD", RFDoptions$rfdFunction, RFDoptions$type,
-								RFDoptions$start, RFDoptions$end, sep ="_"))
-	}
+		dataFile <- paste(tempPath, "/cj_mif_Data.csv", sep="")
+			pngFile <- paste(tempPath, "/cj_mif_Graph.png", sep="")
+			doProcess(pngFile, dataFile, op$decimalChar, op$title, op$exercise, op$datetime, op$captureOptions, op$startSample, op$endSample)
+	} else {
+		#export
+		#1) define exportDF and the model vector if model does not succeed
+		exportDF = NULL
+		exportModelVector = NULL
 
-	impulseOptions = readImpulseOptions(op$drawImpulseOptions)
-	if(impulseOptions$impulseFunction != "-1")
-		exportNames = c(exportNames, paste("Impulse", impulseOptions$impulseFunction, impulseOptions$type,
+		exportModelVectorOnFail = NA 						#fmax
+		for(i in 1:length(op$drawRfdOptions)) {					#RFDs
+			RFDoptions = readRFDOptions(op$drawRfdOptions[i])
+			if(RFDoptions$rfdFunction != "-1")
+				exportModelVectorOnFail = c(exportModelVectorOnFail, NA)
+		}
+		exportModelVectorOnFail = c(exportModelVectorOnFail, NA) 		#impulse
+
+		#preparing header row (each set will have this in the result dataframe to be able to combine them)
+		exportNames = c("Name","Exercise","Fmax")
+		for(i in 1:length(op$drawRfdOptions))
+		{
+			RFDoptions = readRFDOptions(op$drawRfdOptions[i])
+			if(RFDoptions$rfdFunction != "-1")
+				exportNames = c(exportNames, paste("RFD", RFDoptions$rfdFunction, RFDoptions$type,
+						RFDoptions$start, RFDoptions$end, sep ="_"))
+		}
+
+		impulseOptions = readImpulseOptions(op$drawImpulseOptions)
+		if(impulseOptions$impulseFunction != "-1")
+			exportNames = c(exportNames, paste("Impulse", impulseOptions$impulseFunction, impulseOptions$type,
 					impulseOptions$start, impulseOptions$end, sep ="_"))
 
-	#2) read the csv
-        dataFiles = read.csv(file = paste(tempPath, "/maximumIsometricForceInputMulti.csv", sep=""), sep=";", stringsAsFactors=F)
-	
-	#3) call doProcess
-	progressFolder = paste(tempPath, "/chronojump_mif_progress", sep ="")
-	tempGraphsFolder = paste(tempPath, "/chronojump_mif_graphs/", sep ="")
+		#2) read the csv
+		dataFiles = read.csv(file = paste(tempPath, "/maximumIsometricForceInputMulti.csv", sep=""), sep=";", stringsAsFactors=F)
 
-	#countGraph = 1
-	for(i in 1:length(dataFiles[,1]))
-	{
-		print("fullURL")
-		print(as.vector(dataFiles$fullURL[i]))
-		pngFile <- paste(tempGraphsFolder, i, ".png", sep="")  #but remember to graph also when model fails
+		#3) call doProcess
+		progressFolder = paste(tempPath, "/chronojump_mif_progress", sep ="")
+		tempGraphsFolder = paste(tempPath, "/chronojump_mif_graphs/", sep ="")
 
-		modelOk = FALSE
-		executing  <- tryCatch({
+		#countGraph = 1
+		for(i in 1:length(dataFiles[,1]))
+		{
+			print("fullURL")
+			print(as.vector(dataFiles$fullURL[i]))
+			pngFile <- paste(tempGraphsFolder, i, ".png", sep="")  #but remember to graph also when model fails
+
+			modelOk = FALSE
+			executing  <- tryCatch({
 				exportModelVector = doProcess(pngFile, as.vector(dataFiles$fullURL[i]),
-						dataFiles$decimalChar[i], dataFiles$title[i], dataFiles$exercise[i], dataFiles$datetime[i],
-						dataFiles$captureOptions[i], dataFiles$startSample[i], dataFiles$endSample[i])
+					dataFiles$decimalChar[i], dataFiles$title[i], dataFiles$exercise[i], dataFiles$datetime[i],
+					dataFiles$captureOptions[i], dataFiles$startSample[i], dataFiles$endSample[i])
 				#countGraph = countGraph +1 #only adds if not error, so the numbering of graphs matches rows in CSV
 
 				modelOk = TRUE
-		}, error = function(e) {
-			print("error on doProcess:")
-			print(message(e))
-			endGraph() #close graph that is being done to not receive error: too many open devices
-		})
+			}, error = function(e) {
+				print("error on doProcess:")
+				print(message(e))
+				endGraph() #close graph that is being done to not receive error: too many open devices
+			})
 
-		if(! modelOk)
-			exportModelVector = exportModelVectorOnFail #done here and not on the catch, because it didn't worked there
+			if(! modelOk)
+				exportModelVector = exportModelVectorOnFail #done here and not on the catch, because it didn't worked there
 
-		#mix strings and numbers directly in a data frame to not have numbers as text (and then cannot export with decimal , or .)
-		exportSetDF = data.frame(dataFiles$title[i], dataFiles$exercise[i])
-		for(j in 1:length(exportModelVector))
-			exportSetDF = cbind (exportSetDF, exportModelVector[j])
+			#mix strings and numbers directly in a data frame to not have numbers as text (and then cannot export with decimal , or .)
+			exportSetDF = data.frame(dataFiles$title[i], dataFiles$exercise[i])
+			for(j in 1:length(exportModelVector))
+				exportSetDF = cbind (exportSetDF, exportModelVector[j])
 
-		colnames(exportSetDF) = exportNames
+			colnames(exportSetDF) = exportNames
 
-		#add to export data frame: exportDF
-		exportDF <- rbind(exportDF, exportSetDF)
+			#add to export data frame: exportDF
+			exportDF <- rbind(exportDF, exportSetDF)
 
-		progressFilename = paste(progressFolder, "/", i, sep="")
-		file.create(progressFilename)
-		print("done")
-	}
+			progressFilename = paste(progressFolder, "/", i, sep="")
+			file.create(progressFilename)
+				print("done")
+		}
 
-	#3) write the file
-	if(is.null(exportDF))
-		write(0, file = paste(tempPath, "/cj_mif_export.csv", sep = "")) # write something blank to be able to know in C# that operation ended
-	else {
-		#print csv
-		write.csv2(exportDF, file = paste(tempPath, "/cj_mif_export.csv", sep = ""), row.names = FALSE, col.names = TRUE, quote = FALSE)
+		#3) write the file
+		if(is.null(exportDF)) {
+			# write something blank to be able to know in C# that operation ended
+			write(0, file = paste(tempPath, "/cj_mif_export.csv", sep = ""))
+		} else {
+			#print csv
+			write.csv2(exportDF, file = paste(tempPath, "/cj_mif_export.csv", sep = ""), row.names = FALSE, col.names = TRUE, quote = FALSE)
+		}
 	}
 }
+
+start(op)
 
 #dynamics = getDynamicsFromLoadCellFile("~/ownCloud/Xavier/Recerca/Yoyo-Tests/Galga/RowData/APl1", averageLength = 0.1, percentChange = 5, sep = ";", dec = ",")
 #drawDynamicsFromLoadCell(titlefull, dynamics, vlineT0=F, vline50fmax.raw=F, vline50fmax.fitted=T, hline50fmax.raw=F, hline50fmax.fitted=T, 

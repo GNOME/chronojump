@@ -753,7 +753,8 @@ public partial class ChronoJumpWindow
 				preferences.forceSensorElasticConMinDispl,
 				preferences.forceSensorNotElasticConMinForce,
 				preferences.forceSensorStartEndOptimized,
-				preferences.CSVExportDecimalSeparatorChar 	//decimalIsPointAtExport (write)
+				preferences.CSVExportDecimalSeparatorChar, 	//decimalIsPointAtExport (write)
+				preferences.forceSensorAnalyzeMaxAVGInWindow
 				);
 
 		if(personID == -1)

@@ -1551,10 +1551,12 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 	public string fullURL;
 	public bool decimalIsPoint;
 	public double maxForceRaw;
-	public double maxAvgForceInWindow; //TODO: need to pass the window widht in seconds on graph.R
+	public double maxAvgForceInWindow;
+	public double forceSensorAnalyzeMaxAVGInWindowSeconds;
 
 	public ForceSensorGraphABExport (
-			string fullURL, bool decimalIsPoint, double maxForceRaw, double maxAvgForceInWindow,
+			string fullURL, bool decimalIsPoint, double maxForceRaw,
+			double maxAvgForceInWindow, double forceSensorAnalyzeMaxAVGInWindowSeconds,
 			ForceSensor.CaptureOptions fsco, int startSample, int endSample,
 			string title, string exercise, string datetime, TriggerList triggerList)
 	{
@@ -1564,6 +1566,7 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 		this.decimalIsPoint = decimalIsPoint;
 		this.maxForceRaw = maxForceRaw;
 		this.maxAvgForceInWindow = maxAvgForceInWindow;
+		this.forceSensorAnalyzeMaxAVGInWindowSeconds = forceSensorAnalyzeMaxAVGInWindowSeconds;
 	}
 
 	public string ToCSVRowOnExport()
@@ -1622,6 +1625,7 @@ public class ForceSensorGraph
 	private bool startEndOptimized;
 	private bool decimalIsPointAtReadFile; //but on export this will be related to each set
 	private char exportDecimalSeparator;
+	private double forceSensorAnalyzeMaxAVGInWindowSeconds; //on export
 
 	//private method to help on assigning params
 	private void assignGenericParams(
@@ -1679,11 +1683,14 @@ public class ForceSensorGraph
 			bool startEndOptimized,
 			bool decimalIsPointAtReadFile, //this param is used here to print results. but to read data what id is used is in fsgAB_l
 			char exportDecimalSeparator,
-			List<ForceSensorGraphABExport> fsgABe_l
+			List<ForceSensorGraphABExport> fsgABe_l,
+			double forceSensorAnalyzeMaxAVGInWindowSeconds
 			)
 	{
 		assignGenericParams(rfdList, impulse, testLength, percentChange, startEndOptimized,
 				decimalIsPointAtReadFile, exportDecimalSeparator);
+			
+		this.forceSensorAnalyzeMaxAVGInWindowSeconds = forceSensorAnalyzeMaxAVGInWindowSeconds;
 
 		writeMultipleFilesCSV(fsgABe_l);
 	}
@@ -1744,11 +1751,15 @@ public class ForceSensorGraph
 		string captureOptionsStr = "-1";
 		string triggersOnStr = TriggerList.TriggersNotFoundString;
 		string triggersOffStr = TriggerList.TriggersNotFoundString;
+		string forceSensorAnalyzeMaxAVGInWindowSecondsStr =
+			Util.ConvertToPoint(forceSensorAnalyzeMaxAVGInWindowSeconds);
+
 		if(singleOrMultiple)
 		{
 			captureOptionsStr = fsco.ToString();
 			triggersOnStr = printTriggers(TriggerList.Type3.ON);
 			triggersOffStr = printTriggers(TriggerList.Type3.OFF);
+			forceSensorAnalyzeMaxAVGInWindowSecondsStr = "-1";
 		} else {
 			captureOptionsStr = "-1";
 			title = "-1";
@@ -1769,7 +1780,8 @@ public class ForceSensorGraph
 			"#endSample\n" + 		endSample.ToString() + "\n" +	//unused on multiple
 			"#startEndOptimized\n" +	Util.BoolToRBool(startEndOptimized) + "\n" +
 			"#singleOrMultiple\n" +		Util.BoolToRBool(singleOrMultiple) + "\n" +
-			"#decimalCharAtExport\n" +	exportDecimalSeparator + "\n";
+			"#decimalCharAtExport\n" +	exportDecimalSeparator + "\n" +
+			"#maxAvgInWindowSeconds\n" + 	forceSensorAnalyzeMaxAVGInWindowSecondsStr + "\n";
 
 		/*
 		#startEndOptimized on gui can be:
@@ -2449,6 +2461,7 @@ public class ForceSensorExport
 	private int forceSensorNotElasticConMinForce;
 	private bool forceSensorStartEndOptimized;
 	private char CSVExportDecimalSeparatorChar;
+	private double forceSensorAnalyzeMaxAVGInWindowSeconds;
 
 	private static Thread thread;
 	private static bool cancel;
@@ -2473,7 +2486,8 @@ public class ForceSensorExport
 			double forceSensorElasticConMinDispl,
 			int forceSensorNotElasticConMinForce,
 			bool forceSensorStartEndOptimized,
-			char CSVExportDecimalSeparatorChar)
+			char CSVExportDecimalSeparatorChar,
+			double forceSensorAnalyzeMaxAVGInWindowSeconds)
 
 	{
 		this.notebook = notebook;
@@ -2491,6 +2505,7 @@ public class ForceSensorExport
 		this.forceSensorNotElasticConMinForce = forceSensorNotElasticConMinForce;
 		this.forceSensorStartEndOptimized = forceSensorStartEndOptimized;
 		this.CSVExportDecimalSeparatorChar = CSVExportDecimalSeparatorChar;
+		this.forceSensorAnalyzeMaxAVGInWindowSeconds = forceSensorAnalyzeMaxAVGInWindowSeconds;
 	}
 
 	///public method
@@ -2690,7 +2705,8 @@ public class ForceSensorExport
 				else if(rep.type == ForceSensorRepetition.Types.ECC && repConcentricSampleStart != -1)
 				{
 					double maxAvgForceInWindow = 0;
-					bool success = fsAI.CalculateRangeParams(repConcentricSampleStart, rep.sampleEnd, 1);
+					bool success = fsAI.CalculateRangeParams(repConcentricSampleStart, rep.sampleEnd,
+							forceSensorAnalyzeMaxAVGInWindowSeconds);
 					if(success)
 						maxAvgForceInWindow = fsAI.ForceMaxAvgInWindow;
 
@@ -2699,6 +2715,7 @@ public class ForceSensorExport
 								Util.CSVDecimalColumnIsPoint(fs.FullURL, 1),
 								fsAI.ForceMAX,			//raw
 								maxAvgForceInWindow,		//raw
+								forceSensorAnalyzeMaxAVGInWindowSeconds, //raw
 								fs.CaptureOption,
 								repConcentricSampleStart, 	//start of concentric rep
 								rep.sampleEnd,			//end of eccentric rep
@@ -2741,7 +2758,8 @@ public class ForceSensorExport
 					forceSensorStartEndOptimized,
 					true, //not used to read data, but used to print data
 					CSVExportDecimalSeparatorChar, // at write file
-					fsgABe_l
+					fsgABe_l,
+					forceSensorAnalyzeMaxAVGInWindowSeconds
 					);
 
 			bool success = fsg.CallR(imageWidth -5, imageHeight -5, false);

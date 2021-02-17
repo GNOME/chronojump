@@ -125,7 +125,7 @@ public class Preferences
 	public enum VariabilityMethodEnum { CHRONOJUMP_OLD, CVRMSSD };
 	public VariabilityMethodEnum forceSensorVariabilityMethod;
 	public double forceSensorAnalyzeABSliderIncrement;
-	public double forceSensorAnalyzeMaxAVGInWindow;
+	public double forceSensorAnalyzeMaxAVGInWindow; //seconds
 	public int forceSensorGraphsLineWidth;
 
 	//runEncoder

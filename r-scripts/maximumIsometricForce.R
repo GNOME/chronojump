@@ -57,7 +57,8 @@ assignOptions <- function(options)
         endSample 	= as.numeric(options[26]),
         startEndOptimized 	= options[27], 	#bool
 	singleOrMultiple 	= options[28],   	#bool (true is single)
-	decimalCharAtExport	= options[29]
+	decimalCharAtExport	= options[29],
+        maxAvgWindowSeconds 	= as.numeric(options[30])
     ))
 }
 
@@ -1123,7 +1124,11 @@ start <- function(op)
 		exportModelVectorOnFail = c(exportModelVectorOnFail, NA) 		#impulse
 
 		#preparing header row (each set will have this in the result dataframe to be able to combine them)
-		exportNames = c("Name","Exercise","MaxForceRaw","MaxAvgForceInWindow","Fmax")
+		maxAvgWindowSecondsHeader = op$maxAvgWindowSeconds
+		if(op$decimalCharAtExport == ",")
+			maxAvgWindowSecondsHeader = format(maxAvgWindowSecondsHeader, decimal.mark=",")
+
+		exportNames = c("Name","Exercise","MaxForceRaw",paste("Max AVG Force in", maxAvgWindowSecondsHeader, "s"),"Fmax")
 		for(i in 1:length(op$drawRfdOptions))
 		{
 			RFDoptions = readRFDOptions(op$drawRfdOptions[i])

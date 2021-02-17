@@ -1510,12 +1510,6 @@ public class ForceSensorImpulse : ForceSensorRFD
 //can be just one on analyze or multiple (as a list) on export
 public class ForceSensorGraphAB
 {
-	//for export
-	public string fullURL;
-	public bool decimalIsPoint;
-	public double maxForceRaw;
-	public double maxAvgForceInWindow; //TODO: need to pass the window widht in seconds on graph.R
-
 	//for graph and for export
 	public ForceSensor.CaptureOptions fsco;
 	public int startSample;
@@ -1525,7 +1519,7 @@ public class ForceSensorGraphAB
 	public string datetime;
 	public TriggerList triggerList;
 
-	private void assignParams(ForceSensor.CaptureOptions fsco, int startSample, int endSample,
+	protected void assignParams(ForceSensor.CaptureOptions fsco, int startSample, int endSample,
 			string title, string exercise, string datetime, TriggerList triggerList)
 	{
 		this.fsco = fsco;
@@ -1537,6 +1531,11 @@ public class ForceSensorGraphAB
 		this.triggerList = triggerList;
 	}
 
+	//for inheritance
+	public ForceSensorGraphAB ()
+	{
+	}
+
 	//constructor for graph on analyze
 	public ForceSensorGraphAB (
 			ForceSensor.CaptureOptions fsco, int startSample, int endSample,
@@ -1545,8 +1544,16 @@ public class ForceSensorGraphAB
 		assignParams(fsco, startSample, endSample, title, exercise, datetime, triggerList);
 	}
 
-	//constructor for export
-	public ForceSensorGraphAB (
+
+}
+public class ForceSensorGraphABExport: ForceSensorGraphAB
+{
+	public string fullURL;
+	public bool decimalIsPoint;
+	public double maxForceRaw;
+	public double maxAvgForceInWindow; //TODO: need to pass the window widht in seconds on graph.R
+
+	public ForceSensorGraphABExport (
 			string fullURL, bool decimalIsPoint, double maxForceRaw, double maxAvgForceInWindow,
 			ForceSensor.CaptureOptions fsco, int startSample, int endSample,
 			string title, string exercise, string datetime, TriggerList triggerList)
@@ -1590,8 +1597,8 @@ public class ForceSensorGraphAB
 			"triggersON;triggersOFF;" + //unused on export
 			"startSample;endSample";
 	}
-
 }
+
 
 public class ForceSensorGraph
 {
@@ -1672,13 +1679,13 @@ public class ForceSensorGraph
 			bool startEndOptimized,
 			bool decimalIsPointAtReadFile, //this param is used here to print results. but to read data what id is used is in fsgAB_l
 			char exportDecimalSeparator,
-			List<ForceSensorGraphAB> fsgAB_l
+			List<ForceSensorGraphABExport> fsgABe_l
 			)
 	{
 		assignGenericParams(rfdList, impulse, testLength, percentChange, startEndOptimized,
 				decimalIsPointAtReadFile, exportDecimalSeparator);
 
-		writeMultipleFilesCSV(fsgAB_l);
+		writeMultipleFilesCSV(fsgABe_l);
 	}
 
 	//multiple is export
@@ -1780,17 +1787,17 @@ public class ForceSensorGraph
 		LogB.Information("writeOptionsFile 6");
 	}
 
-	private void writeMultipleFilesCSV(List<ForceSensorGraphAB> fsgAB_l)
+	private void writeMultipleFilesCSV(List<ForceSensorGraphABExport> fsgABe_l)
 	{
 		LogB.Information("writeMultipleFilesCSV start");
 		TextWriter writer = File.CreateText(UtilEncoder.GetmifCSVInputMulti());
 
 		//write header
-		writer.WriteLine(ForceSensorGraphAB.PrintCSVHeaderOnExport());
+		writer.WriteLine(ForceSensorGraphABExport.PrintCSVHeaderOnExport());
 
 		//write fsgAB_l for
-		foreach(ForceSensorGraphAB fsgAB in fsgAB_l)
-			writer.WriteLine(fsgAB.ToCSVRowOnExport());
+		foreach(ForceSensorGraphABExport fsgABe in fsgABe_l)
+			writer.WriteLine(fsgABe.ToCSVRowOnExport());
 
 		writer.Flush();
 		writer.Close();
@@ -2579,7 +2586,7 @@ public class ForceSensorExport
 		Person p = new Person();
 		PersonSession ps = new PersonSession();
 
-		List<ForceSensorGraphAB> fsgAB_l = new List<ForceSensorGraphAB>();
+		List<ForceSensorGraphABExport> fsgABe_l = new List<ForceSensorGraphABExport>();
 
 		int count = 0;
 		foreach(ForceSensor fs in fs_l)
@@ -2687,7 +2694,7 @@ public class ForceSensorExport
 					if(success)
 						maxAvgForceInWindow = fsAI.ForceMaxAvgInWindow;
 
-					fsgAB_l.Add(new ForceSensorGraphAB (
+					fsgABe_l.Add(new ForceSensorGraphABExport (
 								fs.FullURL,
 								Util.CSVDecimalColumnIsPoint(fs.FullURL, 1),
 								fsAI.ForceMAX,			//raw
@@ -2726,7 +2733,7 @@ public class ForceSensorExport
 */
 		}
 
-		if(fsgAB_l.Count > 0)
+		if(fsgABe_l.Count > 0)
 		{
 			ForceSensorGraph fsg = new ForceSensorGraph(
 					rfdList, impulse,
@@ -2734,7 +2741,7 @@ public class ForceSensorExport
 					forceSensorStartEndOptimized,
 					true, //not used to read data, but used to print data
 					CSVExportDecimalSeparatorChar, // at write file
-					fsgAB_l
+					fsgABe_l
 					);
 
 			bool success = fsg.CallR(imageWidth -5, imageHeight -5, false);

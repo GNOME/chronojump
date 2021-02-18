@@ -2460,7 +2460,7 @@ public class ForceSensorExportSet
 	{
 		this.pID = pID;
 		this.exID = exID;
-		this.count = 1;
+		this.count = 0;
 	}
 }
 public class ForceSensorExportSetManage
@@ -2730,9 +2730,7 @@ public class ForceSensorExport
 			if(! found)
 				continue;
 
-			if(fsesm.Exists(p.UniqueID, fsEx.UniqueID))
-				fsesm.AddSet(p.UniqueID, fsEx.UniqueID);
-			else
+			if(! fsesm.Exists(p.UniqueID, fsEx.UniqueID))
 				fsesm.AddForceSensorExportSet(p.UniqueID, fsEx.UniqueID);
 
 			//make the exercise have EccReps = true in order to have an AB wiht the concentric and eccentric part
@@ -2779,6 +2777,7 @@ public class ForceSensorExport
 			//delete result file
 			Util.FileDelete(UtilEncoder.GetmifExportFileName());
 
+			bool addedSet = false;
 			int repCount = 1;
 			int repConcentricSampleStart = -1;
 			bool lastIsCon = false;
@@ -2799,6 +2798,10 @@ public class ForceSensorExport
 					if(success)
 						maxAvgForceInWindow = fsAI.ForceMaxAvgInWindow;
 
+					if(! addedSet) {
+						fsesm.AddSet(p.UniqueID, fsEx.UniqueID);
+						addedSet = true;
+					}
 					fsgABe_l.Add(new ForceSensorGraphABExport (
 								fs.FullURL,
 								Util.CSVDecimalColumnIsPoint(fs.FullURL, 1),
@@ -2812,6 +2815,7 @@ public class ForceSensorExport
 								rep.sampleEnd,			//end of eccentric rep
 								title, exercise, fs.DateTimePublic, new TriggerList()
 								));
+
 					lastIsCon = false;
 				}
 			}
@@ -2825,6 +2829,10 @@ public class ForceSensorExport
 				if(success)
 					maxAvgForceInWindow = fsAI.ForceMaxAvgInWindow;
 
+				if(! addedSet) {
+					fsesm.AddSet(p.UniqueID, fsEx.UniqueID);
+					addedSet = true;
+				}
 				fsgABe_l.Add(new ForceSensorGraphABExport (
 							fs.FullURL,
 							Util.CSVDecimalColumnIsPoint(fs.FullURL, 1),

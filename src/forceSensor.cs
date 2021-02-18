@@ -2536,6 +2536,7 @@ public class ForceSensorExport
 	//passed variables
 	private Gtk.Notebook notebook;
 	private Gtk.ProgressBar progressbar;
+	private Gtk.Label labelResult;
 	private string exportFilename;
 	private bool isWindows;
 	private int personID; // -1: all
@@ -2569,6 +2570,7 @@ public class ForceSensorExport
 	public ForceSensorExport (
 			Gtk.Notebook notebook,
 			Gtk.ProgressBar progressbar,
+			Gtk.Label labelResult,
 			bool isWindows, int personID, int sessionID,
 			List<ForceSensorRFD> rfdList, ForceSensorImpulse impulse,
 			double duration, int durationPercent,
@@ -2583,6 +2585,7 @@ public class ForceSensorExport
 	{
 		this.notebook = notebook;
 		this.progressbar = progressbar;
+		this.labelResult = labelResult;
 		this.isWindows = isWindows;
 		this.personID = personID;
 		this.sessionID = sessionID;
@@ -2649,14 +2652,13 @@ public class ForceSensorExport
 			notebook.CurrentPage = 0;
 
 			if(cancel)
-				new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Cancelled."));
+				labelResult.Text = Catalog.GetString("Cancelled.");
 			else if (noData)
-				new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Missing data."));
+				labelResult.Text = Catalog.GetString("Missing data.");
 			else
-				new DialogMessage(Constants.MessageTypes.INFO,
-						string.Format("Exported to {0}", exportFilename)// +
+				labelResult.Text = string.Format(Catalog.GetString("Exported to {0}"), exportFilename);// +
 						//Constants.GetSpreadsheetString(CSVExportDecimalSeparator)
-						);
+						//);
 
 			return false;
 		}
@@ -2669,7 +2671,7 @@ public class ForceSensorExport
 			progressbar.Text = messageToProgressbar;
 			progressbar.Pulse();
 		} else {
-			progressbar.Text = string.Format("Exporting {0}/{1}", files, fs_l.Count);
+			progressbar.Text = string.Format(Catalog.GetString("Exporting {0}/{1}"), files, fs_l.Count);
 			progressbar.Fraction = UtilAll.DivideSafeFraction(files, fs_l.Count);
 		}
 
@@ -2715,7 +2717,7 @@ public class ForceSensorExport
 		int count = 1;
 		foreach(ForceSensor fs in fs_l)
 		{
-			messageToProgressbar = string.Format("Preparing {0}/{1}", count++, fs_l.Count);
+			messageToProgressbar = string.Format(Catalog.GetString("Preparing {0}/{1}"), count++, fs_l.Count);
 
 			if(cancel)
 				return false;

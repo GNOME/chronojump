@@ -2781,10 +2781,16 @@ public class ForceSensorExport
 
 			int repCount = 1;
 			int repConcentricSampleStart = -1;
+			bool lastIsCon = false;
+			ForceSensorRepetition repLast = null;
 			foreach(ForceSensorRepetition rep in fsAI.ForceSensorRepetition_l)
 			{
 				if(rep.type == ForceSensorRepetition.Types.CON)
+				{
 					repConcentricSampleStart = rep.sampleStart;
+					repLast = rep;
+					lastIsCon = true;
+				}
 				else if(rep.type == ForceSensorRepetition.Types.ECC && repConcentricSampleStart != -1)
 				{
 					double maxAvgForceInWindow = 0;
@@ -2806,7 +2812,32 @@ public class ForceSensorExport
 								rep.sampleEnd,			//end of eccentric rep
 								title, exercise, fs.DateTimePublic, new TriggerList()
 								));
+					lastIsCon = false;
 				}
+			}
+
+			//if the last rep is con, also send to R (no problem if there is no ending ecc phase)
+			if(lastIsCon && repLast != null)
+			{
+				double maxAvgForceInWindow = 0;
+				bool success = fsAI.CalculateRangeParams(repConcentricSampleStart, repLast.sampleEnd,
+						forceSensorAnalyzeMaxAVGInWindowSeconds);
+				if(success)
+					maxAvgForceInWindow = fsAI.ForceMaxAvgInWindow;
+
+				fsgABe_l.Add(new ForceSensorGraphABExport (
+							fs.FullURL,
+							Util.CSVDecimalColumnIsPoint(fs.FullURL, 1),
+							fsAI.ForceMAX,			//raw
+							maxAvgForceInWindow,		//raw
+							forceSensorAnalyzeMaxAVGInWindowSeconds, //raw
+							fsesm.GetCount(p.UniqueID, fsEx.UniqueID),//setCount,
+							repCount ++,
+							fs.CaptureOption,
+							repConcentricSampleStart, 	//start of concentric rep
+							repLast.sampleEnd,			//end of eccentric rep
+							title, exercise, fs.DateTimePublic, new TriggerList()
+							));
 			}
 
 			//TODO: or check cancel when there is a thread, also R should write something blank if there is any problem

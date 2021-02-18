@@ -49,16 +49,17 @@ assignOptions <- function(options)
         captureOptions 		= options[18],
         title 	 		= options[19],
         exercise 	 	= options[20],
-        datetime 	 	= options[21],
-        scriptsPath 		= options[22],
-        triggersOnList  	= as.numeric(unlist(strsplit(options[23], "\\;"))),
-        triggersOffList  	= as.numeric(unlist(strsplit(options[24], "\\;"))),
-        startSample 	= as.numeric(options[25]),
-        endSample 	= as.numeric(options[26]),
-        startEndOptimized 	= options[27], 	#bool
-	singleOrMultiple 	= options[28],   	#bool (true is single)
-	decimalCharAtExport	= options[29],
-        maxAvgWindowSeconds 	= as.numeric(options[30])
+        date	 	 	= options[21],
+        time 	 		= options[22],
+        scriptsPath 		= options[23],
+        triggersOnList  	= as.numeric(unlist(strsplit(options[24], "\\;"))),
+        triggersOffList  	= as.numeric(unlist(strsplit(options[25], "\\;"))),
+        startSample 	= as.numeric(options[26]),
+        endSample 	= as.numeric(options[27]),
+        startEndOptimized 	= options[28], 	#bool
+	singleOrMultiple 	= options[29],   	#bool (true is single)
+	decimalCharAtExport	= options[30],
+        maxAvgWindowSeconds 	= as.numeric(options[31])
     ))
 }
 
@@ -1082,7 +1083,6 @@ doProcess <- function(pngFile, dataFile, decimalChar, title, exercise, datetime,
 {
 	title = fixTitleAndOtherStrings(title)
 	exercise = fixTitleAndOtherStrings(exercise)
-	datetime = fixDatetime(datetime)
 
 	print("Going to enter prepareGraph")
 	prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
@@ -1105,10 +1105,11 @@ start <- function(op)
 {
 	if(op$singleOrMultiple == "TRUE")
 	{
+		datetime = paste(op$date, op$time, sep=" ")
 		dataFile <- paste(tempPath, "/cj_mif_Data.csv", sep="")
 		pngFile <- paste(tempPath, "/cj_mif_Graph.png", sep="")
 		doProcess(pngFile, dataFile, op$decimalCharAtFile, op$title, op$exercise,
-				op$datetime, op$captureOptions, op$startSample, op$endSample)
+				datetime, op$captureOptions, op$startSample, op$endSample)
 	} else {
 		#export
 		#1) define exportDF and the model vector if model does not succeed
@@ -1128,7 +1129,7 @@ start <- function(op)
 		if(op$decimalCharAtExport == ",")
 			maxAvgWindowSecondsHeader = format(maxAvgWindowSecondsHeader, decimal.mark=",")
 
-		exportNames = c("Name","Datetime","Exercise","Set","Repetition","MaxForce (raw)",paste("Max AVG Force in", maxAvgWindowSecondsHeader, "s (raw)"),"MaxForce (model)")
+		exportNames = c("Name","Date","Time","Exercise","Set","Repetition","MaxForce (raw)",paste("Max AVG Force in", maxAvgWindowSecondsHeader, "s (raw)"),"MaxForce (model)")
 		for(i in 1:length(op$drawRfdOptions))
 		{
 			RFDoptions = readRFDOptions(op$drawRfdOptions[i])
@@ -1159,7 +1160,7 @@ start <- function(op)
 			modelOk = FALSE
 			executing  <- tryCatch({
 				exportModelVector = doProcess(pngFile, as.vector(dataFiles$fullURL[i]),
-					dataFiles$decimalChar[i], dataFiles$title[i], dataFiles$exercise[i], dataFiles$datetime[i],
+					dataFiles$decimalChar[i], dataFiles$title[i], dataFiles$exercise[i], paste(dataFiles$date[i], dataFiles$time[i], sep=" "),
 					dataFiles$captureOptions[i], dataFiles$startSample[i], dataFiles$endSample[i])
 				#countGraph = countGraph +1 #only adds if not error, so the numbering of graphs matches rows in CSV
 
@@ -1174,7 +1175,7 @@ start <- function(op)
 				exportModelVector = exportModelVectorOnFail #done here and not on the catch, because it didn't worked there
 
 			#mix strings and numbers directly in a data frame to not have numbers as text (and then cannot export with decimal , or .)
-			exportSetDF = data.frame(dataFiles$title[i], fixDatetime(dataFiles$datetime[i]), dataFiles$exercise[i], dataFiles$set[i], dataFiles$rep[i])
+			exportSetDF = data.frame(dataFiles$title[i], dataFiles$date[i], dataFiles$time[i], dataFiles$exercise[i], dataFiles$set[i], dataFiles$rep[i])
 			exportSetDF = cbind (exportSetDF, dataFiles$maxForceRaw[i])
 			exportSetDF = cbind (exportSetDF, dataFiles$maxAvgForceInWindow[i])
 			for(j in 1:length(exportModelVector))

@@ -297,6 +297,26 @@ public class ForceSensor
 	{
 		get { return dateTime; }
 	}
+	public string DatePublic
+	{
+		get {
+			if(dateTime.Split(new char[] {'_'}).Length == 2)
+				return Util.ChangeChars(dateTime.Split(new char[] {'_'})[0], "-", "/");
+			else
+				return "";
+		}
+	}
+	public string TimePublic
+	{
+		get {
+			if(dateTime.Split(new char[] {'_'}).Length == 2)
+				return Util.ChangeChars(dateTime.Split(new char[] {'_'})[1], "-", ":");
+			else
+				return "";
+		}
+	}
+
+
 
 	public string Filename
 	{
@@ -1516,18 +1536,20 @@ public class ForceSensorGraphAB
 	public int endSample;
 	public string title;
 	public string exercise;
-	public string datetime;
+	public string date;
+	public string time;
 	public TriggerList triggerList;
 
 	protected void assignParams(ForceSensor.CaptureOptions fsco, int startSample, int endSample,
-			string title, string exercise, string datetime, TriggerList triggerList)
+			string title, string exercise, string date, string time, TriggerList triggerList)
 	{
 		this.fsco = fsco;
 		this.startSample = startSample;
 		this.endSample = endSample;
 		this.title = title;
 		this.exercise = exercise;
-		this.datetime = datetime;
+		this.date = date;
+		this.time = time;
 		this.triggerList = triggerList;
 	}
 
@@ -1539,9 +1561,9 @@ public class ForceSensorGraphAB
 	//constructor for graph on analyze
 	public ForceSensorGraphAB (
 			ForceSensor.CaptureOptions fsco, int startSample, int endSample,
-			string title, string exercise, string datetime, TriggerList triggerList)
+			string title, string exercise, string date, string time, TriggerList triggerList)
 	{
-		assignParams(fsco, startSample, endSample, title, exercise, datetime, triggerList);
+		assignParams(fsco, startSample, endSample, title, exercise, date, time, triggerList);
 	}
 
 
@@ -1561,9 +1583,9 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 			double maxAvgForceInWindow, double forceSensorAnalyzeMaxAVGInWindowSeconds,
 			int setCount, int repCount,
 			ForceSensor.CaptureOptions fsco, int startSample, int endSample,
-			string title, string exercise, string datetime, TriggerList triggerList)
+			string title, string exercise, string date, string time, TriggerList triggerList)
 	{
-		assignParams(fsco, startSample, endSample, title, exercise, datetime, triggerList);
+		assignParams(fsco, startSample, endSample, title, exercise, date, time, triggerList);
 
 		this.fullURL = fullURL;
 		this.decimalIsPoint = decimalIsPoint;
@@ -1592,7 +1614,8 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 			fsco.ToString() + ";" +
 			title + ";" +
 			exercise + ";" +
-			datetime + ";" +
+			date + ";" +
+			time + ";" +
 			setCount + ";" +
 			repCount + ";" +
 			"\"\";\"\";" + 	// triggers unused on export
@@ -1603,7 +1626,7 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 	public static string PrintCSVHeaderOnExport()
 	{
 		return "fullURL;decimalChar;maxForceRaw;maxAvgForceInWindow;" +
-			"captureOptions;title;exercise;datetime;set;rep;" +
+			"captureOptions;title;exercise;date;time;set;rep;" +
 			"triggersON;triggersOFF;" + //unused on export
 			"startSample;endSample";
 	}
@@ -1625,7 +1648,8 @@ public class ForceSensorGraph
 	double testLength;
 	string title;
 	string exercise;
-	string datetime;
+	string date;
+	string time;
 	private TriggerList triggerList;
 	private int startSample;
 	private int endSample;
@@ -1679,7 +1703,8 @@ public class ForceSensorGraph
 		this.endSample = fsgAB.endSample;
 		this.title = fsgAB.title;
 		this.exercise = fsgAB.exercise;
-		this.datetime = fsgAB.datetime;
+		this.date = fsgAB.date;
+		this.time = fsgAB.time;
 		this.triggerList = fsgAB.triggerList;
 	}
 
@@ -1771,7 +1796,8 @@ public class ForceSensorGraph
 			captureOptionsStr = "-1";
 			title = "-1";
 			exercise = "-1";
-			datetime = "-1";
+			date = "-1";
+			time = "-1";
 		}
 
 		scriptOptions +=
@@ -1779,7 +1805,8 @@ public class ForceSensorGraph
 			"#captureOptions\n" + 		captureOptionsStr + "\n" + 	//unused on multiple
 			"#title\n" + 			title + "\n" + 			//unused on multiple
 			"#exercise\n" + 		exercise + "\n" +		//unused on multiple
-			"#datetime\n" + 		datetime + "\n" +		//unused on multiple
+			"#date\n" + 			date + "\n" +			//unused on multiple
+			"#time\n" + 			time + "\n" +			//unused on multiple
 			"#scriptsPath\n" + 		UtilEncoder.GetScriptsPath() + "\n" +
 			triggersOnStr + "\n" + 						//unused on multiple
 			triggersOffStr + "\n" + 						//unused on multiple
@@ -2813,7 +2840,7 @@ public class ForceSensorExport
 								fs.CaptureOption,
 								repConcentricSampleStart, 	//start of concentric rep
 								rep.sampleEnd,			//end of eccentric rep
-								title, exercise, fs.DateTimePublic, new TriggerList()
+								title, exercise, fs.DatePublic, fs.TimePublic, new TriggerList()
 								));
 
 					lastIsCon = false;
@@ -2844,7 +2871,7 @@ public class ForceSensorExport
 							fs.CaptureOption,
 							repConcentricSampleStart, 	//start of concentric rep
 							repLast.sampleEnd,			//end of eccentric rep
-							title, exercise, fs.DateTimePublic, new TriggerList()
+							title, exercise, fs.DatePublic, fs.TimePublic, new TriggerList()
 							));
 			}
 

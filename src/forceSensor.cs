@@ -2555,6 +2555,7 @@ public class ForceSensorExport
 	private static Thread thread;
 	private static bool cancel;
 	private static bool noData;
+	private static string messageToProgressbar;
 	//private static double pulseFraction; unused because its managed on pulse, better because on thread is working 100% on R call
 
 	List<ForceSensor> fs_l;
@@ -2606,6 +2607,7 @@ public class ForceSensorExport
 		cancel = false;
 		noData = false;
 		progressbar.Fraction = 0;
+		messageToProgressbar = "";
 		notebook.CurrentPage = 1;
 
 		//create progressbar and graph files dirs or delete their contents
@@ -2663,10 +2665,13 @@ public class ForceSensorExport
 		//LogB.Information(string.Format("pulse files: {0}", dirInfo.GetFiles().Length));
 
 		int files = dirInfo.GetFiles().Length;
-		if(files == 0)
+		if(files == 0) {
+			progressbar.Text = messageToProgressbar;
 			progressbar.Pulse();
-		else
+		} else {
+			progressbar.Text = string.Format("Exporting {0}/{1}", files, fs_l.Count);
 			progressbar.Fraction = UtilAll.DivideSafeFraction(files, fs_l.Count);
+		}
 
 		Thread.Sleep (100);
 		//Log.Write(" (pulseForceSensorExportGTK:" + thread.ThreadState.ToString() + ") ");
@@ -2704,13 +2709,14 @@ public class ForceSensorExport
 
 		List<ForceSensorGraphABExport> fsgABe_l = new List<ForceSensorGraphABExport>();
 
-		int count = 0;
-
 		//to manage sets we need previousPerson and previousExercise
 		ForceSensorExportSetManage fsesm = new ForceSensorExportSetManage();
 
+		int count = 1;
 		foreach(ForceSensor fs in fs_l)
 		{
+			messageToProgressbar = string.Format("Preparing {0}/{1}", count++, fs_l.Count);
+
 			if(cancel)
 				return false;
 

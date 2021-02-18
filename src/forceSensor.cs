@@ -1553,10 +1553,13 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 	public double maxForceRaw;
 	public double maxAvgForceInWindow;
 	public double forceSensorAnalyzeMaxAVGInWindowSeconds;
+	public int setCount;
+	public int repCount;
 
 	public ForceSensorGraphABExport (
 			string fullURL, bool decimalIsPoint, double maxForceRaw,
 			double maxAvgForceInWindow, double forceSensorAnalyzeMaxAVGInWindowSeconds,
+			int setCount, int repCount,
 			ForceSensor.CaptureOptions fsco, int startSample, int endSample,
 			string title, string exercise, string datetime, TriggerList triggerList)
 	{
@@ -1567,6 +1570,8 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 		this.maxForceRaw = maxForceRaw;
 		this.maxAvgForceInWindow = maxAvgForceInWindow;
 		this.forceSensorAnalyzeMaxAVGInWindowSeconds = forceSensorAnalyzeMaxAVGInWindowSeconds;
+		this.setCount = setCount;
+		this.repCount = repCount;
 	}
 
 	public string ToCSVRowOnExport()
@@ -1588,6 +1593,8 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 			title + ";" +
 			exercise + ";" +
 			datetime + ";" +
+			setCount + ";" +
+			repCount + ";" +
 			"\"\";\"\";" + 	// triggers unused on export
 			startSample.ToString() + ";" +
 			endSample.ToString();
@@ -1596,7 +1603,7 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 	public static string PrintCSVHeaderOnExport()
 	{
 		return "fullURL;decimalChar;maxForceRaw;maxAvgForceInWindow;" +
-			"captureOptions;title;exercise;datetime;" +
+			"captureOptions;title;exercise;datetime;set;rep;" +
 			"triggersON;triggersOFF;" + //unused on export
 			"startSample;endSample";
 	}
@@ -2442,6 +2449,61 @@ public class ForceSensorAnalyzeInstant
 	}
 }
 
+//to count sets according to person and exercise
+public class ForceSensorExportSet
+{
+	public int pID; //personID
+	public int exID; //forceSensor exercise ID
+	public int count; //how many sets with this pID && exID
+
+	public ForceSensorExportSet (int pID, int exID)
+	{
+		this.pID = pID;
+		this.exID = exID;
+		this.count = 1;
+	}
+}
+public class ForceSensorExportSetManage
+{
+	List<ForceSensorExportSet> l;
+
+	public ForceSensorExportSetManage()
+	{
+		l = new List<ForceSensorExportSet>();
+	}
+
+	public bool Exists (int pID, int exID)
+	{
+		foreach(ForceSensorExportSet fses in l)
+			if(fses.pID == pID && fses.exID == exID)
+				return true;
+
+		return false;
+	}
+
+	public void AddForceSensorExportSet (int pID, int exID)
+	{
+		ForceSensorExportSet fses = new ForceSensorExportSet(pID, exID);
+		l.Add(fses);
+	}
+
+	public void AddSet (int pID, int exID)
+	{
+		foreach(ForceSensorExportSet fses in l)
+			if(fses.pID == pID && fses.exID == exID)
+				fses.count ++;
+	}
+
+	public int GetCount (int pID, int exID)
+	{
+		foreach(ForceSensorExportSet fses in l)
+			if(fses.pID == pID && fses.exID == exID)
+				return fses.count;
+
+		return -1;
+	}
+}
+
 public class ForceSensorExport
 {
 	//passed variables
@@ -2616,6 +2678,10 @@ public class ForceSensorExport
 		List<ForceSensorGraphABExport> fsgABe_l = new List<ForceSensorGraphABExport>();
 
 		int count = 0;
+
+		//to manage sets we need previousPerson and previousExercise
+		ForceSensorExportSetManage fsesm = new ForceSensorExportSetManage();
+
 		foreach(ForceSensor fs in fs_l)
 		{
 			if(cancel)
@@ -2664,6 +2730,11 @@ public class ForceSensorExport
 			if(! found)
 				continue;
 
+			if(fsesm.Exists(p.UniqueID, fsEx.UniqueID))
+				fsesm.AddSet(p.UniqueID, fsEx.UniqueID);
+			else
+				fsesm.AddForceSensorExportSet(p.UniqueID, fsEx.UniqueID);
+
 			//make the exercise have EccReps = true in order to have an AB wiht the concentric and eccentric part
 			//and send both to R to be able to have the force window in that AB
 			fsEx.EccReps = true;
@@ -2700,8 +2771,7 @@ public class ForceSensorExport
 			Util.FileDelete(destination);
 
 
-
-/*
+			/*
 			//copy file to tmp to be written readed by R
 			File.Copy(fs.FullURL, UtilEncoder.GetmifCSVFileName(), true); //can be overwritten
 			*/
@@ -2709,6 +2779,7 @@ public class ForceSensorExport
 			//delete result file
 			Util.FileDelete(UtilEncoder.GetmifExportFileName());
 
+			int repCount = 1;
 			int repConcentricSampleStart = -1;
 			foreach(ForceSensorRepetition rep in fsAI.ForceSensorRepetition_l)
 			{
@@ -2728,6 +2799,8 @@ public class ForceSensorExport
 								fsAI.ForceMAX,			//raw
 								maxAvgForceInWindow,		//raw
 								forceSensorAnalyzeMaxAVGInWindowSeconds, //raw
+								fsesm.GetCount(p.UniqueID, fsEx.UniqueID),//setCount,
+								repCount ++,
 								fs.CaptureOption,
 								repConcentricSampleStart, 	//start of concentric rep
 								rep.sampleEnd,			//end of eccentric rep

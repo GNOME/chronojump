@@ -1128,7 +1128,7 @@ start <- function(op)
 		if(op$decimalCharAtExport == ",")
 			maxAvgWindowSecondsHeader = format(maxAvgWindowSecondsHeader, decimal.mark=",")
 
-		exportNames = c("Name","Exercise","MaxForceRaw",paste("Max AVG Force in", maxAvgWindowSecondsHeader, "s"),"Fmax")
+		exportNames = c("Name","Datetime","Exercise","MaxForceRaw",paste("Max AVG Force in", maxAvgWindowSecondsHeader, "s"),"Fmax")
 		for(i in 1:length(op$drawRfdOptions))
 		{
 			RFDoptions = readRFDOptions(op$drawRfdOptions[i])
@@ -1174,7 +1174,7 @@ start <- function(op)
 				exportModelVector = exportModelVectorOnFail #done here and not on the catch, because it didn't worked there
 
 			#mix strings and numbers directly in a data frame to not have numbers as text (and then cannot export with decimal , or .)
-			exportSetDF = data.frame(dataFiles$title[i], dataFiles$exercise[i])
+			exportSetDF = data.frame(dataFiles$title[i], fixDatetime(dataFiles$datetime[i]), dataFiles$exercise[i])
 			exportSetDF = cbind (exportSetDF, dataFiles$maxForceRaw[i])
 			exportSetDF = cbind (exportSetDF, dataFiles$maxAvgForceInWindow[i])
 			for(j in 1:length(exportModelVector))

@@ -2465,6 +2465,7 @@ public class ForceSensorExport
 
 	private static Thread thread;
 	private static bool cancel;
+	private static bool noData;
 	//private static double pulseFraction; unused because its managed on pulse, better because on thread is working 100% on R call
 
 	List<ForceSensor> fs_l;
@@ -2514,6 +2515,7 @@ public class ForceSensorExport
 		this.exportFilename = exportFilename;
 
 		cancel = false;
+		noData = false;
 		progressbar.Fraction = 0;
 		notebook.CurrentPage = 1;
 
@@ -2557,6 +2559,8 @@ public class ForceSensorExport
 
 			if(cancel)
 				new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Cancelled."));
+			else if (noData)
+				new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Missing data."));
 			else
 				new DialogMessage(Constants.MessageTypes.INFO,
 						string.Format("Exported to {0}", exportFilename)// +
@@ -2583,6 +2587,14 @@ public class ForceSensorExport
 	private void forceSensorExportDo()
 	{
 		getData();
+
+		if(fs_l.Count == 0)
+		{
+			LogB.Information("There's no data");
+			noData = true;
+			return;
+		}
+
 //		if(processForceSensorSets()) //false if cancelled
 //			writeFile();
 		processForceSensorSets();

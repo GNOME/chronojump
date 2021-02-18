@@ -1128,7 +1128,7 @@ start <- function(op)
 		if(op$decimalCharAtExport == ",")
 			maxAvgWindowSecondsHeader = format(maxAvgWindowSecondsHeader, decimal.mark=",")
 
-		exportNames = c("Name","Datetime","Exercise","Set","Repetition","MaxForceRaw",paste("Max AVG Force in", maxAvgWindowSecondsHeader, "s"),"Fmax")
+		exportNames = c("Name","Datetime","Exercise","Set","Repetition","MaxForce (raw)",paste("Max AVG Force in", maxAvgWindowSecondsHeader, "s (raw)"),"MaxForce (model)")
 		for(i in 1:length(op$drawRfdOptions))
 		{
 			RFDoptions = readRFDOptions(op$drawRfdOptions[i])

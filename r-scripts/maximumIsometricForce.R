@@ -1198,9 +1198,9 @@ start <- function(op)
 		} else {
 			#print csv
 			if(op$decimalCharAtExport == ".")
-				write.csv(exportDF, file = paste(tempPath, "/cj_mif_export.csv", sep = ""), row.names = FALSE, col.names = TRUE, quote = FALSE)
+				write.csv(exportDF, file = paste(tempPath, "/cj_mif_export.csv", sep = ""), row.names = FALSE, col.names = TRUE, quote = FALSE, na="")
 			else if(op$decimalCharAtExport == ",")
-				write.csv2(exportDF, file = paste(tempPath, "/cj_mif_export.csv", sep = ""), row.names = FALSE, col.names = TRUE, quote = FALSE)
+				write.csv2(exportDF, file = paste(tempPath, "/cj_mif_export.csv", sep = ""), row.names = FALSE, col.names = TRUE, quote = FALSE, na="")
 		}
 	}
 }

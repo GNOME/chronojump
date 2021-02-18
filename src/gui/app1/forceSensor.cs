@@ -2183,7 +2183,10 @@ LogB.Information(" fs R ");
 				new ForceSensorGraphAB(
 					getForceSensorCaptureOptions(),
 					sampleA, sampleB,
-					title, exercise, currentForceSensor.DateTimePublic, triggerListForceSensor)
+					title, exercise,
+					currentForceSensor.DatePublic,
+					currentForceSensor.TimePublic,
+					triggerListForceSensor)
 				);
 
 		int imageWidth = UtilGtk.WidgetWidth(viewport_force_sensor_graph);

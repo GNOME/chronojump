@@ -157,6 +157,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_force_sensor_export;
 	[Widget] Gtk.Label label_force_sensor_export_data;
 	[Widget] Gtk.ProgressBar progressbar_force_sensor_export;
+	[Widget] Gtk.Label label_force_sensor_export_result;
 
 	private RepetitionMouseLimits fsAIRepetitionMouseLimits;
 
@@ -696,6 +697,7 @@ public partial class ChronoJumpWindow
 	{
 		button_force_sensor_analyze_load.Visible = true;
 		notebook_force_sensor_analyze_top.CurrentPage = 0;
+		label_force_sensor_export_result.Text = "";
 	}
 	private void on_radio_force_sensor_analyze_individual_current_session_toggled (object o, EventArgs args)
 	{
@@ -707,6 +709,7 @@ public partial class ChronoJumpWindow
 			label_force_sensor_export_data.Text = "";
 
 		notebook_force_sensor_analyze_top.CurrentPage = 1;
+		label_force_sensor_export_result.Text = "";
 	}
 	private void on_radio_force_sensor_analyze_groupal_current_session_toggled (object o, EventArgs args)
 	{
@@ -715,6 +718,7 @@ public partial class ChronoJumpWindow
 		label_force_sensor_export_data.Text = currentSession.Name;
 
 		notebook_force_sensor_analyze_top.CurrentPage = 1;
+		label_force_sensor_export_result.Text = "";
 	}
 
 	private void on_button_force_sensor_export_current_session_clicked (object o, EventArgs args)
@@ -745,6 +749,7 @@ public partial class ChronoJumpWindow
 		forceSensorExport = new ForceSensorExport (
 				notebook_force_sensor_export,
 				progressbar_force_sensor_export,
+				label_force_sensor_export_result,
 				UtilAll.IsWindows(), personID, currentSession.UniqueID,
 				rfdList, impulse,//getImpulseValue(),
 				duration, Convert.ToInt32(spin_force_rfd_duration_percent.Value),

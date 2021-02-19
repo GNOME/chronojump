@@ -1143,6 +1143,8 @@ start <- function(op)
 			exportNames = c(exportNames, paste("Impulse", impulseOptions$impulseFunction, impulseOptions$type,
 					impulseOptions$start, impulseOptions$end, sep ="_"))
 
+		exportNames = c(exportNames, "comments (set)");
+
 		#2) read the csv
 		dataFiles = read.csv(file = paste(tempPath, "/maximumIsometricForceInputMulti.csv", sep=""), sep=";", stringsAsFactors=F)
 
@@ -1180,6 +1182,7 @@ start <- function(op)
 			exportSetDF = cbind (exportSetDF, dataFiles$maxAvgForceInWindow[i])
 			for(j in 1:length(exportModelVector))
 				exportSetDF = cbind (exportSetDF, exportModelVector[j])
+			exportSetDF = cbind (exportSetDF, dataFiles$comments[i])
 
 			colnames(exportSetDF) = exportNames
 

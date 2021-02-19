@@ -1577,11 +1577,12 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 	public double forceSensorAnalyzeMaxAVGInWindowSeconds;
 	public int setCount;
 	public int repCount;
+	public string commentOfSet;
 
 	public ForceSensorGraphABExport (
 			string fullURL, bool decimalIsPoint, double maxForceRaw,
 			double maxAvgForceInWindow, double forceSensorAnalyzeMaxAVGInWindowSeconds,
-			int setCount, int repCount,
+			int setCount, int repCount, string commentOfSet,
 			ForceSensor.CaptureOptions fsco, int startSample, int endSample,
 			string title, string exercise, string date, string time, TriggerList triggerList)
 	{
@@ -1594,6 +1595,7 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 		this.forceSensorAnalyzeMaxAVGInWindowSeconds = forceSensorAnalyzeMaxAVGInWindowSeconds;
 		this.setCount = setCount;
 		this.repCount = repCount;
+		this.commentOfSet = commentOfSet;
 	}
 
 	public string ToCSVRowOnExport()
@@ -1620,7 +1622,8 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 			repCount + ";" +
 			"\"\";\"\";" + 	// triggers unused on export
 			startSample.ToString() + ";" +
-			endSample.ToString();
+			endSample.ToString() + ";" +
+			Util.RemoveChar(commentOfSet, ';');  //TODO: check this really removes
 	}
 
 	public static string PrintCSVHeaderOnExport()
@@ -1628,7 +1631,7 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 		return "fullURL;decimalChar;maxForceRaw;maxAvgForceInWindow;" +
 			"captureOptions;title;exercise;date;time;set;rep;" +
 			"triggersON;triggersOFF;" + //unused on export
-			"startSample;endSample";
+			"startSample;endSample;comments";
 	}
 }
 
@@ -2845,6 +2848,7 @@ public class ForceSensorExport
 								forceSensorAnalyzeMaxAVGInWindowSeconds, //raw
 								fsesm.GetCount(p.UniqueID, fsEx.UniqueID),//setCount,
 								repCount ++,
+								fs.Comments,
 								fs.CaptureOption,
 								repConcentricSampleStart, 	//start of concentric rep
 								rep.sampleEnd,			//end of eccentric rep
@@ -2893,6 +2897,7 @@ public class ForceSensorExport
 							forceSensorAnalyzeMaxAVGInWindowSeconds, //raw
 							fsesm.GetCount(p.UniqueID, fsEx.UniqueID),//setCount,
 							repCount ++,
+							fs.Comments,
 							fs.CaptureOption,
 							sampleA,
 							sampleB,

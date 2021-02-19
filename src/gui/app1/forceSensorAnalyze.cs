@@ -746,6 +746,10 @@ public partial class ChronoJumpWindow
 		if(radio_force_duration_seconds.Active)
 			duration = Convert.ToDouble(spin_force_duration_seconds.Value);
 
+		forceSensorButtonsSensitive(false);
+		hbox_force_sensor_analyze_top_modes.Sensitive = false;
+		button_force_sensor_analyze_options.Sensitive = false;
+
 		forceSensorExport = new ForceSensorExport (
 				notebook_force_sensor_export,
 				progressbar_force_sensor_export,
@@ -762,6 +766,9 @@ public partial class ChronoJumpWindow
 				preferences.forceSensorAnalyzeMaxAVGInWindow
 				);
 
+		forceSensorExport.Button_done.Clicked -= new EventHandler(force_sensor_export_done);
+		forceSensorExport.Button_done.Clicked += new EventHandler(force_sensor_export_done);
+
 		if(personID == -1)
 			checkFile(Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION);
 		else
@@ -775,6 +782,15 @@ public partial class ChronoJumpWindow
 	private void on_button_force_sensor_export_cancel_clicked (object o, EventArgs args)
 	{
 		forceSensorExport.Cancel();
+	}
+
+	private void force_sensor_export_done (object o, EventArgs args)
+	{
+		forceSensorExport.Button_done.Clicked -= new EventHandler(force_sensor_export_done);
+
+		forceSensorButtonsSensitive(true);
+		hbox_force_sensor_analyze_top_modes.Sensitive = true;
+		button_force_sensor_analyze_options.Sensitive = true;
 	}
 
 	private void forceSensorDoGraphAI(bool windowResizedAndZoom)

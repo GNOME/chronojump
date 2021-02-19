@@ -2633,6 +2633,7 @@ public class ForceSensorExport
 		//create progressbar and graph files dirs or delete their contents
 		createOrEmptyDir(Util.GetForceSensorTempProgressDir());
 		createOrEmptyDir(Util.GetForceSensorTempGraphsDir());
+		createOrEmptyDir(Util.GetForceSensorTempGraphsABDir());
 
 		thread = new Thread (new ThreadStart (forceSensorExportDo));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseForceSensorExportGTK));

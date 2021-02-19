@@ -746,6 +746,7 @@ public partial class ChronoJumpWindow
 		if(radio_force_duration_seconds.Active)
 			duration = Convert.ToDouble(spin_force_duration_seconds.Value);
 
+		label_force_sensor_export_result.Text = "";
 		forceSensorButtonsSensitive(false);
 		hbox_force_sensor_analyze_top_modes.Sensitive = false;
 		button_force_sensor_analyze_options.Sensitive = false;

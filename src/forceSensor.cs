@@ -1575,6 +1575,7 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 	public double maxForceRaw;
 	public double maxAvgForceInWindow;
 	public double forceSensorAnalyzeMaxAVGInWindowSeconds;
+	public string laterality;
 	public int setCount;
 	public int repCount;
 	public string commentOfSet;
@@ -1582,7 +1583,7 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 	public ForceSensorGraphABExport (
 			string fullURL, bool decimalIsPoint, double maxForceRaw,
 			double maxAvgForceInWindow, double forceSensorAnalyzeMaxAVGInWindowSeconds,
-			int setCount, int repCount, string commentOfSet,
+			string laterality, int setCount, int repCount, string commentOfSet,
 			ForceSensor.CaptureOptions fsco, int startSample, int endSample,
 			string title, string exercise, string date, string time, TriggerList triggerList)
 	{
@@ -1593,6 +1594,7 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 		this.maxForceRaw = maxForceRaw;
 		this.maxAvgForceInWindow = maxAvgForceInWindow;
 		this.forceSensorAnalyzeMaxAVGInWindowSeconds = forceSensorAnalyzeMaxAVGInWindowSeconds;
+		this.laterality = laterality;
 		this.setCount = setCount;
 		this.repCount = repCount;
 		this.commentOfSet = commentOfSet;
@@ -1618,6 +1620,7 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 			exercise + ";" +
 			date + ";" +
 			time + ";" +
+			laterality + ";" +
 			setCount + ";" +
 			repCount + ";" +
 			"\"\";\"\";" + 	// triggers unused on export
@@ -1629,7 +1632,7 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 	public static string PrintCSVHeaderOnExport()
 	{
 		return "fullURL;decimalChar;maxForceRaw;maxAvgForceInWindow;" +
-			"captureOptions;title;exercise;date;time;set;rep;" +
+			"captureOptions;title;exercise;date;time;laterality;set;rep;" +
 			"triggersON;triggersOFF;" + //unused on export
 			"startSample;endSample;comments";
 	}
@@ -2846,6 +2849,7 @@ public class ForceSensorExport
 								fsAI.ForceMAX,			//raw
 								maxAvgForceInWindow,		//raw
 								forceSensorAnalyzeMaxAVGInWindowSeconds, //raw
+								fs.Laterality,
 								fsesm.GetCount(p.UniqueID, fsEx.UniqueID),//setCount,
 								repCount ++,
 								fs.Comments,
@@ -2863,6 +2867,7 @@ public class ForceSensorExport
 			 *1 if the last rep is con, also send to R (no problem if there is no ending ecc phase)
 			 *2 if we have not found any rep on this set, just pass from A to B on the set.
 				This happens eg if the person starts with the maximum force (or using the forceSensor to weight things)
+				or where the test has no force increase at all.
 			*/
 			if(
 					(lastIsCon && repLast != null) 		// *1
@@ -2895,6 +2900,7 @@ public class ForceSensorExport
 							fsAI.ForceMAX,			//raw
 							maxAvgForceInWindow,		//raw
 							forceSensorAnalyzeMaxAVGInWindowSeconds, //raw
+							fs.Laterality,
 							fsesm.GetCount(p.UniqueID, fsEx.UniqueID),//setCount,
 							repCount ++,
 							fs.Comments,

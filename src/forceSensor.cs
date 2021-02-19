@@ -2855,11 +2855,28 @@ public class ForceSensorExport
 				}
 			}
 
-			//if the last rep is con, also send to R (no problem if there is no ending ecc phase)
-			if(lastIsCon && repLast != null)
+			/*
+			 *1 if the last rep is con, also send to R (no problem if there is no ending ecc phase)
+			 *2 if we have not found any rep on this set, just pass from A to B on the set.
+				This happens eg if the person starts with the maximum force (or using the forceSensor to weight things)
+			*/
+			if(
+					(lastIsCon && repLast != null) 		// *1
+					||
+					(repCount == 1 && ! lastIsCon) 		// *2
+					)
 			{
+				//if (repCount == 1 && ! lastIsCon) { 		// *2
+					int sampleA = 1;
+					int sampleB = fsAI.GetLength() -1;
+				//}
+				if(lastIsCon && repLast != null) { 		// *1
+					sampleA = repConcentricSampleStart; //start of concentric rep
+					sampleB = repLast.sampleEnd; 	//end of eccentric rep
+				}
+
 				double maxAvgForceInWindow = 0;
-				bool success = fsAI.CalculateRangeParams(repConcentricSampleStart, repLast.sampleEnd,
+				bool success = fsAI.CalculateRangeParams(sampleA, sampleB,
 						forceSensorAnalyzeMaxAVGInWindowSeconds);
 				if(success)
 					maxAvgForceInWindow = fsAI.ForceMaxAvgInWindow;
@@ -2877,8 +2894,8 @@ public class ForceSensorExport
 							fsesm.GetCount(p.UniqueID, fsEx.UniqueID),//setCount,
 							repCount ++,
 							fs.CaptureOption,
-							repConcentricSampleStart, 	//start of concentric rep
-							repLast.sampleEnd,			//end of eccentric rep
+							sampleA,
+							sampleB,
 							title, exercise, fs.DatePublic, fs.TimePublic, new TriggerList()
 							));
 			}

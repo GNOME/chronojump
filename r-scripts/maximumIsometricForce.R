@@ -1101,6 +1101,32 @@ doProcess <- function(pngFile, dataFile, decimalChar, title, exercise, datetime,
 	return(exportedValues)
 }
 
+plotABGraph <- function(pngFile, dataFile, decimalChar, title, exercise, datetime, captureOptions, startSample, endSample)
+{
+	title = fixTitleAndOtherStrings(title)
+	exercise = fixTitleAndOtherStrings(exercise)
+
+	print("Going to enter prepareGraph")
+	prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
+
+	originalTest = read.csv(dataFile, header = F, dec = decimalChar, sep = ";", skip = 2)
+	colnames(originalTest) <- c("time", "force")
+	x = as.numeric(originalTest$time / 1000000)  # Time is converted from microseconds to seconds
+	y = originalTest$force
+
+	if(captureOptions == "ABS")
+		y = abs(y)
+	else if(captureOptions == "INVERTED")
+		y = -1 * y
+
+	plot(y ~ x, type="l")
+
+	#mark max point
+	points(x[which(y == max(y))], max(y), col="red", cex=2)
+
+	endGraph()
+}
+
 start <- function(op)
 {
 	if(op$singleOrMultiple == "TRUE")
@@ -1150,7 +1176,8 @@ start <- function(op)
 
 		#3) call doProcess
 		progressFolder = paste(tempPath, "/chronojump_mif_progress", sep ="")
-		tempGraphsFolder = paste(tempPath, "/chronojump_mif_graphs/", sep ="")
+		tempGraphsFolder = paste(tempPath, "/chronojump_mif_graphs_rfd/", sep ="")
+		tempGraphsABFolder = paste(tempPath, "/chronojump_mif_graphs_ab/", sep ="")
 
 		#countGraph = 1
 		for(i in 1:length(dataFiles[,1]))
@@ -1172,6 +1199,11 @@ start <- function(op)
 				print(message(e))
 				endGraph() #close graph that is being done to not receive error: too many open devices
 			})
+
+			pngFile <- paste(tempGraphsABFolder, i, ".png", sep="")  #but remember to graph also when model fails
+			plotABGraph(pngFile, as.vector(dataFiles$fullURL[i]),
+					dataFiles$decimalChar[i], dataFiles$title[i], dataFiles$exercise[i], paste(dataFiles$date[i], dataFiles$time[i], sep=" "),
+					dataFiles$captureOptions[i], dataFiles$startSample[i], dataFiles$endSample[i])
 
 			if(! modelOk)
 				exportModelVector = exportModelVectorOnFail #done here and not on the catch, because it didn't worked there

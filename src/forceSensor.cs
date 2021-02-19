@@ -2546,6 +2546,8 @@ public class ForceSensorExportSetManage
 
 public class ForceSensorExport
 {
+	public Gtk.Button Button_done;
+
 	//passed variables
 	private Gtk.Notebook notebook;
 	private Gtk.ProgressBar progressbar;
@@ -2613,6 +2615,8 @@ public class ForceSensorExport
 		this.forceSensorStartEndOptimized = forceSensorStartEndOptimized;
 		this.CSVExportDecimalSeparatorChar = CSVExportDecimalSeparatorChar;
 		this.forceSensorAnalyzeMaxAVGInWindowSeconds = forceSensorAnalyzeMaxAVGInWindowSeconds;
+
+		Button_done = new Gtk.Button();
 	}
 
 	///public method
@@ -2672,6 +2676,8 @@ public class ForceSensorExport
 				labelResult.Text = string.Format(Catalog.GetString("Exported to {0}"), exportFilename);// +
 						//Constants.GetSpreadsheetString(CSVExportDecimalSeparator)
 						//);
+
+			Button_done.Click();
 
 			return false;
 		}

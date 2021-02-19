@@ -2487,13 +2487,20 @@ public class ForceSensorExportSet
 {
 	public int pID; //personID
 	public int exID; //forceSensor exercise ID
+	public string lat; //laterality
 	public int count; //how many sets with this pID && exID
 
-	public ForceSensorExportSet (int pID, int exID)
+	public ForceSensorExportSet (int pID, int exID, string lat)
 	{
 		this.pID = pID;
 		this.exID = exID;
+		this.lat = lat;
 		this.count = 0;
+	}
+
+	public bool IsEqual (int pID, int exID, string lat)
+	{
+		return (this.pID == pID && this.exID == exID && this.lat == lat);
 	}
 }
 public class ForceSensorExportSetManage
@@ -2505,32 +2512,32 @@ public class ForceSensorExportSetManage
 		l = new List<ForceSensorExportSet>();
 	}
 
-	public bool Exists (int pID, int exID)
+	public bool Exists (int pID, int exID, string lat)
 	{
 		foreach(ForceSensorExportSet fses in l)
-			if(fses.pID == pID && fses.exID == exID)
+			if(fses.IsEqual(pID, exID, lat))
 				return true;
 
 		return false;
 	}
 
-	public void AddForceSensorExportSet (int pID, int exID)
+	public void AddForceSensorExportSet (int pID, int exID, string lat)
 	{
-		ForceSensorExportSet fses = new ForceSensorExportSet(pID, exID);
+		ForceSensorExportSet fses = new ForceSensorExportSet(pID, exID, lat);
 		l.Add(fses);
 	}
 
-	public void AddSet (int pID, int exID)
+	public void AddSet (int pID, int exID, string lat)
 	{
 		foreach(ForceSensorExportSet fses in l)
-			if(fses.pID == pID && fses.exID == exID)
+			if(fses.IsEqual(pID, exID, lat))
 				fses.count ++;
 	}
 
-	public int GetCount (int pID, int exID)
+	public int GetCount (int pID, int exID, string lat)
 	{
 		foreach(ForceSensorExportSet fses in l)
-			if(fses.pID == pID && fses.exID == exID)
+			if(fses.IsEqual(pID, exID, lat))
 				return fses.count;
 
 		return -1;
@@ -2771,8 +2778,8 @@ public class ForceSensorExport
 			if(! found)
 				continue;
 
-			if(! fsesm.Exists(p.UniqueID, fsEx.UniqueID))
-				fsesm.AddForceSensorExportSet(p.UniqueID, fsEx.UniqueID);
+			if(! fsesm.Exists(p.UniqueID, fsEx.UniqueID, fs.Laterality))
+				fsesm.AddForceSensorExportSet(p.UniqueID, fsEx.UniqueID, fs.Laterality);
 
 			//make the exercise have EccReps = true in order to have an AB wiht the concentric and eccentric part
 			//and send both to R to be able to have the force window in that AB
@@ -2840,7 +2847,7 @@ public class ForceSensorExport
 						maxAvgForceInWindow = fsAI.ForceMaxAvgInWindow;
 
 					if(! addedSet) {
-						fsesm.AddSet(p.UniqueID, fsEx.UniqueID);
+						fsesm.AddSet(p.UniqueID, fsEx.UniqueID, fs.Laterality);
 						addedSet = true;
 					}
 					fsgABe_l.Add(new ForceSensorGraphABExport (
@@ -2850,7 +2857,7 @@ public class ForceSensorExport
 								maxAvgForceInWindow,		//raw
 								forceSensorAnalyzeMaxAVGInWindowSeconds, //raw
 								fs.Laterality,
-								fsesm.GetCount(p.UniqueID, fsEx.UniqueID),//setCount,
+								fsesm.GetCount(p.UniqueID, fsEx.UniqueID, fs.Laterality),
 								repCount ++,
 								fs.Comments,
 								fs.CaptureOption,
@@ -2891,7 +2898,7 @@ public class ForceSensorExport
 					maxAvgForceInWindow = fsAI.ForceMaxAvgInWindow;
 
 				if(! addedSet) {
-					fsesm.AddSet(p.UniqueID, fsEx.UniqueID);
+					fsesm.AddSet(p.UniqueID, fsEx.UniqueID, fs.Laterality);
 					addedSet = true;
 				}
 				fsgABe_l.Add(new ForceSensorGraphABExport (
@@ -2901,7 +2908,7 @@ public class ForceSensorExport
 							maxAvgForceInWindow,		//raw
 							forceSensorAnalyzeMaxAVGInWindowSeconds, //raw
 							fs.Laterality,
-							fsesm.GetCount(p.UniqueID, fsEx.UniqueID),//setCount,
+							fsesm.GetCount(p.UniqueID, fsEx.UniqueID, fs.Laterality),
 							repCount ++,
 							fs.Comments,
 							fs.CaptureOption,

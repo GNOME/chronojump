@@ -1122,7 +1122,7 @@ plotABGraph <- function(pngFile, dataFile, decimalChar, title, exercise, datetim
 	plot(y ~ x, type="l")
 
 	#mark max point
-	points(x[which(y == max(y))], max(y), col="red", cex=2)
+	points(x[which(y == max(y))[1]], max(y), col="red", cex=2)
 
 	endGraph()
 }

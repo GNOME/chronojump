@@ -1575,6 +1575,8 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 	public double maxForceRaw;
 	public double maxAvgForceInWindow;
 	public double forceSensorAnalyzeMaxAVGInWindowSeconds;
+	public double maxAvgForceInWindowSampleStart;
+	public double maxAvgForceInWindowSampleEnd;
 	public string laterality;
 	public int setCount;
 	public int repCount;
@@ -1583,6 +1585,7 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 	public ForceSensorGraphABExport (
 			string fullURL, bool decimalIsPoint, double maxForceRaw,
 			double maxAvgForceInWindow, double forceSensorAnalyzeMaxAVGInWindowSeconds,
+			double maxAvgForceInWindowSampleStart, double maxAvgForceInWindowSampleEnd,
 			string laterality, int setCount, int repCount, string commentOfSet,
 			ForceSensor.CaptureOptions fsco, int startSample, int endSample,
 			string title, string exercise, string date, string time, TriggerList triggerList)
@@ -1594,6 +1597,8 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 		this.maxForceRaw = maxForceRaw;
 		this.maxAvgForceInWindow = maxAvgForceInWindow;
 		this.forceSensorAnalyzeMaxAVGInWindowSeconds = forceSensorAnalyzeMaxAVGInWindowSeconds;
+		this.maxAvgForceInWindowSampleStart = maxAvgForceInWindowSampleStart;
+		this.maxAvgForceInWindowSampleEnd = maxAvgForceInWindowSampleEnd;
 		this.laterality = laterality;
 		this.setCount = setCount;
 		this.repCount = repCount;
@@ -1615,6 +1620,8 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 			decimalChar + ";" +
 			Util.ConvertToPoint(maxForceRaw) + ";" +
 			Util.ConvertToPoint(maxAvgForceInWindow) + ";" +
+			maxAvgForceInWindowSampleStart + ";" +
+			maxAvgForceInWindowSampleEnd + ";" +
 			fsco.ToString() + ";" +
 			title + ";" +
 			exercise + ";" +
@@ -1631,7 +1638,8 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 
 	public static string PrintCSVHeaderOnExport()
 	{
-		return "fullURL;decimalChar;maxForceRaw;maxAvgForceInWindow;" +
+		return "fullURL;decimalChar;maxForceRaw;" +
+			"maxAvgForceInWindow;maxAvgForceInWindowSampleStart;maxAvgForceInWindowSampleEnd;" +
 			"captureOptions;title;exercise;date;time;laterality;set;rep;" +
 			"triggersON;triggersOFF;" + //unused on export
 			"startSample;endSample;comments";
@@ -2848,10 +2856,15 @@ public class ForceSensorExport
 				else if(rep.type == ForceSensorRepetition.Types.ECC && repConcentricSampleStart != -1)
 				{
 					double maxAvgForceInWindow = 0;
+					double maxAvgForceInWindowSampleStart = 0;
+					double maxAvgForceInWindowSampleEnd = 0;
 					bool success = fsAI.CalculateRangeParams(repConcentricSampleStart, rep.sampleEnd,
 							forceSensorAnalyzeMaxAVGInWindowSeconds);
-					if(success)
+					if(success) {
 						maxAvgForceInWindow = fsAI.ForceMaxAvgInWindow;
+						maxAvgForceInWindowSampleStart = fsAI.ForceMaxAvgInWindowSampleStart;
+						maxAvgForceInWindowSampleEnd = fsAI.ForceMaxAvgInWindowSampleEnd;
+					}
 
 					if(! addedSet) {
 						fsesm.AddSet(p.UniqueID, fsEx.UniqueID, fs.Laterality);
@@ -2863,6 +2876,8 @@ public class ForceSensorExport
 								fsAI.ForceMAX,			//raw
 								maxAvgForceInWindow,		//raw
 								forceSensorAnalyzeMaxAVGInWindowSeconds, //raw
+								maxAvgForceInWindowSampleStart,	//the start sample of the result
+								maxAvgForceInWindowSampleEnd,	//the end sample of the result
 								fs.Laterality,
 								fsesm.GetCount(p.UniqueID, fsEx.UniqueID, fs.Laterality),
 								repCount ++,
@@ -2899,10 +2914,15 @@ public class ForceSensorExport
 				}
 
 				double maxAvgForceInWindow = 0;
+				double maxAvgForceInWindowSampleStart = 0;
+				double maxAvgForceInWindowSampleEnd = 0;
 				bool success = fsAI.CalculateRangeParams(sampleA, sampleB,
 						forceSensorAnalyzeMaxAVGInWindowSeconds);
-				if(success)
+				if(success) {
 					maxAvgForceInWindow = fsAI.ForceMaxAvgInWindow;
+					maxAvgForceInWindowSampleStart = fsAI.ForceMaxAvgInWindowSampleStart;
+					maxAvgForceInWindowSampleEnd = fsAI.ForceMaxAvgInWindowSampleEnd;
+				}
 
 				if(! addedSet) {
 					fsesm.AddSet(p.UniqueID, fsEx.UniqueID, fs.Laterality);
@@ -2914,6 +2934,8 @@ public class ForceSensorExport
 							fsAI.ForceMAX,			//raw
 							maxAvgForceInWindow,		//raw
 							forceSensorAnalyzeMaxAVGInWindowSeconds, //raw
+							maxAvgForceInWindowSampleStart,	//the start sample of the result
+							maxAvgForceInWindowSampleEnd,	//the end sample of the result
 							fs.Laterality,
 							fsesm.GetCount(p.UniqueID, fsEx.UniqueID, fs.Laterality),
 							repCount ++,

@@ -1101,7 +1101,8 @@ doProcess <- function(pngFile, dataFile, decimalChar, title, exercise, datetime,
 	return(exportedValues)
 }
 
-plotABGraph <- function(pngFile, dataFile, decimalChar, title, exercise, datetime, captureOptions, startSample, endSample)
+plotABGraph <- function(pngFile, dataFile, decimalChar, title, exercise, datetime, captureOptions, startSample, endSample,
+			maxAvgForceInWindow, maxAvgForceInWindowSampleStart, maxAvgForceInWindowSampleEnd)
 {
 	title = fixTitleAndOtherStrings(title)
 	exercise = fixTitleAndOtherStrings(exercise)
@@ -1119,10 +1120,24 @@ plotABGraph <- function(pngFile, dataFile, decimalChar, title, exercise, datetim
 	else if(captureOptions == "INVERTED")
 		y = -1 * y
 
-	plot(y ~ x, type="l")
+	plot(y ~ x, type="l", xlab="Time (s)", ylab="Force (N)")
 
 	#mark max point
 	points(x[which(y == max(y))[1]], max(y), col="red", cex=2)
+
+	#draw a segment related to max avg force in window
+	segments(x[maxAvgForceInWindowSampleStart], maxAvgForceInWindow,
+		 x[maxAvgForceInWindowSampleEnd], maxAvgForceInWindow, lwd=2, col="green4")
+	if(maxAvgForceInWindow > 0)
+	{
+		topTick = maxAvgForceInWindow/100
+		segments(x[maxAvgForceInWindowSampleStart], maxAvgForceInWindow - topTick,
+			 x[maxAvgForceInWindowSampleStart], maxAvgForceInWindow + topTick,
+			 lwd=2, col="green4")
+		segments(x[maxAvgForceInWindowSampleEnd], maxAvgForceInWindow - topTick,
+			 x[maxAvgForceInWindowSampleEnd], maxAvgForceInWindow + topTick,
+			 lwd=2, col="green4")
+	}
 
 	endGraph()
 }
@@ -1203,7 +1218,9 @@ start <- function(op)
 			pngFile <- paste(tempGraphsABFolder, i, ".png", sep="")  #but remember to graph also when model fails
 			plotABGraph(pngFile, as.vector(dataFiles$fullURL[i]),
 					dataFiles$decimalChar[i], dataFiles$title[i], dataFiles$exercise[i], paste(dataFiles$date[i], dataFiles$time[i], sep=" "),
-					dataFiles$captureOptions[i], dataFiles$startSample[i], dataFiles$endSample[i])
+					dataFiles$captureOptions[i], dataFiles$startSample[i], dataFiles$endSample[i],
+					dataFiles$maxAvgForceInWindow[i], dataFiles$maxAvgForceInWindowSampleStart[i], dataFiles$maxAvgForceInWindowSampleEnd[i]
+			)
 
 			if(! modelOk)
 				exportModelVector = exportModelVectorOnFail #done here and not on the catch, because it didn't worked there

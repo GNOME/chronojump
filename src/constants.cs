@@ -45,6 +45,8 @@ public class Constants
 			};
 		else if(e == AuthorsEnum.NETWORKS)
 			return new String []{
+				"Arnau-Lenin Gols <arnau.lenin@sobtec.cat>, 2020-2021" +
+					"\n\t" + Catalog.GetString("Full Stack developer."),
 				"Max Ros Morejón <mros33@gmail.com>, 2019-2020" +
 					"\n\t" + Catalog.GetString("Django developer."),
 				"\nMarcos Venteo <mventeo@gmail.com>, 2017-2018" +

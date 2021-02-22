@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2016-2017 Carles Pina & Xavier de Blas
+ * Copyright (C) 2016-2017 Carles Pina, Xavier de Blas & Arnau-Lenin Gols
  */
 
 using System;
@@ -36,10 +36,11 @@ public class Json
 	protected bool connected; //know if server is connected. Do it when there's a change on RFID (pulse)
 	protected string authToken; //authentification token. If the string is empty auth call must be done.
 	protected WebRequest request; //generic request (for all methods except ping)
-	protected enum requestType { GENERIC, PING };
+	protected enum requestType { AUTHENTICATED, PUBLIC, PING };
 	protected static string serverUrl = "http://api.chronojump.org:8080";
-	//string serverUrl = "http://192.168.200.1:8080";
-	protected static string authPath = "/login";
+	//protected static string serverUrl = "http://networks.chronojump.org"; //Networks
+	//protected static string serverUrl = "http://localhost:8000"; //Local server
+	protected static string authPath = "/api/v1/client/login";
 
 	public static void ChangeServerUrl(string url)
 	{
@@ -73,7 +74,7 @@ public class Json
 					"----------\nUser comments:\n" + comments + "\n----------\n", filePath);
 
 		// Create a request using a URL that can receive a post. 
-		if (! createWebRequest(requestType.GENERIC, "/backtrace/" + UtilAll.ReadVersionFromBuildInfo() + "-" + email))
+		if (! createWebRequest(requestType.PUBLIC, "/backtrace/" + UtilAll.ReadVersionFromBuildInfo() + "-" + email))
 			return false;
 
 		// Set the Method property of the request to POST.
@@ -144,7 +145,7 @@ public class Json
 	public bool GetLastVersion(string currentVersion) 
 	{
 		// Create a request using a URL that can receive a post. 
-		if (! createWebRequest(requestType.GENERIC, "/version"))
+		if (! createWebRequest(requestType.PUBLIC, "/version"))
 			return false;
 		
 		// Set the Method property of the request to GET.
@@ -202,7 +203,7 @@ public class Json
 	public bool GetNewsDatetime ()
 	{
 		// Create a request using a URL that can receive a post.
-		if (! createWebRequest(requestType.GENERIC, "/getNewsDatetime"))
+		if (! createWebRequest(requestType.PUBLIC, "/getNewsDatetime"))
 			return false;
 
 		// Set the Method property of the request to GET.
@@ -240,7 +241,7 @@ public class Json
 	public List<News> GetNews(List<News> newsAtDB_l)
 	{
 		// Create a request using a URL that can receive a post.
-		if (! createWebRequest(requestType.GENERIC, "/getNews"))
+		if (! createWebRequest(requestType.PUBLIC, "/getNews"))
 			return new List<News>();
 
 		// Set the Method property of the request to GET.
@@ -435,7 +436,7 @@ public class Json
 			LogB.Debug("already authenticated");
 			return true;
 		}
-		LogB.Debug("authentication started");
+		LogB.Debug("authentication started against " + serverUrl + authPath);
 
 		// Create a request using a the authentication URL
 		WebRequest req = WebRequest.Create (serverUrl + authPath);
@@ -447,12 +448,17 @@ public class Json
 		JsonObject json = new JsonObject();
 
 		// Use only machineId
-		string machineID = SqlitePreferences.Select("machineID", false);
-		if (string.IsNullOrEmpty(machineID)) {
+		// string machineID = SqlitePreferences.Select("machineID", false);
+		//if (string.IsNullOrEmpty(machineID)) {
+		Config configChronojump = new Config();
+		configChronojump.Read();
+		int machineID = configChronojump.CompujumpStationID;
+		if (machineID <= 0) {
 			LogB.Error("The parameter machineId is null or not setted");
 //			this.ResultMessage = string.Format("The parameter machineId is null or not setted");
 			return false;
 		}
+		LogB.Debug("machine_id: "+machineID);
 		json.Add("machine_id", machineID);
 
 		// Converts it to a String
@@ -482,7 +488,13 @@ public class Json
 //			this.ResultMessage = string.Format("authToken retrieved, but is empty or null");
 			return false;
 		}
-
+//		dynamic json_response = JsonConvert.DeserializeObject(authToken);
+		JsonValue json_response = JsonValue.Parse(authToken);
+		if (!json_response.ContainsKey("token")) {
+			LogB.Error("authToken retrieved, but not have token key");
+			return false;
+		}
+		authToken = json_response["token"];
 		LogB.Debug("authToken: " + authToken);
 		return true;
 	}
@@ -490,25 +502,29 @@ public class Json
 	protected bool createWebRequest(Json.requestType rt, string webService)
 	{
 		try {
-			if(! authenticate()) {
-				this.ResultMessage = string.Format("Unauthorized StationId");
-				LogB.Warning ("Unauthorized StationId (Error code 401)");
-				return false;
-			}
-		} catch {
-			this.ResultMessage = string.Format("Unauthorized StationId");
-			LogB.Warning ("Unauthorized StationId (Error code 401)");
-			return false;
-		}
-
-		try {
-			if(rt == Json.requestType.GENERIC) {
+			if (rt == Json.requestType.AUTHENTICATED) {
+				try {
+					if(! authenticate()) {
+						this.ResultMessage = string.Format("Unauthorized StationId");
+						LogB.Warning ("Unauthorized StationId (Error code 401)");
+						return false;
+					}
+				} catch {
+					this.ResultMessage = string.Format("Unauthorized StationId");
+					LogB.Warning ("Unauthorized StationId (Error code 401)");
+					return false;
+				}
 				request = WebRequest.Create (serverUrl + webService);
 				request.Headers["Authorization"] = "Bearer " + authToken;
 
-			} else { //(rt == Json.requestType.PING)
+			} else if (rt == Json.requestType.PUBLIC) {
+				request = WebRequest.Create (serverUrl + webService);
+
+			} else if (rt == Json.requestType.PING) {
 				requestPing = WebRequest.Create (serverUrl + webService);
-				request.Headers["Authorization"] = "Bearer " + authToken;
+
+			} else {
+				throw new ArgumentException(String.Format("{0} is not a valid requestType", rt), "rt");
 			}
 
 		} catch {

@@ -156,6 +156,7 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.Notebook notebook_force_sensor_export;
 	[Widget] Gtk.Label label_force_sensor_export_data;
+	[Widget] Gtk.CheckButton check_force_sensor_export_images;
 	[Widget] Gtk.ProgressBar progressbar_force_sensor_export;
 	[Widget] Gtk.Label label_force_sensor_export_result;
 
@@ -755,6 +756,7 @@ public partial class ChronoJumpWindow
 				notebook_force_sensor_export,
 				progressbar_force_sensor_export,
 				label_force_sensor_export_result,
+				check_force_sensor_export_images.Active,
 				UtilAll.IsWindows(), personID, currentSession.UniqueID,
 				rfdList, impulse,//getImpulseValue(),
 				duration, Convert.ToInt32(spin_force_rfd_duration_percent.Value),
@@ -770,14 +772,30 @@ public partial class ChronoJumpWindow
 		forceSensorExport.Button_done.Clicked -= new EventHandler(force_sensor_export_done);
 		forceSensorExport.Button_done.Clicked += new EventHandler(force_sensor_export_done);
 
-		if(personID == -1)
-			checkFile(Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION);
-		else
-			checkFile(Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION);
+		bool selectedFile = false;
+		if(check_force_sensor_export_images.Active)
+		{
+			if(personID == -1)
+				selectedFile = checkFile(Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES);
+			else
+				selectedFile = checkFile(Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES);
+		} else {
+			if(personID == -1)
+				selectedFile = checkFile(Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES);
+			else
+				selectedFile = checkFile(Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_NO_IMAGES);
+		}
+
+		//restore the gui if cancelled
+		if(! selectedFile) {
+			forceSensorButtonsSensitive(true);
+			hbox_force_sensor_analyze_top_modes.Sensitive = true;
+			button_force_sensor_analyze_options.Sensitive = true;
+		}
 	}
 	private void on_button_force_sensor_export_file_selected (string selectedFileName)
 	{
-		forceSensorExport.Start(selectedFileName);
+		forceSensorExport.Start(selectedFileName); //file or folder
 	}
 
 	private void on_button_force_sensor_export_cancel_clicked (object o, EventArgs args)

@@ -1671,6 +1671,7 @@ public class ForceSensorGraph
 	private bool decimalIsPointAtReadFile; //but on export this will be related to each set
 	private char exportDecimalSeparator;
 	private double forceSensorAnalyzeMaxAVGInWindowSeconds; //on export
+	private bool includeImagesOnExport;
 
 	//private method to help on assigning params
 	private void assignGenericParams(
@@ -1696,6 +1697,7 @@ public class ForceSensorGraph
 		vline50fmax_fitted = false;
 		hline50fmax_raw = false;
 		hline50fmax_fitted = false;
+		includeImagesOnExport = false;
 	}
 
 	//constructor for analyze one graph of a set from startSample to endSample. singleOrMultiple = true
@@ -1730,13 +1732,15 @@ public class ForceSensorGraph
 			bool decimalIsPointAtReadFile, //this param is used here to print results. but to read data what id is used is in fsgAB_l
 			char exportDecimalSeparator,
 			List<ForceSensorGraphABExport> fsgABe_l,
-			double forceSensorAnalyzeMaxAVGInWindowSeconds
+			double forceSensorAnalyzeMaxAVGInWindowSeconds,
+			bool includeImagesOnExport
 			)
 	{
 		assignGenericParams(rfdList, impulse, testLength, percentChange, startEndOptimized,
 				decimalIsPointAtReadFile, exportDecimalSeparator);
 			
 		this.forceSensorAnalyzeMaxAVGInWindowSeconds = forceSensorAnalyzeMaxAVGInWindowSeconds;
+		this.includeImagesOnExport = includeImagesOnExport;
 
 		writeMultipleFilesCSV(fsgABe_l);
 	}
@@ -1829,7 +1833,8 @@ public class ForceSensorGraph
 			"#startEndOptimized\n" +	Util.BoolToRBool(startEndOptimized) + "\n" +
 			"#singleOrMultiple\n" +		Util.BoolToRBool(singleOrMultiple) + "\n" +
 			"#decimalCharAtExport\n" +	exportDecimalSeparator + "\n" +
-			"#maxAvgInWindowSeconds\n" + 	forceSensorAnalyzeMaxAVGInWindowSecondsStr + "\n";
+			"#maxAvgInWindowSeconds\n" + 	forceSensorAnalyzeMaxAVGInWindowSecondsStr + "\n" +
+			"#includeImagesOnExport\n" + 	Util.BoolToRBool(includeImagesOnExport) + "\n";
 
 		/*
 		#startEndOptimized on gui can be:
@@ -2560,7 +2565,8 @@ public class ForceSensorExport
 	private Gtk.Notebook notebook;
 	private Gtk.ProgressBar progressbar;
 	private Gtk.Label labelResult;
-	private string exportFilename;
+	private bool includeImages;
+	private string exportURL; //folder or .csv depending on includeImages
 	private bool isWindows;
 	private int personID; // -1: all
 	private int sessionID;
@@ -2579,6 +2585,7 @@ public class ForceSensorExport
 	private static Thread thread;
 	private static bool cancel;
 	private static bool noData;
+	private static bool cannotCopy;
 	private static string messageToProgressbar;
 	//private static double pulseFraction; unused because its managed on pulse, better because on thread is working 100% on R call
 
@@ -2594,6 +2601,7 @@ public class ForceSensorExport
 			Gtk.Notebook notebook,
 			Gtk.ProgressBar progressbar,
 			Gtk.Label labelResult,
+			bool includeImages,
 			bool isWindows, int personID, int sessionID,
 			List<ForceSensorRFD> rfdList, ForceSensorImpulse impulse,
 			double duration, int durationPercent,
@@ -2609,6 +2617,7 @@ public class ForceSensorExport
 		this.notebook = notebook;
 		this.progressbar = progressbar;
 		this.labelResult = labelResult;
+		this.includeImages = includeImages;
 		this.isWindows = isWindows;
 		this.personID = personID;
 		this.sessionID = sessionID;
@@ -2628,12 +2637,13 @@ public class ForceSensorExport
 	}
 
 	///public method
-	public void Start(string exportFilename)
+	public void Start(string exportURL)
 	{
-		this.exportFilename = exportFilename;
+		this.exportURL = exportURL;
 
 		cancel = false;
 		noData = false;
+		cannotCopy = false;
 		progressbar.Fraction = 0;
 		messageToProgressbar = "";
 		notebook.CurrentPage = 1;
@@ -2681,8 +2691,10 @@ public class ForceSensorExport
 				labelResult.Text = Catalog.GetString("Cancelled.");
 			else if (noData)
 				labelResult.Text = Catalog.GetString("Missing data.");
+			else if (cannotCopy)
+				labelResult.Text = string.Format(Catalog.GetString("Cannot copy to {0} "), exportURL);
 			else
-				labelResult.Text = string.Format(Catalog.GetString("Exported to {0}"), exportFilename);// +
+				labelResult.Text = string.Format(Catalog.GetString("Exported to {0}"), exportURL);// +
 						//Constants.GetSpreadsheetString(CSVExportDecimalSeparator)
 						//);
 
@@ -2982,7 +2994,8 @@ public class ForceSensorExport
 					true, //not used to read data, but used to print data
 					CSVExportDecimalSeparatorChar, // at write file
 					fsgABe_l,
-					forceSensorAnalyzeMaxAVGInWindowSeconds
+					forceSensorAnalyzeMaxAVGInWindowSeconds,
+					includeImages
 					);
 
 			bool success = fsg.CallR(imageWidth -5, imageHeight -5, false);
@@ -2995,7 +3008,42 @@ public class ForceSensorExport
 		if(cancel)
 			return false;
 
-		File.Copy(UtilEncoder.GetmifExportFileName(), exportFilename, true);
+		if(includeImages)
+		{
+			LogB.Information("going to copy export files with images ...");
+			if( ! Directory.Exists(exportURL))
+                                Directory.CreateDirectory (exportURL);
+
+			try{
+				// 1) rfd graphs
+				string sourceFolder = Path.Combine(Path.GetTempPath(), "chronojump_mif_graphs_rfd");
+				DirectoryInfo sourceDirInfo = new DirectoryInfo(sourceFolder);
+
+				string destFolder = Path.Combine(exportURL, "chronojump_mif_graphs_rfd");
+				Directory.CreateDirectory (destFolder);
+
+				foreach (FileInfo file in sourceDirInfo.GetFiles())
+					file.CopyTo(destFolder, true);
+
+				// 2) AB graphs
+				sourceFolder = Path.Combine(Path.GetTempPath(), "chronojump_mif_graphs_ab");
+				sourceDirInfo = new DirectoryInfo(sourceFolder);
+
+				destFolder = Path.Combine(exportURL, "chronojump_mif_graphs_ab");
+				Directory.CreateDirectory (destFolder);
+
+				foreach (FileInfo file in sourceDirInfo.GetFiles())
+					file.CopyTo(destFolder, true);
+			} catch {
+				return false;
+			}
+
+			// 3) CSV
+			File.Copy(UtilEncoder.GetmifExportFileName(), exportURL, true);
+
+			LogB.Information("done copy export files with images!");
+		} else
+			File.Copy(UtilEncoder.GetmifExportFileName(), exportURL, true);
 
 		/*
 		ForceSensorGraph fsg = new ForceSensorGraph(

@@ -59,7 +59,8 @@ assignOptions <- function(options)
         startEndOptimized 	= options[28], 	#bool
 	singleOrMultiple 	= options[29],   	#bool (true is single)
 	decimalCharAtExport	= options[30],
-        maxAvgWindowSeconds 	= as.numeric(options[31])
+        maxAvgWindowSeconds 	= as.numeric(options[31]),
+	includeImagesOnExport 	= options[32]   	#bool (true is single)
     ))
 }
 
@@ -1184,7 +1185,10 @@ start <- function(op)
 			exportNames = c(exportNames, paste("Impulse", impulseOptions$impulseFunction, impulseOptions$type,
 					impulseOptions$start, impulseOptions$end, sep ="_"))
 
-		exportNames = c(exportNames, "comments (set)");
+		exportNames = c(exportNames, "Comments (set)")
+
+		if(op$includeImagesOnExport)
+			exportNames = c(exportNames, "Image")
 
 		#2) read the csv
 		dataFiles = read.csv(file = paste(tempPath, "/maximumIsometricForceInputMulti.csv", sep=""), sep=";", stringsAsFactors=F)
@@ -1232,7 +1236,10 @@ start <- function(op)
 			exportSetDF = cbind (exportSetDF, dataFiles$maxAvgForceInWindow[i])
 			for(j in 1:length(exportModelVector))
 				exportSetDF = cbind (exportSetDF, exportModelVector[j])
+
 			exportSetDF = cbind (exportSetDF, dataFiles$comments[i])
+			if(op$includeImagesOnExport)
+				exportSetDF = cbind(exportSetDF, paste(i, ".png", sep=""))
 
 			colnames(exportSetDF) = exportNames
 

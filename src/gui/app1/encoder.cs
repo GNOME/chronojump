@@ -2066,7 +2066,7 @@ public partial class ChronoJumpWindow
 	}
 
 	string exportFileName;	
-	protected void checkFile (Constants.CheckFileOp checkFileOp)
+	protected bool checkFile (Constants.CheckFileOp checkFileOp)
 	{
 		string exportString = ""; 
 		if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL)
@@ -2084,12 +2084,15 @@ public partial class ChronoJumpWindow
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_MANUAL ||
 				checkFileOp == Constants.CheckFileOp.RUNENCODER_SAVE_IMAGE)
 			exportString = Catalog.GetString ("Save image");
-		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB)
+		else if(
+				checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB ||
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_NO_IMAGES ||
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES)
 			exportString = Catalog.GetString ("Export repetition in CSV format");
-		else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB ||
-				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION ||
-				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION)
-			exportString = Catalog.GetString ("Export data in CSV format");
+		else if(
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES)
+			exportString = Catalog.GetString ("Export data and graphs");
 		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE ||
 				checkFileOp == Constants.CheckFileOp.RUNENCODER_SAVE_TABLE)
 			exportString = Catalog.GetString ("Save table");
@@ -2098,7 +2101,9 @@ public partial class ChronoJumpWindow
 
 		string nameString = currentPerson.Name + "_" + currentSession.DateShortAsSQL;
 
-		if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION)
+		if(
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES ||
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES)
 			nameString = currentSession.DateShortAsSQL;
 
 		//on encoder analyze save image, show analysis on filename
@@ -2131,7 +2136,7 @@ public partial class ChronoJumpWindow
 		if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SEND_IMAGE)
 		{
 			exportFileName = nameString;
-			return;
+			return true;
 		}
 
 		if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL)
@@ -2165,9 +2170,13 @@ public partial class ChronoJumpWindow
 		else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB)
 			nameString += "_forcesensor_analyze_AB_export.csv";
 		else if(
-				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION ||
-				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION)
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_NO_IMAGES ||
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES)
 			nameString += "_forcesensor_export.csv";
+		else if(
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES)
+			nameString += "_forcesensor_export";
 		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE)
 			nameString += "_encoder_curves_table.csv";
 		else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_SAVE_TABLE)
@@ -2175,10 +2184,16 @@ public partial class ChronoJumpWindow
 
 		// 3) prepare and Run the dialog
 
+		FileChooserAction fcAction = FileChooserAction.Save;
+		if(
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES)
+			fcAction = FileChooserAction.CreateFolder;
+
 		Gtk.FileChooserDialog fc=
 			new Gtk.FileChooserDialog(exportString,
 					app1,
-					FileChooserAction.Save,
+					fcAction,
 					Catalog.GetString("Cancel"),ResponseType.Cancel,
 					Catalog.GetString("Accept"),ResponseType.Accept
 					);
@@ -2191,14 +2206,21 @@ public partial class ChronoJumpWindow
 			if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL ||
 					checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB ||
 					checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB ||
-					checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION ||
-					checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION ||
+					checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_NO_IMAGES ||
+					checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES ||
 					checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE ||
 					checkFileOp == Constants.CheckFileOp.RUNENCODER_SAVE_TABLE)
 				exportFileName = Util.AddCsvIfNeeded(exportFileName);
-			else 	//ENCODER_ANALYZE_SAVE_IMAGE, FORCESENSOR_SAVE_IMAGE_SIGNAL,
+			else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES)
+				LogB.Information("");//do nothing
+			else {
+				//ENCODER_ANALYZE_SAVE_IMAGE, FORCESENSOR_SAVE_IMAGE_SIGNAL,
 				//FORCESENSOR_SAVE_IMAGE_RFD_AUTO, FORCESENSOR_SAVE_IMAGE_RFD_MANUAL
+				//... and sure other modes
 				exportFileName = Util.AddPngIfNeeded(exportFileName);
+			}
+
 			try {
 				if (File.Exists(exportFileName)) {
 					LogB.Information(string.Format(
@@ -2256,8 +2278,11 @@ public partial class ChronoJumpWindow
 					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB)
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_forcesensor_save_AB_accepted);
-					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION ||
-							checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION)
+					else if(
+							checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_NO_IMAGES ||
+							checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES ||
+							checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
+							checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES)
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_forcesensor_export_accepted);
 					else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_SAVE_IMAGE)
@@ -2298,8 +2323,11 @@ public partial class ChronoJumpWindow
 						on_button_forcesensor_save_image_rfd_manual_file_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB)
 						on_button_force_sensor_save_AB_file_selected (exportFileName);
-					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION ||
-							checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION)
+					else if(
+							checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_NO_IMAGES ||
+							checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES ||
+							checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
+							checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES)
 						on_button_force_sensor_export_file_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_SAVE_IMAGE)
 						on_button_run_encoder_image_save_selected (exportFileName);
@@ -2307,8 +2335,11 @@ public partial class ChronoJumpWindow
 						on_button_raceAnalyzer_save_table_file_selected (exportFileName);
 
 					//show message, but not in long processes managed by a thread
-					if(checkFileOp != Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION &&
-							checkFileOp != Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION)
+					if(
+							checkFileOp != Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_NO_IMAGES &&
+							checkFileOp != Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES &&
+							checkFileOp != Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES &&
+							checkFileOp != Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES)
 					{
 						string myString = string.Format(Catalog.GetString("Saved to {0}"), 
 								exportFileName);
@@ -2330,13 +2361,13 @@ public partial class ChronoJumpWindow
 			//report does not currently send the appBar reference
 			//new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Cancelled."));
 			fc.Hide ();
-			return ;
+			return false;
 		}
 		
 		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
 		fc.Destroy();
 		
-		return;
+		return true;
 	}
 	private void on_overwrite_file_export_all_curves_accepted(object o, EventArgs args)
 	{
@@ -2385,7 +2416,7 @@ public partial class ChronoJumpWindow
 	}
 	private void on_overwrite_file_forcesensor_export_accepted(object o, EventArgs args)
 	{
-		on_button_force_sensor_export_file_selected (exportFileName);
+		on_button_force_sensor_export_file_selected (exportFileName); //file or folder
 
 		/*
 		string myString = string.Format(Catalog.GetString("Saved to {0}"),

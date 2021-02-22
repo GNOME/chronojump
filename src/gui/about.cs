@@ -43,48 +43,8 @@ public class About
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "dialog_about.glade", "dialog_about", "chronojump");
 		gladeXML.Autoconnect(this);
-
-		// create UploadEncoderDataFullObject
-		UploadEncoderDataObject encoderData = new UploadEncoderDataObject(
-			Convert.ToInt32(10),	//repetitions
-			Convert.ToInt32(5),		//numBySpeed
-			Convert.ToInt32(1),		//lossBySpeed
-			"530",					//rangeBySpeed
-			"0.839",				//vmeanBySpeed
-			"1.157",				//vmaxBySpeed
-			"421.387",				//pmeanBySpeed
-			"645.79",				//pmaxBySpeed
-			Convert.ToInt32(3),		//numByPower
-			Convert.ToInt32(1),		//lossByPower
-			"522",					//rangeByPower
-			"0.834",				//vmeanByPower
-			"1.253",				//vmaxByPower
-			"424.348",				//pmeanByPower
-			"724.879"				//pmaxByPower
-		);
-
-		UploadEncoderDataFullObject encoderDataFull = new UploadEncoderDataFullObject(
-			Convert.ToInt32(1),		//uniqueID
-			Convert.ToInt32(25),	//personID - Max Ros
-			Convert.ToInt32(10),	//stationID - Demo station Lefty
-			Convert.ToInt32(47),	//exerciseID - Bench Press 48
-			"RL",					//laterality
-			"50",					//resistance
-			encoderData
-		);
-
-		// Upload file
-		bool result;
-		LogB.Information("calling Upload");
-		//Config configChronojump;
-		Config configChronojump = new Config();
-		configChronojump.Read();
-		Json.ChangeServerUrl(configChronojump.CompujumpServerURL);
-		JsonCompujump js = new JsonCompujump(configChronojump.CompujumpDjango);
-		result = js.UploadEncoderData(encoderDataFull);
-		Console.WriteLine("Uploaded returns {0}", result);
-
-		/*
+	
+		/*	
 		//crash for test purposes
 		string [] myCrash = {
 			"hello" };

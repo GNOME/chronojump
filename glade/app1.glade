@@ -28868,7 +28868,7 @@ Concentric</property>
                                                             <widget class="GtkLabel" id="label289">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="tooltip" translatable="yes">Adaptative rhythm</property>
+                                                            <property name="tooltip" translatable="yes">Adaptive rhythm</property>
                                                             <property name="xalign">0</property>
                                                             <property name="label" translatable="yes">Rhythm</property>
                                                             <property name="justify">center</property>
@@ -30069,7 +30069,7 @@ then click this button.</property>
                                                             <widget class="GtkButton" id="button_encoder_inertial_recalibrate">
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
-                                                            <property name="tooltip" translatable="yes">Calbrate again</property>
+                                                            <property name="tooltip" translatable="yes">Calibrate again</property>
                                                             <signal name="clicked" handler="on_button_encoder_inertial_recalibrate_clicked" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkImage" id="image_encoder_recalibrate">

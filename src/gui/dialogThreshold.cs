@@ -109,8 +109,8 @@ public class DialogThreshold
 	private void writeTexts()
 	{
 		TextBuffer tb_about = new TextBuffer (new TextTagTable());
-		tb_about.Text =  Catalog.GetString("Spurius signals are common on electronics.") +
-			"\n\n" + Catalog.GetString("Threshold refers to the minimum value measurable and is the common way to clean this spurius signals.") +
+		tb_about.Text =  Catalog.GetString("Spurious signals are common on electronics.") +
+			"\n\n" + Catalog.GetString("Threshold refers to the minimum value measurable and is the common way to clean this spurious signals.") +
 			"\n"   + Catalog.GetString("Threshold should be a value lower than expected values.") +
 
 			"\n\n" + Catalog.GetString("On database three different thresholds are stored: jumps, races and other tests.") +

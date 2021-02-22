@@ -1534,7 +1534,7 @@ public class PreferencesWindow
 				"\n -" +
 				Catalog.GetString("Reaction time is displayed on Description column.") +
 				"\n -" +
-				Catalog.GetString("If first option is choosen, race time includes reaction time.")
+				Catalog.GetString("If first option is chosen, race time includes reaction time.")
 				);
 	}
 

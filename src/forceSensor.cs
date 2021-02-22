@@ -276,7 +276,7 @@ public class ForceSensor
 		else if(s == "b")
 			return "Button OFF";
 		else
-			return "RCA or button unknown, readed: " + s;
+			return "RCA or button unknown, read: " + s;
 	}
 
 	public string FullURL

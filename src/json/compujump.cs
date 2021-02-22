@@ -47,7 +47,7 @@ public class JsonCompujump : Json
 		Person person = new Person(-1);
 
 		// Create a request using a URL that can receive a post.
-		if (! createWebRequest(requestType.GENERIC, "/getPersonByRFID"))
+		if (! createWebRequest(requestType.AUTHENTICATED, "/api/v1/client/getPersonByRFID"))
 			return person;
 
 		// Set the Method property of the request to POST.
@@ -167,7 +167,7 @@ public class JsonCompujump : Json
 		connected = false;
 
 		// Create a request using a URL that can receive a post.
-		if (! createWebRequest(requestType.GENERIC, "/getTasks"))
+		if (! createWebRequest(requestType.AUTHENTICATED, "/api/v1/client/getTasks"))
 			return new List<Task>();
 
 		// Set the Method property of the request to POST.
@@ -248,7 +248,7 @@ public class JsonCompujump : Json
 	{
 		LogB.Information("At UpdateTask");
 		// Create a request using a URL that can receive a post.
-		if (! createWebRequest(requestType.GENERIC, "/updateTask"))
+		if (! createWebRequest(requestType.AUTHENTICATED, "/api/v1/client/updateTask"))
 			return false;
 
 		// Set the Method property of the request to POST.
@@ -294,7 +294,7 @@ public class JsonCompujump : Json
 	public List<StationCount> GetOtherStationsWithPendingTasks(int personID, int stationID)
 	{
 		// Create a request using a URL that can receive a post.
-		if (! createWebRequest(requestType.GENERIC, "/getOtherStationsWithPendingTasks"))
+		if (! createWebRequest(requestType.AUTHENTICATED, "/api/v1/client/getOtherStationsWithPendingTasks"))
 			return new List<StationCount>();
 
 		// Set the Method property of the request to POST.
@@ -355,7 +355,7 @@ public class JsonCompujump : Json
 		List<EncoderExercise> ex_list = new List<EncoderExercise>();
 
 		// Create a request using a URL that can receive a post.
-		if (! createWebRequest(requestType.GENERIC, "/getStationExercises"))
+		if (! createWebRequest(requestType.AUTHENTICATED, "/api/v1/client/getStationExercises"))
 			return ex_list;
 
 		// Set the Method property of the request to POST.
@@ -507,7 +507,7 @@ public class JsonCompujump : Json
 	{
 		LogB.Information("calling upload sprint");
 		// Create a request using a URL that can receive a post.
-		if (! createWebRequest(requestType.GENERIC, "/uploadSprintData"))
+		if (! createWebRequest(requestType.AUTHENTICATED, "/api/v1/client/uploadSprintData"))
 			return false;
 
 		/*
@@ -600,7 +600,7 @@ public class JsonCompujump : Json
 	public bool UploadEncoderData(UploadEncoderDataFullObject o)
 	{
 		// Create a request using a URL that can receive a post.
-		if (! createWebRequest(requestType.GENERIC, "/uploadEncoderData"))
+		if (! createWebRequest(requestType.AUTHENTICATED, "/api/v1/client/uploadEncoderData"))
 			return false;
 
 		// Set the Method property of the request to POST.
@@ -668,7 +668,7 @@ public class JsonCompujump : Json
 	public bool UploadForceSensorData(UploadForceSensorDataFullObject o)
 	{
 		// Create a request using a URL that can receive a post.
-		if (! createWebRequest(requestType.GENERIC, "/uploadForceSensorData"))
+		if (! createWebRequest(requestType.AUTHENTICATED, "/api/v1/client/uploadForceSensorData"))
 			return false;
 
 		// Set the Method property of the request to POST.

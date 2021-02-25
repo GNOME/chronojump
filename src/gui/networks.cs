@@ -267,7 +267,7 @@ public partial class ChronoJumpWindow
 			image_selector_start_rt.HeightRequest = 88;
 			image_selector_start_other.HeightRequest = 88;
 
-			vbox_menu_tiny_menu.Spacing = 16; //spacing 10 or 16 is the same. 20 makes window higher
+			vbox_menu_tiny_menu.Spacing = 14; //spacing 10 or 14 is the same. 20 makes window higher
 
 			image_encoder_inertial_instructions.Visible = false;
 		}

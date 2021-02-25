@@ -250,6 +250,28 @@ public partial class ChronoJumpWindow
 			hbox_persons_raspberry.Visible = true;
 		}
 
+		if(configChronojump.LowHeight)
+		{
+			//these images are 222x176
+			image_selector_start_jumps.WidthRequest = 111;
+			image_selector_start_runs.WidthRequest = 111;
+			image_selector_start_force_sensor.WidthRequest = 111;
+			image_selector_start_encoder.WidthRequest = 111;
+			image_selector_start_rt.WidthRequest = 111;
+			image_selector_start_other.WidthRequest = 111;
+
+			image_selector_start_jumps.HeightRequest = 88;
+			image_selector_start_runs.HeightRequest = 88;
+			image_selector_start_force_sensor.HeightRequest = 88;
+			image_selector_start_encoder.HeightRequest = 88;
+			image_selector_start_rt.HeightRequest = 88;
+			image_selector_start_other.HeightRequest = 88;
+
+			vbox_menu_tiny_menu.Spacing = 16; //spacing 10 or 16 is the same. 20 makes window higher
+
+			image_encoder_inertial_instructions.Visible = false;
+		}
+
 		if(configChronojump.GuiTest)
 		{
 			button_menu_guiTest.Visible = true;

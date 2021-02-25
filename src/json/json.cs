@@ -442,30 +442,34 @@ public class Json
 		HttpWebRequest req = WebRequest.CreateHttp(serverUrl + authPath);
 
 		// Set the Method property of the request to JSON  & POST.
-		req.ContentType = "application/json";
+		req.ContentType = "application/json; Charset=UTF-8";
 		req.UserAgent = "Chronojump/"+BuildInfo.chronojumpVersion+" "+Environment.OSVersion.Platform;
 		req.Method = "POST";
 
 		// Creates the json object
 		JsonObject json = new JsonObject();
 
-		// Use only machineId
-		// string machineID = SqlitePreferences.Select("machineID", false);
-		//if (string.IsNullOrEmpty(machineID)) {
+		// Use CompujumpStationID and machineId as unique identifiers
 		Config configChronojump = new Config();
 		configChronojump.Read();
-		int machineID = configChronojump.CompujumpStationID;
-		if (machineID <= 0) {
-			LogB.Error("The parameter machineId is null or not setted");
-//			this.ResultMessage = string.Format("The parameter machineId is null or not setted");
+		int stationID = configChronojump.CompujumpStationID;
+		if (stationID <= 0) {
+			LogB.Error("The parameter stationID is null or not setted");
 			return false;
 		}
-		LogB.Debug("machine_id: "+machineID);
+
+		string machineID = SqlitePreferences.Select("machineID", false);
+		if (string.IsNullOrEmpty(machineID)) {
+			LogB.Error("The parameter machineId is null or not setted");
+			return false;
+		}
+
+		json.Add("station_id", stationID);
 		json.Add("machine_id", machineID);
 
 		// Converts it to a String
 		String reqData = json.ToString();
-		LogB.Debug("authentication msg: "+reqData);
+//		LogB.Debug("authentication msg: " + reqData + "\n");
 
 		// Writes the json object into the request dataStream and close the stream
 		Stream dataStream;
@@ -497,7 +501,7 @@ public class Json
 			return false;
 		}
 		authToken = json_response["token"];
-		LogB.Debug("authToken: " + authToken);
+//		LogB.Debug("authToken: " + authToken + "\n");
 		return true;
 	}
 
@@ -508,20 +512,20 @@ public class Json
 				try {
 					if(! authenticate()) {
 						this.ResultMessage = string.Format("Unauthorized StationId");
-						LogB.Warning ("Unauthorized StationId (Error code 401)");
+						LogB.Warning("Unauthorized StationId (Error code 401)");
 						return false;
 					}
 				} catch {
 					this.ResultMessage = string.Format("Unauthorized StationId");
-					LogB.Warning ("Unauthorized StationId (Error code 401)");
+					LogB.Warning("Unauthorized StationId (Error code 401)");
 					return false;
 				}
 				request = WebRequest.CreateHttp(serverUrl + webService);
 				request.Headers["Authorization"] = "Bearer " + authToken;
-				request.Headers["User-Agent"] = "Chronojump/"+BuildInfo.chronojumpVersion+" "+Environment.OSVersion.Platform;
+				request.UserAgent = "Chronojump/"+BuildInfo.chronojumpVersion+" "+Environment.OSVersion.Platform;
 				// Django by default only supports "application/x-www-form-urlencoded"
 				// Used Django REST framework for support request parameters as JSON
-				request.ContentType = "application/json";
+				request.ContentType = "application/json; Charset=UTF-8";
 
 			} else if (rt == Json.requestType.PUBLIC) {
 				request = WebRequest.CreateHttp(serverUrl + webService);

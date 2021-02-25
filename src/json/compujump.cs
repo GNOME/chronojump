@@ -53,9 +53,6 @@ public class JsonCompujump : Json
 		// Set the Method property of the request to POST.
 		request.Method = "POST";
 
-		// Set the ContentType property of the WebRequest.
-		request.ContentType = "application/json; Charset=UTF-8"; //but this is not enough, see this line:
-
 		// Creates the json object
 		JsonObject json = new JsonObject();
 
@@ -173,9 +170,6 @@ public class JsonCompujump : Json
 		// Set the Method property of the request to POST.
 		request.Method = "POST";
 
-		// Set the ContentType property of the WebRequest.
-		request.ContentType = "application/json; Charset=UTF-8"; //but this is not enough, see this line:
-
 		// Creates the json object
 		JsonObject json = new JsonObject();
 
@@ -254,9 +248,6 @@ public class JsonCompujump : Json
 		// Set the Method property of the request to POST.
 		request.Method = "POST";
 
-		// Set the ContentType property of the WebRequest.
-		request.ContentType = "application/json; Charset=UTF-8"; //but this is not enough, see this line:
-
 		// Creates the json object
 		JsonObject json = new JsonObject();
 		json.Add("taskId", taskId);
@@ -299,9 +290,6 @@ public class JsonCompujump : Json
 
 		// Set the Method property of the request to POST.
 		request.Method = "POST";
-
-		// Set the ContentType property of the WebRequest.
-		request.ContentType = "application/json; Charset=UTF-8"; //but this is not enough, see this line:
 
 		// Creates the json object
 		JsonObject json = new JsonObject();
@@ -360,9 +348,6 @@ public class JsonCompujump : Json
 
 		// Set the Method property of the request to POST.
 		request.Method = "POST";
-
-		// Set the ContentType property of the WebRequest.
-		request.ContentType = "application/json; Charset=UTF-8"; //but this is not enough, see this line:
 
 		// Creates the json object
 		JsonObject json = new JsonObject();
@@ -519,10 +504,6 @@ public class JsonCompujump : Json
 		// Set the Method property of the request to POST.
 		request.Method = "POST";
 
-		// Set the ContentType property of the WebRequest.
-		request.ContentType = "application/json; Charset=UTF-8"; //but this is not enough, see this line:
-		//exerciseName = Util.RemoveAccents(exerciseName);
-
 		// Creates the json object
 		JsonObject json = new JsonObject();
 		json.Add("personId", o.personId);
@@ -606,15 +587,11 @@ public class JsonCompujump : Json
 		// Set the Method property of the request to POST.
 		request.Method = "POST";
 
-		// Set the ContentType property of the WebRequest.
-		request.ContentType = "application/json; Charset=UTF-8"; //but this is not enough, see this line:
-		//exerciseName = Util.RemoveAccents(exerciseName);
-
 		// Creates the json object
 		JsonObject json = new JsonObject();
 		json.Add("personId", o.personId);
 		json.Add("stationId", o.stationId);
-		//json.Add("exerciseName", exerciseName);
+		//json.Add("exerciseName", Util.RemoveAccents(exerciseName));
 		json.Add("exerciseId", o.exerciseId);
 		json.Add("laterality", o.laterality);
 		json.Add("resistance", o.resistance);
@@ -674,15 +651,11 @@ public class JsonCompujump : Json
 		// Set the Method property of the request to POST.
 		request.Method = "POST";
 
-		// Set the ContentType property of the WebRequest.
-		request.ContentType = "application/json; Charset=UTF-8"; //but this is not enough, see this line:
-		//exerciseName = Util.RemoveAccents(exerciseName);
-
 		// Creates the json object
 		JsonObject json = new JsonObject();
 		json.Add("personId", o.personId);
 		json.Add("stationId", o.stationId);
-		//json.Add("exerciseName", exerciseName);
+		//json.Add("exerciseName", Util.RemoveAccents(exerciseName));
 		json.Add("exerciseId", o.exerciseId);
 		json.Add("laterality", o.laterality);
 		json.Add("resistance", o.resistance);

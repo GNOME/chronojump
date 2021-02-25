@@ -4369,9 +4369,9 @@
      showgrid="false"
      inkscape:current-layer="layer1"
      inkscape:document-units="pc"
-     inkscape:cy="-2175.7886"
-     inkscape:cx="3330.8819"
-     inkscape:zoom="0.56003618"
+     inkscape:cy="-477.84598"
+     inkscape:cx="-350.65596"
+     inkscape:zoom="0.17253592"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0"
      borderopacity="1.0"
@@ -10723,9 +10723,9 @@
        inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/gui2-blau-chronojump-prova5.png" />
     <g
        id="g3951"
-       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/selector-rt.png"
-       inkscape:export-xdpi="100"
-       inkscape:export-ydpi="100"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/selector-rt-small.png"
+       inkscape:export-xdpi="73.368462"
+       inkscape:export-ydpi="73.368462"
        transform="translate(-335.29567,-256.82221)">
       <rect
          inkscape:export-ydpi="108"
@@ -10859,9 +10859,9 @@
        inkscape:export-ydpi="108" />
     <g
        id="g3502"
-       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/selector-force.png"
-       inkscape:export-xdpi="100"
-       inkscape:export-ydpi="100"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/selector-force-small.png"
+       inkscape:export-xdpi="73.799248"
+       inkscape:export-ydpi="73.799248"
        transform="translate(-335.29567,-256.82221)">
       <path
          inkscape:export-ydpi="108"
@@ -11125,9 +11125,9 @@
          style="font-size:6.35px;stroke-width:0.264583px">Multichronopic</tspan></text>
     <g
        id="g3958"
-       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/selector-multichronopic.png"
-       inkscape:export-xdpi="100"
-       inkscape:export-ydpi="100"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/selector-multichronopic-small.png"
+       inkscape:export-xdpi="73.799248"
+       inkscape:export-ydpi="73.799248"
        transform="translate(-335.29567,-256.82221)">
       <path
          inkscape:export-ydpi="100.12"
@@ -11189,7 +11189,10 @@
     </g>
     <g
        id="g3653"
-       transform="translate(-335.29567,-256.82221)">
+       transform="translate(-335.29567,-256.82221)"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/selector-encoder-small.png"
+       inkscape:export-xdpi="74.148331"
+       inkscape:export-ydpi="74.148331">
       <rect
          inkscape:export-ydpi="108"
          inkscape:export-xdpi="108"
@@ -11525,9 +11528,9 @@
     </g>
     <g
        id="g3705"
-       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/selector-jumps.png"
-       inkscape:export-xdpi="100.12"
-       inkscape:export-ydpi="100.12"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/selector-jumps-small.png"
+       inkscape:export-xdpi="73.799141"
+       inkscape:export-ydpi="73.799141"
        transform="translate(-335.29567,-256.82221)">
       <path
          id="rect96-2-0-97-9-4"
@@ -12334,9 +12337,9 @@
     </g>
     <g
        id="g13555"
-       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/selector-runs.png"
-       inkscape:export-xdpi="100"
-       inkscape:export-ydpi="100">
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/images/selector-runs-small.png"
+       inkscape:export-xdpi="73.800735"
+       inkscape:export-ydpi="73.800735">
       <path
          id="rect96-2-0-6-7-0-3-1-1-1"
          d="m 431.81244,-59.75236 c -1.57176,0 -2.83705,1.33789 -2.83705,2.99984 v 19.64934 l 56.32008,-12.23384 v -7.4155 c 0,-1.66195 -1.26526,-2.99984 -2.83702,-2.99984 z m 53.48303,25.44193 -45.54347,19.30017 h 42.70645 c 1.57176,0 2.83702,-1.3379 2.83702,-2.99985 z"

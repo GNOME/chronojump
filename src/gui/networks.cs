@@ -252,20 +252,19 @@ public partial class ChronoJumpWindow
 
 		if(configChronojump.LowHeight)
 		{
-			//these images are 222x176
-			image_selector_start_jumps.WidthRequest = 111;
-			image_selector_start_runs.WidthRequest = 111;
-			image_selector_start_force_sensor.WidthRequest = 111;
-			image_selector_start_encoder.WidthRequest = 111;
-			image_selector_start_rt.WidthRequest = 111;
-			image_selector_start_other.WidthRequest = 111;
+			Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "selector-jumps-small.png");
+			image_selector_start_jumps.Pixbuf = pixbuf;
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "selector-runs-small.png");
+			image_selector_start_runs.Pixbuf = pixbuf;
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "selector-encoder-small.png");
+			image_selector_start_encoder.Pixbuf = pixbuf;
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "selector-force-small.png");
+			image_selector_start_force_sensor.Pixbuf = pixbuf;
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "selector-rt-small.png");
+			image_selector_start_rt.Pixbuf = pixbuf;
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "selector-multichronopic-small.png");
+			image_selector_start_other.Pixbuf = pixbuf;
 
-			image_selector_start_jumps.HeightRequest = 88;
-			image_selector_start_runs.HeightRequest = 88;
-			image_selector_start_force_sensor.HeightRequest = 88;
-			image_selector_start_encoder.HeightRequest = 88;
-			image_selector_start_rt.HeightRequest = 88;
-			image_selector_start_other.HeightRequest = 88;
 
 			vbox_menu_tiny_menu.Spacing = 14; //spacing 10 or 14 is the same. 20 makes window higher
 

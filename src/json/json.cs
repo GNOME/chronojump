@@ -35,7 +35,7 @@ public class Json
 
 	protected bool connected; //know if server is connected. Do it when there's a change on RFID (pulse)
 	protected string authToken; //authentification token. If the string is empty auth call must be done.
-	protected WebRequest request; //generic request (for all methods except ping)
+	protected HttpWebRequest request; //generic request (for all methods except ping)
 	protected enum requestType { AUTHENTICATED, PUBLIC, PING };
 	protected static string serverUrl = "http://api.chronojump.org:8080";
 	//protected static string serverUrl = "http://networks.chronojump.org"; //Networks
@@ -439,9 +439,11 @@ public class Json
 		LogB.Debug("authentication started against " + serverUrl + authPath);
 
 		// Create a request using a the authentication URL
-		WebRequest req = WebRequest.Create (serverUrl + authPath);
+		HttpWebRequest req = WebRequest.CreateHttp(serverUrl + authPath);
 
-		// Set the Method property of the request to POST.
+		// Set the Method property of the request to JSON  & POST.
+		req.ContentType = "application/json";
+		req.UserAgent = "Chronojump/"+BuildInfo.chronojumpVersion+" "+Environment.OSVersion.Platform;
 		req.Method = "POST";
 
 		// Creates the json object
@@ -514,14 +516,18 @@ public class Json
 					LogB.Warning ("Unauthorized StationId (Error code 401)");
 					return false;
 				}
-				request = WebRequest.Create (serverUrl + webService);
+				request = WebRequest.CreateHttp(serverUrl + webService);
 				request.Headers["Authorization"] = "Bearer " + authToken;
+				request.Headers["User-Agent"] = "Chronojump/"+BuildInfo.chronojumpVersion+" "+Environment.OSVersion.Platform;
+				// Django by default only supports "application/x-www-form-urlencoded"
+				// Used Django REST framework for support request parameters as JSON
+				request.ContentType = "application/json";
 
 			} else if (rt == Json.requestType.PUBLIC) {
-				request = WebRequest.Create (serverUrl + webService);
+				request = WebRequest.CreateHttp(serverUrl + webService);
 
 			} else if (rt == Json.requestType.PING) {
-				requestPing = WebRequest.Create (serverUrl + webService);
+				requestPing = WebRequest.Create(serverUrl + webService);
 
 			} else {
 				throw new ArgumentException(String.Format("{0} is not a valid requestType", rt), "rt");

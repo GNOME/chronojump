@@ -57,6 +57,7 @@ public class Config
 	public bool Exhibition; //like YOMO. does not have rfid capture, user autologout management, and automatic configuration of gui
 	public ExhibitionTest.testTypes ExhibitionStationType;
 	public bool Raspberry;
+	public bool LowHeight; //devices with less than 500 px vertical, like Odroid Go Super
 	public bool GuiTest;
 	/*
 	 * unused because the default serverURL chronojump.org is ok:
@@ -137,6 +138,8 @@ public class Config
 						*/
 					else if(parts[0] == "Raspberry" && Util.StringToBool(parts[1])) //Raspberry: small screens, could be networks or not. They are usually disconnected by cable removal, so do not show send log at start
 						Raspberry = true;
+					else if(parts[0] == "LowHeight" && Util.StringToBool(parts[1]))
+						LowHeight = true;
 					else if(parts[0] == "GuiTest" && Util.StringToBool(parts[1]))
 						GuiTest = true;
 				} while(true);

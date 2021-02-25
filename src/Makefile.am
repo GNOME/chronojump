@@ -324,6 +324,12 @@ RESOURCES = \
 	../images/selector-force.png,selector-force.png \
 	../images/selector-rt.png,selector-rt.png \
 	../images/selector-multichronopic.png,selector-multichronopic.png \
+	../images/selector-jumps-small.png,selector-jumps-small.png \
+	../images/selector-runs-small.png,selector-runs-small.png \
+	../images/selector-encoder-small.png,selector-encoder-small.png \
+	../images/selector-force-small.png,selector-force-small.png \
+	../images/selector-rt-small.png,selector-rt-small.png \
+	../images/selector-multichronopic-small.png,selector-multichronopic-small.png \
 	../images/mini/force_sensor_elastic.png,mini/force_sensor_elastic.png \
 	../images/mini/force_sensor_not_elastic.png,mini/force_sensor_not_elastic.png \
 	../images/mini/run-encoder-manual.png,mini/run-encoder-manual.png \

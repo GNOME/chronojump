@@ -58,6 +58,7 @@ public class Config
 	public ExhibitionTest.testTypes ExhibitionStationType;
 	public bool Raspberry;
 	public bool LowHeight; //devices with less than 500 px vertical, like Odroid Go Super
+	public bool LowCPU; //workaround to not show realtime graph on force sensor capture (until its optimized)
 	public bool GuiTest;
 	/*
 	 * unused because the default serverURL chronojump.org is ok:
@@ -140,6 +141,8 @@ public class Config
 						Raspberry = true;
 					else if(parts[0] == "LowHeight" && Util.StringToBool(parts[1]))
 						LowHeight = true;
+					else if(parts[0] == "LowCPU" && Util.StringToBool(parts[1]))
+						LowCPU = true;
 					else if(parts[0] == "GuiTest" && Util.StringToBool(parts[1]))
 						GuiTest = true;
 				} while(true);

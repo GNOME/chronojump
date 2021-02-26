@@ -412,6 +412,14 @@ public partial class ChronoJumpWindow
 		runEncoderCaptureThread = new Thread(new ThreadStart(runEncoderCaptureDo));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKRunEncoderCapture));
 
+		if(preferences.debugMode)
+			LogB.Information("Debug mode active. Logs active while race analyzer capture");
+		else
+			LogB.Information("Debug mode inactive. Logs INactive while race analyzer capture");
+
+		//mute logs if ! debug mode
+		LogB.Mute = ! preferences.debugMode;
+
 		LogB.ThreadStart();
 		runEncoderCaptureThread.Start();
 		return true;
@@ -1342,6 +1350,10 @@ public partial class ChronoJumpWindow
 			while(runEncoderCaptureThread.IsAlive)
 				Thread.Sleep (250);
 			LogB.Information(" re D ");
+
+			LogB.Mute = preferences.muteLogs;
+			if(! preferences.muteLogs)
+				LogB.Information("muteLogs INactive. Logs active active again");
 
 			LogB.ThreadEnded(); 
 

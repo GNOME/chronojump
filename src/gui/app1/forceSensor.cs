@@ -1550,7 +1550,10 @@ LogB.Information(" fs I ");
 				UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
 				fscPoints.NumPainted = 0;
 
-				forcePaintHVLines(ForceSensorGraphs.CAPTURE, fscPoints.RealHeightG, forceSensorValues.Min * 2, fscPoints.RealWidthG, false);
+				if(! configChronojump.LowCPU)
+					forcePaintHVLines(ForceSensorGraphs.CAPTURE, fscPoints.RealHeightG, forceSensorValues.Min * 2, fscPoints.RealWidthG, false);
+
+
 				//draw horizontal rectangle of feedback
 				if(preferences.forceSensorCaptureFeedbackActive)
 					forceSensorSignalPlotFeedbackRectangle(fscPoints, force_capture_drawingarea.Allocation.Width,
@@ -1574,13 +1577,17 @@ LogB.Information(" fs J ");
 			if(toDraw == 0)
 				return true;
 
-			//note that scroll mode will call NOScroll method until scroll starts
-			if(preferences.forceSensorCaptureScroll && fscPoints.ScrollStartedAtCount > 0)
-				forceSensorCaptureDoRealtimeGraphScroll(numCaptured, numPainted, toDraw, points);
-			else
-				forceSensorCaptureDoRealtimeGraphNOScroll(numCaptured, numPainted, toDraw, points);
+			if(configChronojump.LowCPU)
+				event_execute_label_message.Text = "Disabled real time graph on this device";
+			else {
+				//note that scroll mode will call NOScroll method until scroll starts
+				if(preferences.forceSensorCaptureScroll && fscPoints.ScrollStartedAtCount > 0)
+					forceSensorCaptureDoRealtimeGraphScroll(numCaptured, numPainted, toDraw, points);
+				else
+					forceSensorCaptureDoRealtimeGraphNOScroll(numCaptured, numPainted, toDraw, points);
 
-			force_capture_drawingarea.QueueDraw(); // -- refresh
+				force_capture_drawingarea.QueueDraw(); // -- refresh
+			}
 
 			/*
 			 * update fscPoints.NumPainted by only if there's no -1 mark

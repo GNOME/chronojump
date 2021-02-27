@@ -179,6 +179,7 @@ public class JsonCompujump : Json
 		// Converts it to a String
 		String js = json.ToString();
 
+		LogB.Debug("GetTasks params: " + js + "\n");
 		// Writes the json object into the request dataStream
 		Stream dataStream;
 		if(! getWebRequestStream (request, out dataStream, "Cannot get tasks."))
@@ -218,12 +219,12 @@ public class JsonCompujump : Json
 
 		foreach (JsonValue jsonTask in jsonTasks) {
 			Int32 id = jsonTask ["id"];
-			char type = jsonTask ["type"];
+			//char type = jsonTask ["type"];
 			int exerciseId = jsonTask ["exerciseId"];
 			string exerciseName = jsonTask ["exerciseName"];
 
-			int personId = jsonTask ["personId"];
-			int stationId = jsonTask ["stationId"];
+			int personId = jsonTask ["person"];
+			int stationId = jsonTask ["station"];
 			int sets = jsonTask ["sets"];
 			int nreps = jsonTask ["nreps"];
 			float load = jsonTask ["load"];
@@ -398,7 +399,7 @@ public class JsonCompujump : Json
 		{
 			Int32 id = jsonSE ["id"];
 			string name = jsonSE ["name"];
-			Int32 stationId = jsonSE ["stationId"];
+			//Int32 stationId = jsonSE ["stationId"];
 			int percentBodyMassDisplaced = jsonSE ["percentBodyMassDisplaced"];
 
 			ex_list.Add(new EncoderExercise(id, name, percentBodyMassDisplaced,

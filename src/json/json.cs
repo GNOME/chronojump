@@ -469,7 +469,7 @@ public class Json
 
 		// Converts it to a String
 		String reqData = json.ToString();
-//		LogB.Debug("authentication msg: " + reqData + "\n");
+//		LogB.Debug("authentication params: " + reqData + "\n");
 
 		// Writes the json object into the request dataStream and close the stream
 		Stream dataStream;

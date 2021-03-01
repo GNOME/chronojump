@@ -55,7 +55,7 @@ public class PreferencesWindow
 	[Widget] Gtk.CheckButton check_view_force_sensor;
 	[Widget] Gtk.CheckButton check_view_race_analyzer;
 	//tabs selection widgets
-	[Widget] Gtk.Image image_view_more_tabs_back;
+	[Widget] Gtk.Image image_view_more_tabs_close;
 	[Widget] Gtk.Label label_mandatory_tabs;
 	[Widget] Gtk.Label label_selectable_tabs;
 
@@ -792,7 +792,7 @@ public class PreferencesWindow
 		UtilGtk.PaintColorDrawingArea(PreferencesWindowBox.drawingarea_background_color_chronojump_blue, UtilGtk.BLUE_CHRONOJUMP);
 
 		//tabs selection widgets
-		PreferencesWindowBox.image_view_more_tabs_back.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "arrow_back.png");
+		PreferencesWindowBox.image_view_more_tabs_close.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
 		PreferencesWindowBox.label_mandatory_tabs.Text = "<b>" + PreferencesWindowBox.label_mandatory_tabs.Text + "</b>";
 		PreferencesWindowBox.label_mandatory_tabs.UseMarkup = true;
 		PreferencesWindowBox.label_selectable_tabs.Text = "<b>" + PreferencesWindowBox.label_selectable_tabs.Text + "</b>";
@@ -809,7 +809,7 @@ public class PreferencesWindow
 		notebook_top.CurrentPage = 1;
 		hbox_buttons_bottom.Sensitive = false;
 	}
-	private void on_button_view_more_tabs_back_clicked (object o, EventArgs args)
+	private void on_button_view_more_tabs_close_clicked (object o, EventArgs args)
 	{
 		notebook_top.CurrentPage = 0;
 		hbox_buttons_bottom.Sensitive = true;

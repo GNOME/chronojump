@@ -243,7 +243,7 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
 
         print("startTime:")
         print(totalTime[trimmingSamples$start] + T0)
-        return(list(Vmax = Vmax, K = K, T0,
+        return(list(Vmax = Vmax, K = K, T0 = T0,
                     time = time, rawPosition = position + P0, rawSpeed = speed, rawAccel = accel, rawForce = totalForce, rawPower = power,
                     rawVmax = max(speed[trimmingSamples$start:trimmingSamples$end]), rawAmax = max(accel[trimmingSamples$start:trimmingSamples$end]), rawFmax = max(totalForce[trimmingSamples$start:trimmingSamples$end]), rawPmax = max(power[trimmingSamples$start:trimmingSamples$end]),
                     startSample = trimmingSamples$start, startTime = totalTime[trimmingSamples$start] + T0, endSample = trimmingSamples$end, testLength = testLength, longEnough = longEnough, regressionDone = regression$regressionDone, timeBefore = T0, startAccel = startAccel))
@@ -597,12 +597,19 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
         }
 
 	#triggers
+        # triggersOn = triggersOn + sprintFittedDynamics$T0
+        # triggersOff = triggersOff + sprintFittedDynamics$T0
         print("triggersOn on plot:")
         print(triggersOn)
-	    abline(v=triggersOn, col="green")
-	    print("triggersOff plot:")
-	    print(triggersOff)
-	    abline(v=triggersOff, col="red")
+        #TODO: Find why the T0 have to be added twice
+        triggersOn = triggersOn + 2*sprintFittedDynamics$T0
+        print(triggersOn)
+	abline(v=triggersOn, col="green")
+	print("triggersOff plot:")
+	print(triggersOff)
+	triggersOff = triggersOff + 2*sprintFittedDynamics$T0
+	print(triggersOff)
+	abline(v=triggersOff, col="red")
 
 
         plotSize = par("usr")
@@ -718,7 +725,8 @@ testEncoderCJ <- function(filename, testLength, splitLength, mass, personHeight,
         if (sprintRawDynamics$longEnough && sprintRawDynamics$regressionDone)
         {
                 print(paste("Vmax:", sprintRawDynamics$Vmax))
-                sprintFittedDynamics = getDynamicsFromSprint(K = sprintRawDynamics$K, Vmax = sprintRawDynamics$Vmax, Mass = mass, T0 = 0, Temperature = tempC, Height = personHeight)
+                print(paste("T0:", sprintRawDynamics$T0))
+                sprintFittedDynamics = getDynamicsFromSprint(K = sprintRawDynamics$K, Vmax = sprintRawDynamics$Vmax, Mass = mass, T0 = sprintRawDynamics$T0, Temperature = tempC, Height = personHeight)
                 print(paste("K =",sprintFittedDynamics$K.fitted, "Vmax =", sprintFittedDynamics$Vmax.fitted))
                 # print("triggersOn in testEncoderCJ:")
                 # print(op$triggersOnList)

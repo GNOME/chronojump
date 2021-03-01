@@ -44,17 +44,20 @@ using ICSharpCode.SharpZipLib;
 public class PreferencesWindow
 {
 	[Widget] Gtk.Window preferences_win;
+	[Widget] Gtk.Notebook notebook_top;
 	[Widget] Gtk.Notebook notebook;
+	[Widget] Gtk.HBox hbox_buttons_bottom;
 
 	//view more tabs
-	[Widget] Gtk.Button button_view_more_tabs;
-	[Widget] Gtk.HBox hbox_more_tabs;
-	[Widget] Gtk.Label label_view_more_tabs;
 	[Widget] Gtk.CheckButton check_view_jumps;
 	[Widget] Gtk.CheckButton check_view_runs;
 	[Widget] Gtk.CheckButton check_view_encoder;
 	[Widget] Gtk.CheckButton check_view_force_sensor;
 	[Widget] Gtk.CheckButton check_view_race_analyzer;
+	//tabs selection widgets
+	[Widget] Gtk.Image image_view_more_tabs_back;
+	[Widget] Gtk.Label label_mandatory_tabs;
+	[Widget] Gtk.Label label_selectable_tabs;
 
 	//appearance tab
 	[Widget] Gtk.CheckButton check_appearance_maximized;
@@ -321,6 +324,7 @@ public class PreferencesWindow
 			PreferencesWindowBox = new PreferencesWindow ();
 		}
 
+		PreferencesWindowBox.notebook_top.CurrentPage = 0;
 		PreferencesWindowBox.operatingSystem = UtilAll.GetOSEnum();
 
 		if(compujump)
@@ -787,6 +791,13 @@ public class PreferencesWindow
 		PreferencesWindowBox.paintColorDrawingAreaAndBg (PreferencesWindowBox.colorBackground);
 		UtilGtk.PaintColorDrawingArea(PreferencesWindowBox.drawingarea_background_color_chronojump_blue, UtilGtk.BLUE_CHRONOJUMP);
 
+		//tabs selection widgets
+		PreferencesWindowBox.image_view_more_tabs_back.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "arrow_back.png");
+		PreferencesWindowBox.label_mandatory_tabs.Text = "<b>" + PreferencesWindowBox.label_mandatory_tabs.Text + "</b>";
+		PreferencesWindowBox.label_mandatory_tabs.UseMarkup = true;
+		PreferencesWindowBox.label_selectable_tabs.Text = "<b>" + PreferencesWindowBox.label_selectable_tabs.Text + "</b>";
+		PreferencesWindowBox.label_selectable_tabs.UseMarkup = true;
+
 		PreferencesWindowBox.preferences_win.Show ();
 		return PreferencesWindowBox;
 	}
@@ -795,8 +806,13 @@ public class PreferencesWindow
 
 	private void on_button_view_more_tabs_clicked (object o, EventArgs args)
 	{
-		button_view_more_tabs.Visible = false;
-		hbox_more_tabs.Visible = true;
+		notebook_top.CurrentPage = 1;
+		hbox_buttons_bottom.Sensitive = false;
+	}
+	private void on_button_view_more_tabs_back_clicked (object o, EventArgs args)
+	{
+		notebook_top.CurrentPage = 0;
+		hbox_buttons_bottom.Sensitive = true;
 	}
 
 	private void on_check_view_jumps_clicked (object o,EventArgs args)
@@ -827,6 +843,7 @@ public class PreferencesWindow
 		if(active) {
 			PreferencesWindowBox.notebook.GetNthPage(page).Show();
 			PreferencesWindowBox.notebook.CurrentPage = page;
+
 		} else
 			PreferencesWindowBox.notebook.GetNthPage(page).Hide();
 	}
@@ -845,10 +862,7 @@ public class PreferencesWindow
 	{
 		UtilGtk.PaintColorDrawingArea(drawingarea_background_color, color);
 		if(! preferences.colorBackgroundOsColor)
-		{
 			UtilGtk.WindowColor(preferences_win, color);
-			UtilGtk.ContrastLabelsLabel (preferences.colorBackgroundIsDark, label_view_more_tabs);
-		}
 	}
 
 	private void on_radio_color_custom_toggled (object o, EventArgs args)

@@ -139,7 +139,7 @@ public partial class ChronoJumpWindow
 
 	private void initForceSensor ()
 	{
-		notebook_force_sensor_analyze.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_pages.MANUAL);
+		notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSETSIGNAL);
 		createForceExerciseCombo();
 		createComboForceSensorCaptureOptions();
 		createForceAnalyzeCombos();
@@ -444,8 +444,7 @@ public partial class ChronoJumpWindow
 		}
 		else if (o == (object) button_execute_test)
 		{
-			notebook_force_sensor_analyze.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_pages.MANUAL);
-			notebook_force_sensor_analyze_sliders_buttons_back.CurrentPage = 0;
+			notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSETSIGNAL);
 			forceSensorButtonsSensitive(false);
 			sensitiveLastTestButtons(false);
 			contactsShowCaptureDoingButtons(true);
@@ -571,7 +570,7 @@ public partial class ChronoJumpWindow
 
 		button_contacts_exercise_close_and_recalculate.Sensitive = false;
 		textview_contacts_signal_comment.Buffer.Text = "";
-		notebook_force_sensor_analyze.Sensitive = false;
+		hbox_force_general_analysis.Sensitive = false;
 		button_force_sensor_analyze_options_close_and_analyze.Sensitive = false;
 		button_force_sensor_analyze_analyze.Sensitive = false;
 		button_delete_last_test.Sensitive = false;
@@ -1442,7 +1441,7 @@ LogB.Information(" fs C ");
 					button_delete_last_test.Sensitive = true;
 					force_capture_drawingarea.Sensitive = true;
 					button_force_sensor_image_save_signal.Sensitive = true;
-					notebook_force_sensor_analyze.Sensitive = true;
+					hbox_force_general_analysis.Sensitive = true;
 					button_force_sensor_analyze_options_close_and_analyze.Sensitive = true;
 					button_force_sensor_analyze_analyze.Sensitive = true;
 
@@ -1943,10 +1942,9 @@ LogB.Information(" fs R ");
 
 		button_contacts_exercise_close_and_recalculate.Sensitive = true;
 		force_capture_drawingarea.Sensitive = true;
-		notebook_force_sensor_analyze.Sensitive = true;
+		hbox_force_general_analysis.Sensitive = true;
 		button_force_sensor_analyze_options_close_and_analyze.Sensitive = true;
-		notebook_force_sensor_analyze.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_pages.MANUAL);
-		notebook_force_sensor_analyze_sliders_buttons_back.CurrentPage = 0;
+		notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSETSIGNAL);
 	}
 
 	protected void on_force_sensor_load_signal_row_play (object o, EventArgs args)
@@ -2126,7 +2124,7 @@ LogB.Information(" fs R ");
 		}
 
 		currentForceSensor.UpdateSQL(false);
-		notebook_force_sensor_analyze.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_pages.MANUAL);
+		notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSETSIGNAL);
 	}
 
 	private enum forceSensorGraphsEnum { SIGNAL, RFD }

@@ -6,11 +6,13 @@
 #include <Wire.h>
 #include <Adafruit_ADS1015.h>
 #include <EEPROM.h>
+#include <MsTimer2.h>
 
 //TODO: Test the Texas Instrument ADS1256
 Adafruit_ADS1115 loadCell;
 
 int rcaPin = 2;       //Pin associated to the RCA
+const int debounceTime = 1;  //Time that the RCA interruption will be deactivated after a change event
 int encoderPinA = 3;  //Pin associated with the encoder interruption
 int encoderPinB = 4;
 volatile int encoderDisplacement = 0;
@@ -125,7 +127,12 @@ void setup() {
   //Using the CHANGE with both photocells WE CAN HAVE four times normal PPR
   //attachInterrupt(digitalPinToInterrupt(encoderPinB), changingB, CHANGE);
 
+  //Changing the state of the RCA activates the interruption service and the timmer interruption
   attachInterrupt(digitalPinToInterrupt(rcaPin), changingRCA, CHANGE);
+
+  //This timmer makes that the duration of a state is at least debounceTime in ms as during this period the RCA interruption
+  //is deactivated
+  MsTimer2::set(debounceTime, rcaDebounce);
 
   //  start_capture();
 
@@ -229,8 +236,9 @@ void changingA() {
 
 void changingRCA() {
   //TODO: Check the overflow of the lastTriggerTime
-  detachInterrupt(digitalPinToInterrupt(rcaPin));
   sampleTime = micros();
+  detachInterrupt(digitalPinToInterrupt(rcaPin));
+  MsTimer2::start();
   triggerTime = sampleTime;
   rcaState = digitalRead(rcaPin);
   //bool rcaState = (PIND & 0b00000100) >> 3      //In case of triggers optimization try to manipulate ports directly in order to be faster
@@ -249,6 +257,27 @@ void changingRCA() {
   data.encoderDisplacement = encoderDisplacement;
   encoderDisplacement = 0;
   procesSample = true;
+}
+
+void rcaDebounce()
+{
+  MsTimer2::stop();
+  if (digitalRead(rcaPin) != rcaState)
+  {
+    sampleTime = micros();
+    triggerTime = sampleTime;
+    rcaState = !rcaState;
+    data.encoderDisplacement = encoderDisplacement;
+    encoderDisplacement = 0;
+
+    if (rcaState) { //Button pressed
+      data.sensor = 2;
+    } else {        //Button released
+      data.sensor = 1;
+    }
+    procesSample = true;
+  }
+//  Serial.println("Debounce");
   attachInterrupt(digitalPinToInterrupt(rcaPin), changingRCA, CHANGE);
 }
 
@@ -551,17 +580,17 @@ void start_simulation(void)
     if (displacement >= 1) {
       lastPosition = currentPosition;
 //
-//      //Sending in text mode
+//    //Sending in text mode
 //
-//      Serial.print(round( displacement ));
-//      Serial.print(";");
-//      Serial.print(round(totalTime + 1E7));
-//      Serial.print(";");
-//      Serial.println(0);
-      
+//    Serial.print(round( displacement ));
+//    Serial.print(";");
+//    Serial.print(round(totalTime + 1E7));
+//    Serial.print(";");
+//    Serial.println(0);
+
       data.encoderDisplacement = round(displacement);
       data.totalTime = round(totalTime + random(100, 1000)) + 1E7;
-  
+
       //Printing in binary format
       Serial.write((byte*)&data, 9);
     }

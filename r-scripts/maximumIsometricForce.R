@@ -1248,7 +1248,7 @@ start <- function(op)
 
 			progressFilename = paste(progressFolder, "/", i, sep="")
 			file.create(progressFilename)
-				print("done")
+			print("done")
 		}
 
 		#3) write the file

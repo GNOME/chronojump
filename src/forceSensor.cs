@@ -2642,17 +2642,17 @@ public class ForceSensorExport
 	{
 		this.exportURL = exportURL;
 
+		//create progressbar and graph files dirs or delete their contents
+		createOrEmptyDir(Util.GetForceSensorTempProgressDir());
+		createOrEmptyDir(Util.GetForceSensorTempGraphsDir());
+		createOrEmptyDir(Util.GetForceSensorTempGraphsABDir());
+
 		cancel = false;
 		noData = false;
 		cannotCopy = false;
 		progressbar.Fraction = 0;
 		messageToProgressbar = "";
 		notebook.CurrentPage = 1;
-
-		//create progressbar and graph files dirs or delete their contents
-		createOrEmptyDir(Util.GetForceSensorTempProgressDir());
-		createOrEmptyDir(Util.GetForceSensorTempGraphsDir());
-		createOrEmptyDir(Util.GetForceSensorTempGraphsABDir());
 
 		thread = new Thread (new ThreadStart (forceSensorExportDo));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseForceSensorExportGTK));

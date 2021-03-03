@@ -207,6 +207,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_run_encoder_analyze_load;
 	[Widget] Gtk.Image image_run_encoder_analyze_image_save_graph;
 	[Widget] Gtk.Image image_run_encoder_analyze_image_save_disk;
+	[Widget] Gtk.Image image_run_encoder_export_cancel;
 
 	//video play icons
 	[Widget] Gtk.Image image_video_play_this_test_contacts;
@@ -705,6 +706,7 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
 		image_encoder_analyze_cancel.Pixbuf = pixbuf;
 		image_force_sensor_export_cancel.Pixbuf = pixbuf;
+		image_run_encoder_export_cancel.Pixbuf = pixbuf;
 		
 		//zoom icons, done like this because there's one zoom icon created ad-hoc, 
 		//and is not nice that the other are different for an user theme change

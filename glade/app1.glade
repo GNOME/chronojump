@@ -26709,6 +26709,62 @@ Concentric</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_run_encoder_export_current_session">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_button_run_encoder_export_current_session_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox182">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label111">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">Export</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_force_sensor_analyze_table_save1">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_force_sensor_analyze_table_save_2">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
                                                           </widget>
                                                           <packing>
                                                             <property name="expand">False</property>

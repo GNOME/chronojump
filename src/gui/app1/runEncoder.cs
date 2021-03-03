@@ -305,7 +305,7 @@ public partial class ChronoJumpWindow
 		button_raceAnalyzer_table_save.Sensitive = false;
 		clearRaceAnalyzerTriggers();
 
-		button_run_encoder_analyze_options.Sensitive = false;
+		button_run_encoder_analyze_options_close_and_analyze.Sensitive = false;
 		button_run_encoder_analyze_analyze.Sensitive = false;
 		button_delete_last_test.Sensitive = false;
 		button_run_encoder_image_save.Sensitive = false;
@@ -860,7 +860,7 @@ public partial class ChronoJumpWindow
 		sensitiveLastTestButtons(true);
 
 		event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(re.Filename);
-		button_run_encoder_analyze_options.Sensitive = true;
+		button_run_encoder_analyze_options_close_and_analyze.Sensitive = true;
 		button_run_encoder_image_save.Sensitive = true;
 	}
 
@@ -1297,7 +1297,7 @@ public partial class ChronoJumpWindow
 					notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RACEENCODER);
 					radio_mode_contacts_analyze.Active = true;
 					button_contacts_exercise_close_and_recalculate.Sensitive = true;
-					button_run_encoder_analyze_options.Sensitive = true;
+					button_run_encoder_analyze_options_close_and_analyze.Sensitive = true;
 					button_run_encoder_analyze_analyze.Sensitive = true;
 					button_run_encoder_image_save.Sensitive = true;
 					button_delete_last_test.Sensitive = true;
@@ -1320,7 +1320,7 @@ public partial class ChronoJumpWindow
 				webcamEnd (Constants.TestTypes.RACEANALYZER, -1);
 				sensitiveLastTestButtons(false);
 				contactsShowCaptureDoingButtons(false);
-				button_run_encoder_analyze_options.Sensitive = false;
+				button_run_encoder_analyze_options_close_and_analyze.Sensitive = false;
 				button_run_encoder_analyze_analyze.Sensitive = false;
 				button_run_encoder_image_save.Sensitive = false;
 				button_delete_last_test.Sensitive = false;

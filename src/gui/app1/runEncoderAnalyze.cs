@@ -35,7 +35,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ComboBox combo_run_encoder_analyze_accel;
 	[Widget] Gtk.ComboBox combo_run_encoder_analyze_force;
 	[Widget] Gtk.ComboBox combo_run_encoder_analyze_power;
-	[Widget] Gtk.Button button_run_encoder_analyze_options;
+	[Widget] Gtk.Button button_run_encoder_analyze_options_close_and_analyze;
 	[Widget] Gtk.Button button_run_encoder_analyze_analyze;
 	[Widget] Gtk.Button button_run_encoder_image_save;
 

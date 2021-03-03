@@ -337,10 +337,30 @@ public partial class ChronoJumpWindow
 		runEncoderExport.Button_done.Clicked -= new EventHandler(run_encoder_export_done);
 		runEncoderExport.Button_done.Clicked += new EventHandler(run_encoder_export_done);
 
-		//runEncoderExport.Start(selectedFileName); //file or folder
-		runEncoderExport.Start("runEncoderExport.csv"); //file or folder
+		bool selectedFile = false;
+		if(check_run_encoder_export_images.Active)
+		{
+			if(personID == -1)
+				selectedFile = checkFile(Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES);
+			else
+				selectedFile = checkFile(Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES);
+		} else {
+			if(personID == -1)
+				selectedFile = checkFile(Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES);
+			else
+				selectedFile = checkFile(Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_NO_IMAGES);
+		}
 
-		//TODO: continue with cancel stuff, ...
+		//restore the gui if cancelled
+		if(! selectedFile) {
+			runEncoderButtonsSensitive(true);
+			hbox_run_encoder_top.Sensitive = true;
+		}
+	}
+	private void on_button_run_encoder_export_file_selected (string selectedFileName)
+	{
+		//runEncoderExport.Start("runEncoderExport.csv");
+		runEncoderExport.Start(selectedFileName); //file or folder
 	}
 
 	private void on_button_run_encoder_export_cancel_clicked (object o, EventArgs args)

@@ -33,7 +33,6 @@ public partial class ChronoJumpWindow
 	//analyze tab
 	[Widget] Gtk.RadioButton radio_force_sensor_analyze_individual_current_set;
 	[Widget] Gtk.RadioButton radio_force_sensor_analyze_individual_current_session;
-	[Widget] Gtk.RadioButton radio_force_sensor_analyze_individual_all_sessions;
 	[Widget] Gtk.RadioButton radio_force_sensor_analyze_groupal_current_session;
 
 	[Widget] Gtk.Image image_force_sensor_analyze_individual_current_set;
@@ -688,6 +687,8 @@ public partial class ChronoJumpWindow
 	*/
 
 	bool force_sensor_ai_drawingareaShown = false;
+
+	//move to export gui file
 
 	private void on_radio_force_sensor_analyze_individual_current_set_toggled (object o, EventArgs args)
 	{

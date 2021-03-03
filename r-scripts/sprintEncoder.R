@@ -16,7 +16,7 @@
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
 #   Copyright (C) 2018-2020   	Xavier Padullés <x.padulles@gmail.com>
-#   Copyright (C) 2020   	Xavier de Blas <xaviblas@gmail.com>
+#   Copyright (C) 2020-2021   	Xavier de Blas <xaviblas@gmail.com>
 
 
 #-------------- get params -------------
@@ -57,7 +57,10 @@ assignOptions <- function(options) {
                 plotRawPower 	= as.logical(options[19]),
                 plotFittedPower = as.logical(options[20]),
 		triggersOnList  = as.numeric(unlist(strsplit(options[21], "\\;"))),
-		triggersOffList  = as.numeric(unlist(strsplit(options[22], "\\;")))
+		triggersOffList  = as.numeric(unlist(strsplit(options[22], "\\;"))),
+		singleOrMultiple = options[23],
+		decimalCharAtExport = options[24],
+		includeImagesOnExport = options[25]
         ))
 }
 
@@ -254,15 +257,15 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
 				  triggersOff = "",
                                   plotRawMeanSpeed = TRUE,
                                   plotRawSpeed = TRUE,
-				  plotRawAccel = op$plotRawAccel,
-				  plotRawForce = op$plotRawForce,
+				  plotRawAccel,
+				  plotRawForce,
                                   plotMeanRawForce = TRUE,
-				  plotRawPower = op$plotRawPower,
+				  plotRawPower,
                                   plotMeanRawPower = TRUE,
                                   plotFittedSpeed = TRUE,
-				  plotFittedAccel = op$plotFittedAccel,
-				  plotFittedForce = op$plotFittedForce,
-				  plotFittedPower = op$plotFittedPower,
+				  plotFittedAccel,
+				  plotFittedForce,
+				  plotFittedPower,
                                   startAccel,
                                   plotStartDetection = TRUE)
 {
@@ -700,12 +703,17 @@ tryNLS <- function(data){
         )
 }
 
-testEncoderCJ <- function(filename, testLength, mass, personHeight, tempC, startAccel)
+testEncoderCJ <- function(filename, testLength, splitLength, mass, personHeight, tempC, device, title, datetime, startAccel)
 {
-        sprintRawDynamics = getSprintFromEncoder(filename, testLength, op$mass, op$tempC, op$personHeight, Vw = 0, device = op$device, startAccel)
-        # print("sprintRawDynamics:")
-        # print(sprintRawDynamics)
-        if (sprintRawDynamics$longEnough & sprintRawDynamics$regressionDone)
+        sprintRawDynamics = getSprintFromEncoder(filename, testLength, mass, tempC, personHeight, Vw = 0, device = device, startAccel)
+	#print("sprintRawDynamics:")
+	#print(sprintRawDynamics)
+	#print("sprintRawDynamics$longEnough")
+	#print(sprintRawDynamics$longEnough)
+	#print("sprintRawDynamics$regressionDone")
+	#print(sprintRawDynamics$regressionDone)
+
+        if (sprintRawDynamics$longEnough && sprintRawDynamics$regressionDone)
         {
                 print(paste("Vmax:", sprintRawDynamics$Vmax))
                 sprintFittedDynamics = getDynamicsFromSprint(K = sprintRawDynamics$K, Vmax = sprintRawDynamics$Vmax, Mass = mass, T0 = 0, Temperature = tempC, Height = personHeight)
@@ -719,9 +727,9 @@ testEncoderCJ <- function(filename, testLength, mass, personHeight, tempC, start
                 # print("triggersOff in testEncoderCJ:")
                 print(op$triggersOffList)
                 plotSprintFromEncoder(sprintRawDynamic = sprintRawDynamics, sprintFittedDynamics = sprintFittedDynamics,
-				      splitLength = op$splitLength,
-                                      title = op$title,
-                                      subtitle = op$datetime,
+				      splitLength = splitLength,
+                                      title,
+                                      datetime, 	#subtitle
 				      triggersOn = op$triggersOnList,
 				      triggersOff = op$triggersOffList,
                                       plotRawMeanSpeed = TRUE,
@@ -742,6 +750,42 @@ testEncoderCJ <- function(filename, testLength, mass, personHeight, tempC, start
           print("Couldn't calculate the sprint model")
 }
 
-prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
-testEncoderCJ(op$filename, op$testLength, op$mass, op$personHeight, op$tempC, op$startAccel)
-endGraph()
+start <- function(op)
+{
+	if(op$singleOrMultiple == "TRUE")
+	{
+		prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
+		testEncoderCJ(op$filename, op$testLength, op$splitLength, op$mass, op$personHeight, op$tempC, op$device, op$title, op$datetime, op$startAccel)
+		endGraph()
+		return()
+	}
+
+	#op$singleOrMultiple == "FALSE"
+
+	#exportNames = c("Name","Date","Time","Exercise","result?")
+	#if(op$includeImagesOnExport)
+		#exportNames = c(exportNames, "Image")
+
+	#2) read the csv
+	dataFiles = read.csv(file = paste(tempPath, "/cj_race_analyzer_input_multi.csv", sep=""), sep=";", stringsAsFactors=F)
+
+	#3) call doProcess
+	progressFolder = paste(tempPath, "/chronojump_race_analyzer_progress", sep ="")
+	tempGraphsFolder = paste(tempPath, "/chronojump_race_analyzer_graphs/", sep ="")
+
+	for(i in 1:length(dataFiles[,1]))
+	{
+		print("fullURL")
+		print(as.vector(dataFiles$fullURL[i]))
+
+		pngFile <- paste(tempGraphsFolder, i, ".png", sep="")  #but remember to graph also when model fails
+		prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
+		testEncoderCJ(as.vector(dataFiles$fullURL[i]), dataFiles$testLength[i], dataFiles$splitLength[i],
+				dataFiles$mass[i], dataFiles$personHeight[i], dataFiles$tempC[i],
+				dataFiles$device[i], dataFiles$title[i], dataFiles$datetime[i],
+				op$startAccel)
+		endGraph()
+	}
+}
+
+start(op)

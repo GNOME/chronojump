@@ -501,6 +501,31 @@ public class Preferences
 		get { return UtilGtk.ColorParse(colorBackgroundString); }
 	}
 
+	public enum RunEncoderPlotVariables { RAWACCEL, FITTEDACCEL, RAWFORCE, FITTEDFORCE, RAWPOWER, FITTEDPOWER};
+	public static bool RunEncoderShouldPlotVariable(RunEncoderPlotVariables v)
+	{
+		if(v == RunEncoderPlotVariables.RAWACCEL)
+			return ( runEncoderAnalyzeAccel.SqlCurrentName == runEncoderAnalyzeAFPSqlRAW ||
+					runEncoderAnalyzeAccel.SqlCurrentName == runEncoderAnalyzeAFPSqlBOTH );
+		else if(v == RunEncoderPlotVariables.FITTEDACCEL)
+			return ( runEncoderAnalyzeAccel.SqlCurrentName == runEncoderAnalyzeAFPSqlFITTED ||
+					runEncoderAnalyzeAccel.SqlCurrentName == runEncoderAnalyzeAFPSqlBOTH );
+		else if(v == RunEncoderPlotVariables.RAWFORCE)
+			return ( runEncoderAnalyzeForce.SqlCurrentName ==  runEncoderAnalyzeAFPSqlRAW ||
+					runEncoderAnalyzeForce.SqlCurrentName == runEncoderAnalyzeAFPSqlBOTH );
+		else if(v == RunEncoderPlotVariables.FITTEDFORCE)
+			return ( runEncoderAnalyzeForce.SqlCurrentName == runEncoderAnalyzeAFPSqlFITTED ||
+					runEncoderAnalyzeForce.SqlCurrentName == runEncoderAnalyzeAFPSqlBOTH );
+		else if(v == RunEncoderPlotVariables.RAWPOWER)
+			return ( runEncoderAnalyzePower.SqlCurrentName ==  runEncoderAnalyzeAFPSqlRAW ||
+					runEncoderAnalyzePower.SqlCurrentName == runEncoderAnalyzeAFPSqlBOTH );
+		else if(v == RunEncoderPlotVariables.FITTEDPOWER)
+			return ( runEncoderAnalyzePower.SqlCurrentName == runEncoderAnalyzeAFPSqlFITTED ||
+					runEncoderAnalyzePower.SqlCurrentName == runEncoderAnalyzeAFPSqlBOTH );
+
+		return true;
+	}
+
 	~Preferences() {}
 	   
 }

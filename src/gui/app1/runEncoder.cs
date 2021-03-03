@@ -1066,25 +1066,6 @@ public partial class ChronoJumpWindow
 		string title = Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "-" +
 			Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_run_encoder_exercise));
 
-		bool plotRawAccel =
-			( Preferences.runEncoderAnalyzeAccel.SqlCurrentName ==  Preferences.runEncoderAnalyzeAFPSqlRAW ||
-			 Preferences.runEncoderAnalyzeAccel.SqlCurrentName == Preferences.runEncoderAnalyzeAFPSqlBOTH );
-		bool plotFittedAccel =
-			( Preferences.runEncoderAnalyzeAccel.SqlCurrentName == Preferences.runEncoderAnalyzeAFPSqlFITTED ||
-			 Preferences.runEncoderAnalyzeAccel.SqlCurrentName == Preferences.runEncoderAnalyzeAFPSqlBOTH );
-		bool plotRawForce =
-			( Preferences.runEncoderAnalyzeForce.SqlCurrentName ==  Preferences.runEncoderAnalyzeAFPSqlRAW ||
-			 Preferences.runEncoderAnalyzeForce.SqlCurrentName == Preferences.runEncoderAnalyzeAFPSqlBOTH );
-		bool plotFittedForce =
-			( Preferences.runEncoderAnalyzeForce.SqlCurrentName == Preferences.runEncoderAnalyzeAFPSqlFITTED ||
-			 Preferences.runEncoderAnalyzeForce.SqlCurrentName == Preferences.runEncoderAnalyzeAFPSqlBOTH );
-		bool plotRawPower =
-			( Preferences.runEncoderAnalyzePower.SqlCurrentName ==  Preferences.runEncoderAnalyzeAFPSqlRAW ||
-			 Preferences.runEncoderAnalyzePower.SqlCurrentName == Preferences.runEncoderAnalyzeAFPSqlBOTH );
-		bool plotFittedPower =
-			( Preferences.runEncoderAnalyzePower.SqlCurrentName == Preferences.runEncoderAnalyzeAFPSqlFITTED ||
-			 Preferences.runEncoderAnalyzePower.SqlCurrentName == Preferences.runEncoderAnalyzeAFPSqlBOTH );
-
 		//create graph
 		RunEncoderGraph reg = new RunEncoderGraph(
 				race_analyzer_distance,
@@ -1096,9 +1077,12 @@ public partial class ChronoJumpWindow
 				title,
 				currentRunEncoder.DateTimePublic,
 				preferences.runEncoderMinAccel,
-				plotRawAccel, plotFittedAccel,
-				plotRawForce, plotFittedForce,
-				plotRawPower, plotFittedPower,
+				Preferences.RunEncoderShouldPlotVariable(Preferences.RunEncoderPlotVariables.RAWACCEL),
+				Preferences.RunEncoderShouldPlotVariable(Preferences.RunEncoderPlotVariables.FITTEDACCEL),
+				Preferences.RunEncoderShouldPlotVariable(Preferences.RunEncoderPlotVariables.RAWFORCE),
+				Preferences.RunEncoderShouldPlotVariable(Preferences.RunEncoderPlotVariables.FITTEDFORCE),
+				Preferences.RunEncoderShouldPlotVariable(Preferences.RunEncoderPlotVariables.RAWPOWER),
+				Preferences.RunEncoderShouldPlotVariable(Preferences.RunEncoderPlotVariables.FITTEDPOWER),
 				triggerListRunEncoder);
 
 		reg.CallR(imageWidth, imageHeight);

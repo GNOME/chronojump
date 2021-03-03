@@ -34,10 +34,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_force_sensor_analyze_individual_current_set;
 	[Widget] Gtk.RadioButton radio_force_sensor_analyze_individual_current_session;
 	[Widget] Gtk.RadioButton radio_force_sensor_analyze_groupal_current_session;
-
 	[Widget] Gtk.Image image_force_sensor_analyze_individual_current_set;
 	[Widget] Gtk.Image image_force_sensor_analyze_individual_current_session;
-	[Widget] Gtk.Image image_force_sensor_analyze_individual_all_sessions;
 	[Widget] Gtk.Image image_force_sensor_analyze_groupal_current_session;
 
 	[Widget] Gtk.Notebook notebook_force_sensor_analyze_top;

@@ -26842,7 +26842,6 @@ Concentric</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkButton" id="button_run_encoder_analyze_analyze">
-                                                            <property name="visible">True</property>
                                                             <property name="sensitive">False</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
@@ -26886,11 +26885,6 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkAlignment" id="alignment70">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="left_padding">12</property>
-                                                            <child>
                                                             <widget class="GtkButton" id="button_run_encoder_analyze_options">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
@@ -26928,11 +26922,9 @@ Concentric</property>
                                                             </widget>
                                                             </child>
                                                             </widget>
-                                                            </child>
-                                                            </widget>
                                                             <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
                                                             <property name="position">2</property>
                                                             </packing>
                                                             </child>

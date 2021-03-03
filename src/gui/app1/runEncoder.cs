@@ -306,7 +306,7 @@ public partial class ChronoJumpWindow
 		clearRaceAnalyzerTriggers();
 
 		button_run_encoder_analyze_options_close_and_analyze.Sensitive = false;
-		button_run_encoder_analyze_analyze.Sensitive = false;
+		//button_run_encoder_analyze_analyze.Sensitive = false;
 		button_delete_last_test.Sensitive = false;
 		button_run_encoder_image_save.Sensitive = false;
 	}
@@ -1037,7 +1037,7 @@ public partial class ChronoJumpWindow
 		runEncoderAnalyzeOpenImage();
 		notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RACEENCODER);
 		radio_mode_contacts_analyze.Active = true;
-		button_run_encoder_analyze_analyze.Sensitive = true;
+		//button_run_encoder_analyze_analyze.Sensitive = true;
 
 		// 3) display table
 		treeview_raceAnalyzer = UtilGtk.RemoveColumns(treeview_raceAnalyzer);
@@ -1298,7 +1298,7 @@ public partial class ChronoJumpWindow
 					radio_mode_contacts_analyze.Active = true;
 					button_contacts_exercise_close_and_recalculate.Sensitive = true;
 					button_run_encoder_analyze_options_close_and_analyze.Sensitive = true;
-					button_run_encoder_analyze_analyze.Sensitive = true;
+					//button_run_encoder_analyze_analyze.Sensitive = true;
 					button_run_encoder_image_save.Sensitive = true;
 					button_delete_last_test.Sensitive = true;
 
@@ -1321,7 +1321,7 @@ public partial class ChronoJumpWindow
 				sensitiveLastTestButtons(false);
 				contactsShowCaptureDoingButtons(false);
 				button_run_encoder_analyze_options_close_and_analyze.Sensitive = false;
-				button_run_encoder_analyze_analyze.Sensitive = false;
+				//button_run_encoder_analyze_analyze.Sensitive = false;
 				button_run_encoder_image_save.Sensitive = false;
 				button_delete_last_test.Sensitive = false;
 
@@ -1421,7 +1421,7 @@ public partial class ChronoJumpWindow
 		return true;
 	}
 
-	private bool button_run_encoder_analyze_analyze_was_sensitive; //needed this temp variable
+	//private bool button_run_encoder_analyze_analyze_was_sensitive; //needed this temp variable
 
 	void runEncoderButtonsSensitive(bool sensitive)
 	{
@@ -1431,12 +1431,14 @@ public partial class ChronoJumpWindow
 		button_contacts_exercise.Sensitive = sensitive;
 		button_execute_test.Sensitive = sensitive;
 
+		/*
 		if(sensitive)
 			button_run_encoder_analyze_analyze.Sensitive = button_run_encoder_analyze_analyze_was_sensitive;
 		else {
 			button_run_encoder_analyze_analyze_was_sensitive = button_run_encoder_analyze_analyze.Sensitive;
 			button_run_encoder_analyze_analyze.Sensitive = false;
 		}
+		*/
 
 		hbox_contacts_camera.Sensitive = sensitive;
 

@@ -731,7 +731,7 @@ public partial class ChronoJumpWindow
 
 	private void run_encoder_load ()
 	{
-		ArrayList data = SqliteRunEncoder.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID);
+		List<RunEncoder> data = SqliteRunEncoder.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID);
 
 		ArrayList dataPrint = new ArrayList();
 		int count = 1;
@@ -810,8 +810,7 @@ public partial class ChronoJumpWindow
 
 		genericWin.HideAndNull();
 
-		ArrayList data = SqliteRunEncoder.Select(false, uniqueID, currentPerson.UniqueID, currentSession.UniqueID);
-		RunEncoder re = (RunEncoder) data[0];
+		RunEncoder re = (RunEncoder) SqliteRunEncoder.Select(false, uniqueID, currentPerson.UniqueID, currentSession.UniqueID)[0];
 		if(re == null)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFoundStr());

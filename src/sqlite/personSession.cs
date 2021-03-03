@@ -515,8 +515,8 @@ class SqlitePersonSession : Sqlite
 		}
 
 		// 6) delete runEncoder and related triggers
-		ArrayList re_a = SqliteRunEncoder.Select (true, -1, -1, Convert.ToInt32(sessionID));
-		foreach(RunEncoder re in re_a)
+		List<RunEncoder> re_l = SqliteRunEncoder.Select (true, -1, -1, Convert.ToInt32(sessionID));
+		foreach(RunEncoder re in re_l)
 		{
 			SqliteRunEncoder.DeleteSQLAndFiles (true, re); //deletes also the .csv
 

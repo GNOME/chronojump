@@ -21,6 +21,7 @@
 using System;
 //using System.Data;
 using System.Collections;
+using System.Collections.Generic; //List<T>
 using System.IO; //DirectoryInfo
 using Mono.Data.Sqlite;
 using System.Text.RegularExpressions; //Regex
@@ -127,7 +128,7 @@ class SqliteRunEncoder : Sqlite
 			Util.FileDelete(re.FullVideoURL);
 	}
 
-	public static ArrayList Select (bool dbconOpened, int uniqueID, int personID, int sessionID)
+	public static List<RunEncoder> Select (bool dbconOpened, int uniqueID, int personID, int sessionID)
 	{
 		openIfNeeded(dbconOpened);
 
@@ -154,11 +155,11 @@ class SqliteRunEncoder : Sqlite
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
-		ArrayList array = new ArrayList(1);
-		RunEncoder fs;
+		List<RunEncoder> list = new List<RunEncoder>();
+		RunEncoder re;
 
 		while(reader.Read()) {
-			fs = new RunEncoder (
+			re = new RunEncoder (
 					Convert.ToInt32(reader[0].ToString()),	//uniqueID
 					Convert.ToInt32(reader[1].ToString()),	//personID
 					Convert.ToInt32(reader[2].ToString()),	//sessionID
@@ -174,13 +175,13 @@ class SqliteRunEncoder : Sqlite
 					reader[11].ToString(),			//videoURL
 					reader[12].ToString()			//exerciseName
 					);
-			array.Add(fs);
+			list.Add(re);
 		}
 
 		reader.Close();
 		closeIfNeeded(dbconOpened);
 
-		return array;
+		return list;
 	}
 
 	public static ArrayList SelectRowsOfAnExercise(bool dbconOpened, int exerciseID)

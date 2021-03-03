@@ -415,11 +415,9 @@ public class RunEncoderExport
 	public Gtk.Button Button_done;
 
 	//passed variables
-	/*
 	private Gtk.Notebook notebook;
 	private Gtk.ProgressBar progressbar;
 	private Gtk.Label labelResult;
-	*/
 	private bool includeImages;
 	private string exportURL; //folder or .csv depending on includeImages
 	private bool isWindows;
@@ -448,9 +446,9 @@ public class RunEncoderExport
 
 	//constructor
 	public RunEncoderExport (
-//			Gtk.Notebook notebook,
-//			Gtk.ProgressBar progressbar,
-//			Gtk.Label labelResult,
+			Gtk.Notebook notebook,
+			Gtk.ProgressBar progressbar,
+			Gtk.Label labelResult,
 			bool includeImages,
 			bool isWindows,
 			int personID,
@@ -462,9 +460,9 @@ public class RunEncoderExport
 			char exportDecimalSeparator
 			)
 	{
-//		this.notebook = notebook;
-//		this.progressbar = progressbar;
-//		this.labelResult = labelResult;
+		this.notebook = notebook;
+		this.progressbar = progressbar;
+		this.labelResult = labelResult;
 		this.includeImages = includeImages;
 		this.isWindows = isWindows;
 		this.personID = personID;
@@ -486,16 +484,16 @@ public class RunEncoderExport
 	{
 		this.exportURL = exportURL;
 
-		cancel = false;
-		noData = false;
-		cannotCopy = false;
-//		progressbar.Fraction = 0;
-		messageToProgressbar = "";
-//		notebook.CurrentPage = 1;
-
 		//create progressbar and graph files dirs or delete their contents
 		createOrEmptyDir(Util.GetRunEncoderTempProgressDir());
 		createOrEmptyDir(Util.GetRunEncoderTempGraphsDir());
+
+		cancel = false;
+		noData = false;
+		cannotCopy = false;
+		progressbar.Fraction = 0;
+		messageToProgressbar = "";
+		notebook.CurrentPage = 1;
 
 		thread = new Thread (new ThreadStart (runEncoderExportDo));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseRunEncoderExportGTK));
@@ -522,12 +520,40 @@ public class RunEncoderExport
 	{
 		if(! thread.IsAlive || cancel)
 		{
+			if(cancel)
+				LogB.Information("pulseRunEncoderExportGTK cancelled");
+
 			LogB.Information("pulseRunEncoderExportGTK ending here");
 			LogB.ThreadEnded();
 
-			//Button_done.Click();
+			progressbar.Fraction = 1;
+			notebook.CurrentPage = 0;
+
+			if(cancel)
+				labelResult.Text = Catalog.GetString("Cancelled.");
+			else if (noData)
+				labelResult.Text = Catalog.GetString("Missing data.");
+			else if (cannotCopy)
+				labelResult.Text = string.Format(Catalog.GetString("Cannot copy to {0} "), exportURL);
+			else
+				labelResult.Text = string.Format(Catalog.GetString("Exported to {0}"), exportURL);// +
+						//Constants.GetSpreadsheetString(CSVExportDecimalSeparator)
+						//);
+			Button_done.Click();
 
 			return false;
+		}
+
+		DirectoryInfo dirInfo = new DirectoryInfo(Util.GetRunEncoderTempProgressDir());
+		//LogB.Information(string.Format("pulse files: {0}", dirInfo.GetFiles().Length));
+
+		int files = dirInfo.GetFiles().Length;
+		if(files == 0) {
+			progressbar.Text = messageToProgressbar;
+			progressbar.Pulse();
+		} else {
+			progressbar.Text = string.Format(Catalog.GetString("Exporting {0}/{1}"), files, re_l.Count);
+			progressbar.Fraction = UtilAll.DivideSafeFraction(files, re_l.Count);
 		}
 
 		Thread.Sleep (100);

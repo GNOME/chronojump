@@ -45,9 +45,12 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_run_encoder_analyze_individual_current_set;
 	[Widget] Gtk.Image image_run_encoder_analyze_individual_current_session;
 	[Widget] Gtk.Image image_run_encoder_analyze_groupal_current_session;
+
+	[Widget] Gtk.HBox hbox_run_encoder_top;
 	[Widget] Gtk.HBox hbox_run_encoder_analyze_top_modes;
 
 	//export
+	[Widget] Gtk.Notebook notebook_run_encoder_export;
 	[Widget] Gtk.Label label_run_encoder_export_data;
 	[Widget] Gtk.CheckButton check_run_encoder_export_images;
 	[Widget] Gtk.ProgressBar progressbar_run_encoder_export;
@@ -310,8 +313,14 @@ public partial class ChronoJumpWindow
 	RunEncoderExport runEncoderExport;
 	private void button_run_encoder_export_session (int personID)
 	{
+		runEncoderButtonsSensitive(false);
+		hbox_run_encoder_top.Sensitive = false;
+
 		runEncoderExport = new RunEncoderExport (
-				true, //includeImages 	//TODO
+				notebook_run_encoder_export,
+				progressbar_run_encoder_export,
+				label_run_encoder_export_result,
+				check_run_encoder_export_images.Active,
 				UtilAll.IsWindows(),
 				personID,
 				currentSession.UniqueID,
@@ -325,9 +334,26 @@ public partial class ChronoJumpWindow
 				preferences.CSVExportDecimalSeparatorChar      //decimalIsPointAtExport (write)
 				);
 
+		runEncoderExport.Button_done.Clicked -= new EventHandler(run_encoder_export_done);
+		runEncoderExport.Button_done.Clicked += new EventHandler(run_encoder_export_done);
+
 		//runEncoderExport.Start(selectedFileName); //file or folder
 		runEncoderExport.Start("runEncoderExport.csv"); //file or folder
 
 		//TODO: continue with cancel stuff, ...
 	}
+
+	private void on_button_run_encoder_export_cancel_clicked (object o, EventArgs args)
+	{
+		runEncoderExport.Cancel();
+	}
+
+	private void run_encoder_export_done (object o, EventArgs args)
+	{
+		runEncoderExport.Button_done.Clicked -= new EventHandler(run_encoder_export_done);
+
+		runEncoderButtonsSensitive(true);
+		hbox_run_encoder_top.Sensitive = true;
+	}
+
 }

@@ -785,6 +785,10 @@ start <- function(op)
 				dataFiles$device[i], dataFiles$title[i], dataFiles$datetime[i],
 				op$startAccel)
 		endGraph()
+
+		progressFilename = paste(progressFolder, "/", i, sep="")
+		file.create(progressFilename)
+		print("done")
 	}
 }
 

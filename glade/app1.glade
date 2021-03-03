@@ -26563,7 +26563,7 @@ Concentric</property>
                                                         <property name="border_width">2</property>
                                                         <property name="spacing">2</property>
                                                         <child>
-                                                          <widget class="GtkHBox" id="hbox253">
+                                                          <widget class="GtkHBox" id="hbox_run_encoder_top">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">20</property>
@@ -27309,8 +27309,10 @@ Concentric</property>
                                                             <widget class="GtkCheckButton" id="check_run_encoder_export_images">
                                                             <property name="label" translatable="yes">Include images</property>
                                                             <property name="visible">True</property>
+                                                            <property name="sensitive">False</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
+                                                            <property name="active">True</property>
                                                             <property name="draw_indicator">True</property>
                                                             </widget>
                                                             <packing>
@@ -27431,8 +27433,9 @@ Concentric</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_button_run_encoder_export_cancel_clicked" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image_run_encoder_cancel">
+                                                            <widget class="GtkImage" id="image_run_encoder_export_cancel">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>

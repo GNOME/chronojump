@@ -313,7 +313,7 @@ public partial class ChronoJumpWindow
 		runEncoderExport = new RunEncoderExport (
 				true, //includeImages 	//TODO
 				UtilAll.IsWindows(),
-				-1, 			//all persons
+				personID,
 				currentSession.UniqueID,
 				preferences.runEncoderMinAccel,
 				Preferences.RunEncoderShouldPlotVariable(Preferences.RunEncoderPlotVariables.RAWACCEL),

@@ -28,7 +28,7 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
-	[Widget] Gtk.Notebook notebook_run_encoder_analyze_or_options;
+	[Widget] Gtk.Notebook notebook_run_encoder_analyze;
 	[Widget] Gtk.CheckButton check_run_encoder_analyze_accel;
 	[Widget] Gtk.CheckButton check_run_encoder_analyze_force;
 	[Widget] Gtk.CheckButton check_run_encoder_analyze_power;
@@ -39,6 +39,21 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_run_encoder_analyze_analyze;
 	[Widget] Gtk.Button button_run_encoder_image_save;
 
+	[Widget] Gtk.RadioButton radio_run_encoder_analyze_individual_current_set;
+	[Widget] Gtk.RadioButton radio_run_encoder_analyze_individual_current_session;
+	[Widget] Gtk.RadioButton radio_run_encoder_analyze_groupal_current_session;
+	[Widget] Gtk.Image image_run_encoder_analyze_individual_current_set;
+	[Widget] Gtk.Image image_run_encoder_analyze_individual_current_session;
+	[Widget] Gtk.Image image_run_encoder_analyze_groupal_current_session;
+	[Widget] Gtk.HBox hbox_run_encoder_analyze_top_modes;
+
+	//export
+	[Widget] Gtk.Label label_run_encoder_export_data;
+	[Widget] Gtk.CheckButton check_run_encoder_export_images;
+	[Widget] Gtk.ProgressBar progressbar_run_encoder_export;
+	[Widget] Gtk.Label label_run_encoder_export_result;
+
+	private enum notebook_run_encoder_analyze_pages { CURRENTSET, CURRENTSESSION, OPTIONS }
 
 	private void createRunEncoderAnalyzeCombos ()
 	{
@@ -101,11 +116,14 @@ public partial class ChronoJumpWindow
 
 	private void on_button_run_encoder_analyze_options_clicked (object o, EventArgs args)
 	{
-		notebook_run_encoder_analyze_or_options.CurrentPage = 1;
+		notebook_run_encoder_analyze.CurrentPage = Convert.ToInt32(notebook_run_encoder_analyze_pages.OPTIONS);
+		hbox_run_encoder_analyze_top_modes.Sensitive = false;
 		runEncoderButtonsSensitive(false);
 	}
 	private void on_button_run_encoder_analyze_options_close_clicked (object o, EventArgs args)
 	{
+		hbox_run_encoder_analyze_top_modes.Sensitive = true;
+
 		// 1 change stuff on Sqlite if needed
 
 		Sqlite.Open();
@@ -141,7 +159,7 @@ public partial class ChronoJumpWindow
 
 		// 2 change sensitivity of widgets
 
-		notebook_run_encoder_analyze_or_options.CurrentPage = 0;
+		notebook_run_encoder_analyze.CurrentPage = Convert.ToInt32(notebook_run_encoder_analyze_pages.CURRENTSET);
 		runEncoderButtonsSensitive(true);
 	}
 
@@ -236,8 +254,61 @@ public partial class ChronoJumpWindow
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
 
-	RunEncoderExport runEncoderExport;
+
+	//move to export gui file
+
+	private void on_radio_run_encoder_analyze_individual_current_set_toggled (object o, EventArgs args)
+	{
+		button_run_encoder_analyze_load.Visible = true;
+		button_run_encoder_analyze_analyze.Visible = true;
+
+		notebook_run_encoder_analyze.CurrentPage = Convert.ToInt32(notebook_run_encoder_analyze_pages.CURRENTSET);
+		label_run_encoder_export_result.Text = "";
+	}
+	private void on_radio_run_encoder_analyze_individual_current_session_toggled (object o, EventArgs args)
+	{
+		button_run_encoder_analyze_load.Visible = false;
+		button_run_encoder_analyze_analyze.Visible = false;
+
+		if(currentPerson != null)
+			label_run_encoder_export_data.Text = currentPerson.Name;
+		else
+			label_run_encoder_export_data.Text = "";
+
+		notebook_run_encoder_analyze.CurrentPage = Convert.ToInt32(notebook_run_encoder_analyze_pages.CURRENTSESSION);
+		label_run_encoder_export_result.Text = "";
+	}
+	private void on_radio_run_encoder_analyze_groupal_current_session_toggled (object o, EventArgs args)
+	{
+		button_run_encoder_analyze_load.Visible = false;
+		button_run_encoder_analyze_analyze.Visible = false;
+
+		label_run_encoder_export_data.Text = currentSession.Name;
+
+		notebook_run_encoder_analyze.CurrentPage = Convert.ToInt32(notebook_run_encoder_analyze_pages.CURRENTSESSION);
+		label_run_encoder_export_result.Text = "";
+	}
+
 	private void on_button_run_encoder_export_current_session_clicked (object o, EventArgs args)
+	{
+		if(currentSession == null)
+			return;
+
+		if (radio_run_encoder_analyze_individual_current_session.Active)
+		{
+			if(currentPerson == null)
+				return;
+
+			button_run_encoder_export_session (currentPerson.UniqueID);
+		}
+		else if (radio_run_encoder_analyze_groupal_current_session.Active)
+		{
+			button_run_encoder_export_session (-1);
+		}
+	}
+
+	RunEncoderExport runEncoderExport;
+	private void button_run_encoder_export_session (int personID)
 	{
 		runEncoderExport = new RunEncoderExport (
 				true, //includeImages 	//TODO

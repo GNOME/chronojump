@@ -20,7 +20,9 @@
 
 using System;
 using System.IO; 		//for detect OS //TextWriter
+using System.Collections; //ArrayList
 using System.Collections.Generic; //List<T>
+using System.Threading;
 using Mono.Unix;
 
 public class RunEncoder
@@ -172,6 +174,9 @@ public class RunEncoder
 	public static string GetScript() {
 		return System.IO.Path.Combine(UtilEncoder.GetSprintPath(), "sprintEncoder.R");
 	}
+	public static string GetCSVInputMulti() {
+		return Path.Combine(Path.GetTempPath(), "cj_race_analyzer_input_multi.csv");
+	}
 	//this contains only Pulses;Time(useconds);Force(N)
 	public static string GetCSVFileName() {
 		return Path.Combine(Path.GetTempPath(), "cj_race_analyzer_data.csv");
@@ -207,6 +212,10 @@ public class RunEncoder
 	{
 		get { return uniqueID; }
 		set { uniqueID = value; }
+	}
+	public int PersonID
+	{
+		get { return personID; }
 	}
 	public int ExerciseID
 	{
@@ -401,6 +410,299 @@ public class RunEncoderCSV
 	}
 }
 
+public class RunEncoderExport
+{
+	public Gtk.Button Button_done;
+
+	//passed variables
+	/*
+	private Gtk.Notebook notebook;
+	private Gtk.ProgressBar progressbar;
+	private Gtk.Label labelResult;
+	*/
+	private bool includeImages;
+	private string exportURL; //folder or .csv depending on includeImages
+	private bool isWindows;
+	private int personID; // -1: all
+	private int sessionID;
+	private double startAccel;
+	private bool plotRawAccel;
+	private bool plotFittedAccel;
+	private bool plotRawForce;
+	private bool plotFittedForce;
+	private bool plotRawPower;
+	private bool plotFittedPower;
+	private char exportDecimalSeparator;
+
+	private static Thread thread;
+	private static bool cancel;
+	private static bool noData;
+	private static bool cannotCopy;
+	private static string messageToProgressbar;
+
+	private List<RunEncoder> re_l;
+	ArrayList personSession_l;
+	private ArrayList reEx_l;
+	private int imageWidth = 900; //nothing is displayed, remove when R script has been adapted
+	private int imageHeight = 600; //nothing is displayed, remove when R script has been adapted
+
+	//constructor
+	public RunEncoderExport (
+//			Gtk.Notebook notebook,
+//			Gtk.ProgressBar progressbar,
+//			Gtk.Label labelResult,
+			bool includeImages,
+			bool isWindows,
+			int personID,
+			int sessionID,
+			double startAccel,
+			bool plotRawAccel, bool plotFittedAccel,
+			bool plotRawForce, bool plotFittedForce,
+			bool plotRawPower, bool plotFittedPower,
+			char exportDecimalSeparator
+			)
+	{
+//		this.notebook = notebook;
+//		this.progressbar = progressbar;
+//		this.labelResult = labelResult;
+		this.includeImages = includeImages;
+		this.isWindows = isWindows;
+		this.personID = personID;
+		this.sessionID = sessionID;
+		this.startAccel = startAccel;
+		this.plotRawAccel = plotRawAccel;
+		this.plotFittedAccel = plotFittedAccel;
+		this.plotRawForce = plotRawForce;
+		this.plotFittedForce = plotFittedForce;
+		this.plotRawPower = plotRawPower;
+		this.plotFittedPower = plotFittedPower;
+		this.exportDecimalSeparator = exportDecimalSeparator;
+
+		Button_done = new Gtk.Button();
+	}
+
+	///public method
+	public void Start(string exportURL)
+	{
+		this.exportURL = exportURL;
+
+		cancel = false;
+		noData = false;
+		cannotCopy = false;
+//		progressbar.Fraction = 0;
+		messageToProgressbar = "";
+//		notebook.CurrentPage = 1;
+
+		//create progressbar and graph files dirs or delete their contents
+		createOrEmptyDir(Util.GetRunEncoderTempProgressDir());
+		createOrEmptyDir(Util.GetRunEncoderTempGraphsDir());
+
+		thread = new Thread (new ThreadStart (runEncoderExportDo));
+		GLib.Idle.Add (new GLib.IdleHandler (pulseRunEncoderExportGTK));
+		thread.Start();
+	}
+
+	private void createOrEmptyDir(string dir)
+	{
+		if( ! Directory.Exists(dir))
+			Directory.CreateDirectory (dir);
+		else {
+			DirectoryInfo dirInfo = new DirectoryInfo(dir);
+			foreach (FileInfo file in dirInfo.GetFiles())
+				file.Delete();
+		}
+	}
+
+	public void Cancel()
+	{
+		cancel = true;
+	}
+
+	private bool pulseRunEncoderExportGTK ()
+	{
+		if(! thread.IsAlive || cancel)
+		{
+			LogB.Information("pulseRunEncoderExportGTK ending here");
+			LogB.ThreadEnded();
+
+			//Button_done.Click();
+
+			return false;
+		}
+
+		Thread.Sleep (100);
+		return true;
+	}
+
+	private void runEncoderExportDo()
+	{
+		getData();
+
+		if(re_l.Count == 0)
+		{
+			LogB.Information("There's no data");
+			noData = true;
+			return;
+		}
+
+		processRunEncoderSets();
+	}
+
+	private void getData ()
+	{
+		re_l = SqliteRunEncoder.Select(false, -1, personID, sessionID);
+		personSession_l = SqlitePersonSession.SelectCurrentSessionPersons(sessionID, true);
+		reEx_l = SqliteRunEncoderExercise.Select (false, -1, false);
+	}
+
+	private bool processRunEncoderSets ()
+	{
+		Person p = new Person();
+		PersonSession ps = new PersonSession();
+
+		List<RunEncoderGraphExport> rege_l = new List<RunEncoderGraphExport>();
+
+		int count = 1;
+		foreach(RunEncoder re in re_l)
+		{
+			// 1) checks
+			//check fs is ok
+			if(re == null || ! Util.FileExists(re.FullURL))
+				continue;
+
+			//check fs has data
+			List<string> contents = Util.ReadFileAsStringList(re.FullURL);
+			if(contents.Count < 3)
+			{
+				//new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileEmptyStr());
+				//return;
+				continue;
+			}
+
+			// 2) get the person
+			bool found = false;
+			foreach(PersonAndPS paps in personSession_l)
+			{
+				if(paps.p.UniqueID == re.PersonID)
+				{
+					p = paps.p;
+					ps = paps.ps;
+
+					found = true;
+					break;
+				}
+			}
+			if(! found)
+				continue;
+
+			// 3) get the exercise
+			found = false;
+			RunEncoderExercise reEx = new RunEncoderExercise();
+			foreach(RunEncoderExercise reExTemp in reEx_l)
+				if(reExTemp.UniqueID == re.ExerciseID)
+				{
+					reEx = reExTemp;
+					found = true;
+					break;
+				}
+			if(! found)
+				continue;
+
+			// 4) create the export row
+			string title = Util.ChangeSpaceAndMinusForUnderscore(p.Name) + "-" +
+				Util.ChangeSpaceAndMinusForUnderscore(reEx.Name);
+
+			RunEncoderGraphExport rege = new RunEncoderGraphExport (
+					re.FullURL,
+					ps.Weight, ps.Height,
+					re.Device,
+					re.Temperature, re.Distance,
+					reEx, title, re.DateTimePublic,
+					re.Comments
+					);
+			rege_l.Add(rege);
+
+		}
+
+		// call the graph
+
+		if(rege_l.Count > 0)
+		{
+			RunEncoderGraph reg = new RunEncoderGraph(
+					startAccel,
+					plotRawAccel, plotFittedAccel,
+					plotRawForce, plotFittedForce,
+					plotRawPower, plotFittedPower,
+					//triggerList,
+					rege_l,
+					exportDecimalSeparator,
+					includeImages
+					);
+
+			bool success = reg.CallR(imageWidth -5, imageHeight -5, false);
+		}
+
+		return true;
+	}
+
+}
+
+//this class creates the rows of each force sensor AB for the csv input multi that is read by R
+public class RunEncoderGraphExport
+{
+	private string fullURL;
+	private double mass;
+	private double personHeight;
+	private RunEncoder.Devices device;
+	private double tempC;
+	private int testLength;
+	private RunEncoderExercise rex;
+	private string title;
+	private string datetime;
+	private string comments;
+
+	public RunEncoderGraphExport(
+			string fullURL,
+			double mass, double personHeight,
+			RunEncoder.Devices device,
+			double tempC, int testLength,
+			RunEncoderExercise rex, string title, string datetime,
+			string comments)
+	{
+		this.fullURL = fullURL; //filename
+		this.mass = mass;
+		this.personHeight = personHeight;
+		this.device = device;
+		this.tempC = tempC;
+		this.testLength = testLength;
+		this.rex = rex;
+		this.title = title;
+		this.datetime = datetime;
+		this.comments = comments;
+	}
+
+	public string ToCSVRowOnExport()
+	{
+		return fullURL + ";" +
+			Util.ConvertToPoint(mass) + ";" +
+			Util.ConvertToPoint(personHeight / 100.0) + ";" + //in meters
+			device.ToString() + ";" +
+			Util.ConvertToPoint(tempC) + ";" +
+			testLength.ToString() + ";" +
+			rex.SegmentMeters.ToString() + ";" +
+			title + ";" +
+			datetime + ";" +
+			Util.RemoveChar(comments, ';');  //TODO: check this really removes
+	}
+
+	public static string PrintCSVHeaderOnExport()
+	{
+		return "fullURL;mass;personHeight;device;tempC;testLength;" +
+			"splitLength;" + //segmentMeters on C#, splitLength on R
+			"title;datetime;comments";
+	}
+}
+
 public class RunEncoderGraph
 {
 	private int testLength;
@@ -419,8 +721,11 @@ public class RunEncoderGraph
 	private bool plotRawPower;
 	private bool plotFittedPower;
 	private TriggerList triggerList;
+	private char exportDecimalSeparator;
+	private bool includeImagesOnExport;
 
-	public RunEncoderGraph(int testLength, double mass, double personHeight, double tempC, RunEncoder.Devices device,
+	private void assignGenericParams(
+			int testLength, double mass, double personHeight, double tempC, RunEncoder.Devices device,
 			RunEncoderExercise rex,
 			string title, string datetime, double startAccel,
 			bool plotRawAccel, bool plotFittedAccel,
@@ -446,14 +751,65 @@ public class RunEncoderGraph
 		this.triggerList = triggerList;
 	}
 
-	public bool CallR(int graphWidth, int graphHeight)
+	//constructor for 1 set
+	public RunEncoderGraph(
+			int testLength, double mass, double personHeight, double tempC, RunEncoder.Devices device,
+			RunEncoderExercise rex,
+			string title, string datetime, double startAccel,
+			bool plotRawAccel, bool plotFittedAccel,
+			bool plotRawForce, bool plotFittedForce,
+			bool plotRawPower, bool plotFittedPower,
+			TriggerList triggerList)
+	{
+		assignGenericParams(
+				testLength, mass, personHeight, tempC, device,
+				rex,
+				title, datetime, startAccel,
+				plotRawAccel, plotFittedAccel,
+				plotRawForce, plotFittedForce,
+				plotRawPower, plotFittedPower,
+				triggerList);
+
+		this.exportDecimalSeparator = '.'; //TODO
+		this.includeImagesOnExport = false;
+	}
+
+	//constructor for export (many sets of possible different persons)
+	public RunEncoderGraph(
+			double startAccel,
+			bool plotRawAccel, bool plotFittedAccel,
+			bool plotRawForce, bool plotFittedForce,
+			bool plotRawPower, bool plotFittedPower,
+			//TriggerList triggerList,
+			List<RunEncoderGraphExport> rege_l,
+			char exportDecimalSeparator,
+			bool includeImagesOnExport
+			)
+	{
+		assignGenericParams(
+				0, 0, 0, 0, RunEncoder.Devices.MANUAL, //TODO do not pass to assignParams
+				new RunEncoderExercise(), //TODO do not pass to assignParams
+				"----", "----", startAccel, //TODO do not pass to assignParams
+				plotRawAccel, plotFittedAccel,
+				plotRawForce, plotFittedForce,
+				plotRawPower, plotFittedPower,
+				new TriggerList() //TODO do not pass to assignParams
+				);
+
+		this.exportDecimalSeparator = exportDecimalSeparator;
+		this.includeImagesOnExport = includeImagesOnExport;
+
+		writeMultipleFilesCSV(rege_l);
+	}
+
+	public bool CallR(int graphWidth, int graphHeight, bool singleOrMultiple)
 	{
 		LogB.Information("\nrunEncoder CallR ----->");
-		writeOptionsFile(graphWidth, graphHeight);
+		writeOptionsFile(graphWidth, graphHeight, singleOrMultiple);
 		return ExecuteProcess.CallR(RunEncoder.GetScript());
 	}
 
-	private void writeOptionsFile(int graphWidth, int graphHeight)
+	private void writeOptionsFile(int graphWidth, int graphHeight, bool singleOrMultiple)
 	{
 		string scriptsPath = UtilEncoder.GetSprintPath();
 		if(UtilAll.IsWindows())
@@ -464,18 +820,18 @@ public class RunEncoderGraph
 
 		string scriptOptions =
 			"#scriptsPath\n" + 		UtilEncoder.GetScriptsPath() + "\n" +
-			"#filename\n" + 		RunEncoder.GetCSVFileName() + "\n" +
-			"#mass\n" + 			Util.ConvertToPoint(mass) + "\n" +
-			"#personHeight\n" + 		Util.ConvertToPoint(personHeight / 100.0) + "\n" + //send it in meters
-			"#tempC\n" + 			tempC + "\n" +
-			"#testLength\n" + 		testLength.ToString() + "\n" +
+			"#filename\n" + 		RunEncoder.GetCSVFileName() + "\n" +	//unused on multiple
+			"#mass\n" + 			Util.ConvertToPoint(mass) + "\n" +	//unused on multiple
+			"#personHeight\n" + 		Util.ConvertToPoint(personHeight / 100.0) + "\n" + 	//unused on multiple  //send it in meters
+			"#tempC\n" + 			tempC + "\n" +	//unused on multiple
+			"#testLength\n" + 		testLength.ToString() + "\n" +	//unused on multiple
 			"#os\n" + 			UtilEncoder.OperatingSystemForRGraphs() + "\n" +
 			"#graphWidth\n" + 		graphWidth.ToString() + "\n" +
 			"#graphHeight\n" + 		graphHeight.ToString() + "\n" +
-			"#device\n" + 			device.ToString() + "\n" +
-			"#segmentMeters\n" + 		rex.SegmentMeters + "\n" +
-			"#title\n" + 			title + "\n" +
-			"#datetime\n" + 		datetime + "\n" +
+			"#device\n" + 			device.ToString() + "\n" + //unused on multiple
+			"#segmentMeters\n" + 		rex.SegmentMeters + "\n" + //unused on multiple
+			"#title\n" + 			title + "\n" + 		//unused on multiple
+			"#datetime\n" + 		datetime + "\n" + 	//unused on multiple
 			"#startAccel\n" + 		Util.ConvertToPoint(startAccel) + "\n" +
 			"#plotRawAccel\n" + 		Util.BoolToRBool(plotRawAccel) + "\n" +
 			"#plotFittedAccel\n" + 		Util.BoolToRBool(plotFittedAccel) + "\n" +
@@ -484,7 +840,10 @@ public class RunEncoderGraph
 			"#plotRawPower\n" + 		Util.BoolToRBool(plotRawPower) + "\n" +
 			"#plotFittedPower\n" + 		Util.BoolToRBool(plotFittedPower) + "\n" +
 			printTriggers(TriggerList.Type3.ON) + "\n" +
-			printTriggers(TriggerList.Type3.OFF);
+			printTriggers(TriggerList.Type3.OFF) + "\n" +
+			"#singleOrMultiple\n" +		Util.BoolToRBool(singleOrMultiple) + "\n" +
+			"#decimalCharAtExport\n" +	exportDecimalSeparator + "\n" +
+			"#includeImagesOnExport\n" + 	Util.BoolToRBool(includeImagesOnExport) + "\n";
 
 
 		TextWriter writer = File.CreateText(Path.GetTempPath() + "Roptions.txt");
@@ -492,6 +851,24 @@ public class RunEncoderGraph
 		writer.Flush();
 		writer.Close();
 		((IDisposable)writer).Dispose();
+	}
+
+	private void writeMultipleFilesCSV(List<RunEncoderGraphExport> rege_l)
+	{
+		LogB.Information("writeMultipleFilesCSV start");
+		TextWriter writer = File.CreateText(RunEncoder.GetCSVInputMulti());
+
+		//write header
+		writer.WriteLine(RunEncoderGraphExport.PrintCSVHeaderOnExport());
+
+		//write fsgAB_l for
+		foreach(RunEncoderGraphExport rege in rege_l)
+			writer.WriteLine(rege.ToCSVRowOnExport());
+
+		writer.Flush();
+		writer.Close();
+		((IDisposable)writer).Dispose();
+		LogB.Information("writeMultipleFilesCSV end");
 	}
 
 	private string printTriggers(TriggerList.Type3 type3)

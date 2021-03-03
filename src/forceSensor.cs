@@ -1568,6 +1568,7 @@ public class ForceSensorGraphAB
 
 
 }
+//this class creates the rows of each force sensor AB for the csv input multi that is read by R
 public class ForceSensorGraphABExport: ForceSensorGraphAB
 {
 	public string fullURL;

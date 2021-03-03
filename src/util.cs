@@ -1115,6 +1115,13 @@ public class Util
 		}
 	}
 
+	public static string GetRunEncoderTempProgressDir() {
+		return Path.Combine(Path.GetTempPath(), "chronojump_race_analyzer_progress");
+	}
+	public static string GetRunEncoderTempGraphsDir() {
+		return Path.Combine(Path.GetTempPath(), "chronojump_race_analyzer_graphs");
+	}
+
 	/*
 	 * <--------------- end of force sensor suff
 	 */

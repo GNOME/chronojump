@@ -235,4 +235,28 @@ public partial class ChronoJumpWindow
 		string myString = string.Format(Catalog.GetString("Saved to {0}"), exportFileName);
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
+
+	RunEncoderExport runEncoderExport;
+	private void on_button_run_encoder_export_current_session_clicked (object o, EventArgs args)
+	{
+		runEncoderExport = new RunEncoderExport (
+				true, //includeImages 	//TODO
+				UtilAll.IsWindows(),
+				-1, 			//all persons
+				currentSession.UniqueID,
+				preferences.runEncoderMinAccel,
+				Preferences.RunEncoderShouldPlotVariable(Preferences.RunEncoderPlotVariables.RAWACCEL),
+				Preferences.RunEncoderShouldPlotVariable(Preferences.RunEncoderPlotVariables.FITTEDACCEL),
+				Preferences.RunEncoderShouldPlotVariable(Preferences.RunEncoderPlotVariables.RAWFORCE),
+				Preferences.RunEncoderShouldPlotVariable(Preferences.RunEncoderPlotVariables.FITTEDFORCE),
+				Preferences.RunEncoderShouldPlotVariable(Preferences.RunEncoderPlotVariables.RAWPOWER),
+				Preferences.RunEncoderShouldPlotVariable(Preferences.RunEncoderPlotVariables.FITTEDPOWER),
+				preferences.CSVExportDecimalSeparatorChar      //decimalIsPointAtExport (write)
+				);
+
+		//runEncoderExport.Start(selectedFileName); //file or folder
+		runEncoderExport.Start("runEncoderExport.csv"); //file or folder
+
+		//TODO: continue with cancel stuff, ...
+	}
 }

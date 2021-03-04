@@ -309,6 +309,14 @@ public partial class ChronoJumpWindow
 		//button_run_encoder_analyze_analyze.Sensitive = false;
 		button_delete_last_test.Sensitive = false;
 		button_run_encoder_image_save.Sensitive = false;
+
+		if(radio_run_encoder_analyze_individual_current_session.Active)
+		{
+			if(currentPerson != null)
+				label_run_encoder_export_data.Text = currentPerson.Name;
+			else
+				label_run_encoder_export_data.Text = "";
+		}
 	}
 
 	private void raceEncoderReadWidgets()

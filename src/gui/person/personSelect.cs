@@ -70,7 +70,7 @@ public class PersonSelectWindow
 	private List<PersonPhotoButton> list_ppb;
 
 	
-	PersonSelectWindow (Gtk.Window parent, bool raspberry)
+	PersonSelectWindow (Gtk.Window parent, bool raspberry, bool lowHeight)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "person_select_window.glade", "person_select_window", "chronojump");
@@ -82,8 +82,12 @@ public class PersonSelectWindow
 
 		scrolled1.WidthRequest = 150 * 4 + 8 * 2 + 12 * 2 + slidebarSize; //150 is button width, 8 is padding left and right (4+4), 12 the left and right of scrolled1
 
+		int rowsShown = 3;
+		if(lowHeight)
+			rowsShown = 2;
+
 		//there's no side slidebar for going horizontal, but the last +10 is to have a bit of space for the widget
-		scrolled1.HeightRequest = 170 * 3 + 8 * 2 + 12 * 2; //170 is button height, 8 is padding top botton (4+4), 12 the top and bottom of scrolled1
+		scrolled1.HeightRequest = 170 * rowsShown + 8 * 2 + 12 * 2; //170 is button height, 8 is padding top botton (4+4), 12 the top and bottom of scrolled1
 
 		//put an icon to window
 		UtilGtk.IconWindow(person_select_window);
@@ -129,10 +133,10 @@ public class PersonSelectWindow
 		image_close.Pixbuf = pixbuf;
 	}
 	
-	static public PersonSelectWindow Show (Gtk.Window parent, ArrayList persons, Person currentPerson, Gdk.Color colorBackground, bool raspberry)
+	static public PersonSelectWindow Show (Gtk.Window parent, ArrayList persons, Person currentPerson, Gdk.Color colorBackground, bool raspberry, bool lowHeight)
 	{
 		if (PersonSelectWindowBox == null) {
-			PersonSelectWindowBox = new PersonSelectWindow (parent, raspberry);
+			PersonSelectWindowBox = new PersonSelectWindow (parent, raspberry, lowHeight);
 		}
 
 		PersonSelectWindowBox.persons = persons;

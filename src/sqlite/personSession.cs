@@ -505,7 +505,7 @@ class SqlitePersonSession : Sqlite
 		}
 
 		// 5) delete forceSensor and related triggers
-		List<ForceSensor> fs_l = SqliteForceSensor.Select (true, -1, -1, Convert.ToInt32(sessionID));
+		List<ForceSensor> fs_l = SqliteForceSensor.Select (true, -1, Convert.ToInt32(personID), Convert.ToInt32(sessionID));
 		foreach(ForceSensor fs in fs_l)
 		{
 			SqliteForceSensor.DeleteSQLAndFiles (true, fs); //deletes also the .csv
@@ -515,7 +515,7 @@ class SqlitePersonSession : Sqlite
 		}
 
 		// 6) delete runEncoder and related triggers
-		List<RunEncoder> re_l = SqliteRunEncoder.Select (true, -1, -1, Convert.ToInt32(sessionID));
+		List<RunEncoder> re_l = SqliteRunEncoder.Select (true, -1, Convert.ToInt32(personID), Convert.ToInt32(sessionID));
 		foreach(RunEncoder re in re_l)
 		{
 			SqliteRunEncoder.DeleteSQLAndFiles (true, re); //deletes also the .csv

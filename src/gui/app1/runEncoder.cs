@@ -817,6 +817,7 @@ public partial class ChronoJumpWindow
 		int uniqueID = genericWin.TreeviewSelectedRowID();
 
 		genericWin.HideAndNull();
+		radio_run_encoder_analyze_individual_current_set.Active = true;
 
 		RunEncoder re = (RunEncoder) SqliteRunEncoder.Select(false, uniqueID, currentPerson.UniqueID, currentSession.UniqueID)[0];
 		if(re == null)
@@ -1360,6 +1361,8 @@ public partial class ChronoJumpWindow
 			LogB.ThreadEnded(); 
 
 			runEncoderButtonsSensitive(true);
+			radio_run_encoder_analyze_individual_current_set.Active = true;
+
 			/*
 			button_force_sensor_image_save_signal.Sensitive = true;
 			button_force_sensor_analyze_recalculate.Sensitive = true;

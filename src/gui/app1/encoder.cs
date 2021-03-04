@@ -2198,13 +2198,13 @@ public partial class ChronoJumpWindow
 
 		// 3) prepare and Run the dialog
 
-		FileChooserAction fcAction = FileChooserAction.Save;
+		FileChooserAction fcAction = FileChooserAction.Save; //if change this action, change it below on the File.Exists
 		if(
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES ||
 				checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
 				checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES)
-			fcAction = FileChooserAction.CreateFolder;
+			fcAction = FileChooserAction.CreateFolder; //if change this action, change it below on the Directory.Exists
 
 		Gtk.FileChooserDialog fc=
 			new Gtk.FileChooserDialog(exportString,
@@ -2242,15 +2242,19 @@ public partial class ChronoJumpWindow
 			}
 
 			try {
-				if (File.Exists(exportFileName)) {
+				if(
+						( fcAction == FileChooserAction.Save && File.Exists(exportFileName) ) ||
+						( fcAction == FileChooserAction.CreateFolder && Directory.Exists(exportFileName) ) )
+				{
 					LogB.Information(string.Format(
-								"File {0} exists with attributes {1}, created at {2}", 
+								"File or dir {0} exists with attributes {1}, created at {2}",
 								exportFileName, 
 								File.GetAttributes(exportFileName), 
 								File.GetCreationTime(exportFileName)));
 					LogB.Information("Overwrite...");
+
 					ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
-								"Are you sure you want to overwrite file: "), "", 
+								"Are you sure you want to overwrite: "), "",
 							exportFileName);
 
 					if(checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE)

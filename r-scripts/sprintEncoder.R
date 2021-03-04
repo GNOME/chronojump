@@ -812,7 +812,8 @@ start <- function(op)
 	}
 
 	#write the data frame
-        write.csv2(exportDF, file = paste(tempPath, "/sprintResults.csv", sep = ""), row.names = FALSE)
+	#na="" to not print NA on empty comments
+        write.csv2(exportDF, file = paste(tempPath, "/sprintResults.csv", sep = ""), row.names = FALSE, na="")
 }
 
 start(op)

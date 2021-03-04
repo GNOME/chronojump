@@ -650,6 +650,8 @@ public class RunEncoderExport
 
 		}
 
+		Util.FileDelete(RunEncoder.GetCSVResultsFileName());
+
 		// call the graph
 
 		if(rege_l.Count > 0)
@@ -667,6 +669,38 @@ public class RunEncoderExport
 
 			bool success = reg.CallR(imageWidth -5, imageHeight -5, false);
 		}
+
+		LogB.Information("Waiting creation of file... ");
+		while ( ! ( Util.FileReadable(RunEncoder.GetCSVResultsFileName()) || cancel ) )
+			;
+
+		if(cancel)
+			return false;
+
+		if(includeImages)
+		{
+			LogB.Information("going to copy export files with images ...");
+			if( ! Directory.Exists(exportURL))
+                                Directory.CreateDirectory (exportURL);
+
+			try{
+				string sourceFolder = Util.GetRunEncoderTempGraphsDir();
+				DirectoryInfo sourceDirInfo = new DirectoryInfo(sourceFolder);
+
+				string destFolder = Path.Combine(exportURL, "chronojump_race_analyzer_graphs");
+				Directory.CreateDirectory (destFolder);
+
+				foreach (FileInfo file in sourceDirInfo.GetFiles())
+					file.CopyTo(destFolder, true);
+			} catch {
+				return false;
+			}
+
+			//LogB.Information("done copy export files with images!");
+		}
+
+		// copy the CSV
+		File.Copy(RunEncoder.GetCSVResultsFileName(), exportURL, true);
 
 		return true;
 	}

@@ -2593,6 +2593,7 @@ public class ForceSensorExport
 	List<ForceSensor> fs_l;
 	ArrayList personSession_l;
 	ArrayList fsEx_l;
+	private static int totalRepsToExport;
 	List<string> exportedRFDs;
 	private int imageWidth = 900; //nothing is displayed, remove when R script has been adapted
 	private int imageHeight = 600; //nothing is displayed, remove when R script has been adapted
@@ -2712,8 +2713,8 @@ public class ForceSensorExport
 			progressbar.Text = messageToProgressbar;
 			progressbar.Pulse();
 		} else {
-			progressbar.Text = string.Format(Catalog.GetString("Exporting {0}/{1}"), files, fs_l.Count);
-			progressbar.Fraction = UtilAll.DivideSafeFraction(files, fs_l.Count);
+			progressbar.Text = string.Format(Catalog.GetString("Exporting repetition {0}/{1}"), files, totalRepsToExport);
+			progressbar.Fraction = UtilAll.DivideSafeFraction(files, totalRepsToExport);
 		}
 
 		Thread.Sleep (100);
@@ -2743,6 +2744,7 @@ public class ForceSensorExport
 		personSession_l = SqlitePersonSession.SelectCurrentSessionPersons(sessionID, true);
 		fsEx_l = SqliteForceSensorExercise.Select (false, -1, false);
 		exportedRFDs = new List<string>();
+		totalRepsToExport = 0;
 	}
 
 	private bool processForceSensorSets ()
@@ -2758,7 +2760,7 @@ public class ForceSensorExport
 		int count = 1;
 		foreach(ForceSensor fs in fs_l)
 		{
-			messageToProgressbar = string.Format(Catalog.GetString("Preparing {0}/{1}"), count++, fs_l.Count);
+			messageToProgressbar = string.Format(Catalog.GetString("Preparing sets {0}/{1}"), count++, fs_l.Count);
 
 			if(cancel)
 				return false;
@@ -2988,6 +2990,7 @@ public class ForceSensorExport
 
 		if(fsgABe_l.Count > 0)
 		{
+			totalRepsToExport = fsgABe_l.Count;
 			ForceSensorGraph fsg = new ForceSensorGraph(
 					rfdList, impulse,
 					duration, durationPercent,

@@ -52,6 +52,8 @@ public class PersonSelectWindow
 	[Widget] Gtk.Image image_manage_persons_cancel;
 	[Widget] Gtk.HBox hbox_up_down_close;
 	[Widget] Gtk.Image image_close;
+	[Widget] Gtk.Label label_manage_persons;
+	[Widget] Gtk.Label label_delete_person;
 	
 	static PersonSelectWindow PersonSelectWindowBox;
 	
@@ -96,8 +98,15 @@ public class PersonSelectWindow
 		if(! Config.UseSystemColor)
 		{
 			UtilGtk.WindowColor(person_select_window, Config.ColorBackground);
-			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_confirm);
+			//UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_confirm);
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_manage_persons);
+			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_delete_person);
 		}
+
+		label_manage_persons.Text = "<b>" + label_manage_persons.Text + "</b>";
+		label_manage_persons.UseMarkup = true;
+		label_delete_person.Text = "<b>" + label_delete_person.Text + "</b>";
+		label_delete_person.UseMarkup = true;
 
 		person_select_window.Parent = parent;
 		
@@ -213,7 +222,7 @@ public class PersonSelectWindow
 		}
 
 		personButtonsSensitive(false);
-		vbox_button_delete_confirm.Visible = false;
+		//vbox_button_delete_confirm.Visible = false;
 		list_ppb = new List<PersonPhotoButton>();
 
 		for (int row_i = 0; row_i < rows; row_i ++)
@@ -396,7 +405,12 @@ public class PersonSelectWindow
 	}
 	private void button_delete_confirm_focus(bool doFocus, bool sensitivePersonButtons)
 	{
-		vbox_button_delete_confirm.Visible = doFocus;
+		if(doFocus)
+			notebook.CurrentPage = 2;
+		else
+			notebook.CurrentPage = 0;
+
+		//vbox_button_delete_confirm.Visible = doFocus;
 		table1.Sensitive = ! doFocus;
 		button_manage_persons.Sensitive = ! doFocus;
 		hbox_up_down_close.Sensitive = ! doFocus;

@@ -798,8 +798,9 @@ start <- function(op)
 			#(to control if we print them as , or .)
 			for(j in 1:length(exportRow))
 				exportRowDF = cbind (exportRowDF, exportRow[j])
+			exportRowDF = cbind (exportRowDF, dataFiles$comments[i])
 
-			colnames(exportRowDF) = c("title","datetime",names) #write the correct names of the row dataframe
+			colnames(exportRowDF) = c("title","datetime",names,"comments") #write the correct names of the row dataframe
 			exportDF <- rbind (exportDF, exportRowDF) #rbind with exportDF
 		}
 

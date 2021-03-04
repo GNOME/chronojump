@@ -799,8 +799,15 @@ start <- function(op)
 			for(j in 1:length(exportRow))
 				exportRowDF = cbind (exportRowDF, exportRow[j])
 			exportRowDF = cbind (exportRowDF, dataFiles$comments[i])
+			if(op$includeImagesOnExport)
+				exportRowDF = cbind(exportRowDF, paste(i, ".png", sep=""))
 
-			colnames(exportRowDF) = c("title","datetime",names,"comments") #write the correct names of the row dataframe
+			#write the correct names of the row dataframe
+			namesDF = c("Title","Datetime",names,"comments")
+			if(op$includeImagesOnExport)
+				namesDF = c(namesDF, "Image")
+			colnames(exportRowDF) = namesDF
+
 			exportDF <- rbind (exportDF, exportRowDF) #rbind with exportDF
 		}
 

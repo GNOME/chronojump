@@ -3039,23 +3039,11 @@ public class ForceSensorExport
 				return false;
 			}
 
-			// 3) CSV
-			File.Copy(UtilEncoder.GetmifExportFileName(), exportURL, true);
+			//LogB.Information("done copy export files with images!");
+		}
 
-			LogB.Information("done copy export files with images!");
-		} else
-			File.Copy(UtilEncoder.GetmifExportFileName(), exportURL, true);
-
-		/*
-		ForceSensorGraph fsg = new ForceSensorGraph(
-				//fs.CaptureOption,
-				rfdList, impulse,
-				duration, durationPercent,
-				//title, exercise, fs.DateTimePublic, new TriggerList(),
-				//rep.sampleStart, rep.sampleEnd,
-				forceSensorStartEndOptimized,
-				);
-				*/
+		//copy the CSV
+		File.Copy(UtilEncoder.GetmifExportFileName(), exportURL, true);
 
 		return true;
 	}

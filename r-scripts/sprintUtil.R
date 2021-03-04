@@ -99,7 +99,12 @@ getDynamicsFromSprint <- function(K, Vmax, Mass, T0 = 0, Temperature = 25, Heigh
 
 exportSprintDynamics <- function(sprintDynamics)
 {
-        exportData = list(Mass = sprintDynamics$Mass,
+	exportRow = exportSprintDynamicsPrepareRow (sprintDynamics)
+	exportSprintDynamicsWriteRow (exportRow)
+}
+exportSprintDynamicsPrepareRow <- function(sprintDynamics)
+{
+        return(list(Mass = sprintDynamics$Mass,
                           Height = sprintDynamics$Height,
                           Temperature = sprintDynamics$Temperature,
                           Vw = sprintDynamics$Vw,
@@ -120,8 +125,11 @@ exportSprintDynamics <- function(sprintDynamics)
                           F0.rel = sprintDynamics$F0.rel,
                           V0 = sprintDynamics$V0,
                           pmax.lm = sprintDynamics$pmax.lm,
-                          pmax.rel.lm = sprintDynamics$pmax.rel.lm)
-        write.csv2(exportData, file = paste(tempPath, "/sprintResults.csv", sep = ""), row.names = FALSE)
+                          pmax.rel.lm = sprintDynamics$pmax.rel.lm))
+}
+exportSprintDynamicsWriteRow <- function(exportRow)
+{
+        write.csv2(exportRow, file = paste(tempPath, "/sprintResults.csv", sep = ""), row.names = FALSE)
 }
 
 #Finds the time correspondig to a given position in the formula x(t) = Vmax*(t + (1/K)*exp(-K*t)) -Vmax - 1/K

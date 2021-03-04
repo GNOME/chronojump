@@ -2567,6 +2567,8 @@ public class ForceSensorExport
 	private Gtk.ProgressBar progressbar;
 	private Gtk.Label labelResult;
 	private bool includeImages;
+	private int imageWidth;
+	private int imageHeight;
 	private string exportURL; //folder or .csv depending on includeImages
 	private bool isWindows;
 	private int personID; // -1: all
@@ -2595,14 +2597,13 @@ public class ForceSensorExport
 	ArrayList fsEx_l;
 	private static int totalRepsToExport;
 	List<string> exportedRFDs;
-	private int imageWidth = 900; //nothing is displayed, remove when R script has been adapted
-	private int imageHeight = 600; //nothing is displayed, remove when R script has been adapted
 
 	//constructor
 	public ForceSensorExport (
 			Gtk.Notebook notebook,
 			Gtk.ProgressBar progressbar,
 			Gtk.Label labelResult,
+			int imageWidth, int imageHeight,
 			bool includeImages,
 			bool isWindows, int personID, int sessionID,
 			List<ForceSensorRFD> rfdList, ForceSensorImpulse impulse,
@@ -2619,6 +2620,8 @@ public class ForceSensorExport
 		this.notebook = notebook;
 		this.progressbar = progressbar;
 		this.labelResult = labelResult;
+		this.imageWidth = imageWidth;
+		this.imageHeight = imageHeight;
 		this.includeImages = includeImages;
 		this.isWindows = isWindows;
 		this.personID = personID;
@@ -3002,7 +3005,7 @@ public class ForceSensorExport
 					includeImages
 					);
 
-			bool success = fsg.CallR(imageWidth -5, imageHeight -5, false);
+			bool success = fsg.CallR(imageWidth, imageHeight, false);
 		}
 
 		LogB.Information("Waiting creation of file... ");

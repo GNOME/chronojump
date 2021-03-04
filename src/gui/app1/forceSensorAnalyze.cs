@@ -153,6 +153,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_force_sensor_export;
 	[Widget] Gtk.Label label_force_sensor_export_data;
 	[Widget] Gtk.CheckButton check_force_sensor_export_images;
+	[Widget] Gtk.HBox hbox_force_sensor_export_width_height;
+	[Widget] Gtk.SpinButton spinbutton_force_sensor_export_image_width;
+	[Widget] Gtk.SpinButton spinbutton_force_sensor_export_image_height;
 	[Widget] Gtk.ProgressBar progressbar_force_sensor_export;
 	[Widget] Gtk.Label label_force_sensor_export_result;
 
@@ -688,6 +691,11 @@ public partial class ChronoJumpWindow
 
 	//move to export gui file
 
+	private void on_check_force_sensor_export_images_toggled (object o, EventArgs args)
+	{
+		hbox_force_sensor_export_width_height.Visible = check_force_sensor_export_images.Active;
+	}
+
 	private void on_radio_force_sensor_analyze_individual_current_set_toggled (object o, EventArgs args)
 	{
 		button_force_sensor_analyze_load.Visible = true;
@@ -750,6 +758,8 @@ public partial class ChronoJumpWindow
 				notebook_force_sensor_export,
 				progressbar_force_sensor_export,
 				label_force_sensor_export_result,
+				Convert.ToInt32(spinbutton_force_sensor_export_image_width.Value),
+				Convert.ToInt32(spinbutton_force_sensor_export_image_height.Value),
 				check_force_sensor_export_images.Active,
 				UtilAll.IsWindows(), personID, currentSession.UniqueID,
 				rfdList, impulse,//getImpulseValue(),

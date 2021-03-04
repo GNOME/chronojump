@@ -820,7 +820,10 @@ start <- function(op)
 
 	#write the data frame
 	#na="" to not print NA on empty comments
-        write.csv2(exportDF, file = paste(tempPath, "/sprintResults.csv", sep = ""), row.names = FALSE, na="")
+	if(op$decimalCharAtExport == ".")
+		write.csv(exportDF, file = paste(tempPath, "/sprintResults.csv", sep = ""), row.names = FALSE, na="")
+	else if(op$decimalCharAtExport == ",")
+		write.csv2(exportDF, file = paste(tempPath, "/sprintResults.csv", sep = ""), row.names = FALSE, na="")
 }
 
 start(op)

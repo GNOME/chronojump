@@ -419,6 +419,8 @@ public class RunEncoderExport
 	private Gtk.ProgressBar progressbar;
 	private Gtk.Label labelResult;
 	private bool includeImages;
+	private int imageWidth;
+	private int imageHeight;
 	private string exportURL; //folder or .csv depending on includeImages
 	private bool isWindows;
 	private int personID; // -1: all
@@ -441,8 +443,6 @@ public class RunEncoderExport
 	private List<RunEncoder> re_l;
 	ArrayList personSession_l;
 	private ArrayList reEx_l;
-	private int imageWidth = 900; //nothing is displayed, remove when R script has been adapted
-	private int imageHeight = 600; //nothing is displayed, remove when R script has been adapted
 
 	//constructor
 	public RunEncoderExport (
@@ -450,6 +450,7 @@ public class RunEncoderExport
 			Gtk.ProgressBar progressbar,
 			Gtk.Label labelResult,
 			bool includeImages,
+			int imageWidth, int imageHeight,
 			bool isWindows,
 			int personID,
 			int sessionID,
@@ -464,6 +465,8 @@ public class RunEncoderExport
 		this.progressbar = progressbar;
 		this.labelResult = labelResult;
 		this.includeImages = includeImages;
+		this.imageWidth = imageWidth;
+		this.imageHeight = imageHeight;
 		this.isWindows = isWindows;
 		this.personID = personID;
 		this.sessionID = sessionID;
@@ -667,7 +670,7 @@ public class RunEncoderExport
 					includeImages
 					);
 
-			bool success = reg.CallR(imageWidth -5, imageHeight -5, false);
+			bool success = reg.CallR(imageWidth, imageHeight, false);
 		}
 
 		LogB.Information("Waiting creation of file... ");

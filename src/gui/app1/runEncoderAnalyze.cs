@@ -53,6 +53,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_run_encoder_export;
 	[Widget] Gtk.Label label_run_encoder_export_data;
 	[Widget] Gtk.CheckButton check_run_encoder_export_images;
+	[Widget] Gtk.HBox hbox_run_encoder_export_width_height;
+	[Widget] Gtk.SpinButton spinbutton_run_encoder_export_image_width;
+	[Widget] Gtk.SpinButton spinbutton_run_encoder_export_image_height;
 	[Widget] Gtk.ProgressBar progressbar_run_encoder_export;
 	[Widget] Gtk.Label label_run_encoder_export_result;
 
@@ -260,6 +263,11 @@ public partial class ChronoJumpWindow
 
 	//move to export gui file
 
+	private void on_check_run_encoder_export_images_toggled (object o, EventArgs args)
+	{
+		hbox_run_encoder_export_width_height.Visible = check_run_encoder_export_images.Active;
+	}
+
 	private void on_radio_run_encoder_analyze_individual_current_set_toggled (object o, EventArgs args)
 	{
 		button_run_encoder_analyze_load.Visible = true;
@@ -321,6 +329,8 @@ public partial class ChronoJumpWindow
 				progressbar_run_encoder_export,
 				label_run_encoder_export_result,
 				check_run_encoder_export_images.Active,
+				Convert.ToInt32(spinbutton_run_encoder_export_image_width.Value),
+				Convert.ToInt32(spinbutton_run_encoder_export_image_height.Value),
 				UtilAll.IsWindows(),
 				personID,
 				currentSession.UniqueID,

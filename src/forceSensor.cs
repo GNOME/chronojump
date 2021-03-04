@@ -2603,8 +2603,8 @@ public class ForceSensorExport
 			Gtk.Notebook notebook,
 			Gtk.ProgressBar progressbar,
 			Gtk.Label labelResult,
-			int imageWidth, int imageHeight,
 			bool includeImages,
+			int imageWidth, int imageHeight,
 			bool isWindows, int personID, int sessionID,
 			List<ForceSensorRFD> rfdList, ForceSensorImpulse impulse,
 			double duration, int durationPercent,
@@ -2620,9 +2620,9 @@ public class ForceSensorExport
 		this.notebook = notebook;
 		this.progressbar = progressbar;
 		this.labelResult = labelResult;
+		this.includeImages = includeImages;
 		this.imageWidth = imageWidth;
 		this.imageHeight = imageHeight;
-		this.includeImages = includeImages;
 		this.isWindows = isWindows;
 		this.personID = personID;
 		this.sessionID = sessionID;

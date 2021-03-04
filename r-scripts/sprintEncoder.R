@@ -713,6 +713,8 @@ testEncoderCJ <- function(filename, testLength, splitLength, mass, personHeight,
 	#print("sprintRawDynamics$regressionDone")
 	#print(sprintRawDynamics$regressionDone)
 
+	exportRow = NULL
+
         if (sprintRawDynamics$longEnough && sprintRawDynamics$regressionDone)
         {
                 print(paste("Vmax:", sprintRawDynamics$Vmax))
@@ -745,9 +747,12 @@ testEncoderCJ <- function(filename, testLength, splitLength, mass, personHeight,
                                       plotFittedPower = op$plotFittedPower,
 				      startAccel = startAccel,
                                       plotStartDetection = TRUE)
-                exportSprintDynamics(sprintFittedDynamics)
+
+                exportRow = exportSprintDynamicsPrepareRow(sprintFittedDynamics)
         } else
-          print("Couldn't calculate the sprint model")
+		print("Couldn't calculate the sprint model")
+
+	return(exportRow)
 }
 
 start <- function(op)
@@ -755,16 +760,13 @@ start <- function(op)
 	if(op$singleOrMultiple == "TRUE")
 	{
 		prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
-		testEncoderCJ(op$filename, op$testLength, op$splitLength, op$mass, op$personHeight, op$tempC, op$device, op$title, op$datetime, op$startAccel)
+		exportRow = testEncoderCJ(op$filename, op$testLength, op$splitLength, op$mass, op$personHeight, op$tempC, op$device, op$title, op$datetime, op$startAccel)
+		exportSprintDynamicsWriteRow (exportRow)
 		endGraph()
 		return()
 	}
 
-	#op$singleOrMultiple == "FALSE"
-
-	#exportNames = c("Name","Date","Time","Exercise","result?")
-	#if(op$includeImagesOnExport)
-		#exportNames = c(exportNames, "Image")
+	# ------------------ op$singleOrMultiple == "FALSE" ------------------------->
 
 	#2) read the csv
 	dataFiles = read.csv(file = paste(tempPath, "/cj_race_analyzer_input_multi.csv", sep=""), sep=";", stringsAsFactors=F)
@@ -772,6 +774,7 @@ start <- function(op)
 	#3) call doProcess
 	progressFolder = paste(tempPath, "/chronojump_race_analyzer_progress", sep ="")
 	tempGraphsFolder = paste(tempPath, "/chronojump_race_analyzer_graphs/", sep ="")
+	exportDF = NULL
 
 	for(i in 1:length(dataFiles[,1]))
 	{
@@ -780,16 +783,35 @@ start <- function(op)
 
 		pngFile <- paste(tempGraphsFolder, i, ".png", sep="")  #but remember to graph also when model fails
 		prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
-		testEncoderCJ(as.vector(dataFiles$fullURL[i]), dataFiles$testLength[i], dataFiles$splitLength[i],
+		exportRow = testEncoderCJ(as.vector(dataFiles$fullURL[i]), dataFiles$testLength[i], dataFiles$splitLength[i],
 				dataFiles$mass[i], dataFiles$personHeight[i], dataFiles$tempC[i],
 				dataFiles$device[i], dataFiles$title[i], dataFiles$datetime[i],
 				op$startAccel)
+
+		if(! is.null(exportRow))
+		{
+			names = names(exportRow) #exportRow is a list, get the names
+			exportRow = unlist(exportRow) #convert to a vector
+
+			exportRowDF = data.frame(dataFiles$title[i], dataFiles$datetime[i]) #create dataframe for this row with some columns
+			#add exportRow data (this way we solve problems of adding strings with numbers without converting the numbers to strings
+			#(to control if we print them as , or .)
+			for(j in 1:length(exportRow))
+				exportRowDF = cbind (exportRowDF, exportRow[j])
+
+			colnames(exportRowDF) = c("title","datetime",names) #write the correct names of the row dataframe
+			exportDF <- rbind (exportDF, exportRowDF) #rbind with exportDF
+		}
+
 		endGraph()
 
 		progressFilename = paste(progressFolder, "/", i, sep="")
 		file.create(progressFilename)
 		print("done")
 	}
+
+	#write the data frame
+        write.csv2(exportDF, file = paste(tempPath, "/sprintResults.csv", sep = ""), row.names = FALSE)
 }
 
 start(op)

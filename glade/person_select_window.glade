@@ -3116,6 +3116,7 @@
                                                 <property name="receives_default">True</property>
                                                 <property name="use_stock">True</property>
                                                 <signal name="clicked" handler="on_button_delete_no_clicked" swapped="no"/>
+						<accelerator key="Escape" signal="clicked"/>
                                               </widget>
                                               <packing>
                                                 <property name="expand">True</property>

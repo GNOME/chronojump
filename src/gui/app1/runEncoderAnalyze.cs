@@ -351,14 +351,14 @@ public partial class ChronoJumpWindow
 		if(check_run_encoder_export_images.Active)
 		{
 			if(personID == -1)
-				selectedFile = checkFile(Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES);
+				selectedFile = checkFolder (Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES);
 			else
-				selectedFile = checkFile(Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES);
+				selectedFile = checkFolder (Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES);
 		} else {
 			if(personID == -1)
-				selectedFile = checkFile(Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES);
+				selectedFile = checkFile (Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES);
 			else
-				selectedFile = checkFile(Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_NO_IMAGES);
+				selectedFile = checkFile (Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_NO_IMAGES);
 		}
 
 		//restore the gui if cancelled

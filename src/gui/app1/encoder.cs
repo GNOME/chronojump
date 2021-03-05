@@ -2066,6 +2066,7 @@ public partial class ChronoJumpWindow
 	}
 
 	string exportFileName;	
+	//to export a folder check below method
 	protected bool checkFile (Constants.CheckFileOp checkFileOp)
 	{
 		string exportString = ""; 
@@ -2107,9 +2108,7 @@ public partial class ChronoJumpWindow
 
 		if(
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES ||
-				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES ||
-				checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES ||
-				checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES)
+				checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES )
 			nameString = currentSession.DateShortAsSQL;
 
 		//on encoder analyze save image, show analysis on filename
@@ -2180,17 +2179,9 @@ public partial class ChronoJumpWindow
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES)
 			nameString += "_forcesensor_export.csv";
 		else if(
-				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
-				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES)
-			nameString += "_forcesensor_export";
-		else if(
 				checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_NO_IMAGES ||
 				checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES)
 			nameString += "_raceAnalyzer_export.csv";
-		else if(
-				checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
-				checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES)
-			nameString += "_raceAnalyzer_export";
 		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE)
 			nameString += "_encoder_curves_table.csv";
 		else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_SAVE_TABLE)
@@ -2198,18 +2189,11 @@ public partial class ChronoJumpWindow
 
 		// 3) prepare and Run the dialog
 
-		FileChooserAction fcAction = FileChooserAction.Save; //if change this action, change it below on the File.Exists
-		if(
-				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
-				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES ||
-				checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
-				checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES)
-			fcAction = FileChooserAction.CreateFolder; //if change this action, change it below on the Directory.Exists
 
 		Gtk.FileChooserDialog fc=
 			new Gtk.FileChooserDialog(exportString,
 					app1,
-					fcAction,
+					FileChooserAction.Save,
 					Catalog.GetString("Cancel"),ResponseType.Cancel,
 					Catalog.GetString("Accept"),ResponseType.Accept
 					);
@@ -2229,11 +2213,6 @@ public partial class ChronoJumpWindow
 					checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE ||
 					checkFileOp == Constants.CheckFileOp.RUNENCODER_SAVE_TABLE)
 				exportFileName = Util.AddCsvIfNeeded(exportFileName);
-			else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
-				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES ||
-				checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
-				checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES)
-				LogB.Information("");//do nothing
 			else {
 				//ENCODER_ANALYZE_SAVE_IMAGE, FORCESENSOR_SAVE_IMAGE_SIGNAL,
 				//FORCESENSOR_SAVE_IMAGE_RFD_AUTO, FORCESENSOR_SAVE_IMAGE_RFD_MANUAL
@@ -2242,12 +2221,10 @@ public partial class ChronoJumpWindow
 			}
 
 			try {
-				if(
-						( fcAction == FileChooserAction.Save && File.Exists(exportFileName) ) ||
-						( fcAction == FileChooserAction.CreateFolder && Directory.Exists(exportFileName) ) )
+				if(File.Exists(exportFileName))
 				{
 					LogB.Information(string.Format(
-								"File or dir {0} exists with attributes {1}, created at {2}",
+								"File {0} exists with attributes {1}, created at {2}",
 								exportFileName, 
 								File.GetAttributes(exportFileName), 
 								File.GetCreationTime(exportFileName)));
@@ -2304,16 +2281,12 @@ public partial class ChronoJumpWindow
 							new EventHandler(on_overwrite_file_forcesensor_save_AB_accepted);
 					else if(
 							checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_NO_IMAGES ||
-							checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES ||
-							checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
-							checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES)
+							checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES )
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_forcesensor_export_accepted);
 					else if(
 							checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_NO_IMAGES ||
-							checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES ||
-							checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
-							checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES)
+							checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES )
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_runencoder_export_accepted);
 					else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_SAVE_IMAGE)
@@ -2356,15 +2329,11 @@ public partial class ChronoJumpWindow
 						on_button_force_sensor_save_AB_file_selected (exportFileName);
 					else if(
 							checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_NO_IMAGES ||
-							checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES ||
-							checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
-							checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES)
+							checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES )
 						on_button_force_sensor_export_file_selected (exportFileName);
 					else if(
 							checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_NO_IMAGES ||
-							checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES ||
-							checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
-							checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES)
+							checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES )
 						on_button_run_encoder_export_file_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_SAVE_IMAGE)
 						on_button_run_encoder_image_save_selected (exportFileName);
@@ -2375,12 +2344,8 @@ public partial class ChronoJumpWindow
 					if(
 							checkFileOp != Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_NO_IMAGES &&
 							checkFileOp != Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES &&
-							checkFileOp != Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES &&
-							checkFileOp != Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES &&
 							checkFileOp != Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_NO_IMAGES &&
-							checkFileOp != Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES &&
-							checkFileOp != Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES &&
-							checkFileOp != Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES)
+							checkFileOp != Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES )
 					{
 						string myString = string.Format(Catalog.GetString("Saved to {0}"), 
 								exportFileName);
@@ -2410,6 +2375,113 @@ public partial class ChronoJumpWindow
 		
 		return true;
 	}
+
+	//to export a file check above method
+	protected bool checkFolder (Constants.CheckFileOp checkFileOp)
+	{
+		// 1) create exportString: message to the user
+
+		string exportString = Catalog.GetString ("Export data and graphs");
+
+		// 2) write the name of the file: nameString (will be appended to selected URL)
+
+		string nameString = currentPerson.Name + "_" + currentSession.DateShortAsSQL;
+		if(
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES ||
+				checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES)
+			nameString = currentSession.DateShortAsSQL;
+
+		if(
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
+				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES)
+			nameString += "_forcesensor_export";
+		else if(
+				checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
+				checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES)
+			nameString += "_raceAnalyzer_export";
+
+		// 3) prepare and Run the dialog
+
+		Gtk.FileChooserDialog fc=
+			new Gtk.FileChooserDialog(exportString,
+					app1,
+					FileChooserAction.SelectFolder,
+					Catalog.GetString("Cancel"),ResponseType.Cancel,
+					Catalog.GetString("Accept"),ResponseType.Accept
+					);
+
+		if (fc.Run() == (int)ResponseType.Accept)
+		{
+			/*
+			   it is a folder but we call it exportFileName because this is the expected name on overwrite functions
+			   maybe we can change it to exportURL on the future
+			   */
+			exportFileName = fc.Filename + Path.DirectorySeparatorChar + nameString;
+
+			LogB.Information("exportFileName: " + exportFileName);
+
+			try {
+				if(Directory.Exists(exportFileName))
+				{
+					LogB.Information(string.Format(
+								"Dir {0} exists with attributes {1}, created at {2}",
+								exportFileName,
+								File.GetAttributes(exportFileName),
+								File.GetCreationTime(exportFileName)));
+					LogB.Information("Overwrite...");
+
+					ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
+								"Are you sure you want to overwrite: "), "",
+							exportFileName);
+
+					if(
+							checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
+							checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES )
+					{
+						confirmWin.Button_accept.Clicked +=
+							new EventHandler(on_overwrite_file_forcesensor_export_accepted);
+						confirmWin.Button_cancel.Clicked +=
+							new EventHandler(on_overwrite_file_forcesensor_export_cancelled);
+					} else if(
+							checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
+							checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES )
+					{
+						confirmWin.Button_accept.Clicked +=
+							new EventHandler(on_overwrite_file_runencoder_export_accepted);
+						confirmWin.Button_cancel.Clicked +=
+							new EventHandler(on_overwrite_file_runencoder_export_cancelled);
+					}
+				}
+				else {
+					if(
+							checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
+							checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES )
+						on_button_force_sensor_export_file_selected (exportFileName);
+					else if(
+							checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
+							checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES )
+						on_button_run_encoder_export_file_selected (exportFileName);
+				}
+			} catch {
+				string myString = string.Format(
+						Catalog.GetString("Cannot save file {0} "), exportFileName);
+				new DialogMessage(Constants.MessageTypes.WARNING, myString);
+			}
+		}
+		else {
+			LogB.Information("cancelled");
+			//report does not currently send the appBar reference
+			//new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Cancelled."));
+			fc.Hide ();
+			return false;
+		}
+
+		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+		fc.Destroy();
+
+		return true;
+	}
+
 	private void on_overwrite_file_export_all_curves_accepted(object o, EventArgs args)
 	{
 		on_button_encoder_export_all_curves_file_selected (exportFileName);
@@ -2455,6 +2527,7 @@ public partial class ChronoJumpWindow
 				exportFileName) + Constants.GetSpreadsheetString(preferences.CSVExportDecimalSeparator);
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
+
 	private void on_overwrite_file_forcesensor_export_accepted(object o, EventArgs args)
 	{
 		on_button_force_sensor_export_file_selected (exportFileName); //file or folder
@@ -2465,11 +2538,23 @@ public partial class ChronoJumpWindow
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 		*/
 	}
+	private void on_overwrite_file_forcesensor_export_cancelled(object o, EventArgs args)
+	{
+		forceSensorButtonsSensitive(true);
+		hbox_force_sensor_analyze_top_modes.Sensitive = true;
+		button_force_sensor_analyze_options.Sensitive = true;
+	}
+
 	private void on_overwrite_file_runencoder_export_accepted(object o, EventArgs args)
 	{
 		on_button_run_encoder_export_file_selected (exportFileName); //file or folder
 	}
-	
+	private void on_overwrite_file_runencoder_export_cancelled(object o, EventArgs args)
+	{
+		runEncoderButtonsSensitive(true);
+		hbox_run_encoder_top.Sensitive = true;
+	}
+
 	void on_button_encoder_delete_signal_clicked (object o, EventArgs args) 
 	{
 		if(preferences.askDeletion) {

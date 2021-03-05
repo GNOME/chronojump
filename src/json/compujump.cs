@@ -47,14 +47,11 @@ public class JsonCompujump : Json
 		Person person = new Person(-1);
 
 		// Create a request using a URL that can receive a post.
-		if (! createWebRequest(requestType.GENERIC, "/getPersonByRFID"))
+		if (! createWebRequest(requestType.AUTHENTICATED, "/api/v1/client/getPersonByRFID"))
 			return person;
 
 		// Set the Method property of the request to POST.
 		request.Method = "POST";
-
-		// Set the ContentType property of the WebRequest.
-		request.ContentType = "application/json; Charset=UTF-8"; //but this is not enough, see this line:
 
 		// Creates the json object
 		JsonObject json = new JsonObject();
@@ -167,14 +164,11 @@ public class JsonCompujump : Json
 		connected = false;
 
 		// Create a request using a URL that can receive a post.
-		if (! createWebRequest(requestType.GENERIC, "/getTasks"))
+		if (! createWebRequest(requestType.AUTHENTICATED, "/api/v1/client/getTasks"))
 			return new List<Task>();
 
 		// Set the Method property of the request to POST.
 		request.Method = "POST";
-
-		// Set the ContentType property of the WebRequest.
-		request.ContentType = "application/json; Charset=UTF-8"; //but this is not enough, see this line:
 
 		// Creates the json object
 		JsonObject json = new JsonObject();
@@ -185,6 +179,7 @@ public class JsonCompujump : Json
 		// Converts it to a String
 		String js = json.ToString();
 
+		LogB.Debug("GetTasks params: " + js + "\n");
 		// Writes the json object into the request dataStream
 		Stream dataStream;
 		if(! getWebRequestStream (request, out dataStream, "Cannot get tasks."))
@@ -224,12 +219,12 @@ public class JsonCompujump : Json
 
 		foreach (JsonValue jsonTask in jsonTasks) {
 			Int32 id = jsonTask ["id"];
-			char type = jsonTask ["type"];
+			//char type = jsonTask ["type"];
 			int exerciseId = jsonTask ["exerciseId"];
 			string exerciseName = jsonTask ["exerciseName"];
 
-			int personId = jsonTask ["personId"];
-			int stationId = jsonTask ["stationId"];
+			int personId = jsonTask ["person"];
+			int stationId = jsonTask ["station"];
 			int sets = jsonTask ["sets"];
 			int nreps = jsonTask ["nreps"];
 			float load = jsonTask ["load"];
@@ -248,14 +243,11 @@ public class JsonCompujump : Json
 	{
 		LogB.Information("At UpdateTask");
 		// Create a request using a URL that can receive a post.
-		if (! createWebRequest(requestType.GENERIC, "/updateTask"))
+		if (! createWebRequest(requestType.AUTHENTICATED, "/api/v1/client/updateTask"))
 			return false;
 
 		// Set the Method property of the request to POST.
 		request.Method = "POST";
-
-		// Set the ContentType property of the WebRequest.
-		request.ContentType = "application/json; Charset=UTF-8"; //but this is not enough, see this line:
 
 		// Creates the json object
 		JsonObject json = new JsonObject();
@@ -294,14 +286,11 @@ public class JsonCompujump : Json
 	public List<StationCount> GetOtherStationsWithPendingTasks(int personID, int stationID)
 	{
 		// Create a request using a URL that can receive a post.
-		if (! createWebRequest(requestType.GENERIC, "/getOtherStationsWithPendingTasks"))
+		if (! createWebRequest(requestType.AUTHENTICATED, "/api/v1/client/getOtherStationsWithPendingTasks"))
 			return new List<StationCount>();
 
 		// Set the Method property of the request to POST.
 		request.Method = "POST";
-
-		// Set the ContentType property of the WebRequest.
-		request.ContentType = "application/json; Charset=UTF-8"; //but this is not enough, see this line:
 
 		// Creates the json object
 		JsonObject json = new JsonObject();
@@ -355,14 +344,11 @@ public class JsonCompujump : Json
 		List<EncoderExercise> ex_list = new List<EncoderExercise>();
 
 		// Create a request using a URL that can receive a post.
-		if (! createWebRequest(requestType.GENERIC, "/getStationExercises"))
+		if (! createWebRequest(requestType.AUTHENTICATED, "/api/v1/client/getStationExercises"))
 			return ex_list;
 
 		// Set the Method property of the request to POST.
 		request.Method = "POST";
-
-		// Set the ContentType property of the WebRequest.
-		request.ContentType = "application/json; Charset=UTF-8"; //but this is not enough, see this line:
 
 		// Creates the json object
 		JsonObject json = new JsonObject();
@@ -413,7 +399,7 @@ public class JsonCompujump : Json
 		{
 			Int32 id = jsonSE ["id"];
 			string name = jsonSE ["name"];
-			Int32 stationId = jsonSE ["stationId"];
+			//Int32 stationId = jsonSE ["stationId"];
 			int percentBodyMassDisplaced = jsonSE ["percentBodyMassDisplaced"];
 
 			ex_list.Add(new EncoderExercise(id, name, percentBodyMassDisplaced,
@@ -507,7 +493,7 @@ public class JsonCompujump : Json
 	{
 		LogB.Information("calling upload sprint");
 		// Create a request using a URL that can receive a post.
-		if (! createWebRequest(requestType.GENERIC, "/uploadSprintData"))
+		if (! createWebRequest(requestType.AUTHENTICATED, "/api/v1/client/uploadSprintData"))
 			return false;
 
 		/*
@@ -518,10 +504,6 @@ public class JsonCompujump : Json
 
 		// Set the Method property of the request to POST.
 		request.Method = "POST";
-
-		// Set the ContentType property of the WebRequest.
-		request.ContentType = "application/json; Charset=UTF-8"; //but this is not enough, see this line:
-		//exerciseName = Util.RemoveAccents(exerciseName);
 
 		// Creates the json object
 		JsonObject json = new JsonObject();
@@ -600,21 +582,17 @@ public class JsonCompujump : Json
 	public bool UploadEncoderData(UploadEncoderDataFullObject o)
 	{
 		// Create a request using a URL that can receive a post.
-		if (! createWebRequest(requestType.GENERIC, "/uploadEncoderData"))
+		if (! createWebRequest(requestType.AUTHENTICATED, "/api/v1/client/uploadEncoderData"))
 			return false;
 
 		// Set the Method property of the request to POST.
 		request.Method = "POST";
 
-		// Set the ContentType property of the WebRequest.
-		request.ContentType = "application/json; Charset=UTF-8"; //but this is not enough, see this line:
-		//exerciseName = Util.RemoveAccents(exerciseName);
-
 		// Creates the json object
 		JsonObject json = new JsonObject();
 		json.Add("personId", o.personId);
 		json.Add("stationId", o.stationId);
-		//json.Add("exerciseName", exerciseName);
+		//json.Add("exerciseName", Util.RemoveAccents(exerciseName));
 		json.Add("exerciseId", o.exerciseId);
 		json.Add("laterality", o.laterality);
 		json.Add("resistance", o.resistance);
@@ -668,21 +646,17 @@ public class JsonCompujump : Json
 	public bool UploadForceSensorData(UploadForceSensorDataFullObject o)
 	{
 		// Create a request using a URL that can receive a post.
-		if (! createWebRequest(requestType.GENERIC, "/uploadForceSensorData"))
+		if (! createWebRequest(requestType.AUTHENTICATED, "/api/v1/client/uploadForceSensorData"))
 			return false;
 
 		// Set the Method property of the request to POST.
 		request.Method = "POST";
 
-		// Set the ContentType property of the WebRequest.
-		request.ContentType = "application/json; Charset=UTF-8"; //but this is not enough, see this line:
-		//exerciseName = Util.RemoveAccents(exerciseName);
-
 		// Creates the json object
 		JsonObject json = new JsonObject();
 		json.Add("personId", o.personId);
 		json.Add("stationId", o.stationId);
-		//json.Add("exerciseName", exerciseName);
+		//json.Add("exerciseName", Util.RemoveAccents(exerciseName));
 		json.Add("exerciseId", o.exerciseId);
 		json.Add("laterality", o.laterality);
 		json.Add("resistance", o.resistance);

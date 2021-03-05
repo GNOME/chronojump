@@ -41,7 +41,7 @@ public class JsonExhibitions : Json
 	public bool UploadExhibitionTest(ExhibitionTest et)
 	{
 		// Create a request using a URL that can receive a post.
-		if (! createWebRequest(requestType.GENERIC, "/uploadExhibitionTestData"))
+		if (! createWebRequest(requestType.AUTHENTICATED, "/api/v1/client/uploadExhibitionTestData"))
 			return false;
 
 		// Set the Method property of the request to POST.

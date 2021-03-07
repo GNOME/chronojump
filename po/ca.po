@@ -2081,7 +2081,7 @@ msgstr "Exporta la sessió"
 
 #: ../glade/app1.glade.h:445
 msgid "Export to another database"
-msgstr "Exportar a una altre base de dades"
+msgstr "Exportar a una altra base de dades"
 
 #: ../glade/app1.glade.h:446
 msgid "This session:"
@@ -2089,7 +2089,7 @@ msgstr "Aquesta sessió:"
 
 #: ../glade/app1.glade.h:447
 msgid "Import a session"
-msgstr "Importa un sessió"
+msgstr "Importa una sessió"
 
 #: ../glade/app1.glade.h:448
 msgid "Make a copy of all the data"

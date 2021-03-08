@@ -780,8 +780,8 @@ start <- function(op)
 	dataFiles = read.csv(file = paste(tempPath, "/cj_race_analyzer_input_multi.csv", sep=""), sep=";", stringsAsFactors=F)
 
 	#3) call doProcess
-	progressFolder = paste(tempPath, "/chronojump_race_analyzer_progress", sep ="")
-	tempGraphsFolder = paste(tempPath, "/chronojump_race_analyzer_graphs/", sep ="")
+	progressFolder = paste(tempPath, "/chronojump_export_progress", sep ="")
+	tempGraphsFolder = paste(tempPath, "/chronojump_race_analyzer_export_graphs/", sep ="")
 	exportDF = NULL
 
 	for(i in 1:length(dataFiles[,1]))

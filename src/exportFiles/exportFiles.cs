@@ -94,9 +94,35 @@ public abstract class ExportFiles
 		}
 	}
 
+	// public method
+	public void Start(string exportURL)
+	{
+		prepare(exportURL);
+
+		thread = new Thread (new ThreadStart (exportDo));
+		GLib.Idle.Add (new GLib.IdleHandler (pulseExportGTK));
+		thread.Start();
+	}
+
+	protected void exportDo ()
+	{
+		if(! getData())
+		{
+			LogB.Information("There's no data");
+			noData = true;
+			return;
+		}
+
+		processSets();
+	}
+
+	protected abstract bool getData ();
+
 	protected string getTempProgressDir() {
 		return Path.Combine(Path.GetTempPath(), "chronojump_export_progress");
 	}
+
+	protected abstract bool processSets ();
 
 	public void Cancel()
 	{

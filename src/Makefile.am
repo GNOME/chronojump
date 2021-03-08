@@ -183,6 +183,7 @@ SOURCES = \
 	execute/multiChronopic.cs\
 	exportFiles/exportFiles.cs\
 	exportFiles/fs.cs\
+	exportFiles/re.cs\
 	AssemblyInfo.cs\
 	buildInfo.cs\
 	chronojump.cs\

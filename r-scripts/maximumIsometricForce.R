@@ -1194,9 +1194,9 @@ start <- function(op)
 		dataFiles = read.csv(file = paste(tempPath, "/maximumIsometricForceInputMulti.csv", sep=""), sep=";", stringsAsFactors=F)
 
 		#3) call doProcess
-		progressFolder = paste(tempPath, "/chronojump_mif_progress", sep ="")
-		tempGraphsFolder = paste(tempPath, "/chronojump_mif_graphs_rfd/", sep ="")
-		tempGraphsABFolder = paste(tempPath, "/chronojump_mif_graphs_ab/", sep ="")
+		progressFolder = paste(tempPath, "/chronojump_export_progress", sep ="")
+		tempGraphsFolder = paste(tempPath, "/chronojump_force_sensor_export_graphs_rfd/", sep ="")
+		tempGraphsABFolder = paste(tempPath, "/chronojump_force_sensor_export_graphs_ab/", sep ="")
 
 		#countGraph = 1
 		for(i in 1:length(dataFiles[,1]))
@@ -1254,13 +1254,13 @@ start <- function(op)
 		#3) write the file
 		if(is.null(exportDF)) {
 			# write something blank to be able to know in C# that operation ended
-			write(0, file = paste(tempPath, "/cj_mif_export.csv", sep = ""))
+			write(0, file = paste(tempPath, "/chronojump_force_sensor_export.csv", sep = ""))
 		} else {
 			#print csv
 			if(op$decimalCharAtExport == ".")
-				write.csv(exportDF, file = paste(tempPath, "/cj_mif_export.csv", sep = ""), row.names = FALSE, col.names = TRUE, quote = FALSE, na="")
+				write.csv(exportDF, file = paste(tempPath, "/chronojump_force_sensor_export.csv", sep = ""), row.names = FALSE, col.names = TRUE, quote = FALSE, na="")
 			else if(op$decimalCharAtExport == ",")
-				write.csv2(exportDF, file = paste(tempPath, "/cj_mif_export.csv", sep = ""), row.names = FALSE, col.names = TRUE, quote = FALSE, na="")
+				write.csv2(exportDF, file = paste(tempPath, "/chronojump_force_sensor_export.csv", sep = ""), row.names = FALSE, col.names = TRUE, quote = FALSE, na="")
 		}
 	}
 }

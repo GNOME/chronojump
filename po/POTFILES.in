@@ -54,6 +54,8 @@ src/executeProcess.cs
 src/execute/pulse.cs
 src/execute/reactionTime.cs
 src/execute/run.cs
+src/exportFiles/exportFiles.cs
+src/exportFiles/fs.cs
 src/exportSession.cs
 src/forceSensor.cs
 src/gui/app1/chronojump.cs

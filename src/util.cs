@@ -1067,16 +1067,6 @@ public class Util
 		}
 	}
 
-	public static string GetForceSensorTempProgressDir() {
-		return Path.Combine(Path.GetTempPath(), "chronojump_mif_progress");
-	}
-	public static string GetForceSensorTempGraphsDir() {
-		return Path.Combine(Path.GetTempPath(), "chronojump_mif_graphs_rfd");
-	}
-	public static string GetForceSensorTempGraphsABDir() {
-		return Path.Combine(Path.GetTempPath(), "chronojump_mif_graphs_ab");
-	}
-
 	/*
 	 * <--------------- end of force sensor suff
 	 */

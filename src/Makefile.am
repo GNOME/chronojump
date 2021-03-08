@@ -181,6 +181,8 @@ SOURCES = \
 	execute/pulse.cs\
 	execute/reactionTime.cs\
 	execute/multiChronopic.cs\
+	exportFiles/exportFiles.cs\
+	exportFiles/fs.cs\
 	AssemblyInfo.cs\
 	buildInfo.cs\
 	chronojump.cs\

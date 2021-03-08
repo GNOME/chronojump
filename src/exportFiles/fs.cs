@@ -19,9 +19,9 @@
  */
 
 
-using System.IO; 		//for detect OS //TextWriter
-using System.Collections; //ArrayList
-using System.Collections.Generic; //List<T>
+using System.IO; 			//Directory, ...
+using System.Collections; 		//ArrayList
+using System.Collections.Generic; 	//List<T>
 using System.Threading;
 using Mono.Unix;
 
@@ -43,7 +43,6 @@ public class ForceSensorExport : ExportFiles
 	private ArrayList personSession_l;
 	private ArrayList fsEx_l;
 	private static int totalRepsToExport;
-	private List<string> exportedRFDs;
 
 	public ForceSensorExport (
 			Gtk.Notebook notebook,
@@ -81,58 +80,35 @@ public class ForceSensorExport : ExportFiles
 		this.forceSensorAnalyzeMaxAVGInWindowSeconds = forceSensorAnalyzeMaxAVGInWindowSeconds;
 	}
 
-	private string getForceSensorTempGraphsDir() {
+	private string getTempGraphsDir() {
 		return Path.Combine(Path.GetTempPath(), "chronojump_force_sensor_export_graphs_rfd");
 	}
-	private string getForceSensorTempGraphsABDir() {
+	private string getTempGraphsABDir() {
 		return Path.Combine(Path.GetTempPath(), "chronojump_force_sensor_export_graphs_ab");
+	}
+	private string getTempCSVFileName() {
+		return Path.Combine(Path.GetTempPath(), "chronojump_force_sensor_export.csv");
 	}
 
 	protected override void createOrEmptyDirs()
 	{
 		//create progressbar and graph files dirs or delete their contents
 		createOrEmptyDir(getTempProgressDir());
-		createOrEmptyDir(getForceSensorTempGraphsDir());
-		createOrEmptyDir(getForceSensorTempGraphsABDir());
+		createOrEmptyDir(getTempGraphsDir());
+		createOrEmptyDir(getTempGraphsABDir());
 	}
 
-	///public method
-	public void Start(string exportURL)
-	{
-		prepare(exportURL);
-
-		thread = new Thread (new ThreadStart (forceSensorExportDo));
-		GLib.Idle.Add (new GLib.IdleHandler (pulseExportGTK));
-		thread.Start();
-	}
-
-	private void forceSensorExportDo()
-	{
-		getData();
-
-		if(fs_l.Count == 0)
-		{
-			LogB.Information("There's no data");
-			noData = true;
-			return;
-		}
-
-//		if(processForceSensorSets()) //false if cancelled
-//			writeFile();
-		processForceSensorSets();
-	}
-
-	private void getData ()
+	protected override bool getData ()
 	{
 		fs_l = SqliteForceSensor.Select(false, -1, personID, sessionID);
 		personSession_l = SqlitePersonSession.SelectCurrentSessionPersons(sessionID, true);
 		fsEx_l = SqliteForceSensorExercise.Select (false, -1, false);
-		exportedRFDs = new List<string>();
-		//totalUnitsToExport = 0;
 		totalRepsToExport = 0;
+
+		return fs_l.Count > 0;
 	}
 
-	private bool processForceSensorSets ()
+	protected override bool processSets ()
 	{
 		Person p = new Person();
 		PersonSession ps = new PersonSession();
@@ -238,7 +214,7 @@ public class ForceSensorExport : ExportFiles
 			*/
 
 			//delete result file
-			Util.FileDelete(UtilEncoder.GetmifExportFileName());
+			Util.FileDelete(getTempCSVFileName());
 
 			bool addedSet = false;
 			int repCount = 1;
@@ -362,11 +338,12 @@ public class ForceSensorExport : ExportFiles
 					includeImages
 					);
 
-			bool success = fsg.CallR(imageWidth, imageHeight, false);
+			if(! fsg.CallR(imageWidth, imageHeight, false))
+				return false;
 		}
 
 		LogB.Information("Waiting creation of file... ");
-		while ( ! ( Util.FileReadable(UtilEncoder.GetmifExportFileName()) || cancel ) )
+		while ( ! ( Util.FileReadable(getTempCSVFileName()) || cancel ) )
 			;
 
 		if(cancel)
@@ -380,7 +357,7 @@ public class ForceSensorExport : ExportFiles
 
 			try{
 				// 1) rfd graphs
-				string sourceFolder = getForceSensorTempGraphsDir();
+				string sourceFolder = getTempGraphsDir();
 				DirectoryInfo sourceDirInfo = new DirectoryInfo(sourceFolder);
 
 				string destFolder = Path.Combine(exportURL, "chronojump_force_sensor_export_graphs_rfd");
@@ -390,7 +367,7 @@ public class ForceSensorExport : ExportFiles
 					file.CopyTo(destFolder, true);
 
 				// 2) AB graphs
-				sourceFolder = getForceSensorTempGraphsABDir();
+				sourceFolder = getTempGraphsABDir();
 				sourceDirInfo = new DirectoryInfo(sourceFolder);
 
 				destFolder = Path.Combine(exportURL, "chronojump_force_sensor_export_graphs_ab");
@@ -406,7 +383,7 @@ public class ForceSensorExport : ExportFiles
 		}
 
 		//copy the CSV
-		File.Copy(UtilEncoder.GetmifExportFileName(), exportURL, true);
+		File.Copy(getTempCSVFileName(), exportURL, true);
 
 		return true;
 	}

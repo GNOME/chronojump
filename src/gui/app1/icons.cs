@@ -34,6 +34,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_minimize;
 	//[Widget] Gtk.Image image_minimize1;
 	[Widget] Gtk.Image image_session_delete;
+	[Widget] Gtk.Image app1s_image_button_close;
 	[Widget] Gtk.Image image_db_backup;
 	[Widget] Gtk.Image image_db_view;
 	[Widget] Gtk.Image image_mode_encoder_capture;
@@ -483,6 +484,7 @@ public partial class ChronoJumpWindow
 		image_force_sensor_analyze_options_close1.Pixbuf = pixbuf;
 		image_encoder_analyze_mode_options_close.Pixbuf = pixbuf;
 		image_force_sensor_capture_adjust_close.Pixbuf = pixbuf;
+		app1s_image_button_close.Pixbuf = pixbuf;
 
 
 		/*

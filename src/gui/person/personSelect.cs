@@ -50,10 +50,11 @@ public class PersonSelectWindow
 	[Widget] Gtk.Image image_all_persons_events;
 	[Widget] Gtk.Image image_person_delete;
 	[Widget] Gtk.Image image_manage_persons_cancel;
-	[Widget] Gtk.HBox hbox_up_down_close;
+	[Widget] Gtk.VBox vbox_corner_controls;
 	[Widget] Gtk.Image image_close;
 	[Widget] Gtk.Label label_manage_persons;
 	[Widget] Gtk.Label label_delete_person;
+	[Widget] Gtk.CheckButton check_show_images;
 	
 	static PersonSelectWindow PersonSelectWindowBox;
 	
@@ -82,6 +83,8 @@ public class PersonSelectWindow
 		if(raspberry)
 			slidebarSize = 40;
 
+		check_show_images.Active = false;
+
 		scrolled1.WidthRequest = 150 * 4 + 8 * 2 + 12 * 2 + slidebarSize; //150 is button width, 8 is padding left and right (4+4), 12 the left and right of scrolled1
 
 		int rowsShown = 3;
@@ -101,6 +104,7 @@ public class PersonSelectWindow
 			//UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_confirm);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_manage_persons);
 			UtilGtk.ContrastLabelsLabel(Config.ColorBackgroundIsDark, label_delete_person);
+			UtilGtk.ContrastLabelsVBox(Config.ColorBackgroundIsDark, vbox_corner_controls);
 		}
 
 		label_manage_persons.Text = "<b>" + label_manage_persons.Text + "</b>";
@@ -154,7 +158,7 @@ public class PersonSelectWindow
 
 		PersonSelectWindowBox.notebook.CurrentPage = 0;
 		PersonSelectWindowBox.button_manage_persons.Sensitive = true;
-		PersonSelectWindowBox.hbox_up_down_close.Sensitive = true;
+		PersonSelectWindowBox.vbox_corner_controls.Sensitive = true;
 
 		PersonSelectWindowBox.createTable();
 
@@ -186,13 +190,18 @@ public class PersonSelectWindow
 		table1.Visible = true;
 		table1.Sensitive = true;
 		button_manage_persons.Sensitive = true;
-		hbox_up_down_close.Sensitive = true;
+		vbox_corner_controls.Sensitive = true;
 
 		if(currentPerson != null)
 			assignPersonSelectedStuff(currentPerson);
 
 		if(! person_select_window.Visible)
 			person_select_window.Visible = true;
+	}
+
+	private void on_check_show_images_toggled (object o, EventArgs args)
+	{
+		Update(persons);
 	}
 
 	private void removeTable() 
@@ -234,7 +243,7 @@ public class PersonSelectWindow
 				
 				Person p = (Person) persons[count ++];
 
-				PersonPhotoButton ppb = new PersonPhotoButton(p.UniqueID, p.Name); //creates the button
+				PersonPhotoButton ppb = new PersonPhotoButton(p.UniqueID, p.Name, check_show_images.Active); //creates the button
 
 				//select currentPerson
 				if(selectedFirstClickPersonID != -1 && selectedFirstClickPersonID == p.UniqueID)
@@ -322,7 +331,7 @@ public class PersonSelectWindow
 
 		personButtonsSensitive (false);
 		button_manage_persons.Sensitive = false;
-		hbox_up_down_close.Sensitive = false;
+		vbox_corner_controls.Sensitive = false;
 	}
 
 	private void on_button_manage_persons_cancel_clicked (object o, EventArgs args)
@@ -331,7 +340,7 @@ public class PersonSelectWindow
 
 		personButtonsSensitive (SelectedPerson != null);
 		button_manage_persons.Sensitive = true;
-		hbox_up_down_close.Sensitive = true;
+		vbox_corner_controls.Sensitive = true;
 	}
 
 	private void on_button_add_clicked (object o, EventArgs args)
@@ -413,7 +422,7 @@ public class PersonSelectWindow
 		//vbox_button_delete_confirm.Visible = doFocus;
 		table1.Sensitive = ! doFocus;
 		button_manage_persons.Sensitive = ! doFocus;
-		hbox_up_down_close.Sensitive = ! doFocus;
+		vbox_corner_controls.Sensitive = ! doFocus;
 
 		personButtonsSensitive(sensitivePersonButtons);
 	}
@@ -463,12 +472,12 @@ public class PersonPhotoButton
 	*/
 
 	//used to create button
-	public PersonPhotoButton (int id, string name)
+	public PersonPhotoButton (int id, string name, bool showImage)
 	{
 		personID = id;
 		personName = name;
 
-		createButton();
+		createButton(showImage);
 		Selected = false;
 	}
 
@@ -517,14 +526,15 @@ public class PersonPhotoButton
 		//LogB.Information("Name: " + l.Text.ToString());
 	}
 
-	private void createButton ()
+	private void createButton (bool showImage)
 	{
 		Gtk.VBox vbox = new Gtk.VBox();
 
 		Gtk.Image image = new Gtk.Image();
 		addUserPhotoIfExists(image);
-		image.HeightRequest = 150;
-		image.Visible = true;
+		if(showImage)
+			image.HeightRequest = 150;
+		image.Visible = showImage;
 
 		Gtk.Label label_select = new Gtk.Label("Select !");
 		label_select.Visible = false; //hide this to the user until button is clicked first time
@@ -552,7 +562,9 @@ public class PersonPhotoButton
 
 		button = new Button(vbox);
 		button.WidthRequest = 150; //commentin this will make columns longer with enough space for labels
-		button.HeightRequest = 170; //commenting this will make the rows be of different height depending on image and lines of text
+
+		if(showImage)
+			button.HeightRequest = 170; //commenting this will make the rows be of different height depending on image and lines of text
 	}
 
 	private Array getButtonBoxElements (Gtk.Button button)

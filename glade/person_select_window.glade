@@ -2600,6 +2600,18 @@
                             <child>
                               <placeholder/>
                             </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
                           </widget>
                         </child>
                       </widget>
@@ -3116,7 +3128,7 @@
                                                 <property name="receives_default">True</property>
                                                 <property name="use_stock">True</property>
                                                 <signal name="clicked" handler="on_button_delete_no_clicked" swapped="no"/>
-						<accelerator key="Escape" signal="clicked"/>
+                                                <accelerator key="Escape" signal="clicked"/>
                                               </widget>
                                               <packing>
                                                 <property name="expand">True</property>
@@ -3451,34 +3463,88 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkHBox" id="hbox_up_down_close">
+              <widget class="GtkVBox" id="vbox_corner_controls">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="spacing">10</property>
+                <property name="spacing">6</property>
                 <child>
-                  <widget class="GtkVBox" id="vbox3">
+                  <widget class="GtkCheckButton" id="check_show_images">
+                    <property name="label" translatable="yes">Show images</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="draw_indicator">True</property>
+                    <signal name="toggled" handler="on_check_show_images_toggled" swapped="no"/>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkHBox" id="hbox_up_down_close">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="spacing">6</property>
+                    <property name="spacing">10</property>
                     <child>
-                      <widget class="GtkButton" id="button_up">
-                        <property name="width_request">40</property>
-                        <property name="height_request">40</property>
+                      <widget class="GtkVBox" id="vbox7">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="can_default">True</property>
-                        <property name="receives_default">True</property>
-                        <property name="has_tooltip">True</property>
-                        <property name="tooltip">&lt;Control&gt;Up</property>
-                        <property name="relief">half</property>
-                        <signal name="clicked" handler="on_button_up_clicked" swapped="no"/>
-                        <accelerator key="Up" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
+                        <property name="can_focus">False</property>
+                        <property name="spacing">6</property>
                         <child>
-                          <widget class="GtkArrow" id="arrow_up1">
+                          <widget class="GtkButton" id="button_up">
+                            <property name="width_request">40</property>
+                            <property name="height_request">40</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="arrow_type">up</property>
+                            <property name="can_focus">True</property>
+                            <property name="can_default">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="has_tooltip">True</property>
+                            <property name="tooltip">&lt;Control&gt;Up</property>
+                            <property name="relief">half</property>
+                            <signal name="clicked" handler="on_button_up_clicked" swapped="no"/>
+                            <accelerator key="Up" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
+                            <child>
+                              <widget class="GtkArrow" id="arrow_up1">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="arrow_type">up</property>
+                              </widget>
+                            </child>
                           </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkButton" id="button_down">
+                            <property name="width_request">40</property>
+                            <property name="height_request">40</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="can_default">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="has_tooltip">True</property>
+                            <property name="tooltip">&lt;Control&gt;Down</property>
+                            <property name="relief">half</property>
+                            <signal name="clicked" handler="on_button_down_clicked" swapped="no"/>
+                            <accelerator key="Down" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
+                            <child>
+                              <widget class="GtkArrow" id="arrow_down1">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="arrow_type">down</property>
+                              </widget>
+                            </child>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">1</property>
+                          </packing>
                         </child>
                       </widget>
                       <packing>
@@ -3488,77 +3554,50 @@
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkButton" id="button_down">
-                        <property name="width_request">40</property>
-                        <property name="height_request">40</property>
+                      <widget class="GtkButton" id="button_close">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="can_default">True</property>
                         <property name="receives_default">True</property>
-                        <property name="has_tooltip">True</property>
-                        <property name="tooltip">&lt;Control&gt;Down</property>
-                        <property name="relief">half</property>
-                        <signal name="clicked" handler="on_button_down_clicked" swapped="no"/>
-                        <accelerator key="Down" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
+                        <signal name="clicked" handler="on_button_close_clicked" swapped="no"/>
+                        <accelerator key="Escape" signal="clicked"/>
                         <child>
-                          <widget class="GtkArrow" id="arrow_down1">
+                          <widget class="GtkVBox" id="vbox15">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="arrow_type">down</property>
+                            <property name="spacing">4</property>
+                            <child>
+                              <widget class="GtkImage" id="image_close">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="stock">gtk-close</property>
+                                <property name="icon-size">3</property>
+                              </widget>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkLabel" id="label4">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">Close</property>
+                              </widget>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
                           </widget>
                         </child>
                       </widget>
                       <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
-                    </child>
-                  </widget>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkButton" id="button_close">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <signal name="clicked" handler="on_button_close_clicked" swapped="no"/>
-                    <accelerator key="Escape" signal="clicked"/>
-                    <child>
-                      <widget class="GtkVBox" id="vbox7">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="spacing">4</property>
-                        <child>
-                          <widget class="GtkImage" id="image_close">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="stock">gtk-close</property>
-                            <property name="icon-size">3</property>
-                          </widget>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkLabel" id="label4">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">Close</property>
-                          </widget>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </widget>
                     </child>
                   </widget>
                   <packing>

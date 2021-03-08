@@ -447,9 +447,7 @@ public partial class ChronoJumpWindow
 		lastChangedTime = 0;
 
                 double versionDouble = Convert.ToDouble(Util.ChangeDecimalSeparator(runEncoderFirmwareVersion));
-		if(preferences.runEncoderPPS != 10 && //10 is the default value on the .ino
-				versionDouble >= Convert.ToDouble(Util.ChangeDecimalSeparator("0.3"))
-				)
+		if(versionDouble >= Convert.ToDouble(Util.ChangeDecimalSeparator("0.3")))
 		{
 			if(! runEncoderSendCommand(string.Format("set_pps:{0};", preferences.runEncoderPPS), "Sending pps", "Catched at set_pps"))
 				return;

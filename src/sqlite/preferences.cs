@@ -36,6 +36,9 @@ class SqlitePreferences : Sqlite
 	public const string RestTimeMinutes = "restTimeMinutes";
 	public const string RestTimeSeconds = "restTimeSeconds";
 
+	//person (appearance)
+	public const string PersonSelectWinImages = "personSelectWinImages";
+
 	//news stuff
 	public const string NewsLanguageEs = "newsLanguageEs";
 	public const string ServerNewsDatetime = "serverNewsDatetime"; // NOT stored on SQL. string of last news in server, obtained on pingAtNewsAtStart
@@ -117,6 +120,10 @@ class SqlitePreferences : Sqlite
 	public const string LoadLastModeAtStart = "loadLastModeAtStart";
 	public const string LastMode = "lastMode";
 
+	//export
+	public const string ExportGraphWidth = "exportGraphWidth";
+	public const string ExportGraphHeight = "exportGraphHeight";
+
 	protected internal static new void createTable()
 	{
 		dbcmd.CommandText = 
@@ -145,6 +152,7 @@ class SqlitePreferences : Sqlite
 				Insert ("maximized", Preferences.MaximizedTypes.NO.ToString(), dbcmdTr);
 				Insert ("personWinHide", "False", dbcmdTr);
 				Insert ("personPhoto", "True", dbcmdTr);
+				Insert (PersonSelectWinImages, "True", dbcmdTr);
 				Insert (MenuType, Preferences.MenuTypes.ALL.ToString(), dbcmdTr);
 				Insert (LogoAnimatedShow, "True", dbcmdTr);
 				Insert (ColorBackground, "#0e1e46", dbcmdTr);
@@ -332,6 +340,10 @@ class SqlitePreferences : Sqlite
 				Insert (LoadLastModeAtStart, "True", dbcmdTr);
 				Insert (LastMode, Constants.Menuitem_modes.UNDEFINED.ToString(), dbcmdTr);
 
+				//export
+				Insert (ExportGraphWidth, "900", dbcmdTr);
+				Insert (ExportGraphHeight, "600", dbcmdTr);
+
 				//removed on 1.37
 				//Insert ("encoderConfiguration", new EncoderConfiguration().ToStringOutput(EncoderConfiguration.Outputs.SQL), dbcmdTr);
 
@@ -435,6 +447,8 @@ class SqlitePreferences : Sqlite
 				preferences.personWinHide = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "personPhoto")
 				preferences.personPhoto = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == PersonSelectWinImages)
+				preferences.personSelectWinImages = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == MenuType)
 				preferences.menuType = (Preferences.MenuTypes)
 					Enum.Parse(typeof(Preferences.MenuTypes), reader[1].ToString());
@@ -767,6 +781,12 @@ class SqlitePreferences : Sqlite
 			else if(reader[0].ToString() == LastMode)
 				preferences.lastMode = (Constants.Menuitem_modes)
 					Enum.Parse(typeof(Constants.Menuitem_modes), reader[1].ToString());
+
+			//export
+			else if(reader[0].ToString() == ExportGraphWidth)
+				preferences.exportGraphWidth = Convert.ToInt32(reader[1].ToString());
+			else if(reader[0].ToString() == ExportGraphHeight)
+				preferences.exportGraphHeight = Convert.ToInt32(reader[1].ToString());
 		}
 
 		reader.Close();

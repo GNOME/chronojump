@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.12";
+	static string lastChronojumpDatabaseVersion = "2.13";
 
 	public Sqlite()
 	{
@@ -2877,6 +2877,20 @@ class Sqlite
 
 				currentVersion = updateVersion("2.12");
 			}
+			if(currentVersion == "2.12")
+			{
+				LogB.SQL("Inserted into preferences: PersonSelectWinImages, ExportGraphWidth, ExportGraphHeight");
+
+				SqlitePreferences.Insert (SqlitePreferences.PersonSelectWinImages, "True");
+				SqlitePreferences.Insert (SqlitePreferences.ExportGraphWidth, "900");
+				SqlitePreferences.Insert (SqlitePreferences.ExportGraphHeight, "600");
+
+				currentVersion = updateVersion("2.13");
+			}
+
+
+
+
 			/*
 			if(currentVersion == "1.79")
 			{
@@ -3094,6 +3108,7 @@ class Sqlite
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
 
+		//2.12 - 2.13 Converted DB to 2.13 Inserted prefs: PersonSelectWinImages, ExportGraphWidth, ExportGraphHeight
 		//2.11 - 2.12 Converted DB to 2.12 Inserted prefs: forceSensorAnalyzeMaxAVGInWindow
 		//2.10 - 2.11 Converted DB to 2.11 Inserted prefs: clientNewsDatetime
 		//2.09 - 2.10 Converted DB to 2.10 Inserted prefs: encoderCaptureShowLoss, runEncoderPPS

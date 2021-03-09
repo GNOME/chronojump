@@ -187,7 +187,8 @@ public class Preferences
 	/*
 	 * these are NOT managed on preferences window
 	 */
-	
+
+	public bool personSelectWinImages;
 	public bool allowFinishRjAfterTime;
 	public bool volumeOn;
 	public bool videoOn;
@@ -259,6 +260,10 @@ public class Preferences
 	public static string GstreamerStr = "gstreamer"; //in order to ensure write correctly on SQL
 
 	public bool debugMode;
+
+	//export
+	public int exportGraphWidth;
+	public int exportGraphHeight;
 
 	/*
 	 * these are unused on SqlitePreferences.SelectAll

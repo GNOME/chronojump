@@ -72,6 +72,8 @@ public class PersonSelectWindow
 
 	private List<PersonPhotoButton> list_ppb;
 
+	private bool showImages;
+	private uint columns;
 	
 	PersonSelectWindow (Gtk.Window parent, bool raspberry, bool lowHeight)
 	{
@@ -83,9 +85,18 @@ public class PersonSelectWindow
 		if(raspberry)
 			slidebarSize = 40;
 
-		check_show_images.Active = false;
+		showImages = false;
+		if(showImages)
+		{
+			check_show_images.Active = true;
+			columns = 4;
+		} else {
+			check_show_images.Active = false;
+			columns = 2;
+		}
 
 		scrolled1.WidthRequest = 150 * 4 + 8 * 2 + 12 * 2 + slidebarSize; //150 is button width, 8 is padding left and right (4+4), 12 the left and right of scrolled1
+		//if showImages (2 columns) will be 308*2 + 4 * 2 + 12 * 2
 
 		int rowsShown = 3;
 		if(lowHeight)
@@ -201,6 +212,11 @@ public class PersonSelectWindow
 
 	private void on_check_show_images_toggled (object o, EventArgs args)
 	{
+		if(check_show_images.Active)
+			columns = 4;
+		else
+			columns = 2;
+
 		Update(persons);
 	}
 
@@ -215,7 +231,7 @@ public class PersonSelectWindow
 	{
 		LogB.Debug("Persons count" + persons.Count.ToString());
 		uint padding = 4;	
-		uint cols = 4; //each row has 4 columns
+		uint cols = columns; //each row has 4 columns
 		uint rows = Convert.ToUInt32(Math.Floor(persons.Count / (1.0 * cols) ) +1);
 		int count = 0;
 
@@ -546,7 +562,12 @@ public class PersonPhotoButton
 		UtilGtk.ViewportColorDefault(viewport);
 		Gtk.Label label_name = new Gtk.Label(personName);
 		label_name.LineWrap = true;
-		label_name.WidthRequest = 140; //same width as label_selected_person_name, to ensure contents are correctly shown on both
+
+		if(showImage)
+			label_name.WidthRequest = 140; //same width as label_selected_person_name, to ensure contents are correctly shown on both
+		else
+			label_name.WidthRequest = 298;
+
 		label_name.HeightRequest = -1;
 		label_name.LineWrapMode = Pango.WrapMode.Word;
 		label_name.Visible = true;
@@ -561,10 +582,14 @@ public class PersonPhotoButton
 		vbox.Show();
 
 		button = new Button(vbox);
-		button.WidthRequest = 150; //commentin this will make columns longer with enough space for labels
 
 		if(showImage)
+		{
+			button.WidthRequest = 150; //commenting this will make columns longer with enough space for labels
 			button.HeightRequest = 170; //commenting this will make the rows be of different height depending on image and lines of text
+		}
+		else
+			button.WidthRequest = 308; //commenting this will make columns longer with enough space for labels
 	}
 
 	private Array getButtonBoxElements (Gtk.Button button)

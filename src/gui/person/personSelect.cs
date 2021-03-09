@@ -68,6 +68,8 @@ public class PersonSelectWindow
 	public Gtk.Button FakeButtonEditPerson;
 	public Gtk.Button FakeButtonPersonShowAllEvents;
 	public Gtk.Button FakeButtonDeletePerson;
+	public Gtk.Button FakeButtonShowImages;
+	public Gtk.Button FakeButtonHideImages;
 	public Gtk.Button FakeButtonDone;
 
 	private List<PersonPhotoButton> list_ppb;
@@ -84,16 +86,6 @@ public class PersonSelectWindow
 		int slidebarSize = 20;
 		if(raspberry)
 			slidebarSize = 40;
-
-		showImages = false;
-		if(showImages)
-		{
-			check_show_images.Active = true;
-			columns = 4;
-		} else {
-			check_show_images.Active = false;
-			columns = 2;
-		}
 
 		scrolled1.WidthRequest = 150 * 4 + 8 * 2 + 12 * 2 + slidebarSize; //150 is button width, 8 is padding left and right (4+4), 12 the left and right of scrolled1
 		//if showImages (2 columns) will be 308*2 + 4 * 2 + 12 * 2
@@ -132,6 +124,8 @@ public class PersonSelectWindow
 		FakeButtonEditPerson = new Gtk.Button();
 		FakeButtonPersonShowAllEvents = new Gtk.Button();
 		FakeButtonDeletePerson = new Gtk.Button();
+		FakeButtonShowImages = new Gtk.Button();
+		FakeButtonHideImages = new Gtk.Button();
 		FakeButtonDone = new Gtk.Button();
 
 		Pixbuf pixbuf;
@@ -157,7 +151,7 @@ public class PersonSelectWindow
 		image_close.Pixbuf = pixbuf;
 	}
 	
-	static public PersonSelectWindow Show (Gtk.Window parent, ArrayList persons, Person currentPerson, Gdk.Color colorBackground, bool raspberry, bool lowHeight)
+	static public PersonSelectWindow Show (Gtk.Window parent, ArrayList persons, Person currentPerson, Gdk.Color colorBackground, bool raspberry, bool lowHeight, bool showImages)
 	{
 		if (PersonSelectWindowBox == null) {
 			PersonSelectWindowBox = new PersonSelectWindow (parent, raspberry, lowHeight);
@@ -170,6 +164,16 @@ public class PersonSelectWindow
 		PersonSelectWindowBox.notebook.CurrentPage = 0;
 		PersonSelectWindowBox.button_manage_persons.Sensitive = true;
 		PersonSelectWindowBox.vbox_corner_controls.Sensitive = true;
+
+		PersonSelectWindowBox.showImages = showImages;
+		if(showImages)
+		{
+			PersonSelectWindowBox.check_show_images.Active = true;
+			PersonSelectWindowBox.columns = 4;
+		} else {
+			PersonSelectWindowBox.check_show_images.Active = false;
+			PersonSelectWindowBox.columns = 2;
+		}
 
 		PersonSelectWindowBox.createTable();
 
@@ -212,6 +216,11 @@ public class PersonSelectWindow
 
 	private void on_check_show_images_toggled (object o, EventArgs args)
 	{
+		if(check_show_images.Active)
+			FakeButtonShowImages.Click();
+		else
+			FakeButtonHideImages.Click();
+
 		if(check_show_images.Active)
 			columns = 4;
 		else

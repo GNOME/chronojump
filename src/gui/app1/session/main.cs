@@ -62,7 +62,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook app1s_notebook_load_button_animation;
 	[Widget] Gtk.HButtonBox app1s_hbuttonbox_page2_import;
 	[Widget] Gtk.EventBox app1s_eventbox_button_cancel;
-	[Widget] Gtk.EventBox app1s_eventbox_button_accept;
+	[Widget] Gtk.EventBox app1s_eventbox_button_load;
 	[Widget] Gtk.EventBox app1s_eventbox_button_back;
 	[Widget] Gtk.EventBox app1s_eventbox_button_import;
 
@@ -181,7 +181,7 @@ public partial class ChronoJumpWindow
 		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_close0, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_cancel1, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_cancel, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_accept, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_load, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_back, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_import_confirm_back, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_import_confirm_accept, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);

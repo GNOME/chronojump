@@ -124,7 +124,7 @@ public partial class ChronoJumpWindow
 		app1s_store.SetSortColumnId(1, Gtk.SortType.Descending); //date
 		app1s_store.ChangeSortColumn();
 
-		app1s_button_accept.Sensitive = false;
+		app1s_button_load.Sensitive = false;
 		app1s_button_import.Sensitive = false;
 		app1s_entry_search_filter.CanFocus = true;
 		app1s_entry_search_filter.IsFocus = true;
@@ -481,10 +481,10 @@ public partial class ChronoJumpWindow
 
 		if (((TreeSelection)o).GetSelected(out model, out iter)) {
 			app1s_selected = (string)model.GetValue (iter, 0);
-			app1s_button_accept.Sensitive = true;
+			app1s_button_load.Sensitive = true;
 			app1s_button_import.Sensitive = true;
 		} else {
-			app1s_button_accept.Sensitive = false;
+			app1s_button_load.Sensitive = false;
 			app1s_button_import.Sensitive = false;
 		}
 
@@ -622,23 +622,23 @@ public partial class ChronoJumpWindow
 			app1s_selected = (string) model.GetValue (iter, 0);
 
 			if (app1s_type == app1s_windowType.LOAD_SESSION) {
-				//activate on_button_accept_clicked()
-				app1s_button_accept.Activate();
+				//activate on_button_load_clicked()
+				app1s_button_load.Activate();
 			} else {
 				app1s_button_import.Activate();
 			}
 		}
 	}
 	
-	private void app1s_on_button_accept_clicked (object o, EventArgs args)
+	private void app1s_on_button_load_clicked (object o, EventArgs args)
 	{
 		if(app1s_selected != "-1")
 		{
 			app1s_notebook_load_button_animation.CurrentPage = 1;
-			GLib.Timeout.Add(1000, new GLib.TimeoutHandler(app1s_on_button_accept_clicked_do));
+			GLib.Timeout.Add(1000, new GLib.TimeoutHandler(app1s_on_button_load_clicked_do));
 		}
 	}
-	private bool app1s_on_button_accept_clicked_do ()
+	private bool app1s_on_button_load_clicked_do ()
 	{
 		currentSession = SqliteSession.Select (app1s_selected);
 		on_load_session_accepted();
@@ -729,9 +729,9 @@ public partial class ChronoJumpWindow
 		app1s_notebook.CurrentPage = app1s_PAGE_IMPORT_START;
 	}
 
-	public Button app1s_Button_accept
+	public Button app1s_Button_load
 	{
-		set { app1s_button_accept = value; }
-		get { return app1s_button_accept; }
+		set { app1s_button_load = value; }
+		get { return app1s_button_load; }
 	}
 }

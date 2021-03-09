@@ -495,7 +495,7 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		app1s_Button_accept.Click();
+		app1s_Button_load.Click();
 		
 		LogB.TestEnd("chronojumpWindowTestsLoadSession");
 	}

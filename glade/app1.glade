@@ -40462,22 +40462,22 @@ then click this button.</property>
                                                           </packing>
                                                         </child>
                                                         <child>
-                                                          <widget class="GtkButton" id="app1s_button_accept">
+                                                          <widget class="GtkButton" id="app1s_button_load">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="can_default">True</property>
                                                             <property name="has_default">True</property>
                                                             <property name="receives_default">False</property>
-                                                            <signal name="clicked" handler="app1s_on_button_accept_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="app1s_on_button_load_clicked" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkEventBox" id="app1s_eventbox_button_accept">
+                                                            <widget class="GtkEventBox" id="app1s_eventbox_button_load">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="label512">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Accept</property>
+                                                            <property name="label" translatable="yes">Load</property>
                                                             </widget>
                                                             </child>
                                                             </widget>

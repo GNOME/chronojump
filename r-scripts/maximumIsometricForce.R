@@ -1127,10 +1127,10 @@ plotABGraph <- function(pngFile, dataFile, decimalChar, title, exercise, datetim
 	points(x[which(y == max(y))[1]], max(y), col="red", cex=2)
 
 	#draw a segment related to max avg force in window
-	segments(x[maxAvgForceInWindowSampleStart], maxAvgForceInWindow,
-		 x[maxAvgForceInWindowSampleEnd], maxAvgForceInWindow, lwd=2, col="green4")
 	if(maxAvgForceInWindow > 0)
 	{
+		segments(x[maxAvgForceInWindowSampleStart], maxAvgForceInWindow,
+			 x[maxAvgForceInWindowSampleEnd], maxAvgForceInWindow, lwd=2, col="green4")
 		topTick = maxAvgForceInWindow/100
 		segments(x[maxAvgForceInWindowSampleStart], maxAvgForceInWindow - topTick,
 			 x[maxAvgForceInWindowSampleStart], maxAvgForceInWindow + topTick,

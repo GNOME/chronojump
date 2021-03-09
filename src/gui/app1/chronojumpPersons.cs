@@ -410,7 +410,8 @@ public partial class ChronoJumpWindow
 				currentSession.UniqueID, 
 				false); //means: do not returnPersonAndPSlist
 
-		personSelectWin = PersonSelectWindow.Show(app1, myPersons, currentPerson, preferences.colorBackground, configChronojump.Raspberry, configChronojump.LowHeight);
+		personSelectWin = PersonSelectWindow.Show(app1, myPersons, currentPerson, preferences.colorBackground,
+				configChronojump.Raspberry, configChronojump.LowHeight, preferences.personSelectWinImages);
 		personSelectWin.FakeButtonAddPerson.Clicked += new EventHandler(on_button_top_person_add_person);
 		personSelectWin.FakeButtonAddPersonMultiple.Clicked += new EventHandler(on_button_top_person_add_person_multiple);
 		personSelectWin.FakeButtonLoadPerson.Clicked += new EventHandler(on_button_top_person_load_person);
@@ -418,6 +419,8 @@ public partial class ChronoJumpWindow
 		personSelectWin.FakeButtonEditPerson.Clicked += new EventHandler(on_button_top_person_edit_person);
 		personSelectWin.FakeButtonPersonShowAllEvents.Clicked += new EventHandler(on_button_top_person_show_all_events);
 		personSelectWin.FakeButtonDeletePerson.Clicked += new EventHandler(on_button_top_person_delete_person);
+		personSelectWin.FakeButtonShowImages.Clicked += new EventHandler(on_button_top_person_show_images);
+		personSelectWin.FakeButtonHideImages.Clicked += new EventHandler(on_button_top_person_hide_images);
 		personSelectWin.FakeButtonDone.Clicked += new EventHandler(on_button_top_person_change_done); //on window close, and on double click (it also closes the window)
 	}
 	private void on_button_top_person_add_person(object o, EventArgs args)
@@ -478,6 +481,19 @@ public partial class ChronoJumpWindow
 				false); //means: do not returnPersonAndPSlist
 		personSelectWin.Update(myPersons, currentPerson);
 	}
+	private void on_button_top_person_show_images (object o, EventArgs args)
+	{
+		Sqlite.Open();
+		preferences.personSelectWinImages = Preferences.PreferencesChange(SqlitePreferences.PersonSelectWinImages, false, true);
+		Sqlite.Close();
+	}
+	private void on_button_top_person_hide_images (object o, EventArgs args)
+	{
+		Sqlite.Open();
+		preferences.personSelectWinImages = Preferences.PreferencesChange(SqlitePreferences.PersonSelectWinImages, true, false);
+		Sqlite.Close();
+	}
+
 	private void on_button_top_person_change_done(object o, EventArgs args)
 	{
 		if(personSelectWin.SelectedPerson == null)

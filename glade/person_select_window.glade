@@ -2612,6 +2612,18 @@
                             <child>
                               <placeholder/>
                             </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
                           </widget>
                         </child>
                       </widget>
@@ -3466,7 +3478,7 @@
               <widget class="GtkVBox" id="vbox_corner_controls">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="spacing">6</property>
+                <property name="spacing">12</property>
                 <child>
                   <widget class="GtkCheckButton" id="check_show_images">
                     <property name="label" translatable="yes">Show images</property>

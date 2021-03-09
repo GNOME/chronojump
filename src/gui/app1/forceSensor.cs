@@ -148,6 +148,9 @@ public partial class ChronoJumpWindow
 		setImpulseValue();
 		setForceSensorAnalyzeABSliderIncrements();
 		setForceSensorAnalyzeMaxAVGInWindow();
+
+		spinbutton_force_sensor_export_image_width.Value = preferences.exportGraphWidth;
+		spinbutton_force_sensor_export_image_height.Value = preferences.exportGraphHeight;
 	}
 
 

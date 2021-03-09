@@ -324,6 +324,20 @@ public partial class ChronoJumpWindow
 		runEncoderButtonsSensitive(false);
 		hbox_run_encoder_top.Sensitive = false;
 
+		//store new width/height if changed
+		Sqlite.Open();
+		preferences.exportGraphWidth = Preferences.PreferencesChange(
+				SqlitePreferences.ExportGraphWidth,
+				preferences.exportGraphWidth, Convert.ToInt32(spinbutton_run_encoder_export_image_width.Value));
+		preferences.exportGraphHeight = Preferences.PreferencesChange(
+				SqlitePreferences.ExportGraphHeight,
+				preferences.exportGraphHeight, Convert.ToInt32(spinbutton_run_encoder_export_image_height.Value));
+		Sqlite.Close();
+
+		//change also spinbuttons of export forceSensor
+		spinbutton_force_sensor_export_image_width.Value = spinbutton_run_encoder_export_image_width.Value;
+		spinbutton_force_sensor_export_image_height.Value = spinbutton_run_encoder_export_image_height.Value;
+
 		runEncoderExport = new RunEncoderExport (
 				notebook_run_encoder_export,
 				progressbar_run_encoder_export,

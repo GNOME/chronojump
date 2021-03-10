@@ -18,6 +18,7 @@
  * Copyright (C) 2021   Xavier de Blas <xaviblas@gmail.com>
  */
 
+using System;
 using System.IO; 			//Directory, ...
 using System.Collections; 		//ArrayList
 using System.Collections.Generic; 	//List<T>
@@ -38,6 +39,7 @@ public class RunEncoderExport : ExportFiles
 	private List<RunEncoder> re_l;
 	ArrayList personSession_l;
 	private ArrayList reEx_l;
+	private List<TriggerList> triggerListOfLists;
 
 	//constructor
 	public RunEncoderExport (
@@ -87,6 +89,20 @@ public class RunEncoderExport : ExportFiles
 		personSession_l = SqlitePersonSession.SelectCurrentSessionPersons(sessionID, true);
 		reEx_l = SqliteRunEncoderExercise.Select (false, -1, false);
 
+		//get all the triggers to not be opening and closing sqlite on processSets
+		triggerListOfLists = new List<TriggerList>();
+		Sqlite.Open();
+		foreach(RunEncoder re in re_l)
+		{
+			TriggerList triggerListRunEncoder = new TriggerList(
+					SqliteTrigger.Select(
+						true, Trigger.Modes.RACEANALYZER,
+						re.UniqueID)
+					);
+			triggerListOfLists.Add(triggerListRunEncoder);
+		}
+		Sqlite.Close();
+
 		return re_l.Count > 0;
 	}
 
@@ -97,9 +113,12 @@ public class RunEncoderExport : ExportFiles
 
 		List<RunEncoderGraphExport> rege_l = new List<RunEncoderGraphExport>();
 
-		int count = 1;
+		//int count = 1;
+		int element = -1; //used to sync re_l[element] with triggerListOfLists[element]
 		foreach(RunEncoder re in re_l)
 		{
+			element ++;
+
 			// 1) checks
 			//check fs is ok
 			if(re == null || ! Util.FileExists(re.FullURL))
@@ -153,6 +172,7 @@ public class RunEncoderExport : ExportFiles
 					re.Device,
 					re.Temperature, re.Distance,
 					reEx, title, re.DateTimePublic,
+					triggerListOfLists[element],
 					re.Comments
 					);
 			rege_l.Add(rege);
@@ -170,7 +190,6 @@ public class RunEncoderExport : ExportFiles
 					plotRawAccel, plotFittedAccel,
 					plotRawForce, plotFittedForce,
 					plotRawPower, plotFittedPower,
-					//triggerList,
 					rege_l,
 					exportDecimalSeparator,
 					includeImages

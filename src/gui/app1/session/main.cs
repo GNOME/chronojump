@@ -49,6 +49,7 @@ public partial class ChronoJumpWindow
 
 	//notebook tab 2
 	[Widget] Gtk.TreeView app1s_treeview_session_load;
+	[Widget] Gtk.Button app1s_button_edit;
 	[Widget] Gtk.Button app1s_button_load;
 	[Widget] Gtk.Button app1s_button_import;
 	[Widget] Gtk.Image app1s_image_import;

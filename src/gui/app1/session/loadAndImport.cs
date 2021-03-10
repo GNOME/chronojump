@@ -483,9 +483,11 @@ public partial class ChronoJumpWindow
 			app1s_selected = (string)model.GetValue (iter, 0);
 			app1s_button_load.Sensitive = true;
 			app1s_button_import.Sensitive = true;
+			app1s_button_edit.Sensitive = true;
 		} else {
 			app1s_button_load.Sensitive = false;
 			app1s_button_import.Sensitive = false;
+			app1s_button_edit.Sensitive = false;
 		}
 
 		app1s_button_manage_tags.Sensitive = (app1s_selected != "-1");
@@ -604,6 +606,26 @@ public partial class ChronoJumpWindow
 	}
 
 	// ---- notebook page 2 (load sesion) buttons ----
+
+	private void on_app1s_button_edit_clicked (object o, EventArgs args)
+	{
+		/*
+		 *
+		 * hi ha dos opcions, o fem load de la sessió aquell, fem el edit i tornem després:
+		 * o cridem al sessionAddEdit amb opcio de edit des de fora
+		 * i allà treiem totes les refs a currentSession, i que usi algo temp
+
+		 */
+		Session s = SqliteSession.Select (app1s_selected);
+
+		if(s.Name == Constants.SessionSimulatedName)
+			new DialogMessage(Constants.MessageTypes.INFO, Constants.SessionProtectedStr());
+		else {
+			sessionAddEditUseSession (s);
+			sessionAddEditShow (App1saeModes.EDITOTHERSESSION);
+		}
+	}
+
 	void app1s_on_button_cancel2_clicked (object o, EventArgs args)
 	{
 		menus_and_mode_sensitive(true);

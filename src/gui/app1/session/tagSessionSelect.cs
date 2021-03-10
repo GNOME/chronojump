@@ -32,7 +32,7 @@ public class TagSessionSelect
 {
 	//passed variables
 	private bool addSession;
-	private int currentSessionID;
+	private int sessionID;
 	private string sessionName;
 	private bool askDeletion;
 
@@ -47,10 +47,10 @@ public class TagSessionSelect
 
 	public Gtk.Button FakeButtonDone;
 
-	public void PassVariables(bool addSession, int currentSessionID, string sessionName, bool askDeletion)
+	public void PassVariables(bool addSession, int sessionID, string sessionName, bool askDeletion)
 	{
 		this.addSession = addSession;
-		this.currentSessionID = currentSessionID;
+		this.sessionID = sessionID;
 		this.sessionName = sessionName;
 		this.askDeletion = askDeletion;
 
@@ -90,7 +90,7 @@ public class TagSessionSelect
 		if(addSession)
 			tagsActiveThisSession_list = new List<TagSession>();
 		else
-			tagsActiveThisSession_list = SqliteSessionTagSession.SelectTagsOfASession(false, currentSessionID);
+			tagsActiveThisSession_list = SqliteSessionTagSession.SelectTagsOfASession(false, sessionID);
         }
 
 	private void createBigArray()
@@ -220,7 +220,7 @@ public class TagSessionSelect
 				count ++;
 			}
 		} else
-			SQLUpdateTransaction(currentSessionID);
+			SQLUpdateTransaction(sessionID);
 
 		FakeButtonDone.Click();
 	}

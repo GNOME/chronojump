@@ -2479,7 +2479,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("new session");
 		app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
 		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.SESSION);
-		sessionAddEditShow (true);
+		sessionAddEditShow (App1saeModes.ADDSESSION);
 	}
 
 	private void setApp1Title(string sessionName, Constants.Menuitem_modes mode)
@@ -2586,7 +2586,9 @@ public partial class ChronoJumpWindow
 			new DialogMessage(Constants.MessageTypes.INFO, Constants.SessionProtectedStr());
 		else {
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.SESSION);
-			sessionAddEditShow (false);
+
+			sessionAddEditUseSession (currentSession);
+			sessionAddEditShow (App1saeModes.EDITCURRENTSESSION);
 		}
 	}
 	

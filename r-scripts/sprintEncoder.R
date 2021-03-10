@@ -710,7 +710,7 @@ tryNLS <- function(data){
         )
 }
 
-testEncoderCJ <- function(filename, testLength, splitLength, mass, personHeight, tempC, device, title, datetime, startAccel)
+testEncoderCJ <- function(filename, testLength, splitLength, mass, personHeight, tempC, device, title, datetime, startAccel, triggersOn, triggersOff)
 {
         sprintRawDynamics = getSprintFromEncoder(filename, testLength, mass, tempC, personHeight, Vw = 0, device = device, startAccel)
 	#print("sprintRawDynamics:")
@@ -729,19 +729,19 @@ testEncoderCJ <- function(filename, testLength, splitLength, mass, personHeight,
                 sprintFittedDynamics = getDynamicsFromSprint(K = sprintRawDynamics$K, Vmax = sprintRawDynamics$Vmax, Mass = mass, T0 = sprintRawDynamics$T0, Temperature = tempC, Height = personHeight)
                 print(paste("K =",sprintFittedDynamics$K.fitted, "Vmax =", sprintFittedDynamics$Vmax.fitted))
                 # print("triggersOn in testEncoderCJ:")
-                # print(op$triggersOnList)
-                op$triggersOnList = op$triggersOnList/1E6 - sprintRawDynamics$startTime
+                # print(triggersOn)
+                triggersOn = triggersOn/1E6 - sprintRawDynamics$startTime
                 # print("triggersOn in testEncoderCJ:")
-                # print(op$triggersOnList)
-                op$triggersOffList = op$triggersOffList/1E6 - sprintRawDynamics$startTime
+                # print(triggersOn)
+                triggersOff = triggersOff/1E6 - sprintRawDynamics$startTime
                 # print("triggersOff in testEncoderCJ:")
                 print(op$triggersOffList)
                 plotSprintFromEncoder(sprintRawDynamic = sprintRawDynamics, sprintFittedDynamics = sprintFittedDynamics,
 				      splitLength = splitLength,
                                       title,
                                       datetime, 	#subtitle
-				      triggersOn = op$triggersOnList,
-				      triggersOff = op$triggersOffList,
+				      triggersOn = triggersOn,
+				      triggersOff = triggersOff,
                                       plotRawMeanSpeed = TRUE,
                                       plotRawSpeed = TRUE,
                                       plotRawAccel = op$plotRawAccel,
@@ -768,7 +768,10 @@ start <- function(op)
 	if(op$singleOrMultiple == "TRUE")
 	{
 		prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
-		exportRow = testEncoderCJ(op$filename, op$testLength, op$splitLength, op$mass, op$personHeight, op$tempC, op$device, op$title, op$datetime, op$startAccel)
+		exportRow = testEncoderCJ(op$filename, op$testLength, op$splitLength,
+					  op$mass, op$personHeight, op$tempC,
+					  op$device, op$title, op$datetime, op$startAccel,
+					  op$triggersOnList, op$triggersOffList)
 		exportSprintDynamicsWriteRow (exportRow)
 		endGraph()
 		return()

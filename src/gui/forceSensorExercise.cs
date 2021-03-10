@@ -55,7 +55,7 @@ public class ForceSensorExerciseWindow
 	//force tab
 	[Widget] Gtk.Label label_force;
 	[Widget] Gtk.TextView textview_force_explanation;
-	[Widget] Gtk.RadioButton radio_force_sensor;
+	[Widget] Gtk.RadioButton radio_force_sensor_raw;
 	[Widget] Gtk.RadioButton radio_force_resultant;	
 
 	//fixation tab
@@ -76,7 +76,8 @@ public class ForceSensorExerciseWindow
 	//repetitions tab
 	[Widget] Gtk.Label label_detect_repetitions;
 	[Widget] Gtk.CheckButton check_show_ecc;
-	[Widget] Gtk.CheckButton check_detect_repetitions_from_prefs;
+	[Widget] Gtk.RadioButton radio_detect_repetitions_from_prefs;
+	[Widget] Gtk.RadioButton radio_detect_repetitions_custom;
 	[Widget] Gtk.HBox hbox_detect_repetitions_preferences;
 	[Widget] Gtk.HBox hbox_detect_repetitions_elastic;
 	[Widget] Gtk.HBox hbox_detect_repetitions_not_elastic;
@@ -101,7 +102,7 @@ public class ForceSensorExerciseWindow
 	public bool Success;
 	private ForceSensorExercise exercise;
 
-	//values on preferences, useful to show them unsensitive if the user clicks on check_detect_repetitions_from_prefs
+	//values on preferences, useful to show them unsensitive if the radio_detect_repetitions_from_prefs.Active
 	//on add and on edit exercise
 	private double prefsForceSensorElasticEccMinDispl;
 	private double prefsForceSensorElasticConMinDispl;
@@ -297,7 +298,7 @@ public class ForceSensorExerciseWindow
 		if(exercise.ForceResultant)
 			radio_force_resultant.Active = true;
 		else
-			radio_force_sensor.Active = true;
+			radio_force_sensor_raw.Active = true;
 
 		if(exercise.Elastic)
 			radio_fixation_elastic.Active = true;
@@ -323,7 +324,12 @@ public class ForceSensorExerciseWindow
 			int forceSensorNotElasticEccMinForce, int forceSensorNotElasticConMinForce)
 	{
 		check_show_ecc.Active = showEcc;
-		check_detect_repetitions_from_prefs.Active = repsFromPrefs;
+
+		if(repsFromPrefs)
+			radio_detect_repetitions_from_prefs.Active = true;
+		else
+			radio_detect_repetitions_custom.Active =true;
+
 		spin_force_sensor_elastic_ecc_min_displ.Value = forceSensorElasticEccMinDispl;
 		spin_force_sensor_elastic_con_min_displ.Value = forceSensorElasticConMinDispl;
 		spin_force_sensor_not_elastic_ecc_min_force.Value = forceSensorNotElasticEccMinForce;
@@ -462,7 +468,7 @@ public class ForceSensorExerciseWindow
 		{
 			button_back.Sensitive = false;
 
-			if(radio_force_sensor.Active) {
+			if(radio_force_sensor_raw.Active) {
 				desc = getDescription(Options.FORCE_SENSOR);
 				ex = getExample(Options.FORCE_SENSOR);
 				set_notebook_desc_example_labels(Options.FORCE_SENSOR);
@@ -504,7 +510,7 @@ public class ForceSensorExerciseWindow
 		}
 		else if(p == Pages.REPETITIONS)
 		{
-			if(radio_force_sensor.Active || ! radio_fixation_elastic.Active)
+			if(radio_force_sensor_raw.Active || ! radio_fixation_elastic.Active)
 			{
 				label_repetitions_prefs_ecc_value.Text = prefsForceSensorNotElasticEccMinForce.ToString();
 				label_repetitions_prefs_con_value.Text = prefsForceSensorNotElasticConMinForce.ToString();
@@ -517,24 +523,31 @@ public class ForceSensorExerciseWindow
 				label_repetitions_prefs_con_units.Text = "m";
 			}
 
-			if(check_detect_repetitions_from_prefs.Active)
+
+			//visibilities
+			if(radio_force_sensor_raw.Active || ! radio_fixation_elastic.Active)
 			{
-				hbox_detect_repetitions_preferences.Visible = true;
+				hbox_detect_repetitions_not_elastic.Visible = true;
 				hbox_detect_repetitions_elastic.Visible = false;
-				hbox_detect_repetitions_not_elastic.Visible = false;
 			} else {
-				hbox_detect_repetitions_preferences.Visible = false;
-				if(radio_force_sensor.Active || ! radio_fixation_elastic.Active) {
-					hbox_detect_repetitions_not_elastic.Visible = true;
-					hbox_detect_repetitions_elastic.Visible = false;
-				} else {
-					hbox_detect_repetitions_not_elastic.Visible = false;
-					hbox_detect_repetitions_elastic.Visible = true;
-				}
+				hbox_detect_repetitions_not_elastic.Visible = false;
+				hbox_detect_repetitions_elastic.Visible = true;
+			}
+
+			//sensitiveness
+			if(radio_detect_repetitions_from_prefs.Active)
+			{
+				hbox_detect_repetitions_preferences.Sensitive = true;
+				hbox_detect_repetitions_elastic.Sensitive = false;
+				hbox_detect_repetitions_not_elastic.Sensitive = false;
+			} else {
+				hbox_detect_repetitions_preferences.Sensitive = false;
+				hbox_detect_repetitions_elastic.Sensitive = true;
+				hbox_detect_repetitions_not_elastic.Sensitive = true;
 			}
 
 			Options o = Options.REPETITIONS_PREFS;
-			if(! check_detect_repetitions_from_prefs.Active)
+			if(! radio_detect_repetitions_from_prefs.Active)
 				o = Options.REPETITIONS_NO_PREFS;
 
 			desc = getDescription(o);
@@ -577,7 +590,7 @@ public class ForceSensorExerciseWindow
 
 	private void on_button_next_clicked (object o, EventArgs args)
 	{
-		if(notebook_main.CurrentPage == Convert.ToInt32(Pages.FORCE) && radio_force_sensor.Active)
+		if(notebook_main.CurrentPage == Convert.ToInt32(Pages.FORCE) && radio_force_sensor_raw.Active)
 			notebook_main.CurrentPage = Convert.ToInt32(Pages.REPETITIONS);
 		else if(notebook_main.CurrentPage < Convert.ToInt32(Pages.OTHER))
 			notebook_main.CurrentPage ++;
@@ -588,7 +601,7 @@ public class ForceSensorExerciseWindow
 	}
 	private void on_button_back_clicked (object o, EventArgs args)
 	{
-		if(notebook_main.CurrentPage == Convert.ToInt32(Pages.REPETITIONS) && radio_force_sensor.Active)
+		if(notebook_main.CurrentPage == Convert.ToInt32(Pages.REPETITIONS) && radio_force_sensor_raw.Active)
 			notebook_main.CurrentPage = Convert.ToInt32(Pages.FORCE);
 		else if(notebook_main.CurrentPage > Convert.ToInt32(Pages.FORCE))
 			notebook_main.CurrentPage --;
@@ -616,7 +629,7 @@ public class ForceSensorExerciseWindow
 		managePage(Pages.REPETITIONS);
 	}
 
-	private void on_check_detect_repetitions_from_prefs_toggled (object o, EventArgs args)
+	private void on_radio_detect_repetitions_toggled (object o, EventArgs args)
 	{
 		managePage(Pages.REPETITIONS);
 	}

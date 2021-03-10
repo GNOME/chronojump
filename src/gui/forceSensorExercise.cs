@@ -682,14 +682,14 @@ public class ForceSensorExerciseWindow
 
 		double eccMin = -1;
 		double conMin = -1;
-		if(! check_detect_repetitions_from_prefs.Active)
+		if(! radio_detect_repetitions_from_prefs.Active)
 		{
-			if(radio_fixation_elastic.Active) {
-				eccMin = spin_force_sensor_elastic_ecc_min_displ.Value;
-				conMin = spin_force_sensor_elastic_con_min_displ.Value;
-			} else {
+			if(radio_force_sensor_raw.Active || ! radio_fixation_elastic.Active) {
 				eccMin = spin_force_sensor_not_elastic_ecc_min_force.Value;
 				conMin = spin_force_sensor_not_elastic_con_min_force.Value;
+			} else {
+				eccMin = spin_force_sensor_elastic_ecc_min_displ.Value;
+				conMin = spin_force_sensor_elastic_con_min_displ.Value;
 			}
 		}
 

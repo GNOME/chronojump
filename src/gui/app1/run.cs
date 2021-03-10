@@ -415,7 +415,7 @@ public partial class ChronoJumpWindow
 	private void on_button_run_with_reaction_time_help_clicked (object o, EventArgs args)
 	{
 		new DialogMessage(Constants.MessageTypes.INFO,
-				"\nThis feature need a new Chronojump device under development." +
+				"\nThis feature needs a new Chronojump device under development." +
 				"\n\nTest will start when person is at start pad and push button is pressed" +
 				"\nreaction time will be in ms and as a comment on Description"
 				);

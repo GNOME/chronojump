@@ -74,6 +74,7 @@ public class ForceSensorExerciseWindow
 	[Widget] Gtk.SpinButton spin_body_mass_add;
 
 	//repetitions tab
+	[Widget] Gtk.Label label_detect_repetitions;
 	[Widget] Gtk.CheckButton check_show_ecc;
 	[Widget] Gtk.CheckButton check_detect_repetitions_from_prefs;
 	[Widget] Gtk.HBox hbox_detect_repetitions_preferences;
@@ -261,11 +262,13 @@ public class ForceSensorExerciseWindow
 		label_force.Text = "<b>" + label_force.Text + "</b>";
 		label_fixation.Text = "<b>" + label_fixation.Text + "</b>";
 		label_mass.Text = "<b>" + label_mass.Text + "</b>";
+		label_detect_repetitions.Text = "<b>" + label_detect_repetitions.Text + "</b>";
 		label_other.Text = "<b>" + label_other.Text + "</b>";
 
 		label_force.UseMarkup = true;
 		label_fixation.UseMarkup = true;
 		label_mass.UseMarkup = true;
+		label_detect_repetitions.UseMarkup = true;
 		label_other.UseMarkup = true;
 
 		// 2. textviews of explanations of each page

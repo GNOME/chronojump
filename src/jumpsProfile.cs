@@ -77,7 +77,7 @@ public class JumpsProfileIndex
 		else if(errorCode == ErrorCodes.NEGATIVE)
 			ErrorMessage = string.Format(Catalog.GetString("Negative index: {0} is higher than {1}"), jumpLowerName, jumpHigherName);
 		else if(errorCode == ErrorCodes.DJATOOLOW)
-			ErrorMessage = string.Format("Jump {0} too low", "Dja"); //TODO: Catalog on this string
+			ErrorMessage = string.Format(Catalog.GetString("Jump {0} too low"), "Dja");
 	}
 
 	private double calculateIndex (Types type, double higher, double lower, double dja) 

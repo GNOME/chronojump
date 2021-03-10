@@ -46,17 +46,28 @@ public partial class ChronoJumpWindow
 	string [] app1sae_speciallitiesTranslated;
 	string [] app1sae_levels;
 
-	bool app1sae_addSession;
+	//EDITOTHERSESSION is used when a session is edit from load session widgets
+	//a session that is not currentSession
+	public enum App1saeModes { ADDSESSION, EDITCURRENTSESSION, EDITOTHERSESSION};
+	App1saeModes app1sae_mode;
+	private Session tempEditingSession;
+
 	bool app1sae_combosCreated = false;
 	
 	GenericWindow app1sae_genericWin;
-	
-	private void sessionAddEditShow (bool addSession)
+
+	private void sessionAddEditUseSession (Session s)
 	{
+		tempEditingSession = s;
+	}
+
+	private void sessionAddEditShow (App1saeModes mode)
+	{
+		LogB.Information("sessionAddEditShow, " + mode.ToString());
 		app1s_notebook.CurrentPage = app1s_PAGE_ADD_EDIT;
 		app1sae_notebook_add_edit.CurrentPage = 0;
 
-		app1sae_addSession = addSession;
+		app1sae_mode = mode;
 
 		if(! app1sae_combosCreated)
 		{
@@ -80,7 +91,7 @@ public partial class ChronoJumpWindow
 		tbtags.Text = "";
 		app1sae_textview_tags.Buffer = tbtags;
 
-		if(addSession) {
+		if(app1sae_mode == App1saeModes.ADDSESSION) {
 			hbox_session_add.Visible = true;
 			hbox_session_more_edit.Visible = false;
 			app1sae_dateTime = DateTime.Today;
@@ -100,39 +111,43 @@ public partial class ChronoJumpWindow
 			app1sae_button_accept.Sensitive = false;
 		
 		} else {
+			//just a precaution
+			if(tempEditingSession == null)
+				return;
+
 			hbox_session_add.Visible = false;
 			hbox_session_more_edit.Visible = true;
 
-			app1sae_dateTime = currentSession.Date;
+			app1sae_dateTime = tempEditingSession.Date;
 
-			app1sae_entry_name.Text = currentSession.Name;
-			app1sae_entry_place.Text = currentSession.Place;
+			app1sae_entry_name.Text = tempEditingSession.Name;
+			app1sae_entry_place.Text = tempEditingSession.Place;
 
-			app1sae_label_date.Text = currentSession.DateLong;
+			app1sae_label_date.Text = tempEditingSession.DateLong;
 
 			TextBuffer tb = new TextBuffer (new TextTagTable());
-			tb.Text = currentSession.Comments;
+			tb.Text = tempEditingSession.Comments;
 			app1sae_textview_comments.Buffer = tb;
 
-			tbtags.Text = TagSession.GetActiveTagNamesOfThisSession(currentSession.UniqueID);
+			tbtags.Text = TagSession.GetActiveTagNamesOfThisSession(tempEditingSession.UniqueID);
 			app1sae_textview_tags.Buffer = tbtags;
 		}
 
 		//app1sae_labelUpdate();
 		app1sae_radios_changed();
 
-		if(! addSession)
-			app1sae_showSportStuffWithLoadedData();
+		if(app1sae_mode != App1saeModes.ADDSESSION)
+			app1sae_editSession_showSportStuffWithLoadedData();
 	}
 
-	void app1sae_showSportStuffWithLoadedData()
+	void app1sae_editSession_showSportStuffWithLoadedData()
 	{
-		LogB.Information(string.Format("{0}-{1}-{2}", currentSession.PersonsSportID, currentSession.PersonsSpeciallityID, currentSession.PersonsPractice));
+		LogB.Information(string.Format("{0}-{1}-{2}", tempEditingSession.PersonsSportID, tempEditingSession.PersonsSpeciallityID, tempEditingSession.PersonsPractice));
 
-		if(currentSession.PersonsSportID != Constants.SportUndefinedID)
+		if(tempEditingSession.PersonsSportID != Constants.SportUndefinedID)
 		{ 
 			app1sae_radiobutton_same_sport.Active = true;
-			Sport mySport = SqliteSport.Select(false, currentSession.PersonsSportID);
+			Sport mySport = SqliteSport.Select(false, tempEditingSession.PersonsSportID);
 			app1sae_combo_sports.Active = UtilGtk.ComboMakeActive(app1sae_sportsTranslated, mySport.ToString());
 			app1sae_hbox_sports.Visible = true;
 
@@ -142,10 +157,10 @@ public partial class ChronoJumpWindow
 				app1sae_createComboSpeciallities(mySport.UniqueID);
 				app1sae_speciallity_row_show(true);
 
-				if(currentSession.PersonsSpeciallityID != Constants.SpeciallityUndefinedID) { 
+				if(tempEditingSession.PersonsSpeciallityID != Constants.SpeciallityUndefinedID) {
 					app1sae_radiobutton_same_speciallity.Active = true;
 					app1sae_combo_speciallities.Active = UtilGtk.ComboMakeActive(app1sae_speciallitiesTranslated,
-						       SqliteSpeciallity.Select(false, currentSession.PersonsSpeciallityID));
+						       SqliteSpeciallity.Select(false, tempEditingSession.PersonsSpeciallityID));
 						       
 				} else 
 					app1sae_combo_speciallities.Active = 
@@ -153,17 +168,17 @@ public partial class ChronoJumpWindow
 								Catalog.GetString(Constants.SpeciallityUndefined));
 			}
 
-			if(currentSession.PersonsSportID != Constants.SportNoneID)
+			if(tempEditingSession.PersonsSportID != Constants.SportNoneID)
 			{
 				app1sae_combo_levels.Destroy();
 				app1sae_createComboLevels();
 				app1sae_level_row_show(true);
 
-				if(currentSession.PersonsPractice != Constants.LevelUndefinedID) { 
+				if(tempEditingSession.PersonsPractice != Constants.LevelUndefinedID) {
 					app1sae_radiobutton_same_level.Active = true;
 					app1sae_combo_levels.Active = UtilGtk.ComboMakeActive(app1sae_levels,
-						       currentSession.PersonsPractice + ":" + 
-						       Util.FindLevelName(currentSession.PersonsPractice));
+						       tempEditingSession.PersonsPractice + ":" +
+						       Util.FindLevelName(tempEditingSession.PersonsPractice));
 						       
 				} else 
 					app1sae_combo_levels.Active = 
@@ -534,24 +549,32 @@ public partial class ChronoJumpWindow
 
 	void app1sae_on_button_cancel_clicked (object o, EventArgs args)
 	{
-		if(app1sae_addSession)
+		if(app1sae_mode == App1saeModes.ADDSESSION)
 			notebook_supSetOldPage();
-		else
+		else if(app1sae_mode == App1saeModes.EDITCURRENTSESSION)
 			app1s_notebook.CurrentPage = app1s_PAGE_MODES;
+		else {	//(app1sae_mode == App1saeModes.EDITOTHERSESSION)
+			app1s_notebook.CurrentPage = app1s_PAGE_SELECT_SESSION;
+
+			//maybe tags have been created while editing:
+			createComboSessionLoadTags (false);
+			//and reload the treeview:
+			app1s_recreateTreeView("Cancelled an edit session from load session");
+		}
 	}
 
 	private void on_app1sae_button_select_tags_clicked (object o, EventArgs args)
 	{
-		//just be cautious
-		if(currentSession == null)
+		//just be cautious, but if we are not editing, this is not needed
+		if(app1sae_mode != App1saeModes.ADDSESSION && tempEditingSession == null)
 			return;
 
 		tagSessionSelect = new TagSessionSelect();
 
-		if(app1sae_addSession)
+		if(app1sae_mode == App1saeModes.ADDSESSION)
 			tagSessionSelect.PassVariables(true, -1, "", preferences.askDeletion);
 		else
-			tagSessionSelect.PassVariables(false, currentSession.UniqueID, "", preferences.askDeletion);
+			tagSessionSelect.PassVariables(false, tempEditingSession.UniqueID, "", preferences.askDeletion);
 
 		tagSessionSelect.FakeButtonDone.Clicked -= new EventHandler(on_select_tags_clicked_done_addEdit);
 		tagSessionSelect.FakeButtonDone.Clicked += new EventHandler(on_select_tags_clicked_done_addEdit);
@@ -565,10 +588,10 @@ public partial class ChronoJumpWindow
 
 		TextBuffer tbtags = new TextBuffer (new TextTagTable());
 		tbtags.Text = "";
-		if(app1sae_addSession)
+		if(app1sae_mode == App1saeModes.ADDSESSION)
 			tbtags.Text = tagSessionSelect.TagsListStringForAddSession;
 		else
-			tbtags.Text = TagSession.GetActiveTagNamesOfThisSession(currentSession.UniqueID);
+			tbtags.Text = TagSession.GetActiveTagNamesOfThisSession(tempEditingSession.UniqueID);
 
 		app1sae_textview_tags.Buffer = tbtags;
 	}
@@ -640,7 +663,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("app1sae_on_button_accept_clicked 1");
 
 		bool sessionNameExists = Sqlite.Exists (false, Constants.SessionTable, name);
-		if(sessionNameExists && app1sae_addSession)
+		if(sessionNameExists && app1sae_mode == App1saeModes.ADDSESSION)
 		{
 			//if we try to add a new session with same name ...
 			LogB.Information("app1sae_on_button_accept_clicked add existing ...");
@@ -648,7 +671,7 @@ public partial class ChronoJumpWindow
 			ErrorWindow.Show(myString);
 			LogB.Information("app1sae_on_button_accept_clicked add existing done!");
 		}
-		else if( sessionNameExists && ! app1sae_addSession && (currentSession == null || name != currentSession.Name) )
+		else if( sessionNameExists && app1sae_mode != App1saeModes.ADDSESSION && (tempEditingSession == null || name != tempEditingSession.Name) )
 		{
 			//if we edit a session but we changed name and it matches another existing session ...
 			LogB.Information("app1sae_on_button_accept_clicked edit existing not me ...");
@@ -684,7 +707,7 @@ public partial class ChronoJumpWindow
 			string comments = Util.RemoveTildeAndColon(Util.MakeValidSQL(app1sae_textview_comments.Buffer.Text));
 			LogB.Information("app1sae_on_button_accept_clicked 8");
 
-			if(app1sae_addSession)
+			if(app1sae_mode == App1saeModes.ADDSESSION)
 			{
 				LogB.Information("app1sae_on_button_accept_clicked 9");
 				currentSession = new Session (name, place,
@@ -707,24 +730,37 @@ public partial class ChronoJumpWindow
 			} else
 			{
 				LogB.Information("app1sae_on_button_accept_clicked D");
-				currentSession.Name = name;
-				currentSession.Place = place;
-				currentSession.Date = app1sae_dateTime;
-				currentSession.PersonsSportID = sportID;
-				currentSession.PersonsSpeciallityID = speciallityID;
-				currentSession.PersonsPractice = levelID;
-				currentSession.Comments = comments;
+				tempEditingSession.Name = name;
+				tempEditingSession.Place = place;
+				tempEditingSession.Date = app1sae_dateTime;
+				tempEditingSession.PersonsSportID = sportID;
+				tempEditingSession.PersonsSpeciallityID = speciallityID;
+				tempEditingSession.PersonsPractice = levelID;
+				tempEditingSession.Comments = comments;
 
 				LogB.Information("app1sae_on_button_accept_clicked E");
-				SqliteSession.Update(currentSession.UniqueID, currentSession.Name, 
-						currentSession.Place, currentSession.Date, 
+				SqliteSession.Update(tempEditingSession.UniqueID, tempEditingSession.Name,
+						tempEditingSession.Place, tempEditingSession.Date,
 						sportID, speciallityID, levelID,
-						currentSession.Comments);
+						tempEditingSession.Comments);
 				LogB.Information("app1sae_on_button_accept_clicked F");
 
-				on_edit_session_accepted ();
-				LogB.Information("app1sae_on_button_accept_clicked G");
-				app1s_notebook.CurrentPage = app1s_PAGE_MODES;
+				if(app1sae_mode == App1saeModes.EDITCURRENTSESSION)
+				{
+					currentSession = tempEditingSession;
+					on_edit_session_accepted ();
+
+					LogB.Information("app1sae_on_button_accept_clicked G");
+					app1s_notebook.CurrentPage = app1s_PAGE_MODES;
+				} else {//(app1sae_mode == App1saeModes.EDITOTHERSESSION)
+					app1s_notebook.CurrentPage = app1s_PAGE_SELECT_SESSION;
+
+					//maybe tags have been created while editing:
+					createComboSessionLoadTags (false);
+					//and reload the treeview:
+					app1s_recreateTreeView("Accepted an edit session from load session");
+				}
+
 				LogB.Information("app1sae_on_button_accept_clicked H");
 			}
 			LogB.Information("app1sae_on_button_accept_clicked I");

@@ -422,6 +422,7 @@ public class RunEncoderGraphExport
 	private RunEncoderExercise rex;
 	private string title;
 	private string datetime;
+	private TriggerList triggerList;
 	private string comments;
 
 	public RunEncoderGraphExport(
@@ -430,6 +431,7 @@ public class RunEncoderGraphExport
 			RunEncoder.Devices device,
 			double tempC, int testLength,
 			RunEncoderExercise rex, string title, string datetime,
+			TriggerList triggerList,
 			string comments)
 	{
 		this.fullURL = fullURL; //filename
@@ -442,6 +444,7 @@ public class RunEncoderGraphExport
 		this.title = title;
 		this.datetime = datetime;
 		this.comments = comments;
+		this.triggerList = triggerList;
 	}
 
 	public string ToCSVRowOnExport()
@@ -455,14 +458,21 @@ public class RunEncoderGraphExport
 			rex.SegmentMeters.ToString() + ";" +
 			title + ";" +
 			datetime + ";" +
+			printTriggers(TriggerList.Type3.ON) + ";" +
+			printTriggers(TriggerList.Type3.OFF) + ";" +
 			Util.RemoveChar(comments, ';');  //TODO: check this really removes
+	}
+
+	private string printTriggers(TriggerList.Type3 type3)
+	{
+		return triggerList.ToRCurvesString(type3, ','); //because we pass a csv separated by ;
 	}
 
 	public static string PrintCSVHeaderOnExport()
 	{
 		return "fullURL;mass;personHeight;device;tempC;testLength;" +
 			"splitLength;" + //segmentMeters on C#, splitLength on R
-			"title;datetime;comments";
+			"title;datetime;triggersOn;triggersOff;comments";
 	}
 }
 
@@ -543,7 +553,6 @@ public class RunEncoderGraph
 			bool plotRawAccel, bool plotFittedAccel,
 			bool plotRawForce, bool plotFittedForce,
 			bool plotRawPower, bool plotFittedPower,
-			//TriggerList triggerList,
 			List<RunEncoderGraphExport> rege_l,
 			char exportDecimalSeparator,
 			bool includeImagesOnExport
@@ -602,8 +611,8 @@ public class RunEncoderGraph
 			"#plotFittedForce\n" + 		Util.BoolToRBool(plotFittedForce) + "\n" +
 			"#plotRawPower\n" + 		Util.BoolToRBool(plotRawPower) + "\n" +
 			"#plotFittedPower\n" + 		Util.BoolToRBool(plotFittedPower) + "\n" +
-			printTriggers(TriggerList.Type3.ON) + "\n" +
-			printTriggers(TriggerList.Type3.OFF) + "\n" +
+			printTriggers(TriggerList.Type3.ON) + "\n" +		//unused on multiple
+			printTriggers(TriggerList.Type3.OFF) + "\n" +		//unused on multiple
 			"#singleOrMultiple\n" +		Util.BoolToRBool(singleOrMultiple) + "\n" +
 			"#decimalCharAtExport\n" +	exportDecimalSeparator + "\n" +
 			"#includeImagesOnExport\n" + 	Util.BoolToRBool(includeImagesOnExport) + "\n";
@@ -636,7 +645,7 @@ public class RunEncoderGraph
 
 	private string printTriggers(TriggerList.Type3 type3)
 	{
-		return triggerList.ToRCurvesString(type3);
+		return triggerList.ToRCurvesString(type3, ';');
 	}
 
 	public static string GetDataDir(int sessionID)

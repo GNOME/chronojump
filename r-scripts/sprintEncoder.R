@@ -782,7 +782,7 @@ start <- function(op)
 	#2) read the csv
 	dataFiles = read.csv(file = paste(tempPath, "/cj_race_analyzer_input_multi.csv", sep=""), sep=";", stringsAsFactors=F)
 
-	#3) call doProcess
+	#3) call testEncoderCJ
 	progressFolder = paste(tempPath, "/chronojump_export_progress", sep ="")
 	tempGraphsFolder = paste(tempPath, "/chronojump_race_analyzer_export_graphs/", sep ="")
 	exportDF = NULL
@@ -796,8 +796,10 @@ start <- function(op)
 		prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
 		exportRow = testEncoderCJ(as.vector(dataFiles$fullURL[i]), dataFiles$testLength[i], dataFiles$splitLength[i],
 				dataFiles$mass[i], dataFiles$personHeight[i], dataFiles$tempC[i],
-				dataFiles$device[i], dataFiles$title[i], dataFiles$datetime[i],
-				op$startAccel)
+				dataFiles$device[i], dataFiles$title[i], dataFiles$datetime[i],	op$startAccel,
+				as.numeric(unlist(strsplit(dataFiles$triggersOn[i], "\\,"))),
+				as.numeric(unlist(strsplit(dataFiles$triggersOff[i], "\\,")))
+		)
 
 		if(! is.null(exportRow))
 		{

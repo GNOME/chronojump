@@ -1872,7 +1872,7 @@ public class ForceSensorGraph
 
 	private string printTriggers(TriggerList.Type3 type3)
 	{
-		return triggerList.ToRCurvesString(type3);
+		return triggerList.ToRCurvesString(type3, ';');
 	}
 
 	public static string GetDataDir(int sessionID)

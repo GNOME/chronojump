@@ -538,7 +538,7 @@ public class EncoderRProcAnalyze : EncoderRProc
 
 	protected override string printTriggers(TriggerList.Type3 type3)
 	{
-		return triggerList.ToRCurvesString(type3);
+		return triggerList.ToRCurvesString(type3, ';');
 	}
 		
 	private void deleteFile(string filename)

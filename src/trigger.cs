@@ -170,7 +170,9 @@ public class TriggerList
 	//best is call here with an ON to print a triggersOnList
 	//then call here with an OFF
 	//note on encoder we only use ON, but on runEncoder, we use ON and then OFF
-	public string ToRCurvesString(Type3 type3)
+	//usually sepChar will be ';' and all triggers will be on a row
+	//but can be ',' if we pass some ints to a csv
+	public string ToRCurvesString(Type3 type3, char sepChar)
 	{
 		if(l.Count == 0)
 			return TriggersNotFoundString;
@@ -182,12 +184,12 @@ public class TriggerList
 			if(trigger.InOut && type3 != Type3.OFF)
 			{
 				s += sep + trigger.Ms.ToString();
-				sep = ";";
+				sep = sepChar.ToString();
 			}
 			if(! trigger.InOut && type3 != Type3.ON)
 			{
 				s += sep + trigger.Ms.ToString();
-				sep = ";";
+				sep = sepChar.ToString();
 			}
 		}
 		return s;

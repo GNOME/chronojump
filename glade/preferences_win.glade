@@ -3431,7 +3431,7 @@ It starts before and arrives there with some speed.</property>
                                                 </child>
                                                 <child>
                                                   <widget class="GtkRadioButton" id="radio_encoder_work_joules">
-                                                    <property name="label">Joules</property>
+                                                    <property name="label" translatable="yes">Joules</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">False</property>
@@ -5241,7 +5241,7 @@ It starts before and arrives there with some speed.</property>
                                                 <property name="spacing">10</property>
                                                 <child>
                                                   <widget class="GtkRadioButton" id="radio_sound_systemsounds">
-                                                    <property name="label">System sounds</property>
+                                                    <property name="label" translatable="yes">System sounds</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">False</property>

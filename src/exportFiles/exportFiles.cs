@@ -41,6 +41,7 @@ public abstract class ExportFiles
 
 	protected static Thread thread;
 	protected static bool cancel;
+	protected static bool failedRprocess; //error on .R process
 	protected static bool noData;
 	protected static bool cannotCopy;
 	protected static string messageToProgressbar;
@@ -72,6 +73,7 @@ public abstract class ExportFiles
 		createOrEmptyDirs();
 
 		cancel = false;
+		failedRprocess = false;
 		noData = false;
 		cannotCopy = false;
 		progressbar.Fraction = 0;
@@ -146,6 +148,8 @@ public abstract class ExportFiles
 				labelResult.Text = Catalog.GetString("Cancelled.");
 			else if (noData)
 				labelResult.Text = Catalog.GetString("Missing data.");
+			else if (failedRprocess)
+				labelResult.Text = Catalog.GetString("Error doing operation.");
 			else if (cannotCopy)
 				labelResult.Text = string.Format(Catalog.GetString("Cannot copy to {0} "), exportURL);
 			else

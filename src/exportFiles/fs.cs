@@ -339,7 +339,10 @@ public class ForceSensorExport : ExportFiles
 					);
 
 			if(! fsg.CallR(imageWidth, imageHeight, false))
+			{
+				failedRprocess = true;
 				return false;
+			}
 		}
 
 		LogB.Information("Waiting creation of file... ");

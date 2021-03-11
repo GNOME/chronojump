@@ -196,7 +196,10 @@ public class RunEncoderExport : ExportFiles
 					);
 
 			if(! reg.CallR(imageWidth, imageHeight, false))
+			{
+				failedRprocess = true;
 				return false;
+			}
 		}
 
 		LogB.Information("Waiting creation of file... ");

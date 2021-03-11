@@ -194,6 +194,7 @@ public class PreferencesWindow
 	[Widget] Gtk.SpinButton spin_run_encoder_acceleration;
 	[Widget] Gtk.SpinButton spin_run_encoder_pps;
 	[Widget] Gtk.Label label_pps_equivalent;
+	[Widget] Gtk.Label label_pps_maximum;
 
 	//multimedia tab
 	[Widget] Gtk.CheckButton checkbutton_volume;
@@ -745,7 +746,7 @@ public class PreferencesWindow
 		//runEncoder -->
 		PreferencesWindowBox.spin_run_encoder_acceleration.Value = preferences.runEncoderMinAccel;
 		PreferencesWindowBox.spin_run_encoder_pps.Value = preferences.runEncoderPPS;
-		PreferencesWindowBox.update_run_encoder_pps_equivalence ();
+		PreferencesWindowBox.update_run_encoder_pps_equivalence_and_max ();
 
 		//language -->
 		if(preferences.language == "")
@@ -994,12 +995,15 @@ public class PreferencesWindow
 
 	private void on_spin_run_encoder_pps_value_changed (object o, EventArgs args)
 	{
-		update_run_encoder_pps_equivalence ();
+		update_run_encoder_pps_equivalence_and_max ();
 	}
-	private void update_run_encoder_pps_equivalence ()
+	private void update_run_encoder_pps_equivalence_and_max ()
 	{
 		label_pps_equivalent.Text = string.Format(Catalog.GetString("{0} pps is equivalent to a resolution of {1} cm."),
 				spin_run_encoder_pps.Value, 0.3003 * spin_run_encoder_pps.Value);
+
+		label_pps_maximum.Text = string.Format(Catalog.GetString("{0} pps allow to record up to {1} m/s."),
+				spin_run_encoder_pps.Value, spin_run_encoder_pps.Value * 4);
 	}
 
 	// <---- end of race analyzer ----

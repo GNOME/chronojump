@@ -3034,6 +3034,7 @@ public partial class ChronoJumpWindow
 
 				event_graph_label_graph_test.Visible = false;
 				hbox_contacts_simple_graph_controls.Visible = true;
+				check_run_simple_show_time.Visible = false;
 
 				check_vbox_contacts_graph_legend.Visible = true;
 				//vbox_contacts_graph_legend.Visible = false;
@@ -3087,6 +3088,7 @@ public partial class ChronoJumpWindow
 
 				event_graph_label_graph_test.Visible = false;
 				hbox_contacts_simple_graph_controls.Visible = true;
+				check_run_simple_show_time.Visible = true;
 
 				check_vbox_contacts_graph_legend.Visible = true;
 				//vbox_contacts_graph_legend.Visible = false;

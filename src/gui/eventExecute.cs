@@ -56,6 +56,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_contacts_graph_allPersons;
 	[Widget] Gtk.Image image_radio_contacts_graph_currentPerson;
 	[Widget] Gtk.Image image_radio_contacts_graph_allPersons;
+	[Widget] Gtk.CheckButton check_run_simple_show_time;
 	
 	[Widget] Gtk.ProgressBar event_execute_progressbar_event;
 	[Widget] Gtk.ProgressBar event_execute_progressbar_time;
@@ -323,6 +324,7 @@ public partial class ChronoJumpWindow
 	{
 		event_graph_label_graph_test.Visible = false;
 		hbox_contacts_simple_graph_controls.Visible = true;
+		check_run_simple_show_time.Visible = false;
 
 		check_vbox_contacts_graph_legend.Visible = true;
 		//vbox_contacts_graph_legend.Visible = false;
@@ -361,6 +363,7 @@ public partial class ChronoJumpWindow
 	{
 		event_graph_label_graph_test.Visible = false;
 		hbox_contacts_simple_graph_controls.Visible = true;
+		check_run_simple_show_time.Visible = true;
 
 		check_vbox_contacts_graph_legend.Visible = true;
 		//vbox_contacts_graph_legend.Visible = false;
@@ -872,7 +875,9 @@ public partial class ChronoJumpWindow
 					event_execute_run_simple_double_contacts_pixmap);
 
 			paintRunSimple (event_execute_drawingarea, eventGraph,
-					maxValue, minValue, topMargin, bottomMargin, animate, runPTL);
+					maxValue, minValue, topMargin, bottomMargin, animate,
+					check_run_simple_show_time.Active,
+					runPTL);
 		
 		
 		// -- refresh
@@ -1686,7 +1691,7 @@ public partial class ChronoJumpWindow
 	}
 
 	private void paintRunSimple (Gtk.DrawingArea drawingarea, PrepareEventGraphRunSimple eventGraph,
-			double maxValue, double minValue, int topMargin, int bottomMargin, bool animate,
+			double maxValue, double minValue, int topMargin, int bottomMargin, bool animate, bool showTime,
 			RunPhaseTimeList runPTL)
 	{
 		int ancho=drawingarea.Allocation.Width;
@@ -1747,7 +1752,7 @@ public partial class ChronoJumpWindow
 			List<Event> events = Run.RunListToEventList(eventGraph.runsAtSQL);
 			longestWordSize = findLongestWordSize (events, eventGraph.type == ""); // condition for "all runs"
 			layoutText = calculateLayoutFontForText (events, longestWordSize, layoutText, ancho);
-			maxRowsForText = calculateMaxRowsForText (events, longestWordSize, eventGraph.type == "", true); //also adds +1 if simulated
+			maxRowsForText = calculateMaxRowsForText (events, longestWordSize, eventGraph.type == "", showTime); //also adds +1 if simulated
 			bottomMargin = calculateBottomMarginForText (maxRowsForText, layoutText);
 		}
 			
@@ -1803,7 +1808,6 @@ public partial class ChronoJumpWindow
 						Convert.ToInt32((ancho-event_execute_rightMargin)*(countToDraw-.5)/countRuns),
 						alto, layoutText);
 
-			bool showTime = true;
 			if (
 					( showTextOnBar && (eventGraph.type == "" || run.Description != "") ) ||
 					showTime
@@ -2790,6 +2794,12 @@ public partial class ChronoJumpWindow
 			updateGraphJumpsSimple ();
 		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSSIMPLE)
 			updateGraphRunsSimple ();
+	}
+
+	private void on_check_run_simple_show_time_toggled (object o, EventArgs args)
+	{
+		//only is shown on run simple
+		updateGraphRunsSimple ();
 	}
 
 	// <---- end of test simple controls -----

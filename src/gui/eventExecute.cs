@@ -1138,7 +1138,7 @@ public partial class ChronoJumpWindow
 			List<Event> events = Jump.JumpListToEventList(eventGraph.jumpsAtSQL);
 			longestWordSize = findLongestWordSize (events, eventGraph.type == ""); // condition for "all jumps"
 			layoutText = calculateLayoutFontForText (events, longestWordSize, layoutText, ancho);
-			maxRowsForText = calculateMaxRowsForText (events, longestWordSize, eventGraph.type == ""); //also adds +1 if simulated
+			maxRowsForText = calculateMaxRowsForText (events, longestWordSize, eventGraph.type == "", false); //also adds +1 if simulated
 			bottomMargin = calculateBottomMarginForText (maxRowsForText, layoutText);
 		}
 
@@ -1264,6 +1264,7 @@ public partial class ChronoJumpWindow
 				plotTextBelowBar(
 						Convert.ToInt32((ancho-event_execute_rightMargin)*(countToDraw-.5)/countJumps),
 						y, alto,
+						"",		//second result string (unused on jumps)
 						jumpTypeRowString,
 						jump.Description, //is the name of the person
 						layoutText, longestWordSize, maxRowsForText);
@@ -1376,7 +1377,7 @@ public partial class ChronoJumpWindow
 				layout);
 	}
 
-	private int calculateMaxRowsForText (List<Event> events, int longestWordSize, bool allJumps)
+	private int calculateMaxRowsForText (List<Event> events, int longestWordSize, bool allJumps, bool runsPrintTime)
 	{
 		int maxRows = 0;
 
@@ -1405,6 +1406,9 @@ public partial class ChronoJumpWindow
 				rows ++;
 
 			if(ev.Simulated == -1) //to write simulated at bottom
+				rows ++;
+
+			if(runsPrintTime)
 				rows ++;
 
 			if(rows > maxRows)
@@ -1488,6 +1492,7 @@ public partial class ChronoJumpWindow
 	//person name or test type, or both
 	//this can separate name with spaces on rows
 	private void plotTextBelowBar(int x, int y, int alto,
+			string secondResult, 	//time on runSimple
 			string jumpType,
 			string personName,
 			Pango.Layout layout, int longestWordSize, int maxRowsForText)
@@ -1500,11 +1505,19 @@ public partial class ChronoJumpWindow
 
 		int row = 1;
 
+		if(secondResult != "")
+		{
+			plotTextBelowBarDoRow (x,
+					Convert.ToInt32(alto - (maxRowsForText -row +1) * lHeight),
+					secondResult, layout, pen_black);
+			row ++;
+		}
+
 		//if have to print jump type, print it first in one row
 		if(jumpType != "")
 		{
 			plotTextBelowBarDoRow (x,
-					Convert.ToInt32(alto - (maxRowsForText) * lHeight),
+					Convert.ToInt32(alto - (maxRowsForText -row +1) * lHeight),
 					jumpType, layout, pen_azul);
 			row ++;
 		}
@@ -1734,7 +1747,7 @@ public partial class ChronoJumpWindow
 			List<Event> events = Run.RunListToEventList(eventGraph.runsAtSQL);
 			longestWordSize = findLongestWordSize (events, eventGraph.type == ""); // condition for "all runs"
 			layoutText = calculateLayoutFontForText (events, longestWordSize, layoutText, ancho);
-			maxRowsForText = calculateMaxRowsForText (events, longestWordSize, eventGraph.type == ""); //also adds +1 if simulated
+			maxRowsForText = calculateMaxRowsForText (events, longestWordSize, eventGraph.type == "", true); //also adds +1 if simulated
 			bottomMargin = calculateBottomMarginForText (maxRowsForText, layoutText);
 		}
 			
@@ -1790,15 +1803,24 @@ public partial class ChronoJumpWindow
 						Convert.ToInt32((ancho-event_execute_rightMargin)*(countToDraw-.5)/countRuns),
 						alto, layoutText);
 
-			if (showTextOnBar && (eventGraph.type == "" || run.Description != ""))
+			bool showTime = true;
+			if (
+					( showTextOnBar && (eventGraph.type == "" || run.Description != "") ) ||
+					showTime
+					)
 			{
 				string typeRowString = "";
 				if (eventGraph.type == "") //if "all runs" show run.Type
 					typeRowString = run.Type;
 
+				string timeString = "";
+				if(showTime)
+					timeString = string.Format("{0} s", Util.TrimDecimals(run.Time, preferences.digitsNumber));
+
 				plotTextBelowBar(
 						Convert.ToInt32((ancho-event_execute_rightMargin)*(countToDraw-.5)/countRuns),
 						y, alto,
+						timeString,
 						typeRowString,
 						run.Description, //is the name of the person
 						layoutText, longestWordSize, maxRowsForText);

@@ -1002,7 +1002,7 @@ public class PreferencesWindow
 		label_pps_equivalent.Text = string.Format(Catalog.GetString("{0} pps is equivalent to a resolution of {1} cm."),
 				spin_run_encoder_pps.Value, 0.3003 * spin_run_encoder_pps.Value);
 
-		label_pps_maximum.Text = string.Format(Catalog.GetString("{0} pps allow to record up to {1} m/s."),
+		label_pps_maximum.Text = string.Format(Catalog.GetString("{0} pps allows to record up to {1} m/s."),
 				spin_run_encoder_pps.Value, spin_run_encoder_pps.Value * 4);
 	}
 

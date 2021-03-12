@@ -662,10 +662,10 @@ RESOURCES = \
 	../images/encoder-image-pending.png,encoder-image-pending.png \
 	../images/encoder-linear.png,encoder-linear.png \
 	../images/equivalentMass.png,equivalentMass.png \
-	../images/er-friction.png,encoder-rotary-friction.png \
+	../images/er-fr.png,encoder-rotary-friction.png \
 	../images/er-axis.png,encoder-rotary-axis.png \
 	../images/el-blue.png,encoder-linear-blue.png \
-	../images/er-friction-blue.png,encoder-rotary-friction-blue.png \
+	../images/er-fr-blue.png,encoder-rotary-friction-blue.png \
 	../images/er-axis-blue.png,encoder-rotary-axis-blue.png \
 	../images/el-free-weight.png,encoder-linear-free-weight.png \
 	../images/el-free-weight-inv.png,encoder-linear-free-weight-inv.png \
@@ -679,15 +679,15 @@ RESOURCES = \
 	../images/el-inclined-plane-weight-diff-angle.png,encoder-linear-inclined-plane-weight-diff-angle.png \
 	../images/el-inclined-plane-weight-diff-angle-mov-pulley.png,encoder-linear-inclined-plane-weight-diff-angle-mov-pulley.png \
 	../images/el-pneumatic.png,encoder-linear-pneumatic.png \
-	../images/er-friction-pulley.png,encoder-rotary-friction-pulley.png \
-	../images/er-friction-pulley-axis.png,encoder-rotary-friction-pulley-axis.png \
-	../images/er-friction-side-inertial.png,encoder-rotary-friction-side-inertial.png \
-	../images/er-friction-axis-inertial.png,encoder-rotary-friction-axis-inertial.png \
-	../images/er-friction-side-inertial-lateral.png,encoder-rotary-friction-side-inertial-lateral.png \
-	../images/er-friction-axis-inertial-lateral.png,encoder-rotary-friction-axis-inertial-lateral.png \
-	../images/er-friction-side-inertial-mov-pulley.png,encoder-rotary-friction-side-inertial-mov-pulley.png \
-	../images/er-friction-axis-inertial-mov-pulley.png,encoder-rotary-friction-axis-inertial-mov-pulley.png \
-	../images/er-friction-on-fixed-pulley-with-weighted-moving-pulley.png,encoder-rotary-friction-on-fixed-pulley-with-weighted-moving-pulley.png \
+	../images/er-fr-pulley.png,encoder-rotary-friction-pulley.png \
+	../images/er-fr-pulley-axis.png,encoder-rotary-friction-pulley-axis.png \
+	../images/er-fr-side-inertial.png,encoder-rotary-friction-side-inertial.png \
+	../images/er-fr-axis-inertial.png,encoder-rotary-friction-axis-inertial.png \
+	../images/er-fr-side-inertial-lateral.png,encoder-rotary-friction-side-inertial-lateral.png \
+	../images/er-fr-axis-inertial-lateral.png,encoder-rotary-friction-axis-inertial-lateral.png \
+	../images/er-fr-side-inertial-mov-pulley.png,encoder-rotary-friction-side-inertial-mov-pulley.png \
+	../images/er-fr-axis-inertial-mov-pulley.png,encoder-rotary-friction-axis-inertial-mov-pulley.png \
+	../images/er-fr-on-fixed-pulley-with-weighted-moving-pulley.png,encoder-rotary-friction-on-fixed-pulley-with-weighted-moving-pulley.png \
 	../images/er-axis-pulley-axis.png,encoder-rotary-axis-pulley-axis.png \
 	../images/er-axis-inertial.png,encoder-rotary-axis-inertial.png \
 	../images/er-axis-inertial-lateral.png,encoder-rotary-axis-inertial-lateral.png \

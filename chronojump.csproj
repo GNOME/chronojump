@@ -176,14 +176,14 @@
     <EmbeddedResource Include="glade\stats_select_sessions.glade">
       <LogicalName>stats_select_sessions.glade</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="images\123804__kendallbear__kendallklap1.wav">
-      <LogicalName>123804__kendallbear__kendallklap1.wav</LogicalName>
+    <EmbeddedResource Include="images\start.wav">
+      <LogicalName>start.wav</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="images\135936__bradwesson__collectcoin.wav">
-      <LogicalName>135936__bradwesson__collectcoin.wav</LogicalName>
+    <EmbeddedResource Include="images\ok.wav">
+      <LogicalName>ok.wav</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="images\142608__autistic-lucario__error.wav">
-      <LogicalName>142608__autistic-lucario__error.wav</LogicalName>
+    <EmbeddedResource Include="images\bad.wav">
+      <LogicalName>bad.wav</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="images\agility_20yard.png">
       <LogicalName>agility_20yard.png</LogicalName>

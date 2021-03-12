@@ -696,15 +696,15 @@ RESOURCES = \
 	../images/encoder-calcule-im.png,encoder-calcule-im.png \
 	../images/er-axis-on-fixed-pulley-with-weighted-moving-pulley.png,encoder-rotary-axis-on-fixed-pulley-with-weighted-moving-pulley.png \
 	../images/inertial-start.png,inertial-start.png \
-	../images/123804__kendallbear__kendallklap1.wav,sound_can_start.wav \
-	../images/135936__bradwesson__collectcoin.wav,135936__bradwesson__collectcoin.wav \
-	../images/142608__autistic-lucario__error.wav,sound_bad.wav
+	../images/start.wav,sound_can_start.wav \
+	../images/ok.wav,ok.wav \
+	../images/bad.wav,sound_bad.wav
 
 IMAGES = $(top_srcdir)/images/chronojump-logo-2013.png \
          $(top_srcdir)/images/chronojump-logo-2013_320.png \
-         $(top_srcdir)/images/123804__kendallbear__kendallklap1.wav \
-         $(top_srcdir)/images/135936__bradwesson__collectcoin.wav \
-         $(top_srcdir)/images/142608__autistic-lucario__error.wav \
+         $(top_srcdir)/images/start.wav \
+         $(top_srcdir)/images/ok.wav \
+         $(top_srcdir)/images/bad.wav \
          $(top_srcdir)/images/report_web_style.css
 
 LOGO = $(top_srcdir)/images/svg/chronojump_icon.svg

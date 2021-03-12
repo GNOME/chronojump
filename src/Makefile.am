@@ -286,14 +286,14 @@ RESOURCES = \
 	../glade/app1.glade \
 	../glade/confirm_window.glade \
 	../glade/convert_weight.glade \
-	../glade/dialog_about.glade \
-	../glade/dialog_calendar.glade \
-	../glade/dialog_image_test.glade \
-	../glade/dialog_message.glade \
-	../glade/dialog_person_popup.glade \
-	../glade/dialog_server_stats.glade \
-	../glade/dialog_shortcuts.glade \
-	../glade/dialog_threshold.glade \
+	../glade/d_about.glade \
+	../glade/d_calendar.glade \
+	../glade/d_image_test.glade \
+	../glade/d_message.glade \
+	../glade/d_person_popup.glade \
+	../glade/d_server_stats.glade \
+	../glade/d_shortcuts.glade \
+	../glade/d_threshold.glade \
 	../glade/edit_event.glade \
 	../glade/encoder_configuration.glade \
 	../glade/error_window.glade \

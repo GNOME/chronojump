@@ -1,0 +1,53 @@
+This is a recommended upgrade for all our force sensor and race analyzer users.
+Changes since 2.1.0-36 (2021 Feb 8)
+
+<p><span class="highlight2"><i class="fa fa-area-chart fa-2x"></i>  General Chronojump changes</span></p>
+<ul>
+	<li><b>Any session can be edited from load session view.</b></li>
+	<li>Chronojump can be shown now in an low height device (480 px).</li>
+	<li>Chronojump can be run now on machines with less CPU.</li>
+	<li>Persons on top window management allows to see persons with or without images, and delete person has moved. So now is more usable and smaller.</li>
+	<li>Preferences window has a better tabs viewing selection, and is now resizable.</li>
+	<li>Fixed size of dialog on confirmation of import session.</li>
+</ul>
+
+<p><span class="highlight2"><i class="fa fa-area-chart fa-2x"></i>  Force sensor</span></p>
+<ul>
+	<li><b>Analyze with 3 modes: Individual current set, individual current session, groupal current sesssion.</b></li>
+	<li><b>Individual current session and groupal current session exports all data including images (of set and RFD model) in an automated way. Note is important to have a correct exercise configuration on detect repetitions tab in order to export automatically data.</b> Exported CSV shows person name, date, exercise, laterality, set, repetition, comments and obviously measured variables. Graphs size is also configurable.</li>
+	<li><b>Implemented on analysis maximum average force in X seconds</b>, being X a value configurable on preferences. It is shown the value on the program, a green segment on the graph and this new variable is also exported.</li>
+	<li>On exercise dialog, better display of detect repetitions by preferences or custom.</li>
+	<li>On analyze now there is a chain button to link A and B sliders (AB slider has been removed).</li>
+	<li>Analyze sliders +1s (or user configured value on preferences) now can adjust better wich sample to use, just immediately after or before selected time, whatever is closer.</li>
+	<li>Calibration minimum value from 1 to 0.01</b>
+	<li>On preferences added two sub tabs for force sensor: capture/analyze</li>
+	<li>Fixed a bug that could lead under certain conditions to force data loss of a person if other person of same session is deleted.</li>
+	<li>Fixed wrong Minimum concentric/eccentric values for raw measure on "elastic" (program allowed to configure a weird option that now is not possible).</li>
+</ul>
+
+<p><span class="highlight2"><i class="fa fa-running fa-2x"></i>  Race analyzer</span></p>
+<ul>
+	<li><b>Analyze with 3 modes: Individual current set, individual current session, groupal current sesssion.</b></li>
+	<li><b>Individual current session and groupal current session exports all data including images in an automated way.</b> Exported CSV shows person name, date, exercise, comments and obviously measured variables. Graphs size is also configurable.</li>
+	<li>Fixed a bug that could lead under certain conditions to race analyzer data loss of a person if other person of same session is deleted.</li>
+	<li>Updated meters/pulse from 0.003003 to 0.0030321 to have a more accurated capture.</li>
+	<li>PPS are always sent to the device at the beginning of the capture.</li>
+	<li>Now in preferences PPS configuration it is shown the max speed for measuring at that time accuracy.</li>
+</ul>
+
+<p><span class="highlight2"><i class="fa fa-clock-o fa-2x"></i>  Jumps, Races</span></p>
+<ul>
+	<li>Added an option to show time on any run simple graph.</li>
+	<li>Hidden run/run interval execution option with reaction time measurement.</li>
+</ul>
+
+<p><span class="highlight2"><i class="fa fa-sitemap fa-2x"></i>  Chronojump-networks</span></p>
+<ul>
+	<li>Security improvements on all the system.</li>
+</ul>
+
+<p><span class="highlight2"><i class="fa fa-flag-o fa-2x"></i>  Translations</span></p>
+<ul>
+	<li>Updated translations: Brazilian portuguese, Catalan, Spanish, Swedish, Ukrainian.</li>
+</ul>
+

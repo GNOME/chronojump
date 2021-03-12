@@ -321,18 +321,18 @@ RESOURCES = \
 	../glade/splash_window.glade \
 	../glade/stats_select_sessions.glade \
 	../images/mini/no_image.png,mini/no_image.png \
-	../images/selector-jumps.png,selector-jumps.png \
-	../images/selector-runs.png,selector-runs.png \
-	../images/selector-encoder.png,selector-encoder.png \
-	../images/selector-force.png,selector-force.png \
-	../images/selector-rt.png,selector-rt.png \
-	../images/selector-multichronopic.png,selector-multichronopic.png \
-	../images/selector-jumps-small.png,selector-jumps-small.png \
-	../images/selector-runs-small.png,selector-runs-small.png \
-	../images/selector-encoder-small.png,selector-encoder-small.png \
-	../images/selector-force-small.png,selector-force-small.png \
-	../images/selector-rt-small.png,selector-rt-small.png \
-	../images/selector-multichronopic-small.png,selector-multichronopic-small.png \
+	../images/sl-jumps.png,selector-jumps.png \
+	../images/sl-runs.png,selector-runs.png \
+	../images/sl-encoder.png,selector-encoder.png \
+	../images/sl-force.png,selector-force.png \
+	../images/sl-rt.png,selector-rt.png \
+	../images/sl-multichronopic.png,selector-multichronopic.png \
+	../images/sl-jumps-small.png,selector-jumps-small.png \
+	../images/sl-runs-small.png,selector-runs-small.png \
+	../images/sl-encoder-small.png,selector-encoder-small.png \
+	../images/sl-force-small.png,selector-force-small.png \
+	../images/sl-rt-small.png,selector-rt-small.png \
+	../images/sl-multichronopic-small.png,selector-multichronopic-small.png \
 	../images/mini/force_sensor_elastic.png,mini/force_sensor_elastic.png \
 	../images/mini/force_sensor_not_elastic.png,mini/force_sensor_not_elastic.png \
 	../images/mini/run-encoder-manual.png,mini/run-encoder-manual.png \

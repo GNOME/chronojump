@@ -349,20 +349,20 @@ RESOURCES = \
 	../images/chronojump-runs-small.png,chronojump-runs-small.png \
 	../images/chronojump-encoder-small.png,chronojump-encoder-small.png \
 	../images/chronojump-inertial.png,chronojump-inertial.png \
-	../images/agility_505.png,agility_505.png\
-	../images/mini/agility_505.png,mini/agility_505.png \
-	../images/agility_20yard.png,agility_20yard.png\
-	../images/mini/agility_20yard.png,mini/agility_20yard.png \
-	../images/agility_illinois.png,agility_illinois.png\
-	../images/mini/agility_illinois.png,mini/agility_illinois.png \
-	../images/agility_shuttle.png,agility_shuttle.png\
-	../images/mini/agility_shuttle.png,mini/agility_shuttle.png \
-	../images/agility_zigzag.png,agility_zigzag.png\
-	../images/mini/agility_zigzag.png,mini/agility_zigzag.png \
-	../images/agility_t_test.png,agility_t_test.png \
-	../images/mini/agility_t_test.png,mini/agility_t_test.png \
-	../images/agility_3l3r.png,agility_3l3r.png \
-	../images/mini/agility_3l3r.png,mini/agility_3l3r.png \
+	../images/ag_505.png,agility_505.png\
+	../images/mini/ag_505.png,mini/agility_505.png \
+	../images/ag_20yard.png,agility_20yard.png\
+	../images/mini/ag_20yard.png,mini/agility_20yard.png \
+	../images/ag_illinois.png,agility_illinois.png\
+	../images/mini/ag_illinois.png,mini/agility_illinois.png \
+	../images/ag_shuttle.png,agility_shuttle.png\
+	../images/mini/ag_shuttle.png,mini/agility_shuttle.png \
+	../images/ag_zigzag.png,agility_zigzag.png\
+	../images/mini/ag_zigzag.png,mini/agility_zigzag.png \
+	../images/ag_t_test.png,agility_t_test.png \
+	../images/mini/ag_t_test.png,mini/agility_t_test.png \
+	../images/ag_3l3r.png,agility_3l3r.png \
+	../images/mini/ag_3l3r.png,mini/agility_3l3r.png \
 	../images/jump_free.png,jump_free.png\
 	../images/mini/jump_free.png,mini/jump_free.png \
 	../images/jump_sj.png,jump_sj.png\

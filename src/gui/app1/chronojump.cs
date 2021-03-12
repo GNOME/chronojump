@@ -4721,6 +4721,11 @@ public partial class ChronoJumpWindow
 		else if( currentEventExecute.ChronopicDisconnected )
 			chronopicDisconnectedWhileExecuting();
 
+		//run simple simulated values sometimes does not update the graph, just force it
+		if(currentSession.Name == Constants.SessionSimulatedName && 			//this condition is not needed, but just in case...
+				! cp2016.StoredCanCaptureContacts && ! cp2016.StoredWireless) //is simulated
+			updateGraphRunsSimple();
+
 		//stop camera (storing value or not)
 		if(currentEventExecute.Cancel || currentRun == null)
 			webcamEnd (Constants.TestTypes.RUN, -1);

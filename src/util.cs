@@ -1689,17 +1689,17 @@ public class Util
 		string fileName = "";
 		switch(mySound) {
 			case Constants.SoundTypes.CAN_START:
-				fileName = "123804__kendallbear__kendallklap1.wav";
+				fileName = "start.wav";
 				//author: kendallbear
 				//https://www.freesound.org/people/kendallbear/sounds/123804/
 				break;
 			case Constants.SoundTypes.GOOD:
-				fileName = "135936__bradwesson__collectcoin.wav";
+				fileName = "ok.wav";
 				//author: bradwesson
 				//https://www.freesound.org/people/bradwesson/sounds/135936/
 				break;
 			case Constants.SoundTypes.BAD:
-				fileName = "142608__autistic-lucario__error.wav";
+				fileName = "bad.wav";
 				//author: Autistic Lucario
 				//https://www.freesound.org/people/Autistic%20Lucario/sounds/142608/
 				break;

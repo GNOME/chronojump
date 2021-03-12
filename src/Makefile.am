@@ -337,14 +337,14 @@ RESOURCES = \
 	../images/mini/force_sensor_not_elastic.png,mini/force_sensor_not_elastic.png \
 	../images/mini/run-encoder-manual.png,mini/run-encoder-manual.png \
 	../images/mini/run-encoder-resisted.png,mini/run-encoder-resisted.png \
-	../images/board-unknown.png,board-unknown.png \
-	../images/board-jump-run.png,board-jump-run.png \
-	../images/board-encoder.png,board-encoder.png \
-	../images/board-arduino-rfid.png,board-arduino-rfid.png \
-	../images/board-arduino-force.png,board-arduino-force.png \
-	../images/board-arduino-run-encoder.png,board-arduino-run-encoder.png \
-	../images/board-accelerometer.png,board-accelerometer.png \
-	../images/board-run-wireless.png,board-run-wireless.png \
+	../images/b-unknown.png,board-unknown.png \
+	../images/b-jump-run.png,board-jump-run.png \
+	../images/b-encoder.png,board-encoder.png \
+	../images/b-arduino-rfid.png,board-arduino-rfid.png \
+	../images/b-arduino-force.png,board-arduino-force.png \
+	../images/b-arduino-run-encoder.png,board-arduino-run-encoder.png \
+	../images/b-accelerometer.png,board-accelerometer.png \
+	../images/b-run-wireless.png,board-run-wireless.png \
 	../images/chronojump-jumps-small.png,chronojump-jumps-small.png \
 	../images/chronojump-runs-small.png,chronojump-runs-small.png \
 	../images/chronojump-encoder-small.png,chronojump-encoder-small.png \

@@ -20885,6 +20885,7 @@ Concentric</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="active">True</property>
                                                             <property name="draw_indicator">False</property>
+                                                            <signal name="toggled" handler="on_radio_sprint_analyze_individual_current_set_toggled" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox486">
                                                             <property name="visible">True</property>
@@ -20930,6 +20931,7 @@ Concentric</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="draw_indicator">False</property>
                                                             <property name="group">radio_sprint_analyze_individual_current_set</property>
+                                                            <signal name="toggled" handler="on_radio_sprint_analyze_individual_current_session_toggled" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox487">
                                                             <property name="visible">True</property>
@@ -21011,6 +21013,7 @@ Concentric</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="draw_indicator">False</property>
                                                             <property name="group">radio_sprint_analyze_individual_current_set</property>
+                                                            <signal name="toggled" handler="on_radio_sprint_analyze_groupal_current_session_toggled" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox488">
                                                             <property name="visible">True</property>
@@ -21082,6 +21085,8 @@ Concentric</property>
                                                             <widget class="GtkNotebook" id="notebook_sprint_analyze_top">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
+                                                            <property name="show_tabs">False</property>
+                                                            <property name="show_border">False</property>
                                                             <child>
                                                             <widget class="GtkVPaned" id="vpaned1">
                                                             <property name="visible">True</property>
@@ -21345,6 +21350,7 @@ Concentric</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="active">True</property>
                                                             <property name="draw_indicator">True</property>
+                                                            <signal name="toggled" handler="on_check_sprint_export_images_toggled" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>

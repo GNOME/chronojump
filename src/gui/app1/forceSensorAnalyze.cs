@@ -764,9 +764,13 @@ public partial class ChronoJumpWindow
 				preferences.exportGraphHeight, Convert.ToInt32(spinbutton_force_sensor_export_image_height.Value));
 		Sqlite.Close();
 
-		//change also spinbuttons of export runEncoder
+		//change also spinbuttons of export sprint and runEncoder
+		spinbutton_sprint_export_image_width.Value = spinbutton_force_sensor_export_image_width.Value;
+		spinbutton_sprint_export_image_height.Value = spinbutton_force_sensor_export_image_height.Value;
+
 		spinbutton_run_encoder_export_image_width.Value = spinbutton_force_sensor_export_image_width.Value;
 		spinbutton_run_encoder_export_image_height.Value = spinbutton_force_sensor_export_image_height.Value;
+
 
 		forceSensorExport = new ForceSensorExport (
 				notebook_force_sensor_export,

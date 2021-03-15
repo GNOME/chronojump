@@ -174,7 +174,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		writeTextAtRight(ypos++, date, false);
 
 		ypos++;
-		writeTextAtRight(ypos++, string.Format("F0: {0} N", Math.Round(f0Rel,2)), false);
+		writeTextAtRight(ypos++, string.Format("F0: {0} N/Kg", Math.Round(f0Rel,2)), false);
 		writeTextAtRight(ypos++, string.Format("V0: {0} m/s", Math.Round(v0,2)), false);
 		writeTextAtRight(ypos++, string.Format("Pmax: {0} W", Math.Round(pmax,1)), false);
 

@@ -35,6 +35,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_sprint;
 	[Widget] Gtk.Button button_sprint_save_image;
 
+	[Widget] Gtk.Image image_sprint_analyze_individual_current_set;
+	[Widget] Gtk.Image image_sprint_analyze_individual_current_session;
+	[Widget] Gtk.Image image_sprint_analyze_groupal_current_session;
 	[Widget] Gtk.Notebook notebook_sprint_analyze_top;
 	[Widget] Gtk.CheckButton check_sprint_export_images;
 	[Widget] Gtk.HBox hbox_sprint_export_width_height;

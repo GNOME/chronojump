@@ -117,6 +117,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_run_execute_running;
 	[Widget] Gtk.Image image_run_execute_photocell;
 	[Widget] Gtk.Image image_sprint_analyze_save;
+	[Widget] Gtk.Image image_sprint_analyze_table_save;
+	[Widget] Gtk.Image image_sprint_analyze_table_save_1;
 
 	//encoder images
 	[Widget] Gtk.Image image_top_eccon;
@@ -740,6 +742,7 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_grid_on.png");
 		image_contacts_session_overview.Pixbuf = pixbuf;
+		image_sprint_analyze_table_save.Pixbuf = pixbuf;
 		image_encoder_session_overview.Pixbuf = pixbuf;
 		image_encoder_analyze_table_save.Pixbuf = pixbuf;
 		image_force_sensor_analyze_table_save.Pixbuf = pixbuf;
@@ -784,6 +787,7 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "save.png");
 		image_jumps_rj_fatigue_image_save.Pixbuf = pixbuf;
+		image_sprint_analyze_table_save_1.Pixbuf = pixbuf;
 		image_encoder_capture_curves_save.Pixbuf = pixbuf;
 		image_encoder_analyze_table_save_1.Pixbuf = pixbuf;
 		image_encoder_capture_image_save_1.Pixbuf = pixbuf;
@@ -832,11 +836,13 @@ public partial class ChronoJumpWindow
 
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeIndividualCurrentSetIcon);
+		image_sprint_analyze_individual_current_set.Pixbuf = pixbuf;
 		image_encoder_analyze_individual_current_set.Pixbuf = pixbuf;
 		image_force_sensor_analyze_individual_current_set.Pixbuf = pixbuf;
 		image_run_encoder_analyze_individual_current_set.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeIndividualCurrentSessionIcon);
+		image_sprint_analyze_individual_current_session.Pixbuf = pixbuf;
 		image_encoder_analyze_individual_current_session.Pixbuf = pixbuf;
 		image_force_sensor_analyze_individual_current_session.Pixbuf = pixbuf;
 		image_run_encoder_analyze_individual_current_session.Pixbuf = pixbuf;
@@ -846,6 +852,7 @@ public partial class ChronoJumpWindow
 		image_tab_jumps_evolution.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeGroupalCurrentSessionIcon);
+		image_sprint_analyze_groupal_current_session.Pixbuf = pixbuf;
 		image_encoder_analyze_groupal_current_session.Pixbuf = pixbuf;
 		image_force_sensor_analyze_groupal_current_session.Pixbuf = pixbuf;
 		image_run_encoder_analyze_groupal_current_session.Pixbuf = pixbuf;

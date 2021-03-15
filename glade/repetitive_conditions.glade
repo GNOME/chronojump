@@ -2066,7 +2066,7 @@
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="xalign">0</property>
-                                                <property name="label" translatable="yes">Feedback relative to the maximum repetition of ...</property>
+                                                <property name="label" translatable="yes">Feedback relative to the maximum repetition of …</property>
                                                 <property name="use_markup">True</property>
                                               </widget>
                                               <packing>
@@ -2143,7 +2143,7 @@
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="xalign">0</property>
-                                                <property name="label" translatable="yes">On eccentric-concentric have feedback ...</property>
+                                                <property name="label" translatable="yes">On eccentric-concentric have feedback …</property>
                                               </widget>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -4280,7 +4280,7 @@
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="xalign">0</property>
-                                                <property name="label" translatable="yes">On encoder (gravitatory mode) rest starts ...</property>
+                                                <property name="label" translatable="yes">On encoder (gravitatory mode) rest starts …</property>
                                               </widget>
                                             </child>
                                           </widget>

@@ -275,7 +275,7 @@
                                       <widget class="GtkLabel" id="label_persons_info">
                                         <property name="can_focus">False</property>
                                         <property name="label" translatable="yes">First person perform all the tests,
-second person perform all the tests ...</property>
+second person perform all the tests …</property>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
@@ -287,7 +287,7 @@ second person perform all the tests ...</property>
                                       <widget class="GtkLabel" id="label_tests_info">
                                         <property name="can_focus">False</property>
                                         <property name="label" translatable="yes">All the persons perform first test,
-all the persons perform second test ...</property>
+all the persons perform second test …</property>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
@@ -299,7 +299,7 @@ all the persons perform second test ...</property>
                                       <widget class="GtkLabel" id="label_series_info">
                                         <property name="can_focus">False</property>
                                         <property name="label" translatable="yes">All the persons perform first set,
-all the persons perform second set ...
+all the persons perform second set …
 One set can contain several tests.</property>
                                       </widget>
                                       <packing>

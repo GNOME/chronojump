@@ -675,6 +675,12 @@ public partial class ChronoJumpWindow
 		threshold = new Threshold();
 		cp2016 = new Chronopic2016();
 
+		// ------ Creating sprint widgets ------
+
+		spinbutton_sprint_export_image_width.Value = preferences.exportGraphWidth;
+		spinbutton_sprint_export_image_height.Value = preferences.exportGraphHeight;
+
+
 		// ------ Creating encoder widgets ------
 
 		if(splashWin != null)

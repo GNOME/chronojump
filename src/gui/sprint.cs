@@ -35,6 +35,12 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_sprint;
 	[Widget] Gtk.Button button_sprint_save_image;
 
+	[Widget] Gtk.Notebook notebook_sprint_analyze_top;
+	[Widget] Gtk.CheckButton check_sprint_export_images;
+	[Widget] Gtk.HBox hbox_sprint_export_width_height;
+	[Widget] Gtk.SpinButton spinbutton_sprint_export_image_width;
+	[Widget] Gtk.SpinButton spinbutton_sprint_export_image_height;
+
 	static Sprint sprint;
 	TreeStore storeSprint;
 
@@ -312,6 +318,29 @@ public partial class ChronoJumpWindow
 
 		string myString = string.Format(Catalog.GetString("Saved to {0}"), exportFileName);
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
+	}
+
+
+	//move to export gui file
+
+	private void on_check_sprint_export_images_toggled (object o, EventArgs args)
+	{
+		hbox_sprint_export_width_height.Visible = check_sprint_export_images.Active;
+	}
+
+	private void on_radio_sprint_analyze_individual_current_set_toggled (object o, EventArgs args)
+	{
+		notebook_sprint_analyze_top.CurrentPage = 0;
+	}
+
+	private void on_radio_sprint_analyze_individual_current_session_toggled (object o, EventArgs args)
+	{
+		notebook_sprint_analyze_top.CurrentPage = 1;
+	}
+
+	private void on_radio_sprint_analyze_groupal_current_session_toggled (object o, EventArgs args)
+	{
+		notebook_sprint_analyze_top.CurrentPage = 1;
 	}
 
 }

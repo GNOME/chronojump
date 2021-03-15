@@ -395,9 +395,9 @@ public class ForceSensorExerciseWindow
 		else if(o == Options.FORCE_RESULTANT)
 			str = "1.- " + Catalog.GetString("Isometric squat with the force sensor fixed between the floor and the body.") +
 				"\n2.- " + Catalog.GetString("Movements where a significant mass is accelerated.") +
-				"\n3.- " + Catalog.GetString("Horizontal movements where the sensor don't measure the gravitational vertical forces...)");
+				"\n3.- " + Catalog.GetString("Horizontal movements where the sensor don't measure the gravitational vertical forces …)");
 		else if(o == Options.FIXATION_ELASTIC)
-			str =  Catalog.GetString("Rubber bands, springs, flexible material ...");
+			str =  Catalog.GetString("Rubber bands, springs, flexible material …");
 		else if(o == Options.FIXATION_NOT_ELASTIC)
 			str = "1.- " + Catalog.GetString("In an isometric squat with the force sensor fixed between the floor and the body, increasing the mass don't affect the measure of the sensor because the weight is supported by the lower limbs, not the sensor.") +
 				"\n2.- " + Catalog.GetString("Running in a threadmill against a rubber. The sensor is measuring the force that a rubber is transmitting horizontally to a subject running in a threadmill. The body weight is added to the total force exerted by the subject.");

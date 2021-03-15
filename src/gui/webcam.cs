@@ -81,7 +81,7 @@ public partial class ChronoJumpWindow
 	 * if there are two cameras
 	 * have two webcam and call: webcamRecordStart and webcamRecordEnd two times
 	 * take care pngs of 2n camera have to be in different area
-	 * maybe use on /tmp/chronojump-video0 /tmp/chronojump-video1 ...
+	 * maybe use on /tmp/chronojump-video0 /tmp/chronojump-video1 …
 	 * and at the end merge both mp4s with:
 	 *
 	 * ffmpeg \
@@ -201,7 +201,7 @@ public partial class ChronoJumpWindow
 			else if(webcamStartThreadBeforeTestStatus == statusEnum.SUCCESS)
 			{
 				webcamManage.ReallyStarted = true;
-				label_video_feedback_text (WebcamManage.GuiContactsEncoder.CONTACTS, Catalog.GetString("Recording ..."));
+				label_video_feedback_text (WebcamManage.GuiContactsEncoder.CONTACTS, Catalog.GetString("Recording …"));
 				notebook_video_contacts.CurrentPage = 1;
 			}
 
@@ -748,7 +748,7 @@ public partial class ChronoJumpWindow
 		 * TODO: reimplement this with ffmpeg
 		 *
 		if(File.Exists(fileName)) {
-			LogB.Information("Play video starting...");
+			LogB.Information("Play video starting …");
 			PlayerBin player = new PlayerBin();
 			player.Open(fileName);
 
@@ -761,7 +761,7 @@ public partial class ChronoJumpWindow
 			d.DeleteEvent += delegate(object sender, DeleteEventArgs e) {player.Close(); player.Dispose();};
 
 			if(play) {
-				LogB.Information("Play video playing...");
+				LogB.Information("Play video playing …");
 				player.Play();
 			}
 			return true;

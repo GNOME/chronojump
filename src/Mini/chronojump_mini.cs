@@ -128,7 +128,7 @@ class ChronoJumpMini {
 		writer = File.CreateText(fileName);
 		
 
-		Console.WriteLine(Catalog.GetString("Opening port...") + " " +
+		Console.WriteLine(Catalog.GetString("Opening port …") + " " +
 			       Catalog.GetString("Please touch the platform or click Chronopic TEST button"));
 		//-- Crear puerto serie		
 		SerialPort sp;

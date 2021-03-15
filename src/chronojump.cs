@@ -65,8 +65,8 @@ public class ChronoJump
 	{/*
 		bool timeLogPassedOk = Log.Start(args);
 		Log.WriteLine(string.Format("Time log passed: {0}", timeLogPassedOk.ToString()));
-		Log.WriteLine(string.Format("Client database option 1 in ... " + Util.GetDatabaseDir()));
-		Log.WriteLine(string.Format("Client database option 2 in ... " + Util.GetDatabaseTempDir()));
+		Log.WriteLine(string.Format("Client database option 1 in … " + Util.GetDatabaseDir()));
+		Log.WriteLine(string.Format("Client database option 2 in … " + Util.GetDatabaseTempDir()));
 		*/
 		
 		LogSync.Initialize();
@@ -314,7 +314,7 @@ public class ChronoJump
 		
 		//Chech if the DB file exists
 		if (!Sqlite.CheckTables(defaultDBLocation)) {
-			LogB.SQL ( Catalog.GetString ("no tables, creating ...") );
+			LogB.SQL ( Catalog.GetString ("no tables, creating …") );
 
 			creatingDB = true;
 			splashMessageChange(2);  //creating database
@@ -718,7 +718,7 @@ public class ChronoJump
 		windowsTextLog = "\n" + crashLogFile;
 		*/
 			
-		//if there's a copy on temp...
+		//if there's a copy on temp …
 		if(File.Exists(Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db")) 
 		{
 			// if exist also a file in default db location (improbable but done for solve eventual problems

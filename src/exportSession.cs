@@ -62,7 +62,7 @@ public class ExportSession
 	{
 		string exportString = "";
 		if(formatFile == "report") {
-			exportString = Catalog.GetString ("Save report as...");
+			exportString = Catalog.GetString ("Save report as …");
 		} else {
 			exportString = Catalog.GetString ("Export session in format " + formatFile);
 		}
@@ -102,7 +102,7 @@ public class ExportSession
 			if (File.Exists(fileName)) {
 				LogB.Warning(string.Format("File {0} exists with attributes {1}, created at {2}",
 							fileName, File.GetAttributes(fileName), File.GetCreationTime(fileName)));
-				LogB.Information("Overwrite...");
+				LogB.Information("Overwrite …");
 				ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to overwrite file: "),
 						"", fileName);
 				confirmWin.Button_accept.Clicked += new EventHandler(on_overwrite_file_accepted);

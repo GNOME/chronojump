@@ -331,7 +331,7 @@ public class Constants
 		if(CSVExportDecimalSeparator != "COMMA")
 			sep = ",";
 
-		return "\n\n" + Catalog.GetString("Importing from your spreadsheet (LibreOffice, R, MS Excel, ...)") + "\n" +
+		return "\n\n" + Catalog.GetString("Importing from your spreadsheet (LibreOffice, R, MS Excel, …)") + "\n" +
 			Catalog.GetString("Remember the separator character is:") + " <b>" + sep + "</b>" + "\n\n" +
 			Catalog.GetString("This can be changed at preferences.");
 	}
@@ -735,7 +735,7 @@ public class Constants
 
 	public static string ChronopicDetectingStr()
 	{
-		return Catalog.GetString("Detecting ...");
+		return Catalog.GetString("Detecting …");
 	}
 	public static string ChronopicNeedTouchStr()
 	{

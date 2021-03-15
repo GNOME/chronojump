@@ -380,9 +380,9 @@ public partial class ChronoJumpWindow
 	 * 
 	 * before using this, saving a curve used the combo values on the top,
 	 * but this combo values can be changed by the user, and the he could click on save curve,
-	 * then power values (results of curves on graph.R) can be saved with bad weight, exerciseID, ...
+	 * then power values (results of curves on graph.R) can be saved with bad weight, exerciseID, …
 	 *
-	 * Now, with lastEncoderSQLSignal, saved curves and export curves will take the weight, exerciseID, ...
+	 * Now, with lastEncoderSQLSignal, saved curves and export curves will take the weight, exerciseID, …
 	 * last capture, recalculate and load. Better usability
 	 */
 	EncoderSQL lastEncoderSQLSignal;
@@ -950,7 +950,7 @@ public partial class ChronoJumpWindow
 		findMaxPowerSpeedForceIntersession();
 		//LogB.Information("maxPower: " + maxPowerIntersession);
 
-		if(encoderThreadBG != null && encoderThreadBG.IsAlive) //if we are capturing on the background ...
+		if(encoderThreadBG != null && encoderThreadBG.IsAlive) //if we are capturing on the background …
 		{
 			// stop capturing on the background if we start capturing gravitatory
 			if(! encoderConfigurationCurrent.has_inertia)
@@ -958,7 +958,7 @@ public partial class ChronoJumpWindow
 				stopCapturingInertialBG();
 			}
 		}
-		else //if we are NOT capturing on the background ...
+		else //if we are NOT capturing on the background …
 		{
 			//check if chronopics have changed
 			if(! canCaptureEncoder() )
@@ -1484,7 +1484,7 @@ public partial class ChronoJumpWindow
 		bool result = encoderRProcAnalyze.StartOrContinue(es);
 				
 		if(result)
-			//store this to show 1,2,3,4,... or 1e,1c,2e,2c,... in RenderN
+			//store this to show 1,2,3,4,… or 1e,1c,2e,2c,… in RenderN
 			//if is not stored, it can change when changed eccon radiobutton on cursor is in treeview
 			ecconLast = findEccon(false);
 		else {
@@ -2216,7 +2216,7 @@ public partial class ChronoJumpWindow
 			else {
 				//ENCODER_ANALYZE_SAVE_IMAGE, FORCESENSOR_SAVE_IMAGE_SIGNAL,
 				//FORCESENSOR_SAVE_IMAGE_RFD_AUTO, FORCESENSOR_SAVE_IMAGE_RFD_MANUAL
-				//... and sure other modes
+				//… and sure other modes
 				exportFileName = Util.AddPngIfNeeded(exportFileName);
 			}
 
@@ -2228,7 +2228,7 @@ public partial class ChronoJumpWindow
 								exportFileName, 
 								File.GetAttributes(exportFileName), 
 								File.GetCreationTime(exportFileName)));
-					LogB.Information("Overwrite...");
+					LogB.Information("Overwrite …");
 
 					ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
 								"Are you sure you want to overwrite: "), "",
@@ -2428,7 +2428,7 @@ public partial class ChronoJumpWindow
 								exportFileName,
 								File.GetAttributes(exportFileName),
 								File.GetCreationTime(exportFileName)));
-					LogB.Information("Overwrite...");
+					LogB.Information("Overwrite …");
 
 					ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
 								"Are you sure you want to overwrite: "), "",
@@ -2796,7 +2796,7 @@ public partial class ChronoJumpWindow
 			 * graph.R manages correctly this
 			 * But, when saved a curve, eg. concentric this can be positive or negative
 			 * (depending on the rotating sign of inertial machine at that curve)
-			 * if it's concentric, and it's full of -1,-2,... we have to change sign
+			 * if it's concentric, and it's full of -1,-2, … we have to change sign
 			 * if it's eccentric-concentric, and in the eccentric phase is positive, then we should change sign of both phases
 			 */
 			int inertialCheckStart = 0;
@@ -3182,7 +3182,7 @@ public partial class ChronoJumpWindow
 		//use this send because we change it to send it to R
 		//but we don't want to change encoderSelectedAnalysis because we want to know again if == "cross" (or "1RM")
 		//encoderSelectedAnalysis can be "cross" and sendAnalysis be "Speed / Load"
-		//encoderSelectedAnalysis can be "1RM" and sendAnalysis be "1RMBadilloBench, ...
+		//encoderSelectedAnalysis can be "1RM" and sendAnalysis be "1RMBadilloBench, …
 		string sendAnalysis = encoderSelectedAnalysis;
 
 		//see doProcess at encoder/graph.R
@@ -4718,7 +4718,7 @@ public partial class ChronoJumpWindow
 		 * /tmp/chronojump-last-encoder-graph.png
 		 * but if a capture curves has done, file is named the same
 		 * make unsensitive the capture image after loading or capturing a new signal
-		 * or changing person, loading session, ...
+		 * or changing person, loading session, …
 		 */
 
 		checkFile(Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE);
@@ -4757,7 +4757,7 @@ public partial class ChronoJumpWindow
 		 * /tmp/chronojump-last-encoder-curves.txt
 		 * but if a capture curves has done, file is named the same
 		 * make unsensitive the capture table after loading or capturing a new signal
-		 * or changing person, loading session, ...
+		 * or changing person, loading session, …
 		 * No problem. Is nice to play with seinsitiveness, but the reading will be from treeview and not from file
 		 */
 
@@ -5908,7 +5908,7 @@ public partial class ChronoJumpWindow
 				if(encoder_capture_curves_bars_pixmap != null)
 					UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 
-				encoderGraphDoPlot.ShowMessage(Catalog.GetString("Capturing") + " ...", false, true);
+				encoderGraphDoPlot.ShowMessage(Catalog.GetString("Capturing") + " …", false, true);
 
 				encoderCaptureStringR = new List<string>();
 				encoderCaptureStringR.Add(
@@ -6240,7 +6240,7 @@ public partial class ChronoJumpWindow
 
 	/*
 	 * History
-	 * 1) In the beginning we used RDotNet for C# - R communication. But it was buggy, complex, problems with try catch, ...
+	 * 1) In the beginning we used RDotNet for C# - R communication. But it was buggy, complex, problems with try catch, …
 	 * 2) Then we used stdin,stdout,stderr communication. Worked fine on Linux and Windows but not in Mac
 	 * 3) Then we used a capture.txt file created by R with a row for each curve. But reading it on windows from C# gives file access problems
 	 * 4) Now we try to create one file for each curve and read it here with a try/catch
@@ -7107,7 +7107,7 @@ public partial class ChronoJumpWindow
 				 * because there are no curves (problems detecting, or minimal height so big
 				 * then do not continue
 				 * because with a value of -1 there will be problems in 
-				 * SqliteEncoder.Select(false, Convert.ToInt32(encoderSignalUniqueID), ...)
+				 * SqliteEncoder.Select(false, Convert.ToInt32(encoderSignalUniqueID), …)
 				 */
 				LogB.Information(" encoderSignalUniqueID:" + encoderSignalUniqueID);
 				if(encoderSignalUniqueID != "-1")
@@ -7546,7 +7546,7 @@ public partial class ChronoJumpWindow
 		/*
 		 * TODO: reimplement this with ffmpeg
 		 *
-		//TODO: use a try specific... study this further
+		//TODO: use a try specific … study this further
 		LogB.Information("Prepare video encoder 0");
 
 		try {

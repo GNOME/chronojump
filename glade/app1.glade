@@ -29749,7 +29749,7 @@ Concentric</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="show_text">True</property>
-                                                            <property name="text" translatable="yes">Detecting ...</property>
+                                                            <property name="text" translatable="yes">Detecting …</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -40624,7 +40624,7 @@ then click this button.</property>
                                                   <widget class="GtkLabel" id="label470">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label" translatable="yes">Loading ...</property>
+                                                    <property name="label" translatable="yes">Loading …</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="position">1</property>

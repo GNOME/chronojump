@@ -347,4 +347,8 @@ public partial class ChronoJumpWindow
 		notebook_sprint_analyze_top.CurrentPage = 1;
 	}
 
+	private void on_button_sprint_export_current_session_clicked (object o, EventArgs args)
+	{
+		new DialogMessage(Constants.MessageTypes.WARNING, "TODO");
+	}
 }

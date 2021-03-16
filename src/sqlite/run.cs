@@ -49,7 +49,8 @@ class SqliteRun : Sqlite
 			"time FLOAT, " +
 			"description TEXT, " +
 			"simulated INT, " +
-			"initialSpeed INT )";
+			"initialSpeed INT, " +
+			"datetime TEXT )";
 		dbcmd.ExecuteNonQuery();
 	}
 	
@@ -58,7 +59,7 @@ class SqliteRun : Sqlite
 	 * Run class methods
 	 */
 	
-	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double distance, double time, string description, int simulated, bool initialSpeed)
+	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double distance, double time, string description, int simulated, bool initialSpeed, string datetime)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -67,11 +68,11 @@ class SqliteRun : Sqlite
 			uniqueID = "NULL";
 
 		dbcmd.CommandText = "INSERT INTO " + tableName + 
-				" (uniqueID, personID, sessionID, type, distance, time, description, simulated, initialSpeed)" +
+				" (uniqueID, personID, sessionID, type, distance, time, description, simulated, initialSpeed, datetime)" +
 				" VALUES (" + uniqueID + ", " +
 				+ personID + ", " + sessionID + ", \"" + type + "\", "
 				+ Util.ConvertToPoint(distance) + ", " + Util.ConvertToPoint(time) + ", \"" + 
-				description + "\", " + simulated + ", " + Util.BoolToInt(initialSpeed) + ")" ;
+				description + "\", " + simulated + ", " + Util.BoolToInt(initialSpeed) + ", \"" + datetime + "\")";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -148,7 +149,8 @@ class SqliteRun : Sqlite
 		int count = new int();
 		count = 0;
 
-		while(reader.Read()) {
+		while(reader.Read())
+		{
 			myArray.Add (reader[0].ToString() + ":" +	//person.name
 					reader[1].ToString() + ":" +	//run.uniqueID
 					reader[2].ToString() + ":" + 	//run.personID
@@ -158,7 +160,8 @@ class SqliteRun : Sqlite
 					Util.ChangeDecimalSeparator(reader[6].ToString()) + ":" + //run.time
 					reader[7].ToString() + ":" + 	//description
 					reader[8].ToString() + ":" +	//simulated
-					Util.IntToBool(Convert.ToInt32(reader[9])) //initialSpeed
+					Util.IntToBool(Convert.ToInt32(reader[9])) + ":" + //initialSpeed
+					reader[10].ToString() 		//datetime
 					);
 			count ++;
 		}
@@ -213,7 +216,8 @@ class SqliteRun : Sqlite
 					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[6].ToString())), //run.time
 					reader[7].ToString(), 	//description
 					Convert.ToInt32(reader[8].ToString()),	//simulated
-					Util.IntToBool(Convert.ToInt32(reader[9])) //initialSpeed
+					Util.IntToBool(Convert.ToInt32(reader[9])), //initialSpeed
+					reader[10].ToString() 	//datetime
 					);
 
 			if(personNameInComment)
@@ -245,7 +249,7 @@ class SqliteRun : Sqlite
 		reader = dbcmd.ExecuteReader();
 		reader.Read();
 	
-		Run myRun = new Run(DataReaderToStringArray(reader, 9));
+		Run myRun = new Run(DataReaderToStringArray(reader, 10));
 	
 		reader.Close();
 		if(!dbconOpened)

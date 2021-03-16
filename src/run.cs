@@ -36,6 +36,7 @@ public class Run : Event
 	
 	//protected Chronopic cp;
 	protected bool metersSecondsPreferred;
+	protected string datetime;
 
 /*
 	//used by the updateTimeProgressBar for display its time information
@@ -51,7 +52,7 @@ public class Run : Event
 	}
 
 	//after inserting database (SQL)
-	public Run(int uniqueID, int personID, int sessionID, string type, double distance, double time, string description, int simulated, bool initialSpeed)
+	public Run(int uniqueID, int personID, int sessionID, string type, double distance, double time, string description, int simulated, bool initialSpeed, string datetime)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
@@ -62,6 +63,7 @@ public class Run : Event
 		this.description = description;
 		this.simulated = simulated;
 		this.initialSpeed = initialSpeed;
+		this.datetime = datetime;
 	}
 
 	//used to select a run at SqliteRun.SelectNormalRunData and at Sqlite.convertTables
@@ -76,6 +78,7 @@ public class Run : Event
 		this.description = eventString[6].ToString();
 		this.simulated = Convert.ToInt32(eventString[7]);
 		this.initialSpeed = Util.IntToBool(Convert.ToInt32(eventString[8]));
+		this.datetime = eventString[9];
 	}
 	
 	public static List<Event> RunListToEventList(List<Run> runs)
@@ -93,9 +96,12 @@ public class Run : Event
 				uniqueID.ToString(), 
 				personID, sessionID, 
 				type, distance, time, 
-				description, simulated, initialSpeed);
+				description, simulated, initialSpeed, datetime);
 	}
 
+	public override string ToString() {
+		return uniqueID + ":" + personID + ":" + sessionID + ":" + type + ":" + distance + ":" + time + ":" + datetime + ":" + description + ":" + simulated + ":" + initialSpeed;
+	}
 	
 	public virtual double Speed
 	{
@@ -129,7 +135,11 @@ public class Run : Event
 		get { return initialSpeed; }
 		set { initialSpeed = value; }
 	}
-	
+
+	public string Datetime {
+		get { return datetime; }
+		set { datetime = value; }
+	}
 
 	
 	~Run() {}
@@ -151,7 +161,7 @@ public class RunInterval : Run
 	}
 	
 	//after inserting database (SQL)
-	public RunInterval(int uniqueID, int personID, int sessionID, string type, double distanceTotal, double timeTotal, double distanceInterval, string intervalTimesString, double tracks, string description, string limited, int simulated, bool initialSpeed)
+	public RunInterval(int uniqueID, int personID, int sessionID, string type, double distanceTotal, double timeTotal, double distanceInterval, string intervalTimesString, double tracks, string description, string limited, int simulated, bool initialSpeed, string datetime)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
@@ -166,6 +176,7 @@ public class RunInterval : Run
 		this.limited = limited;
 		this.simulated = simulated;
 		this.initialSpeed = initialSpeed;
+		this.datetime = datetime;
 	}
 
 	//used to select a run at SqliteRun.SelectIntervalRunData and at Sqlite.convertTables
@@ -184,6 +195,7 @@ public class RunInterval : Run
 		this.limited = eventString[10].ToString();
 		this.simulated = Convert.ToInt32(eventString[11]);
 		this.initialSpeed = Util.IntToBool(Convert.ToInt32(eventString[12]));
+		this.datetime = eventString[13];
 	}
 	
 
@@ -194,7 +206,7 @@ public class RunInterval : Run
 				type, distanceTotal, timeTotal, 
 				distanceInterval, intervalTimesString,
 				tracks, description, 
-				limited, simulated, initialSpeed);
+				limited, simulated, initialSpeed, datetime);
 	}
 
 	public string IntervalTimesString

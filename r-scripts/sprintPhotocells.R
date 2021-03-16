@@ -38,15 +38,18 @@ source(paste(options[1], "/sprintUtil.R", sep=""))
 assignOptions <- function(options) {
         return(list(
                 scriptsPath	= options[1],
-                positions  	= as.numeric(unlist(strsplit(options[2], "\\;"))),
-                splitTimes 	= as.numeric(unlist(strsplit(options[3], "\\;"))),
-                mass 	= as.numeric(options[4]),
-                personHeight = as.numeric(options[5]),
-                tempC 	= as.numeric(options[6]),
-                os 		= options[7],
-                graphWidth 	= as.numeric(options[8]),
-                graphHeight	= as.numeric(options[9]),
-                personName	= options[10]
+                os 		= options[2],
+                graphWidth 	= as.numeric(options[3]),
+                graphHeight	= as.numeric(options[4]),
+                positions  	= as.numeric(unlist(strsplit(options[5], "\\;"))),
+                splitTimes 	= as.numeric(unlist(strsplit(options[6], "\\;"))),
+                mass 	= as.numeric(options[7]),
+                personHeight = as.numeric(options[8]),
+                personName	= options[9],
+                tempC 	= as.numeric(options[10]),
+		singleOrMultiple = options[11],
+		decimalCharAtExport = options[12],
+		includeImagesOnExport = options[13]
         ))
 }
 
@@ -280,10 +283,23 @@ testPhotocellsCJ <- function(positions, splitTimes, mass, personHeight, tempC, p
 
 #----- execute code
 
-prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
-testPhotocellsCJ(op$positions, op$splitTimes, op$mass, op$personHeight, op$tempC, op$personName)
-endGraph()
+start <- function(op)
+{
+	if(op$singleOrMultiple == "TRUE")
+	{
+		prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
+		testPhotocellsCJ(op$positions, op$splitTimes, op$mass, op$personHeight, op$tempC, op$personName)
+		endGraph()
+		return()
+	}
 
+	# ------------------ op$singleOrMultiple == "FALSE" ------------------------->
+
+	#2) read the csv
+	#dataFiles = read.csv(file = paste(tempPath, "/sprintInputMulti.csv", sep=""), sep=";", stringsAsFactors=F)
+}
+
+start(op)
 
 #Examples of use
 

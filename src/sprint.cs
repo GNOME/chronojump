@@ -58,14 +58,14 @@ public class Sprint
 	}
 	*/
 
-	public bool CallR(int graphWidth, int graphHeight, string personName)
+	public bool CallR(int graphWidth, int graphHeight, string personName, bool singleOrMultiple)
 	{
 		LogB.Information("\nsprint CallR ----->");
-		writeOptionsFile(graphWidth, graphHeight, personName);
+		writeOptionsFile(graphWidth, graphHeight, personName, singleOrMultiple);
 		return ExecuteProcess.CallR(UtilEncoder.GetSprintPhotocellsScript());
 	}
 
-	private void writeOptionsFile(int graphWidth, int graphHeight, string personName)
+	private void writeOptionsFile(int graphWidth, int graphHeight, string personName, bool singleOrMultiple)
 	{
 		/*
 		string scriptOptions =
@@ -79,17 +79,24 @@ public class Sprint
 		if(UtilAll.IsWindows())
 			scriptsPath = scriptsPath.Replace("\\","/");
 
+string exportDecimalSeparator = ".";
+bool includeImagesOnExport = false;
+
 		string scriptOptions =
 			"#scriptsPath\n" + 	scriptsPath + "\n" +
+			"#os\n" + 		UtilEncoder.OperatingSystemForRGraphs() + "\n" +
+			"#graphWidth\n" + 	graphWidth.ToString() + "\n" +
+			"#graphHeight\n" + 	graphHeight.ToString() + "\n" +
+			//all the following are unused on multiple
 			"#positions\n" + 	positions + "\n" +
 			"#splitTimes\n" + 	splitTimes + "\n" +
 			"#mass\n" + 		Util.ConvertToPoint(mass) + "\n" +
 			"#personHeight\n" + 	Util.ConvertToPoint(personHeight / 100.0) + "\n" + //send it in meters
+			"#personName\n" + 	personName + "\n" +
 			"#tempC\n" + 		tempC + "\n" +
-			"#os\n" + 		UtilEncoder.OperatingSystemForRGraphs() + "\n" +
-			"#graphWidth\n" + 	graphWidth.ToString() + "\n" +
-			"#graphHeight\n" + 	graphHeight.ToString() + "\n" +
-			"#personName\n" + 	personName + "\n";
+			"#singleOrMultiple\n" +		Util.BoolToRBool(singleOrMultiple) + "\n" +
+			"#decimalCharAtExport\n" +	exportDecimalSeparator + "\n" +
+			"#includeImagesOnExport\n" + 	Util.BoolToRBool(includeImagesOnExport) + "\n";
 
 		TextWriter writer = File.CreateText(Path.GetTempPath() + "Roptions.txt");
 		writer.Write(scriptOptions);

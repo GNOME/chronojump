@@ -242,6 +242,9 @@ public class UtilEncoder
 	public static string GetSprintPhotocellsScript() {
 		return System.IO.Path.Combine(GetSprintPath(), "sprintPhotocells.R");
 	}
+	public static string GetSprintCSVInputMulti() {
+		return Path.Combine(Path.GetTempPath(), "sprintInputMulti.csv");
+	}
 
 	public static string GetSprintImage() {
 		return System.IO.Path.Combine(Path.GetTempPath(), "sprintGraph.png");

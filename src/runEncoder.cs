@@ -543,7 +543,7 @@ public class RunEncoderGraph
 				plotRawPower, plotFittedPower,
 				triggerList);
 
-		this.exportDecimalSeparator = '.'; //TODO
+		this.exportDecimalSeparator = '.';
 		this.includeImagesOnExport = false;
 	}
 

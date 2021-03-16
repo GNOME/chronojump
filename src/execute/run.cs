@@ -815,15 +815,18 @@ LogB.Information("going to call pwc.CaptureStart ()");
 			description += descriptionAddReactionTime(reactionTimeMS, pDN, speedStartArrival);
 
 		string table = Constants.RunTable;
+		string datetime = UtilDate.ToFile(DateTime.Now);
 
 		uniqueID = SqliteRun.Insert(false, table, "NULL", personID, sessionID, 
 				type, distance, trackTime, description,
 				Util.BoolToNegativeInt(simulated), 
-				!startIn	//initialSpeed true if not startIn
+				!startIn,	//initialSpeed true if not startIn
+				datetime
 				); 
 		
 		//define the created object
-		eventDone = new Run(uniqueID, personID, sessionID, type, distance, trackTime, description, Util.BoolToNegativeInt(simulated), !startIn);
+		eventDone = new Run(uniqueID, personID, sessionID, type, distance, trackTime, description,
+				Util.BoolToNegativeInt(simulated), !startIn, datetime);
 
 		if(graphAllTypes)
 			type = "";
@@ -1293,7 +1296,7 @@ public class RunIntervalExecute : RunExecute
 		else if(measureReactionTime && reactionTimeMS > 0)
 			description += descriptionAddReactionTime(reactionTimeMS, pDN, speedStartArrival);
 
-
+		string datetime = UtilDate.ToFile(DateTime.Now);
 
 		if(tempTable)
 			SqliteRunInterval.Insert(false, Constants.TempRunIntervalTable, "NULL", personID, sessionID, type, 
@@ -1302,7 +1305,8 @@ public class RunIntervalExecute : RunExecute
 					description,
 					limitString,
 					Util.BoolToNegativeInt(simulated),
-					!startIn	//initialSpeed true if not startIn
+					!startIn,	//initialSpeed true if not startIn
+					datetime
 					);
 		else {
 			uniqueID = SqliteRunInterval.Insert(false, Constants.RunIntervalTable, "NULL", personID, sessionID, type, 
@@ -1311,12 +1315,13 @@ public class RunIntervalExecute : RunExecute
 					description,
 					limitString,
 					Util.BoolToNegativeInt(simulated),
-					!startIn
+					!startIn,
+					datetime
 					);
 
 			//define the created object
 			eventDone = new RunInterval(uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString,
-					tracksHere, description, limitString, Util.BoolToNegativeInt(simulated), !startIn); 
+					tracksHere, description, limitString, Util.BoolToNegativeInt(simulated), !startIn, datetime); 
 
 			/*
 			string tempValuesString;

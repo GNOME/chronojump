@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.13";
+	static string lastChronojumpDatabaseVersion = "2.14";
 
 	public Sqlite()
 	{
@@ -2887,6 +2887,22 @@ class Sqlite
 
 				currentVersion = updateVersion("2.13");
 			}
+			if(currentVersion == "2.13")
+			{
+				LogB.SQL("Doing alter table run, runInterval, tempRunInterval add datetime");
+				try {
+					//sqlite does not have drop column
+					executeSQL("ALTER TABLE " + Constants.RunTable + " ADD COLUMN datetime TEXT;");
+					executeSQL("ALTER TABLE " + Constants.RunIntervalTable + " ADD COLUMN datetime TEXT;");
+					executeSQL("ALTER TABLE " + Constants.TempRunIntervalTable + " ADD COLUMN datetime TEXT;");
+				} catch {
+					LogB.SQL("Catched at Doing alter table run, runInterval, tempRunInterval add datetime.");
+
+				}
+				LogB.SQL("Done!");
+
+				currentVersion = updateVersion("2.14");
+			}
 
 
 
@@ -3108,6 +3124,7 @@ class Sqlite
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
 
+		//2.13 - 2.14 Converted DB to 2.14 Doing alter table run, runInterval, tempRunInterval add datetime
 		//2.12 - 2.13 Converted DB to 2.13 Inserted prefs: PersonSelectWinImages, ExportGraphWidth, ExportGraphHeight
 		//2.11 - 2.12 Converted DB to 2.12 Inserted prefs: forceSensorAnalyzeMaxAVGInWindow
 		//2.10 - 2.11 Converted DB to 2.11 Inserted prefs: clientNewsDatetime

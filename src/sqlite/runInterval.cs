@@ -50,11 +50,12 @@ class SqliteRunInterval : SqliteRun
 			"description TEXT, " +
 			"limited TEXT, " +
 			"simulated INT, " +
-			"initialSpeed INT)";
+			"initialSpeed INT, " +
+			"datetime TEXT )";
 		dbcmd.ExecuteNonQuery();
 	}
 
-	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double distanceTotal, double timeTotal, double distanceInterval, string intervalTimesString, double tracks, string description, string limited, int simulated, bool initialSpeed )
+	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double distanceTotal, double timeTotal, double distanceInterval, string intervalTimesString, double tracks, string description, string limited, int simulated, bool initialSpeed, string datetime)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -63,7 +64,7 @@ class SqliteRunInterval : SqliteRun
 			uniqueID = "NULL";
 
 		dbcmd.CommandText = "INSERT INTO "+ tableName + 
-				" (uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString, tracks, description, limited, simulated, initialSpeed)" +
+				" (uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString, tracks, description, limited, simulated, initialSpeed, datetime)" +
 				"VALUES (" + uniqueID + ", " +
 				personID + ", " + sessionID + ", \"" + type + "\", " +
 				Util.ConvertToPoint(distanceTotal) + ", " + 
@@ -72,7 +73,8 @@ class SqliteRunInterval : SqliteRun
 				Util.ConvertToPoint(intervalTimesString) + "\", " +
 				Util.ConvertToPoint(tracks) + ", \"" + 
 				description + "\", \"" + limited + "\", " + simulated + ", " +
-				Util.BoolToInt(initialSpeed) + ")" ;
+				Util.BoolToInt(initialSpeed) + ", \"" +
+				datetime + "\")";
 				
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -127,7 +129,8 @@ class SqliteRunInterval : SqliteRun
 		int count = new int();
 		count = 0;
 
-		while(reader.Read()) {
+		while(reader.Read())
+		{
 			myArray.Add (reader[0].ToString() + ":" +	//person.name
 					reader[1].ToString() + ":" +	//runInterval.uniqueID
 					reader[2].ToString() + ":" + 	//runInterval.personID
@@ -141,7 +144,8 @@ class SqliteRunInterval : SqliteRun
 					reader[10].ToString() + ":" + 	//description
 					reader[11].ToString() + ":" +  	//limited
 					reader[12].ToString() + ":" +	//simulated
-					Util.IntToBool(Convert.ToInt32(reader[13])) //initialSpeed
+					Util.IntToBool(Convert.ToInt32(reader[13])) + ":" + //initialSpeed
+					reader[14].ToString() 		//datetime
 					);
 			count ++;
 		}
@@ -176,7 +180,7 @@ class SqliteRunInterval : SqliteRun
 		reader = dbcmd.ExecuteReader();
 		reader.Read();
 
-		RunInterval myRun = new RunInterval(DataReaderToStringArray(reader, 13));
+		RunInterval myRun = new RunInterval(DataReaderToStringArray(reader, 14));
 
 		reader.Close();
 		if(!dbconOpened)

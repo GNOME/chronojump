@@ -679,6 +679,7 @@ public partial class ChronoJumpWindow
 
 		spinbutton_sprint_export_image_width.Value = preferences.exportGraphWidth;
 		spinbutton_sprint_export_image_height.Value = preferences.exportGraphHeight;
+		notebook_sprint_analyze_top.CurrentPage = 0;
 
 
 		// ------ Creating encoder widgets ------

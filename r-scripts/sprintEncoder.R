@@ -797,8 +797,9 @@ start <- function(op)
 		exportRow = testEncoderCJ(as.vector(dataFiles$fullURL[i]), dataFiles$testLength[i], dataFiles$splitLength[i],
 				dataFiles$mass[i], dataFiles$personHeight[i], dataFiles$tempC[i],
 				dataFiles$device[i], dataFiles$title[i], dataFiles$datetime[i],	op$startAccel,
-				as.numeric(unlist(strsplit(dataFiles$triggersOn[i], "\\,"))),
-				as.numeric(unlist(strsplit(dataFiles$triggersOff[i], "\\,")))
+				as.numeric(unlist(strsplit(as.character(dataFiles$triggersOn[i]), "\\,"))), #as.character() because -1 (no triggers) is readed as a number and then the strsplit fails
+				as.numeric(unlist(strsplit(as.character(dataFiles$triggersOff[i]), "\\,")))
+
 		)
 
 		if(! is.null(exportRow))

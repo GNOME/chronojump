@@ -28,7 +28,8 @@ using Mono.Unix;
 public class TreeViewRuns : TreeViewEvent
 {
 	protected bool metersSecondsPreferred;
-		
+	protected string datetimeName = Catalog.GetString("Date");
+
 	public TreeViewRuns ()
 	{
 	}
@@ -44,7 +45,7 @@ public class TreeViewRuns : TreeViewEvent
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 4; //position of type in the data to be printed
 		allEventsName = Constants.AllRunsNameStr();
-		eventIDColumn = 5; //column where the uniqueID of event will be (and will be hidden)
+		eventIDColumn = 6; //column where the uniqueID of event will be (and will be hidden)
 	
 		string runnerName = Catalog.GetString("Runner");
 		string speedName = Catalog.GetString("Speed");
@@ -56,7 +57,7 @@ public class TreeViewRuns : TreeViewEvent
 		string distanceName = Catalog.GetString("Distance") + "\n(m)";
 		string timeName = Catalog.GetString("Time") + "\n(s)";
 
-		columnsString = new string[]{ runnerName, speedName, distanceName, timeName, descriptionName };
+		columnsString = new string[]{ runnerName, speedName, distanceName, timeName, datetimeName, descriptionName };
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
 		treeview.Model = store;
 		prepareHeaders(columnsString);
@@ -71,6 +72,7 @@ public class TreeViewRuns : TreeViewEvent
 		myRun.Time = Convert.ToDouble(myStringOfData[6].ToString());
 		myRun.Description = myStringOfData[7].ToString();
 		myRun.Simulated = Convert.ToInt32(myStringOfData[8].ToString());
+		myRun.Datetime = myStringOfData[10].ToString();
 		//speed is not needed to define
 
 		return myRun;
@@ -79,6 +81,7 @@ public class TreeViewRuns : TreeViewEvent
 	protected override string [] getLineToStore(System.Object myObject)
 	{
 		Run newRun = (Run)myObject;
+		LogB.Information("getLineToStore, object: " + newRun.ToString());
 
 		string title = newRun.Type;
 		if(newRun.Simulated == Constants.Simulated)
@@ -103,6 +106,7 @@ public class TreeViewRuns : TreeViewEvent
 		myData[count++]	= Util.TrimDecimals(newRun.Distance.ToString(), pDN) + distanceUnits;
 
 		myData[count++] = Util.TrimDecimals(newRun.Time.ToString(), pDN);
+		myData[count++] = newRun.Datetime;
 		myData[count++] = newRun.Description;
 		myData[count++] = newRun.UniqueID.ToString();
 		return myData;
@@ -136,9 +140,9 @@ public class TreeViewRunsInterval : TreeViewRuns
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 4; //position of type in the data to be printed
 		allEventsName = Constants.AllRunsNameStr();
-		eventIDColumn = 5; //column where the uniqueID of event will be (and will be hidden)
+		eventIDColumn = 6; //column where the uniqueID of event will be (and will be hidden)
 		
-		columnsString = new string[]{runnerName, speedName, lapTimeName, splitTimeName, descriptionName};
+		columnsString = new string[]{runnerName, speedName, lapTimeName, splitTimeName, datetimeName, descriptionName};
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
 		treeview.Model = store;
 		prepareHeaders(columnsString);
@@ -156,6 +160,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 		myRunI.Limited = myStringOfData[11].ToString();
 		myRunI.Description = myStringOfData[10].ToString();
 		myRunI.Simulated = Convert.ToInt32(myStringOfData[12].ToString());
+		myRunI.Datetime = myStringOfData[14].ToString();
 		//speed is not needed to define
 			
 		runType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(myRunI.Type, Sqlite.IsOpened);
@@ -179,6 +184,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 		myData[count++] = "";		//speed
 		myData[count++] = "";		//lapTime 
 		myData[count++] = "";		//splitTime
+		myData[count++] = newRunI.Datetime;		//datetime
 		myData[count++] = newRunI.Description;
 		myData[count++] = newRunI.UniqueID.ToString();
 		return myData;
@@ -222,7 +228,8 @@ public class TreeViewRunsInterval : TreeViewRuns
 		myData[count++] = Util.TrimDecimals( timeInterval, pDN ); //lapTime
 		
 		myData[count++] = Util.TrimDecimals( getSplitTime(newRunI.IntervalTimesString, lineCount), pDN ); //splitTime
-		myData[count++] = "";
+		myData[count++] = ""; 	//datetime
+		myData[count++] = "";	//description
 		
 		myData[count++] = "-1"; //mark to non select here, select first line 
 
@@ -257,6 +264,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 		myData[count++] = "";
 		myData[count++] = Util.TrimDecimals( newRunI.TimeTotal.ToString(), pDN ); //lapTime
 		myData[count++] = "";							//splitTime
+		myData[count++] = "";							//datetime
 		myData[count++] = "";							//description
 		
 		myData[count++] = "-1"; //mark to non select here, select first line 
@@ -279,6 +287,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 				Util.GetAverage(newRunI.IntervalTimesString).ToString()	//AVG of intervalTimesString
 							, pDN );
 		myData[count++] = "";							//splitTime
+		myData[count++] = "";							//datetime
 		myData[count++] = "";							//description
 
 		myData[count++] = "-1"; //mark to non select here, select first line 
@@ -299,6 +308,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 					Util.GetNumberOfJumps(newRunI.IntervalTimesString, false)).ToString(),
 				pDN);
 		myData[count++] = "";							//splitTime
+		myData[count++] = "";							//datetime
 		myData[count++] = "";							//description
 		
 		myData[count++] = "-1"; //mark to non select here, select first line 

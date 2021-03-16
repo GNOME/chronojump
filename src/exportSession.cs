@@ -572,6 +572,7 @@ public class ExportSession
 					Catalog.GetString("Distance") + ":" + 
 					Catalog.GetString("Time") + ":" + 
 					Catalog.GetString("Speed") + ":" + 
+					Catalog.GetString("Datetime") + ":" +
 					Catalog.GetString("Description") + ":" +
 					Catalog.GetString("Simulated") + ":" +
 					Catalog.GetString("Initial Speed") );
@@ -588,6 +589,7 @@ public class ExportSession
 						myStr[4] + ":" +  myStr[5] + ":" + 	//run.type, run.distance
 						Util.TrimDecimals(myStr[6], dec) + ":" +  	//run.time
 						speed + ":" + 				//speed in m/s (true)
+						myStr[10] + ":" +			//datetime
 						Util.RemoveNewLine(myStr[7], true) + ":" + 	//description
 						Util.SimulatedTestNoYes(Convert.ToInt32(myStr[8])) + ":" + //simulated
 						Util.NoYes(Util.StringToBool(myStr[9]))	//initialSpeed
@@ -628,6 +630,7 @@ public class ExportSession
 						Catalog.GetString("Distance interval") + ":" + 
 						Catalog.GetString("Laps") + ":" +
 						Catalog.GetString("Limited") + ":" +
+						Catalog.GetString("Datetime") + ":" +
 						Catalog.GetString("Description") + ":" +
 						Catalog.GetString("Simulated") + ":" +
 						Catalog.GetString("Initial Speed") );
@@ -651,6 +654,7 @@ public class ExportSession
 					Util.TrimDecimals(Util.GetSpeed(myStr[5], myStr[6], true), dec) + ":" + 	//speed AVG in m/s(true)
 					myStr[7] + ":" + 	 	//run.distanceInterval
 					myStr[9] + ":" +  Util.GetLimitedRounded(myStr[11], dec) + ":" + 	//tracks, limited
+					myStr[14] + ":" +				//datetime
 					Util.RemoveNewLine(myStr[10], true) + ":" + 	//description
 					Util.SimulatedTestNoYes(Convert.ToInt32(myStr[12])) + ":" +	//simulated
 					Util.NoYes(Util.StringToBool(myStr[13]))	//initialSpeed

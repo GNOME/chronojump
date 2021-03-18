@@ -53,6 +53,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button app1s_button_delete;
 	[Widget] Gtk.Button app1s_button_load;
 	[Widget] Gtk.Button app1s_button_import;
+	[Widget] Gtk.Image app1s_image_edit;
+	[Widget] Gtk.Image app1s_image_delete;
+	[Widget] Gtk.Image app1s_image_cancel;
+	[Widget] Gtk.Image app1s_image_load;
 	[Widget] Gtk.Image app1s_image_import;
 	[Widget] Gtk.Entry app1s_entry_search_filter;
 	[Widget] Gtk.HBox app1s_hbox_manage;

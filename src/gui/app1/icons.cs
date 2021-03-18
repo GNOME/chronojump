@@ -450,6 +450,7 @@ public partial class ChronoJumpWindow
 		image_session_load1.Pixbuf = pixbuf;
 		image_session_load2.Pixbuf = pixbuf;
 		image_session_load3_blue.Pixbuf = pixbuf;
+		app1s_image_load.Pixbuf = pixbuf;
 		app1s_image_open_database.Pixbuf = pixbuf;
 		app1s_image_button_backup_select.Pixbuf = pixbuf;
 		app1s_image_button_export_select.Pixbuf = pixbuf;
@@ -478,6 +479,7 @@ public partial class ChronoJumpWindow
 		image_edit_current_person.Pixbuf = pixbuf;
 		image_edit_current_person_h.Pixbuf = pixbuf;
 		image_session_edit2.Pixbuf = pixbuf;
+		app1s_image_edit.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
 		image_contacts_exercise_close.Pixbuf = pixbuf;
@@ -706,11 +708,13 @@ public partial class ChronoJumpWindow
 		image_button_cancel.Pixbuf = pixbuf;
 		image_encoder_capture_cancel.Pixbuf = pixbuf;
 		image_encoder_signal_delete.Pixbuf = pixbuf;
+		app1s_image_delete.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
 		image_encoder_analyze_cancel.Pixbuf = pixbuf;
 		image_force_sensor_export_cancel.Pixbuf = pixbuf;
 		image_run_encoder_export_cancel.Pixbuf = pixbuf;
+		app1s_image_cancel.Pixbuf = pixbuf;
 		
 		//zoom icons, done like this because there's one zoom icon created ad-hoc, 
 		//and is not nice that the other are different for an user theme change

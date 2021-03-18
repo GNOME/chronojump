@@ -112,6 +112,9 @@ public partial class ChronoJumpWindow
 			//to not allow to load a session or create a new session until close session/more
 			menus_sensitive_import_not_danger(false);
 
+			//change here SQL because radios changed before done on importing session
+			sqlChangeSessionLoadDisplay();
+
 			LogB.ThreadEnded();
 			return false;
 		}

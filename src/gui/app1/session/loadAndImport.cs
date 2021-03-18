@@ -71,6 +71,7 @@ public partial class ChronoJumpWindow
 	 */
 
 	private app1s_windowType app1s_type;
+	private bool sessionLoadWinSignals; //to be able to set radiobuttons at first without recreating the treeview
 
 	private void app1s_initializeGui()
 	{
@@ -116,10 +117,29 @@ public partial class ChronoJumpWindow
 		app1s_entry_search_filter.Text = "";
 		app1s_button_manage_tags.Sensitive = (app1s_selected != "-1");
 
-		app1s_createTreeView(app1s_treeview_session_load, app1s_type == app1s_windowType.LOAD_SESSION, false, false, false);
-		app1s_store = app1s_getStore(true, false, false, false);
+		//radio buttons
+		sessionLoadWinSignals = false;
+		app1s_checkbutton_show_data_persons.Active = preferences.sessionLoadDisplay.ShowAthletesInfo;
+		app1s_checkbutton_show_data_jump_run.Active = preferences.sessionLoadDisplay.ShowJumpsRaces;
+		app1s_checkbutton_show_data_other_tests.Active = preferences.sessionLoadDisplay.ShowOtherTests;
+		sessionLoadWinSignals = true;
+
+		app1s_createTreeView(app1s_treeview_session_load, app1s_type == app1s_windowType.LOAD_SESSION,
+				app1s_checkbutton_show_data_persons.Active,
+				app1s_checkbutton_show_data_jump_run.Active,
+				app1s_checkbutton_show_data_other_tests.Active);
+
+		app1s_store = app1s_getStore(true,
+				app1s_checkbutton_show_data_persons.Active,
+				app1s_checkbutton_show_data_jump_run.Active,
+				app1s_checkbutton_show_data_other_tests.Active);
+
 		app1s_treeview_session_load.Model = app1s_store;
-		app1s_fillTreeView(app1s_treeview_session_load, app1s_store, false, false, false);
+
+		app1s_fillTreeView(app1s_treeview_session_load, app1s_store,
+				app1s_checkbutton_show_data_persons.Active,
+				app1s_checkbutton_show_data_jump_run.Active,
+				app1s_checkbutton_show_data_other_tests.Active);
 
 		app1s_store.SetSortColumnId(1, Gtk.SortType.Descending); //date
 		app1s_store.ChangeSortColumn();
@@ -298,15 +318,51 @@ public partial class ChronoJumpWindow
 		app1s_recreateTreeView ("file path changed");
 	}
 
-	void app1s_on_checkbutton_show_data_persons_toggled (object o, EventArgs args) {
+	void app1s_on_checkbutton_show_data_persons_toggled (object o, EventArgs args)
+	{
+		if(! sessionLoadWinSignals)
+			return;
+
+		//on import this call will be done t end to affect to our desired database
+		if (app1s_type == app1s_windowType.LOAD_SESSION)
+			sqlChangeSessionLoadDisplay();
+
 		app1s_recreateTreeView("persons " + app1s_checkbutton_show_data_persons.Active.ToString());
 	}
-	void app1s_on_checkbutton_show_data_jump_run_toggled (object o, EventArgs args) {
+	void app1s_on_checkbutton_show_data_jump_run_toggled (object o, EventArgs args)
+	{
+		if(! sessionLoadWinSignals)
+			return;
+
+		//on import this call will be done t end to affect to our desired database
+		if (app1s_type == app1s_windowType.LOAD_SESSION)
+			sqlChangeSessionLoadDisplay();
+
 		app1s_recreateTreeView("jump run " + app1s_checkbutton_show_data_jump_run.Active.ToString());
 	}
-	void app1s_on_checkbutton_show_data_other_tests_toggled (object o, EventArgs args) {
+	void app1s_on_checkbutton_show_data_other_tests_toggled (object o, EventArgs args)
+	{
+		if(! sessionLoadWinSignals)
+			return;
+
+		//on import this call will be done t end to affect to our desired database
+		if (app1s_type == app1s_windowType.LOAD_SESSION)
+			sqlChangeSessionLoadDisplay();
+
 		app1s_recreateTreeView("other tests " + app1s_checkbutton_show_data_other_tests.Active.ToString());
 	}
+
+	private void sqlChangeSessionLoadDisplay ()
+	{
+		preferences.sessionLoadDisplay = new SessionLoadDisplay(
+				app1s_checkbutton_show_data_persons.Active,
+				app1s_checkbutton_show_data_jump_run.Active,
+				app1s_checkbutton_show_data_other_tests.Active);
+
+		SqlitePreferences.Update (SqlitePreferences.SessionLoadDisplay,
+				preferences.sessionLoadDisplay.Selection.ToString(), false);
+	}
+
 	void app1s_recreateTreeView(string message)
 	{
 		LogB.Information("Recreate treeview: " + message);
@@ -755,5 +811,80 @@ public partial class ChronoJumpWindow
 	{
 		set { app1s_button_load = value; }
 		get { return app1s_button_load; }
+	}
+}
+
+/*
+   manage if show athletes info, jumps/races or other tests
+1: athletes
+2: jumps/races
+4: other tests
+
+eg 6 will be jumps and races
+tested with:
+for(int i = 0; i <= 7; i++)
+	LogB.Information(new SessionLoadDisplay(i).ToString());
+*/
+public class SessionLoadDisplay
+{
+	private int selection;
+
+	//constructor when we have the 0-7 value
+	public SessionLoadDisplay(int selection)
+	{
+		this.selection = selection;
+	}
+
+	//constructo with the 3 booleans
+	public SessionLoadDisplay(bool showBit1, bool showBit2, bool showBit3)
+	{
+		this.selection = 0;
+		if(showBit1)
+			selection ++;
+		if(showBit2)
+			selection += 2;
+		if(showBit3)
+			selection += 4;
+	}
+
+	public bool ShowOtherTests
+	{
+		get { return (selection >= 4); }
+	}
+
+	public bool ShowJumpsRaces
+	{
+		get {
+			int temp = selection;
+			if(temp >= 4)
+				temp -= 4;
+
+			return (temp >= 2);
+		}
+	}
+
+	public bool ShowAthletesInfo
+	{
+		get {
+			int temp = selection;
+			if(temp >= 4)
+				temp -= 4;
+			if(temp >= 2)
+				temp -= 2;
+
+			return (temp == 1);
+		}
+	}
+
+	public int Selection
+	{
+		get { return selection; }
+	}
+
+	//just to debug
+	public override string ToString()
+	{
+		return string.Format("selected: {0} (AthletesInfo: {1}, JumpsRaces: {2}, Other: {3})",
+				selection, ShowAthletesInfo, ShowJumpsRaces, ShowOtherTests);
 	}
 }

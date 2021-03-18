@@ -119,6 +119,7 @@ class SqlitePreferences : Sqlite
 	public const string LastSessionID = "lastSessionID";
 	public const string LoadLastModeAtStart = "loadLastModeAtStart";
 	public const string LastMode = "lastMode";
+	public const string SessionLoadDisplay = "sessionLoadDisplay";
 
 	//export
 	public const string ExportGraphWidth = "exportGraphWidth";
@@ -339,6 +340,7 @@ class SqlitePreferences : Sqlite
 				Insert (LastSessionID, "-1", dbcmdTr);
 				Insert (LoadLastModeAtStart, "True", dbcmdTr);
 				Insert (LastMode, Constants.Menuitem_modes.UNDEFINED.ToString(), dbcmdTr);
+				Insert (SessionLoadDisplay, "0", dbcmdTr);
 
 				//export
 				Insert (ExportGraphWidth, "900", dbcmdTr);
@@ -781,6 +783,8 @@ class SqlitePreferences : Sqlite
 			else if(reader[0].ToString() == LastMode)
 				preferences.lastMode = (Constants.Menuitem_modes)
 					Enum.Parse(typeof(Constants.Menuitem_modes), reader[1].ToString());
+			else if(reader[0].ToString() == SessionLoadDisplay)
+				preferences.sessionLoadDisplay = new SessionLoadDisplay(Convert.ToInt32(reader[1].ToString()));
 
 			//export
 			else if(reader[0].ToString() == ExportGraphWidth)

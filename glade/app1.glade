@@ -41136,6 +41136,10 @@ then click this button.</property>
                                                             <property name="receives_default">True</property>
                                                             <signal name="clicked" handler="on_app1s_button_edit_clicked" swapped="no"/>
                                                             <child>
+                                                            <widget class="GtkEventBox" id="app1s_eventbox_button_edit">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
                                                             <widget class="GtkHBox" id="hbox499">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -41166,6 +41170,8 @@ then click this button.</property>
                                                             </child>
                                                             </widget>
                                                             </child>
+                                                            </widget>
+                                                            </child>
                                                           </widget>
                                                           <packing>
                                                             <property name="expand">False</property>
@@ -41180,6 +41186,10 @@ then click this button.</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <signal name="clicked" handler="on_app1s_button_delete_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkEventBox" id="app1s_eventbox_button_delete">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox501">
                                                             <property name="visible">True</property>
@@ -41208,6 +41218,8 @@ then click this button.</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">1</property>
                                                             </packing>
+                                                            </child>
+                                                            </widget>
                                                             </child>
                                                             </widget>
                                                             </child>

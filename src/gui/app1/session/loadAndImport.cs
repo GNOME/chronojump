@@ -674,6 +674,10 @@ public partial class ChronoJumpWindow
 		 */
 		Session s = SqliteSession.Select (app1s_selected);
 
+		//just care if for any reason the session cannot be found
+		if(s.UniqueID == -1)
+			return;
+
 		if(s.Name == Constants.SessionSimulatedName)
 			new DialogMessage(Constants.MessageTypes.INFO, Constants.SessionProtectedStr());
 		else {

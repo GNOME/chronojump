@@ -2478,3 +2478,78 @@ public class UtilCopy
 		}
 	}
 }
+
+/*
+   Manage conversions between 3 booleans (or maybe more) and one int.
+   Booleans have weights 1, 2, 4
+   eg 6 will be false, false, true
+   tested with:
+   for(int i = 0; i <= 7; i++)
+     LogB.Information(new SessionLoadDisplay(i).ToString());
+*/
+public class BooleansInt
+{
+	protected int i;
+
+	//to inherit
+	public BooleansInt()
+	{
+	}
+
+	public BooleansInt(int i)
+	{
+		this.i = i;
+	}
+
+	public BooleansInt(bool b1, bool b2, bool b3)
+	{
+		this.i = 0;
+		if(b1)
+			i ++;
+		if(b2)
+			i += 2;
+		if(b3)
+			i += 4;
+	}
+
+	public bool Bit3
+	{
+		get { return (i >= 4); }
+	}
+
+	public bool Bit2
+	{
+		get {
+			int temp = i;
+			if(temp >= 4)
+				temp -= 4;
+
+			return (temp >= 2);
+		}
+	}
+
+	public bool Bit1
+	{
+		get {
+			int temp = i;
+			if(temp >= 4)
+				temp -= 4;
+			if(temp >= 2)
+				temp -= 2;
+
+			return (temp == 1);
+		}
+	}
+
+	public int GetInt
+	{
+		get { return i; }
+	}
+
+	//just to debug
+	public override string ToString()
+	{
+		return string.Format("i: {0} (bit1: {1}, bit2: {2}, bit3: {3})",
+				i, Bit1, Bit2, Bit3);
+	}
+}

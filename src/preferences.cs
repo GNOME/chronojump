@@ -53,7 +53,7 @@ public class Preferences
 	public int lastSessionID;
 	public bool loadLastModeAtStart;
 	public Constants.Menuitem_modes lastMode;
-
+	public SessionLoadDisplay sessionLoadDisplay;
 
 	public enum UnitsEnum { METRIC, IMPERIAL };
 	public UnitsEnum units;

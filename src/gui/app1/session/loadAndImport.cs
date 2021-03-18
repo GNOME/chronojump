@@ -360,7 +360,7 @@ public partial class ChronoJumpWindow
 				app1s_checkbutton_show_data_other_tests.Active);
 
 		SqlitePreferences.Update (SqlitePreferences.SessionLoadDisplay,
-				preferences.sessionLoadDisplay.Selection.ToString(), false);
+				preferences.sessionLoadDisplay.GetInt.ToString(), false);
 	}
 
 	void app1s_recreateTreeView(string message)
@@ -814,6 +814,7 @@ public partial class ChronoJumpWindow
 	}
 }
 
+
 /*
    manage if show athletes info, jumps/races or other tests
 1: athletes
@@ -825,66 +826,47 @@ tested with:
 for(int i = 0; i <= 7; i++)
 	LogB.Information(new SessionLoadDisplay(i).ToString());
 */
-public class SessionLoadDisplay
+public class SessionLoadDisplay : BooleansInt
 {
-	private int selection;
+//	private int selection;
 
 	//constructor when we have the 0-7 value
 	public SessionLoadDisplay(int selection)
 	{
-		this.selection = selection;
+		this.i = selection;
 	}
 
 	//constructo with the 3 booleans
 	public SessionLoadDisplay(bool showBit1, bool showBit2, bool showBit3)
 	{
-		this.selection = 0;
+		this.i = 0;
 		if(showBit1)
-			selection ++;
+			i ++;
 		if(showBit2)
-			selection += 2;
+			i += 2;
 		if(showBit3)
-			selection += 4;
+			i += 4;
 	}
 
 	public bool ShowOtherTests
 	{
-		get { return (selection >= 4); }
+		get { return Bit3; }
 	}
 
 	public bool ShowJumpsRaces
 	{
-		get {
-			int temp = selection;
-			if(temp >= 4)
-				temp -= 4;
-
-			return (temp >= 2);
-		}
+		get { return Bit2; }
 	}
 
 	public bool ShowAthletesInfo
 	{
-		get {
-			int temp = selection;
-			if(temp >= 4)
-				temp -= 4;
-			if(temp >= 2)
-				temp -= 2;
-
-			return (temp == 1);
-		}
-	}
-
-	public int Selection
-	{
-		get { return selection; }
+		get { return Bit1; }
 	}
 
 	//just to debug
 	public override string ToString()
 	{
 		return string.Format("selected: {0} (AthletesInfo: {1}, JumpsRaces: {2}, Other: {3})",
-				selection, ShowAthletesInfo, ShowJumpsRaces, ShowOtherTests);
+				i, ShowAthletesInfo, ShowJumpsRaces, ShowOtherTests);
 	}
 }

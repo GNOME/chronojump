@@ -31,7 +31,19 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label app1s_label_delete_done;
 	[Widget] Gtk.Button app1s_button_delete_close;
 
+	private bool deleteSessionCalledFromLoad;
+	private Session tempDeletingSession;
+
+	//not called from load
 	private void on_app1s_delete_session_confirm_start (object o, EventArgs args)
+	{
+		deleteSessionCalledFromLoad = false;
+		tempDeletingSession = currentSession;
+
+		on_app1s_delete_session_confirm_start_do ();
+	}
+
+	private void on_app1s_delete_session_confirm_start_do ()
 	{
 		//first show notebook tab in order to ensure the .Visible = true will work
 		app1s_notebook.CurrentPage = app1s_PAGE_DELETE_CONFIRM;
@@ -45,7 +57,7 @@ public partial class ChronoJumpWindow
 
 		app1s_button_delete_close.Visible = false;
 
-		if(currentSession.Name == Constants.SessionSimulatedName)
+		if(tempDeletingSession.Name == Constants.SessionSimulatedName)
 		{
 			app1s_label_delete_cannot.Visible = true;
 			app1s_button_delete_close.Visible = true;
@@ -53,7 +65,7 @@ public partial class ChronoJumpWindow
 		else {
 			app1s_vbox_delete_question.Visible = true;
 
-			app1s_label_delete_session_confirm_name.Text = "<b>" + currentSession.Name + "</b>";
+			app1s_label_delete_session_confirm_name.Text = "<b>" + tempDeletingSession.Name + "</b>";
 			app1s_label_delete_session_confirm_name.UseMarkup = true;
 			app1s_label_delete_session_confirm_name.Visible = true;
 
@@ -63,10 +75,10 @@ public partial class ChronoJumpWindow
 	
 	private void on_app1s_button_delete_accept_clicked (object o, EventArgs args) 
 	{
-		string sessionUniqueID = currentSession.UniqueID.ToString ();
-		closeSession ();
+		if(currentSession.UniqueID == tempDeletingSession.UniqueID)
+			closeSession ();
 
-		SqliteSession.DeleteAllStuff(sessionUniqueID);
+		SqliteSession.DeleteAllStuff(tempDeletingSession.UniqueID.ToString());
 		
 		app1s_vbox_delete_question.Visible = false;
 		app1s_label_delete_session_confirm_name.Visible = false;
@@ -78,11 +90,21 @@ public partial class ChronoJumpWindow
 
 	private void on_app1s_button_delete_cancel_clicked (object o, EventArgs args)
 	{
-		app1s_notebook.CurrentPage = app1s_PAGE_MODES;
+		if(deleteSessionCalledFromLoad)
+			app1s_notebook.CurrentPage = app1s_PAGE_SELECT_SESSION;
+		else
+			app1s_notebook.CurrentPage = app1s_PAGE_MODES;
 	}
 
 	private void on_app1s_button_delete_close_clicked (object o, EventArgs args)
 	{
-		app1s_notebook.CurrentPage = app1s_PAGE_MODES;
+		if(deleteSessionCalledFromLoad)
+		{
+			app1s_notebook.CurrentPage = app1s_PAGE_SELECT_SESSION;
+
+			//and reload the treeview:
+			app1s_recreateTreeView("deleted a session coming from load session");
+		} else
+			app1s_notebook.CurrentPage = app1s_PAGE_MODES;
 	}
 }

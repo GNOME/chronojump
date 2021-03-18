@@ -540,10 +540,12 @@ public partial class ChronoJumpWindow
 			app1s_button_load.Sensitive = true;
 			app1s_button_import.Sensitive = true;
 			app1s_button_edit.Sensitive = true;
+			app1s_button_delete.Sensitive = true;
 		} else {
 			app1s_button_load.Sensitive = false;
 			app1s_button_import.Sensitive = false;
 			app1s_button_edit.Sensitive = false;
+			app1s_button_delete.Sensitive = false;
 		}
 
 		app1s_button_manage_tags.Sensitive = (app1s_selected != "-1");
@@ -683,6 +685,24 @@ public partial class ChronoJumpWindow
 		else {
 			sessionAddEditUseSession (s);
 			sessionAddEditShow (App1saeModes.EDITOTHERSESSION);
+		}
+	}
+
+	private void on_app1s_button_delete_clicked (object o, EventArgs args)
+	{
+		Session s = SqliteSession.Select (app1s_selected);
+
+		//just care if for any reason the session cannot be found
+		if(s.UniqueID == -1)
+			return;
+
+		if(s.Name == Constants.SessionSimulatedName)
+			new DialogMessage(Constants.MessageTypes.INFO, Constants.SessionProtectedStr());
+		else {
+			deleteSessionCalledFromLoad = true;
+			tempDeletingSession = s;
+
+			on_app1s_delete_session_confirm_start_do ();
 		}
 	}
 

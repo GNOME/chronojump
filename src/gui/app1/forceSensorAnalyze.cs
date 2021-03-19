@@ -1604,19 +1604,29 @@ public partial class ChronoJumpWindow
 			}
 		}
 
-		/*
-		// triggers
-		double lowerMs = fsAI.GetTimeMS(hscaleLower);
-		double higherMs = fsAI.GetTimeMS(hscaleHigher);
-		foreach(Trigger trigger in triggerListForceSensor)
+		// triggers. Right now only show triggers on not zoom
+		if(! forceSensorZoomApplied)
 		{
-			if(trigger.Ms > lowerMs && trigger.Ms < HigherMs)	
+			int lastCount = fsAI.GetLength() -1;
+			double lastMs = fsAI.GetTimeMS(lastCount);
+			int xLastPos = fsAI.GetXFromSampleCount(lastCount);
+
+			foreach(Trigger trigger in triggerListForceSensor.GetList())
+			{
 				//write the vertical start line
-				force_sensor_ai_pixmap.DrawLine(pen_green_force_ai,
-						???, textHeight +6, ???, allocation.Height - textHeight -6);
-			//TODO: do green for on, red for off
+				//int tempX = fsAI.GetXFromSampleCount(trigger.Ms); not because is not a count
+
+				double triggerPercent1 = UtilAll.DivideSafe(trigger.Ms, lastMs);
+				int xtrigger = Convert.ToInt32(triggerPercent1 * xLastPos);
+
+				if(trigger.InOut)
+					force_sensor_ai_pixmap.DrawLine(pen_green_force_ai,
+							xtrigger, textHeight +6, xtrigger, allocation.Height - textHeight -6);
+				else
+					force_sensor_ai_pixmap.DrawLine(pen_red_force_ai,
+							xtrigger, textHeight +6, xtrigger, allocation.Height - textHeight -6);
+			}
 		}
-		*/
 
 		LogB.Information("forceSensorAnalyzeManualGraphDo() END");
 	}

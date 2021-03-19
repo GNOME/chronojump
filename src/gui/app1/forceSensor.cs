@@ -1358,7 +1358,7 @@ public partial class ChronoJumpWindow
 		else if(readTriggers)
 		{
 			time = Convert.ToInt32(strFull[0]);
-			triggerCode = strFull[1];
+			triggerCode = strFull[1].Trim(); //now is coming from Arduino with an enter
 			return true;
 		} else
 			return false;

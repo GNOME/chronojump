@@ -119,27 +119,41 @@ public partial class ChronoJumpWindow
 
 		//radio buttons
 		sessionLoadWinSignals = false;
+		/*
 		app1s_checkbutton_show_data_persons.Active = preferences.sessionLoadDisplay.ShowAthletesInfo;
 		app1s_checkbutton_show_data_jump_run.Active = preferences.sessionLoadDisplay.ShowJumpsRaces;
 		app1s_checkbutton_show_data_other_tests.Active = preferences.sessionLoadDisplay.ShowOtherTests;
+		*/
 		sessionLoadWinSignals = true;
 
 		app1s_createTreeView(app1s_treeview_session_load, app1s_type == app1s_windowType.LOAD_SESSION,
 				app1s_checkbutton_show_data_persons.Active,
-				app1s_checkbutton_show_data_jump_run.Active,
-				app1s_checkbutton_show_data_other_tests.Active);
+				app1s_checkbutton_show_data_jumps.Active,
+				app1s_checkbutton_show_data_runs.Active,
+				app1s_checkbutton_show_data_force_sensor.Active,
+				app1s_checkbutton_show_data_encoder.Active,
+				app1s_checkbutton_show_data_rt.Active,
+				app1s_checkbutton_show_data_other.Active);
 
 		app1s_store = app1s_getStore(true,
 				app1s_checkbutton_show_data_persons.Active,
-				app1s_checkbutton_show_data_jump_run.Active,
-				app1s_checkbutton_show_data_other_tests.Active);
+				app1s_checkbutton_show_data_jumps.Active,
+				app1s_checkbutton_show_data_runs.Active,
+				app1s_checkbutton_show_data_force_sensor.Active,
+				app1s_checkbutton_show_data_encoder.Active,
+				app1s_checkbutton_show_data_rt.Active,
+				app1s_checkbutton_show_data_other.Active);
 
 		app1s_treeview_session_load.Model = app1s_store;
 
 		app1s_fillTreeView(app1s_treeview_session_load, app1s_store,
 				app1s_checkbutton_show_data_persons.Active,
-				app1s_checkbutton_show_data_jump_run.Active,
-				app1s_checkbutton_show_data_other_tests.Active);
+				app1s_checkbutton_show_data_jumps.Active,
+				app1s_checkbutton_show_data_runs.Active,
+				app1s_checkbutton_show_data_force_sensor.Active,
+				app1s_checkbutton_show_data_encoder.Active,
+				app1s_checkbutton_show_data_rt.Active,
+				app1s_checkbutton_show_data_other.Active);
 
 		app1s_store.SetSortColumnId(1, Gtk.SortType.Descending); //date
 		app1s_store.ChangeSortColumn();
@@ -161,7 +175,9 @@ public partial class ChronoJumpWindow
 		*/
 	}
 
-	private TreeStore app1s_getStore(bool loadOrImport, bool showPersons, bool showContacts, bool showOtherTests)
+	private TreeStore app1s_getStore(bool loadOrImport, bool showPersons,
+			//bool showContacts, bool showOtherTests)
+			bool showJumps, bool showRuns, bool showForceSensor, bool showEncoder, bool showRT, bool showOther)
 	{
 		int columns = 6;
 		if(loadOrImport)
@@ -169,10 +185,18 @@ public partial class ChronoJumpWindow
 
 		if(showPersons)
 			columns += 3;
-		if(showContacts)
-			columns += 7;
-		if(showOtherTests)
-			columns += 4;
+		if(showJumps)
+			columns += 2;
+		if(showRuns)
+			columns += 3; //includes race analyzer
+		if(showForceSensor)
+			columns ++;
+		if(showEncoder)
+			columns += 2;
+		if(showRT)
+			columns ++;
+		if(showOther)
+			columns += 2; //pulses, RT
 
 		Type [] types = new Type [columns];
 		for (int i=0; i < columns; i++) {
@@ -212,7 +236,9 @@ public partial class ChronoJumpWindow
 		app1s_recreateTreeView("loaded the dialog");
 	}
 
-	private void app1s_createTreeView (Gtk.TreeView tv, bool loadOrImport, bool showPersons, bool showContacts, bool showOtherTests)
+	//private void app1s_createTreeView (Gtk.TreeView tv, bool loadOrImport, bool showPersons, bool showContacts, bool showOtherTests)
+	private void app1s_createTreeView (Gtk.TreeView tv, bool loadOrImport, bool showPersons,
+			bool showJumps, bool showRuns, bool showForceSensor, bool showEncoder, bool showRT, bool showOther)
 	{
 		tv.HeadersVisible=true;
 		int count = 0;
@@ -249,24 +275,32 @@ public partial class ChronoJumpWindow
 			tv.AppendColumn ( Catalog.GetString ("Specialty"), new CellRendererText(), "text", count++);
 			tv.AppendColumn ( Catalog.GetString ("Level"), new CellRendererText(), "text", count++);
 		}
-		if(showContacts) {
+		if(showJumps) {
 			tv.AppendColumn ( Catalog.GetString ("Jumps simple"), new CellRendererText(), "text", count++);
 			tv.AppendColumn ( Catalog.GetString ("Jumps reactive"), new CellRendererText(), "text", count++);
+		}
+		if(showRuns) {
 			tv.AppendColumn ( Catalog.GetString ("Races simple"), new CellRendererText(), "text", count++);
 			tv.AppendColumn ( Catalog.GetString ("Races interval"), new CellRendererText(), "text", count++);
-			tv.AppendColumn ( Catalog.GetString ("Reaction time"), new CellRendererText(), "text", count++);
-			tv.AppendColumn ( Catalog.GetString ("Pulses"), new CellRendererText(), "text", count++);
-			tv.AppendColumn ( Catalog.GetString ("MultiChronopic"), new CellRendererText(), "text", count++);
+			tv.AppendColumn ( Catalog.GetString ("Race analyzer"), new CellRendererText(), "text", count++);
 		}
-		if(showOtherTests) {
+		if(showForceSensor) {
+			tv.AppendColumn ( Catalog.GetString ("Force sensor"), new CellRendererText(), "text", count++);
+		}
+		if(showEncoder) {
 			tv.AppendColumn ( Catalog.GetString ("Gravitatory encoder") + "\n" +
 					Catalog.GetString("Sets") + " ; " + Catalog.GetString("Repetitions"),
 					new CellRendererText(), "text", count++);
 			tv.AppendColumn ( Catalog.GetString ("Inertial encoder") + "\n" +
 					Catalog.GetString("Sets") + " ; " + Catalog.GetString("Repetitions"),
 					new CellRendererText(), "text", count++);
-			tv.AppendColumn ( Catalog.GetString ("Force sensor"), new CellRendererText(), "text", count++);
-			tv.AppendColumn ( Catalog.GetString ("Race analyzer"), new CellRendererText(), "text", count++);
+		}
+		if(showRT) {
+			tv.AppendColumn ( Catalog.GetString ("Reaction time"), new CellRendererText(), "text", count++);
+		}
+		if(showOther) {
+			tv.AppendColumn ( Catalog.GetString ("Pulses"), new CellRendererText(), "text", count++);
+			tv.AppendColumn ( Catalog.GetString ("MultiChronopic"), new CellRendererText(), "text", count++);
 		}
 		tv.AppendColumn ( Catalog.GetString ("Comments"), new CellRendererText(), "text", count++);
 	}
@@ -318,7 +352,7 @@ public partial class ChronoJumpWindow
 		app1s_recreateTreeView ("file path changed");
 	}
 
-	void app1s_on_checkbutton_show_data_persons_toggled (object o, EventArgs args)
+	void app1s_on_checkbutton_show_data_toggled (object o, EventArgs args)
 	{
 		if(! sessionLoadWinSignals)
 			return;
@@ -327,40 +361,24 @@ public partial class ChronoJumpWindow
 		if (app1s_type == app1s_windowType.LOAD_SESSION)
 			sqlChangeSessionLoadDisplay();
 
-		app1s_recreateTreeView("persons " + app1s_checkbutton_show_data_persons.Active.ToString());
-	}
-	void app1s_on_checkbutton_show_data_jump_run_toggled (object o, EventArgs args)
-	{
-		if(! sessionLoadWinSignals)
-			return;
-
-		//on import this call will be done t end to affect to our desired database
-		if (app1s_type == app1s_windowType.LOAD_SESSION)
-			sqlChangeSessionLoadDisplay();
-
-		app1s_recreateTreeView("jump run " + app1s_checkbutton_show_data_jump_run.Active.ToString());
-	}
-	void app1s_on_checkbutton_show_data_other_tests_toggled (object o, EventArgs args)
-	{
-		if(! sessionLoadWinSignals)
-			return;
-
-		//on import this call will be done t end to affect to our desired database
-		if (app1s_type == app1s_windowType.LOAD_SESSION)
-			sqlChangeSessionLoadDisplay();
-
-		app1s_recreateTreeView("other tests " + app1s_checkbutton_show_data_other_tests.Active.ToString());
+		app1s_recreateTreeView("show_data_toggled " + app1s_checkbutton_show_data_persons.Active.ToString());
 	}
 
 	private void sqlChangeSessionLoadDisplay ()
 	{
+		/*
 		preferences.sessionLoadDisplay = new SessionLoadDisplay(
 				app1s_checkbutton_show_data_persons.Active,
-				app1s_checkbutton_show_data_jump_run.Active,
-				app1s_checkbutton_show_data_other_tests.Active);
+				app1s_checkbutton_show_data_jumps.Active,
+				app1s_checkbutton_show_data_runs.Active,
+				app1s_checkbutton_show_data_force_sensor.Active,
+				app1s_checkbutton_show_data_encoder.Active,
+				app1s_checkbutton_show_data_rt.Active,
+				app1s_checkbutton_show_data_other.Active);
 
 		SqlitePreferences.Update (SqlitePreferences.SessionLoadDisplay,
 				preferences.sessionLoadDisplay.GetInt.ToString(), false);
+				*/
 	}
 
 	void app1s_recreateTreeView(string message)
@@ -372,18 +390,30 @@ public partial class ChronoJumpWindow
 		app1s_createTreeView(app1s_treeview_session_load,
 				app1s_type == app1s_windowType.LOAD_SESSION,
 				app1s_checkbutton_show_data_persons.Active,
-				app1s_checkbutton_show_data_jump_run.Active,
-				app1s_checkbutton_show_data_other_tests.Active);
+				app1s_checkbutton_show_data_jumps.Active,
+				app1s_checkbutton_show_data_runs.Active,
+				app1s_checkbutton_show_data_force_sensor.Active,
+				app1s_checkbutton_show_data_encoder.Active,
+				app1s_checkbutton_show_data_rt.Active,
+				app1s_checkbutton_show_data_other.Active);
 		app1s_store = app1s_getStore(
 				true,
 				app1s_checkbutton_show_data_persons.Active,
-				app1s_checkbutton_show_data_jump_run.Active,
-				app1s_checkbutton_show_data_other_tests.Active);
+				app1s_checkbutton_show_data_jumps.Active,
+				app1s_checkbutton_show_data_runs.Active,
+				app1s_checkbutton_show_data_force_sensor.Active,
+				app1s_checkbutton_show_data_encoder.Active,
+				app1s_checkbutton_show_data_rt.Active,
+				app1s_checkbutton_show_data_other.Active);
 		app1s_treeview_session_load.Model = app1s_store;
 		app1s_fillTreeView(app1s_treeview_session_load, app1s_store,
 				app1s_checkbutton_show_data_persons.Active,
-				app1s_checkbutton_show_data_jump_run.Active,
-				app1s_checkbutton_show_data_other_tests.Active);
+				app1s_checkbutton_show_data_jumps.Active,
+				app1s_checkbutton_show_data_runs.Active,
+				app1s_checkbutton_show_data_force_sensor.Active,
+				app1s_checkbutton_show_data_encoder.Active,
+				app1s_checkbutton_show_data_rt.Active,
+				app1s_checkbutton_show_data_other.Active);
 		
 		app1s_store.SetSortColumnId(1, Gtk.SortType.Descending); //date
 		app1s_store.ChangeSortColumn();
@@ -397,8 +427,9 @@ public partial class ChronoJumpWindow
 		app1s_onSelectionEntry (app1s_treeview_session_load.Selection, new EventArgs ());
 	}
 
-	private void app1s_fillTreeView (Gtk.TreeView tv, TreeStore store,
-			bool showPersons, bool showContacts, bool showOtherTests)
+	private void app1s_fillTreeView (Gtk.TreeView tv, TreeStore store, bool showPersons,
+			//bool showContacts, bool showOtherTests)
+			bool showJumps, bool showRuns, bool showForceSensor, bool showEncoder, bool showRT, bool showOther)
 	{
 		string filterName = "";
 		if(app1s_entry_search_filter.Text.ToString().Length > 0)
@@ -418,10 +449,18 @@ public partial class ChronoJumpWindow
 		int columns = 6;
 		if(showPersons)
 			columns += 3;
-		if(showContacts)
-			columns += 7;
-		if(showOtherTests)
-			columns += 4;
+		if(showJumps)
+			columns += 2;
+		if(showRuns)
+			columns += 3; //includes race analyzer
+		if(showForceSensor)
+			columns ++;
+		if(showEncoder)
+			columns += 2;
+		if(showRT)
+			columns ++;
+		if(showOther)
+			columns += 2; //pulses, RT
 
 		//tags are not going to be imported right now, so use only on load session
 		List<SessionTagSession> tagsOfAllSessions = new List<SessionTagSession>();
@@ -486,20 +525,28 @@ public partial class ChronoJumpWindow
 				strings[i ++] = mySpeciallity;		//personsSpeciallity
 				strings[i ++] = myLevel;		//personsLevel
 			}
-			if(showContacts) {
+			if(showJumps) {
 				strings[i ++] = myStringFull[9];	//number of jumps x session
 				strings[i ++] = myStringFull[10];	//number of jumpsRj x session
+			}
+			if(showRuns) {
 				strings[i ++] = myStringFull[11]; 	//number of runs x session
 				strings[i ++] = myStringFull[12]; 	//number of runsInterval x session
-				strings[i ++] = myStringFull[13]; 	//number of reaction times x session
-				strings[i ++] = myStringFull[14]; 	//number of pulses x session
-				strings[i ++] = myStringFull[15]; 	//number of multiChronopics x session
+				strings[i ++] = myStringFull[19]; 	//number of runEncoder
 			}
-			if(showOtherTests) {
+			if(showForceSensor) {
+				strings[i ++] = myStringFull[18]; 	//number of forceSensor
+			}
+			if(showEncoder) {
 				strings[i ++] = myStringFull[16]; 	//number of encoder signal x session
 				strings[i ++] = myStringFull[17]; 	//number of encoder curve x session
-				strings[i ++] = myStringFull[18]; 	//number of forceSensor
-				strings[i ++] = myStringFull[19]; 	//number of runEncoder
+			}
+			if(showRT) {
+				strings[i ++] = myStringFull[13]; 	//number of reaction times x session
+			}
+			if(showOther) {
+				strings[i ++] = myStringFull[14]; 	//number of pulses x session
+				strings[i ++] = myStringFull[15]; 	//number of multiChronopics x session
 			}
 			strings[i ++] = myStringFull[7];		//description of session (comments)
 

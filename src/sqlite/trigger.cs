@@ -44,7 +44,7 @@ class SqliteTrigger : Sqlite
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"mode TEXT, " + 	//encoder; gauge
 			"modeID INT, " + 	//on encoder: uniqueID
-			"ms INT, " +
+			"ms INT, " +		//note this are microseconds!!! should have been named us
 			"inOut INT, " + 	//bool
 			"name TEXT, " +
 			"color TEXT, " +
@@ -70,7 +70,7 @@ class SqliteTrigger : Sqlite
 					(Trigger.Modes) Enum.Parse(
 						typeof(Trigger.Modes), reader[1].ToString()), //mode
 					Convert.ToInt32(reader[2]), 		//modeID
-					Convert.ToInt32(reader[3]), 		//ms
+					Convert.ToInt32(reader[3]), 		//microseconds
 					Util.IntToBool(Convert.ToInt32(reader[4])), 	//inOut
 					reader[5].ToString(), 			//name
 					reader[6].ToString(), 			//color
@@ -92,7 +92,7 @@ class SqliteTrigger : Sqlite
 		foreach(Trigger trigger in l)
 		{
 			dbcmd.CommandText = "INSERT INTO " + table + 
-				" (uniqueID, mode, modeID, ms, inOut, name, color, comments) VALUES (" +
+				" (uniqueID, mode, modeID, ms, inOut, name, color, comments) VALUES (" +	//microseconds
 				trigger.ToSQLInsertString() + ")";
 			LogB.SQL(dbcmd.CommandText.ToString());
 			dbcmd.ExecuteNonQuery();

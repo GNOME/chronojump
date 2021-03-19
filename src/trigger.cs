@@ -27,19 +27,19 @@ public class Trigger
 	private int uniqueID;
 	private Modes mode;
 	private int modeID;
-	private int ms;
+	private int us; //micro seconds
 	private bool inOut;
 	private string name;
 	private string color;
 	private string comments;
 
 	//constructor used on capture
-	public Trigger (Modes mode, int ms, bool inOut)
+	public Trigger (Modes mode, int us, bool inOut)
 	{
 		this.uniqueID = -1; 	//will be assigned on SQL insertion
 		this.mode = mode;
 		this.modeID = -1; 	//will be assigned on SQL insertion
-		this.ms = ms;
+		this.us = us;
 		this.inOut = inOut;
 		this.name = "";
 		this.color = "";
@@ -47,21 +47,21 @@ public class Trigger
 	}
 
 	//constructor used on loading from SQL
-	public Trigger (int uniqueID, Modes mode, int modeID, int ms, bool inOut, string name, string color, string comments)
+	public Trigger (int uniqueID, Modes mode, int modeID, int us, bool inOut, string name, string color, string comments)
 	{
 		this.uniqueID = uniqueID;
 		this.mode = mode;
 		this.modeID = modeID;
-		this.ms = ms;
+		this.us = us;
 		this.inOut = inOut;
 		this.name = name;
 		this.color = color;
 		this.comments = comments;
 	}
 
-	public void Substract(int msToSubstract)
+	public void Substract(int usToSubstract)
 	{
-		ms -= msToSubstract;
+		us -= usToSubstract;
 	}
 
 	public string ToSQLInsertString()
@@ -74,7 +74,7 @@ public class Trigger
 			idStr + "," +
 			"\"" + mode.ToString() + "\"" + "," +
 			modeID.ToString() + "," +
-			ms.ToString() + "," +
+			us.ToString() + "," +
 			Util.BoolToInt(inOut).ToString() + "," +
 			"\"" + name.ToString() + "\"" + "," +
 			"\"" + color.ToString() + "\"" + "," +
@@ -85,19 +85,22 @@ public class Trigger
 	//used on TextView
 	public override string ToString()
 	{
-		return ms.ToString() + ", " + Util.BoolToInOut(inOut).ToString();
+		return us.ToString() + ", " + Util.BoolToInOut(inOut).ToString();
 	}
 
 	public int UniqueID {
 		get { return uniqueID; }
 	}
 
-	public int Ms {
-		get { return ms; }
+	public int Us {
+		get { return us; }
+	}
+	public double Ms {
+		get { return UtilAll.DivideSafe(us, 1000.0); }
 	}
 
 	public bool IsNegative {
-		get { return ms < 0; }
+		get { return us < 0; }
 	}
 
 	public bool InOut {
@@ -132,17 +135,23 @@ public class TriggerList
 		l.Add(trigger);
 	}
 
-	public void Substract(int msToSubstract)
+	public void Substract(int usToSubstract)
 	{
 		//iterate negative to not fail enumeration if an element is substracted
 		for(int i = l.Count -1 ; i >= 0; i --)
 		{
-			l[i].Substract(msToSubstract);
+			l[i].Substract(usToSubstract);
 
 			//triggers cannot be negative
 			if(l[i].IsNegative)
 				l.RemoveAt(i);
 		}
+	}
+
+	//used on forceSensorAnalyzeManualGraphDo
+	public List<Trigger> GetList()
+	{
+		return l;
 	}
 
 	//just to debug
@@ -296,9 +305,9 @@ public class TriggerList
 				! newTrigger.InOut && countOff() == 0) )
 			return false;
 
-		if(type3 == Type3.BOTH && (newTrigger.Ms - last(Type3.BOTH).Ms) < ms )
+		if(type3 == Type3.BOTH && (newTrigger.Us - last(Type3.BOTH).Us) < ms*1000 )
 			return true;
-		else if(type3 == Type3.ON && (newTrigger.Ms - last(Type3.ON).Ms) < ms )
+		else if(type3 == Type3.ON && (newTrigger.Us - last(Type3.ON).Us) < ms*1000 )
 			return true;
 
 		return false;

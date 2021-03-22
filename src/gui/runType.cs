@@ -145,11 +145,8 @@ public class RunTypeAddWindow
 		alignment_hbox_distance_fixed.Sensitive = false;
 		alignment_vbox_distance_variable.Sensitive = false;
 		if(simple)
-		{
-			alignment_hbox_distance_fixed.Hide();
 			alignment_vbox_distance_variable.Hide();
-		}
-					
+
 		dd0 = new Gtk.Entry(); 	dd0.Changed += new EventHandler(on_entries_required_changed);
 		dd1 = new Gtk.Entry(); 	dd1.Changed += new EventHandler(on_entries_required_changed);
 		dd2 = new Gtk.Entry(); 	dd2.Changed += new EventHandler(on_entries_required_changed);

@@ -115,6 +115,12 @@ options</property>
                         <property name="column_spacing">10</property>
                         <property name="row_spacing">4</property>
                         <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
                           <widget class="GtkLabel" id="label138">
                             <property name="can_focus">False</property>
                             <property name="label" translatable="yes">Type</property>
@@ -249,12 +255,6 @@ options</property>
                             <property name="x_options">GTK_FILL</property>
                             <property name="y_options"/>
                           </packing>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
                         </child>
                         <child>
                           <widget class="GtkHBox" id="hbox_fixed">

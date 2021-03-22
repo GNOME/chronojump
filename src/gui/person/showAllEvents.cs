@@ -171,7 +171,7 @@ public class PersonShowAllEventsWindow
 		tv.AppendColumn ( Catalog.GetString ("Encoder sets"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Encoder repetitions"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Force sensor"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString ("Run encoder"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Race analyzer"), new CellRendererText(), "text", count++);
 	}
 	
 	protected void fillTreeView (Gtk.TreeView tv, TreeStore store, int personID) {

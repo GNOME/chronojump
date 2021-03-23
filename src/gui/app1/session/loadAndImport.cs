@@ -131,18 +131,20 @@ public partial class ChronoJumpWindow
 				app1s_checkbutton_show_data_jumps.Active,
 				app1s_checkbutton_show_data_runs.Active,
 				app1s_checkbutton_show_data_force_sensor.Active,
-				app1s_checkbutton_show_data_encoder.Active,
+				app1s_checkbutton_show_data_encoder.Active);/*,
 				app1s_checkbutton_show_data_rt.Active,
-				app1s_checkbutton_show_data_other.Active);
+				app1s_checkbutton_show_data_other.Active
+				);*/
 
 		app1s_store = app1s_getStore(true,
 				app1s_checkbutton_show_data_persons.Active,
 				app1s_checkbutton_show_data_jumps.Active,
 				app1s_checkbutton_show_data_runs.Active,
 				app1s_checkbutton_show_data_force_sensor.Active,
-				app1s_checkbutton_show_data_encoder.Active,
+				app1s_checkbutton_show_data_encoder.Active);/*,
 				app1s_checkbutton_show_data_rt.Active,
-				app1s_checkbutton_show_data_other.Active);
+				app1s_checkbutton_show_data_other.Active
+				);*/
 
 		app1s_treeview_session_load.Model = app1s_store;
 
@@ -151,9 +153,10 @@ public partial class ChronoJumpWindow
 				app1s_checkbutton_show_data_jumps.Active,
 				app1s_checkbutton_show_data_runs.Active,
 				app1s_checkbutton_show_data_force_sensor.Active,
-				app1s_checkbutton_show_data_encoder.Active,
+				app1s_checkbutton_show_data_encoder.Active);/*,
 				app1s_checkbutton_show_data_rt.Active,
-				app1s_checkbutton_show_data_other.Active);
+				app1s_checkbutton_show_data_other.Active
+				);*/
 
 		app1s_store.SetSortColumnId(1, Gtk.SortType.Descending); //date
 		app1s_store.ChangeSortColumn();
@@ -176,8 +179,7 @@ public partial class ChronoJumpWindow
 	}
 
 	private TreeStore app1s_getStore(bool loadOrImport, bool showPersons,
-			//bool showContacts, bool showOtherTests)
-			bool showJumps, bool showRuns, bool showForceSensor, bool showEncoder, bool showRT, bool showOther)
+			bool showJumps, bool showRuns, bool showForceSensor, bool showEncoder)//, bool showRT, bool showOther)
 	{
 		int columns = 6;
 		if(loadOrImport)
@@ -193,10 +195,12 @@ public partial class ChronoJumpWindow
 			columns ++;
 		if(showEncoder)
 			columns += 2;
+		/*
 		if(showRT)
 			columns ++;
 		if(showOther)
 			columns += 2; //pulses, RT
+			*/
 
 		Type [] types = new Type [columns];
 		for (int i=0; i < columns; i++) {
@@ -236,9 +240,8 @@ public partial class ChronoJumpWindow
 		app1s_recreateTreeView("loaded the dialog");
 	}
 
-	//private void app1s_createTreeView (Gtk.TreeView tv, bool loadOrImport, bool showPersons, bool showContacts, bool showOtherTests)
 	private void app1s_createTreeView (Gtk.TreeView tv, bool loadOrImport, bool showPersons,
-			bool showJumps, bool showRuns, bool showForceSensor, bool showEncoder, bool showRT, bool showOther)
+			bool showJumps, bool showRuns, bool showForceSensor, bool showEncoder)//, bool showRT, bool showOther)
 	{
 		tv.HeadersVisible=true;
 		int count = 0;
@@ -295,6 +298,7 @@ public partial class ChronoJumpWindow
 					Catalog.GetString("Sets") + " ; " + Catalog.GetString("Repetitions"),
 					new CellRendererText(), "text", count++);
 		}
+		/*
 		if(showRT) {
 			tv.AppendColumn ( Catalog.GetString ("Reaction time"), new CellRendererText(), "text", count++);
 		}
@@ -302,6 +306,7 @@ public partial class ChronoJumpWindow
 			tv.AppendColumn ( Catalog.GetString ("Pulses"), new CellRendererText(), "text", count++);
 			tv.AppendColumn ( Catalog.GetString ("MultiChronopic"), new CellRendererText(), "text", count++);
 		}
+		*/
 		tv.AppendColumn ( Catalog.GetString ("Comments"), new CellRendererText(), "text", count++);
 	}
 
@@ -393,27 +398,30 @@ public partial class ChronoJumpWindow
 				app1s_checkbutton_show_data_jumps.Active,
 				app1s_checkbutton_show_data_runs.Active,
 				app1s_checkbutton_show_data_force_sensor.Active,
-				app1s_checkbutton_show_data_encoder.Active,
+				app1s_checkbutton_show_data_encoder.Active);/*,
 				app1s_checkbutton_show_data_rt.Active,
-				app1s_checkbutton_show_data_other.Active);
+				app1s_checkbutton_show_data_other.Active
+				);*/
 		app1s_store = app1s_getStore(
 				true,
 				app1s_checkbutton_show_data_persons.Active,
 				app1s_checkbutton_show_data_jumps.Active,
 				app1s_checkbutton_show_data_runs.Active,
 				app1s_checkbutton_show_data_force_sensor.Active,
-				app1s_checkbutton_show_data_encoder.Active,
+				app1s_checkbutton_show_data_encoder.Active);/*,
 				app1s_checkbutton_show_data_rt.Active,
-				app1s_checkbutton_show_data_other.Active);
+				app1s_checkbutton_show_data_other.Active
+				);*/
 		app1s_treeview_session_load.Model = app1s_store;
 		app1s_fillTreeView(app1s_treeview_session_load, app1s_store,
 				app1s_checkbutton_show_data_persons.Active,
 				app1s_checkbutton_show_data_jumps.Active,
 				app1s_checkbutton_show_data_runs.Active,
 				app1s_checkbutton_show_data_force_sensor.Active,
-				app1s_checkbutton_show_data_encoder.Active,
+				app1s_checkbutton_show_data_encoder.Active);/*,
 				app1s_checkbutton_show_data_rt.Active,
-				app1s_checkbutton_show_data_other.Active);
+				app1s_checkbutton_show_data_other.Active
+				);*/
 		
 		app1s_store.SetSortColumnId(1, Gtk.SortType.Descending); //date
 		app1s_store.ChangeSortColumn();
@@ -428,8 +436,7 @@ public partial class ChronoJumpWindow
 	}
 
 	private void app1s_fillTreeView (Gtk.TreeView tv, TreeStore store, bool showPersons,
-			//bool showContacts, bool showOtherTests)
-			bool showJumps, bool showRuns, bool showForceSensor, bool showEncoder, bool showRT, bool showOther)
+			bool showJumps, bool showRuns, bool showForceSensor, bool showEncoder)//, bool showRT, bool showOther)
 	{
 		string filterName = "";
 		if(app1s_entry_search_filter.Text.ToString().Length > 0)
@@ -457,10 +464,12 @@ public partial class ChronoJumpWindow
 			columns ++;
 		if(showEncoder)
 			columns += 2;
+		/*
 		if(showRT)
 			columns ++;
 		if(showOther)
 			columns += 2; //pulses, RT
+			*/
 
 		//tags are not going to be imported right now, so use only on load session
 		List<SessionTagSession> tagsOfAllSessions = new List<SessionTagSession>();
@@ -541,6 +550,7 @@ public partial class ChronoJumpWindow
 				strings[i ++] = myStringFull[16]; 	//number of encoder signal x session
 				strings[i ++] = myStringFull[17]; 	//number of encoder curve x session
 			}
+			/*
 			if(showRT) {
 				strings[i ++] = myStringFull[13]; 	//number of reaction times x session
 			}
@@ -548,6 +558,7 @@ public partial class ChronoJumpWindow
 				strings[i ++] = myStringFull[14]; 	//number of pulses x session
 				strings[i ++] = myStringFull[15]; 	//number of multiChronopics x session
 			}
+			*/
 			strings[i ++] = myStringFull[7];		//description of session (comments)
 
 			app1s_store.AppendValues (strings);

@@ -91,11 +91,8 @@ class SqliteRunInterval : SqliteRun
 		return myLast;
 	}
 
-	public static string[] SelectRuns(bool dbconOpened, int sessionID, int personID, string filterType) 
+	private static string selectRunsIntervalCreateSelection (int sessionID, int personID, string filterType)
 	{
-		if(!dbconOpened)
-			Sqlite.Open();
-
 		string tp = Constants.PersonTable;
 
 		string filterSessionString = "";
@@ -110,13 +107,22 @@ class SqliteRunInterval : SqliteRun
 		if(filterType != "")
 			filterTypeString = " AND runInterval.type == \"" + filterType + "\" " ;
 
-		dbcmd.CommandText = "SELECT " + tp + ".name, runInterval.* " +
+		return "SELECT " + tp + ".name, runInterval.* " +
 			" FROM " + tp + ", runInterval " +
-			" WHERE " + tp + ".uniqueID == runInterval.personID" + 
+			" WHERE " + tp + ".uniqueID == runInterval.personID" +
 			filterSessionString +
 			filterPersonString +
 			filterTypeString +
 			" ORDER BY upper(" + tp + ".name), runInterval.uniqueID";
+	}
+
+	//method that retruns an string array
+	public static string[] SelectRunsSA (bool dbconOpened, int sessionID, int personID, string filterType)
+	{
+		if(!dbconOpened)
+			Sqlite.Open();
+
+		dbcmd.CommandText = selectRunsIntervalCreateSelection (sessionID, personID, filterType);
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

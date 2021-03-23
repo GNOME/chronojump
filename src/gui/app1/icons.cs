@@ -358,8 +358,19 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_weight.png");
 		image_mode_encoder_gravitatory.Pixbuf = pixbuf;
+		app1s_image_show_data_encoder_grav.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_inertia.png");
 		image_mode_encoder_inertial.Pixbuf = pixbuf;
+		app1s_image_show_data_encoder_inertial.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_jump.png");
+		app1s_image_show_data_jumps.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run.png");
+		app1s_image_show_data_runs.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "race_encoder_icon.png");
+		app1s_image_show_data_run_encoder.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "force_sensor_icon.png");
+		app1s_image_show_data_force_sensor.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_capture.png");
 		image_tests_capture.Pixbuf = pixbuf;
@@ -379,6 +390,7 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person.png");
 		image_person.Pixbuf = pixbuf;
 		image_person1.Pixbuf = pixbuf;
+		app1s_image_show_data_persons.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_info.png");
 		image_info1.Pixbuf = pixbuf;

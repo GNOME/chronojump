@@ -19,6 +19,7 @@
  */
 
 using System.IO; 		//for detect OS //TextWriter
+using System.Collections; 		//ArrayList
 using System.Collections.Generic; //List<T>
 using System.Threading;
 using Mono.Unix;

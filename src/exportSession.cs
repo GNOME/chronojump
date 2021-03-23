@@ -189,7 +189,7 @@ public class ExportSession
 		myRuns= SqliteRun.SelectRunsSA (true, mySession.UniqueID, -1, "",
 				Sqlite.Orders_by.DEFAULT, -1);
 
-		myRunsInterval = SqliteRunInterval.SelectRuns(true, mySession.UniqueID, -1, "");
+		myRunsInterval = SqliteRunInterval.SelectRunsSA (true, mySession.UniqueID, -1, "");
 		myReactionTimes = SqliteReactionTime.SelectReactionTimes(true, mySession.UniqueID, -1, "",
 				Sqlite.Orders_by.DEFAULT, -1);
 

@@ -1664,7 +1664,7 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		string [] myRuns = SqliteRunInterval.SelectRuns(dbconOpened, currentSession.UniqueID, -1, "");
+		string [] myRuns = SqliteRunInterval.SelectRunsSA (dbconOpened, currentSession.UniqueID, -1, "");
 		myTreeViewRunsInterval.Fill(myRuns, filter);
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewRunsInterval, treeview_runs_interval);
 	}

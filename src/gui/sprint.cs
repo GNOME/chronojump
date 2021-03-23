@@ -76,7 +76,7 @@ public partial class ChronoJumpWindow
 		tv.Selection.Changed += onTreeviewSprintSelectionEntry;
 
 		List<object> runITypes = SqliteRunIntervalType.SelectRunIntervalTypesNew("", false);
-		string [] runsArray = SqliteRunInterval.SelectRuns(
+		string [] runsArray = SqliteRunInterval.SelectRunsSA (
 				false, currentSession.UniqueID, currentPerson.UniqueID, "");
 
 		foreach (string line in runsArray)

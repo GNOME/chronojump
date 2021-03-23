@@ -114,7 +114,7 @@ public class Report : ExportSession
 					Sqlite.Orders_by.DEFAULT, -1);
 		}
 		if (ShowIntervalRuns) {
-			myRunsInterval = SqliteRunInterval.SelectRuns(true, sessionID, -1, "");
+			myRunsInterval = SqliteRunInterval.SelectRunsSA (true, sessionID, -1, "");
 		}
 		if(ShowReactionTimes) {
 			myReactionTimes= SqliteReactionTime.SelectReactionTimes(true, sessionID, -1, "",

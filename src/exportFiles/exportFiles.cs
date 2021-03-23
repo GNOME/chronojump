@@ -38,6 +38,9 @@ public abstract class ExportFiles
 	protected bool isWindows;
 	protected int personID; // -1: all
 	protected int sessionID;
+	protected char exportDecimalSeparator;
+
+	protected ArrayList personSession_l;
 
 	protected static Thread thread;
 	protected static bool cancel;
@@ -52,7 +55,8 @@ public abstract class ExportFiles
 			Gtk.Label labelResult,
 			bool includeImages,
 			int imageWidth, int imageHeight,
-			bool isWindows, int personID, int sessionID)
+			bool isWindows, int personID, int sessionID,
+			char exportDecimalSeparator)
 
 	{
 		this.notebook = notebook;
@@ -64,6 +68,7 @@ public abstract class ExportFiles
 		this.isWindows = isWindows;
 		this.personID = personID;
 		this.sessionID = sessionID;
+		this.exportDecimalSeparator = exportDecimalSeparator;
 	}
 
 	protected void prepare(string exportURL)

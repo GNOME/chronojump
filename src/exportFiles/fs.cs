@@ -36,11 +36,9 @@ public class ForceSensorExport : ExportFiles
 	private double forceSensorElasticConMinDispl;
 	private int forceSensorNotElasticConMinForce;
 	private bool forceSensorStartEndOptimized;
-	private char CSVExportDecimalSeparatorChar;
 	private double forceSensorAnalyzeMaxAVGInWindowSeconds;
 
 	private List<ForceSensor> fs_l;
-	private ArrayList personSession_l;
 	private ArrayList fsEx_l;
 	private static int totalRepsToExport;
 
@@ -58,14 +56,14 @@ public class ForceSensorExport : ExportFiles
 			double forceSensorElasticConMinDispl,
 			int forceSensorNotElasticConMinForce,
 			bool forceSensorStartEndOptimized,
-			char CSVExportDecimalSeparatorChar,
+			char exportDecimalSeparator,
 			double forceSensorAnalyzeMaxAVGInWindowSeconds)
 
 	{
 		Button_done = new Gtk.Button();
 
 		assignParams(notebook, progressbar, labelResult, includeImages,
-				imageWidth, imageHeight, isWindows, personID, sessionID);
+				imageWidth, imageHeight, isWindows, personID, sessionID, exportDecimalSeparator);
 
 		this.rfdList = rfdList;
 		this.impulse = impulse;
@@ -76,7 +74,6 @@ public class ForceSensorExport : ExportFiles
 		this.forceSensorElasticConMinDispl = forceSensorElasticConMinDispl;
 		this.forceSensorNotElasticConMinForce = forceSensorNotElasticConMinForce;
 		this.forceSensorStartEndOptimized = forceSensorStartEndOptimized;
-		this.CSVExportDecimalSeparatorChar = CSVExportDecimalSeparatorChar;
 		this.forceSensorAnalyzeMaxAVGInWindowSeconds = forceSensorAnalyzeMaxAVGInWindowSeconds;
 	}
 
@@ -332,7 +329,7 @@ public class ForceSensorExport : ExportFiles
 					duration, durationPercent,
 					forceSensorStartEndOptimized,
 					true, //not used to read data, but used to print data
-					CSVExportDecimalSeparatorChar, // at write file
+					exportDecimalSeparator, // at write file
 					fsgABe_l,
 					forceSensorAnalyzeMaxAVGInWindowSeconds,
 					includeImages

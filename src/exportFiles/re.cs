@@ -34,10 +34,8 @@ public class RunEncoderExport : ExportFiles
 	private bool plotFittedForce;
 	private bool plotRawPower;
 	private bool plotFittedPower;
-	private char exportDecimalSeparator;
 
 	private List<RunEncoder> re_l;
-	ArrayList personSession_l;
 	private ArrayList reEx_l;
 	private List<TriggerList> triggerListOfLists;
 
@@ -61,7 +59,7 @@ public class RunEncoderExport : ExportFiles
 		Button_done = new Gtk.Button();
 
 		assignParams(notebook, progressbar, labelResult, includeImages,
-				imageWidth, imageHeight, isWindows, personID, sessionID);
+				imageWidth, imageHeight, isWindows, personID, sessionID, exportDecimalSeparator);
 
 		this.startAccel = startAccel;
 		this.plotRawAccel = plotRawAccel;
@@ -70,7 +68,6 @@ public class RunEncoderExport : ExportFiles
 		this.plotFittedForce = plotFittedForce;
 		this.plotRawPower = plotRawPower;
 		this.plotFittedPower = plotFittedPower;
-		this.exportDecimalSeparator = exportDecimalSeparator;
 	}
 
 	private string getTempGraphsDir() {

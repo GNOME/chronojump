@@ -27,6 +27,8 @@ using System.Threading;
 
 public class SprintExport : ExportFiles
 {
+	private List<RunInterval> ri_l;
+
 	//constructor
 	public SprintExport (
 			Gtk.Notebook notebook,
@@ -54,11 +56,14 @@ public class SprintExport : ExportFiles
 	
 	protected override void createOrEmptyDirs()
 	{
+		createOrEmptyDir(getTempProgressDir());
 		createOrEmptyDir(getTempGraphsDir());
 	}
 
 	protected override bool getData ()
 	{
+		ri_l = SqliteRunInterval.SelectRuns (false, sessionID, personID, "");
+
 	}
 }
 

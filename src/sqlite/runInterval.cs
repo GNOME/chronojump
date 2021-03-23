@@ -22,6 +22,7 @@ using System;
 using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
+using System.Collections.Generic; //List
 using Mono.Data.Sqlite;
 
 
@@ -114,6 +115,48 @@ class SqliteRunInterval : SqliteRun
 			filterPersonString +
 			filterTypeString +
 			" ORDER BY upper(" + tp + ".name), runInterval.uniqueID";
+	}
+
+        //like SelectRunsSA below method but much better: return list of RunInterval
+	public static List<RunInterval> SelectRuns (bool dbconOpened, int sessionID, int personID, string filterType)
+	{
+		if(!dbconOpened)
+			Sqlite.Open();
+
+		dbcmd.CommandText = selectRunsIntervalCreateSelection (sessionID, personID, filterType);
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		List<RunInterval> ri_l = new List<RunInterval>();
+
+		while(reader.Read())
+			ri_l.Add(new RunInterval(
+					Convert.ToInt32(reader[1].ToString()),	//runInterval.uniqueID
+					Convert.ToInt32(reader[2].ToString()), 	//runInterval.personID
+					Convert.ToInt32(reader[3].ToString()), 	//runInterval.sessionID
+					reader[4].ToString(), 	//runInterval.type
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[5].ToString())), //distanceTotal
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[6].ToString())), //timeTotal
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[7].ToString())), //distanceInterval
+					Util.ChangeDecimalSeparator(reader[8].ToString()), //intervalTimesString
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[9].ToString())), //tracks
+					reader[10].ToString(), 	//description
+					reader[11].ToString(), 	//limited
+					Convert.ToInt32(reader[12].ToString()),	//simulated
+					Util.IntToBool(Convert.ToInt32(reader[13])), //initialSpeed
+					reader[14].ToString() 		//datetime
+					));
+
+		reader.Close();
+
+		if(!dbconOpened)
+			Sqlite.Close();
+
+		return ri_l;
 	}
 
 	//method that retruns an string array

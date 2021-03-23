@@ -556,7 +556,7 @@ class SqliteRunIntervalType : SqliteRunType
 
 		return types;
 	}
-	//on newly cereated code use above method
+	//on newly created code use above method
 	public static string[] SelectRunIntervalTypes(string allRunsName, bool onlyName) 
 	{
 		Sqlite.Open();

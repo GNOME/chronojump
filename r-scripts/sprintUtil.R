@@ -26,7 +26,7 @@ source(paste(options[1], "/scripts-util.R", sep=""))
 #Temperature in the moment of the test and Velocity of the wind).
 getDynamicsFromSprint <- function(K, Vmax, Mass, T0 = 0, Temperature = 25, Height , Vw = 0, maxTime = 10)
 {
-        print("In getDynamicsFromEncoder()")
+        print("In getDynamicsFromSprint()")
 	# maxTime is used for the numerical calculations
         # Constants for the air friction modeling
         ro0 = 1.293

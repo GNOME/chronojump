@@ -410,7 +410,7 @@ public class RunEncoderCSV
 	}
 }
 
-//this class creates the rows of each force sensor AB for the csv input multi that is read by R
+//this class creates the rows of each set for the csv input multi that is read by R
 public class RunEncoderGraphExport
 {
 	private string fullURL;

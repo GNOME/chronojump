@@ -22,7 +22,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -4909,7 +4909,7 @@ public partial class ChronoJumpWindow
 
 	private void calculateSprintAndUpload()
 	{
-		string positions = getSprintPositions(
+		string positions = RunInterval.GetSprintPositions(
 				currentRunInterval.DistanceInterval, //distanceInterval. == -1 means variable distances
 				currentRunInterval.IntervalTimesString,
 				currentRunIntervalType.DistancesString 	//distancesString
@@ -4920,7 +4920,7 @@ public partial class ChronoJumpWindow
 		positions = Util.ChangeChars(positions, ",", ".");
 		positions = "0;" + positions;
 
-		string splitTimes = getSplitTimes(currentRunInterval.IntervalTimesString);
+		string splitTimes = RunInterval.GetSplitTimes(currentRunInterval.IntervalTimesString, preferences.digitsNumber);
 		splitTimes = Util.ChangeChars(splitTimes, ",", ".");
 		splitTimes = "0;" + splitTimes;
 

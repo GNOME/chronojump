@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -207,6 +207,52 @@ public class RunInterval : Run
 				distanceInterval, intervalTimesString,
 				tracks, description, 
 				limited, simulated, initialSpeed, datetime);
+	}
+
+	//this discards RSA
+	public static string GetSprintPositions(double distanceInterval, string intervalTimesString, string distancesString)
+	{
+		string positions = "";
+		string [] intervalTimesSplit = intervalTimesString.Split(new char[] {'='});
+		if(! distancesString.Contains("R") ) 	//discard RSA
+		{
+			string sep = "";
+			for(int i=0; i < intervalTimesSplit.Length; i ++)
+			{
+				positions += sep + Util.GetRunITotalDistance(distanceInterval, distancesString, i+1);
+				sep = ";";
+			}
+
+			//format positions
+			positions = Util.ChangeChars(positions, "-", ";");
+		}
+		return positions;
+	}
+
+	public static string GetSplitTimes(string intervalTimesString, int prefsDigitsNumber)
+	{
+		string [] intervalTimesSplit = intervalTimesString.Split(new char[] {'='});
+
+		//manage accumulated time
+		double timeAccumulated = 0;
+		string splitTimes = "";
+		string sep = "";
+		foreach(string time in intervalTimesSplit)
+		{
+			double timeD = Convert.ToDouble(time);
+			timeAccumulated += timeD;
+			splitTimes += sep + Util.TrimDecimals(timeAccumulated, prefsDigitsNumber);
+			sep = ";";
+		}
+
+		return splitTimes;
+	}
+
+	public static string GetCSVInputMulti() {
+		return Path.Combine(Path.GetTempPath(), "sprintInputMulti.csv");
+	}
+	public static string GetCSVResultsFileName() {
+		return Path.Combine(Path.GetTempPath(), "sprintResults.csv");
 	}
 
 	public string IntervalTimesString

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2017-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2017-2021   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -119,6 +119,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_sprint_analyze_save;
 	[Widget] Gtk.Image image_sprint_analyze_table_save;
 	[Widget] Gtk.Image image_sprint_analyze_table_save_1;
+	[Widget] Gtk.Image image_sprint_export_cancel;
 
 	//encoder images
 	[Widget] Gtk.Image image_top_eccon;
@@ -723,6 +724,7 @@ public partial class ChronoJumpWindow
 		app1s_image_delete.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
+		image_sprint_export_cancel.Pixbuf = pixbuf;
 		image_encoder_analyze_cancel.Pixbuf = pixbuf;
 		image_force_sensor_export_cancel.Pixbuf = pixbuf;
 		image_run_encoder_export_cancel.Pixbuf = pixbuf;

@@ -184,6 +184,7 @@ SOURCES = \
 	exportFiles/exportFiles.cs\
 	exportFiles/fs.cs\
 	exportFiles/re.cs\
+	exportFiles/sprint.cs\
 	AssemblyInfo.cs\
 	buildInfo.cs\
 	chronojump.cs\

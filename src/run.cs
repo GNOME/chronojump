@@ -20,6 +20,7 @@
 
 using System;
 using System.Data;
+using System.IO; 		//for detect OS //TextWriter
 using System.Collections.Generic; //List
 using System.Threading;
 using Mono.Unix;

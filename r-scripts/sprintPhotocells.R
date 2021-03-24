@@ -16,7 +16,7 @@
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
 #   Copyright (C) 2017   	Xavier Padullés <x.padulles@gmail.com>
-#   Copyright (C) 2017   	Xavier de Blas <xaviblas@gmail.com>
+#   Copyright (C) 2017,2021   	Xavier de Blas <xaviblas@gmail.com>
 
 #This code uses splitTimes: accumulated time (not lap time)
 
@@ -264,7 +264,8 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
                            paste("pmax =", round(sprintDynamics$pmax.rel.fitted, digits = 2), "W/kg")),
                 text.col = c("black", "black", "black", "magenta", "blue", "red"))
         
-        exportSprintDynamics(sprintDynamics)
+        #exportSprintDynamics(sprintDynamics)
+        return (exportSprintDynamicsPrepareRow(sprintDynamics))
 }
 
 testPhotocellsCJ <- function(positions, splitTimes, mass, personHeight, tempC, personName)
@@ -278,7 +279,7 @@ testPhotocellsCJ <- function(positions, splitTimes, mass, personHeight, tempC, p
                                                , maxTime = max(splitTimes))
         print(paste("K =",sprintDynamics$K.fitted, "Vmax =", sprintDynamics$Vmax.fitted))
         
-        drawSprintFromPhotocells(sprintDynamics = sprintDynamics, splitTimes, positions, title = personName)
+        return(drawSprintFromPhotocells(sprintDynamics = sprintDynamics, splitTimes, positions, title = personName))
 }
 
 #----- execute code
@@ -288,7 +289,8 @@ start <- function(op)
 	if(op$singleOrMultiple == "TRUE")
 	{
 		prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
-		testPhotocellsCJ(op$positions, op$splitTimes, op$mass, op$personHeight, op$tempC, op$personName)
+		exportRow = testPhotocellsCJ(op$positions, op$splitTimes, op$mass, op$personHeight, op$tempC, op$personName)
+		exportSprintDynamicsWriteRow (exportRow)
 		endGraph()
 		return()
 	}
@@ -296,8 +298,60 @@ start <- function(op)
 	# ------------------ op$singleOrMultiple == "FALSE" ------------------------->
 
 	#2) read the csv
-	#dataFiles = read.csv(file = paste(tempPath, "/sprintInputMulti.csv", sep=""), sep=";", stringsAsFactors=F)
+	dataFiles = read.csv(file = paste(tempPath, "/sprintInputMulti.csv", sep=""), sep=";", stringsAsFactors=F)
+
+	#3) call testPhotocelssCJ
+	progressFolder = paste(tempPath, "/chronojump_export_progress", sep ="")
+	#tempGraphsFolder = paste(tempPath, "/chronojump_race_analyzer_export_graphs/", sep ="")
+	exportDF = NULL
+
+	for(i in 1:length(dataFiles[,1]))
+	{
+		print("splitTimes at for: ")
+		print(as.numeric(unlist(strsplit(as.character(dataFiles$splitTimes[i]), "\\_"))))
+		exportRow = testPhotocellsCJ(
+					     as.numeric(unlist(strsplit(as.character(dataFiles$positions[i]), "\\_"))),
+					     as.numeric(unlist(strsplit(as.character(dataFiles$splitTimes[i]), "\\_"))),
+					     dataFiles$mass[i],
+					     dataFiles$personHeight[i], dataFiles$tempC[i], dataFiles$personName[i])
+
+		if(! is.null(exportRow))
+		{
+			names = names(exportRow) #exportRow is a list, get the names
+			exportRow = unlist(exportRow) #convert to a vector
+
+			exportRowDF = data.frame(dataFiles$personName[i]) #create dataframe for this row with some columns
+			#add exportRow data (this way we solve problems of adding strings with numbers without converting the numbers to strings
+			#(to control if we print them as , or .)
+			for(j in 1:length(exportRow))
+				exportRowDF = cbind (exportRowDF, exportRow[j])
+#			if(op$includeImagesOnExport)
+#				exportRowDF = cbind(exportRowDF, paste(i, ".png", sep=""))
+
+			#write the correct names of the row dataframe
+			namesDF = c("Person",names)
+#			if(op$includeImagesOnExport)
+#				namesDF = c(namesDF, "Image")
+			colnames(exportRowDF) = namesDF
+
+			exportDF <- rbind (exportDF, exportRowDF) #rbind with exportDF
+		}
+
+		endGraph()
+
+		progressFilename = paste(progressFolder, "/", i, sep="")
+		file.create(progressFilename)
+		print("done")
+	}
+
+	#write the data frame
+	#na="" to not print NA on empty comments
+	if(op$decimalCharAtExport == ".")
+		write.csv(exportDF, file = paste(tempPath, "/sprintResults.csv", sep = ""), row.names = FALSE, na="")
+	else if(op$decimalCharAtExport == ",")
+		write.csv2(exportDF, file = paste(tempPath, "/sprintResults.csv", sep = ""), row.names = FALSE, na="")
 }
+
 
 start(op)
 

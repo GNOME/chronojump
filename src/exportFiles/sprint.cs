@@ -23,11 +23,13 @@ using System.IO; 			//Directory, ...
 using System.Collections; 		//ArrayList
 using System.Collections.Generic; 	//List<T>
 using System.Threading;
-//using Mono.Unix;
 
 public class SprintExport : ExportFiles
 {
+	private int digitsNumber;
+
 	private List<RunInterval> ri_l;
+	private List<object> riTypes_l; //class in sqlite/usefulObjects.cs
 
 	//constructor
 	public SprintExport (
@@ -39,15 +41,16 @@ public class SprintExport : ExportFiles
 			bool isWindows,
 			int personID,
 			int sessionID,
-			char exportDecimalSeparator
+			char exportDecimalSeparator,
+			int digitsNumber
 			)
 	{
 		Button_done = new Gtk.Button();
 
 		assignParams(notebook, progressbar, labelResult, includeImages,
-				imageWidth, imageHeight, isWindows, personID, sessionID);
+				imageWidth, imageHeight, isWindows, personID, sessionID, exportDecimalSeparator);
 
-		this.exportDecimalSeparator = exportDecimalSeparator;
+		this.digitsNumber = digitsNumber;
 	}
 
 	private string getTempGraphsDir() {
@@ -63,7 +66,123 @@ public class SprintExport : ExportFiles
 	protected override bool getData ()
 	{
 		ri_l = SqliteRunInterval.SelectRuns (false, sessionID, personID, "");
+		personSession_l = SqlitePersonSession.SelectCurrentSessionPersons(sessionID, true);
+		riTypes_l = SqliteRunIntervalType.SelectRunIntervalTypesNew("", false);
 
+		return ri_l.Count > 0;
+	}
+
+	//runInterval has not a file of data (like forceSensor or runEncoder)
+	//so just manage the positions and splitTimes
+	protected override bool processSets ()
+	{
+		Person p = new Person();
+		PersonSession ps = new PersonSession();
+
+		List<SprintRGraphExport> sprge_l = new List<SprintRGraphExport>();
+
+		//int element = -1; //used to sync re_l[element] with triggerListOfLists[element]
+		foreach(RunInterval ri in ri_l)
+		{
+			//element ++;
+
+			// get the person
+			bool found = false;
+			foreach(PersonAndPS paps in personSession_l)
+			{
+				if(paps.p.UniqueID == ri.PersonID)
+				{
+					p = paps.p;
+					ps = paps.ps;
+
+					found = true;
+					break;
+				}
+			}
+			if(! found)
+				continue;
+
+			/*
+			// get the type
+			found = false;
+			RunType riEx = new RunType();
+			foreach(RunType riExTemp in riEx_l)
+				if(reExTemp.UniqueID == ri.ExerciseID)
+				{
+					reEx = reExTemp;
+					found = true;
+					break;
+				}
+			if(! found)
+				continue;
+				*/
+
+			// get the positions
+			string positions = RunInterval.GetSprintPositions(
+					ri.DistanceInterval, //distanceInterval. == -1 means variable distances
+					ri.IntervalTimesString,
+					SelectRunITypes.RunIntervalTypeDistances(ri.Type, riTypes_l) 	// distancesString
+					);
+			if(positions == "") //RSAs are discarded
+				continue;
+
+			//get the splitTimes
+			string splitTimes = RunInterval.GetSplitTimes(ri.IntervalTimesString, digitsNumber);
+
+			// create the export row
+
+			string title = Util.ChangeSpaceAndMinusForUnderscore(p.Name) + "-" +
+				Util.ChangeSpaceAndMinusForUnderscore(ri.Type);
+
+			SprintRGraphExport sprge = new SprintRGraphExport (
+					positions, splitTimes,
+					ps.Weight, //TODO: can be more if extra weight
+					ps.Height,
+					title,
+					25);
+			sprge_l.Add(sprge);
+		}
+
+		Util.FileDelete(RunInterval.GetCSVResultsFileName());
+
+		// call the graph
+
+		if(sprge_l.Count > 0)
+		{
+			SprintRGraph s = new SprintRGraph (
+					sprge_l,
+					exportDecimalSeparator,
+					includeImages
+					);
+
+			if(! s.CallR(imageWidth, imageHeight, false))
+			{
+				failedRprocess = true;
+				return false;
+			}
+		}
+
+		LogB.Information("Waiting creation of file... ");
+		while ( ! ( Util.FileReadable(RunInterval.GetCSVResultsFileName()) || cancel ) )
+			;
+
+		if(cancel)
+			return false;
+
+		if(includeImages)
+		{
+			//TODO
+		}
+
+		// copy the CSV
+		File.Copy(RunInterval.GetCSVResultsFileName(), exportURL, true);
+
+		return true;
+	}
+
+	protected override void setProgressBarTextAndFractionPrepare (int fileCount)
+	{
+		setProgressBarTextAndFractionDo (fileCount, ri_l.Count);
 	}
 }
 

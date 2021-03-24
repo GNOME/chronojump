@@ -35,16 +35,25 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_sprint;
 	[Widget] Gtk.Button button_sprint_save_image;
 
+	[Widget] Gtk.HBox hbox_sprint_analyze_top_modes;
+	[Widget] Gtk.RadioButton radio_sprint_analyze_individual_current_session;
+	[Widget] Gtk.RadioButton radio_sprint_analyze_groupal_current_session;
 	[Widget] Gtk.Image image_sprint_analyze_individual_current_set;
 	[Widget] Gtk.Image image_sprint_analyze_individual_current_session;
 	[Widget] Gtk.Image image_sprint_analyze_groupal_current_session;
 	[Widget] Gtk.Notebook notebook_sprint_analyze_top;
+
+	//export
+	[Widget] Gtk.Notebook notebook_sprint_export;
+	[Widget] Gtk.Label label_sprint_export_data;
 	[Widget] Gtk.CheckButton check_sprint_export_images;
 	[Widget] Gtk.HBox hbox_sprint_export_width_height;
 	[Widget] Gtk.SpinButton spinbutton_sprint_export_image_width;
 	[Widget] Gtk.SpinButton spinbutton_sprint_export_image_height;
+	[Widget] Gtk.ProgressBar progressbar_sprint_export;
+	[Widget] Gtk.Label label_sprint_export_result;
 
-	static Sprint sprint;
+	static SprintRGraph sprintRGraph;
 	TreeStore storeSprint;
 
 	private void createTreeView_runs_interval_sprint (Gtk.TreeView tv)
@@ -179,11 +188,12 @@ public partial class ChronoJumpWindow
 			 splitTimes = Util.ChangeChars(splitTimes, ",", ".");
 			 splitTimes = "0;" + splitTimes;
 
-			 sprint = new Sprint(
+			 sprintRGraph = new SprintRGraph (
 					 positions,
 					 splitTimes,
 					 currentPersonSession.Weight, //TODO: can be more if extra weight
 					 currentPersonSession.Height,
+					 currentPerson.Name,
 					 25);
 			return true;
 		}
@@ -219,11 +229,11 @@ public partial class ChronoJumpWindow
 			return false;
 		}
 
-		if(! sprint.IsDataOk())
+		if(! sprintRGraph.IsDataOk())
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING,
 					Catalog.GetString("This data does not seem a sprint.") + "\n\n" +
-					sprint.ErrorMessage);
+					sprintRGraph.ErrorMessage);
 			return false;
 		}
 
@@ -231,10 +241,9 @@ public partial class ChronoJumpWindow
 
 		image_sprint.Sensitive = false;
 
-		bool success = sprint.CallR(
+		bool success = sprintRGraph.CallR(
 				viewport_sprint.Allocation.Width -5,
 				viewport_sprint.Allocation.Height -5,
-				currentPerson.Name,
 				true); //singleOrMultiple
 
 		if(! success)
@@ -302,6 +311,73 @@ public partial class ChronoJumpWindow
 
 	private void on_button_sprint_export_current_session_clicked (object o, EventArgs args)
 	{
-		new DialogMessage(Constants.MessageTypes.WARNING, "TODO");
+		if(currentSession == null)
+			return;
+
+		if (radio_sprint_analyze_individual_current_session.Active)
+		{
+			if(currentPerson == null)
+				return;
+
+			button_sprint_export_session (currentPerson.UniqueID);
+		}
+		else if (radio_sprint_analyze_groupal_current_session.Active)
+		{
+			button_sprint_export_session (-1);
+		}
+	}
+
+	SprintExport sprintExport;
+	private void button_sprint_export_session (int personID)
+	{
+		//continue based on: private void button_run_encoder_export_session (int personID)
+		//TODO: sensitive stuff (false)
+		//TODO: store new width/height if changed
+		//TODO: change also spinbuttons of export sprint and forceSensor
+
+		sprintExport = new SprintExport(
+				notebook_sprint_export,
+				progressbar_sprint_export,
+				label_sprint_export_result,
+				check_sprint_export_images.Active,
+				Convert.ToInt32(spinbutton_sprint_export_image_width.Value),
+				Convert.ToInt32(spinbutton_sprint_export_image_height.Value),
+				UtilAll.IsWindows(),
+				personID,
+				currentSession.UniqueID,
+				preferences.CSVExportDecimalSeparatorChar,      //decimalIsPointAtExport (write)
+				preferences.digitsNumber);
+
+		sprintExport.Button_done.Clicked -= new EventHandler(sprint_export_done);
+		sprintExport.Button_done.Clicked += new EventHandler(sprint_export_done);
+
+		bool selectedFile = false;
+		//TODO: if(check_sprint_encoder_export_images.Active)
+		//} else {
+		//}
+
+		//restore the gui if cancelled
+		if(! selectedFile) {
+			//TODO: sensitive stuff (true)
+		}
+sprintExport.Start("/tmp/prova_sprintExport.csv");
+	}
+	private void on_button_sprint_export_file_selected (string selectedFileName)
+	{
+		//sprintExport.Start("/tmp/prova_sprintExport.csv");
+		sprintExport.Start(selectedFileName); //file or folder
+	}
+
+	private void on_button_sprint_export_cancel_clicked (object o, EventArgs args)
+	{
+		sprintExport.Cancel();
+	}
+
+	private void sprint_export_done (object o, EventArgs args)
+	{
+		sprintExport.Button_done.Clicked -= new EventHandler(sprint_export_done);
+
+//		sprintButtonsSensitive(true);
+		hbox_sprint_analyze_top_modes.Sensitive = true;
 	}
 }

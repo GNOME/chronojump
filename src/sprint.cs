@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2017   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2017-2021   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -23,49 +23,65 @@ using System.IO; 		//for detect OS
 using System.Collections.Generic; //List<T>
 using Mono.Unix;
 
-public class Sprint
+//to draw a graph on R
+//but also to calculate params to be uploaded on networks
+public class SprintRGraph
 {
-	//private List<double> positions;
-	//private List<double> splitTimes;
 	private string positions;
 	private string splitTimes;
 	private double mass;
 	private double personHeight;
+	private string personName;
 	private double tempC;
+	private char exportDecimalSeparator;
+	private bool includeImagesOnExport;
+
 	private string errorMessage;
 
-	public Sprint(string positions, string splitTimes,
-			double mass, double personHeight, double tempC)
+	//constructor for 1 set
+	public SprintRGraph (string positions, string splitTimes,
+			double mass, double personHeight, string personName, double tempC)
 	{
 		this.positions = positions;
 		this.splitTimes = splitTimes;
 		this.mass = mass;
 		this.personHeight = personHeight;
+		this.personName = personName;
 		this.tempC = tempC;
+
+		this.exportDecimalSeparator = '.';
+		this.includeImagesOnExport = false;
 
 		errorMessage = "";
 	}
 
-	/*
-	public Sprint(List<double> positions, List<double> splitTimes,
-			double mass, double personHeight, double tempC)
+	//constructor for export (many sets of possible different persons)
+	public SprintRGraph (List<SprintRGraphExport> sprge_l,
+			char exportDecimalSeparator,
+			bool includeImagesOnExport)
 	{
-		this.positions = positions;
-		this.splitTimes = splitTimes;
-		this.mass = mass;
-		this.personHeight = personHeight;
-		this.tempC = tempC;
-	}
-	*/
+		//to have Roptions.txt with data on row
+		this.positions = "-1";
+		this.splitTimes = "-1";
+		this.mass = -1;
+		this.personHeight = -1;
+		this.personName = "-1";
+		this.tempC = -1;
 
-	public bool CallR(int graphWidth, int graphHeight, string personName, bool singleOrMultiple)
+		this.exportDecimalSeparator = exportDecimalSeparator;
+		this.includeImagesOnExport = includeImagesOnExport;
+
+		writeMultipleFilesCSV(sprge_l);
+	}
+
+	public bool CallR(int graphWidth, int graphHeight, bool singleOrMultiple)
 	{
 		LogB.Information("\nsprint CallR ----->");
-		writeOptionsFile(graphWidth, graphHeight, personName, singleOrMultiple);
+		writeOptionsFile(graphWidth, graphHeight,singleOrMultiple);
 		return ExecuteProcess.CallR(UtilEncoder.GetSprintPhotocellsScript());
 	}
 
-	private void writeOptionsFile(int graphWidth, int graphHeight, string personName, bool singleOrMultiple)
+	private void writeOptionsFile(int graphWidth, int graphHeight, bool singleOrMultiple)
 	{
 		/*
 		string scriptOptions =
@@ -79,15 +95,12 @@ public class Sprint
 		if(UtilAll.IsWindows())
 			scriptsPath = scriptsPath.Replace("\\","/");
 
-string exportDecimalSeparator = ".";
-bool includeImagesOnExport = false;
-
 		string scriptOptions =
 			"#scriptsPath\n" + 	scriptsPath + "\n" +
 			"#os\n" + 		UtilEncoder.OperatingSystemForRGraphs() + "\n" +
 			"#graphWidth\n" + 	graphWidth.ToString() + "\n" +
 			"#graphHeight\n" + 	graphHeight.ToString() + "\n" +
-			//all the following are unused on multiple
+			//all the following (until tempC (included)) are unused on multiple
 			"#positions\n" + 	positions + "\n" +
 			"#splitTimes\n" + 	splitTimes + "\n" +
 			"#mass\n" + 		Util.ConvertToPoint(mass) + "\n" +
@@ -103,6 +116,24 @@ bool includeImagesOnExport = false;
 		writer.Flush();
 		writer.Close();
 		((IDisposable)writer).Dispose();
+	}
+
+	private void writeMultipleFilesCSV(List<SprintRGraphExport> sprge_l)
+	{
+		LogB.Information("writeMultipleFilesCSV start");
+		TextWriter writer = File.CreateText(RunInterval.GetCSVInputMulti());
+
+		//write header
+		writer.WriteLine(SprintRGraphExport.PrintCSVHeaderOnExport());
+
+		//write sprge_l for
+		foreach(SprintRGraphExport sprge in sprge_l)
+			writer.WriteLine(sprge.ToCSVRowOnExport());
+
+		writer.Flush();
+		writer.Close();
+		((IDisposable)writer).Dispose();
+		LogB.Information("writeMultipleFilesCSV end");
 	}
 
 	public List<double> GetSplitTimesAsList()
@@ -207,5 +238,50 @@ bool includeImagesOnExport = false;
 
 	public string ErrorMessage {
 		get { return errorMessage; }
+	}
+}
+
+//this class creates the rows of each set for the csv input multi that is read by R
+public class SprintRGraphExport
+{
+	private string positions;
+	private string splitTimes;
+	private double mass;
+	private double personHeight;
+	private string personName;
+	private double tempC;
+
+	public SprintRGraphExport(
+			string positions, string splitTimes,
+			double mass, double personHeight,
+			string personName, double tempC)
+	{
+		// ; will be _ to differentiate from other ;
+		this.positions = "0_" + Util.ChangeChars(positions, ";", "_");
+		//if decimal is comma, will be converted to point for R, and also the ; will be _ to differentiate from other ;
+		this.splitTimes = "0_" + Util.ChangeChars(
+				Util.ChangeChars(splitTimes, ",", "."), ";", "_");
+
+		this.mass = mass;
+		this.personHeight = personHeight;
+		this.personName = personName;
+		this.tempC = tempC;
+
+	}
+
+	public string ToCSVRowOnExport()
+	{
+		return positions + ";" +
+			splitTimes + ";" +
+			Util.ConvertToPoint(mass) + ";" +
+			Util.ConvertToPoint(personHeight / 100.0) + ";" + //in meters
+			personName + ";" +
+			Util.ConvertToPoint(tempC);
+	}
+
+	public static string PrintCSVHeaderOnExport()
+	{
+		return "positions;splitTimes;mass;personHeight;personName;tempC;" +
+			"comments";
 	}
 }

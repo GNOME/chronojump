@@ -4924,14 +4924,15 @@ public partial class ChronoJumpWindow
 		splitTimes = Util.ChangeChars(splitTimes, ",", ".");
 		splitTimes = "0;" + splitTimes;
 
-		sprint = new Sprint(positions,
+		sprintRGraph = new SprintRGraph (positions,
 				splitTimes,
 				currentPersonSession.Weight, //TODO: can be more if extra weight
 				currentPersonSession.Height,
+				currentPerson.Name,
 				25);
 
 		bool sprintRDoneOk = on_button_sprint_do ();
-		string stringResultsFile = System.IO.Path.GetTempPath() + "sprintResults.csv";
+		string stringResultsFile = RunInterval.GetCSVResultsFileName();
 		string line = "";
 		if(! sprintRDoneOk || ! File.Exists(stringResultsFile))
 			return;
@@ -4966,7 +4967,7 @@ public partial class ChronoJumpWindow
 		UploadSprintDataObject usdo = new UploadSprintDataObject(
 				-1, //uniqueID
 				currentPerson.UniqueID,
-				sprint.Positions, sprint.GetSplitTimesAsList(),
+				sprintRGraph.Positions, sprintRGraph.GetSplitTimesAsList(),
 				k, vmax, amax, fmax, pmax);
 
 		JsonCompujump js = new JsonCompujump(configChronojump.CompujumpDjango);

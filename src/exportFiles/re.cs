@@ -23,7 +23,6 @@ using System.IO; 			//Directory, ...
 using System.Collections; 		//ArrayList
 using System.Collections.Generic; 	//List<T>
 using System.Threading;
-using Mono.Unix;
 
 public class RunEncoderExport : ExportFiles
 {
@@ -234,10 +233,8 @@ public class RunEncoderExport : ExportFiles
 		return true;
 	}
 
-	protected override void setProgressBarTextAndFraction (int fileCount)
+	protected override void setProgressBarTextAndFractionPrepare (int fileCount)
 	{
-		progressbar.Text = string.Format(Catalog.GetString("Exporting {0}/{1}"),
-				fileCount, re_l.Count);
-		progressbar.Fraction = UtilAll.DivideSafeFraction(fileCount, re_l.Count);
+		setProgressBarTextAndFractionDo (fileCount, re_l.Count);
 	}
 }

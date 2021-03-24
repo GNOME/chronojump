@@ -388,11 +388,15 @@ public class ForceSensorExport : ExportFiles
 		return true;
 	}
 
-	protected override void setProgressBarTextAndFraction (int fileCount)
+	protected override void setProgressBarTextAndFractionPrepare (int fileCount)
+	{
+		setProgressBarTextAndFractionDo (fileCount, totalRepsToExport);
+	}
+	protected override void setProgressBarTextAndFractionDo (int current, int total)
 	{
 		progressbar.Text = string.Format(Catalog.GetString("Exporting repetition {0}/{1}"),
-				fileCount, totalRepsToExport);
-		progressbar.Fraction = UtilAll.DivideSafeFraction(fileCount, totalRepsToExport);
+				current, total);
+		progressbar.Fraction = UtilAll.DivideSafeFraction(current, total);
 	}
 }
 

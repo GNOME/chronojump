@@ -56,7 +56,6 @@ src/execute/reactionTime.cs
 src/execute/run.cs
 src/exportFiles/exportFiles.cs
 src/exportFiles/fs.cs
-src/exportFiles/re.cs
 src/exportSession.cs
 src/forceSensor.cs
 src/gui/app1/chronojump.cs

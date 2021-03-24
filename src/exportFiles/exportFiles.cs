@@ -176,7 +176,7 @@ public abstract class ExportFiles
 			progressbar.Text = messageToProgressbar;
 			progressbar.Pulse();
 		} else {
-			setProgressBarTextAndFraction(fileCount);
+			setProgressBarTextAndFractionPrepare (fileCount);
 		}
 
 		Thread.Sleep (100);
@@ -184,5 +184,13 @@ public abstract class ExportFiles
 		return true;
 	}
 
-	protected abstract void setProgressBarTextAndFraction (int fileCount);
+	protected abstract void setProgressBarTextAndFractionPrepare (int fileCount);
+
+	//forceSensor inherits different
+	protected virtual void setProgressBarTextAndFractionDo (int current, int total)
+	{
+		progressbar.Text = string.Format(Catalog.GetString("Exporting {0}/{1}"),
+				current, total);
+		progressbar.Fraction = UtilAll.DivideSafeFraction(current, total);
+	}
 }

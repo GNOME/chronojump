@@ -230,4 +230,15 @@ public class SelectRunITypes : SelectRunTypes
 		this.Description = description;
 		this.DistancesString = distancesString;
 	}
+
+	public static string RunIntervalTypeDistances(
+			string runTypeEnglishName, List<object> selectRunITypes_l)
+	{
+		foreach(SelectRunITypes type in selectRunITypes_l)
+			if(type.NameEnglish == runTypeEnglishName)
+				return(type.DistancesString);
+
+		return "";
+	}
+
 }

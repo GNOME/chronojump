@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2017   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2017,2021   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -87,15 +87,15 @@ public partial class ChronoJumpWindow
 			//get intervalTimes
 			string intervalTimesString = lineSplit[8];
 
-			string positions = getSprintPositions(
+			string positions = RunInterval.GetSprintPositions(
 					Convert.ToDouble(lineSplit[7]), //distanceInterval. == -1 means variable distances
 					intervalTimesString,
-					runIntervalTypeDistances(lineSplit[4], runITypes) 	//distancesString
+					SelectRunITypes.RunIntervalTypeDistances(lineSplit[4], runITypes) 	//distancesString
 					);
 			if(positions == "")
 				continue;
 
-			string splitTimes = getSplitTimes(intervalTimesString);
+			string splitTimes = RunInterval.GetSplitTimes(intervalTimesString, preferences.digitsNumber);
 
 			string [] lineParams = { 
 				lineSplit[4],
@@ -118,7 +118,7 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		string positions = getSprintPositions(
+		string positions = RunInterval.GetSprintPositions(
 				runI.DistanceInterval, 		//distanceInterval. == -1 means variable distances
 				runI.IntervalTimesString,
 				runIType.DistancesString 	//distancesString
@@ -135,7 +135,7 @@ public partial class ChronoJumpWindow
 				runI.Type,
 				runI.UniqueID.ToString(),
 				positions,
-				getSplitTimes(runI.IntervalTimesString),
+				RunInterval.GetSplitTimes(runI.IntervalTimesString, preferences.digitsNumber),
 				Util.TrimDecimals(runI.TimeTotal, preferences.digitsNumber)
 				);
 
@@ -143,53 +143,6 @@ public partial class ChronoJumpWindow
 		TreePath path = storeSprint.GetPath (iter);
 		treeview_runs_interval_sprint.ScrollToCell (path, null, true, 0, 0);
 		LogB.Information("SPRINT add END");
-	}
-
-	private string getSprintPositions(double distanceInterval, string intervalTimesString, string distancesString)
-	{
-		string positions = "";
-		string [] intervalTimesSplit = intervalTimesString.Split(new char[] {'='});
-		if(! distancesString.Contains("R") ) 	//discard RSA
-		{
-			string sep = "";
-			for(int i=0; i < intervalTimesSplit.Length; i ++)
-			{
-				positions += sep + Util.GetRunITotalDistance(distanceInterval, distancesString, i+1);
-				sep = ";";
-			}
-
-			//format positions
-			positions = Util.ChangeChars(positions, "-", ";");
-		}
-		return positions;
-	}
-
-	private string getSplitTimes(string intervalTimesString)
-	{
-		string [] intervalTimesSplit = intervalTimesString.Split(new char[] {'='});
-
-		//manage accumulated time
-		double timeAccumulated = 0;
-		string splitTimes = "";
-		string sep = "";
-		foreach(string time in intervalTimesSplit)
-		{
-			double timeD = Convert.ToDouble(time);
-			timeAccumulated += timeD;
-			splitTimes += sep + Util.TrimDecimals(timeAccumulated, preferences.digitsNumber);
-			sep = ";";
-		}
-
-		return splitTimes;
-	}
-
-	private string runIntervalTypeDistances(string runTypeEnglishName, List<object> runITypes)
-	{
-		foreach(SelectRunITypes type in runITypes)
-			if(type.NameEnglish == runTypeEnglishName)
-				return(type.DistancesString);
-
-		return "";
 	}
 
 	private void onTreeviewSprintSelectionEntry (object o, EventArgs args)

@@ -332,8 +332,24 @@ public partial class ChronoJumpWindow
 	{
 		//continue based on: private void button_run_encoder_export_session (int personID)
 		//TODO: sensitive stuff (false)
-		//TODO: store new width/height if changed
-		//TODO: change also spinbuttons of export sprint and forceSensor
+
+		//store new width/height if changed
+		Sqlite.Open();
+		preferences.exportGraphWidth = Preferences.PreferencesChange(
+				SqlitePreferences.ExportGraphWidth,
+				preferences.exportGraphWidth, Convert.ToInt32(spinbutton_sprint_export_image_width.Value));
+		preferences.exportGraphHeight = Preferences.PreferencesChange(
+				SqlitePreferences.ExportGraphHeight,
+				preferences.exportGraphHeight, Convert.ToInt32(spinbutton_sprint_export_image_height.Value));
+		Sqlite.Close();
+
+		//change also spinbuttons of export forceSensor and runEncoder
+		spinbutton_force_sensor_export_image_width.Value = spinbutton_sprint_export_image_width.Value;
+		spinbutton_force_sensor_export_image_height.Value = spinbutton_sprint_export_image_height.Value;
+
+		spinbutton_run_encoder_export_image_width.Value = spinbutton_sprint_export_image_width.Value;
+		spinbutton_run_encoder_export_image_height.Value = spinbutton_sprint_export_image_height.Value;
+
 
 		sprintExport = new SprintExport(
 				notebook_sprint_export,

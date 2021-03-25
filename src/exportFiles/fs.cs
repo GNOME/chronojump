@@ -349,38 +349,12 @@ public class ForceSensorExport : ExportFiles
 		if(cancel)
 			return false;
 
-		if(includeImages)
-		{
-			LogB.Information("going to copy export files with images ...");
-			if( ! Directory.Exists(exportURL))
-                                Directory.CreateDirectory (exportURL);
-
-			try{
-				// 1) rfd graphs
-				string sourceFolder = getTempGraphsDir();
-				DirectoryInfo sourceDirInfo = new DirectoryInfo(sourceFolder);
-
-				string destFolder = Path.Combine(exportURL, "chronojump_force_sensor_export_graphs_rfd");
-				Directory.CreateDirectory (destFolder);
-
-				foreach (FileInfo file in sourceDirInfo.GetFiles())
-					file.CopyTo(destFolder, true);
-
-				// 2) AB graphs
-				sourceFolder = getTempGraphsABDir();
-				sourceDirInfo = new DirectoryInfo(sourceFolder);
-
-				destFolder = Path.Combine(exportURL, "chronojump_force_sensor_export_graphs_ab");
-				Directory.CreateDirectory (destFolder);
-
-				foreach (FileInfo file in sourceDirInfo.GetFiles())
-					file.CopyTo(destFolder, true);
-			} catch {
-				return false;
-			}
-
-			//LogB.Information("done copy export files with images!");
-		}
+		if(includeImages && ! copyImages(getTempGraphsDir(), exportURL,
+					"chronojump_force_sensor_export_graphs_rfd"))
+			return false;
+		if(includeImages && ! copyImages(getTempGraphsABDir(), exportURL,
+					"chronojump_force_sensor_export_graphs_ab"))
+			return false;
 
 		//copy the CSV
 		File.Copy(getTempCSVFileName(), exportURL, true);

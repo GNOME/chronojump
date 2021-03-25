@@ -205,27 +205,10 @@ public class RunEncoderExport : ExportFiles
 		if(cancel)
 			return false;
 
-		if(includeImages)
-		{
-			LogB.Information("going to copy export files with images ...");
-			if( ! Directory.Exists(exportURL))
-                                Directory.CreateDirectory (exportURL);
-
-			try{
-				string sourceFolder = getTempGraphsDir();
-				DirectoryInfo sourceDirInfo = new DirectoryInfo(sourceFolder);
-
-				string destFolder = Path.Combine(exportURL, "chronojump_race_analyzer_export_graphs");
-				Directory.CreateDirectory (destFolder);
-
-				foreach (FileInfo file in sourceDirInfo.GetFiles())
-					file.CopyTo(destFolder, true);
-			} catch {
-				return false;
-			}
-
-			//LogB.Information("done copy export files with images!");
-		}
+		//copy the images if needed
+		if(includeImages && ! copyImages(getTempGraphsDir(), exportURL,
+					"chronojump_race_analyzer_export_graphs"))
+			return false;
 
 		// copy the CSV
 		File.Copy(RunEncoder.GetCSVResultsFileName(), exportURL, true);

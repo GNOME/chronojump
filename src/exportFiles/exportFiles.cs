@@ -184,6 +184,28 @@ public abstract class ExportFiles
 		return true;
 	}
 
+	protected bool copyImages(string sourceFolderURL, string exportURL, string destFolderName)
+	{
+		LogB.Information("going to copy export files with images ...");
+		if( ! Directory.Exists(exportURL))
+			Directory.CreateDirectory (exportURL);
+
+		try {
+			DirectoryInfo sourceDirInfo = new DirectoryInfo(sourceFolderURL);
+			string destFolderURL = Path.Combine(exportURL, destFolderName);
+
+			Directory.CreateDirectory (destFolderURL);
+
+			foreach (FileInfo file in sourceDirInfo.GetFiles())
+				file.CopyTo(destFolderURL, true);
+		} catch {
+			return false;
+		}
+
+		LogB.Information("done copy export files with images!");
+		return true;
+	}
+
 	protected abstract void setProgressBarTextAndFractionPrepare (int fileCount);
 
 	//forceSensor inherits different

@@ -169,10 +169,8 @@ public class SprintExport : ExportFiles
 		if(cancel)
 			return false;
 
-		if(includeImages)
-		{
-			//TODO
-		}
+		if(includeImages && ! copyImages(getTempGraphsDir(), exportURL,
+					"chronojump_races_sprint_export_graphs"));
 
 		// copy the CSV
 		File.Copy(RunInterval.GetCSVResultsFileName(), exportURL, true);

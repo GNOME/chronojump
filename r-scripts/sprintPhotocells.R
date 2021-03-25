@@ -302,13 +302,17 @@ start <- function(op)
 
 	#3) call testPhotocelssCJ
 	progressFolder = paste(tempPath, "/chronojump_export_progress", sep ="")
-	#tempGraphsFolder = paste(tempPath, "/chronojump_race_analyzer_export_graphs/", sep ="")
+	tempGraphsFolder = paste(tempPath, "/chronojump_sprint_export_graphs/", sep ="")
 	exportDF = NULL
 
 	for(i in 1:length(dataFiles[,1]))
 	{
 		print("splitTimes at for: ")
 		print(as.numeric(unlist(strsplit(as.character(dataFiles$splitTimes[i]), "\\_"))))
+
+		pngFile <- paste(tempGraphsFolder, i, ".png", sep="")  #but remember to graph also when model fails
+
+		prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
 		exportRow = testPhotocellsCJ(
 					     as.numeric(unlist(strsplit(as.character(dataFiles$positions[i]), "\\_"))),
 					     as.numeric(unlist(strsplit(as.character(dataFiles$splitTimes[i]), "\\_"))),
@@ -325,13 +329,13 @@ start <- function(op)
 			#(to control if we print them as , or .)
 			for(j in 1:length(exportRow))
 				exportRowDF = cbind (exportRowDF, exportRow[j])
-#			if(op$includeImagesOnExport)
-#				exportRowDF = cbind(exportRowDF, paste(i, ".png", sep=""))
+			if(op$includeImagesOnExport)
+				exportRowDF = cbind(exportRowDF, paste(i, ".png", sep=""))
 
 			#write the correct names of the row dataframe
 			namesDF = c("Person",names)
-#			if(op$includeImagesOnExport)
-#				namesDF = c(namesDF, "Image")
+			if(op$includeImagesOnExport)
+				namesDF = c(namesDF, "Image")
 			colnames(exportRowDF) = namesDF
 
 			exportDF <- rbind (exportDF, exportRowDF) #rbind with exportDF

@@ -368,15 +368,23 @@ public partial class ChronoJumpWindow
 		sprintExport.Button_done.Clicked += new EventHandler(sprint_export_done);
 
 		bool selectedFile = false;
-		//TODO: if(check_sprint_encoder_export_images.Active)
-		//} else {
-		//}
+		if(check_sprint_export_images.Active)
+		{
+			if(personID == -1)
+				selectedFile = checkFolder (Constants.CheckFileOp.RUNS_SPRINT_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES);
+			else
+				selectedFile = checkFolder (Constants.CheckFileOp.RUNS_SPRINT_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES);
+		} else {
+			if(personID == -1)
+				selectedFile = checkFile (Constants.CheckFileOp.RUNS_SPRINT_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES);
+			else
+				selectedFile = checkFile (Constants.CheckFileOp.RUNS_SPRINT_EXPORT_INDIVIDUAL_CURRENT_SESSION_NO_IMAGES);
+		}
 
 		//restore the gui if cancelled
 		if(! selectedFile) {
 			//TODO: sensitive stuff (true)
 		}
-sprintExport.Start("/tmp/prova_sprintExport.csv");
 	}
 	private void on_button_sprint_export_file_selected (string selectedFileName)
 	{

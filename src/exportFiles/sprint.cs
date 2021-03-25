@@ -129,6 +129,10 @@ public class SprintExport : ExportFiles
 			//get the splitTimes
 			string splitTimes = RunInterval.GetSplitTimes(ri.IntervalTimesString, digitsNumber);
 
+			//discard sprints with less than 3 tracks
+			if(splitTimes.Split(new char[] {';'}).Length < 3)
+				continue;
+
 			// create the export row
 
 			string title = Util.ChangeSpaceAndMinusForUnderscore(p.Name) + "-" +

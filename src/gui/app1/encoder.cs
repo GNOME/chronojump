@@ -2092,12 +2092,6 @@ public partial class ChronoJumpWindow
 				checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_NO_IMAGES ||
 				checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES)
 			exportString = Catalog.GetString ("Export repetition in CSV format");
-		else if(
-				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
-				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES ||
-				checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||
-				checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES)
-			exportString = Catalog.GetString ("Export data and graphs");
 		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE ||
 				checkFileOp == Constants.CheckFileOp.RUNENCODER_SAVE_TABLE)
 			exportString = Catalog.GetString ("Save table");

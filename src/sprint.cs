@@ -256,8 +256,9 @@ public class SprintRGraphExport
 			double mass, double personHeight,
 			string personName, double tempC)
 	{
-		// ; will be _ to differentiate from other ;
-		this.positions = "0_" + Util.ChangeChars(positions, ";", "_");
+		//if decimal is comma, will be converted to point for R, and also the ; will be _ to differentiate from other ;
+		this.positions = "0_" + Util.ChangeChars(
+				Util.ChangeChars(positions, ",", "."), ";", "_");
 		//if decimal is comma, will be converted to point for R, and also the ; will be _ to differentiate from other ;
 		this.splitTimes = "0_" + Util.ChangeChars(
 				Util.ChangeChars(splitTimes, ",", "."), ";", "_");

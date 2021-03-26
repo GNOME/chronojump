@@ -1143,8 +1143,6 @@ public partial class ChronoJumpWindow
 	private void networksShowDeviceMissingRFID (bool missing)
 	{
 		if(missing) {
-			hbox_RFID_disconnected.Visible = true;
-
 			/*
 			 * note rfid missing is more important than encoder missing,
 			 * if both messages are active, then user can connect encoder, press check button
@@ -1152,6 +1150,8 @@ public partial class ChronoJumpWindow
 			 * so do not show the encoder message
 			 */
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.NETWORKSPROBLEMS);
+			hbox_RFID_disconnected.Visible = true;
+
 			button_activate_chronopics_networks_problems.Sensitive = preferences.networksAllowChangeDevices;
 			hbox_encoder_disconnected.Visible = false;
 		}

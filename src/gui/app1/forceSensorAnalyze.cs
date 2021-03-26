@@ -152,6 +152,7 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.Notebook notebook_force_sensor_export;
 	[Widget] Gtk.Label label_force_sensor_export_data;
+	[Widget] Gtk.HBox hbox_force_sensor_export_images;
 	[Widget] Gtk.CheckButton check_force_sensor_export_images;
 	[Widget] Gtk.HBox hbox_force_sensor_export_width_height;
 	[Widget] Gtk.SpinButton spinbutton_force_sensor_export_image_width;
@@ -753,6 +754,7 @@ public partial class ChronoJumpWindow
 		forceSensorButtonsSensitive(false);
 		hbox_force_sensor_analyze_top_modes.Sensitive = false;
 		button_force_sensor_analyze_options.Sensitive = false;
+		hbox_force_sensor_export_images.Sensitive = false;
 
 		//store new width/height if changed
 		Sqlite.Open();
@@ -813,6 +815,7 @@ public partial class ChronoJumpWindow
 			forceSensorButtonsSensitive(true);
 			hbox_force_sensor_analyze_top_modes.Sensitive = true;
 			button_force_sensor_analyze_options.Sensitive = true;
+			hbox_force_sensor_export_images.Sensitive = true;
 		}
 	}
 	private void on_button_force_sensor_export_file_selected (string selectedFileName)
@@ -832,6 +835,7 @@ public partial class ChronoJumpWindow
 		forceSensorButtonsSensitive(true);
 		hbox_force_sensor_analyze_top_modes.Sensitive = true;
 		button_force_sensor_analyze_options.Sensitive = true;
+		hbox_force_sensor_export_images.Sensitive = true;
 	}
 
 	private void forceSensorDoGraphAI(bool windowResizedAndZoom)

@@ -183,8 +183,13 @@ public class TriggerList
 	//but can be ',' if we pass some ints to a csv
 	public string ToRCurvesString(Type3 type3, char sepChar)
 	{
+		/*
+		   cannot do it here because maybe we have triggers on but not off,
+		   so if we come by off, l.Count is not a good indicator to pass a -1,
+		   so do it at end of this method with if(s == "")
 		if(l.Count == 0)
 			return TriggersNotFoundString;
+		*/
 
 		string s = "";
 		string sep = "";
@@ -201,7 +206,11 @@ public class TriggerList
 				sep = sepChar.ToString();
 			}
 		}
-		return s;
+
+		if(s == "")
+			return TriggersNotFoundString;
+		else
+			return s;
 	}
 
 	public int Count()

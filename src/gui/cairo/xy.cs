@@ -417,21 +417,26 @@ public abstract class CairoXY : CairoGeneric
 			g.Stroke ();
 		}
 
+//		lock (point_l) {
+//		List<PointF> point_l_copy = point_l>;
+//		foreach(PointF p in point_l_copy)
 		foreach(PointF p in point_l)
 		{
+			LogB.Information("point: " + p.ToString());
 			double xgraph = calculatePaintX(p.X);
 			double ygraph = calculatePaintY(p.Y);
 			g.Arc(xgraph, ygraph, pointsRadius, 0.0, 2.0 * Math.PI); //full circle
 			g.Color = colorBackground;
 			g.FillPreserve();
 			g.SetSourceRGB(0, 0, 0);
-			g.Stroke ();
+			g.Stroke (); 	//can this be done at the end?
 
 			/*
 			//print X, Y of each point
 			printText(xgraph, graphHeight - Convert.ToInt32(bottomMargin/2), 0, textHeight, Util.TrimDecimals(p.X, 2), g, true);
 			printText(Convert.ToInt32(leftMargin/2), ygraph, 0, textHeight, Util.TrimDecimals(p.Y, 2), g, true);
 			*/
+//		}
 		}
 		//getMinMaxXDrawable(graphWidth, absoluteMaxX, minX, totalMargins, totalMargins);
 	}

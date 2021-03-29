@@ -33,7 +33,7 @@ public class JumpsDjOptimalFallGraph : CairoXY
 	{
 		this.area = area;
 
-		initGraph(font);
+		initGraph(font, .8);
 
 		g.SetFontSize(16);
 		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight,
@@ -75,7 +75,7 @@ public class JumpsDjOptimalFallGraph : CairoXY
 	public override void Do(string font)
 	{
 		LogB.Information("at JumpsDjOptimalFallGraph.Do");
-		initGraph(font);
+		initGraph(font, .8);
 
                 findPointMaximums(false);
                 findAbsoluteMaximums();

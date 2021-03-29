@@ -50,6 +50,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_raceAnalyzer_table_save;
 	//[Widget] Gtk.Label label_race_analyzer_capture_speed;
 	[Widget] Gtk.DrawingArea drawingarea_race_analyzer_capture;
+	[Widget] Gtk.DrawingArea drawingarea_race_analyzer_capture_position_time;
+	[Widget] Gtk.DrawingArea drawingarea_race_analyzer_capture_speed_time;
 
 	int race_analyzer_distance;
 	int race_analyzer_temperature;
@@ -417,7 +419,7 @@ public partial class ChronoJumpWindow
 		contactsShowCaptureDoingButtons(true);
 
 		//runEncoderCaptureSimulated = menuitem_check_race_encoder_capture_simulate.Active; //TODO: show this in some way on 2.0
-		runEncoderCaptureSimulated = true; //note that on simulated we need to click finish not so late
+		runEncoderCaptureSimulated = false; //note that on simulated we need to click finish not so late
 
 		/*
 		//initialize
@@ -532,6 +534,8 @@ public partial class ChronoJumpWindow
 		Stopwatch sw = new Stopwatch();
 
 		int rowsCount = 0;
+		cairoGraphRaceAnalyzerPoints_dt_l = new List<PointF>();
+		cairoGraphRaceAnalyzerPoints_st_l = new List<PointF>();
 		while(! runEncoderProcessFinish && ! runEncoderProcessCancel && ! runEncoderProcessError)
 		{
 			/*
@@ -575,6 +579,15 @@ public partial class ChronoJumpWindow
 					runEncoderCaptureSpeed = UtilAll.DivideSafe(runEncoderCaptureDistanceAtThisSample, (time - timePre)) * 1000000;
 
 					runEncoderCaptureDistance += runEncoderCaptureDistanceAtThisSample;
+
+					//distance/time
+					cairoGraphRaceAnalyzerPoints_dt_l.Add(new PointF(
+								UtilAll.DivideSafe(time, 1000000),
+								runEncoderCaptureDistance));
+					//speed/time
+					cairoGraphRaceAnalyzerPoints_st_l.Add(new PointF(
+								UtilAll.DivideSafe(time, 1000000),
+								runEncoderCaptureSpeed));
 
 					LogB.Information(string.Format("encoderDisplacement: {0}; runEncoderCaptureDistanceAtThisSample: {1}, runEncoderDistance: {2}, runEncoderCaptureSpeed: {3}; time: {4}; timePre: {5}",
 								encoderDisplacement,
@@ -849,6 +862,19 @@ public partial class ChronoJumpWindow
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileEmptyStr());
 			return;
 		}
+
+		/*
+		//TODO: continue to show position and speed graphs on load
+		cairoGraphRaceAnalyzerPoints_dt_l = new List<PointF>();
+		cairoGraphRaceAnalyzerPoints_st_l = new List<PointF>();
+		foreach(string line in contents)
+		{
+		cairoGraphRaceAnalyzerPoints_dt_l.Add
+		cairoGraphRaceAnalyzerPoints_st_l.Add
+		}
+		updateRaceAnalyzerCapturePositionTime();
+		updateRaceAnalyzerCaptureSpeedTime();
+		*/
 
 		currentRunEncoder = re;
 		lastRunEncoderFile = Util.RemoveExtension(re.Filename);
@@ -1339,7 +1365,10 @@ public partial class ChronoJumpWindow
 					//if drawingarea has still not shown, don't paint graph because GC screen is not defined
 					if(force_sensor_ai_drawingareaShown)
 						forceSensorDoGraphAI();
-					*/
+					 */
+
+					updateRaceAnalyzerCapturePositionTime();
+					updateRaceAnalyzerCaptureSpeedTime();
 				}
 				LogB.Information(" re C finish 2");
 			} else if(runEncoderProcessCancel || runEncoderProcessError)
@@ -1400,7 +1429,12 @@ public partial class ChronoJumpWindow
 		{
 			event_execute_label_message.Text = runEncoderPulseMessage;
 
-			cairoRadial.GraphSpeedAndDistance(runEncoderCaptureSpeed, runEncoderCaptureDistance);
+			if(cairoRadial != null)
+				cairoRadial.GraphSpeedAndDistance(runEncoderCaptureSpeed, runEncoderCaptureDistance);
+
+			//TODO: activate again when there's a real time update (not repaint all) method
+			//updateRaceAnalyzerCapturePositionTime();
+			//updateRaceAnalyzerCaptureSpeedTime();
 
 			if(runEncoderPulseMessage == capturingMessage)
 				event_execute_button_finish.Sensitive = true;
@@ -1447,7 +1481,7 @@ public partial class ChronoJumpWindow
 		}
 		LogB.Information(" re R ");
 
-		Thread.Sleep (25);
+		Thread.Sleep (50);
 		//LogB.Information(" RunEncoder:"+ runEncoderCaptureThread.ThreadState.ToString());
 		return true;
 	}
@@ -1771,5 +1805,46 @@ public partial class ChronoJumpWindow
 	private void on_drawingarea_race_analyzer_capture_expose_event (object o, ExposeEventArgs args)
 	{
 		cairoRadial = new CairoRadial(drawingarea_race_analyzer_capture, preferences.fontType.ToString());
+	}
+
+	CairoGraphRaceAnalyzer cairoGraphRaceAnalyzer_dt;
+	static List<PointF> cairoGraphRaceAnalyzerPoints_dt_l; //distancetime
+	private void on_drawingarea_race_analyzer_capture_position_time_expose_event (object o, ExposeEventArgs args)
+	{
+		updateRaceAnalyzerCapturePositionTime();
+	}
+
+	CairoGraphRaceAnalyzer cairoGraphRaceAnalyzer_st;
+	static List<PointF> cairoGraphRaceAnalyzerPoints_st_l;	//speed/time
+	private void on_drawingarea_race_analyzer_capture_speed_time_expose_event (object o, ExposeEventArgs args)
+	{
+		updateRaceAnalyzerCaptureSpeedTime();
+	}
+
+	private void updateRaceAnalyzerCapturePositionTime()
+	{
+		if(cairoGraphRaceAnalyzer_dt == null)
+			cairoGraphRaceAnalyzer_dt = new CairoGraphRaceAnalyzer(
+					drawingarea_race_analyzer_capture_position_time, "title",
+					Catalog.GetString("Distance"), "m");
+
+		if(cairoGraphRaceAnalyzerPoints_dt_l != null)
+		{
+			if(cairoGraphRaceAnalyzer_dt.PassData(cairoGraphRaceAnalyzerPoints_dt_l))
+				cairoGraphRaceAnalyzer_dt.Do(preferences.fontType.ToString());
+		}
+	}
+	private void updateRaceAnalyzerCaptureSpeedTime()
+	{
+		if(cairoGraphRaceAnalyzer_st == null)
+			cairoGraphRaceAnalyzer_st = new CairoGraphRaceAnalyzer(
+					drawingarea_race_analyzer_capture_speed_time, "title",
+					Catalog.GetString("Speed"), "m");
+
+		if(cairoGraphRaceAnalyzerPoints_st_l != null)
+		{
+			if(cairoGraphRaceAnalyzer_st.PassData(cairoGraphRaceAnalyzerPoints_st_l))
+				cairoGraphRaceAnalyzer_st.Do(preferences.fontType.ToString());
+		}
 	}
 }

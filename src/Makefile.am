@@ -41,6 +41,7 @@ SOURCES = \
 	gui/cairo/jumpsProfile.cs\
 	gui/cairo/jumpsRjFatigue.cs\
 	gui/cairo/jumpsWeightFVProfile.cs\
+	gui/cairo/raceAnalyzer.cs\
 	gui/cairo/radial.cs\
 	gui/cairo/util.cs\
 	gui/cairo/xy.cs\

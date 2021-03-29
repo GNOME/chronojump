@@ -11660,10 +11660,59 @@ EncoderInertialCapture</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="border_width">8</property>
                                                             <child>
+                                                            <widget class="GtkHBox" id="hbox502">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">16</property>
+                                                            <property name="homogeneous">True</property>
+                                                            <child>
                                                             <widget class="GtkDrawingArea" id="drawingarea_race_analyzer_capture">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <signal name="expose_event" handler="on_drawingarea_race_analyzer_capture_expose_event" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkVBox" id="vbox255">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="homogeneous">True</property>
+                                                            <child>
+                                                            <widget class="GtkDrawingArea" id="drawingarea_race_analyzer_capture_position_time">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <signal name="expose_event" handler="on_drawingarea_race_analyzer_capture_position_time_expose_event" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkDrawingArea" id="drawingarea_race_analyzer_capture_speed_time">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <signal name="expose_event" handler="on_drawingarea_race_analyzer_capture_speed_time_expose_event" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>

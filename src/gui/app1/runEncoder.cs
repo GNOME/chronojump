@@ -249,12 +249,15 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
+		/*
 		if(currentPersonSession.Height == 0)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING,
 					Catalog.GetString("Error, height of the person cannot be 0"));
 			return;
 		}
+		allow to do the capture, but after show message: no height
+		*/
 
 		runEncoderPulseMessage = "";
 		runEncoderButtonsSensitive(false);
@@ -1269,6 +1272,10 @@ public partial class ChronoJumpWindow
 				else
 				{
 					event_execute_label_message.Text = "Saved." + captureEndedMessage;
+					if(currentPersonSession.Height == 0)
+						event_execute_label_message.Text += " " + "Person height is 0!";
+					if(runEncoderCaptureSimulated)
+						event_execute_label_message.Text += " SIMULATED TEST!";
 
 					currentRunEncoder = new RunEncoder(-1, currentPerson.UniqueID, currentSession.UniqueID,
 							currentRunEncoderExercise.UniqueID, raceEncoderGetDevice(),

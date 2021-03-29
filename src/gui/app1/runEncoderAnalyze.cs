@@ -36,7 +36,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ComboBox combo_run_encoder_analyze_force;
 	[Widget] Gtk.ComboBox combo_run_encoder_analyze_power;
 	[Widget] Gtk.Button button_run_encoder_analyze_options_close_and_analyze;
-	//[Widget] Gtk.Button button_run_encoder_analyze_analyze; //unneeded at the moment
+	[Widget] Gtk.Button button_run_encoder_analyze_analyze;
 	[Widget] Gtk.Button button_run_encoder_image_save;
 
 	[Widget] Gtk.RadioButton radio_run_encoder_analyze_individual_current_set;
@@ -120,11 +120,15 @@ public partial class ChronoJumpWindow
 		combo_run_encoder_analyze_power.Visible = (check_run_encoder_analyze_power.Active);
 	}
 
+	private bool button_run_encoder_analyze_analyze_was_sensitive; //needed this temp variable
 	private void on_button_run_encoder_analyze_options_clicked (object o, EventArgs args)
 	{
 		notebook_run_encoder_analyze.CurrentPage = Convert.ToInt32(notebook_run_encoder_analyze_pages.OPTIONS);
 		hbox_run_encoder_analyze_top_modes.Sensitive = false;
 		runEncoderButtonsSensitive(false);
+
+		button_run_encoder_analyze_analyze_was_sensitive = button_run_encoder_analyze_analyze.Sensitive;
+		button_run_encoder_analyze_analyze.Sensitive = false;
 	}
 	private void on_button_run_encoder_analyze_options_close_clicked (object o, EventArgs args)
 	{
@@ -167,6 +171,7 @@ public partial class ChronoJumpWindow
 
 		notebook_run_encoder_analyze.CurrentPage = Convert.ToInt32(notebook_run_encoder_analyze_pages.CURRENTSET);
 		runEncoderButtonsSensitive(true);
+		button_run_encoder_analyze_analyze.Sensitive = button_run_encoder_analyze_analyze_was_sensitive;
 	}
 
 	private void on_button_run_encoder_analyze_options_close_and_analyze_clicked (object o, EventArgs args)
@@ -184,7 +189,7 @@ public partial class ChronoJumpWindow
 		}
 
 		if(lastRunEncoderFullPath != null && lastRunEncoderFullPath != "")
-			raceEncoderCopyTempAndDoGraphs();
+			raceEncoderCopyToTempAndDoRGraph();
 	}
 
 	private void on_button_run_encoder_image_save_clicked (object o, EventArgs args)
@@ -271,7 +276,7 @@ public partial class ChronoJumpWindow
 	private void on_radio_run_encoder_analyze_individual_current_set_toggled (object o, EventArgs args)
 	{
 		button_run_encoder_analyze_load.Visible = true;
-		//button_run_encoder_analyze_analyze.Visible = true;
+		button_run_encoder_analyze_analyze.Visible = true;
 
 		notebook_run_encoder_analyze.CurrentPage = Convert.ToInt32(notebook_run_encoder_analyze_pages.CURRENTSET);
 		label_run_encoder_export_result.Text = "";
@@ -279,7 +284,7 @@ public partial class ChronoJumpWindow
 	private void on_radio_run_encoder_analyze_individual_current_session_toggled (object o, EventArgs args)
 	{
 		button_run_encoder_analyze_load.Visible = false;
-		//button_run_encoder_analyze_analyze.Visible = false;
+		button_run_encoder_analyze_analyze.Visible = false;
 
 		if(currentPerson != null)
 			label_run_encoder_export_data.Text = currentPerson.Name;
@@ -292,7 +297,7 @@ public partial class ChronoJumpWindow
 	private void on_radio_run_encoder_analyze_groupal_current_session_toggled (object o, EventArgs args)
 	{
 		button_run_encoder_analyze_load.Visible = false;
-		//button_run_encoder_analyze_analyze.Visible = false;
+		button_run_encoder_analyze_analyze.Visible = false;
 
 		label_run_encoder_export_data.Text = currentSession.Name;
 

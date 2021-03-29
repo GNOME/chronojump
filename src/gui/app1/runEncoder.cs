@@ -291,6 +291,10 @@ public partial class ChronoJumpWindow
 		raceEncoderReadWidgets();
 		button_contacts_exercise_close_and_recalculate.Sensitive = false;
 
+		//remove stuff on analyze tab
+		image_run_encoder_graph.Visible = false;
+		treeview_raceAnalyzer = UtilGtk.RemoveColumns(treeview_raceAnalyzer);
+
 		bool connected = runEncoderCapturePre4_GTK();
 		if(! connected)
 			runEncoderButtonsSensitive(true);
@@ -306,13 +310,16 @@ public partial class ChronoJumpWindow
 
 		button_contacts_exercise_close_and_recalculate.Sensitive = false;
 		textview_contacts_signal_comment.Buffer.Text = "";
-		image_run_encoder_graph.Sensitive = false;
+
+		//image_run_encoder_graph.Sensitive = false; //this is not useful at all
+		image_run_encoder_graph.Visible = false;
+
 		treeview_raceAnalyzer = UtilGtk.RemoveColumns(treeview_raceAnalyzer);
 		button_raceAnalyzer_table_save.Sensitive = false;
 		clearRaceAnalyzerTriggers();
 
 		button_run_encoder_analyze_options_close_and_analyze.Sensitive = false;
-		//button_run_encoder_analyze_analyze.Sensitive = false;
+		button_run_encoder_analyze_analyze.Sensitive = false;
 		button_delete_last_test.Sensitive = false;
 		button_run_encoder_image_save.Sensitive = false;
 
@@ -410,7 +417,7 @@ public partial class ChronoJumpWindow
 		contactsShowCaptureDoingButtons(true);
 
 		//runEncoderCaptureSimulated = menuitem_check_race_encoder_capture_simulate.Active; //TODO: show this in some way on 2.0
-		runEncoderCaptureSimulated = false; //note that on simulated we need to click finish not so late
+		runEncoderCaptureSimulated = true; //note that on simulated we need to click finish not so late
 
 		/*
 		//initialize
@@ -648,7 +655,7 @@ public partial class ChronoJumpWindow
 			File.Copy(fileName, RunEncoder.GetCSVFileName(), true); //can be overwritten
 			lastRunEncoderFullPath = fileName;
 
-			//raceEncoderCaptureGraphDo(); moved to pulseGTKRunEncoderCapture () where currentRunEncoder is created
+			//raceEncoderCaptureRGraphDo(); moved to pulseGTKRunEncoderCapture () where currentRunEncoder is created
 
 			capturingRunEncoder = arduinoCaptureStatus.COPIED_TO_TMP;
 		}
@@ -865,7 +872,8 @@ public partial class ChronoJumpWindow
 				);
 		showRaceAnalyzerTriggers ();
 
-		raceEncoderCopyTempAndDoGraphs();
+		//on load do the R graph, but not on capture, to show on capture the label related to lack of person height
+		raceEncoderCopyToTempAndDoRGraph();
 
 		button_contacts_exercise_close_and_recalculate.Sensitive = true;
 
@@ -1016,7 +1024,7 @@ public partial class ChronoJumpWindow
 
 		raceEncoderReadWidgets();
 		if(lastRunEncoderFullPath != null && lastRunEncoderFullPath != "")
-			raceEncoderCopyTempAndDoGraphs();
+			raceEncoderCopyToTempAndDoRGraph();
 
 		event_execute_label_message.Text = "Recalculated.";
 		radio_mode_contacts_analyze.Active = true;
@@ -1034,7 +1042,7 @@ public partial class ChronoJumpWindow
 		currentRunEncoder.UpdateSQL(false);
 	}
 
-	private void raceEncoderCopyTempAndDoGraphs()
+	private void raceEncoderCopyToTempAndDoRGraph()
 	{
 		// 0) delete results file
 		Util.FileDelete(RunEncoder.GetCSVResultsFileName());
@@ -1043,14 +1051,14 @@ public partial class ChronoJumpWindow
 		File.Copy(lastRunEncoderFullPath, RunEncoder.GetCSVFileName(), true); //can be overwritten
 
 		// 2) create and open graph
-		raceEncoderCaptureGraphDo();
+		raceEncoderCaptureRGraphDo();
 
 		Thread.Sleep (250); //Wait a bit to ensure is copied
 
 		runEncoderAnalyzeOpenImage();
 		notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RACEENCODER);
 		radio_mode_contacts_analyze.Active = true;
-		//button_run_encoder_analyze_analyze.Sensitive = true;
+		button_run_encoder_analyze_analyze.Sensitive = true;
 
 		// 3) display table
 		treeview_raceAnalyzer = UtilGtk.RemoveColumns(treeview_raceAnalyzer);
@@ -1068,7 +1076,7 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	private void raceEncoderCaptureGraphDo()
+	private void raceEncoderCaptureRGraphDo()
 	{
 		if(File.Exists(UtilEncoder.GetSprintEncoderImage()))
 			Util.FileDelete(UtilEncoder.GetSprintEncoderImage());
@@ -1308,14 +1316,18 @@ public partial class ChronoJumpWindow
 					sensitiveLastTestButtons(true);
 					contactsShowCaptureDoingButtons(false);
 
-					raceEncoderCaptureGraphDo();
+					//do not analyze after capture, to be able to show the message: no person height
+					/*
+					raceEncoderCaptureRGraphDo();
 
 					runEncoderAnalyzeOpenImage();
 					notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RACEENCODER);
 					radio_mode_contacts_analyze.Active = true;
+					*/
+
 					button_contacts_exercise_close_and_recalculate.Sensitive = true;
 					button_run_encoder_analyze_options_close_and_analyze.Sensitive = true;
-					//button_run_encoder_analyze_analyze.Sensitive = true;
+					button_run_encoder_analyze_analyze.Sensitive = true;
 					button_run_encoder_image_save.Sensitive = true;
 					button_delete_last_test.Sensitive = true;
 
@@ -1338,7 +1350,7 @@ public partial class ChronoJumpWindow
 				sensitiveLastTestButtons(false);
 				contactsShowCaptureDoingButtons(false);
 				button_run_encoder_analyze_options_close_and_analyze.Sensitive = false;
-				//button_run_encoder_analyze_analyze.Sensitive = false;
+				button_run_encoder_analyze_analyze.Sensitive = false;
 				button_run_encoder_image_save.Sensitive = false;
 				button_delete_last_test.Sensitive = false;
 
@@ -1440,8 +1452,6 @@ public partial class ChronoJumpWindow
 		return true;
 	}
 
-	//private bool button_run_encoder_analyze_analyze_was_sensitive; //needed this temp variable
-
 	void runEncoderButtonsSensitive(bool sensitive)
 	{
 		//runEncoder related buttons
@@ -1449,16 +1459,6 @@ public partial class ChronoJumpWindow
 		vbox_run_encoder_capture_options.Sensitive = sensitive;
 		button_contacts_exercise.Sensitive = sensitive;
 		button_execute_test.Sensitive = sensitive;
-
-		/*
-		if(sensitive)
-			button_run_encoder_analyze_analyze.Sensitive = button_run_encoder_analyze_analyze_was_sensitive;
-		else {
-			button_run_encoder_analyze_analyze_was_sensitive = button_run_encoder_analyze_analyze.Sensitive;
-			button_run_encoder_analyze_analyze.Sensitive = false;
-		}
-		*/
-
 		hbox_contacts_camera.Sensitive = sensitive;
 
 		//other gui buttons
@@ -1477,7 +1477,9 @@ public partial class ChronoJumpWindow
 		image_run_encoder_graph = UtilGtk.OpenImageSafe(
 				imagePath,
 				image_run_encoder_graph);
-		image_run_encoder_graph.Sensitive = true;
+
+		//image_run_encoder_graph.Sensitive = true; //not useful
+		image_run_encoder_graph.Visible = true;
 	}
 
 	/*

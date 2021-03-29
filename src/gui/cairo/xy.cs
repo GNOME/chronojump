@@ -55,7 +55,7 @@ public abstract class CairoXY : CairoGeneric
 
 	protected Cairo.Context g;
 	protected const int textHeight = 12;
-	protected const int pointsRadius = 6;
+	protected int pointsRadius = 6;
 	protected string xVariable = "";
 	protected string yVariable = "";
 	protected string xUnits = "";

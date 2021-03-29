@@ -95,15 +95,22 @@ public abstract class CairoXY : CairoGeneric
 	protected string speedStr = Catalog.GetString("Speed");
 	protected string forceStr = Catalog.GetString("Force");
 	protected string dateStr = Catalog.GetString("Date");
+	protected string timeStr = Catalog.GetString("Time");
+	protected string distanceStr = Catalog.GetString("Distance");
 	protected string tfStr = Catalog.GetString("TF");
 	protected string tcStr = Catalog.GetString("TC");
 	protected string countStr = Catalog.GetString("Num");
 	protected string jumpTypeStr = Catalog.GetString("Jump type:");
 	protected string font;
 
+	public virtual bool PassData (List<PointF> point_l)
+	{
+		return false;
+	}
+
 	public abstract void Do(string font);
 
-	protected void initGraph(string font)
+	protected void initGraph(string font, double widthPercent1)
 	{
 		this.font = font;
 		LogB.Information("Font: " + font);
@@ -117,7 +124,7 @@ public abstract class CairoXY : CairoGeneric
 		g.SetSourceRGB(1,1,1);
 		g.Paint();
 
-		graphWidth = Convert.ToInt32(area.Allocation.Width *.8);
+		graphWidth = Convert.ToInt32(area.Allocation.Width * widthPercent1);
 		graphHeight = area.Allocation.Height;
 
 		g.SetSourceRGB(0,0,0);

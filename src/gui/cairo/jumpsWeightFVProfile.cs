@@ -43,7 +43,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		this.area = area;
 		this.errorMessage = errorMessage;
 
-		initGraph(font);
+		initGraph(font, .8);
 
 		plotError();
 
@@ -126,7 +126,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 	public override void Do(string font)
 	{
 		LogB.Information("at JumpsWeightFVProfileGraph.Do");
-		initGraph(font);
+		initGraph(font, .8);
 
 		if(showFullGraph)
 			findPointMaximums(true);

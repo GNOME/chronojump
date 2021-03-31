@@ -78,12 +78,16 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_change_modes_contacts_runs_simple;
 	[Widget] Gtk.RadioButton radio_change_modes_contacts_runs_intervallic;
 	[Widget] Gtk.RadioButton radio_change_modes_contacts_runs_encoder;
+	[Widget] Gtk.RadioButton radio_change_modes_encoder_gravitatory;
+	[Widget] Gtk.RadioButton radio_change_modes_encoder_inertial;
 	[Widget] Gtk.Image image_change_modes_contacts_jumps_simple;
 	[Widget] Gtk.Image image_change_modes_contacts_jumps_reactive;
 	[Widget] Gtk.Image image_change_modes_contacts_runs_simple;
 	[Widget] Gtk.Image image_change_modes_contacts_runs_reactive;
 	[Widget] Gtk.Image image_change_modes_contacts_runs_intervallic;
 	[Widget] Gtk.Image image_change_modes_contacts_runs_encoder;
+	[Widget] Gtk.Image image_change_modes_encoder_gravitatory;
+	[Widget] Gtk.Image image_change_modes_encoder_inertial;
 
 	[Widget] Gtk.EventBox eventbox_button_show_modes_contacts;
 	[Widget] Gtk.EventBox eventbox_change_modes_contacts_jumps_simple;
@@ -91,6 +95,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox eventbox_change_modes_contacts_runs_simple;
 	[Widget] Gtk.EventBox eventbox_change_modes_contacts_runs_intervallic;
 	[Widget] Gtk.EventBox eventbox_change_modes_contacts_runs_encoder;
+	[Widget] Gtk.EventBox eventbox_change_modes_encoder_gravitatory;
+	[Widget] Gtk.EventBox eventbox_change_modes_encoder_inertial;
 	[Widget] Gtk.EventBox eventbox_button_show_modes_encoder;
 	[Widget] Gtk.EventBox eventbox_radio_mode_contacts_capture;
 	[Widget] Gtk.EventBox eventbox_radio_mode_contacts_analyze;
@@ -110,7 +116,6 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.Image image_button_show_modes_contacts_grid;
 	[Widget] Gtk.Image image_button_show_modes_encoder_grid;
-	[Widget] Gtk.Image image_button_show_modes_encoder_current;
 
 	//radio group
 	[Widget] Gtk.RadioButton radio_mode_contacts_capture;
@@ -617,6 +622,8 @@ public partial class ChronoJumpWindow
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_runs_simple, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_runs_intervallic, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_runs_encoder, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_encoder_gravitatory, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_encoder_inertial, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_show_modes_encoder, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_contacts_capture, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_contacts_analyze, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
@@ -3387,7 +3394,6 @@ public partial class ChronoJumpWindow
 
 		image_button_show_modes_contacts_grid.Pixbuf = pixbufModeGrid;
 		image_button_show_modes_encoder_grid.Pixbuf = pixbufModeGrid;
-		image_button_show_modes_encoder_current.Pixbuf = pixbufModeCurrent;
 
 		if(m == Constants.Menuitem_modes.POWERGRAVITATORY || m == Constants.Menuitem_modes.POWERINERTIAL)
 			image_encoder_exercise.Pixbuf = pixbufModeCurrent;
@@ -3704,11 +3710,25 @@ public partial class ChronoJumpWindow
 
 	private void on_button_selector_start_encoder_gravitatory_clicked(object o, EventArgs args) 
 	{
-		changeMode (Constants.Menuitem_modes.POWERGRAVITATORY);
+		if(radio_change_modes_encoder_gravitatory.Active)
+			changeMode (Constants.Menuitem_modes.POWERGRAVITATORY);
+		else
+			radio_change_modes_encoder_gravitatory.Active = true;
 	}
 	private void on_button_selector_start_encoder_inertial_clicked(object o, EventArgs args) 
 	{
-		changeMode (Constants.Menuitem_modes.POWERINERTIAL);
+		if(radio_change_modes_encoder_inertial.Active)
+			changeMode (Constants.Menuitem_modes.POWERINERTIAL);
+		else
+			radio_change_modes_encoder_inertial.Active = true;
+	}
+	private void on_radio_change_modes_encoder_gravitatory_toggled (object o, EventArgs args)
+	{
+			changeMode (Constants.Menuitem_modes.POWERGRAVITATORY);
+	}
+	private void on_radio_change_modes_encoder_inertial_toggled (object o, EventArgs args)
+	{
+			changeMode (Constants.Menuitem_modes.POWERINERTIAL);
 	}
 
 	private void on_button_selector_start_force_sensor_clicked(object o, EventArgs args)

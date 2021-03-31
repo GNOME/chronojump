@@ -2533,8 +2533,7 @@ public partial class ChronoJumpWindow
 			else if(mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
 				modePrint = Catalog.GetString("Races intervallic");
 			else if(mode == Constants.Menuitem_modes.RUNSENCODER)
-				//modePrint = Catalog.GetString("Races with encoder");
-				modePrint = "Races with encoder";
+				modePrint = Catalog.GetString("Race analyzer");
 			else if(mode == Constants.Menuitem_modes.POWERGRAVITATORY)
 				modePrint = Catalog.GetString("Encoder (gravitatory)");
 			else if(mode == Constants.Menuitem_modes.POWERINERTIAL)

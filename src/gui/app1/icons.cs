@@ -608,11 +608,14 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run_simple.png");
 		image_mode_runs_small.Pixbuf = pixbuf;
 		image_mode_runs_small1.Pixbuf = pixbuf;
+		image_change_modes_contacts_runs_simple.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run_multiple.png");
 		image_mode_runs_intervallic_small.Pixbuf = pixbuf;
 		image_mode_runs_intervallic_small1.Pixbuf = pixbuf;
+		image_change_modes_contacts_runs_intervallic.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "race_encoder_icon.png");
 		image_mode_race_encoder_small.Pixbuf = pixbuf;
+		image_change_modes_contacts_runs_encoder.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "run_2x.png");
 		image_run_execute_running.Pixbuf = pixbuf;

@@ -72,14 +72,25 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_show_modes_contacts;
 	[Widget] Gtk.Button button_show_modes_encoder;
 	[Widget] Gtk.HBox hbox_change_modes_jumps;
+	[Widget] Gtk.HBox hbox_change_modes_runs;
 	[Widget] Gtk.RadioButton radio_change_modes_contacts_jumps_simple;
 	[Widget] Gtk.RadioButton radio_change_modes_contacts_jumps_reactive;
+	[Widget] Gtk.RadioButton radio_change_modes_contacts_runs_simple;
+	[Widget] Gtk.RadioButton radio_change_modes_contacts_runs_intervallic;
+	[Widget] Gtk.RadioButton radio_change_modes_contacts_runs_encoder;
 	[Widget] Gtk.Image image_change_modes_contacts_jumps_simple;
 	[Widget] Gtk.Image image_change_modes_contacts_jumps_reactive;
+	[Widget] Gtk.Image image_change_modes_contacts_runs_simple;
+	[Widget] Gtk.Image image_change_modes_contacts_runs_reactive;
+	[Widget] Gtk.Image image_change_modes_contacts_runs_intervallic;
+	[Widget] Gtk.Image image_change_modes_contacts_runs_encoder;
 
 	[Widget] Gtk.EventBox eventbox_button_show_modes_contacts;
 	[Widget] Gtk.EventBox eventbox_change_modes_contacts_jumps_simple;
 	[Widget] Gtk.EventBox eventbox_change_modes_contacts_jumps_reactive;
+	[Widget] Gtk.EventBox eventbox_change_modes_contacts_runs_simple;
+	[Widget] Gtk.EventBox eventbox_change_modes_contacts_runs_intervallic;
+	[Widget] Gtk.EventBox eventbox_change_modes_contacts_runs_encoder;
 	[Widget] Gtk.EventBox eventbox_button_show_modes_encoder;
 	[Widget] Gtk.EventBox eventbox_radio_mode_contacts_capture;
 	[Widget] Gtk.EventBox eventbox_radio_mode_contacts_analyze;
@@ -603,6 +614,9 @@ public partial class ChronoJumpWindow
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_show_modes_contacts, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_jumps_simple, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_jumps_reactive, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_runs_simple, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_runs_intervallic, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_runs_encoder, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_show_modes_encoder, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_contacts_capture, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_contacts_analyze, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
@@ -2993,6 +3007,7 @@ public partial class ChronoJumpWindow
 		}
 
 		hbox_change_modes_jumps.Visible = false;
+		hbox_change_modes_runs.Visible = false;
 		button_contacts_bells.Sensitive = false;
 		radio_mode_contacts_capture.Active = true;
 		radio_mode_contacts_jumps_profile.Active = true;
@@ -3098,6 +3113,8 @@ public partial class ChronoJumpWindow
 
 			label_contacts_exercise_selected_options.Visible = true;
 			image_top_laterality_contacts.Visible = false;
+
+			hbox_change_modes_runs.Visible = true;
 
 			if(m == Constants.Menuitem_modes.RUNSSIMPLE) 
 			{
@@ -3302,6 +3319,8 @@ public partial class ChronoJumpWindow
 			hbox_contacts_sup_capture_analyze_two_buttons.Visible = true;
 			alignment_button_threshold.Visible = false;
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
+
+			hbox_change_modes_runs.Visible = true;
 
 			hbox_contacts_graph_last_limit.Visible = false;
 			hbox_contacts_graph_person.Visible = false;
@@ -3645,13 +3664,34 @@ public partial class ChronoJumpWindow
 	}
 	private void on_button_selector_start_runs_simple_clicked(object o, EventArgs args)
 	{
-		changeMode (Constants.Menuitem_modes.RUNSSIMPLE);
+		if(radio_change_modes_contacts_runs_simple.Active)
+			changeMode (Constants.Menuitem_modes.RUNSSIMPLE);
+		else
+			radio_change_modes_contacts_runs_simple.Active = true;
 	}
 	private void on_button_selector_start_runs_intervallic_clicked(object o, EventArgs args) 
 	{
-		changeMode (Constants.Menuitem_modes.RUNSINTERVALLIC);
+		if(radio_change_modes_contacts_runs_intervallic.Active)
+			changeMode (Constants.Menuitem_modes.RUNSINTERVALLIC);
+		else
+			radio_change_modes_contacts_runs_intervallic.Active = true;
 	}
 	private void on_button_selector_start_race_encoder_clicked(object o, EventArgs args)
+	{
+		if(radio_change_modes_contacts_runs_encoder.Active)
+			changeMode (Constants.Menuitem_modes.RUNSENCODER);
+		else
+			radio_change_modes_contacts_runs_encoder.Active = true;
+	}
+	private void on_radio_change_modes_contacts_runs_simple_toggled (object o, EventArgs args)
+	{
+		changeMode (Constants.Menuitem_modes.RUNSSIMPLE);
+	}
+	private void on_radio_change_modes_contacts_runs_intervallic_toggled (object o, EventArgs args)
+	{
+		changeMode (Constants.Menuitem_modes.RUNSINTERVALLIC);
+	}
+	private void on_radio_change_modes_contacts_runs_encoder_toggled (object o, EventArgs args)
 	{
 		changeMode (Constants.Menuitem_modes.RUNSENCODER);
 	}

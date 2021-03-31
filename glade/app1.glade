@@ -5088,20 +5088,24 @@ EncoderInertialCapture</property>
                                                   </packing>
                                                 </child>
                                                 <child>
-                                                  <widget class="GtkHBox" id="hbox_change_modes_jumps">
+                                                  <widget class="GtkHBox" id="hbox422">
+                                                    <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="spacing">6</property>
                                                     <child>
-                                                      <widget class="GtkRadioButton" id="radio_change_modes_contacts_jumps_simple">
-                                                        <property name="width_request">40</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="receives_default">False</property>
-                                                        <property name="active">True</property>
-                                                        <property name="draw_indicator">False</property>
-                                                        <signal name="toggled" handler="on_radio_change_modes_contacts_jumps_simple_toggled" swapped="no"/>
+                                                      <widget class="GtkHBox" id="hbox_change_modes_jumps">
+                                                        <property name="can_focus">False</property>
+                                                        <property name="spacing">6</property>
                                                         <child>
-                                                          <widget class="GtkEventBox" id="eventbox_change_modes_contacts_jumps_simple">
+                                                          <widget class="GtkRadioButton" id="radio_change_modes_contacts_jumps_simple">
+                                                            <property name="width_request">40</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">False</property>
+                                                            <signal name="toggled" handler="on_radio_change_modes_contacts_jumps_simple_toggled" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkEventBox" id="eventbox_change_modes_contacts_jumps_simple">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
@@ -5111,27 +5115,27 @@ EncoderInertialCapture</property>
                                                             <property name="stock">gtk-missing-image</property>
                                                             </widget>
                                                             </child>
+                                                            </widget>
+                                                            </child>
                                                           </widget>
+                                                          <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                          </packing>
                                                         </child>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">True</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">0</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkRadioButton" id="radio_change_modes_contacts_jumps_reactive">
-                                                        <property name="width_request">40</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="receives_default">False</property>
-                                                        <property name="active">True</property>
-                                                        <property name="draw_indicator">False</property>
-                                                        <property name="group">radio_change_modes_contacts_jumps_simple</property>
-                                                        <signal name="toggled" handler="on_radio_change_modes_contacts_jumps_reactive_toggled" swapped="no"/>
                                                         <child>
-                                                          <widget class="GtkEventBox" id="eventbox_change_modes_contacts_jumps_reactive">
+                                                          <widget class="GtkRadioButton" id="radio_change_modes_contacts_jumps_reactive">
+                                                            <property name="width_request">40</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">False</property>
+                                                            <property name="group">radio_change_modes_contacts_jumps_simple</property>
+                                                            <signal name="toggled" handler="on_radio_change_modes_contacts_jumps_reactive_toggled" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkEventBox" id="eventbox_change_modes_contacts_jumps_reactive">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
@@ -5141,7 +5145,113 @@ EncoderInertialCapture</property>
                                                             <property name="stock">gtk-missing-image</property>
                                                             </widget>
                                                             </child>
+                                                            </widget>
+                                                            </child>
                                                           </widget>
+                                                          <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                          </packing>
+                                                        </child>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="expand">True</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">0</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkHBox" id="hbox_change_modes_runs">
+                                                        <property name="can_focus">False</property>
+                                                        <property name="spacing">6</property>
+                                                        <child>
+                                                          <widget class="GtkRadioButton" id="radio_change_modes_contacts_runs_simple">
+                                                            <property name="width_request">40</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">False</property>
+                                                            <signal name="toggled" handler="on_radio_change_modes_contacts_runs_simple_toggled" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkEventBox" id="eventbox_change_modes_contacts_runs_simple">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_change_modes_contacts_runs_simple">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="GtkRadioButton" id="radio_change_modes_contacts_runs_intervallic">
+                                                            <property name="width_request">40</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="draw_indicator">False</property>
+                                                            <property name="group">radio_change_modes_contacts_runs_simple</property>
+                                                            <signal name="toggled" handler="on_radio_change_modes_contacts_runs_intervallic_toggled" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkEventBox" id="eventbox_change_modes_contacts_runs_intervallic">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_change_modes_contacts_runs_intervallic">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="GtkRadioButton" id="radio_change_modes_contacts_runs_encoder">
+                                                            <property name="width_request">40</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">False</property>
+                                                            <property name="group">radio_change_modes_contacts_runs_simple</property>
+                                                            <signal name="toggled" handler="on_radio_change_modes_contacts_runs_encoder_toggled" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkEventBox" id="eventbox_change_modes_contacts_runs_encoder">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_change_modes_contacts_runs_encoder">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
+                                                          </packing>
                                                         </child>
                                                       </widget>
                                                       <packing>

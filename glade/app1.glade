@@ -5055,20 +5055,21 @@ EncoderInertialCapture</property>
                                             <property name="can_focus">False</property>
                                             <property name="spacing">50</property>
                                             <child>
-                                              <widget class="GtkButton" id="button_show_modes_contacts">
+                                              <widget class="GtkHBox" id="hbox_change_modes_contacts">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">True</property>
-                                                <signal name="clicked" handler="on_button_show_modes_clicked" swapped="no"/>
+                                                <property name="can_focus">False</property>
+                                                <property name="spacing">6</property>
                                                 <child>
-                                                  <widget class="GtkEventBox" id="eventbox_button_show_modes_contacts">
+                                                  <widget class="GtkButton" id="button_show_modes_contacts">
+                                                    <property name="width_request">40</property>
                                                     <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">True</property>
+                                                    <signal name="clicked" handler="on_button_show_modes_clicked" swapped="no"/>
                                                     <child>
-                                                      <widget class="GtkHBox" id="hbox422">
+                                                      <widget class="GtkEventBox" id="eventbox_button_show_modes_contacts">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="spacing">6</property>
                                                         <child>
                                                           <widget class="GtkImage" id="image_button_show_modes_contacts_grid">
                                                             <property name="width_request">24</property>
@@ -5076,28 +5077,85 @@ EncoderInertialCapture</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
                                                           </widget>
-                                                          <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkImage" id="image_button_show_modes_contacts_current">
-                                                            <property name="width_request">24</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                          </widget>
-                                                          <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                          </packing>
                                                         </child>
                                                       </widget>
                                                     </child>
                                                   </widget>
+                                                  <packing>
+                                                    <property name="expand">True</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkHBox" id="hbox_change_modes_jumps">
+                                                    <property name="can_focus">False</property>
+                                                    <property name="spacing">6</property>
+                                                    <child>
+                                                      <widget class="GtkRadioButton" id="radio_change_modes_contacts_jumps_simple">
+                                                        <property name="width_request">40</property>
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="receives_default">False</property>
+                                                        <property name="active">True</property>
+                                                        <property name="draw_indicator">False</property>
+                                                        <signal name="toggled" handler="on_radio_change_modes_contacts_jumps_simple_toggled" swapped="no"/>
+                                                        <child>
+                                                          <widget class="GtkEventBox" id="eventbox_change_modes_contacts_jumps_simple">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_change_modes_contacts_jumps_simple">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            </child>
+                                                          </widget>
+                                                        </child>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="expand">True</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">0</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkRadioButton" id="radio_change_modes_contacts_jumps_reactive">
+                                                        <property name="width_request">40</property>
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="receives_default">False</property>
+                                                        <property name="active">True</property>
+                                                        <property name="draw_indicator">False</property>
+                                                        <property name="group">radio_change_modes_contacts_jumps_simple</property>
+                                                        <signal name="toggled" handler="on_radio_change_modes_contacts_jumps_reactive_toggled" swapped="no"/>
+                                                        <child>
+                                                          <widget class="GtkEventBox" id="eventbox_change_modes_contacts_jumps_reactive">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_change_modes_contacts_jumps_reactive">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            </child>
+                                                          </widget>
+                                                        </child>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="expand">True</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">1</property>
+                                                      </packing>
+                                                    </child>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">True</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">1</property>
+                                                  </packing>
                                                 </child>
                                               </widget>
                                               <packing>
@@ -5110,7 +5168,7 @@ EncoderInertialCapture</property>
                                               <widget class="GtkHBox" id="hbox_contacts_sup_capture_analyze_two_buttons">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="spacing">20</property>
+                                                <property name="spacing">6</property>
                                                 <child>
                                                   <widget class="GtkRadioButton" id="radio_mode_contacts_capture">
                                                     <property name="visible">True</property>
@@ -5228,7 +5286,7 @@ EncoderInertialCapture</property>
                                             <child>
                                               <widget class="GtkHBox" id="hbox_other">
                                                 <property name="can_focus">False</property>
-                                                <property name="spacing">20</property>
+                                                <property name="spacing">6</property>
                                                 <child>
                                                   <widget class="GtkRadioButton" id="radio_mode_pulses_small">
                                                     <property name="visible">True</property>
@@ -5346,7 +5404,7 @@ EncoderInertialCapture</property>
                                             <child>
                                               <widget class="GtkHBox" id="hbox_top_person">
                                                 <property name="can_focus">False</property>
-                                                <property name="spacing">20</property>
+                                                <property name="spacing">12</property>
                                                 <child>
                                                   <widget class="GtkLabel" id="label_top_person_name">
                                                     <property name="visible">True</property>
@@ -24580,6 +24638,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -30689,18 +30750,6 @@ Concentric</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Tests will be filmed</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack_type">end</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <widget class="GtkHBox" id="hbox_video_encoder_capturing">
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
@@ -30728,6 +30777,18 @@ Concentric</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Tests will be filmed</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -36704,6 +36765,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

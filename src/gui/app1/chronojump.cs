@@ -71,8 +71,15 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.Button button_show_modes_contacts;
 	[Widget] Gtk.Button button_show_modes_encoder;
+	[Widget] Gtk.HBox hbox_change_modes_jumps;
+	[Widget] Gtk.RadioButton radio_change_modes_contacts_jumps_simple;
+	[Widget] Gtk.RadioButton radio_change_modes_contacts_jumps_reactive;
+	[Widget] Gtk.Image image_change_modes_contacts_jumps_simple;
+	[Widget] Gtk.Image image_change_modes_contacts_jumps_reactive;
 
 	[Widget] Gtk.EventBox eventbox_button_show_modes_contacts;
+	[Widget] Gtk.EventBox eventbox_change_modes_contacts_jumps_simple;
+	[Widget] Gtk.EventBox eventbox_change_modes_contacts_jumps_reactive;
 	[Widget] Gtk.EventBox eventbox_button_show_modes_encoder;
 	[Widget] Gtk.EventBox eventbox_radio_mode_contacts_capture;
 	[Widget] Gtk.EventBox eventbox_radio_mode_contacts_analyze;
@@ -91,7 +98,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_radio_mode_contacts_analyze_jump_simple_buttons;
 
 	[Widget] Gtk.Image image_button_show_modes_contacts_grid;
-	[Widget] Gtk.Image image_button_show_modes_contacts_current;
 	[Widget] Gtk.Image image_button_show_modes_encoder_grid;
 	[Widget] Gtk.Image image_button_show_modes_encoder_current;
 
@@ -595,6 +601,8 @@ public partial class ChronoJumpWindow
 		initRunEncoder();
 
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_show_modes_contacts, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_jumps_simple, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_jumps_reactive, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_show_modes_encoder, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_contacts_capture, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_mode_contacts_analyze, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
@@ -2984,6 +2992,7 @@ public partial class ChronoJumpWindow
 			runEncoderProcessCancel = true;
 		}
 
+		hbox_change_modes_jumps.Visible = false;
 		button_contacts_bells.Sensitive = false;
 		radio_mode_contacts_capture.Active = true;
 		radio_mode_contacts_jumps_profile.Active = true;
@@ -3033,6 +3042,8 @@ public partial class ChronoJumpWindow
 
 			label_contacts_exercise_selected_options.Visible = true;
 			image_top_laterality_contacts.Visible = false;
+
+			hbox_change_modes_jumps.Visible = true;
 
 			if(m == Constants.Menuitem_modes.JUMPSSIMPLE) 
 			{
@@ -3356,7 +3367,6 @@ public partial class ChronoJumpWindow
 		}
 
 		image_button_show_modes_contacts_grid.Pixbuf = pixbufModeGrid;
-		image_button_show_modes_contacts_current.Pixbuf = pixbufModeCurrent;
 		image_button_show_modes_encoder_grid.Pixbuf = pixbufModeGrid;
 		image_button_show_modes_encoder_current.Pixbuf = pixbufModeCurrent;
 
@@ -3598,14 +3608,30 @@ public partial class ChronoJumpWindow
 		notebook_mode_selector2.CurrentPage = 0; //jumps
 		notebook_mode_selector.CurrentPage = 1; //2nd selector
 	}
+
 	private void on_button_selector_start_jumps_simple_clicked(object o, EventArgs args) 
 	{
-		changeMode (Constants.Menuitem_modes.JUMPSSIMPLE);
+		if(radio_change_modes_contacts_jumps_simple.Active)
+			changeMode (Constants.Menuitem_modes.JUMPSSIMPLE);
+		else
+			radio_change_modes_contacts_jumps_simple.Active = true;
 	}
 	private void on_button_selector_start_jumps_reactive_clicked(object o, EventArgs args) 
 	{
+		if(radio_change_modes_contacts_jumps_reactive.Active)
+			changeMode (Constants.Menuitem_modes.JUMPSREACTIVE);
+		else
+			radio_change_modes_contacts_jumps_reactive.Active = true;
+	}
+	private void on_radio_change_modes_contacts_jumps_simple_toggled (object o, EventArgs args)
+	{
+		changeMode (Constants.Menuitem_modes.JUMPSSIMPLE);
+	}
+	private void on_radio_change_modes_contacts_jumps_reactive_toggled (object o, EventArgs args)
+	{
 		changeMode (Constants.Menuitem_modes.JUMPSREACTIVE);
 	}
+
 	
 	private void on_button_selector_start_runs_clicked(object o, EventArgs args) 
 	{

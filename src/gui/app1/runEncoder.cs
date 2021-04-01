@@ -1804,7 +1804,10 @@ public partial class ChronoJumpWindow
 	CairoRadial cairoRadial;
 	private void on_drawingarea_race_analyzer_capture_expose_event (object o, ExposeEventArgs args)
 	{
-		cairoRadial = new CairoRadial(drawingarea_race_analyzer_capture, preferences.fontType.ToString());
+		if(cairoRadial == null)
+			cairoRadial = new CairoRadial(drawingarea_race_analyzer_capture, preferences.fontType.ToString());
+
+		cairoRadial.GraphSpeedAndDistance(runEncoderCaptureSpeed, runEncoderCaptureDistance);
 	}
 
 	CairoGraphRaceAnalyzer cairoGraphRaceAnalyzer_dt;

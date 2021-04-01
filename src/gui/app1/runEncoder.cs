@@ -1083,7 +1083,7 @@ public partial class ChronoJumpWindow
 
 		runEncoderAnalyzeOpenImage();
 		notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RACEENCODER);
-		radio_mode_contacts_analyze.Active = true;
+		//radio_mode_contacts_analyze.Active = true;
 		button_run_encoder_analyze_analyze.Sensitive = true;
 
 		// 3) display table

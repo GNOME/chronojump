@@ -71,6 +71,8 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.Button button_show_modes_contacts;
 	[Widget] Gtk.Button button_show_modes_encoder;
+	[Widget] Gtk.HBox hbox_change_modes_contacts;
+	[Widget] Gtk.HBox hbox_change_modes_encoder;
 	[Widget] Gtk.HBox hbox_change_modes_jumps;
 	[Widget] Gtk.HBox hbox_change_modes_runs;
 	[Widget] Gtk.RadioButton radio_change_modes_contacts_jumps_simple;

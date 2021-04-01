@@ -109,8 +109,11 @@ public partial class ChronoJumpWindow
 		alignment_buttons_menu_and_persons.Sensitive = sensitive;
 		viewport_menu.Sensitive = sensitive;
 		vbox_menu_tiny_menu.Sensitive = sensitive;
-		button_show_modes_contacts.Sensitive = sensitive;
-		button_show_modes_encoder.Sensitive = sensitive;
+
+		//button_show_modes_contacts.Sensitive = sensitive;
+		hbox_change_modes_contacts.Sensitive = sensitive;
+		//button_show_modes_encoder.Sensitive = sensitive;
+		hbox_change_modes_encoder.Sensitive = sensitive;
 	}
 
 	/* if import started we need to reload at the end

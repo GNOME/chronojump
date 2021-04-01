@@ -5349,7 +5349,7 @@ public partial class ChronoJumpWindow
 	
 	/* called on:
 	 * encoderPersonChanged()
-	 * changeMode (Constants.Menuitem_modes m)
+	 * changeModeCheckRadios (Constants.Menuitem_modes m)
 	 */
 	private void blankEncoderInterface()
 	{

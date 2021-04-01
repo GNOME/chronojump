@@ -146,7 +146,7 @@ public partial class ChronoJumpWindow
 			SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, false, false);
 
 			// 2) change mode
-			changeMode(preferences.lastMode);
+			changeModeCheckRadios (preferences.lastMode);
 
 			// 3) put preference to true again
 			SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, true, false);

@@ -27,6 +27,8 @@ using Cairo;
 
 public class CairoGraphRaceAnalyzer : CairoXY
 {
+	//static int lastPointPainted;
+
 	/*
 	//constructor when there are no points
 	public CairoGraphRaceAnalyzer (DrawingArea area, string jumpType, string font)//, string title, string jumpType, string date)
@@ -44,7 +46,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 	*/
 
 	//to avoid to have new data on PassData while the for is working on plotRealPoints
-	static bool doing;
+//	static bool doing;
 	//regular constructor
 	public CairoGraphRaceAnalyzer (
 //			List<PointF> point_l,
@@ -61,40 +63,53 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		xUnits = "s";
 		this.yUnits = yUnits;
 		
-		doing = false;
+//		doing = false;
+//		lastPointPainted = -1;
 	}
 
+	/*
 	public override bool PassData (List<PointF> point_l)
 	{
+	*/
+		/*
 		if(doing)
 			return false;
 		else
 			doing = true;
+			*/
+/*
+		foreach(PointF p in points_list)
 
 		this.point_l = point_l;
 		return true;
 	}
+	*/
 
-	public override void Do (string font)
+	public override void DoSendingList (string font, List<PointF> points_list)
 	{
 		LogB.Information("at RaceAnalyzerGraph.Do");
 		initGraph(font, .9);
 
+//maybe do a copy of points_list or only consider last of them (using lastPointPainted)
+
 		//because point_l is updated while foreach in findPointMaximums() and plotRealPoints()
 		//TODO: on realtime do something better in order to just pass the new points and redo the graph just if margins changed
 		//this new method will not have problems of changing the point_l list while iterating it
-		try {
-			findPointMaximums(false);
+//		try {
+//
+			if(points_list != null)
+				findPointMaximums(false, points_list);
 			//TODO: have a way to pass the x min max if we want to have two graphs with same x
 			paintGrid(gridTypes.BOTH, true);
 			paintAxis();
 
 			pointsRadius = 1;
-			plotRealPoints(false);
-		} catch {}
+			if(points_list != null)
+				plotRealPoints(false, points_list);
+//		} catch {}
 
 		endGraphDisposing(g);
-		doing = false;
+//		doing = false;
 	}
 
 	protected override void writeTitle()

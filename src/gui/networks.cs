@@ -198,7 +198,7 @@ public partial class ChronoJumpWindow
 
 			if(configChronojump.CompujumpStationMode != Constants.Menuitem_modes.UNDEFINED)
 			{
-				//changeMode (configChronojump.CompujumpStationMode);
+				//changeModeCheckRadios (configChronojump.CompujumpStationMode);
 				//better do like this because radiobuttons are not set. TODO: remove radiobuttons checks
 				if(configChronojump.CompujumpStationMode == Constants.Menuitem_modes.RUNSINTERVALLIC)
 					on_button_selector_start_runs_intervallic_clicked(new object (), new EventArgs());
@@ -507,7 +507,7 @@ public partial class ChronoJumpWindow
 		/*
 		if(linuxType == linuxTypeEnum.NETWORKS) {
 			//mostrar directament el power
-			changeMode (Constants.Menuitem_modes.POWER);
+			changeModeCheckRadios (Constants.Menuitem_modes.POWER);
 			
 			//no mostrar menu
 			

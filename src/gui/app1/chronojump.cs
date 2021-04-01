@@ -778,7 +778,7 @@ public partial class ChronoJumpWindow
 			SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, false, false);
 
 			// 2) change mode
-			changeMode(preferences.lastMode);
+			changeModeCheckRadios (preferences.lastMode);
 
 			// 3) put preference to true again
 			SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, true, false);
@@ -2971,9 +2971,68 @@ public partial class ChronoJumpWindow
                 show_start_page();
         }
 
+	//this will take care on top radios and then call changeMode()
+	//is called on start notebook or on start chronojump by networks configuration or by lastMode
+	private void changeModeCheckRadios (Constants.Menuitem_modes m)
+	{
+		if (m == Constants.Menuitem_modes.JUMPSSIMPLE)
+		{
+			if(radio_change_modes_contacts_jumps_simple.Active)
+				changeMode (Constants.Menuitem_modes.JUMPSSIMPLE);
+			else
+				radio_change_modes_contacts_jumps_simple.Active = true;
+		}
+		else if (m == Constants.Menuitem_modes.JUMPSREACTIVE)
+		{
+			if(radio_change_modes_contacts_jumps_reactive.Active)
+				changeMode (Constants.Menuitem_modes.JUMPSREACTIVE);
+			else
+				radio_change_modes_contacts_jumps_reactive.Active = true;
+		}
+		else if (m == Constants.Menuitem_modes.RUNSSIMPLE)
+		{
+			if(radio_change_modes_contacts_runs_simple.Active)
+				changeMode (Constants.Menuitem_modes.RUNSSIMPLE);
+			else
+				radio_change_modes_contacts_runs_simple.Active = true;
+		}
+		else if (m == Constants.Menuitem_modes.RUNSINTERVALLIC)
+		{
+			if(radio_change_modes_contacts_runs_intervallic.Active)
+				changeMode (Constants.Menuitem_modes.RUNSINTERVALLIC);
+			else
+				radio_change_modes_contacts_runs_intervallic.Active = true;
+		}
+		else if (m == Constants.Menuitem_modes.RUNSENCODER)
+		{
+			if(radio_change_modes_contacts_runs_encoder.Active)
+				changeMode (Constants.Menuitem_modes.RUNSENCODER);
+			else
+				radio_change_modes_contacts_runs_encoder.Active = true;
+		}
+		else if (m == Constants.Menuitem_modes.POWERGRAVITATORY)
+		{
+			if(radio_change_modes_encoder_gravitatory.Active)
+				changeMode (Constants.Menuitem_modes.POWERGRAVITATORY);
+			else
+				radio_change_modes_encoder_gravitatory.Active = true;
+		}
+		else if (m == Constants.Menuitem_modes.POWERINERTIAL)
+		{
+			if(radio_change_modes_encoder_inertial.Active)
+				changeMode (Constants.Menuitem_modes.POWERINERTIAL);
+			else
+				radio_change_modes_encoder_inertial.Active = true;
+		}
+		else //for modes that do not have radios like forceSensor, RT, other
+			changeMode (m);
+	}
+
 	private Constants.Menuitem_modes current_menuitem_mode;
 	private Constants.Menuitem_modes last_menuitem_mode; //store it to decide not change threshold when change from jumps to jumpsRj
 	private bool last_menuitem_mode_defined = false; //undefined when first time entry on a mode (jumps, jumpRj, ...)
+
+	//this is called by above method changeModeCheckRadios or directly by clicking the top radio buttons
 	private void changeMode (Constants.Menuitem_modes m)
 	{
 		LogB.Information("MODE", m.ToString());
@@ -3635,17 +3694,11 @@ public partial class ChronoJumpWindow
 
 	private void on_button_selector_start_jumps_simple_clicked(object o, EventArgs args) 
 	{
-		if(radio_change_modes_contacts_jumps_simple.Active)
-			changeMode (Constants.Menuitem_modes.JUMPSSIMPLE);
-		else
-			radio_change_modes_contacts_jumps_simple.Active = true;
+		changeModeCheckRadios (Constants.Menuitem_modes.JUMPSSIMPLE);
 	}
 	private void on_button_selector_start_jumps_reactive_clicked(object o, EventArgs args) 
 	{
-		if(radio_change_modes_contacts_jumps_reactive.Active)
-			changeMode (Constants.Menuitem_modes.JUMPSREACTIVE);
-		else
-			radio_change_modes_contacts_jumps_reactive.Active = true;
+		changeModeCheckRadios (Constants.Menuitem_modes.JUMPSREACTIVE);
 	}
 	private void on_radio_change_modes_contacts_jumps_simple_toggled (object o, EventArgs args)
 	{
@@ -3655,7 +3708,6 @@ public partial class ChronoJumpWindow
 	{
 		changeMode (Constants.Menuitem_modes.JUMPSREACTIVE);
 	}
-
 	
 	private void on_button_selector_start_runs_clicked(object o, EventArgs args) 
 	{
@@ -3669,24 +3721,15 @@ public partial class ChronoJumpWindow
 	}
 	private void on_button_selector_start_runs_simple_clicked(object o, EventArgs args)
 	{
-		if(radio_change_modes_contacts_runs_simple.Active)
-			changeMode (Constants.Menuitem_modes.RUNSSIMPLE);
-		else
-			radio_change_modes_contacts_runs_simple.Active = true;
+		changeModeCheckRadios (Constants.Menuitem_modes.RUNSSIMPLE);
 	}
 	private void on_button_selector_start_runs_intervallic_clicked(object o, EventArgs args) 
 	{
-		if(radio_change_modes_contacts_runs_intervallic.Active)
-			changeMode (Constants.Menuitem_modes.RUNSINTERVALLIC);
-		else
-			radio_change_modes_contacts_runs_intervallic.Active = true;
+		changeModeCheckRadios (Constants.Menuitem_modes.RUNSINTERVALLIC);
 	}
 	private void on_button_selector_start_race_encoder_clicked(object o, EventArgs args)
 	{
-		if(radio_change_modes_contacts_runs_encoder.Active)
-			changeMode (Constants.Menuitem_modes.RUNSENCODER);
-		else
-			radio_change_modes_contacts_runs_encoder.Active = true;
+		changeModeCheckRadios (Constants.Menuitem_modes.RUNSENCODER);
 	}
 	private void on_radio_change_modes_contacts_runs_simple_toggled (object o, EventArgs args)
 	{
@@ -3709,25 +3752,19 @@ public partial class ChronoJumpWindow
 
 	private void on_button_selector_start_encoder_gravitatory_clicked(object o, EventArgs args) 
 	{
-		if(radio_change_modes_encoder_gravitatory.Active)
-			changeMode (Constants.Menuitem_modes.POWERGRAVITATORY);
-		else
-			radio_change_modes_encoder_gravitatory.Active = true;
+		changeModeCheckRadios (Constants.Menuitem_modes.POWERGRAVITATORY);
 	}
 	private void on_button_selector_start_encoder_inertial_clicked(object o, EventArgs args) 
 	{
-		if(radio_change_modes_encoder_inertial.Active)
-			changeMode (Constants.Menuitem_modes.POWERINERTIAL);
-		else
-			radio_change_modes_encoder_inertial.Active = true;
+		changeModeCheckRadios (Constants.Menuitem_modes.POWERINERTIAL);
 	}
 	private void on_radio_change_modes_encoder_gravitatory_toggled (object o, EventArgs args)
 	{
-			changeMode (Constants.Menuitem_modes.POWERGRAVITATORY);
+		changeMode (Constants.Menuitem_modes.POWERGRAVITATORY);
 	}
 	private void on_radio_change_modes_encoder_inertial_toggled (object o, EventArgs args)
 	{
-			changeMode (Constants.Menuitem_modes.POWERINERTIAL);
+		changeMode (Constants.Menuitem_modes.POWERINERTIAL);
 	}
 
 	private void on_button_selector_start_force_sensor_clicked(object o, EventArgs args)

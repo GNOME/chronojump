@@ -432,6 +432,9 @@ public partial class ChronoJumpWindow
 		event_execute_ButtonCancel.Clicked -= new EventHandler(on_cancel_clicked);
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 
+		cairoGraphRaceAnalyzerPoints_dt_l = new List<PointF>();
+		cairoGraphRaceAnalyzerPoints_st_l = new List<PointF>();
+
 		runEncoderCaptureThread = new Thread(new ThreadStart(runEncoderCaptureDo));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKRunEncoderCapture));
 
@@ -534,8 +537,6 @@ public partial class ChronoJumpWindow
 		Stopwatch sw = new Stopwatch();
 
 		int rowsCount = 0;
-		cairoGraphRaceAnalyzerPoints_dt_l = new List<PointF>();
-		cairoGraphRaceAnalyzerPoints_st_l = new List<PointF>();
 		while(! runEncoderProcessFinish && ! runEncoderProcessCancel && ! runEncoderProcessError)
 		{
 			/*
@@ -1433,8 +1434,8 @@ public partial class ChronoJumpWindow
 				cairoRadial.GraphSpeedAndDistance(runEncoderCaptureSpeed, runEncoderCaptureDistance);
 
 			//TODO: activate again when there's a real time update (not repaint all) method
-			//updateRaceAnalyzerCapturePositionTime();
-			//updateRaceAnalyzerCaptureSpeedTime();
+			updateRaceAnalyzerCapturePositionTime();
+			updateRaceAnalyzerCaptureSpeedTime();
 
 			if(runEncoderPulseMessage == capturingMessage)
 				event_execute_button_finish.Sensitive = true;
@@ -1831,11 +1832,7 @@ public partial class ChronoJumpWindow
 					drawingarea_race_analyzer_capture_position_time, "title",
 					Catalog.GetString("Distance"), "m");
 
-		if(cairoGraphRaceAnalyzerPoints_dt_l != null)
-		{
-			if(cairoGraphRaceAnalyzer_dt.PassData(cairoGraphRaceAnalyzerPoints_dt_l))
-				cairoGraphRaceAnalyzer_dt.Do(preferences.fontType.ToString());
-		}
+		cairoGraphRaceAnalyzer_dt.DoSendingList (preferences.fontType.ToString(), cairoGraphRaceAnalyzerPoints_dt_l);
 	}
 	private void updateRaceAnalyzerCaptureSpeedTime()
 	{
@@ -1844,10 +1841,6 @@ public partial class ChronoJumpWindow
 					drawingarea_race_analyzer_capture_speed_time, "title",
 					Catalog.GetString("Speed"), "m");
 
-		if(cairoGraphRaceAnalyzerPoints_st_l != null)
-		{
-			if(cairoGraphRaceAnalyzer_st.PassData(cairoGraphRaceAnalyzerPoints_st_l))
-				cairoGraphRaceAnalyzer_st.Do(preferences.fontType.ToString());
-		}
+		cairoGraphRaceAnalyzer_st.DoSendingList (preferences.fontType.ToString(), cairoGraphRaceAnalyzerPoints_st_l);
 	}
 }

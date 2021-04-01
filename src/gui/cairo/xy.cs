@@ -102,13 +102,19 @@ public abstract class CairoXY : CairoGeneric
 	protected string countStr = Catalog.GetString("Num");
 	protected string jumpTypeStr = Catalog.GetString("Jump type:");
 	protected string font;
+	//protected static int lastPointPainted;
 
 	public virtual bool PassData (List<PointF> point_l)
 	{
 		return false;
 	}
 
-	public abstract void Do(string font);
+	public virtual void Do(string font)
+	{
+	}
+	public virtual void DoSendingList(string font, List<PointF> points_list)
+	{
+	}
 
 	protected void initGraph(string font, double widthPercent1)
 	{
@@ -146,10 +152,27 @@ public abstract class CairoXY : CairoGeneric
 
 	//showFullGraph means that has to plot both axis at 0 and maximums have to be f0,v0
 	//used by default on jumpsWeightFVProfile
+	//called from almost all methods
 	protected void findPointMaximums(bool showFullGraph)
 	{
-		foreach(PointF p in point_l)
+		findPointMaximums(showFullGraph, point_l);
+	}
+
+	//called from raceAnalyzer (sending it own list of points)
+	protected void findPointMaximums(bool showFullGraph, List<PointF> points_list)
+	{
+		//foreach(PointF p in points_list)
+		/*
+		int start = lastPointPainted;
+		if(lastPointPainted < 0)
+			start = 0;
+
+		//for(int i = start; i < points_list.Count; i ++)
+		*/
+		for(int i = 0; i < points_list.Count; i ++)
 		{
+			PointF p = points_list[i];
+
 			if(p.X < minX)
 				minX = p.X;
 			if(p.X > maxX)
@@ -397,12 +420,19 @@ public abstract class CairoXY : CairoGeneric
 		g.Stroke ();
 	}
 
-	protected void plotRealPoints(bool joinByLine)
+	//called from almost all methods
+	protected void plotRealPoints (bool joinByLine)
+	{
+		plotRealPoints (joinByLine, point_l);
+	}
+
+	//called from raceAnalyzer (sending it own list of points)
+	protected void plotRealPoints (bool joinByLine, List<PointF> points_list)
 	{
 		if(joinByLine) //draw line first to not overlap the points
 		{
 			bool firstDone = false;
-			foreach(PointF p in point_l)
+			foreach(PointF p in points_list)
 			{
 				double xgraph = calculatePaintX(p.X);
 				double ygraph = calculatePaintY(p.Y);
@@ -420,9 +450,19 @@ public abstract class CairoXY : CairoGeneric
 //		lock (point_l) {
 //		List<PointF> point_l_copy = point_l>;
 //		foreach(PointF p in point_l_copy)
-		foreach(PointF p in point_l)
+		//foreach(PointF p in points_list)
+		/*
+		int start = lastPointPainted;
+		if(lastPointPainted < 0)
+			start = 0;
+
+		//for(int i = start; i < points_list.Count; i ++)
+		*/
+		for(int i = 0; i < points_list.Count; i ++)
 		{
-			LogB.Information("point: " + p.ToString());
+			PointF p = points_list[i];
+
+			//LogB.Information("point: " + p.ToString());
 			double xgraph = calculatePaintX(p.X);
 			double ygraph = calculatePaintY(p.Y);
 			g.Arc(xgraph, ygraph, pointsRadius, 0.0, 2.0 * Math.PI); //full circle
@@ -430,6 +470,8 @@ public abstract class CairoXY : CairoGeneric
 			g.FillPreserve();
 			g.SetSourceRGB(0, 0, 0);
 			g.Stroke (); 	//can this be done at the end?
+
+			//lastPointPainted ++;
 
 			/*
 			//print X, Y of each point

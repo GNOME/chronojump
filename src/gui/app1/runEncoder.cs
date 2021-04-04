@@ -37,6 +37,8 @@ public partial class ChronoJumpWindow
 {
 	//[Widget] Gtk.CheckMenuItem menuitem_check_race_encoder_capture_simulate;
 
+	[Widget] Gtk.Button button_combo_run_encoder_exercise_capture_left;
+	[Widget] Gtk.Button button_combo_run_encoder_exercise_capture_right;
 	[Widget] Gtk.VBox vbox_run_encoder_capture_buttons;
 	[Widget] Gtk.VBox vbox_run_encoder_capture_options;
 	[Widget] Gtk.HBox hbox_combo_run_encoder_exercise;
@@ -1562,6 +1564,20 @@ public partial class ChronoJumpWindow
 		combo_run_encoder_exercise.Changed += new EventHandler (on_combo_run_encoder_exercise_changed);
 		hbox_combo_run_encoder_exercise.PackStart(combo_run_encoder_exercise, true, true, 0);
 		hbox_combo_run_encoder_exercise.ShowAll();
+	}
+
+	//left-right buttons on run_encoder combo exercise selection
+	private void on_button_combo_run_encoder_exercise_capture_left_clicked (object o, EventArgs args)
+	{
+		contacts_exercise_left_button (combo_run_encoder_exercise,
+				button_combo_run_encoder_exercise_capture_left,
+				button_combo_run_encoder_exercise_capture_right);
+	}
+	private void on_button_combo_run_encoder_exercise_capture_right_clicked (object o, EventArgs args)
+	{
+		contacts_exercise_right_button (combo_run_encoder_exercise,
+				button_combo_run_encoder_exercise_capture_left,
+				button_combo_run_encoder_exercise_capture_right);
 	}
 
 	private void on_combo_run_encoder_exercise_changed(object o, EventArgs args)

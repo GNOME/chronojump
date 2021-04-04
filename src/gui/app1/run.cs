@@ -83,24 +83,28 @@ public partial class ChronoJumpWindow
 	private void on_button_combo_runs_exercise_capture_left_clicked (object o, EventArgs args)
 	{
 		contacts_exercise_left_button (combo_select_runs,
-				button_combo_runs_exercise_capture_left, button_combo_jumps_exercise_capture_right);
+				button_combo_runs_exercise_capture_left,
+				button_combo_runs_exercise_capture_right);
 	}
 	private void on_button_combo_runs_exercise_capture_right_clicked (object o, EventArgs args)
 	{
 		contacts_exercise_right_button (combo_select_runs,
-				button_combo_runs_exercise_capture_left, button_combo_jumps_exercise_capture_right);
+				button_combo_runs_exercise_capture_left,
+				button_combo_runs_exercise_capture_right);
 	}
 
 	//left-right buttons on runs_interval combo exercise selection
 	private void on_button_combo_runs_interval_exercise_capture_left_clicked (object o, EventArgs args)
 	{
 		contacts_exercise_left_button (combo_select_runs_interval,
-				button_combo_runs_interval_exercise_capture_left, button_combo_jumps_exercise_capture_right);
+				button_combo_runs_interval_exercise_capture_left,
+				button_combo_runs_interval_exercise_capture_right);
 	}
 	private void on_button_combo_runs_interval_exercise_capture_right_clicked (object o, EventArgs args)
 	{
 		contacts_exercise_right_button (combo_select_runs_interval,
-				button_combo_runs_interval_exercise_capture_left, button_combo_jumps_exercise_capture_right);
+				button_combo_runs_interval_exercise_capture_left,
+				button_combo_runs_interval_exercise_capture_right);
 	}
 	
 	private void on_extra_window_runs_test_changed(object o, EventArgs args)

@@ -2792,12 +2792,14 @@ LogB.Information(" fs R ");
 	private void on_button_combo_force_sensor_exercise_capture_left_clicked (object o, EventArgs args)
 	{
 		contacts_exercise_left_button (combo_force_sensor_exercise,
-				button_combo_force_sensor_exercise_capture_left, button_combo_jumps_exercise_capture_right);
+				button_combo_force_sensor_exercise_capture_left,
+				button_combo_force_sensor_exercise_capture_right);
 	}
 	private void on_button_combo_force_sensor_exercise_capture_right_clicked (object o, EventArgs args)
 	{
 		contacts_exercise_right_button (combo_force_sensor_exercise,
-				button_combo_force_sensor_exercise_capture_left, button_combo_jumps_exercise_capture_right);
+				button_combo_force_sensor_exercise_capture_left,
+				button_combo_force_sensor_exercise_capture_right);
 	}
 
 	private void on_combo_force_sensor_exercise_changed (object o, EventArgs args)

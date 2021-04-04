@@ -65,6 +65,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton extra_window_jumps_spin_single_leg_angle;
 	
 	//options jumps_rj
+	[Widget] Gtk.Button button_combo_jumps_rj_exercise_capture_left;
+	[Widget] Gtk.Button button_combo_jumps_rj_exercise_capture_right;
 	[Widget] Gtk.Button button_jump_type_delete_reactive;
 	[Widget] Gtk.Label extra_window_jumps_rj_label_limit;
 	[Widget] Gtk.SpinButton extra_window_jumps_rj_spinbutton_limit;
@@ -120,6 +122,7 @@ public partial class ChronoJumpWindow
 		return t;
 	}
 
+	//left-right buttons on jumps combo exercise selection
 	private void on_button_combo_jumps_exercise_capture_left_clicked (object o, EventArgs args)
 	{
 		combo_select_jumps = UtilGtk.ComboSelectPrevious(combo_select_jumps);
@@ -134,6 +137,23 @@ public partial class ChronoJumpWindow
 
 		button_combo_jumps_exercise_capture_left.Sensitive = true;
 		button_combo_jumps_exercise_capture_right.Sensitive = ! isLast;
+	}
+
+	//left-right buttons on jumps_rj combo exercise selection
+	private void on_button_combo_jumps_rj_exercise_capture_left_clicked (object o, EventArgs args)
+	{
+		combo_select_jumps_rj = UtilGtk.ComboSelectPrevious(combo_select_jumps_rj);
+
+		button_combo_jumps_rj_exercise_capture_left.Sensitive = (combo_select_jumps_rj.Active > 0);
+		button_combo_jumps_rj_exercise_capture_right.Sensitive = true;
+	}
+	private void on_button_combo_jumps_rj_exercise_capture_right_clicked (object o, EventArgs args)
+	{
+		bool isLast;
+		combo_select_jumps_rj = UtilGtk.ComboSelectNext(combo_select_jumps_rj, out isLast);
+
+		button_combo_jumps_rj_exercise_capture_left.Sensitive = true;
+		button_combo_jumps_rj_exercise_capture_right.Sensitive = ! isLast;
 	}
 
 	/*

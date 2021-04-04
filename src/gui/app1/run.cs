@@ -33,6 +33,8 @@ using Mono.Unix;
 public partial class ChronoJumpWindow
 {
 	//options runs
+	[Widget] Gtk.Button button_combo_runs_exercise_capture_left;
+	[Widget] Gtk.Button button_combo_runs_exercise_capture_right;
 	[Widget] Gtk.Button button_run_type_delete_simple;
 	[Widget] Gtk.CheckButton check_run_simple_with_reaction_time;
 	[Widget] Gtk.Button button_runs_simple_track_distance;
@@ -75,6 +77,17 @@ public partial class ChronoJumpWindow
 		return t;
 	}
 	
+	//left-right buttons on runs combo exercise selection
+	private void on_button_combo_runs_exercise_capture_left_clicked (object o, EventArgs args)
+	{
+		contacts_exercise_left_button (combo_select_runs,
+				button_combo_runs_exercise_capture_left, button_combo_jumps_exercise_capture_right);
+	}
+	private void on_button_combo_runs_exercise_capture_right_clicked (object o, EventArgs args)
+	{
+		contacts_exercise_right_button (combo_select_runs,
+				button_combo_runs_exercise_capture_left, button_combo_jumps_exercise_capture_right);
+	}
 	
 	private void on_extra_window_runs_test_changed(object o, EventArgs args)
 	{

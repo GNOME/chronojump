@@ -42,6 +42,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_runs_simple_track_distance_units;
 
 	//options runs interval
+	[Widget] Gtk.Button button_combo_runs_interval_exercise_capture_left;
+	[Widget] Gtk.Button button_combo_runs_interval_exercise_capture_right;
 	[Widget] Gtk.Button button_run_type_delete_interval;
 	[Widget] Gtk.Button button_runs_interval_track_distance;
 	[Widget] Gtk.Label label_runs_interval_track_distance_value;
@@ -87,6 +89,18 @@ public partial class ChronoJumpWindow
 	{
 		contacts_exercise_right_button (combo_select_runs,
 				button_combo_runs_exercise_capture_left, button_combo_jumps_exercise_capture_right);
+	}
+
+	//left-right buttons on runs_interval combo exercise selection
+	private void on_button_combo_runs_interval_exercise_capture_left_clicked (object o, EventArgs args)
+	{
+		contacts_exercise_left_button (combo_select_runs_interval,
+				button_combo_runs_interval_exercise_capture_left, button_combo_jumps_exercise_capture_right);
+	}
+	private void on_button_combo_runs_interval_exercise_capture_right_clicked (object o, EventArgs args)
+	{
+		contacts_exercise_right_button (combo_select_runs_interval,
+				button_combo_runs_interval_exercise_capture_left, button_combo_jumps_exercise_capture_right);
 	}
 	
 	private void on_extra_window_runs_test_changed(object o, EventArgs args)

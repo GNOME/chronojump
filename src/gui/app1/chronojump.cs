@@ -2122,6 +2122,22 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	private void contacts_exercise_left_button (Gtk.ComboBox combo, Gtk.Button button_left, Gtk.Button button_right)
+	{
+		combo = UtilGtk.ComboSelectPrevious(combo);
+
+		button_left.Sensitive = (combo.Active > 0);
+		button_right.Sensitive = true;
+	}
+	private void contacts_exercise_right_button (Gtk.ComboBox combo, Gtk.Button button_left, Gtk.Button button_right)
+	{
+		bool isLast;
+		combo = UtilGtk.ComboSelectNext(combo, out isLast);
+
+		button_left.Sensitive = true;
+		button_right.Sensitive = ! isLast;
+	}
+
 
 	// ---------------- combo_result ----------------------
 

@@ -33,6 +33,8 @@ using Mono.Unix;
 public partial class ChronoJumpWindow
 {
 	//options jumps
+	[Widget] Gtk.Button button_combo_jumps_exercise_capture_left;
+	[Widget] Gtk.Button button_combo_jumps_exercise_capture_right;
 	[Widget] Gtk.Button button_jump_type_delete_simple;
 	[Widget] Gtk.SpinButton extra_window_jumps_spinbutton_weight;
 	[Widget] Gtk.HBox extra_window_jumps_simple_hbox_start_inside;
@@ -118,6 +120,21 @@ public partial class ChronoJumpWindow
 		return t;
 	}
 
+	private void on_button_combo_jumps_exercise_capture_left_clicked (object o, EventArgs args)
+	{
+		combo_select_jumps = UtilGtk.ComboSelectPrevious(combo_select_jumps);
+
+		button_combo_jumps_exercise_capture_left.Sensitive = (combo_select_jumps.Active > 0);
+		button_combo_jumps_exercise_capture_right.Sensitive = true;
+	}
+	private void on_button_combo_jumps_exercise_capture_right_clicked (object o, EventArgs args)
+	{
+		bool isLast;
+		combo_select_jumps = UtilGtk.ComboSelectNext(combo_select_jumps, out isLast);
+
+		button_combo_jumps_exercise_capture_left.Sensitive = true;
+		button_combo_jumps_exercise_capture_right.Sensitive = ! isLast;
+	}
 
 	/*
 	 * when pre-jump from inside, dj fall is calculated

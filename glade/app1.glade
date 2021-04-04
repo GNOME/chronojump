@@ -12083,6 +12083,33 @@ EncoderInertialCapture</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">12</property>
                                                             <child>
+                                                            <widget class="GtkHBox" id="hbox">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">10</property>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_combo_jumps_exercise_capture_left">
+                                                            <property name="width_request">40</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="sensitive">False</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_button_combo_jumps_exercise_capture_left_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkArrow" id="arrow31">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="arrow_type">left</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkHBox" id="hbox_combo_select_jumps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -12091,9 +12118,36 @@ EncoderInertialCapture</property>
                                                             </child>
                                                             </widget>
                                                             <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_combo_jumps_exercise_capture_right">
+                                                            <property name="width_request">40</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_button_combo_jumps_exercise_capture_right_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkArrow" id="arrow32">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">0</property>
+                                                            <property name="position">-1</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -24754,6 +24808,15 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -30921,18 +30984,6 @@ Concentric</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Tests will be filmed</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack_type">end</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <widget class="GtkHBox" id="hbox_video_encoder_capturing">
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
@@ -30960,6 +31011,18 @@ Concentric</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Tests will be filmed</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -36936,6 +36999,15 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

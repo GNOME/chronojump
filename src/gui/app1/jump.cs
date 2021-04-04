@@ -125,35 +125,25 @@ public partial class ChronoJumpWindow
 	//left-right buttons on jumps combo exercise selection
 	private void on_button_combo_jumps_exercise_capture_left_clicked (object o, EventArgs args)
 	{
-		combo_select_jumps = UtilGtk.ComboSelectPrevious(combo_select_jumps);
-
-		button_combo_jumps_exercise_capture_left.Sensitive = (combo_select_jumps.Active > 0);
-		button_combo_jumps_exercise_capture_right.Sensitive = true;
+		contacts_exercise_left_button (combo_select_jumps,
+				button_combo_jumps_exercise_capture_left, button_combo_jumps_exercise_capture_right);
 	}
 	private void on_button_combo_jumps_exercise_capture_right_clicked (object o, EventArgs args)
 	{
-		bool isLast;
-		combo_select_jumps = UtilGtk.ComboSelectNext(combo_select_jumps, out isLast);
-
-		button_combo_jumps_exercise_capture_left.Sensitive = true;
-		button_combo_jumps_exercise_capture_right.Sensitive = ! isLast;
+		contacts_exercise_right_button (combo_select_jumps,
+				button_combo_jumps_exercise_capture_left, button_combo_jumps_exercise_capture_right);
 	}
 
 	//left-right buttons on jumps_rj combo exercise selection
 	private void on_button_combo_jumps_rj_exercise_capture_left_clicked (object o, EventArgs args)
 	{
-		combo_select_jumps_rj = UtilGtk.ComboSelectPrevious(combo_select_jumps_rj);
-
-		button_combo_jumps_rj_exercise_capture_left.Sensitive = (combo_select_jumps_rj.Active > 0);
-		button_combo_jumps_rj_exercise_capture_right.Sensitive = true;
+		contacts_exercise_left_button (combo_select_jumps_rj,
+				button_combo_jumps_rj_exercise_capture_left, button_combo_jumps_rj_exercise_capture_right);
 	}
 	private void on_button_combo_jumps_rj_exercise_capture_right_clicked (object o, EventArgs args)
 	{
-		bool isLast;
-		combo_select_jumps_rj = UtilGtk.ComboSelectNext(combo_select_jumps_rj, out isLast);
-
-		button_combo_jumps_rj_exercise_capture_left.Sensitive = true;
-		button_combo_jumps_rj_exercise_capture_right.Sensitive = ! isLast;
+		contacts_exercise_right_button (combo_select_jumps_rj,
+				button_combo_jumps_rj_exercise_capture_left, button_combo_jumps_rj_exercise_capture_right);
 	}
 
 	/*

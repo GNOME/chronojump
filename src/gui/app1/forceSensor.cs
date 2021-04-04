@@ -35,6 +35,8 @@ using Mono.Unix;
 public partial class ChronoJumpWindow 
 {
 	//capture tab
+	[Widget] Gtk.Button button_combo_force_sensor_exercise_capture_left;
+	[Widget] Gtk.Button button_combo_force_sensor_exercise_capture_right;
 	[Widget] Gtk.HBox hbox_force_capture_buttons;
 	[Widget] Gtk.HBox hbox_combo_force_sensor_exercise;
 	[Widget] Gtk.ComboBox combo_force_sensor_exercise;
@@ -2784,6 +2786,18 @@ LogB.Information(" fs R ");
 		on_combo_force_sensor_exercise_changed (new object (), new EventArgs ());
 
 		combo_force_sensor_button_sensitive_exercise(UtilGtk.ComboGetActive(combo_force_sensor_exercise) != "");
+	}
+
+	//left-right buttons on force_sensor combo exercise selection
+	private void on_button_combo_force_sensor_exercise_capture_left_clicked (object o, EventArgs args)
+	{
+		contacts_exercise_left_button (combo_force_sensor_exercise,
+				button_combo_force_sensor_exercise_capture_left, button_combo_jumps_exercise_capture_right);
+	}
+	private void on_button_combo_force_sensor_exercise_capture_right_clicked (object o, EventArgs args)
+	{
+		contacts_exercise_right_button (combo_force_sensor_exercise,
+				button_combo_force_sensor_exercise_capture_left, button_combo_jumps_exercise_capture_right);
 	}
 
 	private void on_combo_force_sensor_exercise_changed (object o, EventArgs args)

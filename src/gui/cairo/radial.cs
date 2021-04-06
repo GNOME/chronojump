@@ -136,8 +136,12 @@ public class CairoRadial : CairoGeneric
 		printText(Convert.ToInt32(margin + graphWidth/2),
 				Convert.ToInt32(margin + (.66 * graphHeight)),
 				0, textHeight,
-				"Speed: " + Util.TrimDecimals(speed, 1) + " m/s" +
-				"\nDistance: " + Util.TrimDecimals(distance, 3) + " m",
+				"Speed: " + Util.TrimDecimals(speed, 1) + " m/s",
+				g, alignTypes.CENTER);
+		printText(Convert.ToInt32(margin + graphWidth/2),
+				Convert.ToInt32(margin + (.66 * graphHeight)) + 20,
+				0, textHeight,
+				"Distance: " + Util.TrimDecimals(distance, 3) + " m",
 				g, alignTypes.CENTER);
 
 		if(speedMax > speed)

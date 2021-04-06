@@ -73,6 +73,21 @@ public class UtilGtk
 		return myCombo;
 	}
 
+	public static bool ComboSelectedIsLast(ComboBox myCombo)
+	{
+		TreeIter iter;
+		myCombo.Model.GetIterFirst(out iter);
+		int current = myCombo.Active;
+		int count = 0;
+		do {
+			if(count > current)
+				return false;
+			count ++;
+		} while (myCombo.Model.IterNext (ref iter));
+
+		return true;
+	}
+
 
 	public static string ComboGetActive(ComboBox myCombo) {
 		TreeIter iter;

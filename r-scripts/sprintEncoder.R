@@ -100,7 +100,7 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         #TODO: measure metersPerPulse several times to have an accurate value
 	metersPerPulse = NULL
 	if(device == "MANUAL")                 #manual race analyzer - Hand device
-	        metersPerPulse = 0.0030321 	#HARDCODED, same as: src/gui/app1/runEncoder.cs
+	        metersPerPulse = 0.0030321 	#HARDCODED, same as: src/runEncoder.cs
 	else                                    #resisted race analyzer - sled device
 	        metersPerPulse = 4 * 30 / 12267 	#With an encoder of 200 ppr, in 30m there are 12267 pulses.
 

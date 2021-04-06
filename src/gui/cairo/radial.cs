@@ -43,7 +43,10 @@ public class CairoRadial : CairoGeneric
 	{
 		this.area = area;
 		this.font = font;
+	}
 
+	public void GraphBlank()
+	{
 		initGraph();
 		endGraphDisposing(g);
 	}
@@ -122,6 +125,7 @@ public class CairoRadial : CairoGeneric
 		speedMax = 0;
 	}
 
+	//used while capturing
 	public void GraphSpeedAndDistance(double speed, double distance)
 	{
 		if(speed > speedMax)
@@ -146,6 +150,30 @@ public class CairoRadial : CairoGeneric
 
 		if(speedMax > speed)
 			graphLineFromCenter(speedMax, gray);
+
+		endGraphDisposing(g);
+	}
+
+	//used at end or capture or at load
+	public void GraphSpeedMaxAndDistance(double speedMax, double distance)
+	{
+		initGraph();
+
+		//g.SetSourceRGB(0.5, 0.5, 0.5);
+
+		g.LineWidth = 2;
+		printText(Convert.ToInt32(margin + graphWidth/2),
+				Convert.ToInt32(margin + (.66 * graphHeight)),
+				0, textHeight,
+				"Max Speed: " + Util.TrimDecimals(speedMax, 1) + " m/s",
+				g, alignTypes.CENTER);
+		printText(Convert.ToInt32(margin + graphWidth/2),
+				Convert.ToInt32(margin + (.66 * graphHeight)) + 20,
+				0, textHeight,
+				"Distance: " + Util.TrimDecimals(distance, 3) + " m",
+				g, alignTypes.CENTER);
+
+		graphLineFromCenter(speedMax, gray);
 
 		endGraphDisposing(g);
 	}

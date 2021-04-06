@@ -844,6 +844,7 @@ public partial class ChronoJumpWindow
 		}
 
 		List<string> contents = Util.ReadFileAsStringList(re.FullURL);
+		LogB.Information("FullURL: " + re.FullURL);
 		if(contents.Count < 3)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileEmptyStr());
@@ -884,6 +885,29 @@ public partial class ChronoJumpWindow
 					Convert.ToInt32(currentRunEncoder.UniqueID))
 				);
 		showRaceAnalyzerTriggers ();
+
+		int count = 0;
+		reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement();
+		runEncoderShouldShowCaptureGraphsWithData = true;
+
+		foreach(string row in contents)
+		{
+			LogB.Information("row: " + row);
+			if(count < 3)
+			{
+				count ++;
+				continue;
+			}
+
+			if(reCGSD.PassLoadedRow (row))
+				reCGSD.Calcule();
+		}
+		if(reCGSD.RunEncoderCaptureSpeedMax > 0)
+		{
+			if(cairoRadial == null)
+				cairoRadial = new CairoRadial(drawingarea_race_analyzer_capture, preferences.fontType.ToString());
+			cairoRadial.GraphSpeedMaxAndDistance(reCGSD.RunEncoderCaptureSpeedMax, reCGSD.RunEncoderCaptureDistance);
+		}
 
 		//on load do the R graph, but not on capture, to show on capture the label related to lack of person height
 		//raceEncoderCopyToTempAndDoRGraph();
@@ -1396,6 +1420,9 @@ public partial class ChronoJumpWindow
 			if(! preferences.muteLogs)
 				LogB.Information("muteLogs INactive. Logs active active again");
 
+			if(reCGSD != null)
+				cairoRadial.GraphSpeedMaxAndDistance(reCGSD.RunEncoderCaptureSpeedMax, reCGSD.RunEncoderCaptureDistance);
+
 			LogB.ThreadEnded(); 
 
 			runEncoderButtonsSensitive(true);
@@ -1418,8 +1445,8 @@ public partial class ChronoJumpWindow
 		{
 			event_execute_label_message.Text = runEncoderPulseMessage;
 
-			if(cairoRadial != null)
-				cairoRadial.GraphSpeedAndDistance(runEncoderCaptureSpeed, runEncoderCaptureDistance);
+			if(cairoRadial != null && reCGSD != null)
+				cairoRadial.GraphSpeedAndDistance(reCGSD.RunEncoderCaptureSpeed, reCGSD.RunEncoderCaptureDistance);
 
 			//TODO: activate again when there's a real time update (not repaint all) method
 			updateRaceAnalyzerCapturePositionTime();

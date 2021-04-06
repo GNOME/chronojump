@@ -1841,7 +1841,23 @@ public partial class ChronoJumpWindow
 		if(cairoRadial == null)
 			cairoRadial = new CairoRadial(drawingarea_race_analyzer_capture, preferences.fontType.ToString());
 
-		cairoRadial.GraphSpeedAndDistance(runEncoderCaptureSpeed, runEncoderCaptureDistance);
+		//when person or session changes
+		if(! runEncoderShouldShowCaptureGraphsWithData)
+		{
+			cairoRadial.GraphBlank();
+			return;
+		}
+
+		if(reCGSD == null)
+		{
+			cairoRadial.GraphBlank();
+			return;
+		}
+
+		if(runEncoderCaptureThread != null && runEncoderCaptureThread.IsAlive)
+			cairoRadial.GraphSpeedAndDistance(reCGSD.RunEncoderCaptureSpeed, reCGSD.RunEncoderCaptureDistance);
+		else
+			cairoRadial.GraphSpeedMaxAndDistance(reCGSD.RunEncoderCaptureSpeedMax, reCGSD.RunEncoderCaptureDistance);
 	}
 
 	CairoGraphRaceAnalyzer cairoGraphRaceAnalyzer_dt;

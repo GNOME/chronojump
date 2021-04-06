@@ -2841,6 +2841,10 @@ LogB.Information(" fs R ");
 		if(! fse.ComputeAsElastic)
 			isElasticStr = " (" + Catalog.GetString("Not elastic") + ")";
 
+		//sensitivity of left/right buttons
+		button_combo_force_sensor_exercise_capture_left.Sensitive = (combo_force_sensor_exercise.Active > 0);
+		button_combo_force_sensor_exercise_capture_right.Sensitive = ! UtilGtk.ComboSelectedIsLast(combo_force_sensor_exercise);
+
 		setLabelContactsExerciseSelected(Catalog.GetString(fse.Name) + isElasticStr);
 		combo_force_sensor_button_sensitive_exercise(true);
 	}

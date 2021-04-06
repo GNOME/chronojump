@@ -2227,6 +2227,10 @@ public partial class ChronoJumpWindow
 		string myText = UtilGtk.ComboGetActive(combo);
 		LogB.Information("Selected: " + myText);
 
+		//sensitivity of left/right buttons
+		button_combo_jumps_exercise_capture_left.Sensitive = (combo_select_jumps.Active > 0);
+		button_combo_jumps_exercise_capture_right.Sensitive = ! UtilGtk.ComboSelectedIsLast(combo_select_jumps);
+
 		//show extra window options
 		on_extra_window_jumps_test_changed(o, args);
 	}
@@ -2240,6 +2244,10 @@ public partial class ChronoJumpWindow
 
 		string myText = UtilGtk.ComboGetActive(combo);
 		LogB.Information("Selected: " + myText); 
+
+		//sensitivity of left/right buttons
+		button_combo_jumps_rj_exercise_capture_left.Sensitive = (combo_select_jumps_rj.Active > 0);
+		button_combo_jumps_rj_exercise_capture_right.Sensitive = ! UtilGtk.ComboSelectedIsLast(combo_select_jumps_rj);
 
 		//show extra window options
 		on_extra_window_jumps_rj_test_changed(o, args);
@@ -2255,6 +2263,10 @@ public partial class ChronoJumpWindow
 		string myText = UtilGtk.ComboGetActive(combo);
 		LogB.Information("Selected: " + myText); 
 
+		//sensitivity of left/right buttons
+		button_combo_runs_exercise_capture_left.Sensitive = (combo_select_runs.Active > 0);
+		button_combo_runs_exercise_capture_right.Sensitive = ! UtilGtk.ComboSelectedIsLast(combo_select_runs);
+
 		//show extra window options
 		on_extra_window_runs_test_changed(o, args);
 	}
@@ -2269,6 +2281,9 @@ public partial class ChronoJumpWindow
 		string myText = UtilGtk.ComboGetActive(combo);
 		LogB.Information("Selected: " + myText); 
 
+		//sensitivity of left/right buttons
+		button_combo_runs_interval_exercise_capture_left.Sensitive = (combo_select_runs_interval.Active > 0);
+		button_combo_runs_interval_exercise_capture_right.Sensitive = ! UtilGtk.ComboSelectedIsLast(combo_select_runs_interval);
 		//show extra window options
 		on_extra_window_runs_interval_test_changed(o, args);
 	}

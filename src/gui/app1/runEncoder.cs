@@ -1648,7 +1648,7 @@ public partial class ChronoJumpWindow
 		bigArray.Add(a3);
 
 		genericWin = GenericWindow.Show(Catalog.GetString("Exercise"), false,	//don't show now
-				Catalog.GetString("Force sensor exercise:"), bigArray);
+				Catalog.GetString("Race analyzer exercise:"), bigArray);
 		genericWin.LabelEntry2 = Catalog.GetString("Description");
 
 		genericWin.ShowButtonCancel(false);

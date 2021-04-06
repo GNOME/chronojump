@@ -902,7 +902,9 @@ public partial class ChronoJumpWindow
 		showRaceAnalyzerTriggers ();
 
 		//on load do the R graph, but not on capture, to show on capture the label related to lack of person height
-		raceEncoderCopyToTempAndDoRGraph();
+		//raceEncoderCopyToTempAndDoRGraph();
+		//no do not do it automatically, just make user click on analyze button
+		//also showing that graph while analyze tab has not shown first time is buggy
 
 		button_contacts_exercise_close_and_recalculate.Sensitive = true;
 

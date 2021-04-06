@@ -258,6 +258,92 @@ public class RunEncoder
 	}
 }
 
+//get speed, total distance, ...
+public class RunEncoderCaptureGetSpeedAndDisplacement
+{
+	private int encoderDisplacement;
+	private int time;
+	private int force;
+	private int encoderOrRCA;
+
+	private int timePre;
+
+	private double runEncoderCaptureSpeed;
+	private double runEncoderCaptureSpeedMax;
+	private double runEncoderCaptureDistance;
+
+	public RunEncoderCaptureGetSpeedAndDisplacement()
+	{
+		timePre = 0;
+	}
+
+	public void PassCapturedRow (List<int> binaryReaded)
+	{
+		this.encoderDisplacement = binaryReaded[0];
+		this.time = binaryReaded[1];
+		this.force = binaryReaded[2];
+		this.encoderOrRCA = binaryReaded[3];
+	}
+
+	public bool PassLoadedRow (string row)
+	{
+		string [] cells = row.Split(new char[] {';'});
+		if(cells.Length != 3)
+			return false;
+
+		if(! Util.IsNumber(cells[0], false) || ! Util.IsNumber(cells[1], false))
+			return false;
+
+		this.encoderDisplacement = Convert.ToInt32(cells[0]);
+		this.time = Convert.ToInt32(cells[1]);
+		return true;
+	}
+
+	public bool Calcule ()
+	{
+		bool hasCalculed = false;
+		if(time > timePre)
+		{
+			if(timePre > 0)
+			{
+				double runEncoderCaptureDistanceAtThisSample = Math.Abs(encoderDisplacement) * 0.0030321; //hardcoded: same as sprintEncoder.R
+				runEncoderCaptureSpeed = UtilAll.DivideSafe(runEncoderCaptureDistanceAtThisSample, (time - timePre)) * 1000000;
+				if(runEncoderCaptureSpeed > runEncoderCaptureSpeedMax)
+					runEncoderCaptureSpeedMax = runEncoderCaptureSpeed;
+
+				runEncoderCaptureDistance += runEncoderCaptureDistanceAtThisSample;
+				hasCalculed = true;
+			}
+			timePre = time;
+		}
+		return hasCalculed;
+	}
+
+	public int EncoderDisplacement {
+		get { return encoderDisplacement; }
+	}
+	public int Time {
+		get { return time; }
+	}
+	public int Force {
+		get { return force; }
+	}
+	public int EncoderOrRCA {
+		get { return encoderOrRCA; }
+	}
+
+	public double RunEncoderCaptureSpeed {
+		get { return runEncoderCaptureSpeed; }
+		set { runEncoderCaptureSpeed = value; }
+	}
+	public double RunEncoderCaptureSpeedMax {
+		get { return runEncoderCaptureSpeedMax; }
+	}
+	public double RunEncoderCaptureDistance {
+		get { return runEncoderCaptureDistance; }
+	}
+}
+
 public class RunEncoderExercise
 {
 	private int uniqueID;

@@ -65,8 +65,7 @@ public partial class ChronoJumpWindow
 	static bool runEncoderProcessCancel;
 	static bool runEncoderProcessError;
         static string runEncoderPulseMessage = "";
-	static double runEncoderCaptureDistance = 0;
-	static double runEncoderCaptureSpeed = 0;
+	static bool runEncoderShouldShowCaptureGraphsWithData; //on change person this is false
 	
 	private RunEncoder currentRunEncoder;
 	private RunEncoderExercise currentRunEncoderExercise;
@@ -267,8 +266,6 @@ public partial class ChronoJumpWindow
 		runEncoderButtonsSensitive(false);
 		sensitiveLastTestButtons(false);
 
-		runEncoderCaptureDistance = 0;
-		runEncoderCaptureSpeed = 0;
 		if(cairoRadial != null)
 			cairoRadial.ResetSpeedMax();
 
@@ -311,6 +308,10 @@ public partial class ChronoJumpWindow
 	private void blankRunEncoderInterface()
 	{
 		currentRunEncoder = new RunEncoder();
+
+		//draw the capture graphs empty:
+		runEncoderShouldShowCaptureGraphsWithData = false;
+		drawingarea_race_analyzer_capture.QueueDraw(); //will fire ExposeEvent
 
 		button_contacts_exercise_close_and_recalculate.Sensitive = false;
 		textview_contacts_signal_comment.Buffer.Text = "";
@@ -437,6 +438,10 @@ public partial class ChronoJumpWindow
 		cairoGraphRaceAnalyzerPoints_dt_l = new List<PointF>();
 		cairoGraphRaceAnalyzerPoints_st_l = new List<PointF>();
 
+		//RunEncoderCaptureGetSpeedAndDisplacement reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement();
+		reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement();
+		runEncoderShouldShowCaptureGraphsWithData = true;
+
 		runEncoderCaptureThread = new Thread(new ThreadStart(runEncoderCaptureDo));
 		GLib.Idle.Add (new GLib.IdleHandler (pulseGTKRunEncoderCapture));
 
@@ -454,6 +459,7 @@ public partial class ChronoJumpWindow
 	}
 
 	string capturingMessage = "Capturing ...";
+	static RunEncoderCaptureGetSpeedAndDisplacement reCGSD;
 
 	//non GTK on this method
 	private void runEncoderCaptureDo()
@@ -533,9 +539,6 @@ public partial class ChronoJumpWindow
 		writer.WriteLine("Pulses;Time(useconds);Force(N)");
 
 		triggerListRunEncoder = new TriggerList();
-		str = "";
-		int firstTime = 0;
-		int timePre = 0;
 		Stopwatch sw = new Stopwatch();
 
 		int rowsCount = 0;
@@ -560,7 +563,7 @@ public partial class ChronoJumpWindow
 				//runEncoder sends changes. If there is no movement in certain time, just show a 0 on screen and capture graph
 				if(sw.ElapsedMilliseconds > 500)
 				{
-					runEncoderCaptureSpeed = 0;
+					reCGSD.RunEncoderCaptureSpeed = 0;
 					sw.Stop();
 				}
 
@@ -569,49 +572,30 @@ public partial class ChronoJumpWindow
 
 			//time (4 bytes: long at Arduino, uint at c-sharp), force (2 bytes: uint)
 			List<int> binaryReaded = readBinaryRunEncoderValues();
-			int encoderDisplacement = binaryReaded[0];
-			int time = binaryReaded[1];
-			int force = binaryReaded[2];
-			int encoderOrRCA = binaryReaded[3];
-
-			if(time > timePre)
+			reCGSD.PassCapturedRow (binaryReaded);
+			if(reCGSD.Calcule())
 			{
-				if(timePre > 0)
-				{
-					double runEncoderCaptureDistanceAtThisSample = Math.Abs(encoderDisplacement) * 0.0030321; //hardcoded: same as sprintEncoder.R
-					runEncoderCaptureSpeed = UtilAll.DivideSafe(runEncoderCaptureDistanceAtThisSample, (time - timePre)) * 1000000;
-
-					runEncoderCaptureDistance += runEncoderCaptureDistanceAtThisSample;
-
-					//distance/time
-					cairoGraphRaceAnalyzerPoints_dt_l.Add(new PointF(
-								UtilAll.DivideSafe(time, 1000000),
-								runEncoderCaptureDistance));
-					//speed/time
-					cairoGraphRaceAnalyzerPoints_st_l.Add(new PointF(
-								UtilAll.DivideSafe(time, 1000000),
-								runEncoderCaptureSpeed));
-
-					LogB.Information(string.Format("encoderDisplacement: {0}; runEncoderCaptureDistanceAtThisSample: {1}, runEncoderDistance: {2}, runEncoderCaptureSpeed: {3}; time: {4}; timePre: {5}",
-								encoderDisplacement,
-								runEncoderCaptureDistanceAtThisSample,
-								runEncoderCaptureDistance,
-								runEncoderCaptureSpeed, time, timePre));
-				}
-				timePre = time;
+				//distance/time
+				cairoGraphRaceAnalyzerPoints_dt_l.Add(new PointF(
+							UtilAll.DivideSafe(reCGSD.Time, 1000000),
+							reCGSD.RunEncoderCaptureDistance));
+				//speed/time
+				cairoGraphRaceAnalyzerPoints_st_l.Add(new PointF(
+							UtilAll.DivideSafe(reCGSD.Time, 1000000),
+							reCGSD.RunEncoderCaptureSpeed));
 				sw.Restart();
 			}
 
-			LogB.Information(string.Format("{0};{1};{2};{3};{4}", pps, encoderDisplacement, time, force, encoderOrRCA));
-			writer.WriteLine(string.Format("{0};{1};{2}", encoderDisplacement, time, force));
-			if(encoderOrRCA == 0)
+			LogB.Information(string.Format("{0};{1};{2};{3};{4}", pps, reCGSD.EncoderDisplacement, reCGSD.Time, reCGSD.Force, reCGSD.EncoderOrRCA));
+			writer.WriteLine(string.Format("{0};{1};{2}", reCGSD.EncoderDisplacement, reCGSD.Time, reCGSD.Force));
+			if(reCGSD.EncoderOrRCA == 0)
 				rowsCount ++; //note this is not used right now, and maybe it will need to be for all cases, not just for encoderOrRCA
 			else {
 				Trigger trigger;
-				if(encoderOrRCA == 1)
-					trigger = new Trigger(Trigger.Modes.RACEANALYZER, time, false);
-				else //(encoderOrRCA == 2)
-					trigger = new Trigger(Trigger.Modes.RACEANALYZER, time, true);
+				if(reCGSD.EncoderOrRCA == 1)
+					trigger = new Trigger(Trigger.Modes.RACEANALYZER, reCGSD.Time, false);
+				else //(reCGSD.EncoderOrRCA == 2)
+					trigger = new Trigger(Trigger.Modes.RACEANALYZER, reCGSD.Time, true);
 
 				if(! triggerListRunEncoder.NewSameTypeThanBefore(trigger) &&
 						! triggerListRunEncoder.IsSpurious(trigger, TriggerList.Type3.BOTH, 50))

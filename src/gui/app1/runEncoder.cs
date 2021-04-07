@@ -885,6 +885,8 @@ public partial class ChronoJumpWindow
 		reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement();
 		runEncoderShouldShowCaptureGraphsWithData = true;
 
+		cairoGraphRaceAnalyzer_dt = null;
+		cairoGraphRaceAnalyzer_st = null;
 		cairoGraphRaceAnalyzerPoints_dt_l = new List<PointF>();
 		cairoGraphRaceAnalyzerPoints_st_l = new List<PointF>();
 

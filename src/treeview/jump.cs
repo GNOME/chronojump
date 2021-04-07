@@ -451,7 +451,8 @@ public class TreeViewJumpsRj : TreeViewJumps
 		return myData;
 	}
 	
-	protected override string [] printAVG(System.Object myObject, int cols) {
+	protected override string [] printAVG(System.Object myObject, int cols)
+	{
 		JumpRj newJumpRj = (JumpRj)myObject;
 
 		string tcString = newJumpRj.TcString;
@@ -483,25 +484,50 @@ public class TreeViewJumpsRj : TreeViewJumps
 				Util.GetHeightInCentimeters(
 					tvAVGDouble.ToString())
 				, pDN);
-		if (preferences.showPower) {
-			myData[count++] = "";
 
-			/* TODO:
+		if (preferences.showPower || preferences.showStiffness)
+		{
+			/*
 			 * it can be done using AVG values like the other AVG statistics,
 			 * but result will not be the same than making the avg of the different power values for each row
 			 * for this reason is best to first calculate the different values of each column and store separately
 			 * in order to calculate the total, AVG, SD using that data
 			 */
-		}
-		if (preferences.showStiffness) {
-			myData[count++] = "";
 
-			/* TODO:
-			 * it can be done using AVG values like the other AVG statistics,
-			 * but result will not be the same than making the avg of the different power values for each row
-			 * for this reason is best to first calculate the different values of each column and store separately
-			 * in order to calculate the total, AVG, SD using that data
-			 */
+			weightInKg = Util.WeightFromPercentToKg(
+					Convert.ToDouble(newJumpRj.Weight.ToString()),
+					personWeight);
+
+			string [] tc_array = newJumpRj.TcString.Split(new char[] {'='});
+			string [] tv_array = newJumpRj.TvString.Split(new char[] {'='});
+			//TODO: store this list outside because this method to be used on MAX, AVG, SD
+			double powerSum = 0;
+			double stiffnessSum = 0;
+			int powerCount = 0;
+			int stiffnessCount = 0;
+			for(int i = 0; i < tc_array.Length; i ++)
+			{
+				double tc = Convert.ToDouble(tc_array[i]);
+				double tv = Convert.ToDouble(tv_array[i]);
+				double fall = 0;
+				if(tc_array[i] == "-1") //startIn at first jump tc is 0, better check like this (string)
+					powerSum += Util.GetPower(tv, personWeight, weightInKg);
+				else {
+					if(i == 0)
+						fall = newJumpRj.Fall;
+					else
+						fall = Util.GetHeightInCentimeters(Convert.ToDouble(tv_array[i-1]));
+					powerSum += Util.GetDjPower(tc, tv,
+							(personWeight + weightInKg), fall);
+					stiffnessSum += Util.GetStiffness(personWeight, weightInKg, tv, tc);
+					stiffnessCount ++;
+				}
+				powerCount ++;
+			}
+			if (preferences.showPower)
+				myData[count++] = Util.TrimDecimals(UtilAll.DivideSafe(powerSum, powerCount), 1);
+			if (preferences.showStiffness)
+				myData[count++] = Util.TrimDecimals(UtilAll.DivideSafe(stiffnessSum, stiffnessCount), 1);
 		}
 		if (preferences.showInitialSpeed) 
 			myData[count++] = Util.TrimDecimals(

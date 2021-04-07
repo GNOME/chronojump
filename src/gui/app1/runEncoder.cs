@@ -920,6 +920,7 @@ public partial class ChronoJumpWindow
 		sensitiveLastTestButtons(true);
 
 		event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(re.Filename);
+		button_run_encoder_analyze_analyze.Sensitive = true;
 		button_run_encoder_analyze_options_close_and_analyze.Sensitive = true;
 		button_run_encoder_image_save.Sensitive = true;
 	}

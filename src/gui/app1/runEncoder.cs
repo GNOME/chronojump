@@ -310,8 +310,14 @@ public partial class ChronoJumpWindow
 		currentRunEncoder = new RunEncoder();
 
 		//draw the capture graphs empty:
+		//a) radial
 		runEncoderShouldShowCaptureGraphsWithData = false;
 		drawingarea_race_analyzer_capture.QueueDraw(); //will fire ExposeEvent
+		//b) scatterplots
+		cairoGraphRaceAnalyzerPoints_dt_l = new List<PointF>();
+		cairoGraphRaceAnalyzerPoints_st_l = new List<PointF>();
+		drawingarea_race_analyzer_capture_position_time.QueueDraw(); //will fire ExposeEvent
+		drawingarea_race_analyzer_capture_speed_time.QueueDraw(); //will fire ExposeEvent
 
 		button_contacts_exercise_close_and_recalculate.Sensitive = false;
 		textview_contacts_signal_comment.Buffer.Text = "";
@@ -851,19 +857,6 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		/*
-		//TODO: continue to show position and speed graphs on load
-		cairoGraphRaceAnalyzerPoints_dt_l = new List<PointF>();
-		cairoGraphRaceAnalyzerPoints_st_l = new List<PointF>();
-		foreach(string line in contents)
-		{
-		cairoGraphRaceAnalyzerPoints_dt_l.Add
-		cairoGraphRaceAnalyzerPoints_st_l.Add
-		}
-		updateRaceAnalyzerCapturePositionTime();
-		updateRaceAnalyzerCaptureSpeedTime();
-		*/
-
 		currentRunEncoder = re;
 		lastRunEncoderFile = Util.RemoveExtension(re.Filename);
 		lastRunEncoderFullPath = re.FullURL;
@@ -886,9 +879,14 @@ public partial class ChronoJumpWindow
 				);
 		showRaceAnalyzerTriggers ();
 
+		// ---- capture tab graphs start ---->
+
 		int count = 0;
 		reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement();
 		runEncoderShouldShowCaptureGraphsWithData = true;
+
+		cairoGraphRaceAnalyzerPoints_dt_l = new List<PointF>();
+		cairoGraphRaceAnalyzerPoints_st_l = new List<PointF>();
 
 		foreach(string row in contents)
 		{
@@ -901,13 +899,27 @@ public partial class ChronoJumpWindow
 
 			if(reCGSD.PassLoadedRow (row))
 				reCGSD.Calcule();
+
+			//distance/time
+			cairoGraphRaceAnalyzerPoints_dt_l.Add(new PointF(
+						UtilAll.DivideSafe(reCGSD.Time, 1000000),
+						reCGSD.RunEncoderCaptureDistance));
+			//speed/time
+			cairoGraphRaceAnalyzerPoints_st_l.Add(new PointF(
+						UtilAll.DivideSafe(reCGSD.Time, 1000000),
+						reCGSD.RunEncoderCaptureSpeed));
 		}
 		if(reCGSD.RunEncoderCaptureSpeedMax > 0)
 		{
 			if(cairoRadial == null)
 				cairoRadial = new CairoRadial(drawingarea_race_analyzer_capture, preferences.fontType.ToString());
 			cairoRadial.GraphSpeedMaxAndDistance(reCGSD.RunEncoderCaptureSpeedMax, reCGSD.RunEncoderCaptureDistance);
+
+			updateRaceAnalyzerCapturePositionTime();
+			updateRaceAnalyzerCaptureSpeedTime();
 		}
+
+		// <---- capture tab graphs end ----
 
 		//on load do the R graph, but not on capture, to show on capture the label related to lack of person height
 		//raceEncoderCopyToTempAndDoRGraph();

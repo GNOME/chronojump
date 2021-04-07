@@ -1903,7 +1903,7 @@ public partial class ChronoJumpWindow
 		if(cairoGraphRaceAnalyzer_st == null)
 			cairoGraphRaceAnalyzer_st = new CairoGraphRaceAnalyzer(
 					drawingarea_race_analyzer_capture_speed_time, "title",
-					Catalog.GetString("Speed"), "m");
+					Catalog.GetString("Speed"), "m/s");
 
 		cairoGraphRaceAnalyzer_st.DoSendingList (preferences.fontType.ToString(), cairoGraphRaceAnalyzerPoints_st_l);
 	}

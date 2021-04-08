@@ -27,7 +27,7 @@ using Cairo;
 
 public class CairoGraphRaceAnalyzer : CairoXY
 {
-	//static int lastPointPainted;
+	int points_list_painted;
 
 	/*
 	//constructor when there are no points
@@ -49,11 +49,9 @@ public class CairoGraphRaceAnalyzer : CairoXY
 //	static bool doing;
 	//regular constructor
 	public CairoGraphRaceAnalyzer (
-//			List<PointF> point_l,
 			DrawingArea area, string title,
 			string yVariable, string yUnits)
 	{
-//		this.point_l = point_l;
 		this.area = area;
 		this.title = title;
 		this.colorBackground = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
@@ -64,52 +62,56 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		this.yUnits = yUnits;
 		
 //		doing = false;
-//		lastPointPainted = -1;
+		points_list_painted = 0;
 	}
 
-	/*
-	public override bool PassData (List<PointF> point_l)
+	public void Reset()
 	{
-	*/
-		/*
-		if(doing)
-			return false;
-		else
-			doing = true;
-			*/
-/*
-		foreach(PointF p in points_list)
+		minX = 1000000;
+		maxX = 0;
+		minY = 1000000;
+		maxY = 0;
+		absoluteMaxX = 0;
+		absoluteMaxY = 0;
 
-		this.point_l = point_l;
-		return true;
+		points_list_painted = 0;
 	}
-	*/
 
-	public override void DoSendingList (string font, List<PointF> points_list)
+	public override void DoSendingList (string font, List<PointF> points_list, bool forceRedraw)
 	{
 		LogB.Information("at RaceAnalyzerGraph.Do");
-		initGraph(font, .9);
 
-//maybe do a copy of points_list or only consider last of them (using lastPointPainted)
+		bool initGraphDone = false;
+		bool maxValuesChanged = false;
+		if(points_list != null)
+			maxValuesChanged = findPointMaximums(false, points_list);
 
-		//because point_l is updated while foreach in findPointMaximums() and plotRealPoints()
-		//TODO: on realtime do something better in order to just pass the new points and redo the graph just if margins changed
-		//this new method will not have problems of changing the point_l list while iterating it
-//		try {
-//
-			if(points_list != null)
-				findPointMaximums(false, points_list);
-			//TODO: have a way to pass the x min max if we want to have two graphs with same x
+		if(maxValuesChanged || forceRedraw || points_list.Count != points_list_painted)
+		{
+			initGraph( font, .9, (maxValuesChanged || forceRedraw) );
+			initGraphDone = true;
+			points_list_painted = 0;
+		}
+
+		if(maxValuesChanged || forceRedraw)
+		{
 			paintGrid(gridTypes.BOTH, true);
 			paintAxis();
+		}
 
-			pointsRadius = 1;
-			if(points_list != null)
-				plotRealPoints(false, points_list);
-//		} catch {}
+		pointsRadius = 1;
+		if( points_list != null &&
+				(maxValuesChanged || forceRedraw || points_list.Count != points_list_painted) )
+		{
 
-		endGraphDisposing(g);
-//		doing = false;
+			plotRealPoints(false, points_list, points_list_painted);
+			points_list_painted = points_list.Count;
+		}
+
+		if(initGraphDone)
+			endGraphDisposing(g);
+
+		//doing = false;
 	}
 
 	protected override void writeTitle()

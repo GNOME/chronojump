@@ -66,8 +66,8 @@ public abstract class CairoXY : CairoGeneric
 	protected double minY = 1000000;
 	protected double maxY = 0;
 	double yAtMMaxY;
-	double absoluteMaxX;
-	double absoluteMaxY;
+	protected double absoluteMaxX;
+	protected double absoluteMaxY;
 	protected int graphWidth;
 	protected int graphHeight;
 
@@ -112,11 +112,15 @@ public abstract class CairoXY : CairoGeneric
 	public virtual void Do(string font)
 	{
 	}
-	public virtual void DoSendingList(string font, List<PointF> points_list)
+	public virtual void DoSendingList(string font, List<PointF> points_list, bool forceRedraw)
 	{
 	}
 
 	protected void initGraph(string font, double widthPercent1)
+	{
+		initGraph(font, widthPercent1, true);
+	}
+	protected void initGraph(string font, double widthPercent1, bool clearDrawingArea)
 	{
 		this.font = font;
 		LogB.Information("Font: " + font);
@@ -125,10 +129,13 @@ public abstract class CairoXY : CairoGeneric
 
 		//1 create context
 		g = Gdk.CairoHelper.Create (area.GdkWindow);
-		
-		//2 clear DrawingArea (white)
-		g.SetSourceRGB(1,1,1);
-		g.Paint();
+
+		if(clearDrawingArea)
+		{
+			//2 clear DrawingArea (white)
+			g.SetSourceRGB(1,1,1);
+			g.Paint();
+		}
 
 		graphWidth = Convert.ToInt32(area.Allocation.Width * widthPercent1);
 		graphHeight = area.Allocation.Height;
@@ -153,13 +160,15 @@ public abstract class CairoXY : CairoGeneric
 	//showFullGraph means that has to plot both axis at 0 and maximums have to be f0,v0
 	//used by default on jumpsWeightFVProfile
 	//called from almost all methods
-	protected void findPointMaximums(bool showFullGraph)
+	//true if changed
+	protected bool findPointMaximums(bool showFullGraph)
 	{
-		findPointMaximums(showFullGraph, point_l);
+		return findPointMaximums(showFullGraph, point_l);
 	}
 
 	//called from raceAnalyzer (sending it own list of points)
-	protected void findPointMaximums(bool showFullGraph, List<PointF> points_list)
+	//true if changed
+	protected bool findPointMaximums(bool showFullGraph, List<PointF> points_list)
 	{
 		//foreach(PointF p in points_list)
 		/*
@@ -209,8 +218,19 @@ public abstract class CairoXY : CairoGeneric
 		separateMinXMaxXIfNeeded();
 		separateMinYMaxYIfNeeded();
 
-		absoluteMaxX = maxX;
-		absoluteMaxY = maxY;
+		bool changed = false;
+		if(maxX != absoluteMaxX)
+		{
+			absoluteMaxX = maxX;
+			changed = true;
+		}
+		if(maxY != absoluteMaxY)
+		{
+			absoluteMaxY = maxY;
+			changed = true;
+		}
+
+		return changed;
 	}
 
 	protected void plotAlternativeLineWithRealPoints (double ax, double ay, double bx, double by, bool showFullGraph)
@@ -423,17 +443,20 @@ public abstract class CairoXY : CairoGeneric
 	//called from almost all methods
 	protected void plotRealPoints (bool joinByLine)
 	{
-		plotRealPoints (joinByLine, point_l);
+		plotRealPoints (joinByLine, point_l, 0);
 	}
 
 	//called from raceAnalyzer (sending it own list of points)
-	protected void plotRealPoints (bool joinByLine, List<PointF> points_list)
+	protected void plotRealPoints (bool joinByLine, List<PointF> points_list, int startAt)
 	{
 		if(joinByLine) //draw line first to not overlap the points
 		{
 			bool firstDone = false;
-			foreach(PointF p in points_list)
+			//foreach(PointF p in points_list)
+			for(int i = startAt; i < points_list.Count; i ++)
 			{
+				PointF p = points_list[i];
+
 				double xgraph = calculatePaintX(p.X);
 				double ygraph = calculatePaintY(p.Y);
 
@@ -458,7 +481,7 @@ public abstract class CairoXY : CairoGeneric
 
 		//for(int i = start; i < points_list.Count; i ++)
 		*/
-		for(int i = 0; i < points_list.Count; i ++)
+		for(int i = startAt; i < points_list.Count; i ++)
 		{
 			PointF p = points_list[i];
 

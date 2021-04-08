@@ -908,12 +908,28 @@ public partial class ChronoJumpWindow
 		*/
 
 		//new VersionCompareTests();
+		/*
 		if(configChronojump.PlaySoundsFromFile)
 		{
 			Util.CreateSoundList();
 			Util.UseSoundList = true;
 			captureContWithCurves = false; //note set and reps are not currently saved
 		}
+		*/
+
+		/*
+		ChronoDebug cDebug = new ChronoDebug("ChronoDebug test new stuff");
+		cDebug.Start();
+		Random rnd = new Random();
+		cDebug.Add("Created rnd");
+
+		int reps = 1000000;
+		for(int i=0; i < reps; i++)
+			rnd.Next();
+
+		cDebug.Add(string.Format("Done {0} rnds!", reps));
+		cDebug.StopAndPrint();
+		*/
 	}
 
 

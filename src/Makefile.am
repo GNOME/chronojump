@@ -190,6 +190,7 @@ SOURCES = \
 	buildInfo.cs\
 	chronojump.cs\
 	config.cs\
+	chronoDebug.cs\
 	encoder.cs\
 	encoderCapture.cs\
 	encoderCaptureInertialBG.cs\

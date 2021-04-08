@@ -92,7 +92,7 @@ public class UtilDate
 	//return datetime
 	public static DateTime FromSql (string date)
 	{
-		LogB.Information("UtilDate.FromSql date: " + date);
+		//LogB.Information("UtilDate.FromSql date: " + date);
 		/*
 		   on report we do a session select with uniqueID = -1
 		   it returns nothing, date has nothing

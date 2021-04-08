@@ -266,8 +266,14 @@ public partial class ChronoJumpWindow
 		runEncoderButtonsSensitive(false);
 		sensitiveLastTestButtons(false);
 
+		//reset capture tab graphs
 		if(cairoRadial != null)
 			cairoRadial.ResetSpeedMax();
+
+		if(cairoGraphRaceAnalyzer_dt != null)
+			cairoGraphRaceAnalyzer_dt.Reset();
+		if(cairoGraphRaceAnalyzer_st != null)
+			cairoGraphRaceAnalyzer_st.Reset();
 
 		if(chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER) == 0)
 		{
@@ -917,8 +923,8 @@ public partial class ChronoJumpWindow
 				cairoRadial = new CairoRadial(drawingarea_race_analyzer_capture, preferences.fontType.ToString());
 			cairoRadial.GraphSpeedMaxAndDistance(reCGSD.RunEncoderCaptureSpeedMax, reCGSD.RunEncoderCaptureDistance);
 
-			updateRaceAnalyzerCapturePositionTime();
-			updateRaceAnalyzerCaptureSpeedTime();
+			updateRaceAnalyzerCapturePositionTime(true);
+			updateRaceAnalyzerCaptureSpeedTime(true);
 		}
 
 		// <---- capture tab graphs end ----
@@ -1319,7 +1325,7 @@ public partial class ChronoJumpWindow
 
 		LogB.Information(" re B ");
 		//LogB.Information(capturingRunEncoder.ToString())
-		if(! runEncoderCaptureThread.IsAlive || runEncoderProcessFinish || runEncoderProcessCancel || runEncoderProcessError)
+		if(! runEncoderCaptureThread.IsAlive || runEncoderProcessFinish || runEncoderProcessCancel || runEncoderProcessError) //capture ends
 		{
 			LogB.Information(" re C ");
 			button_video_play_this_test_contacts.Sensitive = false;
@@ -1395,8 +1401,8 @@ public partial class ChronoJumpWindow
 						forceSensorDoGraphAI();
 					 */
 
-					updateRaceAnalyzerCapturePositionTime();
-					updateRaceAnalyzerCaptureSpeedTime();
+					updateRaceAnalyzerCapturePositionTime(true);
+					updateRaceAnalyzerCaptureSpeedTime(true);
 				}
 				LogB.Information(" re C finish 2");
 			} else if(runEncoderProcessCancel || runEncoderProcessError)
@@ -1438,6 +1444,16 @@ public partial class ChronoJumpWindow
 			if(reCGSD != null)
 				cairoRadial.GraphSpeedMaxAndDistance(reCGSD.RunEncoderCaptureSpeedMax, reCGSD.RunEncoderCaptureDistance);
 
+			/*
+			LogB.Information("cairoGraphRaceAnalyzerPoints_dt_l: ");
+			foreach(PointF p in cairoGraphRaceAnalyzerPoints_dt_l)
+				LogB.Information(p.ToString());
+
+			LogB.Information("cairoGraphRaceAnalyzerPoints_st_l: ");
+			foreach(PointF p in cairoGraphRaceAnalyzerPoints_st_l)
+				LogB.Information(p.ToString());
+			*/
+
 			LogB.ThreadEnded(); 
 
 			runEncoderButtonsSensitive(true);
@@ -1456,7 +1472,7 @@ public partial class ChronoJumpWindow
 
 			return false;
 		}
-		else
+		else //capture continues
 		{
 			event_execute_label_message.Text = runEncoderPulseMessage;
 
@@ -1464,8 +1480,9 @@ public partial class ChronoJumpWindow
 				cairoRadial.GraphSpeedAndDistance(reCGSD.RunEncoderCaptureSpeed, reCGSD.RunEncoderCaptureDistance);
 
 			//TODO: activate again when there's a real time update (not repaint all) method
-			updateRaceAnalyzerCapturePositionTime();
-			updateRaceAnalyzerCaptureSpeedTime();
+			//false: it will not be redrawn if there are no new points
+			updateRaceAnalyzerCapturePositionTime(false);
+			updateRaceAnalyzerCaptureSpeedTime(false);
 
 			if(runEncoderPulseMessage == capturingMessage)
 				event_execute_button_finish.Sensitive = true;
@@ -1879,32 +1896,32 @@ public partial class ChronoJumpWindow
 	static List<PointF> cairoGraphRaceAnalyzerPoints_dt_l; //distancetime
 	private void on_drawingarea_race_analyzer_capture_position_time_expose_event (object o, ExposeEventArgs args)
 	{
-		updateRaceAnalyzerCapturePositionTime();
+		updateRaceAnalyzerCapturePositionTime(true);
 	}
 
 	CairoGraphRaceAnalyzer cairoGraphRaceAnalyzer_st;
 	static List<PointF> cairoGraphRaceAnalyzerPoints_st_l;	//speed/time
 	private void on_drawingarea_race_analyzer_capture_speed_time_expose_event (object o, ExposeEventArgs args)
 	{
-		updateRaceAnalyzerCaptureSpeedTime();
+		updateRaceAnalyzerCaptureSpeedTime(true);
 	}
 
-	private void updateRaceAnalyzerCapturePositionTime()
+	private void updateRaceAnalyzerCapturePositionTime(bool forceRedraw)
 	{
 		if(cairoGraphRaceAnalyzer_dt == null)
 			cairoGraphRaceAnalyzer_dt = new CairoGraphRaceAnalyzer(
 					drawingarea_race_analyzer_capture_position_time, "title",
 					Catalog.GetString("Distance"), "m");
 
-		cairoGraphRaceAnalyzer_dt.DoSendingList (preferences.fontType.ToString(), cairoGraphRaceAnalyzerPoints_dt_l);
+		cairoGraphRaceAnalyzer_dt.DoSendingList (preferences.fontType.ToString(), cairoGraphRaceAnalyzerPoints_dt_l, forceRedraw);
 	}
-	private void updateRaceAnalyzerCaptureSpeedTime()
+	private void updateRaceAnalyzerCaptureSpeedTime(bool forceRedraw)
 	{
 		if(cairoGraphRaceAnalyzer_st == null)
 			cairoGraphRaceAnalyzer_st = new CairoGraphRaceAnalyzer(
 					drawingarea_race_analyzer_capture_speed_time, "title",
 					Catalog.GetString("Speed"), "m/s");
 
-		cairoGraphRaceAnalyzer_st.DoSendingList (preferences.fontType.ToString(), cairoGraphRaceAnalyzerPoints_st_l);
+		cairoGraphRaceAnalyzer_st.DoSendingList (preferences.fontType.ToString(), cairoGraphRaceAnalyzerPoints_st_l, forceRedraw);
 	}
 }

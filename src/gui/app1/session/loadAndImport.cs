@@ -328,7 +328,9 @@ public partial class ChronoJumpWindow
                         app1s_combo_tags.Changed += new EventHandler (app1s_on_combo_tags_changed);
                 } else {
 			app1sComboTags.L_types = TagSession.ListSelectTypesOnSQL();
+                        app1s_combo_tags.Changed -= new EventHandler (app1s_on_combo_tags_changed);
                         app1sComboTags.Fill();
+                        app1s_combo_tags.Changed += new EventHandler (app1s_on_combo_tags_changed);
                         app1s_combo_tags = app1sComboTags.Combo;
                 }
                 app1s_combo_tags.Sensitive = true;

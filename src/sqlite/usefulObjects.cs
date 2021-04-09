@@ -242,3 +242,46 @@ public class SelectRunITypes : SelectRunTypes
 	}
 
 }
+
+public class LastJumpSimpleTypeParams
+{
+	public int uniqueID;
+	public string name;
+	public bool weightIsPercent;
+	public double weightValue;
+	public int fallmm;
+
+	public LastJumpSimpleTypeParams(string name)
+	{
+		this.uniqueID = -1;
+		this.name = name;
+		this.weightIsPercent = true;
+		this.weightValue = -1;  // has no weight
+		this.fallmm = -1;	// startIn
+	}
+
+	public LastJumpSimpleTypeParams(int uniqueID, string name,
+			bool weightIsPercent, double weightValue, int fallmm)
+	{
+		this.uniqueID = uniqueID;
+		this.name = name;
+		this.weightIsPercent = weightIsPercent;
+		this.weightValue = weightValue;
+		this.fallmm = fallmm;
+	}
+
+	public string ToSqlString()
+	{
+		string idString = "NULL";
+		if(uniqueID != -1)
+			idString = uniqueID.ToString();
+
+		return string.Format("{0}, \"{1}\", {2}, {3}, {4}",
+				idString,
+				name,
+				Util.BoolToInt(weightIsPercent),
+				Util.ConvertToPoint(weightValue),
+				fallmm);
+	}
+
+}

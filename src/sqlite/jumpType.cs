@@ -667,4 +667,74 @@ class SqliteJumpType : Sqlite
 		dbcmd.ExecuteNonQuery();
 	}
 
+	public static LastJumpSimpleTypeParams LastJumpSimpleTypeParamsSelect (string name)
+	{
+		Sqlite.Open();
+		dbcmd.CommandText = "SELECT * " +
+			" FROM " + Constants.LastJumpSimpleTypeParamsTable + " " +
+			" WHERE name  = \"" + name +
+			"\" ORDER BY uniqueID DESC"; //to shown last if there are more than one by import problems
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		LastJumpSimpleTypeParams ljstp = new LastJumpSimpleTypeParams(name);
+
+		if (reader.Read())
+			ljstp = new LastJumpSimpleTypeParams(
+					Convert.ToInt32(reader[0].ToString()), 	 //uniqueID
+					reader[1].ToString(), 			//name
+					Util.IntToBool(Convert.ToInt32(reader[2].ToString())), //weightIsPercent
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[3].ToString())), //weightValue
+					Convert.ToInt32(reader[4].ToString())); //fallmm
+
+		reader.Close();
+		Sqlite.Close();
+
+		return ljstp;
+	}
+
+	public static void LastJumpSimpleTypeParamsInsertOrUpdate (LastJumpSimpleTypeParams ljstp)
+	{
+		LastJumpSimpleTypeParams ljstpFound = LastJumpSimpleTypeParamsSelect(ljstp.name);
+//		LogB.Information("LastJumpSimpleTypeParamsInsertOrUpdate search: " + ljstp.ToSqlString());
+		if(ljstpFound.uniqueID == -1)
+			lastJumpSimpleTypeParamsInsert (ljstp.ToSqlString());
+		else
+			lastJumpSimpleTypeParamsUpdate (ljstp, ljstpFound.uniqueID); //ljstp comes from the gui choices, but we need the uniqueID
+	}
+
+	private static void lastJumpSimpleTypeParamsInsert (string ljstp_string)
+	{
+		Sqlite.Open();
+		dbcmd.CommandText = "INSERT INTO " + Constants.LastJumpSimpleTypeParamsTable +
+			" (uniqueID, name, weightIsPercent, weightValue, fallmm) VALUES (" +
+			ljstp_string + ")";
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		Sqlite.Close();
+	}
+
+	private static void lastJumpSimpleTypeParamsUpdate (LastJumpSimpleTypeParams ljstp, int uniqueID)
+	{
+		Sqlite.Open();
+		LogB.Information("LastJumpSimpleTypeParamsUpdate ljstp: " + ljstp.ToSqlString());
+		dbcmd.CommandText = "UPDATE " + Constants.LastJumpSimpleTypeParamsTable +
+			" SET weightIsPercent = " + Util.BoolToInt(ljstp.weightIsPercent) +
+			", weightValue = " + Util.ConvertToPoint(ljstp.weightValue) +
+			", fallmm = " + ljstp.fallmm +
+			" WHERE uniqueID = " + uniqueID;
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		Sqlite.Close();
+	}
+
+	// ****************************
+	// **** lastJumpRjTypeParams **
+	// ****************************
+	//for store default params of each jump (multiple)
 }	

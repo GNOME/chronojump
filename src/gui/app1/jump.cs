@@ -219,14 +219,19 @@ public partial class ChronoJumpWindow
 		changeTestImage(EventType.Types.JUMP.ToString(), myJumpType.Name, myJumpType.ImageFileName);
 		setLabelContactsExerciseSelected(Constants.Menuitem_modes.JUMPSSIMPLE);
 
+		LastJumpSimpleTypeParams ljstp = new LastJumpSimpleTypeParams(myJumpType.Name);
+		if(myJumpType.HasWeight || myJumpType.HasFall)
+			ljstp = SqliteJumpType.LastJumpSimpleTypeParamsSelect(myJumpType.Name); //search it on DB
 
-		if(myJumpType.HasWeight) {
+		if(myJumpType.HasWeight)
 			extra_window_showWeightData(myJumpType, true);	
-		} else 
+		else
 			extra_window_showWeightData(myJumpType, false);	
 
 		if(myJumpType.HasFall) {
 			extra_window_showFallData(myJumpType, true);
+			if(ljstp.uniqueID != -1)
+				extra_window_jumps_check_dj_fall_calculate.Active = (ljstp.fallmm == -1);
 		} else
 			extra_window_showFallData(myJumpType, false);	
 		
@@ -256,12 +261,22 @@ public partial class ChronoJumpWindow
 
 		button_jump_type_delete_simple.Sensitive = ! myJumpType.IsPredefined;
 
-		extra_window_jumps_spinbutton_weight.Value = 100;
-		extra_window_jumps_spinbutton_fall.Value = extra_window_jumps_fall;
-		if (extra_window_jumps_option == "Kg") {
-			extra_window_jumps_radiobutton_kg.Active = true;
+		if( (myJumpType.HasWeight || myJumpType.HasFall) && ljstp.uniqueID != -1) {
+			extra_window_jumps_spinbutton_weight.Value = ljstp.weightValue;
+			extra_window_jumps_spinbutton_fall.Value = ljstp.fallmm/10;
 		} else {
-			extra_window_jumps_radiobutton_weight.Active = true;
+			extra_window_jumps_spinbutton_weight.Value = 100;
+			extra_window_jumps_spinbutton_fall.Value = extra_window_jumps_fall;
+		}
+
+		if(myJumpType.HasWeight && ljstp.uniqueID != -1)
+			extra_window_jumps_radiobutton_kg.Active = ljstp.weightIsPercent;
+		else {
+			if (extra_window_jumps_option == "Kg") {
+				extra_window_jumps_radiobutton_kg.Active = true;
+			} else {
+				extra_window_jumps_radiobutton_weight.Active = true;
+			}
 		}
 
 		extra_window_showSingleLegStuff(myJumpType.Name == "slCMJleft" || myJumpType.Name == "slCMJright");

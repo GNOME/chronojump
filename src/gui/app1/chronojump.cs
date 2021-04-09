@@ -4341,21 +4341,38 @@ public partial class ChronoJumpWindow
 			sensitiveGuiAutoExecuteOrWait (true);
 		
 		double jumpWeight = 0;
+
+		//to store how this test is for future jumps (prepare)
+		LastJumpSimpleTypeParams ljstp = new LastJumpSimpleTypeParams(currentJumpType.Name);
+
 		if(currentJumpType.HasWeight) {
-			if(extra_window_jumps_option == "%") 
-				jumpWeight = (double) extra_window_jumps_spinbutton_weight.Value;
-			else 
+			double selectedWeight = (double) extra_window_jumps_spinbutton_weight.Value;
+			if(extra_window_jumps_option == "%")
+				jumpWeight = selectedWeight;
+			else {
 				jumpWeight = Util.WeightFromKgToPercent(
-						(double) extra_window_jumps_spinbutton_weight.Value, 
+						selectedWeight,
 						currentPersonSession.Weight);
+				ljstp.weightIsPercent = false;
+			}
+			ljstp.weightValue = selectedWeight;
 		}
+
 		double myFall = 0;
+		ljstp.fallmm = 0;
 		if(currentJumpType.HasFall) {
-			if(extra_window_jumps_check_dj_fall_calculate.Active)
+			if(extra_window_jumps_check_dj_fall_calculate.Active) {
 				myFall = -1;
-			else
+				ljstp.fallmm = -1;
+			} else {
 				myFall = (double) extra_window_jumps_spinbutton_fall.Value;
+				ljstp.fallmm = Convert.ToInt32(myFall * 10);
+			}
 		}
+
+		//to store how this test is for future jumps (do)
+		if(currentJumpType.HasWeight || currentJumpType.HasFall)
+			SqliteJumpType.LastJumpSimpleTypeParamsInsertOrUpdate(ljstp);
 
 		string description = "";
 		if(currentJumpType.Name == "slCMJleft" || currentJumpType.Name == "slCMJright") {

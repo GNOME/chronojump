@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.15";
+	static string lastChronojumpDatabaseVersion = "2.16";
 
 	public Sqlite()
 	{
@@ -2911,6 +2911,14 @@ class Sqlite
 
 				currentVersion = updateVersion("2.15");
 			}
+			if(currentVersion == "2.15")
+			{
+				LogB.SQL("Created table lastJumpSimpleTypeParams");
+
+				SqliteJumpType.createTableLastJumpSimpleTypeParams();
+
+				currentVersion = updateVersion("2.16");
+			}
 
 
 
@@ -3036,6 +3044,7 @@ class Sqlite
 		SqliteJumpType.createTableJumpRjType();
 		SqliteJumpType.initializeTableJumpType();
 		SqliteJumpType.initializeTableJumpRjType();
+		SqliteJumpType.createTableLastJumpSimpleTypeParams();
 		
 		//runs
 		creationRate ++;
@@ -3132,6 +3141,7 @@ class Sqlite
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
 
+		//2.15 - 2.16 Converted DB to 2.16 Created table lastJumpSimpleTypeParams
 		//2.14 - 2.15 Converted DB to 2.15 Inserted into preferences: SessionLoadDisplay
 		//2.13 - 2.14 Converted DB to 2.14 Doing alter table run, runInterval, tempRunInterval add datetime
 		//2.12 - 2.13 Converted DB to 2.13 Inserted prefs: PersonSelectWinImages, ExportGraphWidth, ExportGraphHeight

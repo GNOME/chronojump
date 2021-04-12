@@ -2847,6 +2847,18 @@ LogB.Information(" fs R ");
 
 		setLabelContactsExerciseSelected(Catalog.GetString(fse.Name) + isElasticStr);
 		combo_force_sensor_button_sensitive_exercise(true);
+
+		if(fse.ForceResultant) {
+			/*
+			   setForceSensorCaptureOptions(ForceSensor.CaptureOptions.ABS);
+			   combo_force_sensor_capture_options.Sensitive = false;
+			   better to hide it instead of making it unsensitive to not force it to ABS and then have ABS by default in raw exercises
+			   */
+			combo_force_sensor_capture_options.Visible = false;
+		} else {
+			//combo_force_sensor_capture_options.Sensitive = true;
+			combo_force_sensor_capture_options.Visible = true;
+		}
 	}
 
 	private void fillForceSensorExerciseCombo(string name)

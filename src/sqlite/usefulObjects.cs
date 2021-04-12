@@ -285,3 +285,50 @@ public class LastJumpSimpleTypeParams
 	}
 
 }
+
+public class LastJumpRjTypeParams
+{
+	public int uniqueID;
+	public string name;
+	public int limitedValue; //how many jumps or how many seconds (or none: -1)
+	public bool weightIsPercent;
+	public double weightValue;
+	public int fallmm;
+
+	public LastJumpRjTypeParams(string name)
+	{
+		this.uniqueID = -1;
+		this.name = name;
+		this.limitedValue = -1;
+		this.weightIsPercent = true;
+		this.weightValue = -1;  // has no weight
+		this.fallmm = -1;	// startIn
+	}
+
+	public LastJumpRjTypeParams(int uniqueID, string name, int limitedValue,
+			bool weightIsPercent, double weightValue, int fallmm)
+	{
+		this.uniqueID = uniqueID;
+		this.name = name;
+		this.limitedValue = limitedValue;
+		this.weightIsPercent = weightIsPercent;
+		this.weightValue = weightValue;
+		this.fallmm = fallmm;
+	}
+
+	public string ToSqlString()
+	{
+		string idString = "NULL";
+		if(uniqueID != -1)
+			idString = uniqueID.ToString();
+
+		return string.Format("{0}, \"{1}\", {2}, {3}, {4}, {5}",
+				idString,
+				name,
+				limitedValue,
+				Util.BoolToInt(weightIsPercent),
+				Util.ConvertToPoint(weightValue),
+				fallmm);
+	}
+
+}

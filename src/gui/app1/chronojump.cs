@@ -4345,7 +4345,8 @@ public partial class ChronoJumpWindow
 		//to store how this test is for future jumps (prepare)
 		LastJumpSimpleTypeParams ljstp = new LastJumpSimpleTypeParams(currentJumpType.Name);
 
-		if(currentJumpType.HasWeight) {
+		if(currentJumpType.HasWeight)
+		{
 			double selectedWeight = (double) extra_window_jumps_spinbutton_weight.Value;
 			if(extra_window_jumps_option == "%")
 				jumpWeight = selectedWeight;
@@ -4646,6 +4647,9 @@ public partial class ChronoJumpWindow
 	{
 		double progressbarLimit = 0;
 		
+		//to store how this test is for future jumps (prepare)
+		LastJumpRjTypeParams ljrtp = new LastJumpRjTypeParams(currentJumpRjType.Name);
+
 		//if it's a unlimited interval run, put -1 as limit value
 		if(currentJumpRjType.Unlimited) {
 			progressbarLimit = -1;
@@ -4654,23 +4658,36 @@ public partial class ChronoJumpWindow
 				progressbarLimit = currentJumpRjType.FixedValue;
 			} else {
 				progressbarLimit = (double) extra_window_jumps_rj_spinbutton_limit.Value;
+				ljrtp.limitedValue = Convert.ToInt32(progressbarLimit);
 			}
 		}
 
 		double jumpWeight = 0;
-		if(currentJumpRjType.HasWeight) {
+		if(currentJumpRjType.HasWeight)
+		{
+			double selectedWeight = (double) extra_window_jumps_rj_spinbutton_weight.Value;
 			if(extra_window_jumps_rj_option == "%") {
-				jumpWeight = (double) extra_window_jumps_rj_spinbutton_weight.Value;
+				jumpWeight = selectedWeight;
 			} else {
 				jumpWeight = Util.WeightFromKgToPercent(
-						(double) extra_window_jumps_rj_spinbutton_weight.Value,
+						selectedWeight,
 						currentPersonSession.Weight);
+				ljrtp.weightIsPercent = false;
 			}
+			ljrtp.weightValue = selectedWeight;
 		}
 		double myFall = 0;
 		if( currentJumpRjType.HasFall || currentJumpRjType.Name == Constants.RunAnalysisName)
+		{
 			myFall = (double) extra_window_jumps_rj_spinbutton_fall.Value;
-			
+			ljrtp.fallmm = Convert.ToInt32(myFall * 10);
+		}
+
+		//to store how this test is for future jumps (do)
+		if( (! currentJumpRjType.Unlimited && currentJumpRjType.FixedValue == 0) ||
+				currentJumpType.HasWeight || currentJumpType.HasFall )
+			SqliteJumpType.LastJumpRjTypeParamsInsertOrUpdate(ljrtp);
+
 		//used by cancel and finish
 		//currentEventType = new JumpRjType();
 		currentEventType = currentJumpRjType;

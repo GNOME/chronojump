@@ -28,7 +28,7 @@ public class JumpType : EventType
 	protected bool hasWeight;
 	protected bool isRepetitive;
 	protected bool jumpsLimited;
-	protected double fixedValue;	//0 no fixed value
+	protected double fixedValue;	//0 no fixed value //why this is a double and not an int?
 	protected bool unlimited;
 
 

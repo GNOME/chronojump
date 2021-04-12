@@ -737,4 +737,17 @@ class SqliteJumpType : Sqlite
 	// **** lastJumpRjTypeParams **
 	// ****************************
 	//for store default params of each jump (multiple)
+	protected internal static void createTableLastJumpRjTypeParams()
+	{
+		dbcmd.CommandText =
+			"CREATE TABLE " + Constants.LastJumpRjTypeParamsTable + " ( " +
+			"uniqueID INTEGER PRIMARY KEY, " + //to order if there are more than one by import problems
+			"name TEXT, " +
+			"limitedValue INT, " +
+			"weightIsPercent INT, " + 	 //boolean
+			"weightValue FLOAT, " + 	//decimal is point
+			"fallmm INT)"; //-1: start in; >=0: falling height in mm (to be int, can be 0 like int he gui can be 0)
+		dbcmd.ExecuteNonQuery();
+	}
+
 }	

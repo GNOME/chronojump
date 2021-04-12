@@ -52,7 +52,7 @@ public class RunType : EventType
 			"20m10times", "7m30seconds", "20m endurance", 
 			"MTGUG", "Gesell-DBT",
 			"Agility-3L3R",
-			"RSA 8-4-R3-5",
+			"RSA 8-4-R3-5", 		//this is not used anymore (it was just a test)
 			"RSA Aziz 2000 40, R30 x 8",
 			"RSA Balsom 15, R30 x 40",
 			"RSA Balsom 30, R30 x 20",
@@ -399,7 +399,7 @@ public class RunType : EventType
 			imageFileName = "agility_3l3r.png";
 			distancesString = "24.14-24.14";	//this intervallic run has different distance for each track
 			longDescription = "";
-		} else if(name == "RSA 8-4-R3-5") {
+		} else if(name == "RSA 8-4-R3-5") { 	//this is not used anymore (it was just a test)
 			hasIntervals 	= true; 
 			distance 	= -1;
 			tracksLimited 	= true;
@@ -408,6 +408,73 @@ public class RunType : EventType
 			description	= "RSA testing";
 			imageFileName = "run_interval.png";
 			distancesString = "8-4-R3-5";	//this intervallic run has different distance for each track
+		} else if(
+				name == "RSA Aziz 2000 40, R30 x 8" ||
+				name == "RSA Balsom 15, R30 x 40" ||
+				name == "RSA Balsom 30, R30 x 20" ||
+				name == "RSA Balsom 40, R30 x 15" ||
+				name == "RSA Dawson 40, R24 x 6" ||
+				name == "RSA Fitzsimons 40, R24 x 6" ||
+				name == "RSA Gaitanos 6, R30 x 10" ||
+				name == "RSA Hamilton 6, R30 x 10" ||
+				name == "RSA RAST 35, R10 x 6" ||
+				name == "RSA Mujica 15, R24 x 6" ||
+				name == "RSA Wadley 20, R17 x 12" ||
+				name == "RSA Wragg 34.2, R25 x 7")
+		{
+			hasIntervals 	= true;
+			distance 	= -1;
+			tracksLimited 	= true;
+			unlimited 	= false;
+
+			if(name == "RSA Aziz 2000 40, R30 x 8") {
+				fixedValue 	= 16;
+				distancesString = "40-R30";
+			}
+			else if (name == "RSA Balsom 15, R30 x 40") {
+				fixedValue 	= 80;
+				distancesString = "15-R30";
+			}
+			else if (name == "RSA Balsom 30, R30 x 20") {
+				fixedValue 	= 40;
+				distancesString = "30-R30";
+			}
+			else if (name == "RSA Balsom 40, R30 x 15") {
+				fixedValue 	= 30;
+				distancesString = "40-R30";
+			}
+			else if (name == "RSA Dawson 40, R24 x 6") {
+				fixedValue 	= 12;
+				distancesString = "40-R24";
+			}
+			else if (name == "RSA Fitzsimons 40, R24 x 6") {
+				fixedValue 	= 12;
+				distancesString = "40-R24";
+			}
+			else if (name == "RSA Gaitanos 6, R30 x 10") {
+				fixedValue 	= 20;
+				distancesString = "6-R30";
+			}
+			else if (name == "RSA Hamilton 6, R30 x 10") {
+				fixedValue 	= 20;
+				distancesString = "6-R30";
+			}
+			else if (name == "RSA RAST 35, R10 x 6") {
+				fixedValue 	= 12;
+				distancesString = "35-R10";
+			}
+			else if (name == "RSA Mujica 15, R24 x 6") {
+				fixedValue 	= 12;
+				distancesString = "15-R24";
+			}
+			else if (name == "RSA Wadley 20, R17 x 12") {
+				fixedValue 	= 24;
+				distancesString = "20-R17";
+			}
+			else if (name == "RSA Wragg 34.2, R25 x 7") {
+				fixedValue 	= 14;
+				distancesString = "34.2-R25";
+			}
 		}
 
 		isPredefined = FindIfIsPredefined();

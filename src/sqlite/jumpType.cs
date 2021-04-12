@@ -750,4 +750,71 @@ class SqliteJumpType : Sqlite
 		dbcmd.ExecuteNonQuery();
 	}
 
+	public static LastJumpRjTypeParams LastJumpRjTypeParamsSelect (string name)
+	{
+		Sqlite.Open();
+		dbcmd.CommandText = "SELECT * " +
+			" FROM " + Constants.LastJumpRjTypeParamsTable + " " +
+			" WHERE name  = \"" + name +
+			"\" ORDER BY uniqueID DESC"; //to shown last if there are more than one by import problems
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		LastJumpRjTypeParams ljrtp = new LastJumpRjTypeParams(name);
+
+		if (reader.Read())
+			ljrtp = new LastJumpRjTypeParams(
+					Convert.ToInt32(reader[0].ToString()), 	 //uniqueID
+					reader[1].ToString(), 			//name
+					Convert.ToInt32(reader[2].ToString()),  //limitedValue
+					Util.IntToBool(Convert.ToInt32(reader[3].ToString())), //weightIsPercent
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[4].ToString())), //weightValue
+					Convert.ToInt32(reader[5].ToString())); //fallmm
+
+		reader.Close();
+		Sqlite.Close();
+
+		return ljrtp;
+	}
+
+	public static void LastJumpRjTypeParamsInsertOrUpdate (LastJumpRjTypeParams ljrtp)
+	{
+		LastJumpRjTypeParams ljrtpFound = LastJumpRjTypeParamsSelect(ljrtp.name);
+//		LogB.Information("LastJumpRjTypeParamsInsertOrUpdate search: " + ljrtp.ToSqlString());
+		if(ljrtpFound.uniqueID == -1)
+			lastJumpRjTypeParamsInsert (ljrtp.ToSqlString());
+		else
+			lastJumpRjTypeParamsUpdate (ljrtp, ljrtpFound.uniqueID); //ljrtp comes from the gui choices, but we need the uniqueID
+	}
+
+	private static void lastJumpRjTypeParamsInsert (string ljrtp_string)
+	{
+		Sqlite.Open();
+		dbcmd.CommandText = "INSERT INTO " + Constants.LastJumpRjTypeParamsTable +
+			" (uniqueID, name, limitedValue, weightIsPercent, weightValue, fallmm) VALUES (" +
+			ljrtp_string + ")";
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		Sqlite.Close();
+	}
+
+	private static void lastJumpRjTypeParamsUpdate (LastJumpRjTypeParams ljrtp, int uniqueID)
+	{
+		Sqlite.Open();
+		LogB.Information("LastJumpRjTypeParamsUpdate ljrtp: " + ljrtp.ToSqlString());
+		dbcmd.CommandText = "UPDATE " + Constants.LastJumpRjTypeParamsTable +
+			" SET limitedValue = " + ljrtp.limitedValue +
+			", weightIsPercent = " + Util.BoolToInt(ljrtp.weightIsPercent) +
+			", weightValue = " + Util.ConvertToPoint(ljrtp.weightValue) +
+			", fallmm = " + ljrtp.fallmm +
+			" WHERE uniqueID = " + uniqueID;
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		Sqlite.Close();
+	}
 }	

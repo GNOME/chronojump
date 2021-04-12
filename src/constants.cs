@@ -184,6 +184,7 @@ public class Constants
 	public const string RunEncoderExerciseTable = "runEncoderExercise";
 
 	public const string LastJumpSimpleTypeParamsTable = "lastJumpSimpleTypeParams";
+	public const string LastJumpRjTypeParamsTable = "lastJumpRjTypeParams";
 
 	// Dummy variables that exists for translating purposes
 	// pragma warning is to avoid warnings of "defined and not used" for these variables.

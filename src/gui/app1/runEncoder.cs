@@ -270,10 +270,14 @@ public partial class ChronoJumpWindow
 		if(cairoRadial != null)
 			cairoRadial.ResetSpeedMax();
 
-		if(cairoGraphRaceAnalyzer_dt != null)
-			cairoGraphRaceAnalyzer_dt.Reset();
-		if(cairoGraphRaceAnalyzer_st != null)
-			cairoGraphRaceAnalyzer_st.Reset();
+		//blank Cairo scatterplot graphs
+		cairoGraphRaceAnalyzer_dt = null;
+		cairoGraphRaceAnalyzer_st = null;
+		cairoGraphRaceAnalyzerPoints_dt_l = new List<PointF>();
+		cairoGraphRaceAnalyzerPoints_st_l = new List<PointF>();
+		updateRaceAnalyzerCapturePositionTime(true);
+		updateRaceAnalyzerCaptureSpeedTime(true);
+
 
 		if(chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER) == 0)
 		{

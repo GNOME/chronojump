@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.16";
+	static string lastChronojumpDatabaseVersion = "2.17";
 
 	public Sqlite()
 	{
@@ -2919,6 +2919,14 @@ class Sqlite
 
 				currentVersion = updateVersion("2.16");
 			}
+			if(currentVersion == "2.16")
+			{
+				LogB.SQL("Created table lastJumpRjTypeParams");
+
+				SqliteJumpType.createTableLastJumpRjTypeParams();
+
+				currentVersion = updateVersion("2.17");
+			}
 
 
 
@@ -3045,6 +3053,7 @@ class Sqlite
 		SqliteJumpType.initializeTableJumpType();
 		SqliteJumpType.initializeTableJumpRjType();
 		SqliteJumpType.createTableLastJumpSimpleTypeParams();
+		SqliteJumpType.createTableLastJumpRjTypeParams();
 		
 		//runs
 		creationRate ++;
@@ -3141,6 +3150,7 @@ class Sqlite
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
 
+		//2.16 - 2.17 Converted DB to 2.17 Created table lastJumpRjTypeParams
 		//2.15 - 2.16 Converted DB to 2.16 Created table lastJumpSimpleTypeParams
 		//2.14 - 2.15 Converted DB to 2.15 Inserted into preferences: SessionLoadDisplay
 		//2.13 - 2.14 Converted DB to 2.14 Doing alter table run, runInterval, tempRunInterval add datetime

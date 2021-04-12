@@ -361,6 +361,8 @@ public partial class ChronoJumpWindow
 		setLabelContactsExerciseSelected(Constants.Menuitem_modes.JUMPSREACTIVE);
 		checkbutton_allow_finish_rj_after_time.Visible = false;
 	
+		LastJumpRjTypeParams ljrtp = SqliteJumpType.LastJumpRjTypeParamsSelect(myJumpType.Name); //search it on DB
+
 		if(myJumpType.FixedValue >= 0) {
 			string jumpsName = Catalog.GetString("jumps");
 			string secondsName = Catalog.GetString("seconds");
@@ -377,7 +379,9 @@ public partial class ChronoJumpWindow
 				extra_window_jumps_rj_spinbutton_limit.Value = myJumpType.FixedValue;
 			} else {
 				extra_window_jumps_rj_spinbutton_limit.Sensitive = true;
-				extra_window_jumps_rj_spinbutton_limit.Value = extra_window_jumps_rj_limited;
+				//extra_window_jumps_rj_spinbutton_limit.Value = extra_window_jumps_rj_limited;
+				if(ljrtp.uniqueID != -1)
+					extra_window_jumps_rj_spinbutton_limit.Value = ljrtp.limitedValue;
 			}
 			extra_window_showLimitData (true);
 		} else  //unlimited
@@ -395,12 +399,27 @@ public partial class ChronoJumpWindow
 
 		button_jump_type_delete_reactive.Sensitive = ! myJumpType.IsPredefined;
 
-		extra_window_jumps_rj_spinbutton_weight.Value = extra_window_jumps_rj_weight;
-		extra_window_jumps_rj_spinbutton_fall.Value = extra_window_jumps_rj_fall;
-		if (extra_window_jumps_rj_option == "Kg") {
-			extra_window_jumps_rj_radiobutton_kg.Active = true;
+		if( (myJumpType.HasWeight || myJumpType.HasFall) && ljrtp.uniqueID != -1) {
+			extra_window_jumps_rj_spinbutton_weight.Value = ljrtp.weightValue;
+			extra_window_jumps_rj_spinbutton_fall.Value = ljrtp.fallmm/10.0;
 		} else {
-			extra_window_jumps_rj_radiobutton_weight.Active = true;
+			extra_window_jumps_rj_spinbutton_weight.Value = extra_window_jumps_rj_weight;
+			extra_window_jumps_rj_spinbutton_fall.Value = extra_window_jumps_rj_fall;
+		}
+
+		if(ljrtp.uniqueID != -1)
+		{
+			LogB.Information("ljrtp.weightIsPercent: " + ljrtp.weightIsPercent.ToString());
+			if(ljrtp.weightIsPercent)
+				extra_window_jumps_rj_radiobutton_weight.Active = true;
+			else
+				extra_window_jumps_rj_radiobutton_kg.Active = true;
+		}
+		else {
+			if (extra_window_jumps_rj_option == "Kg")
+				extra_window_jumps_rj_radiobutton_kg.Active = true;
+			else
+				extra_window_jumps_rj_radiobutton_weight.Active = true;
 		}
 
 		if(! configChronojump.Exhibition)

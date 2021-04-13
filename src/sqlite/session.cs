@@ -250,7 +250,7 @@ class SqliteSession : Sqlite
 	//be careful because name is not unique
 	public static Session SelectByName(string name)
 	{
-		dbcmd.CommandText = "SELECT * FROM " + Constants.SessionTable + " WHERE name == \"" + name + "\"";
+		dbcmd.CommandText = "SELECT * FROM " + Constants.SessionTable + " WHERE LOWER(name) = LOWER(\"" + name + "\")";
 
 		List<Session> session_l = selectDo(dbcmd);
 		if(session_l.Count == 0)

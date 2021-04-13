@@ -859,7 +859,7 @@ public partial class ChronoJumpWindow
 		string yearMonthStr = UtilDate.GetCurrentYearMonthStr();
 		if(
 				configChronojump.SessionMode == Config.SessionModeEnum.MONTHLY &&
-				currentSession.Name != yearMonthStr &&
+				currentSession.Name.ToLower() != yearMonthStr.ToLower() &&
 				! configChronojump.CompujumpUserIsAdmin(currentPerson) )
 		{
 			currentSession = SqliteSession.SelectByName(yearMonthStr);

@@ -793,7 +793,9 @@ public partial class ChronoJumpWindow
 		List<UploadEncoderDataFullObject> listEncoderTemp = SqliteJson.SelectTempEncoder(true);
 		List<UploadSprintDataObject> listSprintTemp = SqliteJson.SelectTempSprint(true);
 
+		/*
 		//Upload them
+		TODO: disabled until find why says that database is not open
 		if(listEncoderTemp.Count > 0)
 		{
 			foreach(UploadEncoderDataFullObject uedfo in listEncoderTemp)
@@ -804,6 +806,7 @@ public partial class ChronoJumpWindow
 					SqliteJson.DeleteTempEncoder(true, uedfo.uniqueId); //delete the record
 			}
 		}
+		*/
 		if(listSprintTemp.Count > 0)
 		{
 			foreach(UploadSprintDataObject usdo in listSprintTemp)

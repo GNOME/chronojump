@@ -128,20 +128,22 @@ public class UtilDate
 		return dt;
 	}
 
+	//lowercase
 	public static string GetCurrentYearMonthStr()
 	{
 		DateTime dt = DateTime.Now;
 
-		return UtilAll.DigitsCreate(dt.Year,4) + "-" + Catalog.GetString(dt.ToString("MMMM"));
+		return UtilAll.DigitsCreate(dt.Year,4) + "-" + Catalog.GetString(dt.ToString("MMMM").ToLower());
 	}
 
 	//get a string of last month
+	//lowercase
 	public static string GetCurrentYearLastMonthStr()
 	{
 		DateTime dt = DateTime.Now;
 		dt = dt.AddMonths(-1);
 
-		return UtilAll.DigitsCreate(dt.Year,4) + "-" + Catalog.GetString(dt.ToString("MMMM"));
+		return UtilAll.DigitsCreate(dt.Year,4) + "-" + Catalog.GetString(dt.ToString("MMMM").ToLower());
 	}
 
 	public static double DateTimeYearDayAsDouble(DateTime dt)

@@ -131,12 +131,17 @@ public class JsonCompujump : Json
 	//to retrieve images from flask (:5000)
 	private string getImagesUrl()
 	{
+		/*
 		int posOfLastColon = serverUrl.LastIndexOf(':');
 
 		if(django)
 			return serverUrl.Substring(0, posOfLastColon) + ":8000/media/";
 		else
 			return serverUrl.Substring(0, posOfLastColon) + ":5000/static/images/photos/";
+			*/
+
+		//Lenin server
+		return serverUrl;
 	}
 
 	//imageHalfUrl is "jugadors/*.jpg"

@@ -136,7 +136,11 @@ public partial class ChronoJumpWindow
 		if(configChronojump.CompujumpStationMode != Constants.Menuitem_modes.UNDEFINED)
 		{
 			button_show_modes_contacts.Visible = false;
-			button_show_modes_encoder.Visible = false;
+
+			//button_show_modes_encoder.Visible = false;
+			//do not allow to change modes
+			hbox_change_modes_encoder.Visible = false;
+
 		}
 
 		if(

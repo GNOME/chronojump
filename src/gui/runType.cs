@@ -336,8 +336,8 @@ public class RunTypeAddWindow
 		foreach(Gtk.Entry entry in hbox_distance_variable.Children)
 			hbox_distance_variable.Remove(entry);
 
-		int wc = 3; //widthChars (width of the entry)
-		int ml = 3; //maxLength (max chars to entry)
+		int wc = 5; //widthChars (width of the entry)
+		int ml = 5; //maxLength (max chars to entry)
 		for (int i = 0; i < colsNum; i ++) {
 			switch(i) {
 				case 0: 

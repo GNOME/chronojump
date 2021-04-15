@@ -691,7 +691,7 @@ public partial class ChronoJumpWindow
 	public void app1s_ShowLabelImportedOk()
 	{
 		if(app1s_radio_import_new_session.Active)
-			app1s_label_import_done_at_new_session.Visible = true;
+			app1s_hbox_import_done_at_new_session.Visible = true;
 		else
 			app1s_label_import_done_at_current_session.Visible = true;
 	}
@@ -883,13 +883,26 @@ public partial class ChronoJumpWindow
 	}
 
 	//import notebook page 4 buttons
+	private void on_app1s_button_import_at_new_done_do_load_clicked (object o, EventArgs args)
+	{
+		//ID has to be the last one, get the last session
+		List<Session> session_l = SqliteSession.SelectAll(Sqlite.Orders_by.ID_DESC);
+		if(session_l == null && session_l.Count == 0)
+			return;
+
+		currentSession = session_l[0];
+		on_load_session_accepted();
+		notebook_supSetOldPage();
+	}
+
 	private void app1s_on_button_import_close_clicked(object o, EventArgs args)
 	{
 		app1s_notebook.CurrentPage = app1s_PAGE_MODES;
 	}
+
 	private void app1s_on_button_import_again_clicked(object o, EventArgs args)
 	{
-		app1s_label_import_done_at_new_session.Visible = false;
+		app1s_hbox_import_done_at_new_session.Visible = false;
 		app1s_label_import_done_at_current_session.Visible = false;
 		app1s_scrolledwindow_import_error.Visible = false;
 

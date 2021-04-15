@@ -97,7 +97,7 @@ public partial class ChronoJumpWindow
 
 	//notebook tab 4
 	[Widget] Gtk.ProgressBar app1s_progressbarImport;
-	[Widget] Gtk.Label app1s_label_import_done_at_new_session;
+	[Widget] Gtk.HBox app1s_hbox_import_done_at_new_session;
 	[Widget] Gtk.Label app1s_label_import_done_at_current_session;
 	[Widget] Gtk.ScrolledWindow app1s_scrolledwindow_import_error;
 	[Widget] Gtk.TextView app1s_textview_import_error;

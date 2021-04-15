@@ -47,7 +47,7 @@ public class Person {
 	}
 
 	//coming from compujump server
-	public Person(bool insertPerson, int uniqueID, string name, string rfid) //TODO:, string clubID)
+	public Person(bool insertPerson, int uniqueID, string name, string rfid, string image) //TODO:, string clubID)
 	{
 		this.uniqueID = uniqueID;
 		this.name = name;
@@ -59,7 +59,7 @@ public class Person {
 		this.future1 = rfid;
 		//TODO: this.future2 = clubID;
 		this.serverUniqueID = Constants.ServerUndefinedID;
-		this.linkServerImage = "";
+		this.linkServerImage = image;
 
 		/*
 		 * Before insertion check that uniqueID exists locally

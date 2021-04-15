@@ -749,21 +749,7 @@ public partial class ChronoJumpWindow
 
 				if(json.LastPersonWasInserted)
 				{
-					string imageFile = json.LastPersonByRFIDImageURL;
-					if(imageFile != null && imageFile != "")
-					{
-						string image_dest = Util.GetPhotoFileName(false, currentPerson.UniqueID);
-						if(UtilMultimedia.GetImageType(imageFile) == UtilMultimedia.ImageTypes.PNG)
-							image_dest = Util.GetPhotoPngFileName(false, currentPerson.UniqueID);
-
-						bool downloaded = json.DownloadImage(json.LastPersonByRFIDImageURL, currentPerson.UniqueID);
-						if(downloaded)
-							File.Copy(
-									Path.Combine(Path.GetTempPath(), currentPerson.UniqueID.ToString()),
-									image_dest,
-									true); //overwrite
-					}
-
+					compujumpDownloadImage (json, json.LastPersonByRFIDImageURL, currentPerson.UniqueID);
 					person_added(); //GTK
 				} else {
 					personChanged(); //GTK
@@ -785,6 +771,11 @@ public partial class ChronoJumpWindow
 			}
 		} else {
 			LogB.Information("RFID person exists locally!!");
+
+			//if image changed, download it
+			if(pServer.UniqueID != -1 && pServer.LinkServerImage != pLocal.LinkServerImage)
+				compujumpDownloadImage (json, pServer.LinkServerImage, pServer.UniqueID);
+
 			if(rfidIsDifferent || dialogPersonPopup == null || ! dialogPersonPopup.Visible)
 			{
 				string yearMonthStr = UtilDate.GetCurrentYearMonthStr();
@@ -869,6 +860,22 @@ public partial class ChronoJumpWindow
 		//LogB.Information(" threadRFID:" + threadRFID.ThreadState.ToString());
 
 		return true;
+	}
+
+	private void compujumpDownloadImage (JsonCompujump json, string url, int personID)
+	{
+		if(url == null || url == "")
+			return;
+
+		string image_dest = Util.GetPhotoFileName(false, personID);
+		if(UtilMultimedia.GetImageType(url) == UtilMultimedia.ImageTypes.PNG)
+			image_dest = Util.GetPhotoPngFileName(false, personID);
+
+		if(json.DownloadImage(url, personID))
+			File.Copy(
+					Path.Combine(Path.GetTempPath(), personID.ToString()),
+					image_dest,
+					true); //overwrite
 	}
 
 	//load current session if MONTHLY and current session is not current month and currentPerson is not compumpAdminID

@@ -291,7 +291,8 @@ class SqlitePersonSession : Sqlite
 					reader[6].ToString(),			//description
 					reader[7].ToString(),			//future1: rfid
 					reader[8].ToString(),			//future2: clubID
-					Convert.ToInt32(reader[9].ToString())	//serverUniqueID
+					Convert.ToInt32(reader[9].ToString()),	//serverUniqueID
+					reader[10].ToString()			//linkServerImage
 					);
 			person_l.Add(person);
 		}
@@ -336,7 +337,8 @@ class SqlitePersonSession : Sqlite
 					reader[6].ToString(),			//description
 					reader[7].ToString(),			//future1: rfid
 					reader[8].ToString(),			//future2: clubID
-					Convert.ToInt32(reader[9].ToString())	//serverUniqueID
+					Convert.ToInt32(reader[9].ToString()),	//serverUniqueID
+					reader[10].ToString()			//linkServerImage
 					);
 
 			if(returnPersonAndPSlist) {
@@ -600,7 +602,7 @@ class SqlitePersonSessionTransaction : Sqlite
 					foreach(Person p in persons) {
 						dbcmdTr.CommandText = 
 							"INSERT INTO " + Constants.PersonTable +
-							" (uniqueID, name, sex, dateBorn, race, countryID, description, future1, future2, serverUniqueID) " + 
+							" (uniqueID, name, sex, dateBorn, race, countryID, description, future1, future2, serverUniqueID, linkServerImage) " +
 							" VALUES (" + p.ToSQLInsertString() + ")";
 						LogB.SQL(dbcmdTr.CommandText.ToString());
 						dbcmdTr.ExecuteNonQuery();

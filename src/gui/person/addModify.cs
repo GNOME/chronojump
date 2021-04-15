@@ -1217,7 +1217,7 @@ public class PersonAddModifyWindow
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_countries), countries)),
 					textview_description.Buffer.Text,
 					"", clubID, //future1: rfid; future2: clubID
-					Constants.ServerUndefinedID, false); //dbconOpened
+					Constants.ServerUndefinedID, "", false); //dbconOpened
 					
 			LogB.Information("Going to insert personSession");
 			currentPersonSession = new PersonSession (
@@ -1257,7 +1257,7 @@ public class PersonAddModifyWindow
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_countries), countries)),
 					textview_description.Buffer.Text,
 					"", clubID, //future1: rfid; future2: clubID
-					serverUniqueID);
+					serverUniqueID, currentPerson.LinkServerImage);
 			SqlitePerson.Update (currentPerson); 
 		
 			//we only need to update personSession

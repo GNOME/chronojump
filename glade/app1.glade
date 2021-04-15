@@ -25065,6 +25065,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -31232,18 +31235,6 @@ Concentric</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Tests will be filmed</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack_type">end</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <widget class="GtkHBox" id="hbox_video_encoder_capturing">
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
@@ -31271,6 +31262,18 @@ Concentric</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Tests will be filmed</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -39723,6 +39726,9 @@ then click this button.</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -42753,11 +42759,37 @@ then click this button.</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
                                                             <child>
+                                                            <widget class="GtkHBox" id="app1s_hbox_import_done_at_new_session">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">12</property>
+                                                            <child>
                                                             <widget class="GtkLabel" id="app1s_label_import_done_at_new_session">
+                                                            <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">Imported to a new session. You can load it now in Session - Load.</property>
+                                                            <property name="label" translatable="yes">Imported to a new session.</property>
                                                             <property name="wrap">True</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkButton" id="app1s_button_import_at_new_done_do_load">
+                                                            <property name="label" translatable="yes">Load session</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_app1s_button_import_at_new_done_do_load_clicked" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>

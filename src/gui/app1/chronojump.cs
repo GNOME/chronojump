@@ -3303,6 +3303,7 @@ public partial class ChronoJumpWindow
 
 				//notebook_encoder_capture_extra_mass.CurrentPage = 0;
 				//TODO: show also info on the top
+				label_button_encoder_select.Text = Catalog.GetString("Configure gravitatory encoder");
 				label_encoder_exercise_mass.Visible = true;
 				vbox_encoder_exercise_mass.Visible = true;
 				label_encoder_exercise_inertia.Visible = false;
@@ -3339,6 +3340,7 @@ public partial class ChronoJumpWindow
 
 				//notebook_encoder_capture_extra_mass.CurrentPage = 1;
 				//TODO: show also info on the top
+				label_button_encoder_select.Text = Catalog.GetString("Configure inertial encoder");
 				label_encoder_exercise_mass.Visible = false;
 				vbox_encoder_exercise_mass.Visible = false;
 				label_encoder_exercise_inertia.Visible = true;

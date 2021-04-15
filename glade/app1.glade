@@ -33839,10 +33839,10 @@ then click this button.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label64">
+                                                            <widget class="GtkLabel" id="label_button_encoder_select">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Configure</property>
+                                                            <property name="label" translatable="yes">Configure gravitatory encoder</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>

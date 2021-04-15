@@ -32,6 +32,7 @@ using System.Diagnostics; 	//for detect OS and for Process
 public partial class ChronoJumpWindow 
 {
 	[Widget] Gtk.HBox hbox_encoder_capture_top;
+	[Widget] Gtk.Label label_button_encoder_select;
 	[Widget] Gtk.Label label_encoder_exercise_mass;
 	[Widget] Gtk.VBox vbox_encoder_exercise_mass;
 	[Widget] Gtk.Label label_encoder_exercise_inertia;
@@ -1914,6 +1915,7 @@ public partial class ChronoJumpWindow
 		if(encoderConfigurationCurrent.has_inertia)
 		{
 			notebook_encoder_top.Page = 1;
+			//label_button_encoder_select.Text = Catalog.GetString("Configure inertial encoder");
 			label_encoder_exercise_mass.Visible = false;
 			vbox_encoder_exercise_mass.Visible = false;
 			label_encoder_exercise_inertia.Visible = true;
@@ -1936,6 +1938,7 @@ public partial class ChronoJumpWindow
 		}
 		else {
 			notebook_encoder_top.Page = 0;
+			//label_button_encoder_select.Text = Catalog.GetString("Configure gravitatory encoder");
 			label_encoder_exercise_mass.Visible = true;
 			vbox_encoder_exercise_mass.Visible = true;
 			label_encoder_exercise_inertia.Visible = false;

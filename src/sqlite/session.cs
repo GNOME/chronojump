@@ -271,9 +271,13 @@ class SqliteSession : Sqlite
 		//return (Session) selectDo(dbcmd)[0];
 		return session_l[0];
 	}
-	public static List<Session> SelectAll()
+	public static List<Session> SelectAll(Orders_by orderBy)
 	{
-		dbcmd.CommandText = "SELECT * FROM " + Constants.SessionTable;
+		string orderByStr = " ORDER BY uniqueID";
+		if(orderBy == Orders_by.ID_DESC)
+			orderByStr += " DESC";
+
+		dbcmd.CommandText = "SELECT * FROM " + Constants.SessionTable + orderByStr;
 		return selectDo(dbcmd);
 	}
 	private static List<Session> selectDo(SqliteCommand mydbcmd)

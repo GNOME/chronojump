@@ -206,7 +206,7 @@ class SqliteJump : Sqlite
 	{
 	  //jumps previous to DB 1.82 have no datetime on jump
 	  //find session datetime for that jumps
-	  List<Session> session_l = SqliteSession.SelectAll();
+	  List<Session> session_l = SqliteSession.SelectAll(Sqlite.Orders_by.DEFAULT);
 
 	  //for personNameInComment
 	  List<Person> person_l =
@@ -453,7 +453,7 @@ class SqliteJump : Sqlite
 	{
 	  //jumps previous to DB 1.82 have no datetime on jump
 	  //find session datetime for that jumps
-	  List<Session> session_l = SqliteSession.SelectAll();
+	  List<Session> session_l = SqliteSession.SelectAll(Sqlite.Orders_by.DEFAULT);
 
 	  string personID = pID.ToString();
 	  string sessionID = sID.ToString();
@@ -501,7 +501,7 @@ class SqliteJump : Sqlite
 	{
 	  //jumps previous to DB 1.82 have no datetime on jump
 	  //find session datetime for that jumps
-	  List<Session> session_l = SqliteSession.SelectAll();
+	  List<Session> session_l = SqliteSession.SelectAll(Sqlite.Orders_by.DEFAULT);
 
 	  string personID = pID.ToString();
 	  string sessionID = sID.ToString();

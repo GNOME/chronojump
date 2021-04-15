@@ -62,6 +62,7 @@ public class RunTypeAddWindow
 	[Widget] Gtk.Alignment alignment_vbox_distance_variable;
 	[Widget] Gtk.ComboBox combo_distance_different_tracks;
 	[Widget] Gtk.HBox hbox_distance_variable;
+	[Widget] Gtk.Label label_decimal_separator;
 
 
 	[Widget] Gtk.TextView textview_description;
@@ -160,6 +161,10 @@ public class RunTypeAddWindow
 	
 		combo_distance_different_tracks.Active = 0;
 		reset_hbox_distance_variable (2);
+
+		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
+		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
+		label_decimal_separator.Text += string.Format(Catalog.GetString("(decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
 
 		textview_description.Buffer.Changed += new EventHandler(descriptionChanged);
 		descriptionChanging = false;

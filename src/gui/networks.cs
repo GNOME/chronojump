@@ -773,7 +773,9 @@ public partial class ChronoJumpWindow
 			LogB.Information("RFID person exists locally!!");
 
 			//if image changed, download it
-			if(pServer.UniqueID != -1 && pServer.LinkServerImage != pLocal.LinkServerImage)
+			if( pServer.UniqueID != -1 &&
+					(pServer.LinkServerImage != pLocal.LinkServerImage ||
+					! Util.FileExists(compujumpDownloadImageGetDest (pServer.LinkServerImage, pServer.UniqueID))) )
 				compujumpDownloadImage (json, pServer.LinkServerImage, pServer.UniqueID);
 
 			if(rfidIsDifferent || dialogPersonPopup == null || ! dialogPersonPopup.Visible)
@@ -867,15 +869,22 @@ public partial class ChronoJumpWindow
 		if(url == null || url == "")
 			return;
 
-		string image_dest = Util.GetPhotoFileName(false, personID);
-		if(UtilMultimedia.GetImageType(url) == UtilMultimedia.ImageTypes.PNG)
-			image_dest = Util.GetPhotoPngFileName(false, personID);
+		string image_dest = compujumpDownloadImageGetDest (url, personID);
 
 		if(json.DownloadImage(url, personID))
 			File.Copy(
 					Path.Combine(Path.GetTempPath(), personID.ToString()),
 					image_dest,
 					true); //overwrite
+	}
+	//get destination file of the image: multimedia/photos/uniqueID. (jpg or png)
+	private string compujumpDownloadImageGetDest (string linkServerImage, int personID)
+	{
+		string image_dest = Util.GetPhotoFileName(false, personID);
+		if(UtilMultimedia.GetImageType(linkServerImage) == UtilMultimedia.ImageTypes.PNG)
+			image_dest = Util.GetPhotoPngFileName(false, personID);
+
+		return image_dest;
 	}
 
 	//load current session if MONTHLY and current session is not current month and currentPerson is not compumpAdminID

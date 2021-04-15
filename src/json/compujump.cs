@@ -124,7 +124,7 @@ public class JsonCompujump : Json
 		 */
 		LastPersonWasInserted = (personTemp.UniqueID == -1);
 
-		return new Person(LastPersonWasInserted, id, player, rfid);
+		return new Person(LastPersonWasInserted, id, player, rfid, image);
 	}
 
 

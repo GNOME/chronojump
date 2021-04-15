@@ -693,11 +693,11 @@ public partial class ChronoJumpWindow
 
 		//select person by RFID
 		Person pLocal = SqlitePerson.SelectByRFID(capturedRFID);
+		Person pServer = json.GetPersonByRFID(capturedRFID); //needed to check if photo changed (or in the future height,weight, ...)
+
 		if(pLocal.UniqueID == -1)
 		{
 			LogB.Information("RFID person does not exist locally!!");
-
-			Person pServer = json.GetPersonByRFID(capturedRFID);
 
 			if(! json.Connected) {
 				LogB.Information("Cannot connect with server!");
@@ -772,7 +772,18 @@ public partial class ChronoJumpWindow
 				pChangedShowTasks = true;
 			}
 		}
-		else {
+		else if(json.Connected && pLocal.UniqueID != pServer.UniqueID)
+		{
+			LogB.Information("PersonID on client does not match personID on server for rfid: " + capturedRFID);
+			if(dialogMessageNotAtServer == null || ! dialogMessageNotAtServer.Visible)
+			{
+				dialogMessageNotAtServer = new DialogMessage(Constants.MessageTypes.WARNING,
+						string.Format("PersonID {0} on client does not match personID {1} on server for rfid: {2}",
+							pLocal.UniqueID, pServer.UniqueID, capturedRFID)); //GTK
+
+				compujumpPersonLogoutDo();
+			}
+		} else {
 			LogB.Information("RFID person exists locally!!");
 			if(rfidIsDifferent || dialogPersonPopup == null || ! dialogPersonPopup.Visible)
 			{

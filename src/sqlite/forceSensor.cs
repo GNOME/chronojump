@@ -320,7 +320,8 @@ class SqliteForceSensor : Sqlite
 								Constants.RaceUndefinedID,
 								Constants.CountryUndefinedID,
 								"", "", "", //description; future1: rfid; future2: clubID
-								Constants.ServerUndefinedID, true); //dbconOpened
+								Constants.ServerUndefinedID, "", //linkServerImage
+								true); //dbconOpened
 						unknownPersonID = pUnknown.UniqueID;
 					}
 					p.UniqueID = unknownPersonID;

@@ -48,12 +48,13 @@ class SqlitePerson : Sqlite
 			"description TEXT, " +	
 			"future1 TEXT, " + //rfid
 			"future2 TEXT, " + //clubID
-			"serverUniqueID INT ) ";
+			"serverUniqueID INT, " +
+			"linkServerImage TEXT ) "; //for networks
 		dbcmd.ExecuteNonQuery();
 	 }
 
 	public static int Insert(bool dbconOpened, string uniqueID, string name, string sex, DateTime dateBorn, 
-			int race, int countryID, string description, string future1, string future2, int serverUniqueID)
+			int race, int countryID, string description, string future1, string future2, int serverUniqueID, string linkServerImage)
 	{
 		LogB.SQL("going to insert");
 		if(! dbconOpened)
@@ -66,9 +67,10 @@ class SqlitePerson : Sqlite
 		//ATTENTION: if this changes, change the Person.ToSQLInsertString()
 		// -----------------------
 		string myString = "INSERT INTO " + Constants.PersonTable + 
-			" (uniqueID, name, sex, dateBorn, race, countryID, description, future1, future2, serverUniqueID) VALUES (" + uniqueID + ", \"" +
+			" (uniqueID, name, sex, dateBorn, race, countryID, description, future1, future2, serverUniqueID, linkServerImage) VALUES (" + uniqueID + ", \"" +
 			name + "\", \"" + sex + "\", \"" + UtilDate.ToSql(dateBorn) + "\", " + 
-			race + ", " + countryID + ", \"" + description + "\", \"" + future1 + "\", \"" + future2 + "\", " + serverUniqueID + ")";
+			race + ", " + countryID + ", \"" + description + "\", \"" +
+			future1 + "\", \"" + future2 + "\", " + serverUniqueID + ", \"" + linkServerImage + "\")";
 		
 		dbcmd.CommandText = myString;
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -125,7 +127,8 @@ class SqlitePerson : Sqlite
 					reader[6].ToString(), 			//description
 					reader[7].ToString(), 			//future1: rfid
 					reader[8].ToString(), 			//future2: clubID
-					Convert.ToInt32(reader[9].ToString()) //serverUniqueID
+					Convert.ToInt32(reader[9].ToString()), //serverUniqueID
+					reader[10].ToString() 			//linkServerImage
 					);
 		}
 		reader.Close();
@@ -270,7 +273,8 @@ finishForeach:
 						reader2[6].ToString(), 			//description
 						reader2[7].ToString(), 			//future1: rfid
 						reader2[8].ToString(), 			//future2: clubID
-						Convert.ToInt32(reader2[9].ToString()) //serverUniqueID
+						Convert.ToInt32(reader2[9].ToString()), //serverUniqueID
+						reader2[10].ToString() 			//linkServerImage
 						);
 				arrayReturn.Add(p);
 			}
@@ -635,7 +639,8 @@ finishForeach:
 			"\", future1 = \"" + myPerson.Future1 + 		//rfid
 			"\", future2 = \"" + myPerson.Future2 + 		//clubID
 			"\", serverUniqueID = " + myPerson.ServerUniqueID +
-			" WHERE uniqueID == " + myPerson.UniqueID;
+			", linkServerImage = \"" + myPerson.LinkServerImage + //linkServerImage
+			"\" WHERE uniqueID == " + myPerson.UniqueID;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();

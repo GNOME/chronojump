@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.17";
+	static string lastChronojumpDatabaseVersion = "2.18";
 
 	public Sqlite()
 	{
@@ -1173,13 +1173,25 @@ class Sqlite
 				Sqlite.Close();
 				currentVersion = "0.76";
 			}
+
+			bool person77AddedLinkServerImage = false;
+
 			if(currentVersion == "0.76") {
 				Sqlite.Open();
+
+				//but first add migration from 2.17 to 2.18
+				LogB.SQL("Person77 adding field: linkServerImage (for networks)");
+				try {
+					executeSQL("ALTER TABLE " + Constants.PersonTable + " ADD COLUMN linkServerImage TEXT;");
+				} catch {
+					LogB.SQL("Catched. maybe person77.linkServerImage already exists.");
+				}
+				person77AddedLinkServerImage = true;
 				
 				convertPersonAndPersonSessionTo77();
 				SqlitePreferences.Update ("databaseVersion", "0.77", true); 
 				LogB.SQL("Converted DB to 0.77 (person77, personSession77)"); 
-				
+
 				Sqlite.Close();
 				currentVersion = "0.77";
 			}
@@ -2458,6 +2470,18 @@ class Sqlite
 			}
 			if(currentVersion == "1.68")
 			{
+				if(! person77AddedLinkServerImage)
+				{
+					//but first add migration from 2.17 to 2.18
+					LogB.SQL("Person77 adding field: linkServerImage (for networks)");
+					try {
+						executeSQL("ALTER TABLE " + Constants.PersonTable + " ADD COLUMN linkServerImage TEXT;");
+					} catch {
+						LogB.SQL("Catched. maybe person77.linkServerImage already exists.");
+					}
+					person77AddedLinkServerImage = true;
+				}
+
 				LogB.SQL("Imported force sensor text files into SQL");
 
 				SqliteForceSensor.import_from_1_68_to_1_69();
@@ -2927,7 +2951,21 @@ class Sqlite
 
 				currentVersion = updateVersion("2.17");
 			}
+			if(currentVersion == "2.17")
+			{
+				if(! person77AddedLinkServerImage)
+				{
+					LogB.SQL("Person77 adding field: linkServerImage (for networks)");
+					try {
+						executeSQL("ALTER TABLE " + Constants.PersonTable + " ADD COLUMN linkServerImage TEXT;");
+					} catch {
+						LogB.SQL("Catched. maybe person77.linkServerImage already exists.");
 
+					}
+				}
+
+				currentVersion = updateVersion("2.18");
+			}
 
 
 
@@ -3150,6 +3188,7 @@ class Sqlite
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
 
+		//2.17 - 2.18 Converted DB to 2.18 Person77 ALTER TABLE added field: linkServerImage (for networks)
 		//2.16 - 2.17 Converted DB to 2.17 Created table lastJumpRjTypeParams
 		//2.15 - 2.16 Converted DB to 2.16 Created table lastJumpSimpleTypeParams
 		//2.14 - 2.15 Converted DB to 2.15 Inserted into preferences: SessionLoadDisplay
@@ -3527,7 +3566,8 @@ class Sqlite
 				       pOld.CountryID,
 				       pOld.Description,
 				       "", "", 	//future1: rfid; future2: clubID
-				       pOld.ServerUniqueID
+				       pOld.ServerUniqueID,
+				       "" //linkServerImage
 				       );
 			p.InsertAtDB(true, Constants.PersonTable);
 		

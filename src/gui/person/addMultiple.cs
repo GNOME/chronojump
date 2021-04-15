@@ -594,7 +594,8 @@ public class PersonAddMultipleWindow
 							Constants.RaceUndefinedID,
 							Constants.CountryUndefinedID,
 							"", "", "", 		//description, future1: rfid, future2: clubID
-							Constants.ServerUndefinedID
+							Constants.ServerUndefinedID,
+							""			//linkServerImage
 							);
 				
 				persons.Add(currentPerson);

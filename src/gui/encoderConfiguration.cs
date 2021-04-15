@@ -172,6 +172,14 @@ public class EncoderConfigurationWindow
 			EncoderConfigurationWindowBox = new EncoderConfigurationWindow ();
 		}
 
+		string title = Catalog.GetString("Select encoder configuration");
+		if(encoderGI == Constants.EncoderGI.GRAVITATORY)
+			title += " - " + Catalog.GetString("Gravitatory");
+		else if(encoderGI == Constants.EncoderGI.INERTIAL)
+			title += " - " + Catalog.GetString("Inertial");
+
+		EncoderConfigurationWindowBox.encoder_configuration.Title = title;
+
 		EncoderConfigurationWindowBox.encoderGI = encoderGI;
 		EncoderConfigurationWindowBox.updateGUIFromEncoderConfiguration(econfSO.encoderConfiguration);
 		EncoderConfigurationWindowBox.main_gui_anchorage_str = anchorage_str;

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2021-04-15 16:08+0000\n"
-"PO-Revision-Date: 2021-04-15 21:05+0300\n"
+"POT-Creation-Date: 2021-04-16 15:01+0000\n"
+"PO-Revision-Date: 2021-04-16 19:54+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -697,8 +697,7 @@ msgstr "Підхід"
 
 #: ../glade/app1.glade.h:129
 msgid "Race Intervallic"
-msgstr ""
-"Інтервальний забіг"
+msgstr "Інтервальний забіг"
 
 #: ../glade/app1.glade.h:130
 msgid "Max:"
@@ -1024,8 +1023,7 @@ msgstr "секунд"
 
 #: ../glade/app1.glade.h:198
 msgid "ppm"
-msgstr ""
-"п/хв."
+msgstr "п/хв."
 
 #: ../glade/app1.glade.h:199 ../glade/jump_type_add.glade.h:15
 #: ../glade/run_type_add.glade.h:12
@@ -1034,13 +1032,11 @@ msgstr "без обмежень"
 
 #: ../glade/app1.glade.h:200
 msgid "unlimited pulses"
-msgstr ""
-"необмежені пульсації"
+msgstr "необмежені пульсації"
 
 #: ../glade/app1.glade.h:201
 msgid "total pulses"
-msgstr ""
-"загалом пульсацій"
+msgstr "загалом пульсацій"
 
 #: ../glade/app1.glade.h:202
 msgid "Need to connect two Chronopics"
@@ -1052,8 +1048,7 @@ msgstr "Вилучити першу"
 
 #: ../glade/app1.glade.h:204
 msgid "Delete first TC and TF of each chronopic"
-msgstr ""
-"Вилучити перший TC і TF кожної chronopic"
+msgstr "Вилучити перший TC і TF кожної chronopic"
 
 #: ../glade/app1.glade.h:205
 msgid "Synchronize"
@@ -1822,8 +1817,7 @@ msgstr "Загальна маса"
 
 #: ../glade/app1.glade.h:386
 msgid "1RM window"
-msgstr ""
-"Вікно 1RM"
+msgstr "Вікно 1RM"
 
 #. inertial
 #: ../glade/app1.glade.h:387 ../glade/preferences_win.glade.h:98
@@ -1855,7 +1849,6 @@ msgstr "Маса"
 #. notebook_encoder_capture_extra_mass.CurrentPage = 0;
 #. TODO: show also info on the top
 #: ../glade/app1.glade.h:392 ../src/gui/app1/chronojump.cs:3306
-#| msgid "Gravitatory encoder"
 msgid "Configure gravitatory encoder"
 msgstr "Налаштувати гравітаційний кодувальник"
 
@@ -2069,8 +2062,7 @@ msgstr "Надіслати поштою"
 
 #: ../glade/app1.glade.h:442
 msgid "Save 1RM value"
-msgstr ""
-"Зберегти значення 1RM"
+msgstr "Зберегти значення 1RM"
 
 #: ../glade/app1.glade.h:443
 msgid "Export repetition from A to B"
@@ -2826,8 +2818,7 @@ msgstr ""
 
 #: ../glade/edit_event.glade.h:56
 msgid "Sit back down"
-msgstr ""
-"Сідання"
+msgstr "Сідання"
 
 #: ../glade/edit_event.glade.h:57
 msgid "Able to sit down smoothly without using hands."
@@ -3880,13 +3871,11 @@ msgstr "Кожна доріжка завершується перед найбі
 
 #: ../glade/preferences_win.glade.h:57
 msgid "on simple races"
-msgstr ""
-"на простих забігах"
+msgstr "на простих забігах"
 
 #: ../glade/preferences_win.glade.h:58
 msgid "on intervallic races"
-msgstr ""
-"на інтервальних забігах"
+msgstr "на інтервальних забігах"
 
 #: ../glade/preferences_win.glade.h:60
 msgid "Recording time"
@@ -3991,8 +3980,7 @@ msgstr "Робота"
 
 #: ../glade/preferences_win.glade.h:92
 msgid "Joules"
-msgstr ""
-"Джоулі"
+msgstr "Джоулі"
 
 #: ../glade/preferences_win.glade.h:93
 msgid "Units"
@@ -4042,8 +4030,7 @@ msgstr "Рекомендовано: Зважене^2"
 
 #: ../glade/preferences_win.glade.h:106
 msgid "1RM prediction"
-msgstr ""
-"Передбачення 1RM"
+msgstr "Передбачення 1RM"
 
 #: ../glade/preferences_win.glade.h:107
 msgid "other"
@@ -4075,8 +4062,7 @@ msgstr "Старий метод Chronojump"
 
 #: ../glade/preferences_win.glade.h:121
 msgid "A, B slider increment"
-msgstr ""
-"Приріст повзунка A, B"
+msgstr "Приріст повзунка A, B"
 
 #: ../glade/preferences_win.glade.h:122
 msgid "Default:"
@@ -4750,14 +4736,16 @@ msgstr "І запускаємо Chronojump знову."
 #: ../src/chronojump.cs:383
 msgid "All DJ jumps have been renamed as 'DJna' (Drop Jumps with No Arms)."
 msgstr ""
-"Усі стрибки після падіння було перейменовано на «DJna» (стрибки після падіння без рук)."
+"Усі стрибки після падіння було перейменовано на «DJna» (стрибки після "
+"падіння без рук)."
 
 #: ../src/chronojump.cs:384
 msgid ""
 "If your Drop Jumps were executed using the arms, please rename them manually "
 "as 'DJa'."
 msgstr ""
-"Якщо ваші стрибки після падіння було виконано із використанням рук, будь ласка, перейменуйте їх вручну на «DJa»."
+"Якщо ваші стрибки після падіння було виконано із використанням рук, будь "
+"ласка, перейменуйте їх вручну на «DJa»."
 
 #. Console.Clear();
 #: ../src/chronojump.cs:394
@@ -5193,8 +5181,7 @@ msgstr "Переглянути усі підходи"
 
 #: ../src/constants.cs:574
 msgid "See all pulses"
-msgstr ""
-"Переглянути усі пульсації"
+msgstr "Переглянути усі пульсації"
 
 #: ../src/constants.cs:709
 msgid "Typical serial and USB-serial ports on Windows:"
@@ -5562,8 +5549,7 @@ msgstr ""
 
 #: ../src/constants.cs:1421
 msgid "Non propulsive"
-msgstr ""
-"Неспонукальна"
+msgstr "Неспонукальна"
 
 #: ../src/encoder.cs:969
 msgid "Eccentric-concentric"
@@ -6328,7 +6314,6 @@ msgstr "Будь ласка, встановіть його звідси:"
 #. notebook_encoder_capture_extra_mass.CurrentPage = 1;
 #. TODO: show also info on the top
 #: ../src/gui/app1/chronojump.cs:3343
-#| msgid "Inertial encoder"
 msgid "Configure inertial encoder"
 msgstr "Налаштувати інерційний кодувальник"
 
@@ -6422,8 +6407,7 @@ msgstr "Слід створити або вибрати вправу."
 
 #: ../src/gui/app1/encoder.cs:1140
 msgid "Load 1RM"
-msgstr ""
-"Навантаження 1RM"
+msgstr "Навантаження 1RM"
 
 #: ../src/gui/app1/encoder.cs:1141 ../src/gui/encoderSelectRepetitions.cs:478
 msgid "Session date"
@@ -6433,8 +6417,7 @@ msgstr "Дата сеансу"
 #: ../src/gui/app1/encoder.cs:1160
 #, csharp-format
 msgid "Saved 1RM values of athlete {0} in {1} exercise."
-msgstr ""
-"Збережено значення 1RM атлета {0} у {1} вправі."
+msgstr "Збережено значення 1RM атлета {0} у {1} вправі."
 
 #: ../src/gui/app1/encoder.cs:1162 ../src/gui/encoderSelectRepetitions.cs:259
 msgid "If you want to delete a row, right click on it."
@@ -6753,9 +6736,10 @@ msgstr "Операцію скасовано."
 msgid "Saved 1RM: {0} Kg."
 msgstr "Збережний 1RM: {0} кг."
 
-#: ../src/gui/app1/encoder.cs:5097 ../src/gui/app1/forceSensor.cs:2966
-msgid "Delete exercise"
-msgstr "Вилучити вправу"
+#: ../src/gui/app1/encoder.cs:5097
+#| msgid "Edit exercise type"
+msgid "Edit exercise"
+msgstr "Редагувати вправу"
 
 #: ../src/gui/app1/encoder.cs:5098
 msgid "Encoder exercise name:"
@@ -6929,6 +6913,10 @@ msgstr ""
 #: ../src/gui/app1/forceSensor.cs:2912 ../src/gui/app1/forceSensor.cs:2922
 msgid "Force sensor exercise:"
 msgstr ""
+
+#: ../src/gui/app1/forceSensor.cs:2966
+msgid "Delete exercise"
+msgstr "Вилучити вправу"
 
 #: ../src/gui/app1/forceSensor.cs:3028
 msgid "Stiffness configuration"

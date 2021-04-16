@@ -5094,7 +5094,7 @@ public partial class ChronoJumpWindow
 		bigArray.Add(a5);
 		
 		
-		genericWin = GenericWindow.Show(Catalog.GetString("Delete exercise"),
+		genericWin = GenericWindow.Show(Catalog.GetString("Edit exercise"),
 				false, Catalog.GetString("Encoder exercise name:"), bigArray);
 
 		genericWin.uniqueID = ex.UniqueID;

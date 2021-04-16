@@ -343,20 +343,19 @@ class SqlitePersonSession : Sqlite
 
 			if(returnPersonAndPSlist) {
 				PersonSession ps = new PersonSession(
-						Convert.ToInt32(reader[10].ToString()), 	//uniqueID
-						Convert.ToInt32(reader[11].ToString()), 	//personID
-						Convert.ToInt32(reader[12].ToString()), 	//sessionID
-						Convert.ToDouble(Util.ChangeDecimalSeparator(reader[13].ToString())), //height
-						Convert.ToDouble(Util.ChangeDecimalSeparator(reader[14].ToString())), //weight
-						Convert.ToInt32(reader[15].ToString()), 	//sportID
-						Convert.ToInt32(reader[16].ToString()), 	//speciallityID
-						Convert.ToInt32(reader[17].ToString()),	//practice
-						reader[18].ToString(), 			//comments
-						Convert.ToDouble(Util.ChangeDecimalSeparator(reader[19].ToString())), //trochanterToe
-						Convert.ToDouble(Util.ChangeDecimalSeparator(reader[20].ToString())) //trochanterFloorOnFlexion
+						Convert.ToInt32(reader[11].ToString()), 	//uniqueID
+						Convert.ToInt32(reader[12].ToString()), 	//personID
+						Convert.ToInt32(reader[13].ToString()), 	//sessionID
+						Convert.ToDouble(Util.ChangeDecimalSeparator(reader[14].ToString())), //height
+						Convert.ToDouble(Util.ChangeDecimalSeparator(reader[15].ToString())), //weight
+						Convert.ToInt32(reader[16].ToString()), 	//sportID
+						Convert.ToInt32(reader[17].ToString()), 	//speciallityID
+						Convert.ToInt32(reader[18].ToString()),	//practice
+						reader[19].ToString(), 			//comments
+						Convert.ToDouble(Util.ChangeDecimalSeparator(reader[20].ToString())), //trochanterToe
+						Convert.ToDouble(Util.ChangeDecimalSeparator(reader[21].ToString())) //trochanterFloorOnFlexion
 						);
 				myArray.Add(new PersonAndPS(person, ps));
-				
 			} else
 				myArray.Add (person);
 		}

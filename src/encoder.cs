@@ -1219,6 +1219,7 @@ public class EncoderExercise
 	public string ressistance;
 	public string description;
 	public double speed1RM;
+	private Constants.EncoderGI type;
 
 	public EncoderExercise() {
 	}
@@ -1228,7 +1229,7 @@ public class EncoderExercise
 	}
 
 	public EncoderExercise(int uniqueID, string name, int percentBodyWeight, 
-			string ressistance, string description, double speed1RM)
+			string ressistance, string description, double speed1RM, Constants.EncoderGI type)
 	{
 		this.uniqueID = uniqueID;
 		this.name = name;
@@ -1236,6 +1237,7 @@ public class EncoderExercise
 		this.ressistance = ressistance;
 		this.description = description;
 		this.speed1RM = speed1RM;
+		this.type = type;
 	}
 
 	/*
@@ -1257,7 +1259,7 @@ public class EncoderExercise
 	public override string ToString()
 	{
 		return uniqueID.ToString() + ": " + name + " (" + percentBodyWeight.ToString() + "%) " +
-			ressistance + "," + description + "," + speed1RM.ToString();
+			ressistance + "," + description + "," + speed1RM.ToString() + "," + type.ToString();
 	}
 
 	public int UniqueID
@@ -1283,6 +1285,10 @@ public class EncoderExercise
 	public double Speed1RM
 	{
 		get { return speed1RM; }
+	}
+	public Constants.EncoderGI Type
+	{
+		get { return type; }
 	}
 
 	~EncoderExercise() {}

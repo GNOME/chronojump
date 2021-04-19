@@ -130,6 +130,23 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_encoder_laterality_l;
 	[Widget] Gtk.Box hbox_encoder_capture_curves_save_all_none;
 
+	//exercise edit/add
+	[Widget] Gtk.HBox hbox_encoder_exercise_close_and;
+	[Widget] Gtk.HBox hbox_encoder_exercise_select;
+	[Widget] Gtk.HBox hbox_encoder_exercise_actions;
+	[Widget] Gtk.Button button_encoder_exercise_actions_edit_do;
+	[Widget] Gtk.Button button_encoder_exercise_actions_add_do;
+	[Widget] Gtk.Notebook notebook_encoder_exercise;
+	[Widget] Gtk.Entry entry_encoder_exercise_name;
+	[Widget] Gtk.RadioButton radio_encoder_exercise_gravitatory;
+	[Widget] Gtk.RadioButton radio_encoder_exercise_inertial;
+	[Widget] Gtk.RadioButton radio_encoder_exercise_all;
+	[Widget] Gtk.SpinButton	spin_encoder_exercise_displaced_body_weight;
+	[Widget] Gtk.SpinButton spin_encoder_exercise_speed_1rm;
+	[Widget] Gtk.HBox hbox_encoder_exercise_speed_1rm;
+	[Widget] Gtk.Entry entry_encoder_exercise_resistance;
+	[Widget] Gtk.Entry entry_encoder_exercise_description;
+
 	/*
 	//used on guiTests
 	[Widget] Gtk.Button button_encoder_capture_curves_all;
@@ -2666,7 +2683,7 @@ public partial class ChronoJumpWindow
 	private void updateEncoderAnalyzeExercises(bool dbconOpened, int personID, int sessionID, string selectedPreviously)
 	{
 		LogB.Information("updateEncoderAnalyzeExercises()");
-		List<int> listFound = SqliteEncoder.SelectAnalyzeExercisesInCurves (dbconOpened, personID, sessionID, currentEncoderGI);
+		List<int> listFound = SqliteEncoder.SelectAnalyzeExercisesInCurves (dbconOpened, personID, sessionID, getEncoderGIByMenuitemMode());
 		foreach(int i in listFound)
 			LogB.Information(i.ToString());
 
@@ -3021,7 +3038,7 @@ public partial class ChronoJumpWindow
 				{
 					EncoderSQL eSQL = (EncoderSQL) data[0];
 					EncoderExercise exTemp = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(
-						false , eSQL.exerciseID, false)[0];
+						false , eSQL.exerciseID, false, Constants.EncoderGI.GRAVITATORY)[0];
 
 					if(exTemp.speed1RM == 0) {
 						new DialogMessage(Constants.MessageTypes.WARNING,
@@ -3400,7 +3417,7 @@ public partial class ChronoJumpWindow
 				if(my1RMName == "1RM Any exercise") {
 					//get speed1RM (from exercise of curve on SQL, not from combo)
 					EncoderExercise exTemp = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(
-						false , exID, false)[0];
+						false , exID, false, Constants.EncoderGI.GRAVITATORY)[0];
 				
 					sendAnalysis = "1RMAnyExercise";
 				        analysisVariables = Util.ConvertToPoint(exTemp.speed1RM) + ";" +
@@ -3434,8 +3451,8 @@ public partial class ChronoJumpWindow
 			TextWriter writer = File.CreateText(dataFileName);
 			writer.WriteLine("status,seriesName,exerciseName,massBody,massExtra,dateTime,fullURL,eccon,percentBodyWeight," + 
 					"econfName, econfd, econfD, econfAnglePush, econfAngleWeight, econfInertia, econfGearedDown, laterality");
-		
-			ArrayList eeArray = SqliteEncoder.SelectEncoderExercises(false, -1, false);
+
+			ArrayList eeArray = SqliteEncoder.SelectEncoderExercises(false, -1, false, getEncoderGIByMenuitemMode());
 			EncoderExercise ex = new EncoderExercise();
 						
 			LogB.Information("AT ANALYZE");
@@ -3530,7 +3547,8 @@ public partial class ChronoJumpWindow
 				if(my1RMName == "1RM Any exercise") {
 					//get speed1RM (from combo)
 					EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(
-							false, getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE), false)[0];
+							false, getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE),
+							false, Constants.EncoderGI.GRAVITATORY)[0];
 
 					sendAnalysis = "1RMAnyExercise";
 					analysisVariables = Util.ConvertToPoint(ex.speed1RM) + ";" + 
@@ -4407,11 +4425,20 @@ public partial class ChronoJumpWindow
 		button_combo_encoder_exercise_capture_right.Sensitive = ! isLast;
 	}
 
+	private Constants.EncoderGI getEncoderGIByMenuitemMode()
+	{
+		Constants.EncoderGI encoderGI = Constants.EncoderGI.GRAVITATORY;
+		if(current_menuitem_mode == Constants.Menuitem_modes.POWERINERTIAL)
+			encoderGI = Constants.EncoderGI.INERTIAL;
+
+		return encoderGI;
+	}
 
 	//this is called also when an exercise is deleted to update the combo and the string []
+	//and on change mode POWERGRAVITORY <-> POWERINERTIAL, because forceSensorExercises can have different type (encoderGI)
 	protected void createEncoderComboExerciseAndAnalyze()
 	{
-		ArrayList encoderExercises = SqliteEncoder.SelectEncoderExercises(false, -1, false);
+		ArrayList encoderExercises = SqliteEncoder.SelectEncoderExercises(false, -1, false, getEncoderGIByMenuitemMode());
 		if(encoderExercises.Count == 0)
 		{
 			encoderExercisesTranslationAndBodyPWeight = new String [0];
@@ -5054,6 +5081,24 @@ public partial class ChronoJumpWindow
 		return (getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE) != -1);
 	}
 
+	private void prepare_encoder_exercise_add_edit (bool adding)
+	{
+		hbox_encoder_exercise_close_and.Sensitive = false;
+		hbox_encoder_exercise_encoder.Sensitive = false;
+		hbox_encoder_exercise_select.Sensitive = false;
+		hbox_encoder_exercise_actions.Visible = true;
+		button_encoder_exercise_actions_edit_do.Visible = ! adding;
+		button_encoder_exercise_actions_add_do.Visible = adding;
+		notebook_encoder_exercise.Page = 1;
+
+		if(current_menuitem_mode == Constants.Menuitem_modes.POWERGRAVITATORY) {
+			radio_encoder_exercise_gravitatory.Sensitive = true;
+			radio_encoder_exercise_inertial.Sensitive = false;
+		} else { // (current_menuitem_mode == Constants.Menuitem_modes.POWERINERTIAL)
+			radio_encoder_exercise_gravitatory.Sensitive = false;
+			radio_encoder_exercise_inertial.Sensitive = true;
+		}
+	}
 
 	//info is now info and edit (all values can be changed), and detete (there's delete button)
 	void on_button_encoder_exercise_edit_clicked (object o, EventArgs args) 
@@ -5065,140 +5110,85 @@ public partial class ChronoJumpWindow
 		}
 
 		EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(
-				false, getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE), false)[0];
+				false, getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE),
+				false, getEncoderGIByMenuitemMode())[0];
 
-		ArrayList bigArray = new ArrayList();
+		prepare_encoder_exercise_add_edit (false);
 
-		ArrayList a1 = new ArrayList();
-		ArrayList a2 = new ArrayList();
-		ArrayList a3 = new ArrayList();
-		ArrayList a4 = new ArrayList();
-		ArrayList a5 = new ArrayList();
+		entry_encoder_exercise_name.Text = ex.name;
+		spin_encoder_exercise_displaced_body_weight.Value = ex.percentBodyWeight;
+		spin_encoder_exercise_speed_1rm.Value = ex.speed1RM;
+		entry_encoder_exercise_resistance.Text = ex.ressistance;
+		entry_encoder_exercise_description.Text = ex.description;
 
-		string exerciseName = ex.name;
-		//0 is the widgget to show; 1 is the editable; 2 id default value
-
-		a1.Add(Constants.GenericWindowShow.ENTRY); a1.Add(true); a1.Add(exerciseName);
-		bigArray.Add(a1);
-
-		a2.Add(Constants.GenericWindowShow.SPININT); a2.Add(true); a2.Add("");
-		bigArray.Add(a2);
-		
-		a3.Add(Constants.GenericWindowShow.ENTRY2); a3.Add(true); a3.Add(ex.ressistance);
-		bigArray.Add(a3);
-		
-		a4.Add(Constants.GenericWindowShow.ENTRY3); a4.Add(true); a4.Add(ex.description);
-		bigArray.Add(a4);
-		
-		a5.Add(Constants.GenericWindowShow.HBOXSPINDOUBLE2); a5.Add(true); a5.Add("");
-		bigArray.Add(a5);
-		
-		
-		genericWin = GenericWindow.Show(Catalog.GetString("Edit exercise"),
-				false, Catalog.GetString("Encoder exercise name:"), bigArray);
-
-		genericWin.uniqueID = ex.UniqueID;
-		genericWin.LabelSpinInt = Catalog.GetString("Displaced body weight") + " (%)";
-		
-		//genericWin.SetSpinRange(ex.percentBodyWeight, ex.percentBodyWeight); //done this because IsEditable does not affect the cursors
-		genericWin.SetSpinRange(0, 100);
-		genericWin.SetSpinValue(ex.percentBodyWeight);
-		
-		genericWin.LabelEntry2 = Catalog.GetString("Resistance");
-		genericWin.LabelEntry3 = Catalog.GetString("Description");
-		genericWin.LabelSpinDouble2 = Catalog.GetString("Speed at 1RM");
-		genericWin.SetSpinDouble2Value(ex.speed1RM);
-		genericWin.SetSpinDouble2Increments(0.001,0.1);
-		/*
-		 * Now this is in encoder configuration
-		genericWin.LabelSpinInt2 = Catalog.GetString("Body angle") + " (º)";
-		genericWin.SetSpin2Range(ex.bodyAngle,ex.bodyAngle); //done this because IsEditable does not affect the cursors
-		genericWin.LabelSpinInt3 = Catalog.GetString("Weight angle") + " (º)";
-		genericWin.SetSpin3Range(ex.weightAngle,ex.weightAngle); //done this because IsEditable does not affect the cursors
-		*/
-		genericWin.ShowButtonCancel(false);
-		genericWin.HideOnAccept = false;
-
-		//genericWin.nameUntranslated = ex.name;
-		genericWin.uniqueID = ex.uniqueID;
-		
-		genericWin.Button_accept.Clicked -= new EventHandler(on_button_encoder_exercise_edit_accepted);
-		genericWin.Button_accept.Clicked += new EventHandler(on_button_encoder_exercise_edit_accepted);
-		genericWin.ShowNow();
+		hbox_encoder_exercise_speed_1rm.Sensitive = true;
+		if(ex.Type == Constants.EncoderGI.GRAVITATORY)
+			radio_encoder_exercise_gravitatory.Active = true;
+		else if(ex.Type == Constants.EncoderGI.INERTIAL)
+		{
+			radio_encoder_exercise_inertial.Active = true;
+			hbox_encoder_exercise_speed_1rm.Sensitive = false;
+		}
+		else
+			radio_encoder_exercise_all.Active = true;
 	}
 
 	void on_button_encoder_exercise_add_clicked (object o, EventArgs args) 
 	{
-		ArrayList bigArray = new ArrayList();
+		prepare_encoder_exercise_add_edit (true);
 
-		ArrayList a1 = new ArrayList();
-		ArrayList a2 = new ArrayList();
-		ArrayList a3 = new ArrayList();
-		ArrayList a4 = new ArrayList();
-		ArrayList a5 = new ArrayList();
+		entry_encoder_exercise_name.Text = "";
+		spin_encoder_exercise_displaced_body_weight.Value = 0;
+		spin_encoder_exercise_speed_1rm.Value = 0;
+		entry_encoder_exercise_resistance.Text = "";
+		entry_encoder_exercise_description.Text = "";
 
-		//0 is the widgget to show; 1 is the editable; 2 id default value
-		a1.Add(Constants.GenericWindowShow.ENTRY); a1.Add(true); a1.Add("");
-		bigArray.Add(a1);
-
-		a2.Add(Constants.GenericWindowShow.SPININT); a2.Add(true); a2.Add("");
-		bigArray.Add(a2);
-		
-		a3.Add(Constants.GenericWindowShow.ENTRY2); a3.Add(true); a3.Add("");
-		bigArray.Add(a3);
-		
-		a4.Add(Constants.GenericWindowShow.ENTRY3); a4.Add(true); a4.Add("");
-		bigArray.Add(a4);
-		
-		a5.Add(Constants.GenericWindowShow.HBOXSPINDOUBLE2); a5.Add(true); a5.Add("");
-		bigArray.Add(a5);
-		
-		
-		genericWin = GenericWindow.Show(Catalog.GetString("Exercise"), false,	//don't show now
-				Catalog.GetString("Write the name of the exercise:"), bigArray);
-		genericWin.LabelSpinInt = Catalog.GetString("Displaced body weight") + " (%)";
-		genericWin.SetSpinRange(0, 100);
-		genericWin.LabelEntry2 = Catalog.GetString("Resistance");
-		genericWin.LabelEntry3 = Catalog.GetString("Description");
-		genericWin.LabelSpinDouble2 = Catalog.GetString("Speed at 1RM");
-		genericWin.SetSpinDouble2Increments(0.001,0.1);
-		/*
-		 * Now this is in encoder configuration
-		genericWin.LabelSpinInt2 = Catalog.GetString("Body angle") + " (º)";
-		genericWin.SetSpin2Range(0,90);
-		genericWin.SetSpin2Value(90);
-		genericWin.LabelSpinInt3 = Catalog.GetString("Weight angle") + " (º)";
-		genericWin.SetSpin3Range(0,90);
-		genericWin.SetSpin3Value(90);
-		*/
-		genericWin.SetButtonAcceptLabel(Catalog.GetString("Add"));
-		genericWin.HideOnAccept = false;
-
-		genericWin.Button_accept.Clicked -= new EventHandler(on_button_encoder_exercise_add_accepted);
-		genericWin.Button_accept.Clicked += new EventHandler(on_button_encoder_exercise_add_accepted);
-		genericWin.ShowNow();
+		hbox_encoder_exercise_speed_1rm.Sensitive = true;
+		if(current_menuitem_mode == Constants.Menuitem_modes.POWERGRAVITATORY)
+			radio_encoder_exercise_gravitatory.Active = true;
+		else if(current_menuitem_mode == Constants.Menuitem_modes.POWERINERTIAL)
+		{
+			radio_encoder_exercise_inertial.Active = true;
+			hbox_encoder_exercise_speed_1rm.Sensitive = false;
+		}
+		else //this could not happen
+			radio_encoder_exercise_all.Active = true;
 	}
-	
-	void on_button_encoder_exercise_edit_accepted (object o, EventArgs args)
+
+	private void on_radio_encoder_exercise_radios_toggled (object o, EventArgs args)
+	{
+		hbox_encoder_exercise_speed_1rm.Sensitive =
+			(radio_encoder_exercise_gravitatory.Active || radio_encoder_exercise_all.Active);
+	}
+
+	private void on_button_encoder_exercise_actions_cancel_clicked (object o, EventArgs args)
+	{
+		restore_encoder_exercise_sensitivity ();
+	}
+	private void on_button_encoder_exercise_actions_edit_do_clicked (object o, EventArgs args)
 	{
 		if(encoder_exercise_do_add_or_edit(false))
-		{
-			genericWin.Button_accept.Clicked -= new EventHandler(on_button_encoder_exercise_edit_accepted);
-			genericWin.HideAndNull();
-		}
+			restore_encoder_exercise_sensitivity ();
 	}
-	void on_button_encoder_exercise_add_accepted (object o, EventArgs args)
+	private void on_button_encoder_exercise_actions_add_do_clicked (object o, EventArgs args)
 	{
 		if(encoder_exercise_do_add_or_edit(true))
-		{
-			genericWin.Button_accept.Clicked -= new EventHandler(on_button_encoder_exercise_add_accepted);
-			genericWin.HideAndNull();
-		}
+			restore_encoder_exercise_sensitivity ();
 	}
-			
+
+	private void restore_encoder_exercise_sensitivity ()
+	{
+		hbox_encoder_exercise_close_and.Sensitive = true;
+		hbox_encoder_exercise_encoder.Sensitive = true;
+		hbox_encoder_exercise_select.Sensitive = true;
+		hbox_encoder_exercise_actions.Visible = false;
+		notebook_encoder_exercise.Page = 0;
+	}
+
+
 	bool encoder_exercise_do_add_or_edit (bool adding)
 	{
-		string name = Util.RemoveTildeAndColonAndDot(genericWin.EntrySelected);
+		string name = Util.RemoveTildeAndColonAndDot(entry_encoder_exercise_name.Text);
 		name = Util.RemoveChar(name, '"');
 
 		if(adding)
@@ -5208,12 +5198,12 @@ public partial class ChronoJumpWindow
 
 		if(name == "")
 		{
-			genericWin.SetLabelError(Catalog.GetString("Error: Missing name of exercise."));
+			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Error: Missing name of exercise."));
 			return false;
 		}
 		else if (adding && Sqlite.Exists(false, Constants.EncoderExerciseTable, name))
 		{
-			genericWin.SetLabelError(string.Format(Catalog.GetString(
+			new DialogMessage(Constants.MessageTypes.WARNING, string.Format(Catalog.GetString(
 							"Error: An exercise named '{0}' already exists."), name));
 			return false;
 		}
@@ -5221,26 +5211,43 @@ public partial class ChronoJumpWindow
 		{
 			//if we edit, check that this name does not exists (on other exercise, on current editing exercise is obviously fine)
 			int getIdOfThis = Sqlite.ExistsAndGetUniqueID(false, Constants.EncoderExerciseTable, name); //if not exists will be -1
-			if(getIdOfThis != -1 && getIdOfThis != genericWin.uniqueID)
+			/*
+			   LogB.Information("getIdOfThis " + getIdOfThis.ToString());
+			   LogB.Information("if from combo " + getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE).ToString());
+			   */
+
+			if(getIdOfThis != -1 && getIdOfThis != getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE))
 			{
-				genericWin.SetLabelError(string.Format(Catalog.GetString(
+				new DialogMessage(Constants.MessageTypes.WARNING, string.Format(Catalog.GetString(
 								"Error: An exercise named '{0}' already exists."), name));
 
 				return false;
 			}
 		}
 
+		Constants.EncoderGI type = Constants.EncoderGI.ALL;
+		if(radio_encoder_exercise_gravitatory.Active)
+			type = Constants.EncoderGI.GRAVITATORY;
+		else if(radio_encoder_exercise_inertial.Active)
+			type = Constants.EncoderGI.INERTIAL;
+
 		if(adding)
-			SqliteEncoder.InsertExercise(false, -1, name, genericWin.SpinIntSelected,
-					genericWin.Entry2Selected, genericWin.Entry3Selected,
-					Util.ConvertToPoint(genericWin.SpinDouble2Selected)
-					);
+			SqliteEncoder.InsertExercise(false, -1,
+					name,
+					Convert.ToInt32(spin_encoder_exercise_displaced_body_weight.Value),
+					entry_encoder_exercise_resistance.Text,
+					entry_encoder_exercise_description.Text,
+					Util.ConvertToPoint(spin_encoder_exercise_speed_1rm.Value),
+					type);
 		else {
-			EncoderExercise ex = new EncoderExercise(genericWin.uniqueID,
-					genericWin.EntrySelected,
-					genericWin.SpinIntSelected,
-					genericWin.Entry2Selected, genericWin.Entry3Selected,
-					genericWin.SpinDouble2Selected);
+			EncoderExercise ex = new EncoderExercise(
+					getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE),
+					name,
+					Convert.ToInt32(spin_encoder_exercise_displaced_body_weight.Value),
+					entry_encoder_exercise_resistance.Text,
+					entry_encoder_exercise_description.Text,
+					spin_encoder_exercise_speed_1rm.Value,
+					type);
 			SqliteEncoder.UpdateExercise(false, ex);
 		}
 
@@ -5251,7 +5258,7 @@ public partial class ChronoJumpWindow
 
 	private void updateEncoderExercisesGui(string name)
 	{
-		ArrayList encoderExercises = SqliteEncoder.SelectEncoderExercises(false,-1, false);
+		ArrayList encoderExercises = SqliteEncoder.SelectEncoderExercises(false,-1, false, getEncoderGIByMenuitemMode());
 		encoderExercisesTranslationAndBodyPWeight = new String [encoderExercises.Count];
 		string [] exerciseNamesToCombo = new String [encoderExercises.Count];
 		int i =0;
@@ -5284,7 +5291,7 @@ public partial class ChronoJumpWindow
 		}
 
 		EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(
-				false, getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE), false)[0];
+				false, getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE), false, getEncoderGIByMenuitemMode())[0];
 
 		ArrayList array = SqliteEncoder.SelectEncoderSetsOfAnExercise(false, ex.UniqueID); //dbconOpened, exerciseID
 

@@ -247,7 +247,7 @@ class SqlitePreferences : Sqlite
 				Insert ("encoder1RMMethod", Constants.Encoder1RMMethod.WEIGHTED2.ToString(), dbcmdTr);
 
 				ArrayList encoderExercises =
-					SqliteEncoder.SelectEncoderExercises(true, -1, true);
+					SqliteEncoder.SelectEncoderExercises(true, -1, true, Constants.EncoderGI.ALL);
 
 				if(encoderExercises.Count > 0) {
 					EncoderExercise ex = (EncoderExercise) encoderExercises[0];

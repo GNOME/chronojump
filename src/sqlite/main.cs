@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.18";
+	static string lastChronojumpDatabaseVersion = "2.19";
 
 	public Sqlite()
 	{
@@ -1389,7 +1389,8 @@ class Sqlite
 			if(currentVersion == "0.90") {
 				Sqlite.Open();
 				
-				SqliteEncoder.UpdateExerciseByName_old_do_not_use(true, "Squat", "Squat", 100, "weight bar", "", "");
+				SqliteEncoder.UpdateExerciseByName_old_do_not_use(true, "Squat", "Squat", 100, "weight bar", "", "",
+						Constants.EncoderGI.ALL);
 				LogB.SQL("Encoder Squat 75% -> 100%");
 				
 				SqlitePreferences.Update ("databaseVersion", "0.91", true); 
@@ -1411,8 +1412,10 @@ class Sqlite
 			if(currentVersion == "0.92") {
 				Sqlite.Open();
 				
-				SqliteEncoder.UpdateExerciseByName_old_do_not_use(true, "Bench press", "Bench press", 0, "weight bar", "","0.185");
-				SqliteEncoder.UpdateExerciseByName_old_do_not_use(true, "Squat", "Squat", 100, "weight bar", "","0.31");
+				SqliteEncoder.UpdateExerciseByName_old_do_not_use(true, "Bench press", "Bench press", 0, "weight bar", "","0.185",
+						Constants.EncoderGI.ALL);
+				SqliteEncoder.UpdateExerciseByName_old_do_not_use(true, "Squat", "Squat", 100, "weight bar", "","0.31",
+						Constants.EncoderGI.ALL);
 				LogB.SQL("Added speed1RM on encoder exercise");
 				
 				SqlitePreferences.Update ("databaseVersion", "0.93", true); 
@@ -2200,7 +2203,7 @@ class Sqlite
 
 				//1 exercise
 				ArrayList encoderExercises =
-					SqliteEncoder.SelectEncoderExercises(true, -1, true);
+					SqliteEncoder.SelectEncoderExercises(true, -1, true, Constants.EncoderGI.ALL);
 
 				if(encoderExercises.Count > 0) {
 					EncoderExercise ex = (EncoderExercise) encoderExercises[0];
@@ -2966,6 +2969,19 @@ class Sqlite
 
 				currentVersion = updateVersion("2.18");
 			}
+			if(currentVersion == "2.18")
+			{
+				LogB.SQL("Doing alter table encoderExercise ADD COLUMN type TEXT ...");
+				try {
+					executeSQL("ALTER TABLE " + Constants.EncoderExerciseTable + " ADD COLUMN type TEXT DEFAULT \"ALL\";");
+				} catch {
+					LogB.SQL("Catched at Doing alter table encoderExercise ADD COLUMN type TEXT ...");
+
+				}
+				LogB.SQL("Done!");
+
+				currentVersion = updateVersion("2.19");
+			}
 
 
 
@@ -3188,6 +3204,7 @@ class Sqlite
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
 
+		//2.18 - 2.19 Converted DB to 2.19 Doing alter table encoderExercise ADD COLUMN type TEXT ...
 		//2.17 - 2.18 Converted DB to 2.18 Person77 ALTER TABLE added field: linkServerImage (for networks)
 		//2.16 - 2.17 Converted DB to 2.17 Created table lastJumpRjTypeParams
 		//2.15 - 2.16 Converted DB to 2.16 Created table lastJumpSimpleTypeParams

@@ -721,14 +721,16 @@ class SqliteEncoder : Sqlite
 			"description TEXT, " +
 			"future1 TEXT, " +	//speed1RM: speed in m/s at 1RM with decimal point separator '.' ; 0 means undefined
 			"future2 TEXT, " +	//bodyAngle (unused)
-			"future3 TEXT )";	//weightAngle (unused)
+			"future3 TEXT, " +	//weightAngle (unused)
+			"type TEXT DEFAULT \"ALL\")";	//ALL, GRAVITATORY, INERTIAL (enum constants.EncoderGI)
 		dbcmd.ExecuteNonQuery();
 	}
 
 	//if uniqueID == -1, NULL will be used (correlative uniqueID)
 	//uniqueID != -1 when an exercise is downloaded from server on compujump and need to have the same uniqueID as server
 	public static void InsertExercise(bool dbconOpened, int uniqueID, string name, int percentBodyWeight,
-			string ressistance, string description, string speed1RM)	 //speed1RM decimal point = '.'
+			string ressistance, string description, string speed1RM, 	//speed1RM decimal point = '.'
+			Constants.EncoderGI encoderGI)	 				//type
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -738,9 +740,9 @@ class SqliteEncoder : Sqlite
 			uniqueIDStr = uniqueID.ToString();
 
 		dbcmd.CommandText = "INSERT INTO " + Constants.EncoderExerciseTable +  
-				" (uniqueID, name, percentBodyWeight, ressistance, description, future1, future2, future3)" +
+				" (uniqueID, name, percentBodyWeight, ressistance, description, future1, future2, future3, type)" +
 				" VALUES (" + uniqueIDStr + ", \"" + name + "\", " + percentBodyWeight + ", \"" +
-				ressistance + "\", \"" + description + "\", \"" + speed1RM + "\", '', '')";
+				ressistance + "\", \"" + description + "\", \"" + speed1RM + "\", '', '', \"" + encoderGI.ToString() + "\")";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -755,13 +757,14 @@ class SqliteEncoder : Sqlite
 	{
 		string [] iniEncoderExercises = {
 			//name:percentBodyWeight:ressistance:description:speed1RM:pullAngle:weightAngle
-			"Bench press:0:weight bar::0.185::", //González-Badillo, J. 2010. Movement velocity as a measure of loading intensity in resistance training
-			"Squat:100:weight bar::0.31::" //González-Badillo, JJ.2000b http://foro.chronojump.org/showthread.php?tid=1288&page=3 
+			"Bench press:0:weight bar::0.185:::GRAVITATORY", //González-Badillo, J. 2010. Movement velocity as a measure of loading intensity in resistance training
+			"Squat:100:weight bar::0.31:::GRAVITATORY" //González-Badillo, JJ.2000b http://foro.chronojump.org/showthread.php?tid=1288&page=3
 		};
 		
 		foreach(string line in iniEncoderExercises) {
 			string [] parts = line.Split(new char[] {':'});
-			InsertExercise(true, -1, parts[0], Convert.ToInt32(parts[1]), parts[2], parts[3], parts[4]);
+			InsertExercise(true, -1, parts[0], Convert.ToInt32(parts[1]), parts[2], parts[3], parts[4],
+					(Constants.EncoderGI) Enum.Parse(typeof(Constants.EncoderGI), parts[7]));
 		}
 
 		addEncoderFreeExercise();
@@ -773,25 +776,26 @@ class SqliteEncoder : Sqlite
 	{
 		bool exists = Sqlite.Exists (true, Constants.EncoderExerciseTable, "Free");
 		if(! exists)
-			InsertExercise(true, -1, "Free", 0, "", "", "");
+			InsertExercise(true, -1, "Free", 0, "", "", "", Constants.EncoderGI.ALL);
 	}
 	protected internal static void addEncoderJumpExercise()
 	{
 		bool exists = Sqlite.Exists (true, Constants.EncoderExerciseTable, "Jump");
 		if(! exists)
-			InsertExercise(true, -1, "Jump", 100, "", "", "");
+			InsertExercise(true, -1, "Jump", 100, "", "", "", Constants.EncoderGI.GRAVITATORY);
 	}
 	protected internal static void addEncoderInclinedExercises()
 	{
 		string [] iniEncoderExercises = {
-			//name:percentBodyWeight:ressistance:description:speed1RM:bodyAngle:weightAngle
-			"Inclined plane:0:machine::::",
-			"Inclined plane BW:100:machine::::",
+			//name:percentBodyWeight:ressistance:description:speed1RM:bodyAngle:weightAngle:type
+			"Inclined plane:0:machine:::::GRAVITATORY",
+			"Inclined plane BW:100:machine:::::GRAVITATORY",
 		};
 		
 		foreach(string line in iniEncoderExercises) {
 			string [] parts = line.Split(new char[] {':'});
-			InsertExercise(true, -1, parts[0], Convert.ToInt32(parts[1]), parts[2], parts[3], parts[4]);
+			InsertExercise(true, -1, parts[0], Convert.ToInt32(parts[1]), parts[2], parts[3], parts[4],
+					(Constants.EncoderGI) Enum.Parse(typeof(Constants.EncoderGI), parts[7]));
 		}
 	}
 
@@ -806,6 +810,7 @@ class SqliteEncoder : Sqlite
 				", ressistance = \"" + ex.Ressistance +
 				"\", description = \"" + ex.Description +
 				"\", future1 = \"" + Util.ConvertToPoint(ex.Speed1RM) +
+				"\", type = \"" + ex.Type +
 				"\" WHERE uniqueID = " + ex.UniqueID;
 
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -815,7 +820,7 @@ class SqliteEncoder : Sqlite
 			Sqlite.Close();
 	}
 	public static void UpdateExerciseByName_old_do_not_use(bool dbconOpened, string nameOld, string name, int percentBodyWeight,
-			string ressistance, string description, string speed1RM)
+			string ressistance, string description, string speed1RM, Constants.EncoderGI type)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -826,6 +831,7 @@ class SqliteEncoder : Sqlite
 				", ressistance = \"" + ressistance +
 				"\", description = \"" + description +
 				"\", future1 = \"" + speed1RM +
+				"\", type = \"" + type.ToString() +
 				"\" WHERE name = \"" + nameOld + "\"" ;
 
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -837,19 +843,32 @@ class SqliteEncoder : Sqlite
 	
 	//if uniqueID != -1, returns an especific EncoderExercise that can be read like this	
 	//EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(eSQL.exerciseID)[0];
-	public static ArrayList SelectEncoderExercises(bool dbconOpened, int uniqueID, bool onlyNames) 
+	//if encoderGI == GRAVITATORY, return GRAVITATORY and ALL
+	//if encoderGI == INERTIAL, return INERTIAL and ALL
+	//if encoderGI == ALL, return everything
+	public static ArrayList SelectEncoderExercises(bool dbconOpened, int uniqueID, bool onlyNames, Constants.EncoderGI encoderGI)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
 
+		string encoderGIconnector = " WHERE ";
+
 		string uniqueIDStr = "";
-		if(uniqueID != -1)
+		if(uniqueID != -1) {
 			uniqueIDStr = " WHERE " + Constants.EncoderExerciseTable + ".uniqueID = " + uniqueID;
+			encoderGIconnector = " AND ";
+		}
+
+		string encoderGIstr = "";
+		if(encoderGI == Constants.EncoderGI.GRAVITATORY)
+			encoderGIstr = encoderGIconnector + " type != \"INERTIAL\"";
+		else if(encoderGI == Constants.EncoderGI.INERTIAL)
+			encoderGIstr = encoderGIconnector + " type != \"GRAVITATORY\"";
 	
 		if(onlyNames)
-			dbcmd.CommandText = "SELECT name FROM " + Constants.EncoderExerciseTable + uniqueIDStr;
+			dbcmd.CommandText = "SELECT name FROM " + Constants.EncoderExerciseTable + uniqueIDStr + encoderGIstr;
 		else
-			dbcmd.CommandText = "SELECT * FROM " + Constants.EncoderExerciseTable + uniqueIDStr;
+			dbcmd.CommandText = "SELECT * FROM " + Constants.EncoderExerciseTable + uniqueIDStr + encoderGIstr;
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -875,9 +894,10 @@ class SqliteEncoder : Sqlite
 						Convert.ToInt32(reader[0].ToString()),	//uniqueID
 						reader[1].ToString(),			//name
 						Convert.ToInt32(reader[2].ToString()),	//percentBodyWeight
-						reader[3].ToString(),			//ressistance
+						reader[3].ToString(),			//resistance
 						reader[4].ToString(),			//description
-						speed1RM
+						speed1RM,
+						(Constants.EncoderGI) Enum.Parse(typeof(Constants.EncoderGI), reader[8].ToString())
 						);
 				array.Add(ex);
 			}

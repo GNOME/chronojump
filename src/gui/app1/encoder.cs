@@ -4435,7 +4435,7 @@ public partial class ChronoJumpWindow
 	}
 
 	//this is called also when an exercise is deleted to update the combo and the string []
-	//and on change mode POWERGRAVITORY <-> POWERINERTIAL, because forceSensorExercises can have different type (encoderGI)
+	//and on change mode POWERGRAVITORY <-> POWERINERTIAL, because encoderExercises can have different type (encoderGI)
 	protected void createEncoderComboExerciseAndAnalyze()
 	{
 		ArrayList encoderExercises = SqliteEncoder.SelectEncoderExercises(false, -1, false, getEncoderGIByMenuitemMode());

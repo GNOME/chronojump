@@ -3123,7 +3123,10 @@ public partial class ChronoJumpWindow
 		hbox_change_modes_jumps.Visible = false;
 		hbox_change_modes_runs.Visible = false;
 		button_contacts_bells.Sensitive = false;
-		radio_mode_contacts_capture.Active = true;
+
+		radio_mode_contacts_capture.Active = true; //it is safe to change to capture, because analyze has different graphs depending on mode
+		radio_mode_encoder_capture_small.Active = true; //it is safe to change to capture, to ensure all widgets are ok on analyze (everything seems ok, but just to have same behaviour than in contacts)
+
 		radio_mode_contacts_jumps_profile.Active = true;
 		hbox_radio_mode_contacts_analyze_buttons.Visible = false;
 		radio_mode_contacts_jumps_rj_fatigue.Visible = false;
@@ -3282,6 +3285,15 @@ public partial class ChronoJumpWindow
 				encoderButtonsSensitive(encoderSensEnum.YESPERSON);
 			
 			blankEncoderInterface();
+
+			//combos should show encoder exercises of current type (encoderGI)
+			createEncoderComboExerciseAndAnalyze();
+
+			/*
+			   only needed if change from grav analyze to inertial analyze (or viceversa) directly.
+			   But it is disabled because on change mode chronojump goes to capture.
+			//updateEncoderAnalyzeExercisesPre();
+			*/
 
 			bool changed = false;
 			if(m == Constants.Menuitem_modes.POWERGRAVITATORY)

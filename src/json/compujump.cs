@@ -344,7 +344,8 @@ public class JsonCompujump : Json
 		return stations;
 	}
 
-	public List<EncoderExercise> GetStationExercises(int stationId)
+	//stationType can be GRAVITATORY or INERTIAL
+	public List<EncoderExercise> GetStationExercises(int stationId, Constants.EncoderGI stationType)
 	{
 		List<EncoderExercise> ex_list = new List<EncoderExercise>();
 
@@ -389,12 +390,12 @@ public class JsonCompujump : Json
 		else if(responseFromServer == "[]")
 			LogB.Information(" Empty2 "); //when rfid is not on server
 		else {
-			ex_list = stationExercisesDeserialize(responseFromServer);
+			ex_list = stationExercisesDeserialize(responseFromServer, stationType);
 		}
 
 		return ex_list;
 	}
-	private List<EncoderExercise> stationExercisesDeserialize(string str)
+	private List<EncoderExercise> stationExercisesDeserialize(string str, Constants.EncoderGI stationType)
 	{
 		List<EncoderExercise> ex_list = new List<EncoderExercise>();
 
@@ -408,7 +409,7 @@ public class JsonCompujump : Json
 			int percentBodyMassDisplaced = jsonSE ["percentBodyMassDisplaced"];
 
 			ex_list.Add(new EncoderExercise(id, name, percentBodyMassDisplaced,
-					"", "", 0)); //ressitance, description, speed1RM
+					"", "", 0, stationType)); //resistance, description, speed1RM, stationType
 		}
 		return ex_list;
 	}

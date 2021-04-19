@@ -941,8 +941,12 @@ public partial class ChronoJumpWindow
 		if(configChronojump.CompujumpStationMode == Constants.Menuitem_modes.POWERGRAVITATORY ||
 				configChronojump.CompujumpStationMode == Constants.Menuitem_modes.POWERINERTIAL)
 		{
-			ArrayList encoderExercisesOnLocal = SqliteEncoder.SelectEncoderExercises(false, -1, false);
-			List<EncoderExercise> exRemote_list = json.GetStationExercises(configChronojump.CompujumpStationID);
+			Constants.EncoderGI type = Constants.EncoderGI.GRAVITATORY;
+			if(configChronojump.CompujumpStationMode == Constants.Menuitem_modes.POWERINERTIAL)
+				type = Constants.EncoderGI.INERTIAL;
+
+			ArrayList encoderExercisesOnLocal = SqliteEncoder.SelectEncoderExercises(false, -1, false, type);
+			List<EncoderExercise> exRemote_list = json.GetStationExercises(configChronojump.CompujumpStationID, type);
 
 			foreach(EncoderExercise exRemote in exRemote_list)
 			{
@@ -958,7 +962,7 @@ public partial class ChronoJumpWindow
 				{
 					SqliteEncoder.InsertExercise(
 							false, exRemote.uniqueID, exRemote.name, exRemote.percentBodyWeight,
-							"", "", ""); //ressitance, description, speed1RM
+							"", "", "", type); //ressitance, description, speed1RM, type (encoderGI)
 					updateEncoderExercisesGui(exRemote.name);
 				}
 			}

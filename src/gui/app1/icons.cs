@@ -137,6 +137,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_recalculate;
 	[Widget] Gtk.Image image_encoder_configuration;
 	[Widget] Gtk.Image image_encoder_exercise;
+	[Widget] Gtk.Image image_button_encoder_exercise_actions_cancel;
+	[Widget] Gtk.Image image_button_encoder_exercise_actions_edit_do;
+	[Widget] Gtk.Image image_button_encoder_exercise_actions_add_do;
 	[Widget] Gtk.Image image_encoder_exercise_settings;
 	[Widget] Gtk.Image image_encoder_exercise_close;
 	[Widget] Gtk.Image image_encoder_capture_open;
@@ -733,6 +736,7 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
 		image_sprint_export_cancel.Pixbuf = pixbuf;
+		image_button_encoder_exercise_actions_cancel.Pixbuf = pixbuf;
 		image_encoder_analyze_cancel.Pixbuf = pixbuf;
 		image_force_sensor_export_cancel.Pixbuf = pixbuf;
 		image_run_encoder_export_cancel.Pixbuf = pixbuf;
@@ -814,6 +818,8 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "save.png");
 		image_jumps_rj_fatigue_image_save.Pixbuf = pixbuf;
 		image_sprint_analyze_table_save_1.Pixbuf = pixbuf;
+		image_button_encoder_exercise_actions_edit_do.Pixbuf = pixbuf;
+		image_button_encoder_exercise_actions_add_do.Pixbuf = pixbuf;
 		image_encoder_capture_curves_save.Pixbuf = pixbuf;
 		image_encoder_analyze_table_save_1.Pixbuf = pixbuf;
 		image_encoder_capture_image_save_1.Pixbuf = pixbuf;

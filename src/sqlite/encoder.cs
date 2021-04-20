@@ -214,21 +214,30 @@ class SqliteEncoder : Sqlite
 		if(! dbconOpened)
 			Sqlite.Open();
 
+		string andString = "";
 		string personIDStr = "";
-		if(personID != -1)
-			personIDStr = " personID = " + personID + " AND ";
+		if(personID != -1) {
+			personIDStr = " personID = " + personID;
+			andString = " AND ";
+		}
 
 		string sessionIDStr = "";
-		if(sessionID != -1)
-			sessionIDStr = " sessionID = " + sessionID + " AND ";
+		if(sessionID != -1) {
+			sessionIDStr = andString + " sessionID = " + sessionID;
+			andString = " AND ";
+		}
 
 		string exerciseIDStr = "";
-		if(exerciseID != -1)
-			exerciseIDStr = " exerciseID = " + exerciseID + " AND ";
+		if(exerciseID != -1) {
+			exerciseIDStr = andString + " exerciseID = " + exerciseID;
+			andString = " AND ";
+		}
 
 		string lateralityEnglishStr = "";
-		if(lateralityEnglish != "")
-			lateralityEnglishStr = " laterality = \"" + lateralityEnglish + "\" AND ";
+		if(lateralityEnglish != "") {
+			lateralityEnglishStr = andString + " laterality = \"" + lateralityEnglish + "\"";
+			andString = " AND ";
+		}
 
 		string selectStr = "";
 		if(uniqueID != -1)
@@ -237,20 +246,15 @@ class SqliteEncoder : Sqlite
 			if(signalOrCurve == "all")
 				selectStr = personIDStr + sessionIDStr + exerciseIDStr + lateralityEnglishStr;
 			else
-				selectStr = personIDStr + sessionIDStr + exerciseIDStr + lateralityEnglishStr + " signalOrCurve = \"" + signalOrCurve + "\"";
+				selectStr = personIDStr + sessionIDStr + exerciseIDStr + lateralityEnglishStr + andString + " signalOrCurve = \"" + signalOrCurve + "\"";
 		
 			if(ecconSelect != EncoderSQL.Eccons.ALL)
-				selectStr += " AND " + Constants.EncoderTable + ".eccon = \"" + EncoderSQL.Eccons.ecS.ToString() + "\"";
+				selectStr += andString + Constants.EncoderTable + ".eccon = \"" + EncoderSQL.Eccons.ecS.ToString() + "\"";
 		}
 			
-
-		string andString = "";
-		if(selectStr != "")
-			andString = " AND ";
-
 		string onlyActiveString = "";
 		if(onlyActive)
-			onlyActiveString = " AND " + Constants.EncoderTable + ".status = \"active\" ";
+			onlyActiveString = andString + Constants.EncoderTable + ".status = \"active\" ";
 
 		string orderIDstr = "";
 		if(! orderIDascendent)

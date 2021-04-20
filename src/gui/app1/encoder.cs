@@ -5090,14 +5090,6 @@ public partial class ChronoJumpWindow
 		button_encoder_exercise_actions_edit_do.Visible = ! adding;
 		button_encoder_exercise_actions_add_do.Visible = adding;
 		notebook_encoder_exercise.Page = 1;
-
-		if(current_menuitem_mode == Constants.Menuitem_modes.POWERGRAVITATORY) {
-			radio_encoder_exercise_gravitatory.Sensitive = true;
-			radio_encoder_exercise_inertial.Sensitive = false;
-		} else { // (current_menuitem_mode == Constants.Menuitem_modes.POWERINERTIAL)
-			radio_encoder_exercise_gravitatory.Sensitive = false;
-			radio_encoder_exercise_inertial.Sensitive = true;
-		}
 	}
 
 	//info is now info and edit (all values can be changed), and detete (there's delete button)
@@ -5121,16 +5113,62 @@ public partial class ChronoJumpWindow
 		entry_encoder_exercise_resistance.Text = ex.ressistance;
 		entry_encoder_exercise_description.Text = ex.description;
 
-		hbox_encoder_exercise_speed_1rm.Sensitive = true;
-		if(ex.Type == Constants.EncoderGI.GRAVITATORY)
-			radio_encoder_exercise_gravitatory.Active = true;
-		else if(ex.Type == Constants.EncoderGI.INERTIAL)
+		//conditions for the radios
+		//1 select if there gravitatory sets done with this exercise
+		bool gravitatoryCaptured = (SqliteEncoder.Select (false, -1, -1, -1, Constants.EncoderGI.GRAVITATORY,
+				ex.UniqueID, "all", EncoderSQL.Eccons.ALL, "",
+				false, true).Count > 0);
+		bool inertialCaptured = (SqliteEncoder.Select (false, -1, -1, -1, Constants.EncoderGI.INERTIAL,
+				ex.UniqueID, "all", EncoderSQL.Eccons.ALL, "",
+				false, true).Count > 0);
+
+		// problems with exercise type and captured that have been done
+		// A) change the exercise to all if this exercise has gravitatory and inertial captures
+		if(gravitatoryCaptured && inertialCaptured)
 		{
-			radio_encoder_exercise_inertial.Active = true;
-			hbox_encoder_exercise_speed_1rm.Sensitive = false;
-		}
-		else
+			radio_encoder_exercise_gravitatory.Sensitive = false;
+			radio_encoder_exercise_inertial.Sensitive = false;
+			radio_encoder_exercise_all.Sensitive = true;
+
 			radio_encoder_exercise_all.Active = true;
+		}
+		// B) if this exercise is gravitatory but has inertial captures, unsensitive gravitatory and select all
+		else if(ex.Type == Constants.EncoderGI.GRAVITATORY && inertialCaptured)
+		{
+			radio_encoder_exercise_gravitatory.Sensitive = false;
+			radio_encoder_exercise_inertial.Sensitive = true;
+			radio_encoder_exercise_all.Sensitive = true;
+
+			radio_encoder_exercise_all.Active = true;
+		}
+		// C) if this exercise is inertial but has gravitatory captures, unsensitive inertial and select all
+		else if(ex.Type == Constants.EncoderGI.INERTIAL && gravitatoryCaptured)
+		{
+			radio_encoder_exercise_gravitatory.Sensitive = true;
+			radio_encoder_exercise_inertial.Sensitive = false;
+			radio_encoder_exercise_all.Sensitive = true;
+
+			radio_encoder_exercise_all.Active = true;
+		}
+		// No problem
+		else {
+			if(current_menuitem_mode == Constants.Menuitem_modes.POWERGRAVITATORY) {
+				radio_encoder_exercise_gravitatory.Sensitive = true;
+				radio_encoder_exercise_inertial.Sensitive = false;
+			} else { // (current_menuitem_mode == Constants.Menuitem_modes.POWERINERTIAL)
+				radio_encoder_exercise_gravitatory.Sensitive = false;
+				radio_encoder_exercise_inertial.Sensitive = true;
+			}
+
+			if(ex.Type == Constants.EncoderGI.GRAVITATORY)
+				radio_encoder_exercise_gravitatory.Active = true;
+			else if(ex.Type == Constants.EncoderGI.INERTIAL)
+				radio_encoder_exercise_inertial.Active = true;
+			else
+				radio_encoder_exercise_all.Active = true;
+		}
+
+		hbox_encoder_exercise_speed_1rm.Sensitive = ! radio_encoder_exercise_inertial.Active;
 	}
 
 	void on_button_encoder_exercise_add_clicked (object o, EventArgs args) 
@@ -5143,16 +5181,23 @@ public partial class ChronoJumpWindow
 		entry_encoder_exercise_resistance.Text = "";
 		entry_encoder_exercise_description.Text = "";
 
+		if(current_menuitem_mode == Constants.Menuitem_modes.POWERGRAVITATORY) {
+			radio_encoder_exercise_gravitatory.Sensitive = true;
+			radio_encoder_exercise_inertial.Sensitive = false;
+		} else { // (current_menuitem_mode == Constants.Menuitem_modes.POWERINERTIAL)
+			radio_encoder_exercise_gravitatory.Sensitive = false;
+			radio_encoder_exercise_inertial.Sensitive = true;
+		}
+
 		hbox_encoder_exercise_speed_1rm.Sensitive = true;
 		if(current_menuitem_mode == Constants.Menuitem_modes.POWERGRAVITATORY)
 			radio_encoder_exercise_gravitatory.Active = true;
 		else if(current_menuitem_mode == Constants.Menuitem_modes.POWERINERTIAL)
-		{
 			radio_encoder_exercise_inertial.Active = true;
-			hbox_encoder_exercise_speed_1rm.Sensitive = false;
-		}
 		else //this could not happen
 			radio_encoder_exercise_all.Active = true;
+
+		hbox_encoder_exercise_speed_1rm.Sensitive = ! radio_encoder_exercise_inertial.Active;
 	}
 
 	private void on_radio_encoder_exercise_radios_toggled (object o, EventArgs args)

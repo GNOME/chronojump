@@ -140,6 +140,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_button_encoder_exercise_actions_cancel;
 	[Widget] Gtk.Image image_button_encoder_exercise_actions_edit_do;
 	[Widget] Gtk.Image image_button_encoder_exercise_actions_add_do;
+	[Widget] Gtk.Image image_button_radio_encoder_exercise_help;
 	[Widget] Gtk.Image image_encoder_exercise_settings;
 	[Widget] Gtk.Image image_encoder_exercise_close;
 	[Widget] Gtk.Image image_encoder_capture_open;
@@ -308,6 +309,7 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_help.png");
 		image_menu_help.Pixbuf = pixbuf;
 		image_menu_help1.Pixbuf = pixbuf;
+		image_button_radio_encoder_exercise_help.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_book.png");
 		image_menu_help_documents.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_keyboard.png");

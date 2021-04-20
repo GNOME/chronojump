@@ -141,6 +141,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_encoder_exercise_gravitatory;
 	[Widget] Gtk.RadioButton radio_encoder_exercise_inertial;
 	[Widget] Gtk.RadioButton radio_encoder_exercise_all;
+	[Widget] Gtk.Button button_radio_encoder_exercise_help;
 	[Widget] Gtk.SpinButton	spin_encoder_exercise_displaced_body_weight;
 	[Widget] Gtk.SpinButton spin_encoder_exercise_speed_1rm;
 	[Widget] Gtk.HBox hbox_encoder_exercise_speed_1rm;
@@ -5122,6 +5123,9 @@ public partial class ChronoJumpWindow
 				ex.UniqueID, "all", EncoderSQL.Eccons.ALL, "",
 				false, true).Count > 0);
 
+		button_radio_encoder_exercise_help.Visible = false;
+		button_radio_encoder_exercise_help_message = "";
+
 		// problems with exercise type and captured that have been done
 		// A) change the exercise to all if this exercise has gravitatory and inertial captures
 		if(gravitatoryCaptured && inertialCaptured)
@@ -5131,6 +5135,9 @@ public partial class ChronoJumpWindow
 			radio_encoder_exercise_all.Sensitive = true;
 
 			radio_encoder_exercise_all.Active = true;
+
+			button_radio_encoder_exercise_help.Visible = true;
+			button_radio_encoder_exercise_help_message = Catalog.GetString("This exercise has been used on gravitatory and inertial sets.");
 		}
 		// B) if this exercise is gravitatory but has inertial captures, unsensitive gravitatory and select all
 		else if(ex.Type == Constants.EncoderGI.GRAVITATORY && inertialCaptured)
@@ -5140,6 +5147,9 @@ public partial class ChronoJumpWindow
 			radio_encoder_exercise_all.Sensitive = true;
 
 			radio_encoder_exercise_all.Active = true;
+
+			button_radio_encoder_exercise_help.Visible = true;
+			button_radio_encoder_exercise_help_message = Catalog.GetString("This exercise has been used on inertial sets.");
 		}
 		// C) if this exercise is inertial but has gravitatory captures, unsensitive inertial and select all
 		else if(ex.Type == Constants.EncoderGI.INERTIAL && gravitatoryCaptured)
@@ -5149,6 +5159,9 @@ public partial class ChronoJumpWindow
 			radio_encoder_exercise_all.Sensitive = true;
 
 			radio_encoder_exercise_all.Active = true;
+
+			button_radio_encoder_exercise_help.Visible = true;
+			button_radio_encoder_exercise_help_message = Catalog.GetString("This exercise has been used on gravitatory sets.");
 		}
 		// No problem
 		else {
@@ -5169,6 +5182,12 @@ public partial class ChronoJumpWindow
 		}
 
 		hbox_encoder_exercise_speed_1rm.Sensitive = ! radio_encoder_exercise_inertial.Active;
+	}
+
+	private string button_radio_encoder_exercise_help_message;
+	private void on_button_radio_encoder_exercise_help_clicked (object o, EventArgs args)
+	{
+		new DialogMessage(Constants.MessageTypes.INFO, button_radio_encoder_exercise_help_message);
 	}
 
 	void on_button_encoder_exercise_add_clicked (object o, EventArgs args) 
@@ -5198,6 +5217,9 @@ public partial class ChronoJumpWindow
 			radio_encoder_exercise_all.Active = true;
 
 		hbox_encoder_exercise_speed_1rm.Sensitive = ! radio_encoder_exercise_inertial.Active;
+
+		button_radio_encoder_exercise_help.Visible = false;
+		button_radio_encoder_exercise_help_message = "";
 	}
 
 	private void on_radio_encoder_exercise_radios_toggled (object o, EventArgs args)

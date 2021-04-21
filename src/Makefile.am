@@ -37,7 +37,7 @@ SOURCES = \
 	gui/app1/shortcuts.cs\
 	gui/cairo/generic.cs\
 	gui/cairo/jumpsDjOptimalFall.cs\
-	gui/cairo/jumpsEvolution.cs\
+	gui/cairo/jumpsRunsEvolution.cs\
 	gui/cairo/jumpsProfile.cs\
 	gui/cairo/jumpsRjFatigue.cs\
 	gui/cairo/jumpsWeightFVProfile.cs\

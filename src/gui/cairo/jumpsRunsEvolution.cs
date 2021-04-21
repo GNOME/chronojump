@@ -16,7 +16,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -25,45 +25,11 @@ using Gtk;
 using Cairo;
 
 
-public class JumpsEvolutionGraph : CairoXY
+public abstract class EvolutionGraph : CairoXY
 {
-	//constructor when there are no points
-	public JumpsEvolutionGraph (DrawingArea area, string jumpType, string font)//, string title, string jumpType, string date)
-	{
-		this.area = area;
-
-		initGraph(font, .8);
-
-		g.SetFontSize(16);
-		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight,
-				needToExecuteJumpsStr + " " + jumpType + ".", g, alignTypes.CENTER);
-
-		endGraphDisposing(g);
-	}
-
-	//regular constructor
-	public JumpsEvolutionGraph (
-			List<PointF> point_l, double slope, double intercept,
-			DrawingArea area, string title, string jumpType, string date)
-	{
-		this.point_l = point_l;
-		this.slope = slope;
-		this.intercept = intercept;
-		this.area = area;
-		this.title = title;
-		this.jumpType = jumpType;
-		this.date = date;
-		this.colorBackground = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
-
-		xVariable = dateStr;
-		yVariable = heightStr;
-		xUnits = "";
-		yUnits = "cm";
-	}
-
 	public override void Do (string font)
 	{
-		LogB.Information("at JumpsEvolutionGraph.Do");
+		LogB.Information("at Jumps or runs EvolutionGraph.Do");
 		initGraph(font, .8);
 
                 findPointMaximums(false);
@@ -91,7 +57,7 @@ public class JumpsEvolutionGraph : CairoXY
 	}
 
 	//a bit recursive function ;)
-	private void paintGridDatetime()
+	protected void paintGridDatetime()
 	{
 		g.Save();
 		g.SetDash(new double[]{1, 2}, 0);
@@ -144,6 +110,43 @@ public class JumpsEvolutionGraph : CairoXY
 		g.Stroke ();
 		g.Restore();
 	}
+}
+
+public class JumpsEvolutionGraph : EvolutionGraph
+{
+	//constructor when there are no points
+	public JumpsEvolutionGraph (DrawingArea area, string jumpType, string font)//, string title, string jumpType, string date)
+	{
+		this.area = area;
+
+		initGraph(font, .8);
+
+		g.SetFontSize(16);
+		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight,
+				needToExecuteJumpsStr + " " + jumpType + ".", g, alignTypes.CENTER);
+
+		endGraphDisposing(g);
+	}
+
+	//regular constructor
+	public JumpsEvolutionGraph (
+			List<PointF> point_l, double slope, double intercept,
+			DrawingArea area, string title, string jumpType, string date)
+	{
+		this.point_l = point_l;
+		this.slope = slope;
+		this.intercept = intercept;
+		this.area = area;
+		this.title = title;
+		this.jumpType = jumpType;
+		this.date = date;
+		this.colorBackground = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
+
+		xVariable = dateStr;
+		yVariable = heightStr;
+		xUnits = "";
+		yUnits = "cm";
+	}
 
 	protected override void writeTitle()
 	{
@@ -153,5 +156,50 @@ public class JumpsEvolutionGraph : CairoXY
 		writeTextAtRight(ypos++, jumpTypeStr + " " + jumpType, false);
 		writeTextAtRight(ypos++, date, false);
 	}
+}
 
+public class RunsEvolutionGraph : EvolutionGraph
+{
+	//constructor when there are no points
+	public RunsEvolutionGraph (DrawingArea area, string runType, string font)//, string title, string runType, string date)
+	{
+		this.area = area;
+
+		initGraph(font, .8);
+
+		g.SetFontSize(16);
+		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight,
+				needToExecuteRunsStr + " " + runType + ".", g, alignTypes.CENTER);
+
+		endGraphDisposing(g);
+	}
+
+	//regular constructor
+	public RunsEvolutionGraph (
+			List<PointF> point_l, double slope, double intercept,
+			DrawingArea area, string title, string runType, string date)
+	{
+		this.point_l = point_l;
+		this.slope = slope;
+		this.intercept = intercept;
+		this.area = area;
+		this.title = title;
+		this.runType = runType;
+		this.date = date;
+		this.colorBackground = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
+
+		xVariable = dateStr;
+		yVariable = speedStr;
+		xUnits = "";
+		yUnits = "m/s"; //TODO: can be km/h depending on preferences
+	}
+
+	protected override void writeTitle()
+	{
+		int ypos = -6;
+
+		writeTextAtRight(ypos++, title, true);
+		writeTextAtRight(ypos++, runTypeStr + " " + runType, false);
+		writeTextAtRight(ypos++, date, false);
+	}
 }

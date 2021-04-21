@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.19";
+	static string lastChronojumpDatabaseVersion = "2.20";
 
 	public Sqlite()
 	{
@@ -2982,6 +2982,14 @@ class Sqlite
 
 				currentVersion = updateVersion("2.19");
 			}
+			if(currentVersion == "2.19")
+			{
+				LogB.SQL("Inserted into preferences: runsEvolutionOnlyBestInSession");
+
+				SqlitePreferences.Insert (SqlitePreferences.RunsEvolutionOnlyBestInSession, "False");
+
+				currentVersion = updateVersion("2.20");
+			}
 
 
 
@@ -3204,6 +3212,7 @@ class Sqlite
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
 
+		//2.19 - 2.20 Converted DB to 2.20 Inserted into preferences: runsEvolutionOnlyBestInSession
 		//2.18 - 2.19 Converted DB to 2.19 Doing alter table encoderExercise ADD COLUMN type TEXT ...
 		//2.17 - 2.18 Converted DB to 2.18 Person77 ALTER TABLE added field: linkServerImage (for networks)
 		//2.16 - 2.17 Converted DB to 2.17 Created table lastJumpRjTypeParams

@@ -208,6 +208,9 @@ public class Preferences
 	public bool jumpsFVProfileShowFullGraph;
 	public bool jumpsEvolutionOnlyBestInSession;
 
+	//runs
+	public bool runsEvolutionOnlyBestInSession;
+
 	//encoder
 	public Constants.EncoderAutoSaveCurve encoderAutoSaveCurve;
 	public int encoderAutoSaveCurveBestNValue;

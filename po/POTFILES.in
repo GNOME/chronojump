@@ -66,7 +66,7 @@ src/gui/app1/forceSensorAnalyze.cs
 src/gui/app1/forceSensor.cs
 src/gui/app1/jump.cs
 src/gui/app1/jumpsDjOptimalFall.cs
-src/gui/app1/jumpsEvolution.cs
+src/gui/app1/jumpsRunsEvolution.cs
 src/gui/app1/jumpsProfile.cs
 src/gui/app1/jumpsRjFatigue.cs
 src/gui/app1/jumpsWeightFVProfile.cs

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -26,6 +26,10 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
+	/*
+	   ---- jumpsEvolution ----
+	   */
+
 	[Widget] Gtk.DrawingArea drawingarea_jumps_evolution;
 	[Widget] Gtk.Image image_tab_jumps_evolution;
 	[Widget] Gtk.Image image_jumps_evolution_save;
@@ -155,6 +159,145 @@ public partial class ChronoJumpWindow
 	private void on_overwrite_file_jumps_evolution_save_image_accepted (object o, EventArgs args)
 	{
 		on_button_jumps_evolution_save_image_selected (exportFileName);
+
+		string myString = string.Format(Catalog.GetString("Saved to {0}"), exportFileName);
+		new DialogMessage(Constants.MessageTypes.INFO, myString);
+	}
+
+
+	/*
+	   ---- runsEvolution ----
+	   */
+
+	[Widget] Gtk.DrawingArea drawingarea_runs_evolution;
+	[Widget] Gtk.Image image_tab_runs_evolution;
+	[Widget] Gtk.Image image_runs_evolution_save;
+	[Widget] Gtk.Image image_runs_evolution_analyze_image_save;
+	[Widget] Gtk.HBox hbox_combo_select_runs_evolution;
+	[Widget] Gtk.ComboBox combo_select_runs_evolution;
+	[Widget] Gtk.Button button_runs_evolution_save_image;
+	[Widget] Gtk.CheckButton check_runs_evolution_only_best_in_session;
+
+	RunsEvolution runsEvolution;
+	RunsEvolutionGraph runsEvolutionGraph;
+	CjComboSelectRuns comboSelectRunsEvolution;
+
+	// combo (start)
+	private void createComboSelectRunsEvolution(bool create)
+	{
+		if(create)
+		{
+			comboSelectRunsEvolution = new CjComboSelectRuns(combo_select_runs_evolution, hbox_combo_select_runs_evolution);
+			combo_select_runs_evolution = comboSelectRunsEvolution.Combo;
+			combo_select_runs_evolution.Changed += new EventHandler (on_combo_select_runs_evolution_changed);
+		} else {
+			comboSelectRunsEvolution.Fill();
+			combo_select_runs_evolution = comboSelectRunsEvolution.Combo;
+		}
+		combo_select_runs_evolution.Sensitive = true;
+	}
+	private void on_combo_select_runs_evolution_changed(object o, EventArgs args)
+	{
+		ComboBox combo = o as ComboBox;
+		if (o == null)
+			return;
+
+		runsEvolutionDo(true);
+	}
+	// combo (end)
+
+	private void on_check_runs_evolution_only_best_in_session_clicked (object o, EventArgs args)
+	{
+		runsEvolutionDo(true);
+
+		SqlitePreferences.Update(SqlitePreferences.RunsEvolutionOnlyBestInSession,
+				check_runs_evolution_only_best_in_session.Active, false);
+	}
+
+	private void runsEvolutionDo (bool calculateData)
+	{
+		if(currentPerson == null || currentSession == null ||
+				drawingarea_runs_evolution == null || drawingarea_runs_evolution.GdkWindow == null) //it happens at start on click on analyze
+		{
+			button_runs_evolution_save_image.Sensitive = false;
+			return;
+		}
+
+		if(runsEvolution == null) {
+			runsEvolution = new RunsEvolution();
+			calculateData = true;
+		}
+
+		string runType = comboSelectRunsEvolution.GetSelectedNameEnglish();
+
+		if(calculateData)
+			runsEvolution.Calculate(currentPerson.UniqueID, runType, check_runs_evolution_only_best_in_session.Active);
+
+		if(runsEvolution.Point_l.Count == 0)
+		{
+			//constructor for showing blank screen with a message
+			new RunsEvolutionGraph(drawingarea_runs_evolution, runType, preferences.fontType.ToString());
+					//currentPerson.Name, runType, currentSession.DateShort);
+
+			button_runs_evolution_save_image.Sensitive = false;
+		} else {
+			//regular constructor
+			runsEvolutionGraph = new RunsEvolutionGraph(
+					runsEvolution.Point_l,
+					runsEvolution.Slope,
+					runsEvolution.Intercept,
+					drawingarea_runs_evolution,
+					currentPerson.Name, runType, currentSession.DateShort);
+			runsEvolutionGraph.Do(preferences.fontType.ToString());
+
+			button_runs_evolution_save_image.Sensitive = true;
+		}
+	}
+	private void on_drawingarea_runs_evolution_expose_event (object o, ExposeEventArgs args)
+	{
+		//needed to have mouse clicks at: on_drawingarea_runs_evolution_button_press_event ()
+//		drawingarea_runs_evolution.AddEvents((int) (Gdk.EventMask.ButtonPressMask | Gdk.EventMask.ButtonReleaseMask));
+		drawingarea_runs_evolution.AddEvents((int) Gdk.EventMask.ButtonPressMask);
+
+		runsEvolutionDo(false); //do not calculate data
+		//data is calculated on switch page (at notebook_capture_analyze) or on change person
+	}
+
+	private void on_drawingarea_runs_evolution_button_press_event (object o, ButtonPressEventArgs args)
+	{
+		//if there is no data and nothing to show, nothing to press, and also this is null
+		if(runsEvolutionGraph == null)
+			return;
+
+		LogB.Information("Button press done!");
+
+		//redo the graph to delete previous rectangles of previous mouse clicks
+		runsEvolutionGraph.Do(preferences.fontType.ToString());
+		LogB.Information(string.Format("Mouse X: {0}; Mouse Y: {1}", args.Event.X, args.Event.Y));
+		runsEvolutionGraph.CalculateAndWriteRealXY(args.Event.X, args.Event.Y);
+	}
+
+	private void on_button_runs_evolution_save_image_clicked (object o, EventArgs args)
+	{
+		checkFile(Constants.CheckFileOp.RUNS_EVOLUTION_SAVE_IMAGE);
+	}
+
+	private void on_button_runs_evolution_save_image_selected (string destination)
+	{
+		if(drawingarea_runs_evolution == null)
+			return;
+
+		Gdk.Pixbuf pixbuf = Gdk.Pixbuf.FromDrawable(drawingarea_runs_evolution.GdkWindow, Gdk.Colormap.System,
+				0, 0, 0, 0,
+				UtilGtk.WidgetWidth(drawingarea_runs_evolution),
+				UtilGtk.WidgetHeight(drawingarea_runs_evolution) );
+
+		LogB.Information("Saving");
+		pixbuf.Save(destination,"png");
+	}
+	private void on_overwrite_file_runs_evolution_save_image_accepted (object o, EventArgs args)
+	{
+		on_button_runs_evolution_save_image_selected (exportFileName);
 
 		string myString = string.Format(Catalog.GetString("Saved to {0}"), exportFileName);
 		new DialogMessage(Constants.MessageTypes.INFO, myString);

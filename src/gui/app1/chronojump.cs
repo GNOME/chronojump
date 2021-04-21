@@ -129,6 +129,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_mode_contacts_jumps_weight_fv_profile;
 	[Widget] Gtk.RadioButton radio_mode_contacts_jumps_evolution;
 	[Widget] Gtk.RadioButton radio_mode_contacts_jumps_rj_fatigue;
+	[Widget] Gtk.RadioButton radio_mode_contacts_runs_evolution;
 	[Widget] Gtk.RadioButton radio_mode_contacts_sprint;
 	[Widget] Gtk.RadioButton radio_mode_contacts_advanced;
 
@@ -490,7 +491,8 @@ public partial class ChronoJumpWindow
 	private string progName;
 	private enum notebook_start_pages { PROGRAM, SENDLOG, EXITCONFIRM }
 	private enum notebook_sup_pages { START, CONTACTS, ENCODER, SESSION, NETWORKSPROBLEMS, HELP, NEWS }
-	private enum notebook_analyze_pages { STATISTICS, JUMPSPROFILE, JUMPSDJOPTIMALFALL, JUMPSWEIGHTFVPROFILE, JUMPSEVOLUTION, JUMPSRJFATIGUE, SPRINT, FORCESENSOR, RACEENCODER }
+	private enum notebook_analyze_pages { STATISTICS, JUMPSPROFILE, JUMPSDJOPTIMALFALL, JUMPSWEIGHTFVPROFILE, JUMPSEVOLUTION, JUMPSRJFATIGUE,
+		RUNSEVOLUTION, SPRINT, FORCESENSOR, RACEENCODER }
 
 	private string runningFileName; //useful for knowing if there are two chronojump instances
 
@@ -649,6 +651,7 @@ public partial class ChronoJumpWindow
 		createComboSelectJumpsRjFatigueNum(true);
 		combo_jumps_rj_fatigue_divide_in.Active = 0;
 		createComboSelectRuns(true);
+		createComboSelectRunsEvolution(true);
 		createComboSelectRunsInterval(true);
 		
 		createComboResultJumps();
@@ -999,6 +1002,9 @@ public partial class ChronoJumpWindow
 			radio_jumps_weight_fv_profile_zoom_to_points.Active = true;
 		check_jumps_evolution_only_best_in_session.Active = preferences.jumpsEvolutionOnlyBestInSession;
 
+		//---- runs ----
+		check_runs_evolution_only_best_in_session.Active = preferences.runsEvolutionOnlyBestInSession;
+
 		//---- video ----
 
 		UtilGtk.ColorsCheckOnlyPrelight(checkbutton_video_contacts);
@@ -1297,7 +1303,12 @@ public partial class ChronoJumpWindow
 				createComboSelectJumpsRjFatigueNum (false);
 		}
 		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSSIMPLE)
+		{
 			updateGraphRunsSimple();
+
+			if(notebook_analyze.CurrentPage == Convert.ToInt32(notebook_analyze_pages.RUNSEVOLUTION))
+				runsEvolutionDo(true); //calculate data
+		}
 		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
 		{
 			updateGraphRunsInterval();
@@ -3130,6 +3141,7 @@ public partial class ChronoJumpWindow
 		radio_mode_contacts_jumps_profile.Active = true;
 		hbox_radio_mode_contacts_analyze_buttons.Visible = false;
 		radio_mode_contacts_jumps_rj_fatigue.Visible = false;
+		radio_mode_contacts_runs_evolution.Visible = false;
 		radio_mode_contacts_sprint.Visible = false;
 		notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.STATISTICS);
 		button_inspect_last_test_run_intervallic.Visible = false;
@@ -3598,6 +3610,7 @@ public partial class ChronoJumpWindow
 			hbox_radio_mode_contacts_analyze_buttons.Visible = true;
 			hbox_radio_mode_contacts_analyze_jump_simple_buttons.Visible = true;
 			radio_mode_contacts_jumps_rj_fatigue.Visible = false;
+			radio_mode_contacts_runs_evolution.Visible = false;
 			radio_mode_contacts_sprint.Visible = false;
 		}
 		else if(m == Constants.Menuitem_modes.JUMPSREACTIVE)
@@ -3605,15 +3618,27 @@ public partial class ChronoJumpWindow
 			hbox_radio_mode_contacts_analyze_buttons.Visible = true;
 			hbox_radio_mode_contacts_analyze_jump_simple_buttons.Visible = false;
 			radio_mode_contacts_jumps_rj_fatigue.Visible = true;
+			radio_mode_contacts_runs_evolution.Visible = false;
 			radio_mode_contacts_sprint.Visible = false;
 
 			radio_mode_contacts_jumps_rj_fatigue.Active = true;
+		}
+		else if(m == Constants.Menuitem_modes.RUNSSIMPLE)
+		{
+			hbox_radio_mode_contacts_analyze_buttons.Visible = true;
+			hbox_radio_mode_contacts_analyze_jump_simple_buttons.Visible = false;
+			radio_mode_contacts_jumps_rj_fatigue.Visible = false;
+			radio_mode_contacts_runs_evolution.Visible = true;
+			radio_mode_contacts_sprint.Visible = false;
+
+			radio_mode_contacts_runs_evolution.Active = true;
 		}
 		else if(m == Constants.Menuitem_modes.RUNSINTERVALLIC)
 		{
 			hbox_radio_mode_contacts_analyze_buttons.Visible = true;
 			hbox_radio_mode_contacts_analyze_jump_simple_buttons.Visible = false;
 			radio_mode_contacts_jumps_rj_fatigue.Visible = false;
+			radio_mode_contacts_runs_evolution.Visible = false;
 			radio_mode_contacts_sprint.Visible = true;
 
 			radio_mode_contacts_sprint.Active = true;
@@ -6567,6 +6592,7 @@ LogB.Debug("mc finished 5");
 		LogB.Information("ACCEPTED Add new run type");
 		if(runTypeAddWin.InsertedSimple) {
 			createComboSelectRuns(false);
+			createComboSelectRunsEvolution(false);
 
 			UtilGtk.ComboUpdate(combo_result_runs, 
 					SqliteRunType.SelectRunTypes(Constants.AllRunsNameStr(), true), ""); //without filter, only select name
@@ -7388,6 +7414,7 @@ LogB.Debug("mc finished 5");
 
 		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE ||
 				current_menuitem_mode == Constants.Menuitem_modes.JUMPSREACTIVE ||
+				current_menuitem_mode == Constants.Menuitem_modes.RUNSSIMPLE ||
 				current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
 		{
 			radio_mode_contacts_analyze_buttons_visible (current_menuitem_mode);
@@ -7431,6 +7458,14 @@ LogB.Debug("mc finished 5");
 					//Active should be the last one to see the correct test after a capture
 					if(comboSelectJumpsRjFatigueNum.Count > 0)
 						combo_select_jumps_rj_fatigue_num.Active = comboSelectJumpsRjFatigueNum.Count -1;
+				}
+			}
+			else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSSIMPLE)
+			{
+				if(radio_mode_contacts_runs_evolution.Active)
+				{
+					notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RUNSEVOLUTION);
+					runsEvolutionDo(true);
 				}
 			}
 		}
@@ -7487,6 +7522,14 @@ LogB.Debug("mc finished 5");
 		{
 			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.JUMPSRJFATIGUE);
 			createComboSelectJumpsRjFatigue (false);
+		}
+	}
+	private void on_radio_mode_contacts_runs_evolution_toggled (object o, EventArgs args)
+	{
+		if(radio_mode_contacts_runs_evolution.Active)
+		{
+			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RUNSEVOLUTION);
+			runsEvolutionDo(true);
 		}
 	}
 	private void on_radio_mode_contacts_sprint_toggled (object o, EventArgs args)

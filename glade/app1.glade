@@ -17195,6 +17195,53 @@ Resisted race analyzer</property>
                                                       </packing>
                                                     </child>
                                                     <child>
+                                                      <widget class="GtkRadioButton" id="radio_mode_contacts_runs_evolution">
+                                                        <property name="can_focus">True</property>
+                                                        <property name="receives_default">False</property>
+                                                        <property name="relief">half</property>
+                                                        <property name="draw_indicator">False</property>
+                                                        <property name="group">radio_mode_contacts_advanced</property>
+                                                        <signal name="toggled" handler="on_radio_mode_contacts_runs_evolution_toggled" swapped="no"/>
+                                                        <child>
+                                                          <widget class="GtkHBox" id="hbox242">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_tab_runs_evolution">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_mode_contacts_runs_evolution">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">Races / time</property>
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                          </widget>
+                                                        </child>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">False</property>
+                                                        <property name="position">2</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
                                                       <widget class="GtkRadioButton" id="radio_mode_contacts_sprint">
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">False</property>
@@ -17238,7 +17285,7 @@ Resisted race analyzer</property>
                                                       <packing>
                                                         <property name="expand">False</property>
                                                         <property name="fill">False</property>
-                                                        <property name="position">2</property>
+                                                        <property name="position">3</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -17286,7 +17333,7 @@ Resisted race analyzer</property>
                                                       <packing>
                                                         <property name="expand">False</property>
                                                         <property name="fill">False</property>
-                                                        <property name="position">3</property>
+                                                        <property name="position">4</property>
                                                       </packing>
                                                     </child>
                                                   </widget>
@@ -21344,6 +21391,182 @@ Concentric</property>
                                                       </packing>
                                                     </child>
                                                     <child>
+                                                      <widget class="GtkAlignment" id="alignment76">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="top_padding">6</property>
+                                                        <child>
+                                                          <widget class="GtkVBox" id="vbox_runs_evolution">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">2</property>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox505">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">20</property>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox514">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">12</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label636">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Run type</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox_combo_select_runs_evolution">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkCheckButton" id="check_runs_evolution_only_best_in_session">
+                                                            <property name="label" translatable="yes">Only the best run on each session</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="draw_indicator">True</property>
+                                                            <signal name="clicked" handler="on_check_runs_evolution_only_best_in_session_clicked" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox515">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <widget class="GtkDrawingArea" id="drawingarea_runs_evolution">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <signal name="expose_event" handler="on_drawingarea_runs_evolution_expose_event" swapped="no"/>
+                                                            <signal name="button_press_event" handler="on_drawingarea_runs_evolution_button_press_event" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkVBox" id="vbox257">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_runs_evolution_save_image">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="tooltip" translatable="yes">Save image</property>
+                                                            <signal name="clicked" handler="on_button_runs_evolution_save_image_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkVBox" id="vbox258">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_runs_evolution_save">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_runs_evolution_analyze_image_save">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                          </widget>
+                                                        </child>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="position">6</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label635">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="label">runs evolution</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="position">6</property>
+                                                        <property name="tab_fill">False</property>
+                                                        <property name="type">tab</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
                                                       <widget class="GtkAlignment" id="alignment_sprint">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
@@ -22176,7 +22399,7 @@ Concentric</property>
                                                         </child>
                                                       </widget>
                                                       <packing>
-                                                        <property name="position">6</property>
+                                                        <property name="position">7</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -22186,7 +22409,7 @@ Concentric</property>
                                                         <property name="label">Sprint</property>
                                                       </widget>
                                                       <packing>
-                                                        <property name="position">6</property>
+                                                        <property name="position">7</property>
                                                         <property name="tab_fill">False</property>
                                                         <property name="type">tab</property>
                                                       </packing>
@@ -27926,7 +28149,7 @@ Concentric</property>
                                                         </child>
                                                       </widget>
                                                       <packing>
-                                                        <property name="position">7</property>
+                                                        <property name="position">8</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -27936,7 +28159,7 @@ Concentric</property>
                                                         <property name="label">force sensor</property>
                                                       </widget>
                                                       <packing>
-                                                        <property name="position">7</property>
+                                                        <property name="position">8</property>
                                                         <property name="tab_fill">False</property>
                                                         <property name="type">tab</property>
                                                       </packing>
@@ -29322,7 +29545,7 @@ Concentric</property>
                                                         </child>
                                                       </widget>
                                                       <packing>
-                                                        <property name="position">8</property>
+                                                        <property name="position">9</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -29332,7 +29555,7 @@ Concentric</property>
                                                         <property name="label">raceencoder</property>
                                                       </widget>
                                                       <packing>
-                                                        <property name="position">8</property>
+                                                        <property name="position">9</property>
                                                         <property name="tab_fill">False</property>
                                                         <property name="type">tab</property>
                                                       </packing>

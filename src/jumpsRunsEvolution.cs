@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2019-2020   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2019-2021   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -23,49 +23,18 @@ using System.Collections.Generic; //List
 
 //TODO: very similar to JumpsDjOptimalFall, refactorize if needed
 
-public class JumpsEvolution
+public abstract class JumpsRunsEvolution
 {
-	private List<PointF> point_l;
-	LeastSquaresLine ls;
+	protected List<PointF> point_l;
+	protected LeastSquaresLine ls;
 
-	//constructor
-	public JumpsEvolution()
+	public abstract void Calculate(int personID, string type, bool onlyBestInSession);
+
+	protected void getLeastSquaresLine () //straight line
 	{
-	}
-	
-	public void Calculate (int personID, string jumpType, bool onlyBestInSession)
-	{
-		//1 get data
-                List<Jump> jump_l = SqliteJump.SelectJumps (-1, personID, jumpType, Sqlite.Orders_by.DEFAULT, -1, false, onlyBestInSession);
-
-		//2 convert to list of PointF
-		point_l = new List<PointF>();
-		int currentSession = -1;
-                foreach(Jump j in jump_l)
-		{
-			if(onlyBestInSession)
-			{
-				//at onlyBestInSession they return ordered by sessionID, jump.Tv DESC
-				if(j.SessionID == currentSession)
-					continue;
-				else
-					currentSession = j.SessionID;
-			}
-
-			DateTime dt = UtilDate.FromFile(j.Datetime);
-			double dtDouble = UtilDate.DateTimeYearDayAsDouble(dt);
-
-			point_l.Add(new PointF(
-						dtDouble,
-						Util.GetHeightInCentimeters(j.Tv)
-						));
-		}
-
-		//3 get LeastSquaresLine (straight line)
 		ls = new LeastSquaresLine();
 		ls.Calculate(point_l);
 
-		//4 print data
 		LogB.Information(string.Format("slope = {0}; intercept = {1}", ls.Slope, ls.Intercept));
 	}
 
@@ -96,5 +65,78 @@ public class JumpsEvolution
 	public double Intercept
 	{
 		get { return ls.Intercept; }
+	}
+}
+
+public class JumpsEvolution : JumpsRunsEvolution
+{
+	//constructor
+	public JumpsEvolution()
+	{
+	}
+
+	public override void Calculate (int personID, string jumpType, bool onlyBestInSession)
+	{
+		//1 get data
+                List<Jump> jump_l = SqliteJump.SelectJumps (-1, personID, jumpType, Sqlite.Orders_by.DEFAULT, -1, false, onlyBestInSession);
+
+		//2 convert to list of PointF
+		point_l = new List<PointF>();
+		int currentSession = -1;
+                foreach(Jump j in jump_l)
+		{
+			if(onlyBestInSession)
+			{
+				//at onlyBestInSession they return ordered by sessionID, jump.Tv DESC
+				if(j.SessionID == currentSession)
+					continue;
+				else
+					currentSession = j.SessionID;
+			}
+
+			DateTime dt = UtilDate.FromFile(j.Datetime);
+			double dtDouble = UtilDate.DateTimeYearDayAsDouble(dt);
+
+			point_l.Add(new PointF(dtDouble, Util.GetHeightInCentimeters(j.Tv)));
+		}
+
+		getLeastSquaresLine ();
+	}
+}
+
+public class RunsEvolution : JumpsRunsEvolution
+{
+	//constructor
+	public RunsEvolution()
+	{
+	}
+
+	public override void Calculate (int personID, string runType, bool onlyBestInSession)
+	{
+		//1 get data
+                List<Run> run_l = SqliteRun.SelectRuns (false, -1, personID, runType,
+				Sqlite.Orders_by.DEFAULT, -1, false, onlyBestInSession);
+
+		//2 convert to list of PointF
+		point_l = new List<PointF>();
+		int currentSession = -1;
+                foreach(Run r in run_l)
+		{
+			if(onlyBestInSession)
+			{
+				//at onlyBestInSession they return ordered by sessionID, run.distance/run.time DESC
+				if(r.SessionID == currentSession)
+					continue;
+				else
+					currentSession = r.SessionID;
+			}
+
+			DateTime dt = UtilDate.FromFile(r.Datetime);
+			double dtDouble = UtilDate.DateTimeYearDayAsDouble(dt);
+
+			point_l.Add(new PointF(dtDouble, r.Speed));
+		}
+
+		getLeastSquaresLine ();
 	}
 }

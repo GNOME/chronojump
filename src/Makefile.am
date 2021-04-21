@@ -215,7 +215,7 @@ SOURCES = \
 	jump.cs\
 	jumpsProfile.cs\
 	jumpsDjOptimalFall.cs\
-	jumpsEvolution.cs\
+	jumpsRunsEvolution.cs\
 	jumpsRjFatigue.cs\
 	jumpsWeightFVProfile.cs\
 	jumpType.cs\

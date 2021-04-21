@@ -812,6 +812,7 @@ public partial class ChronoJumpWindow
 		image_jumps_dj_optimal_fall_save.Pixbuf = pixbuf;
 		image_jumps_weight_fv_profile_save.Pixbuf = pixbuf;
 		image_jumps_evolution_save.Pixbuf = pixbuf;
+		image_runs_evolution_save.Pixbuf = pixbuf;
 		image_jumps_rj_fatigue_save.Pixbuf = pixbuf;
 		image_sprint_analyze_save.Pixbuf = pixbuf;
 		image_encoder_analyze_image_compujump_send_email_image.Pixbuf = pixbuf;
@@ -836,6 +837,7 @@ public partial class ChronoJumpWindow
 		image_forcesensor_analyze_image_save5.Pixbuf = pixbuf;
 		image_forcesensor_analyze_image_save6.Pixbuf = pixbuf;
 		image_forcesensor_analyze_image_save7.Pixbuf = pixbuf;
+		image_runs_evolution_analyze_image_save.Pixbuf = pixbuf;
 		image_force_sensor_analyze_table_save_1.Pixbuf = pixbuf;
 		image_run_encoder_analyze_table_save_1.Pixbuf = pixbuf;
 		image_sprint_analyze_image_save.Pixbuf = pixbuf;
@@ -884,6 +886,7 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeIndividualAllSessionsIcon);
 		image_encoder_analyze_individual_all_sessions.Pixbuf = pixbuf;
 		image_tab_jumps_evolution.Pixbuf = pixbuf;
+		image_tab_runs_evolution.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeGroupalCurrentSessionIcon);
 		image_sprint_analyze_groupal_current_session.Pixbuf = pixbuf;

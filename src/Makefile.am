@@ -12,7 +12,7 @@ SOURCES = \
 	gui/app1/icons.cs\
 	gui/app1/jumpsProfile.cs\
 	gui/app1/jumpsDjOptimalFall.cs\
-	gui/app1/jumpsEvolution.cs\
+	gui/app1/jumpsRunsEvolution.cs\
 	gui/app1/jumpsRjFatigue.cs\
 	gui/app1/jumpsWeightFVProfile.cs\
 	gui/app1/contactsExercise.cs\

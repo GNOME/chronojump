@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2019-2020   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2019-2021   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using Gtk;
@@ -187,6 +187,7 @@ public partial class ChronoJumpWindow
 
 			//3) simple run
 			createComboSelectRuns(false);
+			createComboSelectRunsEvolution(false);
 			UtilGtk.ComboUpdate(combo_result_runs,
 					SqliteRunType.SelectRunTypes(Constants.AllRunsNameStr(), true), ""); //without filter, only select name
 			combo_select_runs.Active = 0;

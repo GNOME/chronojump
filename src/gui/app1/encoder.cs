@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com>
  */
 using System;
 using System.IO; 
@@ -2103,6 +2103,7 @@ public partial class ChronoJumpWindow
 				checkFileOp == Constants.CheckFileOp.JUMPS_WEIGHT_FV_PROFILE_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.JUMPS_EVOLUTION_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.JUMPS_RJ_FATIGUE_SAVE_IMAGE ||
+				checkFileOp == Constants.CheckFileOp.RUNS_EVOLUTION_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL ||
@@ -2180,6 +2181,8 @@ public partial class ChronoJumpWindow
 			nameString += "_jumps_by_time.png";
 		else if(checkFileOp == Constants.CheckFileOp.JUMPS_RJ_FATIGUE_SAVE_IMAGE)
 			nameString += "_jumps_rj_fatigue.png";
+		else if(checkFileOp == Constants.CheckFileOp.RUNS_EVOLUTION_SAVE_IMAGE)
+			nameString += "_runs_by_time.png";
 		else if(checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_SAVE_IMAGE)
 			nameString += "_runs_sprint.png";
 		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE)
@@ -2265,19 +2268,22 @@ public partial class ChronoJumpWindow
 					if(checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE)
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_jumps_profile_save_image_accepted);
-					if(checkFileOp == Constants.CheckFileOp.JUMPS_DJ_OPTIMAL_FALL_SAVE_IMAGE)
+					else if(checkFileOp == Constants.CheckFileOp.JUMPS_DJ_OPTIMAL_FALL_SAVE_IMAGE)
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_jumps_dj_optimal_fall_save_image_accepted);
-					if(checkFileOp == Constants.CheckFileOp.JUMPS_WEIGHT_FV_PROFILE_SAVE_IMAGE)
+					else if(checkFileOp == Constants.CheckFileOp.JUMPS_WEIGHT_FV_PROFILE_SAVE_IMAGE)
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_jumps_weight_fv_profile_save_image_accepted);
-					if(checkFileOp == Constants.CheckFileOp.JUMPS_EVOLUTION_SAVE_IMAGE)
+					else if(checkFileOp == Constants.CheckFileOp.JUMPS_EVOLUTION_SAVE_IMAGE)
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_jumps_evolution_save_image_accepted);
-					if(checkFileOp == Constants.CheckFileOp.JUMPS_RJ_FATIGUE_SAVE_IMAGE)
+					else if(checkFileOp == Constants.CheckFileOp.JUMPS_RJ_FATIGUE_SAVE_IMAGE)
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_jumps_rj_fatigue_save_image_accepted);
-					if(checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_SAVE_IMAGE)
+					else if(checkFileOp == Constants.CheckFileOp.RUNS_EVOLUTION_SAVE_IMAGE)
+						confirmWin.Button_accept.Clicked +=
+							new EventHandler(on_overwrite_file_runs_evolution_save_image_accepted);
+					else if(checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_SAVE_IMAGE)
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_runs_sprint_save_image_accepted);
 					else if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_SAVE_IMAGE)
@@ -2340,6 +2346,8 @@ public partial class ChronoJumpWindow
 						on_button_jumps_evolution_save_image_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.JUMPS_RJ_FATIGUE_SAVE_IMAGE)
 						on_button_jumps_rj_fatigue_save_image_selected (exportFileName);
+					else if(checkFileOp == Constants.CheckFileOp.RUNS_EVOLUTION_SAVE_IMAGE)
+						on_button_runs_evolution_save_image_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_SAVE_IMAGE)
 						on_button_runs_sprint_save_image_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_SAVE_IMAGE)

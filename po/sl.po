@@ -4280,7 +4280,7 @@ msgstr ""
 
 #: ../glade/preferences_win.glade.h:155
 msgid "<b>Advanced</b>"
-msgstr "<b>Napredne možnosti<b>"
+msgstr "<b>Napredne možnosti</b>"
 
 #: ../glade/preferences_win.glade.h:157
 msgid "Multimedia"

@@ -48,6 +48,7 @@ class SqlitePreferences : Sqlite
 	public const string JumpsFVProfileOnlyBestInWeight = "jumpsFVProfileOnlyBestInWeight";
 	public const string JumpsFVProfileShowFullGraph = "jumpsFVProfileShowFullGraph";
 	public const string JumpsEvolutionOnlyBestInSession = "jumpsEvolutionOnlyBestInSession";
+	public const string RunsEvolutionOnlyBestInSession = "runsEvolutionOnlyBestInSession";
 
 	//encoder
 	public const string EncoderCaptureInfinite = "encoderCaptureInfinite";
@@ -216,6 +217,9 @@ class SqlitePreferences : Sqlite
 				SqlitePreferences.Insert (JumpsFVProfileOnlyBestInWeight, "True", dbcmdTr);
 				SqlitePreferences.Insert (JumpsFVProfileShowFullGraph, "True", dbcmdTr);
 				SqlitePreferences.Insert (JumpsEvolutionOnlyBestInSession, "False", dbcmdTr);
+
+				//runs
+				SqlitePreferences.Insert (RunsEvolutionOnlyBestInSession, "False", dbcmdTr);
 
 				//encoder
 				Insert ("encoderCaptureTime", "60", dbcmdTr);
@@ -518,6 +522,8 @@ class SqlitePreferences : Sqlite
 				preferences.jumpsFVProfileShowFullGraph = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == JumpsEvolutionOnlyBestInSession)
 				preferences.jumpsEvolutionOnlyBestInSession = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == RunsEvolutionOnlyBestInSession)
+				preferences.runsEvolutionOnlyBestInSession = reader[1].ToString() == "True";
 			//encoder capture
 			else if(reader[0].ToString() == "encoderCaptureTime")
 				preferences.encoderCaptureTime = Convert.ToInt32(reader[1].ToString());

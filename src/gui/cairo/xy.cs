@@ -16,7 +16,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -50,6 +50,7 @@ public abstract class CairoXY : CairoGeneric
 	protected DrawingArea area;
 	protected string title;
 	protected string jumpType;
+	protected string runType;
 	protected string date;
 	protected Cairo.Color colorBackground;
 
@@ -88,6 +89,7 @@ public abstract class CairoXY : CairoGeneric
 	//done to use Catalog just only on gui/cairo/xy.cs
 	//but jumpsWeightFVProfile has many messages, so done also there
 	protected string needToExecuteJumpsStr = Catalog.GetString("Need to execute jumps:");
+	protected string needToExecuteRunsStr = Catalog.GetString("Need to execute races:");
 	protected string optimalFallHeightStr = Catalog.GetString("Optimal fall height");
 	protected string heightStr = Catalog.GetString("Height");
 	protected string extraWeightStr = Catalog.GetString("Extra weight");
@@ -101,6 +103,7 @@ public abstract class CairoXY : CairoGeneric
 	protected string tcStr = Catalog.GetString("TC");
 	protected string countStr = Catalog.GetString("Num");
 	protected string jumpTypeStr = Catalog.GetString("Jump type:");
+	protected string runTypeStr = Catalog.GetString("Race type:");
 	protected string font;
 	//protected static int lastPointPainted;
 

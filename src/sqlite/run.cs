@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -90,7 +90,7 @@ class SqliteRun : Sqlite
 
 	//note this is selecting also the person.name
 	private static string selectRunsCreateSelection (int sessionID, int personID, string filterType,
-			Orders_by order, int limit) 
+			Orders_by order, int limit, bool onlyBestInSession)
 	{
 		string tp = Constants.PersonTable;
 
@@ -109,6 +109,8 @@ class SqliteRun : Sqlite
 		string orderByString = " ORDER BY upper(" + tp + ".name), run.uniqueID ";
 		if(order == Orders_by.ID_DESC)
 			orderByString = " ORDER BY run.uniqueID DESC ";
+		if(onlyBestInSession)
+			orderByString = " ORDER BY run.sessionID, run.distance/run.time DESC ";
 
 		string limitString = "";
 		if(limit != -1)
@@ -136,7 +138,7 @@ class SqliteRun : Sqlite
 		if(!dbconOpened)
 			Sqlite.Open();
 
-		dbcmd.CommandText = selectRunsCreateSelection (sessionID, personID, filterType, order, limit);
+		dbcmd.CommandText = selectRunsCreateSelection (sessionID, personID, filterType, order, limit, false);
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -191,12 +193,24 @@ class SqliteRun : Sqlite
          */
 
 	public static List<Run> SelectRuns (bool dbconOpened, int sessionID, int personID, string runType,
-			Orders_by order, int limit, bool personNameInComment)
+			Orders_by order, int limit, bool personNameInComment, bool onlyBestInSession)
 	{
-		dbcmd.CommandText = selectRunsCreateSelection (sessionID, personID, runType, order, limit);
+		//need to close DB for SqliteSession.SelectAll
+		if(dbconOpened)
+		{
+			Sqlite.Close();
+//			dbconOpened = false;
+		}
+
+		//runs previous to DB 2.13 have no datetime on run
+		//find session datetime for that runs
+		List<Session> session_l = SqliteSession.SelectAll(Sqlite.Orders_by.DEFAULT);
+
+
+		dbcmd.CommandText = selectRunsCreateSelection (sessionID, personID, runType, order, limit, onlyBestInSession);
 		LogB.SQL(dbcmd.CommandText.ToString());
 
-		if(! dbconOpened)
+//		if(! dbconOpened)
 			Sqlite.Open();
 
 		dbcmd.ExecuteNonQuery();
@@ -219,6 +233,27 @@ class SqliteRun : Sqlite
 					Util.IntToBool(Convert.ToInt32(reader[9])), //initialSpeed
 					reader[10].ToString() 	//datetime
 					);
+
+			//runs previous to DB 2.13 have no datetime on run
+			//find session datetime for that runs
+			if(run.Datetime == "")
+			{
+				bool found = false;
+				foreach(Session session in session_l)
+				{
+					if(session.UniqueID == run.SessionID)
+					{
+						run.Datetime = UtilDate.ToFile(session.Date);
+						found = true;
+						break;
+					}
+
+				}
+				//on really old versions of Chronojump, deleting a session maybe does not delete the runs
+				//so could be able to found a run without a session, so assign here the MinValue possible of DateTime
+				if(! found)
+					run.Datetime = UtilDate.ToFile(DateTime.MinValue);
+			}
 
 			if(personNameInComment)
 				run.Description = reader[0].ToString();

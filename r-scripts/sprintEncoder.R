@@ -330,46 +330,17 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
         #Plotting rawSpeed
         ylimits = c(0, sprintRawDynamics$rawVmax*1.05)
         xlimits =c(0, sprintRawDynamics$time[sprintRawDynamics$endSample])
-	#Calculing lap times, this ca be configured as an exercise
-        splitPosition = min(sprintRawDynamics$testLength, splitLength)
-        splitTime = interpolateXAtY(sprintRawDynamics$time[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
-                                  sprintRawDynamics$rawPosition[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
-                                  splitPosition)
-        meanSpeed = splitPosition / splitTime
-        meanForce =getMeanValue(sprintRawDynamics$time, sprintRawDynamics$rawForce, sprintRawDynamics$time[sprintRawDynamics$startSample], splitTime)
-        meanPower =getMeanValue(sprintRawDynamics$time, sprintRawDynamics$rawPower, sprintRawDynamics$time[sprintRawDynamics$startSample], splitTime)
-
-        #while the next split position is within the testLength
-        while(splitPosition[length(splitPosition)] + splitLength < sprintRawDynamics$testLength)
-        {
-                splitPosition = c(splitPosition, splitPosition[length(splitPosition)] + splitLength)
-                print(paste("Going to interpolate at:", splitPosition[length(splitPosition)]))
-                splitTime = c(splitTime, interpolateXAtY(X = sprintRawDynamics$time[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
-                                                     Y = sprintRawDynamics$rawPosition[sprintRawDynamics$startSample:sprintRawDynamics$endSample],
-                                                     desiredY = splitPosition[length(splitPosition)]))
-                
-                meanSpeed = c(meanSpeed, (splitPosition[length(splitPosition)] - splitPosition[length(splitPosition) -1]) /
-                                      (splitTime[length(splitTime)] - splitTime[length(splitTime) -1]))
-                meanForce = c(meanForce, getMeanValue(sprintRawDynamics$time, sprintRawDynamics$rawForce,
-                                                      splitTime[length(splitTime) -1], splitTime[length(splitTime)]))
-                meanPower = c(meanPower, getMeanValue(sprintRawDynamics$time, sprintRawDynamics$rawPower,
-                                                      splitTime[length(splitTime) -1], splitTime[length(splitTime)]))
-        }
-        splitPosition = c(splitPosition, sprintRawDynamics$testLength)
-        splitTime = c(splitTime, interpolateXAtY(X = sprintRawDynamics$time[sprintRawDynamics$startSample:length(sprintRawDynamics$rawPosition)],
-                                             Y = sprintRawDynamics$rawPosition[sprintRawDynamics$startSample:length(sprintRawDynamics$rawPosition)],
-                                             desiredY = sprintRawDynamics$testLength))
-        meanSpeed = c(meanSpeed, (splitPosition[length(splitPosition)] - splitPosition[length(splitPosition) -1]) /
-                              (splitTime[length(splitTime)] - splitTime[length(splitTime) -1]))
         
-        meanForce = c(meanForce, getMeanValue(sprintRawDynamics$time, sprintRawDynamics$rawForce,
-                                              splitTime[length(splitTime) -1], splitTime[length(splitTime)]))
-        meanPower = c(meanPower, getMeanValue(sprintRawDynamics$time, sprintRawDynamics$rawPower,
-                                              splitTime[length(splitTime) -1], splitTime[length(splitTime)]))
-        print("meanForce:")
-        print(meanForce)
-        print("meanPower:")
-        print(meanPower)
+        #Getting values of the splits
+        splits = getSplits(sprintRawDynamics$time, sprintRawDynamics$rawPosition
+                , sprintRawDynamics$rawForce, sprintRawDynamics$rawPower
+                , sprintRawDynamics$startSample, sprintRawDynamics$endSample
+                , sprintRawDynamics$testLength, splitLength)
+        splitPosition = splits$position
+        splitTime = splits$time
+        meanSpeed = splits$meanSpeed
+        meanForce = splits$meanForce
+        meanPower = splits$meanPower
         
         if(plotRawMeanSpeed)
         {
@@ -682,6 +653,58 @@ getTrimmingSamples <- function(totalTime, position, speed, accel, testLength, st
         if(position[endSample] < testLength)
                 endSample = endSample +1
         return(list(start = startSample, end = endSample, errorInStart = !startingSample ))
+}
+
+#Getting the mean values of the dynamics in each split
+getSplits <- function(time, rawPosition, rawForce, rawPower, startSample, endSample, testLength, splitLength)
+{
+        splitPosition = min(testLength, splitLength)
+        splitTime = interpolateXAtY(time[startSample:endSample],
+                                    rawPosition[startSample:endSample],
+                                    splitPosition)
+        
+        meanSpeed = splitPosition / splitTime
+        meanForce =getMeanValue(time, rawForce, time[startSample], splitTime)
+        meanPower =getMeanValue(time, rawPower, time[startSample], splitTime)
+        
+        #while the next split position is within the testLength
+        while(splitPosition[length(splitPosition)] + splitLength < testLength)
+        {
+                splitPosition = c(splitPosition, splitPosition[length(splitPosition)] + splitLength)
+                print(paste("Going to interpolate at:", splitPosition[length(splitPosition)]))
+                splitTime = c(splitTime, interpolateXAtY(X = time[startSample:endSample],
+                                                         Y = rawPosition[startSample:endSample],
+                                                         desiredY = splitPosition[length(splitPosition)]))
+                
+                meanSpeed = c(meanSpeed, (splitPosition[length(splitPosition)] - splitPosition[length(splitPosition) -1]) /
+                                      (splitTime[length(splitTime)] - splitTime[length(splitTime) -1]))
+                meanForce = c(meanForce, getMeanValue(time, rawForce,
+                                                      splitTime[length(splitTime) -1], splitTime[length(splitTime)]))
+                meanPower = c(meanPower, getMeanValue(time, rawPower,
+                                                      splitTime[length(splitTime) -1], splitTime[length(splitTime)]))
+        }
+        splitPosition = c(splitPosition, testLength)
+        splitTime = c(splitTime, interpolateXAtY(X = time[startSample:length(rawPosition)],
+                                                 Y = rawPosition[startSample:length(rawPosition)],
+                                                 desiredY = testLength))
+        
+        meanSpeed = c(meanSpeed, (splitPosition[length(splitPosition)] - splitPosition[length(splitPosition) -1]) /
+                              (splitTime[length(splitTime)] - splitTime[length(splitTime) -1]))
+        
+        meanForce = c(meanForce, getMeanValue(time, rawForce,
+                                              splitTime[length(splitTime) -1], splitTime[length(splitTime)]))
+        meanPower = c(meanPower, getMeanValue(time, rawPower,
+                                              splitTime[length(splitTime) -1], splitTime[length(splitTime)]))
+        print("splitPosition:")
+        print(splitPosition)
+        print("splitTime:")
+        print(splitTime)
+        print("meanForce:")
+        print(meanForce)
+        print("meanPower:")
+        print(meanPower)
+        
+        return(list(positions = splitPosition, time = splitTime, meanSpeed = meanSpeed, meanForce = meanForce, meanPower = meanPower))
 }
 
 tryNLS <- function(data){

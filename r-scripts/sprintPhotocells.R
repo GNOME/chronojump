@@ -265,7 +265,7 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
                 text.col = c("black", "black", "black", "magenta", "blue", "red"))
         
         #exportSprintDynamics(sprintDynamics)
-        return (exportSprintDynamicsPrepareRow(sprintDynamics))
+        return (exportSprintDynamicsPrepareRow(sprintDynamics, splitTimes, positions))
 }
 
 testPhotocellsCJ <- function(positions, splitTimes, mass, personHeight, tempC, personName)

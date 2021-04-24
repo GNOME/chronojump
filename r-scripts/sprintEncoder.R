@@ -260,7 +260,7 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
                     time = time, rawPosition = position + P0, rawSpeed = speed, rawAccel = accel, rawForce = totalForce, rawPower = power,
                     rawVmax = max(speed[trimmingSamples$start:trimmingSamples$end]), rawAmax = max(accel[trimmingSamples$start:trimmingSamples$end]), rawFmax = max(totalForce[trimmingSamples$start:trimmingSamples$end]), rawPmax = max(power[trimmingSamples$start:trimmingSamples$end]),
                     startSample = trimmingSamples$start, startTime = totalTime[trimmingSamples$start] + T0, endSample = trimmingSamples$end, testLength = testLength, longEnough = longEnough, regressionDone = regression$regressionDone, timeBefore = T0, startAccel = startAccel,
-                    splitPosition = splitPosition, splitTime = splitTime, meanSpeed = meanSpeed, meanForde = meanForce, meanPower = meanPower))
+                    splitTime = splitTime, splitPosition = splitPosition, meanSpeed = meanSpeed, meanForde = meanForce, meanPower = meanPower))
 }
 
 plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
@@ -783,7 +783,7 @@ testEncoderCJ <- function(filename, testLength, splitLength, mass, personHeight,
 				      startAccel = startAccel,
                                       plotStartDetection = TRUE)
 
-                exportRow = exportSprintDynamicsPrepareRow(sprintFittedDynamics)
+                exportRow = exportSprintDynamicsPrepareRow(sprintFittedDynamics, sprintRawDynamics$splitTime, sprintRawDynamics$splitPosition)
         } else
 		print("Couldn't calculate the sprint model")
 

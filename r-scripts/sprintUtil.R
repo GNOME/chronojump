@@ -104,30 +104,35 @@ exportSprintDynamics <- function(sprintDynamics)
 	exportRow = exportSprintDynamicsPrepareRow (sprintDynamics)
 	exportSprintDynamicsWriteRow (exportRow)
 }
-exportSprintDynamicsPrepareRow <- function(sprintDynamics)
+exportSprintDynamicsPrepareRow <- function(sprintDynamics, splitTime, splitPosition)
 {
-        return(list(Mass = sprintDynamics$Mass,
-                          Height = sprintDynamics$Height,
-                          Temperature = sprintDynamics$Temperature,
-                          Vw = sprintDynamics$Vw,
-                          Ka = sprintDynamics$Ka,
-                          K.fitted = sprintDynamics$K.fitted,
-                          Vmax.fitted = sprintDynamics$Vmax,
-                          amax.fitted = sprintDynamics$amax.fitted,
-                          fmax.fitted = sprintDynamics$fmax.fitted,
-                          fmax.rel.fitted = sprintDynamics$fmax.rel.fitted,
-                          sfv.fitted = sprintDynamics$sfv.fitted,
-                          sfv.rel.fitted = sprintDynamics$sfv.rel.fitted,
-                          sfv.lm = sprintDynamics$sfv.lm,
-                          sfv.rel.lm = sprintDynamics$sfv.rel.lm,
-                          pmax.fitted = sprintDynamics$pmax.fitted,
-                          pmax.rel.fitted = sprintDynamics$pmax.rel.fitted,
-                          tpmax.fitted = sprintDynamics$tpmax.fitted,
-                          F0 = sprintDynamics$F0,
-                          F0.rel = sprintDynamics$F0.rel,
-                          V0 = sprintDynamics$V0,
-                          pmax.lm = sprintDynamics$pmax.lm,
-                          pmax.rel.lm = sprintDynamics$pmax.rel.lm))
+        splits = as.list(splitTime)
+        names(splits) = paste(splitPosition, "m", sep="")
+        raw = c(list(Mass = sprintDynamics$Mass,
+                   Height = sprintDynamics$Height,
+                   Temperature = sprintDynamics$Temperature,
+                   Vw = sprintDynamics$Vw,
+                   Ka = sprintDynamics$Ka,
+                   K.fitted = sprintDynamics$K.fitted,
+                   Vmax.fitted = sprintDynamics$Vmax,
+                   amax.fitted = sprintDynamics$amax.fitted,
+                   fmax.fitted = sprintDynamics$fmax.fitted,
+                   fmax.rel.fitted = sprintDynamics$fmax.rel.fitted,
+                   sfv.fitted = sprintDynamics$sfv.fitted,
+                   sfv.rel.fitted = sprintDynamics$sfv.rel.fitted,
+                   sfv.lm = sprintDynamics$sfv.lm,
+                   sfv.rel.lm = sprintDynamics$sfv.rel.lm,
+                   pmax.fitted = sprintDynamics$pmax.fitted,
+                   pmax.rel.fitted = sprintDynamics$pmax.rel.fitted,
+                   tpmax.fitted = sprintDynamics$tpmax.fitted,
+                   F0 = sprintDynamics$F0,
+                   F0.rel = sprintDynamics$F0.rel,
+                   V0 = sprintDynamics$V0,
+                   pmax.lm = sprintDynamics$pmax.lm,
+                   pmax.rel.lm = sprintDynamics$pmax.rel.lm), splits)
+        print(raw)
+        
+        return(raw)
 }
 
 exportSprintDynamicsWriteRow <- function(exportRow)

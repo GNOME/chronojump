@@ -129,6 +129,7 @@ exportSprintDynamicsPrepareRow <- function(sprintDynamics)
                           pmax.lm = sprintDynamics$pmax.lm,
                           pmax.rel.lm = sprintDynamics$pmax.rel.lm))
 }
+
 exportSprintDynamicsWriteRow <- function(exportRow)
 {
         write.csv2(exportRow, file = paste(tempPath, "/sprintResults.csv", sep = ""), row.names = FALSE)

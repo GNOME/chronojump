@@ -70,7 +70,7 @@ op <- assignOptions(options)
 op$title = fixTitleAndOtherStrings(op$title)
 op$datetime = fixDatetime(op$datetime)
 
-getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, Height , Vw = 0, device = "MANUAL", startAccel)
+getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, Height , Vw = 0, device = "MANUAL", startAccel, splitLength)
 {
         print("#####Entering in getSprintFromEncoder###############")
         # Constants for the air friction modeling
@@ -243,10 +243,24 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
 
         print("startTime:")
         print(totalTime[trimmingSamples$start] + T0)
+        
+        #Getting values of the splits
+        splits = getSplits(time, position + P0
+                           , totalForce, power
+                           , trimmingSamples$start, trimmingSamples$end
+                           , testLength, splitLength)
+        
+        splitPosition = splits$position
+        splitTime = splits$time
+        meanSpeed = splits$meanSpeed
+        meanForce = splits$meanForce
+        meanPower = splits$meanPower
+        
         return(list(Vmax = Vmax, K = K, T0 = T0,
                     time = time, rawPosition = position + P0, rawSpeed = speed, rawAccel = accel, rawForce = totalForce, rawPower = power,
                     rawVmax = max(speed[trimmingSamples$start:trimmingSamples$end]), rawAmax = max(accel[trimmingSamples$start:trimmingSamples$end]), rawFmax = max(totalForce[trimmingSamples$start:trimmingSamples$end]), rawPmax = max(power[trimmingSamples$start:trimmingSamples$end]),
-                    startSample = trimmingSamples$start, startTime = totalTime[trimmingSamples$start] + T0, endSample = trimmingSamples$end, testLength = testLength, longEnough = longEnough, regressionDone = regression$regressionDone, timeBefore = T0, startAccel = startAccel))
+                    startSample = trimmingSamples$start, startTime = totalTime[trimmingSamples$start] + T0, endSample = trimmingSamples$end, testLength = testLength, longEnough = longEnough, regressionDone = regression$regressionDone, timeBefore = T0, startAccel = startAccel,
+                    splitPosition = splitPosition, splitTime = splitTime, meanSpeed = meanSpeed, meanForde = meanForce, meanPower = meanPower))
 }
 
 plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
@@ -330,21 +344,11 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
         #Plotting rawSpeed
         ylimits = c(0, sprintRawDynamics$rawVmax*1.05)
         xlimits =c(0, sprintRawDynamics$time[sprintRawDynamics$endSample])
-        
-        #Getting values of the splits
-        splits = getSplits(sprintRawDynamics$time, sprintRawDynamics$rawPosition
-                , sprintRawDynamics$rawForce, sprintRawDynamics$rawPower
-                , sprintRawDynamics$startSample, sprintRawDynamics$endSample
-                , sprintRawDynamics$testLength, splitLength)
-        splitPosition = splits$position
-        splitTime = splits$time
-        meanSpeed = splits$meanSpeed
-        meanForce = splits$meanForce
-        meanPower = splits$meanPower
+
         
         if(plotRawMeanSpeed)
         {
-                barplot(height = meanSpeed, width = diff(c(0,splitTime)), space = 0,
+                barplot(height = sprintRawDynamics$meanSpeed, width = diff(c(0,sprintRawDynamics$splitTime)), space = 0,
                         ylim = ylimits, xlim = xlimits,
                         xlab = "Time (s)", ylab = "Speed (m/s)",
                         yaxs = "i", xaxs = "i")
@@ -360,9 +364,9 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
                         points(sprintRawDynamics$time[sprintRawDynamics$startSample], sprintRawDynamics$rawSpeed[sprintRawDynamics$startSample])
                 }
                 print("########")
-                lapTime = diff(c(0, splitTime))
-                textXPos = c(0,splitTime[1:length(splitTime) -1]) + lapTime/2
-                text(textXPos, meanSpeed/2, round(meanSpeed, digits = 2), pos = 3)
+                lapTime = diff(c(0, sprintRawDynamics$splitTime))
+                textXPos = c(0,sprintRawDynamics$splitTime[1:length(sprintRawDynamics$splitTime) -1]) + lapTime/2
+                text(textXPos, sprintRawDynamics$meanSpeed/2, round(sprintRawDynamics$meanSpeed, digits = 2), pos = 3)
                 text(textXPos, 0, paste(round(lapTime, digits = 3), " s", sep = ""), pos = 3)
         } else
         {
@@ -374,9 +378,9 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
                 lines(x = c(0,sprintRawDynamics$time[sprintRawDynamics$startSample]), y = c(0,sprintRawDynamics$rawSpeed[sprintRawDynamics$startSample]))
         }
         
-        abline(v = splitTime, lty = 3)
-        mtext(side = 3, at = splitTime, text = paste(splitPosition, " m", sep=""))
-        mtext(side = 1, at = splitTime, text = paste(round(splitTime, digits = 3), " s", sep=""))
+        abline(v = sprintRawDynamics$splitTime, lty = 3)
+        mtext(side = 3, at = sprintRawDynamics$splitTime, text = paste(sprintRawDynamics$splitPosition, " m", sep=""))
+        mtext(side = 1, at = sprintRawDynamics$splitTime, text = paste(round(sprintRawDynamics$splitTime, digits = 3), " s", sep=""))
         
         if (plotFittedSpeed)
         {
@@ -486,10 +490,10 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
                      ylim = ylimits, xlim = xlimits,
                      xlab = "", ylab = "",
                      axes = FALSE, yaxs = "i", xaxs = "i")
-                text(splitTime[1]*0.2, meanForce[1], paste(round(meanForce[1], digits = 2), "N"), col = "blue")
-                for(n in 1:length(meanForce))
+                text(sprintRawDynamics$splitTime[1]*0.2, sprintRawDynamics$meanForce[1], paste(round(sprintRawDynamics$meanForce[1], digits = 2), "N"), col = "blue")
+                for(n in 1:length(sprintRawDynamics$meanForce))
                 {
-                        text(splitTime[n] + (splitTime[n+1] - splitTime[n])*0.2, meanForce[n+1], paste(round(meanForce[n+1], digits = 2), "N"), col = "blue")
+                        text(sprintRawDynamics$splitTime[n] + (sprintRawDynamics$splitTime[n+1] - sprintRawDynamics$splitTime[n])*0.2, sprintRawDynamics$meanForce[n+1], paste(round(sprintRawDynamics$meanForce[n+1], digits = 2), "N"), col = "blue")
                         
                 }
                 #axis(side = 4, col = "blue", line = 2)
@@ -558,10 +562,10 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
                      #xlim = c(sprintRawDynamics$time[sprintRawDynamics$startSample], sprintRawDynamics$time[sprintRawDynamics$endSample]),
                      xlab = "", ylab = "",
                      axes = FALSE, yaxs = "i", xaxs = "i")
-                text(splitTime[1]*0.8, meanPower[1], paste(round(meanPower[1], digits = 2), "W"), col = "red")
-                for(n in 1:length(meanPower))
+                text(sprintRawDynamics$splitTime[1]*0.8, sprintRawDynamics$meanPower[1], paste(round(sprintRawDynamics$meanPower[1], digits = 2), "W"), col = "red")
+                for(n in 1:length(sprintRawDynamics$meanPower))
                 {
-                        text(splitTime[n] + (splitTime[n+1] - splitTime[n])*0.8, meanPower[n+1], paste(round(meanPower[n+1], digits = 2), "W"), col = "red")
+                        text(sprintRawDynamics$splitTime[n] + (sprintRawDynamics$splitTime[n+1] - sprintRawDynamics$splitTime[n])*0.8, sprintRawDynamics$meanPower[n+1], paste(round(sprintRawDynamics$meanPower[n+1], digits = 2), "W"), col = "red")
                         
                 }
                 axis(side = 4, col = "red", line = 4)
@@ -735,7 +739,7 @@ tryNLS <- function(data){
 
 testEncoderCJ <- function(filename, testLength, splitLength, mass, personHeight, tempC, device, title, datetime, startAccel, triggersOn, triggersOff)
 {
-        sprintRawDynamics = getSprintFromEncoder(filename, testLength, mass, tempC, personHeight, Vw = 0, device = device, startAccel)
+        sprintRawDynamics = getSprintFromEncoder(filename, testLength, mass, tempC, personHeight, Vw = 0, device = device, startAccel, splitLength)
 	#print("sprintRawDynamics:")
 	#print(sprintRawDynamics)
 	#print("sprintRawDynamics$longEnough")

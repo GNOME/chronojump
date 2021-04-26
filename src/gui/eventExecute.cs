@@ -46,10 +46,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label event_graph_label_graph_test;
 
 
-	[Widget] Gtk.HBox hbox_contacts_graph_last_limit;
 	[Widget] Gtk.SpinButton spin_contacts_graph_last_limit;
 	[Widget] Gtk.HBox hbox_contacts_simple_graph_controls;
-	[Widget] Gtk.HBox hbox_contacts_graph_person;
 	[Widget] Gtk.RadioButton radio_contacts_graph_currentTest;
 	[Widget] Gtk.RadioButton radio_contacts_graph_allTests;
 	[Widget] Gtk.RadioButton radio_contacts_graph_currentPerson;

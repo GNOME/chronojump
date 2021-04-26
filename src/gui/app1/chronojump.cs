@@ -3462,8 +3462,6 @@ public partial class ChronoJumpWindow
 
 			hbox_change_modes_runs.Visible = true;
 
-			hbox_contacts_graph_last_limit.Visible = false;
-			hbox_contacts_graph_person.Visible = false;
 			check_vbox_contacts_graph_legend.Visible = false;
 			vbox_contacts_graph_legend.Visible = false;
 

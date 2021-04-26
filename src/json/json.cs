@@ -380,9 +380,11 @@ public class Json
 		// Creates the json object
 		JsonObject json = new JsonObject();
 
-		if(osVersion.Length > 15)
-			osVersion = osVersion.Substring(0,15); //at server mysql max length of this param is 15 (windows returns a longer string)
+		LogB.Information("osVersion: " + osVersion);
+		if(osVersion.Length > 13)
+			osVersion = osVersion.Substring(0,13); //at server mysql max length of this param is 15 (windows returns a longer string)
 
+		LogB.Information("osVersion cutted: " + osVersion);
 		json.Add("os_version", osVersion);
 
 		if(cjVersion.Length > 11)

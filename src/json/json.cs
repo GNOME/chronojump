@@ -392,6 +392,15 @@ public class Json
 
 		json.Add("cj_version", cjVersion);
 
+		/*
+		   machine_id is an int (15) unsigned, but seems the 15 is not working, what is used is:
+		   maximum value is: 4294967295
+		   https://www.mysqltutorial.org/mysql-int/
+		   */
+		LogB.Information("machineID: " + machineID);
+		if(machineID.Length >= 10)
+			machineID = "4294967295";
+
 		json.Add("machine_id", machineID);
 
 		// Converts it to a String

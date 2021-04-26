@@ -23,11 +23,12 @@ using System.Collections.Generic; //List<T>
 public class Trigger
 {
 	public enum Modes { ENCODER, FORCESENSOR, RACEANALYZER }
+	//note encoder triggers are in milliseconds (ms) and forcesensor and race analyzer in microseconds (us)
 
 	private int uniqueID;
 	private Modes mode;
 	private int modeID;
-	private int us; //micro seconds
+	private int us; //on encoder is milliseconds, on forceSensor and raceAnalyzer is micro seconds
 	private bool inOut;
 	private string name;
 	private string color;
@@ -58,7 +59,7 @@ public class Trigger
 		this.color = color;
 		this.comments = comments;
 	}
-
+	//us: on encoder is milliseconds, on forceSensor and raceAnalyzer is micro seconds
 	public void Substract(int usToSubstract)
 	{
 		us -= usToSubstract;
@@ -96,7 +97,12 @@ public class Trigger
 		get { return us; }
 	}
 	public double Ms {
-		get { return UtilAll.DivideSafe(us, 1000.0); }
+		get {
+			if(mode == Modes.ENCODER)
+				return(us);
+			else
+				return UtilAll.DivideSafe(us, 1000.0);
+		}
 	}
 
 	public bool IsNegative {
@@ -303,8 +309,12 @@ public class TriggerList
 	 * this newTrigger is an On trigger, compare with last
 	 * encoder: type3.ON, 50ms
 	 * runEncoder: type3.BOTH, 50ms
+
+	 * note on encoder it works on ms and the rest in us
+	 * on encoder threashold its 50 (ms)
+	 * rest of instruments its 50000 (us)
 	 */
-	public bool IsSpurious(Trigger newTrigger, Type3 type3, int ms)
+	public bool IsSpurious(Trigger newTrigger, Type3 type3, int threashold)
 	{
 		//cannot be spurious if is the first of this type
 		if(type3 == Type3.ON && countOn() == 0)
@@ -314,9 +324,9 @@ public class TriggerList
 				! newTrigger.InOut && countOff() == 0) )
 			return false;
 
-		if(type3 == Type3.BOTH && (newTrigger.Us - last(Type3.BOTH).Us) < ms*1000 )
+		if(type3 == Type3.BOTH && (newTrigger.Us - last(Type3.BOTH).Us) < threashold )
 			return true;
-		else if(type3 == Type3.ON && (newTrigger.Us - last(Type3.ON).Us) < ms*1000 )
+		else if(type3 == Type3.ON && (newTrigger.Us - last(Type3.ON).Us) < threashold )
 			return true;
 
 		return false;

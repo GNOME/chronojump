@@ -44,7 +44,7 @@ class SqliteTrigger : Sqlite
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"mode TEXT, " + 	//encoder; gauge
 			"modeID INT, " + 	//on encoder: uniqueID
-			"ms INT, " +		//note this are microseconds!!! should have been named us
+			"ms INT, " +		//on encoder are milliseconds, on the rest are microseconds!!!
 			"inOut INT, " + 	//bool
 			"name TEXT, " +
 			"color TEXT, " +
@@ -70,7 +70,7 @@ class SqliteTrigger : Sqlite
 					(Trigger.Modes) Enum.Parse(
 						typeof(Trigger.Modes), reader[1].ToString()), //mode
 					Convert.ToInt32(reader[2]), 		//modeID
-					Convert.ToInt32(reader[3]), 		//microseconds
+					Convert.ToInt32(reader[3]), 		//milliseconds or microseconds
 					Util.IntToBool(Convert.ToInt32(reader[4])), 	//inOut
 					reader[5].ToString(), 			//name
 					reader[6].ToString(), 			//color

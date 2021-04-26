@@ -1253,7 +1253,7 @@ public partial class ChronoJumpWindow
 					trigger = new Trigger(Trigger.Modes.FORCESENSOR, time, true);
 
 				if(! triggerListForceSensor.NewSameTypeThanBefore(trigger) &&
-						! triggerListForceSensor.IsSpurious(trigger, TriggerList.Type3.BOTH, 50))
+						! triggerListForceSensor.IsSpurious(trigger, TriggerList.Type3.BOTH, 50000))
 					triggerListForceSensor.Add(trigger);
 
 				continue;

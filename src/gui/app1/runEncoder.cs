@@ -614,7 +614,7 @@ public partial class ChronoJumpWindow
 					trigger = new Trigger(Trigger.Modes.RACEANALYZER, reCGSD.Time, true);
 
 				if(! triggerListRunEncoder.NewSameTypeThanBefore(trigger) &&
-						! triggerListRunEncoder.IsSpurious(trigger, TriggerList.Type3.BOTH, 50))
+						! triggerListRunEncoder.IsSpurious(trigger, TriggerList.Type3.BOTH, 50000))
 					triggerListRunEncoder.Add(trigger);
 			}
 		}

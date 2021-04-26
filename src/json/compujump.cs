@@ -176,8 +176,8 @@ public class JsonCompujump : Json
 		// Creates the json object
 		JsonObject json = new JsonObject();
 
-		json.Add("personId", personID.ToString());
-		json.Add("stationId", stationID.ToString());
+		json.Add("person_id", personID.ToString());
+		json.Add("station_id", stationID.ToString());
 
 		// Converts it to a String
 		String js = json.ToString();
@@ -223,8 +223,8 @@ public class JsonCompujump : Json
 		foreach (JsonValue jsonTask in jsonTasks) {
 			Int32 id = jsonTask ["id"];
 			//char type = jsonTask ["type"];
-			int exerciseId = jsonTask ["exerciseId"];
-			string exerciseName = jsonTask ["exerciseName"];
+			int exerciseId = jsonTask ["exercise_id"];
+			string exerciseName = jsonTask ["exercise_name"];
 
 			int personId = jsonTask ["person"];
 			int stationId = jsonTask ["station"];
@@ -232,7 +232,7 @@ public class JsonCompujump : Json
 			int nreps = jsonTask ["nreps"];
 			float load = jsonTask ["load"];
 			float speed = jsonTask ["speed"];
-			float percentMaxSpeed = jsonTask ["percentMaxSpeed"];
+			float percentMaxSpeed = jsonTask ["percent_max_speed"];
 			string laterality = jsonTask ["laterality"];
 			string comment = jsonTask ["comment"];
 			tasks.Add(new Task(id, personId, stationId, exerciseId, exerciseName,
@@ -254,7 +254,7 @@ public class JsonCompujump : Json
 
 		// Creates the json object
 		JsonObject json = new JsonObject();
-		json.Add("taskId", taskId);
+		json.Add("task_id", taskId);
 		json.Add("done", done);
 
 		// Converts it to a String
@@ -297,8 +297,8 @@ public class JsonCompujump : Json
 
 		// Creates the json object
 		JsonObject json = new JsonObject();
-		json.Add("personId", personID.ToString());
-		json.Add("stationId", stationID.ToString());
+		json.Add("person_id", personID.ToString());
+		json.Add("station_id", stationID.ToString());
 
 		// Converts it to a String
 		String js = json.ToString();
@@ -335,8 +335,8 @@ public class JsonCompujump : Json
 
 		foreach (JsonValue jsonStation in jsonStations)
 		{
-			string stationName = jsonStation ["stationName"];
-			int tasksCount = jsonStation ["tasksCount"];
+			string stationName = jsonStation ["station_name"];
+			int tasksCount = jsonStation ["tasks_count"];
 			stations.Add(new StationCount(stationName, tasksCount));
 		}
 		return stations;
@@ -356,7 +356,7 @@ public class JsonCompujump : Json
 
 		// Creates the json object
 		JsonObject json = new JsonObject();
-		json.Add("stationId", stationId);
+		json.Add("station_id", stationId);
 
 		// Converts it to a String
 		String js = json.ToString();
@@ -403,8 +403,8 @@ public class JsonCompujump : Json
 		{
 			Int32 id = jsonSE ["id"];
 			string name = jsonSE ["name"];
-			//Int32 stationId = jsonSE ["stationId"];
-			int percentBodyMassDisplaced = jsonSE ["percentBodyMassDisplaced"];
+			//Int32 stationId = jsonSE ["station_id"];
+			int percentBodyMassDisplaced = jsonSE ["percent_body_mass_displaced"];
 
 			ex_list.Add(new EncoderExercise(id, name, percentBodyMassDisplaced,
 					"", "", 0, stationType)); //resistance, description, speed1RM, stationType
@@ -431,7 +431,7 @@ public class JsonCompujump : Json
 
 		// Creates the json object
 		JsonObject json = new JsonObject();
-		json.Add("exerciseId", exerciseId);
+		json.Add("exercise_id", exerciseId);
 
 		// Converts it to a String
 		String js = json.ToString();
@@ -485,8 +485,8 @@ public class JsonCompujump : Json
 
 		Int32 id = jsonEx ["id"];
 		string name = jsonEx ["name"];
-		Int32 stationId = jsonEx ["stationId"];
-		int percentBodyMassDisplaced = jsonEx ["percentBodyMassDisplaced"];
+		Int32 stationId = jsonEx ["station_id"];
+		int percentBodyMassDisplaced = jsonEx ["percent_body_mass_displaced"];
 
 		return new EncoderExercise(id, name, percentBodyMassDisplaced,
 				"", "", 0); //ressitance, description, speed1RM
@@ -511,7 +511,7 @@ public class JsonCompujump : Json
 
 		// Creates the json object
 		JsonObject json = new JsonObject();
-		json.Add("personId", o.personId);
+		json.Add("person_id", o.personId);
 		json.Add("distances", o.sprintPositions);
 		json.Add("t1", o.splitTimesL[1]);
 
@@ -594,29 +594,29 @@ public class JsonCompujump : Json
 
 		// Creates the json object
 		JsonObject json = new JsonObject();
-		json.Add("personId", o.personId);
-		json.Add("stationId", o.stationId);
-		//json.Add("exerciseName", Util.RemoveAccents(exerciseName));
-		json.Add("exerciseId", o.exerciseId);
+		json.Add("person_id", o.personId);
+		json.Add("station_id", o.stationId);
+		//json.Add("exercise_name", Util.RemoveAccents(exerciseName));
+		json.Add("exercise_id", o.exerciseId);
 		json.Add("laterality", o.laterality);
 		json.Add("resistance", o.resistance);
 		json.Add("repetitions", o.uo.repetitions);
 
-		json.Add("numBySpeed", o.uo.numBySpeed);
-		json.Add("lossBySpeed", o.uo.lossBySpeed);
-		json.Add("rangeBySpeed", o.uo.rangeBySpeed);
-		json.Add("vmeanBySpeed", o.uo.vmeanBySpeed);
-		json.Add("vmaxBySpeed", o.uo.vmaxBySpeed);
-		json.Add("pmeanBySpeed", o.uo.pmeanBySpeed);
-		json.Add("pmaxBySpeed", o.uo.pmaxBySpeed);
+		json.Add("num_by_speed", o.uo.numBySpeed);
+		json.Add("loss_by_speed", o.uo.lossBySpeed);
+		json.Add("range_by_speed", o.uo.rangeBySpeed);
+		json.Add("vmean_by_speed", o.uo.vmeanBySpeed);
+		json.Add("vmax_by_speed", o.uo.vmaxBySpeed);
+		json.Add("pmean_by_speed", o.uo.pmeanBySpeed);
+		json.Add("pmax_by_speed", o.uo.pmaxBySpeed);
 
-		json.Add("numByPower", o.uo.numByPower);
-		json.Add("lossByPower", o.uo.lossByPower);
-		json.Add("rangeByPower", o.uo.rangeByPower);
-		json.Add("vmeanByPower", o.uo.vmeanByPower);
-		json.Add("vmaxByPower", o.uo.vmaxByPower);
-		json.Add("pmeanByPower", o.uo.pmeanByPower);
-		json.Add("pmaxByPower", o.uo.pmaxByPower);
+		json.Add("num_by_power", o.uo.numByPower);
+		json.Add("loss_by_power", o.uo.lossByPower);
+		json.Add("range_by_power", o.uo.rangeByPower);
+		json.Add("vmean_by_power", o.uo.vmeanByPower);
+		json.Add("vmax_by_power", o.uo.vmaxByPower);
+		json.Add("pmean_by_power", o.uo.pmeanByPower);
+		json.Add("pmax_by_power", o.uo.pmaxByPower);
 
 		// Converts it to a String
 		String js = json.ToString();
@@ -658,10 +658,10 @@ public class JsonCompujump : Json
 
 		// Creates the json object
 		JsonObject json = new JsonObject();
-		json.Add("personId", o.personId);
-		json.Add("stationId", o.stationId);
-		//json.Add("exerciseName", Util.RemoveAccents(exerciseName));
-		json.Add("exerciseId", o.exerciseId);
+		json.Add("person_id", o.personId);
+		json.Add("station_id", o.stationId);
+		//json.Add("exercise_name", Util.RemoveAccents(exerciseName));
+		json.Add("exercise_id", o.exerciseId);
 		json.Add("laterality", o.laterality);
 		json.Add("resistance", o.resistance);
 

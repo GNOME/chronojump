@@ -109,7 +109,7 @@ public class JsonCompujump : Json
 		double weight = jsonPerson ["weight"];
 		double height = jsonPerson ["height"];
 		string rfid = jsonPerson ["rfid"];
-		string image = jsonPerson ["imageName"];
+		string image = jsonPerson ["image_thumbnail"];
 
 		LastPersonByRFIDHeight = height;
 		LastPersonByRFIDWeight = weight;
@@ -128,20 +128,18 @@ public class JsonCompujump : Json
 	}
 
 
-	//to retrieve images from flask (:5000)
+	//Retrieve images from server
 	private string getImagesUrl()
 	{
+		//Networks v3
+		return serverUrl;
 		/*
 		int posOfLastColon = serverUrl.LastIndexOf(':');
-
-		if(django)
+		if(django) //Networks v2
 			return serverUrl.Substring(0, posOfLastColon) + ":8000/media/";
-		else
+		else //Networks v1
 			return serverUrl.Substring(0, posOfLastColon) + ":5000/static/images/photos/";
-			*/
-
-		//Lenin server
-		return serverUrl;
+		*/
 	}
 
 	//imageHalfUrl is "jugadors/*.jpg"

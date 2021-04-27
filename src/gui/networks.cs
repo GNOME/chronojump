@@ -204,7 +204,11 @@ public partial class ChronoJumpWindow
 			{
 				//changeModeCheckRadios (configChronojump.CompujumpStationMode);
 				//better do like this because radiobuttons are not set. TODO: remove radiobuttons checks
-				if(configChronojump.CompujumpStationMode == Constants.Menuitem_modes.RUNSINTERVALLIC)
+				if(configChronojump.CompujumpStationMode == Constants.Menuitem_modes.JUMPSSIMPLE)
+					on_button_selector_start_jumps_simple_clicked(new object (), new EventArgs());
+				else if(configChronojump.CompujumpStationMode == Constants.Menuitem_modes.JUMPSREACTIVE)
+					on_button_selector_start_jumps_reactive_clicked(new object (), new EventArgs());
+				else if(configChronojump.CompujumpStationMode == Constants.Menuitem_modes.RUNSINTERVALLIC)
 					on_button_selector_start_runs_intervallic_clicked(new object (), new EventArgs());
 				else if(configChronojump.CompujumpStationMode == Constants.Menuitem_modes.POWERGRAVITATORY)
 					on_button_selector_start_encoder_gravitatory_clicked(new object (), new EventArgs());

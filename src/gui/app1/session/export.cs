@@ -30,6 +30,7 @@ using Mono.Unix;
 public partial class ChronoJumpWindow
 {
 	private Thread app1s_threadExport;
+	private static bool cancelExport;
 
 	private void on_button_session_export_pre_clicked (object o, EventArgs args)
 	{
@@ -44,8 +45,8 @@ public partial class ChronoJumpWindow
 		app1s_exportText = "";
 		app1s_button_export_select.Sensitive = true;
 		app1s_button_export_start.Sensitive = false;
-		app1s_button_export_cancel_close.Sensitive = true;
-		app1s_label_export_cancel_close.Text = Catalog.GetString("Cancel");
+		app1s_button_export_cancel.Visible = false;
+		app1s_button_export_close.Visible = true;
 	
 		app1s_notebook.CurrentPage = app1s_PAGE_EXPORT;
 	}
@@ -91,8 +92,11 @@ public partial class ChronoJumpWindow
 						"", app1s_fileCopy);
 				confirmWin.Button_accept.Clicked += new EventHandler(app1s_export_on_overwrite_file_accepted);
 			} else {
+				//note this is the same than: app1s_export_on_overwrite_file_accepted
 				app1s_pulsebarExportActivity.Visible = true;
 				app1s_uc = new UtilCopy(currentSession.UniqueID, false);
+
+				cancelExport = false;
 				app1s_threadExport = new Thread(new ThreadStart(app1s_export));
 				GLib.Idle.Add (new GLib.IdleHandler (app1s_ExportPulseGTK));
 
@@ -134,9 +138,14 @@ public partial class ChronoJumpWindow
 	private void app1s_ExportPulseEnd()
 	{
 		app1s_pulsebarExportActivity.Fraction = 1;
-		app1s_label_export_progress.Text =
-			string.Format(Catalog.GetString("Exported in {0} ms"),
-					app1s_exportElapsedMs);
+
+		if(cancelExport)
+			app1s_label_export_progress.Text =
+				Catalog.GetString("Cancelled.");
+		else
+			app1s_label_export_progress.Text =
+				string.Format(Catalog.GetString("Exported in {0} ms"),
+						app1s_exportElapsedMs);
 
 		app1s_export_doing_sensitive_start_end(false);
 	}
@@ -152,10 +161,11 @@ public partial class ChronoJumpWindow
 		app1s_button_export_start.Sensitive = false;
 
 		if(start) {
-			app1s_button_export_cancel_close.Sensitive = false; //or make cancel sensitive while process?
+			app1s_button_export_cancel.Visible = true;
+			app1s_button_export_close.Visible = false;
 		} else {
-			app1s_button_export_cancel_close.Sensitive = true;
-			app1s_label_export_cancel_close.Text = Catalog.GetString("Close");
+			app1s_button_export_cancel.Visible = false;
+			app1s_button_export_close.Visible = true;
 		}
 	}
 
@@ -164,8 +174,11 @@ public partial class ChronoJumpWindow
 		try {
 			Directory.Delete(app1s_fileCopy, true);
 
+			//note this is the same than: on_app1s_button_export_start_clicked
 			app1s_pulsebarExportActivity.Visible = true;
 			app1s_uc = new UtilCopy(currentSession.UniqueID, false);
+
+			cancelExport = false;
 			app1s_threadExport = new Thread(new ThreadStart(app1s_export));
 			GLib.Idle.Add (new GLib.IdleHandler (app1s_ExportPulseGTK));
 
@@ -219,6 +232,10 @@ public partial class ChronoJumpWindow
 		int count = 1;
 		foreach (string session in mySessions)
 		{
+			//cancelExport breaks here instead doing it on pulse to avoid leaving some Sqlite DataReader opened
+			if(cancelExport)
+				break;
+
 			app1s_exportText = string.Format("Adjusting new database {0}/{1}", count, mySessions.Length);
 			LogB.Information(string.Format("session: {0}", session));
 			string [] myStringFull = session.Split(new char[] {':'});
@@ -237,8 +254,15 @@ public partial class ChronoJumpWindow
 		LogB.Information("ended app1s_export()");
 	}
 
-	private void on_app1s_button_export_cancel_or_close_clicked (object o, EventArgs args)
+	private void on_app1s_button_export_cancel_clicked (object o, EventArgs args)
 	{
+		LogB.Information("cancelling export session");
+		cancelExport = true;
+	}
+
+	private void on_app1s_button_export_close_clicked (object o, EventArgs args)
+	{
+		LogB.Information("closing export session");
 		app1s_notebook.CurrentPage = app1s_PAGE_MODES;
 	}
 }

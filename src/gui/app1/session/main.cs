@@ -162,9 +162,10 @@ public partial class ChronoJumpWindow
 	//notebook tab 8 (export)
 	[Widget] Gtk.Button app1s_button_export_select;
 	[Widget] Gtk.Button app1s_button_export_start;
-	[Widget] Gtk.Button app1s_button_export_cancel_close;
-	[Widget] Gtk.EventBox app1s_eventbox_button_export_cancel_close;
-	[Widget] Gtk.Label app1s_label_export_cancel_close;
+	[Widget] Gtk.Button app1s_button_export_cancel;
+	[Widget] Gtk.Button app1s_button_export_close;
+	[Widget] Gtk.EventBox app1s_eventbox_button_export_cancel;
+	[Widget] Gtk.EventBox app1s_eventbox_button_export_close;
 	[Widget] Gtk.Image app1s_image_button_export_select;
 	[Widget] Gtk.Label app1s_label_export_destination;
 	[Widget] Gtk.Label app1s_label_export_progress;
@@ -214,7 +215,8 @@ public partial class ChronoJumpWindow
 		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_import_again, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_delete_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_backup_cancel_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_export_cancel_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_export_cancel, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (app1s_eventbox_button_export_close, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 	}
 
 	private void app1s_label_session_set_name()

@@ -72,8 +72,11 @@ public partial class ChronoJumpWindow
 
 		// 4) get the news on the server and/or display them
 		if(
-				(preferences.serverNewsDatetime != "" && preferences.serverNewsDatetime != preferences.clientNewsDatetime)
-				|| allImagesSaved == false )
+				(
+				 preferences.serverNewsDatetime != null &&
+				 preferences.serverNewsDatetime != "" &&
+				 preferences.serverNewsDatetime != preferences.clientNewsDatetime
+				 ) || allImagesSaved == false )
 		{
 			newsDownloadCancel = false;
 			LogB.Information("newsGet thread will start");

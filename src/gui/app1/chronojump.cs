@@ -7052,7 +7052,9 @@ LogB.Debug("mc finished 5");
 			// 1)  highlight news iccons if there are new news
 			//if there is no network serverNewsDatetime will be empty, so do not highligh new products
 			//highligh if server news date is not empty and server news date is different than client news date
-			if(preferences.serverNewsDatetime != "" &&
+			if(
+					preferences.serverNewsDatetime != null &&
+					preferences.serverNewsDatetime != "" &&
 					preferences.serverNewsDatetime != preferences.clientNewsDatetime)
 			{
 				Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_store_has_new_products.png");

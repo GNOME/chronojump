@@ -139,6 +139,7 @@ windows stuff
 ------------
 
 1) if chronojump_importer.py has changed, need to manually create the importer for python3
+It changed on: 27 Apr 2021!!
 because windows compile machine has cerbero with python2 and we do not want to break stuff installing python3
 
 on my local laptop:

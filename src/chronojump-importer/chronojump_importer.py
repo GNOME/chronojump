@@ -34,7 +34,7 @@ debugFile = ""
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * Copyright (C) 2016-2017 Carles Pina i Estany <carles@pina.cat>
- * Copyright (C) 2019-2020 Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2019-2021 Xavier de Blas <xaviblas@gmail.com>
  */
 """
 
@@ -429,9 +429,10 @@ class ImportSession:
         self._import_runs()
         self._import_pulse()
         trigger = self._import_encoder()
-        self._import_forceSensor()
+        triggerForceSensor = self._import_forceSensor()
         triggerRunEncoder = self._import_runEncoder()
 
+        trigger.concatenate_table(triggerForceSensor)
         trigger.concatenate_table(triggerRunEncoder)
         trigger.remove_duplicates()
         self.destination_db.write(table=trigger, matches_columns=None)
@@ -722,13 +723,24 @@ class ImportSession:
         self.destination_db.write(table=forceSensor,
                                   matches_columns=self.destination_db.column_names("forceSensor", skip_columns=["uniqueID", "personID", "exerciseID"]))
 
+        # Imports trigger (can be encoder, forceSensor or raceanalyzer).
+        trigger = self.source_db.read(table_name="trigger",
+                where_condition="mode='FORCESENSOR' AND ForceSensor.sessionID={}".format(self.source_session),
+                join_clause="LEFT JOIN ForceSensor ON ForceSensor.uniqueID=trigger.modeID")
+
+        trigger.update_ids("modeID", forceSensor, "uniqueID", "new_uniqueID")
+
         if(DEBUGTOFILE):
             debugFile.write(" end _import_forceSensor\n")
+
+        return trigger
+
+
 
     def _import_runEncoder(self):
         self._print_status(self, "runEncoder")
         # Imports RunEncoderExercise
-        # VERY similar to _import_runEncoder
+        # VERY similar to _import_forceSensor
 
         if(DEBUGTOFILE):
             debugFile.write(" start _import_runEncoder\n")
@@ -756,17 +768,19 @@ class ImportSession:
         self.destination_db.write(table=runEncoder,
                                   matches_columns=self.destination_db.column_names("runEncoder", skip_columns=["uniqueID", "personID", "exerciseID"]))
 
-        # Imports trigger (can be encoder, forceSensor or raceanalyzer. Right now force sensor is not programmed)
+        # Imports trigger (can be encoder, forceSensor or raceanalyzer).
         trigger = self.source_db.read(table_name="trigger",
                 where_condition="mode='RACEANALYZER' AND RunEncoder.sessionID={}".format(self.source_session),
                 join_clause="LEFT JOIN RunEncoder ON RunEncoder.uniqueID=trigger.modeID")
 
         trigger.update_ids("modeID", runEncoder, "uniqueID", "new_uniqueID")
-        return trigger
-
 
         if(DEBUGTOFILE):
             debugFile.write(" end _import_runEncoder\n")
+
+        return trigger
+
+
 
 
 

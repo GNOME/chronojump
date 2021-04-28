@@ -1284,6 +1284,8 @@ public partial class ChronoJumpWindow
 	private int hscale_force_sensor_ai_b_BeforeZoom = 0;
 	private int hscale_force_sensor_ai_b_AtZoom = 0;
 
+	private double hscale_force_sensor_ai_a_BeforeZoomTimeMS = 0; //to calculate triggers
+
 	private void on_check_force_sensor_ai_zoom_clicked (object o, EventArgs args)
 	{
 		if(fsAI == null || fsAI.GetLength() == 0)
@@ -1296,6 +1298,9 @@ public partial class ChronoJumpWindow
 			//store hscale a to help return to position on unzoom
 			hscale_force_sensor_ai_a_BeforeZoom = Convert.ToInt32(hscale_force_sensor_ai_a.Value);
 			hscale_force_sensor_ai_b_BeforeZoom = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
+
+			//to calculate triggers
+			hscale_force_sensor_ai_a_BeforeZoomTimeMS = fsAI.GetTimeMS(hscale_force_sensor_ai_a_BeforeZoom -1);
 
 			forceSensorRepetition_lZoomApplied = fsAI.ForceSensorRepetition_l;
 
@@ -1608,34 +1613,41 @@ public partial class ChronoJumpWindow
 			}
 		}
 
-		// triggers. Right now only show triggers on not zoom
-		if(! forceSensorZoomApplied)
+		// triggers (also on zoom)
+		int firstCount = 0;
+		double firstMs = fsAI.GetTimeMS(firstCount);
+		int xFirstPos = fsAI.GetXFromSampleCount(firstCount);
+		//LogB.Information(string.Format("no zoom: firstCount: {0}, firstMs: {1}, xFirstPos: {2}", firstCount, firstMs, xFirstPos));
+
+		int lastCount = fsAI.GetLength() -1;
+		double lastMs = fsAI.GetTimeMS(lastCount);
+		int xLastPos = fsAI.GetXFromSampleCount(lastCount);
+		//LogB.Information(string.Format("no zoom: lastCount: {0}, lastMs: {1}, xLastPos: {2}", lastCount, lastMs, xLastPos));
+
+		foreach(Trigger trigger in triggerListForceSensor.GetList())
 		{
-			int firstCount = 0;
-			double firstMs = fsAI.GetTimeMS(firstCount);
-			int xFirstPos = fsAI.GetXFromSampleCount(firstCount);
-			//LogB.Information(string.Format("no zoom: firstCount: {0}, firstMs: {1}, xFirstPos: {2}", firstCount, firstMs, xFirstPos));
+			//write the vertical start line
+			//int tempX = fsAI.GetXFromSampleCount(trigger.Ms); not because is not a count
 
-			int lastCount = fsAI.GetLength() -1;
-			double lastMs = fsAI.GetTimeMS(lastCount);
-			int xLastPos = fsAI.GetXFromSampleCount(lastCount);
-			//LogB.Information(string.Format("no zoom: lastCount: {0}, lastMs: {1}, xLastPos: {2}", lastCount, lastMs, xLastPos));
-
-			foreach(Trigger trigger in triggerListForceSensor.GetList())
+			double triggerPercent1 = UtilAll.DivideSafe(trigger.Ms, lastMs-firstMs);
+			if(forceSensorZoomApplied)
 			{
-				//write the vertical start line
-				//int tempX = fsAI.GetXFromSampleCount(trigger.Ms); not because is not a count
-
-				double triggerPercent1 = UtilAll.DivideSafe(trigger.Ms, (lastMs-firstMs));
-				int xtrigger = Convert.ToInt32(triggerPercent1 * (xLastPos - xFirstPos)) + xFirstPos;
-
-				Gdk.GC myPen = pen_green_force_ai; //in
-				if(! trigger.InOut)
-					myPen = pen_red_force_ai; //out
-
-				force_sensor_ai_pixmap.DrawLine(myPen,
-						xtrigger, textHeight +6, xtrigger, allocation.Height - textHeight -6);
+				//on zoom, 0 seconds has displaced, correct trigger.Ms according to that displacement
+				triggerPercent1 = UtilAll.DivideSafe(
+						trigger.Ms -hscale_force_sensor_ai_a_BeforeZoomTimeMS,
+						lastMs-firstMs);
+				if(triggerPercent1 < 0 || triggerPercent1 > 1)
+					continue;
 			}
+
+			int xtrigger = Convert.ToInt32(triggerPercent1 * (xLastPos - xFirstPos)) + xFirstPos;
+
+			Gdk.GC myPen = pen_green_force_ai; //in
+			if(! trigger.InOut)
+				myPen = pen_red_force_ai; //out
+
+			force_sensor_ai_pixmap.DrawLine(myPen,
+					xtrigger, textHeight +6, xtrigger, allocation.Height - textHeight -6);
 		}
 
 		LogB.Information("forceSensorAnalyzeManualGraphDo() END");

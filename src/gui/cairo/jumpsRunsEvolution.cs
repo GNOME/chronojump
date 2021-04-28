@@ -160,6 +160,8 @@ public class JumpsEvolutionGraph : EvolutionGraph
 
 public class RunsEvolutionGraph : EvolutionGraph
 {
+	private bool metersSecondsPreferred;
+
 	//constructor when there are no points
 	public RunsEvolutionGraph (DrawingArea area, string runType, string font)//, string title, string runType, string date)
 	{
@@ -177,7 +179,7 @@ public class RunsEvolutionGraph : EvolutionGraph
 	//regular constructor
 	public RunsEvolutionGraph (
 			List<PointF> point_l, double slope, double intercept,
-			DrawingArea area, string title, string runType, string date)
+			DrawingArea area, string title, string runType, string date, bool metersSecondsPreferred)
 	{
 		this.point_l = point_l;
 		this.slope = slope;
@@ -186,12 +188,16 @@ public class RunsEvolutionGraph : EvolutionGraph
 		this.title = title;
 		this.runType = runType;
 		this.date = date;
+		this.metersSecondsPreferred = metersSecondsPreferred;
 		this.colorBackground = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
 
 		xVariable = dateStr;
 		yVariable = speedStr;
 		xUnits = "";
-		yUnits = "m/s"; //TODO: can be km/h depending on preferences
+		if(metersSecondsPreferred)
+			yUnits = "m/s";
+		else
+			yUnits = "km/h";
 	}
 
 	protected override void writeTitle()

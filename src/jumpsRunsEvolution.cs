@@ -106,6 +106,8 @@ public class JumpsEvolution : JumpsRunsEvolution
 
 public class RunsEvolution : JumpsRunsEvolution
 {
+	public bool metersSecondsPreferred; //pass this
+
 	//constructor
 	public RunsEvolution()
 	{
@@ -122,6 +124,8 @@ public class RunsEvolution : JumpsRunsEvolution
 		int currentSession = -1;
                 foreach(Run r in run_l)
 		{
+			r.MetersSecondsPreferred = metersSecondsPreferred;
+
 			if(onlyBestInSession)
 			{
 				//at onlyBestInSession they return ordered by sessionID, run.distance/run.time DESC

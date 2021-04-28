@@ -231,7 +231,10 @@ public partial class ChronoJumpWindow
 		string runType = comboSelectRunsEvolution.GetSelectedNameEnglish();
 
 		if(calculateData)
+		{
+			runsEvolution.metersSecondsPreferred = preferences.metersSecondsPreferred;
 			runsEvolution.Calculate(currentPerson.UniqueID, runType, check_runs_evolution_only_best_in_session.Active);
+		}
 
 		if(runsEvolution.Point_l.Count == 0)
 		{
@@ -247,7 +250,8 @@ public partial class ChronoJumpWindow
 					runsEvolution.Slope,
 					runsEvolution.Intercept,
 					drawingarea_runs_evolution,
-					currentPerson.Name, runType, currentSession.DateShort);
+					currentPerson.Name, runType, currentSession.DateShort,
+					preferences.metersSecondsPreferred);
 			runsEvolutionGraph.Do(preferences.fontType.ToString());
 
 			button_runs_evolution_save_image.Sensitive = true;

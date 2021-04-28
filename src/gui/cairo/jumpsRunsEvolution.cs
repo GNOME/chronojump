@@ -190,7 +190,11 @@ public class RunsEvolutionGraph : EvolutionGraph
 		this.colorBackground = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
 
 		xVariable = dateStr;
-		yVariable = speedStr;
+		if(showTime)
+			yVariable = timeStr;
+		else
+			yVariable = speedStr;
+
 		xUnits = "";
 		if(showTime)
 			yUnits = "s";

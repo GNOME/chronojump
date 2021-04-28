@@ -210,6 +210,7 @@ public class Preferences
 
 	//runs
 	public bool runsEvolutionOnlyBestInSession;
+	public bool runsEvolutionShowTime;
 
 	//encoder
 	public Constants.EncoderAutoSaveCurve encoderAutoSaveCurve;

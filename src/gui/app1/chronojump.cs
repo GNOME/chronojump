@@ -1004,6 +1004,7 @@ public partial class ChronoJumpWindow
 
 		//---- runs ----
 		check_runs_evolution_only_best_in_session.Active = preferences.runsEvolutionOnlyBestInSession;
+		check_runs_evolution_show_time.Active = preferences.runsEvolutionShowTime;
 
 		//---- video ----
 

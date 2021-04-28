@@ -1611,24 +1611,30 @@ public partial class ChronoJumpWindow
 		// triggers. Right now only show triggers on not zoom
 		if(! forceSensorZoomApplied)
 		{
+			int firstCount = 0;
+			double firstMs = fsAI.GetTimeMS(firstCount);
+			int xFirstPos = fsAI.GetXFromSampleCount(firstCount);
+			//LogB.Information(string.Format("no zoom: firstCount: {0}, firstMs: {1}, xFirstPos: {2}", firstCount, firstMs, xFirstPos));
+
 			int lastCount = fsAI.GetLength() -1;
 			double lastMs = fsAI.GetTimeMS(lastCount);
 			int xLastPos = fsAI.GetXFromSampleCount(lastCount);
+			//LogB.Information(string.Format("no zoom: lastCount: {0}, lastMs: {1}, xLastPos: {2}", lastCount, lastMs, xLastPos));
 
 			foreach(Trigger trigger in triggerListForceSensor.GetList())
 			{
 				//write the vertical start line
 				//int tempX = fsAI.GetXFromSampleCount(trigger.Ms); not because is not a count
 
-				double triggerPercent1 = UtilAll.DivideSafe(trigger.Ms, lastMs);
-				int xtrigger = Convert.ToInt32(triggerPercent1 * xLastPos);
+				double triggerPercent1 = UtilAll.DivideSafe(trigger.Ms, (lastMs-firstMs));
+				int xtrigger = Convert.ToInt32(triggerPercent1 * (xLastPos - xFirstPos)) + xFirstPos;
 
-				if(trigger.InOut)
-					force_sensor_ai_pixmap.DrawLine(pen_green_force_ai,
-							xtrigger, textHeight +6, xtrigger, allocation.Height - textHeight -6);
-				else
-					force_sensor_ai_pixmap.DrawLine(pen_red_force_ai,
-							xtrigger, textHeight +6, xtrigger, allocation.Height - textHeight -6);
+				Gdk.GC myPen = pen_green_force_ai; //in
+				if(! trigger.InOut)
+					myPen = pen_red_force_ai; //out
+
+				force_sensor_ai_pixmap.DrawLine(myPen,
+						xtrigger, textHeight +6, xtrigger, allocation.Height - textHeight -6);
 			}
 		}
 

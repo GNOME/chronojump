@@ -37,6 +37,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ComboBox combo_select_jumps_evolution;
 	[Widget] Gtk.Button button_jumps_evolution_save_image;
 	[Widget] Gtk.CheckButton check_jumps_evolution_only_best_in_session;
+	[Widget] Gtk.CheckButton check_runs_evolution_show_time;
 
 	JumpsEvolution jumpsEvolution;
 	JumpsEvolutionGraph jumpsEvolutionGraph;
@@ -213,6 +214,10 @@ public partial class ChronoJumpWindow
 		SqlitePreferences.Update(SqlitePreferences.RunsEvolutionOnlyBestInSession,
 				check_runs_evolution_only_best_in_session.Active, false);
 	}
+	private void on_check_runs_evolution_show_time_clicked (object o, EventArgs args)
+	{
+		runsEvolutionDo(true);
+	}
 
 	private void runsEvolutionDo (bool calculateData)
 	{
@@ -232,7 +237,7 @@ public partial class ChronoJumpWindow
 
 		if(calculateData)
 		{
-			runsEvolution.metersSecondsPreferred = preferences.metersSecondsPreferred;
+			runsEvolution.PassParameters(check_runs_evolution_show_time.Active, preferences.metersSecondsPreferred);
 			runsEvolution.Calculate(currentPerson.UniqueID, runType, check_runs_evolution_only_best_in_session.Active);
 		}
 
@@ -251,6 +256,7 @@ public partial class ChronoJumpWindow
 					runsEvolution.Intercept,
 					drawingarea_runs_evolution,
 					currentPerson.Name, runType, currentSession.DateShort,
+					check_runs_evolution_show_time.Active,
 					preferences.metersSecondsPreferred);
 			runsEvolutionGraph.Do(preferences.fontType.ToString());
 

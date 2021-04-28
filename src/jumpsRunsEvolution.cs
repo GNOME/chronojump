@@ -106,11 +106,18 @@ public class JumpsEvolution : JumpsRunsEvolution
 
 public class RunsEvolution : JumpsRunsEvolution
 {
-	public bool metersSecondsPreferred; //pass this
+	private bool showTime;
+	private bool metersSecondsPreferred;
 
 	//constructor
 	public RunsEvolution()
 	{
+	}
+
+	public void PassParameters(bool showTime, bool metersSecondsPreferred)
+	{
+		this.showTime = showTime;
+		this.metersSecondsPreferred = metersSecondsPreferred;
 	}
 
 	public override void Calculate (int personID, string runType, bool onlyBestInSession)
@@ -124,7 +131,6 @@ public class RunsEvolution : JumpsRunsEvolution
 		int currentSession = -1;
                 foreach(Run r in run_l)
 		{
-			r.MetersSecondsPreferred = metersSecondsPreferred;
 
 			if(onlyBestInSession)
 			{
@@ -138,7 +144,12 @@ public class RunsEvolution : JumpsRunsEvolution
 			DateTime dt = UtilDate.FromFile(r.Datetime);
 			double dtDouble = UtilDate.DateTimeYearDayAsDouble(dt);
 
-			point_l.Add(new PointF(dtDouble, r.Speed));
+			if(showTime)
+				point_l.Add(new PointF(dtDouble, r.Time));
+			else {
+				r.MetersSecondsPreferred = metersSecondsPreferred;
+				point_l.Add(new PointF(dtDouble, r.Speed));
+			}
 		}
 
 		getLeastSquaresLine ();

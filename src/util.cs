@@ -1992,9 +1992,7 @@ public class Util
 		if(unsorted_l.Count < 2)
 			return unsorted_l;
 
-		List<int> order_l = new List<int>(); //ints with the order
 		List<string> sorted_l = new List<string>();
-
 		for(int i = 0; i < unsorted_l.Count; i ++)
 		{
 			double highest = 0;

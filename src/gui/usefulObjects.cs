@@ -20,6 +20,7 @@
 
 using System;
 using System.Data;
+using System.Diagnostics; //Stopwatch
 using Gtk;
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List<T>
@@ -435,10 +436,11 @@ public class MovingBar
 	public Gdk.GC Pen_bar_bg;
 	public double Result;
 	public int Step;
+	public int DurationMS; //Step will depend on current time and durationMS (milliseconds)
 	public Pango.Layout Layout;
 
 	public MovingBar(int x, int y, int width, int yTop, int altoTop, 
-			Gdk.GC pen_bar_bg, double result, Pango.Layout layout)
+			Gdk.GC pen_bar_bg, double result, int durationMS, Pango.Layout layout)
 	{
 		this.X = x;
 		this.Y = y;
@@ -447,12 +449,42 @@ public class MovingBar
 		this.AltoTop = altoTop;
 		this.Pen_bar_bg = pen_bar_bg;
 		this.Result = result;
+		this.DurationMS = durationMS;
 		this.Layout = layout;
 	} 
-	
+
+	/*
 	public void Next() {
 		Step = Convert.ToInt32(Math.Ceiling((Y-YTop)/100.0));
 		Y = Y - Step;
+	}
+	*/
+
+	Stopwatch sw;
+	public int YStart;
+
+	public void Start()
+	{
+		YStart = Y;
+		sw = new Stopwatch();
+		sw.Start();
+	}
+
+	//creates new Y and also returns it
+	public int NextByDuration()
+	{
+		long elapsedMS = sw.ElapsedMilliseconds;
+		if(elapsedMS >= DurationMS)
+			Y = YTop;
+		else {
+			/*
+			LogB.Information(string.Format("YStart: {0}, YTop: {1}, elapsed: {2}, duration: {3}, y will be: {4}",
+						YStart, YTop, sw.ElapsedMilliseconds, DurationMS,
+						YStart - Convert.ToInt32( UtilAll.DivideSafe(elapsedMS, DurationMS) * (YStart - YTop) )));
+			*/
+			Y = YStart - Convert.ToInt32( UtilAll.DivideSafe(elapsedMS, DurationMS) * (YStart - YTop) );
+		}
+		return Y;
 	}
 
 	~MovingBar() {}

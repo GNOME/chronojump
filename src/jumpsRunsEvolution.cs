@@ -108,6 +108,8 @@ public class RunsEvolution : JumpsRunsEvolution
 {
 	private bool showTime;
 	private bool metersSecondsPreferred;
+	public List<string> distance_l; //distances of selected runType
+	public double distanceAtCombo;
 
 	//constructor
 	public RunsEvolution()
@@ -126,12 +128,31 @@ public class RunsEvolution : JumpsRunsEvolution
                 List<Run> run_l = SqliteRun.SelectRuns (false, -1, personID, runType,
 				Sqlite.Orders_by.DEFAULT, -1, false, onlyBestInSession);
 
-		//2 convert to list of PointF
+		//2 convert to list of PointF, and also create distance_l
 		point_l = new List<PointF>();
+		distance_l = new List<string>();
 		int currentSession = -1;
                 foreach(Run r in run_l)
 		{
+			// 1 if a distance is selected and this run does not match, continue
+			if(distanceAtCombo > 0 && r.Distance != distanceAtCombo)
+				continue;
 
+			// 2 if not done previously, save the distance for distance_l
+			bool found = false;
+			foreach(string dStr in distance_l)
+				if(dStr == Util.TrimDecimals(r.Distance, 1))
+				{
+					found = true;
+					break;
+				}
+			if(! found)
+			{
+				distance_l.Add(Util.TrimDecimals(r.Distance, 1));
+				//LogB.Information("Added distance: " + r.Distance);
+			}
+
+			// 3 if only best, only show the best (first one of each session, also according previous to distance)
 			if(onlyBestInSession)
 			{
 				//at onlyBestInSession they return ordered by sessionID, run.distance/run.time DESC
@@ -141,6 +162,7 @@ public class RunsEvolution : JumpsRunsEvolution
 					currentSession = r.SessionID;
 			}
 
+			// 4 store the point at point_l
 			DateTime dt = UtilDate.FromFile(r.Datetime);
 			double dtDouble = UtilDate.DateTimeYearDayAsDouble(dt);
 

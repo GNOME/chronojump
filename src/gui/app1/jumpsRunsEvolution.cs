@@ -175,6 +175,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_runs_evolution_analyze_image_save;
 	[Widget] Gtk.HBox hbox_combo_select_runs_evolution;
 	[Widget] Gtk.ComboBox combo_select_runs_evolution;
+	[Widget] Gtk.HBox hbox_combo_select_runs_evolution_distance;
+	[Widget] Gtk.ComboBox combo_select_runs_evolution_distance;
 	[Widget] Gtk.Button button_runs_evolution_save_image;
 	[Widget] Gtk.CheckButton check_runs_evolution_only_best_in_session;
 	[Widget] Gtk.CheckButton check_runs_evolution_show_time;
@@ -203,37 +205,72 @@ public partial class ChronoJumpWindow
 		if (o == null)
 			return;
 
-		runsEvolutionDo(true);
+		runsEvolutionDo(true, true);
+	}
+	// combo (end)
+
+	// combo (start)
+	private bool combo_select_runs_evolution_distance_follow_signals;
+	private void createComboSelectRunsEvolutionDistance()
+	{
+		combo_select_runs_evolution_distance = ComboBox.NewText();
+		//UtilGtk.ComboUpdate (combo_select_runs_evolution_distance, Catalog.GetString("All"));
+		//combo_select_runs_evolution_distance.Active = 0;
+		hbox_combo_select_runs_evolution_distance.PackStart(combo_select_runs_evolution_distance, true, true, 0);
+
+		combo_select_runs_evolution_distance_follow_signals = false;
+		combo_select_runs_evolution_distance.Changed += new EventHandler (on_combo_select_runs_evolution_distance_changed);
+		combo_select_runs_evolution_distance_follow_signals = true;
+
+		combo_select_runs_evolution_distance.Sensitive = true;
+		combo_select_runs_evolution_distance.Visible = true;
+		hbox_combo_select_runs_evolution_distance.Visible = true;
+	}
+	private void on_combo_select_runs_evolution_distance_changed(object o, EventArgs args)
+	{
+		if(! combo_select_runs_evolution_distance_follow_signals)
+			return;
+
+		ComboBox combo = o as ComboBox;
+		if (o == null)
+			return;
+
+		runsEvolutionDo(false, true);
 	}
 	// combo (end)
 
 	private void on_check_runs_evolution_only_best_in_session_clicked (object o, EventArgs args)
 	{
-		runsEvolutionDo(true);
+		runsEvolutionDo(false, true);
 
 		SqlitePreferences.Update(SqlitePreferences.RunsEvolutionOnlyBestInSession,
 				check_runs_evolution_only_best_in_session.Active, false);
 	}
 	private void on_check_runs_evolution_show_time_clicked (object o, EventArgs args)
 	{
-		runsEvolutionDo(true);
+		runsEvolutionDo(false, true);
 
 		SqlitePreferences.Update(SqlitePreferences.RunsEvolutionShowTime,
 				check_runs_evolution_show_time.Active, false);
 	}
 
-	private void runsEvolutionDo (bool calculateData)
+	//if exerciseChanged, distances can change
+	private void runsEvolutionDo (bool exerciseChanged, bool calculateData)
 	{
+		LogB.Information("runsEvolutionDo, calculateData: " + calculateData.ToString());
 		if(currentPerson == null || currentSession == null ||
 				drawingarea_runs_evolution == null || drawingarea_runs_evolution.GdkWindow == null) //it happens at start on click on analyze
 		{
 			button_runs_evolution_save_image.Sensitive = false;
+			LogB.Information("runsEvolutionDo: exit early");
 			return;
 		}
 
+		bool runsEvolutionJustCreated = false;
 		if(runsEvolution == null) {
 			runsEvolution = new RunsEvolution();
 			calculateData = true;
+			runsEvolutionJustCreated = true;
 		}
 
 		string runType = comboSelectRunsEvolution.GetSelectedNameEnglish();
@@ -241,7 +278,37 @@ public partial class ChronoJumpWindow
 		if(calculateData)
 		{
 			runsEvolution.PassParameters(check_runs_evolution_show_time.Active, preferences.metersSecondsPreferred);
+
+			// 1 get distance on the combo
+			double distanceAtCombo = -1;
+			if(exerciseChanged)
+				distanceAtCombo = -1; //changing exercise will always select ----
+			else if(combo_select_runs_evolution_distance != null && Util.IsNumber(UtilGtk.ComboGetActive(combo_select_runs_evolution_distance), true))
+				distanceAtCombo = Convert.ToDouble(UtilGtk.ComboGetActive(combo_select_runs_evolution_distance));
+
+			// 2 calculate (using distance)
+			runsEvolution.distanceAtCombo = distanceAtCombo;
 			runsEvolution.Calculate(currentPerson.UniqueID, runType, check_runs_evolution_only_best_in_session.Active);
+
+			// 3 modify the distances combo, but only if exercise change or on creation of runsEvolution (first expose_event)
+			if(exerciseChanged || runsEvolutionJustCreated)
+			{
+				if(runsEvolution.distance_l.Count > 0)
+				{
+					if(runsEvolution.distance_l.Count > 1)
+						runsEvolution.distance_l.Insert(0, "----");
+
+					combo_select_runs_evolution_distance_follow_signals = false;
+
+					UtilGtk.ComboUpdate(combo_select_runs_evolution_distance, runsEvolution.distance_l);
+
+					combo_select_runs_evolution_distance.Active = 0;
+					combo_select_runs_evolution_distance.Visible = true;
+
+					combo_select_runs_evolution_distance_follow_signals = true;
+				} else
+					combo_select_runs_evolution_distance.Visible = false;
+			}
 		}
 
 		if(runsEvolution.Point_l.Count == 0)
@@ -265,6 +332,7 @@ public partial class ChronoJumpWindow
 
 			button_runs_evolution_save_image.Sensitive = true;
 		}
+		LogB.Information("runsEvolutionDo: ended!");
 	}
 	private void on_drawingarea_runs_evolution_expose_event (object o, ExposeEventArgs args)
 	{
@@ -272,7 +340,7 @@ public partial class ChronoJumpWindow
 //		drawingarea_runs_evolution.AddEvents((int) (Gdk.EventMask.ButtonPressMask | Gdk.EventMask.ButtonReleaseMask));
 		drawingarea_runs_evolution.AddEvents((int) Gdk.EventMask.ButtonPressMask);
 
-		runsEvolutionDo(false); //do not calculate data
+		runsEvolutionDo(false, false); //do not calculate data
 		//data is calculated on switch page (at notebook_capture_analyze) or on change person
 	}
 

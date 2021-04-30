@@ -174,6 +174,8 @@ public class RunsEvolution : JumpsRunsEvolution
 			}
 		}
 
+		distance_l = Util.SortDoublesListString(distance_l);
+
 		getLeastSquaresLine ();
 	}
 }

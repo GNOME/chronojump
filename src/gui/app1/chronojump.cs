@@ -652,6 +652,7 @@ public partial class ChronoJumpWindow
 		combo_jumps_rj_fatigue_divide_in.Active = 0;
 		createComboSelectRuns(true);
 		createComboSelectRunsEvolution(true);
+		createComboSelectRunsEvolutionDistance();
 		createComboSelectRunsInterval(true);
 		
 		createComboResultJumps();
@@ -1308,7 +1309,7 @@ public partial class ChronoJumpWindow
 			updateGraphRunsSimple();
 
 			if(notebook_analyze.CurrentPage == Convert.ToInt32(notebook_analyze_pages.RUNSEVOLUTION))
-				runsEvolutionDo(true); //calculate data
+				runsEvolutionDo(true, true); //calculate data
 		}
 		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
 		{
@@ -7466,7 +7467,7 @@ LogB.Debug("mc finished 5");
 				if(radio_mode_contacts_runs_evolution.Active)
 				{
 					notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RUNSEVOLUTION);
-					runsEvolutionDo(true);
+					runsEvolutionDo(true, true);
 				}
 			}
 		}
@@ -7530,7 +7531,7 @@ LogB.Debug("mc finished 5");
 		if(radio_mode_contacts_runs_evolution.Active)
 		{
 			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RUNSEVOLUTION);
-			runsEvolutionDo(true);
+			runsEvolutionDo(true, true);
 		}
 	}
 	private void on_radio_mode_contacts_sprint_toggled (object o, EventArgs args)

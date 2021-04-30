@@ -104,6 +104,18 @@ public class UtilGtk
 		return ComboMakeActive(myCombo, ComboGetActive(myCombo));
 	}
 
+	public static int ComboCount(ComboBox myCombo) {
+		int count = 0;
+		TreeIter iter;
+		myCombo.Model.GetIterFirst(out iter);
+		do {
+			count ++;
+		} while (myCombo.Model.IterNext (ref iter));
+
+		return count;
+	}
+
+
 
 	//this is better than the below method, because this search in current combo values
 	//if we use a predefined set of values (like below method), we can have problems 

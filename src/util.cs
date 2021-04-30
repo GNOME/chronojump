@@ -1974,6 +1974,45 @@ public class Util
 		return a;
 	}
 
+	public static void TestSortDoublesListstring()
+	{
+		List<string> numbers_l = new List<string>() { "3", "99", "135", "45", "75", "17", "88", "5" }; //ints
+		//List<string> numbers_l = new List<string>() { "3,5", "99,54", "135,1", "45,5", "75,5", "45,9", "88", "45,3" }; //latin
+
+		List<string> numbersSorted_l = SortDoublesListString(numbers_l);
+
+		LogB.Information("Sorted: ");
+		foreach(string s in numbersSorted_l)
+			LogB.Information(s);
+	}
+
+	//sort a list of doubles descending until 0
+	public static List<string> SortDoublesListString (List<string> unsorted_l)
+	{
+		if(unsorted_l.Count < 2)
+			return unsorted_l;
+
+		List<int> order_l = new List<int>(); //ints with the order
+		List<string> sorted_l = new List<string>();
+
+		for(int i = 0; i < unsorted_l.Count; i ++)
+		{
+			double highest = 0;
+			int highestPos = 0;
+			for(int j = 0; j < unsorted_l.Count; j ++)
+			{
+				double comparingToNum = Convert.ToDouble(unsorted_l[j]);
+				if(comparingToNum > highest)
+				{
+					highest = comparingToNum;
+					highestPos = j;
+				}
+			}
+			sorted_l.Add(unsorted_l[highestPos]); //store highest value on sorted_l
+			unsorted_l[highestPos] = "0"; //mark as 0 on unsortd_l to not choose it again
+		}
+		return sorted_l;
+	}
 
 	/*
 	//delete a row of and arraylist of string[] if the string[0] is the value coming from startsWith

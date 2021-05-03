@@ -162,7 +162,7 @@ public class TreeViewPersons
 	}
 	
 	//pass 0 for first row
-	public void SelectRow(int rowNumber)
+	public bool SelectRow(int rowNumber)
 	{
 		TreeIter iter;
 		bool iterOk = store.GetIterFirst(out iter);
@@ -175,7 +175,9 @@ public class TreeViewPersons
 			treeview.Selection.SelectIter(iter);
 			TreePath path = store.GetPath (iter);
 			treeview.ScrollToCell (path, null, true, 0, 0);
+			return true;
 		}
+		return false;
 	}
 	
 	public bool IsThereAnyRecord() {

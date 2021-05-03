@@ -2707,7 +2707,7 @@ LogB.Information(" fs R ");
 
 		button_activate_chronopics.Sensitive = s;
 		image_test.Sensitive = s;
-		button_execute_test.Sensitive = s;
+		button_execute_test.Sensitive = (s && currentPerson != null && currentPerson.UniqueID > 0 && currentSession != null);
 		button_force_sensor_image_save_signal.Sensitive = s;
 
 		viewport_persons.Sensitive = s;

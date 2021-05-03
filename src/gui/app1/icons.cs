@@ -193,6 +193,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_force_sensor_ai_chained_link_off;
 	[Widget] Gtk.Image image_force_sensor_ai_zoom;
 	[Widget] Gtk.Image image_force_sensor_ai_zoom_out;
+	[Widget] Gtk.Image image_button_force_sensor_analyze_back_to_signal;
 
 	[Widget] Gtk.Image image_hscale_force_sensor_ai_a_first;
 	[Widget] Gtk.Image image_hscale_force_sensor_ai_a_last;
@@ -391,6 +392,7 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "arrow_back.png");
 		image_selector_start_back.Pixbuf = pixbuf;
+		image_button_force_sensor_analyze_back_to_signal.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_pin.png");
 		image_radio_show_persons.Pixbuf = pixbuf;

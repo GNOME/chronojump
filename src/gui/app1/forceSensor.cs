@@ -1936,7 +1936,8 @@ LogB.Information(" fs R ");
 		//showForceSensorTriggers (); TODO until know where to put it
 
 		forceSensorCopyTempAndDoGraphs(forceSensorGraphsEnum.SIGNAL);
-		image_force_sensor_graph.Sensitive = false; //unsensitivize the RFD image (can contain info of previous data)
+		//image_force_sensor_graph.Sensitive = false; //unsensitivize the RFD image (can contain info of previous data)
+		notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSETSIGNAL);
 
 		button_video_play_this_test_contacts.Sensitive = (fs.VideoURL != "");
 		sensitiveLastTestButtons(true);

@@ -1214,7 +1214,10 @@ public partial class ChronoJumpWindow
 	//return true if selection is done (there's any person)
 	private bool selectRowTreeView_persons(Gtk.TreeView tv, int rowNum)
 	{
-		myTreeViewPersons.SelectRow(rowNum);
+		LogB.Information("selectRowTreeView_persons");
+
+		if(! myTreeViewPersons.SelectRow(rowNum))
+			return false;
 		
 		//the selection of row in treeViewPersons.SelectRow is not a real selection 
 		//and unfortunately doesn't raises the on_treeview_persons_cursor_changed ()
@@ -2752,7 +2755,7 @@ public partial class ChronoJumpWindow
 		
 		hbox_persons_bottom_photo.Sensitive = false;
 		hbox_persons_bottom_no_photo.Sensitive = false;
-
+		LogB.Information("foundPersons: " + foundPersons.ToString());
 		//if there are persons
 		if(foundPersons) {
 			//activate the gui for persons in main window
@@ -2762,6 +2765,7 @@ public partial class ChronoJumpWindow
 			label_top_encoder_person_name.Text = "<b>" + currentPerson.Name + "</b>";
 			label_top_encoder_person_name.UseMarkup = true;
 		} else {
+			sensitiveGuiNoPerson();
 			currentPerson = null;
 			label_top_person_name.Text = "";
 			label_top_encoder_person_name.Text = "";
@@ -7630,7 +7634,9 @@ LogB.Debug("mc finished 5");
 	}
 
 	//only called by delete person functions (if we run out of persons)
-	private void sensitiveGuiNoPerson () {
+	private void sensitiveGuiNoPerson ()
+	{
+		LogB.Information("sensitiveGuiNoPerson");
 		vbox_jumps.Sensitive = false;
 		hbox_jumps_rj.Sensitive = false;
 		button_execute_test.Sensitive = false;
@@ -7659,7 +7665,9 @@ LogB.Debug("mc finished 5");
 		label_top_encoder_person_name.Text = "";
 	}
 	
-	private void sensitiveGuiYesPerson () {
+	private void sensitiveGuiYesPerson ()
+	{
+		LogB.Information("sensitiveGuiYesPerson");
 		vbox_jumps.Sensitive = true;
 		hbox_jumps_rj.Sensitive = true;
 		button_execute_test.Sensitive = true;

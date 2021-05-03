@@ -1146,6 +1146,10 @@ public partial class ChronoJumpWindow
 
 	private void forceSensorCaptureDo()
 	{
+		//precaution
+		if (currentSession == null || currentPerson == null)
+			return;
+
 		lastChangedTime = 0;
 
 		if(! forceSensorSendCommand("start_capture:", "Preparing capture...", "Catched force capturing"))

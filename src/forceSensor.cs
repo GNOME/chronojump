@@ -384,7 +384,9 @@ public class ForceSensorExercise
 	private bool tareBeforeCapture;
 	private bool forceResultant;
 	private bool elastic;
-	private bool eccReps;
+	//private bool eccReps;
+	public enum RepetitionsShowTypes { CONCENTRIC, BOTHTOGETHER, BOTHSEPARATED };
+	private RepetitionsShowTypes repetitionsShow;
 	private double eccMin;
 	private double conMin;
 
@@ -413,7 +415,7 @@ public class ForceSensorExercise
 
 	public ForceSensorExercise(int uniqueID, string name, int percentBodyWeight, string resistance, int angleDefault,
 			string description, bool tareBeforeCapture, bool forceResultant, bool elastic,
-			bool eccReps, double eccMin, double conMin)
+			RepetitionsShowTypes repetitionsShow, double eccMin, double conMin)
 	{
 		this.uniqueID = uniqueID;
 		this.name = name;
@@ -424,7 +426,7 @@ public class ForceSensorExercise
 		this.tareBeforeCapture = tareBeforeCapture;
 		this.forceResultant = forceResultant;
 		this.elastic = elastic;
-		this.eccReps = eccReps;
+		this.repetitionsShow = repetitionsShow;
 		this.eccMin = eccMin;
 		this.conMin = conMin;
 	}
@@ -449,7 +451,39 @@ public class ForceSensorExercise
 		return uniqueID.ToString() + ":" + name + ":" + percentBodyWeight.ToString() + ":" +
 			resistance + ":" + angleDefault.ToString() + ":" + description + ":" +
 			tareBeforeCapture.ToString() + ":" + forceResultant.ToString() + ":" + elastic.ToString() + ":" +
-			eccReps.ToString() + ":" + eccMin.ToString() + ":" + conMin.ToString();
+			repetitionsShow.ToString() + ":" + eccMin.ToString() + ":" + conMin.ToString();
+	}
+
+	public int RepetitionsShowToCode()
+	{
+		/*
+		  DB 2.21 and before	DB ~2.22 	SQL code
+		  eccReps 0		CONCENTRIC		0
+		  eccReps 1		BOTHTOGETHER		1
+					BOTHSEPARATED		2
+
+		  ~2.22 because is not really a change on DB
+		*/
+
+		if(repetitionsShow == RepetitionsShowTypes.CONCENTRIC)
+			return 0;
+		else if(repetitionsShow == RepetitionsShowTypes.BOTHTOGETHER)
+			return 1;
+		else if(repetitionsShow == RepetitionsShowTypes.BOTHSEPARATED)
+			return 2;
+
+		return 0;
+	}
+	public static RepetitionsShowTypes RepetitionsShowFromCode(int code)
+	{
+		if(code == 0)
+			return RepetitionsShowTypes.CONCENTRIC;
+		else if(code == 1)
+			return RepetitionsShowTypes.BOTHTOGETHER;
+		else if(code == 2)
+			return RepetitionsShowTypes.BOTHSEPARATED;
+
+		return RepetitionsShowTypes.CONCENTRIC;
 	}
 
 	public string ToSQLInsertString()
@@ -464,7 +498,7 @@ public class ForceSensorExercise
 			Util.BoolToInt(tareBeforeCapture).ToString() + ", " +
 			Util.BoolToInt(forceResultant).ToString() + ", " +
 			Util.BoolToInt(elastic).ToString() + ", " +
-			Util.BoolToInt(eccReps).ToString() + ", " +
+			RepetitionsShowToCode().ToString() + ", " +
 			Util.ConvertToPoint(eccMin) + ", " + Util.ConvertToPoint(conMin);
 	}
 
@@ -492,7 +526,7 @@ public class ForceSensorExercise
 				tareBeforeCapture == newEx.TareBeforeCapture &&
 				forceResultant == newEx.ForceResultant &&
 				elastic == newEx.Elastic &&
-				eccReps == newEx.EccReps &&
+				repetitionsShow == newEx.RepetitionsShow &&
 				eccMin == newEx.EccMin &&
 				conMin == newEx.ConMin)
 			return false;
@@ -542,10 +576,10 @@ public class ForceSensorExercise
 	{
 		get { return forceResultant && elastic; }
 	}
-	public bool EccReps
+	public RepetitionsShowTypes RepetitionsShow
 	{
-		get { return eccReps; }
-		set { eccReps = value; }
+		get { return repetitionsShow; }
+		set { repetitionsShow = value; }
 	}
 	public double EccMin
 	{
@@ -2471,7 +2505,7 @@ public class ForceSensorAnalyzeInstant
 		string str = (i+1).ToString() + sep; //sample
 
 		//str += ForceSensorRepetition.GetRepetitionNumFromList(ForceSensorRepetition_l, i).ToString() + sep + 	//repetition
-		str += ForceSensorRepetition.GetRepetitionCodeFromList(ForceSensorRepetition_l, i, fse.EccReps) + sep + 	//repetition
+		str += ForceSensorRepetition.GetRepetitionCodeFromList(ForceSensorRepetition_l, i, fse.RepetitionsShow) + sep + 	//repetition
 			Util.DoubleToCSV(timeAtCount, sepString) + sep +
 			Util.DoubleToCSV(fscAIPoints.GetForceAtCount(i), sepString) + sep +
 			Util.DoubleToCSV(CalculateRFD(i-1, i+1), 3, sepString);

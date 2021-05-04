@@ -73,9 +73,8 @@ public class ForceSensorExerciseWindow
 	[Widget] Gtk.HBox hbox_body_mass_add;
 	[Widget] Gtk.SpinButton spin_body_mass_add;
 
-	//repetitions tab
+	//repetitions detect tab
 	[Widget] Gtk.Label label_detect_repetitions;
-	[Widget] Gtk.CheckButton check_show_ecc;
 	[Widget] Gtk.RadioButton radio_detect_repetitions_from_prefs;
 	[Widget] Gtk.RadioButton radio_detect_repetitions_custom;
 	[Widget] Gtk.HBox hbox_detect_repetitions_preferences;
@@ -89,6 +88,14 @@ public class ForceSensorExerciseWindow
 	[Widget] Gtk.SpinButton spin_force_sensor_elastic_con_min_displ;
 	[Widget] Gtk.SpinButton spin_force_sensor_not_elastic_ecc_min_force;
 	[Widget] Gtk.SpinButton spin_force_sensor_not_elastic_con_min_force;
+
+	//repetitions show tab
+	//[Widget] Gtk.CheckButton check_show_ecc;
+	[Widget] Gtk.RadioButton radio_reps_show_concentric;
+	[Widget] Gtk.RadioButton radio_reps_show_both;
+	[Widget] Gtk.Alignment alignment_reps_show_both;
+	[Widget] Gtk.RadioButton radio_reps_show_both_together;
+	[Widget] Gtk.RadioButton radio_reps_show_both_separated;
 
 	//other tab
 	[Widget] Gtk.Label label_other;
@@ -111,9 +118,10 @@ public class ForceSensorExerciseWindow
 
 	private enum modesEnum { EDIT, ADD }
 	private modesEnum modeEnum;
-	private enum Pages { FORCE, FIXATION, MASS, REPETITIONS, OTHER }
+	private enum Pages { FORCE, FIXATION, MASS, REPSDETECT, REPSSHOW, OTHER }
 	private enum Options { FORCE_SENSOR, FORCE_RESULTANT, FIXATION_ELASTIC, FIXATION_NOT_ELASTIC,
-		MASS_ADD, MASS_SUBTRACT, MASS_NOTHING, REPETITIONS_PREFS, REPETITIONS_NO_PREFS, OTHER }
+		MASS_ADD, MASS_SUBTRACT, MASS_NOTHING,
+		REPETITIONS_PREFS, REPETITIONS_NO_PREFS, REPETITIONS_SHOW, OTHER }
 
 	static ForceSensorExerciseWindow ForceSensorExerciseWindowBox;
 
@@ -191,7 +199,7 @@ public class ForceSensorExerciseWindow
 			}
 
 			ForceSensorExerciseWindowBox.repetitionsToGUI(
-					exercise.EccReps, repsFromPrefs,
+					exercise.RepetitionsShow, repsFromPrefs,
 					em, cm,
 					prefsForceSensorNotElasticEccMinForce, prefsForceSensorNotElasticConMinForce);
 		} else {
@@ -209,7 +217,7 @@ public class ForceSensorExerciseWindow
 			}
 
 			ForceSensorExerciseWindowBox.repetitionsToGUI(
-					exercise.EccReps, repsFromPrefs,
+					exercise.RepetitionsShow, repsFromPrefs,
 					prefsForceSensorElasticEccMinDispl, prefsForceSensorElasticConMinDispl,
 					Convert.ToInt32(em), Convert.ToInt32(cm));
 		}
@@ -241,7 +249,7 @@ public class ForceSensorExerciseWindow
 		ForceSensorExerciseWindowBox.prefsForceSensorNotElasticConMinForce = prefsForceSensorNotElasticConMinForce;
 
 		ForceSensorExerciseWindowBox.repetitionsToGUI(
-				false, true, //show ecc, repsFromPrefs
+				ForceSensorExercise.RepetitionsShowTypes.BOTHTOGETHER, true, //repsFromPrefs
 				prefsForceSensorElasticEccMinDispl, prefsForceSensorElasticConMinDispl,
 				prefsForceSensorNotElasticEccMinForce, prefsForceSensorNotElasticConMinForce);
 
@@ -319,12 +327,11 @@ public class ForceSensorExerciseWindow
 	}
 
 	private void repetitionsToGUI(
-			bool showEcc, bool repsFromPrefs,
+			ForceSensorExercise.RepetitionsShowTypes repetitionsShow, bool repsFromPrefs,
 			double forceSensorElasticEccMinDispl, double forceSensorElasticConMinDispl,
 			int forceSensorNotElasticEccMinForce, int forceSensorNotElasticConMinForce)
 	{
-		check_show_ecc.Active = showEcc;
-
+		//reps detect tab
 		if(repsFromPrefs)
 			radio_detect_repetitions_from_prefs.Active = true;
 		else
@@ -334,6 +341,23 @@ public class ForceSensorExerciseWindow
 		spin_force_sensor_elastic_con_min_displ.Value = forceSensorElasticConMinDispl;
 		spin_force_sensor_not_elastic_ecc_min_force.Value = forceSensorNotElasticEccMinForce;
 		spin_force_sensor_not_elastic_con_min_force.Value = forceSensorNotElasticConMinForce;
+
+
+		//reps show tab
+		if(repetitionsShow == ForceSensorExercise.RepetitionsShowTypes.CONCENTRIC)
+		{
+			radio_reps_show_concentric.Active = true;
+			alignment_reps_show_both.Visible = false;
+		} else
+		{
+			radio_reps_show_both.Active = true;
+			alignment_reps_show_both.Visible = true;
+
+			if(repetitionsShow == ForceSensorExercise.RepetitionsShowTypes.BOTHTOGETHER)
+				radio_reps_show_both_together.Active = true;
+			else
+				radio_reps_show_both_separated.Active = true;
+		}
 	}
 
 	private string getTopExplanations (Pages p)
@@ -345,7 +369,9 @@ public class ForceSensorExerciseWindow
 			str = Catalog.GetString("How the force is transmitted to the sensor");
 		else if(p == Pages.MASS)
 			str = Catalog.GetString("Depending on the exercise and configuration of the test, the total mass (mass of the person and the extra load) can affect the sensor measuring. Select how to manage this effect.");
-		else if(p == Pages.REPETITIONS)
+		else if(p == Pages.REPSDETECT)
+			str = ""; //not shown
+		else if(p == Pages.REPSSHOW)
 			str = ""; //not shown
 		else { //if(p == Pages.OTHER)
 			if(radio_force_resultant.Active && radio_mass_add.Active)
@@ -378,6 +404,8 @@ public class ForceSensorExerciseWindow
 			str = Catalog.GetString("If user changes values on preferences, these values will automatically change.");
 		else if(o == Options.REPETITIONS_NO_PREFS)
 			str = Catalog.GetString("These values will be used to detect repetitions.");
+		else if(o == Options.REPETITIONS_SHOW)
+			str = Catalog.GetString("Detected repetitions will show only concentric phase or both.");
 		else //if(o == Options.OTHER)
 			str = Catalog.GetString("0 means horizontally") + "\n" +
 				Catalog.GetString("90 means vertically with the person above the sensor") + "\n" +
@@ -409,7 +437,9 @@ public class ForceSensorExerciseWindow
 		else if(o == Options.MASS_NOTHING)
 			str = "1.- " + Catalog.GetString("Nordic hamstring. In a Nordic hamstring with the sensor attached to the ankle, the weight affects the values of the sensor but this weight is supported by the hamstrings we are measuring.") +
 				"\n2.- " + Catalog.GetString("Pulling on a TRX. Pulling from a TRX implies overcome the body weight. This body weight is also measured by the sensor.");
-		//else if(o == Options.REPETITIONS)
+		//else if(o == Options.REPSDETECT)
+		//	str = ""; //not shown
+		//else if(o == Options.REPSSHOW)
 		//	str = ""; //not shown
 		else //if(o == Options.OTHER)
 			str = "";
@@ -439,6 +469,8 @@ public class ForceSensorExerciseWindow
 			str = Catalog.GetString("Repetitions according to preferences");
 		else if(o == Options.REPETITIONS_NO_PREFS)
 			str = Catalog.GetString("Repetitions using custom values");
+		else if(o == Options.REPETITIONS_SHOW)
+			str = Catalog.GetString("Show repetitions");
 		else //if(o == Options.OTHER)
 			str = Catalog.GetString("Angle explanation");
 
@@ -508,7 +540,7 @@ public class ForceSensorExerciseWindow
 			}
 			hbox_body_mass_add.Sensitive = radio_mass_add.Active;
 		}
-		else if(p == Pages.REPETITIONS)
+		else if(p == Pages.REPSDETECT)
 		{
 			if(radio_force_sensor_raw.Active || ! radio_fixation_elastic.Active)
 			{
@@ -559,6 +591,21 @@ public class ForceSensorExerciseWindow
 			//notebook_desc_examples.CurrentPage = 0;
 			notebook_desc_examples.GetNthPage(1).Hide();
 		}
+		else if(p == Pages.REPSSHOW)
+		{
+			if(radio_reps_show_concentric.Active)
+				alignment_reps_show_both.Visible = false;
+			else if(radio_reps_show_both.Active)
+				alignment_reps_show_both.Visible = true;
+
+			desc = getDescription(Options.REPETITIONS_SHOW);
+			ex = getExample(Options.REPETITIONS_SHOW);
+			set_notebook_desc_example_labels(Options.REPETITIONS_SHOW);
+
+			radio_desc_examples_desc.Active = true;
+			radio_desc_examples_examples.Hide();
+			notebook_desc_examples.GetNthPage(1).Hide();
+		}
 		else // if(p == Pages.OTHER)
 		{
 			button_next.Visible = false;
@@ -591,7 +638,7 @@ public class ForceSensorExerciseWindow
 	private void on_button_next_clicked (object o, EventArgs args)
 	{
 		if(notebook_main.CurrentPage == Convert.ToInt32(Pages.FORCE) && radio_force_sensor_raw.Active)
-			notebook_main.CurrentPage = Convert.ToInt32(Pages.REPETITIONS);
+			notebook_main.CurrentPage = Convert.ToInt32(Pages.REPSDETECT);
 		else if(notebook_main.CurrentPage < Convert.ToInt32(Pages.OTHER))
 			notebook_main.CurrentPage ++;
 		else
@@ -601,7 +648,7 @@ public class ForceSensorExerciseWindow
 	}
 	private void on_button_back_clicked (object o, EventArgs args)
 	{
-		if(notebook_main.CurrentPage == Convert.ToInt32(Pages.REPETITIONS) && radio_force_sensor_raw.Active)
+		if(notebook_main.CurrentPage == Convert.ToInt32(Pages.REPSDETECT) && radio_force_sensor_raw.Active)
 			notebook_main.CurrentPage = Convert.ToInt32(Pages.FORCE);
 		else if(notebook_main.CurrentPage > Convert.ToInt32(Pages.FORCE))
 			notebook_main.CurrentPage --;
@@ -624,14 +671,24 @@ public class ForceSensorExerciseWindow
 		managePage(Pages.MASS);
 	}
 
+	private void on_radio_detect_repetitions_toggled (object o, EventArgs args)
+	{
+		managePage(Pages.REPSDETECT);
+	}
+
+	/*
 	private void on_check_show_ecc_toggled (object o, EventArgs args)
 	{
 		managePage(Pages.REPETITIONS);
 	}
-
-	private void on_radio_detect_repetitions_toggled (object o, EventArgs args)
+	*/
+	private void on_radio_reps_show_concentric_toggled (object o, EventArgs args)
 	{
-		managePage(Pages.REPETITIONS);
+		managePage(Pages.REPSSHOW);
+	}
+	private void on_radio_reps_show_both_toggled (object o, EventArgs args)
+	{
+		managePage(Pages.REPSSHOW);
 	}
 
 	private void on_entry_name_changed (object o, EventArgs args)
@@ -704,6 +761,14 @@ public class ForceSensorExerciseWindow
 		if(modeEnum == modesEnum.EDIT)
 			myID = exercise.UniqueID;
 
+		ForceSensorExercise.RepetitionsShowTypes repetitionsShow;
+		if(radio_reps_show_concentric.Active)
+			repetitionsShow = ForceSensorExercise.RepetitionsShowTypes.CONCENTRIC;
+		else if(radio_reps_show_both.Active && radio_reps_show_both_together.Active)
+			repetitionsShow = ForceSensorExercise.RepetitionsShowTypes.BOTHTOGETHER;
+		else //if(radio_reps_show_both.Active && radio_reps_show_both_separated.Active)
+			repetitionsShow = ForceSensorExercise.RepetitionsShowTypes.BOTHSEPARATED;
+
 		ForceSensorExercise exerciseTemp = new ForceSensorExercise(
 				myID, entry_name.Text,
 				percentBodyWeight,
@@ -713,7 +778,7 @@ public class ForceSensorExerciseWindow
 				radio_mass_subtract.Active, 	//tareBeforeCapture
 				radio_force_resultant.Active,
 				radio_fixation_elastic.Active,
-				check_show_ecc.Active, eccMin, conMin);
+				repetitionsShow, eccMin, conMin);
 
 		if(modeEnum == modesEnum.ADD)
 		{

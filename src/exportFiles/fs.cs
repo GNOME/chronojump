@@ -169,9 +169,10 @@ public class ForceSensorExport : ExportFiles
 			if(! fsesm.Exists(p.UniqueID, fsEx.UniqueID, fs.Laterality))
 				fsesm.AddForceSensorExportSet(p.UniqueID, fsEx.UniqueID, fs.Laterality);
 
-			//make the exercise have EccReps = true in order to have an AB wiht the concentric and eccentric part
+			//make the exercise have EccReps = true in order to have an AB with the concentric and eccentric part
 			//and send both to R to be able to have the force window in that AB
-			fsEx.EccReps = true;
+			//fsEx.EccReps = true;
+			fsEx.RepetitionsShow = ForceSensorExercise.RepetitionsShowTypes.BOTHSEPARATED;
 
 			double eccMinDispl = fsEx.GetEccOrConMinMaybePreferences(true,
 					forceSensorElasticEccMinDispl,

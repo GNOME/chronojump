@@ -1658,7 +1658,9 @@ public partial class ChronoJumpWindow
 //		LogB.Information(string.Format("at forceSensorWriteRepetitionNumber with (rep+1): {0}, endsAtLeft: {1}, endsAtRight: {2}", rep +1, endsAtLeft, endsAtRight));
 //		layout_force_ai_text.SetMarkup((rep+1).ToString());
 
-		if(! currentForceSensorExercise.EccReps)
+		//if(! currentForceSensorExercise.EccReps)
+		if(currentForceSensorExercise.RepetitionsShow == ForceSensorExercise.RepetitionsShowTypes.CONCENTRIC ||
+				currentForceSensorExercise.RepetitionsShow == ForceSensorExercise.RepetitionsShowTypes.BOTHTOGETHER)
 			layout_force_ai_text.SetMarkup((number+1).ToString());
 		else
 			layout_force_ai_text.SetMarkup(string.Format("{0}{1}", Math.Ceiling((number +1)/2.0), type));

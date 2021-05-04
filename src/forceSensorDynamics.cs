@@ -205,7 +205,7 @@ public abstract class ForceSensorDynamics
 				concentricFlag, yList.Count, sampleStart, sampleEnd));
 
 		//should accept eccentric reps?
-		if(! fse.EccReps && concentricFlag == -1)
+		if(fse.RepetitionsShow == ForceSensorExercise.RepetitionsShowTypes.CONCENTRIC && concentricFlag == -1)
 			return;
 
 		// 1) remove low force at beginning ot end of the repetition
@@ -296,6 +296,20 @@ public abstract class ForceSensorDynamics
 			return true;
 
 		return false;
+	}
+
+	protected ForceSensorRepetition.Types getForceSensorRepetitionType (double ySampleStart, double ySampleEnd)
+	{
+		ForceSensorRepetition.Types fsrType = ForceSensorRepetition.Types.DONOTSHOW;
+		if(fse.RepetitionsShow != ForceSensorExercise.RepetitionsShowTypes.CONCENTRIC)
+		{
+			if(ySampleEnd < ySampleStart)
+				fsrType = ForceSensorRepetition.Types.ECC;
+			else
+				fsrType = ForceSensorRepetition.Types.CON;
+		}
+
+		return fsrType;
 	}
 
 	protected abstract void addRepetition(List <double> yList, int sampleStart, int sampleEnd);
@@ -394,15 +408,17 @@ public class ForceSensorDynamicsNotElastic : ForceSensorDynamics
 	{
 		//TODO: need to cut reps with low force prolonged at start or end
 
-		ForceSensorRepetition.Types fsrType = ForceSensorRepetition.Types.DONOTSHOW;
-		if(fse.EccReps)
+		ForceSensorRepetition.Types fsrType = getForceSensorRepetitionType (yList[sampleStart], yList[sampleEnd]);
+
+		//  modify previous repetition if this repetition is ECC and fse.RepetitionsShow == ForceSensorExercise.RepetitionsShowTypes.BOTHTOGETHER
+		if(fsrType == ForceSensorRepetition.Types.ECC &&
+				fse.RepetitionsShow == ForceSensorExercise.RepetitionsShowTypes.BOTHTOGETHER &&
+				forceSensorRepetition_l.Count > 0)
 		{
-			if(yList[sampleEnd] < yList[sampleStart])
-				fsrType = ForceSensorRepetition.Types.ECC;
-			else
-				fsrType = ForceSensorRepetition.Types.CON;
-		}
-		forceSensorRepetition_l.Add(new ForceSensorRepetition(sampleStart, sampleEnd, fsrType));
+			forceSensorRepetition_l[forceSensorRepetition_l.Count -1].sampleEnd = sampleEnd;
+			forceSensorRepetition_l[forceSensorRepetition_l.Count -1].type = ForceSensorRepetition.Types.DONOTSHOW;
+		} else
+			forceSensorRepetition_l.Add(new ForceSensorRepetition(sampleStart, sampleEnd, fsrType));
 	}
 
 	protected override void cutSamplesForZoomDo(int startAtSample, int endAtSample)
@@ -586,20 +602,31 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 	{
 		//TODO: need to cut reps with low force prolonged at start or end
 
-		ForceSensorRepetition.Types fsrType = ForceSensorRepetition.Types.DONOTSHOW;
-		if(fse.EccReps)
+		ForceSensorRepetition.Types fsrType = getForceSensorRepetitionType (yList[sampleStart], yList[sampleEnd]);
+
+		//  modify previous repetition if this repetition is ECC and fse.RepetitionsShow == ForceSensorExercise.RepetitionsShowTypes.BOTHTOGETHER
+		if(fsrType == ForceSensorRepetition.Types.ECC &&
+				fse.RepetitionsShow == ForceSensorExercise.RepetitionsShowTypes.BOTHTOGETHER &&
+				forceSensorRepetition_l.Count > 0)
 		{
-			if(yList[sampleEnd] < yList[sampleStart])
-				fsrType = ForceSensorRepetition.Types.ECC;
-			else
-				fsrType = ForceSensorRepetition.Types.CON;
+			forceSensorRepetition_l[forceSensorRepetition_l.Count -1].sampleEnd = sampleEnd;
+			forceSensorRepetition_l[forceSensorRepetition_l.Count -1].type = ForceSensorRepetition.Types.DONOTSHOW;
+
+			int sampleStartPreviousRep = forceSensorRepetition_l[forceSensorRepetition_l.Count -1].sampleStart;
+
+			forceSensorRepetition_l[forceSensorRepetition_l.Count -1].RFD =
+				(force_l[sampleEnd] - force_l[sampleStartPreviousRep]) / (time_l[sampleEnd] - time_l[sampleStartPreviousRep]);
+
+			forceSensorRepetition_l[forceSensorRepetition_l.Count -1].meanSpeed =
+				(yList[sampleEnd] - yList[sampleStartPreviousRep]) /  (time_l[sampleEnd] - time_l[sampleStartPreviousRep]);
+		} else
+		{
+			//Calculate mean RFD and mean speed of the phase
+			double lastRFD = (force_l[sampleEnd] - force_l[sampleStart]) / (time_l[sampleEnd] - time_l[sampleStart]);
+			double lastMeanSpeed = (yList[sampleEnd] - yList[sampleStart]) / (time_l[sampleEnd] - time_l[sampleStart]);
+
+			forceSensorRepetition_l.Add(new ForceSensorRepetition(sampleStart, sampleEnd, fsrType, lastMeanSpeed, lastRFD));
 		}
-
-		//Calculate mean RFD and mean speed of the phase
-		double lastRFD = (force_l[sampleEnd] - force_l[sampleStart]) / (time_l[sampleEnd] - time_l[sampleStart]);
-		double lastMeanSpeed = (yList[sampleEnd] - yList[sampleStart]) / (time_l[sampleEnd] - time_l[sampleStart]);
-
-		forceSensorRepetition_l.Add(new ForceSensorRepetition(sampleStart, sampleEnd, fsrType, lastMeanSpeed, lastRFD));
 	}
 
 	protected override void cutSamplesForZoomDo(int startAtSample, int endAtSample)
@@ -658,7 +685,8 @@ public class ForceSensorRepetition
 	public int sampleStart; // this is sample, not graph in pixels.
 	public int sampleEnd; // this is sample, not graph in pixels.
 
-	//if !fse.EccReps, then DONOTSHOW
+	//if(!fse.EccReps), then DONOTSHOW
+	//if(fse.RepetitionsShow == ForceSensorExercise.RepetitionsShowTypes.CONCENTRIC), then DONOTSHOW
 	public enum Types { DONOTSHOW, CON, ECC }
 	public Types type;
 
@@ -709,7 +737,7 @@ public class ForceSensorRepetition
 	}
 	*/
 
-	public static string GetRepetitionCodeFromList(List<ForceSensorRepetition> l, int sampleEnd, bool eccReps)
+	public static string GetRepetitionCodeFromList(List<ForceSensorRepetition> l, int sampleEnd, ForceSensorExercise.RepetitionsShowTypes repetitionsShow)
 	{
 		int rep = 1;
 		foreach(ForceSensorRepetition fsr in l)
@@ -717,7 +745,9 @@ public class ForceSensorRepetition
 			if(sampleEnd >= fsr.sampleStart && sampleEnd <= fsr.sampleEnd)
 			{
 				LogB.Information(string.Format("fsr.sampleStart: {0}; fsr.sampleEnd: {1}; sampleEnd: {2}; rep: {3}", fsr.sampleStart, fsr.sampleEnd, sampleEnd, rep));
-				if(! eccReps || rep == 0)
+				if(repetitionsShow == ForceSensorExercise.RepetitionsShowTypes.CONCENTRIC ||
+						repetitionsShow == ForceSensorExercise.RepetitionsShowTypes.BOTHTOGETHER ||
+						rep == 0)
 					return rep.ToString();
 				else
 					return string.Format("{0}{1}", Math.Ceiling(rep/2.0), typeShort(fsr.type));

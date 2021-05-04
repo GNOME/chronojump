@@ -451,7 +451,7 @@ class SqliteForceSensorExercise : Sqlite
 			"tareBeforeCapture INT, " +
 			"forceResultant INT NOT NULL, " +
 			"elastic INT NOT NULL, " +
-			"eccReps INT DEFAULT 0, " +
+			"eccReps INT DEFAULT 0, " + 	//since ~2.22 (not really a change on DB) is repetitionsShow
 			"eccMin FLOAT DEFAULT -1, " + 	//can be displacement or N
 			"conMin FLOAT DEFAULT -1)"; 	//can be displacement or N
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -497,7 +497,7 @@ class SqliteForceSensorExercise : Sqlite
 			"\", tareBeforeCapture = " + Util.BoolToInt(ex.TareBeforeCapture).ToString() +
 			", forceResultant = " + Util.BoolToInt(ex.ForceResultant).ToString() +
 			", elastic = " + Util.BoolToInt(ex.Elastic).ToString() +
-			", eccReps = " + Util.BoolToInt(ex.EccReps).ToString() +
+			", eccReps = " + ex.RepetitionsShowToCode().ToString() +
 			", eccMin = " + Util.ConvertToPoint(ex.EccMin) +
 			", conMin = " + Util.ConvertToPoint(ex.ConMin) +
 			" WHERE uniqueID = " + ex.UniqueID;
@@ -576,7 +576,7 @@ class SqliteForceSensorExercise : Sqlite
 							Util.IntToBool(Convert.ToInt32(reader[6].ToString())),	//tareBeforeCapture
 							Util.IntToBool(Convert.ToInt32(reader[7].ToString())),	//forceResultant
 							Util.IntToBool(Convert.ToInt32(reader[8].ToString())),	//elastic
-							Util.IntToBool(Convert.ToInt32(reader[9].ToString())),	//eccReps
+							ForceSensorExercise.RepetitionsShowFromCode(Convert.ToInt32(reader[9].ToString())),	//eccReps
 							Convert.ToDouble(Util.ChangeDecimalSeparator(reader[10].ToString())), 	//eccMin
 							Convert.ToDouble(Util.ChangeDecimalSeparator(reader[11].ToString())) 	//conMin
 							);

@@ -456,7 +456,7 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkVBox" id="vbox8">
+                  <widget class="GtkVBox" id="vbox_reps_detect">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="border_width">8</property>
@@ -476,23 +476,6 @@
                             <property name="expand">False</property>
                             <property name="fill">False</property>
                             <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkCheckButton" id="check_show_ecc">
-                            <property name="label" translatable="yes">Show eccentric phase</property>
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
-                            <property name="active">True</property>
-                            <property name="draw_indicator">True</property>
-                            <signal name="toggled" handler="on_check_show_ecc_toggled" swapped="no"/>
-                          </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="pack_type">end</property>
-                            <property name="position">1</property>
                           </packing>
                         </child>
                       </widget>
@@ -1036,7 +1019,7 @@
                   <widget class="GtkLabel" id="label1">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label">repetitions</property>
+                    <property name="label">repetitionsDetect</property>
                   </widget>
                   <packing>
                     <property name="position">3</property>
@@ -1045,7 +1028,147 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkVBox" id="vbox7">
+                  <widget class="GtkVBox" id="vbox_reps_detect1">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="border_width">8</property>
+                    <property name="spacing">25</property>
+                    <child>
+                      <widget class="GtkHBox" id="hbox12">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <widget class="GtkLabel" id="label_show_repetitions">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="xalign">0</property>
+                            <property name="label" translatable="yes">Show repetitions</property>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkVBox" id="vbox7">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="spacing">16</property>
+                        <child>
+                          <widget class="GtkRadioButton" id="radio_reps_show_concentric">
+                            <property name="label" translatable="yes">Show only concentric phase</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="active">True</property>
+                            <property name="draw_indicator">True</property>
+                            <signal name="toggled" handler="on_radio_reps_show_concentric_toggled" swapped="no"/>
+                          </widget>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkRadioButton" id="radio_reps_show_both">
+                            <property name="label" translatable="yes">Show both phases</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="draw_indicator">True</property>
+                            <property name="group">radio_reps_show_concentric</property>
+                            <signal name="toggled" handler="on_radio_reps_show_both_toggled" swapped="no"/>
+                          </widget>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkAlignment" id="alignment_reps_show_both">
+                            <property name="can_focus">False</property>
+                            <property name="left_padding">30</property>
+                            <child>
+                              <widget class="GtkVBox" id="vbox8">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="spacing">12</property>
+                                <child>
+                                  <widget class="GtkRadioButton" id="radio_reps_show_both_together">
+                                    <property name="label" translatable="yes">Together</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="active">True</property>
+                                    <property name="draw_indicator">True</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkRadioButton" id="radio_reps_show_both_separated">
+                                    <property name="label" translatable="yes">Separated</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="active">True</property>
+                                    <property name="draw_indicator">True</property>
+                                    <property name="group">radio_reps_show_both_together</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </widget>
+                            </child>
+                          </widget>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="position">4</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkLabel" id="label12">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label">repetitionsShow</property>
+                  </widget>
+                  <packing>
+                    <property name="position">4</property>
+                    <property name="tab_fill">False</property>
+                    <property name="type">tab</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkVBox" id="vbox_other">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="border_width">8</property>
@@ -1188,7 +1311,7 @@
                     </child>
                   </widget>
                   <packing>
-                    <property name="position">4</property>
+                    <property name="position">5</property>
                   </packing>
                 </child>
                 <child>
@@ -1198,7 +1321,7 @@
                     <property name="label">other</property>
                   </widget>
                   <packing>
-                    <property name="position">4</property>
+                    <property name="position">5</property>
                     <property name="tab_fill">False</property>
                     <property name="type">tab</property>
                   </packing>

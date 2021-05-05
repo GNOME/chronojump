@@ -1160,6 +1160,28 @@ public class ForceSensorCapturePoints
 		return UtilAll.DivideSafe(sum, numSamples);
 	}
 
+	public static void TestVariabilityCVRMSSD()
+	{
+		/*
+		   R psych test:
+		   library("psych")
+		   > x=c(21, 45, 75, 54, 5.5, 545.5, 44, 17, 8, -15, -12.8)
+		   > rmssd(x,group=NULL, lag=1, na.rm=TRUE)
+		   [1] 234.2467
+		*/
+
+		ForceSensorCapturePoints fscp = new ForceSensorCapturePoints(
+				ForceSensorCapturePoints.GraphTypes.FORCESIGNAL, 300, 300, 10);
+		List <double> nums = new List<double> {21, 45, 75, 54, 5.5, 545.5, 44, 17, 8, -15, -12.8};
+		for (int i = 0; i < nums.Count; i ++)
+			fscp.Add(i+1, nums[i]);
+
+		double variability = 0;
+		double feedbackDiff = 0;
+		fscp.GetVariabilityAndAccuracy(0, nums.Count -1, 20, out variability, out feedbackDiff, true);
+		LogB.Information("cvRMSSD: " + variability);
+	}
+
 	public int MarginLeft
 	{
 		get { return marginLeft; }

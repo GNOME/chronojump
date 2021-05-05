@@ -1123,15 +1123,25 @@ public class ForceSensorCapturePoints
 	}
 	private double getVariabilityCVRMSSD (int countA, int countB, int numSamples)
 	{
-		//Σ(x_i - x_{i+1})^2 /(n-1))   //note pow should be inside the summation
+		//see a test of this method below:
+		//public static void TestVariabilityCVRMSSD()
+
+		//sqrt(Σ( x_i - x_{i+1})^2 /(n-1)) )   //note pow should be inside the summation
 		double sum = 0;
+		double sumForMean = 0;
 		for(int i = countA; i < countB; i ++)
 		{
 			sum += Math.Pow(forces[i] - forces[i+1], 2);
+			sumForMean += forces[i];
 		}
 
-		return UtilAll.DivideSafe(sum, numSamples -1);
+		double rmssd = Math.Sqrt(UtilAll.DivideSafe(sum, numSamples -1));
+		LogB.Information("RMSSD: " + rmssd.ToString());
 
+		//sumForMean += forces[countB]; //need this?
+		double mean = sumForMean / numSamples;
+
+		return 100 * UtilAll.DivideSafe(rmssd, mean);
 	}
 	private double getVariabilityOldMethod (int countA, int countB, int numSamples)
 	{

@@ -29,7 +29,7 @@ public class CairoRadial : CairoGeneric
 {
 	private Cairo.Context g;
 	private int textHeight = 12;
-	private int margin = 20;
+	private int margin = 4;
 	private Gtk.DrawingArea area;
 	private string font;
 	private int graphWidth;

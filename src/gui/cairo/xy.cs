@@ -443,16 +443,18 @@ public abstract class CairoXY : CairoGeneric
 		g.Stroke ();
 	}
 
+	protected enum plotTypes { POINTS, LINES, POINTSLINES }
+
 	//called from almost all methods
-	protected void plotRealPoints (bool joinByLine)
+	protected void plotRealPoints (plotTypes plotType)
 	{
-		plotRealPoints (joinByLine, point_l, 0);
+		plotRealPoints (plotType, point_l, 0);
 	}
 
 	//called from raceAnalyzer (sending it own list of points)
-	protected void plotRealPoints (bool joinByLine, List<PointF> points_list, int startAt)
+	protected void plotRealPoints (plotTypes plotType, List<PointF> points_list, int startAt)
 	{
-		if(joinByLine) //draw line first to not overlap the points
+		if(plotType == plotTypes.LINES || plotType == plotTypes.POINTSLINES) //draw line first to not overlap the points
 		{
 			bool firstDone = false;
 			//foreach(PointF p in points_list)
@@ -484,6 +486,10 @@ public abstract class CairoXY : CairoGeneric
 
 		//for(int i = start; i < points_list.Count; i ++)
 		*/
+
+		if(plotType == plotTypes.LINES)
+			return;
+
 		for(int i = startAt; i < points_list.Count; i ++)
 		{
 			PointF p = points_list[i];

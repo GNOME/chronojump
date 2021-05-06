@@ -39,7 +39,7 @@ public abstract class EvolutionGraph : CairoXY
 		paintGridDatetime();
 
 		plotPredictedLine(predictedLineTypes.STRAIGHT, predictedLineCrossMargins.TOUCH);
-		plotRealPoints(false);
+		plotRealPoints(plotTypes.POINTS);
 
 		writeTitle();
 

@@ -104,7 +104,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 				(maxValuesChanged || forceRedraw || points_list.Count != points_list_painted) )
 		{
 
-			plotRealPoints(plotTypes.POINTLINES, points_list, points_list_painted);
+			plotRealPoints(plotTypes.POINTSLINES, points_list, points_list_painted);
 			points_list_painted = points_list.Count;
 		}
 

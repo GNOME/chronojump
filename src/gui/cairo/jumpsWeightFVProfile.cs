@@ -155,7 +155,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 			}
 		}
 
-		plotRealPoints(false);
+		plotRealPoints(plotTypes.POINTS);
 
 		writeTitle();
 

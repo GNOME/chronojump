@@ -86,7 +86,7 @@ public class JumpsDjOptimalFallGraph : CairoXY
 		if(coefs.Length == 3)
 			plotPredictedLine(predictedLineTypes.PARABOLE, predictedLineCrossMargins.TOUCH);
 
-		plotRealPoints(false);
+		plotRealPoints(plotTypes.POINTS);
 
 		if(coefs.Length == 3)
 		{

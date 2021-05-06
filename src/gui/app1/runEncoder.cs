@@ -333,6 +333,7 @@ public partial class ChronoJumpWindow
 		cairoGraphRaceAnalyzerPoints_at_l = new List<PointF>();
 		drawingarea_race_analyzer_capture_position_time.QueueDraw(); //will fire ExposeEvent
 		drawingarea_race_analyzer_capture_speed_time.QueueDraw(); //will fire ExposeEvent
+		drawingarea_race_analyzer_capture_accel_time.QueueDraw(); //will fire ExposeEvent
 
 		button_contacts_exercise_close_and_recalculate.Sensitive = false;
 		textview_contacts_signal_comment.Buffer.Text = "";

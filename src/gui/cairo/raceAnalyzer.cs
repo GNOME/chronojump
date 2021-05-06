@@ -114,6 +114,17 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		//doing = false;
 	}
 
+	protected override void printXAxisText()
+	{
+		printText(graphWidth - outerMargins, graphHeight -Convert.ToInt32(.25 * outerMargins), 0, textHeight, getXAxisLabel(), g, alignTypes.CENTER);
+	}
+	protected override void paintVerticalGridLine(int xtemp, string text)
+	{
+		g.MoveTo(xtemp, graphHeight - outerMargins);
+		g.LineTo(xtemp, outerMargins);
+		printText(xtemp, graphHeight -Convert.ToInt32(.75 * outerMargins), 0, textHeight, text, g, alignTypes.CENTER); //TODO: this only for raceAnalyzer
+	}
+
 	protected override void writeTitle()
 	{
 	}

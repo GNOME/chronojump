@@ -11828,10 +11828,27 @@ EncoderInertialCapture</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="border_width">8</property>
                                                             <child>
+                                                            <widget class="GtkVBox" id="vbox231">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">12</property>
+                                                            <child>
+                                                            <widget class="GtkDrawingArea" id="drawingarea_race_analyzer_capture_speed_time">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <signal name="expose_event" handler="on_drawingarea_race_analyzer_capture_speed_time_expose_event" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkHBox" id="hbox502">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">16</property>
+                                                            <property name="spacing">12</property>
                                                             <property name="homogeneous">True</property>
                                                             <child>
                                                             <widget class="GtkDrawingArea" id="drawingarea_race_analyzer_capture">
@@ -11846,11 +11863,6 @@ EncoderInertialCapture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkVBox" id="vbox255">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="homogeneous">True</property>
-                                                            <child>
                                                             <widget class="GtkDrawingArea" id="drawingarea_race_analyzer_capture_position_time">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -11859,19 +11871,19 @@ EncoderInertialCapture</property>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">0</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkDrawingArea" id="drawingarea_race_analyzer_capture_speed_time">
+                                                            <widget class="GtkDrawingArea" id="drawingarea_race_analyzer_capture_accel_time">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <signal name="expose_event" handler="on_drawingarea_race_analyzer_capture_speed_time_expose_event" swapped="no"/>
+                                                            <signal name="expose_event" handler="on_drawingarea_race_analyzer_capture_accel_time_expose_event" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
@@ -24338,6 +24350,12 @@ Concentric</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options">GTK_SHRINK</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -38132,6 +38150,12 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

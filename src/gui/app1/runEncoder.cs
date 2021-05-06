@@ -54,6 +54,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.DrawingArea drawingarea_race_analyzer_capture;
 	[Widget] Gtk.DrawingArea drawingarea_race_analyzer_capture_position_time;
 	[Widget] Gtk.DrawingArea drawingarea_race_analyzer_capture_speed_time;
+	[Widget] Gtk.DrawingArea drawingarea_race_analyzer_capture_accel_time;
 
 	int race_analyzer_distance;
 	int race_analyzer_temperature;
@@ -273,10 +274,13 @@ public partial class ChronoJumpWindow
 		//blank Cairo scatterplot graphs
 		cairoGraphRaceAnalyzer_dt = null;
 		cairoGraphRaceAnalyzer_st = null;
+		cairoGraphRaceAnalyzer_at = null;
 		cairoGraphRaceAnalyzerPoints_dt_l = new List<PointF>();
 		cairoGraphRaceAnalyzerPoints_st_l = new List<PointF>();
+		cairoGraphRaceAnalyzerPoints_at_l = new List<PointF>();
 		updateRaceAnalyzerCapturePositionTime(true);
 		updateRaceAnalyzerCaptureSpeedTime(true);
+		updateRaceAnalyzerCaptureAccelTime(true);
 
 
 		if(chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER) == 0)
@@ -326,6 +330,7 @@ public partial class ChronoJumpWindow
 		//b) scatterplots
 		cairoGraphRaceAnalyzerPoints_dt_l = new List<PointF>();
 		cairoGraphRaceAnalyzerPoints_st_l = new List<PointF>();
+		cairoGraphRaceAnalyzerPoints_at_l = new List<PointF>();
 		drawingarea_race_analyzer_capture_position_time.QueueDraw(); //will fire ExposeEvent
 		drawingarea_race_analyzer_capture_speed_time.QueueDraw(); //will fire ExposeEvent
 
@@ -453,6 +458,7 @@ public partial class ChronoJumpWindow
 
 		cairoGraphRaceAnalyzerPoints_dt_l = new List<PointF>();
 		cairoGraphRaceAnalyzerPoints_st_l = new List<PointF>();
+		cairoGraphRaceAnalyzerPoints_at_l = new List<PointF>();
 
 		//RunEncoderCaptureGetSpeedAndDisplacement reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement();
 		reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement();
@@ -557,6 +563,13 @@ public partial class ChronoJumpWindow
 		triggerListRunEncoder = new TriggerList();
 		Stopwatch sw = new Stopwatch();
 
+		//to measure accel (having 3 samples)
+		//TODO: store on reCGSD
+		double speedPre2 = -1;
+		double timePre2 = -1;
+		double speedPre = -1;
+		double timePre = -1;
+
 		int rowsCount = 0;
 		while(! runEncoderProcessFinish && ! runEncoderProcessCancel && ! runEncoderProcessError)
 		{
@@ -599,6 +612,25 @@ public partial class ChronoJumpWindow
 				cairoGraphRaceAnalyzerPoints_st_l.Add(new PointF(
 							UtilAll.DivideSafe(reCGSD.Time, 1000000),
 							reCGSD.RunEncoderCaptureSpeed));
+
+				speedPre2 = speedPre;
+				timePre2 = timePre;
+				speedPre = reCGSD.RunEncoderCaptureSpeed;
+				timePre = UtilAll.DivideSafe(reCGSD.Time, 1000000);
+
+				if(timePre2 > 0)
+				{
+					LogB.Information(string.Format("accel at capture is: {0} m/s",
+								UtilAll.DivideSafe(reCGSD.RunEncoderCaptureSpeed - speedPre2,
+									UtilAll.DivideSafe(reCGSD.Time, 1000000) - timePre2)));
+
+					//accel/time
+					cairoGraphRaceAnalyzerPoints_at_l.Add(new PointF(
+								UtilAll.DivideSafe(reCGSD.Time, 1000000),
+								UtilAll.DivideSafe(reCGSD.RunEncoderCaptureSpeed - speedPre2,
+									UtilAll.DivideSafe(reCGSD.Time, 1000000) - timePre2)));
+				}
+
 				sw.Restart();
 			}
 
@@ -902,8 +934,17 @@ public partial class ChronoJumpWindow
 
 		cairoGraphRaceAnalyzer_dt = null;
 		cairoGraphRaceAnalyzer_st = null;
+		cairoGraphRaceAnalyzer_at = null;
 		cairoGraphRaceAnalyzerPoints_dt_l = new List<PointF>();
 		cairoGraphRaceAnalyzerPoints_st_l = new List<PointF>();
+		cairoGraphRaceAnalyzerPoints_at_l = new List<PointF>();
+
+		//to measure accel (having 3 samples)
+		//TODO: store on reCGSD
+		double speedPre2 = -1;
+		double timePre2 = -1;
+		double speedPre = -1;
+		double timePre = -1;
 
 		foreach(string row in contents)
 		{
@@ -925,6 +966,25 @@ public partial class ChronoJumpWindow
 			cairoGraphRaceAnalyzerPoints_st_l.Add(new PointF(
 						UtilAll.DivideSafe(reCGSD.Time, 1000000),
 						reCGSD.RunEncoderCaptureSpeed));
+
+			speedPre2 = speedPre;
+			timePre2 = timePre;
+			speedPre = reCGSD.RunEncoderCaptureSpeed;
+			timePre = UtilAll.DivideSafe(reCGSD.Time, 1000000);
+
+			if(timePre2 > 0)
+			{
+				LogB.Information(string.Format("accel at load is: {0} m/s",
+							UtilAll.DivideSafe(reCGSD.RunEncoderCaptureSpeed - speedPre2,
+								UtilAll.DivideSafe(reCGSD.Time, 1000000) - timePre2)));
+
+				//accel/time
+				cairoGraphRaceAnalyzerPoints_at_l.Add(new PointF(
+							UtilAll.DivideSafe(reCGSD.Time, 1000000),
+							UtilAll.DivideSafe(reCGSD.RunEncoderCaptureSpeed - speedPre2,
+								UtilAll.DivideSafe(reCGSD.Time, 1000000) - timePre2)));
+			}
+
 		}
 		if(reCGSD.RunEncoderCaptureSpeedMax > 0)
 		{
@@ -934,6 +994,7 @@ public partial class ChronoJumpWindow
 
 			updateRaceAnalyzerCapturePositionTime(true);
 			updateRaceAnalyzerCaptureSpeedTime(true);
+			updateRaceAnalyzerCaptureAccelTime(true);
 		}
 
 		// <---- capture tab graphs end ----
@@ -1413,6 +1474,7 @@ public partial class ChronoJumpWindow
 
 					updateRaceAnalyzerCapturePositionTime(true);
 					updateRaceAnalyzerCaptureSpeedTime(true);
+					updateRaceAnalyzerCaptureAccelTime(true);
 				}
 				LogB.Information(" re C finish 2");
 			} else if(runEncoderProcessCancel || runEncoderProcessError)
@@ -1493,6 +1555,7 @@ public partial class ChronoJumpWindow
 			//false: it will not be redrawn if there are no new points
 			updateRaceAnalyzerCapturePositionTime(false);
 			updateRaceAnalyzerCaptureSpeedTime(false);
+			updateRaceAnalyzerCaptureAccelTime(false);
 
 			if(runEncoderPulseMessage == capturingMessage)
 				event_execute_button_finish.Sensitive = true;
@@ -1916,6 +1979,13 @@ public partial class ChronoJumpWindow
 		updateRaceAnalyzerCaptureSpeedTime(true);
 	}
 
+	CairoGraphRaceAnalyzer cairoGraphRaceAnalyzer_at;
+	static List<PointF> cairoGraphRaceAnalyzerPoints_at_l;	//accel/time
+	private void on_drawingarea_race_analyzer_capture_accel_time_expose_event (object o, ExposeEventArgs args)
+	{
+		updateRaceAnalyzerCaptureAccelTime(true);
+	}
+
 	private void updateRaceAnalyzerCapturePositionTime(bool forceRedraw)
 	{
 		if(cairoGraphRaceAnalyzer_dt == null)
@@ -1933,5 +2003,14 @@ public partial class ChronoJumpWindow
 					Catalog.GetString("Speed"), "m/s");
 
 		cairoGraphRaceAnalyzer_st.DoSendingList (preferences.fontType.ToString(), cairoGraphRaceAnalyzerPoints_st_l, forceRedraw);
+	}
+	private void updateRaceAnalyzerCaptureAccelTime(bool forceRedraw)
+	{
+		if(cairoGraphRaceAnalyzer_at == null)
+			cairoGraphRaceAnalyzer_at = new CairoGraphRaceAnalyzer(
+					drawingarea_race_analyzer_capture_accel_time, "title",
+					Catalog.GetString("Accel"), "m/s");
+
+		cairoGraphRaceAnalyzer_at.DoSendingList (preferences.fontType.ToString(), cairoGraphRaceAnalyzerPoints_at_l, forceRedraw);
 	}
 }

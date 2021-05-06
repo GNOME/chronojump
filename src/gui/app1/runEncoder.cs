@@ -589,7 +589,7 @@ public partial class ChronoJumpWindow
 			//time (4 bytes: long at Arduino, uint at c-sharp), force (2 bytes: uint)
 			List<int> binaryReaded = readBinaryRunEncoderValues();
 			reCGSD.PassCapturedRow (binaryReaded);
-			if(reCGSD.Calcule())
+			if(reCGSD.Calcule() && reCGSD.EncoderDisplacement != 0) //this 0s are triggers without displacement
 			{
 				//distance/time
 				cairoGraphRaceAnalyzerPoints_dt_l.Add(new PointF(

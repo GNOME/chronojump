@@ -939,6 +939,9 @@ public partial class ChronoJumpWindow
 
 		//Test ForceSensor GetVariabilityAndAccuracy: getVariabilityCVRMSSD
 		ForceSensorCapturePoints.TestVariabilityCVRMSSD();
+
+		//InterpolateSignal.TestInterpolateBetween();
+		InterpolateSignal.TestCosineAndCubicInterpolate();
 	}
 
 

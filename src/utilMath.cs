@@ -20,6 +20,7 @@
  */
 
 using System;
+using System.IO; 		//for detect OS //TextWriter
 using System.Collections.Generic; //List<T>
 
 //note this has doubles. For ints can use Gdk.Point
@@ -385,5 +386,150 @@ public static class MathUtil
 		LogB.Information(string.Format("Compare: {0} and {1} with: {2}", criteriaPassedValue, previousToCriteriaValue, numToCompare));
 		return ( Math.Abs(criteriaPassedValue - numToCompare) <= Math.Abs(previousToCriteriaValue - numToCompare) );
 	}
+
+}
+
+public class InterpolateSignal
+{
+	private List<PointF> point_l;
+	private enum types { COSINE, CUBIC };
+
+	public InterpolateSignal (List<PointF> point_l)
+	{
+		this.point_l = point_l;
+	}
+
+	//thanks to: http://paulbourke.net/miscellaneous/interpolation/
+	public double CosineInterpolate(double y1, double y2, double mu)
+	{
+		double mu2;
+
+		mu2 = (1-Math.Cos(mu*Math.PI))/2;
+
+		return(y1*(1-mu2)+y2*mu2);
+	}
+	//thanks to: http://paulbourke.net/miscellaneous/interpolation/
+	public double CubicInterpolate(double y0,double y1, double y2,double y3, double mu)
+	{
+		double a0, a1, a2, a3, mu2;
+
+		mu2 = mu * mu;
+		a0 = y3 - y2 - y0 + y1;
+		a1 = y0 - y1 - a0;
+		a2 = y2 - y0;
+		a3 = y1;
+
+		return(a0*mu*mu2+a1*mu2+a2*mu+a3);
+	}
+
+	public static void TestCosineAndCubicInterpolate()
+	{
+		Random random = new Random();
+		List<PointF> l = new List<PointF>();
+
+		for(int i = 0; i < 100; i += 10)
+			l.Add(new PointF(i, random.NextDouble() * 10));
+
+		InterpolateSignal fsp = new InterpolateSignal(l);
+		fsp.testCosineCubicInterpolateDo(types.COSINE);
+		fsp.testCosineCubicInterpolateDo(types.CUBIC);
+	}
+
+	private void testCosineCubicInterpolateDo(types type)
+	{
+		TextWriter writer = File.CreateText(
+				Path.Combine(Path.GetTempPath(), string.Format("chronojump_testinterpolate_{0}.csv", type.ToString())));
+		writer.WriteLine("X;Y;color;cex");
+
+		for(int i = 0; i < point_l.Count -1; i ++) //each known point
+		{
+			writer.WriteLine(string.Format("{0};{1};{2};{3}",
+						point_l[i].X, point_l[i].Y, "red", 2));
+			for(double d = 0; d < 1 ; d += .1) //each interpolated value
+			{
+				if (type == types.COSINE)
+					writer.WriteLine(string.Format("{0};{1};{2};{3}",
+								point_l[i].X + d*(point_l[i+1].X - point_l[i].X),
+								CosineInterpolate(point_l[i].Y, point_l[i+1].Y, d),
+								"black", 1));
+				//else if(type == types.CUBIC && i > 0 && i < point_l.Count -2)
+				else if(type == types.CUBIC)
+				{
+					//for cubic we need two extra points
+					double pre2Y = 0;
+					double post2Y = 0;
+					if(i == 0) {
+						pre2Y = point_l[point_l.Count -1].Y;
+						post2Y = point_l[i+2].Y;
+					} else if(i == point_l.Count -2) {
+						pre2Y = point_l[i-1].Y;
+						post2Y = point_l[0].Y;
+					} else {
+						pre2Y = point_l[i-1].Y;
+						post2Y = point_l[i+2].Y;
+					}
+
+					writer.WriteLine(string.Format("{0};{1};{2};{3}",
+								point_l[i].X + d*(point_l[i+1].X - point_l[i].X),
+								//CubicInterpolate(point_l[i-1].Y, point_l[i].Y, point_l[i+1].Y, point_l[i+2].Y, d),
+								CubicInterpolate(pre2Y, point_l[i].Y, point_l[i+1].Y, post2Y, d),
+								"green", 1));
+				}
+			}
+		}
+		//write the last known point
+		writer.WriteLine(string.Format("{0};{1};{2};{3}",
+					point_l[point_l.Count -1].X, point_l[point_l.Count -1].Y, "red", 2));
+
+		writer.Flush();
+		writer.Close();
+		((IDisposable)writer).Dispose();
+
+		/*
+		   test it with R:
+		   d=read.csv2("/tmp/chronojump_testinterpolate_COSINE.csv")
+		   plot(d$X, d$Y, col=d$color, cex=d$cex, type="b", xlim=c(0,90), ylim=c(0,10))
+		   par(new=T)
+		   d=read.csv2("/tmp/chronojump_testinterpolate_CUBIC.csv")
+		   plot(d$X, d$Y, col=d$color, cex=d$cex, type="b", xlim=c(0,90), ylim=c(0,10))
+		   */
+	}
+
+	/* unused
+	//n: number of points between should be at least 1
+	public List<PointF> InterpolateBetween (int posFrom, int posTo, int n)
+	{
+		PointF pointFrom = point_l[posFrom];
+		PointF pointTo = point_l[posTo];
+
+		List<PointF> interpolated_l = new List<PointF>();
+		for(int i = 1; i < n + 1; i ++)
+			interpolated_l.Add(
+					new PointF(
+						pointFrom.X + UtilAll.DivideSafe((pointTo.X - pointFrom.X) * i, (n + 1)),
+						pointFrom.Y + UtilAll.DivideSafe((pointTo.Y - pointFrom.Y) * i, (n + 1))
+						));
+
+		return interpolated_l;
+	}
+
+	public static void TestInterpolateBetween()
+	{
+		InterpolateSignal fsp = new InterpolateSignal(new List<PointF>{
+				new PointF(5.5, 8),
+				new PointF(7.5, 12),
+				new PointF(14, 13.2)
+				});
+
+		//List<PointF> interpolated_l = fsp.InterpolateBetween(0, 1, 3);
+		//List<PointF> interpolated_l = fsp.InterpolateBetween(1, 2, 1);
+		List<PointF> interpolated_l = fsp.InterpolateBetween(1, 2, 7);
+
+		//print list
+		LogB.Information("Printing interpolates");
+		foreach(PointF point in interpolated_l)
+			LogB.Information(point.ToString());
+	}
+	*/
 
 }

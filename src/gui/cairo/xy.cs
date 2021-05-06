@@ -115,7 +115,7 @@ public abstract class CairoXY : CairoGeneric
 	public virtual void Do(string font)
 	{
 	}
-	public virtual void DoSendingList(string font, List<PointF> points_list, bool forceRedraw)
+	public virtual void DoSendingList(string font, List<PointF> points_list, bool forceRedraw, PlotTypes plotType)
 	{
 	}
 
@@ -448,18 +448,18 @@ public abstract class CairoXY : CairoGeneric
 		g.Stroke ();
 	}
 
-	protected enum plotTypes { POINTS, LINES, POINTSLINES }
+	public enum PlotTypes { POINTS, LINES, POINTSLINES }
 
 	//called from almost all methods
-	protected void plotRealPoints (plotTypes plotType)
+	protected void plotRealPoints (PlotTypes plotType)
 	{
 		plotRealPoints (plotType, point_l, 0);
 	}
 
 	//called from raceAnalyzer (sending it own list of points)
-	protected void plotRealPoints (plotTypes plotType, List<PointF> points_list, int startAt)
+	protected void plotRealPoints (PlotTypes plotType, List<PointF> points_list, int startAt)
 	{
-		if(plotType == plotTypes.LINES || plotType == plotTypes.POINTSLINES) //draw line first to not overlap the points
+		if(plotType == PlotTypes.LINES || plotType == PlotTypes.POINTSLINES) //draw line first to not overlap the points
 		{
 			bool firstDone = false;
 			//foreach(PointF p in points_list)
@@ -492,7 +492,7 @@ public abstract class CairoXY : CairoGeneric
 		//for(int i = start; i < points_list.Count; i ++)
 		*/
 
-		if(plotType == plotTypes.LINES)
+		if(plotType == PlotTypes.LINES)
 			return;
 
 		for(int i = startAt; i < points_list.Count; i ++)

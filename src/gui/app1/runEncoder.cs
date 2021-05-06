@@ -1994,7 +1994,8 @@ public partial class ChronoJumpWindow
 					drawingarea_race_analyzer_capture_position_time, "title",
 					Catalog.GetString("Distance"), "m");
 
-		cairoGraphRaceAnalyzer_dt.DoSendingList (preferences.fontType.ToString(), cairoGraphRaceAnalyzerPoints_dt_l, forceRedraw);
+		cairoGraphRaceAnalyzer_dt.DoSendingList (preferences.fontType.ToString(),
+				cairoGraphRaceAnalyzerPoints_dt_l, forceRedraw, CairoXY.PlotTypes.POINTSLINES);
 	}
 	private void updateRaceAnalyzerCaptureSpeedTime(bool forceRedraw)
 	{
@@ -2003,7 +2004,8 @@ public partial class ChronoJumpWindow
 					drawingarea_race_analyzer_capture_speed_time, "title",
 					Catalog.GetString("Speed"), "m/s");
 
-		cairoGraphRaceAnalyzer_st.DoSendingList (preferences.fontType.ToString(), cairoGraphRaceAnalyzerPoints_st_l, forceRedraw);
+		cairoGraphRaceAnalyzer_st.DoSendingList (preferences.fontType.ToString(),
+				cairoGraphRaceAnalyzerPoints_st_l, forceRedraw, CairoXY.PlotTypes.POINTSLINES);
 	}
 	private void updateRaceAnalyzerCaptureAccelTime(bool forceRedraw)
 	{
@@ -2012,6 +2014,7 @@ public partial class ChronoJumpWindow
 					drawingarea_race_analyzer_capture_accel_time, "title",
 					Catalog.GetString("Accel"), "m/s");
 
-		cairoGraphRaceAnalyzer_at.DoSendingList (preferences.fontType.ToString(), cairoGraphRaceAnalyzerPoints_at_l, forceRedraw);
+		cairoGraphRaceAnalyzer_at.DoSendingList (preferences.fontType.ToString(),
+				cairoGraphRaceAnalyzerPoints_at_l, forceRedraw, CairoXY.PlotTypes.LINES);
 	}
 }

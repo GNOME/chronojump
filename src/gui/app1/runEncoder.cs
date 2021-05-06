@@ -603,7 +603,12 @@ public partial class ChronoJumpWindow
 			}
 
 			LogB.Information(string.Format("{0};{1};{2};{3};{4}", pps, reCGSD.EncoderDisplacement, reCGSD.Time, reCGSD.Force, reCGSD.EncoderOrRCA));
-			writer.WriteLine(string.Format("{0};{1};{2}", reCGSD.EncoderDisplacement, reCGSD.Time, reCGSD.Force));
+
+			if(reCGSD.EncoderDisplacement == 0)
+				LogB.Information("It is a trigger and without displacement, do not write it to file");
+			else
+				writer.WriteLine(string.Format("{0};{1};{2}", reCGSD.EncoderDisplacement, reCGSD.Time, reCGSD.Force));
+
 			if(reCGSD.EncoderOrRCA == 0)
 				rowsCount ++; //note this is not used right now, and maybe it will need to be for all cases, not just for encoderOrRCA
 			else {

@@ -77,7 +77,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		points_list_painted = 0;
 	}
 
-	public override void DoSendingList (string font, List<PointF> points_list, bool forceRedraw)
+	public override void DoSendingList (string font, List<PointF> points_list, bool forceRedraw, PlotTypes plotType)
 	{
 		LogB.Information("at RaceAnalyzerGraph.Do");
 
@@ -104,7 +104,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 				(maxValuesChanged || forceRedraw || points_list.Count != points_list_painted) )
 		{
 
-			plotRealPoints(plotTypes.POINTSLINES, points_list, points_list_painted);
+			plotRealPoints(plotType, points_list, points_list_painted);
 			points_list_painted = points_list.Count;
 		}
 

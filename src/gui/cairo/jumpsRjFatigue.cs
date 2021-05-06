@@ -95,7 +95,7 @@ public class JumpsRjFatigueGraph : CairoXY
 		divideAndPlotAverage(divideIn);
 		g.Color = black;
 
-		plotRealPoints(plotTypes.LINES);
+		plotRealPoints(PlotTypes.LINES);
 
 		writeTitle();
 

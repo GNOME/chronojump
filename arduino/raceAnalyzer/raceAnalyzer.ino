@@ -12,7 +12,7 @@
 Adafruit_ADS1115 loadCell;
 
 int rcaPin = 2;       //Pin associated to the RCA
-const int debounceTime = 1;  //Time that the RCA interruption will be deactivated after a change event
+const int debounceTime = 100;  //Time that the RCA interruption will be deactivated after a change event
 int encoderPinA = 3;  //Pin associated with the encoder interruption
 int encoderPinB = 4;
 volatile int encoderDisplacement = 0;
@@ -24,6 +24,7 @@ unsigned long sampleTime = 0;
 unsigned long triggerTime = 0;
 volatile unsigned long lastTriggerTime = 0;
 bool rcaState = false;
+bool isTrigger = false;       //For testing use. It allows not process the sample if it is a trigger sample.
 
 //Data that indicates what sensor produced the data
 //The second least significant bit indicates the sensor that produced the data.
@@ -46,7 +47,7 @@ float metersPerPulse = 0.003003;      //Value for the manual race encoder
 int metersPerPulseAddress = 8;
 
 //Wether the sensor has to capture or not
-boolean capturing = false;
+boolean capturing = true;
 
 //Wether the encoder has reached the number of pulses per sample or not
 boolean procesSample = false;
@@ -188,23 +189,23 @@ void loop() {
     //data.sensor = sensor;
 
     //Printing in binary format
-    Serial.write((byte*)&data, 9);
+    //Serial.write((byte*)&data, 9);
 
-    //    //Printing in text mode
-    //    Serial.println("");
-    //    Serial.print(data.encoderDisplacement);
-    //    Serial.print("\t");
-    //    Serial.print(data.totalTime);
-    //    Serial.print("\t");
-    //    Serial.print(data.offsettedData);
-    //    Serial.print("\t");
-    //    Serial.println(data.sensor);
-    //    Serial.print("\t");
-    //    Serial.println(elapsedTime);
-    //    Serial.println(data[frameNumber].offsettedData);
-    //    Serial.print(lastTriggerTime);
-    //    Serial.print("\t");
-    //    Serial.println(triggerTime);
+        //Printing in text mode
+        Serial.println("");
+        Serial.print(data.encoderDisplacement);
+        Serial.print("\t");
+        Serial.print(data.totalTime);
+//        Serial.print("\t");
+//        Serial.print(data.offsettedData);
+        Serial.print("\t");
+        Serial.println(data.sensor);
+//        Serial.print("\t");
+//        Serial.println(elapsedTime);
+//        Serial.println(data[frameNumber].offsettedData);
+//        Serial.print(lastTriggerTime);
+//        Serial.print("\t");
+//        Serial.println(triggerTime);
 
 
     if (data.sensor != 0) {
@@ -230,6 +231,7 @@ void changingA() {
     data.sensor = 0;
     procesSample = true;
     encoderDisplacement = 0;
+    isTrigger = false;
   }
 
 }
@@ -255,8 +257,13 @@ void changingRCA() {
     data.sensor = 1;
   }
   data.encoderDisplacement = encoderDisplacement;
+//  Serial.println("-------");
+//  Serial.print(data.encoderDisplacement);
+//  Serial.print("\tRCA\t");
+//  Serial.println(rcaState);
   encoderDisplacement = 0;
   procesSample = true;
+  isTrigger = true;
 }
 
 void rcaDebounce()
@@ -276,6 +283,10 @@ void rcaDebounce()
       data.sensor = 1;
     }
     procesSample = true;
+    isTrigger = true;
+//    Serial.print(encoderDisplacement);
+//    Serial.print("\tTimmer\t");
+//    Serial.println(rcaState);
   }
 //  Serial.println("Debounce");
   attachInterrupt(digitalPinToInterrupt(rcaPin), changingRCA, CHANGE);

@@ -29,7 +29,8 @@ public class CairoRadial : CairoGeneric
 {
 	private Cairo.Context g;
 	private int textHeight = 12;
-	private int margin = 4;
+	private int margin = 1;
+	private int offsetV = 6; //to move the graph vertically
 	private Gtk.DrawingArea area;
 	private string font;
 	private int graphWidth;
@@ -88,17 +89,18 @@ public class CairoRadial : CairoGeneric
 			double iArc = (2*Math.PI / (maxPossibleValue +7)) * (i+17); //+7 for have the maxvalue at bottom right, +17 to have 0 on the bottom left
 
 			//numbers
-			printText(Convert.ToInt32(margin + graphWidth/2 + (minSide/2) * 1 * Math.Cos(iArc - Math.PI/2)),
-					Convert.ToInt32(margin + graphHeight/2 + (minSide/2) * 1 * Math.Sin(iArc - Math.PI/2)),
+			printText(
+					Convert.ToInt32(margin + graphWidth/2 + (minSide/2) * 1 * Math.Cos(iArc - Math.PI/2)),
+					Convert.ToInt32(offsetV + margin + graphHeight/2 + (minSide/2) * 1 * Math.Sin(iArc - Math.PI/2)),
 					0, textHeight, i.ToString(), g, alignTypes.CENTER);
 
 			//ticks
 			g.MoveTo (
 					margin + graphWidth/2 + (minSide/2) * .9 * Math.Cos(iArc - Math.PI/2),
-					margin + graphHeight/2 + (minSide/2) * .9 * Math.Sin(iArc - Math.PI/2));
+					offsetV + margin + graphHeight/2 + (minSide/2) * .9 * Math.Sin(iArc - Math.PI/2));
 			g.LineTo (
 					margin + graphWidth/2 + (minSide/2) * (.9-tickLength) * Math.Cos(iArc - Math.PI/2),
-					margin + graphHeight/2 + (minSide/2) * (.9-tickLength) * Math.Sin(iArc - Math.PI/2));
+					offsetV + margin + graphHeight/2 + (minSide/2) * (.9-tickLength) * Math.Sin(iArc - Math.PI/2));
 			g.Stroke();
 
 			if(tickLength == .1)
@@ -137,13 +139,15 @@ public class CairoRadial : CairoGeneric
 
 		g.LineWidth = 2;
 		graphLineFromCenter(speed, colorArrow);
-		printText(Convert.ToInt32(margin + graphWidth/2),
-				Convert.ToInt32(margin + (.66 * graphHeight)),
+		printText(
+				Convert.ToInt32(margin + graphWidth/2),
+				Convert.ToInt32(offsetV + margin + (.66 * graphHeight)),
 				0, textHeight,
 				"Speed: " + Util.TrimDecimals(speed, 1) + " m/s",
 				g, alignTypes.CENTER);
-		printText(Convert.ToInt32(margin + graphWidth/2),
-				Convert.ToInt32(margin + (.66 * graphHeight)) + 20,
+		printText(
+				Convert.ToInt32(margin + graphWidth/2),
+				Convert.ToInt32(offsetV + margin + (.66 * graphHeight)) + 20,
 				0, textHeight,
 				"Distance: " + Util.TrimDecimals(distance, 3) + " m",
 				g, alignTypes.CENTER);
@@ -162,13 +166,15 @@ public class CairoRadial : CairoGeneric
 		//g.SetSourceRGB(0.5, 0.5, 0.5);
 
 		g.LineWidth = 2;
-		printText(Convert.ToInt32(margin + graphWidth/2),
-				Convert.ToInt32(margin + (.66 * graphHeight)),
+		printText(
+				Convert.ToInt32(margin + graphWidth/2),
+				Convert.ToInt32(offsetV + margin + (.66 * graphHeight)),
 				0, textHeight,
 				"Max Speed: " + Util.TrimDecimals(speedMax, 1) + " m/s",
 				g, alignTypes.CENTER);
-		printText(Convert.ToInt32(margin + graphWidth/2),
-				Convert.ToInt32(margin + (.66 * graphHeight)) + 20,
+		printText(
+				Convert.ToInt32(margin + graphWidth/2),
+				Convert.ToInt32(offsetV + margin + (.66 * graphHeight)) + 20,
 				0, textHeight,
 				"Distance: " + Util.TrimDecimals(distance, 3) + " m",
 				g, alignTypes.CENTER);
@@ -182,11 +188,14 @@ public class CairoRadial : CairoGeneric
 	{
 		//double arc = (2*Math.PI / maxPossibleValue) * toValue;
 		double arc = (2*Math.PI / (maxPossibleValue +7)) * (toValue+17); //+7 for have the maxvalue at bottom right, +17 to have 0 on the bottom left
-		g.MoveTo(margin + graphWidth/2, margin + graphHeight/2);
+		g.MoveTo(
+				margin + graphWidth/2,
+				offsetV + margin + graphHeight/2);
 
 		//thanks to: http://ralph-glass.homepage.t-online.de/clock/readme.html
-		g.LineTo(margin + graphWidth/2 + (minSide/2) * .9 * Math.Cos(arc - Math.PI/2),
-				margin + graphHeight/2 + (minSide/2) * .9 * Math.Sin(arc - Math.PI/2));
+		g.LineTo(
+				margin + graphWidth/2 + (minSide/2) * .9 * Math.Cos(arc - Math.PI/2),
+				offsetV + margin + graphHeight/2 + (minSide/2) * .9 * Math.Sin(arc - Math.PI/2));
 
 		g.Color = color;
 		g.Stroke();

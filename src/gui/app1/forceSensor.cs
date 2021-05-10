@@ -193,7 +193,7 @@ public partial class ChronoJumpWindow
 
 		pen_blue_light_force_capture_interpolated_feedback = new Gdk.GC(force_capture_drawingarea.GdkWindow);
 		pen_blue_light_force_capture_interpolated_feedback.Foreground = UtilGtk.LIGHT_BLUE_PLOTS;
-		pen_blue_light_force_capture_interpolated_feedback.SetLineAttributes (60, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Round);
+		pen_blue_light_force_capture_interpolated_feedback.SetLineAttributes (40, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Round);
 
 		//pen_yellow_force_capture = new Gdk.GC(force_capture_drawingarea.GdkWindow);
 		//pen_yellow_force_capture.Foreground = UtilGtk.YELLOW;
@@ -1944,7 +1944,10 @@ LogB.Information(" fs R ");
 				);
 		//showForceSensorTriggers (); TODO until know where to put it
 
-		createForceSensorCaptureInterpolateSignal();
+		if(repetitiveConditionsWin.GetForceSensorFeedbackPathActive)
+			createForceSensorCaptureInterpolateSignal();
+		else
+			interpolate_l = null;
 
 		forceSensorCopyTempAndDoGraphs(forceSensorGraphsEnum.SIGNAL);
 		//image_force_sensor_graph.Sensitive = false; //unsensitivize the RFD image (can contain info of previous data)
@@ -2036,10 +2039,39 @@ LogB.Information(" fs R ");
 	List<PointF> interpolate_l;
 	private void createForceSensorCaptureInterpolateSignal()
 	{
+		/*
 		//create random forces from 1200 to 2400, 4000 ms aprox, 4 points (4000/1000)
 		//between each of the points interpolation will happen
 		InterpolateSignal interpolateS = new InterpolateSignal(1200, 2400, 4000, 1000);
+		*/
+
+		//need at least 3 masters
+		if(repetitiveConditionsWin.GetForceSensorFeedbackPathMasters < 3)
+		{
+			interpolate_l = null;
+			return;
+		}
+
+		/*
+		3rd param on InterpolateSignal is maxx.
+		points = maxx / step , so: maxx = points * step
+		*/
+		int maxx = repetitiveConditionsWin.GetForceSensorFeedbackPathMasters *
+			repetitiveConditionsWin.GetForceSensorFeedbackPathMasterSeconds;
+
+		InterpolateSignal interpolateS = new InterpolateSignal(
+				repetitiveConditionsWin.GetForceSensorFeedbackPathMin,
+				repetitiveConditionsWin.GetForceSensorFeedbackPathMax,
+				maxx * 1000,
+				repetitiveConditionsWin.GetForceSensorFeedbackPathMasterSeconds * 1000
+				);
+
 		interpolate_l = interpolateS.GetCubicInterpolated();
+		/*
+		LogB.Information("interpolate_l: ");
+		for(int i=0; i < interpolate_l.Count; i++)
+			LogB.Information(interpolate_l[i].ToString());
+			*/
 	}
 
 	// ----start of forceSensorDeleteTest stuff -------
@@ -2362,23 +2394,34 @@ LogB.Information(" fs R ");
 		//draw interpolated feedback
 		if(interpolate_l != null)
 		{
-			//LogB.Information(string.Format("interpolate counts: {0} {1}",
-			//	fscPoints.Points.Count, interpolate_l.Count));
+			/*
+			LogB.Information("fscPoints:");
+			for(int k = 0; k < fscPoints.Points.Count; k ++)
+				LogB.Information(string.Format("{0} ({1},{2})", k, fscPoints.Points[k].X, fscPoints.Points[k].Y));
 
-			Gdk.Point [] paintPointsInterpolate = new Gdk.Point[fscPoints.Points.Count];
-			for(int i = 0, j= 0; i < fscPoints.Points.Count; i ++, j ++)
-			{
-				//to cycle
-				if(j == interpolate_l.Count)
-					j = 0;
+			LogB.Information("paintPointsInterpolate:");
+			*/
+			int timeCount = 0;
+			int timeStep = (1000 * repetitiveConditionsWin.GetForceSensorFeedbackPathMasterSeconds/10) //if each 1000 ms, then: advance by 100 (to have 10 interpolated between each master)
+						* 1000; //to micros
 
-				paintPointsInterpolate[i].X = fscPoints.Points[i].X;
-				paintPointsInterpolate[i].Y = fscPoints.GetForceInPx(interpolate_l[j].Y);
-				//LogB.Information(string.Format("interpolate_l: {0} {1}",
-				//			interpolate_l[i].X, interpolate_l[i].Y));
-			}
+			List<Gdk.Point> paintPointsInterpolate = new List<Gdk.Point>();
+			do {
+				for(int interY = 0;
+						interY < interpolate_l.Count && timeCount < fscPoints.GetLastTime();
+						interY ++)
+				{
+					paintPointsInterpolate.Add(new Gdk.Point(
+							fscPoints.GetTimeInPx(timeCount), //note we are not using interpolate_l[*].X
+							fscPoints.GetForceInPx(interpolate_l[interY].Y)
+							));
 
-			force_capture_pixmap.DrawLines(pen_blue_light_force_capture_interpolated_feedback, paintPointsInterpolate);
+					timeCount += timeStep;
+				}
+			} while (timeCount < fscPoints.GetLastTime());
+
+			//paint the points
+			force_capture_pixmap.DrawLines(pen_blue_light_force_capture_interpolated_feedback, paintPointsInterpolate.ToArray());
 		}
 
 

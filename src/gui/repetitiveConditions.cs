@@ -186,10 +186,18 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.CheckButton check_rhythm_rest_reps;
 
 	//forceSensor
+	//rectangle
 	[Widget] Gtk.CheckButton check_force_sensor_capture_feedback_rectangle;
 	[Widget] Gtk.HBox hbox_force_sensor_capture_feedback_rectangle;
 	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_rectangle_at;
 	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_rectangle_range;
+	//path
+	[Widget] Gtk.CheckButton check_force_sensor_capture_feedback_path;
+	[Widget] Gtk.VBox vbox_force_sensor_capture_feedback_path;
+	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_path_max;
+	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_path_min;
+	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_path_masters;
+	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_path_master_seconds;
 
 	const int JUMPSRUNSPAGE = 0;
 	const int ENCODERAUTOPAGE = 1;
@@ -417,6 +425,8 @@ public class RepetitiveConditionsWindow
 
 			spin_force_sensor_capture_feedback_rectangle_at.Value = forceSensorCaptureFeedbackAt;
 			spin_force_sensor_capture_feedback_rectangle_range.Value = forceSensorCaptureFeedbackRange;
+
+			//TODO: define values of path widgets
 
 			notebook_main.GetNthPage(FORCESENSORPAGE).Show();
 		}
@@ -952,8 +962,10 @@ public class RepetitiveConditionsWindow
 
 	private void on_check_force_sensor_capture_feedback_path_toggled (object o, EventArgs args)
 	{
+		vbox_force_sensor_capture_feedback_path.Sensitive = check_force_sensor_capture_feedback_path.Active;
 	}
 
+	//force sensor feedback rectangle
 	public bool GetForceSensorFeedbackRectangleActive {
 		get { return check_force_sensor_capture_feedback_rectangle.Active; }
 	}
@@ -964,6 +976,27 @@ public class RepetitiveConditionsWindow
 		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_rectangle_range.Value); }
 	}
 
+	//force sensor feedback path
+	public bool GetForceSensorFeedbackPathActive {
+		get { return check_force_sensor_capture_feedback_path.Active; }
+		//get { return true; }
+	}
+	public int GetForceSensorFeedbackPathMax {
+		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_path_max.Value); }
+		//get { return 1000; }
+	}
+	public int GetForceSensorFeedbackPathMin {
+		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_path_min.Value); }
+		//get { return 0; }
+	}
+	public int GetForceSensorFeedbackPathMasters {
+		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_path_masters.Value); }
+		//get { return 5; }
+	}
+	public int GetForceSensorFeedbackPathMasterSeconds {
+		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_path_master_seconds.Value); }
+		//get { return 5; }
+	}
 
 	/* JUMPS */
 	public bool TfTcBest {

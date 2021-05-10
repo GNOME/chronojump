@@ -238,8 +238,9 @@ void changingA() {
 
 void changingRCA() {
   //TODO: Check the overflow of the lastTriggerTime
-  sampleTime = micros();
   detachInterrupt(digitalPinToInterrupt(rcaPin));
+  sampleTime = micros();
+  Serial.println("RCAInterrupt");
   MsTimer2::start();
   triggerTime = sampleTime;
   rcaState = digitalRead(rcaPin);
@@ -269,11 +270,12 @@ void changingRCA() {
 void rcaDebounce()
 {
   MsTimer2::stop();
-  if (digitalRead(rcaPin) != rcaState)
+  bool currentRcaState = digitalRead(rcaPin);
+  if (currentRcaState != rcaState)
   {
     sampleTime = micros();
     triggerTime = sampleTime;
-    rcaState = !rcaState;
+    rcaState = currentRcaState;
     data.encoderDisplacement = encoderDisplacement;
     encoderDisplacement = 0;
 
@@ -285,7 +287,7 @@ void rcaDebounce()
     procesSample = true;
     isTrigger = true;
 //    Serial.print(encoderDisplacement);
-//    Serial.print("\tTimmer\t");
+    Serial.println("RCA Changed during debounceTime");
 //    Serial.println(rcaState);
   }
 //  Serial.println("Debounce");

@@ -186,10 +186,10 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.CheckButton check_rhythm_rest_reps;
 
 	//forceSensor
-	[Widget] Gtk.CheckButton check_force_sensor_capture_feedback;
-	[Widget] Gtk.HBox hbox_force_sensor_capture_feedback;
-	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_at;
-	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_range;
+	[Widget] Gtk.CheckButton check_force_sensor_capture_feedback_rectangle;
+	[Widget] Gtk.HBox hbox_force_sensor_capture_feedback_rectangle;
+	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_rectangle_at;
+	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_rectangle_range;
 
 	const int JUMPSRUNSPAGE = 0;
 	const int ENCODERAUTOPAGE = 1;
@@ -408,15 +408,15 @@ public class RepetitiveConditionsWindow
 		{
 			if(forceSensorCaptureFeedbackActive)
 			{
-				check_force_sensor_capture_feedback.Active = true;
-				hbox_force_sensor_capture_feedback.Sensitive = true;
+				check_force_sensor_capture_feedback_rectangle.Active = true;
+				hbox_force_sensor_capture_feedback_rectangle.Sensitive = true;
 			} else {
-				check_force_sensor_capture_feedback.Active = false;
-				hbox_force_sensor_capture_feedback.Sensitive = false;
+				check_force_sensor_capture_feedback_rectangle.Active = false;
+				hbox_force_sensor_capture_feedback_rectangle.Sensitive = false;
 			}
 
-			spin_force_sensor_capture_feedback_at.Value = forceSensorCaptureFeedbackAt;
-			spin_force_sensor_capture_feedback_range.Value = forceSensorCaptureFeedbackRange;
+			spin_force_sensor_capture_feedback_rectangle_at.Value = forceSensorCaptureFeedbackAt;
+			spin_force_sensor_capture_feedback_rectangle_range.Value = forceSensorCaptureFeedbackRange;
 
 			notebook_main.GetNthPage(FORCESENSORPAGE).Show();
 		}
@@ -586,7 +586,7 @@ public class RepetitiveConditionsWindow
 				return true;
 		}
 		else if(bellMode == Constants.BellModes.FORCESENSOR)
-			return check_force_sensor_capture_feedback.Active;
+			return check_force_sensor_capture_feedback_rectangle.Active;
 
 		return false;
 	}
@@ -945,19 +945,23 @@ public class RepetitiveConditionsWindow
 
 	/* FORCESENSOR */
 
-	private void on_check_force_sensor_capture_feedback_toggled (object o, EventArgs args)
+	private void on_check_force_sensor_capture_feedback_rectangle_toggled (object o, EventArgs args)
 	{
-		hbox_force_sensor_capture_feedback.Sensitive = check_force_sensor_capture_feedback.Active;
+		hbox_force_sensor_capture_feedback_rectangle.Sensitive = check_force_sensor_capture_feedback_rectangle.Active;
 	}
 
-	public bool GetForceSensorFeedbackActive {
-		get { return check_force_sensor_capture_feedback.Active; }
+	private void on_check_force_sensor_capture_feedback_path_toggled (object o, EventArgs args)
+	{
+	}
+
+	public bool GetForceSensorFeedbackRectangleActive {
+		get { return check_force_sensor_capture_feedback_rectangle.Active; }
 	}
 	public int GetForceSensorFeedbackAt {
-		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_at.Value); }
+		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_rectangle_at.Value); }
 	}
 	public int GetForceSensorFeedbackRange {
-		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_range.Value); }
+		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_rectangle_range.Value); }
 	}
 
 

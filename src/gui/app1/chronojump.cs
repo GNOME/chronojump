@@ -7387,7 +7387,7 @@ LogB.Debug("mc finished 5");
 		}
 		else if(m == Constants.Menuitem_modes.FORCESENSOR)
 		{
-			bool feedbackActive = repetitiveConditionsWin.GetForceSensorFeedbackActive;
+			bool feedbackActive = repetitiveConditionsWin.GetForceSensorFeedbackRectangleActive;
 			if(preferences.forceSensorCaptureFeedbackActive != feedbackActive)
 			{
 				SqlitePreferences.Update(SqlitePreferences.ForceSensorCaptureFeedbackActive, feedbackActive.ToString(), false);

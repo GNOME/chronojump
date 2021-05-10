@@ -246,9 +246,9 @@ public class Preferences
 	public string forceSensorCalibrationDateTime;
 	public double forceSensorCalibrationWeight;
 	public double forceSensorCalibrationFactor;
-	public bool forceSensorCaptureFeedbackActive;
-	public int forceSensorCaptureFeedbackAt;
-	public int forceSensorCaptureFeedbackRange;
+	public bool forceSensorCaptureFeedbackActive;	//rectangle
+	public int forceSensorCaptureFeedbackAt; 	//rectangle
+	public int forceSensorCaptureFeedbackRange; 	//rectangle
 	public bool forceSensorStartEndOptimized;
 	public enum ForceSensorMIFDurationModes { SECONDS, PERCENT };
 	public ForceSensorMIFDurationModes forceSensorMIFDurationMode;

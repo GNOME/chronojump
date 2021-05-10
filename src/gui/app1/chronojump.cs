@@ -7397,14 +7397,14 @@ LogB.Debug("mc finished 5");
 			//change the rest of values only if feedback is active
 			if(feedbackActive)
 			{
-				int feedbackAt = repetitiveConditionsWin.GetForceSensorFeedbackAt;
+				int feedbackAt = repetitiveConditionsWin.GetForceSensorFeedbackRectangleAt;
 				if(preferences.forceSensorCaptureFeedbackAt != feedbackAt)
 				{
 					SqlitePreferences.Update(SqlitePreferences.ForceSensorCaptureFeedbackAt, feedbackAt.ToString(), false);
 					preferences.forceSensorCaptureFeedbackAt = feedbackAt;
 				}
 
-				int feedbackRange = repetitiveConditionsWin.GetForceSensorFeedbackRange;
+				int feedbackRange = repetitiveConditionsWin.GetForceSensorFeedbackRectangleRange;
 				if(preferences.forceSensorCaptureFeedbackRange != feedbackRange)
 				{
 					SqlitePreferences.Update(SqlitePreferences.ForceSensorCaptureFeedbackRange, feedbackRange.ToString(), false);

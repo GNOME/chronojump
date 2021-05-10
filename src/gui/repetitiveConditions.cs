@@ -957,10 +957,10 @@ public class RepetitiveConditionsWindow
 	public bool GetForceSensorFeedbackRectangleActive {
 		get { return check_force_sensor_capture_feedback_rectangle.Active; }
 	}
-	public int GetForceSensorFeedbackAt {
+	public int GetForceSensorFeedbackRectangleAt {
 		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_rectangle_at.Value); }
 	}
-	public int GetForceSensorFeedbackRange {
+	public int GetForceSensorFeedbackRectangleRange {
 		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_rectangle_range.Value); }
 	}
 

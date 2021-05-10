@@ -404,8 +404,18 @@ public class InterpolateSignal
 		this.point_l = new List<PointF>();
 		int range = maxY - minY;
 
+		//LogB.Information(string.Format("InterpolateSignal maxX: {0}, stepX: {1}", maxX, stepX));
+
 		for(int i = 0; i < maxX; i += stepX)
+		{
 			point_l.Add(new PointF(i, minY + (random.NextDouble() * range)));
+
+			/*
+			PointF p = new PointF(i, minY + (random.NextDouble() * range));
+			point_l.Add(p);
+			LogB.Information(string.Format("point: {0}", p));
+			*/
+		}
 	}
 
 	//thanks to: http://paulbourke.net/miscellaneous/interpolation/
@@ -459,9 +469,10 @@ public class InterpolateSignal
 	{
 		List<PointF> interpolated_l = new List<PointF>();
 
+		//point_l.Count has to be >= 3
 		for(int i = 0; i < point_l.Count; i ++) //each known point
 		{
-			for(double j = 0; j < 1 ; j += .01) //each interpolated value
+			for(double j = 0.05; j < 1 ; j += .1) //10 interpolated value for each master (see timeCount on gui/app1/forceSensor.cs)
 			{
 				if (type == types.COSINE)
 				{

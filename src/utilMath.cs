@@ -398,6 +398,15 @@ public class InterpolateSignal
 	{
 		this.point_l = point_l;
 	}
+	public InterpolateSignal (int minY, int maxY, int maxX, int stepX)
+	{
+		Random random = new Random();
+		this.point_l = new List<PointF>();
+		int range = maxY - minY;
+
+		for(int i = 0; i < maxX; i += stepX)
+			point_l.Add(new PointF(i, minY + (random.NextDouble() * range)));
+	}
 
 	//thanks to: http://paulbourke.net/miscellaneous/interpolation/
 	public double CosineInterpolate(double y1, double y2, double mu)
@@ -431,55 +440,85 @@ public class InterpolateSignal
 			l.Add(new PointF(i, random.NextDouble() * 10));
 
 		InterpolateSignal fsp = new InterpolateSignal(l);
-		fsp.testCosineCubicInterpolateDo(types.COSINE);
-		fsp.testCosineCubicInterpolateDo(types.CUBIC);
+
+		//cosine
+		fsp.testCosineCubicInterpolateDo(types.COSINE, false);
+
+		//cubic
+		//List<PointF> interpolated_l = fsp.testCosineCubicInterpolateDo(types.CUBIC, false);
+		//toFile(interpolated_l, types.CUBIC);
+		fsp.testCosineCubicInterpolateDo(types.CUBIC, false);
 	}
 
-	private void testCosineCubicInterpolateDo(types type)
+	public List<PointF> GetCubicInterpolated()
 	{
-		TextWriter writer = File.CreateText(
-				Path.Combine(Path.GetTempPath(), string.Format("chronojump_testinterpolate_{0}.csv", type.ToString())));
-		writer.WriteLine("X;Y;color;cex");
+		return testCosineCubicInterpolateDo(types.CUBIC, false);
+	}
 
-		for(int i = 0; i < point_l.Count -1; i ++) //each known point
+	private List<PointF> testCosineCubicInterpolateDo(types type, bool toFile)
+	{
+		List<PointF> interpolated_l = new List<PointF>();
+
+		for(int i = 0; i < point_l.Count; i ++) //each known point
 		{
-			writer.WriteLine(string.Format("{0};{1};{2};{3}",
-						point_l[i].X, point_l[i].Y, "red", 2));
-			for(double d = 0; d < 1 ; d += .1) //each interpolated value
+			for(double j = 0; j < 1 ; j += .01) //each interpolated value
 			{
 				if (type == types.COSINE)
-					writer.WriteLine(string.Format("{0};{1};{2};{3}",
-								point_l[i].X + d*(point_l[i+1].X - point_l[i].X),
-								CosineInterpolate(point_l[i].Y, point_l[i+1].Y, d),
-								"black", 1));
-				//else if(type == types.CUBIC && i > 0 && i < point_l.Count -2)
+				{
+					int second = i+1; //the second point
+					if(i == point_l.Count -1)
+						second = 0;
+
+					interpolated_l.Add(new PointF(
+							point_l[i].X + j*(point_l[second].X - point_l[i].X),
+							CosineInterpolate(point_l[i].Y, point_l[second].Y, j)));
+				}
 				else if(type == types.CUBIC)
 				{
 					//for cubic we need two extra points
-					double pre2Y = 0;
-					double post2Y = 0;
-					if(i == 0) {
-						pre2Y = point_l[point_l.Count -1].Y;
-						post2Y = point_l[i+2].Y;
-					} else if(i == point_l.Count -2) {
-						pre2Y = point_l[i-1].Y;
-						post2Y = point_l[0].Y;
-					} else {
-						pre2Y = point_l[i-1].Y;
-						post2Y = point_l[i+2].Y;
+					int a = i-1;
+					int b = i;
+					int c = i+1;
+					int d = i+2;
+					if(i == 0)
+						a = point_l.Count -1;
+					else if(i == point_l.Count -2)
+						d = 0;
+					else if(i == point_l.Count -1) {
+						c = 0;
+						d = 1;
 					}
 
-					writer.WriteLine(string.Format("{0};{1};{2};{3}",
-								point_l[i].X + d*(point_l[i+1].X - point_l[i].X),
-								//CubicInterpolate(point_l[i-1].Y, point_l[i].Y, point_l[i+1].Y, point_l[i+2].Y, d),
-								CubicInterpolate(pre2Y, point_l[i].Y, point_l[i+1].Y, post2Y, d),
-								"green", 1));
+					interpolated_l.Add(new PointF(
+								point_l[b].X + j*(point_l[c].X - point_l[b].X),
+								CubicInterpolate(
+									point_l[a].Y,
+									point_l[b].Y,
+									point_l[c].Y,
+									point_l[d].Y,
+									j)));
 				}
 			}
 		}
-		//write the last known point
-		writer.WriteLine(string.Format("{0};{1};{2};{3}",
-					point_l[point_l.Count -1].X, point_l[point_l.Count -1].Y, "red", 2));
+
+		return interpolated_l;
+	}
+
+	//just to debug, unused right now
+	private void toFile(List<PointF> interpolated_l, types type)
+	{
+		TextWriter writer = File.CreateText(
+				Path.Combine(Path.GetTempPath(), string.Format("chronojump_testinterpolate_{0}.csv", type.ToString())));
+
+		writer.WriteLine("X;Y;color;cex");
+
+		for(int i = 0; i < point_l.Count; i ++)
+			writer.WriteLine(string.Format("{0};{1};{2};{3}",
+						point_l[i].X, point_l[i].Y, "red", 2));
+
+		for(int i = 0; i < interpolated_l.Count; i ++)
+			writer.WriteLine(string.Format("{0};{1};{2};{3}",
+						interpolated_l[i].X, interpolated_l[i].Y, "black", 1));
 
 		writer.Flush();
 		writer.Close();
@@ -492,7 +531,7 @@ public class InterpolateSignal
 		   par(new=T)
 		   d=read.csv2("/tmp/chronojump_testinterpolate_CUBIC.csv")
 		   plot(d$X, d$Y, col=d$color, cex=d$cex, type="b", xlim=c(0,90), ylim=c(0,10))
-		   */
+		 */
 	}
 
 	/* unused

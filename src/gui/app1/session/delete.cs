@@ -75,7 +75,8 @@ public partial class ChronoJumpWindow
 	
 	private void on_app1s_button_delete_accept_clicked (object o, EventArgs args) 
 	{
-		if(currentSession.UniqueID == tempDeletingSession.UniqueID)
+		//close session if is the same that we are working on
+		if(currentSession != null && currentSession.UniqueID == tempDeletingSession.UniqueID)
 			closeSession ();
 
 		SqliteSession.DeleteAllStuff(tempDeletingSession.UniqueID.ToString());

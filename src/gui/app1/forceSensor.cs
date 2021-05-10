@@ -126,6 +126,7 @@ public partial class ChronoJumpWindow
 	Gdk.GC pen_white_force_capture;
 	//Gdk.GC pen_yellow_force_capture;
 	Gdk.GC pen_blue_light_force_capture;
+	Gdk.GC pen_blue_light_force_capture_interpolated_feedback;
 	Gdk.GC pen_yellow_dark_force_capture;
 	//Gdk.GC pen_orange_dark_force_capture;
 	Gdk.GC pen_blue_dark_force_capture;
@@ -189,6 +190,10 @@ public partial class ChronoJumpWindow
 		pen_blue_light_force_capture = new Gdk.GC(force_capture_drawingarea.GdkWindow);
 		pen_blue_light_force_capture.Foreground = UtilGtk.LIGHT_BLUE_PLOTS;
 		pen_blue_light_force_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
+
+		pen_blue_light_force_capture_interpolated_feedback = new Gdk.GC(force_capture_drawingarea.GdkWindow);
+		pen_blue_light_force_capture_interpolated_feedback.Foreground = UtilGtk.LIGHT_BLUE_PLOTS;
+		pen_blue_light_force_capture_interpolated_feedback.SetLineAttributes (60, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Round);
 
 		//pen_yellow_force_capture = new Gdk.GC(force_capture_drawingarea.GdkWindow);
 		//pen_yellow_force_capture.Foreground = UtilGtk.YELLOW;
@@ -1939,6 +1944,8 @@ LogB.Information(" fs R ");
 				);
 		//showForceSensorTriggers (); TODO until know where to put it
 
+		createForceSensorCaptureInterpolateSignal();
+
 		forceSensorCopyTempAndDoGraphs(forceSensorGraphsEnum.SIGNAL);
 		//image_force_sensor_graph.Sensitive = false; //unsensitivize the RFD image (can contain info of previous data)
 		notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSETSIGNAL);
@@ -2025,6 +2032,15 @@ LogB.Information(" fs R ");
 		Sqlite.Close();
 	}
 
+	//right now to do tests
+	List<PointF> interpolate_l;
+	private void createForceSensorCaptureInterpolateSignal()
+	{
+		//create random forces from 1200 to 2400, 4000 ms aprox, 4 points (4000/1000)
+		//between each of the points interpolation will happen
+		InterpolateSignal interpolateS = new InterpolateSignal(1200, 2400, 4000, 1000);
+		interpolate_l = interpolateS.GetCubicInterpolated();
+	}
 
 	// ----start of forceSensorDeleteTest stuff -------
 
@@ -2342,6 +2358,30 @@ LogB.Information(" fs R ");
 					forceSensorValues.Min, false))
 			fscPoints.Redo();
 
+
+		//draw interpolated feedback
+		if(interpolate_l != null)
+		{
+			//LogB.Information(string.Format("interpolate counts: {0} {1}",
+			//	fscPoints.Points.Count, interpolate_l.Count));
+
+			Gdk.Point [] paintPointsInterpolate = new Gdk.Point[fscPoints.Points.Count];
+			for(int i = 0, j= 0; i < fscPoints.Points.Count; i ++, j ++)
+			{
+				//to cycle
+				if(j == interpolate_l.Count)
+					j = 0;
+
+				paintPointsInterpolate[i].X = fscPoints.Points[i].X;
+				paintPointsInterpolate[i].Y = fscPoints.GetForceInPx(interpolate_l[j].Y);
+				//LogB.Information(string.Format("interpolate_l: {0} {1}",
+				//			interpolate_l[i].X, interpolate_l[i].Y));
+			}
+
+			force_capture_pixmap.DrawLines(pen_blue_light_force_capture_interpolated_feedback, paintPointsInterpolate);
+		}
+
+
 		forcePaintHVLines(ForceSensorGraphs.CAPTURE,
 				getForceSensorMaxForceIncludingRectangle(forceSensorValues.Max),
 				forceSensorValues.Min, forceSensorValues.TimeLast,
@@ -2358,6 +2398,7 @@ LogB.Information(" fs R ");
 			paintPoints[i] = fscPoints.Points[i];
 
 		force_capture_pixmap.DrawLines(pen_black_force_capture, paintPoints);
+
 
 		//draw rectangle in maxForce
 		//force_capture_pixmap.DrawRectangle(pen_red_force_capture, false,

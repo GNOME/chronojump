@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -24,6 +24,7 @@ using Gtk;
 using Glade;
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
+using System.Collections.Generic; //List<>
 using System.IO;
 using System.Threading;
 using Mono.Unix;
@@ -675,20 +676,29 @@ public class EventMoreWindow
 	
 	void on_button_delete_type_clicked (object o, EventArgs args)
 	{
+		List<Session> session_l = SqliteSession.SelectAll(Sqlite.Orders_by.DEFAULT);
 		string [] tests = findTestTypesInSessions();
 
 		//this will be much better doing a select distinct(session) instead of using SelectJumps or Runs
-		ArrayList sessionValues = new ArrayList();
-		foreach(string t in tests) {
+		ArrayList sessionValuesArray = new ArrayList();
+		foreach(string t in tests)
+		{
 			string [] tFull = t.Split(new char[] {':'});
-			Util.AddToArrayListIfNotExist(sessionValues, tFull[3]);
+			if(! Util.IsNumber(tFull[3], false))
+				continue;
+
+			int sessionID = Convert.ToInt32(tFull[3]);
+			foreach(Session s in session_l)
+				if(s.UniqueID == sessionID)
+					Util.AddToArrayListIfNotExist(sessionValuesArray,
+							string.Format("  ({0}) {1}", s.DateShort, s.Name));
 		}
 
 		//if exist tell user to edit or delete them
 		if(tests.Length > 0) 
 			new DialogMessage(Constants.MessageTypes.WARNING, 
 					Catalog.GetString("There are tests of that type on database on sessions:") + "\n" +
-					Util.ArrayListToSingleString(sessionValues, ", ") + "\n\n" +
+					Util.ArrayListToSingleString(sessionValuesArray, "\n") + "\n\n" +
 					Catalog.GetString("please first edit or delete them."));
 		else {
 			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to delete this test type?"), "",

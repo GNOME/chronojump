@@ -592,13 +592,23 @@ public class EditEventWindow
 
 public class EventMoreWindow 
 {
-	protected TreeStore store;
+	[Widget] protected Gtk.Notebook notebook;
 	[Widget] protected Gtk.TreeView treeview_more;
 	[Widget] protected Gtk.Button button_accept;
 	[Widget] protected Gtk.Button button_delete_type;
 	[Widget] protected Gtk.Button button_cancel;
 	[Widget] protected Gtk.Button button_close;
+	[Widget] protected Gtk.Button button_close1;
+	[Widget] protected Gtk.Label label_delete_confirm;
+	[Widget] protected Gtk.Label label_delete_confirm_name;
+	[Widget] protected Gtk.Label label_delete_cannot;
+	[Widget] protected Gtk.Image image_delete;
+	[Widget] protected Gtk.Image image_delete1;
 	protected Gtk.Window parent;
+
+	protected enum notebookPages { TESTS, DELETECONFIRM, DELETECANNOT };
+
+	protected TreeStore store;
 
 	protected string selectedEventType;
 	protected string selectedEventName;
@@ -636,6 +646,10 @@ public class EventMoreWindow
 		//when deleting test type: show delete type and close
 		button_delete_type.Visible = ! testOrDelete;
 		button_close.Visible = ! testOrDelete;
+
+		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
+		image_delete.Pixbuf = pixbuf;
+		image_delete1.Pixbuf = pixbuf;
 
 		button_accept.Sensitive = false;
 		button_delete_type.Sensitive = false;
@@ -695,15 +709,17 @@ public class EventMoreWindow
 		}
 
 		//if exist tell user to edit or delete them
-		if(tests.Length > 0) 
-			new DialogMessage(Constants.MessageTypes.WARNING, 
-					Catalog.GetString("There are tests of that type on database on sessions:") + "\n" +
+		if(tests.Length > 0)
+		{
+			notebook.Page = Convert.ToInt32(notebookPages.DELETECANNOT);
+			label_delete_cannot.Text = Catalog.GetString("There are tests of that type on database on sessions:") + "\n\n" +
 					Util.ArrayListToSingleString(sessionValuesArray, "\n") + "\n\n" +
-					Catalog.GetString("please first edit or delete them."));
-		else {
-			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to delete this test type?"), "",
-					selectedEventName);
-			confirmWin.Button_accept.Clicked += new EventHandler(on_button_delete_type_accepted);
+					Catalog.GetString("please first edit or delete them.");
+		} else {
+			notebook.Page = Convert.ToInt32(notebookPages.DELETECONFIRM);
+			label_delete_confirm.Text = Catalog.GetString("Are you sure you want to delete this test type?");
+			label_delete_confirm_name.Text = "<b>" + selectedEventName + "</b>";
+			label_delete_confirm_name.UseMarkup = true;
 		}
 	}
 	
@@ -711,7 +727,12 @@ public class EventMoreWindow
 	protected virtual void deleteTestLine() {
 	}
 	
-	protected void on_button_delete_type_accepted (object o, EventArgs args)
+	protected void on_button_delete_confirm_cancel_clicked (object o, EventArgs args)
+	{
+		notebook.Page = Convert.ToInt32(notebookPages.TESTS);
+	}
+
+	protected void on_button_delete_confirm_accept_clicked (object o, EventArgs args)
 	{
 		deleteTestLine();
 
@@ -723,6 +744,7 @@ public class EventMoreWindow
 			store.Remove(ref iter);
 
 		button_delete_type.Sensitive = false;
+		notebook.Page = Convert.ToInt32(notebookPages.TESTS);
 	}
 
 	///this should be abstract

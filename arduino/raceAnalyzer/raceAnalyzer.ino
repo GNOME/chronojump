@@ -24,6 +24,7 @@ unsigned long sampleTime = 0;
 unsigned long triggerTime = 0;
 volatile unsigned long lastTriggerTime = 0;
 bool rcaState = false;
+bool lastRcaState = false;
 bool isTrigger = false;       //For testing use. It allows not process the sample if it is a trigger sample.
 
 //Data that indicates what sensor produced the data
@@ -122,6 +123,8 @@ void setup() {
     EEPROM.put(metersPerPulseAddress, metersPerPulse);
   }
 
+  //Reading the initial state of the RCA
+  lastRcaState = digitalRead(rcaPin);
   //Using the rising flank of the A photocell we have a normal PPR.
   attachInterrupt(digitalPinToInterrupt(encoderPinA), changingA, RISING);
 
@@ -189,17 +192,17 @@ void loop() {
     //data.sensor = sensor;
 
     //Printing in binary format
-    //Serial.write((byte*)&data, 9);
+    Serial.write((byte*)&data, 9);
 
         //Printing in text mode
-        Serial.println("");
-        Serial.print(data.encoderDisplacement);
-        Serial.print("\t");
-        Serial.print(data.totalTime);
+//        Serial.println("");
+//        Serial.print(data.encoderDisplacement);
+//        Serial.print("\t");
+//        Serial.print(data.totalTime);
 //        Serial.print("\t");
 //        Serial.print(data.offsettedData);
-        Serial.print("\t");
-        Serial.println(data.sensor);
+//        Serial.print("\t");
+//        Serial.println(data.sensor);
 //        Serial.print("\t");
 //        Serial.println(elapsedTime);
 //        Serial.println(data[frameNumber].offsettedData);
@@ -240,7 +243,7 @@ void changingRCA() {
   //TODO: Check the overflow of the lastTriggerTime
   detachInterrupt(digitalPinToInterrupt(rcaPin));
   sampleTime = micros();
-  Serial.println("RCAInterrupt");
+  //Serial.println("RCAInterrupt");
   MsTimer2::start();
   triggerTime = sampleTime;
   rcaState = digitalRead(rcaPin);
@@ -263,8 +266,11 @@ void changingRCA() {
 //  Serial.print("\tRCA\t");
 //  Serial.println(rcaState);
   encoderDisplacement = 0;
-  procesSample = true;
-  isTrigger = true;
+  if(rcaState != lastRcaState) {
+    procesSample = true;
+    lastRcaState = rcaState;
+    isTrigger = true;
+  }
 }
 
 void rcaDebounce()
@@ -287,7 +293,7 @@ void rcaDebounce()
     procesSample = true;
     isTrigger = true;
 //    Serial.print(encoderDisplacement);
-    Serial.println("RCA Changed during debounceTime");
+//    Serial.println("RCA Changed during debounceTime");
 //    Serial.println(rcaState);
   }
 //  Serial.println("Debounce");

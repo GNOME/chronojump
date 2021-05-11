@@ -321,6 +321,7 @@ class SqliteSession : Sqlite
 	
 	//used by the stats selector of sessions
 	//also by PersonsRecuperateFromOtherSessionWindowBox (src/gui/person.cs)
+	//sessionIdDisable allows to not return current session on selection, for returning all just put -1
 	public static string[] SelectAllSessionsSimple(bool commentsDisable, int sessionIdDisable) 
 	{
 		string selectString = " uniqueID, name, place, date, comments ";

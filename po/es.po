@@ -5518,7 +5518,7 @@ msgstr "velocidad"
 
 #: ../src/constants.cs:1389
 msgid "Accel."
-msgstr "Acelerador"
+msgstr "Aceleración"
 
 #: ../src/constants.cs:1392
 msgid "Average Power"

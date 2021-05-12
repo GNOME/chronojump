@@ -2012,7 +2012,7 @@ public partial class ChronoJumpWindow
 		if(cairoGraphRaceAnalyzer_at == null)
 			cairoGraphRaceAnalyzer_at = new CairoGraphRaceAnalyzer(
 					drawingarea_race_analyzer_capture_accel_time, "title",
-					Catalog.GetString("Accel"), "m/s");
+					Catalog.GetString("Accel"), "m/s^2");
 
 		cairoGraphRaceAnalyzer_at.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_at_l, forceRedraw, CairoXY.PlotTypes.LINES);

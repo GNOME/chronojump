@@ -2098,6 +2098,7 @@ public partial class ChronoJumpWindow
 		if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_EXPORT_ALL)
 			exportString = Catalog.GetString ("Export set in CSV format");
 		else if(
+				checkFileOp == Constants.CheckFileOp.JUMPS_SIMPLE_CAPTURE_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.JUMPS_DJ_OPTIMAL_FALL_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.JUMPS_WEIGHT_FV_PROFILE_SAVE_IMAGE ||
@@ -2171,6 +2172,18 @@ public partial class ChronoJumpWindow
 			nameString += "_encoder_set_export.csv";
 		else if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_SAVE_IMAGE)
 			nameString += "_encoder_set.png";
+		else if(checkFileOp == Constants.CheckFileOp.JUMPS_SIMPLE_CAPTURE_SAVE_IMAGE)
+		{
+			//if showing all persons, do not person name on filename
+			if(radio_contacts_graph_allPersons.Active)
+				nameString = currentSession.DateShortAsSQL;
+
+			//if showing a jump or all, show on filename
+			if(radio_contacts_graph_allTests.Active)
+				nameString += "_jumps_" + Catalog.GetString("all") + ".png";
+			else
+				nameString += "_jumps_" + radio_contacts_graph_currentTest.Label + ".png";
+		}
 		else if(checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE)
 			nameString += "_jumps_profile.png";
 		else if(checkFileOp == Constants.CheckFileOp.JUMPS_DJ_OPTIMAL_FALL_SAVE_IMAGE)
@@ -2265,7 +2278,10 @@ public partial class ChronoJumpWindow
 								"Are you sure you want to overwrite: "), "",
 							exportFileName);
 
-					if(checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE)
+					if(checkFileOp == Constants.CheckFileOp.JUMPS_SIMPLE_CAPTURE_SAVE_IMAGE)
+						confirmWin.Button_accept.Clicked +=
+							new EventHandler(on_overwrite_file_jumps_simple_capture_save_image_accepted);
+					else if(checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE)
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_jumps_profile_save_image_accepted);
 					else if(checkFileOp == Constants.CheckFileOp.JUMPS_DJ_OPTIMAL_FALL_SAVE_IMAGE)
@@ -2336,7 +2352,9 @@ public partial class ChronoJumpWindow
 							new EventHandler(on_overwrite_file_raceAnalyzer_save_table_accepted);
 
 				} else {
-					if(checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE)
+					if(checkFileOp == Constants.CheckFileOp.JUMPS_SIMPLE_CAPTURE_SAVE_IMAGE)
+						on_button_jumps_simple_capture_save_image_selected (exportFileName);
+					else if(checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE)
 						on_button_jumps_profile_save_image_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.JUMPS_DJ_OPTIMAL_FALL_SAVE_IMAGE)
 						on_button_jumps_dj_optimal_fall_save_image_selected (exportFileName);

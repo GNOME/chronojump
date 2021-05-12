@@ -7068,7 +7068,7 @@ msgstr "Escriba el nombre del ejercicio:"
 #: ../src/gui/app1/runEncoder.cs:2015
 #| msgid "Accel."
 msgid "Accel"
-msgstr "Acelerador"
+msgstr "Aceleración"
 
 #: ../src/gui/app1/session/addEdit.cs:601 ../src/gui/person/addModify.cs:846
 msgid "Select session date"

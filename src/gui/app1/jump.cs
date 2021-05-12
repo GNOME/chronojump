@@ -48,6 +48,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_weight;
 	[Widget] Gtk.Label extra_window_jumps_label_weight;
 	[Widget] Gtk.CheckButton extra_window_jumps_check_dj_arms;
+	[Widget] Gtk.Button button_jumps_simple_capture_save_image;
 
 	//show weight on kg when percent is selected (SJl, CMJl, ABKl)
 	[Widget] Gtk.Label label_extra_window_jumps_radiobutton_weight_percent_as_kg;
@@ -668,6 +669,36 @@ public partial class ChronoJumpWindow
 		//hide slCMJ distance stuff and show button execute test again
 		notebook_contacts_capture_doing_wait.CurrentPage = 0;
 	}
+
+	// ---- save jumps simple image start ---->
+
+	private void on_button_jumps_simple_capture_save_image_clicked (object o, EventArgs args)
+	{
+		checkFile(Constants.CheckFileOp.JUMPS_SIMPLE_CAPTURE_SAVE_IMAGE);
+	}
+
+	private void on_button_jumps_simple_capture_save_image_selected (string destination)
+	{
+		if(event_execute_drawingarea == null)
+			return;
+
+		Gdk.Pixbuf pixbuf = Gdk.Pixbuf.FromDrawable(event_execute_drawingarea.GdkWindow, Gdk.Colormap.System,
+				0, 0, 0, 0,
+				UtilGtk.WidgetWidth(event_execute_drawingarea),
+				UtilGtk.WidgetHeight(event_execute_drawingarea) );
+
+		LogB.Information("Saving");
+		pixbuf.Save(destination,"png");
+	}
+	private void on_overwrite_file_jumps_simple_capture_save_image_accepted (object o, EventArgs args)
+	{
+		on_button_jumps_simple_capture_save_image_selected (exportFileName);
+
+		string myString = string.Format(Catalog.GetString("Saved to {0}"), exportFileName);
+		new DialogMessage(Constants.MessageTypes.INFO, myString);
+	}
+
+	// <---- save jumps simple image end ----
 
 }
 

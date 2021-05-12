@@ -40,6 +40,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_runs_simple_track_distance;
 	[Widget] Gtk.Label label_runs_simple_track_distance_value;
 	[Widget] Gtk.Label label_runs_simple_track_distance_units;
+	[Widget] Gtk.Button button_runs_simple_capture_save_image;
 
 	//options runs interval
 	[Widget] Gtk.Button button_combo_runs_interval_exercise_capture_left;
@@ -451,6 +452,37 @@ public partial class ChronoJumpWindow
 				"\nreaction time will be in ms and as a comment on Description"
 				);
 	}
+
+
+	// ---- save runs simple image start ---->
+
+	private void on_button_runs_simple_capture_save_image_clicked (object o, EventArgs args)
+	{
+		checkFile(Constants.CheckFileOp.RUNS_SIMPLE_CAPTURE_SAVE_IMAGE);
+	}
+
+	private void on_button_runs_simple_capture_save_image_selected (string destination)
+	{
+		if(event_execute_drawingarea == null)
+			return;
+
+		Gdk.Pixbuf pixbuf = Gdk.Pixbuf.FromDrawable(event_execute_drawingarea.GdkWindow, Gdk.Colormap.System,
+				0, 0, 0, 0,
+				UtilGtk.WidgetWidth(event_execute_drawingarea),
+				UtilGtk.WidgetHeight(event_execute_drawingarea) );
+
+		LogB.Information("Saving");
+		pixbuf.Save(destination,"png");
+	}
+	private void on_overwrite_file_runs_simple_capture_save_image_accepted (object o, EventArgs args)
+	{
+		on_button_runs_simple_capture_save_image_selected (exportFileName);
+
+		string myString = string.Format(Catalog.GetString("Saved to {0}"), exportFileName);
+		new DialogMessage(Constants.MessageTypes.INFO, myString);
+	}
+
+	// <---- save runs simple image end ----
 
 }
 

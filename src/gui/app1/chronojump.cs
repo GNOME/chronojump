@@ -3153,6 +3153,7 @@ public partial class ChronoJumpWindow
 		radio_mode_encoder_capture_small.Active = true; //it is safe to change to capture, to ensure all widgets are ok on analyze (everything seems ok, but just to have same behaviour than in contacts)
 
 		button_jumps_simple_capture_save_image.Visible = false;
+		button_runs_simple_capture_save_image.Visible = false;
 		radio_mode_contacts_jumps_profile.Active = true;
 		hbox_radio_mode_contacts_analyze_buttons.Visible = false;
 		radio_mode_contacts_jumps_rj_fatigue.Visible = false;
@@ -3269,6 +3270,7 @@ public partial class ChronoJumpWindow
 				event_graph_label_graph_test.Visible = false;
 				hbox_contacts_simple_graph_controls.Visible = true;
 				check_run_simple_show_time.Visible = true;
+				button_runs_simple_capture_save_image.Visible = true;
 
 				check_vbox_contacts_graph_legend.Visible = true;
 				//vbox_contacts_graph_legend.Visible = false;

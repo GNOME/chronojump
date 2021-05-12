@@ -2104,6 +2104,7 @@ public partial class ChronoJumpWindow
 				checkFileOp == Constants.CheckFileOp.JUMPS_WEIGHT_FV_PROFILE_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.JUMPS_EVOLUTION_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.JUMPS_RJ_FATIGUE_SAVE_IMAGE ||
+				checkFileOp == Constants.CheckFileOp.RUNS_SIMPLE_CAPTURE_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.RUNS_EVOLUTION_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_IMAGE ||
@@ -2172,17 +2173,23 @@ public partial class ChronoJumpWindow
 			nameString += "_encoder_set_export.csv";
 		else if(checkFileOp == Constants.CheckFileOp.ENCODER_CAPTURE_SAVE_IMAGE)
 			nameString += "_encoder_set.png";
-		else if(checkFileOp == Constants.CheckFileOp.JUMPS_SIMPLE_CAPTURE_SAVE_IMAGE)
+		else if(
+				checkFileOp == Constants.CheckFileOp.JUMPS_SIMPLE_CAPTURE_SAVE_IMAGE ||
+				checkFileOp == Constants.CheckFileOp.RUNS_SIMPLE_CAPTURE_SAVE_IMAGE)
 		{
 			//if showing all persons, do not person name on filename
 			if(radio_contacts_graph_allPersons.Active)
 				nameString = currentSession.DateShortAsSQL;
 
+			string testType = "_" + Catalog.GetString("jumps") + "_";
+			if(checkFileOp == Constants.CheckFileOp.RUNS_SIMPLE_CAPTURE_SAVE_IMAGE)
+				testType = "_" + Catalog.GetString("races") + "_";
+
 			//if showing a jump or all, show on filename
 			if(radio_contacts_graph_allTests.Active)
-				nameString += "_jumps_" + Catalog.GetString("all") + ".png";
+				nameString += testType + Catalog.GetString("all") + ".png";
 			else
-				nameString += "_jumps_" + radio_contacts_graph_currentTest.Label + ".png";
+				nameString += testType + radio_contacts_graph_currentTest.Label + ".png";
 		}
 		else if(checkFileOp == Constants.CheckFileOp.JUMPS_PROFILE_SAVE_IMAGE)
 			nameString += "_jumps_profile.png";
@@ -2296,6 +2303,9 @@ public partial class ChronoJumpWindow
 					else if(checkFileOp == Constants.CheckFileOp.JUMPS_RJ_FATIGUE_SAVE_IMAGE)
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_jumps_rj_fatigue_save_image_accepted);
+					if(checkFileOp == Constants.CheckFileOp.RUNS_SIMPLE_CAPTURE_SAVE_IMAGE)
+						confirmWin.Button_accept.Clicked +=
+							new EventHandler(on_overwrite_file_runs_simple_capture_save_image_accepted);
 					else if(checkFileOp == Constants.CheckFileOp.RUNS_EVOLUTION_SAVE_IMAGE)
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_runs_evolution_save_image_accepted);
@@ -2364,6 +2374,8 @@ public partial class ChronoJumpWindow
 						on_button_jumps_evolution_save_image_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.JUMPS_RJ_FATIGUE_SAVE_IMAGE)
 						on_button_jumps_rj_fatigue_save_image_selected (exportFileName);
+					else if(checkFileOp == Constants.CheckFileOp.RUNS_SIMPLE_CAPTURE_SAVE_IMAGE)
+						on_button_runs_simple_capture_save_image_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.RUNS_EVOLUTION_SAVE_IMAGE)
 						on_button_runs_evolution_save_image_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_SAVE_IMAGE)

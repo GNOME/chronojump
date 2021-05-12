@@ -12,7 +12,7 @@
 Adafruit_ADS1115 loadCell;
 
 int rcaPin = 2;       //Pin associated to the RCA
-const int debounceTime = 100;  //Time that the RCA interruption will be deactivated after a change event
+const int debounceTime = 2;  //Time that the RCA interruption will be deactivated after a change event
 int encoderPinA = 3;  //Pin associated with the encoder interruption
 int encoderPinB = 4;
 volatile int encoderDisplacement = 0;
@@ -48,7 +48,7 @@ float metersPerPulse = 0.003003;      //Value for the manual race encoder
 int metersPerPulseAddress = 8;
 
 //Wether the sensor has to capture or not
-boolean capturing = true;
+boolean capturing = false;
 
 //Wether the encoder has reached the number of pulses per sample or not
 boolean procesSample = false;
@@ -125,6 +125,7 @@ void setup() {
 
   //Reading the initial state of the RCA
   lastRcaState = digitalRead(rcaPin);
+  rcaState = lastRcaState;
   //Using the rising flank of the A photocell we have a normal PPR.
   attachInterrupt(digitalPinToInterrupt(encoderPinA), changingA, RISING);
 
@@ -195,14 +196,13 @@ void loop() {
     Serial.write((byte*)&data, 9);
 
         //Printing in text mode
-//        Serial.println("");
 //        Serial.print(data.encoderDisplacement);
 //        Serial.print("\t");
 //        Serial.print(data.totalTime);
 //        Serial.print("\t");
-//        Serial.print(data.offsettedData);
-//        Serial.print("\t");
 //        Serial.println(data.sensor);
+//        Serial.print("\t");
+//        Serial.print(data.offsettedData);
 //        Serial.print("\t");
 //        Serial.println(elapsedTime);
 //        Serial.println(data[frameNumber].offsettedData);
@@ -260,12 +260,12 @@ void changingRCA() {
   } else {        //Button released
     data.sensor = 1;
   }
-  data.encoderDisplacement = encoderDisplacement;
+
+    data.encoderDisplacement = 0;
 //  Serial.println("-------");
 //  Serial.print(data.encoderDisplacement);
 //  Serial.print("\tRCA\t");
 //  Serial.println(rcaState);
-  encoderDisplacement = 0;
   if(rcaState != lastRcaState) {
     procesSample = true;
     lastRcaState = rcaState;

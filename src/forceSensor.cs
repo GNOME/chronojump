@@ -187,6 +187,8 @@ public class ForceSensor
 		if(! fse.ForceResultant)
 			return calculeForceWithCaptureOptions(forceRaw, fsco);
 
+		//forceResultant --->
+
 		double totalMass = 0;
 		if(fse.PercentBodyWeight > 0 && personMass > 0)
 			totalMass = fse.PercentBodyWeight * personMass / 100.0;
@@ -218,11 +220,17 @@ public class ForceSensor
 		//TODO: now we are using fse.AngleDefault, but we have to implement especific angle on capture
 
 		double forceResultant = Math.Sqrt(
-				Math.Pow(Math.Cos(fse.AngleDefault * Math.PI / 180.0) * (forceRaw + totalMass * accel),2) +                	//Horizontal component
-				Math.Pow(Math.Sin(fse.AngleDefault * Math.PI / 180.0) * (forceRaw + totalMass * accel) + totalMass * 9.81,2) 	//Vertical component
+				//Math.Pow(Math.Cos(fse.AngleDefault * Math.PI / 180.0) * (forceRaw + totalMass * accel),2) +                	//Horizontal component
+				//Math.Pow(Math.Sin(fse.AngleDefault * Math.PI / 180.0) * (forceRaw + totalMass * accel) + totalMass * 9.81,2) 	//Vertical component
+				Math.Pow(Math.Cos(fse.AngleDefault * Math.PI / 180.0) * (Math.Abs(forceRaw) + totalMass * accel),2) +                	//Horizontal component
+				Math.Pow(Math.Sin(fse.AngleDefault * Math.PI / 180.0) * (Math.Abs(forceRaw) + totalMass * accel) + totalMass * 9.81,2) 	//Vertical component
 				);
 
-		return calculeForceWithCaptureOptions(forceResultant, fsco);
+		//LogB.Information(string.Format("Abs(forceRaw): {0}, totalMass: {1}, forceResultant: {2}",
+		//			Math.Abs(forceRaw), totalMass, forceResultant));
+
+		//return calculeForceWithCaptureOptions(forceResultant, fsco);
+		return forceResultant;
 	}
 	private static double calculeForceWithCaptureOptions(double force, CaptureOptions fsco)
 	{

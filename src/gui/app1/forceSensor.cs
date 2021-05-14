@@ -2391,39 +2391,7 @@ LogB.Information(" fs R ");
 			fscPoints.Redo();
 
 
-		//draw interpolated feedback
-		if(interpolate_l != null)
-		{
-			/*
-			LogB.Information("fscPoints:");
-			for(int k = 0; k < fscPoints.Points.Count; k ++)
-				LogB.Information(string.Format("{0} ({1},{2})", k, fscPoints.Points[k].X, fscPoints.Points[k].Y));
-
-			LogB.Information("paintPointsInterpolate:");
-			*/
-			int timeCount = 0;
-			int timeStep = (1000 * repetitiveConditionsWin.GetForceSensorFeedbackPathMasterSeconds/10) //if each 1000 ms, then: advance by 100 (to have 10 interpolated between each master)
-						* 1000; //to micros
-
-			List<Gdk.Point> paintPointsInterpolate = new List<Gdk.Point>();
-			do {
-				for(int interY = 0;
-						interY < interpolate_l.Count && timeCount < fscPoints.GetLastTime();
-						interY ++)
-				{
-					paintPointsInterpolate.Add(new Gdk.Point(
-							fscPoints.GetTimeInPx(timeCount), //note we are not using interpolate_l[*].X
-							fscPoints.GetForceInPx(interpolate_l[interY].Y)
-							));
-
-					timeCount += timeStep;
-				}
-			} while (timeCount < fscPoints.GetLastTime());
-
-			//paint the points
-			force_capture_pixmap.DrawLines(pen_blue_light_force_capture_interpolated_feedback, paintPointsInterpolate.ToArray());
-		}
-
+		forceSensorDrawInterpolatedFeedback();
 
 		forcePaintHVLines(ForceSensorGraphs.CAPTURE,
 				getForceSensorMaxForceIncludingRectangle(forceSensorValues.Max),
@@ -2460,6 +2428,41 @@ LogB.Information(" fs R ");
 		label_force_sensor_value_min.Text = string.Format("{0:0.##} N", forceSensorValues.Min);
 		button_force_sensor_image_save_signal.Sensitive = true;
 		button_force_sensor_analyze_analyze.Sensitive = true;
+	}
+
+	private void forceSensorDrawInterpolatedFeedback ()
+	{
+		if(interpolate_l != null)
+		{
+			/*
+			LogB.Information("fscPoints:");
+			for(int k = 0; k < fscPoints.Points.Count; k ++)
+				LogB.Information(string.Format("{0} ({1},{2})", k, fscPoints.Points[k].X, fscPoints.Points[k].Y));
+
+			LogB.Information("paintPointsInterpolate:");
+			*/
+			int timeCount = 0;
+			int timeStep = (1000 * repetitiveConditionsWin.GetForceSensorFeedbackPathMasterSeconds/10) //if each 1000 ms, then: advance by 100 (to have 10 interpolated between each master)
+						* 1000; //to micros
+
+			List<Gdk.Point> paintPointsInterpolate = new List<Gdk.Point>();
+			do {
+				for(int interY = 0;
+						interY < interpolate_l.Count && timeCount < fscPoints.GetLastTime();
+						interY ++)
+				{
+					paintPointsInterpolate.Add(new Gdk.Point(
+							fscPoints.GetTimeInPx(timeCount), //note we are not using interpolate_l[*].X
+							fscPoints.GetForceInPx(interpolate_l[interY].Y)
+							));
+
+					timeCount += timeStep;
+				}
+			} while (timeCount < fscPoints.GetLastTime());
+
+			//paint the points
+			force_capture_pixmap.DrawLines(pen_blue_light_force_capture_interpolated_feedback, paintPointsInterpolate.ToArray());
+		}
 	}
 
 	private void setForceSensorTopAtOperationStart()

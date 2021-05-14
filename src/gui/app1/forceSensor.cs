@@ -1601,7 +1601,7 @@ LogB.Information(" fs J ");
 			else {
 				//note that scroll mode will call NOScroll method until scroll starts
 				if(preferences.forceSensorCaptureScroll && fscPoints.ScrollStartedAtCount > 0)
-					forceSensorCaptureDoRealtimeGraphScroll(numCaptured, numPainted, toDraw, points);
+					forceSensorCaptureDoRealtimeGraphScroll(numCaptured, toDraw, points);
 				else
 					forceSensorCaptureDoRealtimeGraphNOScroll(numCaptured, numPainted, toDraw, points);
 
@@ -1666,7 +1666,7 @@ LogB.Information(" fs R ");
 		LogB.Information(" fs P ");
 	}
 
-	private void forceSensorCaptureDoRealtimeGraphScroll(int numCaptured, int numPainted, int toDraw, List<Gdk.Point> points)
+	private void forceSensorCaptureDoRealtimeGraphScroll(int numCaptured, int toDraw, List<Gdk.Point> points)
 	{
 		LogB.Information(" Graph Scroll ");
 		Gdk.Point [] paintPoints = new Gdk.Point[fscPoints.ScrollStartedAtCount];

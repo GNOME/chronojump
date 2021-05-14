@@ -2471,7 +2471,8 @@ LogB.Information(" fs R ");
 			List<Gdk.Point> paintPointsInterpolate = new List<Gdk.Point>();
 			//paintPointsInterpolate = new List<Gdk.Point>();
 			do {
-				for(int interY = paintPointsInterpolate.Count;
+				for(int interY = 0;
+				//for(int interY = paintPointsInterpolate.Count;
 				//for(int interY = scrollStarted;
 						interY < interpolate_l.Count && timeCount < fscPoints.GetLastTime();
 						interY ++)

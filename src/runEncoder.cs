@@ -121,15 +121,20 @@ public class RunEncoder
 		SqliteRunEncoder.UpdateComments (dbconOpened, uniqueID, comments); //SQL not opened
 	}
 
-	public string [] ToStringArray (int count)
+	public string [] ToStringArray (bool showDevice, int count)
 	{
-		int all = 8;
+		int all = 7;
+		if(showDevice)
+			all ++;
+
 		string [] str = new String [all];
 		int i=0;
 		str[i++] = uniqueID.ToString();
 		str[i++] = count.ToString();
 		str[i++] = exerciseName;
-		str[i++] = Catalog.GetString(GetDeviceString(device));
+		if(showDevice)
+			str[i++] = Catalog.GetString(GetDeviceString(device));
+
 		str[i++] = distance.ToString();
 		str[i++] = dateTime;
 

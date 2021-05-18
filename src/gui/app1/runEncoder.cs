@@ -809,13 +809,13 @@ public partial class ChronoJumpWindow
 		ArrayList dataPrint = new ArrayList();
 		int count = 1;
 		foreach(RunEncoder re in data)
-			dataPrint.Add(re.ToStringArray(count++));
+			dataPrint.Add(re.ToStringArray(false, count++));
 
 		string [] columnsString = {
 			Catalog.GetString("ID"),
 			Catalog.GetString("Set"),
 			Catalog.GetString("Exercise"),
-			Catalog.GetString("Device"),
+			//Catalog.GetString("Device"),
 			Catalog.GetString("Distance"),
 			Catalog.GetString("Date"),
 			Catalog.GetString("Video"),

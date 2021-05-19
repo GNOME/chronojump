@@ -975,6 +975,17 @@ public class RepetitiveConditionsWindow
 		notebook_force_sensor_feedback.Page = 2;
 	}
 
+	public Preferences.ForceSensorCaptureFeedbackActiveEnum GetForceSensorFeedback {
+		get {
+			if(radio_force_sensor_capture_feedback_show_rectangle.Active)
+				return Preferences.ForceSensorCaptureFeedbackActiveEnum.RECTANGLE;
+			else if(radio_force_sensor_capture_feedback_show_path.Active)
+				return Preferences.ForceSensorCaptureFeedbackActiveEnum.PATH;
+			else //if(radio_force_sensor_capture_feedback_no.Active)
+				return Preferences.ForceSensorCaptureFeedbackActiveEnum.NO;
+		}
+	}
+
 	//force sensor feedback rectangle
 	public bool GetForceSensorFeedbackRectangleActive {
 		get { return radio_force_sensor_capture_feedback_show_rectangle.Active; }

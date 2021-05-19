@@ -7391,7 +7391,13 @@ LogB.Debug("mc finished 5");
 		}
 		else if(m == Constants.Menuitem_modes.FORCESENSOR)
 		{
-			// TODO: fix this with path
+			if(repetitiveConditionsWin.FeedbackActive(bellMode))
+				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_active.png");
+			else
+				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_none.png");
+
+			image_contacts_bell.Pixbuf = pixbuf;
+
 			Preferences.ForceSensorCaptureFeedbackActiveEnum feedbackActive = repetitiveConditionsWin.GetForceSensorFeedback;
 			if(preferences.forceSensorCaptureFeedbackActive != feedbackActive)
 			{

@@ -246,7 +246,8 @@ public class Preferences
 	public string forceSensorCalibrationDateTime;
 	public double forceSensorCalibrationWeight;
 	public double forceSensorCalibrationFactor;
-	public bool forceSensorCaptureFeedbackActive;	//rectangle
+	public enum ForceSensorCaptureFeedbackActiveEnum { NO, RECTANGLE, PATH };
+	public ForceSensorCaptureFeedbackActiveEnum forceSensorCaptureFeedbackActive;	//rectangle
 	public int forceSensorCaptureFeedbackAt; 	//rectangle
 	public int forceSensorCaptureFeedbackRange; 	//rectangle
 	public bool forceSensorStartEndOptimized;

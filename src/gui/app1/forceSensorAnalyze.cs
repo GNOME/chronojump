@@ -1340,7 +1340,8 @@ public partial class ChronoJumpWindow
 		int xPxEnd = fsAI.FscAIPoints.GetTimeInPx(fsAI.FscAIPoints.GetLastTime());
 
 		//draw horizontal rectangle of feedback
-		if(preferences.forceSensorCaptureFeedbackActive)
+		//if(preferences.forceSensorCaptureFeedbackActive)
+		if(preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.RECTANGLE)
 			forceSensorSignalPlotFeedbackRectangle(fsAI.FscAIPoints, xPxEnd,
 					force_sensor_ai_drawingarea, force_sensor_ai_pixmap, pen_blue_light_force_ai);
 
@@ -2200,7 +2201,8 @@ public partial class ChronoJumpWindow
 			label_force_sensor_ai_variability_values.Text = Math.Round(variability, 3).ToString();
 
 			// 12) calculate Accuracy (Feedback difference)
-			if(preferences.forceSensorCaptureFeedbackActive && feedbackF > 0)
+			//if(preferences.forceSensorCaptureFeedbackActive && feedbackF > 0)
+			if(preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.RECTANGLE && feedbackF > 0)
 			{
 				label_force_sensor_ai_feedback_values.Text = Math.Round(feedbackDiff, 3).ToString();
 				label_force_sensor_ai_feedback.Visible = true;

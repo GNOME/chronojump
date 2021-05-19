@@ -7391,6 +7391,8 @@ LogB.Debug("mc finished 5");
 		}
 		else if(m == Constants.Menuitem_modes.FORCESENSOR)
 		{
+			// TODO: fix this with path
+			/*
 			bool feedbackActive = repetitiveConditionsWin.GetForceSensorFeedbackRectangleActive;
 			if(preferences.forceSensorCaptureFeedbackActive != feedbackActive)
 			{
@@ -7415,6 +7417,7 @@ LogB.Debug("mc finished 5");
 					preferences.forceSensorCaptureFeedbackRange = feedbackRange;
 				}
 			}
+			*/
 		}
 	}
 

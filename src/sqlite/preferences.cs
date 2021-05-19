@@ -294,7 +294,7 @@ class SqlitePreferences : Sqlite
 				Insert (ForceSensorNotElasticConMinForce, "100", dbcmdTr);
 				Insert (ForceSensorGraphsLineWidth, "2", dbcmdTr);
 				Insert (ForceSensorVariabilityMethod, Preferences.VariabilityMethodEnum.CVRMSSD.ToString(), dbcmdTr);
-				Insert (ForceSensorCaptureFeedbackActive, "False", dbcmdTr);
+				Insert (ForceSensorCaptureFeedbackActive, Preferences.ForceSensorCaptureFeedbackActiveEnum.NO.ToString(), dbcmdTr);
 				Insert (ForceSensorCaptureFeedbackAt, "100", dbcmdTr);
 				Insert (ForceSensorCaptureFeedbackRange, "40", dbcmdTr);
 				Insert (ForceSensorTareDateTimeStr, "", dbcmdTr);
@@ -704,7 +704,17 @@ class SqlitePreferences : Sqlite
 				preferences.forceSensorVariabilityMethod = (Preferences.VariabilityMethodEnum)
 					Enum.Parse(typeof(Preferences.VariabilityMethodEnum), reader[1].ToString());
 			else if(reader[0].ToString() == ForceSensorCaptureFeedbackActive)
-				preferences.forceSensorCaptureFeedbackActive = reader[1].ToString() == "True";
+			{
+				//preferences.forceSensorCaptureFeedbackActive = reader[1].ToString() == "True";
+				//note first it was a boolean "False" or "True"
+				if(reader[1].ToString() == "False")
+					preferences.forceSensorCaptureFeedbackActive = Preferences.ForceSensorCaptureFeedbackActiveEnum.NO;
+				else if(reader[1].ToString() == "True")
+					preferences.forceSensorCaptureFeedbackActive = Preferences.ForceSensorCaptureFeedbackActiveEnum.RECTANGLE;
+				else
+					preferences.forceSensorCaptureFeedbackActive = (Preferences.ForceSensorCaptureFeedbackActiveEnum)
+						Enum.Parse(typeof(Preferences.ForceSensorCaptureFeedbackActiveEnum), reader[1].ToString());
+			}
 			else if(reader[0].ToString() == ForceSensorCaptureFeedbackAt)
 				preferences.forceSensorCaptureFeedbackAt = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == ForceSensorCaptureFeedbackRange)

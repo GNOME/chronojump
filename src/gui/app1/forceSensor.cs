@@ -1083,7 +1083,7 @@ public partial class ChronoJumpWindow
 
 		forcePaintHVLines(ForceSensorGraphs.CAPTURE, fscPoints.RealHeightG, ForceSensorCapturePoints.DefaultRealHeightGNeg, 10, false);
 		//draw horizontal rectangle of feedback
-		if(preferences.forceSensorCaptureFeedbackActive)
+		if(preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.RECTANGLE)
 			forceSensorSignalPlotFeedbackRectangle(fscPoints, force_capture_drawingarea.Allocation.Width,
 					force_capture_drawingarea, force_capture_pixmap, pen_blue_light_force_capture);
 
@@ -1596,7 +1596,7 @@ LogB.Information(" fs I ");
 
 
 				//draw horizontal rectangle of feedback
-				if(preferences.forceSensorCaptureFeedbackActive)
+				if(preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.RECTANGLE)
 					forceSensorSignalPlotFeedbackRectangle(fscPoints, force_capture_drawingarea.Allocation.Width,
 							force_capture_drawingarea, force_capture_pixmap, pen_blue_light_force_capture);
 
@@ -1713,7 +1713,7 @@ LogB.Information(" fs R ");
 		LogB.Information(" fs N0 ");
 
 		UtilGtk.ErasePaint(force_capture_drawingarea, force_capture_pixmap);
-		if(preferences.forceSensorCaptureFeedbackActive)
+		if(preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.RECTANGLE)
 			forceSensorSignalPlotFeedbackRectangle(fscPoints, force_capture_drawingarea.Allocation.Width,
 					force_capture_drawingarea, force_capture_pixmap, pen_blue_light_force_capture);
 
@@ -2501,7 +2501,7 @@ LogB.Information(" fs R ");
 				false);
 
 		//draw horizontal rectangle of feedback
-		if(preferences.forceSensorCaptureFeedbackActive)
+		if(preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.RECTANGLE)
 			forceSensorSignalPlotFeedbackRectangle(fscPoints, force_capture_drawingarea.Allocation.Width,
 					force_capture_drawingarea, force_capture_pixmap, pen_blue_light_force_capture);
 
@@ -2584,7 +2584,7 @@ LogB.Information(" fs R ");
 
 	private void setForceSensorTopAtOperationStart()
 	{
-		if(preferences.forceSensorCaptureFeedbackActive)
+		if(preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.RECTANGLE)
 			forceSensorTopRectangleAtOperationStart = Convert.ToInt32(preferences.forceSensorCaptureFeedbackAt + preferences.forceSensorCaptureFeedbackRange /2);
 		else
 			forceSensorTopRectangleAtOperationStart = 0;

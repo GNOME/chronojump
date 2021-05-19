@@ -2606,7 +2606,7 @@ class Sqlite
 			{
 				LogB.SQL("Inserted forceSensorCaptureFeedbackActive /At /Range");
 
-				SqlitePreferences.Insert (SqlitePreferences.ForceSensorCaptureFeedbackActive, "False");
+				SqlitePreferences.Insert (SqlitePreferences.ForceSensorCaptureFeedbackActive, Preferences.ForceSensorCaptureFeedbackActiveEnum.NO.ToString());
 				SqlitePreferences.Insert (SqlitePreferences.ForceSensorCaptureFeedbackAt, "100");
 				SqlitePreferences.Insert (SqlitePreferences.ForceSensorCaptureFeedbackRange, "40");
 

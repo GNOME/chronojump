@@ -5150,7 +5150,7 @@
                                                   <widget class="GtkLabel" id="label67">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label">Line width</property>
+                                                    <property name="label" translatable="yes">Line width</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>

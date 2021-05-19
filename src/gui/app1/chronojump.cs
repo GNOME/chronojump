@@ -7392,8 +7392,7 @@ LogB.Debug("mc finished 5");
 		else if(m == Constants.Menuitem_modes.FORCESENSOR)
 		{
 			// TODO: fix this with path
-			/*
-			bool feedbackActive = repetitiveConditionsWin.GetForceSensorFeedbackRectangleActive;
+			Preferences.ForceSensorCaptureFeedbackActiveEnum feedbackActive = repetitiveConditionsWin.GetForceSensorFeedback;
 			if(preferences.forceSensorCaptureFeedbackActive != feedbackActive)
 			{
 				SqlitePreferences.Update(SqlitePreferences.ForceSensorCaptureFeedbackActive, feedbackActive.ToString(), false);
@@ -7401,7 +7400,7 @@ LogB.Debug("mc finished 5");
 			}
 
 			//change the rest of values only if feedback is active
-			if(feedbackActive)
+			if(feedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.RECTANGLE)
 			{
 				int feedbackAt = repetitiveConditionsWin.GetForceSensorFeedbackRectangleAt;
 				if(preferences.forceSensorCaptureFeedbackAt != feedbackAt)
@@ -7417,7 +7416,6 @@ LogB.Debug("mc finished 5");
 					preferences.forceSensorCaptureFeedbackRange = feedbackRange;
 				}
 			}
-			*/
 		}
 	}
 

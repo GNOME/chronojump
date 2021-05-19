@@ -1066,6 +1066,16 @@ public partial class ChronoJumpWindow
 		if(fscPoints.RealHeightG < forceSensorTopRectangleAtOperationStart)
 			fscPoints.RealHeightG = forceSensorTopRectangleAtOperationStart;
 
+		if(repetitiveConditionsWin.GetForceSensorFeedbackPathActive)
+		{
+			int maxPathValue = repetitiveConditionsWin.GetForceSensorFeedbackPathMax;// + interpolatedPathLineWidth;
+			if(maxPathValue > forceSensorTopRectangleAtOperationStart)
+				fscPoints.RealHeightG = maxPathValue;
+		}
+
+
+
+
 		LogB.Information("RealHeight = " + fscPoints.RealHeightG.ToString());
 
 		forcePaintHVLines(ForceSensorGraphs.CAPTURE, fscPoints.RealHeightG, ForceSensorCapturePoints.DefaultRealHeightGNeg, 10, false);

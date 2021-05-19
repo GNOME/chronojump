@@ -472,7 +472,11 @@ public class InterpolateSignal
 		//point_l.Count has to be >= 3
 		for(int i = 0; i < point_l.Count; i ++) //each known point
 		{
-			for(double j = 0.05; j < 1 ; j += .1) //10 interpolated value for each master (see timeCount on gui/app1/forceSensor.cs)
+			//for(double j = 0.05; j < 1 ; j += .1) //10 interpolated value for each master (see timeCount on gui/app1/forceSensor.cs)
+			//for(double j = 0.005; j < 1 ; j += .01) //100 interpolated value for each master (see timeCount on gui/app1/forceSensor.cs)
+			//for(double j = 0.0025; j < 1 ; j += .005) //200 interpolated value for each master (see timeCount on gui/app1/forceSensor.cs)
+			//for(double j = 0; j < 1 ; j += .012345679) //81 Hz
+			for(double j = 0; j < 1 ; j += 0.011111111) //90Hz Works perfectly!
 			{
 				if (type == types.COSINE)
 				{

@@ -2158,6 +2158,7 @@ LogB.Information(" fs R ");
 			repetitiveConditionsWin.GetForceSensorFeedbackPathMasterSeconds;
 
 		InterpolateSignal interpolateS = new InterpolateSignal(
+				true, //start at 0
 				repetitiveConditionsWin.GetForceSensorFeedbackPathMin,
 				repetitiveConditionsWin.GetForceSensorFeedbackPathMax,
 				maxx * 1000,

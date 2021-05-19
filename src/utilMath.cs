@@ -398,7 +398,7 @@ public class InterpolateSignal
 	{
 		this.point_l = point_l;
 	}
-	public InterpolateSignal (int minY, int maxY, int maxX, int stepX)
+	public InterpolateSignal (bool startAt0, int minY, int maxY, int maxX, int stepX)
 	{
 		Random random = new Random();
 		this.point_l = new List<PointF>();
@@ -408,7 +408,10 @@ public class InterpolateSignal
 
 		for(int i = 0; i < maxX; i += stepX)
 		{
-			point_l.Add(new PointF(i, minY + (random.NextDouble() * range)));
+			if(startAt0 && i == 0)
+				point_l.Add(new PointF(i, 0));
+			else
+				point_l.Add(new PointF(i, minY + (random.NextDouble() * range)));
 
 			/*
 			PointF p = new PointF(i, minY + (random.NextDouble() * range));

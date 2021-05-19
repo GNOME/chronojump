@@ -398,6 +398,7 @@ public class InterpolateSignal
 	{
 		this.point_l = point_l;
 	}
+	//TODO: if startAt0, do not create the point_l[0] = 0, because it will be repeated each cycle
 	public InterpolateSignal (bool startAt0, int minY, int maxY, int maxX, int stepX)
 	{
 		Random random = new Random();

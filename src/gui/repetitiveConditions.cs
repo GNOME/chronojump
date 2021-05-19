@@ -198,6 +198,7 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_path_min;
 	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_path_masters;
 	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_path_master_seconds;
+	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_path_line_width;
 
 	const int JUMPSRUNSPAGE = 0;
 	const int ENCODERAUTOPAGE = 1;
@@ -996,6 +997,10 @@ public class RepetitiveConditionsWindow
 	public int GetForceSensorFeedbackPathMasterSeconds {
 		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_path_master_seconds.Value); }
 		//get { return 5; }
+	}
+	public int GetForceSensorFeedbackPathLineWidth {
+		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_path_line_width.Value); }
+		//get { return 100; }
 	}
 
 	/* JUMPS */

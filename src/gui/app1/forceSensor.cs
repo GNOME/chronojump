@@ -134,7 +134,7 @@ public partial class ChronoJumpWindow
 	Gdk.GC pen_gray_force_capture_discont;
 	Pango.Layout layout_force_text;
 	Gdk.Colormap colormapForce = Gdk.Colormap.System;
-	private const int interpolatedPathLineWidth = 120;
+	private const int interpolatedPathLineWidthDefault = 100;
 
 
 	string forceSensorNotConnectedString =
@@ -194,7 +194,7 @@ public partial class ChronoJumpWindow
 
 		pen_blue_light_force_capture_interpolated_feedback = new Gdk.GC(force_capture_drawingarea.GdkWindow);
 		pen_blue_light_force_capture_interpolated_feedback.Foreground = UtilGtk.LIGHT_BLUE_PLOTS;
-		pen_blue_light_force_capture_interpolated_feedback.SetLineAttributes (interpolatedPathLineWidth, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
+		pen_blue_light_force_capture_interpolated_feedback.SetLineAttributes (interpolatedPathLineWidthDefault, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
 
 		//pen_yellow_force_capture = new Gdk.GC(force_capture_drawingarea.GdkWindow);
 		//pen_yellow_force_capture.Foreground = UtilGtk.YELLOW;
@@ -1068,9 +1068,12 @@ public partial class ChronoJumpWindow
 
 		if(repetitiveConditionsWin.GetForceSensorFeedbackPathActive)
 		{
-			int maxPathValue = repetitiveConditionsWin.GetForceSensorFeedbackPathMax;// + interpolatedPathLineWidth;
+			int maxPathValue = repetitiveConditionsWin.GetForceSensorFeedbackPathMax;// + repetitiveConditionsWin.GetForceSensorFeedbackPathLineWidth (but in N, not in px)
 			if(maxPathValue > forceSensorTopRectangleAtOperationStart)
 				fscPoints.RealHeightG = maxPathValue;
+
+			pen_blue_light_force_capture_interpolated_feedback.SetLineAttributes (repetitiveConditionsWin.GetForceSensorFeedbackPathLineWidth,
+					Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
 		}
 
 

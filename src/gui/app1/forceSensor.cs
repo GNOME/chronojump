@@ -2489,7 +2489,7 @@ LogB.Information(" fs R ");
 			fscPoints.Redo();
 
 
-		forceSensorDrawInterpolatedFeedback(0);
+		//forceSensorDrawInterpolatedFeedback(0);
 
 		forcePaintHVLines(ForceSensorGraphs.CAPTURE,
 				getForceSensorMaxForceIncludingRectangle(forceSensorValues.Max),

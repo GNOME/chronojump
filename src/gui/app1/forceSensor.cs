@@ -2042,9 +2042,12 @@ LogB.Information(" fs R ");
 				);
 		//showForceSensorTriggers (); TODO until know where to put it
 
+		/*
+		   do not interpolate signal at load
 		if(repetitiveConditionsWin.GetForceSensorFeedbackPathActive)
 			createForceSensorCaptureInterpolateSignal();
 		else
+		*/
 			interpolate_l = null;
 
 		forceSensorCopyTempAndDoGraphs(forceSensorGraphsEnum.SIGNAL);

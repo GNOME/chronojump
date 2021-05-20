@@ -746,12 +746,12 @@ public class UtilGtk
 
 	public static string IdentifyPixelColor(uint col)
 	{
-		if(px == 16777215)
+		if(col == 16777215)
 			return "WHITE";
-		else if(px == 11722734)
+		else if(col == 11722734)
 			return "LIGHT_BLUE_PLOTS"; //force sensor feedback rectangle and path
-		else if(px == 6710886)
-			return "GRAY"); //lines on force sensor capture
+		else if(col == 6710886)
+			return "GRAY"; //lines on force sensor capture
 		else
 			return "other";
 	}

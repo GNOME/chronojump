@@ -51,6 +51,8 @@ public class ChronoDebug
 
 	public ChronoDebug (string name)
 	{
+		this.name = name;
+
 		list = new List<ChronoDebugAction>();
 		sw = new Stopwatch();
 	}

@@ -743,7 +743,18 @@ public class UtilGtk
 			//l.ModifyFg(StateType.Active, BLACK);
 		}
 	}
-	
+
+	public static string IdentifyPixelColor(uint col)
+	{
+		if(px == 16777215)
+			return "WHITE";
+		else if(px == 11722734)
+			return "LIGHT_BLUE_PLOTS"; //force sensor feedback rectangle and path
+		else if(px == 6710886)
+			return "GRAY"); //lines on force sensor capture
+		else
+			return "other";
+	}
 
 	/*
 	 *

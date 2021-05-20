@@ -1692,8 +1692,8 @@ LogB.Information(" fs R ");
 		int height = 0;
 		force_capture_pixmap.GetSize(out width, out height);
 		Gdk.Image image = force_capture_pixmap.GetImage(0, 0, width, height);
-		int countInPath = 0;
-		int countOutPath = 0;
+		interpolatedPathAccuracyCountIn = 0;
+		interpolatedPathAccuracyCountOut = 0;
 
 		//i is related to what has been captured: points
 		//j is related to what is going to be painted: paintPoints
@@ -1705,24 +1705,25 @@ LogB.Information(" fs R ");
 
 				uint px = image.GetPixel(points[i].X,points[i].Y);
 				if(UtilGtk.IdentifyPixelColorIsInPath(px))
-					countInPath ++;
+					interpolatedPathAccuracyCountIn ++;
 				else
-					countOutPath ++;
+					interpolatedPathAccuracyCountOut ++;
 			}
 		}
 
 		//TODO: note this fails when signal goes out of current drawed image boundaries
-		interpolatedPathAccuracy = 100 * UtilAll.DivideSafe(countInPath, countInPath + countOutPath);
-		//interpolatedPathAccuracyCountIn = countInPath; //debug
-		//interpolatedPathAccuracyCountOut = countOutPath; //debug
+		interpolatedPathAccuracy = 100 * UtilAll.DivideSafe(
+				interpolatedPathAccuracyCountIn,
+				interpolatedPathAccuracyCountIn + interpolatedPathAccuracyCountOut);
 
 		force_capture_pixmap.DrawLines(pen_black_force_capture, paintPoints);
 		LogB.Information("Graph NO Scroll end");
 	}
 
+	//TODO: create a class with all this
 	private static double interpolatedPathAccuracy = 0; //percent of signal inside path
-	//private static double interpolatedPathAccuracyCountIn = 0;
-	//private static double interpolatedPathAccuracyCountOut = 0;
+	private static double interpolatedPathAccuracyCountIn;
+	private static double interpolatedPathAccuracyCountOut;
 
 	private List<double> interYtimes_l; //funciona
 	private List<int> interYinterYs_l; //funciona
@@ -1760,8 +1761,8 @@ LogB.Information(" fs R ");
 		{
 			if(points.Count > i && j < fscPoints.ScrollStartedAtCount) 	//extra check to avoid going outside of arrays
 			{
-				LogB.Information(string.Format("i: {0}; j: {1}, paintPointsLength: {2}",
-							i, j, fscPoints.ScrollStartedAtCount));
+				//LogB.Information(string.Format("i: {0}; j: {1}, paintPointsLength: {2}",
+				//			i, j, fscPoints.ScrollStartedAtCount));
 
 				paintPoints[j] = points[i];
 				paintPoints[j].X = fscPoints.GetTimeInPx(Convert.ToInt32(fscPoints.GetTimeAtCount(j)));
@@ -1805,18 +1806,16 @@ LogB.Information(" fs R ");
 					}
 			}
 
-			interYtimes_l = new List<double>(); //funciona
-			interYinterYs_l = new List<int>(); //funciona
-			//int interpolateAddedCount = 0;
+			interYtimes_l = new List<double>();
+			interYinterYs_l = new List<int>();
 			do {
-				interYtimes_l.Add(timeCount); //funciona
-				interYinterYs_l.Add(interY); //funciona
+				interYtimes_l.Add(timeCount);
+				interYinterYs_l.Add(interY);
 
 				double stepRatio = UtilAll.DivideSafe(stepsCount, stepsTotal);
 				int xpos = paintPoints[0].X + Convert.ToInt32(stepRatio * (paintPoints[fscPoints.ScrollStartedAtCount -1].X - paintPoints[0].X));
 
-				paintPointsInterpolate.Add(new Gdk.Point(xpos, fscPoints.GetForceInPx(interpolate_l[interY].Y) ));
-				//interpolateAddedCount ++; //debug
+				paintPointsInterpolate.Add(new Gdk.Point(xpos, fscPoints.GetForceInPx(interpolate_l[interY].Y)));
 
 				timeCount += timeStep;
 
@@ -1829,7 +1828,25 @@ LogB.Information(" fs R ");
 			} while (timeCount < lastTimeForInterpolate);
 
 			force_capture_pixmap.DrawLines(pen_blue_light_force_capture_interpolated_feedback, paintPointsInterpolate.ToArray());
-			//LogB.Information("at scroll, interpolateAddedCount = " + interpolateAddedCount.ToString());
+
+			//calculations for path accuracy
+			int width = 0;
+			int height = 0;
+			force_capture_pixmap.GetSize(out width, out height);
+			Gdk.Image image = force_capture_pixmap.GetImage(0, 0, width, height);
+
+			for(int i = paintPoints.Length -1 -toDraw; i < paintPoints.Length; i ++)
+			{
+				uint px = image.GetPixel(paintPoints[i].X, paintPoints[i].Y);
+				if(UtilGtk.IdentifyPixelColorIsInPath(px))
+					interpolatedPathAccuracyCountIn ++;
+				else
+					interpolatedPathAccuracyCountOut ++;
+			}
+
+			interpolatedPathAccuracy = 100 * UtilAll.DivideSafe(
+					interpolatedPathAccuracyCountIn,
+					interpolatedPathAccuracyCountIn + interpolatedPathAccuracyCountOut);
 		}
 
 		force_capture_pixmap.DrawLines(pen_black_force_capture, paintPoints);
@@ -2180,9 +2197,6 @@ LogB.Information(" fs R ");
 			interpolate_l = null;
 			return;
 		}
-
-//		paintPointsInterpolate = new List<Gdk.Point>();
-//		timeCount = 0;
 
 		/*
 		3rd param on InterpolateSignal is maxx.
@@ -2563,8 +2577,6 @@ LogB.Information(" fs R ");
 		button_force_sensor_analyze_analyze.Sensitive = true;
 	}
 
-//	List<Gdk.Point> paintPointsInterpolate;
-//	int timeCount;
 	private void forceSensorDrawInterpolatedFeedback (int startAt)
 	{
 		if(interpolate_l != null)
@@ -2587,7 +2599,6 @@ LogB.Information(" fs R ");
 			interYinterYs_l = new List<int>(); //funciona
 			//twoListsOfInts.Reset();
 
-			//int interpolateAddedCount = 0;
 			do {
 				for(int interY = 0; //TODO: change this to be on phase of interpolate_l (if there are less points)
 						interY < interpolate_l.Count && timeCount < fscPoints.GetLastTime();
@@ -2597,8 +2608,6 @@ LogB.Information(" fs R ");
 							fscPoints.GetTimeInPx(Convert.ToInt32(timeCount)), //note we are not using interpolate_l[*].X
 							fscPoints.GetForceInPx(interpolate_l[interY].Y)
 							));
-
-					//interpolateAddedCount ++;
 
 					interYtimes_l.Add(timeCount); //funciona
 					interYinterYs_l.Add(interY); //funciona

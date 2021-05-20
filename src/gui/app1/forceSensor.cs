@@ -1619,8 +1619,8 @@ LogB.Information(" fs J ");
 			int numCaptured = fscPoints.NumCaptured;
 			int numPainted = fscPoints.NumPainted;
 
-			//if path: to show the full line
-			if(interpolate_l != null && numPainted > 0)
+			//if path: to show the full line when scroll has not started
+			if(interpolate_l != null && numPainted > 0 && preferences.forceSensorCaptureScroll && fscPoints.ScrollStartedAtCount < 0)
 				numPainted = 1;
 
 			List<Gdk.Point> points = fscPoints.Points;

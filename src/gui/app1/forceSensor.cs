@@ -1654,7 +1654,7 @@ LogB.Information(" fs R ");
 
 	private void forceSensorCaptureDoRealtimeGraphNOScroll(int numCaptured, int numPainted, int toDraw, List<Gdk.Point> points)
 	{
-		LogB.Information(" Graph NO Scroll ");
+		LogB.Information("Graph NO Scroll start");
 		Gdk.Point [] paintPoints;
 		if(numPainted > 0)
 			paintPoints = new Gdk.Point[toDraw +1]; // if something has been painted, connected first point with previous points
@@ -1664,36 +1664,79 @@ LogB.Information(" fs R ");
 		//TODO: if maxForce or minForce changed
 		//blank the screen and paint the HVLine of max and min
 
-		LogB.Information(" fs N ");
 		int jStart = 0;
 		int iStart = 0;
 		if(numPainted > 0)
 		{
 			// if something has been painted, connected first point with previous points
-			LogB.Information(" fs N0 ");
-
 			paintPoints[0] = points[numPainted -1];
 			jStart = 1;
 			iStart = numPainted;
-
-			LogB.Information(" fs N2 ");
 		}
-		LogB.Information(" fs O ");
 
 		forceSensorDrawInterpolatedFeedback(0);
+
+		//ranges to have an image to check if the points will be out of the interpolated_path
+		//TODO: have this knowing width/height of the drawingarea
+		int minX = 10000;
+		int maxX = 0;
+		int minY = 10000;
+		int maxY = 0;
 
 		//i is related to what has been captured: points
 		//j is related to what is going to be painted: paintPoints
 		for(int j = jStart, i = iStart ; i < numCaptured ; i ++, j++)
 		{
-			LogB.Information(" fs O1 ");
 			if(points.Count > i) 	//extra check to avoid going outside of arrays
+			{
 				paintPoints[j] = points[i];
 
-			LogB.Information(" fs O2 ");
+				if(paintPoints[j].X < minX)
+					minX = paintPoints[j].X;
+				if(paintPoints[j].X > maxX)
+					maxX = paintPoints[j].X;
+				if(paintPoints[j].Y < minY)
+					minY = paintPoints[j].Y;
+				if(paintPoints[j].Y > maxY)
+					maxY = paintPoints[j].Y;
+			}
 		}
+		//TODO: note this fails when signal goes out of current drawed image boundaries
+
+
+		Gdk.Image image;
+		if(maxX > minX && maxY > minY)
+		{
+			//LogB.Information(string.Format("minX {0}, maxX {1}, minY {2}, maxY {3}", minX, maxX, minY, maxY));
+			// a) taking the full image (measure needed time with chronoDebug)
+			int width = 0;
+			int height = 0;
+			force_capture_pixmap.GetSize(out width, out height);
+			image = force_capture_pixmap.GetImage(0, 0, width, height);
+
+			for(int y = minY ; y <= maxY; y ++)
+				for(int x = minX ; x <= maxX; x ++)
+				{
+					uint px = image.GetPixel(x,y);
+					UtilGtk.IdentifyPixelColor(px);
+				}
+
+			/*
+			   this method is slower (tested with ChronoDebug)
+
+			// b) taking small image (measure needed time with chronoDebug)
+			image = force_capture_pixmap.GetImage(minX, minY, maxX - minX, maxY - minY);
+			for(int y = 0 ; y < maxY - minY; y ++)
+				for(int x = 0 ; x < maxX - minY; x ++)
+				{
+					uint px = image.GetPixel(x,y);
+					UtilGtk.IdentifyPixelColor(px);
+				}
+			*/
+		}
+
 		force_capture_pixmap.DrawLines(pen_black_force_capture, paintPoints);
-		LogB.Information(" fs P ");
+		LogB.Information("Graph NO Scroll end");
 	}
 
 	private List<double> interYtimes_l; //funciona

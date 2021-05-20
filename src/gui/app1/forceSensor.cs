@@ -1513,7 +1513,7 @@ LogB.Information(" fs C ");
 				button_delete_last_test.Sensitive = false;
 			}
 			else
-				event_execute_label_message.Text = "";
+					event_execute_label_message.Text = "";
 
 			LogB.ThreadEnding();
 
@@ -1547,8 +1547,20 @@ LogB.Information(" fs D ");
 LogB.Information(" fs E ");
 		if(forceCaptureStartMark)
 		{
+			string accuracyStr = "";
+			if(interpolate_l != null)
+			{
+				accuracyStr = string.Format(" Accuracy: {0} %", Util.TrimDecimals(interpolatedPathAccuracy, 1));
+				/* debug
+				accuracyStr = string.Format(" Accuracy: {0} % in: {1} out: {2}",
+						Util.TrimDecimals(interpolatedPathAccuracy, 1),
+						interpolatedPathAccuracyCountIn,
+						interpolatedPathAccuracyCountOut);
+						*/
+			}
+
 			event_execute_label_message.Text = "Capturing" +
-				" (" + Util.TrimDecimals(DateTime.Now.Subtract(forceSensorTimeStart).TotalSeconds, 0) + " s)";
+				" (" + Util.TrimDecimals(DateTime.Now.Subtract(forceSensorTimeStart).TotalSeconds, 0) + " s)" + accuracyStr;
 		}
 LogB.Information(" fs F ");
 
@@ -1676,12 +1688,12 @@ LogB.Information(" fs R ");
 
 		forceSensorDrawInterpolatedFeedback(0);
 
-		//ranges to have an image to check if the points will be out of the interpolated_path
-		//TODO: have this knowing width/height of the drawingarea
-		int minX = 10000;
-		int maxX = 0;
-		int minY = 10000;
-		int maxY = 0;
+		int width = 0;
+		int height = 0;
+		force_capture_pixmap.GetSize(out width, out height);
+		Gdk.Image image = force_capture_pixmap.GetImage(0, 0, width, height);
+		int countInPath = 0;
+		int countOutPath = 0;
 
 		//i is related to what has been captured: points
 		//j is related to what is going to be painted: paintPoints
@@ -1691,53 +1703,26 @@ LogB.Information(" fs R ");
 			{
 				paintPoints[j] = points[i];
 
-				if(paintPoints[j].X < minX)
-					minX = paintPoints[j].X;
-				if(paintPoints[j].X > maxX)
-					maxX = paintPoints[j].X;
-				if(paintPoints[j].Y < minY)
-					minY = paintPoints[j].Y;
-				if(paintPoints[j].Y > maxY)
-					maxY = paintPoints[j].Y;
+				uint px = image.GetPixel(points[i].X,points[i].Y);
+				if(UtilGtk.IdentifyPixelColorIsInPath(px))
+					countInPath ++;
+				else
+					countOutPath ++;
 			}
 		}
+
 		//TODO: note this fails when signal goes out of current drawed image boundaries
-
-
-		Gdk.Image image;
-		if(maxX > minX && maxY > minY)
-		{
-			//LogB.Information(string.Format("minX {0}, maxX {1}, minY {2}, maxY {3}", minX, maxX, minY, maxY));
-			// a) taking the full image (measure needed time with chronoDebug)
-			int width = 0;
-			int height = 0;
-			force_capture_pixmap.GetSize(out width, out height);
-			image = force_capture_pixmap.GetImage(0, 0, width, height);
-
-			for(int y = minY ; y <= maxY; y ++)
-				for(int x = minX ; x <= maxX; x ++)
-				{
-					uint px = image.GetPixel(x,y);
-					UtilGtk.IdentifyPixelColor(px);
-				}
-
-			/*
-			   this method is slower (tested with ChronoDebug)
-
-			// b) taking small image (measure needed time with chronoDebug)
-			image = force_capture_pixmap.GetImage(minX, minY, maxX - minX, maxY - minY);
-			for(int y = 0 ; y < maxY - minY; y ++)
-				for(int x = 0 ; x < maxX - minY; x ++)
-				{
-					uint px = image.GetPixel(x,y);
-					UtilGtk.IdentifyPixelColor(px);
-				}
-			*/
-		}
+		interpolatedPathAccuracy = 100 * UtilAll.DivideSafe(countInPath, countInPath + countOutPath);
+		//interpolatedPathAccuracyCountIn = countInPath; //debug
+		//interpolatedPathAccuracyCountOut = countOutPath; //debug
 
 		force_capture_pixmap.DrawLines(pen_black_force_capture, paintPoints);
 		LogB.Information("Graph NO Scroll end");
 	}
+
+	private static double interpolatedPathAccuracy = 0; //percent of signal inside path
+	//private static double interpolatedPathAccuracyCountIn = 0;
+	//private static double interpolatedPathAccuracyCountOut = 0;
 
 	private List<double> interYtimes_l; //funciona
 	private List<int> interYinterYs_l; //funciona

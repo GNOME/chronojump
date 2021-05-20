@@ -755,6 +755,10 @@ public class UtilGtk
 		else
 			return "other";
 	}
+	public static bool IdentifyPixelColorIsInPath(uint col)
+	{
+		return (col == 11722734);
+	}
 
 	/*
 	 *

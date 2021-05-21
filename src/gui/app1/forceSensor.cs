@@ -1835,7 +1835,10 @@ LogB.Information(" fs R ");
 			force_capture_pixmap.GetSize(out width, out height);
 			Gdk.Image image = force_capture_pixmap.GetImage(0, 0, width, height);
 
-			for(int i = paintPoints.Length -1 -toDraw; i < paintPoints.Length; i ++)
+			int start = paintPoints.Length -1 -toDraw;
+			if(start < 0)
+				start = 0;
+			for(int i = start; i < paintPoints.Length; i ++)
 			{
 				uint px = image.GetPixel(paintPoints[i].X, paintPoints[i].Y);
 				if(UtilGtk.IdentifyPixelColorIsInPath(px))

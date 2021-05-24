@@ -757,7 +757,13 @@ public class UtilGtk
 	}
 	public static bool IdentifyPixelColorIsInPath(uint col)
 	{
-		return (col == 11722734);
+		/*
+		rgb to decimal and viceversa:
+		https://convertingcolors.com/rgb-color-238_0_0.html?search=rgb(238,0,0)
+		https://convertingcolors.com/decimal-color-15597568.html
+		*/
+		return (col == 11722734); //LIGHT_BLUE_PLOTS
+		//return (col == 15597568); //RED_LIGHT
 	}
 
 	public static void GetPixelsInOutOfPath (Gdk.Point [] points, int start, Gdk.Pixmap pixmap, ref int inPath, ref int outPath, bool methodSafeMemory)

@@ -1670,6 +1670,9 @@ LogB.Information(" fs R ");
 		return true;
 	}
 
+	double ratioInterpolatedVsSamples;
+	double ratioInterpolatedVsSamplesAtStart;
+
 	private void forceSensorCaptureDoRealtimeGraphNOScroll(int numCaptured, int numPainted, int toDraw, List<Gdk.Point> points)
 	{
 		LogB.Information("Graph NO Scroll start");
@@ -1693,6 +1696,12 @@ LogB.Information(" fs R ");
 		}
 
 		forceSensorDrawInterpolatedFeedback(0);
+
+		if(interpolate_l != null) {
+			//calculate the ratio needed for scroll
+			ratioInterpolatedVsSamples = paintPointsInterpolate.Count / (1.0 * paintPoints.Length);
+			ratioInterpolatedVsSamplesAtStart = 0;
+		}
 
 		int width = 0;
 		int height = 0;
@@ -1735,6 +1744,7 @@ LogB.Information(" fs R ");
 	private List<int> interYinterYs_l; //funciona
 	//private TwoListsOfInts twoListsOfInts;
 
+
 	private void forceSensorCaptureDoRealtimeGraphScroll(int numCaptured, int toDraw, List<Gdk.Point> points)
 	{
 		LogB.Information(" Graph Scroll ");
@@ -1758,6 +1768,26 @@ LogB.Information(" fs R ");
 				Convert.ToInt32(forceSensorValues.TimeLast),
 				true);
 
+		// ---- interpolated path stuff ---->
+		List<Gdk.Point> paintPointsInterpolateEachSample = new List<Gdk.Point>();
+		double ratioInterpolatedVsSamplesCount = 0;
+		//for each sample os signal, there's an interpolated value, best (or only) way to have them synced
+
+		if(interpolate_l != null)
+		{
+			//find the start of the interpolated_l position
+			ratioInterpolatedVsSamplesAtStart += toDraw * ratioInterpolatedVsSamples; //maybe this do not need to be called the first time
+
+			//fix it if needed
+			if(Convert.ToInt32(ratioInterpolatedVsSamplesAtStart) >= interpolate_l.Count)
+				ratioInterpolatedVsSamplesAtStart -= interpolate_l.Count;
+
+			//initialize count
+			ratioInterpolatedVsSamplesCount = ratioInterpolatedVsSamplesAtStart;
+		}
+		// <---- interpolated path stuff ----
+
+
 		//i is related to what has been captured: points
 		//j is related to what is going to be painted: paintPoints
 		for(int j = jStart, i = iStart ; i < numCaptured ; i ++, j++)
@@ -1765,58 +1795,25 @@ LogB.Information(" fs R ");
 			if(points.Count > i && j < fscPoints.ScrollStartedAtCount) 	//extra check to avoid going outside of arrays
 			{
 				paintPoints[j] = points[i];
-				paintPoints[j].X = fscPoints.GetTimeInPx(Convert.ToInt32(fscPoints.GetTimeAtCount(j)));
+				paintPoints[j].X = fscPoints.GetTimeInPx(Convert.ToInt32(fscPoints.GetTimeAtCount(j))); //TODO: fer com això per a pintar les X dels interpolated
+
+				if(interpolate_l != null)
+				{
+					paintPointsInterpolateEachSample.Add(new Gdk.Point(
+								paintPoints[j].X,
+								fscPoints.GetForceInPx(interpolate_l[Convert.ToInt32(ratioInterpolatedVsSamplesCount)].Y)
+								));
+
+					ratioInterpolatedVsSamplesCount += ratioInterpolatedVsSamples;
+					if(Convert.ToInt32(ratioInterpolatedVsSamplesCount) >= interpolate_l.Count)
+						ratioInterpolatedVsSamplesCount -= interpolate_l.Count;
+				}
 			}
 		}
 
-		if(interpolate_l != null)// && firstTimeForInterpolate >= 0)
+		if(interpolate_l != null)
 		{
-			// 1) if toDraw is 3, shiftXPx will be the change in px needed to move that 3 samples
-			double shiftXPx = toDrawRatio * (paintPoints[paintPoints.Length -1].X - paintPoints[0].X); //TODO: need to know reall shifted px
-			LogB.Information(string.Format("shiftXPx: {0}", shiftXPx));
-
-			List<Gdk.Point> paintPointsInterpolateTemp = new List<Gdk.Point>();
-			double lastTime = 0;
-
-			/*
-			   2) substract on X the shiftXPx (could be of 3 points if toDraw is 3)
-			      for toDraw==3, first 3 points will have time lower than 0 (X < paintPoints[0].X), so will be eliminated
-			      */
-			for(int i = 0; i < paintPointsInterpolate.Count; i ++)
-			{
-				if(paintPointsInterpolate[i].X - shiftXPx > paintPoints[0].X) // TODO: substract the StoredTimeDoubles from time
-				{
-					paintPointsInterpolateTemp.Add(new Gdk.Point(
-								Convert.ToInt32(fscPoints.GetTimeInPx(Convert.ToInt32(paintPointsInterpolateStoredTimeDoubles[i])) - shiftXPx),
-								paintPointsInterpolate[i].Y));
-
-					lastTime = paintPointsInterpolateStoredTimeDoubles[i];
-				}
-			}
-
-			//LogB.Information(string.Format("paintPointsInterpolateTemp.Count: {0}, paintPointsInterpolate.Count: {1}", 
-			//			paintPointsInterpolateTemp.Count, paintPointsInterpolate.Count));
-
-			// 3) create new needed points (3 for toDraw==3)
-			int interpolatedToPaint = paintPointsInterpolate.Count - paintPointsInterpolateTemp.Count;
-			for(int i = paintPointsInterpolateTemp.Count; i < paintPointsInterpolate.Count; i ++)
-			{
-				interYLast ++;
-				if(interYLast >= interpolate_l.Count)
-					interYLast = 0;
-
-				paintPointsInterpolateTemp.Add(new Gdk.Point(
-							//Convert.ToInt32(lastX + (shiftXPx / (1.0 * interpolatedToPaint))),
-							Convert.ToInt32(fscPoints.GetTimeInPx(Convert.ToInt32(lastTime)) - shiftXPx + (shiftXPx / (1.0 * interpolatedToPaint))),
-							fscPoints.GetForceInPx(interpolate_l[interYLast].Y)));
-
-				//	lastX += shiftXPx / (1.0 * interpolatedToPaint);
-				lastTime += 10000; //TODO: hardcoded  (100/s)
-			}
-
-			// 4) draw the interpolated lines
-			paintPointsInterpolate = paintPointsInterpolateTemp;
-			force_capture_pixmap.DrawLines(pen_blue_light_force_capture_interpolated_feedback, paintPointsInterpolate.ToArray());
+			force_capture_pixmap.DrawLines(pen_blue_light_force_capture_interpolated_feedback, paintPointsInterpolateEachSample.ToArray());
 
 			// 5) calculations for path accuracy
 

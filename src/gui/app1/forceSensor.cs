@@ -69,6 +69,7 @@ public partial class ChronoJumpWindow
 	Thread forceCaptureThread;
 	static bool forceProcessFinish;
 	static bool forceProcessCancel;
+	static bool forceProcessKill; //when user closes program while capturing (do not call arduino and wait for its response)
 	static bool forceProcessError;
 	ForceSensorCapturePoints fscPoints;
 
@@ -1044,6 +1045,7 @@ public partial class ChronoJumpWindow
 
 		forceProcessFinish = false;
 		forceProcessCancel = false;
+		forceProcessKill = false;
 		forceProcessError = false;
 
 		//To know if USB has been disconnected
@@ -1240,7 +1242,7 @@ public partial class ChronoJumpWindow
 
 		//LogB.Information("pre bucle");
 		//LogB.Information(string.Format("forceProcessFinish: {0}, forceProcessCancel: {1}, forceProcessError: {2}", forceProcessFinish, forceProcessCancel, forceProcessError));
-		while(! forceProcessFinish && ! forceProcessCancel && ! forceProcessError)
+		while(! forceProcessFinish && ! forceProcessCancel && ! forceProcessKill && ! forceProcessError)
 		{
 			LogB.Information("at bucle");
 			int time = 0;
@@ -1326,28 +1328,32 @@ public partial class ChronoJumpWindow
 			//changeSlideIfNeeded(time, force);
 		}
 
-		//LogB.Information(string.Format("forceProcessFinish: {0}, forceProcessCancel: {1}, forceProcessError: {2}", forceProcessFinish, forceProcessCancel, forceProcessError));
-		LogB.Information("Calling end_capture");
-		if(! forceSensorSendCommand("end_capture:", "Ending capture ...", "Catched ending capture"))
-		{
-			forceProcessError = true;
-			capturingForce = arduinoCaptureStatus.STOP;
-			Util.FileDelete(fileName);
-			return;
-		}
-
-		LogB.Information("Waiting end_capture");
-		do {
-			Thread.Sleep(10);
-			try {
-				str = portFS.ReadLine();
-			} catch {
-				LogB.Information("Catched waiting end_capture feedback");
+		if(forceProcessKill)
+			LogB.Information("User killed the software");
+		else {
+			//LogB.Information(string.Format("forceProcessFinish: {0}, forceProcessCancel: {1}, forceProcessError: {2}", forceProcessFinish, forceProcessCancel, forceProcessError));
+			LogB.Information("Calling end_capture");
+			if(! forceSensorSendCommand("end_capture:", "Ending capture ...", "Catched ending capture"))
+			{
+				forceProcessError = true;
+				capturingForce = arduinoCaptureStatus.STOP;
+				Util.FileDelete(fileName);
+				return;
 			}
-			LogB.Information("waiting \"Capture ended\" string: " + str);
+
+			LogB.Information("Waiting end_capture");
+			do {
+				Thread.Sleep(10);
+				try {
+					str = portFS.ReadLine();
+				} catch {
+					LogB.Information("Catched waiting end_capture feedback");
+				}
+				LogB.Information("waiting \"Capture ended\" string: " + str);
+			}
+			while(! str.Contains("Capture ended"));
+			LogB.Information("Success: received end_capture");
 		}
-		while(! str.Contains("Capture ended"));
-		LogB.Information("Success: received end_capture");
 
 		writer.Flush();
 		writer.Close();
@@ -1355,7 +1361,7 @@ public partial class ChronoJumpWindow
 
 		capturingForce = arduinoCaptureStatus.STOP;
 
-		if(forceProcessCancel || forceProcessError)
+		if(forceProcessCancel || forceProcessKill || forceProcessError)
 			Util.FileDelete(fileName);
 		else {
 			//call graph

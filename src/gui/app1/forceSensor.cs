@@ -1725,18 +1725,20 @@ LogB.Information(" fs R ");
 			{
 				paintPoints[j] = points[i];
 
-				uint px = image.GetPixel(points[i].X,points[i].Y);
-				if(UtilGtk.IdentifyPixelColorIsInPath(px))
-					interpolatedPathAccuracyCountIn ++;
-				else
-					interpolatedPathAccuracyCountOut ++;
+				if(interpolate_l != null) {
+					uint px = image.GetPixel(points[i].X,points[i].Y);
+					if(UtilGtk.IdentifyPixelColorIsInPath(px))
+						interpolatedPathAccuracyCountIn ++;
+					else
+						interpolatedPathAccuracyCountOut ++;
+				}
 			}
 		}
 
-		//TODO: note this fails when signal goes out of current drawed image boundaries
-		interpolatedPathAccuracy = 100 * UtilAll.DivideSafe(
-				interpolatedPathAccuracyCountIn,
-				interpolatedPathAccuracyCountIn + interpolatedPathAccuracyCountOut);
+		if(interpolate_l != null)
+			interpolatedPathAccuracy = 100 * UtilAll.DivideSafe(
+					interpolatedPathAccuracyCountIn,
+					interpolatedPathAccuracyCountIn + interpolatedPathAccuracyCountOut);
 
 		force_capture_pixmap.DrawLines(pen_black_force_capture, paintPoints);
 		LogB.Information("Graph NO Scroll end");
@@ -2579,7 +2581,6 @@ LogB.Information(" fs R ");
 
 	List<Gdk.Point> paintPointsInterpolate;
 	int interYLast = 0;
-	List<double> paintPointsInterpolateStoredTimeDoubles; //to have precision
 	private void forceSensorDrawInterpolatedFeedback (int startAt)
 	{
 		if(interpolate_l != null)
@@ -2594,7 +2595,6 @@ LogB.Information(" fs R ");
 
 
 			paintPointsInterpolate = new List<Gdk.Point>();
-			paintPointsInterpolateStoredTimeDoubles = new List<double>();
 
 			interYtimes_l = new List<double>(); //funciona
 			interYinterYs_l = new List<int>(); //funciona
@@ -2609,7 +2609,6 @@ LogB.Information(" fs R ");
 							fscPoints.GetTimeInPx(Convert.ToInt32(timeCount)), //note we are not using interpolate_l[*].X
 							fscPoints.GetForceInPx(interpolate_l[interY].Y)
 							));
-					paintPointsInterpolateStoredTimeDoubles.Add(timeCount);
 
 					interYtimes_l.Add(timeCount); //funciona
 					interYinterYs_l.Add(interY); //funciona

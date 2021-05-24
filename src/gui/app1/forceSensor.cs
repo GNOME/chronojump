@@ -1749,11 +1749,6 @@ LogB.Information(" fs R ");
 	private static int interpolatedPathAccuracyCountIn;
 	private static int interpolatedPathAccuracyCountOut;
 
-	private List<double> interYtimes_l; //funciona
-	private List<int> interYinterYs_l; //funciona
-	//private TwoListsOfInts twoListsOfInts;
-
-
 	private void forceSensorCaptureDoRealtimeGraphScroll(int numCaptured, int toDraw, List<Gdk.Point> points)
 	{
 		LogB.Information(" Graph Scroll ");
@@ -2580,7 +2575,6 @@ LogB.Information(" fs R ");
 	}
 
 	List<Gdk.Point> paintPointsInterpolate;
-	int interYLast = 0;
 	private void forceSensorDrawInterpolatedFeedback (int startAt)
 	{
 		if(interpolate_l != null)
@@ -2593,15 +2587,10 @@ LogB.Information(" fs R ");
 			int timeStep = (1000 * repetitiveConditionsWin.GetForceSensorFeedbackPathMasterSeconds/100) //if each 1000 ms, then: advance by 10 (to have 100 interpolated between each master)
 				* 1000; //to micros
 
-
 			paintPointsInterpolate = new List<Gdk.Point>();
 
-			interYtimes_l = new List<double>(); //funciona
-			interYinterYs_l = new List<int>(); //funciona
-			//twoListsOfInts.Reset();
-
 			do {
-				for(int interY = 0; //TODO: change this to be on phase of interpolate_l (if there are less points)
+				for(int interY = 0;
 						interY < interpolate_l.Count && timeCount < fscPoints.GetLastTime();
 						interY ++)
 				{
@@ -2610,12 +2599,7 @@ LogB.Information(" fs R ");
 							fscPoints.GetForceInPx(interpolate_l[interY].Y)
 							));
 
-					interYtimes_l.Add(timeCount); //funciona
-					interYinterYs_l.Add(interY); //funciona
-					//twoListsOfInts.Add(timeCount, interY);
-
 					timeCount += timeStep;
-					interYLast = interY;
 				}
 			} while (timeCount < fscPoints.GetLastTime());
 

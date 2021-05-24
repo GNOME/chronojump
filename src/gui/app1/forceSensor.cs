@@ -136,7 +136,7 @@ public partial class ChronoJumpWindow
 	Gdk.GC pen_gray_force_capture_discont;
 	Pango.Layout layout_force_text;
 	Gdk.Colormap colormapForce = Gdk.Colormap.System;
-	private const int interpolatedPathLineWidthDefault = 100;
+	private const int interpolatedPathLineWidthDefault = 100; //here in px (but later is in N converted to px)
 
 
 	string forceSensorNotConnectedString =
@@ -1078,15 +1078,7 @@ public partial class ChronoJumpWindow
 			int maxPathValue = repetitiveConditionsWin.GetForceSensorFeedbackPathMax;// + repetitiveConditionsWin.GetForceSensorFeedbackPathLineWidth (but in N, not in px)
 			if(maxPathValue > forceSensorTopRectangleAtOperationStart)
 				fscPoints.RealHeightG = maxPathValue;
-
-			pen_blue_light_force_capture_interpolated_feedback.SetLineAttributes (repetitiveConditionsWin.GetForceSensorFeedbackPathLineWidth,
-					Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
-			pen_red_light_force_capture_interpolated_feedback.SetLineAttributes (repetitiveConditionsWin.GetForceSensorFeedbackPathLineWidth,
-					Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
 		}
-
-
-
 
 		LogB.Information("RealHeight = " + fscPoints.RealHeightG.ToString());
 
@@ -1651,6 +1643,17 @@ LogB.Information(" fs J ");
 			if(configChronojump.LowCPU)
 				event_execute_label_message.Text = "Disabled real time graph on this device";
 			else {
+				//set interpolated pen lineWidth
+				if(interpolate_l != null) {
+					int lineWidth = fscPoints.GetForceInPx(0) -
+						fscPoints.GetForceInPx(repetitiveConditionsWin.GetForceSensorFeedbackPathLineWidth);
+
+					pen_blue_light_force_capture_interpolated_feedback.SetLineAttributes (
+							lineWidth, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
+					pen_red_light_force_capture_interpolated_feedback.SetLineAttributes (
+							lineWidth, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
+				}
+
 				//note that scroll mode will call NOScroll method until scroll starts
 				if(preferences.forceSensorCaptureScroll && fscPoints.ScrollStartedAtCount > 0)
 					forceSensorCaptureDoRealtimeGraphScroll(numCaptured, toDraw, points);

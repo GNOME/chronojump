@@ -2547,7 +2547,9 @@ public partial class ChronoJumpWindow
 		if(capturingForce == arduinoCaptureStatus.STARTING || capturingForce == arduinoCaptureStatus.CAPTURING)
 		{
 			LogB.Information("cancelling force capture");
-			forceProcessCancel = true;
+//			forceProcessCancel = true;
+			forceProcessKill = true;
+			Thread.Sleep(1500); //wait 1.5s to actually thread can be cancelled
 		}
 		if(forceOtherThread != null && forceOtherThread.IsAlive)
 			forceOtherThread.Abort();

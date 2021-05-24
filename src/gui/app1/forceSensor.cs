@@ -1722,8 +1722,8 @@ LogB.Information(" fs R ");
 
 	//TODO: create a class with all this
 	private static double interpolatedPathAccuracy = 0; //percent of signal inside path
-	private static double interpolatedPathAccuracyCountIn;
-	private static double interpolatedPathAccuracyCountOut;
+	private static int interpolatedPathAccuracyCountIn;
+	private static int interpolatedPathAccuracyCountOut;
 
 	private List<double> interYtimes_l; //funciona
 	private List<int> interYinterYs_l; //funciona
@@ -1765,14 +1765,17 @@ LogB.Information(" fs R ");
 
 		if(interpolate_l != null)// && firstTimeForInterpolate >= 0)
 		{
-			//if toDraw is 3, shiftXPx will be the change in px needed to move that 3 samples
+			// 1) if toDraw is 3, shiftXPx will be the change in px needed to move that 3 samples
 			double shiftXPx = toDrawRatio * (paintPoints[paintPoints.Length -1].X - paintPoints[0].X); //TODO: need to know reall shifted px
 			LogB.Information(string.Format("shiftXPx: {0}", shiftXPx));
 
 			List<Gdk.Point> paintPointsInterpolateTemp = new List<Gdk.Point>();
 			double lastTime = 0;
 
-			//substract on X the shiftXPx (could be of 3 points if toDraw is 3)
+			/*
+			   2) substract on X the shiftXPx (could be of 3 points if toDraw is 3)
+			      for toDraw==3, first 3 points will have time lower than 0 (X < paintPoints[0].X), so will be eliminated
+			      */
 			for(int i = 0; i < paintPointsInterpolate.Count; i ++)
 			{
 				if(paintPointsInterpolate[i].X - shiftXPx > paintPoints[0].X) // TODO: substract the StoredTimeDoubles from time
@@ -1788,6 +1791,7 @@ LogB.Information(" fs R ");
 			//LogB.Information(string.Format("paintPointsInterpolateTemp.Count: {0}, paintPointsInterpolate.Count: {1}", 
 			//			paintPointsInterpolateTemp.Count, paintPointsInterpolate.Count));
 
+			// 3) create new needed points (3 for toDraw==3)
 			int interpolatedToPaint = paintPointsInterpolate.Count - paintPointsInterpolateTemp.Count;
 			for(int i = paintPointsInterpolateTemp.Count; i < paintPointsInterpolate.Count; i ++)
 			{
@@ -1804,30 +1808,22 @@ LogB.Information(" fs R ");
 				lastTime += 10000; //TODO: hardcoded  (100/s)
 			}
 
+			// 4) draw the interpolated lines
 			paintPointsInterpolate = paintPointsInterpolateTemp;
 			force_capture_pixmap.DrawLines(pen_blue_light_force_capture_interpolated_feedback, paintPointsInterpolate.ToArray());
 
-			//calculations for path accuracy
-			int width = 0;
-			int height = 0;
-			force_capture_pixmap.GetSize(out width, out height);
-			Gdk.Image image = force_capture_pixmap.GetImage(0, 0, width, height);
+			// 5) calculations for path accuracy
 
-			int start = paintPoints.Length -1 -toDraw;
-			if(start < 0)
-				start = 0;
-			for(int i = start; i < paintPoints.Length; i ++)
-			{
-				uint px = image.GetPixel(paintPoints[i].X, paintPoints[i].Y);
-				if(UtilGtk.IdentifyPixelColorIsInPath(px))
-					interpolatedPathAccuracyCountIn ++;
-				else
-					interpolatedPathAccuracyCountOut ++;
-			}
+			/* do not use, is a bit faster but memory grows
+			   UtilGtk.GetPixelsInOutOfPath (paintPoints, paintPoints.Length -1 -toDraw, force_capture_pixmap,
+			   		ref interpolatedPathAccuracyCountIn, ref interpolatedPathAccuracyCountOut, false);
+			 */
+			UtilGtk.GetPixelsInOutOfPath (paintPoints, paintPoints.Length -1 -toDraw, force_capture_pixmap,
+					ref interpolatedPathAccuracyCountIn, ref interpolatedPathAccuracyCountOut, true);
 
 			interpolatedPathAccuracy = 100 * UtilAll.DivideSafe(
 					interpolatedPathAccuracyCountIn,
-					interpolatedPathAccuracyCountIn + interpolatedPathAccuracyCountOut);
+					1 * (interpolatedPathAccuracyCountIn + interpolatedPathAccuracyCountOut));
 		}
 
 		force_capture_pixmap.DrawLines(pen_black_force_capture, paintPoints);

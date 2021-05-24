@@ -760,6 +760,75 @@ public class UtilGtk
 		return (col == 11722734);
 	}
 
+	public static void GetPixelsInOutOfPath (Gdk.Point [] points, int start, Gdk.Pixmap pixmap, ref int inPath, ref int outPath, bool methodSafeMemory)
+	{
+		if(methodSafeMemory)
+			getPixelsInOutOfPathSafeMemory (points, start, pixmap, ref inPath, ref outPath);
+		else
+			getPixelsInOutOfPathFaster (points, start, pixmap, ref inPath, ref outPath);
+	}
+
+	private static void getPixelsInOutOfPathSafeMemory (Gdk.Point [] points, int start, Gdk.Pixmap pixmap, ref int inPath, ref int outPath)
+	{
+		// 1) create the image surrounding the points
+		int minX = 100000;
+		int minY = 100000;
+		int maxX = -100000;
+		int maxY = -100000;
+		for(int i = start; i < points.Length; i ++)
+		{
+			if(points[i].X < minX)
+				minX = points[i].X;
+			if(points[i].Y < minY)
+				minY = points[i].Y;
+			if(points[i].X > maxX)
+				maxX = points[i].X;
+			if(points[i].Y > maxY)
+				maxY = points[i].Y;
+		}
+
+		//if points are on an horiz line, eg minY == maxY == 346, height is 1 point
+		int width = (maxX - minX) + 1;
+		int height = (maxY - minY) + 1;
+
+		if(width <= 0 || height <= 0) //just a caution
+			return;
+
+		Gdk.Image image = pixmap.GetImage(minX, minY, width, height);
+
+		// 2) calculate inPath, outPath
+		for(int i = start; i < points.Length; i ++)
+		{
+			uint px = image.GetPixel(points[i].X - minX, points[i].Y - minY);
+			if(IdentifyPixelColorIsInPath(px))
+				inPath ++;
+			else
+				outPath ++;
+		}
+		image.Dispose(); //force to erase it because GC does not do it (but is not really erasing it)
+	}
+
+	//for continuous use (long) do not use, use above method, because this method causes memory grow
+	private static void getPixelsInOutOfPathFaster (Gdk.Point [] points, int start, Gdk.Pixmap pixmap, ref int inPath, ref int outPath)
+	{
+		int width = 0;
+		int height = 0;
+		pixmap.GetSize(out width, out height);
+		Gdk.Image image = pixmap.GetImage(0, 0, width, height); //this accumulates memory, is not correctly disposed
+
+		for(int i = start; i < points.Length; i ++)
+		{
+			uint px = image.GetPixel(points[i].X, points[i].Y);
+			if(UtilGtk.IdentifyPixelColorIsInPath(px))
+				inPath ++;
+			else
+				outPath ++;
+		}
+		image.Dispose(); //force to erase it because GC does not do it (but is not really erasing it)
+	}
+
+
+
 	/*
 	 *
 	 * PRETTY THINGS

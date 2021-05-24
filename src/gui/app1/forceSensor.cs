@@ -128,6 +128,7 @@ public partial class ChronoJumpWindow
 	//Gdk.GC pen_yellow_force_capture;
 	Gdk.GC pen_blue_light_force_capture;
 	Gdk.GC pen_blue_light_force_capture_interpolated_feedback;
+	Gdk.GC pen_red_light_force_capture_interpolated_feedback;
 	Gdk.GC pen_yellow_dark_force_capture;
 	//Gdk.GC pen_orange_dark_force_capture;
 	Gdk.GC pen_blue_dark_force_capture;
@@ -174,6 +175,7 @@ public partial class ChronoJumpWindow
 		colormapForce.AllocColor (ref UtilGtk.ORANGE_DARK,true,true);
 		colormapForce.AllocColor (ref UtilGtk.BLUE_DARK,true,true);
 		colormapForce.AllocColor (ref UtilGtk.LIGHT_BLUE_PLOTS,true,true);
+		colormapForce.AllocColor (ref UtilGtk.RED_LIGHT,true,true);
 
 		pen_black_force_capture = new Gdk.GC(force_capture_drawingarea.GdkWindow);
 		pen_black_force_capture.Foreground = UtilGtk.BLACK;
@@ -196,6 +198,9 @@ public partial class ChronoJumpWindow
 		pen_blue_light_force_capture_interpolated_feedback = new Gdk.GC(force_capture_drawingarea.GdkWindow);
 		pen_blue_light_force_capture_interpolated_feedback.Foreground = UtilGtk.LIGHT_BLUE_PLOTS;
 		pen_blue_light_force_capture_interpolated_feedback.SetLineAttributes (interpolatedPathLineWidthDefault, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
+		pen_red_light_force_capture_interpolated_feedback = new Gdk.GC(force_capture_drawingarea.GdkWindow);
+		pen_red_light_force_capture_interpolated_feedback.Foreground = UtilGtk.RED_LIGHT;
+		pen_red_light_force_capture_interpolated_feedback.SetLineAttributes (interpolatedPathLineWidthDefault, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
 
 		//pen_yellow_force_capture = new Gdk.GC(force_capture_drawingarea.GdkWindow);
 		//pen_yellow_force_capture.Foreground = UtilGtk.YELLOW;
@@ -1076,6 +1081,8 @@ public partial class ChronoJumpWindow
 
 			pen_blue_light_force_capture_interpolated_feedback.SetLineAttributes (repetitiveConditionsWin.GetForceSensorFeedbackPathLineWidth,
 					Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
+			pen_red_light_force_capture_interpolated_feedback.SetLineAttributes (repetitiveConditionsWin.GetForceSensorFeedbackPathLineWidth,
+					Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
 		}
 
 
@@ -1821,8 +1828,21 @@ LogB.Information(" fs R ");
 			   UtilGtk.GetPixelsInOutOfPath (paintPoints, paintPoints.Length -1 -toDraw, force_capture_pixmap,
 			   		ref interpolatedPathAccuracyCountIn, ref interpolatedPathAccuracyCountOut, false);
 			 */
+			int storedCountOut = interpolatedPathAccuracyCountOut;
 			UtilGtk.GetPixelsInOutOfPath (paintPoints, paintPoints.Length -1 -toDraw, force_capture_pixmap,
 					ref interpolatedPathAccuracyCountIn, ref interpolatedPathAccuracyCountOut, true);
+
+			//show a "red head" if signal is out of path
+			if(interpolatedPathAccuracyCountOut > storedCountOut)
+			{
+				List<Gdk.Point> paintPointsInterpolateEachSampleHead = new List<Gdk.Point>();
+				int start = Convert.ToInt32(paintPointsInterpolateEachSample.Count - (toDraw * ratioInterpolatedVsSamples));
+
+				for(int i = start; i < paintPointsInterpolateEachSample.Count; i ++)
+					paintPointsInterpolateEachSampleHead.Add(paintPointsInterpolateEachSample[i]);
+
+				force_capture_pixmap.DrawLines(pen_red_light_force_capture_interpolated_feedback, paintPointsInterpolateEachSampleHead.ToArray());
+			}
 
 			interpolatedPathAccuracy = 100 * UtilAll.DivideSafe(
 					interpolatedPathAccuracyCountIn,

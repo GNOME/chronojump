@@ -1075,7 +1075,7 @@ public partial class ChronoJumpWindow
 
 		if(repetitiveConditionsWin.GetForceSensorFeedbackPathActive)
 		{
-			int maxPathValue = repetitiveConditionsWin.GetForceSensorFeedbackPathMax;// + repetitiveConditionsWin.GetForceSensorFeedbackPathLineWidth (but in N, not in px)
+			int maxPathValue = repetitiveConditionsWin.GetForceSensorFeedbackPathMax;
 			if(maxPathValue > forceSensorTopRectangleAtOperationStart)
 				fscPoints.RealHeightG = maxPathValue;
 		}

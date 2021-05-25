@@ -998,6 +998,18 @@ public class RepetitiveConditionsWindow
 	}
 
 	//force sensor feedback path
+
+	private void on_spin_force_sensor_capture_feedback_path_min_value_changed (object o, EventArgs args)
+	{
+		if(spin_force_sensor_capture_feedback_path_min.Value > spin_force_sensor_capture_feedback_path_max.Value)
+			spin_force_sensor_capture_feedback_path_max.Value = spin_force_sensor_capture_feedback_path_min.Value;
+	}
+	private void on_spin_force_sensor_capture_feedback_path_max_value_changed (object o, EventArgs args)
+	{
+		if(spin_force_sensor_capture_feedback_path_max.Value < spin_force_sensor_capture_feedback_path_min.Value)
+			spin_force_sensor_capture_feedback_path_min.Value = spin_force_sensor_capture_feedback_path_max.Value;
+	}
+
 	public bool GetForceSensorFeedbackPathActive {
 		get { return radio_force_sensor_capture_feedback_show_path.Active; }
 		//get { return true; }

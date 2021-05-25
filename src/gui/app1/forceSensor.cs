@@ -1070,6 +1070,9 @@ public partial class ChronoJumpWindow
 
 		setForceSensorTopAtOperationStart();
 
+		interpolatedPathAccuracyCountIn = 0;
+		interpolatedPathAccuracyCountOut = 0;
+
 		if(fscPoints.RealHeightG < forceSensorTopRectangleAtOperationStart)
 			fscPoints.RealHeightG = forceSensorTopRectangleAtOperationStart;
 
@@ -1624,6 +1627,9 @@ LogB.Information(" fs J ");
 			int numCaptured = fscPoints.NumCaptured;
 			int numPainted = fscPoints.NumPainted;
 
+			//used fto calculate the accuracy image just on the last captured points (previous to scroll)
+			int toDrawStored = numCaptured - numPainted;
+
 			//if path: to show the full line when scroll has not started
 			if(interpolate_l != null && numPainted > 0 && preferences.forceSensorCaptureScroll && fscPoints.ScrollStartedAtCount < 0)
 				numPainted = 1;
@@ -1658,7 +1664,7 @@ LogB.Information(" fs J ");
 				if(preferences.forceSensorCaptureScroll && fscPoints.ScrollStartedAtCount > 0)
 					forceSensorCaptureDoRealtimeGraphScroll(numCaptured, toDraw, points);
 				else
-					forceSensorCaptureDoRealtimeGraphNOScroll(numCaptured, numPainted, toDraw, points);
+					forceSensorCaptureDoRealtimeGraphNOScroll(numCaptured, numPainted, toDraw, toDrawStored, points);
 
 				force_capture_drawingarea.QueueDraw(); // -- refresh
 			}
@@ -1683,7 +1689,7 @@ LogB.Information(" fs R ");
 	double ratioInterpolatedVsSamples;
 	double ratioInterpolatedVsSamplesAtStart;
 
-	private void forceSensorCaptureDoRealtimeGraphNOScroll(int numCaptured, int numPainted, int toDraw, List<Gdk.Point> points)
+	private void forceSensorCaptureDoRealtimeGraphNOScroll(int numCaptured, int numPainted, int toDraw, int toDrawStored, List<Gdk.Point> points)
 	{
 		LogB.Information("Graph NO Scroll start");
 		Gdk.Point [] paintPoints;
@@ -1713,35 +1719,27 @@ LogB.Information(" fs R ");
 			ratioInterpolatedVsSamplesAtStart = 0;
 		}
 
-		int width = 0;
-		int height = 0;
-		force_capture_pixmap.GetSize(out width, out height);
-		Gdk.Image image = force_capture_pixmap.GetImage(0, 0, width, height);
-		interpolatedPathAccuracyCountIn = 0;
-		interpolatedPathAccuracyCountOut = 0;
-
 		//i is related to what has been captured: points
 		//j is related to what is going to be painted: paintPoints
 		for(int j = jStart, i = iStart ; i < numCaptured ; i ++, j++)
-		{
 			if(points.Count > i) 	//extra check to avoid going outside of arrays
-			{
 				paintPoints[j] = points[i];
 
-				if(interpolate_l != null) {
-					uint px = image.GetPixel(points[i].X,points[i].Y);
-					if(UtilGtk.IdentifyPixelColorIsInPath(px))
-						interpolatedPathAccuracyCountIn ++;
-					else
-						interpolatedPathAccuracyCountOut ++;
-				}
-			}
-		}
-
 		if(interpolate_l != null)
+		{
+			int storedCountOut = interpolatedPathAccuracyCountOut;
+			UtilGtk.GetPixelsInOutOfPath (paintPoints, paintPoints.Length -1 -toDrawStored, force_capture_pixmap,
+					ref interpolatedPathAccuracyCountIn, ref interpolatedPathAccuracyCountOut, true);
+
+			//show a "red head" if signal is out of path
+			if(interpolatedPathAccuracyCountOut > storedCountOut)
+				forceSensorPathPaintHead(paintPointsInterpolate,
+						Convert.ToInt32(paintPointsInterpolate.Count - (toDrawStored * ratioInterpolatedVsSamples)));
+
 			interpolatedPathAccuracy = 100 * UtilAll.DivideSafe(
 					interpolatedPathAccuracyCountIn,
 					interpolatedPathAccuracyCountIn + interpolatedPathAccuracyCountOut);
+		}
 
 		force_capture_pixmap.DrawLines(pen_black_force_capture, paintPoints);
 		LogB.Information("Graph NO Scroll end");
@@ -1834,18 +1832,8 @@ LogB.Information(" fs R ");
 
 			//show a "red head" if signal is out of path
 			if(interpolatedPathAccuracyCountOut > storedCountOut)
-			{
-				List<Gdk.Point> paintPointsInterpolateEachSampleHead = new List<Gdk.Point>();
-				int start = Convert.ToInt32(paintPointsInterpolateEachSample.Count - (toDraw * ratioInterpolatedVsSamples));
-				//precaution on resize screen
-				if(start < 0)
-					start = 0;
-
-				for(int i = start; i < paintPointsInterpolateEachSample.Count; i ++)
-					paintPointsInterpolateEachSampleHead.Add(paintPointsInterpolateEachSample[i]);
-
-				force_capture_pixmap.DrawLines(pen_red_light_force_capture_interpolated_feedback, paintPointsInterpolateEachSampleHead.ToArray());
-			}
+				forceSensorPathPaintHead(paintPointsInterpolateEachSample,
+						Convert.ToInt32(paintPointsInterpolateEachSample.Count - (toDraw * ratioInterpolatedVsSamples)));
 
 			interpolatedPathAccuracy = 100 * UtilAll.DivideSafe(
 					interpolatedPathAccuracyCountIn,
@@ -1854,6 +1842,19 @@ LogB.Information(" fs R ");
 
 		force_capture_pixmap.DrawLines(pen_black_force_capture, paintPoints);
 	}
+
+	private void forceSensorPathPaintHead (List <Gdk.Point> interpolatedPoints, int start)
+	{
+		List<Gdk.Point> headPoints = new List<Gdk.Point>();
+		if(start < 0) //precaution on resize screen
+			start = 0;
+
+		for(int i = start; i < interpolatedPoints.Count; i ++)
+			headPoints.Add(interpolatedPoints[i]);
+
+		force_capture_pixmap.DrawLines(pen_red_light_force_capture_interpolated_feedback, headPoints.ToArray());
+	}
+
 
 	int force_capture_allocationXOld;
 	bool force_capture_sizeChanged;

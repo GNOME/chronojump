@@ -136,8 +136,12 @@ public partial class ChronoJumpWindow
 	Gdk.GC pen_gray_force_capture_discont;
 	Pango.Layout layout_force_text;
 	Gdk.Colormap colormapForce = Gdk.Colormap.System;
-	private const int interpolatedPathLineWidthDefault = 100; //here in px (but later is in N converted to px)
 
+	//interpolated path
+	private const int interpolatedPathLineWidthDefault = 100; //here in px (but later is in N converted to px)
+	PathAccuracy pathAccuracy;
+	double ratioInterpolatedVsSamples;
+	double ratioInterpolatedVsSamplesAtStart;
 
 	string forceSensorNotConnectedString =
 		Catalog.GetString("Force sensor is not detected!") + " " +
@@ -1070,8 +1074,7 @@ public partial class ChronoJumpWindow
 
 		setForceSensorTopAtOperationStart();
 
-		interpolatedPathAccuracyCountIn = 0;
-		interpolatedPathAccuracyCountOut = 0;
+		pathAccuracy = new PathAccuracy();
 
 		if(fscPoints.RealHeightG < forceSensorTopRectangleAtOperationStart)
 			fscPoints.RealHeightG = forceSensorTopRectangleAtOperationStart;
@@ -1557,15 +1560,7 @@ LogB.Information(" fs E ");
 		{
 			string accuracyStr = "";
 			if(interpolate_l != null)
-			{
-				accuracyStr = string.Format(" Accuracy: {0} %", Util.TrimDecimals(interpolatedPathAccuracy, 1));
-				/* debug
-				accuracyStr = string.Format(" Accuracy: {0} % in: {1} out: {2}",
-						Util.TrimDecimals(interpolatedPathAccuracy, 1),
-						interpolatedPathAccuracyCountIn,
-						interpolatedPathAccuracyCountOut);
-						*/
-			}
+				accuracyStr = string.Format(" Accuracy: {0} %", Util.TrimDecimals(pathAccuracy.Accuracy, 1));
 
 			event_execute_label_message.Text = "Capturing" +
 				" (" + Util.TrimDecimals(DateTime.Now.Subtract(forceSensorTimeStart).TotalSeconds, 0) + " s)" + accuracyStr;
@@ -1686,9 +1681,6 @@ LogB.Information(" fs R ");
 		return true;
 	}
 
-	double ratioInterpolatedVsSamples;
-	double ratioInterpolatedVsSamplesAtStart;
-
 	private void forceSensorCaptureDoRealtimeGraphNOScroll(int numCaptured, int numPainted, int toDraw, int toDrawStored, List<Gdk.Point> points)
 	{
 		LogB.Information("Graph NO Scroll start");
@@ -1727,28 +1719,19 @@ LogB.Information(" fs R ");
 
 		if(interpolate_l != null)
 		{
-			int storedCountOut = interpolatedPathAccuracyCountOut;
+			int storedCountOut = pathAccuracy.CountOut;
 			UtilGtk.GetPixelsInOutOfPath (paintPoints, paintPoints.Length -1 -toDrawStored, force_capture_pixmap,
-					ref interpolatedPathAccuracyCountIn, ref interpolatedPathAccuracyCountOut, true);
+					ref pathAccuracy.CountIn, ref pathAccuracy.CountOut, true);
 
 			//show a "red head" if signal is out of path
-			if(interpolatedPathAccuracyCountOut > storedCountOut)
+			if(pathAccuracy.CountOut > storedCountOut)
 				forceSensorPathPaintHead(paintPointsInterpolate,
 						Convert.ToInt32(paintPointsInterpolate.Count - (toDrawStored * ratioInterpolatedVsSamples)));
-
-			interpolatedPathAccuracy = 100 * UtilAll.DivideSafe(
-					interpolatedPathAccuracyCountIn,
-					interpolatedPathAccuracyCountIn + interpolatedPathAccuracyCountOut);
 		}
 
 		force_capture_pixmap.DrawLines(pen_black_force_capture, paintPoints);
 		LogB.Information("Graph NO Scroll end");
 	}
-
-	//TODO: create a class with all this
-	private static double interpolatedPathAccuracy = 0; //percent of signal inside path
-	private static int interpolatedPathAccuracyCountIn;
-	private static int interpolatedPathAccuracyCountOut;
 
 	private void forceSensorCaptureDoRealtimeGraphScroll(int numCaptured, int toDraw, List<Gdk.Point> points)
 	{
@@ -1824,20 +1807,16 @@ LogB.Information(" fs R ");
 
 			/* do not use, is a bit faster but memory grows
 			   UtilGtk.GetPixelsInOutOfPath (paintPoints, paintPoints.Length -1 -toDraw, force_capture_pixmap,
-			   		ref interpolatedPathAccuracyCountIn, ref interpolatedPathAccuracyCountOut, false);
+					ref pathAccuracy.CountIn, ref pathAccuracy.CountOut, false);
 			 */
-			int storedCountOut = interpolatedPathAccuracyCountOut;
+			int storedCountOut = pathAccuracy.CountOut;
 			UtilGtk.GetPixelsInOutOfPath (paintPoints, paintPoints.Length -1 -toDraw, force_capture_pixmap,
-					ref interpolatedPathAccuracyCountIn, ref interpolatedPathAccuracyCountOut, true);
+					ref pathAccuracy.CountIn, ref pathAccuracy.CountOut, true);
 
 			//show a "red head" if signal is out of path
-			if(interpolatedPathAccuracyCountOut > storedCountOut)
+			if(pathAccuracy.CountOut > storedCountOut)
 				forceSensorPathPaintHead(paintPointsInterpolateEachSample,
 						Convert.ToInt32(paintPointsInterpolateEachSample.Count - (toDraw * ratioInterpolatedVsSamples)));
-
-			interpolatedPathAccuracy = 100 * UtilAll.DivideSafe(
-					interpolatedPathAccuracyCountIn,
-					1 * (interpolatedPathAccuracyCountIn + interpolatedPathAccuracyCountOut));
 		}
 
 		force_capture_pixmap.DrawLines(pen_black_force_capture, paintPoints);

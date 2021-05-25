@@ -2684,3 +2684,25 @@ public class ForceSensorLoadTryToAssignPersonAndMore
 		return "";
 	}
 }
+
+public class PathAccuracy
+{
+	//as public because they are used as ref, so cannot be properties
+	public int CountIn;
+	public int CountOut;
+
+	private int accuracy;
+
+	//constructor
+	public PathAccuracy ()
+	{
+		CountIn = 0;
+		CountOut = 0;
+		accuracy = 0;
+	}
+
+	public double Accuracy
+	{
+		get { return 100 * UtilAll.DivideSafe(CountIn, 1.0 * (CountIn + CountOut)); }
+	}
+}

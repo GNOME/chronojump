@@ -87,6 +87,54 @@ public class KeyDouble
 	}
 }
 
+public class TwoListsOfInts
+{
+	private string firstIntName; //just to be able to debug
+	private string secondIntName; //same
+
+	private List<int> first_l;
+	private List<int> second_l;
+
+	public TwoListsOfInts (string firstIntName, string secondIntName)
+	{
+		this.firstIntName = firstIntName;
+		this.secondIntName = secondIntName;
+
+		Reset();
+	}
+
+	public void Reset()
+	{
+		first_l = new List<int>();
+		second_l = new List<int>();
+	}
+
+	public bool HasData()
+	{
+		return (first_l != null && first_l.Count > 0);
+	}
+
+	public int Count()
+	{
+		return first_l.Count;
+	}
+
+	public void Add (int addToFirst, int addToSecond)
+	{
+		first_l.Add(addToFirst);
+		second_l.Add(addToSecond);
+	}
+
+	public int GetFromFirst(int pos)
+	{
+		return first_l[pos];
+	}
+	public int GetFromSecond(int pos)
+	{
+		return second_l[pos];
+	}
+}
+
 //like Point but for having an xStart and xEnd
 public class PointStartEnd
 {

@@ -1785,8 +1785,8 @@ LogB.Information(" fs R ");
 			//find the start of the interpolated_l position
 			ratioInterpolatedVsSamplesAtStart += toDraw * ratioInterpolatedVsSamples; //maybe this do not need to be called the first time
 
-			//fix it if needed
-			if(Convert.ToInt32(ratioInterpolatedVsSamplesAtStart) >= interpolate_l.Count)
+			//fix it if needed (this while is helpful on resize window)
+			while(Convert.ToInt32(ratioInterpolatedVsSamplesAtStart) >= interpolate_l.Count)
 				ratioInterpolatedVsSamplesAtStart -= interpolate_l.Count;
 
 			//initialize count
@@ -1812,7 +1812,7 @@ LogB.Information(" fs R ");
 								));
 
 					ratioInterpolatedVsSamplesCount += ratioInterpolatedVsSamples;
-					if(Convert.ToInt32(ratioInterpolatedVsSamplesCount) >= interpolate_l.Count)
+					while(Convert.ToInt32(ratioInterpolatedVsSamplesCount) >= interpolate_l.Count)
 						ratioInterpolatedVsSamplesCount -= interpolate_l.Count;
 				}
 			}
@@ -1837,6 +1837,9 @@ LogB.Information(" fs R ");
 			{
 				List<Gdk.Point> paintPointsInterpolateEachSampleHead = new List<Gdk.Point>();
 				int start = Convert.ToInt32(paintPointsInterpolateEachSample.Count - (toDraw * ratioInterpolatedVsSamples));
+				//precaution on resize screen
+				if(start < 0)
+					start = 0;
 
 				for(int i = start; i < paintPointsInterpolateEachSample.Count; i ++)
 					paintPointsInterpolateEachSampleHead.Add(paintPointsInterpolateEachSample[i]);

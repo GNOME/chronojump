@@ -768,6 +768,10 @@ public class UtilGtk
 
 	public static void GetPixelsInOutOfPath (Gdk.Point [] points, int start, Gdk.Pixmap pixmap, ref int inPath, ref int outPath, bool methodSafeMemory)
 	{
+		//on resize screen, start is < 0
+		if(start < 0)
+			start = 0;
+
 		if(methodSafeMemory)
 			getPixelsInOutOfPathSafeMemory (points, start, pixmap, ref inPath, ref outPath);
 		else

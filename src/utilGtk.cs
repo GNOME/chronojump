@@ -800,6 +800,8 @@ public class UtilGtk
 		//if points are on an horiz line, eg minY == maxY == 346, height is 1 point
 		int width = (maxX - minX) + 1;
 		int height = (maxY - minY) + 1;
+		//LogB.Information(string.Format("ttt points.Length: {0}, start: {1}, width: {2}, height: {3}",
+		//			points.Length, start, width, height));
 
 		if(width <= 0 || height <= 0) //just a caution
 			return;

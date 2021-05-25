@@ -4563,6 +4563,7 @@
                       <widget class="GtkLabel" id="label_rhythm_tab">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="label">rhythm</property>
                       </widget>
                       <packing>
                         <property name="position">3</property>
@@ -5038,6 +5039,7 @@
                                                         <property name="adjustment">50 0 9999 1 10 0</property>
                                                         <property name="climb_rate">1</property>
                                                         <property name="numeric">True</property>
+                                                        <signal name="value_changed" handler="on_spin_force_sensor_capture_feedback_path_min_value_changed" swapped="no"/>
                                                       </widget>
                                                       <packing>
                                                         <property name="expand">False</property>
@@ -5095,6 +5097,7 @@
                                                         <property name="adjustment">100 0 9999 1 10 0</property>
                                                         <property name="climb_rate">1</property>
                                                         <property name="numeric">True</property>
+                                                        <signal name="value_changed" handler="on_spin_force_sensor_capture_feedback_path_max_value_changed" swapped="no"/>
                                                       </widget>
                                                       <packing>
                                                         <property name="expand">False</property>

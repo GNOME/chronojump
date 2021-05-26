@@ -493,13 +493,21 @@ public class InterpolateSignal
 		return(a0*mu*mu2+a1*mu2+a2*mu+a3);
 	}
 
-	public static void TestCosineAndCubicInterpolate()
+	public static void TestCosineAndCubicInterpolate(bool onlyPositives)
 	{
 		Random random = new Random();
 		List<PointF> l = new List<PointF>();
 
 		for(int i = 0; i < 100; i += 10)
-			l.Add(new PointF(i, random.NextDouble() * 10));
+		{
+			if(onlyPositives) {
+				l.Add(new PointF(i, random.NextDouble() * 10)); // 0-10
+			} else {
+				//negatives & positives (0-10)
+				//https://stackoverflow.com/a/1064907
+				l.Add(new PointF(i, random.NextDouble() * (10 - -10) + -10));
+			}
+		}
 
 		InterpolateSignal fsp = new InterpolateSignal(l);
 
@@ -590,10 +598,10 @@ public class InterpolateSignal
 		/*
 		   test it with R:
 		   d=read.csv2("/tmp/chronojump_testinterpolate_COSINE.csv")
-		   plot(d$X, d$Y, col=d$color, cex=d$cex, type="b", xlim=c(0,90), ylim=c(0,10))
+		   plot(d$X, d$Y, col=d$color, cex=d$cex, type="b")
 		   par(new=T)
 		   d=read.csv2("/tmp/chronojump_testinterpolate_CUBIC.csv")
-		   plot(d$X, d$Y, col=d$color, cex=d$cex, type="b", xlim=c(0,90), ylim=c(0,10))
+		   plot(d$X, d$Y, col=d$color, cex=d$cex, type="b")
 		 */
 	}
 

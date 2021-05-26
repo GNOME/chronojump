@@ -504,20 +504,19 @@ public class InterpolateSignal
 		InterpolateSignal fsp = new InterpolateSignal(l);
 
 		//cosine
-		fsp.testCosineCubicInterpolateDo(types.COSINE, false);
+		fsp.testCosineCubicInterpolateDo(types.COSINE);
 
 		//cubic
-		//List<PointF> interpolated_l = fsp.testCosineCubicInterpolateDo(types.CUBIC, false);
-		//toFile(interpolated_l, types.CUBIC);
-		fsp.testCosineCubicInterpolateDo(types.CUBIC, false);
+		List<PointF> interpolated_l = fsp.testCosineCubicInterpolateDo(types.CUBIC);
+		//fsp.toFile(interpolated_l, types.CUBIC);
 	}
 
 	public List<PointF> GetCubicInterpolated()
 	{
-		return testCosineCubicInterpolateDo(types.CUBIC, false);
+		return testCosineCubicInterpolateDo(types.CUBIC);
 	}
 
-	private List<PointF> testCosineCubicInterpolateDo(types type, bool toFile)
+	private List<PointF> testCosineCubicInterpolateDo(types type)
 	{
 		List<PointF> interpolated_l = new List<PointF>();
 

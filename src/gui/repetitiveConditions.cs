@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -280,7 +280,13 @@ public class RepetitiveConditionsWindow
 				encoderRhythm,
 				preferences.forceSensorCaptureFeedbackActive,
 				preferences.forceSensorCaptureFeedbackAt,
-				preferences.forceSensorCaptureFeedbackRange);
+				preferences.forceSensorCaptureFeedbackRange,
+				preferences.forceSensorFeedbackPathMax,
+				preferences.forceSensorFeedbackPathMin,
+				preferences.forceSensorFeedbackPathMasters,
+				preferences.forceSensorFeedbackPathMasterSeconds,
+				preferences.forceSensorFeedbackPathLineWidth
+				);
 
 		if(viewWindow)
 		{
@@ -311,7 +317,13 @@ public class RepetitiveConditionsWindow
 			//bool forceSensorCaptureFeedbackActive,
 			Preferences.ForceSensorCaptureFeedbackActiveEnum forceSensorCaptureFeedbackActive,
 			int forceSensorCaptureFeedbackAt,
-			int forceSensorCaptureFeedbackRange)
+			int forceSensorCaptureFeedbackRange,
+			int forceSensorFeedbackPathMax,
+			int forceSensorFeedbackPathMin,
+			int forceSensorFeedbackPathMasters,
+			int forceSensorFeedbackPathMasterSeconds,
+			int forceSensorFeedbackPathLineWidth
+				)
 	{
 		hbox_jump_best_worst.Hide();
 		hbox_run_best_worst.Hide();
@@ -436,6 +448,11 @@ public class RepetitiveConditionsWindow
 			spin_force_sensor_capture_feedback_rectangle_range.Value = forceSensorCaptureFeedbackRange;
 
 			//path widgets
+			spin_force_sensor_capture_feedback_path_max.Value = forceSensorFeedbackPathMax;
+			spin_force_sensor_capture_feedback_path_min.Value = forceSensorFeedbackPathMin;
+			spin_force_sensor_capture_feedback_path_masters.Value = forceSensorFeedbackPathMasters;
+			spin_force_sensor_capture_feedback_path_master_seconds.Value = forceSensorFeedbackPathMasterSeconds;
+			spin_force_sensor_capture_feedback_path_line_width.Value = forceSensorFeedbackPathLineWidth;
 			setForceSensorPathRecommendedLabel();
 
 			notebook_main.GetNthPage(FORCESENSORPAGE).Show();
@@ -1026,28 +1043,23 @@ public class RepetitiveConditionsWindow
 
 	public bool GetForceSensorFeedbackPathActive {
 		get { return radio_force_sensor_capture_feedback_show_path.Active; }
-		//get { return true; }
 	}
 	public int GetForceSensorFeedbackPathMax {
 		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_path_max.Value); }
-		//get { return 1000; }
 	}
 	public int GetForceSensorFeedbackPathMin {
 		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_path_min.Value); }
-		//get { return 0; }
 	}
 	public int GetForceSensorFeedbackPathMasters {
 		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_path_masters.Value); }
-		//get { return 5; }
 	}
 	public int GetForceSensorFeedbackPathMasterSeconds {
 		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_path_master_seconds.Value); }
-		//get { return 5; }
 	}
 	public int GetForceSensorFeedbackPathLineWidth {
 		get { return Convert.ToInt32(spin_force_sensor_capture_feedback_path_line_width.Value); } //N
-		//get { return 40; }
 	}
+
 
 	/* JUMPS */
 	public bool TfTcBest {

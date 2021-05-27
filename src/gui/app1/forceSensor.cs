@@ -1072,12 +1072,14 @@ public partial class ChronoJumpWindow
 				preferences.forceSensorCaptureWidthSeconds
 				);
 
-		setForceSensorTopAtOperationStart();
-
 		pathAccuracy = new PathAccuracy();
 
-		if(fscPoints.RealHeightG < forceSensorTopRectangleAtOperationStart)
+		setForceSensorTopAtOperationStart();
+
+		if(forceSensorTopRectangleAtOperationStart > 0 && fscPoints.RealHeightG < forceSensorTopRectangleAtOperationStart)
 			fscPoints.RealHeightG = forceSensorTopRectangleAtOperationStart;
+		else if(forceSensorTopRectangleAtOperationStart < 0 && fscPoints.RealHeightGNeg < Math.Abs(forceSensorTopRectangleAtOperationStart))
+			fscPoints.RealHeightGNeg = Math.Abs(forceSensorTopRectangleAtOperationStart);
 
 		if(repetitiveConditionsWin.GetForceSensorFeedbackPathActive)
 		{
@@ -2598,11 +2600,16 @@ LogB.Information(" fs R ");
 		}
 	}
 
+	//note can be positive or negative
 	private void setForceSensorTopAtOperationStart()
 	{
 		if(preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.RECTANGLE)
-			forceSensorTopRectangleAtOperationStart = Convert.ToInt32(preferences.forceSensorCaptureFeedbackAt + preferences.forceSensorCaptureFeedbackRange /2);
-		else
+		{
+			if(preferences.forceSensorCaptureFeedbackAt < 0)
+				forceSensorTopRectangleAtOperationStart = Convert.ToInt32(preferences.forceSensorCaptureFeedbackAt - preferences.forceSensorCaptureFeedbackRange /2);
+			else
+				forceSensorTopRectangleAtOperationStart = Convert.ToInt32(preferences.forceSensorCaptureFeedbackAt + preferences.forceSensorCaptureFeedbackRange /2);
+		} else
 			forceSensorTopRectangleAtOperationStart = 0;
 	}
 	//This function calculates the max value between the sent force and the top of the feedback rectangle

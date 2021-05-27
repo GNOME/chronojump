@@ -1081,15 +1081,15 @@ public partial class ChronoJumpWindow
 		else if(forceSensorTopRectangleAtOperationStart < 0 && fscPoints.RealHeightGNeg < Math.Abs(forceSensorTopRectangleAtOperationStart))
 			fscPoints.RealHeightGNeg = Math.Abs(forceSensorTopRectangleAtOperationStart);
 
-		if(repetitiveConditionsWin.GetForceSensorFeedbackPathActive)
+		if(preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.PATH)
 		{
-			int maxPathValue = repetitiveConditionsWin.GetForceSensorFeedbackPathMax;
+			int maxPathValue = preferences.forceSensorFeedbackPathMax;
 			if(maxPathValue > forceSensorTopRectangleAtOperationStart)
 				fscPoints.RealHeightG = maxPathValue;
 
 			//also care for negative paths
-			if(repetitiveConditionsWin.GetForceSensorFeedbackPathMin < 0)
-				fscPoints.RealHeightGNeg = Math.Abs(repetitiveConditionsWin.GetForceSensorFeedbackPathMin); //Neg is expressed in absolute values
+			if(preferences.forceSensorFeedbackPathMin < 0)
+				fscPoints.RealHeightGNeg = Math.Abs(preferences.forceSensorFeedbackPathMin); //Neg is expressed in absolute values
 		}
 
 		LogB.Information("RealHeight = " + fscPoints.RealHeightG.ToString());
@@ -1234,7 +1234,7 @@ public partial class ChronoJumpWindow
 
 		triggerListForceSensor = new TriggerList();
 
-		if(repetitiveConditionsWin.GetForceSensorFeedbackPathActive)
+		if(preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.PATH)
 			createForceSensorCaptureInterpolateSignal();
 		else
 			interpolate_l = null;
@@ -1653,7 +1653,7 @@ LogB.Information(" fs J ");
 				//set interpolated pen lineWidth
 				if(interpolate_l != null) {
 					int lineWidth = fscPoints.GetForceInPx(0) -
-						fscPoints.GetForceInPx(repetitiveConditionsWin.GetForceSensorFeedbackPathLineWidth);
+						fscPoints.GetForceInPx(preferences.forceSensorFeedbackPathLineWidth);
 
 					pen_blue_light_force_capture_interpolated_feedback.SetLineAttributes (
 							lineWidth, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
@@ -2078,7 +2078,7 @@ LogB.Information(" fs R ");
 
 		/*
 		   do not interpolate signal at load
-		if(repetitiveConditionsWin.GetForceSensorFeedbackPathActive)
+		if(preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.PATH)
 			createForceSensorCaptureInterpolateSignal();
 		else
 		*/
@@ -2181,7 +2181,7 @@ LogB.Information(" fs R ");
 		*/
 
 		//need at least 3 masters
-		if(repetitiveConditionsWin.GetForceSensorFeedbackPathMasters < 3)
+		if(preferences.forceSensorFeedbackPathMasters < 3)
 		{
 			interpolate_l = null;
 			return;
@@ -2191,15 +2191,15 @@ LogB.Information(" fs R ");
 		3rd param on InterpolateSignal is maxx.
 		points = maxx / step , so: maxx = points * step
 		*/
-		int maxx = repetitiveConditionsWin.GetForceSensorFeedbackPathMasters *
-			repetitiveConditionsWin.GetForceSensorFeedbackPathMasterSeconds;
+		int maxx = preferences.forceSensorFeedbackPathMasters *
+			preferences.forceSensorFeedbackPathMasterSeconds;
 
 		InterpolateSignal interpolateS = new InterpolateSignal(
 				true, //start at 0
-				repetitiveConditionsWin.GetForceSensorFeedbackPathMin,
-				repetitiveConditionsWin.GetForceSensorFeedbackPathMax,
+				preferences.forceSensorFeedbackPathMin,
+				preferences.forceSensorFeedbackPathMax,
 				maxx * 1000,
-				repetitiveConditionsWin.GetForceSensorFeedbackPathMasterSeconds * 1000
+				preferences.forceSensorFeedbackPathMasterSeconds * 1000
 				);
 
 		interpolate_l = interpolateS.GetCubicInterpolated();
@@ -2575,8 +2575,8 @@ LogB.Information(" fs R ");
 			if(startAt > 0)
 				timeCount = fscPoints.GetTimeAtCount (startAt);
 
-			//int timeStep = (1000 * repetitiveConditionsWin.GetForceSensorFeedbackPathMasterSeconds/10) //if each 1000 ms, then: advance by 100 (to have 10 interpolated between each master)
-			int timeStep = (1000 * repetitiveConditionsWin.GetForceSensorFeedbackPathMasterSeconds/100) //if each 1000 ms, then: advance by 10 (to have 100 interpolated between each master)
+			//int timeStep = (1000 * preferences.forceSensorFeedbackPathMasterSeconds/10) //if each 1000 ms, then: advance by 100 (to have 10 interpolated between each master)
+			int timeStep = (1000 * preferences.forceSensorFeedbackPathMasterSeconds/100) //if each 1000 ms, then: advance by 10 (to have 100 interpolated between each master)
 				* 1000; //to micros
 
 			paintPointsInterpolate = new List<Gdk.Point>();

@@ -832,9 +832,9 @@ public class ForceSensorCapturePoints
 	public int RealWidthG; //width of graph in microseconds (will be upgraded if needed, but not while capturing on scroll)
 
 	public const int DefaultRealHeightG = 2;
-	public const int DefaultRealHeightGNeg = 2;
+	public const int DefaultRealHeightGNeg = 2; //absolute values
 	public int RealHeightG; //Newtons (will be upgraded if needed)
-	public int RealHeightGNeg; //Newtons (negative) (will be upgraded if needed)
+	public int RealHeightGNeg; //Newtons (negative) (will be upgraded if needed) //absolute values
 
 	//for displacement
 	public const int DefaultRealHeightGDispl = 1;

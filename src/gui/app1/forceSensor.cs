@@ -1084,6 +1084,10 @@ public partial class ChronoJumpWindow
 			int maxPathValue = repetitiveConditionsWin.GetForceSensorFeedbackPathMax;
 			if(maxPathValue > forceSensorTopRectangleAtOperationStart)
 				fscPoints.RealHeightG = maxPathValue;
+
+			//also care for negative paths
+			if(repetitiveConditionsWin.GetForceSensorFeedbackPathMin < 0)
+				fscPoints.RealHeightGNeg = Math.Abs(repetitiveConditionsWin.GetForceSensorFeedbackPathMin); //Neg is expressed in absolute values
 		}
 
 		LogB.Information("RealHeight = " + fscPoints.RealHeightG.ToString());

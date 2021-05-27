@@ -199,6 +199,7 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_path_masters;
 	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_path_master_seconds;
 	[Widget] Gtk.SpinButton spin_force_sensor_capture_feedback_path_line_width; //N
+	[Widget] Gtk.Label label_force_sensor_path_recommended;
 
 	const int JUMPSRUNSPAGE = 0;
 	const int ENCODERAUTOPAGE = 1;
@@ -430,10 +431,12 @@ public class RepetitiveConditionsWindow
 				notebook_force_sensor_feedback.Page = 2;
 			}
 
+			//rectangle widgets
 			spin_force_sensor_capture_feedback_rectangle_at.Value = forceSensorCaptureFeedbackAt;
 			spin_force_sensor_capture_feedback_rectangle_range.Value = forceSensorCaptureFeedbackRange;
 
-			//TODO: define values of path widgets
+			//path widgets
+			setForceSensorPathRecommendedLabel();
 
 			notebook_main.GetNthPage(FORCESENSORPAGE).Show();
 		}
@@ -999,15 +1002,26 @@ public class RepetitiveConditionsWindow
 
 	//force sensor feedback path
 
+	private void setForceSensorPathRecommendedLabel ()
+	{
+		label_force_sensor_path_recommended.Text = string.Format("1/3 * ({0} - {1}) = {2} N",
+				Catalog.GetString("Maximum"), Catalog.GetString("Minimum"),
+				Convert.ToInt32((spin_force_sensor_capture_feedback_path_max.Value - spin_force_sensor_capture_feedback_path_min.Value) /3));
+	}
+
 	private void on_spin_force_sensor_capture_feedback_path_min_value_changed (object o, EventArgs args)
 	{
 		if(spin_force_sensor_capture_feedback_path_min.Value > spin_force_sensor_capture_feedback_path_max.Value)
 			spin_force_sensor_capture_feedback_path_max.Value = spin_force_sensor_capture_feedback_path_min.Value;
+
+		setForceSensorPathRecommendedLabel();
 	}
 	private void on_spin_force_sensor_capture_feedback_path_max_value_changed (object o, EventArgs args)
 	{
 		if(spin_force_sensor_capture_feedback_path_max.Value < spin_force_sensor_capture_feedback_path_min.Value)
 			spin_force_sensor_capture_feedback_path_min.Value = spin_force_sensor_capture_feedback_path_max.Value;
+
+		setForceSensorPathRecommendedLabel();
 	}
 
 	public bool GetForceSensorFeedbackPathActive {

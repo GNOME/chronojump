@@ -1092,7 +1092,7 @@ public partial class ChronoJumpWindow
 
 		LogB.Information("RealHeight = " + fscPoints.RealHeightG.ToString());
 
-		forcePaintHVLines(ForceSensorGraphs.CAPTURE, fscPoints.RealHeightG, ForceSensorCapturePoints.DefaultRealHeightGNeg, 10, false);
+		forcePaintHVLines(ForceSensorGraphs.CAPTURE, fscPoints.RealHeightG, -1*fscPoints.RealHeightGNeg, 10, false);
 		//draw horizontal rectangle of feedback
 		if(preferences.forceSensorCaptureFeedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.RECTANGLE)
 			forceSensorSignalPlotFeedbackRectangle(fscPoints, force_capture_drawingarea.Allocation.Width,
@@ -1611,7 +1611,7 @@ LogB.Information(" fs I ");
 				fscPoints.NumPainted = 0;
 
 				if(! configChronojump.LowCPU)
-					forcePaintHVLines(ForceSensorGraphs.CAPTURE, fscPoints.RealHeightG, forceSensorValues.Min * 2, fscPoints.RealWidthG, false);
+					forcePaintHVLines(ForceSensorGraphs.CAPTURE, fscPoints.RealHeightG, -1*fscPoints.RealHeightGNeg, fscPoints.RealWidthG, false);
 
 
 				//draw horizontal rectangle of feedback

@@ -797,6 +797,14 @@ public class UtilGtk
 				maxY = points[i].Y;
 		}
 
+		//fixes for a path with negative values
+		if(minY < 0)
+			minY = 0;
+		if(maxY < 0)
+			maxY = 0;
+		if(minY > maxY)
+			maxY = minY;
+
 		//if points are on an horiz line, eg minY == maxY == 346, height is 1 point
 		int width = (maxX - minX) + 1;
 		int height = (maxY - minY) + 1;

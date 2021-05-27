@@ -100,15 +100,24 @@ class SqlitePreferences : Sqlite
 	public const string ForceSensorCalibrationDateTimeStr = "forceSensorCalibrationDateTime";
 	public const string ForceSensorCalibrationWeightStr = "forceSensorCalibrationWeight";
 	public const string ForceSensorCalibrationFactorStr = "forceSensorCalibrationFactor";
-	public const string ForceSensorCaptureFeedbackActive = "forceSensorCaptureFeedbackActive";
-	public const string ForceSensorCaptureFeedbackAt = "forceSensorCaptureFeedbackAt";
-	public const string ForceSensorCaptureFeedbackRange = "forceSensorCaptureFeedbackRange";
 	public const string ForceSensorStartEndOptimized = "forceSensorStartEndOptimized";
 	public const string ForceSensorMIFDurationMode = "forceSensorMIFDurationMode";
 	public const string ForceSensorMIFDurationSeconds = "forceSensorMIFDurationSeconds";
 	public const string ForceSensorMIFDurationPercent = "forceSensorMIFDurationPercent";
 	public const string ForceSensorAnalyzeABSliderIncrement = "forceSensorAnalyzeABSliderIncrement";
 	public const string ForceSensorAnalyzeMaxAVGInWindow = "forceSensorAnalyzeMaxAVGInWindow";
+
+	//forceSensor feedback
+	public const string ForceSensorCaptureFeedbackActive = "forceSensorCaptureFeedbackActive";
+	//rectangle
+	public const string ForceSensorCaptureFeedbackAt = "forceSensorCaptureFeedbackAt";
+	public const string ForceSensorCaptureFeedbackRange = "forceSensorCaptureFeedbackRange";
+	//path
+	public const string ForceSensorFeedbackPathMax = "forceSensorFeedbackPathMax";
+	public const string ForceSensorFeedbackPathMin = "forceSensorFeedbackPathMin";
+	public const string ForceSensorFeedbackPathMasters = "forceSensorFeedbackPathMasters";
+	public const string ForceSensorFeedbackPathMasterSeconds = "forceSensorFeedbackPathMasterSeconds";
+	public const string ForceSensorFeedbackPathLineWidth = "forceSensorFeedbackPathLineWidth";
 
 	//runEncoder
 	public const string RunEncoderMinAccel = "runEncoderMinAccel";
@@ -297,6 +306,12 @@ class SqlitePreferences : Sqlite
 				Insert (ForceSensorCaptureFeedbackActive, Preferences.ForceSensorCaptureFeedbackActiveEnum.NO.ToString(), dbcmdTr);
 				Insert (ForceSensorCaptureFeedbackAt, "100", dbcmdTr);
 				Insert (ForceSensorCaptureFeedbackRange, "40", dbcmdTr);
+				Insert (ForceSensorFeedbackPathMax, "100", dbcmdTr);
+				Insert (ForceSensorFeedbackPathMin, "0", dbcmdTr);
+				Insert (ForceSensorFeedbackPathMasters, "8", dbcmdTr);
+				Insert (ForceSensorFeedbackPathMasterSeconds, "2", dbcmdTr);
+				Insert (ForceSensorFeedbackPathLineWidth, "33", dbcmdTr);
+
 				Insert (ForceSensorTareDateTimeStr, "", dbcmdTr);
 				Insert (ForceSensorTareStr, "-1", dbcmdTr); //result value from sensor. Decimal is point!!
 				Insert (ForceSensorCalibrationDateTimeStr, "", dbcmdTr);
@@ -719,6 +734,16 @@ class SqlitePreferences : Sqlite
 				preferences.forceSensorCaptureFeedbackAt = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == ForceSensorCaptureFeedbackRange)
 				preferences.forceSensorCaptureFeedbackRange = Convert.ToInt32(reader[1].ToString());
+			else if(reader[0].ToString() == ForceSensorFeedbackPathMax)
+				preferences.forceSensorFeedbackPathMax = Convert.ToInt32(reader[1].ToString());
+			else if(reader[0].ToString() == ForceSensorFeedbackPathMin)
+				preferences.forceSensorFeedbackPathMin = Convert.ToInt32(reader[1].ToString());
+			else if(reader[0].ToString() == ForceSensorFeedbackPathMasters)
+				preferences.forceSensorFeedbackPathMasters = Convert.ToInt32(reader[1].ToString());
+			else if(reader[0].ToString() == ForceSensorFeedbackPathMasterSeconds)
+				preferences.forceSensorFeedbackPathMasterSeconds = Convert.ToInt32(reader[1].ToString());
+			else if(reader[0].ToString() == ForceSensorFeedbackPathLineWidth)
+				preferences.forceSensorFeedbackPathLineWidth = Convert.ToInt32(reader[1].ToString());
 
 			//force sensor tare
 			else if(reader[0].ToString() == ForceSensorTareDateTimeStr)

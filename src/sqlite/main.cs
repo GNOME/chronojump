@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.21";
+	static string lastChronojumpDatabaseVersion = "2.22";
 
 	public Sqlite()
 	{
@@ -2998,6 +2998,18 @@ class Sqlite
 
 				currentVersion = updateVersion("2.21");
 			}
+			if(currentVersion == "2.21")
+			{
+				LogB.SQL("Inserted forceSensorFeedbackPath params");
+
+				SqlitePreferences.Insert (SqlitePreferences.ForceSensorFeedbackPathMax, "100");
+				SqlitePreferences.Insert (SqlitePreferences.ForceSensorFeedbackPathMin, "0");
+				SqlitePreferences.Insert (SqlitePreferences.ForceSensorFeedbackPathMasters, "8");
+				SqlitePreferences.Insert (SqlitePreferences.ForceSensorFeedbackPathMasterSeconds, "2");
+				SqlitePreferences.Insert (SqlitePreferences.ForceSensorFeedbackPathLineWidth, "33");
+
+				currentVersion = updateVersion("2.22");
+			}
 
 
 
@@ -3220,6 +3232,7 @@ class Sqlite
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
 
+		//2.21 - 2.22 Converted DB to 2.22 Inserted forceSensorFeedbackPath params
 		//2.20 - 2.21 Converted DB to 2.21 Inserted into preferences: runsEvolutionShowTime
 		//2.19 - 2.20 Converted DB to 2.20 Inserted into preferences: runsEvolutionOnlyBestInSession
 		//2.18 - 2.19 Converted DB to 2.19 Doing alter table encoderExercise ADD COLUMN type TEXT ...

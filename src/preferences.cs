@@ -246,16 +246,26 @@ public class Preferences
 	public string forceSensorCalibrationDateTime;
 	public double forceSensorCalibrationWeight;
 	public double forceSensorCalibrationFactor;
-	public enum ForceSensorCaptureFeedbackActiveEnum { NO, RECTANGLE, PATH };
-	public ForceSensorCaptureFeedbackActiveEnum forceSensorCaptureFeedbackActive;	//rectangle
-	public int forceSensorCaptureFeedbackAt; 	//rectangle
-	public int forceSensorCaptureFeedbackRange; 	//rectangle
 	public bool forceSensorStartEndOptimized;
 	public enum ForceSensorMIFDurationModes { SECONDS, PERCENT };
 	public ForceSensorMIFDurationModes forceSensorMIFDurationMode;
 	public double forceSensorMIFDurationSeconds;
 	public int forceSensorMIFDurationPercent;
-				
+
+	//forceSensor feedback
+	public enum ForceSensorCaptureFeedbackActiveEnum { NO, RECTANGLE, PATH };
+	//rectangle
+	public ForceSensorCaptureFeedbackActiveEnum forceSensorCaptureFeedbackActive;
+	public int forceSensorCaptureFeedbackAt;
+	public int forceSensorCaptureFeedbackRange;
+	//path
+	public int forceSensorFeedbackPathMax;
+	public int forceSensorFeedbackPathMin;
+	public int forceSensorFeedbackPathMasters;
+	public int forceSensorFeedbackPathMasterSeconds;
+	public int forceSensorFeedbackPathLineWidth;
+
+
 	public int encoderCaptureTimeIM = 180; //hardcoded 3 minutes.
 
 	public enum GstreamerTypes { GST_0_1, GST_1_0, FFPLAY, SYSTEMSOUNDS };

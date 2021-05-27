@@ -7424,6 +7424,43 @@ LogB.Debug("mc finished 5");
 					preferences.forceSensorCaptureFeedbackRange = feedbackRange;
 				}
 			}
+			else if(feedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.PATH)
+			{
+				int feedbackPathMax = repetitiveConditionsWin.GetForceSensorFeedbackPathMax;
+				if(preferences.forceSensorFeedbackPathMax != feedbackPathMax)
+				{
+					SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackPathMax, feedbackPathMax.ToString(), false);
+					preferences.forceSensorFeedbackPathMax = feedbackPathMax;
+				}
+
+				int feedbackPathMin = repetitiveConditionsWin.GetForceSensorFeedbackPathMin;
+				if(preferences.forceSensorFeedbackPathMin != feedbackPathMin)
+				{
+					SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackPathMin, feedbackPathMin.ToString(), false);
+					preferences.forceSensorFeedbackPathMin = feedbackPathMin;
+				}
+
+				int feedbackPathMasters = repetitiveConditionsWin.GetForceSensorFeedbackPathMasters;
+				if(preferences.forceSensorFeedbackPathMasters != feedbackPathMasters)
+				{
+					SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackPathMasters, feedbackPathMasters.ToString(), false);
+					preferences.forceSensorFeedbackPathMasters = feedbackPathMasters;
+				}
+
+				int feedbackPathMasterSeconds = repetitiveConditionsWin.GetForceSensorFeedbackPathMasterSeconds;
+				if(preferences.forceSensorFeedbackPathMasterSeconds != feedbackPathMasterSeconds)
+				{
+					SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackPathMasterSeconds, feedbackPathMasterSeconds.ToString(), false);
+					preferences.forceSensorFeedbackPathMasterSeconds = feedbackPathMasterSeconds;
+				}
+
+				int feedbackPathLineWidth = repetitiveConditionsWin.GetForceSensorFeedbackPathLineWidth;
+				if(preferences.forceSensorFeedbackPathLineWidth != feedbackPathLineWidth)
+				{
+					SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackPathLineWidth, feedbackPathLineWidth.ToString(), false);
+					preferences.forceSensorFeedbackPathLineWidth = feedbackPathLineWidth;
+				}
+			}
 		}
 	}
 

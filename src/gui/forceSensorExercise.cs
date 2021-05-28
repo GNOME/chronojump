@@ -389,7 +389,7 @@ public class ForceSensorExerciseWindow
 		if(o == Options.FORCE_SENSOR)
 			str = Catalog.GetString("When you are interested only in the force transmitted to the force sensor. This option do NOT take into account the effect of the weight or the acceleration of a mass.");
 		else if(o == Options.FORCE_RESULTANT)
-			str = Catalog.GetString("When you want the resultant of all the forces exerted by the person. This value is the vector module of the resultant force vector. This option allows to take into account the effect of the weight or the acceleration of a mass.");
+			str = Catalog.GetString("When you want the resultant of all the forces exerted by the person. This value is the vector module of the resultant force vector. This option allows to take into account the effect of the weight or the acceleration of a mass.") + " " + Catalog.GetString("The result will always be in absolute values.");
 		else if(o == Options.FIXATION_ELASTIC)
 			str = Catalog.GetString("If, exerting a force, some element is significantly elongated it means that you are using elastic elements. Knowing the characteristics of the elastic elements allows to calculate positions, velocities and accelerations during the exercise");
 		else if(o == Options.FIXATION_NOT_ELASTIC)

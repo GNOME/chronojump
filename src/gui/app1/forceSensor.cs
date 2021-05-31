@@ -48,7 +48,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_force_sensor_laterality_both;
 	[Widget] Gtk.RadioButton radio_force_sensor_laterality_l;
 	[Widget] Gtk.RadioButton radio_force_sensor_laterality_r;
-	[Widget] Gtk.HBox hbox_force_sensor_adjust_actions;
+	[Widget] Gtk.VBox vbox_force_sensor_adjust_actions;
 	[Widget] Gtk.Button button_force_sensor_tare;
 	[Widget] Gtk.Button button_force_sensor_calibrate;
 	[Widget] Gtk.Label label_force_sensor_value_max;
@@ -60,6 +60,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.DrawingArea force_capture_drawingarea;
 	[Widget] Gtk.Button button_force_sensor_exercise_edit;
 	[Widget] Gtk.Button button_force_sensor_exercise_delete;
+
+	[Widget] Gtk.Label force_sensor_adjust_label_message;
 
 	ForceSensorExerciseWindow forceSensorExerciseWin;
 	ForceSensorElasticBandsWindow forceSensorElasticBandsWin;
@@ -456,13 +458,13 @@ public partial class ChronoJumpWindow
 
 		if(o == (object) button_force_sensor_tare)
 		{
-			hbox_force_sensor_adjust_actions.Sensitive = false;
+			vbox_force_sensor_adjust_actions.Sensitive = false;
 			forceSensorOtherMode = forceSensorOtherModeEnum.TARE;
 			forceOtherThread = new Thread(new ThreadStart(forceSensorTare));
 		}
 		else if(o == (object) button_force_sensor_calibrate)
 		{
-			hbox_force_sensor_adjust_actions.Sensitive = false;
+			vbox_force_sensor_adjust_actions.Sensitive = false;
 			forceSensorOtherMode = forceSensorOtherModeEnum.CALIBRATE;
 			forceOtherThread = new Thread(new ThreadStart(forceSensorCalibrate));
 		}
@@ -645,14 +647,13 @@ public partial class ChronoJumpWindow
 
 		if(forceOtherThread.IsAlive)
 		{
-			/*
 			if(forceSensorOtherMode == forceSensorOtherModeEnum.TARE ||
-				forceSensorOtherMode == forceSensorOtherModeEnum.CALIBRATE)
+					forceSensorOtherMode == forceSensorOtherModeEnum.CALIBRATE)
+			{
+				force_sensor_adjust_label_message.Text = forceSensorOtherMessage + secondsStr;
+				force_sensor_adjust_label_message.UseMarkup = true;
+			} else
 				event_execute_label_message.Text = forceSensorOtherMessage + secondsStr;
-			else
-			*/
-			event_execute_label_message.Text = forceSensorOtherMessage + secondsStr;
-			event_execute_label_message.UseMarkup = true;
 
 			if(forceSensorOtherMode == forceSensorOtherModeEnum.STIFFNESS_DETECT &&
 					forceSensorValues != null)
@@ -664,13 +665,13 @@ public partial class ChronoJumpWindow
 		}
 		else
 		{
-			event_execute_label_message.Text = forceSensorOtherMessage;
 			LogB.ThreadEnding();
 
 			if(forceSensorOtherMode == forceSensorOtherModeEnum.TARE ||
 				forceSensorOtherMode == forceSensorOtherModeEnum.CALIBRATE)
 			{
-				hbox_force_sensor_adjust_actions.Sensitive = true;
+				force_sensor_adjust_label_message.Text = forceSensorOtherMessage;
+				vbox_force_sensor_adjust_actions.Sensitive = true;
 				return false;
 			}
 			else if(forceSensorOtherMode == forceSensorOtherModeEnum.STIFFNESS_DETECT)
@@ -685,7 +686,10 @@ public partial class ChronoJumpWindow
 				event_execute_label_message.Text = forceSensorOtherMessage;
 			}
 			else if(forceSensorOtherMode == forceSensorOtherModeEnum.TARE_AND_CAPTURE_PRE || forceSensorOtherMode == forceSensorOtherModeEnum.CAPTURE_PRE)
+			{
+				event_execute_label_message.Text = forceSensorOtherMessage;
 				forceSensorCapturePre2_GTK_cameraCall();
+			}
 
 			return false;
 		}
@@ -1571,7 +1575,7 @@ LogB.Information(" fs E ");
 				if(fscPoints != null) {
 					int countDown = Convert.ToInt32(UtilAll.DivideSafe(5000000 - fscPoints.GetLastTime(), 1000000));
 					if(countDown >= 0)
-						accuracyStr = string.Format(" Accuracy count starts in {0} s", countDown);
+						accuracyStr = string.Format(" Accuracy calculation starts in {0} s", countDown);
 					else
 						accuracyStr = string.Format(" Accuracy: {0} %", Util.TrimDecimals(pathAccuracy.Accuracy, 1));
 				}
@@ -2908,28 +2912,24 @@ LogB.Information(" fs R ");
 	private void on_button_force_sensor_adjust_clicked (object o, EventArgs args)
 	{
 		alignment_button_force_sensor_adjust.Sensitive = false; //to not be called again
-		button_force_sensor_sync.Sensitive = false;
 
-		//hbox_force_capture_buttons.Sensitive = false;
-		notebook_contacts_execute_or_instructions.Sensitive = false;
+		notebook_contacts_capture_doing_wait.Sensitive = false;
+		notebook_contacts_execute_or.CurrentPage = 2;
 
 		viewport_chronopics.Sensitive = false;
-		notebook_contacts_capture_doing_wait.CurrentPage = 3;
 		button_contacts_exercise.Sensitive = false;
 
 		forceSensorCaptureAdjustSensitivity(false);
-		event_execute_label_message.Text = Catalog.GetString("If you want to calibrate, please tare first.");
+		force_sensor_adjust_label_message.Text = Catalog.GetString("If you want to calibrate, please tare first.");
 	}
 	private void on_button_force_sensor_adjust_close_clicked (object o, EventArgs args)
 	{
 		alignment_button_force_sensor_adjust.Sensitive = true;
-		button_force_sensor_sync.Sensitive = true;
 
-		//hbox_force_capture_buttons.Sensitive = true;
-		notebook_contacts_execute_or_instructions.Sensitive = true;
+		notebook_contacts_capture_doing_wait.Sensitive = true;
+		notebook_contacts_execute_or.CurrentPage = 0;
 
 		viewport_chronopics.Sensitive = true;
-		notebook_contacts_capture_doing_wait.CurrentPage = 0;
 		button_contacts_exercise.Sensitive = true;
 
 		forceSensorCaptureAdjustSensitivity(true);

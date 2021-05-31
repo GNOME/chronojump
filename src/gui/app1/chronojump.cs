@@ -61,7 +61,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_other;
 	[Widget] Gtk.HBox hbox_contacts_capture_top;
 	[Widget] Gtk.Notebook notebook_capture_analyze; //not encoder
-	[Widget] Gtk.Notebook notebook_contacts_execute_or_instructions;
+	[Widget] Gtk.Notebook notebook_contacts_execute_or; // execute (page 0), instructions (page 1), forceSensorAdjust (page 2)
 	[Widget] Gtk.Notebook notebook_analyze; //not encoder
 	[Widget] Gtk.Notebook notebook_capture_graph_table;
 	[Widget] Gtk.HBox hbox_message_permissions_at_boot;

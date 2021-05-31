@@ -1770,8 +1770,8 @@ LogB.Information(" fs R ");
 					force_capture_drawingarea, force_capture_pixmap, pen_blue_light_force_capture);
 
 		forcePaintHVLines(ForceSensorGraphs.CAPTURE,
-				getForceSensorMaxForceIncludingRectangle(forceSensorValues.Max),
-				forceSensorValues.Min,
+				fscPoints.RealHeightG,
+				-1 * fscPoints.RealHeightGNeg,
 				Convert.ToInt32(forceSensorValues.TimeLast),
 				true);
 

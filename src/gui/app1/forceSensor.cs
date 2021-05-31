@@ -1566,7 +1566,15 @@ LogB.Information(" fs E ");
 		{
 			string accuracyStr = "";
 			if(interpolate_l != null)
-				accuracyStr = string.Format(" Accuracy: {0} %", Util.TrimDecimals(pathAccuracy.Accuracy, 1));
+			{
+				if(fscPoints != null) {
+					int countDown = Convert.ToInt32(UtilAll.DivideSafe(5000000 - fscPoints.GetLastTime(), 1000000));
+					if(countDown >= 0)
+						accuracyStr = string.Format(" Accuracy count starts in {0} s", countDown);
+					else
+						accuracyStr = string.Format(" Accuracy: {0} %", Util.TrimDecimals(pathAccuracy.Accuracy, 1));
+				}
+			}
 
 			event_execute_label_message.Text = "Capturing" +
 				" (" + Util.TrimDecimals(DateTime.Now.Subtract(forceSensorTimeStart).TotalSeconds, 0) + " s)" + accuracyStr;
@@ -1723,7 +1731,7 @@ LogB.Information(" fs R ");
 			if(points.Count > i) 	//extra check to avoid going outside of arrays
 				paintPoints[j] = points[i];
 
-		if(interpolate_l != null)
+		if(interpolate_l != null && 5000000 - fscPoints.GetLastTime() < 0 )
 		{
 			int storedCountOut = pathAccuracy.CountOut;
 			UtilGtk.GetPixelsInOutOfPath (paintPoints, paintPoints.Length -1 -toDrawStored, force_capture_pixmap,
@@ -1815,14 +1823,17 @@ LogB.Information(" fs R ");
 			   UtilGtk.GetPixelsInOutOfPath (paintPoints, paintPoints.Length -1 -toDraw, force_capture_pixmap,
 					ref pathAccuracy.CountIn, ref pathAccuracy.CountOut, false);
 			 */
-			int storedCountOut = pathAccuracy.CountOut;
-			UtilGtk.GetPixelsInOutOfPath (paintPoints, paintPoints.Length -1 -toDraw, force_capture_pixmap,
-					ref pathAccuracy.CountIn, ref pathAccuracy.CountOut, true);
+			if(5000000 - fscPoints.GetLastTime() < 0)
+			{
+				int storedCountOut = pathAccuracy.CountOut;
+				UtilGtk.GetPixelsInOutOfPath (paintPoints, paintPoints.Length -1 -toDraw, force_capture_pixmap,
+						ref pathAccuracy.CountIn, ref pathAccuracy.CountOut, true);
 
-			//show a "red head" if signal is out of path
-			if(pathAccuracy.CountOut > storedCountOut)
-				forceSensorPathPaintHead(paintPointsInterpolateEachSample,
-						Convert.ToInt32(paintPointsInterpolateEachSample.Count - (toDraw * ratioInterpolatedVsSamples)));
+				//show a "red head" if signal is out of path
+				if(pathAccuracy.CountOut > storedCountOut)
+					forceSensorPathPaintHead(paintPointsInterpolateEachSample,
+							Convert.ToInt32(paintPointsInterpolateEachSample.Count - (toDraw * ratioInterpolatedVsSamples)));
+			}
 		}
 
 		force_capture_pixmap.DrawLines(pen_black_force_capture, paintPoints);
@@ -2203,6 +2214,7 @@ LogB.Information(" fs R ");
 				);
 
 		interpolate_l = interpolateS.GetCubicInterpolated();
+
 		/*
 		LogB.Information("interpolate_l: ");
 		for(int i=0; i < interpolate_l.Count; i++)

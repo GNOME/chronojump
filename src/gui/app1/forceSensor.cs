@@ -1575,14 +1575,15 @@ LogB.Information(" fs E ");
 				if(fscPoints != null) {
 					int countDown = Convert.ToInt32(UtilAll.DivideSafe(5000000 - fscPoints.GetLastTime(), 1000000));
 					if(countDown >= 0)
-						accuracyStr = string.Format(" Accuracy calculation starts in {0} s", countDown);
+						accuracyStr = string.Format(" - Accuracy calculation starts in <b>{0}</b> s", countDown);
 					else
-						accuracyStr = string.Format(" Accuracy: {0} %", Util.TrimDecimals(pathAccuracy.Accuracy, 1));
+						accuracyStr = string.Format(" - Accuracy: {0} %", Util.TrimDecimals(pathAccuracy.Accuracy, 1));
 				}
 			}
 
 			event_execute_label_message.Text = "Capturing" +
 				" (" + Util.TrimDecimals(DateTime.Now.Subtract(forceSensorTimeStart).TotalSeconds, 0) + " s)" + accuracyStr;
+			event_execute_label_message.UseMarkup = true;
 		}
 LogB.Information(" fs F ");
 

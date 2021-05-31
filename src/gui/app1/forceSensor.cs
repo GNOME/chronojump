@@ -525,6 +525,7 @@ public partial class ChronoJumpWindow
 
 		hbox_top_person.Sensitive = sensitive;
 		hbox_chronopics_and_more.Sensitive = sensitive;
+		alignment_button_force_sensor_adjust.Sensitive = sensitive;
 	}
 
 	private void on_button_force_sensor_stiffness_detect_clicked (object o, EventArgs args)

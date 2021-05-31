@@ -2206,7 +2206,6 @@ LogB.Information(" fs R ");
 			preferences.forceSensorFeedbackPathMasterSeconds;
 
 		InterpolateSignal interpolateS = new InterpolateSignal(
-				true, //start at 0
 				preferences.forceSensorFeedbackPathMin,
 				preferences.forceSensorFeedbackPathMax,
 				maxx * 1000,

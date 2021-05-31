@@ -141,7 +141,9 @@ public partial class ChronoJumpWindow
 
 	//interpolated path
 	private const int interpolatedPathLineWidthDefault = 100; //here in px (but later is in N converted to px)
+	private const int pathAccuracyCountdownMicros = 5000000; //5s to wait until start accuracy count and forceSensorPathPaintHead()
 	PathAccuracy pathAccuracy;
+	List<PointF> interpolate_l;
 	double ratioInterpolatedVsSamples;
 	double ratioInterpolatedVsSamplesAtStart;
 
@@ -1573,7 +1575,7 @@ LogB.Information(" fs E ");
 			if(interpolate_l != null)
 			{
 				if(fscPoints != null) {
-					int countDown = Convert.ToInt32(UtilAll.DivideSafe(5000000 - fscPoints.GetLastTime(), 1000000));
+					int countDown = Convert.ToInt32(UtilAll.DivideSafe(pathAccuracyCountdownMicros - fscPoints.GetLastTime(), 1000000));
 					if(countDown >= 0)
 						accuracyStr = string.Format(" - Accuracy calculation starts in <b>{0}</b> s", countDown);
 					else
@@ -1737,7 +1739,7 @@ LogB.Information(" fs R ");
 			if(points.Count > i) 	//extra check to avoid going outside of arrays
 				paintPoints[j] = points[i];
 
-		if(interpolate_l != null && 5000000 - fscPoints.GetLastTime() < 0 )
+		if(interpolate_l != null && pathAccuracyCountdownMicros - fscPoints.GetLastTime() < 0 )
 		{
 			int storedCountOut = pathAccuracy.CountOut;
 			UtilGtk.GetPixelsInOutOfPath (paintPoints, paintPoints.Length -1 -toDrawStored, force_capture_pixmap,
@@ -1829,7 +1831,7 @@ LogB.Information(" fs R ");
 			   UtilGtk.GetPixelsInOutOfPath (paintPoints, paintPoints.Length -1 -toDraw, force_capture_pixmap,
 					ref pathAccuracy.CountIn, ref pathAccuracy.CountOut, false);
 			 */
-			if(5000000 - fscPoints.GetLastTime() < 0)
+			if(pathAccuracyCountdownMicros - fscPoints.GetLastTime() < 0)
 			{
 				int storedCountOut = pathAccuracy.CountOut;
 				UtilGtk.GetPixelsInOutOfPath (paintPoints, paintPoints.Length -1 -toDraw, force_capture_pixmap,
@@ -2187,8 +2189,6 @@ LogB.Information(" fs R ");
 		Sqlite.Close();
 	}
 
-	//right now to do tests
-	List<PointF> interpolate_l;
 	private void createForceSensorCaptureInterpolateSignal()
 	{
 		/*

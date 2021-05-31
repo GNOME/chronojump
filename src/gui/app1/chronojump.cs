@@ -7803,7 +7803,10 @@ LogB.Debug("mc finished 5");
 		hbox_other_mc.Sensitive = false;
 		hbox_other_pulses.Sensitive = false;
 		sensitiveLastTestButtons(false);
-		
+
+		//do not allow to touch buttons on show table
+		notebook_results.Sensitive = false;
+
 		button_activate_chronopics.Sensitive = false;
 		button_activate_chronopics_encoder.Sensitive = false;
 		alignment_button_threshold.Sensitive = false;
@@ -7863,7 +7866,10 @@ LogB.Debug("mc finished 5");
 		hbox_other_mc.Sensitive = true;
 		hbox_other_pulses.Sensitive = true;
 		//hbox_multi_chronopic_buttons.Sensitive = true;
-		
+
+		//allow to touch buttons on show table
+		notebook_results.Sensitive = true;
+
 		button_activate_chronopics.Sensitive = true;
 
 		if(! configChronojump.Compujump)

@@ -35,6 +35,7 @@ public class ExecuteAutoWindow
 
 	//1st tab
 	[Widget] Gtk.RadioButton radio_load;
+	[Widget] Gtk.RadioButton radio_new;
 	[Widget] Gtk.Notebook notebook_load_or_new;
 	[Widget] Gtk.TreeView treeview_load;
 	[Widget] Gtk.RadioButton radio_by_persons;
@@ -462,17 +463,20 @@ public class ExecuteAutoWindow
 		return IDs;
 	}
 
-	//true means "by series" (shows more stuff)
-	private void showSeriesStuff(bool show) 
+	private void showSeriesStuff(bool newSequence, bool bySets)
 	{
-		button_add2.Visible = show;
-		button_add3.Visible = show;
+		//on load do not allow to edit
+		combo_select.Visible = newSequence;
+		button_add1.Visible = newSequence;
 
-		label_serie1.Visible = show;
-		label_serie2.Visible = show;
-		label_serie3.Visible = show;
+		button_add2.Visible = newSequence && bySets;
+		button_add3.Visible = newSequence && bySets;
 
-		if(! show)
+		label_serie1.Visible = newSequence && bySets;
+		label_serie2.Visible = newSequence && bySets;
+		label_serie3.Visible = newSequence && bySets;
+
+		if(! bySets)
 			treeview_serie1.SetSizeRequest(150,120);
 		else {
 			treeview_serie1.SetSizeRequest(150,80);
@@ -480,8 +484,8 @@ public class ExecuteAutoWindow
 			treeview_serie3.SetSizeRequest(150,80);
 		}
 		
-		scrolled_win_serie2.Visible = show;
-		scrolled_win_serie3.Visible = show;
+		scrolled_win_serie2.Visible = bySets;
+		scrolled_win_serie3.Visible = bySets;
 	}
 	
 	private void createTreeviewResult(bool by_sets) {
@@ -524,7 +528,8 @@ public class ExecuteAutoWindow
 				button_next.Sensitive = false;
 			}
 
-			showSeriesStuff(mode == ExecuteAuto.ModeTypes.BY_SETS);
+			showSeriesStuff(radio_new.Active, mode == ExecuteAuto.ModeTypes.BY_SETS);
+
 			notebook_main.NextPage();
 		}
 		else if(notebook_main.CurrentPage == 1) {

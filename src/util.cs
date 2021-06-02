@@ -591,7 +591,7 @@ public class Util
 
 		if(tcFull.Length > tvFull.Length) {
 			int lastEqualPos = tcString.LastIndexOf('=');
-			return tcString.Substring(0, lastEqualPos -1);
+			return tcString.Substring(0, lastEqualPos);
 		} else {
 			return tcString;
 		}

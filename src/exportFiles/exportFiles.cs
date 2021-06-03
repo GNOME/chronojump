@@ -197,7 +197,10 @@ public abstract class ExportFiles
 			Directory.CreateDirectory (destFolderURL);
 
 			foreach (FileInfo file in sourceDirInfo.GetFiles())
-				file.CopyTo(destFolderURL, true);
+			{
+				file.CopyTo(Path.Combine(destFolderURL, file.Name), true);
+				//note CopyTo needs a fully qualified name (on my linux machine, a folder works, but not in others)
+			}
 		} catch {
 			return false;
 		}

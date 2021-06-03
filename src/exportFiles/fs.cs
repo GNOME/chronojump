@@ -83,8 +83,11 @@ public class ForceSensorExport : ExportFiles
 	private string getTempGraphsABDir() {
 		return Path.Combine(Path.GetTempPath(), "chronojump_force_sensor_export_graphs_ab");
 	}
+	private string getCSVFileName() {
+		return "chronojump_force_sensor_export.csv";
+	}
 	private string getTempCSVFileName() {
-		return Path.Combine(Path.GetTempPath(), "chronojump_force_sensor_export.csv");
+		return Path.Combine(Path.GetTempPath(), getCSVFileName());
 	}
 
 	protected override void createOrEmptyDirs()
@@ -358,7 +361,11 @@ public class ForceSensorExport : ExportFiles
 			return false;
 
 		//copy the CSV
-		File.Copy(getTempCSVFileName(), exportURL, true);
+		//if includeImages, exportURL is a dir, so need a filename to have File.Copy on all systems
+		if(includeImages)
+			File.Copy(getTempCSVFileName(), Path.Combine(exportURL, getCSVFileName()), true);
+		else
+			File.Copy(getTempCSVFileName(), exportURL, true);
 
 		return true;
 	}

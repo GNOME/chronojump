@@ -1574,7 +1574,8 @@ LogB.Information(" fs E ");
 			string accuracyStr = "";
 			if(interpolate_l != null)
 			{
-				if(fscPoints != null) {
+				if(fscPoints != null && fscPoints.GetLength() > 1) //to ensure fscPoints.GetLastTime() works
+				{
 					int countDown = Convert.ToInt32(UtilAll.DivideSafe(pathAccuracyCountdownMicros - fscPoints.GetLastTime(), 1000000));
 					if(countDown >= 0)
 						accuracyStr = string.Format(" - Accuracy calculation starts in <b>{0}</b> s", countDown);

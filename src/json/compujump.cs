@@ -47,7 +47,7 @@ public class JsonCompujump : Json
 		Person person = new Person(-1);
 
 		// Create a request using a URL that can receive a post.
-		if (! createWebRequest(requestType.AUTHENTICATED, "/api/v1/client/getPersonByRFID"))
+		if (! createWebRequest(requestType.AUTHENTICATED, "/api/v1/client/getPlayerByRFID"))
 			return person;
 
 		// Set the Method property of the request to POST.
@@ -162,7 +162,7 @@ public class JsonCompujump : Json
 		return true;
 	}
 
-	public List<Task> GetTasks(int personID, int stationID)
+	public List<Task> GetTasks(int personID)
 	{
 		connected = false;
 
@@ -175,9 +175,7 @@ public class JsonCompujump : Json
 
 		// Creates the json object
 		JsonObject json = new JsonObject();
-
-		json.Add("person_id", personID.ToString());
-		json.Add("station_id", stationID.ToString());
+		json.Add("player_id", personID.ToString());
 
 		// Converts it to a String
 		String js = json.ToString();
@@ -286,7 +284,7 @@ public class JsonCompujump : Json
 	}
 
 	//get pending tasks on other stations
-	public List<StationCount> GetOtherStationsWithPendingTasks(int personID, int stationID)
+	public List<StationCount> GetOtherStationsWithPendingTasks(int personID)
 	{
 		// Create a request using a URL that can receive a post.
 		if (! createWebRequest(requestType.AUTHENTICATED, "/api/v1/client/getOtherStationsWithPendingTasks"))
@@ -297,8 +295,7 @@ public class JsonCompujump : Json
 
 		// Creates the json object
 		JsonObject json = new JsonObject();
-		json.Add("person_id", personID.ToString());
-		json.Add("station_id", stationID.ToString());
+		json.Add("player_id", personID.ToString());
 
 		// Converts it to a String
 		String js = json.ToString();
@@ -343,7 +340,7 @@ public class JsonCompujump : Json
 	}
 
 	//stationType can be GRAVITATORY or INERTIAL
-	public List<EncoderExercise> GetStationExercises(int stationId, Constants.EncoderGI stationType)
+	public List<EncoderExercise> GetStationExercises(Constants.EncoderGI stationType)
 	{
 		List<EncoderExercise> ex_list = new List<EncoderExercise>();
 
@@ -351,24 +348,8 @@ public class JsonCompujump : Json
 		if (! createWebRequest(requestType.AUTHENTICATED, "/api/v1/client/getStationExercises"))
 			return ex_list;
 
-		// Set the Method property of the request to POST.
-		request.Method = "POST";
-
-		// Creates the json object
-		JsonObject json = new JsonObject();
-		json.Add("station_id", stationId);
-
-		// Converts it to a String
-		String js = json.ToString();
-
-		// Writes the json object into the request dataStream
-		Stream dataStream;
-		if(! getWebRequestStream (request, out dataStream, Catalog.GetString("Could not get station exercises.")))
-			return ex_list;
-
-		dataStream.Write (Encoding.UTF8.GetBytes(js), 0, js.Length);
-
-		dataStream.Close ();
+		// Set the Method property of the request to GET.
+		request.Method = "GET";
 
 		HttpWebResponse response;
 		if(! getHttpWebResponse (request, out response, Catalog.GetString("Could not get station exercises.")))
@@ -393,6 +374,7 @@ public class JsonCompujump : Json
 
 		return ex_list;
 	}
+
 	private List<EncoderExercise> stationExercisesDeserialize(string str, Constants.EncoderGI stationType)
 	{
 		List<EncoderExercise> ex_list = new List<EncoderExercise>();
@@ -497,7 +479,7 @@ public class JsonCompujump : Json
 	{
 		LogB.Information("calling upload sprint");
 		// Create a request using a URL that can receive a post.
-		if (! createWebRequest(requestType.AUTHENTICATED, "/api/v1/client/uploadSprintData"))
+		if (! createWebRequest(requestType.AUTHENTICATED, "/api/v1/client/uploadSprint"))
 			return false;
 
 		/*
@@ -511,7 +493,7 @@ public class JsonCompujump : Json
 
 		// Creates the json object
 		JsonObject json = new JsonObject();
-		json.Add("person_id", o.personId);
+		json.Add("player_id", o.personId);
 		json.Add("distances", o.sprintPositions);
 		json.Add("t1", o.splitTimesL[1]);
 
@@ -586,7 +568,7 @@ public class JsonCompujump : Json
 	public bool UploadEncoderData(UploadEncoderDataFullObject o)
 	{
 		// Create a request using a URL that can receive a post.
-		if (! createWebRequest(requestType.AUTHENTICATED, "/api/v1/client/uploadEncoderData"))
+		if (! createWebRequest(requestType.AUTHENTICATED, "/api/v1/client/uploadEncoder"))
 			return false;
 
 		// Set the Method property of the request to POST.
@@ -594,8 +576,7 @@ public class JsonCompujump : Json
 
 		// Creates the json object
 		JsonObject json = new JsonObject();
-		json.Add("person_id", o.personId);
-		json.Add("station_id", o.stationId);
+		json.Add("player_id", o.personId);
 		//json.Add("exercise_name", Util.RemoveAccents(exerciseName));
 		json.Add("exercise_id", o.exerciseId);
 		json.Add("laterality", o.laterality);
@@ -650,7 +631,7 @@ public class JsonCompujump : Json
 	public bool UploadForceSensorData(UploadForceSensorDataFullObject o)
 	{
 		// Create a request using a URL that can receive a post.
-		if (! createWebRequest(requestType.AUTHENTICATED, "/api/v1/client/uploadForceSensorData"))
+		if (! createWebRequest(requestType.AUTHENTICATED, "/api/v1/client/uploadForceSensor"))
 			return false;
 
 		// Set the Method property of the request to POST.
@@ -658,8 +639,7 @@ public class JsonCompujump : Json
 
 		// Creates the json object
 		JsonObject json = new JsonObject();
-		json.Add("person_id", o.personId);
-		json.Add("station_id", o.stationId);
+		json.Add("player_id", o.personId);
 		//json.Add("exercise_name", Util.RemoveAccents(exerciseName));
 		json.Add("exercise_id", o.exerciseId);
 		json.Add("laterality", o.laterality);

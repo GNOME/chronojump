@@ -939,7 +939,7 @@ public partial class ChronoJumpWindow
 	{
 		//1) get tasks
 		JsonCompujump json = new JsonCompujump(configChronojump.CompujumpDjango);
-		List<Task> tasks = json.GetTasks(currentPerson.UniqueID, configChronojump.CompujumpStationID);
+		List<Task> tasks = json.GetTasks(currentPerson.UniqueID);
 
 		//2) get exercises and insert if needed (only on encoder)
 		if(configChronojump.CompujumpStationMode == Constants.Menuitem_modes.POWERGRAVITATORY ||
@@ -950,7 +950,7 @@ public partial class ChronoJumpWindow
 				type = Constants.EncoderGI.INERTIAL;
 
 			ArrayList encoderExercisesOnLocal = SqliteEncoder.SelectEncoderExercises(false, -1, false, type);
-			List<EncoderExercise> exRemote_list = json.GetStationExercises(configChronojump.CompujumpStationID, type);
+			List<EncoderExercise> exRemote_list = json.GetStationExercises(type);
 
 			foreach(EncoderExercise exRemote in exRemote_list)
 			{

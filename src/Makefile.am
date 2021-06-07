@@ -78,7 +78,7 @@ SOURCES = \
 	gui/person/recuperate.cs\
 	gui/person/showAllEvents.cs\
 	gui/preferences.cs\
-	gui/sendLog.cs\
+	gui/sendLogAndPoll.cs\
 	gui/session/selectStats.cs\
 	gui/stats.cs\
 	gui/presentation.cs\

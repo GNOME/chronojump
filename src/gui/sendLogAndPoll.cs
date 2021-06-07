@@ -27,6 +27,8 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow
 {
+	//--- send log ----
+
 	[Widget] Gtk.Box hbox_send_log;
 	[Widget] Gtk.TextView textview_send_log;
 	[Widget] Gtk.Image image_send_log_no;
@@ -39,6 +41,11 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.TextView textview_comments;
 	[Widget] Gtk.Button button_send_log;
 	[Widget] Gtk.TextView textview_send_log_message;
+
+	//--- send poll ----
+
+
+	//--- send log ----
 
 	string emailStored;
 	private void show_send_log(string sendLogMessage, string logLanguage)
@@ -133,6 +140,10 @@ public partial class ChronoJumpWindow
 		tb.Text = js.ResultMessage;
 		textview_send_log_message.Buffer = tb;
 	}
+
+	//--- send poll ----
+
+	//--- send log and send poll----
 
 	private void on_button_open_chronojump_clicked(object o, EventArgs args)
 	{

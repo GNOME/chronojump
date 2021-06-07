@@ -44,6 +44,9 @@ public partial class ChronoJumpWindow
 
 	//--- send poll ----
 
+	[Widget] Gtk.RadioButton radio_social_network_poll_other;
+	[Widget] Gtk.Entry entry_social_network_poll_other;
+
 
 	//--- send log ----
 
@@ -142,6 +145,11 @@ public partial class ChronoJumpWindow
 	}
 
 	//--- send poll ----
+
+	private void on_radio_social_network_poll_toggled (object o, EventArgs args)
+	{
+		entry_social_network_poll_other.Sensitive = (o == (object) radio_social_network_poll_other);
+	}
 
 	//--- send log and send poll----
 

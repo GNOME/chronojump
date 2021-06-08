@@ -49,6 +49,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_social_network_poll_instagram;
 	[Widget] Gtk.RadioButton radio_social_network_poll_tiktok;
 	[Widget] Gtk.RadioButton radio_social_network_poll_twitch;
+	[Widget] Gtk.RadioButton radio_social_network_poll_twitter;
 	[Widget] Gtk.RadioButton radio_social_network_poll_youtube;
 	[Widget] Gtk.RadioButton radio_social_network_poll_other;
 	[Widget] Gtk.Entry entry_social_network_poll_other;
@@ -184,6 +185,8 @@ public partial class ChronoJumpWindow
 			socialNetwork = "TikTok";
 		else if(radio_social_network_poll_twitch.Active)
 			socialNetwork = "Twitch";
+		else if(radio_social_network_poll_twitter.Active)
+			socialNetwork = "Twitter";
 		else if(radio_social_network_poll_youtube.Active)
 			socialNetwork = "Youtube";
 		else if(radio_social_network_poll_other.Active)

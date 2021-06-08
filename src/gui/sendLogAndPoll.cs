@@ -53,7 +53,11 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_social_network_poll_youtube;
 	[Widget] Gtk.RadioButton radio_social_network_poll_other;
 	[Widget] Gtk.Entry entry_social_network_poll_other;
+	[Widget] Gtk.Notebook notebook_social_network_poll_send_result;
 	[Widget] Gtk.Button button_social_network_poll_send;
+	[Widget] Gtk.Image image_social_network_poll_send_yes;
+	[Widget] Gtk.Image image_social_network_poll_send_no;
+	[Widget] Gtk.Label label_social_network_poll_message;
 
 
 	//--- send log ----
@@ -195,27 +199,19 @@ public partial class ChronoJumpWindow
 		Json js = new Json();
 		bool success = js.SocialNetworkPoll(preferences.machineID, socialNetwork);
 
-		LogB.Information(string.Format("on_button_social_network_poll_send_clicked, success: {0}, message: {1}", success, js.ResultMessage));
-		/*
+		notebook_social_network_poll_send_result.CurrentPage = 1;
+		button_social_network_poll_send.Sensitive = false;
 		if(success) {
-			button_send_log.Label = Catalog.GetString("Thanks");
-			button_send_log.Sensitive = false;
-
-			image_send_log_yes.Show();
-			image_send_log_no.Hide();
+			image_social_network_poll_send_yes.Show();
+			image_social_network_poll_send_no.Hide();
 			LogB.Information(js.ResultMessage);
 		} else {
-			button_send_log.Label = Catalog.GetString("Try again");
-
-			image_send_log_yes.Hide();
-			image_send_log_no.Show();
+			image_social_network_poll_send_yes.Hide();
+			image_social_network_poll_send_no.Show();
 			LogB.Error(js.ResultMessage);
 		}
 
-		TextBuffer tb = new TextBuffer (new TextTagTable());
-		tb.Text = js.ResultMessage;
-		textview_send_log_message.Buffer = tb;
-		*/
+		label_social_network_poll_message.Text = js.ResultMessage;
 	}
 
 	//--- send log and send poll----

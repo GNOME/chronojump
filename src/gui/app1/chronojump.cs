@@ -595,7 +595,10 @@ public partial class ChronoJumpWindow
 			notebook_start.CurrentPage = Convert.ToInt32(notebook_start_pages.SENDLOG);
 		}
 		else if (showSocialNetworkPoll)
+		{
 			notebook_start.CurrentPage = Convert.ToInt32(notebook_start_pages.SOCIALNETWORKPOLL);
+			socialNetworkPollInit();
+		}
 		else
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.START);
 

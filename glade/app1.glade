@@ -48612,7 +48612,7 @@ then click this button.</property>
                                                           </packing>
                                                         </child>
                                                         <child>
-                                                          <widget class="GtkLabel" id="label645">
+                                                          <widget class="GtkLabel" id="label_social_network_poll_question">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>

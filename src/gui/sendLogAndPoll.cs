@@ -44,6 +44,7 @@ public partial class ChronoJumpWindow
 
 	//--- send poll ----
 
+	[Widget] Gtk.Label label_social_network_poll_question;
 	[Widget] Gtk.RadioButton radio_social_network_poll_nsnc;
 	[Widget] Gtk.RadioButton radio_social_network_poll_facebook;
 	[Widget] Gtk.RadioButton radio_social_network_poll_instagram;
@@ -157,6 +158,14 @@ public partial class ChronoJumpWindow
 	}
 
 	//--- send poll ----
+
+	private void socialNetworkPollInit ()
+	{
+		//question in bold
+		label_social_network_poll_question.Text = "<b>" + label_social_network_poll_question.Text + "</b>";
+		label_social_network_poll_question.UseMarkup = true;
+
+	}
 
 	private void on_radio_social_network_poll_toggled (object o, EventArgs args)
 	{

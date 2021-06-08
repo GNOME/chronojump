@@ -136,6 +136,7 @@ public partial class ChronoJumpWindow
 			UtilGtk.WindowColor(app1, color);
 			UtilGtk.ViewportColor(viewport_send_log, color);
 			UtilGtk.ViewportColor(viewport_exit_confirm, color);
+			UtilGtk.ViewportColor(viewport_social_network_poll, color);
 			UtilGtk.ViewportColor(viewport_rest_time_contacts, color);
 			UtilGtk.ViewportColor(viewport_rest_time_encoder, color);
 		}

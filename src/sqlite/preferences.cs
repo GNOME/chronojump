@@ -44,6 +44,9 @@ class SqlitePreferences : Sqlite
 	public const string ServerNewsDatetime = "serverNewsDatetime"; // NOT stored on SQL. string of last news in server, obtained on pingAtNewsAtStart
 	public const string ClientNewsDatetime = "clientNewsDatetime"; // stored on SQL. string of last news local, when user clicks on getNews(), if this is diff than server... news are downloaded and this is updated
 
+	public const string SocialNetwork = "socialNetwork";
+	public const string SocialNetworkDatetime = "socialNetworkDatetime"; //"": not answered, -1: should be sent when there's network (after a ping)
+
 	//contacts
 	public const string JumpsFVProfileOnlyBestInWeight = "jumpsFVProfileOnlyBestInWeight";
 	public const string JumpsFVProfileShowFullGraph = "jumpsFVProfileShowFullGraph";
@@ -357,6 +360,10 @@ class SqlitePreferences : Sqlite
 				Insert (NewsLanguageEs, "False", dbcmdTr);
 				Insert (ClientNewsDatetime, "", dbcmdTr);
 
+				//socialNetwork
+				Insert (SocialNetwork, "", dbcmdTr);
+				Insert (SocialNetworkDatetime, "", dbcmdTr);
+
 				//session
 				Insert (LoadLastSessionAtStart, "True", dbcmdTr);
 				Insert (LastSessionID, "-1", dbcmdTr);
@@ -506,6 +513,10 @@ class SqlitePreferences : Sqlite
 				preferences.newsLanguageEs = reader[1].ToString() == "True"; //bool
 			else if(reader[0].ToString() == ClientNewsDatetime )
 				preferences.clientNewsDatetime = reader[1].ToString();
+			else if(reader[0].ToString() == SocialNetwork )
+				preferences.socialNetwork = reader[1].ToString();
+			else if(reader[0].ToString() == SocialNetworkDatetime )
+				preferences.socialNetworkDatetime = reader[1].ToString();
 			else if(reader[0].ToString() == UnitsStr)
 				preferences.units = (Preferences.UnitsEnum)
 					Enum.Parse(typeof(Preferences.UnitsEnum), reader[1].ToString());

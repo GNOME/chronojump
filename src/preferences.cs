@@ -203,6 +203,10 @@ public class Preferences
 	public string serverNewsDatetime;  	// NOT on SQL
 	public string clientNewsDatetime; 	// on SQL
 
+	//socialNetwork poll
+	public string socialNetwork;
+	public string socialNetworkDatetime; // "": not answered, -1: it should be sent when there's network (after a ping)
+
 	//jumps
 	public bool jumpsFVProfileOnlyBestInWeight;
 	public bool jumpsFVProfileShowFullGraph;

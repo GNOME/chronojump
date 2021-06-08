@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.22";
+	static string lastChronojumpDatabaseVersion = "2.23";
 
 	public Sqlite()
 	{
@@ -3010,7 +3010,15 @@ class Sqlite
 
 				currentVersion = updateVersion("2.22");
 			}
+			if(currentVersion == "2.22")
+			{
+				LogB.SQL("Inserted socialNetwork variables at preferences");
 
+				SqlitePreferences.Insert (SqlitePreferences.SocialNetwork, "");
+				SqlitePreferences.Insert (SqlitePreferences.SocialNetworkDatetime, "");
+
+				currentVersion = updateVersion("2.23");
+			}
 
 
 			/*
@@ -3232,6 +3240,7 @@ class Sqlite
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
 
+		//2.22 - 2.23 Converted DB to 2.23 Inserted socialNetwork variables at preferences
 		//2.21 - 2.22 Converted DB to 2.22 Inserted forceSensorFeedbackPath params
 		//2.20 - 2.21 Converted DB to 2.21 Inserted into preferences: runsEvolutionShowTime
 		//2.19 - 2.20 Converted DB to 2.20 Inserted into preferences: runsEvolutionOnlyBestInSession

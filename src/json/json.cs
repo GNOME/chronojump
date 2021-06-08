@@ -36,7 +36,7 @@ public class Json
 	protected bool connected; //know if server is connected. Do it when there's a change on RFID (pulse)
 	protected string authToken; //authentification token. If the string is empty auth call must be done.
 	protected HttpWebRequest request; //generic request (for all methods except ping)
-	protected enum requestType { AUTHENTICATED, PUBLIC, PING };
+	protected enum requestType { AUTHENTICATED, PUBLIC, PING }; //PING uses requestPing that is managed on Chronojump exit if there are network problems
 	protected static string serverUrl = "http://api.chronojump.org:8080";
 	//protected static string serverUrl = "http://networks.chronojump.org"; //Networks
 	//protected static string serverUrl = "http://localhost:8000"; //Local server
@@ -438,6 +438,61 @@ public class Json
 		response.Close ();
 		
 		this.ResultMessage = "Ping sent.";
+		return true;
+	}
+
+	//TODO: send the booleans of which equipment client has (if appropriate)
+	public bool SocialNetworkPoll (string machineID, string socialNetwork)
+	{
+		if (! createWebRequest(requestType.PUBLIC, "/socialNetwork"))
+			return false;
+
+		// Set the Method property of the request to POST.
+		request.Method = "POST";
+
+		// Set the ContentType property of the WebRequest.
+		request.ContentType = "application/json";
+
+		// Creates the json object
+		JsonObject json = new JsonObject();
+
+		/*
+		   machine_id is an int (15) unsigned, but seems the 15 is not working, what is used is:
+		   maximum value is: 4294967295
+		   https://www.mysqltutorial.org/mysql-int/
+		   */
+		LogB.Information("machineID: " + machineID);
+		if(machineID.Length >= 10)
+			machineID = "4294967295";
+
+		json.Add("machine_id", machineID);
+		json.Add("social_network", socialNetwork);
+
+		// Converts it to a String
+		String js = json.ToString();
+
+		// Writes the json object into the request dataStream
+		Stream dataStream;
+		if(! getWebRequestStream (request, out dataStream, "Could not send socialNetwork (A)."))
+			return false;
+
+		dataStream.Write (Encoding.UTF8.GetBytes(js), 0, js.Length);
+
+		dataStream.Close ();
+
+		// Get the response.
+		WebResponse response;
+		if(! getWebResponse (request, out response, "Could not send socialNetwork (B)."))
+			return false;
+
+		// Display the status (will be 201, CREATED)
+		Console.WriteLine (((HttpWebResponse)response).StatusDescription);
+
+		// Clean up the streams.
+		dataStream.Close ();
+		response.Close ();
+
+		this.ResultMessage = "Poll sent.";
 		return true;
 	}
 

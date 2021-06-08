@@ -473,7 +473,7 @@ public class Json
 
 		// Writes the json object into the request dataStream
 		Stream dataStream;
-		if(! getWebRequestStream (request, out dataStream, "Could not send socialNetwork (A)."))
+		if(! getWebRequestStream (request, out dataStream, "Could not send poll."))
 			return false;
 
 		dataStream.Write (Encoding.UTF8.GetBytes(js), 0, js.Length);
@@ -482,7 +482,7 @@ public class Json
 
 		// Get the response.
 		WebResponse response;
-		if(! getWebResponse (request, out response, "Could not send socialNetwork (B)."))
+		if(! getWebResponse (request, out response, "Could not receive poll."))
 			return false;
 
 		// Display the status (will be 201, CREATED)

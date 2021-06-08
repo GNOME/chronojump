@@ -38,6 +38,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Alignment alignment_viewport_menu_top;
 	[Widget] Gtk.Viewport viewport_send_log;
 	[Widget] Gtk.Viewport viewport_exit_confirm;
+	[Widget] Gtk.Viewport viewport_social_network_poll;
 	[Widget] Gtk.Viewport viewport_start_modes;
 	[Widget] Gtk.Viewport viewport_menu_top;
 	[Widget] Gtk.Viewport viewport_menu;
@@ -247,6 +248,7 @@ public partial class ChronoJumpWindow
 			UtilGtk.WindowColor(app1, color);
 			UtilGtk.ViewportColor(viewport_send_log, color);
 			UtilGtk.ViewportColor(viewport_exit_confirm, color);
+			UtilGtk.ViewportColor(viewport_social_network_poll, color);
 			UtilGtk.ViewportColor(viewport_menu_top, color);
 			UtilGtk.ViewportColor(viewport_menu, color);
 		}

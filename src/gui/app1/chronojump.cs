@@ -587,7 +587,7 @@ public partial class ChronoJumpWindow
 			hbox_message_permissions_at_boot.Visible = true;
 		}
 
-		bool showSocialNetworkPoll = true;
+		bool showSocialNetworkPoll = (preferences.socialNetworkDatetime == "");
 		//show send log if needed or other messages
 		if (showSendLog)
 		{
@@ -7110,7 +7110,21 @@ LogB.Debug("mc finished 5");
 	{
 		jsPing = new Json();
 		if(pingDo())
+		{
 			getNewsDatetime();
+
+			//also manage pending poll
+			if(preferences.socialNetworkDatetime == "-1")
+			{
+				Json js = new Json();
+				bool success = js.SocialNetworkPoll(preferences.machineID, preferences.socialNetwork);
+				if(success) {
+					SqlitePreferences.Update(SqlitePreferences.SocialNetwork, preferences.socialNetwork, false);
+					SqlitePreferences.Update(SqlitePreferences.SocialNetworkDatetime,
+							UtilDate.ToFile(DateTime.Now), false);
+				}
+			}
+		}
 	}
 
 	private bool pingDo()

@@ -62,7 +62,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_social_network_poll_message;
 
 
+	//-----------------
 	//--- send log ----
+	//-----------------
 
 	string emailStored;
 	private void show_send_log(string sendLogMessage, string logLanguage)
@@ -158,7 +160,10 @@ public partial class ChronoJumpWindow
 		textview_send_log_message.Buffer = tb;
 	}
 
+
+	//-----------------
 	//--- send poll ----
+	//-----------------
 
 	private void socialNetworkPollInit ()
 	{
@@ -213,20 +218,50 @@ public partial class ChronoJumpWindow
 		button_social_network_poll_send.Sensitive = false;
 		vbox_social_network_poll_answers.Sensitive = false;
 
-		if(success) {
+		preferences.socialNetwork = socialNetwork; //to manage if it has to be sent after ping
+		SqlitePreferences.Update(SqlitePreferences.SocialNetwork, socialNetwork, false);
+
+		if(success)
+		{
 			image_social_network_poll_send_yes.Show();
 			image_social_network_poll_send_no.Hide();
 			LogB.Information(js.ResultMessage);
+
+			preferences.socialNetworkDatetime = UtilDate.ToFile(DateTime.Now);
+			SqlitePreferences.Update(SqlitePreferences.SocialNetworkDatetime,
+					UtilDate.ToFile(DateTime.Now), false);
+		}
+		/*
+		   if not success (no network) but user clicked on nsnc and send,
+		   then show green button and do not bother user again,
+		   but try to send on next ping that value
+		   */
+		else if(radio_social_network_poll_nsnc.Active)
+		{
+			image_social_network_poll_send_yes.Show();
+			image_social_network_poll_send_no.Hide();
+			LogB.Information(js.ResultMessage);
+
+			preferences.socialNetworkDatetime = "-1";
+			SqlitePreferences.Update(SqlitePreferences.SocialNetworkDatetime,
+					"-1", false);
 		} else {
 			image_social_network_poll_send_yes.Hide();
 			image_social_network_poll_send_no.Show();
 			LogB.Error(js.ResultMessage);
+
+			preferences.socialNetworkDatetime = "-1";
+			SqlitePreferences.Update(SqlitePreferences.SocialNetworkDatetime,
+					"-1", false);
 		}
 
 		label_social_network_poll_message.Text = js.ResultMessage;
 	}
 
+
+	//------------------------------
 	//--- send log and send poll----
+	//------------------------------
 
 	private void on_button_open_chronojump_clicked(object o, EventArgs args)
 	{

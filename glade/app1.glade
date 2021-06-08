@@ -48636,7 +48636,7 @@ then click this button.</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <child>
-                                                          <widget class="GtkVBox" id="vbox153">
+                                                          <widget class="GtkVBox" id="vbox_social_network_poll_answers">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">10</property>

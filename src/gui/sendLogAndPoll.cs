@@ -44,8 +44,15 @@ public partial class ChronoJumpWindow
 
 	//--- send poll ----
 
+	[Widget] Gtk.RadioButton radio_social_network_poll_nsnc;
+	[Widget] Gtk.RadioButton radio_social_network_poll_facebook;
+	[Widget] Gtk.RadioButton radio_social_network_poll_instagram;
+	[Widget] Gtk.RadioButton radio_social_network_poll_tiktok;
+	[Widget] Gtk.RadioButton radio_social_network_poll_twitch;
+	[Widget] Gtk.RadioButton radio_social_network_poll_youtube;
 	[Widget] Gtk.RadioButton radio_social_network_poll_other;
 	[Widget] Gtk.Entry entry_social_network_poll_other;
+	[Widget] Gtk.Button button_social_network_poll_send;
 
 
 	//--- send log ----
@@ -149,6 +156,63 @@ public partial class ChronoJumpWindow
 	private void on_radio_social_network_poll_toggled (object o, EventArgs args)
 	{
 		entry_social_network_poll_other.Sensitive = (o == (object) radio_social_network_poll_other);
+
+		button_social_network_poll_send_sensitivity();
+	}
+
+	private void on_entry_social_network_poll_other_changed (object o, EventArgs args)
+	{
+		button_social_network_poll_send_sensitivity();
+	}
+
+	private void button_social_network_poll_send_sensitivity()
+	{
+		button_social_network_poll_send.Sensitive =
+			! (radio_social_network_poll_other.Active && entry_social_network_poll_other.Text == "");
+	}
+
+	private void on_button_social_network_poll_send_clicked (object o, EventArgs args)
+	{
+		string socialNetwork = "";
+		if(radio_social_network_poll_nsnc.Active)
+			socialNetwork = "NSNC";
+		else if(radio_social_network_poll_facebook.Active)
+			socialNetwork = "Facebook";
+		else if(radio_social_network_poll_instagram.Active)
+			socialNetwork = "Instagram";
+		else if(radio_social_network_poll_tiktok.Active)
+			socialNetwork = "TikTok";
+		else if(radio_social_network_poll_twitch.Active)
+			socialNetwork = "Twitch";
+		else if(radio_social_network_poll_youtube.Active)
+			socialNetwork = "Youtube";
+		else if(radio_social_network_poll_other.Active)
+			socialNetwork = Util.MakeValidSQLAndFileName(entry_social_network_poll_other.Text);
+
+		Json js = new Json();
+		bool success = js.SocialNetworkPoll(preferences.machineID, socialNetwork);
+
+		LogB.Information(string.Format("on_button_social_network_poll_send_clicked, success: {0}, message: {1}", success, js.ResultMessage));
+		/*
+		if(success) {
+			button_send_log.Label = Catalog.GetString("Thanks");
+			button_send_log.Sensitive = false;
+
+			image_send_log_yes.Show();
+			image_send_log_no.Hide();
+			LogB.Information(js.ResultMessage);
+		} else {
+			button_send_log.Label = Catalog.GetString("Try again");
+
+			image_send_log_yes.Hide();
+			image_send_log_no.Show();
+			LogB.Error(js.ResultMessage);
+		}
+
+		TextBuffer tb = new TextBuffer (new TextTagTable());
+		tb.Text = js.ResultMessage;
+		textview_send_log_message.Buffer = tb;
+		*/
 	}
 
 	//--- send log and send poll----

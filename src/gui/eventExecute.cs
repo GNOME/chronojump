@@ -2414,7 +2414,8 @@ public partial class ChronoJumpWindow
 		event_execute_label_run_interval_time_now.Text = "<b>" + Util.TrimDecimals(lastTime.ToString(), preferences.digitsNumber) + "</b>";
 		event_execute_label_run_interval_time_now.UseMarkup = true; 
 		event_execute_label_run_interval_time_avg.Text = Util.TrimDecimals(avgTime.ToString(), preferences.digitsNumber);
-		event_execute_label_run_interval_time_total.Text = Util.TrimDecimals(timeTotal.ToString(), preferences.digitsNumber);
+		event_execute_label_run_interval_time_total.Text = "<b>" + Util.TrimDecimals(timeTotal.ToString(), preferences.digitsNumber) + "</b>";
+		event_execute_label_run_interval_time_total.UseMarkup = true;
 		
 		event_execute_label_run_interval_speed_now.Text = "<b>" + Util.TrimDecimals((distance / lastTime).ToString(), preferences.digitsNumber) + "</b>";
 		event_execute_label_run_interval_speed_now.UseMarkup = true; 

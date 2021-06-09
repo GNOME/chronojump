@@ -6188,6 +6188,9 @@ public partial class ChronoJumpWindow
 
 				encoderRProcCapture.CutByTriggers = Preferences.TriggerTypes.NO_TRIGGERS; //do not cutByTriggers on inertial, yet.
 
+				encoderCaptureStopwatch = new Stopwatch();
+				encoderCaptureStopwatch.Start();
+
 				encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharpIM));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureIM));
 			}

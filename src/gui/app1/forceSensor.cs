@@ -624,6 +624,9 @@ public partial class ChronoJumpWindow
 		}
 
 		button_force_sensor_image_save_signal.Sensitive = false;
+
+		label_force_sensor_export_result.Text = "";
+		button_force_sensor_export_result_open.Visible = false;
 	}
 
 	private bool pulseGTKForceSensorOther ()

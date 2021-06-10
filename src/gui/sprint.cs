@@ -52,6 +52,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spinbutton_sprint_export_image_height;
 	[Widget] Gtk.ProgressBar progressbar_sprint_export;
 	[Widget] Gtk.Label label_sprint_export_result;
+	[Widget] Gtk.Button button_sprint_export_result_open;
 
 	static SprintRGraph sprintRGraph;
 	TreeStore storeSprint;
@@ -292,21 +293,34 @@ public partial class ChronoJumpWindow
 	private void on_check_sprint_export_images_toggled (object o, EventArgs args)
 	{
 		hbox_sprint_export_width_height.Visible = check_sprint_export_images.Active;
+
+		//also hide the label and the open button
+		label_sprint_export_result.Text = "";
+		button_sprint_export_result_open.Visible = false;
 	}
 
 	private void on_radio_sprint_analyze_individual_current_set_toggled (object o, EventArgs args)
 	{
 		notebook_sprint_analyze_top.CurrentPage = 0;
+
+		label_sprint_export_result.Text = "";
+		button_sprint_export_result_open.Visible = false;
 	}
 
 	private void on_radio_sprint_analyze_individual_current_session_toggled (object o, EventArgs args)
 	{
 		notebook_sprint_analyze_top.CurrentPage = 1;
+
+		label_sprint_export_result.Text = "";
+		button_sprint_export_result_open.Visible = false;
 	}
 
 	private void on_radio_sprint_analyze_groupal_current_session_toggled (object o, EventArgs args)
 	{
 		notebook_sprint_analyze_top.CurrentPage = 1;
+
+		label_sprint_export_result.Text = "";
+		button_sprint_export_result_open.Visible = false;
 	}
 
 	private void on_button_sprint_export_current_session_clicked (object o, EventArgs args)
@@ -332,6 +346,9 @@ public partial class ChronoJumpWindow
 	{
 		//continue based on: private void button_run_encoder_export_session (int personID)
 		//TODO: sensitive stuff (false)
+
+		label_sprint_export_result.Text = "";
+		button_sprint_export_result_open.Visible = false;
 
 		//store new width/height if changed
 		Sqlite.Open();
@@ -403,5 +420,21 @@ public partial class ChronoJumpWindow
 
 //		sprintButtonsSensitive(true);
 		hbox_sprint_analyze_top_modes.Sensitive = true;
+		button_sprint_export_result_open.Visible = true;
 	}
+
+	private void on_button_sprint_export_result_open_clicked (object o, EventArgs args)
+	{
+		if(sprintExport == null || sprintExport.ExportURL == "")
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING,
+					Constants.DirectoryCannotOpenStr());
+			return;
+		}
+
+		if(! Util.OpenURL (sprintExport.ExportURL))
+			new DialogMessage(Constants.MessageTypes.WARNING,
+					Constants.DirectoryCannotOpenStr() + "\n\n" + sprintExport.ExportURL);
+	}
+
 }

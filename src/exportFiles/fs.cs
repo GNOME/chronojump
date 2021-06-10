@@ -248,6 +248,7 @@ public class ForceSensorExport : ExportFiles
 						addedSet = true;
 					}
 					fsgABe_l.Add(new ForceSensorGraphABExport (
+								isWindows,
 								fs.FullURL,
 								Util.CSVDecimalColumnIsPoint(fs.FullURL, 1),
 								fsAI.ForceMAX,			//raw
@@ -306,6 +307,7 @@ public class ForceSensorExport : ExportFiles
 					addedSet = true;
 				}
 				fsgABe_l.Add(new ForceSensorGraphABExport (
+							isWindows,
 							fs.FullURL,
 							Util.CSVDecimalColumnIsPoint(fs.FullURL, 1),
 							fsAI.ForceMAX,			//raw

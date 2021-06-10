@@ -1644,6 +1644,7 @@ public class ForceSensorGraphAB
 //this class creates the rows of each force sensor AB for the csv input multi that is read by R
 public class ForceSensorGraphABExport: ForceSensorGraphAB
 {
+	private bool isWindows;
 	public string fullURL;
 	public bool decimalIsPoint;
 	public double maxForceRaw;
@@ -1657,6 +1658,7 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 	public string commentOfSet;
 
 	public ForceSensorGraphABExport (
+			bool isWindows,
 			string fullURL, bool decimalIsPoint, double maxForceRaw,
 			double maxAvgForceInWindow, double forceSensorAnalyzeMaxAVGInWindowSeconds,
 			double maxAvgForceInWindowSampleStart, double maxAvgForceInWindowSampleEnd,
@@ -1666,6 +1668,7 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 	{
 		assignParams(fsco, startSample, endSample, title, exercise, date, time, triggerList);
 
+		this.isWindows = isWindows;
 		this.fullURL = fullURL;
 		this.decimalIsPoint = decimalIsPoint;
 		this.maxForceRaw = maxForceRaw;
@@ -1690,7 +1693,11 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 			decimalChar = localeInfo.NumberDecimalSeparator;
 		}
 
-		return fullURL + ";" +
+		string url = fullURL;
+		if(isWindows)
+			url = url.Replace("\\","/");
+
+		return url + ";" +
 			decimalChar + ";" +
 			Util.ConvertToPoint(maxForceRaw) + ";" +
 			Util.ConvertToPoint(maxAvgForceInWindow) + ";" +

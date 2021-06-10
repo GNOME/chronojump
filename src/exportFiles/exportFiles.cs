@@ -48,6 +48,7 @@ public abstract class ExportFiles
 	protected static bool failedRprocess; //error on .R process
 	protected static bool noData;
 	protected static bool cannotCopy;
+	protected static bool allOk;
 	protected static string messageToProgressbar;
 
 	protected void assignParams (
@@ -82,6 +83,7 @@ public abstract class ExportFiles
 		failedRprocess = false;
 		noData = false;
 		cannotCopy = false;
+		allOk = false;
 		progressbar.Fraction = 0;
 		messageToProgressbar = "";
 		notebook.CurrentPage = 1;
@@ -159,9 +161,13 @@ public abstract class ExportFiles
 			else if (cannotCopy)
 				labelResult.Text = string.Format(Catalog.GetString("Cannot copy to {0} "), exportURL);
 			else
+			{
 				labelResult.Text = string.Format(Catalog.GetString("Exported to {0}"), exportURL);// +
 						//Constants.GetSpreadsheetString(CSVExportDecimalSeparator)
 						//);
+
+				allOk = true;
+			}
 
 			Button_done.Click();
 
@@ -221,6 +227,9 @@ public abstract class ExportFiles
 
 	//folder or .csv depending on includeImages
 	//this provides a way to open file or folder from the main gui
+	public bool AllOk {
+		get { return allOk; }
+	}
 	public string ExportURL {
 		get { return exportURL; }
 	}

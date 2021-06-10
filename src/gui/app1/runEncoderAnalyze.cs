@@ -417,7 +417,9 @@ public partial class ChronoJumpWindow
 
 		runEncoderButtonsSensitive(true);
 		hbox_run_encoder_top.Sensitive = true;
-		button_run_encoder_export_result_open.Visible = true;
+
+		if(runEncoderExport != null && runEncoderExport.AllOk)
+			button_run_encoder_export_result_open.Visible = true;
 	}
 
 	private void on_button_run_encoder_export_result_open_clicked (object o, EventArgs args)

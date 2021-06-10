@@ -845,7 +845,9 @@ public partial class ChronoJumpWindow
 		hbox_force_sensor_analyze_top_modes.Sensitive = true;
 		button_force_sensor_analyze_options.Sensitive = true;
 		hbox_force_sensor_export_images.Sensitive = true;
-		button_force_sensor_export_result_open.Visible = true;
+
+		if(forceSensorExport != null && forceSensorExport.AllOk)
+			button_force_sensor_export_result_open.Visible = true;
 	}
 
 	private void on_button_force_sensor_export_result_open_clicked (object o, EventArgs args)

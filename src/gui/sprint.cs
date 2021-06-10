@@ -420,7 +420,9 @@ public partial class ChronoJumpWindow
 
 //		sprintButtonsSensitive(true);
 		hbox_sprint_analyze_top_modes.Sensitive = true;
-		button_sprint_export_result_open.Visible = true;
+
+		if(sprintExport != null && sprintExport.AllOk)
+			button_sprint_export_result_open.Visible = true;
 	}
 
 	private void on_button_sprint_export_result_open_clicked (object o, EventArgs args)

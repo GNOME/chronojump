@@ -149,21 +149,24 @@ public class SprintExport : ExportFiles
 
 		Util.FileDelete(RunInterval.GetCSVResultsFileName());
 
-		// call the graph
-
-		if(sprge_l.Count > 0)
+		//no data, maybe because all the tests have just two tracks and cannot be processed as sprint
+		if(sprge_l.Count == 0)
 		{
-			SprintRGraph s = new SprintRGraph (
-					sprge_l,
-					exportDecimalSeparator,
-					includeImages
-					);
+			noData = true;
+			return false;
+		}
 
-			if(! s.CallR(imageWidth, imageHeight, false))
-			{
-				failedRprocess = true;
-				return false;
-			}
+		// call the graph
+		SprintRGraph s = new SprintRGraph (
+				sprge_l,
+				exportDecimalSeparator,
+				includeImages
+				);
+
+		if(! s.CallR(imageWidth, imageHeight, false))
+		{
+			failedRprocess = true;
+			return false;
 		}
 
 		LogB.Information("Waiting creation of file... ");

@@ -357,6 +357,9 @@ public partial class ChronoJumpWindow
 			else
 				label_run_encoder_export_data.Text = "";
 		}
+
+		label_run_encoder_export_result.Text = "";
+		button_run_encoder_export_result_open.Visible = false;
 	}
 
 	private void raceEncoderReadWidgets()

@@ -311,6 +311,11 @@ public partial class ChronoJumpWindow
 	{
 		notebook_sprint_analyze_top.CurrentPage = 1;
 
+		if(currentPerson != null)
+			label_sprint_export_data.Text = currentPerson.Name;
+		else
+			label_sprint_export_data.Text = "";
+
 		label_sprint_export_result.Text = "";
 		button_sprint_export_result_open.Visible = false;
 	}
@@ -318,6 +323,8 @@ public partial class ChronoJumpWindow
 	private void on_radio_sprint_analyze_groupal_current_session_toggled (object o, EventArgs args)
 	{
 		notebook_sprint_analyze_top.CurrentPage = 1;
+
+		label_sprint_export_data.Text = currentSession.Name;
 
 		label_sprint_export_result.Text = "";
 		button_sprint_export_result_open.Visible = false;

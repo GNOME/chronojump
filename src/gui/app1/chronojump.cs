@@ -1336,6 +1336,11 @@ public partial class ChronoJumpWindow
 				label_sprint_person_name.Text = string.Format(Catalog.GetString("Sprints of {0}"), currentPerson.Name);
 			createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
 
+			if(currentPerson != null)
+				label_sprint_export_data.Text = currentPerson.Name;
+			else
+				label_sprint_export_data.Text = "";
+
 			label_sprint_export_result.Text = "";
 			button_sprint_export_result_open.Visible = false;
 		}

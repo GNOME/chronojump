@@ -575,7 +575,7 @@ msgstr "TV / TC"
 
 #: ../glade/app1.glade.h:109
 msgid "Last jump"
-msgstr "Darrer tram"
+msgstr "Darrer salt"
 
 #. don't plot AVG and SD rows
 #. if multisession, add AVG and SD cols

@@ -563,7 +563,7 @@ msgstr "TV / TC"
 
 #: ../glade/app1.glade.h:108
 msgid "Last jump"
-msgstr "Último tramo"
+msgstr "Último salto"
 
 #. don't plot AVG and SD rows
 #. if multisession, add AVG and SD cols

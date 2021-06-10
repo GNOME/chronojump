@@ -1538,7 +1538,12 @@ public class Util
 
 	public static bool OpenFolder(string url)
 	{
-		LogB.Information("OpenFolder: " + url);
+		LogB.Information("OpenFolder without quotes: " + url);
+
+		//add quotes to solve spacing problems
+		url = "\"" + url + "\"";
+		LogB.Information("OpenFolder with quotes: " + url);
+
 		try {
 			//more system specific methods on: https://stackoverflow.com/a/49664847/12366369
 			//also if do not work, check about relative paths here: https://stackoverflow.com/questions/52599105/c-sharp-under-linux-process-start-exception-of-no-such-file-or-directory

@@ -136,7 +136,7 @@ public class SplashWindow
 		else if(file2.Exists)
 			dir = Util.GetDatabaseTempDir();
 
-		if(! Util.OpenFolder(dir))
+		if(! Util.OpenURL (dir))
 			new DialogMessage(Constants.MessageTypes.WARNING,
 					Catalog.GetString("Error. Cannot open directory.") + "\n\n" + dir);
 	}
@@ -146,7 +146,7 @@ public class SplashWindow
 	}
 	private void on_button_open_docs_folder_clicked (object o, EventArgs args)
 	{
-		if(! Util.OpenFolder(Path.GetFullPath(Util.GetManualDir())))
+		if(! Util.OpenURL (Path.GetFullPath(Util.GetManualDir())))
 			new DialogMessage(Constants.MessageTypes.WARNING,
 					"Sorry, folder does not exist." + "\n\n" +
 					Path.GetFullPath(Util.GetManualDir())

@@ -301,6 +301,6 @@ public partial class ChronoJumpWindow
 		string link = newsAtDB_l[currentNewsPos].GetLink(preferences.newsLanguageEs);
 
 		LogB.Information("Opening browser (r mac install) to: " + link);
-		label_news_open_error.Visible = ! Util.OpenFolder(link);
+		label_news_open_error.Visible = ! Util.OpenURL (link);
 	}
 }

@@ -159,6 +159,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spinbutton_force_sensor_export_image_height;
 	[Widget] Gtk.ProgressBar progressbar_force_sensor_export;
 	[Widget] Gtk.Label label_force_sensor_export_result;
+	[Widget] Gtk.Button button_force_sensor_export_result_open;
 
 	private RepetitionMouseLimits fsAIRepetitionMouseLimits;
 
@@ -702,6 +703,7 @@ public partial class ChronoJumpWindow
 		button_force_sensor_analyze_load.Visible = true;
 		notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSETSIGNAL);
 		label_force_sensor_export_result.Text = "";
+		button_force_sensor_export_result_open.Visible = false;
 	}
 	private void on_radio_force_sensor_analyze_individual_current_session_toggled (object o, EventArgs args)
 	{
@@ -714,6 +716,7 @@ public partial class ChronoJumpWindow
 
 		notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSESSION);
 		label_force_sensor_export_result.Text = "";
+		button_force_sensor_export_result_open.Visible = false;
 	}
 	private void on_radio_force_sensor_analyze_groupal_current_session_toggled (object o, EventArgs args)
 	{
@@ -723,6 +726,7 @@ public partial class ChronoJumpWindow
 
 		notebook_force_sensor_analyze_top.CurrentPage = Convert.ToInt32(notebook_force_sensor_analyze_top_pages.CURRENTSESSION);
 		label_force_sensor_export_result.Text = "";
+		button_force_sensor_export_result_open.Visible = false;
 	}
 
 	private void on_button_force_sensor_export_current_session_clicked (object o, EventArgs args)
@@ -751,6 +755,7 @@ public partial class ChronoJumpWindow
 			duration = Convert.ToDouble(spin_force_duration_seconds.Value);
 
 		label_force_sensor_export_result.Text = "";
+		button_force_sensor_export_result_open.Visible = false;
 		forceSensorButtonsSensitive(false);
 		hbox_force_sensor_analyze_top_modes.Sensitive = false;
 		button_force_sensor_analyze_options.Sensitive = false;
@@ -836,6 +841,21 @@ public partial class ChronoJumpWindow
 		hbox_force_sensor_analyze_top_modes.Sensitive = true;
 		button_force_sensor_analyze_options.Sensitive = true;
 		hbox_force_sensor_export_images.Sensitive = true;
+		button_force_sensor_export_result_open.Visible = true;
+	}
+
+	private void on_button_force_sensor_export_result_open_clicked (object o, EventArgs args)
+	{
+		if(forceSensorExport == null || forceSensorExport.ExportURL == "")
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING,
+					Constants.DirectoryCannotOpenStr());
+			return;
+		}
+
+		if(! Util.OpenURL (forceSensorExport.ExportURL))
+			new DialogMessage(Constants.MessageTypes.WARNING,
+					Constants.DirectoryCannotOpenStr() + "\n\n" + forceSensorExport.ExportURL);
 	}
 
 	private void forceSensorDoGraphAI(bool windowResizedAndZoom)

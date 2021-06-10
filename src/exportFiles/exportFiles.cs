@@ -218,4 +218,11 @@ public abstract class ExportFiles
 				current, total);
 		progressbar.Fraction = UtilAll.DivideSafeFraction(current, total);
 	}
+
+	//folder or .csv depending on includeImages
+	//this provides a way to open file or folder from the main gui
+	public string ExportURL {
+		get { return exportURL; }
+	}
+
 }

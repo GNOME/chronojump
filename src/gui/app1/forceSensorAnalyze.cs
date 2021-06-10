@@ -696,6 +696,10 @@ public partial class ChronoJumpWindow
 	private void on_check_force_sensor_export_images_toggled (object o, EventArgs args)
 	{
 		hbox_force_sensor_export_width_height.Visible = check_force_sensor_export_images.Active;
+
+		//also hide the label and the open button
+		label_force_sensor_export_result.Text = "";
+		button_force_sensor_export_result_open.Visible = false;
 	}
 
 	private void on_radio_force_sensor_analyze_individual_current_set_toggled (object o, EventArgs args)

@@ -58,6 +58,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spinbutton_run_encoder_export_image_height;
 	[Widget] Gtk.ProgressBar progressbar_run_encoder_export;
 	[Widget] Gtk.Label label_run_encoder_export_result;
+	[Widget] Gtk.Button button_run_encoder_export_result_open;
 
 	private enum notebook_run_encoder_analyze_pages { CURRENTSET, CURRENTSESSION, OPTIONS }
 
@@ -271,6 +272,10 @@ public partial class ChronoJumpWindow
 	private void on_check_run_encoder_export_images_toggled (object o, EventArgs args)
 	{
 		hbox_run_encoder_export_width_height.Visible = check_run_encoder_export_images.Active;
+
+		//also hide the label and the open button
+		label_run_encoder_export_result.Text = "";
+		button_run_encoder_export_result_open.Visible = false;
 	}
 
 	private void on_radio_run_encoder_analyze_individual_current_set_toggled (object o, EventArgs args)
@@ -280,6 +285,7 @@ public partial class ChronoJumpWindow
 
 		notebook_run_encoder_analyze.CurrentPage = Convert.ToInt32(notebook_run_encoder_analyze_pages.CURRENTSET);
 		label_run_encoder_export_result.Text = "";
+		button_run_encoder_export_result_open.Visible = false;
 	}
 	private void on_radio_run_encoder_analyze_individual_current_session_toggled (object o, EventArgs args)
 	{
@@ -293,6 +299,7 @@ public partial class ChronoJumpWindow
 
 		notebook_run_encoder_analyze.CurrentPage = Convert.ToInt32(notebook_run_encoder_analyze_pages.CURRENTSESSION);
 		label_run_encoder_export_result.Text = "";
+		button_run_encoder_export_result_open.Visible = false;
 	}
 	private void on_radio_run_encoder_analyze_groupal_current_session_toggled (object o, EventArgs args)
 	{
@@ -303,6 +310,7 @@ public partial class ChronoJumpWindow
 
 		notebook_run_encoder_analyze.CurrentPage = Convert.ToInt32(notebook_run_encoder_analyze_pages.CURRENTSESSION);
 		label_run_encoder_export_result.Text = "";
+		button_run_encoder_export_result_open.Visible = false;
 	}
 
 	private void on_button_run_encoder_export_current_session_clicked (object o, EventArgs args)
@@ -326,6 +334,8 @@ public partial class ChronoJumpWindow
 	RunEncoderExport runEncoderExport;
 	private void button_run_encoder_export_session (int personID)
 	{
+		label_run_encoder_export_result.Text = "";
+		button_run_encoder_export_result_open.Visible = false;
 		runEncoderButtonsSensitive(false);
 		hbox_run_encoder_top.Sensitive = false;
 
@@ -407,6 +417,21 @@ public partial class ChronoJumpWindow
 
 		runEncoderButtonsSensitive(true);
 		hbox_run_encoder_top.Sensitive = true;
+		button_run_encoder_export_result_open.Visible = true;
+	}
+
+	private void on_button_run_encoder_export_result_open_clicked (object o, EventArgs args)
+	{
+		if(runEncoderExport == null || runEncoderExport.ExportURL == "")
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING,
+					Constants.DirectoryCannotOpenStr());
+			return;
+		}
+
+		if(! Util.OpenURL (runEncoderExport.ExportURL))
+			new DialogMessage(Constants.MessageTypes.WARNING,
+					Constants.DirectoryCannotOpenStr() + "\n\n" + runEncoderExport.ExportURL);
 	}
 
 }

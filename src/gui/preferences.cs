@@ -1618,7 +1618,7 @@ public class PreferencesWindow
 			}
 		}
 
-		if(! Util.OpenFolder(dir))
+		if(! Util.OpenURL (dir))
 			new DialogMessage(Constants.MessageTypes.WARNING, 
 					Constants.DirectoryCannotOpenStr() + "\n\n" + dir);
 	}
@@ -1633,7 +1633,7 @@ public class PreferencesWindow
 			return;
 		}
 
-		if(! Util.OpenFolder(dir))
+		if(! Util.OpenURL (dir))
 			new DialogMessage(Constants.MessageTypes.WARNING, 
 					Constants.DirectoryCannotOpenStr() + "\n\n" + dir);
 	}

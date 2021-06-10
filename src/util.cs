@@ -1536,7 +1536,8 @@ public class Util
 		}
 	}
 
-	public static bool OpenFolder(string url)
+	//file or folder
+	public static bool OpenURL (string url)
 	{
 		LogB.Information("OpenFolder without quotes: " + url);
 

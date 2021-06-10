@@ -7037,7 +7037,7 @@ LogB.Debug("mc finished 5");
 				"<i>http://www.chronojump.org/multimedia.html</i>");
 				*/
 
-		if(! Util.OpenFolder(System.IO.Path.GetFullPath(Util.GetManualDir())))
+		if(! Util.OpenURL (System.IO.Path.GetFullPath(Util.GetManualDir())))
 			new DialogMessage(Constants.MessageTypes.WARNING, "Sorry, manual folder does not exist.");
 	}
 

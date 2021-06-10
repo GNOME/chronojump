@@ -504,6 +504,7 @@ public class RunEncoderCSV
 //this class creates the rows of each set for the csv input multi that is read by R
 public class RunEncoderGraphExport
 {
+	private bool isWindows;
 	private string fullURL;
 	private double mass;
 	private double personHeight;
@@ -517,6 +518,7 @@ public class RunEncoderGraphExport
 	private string comments;
 
 	public RunEncoderGraphExport(
+			bool isWindows,
 			string fullURL,
 			double mass, double personHeight,
 			RunEncoder.Devices device,
@@ -525,6 +527,7 @@ public class RunEncoderGraphExport
 			TriggerList triggerList,
 			string comments)
 	{
+		this.isWindows = isWindows;
 		this.fullURL = fullURL; //filename
 		this.mass = mass;
 		this.personHeight = personHeight;
@@ -540,7 +543,11 @@ public class RunEncoderGraphExport
 
 	public string ToCSVRowOnExport()
 	{
-		return fullURL + ";" +
+		string url = fullURL;
+		if(isWindows)
+			url = url.Replace("\\","/");
+
+		return url + ";" +
 			Util.ConvertToPoint(mass) + ";" +
 			Util.ConvertToPoint(personHeight / 100.0) + ";" + //in meters
 			device.ToString() + ";" +

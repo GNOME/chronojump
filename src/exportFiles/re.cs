@@ -163,6 +163,7 @@ public class RunEncoderExport : ExportFiles
 				Util.ChangeSpaceAndMinusForUnderscore(reEx.Name);
 
 			RunEncoderGraphExport rege = new RunEncoderGraphExport (
+					isWindows,
 					re.FullURL,
 					ps.Weight, ps.Height,
 					re.Device,

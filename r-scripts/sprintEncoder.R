@@ -721,9 +721,12 @@ tryNLS <- function(data){
                         #             start = list(Vmax = max(data[,"speed"]), K = 1, T0 = 0.2), control=nls.control(warnOnly=TRUE))
                         model = nls(position ~ Vmax*(time + T0 + (1/K)*exp(-K*(time + T0))) -Vmax/K + P0, data
                                     , start = list(K = 0.81, Vmax = 10, T0 = 0.2, P0 = 0.1), control=nls.control(warnOnly=TRUE))
-                        # print("model:")
-                        # print(model)
-                        if (! model$convInfo$isConv){
+                        print("model:")
+                        print(model)
+                        print(model$convInfo)
+                        print(model$convInfo$inConv)
+                        print(model$convInfo$stopCode)
+                        if (! model$convInfo$isConv && (model$convInfo$stopCode != 2)){
                                 return(list(regressionDone = FALSE, model = model))
                         } else {
                                 return(list(regressionDone = TRUE, model = model))

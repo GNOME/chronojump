@@ -57,7 +57,6 @@ struct sample_t
 {
   bool state;           //State of the sensor
   short int termNum;    //Terminal number. Configured with the switches.
-  //TODO: treat as a binary to activate each terminal separately
   unsigned long int elapsedTime;
 };
 
@@ -91,7 +90,7 @@ void setup(void)
   //pot= getPALevel( ); //función que retorna potencia programada
 
   Serial.begin(115200);
-  printf_begin();
+  printf_begin(); //Used by radio.printDetails()
 
 
   Serial.println(version);
@@ -177,18 +176,15 @@ void loop(void)
     radio.setChannel(125);
 //    Serial.print("getChannel = ");
 //    Serial.println(radio.getChannel());
-    delay(10);
     bool en = radio.write( &sample, sample_size);
-    if (en) {
-      Serial.println("Sent OK");
-    } else {
-      Serial.println("Error sending");
-    }
+//    if (en) {
+//      Serial.println("Sent OK");
+//    } else {
+//      Serial.println("Error sending");
+//    }
 //    Serial.print("getChannel = ");
 //    Serial.println(radio.getChannel());
-    buzzer_on;
-    delay(25);
-    buzzer_off;
+    beep(25);
     flagint = LOW;
     waitingSensor = false;
     radio.setChannel(baseChannel + sample.termNum);
@@ -196,7 +192,6 @@ void loop(void)
 //    Serial.println("startListening()");
 //    Serial.print("getChannel = ");
 //    Serial.println(radio.getChannel());
-    delay(10);
 
   }
 
@@ -324,4 +319,17 @@ void serialEvent()
   } else if (commandString == "get_version"){
     Serial.println(version);
   }
+}
+
+void beep(int duration)
+{
+   MsTimer2::set(duration, beepStop);
+   MsTimer2::start();
+   buzzer_on;
+}
+
+void beepStop(void)
+{
+   MsTimer2::stop();
+   buzzer_off;
 }

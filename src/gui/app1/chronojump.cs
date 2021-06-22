@@ -2804,6 +2804,12 @@ public partial class ChronoJumpWindow
 		if(reportWin != null)
 			reportWin.FillTreeView();
 
+		//update other widgets
+		//analyze export labels:
+		label_sprint_export_data.Text = currentSession.Name;
+		label_force_sensor_export_data.Text = currentSession.Name;
+		label_run_encoder_export_data.Text = currentSession.Name;
+
 		chronojumpWindowTestsNext();
 
 		SqlitePreferences.Update(SqlitePreferences.LastSessionID, currentSession.UniqueID.ToString(), false);

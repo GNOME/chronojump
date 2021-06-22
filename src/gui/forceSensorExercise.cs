@@ -145,6 +145,7 @@ public class ForceSensorExerciseWindow
 			UtilGtk.WindowColor(force_sensor_exercise, Config.ColorBackground);
 			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_header);
 			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_help);
+			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_error);
 			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_radio_desc_examples_desc);
 			UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_radio_desc_examples_examples);
 		}

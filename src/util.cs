@@ -67,7 +67,12 @@ public class Util
 				if(! Util.IsNumber(Util.ChangeDecimalSeparator(strFull[column]), true))
 					continue;
 
-				return(strFull[column].Contains("."));
+				//it could be a int, or a double, if is a double check the decimal sep
+				if(strFull[column].Contains("."))
+					return true;
+				else if(strFull[column].Contains(","))
+					return false;
+				//if it is an int, check on next number
 			}
 		}
 		//if nothing is found, just say is point '.' Is not relevant

@@ -99,15 +99,38 @@ getDynamicsFromSprint <- function(K, Vmax, Mass, T0 = 0, Temperature = 25, Heigh
                     p.fitted = p.fitted ))
 }
 
-exportSprintDynamics <- function(sprintDynamics)
+exportSprintDynamicsPrepareRow <- function(sprintDynamics, splitTime, splitPosition, splitPositionAll)
 {
-	exportRow = exportSprintDynamicsPrepareRow (sprintDynamics)
-	exportSprintDynamicsWriteRow (exportRow)
-}
-exportSprintDynamicsPrepareRow <- function(sprintDynamics, splitTime, splitPosition)
-{
-        splits = as.list(splitTime)
-        names(splits) = paste(splitPosition, "m", sep="")
+	splits = NULL
+
+	#print("exportSprintDynamicsPrepareRow splitPositionAll:")
+	#print(splitPositionAll)
+
+	if(is.null(splitPositionAll))
+	{
+		splits = as.list(splitTime)
+	        names(splits) = paste(splitPosition, "m", sep="")
+	} else
+	{
+		splitTimeVector = NULL
+		for(i in 1:length(splitPositionAll))
+		{
+			pos = match(splitPositionAll[i], splitPosition)
+			if(is.na(pos)) # current set to export has not this position
+			{
+				splitTimeVector = c(splitTimeVector, NA) #create an NA "value"
+			} else {
+				splitTimeVector = c(splitTimeVector, splitTime[pos])
+			}
+		}
+
+		splits = as.list(splitTimeVector)
+	        names(splits) = paste(splitPositionAll, "m", sep="")
+	}
+
+	#print("exportSprintDynamicsPrepareRow names(splits):")
+	#print(names(splits))
+
         raw = c(list(Mass = sprintDynamics$Mass,
                    Height = sprintDynamics$Height,
                    Temperature = sprintDynamics$Temperature,

@@ -258,8 +258,13 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         
         return(list(Vmax = Vmax, K = K, T0 = T0,
                     time = time, rawPosition = position + P0, rawSpeed = speed, rawAccel = accel, rawForce = totalForce, rawPower = power,
-                    rawVmax = max(speed[trimmingSamples$start:trimmingSamples$end]), rawAmax = max(accel[trimmingSamples$start:trimmingSamples$end]), rawFmax = max(totalForce[trimmingSamples$start:trimmingSamples$end]), rawPmax = max(power[trimmingSamples$start:trimmingSamples$end]),
-                    startSample = trimmingSamples$start, startTime = totalTime[trimmingSamples$start] + T0, endSample = trimmingSamples$end, testLength = testLength, longEnough = longEnough, regressionDone = regression$regressionDone, timeBefore = T0, startAccel = startAccel,
+                    rawVmax = max(speed[trimmingSamples$start:trimmingSamples$end]),
+		    rawAmax = max(accel[trimmingSamples$start:trimmingSamples$end]),
+		    rawFmax = max(totalForce[trimmingSamples$start:trimmingSamples$end]),
+		    rawPmax = max(power[trimmingSamples$start:trimmingSamples$end]),
+                    startSample = trimmingSamples$start, startTime = totalTime[trimmingSamples$start] + T0,
+		    endSample = trimmingSamples$end, testLength = testLength,
+		    longEnough = longEnough, regressionDone = regression$regressionDone, timeBefore = T0, startAccel = startAccel,
                     splitTime = splitTime, splitPosition = splitPosition, meanSpeed = meanSpeed, meanForde = meanForce, meanPower = meanPower))
 }
 
@@ -740,7 +745,8 @@ tryNLS <- function(data){
         )
 }
 
-testEncoderCJ <- function(filename, testLength, splitLength, mass, personHeight, tempC, device, title, datetime, startAccel, triggersOn, triggersOff)
+testEncoderCJ <- function(filename, filenameInstantaneous, testLength, splitLength, splitPositionAll,
+		mass, personHeight, tempC, device, title, datetime, startAccel, triggersOn, triggersOff)
 {
         sprintRawDynamics = getSprintFromEncoder(filename, testLength, mass, tempC, personHeight, Vw = 0, device = device, startAccel, splitLength)
 	#print("sprintRawDynamics:")
@@ -786,7 +792,30 @@ testEncoderCJ <- function(filename, testLength, splitLength, mass, personHeight,
 				      startAccel = startAccel,
                                       plotStartDetection = TRUE)
 
-                exportRow = exportSprintDynamicsPrepareRow(sprintFittedDynamics, sprintRawDynamics$splitTime, sprintRawDynamics$splitPosition)
+		#splitPositionAll is NULL on (op$singleOrMultiple == "TRUE")
+		exportRow = exportSprintDynamicsPrepareRow(sprintFittedDynamics, sprintRawDynamics$splitTime, sprintRawDynamics$splitPosition, splitPositionAll)
+
+		if(filenameInstantaneous != "")
+		{
+			#print("sprintRawDynamics lengths:")
+		 	#print(length(sprintRawDynamics$time))
+			#print(length(sprintRawDynamics$rawPosition))
+			#print(length(sprintRawDynamics$rawSpeed))
+			#print(length(sprintRawDynamics$rawAccel))
+			#print(length(sprintRawDynamics$rawForce))
+			#print(length(sprintRawDynamics$rawPower))
+
+			exportInstantaneous <- cbind (sprintRawDynamics$time, sprintRawDynamics$rawPosition,
+					c(0, sprintRawDynamics$rawSpeed), c(0, 0, sprintRawDynamics$rawAccel), #0s are to have same length in all variables
+					sprintRawDynamics$rawForce, sprintRawDynamics$rawPower)
+
+			colnames(exportInstantaneous) = c("Time", "Position", "Speed", "Accel", "Force", "Power")
+
+			if(op$decimalCharAtExport == ".")
+				write.csv(exportInstantaneous, file = filenameInstantaneous, row.names = FALSE, na="")
+			else if(op$decimalCharAtExport == ",")
+				write.csv2(exportInstantaneous, file = filenameInstantaneous, row.names = FALSE, na="")
+		}
         } else
 		print("Couldn't calculate the sprint model")
 
@@ -798,7 +827,7 @@ start <- function(op)
 	if(op$singleOrMultiple == "TRUE")
 	{
 		prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
-		exportRow = testEncoderCJ(op$filename, op$testLength, op$splitLength,
+		exportRow = testEncoderCJ(op$filename, "", op$testLength, op$splitLength, NULL,
 					  op$mass, op$personHeight, op$tempC,
 					  op$device, op$title, op$datetime, op$startAccel,
 					  op$triggersOnList, op$triggersOffList)
@@ -809,13 +838,25 @@ start <- function(op)
 
 	# ------------------ op$singleOrMultiple == "FALSE" ------------------------->
 
+
 	#2) read the csv
 	dataFiles = read.csv(file = paste(tempPath, "/cj_race_analyzer_input_multi.csv", sep=""), sep=";", stringsAsFactors=F)
 
 	#3) call testEncoderCJ
 	progressFolder = paste(tempPath, "/chronojump_export_progress", sep ="")
 	tempGraphsFolder = paste(tempPath, "/chronojump_race_analyzer_export_graphs/", sep ="")
+	tempInstantFolder = paste(tempPath, "/chronojump_race_analyzer_export_instantaneous/", sep ="")
 	exportDF = NULL
+
+	#find the colums needed for different split position values
+        splitPositionAll = NULL
+	for(i in 1:length(dataFiles[,1]))
+	{
+		splitPositionAll = c(splitPositionAll, seq(from=dataFiles$splitLength[i], to=dataFiles$testLength[i], by=dataFiles$splitLength[i]))
+	}
+	splitPositionAll = sort(unique(splitPositionAll))
+	#print("splitPositionAll")
+	#print(splitPositionAll)
 
 	for(i in 1:length(dataFiles[,1]))
 	{
@@ -824,12 +865,13 @@ start <- function(op)
 
 		pngFile <- paste(tempGraphsFolder, i, ".png", sep="")  #but remember to graph also when model fails
 		prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
-		exportRow = testEncoderCJ(as.vector(dataFiles$fullURL[i]), dataFiles$testLength[i], dataFiles$splitLength[i],
+		exportRow = testEncoderCJ(
+				as.vector(dataFiles$fullURL[i]), paste(tempInstantFolder, i, ".csv", sep = ""),
+				dataFiles$testLength[i], dataFiles$splitLength[i], splitPositionAll,
 				dataFiles$mass[i], dataFiles$personHeight[i], dataFiles$tempC[i],
 				dataFiles$device[i], dataFiles$title[i], dataFiles$datetime[i],	op$startAccel,
 				as.numeric(unlist(strsplit(as.character(dataFiles$triggersOn[i]), "\\,"))), #as.character() because -1 (no triggers) is readed as a number and then the strsplit fails
 				as.numeric(unlist(strsplit(as.character(dataFiles$triggersOff[i]), "\\,")))
-
 		)
 
 		if(! is.null(exportRow))

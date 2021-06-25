@@ -798,22 +798,26 @@ testEncoderCJ <- function(filename, filenameInstantaneous, testLength, splitLeng
 		if(filenameInstantaneous != "")
 		{
 			#print("sprintRawDynamics lengths:")
-		 	#print(length(sprintRawDynamics$time))
+			#print(length(sprintRawDynamics$time))
 			#print(length(sprintRawDynamics$rawPosition))
 			#print(length(sprintRawDynamics$rawSpeed))
 			#print(length(sprintRawDynamics$rawAccel))
 			#print(length(sprintRawDynamics$rawForce))
 			#print(length(sprintRawDynamics$rawPower))
 
+			sfitted = sprintRawDynamics$Vmax * (1-exp(-sprintRawDynamics$K * sprintRawDynamics$time))
+			afitted = sprintRawDynamics$Vmax * sprintRawDynamics$K * exp(-sprintRawDynamics$K * sprintRawDynamics$time)
+
 			exportInstantaneous <- cbind (sprintRawDynamics$time, sprintRawDynamics$rawPosition,
 					c(0, sprintRawDynamics$rawSpeed), c(0, 0, sprintRawDynamics$rawAccel), #0s are to have same length in all variables
 					sprintRawDynamics$rawForce, sprintRawDynamics$rawPower,
-					sprintRawDynamics$Vmax * (1-exp(-sprintRawDynamics$K * sprintRawDynamics$time)) #speed (fitted)
+					sfitted,
+					afitted
 					)
 
 			colnames(exportInstantaneous) = c("Time", "Position",
 					"Speed (raw)", "Accel (raw)", "Force (raw)", "Power (raw)",
-					"Speed (fitted)", "Accel (fitted)", "Force (fitted)", "Power (fitted)")
+					"Speed (fitted)", "Accel (fitted)")#, "Force (fitted)", "Power (fitted)")
 
 			if(op$decimalCharAtExport == ".")
 				write.csv(exportInstantaneous, file = filenameInstantaneous, row.names = FALSE, na="")

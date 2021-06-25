@@ -807,9 +807,13 @@ testEncoderCJ <- function(filename, filenameInstantaneous, testLength, splitLeng
 
 			exportInstantaneous <- cbind (sprintRawDynamics$time, sprintRawDynamics$rawPosition,
 					c(0, sprintRawDynamics$rawSpeed), c(0, 0, sprintRawDynamics$rawAccel), #0s are to have same length in all variables
-					sprintRawDynamics$rawForce, sprintRawDynamics$rawPower)
+					sprintRawDynamics$rawForce, sprintRawDynamics$rawPower,
+					sprintRawDynamics$Vmax * (1-exp(-sprintRawDynamics$K * sprintRawDynamics$time)) #speed (fitted)
+					)
 
-			colnames(exportInstantaneous) = c("Time", "Position", "Speed", "Accel", "Force", "Power")
+			colnames(exportInstantaneous) = c("Time", "Position",
+					"Speed (raw)", "Accel (raw)", "Force (raw)", "Power (raw)",
+					"Speed (fitted)", "Accel (fitted)", "Force (fitted)", "Power (fitted)")
 
 			if(op$decimalCharAtExport == ".")
 				write.csv(exportInstantaneous, file = filenameInstantaneous, row.names = FALSE, na="")

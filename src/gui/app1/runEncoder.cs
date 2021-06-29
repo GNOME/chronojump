@@ -1180,7 +1180,7 @@ public partial class ChronoJumpWindow
 	private void raceEncoderCopyToTempAndDoRGraph()
 	{
 		// 0) delete results file
-		Util.FileDelete(RunEncoder.GetCSVResultsFileName());
+		Util.FileDelete(RunEncoder.GetCSVResultsURL());
 
 		// 1) copy file
 		File.Copy(lastRunEncoderFullPath, RunEncoder.GetCSVFileName(), true); //can be overwritten
@@ -1198,7 +1198,7 @@ public partial class ChronoJumpWindow
 		// 3) display table
 		treeview_raceAnalyzer = UtilGtk.RemoveColumns(treeview_raceAnalyzer);
 
-		string contents = Util.ReadFile(RunEncoder.GetCSVResultsFileName(), false);
+		string contents = Util.ReadFile(RunEncoder.GetCSVResultsURL(), false);
 
 		//maybe captured data was too low or two different than an sprint.
 		//then we have image but maybe we have no sprintResults.csv

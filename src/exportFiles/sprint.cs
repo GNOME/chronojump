@@ -56,7 +56,7 @@ public class SprintExport : ExportFiles
 	private string getTempGraphsDir() {
 		return Path.Combine(Path.GetTempPath(), "chronojump_sprint_export_graphs");
 	}
-	
+
 	protected override void createOrEmptyDirs()
 	{
 		createOrEmptyDir(getTempProgressDir());
@@ -147,7 +147,7 @@ public class SprintExport : ExportFiles
 			sprge_l.Add(sprge);
 		}
 
-		Util.FileDelete(RunInterval.GetCSVResultsFileName());
+		Util.FileDelete(RunInterval.GetCSVResultsURL());
 
 		//no data, maybe because all the tests have just two tracks and cannot be processed as sprint
 		if(sprge_l.Count == 0)
@@ -170,7 +170,7 @@ public class SprintExport : ExportFiles
 		}
 
 		LogB.Information("Waiting creation of file... ");
-		while ( ! ( Util.FileReadable(RunInterval.GetCSVResultsFileName()) || cancel ) )
+		while ( ! ( Util.FileReadable(RunInterval.GetCSVResultsURL()) || cancel ) )
 			;
 
 		if(cancel)
@@ -180,7 +180,11 @@ public class SprintExport : ExportFiles
 					"chronojump_races_sprint_export_graphs"));
 
 		// copy the CSV
-		File.Copy(RunInterval.GetCSVResultsFileName(), exportURL, true);
+		//if includeImages, exportURL is a dir, so need a filename to have File.Copy on all systems
+		if(includeImages)
+			File.Copy(RunInterval.GetCSVResultsURL(), Path.Combine(exportURL, RunInterval.GetCSVResultsFileName()), true);
+		else
+			File.Copy(RunInterval.GetCSVResultsURL(), exportURL, true);
 
 		return true;
 	}

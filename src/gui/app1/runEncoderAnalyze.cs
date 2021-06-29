@@ -234,7 +234,7 @@ public partial class ChronoJumpWindow
 			writer.WriteLine(Util.RemoveNewLine(Util.StringArrayToString(
 							getTreeviewRaceAnalyzerHeaders(), sep), false));
 
-			string contents = Util.ReadFile(RunEncoder.GetCSVResultsFileName(), false);
+			string contents = Util.ReadFile(RunEncoder.GetCSVResultsURL(), false);
 			RunEncoderCSV recsv = readRunEncoderCSVContents(contents);
 
 			writer.WriteLine(recsv.ToCSV(preferences.CSVExportDecimalSeparator));

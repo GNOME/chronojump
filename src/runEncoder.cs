@@ -188,7 +188,10 @@ public class RunEncoder
 	}
 	//this contains: "Mass";"Height";"Temperature";"Vw";"Ka";"K.fitted";"Vmax.fitted"; ...
 	public static string GetCSVResultsFileName() {
-		return Path.Combine(Path.GetTempPath(), "sprintResults.csv");
+		return "sprintResults.csv";
+	}
+	public static string GetCSVResultsURL() {
+		return Path.Combine(Path.GetTempPath(), GetCSVResultsFileName());
 	}
 	public static string GetTempFileName() {
 		return Path.Combine(Path.GetTempPath(), "cj_race_analyzer_graph.png");

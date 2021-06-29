@@ -815,6 +815,12 @@ testEncoderCJ <- function(filename, filenameInstantaneous, testLength, splitLeng
 			f.fitted = srd$Mass * a.fitted + srd$Ka * (s.fitted - srd$Vw)^2
 			p.fitted = f.fitted * s.fitted
 
+			#make all fitted data be 0 when time is < 0
+			s.fitted[srd$time < 0] <- 0
+			a.fitted[srd$time < 0] <- 0
+			f.fitted[srd$time < 0] <- 0
+			p.fitted[srd$time < 0] <- 0
+
 			print(length(s.fitted))
 			print(length(a.fitted))
 			print(length(f.fitted))

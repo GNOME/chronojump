@@ -92,6 +92,19 @@ float measuredLcdDelayMax = 0; //The max in the lcdDelay period
 float measuredMax = 0; // The max since starting capture
 float measured = scale.get_units();
 
+byte recordChar[] = {
+  B00000,
+  B01110,
+  B11111,
+  B11111,
+  B11111,
+  B11111,
+  B01110,
+  B00000
+};
+
+bool showRecordChar = false;
+
 
 LiquidCrystal lcd(12, 11, 10, 9, 8, 7);
 
@@ -117,7 +130,7 @@ void setup() {
     lcd.setCursor(2, 1);
     lcd.print("Boscosystem");
     //    kangaroo();
-    //      printLcdMeu (-1.23456, 3, 0, 3);
+    //      printLcdFormat (-1.23456, 3, 0, 3);
   }
 
 
@@ -163,10 +176,6 @@ void loop()
 
   }
   button1State = digitalRead(button1Pin);
-  if (button1State == 1) {
-    start_capture();
-    delay(1000);
-  }
 
   if(sendSyncTime) {
     Serial.print("sync:");
@@ -227,6 +236,16 @@ void loop()
       Serial.println(measured, 2); //scale.get_units() returns a float
 
       printOnLcd();
+      if (rcaState) {
+        end_capture();
+      }
+    }
+    if (button1State) {
+      end_capture();
+    }
+  } else if (!capturing) {
+    if (button1State) {
+      start_capture();
     }
   }
 }
@@ -247,7 +266,7 @@ void printOnLcd() {
       lcd.print("USB");
     }
     if (voltage > 4.5 && voltage < 12.5) {
-      printLcdMeu(percent, 14, 0, 0);
+      printLcdFormat(percent, 14, 0, 0);
       lcd.print("%");
     }
     if (voltage > 12.5) {
@@ -255,23 +274,34 @@ void printOnLcd() {
       lcd.print(percent, 0);
       lcd.print("%");
     }
-    printLcdMeu (measuredLcdDelayMax, 4, 0, 1);
+    printLcdFormat (measuredLcdDelayMax, 4, 0, 1);
 
-    printLcdMeu (measuredMax, 4, 1, 1);
+    printLcdFormat (measuredMax, 4, 1, 1);
     int totalTimeInSec = totalTime / 1000000;
-    printLcdMeu (totalTimeInSec, 10, 0, 0);
+    printLcdFormat (totalTimeInSec, 10, 0, 0);
 
     if (rfdCalculed) {
-      printLcdMeu (rfdValueMax, 13, 1, 1);
+      printLcdFormat (rfdValueMax, 13, 1, 1);
 
       measuredLcdDelayMax = 0;
       lcdCount = 0;
+    }
+
+    if (showRecordChar) {
+      lcd.createChar(0, recordChar);
+      lcd.setCursor(0, 0);
+      lcd.write(byte (0));
+      showRecordChar = false;
+    } else if (!showRecordChar) {      
+      lcd.setCursor(0, 0);
+      lcd.print(" ");
+      showRecordChar = true;
     }
   }
 }
 
 
-void printLcdMeu (float val, int xStart, int y, int decimal) {
+void printLcdFormat (float val, int xStart, int y, int decimal) {
 
   /*How many characters are to the left of the units number.
      Examples:
@@ -386,6 +416,8 @@ void serialEvent() {
 void start_capture()
 {
   lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Starting capture");
   Serial.println("Starting capture...");
   totalTime = 0;
   lastTime = micros();
@@ -396,7 +428,7 @@ void start_capture()
   rfdCalculed = false;
   rfdValueMax = 0;
   capturing = true;
-
+  delay(500);
 }
 
 void end_capture()
@@ -404,7 +436,11 @@ void end_capture()
   capturing = false;
   Serial.print("Capture ended:");
   Serial.println(scale.get_offset());
+  lcd.setCursor(0,0);
+  lcd.write(" ");
+  delay(500);
 }
+
 void get_version()
 {
   Serial.println(version);

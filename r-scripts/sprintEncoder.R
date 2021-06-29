@@ -108,6 +108,7 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         raceAnalyzer$displacement = raceAnalyzer$displacement * metersPerPulse
         position = cumsum(raceAnalyzer$displacement)
         speed = raceAnalyzer$displacement[2:length(raceAnalyzer$displacement)] / elapsedTime
+        speed = c(0,speed)
         
         #Adjusting the time of each sample to the mean time between two samples
         # for( i in 2:length(totalTime)){
@@ -123,6 +124,7 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
                 accel = c(accel, (speed[i+1] - speed[i-1]) / (totalTime[i +1] - totalTime[i -1]))
         }
         accel = c(accel, accel[length(accel)])
+        accel = c(0, accel)
         forceBody = accel * Mass + Ka*(speed - Vw)^2
         totalForce = forceBody + raceAnalyzer$force
         power = totalForce * speed
@@ -824,7 +826,7 @@ testEncoderCJ <- function(filename, filenameInstantaneous, testLength, splitLeng
 			print(srd$Vw)
 
 			exportInstantaneous <- cbind (srd$time, srd$rawPosition,
-					c(0, srd$rawSpeed), c(0, 0, srd$rawAccel), #0s are to have same length in all variables
+					srd$rawSpeed, srd$rawAccel, #0s are to have same length in all variables
 					srd$rawForce, srd$rawPower,
 					s.fitted, a.fitted, f.fitted, p.fitted
 					)

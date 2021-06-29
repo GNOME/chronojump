@@ -594,6 +594,7 @@ public class RunEncoderGraph
 	private TriggerList triggerList;
 	private char exportDecimalSeparator;
 	private bool includeImagesOnExport;
+	private bool includeInstantaneousOnExport;
 
 	private void assignGenericParams(
 			int testLength, double mass, double personHeight, double tempC, RunEncoder.Devices device,
@@ -643,6 +644,7 @@ public class RunEncoderGraph
 
 		this.exportDecimalSeparator = '.';
 		this.includeImagesOnExport = false;
+		this.includeInstantaneousOnExport = false;
 	}
 
 	//constructor for export (many sets of possible different persons)
@@ -653,7 +655,8 @@ public class RunEncoderGraph
 			bool plotRawPower, bool plotFittedPower,
 			List<RunEncoderGraphExport> rege_l,
 			char exportDecimalSeparator,
-			bool includeImagesOnExport
+			bool includeImagesOnExport,
+			bool includeInstantaneousOnExport
 			)
 	{
 		assignGenericParams(
@@ -668,6 +671,7 @@ public class RunEncoderGraph
 
 		this.exportDecimalSeparator = exportDecimalSeparator;
 		this.includeImagesOnExport = includeImagesOnExport;
+		this.includeInstantaneousOnExport = includeInstantaneousOnExport;
 
 		writeMultipleFilesCSV(rege_l);
 	}
@@ -713,7 +717,8 @@ public class RunEncoderGraph
 			printTriggers(TriggerList.Type3.OFF) + "\n" +		//unused on multiple
 			"#singleOrMultiple\n" +		Util.BoolToRBool(singleOrMultiple) + "\n" +
 			"#decimalCharAtExport\n" +	exportDecimalSeparator + "\n" +
-			"#includeImagesOnExport\n" + 	Util.BoolToRBool(includeImagesOnExport) + "\n";
+			"#includeImagesOnExport\n" + 	Util.BoolToRBool(includeImagesOnExport) + "\n" +
+			"#includeInstantaneousOnExport\n" + 	Util.BoolToRBool(includeInstantaneousOnExport) + "\n";
 
 
 		TextWriter writer = File.CreateText(Path.GetTempPath() + "Roptions.txt");

@@ -60,7 +60,8 @@ assignOptions <- function(options) {
 		triggersOffList  = as.numeric(unlist(strsplit(options[22], "\\;"))),
 		singleOrMultiple = options[23],
 		decimalCharAtExport = options[24],
-		includeImagesOnExport = options[25]
+		includeImagesOnExport = options[25],
+		includeInstantaneousOnExport = options[26]
         ))
 }
 
@@ -908,11 +909,15 @@ start <- function(op)
 			exportRowDF = cbind (exportRowDF, dataFiles$comments[i])
 			if(op$includeImagesOnExport)
 				exportRowDF = cbind(exportRowDF, paste(i, ".png", sep=""))
+			if(op$includeInstantaneousOnExport)
+				exportRowDF = cbind(exportRowDF, paste(i, ".csv", sep=""))
 
 			#write the correct names of the row dataframe
 			namesDF = c("Title","Datetime",names,"comments")
 			if(op$includeImagesOnExport)
 				namesDF = c(namesDF, "Image")
+			if(op$includeInstantaneousOnExport)
+				namesDF = c(namesDF, "Instantaneous")
 			colnames(exportRowDF) = namesDF
 
 			exportDF <- rbind (exportDF, exportRowDF) #rbind with exportDF

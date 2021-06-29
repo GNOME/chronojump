@@ -56,6 +56,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_run_encoder_export_width_height;
 	[Widget] Gtk.SpinButton spinbutton_run_encoder_export_image_width;
 	[Widget] Gtk.SpinButton spinbutton_run_encoder_export_image_height;
+	[Widget] Gtk.CheckButton check_run_encoder_export_instantaneous;
 	[Widget] Gtk.ProgressBar progressbar_run_encoder_export;
 	[Widget] Gtk.Label label_run_encoder_export_result;
 	[Widget] Gtk.Button button_run_encoder_export_result_open;
@@ -364,6 +365,7 @@ public partial class ChronoJumpWindow
 				check_run_encoder_export_images.Active,
 				Convert.ToInt32(spinbutton_run_encoder_export_image_width.Value),
 				Convert.ToInt32(spinbutton_run_encoder_export_image_height.Value),
+				check_run_encoder_export_instantaneous.Active,
 				UtilAll.IsWindows(),
 				personID,
 				currentSession.UniqueID,
@@ -381,13 +383,13 @@ public partial class ChronoJumpWindow
 		runEncoderExport.Button_done.Clicked += new EventHandler(run_encoder_export_done);
 
 		bool selectedFile = false;
-		if(check_run_encoder_export_images.Active)
+		if(check_run_encoder_export_images.Active || check_run_encoder_export_instantaneous.Active) 	//export folder
 		{
 			if(personID == -1)
 				selectedFile = checkFolder (Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES);
 			else
 				selectedFile = checkFolder (Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES);
-		} else {
+		} else { 											//export file
 			if(personID == -1)
 				selectedFile = checkFile (Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES);
 			else

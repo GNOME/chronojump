@@ -26,6 +26,7 @@ using System.Threading;
 
 public class RunEncoderExport : ExportFiles
 {
+	private bool includeInstantaneous;
 	private double startAccel;
 	private bool plotRawAccel;
 	private bool plotFittedAccel;
@@ -45,6 +46,7 @@ public class RunEncoderExport : ExportFiles
 			Gtk.Label labelResult,
 			bool includeImages,
 			int imageWidth, int imageHeight,
+			bool includeInstantaneous,
 			bool isWindows,
 			int personID,
 			int sessionID,
@@ -60,6 +62,7 @@ public class RunEncoderExport : ExportFiles
 		assignParams(notebook, progressbar, labelResult, includeImages,
 				imageWidth, imageHeight, isWindows, personID, sessionID, exportDecimalSeparator);
 
+		this.includeInstantaneous = includeInstantaneous;
 		this.startAccel = startAccel;
 		this.plotRawAccel = plotRawAccel;
 		this.plotFittedAccel = plotFittedAccel;
@@ -194,7 +197,7 @@ public class RunEncoderExport : ExportFiles
 					plotRawPower, plotFittedPower,
 					rege_l,
 					exportDecimalSeparator,
-					includeImages
+					includeImages, includeInstantaneous
 					);
 
 			if(! reg.CallR(imageWidth, imageHeight, false))
@@ -212,11 +215,13 @@ public class RunEncoderExport : ExportFiles
 			return false;
 
 		//copy the images if needed
-		if(includeImages && (
-				! copyImages(getTempGraphsDir(), exportURL,
-					"chronojump_race_analyzer_export_graphs") ||
-				! copyImages(getTempExportInstantDir(), exportURL,
-					"chronojump_race_analyzer_export_instantaneous")) )
+		if(includeImages && ! copyImages(getTempGraphsDir(), exportURL,
+					"chronojump_race_analyzer_export_graphs"))
+			return false;
+
+		//copy instantanous data if needed
+		if(includeInstantaneous && ! copyImages(getTempExportInstantDir(), exportURL,
+					"chronojump_race_analyzer_export_instantaneous"))
 			return false;
 
 		// copy the CSV

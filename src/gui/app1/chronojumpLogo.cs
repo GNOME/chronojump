@@ -92,7 +92,11 @@ public class ChronojumpLogo
 
 	private void redraw()
 	{
+LogB.Information("redraw 0");
                 Cairo.Context cr =  Gdk.CairoHelper.Create(drawingarea.GdkWindow);
+		
+LogB.Information("viewport is null: " + (viewport == null).ToString());
+LogB.Information("drawingarea is null: " + (drawingarea == null).ToString());
 
 		double elapsedMs1 = stopwatch1.Elapsed.TotalMilliseconds;
 
@@ -105,17 +109,21 @@ public class ChronojumpLogo
                 cr.SetSourceRGB(.055, .118, .275);
                 cr.Paint();
 
+LogB.Information("redraw 1");
                 //cr.SelectFontFace("Ubuntu", FontSlant.Normal, FontWeight.Bold); //need to check if they have this font
                 //cr.SelectFontFace(font, FontSlant.Normal, FontWeight.Bold); //Courier is so ugly on logo
 		cr.SelectFontFace("Helvetica", FontSlant.Normal, FontWeight.Bold);
 
 		bool showVersion = false;
-		if (size <= 80)
+		if (size <= 80) {
+LogB.Information("redraw 2");
 			//size += 0.6;
 			size = elapsedMs1 / 20.0;
+		}
 
 		if(size > 20)
 		{
+LogB.Information("redraw 3");
 			//alpha -= 0.01;
 			if(! stopwatch2.IsRunning)
 				stopwatch2.Start();
@@ -129,16 +137,21 @@ public class ChronojumpLogo
 		}
 
 		if (stopwatch3.Elapsed.TotalMilliseconds >= 300)
+		{
+LogB.Information("redraw 4");
 			timer = false;
+		}
 
 		chronojumpLogo_showChronojump (cr, x, y);
 
                 ((IDisposable) cr.Target).Dispose();
                 ((IDisposable) cr).Dispose();
+LogB.Information("redraw 5");
         }
 
 	private void chronojumpLogo_showChronojump (Cairo.Context cr, int x, int y)
 	{
+LogB.Information("logo_showChronojump start");
                 cr.SetFontSize(size);
                 cr.SetSourceRGB(1, 1, 1);
 
@@ -150,6 +163,7 @@ public class ChronojumpLogo
                 cr.Clip();
                 cr.Stroke();
                 cr.PaintWithAlpha(alpha);
+LogB.Information("logo_showChronojump end");
 	}
 
 }

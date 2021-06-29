@@ -28,6 +28,8 @@ git pull
 cd package/macos
 make
 
+if date is not ok in the virtual system, is better to reboot
+
 -------------------------------------------------------------------
 WINDOWS
 -------------------------------------------------------------------

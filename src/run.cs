@@ -252,8 +252,12 @@ public class RunInterval : Run
 	public static string GetCSVInputMulti() {
 		return Path.Combine(Path.GetTempPath(), "sprintInputMulti.csv");
 	}
+
 	public static string GetCSVResultsFileName() {
-		return Path.Combine(Path.GetTempPath(), "sprintResults.csv");
+		return "sprintResults.csv";
+	}
+	public static string GetCSVResultsURL() {
+		return Path.Combine(Path.GetTempPath(), GetCSVResultsFileName());
 	}
 
 	public string IntervalTimesString

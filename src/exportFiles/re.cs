@@ -184,7 +184,7 @@ public class RunEncoderExport : ExportFiles
 
 		}
 
-		Util.FileDelete(RunEncoder.GetCSVResultsFileName());
+		Util.FileDelete(RunEncoder.GetCSVResultsURL());
 
 		// call the graph
 
@@ -208,7 +208,7 @@ public class RunEncoderExport : ExportFiles
 		}
 
 		LogB.Information("Waiting creation of file... ");
-		while ( ! ( Util.FileReadable(RunEncoder.GetCSVResultsFileName()) || cancel ) )
+		while ( ! ( Util.FileReadable(RunEncoder.GetCSVResultsURL()) || cancel ) )
 			;
 
 		if(cancel)
@@ -225,7 +225,11 @@ public class RunEncoderExport : ExportFiles
 			return false;
 
 		// copy the CSV
-		File.Copy(RunEncoder.GetCSVResultsFileName(), exportURL, true);
+		//if includeImages || includeInstantaneous, exportURL is a dir, so need a filename to have File.Copy on all systems
+		if(includeImages || includeInstantaneous)
+			File.Copy(RunEncoder.GetCSVResultsURL(), Path.Combine(exportURL, RunEncoder.GetCSVResultsFileName()), true);
+		else
+			File.Copy(RunEncoder.GetCSVResultsURL(), exportURL, true);
 
 		return true;
 	}

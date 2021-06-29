@@ -5215,7 +5215,7 @@ public partial class ChronoJumpWindow
 				25);
 
 		bool sprintRDoneOk = on_button_sprint_do ();
-		string stringResultsFile = RunInterval.GetCSVResultsFileName();
+		string stringResultsFile = RunInterval.GetCSVResultsURL();
 		string line = "";
 		if(! sprintRDoneOk || ! File.Exists(stringResultsFile))
 			return;

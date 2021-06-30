@@ -93,6 +93,7 @@ public class ForceSensorExport : ExportFiles
 	protected override void createOrEmptyDirs()
 	{
 		//create progressbar and graph files dirs or delete their contents
+		createOrEmptyDir(getTempSourceFilesDir());
 		createOrEmptyDir(getTempProgressDir());
 		createOrEmptyDir(getTempGraphsDir());
 		createOrEmptyDir(getTempGraphsABDir());
@@ -208,11 +209,9 @@ public class ForceSensorExport : ExportFiles
 			string destination = UtilEncoder.GetmifCSVInputMulti();
 			Util.FileDelete(destination);
 
-
-			/*
 			//copy file to tmp to be written readed by R
-			File.Copy(fs.FullURL, UtilEncoder.GetmifCSVFileName(), true); //can be overwritten
-			*/
+			string fsFullURLMoved = Path.Combine(getTempSourceFilesDir(), count.ToString() + ".csv");
+			File.Copy(fs.FullURL, fsFullURLMoved, true); //can be overwritten
 
 			//delete result file
 			Util.FileDelete(getTempCSVFileName());
@@ -249,8 +248,8 @@ public class ForceSensorExport : ExportFiles
 					}
 					fsgABe_l.Add(new ForceSensorGraphABExport (
 								isWindows,
-								fs.FullURL,
-								Util.CSVDecimalColumnIsPoint(fs.FullURL, 1),
+								fsFullURLMoved,
+								Util.CSVDecimalColumnIsPoint(fsFullURLMoved, 1),
 								fsAI.ForceMAX,			//raw
 								maxAvgForceInWindow,		//raw
 								forceSensorAnalyzeMaxAVGInWindowSeconds, //raw
@@ -308,8 +307,8 @@ public class ForceSensorExport : ExportFiles
 				}
 				fsgABe_l.Add(new ForceSensorGraphABExport (
 							isWindows,
-							fs.FullURL,
-							Util.CSVDecimalColumnIsPoint(fs.FullURL, 1),
+							fsFullURLMoved,
+							Util.CSVDecimalColumnIsPoint(fsFullURLMoved, 1),
 							fsAI.ForceMAX,			//raw
 							maxAvgForceInWindow,		//raw
 							forceSensorAnalyzeMaxAVGInWindowSeconds, //raw

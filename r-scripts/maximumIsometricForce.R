@@ -1123,6 +1123,9 @@ plotABGraph <- function(pngFile, dataFile, decimalChar, title, exercise, datetim
 
 	plot(y ~ x, type="l", xlab="Time (s)", ylab="Force (N)")
 
+	#ablines to know startSample endSample
+	abline(v=c(x[startSample], x[endSample]), lty=2, col="gray20")
+
 	#mark max point
 	points(x[which(y == max(y))[1]], max(y), col="red", cex=2)
 

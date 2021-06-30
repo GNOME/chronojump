@@ -3048,13 +3048,6 @@ public partial class ChronoJumpWindow
 		new ChronojumpLogo (drawingarea_chronojump_logo, viewport_chronojump_logo, preferences.logoAnimatedShow, preferences.fontType.ToString());
 	}
 
-	//just testing
-	private void on_drawingarea_chronojump_logo_expose_event (object o, ExposeEventArgs args)
-	{
-		LogB.Information("expose event on ChronojumpLogo");
-		new ChronojumpLogo (drawingarea_chronojump_logo, viewport_chronojump_logo, preferences.logoAnimatedShow, preferences.fontType.ToString());
-	}
-
 	private void on_button_start_selector_show_more_clicked (object o, EventArgs args)
 	{
 		button_start_selector_show_more.Visible = false;

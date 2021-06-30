@@ -209,7 +209,7 @@ public class ForceSensorExport : ExportFiles
 			string destination = UtilEncoder.GetmifCSVInputMulti();
 			Util.FileDelete(destination);
 
-			//copy file to tmp to be written readed by R
+			//copy file to tmp to be readed by R
 			string fsFullURLMoved = Path.Combine(getTempSourceFilesDir(), count.ToString() + ".csv");
 			File.Copy(fs.FullURL, fsFullURLMoved, true); //can be overwritten
 

@@ -82,6 +82,7 @@ public class RunEncoderExport : ExportFiles
 	
 	protected override void createOrEmptyDirs()
 	{
+		createOrEmptyDir(getTempSourceFilesDir());
 		createOrEmptyDir(getTempProgressDir());
 		createOrEmptyDir(getTempGraphsDir());
 		createOrEmptyDir(getTempExportInstantDir());
@@ -117,7 +118,7 @@ public class RunEncoderExport : ExportFiles
 
 		List<RunEncoderGraphExport> rege_l = new List<RunEncoderGraphExport>();
 
-		//int count = 1;
+		int count = 1;
 		int element = -1; //used to sync re_l[element] with triggerListOfLists[element]
 		foreach(RunEncoder re in re_l)
 		{
@@ -170,9 +171,13 @@ public class RunEncoderExport : ExportFiles
 			string title = Util.ChangeSpaceAndMinusForUnderscore(p.Name) + "-" +
 				Util.ChangeSpaceAndMinusForUnderscore(reEx.Name);
 
+			// 5) copy file to tmp to be readed by R
+			string reFullURLMoved = Path.Combine(getTempSourceFilesDir(), (count ++).ToString() + ".csv");
+			File.Copy(re.FullURL, reFullURLMoved, true); //can be overwritten
+
 			RunEncoderGraphExport rege = new RunEncoderGraphExport (
 					isWindows,
-					re.FullURL,
+					reFullURLMoved,
 					ps.Weight, ps.Height,
 					re.Device,
 					re.Temperature, re.Distance,
@@ -181,7 +186,6 @@ public class RunEncoderExport : ExportFiles
 					re.Comments
 					);
 			rege_l.Add(rege);
-
 		}
 
 		Util.FileDelete(RunEncoder.GetCSVResultsURL());

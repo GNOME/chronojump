@@ -38,27 +38,32 @@ public class ChronojumpLogo
 	private Stopwatch stopwatch2;
 	private Stopwatch stopwatch3;
 
+	private Gtk.Notebook notebook;
 	private Gtk.DrawingArea drawingarea; 	//contains the animation
 	private Gtk.Viewport viewport; 		//contains the logo and version number
 	private string font;
 
 	//constructor
-	public ChronojumpLogo (Gtk.DrawingArea drawingarea, Gtk.Viewport viewport, bool showAnimated, string font)
+	public ChronojumpLogo (Gtk.Notebook notebook, Gtk.DrawingArea drawingarea, Gtk.Viewport viewport, bool showAnimated, string font)
 	{
-		if(! showAnimated)
-		{
-			viewport.Visible = true;
-			drawingarea.Visible = false;
-			return;
-		}
-
 		LogB.Information("Chronojump logo constructor start");
+
+		this.notebook = notebook;
 		this.drawingarea = drawingarea;
 		this.viewport = viewport;
 		this.font = font;
 
-		viewport.Visible = false;
-		drawingarea.Visible = true;
+		if(! showAnimated)
+		{
+			notebook.CurrentPage = 1;
+			//viewport.Visible = true;
+			//drawingarea.Visible = false;
+			return;
+		}
+
+		//viewport.Visible = false;
+		//drawingarea.Visible = true;
+		notebook.CurrentPage = 0;
 
 		timer = true;
 		alpha = 1.0;
@@ -80,8 +85,9 @@ public class ChronojumpLogo
 	{ 
                 if (! timer)
 		{
-			drawingarea.Visible = false;
-			viewport.Visible = true;
+			//drawingarea.Visible = false;
+			//viewport.Visible = true;
+			notebook.CurrentPage = 1;
 
 			return false;
 		}

@@ -47,6 +47,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ComboBox combo_gui_tests;
 	[Widget] Gtk.Button button_carles;
 	
+	[Widget] Gtk.Notebook notebook_chronojump_logo;
 	[Widget] Gtk.Viewport viewport_chronojump_logo;
 	[Widget] Gtk.Image image_chronojump_logo;
 	[Widget] Gtk.DrawingArea drawingarea_chronojump_logo;
@@ -818,7 +819,7 @@ public partial class ChronoJumpWindow
 		}
 
 		if(! showSendLog && ! showSocialNetworkPoll && notebook_sup.CurrentPage == Convert.ToInt32(notebook_sup_pages.START))
-			new ChronojumpLogo (drawingarea_chronojump_logo, viewport_chronojump_logo, preferences.logoAnimatedShow, preferences.fontType.ToString());
+			new ChronojumpLogo (notebook_chronojump_logo, drawingarea_chronojump_logo, viewport_chronojump_logo, preferences.logoAnimatedShow, preferences.fontType.ToString());
 
 		//done at the end to ensure main window is shown
 		if(splashWin != null) {
@@ -3045,7 +3046,7 @@ public partial class ChronoJumpWindow
 			tempSessionName = currentSession.Name;
 
 		setApp1Title(tempSessionName, Constants.Menuitem_modes.UNDEFINED);
-		new ChronojumpLogo (drawingarea_chronojump_logo, viewport_chronojump_logo, preferences.logoAnimatedShow, preferences.fontType.ToString());
+		new ChronojumpLogo (notebook_chronojump_logo, drawingarea_chronojump_logo, viewport_chronojump_logo, preferences.logoAnimatedShow, preferences.fontType.ToString());
 	}
 
 	private void on_button_start_selector_show_more_clicked (object o, EventArgs args)

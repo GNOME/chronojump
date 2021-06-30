@@ -128,6 +128,9 @@ public abstract class ExportFiles
 
 	protected abstract bool getData ();
 
+	protected string getTempSourceFilesDir() {
+		return Path.Combine(Path.GetTempPath(), "chronojump_export_source_files");
+	}
 	protected string getTempProgressDir() {
 		return Path.Combine(Path.GetTempPath(), "chronojump_export_progress");
 	}

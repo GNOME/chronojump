@@ -2815,7 +2815,6 @@
                                                     <property name="height_request">100</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <signal name="expose_event" handler="on_drawingarea_chronojump_logo_expose_event" swapped="no"/>
                                                   </widget>
                                                 </child>
                                               </widget>

@@ -501,6 +501,7 @@ public partial class ChronoJumpWindow
 
 	ChronopicRegister chronopicRegister;
 	Chronopic2016 cp2016;
+	private PhotocellWirelessCapture photocellWirelessCapture;
 	private Threshold threshold;
 
 	RestTime restTime;
@@ -2571,6 +2572,8 @@ public partial class ChronoJumpWindow
 			forceOtherThread.Abort();
 		if(portFSOpened)
 			portFS.Close();
+		if(photocellWirelessCapture != null && photocellWirelessCapture.PortOpened)
+			photocellWirelessCapture.Disconnect();
 
 		//cancel runEncoder capture process
 		if(capturingRunEncoder == arduinoCaptureStatus.STARTING || capturingRunEncoder == arduinoCaptureStatus.CAPTURING)
@@ -3145,6 +3148,9 @@ public partial class ChronoJumpWindow
 		//maybe we have the force sensor port opened, close it:
 		if(portFSOpened)
 			forceSensorDisconnect();
+
+		if(photocellWirelessCapture != null && photocellWirelessCapture.PortOpened)
+			photocellWirelessCapture.Disconnect();
 
 		//run simple will be the only one with its drawing are
 		frame_run_simple_double_contacts.Visible = false;
@@ -4948,10 +4954,13 @@ public partial class ChronoJumpWindow
 		event_execute_ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
 		*/
 
+		if(photocellWirelessCapture == null)
+			photocellWirelessCapture = new PhotocellWirelessCapture(wirelessPort);
+
 		currentEventExecute = new RunExecute(
 				currentPerson.UniqueID, currentSession.UniqueID, 
 				currentRunType.Name, myDistance, 
-				cp2016.CP, wirelessPort, wirelessBauds,
+				cp2016.CP, photocellWirelessCapture, wirelessPort, wirelessBauds,
 				preferences.digitsNumber, preferences.metersSecondsPreferred,
 				preferences.volumeOn, preferences.gstreamer,
 				progressbarLimit, egd,
@@ -5096,10 +5105,13 @@ public partial class ChronoJumpWindow
 		event_execute_ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
 		*/
 
+		if(photocellWirelessCapture == null)
+			photocellWirelessCapture = new PhotocellWirelessCapture(wirelessPort);
+
 		currentEventExecute = new RunIntervalExecute(
 				currentPerson.UniqueID, currentSession.UniqueID, currentRunIntervalType.Name, 
 				distanceInterval, progressbarLimit, currentRunIntervalType.TracksLimited, 
-				cp2016.CP, wirelessPort, wirelessBauds,
+				cp2016.CP, photocellWirelessCapture, wirelessPort, wirelessBauds,
 				preferences.digitsNumber, preferences.metersSecondsPreferred,
 				preferences.volumeOn, preferences.gstreamer,
 				repetitiveConditionsWin,

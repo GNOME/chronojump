@@ -74,8 +74,7 @@ public class MultiChronopicExecute : EventExecute
 
 	//execution
 	public MultiChronopicExecute(int personID, string personName, int sessionID, string type, 
-			Chronopic cp, bool syncFirst, bool deleteFirst, string vars, Gtk.Window app,
-			//double progressbarLimit, 
+			Chronopic cp, bool syncFirst, bool deleteFirst, string vars,
 			ExecutingGraphData egd
 			) {
 		this.personID = personID;
@@ -87,9 +86,6 @@ public class MultiChronopicExecute : EventExecute
 		this.syncFirst = syncFirst;
 		this.deleteFirst = deleteFirst;
 		this.vars = vars;
-		
-		this.app = app;
-//		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
 	
 		chronopics = 1; 
@@ -97,8 +93,7 @@ public class MultiChronopicExecute : EventExecute
 	}
 	
 	public MultiChronopicExecute(int personID, string personName, int sessionID, string type, 
-			Chronopic cp, Chronopic cp2, bool syncFirst, bool deleteFirst, string vars, Gtk.Window app,
-			//double progressbarLimit, 
+			Chronopic cp, Chronopic cp2, bool syncFirst, bool deleteFirst, string vars,
 			ExecutingGraphData egd
 			) {
 		this.personID = personID;
@@ -111,9 +106,6 @@ public class MultiChronopicExecute : EventExecute
 		this.syncFirst = syncFirst;
 		this.deleteFirst = deleteFirst;
 		this.vars = vars;
-		
-		this.app = app;
-//		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
 	
 		chronopics = 2; 
@@ -122,8 +114,6 @@ public class MultiChronopicExecute : EventExecute
 	
 	public MultiChronopicExecute(int personID, string personName, int sessionID, string type, 
 			Chronopic cp, Chronopic cp2, Chronopic cp3, bool syncFirst, bool deleteFirst, string vars, 
-			Gtk.Window app,
-			//double progressbarLimit, 
 			ExecutingGraphData egd
  
 			) {
@@ -138,9 +128,6 @@ public class MultiChronopicExecute : EventExecute
 		this.syncFirst = syncFirst;
 		this.deleteFirst = deleteFirst;
 		this.vars = vars;
-		
-		this.app = app;
-//		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
 	
 		chronopics = 3; 
@@ -149,8 +136,6 @@ public class MultiChronopicExecute : EventExecute
 
 	public MultiChronopicExecute(int personID, string personName, int sessionID, string type,
 			Chronopic cp, Chronopic cp2, Chronopic cp3, Chronopic cp4, bool syncFirst, bool deleteFirst, string vars, 
-			Gtk.Window app,
-			//double progressbarLimit, 
 			ExecutingGraphData egd
 
 			) {
@@ -166,9 +151,6 @@ public class MultiChronopicExecute : EventExecute
 		this.syncFirst = syncFirst;
 		this.deleteFirst = deleteFirst;
 		this.vars = vars;
-		
-		this.app = app;
-//		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
 	
 		chronopics = 4; 

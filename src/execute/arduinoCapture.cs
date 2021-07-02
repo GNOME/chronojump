@@ -29,6 +29,7 @@ public abstract class ArduinoCapture
 	protected string portName;
 	protected int bauds;
 	protected SerialPort port;
+	protected bool portOpened;
 	protected int readedPos; //position already readed from list
 
 	// public stuff ---->
@@ -58,6 +59,28 @@ public abstract class ArduinoCapture
 		emptyList();
 	}
 
+	protected bool portConnect()
+	{
+		port = new SerialPort(portName, bauds);
+
+		try {
+			port.Open();
+		}
+		catch (System.IO.IOException)
+		{
+			LogB.Information("Error: could not open port");
+			return false;
+		}
+
+		LogB.Information("port successfully opened");
+
+		//TODO: Val, caldria que quedés clar a la interficie que estem esperant aquest temps, a veure com ho fa el sensor de força, ...
+		//just print on gui somthing like "please, wait, ..."
+		//
+		Thread.Sleep(3000); //sleep to let arduino start reading serial event
+		return true;
+	}
+
 	protected bool sendCommand (string command, string errorMessage)
 	{
 		try {
@@ -70,6 +93,7 @@ public abstract class ArduinoCapture
 			{
 				LogB.Information("error: " + errorMessage);
 				port.Close();
+				portOpened = false;
 				return false;
 			}
 			//throw;
@@ -114,13 +138,31 @@ public abstract class ArduinoCapture
 	}
 
 	protected abstract void emptyList();
+
+	public void Disconnect()
+	{
+		port.Close();
+		portOpened = false;
+	}
+
+	public bool PortOpened
+	{
+		get { return portOpened; }
+	}
 }
 
 public class PhotocellWirelessCapture: ArduinoCapture
 {
 	private List<PhotocellWirelessEvent> list = new List<PhotocellWirelessEvent>();
 
+	//constructor
 	public PhotocellWirelessCapture (string portName)
+	{
+		Reset(portName);
+	}
+
+	//after a first capture, put variales to zero
+	public void Reset (string portName)
 	{
 		this.bauds = 115200;
 		initialize(portName, bauds);
@@ -128,27 +170,15 @@ public class PhotocellWirelessCapture: ArduinoCapture
 
 	public override bool CaptureStart()
 	{
+		LogB.Information("portOpened: " + portOpened.ToString());
+		// 0 connect if needed
+		if(! portOpened)
+			if(! portConnect())
+				return false;
+
+		portOpened = true;
+
 		LogB.Information(string.Format("arduinoCapture portName: {0}, bauds: {1}", portName, bauds));
-		port = new SerialPort(portName, bauds);
-
-		try {
-			port.Open();
-		} 
-		catch (System.IO.IOException)
-		{
-			LogB.Information("Error: could not open port");
-			return false;
-		}
-
-		LogB.Information("port successfully opened");
-
-		//TODO: Val, caldria que quedés clar a la interficie que estem esperant aquest temps, a veure com ho fa el sensor de força, ...
-		//just print on gui somthing like "please, wait, ..."
-		//-----------------------------
-		//el que cal és el connect !!!!
-		//-----------------------------
-		//
-		Thread.Sleep(3000); //sleep to let arduino start reading serial event
 
 		if (! sendCommand("start_capture:", "Catched at start_capture:"))
 			return false;
@@ -193,7 +223,10 @@ public class PhotocellWirelessCapture: ArduinoCapture
 		waitResponse("Capture ended");
 		LogB.Information("AT Capture: STOPPED");
 
+		/*
 		port.Close();
+		portOpened = false;
+		*/
 
 		return true;
 	}
@@ -250,7 +283,8 @@ public class PhotocellWirelessCapture: ArduinoCapture
 		if( strFull.Length != 3 ||
 				! Util.IsNumber(strFull[0], false) ||
 				! Util.IsNumber(strFull[1], false) ||
-				(strFull[2] != "O" && strFull[2] != "I")
+				//(strFull[2] != "O" && strFull[2] != "I")
+				(strFull[2] != "0" && strFull[2] != "1")
 				)
 			return false;
 
@@ -279,9 +313,9 @@ public class PhotocellWirelessEvent
 	{
 		this.photocell = photocell;
 		this.timeMs = timeMs;
-		if(status == "O")
+		if(status == "1")
 			this.status = Chronopic.Plataforma.OFF;
-		else //(status == "I")
+		else //(status == "0")
 			this.status = Chronopic.Plataforma.ON;
 	}
 

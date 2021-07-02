@@ -76,6 +76,8 @@ public class RunExecute : EventExecute
 	protected Gtk.Image image_run_execute_running;
 	protected Gtk.Image image_run_execute_photocell;
 
+	protected PhotocellWirelessCapture photocellWirelessCapture;
+
 //	protected bool firstTrackDone;
 
 	public RunExecute() {
@@ -84,7 +86,7 @@ public class RunExecute : EventExecute
 	//run execution
 	//if wireless: string wirelessPort, wirelessBauds will be used instead of Chronopic cp
 	public RunExecute(int personID, int sessionID, string type, double distance,   
-			Chronopic cp,
+			Chronopic cp, PhotocellWirelessCapture photocellWirelessCapture,
 			string wirelessPort, int wirelessBauds,
 			int pDN, bool metersSecondsPreferred,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
@@ -101,6 +103,7 @@ public class RunExecute : EventExecute
 		this.distance = distance;
 		
 		this.cp = cp;
+		this.photocellWirelessCapture = photocellWirelessCapture;
 		this.wirelessPort = wirelessPort;
 		this.wirelessBauds = wirelessBauds;
 		wireless = (wirelessPort != "" && wirelessBauds > 0);
@@ -310,14 +313,15 @@ public class RunExecute : EventExecute
 				checkDoubleContactTime
 				);
 
-LogB.Information("going to call pwc.CaptureStart ()");
-		PhotocellWirelessCapture pwc = null;
+LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
+		//PhotocellWirelessCapture pwc = null;
 		if(wireless)
 		{
 			feedbackMessage = Catalog.GetString("Please, wait!");
 			needShowFeedbackMessage = true;
-			pwc = new PhotocellWirelessCapture(wirelessPort);
-			pwc.CaptureStart ();
+			//photocellWirelessCapture = new PhotocellWirelessCapture(wirelessPort);
+			photocellWirelessCapture.Reset(wirelessPort);
+			photocellWirelessCapture.CaptureStart ();
 
 			manageIniWireless();
 		}
@@ -327,14 +331,14 @@ LogB.Information("going to call pwc.CaptureStart ()");
 		do {
 			if (wireless)
 			{
-				if(! pwc.CaptureLine())
+				if(! photocellWirelessCapture.CaptureLine())
 					cancel = true; //problem reading line (capturing)
 
 				ok = false;
-				if(pwc.CanRead())
+				if(photocellWirelessCapture.CanRead())
 				{
 					LogB.Information("waitEvent 3");
-					PhotocellWirelessEvent pwe = pwc.PhotocellWirelessCaptureReadNext();
+					PhotocellWirelessEvent pwe = photocellWirelessCapture.PhotocellWirelessCaptureReadNext();
 					LogB.Information("wait_event pwe: " + pwe.ToString());
 					//TODO: photocell = pwe.photocell;
 					timestamp = pwe.timeMs - timestampAccumulated; //photocell does not send splittime, sends absolute time
@@ -510,9 +514,7 @@ LogB.Information("going to call pwc.CaptureStart ()");
 		} while ( ! exitWaitEventBucle );
 
 		if(wireless)
-		{
-			pwc.Stop();
-		}
+			photocellWirelessCapture.Stop();
 
 		onlyInterval_FinishWaitEventWrite();
 	}
@@ -902,7 +904,7 @@ public class RunIntervalExecute : RunExecute
 
 	//run execution
 	public RunIntervalExecute(int personID, int sessionID, string type, double distanceInterval, double limitAsDouble, bool tracksLimited,  
-			Chronopic cp,
+			Chronopic cp, PhotocellWirelessCapture photocellWirelessCapture,
 			string wirelessPort, int wirelessBauds,
 			int pDN, bool metersSecondsPreferred,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
@@ -937,6 +939,7 @@ public class RunIntervalExecute : RunExecute
 		
 		
 		this.cp = cp;
+		this.photocellWirelessCapture = photocellWirelessCapture;
 		this.wirelessPort = wirelessPort;
 		this.wirelessBauds = wirelessBauds;
 		wireless = (wirelessPort != "" && wirelessBauds > 0);

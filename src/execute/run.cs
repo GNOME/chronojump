@@ -84,7 +84,8 @@ public class RunExecute : EventExecute
 	//run execution
 	//if wireless: string wirelessPort, wirelessBauds will be used instead of Chronopic cp
 	public RunExecute(int personID, int sessionID, string type, double distance,   
-			Chronopic cp, string wirelessPort, int wirelessBauds, Gtk.Window app,
+			Chronopic cp,
+			string wirelessPort, int wirelessBauds,
 			int pDN, bool metersSecondsPreferred,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
 			double progressbarLimit, ExecutingGraphData egd,
@@ -901,7 +902,8 @@ public class RunIntervalExecute : RunExecute
 
 	//run execution
 	public RunIntervalExecute(int personID, int sessionID, string type, double distanceInterval, double limitAsDouble, bool tracksLimited,  
-			Chronopic cp, string wirelessPort, int wirelessBauds, Gtk.Window app,
+			Chronopic cp,
+			string wirelessPort, int wirelessBauds,
 			int pDN, bool metersSecondsPreferred,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
 			RepetitiveConditionsWindow repetitiveConditionsWin,

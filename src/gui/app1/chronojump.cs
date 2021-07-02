@@ -4951,7 +4951,7 @@ public partial class ChronoJumpWindow
 		currentEventExecute = new RunExecute(
 				currentPerson.UniqueID, currentSession.UniqueID, 
 				currentRunType.Name, myDistance, 
-				cp2016.CP, wirelessPort, wirelessBauds, app1,
+				cp2016.CP, wirelessPort, wirelessBauds,
 				preferences.digitsNumber, preferences.metersSecondsPreferred,
 				preferences.volumeOn, preferences.gstreamer,
 				progressbarLimit, egd,
@@ -5099,7 +5099,7 @@ public partial class ChronoJumpWindow
 		currentEventExecute = new RunIntervalExecute(
 				currentPerson.UniqueID, currentSession.UniqueID, currentRunIntervalType.Name, 
 				distanceInterval, progressbarLimit, currentRunIntervalType.TracksLimited, 
-				cp2016.CP, wirelessPort, wirelessBauds, app1,
+				cp2016.CP, wirelessPort, wirelessBauds,
 				preferences.digitsNumber, preferences.metersSecondsPreferred,
 				preferences.volumeOn, preferences.gstreamer,
 				repetitiveConditionsWin,

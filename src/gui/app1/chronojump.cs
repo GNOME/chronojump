@@ -4507,8 +4507,7 @@ public partial class ChronoJumpWindow
 
 		currentEventExecute = new JumpExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight,
-				//chronopicWin.CP, event_execute_label_message, app1, preferences.digitsNumber, preferences.volumeOn,
-				cp2016.CP, app1, preferences.digitsNumber,
+				cp2016.CP, preferences.digitsNumber,
 				preferences.volumeOn, preferences.gstreamer,
 				progressbarLimit, egd, description, configChronojump.Exhibition,
 				preferences.heightPreferred,
@@ -4804,7 +4803,7 @@ public partial class ChronoJumpWindow
 		currentEventExecute = new JumpRjExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpRjType.Name, myFall, jumpWeight, 
 				progressbarLimit, currentJumpRjType.JumpsLimited, 
-				cp2016.CP, app1, preferences.digitsNumber,
+				cp2016.CP, preferences.digitsNumber,
 				checkbutton_allow_finish_rj_after_time.Active,
 				preferences.volumeOn, preferences.gstreamer,
 				repetitiveConditionsWin, progressbarLimit, egd);
@@ -5331,7 +5330,7 @@ public partial class ChronoJumpWindow
 
 		currentEventExecute = new ReactionTimeExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentReactionTimeType.Name, 
-				cp2016.CP, app1, preferences.digitsNumber,
+				cp2016.CP, preferences.digitsNumber,
 				preferences.volumeOn, preferences.gstreamer,
 				progressbarLimit, egd, description);
 
@@ -5491,8 +5490,7 @@ public partial class ChronoJumpWindow
 
 		currentEventExecute = new PulseExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentPulseType.Name, pulseStep, totalPulses, 
-				cp2016.CP,
-				app1, preferences.digitsNumber,
+				cp2016.CP, preferences.digitsNumber,
 				preferences.volumeOn, preferences.gstreamer, egd);
 		
 		if(! canCaptureC)
@@ -5784,8 +5782,7 @@ public partial class ChronoJumpWindow
 				currentSession.UniqueID, currentMultiChronopicType.Name,
 				cp2016.CP, cp2016.CP2,
 				syncAvailable, extra_window_check_multichronopic_delete_first.Active,
-				extra_window_spin_run_analysis_distance.Value.ToString(),
-				app1, egd
+				extra_window_spin_run_analysis_distance.Value.ToString(), egd
 				);
 
 		//mark to only get inside on_multi_chronopic_finished one time

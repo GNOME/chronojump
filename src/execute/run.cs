@@ -104,7 +104,6 @@ public class RunExecute : EventExecute
 		this.wirelessBauds = wirelessBauds;
 		wireless = (wirelessPort != "" && wirelessBauds > 0);
 		LogB.Information(string.Format("This is a run simple capture with wireless?: {0}", wireless));
-		this.app = app;
 
 		this.pDN = pDN;
 		this.metersSecondsPreferred = metersSecondsPreferred;
@@ -940,7 +939,6 @@ public class RunIntervalExecute : RunExecute
 		this.wirelessBauds = wirelessBauds;
 		wireless = (wirelessPort != "" && wirelessBauds > 0);
 		LogB.Information(string.Format("This is a run interval capture with wireless?: {0}", wireless));
-		this.app = app;
 
 		this.metersSecondsPreferred = metersSecondsPreferred;
 		this.pDN = pDN;

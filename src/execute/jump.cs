@@ -56,7 +56,7 @@ public class JumpExecute : EventExecute
 
 	//jump execution
 	public JumpExecute(int personID, string personName, int sessionID, string type, double fall, double weight,  
-			Chronopic cp, Gtk.Window app, int pDN,
+			Chronopic cp, int pDN,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
 			double progressbarLimit, ExecutingGraphData egd, string description,
 			bool avoidGraph, //on configChronojump.Exhibition do not show graph because it gets too slow with big database
@@ -71,7 +71,6 @@ public class JumpExecute : EventExecute
 		this.weight = weight;
 		
 		this.cp = cp;
-		this.app = app;
 
 		this.pDN = pDN;
 		this.volumeOn = volumeOn;
@@ -562,7 +561,7 @@ public class JumpRjExecute : JumpExecute
 	public JumpRjExecute(int personID, string personName, 
 			int sessionID, string type, double fall, double weight, 
 			double limitAsDouble, bool jumpsLimited, 
-			Chronopic cp, Gtk.Window app, int pDN, bool allowFinishAfterTime,
+			Chronopic cp, int pDN, bool allowFinishAfterTime,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
 			RepetitiveConditionsWindow repetitiveConditionsWin,
 			double progressbarLimit, ExecutingGraphData egd
@@ -584,7 +583,6 @@ public class JumpRjExecute : JumpExecute
 		}
 		
 		this.cp = cp;
-		this.app = app;
 
 		this.pDN = pDN;
 		this.allowFinishAfterTime = allowFinishAfterTime;

@@ -54,9 +54,8 @@ public class PulseExecute : EventExecute
 
 	//execution
 	public PulseExecute(int personID, string personName, int sessionID, string type, double fixedPulse, int totalPulsesNum,  
-			Chronopic cp, Gtk.Window app, int pDN,
+			Chronopic cp, int pDN,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
-			//double progressbarLimit, 
 			ExecutingGraphData egd
 			)
 	{
@@ -66,15 +65,12 @@ public class PulseExecute : EventExecute
 		this.type = type;
 		this.fixedPulse = fixedPulse;
 		this.totalPulsesNum = totalPulsesNum;
-		
-	
+
 		this.cp = cp;
-		this.app = app;
 
 		this.pDN = pDN;
 		this.volumeOn = volumeOn;
 		this.gstreamer = gstreamer;
-//		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
 	
 		fakeButtonUpdateGraph = new Gtk.Button();

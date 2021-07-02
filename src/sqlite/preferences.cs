@@ -170,7 +170,14 @@ class SqlitePreferences : Sqlite
 				Insert ("personPhoto", "True", dbcmdTr);
 				Insert (PersonSelectWinImages, "True", dbcmdTr);
 				Insert (MenuType, Preferences.MenuTypes.ALL.ToString(), dbcmdTr);
-				Insert (LogoAnimatedShow, "True", dbcmdTr);
+
+				UtilAll.OperatingSystems os = UtilAll.GetOSEnum();
+
+				if(os == UtilAll.OperatingSystems.MACOSX)
+					Insert (LogoAnimatedShow, "False", dbcmdTr); //false until fixed Big Sur problems
+				else
+					Insert (LogoAnimatedShow, "True", dbcmdTr);
+
 				Insert (ColorBackground, "#0e1e46", dbcmdTr);
 				Insert (ColorBackgroundOsColor, "False", dbcmdTr);
 				Insert (FontsOnGraphs, Preferences.FontTypes.Helvetica.ToString(), dbcmdTr);
@@ -197,7 +204,6 @@ class SqlitePreferences : Sqlite
 				Insert ("allowFinishRjAfterTime", "True", dbcmdTr); 
 				Insert ("volumeOn", "True", dbcmdTr);
 
-				UtilAll.OperatingSystems os = UtilAll.GetOSEnum();
 				if(os == UtilAll.OperatingSystems.WINDOWS)
 					Insert (Preferences.GstreamerStr, Preferences.GstreamerTypes.SYSTEMSOUNDS.ToString());
 				else if(os == UtilAll.OperatingSystems.MACOSX)

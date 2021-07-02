@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.23";
+	static string lastChronojumpDatabaseVersion = "2.24";
 
 	public Sqlite()
 	{
@@ -626,6 +626,8 @@ class Sqlite
 			SqlitePulse sqlitePulseObject = new SqlitePulse();
 			SqliteMultiChronopic sqliteMultiChronopicObject = new SqliteMultiChronopic();
 			SqlitePersonSessionOld sqlitePersonSessionOldObject = new SqlitePersonSessionOld();
+
+			UtilAll.OperatingSystems os = UtilAll.GetOSEnum();
 
 			if(currentVersion == "0.41") {
 				Sqlite.Open();
@@ -2265,7 +2267,6 @@ class Sqlite
 			{
 				LogB.SQL("Updated preferences: added gstreamer");
 
-				UtilAll.OperatingSystems os = UtilAll.GetOSEnum();
 				if(os == UtilAll.OperatingSystems.WINDOWS)
 					SqlitePreferences.Insert (Preferences.GstreamerStr, Preferences.GstreamerTypes.SYSTEMSOUNDS.ToString());
 				else if(os == UtilAll.OperatingSystems.MACOSX)
@@ -3019,6 +3020,15 @@ class Sqlite
 
 				currentVersion = updateVersion("2.23");
 			}
+			if(currentVersion == "2.23")
+			{
+				LogB.SQL("LogoAnimatedShow made False by default on Mac (thinking on Big Sur problems)");
+
+				if(os == UtilAll.OperatingSystems.MACOSX)
+					SqlitePreferences.Update (SqlitePreferences.LogoAnimatedShow, "False", true);
+
+				currentVersion = updateVersion("2.24");
+			}
 
 
 			/*
@@ -3240,6 +3250,7 @@ class Sqlite
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
 
+		//2.23 - 2.24 Converted DB to 2.24 LogoAnimatedShow made False by default on Mac
 		//2.22 - 2.23 Converted DB to 2.23 Inserted socialNetwork variables at preferences
 		//2.21 - 2.22 Converted DB to 2.22 Inserted forceSensorFeedbackPath params
 		//2.20 - 2.21 Converted DB to 2.21 Inserted into preferences: runsEvolutionShowTime

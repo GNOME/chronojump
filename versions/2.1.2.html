@@ -1,0 +1,83 @@
+Updated until 24 apr (included)
+
+
+Changes since 2.1.1-16 (2021 March 16)
+
+<p><span class="highlight2"><i class="fa fa-area-chart fa-2x"></i>  General Chronojump changes</span></p>
+<ul>
+<b>Top left selectors to change fast from:</b>
+<ul>
+<li><b>jump simple to reactive.</b></li>
+<li><b>races simple, races intervallic, race analyzer.</b></li>
+<li><b>gravitatory encoder, inertial encoder.</b></li>
+</ul>
+<b>On session load window you can see/hide the number or persons on that session and the number of each type of tests, by default tests or current mode are shown.</b>
+<b>Now load session shows results much faster, specially when is shown again (2nd, 3rd, ... times).<b>
+<b>A session can be edited and deleted from session load window.</b>
+After importing a session to a new session, allows to load it in the same dialog.
+If import file path is very long, it is displayed with dots in the middle.
+All Chronojump exercises can be selected with left/right buttons (better for tactile screens) (previously it was only on encoder, now is in jumps, races, race analyzer, force sensor and encoder).
+Now application title is: Chronojump - mode - session name.
+Fixed some displaying color problems on generic windows depending on user selected background color.
+Improvements on person select window (when persons are on top).
+Improved person add/edit window.
+Fixed bug on triggers on analyze graphs when there are ON and not OFF or viceversa.
+</ul>
+
+<p><span class="highlight2"><i class="fa fa-area-chart fa-2x"></i>  Force sensor</span></p>
+<ul>
+<b>Capture options do not show: normal/abs/inverted on ForceResultant (is always ABS).</b>
+<b>Fixed capture with triggers.</b>
+Shown triggers on analyze.
+</ul>
+
+<p><span class="highlight2"><i class="fa fa-bar-chart fa-2x"></i>  Encoder</span></p>
+<ul>
+<b>Now Encoder configuration and exercises are different for gravitatory than inertial. An exercise can be gravitatory, inertial or both. Related changes:</b>
+<ul>
+<li>button encoder config: shows gravitatory or inertia on label depending on mode.</li>
+<li>Exercise edit takes care on saved sets with that exercise.</li>
+<li>Displayed help button on gravitatory/inertial config problems like changing this modes on some exercise but having some sets captured on the other mode.</li>
+</ul>
+Fixed wrong title "Delete exercise" on exercise edit.
+Fixed potentially bugs on select.
+</ul>
+
+<p><span class="highlight2"><i class="fa fa-running fa-2x"></i>  Race analyzer</span></p>
+<ul>
+<b>On Capture (realtime) and load, apart from a speedometer, is also shows now graphs of: speed/time, position/time, accel/time.</b>
+On export, lap times are also exported.
+Speedometer shows results in two lines: Max speed and distance (also on load).
+Now on load it does not change automatically to analyze tab because graphs on capture tab are relevant.
+On load analyze is not automatic now. User will need to click on analyze button.
+Can capture with person height == 0 (undefined), and shows an informative message.
+Improvements on user interface on top right of analyze tab.
+</ul>
+
+<p><span class="highlight2"><i class="fa fa-clock-o fa-2x"></i>  Jumps, Races</span></p>
+<ul>
+<b>Last Jump simple or multiple configuration is remembered when Chronojump is closed. Work faster and avoid mistake. Example of variables remembered: Sjl weight, Dj fall number of jumps, number of seconds, ...</b>
+<b>Fixed ending of RSA tests since last versions, now end time is ok.<b>
+<b>Sprints can be exported like forceSensor and RaceAnalyzer (all the sprints of a person or all the sprints on the session) Includes images and table (spreadsheet data). Export includes laps</b>
+<b>Datetime is shown in races,a also on export.</b>
+<b>On jumps multiple results table, it is shown now also the average of power and stiffness.</b>.
+<b>Simple races new analyze graph: Races/time. This graph can be saved, it can show all or only best in session, can show speed or time (and remember these in preferences).</b>
+Intervallic race types with different distances allow 5 characters: eg 25,51. So now decimal values are available on this tipe or races.
+Shown decimal separator character on adding a new run type.
+Jump fall entry button  has now 1 decimal.
+Fixed not showing track distance on creating new simple run type.
+</ul>
+
+<p><span class="highlight2"><i class="fa fa-sitemap fa-2x"></i>  Chronojump-networks</span></p>
+<ul>
+Fixed not showing "disconnected rfid" if disconnect it after an encoder capture.
+Improvements on downloading image of each player and identification in general.
+Fixed lowercase month names on some systems.
+Now encoderDataTemp is not uploaded.
+</ul>
+
+<p><span class="highlight2"><i class="fa fa-flag-o fa-2x"></i>  Translations</span></p>
+<ul>
+	<li>Updated translations: Brazilian Portuguese, Italian, Slovenian, Spanish, Urkainian.</li>
+</ul>
+

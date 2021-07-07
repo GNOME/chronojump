@@ -1190,6 +1190,73 @@ public class ForceSensorCapturePoints
 		LogB.Information("cvRMSSD: " + variability);
 	}
 
+	public void TestVariabilityRMSSDAndCVRMSSD ()
+	{
+		/* R code:
+
+		library("psych")
+		d=read.csv2("rmssd2.csv")
+		png(width=1920, height=1080, filename="rmssd.png")
+		y=d$Force..N.
+		maxyStored = max(y)
+		plot(y, ylim=c(0,maxyStored))
+		#abline(v=seq(from=1, to=length(y), by=100))
+		maxVariab = 0
+		for(n in seq(from=1, to=(length(y) -100), by=100)) {
+			variab = rmssd(y[n:(n+100)], group=NULL, lag=1, na.rm=TRUE)
+			mtext(side=1, at=n+50, round(variab,3), line=0)
+			if(variab > maxVariab)
+				maxVariab = variab
+		}
+		for(n in seq(from=1, to=(length(y) -100), by=100)) {
+			variab = rmssd(y[n:(n+100)], group=NULL, lag=1, na.rm=TRUE)
+			variabScaled = max(y) * variab / maxVariab
+			#rect(n, 0, n+100, variabScaled)
+		}
+
+		#try to lower the values
+		y=y-100
+		lines(y, col="blue")
+		for(n in seq(from=1, to=(length(y) -100), by=100)) {
+			variab = rmssd(y[n:(n+100)], group=NULL, lag=1, na.rm=TRUE)
+			mtext(side=1, at=n+50, round(variab,3), col="blue", line=1)
+		}
+		for(n in seq(from=1, to=(length(y) -100), by=100)) {
+			variab = rmssd(y[n:(n+100)], group=NULL, lag=1, na.rm=TRUE)
+			variabScaled = maxyStored * variab / maxVariab
+			#rect(n, 0, n+100, variabScaled, col="blue")
+		}
+
+		#cv rmssd
+		y=d$Force..N.
+		lines(y, col="green4")
+		for(n in seq(from=1, to=(length(y) -100), by=100)) {
+			variab = 100*rmssd(y[n:(n+100)], group=NULL, lag=1, na.rm=TRUE)/mean(y[n:(n+100)])
+			mtext(side=1, at=n+50, round(variab,3), col="green4", line=2)
+		}
+		for(n in seq(from=1, to=(length(y) -100), by=100)) {
+			variab = 100*rmssd(y[n:(n+100)], group=NULL, lag=1, na.rm=TRUE)/mean(y[n:(n+100)])
+			variabScaled = maxyStored * variab / maxVariab
+			#rect(n, 0, n+100, variabScaled, col="green4")
+		}
+
+		# y/2
+		y=d$Force..N.
+		y=y/2
+		lines(y, col="red")
+		for(n in seq(from=1, to=(length(y) -100), by=100)) {
+			variab = rmssd(y[n:(n+100)], group=NULL, lag=1, na.rm=TRUE)
+			mtext(side=1, at=n+50, round(variab,3), col="red", line=3)
+		}
+		for(n in seq(from=1, to=(length(y) -100), by=100)) {
+			variab = rmssd(y[n:(n+100)], group=NULL, lag=1, na.rm=TRUE)
+			variabScaled = maxyStored * variab / maxVariab
+			#rect(n, 0, n+100, variabScaled, col="red")
+		}
+		dev.off()
+		 */
+	}
+
 	public int MarginLeft
 	{
 		get { return marginLeft; }

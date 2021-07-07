@@ -100,7 +100,7 @@ public class EventExecute
 	//timer has a delegate that updates the time progressBar. 
 	//It starts when the first event is detected
 	//protected System.Timers.Timer timerClock = new System.Timers.Timer();    
-	protected double timerCount; // every 50 milliseconds: 
+	protected double timerCount; // every 50 milliseconds:
 	protected DateTime timerStart; // used as timestamp to count better 
 
 	protected Random rand;
@@ -442,16 +442,17 @@ public class EventExecute
 				if(events == -1) //we don't want to display nothing
 					//progressbar.Text = "";
 					label_value.Text = "";
-				else 
+				else
 					label_value.Text = Math.Round(events,3).ToString();
 			} else {
 				//activity mode
 				progressbar.Pulse();
 
 				//pass -1 in events in activity mode if don't want to use this label
-				if(events != -1)
+				if(events != -1) {
 					//label_value.Text = Util.TrimDecimals(events.ToString(), 1);
 					label_value.Text = Math.Round(events,3).ToString();
+				}
 			}
 		}
 	}

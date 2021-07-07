@@ -196,7 +196,9 @@ public class RunExecute : EventExecute
 		Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn, gstreamer);
 
 
-		//runPhase = runPhases.START_WIRELESS_UNKNOWN;
+		//runPhase = runPhases.START_WIRELESS_UNKNOWN; //done before
+
+		/*
 		//provem de forçar a que comencem en off, a veure si va be
 		platformState = Chronopic.Plataforma.OFF;
 		if (platformState==Chronopic.Plataforma.OFF) {
@@ -209,6 +211,7 @@ public class RunExecute : EventExecute
 			runPhase = runPhases.PRE_RUNNING;
 			runChangeImage.Current = RunChangeImage.Types.RUNNING;
 		}
+		*/
 	}
 
 	private void manageIniNotWireless()
@@ -319,6 +322,7 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 		{
 			feedbackMessage = Catalog.GetString("Please, wait!");
 			needShowFeedbackMessage = true;
+			runPhase = runPhases.START_WIRELESS_UNKNOWN;
 			//photocellWirelessCapture = new PhotocellWirelessCapture(wirelessPort);
 			photocellWirelessCapture.Reset(wirelessPort);
 			photocellWirelessCapture.CaptureStart ();
@@ -443,11 +447,11 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 					//it has confirmed that first phase is PLATFORM_INI_YES/NO_TIME
 					if(wireless && runPhase == runPhases.START_WIRELESS_UNKNOWN)
 					{
-						if(speedStartArrival || measureReactionTime)
-							runPhase = runPhases.PLATFORM_INI_YES_TIME;
-						else
-							runPhase = runPhases.PLATFORM_INI_NO_TIME;
-
+						/*
+						   on wireless if we are still on unknown, change to INI_NO_TIME
+						   as we cannot know how much time we were on the platform, so INI_YES_TIME will be not aplicable
+						   */
+						runPhase = runPhases.PLATFORM_INI_NO_TIME;
 						startIn = true;
 					}
 
@@ -776,8 +780,7 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 				myTimeValue = timerCount; //show time from the timerCount
 				break;
 		}
-				
-		
+
 		//has no finished, but move progressbar time
 		progressBarEventOrTimePreExecution(
 				false, //isEvent false: time
@@ -1218,7 +1221,6 @@ public class RunIntervalExecute : RunExecute
 				myTimeValue = timerCount; //show time from the timerCount
 				break;
 		}
-			
 		if(! finish) 
 			progressBarEventOrTimePreExecution(
 					false, //isEvent false: time

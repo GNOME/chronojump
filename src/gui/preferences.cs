@@ -185,8 +185,9 @@ public class PreferencesWindow
 	[Widget] Gtk.SpinButton spin_force_sensor_not_elastic_ecc_min_force;
 	[Widget] Gtk.SpinButton spin_force_sensor_not_elastic_con_min_force;
 	[Widget] Gtk.SpinButton spin_force_sensor_graphs_line_width;
-	[Widget] Gtk.RadioButton radio_force_sensor_variability_old;
+	[Widget] Gtk.RadioButton radio_force_sensor_variability_rmssd;
 	[Widget] Gtk.RadioButton radio_force_sensor_variability_cvrmssd;
+	[Widget] Gtk.RadioButton radio_force_sensor_variability_old;
 	[Widget] Gtk.SpinButton spin_force_sensor_analyze_ab_slider_increment;
 	[Widget] Gtk.SpinButton spin_force_sensor_analyze_max_avg_force_in_window;
 
@@ -735,10 +736,12 @@ public class PreferencesWindow
 
 		PreferencesWindowBox.spin_force_sensor_graphs_line_width.Value = preferences.forceSensorGraphsLineWidth;
 
-		if(preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.CHRONOJUMP_OLD)
-			PreferencesWindowBox.radio_force_sensor_variability_old.Active = true;
-		else
+		if(preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.RMSSD)
+			PreferencesWindowBox.radio_force_sensor_variability_rmssd.Active = true;
+		else if(preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.CVRMSSD)
 			PreferencesWindowBox.radio_force_sensor_variability_cvrmssd.Active = true;
+		else
+			PreferencesWindowBox.radio_force_sensor_variability_old.Active = true;
 
 		PreferencesWindowBox.spin_force_sensor_analyze_ab_slider_increment.Value = preferences.forceSensorAnalyzeABSliderIncrement;
 		PreferencesWindowBox.spin_force_sensor_analyze_max_avg_force_in_window.Value = preferences.forceSensorAnalyzeMaxAVGInWindow;
@@ -2180,14 +2183,21 @@ public class PreferencesWindow
 				preferences.forceSensorGraphsLineWidth,
 				Convert.ToInt32(spin_force_sensor_graphs_line_width.Value));
 
-		if(preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.CHRONOJUMP_OLD &&
-				PreferencesWindowBox.radio_force_sensor_variability_cvrmssd.Active)
+		//variability
+		if(PreferencesWindowBox.radio_force_sensor_variability_rmssd.Active &&
+				preferences.forceSensorVariabilityMethod != Preferences.VariabilityMethodEnum.RMSSD)
+		{
+			SqlitePreferences.Update(SqlitePreferences.ForceSensorVariabilityMethod, Preferences.VariabilityMethodEnum.RMSSD.ToString(), true);
+			preferences.forceSensorVariabilityMethod = Preferences.VariabilityMethodEnum.RMSSD;
+		}
+		else if(PreferencesWindowBox.radio_force_sensor_variability_cvrmssd.Active &&
+				preferences.forceSensorVariabilityMethod != Preferences.VariabilityMethodEnum.CVRMSSD)
 		{
 			SqlitePreferences.Update(SqlitePreferences.ForceSensorVariabilityMethod, Preferences.VariabilityMethodEnum.CVRMSSD.ToString(), true);
 			preferences.forceSensorVariabilityMethod = Preferences.VariabilityMethodEnum.CVRMSSD;
 		}
-		else if(preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.CVRMSSD &&
-				PreferencesWindowBox.radio_force_sensor_variability_old.Active)
+		else if(PreferencesWindowBox.radio_force_sensor_variability_old.Active &&
+				preferences.forceSensorVariabilityMethod != Preferences.VariabilityMethodEnum.CHRONOJUMP_OLD)
 		{
 			SqlitePreferences.Update(SqlitePreferences.ForceSensorVariabilityMethod, Preferences.VariabilityMethodEnum.CHRONOJUMP_OLD.ToString(), true);
 			preferences.forceSensorVariabilityMethod = Preferences.VariabilityMethodEnum.CHRONOJUMP_OLD;

@@ -146,7 +146,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_force_sensor_ai_impulse_values;
 	[Widget] Gtk.Label label_force_sensor_ai_variability_values;
 	[Widget] Gtk.Label label_force_sensor_ai_feedback_values;
-	[Widget] Gtk.Label label_force_sensor_ai_variability_cvrmssd;
+	[Widget] Gtk.Label label_force_sensor_ai_variability_method;
 	[Widget] Gtk.Label label_force_sensor_ai_variability_units;
 	[Widget] Gtk.Label label_force_sensor_ai_max_avg_in_window;
 
@@ -2204,7 +2204,14 @@ public partial class ChronoJumpWindow
 		}
 
 		table_force_sensor_ai_impulse_variability_and_feedback.Visible = (countA != countB);
-		label_force_sensor_ai_variability_cvrmssd.Visible = (preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.CVRMSSD);
+
+		if(preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.RMSSD)
+			label_force_sensor_ai_variability_method.Text = "RMSSD";
+		else if(preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.CVRMSSD)
+			label_force_sensor_ai_variability_method.Text = "cvRMSSD";
+		else
+			label_force_sensor_ai_variability_method.Text = "Old method";
+
 		if(preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.CVRMSSD)
 			label_force_sensor_ai_variability_units.Text = "%";
 		else
@@ -2222,7 +2229,7 @@ public partial class ChronoJumpWindow
 			int feedbackF = preferences.forceSensorCaptureFeedbackAt;
 
 			fsAI.CalculateVariabilityAndAccuracy(countA, countB, feedbackF, out variability, out feedbackDiff,
-					(preferences.forceSensorVariabilityMethod == Preferences.VariabilityMethodEnum.CVRMSSD));
+					preferences.forceSensorVariabilityMethod);
 
 			label_force_sensor_ai_variability_values.Text = Math.Round(variability, 3).ToString();
 

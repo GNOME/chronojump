@@ -390,15 +390,16 @@ public class ForceSensorDynamicsNotElastic : ForceSensorDynamics
 	//forces are updated, so do not Add to the list
 	private void calcule()
 	{
-		double accel = 0;
-
+        LogB.Information(string.Format("fse.AngleDefault: {0}, fsco: {1}", fse.AngleDefault, fsco.ToString()));
 		for (int i = 0 ; i < force_l.Count; i ++)
 		{
 			double force = Math.Sqrt(
-					Math.Pow(Math.Cos(fse.AngleDefault * Math.PI / 180.0) * (force_l[i] + totalMass * accel), 2) +                  //Horizontal
-					Math.Pow(Math.Sin(fse.AngleDefault * Math.PI / 180.0) * (force_l[i] + totalMass * accel) + totalMass * 9.81, 2) //Vertical
+					Math.Pow(Math.Cos(fse.AngleDefault * Math.PI / 180.0) * (Math.Abs(force_l[i])), 2) +                  //Horizontal
+					Math.Pow(Math.Sin(fse.AngleDefault * Math.PI / 180.0) * (Math.Abs(force_l[i])) + totalMass * 9.81, 2) //Vertical
 					);
 			force_l[i] = calculeForceWithCaptureOptions(force);
+            LogB.Information(string.Format("Math.Abs(force_l[i]): {0}, Math.Pow(Math.Sin(fse.AngleDefault * Math.PI / 180.0) * (Math.Abs(force_l[i])): {1}, force: {2}, force_l[i]: {3}",                
+                                                Math.Abs(force_l[i]), Math.Sin(fse.AngleDefault * Math.PI / 180.0) * (Math.Abs(force_l[i])), force, force_l[i] ));
 		}
 
 		calculeRepetitions(force_l);

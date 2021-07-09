@@ -1,102 +1,137 @@
-Updated until 12 May (included)
-
+<!--
+???
+Fixes on forceSensor forceResultant calculation
+Added string "Absolute values" on force resultant exercise config
+???
+-->
 
 Changes since 2.1.1-16 (2021 March 16)
 
-<p><span class="highlight2"><i class="fa fa-area-chart fa-2x"></i>  General Chronojump changes</span></p>
-<ul>
-<b>Top left selectors to change fast from:</b>
-<ul>
-<li><b>jump simple to reactive.</b></li>
-<li><b>races simple, races intervallic, race analyzer.</b></li>
-<li><b>gravitatory encoder, inertial encoder.</b></li>
-</ul>
-<b>On session load window you can see/hide the number or persons on that session and the number of each type of tests, by default tests or current mode are shown.</b>
-<b>Now load session shows results much faster, specially when is shown again (2nd, 3rd, ... times).<b>
-<b>A session can be edited and deleted from session load window.</b>
-After importing a session to a new session, allows to load it in the same dialog.
-If import file path is very long, it is displayed with dots in the middle.
-All Chronojump exercises can be selected with left/right buttons (better for tactile screens) (previously it was only on encoder, now is in jumps, races, race analyzer, force sensor and encoder).
-Now application title is: Chronojump - mode - session name.
-Fixed some displaying color problems on generic windows depending on user selected background color.
-Improvements on person select window (when persons are on top).
-Exporting a session can be cancelled by the user (if there is any problem or it is slow).
-Fixed highlighting always latest products icon when there is no network.
-Improved person add/edit window.
-Improves delete test type window: afecting al jumps and races with photocells.
-Fixed bug on triggers on analyze graphs when there are ON and not OFF or viceversa.
-Ensure widgets sensitivity of all the widgets is correctly applied when load a session without persons.
-</ul>
+	<p><span class="highlight2"><i class="fa fa-area-chart fa-2x"></i>  General Chronojump changes</span></p>
+	<ul>
+	<li><b>Top left selectors to change fast from:</b></li>
+	<ul>
+	 	<li><b>jump simple to reactive.</b></li>
+		<li><b>races simple, races intervallic, race analyzer.</b></li>
+		<li><b>gravitatory encoder, inertial encoder.</b></li>
+	</ul>
+	<li><b>On session load window you can see/hide the number or persons on that session and the number of each type of tests, by default tests or current mode are shown.</b></li>
+	<li><b>Now load session shows results much faster, specially when is shown again (2nd, 3rd, ... times).</b></li>
+	<li><b>A session can be edited and deleted from session load window.</b></li>
+	<li><b>Social network poll at start (just 1 time) to know what is the best channel to upload our videos. You can skip answer.</b></li>
+	<li>Chronojump uses a bit less memory because some minor tweaks where done.</li>
+	<li>Improvements on person select window (when persons are on top).</li>
+	<li>After importing a session to a new session, allows to load it in the same dialog.</li>
+	<li>If import file path is very long, it is displayed with dots in the middle.</li>
+	<li>All Chronojump exercises can be selected with left/right buttons (better for tactile screens) (previously it was only on encoder, now is in jumps, races, race analyzer, force sensor and encoder).</li>
+	<li>Now application title is: Chronojump - mode - session name.</li>
+	<li>Fixed some displaying color problems on generic windows depending on user selected background color.</li>
+	<li>Exporting a session can be cancelled by the user (if there is any problem or it is slow).</li>
+	<li>Animated logo is not shown by default on mac (until Big Sur improves).</li>
+	<li>Fixed highlighting always latest products icon when there is no network.</li>
+	<li>Improved person add/edit window.</li>
+	<li>Improves delete test type window: afecting al jumps and races with photocells.</li>
+	<li>Open a folder or file (with external program like browser of file manager) now cares on all systems about files with spaces.</li>
+	<li>Fixed bug on triggers on analyze graphs when there are ON and not OFF or viceversa.</li>
+	<li>Ensure widgets sensitivity of all the widgets is correctly applied when load a session without persons.</li>
+	</ul>
 
-<p><span class="highlight2"><i class="fa fa-area-chart fa-2x"></i>  Force sensor</span></p>
-<ul>
-<b>Capture options do not show: normal/abs/inverted on ForceResultant (is always ABS).</b>
-<b>Exercises can show repetitions: concentric, concenctric + eccentric together or separeted.</b>
-<b>Fixed variability: cvRMSSD (needed sqrt and dividing by mean) (and also *100 to be percentage).</b>
-<b>Fixed capture with triggers.</b>
-Analyze graph shows triggers also in zoom.
-Import session also imports forceSensor triggers.
-Analyze graph fixed the X on triggers (was not exactly at place).
-Exercise dialog has same window size for all the tabs (so clicking in next is not annoying anymore with the bottom buttons being moved all the time).
-Do not allow to forceSensor capture if no session or no person.
-Ensure button_execute_test is not active after adjust if there are no persons.
-RFD-back button much clear with an icon.
-After load ensure change to signal (not rfd image).
-Shown triggers on analyze.
-</ul>
+	<p><span class="highlight2"><i class="fa fa-area-chart fa-2x"></i>  Force sensor</span></p>
+	<ul>
+	<li><b>Capture feedback with animated gamified path measuring accuracy (alternative to rectangle). Watch: <a href="https://www.youtube.com/watch?v=e6MfucrhWtQ">ChronoTalks 5 - Gamificated feedback path (worm) on Force Sensor ABD/ADD capture</a></b></li>
+	<li><b>Exercises can show repetitions: concentric, concenctric + eccentric together or separeted.</b></li>
+	<li><b>Fixed variability: cvRMSSD (needed sqrt and dividing by mean) (and also *100 to be percentage).</b></li>
+	<li><b>Added variability calculation method: RMSSD.</b></li>
+	<li><b>Fixed export files on certain systems (specially images on Windows and when URL has latin chars).</b></li>
+	<li><b>Adjust: tare/calibrate moved to center of the capture window (much clear now).</b></li>
+	<li><b>Fixed capture with triggers.</b></li>
+<!--	<li>Capture options do not show: normal/abs/inverted on ForceResultant (is always ABS).</li>-->
+	<li>Analyze graph shows triggers also in zoom.</li>
+	<li>Shown triggers on analyze.</li>
+	<li>Import session also imports forceSensor triggers.</li>
+	<li>At export on creating the AB graph, it is shown vertical ablines to know AB on that set.</li>
+	<li>Analyze export can open result url.</li>
+	<li>Analyze graph fixed the X on triggers (was not exactly at place).</li>
+	<li>Capture horizontal/vertical lines work much better on negative values.</li>
+	<li>Exercise dialog has same window size for all the tabs (so clicking in next is not annoying anymore with the bottom buttons being moved all the time).</li>
+	<li>Do not allow to forceSensor capture if no session or no person.</li>
+	<li>Chronojump quits correctly if user closes software while capturing with force sensor.</li>
+	<li>ForceSensor capture unsensitivizes adjust button.</li>
+	<li>Ensure button_execute_test is not active after adjust if there are no persons.</li>
+	<li>RFD-back button much clear with an icon.</li>
+	<li>After load ensure change to signal (not rfd image).</li>
+	<li>Fixed CSVDecimalColumnIsPoint (fixing really eventual problems on export on R).</li>
+	<li>Fixed not seeing error label on forceSensorExercise create without name.</li>
+	</ul>
 
-<p><span class="highlight2"><i class="fa fa-bar-chart fa-2x"></i>  Encoder</span></p>
-<ul>
-<b>Now Encoder configuration and exercises are different for gravitatory than inertial. An exercise can be gravitatory, inertial or both. Related changes:</b>
-<ul>
-<li>button encoder config: shows gravitatory or inertia on label depending on mode.</li>
-<li>Exercise edit takes care on saved sets with that exercise.</li>
-<li>Displayed help button on gravitatory/inertial config problems like changing this modes on some exercise but having some sets captured on the other mode.</li>
-</ul>
-Fixed wrong title "Delete exercise" on exercise edit.
-Fixed trigger on encoder.
-Fixed potentially bugs on select.
-</ul>
+	<p><span class="highlight2"><i class="fa fa-bar-chart fa-2x"></i>  Encoder</span></p>
+	<ul>
+	<li><b>Now Encoder configuration and exercises are different for gravitatory than inertial. An exercise can be gravitatory, inertial or both. Related changes:</b></li>
+	<ul>
+	<li>button encoder config: shows gravitatory or inertia on label depending on mode.</li>
+	<li>Exercise edit takes care on saved sets with that exercise.</li>
+	<li>Displayed help button on gravitatory/inertial config problems like changing this modes on some exercise but having some sets captured on the other mode.</li>
+	</ul>
+	<li><b>Fixed crash on inertia moment calculation since check Chronopic cable feature.</b></li>
+	<li>Analyze export can open result url.</li>
+	<li>Fixed wrong title "Delete exercise" on exercise edit.</li>
+	<li>Fixed trigger on encoder.</li>
+	<li>Fixed potentially bugs on select SQL methods.</li>
+	</ul>
 
-<p><span class="highlight2"><i class="fa fa-running fa-2x"></i>  Race analyzer</span></p>
-<ul>
-<b>On Capture (realtime) and load, apart from a speedometer, is also shows now graphs of: speed/time, position/time, accel/time.</b>
-On export, lap times are also exported.
-Speedometer shows results in two lines: Max speed and distance (also on load).
-Now on load it does not change automatically to analyze tab because graphs on capture tab are relevant.
-On load analyze is not automatic now. User will need to click on analyze button.
-Can capture with person height == 0 (undefined), and shows an informative message.
-Improvements on user interface on top right of analyze tab.
-</ul>
+	<p><span class="highlight2"><i class="fa fa-running fa-2x"></i>  Race analyzer</span></p>
+	<ul>
+	<li><b>On Capture (realtime) and load, apart from a speedometer, is also shows now graphs of: speed/time, position/time, accel/time.</b></li>
+	<li><b>Now it is also exported: instantaneous data (raw and fitted).</b></li>
+	<li><b>Fixed export files on certain systems (specially images on Windows and when URL has latin chars).</b></li>
+	<li>Analyze export can open result url.</li>
+	<li>Speedometer shows results in two lines: Max speed and distance (also on load).</li>
+	<li>Now model works correctly even when the step size is too small in nls.</li>
+	<li>Now on load it does not change automatically to analyze tab because graphs on capture tab are relevant.</li>
+	<li>At load, "analyze" process is not automatically done now. User will need to click on analyze button.</li>
+	<li>Can capture with person height == 0 (undefined), and shows an informative message.</li>
+	<li>Improvements on user interface on top right of analyze tab.</li>
+	<li>Hidden selector for race analyzer (resisted) until product is finished.</li>
+	</ul>
 
-<p><span class="highlight2"><i class="fa fa-clock-o fa-2x"></i>  Jumps, Races</span></p>
-<ul>
-<b>Last Jump simple or multiple configuration is remembered when Chronojump is closed. Work faster and avoid mistake. Example of variables remembered: Sjl weight, Dj fall number of jumps, number of seconds, ...</b>
-<b>Fixed ending of RSA tests since last versions, now end time is ok.<b>
-<b>Sprints can be exported like forceSensor and RaceAnalyzer (all the sprints of a person or all the sprints on the session) Includes images and table (spreadsheet data). Export includes laps</b>
-<b>Datetime is shown in races,a also on export.</b>
-<b>On jumps multiple results table, it is shown now also the average of power and stiffness.</b>.
-<b>Simple races new analyze graph: Races/time. This graph can be saved, it can show all or only best in session, can show speed or time, km/h or m/s, has a selector for tests with custom (selectable) distances (and remember these in preferences).</b>
-<b>Jumps simple capture tab graph can be saved.</b>
-<b>Races simple capture tab graph can be saved.</b>
-Intervallic race types with different distances allow 5 characters: eg 25,51. So now decimal values are available on this tipe or races.
-Better animation on moving bar of last simple jump / simple race done. Animation according elapsed time.
-Shown decimal separator character on adding a new run type.
-Jump fall entry button  has now 1 decimal.
-Fixed not showing track distance on creating new simple run type.
-</ul>
+	<p><span class="highlight2"><i class="fa fa-clock-o fa-2x"></i>  Jumps, Races</span></p>
+	<ul>
+	<li><b>Last Jump simple or multiple configuration is remembered when Chronojump is closed. Work faster and avoid mistake. Example of variables remembered: Sjl weight, Dj fall number of jumps, number of seconds, ...</b></li>
+	<b>Sprints can be exported like forceSensor and RaceAnalyzer</b></li>
+	<ul>
+		<li><b>Export all the sprints of a person or all the sprints on the session.</b></li>
+		<li><b>Includes images and table (summarized spreadsheet data).</b></li>
+		<li><b>Export includes laps, and laps can be different on different sets (needed columns will be automatically created on CSV).</b></li>
+		<li><b>Export files managed correctly on all systems (specially images on Windows and when URL has latin chars).</b></li>
+	</ul>
+	<li><b>Fixed ending of RSA tests since last versions, now end time is ok.</b></li>
+	<li><b>Datetime is shown in races,a also on export.</b></li>
+	<li><b>On jumps multiple results table, it is shown now also the average of power and stiffness.</b>.</li>
+	<li><b>Simple races new analyze graph: Races/time. This graph can be saved, it can show all or only best in session, can show speed or time, km/h or m/s, has a selector for tests with custom (selectable) distances (and remember these in preferences).</b></li>
+	<li><b>Jumps/Races simple capture tab graph can be saved.</b></li>
+	<li>Intervallic race types with different distances allow 5 characters: eg 25,51. So now decimal values are available on this tipe or races.</li>
+	<li>Do not allow to press results table buttons while jump/race capture.</li>
+	<li>Fixed deleting last contact time on ending of an Rj jump (fixes crash on executing unlimited jumps with just 1 jump).</li>
+	<li>Automatic jumps sequence does not allow to add exercises on load (because it was confusing, but continue thinking on better gui and all tests integration).</li>
+	<li>Better animation on moving bar of last simple jump / simple race done. Animation according elapsed time.</li>
+	<li>Jump fall entry button  has now 1 decimal.</li>
+	<li>Shown decimal separator character on adding a new race type.</li>
+	<li>Fixed not showing track distance on creating new simple race type.</li>
+	<li>Intervalic races show total in bold.</li>
+	</ul>
 
-<p><span class="highlight2"><i class="fa fa-sitemap fa-2x"></i>  Chronojump-networks</span></p>
-<ul>
-Can change between jumps modes.
-Fixed not showing "disconnected rfid" if disconnect it after an encoder capture.
-Improvements on downloading image of each player and identification in general.
-Fixed lowercase month names on some systems.
-Now encoderDataTemp is not uploaded.
-</ul>
+	<p><span class="highlight2"><i class="fa fa-sitemap fa-2x"></i>  Chronojump-networks</span></p>
+	<ul>
+	<li>Can change between jumps modes.</li>
+	<li>Fixed not showing "disconnected rfid" if disconnect it after an encoder capture.</li>
+	<li>Improvements on downloading image of each player and identification in general.</li>
+	<li>Fixed lowercase month names on some systems.</li>
+	<li>Now encoderDataTemp is not uploaded.</li>
+	<li><b>(Most of the Networks changes are (as usual) on the Networks website)</b></li>
+	</ul>
 
-<p><span class="highlight2"><i class="fa fa-flag-o fa-2x"></i>  Translations</span></p>
-<ul>
-	<li>Updated translations: Brazilian Portuguese, Italian, Slovenian, Spanish, Urkainian.</li>
-</ul>
+	<p><span class="highlight2"><i class="fa fa-flag-o fa-2x"></i>  Translations</span></p>
+	<ul>
+	<li>Updated translations: Brazilian Portuguese, Italian, Romanian, Slovenian, Spanish, Swedish, Urkainian.</li>
+	</ul>
 

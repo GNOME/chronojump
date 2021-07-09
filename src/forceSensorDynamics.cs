@@ -554,20 +554,23 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 
 	private void calculeAccels()
 	{
-		for (int i = 0 ; i < speed_l.Count; i ++)
-		{
-			int pre = i - 1;
-			int post = i + 1;
-
-			if(i == 0)
-				pre = 0;
-			else if(i == speed_l.Count -1)
-				post = i;
-
-			accel_l.Add( (speed_l[post] - speed_l[pre]) / (time_l[post] - time_l[pre]) );
-			//LogB.Information(string.Format("i: {0}, accel_l[i]: {1}", i, accel_l[i]));
-		}
-
+        int window = 10;                                                                                                                                                                                       
+                for (int i = 0 ; i < speed_l.Count; i ++)                                                                                                                                                            
+                {
+                        LogB.Information(string.Format("ZZZ i: {0}, speed_l.Count: {1}", i, speed_l.Count));                                                                                                         
+                                                                                                                                                                                                                     
+                        int pre = i - window;                                                                                                                                                                        
+                        int post = i + window;                                                                                                                                                                       
+                                                                                                                                                                                                                     
+                        LogB.Information(string.Format("ZZZ A pre: {0}, post: {1}", pre, post));                                                                                                                     
+                        if(pre <= 0)                                                                                                                                                                                   
+                                pre = 0;                                                                                                                                                                             
+                        else if(post >= speed_l.Count -1)                                                                                                                                                               
+                                post = speed_l.Count -1;                                                                                                                                                             
+                                                                                                                                                                                                                     
+                        LogB.Information(string.Format("ZZZ B pre: {0}, post: {1}", pre, post));
+                        accel_l.Add( UtilAll.DivideSafe(speed_l[post] - speed_l[pre], time_l[post] - time_l[pre]) );
+                }
 		accel_l = smoothVariable(accel_l);
 	}
 

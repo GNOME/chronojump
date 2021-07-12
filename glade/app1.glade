@@ -1109,7 +1109,7 @@
                                                             <widget class="GtkVBox" id="vbox66">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">4</property>
+                                                            <property name="spacing">6</property>
                                                             <child>
                                                             <widget class="GtkFrame" id="frame_exhibition">
                                                             <property name="can_focus">False</property>
@@ -1875,9 +1875,10 @@
                                                             <widget class="GtkHBox" id="hbox_persons_top">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">4</property>
+                                                            <property name="spacing">8</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_manage_persons">
+                                                            <property name="height_request">40</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="can_default">True</property>
@@ -1951,6 +1952,7 @@
                                                             <widget class="GtkHBox" id="hbox91">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <property name="spacing">4</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_persons_up">
                                                             <property name="visible">True</property>
@@ -2019,12 +2021,12 @@
                                                             <child>
                                                             <widget class="GtkVBox" id="vbox_manage_persons">
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">7</property>
+                                                            <property name="spacing">8</property>
                                                             <child>
                                                             <widget class="GtkVBox" id="vbox87">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">2</property>
+                                                            <property name="spacing">1</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="label153">
                                                             <property name="visible">True</property>
@@ -2154,7 +2156,7 @@
                                                             <widget class="GtkVBox" id="vbox98">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">2</property>
+                                                            <property name="spacing">1</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="label156">
                                                             <property name="visible">True</property>
@@ -2306,7 +2308,7 @@
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">False</property>
+                                                            <property name="expand">True</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">0</property>
                                                             </packing>
@@ -2331,7 +2333,7 @@
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">False</property>
+                                                            <property name="expand">True</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">1</property>
                                                             </packing>
@@ -2355,7 +2357,7 @@
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">False</property>
+                                                            <property name="expand">True</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">2</property>
                                                             </packing>
@@ -2379,7 +2381,7 @@
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">False</property>
+                                                            <property name="expand">True</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">3</property>
                                                             </packing>
@@ -2400,7 +2402,7 @@
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
+                                                            <property name="expand">False</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">0</property>
                                                             </packing>
@@ -25760,6 +25762,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -32071,6 +32076,18 @@ Concentric</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
+                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Tests will be filmed</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkHBox" id="hbox_video_encoder_capturing">
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
@@ -32098,18 +32115,6 @@ Concentric</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack_type">end</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Tests will be filmed</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -38647,6 +38652,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

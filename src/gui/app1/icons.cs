@@ -42,6 +42,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_current_person_zoom_h;
 	[Widget] Gtk.Image image_person;
 	[Widget] Gtk.Image image_person1;
+	[Widget] Gtk.Image image_person2;
 	[Widget] Gtk.Image image_edit_current_person;
 	[Widget] Gtk.Image image_edit_current_person_h;
 	//[Widget] Gtk.Image image_persons_up;
@@ -406,6 +407,7 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person.png");
 		image_person.Pixbuf = pixbuf;
 		image_person1.Pixbuf = pixbuf;
+		image_person2.Pixbuf = pixbuf;
 		app1s_image_show_data_persons.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_info.png");

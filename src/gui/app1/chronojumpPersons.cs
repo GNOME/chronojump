@@ -52,10 +52,16 @@ public partial class ChronoJumpWindow
 
 	private void on_button_manage_persons_clicked (object o, EventArgs args)
 	{
-		vbox_manage_persons.Visible = ! vbox_manage_persons.Visible;
-
-		arrow_manage_persons_up.Visible = vbox_manage_persons.Visible;
-		arrow_manage_persons_down.Visible = ! vbox_manage_persons.Visible;
+		if(vbox_manage_persons.Visible)
+		{
+			vbox_manage_persons.Visible = false;
+			arrow_manage_persons_down.Visible = true;
+			arrow_manage_persons_up.Visible = false;
+		} else {
+			vbox_manage_persons.Visible = true;
+			arrow_manage_persons_down.Visible = false;
+			arrow_manage_persons_up.Visible = true;
+		}
 	}
 
 	private void showPersonPhoto (bool showPhoto)

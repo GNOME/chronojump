@@ -1,10 +1,3 @@
-<!--
-???
-Fixes on forceSensor forceResultant calculation
-Added string "Absolute values" on force resultant exercise config
-???
--->
-
 Changes since 2.1.1-16 (2021 March 16)
 
 	<p><span class="highlight2"><i class="fa fa-area-chart fa-2x"></i>  General Chronojump changes</span></p>
@@ -22,6 +15,8 @@ Changes since 2.1.1-16 (2021 March 16)
 	<li>Chronojump uses a bit less memory because some minor tweaks where done.</li>
 	<li>Improvements on person select window (when persons are on top).</li>
 	<li>After importing a session to a new session, allows to load it in the same dialog.</li>
+	<li>the four button under persons treeview now are inside of manage.</li>
+	<li>Persons manage has an icon and is better spaced.</li>
 	<li>If import file path is very long, it is displayed with dots in the middle.</li>
 	<li>All Chronojump exercises can be selected with left/right buttons (better for tactile screens) (previously it was only on encoder, now is in jumps, races, race analyzer, force sensor and encoder).</li>
 	<li>Now application title is: Chronojump - mode - session name.</li>
@@ -32,6 +27,7 @@ Changes since 2.1.1-16 (2021 March 16)
 	<li>Improved person add/edit window.</li>
 	<li>Improves delete test type window: afecting al jumps and races with photocells.</li>
 	<li>Open a folder or file (with external program like browser of file manager) now cares on all systems about files with spaces.</li>
+	<li>On new sesion, ensure current person is null.</li>
 	<li>Fixed bug on triggers on analyze graphs when there are ON and not OFF or viceversa.</li>
 	<li>Ensure widgets sensitivity of all the widgets is correctly applied when load a session without persons.</li>
 	</ul>
@@ -45,7 +41,9 @@ Changes since 2.1.1-16 (2021 March 16)
 	<li><b>Fixed export files on certain systems (specially images on Windows and when URL has latin chars).</b></li>
 	<li><b>Adjust: tare/calibrate moved to center of the capture window (much clear now).</b></li>
 	<li><b>Fixed capture with triggers.</b></li>
-<!--	<li>Capture options do not show: normal/abs/inverted on ForceResultant (is always ABS).</li>-->
+	<li>Capture options do not show: normal/abs/inverted on ForceResultant (is always ABS).</li>
+	<li>Fixes on force sensor force resultant calculation.</li>
+	<li>Added string "Absolute values" on force resultant exercise config.</li>
 	<li>Analyze graph shows triggers also in zoom.</li>
 	<li>Shown triggers on analyze.</li>
 	<li>Import session also imports forceSensor triggers.</li>

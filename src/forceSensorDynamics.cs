@@ -93,6 +93,8 @@ public abstract class ForceSensorDynamics
 			force_l[i] = calculeForceWithCaptureOptions(force_l[i]);
 	}
 
+	protected abstract void calculeResultant ();
+
 	//adapted from r-scripts/forcePosition.R
 	//yList is position_not_smoothed_l on elastic
 	//yList is force_l on not elastic
@@ -384,13 +386,12 @@ public class ForceSensorDynamicsNotElastic : ForceSensorDynamics
 			return;
 		}
 
-		calcule();
+		calculeResultant ();
 	}
 
 	//forces are updated, so do not Add to the list
-	private void calcule()
+	protected override void calculeResultant ()
 	{
-        LogB.Information(string.Format("fse.AngleDefault: {0}, fsco: {1}", fse.AngleDefault, fsco.ToString()));
 		for (int i = 0 ; i < force_l.Count; i ++)
 		{
 			double force = Math.Sqrt(
@@ -398,8 +399,6 @@ public class ForceSensorDynamicsNotElastic : ForceSensorDynamics
 					Math.Pow(Math.Sin(fse.AngleDefault * Math.PI / 180.0) * (Math.Abs(force_l[i])) + totalMass * 9.81, 2) //Vertical
 					);
 			force_l[i] = calculeForceWithCaptureOptions(force);
-            LogB.Information(string.Format("Math.Abs(force_l[i]): {0}, Math.Pow(Math.Sin(fse.AngleDefault * Math.PI / 180.0) * (Math.Abs(force_l[i])): {1}, force: {2}, force_l[i]: {3}",                
-                                                Math.Abs(force_l[i]), Math.Sin(fse.AngleDefault * Math.PI / 180.0) * (Math.Abs(force_l[i])), force, force_l[i] ));
 		}
 
 		calculeRepetitions(force_l);
@@ -443,7 +442,6 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 	List<double> power_l;
 	private bool zoomed;
 
-
 	public ForceSensorDynamicsElastic (List<int> time_micros_l, List<double> force_l, 
 			ForceSensor.CaptureOptions fsco, ForceSensorExercise fse,
 			double personMass, double stiffness,
@@ -464,7 +462,7 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 			return;
 		}
 
-		calcule();
+		calculeResultant ();
 		CalculedElasticPSAP = true;
 	}
 
@@ -485,7 +483,7 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 		time_l.RemoveAt(0);
 	}
 
-	private void calcule()
+	protected override void calculeResultant ()
 	{
 		//TODO: check minimum length of forces
 
@@ -554,22 +552,18 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 
 	private void calculeAccels()
 	{
-        int window = 10;                                                                                                                                                                                       
-                for (int i = 0 ; i < speed_l.Count; i ++)                                                                                                                                                            
-                {
-                        LogB.Information(string.Format("ZZZ i: {0}, speed_l.Count: {1}", i, speed_l.Count));                                                                                                         
-                                                                                                                                                                                                                     
-                        int pre = i - window;                                                                                                                                                                        
-                        int post = i + window;                                                                                                                                                                       
-                                                                                                                                                                                                                     
-                        LogB.Information(string.Format("ZZZ A pre: {0}, post: {1}", pre, post));                                                                                                                     
-                        if(pre <= 0)                                                                                                                                                                                   
-                                pre = 0;                                                                                                                                                                             
-                        else if(post >= speed_l.Count -1)                                                                                                                                                               
-                                post = speed_l.Count -1;                                                                                                                                                             
-                                                                                                                                                                                                                     
-                        LogB.Information(string.Format("ZZZ B pre: {0}, post: {1}", pre, post));
-                        accel_l.Add( UtilAll.DivideSafe(speed_l[post] - speed_l[pre], time_l[post] - time_l[pre]) );
+		int window = 10;
+		for (int i = 0 ; i < speed_l.Count; i ++)
+		{
+			int pre = i - window;
+			int post = i + window;
+
+			if(pre <= 0)
+				pre = 0;
+			else if(post >= speed_l.Count -1)
+				post = speed_l.Count -1;
+
+			accel_l.Add( UtilAll.DivideSafe(speed_l[post] - speed_l[pre], time_l[post] - time_l[pre]) );
                 }
 		accel_l = smoothVariable(accel_l);
 	}
@@ -587,6 +581,7 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 					Math.Pow(Math.Sin(fse.AngleDefault * Math.PI / 180.0) * (Math.Abs(force_l[i]) + totalMass * accel_l[i]) + totalMass * 9.81, 2) //Vertical
 					);
 			LogB.Information(string.Format("i post: {0}, force: {1}", i, force));
+
 			//force_l[i] = calculeForceWithCaptureOptions(force); //Elastic is always resultant. Capture otions does not apply
 			force_l[i] = force;
 		}

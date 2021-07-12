@@ -2678,6 +2678,9 @@ public partial class ChronoJumpWindow
 		sensitiveGuiNoSession();
 		sensitiveGuiYesSession();
 
+		sensitiveGuiNoPerson();
+		currentPerson = null;
+
 		if( ! configChronojump.PersonWinHide) {
 			alignment_buttons_menu_and_persons.Visible = true;
 			//on_radio_show_persons_clicked (new object (), new EventArgs ());

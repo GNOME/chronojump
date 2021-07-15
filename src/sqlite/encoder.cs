@@ -251,7 +251,11 @@ class SqliteEncoder : Sqlite
 			if(ecconSelect != EncoderSQL.Eccons.ALL)
 				selectStr += andString + Constants.EncoderTable + ".eccon = \"" + EncoderSQL.Eccons.ecS.ToString() + "\"";
 		}
-			
+
+		//ensure andString is defined if selectStr is != "" (bug on 2.1.2 release)
+		if(selectStr != "")
+			andString = " AND ";
+
 		string onlyActiveString = "";
 		if(onlyActive)
 			onlyActiveString = andString + Constants.EncoderTable + ".status = \"active\" ";

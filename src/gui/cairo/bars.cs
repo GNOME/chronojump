@@ -38,7 +38,6 @@ public abstract class CairoBars : CairoGeneric
 	protected Cairo.Color colorBackground;
 
 	protected Cairo.Context g;
-	protected const int textHeight = 14;
 	protected int lineWidthDefault = 2;
 	protected string xVariable = "";
 	protected string yVariable = "Height";
@@ -49,8 +48,6 @@ public abstract class CairoBars : CairoGeneric
 	protected double maxX = 0;
 	protected double minY = 1000000;
 	protected double maxY = 0;
-	protected int graphWidth;
-	protected int graphHeight;
 
 	protected Cairo.Color black;
 	protected Cairo.Color gray99;
@@ -127,13 +124,11 @@ public abstract class CairoBars : CairoGeneric
 		g.LineTo(outerMargins, graphHeight - outerMargins);
 		g.LineTo(graphWidth - outerMargins, graphHeight - outerMargins);
 		g.Stroke ();
-		
-		g.SetFontSize(textHeight -2);
+
 		printText(2, Convert.ToInt32(outerMargins/2), 0, textHeight, getYAxisLabel(), g, alignTypes.LEFT);
 		printXAxisText();
 		g.Stroke ();
 
-		g.SetFontSize(textHeight);
 		g.LineWidth = lineWidthDefault;
 	}
 
@@ -159,7 +154,14 @@ public abstract class CairoBars : CairoGeneric
 		return string.Format("{0} ({1})", variable, units);
 	}
 
-	protected double calculatePaintY (double realY)
+	//TODO: check if for one value this is /0
+	protected override double calculatePaintX (double realX)
+	{
+		return outerMargins + (realX - minX) * UtilAll.DivideSafe(
+				graphWidth - 2*outerMargins,
+				maxX - minX);
+        }
+	protected override double calculatePaintY (double realY)
 	{
                 return graphHeight - outerMargins - UtilAll.DivideSafe(
 				(realY - minY) * (graphHeight - 2*outerMargins),
@@ -319,6 +321,18 @@ public abstract class CairoBars : CairoGeneric
 				title, g, alignTypes.LEFT);
 	}
 	*/
+
+	//reccomended to 1st paint the grid, then the axis
+	protected void paintGrid(gridTypes gridType, bool niceAutoValues)
+	{
+		g.LineWidth = 1; //to allow to be shown the red arrows on jumpsWeightFVProfile
+
+		if(niceAutoValues)
+			paintGridNiceAutoValues (g, minX, maxX, minY, maxY, 5, gridType);
+		else
+			paintGridInt (g, minX, maxX, minY, maxY, 1, gridType);
+	}
+
 }
 
 public class CairoBarsJustTesting : CairoBars
@@ -329,7 +343,7 @@ public class CairoBarsJustTesting : CairoBars
 		this.area = area;
 
 		LogB.Information("area is null:" + (area == null).ToString());
-		initGraph(font, .8);
+		initGraph(font, 1); //.8 to have title at right
 
 		endGraphDisposing(g);
 	}
@@ -348,10 +362,17 @@ public class CairoBarsJustTesting : CairoBars
 	public override void Do(string font)
 	{
 		LogB.Information("at CairoBarsJustTesting.Do");
+
+		textHeight = 14;
+
 		initGraph(font, 1); //.8 if writeTextAtRight
 
                 findPointMaximums();
+
+		g.SetFontSize(textHeight -2);
 		paintAxis(2);
+		paintGrid(gridTypes.HORIZONTALLINES, true);
+		g.SetFontSize(textHeight);
 
 		g.Color = black;
 		plotBars();

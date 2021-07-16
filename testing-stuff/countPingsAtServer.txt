@@ -11,3 +11,6 @@ or:
 SELECT COUNT(*) FROM ping WHERE cjVersion LIKE "%2.0.2%" AND osVersion LIKE "%MacOSX%" GROUP BY machineID;
 SELECT COUNT(*) FROM ping WHERE cjVersion LIKE "%2.0.2%" AND osVersion LIKE "Unix, %" GROUP BY machineID;
 SELECT COUNT(*) FROM ping WHERE cjVersion LIKE "%2.0.2%" AND osVersion LIKE "%Win%" GROUP BY machineID;
+
+
+SELECT count(*) AS conta, socialNetwork FROM socialNetwork GROUP BY socialNetwork ORDER BY conta DESC;

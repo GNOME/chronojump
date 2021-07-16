@@ -55,7 +55,6 @@ public abstract class CairoXY : CairoGeneric
 	protected Cairo.Color colorBackground;
 
 	protected Cairo.Context g;
-	protected const int textHeight = 12;
 	protected int pointsRadius = 6;
 	protected string xVariable = "";
 	protected string yVariable = "";
@@ -69,8 +68,6 @@ public abstract class CairoXY : CairoGeneric
 	double yAtMMaxY;
 	protected double absoluteMaxX;
 	protected double absoluteMaxY;
-	protected int graphWidth;
-	protected int graphHeight;
 
 	protected Cairo.Color black;
 	protected Cairo.Color gray99;
@@ -342,9 +339,9 @@ public abstract class CairoXY : CairoGeneric
 		g.LineWidth = 1; //to allow to be shown the red arrows on jumpsWeightFVProfile
 
 		if(niceAutoValues)
-			paintGridNiceAutoValues (minX, absoluteMaxX, minY, absoluteMaxY, 5, gridType);
+			paintGridNiceAutoValues (g, minX, absoluteMaxX, minY, absoluteMaxY, 5, gridType);
 		else
-			paintGridInt (minX, absoluteMaxX, minY, absoluteMaxY, 1, gridType);
+			paintGridInt (g, minX, absoluteMaxX, minY, absoluteMaxY, 1, gridType);
 	}
 
 	protected void paintAxis()
@@ -666,175 +663,14 @@ public abstract class CairoXY : CairoGeneric
 		writeTextAtRight(line +2, string.Format("- {0}: {1} {2}", yVariable, Util.TrimDecimals(pClosest.Y, 2), yUnits), false);
 	}
 
-	//TODO: fix if min == max (crashes)
-	protected enum gridTypes { BOTH, HORIZONTALLINES, VERTICALLINES }
-	protected void paintGridNiceAutoValues (double minX, double maxX, double minY, double maxY, int seps, gridTypes gridType)
-	{
-		var gridXTuple = getGridStepAndBoundaries ((decimal) minX, (decimal) maxX, seps);
-		var gridYTuple = getGridStepAndBoundaries ((decimal) minY, (decimal) maxY, seps);
-
-		g.Save();
-		g.SetDash(new double[]{1, 2}, 0);
-		if(gridType != gridTypes.HORIZONTALLINES)
-			for(double i = gridXTuple.Item1; i <= gridXTuple.Item2 ; i += gridXTuple.Item3)
-			{
-				int xtemp = Convert.ToInt32(calculatePaintX(i));
-				if(xtemp <= outerMargins || xtemp >= graphWidth - outerMargins)
-					continue;
-
-				paintVerticalGridLine(xtemp, Util.TrimDecimals(i, 2));
-			}
-
-		if(gridType != gridTypes.VERTICALLINES)
-			for(double i = gridYTuple.Item1; i <= gridYTuple.Item2 ; i += gridYTuple.Item3)
-			{
-				int ytemp = Convert.ToInt32(calculatePaintY(i));
-				if(ytemp <= outerMargins || ytemp >= graphHeight - outerMargins)
-					continue;
-
-				paintHorizontalGridLine(ytemp, Util.TrimDecimals(i, 2));
-			}
-		g.Stroke ();
-		g.Restore();
-	}
-
-	//for a grid of integers
-	protected void paintGridInt (double minX, double maxX, double minY, double maxY, int by, gridTypes gridType)
-	{
-		g.Save();
-		g.SetDash(new double[]{1, 2}, 0);
-		if(gridType != gridTypes.HORIZONTALLINES)
-			for(double i = Math.Floor(minX); i <= Math.Ceiling(maxX) ; i += by)
-			{
-				int xtemp = Convert.ToInt32(calculatePaintX(i));
-				if(xtemp <= outerMargins || xtemp >= graphWidth - outerMargins)
-					continue;
-
-				paintVerticalGridLine(xtemp, Util.TrimDecimals(i, 2));
-			}
-
-		if(gridType != gridTypes.VERTICALLINES)
-			for(double i = Math.Floor(minX); i <= Math.Ceiling(maxY) ; i += by)
-			{
-				int ytemp = Convert.ToInt32(calculatePaintY(i));
-				if(ytemp <= outerMargins || ytemp >= graphHeight - outerMargins)
-					continue;
-
-				paintHorizontalGridLine(ytemp, Util.TrimDecimals(i, 2));
-			}
-		g.Stroke ();
-		g.Restore();
-	}
-
-	protected void paintHorizontalGridLine(int ytemp, string text)
-	{
-		g.MoveTo(outerMargins, ytemp);
-		g.LineTo(graphWidth - outerMargins, ytemp);
-		printText(Convert.ToInt32(outerMargins/2), ytemp, 0, textHeight, text, g, alignTypes.CENTER);
-	}
-	//this combined with printXAxisText is different on RaceAnalyzer
-	protected virtual void paintVerticalGridLine(int xtemp, string text)
-	{
-		g.MoveTo(xtemp, graphHeight - outerMargins);
-		g.LineTo(xtemp, outerMargins);
-		printText(xtemp, graphHeight - Convert.ToInt32(outerMargins/2), 0, textHeight, text, g, alignTypes.CENTER);
-	}
-
-
-	/*
-	 * adapted to not used LinQ from:
-	 * https://stackoverflow.com/questions/237220/tickmark-algorithm-for-a-graph-axis
-	 *
-	 * thanks to: Andrew
-	 */
-	//private static Tuple<decimal, decimal, decimal> getGridStepAndBoundaries (decimal min, decimal max, int stepCount)
-	private static Tuple<double, double, double> getGridStepAndBoundaries (decimal min, decimal max, int stepCount)
-	{
-		// Minimal increment to avoid round extreme values to be on the edge of the chart
-		decimal epsilon = (max - min) / 1e6m;
-		max += epsilon;
-		min -= epsilon;
-		decimal range = max - min;
-
-		// Target number of values to be displayed on the Y axis (it may be less)
-		//int stepCount = 10;
-		// First approximation
-		decimal roughStep = range / (stepCount - 1);
-
-		// Set best step for the range
-		decimal[] goodNormalizedSteps = { 1, 1.5m, 2, 2.5m, 5, 7.5m, 10 }; // keep the 10 at the end
-		// Or use these if you prefer:  { 1, 2, 5, 10 };
-
-		// Normalize rough step to find the normalized one that fits best
-		decimal stepPower = (decimal)Math.Pow(10, -Math.Floor(Math.Log10((double)Math.Abs(roughStep))));
-		var normalizedStep = roughStep * stepPower;
-
-		//this uses Linq
-		//var goodNormalizedStep = goodNormalizedSteps.First(n => n >= normalizedStep);
-
-		//without Linq
-		var goodNormalizedStep = LikeLinQFirst(goodNormalizedSteps, normalizedStep);
-
-		decimal step = goodNormalizedStep / stepPower;
-
-		// Determine the scale limits based on the chosen step.
-		decimal scaleMax = Math.Ceiling(max / step) * step;
-		decimal scaleMin = Math.Floor(min / step) * step;
-
-		//return new Tuple<decimal, decimal, decimal>(scaleMin, scaleMax, step);
-		return new Tuple<double, double, double>(Convert.ToDouble(scaleMin), Convert.ToDouble(scaleMax), Convert.ToDouble(step));
-	}
-	private static decimal LikeLinQFirst(decimal [] goodNormalizedSteps, decimal normalizedStep)
-	{
-		//Console.WriteLine(string.Format("normalizedStep: {0}", normalizedStep));
-		foreach(var item in goodNormalizedSteps)
-		{
-			Console.WriteLine(item);
-			if(item >= normalizedStep)
-				return item;
-		}
-
-		return goodNormalizedSteps[0];
-	}
-
-	/*
-	 * pathetical old method
-	 *
-	private double getGridStep(double min, double max, int seps)
-	{
-		//show 5 steps positive, 5 negative (if possible)
-		double temp = UtilAll.DivideSafe(max - min, seps);
-		double step = temp;
-
-		//to have values multiples than 10, 100 ...
-		if(step == 0) //fix crash when no force
-			step = 1;
-		else if(step <= 1) //do nothing
-			step = .2;
-		else if(step <= 3)
-			step = 1;
-		else if(step <= 10)
-			step = 5;
-		else if(step <= 100)
-			step = temp - (temp % 10);
-		else if(step <= 1000)
-			step = temp - (temp % 100);
-		else if(step <= 10000)
-			step = temp - (temp % 1000);
-		else //if(step <= 100000)
-			step = temp - (temp % 10000);
-
-		return step;
-	}
-	*/
 
 	//TODO: check if for one value this is /0
-	protected double calculatePaintX (double realX)
+	protected override double calculatePaintX (double realX)
 	{
                 return totalMargins + (realX - minX) * (graphWidth - totalMargins - totalMargins) / (absoluteMaxX - minX);
         }
 	//TODO: check if for one value this is /0
-	protected double calculatePaintY (double realY)
+	protected override double calculatePaintY (double realY)
 	{
                 return graphHeight - totalMargins - ((realY - minY) * (graphHeight - totalMargins - totalMargins) / (absoluteMaxY - minY));
         }

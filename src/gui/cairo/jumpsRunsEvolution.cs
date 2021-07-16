@@ -81,9 +81,9 @@ public abstract class EvolutionGraph : CairoXY
 			if( ! (xtemp < outerMargins || xtemp > graphWidth - outerMargins) )
 			{
 				if(paintMonths)
-					paintVerticalGridLine(xtemp, string.Format("{0} {1}", year, UtilDate.GetMonthName(0, true)));
+					paintVerticalGridLine(g, xtemp, string.Format("{0} {1}", year, UtilDate.GetMonthName(0, true)));
 				else
-					paintVerticalGridLine(xtemp, year.ToString());
+					paintVerticalGridLine(g, xtemp, year.ToString());
 			}
 
 			if(! paintMonths)
@@ -103,7 +103,7 @@ public abstract class EvolutionGraph : CairoXY
 				if(xtemp < outerMargins || xtemp > graphWidth - outerMargins)
 					continue;
 
-				paintVerticalGridLine(xtemp, string.Format("{0} {1}", year, UtilDate.GetMonthName(month, true)));
+				paintVerticalGridLine(g, xtemp, string.Format("{0} {1}", year, UtilDate.GetMonthName(month, true)));
 			}
 		}
 

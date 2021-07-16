@@ -79,9 +79,6 @@ public abstract class CairoXY : CairoGeneric
 	Cairo.Color blue;
 	protected Cairo.Color bluePlots;
 
-	//for all 4 sides
-	protected int outerMargins = 40; //blank space outside the axis.
-	protected int innerMargins = 30; //space between the axis and the real coordinates.
 	private int crossMargins = 10; //cross slope line with margins will have this length
 	int totalMargins;
 
@@ -104,7 +101,6 @@ public abstract class CairoXY : CairoGeneric
 	protected string countStr = Catalog.GetString("Num");
 	protected string jumpTypeStr = Catalog.GetString("Jump type:");
 	protected string runTypeStr = Catalog.GetString("Race type:");
-	protected string font;
 	//protected static int lastPointPainted;
 
 	public virtual bool PassData (List<PointF> point_l)
@@ -127,6 +123,9 @@ public abstract class CairoXY : CairoGeneric
 	{
 		this.font = font;
 		LogB.Information("Font: " + font);
+
+		outerMargins = 40; //blank space outside the axis.
+		innerMargins = 30; //space between the axis and the real coordinates.
 
 		totalMargins = outerMargins + innerMargins;
 
@@ -829,10 +828,12 @@ public abstract class CairoXY : CairoGeneric
 	}
 	*/
 
+	//TODO: check if for one value this is /0
 	protected double calculatePaintX (double realX)
 	{
                 return totalMargins + (realX - minX) * (graphWidth - totalMargins - totalMargins) / (absoluteMaxX - minX);
         }
+	//TODO: check if for one value this is /0
 	protected double calculatePaintY (double realY)
 	{
                 return graphHeight - totalMargins - ((realY - minY) * (graphHeight - totalMargins - totalMargins) / (absoluteMaxY - minY));
@@ -861,24 +862,6 @@ public abstract class CairoXY : CairoGeneric
 	}
 	*/
 
-	protected enum alignTypes { LEFT, CENTER, RIGHT }
-	protected void printText (int x, int y, int height, int textHeight, string text, Cairo.Context g, alignTypes align)
-	{
-		int moveToLeft = 0;
-		if(align == alignTypes.CENTER || align == alignTypes.RIGHT)
-		{
-			Cairo.TextExtents te;
-			te = g.TextExtents(text);
-			
-			if(align == alignTypes.CENTER)
-				moveToLeft = Convert.ToInt32(te.Width/2);
-			else
-				moveToLeft = Convert.ToInt32(te.Width);
-		}
-
-		g.MoveTo( x - moveToLeft, ((y+y+height)/2) + textHeight/2 );
-		g.ShowText(text);
-	}
 
 	/*
 	//unused code

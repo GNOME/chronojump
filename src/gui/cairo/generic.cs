@@ -25,6 +25,12 @@ using Cairo;
 
 public abstract class CairoGeneric
 {
+	//for all 4 sides
+	protected int outerMargins = 40; //blank space outside the axis.
+	protected int innerMargins = 30; //space between the axis and the real coordinates.
+
+	protected string font;
+
 	/*
 	   need to dispose because Cairo does not clean ok on win and mac:
 	   Don’t forget to manually dispose the Context and the target Surface at the end of the expose event. Automatic garbage collecting is not yet 100% working in Cairo.
@@ -66,4 +72,6 @@ public abstract class CairoGeneric
 		g.MoveTo( x - moveToLeft, ((y+y+height)/2) + textHeight/2 );
 		g.ShowText(text);
 	}
+
+
 }

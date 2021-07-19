@@ -150,13 +150,13 @@ public class DialogPersonPopup
 			{
 				Gtk.VBox vboxRL = new Gtk.VBox(false, 4);
 
-				Task taskCopy = new Task(t.Id, t.PersonId, t.StationId, t.ExerciseId, t.ExerciseName,
+				Task taskCopy = new Task(t.Id, t.PersonId, t.ExerciseId, t.ExerciseName,
 					t.Sets, t.Nreps, t.Load, t.Speed, t.PercentMaxSpeed,
 					"R", t.Comment);
 				Gtk.HBox hboxStartAndLabel = createHBoxStartAndLabel(taskCopy, pixbuf);
 				vboxRL.PackStart(hboxStartAndLabel, false, false, 0);
 
-				taskCopy = new Task(t.Id, t.PersonId, t.StationId, t.ExerciseId, t.ExerciseName,
+				taskCopy = new Task(t.Id, t.PersonId, t.ExerciseId, t.ExerciseName,
 					t.Sets, t.Nreps, t.Load, t.Speed, t.PercentMaxSpeed,
 					"L", t.Comment);
 				hboxStartAndLabel = createHBoxStartAndLabel(taskCopy, pixbuf);

@@ -32297,6 +32297,45 @@ Concentric</property>
                                                             <widget class="GtkHBox" id="hbox50">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <property name="spacing">40</property>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox_encoder_capture_show_need_one">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">2</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_encoder_capture_show_need_one">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Please, select at least one of the options</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkArrow" id="arrow43">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox74">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="label652">
@@ -32317,7 +32356,7 @@ Concentric</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="draw_indicator">True</property>
-                                                            <signal name="clicked" handler="on_check_encoder_capture_bars_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_check_encoder_capture_show_modes_clicked" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -32332,7 +32371,7 @@ Concentric</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="draw_indicator">True</property>
-                                                            <signal name="clicked" handler="on_check_encoder_capture_table_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_check_encoder_capture_show_modes_clicked" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -32347,12 +32386,19 @@ Concentric</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="draw_indicator">True</property>
-                                                            <signal name="clicked" handler="on_check_encoder_capture_signal_clicked" swapped="no"/>
+                                                            <signal name="clicked" handler="on_check_encoder_capture_show_modes_clicked" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">3</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             </widget>

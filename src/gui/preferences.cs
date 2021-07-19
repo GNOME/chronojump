@@ -144,8 +144,6 @@ public class PreferencesWindow
 	[Widget] Gtk.CheckButton checkbutton_encoder_capture_inertial_discard_first_n;
 	[Widget] Gtk.HBox hbox_encoder_capture_inertial_discard_first_n;
 	[Widget] Gtk.SpinButton spin_encoder_capture_inertial_discard_first_n;
-	[Widget] Gtk.CheckButton check_appearance_encoder_only_bars;
-	[Widget] Gtk.HBox hbox_restart;
 	[Widget] Gtk.SpinButton spin_encoder_capture_show_only_some_bars;
 	[Widget] Gtk.RadioButton radio_encoder_capture_show_all_bars;
 	[Widget] Gtk.RadioButton radio_encoder_capture_show_only_some_bars;
@@ -654,11 +652,6 @@ public class PreferencesWindow
 			PreferencesWindowBox.spin_encoder_capture_inertial_discard_first_n.Value = 3;
 			PreferencesWindowBox.hbox_encoder_capture_inertial_discard_first_n.Visible = false;
 		}
-
-		if(preferences.encoderCaptureShowOnlyBars)
-			PreferencesWindowBox.check_appearance_encoder_only_bars.Active = true;
-		else
-			PreferencesWindowBox.check_appearance_encoder_only_bars.Active = false;
 
 		if(preferences.encoderCaptureShowNRepetitions < 0) {
 			PreferencesWindowBox.radio_encoder_capture_show_all_bars.Active = true;
@@ -1258,11 +1251,6 @@ public class PreferencesWindow
 		}
 
 		check_appearance_person_photo.Sensitive = ! check_appearance_person_win_hide.Active;
-	}
-
-	private void on_check_appearance_encoder_only_bars_toggled (object obj, EventArgs args) 
-	{
-		hbox_restart.Visible = ! check_appearance_encoder_only_bars.Active;
 	}
 
 	private void on_checkbutton_encoder_capture_inertial_discard_first_n_toggled (object obj, EventArgs args)
@@ -2053,11 +2041,6 @@ public class PreferencesWindow
 		{
 			SqlitePreferences.Update("encoderCaptureInertialDiscardFirstN", spinEncoderCaptureDiscardFirstN.ToString(), true);
 			preferences.encoderCaptureInertialDiscardFirstN = spinEncoderCaptureDiscardFirstN;
-		}
-
-		if( preferences.encoderCaptureShowOnlyBars != PreferencesWindowBox.check_appearance_encoder_only_bars.Active ) {
-			SqlitePreferences.Update("encoderCaptureShowOnlyBars", PreferencesWindowBox.check_appearance_encoder_only_bars.Active.ToString(), true);
-			preferences.encoderCaptureShowOnlyBars = PreferencesWindowBox.check_appearance_encoder_only_bars.Active;
 		}
 
 		if( preferences.encoderCaptureShowNRepetitions > 0 && PreferencesWindowBox.radio_encoder_capture_show_all_bars.Active )

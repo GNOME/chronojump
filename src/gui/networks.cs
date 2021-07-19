@@ -73,10 +73,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_exercise_edit;
 	[Widget] Gtk.Button button_encoder_exercise_add;
 
-	//config.EncoderCaptureShowOnlyBars
-	[Widget] Gtk.Notebook notebook_encoder_capture_main;
-	[Widget] Gtk.VBox vbox_treeview_encoder_at_second_page;
-
 	//encoder ...
 	[Widget] Gtk.Alignment alignment_check_encoder_networks_upload;
 	[Widget] Gtk.CheckButton check_encoder_networks_upload;
@@ -439,31 +435,7 @@ public partial class ChronoJumpWindow
 			on_button_selector_start_encoder_gravitatory_clicked(new object(), new EventArgs());
 		else if(configChronojump.OnlyEncoderInertial)
 			on_button_selector_start_encoder_inertial_clicked(new object(), new EventArgs());
-		
-		if(configChronojump.EncoderCaptureShowOnlyBars)
-		{
-			//attention: this makes encoder_capture_signal_drawingarea == null
-			vpaned_encoder_capture_video_and_set_graph.Visible = false;
-			
-			vpaned_encoder_main.Remove(alignment_treeview_encoder_capture_curves);
-			vbox_treeview_encoder_at_second_page.PackStart(alignment_treeview_encoder_capture_curves);
-			notebook_encoder_capture_main.ShowTabs = true;
-		} else {
-			/*
-			 * is good to do the else here because user can import a configuration at any time 
-			 * and things need to be restored to default position in glade
-			 *
-			 * But note this has to be executed only if it has changed!!
-			 */
-			/*
-			notebook_encoder_capture_main.ShowTabs = false;
-			vbox_treeview_encoder_at_second_page.Remove(alignment_treeview_encoder_capture_curves);
-			vpaned_encoder_main.PackStart(alignment_treeview_encoder_capture_curves);
-			*/
 
-			//this change needs chronojump reload
-		}
-		
 		encoderUpdateTreeViewWhileCapturing = configChronojump.EncoderUpdateTreeViewWhileCapturing;
 
 		showPersonsOnTop(configChronojump.PersonWinHide);

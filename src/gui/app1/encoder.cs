@@ -125,6 +125,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.CheckButton check_encoder_capture_table;
 	[Widget] Gtk.CheckButton check_encoder_capture_signal;
 	[Widget] Gtk.HBox hbox_encoder_capture_save_repetitions;
+	[Widget] Gtk.HBox hbox_encoder_capture_show_need_one;
 	[Widget] Gtk.Alignment alignment_encoder_capture_curves_bars_drawingarea;
 
 	[Widget] Gtk.Box hbox_combo_encoder_exercise_capture;
@@ -1333,21 +1334,17 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	private void on_check_encoder_capture_bars_clicked (object o, EventArgs args)
+	private void on_check_encoder_capture_show_modes_clicked (object o, EventArgs args)
 	{
 		alignment_encoder_capture_curves_bars_drawingarea.Visible = check_encoder_capture_bars.Active;
-		hbox_encoder_capture_save_repetitions.Visible =
-			(check_encoder_capture_bars.Active || check_encoder_capture_table.Active);
-	}
-	private void on_check_encoder_capture_table_clicked (object o, EventArgs args)
-	{
 		alignment_treeview_encoder_capture_curves.Visible = check_encoder_capture_table.Active;
+		vpaned_encoder_capture_video_and_set_graph.Visible = check_encoder_capture_signal.Active;
+
 		hbox_encoder_capture_save_repetitions.Visible =
 			(check_encoder_capture_bars.Active || check_encoder_capture_table.Active);
-	}
-	private void on_check_encoder_capture_signal_clicked (object o, EventArgs args)
-	{
-		vpaned_encoder_capture_video_and_set_graph.Visible = check_encoder_capture_signal.Active;
+
+		hbox_encoder_capture_show_need_one.Visible =
+			! (check_encoder_capture_bars.Active || check_encoder_capture_table.Active || check_encoder_capture_signal.Active);
 	}
 
 	private void encoderUpdateTreeViewCapture(List<string> contents)

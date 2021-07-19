@@ -125,6 +125,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.CheckButton check_encoder_capture_bars;
 	[Widget] Gtk.CheckButton check_encoder_capture_table;
 	[Widget] Gtk.CheckButton check_encoder_capture_signal;
+	[Widget] Gtk.VBox vbox_encoder_bars_table_and_save_reps;
 	[Widget] Gtk.HBox hbox_encoder_capture_save_repetitions;
 	[Widget] Gtk.HBox hbox_encoder_capture_show_need_one;
 	[Widget] Gtk.Alignment alignment_encoder_capture_curves_bars_drawingarea;
@@ -1343,6 +1344,9 @@ public partial class ChronoJumpWindow
 		vpaned_encoder_capture_video_and_set_graph.Visible = check_encoder_capture_signal.Active;
 
 		hbox_encoder_capture_save_repetitions.Visible =
+			(check_encoder_capture_bars.Active || check_encoder_capture_table.Active);
+
+		vbox_encoder_bars_table_and_save_reps.Visible =
 			(check_encoder_capture_bars.Active || check_encoder_capture_table.Active);
 
 		hbox_encoder_capture_show_need_one.Visible =

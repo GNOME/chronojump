@@ -32420,7 +32420,7 @@ Concentric</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="position">400</property>
                                                             <child>
-                                                            <widget class="GtkVBox" id="vbox105">
+                                                            <widget class="GtkVBox" id="vbox_encoder_bars_table_and_save_reps">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>

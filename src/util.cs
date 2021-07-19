@@ -2535,6 +2535,7 @@ public class UtilCopy
    for(int i = 0; i <= 7; i++)
      LogB.Information(new SessionLoadDisplay(i).ToString());
 */
+//see SessionLoadDisplay (right now limited to 3 bits)
 public class BooleansInt
 {
 	protected int i;
@@ -2599,5 +2600,71 @@ public class BooleansInt
 	{
 		return string.Format("i: {0} (bit1: {1}, bit2: {2}, bit3: {3})",
 				i, Bit1, Bit2, Bit3);
+	}
+}
+
+/*
+   Used for SQL store (non limited to 3 bits)
+   works two sided
+   See Test below to know its usage
+   */
+public class ConvertBooleansInt
+{
+	public ConvertBooleansInt ()
+	{
+	}
+
+	public int GetInt (List<bool> bool_l)
+	{
+		int intValue = 0;
+
+		for (int i = 0 ; i < bool_l.Count; i ++)
+			if(bool_l[i])
+				intValue += Convert.ToInt32(Math.Pow(2, bool_l.Count -1 - i));
+
+		return intValue;
+	}
+
+	//adapted from https://stackoverflow.com/a/49418086
+	public List<bool> GetBooleans (int intValue, int sizeBool_l)
+	{
+		List<bool> bool_l = new List<bool>();
+		int pow = 2 * sizeBool_l;
+
+		for (var i = 0; i < sizeBool_l; ++i)
+		{
+			bool_l.Add(intValue > 0 ? (intValue & pow) != 0 : (intValue & pow) == 0);
+			pow /= 2;
+		}
+
+		return bool_l;
+	}
+
+	public string PrintBooleans(List<bool> bool_l)
+	{
+		string s = "";
+		string sep = "";
+
+		foreach(bool b in bool_l)
+		{
+			s += sep + b.ToString();
+			sep = ", ";
+		}
+
+		return s;
+	}
+
+	public static void Test()
+	{
+		ConvertBooleansInt cbi = new ConvertBooleansInt();
+		List<bool> bool_l = new List<bool> { true, true, false, true}; //13
+
+		LogB.Information(string.Format("ConvertBooleansInt for values: {0} is: {1}",
+					cbi.PrintBooleans(bool_l), cbi.GetInt(bool_l) ));
+
+		int i = 13;
+		int iSize = 4; //4 booleans
+		LogB.Information(string.Format("ConvertBooleansInt for int: {0} is: {1}",
+					i, cbi.PrintBooleans(cbi.GetBooleans(i, iSize)) ));
 	}
 }

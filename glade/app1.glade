@@ -32311,14 +32311,13 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkRadioButton" id="radio_encoder_capture_show_bars">
-                                                            <property name="label">bars</property>
+                                                            <widget class="GtkCheckButton" id="check_encoder_capture_bars">
+                                                            <property name="label" translatable="yes">Bars</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
-                                                            <property name="active">True</property>
                                                             <property name="draw_indicator">True</property>
-                                                            <signal name="toggled" handler="on_radio_encoder_capture_show_toggled" swapped="no"/>
+                                                            <signal name="clicked" handler="on_check_encoder_capture_bars_clicked" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -32327,15 +32326,13 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkRadioButton" id="radio_encoder_capture_show_table">
-                                                            <property name="label">table</property>
+                                                            <widget class="GtkCheckButton" id="check_encoder_capture_table">
+                                                            <property name="label" translatable="yes">Table</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
-                                                            <property name="active">True</property>
                                                             <property name="draw_indicator">True</property>
-                                                            <property name="group">radio_encoder_capture_show_bars</property>
-                                                            <signal name="toggled" handler="on_radio_encoder_capture_show_toggled" swapped="no"/>
+                                                            <signal name="clicked" handler="on_check_encoder_capture_table_clicked" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -32344,35 +32341,18 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkRadioButton" id="radio_encoder_capture_show_bars_and_table">
-                                                            <property name="label">bars, table</property>
+                                                            <widget class="GtkCheckButton" id="check_encoder_capture_signal">
+                                                            <property name="label" translatable="yes">Signal</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="draw_indicator">True</property>
-                                                            <property name="group">radio_encoder_capture_show_bars</property>
-                                                            <signal name="toggled" handler="on_radio_encoder_capture_show_toggled" swapped="no"/>
+                                                            <signal name="clicked" handler="on_check_encoder_capture_signal_clicked" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">3</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkRadioButton" id="radio_encoder_capture_show_bars_table_and_signal">
-                                                            <property name="label">bars, table, signal</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">False</property>
-                                                            <property name="draw_indicator">True</property>
-                                                            <property name="group">radio_encoder_capture_show_bars</property>
-                                                            <signal name="toggled" handler="on_radio_encoder_capture_show_toggled" swapped="no"/>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">4</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
@@ -32588,7 +32568,7 @@ Concentric</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox156">
+                                                            <widget class="GtkHBox" id="hbox_encoder_capture_save_repetitions">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>

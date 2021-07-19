@@ -73,6 +73,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Frame frame_encoder_capture_options;
 	[Widget] Gtk.HBox hbox_encoder_capture_actions;
 	[Widget] Gtk.HPaned hpaned_encoder;
+	[Widget] Gtk.VBox vbox_inertial_instructions;
 	
 	[Widget] Gtk.Box hbox_encoder_capture_wait;
 	[Widget] Gtk.Box vbox_encoder_capture_doing;
@@ -331,11 +332,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Alignment alignment_treeview_encoder_capture_curves;
 	[Widget] Gtk.TreeView treeview_encoder_capture_curves;
 	[Widget] Gtk.TreeView treeview_encoder_analyze_curves;
-	
-	[Widget] Gtk.Notebook notebook_encoder_capture_or_inertial_instructions;
-	
-	[Widget] Gtk.DrawingArea encoder_capture_signal_drawingarea;
 
+	[Widget] Gtk.DrawingArea encoder_capture_signal_drawingarea;
 	[Widget] Gtk.DrawingArea encoder_capture_curves_bars_drawingarea;
 	Gdk.Pixmap encoder_capture_signal_pixmap = null;
 	Gdk.Pixmap encoder_capture_curves_bars_pixmap = null;
@@ -834,12 +832,16 @@ public partial class ChronoJumpWindow
 		button_encoder_inertial_calibrate_close.Sensitive = true;
 		label_wait.Text = " ";
 		label_calibrate_output_message.Text = "";
-		notebook_encoder_capture_or_inertial_instructions.Page = 1;
+
+		hpaned_encoder.Visible = false;
+		vbox_inertial_instructions.Visible = true;
 	}
 
 	private void on_button_encoder_inertial_calibrate_close_clicked (object o, EventArgs args)
 	{
-		notebook_encoder_capture_or_inertial_instructions.Page = 0;
+		hpaned_encoder.Visible = true;
+		vbox_inertial_instructions.Visible = false;
+
 		sensitiveGuiEventDone();
 	}
 
@@ -6603,9 +6605,13 @@ public partial class ChronoJumpWindow
 			needToCallPrepareEncoderGraphs = false;
 		}
 
-		//if on inertia and already showing instructions, return to page 0
-		if(notebook_encoder_capture_or_inertial_instructions.Page == 1)
-			notebook_encoder_capture_or_inertial_instructions.Page = 0;
+		//TODO: test this if this is needed:
+		//if on inertia and already showing instructions, hide them
+		if(hpaned_encoder.Visible == false)
+		{
+			hpaned_encoder.Visible = true;
+			vbox_inertial_instructions.Visible = false;
+		}
 
 		if(! encoderThread.IsAlive || encoderProcessCancel)
 		{

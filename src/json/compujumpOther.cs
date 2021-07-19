@@ -28,9 +28,7 @@ using Mono.Unix;
 public class Task
 {
 	public int Id;
-	public char Type; //initially 'P'arametrized or 'F'ree. Now all are 'P'
 	public int PersonId;
-	public int StationId;
 	public int ExerciseId;
 	public string ExerciseName;
 	public int Sets;
@@ -47,15 +45,12 @@ public class Task
 		Comment = "";
 	}
 
-	public Task(int id, int personId, int stationId, int exerciseId, string exerciseName,
+	public Task(int id, int personId, int exerciseId, string exerciseName,
 			int sets, int nreps, float load, float speed, float percentMaxSpeed,
 			string laterality, string comment)
 	{
-		Type = 'P'; //parametrized
-
 		Id = id;
 		PersonId = personId;
-		StationId = stationId;
 		ExerciseId = exerciseId;
 		ExerciseName = exerciseName;
 		Sets = sets;

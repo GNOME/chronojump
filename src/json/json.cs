@@ -417,7 +417,6 @@ public class Json
 		}
 
 		dataStream.Write (Encoding.UTF8.GetBytes(js), 0, js.Length);
-
 		dataStream.Close ();
 
 		// Get the response.
@@ -477,7 +476,6 @@ public class Json
 			return false;
 
 		dataStream.Write (Encoding.UTF8.GetBytes(js), 0, js.Length);
-
 		dataStream.Close ();
 
 		// Get the response.

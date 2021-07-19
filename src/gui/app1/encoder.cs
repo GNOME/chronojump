@@ -113,7 +113,6 @@ public partial class ChronoJumpWindow
 //	[Widget] Gtk.Button button_menu_encoder_export_set;
 	[Widget] Gtk.Button button_encoder_delete_signal;
 	
-	[Widget] Gtk.VPaned vpaned_encoder_main;
 	[Widget] Gtk.VPaned vpaned_encoder_capture_video_and_set_graph;
 	[Widget] Gtk.Button button_activate_chronopics_encoder;
 	[Widget] Gtk.Button button_activate_chronopics_encoder_networks_problems;

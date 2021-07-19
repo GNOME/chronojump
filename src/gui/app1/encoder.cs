@@ -121,6 +121,12 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_encoder_sup;
 	[Widget] Gtk.Notebook notebook_encoder_capture;
 
+	[Widget] Gtk.RadioButton radio_encoder_capture_show_bars;
+	[Widget] Gtk.RadioButton radio_encoder_capture_show_table;
+	[Widget] Gtk.RadioButton radio_encoder_capture_show_bars_and_table;
+	[Widget] Gtk.RadioButton radio_encoder_capture_show_bars_table_and_signal;
+	[Widget] Gtk.Alignment alignment_encoder_capture_curves_bars_drawingarea;
+
 	[Widget] Gtk.Box hbox_combo_encoder_exercise_capture;
 	[Widget] Gtk.ComboBox combo_encoder_exercise_capture;
 	[Widget] Gtk.RadioButton radio_encoder_eccon_concentric;
@@ -952,10 +958,6 @@ public partial class ChronoJumpWindow
 
 		saveEncoderExerciseOptionsToPreferences();
 
-		//if seeing "show table" move to "show graph"
-		if(notebook_encoder_capture_main.CurrentPage == 1)
-			notebook_encoder_capture_main.CurrentPage = 0;
-
 		on_button_encoder_capture_clicked_do (true);
 	}
 
@@ -1332,6 +1334,33 @@ public partial class ChronoJumpWindow
 	}
 
 
+	private void on_radio_encoder_capture_show_toggled (object o, EventArgs args)
+	{
+		if(o == (object) radio_encoder_capture_show_bars)
+		{
+			alignment_encoder_capture_curves_bars_drawingarea.Visible = true;
+			alignment_treeview_encoder_capture_curves.Visible = false;
+			vpaned_encoder_capture_video_and_set_graph.Visible = false;
+		}
+		else if(o == (object) radio_encoder_capture_show_table)
+		{
+			alignment_encoder_capture_curves_bars_drawingarea.Visible = false;
+			alignment_treeview_encoder_capture_curves.Visible = true;
+			vpaned_encoder_capture_video_and_set_graph.Visible = false;
+		}
+		else if(o == (object) radio_encoder_capture_show_bars_and_table)
+		{
+			alignment_encoder_capture_curves_bars_drawingarea.Visible = true;
+			alignment_treeview_encoder_capture_curves.Visible = true;
+			vpaned_encoder_capture_video_and_set_graph.Visible = false;
+		}
+		else if(o == (object) radio_encoder_capture_show_bars_table_and_signal)
+		{
+			alignment_encoder_capture_curves_bars_drawingarea.Visible = true;
+			alignment_treeview_encoder_capture_curves.Visible = true;
+			vpaned_encoder_capture_video_and_set_graph.Visible = true;
+		}
+	}
 
 
 	private void encoderUpdateTreeViewCapture(List<string> contents)
@@ -5072,24 +5101,10 @@ public partial class ChronoJumpWindow
 	}
 	private void encoder_exercise_show_hide (bool show)
 	{
-		if(show) {
+		if(show)
 			notebook_hpaned_encoder_or_exercise_config.Page = 1;
-
-			//if seeing "show table" move to "show graph" (encoder exercise stuff is there)
-			if(notebook_encoder_capture_main.CurrentPage == 1)
-				notebook_encoder_capture_main.CurrentPage = 0;
-
-			//don't show the page 'show table', while exercise or instructions is shown
-			if(notebook_encoder_capture_main.NPages > 0)
-				notebook_encoder_capture_main.GetNthPage(1).Hide();
-		}
-		else {
+		else
 			notebook_hpaned_encoder_or_exercise_config.Page = 0;
-
-			//show againthe page 'show table', while exercise or instructions is shown
-			if(notebook_encoder_capture_main.NPages > 0)
-				notebook_encoder_capture_main.GetNthPage(1).Show();
-		}
 
 		menus_and_mode_sensitive(! show);
 		hbox_encoder_sup_capture_analyze.Sensitive = ! show;

@@ -533,6 +533,14 @@ public partial class ChronoJumpWindow
 		vbox_encoder_signal_comment.SetSizeRequest (button_encoder_signal_save_comment.SizeRequest().Width, -1);
 		notebook_encoder_signal_comment_rhythm_and_triggers.SetSizeRequest
 			(button_encoder_signal_save_comment.SizeRequest().Width, -1);
+
+		followSignals = false;
+		check_encoder_capture_bars.Active = preferences.encoderCaptureShowOnlyBars.ShowBars;
+		check_encoder_capture_table.Active = preferences.encoderCaptureShowOnlyBars.ShowTable;
+		check_encoder_capture_signal.Active = preferences.encoderCaptureShowOnlyBars.ShowSignal;
+		followSignals = true;
+		//call here to have the gui updated and preferences.encoderCaptureShowOnlyBars correctly assigned
+		on_check_encoder_capture_show_modes_clicked (new object (), new EventArgs ());
 	}
 
 	void on_button_encoder_select_clicked (object o, EventArgs args)
@@ -1339,6 +1347,9 @@ public partial class ChronoJumpWindow
 
 	private void on_check_encoder_capture_show_modes_clicked (object o, EventArgs args)
 	{
+		if(! followSignals)
+			return;
+
 		alignment_encoder_capture_curves_bars_drawingarea.Visible = check_encoder_capture_bars.Active;
 		alignment_treeview_encoder_capture_curves.Visible = check_encoder_capture_table.Active;
 		vpaned_encoder_capture_video_and_set_graph.Visible = check_encoder_capture_signal.Active;
@@ -1351,6 +1362,16 @@ public partial class ChronoJumpWindow
 
 		hbox_encoder_capture_show_need_one.Visible =
 			! (check_encoder_capture_bars.Active || check_encoder_capture_table.Active || check_encoder_capture_signal.Active);
+
+		/*
+		   update the preferences variable
+		   note as can be changed while capturing, it will be saved to SQL on exit
+		   to not have problems with SQL while capturing
+		   */
+		preferences.encoderCaptureShowOnlyBars = new EncoderCaptureDisplay(
+				check_encoder_capture_signal.Active,
+				check_encoder_capture_table.Active,
+				check_encoder_capture_bars.Active);
 	}
 
 	private void encoderUpdateTreeViewCapture(List<string> contents)

@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.24";
+	static string lastChronojumpDatabaseVersion = "2.25";
 
 	public Sqlite()
 	{
@@ -3029,6 +3029,21 @@ class Sqlite
 
 				currentVersion = updateVersion("2.24");
 			}
+			if(currentVersion == "2.24")
+			{
+				LogB.SQL("encoderCaptureShowOnlyBars now uses BooleansInt");
+
+				if(SqlitePreferences.Select("encoderCaptureShowOnlyBars", true) == "True")
+				{
+					EncoderCaptureDisplay ecd = new EncoderCaptureDisplay(false, false, true);
+					SqlitePreferences.Update ("encoderCaptureShowOnlyBars", ecd.GetInt.ToString(), true);
+				} else {
+					EncoderCaptureDisplay ecd = new EncoderCaptureDisplay(true, true, true);
+					SqlitePreferences.Update ("encoderCaptureShowOnlyBars", ecd.GetInt.ToString(), true);
+				}
+
+				currentVersion = updateVersion("2.25");
+			}
 
 
 			/*
@@ -3250,6 +3265,7 @@ class Sqlite
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
 
+		//2.24 - 2.25 Converted DB to 2.25 encoderCaptureShowOnlyBars now uses BooleansInt
 		//2.23 - 2.24 Converted DB to 2.24 LogoAnimatedShow made False by default on Mac
 		//2.22 - 2.23 Converted DB to 2.23 Inserted socialNetwork variables at preferences
 		//2.21 - 2.22 Converted DB to 2.22 Inserted forceSensorFeedbackPath params

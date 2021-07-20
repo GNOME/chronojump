@@ -37,6 +37,11 @@ public partial class ChronoJumpWindow
 	//not called from load
 	private void on_app1s_delete_session_confirm_start (object o, EventArgs args)
 	{
+		if(currentSession == null || currentSession.UniqueID == -1) {
+			new DialogMessage(Constants.MessageTypes.WARNING, "Cannot delete a missing session");
+			return;
+		}
+
 		deleteSessionCalledFromLoad = false;
 		tempDeletingSession = currentSession;
 
@@ -87,6 +92,9 @@ public partial class ChronoJumpWindow
 
 		app1s_label_delete_done.Visible = true;
 		app1s_button_delete_close.Visible = true;
+
+		//update LastSessionID to avoid try to loading this session on new Chronojump boot
+		SqlitePreferences.Update(SqlitePreferences.LastSessionID, "-1", false);
 	}
 
 	private void on_app1s_button_delete_cancel_clicked (object o, EventArgs args)

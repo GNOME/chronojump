@@ -779,12 +779,16 @@ public partial class ChronoJumpWindow
 			// 1) to avoid impossibility to start Chronojump if there's any problem with this session, first put this to false
 			SqlitePreferences.Update(SqlitePreferences.LoadLastSessionAtStart, false, false);
 
-			// 2) load the session
-			currentSession = SqliteSession.Select (preferences.lastSessionID.ToString());
-			on_load_session_accepted();
+			// 2) load the session (but check if it really exists (extra check))
+			Session sessionLoading = SqliteSession.Select (preferences.lastSessionID.ToString());
+			if(sessionLoading.UniqueID != -1)
+			{
+				currentSession = sessionLoading;
+				on_load_session_accepted();
 
-			// 3) put preference to true again
-			SqlitePreferences.Update(SqlitePreferences.LoadLastSessionAtStart, true, false);
+				// 3) put preference to true again
+				SqlitePreferences.Update(SqlitePreferences.LoadLastSessionAtStart, true, false);
+			}
 		}
 
 		if(! showSendLog && ! showSocialNetworkPoll && preferences.loadLastModeAtStart &&
@@ -2726,6 +2730,11 @@ public partial class ChronoJumpWindow
 	{
 		LogB.Information("edit session");
 		
+		if(currentSession == null || currentSession.UniqueID == -1) {
+			new DialogMessage(Constants.MessageTypes.WARNING, "Cannot edit a missing session");
+			return;
+		}
+
 		if(currentSession.Name == Constants.SessionSimulatedName)
 			new DialogMessage(Constants.MessageTypes.INFO, Constants.SessionProtectedStr());
 		else {
@@ -2895,7 +2904,13 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	private void on_export_session_accepted(object o, EventArgs args) {
+	private void on_export_session_accepted(object o, EventArgs args)
+	{
+		if(currentSession == null || currentSession.UniqueID == -1) {
+			new DialogMessage(Constants.MessageTypes.WARNING, "Cannot edit a missing session");
+			return;
+		}
+
 		new ExportSessionCSV(currentSession, app1, preferences);
 	}
 

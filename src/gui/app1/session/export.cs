@@ -53,6 +53,11 @@ public partial class ChronoJumpWindow
 
 	private void on_app1s_button_export_select_clicked (object o, EventArgs args)
 	{
+		if(currentSession == null || currentSession.UniqueID == -1) {
+			new DialogMessage(Constants.MessageTypes.WARNING, "Cannot edit a missing session");
+			return;
+		}
+
 		app1s_fc = new Gtk.FileChooserDialog(Catalog.GetString("Export session to:"),
 				app1,
 				FileChooserAction.SelectFolder,

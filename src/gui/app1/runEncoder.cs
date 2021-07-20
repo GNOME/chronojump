@@ -278,9 +278,12 @@ public partial class ChronoJumpWindow
 		cairoGraphRaceAnalyzerPoints_dt_l = new List<PointF>();
 		cairoGraphRaceAnalyzerPoints_st_l = new List<PointF>();
 		cairoGraphRaceAnalyzerPoints_at_l = new List<PointF>();
+
 		updateRaceAnalyzerCapturePositionTime(true);
 		updateRaceAnalyzerCaptureSpeedTime(true);
 		updateRaceAnalyzerCaptureAccelTime(true);
+		//if graphs are not updated with the line, use this that will fire ExposeEvent:
+		//drawingarea_race_analyzer_capture_position_time.QueueDraw(); and the others
 
 
 		if(chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.ARDUINO_RUN_ENCODER) == 0)

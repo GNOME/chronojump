@@ -2716,6 +2716,9 @@ public partial class ChronoJumpWindow
 		string feedbackLoadUsers = Catalog.GetString ("Session created, now add or load persons.");
 		new DialogMessage(Constants.MessageTypes.INFO, feedbackLoadUsers);
 
+		//fold menu session
+		check_menu_session.Click();
+
 		SqlitePreferences.Update(SqlitePreferences.LastSessionID, currentSession.UniqueID.ToString(), false);
 	}
 	
@@ -2812,6 +2815,9 @@ public partial class ChronoJumpWindow
 			arrow_manage_persons_up.Visible = true;
 			arrow_manage_persons_down.Visible = false;
 		}
+
+		//fold menu session
+		check_menu_session.Click();
 
 		//update report
 		report.SessionID = currentSession.UniqueID;

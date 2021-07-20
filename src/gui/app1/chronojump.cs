@@ -2588,6 +2588,11 @@ public partial class ChronoJumpWindow
 		if(portREOpened)
 			portRE.Close();
 
+		LogB.Information("Updates on SQL");
+		//as ShowOnlyBars stuff can be changed during capture, store at sql here
+		SqlitePreferences.Update("encoderCaptureShowOnlyBars",
+				preferences.encoderCaptureShowOnlyBars.GetInt.ToString(), false);
+
 		LogB.Information("Bye3!");
 
 		//TODO: if camera is opened close it! Note that this is intended to kill a remaining ffmpeg process

@@ -7780,3 +7780,48 @@ public partial class ChronoJumpWindow
 	/* end of video stuff */
 
 }	
+
+public class EncoderCaptureDisplay : BooleansInt
+{
+//	private int selection;
+
+	//constructor when we have the 0-7 value
+	public EncoderCaptureDisplay(int selection)
+	{
+		this.i = selection;
+	}
+
+	//constructor with the 3 booleans
+	public EncoderCaptureDisplay(bool showBit1, bool showBit2, bool showBit3)
+	{
+		this.i = 0;
+		if(showBit1)
+			i ++;
+		if(showBit2)
+			i += 2;
+		if(showBit3)
+			i += 4;
+	}
+
+	public bool ShowBars
+	{
+		get { return Bit3; }
+	}
+
+	public bool ShowTable
+	{
+		get { return Bit2; }
+	}
+
+	public bool ShowSignal
+	{
+		get { return Bit1; }
+	}
+
+	//just to debug
+	public override string ToString()
+	{
+		return string.Format("selected: {0} (ShowBars: {1}, ShowTable: {2}, ShowSignal: {3})",
+				i, ShowBars, ShowTable, ShowSignal);
+	}
+}

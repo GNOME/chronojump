@@ -94,7 +94,7 @@ public abstract class EncoderCapture
 	private Random rand;
 	protected bool finish;
 	protected bool capturingInertialBG;
-	protected bool showOnlyBars;
+	protected bool showOnlyBars; //only false on inertia moment calculation
 
 	//get the moment where we cross 0 first time on inertial calibrated
 	//signal will be saved from here
@@ -433,7 +433,6 @@ public abstract class EncoderCapture
 				if(! showOnlyBars)
 				{
 					assignEncoderCapturePoints();
-
 					EncoderCapturePointsCaptured = i;
 				}
 

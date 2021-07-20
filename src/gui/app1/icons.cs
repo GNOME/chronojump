@@ -303,8 +303,6 @@ public partial class ChronoJumpWindow
 		image_menu_quit.Pixbuf = pixbuf;
 		image_menu_quit1.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_menu.png");
-		image_radio_show_menu.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_folders.png");
 		image_menu_folders.Pixbuf = pixbuf;
 		image_menu_folders1.Pixbuf = pixbuf;
@@ -401,9 +399,7 @@ public partial class ChronoJumpWindow
 		image_selector_start_back.Pixbuf = pixbuf;
 		image_button_force_sensor_analyze_back_to_signal.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_pin.png");
-		image_radio_show_persons.Pixbuf = pixbuf;
-
+		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_pin.png");
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person.png");
 		image_person.Pixbuf = pixbuf;
 		image_person1.Pixbuf = pixbuf;

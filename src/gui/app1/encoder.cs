@@ -1390,7 +1390,8 @@ public partial class ChronoJumpWindow
 				if(preferences.encoderCaptureInfinite)
 					removeSignalFromGuiBecauseDeletedOrCancelled();
 
-				if(configChronojump.EncoderCaptureShowOnlyBars && ! preferences.encoderCaptureInfinite)
+				if(//configChronojump.EncoderCaptureShowOnlyBars &&
+						! preferences.encoderCaptureInfinite)
 					new DialogMessage(Constants.MessageTypes.WARNING,
 							Catalog.GetString("Sorry, no repetitions matched your criteria."));
 			}
@@ -5831,19 +5832,21 @@ public partial class ChronoJumpWindow
 				secondaryVariable = "";
 			double mainVariableHigher = repetitiveConditionsWin.GetMainVariableHigher(mainVariable);
 			double mainVariableLower = repetitiveConditionsWin.GetMainVariableLower(mainVariable);
-			encoderGraphDoPlot.Start(
-					mainVariable, mainVariableHigher, mainVariableLower,
-					secondaryVariable, preferences.encoderCaptureShowLoss,
-					false, //not capturing
-					findEccon(true),
-					repetitiveConditionsWin,
-					encoderConfigurationCurrent.has_inertia,
-					configChronojump.PlaySoundsFromFile,
-					captureCurvesBarsData,
-					encoderCaptureListStore,
-					preferences.encoderCaptureMainVariableThisSetOrHistorical,
-					sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
-					sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable));
+
+			if(encoderGraphDoPlot != null)
+				encoderGraphDoPlot.Start(
+						mainVariable, mainVariableHigher, mainVariableLower,
+						secondaryVariable, preferences.encoderCaptureShowLoss,
+						false, //not capturing
+						findEccon(true),
+						repetitiveConditionsWin,
+						encoderConfigurationCurrent.has_inertia,
+						configChronojump.PlaySoundsFromFile,
+						captureCurvesBarsData,
+						encoderCaptureListStore,
+						preferences.encoderCaptureMainVariableThisSetOrHistorical,
+						sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
+						sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable));
 		}
 	}
 
@@ -6072,7 +6075,8 @@ public partial class ChronoJumpWindow
 			//on continuous mode do not erase bars at beginning of capture in order to see last bars
 			if(action == encoderActions.CAPTURE && preferences.encoderCaptureInfinite) {
 				prepareEncoderGraphs(false, true); //bars, signal
-				encoderGraphDoPlot.ShowMessage("Previous set", true, false);
+				if(encoderGraphDoPlot != null)
+					encoderGraphDoPlot.ShowMessage("Previous set", true, false);
 			} else
 				prepareEncoderGraphs(true, true);
 
@@ -6093,7 +6097,8 @@ public partial class ChronoJumpWindow
 				if(encoder_capture_curves_bars_pixmap != null)
 					UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 
-				encoderGraphDoPlot.ShowMessage(Catalog.GetString("Capturing") + " …", false, true);
+				if(encoderGraphDoPlot != null)
+					encoderGraphDoPlot.ShowMessage(Catalog.GetString("Capturing") + " …", false, true);
 
 				encoderCaptureStringR = new List<string>();
 				encoderCaptureStringR.Add(
@@ -6143,7 +6148,8 @@ public partial class ChronoJumpWindow
 						findEccon(true),
 						portName,
 						(encoderConfigurationCurrent.has_inertia && eCaptureInertialBG != null),
-						configChronojump.EncoderCaptureShowOnlyBars,
+						//configChronojump.EncoderCaptureShowOnlyBars,
+						false, //false to show all, and let user change this at any moment
 						currentSession.Name == Constants.SessionSimulatedName && testsActive);
 				if(! success)
 				{
@@ -6708,20 +6714,23 @@ public partial class ChronoJumpWindow
 				//captureCurvesBarsData.Add(new EncoderBarsData(meanSpeed, maxSpeed, meanPower, peakPower));
 				//captureCurvesBarsData.Add(new EncoderBarsData(20, 39, 10, 40));
 
-				encoderGraphDoPlot.NewPreferences(preferences);
-				encoderGraphDoPlot.Start(
-						mainVariable, mainVariableHigher, mainVariableLower,
-						secondaryVariable, preferences.encoderCaptureShowLoss,
-						true, //capturing
-						findEccon(true),
-						repetitiveConditionsWin,
-						encoderConfigurationCurrent.has_inertia,
-						configChronojump.PlaySoundsFromFile,
-						captureCurvesBarsData,
-						encoderCaptureListStore,
-						preferences.encoderCaptureMainVariableThisSetOrHistorical,
-						sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
-						sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable));
+				if(encoderGraphDoPlot != null)
+				{
+					encoderGraphDoPlot.NewPreferences(preferences);
+					encoderGraphDoPlot.Start(
+							mainVariable, mainVariableHigher, mainVariableLower,
+							secondaryVariable, preferences.encoderCaptureShowLoss,
+							true, //capturing
+							findEccon(true),
+							repetitiveConditionsWin,
+							encoderConfigurationCurrent.has_inertia,
+							configChronojump.PlaySoundsFromFile,
+							captureCurvesBarsData,
+							encoderCaptureListStore,
+							preferences.encoderCaptureMainVariableThisSetOrHistorical,
+							sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
+							sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable));
+				}
 				//}
 
 				needToRefreshTreeviewCapture = false;
@@ -7211,20 +7220,23 @@ public partial class ChronoJumpWindow
 
 				findMaxPowerSpeedForceIntersession();
 
-				encoderGraphDoPlot.NewPreferences(preferences);
-				encoderGraphDoPlot.Start(
-						mainVariable, mainVariableHigher, mainVariableLower,
-						secondaryVariable, preferences.encoderCaptureShowLoss,
-						false, //not capturing
-						findEccon(true),
-						repetitiveConditionsWin,
-						encoderConfigurationCurrent.has_inertia,
-						configChronojump.PlaySoundsFromFile,
-						captureCurvesBarsData,
-						encoderCaptureListStore,
-						preferences.encoderCaptureMainVariableThisSetOrHistorical,
-						sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
-						sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable));
+				if(encoderGraphDoPlot != null)
+				{
+					encoderGraphDoPlot.NewPreferences(preferences);
+					encoderGraphDoPlot.Start(
+							mainVariable, mainVariableHigher, mainVariableLower,
+							secondaryVariable, preferences.encoderCaptureShowLoss,
+							false, //not capturing
+							findEccon(true),
+							repetitiveConditionsWin,
+							encoderConfigurationCurrent.has_inertia,
+							configChronojump.PlaySoundsFromFile,
+							captureCurvesBarsData,
+							encoderCaptureListStore,
+							preferences.encoderCaptureMainVariableThisSetOrHistorical,
+							sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
+							sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable));
+				}
 
 				button_encoder_signal_save_comment.Label = Catalog.GetString("Save comment");
 				button_encoder_signal_save_comment.Sensitive = false;

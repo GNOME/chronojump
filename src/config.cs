@@ -36,9 +36,8 @@ public class Config
 	//public bool UseVideo;
 	public bool OnlyEncoderGravitatory;
 	public bool OnlyEncoderInertial;
-	public bool EncoderCaptureShowOnlyBars;
-	public bool EncoderUpdateTreeViewWhileCapturing; //recomended: false. Make it false if EncoderCaptureShowOnlyBars == true
-							//because treeview will be in 2n page of notebook
+	public EncoderCaptureDisplay EncoderCaptureShowOnlyBars;
+	public bool EncoderUpdateTreeViewWhileCapturing = true; //user can change the 3 show checkboxes, so have it true to be updated
 	public bool PersonWinHide;
 	public bool EncoderAnalyzeHide;
 	public SessionModeEnum SessionMode;

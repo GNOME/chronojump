@@ -7425,20 +7425,24 @@ LogB.Debug("mc finished 5");
 					double mainVariableHigher = repetitiveConditionsWin.GetMainVariableHigher(mainVariableStr);
 					double mainVariableLower = repetitiveConditionsWin.GetMainVariableLower(mainVariableStr);
 					//plotCurvesGraphDoPlot(mainVariableStr, mainVariableHigher, mainVariableLower,
-					encoderGraphDoPlot.NewPreferences(preferences);
-					encoderGraphDoPlot.Start(
-							mainVariableStr, mainVariableHigher, mainVariableLower,
-							secondaryVariableStr, preferences.encoderCaptureShowLoss,
-							false,
-							findEccon(true),
-							repetitiveConditionsWin,
-							encoderConfigurationCurrent.has_inertia,
-							configChronojump.PlaySoundsFromFile,
-							captureCurvesBarsData,
-							encoderCaptureListStore,
-							preferences.encoderCaptureMainVariableThisSetOrHistorical,
-							sendMaxPowerSpeedForceIntersession(mainVariable),
-							sendMaxPowerSpeedForceIntersessionDate(mainVariable));
+
+					if(encoderGraphDoPlot != null)
+					{
+						encoderGraphDoPlot.NewPreferences(preferences);
+						encoderGraphDoPlot.Start(
+								mainVariableStr, mainVariableHigher, mainVariableLower,
+								secondaryVariableStr, preferences.encoderCaptureShowLoss,
+								false,
+								findEccon(true),
+								repetitiveConditionsWin,
+								encoderConfigurationCurrent.has_inertia,
+								configChronojump.PlaySoundsFromFile,
+								captureCurvesBarsData,
+								encoderCaptureListStore,
+								preferences.encoderCaptureMainVariableThisSetOrHistorical,
+								sendMaxPowerSpeedForceIntersession(mainVariable),
+								sendMaxPowerSpeedForceIntersessionDate(mainVariable));
+					}
 				} else
 					UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 			}

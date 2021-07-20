@@ -185,7 +185,10 @@ class SqlitePreferences : Sqlite
 				Insert (RestTimeSeconds, "0", dbcmdTr);
 				Insert (UnitsStr, Preferences.UnitsEnum.METRIC.ToString(), dbcmdTr);
 				Insert (EncoderCaptureInfinite, "False", dbcmdTr);
-				Insert ("encoderCaptureShowOnlyBars", "True", dbcmdTr);
+
+				EncoderCaptureDisplay ecd = new EncoderCaptureDisplay(false, false, true);
+				Insert ("encoderCaptureShowOnlyBars", ecd.GetInt.ToString(), dbcmdTr);
+
 				Insert ("encoderCaptureShowNRepetitions", "-1", dbcmdTr);
 				Insert ("digitsNumber", "3", dbcmdTr);
 				Insert ("showPower", "True", dbcmdTr);
@@ -529,7 +532,7 @@ class SqlitePreferences : Sqlite
 			else if(reader[0].ToString() == EncoderCaptureInfinite)
 				preferences.encoderCaptureInfinite = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "encoderCaptureShowOnlyBars")
-				preferences.encoderCaptureShowOnlyBars = reader[1].ToString() == "True";
+				preferences.encoderCaptureShowOnlyBars = new EncoderCaptureDisplay(Convert.ToInt32(reader[1].ToString()));
 			else if(reader[0].ToString() == "encoderCaptureShowNRepetitions")
 				preferences.encoderCaptureShowNRepetitions = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == "showPower")

@@ -59,7 +59,7 @@ public class Preferences
 	public UnitsEnum units;
 
 	public bool encoderCaptureInfinite;
-	public bool encoderCaptureShowOnlyBars;
+	public EncoderCaptureDisplay encoderCaptureShowOnlyBars;
 	public int encoderCaptureShowNRepetitions;
 
 	public bool showPower;

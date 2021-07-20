@@ -446,6 +446,8 @@ public partial class ChronoJumpWindow
 	private static List<News> newsAtDB_l; //to not read/write SQL on pingThread and at the same time outside of thread
 	private static List<News> newsAtServer_l; //to not read/write SQL on pingThread and at the same time outside of thread
 
+	private static bool followSignals = true;
+
 	//windows needed
 	ChronopicRegisterWindow chronopicRegisterWin;
 	PreferencesWindow preferencesWin;

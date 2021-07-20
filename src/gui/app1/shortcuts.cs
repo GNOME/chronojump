@@ -49,9 +49,6 @@ public partial class ChronoJumpWindow
 		string up = Catalog.GetString("Up");
 		string down = Catalog.GetString("Down");
 
-		//menu
-		radio_show_menu.TooltipText += " (Escape)";
-
 		//persons
 		button_edit_current_person.TooltipText += string.Format(" ({0}+p)", kCtrl);
 		button_edit_current_person_h.TooltipText += string.Format(" ({0}+p)", kCtrl);

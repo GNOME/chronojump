@@ -1706,7 +1706,7 @@
                                                             <child>
                                                             <widget class="GtkVBox" id="vbox_manage_persons">
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">6</property>
+                                                            <property name="spacing">4</property>
                                                             <child>
                                                             <widget class="GtkVBox" id="vbox_person_manage_create">
                                                             <property name="visible">True</property>
@@ -1734,7 +1734,7 @@
                                                             <widget class="GtkHBox" id="hbox535">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">6</property>
+                                                            <property name="spacing">8</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_person_add_single">
                                                             <property name="visible">True</property>
@@ -1850,7 +1850,7 @@
                                                             <widget class="GtkHBox" id="hbox537">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">6</property>
+                                                            <property name="spacing">8</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_recuperate_person">
                                                             <property name="visible">True</property>
@@ -2353,7 +2353,7 @@
                                           </widget>
                                         </child>
                                         <child>
-                                          <widget class="GtkLabel" id="label22">
+                                          <widget class="GtkLabel" id="label_persons_at_frame_persons">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="label" translatable="yes">Persons</property>

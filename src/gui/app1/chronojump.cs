@@ -1299,6 +1299,8 @@ public partial class ChronoJumpWindow
 	{
 		sensitiveLastTestButtons(false);
 
+		label_current_person.Text = currentPerson.Name;
+
 		//update 4 results treeviews
 		myTreeViewJumps.SelectPerson(currentPerson.Name);
 		myTreeViewJumpsRj.SelectPerson(currentPerson.Name);

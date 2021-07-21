@@ -2646,6 +2646,10 @@ public partial class ChronoJumpWindow
 	private void setApp1Title(string sessionName, Constants.Menuitem_modes mode)
 	{
 		string title = progName;
+
+		if(sessionName != "")
+			title += " - " + sessionName;
+
 		if(mode != Constants.Menuitem_modes.UNDEFINED)
 		{
 			string modePrint = "";
@@ -2675,8 +2679,6 @@ public partial class ChronoJumpWindow
 			if(modePrint != "")
 				title += " - " + modePrint;
 		}
-		if(sessionName != "")
-			title += " - " + sessionName;
 
 		if(preferences.debugMode)
 			title += " - DEBUG MODE";

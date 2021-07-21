@@ -181,7 +181,6 @@ public partial class ChronoJumpWindow
 			button_force_sensor_analyze_analyze.Sensitive = false;
 		}
 
-		viewport_persons.Sensitive = s;
 		menus_and_mode_sensitive(s);
 		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = s;
 		hbox_top_person.Sensitive = s;

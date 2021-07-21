@@ -31,6 +31,7 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow
 {
+	[Widget] Gtk.Alignment alignment_session_persons;
 	[Widget] Gtk.VBox vbox_manage_persons;
 	[Widget] Gtk.Arrow arrow_manage_persons_up;
 	[Widget] Gtk.Arrow arrow_manage_persons_down;
@@ -42,10 +43,10 @@ public partial class ChronoJumpWindow
 
 		if(onTop)
 		{
-			alignment_viewport_menu_top.Visible = false;
+			alignment_session_persons.Visible = false;
 			vbox_menu_tiny.Visible = true;
 		} else {
-			alignment_viewport_menu_top.Visible = true;
+			alignment_session_persons.Visible = true;
 			vbox_menu_tiny.Visible = false;
 		}
 	}

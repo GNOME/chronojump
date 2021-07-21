@@ -1624,7 +1624,6 @@ public partial class ChronoJumpWindow
 		hbox_contacts_camera.Sensitive = sensitive;
 
 		//other gui buttons
-		viewport_persons.Sensitive = sensitive;
 		menus_and_mode_sensitive(sensitive);
 
 		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = sensitive;

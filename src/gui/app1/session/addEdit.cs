@@ -64,6 +64,7 @@ public partial class ChronoJumpWindow
 	private void sessionAddEditShow (App1saeModes mode)
 	{
 		LogB.Information("sessionAddEditShow, " + mode.ToString());
+
 		app1s_notebook.CurrentPage = app1s_PAGE_ADD_EDIT;
 		app1sae_notebook_add_edit.CurrentPage = 0;
 
@@ -550,7 +551,10 @@ public partial class ChronoJumpWindow
 	void app1sae_on_button_cancel_clicked (object o, EventArgs args)
 	{
 		if(app1sae_mode == App1saeModes.ADDSESSION)
+		{
+			menus_and_mode_sensitive (true); //because we go to main gui, not needed on EDITCURRENTSESSION or EDITOTHERSESSION
 			notebook_supSetOldPage();
+		}
 		else if(app1sae_mode == App1saeModes.EDITCURRENTSESSION)
 			app1s_notebook.CurrentPage = app1s_PAGE_MODES;
 		else {	//(app1sae_mode == App1saeModes.EDITOTHERSESSION)

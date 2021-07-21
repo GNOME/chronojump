@@ -1544,16 +1544,16 @@
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">8</property>
                                                             <child>
-                                                            <widget class="GtkButton" id="button_manage_persons">
+                                                            <widget class="GtkCheckButton" id="check_manage_persons">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
-                                                            <property name="can_default">True</property>
-                                                            <property name="receives_default">True</property>
-                                                            <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Manage persons</property>
-                                                            <property name="relief">half</property>
-                                                            <property name="xalign">0</property>
-                                                            <signal name="clicked" handler="on_button_manage_persons_clicked" swapped="no"/>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="draw_indicator">False</property>
+                                                            <signal name="clicked" handler="on_check_manage_persons_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkEventBox" id="eventbox_check_manage_persons">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox386">
                                                             <property name="visible">True</property>
@@ -1616,6 +1616,8 @@
                                                             <property name="fill">False</property>
                                                             <property name="position">2</property>
                                                             </packing>
+                                                            </child>
+                                                            </widget>
                                                             </child>
                                                             </widget>
                                                             </child>

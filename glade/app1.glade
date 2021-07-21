@@ -1704,9 +1704,9 @@
                                                             <child>
                                                             <widget class="GtkVBox" id="vbox_manage_persons">
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">8</property>
+                                                            <property name="spacing">10</property>
                                                             <child>
-                                                            <widget class="GtkVBox" id="vbox87">
+                                                            <widget class="GtkVBox" id="vbox_person_manage_create">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">1</property>
@@ -1714,16 +1714,17 @@
                                                             <widget class="GtkLabel" id="label153">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Create new</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label" translatable="yes">Create new person</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkHButtonBox" id="hbuttonbox_person_admin_create">
+                                                            <widget class="GtkHBox" id="hbox535">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
@@ -1738,9 +1739,10 @@
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_person_add_single_from_main_gui" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkVBox" id="vbox91">
+                                                            <widget class="GtkHBox" id="hbox536">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <property name="spacing">4</property>
                                                             <child>
                                                             <widget class="GtkImage" id="image_persons_new_1">
                                                             <property name="visible">True</property>
@@ -1748,8 +1750,8 @@
                                                             <property name="stock">gtk-missing-image</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
@@ -1760,8 +1762,8 @@
                                                             <property name="label" translatable="yes">One</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
@@ -1769,8 +1771,8 @@
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
@@ -1785,46 +1787,23 @@
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_person_add_multiple_from_main_gui" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkVBox" id="vbox92">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <child>
                                                             <widget class="GtkImage" id="image_persons_new_plus">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
                                                             </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label257">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Multiple</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
@@ -1836,7 +1815,7 @@
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkVBox" id="vbox98">
+                                                            <widget class="GtkVBox" id="vbox_person_manage_load">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">1</property>
@@ -1844,6 +1823,7 @@
                                                             <widget class="GtkLabel" id="label156">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <property name="xalign">0</property>
                                                             <property name="label" translatable="yes">Load into session</property>
                                                             </widget>
                                                             <packing>
@@ -1853,7 +1833,7 @@
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkHButtonBox" id="hbuttonbox_person_admin_load">
+                                                            <widget class="GtkHBox" id="hbox537">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
@@ -1868,9 +1848,10 @@
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_recuperate_person_from_main_gui" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkVBox" id="vbox99">
+                                                            <widget class="GtkHBox" id="hbox538">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <property name="spacing">4</property>
                                                             <child>
                                                             <widget class="GtkImage" id="image_persons_open_1">
                                                             <property name="visible">True</property>
@@ -1878,8 +1859,8 @@
                                                             <property name="stock">gtk-open</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
@@ -1890,8 +1871,8 @@
                                                             <property name="label" translatable="yes">One</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
@@ -1915,33 +1896,10 @@
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_recuperate_persons_from_session_at_main_gui" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkVBox" id="vbox117">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <child>
                                                             <widget class="GtkImage" id="image_persons_open_plus">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-open</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label259">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Multiple</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
                                                             </widget>
                                                             </child>
                                                             </widget>

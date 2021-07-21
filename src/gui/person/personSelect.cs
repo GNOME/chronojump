@@ -622,8 +622,12 @@ public class PersonPhotoButton
 
 		if(photoFile != "" && File.Exists(photoFile))
 			assignPhotoToPixbuf(image, true, photoFile);
-		else
-			assignPhotoToPixbuf(image, false, Util.GetImagePath(false) + "image_no_photo.png");
+		else {
+			if(Config.ColorBackgroundIsDark)
+				assignPhotoToPixbuf(image, false, Util.GetImagePath(false) + "image_no_photo_yellow.png");
+			else
+				assignPhotoToPixbuf(image, false, Util.GetImagePath(false) + "image_no_photo.png");
+		}
 	}
 
 	private void assignPhotoToPixbuf (Gtk.Image image, bool fromFile, string photoFile)

@@ -867,6 +867,14 @@ public partial class ChronoJumpWindow
 				image_encoder_rest_time_dark_blue.Visible = true;
 				image_encoder_rest_time_clear_yellow.Visible = false;
 			}
+		} else {
+			if(! Config.UseSystemColor)
+			{
+				UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_persons_at_frame_persons);
+				UtilGtk.ContrastLabelsVBox (Config.ColorBackgroundIsDark, vbox_person_manage_create);
+				UtilGtk.ContrastLabelsVBox (Config.ColorBackgroundIsDark, vbox_person_manage_load);
+				UtilGtk.ContrastLabelsVBox (Config.ColorBackgroundIsDark, vbox_persons_bottom_no_photo);
+			}
 		}
 
 		if(! Config.UseSystemColor)

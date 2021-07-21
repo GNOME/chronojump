@@ -50,7 +50,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.VBox vbox_menu_session;
 	[Widget] Gtk.Alignment alignment_menu_session_options;
 	[Widget] Gtk.Alignment alignment_menu_person_options;
-
+	[Widget] Gtk.Label label_persons_at_frame_persons;
 
 	[Widget] Gtk.Button button_menu_session_new;
 	[Widget] Gtk.Button button_menu_session_load;

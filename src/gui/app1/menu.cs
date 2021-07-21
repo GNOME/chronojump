@@ -101,7 +101,7 @@ public partial class ChronoJumpWindow
 
 	private void initialize_menu_or_menu_tiny()
 	{
-		if(preferences.menuType == Preferences.MenuTypes.ICONS)
+		if(preferences.personWinHide)
 			menuTinyInitialize();
 		else
 			menuInitialize();
@@ -134,7 +134,6 @@ public partial class ChronoJumpWindow
 
 	private void menuInitialize ()
 	{
-		menuSetTextAndIcons();
 		menuSetColors();
 
 		//LogB.Information("hpaned MinPosition: " + hpaned_contacts_main.MinPosition.ToString());
@@ -222,22 +221,6 @@ public partial class ChronoJumpWindow
 				(-1, image_logo_contacts.SizeRequest().Height);
 	}
 	*/
-
-	private void menuSetTextAndIcons ()
-	{
-		//icons
-		image_menu_folders.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
-		image_session_new3.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
-		image_session_load2.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
-		image_session_edit2.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
-		image_menu_preferences.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
-		image_menu_help.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
-		image_menu_help_documents.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
-		image_menu_help_shortcuts.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
-		image_menu_help_about.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
-		image_menu_news.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
-		image_menu_quit.Visible = preferences.menuType != Preferences.MenuTypes.TEXT;
-	}
 
 	private void menuSetColors ()
 	{

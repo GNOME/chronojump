@@ -63,14 +63,6 @@ public class PreferencesWindow
 	[Widget] Gtk.CheckButton check_appearance_maximized;
 	[Widget] Gtk.CheckButton check_appearance_maximized_undecorated;
 	[Widget] Gtk.CheckButton check_appearance_person_win_hide;
-	[Widget] Gtk.RadioButton radio_menu_show_all;
-	[Widget] Gtk.RadioButton radio_menu_show_text;
-	[Widget] Gtk.RadioButton radio_menu_show_icons;
-	[Widget] Gtk.CheckButton check_example_menu_all;
-	[Widget] Gtk.CheckButton check_example_menu_text;
-	[Widget] Gtk.CheckButton check_example_menu_icons;
-	[Widget] Gtk.Image image_menu_folders;
-	[Widget] Gtk.Image image_menu_folders2;
 	[Widget] Gtk.CheckButton check_appearance_person_photo;
 	[Widget] Gtk.Alignment alignment_undecorated;
 	[Widget] Gtk.Label label_recommended_undecorated;
@@ -382,35 +374,17 @@ public class PreferencesWindow
 				(preferences.maximized == Preferences.MaximizedTypes.YESUNDECORATED);
 		}
 
-		if(preferences.personWinHide) {
+		if(preferences.personWinHide)
 			PreferencesWindowBox.check_appearance_person_win_hide.Active = true;
-			PreferencesWindowBox.radio_menu_show_all.Sensitive = false;
-			PreferencesWindowBox.radio_menu_show_text.Sensitive = false;
-			PreferencesWindowBox.radio_menu_show_icons.Sensitive = true;
-		} else {
+		else
 			PreferencesWindowBox.check_appearance_person_win_hide.Active = false;
-			PreferencesWindowBox.radio_menu_show_all.Sensitive = true;
-			PreferencesWindowBox.radio_menu_show_text.Sensitive = true;
-			PreferencesWindowBox.radio_menu_show_icons.Sensitive = false;
-		}
 
 		PreferencesWindowBox.check_appearance_person_photo.Sensitive = ! preferences.personWinHide;
-
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_folders.png");
-		PreferencesWindowBox.image_menu_folders.Pixbuf = pixbuf;
-		PreferencesWindowBox.image_menu_folders2.Pixbuf = pixbuf;
 
 		if(preferences.personPhoto)
 			PreferencesWindowBox.check_appearance_person_photo.Active = true;
 		else
 			PreferencesWindowBox.check_appearance_person_photo.Active = false;
-
-		if(preferences.menuType == Preferences.MenuTypes.ALL)
-			PreferencesWindowBox.radio_menu_show_all.Active = true;
-		else if(preferences.menuType == Preferences.MenuTypes.TEXT)
-			PreferencesWindowBox.radio_menu_show_text.Active = true;
-		else //if(preferences.menuType == Preferences.MenuTypes.ICONS)
-			PreferencesWindowBox.radio_menu_show_icons.Active = true;
 
 		if(preferences.logoAnimatedShow)
 			PreferencesWindowBox.check_logo_animated.Active = true;
@@ -848,13 +822,6 @@ public class PreferencesWindow
 	// <---- endo of view more tabs
 
 
-	private void on_radio_menu_show_toggled (object o, EventArgs args)
-	{
-		check_example_menu_all.Visible = (o == (object) radio_menu_show_all && radio_menu_show_all.Active);
-		check_example_menu_text.Visible = (o == (object) radio_menu_show_text && radio_menu_show_text.Active);
-		check_example_menu_icons.Visible = (o == (object) radio_menu_show_icons && radio_menu_show_icons.Active);
-	}
-
 	private void paintColorDrawingAreaAndBg (Gdk.Color color)
 	{
 		UtilGtk.PaintColorDrawingArea(drawingarea_background_color, color);
@@ -1234,22 +1201,6 @@ public class PreferencesWindow
 
 	private void on_check_appearance_person_win_hide_toggled (object obj, EventArgs args)
 	{
-		if(check_appearance_person_win_hide.Active)
-		{
-			radio_menu_show_all.Sensitive = false;
-			radio_menu_show_text.Sensitive = false;
-			radio_menu_show_icons.Sensitive = true;
-
-			radio_menu_show_icons.Active = true;
-		} else {
-			radio_menu_show_all.Sensitive = true;
-			radio_menu_show_text.Sensitive = true;
-			radio_menu_show_icons.Sensitive = false;
-
-			if(radio_menu_show_icons.Active)
-				radio_menu_show_all.Active = true;
-		}
-
 		check_appearance_person_photo.Sensitive = ! check_appearance_person_win_hide.Active;
 	}
 
@@ -1786,22 +1737,6 @@ public class PreferencesWindow
 		if( preferences.personPhoto != PreferencesWindowBox.check_appearance_person_photo.Active ) {
 			SqlitePreferences.Update("personPhoto", PreferencesWindowBox.check_appearance_person_photo.Active.ToString(), true);
 			preferences.personPhoto = PreferencesWindowBox.check_appearance_person_photo.Active;
-		}
-
-		if(PreferencesWindowBox.radio_menu_show_all.Active && preferences.menuType != Preferences.MenuTypes.ALL)
-		{
-			SqlitePreferences.Update(SqlitePreferences.MenuType, Preferences.MenuTypes.ALL.ToString(), true);
-			preferences.menuType = Preferences.MenuTypes.ALL;
-		}
-		else if(PreferencesWindowBox.radio_menu_show_text.Active && preferences.menuType != Preferences.MenuTypes.TEXT)
-		{
-			SqlitePreferences.Update(SqlitePreferences.MenuType, Preferences.MenuTypes.TEXT.ToString(), true);
-			preferences.menuType = Preferences.MenuTypes.TEXT;
-		}
-		else if(PreferencesWindowBox.radio_menu_show_icons.Active && preferences.menuType != Preferences.MenuTypes.ICONS)
-		{
-			SqlitePreferences.Update(SqlitePreferences.MenuType, Preferences.MenuTypes.ICONS.ToString(), true);
-			preferences.menuType = Preferences.MenuTypes.ICONS;
 		}
 
 		if(radio_color_chronojump_blue.Active) 

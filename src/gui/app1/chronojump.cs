@@ -875,6 +875,11 @@ public partial class ChronoJumpWindow
 				UtilGtk.ContrastLabelsVBox (Config.ColorBackgroundIsDark, vbox_person_manage_load);
 				UtilGtk.ContrastLabelsVBox (Config.ColorBackgroundIsDark, vbox_persons_bottom_no_photo);
 			}
+
+			Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_no_photo.png");
+			if(Config.ColorBackgroundIsDark)
+				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_no_photo_yellow.png");
+			image_current_person.Pixbuf = pixbuf;
 		}
 
 		if(! Config.UseSystemColor)

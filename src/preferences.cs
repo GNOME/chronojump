@@ -34,8 +34,10 @@ public class Preferences
 	public bool personWinHide;
 	public bool personPhoto;
 	//public string colorBackgroundString = "#0e1e46";
-	public enum MenuTypes { ALL, TEXT, ICONS};
-	public MenuTypes menuType;
+
+	public enum MenuTypes { ALL, TEXT, ICONS}; 	//unused on 2.1.3
+	public MenuTypes menuType;			//unused on 2.1.3
+
 	public string colorBackgroundString; //"" means system color (do not do nothing)
 	public bool colorBackgroundIsDark; //this is assigned when colorBackgroundString changes. And this is used by the rest of the program. Not stored on SQL.
 	public bool colorBackgroundOsColor;

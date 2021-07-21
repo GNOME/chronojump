@@ -52,7 +52,7 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	private void on_button_manage_persons_clicked (object o, EventArgs args)
+	private void on_check_manage_persons_clicked (object o, EventArgs args)
 	{
 		if(vbox_manage_persons.Visible)
 		{

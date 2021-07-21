@@ -2620,6 +2620,8 @@ public partial class ChronoJumpWindow
 	private void on_new_activate (object o, EventArgs args)
 	{
 		LogB.Information("new session");
+
+		menus_and_mode_sensitive (false);
 		app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
 		notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.SESSION);
 		sessionAddEditShow (App1saeModes.ADDSESSION);
@@ -2671,6 +2673,7 @@ public partial class ChronoJumpWindow
 		//serverUniqueID is undefined until session is updated
 		currentSession.ServerUniqueID = Constants.ServerUndefinedID;
 
+		menus_and_mode_sensitive (true);
 		setApp1Title(currentSession.Name, current_menuitem_mode);
 
 		if(createdStatsWin) {
@@ -2693,13 +2696,6 @@ public partial class ChronoJumpWindow
 
 		sensitiveGuiNoPerson();
 		currentPerson = null;
-
-		if( ! configChronojump.PersonWinHide) {
-			alignment_buttons_menu_and_persons.Visible = true;
-			//on_radio_show_persons_clicked (new object (), new EventArgs ());
-			radio_show_persons.Active = true;
-		}
-
 		definedSession = true;
 
 		//for sure, jumpsExists is false, because we create a new session
@@ -2758,6 +2754,7 @@ public partial class ChronoJumpWindow
 	private void on_open_activate (object o, EventArgs args) 
 	{
 		LogB.Information("open session");
+
 		//store which page we are on notebook_sup, except if we clicked on "more" from the session tab
 		if(notebook_sup.CurrentPage != Convert.ToInt32(notebook_sup_pages.SESSION))
 			app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
@@ -2792,18 +2789,8 @@ public partial class ChronoJumpWindow
 		sensitiveGuiNoSession();
 		sensitiveGuiYesSession();
 
-		if( ! configChronojump.PersonWinHide) {
-			alignment_buttons_menu_and_persons.Visible = true;
-			radio_show_menu_and_persons_adjust_height(
-				UtilGtk.ColorIsOkWithLogoTransparent(UtilGtk.ColorParse(
-						preferences.colorBackgroundString)));
-
-			//on_radio_show_persons_clicked (new object (), new EventArgs ());
-			radio_show_persons.Active = true;
-		}
-
 		definedSession = true;
-		
+
 		hbox_persons_bottom_photo.Sensitive = false;
 		hbox_persons_bottom_no_photo.Sensitive = false;
 		LogB.Information("foundPersons: " + foundPersons.ToString());
@@ -2975,13 +2962,6 @@ public partial class ChronoJumpWindow
 		//	languageChange();
 
 		configInitFromPreferences();
-
-		if( ! configChronojump.PersonWinHide && currentSession != null) {
-			alignment_buttons_menu_and_persons.Visible = true;
-			//on_radio_show_persons_clicked (new object (), new EventArgs ());
-			radio_show_persons.Active = true;
-		}
-
 
 		if(repetitiveConditionsWin != null)
 		{
@@ -3635,13 +3615,6 @@ public partial class ChronoJumpWindow
 
 		//show the program
 		notebook_start.CurrentPage = Convert.ToInt32(notebook_start_pages.PROGRAM);
-
-		//show persons
-		if( currentSession != null && ! configChronojump.PersonWinHide) {
-			alignment_buttons_menu_and_persons.Visible = true;
-			//on_radio_show_persons_clicked (new object (), new EventArgs ());
-			radio_show_persons.Active = true;
-		}
 
 		if(m != Constants.Menuitem_modes.POWERGRAVITATORY && m != Constants.Menuitem_modes.POWERINERTIAL)
 		{
@@ -7711,9 +7684,6 @@ LogB.Debug("mc finished 5");
 
 	private void sensitiveGuiNoSession () 
 	{
-		viewport_persons.Visible = false;
-		//treeview_persons.Sensitive = false;
-		
 		//menuitems
 		menuSessionSensitive(false);
 		menuPersonSelectedSensitive(false);
@@ -7753,7 +7723,6 @@ LogB.Debug("mc finished 5");
 	private void sensitiveGuiYesSession () 
 	{
 		button_image_test_zoom.Sensitive = true;
-		viewport_persons.Visible = true;
 		frame_persons.Sensitive = true;
 		button_recuperate_person.Sensitive = true;
 		button_recuperate_persons_from_session.Sensitive = true;

@@ -28,23 +28,13 @@ using System.Collections.Generic; //List
 
 public partial class ChronoJumpWindow
 {
-	[Widget] Gtk.Alignment alignment_buttons_menu_and_persons;
 	[Widget] Gtk.Arrow arrow_menu_show_session_up;
 	[Widget] Gtk.Arrow arrow_menu_show_session_down;
-	[Widget] Gtk.HBox hbox_radio_show_menu_and_persons;
-	[Widget] Gtk.RadioButton radio_show_menu;
-	[Widget] Gtk.RadioButton radio_show_persons;
 	[Widget] Gtk.HPaned hpaned_contacts_main;
-	[Widget] Gtk.Alignment alignment_viewport_menu_top;
 	[Widget] Gtk.Viewport viewport_send_log;
 	[Widget] Gtk.Viewport viewport_exit_confirm;
 	[Widget] Gtk.Viewport viewport_social_network_poll;
 	[Widget] Gtk.Viewport viewport_start_modes;
-	[Widget] Gtk.Viewport viewport_menu_top;
-	[Widget] Gtk.Viewport viewport_menu;
-	[Widget] Gtk.Viewport viewport_persons;
-	[Widget] Gtk.EventBox eventbox_radio_show_menu;
-	[Widget] Gtk.EventBox eventbox_radio_show_persons;
 	[Widget] Gtk.EventBox eventbox_check_menu_session;
 	[Widget] Gtk.EventBox eventbox_button_menu_session_new;
 	[Widget] Gtk.EventBox eventbox_button_menu_session_load;
@@ -82,8 +72,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_session_export_csv1;
 
 	//menu icons
-	[Widget] Gtk.Image image_radio_show_menu;
-	[Widget] Gtk.Image image_radio_show_persons;
 	[Widget] Gtk.Image image_menu_folders;
 	[Widget] Gtk.Image image_session_new3;
 	[Widget] Gtk.Image image_session_load2;
@@ -107,13 +95,12 @@ public partial class ChronoJumpWindow
 
 	private void menus_and_mode_sensitive(bool sensitive)
 	{
-		alignment_buttons_menu_and_persons.Sensitive = sensitive;
-		viewport_menu.Sensitive = sensitive;
-		vbox_menu_tiny_menu.Sensitive = sensitive;
+		LogB.Information("menus_and_mode_sensitive: " + sensitive.ToString());
 
-		//button_show_modes_contacts.Sensitive = sensitive;
+		vbox_menu_tiny_menu.Sensitive = sensitive;
+		alignment_session_persons.Sensitive = sensitive;
+
 		hbox_change_modes_contacts.Sensitive = sensitive;
-		//button_show_modes_encoder.Sensitive = sensitive;
 		hbox_change_modes_encoder.Sensitive = sensitive;
 	}
 
@@ -186,12 +173,12 @@ public partial class ChronoJumpWindow
 		LogB.Information(string.Format("hbox_rest_time: {0}", hbox_rest_time.SizeRequest().Width));
 		*/
 
-		if(viewport_persons.SizeRequest().Width +4 +6 > maxWidth)
-			maxWidth = viewport_persons.SizeRequest().Width +4 + 6; //+4 due to alignment_person, +6 to alignment_viewport_menu_top
+//		if(viewport_persons.SizeRequest().Width +4 +6 > maxWidth)
+//			maxWidth = viewport_persons.SizeRequest().Width +4 + 6; //+4 due to alignment_person, +6 to alignment_viewport_menu_top
 		//if(frame_persons.SizeRequest().Width > maxWidth)
 		//	maxWidth = frame_persons.SizeRequest().Width;
 
-		viewport_menu_top.SetSizeRequest(maxWidth, -1); //-1 is height
+//		viewport_menu_top.SetSizeRequest(maxWidth, -1); //-1 is height
 
 		if(! Config.UseSystemColor && UtilGtk.ColorIsOkWithLogoTransparent (UtilGtk.ColorParse(preferences.colorBackgroundString)))
 		{
@@ -199,16 +186,18 @@ public partial class ChronoJumpWindow
 			image_logo_contacts_transp.Visible = true;
 			image_logo_encoder.Visible = false;
 			image_logo_encoder_transp.Visible = true;
-			radio_show_menu_and_persons_adjust_height(true);
+//			radio_show_menu_and_persons_adjust_height(true);
 		} else {
 			image_logo_contacts.Visible = true;
 			image_logo_contacts_transp.Visible = false;
 			image_logo_encoder.Visible = true;
 			image_logo_encoder_transp.Visible = false;
-			radio_show_menu_and_persons_adjust_height(false);
+//			radio_show_menu_and_persons_adjust_height(false);
 		}
 	}
 
+	/*
+	   unused on 2.1.3 but maybe use it for menu session
 	private void radio_show_menu_and_persons_adjust_height(bool toTransparentImage)
 	{
 		if(toTransparentImage)
@@ -218,6 +207,7 @@ public partial class ChronoJumpWindow
 			hbox_radio_show_menu_and_persons.SetSizeRequest
 				(-1, image_logo_contacts.SizeRequest().Height);
 	}
+	*/
 
 	private void menuSetTextAndIcons ()
 	{
@@ -249,17 +239,8 @@ public partial class ChronoJumpWindow
 			UtilGtk.ViewportColor(viewport_send_log, color);
 			UtilGtk.ViewportColor(viewport_exit_confirm, color);
 			UtilGtk.ViewportColor(viewport_social_network_poll, color);
-			UtilGtk.ViewportColor(viewport_menu_top, color);
-			UtilGtk.ViewportColor(viewport_menu, color);
 		}
 
-		//UtilGtk.ViewportColor(viewport_menu, UtilGtk.BLUE_CLEAR2);
-		//UtilGtk.ViewportColor(viewport_menu, UtilGtk.YELLOW);
-		//UtilGtk.ViewportColor(viewport_menu, UtilGtk.GRAY_LIGHT);
-		//UtilGtk.ViewportColor(viewport_persons, UtilGtk.BLUE_CLEAR2);
-
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_show_menu, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_radio_show_persons, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_menu_session, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_preferences, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_help, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
@@ -275,17 +256,6 @@ public partial class ChronoJumpWindow
 	{
 		a_up.Visible = selected;
 		a_down.Visible = ! selected;
-	}
-
-	private void on_radio_show_menu_toggled (object o, EventArgs args)
-	{
-		viewport_menu.Visible = true;
-		viewport_persons.Visible = false;
-	}
-	private void on_radio_show_persons_toggled (object o, EventArgs args)
-	{
-		viewport_menu.Visible = false;
-		viewport_persons.Visible = (currentSession != null);
 	}
 
 	private void on_check_menu_session_clicked (object o, EventArgs args)

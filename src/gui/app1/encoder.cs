@@ -4130,7 +4130,7 @@ public partial class ChronoJumpWindow
 		frame_encoder_analyze_options.Visible = ! s;
 
 		table_encoder_analyze_options.Sensitive = s;
-		viewport_persons.Sensitive = s;
+		frame_persons.Sensitive = s;
 		menus_and_mode_sensitive(s);
 		hbox_encoder_sup_capture_analyze_two_buttons.Sensitive = s;
 		hbox_top_person_encoder.Sensitive = s;
@@ -5120,7 +5120,7 @@ public partial class ChronoJumpWindow
 
 		menus_and_mode_sensitive(! show);
 		hbox_encoder_sup_capture_analyze.Sensitive = ! show;
-		viewport_persons.Sensitive = ! show;
+		frame_persons.Sensitive = ! show;
 		hbox_encoder_configuration.Sensitive = ! show;
 		hbox_encoder_capture_top.Sensitive = ! show;
 		vpaned_encoder_capture_video_and_set_graph.Sensitive = ! show;

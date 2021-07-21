@@ -718,9 +718,6 @@ public partial class ChronoJumpWindow
 		app1s_notebook.CurrentPage = app1s_PAGE_MODES;
 
 		reloadSession(); //explained at top of the file.
-		//but after reloading session do not show persons, show menu:
-		radio_show_menu.Toggle();
-		radio_show_menu.Active = true;
 
 		//to not allow to load a session or create a new session until close session/more
 		menus_sensitive_import_not_danger(false);

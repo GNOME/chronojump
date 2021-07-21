@@ -498,6 +498,7 @@ RESOURCES = \
 	../images/md/ic_developer_board_blue_24dp_1x.png,image_chronopic_connect.png \
 	../images/md/ic_developer_board_blue_24dp_2x.png,image_chronopic_connect_big.png \
 	../images/md/ic_person_blue_24dp_1x.png,image_person.png \
+	../images/md/ic_person_yellow_24dp_1x.png,image_person_yellow.png \
 	../images/md/ic_person_logout_blue_24dp_1x.png,image_person_logout.png \
 	../images/md/ic_photo_camera_blue_24dp_2x.png,image_no_photo.png \
 	../images/md/ic_photo_camera_yellow_24dp_2x.png,image_no_photo_yellow.png \
@@ -578,6 +579,7 @@ RESOURCES = \
 	../images/md/more_horiz_blue_24dp.png,image_more_horiz.png \
 	../images/md/about.png,image_about.png \
 	../images/md/folders_blue.png,image_folders.png \
+	../images/md/folders_yellow.png,image_folders_yellow.png \
 	../images/md/folders_backup_blue.png,image_db_backup.png \
 	../images/md/help_blue_24dp.png,image_help.png \
 	../images/md/store_blue_24dp.png,image_store_blue.png \

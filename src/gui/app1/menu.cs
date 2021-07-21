@@ -62,8 +62,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_menu_guiTest;
 
 	//just to manage width
-	[Widget] Gtk.HButtonBox hbuttonbox_person_admin_create;
-	[Widget] Gtk.HButtonBox hbuttonbox_person_admin_load;
+	[Widget] Gtk.VBox vbox_person_manage_create;
+	[Widget] Gtk.VBox vbox_person_manage_load;
 
 	[Widget] Gtk.Image image_session_import;
 	[Widget] Gtk.Image image_session_export;
@@ -154,8 +154,8 @@ public partial class ChronoJumpWindow
 		l.Add(button_menu_help_shortcuts.SizeRequest().Width + 16);
 		l.Add(button_menu_help_about.SizeRequest().Width + 16);
 
-		l.Add(hbuttonbox_person_admin_create.SizeRequest().Width);
-		l.Add(hbuttonbox_person_admin_load.SizeRequest().Width);
+		l.Add(vbox_person_manage_create.SizeRequest().Width);
+		l.Add(vbox_person_manage_load.SizeRequest().Width);
 
 		int maxWidth = getMenuButtonsMaxWidth(l) + 4 + 6; //4, 6 are alignments spaces.
 

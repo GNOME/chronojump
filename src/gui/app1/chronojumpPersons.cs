@@ -68,7 +68,7 @@ public partial class ChronoJumpWindow
 	private void showPersonPhoto (bool showPhoto)
 	{
 		hbox_persons_bottom_photo.Visible = showPhoto;
-		hbox_persons_bottom_no_photo.Visible = ! showPhoto;
+		vbox_persons_bottom_no_photo.Visible = ! showPhoto;
 	}
 
 	private void label_person_change()

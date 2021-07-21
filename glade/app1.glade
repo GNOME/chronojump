@@ -1704,7 +1704,7 @@
                                                             <child>
                                                             <widget class="GtkVBox" id="vbox_manage_persons">
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">10</property>
+                                                            <property name="spacing">6</property>
                                                             <child>
                                                             <widget class="GtkVBox" id="vbox_person_manage_create">
                                                             <property name="visible">True</property>
@@ -1723,6 +1723,11 @@
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
+                                                            <child>
+                                                            <widget class="GtkAlignment" id="alignment52">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="left_padding">4</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox535">
                                                             <property name="visible">True</property>
@@ -1801,6 +1806,8 @@
                                                             </packing>
                                                             </child>
                                                             </widget>
+                                                            </child>
+                                                            </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
@@ -1832,6 +1839,11 @@
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
+                                                            <child>
+                                                            <widget class="GtkAlignment" id="alignment85">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="left_padding">4</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox537">
                                                             <property name="visible">True</property>
@@ -1910,6 +1922,8 @@
                                                             </packing>
                                                             </child>
                                                             </widget>
+                                                            </child>
+                                                            </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
@@ -1923,6 +1937,28 @@
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
+                                                            <child>
+                                                            <widget class="GtkVBox" id="vbox_persons_bottom_no_photo">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label131">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label" translatable="yes">Current person</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkAlignment" id="alignment87">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="left_padding">4</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox_persons_bottom_no_photo">
                                                             <property name="visible">True</property>
@@ -1949,7 +1985,7 @@
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
+                                                            <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">0</property>
                                                             </packing>
@@ -1998,7 +2034,7 @@
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
+                                                            <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">2</property>
                                                             </packing>
@@ -2024,7 +2060,17 @@
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
                                                             <property name="position">3</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             </widget>

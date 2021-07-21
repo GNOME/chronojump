@@ -321,6 +321,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Frame frame_persons_top;
 	[Widget] Gtk.VBox vbox_persons_bottom;
 	[Widget] Gtk.HBox hbox_persons_bottom_photo;
+	[Widget] Gtk.VBox vbox_persons_bottom_no_photo;
 	[Widget] Gtk.HBox hbox_persons_bottom_no_photo;
 	[Widget] Gtk.Button button_recuperate_person;
 	[Widget] Gtk.Button button_recuperate_persons_from_session;
@@ -2701,7 +2702,7 @@ public partial class ChronoJumpWindow
 		//for sure, jumpsExists is false, because we create a new session
 
 		hbox_persons_bottom_photo.Sensitive = false;
-		hbox_persons_bottom_no_photo.Sensitive = false;
+		vbox_persons_bottom_no_photo.Sensitive = false;
 		label_top_person_name.Text = "";
 		label_top_encoder_person_name.Text = "";
 
@@ -2792,7 +2793,7 @@ public partial class ChronoJumpWindow
 		definedSession = true;
 
 		hbox_persons_bottom_photo.Sensitive = false;
-		hbox_persons_bottom_no_photo.Sensitive = false;
+		vbox_persons_bottom_no_photo.Sensitive = false;
 		LogB.Information("foundPersons: " + foundPersons.ToString());
 		//if there are persons
 		if(foundPersons) {
@@ -7679,7 +7680,7 @@ LogB.Debug("mc finished 5");
 		}
 
 		hbox_persons_bottom_photo.Sensitive = option;
-		hbox_persons_bottom_no_photo.Sensitive = option;
+		vbox_persons_bottom_no_photo.Sensitive = option;
 	}
 
 	private void sensitiveGuiNoSession () 
@@ -7695,7 +7696,7 @@ LogB.Debug("mc finished 5");
 		button_person_add_single.Sensitive = false;
 		button_person_add_multiple.Sensitive = false;
 		hbox_persons_bottom_photo.Sensitive = false;
-		hbox_persons_bottom_no_photo.Sensitive = false;
+		vbox_persons_bottom_no_photo.Sensitive = false;
 	
 		button_contacts_person_change.Sensitive = false;
 		button_encoder_person_change.Sensitive = false;

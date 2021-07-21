@@ -1746,6 +1746,10 @@
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_person_add_single_from_main_gui" swapped="no"/>
                                                             <child>
+                                                            <widget class="GtkEventBox" id="eventbox_person_add_single">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
                                                             <widget class="GtkHBox" id="hbox536">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -1777,6 +1781,8 @@
                                                             </widget>
                                                             </child>
                                                             </widget>
+                                                            </child>
+                                                            </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
@@ -1794,10 +1800,16 @@
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_person_add_multiple_from_main_gui" swapped="no"/>
                                                             <child>
+                                                            <widget class="GtkEventBox" id="eventbox_person_add_multiple">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
                                                             <widget class="GtkImage" id="image_persons_new_plus">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            </child>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -1862,6 +1874,10 @@
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_recuperate_person_from_main_gui" swapped="no"/>
                                                             <child>
+                                                            <widget class="GtkEventBox" id="eventbox_recuperate_person">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
                                                             <widget class="GtkHBox" id="hbox538">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -1893,6 +1909,8 @@
                                                             </widget>
                                                             </child>
                                                             </widget>
+                                                            </child>
+                                                            </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
@@ -1910,10 +1928,16 @@
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_recuperate_persons_from_session_at_main_gui" swapped="no"/>
                                                             <child>
+                                                            <widget class="GtkEventBox" id="eventbox_recuperate_persons_from_other_session">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
                                                             <widget class="GtkImage" id="image_persons_open_plus">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-open</property>
+                                                            </widget>
+                                                            </child>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -1979,11 +2003,17 @@
                                                             <signal name="clicked" handler="on_button_image_current_person_zoom_clicked" swapped="no"/>
                                                             <accelerator key="p" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
+                                                            <widget class="GtkEventBox" id="eventbox_current_person_zoom_h">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
                                                             <widget class="GtkImage" id="image_current_person_zoom_h">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
                                                             <property name="icon-size">2</property>
+                                                            </widget>
+                                                            </child>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -2004,11 +2034,17 @@
                                                             <signal name="clicked" handler="on_edit_current_person_clicked_from_main_gui" swapped="no"/>
                                                             <accelerator key="p" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
+                                                            <widget class="GtkEventBox" id="eventbox_edit_current_person_h">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
                                                             <widget class="GtkImage" id="image_edit_current_person_h">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
                                                             <property name="icon-size">2</property>
+                                                            </widget>
+                                                            </child>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -2028,11 +2064,17 @@
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_show_all_person_events_activate" swapped="no"/>
                                                             <child>
+                                                            <widget class="GtkEventBox" id="eventbox_show_all_person_events_h">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
                                                             <widget class="GtkImage" id="image_all_persons_events_h">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
                                                             <property name="icon-size">2</property>
+                                                            </widget>
+                                                            </child>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -2053,10 +2095,16 @@
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_delete_current_person_from_session_clicked" swapped="no"/>
                                                             <child>
+                                                            <widget class="GtkEventBox" id="eventbox_delete_current_person_h">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
                                                             <widget class="GtkImage" id="image_person_delete_h">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="icon-size">2</property>
+                                                            </widget>
+                                                            </child>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -2165,6 +2213,7 @@
                                                           <widget class="GtkVBox" id="vbox172">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <property name="spacing">2</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_image_current_person_zoom">
                                                             <property name="visible">True</property>
@@ -2177,11 +2226,17 @@
                                                             <signal name="clicked" handler="on_button_image_current_person_zoom_clicked" swapped="no"/>
                                                             <accelerator key="p" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
+                                                            <widget class="GtkEventBox" id="eventbox_current_person_zoom">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
                                                             <widget class="GtkImage" id="image_current_person_zoom">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
                                                             <property name="icon-size">2</property>
+                                                            </widget>
+                                                            </child>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -2202,11 +2257,17 @@
                                                             <signal name="clicked" handler="on_edit_current_person_clicked_from_main_gui" swapped="no"/>
                                                             <accelerator key="p" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
+                                                            <widget class="GtkEventBox" id="eventbox_edit_current_person">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
                                                             <widget class="GtkImage" id="image_edit_current_person">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
                                                             <property name="icon-size">2</property>
+                                                            </widget>
+                                                            </child>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -2226,11 +2287,17 @@
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_show_all_person_events_activate" swapped="no"/>
                                                             <child>
+                                                            <widget class="GtkEventBox" id="eventbox_show_all_person_events">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
                                                             <widget class="GtkImage" id="image_all_persons_events">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
                                                             <property name="icon-size">2</property>
+                                                            </widget>
+                                                            </child>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -2251,10 +2318,16 @@
                                                             <property name="relief">half</property>
                                                             <signal name="clicked" handler="on_delete_current_person_from_session_clicked" swapped="no"/>
                                                             <child>
+                                                            <widget class="GtkEventBox" id="eventbox_delete_current_person">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
                                                             <widget class="GtkImage" id="image_person_delete">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="icon-size">2</property>
+                                                            </widget>
+                                                            </child>
                                                             </widget>
                                                             </child>
                                                             </widget>

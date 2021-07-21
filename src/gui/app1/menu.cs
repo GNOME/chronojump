@@ -56,6 +56,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox eventbox_edit_current_person;
 	[Widget] Gtk.EventBox eventbox_show_all_person_events;
 	[Widget] Gtk.EventBox eventbox_delete_current_person;
+	[Widget] Gtk.Label label_current_session;
+	[Widget] Gtk.Label label_current_person;
 
 	[Widget] Gtk.CheckButton check_menu_session;
 	[Widget] Gtk.Button button_menu_help;
@@ -63,6 +65,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.VBox vbox_menu_session;
 	[Widget] Gtk.Alignment alignment_menu_session_options;
 	[Widget] Gtk.Alignment alignment_menu_person_options;
+	[Widget] Gtk.Label label_session_at_frame_session;
 	[Widget] Gtk.Label label_persons_at_frame_persons;
 
 	[Widget] Gtk.Button button_menu_session_new;
@@ -92,6 +95,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_session_more;
 	[Widget] Gtk.Image image_session_edit2;
 	[Widget] Gtk.Image image_menu_preferences;
+	[Widget] Gtk.Image image_menu_preferences2;
+	[Widget] Gtk.Image image_menu_preferences3;
 	[Widget] Gtk.Image image_menu_help;
 	[Widget] Gtk.Image image_menu_help_documents;
 	[Widget] Gtk.Image image_menu_help_shortcuts;

@@ -35,7 +35,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.VBox vbox_manage_persons;
 	[Widget] Gtk.Arrow arrow_manage_persons_up;
 	[Widget] Gtk.Arrow arrow_manage_persons_down;
-	[Widget] Gtk.Label label_current_person;
 
 	private void showPersonsOnTop (bool onTop)
 	{

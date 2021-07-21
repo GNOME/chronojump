@@ -870,13 +870,26 @@ public partial class ChronoJumpWindow
 		} else {
 			if(! Config.UseSystemColor)
 			{
+				UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_session_at_frame_session);
+				UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_current_session);
 				UtilGtk.ContrastLabelsLabel (Config.ColorBackgroundIsDark, label_persons_at_frame_persons);
 				UtilGtk.ContrastLabelsVBox (Config.ColorBackgroundIsDark, vbox_person_manage_create);
 				UtilGtk.ContrastLabelsVBox (Config.ColorBackgroundIsDark, vbox_person_manage_load);
 				UtilGtk.ContrastLabelsVBox (Config.ColorBackgroundIsDark, vbox_persons_bottom_no_photo);
 			}
 
-			Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_no_photo.png");
+			Pixbuf pixbuf;
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_folders.png");
+			if(Config.ColorBackgroundIsDark)
+				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_folders_yellow.png");
+			image_menu_folders.Pixbuf = pixbuf;
+
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person.png");
+			if(Config.ColorBackgroundIsDark)
+				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_yellow.png");
+			image_person2.Pixbuf = pixbuf;
+
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_no_photo.png");
 			if(Config.ColorBackgroundIsDark)
 				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_no_photo_yellow.png");
 			image_current_person.Pixbuf = pixbuf;
@@ -2647,8 +2660,11 @@ public partial class ChronoJumpWindow
 	{
 		string title = progName;
 
-		if(sessionName != "")
+		if(sessionName != "") {
 			title += " - " + sessionName;
+			label_current_session.Text = sessionName;
+			label_current_session.TooltipText = sessionName;
+		}
 
 		if(mode != Constants.Menuitem_modes.UNDEFINED)
 		{

@@ -452,7 +452,9 @@ public partial class ChronoJumpWindow
 			//hbox_menu_and_preferences_outside_menu_encoder.Visible = true;
 
 			//hide session controls on UNIQUE and MONTHLY
-			vbox_menu_session.Visible = false;
+			vbuttonbox_menu_session.Visible = false;
+			check_menu_session.Visible = false;
+
 			vbox_menu_session1.Visible = false;
 
 

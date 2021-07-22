@@ -62,8 +62,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.CheckButton check_menu_session;
 	[Widget] Gtk.Button button_menu_help;
 	[Widget] Gtk.Button button_menu_news;
-	[Widget] Gtk.VBox vbox_menu_session;
-	[Widget] Gtk.Alignment alignment_menu_session_options;
+	[Widget] Gtk.VButtonBox vbuttonbox_menu_session;
 	[Widget] Gtk.Alignment alignment_menu_person_options;
 	[Widget] Gtk.Label label_session_at_frame_session;
 	[Widget] Gtk.Label label_persons_at_frame_persons;
@@ -275,14 +274,10 @@ public partial class ChronoJumpWindow
 	private void on_check_menu_session_clicked (object o, EventArgs args)
 	{
 		menuShowVerticalArrow (check_menu_session.Active, arrow_menu_show_session_up, arrow_menu_show_session_down);
-/*
 		if(check_menu_session.Active)
-		{
-			alignment_menu_session_options.Visible = true;
-			alignment_menu_session_options.Show();
-		} else
-			alignment_menu_session_options.Visible = false;
-*/
+			vbuttonbox_menu_session.Visible = true;
+		else
+			vbuttonbox_menu_session.Visible = false;
 	}
 
 	private void on_button_menu_help_clicked (object o, EventArgs args)

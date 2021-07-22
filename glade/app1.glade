@@ -823,7 +823,6 @@
                                               <widget class="GtkVBox" id="vbox_persons">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="spacing">4</property>
                                                 <child>
                                                   <widget class="GtkHBox" id="hbox91">
                                                     <property name="visible">True</property>
@@ -2212,6 +2211,7 @@
                                                   <packing>
                                                     <property name="expand">False</property>
                                                     <property name="fill">False</property>
+                                                    <property name="padding">2</property>
                                                     <property name="position">2</property>
                                                   </packing>
                                                 </child>
@@ -2235,6 +2235,7 @@
                                                   <packing>
                                                     <property name="expand">True</property>
                                                     <property name="fill">True</property>
+                                                    <property name="padding">2</property>
                                                     <property name="position">3</property>
                                                   </packing>
                                                 </child>

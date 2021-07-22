@@ -2351,7 +2351,7 @@ class Sqlite
 			{
 				LogB.SQL("Added preferences: personPhoto");
 
-				SqlitePreferences.Insert ("personPhoto", "True");
+				SqlitePreferences.Insert ("personPhoto", "False");
 
 				currentVersion = updateVersion("1.55");
 			}

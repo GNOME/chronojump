@@ -167,7 +167,7 @@ class SqlitePreferences : Sqlite
 				//appearance
 				Insert ("maximized", Preferences.MaximizedTypes.NO.ToString(), dbcmdTr);
 				Insert ("personWinHide", "False", dbcmdTr);
-				Insert ("personPhoto", "True", dbcmdTr);
+				Insert ("personPhoto", "False", dbcmdTr);
 				Insert (PersonSelectWinImages, "True", dbcmdTr);
 				Insert (MenuType, Preferences.MenuTypes.ALL.ToString(), dbcmdTr);
 

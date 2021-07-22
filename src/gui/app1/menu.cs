@@ -304,6 +304,11 @@ public partial class ChronoJumpWindow
 			} else
 				vbox_manage_persons.Visible = false;
 		}
+
+		//hide the person photo if anything is unfolded
+		if(preferences.personPhoto)
+			vbox_persons_bottom.Visible =
+				(! check_menu_session.Active && ! check_manage_persons.Active);
 	}
 
 	private void on_button_menu_help_clicked (object o, EventArgs args)

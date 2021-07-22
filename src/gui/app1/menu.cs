@@ -60,6 +60,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_current_person;
 
 	[Widget] Gtk.CheckButton check_menu_session;
+	[Widget] Gtk.CheckButton check_manage_persons;
 	[Widget] Gtk.Button button_menu_help;
 	[Widget] Gtk.Button button_menu_news;
 	[Widget] Gtk.VButtonBox vbuttonbox_menu_session;
@@ -271,13 +272,38 @@ public partial class ChronoJumpWindow
 		a_down.Visible = ! selected;
 	}
 
-	private void on_check_menu_session_clicked (object o, EventArgs args)
+	private void on_check_menu_session_or_persons_clicked (object o, EventArgs args)
 	{
-		menuShowVerticalArrow (check_menu_session.Active, arrow_menu_show_session_up, arrow_menu_show_session_down);
-		if(check_menu_session.Active)
-			vbuttonbox_menu_session.Visible = true;
-		else
-			vbuttonbox_menu_session.Visible = false;
+		/*
+		   if one checkbutton unfolds, the other should get folded.
+		   do not need to care for circular calls, because it sets the other as false
+		   */
+
+		if(o == (object) check_menu_session)
+		{
+			menuShowVerticalArrow (check_menu_session.Active, arrow_menu_show_session_up, arrow_menu_show_session_down);
+			if(check_menu_session.Active)
+			{
+				vbuttonbox_menu_session.Visible = true;
+
+				if(check_manage_persons.Active)
+					check_manage_persons.Active = false; //changing the other checkbutton
+			}
+			else
+				vbuttonbox_menu_session.Visible = false;
+		}
+		else if(o == (object) check_manage_persons)
+		{
+			menuShowVerticalArrow (check_manage_persons.Active, arrow_manage_persons_up, arrow_manage_persons_down);
+			if(check_manage_persons.Active)
+			{
+				vbox_manage_persons.Visible = true;
+
+				if(check_menu_session.Active)
+					check_menu_session.Active = false; //changing the other checkbutton
+			} else
+				vbox_manage_persons.Visible = false;
+		}
 	}
 
 	private void on_button_menu_help_clicked (object o, EventArgs args)

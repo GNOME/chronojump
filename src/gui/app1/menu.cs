@@ -275,12 +275,14 @@ public partial class ChronoJumpWindow
 	private void on_check_menu_session_clicked (object o, EventArgs args)
 	{
 		menuShowVerticalArrow (check_menu_session.Active, arrow_menu_show_session_up, arrow_menu_show_session_down);
+/*
 		if(check_menu_session.Active)
 		{
 			alignment_menu_session_options.Visible = true;
 			alignment_menu_session_options.Show();
 		} else
 			alignment_menu_session_options.Visible = false;
+*/
 	}
 
 	private void on_button_menu_help_clicked (object o, EventArgs args)

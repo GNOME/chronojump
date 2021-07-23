@@ -927,10 +927,16 @@
                                                             <signal name="clicked" handler="on_treeview_persons_up" swapped="no"/>
                                                             <accelerator key="Up" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
+                                                            <widget class="GtkEventBox" id="eventbox_persons_up">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
                                                             <widget class="GtkArrow" id="arrow_up1">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="arrow_type">up</property>
+                                                            </widget>
+                                                            </child>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -952,10 +958,16 @@
                                                             <signal name="clicked" handler="on_treeview_persons_down" swapped="no"/>
                                                             <accelerator key="Down" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
+                                                            <widget class="GtkEventBox" id="eventbox_persons_down">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
                                                             <widget class="GtkArrow" id="arrow_down1">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="arrow_type">down</property>
+                                                            </widget>
+                                                            </child>
                                                             </widget>
                                                             </child>
                                                             </widget>

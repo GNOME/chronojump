@@ -44,6 +44,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox eventbox_button_menu_news;
 	[Widget] Gtk.EventBox eventbox_button_menu_exit;
 	[Widget] Gtk.EventBox eventbox_check_manage_persons;
+	[Widget] Gtk.EventBox eventbox_persons_up;
+	[Widget] Gtk.EventBox eventbox_persons_down;
 	[Widget] Gtk.EventBox eventbox_person_add_single;
 	[Widget] Gtk.EventBox eventbox_person_add_multiple;
 	[Widget] Gtk.EventBox eventbox_recuperate_person;
@@ -269,6 +271,8 @@ public partial class ChronoJumpWindow
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_news, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_button_menu_exit, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_check_manage_persons, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_persons_up, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_persons_down, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_person_add_single, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_person_add_multiple, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_recuperate_person, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);

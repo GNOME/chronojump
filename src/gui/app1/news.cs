@@ -43,6 +43,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_news_description_and_link;
 	[Widget] Gtk.Label label_news_open_error;
         [Widget] Gtk.Image image_news;
+        [Widget] Gtk.Image image_news_close;
+	[Widget] Gtk.Alignment alignment_above_news; //to align vertically with sidebar
+	[Widget] Gtk.HBox hbox_news_languages; //to align vertically with sidebar
 
 	Pixbuf image_news_pixbuf;
 	private int currentNewsPos;
@@ -161,6 +164,17 @@ public partial class ChronoJumpWindow
 
 		// 3) show the news tab
 		notebook_news.Page = 1;
+
+		//align with sidebar
+		if(preferences.personWinHide)
+			alignment_above_news.TopPadding = (uint) (alignment_menu_tiny.TopPadding
+					- hbox_news_languages.SizeRequest().Height
+					-1); //alignment_news_languages.BottomPadding
+		else
+			alignment_above_news.TopPadding = (uint) (alignment_session_persons.TopPadding
+					+ hbox_above_frame_session.SizeRequest().Height
+					- hbox_news_languages.SizeRequest().Height
+					-1); //alignment_news_languages.BottomPadding
 	}
 
 	private void news_setup_gui(int currentPos)

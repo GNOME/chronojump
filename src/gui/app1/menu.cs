@@ -104,6 +104,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_menu_news;
 	[Widget] Gtk.Image image_menu_quit;
 
+	//for vertical align
+	[Widget] Gtk.HBox hbox_above_frame_session;
+	[Widget] Gtk.Alignment alignment_vbox_session_load_or_import_select;
+
 	private void initialize_menu_or_menu_tiny()
 	{
 		if(preferences.personWinHide)
@@ -212,6 +216,19 @@ public partial class ChronoJumpWindow
 			image_logo_encoder_transp.Visible = false;
 //			radio_show_menu_and_persons_adjust_height(false);
 		}
+
+		GLib.Timeout.Add(200, new GLib.TimeoutHandler(menuTopAlign));
+	}
+
+	private bool menuTopAlign()
+	{
+		uint alignTop = (uint) (notebook_capture_analyze.Allocation.Y
+				-hbox_above_frame_session.SizeRequest().Height);
+
+		alignment_session_persons.TopPadding = alignTop;
+		alignment_vbox_session_load_or_import_select.TopPadding = alignTop;
+
+		return false;
 	}
 
 	/*

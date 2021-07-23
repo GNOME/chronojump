@@ -528,6 +528,7 @@ public partial class ChronoJumpWindow
 		image_encoder_analyze_mode_options_close.Pixbuf = pixbuf;
 		image_force_sensor_capture_adjust_close.Pixbuf = pixbuf;
 		app1s_image_button_close.Pixbuf = pixbuf;
+		image_news_close.Pixbuf = pixbuf;
 
 
 		/*

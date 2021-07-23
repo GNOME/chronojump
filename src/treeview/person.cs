@@ -202,6 +202,19 @@ public class TreeViewPersons
 		return found;
 	}
 
+	//to scroll when elements of gui are resized changed, like the sidebar session/persons shrink
+	public void ScrollToSelectedRow ()
+	{
+		TreeIter iter;
+		Gtk.TreeModel model = treeview.Model;
+
+		if (! treeview.Selection.GetSelected (out model, out iter))
+			return;
+
+		TreePath path = store.GetPath (iter);
+		treeview.ScrollToCell (path, null, true, 0, 0);
+	}
+
 	public void SelectRowByUniqueID(int personID)
 	{
 		SelectRow(FindRow(personID));

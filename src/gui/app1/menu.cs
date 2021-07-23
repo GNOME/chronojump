@@ -326,6 +326,18 @@ public partial class ChronoJumpWindow
 		if(preferences.personPhoto)
 			vbox_persons_bottom.Visible =
 				(! check_menu_session.Active && ! check_manage_persons.Active);
+
+		//scroll it, but wait a bit before to be all the things at place
+		if(myTreeViewPersons != null)
+			GLib.Timeout.Add(50, new GLib.TimeoutHandler(scrollTreeviewPersons));
+	}
+
+	private bool scrollTreeviewPersons ()
+	{
+		if(myTreeViewPersons != null) 		//extra check
+			myTreeViewPersons.ScrollToSelectedRow ();
+
+		return false;
 	}
 
 	private void on_button_menu_help_clicked (object o, EventArgs args)

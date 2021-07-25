@@ -1591,7 +1591,7 @@ msgstr "Cercar el millor inici/final dins el rang AB"
 
 #: ../glade/app1.glade.h:332
 msgid "Strictly use A for start and B for end"
-msgstr "Usar estrictament A per l'inici i B per el final"
+msgstr "Usar estrictament A per a l'inici i B per al final"
 
 #: ../glade/app1.glade.h:333
 msgid "Length of analysis:"
@@ -6601,7 +6601,7 @@ msgstr "Seleccioni la sèrie de l'atleta {0} d'aquesta sessió."
 #: ../src/gui/app1/runEncoder.cs:842
 msgid "If you want to edit or delete a row, right click on it."
 msgstr ""
-"Si voleu editar o esborrar una filera, feu clic amb el botó dret sobra "
+"Si voleu editar o esborrar una filera, feu clic amb el botó dret sobre "
 "aquesta."
 
 #. genericWin.SetComboLabel(Catalog.GetString("Change the owner of selected set") +
@@ -7802,7 +7802,7 @@ msgstr "Aquests valors s'usaran per a la detecció de repeticions."
 
 #: ../src/gui/forceSensorExercise.cs:409
 msgid "Detected repetitions will show only concentric phase or both."
-msgstr "Les repeticions detectades mostraran la fase concènctrica o ambdues."
+msgstr "Les repeticions detectades mostraran la fase concèntrica o ambdues."
 
 #. if(o == Options.OTHER)
 #: ../src/gui/forceSensorExercise.cs:411
@@ -8563,7 +8563,7 @@ msgid ""
 "multipliers)."
 msgstr ""
 "La massa equivalent té en compte les diferents configuracions d'una màquina "
-"inercial (diàmetres, momènt d'inèrcia, pesos addicionals i multiplicadors de "
+"inercial (diàmetres, moment d'inèrcia, pesos addicionals i multiplicadors de "
 "força)."
 
 #: ../src/gui/preferences.cs:1702

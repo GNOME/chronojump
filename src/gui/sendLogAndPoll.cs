@@ -43,6 +43,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_button_send_log;
 	[Widget] Gtk.Image image_button_check_last_version;
 	[Widget] Gtk.Image image_button_open_chronojump;
+	[Widget] Gtk.Image image_button_open_chronojump1;
 	[Widget] Gtk.TextView textview_send_log_message;
 
 	//--- send poll ----
@@ -60,6 +61,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Entry entry_social_network_poll_other;
 	[Widget] Gtk.Notebook notebook_social_network_poll_send_result;
 	[Widget] Gtk.Button button_social_network_poll_send;
+	[Widget] Gtk.Image image_button_social_network_poll_send;
 	[Widget] Gtk.Image image_social_network_poll_send_yes;
 	[Widget] Gtk.Image image_social_network_poll_send_no;
 	[Widget] Gtk.Label label_social_network_poll_message;
@@ -178,6 +180,8 @@ public partial class ChronoJumpWindow
 		label_social_network_poll_question.Text = "<b>" + label_social_network_poll_question.Text + "</b>";
 		label_social_network_poll_question.UseMarkup = true;
 
+		image_button_social_network_poll_send.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_email.png");
+		image_button_open_chronojump1.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "chronojump_kangaroo_icon_transp.png");
 	}
 
 	private void on_radio_social_network_poll_toggled (object o, EventArgs args)

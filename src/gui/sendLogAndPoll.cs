@@ -40,6 +40,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_log_portuguese;
 	[Widget] Gtk.TextView textview_comments;
 	[Widget] Gtk.Button button_send_log;
+	[Widget] Gtk.Image image_button_send_log;
+	[Widget] Gtk.Image image_button_check_last_version;
+	[Widget] Gtk.Image image_button_open_chronojump;
 	[Widget] Gtk.TextView textview_send_log_message;
 
 	//--- send poll ----
@@ -87,6 +90,10 @@ public partial class ChronoJumpWindow
 			radio_log_portuguese.Active = true;
 		else
 			radio_log_english.Active = true;
+
+		image_button_send_log.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_email.png");
+		image_button_check_last_version.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_list.png");
+		image_button_open_chronojump.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "chronojump_kangaroo_icon_transp.png");
 
 		hbox_send_log.Show();
 	}

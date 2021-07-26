@@ -951,7 +951,12 @@ public partial class ChronoJumpWindow
 		//4) check if there are active Internet devices
 		NetworksCheckDevices ncd = new NetworksCheckDevices();
 
-		//5) show dialog
+		//5) If disconnected, make check_encoder_networks_upload false and insensitive
+		check_encoder_networks_upload.Sensitive = json.Connected;
+		if(! json.Connected)
+			check_encoder_networks_upload.Active = false;
+
+		//6) show dialog
 		showDialogPersonPopup(tasks, stationsCount, ncd.ToString(), json.Connected);
 	}
 

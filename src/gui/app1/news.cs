@@ -312,6 +312,10 @@ public partial class ChronoJumpWindow
 
 	private void on_button_new_open_browser_clicked (object o, EventArgs args)
 	{
+		//just a precaution
+		if(newsAtDB_l == null || currentNewsPos < 0 || currentNewsPos >= newsAtDB_l.Count)
+			return;
+
 		string link = newsAtDB_l[currentNewsPos].GetLink(preferences.newsLanguageEs);
 
 		LogB.Information("Opening browser (r mac install) to: " + link);

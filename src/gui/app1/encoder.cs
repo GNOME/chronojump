@@ -7557,7 +7557,8 @@ public partial class ChronoJumpWindow
 		if(! success) {
 			LogB.Error(js.ResultMessage);
 
-			SqliteJson.InsertTempEncoder(false, uedfo);
+			//since 2.1.3 do not store in Temp, if there are network errors, it is not going to be uploaded later, because wristbands can be re-assigned
+			//SqliteJson.InsertTempEncoder(false, uedfo);
 
 			bool showInWindow = false;
 			if(showInWindow)

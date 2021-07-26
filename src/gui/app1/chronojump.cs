@@ -5307,7 +5307,9 @@ public partial class ChronoJumpWindow
 		if( ! js.UploadSprintData(usdo) )
 		{
 			LogB.Error(js.ResultMessage);
-			SqliteJson.InsertTempSprint(false, usdo); //insert only if could'nt be uploaded
+			
+			//since 2.1.3 do not store in Temp, if there are network errors, it is not going to be uploaded later, because wristbands can be re-assigned
+			//SqliteJson.InsertTempSprint(false, usdo); //insert only if couldn't be uploaded
 		}
 	}
 

@@ -492,6 +492,7 @@ RESOURCES = \
 	../images/gtk-floppy.png,floppy.png \
 	../images/md/arrow_back_blue_24dp.png,arrow_back.png \
 	../images/md/ic_cancel_red_24dp_1x.png,image_cancel.png \
+	../images/md/done_blue.png,image_done_blue.png \
 	../images/md/ic_insert_chart_blue_24dp_1x.png,image_analyze.png \
 	../images/md/ic_assignment_blue_24dp_1x.png,image_analyze_general.png \
 	../images/md/ic_fast_forward_blue_24dp_1x.png,image_sprint.png \

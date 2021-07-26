@@ -87,6 +87,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox app1s_eventbox_button_load;
 	[Widget] Gtk.EventBox app1s_eventbox_button_back;
 	[Widget] Gtk.EventBox app1s_eventbox_button_import;
+	[Widget] Gtk.Image image_app1s_button_cancel1;
+	[Widget] Gtk.Image image_app1s_button_back;
 
 	//notebook tab 3
 	[Widget] Gtk.Label app1s_label_import_session_name;
@@ -108,6 +110,9 @@ public partial class ChronoJumpWindow
 
 	//notebook tab 5
 	[Widget] Gtk.EventBox app1s_eventbox_button_delete_close;
+	[Widget] Gtk.Image image_app1s_button_delete_cancel;
+	[Widget] Gtk.Image image_app1s_button_delete_accept;
+	[Widget] Gtk.Image image_app1s_button_delete_close;
 
 	//notebook tab 6 (add/edit)
 	[Widget] Gtk.Notebook app1sae_notebook_add_edit;
@@ -153,6 +158,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button app1s_button_backup_cancel_close;
 	[Widget] Gtk.Label app1s_label_backup_cancel_close;
 	[Widget] Gtk.EventBox app1s_eventbox_button_backup_cancel_close;
+	[Widget] Gtk.Image image_app1s_button_backup_cancel_close;
 	[Widget] Gtk.Image app1s_image_button_backup_select;
 	[Widget] Gtk.Label app1s_label_backup_destination;
 	[Widget] Gtk.HBox app1s_hbox_backup_doing;
@@ -171,6 +177,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image app1s_image_button_export_select;
 	[Widget] Gtk.Label app1s_label_export_destination;
 	[Widget] Gtk.Label app1s_label_export_progress;
+	[Widget] Gtk.Image image_app1s_button_export_cancel;
+	[Widget] Gtk.Image image_app1s_button_export_close;
 	[Widget] Gtk.ProgressBar app1s_pulsebarExportActivity;
 
 	const int app1s_PAGE_MODES = 0;

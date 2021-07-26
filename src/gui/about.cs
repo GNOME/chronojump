@@ -29,6 +29,7 @@ public class About
 	[Widget] Gtk.Image image_logo;
 	[Widget] Gtk.Label dialog_about_label_chronojump;
 	[Widget] Gtk.Label dialog_about_label_version;
+	[Widget] Gtk.Image image_button_close;
 	
 	[Widget] Gtk.Label dialog_about_label_developers_software;
 	[Widget] Gtk.Label dialog_about_label_developers_networks;
@@ -55,10 +56,13 @@ public class About
 		//put an icon to window
 		UtilGtk.IconWindow(dialog_about);
 
-		//put logo image
+		//images:
 		Pixbuf pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogo);
 		image_logo.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
+		image_button_close.Pixbuf = pixbuf;
 
 		dialog_about_label_version.Text = version; 
 		dialog_about_label_translators.Text = translators; 

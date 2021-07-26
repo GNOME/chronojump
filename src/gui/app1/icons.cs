@@ -114,6 +114,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_start_selector_races;
 	[Widget] Gtk.Label label_start_selector_encoder;
 
+	[Widget] Gtk.Image image_button_help_close;
+
 	//jumps
 	[Widget] Gtk.Image image_button_jumps_simple_capture_save_image_chart;
 	[Widget] Gtk.Image image_button_jumps_simple_capture_save_image_disk;
@@ -770,6 +772,7 @@ public partial class ChronoJumpWindow
 		image_app1s_button_export_close.Pixbuf = pixbuf;
 		image_app1s_button_backup_cancel_close.Pixbuf = pixbuf;
 		image_app1s_button_cancel1.Pixbuf = pixbuf;
+		image_button_help_close.Pixbuf = pixbuf;
 
 		//accept
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_done_blue.png");

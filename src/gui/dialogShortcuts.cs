@@ -33,6 +33,7 @@ public class DialogShortcuts
 	[Widget] Gtk.Label label_ctrl4;
 	[Widget] Gtk.Label label_ctrl5;
 	[Widget] Gtk.Label label_enter;
+	[Widget] Gtk.Image image_button_close;
 
 	//images on capture tab
 	[Widget] Gtk.Image image_enc_grav_1;
@@ -98,6 +99,9 @@ public class DialogShortcuts
 	private void putIcons()
 	{
 		Pixbuf pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
+		image_button_close.Pixbuf = pixbuf;
 
 		//capture tab
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_weight.png"); //encoder gravitatory

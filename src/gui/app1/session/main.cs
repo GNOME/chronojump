@@ -144,6 +144,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ComboBox app1sae_combo_levels;
 	[Widget] Gtk.TextView app1sae_textview_comments;
 	[Widget] Gtk.Button app1sae_button_accept;
+	[Widget] Gtk.Image image_app1sae_button_cancel;
+	[Widget] Gtk.Image image_app1sae_button_accept;
 
 	//notebook tab 7 (backup)
 	[Widget] Gtk.Button app1s_button_backup_select;

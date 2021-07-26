@@ -762,7 +762,12 @@ public partial class ChronoJumpWindow
 		image_force_sensor_export_cancel.Pixbuf = pixbuf;
 		image_run_encoder_export_cancel.Pixbuf = pixbuf;
 		app1s_image_cancel.Pixbuf = pixbuf;
-		
+		image_app1sae_button_cancel.Pixbuf = pixbuf;
+
+		//accept
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_done_blue.png");
+		image_app1sae_button_accept.Pixbuf = pixbuf;
+
 		//zoom icons, done like this because there's one zoom icon created ad-hoc, 
 		//and is not nice that the other are different for an user theme change
 	

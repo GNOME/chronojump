@@ -264,6 +264,8 @@ public class PreferencesWindow
 
 	[Widget] Gtk.Button button_accept;
 	[Widget] Gtk.Button button_cancel;
+	[Widget] Gtk.Image image_button_accept;
+	[Widget] Gtk.Image image_button_cancel;
 	public Gtk.Button FakeButtonConfigurationImported;
 	public Gtk.Button FakeButtonDebugModeStart;
 	
@@ -354,6 +356,10 @@ public class PreferencesWindow
 
 		PreferencesWindowBox.createComboLanguage();
 		Pixbuf pixbuf;
+
+
+		PreferencesWindowBox.image_button_cancel.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
+		PreferencesWindowBox.image_button_accept.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_done_blue.png");
 
 		//appearance tab
 

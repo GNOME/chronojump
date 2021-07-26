@@ -771,16 +771,20 @@ public partial class ChronoJumpWindow
 		}
 
 		//----- Start upload temp tests
+
+		//disabled on 2.1.3. being able now to reassign to another person a current rfid (wristband), is better to not store data when there is no network.
+		//To avoid uploading problems if person changed.
+
 		//select UploadTemp tests (have not been uploaded by network errors)
 
+		/*
 		Sqlite.Open(); // ---------------->
 
 		List<UploadEncoderDataFullObject> listEncoderTemp = SqliteJson.SelectTempEncoder(true);
 		List<UploadSprintDataObject> listSprintTemp = SqliteJson.SelectTempSprint(true);
 
-		/*
 		//Upload them
-		TODO: disabled until find why says that database is not open
+		TODO: disabled (2.1.1 aprox) until find why says that database is not open
 		if(listEncoderTemp.Count > 0)
 		{
 			foreach(UploadEncoderDataFullObject uedfo in listEncoderTemp)
@@ -791,7 +795,6 @@ public partial class ChronoJumpWindow
 					SqliteJson.DeleteTempEncoder(true, uedfo.uniqueId); //delete the record
 			}
 		}
-		*/
 		if(listSprintTemp.Count > 0)
 		{
 			foreach(UploadSprintDataObject usdo in listSprintTemp)
@@ -804,6 +807,7 @@ public partial class ChronoJumpWindow
 		}
 
 		Sqlite.Close(); // <----------------
+		*/
 
 		//----- End upload temp tests
 

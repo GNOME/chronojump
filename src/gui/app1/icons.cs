@@ -406,6 +406,7 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "arrow_back.png");
 		image_selector_start_back.Pixbuf = pixbuf;
 		image_button_force_sensor_analyze_back_to_signal.Pixbuf = pixbuf;
+		image_app1s_button_back.Pixbuf = pixbuf;
 
 		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_pin.png");
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person.png");
@@ -763,10 +764,17 @@ public partial class ChronoJumpWindow
 		image_run_encoder_export_cancel.Pixbuf = pixbuf;
 		app1s_image_cancel.Pixbuf = pixbuf;
 		image_app1sae_button_cancel.Pixbuf = pixbuf;
+		image_app1s_button_delete_cancel.Pixbuf = pixbuf;
+		image_app1s_button_delete_close.Pixbuf = pixbuf;
+		image_app1s_button_export_cancel.Pixbuf = pixbuf;
+		image_app1s_button_export_close.Pixbuf = pixbuf;
+		image_app1s_button_backup_cancel_close.Pixbuf = pixbuf;
+		image_app1s_button_cancel1.Pixbuf = pixbuf;
 
 		//accept
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_done_blue.png");
 		image_app1sae_button_accept.Pixbuf = pixbuf;
+		image_app1s_button_delete_accept.Pixbuf = pixbuf;
 
 		//zoom icons, done like this because there's one zoom icon created ad-hoc, 
 		//and is not nice that the other are different for an user theme change

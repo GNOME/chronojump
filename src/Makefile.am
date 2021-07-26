@@ -563,6 +563,7 @@ RESOURCES = \
 	../images/md/trigger_no_2x.png,image_encoder_triggers_no.png \
 	../images/md/warning_blue_24dp.png,image_warning_blue.png \
 	../images/md/warning_red_24dp.png,image_warning_red.png \
+	../images/md/list_alt_blue_24dp.png,image_list.png \
 	../images/md/mail_outline_blue_24dp.png,image_email.png \
 	../images/md/check_box_blue_24dp.png,image_check.png \
 	../images/md/save_blue_24dp.png,save.png \
@@ -588,6 +589,7 @@ RESOURCES = \
 	../images/md/store_blue_news_24dp.png,image_store_has_new_products.png \
 	../images/chronojump_icon.png,chronojump_icon.png \
 	../images/chronojump_icon_transp.png,chronojump_icon_transp.png \
+	../images/chronojump_kangaroo_icon_transp.png,chronojump_kangaroo_icon_transp.png \
 	../images/chronojump_icon_graph.png,chronojump_icon_graph.png \
 	../images/stock_right.png,stock_right.png \
 	../images/stock_right_left.png,stock_right_left.png \

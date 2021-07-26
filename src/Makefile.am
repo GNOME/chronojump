@@ -565,6 +565,7 @@ RESOURCES = \
 	../images/md/warning_red_24dp.png,image_warning_red.png \
 	../images/md/list_alt_blue_24dp.png,image_list.png \
 	../images/md/mail_outline_blue_24dp.png,image_email.png \
+	../images/md/send_blue.png,send_blue.png \
 	../images/md/check_box_blue_24dp.png,image_check.png \
 	../images/md/save_blue_24dp.png,save.png \
 	../images/md/new_releases_blue_24dp.png,new.png \

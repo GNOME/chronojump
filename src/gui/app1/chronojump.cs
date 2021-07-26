@@ -2720,10 +2720,6 @@ public partial class ChronoJumpWindow
 		radio_mode_contacts_capture.Active = true;
 		radio_mode_encoder_capture_small.Active = true;
 
-		vbox_manage_persons.Visible = true;
-		arrow_manage_persons_up.Visible = true;
-		arrow_manage_persons_down.Visible = false;
-
 		//show hidden widgets
 		sensitiveGuiNoSession();
 		sensitiveGuiYesSession();
@@ -2752,6 +2748,9 @@ public partial class ChronoJumpWindow
 
 		//fold menu session
 		check_menu_session.Click();
+
+		//unfold menu person
+		check_manage_persons.Click();
 
 		SqlitePreferences.Update(SqlitePreferences.LastSessionID, currentSession.UniqueID.ToString(), false);
 	}
@@ -2825,6 +2824,9 @@ public partial class ChronoJumpWindow
 
 		definedSession = true;
 
+		//fold menu session
+		check_menu_session.Click();
+
 		hbox_persons_bottom_photo.Sensitive = false;
 		vbox_persons_bottom_no_photo.Sensitive = false;
 		LogB.Information("foundPersons: " + foundPersons.ToString());
@@ -2841,13 +2843,9 @@ public partial class ChronoJumpWindow
 			currentPerson = null;
 			label_top_person_name.Text = "";
 			label_top_encoder_person_name.Text = "";
-			vbox_manage_persons.Visible = true;
-			arrow_manage_persons_up.Visible = true;
-			arrow_manage_persons_down.Visible = false;
-		}
 
-		//fold menu session
-		check_menu_session.Click();
+			check_manage_persons.Click(); //unfold persons.
+		}
 
 		//update report
 		report.SessionID = currentSession.UniqueID;

@@ -76,6 +76,10 @@ public class GenericWindow
 	[Widget] Gtk.TreeView treeview;
 	[Widget] Gtk.Button button_accept;
 	[Widget] Gtk.Button button_cancel;
+	[Widget] Gtk.Image image_button_accept;
+	[Widget] Gtk.Image image_button_cancel;
+	[Widget] Gtk.Label label_button_accept;
+	[Widget] Gtk.Label label_button_cancel;
 
 	//treeview fake buttons
 	[Widget] Gtk.Button button_row_edit;
@@ -173,6 +177,9 @@ public class GenericWindow
 
 		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "video_play.png");
 		GenericWindowBox.image_treeviewload_row_play.Pixbuf = pixbuf;
+
+		GenericWindowBox.image_button_cancel.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
+		GenericWindowBox.image_button_accept.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_done_blue.png");
 
 		if(showNow)
 			GenericWindowBox.generic_window.Show ();
@@ -1028,7 +1035,7 @@ public class GenericWindow
 	}
 
 	public void SetButtonAcceptLabel(string str) {
-		button_accept.Label=str;
+		label_button_accept.Text = str;
 	}
 	
 	public void SetButtonAcceptSensitive(bool show) {
@@ -1036,7 +1043,7 @@ public class GenericWindow
 	}
 	
 	public void SetButtonCancelLabel(string str) {
-		button_cancel.Label=str;
+		label_button_cancel.Text = str;
 	}
 
 	public void ShowButtonCancel(bool show) {

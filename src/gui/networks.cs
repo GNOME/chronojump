@@ -112,7 +112,7 @@ public partial class ChronoJumpWindow
 	private static bool networksRunIntervalCanChangePersonSQLReady;
 	private static DateTime startedRFIDWait; //just to display a message at the moment of try to wristband change while capturing
 	private bool rfidProcessCancel;
-	private bool rfidIsDifferent;
+	private bool rfidIsDifferent; //new rfid capture is different than previous
 	private bool needManageCompujumpCapturingReset; //useful to manage wristbands while capture
 	//private bool compujumpAutologout;
 	//private static CompujumpAutologout compujumpAutologout;
@@ -760,6 +760,13 @@ public partial class ChronoJumpWindow
 				string yearMonthStr = UtilDate.GetCurrentYearMonthStr();
 				if(needToCreateMonthlySession(yearMonthStr))
 					createMonthlySession(yearMonthStr);
+
+				//update person if name changed
+				if(pServer.Name != pLocal.Name)
+				{
+					pLocal.Name = pServer.Name;
+					SqlitePerson.UpdateName (pLocal.UniqueID, pLocal.Name);
+				}
 
 				currentPerson = pLocal;
 				insertAndAssignPersonSessionIfNeeded(json);

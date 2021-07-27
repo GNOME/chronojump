@@ -706,7 +706,7 @@ public partial class ChronoJumpWindow
 				//check if this uniqueID already exists on local database (would mean RFID changed on server)
 				pLocal = SqlitePerson.Select(false, pServer.UniqueID);
 
-				if(! json.LastPersonWasInserted)
+				if(! json.LastPersonJustInserted)
 				{
 					/*
 					 * id exists locally, RFID has changed. Changed locally
@@ -724,7 +724,7 @@ public partial class ChronoJumpWindow
 				currentPerson = pLocal;
 				insertAndAssignPersonSessionIfNeeded(json);
 
-				if(json.LastPersonWasInserted)
+				if(json.LastPersonJustInserted)
 				{
 					compujumpDownloadImage (json, json.LastPersonByRFIDImageURL, currentPerson.UniqueID);
 					person_added(); //GTK

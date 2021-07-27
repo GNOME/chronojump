@@ -646,4 +646,16 @@ finishForeach:
 		Sqlite.Close();
 	}
 
+	//used on compujump
+	public static void UpdateName (int uniqueID, string name)
+	{
+		Sqlite.Open();
+		dbcmd.CommandText = "UPDATE " + Constants.PersonTable +
+			" SET name = \"" + name +
+			"\" WHERE uniqueID = " + uniqueID;
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		Sqlite.Close();
+	}
 }

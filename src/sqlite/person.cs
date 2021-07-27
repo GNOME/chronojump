@@ -658,4 +658,17 @@ finishForeach:
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();
 	}
+
+	//used on compujump
+	public static void UpdateRFID (int uniqueID, string rfid)
+	{
+		Sqlite.Open();
+		dbcmd.CommandText = "UPDATE " + Constants.PersonTable +
+			" SET future1 = \"" + rfid +
+			"\" WHERE uniqueID = " + uniqueID;
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		Sqlite.Close();
+	}
 }

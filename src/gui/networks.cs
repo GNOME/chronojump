@@ -738,6 +738,7 @@ public partial class ChronoJumpWindow
 		else if(json.Connected && pLocal.UniqueID != pServer.UniqueID)
 		{
 			LogB.Information("PersonID on client does not match personID on server for rfid: " + capturedRFID);
+			/* previous to 2.1.3 was not accepted (rfids cannot be reassigned to a new person)
 			if(dialogMessageNotAtServer == null || ! dialogMessageNotAtServer.Visible)
 			{
 				dialogMessageNotAtServer = new DialogMessage(Constants.MessageTypes.WARNING,
@@ -746,6 +747,23 @@ public partial class ChronoJumpWindow
 
 				compujumpPersonLogoutDo();
 			}
+			*/
+
+			// 2.1.3 code, rfids can be reassigned to a new person
+			// a wristband of a new player has been introduced, but this wristband we had previously locally assigned to another player
+			// 1 delete rfid on previous person
+			// 2 create new person with the server rfid, personSession
+
+			// 1 delete rfid on previous person
+			SqlitePerson.UpdateRFID (pLocal.UniqueID, "");
+
+			// 2 create new person with the server rfid, personSession
+			currentPerson = new Person (true, pServer.UniqueID, pServer.Name, pServer.Future1, json.LastPersonByRFIDImageURL);
+			insertAndAssignPersonSessionIfNeeded(json);
+
+			personChanged(); //GTK
+			label_person_change();
+			pChangedShowTasks = true;
 		} else {
 			LogB.Information("RFID person exists locally!!");
 

@@ -339,7 +339,7 @@ public class Json
 				client.DownloadFile(new Uri(linkServerImage), copyTo); //if exists, it overwrites
 			}
 		} catch {
-			LogB.Warning("DownloadImage catched");
+			LogB.Warning("News DownloadImage catched");
 			return false;
 		}
 

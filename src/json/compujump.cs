@@ -99,7 +99,7 @@ public class JsonCompujump : Json
 	public double LastPersonByRFIDHeight = 0;
 	public double LastPersonByRFIDWeight = 0;
 	public string LastPersonByRFIDImageURL = "";
-	public bool LastPersonWasInserted = false;
+	public bool LastPersonJustInserted = false;
 	private Person personDeserialize(string strPerson)
 	{
 		JsonValue jsonPerson = JsonValue.Parse(strPerson);
@@ -118,13 +118,13 @@ public class JsonCompujump : Json
 		Person personTemp = SqlitePerson.Select(false, id);
 		/*
 		 * if personTemp == -1, need to insert this person
-		 * LastPersonWasInserted will be used:
+		 * LastPersonJustInserted will be used:
 		 * 	to insert person at person.cs
 		 * 	to know if (it's new person or RFID changed) at gui/networks.cs
 		 */
-		LastPersonWasInserted = (personTemp.UniqueID == -1);
+		LastPersonJustInserted = (personTemp.UniqueID == -1);
 
-		return new Person(LastPersonWasInserted, id, player, rfid, image);
+		return new Person(LastPersonJustInserted, id, player, rfid, image);
 	}
 
 

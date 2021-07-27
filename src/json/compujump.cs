@@ -148,14 +148,14 @@ public class JsonCompujump : Json
 		try {
 			using (WebClient client = new WebClient())
 			{
-				LogB.Information ("DownloadImage!!");
+				LogB.Information ("Compujump DownloadImage!!");
 				LogB.Information (getImagesUrl() + imageHalfUrl);
 				LogB.Information (Path.Combine(Path.GetTempPath(), personID.ToString()));
 				client.DownloadFile(new Uri(getImagesUrl() + imageHalfUrl),
 						Path.Combine(Path.GetTempPath(), personID.ToString()));
 			}
 		} catch {
-			LogB.Warning("DownloadImage catched");
+			LogB.Warning("Compujump DownloadImage catched");
 			return false;
 		}
 

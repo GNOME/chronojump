@@ -986,6 +986,15 @@ public partial class ChronoJumpWindow
 		//InterpolateSignal.TestCosineAndCubicInterpolate(true);
 
 		//ConvertBooleansInt.Test();
+
+		/*
+		//Get size of automated backups dir
+		int files;
+		int sizeInKB;
+		Util.GetBackupsSize (out files, out sizeInKB);
+		LogB.Information(string.Format("Backups files: {0}, total size: {1} KB.",
+					files, sizeInKB));
+		*/
 	}
 
 

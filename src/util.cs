@@ -1380,6 +1380,22 @@ public class Util
 		}
 	}
 
+	public static void GetBackupsSize (out int files, out int sizeInKB)
+	{
+		DirectoryInfo info = new DirectoryInfo(backupDir);
+		//long totalSize = info.EnumerateFiles().Sum(file => file.Length); 	//LinQ 4.0
+		//long totalSize = info.GetFiles().Sum(file => file.Length); 		//LinQ 3.5
+
+		files = 0;
+		long totalSize = 0;
+		foreach(var file in info.EnumerateFiles())
+		{
+			totalSize += file.Length;
+			files ++;
+		}
+		sizeInKB = (int) UtilAll.DivideSafe(totalSize, 1024);
+	}
+
 	public static bool FileDelete(string fileName) 
 	{
 		LogB.Information("Checking if this filename exists: " + fileName);

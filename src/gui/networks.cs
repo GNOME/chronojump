@@ -761,6 +761,8 @@ public partial class ChronoJumpWindow
 			currentPerson = new Person (true, pServer.UniqueID, pServer.Name, pServer.Future1, json.LastPersonByRFIDImageURL);
 			insertAndAssignPersonSessionIfNeeded(json);
 
+			compujumpDownloadImage (json, json.LastPersonByRFIDImageURL, currentPerson.UniqueID);
+
 			personChanged(); //GTK
 			label_person_change();
 			pChangedShowTasks = true;

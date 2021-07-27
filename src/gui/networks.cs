@@ -670,7 +670,7 @@ public partial class ChronoJumpWindow
 
 		//select person by RFID
 		Person pLocal = SqlitePerson.SelectByRFID(capturedRFID);
-		Person pServer = json.GetPersonByRFID(capturedRFID); //needed to check if photo changed (or in the future height,weight, ...)
+		Person pServer = json.GetPersonByRFID(capturedRFID);
 
 		if(pLocal.UniqueID == -1)
 		{
@@ -903,8 +903,26 @@ public partial class ChronoJumpWindow
 					Constants.TrochanterToeUndefinedID,
 					Constants.TrochanterFloorOnFlexionUndefinedID,
 					false); //dbconOpened
-		else
+		else {
+			//update height if needed
+			if(ps.Height != json.LastPersonByRFIDHeight)
+			{
+				ps.Height = json.LastPersonByRFIDHeight;
+				SqlitePersonSession.UpdateAttribute (currentPerson.UniqueID, currentSession.UniqueID,
+						"height", json.LastPersonByRFIDHeight);
+			}
+
+			//update weight if needed
+			if(ps.Weight != json.LastPersonByRFIDWeight)
+			{
+				ps.Weight = json.LastPersonByRFIDWeight;
+				SqlitePersonSession.UpdateAttribute (currentPerson.UniqueID, currentSession.UniqueID,
+						"weight", json.LastPersonByRFIDWeight);
+			}
+
+			//assign currentPersonSession
 			currentPersonSession = ps;
+		}
 	}
 
 	private void on_button_person_popup_clicked (object o, EventArgs args)

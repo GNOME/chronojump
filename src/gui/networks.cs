@@ -751,8 +751,6 @@ public partial class ChronoJumpWindow
 
 			// 2.1.3 code, rfids can be reassigned to a new person
 			// a wristband of a new player has been introduced, but this wristband we had previously locally assigned to another player
-			// 1 delete rfid on previous person
-			// 2 create new person with the server rfid, personSession
 
 			// 1 delete rfid on previous person
 			SqlitePerson.UpdateRFID (pLocal.UniqueID, "");
@@ -884,6 +882,12 @@ public partial class ChronoJumpWindow
 					Path.Combine(Path.GetTempPath(), personID.ToString()),
 					image_dest,
 					true); //overwrite
+
+		//find if there is an image with the other extension and delete it
+		if(UtilMultimedia.GetImageType(url) == UtilMultimedia.ImageTypes.PNG)
+			Util.FileDelete (Util.GetPhotoFileName(false, personID)); //our file is a png, delete the jpg if exists
+		else
+			Util.FileDelete (Util.GetPhotoPngFileName(false, personID)); //our file is a jpg, delete the png if exists
 	}
 	//get destination file of the image: multimedia/photos/uniqueID. (jpg or png)
 	private string compujumpDownloadImageGetDest (string linkServerImage, int personID)

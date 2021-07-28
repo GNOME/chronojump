@@ -789,8 +789,12 @@ public partial class ChronoJumpWindow
 
 				// 3) put preference to true again
 				SqlitePreferences.Update(SqlitePreferences.LoadLastSessionAtStart, true, false);
-			}
-		}
+			} else
+				if(! check_menu_session.Active)
+					check_menu_session.Click(); //have session menu opened
+		} else
+			if(! check_menu_session.Active)
+				check_menu_session.Click(); //have sesion menu opened
 
 		if(! showSendLog && ! showSocialNetworkPoll && preferences.loadLastModeAtStart &&
 				preferences.lastMode != Constants.Menuitem_modes.UNDEFINED && ! configChronojump.Compujump)

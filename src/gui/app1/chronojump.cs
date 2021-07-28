@@ -2673,6 +2673,9 @@ public partial class ChronoJumpWindow
 			title += " - " + sessionName;
 			label_current_session.Text = sessionName;
 			label_current_session.TooltipText = sessionName;
+		} else {
+			label_current_session.Text = "----";
+			label_current_session.TooltipText = "----";
 		}
 
 		if(mode != Constants.Menuitem_modes.UNDEFINED)

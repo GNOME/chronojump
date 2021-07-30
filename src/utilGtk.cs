@@ -189,6 +189,21 @@ public class UtilGtk
 		} while (myCombo.Model.IterNext (ref iter));
 	}
 
+	//used on combo_select_contacts_top at least on runEncoder
+	public static string [] ComboGetValues (ComboBox combo)
+	{
+		List<string> values_l = new List<string>();
+
+		TreeIter iter;
+		combo.Model.GetIterFirst(out iter);
+		do {
+			values_l.Add((string) combo.Model.GetValue (iter, 0));
+		} while (combo.Model.IterNext (ref iter));
+
+		return Util.ListStringToStringArray (values_l);
+	}
+
+
 	//for new code, better use the ComboUpdate(ComboBox, ArrayList)
 	//if there's no default value, simply pass a "" and there will be returned a 0, that's the first value of combo
 	public static int ComboUpdate(ComboBox myCombo, string [] myData, string strDefault) {

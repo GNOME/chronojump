@@ -2083,7 +2083,16 @@ public class Util
 		ret[0] = str;
 		return ret;
 	}
-	
+
+	public static string [] ListStringToStringArray (List<string> string_l)
+	{
+		string [] stringArray = new string[string_l.Count];
+		for(int i = 0; i < string_l.Count; i ++)
+			stringArray[i] = string_l[i];
+
+		return stringArray;
+	}
+
 	public static ArrayList StringToArrayList (string str, char sep) {
 		ArrayList array = new ArrayList(1);
 		string [] strFull = str.Split(new char[] {sep});

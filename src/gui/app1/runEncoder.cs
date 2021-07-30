@@ -1706,11 +1706,29 @@ public partial class ChronoJumpWindow
 
 	private void on_combo_run_encoder_exercise_changed(object o, EventArgs args)
 	{
+		ComboBox combo = o as ComboBox;
+		if (o == null)
+			return;
+
+		//two combobox are linked ---->
+		if(comboSelectContactsTopNoFollow)
+			return;
+
+		comboSelectContactsTopNoFollow = true;
+		if (o == combo_run_encoder_exercise)
+			combo_select_contacts_top.Active = combo_run_encoder_exercise.Active;
+		else if (o == combo_select_contacts_top)
+			combo_run_encoder_exercise.Active = combo_select_contacts_top.Active;
+		comboSelectContactsTopNoFollow = false;
+		//<---- two combobox are linked
+
 		setLabelContactsExerciseSelected(Constants.Modes.RUNSENCODER);
 
 		//sensitivity of left/right buttons
 		button_combo_run_encoder_exercise_capture_left.Sensitive = (combo_run_encoder_exercise.Active > 0);
 		button_combo_run_encoder_exercise_capture_right.Sensitive = ! UtilGtk.ComboSelectedIsLast(combo_run_encoder_exercise);
+		button_combo_select_contacts_top_left.Sensitive = (combo_run_encoder_exercise.Active > 0);
+		button_combo_select_contacts_top_right.Sensitive = ! UtilGtk.ComboSelectedIsLast(combo_run_encoder_exercise);
 	}
 
 	private void fillRunEncoderExerciseCombo(string name)

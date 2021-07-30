@@ -516,7 +516,7 @@ public partial class ChronoJumpWindow
 	{
 		//force related buttons
 		hbox_force_capture_buttons.Sensitive = sensitive;
-		button_contacts_exercise.Sensitive = sensitive;
+		frame_contacts_exercise.Sensitive = sensitive;
 		button_execute_test.Sensitive = sensitive;
 		button_force_sensor_analyze_load.Sensitive = sensitive;
 		hbox_contacts_camera.Sensitive = sensitive;
@@ -2921,7 +2921,7 @@ LogB.Information(" fs R ");
 		notebook_contacts_execute_or.CurrentPage = 2;
 
 		viewport_chronopics.Sensitive = false;
-		button_contacts_exercise.Sensitive = false;
+		frame_contacts_exercise.Sensitive = false;
 
 		forceSensorCaptureAdjustSensitivity(false);
 		force_sensor_adjust_label_message.Text = Catalog.GetString("If you want to calibrate, please tare first.");
@@ -2934,7 +2934,7 @@ LogB.Information(" fs R ");
 		notebook_contacts_execute_or.CurrentPage = 0;
 
 		viewport_chronopics.Sensitive = true;
-		button_contacts_exercise.Sensitive = true;
+		frame_contacts_exercise.Sensitive = true;
 
 		forceSensorCaptureAdjustSensitivity(true);
 		event_execute_label_message.Text = "";

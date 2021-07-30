@@ -234,9 +234,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_persons_down;
 
 	//tests
-	[Widget] Gtk.Button button_contacts_exercise;
-	[Widget] Gtk.Label label_contacts_exercise_selected_name;
-	[Widget] Gtk.Label label_contacts_exercise_selected_options;
 	[Widget] Gtk.Notebook notebook_contacts_capture_doing_wait;
 	[Widget] Gtk.Button button_contacts_bells;
 	[Widget] Gtk.Button button_contacts_capture_session_overview;
@@ -7937,7 +7934,7 @@ LogB.Debug("mc finished 5");
 	
 		button_contacts_person_change.Sensitive = false;
 		button_encoder_person_change.Sensitive = false;
-		button_contacts_exercise.Sensitive = false;
+		frame_contacts_exercise.Sensitive = false;
 		
 		//notebooks
 		notebook_analyze.Sensitive = false;
@@ -7996,7 +7993,7 @@ LogB.Debug("mc finished 5");
 		if(notebook_encoder_sup.CurrentPage == 1)
 			notebook_encoder_sup.CurrentPage = 0;
 
-		button_contacts_exercise.Sensitive = false;
+		frame_contacts_exercise.Sensitive = false;
 		notebook_analyze.Sensitive = false;
 		notebook_results.Sensitive = false;
 		encoder_sensitive_all_except_device(false);
@@ -8023,7 +8020,7 @@ LogB.Debug("mc finished 5");
 		encoderButtonsSensitive(encoderSensEnum.YESPERSON);
 		personChanged();
 		
-		button_contacts_exercise.Sensitive = true;
+		frame_contacts_exercise.Sensitive = true;
 		notebook_analyze.Sensitive = true;
 		notebook_results.Sensitive = true;
 		encoder_sensitive_all_except_device(true);
@@ -8102,7 +8099,7 @@ LogB.Debug("mc finished 5");
 		alignment_button_force_sensor_adjust.Sensitive = false;
 		button_force_sensor_sync.Sensitive = false;
 		button_auto_start.Sensitive = false;
-		button_contacts_exercise.Sensitive = false;
+		frame_contacts_exercise.Sensitive = false;
 		event_execute_button_update.Sensitive = false;
 		
 		//hbox_multi_chronopic_buttons.Sensitive = false;
@@ -8168,7 +8165,7 @@ LogB.Debug("mc finished 5");
 		alignment_button_force_sensor_adjust.Sensitive = true;
 		button_force_sensor_sync.Sensitive = true;
 		button_auto_start.Sensitive = true;
-		button_contacts_exercise.Sensitive = true;
+		frame_contacts_exercise.Sensitive = true;
 		event_execute_button_update.Sensitive = true;
 
 		//forceSensor and runEncoder does not use currentEventExecute
@@ -8293,7 +8290,7 @@ LogB.Debug("mc finished 5");
 		//if automode, sensitiveGuiEventDoing, sensitiveGuiEventDone don't work
 		menus_and_mode_sensitive (! start);
 		frame_persons.Sensitive 	= ! start;
-		button_contacts_exercise.Sensitive = ! start;
+		frame_contacts_exercise.Sensitive = ! start;
 
 		hbox_jump_auto_controls.Visible  = start;
 

@@ -5910,11 +5910,65 @@ EncoderInertialCapture</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
+                                                            <widget class="GtkHBox" id="hbox_combo_select_contacts_top_with_arrows">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_combo_select_contacts_top_left">
+                                                            <property name="width_request">40</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="sensitive">False</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_button_combo_select_contacts_top_left_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkArrow" id="arrow44">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="arrow_type">left</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkHBox" id="hbox_combo_select_contacts_top">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
                                                             <placeholder/>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_combo_select_contacts_top_right">
+                                                            <property name="width_request">40</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_button_combo_select_contacts_top_right_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkArrow" id="arrow45">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
                                                             </child>
                                                             </widget>
                                                             <packing>
@@ -5930,6 +5984,7 @@ EncoderInertialCapture</property>
                                                             <property name="spacing">8</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_contacts_exercise">
+                                                            <property name="width_request">40</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
@@ -5938,19 +5993,11 @@ EncoderInertialCapture</property>
                                                             <signal name="clicked" handler="on_button_contacts_exercise_clicked" swapped="no"/>
                                                             <accelerator key="t" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
                                                             <child>
-                                                            <widget class="GtkAlignment" id="alignment60">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="left_padding">1</property>
-                                                            <property name="right_padding">1</property>
-                                                            <child>
                                                             <widget class="GtkImage" id="image_contacts_exercise_settings">
                                                             <property name="width_request">24</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
-                                                            </widget>
-                                                            </child>
                                                             </widget>
                                                             </child>
                                                             </widget>

@@ -175,6 +175,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_combo_select_jumps_rj;
 	[Widget] Gtk.HBox hbox_combo_select_runs;
 	[Widget] Gtk.HBox hbox_combo_select_runs_interval;
+	[Widget] Gtk.HBox hbox_combo_select_contacts_top_with_arrows;
 	[Widget] Gtk.HBox hbox_combo_select_contacts_top;
 
 	//auto mode	
@@ -2200,6 +2201,7 @@ public partial class ChronoJumpWindow
 			if(hbox_combo_select_contacts_top.Children.Length > 0)
 				hbox_combo_select_contacts_top.Remove(combo_select_contacts_top);
 
+			//code for each mode
 			if(current_mode == Constants.Modes.JUMPSSIMPLE)
 			{
 				comboSelectContactsTop = new CjComboSelectJumps (combo_select_contacts_top, hbox_combo_select_contacts_top, false);
@@ -2299,6 +2301,13 @@ public partial class ChronoJumpWindow
 
 		button_left.Sensitive = (combo.Active > 0);
 		button_right.Sensitive = true;
+
+		if(current_mode == Constants.Modes.JUMPSSIMPLE || current_mode == Constants.Modes.JUMPSREACTIVE ||
+				current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC)
+		{
+			button_combo_select_contacts_top_left.Sensitive = (combo.Active > 0);
+			button_combo_select_contacts_top_right.Sensitive = true;
+		}
 	}
 	private void contacts_exercise_right_button (Gtk.ComboBox combo, Gtk.Button button_left, Gtk.Button button_right)
 	{
@@ -2307,6 +2316,13 @@ public partial class ChronoJumpWindow
 
 		button_left.Sensitive = true;
 		button_right.Sensitive = ! isLast;
+
+		if(current_mode == Constants.Modes.JUMPSSIMPLE || current_mode == Constants.Modes.JUMPSREACTIVE ||
+				current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC)
+		{
+			button_combo_select_contacts_top_left.Sensitive = true;
+			button_combo_select_contacts_top_right.Sensitive = ! isLast;
+		}
 	}
 
 
@@ -2439,6 +2455,8 @@ public partial class ChronoJumpWindow
 		//sensitivity of left/right buttons
 		button_combo_jumps_exercise_capture_left.Sensitive = (combo_select_jumps.Active > 0);
 		button_combo_jumps_exercise_capture_right.Sensitive = ! UtilGtk.ComboSelectedIsLast(combo_select_jumps);
+		button_combo_select_contacts_top_left.Sensitive = (combo_select_jumps.Active > 0);
+		button_combo_select_contacts_top_right.Sensitive = ! UtilGtk.ComboSelectedIsLast(combo_select_jumps);
 
 		//show extra window options
 		on_extra_window_jumps_test_changed(o, args);
@@ -2482,6 +2500,8 @@ public partial class ChronoJumpWindow
 		//sensitivity of left/right buttons
 		button_combo_jumps_rj_exercise_capture_left.Sensitive = (combo_select_jumps_rj.Active > 0);
 		button_combo_jumps_rj_exercise_capture_right.Sensitive = ! UtilGtk.ComboSelectedIsLast(combo_select_jumps_rj);
+		button_combo_select_contacts_top_left.Sensitive = (combo_select_jumps_rj.Active > 0);
+		button_combo_select_contacts_top_right.Sensitive = ! UtilGtk.ComboSelectedIsLast(combo_select_jumps_rj);
 
 		//show extra window options
 		on_extra_window_jumps_rj_test_changed(o, args);
@@ -2513,6 +2533,8 @@ public partial class ChronoJumpWindow
 		//sensitivity of left/right buttons
 		button_combo_runs_exercise_capture_left.Sensitive = (combo_select_runs.Active > 0);
 		button_combo_runs_exercise_capture_right.Sensitive = ! UtilGtk.ComboSelectedIsLast(combo_select_runs);
+		button_combo_select_contacts_top_left.Sensitive = (combo_select_runs.Active > 0);
+		button_combo_select_contacts_top_right.Sensitive = ! UtilGtk.ComboSelectedIsLast(combo_select_runs);
 
 		//show extra window options
 		on_extra_window_runs_test_changed(o, args);
@@ -2544,6 +2566,9 @@ public partial class ChronoJumpWindow
 		//sensitivity of left/right buttons
 		button_combo_runs_interval_exercise_capture_left.Sensitive = (combo_select_runs_interval.Active > 0);
 		button_combo_runs_interval_exercise_capture_right.Sensitive = ! UtilGtk.ComboSelectedIsLast(combo_select_runs_interval);
+		button_combo_select_contacts_top_left.Sensitive = (combo_select_runs_interval.Active > 0);
+		button_combo_select_contacts_top_right.Sensitive = ! UtilGtk.ComboSelectedIsLast(combo_select_runs_interval);
+
 		//show extra window options
 		on_extra_window_runs_interval_test_changed(o, args);
 	}
@@ -3411,7 +3436,7 @@ public partial class ChronoJumpWindow
 		vbox_contacts_signal_comment.Visible = false;
 		frame_jumps_automatic.Visible = false;
 
-		hbox_combo_select_contacts_top.Visible = false; //TODO: this will be unneded
+		hbox_combo_select_contacts_top_with_arrows.Visible = false; //TODO: this will be unneded
 
 		//blank exercise options: useful for changing from jumps or runs to forceSensor, runEncoder, reaction time, other
 		label_contacts_exercise_selected_name.Visible = true; //will not be visible when all the contacts_top combo is implemented
@@ -3486,7 +3511,7 @@ public partial class ChronoJumpWindow
 
 			createComboSelectContactsTop (true);
 			label_contacts_exercise_selected_name.Visible = false;
-			hbox_combo_select_contacts_top.Visible = true; //this will be unneded
+			hbox_combo_select_contacts_top_with_arrows.Visible = true; //this will be unneded
 
 			/*
 			if(radio_mode_contacts_jumps_profile.Active || radio_mode_contacts_jumps_dj_optimal_fall.Active ||
@@ -3551,7 +3576,7 @@ public partial class ChronoJumpWindow
 
 			createComboSelectContactsTop (true);
 			label_contacts_exercise_selected_name.Visible = false;
-			hbox_combo_select_contacts_top.Visible = true; //this will be unneded
+			hbox_combo_select_contacts_top_with_arrows.Visible = true; //this will be unneded
 
 
 			pixbufModeGrid = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_run.png");

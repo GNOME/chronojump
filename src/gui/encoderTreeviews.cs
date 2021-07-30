@@ -303,7 +303,7 @@ public partial class ChronoJumpWindow
 			return;
 
 		int inertialStart = 0;
-		if( current_mode == Constants.Menuitem_modes.POWERINERTIAL)
+		if( current_mode == Constants.Modes.POWERINERTIAL)
 		{
 			if(ecconLast == "c")
 				inertialStart = preferences.encoderCaptureInertialDiscardFirstN;
@@ -397,7 +397,7 @@ public partial class ChronoJumpWindow
 		int bestN = Convert.ToInt32(spin_encoder_capture_curves_best_n.Value);
 
 		int inertialStart = 0;
-		if( current_mode == Constants.Menuitem_modes.POWERINERTIAL)
+		if( current_mode == Constants.Modes.POWERINERTIAL)
 		{
 			if(ecconLast == "c")
 				inertialStart = preferences.encoderCaptureInertialDiscardFirstN;
@@ -459,7 +459,7 @@ public partial class ChronoJumpWindow
 			
 			//discard first rows
 			bool thisRowDiscarded = false;
-			if( current_mode == Constants.Menuitem_modes.POWERINERTIAL &&
+			if( current_mode == Constants.Modes.POWERINERTIAL &&
 					( (ecconLast == "c" && i < preferences.encoderCaptureInertialDiscardFirstN) ||
 					(ecconLast != "c" && i < 2 * preferences.encoderCaptureInertialDiscardFirstN) ) )
 			{
@@ -589,7 +589,7 @@ public partial class ChronoJumpWindow
 
 
 	//on screen shown on s but export is in ms
-	public string [] GetTreeviewEncoderAnalyzeHeaders(bool screenOrCSV, Constants.Menuitem_modes encoderMode)
+	public string [] GetTreeviewEncoderAnalyzeHeaders(bool screenOrCSV, Constants.Modes encoderMode)
 	{
 		string timeUnits = "(s)";
 		string distanceUnits = "(cm)";
@@ -639,7 +639,7 @@ public partial class ChronoJumpWindow
 			Catalog.GetString("Impulse") + "\n (N*s)"
 		};
 
-		if(encoderMode == Constants.Menuitem_modes.POWERGRAVITATORY)
+		if(encoderMode == Constants.Modes.POWERGRAVITATORY)
 		{
 			string [] headers = new string[startArray.Length + endArray.Length];
 			startArray.CopyTo(headers, 0);
@@ -656,12 +656,12 @@ public partial class ChronoJumpWindow
 
 	bool lastTreeviewEncoderAnalyzeIsNeuromuscular = false;
 
-	private int createTreeViewEncoderAnalyze(string contents, Constants.Menuitem_modes encoderMode)
+	private int createTreeViewEncoderAnalyze(string contents, Constants.Modes encoderMode)
 	{
 		//note we pass powerinertial because we want here all columns but only relevant will shown
 		//on the other hand, on_button_encoder_save_table_file_selected will need to show the relevant columns
 		string [] columnsString = GetTreeviewEncoderAnalyzeHeaders(true, //screen
-				Constants.Menuitem_modes.POWERINERTIAL);
+				Constants.Modes.POWERINERTIAL);
 
 		ArrayList encoderAnalyzeCurves = new ArrayList ();
 
@@ -775,7 +775,7 @@ public partial class ChronoJumpWindow
 		foreach(string myCol in columnsString)
 		{
 			//do not show inertia moment, diameter, equivalent mass on powergravitatory
-			if(encoderMode == Constants.Menuitem_modes.POWERGRAVITATORY && (i == 6 || i == 7 || i == 8))
+			if(encoderMode == Constants.Modes.POWERGRAVITATORY && (i == 6 || i == 7 || i == 8))
 			{
 				i ++;
 				continue;

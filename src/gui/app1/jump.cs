@@ -218,7 +218,7 @@ public partial class ChronoJumpWindow
 	{
 		currentEventType = myJumpType;
 		changeTestImage(EventType.Types.JUMP.ToString(), myJumpType.Name, myJumpType.ImageFileName);
-		setLabelContactsExerciseSelected(Constants.Menuitem_modes.JUMPSSIMPLE);
+		setLabelContactsExerciseSelected(Constants.Modes.JUMPSSIMPLE);
 
 		LastJumpSimpleTypeParams ljstp = new LastJumpSimpleTypeParams(myJumpType.Name);
 		if(myJumpType.HasWeight || myJumpType.HasFall)
@@ -359,7 +359,7 @@ public partial class ChronoJumpWindow
 	{
 		currentEventType = myJumpType;
 		changeTestImage(EventType.Types.JUMP.ToString(), myJumpType.Name, myJumpType.ImageFileName);
-		setLabelContactsExerciseSelected(Constants.Menuitem_modes.JUMPSREACTIVE);
+		setLabelContactsExerciseSelected(Constants.Modes.JUMPSREACTIVE);
 		checkbutton_allow_finish_rj_after_time.Visible = false;
 	
 		LastJumpRjTypeParams ljrtp = SqliteJumpType.LastJumpRjTypeParamsSelect(myJumpType.Name); //search it on DB

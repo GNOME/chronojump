@@ -148,7 +148,7 @@ public partial class ChronoJumpWindow
 	{
 		currentEventType = myRunType;
 		changeTestImage(EventType.Types.RUN.ToString(), myRunType.Name, myRunType.ImageFileName);
-		setLabelContactsExerciseSelected(Constants.Menuitem_modes.RUNSSIMPLE);
+		setLabelContactsExerciseSelected(Constants.Modes.RUNSSIMPLE);
 
 		label_runs_simple_track_distance_units.Text = "m";
 
@@ -228,7 +228,7 @@ public partial class ChronoJumpWindow
 	{
 		currentEventType = myRunType;
 		changeTestImage(EventType.Types.RUN.ToString(), myRunType.Name, myRunType.ImageFileName);
-		setLabelContactsExerciseSelected(Constants.Menuitem_modes.RUNSINTERVALLIC);
+		setLabelContactsExerciseSelected(Constants.Modes.RUNSINTERVALLIC);
 
 		if(myRunType.Distance > 0) {
 			label_runs_interval_track_distance_value.Text = myRunType.Distance.ToString();

@@ -49,7 +49,7 @@ public class Config
 	public int CompujumpStationID = -1;
 	public int CompujumpAdminID = -1; //undefined
 	public string CompujumpAdminEmail = ""; //undefined
-	public Constants.Menuitem_modes CompujumpStationMode = Constants.Menuitem_modes.UNDEFINED;
+	public Constants.Modes CompujumpStationMode = Constants.Modes.UNDEFINED;
 	public string RunScriptOnExit;
 	public bool PlaySoundsFromFile;
 
@@ -117,9 +117,9 @@ public class Config
 						CompujumpAdminID = Convert.ToInt32(parts[1]);
 					else if(parts[0] == "CompujumpAdminEmail" && parts[1] != "")
 						CompujumpAdminEmail = parts[1];
-					else if(parts[0] == "CompujumpStationMode" && Enum.IsDefined(typeof(Constants.Menuitem_modes), parts[1]))
-						CompujumpStationMode = (Constants.Menuitem_modes)
-							Enum.Parse(typeof(Constants.Menuitem_modes), parts[1]);
+					else if(parts[0] == "CompujumpStationMode" && Enum.IsDefined(typeof(Constants.Modes), parts[1]))
+						CompujumpStationMode = (Constants.Modes)
+							Enum.Parse(typeof(Constants.Modes), parts[1]);
 					else if(parts[0] == "SessionMode" && Enum.IsDefined(typeof(SessionModeEnum), parts[1]))
 						SessionMode = (SessionModeEnum) 
 							Enum.Parse(typeof(SessionModeEnum), parts[1]);

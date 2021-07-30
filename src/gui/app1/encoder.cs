@@ -4508,7 +4508,7 @@ public partial class ChronoJumpWindow
 	private Constants.EncoderGI getEncoderGIByMenuitemMode()
 	{
 		Constants.EncoderGI encoderGI = Constants.EncoderGI.GRAVITATORY;
-		if(current_mode == Constants.Menuitem_modes.POWERINERTIAL)
+		if(current_mode == Constants.Modes.POWERINERTIAL)
 			encoderGI = Constants.EncoderGI.INERTIAL;
 
 		return encoderGI;
@@ -5230,10 +5230,10 @@ public partial class ChronoJumpWindow
 		}
 		// No problem
 		else {
-			if(current_mode == Constants.Menuitem_modes.POWERGRAVITATORY) {
+			if(current_mode == Constants.Modes.POWERGRAVITATORY) {
 				radio_encoder_exercise_gravitatory.Sensitive = true;
 				radio_encoder_exercise_inertial.Sensitive = false;
-			} else { // (current_mode == Constants.Menuitem_modes.POWERINERTIAL)
+			} else { // (current_mode == Constants.Modes.POWERINERTIAL)
 				radio_encoder_exercise_gravitatory.Sensitive = false;
 				radio_encoder_exercise_inertial.Sensitive = true;
 			}
@@ -5265,18 +5265,18 @@ public partial class ChronoJumpWindow
 		entry_encoder_exercise_resistance.Text = "";
 		entry_encoder_exercise_description.Text = "";
 
-		if(current_mode == Constants.Menuitem_modes.POWERGRAVITATORY) {
+		if(current_mode == Constants.Modes.POWERGRAVITATORY) {
 			radio_encoder_exercise_gravitatory.Sensitive = true;
 			radio_encoder_exercise_inertial.Sensitive = false;
-		} else { // (current_mode == Constants.Menuitem_modes.POWERINERTIAL)
+		} else { // (current_mode == Constants.Modes.POWERINERTIAL)
 			radio_encoder_exercise_gravitatory.Sensitive = false;
 			radio_encoder_exercise_inertial.Sensitive = true;
 		}
 
 		hbox_encoder_exercise_speed_1rm.Sensitive = true;
-		if(current_mode == Constants.Menuitem_modes.POWERGRAVITATORY)
+		if(current_mode == Constants.Modes.POWERGRAVITATORY)
 			radio_encoder_exercise_gravitatory.Active = true;
-		else if(current_mode == Constants.Menuitem_modes.POWERINERTIAL)
+		else if(current_mode == Constants.Modes.POWERINERTIAL)
 			radio_encoder_exercise_inertial.Active = true;
 		else //this could not happen
 			radio_encoder_exercise_all.Active = true;
@@ -5495,7 +5495,7 @@ public partial class ChronoJumpWindow
 	
 	/* called on:
 	 * encoderPersonChanged()
-	 * changeModeCheckRadios (Constants.Menuitem_modes m)
+	 * changeModeCheckRadios (Constants.Modes m)
 	 */
 	private void blankEncoderInterface()
 	{
@@ -7389,7 +7389,7 @@ public partial class ChronoJumpWindow
 			}
 
 			//on inertial, check after capture if string was not fully extended and was corrected
-			if(current_mode == Constants.Menuitem_modes.POWERINERTIAL &&
+			if(current_mode == Constants.Modes.POWERINERTIAL &&
 					action == encoderActions.CURVES_AC && 
 					Util.FileExists(UtilEncoder.GetEncoderSpecialDataTempFileName())) 
 			{
@@ -7524,7 +7524,7 @@ public partial class ChronoJumpWindow
 	{
 		UploadEncoderDataObject uo = new UploadEncoderDataObject(encoderCaptureCurves, lastEncoderSQLSignal.eccon);
 
-		if(current_mode == Constants.Menuitem_modes.POWERINERTIAL)
+		if(current_mode == Constants.Modes.POWERINERTIAL)
 		{
 			//discard first reps on inertial and if there are not enough reps, then do not upload
 			if(! uo.InertialDiscardFirstN(preferences.encoderCaptureInertialDiscardFirstN))

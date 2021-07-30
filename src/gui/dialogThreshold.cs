@@ -50,7 +50,7 @@ public class DialogThreshold
 	private int thresholdCurrent;
 	public Button FakeButtonClose;
 
-	public DialogThreshold (Constants.Menuitem_modes m, int thresholdCurrent)
+	public DialogThreshold (Constants.Modes m, int thresholdCurrent)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "dialog_threshold.glade", "dialog_threshold", null);
@@ -79,12 +79,12 @@ public class DialogThreshold
 
 		writeTexts();
 
-		if(m == Constants.Menuitem_modes.JUMPSSIMPLE || m == Constants.Menuitem_modes.JUMPSREACTIVE)
+		if(m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.JUMPSREACTIVE)
 		{
 			label_threshold_name.Text = "<b>" + Catalog.GetString("Threshold for jumps") + "</b>";
 			radio_jumps.Active = true;
 		}
-                else if(m == Constants.Menuitem_modes.RUNSSIMPLE || m == Constants.Menuitem_modes.RUNSINTERVALLIC)
+                else if(m == Constants.Modes.RUNSSIMPLE || m == Constants.Modes.RUNSINTERVALLIC)
 		{
 			label_threshold_name.Text = "<b>" + Catalog.GetString("Threshold for runs") + "</b>";
 			radio_races.Active = true;

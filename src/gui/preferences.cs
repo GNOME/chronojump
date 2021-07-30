@@ -312,7 +312,7 @@ public class PreferencesWindow
 
 	static public PreferencesWindow Show (
 			Preferences preferences,
-			Constants.Menuitem_modes menu_mode, bool compujump, string progVersion)
+			Constants.Modes menu_mode, bool compujump, string progVersion)
 	{
 		if (PreferencesWindowBox == null) {
 			PreferencesWindowBox = new PreferencesWindow ();
@@ -333,21 +333,21 @@ public class PreferencesWindow
 		}
 		PreferencesWindowBox.frame_networks.Visible = compujump;
 
-		if(menu_mode !=	Constants.Menuitem_modes.JUMPSSIMPLE && menu_mode != Constants.Menuitem_modes.JUMPSREACTIVE) {
+		if(menu_mode !=	Constants.Modes.JUMPSSIMPLE && menu_mode != Constants.Modes.JUMPSREACTIVE) {
 			PreferencesWindowBox.notebook.GetNthPage(JUMPSPAGE).Hide();
 			PreferencesWindowBox.check_view_jumps.Active = false;
-		} if(menu_mode != Constants.Menuitem_modes.RUNSSIMPLE && menu_mode != Constants.Menuitem_modes.RUNSINTERVALLIC) {
+		} if(menu_mode != Constants.Modes.RUNSSIMPLE && menu_mode != Constants.Modes.RUNSINTERVALLIC) {
 			PreferencesWindowBox.notebook.GetNthPage(RUNSPAGE).Hide();
 			PreferencesWindowBox.check_view_runs.Active = false;
-		} if(menu_mode != Constants.Menuitem_modes.POWERGRAVITATORY && menu_mode != Constants.Menuitem_modes.POWERINERTIAL) {
+		} if(menu_mode != Constants.Modes.POWERGRAVITATORY && menu_mode != Constants.Modes.POWERINERTIAL) {
 			PreferencesWindowBox.notebook.GetNthPage(ENCODERCAPTUREPAGE).Hide();
 			PreferencesWindowBox.notebook.GetNthPage(ENCODEROTHERPAGE).Hide();
 			PreferencesWindowBox.check_view_encoder.Active = false;
 		}
-		if(menu_mode !=	Constants.Menuitem_modes.FORCESENSOR) {
+		if(menu_mode !=	Constants.Modes.FORCESENSOR) {
 			PreferencesWindowBox.notebook.GetNthPage(FORCESENSORPAGE).Hide();
 			PreferencesWindowBox.check_view_force_sensor.Active = false;
-		} if(menu_mode != Constants.Menuitem_modes.RUNSENCODER) {
+		} if(menu_mode != Constants.Modes.RUNSENCODER) {
 			PreferencesWindowBox.notebook.GetNthPage(RUNENCODERPAGE).Hide();
 			PreferencesWindowBox.check_view_race_analyzer.Active = false;
 		}
@@ -569,9 +569,9 @@ public class PreferencesWindow
 		PreferencesWindowBox.image_encoder_capture_cut_by_triggers_help.Pixbuf = pixbuf;
 		PreferencesWindowBox.image_encoder_inertial_analyze_eq_mass_help.Pixbuf = pixbuf;
 
-		if(menu_mode ==	Constants.Menuitem_modes.RUNSSIMPLE)
+		if(menu_mode ==	Constants.Modes.RUNSSIMPLE)
 			PreferencesWindowBox.notebook_races_double_contacts.CurrentPage = 0;
-		else if(menu_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
+		else if(menu_mode == Constants.Modes.RUNSINTERVALLIC)
 			PreferencesWindowBox.notebook_races_double_contacts.CurrentPage = 1;
 
 		PreferencesWindowBox.checkbutton_runs_prevent_double_contact.Active = 
@@ -615,9 +615,9 @@ public class PreferencesWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_encoder_triggers_no.png");
 		PreferencesWindowBox.image_encoder_triggers.Pixbuf = pixbuf;
 
-		if(menu_mode ==	Constants.Menuitem_modes.POWERGRAVITATORY)
+		if(menu_mode ==	Constants.Modes.POWERGRAVITATORY)
 			PreferencesWindowBox.notebook_encoder_capture_gi.CurrentPage = 0;
-		else if(menu_mode == Constants.Menuitem_modes.POWERINERTIAL)
+		else if(menu_mode == Constants.Modes.POWERINERTIAL)
 			PreferencesWindowBox.notebook_encoder_capture_gi.CurrentPage = 1;
 
 		PreferencesWindowBox.spin_encoder_capture_min_height_gravitatory.Value = preferences.encoderCaptureMinHeightGravitatory;

@@ -377,7 +377,7 @@ class SqlitePreferences : Sqlite
 				Insert (LoadLastSessionAtStart, "True", dbcmdTr);
 				Insert (LastSessionID, "-1", dbcmdTr);
 				Insert (LoadLastModeAtStart, "True", dbcmdTr);
-				Insert (LastMode, Constants.Menuitem_modes.UNDEFINED.ToString(), dbcmdTr);
+				Insert (LastMode, Constants.Modes.UNDEFINED.ToString(), dbcmdTr);
 				Insert (SessionLoadDisplay, "0", dbcmdTr);
 
 				//export
@@ -847,8 +847,8 @@ class SqlitePreferences : Sqlite
 			else if(reader[0].ToString() == LoadLastModeAtStart)
 				preferences.loadLastModeAtStart = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == LastMode)
-				preferences.lastMode = (Constants.Menuitem_modes)
-					Enum.Parse(typeof(Constants.Menuitem_modes), reader[1].ToString());
+				preferences.lastMode = (Constants.Modes)
+					Enum.Parse(typeof(Constants.Modes), reader[1].ToString());
 			else if(reader[0].ToString() == SessionLoadDisplay)
 				preferences.sessionLoadDisplay = new SessionLoadDisplay(Convert.ToInt32(reader[1].ToString()));
 

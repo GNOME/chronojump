@@ -27,8 +27,12 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
+	[Widget] Gtk.Frame frame_contacts_exercise;
 	[Widget] Gtk.Button button_combo_select_contacts_top_left;
 	[Widget] Gtk.Button button_combo_select_contacts_top_right;
+	[Widget] Gtk.Button button_contacts_exercise;
+	[Widget] Gtk.Label label_contacts_exercise_selected_name;
+	[Widget] Gtk.Label label_contacts_exercise_selected_options;
 
 	private void on_button_contacts_exercise_clicked (object o, EventArgs args)
 	{
@@ -37,7 +41,7 @@ public partial class ChronoJumpWindow
 		hbox_contacts_device_adjust_threshold.Sensitive = false;
 		frame_persons.Sensitive = false;
 		combo_select_contacts_top.Sensitive = false;
-		button_contacts_exercise.Sensitive = false;
+		frame_contacts_exercise.Sensitive = false;
 		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = false;
 		hbox_top_person.Sensitive = false;
 
@@ -51,7 +55,7 @@ public partial class ChronoJumpWindow
 		hbox_contacts_device_adjust_threshold.Sensitive = true;
 		frame_persons.Sensitive = true;
 		combo_select_contacts_top.Sensitive = true;
-		button_contacts_exercise.Sensitive = true;
+		frame_contacts_exercise.Sensitive = true;
 		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = true;
 		hbox_top_person.Sensitive = true;
 

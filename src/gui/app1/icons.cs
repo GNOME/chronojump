@@ -47,7 +47,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_edit_current_person_h;
 	//[Widget] Gtk.Image image_persons_up;
 	//[Widget] Gtk.Image image_persons_down;
-	[Widget] Gtk.Image image_contacts_exercise;
 	[Widget] Gtk.Image image_contacts_exercise_settings;
 	[Widget] Gtk.Image image_contacts_exercise_close;
 	[Widget] Gtk.Image image_contacts_capture_load;
@@ -474,8 +473,6 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_modes.png");
 		image_button_show_modes_contacts_grid.Pixbuf = pixbuf;
 		image_button_show_modes_encoder_grid.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_simple.png");
-		image_contacts_exercise.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_weight.png");
 		image_encoder_exercise.Pixbuf = pixbuf;
 

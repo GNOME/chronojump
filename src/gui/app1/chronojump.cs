@@ -3414,6 +3414,7 @@ public partial class ChronoJumpWindow
 		hbox_combo_select_contacts_top.Visible = false; //TODO: this will be unneded
 
 		//blank exercise options: useful for changing from jumps or runs to forceSensor, runEncoder, reaction time, other
+		label_contacts_exercise_selected_name.Visible = true; //will not be visible when all the contacts_top combo is implemented
 		label_contacts_exercise_selected_options.Text = "";
 
 		//on OSX R is not installed by default. Check if it's installed. Needed for encoder and force sensor
@@ -3484,6 +3485,7 @@ public partial class ChronoJumpWindow
 			}
 
 			createComboSelectContactsTop (true);
+			label_contacts_exercise_selected_name.Visible = false;
 			hbox_combo_select_contacts_top.Visible = true; //this will be unneded
 
 			/*
@@ -3548,6 +3550,7 @@ public partial class ChronoJumpWindow
 			}
 
 			createComboSelectContactsTop (true);
+			label_contacts_exercise_selected_name.Visible = false;
 			hbox_combo_select_contacts_top.Visible = true; //this will be unneded
 
 
@@ -3799,8 +3802,6 @@ public partial class ChronoJumpWindow
 
 		if(m == Constants.Modes.POWERGRAVITATORY || m == Constants.Modes.POWERINERTIAL)
 			image_encoder_exercise.Pixbuf = pixbufModeCurrent;
-		else
-			image_contacts_exercise.Pixbuf = pixbufModeCurrent;
 
 		//show feedback icon
 		Pixbuf pixbufBellActive = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_active.png");

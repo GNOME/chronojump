@@ -676,7 +676,7 @@ public partial class ChronoJumpWindow
 	
 	private void on_button_encoder_bells_clicked(object o, EventArgs args)
 	{
-		repetitiveConditionsWin.View(getBellMode(current_menuitem_mode), preferences, encoderRhythm, true);
+		repetitiveConditionsWin.View(getBellMode(current_mode), preferences, encoderRhythm, true);
 	}
 
 	/*
@@ -4508,7 +4508,7 @@ public partial class ChronoJumpWindow
 	private Constants.EncoderGI getEncoderGIByMenuitemMode()
 	{
 		Constants.EncoderGI encoderGI = Constants.EncoderGI.GRAVITATORY;
-		if(current_menuitem_mode == Constants.Menuitem_modes.POWERINERTIAL)
+		if(current_mode == Constants.Menuitem_modes.POWERINERTIAL)
 			encoderGI = Constants.EncoderGI.INERTIAL;
 
 		return encoderGI;
@@ -4941,7 +4941,7 @@ public partial class ChronoJumpWindow
 			} else {
 				//write header
 				writer.WriteLine(Util.RemoveNewLine(Util.StringArrayToString(
-							GetTreeviewEncoderAnalyzeHeaders(false, current_menuitem_mode), sep), false));
+							GetTreeviewEncoderAnalyzeHeaders(false, current_mode), sep), false));
 				//write curves rows
 				ArrayList array = getTreeViewCurves(encoderAnalyzeListStore);
 
@@ -4955,7 +4955,7 @@ public partial class ChronoJumpWindow
 							phase = "c";
 					}
 
-					writer.WriteLine(ec.ToCSV(false, current_menuitem_mode, preferences.CSVExportDecimalSeparator, preferences.encoderWorkKcal, phase));
+					writer.WriteLine(ec.ToCSV(false, current_mode, preferences.CSVExportDecimalSeparator, preferences.encoderWorkKcal, phase));
 				}
 			}
 			
@@ -5230,10 +5230,10 @@ public partial class ChronoJumpWindow
 		}
 		// No problem
 		else {
-			if(current_menuitem_mode == Constants.Menuitem_modes.POWERGRAVITATORY) {
+			if(current_mode == Constants.Menuitem_modes.POWERGRAVITATORY) {
 				radio_encoder_exercise_gravitatory.Sensitive = true;
 				radio_encoder_exercise_inertial.Sensitive = false;
-			} else { // (current_menuitem_mode == Constants.Menuitem_modes.POWERINERTIAL)
+			} else { // (current_mode == Constants.Menuitem_modes.POWERINERTIAL)
 				radio_encoder_exercise_gravitatory.Sensitive = false;
 				radio_encoder_exercise_inertial.Sensitive = true;
 			}
@@ -5265,18 +5265,18 @@ public partial class ChronoJumpWindow
 		entry_encoder_exercise_resistance.Text = "";
 		entry_encoder_exercise_description.Text = "";
 
-		if(current_menuitem_mode == Constants.Menuitem_modes.POWERGRAVITATORY) {
+		if(current_mode == Constants.Menuitem_modes.POWERGRAVITATORY) {
 			radio_encoder_exercise_gravitatory.Sensitive = true;
 			radio_encoder_exercise_inertial.Sensitive = false;
-		} else { // (current_menuitem_mode == Constants.Menuitem_modes.POWERINERTIAL)
+		} else { // (current_mode == Constants.Menuitem_modes.POWERINERTIAL)
 			radio_encoder_exercise_gravitatory.Sensitive = false;
 			radio_encoder_exercise_inertial.Sensitive = true;
 		}
 
 		hbox_encoder_exercise_speed_1rm.Sensitive = true;
-		if(current_menuitem_mode == Constants.Menuitem_modes.POWERGRAVITATORY)
+		if(current_mode == Constants.Menuitem_modes.POWERGRAVITATORY)
 			radio_encoder_exercise_gravitatory.Active = true;
-		else if(current_menuitem_mode == Constants.Menuitem_modes.POWERINERTIAL)
+		else if(current_mode == Constants.Menuitem_modes.POWERINERTIAL)
 			radio_encoder_exercise_inertial.Active = true;
 		else //this could not happen
 			radio_encoder_exercise_all.Active = true;
@@ -7389,7 +7389,7 @@ public partial class ChronoJumpWindow
 			}
 
 			//on inertial, check after capture if string was not fully extended and was corrected
-			if(current_menuitem_mode == Constants.Menuitem_modes.POWERINERTIAL &&
+			if(current_mode == Constants.Menuitem_modes.POWERINERTIAL &&
 					action == encoderActions.CURVES_AC && 
 					Util.FileExists(UtilEncoder.GetEncoderSpecialDataTempFileName())) 
 			{
@@ -7449,7 +7449,7 @@ public partial class ChronoJumpWindow
 					} else {
 						treeviewEncoderAnalyzeRemoveColumns();
 						encoderAnalyzeListStore = new Gtk.ListStore (typeof (EncoderCurve));
-						createTreeViewEncoderAnalyze(contents, current_menuitem_mode);
+						createTreeViewEncoderAnalyze(contents, current_mode);
 					}
 				}
 
@@ -7524,7 +7524,7 @@ public partial class ChronoJumpWindow
 	{
 		UploadEncoderDataObject uo = new UploadEncoderDataObject(encoderCaptureCurves, lastEncoderSQLSignal.eccon);
 
-		if(current_menuitem_mode == Constants.Menuitem_modes.POWERINERTIAL)
+		if(current_mode == Constants.Menuitem_modes.POWERINERTIAL)
 		{
 			//discard first reps on inertial and if there are not enough reps, then do not upload
 			if(! uo.InertialDiscardFirstN(preferences.encoderCaptureInertialDiscardFirstN))

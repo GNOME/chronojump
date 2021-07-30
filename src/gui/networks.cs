@@ -526,7 +526,7 @@ public partial class ChronoJumpWindow
 				Constants.SportUndefinedID, Constants.SpeciallityUndefinedID, Constants.LevelUndefinedID,
 				"", Constants.ServerUndefinedID); //comments, serverID
 
-		setApp1Title(currentSession.Name, current_menuitem_mode);
+		setApp1Title(currentSession.Name, current_mode);
 
 		//insert personSessions from last month
 		string yearLastMonthStr = UtilDate.GetCurrentYearLastMonthStr();

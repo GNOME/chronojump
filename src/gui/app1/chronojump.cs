@@ -1347,7 +1347,7 @@ public partial class ChronoJumpWindow
 		myTreeViewRunsInterval.SelectPerson(currentPerson.Name);
 
 		//1) change on jumps, runs, pulse capture graph
-		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
+		if(current_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
 		{
 			if(! configChronojump.Exhibition)
 				updateGraphJumpsSimple();
@@ -1364,7 +1364,7 @@ public partial class ChronoJumpWindow
 			else if(notebook_analyze.CurrentPage == Convert.ToInt32(notebook_analyze_pages.JUMPSEVOLUTION))
 				jumpsEvolutionDo(true); //calculate data
 		}
-		else if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSREACTIVE)
+		else if(current_mode == Constants.Menuitem_modes.JUMPSREACTIVE)
 		{
 			updateGraphJumpsReactive();
 
@@ -1374,14 +1374,14 @@ public partial class ChronoJumpWindow
 			if(notebook_analyze.CurrentPage == Convert.ToInt32(notebook_analyze_pages.JUMPSRJFATIGUE))
 				createComboSelectJumpsRjFatigueNum (false);
 		}
-		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSSIMPLE)
+		else if(current_mode == Constants.Menuitem_modes.RUNSSIMPLE)
 		{
 			updateGraphRunsSimple();
 
 			if(notebook_analyze.CurrentPage == Convert.ToInt32(notebook_analyze_pages.RUNSEVOLUTION))
 				runsEvolutionDo(true, true); //calculate data
 		}
-		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
+		else if(current_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
 		{
 			updateGraphRunsInterval();
 			if(currentPerson != null)
@@ -1396,10 +1396,10 @@ public partial class ChronoJumpWindow
 			label_sprint_export_result.Text = "";
 			button_sprint_export_result_open.Visible = false;
 		}
-		//else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSENCODER)
+		//else if(current_mode == Constants.Menuitem_modes.RUNSENCODER)
 		//{
 		//}
-		else if(current_menuitem_mode == Constants.Menuitem_modes.RT)
+		else if(current_mode == Constants.Menuitem_modes.RT)
 			updateGraphReactionTimes();
 
 		//2) changes on encoder and forceSensor
@@ -2724,7 +2724,7 @@ public partial class ChronoJumpWindow
 		currentSession.ServerUniqueID = Constants.ServerUndefinedID;
 
 		menus_and_mode_sensitive (true);
-		setApp1Title(currentSession.Name, current_menuitem_mode);
+		setApp1Title(currentSession.Name, current_mode);
 
 		if(createdStatsWin) {
 			stats_win_initializeSession();
@@ -2792,7 +2792,7 @@ public partial class ChronoJumpWindow
 	
 	private void on_edit_session_accepted ()
 	{
-		setApp1Title(currentSession.Name, current_menuitem_mode);
+		setApp1Title(currentSession.Name, current_mode);
 		app1s_label_session_set_name();
 
 		if(createdStatsWin) {
@@ -2816,7 +2816,7 @@ public partial class ChronoJumpWindow
 	//called from open session OR from gui/networks configInit when config.SessionMode == Config.SessionModeEnum.UNIQUE
 	private void on_load_session_accepted () 
 	{
-		setApp1Title(currentSession.Name, current_menuitem_mode);
+		setApp1Title(currentSession.Name, current_mode);
 	
 		if(createdStatsWin && ! configChronojump.Exhibition) //slow Sqlite calls for Exhibition big data
 			stats_win_initializeSession();
@@ -2887,7 +2887,7 @@ public partial class ChronoJumpWindow
 		currentSession = null;
 		sensitiveGuiNoSession();
 
-		setApp1Title("", current_menuitem_mode);
+		setApp1Title("", current_mode);
 		app1s_label_session_set_name();
 	}
 
@@ -2912,7 +2912,7 @@ public partial class ChronoJumpWindow
 		if (currentSession == null || currentPerson == null)
 			return;
 
-		Constants.Menuitem_modes m = current_menuitem_mode;
+		Constants.Menuitem_modes m = current_mode;
 
 		if(m == Constants.Menuitem_modes.POWERGRAVITATORY || m == Constants.Menuitem_modes.POWERINERTIAL)
 		{
@@ -2972,7 +2972,7 @@ public partial class ChronoJumpWindow
 		if(notebook_sup.CurrentPage == Convert.ToInt32(notebook_sup_pages.START))
 			preferencesWin = PreferencesWindow.Show(preferences, Constants.Menuitem_modes.UNDEFINED, configChronojump.Compujump, progVersion);
 		else
-			preferencesWin = PreferencesWindow.Show(preferences, current_menuitem_mode, configChronojump.Compujump, progVersion);
+			preferencesWin = PreferencesWindow.Show(preferences, current_mode, configChronojump.Compujump, progVersion);
 
 		preferencesWin.FakeButtonConfigurationImported.Clicked += new EventHandler(on_preferences_import_configuration);
 		preferencesWin.FakeButtonDebugModeStart.Clicked += new EventHandler(on_preferences_debug_mode_start);
@@ -3053,7 +3053,7 @@ public partial class ChronoJumpWindow
 			treeview_multi_chronopic_storeReset(false);
 			fillTreeView_multi_chronopic();
 
-			if(current_menuitem_mode == Constants.Menuitem_modes.POWERGRAVITATORY){
+			if(current_mode == Constants.Menuitem_modes.POWERGRAVITATORY){
 				label_gravitatory_vpf_propulsive.Visible = preferences.encoderPropulsive;
 			}
 		}
@@ -3088,7 +3088,7 @@ public partial class ChronoJumpWindow
 		setForceSensorAnalyzeMaxAVGInWindow();
 
 		// update force_capture_drawingarea
-		if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR)// && radiobutton_force_sensor_analyze_manual.Active)
+		if(current_mode == Constants.Menuitem_modes.FORCESENSOR)// && radiobutton_force_sensor_analyze_manual.Active)
 			forceSensorDoGraphAI(false);
 
 		// <---------- end of force sensor changes --------------
@@ -3190,7 +3190,7 @@ public partial class ChronoJumpWindow
 			changeMode (m);
 	}
 
-	private Constants.Menuitem_modes current_menuitem_mode;
+	private Constants.Menuitem_modes current_mode;
 	private Constants.Menuitem_modes last_menuitem_mode; //store it to decide not change threshold when change from jumps to jumpsRj
 	private bool last_menuitem_mode_defined = false; //undefined when first time entry on a mode (jumps, jumpRj, ...)
 
@@ -3198,13 +3198,13 @@ public partial class ChronoJumpWindow
 	private void changeMode (Constants.Menuitem_modes m)
 	{
 		LogB.Information("MODE", m.ToString());
-		current_menuitem_mode = m;
+		current_mode = m;
 
 		string tempSessionName = "";
 		if(currentSession != null)
 			tempSessionName = currentSession.Name;
 
-		setApp1Title(tempSessionName, current_menuitem_mode);
+		setApp1Title(tempSessionName, current_mode);
 
 		//maybe we have the force sensor port opened, close it:
 		if(portFSOpened)
@@ -4102,7 +4102,7 @@ public partial class ChronoJumpWindow
 	DialogThreshold dialogThreshold;
 	private void on_threshold_clicked (object o, EventArgs args)
 	{
-		dialogThreshold = new DialogThreshold(current_menuitem_mode, threshold.GetT);
+		dialogThreshold = new DialogThreshold(current_mode, threshold.GetT);
 		dialogThreshold.FakeButtonClose.Clicked += new EventHandler(on_threshold_close);
 	}
 
@@ -4119,7 +4119,7 @@ public partial class ChronoJumpWindow
 
 	void on_button_execute_test_clicked (object o, EventArgs args) 
 	{
-		if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR)
+		if(current_mode == Constants.Menuitem_modes.FORCESENSOR)
 		{
 			//LogB.Debug("radio_mode_force_sensor");
 			/*
@@ -4130,7 +4130,7 @@ public partial class ChronoJumpWindow
 			on_buttons_force_sensor_clicked(button_execute_test, new EventArgs ());
 			return;
 		}
-		if(current_menuitem_mode == Constants.Menuitem_modes.RUNSENCODER)
+		if(current_mode == Constants.Menuitem_modes.RUNSENCODER)
 		{
 			LogB.Debug("runs_encoder");
 			/*
@@ -4147,14 +4147,14 @@ public partial class ChronoJumpWindow
 			stopCapturingInertialBG();
 		}
 
-		if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC && compujumpAutologout != null)
+		if(current_mode == Constants.Menuitem_modes.RUNSINTERVALLIC && compujumpAutologout != null)
 			compujumpAutologout.StartCapturingRunInterval();
 
 		chronopicRegisterUpdate(false);
 
 		if( chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.RUN_WIRELESS) == 1 && (
-			current_menuitem_mode == Constants.Menuitem_modes.RUNSSIMPLE ||
-			current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC) )
+			current_mode == Constants.Menuitem_modes.RUNSSIMPLE ||
+			current_mode == Constants.Menuitem_modes.RUNSINTERVALLIC) )
 		{
 			//cp2016.StoredCanCaptureContacts = true;
 			cp2016.StoredWireless = true;
@@ -4168,7 +4168,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("numContacts: " + numContacts);
 
 		//check if chronopics have changed
-		if(numContacts >= 2 && current_menuitem_mode == Constants.Menuitem_modes.OTHER && radio_mode_multi_chronopic_small.Active)
+		if(numContacts >= 2 && current_mode == Constants.Menuitem_modes.OTHER && radio_mode_multi_chronopic_small.Active)
 		{
 			chronopicConnectionSequenceInit(2);
 		}
@@ -4259,21 +4259,21 @@ public partial class ChronoJumpWindow
 		event_execute_ButtonCancel.Clicked -= new EventHandler(on_cancel_clicked);
 		event_execute_ButtonFinish.Clicked -= new EventHandler(on_finish_clicked);
 
-		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
+		if(current_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
 		{
 			on_normal_jump_activate(canCaptureC);
 		}
-		else if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSREACTIVE)
+		else if(current_mode == Constants.Menuitem_modes.JUMPSREACTIVE)
 		{
 			on_rj_activate(canCaptureC);
 		}
-		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSSIMPLE)
+		else if(current_mode == Constants.Menuitem_modes.RUNSSIMPLE)
 		{
 			extra_window_runs_distance = Convert.ToDouble(label_runs_simple_track_distance_value.Text);
 
 			on_normal_run_activate(canCaptureC, wireless);
 		}
-		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
+		else if(current_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
 		{
 			//RSA runs cannot be simulated because it's complicated to manage the countdown event...
 			if(currentRunIntervalType.IsRSA && ! canCaptureC) {
@@ -4288,7 +4288,7 @@ public partial class ChronoJumpWindow
 			
 			on_run_interval_activate(canCaptureC, wireless);
 		}
-		else if(current_menuitem_mode == Constants.Menuitem_modes.RT)
+		else if(current_mode == Constants.Menuitem_modes.RT)
 		{
 			if(extra_window_radio_reaction_time_discriminative.Active)
 				reaction_time_discriminative_lights_prepare();
@@ -4325,17 +4325,17 @@ public partial class ChronoJumpWindow
 		if(currentPerson == null || currentSession == null)
 			return;
 
-		if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR)
+		if(current_mode == Constants.Menuitem_modes.FORCESENSOR)
 			force_sensor_load();
-		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSENCODER)
+		else if(current_mode == Constants.Menuitem_modes.RUNSENCODER)
 			run_encoder_load();
 	}
 
 	private void on_button_contacts_recalculate_clicked (object o, EventArgs args)
 	{
-		if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR)
+		if(current_mode == Constants.Menuitem_modes.FORCESENSOR)
 			force_sensor_recalculate();
-		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSENCODER)
+		else if(current_mode == Constants.Menuitem_modes.RUNSENCODER)
 			run_encoder_recalculate();
 	}
 
@@ -4346,12 +4346,12 @@ public partial class ChronoJumpWindow
 	}
 	void on_button_contacts_signal_save_comment_clicked (object o, EventArgs args)
 	{
-		if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR)
+		if(current_mode == Constants.Menuitem_modes.FORCESENSOR)
 		{
 			currentForceSensor.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_contacts_signal_comment);
 			currentForceSensor.UpdateSQLJustComments(false);
 		}
-		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSENCODER)
+		else if(current_mode == Constants.Menuitem_modes.RUNSENCODER)
 		{
 			currentRunEncoder.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_contacts_signal_comment);
 			currentRunEncoder.UpdateSQLJustComments(false);
@@ -4380,7 +4380,7 @@ public partial class ChronoJumpWindow
 
 	private void on_button_contacts_bells_clicked (object o, EventArgs args)
 	{
-		Constants.Menuitem_modes m = current_menuitem_mode;
+		Constants.Menuitem_modes m = current_mode;
 		if(m != Constants.Menuitem_modes.JUMPSREACTIVE &&
 				m != Constants.Menuitem_modes.RUNSINTERVALLIC &&
 				m != Constants.Menuitem_modes.FORCESENSOR)
@@ -4757,8 +4757,8 @@ public partial class ChronoJumpWindow
 			return true;
 		}
 
-		if(current_menuitem_mode == Constants.Menuitem_modes.POWERGRAVITATORY ||
-			       current_menuitem_mode == Constants.Menuitem_modes.POWERINERTIAL)
+		if(current_mode == Constants.Menuitem_modes.POWERGRAVITATORY ||
+			       current_mode == Constants.Menuitem_modes.POWERINERTIAL)
 		{
 			updateTopRestTimesEncoder();
 		} else {
@@ -5671,7 +5671,7 @@ public partial class ChronoJumpWindow
 	{
 		/*
 		ChronopicWindow.ChronojumpMode cmode = ChronopicWindow.ChronojumpMode.JUMPORRUN;
-		if(current_menuitem_mode == Constants.Menuitem_modes.OTHER)
+		if(current_mode == Constants.Menuitem_modes.OTHER)
 			cmode = ChronopicWindow.ChronojumpMode.OTHER;
 
 		chronopicWin = ChronopicWindow.View(cmode, preferences.volumeOn);
@@ -5938,19 +5938,19 @@ LogB.Debug("mc finished 5");
 		try {
 			switch (currentEventType.Type) {
 				case EventType.Types.JUMP:
-					if(lastJumpIsSimple && current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
+					if(lastJumpIsSimple && current_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
 						PrepareJumpSimpleGraph(currentEventExecute.PrepareEventGraphJumpSimpleObject, false);
-					else if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSREACTIVE)
+					else if(current_mode == Constants.Menuitem_modes.JUMPSREACTIVE)
 						PrepareJumpReactiveGraph(
 								Util.GetLast(currentJumpRj.TvString), Util.GetLast(currentJumpRj.TcString),
 								currentJumpRj.TvString, currentJumpRj.TcString,
 								preferences.volumeOn, preferences.gstreamer, repetitiveConditionsWin);
 					break;
 				case EventType.Types.RUN:
-					if(lastRunIsSimple && current_menuitem_mode == Constants.Menuitem_modes.RUNSSIMPLE)
+					if(lastRunIsSimple && current_mode == Constants.Menuitem_modes.RUNSSIMPLE)
 						PrepareRunSimpleGraph(currentEventExecute.PrepareEventGraphRunSimpleObject, false,
 								currentEventExecute.RunPTL);
-					else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
+					else if(current_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
 					{
 						RunType runType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(currentRunInterval.Type, false);
 						double distanceTotal = Util.GetRunITotalDistance(currentRunInterval.DistanceInterval, 
@@ -5977,7 +5977,7 @@ LogB.Debug("mc finished 5");
 					LogB.Information("Cannot update of force sensor");
 					break;
 				case EventType.Types.REACTIONTIME:
-					if(current_menuitem_mode == Constants.Menuitem_modes.RT)
+					if(current_mode == Constants.Menuitem_modes.RT)
 						PrepareReactionTimeGraph(currentEventExecute.PrepareEventGraphReactionTimeObject, false);
 					break;
 				case EventType.Types.PULSE:
@@ -6269,12 +6269,12 @@ LogB.Debug("mc finished 5");
 	
 	private void on_delete_last_test_clicked (object o, EventArgs args)
 	{
-		if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR)
+		if(current_mode == Constants.Menuitem_modes.FORCESENSOR)
 		{
 			force_sensor_delete_current_test_pre_question();
 			return;
 		}
-		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSENCODER)
+		else if(current_mode == Constants.Menuitem_modes.RUNSENCODER)
 		{
 			run_encoder_delete_current_test_pre_question();
 			return;
@@ -7245,9 +7245,9 @@ LogB.Debug("mc finished 5");
 		preferencesWin.DebugActivated();
 
 		if(currentSession == null)
-			setApp1Title("", current_menuitem_mode);
+			setApp1Title("", current_mode);
 		else
-			setApp1Title(currentSession.Name, current_menuitem_mode);
+			setApp1Title(currentSession.Name, current_mode);
 	}
 
 	//use chronojumpConfig
@@ -7358,7 +7358,7 @@ LogB.Debug("mc finished 5");
 	private void on_repetitive_conditions_closed(object o, EventArgs args)
 	{
 		//update bell color if feedback exists
-		Constants.Menuitem_modes m = current_menuitem_mode;
+		Constants.Menuitem_modes m = current_mode;
 		Pixbuf pixbuf;
 
 		Constants.BellModes bellMode = getBellMode(m);
@@ -7581,14 +7581,14 @@ LogB.Debug("mc finished 5");
 		if(! radio_mode_contacts_analyze.Active)
 			return;
 
-		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE ||
-				current_menuitem_mode == Constants.Menuitem_modes.JUMPSREACTIVE ||
-				current_menuitem_mode == Constants.Menuitem_modes.RUNSSIMPLE ||
-				current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
+		if(current_mode == Constants.Menuitem_modes.JUMPSSIMPLE ||
+				current_mode == Constants.Menuitem_modes.JUMPSREACTIVE ||
+				current_mode == Constants.Menuitem_modes.RUNSSIMPLE ||
+				current_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
 		{
-			radio_mode_contacts_analyze_buttons_visible (current_menuitem_mode);
+			radio_mode_contacts_analyze_buttons_visible (current_mode);
 
-			if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
+			if(current_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
 			{
 				if(radio_mode_contacts_jumps_profile.Active)
 				{
@@ -7614,7 +7614,7 @@ LogB.Debug("mc finished 5");
 					jumpsEvolutionDo(true);
 				}
 			}
-			else if (current_menuitem_mode == Constants.Menuitem_modes.JUMPSREACTIVE)
+			else if (current_mode == Constants.Menuitem_modes.JUMPSREACTIVE)
 			{
 				if(radio_mode_contacts_jumps_rj_fatigue.Active)
 				{
@@ -7629,7 +7629,7 @@ LogB.Debug("mc finished 5");
 						combo_select_jumps_rj_fatigue_num.Active = comboSelectJumpsRjFatigueNum.Count -1;
 				}
 			}
-			else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSSIMPLE)
+			else if(current_mode == Constants.Menuitem_modes.RUNSSIMPLE)
 			{
 				if(radio_mode_contacts_runs_evolution.Active)
 				{
@@ -7638,9 +7638,9 @@ LogB.Debug("mc finished 5");
 				}
 			}
 		}
-		else if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR)
+		else if(current_mode == Constants.Menuitem_modes.FORCESENSOR)
 			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.FORCESENSOR);
-		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSENCODER)
+		else if(current_mode == Constants.Menuitem_modes.RUNSENCODER)
 			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.RACEENCODER);
 		else
 			notebook_analyze.CurrentPage = Convert.ToInt32(notebook_analyze_pages.STATISTICS);
@@ -7984,12 +7984,12 @@ LogB.Debug("mc finished 5");
 		event_execute_button_update.Sensitive = true;
 
 		//forceSensor and runEncoder does not use currentEventExecute
-		if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR)
+		if(current_mode == Constants.Menuitem_modes.FORCESENSOR)
 		{
 			sensitiveLastTestButtons(! forceProcessCancel && ! forceProcessError);
 			LogB.Information(" sensitiveGuiEventDone end (forceSensor)");
 			return;
-		} else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSENCODER)
+		} else if(current_mode == Constants.Menuitem_modes.RUNSENCODER)
 		{
 			sensitiveLastTestButtons(! runEncoderProcessCancel && ! runEncoderProcessError);
 			LogB.Information(" sensitiveGuiEventDone end (forceSensor)");
@@ -8110,7 +8110,7 @@ LogB.Debug("mc finished 5");
 		hbox_jump_auto_controls.Visible  = start;
 
 		radio_mode_contacts_analyze.Visible = ! start;
-		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
+		if(current_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
 			hbox_radio_mode_contacts_analyze_buttons.Visible = ! start;
 
 		//when start, put button delete_last_test as not sensitive
@@ -8168,7 +8168,7 @@ LogB.Debug("mc finished 5");
 			
 		} 
 
-		button_video_play_selected_test(current_menuitem_mode);
+		button_video_play_selected_test(current_mode);
 		//LogB.Information("recordedVideo = " + recordedVideo.ToString());
 	}
 	

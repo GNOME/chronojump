@@ -66,21 +66,21 @@ public partial class ChronoJumpWindow
 	private void on_button_image_test_zoom_clicked(object o, EventArgs args)
 	{
 		EventType myType;
-		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
+		if(current_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
 			myType = currentJumpType;
-		else if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSREACTIVE)
+		else if(current_mode == Constants.Menuitem_modes.JUMPSREACTIVE)
 			myType = currentJumpRjType;
-		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSSIMPLE)
+		else if(current_mode == Constants.Menuitem_modes.RUNSSIMPLE)
 			myType = currentRunType;
-		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
+		else if(current_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
 			myType = currentRunIntervalType;
-		//else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSENCODER)
+		//else if(current_mode == Constants.Menuitem_modes.RUNSENCODER)
 		//	myType = currentRunIntervalType;
-		//else if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR
+		//else if(current_mode == Constants.Menuitem_modes.FORCESENSOR
 		//	myType = currentForceType;
-		else if(current_menuitem_mode == Constants.Menuitem_modes.RT)
+		else if(current_mode == Constants.Menuitem_modes.RT)
 			myType = currentReactionTimeType;
-		else //if(current_menuitem_mode == Constants.Menuitem_modes.OTHER
+		else //if(current_mode == Constants.Menuitem_modes.OTHER
 		{
 			if(radio_mode_multi_chronopic_small.Active)
 				myType = currentMultiChronopicType;
@@ -130,11 +130,11 @@ public partial class ChronoJumpWindow
 	private void setLabelContactsExerciseSelectedOptions()
 	{
 		LogB.Information("TT0");
-		LogB.Information(current_menuitem_mode.ToString());
+		LogB.Information(current_mode.ToString());
 
-		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
+		if(current_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
 			setLabelContactsExerciseSelectedOptionsJumpsSimple();
-		if(current_menuitem_mode == Constants.Menuitem_modes.JUMPSREACTIVE)
+		if(current_mode == Constants.Menuitem_modes.JUMPSREACTIVE)
 			setLabelContactsExerciseSelectedOptionsJumpsReactive();
 	}
 

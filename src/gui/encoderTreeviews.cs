@@ -303,7 +303,7 @@ public partial class ChronoJumpWindow
 			return;
 
 		int inertialStart = 0;
-		if( current_menuitem_mode == Constants.Menuitem_modes.POWERINERTIAL)
+		if( current_mode == Constants.Menuitem_modes.POWERINERTIAL)
 		{
 			if(ecconLast == "c")
 				inertialStart = preferences.encoderCaptureInertialDiscardFirstN;
@@ -397,7 +397,7 @@ public partial class ChronoJumpWindow
 		int bestN = Convert.ToInt32(spin_encoder_capture_curves_best_n.Value);
 
 		int inertialStart = 0;
-		if( current_menuitem_mode == Constants.Menuitem_modes.POWERINERTIAL)
+		if( current_mode == Constants.Menuitem_modes.POWERINERTIAL)
 		{
 			if(ecconLast == "c")
 				inertialStart = preferences.encoderCaptureInertialDiscardFirstN;
@@ -459,7 +459,7 @@ public partial class ChronoJumpWindow
 			
 			//discard first rows
 			bool thisRowDiscarded = false;
-			if( current_menuitem_mode == Constants.Menuitem_modes.POWERINERTIAL &&
+			if( current_mode == Constants.Menuitem_modes.POWERINERTIAL &&
 					( (ecconLast == "c" && i < preferences.encoderCaptureInertialDiscardFirstN) ||
 					(ecconLast != "c" && i < 2 * preferences.encoderCaptureInertialDiscardFirstN) ) )
 			{
@@ -1053,7 +1053,7 @@ public partial class ChronoJumpWindow
 		//Check if it's number
 		if(! curve.IsNumberN()) {
 			(cell as Gtk.CellRendererText).Text = "";
-			LogB.Error("Curve is not number at RenderN:" + curve.ToCSV(true, current_menuitem_mode, "COMMA", preferences.encoderWorkKcal, ""));
+			LogB.Error("Curve is not number at RenderN:" + curve.ToCSV(true, current_mode, "COMMA", preferences.encoderWorkKcal, ""));
 			return;
 		}
 		
@@ -1090,7 +1090,7 @@ public partial class ChronoJumpWindow
 		//Check if it's valid
 		if(! curve.IsValidN()) {
 			(cell as Gtk.CellRendererText).Text = "";
-			LogB.Error("Curve is not valid at RenderNAnalyze:" + curve.ToCSV(false, current_menuitem_mode, "COMMA", preferences.encoderWorkKcal, ""));
+			LogB.Error("Curve is not valid at RenderNAnalyze:" + curve.ToCSV(false, current_mode, "COMMA", preferences.encoderWorkKcal, ""));
 			return;
 		}
 			

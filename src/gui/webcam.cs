@@ -205,9 +205,9 @@ public partial class ChronoJumpWindow
 				notebook_video_contacts.CurrentPage = 1;
 			}
 
-			if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR)
+			if(current_mode == Constants.Menuitem_modes.FORCESENSOR)
 				forceSensorCapturePre3_GTK_cameraCalled();
-			else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSENCODER)
+			else if(current_mode == Constants.Menuitem_modes.RUNSENCODER)
 				runEncoderCapturePre3_GTK_cameraCalled();
 			else
 				on_button_execute_test_accepted ();
@@ -400,7 +400,7 @@ public partial class ChronoJumpWindow
 		LogB.Information(string.Format("calling button_video_play_this_test_contacts_sensitive {0}-{1}-{2}",
 					webcamEndParams.guiContactsEncoder, webcamManage.ReallyStarted, resultExit.success));
 		button_video_play_this_test_contacts_sensitive (webcamEndParams.guiContactsEncoder, webcamManage.ReallyStarted && resultExit.success);
-		button_video_play_selected_test(current_menuitem_mode);
+		button_video_play_selected_test(current_mode);
 
 		sensitiveGuiEventDone();
 		//notebook_last_test_buttons.CurrentPage = 0;
@@ -474,7 +474,7 @@ public partial class ChronoJumpWindow
 
 		//button_video_play_this_test_contacts.Sensitive = (uniqueID != -1 && errorMessage == "");
 		button_video_play_this_test_contacts_sensitive (guiContactsEncoder, (uniqueID != -1 && errorMessage == ""));
-		button_video_play_selected_test(current_menuitem_mode);
+		button_video_play_selected_test(current_mode);
 	}
 
 	private void on_button_camera_stop_at_boot_clicked (object o, EventArgs args)
@@ -772,7 +772,7 @@ public partial class ChronoJumpWindow
 
 	private void on_button_video_play_this_test_contacts_clicked (object o, EventArgs args)
 	{
-		if(current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR)
+		if(current_mode == Constants.Menuitem_modes.FORCESENSOR)
 		{
 			if(currentForceSensor == null || currentForceSensor.UniqueID == -1)
 				new DialogMessage(Constants.MessageTypes.WARNING, "Sorry, file not found");
@@ -781,7 +781,7 @@ public partial class ChronoJumpWindow
 
 			return;
 		}
-		else if(current_menuitem_mode == Constants.Menuitem_modes.RUNSENCODER)
+		else if(current_mode == Constants.Menuitem_modes.RUNSENCODER)
 		{
 			if(currentRunEncoder == null || currentRunEncoder.UniqueID == -1)
 				new DialogMessage(Constants.MessageTypes.WARNING, "Sorry, file not found");

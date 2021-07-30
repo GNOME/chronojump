@@ -121,8 +121,8 @@ public partial class ChronoJumpWindow
 			new EventHandler(on_connection_contacts_real_done);
 
 		string message = Catalog.GetString("Please, touch the platform or click Chronopic TEST button.");
-		if(current_menuitem_mode == Constants.Menuitem_modes.RUNSSIMPLE ||
-				current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
+		if(current_mode == Constants.Menuitem_modes.RUNSSIMPLE ||
+				current_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
 			message = Catalog.GetString("Please, cut photocell barrier or click Chronopic TEST button.");
 
 		cp2016.ConnectContactsReal(app1, crp, numCP, message);
@@ -162,7 +162,7 @@ public partial class ChronoJumpWindow
 	private void changeMultitestFirmwareIfNeeded(int cpCount)
 	{
 		//change multitest stuff
-		threshold.UpdateAtDatabaseIfNeeded(current_menuitem_mode);
+		threshold.UpdateAtDatabaseIfNeeded(current_mode);
 		if(threshold.ShouldUpdateChronopicFirmware(cpCount))
 		{
 			bool ok = cp2016.ChangeMultitestFirmwarePre(threshold.GetT, cpCount);

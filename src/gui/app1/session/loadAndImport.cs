@@ -124,14 +124,14 @@ public partial class ChronoJumpWindow
 		app1s_checkbutton_show_data_jump_run.Active = preferences.sessionLoadDisplay.ShowJumpsRaces;
 		app1s_checkbutton_show_data_other_tests.Active = preferences.sessionLoadDisplay.ShowOtherTests;
 		*/
-		app1s_checkbutton_show_data_jumps.Active = (current_menuitem_mode == Constants.Menuitem_modes.JUMPSSIMPLE ||
-				current_menuitem_mode == Constants.Menuitem_modes.JUMPSREACTIVE);
-		app1s_checkbutton_show_data_runs.Active = (current_menuitem_mode == Constants.Menuitem_modes.RUNSSIMPLE ||
-				current_menuitem_mode == Constants.Menuitem_modes.RUNSINTERVALLIC ||
-				current_menuitem_mode == Constants.Menuitem_modes.RUNSENCODER);
-		app1s_checkbutton_show_data_force_sensor.Active = (current_menuitem_mode == Constants.Menuitem_modes.FORCESENSOR);
-		app1s_checkbutton_show_data_encoder.Active = (current_menuitem_mode == Constants.Menuitem_modes.POWERGRAVITATORY ||
-				current_menuitem_mode == Constants.Menuitem_modes.POWERINERTIAL);
+		app1s_checkbutton_show_data_jumps.Active = (current_mode == Constants.Menuitem_modes.JUMPSSIMPLE ||
+				current_mode == Constants.Menuitem_modes.JUMPSREACTIVE);
+		app1s_checkbutton_show_data_runs.Active = (current_mode == Constants.Menuitem_modes.RUNSSIMPLE ||
+				current_mode == Constants.Menuitem_modes.RUNSINTERVALLIC ||
+				current_mode == Constants.Menuitem_modes.RUNSENCODER);
+		app1s_checkbutton_show_data_force_sensor.Active = (current_mode == Constants.Menuitem_modes.FORCESENSOR);
+		app1s_checkbutton_show_data_encoder.Active = (current_mode == Constants.Menuitem_modes.POWERGRAVITATORY ||
+				current_mode == Constants.Menuitem_modes.POWERINERTIAL);
 
 		sessionLoadWinSignals = true;
 

@@ -267,10 +267,12 @@ public partial class ChronoJumpWindow
 	{
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)
 			contacts_exercise_left_button (combo_select_jumps,
-					button_combo_jumps_exercise_capture_left, button_combo_jumps_exercise_capture_right);
+					button_combo_jumps_exercise_capture_left,
+					button_combo_jumps_exercise_capture_right);
 		else if(current_mode == Constants.Modes.JUMPSREACTIVE)
 			contacts_exercise_left_button (combo_select_jumps_rj,
-					button_combo_jumps_rj_exercise_capture_left, button_combo_jumps_rj_exercise_capture_right);
+					button_combo_jumps_rj_exercise_capture_left,
+					button_combo_jumps_rj_exercise_capture_right);
 		else if(current_mode == Constants.Modes.RUNSSIMPLE)
 			contacts_exercise_left_button (combo_select_runs,
 					button_combo_runs_exercise_capture_left,
@@ -279,15 +281,21 @@ public partial class ChronoJumpWindow
 			contacts_exercise_left_button (combo_select_runs_interval,
 					button_combo_runs_interval_exercise_capture_left,
 					button_combo_runs_interval_exercise_capture_right);
+		else if(current_mode == Constants.Modes.RUNSENCODER)
+			contacts_exercise_left_button (combo_run_encoder_exercise,
+					button_combo_run_encoder_exercise_capture_left,
+					button_combo_run_encoder_exercise_capture_right);
 	}
 	private void on_button_combo_select_contacts_top_right_clicked (object o, EventArgs args)
 	{
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)
 			contacts_exercise_right_button (combo_select_jumps,
-					button_combo_jumps_exercise_capture_left, button_combo_jumps_exercise_capture_right);
+					button_combo_jumps_exercise_capture_left,
+					button_combo_jumps_exercise_capture_right);
 		else if(current_mode == Constants.Modes.JUMPSREACTIVE)
 			contacts_exercise_right_button (combo_select_jumps_rj,
-					button_combo_jumps_rj_exercise_capture_left, button_combo_jumps_rj_exercise_capture_right);
+					button_combo_jumps_rj_exercise_capture_left,
+					button_combo_jumps_rj_exercise_capture_right);
 		else if(current_mode == Constants.Modes.RUNSSIMPLE)
 			contacts_exercise_right_button (combo_select_runs,
 					button_combo_runs_exercise_capture_left,
@@ -296,5 +304,9 @@ public partial class ChronoJumpWindow
 			contacts_exercise_right_button (combo_select_runs_interval,
 					button_combo_runs_interval_exercise_capture_left,
 					button_combo_runs_interval_exercise_capture_right);
+		else if(current_mode == Constants.Modes.RUNSENCODER)
+			contacts_exercise_right_button (combo_run_encoder_exercise,
+					button_combo_run_encoder_exercise_capture_left,
+					button_combo_run_encoder_exercise_capture_right);
 	}
 }

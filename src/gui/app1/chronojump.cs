@@ -175,6 +175,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_combo_select_jumps_rj;
 	[Widget] Gtk.HBox hbox_combo_select_runs;
 	[Widget] Gtk.HBox hbox_combo_select_runs_interval;
+	[Widget] Gtk.HBox hbox_combo_select_contacts_top;
 
 	//auto mode	
 	//[Widget] Gtk.Box hbox_jump_types_options;
@@ -212,12 +213,14 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ComboBox combo_select_jumps_rj;
 	[Widget] Gtk.ComboBox combo_select_runs;
 	[Widget] Gtk.ComboBox combo_select_runs_interval;
+	[Widget] Gtk.ComboBox combo_select_contacts_top;
 
 	//new since 1.6.3. Using gui/cjCombo.cs
 	CjComboSelectJumps comboSelectJumps;
 	CjComboSelectJumpsRj comboSelectJumpsRj;
 	CjComboSelectRuns comboSelectRuns;
 	CjComboSelectRunsI comboSelectRunsI;
+	CjCombo comboSelectContactsTop;
 	
 	[Widget] Gtk.ComboBox combo_result_jumps;
 	[Widget] Gtk.ComboBox combo_result_jumps_rj;
@@ -808,6 +811,17 @@ public partial class ChronoJumpWindow
 
 			// 3) put preference to true again
 			SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, true, false);
+		}
+
+		if(preferences.loadLastModeAtStart && preferences.lastMode != Constants.Modes.UNDEFINED)
+		{
+			//if(mode == Constants.Modes.POWERGRAVITATORY || mode == Constants.Modes.POWERINERTIAL)
+			//	createComboSelectEncoderTop (true);
+			//else
+
+			if(current_mode == Constants.Modes.JUMPSSIMPLE || current_mode == Constants.Modes.JUMPSREACTIVE ||
+					current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC)
+				createComboSelectContactsTop (true);
 		}
 
 		initialize_menu_or_menu_tiny();
@@ -2177,6 +2191,56 @@ public partial class ChronoJumpWindow
 	
 	// ---------------- combo_select ----------------------
 
+	private bool comboSelectContactsTopNoFollow;
+	private void createComboSelectContactsTop (bool create)
+	{
+		if(create)
+		{
+			//delete children if any
+			if(hbox_combo_select_contacts_top.Children.Length > 0)
+				hbox_combo_select_contacts_top.Remove(combo_select_contacts_top);
+
+			if(current_mode == Constants.Modes.JUMPSSIMPLE)
+			{
+				comboSelectContactsTop = new CjComboSelectJumps (combo_select_contacts_top, hbox_combo_select_contacts_top, false);
+				combo_select_contacts_top = comboSelectContactsTop.Combo;
+				combo_select_contacts_top.Active = combo_select_jumps.Active;
+				combo_select_contacts_top.Sensitive = true;
+			}
+			else if(current_mode == Constants.Modes.JUMPSREACTIVE)
+			{
+				comboSelectContactsTop = new CjComboSelectJumpsRj (combo_select_contacts_top, hbox_combo_select_contacts_top);
+				combo_select_contacts_top = comboSelectContactsTop.Combo;
+				combo_select_contacts_top.Active = combo_select_jumps_rj.Active;
+				combo_select_contacts_top.Sensitive = true;
+			}
+			else if(current_mode == Constants.Modes.RUNSSIMPLE)
+			{
+				comboSelectContactsTop = new CjComboSelectRuns(combo_select_contacts_top, hbox_combo_select_contacts_top);
+				combo_select_contacts_top = comboSelectContactsTop.Combo;
+				combo_select_contacts_top.Active = combo_select_runs.Active;
+				combo_select_contacts_top.Sensitive = true;
+			}
+			else if(current_mode == Constants.Modes.RUNSINTERVALLIC)
+			{
+				comboSelectContactsTop = new CjComboSelectRunsI(combo_select_contacts_top, hbox_combo_select_contacts_top);
+				combo_select_contacts_top = comboSelectContactsTop.Combo;
+				combo_select_contacts_top.Active = combo_select_runs_interval.Active;
+				combo_select_contacts_top.Sensitive = true;
+			}
+			/*
+			TODO:
+			//else if(current_mode == Constants.Modes.FORCESENSOR)
+			//{
+			//}
+			...
+			*/
+
+			combo_select_contacts_top.Changed -= new EventHandler (on_combo_select_contacts_top_changed);
+			combo_select_contacts_top.Changed += new EventHandler (on_combo_select_contacts_top_changed);
+		}
+	}
+
 	private void createComboSelectJumps(bool create) 
 	{
 		if(create)
@@ -2324,10 +2388,48 @@ public partial class ChronoJumpWindow
 
 	// -------------- combo select tests changed --------
 
-	private void on_combo_select_jumps_changed(object o, EventArgs args) {
+	private void on_combo_select_contacts_top_changed (object o, EventArgs args)
+	{
+		LogB.Information("on_combo_select_contacts_top_changed");
+		if(current_mode == Constants.Modes.JUMPSSIMPLE)
+			on_combo_select_jumps_changed(o, args);
+		else if(current_mode == Constants.Modes.JUMPSREACTIVE)
+			on_combo_select_jumps_rj_changed(o, args);
+		else if(current_mode == Constants.Modes.RUNSSIMPLE)
+			on_combo_select_runs_changed(o, args);
+		else if(current_mode == Constants.Modes.RUNSINTERVALLIC)
+			on_combo_select_runs_interval_changed(o, args);
+	}
+
+	private void on_combo_select_jumps_changed(object o, EventArgs args)
+	{
+		LogB.Information("on_combo_select_jumps_changed");
 		ComboBox combo = o as ComboBox;
-		if (o == null)
+		if (o == null) {
+			LogB.Information("o is null");
 			return;
+		}
+
+		//two combobox are linked ---->
+		if(comboSelectContactsTopNoFollow)
+		{
+			LogB.Information("no follow");
+			return;
+		}
+
+		comboSelectContactsTopNoFollow = true;
+		if (o == combo_select_jumps)
+		{
+			LogB.Information("o is combo_select_jumps");
+			combo_select_contacts_top.Active = combo_select_jumps.Active;
+		}
+		else if (o == combo_select_contacts_top)
+		{
+			LogB.Information("o is combo_select_contacts_top");
+			combo_select_jumps.Active = combo_select_contacts_top.Active;
+		}
+		comboSelectContactsTopNoFollow = false;
+		//<---- two combobox are linked
 
 		sensitiveLastTestButtons(false);
 
@@ -2342,10 +2444,35 @@ public partial class ChronoJumpWindow
 		on_extra_window_jumps_test_changed(o, args);
 	}
 	
-	private void on_combo_select_jumps_rj_changed(object o, EventArgs args) {
+	private void on_combo_select_jumps_rj_changed(object o, EventArgs args)
+	{
+		LogB.Information("on_combo_select_jumps_rj_changed");
 		ComboBox combo = o as ComboBox;
-		if (o == null)
+		if (o == null) {
+			LogB.Information("o is null");
 			return;
+		}
+
+		//two combobox are linked ---->
+		if(comboSelectContactsTopNoFollow)
+		{
+			LogB.Information("no follow");
+			return;
+		}
+
+		comboSelectContactsTopNoFollow = true;
+		if (o == combo_select_jumps_rj)
+		{
+			LogB.Information("o is combo_select_jumps_rj");
+			combo_select_contacts_top.Active = combo_select_jumps_rj.Active;
+		}
+		else if (o == combo_select_contacts_top)
+		{
+			LogB.Information("o is combo_select_contacts_top");
+			combo_select_jumps_rj.Active = combo_select_contacts_top.Active;
+		}
+		comboSelectContactsTopNoFollow = false;
+		//<---- two combobox are linked
 
 		sensitiveLastTestButtons(false);
 
@@ -2360,10 +2487,23 @@ public partial class ChronoJumpWindow
 		on_extra_window_jumps_rj_test_changed(o, args);
 	}
 	
-	private void on_combo_select_runs_changed(object o, EventArgs args) {
+	private void on_combo_select_runs_changed(object o, EventArgs args)
+	{
 		ComboBox combo = o as ComboBox;
 		if (o == null)
 			return;
+
+		//two combobox are linked ---->
+		if(comboSelectContactsTopNoFollow)
+			return;
+
+		comboSelectContactsTopNoFollow = true;
+		if (o == combo_select_runs)
+			combo_select_contacts_top.Active = combo_select_runs.Active;
+		else if (o == combo_select_contacts_top)
+			combo_select_runs.Active = combo_select_contacts_top.Active;
+		comboSelectContactsTopNoFollow = false;
+		//<---- two combobox are linked
 
 		sensitiveLastTestButtons(false);
 
@@ -2378,10 +2518,23 @@ public partial class ChronoJumpWindow
 		on_extra_window_runs_test_changed(o, args);
 	}
 	
-	private void on_combo_select_runs_interval_changed(object o, EventArgs args) {
+	private void on_combo_select_runs_interval_changed(object o, EventArgs args)
+	{
 		ComboBox combo = o as ComboBox;
 		if (o == null)
 			return;
+
+		//two combobox are linked ---->
+		if(comboSelectContactsTopNoFollow)
+			return;
+
+		comboSelectContactsTopNoFollow = true;
+		if (o == combo_select_runs_interval)
+			combo_select_contacts_top.Active = combo_select_runs_interval.Active;
+		else if (o == combo_select_contacts_top)
+			combo_select_runs_interval.Active = combo_select_contacts_top.Active;
+		comboSelectContactsTopNoFollow = false;
+		//<---- two combobox are linked
 
 		sensitiveLastTestButtons(false);
 
@@ -3258,6 +3411,8 @@ public partial class ChronoJumpWindow
 		vbox_contacts_signal_comment.Visible = false;
 		frame_jumps_automatic.Visible = false;
 
+		hbox_combo_select_contacts_top.Visible = false; //TODO: this will be unneded
+
 		//blank exercise options: useful for changing from jumps or runs to forceSensor, runEncoder, reaction time, other
 		label_contacts_exercise_selected_options.Text = "";
 
@@ -3328,6 +3483,9 @@ public partial class ChronoJumpWindow
 				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_reactive.png");
 			}
 
+			createComboSelectContactsTop (true);
+			hbox_combo_select_contacts_top.Visible = true; //this will be unneded
+
 			/*
 			if(radio_mode_contacts_jumps_profile.Active || radio_mode_contacts_jumps_dj_optimal_fall.Active ||
 					radio_mode_contacts_jumps_weight_fv_profile.Active || radio_mode_contacts_jumps_evolution.Active)
@@ -3388,6 +3546,10 @@ public partial class ChronoJumpWindow
 				if(radio_mode_contacts_analyze.Active)
 					radio_mode_contacts_analyze_buttons_visible (m);
 			}
+
+			createComboSelectContactsTop (true);
+			hbox_combo_select_contacts_top.Visible = true; //this will be unneded
+
 
 			pixbufModeGrid = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_run.png");
 		}

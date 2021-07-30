@@ -129,7 +129,7 @@ public partial class ChronoJumpWindow
 	{
 		configChronojump.Read();
 
-		if(configChronojump.CompujumpStationMode != Constants.Menuitem_modes.UNDEFINED)
+		if(configChronojump.CompujumpStationMode != Constants.Modes.UNDEFINED)
 		{
 			button_show_modes_contacts.Visible = false;
 
@@ -144,7 +144,7 @@ public partial class ChronoJumpWindow
 				configChronojump.CompujumpServerURL != null &&
 				configChronojump.CompujumpServerURL != "" &&
 				configChronojump.CompujumpStationID != -1 &&
-				configChronojump.CompujumpStationMode != Constants.Menuitem_modes.UNDEFINED
+				configChronojump.CompujumpStationMode != Constants.Modes.UNDEFINED
 				)
 		{
 			LogB.Information(configChronojump.Compujump.ToString());
@@ -196,19 +196,19 @@ public partial class ChronoJumpWindow
 			configChronojump.PersonWinHide = true;
 			showPersonsOnTop(true);
 
-			if(configChronojump.CompujumpStationMode != Constants.Menuitem_modes.UNDEFINED)
+			if(configChronojump.CompujumpStationMode != Constants.Modes.UNDEFINED)
 			{
 				//changeModeCheckRadios (configChronojump.CompujumpStationMode);
 				//better do like this because radiobuttons are not set. TODO: remove radiobuttons checks
-				if(configChronojump.CompujumpStationMode == Constants.Menuitem_modes.JUMPSSIMPLE)
+				if(configChronojump.CompujumpStationMode == Constants.Modes.JUMPSSIMPLE)
 					on_button_selector_start_jumps_simple_clicked(new object (), new EventArgs());
-				else if(configChronojump.CompujumpStationMode == Constants.Menuitem_modes.JUMPSREACTIVE)
+				else if(configChronojump.CompujumpStationMode == Constants.Modes.JUMPSREACTIVE)
 					on_button_selector_start_jumps_reactive_clicked(new object (), new EventArgs());
-				else if(configChronojump.CompujumpStationMode == Constants.Menuitem_modes.RUNSINTERVALLIC)
+				else if(configChronojump.CompujumpStationMode == Constants.Modes.RUNSINTERVALLIC)
 					on_button_selector_start_runs_intervallic_clicked(new object (), new EventArgs());
-				else if(configChronojump.CompujumpStationMode == Constants.Menuitem_modes.POWERGRAVITATORY)
+				else if(configChronojump.CompujumpStationMode == Constants.Modes.POWERGRAVITATORY)
 					on_button_selector_start_encoder_gravitatory_clicked(new object (), new EventArgs());
-				else //if(configChronojump.CompujumpStationMode == Constants.Menuitem_modes.POWERINERTIAL)
+				else //if(configChronojump.CompujumpStationMode == Constants.Modes.POWERINERTIAL)
 					on_button_selector_start_encoder_inertial_clicked(new object (), new EventArgs());
 
 				vbox_runs_interval.Visible = false;
@@ -488,7 +488,7 @@ public partial class ChronoJumpWindow
 		/*
 		if(linuxType == linuxTypeEnum.NETWORKS) {
 			//mostrar directament el power
-			changeModeCheckRadios (Constants.Menuitem_modes.POWER);
+			changeModeCheckRadios (Constants.Modes.POWER);
 			
 			//no mostrar menu
 			
@@ -968,11 +968,11 @@ public partial class ChronoJumpWindow
 		List<Task> tasks = json.GetTasks(currentPerson.UniqueID, configChronojump.CompujumpStationID);
 
 		//2) get exercises and insert if needed (only on encoder)
-		if(configChronojump.CompujumpStationMode == Constants.Menuitem_modes.POWERGRAVITATORY ||
-				configChronojump.CompujumpStationMode == Constants.Menuitem_modes.POWERINERTIAL)
+		if(configChronojump.CompujumpStationMode == Constants.Modes.POWERGRAVITATORY ||
+				configChronojump.CompujumpStationMode == Constants.Modes.POWERINERTIAL)
 		{
 			Constants.EncoderGI type = Constants.EncoderGI.GRAVITATORY;
-			if(configChronojump.CompujumpStationMode == Constants.Menuitem_modes.POWERINERTIAL)
+			if(configChronojump.CompujumpStationMode == Constants.Modes.POWERINERTIAL)
 				type = Constants.EncoderGI.INERTIAL;
 
 			ArrayList encoderExercisesOnLocal = SqliteEncoder.SelectEncoderExercises(false, -1, false, type);
@@ -1057,7 +1057,7 @@ public partial class ChronoJumpWindow
 		dialogPersonPopup.DestroyDialog();
 		LogB.Information("Selected task from gui/networks.cs:" + task.ToString());
 
-		if(configChronojump.CompujumpStationMode == Constants.Menuitem_modes.RUNSINTERVALLIC)
+		if(configChronojump.CompujumpStationMode == Constants.Modes.RUNSINTERVALLIC)
 			compujumpTaskStartRunInterval(task);
 		else
 			compujumpTaskStartEncoder(task);
@@ -1230,8 +1230,8 @@ public partial class ChronoJumpWindow
 		}
 		else {
 			//notebook_start.CurrentPage = Convert.ToInt32(notebook_start_pages.PROGRAM);
-			if(configChronojump.CompujumpStationMode == Constants.Menuitem_modes.POWERGRAVITATORY ||
-					configChronojump.CompujumpStationMode == Constants.Menuitem_modes.POWERINERTIAL)
+			if(configChronojump.CompujumpStationMode == Constants.Modes.POWERGRAVITATORY ||
+					configChronojump.CompujumpStationMode == Constants.Modes.POWERINERTIAL)
 				notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.ENCODER);
 			else
 				notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);

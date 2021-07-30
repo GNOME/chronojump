@@ -541,17 +541,17 @@ public partial class ChronoJumpWindow
 		if(sizeChanged)
 		{
 			//LogB.Information("caring for resize screen and correctly update event_execute_drawingarea");
-			if(current_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
+			if(current_mode == Constants.Modes.JUMPSSIMPLE)
 				on_extra_window_jumps_test_changed(o, new EventArgs ());
-			else if(current_mode == Constants.Menuitem_modes.JUMPSREACTIVE)
+			else if(current_mode == Constants.Modes.JUMPSREACTIVE)
 				on_extra_window_jumps_rj_test_changed(o, new EventArgs());
-			else if(current_mode == Constants.Menuitem_modes.RUNSSIMPLE)
+			else if(current_mode == Constants.Modes.RUNSSIMPLE)
 				on_extra_window_runs_test_changed(o, new EventArgs());
-			else if(current_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
+			else if(current_mode == Constants.Modes.RUNSINTERVALLIC)
 				on_extra_window_runs_interval_test_changed(o, new EventArgs());
-			else if(current_mode == Constants.Menuitem_modes.RT)
+			else if(current_mode == Constants.Modes.RT)
 				on_extra_window_reaction_times_test_changed(o, new EventArgs());
-			else if(current_mode == Constants.Menuitem_modes.OTHER) {
+			else if(current_mode == Constants.Modes.OTHER) {
 				if(radio_mode_pulses_small.Active)
 					on_extra_window_pulses_test_changed(o, new EventArgs());
 				else
@@ -707,11 +707,11 @@ public partial class ChronoJumpWindow
 		/*
 		string [] str;
 		string testName;
-		if(current_mode == Constants.Menuitem_modes.JUMPSSIMPLE) {
+		if(current_mode == Constants.Modes.JUMPSSIMPLE) {
 			str = SqliteJump.SelectTestMaxStuff(currentPerson.UniqueID, currentJumpType); 
 			testName = currentJumpType.Name;
 		}
-		else if(current_mode == Constants.Menuitem_modes.RUNSSIMPLE) {
+		else if(current_mode == Constants.Modes.RUNSSIMPLE) {
 			str = SqliteRun.SelectTestMaxStuff(currentPerson.UniqueID, currentRunType); 
 			testName = currentRunType.Name;
 		} else
@@ -2774,25 +2774,25 @@ public partial class ChronoJumpWindow
 
 	private void on_spin_contacts_graph_last_limit_value_changed (object o, EventArgs args)
 	{
-		if(current_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
+		if(current_mode == Constants.Modes.JUMPSSIMPLE)
 			updateGraphJumpsSimple ();
-		else if(current_mode == Constants.Menuitem_modes.RUNSSIMPLE)
+		else if(current_mode == Constants.Modes.RUNSSIMPLE)
 			updateGraphRunsSimple ();
 	}
 
 	private void on_radio_contacts_graph_test_toggled (object o, EventArgs args)
 	{
-		if(current_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
+		if(current_mode == Constants.Modes.JUMPSSIMPLE)
 			updateGraphJumpsSimple ();
-		else if(current_mode == Constants.Menuitem_modes.RUNSSIMPLE)
+		else if(current_mode == Constants.Modes.RUNSSIMPLE)
 			updateGraphRunsSimple ();
 	}
 
 	private void on_radio_contacts_graph_person_toggled (object o, EventArgs args)
 	{
-		if(current_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
+		if(current_mode == Constants.Modes.JUMPSSIMPLE)
 			updateGraphJumpsSimple ();
-		else if(current_mode == Constants.Menuitem_modes.RUNSSIMPLE)
+		else if(current_mode == Constants.Modes.RUNSSIMPLE)
 			updateGraphRunsSimple ();
 	}
 

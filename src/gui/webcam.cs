@@ -205,9 +205,9 @@ public partial class ChronoJumpWindow
 				notebook_video_contacts.CurrentPage = 1;
 			}
 
-			if(current_mode == Constants.Menuitem_modes.FORCESENSOR)
+			if(current_mode == Constants.Modes.FORCESENSOR)
 				forceSensorCapturePre3_GTK_cameraCalled();
-			else if(current_mode == Constants.Menuitem_modes.RUNSENCODER)
+			else if(current_mode == Constants.Modes.RUNSENCODER)
 				runEncoderCapturePre3_GTK_cameraCalled();
 			else
 				on_button_execute_test_accepted ();
@@ -248,11 +248,11 @@ public partial class ChronoJumpWindow
 
 	/*
 	 * in the past we pass here an string, and an option was ALL
-	 * now we use Menuitem_modes an UNDEFINED will work as ALL
+	 * now we use Modes an UNDEFINED will work as ALL
 	 */
-	private void button_video_play_selected_test(Constants.Menuitem_modes m)
+	private void button_video_play_selected_test(Constants.Modes m)
 	{
-		if(m == Constants.Menuitem_modes.JUMPSSIMPLE || m == Constants.Menuitem_modes.UNDEFINED)
+		if(m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.UNDEFINED)
 			button_video_play_selected_jump.Sensitive =
 				(myTreeViewJumps.EventSelectedID > 0 &&
 				 File.Exists(Util.GetVideoFileName(
@@ -260,7 +260,7 @@ public partial class ChronoJumpWindow
 						 Constants.TestTypes.JUMP,
 						 myTreeViewJumps.EventSelectedID)));
 
-		if(m == Constants.Menuitem_modes.JUMPSREACTIVE || m == Constants.Menuitem_modes.UNDEFINED)
+		if(m == Constants.Modes.JUMPSREACTIVE || m == Constants.Modes.UNDEFINED)
 			button_video_play_selected_jump_rj.Sensitive =
 				(myTreeViewJumpsRj.EventSelectedID > 0
 				 && File.Exists(Util.GetVideoFileName(
@@ -268,7 +268,7 @@ public partial class ChronoJumpWindow
 						 Constants.TestTypes.JUMP_RJ,
 						 myTreeViewJumpsRj.EventSelectedID)));
 
-		if(m == Constants.Menuitem_modes.RUNSSIMPLE || m == Constants.Menuitem_modes.UNDEFINED)
+		if(m == Constants.Modes.RUNSSIMPLE || m == Constants.Modes.UNDEFINED)
 			button_video_play_selected_run.Sensitive =
 				(myTreeViewRuns.EventSelectedID > 0 &&
 				 File.Exists(Util.GetVideoFileName(
@@ -276,7 +276,7 @@ public partial class ChronoJumpWindow
 						 Constants.TestTypes.RUN,
 						 myTreeViewRuns.EventSelectedID)));
 
-		if(m == Constants.Menuitem_modes.RUNSINTERVALLIC || m == Constants.Menuitem_modes.UNDEFINED)
+		if(m == Constants.Modes.RUNSINTERVALLIC || m == Constants.Modes.UNDEFINED)
 			button_video_play_selected_run_interval.Sensitive =
 				(myTreeViewRunsInterval.EventSelectedID > 0
 				 && File.Exists(Util.GetVideoFileName(
@@ -285,7 +285,7 @@ public partial class ChronoJumpWindow
 						 myTreeViewRunsInterval.EventSelectedID)));
 
 
-		if(m == Constants.Menuitem_modes.RT || m == Constants.Menuitem_modes.UNDEFINED)
+		if(m == Constants.Modes.RT || m == Constants.Modes.UNDEFINED)
 			button_video_play_selected_reaction_time.Sensitive =
 				(myTreeViewReactionTimes.EventSelectedID > 0 &&
 				 File.Exists(Util.GetVideoFileName(
@@ -293,7 +293,7 @@ public partial class ChronoJumpWindow
 						 Constants.TestTypes.RT,
 						 myTreeViewReactionTimes.EventSelectedID)));
 
-		if(m == Constants.Menuitem_modes.OTHER || m == Constants.Menuitem_modes.UNDEFINED)
+		if(m == Constants.Modes.OTHER || m == Constants.Modes.UNDEFINED)
 		{
 			button_video_play_selected_pulse.Sensitive =
 				(myTreeViewPulses.EventSelectedID > 0 &&
@@ -772,7 +772,7 @@ public partial class ChronoJumpWindow
 
 	private void on_button_video_play_this_test_contacts_clicked (object o, EventArgs args)
 	{
-		if(current_mode == Constants.Menuitem_modes.FORCESENSOR)
+		if(current_mode == Constants.Modes.FORCESENSOR)
 		{
 			if(currentForceSensor == null || currentForceSensor.UniqueID == -1)
 				new DialogMessage(Constants.MessageTypes.WARNING, "Sorry, file not found");
@@ -781,7 +781,7 @@ public partial class ChronoJumpWindow
 
 			return;
 		}
-		else if(current_mode == Constants.Menuitem_modes.RUNSENCODER)
+		else if(current_mode == Constants.Modes.RUNSENCODER)
 		{
 			if(currentRunEncoder == null || currentRunEncoder.UniqueID == -1)
 				new DialogMessage(Constants.MessageTypes.WARNING, "Sorry, file not found");

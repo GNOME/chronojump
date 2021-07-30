@@ -367,19 +367,19 @@ public partial class ChronoJumpWindow
 		switch(cjTest.GetSequencePos()) 
 		{
 			case CJTests.Types.MODE_JUMPSSIMPLE:
-				chronojumpWindowTestsMode(Constants.Menuitem_modes.JUMPSSIMPLE);
+				chronojumpWindowTestsMode(Constants.Modes.JUMPSSIMPLE);
 				break;
 			case CJTests.Types.MODE_JUMPSREACTIVE:
-				chronojumpWindowTestsMode(Constants.Menuitem_modes.JUMPSREACTIVE);
+				chronojumpWindowTestsMode(Constants.Modes.JUMPSREACTIVE);
 				break;
 			case CJTests.Types.MODE_RUNSSIMPLE:
-				chronojumpWindowTestsMode(Constants.Menuitem_modes.RUNSSIMPLE);
+				chronojumpWindowTestsMode(Constants.Modes.RUNSSIMPLE);
 				break;
 			case CJTests.Types.MODE_POWERGRAVITATORY:
-				chronojumpWindowTestsMode(Constants.Menuitem_modes.POWERGRAVITATORY);
+				chronojumpWindowTestsMode(Constants.Modes.POWERGRAVITATORY);
 				break;
 			case CJTests.Types.MODE_POWERINERTIAL:
-				chronojumpWindowTestsMode(Constants.Menuitem_modes.POWERINERTIAL);
+				chronojumpWindowTestsMode(Constants.Modes.POWERINERTIAL);
 				break;
 			case CJTests.Types.SESSION_LOAD:
 				chronojumpWindowTestsLoadSession(sessionID); //this also selects first person
@@ -462,23 +462,23 @@ public partial class ChronoJumpWindow
 	 * TESTS START
 	 */
 
-	private void chronojumpWindowTestsMode(Constants.Menuitem_modes m) 
+	private void chronojumpWindowTestsMode(Constants.Modes m) 
 	{
 		LogB.TestStart("chronojumpWindowTestsMode", m.ToString());
 
 		//disable autodetect
 		//configAutodetectPort = Config.AutodetectPortEnum.INACTIVE;
 
-		if(m == Constants.Menuitem_modes.JUMPSSIMPLE)
-			changeMode (Constants.Menuitem_modes.JUMPSSIMPLE);
-		else if(m == Constants.Menuitem_modes.JUMPSREACTIVE)
-			changeMode (Constants.Menuitem_modes.JUMPSREACTIVE);
-		else if(m == Constants.Menuitem_modes.RUNSSIMPLE)
-			changeMode (Constants.Menuitem_modes.RUNSSIMPLE);
-		else if(m == Constants.Menuitem_modes.POWERGRAVITATORY)
-			changeMode (Constants.Menuitem_modes.POWERGRAVITATORY);
-		else if(m == Constants.Menuitem_modes.POWERINERTIAL)
-			changeMode (Constants.Menuitem_modes.POWERINERTIAL);
+		if(m == Constants.Modes.JUMPSSIMPLE)
+			changeMode (Constants.Modes.JUMPSSIMPLE);
+		else if(m == Constants.Modes.JUMPSREACTIVE)
+			changeMode (Constants.Modes.JUMPSREACTIVE);
+		else if(m == Constants.Modes.RUNSSIMPLE)
+			changeMode (Constants.Modes.RUNSSIMPLE);
+		else if(m == Constants.Modes.POWERGRAVITATORY)
+			changeMode (Constants.Modes.POWERGRAVITATORY);
+		else if(m == Constants.Modes.POWERINERTIAL)
+			changeMode (Constants.Modes.POWERINERTIAL);
 
 		LogB.TestEnd("chronojumpWindowTestsMode");
 	}

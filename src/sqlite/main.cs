@@ -2773,7 +2773,7 @@ class Sqlite
 				SqlitePreferences.Insert (SqlitePreferences.LoadLastSessionAtStart, "True");
 				SqlitePreferences.Insert (SqlitePreferences.LastSessionID, "-1");
 				SqlitePreferences.Insert (SqlitePreferences.LoadLastModeAtStart, "True");
-				SqlitePreferences.Insert (SqlitePreferences.LastMode, Constants.Menuitem_modes.UNDEFINED.ToString());
+				SqlitePreferences.Insert (SqlitePreferences.LastMode, Constants.Modes.UNDEFINED.ToString());
 
 				currentVersion = updateVersion("1.97");
 			}

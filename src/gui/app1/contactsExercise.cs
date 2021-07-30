@@ -66,21 +66,21 @@ public partial class ChronoJumpWindow
 	private void on_button_image_test_zoom_clicked(object o, EventArgs args)
 	{
 		EventType myType;
-		if(current_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
+		if(current_mode == Constants.Modes.JUMPSSIMPLE)
 			myType = currentJumpType;
-		else if(current_mode == Constants.Menuitem_modes.JUMPSREACTIVE)
+		else if(current_mode == Constants.Modes.JUMPSREACTIVE)
 			myType = currentJumpRjType;
-		else if(current_mode == Constants.Menuitem_modes.RUNSSIMPLE)
+		else if(current_mode == Constants.Modes.RUNSSIMPLE)
 			myType = currentRunType;
-		else if(current_mode == Constants.Menuitem_modes.RUNSINTERVALLIC)
+		else if(current_mode == Constants.Modes.RUNSINTERVALLIC)
 			myType = currentRunIntervalType;
-		//else if(current_mode == Constants.Menuitem_modes.RUNSENCODER)
+		//else if(current_mode == Constants.Modes.RUNSENCODER)
 		//	myType = currentRunIntervalType;
-		//else if(current_mode == Constants.Menuitem_modes.FORCESENSOR
+		//else if(current_mode == Constants.Modes.FORCESENSOR
 		//	myType = currentForceType;
-		else if(current_mode == Constants.Menuitem_modes.RT)
+		else if(current_mode == Constants.Modes.RT)
 			myType = currentReactionTimeType;
-		else //if(current_mode == Constants.Menuitem_modes.OTHER
+		else //if(current_mode == Constants.Modes.OTHER
 		{
 			if(radio_mode_multi_chronopic_small.Active)
 				myType = currentMultiChronopicType;
@@ -96,20 +96,20 @@ public partial class ChronoJumpWindow
 			new DialogImageTest(myType);
 	}
 
-	private void setLabelContactsExerciseSelected(Constants.Menuitem_modes m)
+	private void setLabelContactsExerciseSelected(Constants.Modes m)
 	{
 		string name = "";
-		if(m == Constants.Menuitem_modes.JUMPSSIMPLE)
+		if(m == Constants.Modes.JUMPSSIMPLE)
 			name = UtilGtk.ComboGetActive(combo_select_jumps);
-		else if(m == Constants.Menuitem_modes.JUMPSREACTIVE)
+		else if(m == Constants.Modes.JUMPSREACTIVE)
 			name = UtilGtk.ComboGetActive(combo_select_jumps_rj);
-		else if(m == Constants.Menuitem_modes.RUNSSIMPLE)
+		else if(m == Constants.Modes.RUNSSIMPLE)
 			name = UtilGtk.ComboGetActive(combo_select_runs);
-		else if(m == Constants.Menuitem_modes.RUNSINTERVALLIC)
+		else if(m == Constants.Modes.RUNSINTERVALLIC)
 			name = UtilGtk.ComboGetActive(combo_select_runs_interval);
-		else if(m == Constants.Menuitem_modes.FORCESENSOR)
+		else if(m == Constants.Modes.FORCESENSOR)
 			name = UtilGtk.ComboGetActive(combo_force_sensor_exercise);
-		else if(m == Constants.Menuitem_modes.RUNSENCODER)
+		else if(m == Constants.Modes.RUNSENCODER)
 			name = UtilGtk.ComboGetActive(combo_run_encoder_exercise);
 
 		if(name == "")
@@ -132,9 +132,9 @@ public partial class ChronoJumpWindow
 		LogB.Information("TT0");
 		LogB.Information(current_mode.ToString());
 
-		if(current_mode == Constants.Menuitem_modes.JUMPSSIMPLE)
+		if(current_mode == Constants.Modes.JUMPSSIMPLE)
 			setLabelContactsExerciseSelectedOptionsJumpsSimple();
-		if(current_mode == Constants.Menuitem_modes.JUMPSREACTIVE)
+		if(current_mode == Constants.Modes.JUMPSREACTIVE)
 			setLabelContactsExerciseSelectedOptionsJumpsReactive();
 	}
 
@@ -252,4 +252,6 @@ public partial class ChronoJumpWindow
 		label_contacts_exercise_selected_options.Text = name;
 	}
 	*/
+
+	//hbox_combo_select_contacts_top ...
 }

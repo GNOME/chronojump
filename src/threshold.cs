@@ -42,7 +42,7 @@ public class Threshold
 	}
 
 	//called when menuitem mode changes
-	public bool SelectTresholdForThisMode(Constants.Menuitem_modes m)
+	public bool SelectTresholdForThisMode(Constants.Modes m)
 	{
 		//declare it with default value to solve potential SQL problems
 		string newThreshold = "5";
@@ -71,7 +71,7 @@ public class Threshold
 	}
 
 	//called on test execution
-	public void UpdateAtDatabaseIfNeeded(Constants.Menuitem_modes m)
+	public void UpdateAtDatabaseIfNeeded(Constants.Modes m)
 	{
 		if(t != t_previous_on_this_mode)
 		{
@@ -121,13 +121,13 @@ public class Threshold
 		return Convert.ToInt32(t / 10);
 	}
 
-	private string nameAtSQL(Constants.Menuitem_modes m)
+	private string nameAtSQL(Constants.Modes m)
 	{
-		if(m == Constants.Menuitem_modes.JUMPSSIMPLE || m == Constants.Menuitem_modes.JUMPSREACTIVE)
+		if(m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.JUMPSREACTIVE)
 			return "thresholdJumps";
-		else if(m == Constants.Menuitem_modes.RUNSSIMPLE || m == Constants.Menuitem_modes.RUNSINTERVALLIC)
+		else if(m == Constants.Modes.RUNSSIMPLE || m == Constants.Modes.RUNSINTERVALLIC)
 			return "thresholdRuns";
-		else // (m == Constants.Menuitem_modes.OTHER)
+		else // (m == Constants.Modes.OTHER)
 			return "thresholdOther";
 	}
 

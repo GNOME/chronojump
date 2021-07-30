@@ -1706,7 +1706,7 @@ public partial class ChronoJumpWindow
 
 	private void on_combo_run_encoder_exercise_changed(object o, EventArgs args)
 	{
-		setLabelContactsExerciseSelected(Constants.Menuitem_modes.RUNSENCODER);
+		setLabelContactsExerciseSelected(Constants.Modes.RUNSENCODER);
 
 		//sensitivity of left/right buttons
 		button_combo_run_encoder_exercise_capture_left.Sensitive = (combo_run_encoder_exercise.Active > 0);

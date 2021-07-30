@@ -427,7 +427,7 @@ public class EncoderCurve
 
 	//ecChar adds an 'e', 'c' or nothing to N
 	//if e or c then N will be /2
-	public string ToCSV (bool captureOrAnalyze, Constants.Menuitem_modes currentMode,
+	public string ToCSV (bool captureOrAnalyze, Constants.Modes currentMode,
 			string decimalSeparator, bool useWorkKcal, string ecChar)
 	{
 		//latin:	2,3 ; 2,5
@@ -452,7 +452,7 @@ public class EncoderCurve
 				Series + sep + Exercise + sep + Laterality + sep +
 				ExtraWeight + sep + DisplacedWeight + sep;
 
-			if(currentMode == Constants.Menuitem_modes.POWERINERTIAL)
+			if(currentMode == Constants.Modes.POWERINERTIAL)
 				str += Inertia + sep + Util.TrimDecimals(Diameter,1) + sep + Util.TrimDecimals(EquivalentMass,3) + sep;
 
 			str +=

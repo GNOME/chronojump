@@ -279,7 +279,7 @@ public partial class ChronoJumpWindow
 		notebook_start.CurrentPage = Convert.ToInt32(notebook_start_pages.PROGRAM);
 
 		if(preferences.loadLastModeAtStart &&
-				preferences.lastMode != Constants.Menuitem_modes.UNDEFINED && ! configChronojump.Compujump)
+				preferences.lastMode != Constants.Modes.UNDEFINED && ! configChronojump.Compujump)
 		{
 			// 0) note this code is repeated on gui/app1/chronojump.cs public ChronoJumpWindow()
 			// 1) to avoid impossibility to start Chronojump if there's any problem with this mode, first put this to false

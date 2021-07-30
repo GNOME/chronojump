@@ -21,11 +21,15 @@
 
 using System;
 using Gtk;
+using Glade;
 using Gdk;
 using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
+	[Widget] Gtk.Button button_combo_select_contacts_top_left;
+	[Widget] Gtk.Button button_combo_select_contacts_top_right;
+
 	private void on_button_contacts_exercise_clicked (object o, EventArgs args)
 	{
 		menus_and_mode_sensitive(false);
@@ -255,5 +259,38 @@ public partial class ChronoJumpWindow
 	}
 	*/
 
-	//hbox_combo_select_contacts_top ...
+	private void on_button_combo_select_contacts_top_left_clicked (object o, EventArgs args)
+	{
+		if(current_mode == Constants.Modes.JUMPSSIMPLE)
+			contacts_exercise_left_button (combo_select_jumps,
+					button_combo_jumps_exercise_capture_left, button_combo_jumps_exercise_capture_right);
+		else if(current_mode == Constants.Modes.JUMPSREACTIVE)
+			contacts_exercise_left_button (combo_select_jumps_rj,
+					button_combo_jumps_rj_exercise_capture_left, button_combo_jumps_rj_exercise_capture_right);
+		else if(current_mode == Constants.Modes.RUNSSIMPLE)
+			contacts_exercise_left_button (combo_select_runs,
+					button_combo_runs_exercise_capture_left,
+					button_combo_runs_exercise_capture_right);
+		else if(current_mode == Constants.Modes.RUNSINTERVALLIC)
+			contacts_exercise_left_button (combo_select_runs_interval,
+					button_combo_runs_interval_exercise_capture_left,
+					button_combo_runs_interval_exercise_capture_right);
+	}
+	private void on_button_combo_select_contacts_top_right_clicked (object o, EventArgs args)
+	{
+		if(current_mode == Constants.Modes.JUMPSSIMPLE)
+			contacts_exercise_right_button (combo_select_jumps,
+					button_combo_jumps_exercise_capture_left, button_combo_jumps_exercise_capture_right);
+		else if(current_mode == Constants.Modes.JUMPSREACTIVE)
+			contacts_exercise_right_button (combo_select_jumps_rj,
+					button_combo_jumps_rj_exercise_capture_left, button_combo_jumps_rj_exercise_capture_right);
+		else if(current_mode == Constants.Modes.RUNSSIMPLE)
+			contacts_exercise_right_button (combo_select_runs,
+					button_combo_runs_exercise_capture_left,
+					button_combo_runs_exercise_capture_right);
+		else if(current_mode == Constants.Modes.RUNSINTERVALLIC)
+			contacts_exercise_right_button (combo_select_runs_interval,
+					button_combo_runs_interval_exercise_capture_left,
+					button_combo_runs_interval_exercise_capture_right);
+	}
 }

@@ -176,7 +176,7 @@ public class TreeViewJumps : TreeViewEvent
 	{
 		Jump newJump = (Jump)myObject;
 
-		string title = newJump.Type;
+		string title = Catalog.GetString(newJump.Type);
 		if(newJump.Simulated == Constants.Simulated)
 			title += Constants.SimulatedTreeviewStr();
 

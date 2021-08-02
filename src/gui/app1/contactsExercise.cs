@@ -285,6 +285,10 @@ public partial class ChronoJumpWindow
 			contacts_exercise_left_button (combo_run_encoder_exercise,
 					button_combo_run_encoder_exercise_capture_left,
 					button_combo_run_encoder_exercise_capture_right);
+		else if(current_mode == Constants.Modes.FORCESENSOR)
+			contacts_exercise_left_button (combo_force_sensor_exercise,
+					button_combo_force_sensor_exercise_capture_left,
+					button_combo_force_sensor_exercise_capture_right);
 	}
 	private void on_button_combo_select_contacts_top_right_clicked (object o, EventArgs args)
 	{
@@ -308,5 +312,9 @@ public partial class ChronoJumpWindow
 			contacts_exercise_right_button (combo_run_encoder_exercise,
 					button_combo_run_encoder_exercise_capture_left,
 					button_combo_run_encoder_exercise_capture_right);
+		else if(current_mode == Constants.Modes.FORCESENSOR)
+			contacts_exercise_right_button (combo_force_sensor_exercise,
+					button_combo_force_sensor_exercise_capture_left,
+					button_combo_force_sensor_exercise_capture_right);
 	}
 }

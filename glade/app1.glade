@@ -9885,20 +9885,6 @@ EncoderInertialCapture</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">10</property>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox_combo_result_jumps">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <child>
-                                                            <placeholder/>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <widget class="GtkHBox" id="hbox8">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -9998,7 +9984,7 @@ EncoderInertialCapture</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -10099,7 +10085,7 @@ EncoderInertialCapture</property>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="pack_type">end</property>
-                                                            <property name="position">2</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             </widget>

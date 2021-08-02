@@ -64,6 +64,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_capture_analyze; //not encoder
 	[Widget] Gtk.Notebook notebook_contacts_execute_or; // execute (page 0), instructions (page 1), forceSensorAdjust (page 2)
 	[Widget] Gtk.Notebook notebook_analyze; //not encoder
+	[Widget] Gtk.VBox vbox_contacts_capture_graph;
 	[Widget] Gtk.HBox hbox_message_permissions_at_boot;
 	[Widget] Gtk.Label label_message_permissions_at_boot;
 	[Widget] Gtk.HBox hbox_message_camera_at_boot;
@@ -3428,6 +3429,8 @@ public partial class ChronoJumpWindow
 		hbox_other.Visible = false;
 		sensitiveLastTestButtons(false);
 
+		vbox_contacts_capture_graph.Visible = true;
+
 		//cancel force capture process if mode is changed
 		if(capturingForce == arduinoCaptureStatus.STARTING || capturingForce == arduinoCaptureStatus.CAPTURING)
 		{
@@ -3749,6 +3752,9 @@ public partial class ChronoJumpWindow
 			check_vbox_contacts_graph_legend.Visible = false;
 			vbox_contacts_graph_legend.Visible = false;
 
+			//force sensor does not show graph. Its graph it's on right notebook: notebook_results
+			vbox_contacts_capture_graph.Visible = false;
+
 			setLabelContactsExerciseSelected(m);
 			//better use the followin so we will have the Elastic/not elastic display on mode change
 			on_combo_force_sensor_exercise_changed (new object(), new EventArgs ());
@@ -3790,6 +3796,9 @@ public partial class ChronoJumpWindow
 
 			check_vbox_contacts_graph_legend.Visible = false;
 			vbox_contacts_graph_legend.Visible = false;
+
+			//Race Analyzer does not show graph. Its graphs are on right notebook: notebook_results
+			vbox_contacts_capture_graph.Visible = false;
 
 			combo_race_analyzer_device.Active = 0;
 			forceSensorImageTestChange();

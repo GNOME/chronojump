@@ -248,21 +248,6 @@ public partial class ChronoJumpWindow
 		label_contacts_exercise_selected_options.Text = name;
 	}
 
-	/* Now just showing laterality icon with setForceSensorLateralityPixbuf()
-	private void setLabelContactsExerciseSelectedOptionsForceSensor()
-	{
-		string name = Catalog.GetString("Laterality:");
-		if(radio_force_sensor_laterality_l.Active)
-			name += " " + Catalog.GetString("Left");
-		else if(radio_force_sensor_laterality_r.Active)
-			name += " " + Catalog.GetString("Right");
-		else //if(radio_force_sensor_laterality_both.Active) //default to both
-			name += " " + Catalog.GetString("Both");
-
-		label_contacts_exercise_selected_options.Text = name;
-	}
-	*/
-
 	private void on_button_combo_select_contacts_top_left_clicked (object o, EventArgs args)
 	{
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)

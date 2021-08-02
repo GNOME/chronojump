@@ -177,7 +177,7 @@ public class TreeViewEvent
 			}
 
 			//... but if we selected one type of run and this it's not the type, don't show
-			if(filter == allEventsName || filter == myStringFull[dataLineTypePosition]) 
+			if(filter == allEventsName || filter == Catalog.GetString(myStringFull[dataLineTypePosition]))
 			{
 				//get the object from the string
 				System.Object myEvent = getObjectFromString(myStringFull);

@@ -202,7 +202,8 @@ public partial class ChronoJumpWindow
 
 		event_graph_label_graph_test.Text = "<b>" + event_execute_eventType + "</b>";
 		event_graph_label_graph_test.UseMarkup = true;
-		radio_contacts_graph_currentTest.Label = event_execute_eventType;
+		if(radio_contacts_graph_currentTest.Label != event_execute_eventType)
+			radio_contacts_graph_currentTest.Label = event_execute_eventType;
 				
 		event_execute_label_message.Text = "";
 

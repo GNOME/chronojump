@@ -2783,7 +2783,10 @@ public partial class ChronoJumpWindow
 	private void on_radio_contacts_graph_test_toggled (object o, EventArgs args)
 	{
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)
+		{
 			updateGraphJumpsSimple ();
+			pre_fillTreeView_jumps();
+		}
 		else if(current_mode == Constants.Modes.RUNSSIMPLE)
 			updateGraphRunsSimple ();
 	}

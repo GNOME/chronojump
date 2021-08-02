@@ -198,8 +198,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_line_person_max;
 	[Widget] Gtk.Image image_line_person_max_all_sessions;
 
-	
-	[Widget] Gtk.Box hbox_combo_result_jumps;
 	[Widget] Gtk.Box hbox_combo_result_jumps_rj;
 	[Widget] Gtk.Box hbox_combo_result_runs;
 	[Widget] Gtk.Box hbox_combo_result_runs_interval;
@@ -227,8 +225,7 @@ public partial class ChronoJumpWindow
 	CjComboSelectRuns comboSelectRuns;
 	CjComboSelectRunsI comboSelectRunsI;
 	CjCombo comboSelectContactsTop;
-	
-	[Widget] Gtk.ComboBox combo_result_jumps;
+
 	[Widget] Gtk.ComboBox combo_result_jumps_rj;
 	[Widget] Gtk.ComboBox combo_result_runs;
 	[Widget] Gtk.ComboBox combo_result_runs_interval;
@@ -673,7 +670,7 @@ public partial class ChronoJumpWindow
 		createComboSelectRunsEvolutionDistance();
 		createComboSelectRunsInterval(true);
 		
-		createComboResultJumps();
+		//createComboResultJumps();
 		createComboResultJumpsRj();
 		createComboResultRuns();
 		createComboResultRunsInterval();
@@ -1512,8 +1509,8 @@ public partial class ChronoJumpWindow
 		if (currentSession == null) {
 			/*
 			 * This happens when the user "Imports a session": Chronojump tries to
-			 * update comboboxes, it reaches here because the comboboxes are updated and
-			 * on_combo_result_jumps_changedd. But if the user didn't have any
+			 * update comboboxes, it reaches here because the comboboxes are updated
+			 * But if the user didn't have any
 			 * open session currentSession variable (see below) is null and it crashed here
 			 * (when it did currentSession.UniqueID with currentSession==null)
 			 */
@@ -1613,8 +1610,8 @@ public partial class ChronoJumpWindow
 		if (currentSession == null) {
 			/*
 			 * This happens when the user "Imports a session": Chronojump tries to
-			 * update comboboxes, it reaches here because the comboboxes are updated and
-			 * on_combo_result_jumps_changedd. But if the user didn't have any
+			 * update comboboxes, it reaches here because the comboboxes are updated
+			 * But if the user didn't have any
 			 * open session currentSession variable (see below) is null and it crashed here
 			 * (when it did currentSession.UniqueID with currentSession==null)
 			 */
@@ -1717,8 +1714,8 @@ public partial class ChronoJumpWindow
 		if (currentSession == null) {
 			/*
 			 * This happens when the user "Imports a session": Chronojump tries to
-			 * update comboboxes, it reaches here because the comboboxes are updated and
-			 * on_combo_result_jumps_changedd. But if the user didn't have any
+			 * update comboboxes, it reaches here because the comboboxes are updated
+			 * But if the user didn't have any
 			 * open session currentSession variable (see below) is null and it crashed here
 			 * (when it did currentSession.UniqueID with currentSession==null)
 			 */
@@ -1812,8 +1809,8 @@ public partial class ChronoJumpWindow
 		if (currentSession == null) {
 			/*
 			 * This happens when the user "Imports a session": Chronojump tries to
-			 * update comboboxes, it reaches here because the comboboxes are updated and
-			 * on_combo_result_jumps_changedd. But if the user didn't have any
+			 * update comboboxes, it reaches here because the comboboxes are updated
+			 * But if the user didn't have any
 			 * open session currentSession variable (see below) is null and it crashed here
 			 * (when it did currentSession.UniqueID with currentSession==null)
 			 */
@@ -2360,20 +2357,6 @@ public partial class ChronoJumpWindow
 
 	// ---------------- combo_result ----------------------
 
-	private void createComboResultJumps() {
-		combo_result_jumps = ComboBox.NewText ();
-		UtilGtk.ComboUpdate(combo_result_jumps,
-				SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsNameStr(), "", true), //with alljumpsname, without filter, only select name
-			       	"");
-		
-		combo_result_jumps.Active = 0;
-		combo_result_jumps.Changed += new EventHandler (on_combo_result_jumps_changed);
-
-		hbox_combo_result_jumps.PackStart(combo_result_jumps, true, true, 0);
-		hbox_combo_result_jumps.ShowAll();
-		combo_result_jumps.Sensitive = false;
-	}
-	
 	private void createComboResultJumpsRj() {
 		combo_result_jumps_rj = ComboBox.NewText();
 		UtilGtk.ComboUpdate(combo_result_jumps_rj, SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsNameStr(), true), ""); //only select name
@@ -2496,6 +2479,9 @@ public partial class ChronoJumpWindow
 
 		//show extra window options
 		on_extra_window_jumps_test_changed(o, args);
+
+		//update the treeview
+		pre_fillTreeView_jumps();
 	}
 	
 	private void on_combo_select_jumps_rj_changed(object o, EventArgs args)
@@ -2610,20 +2596,17 @@ public partial class ChronoJumpWindow
 	}
 	
 	// -------------- combo result tests changed --------
-	
-	private void on_combo_result_jumps_changed(object o, EventArgs args) {
-		//combo_result_jumps.Changed -= new EventHandler (on_combo_result_jumps_changed);
 
-		ComboBox combo = o as ComboBox;
-		if (o == null)
-			return;
-		string myText = UtilGtk.ComboGetActive(combo);
-
+	private void pre_fillTreeView_jumps ()
+	{
 		treeview_jumps_storeReset();
-		fillTreeView_jumps(myText);
+
+		if(radio_contacts_graph_allTests.Active)
+			fillTreeView_jumps(Constants.AllJumpsNameStr());
+		else if (combo_select_jumps != null)
+			fillTreeView_jumps(UtilGtk.ComboGetActive(combo_select_jumps));
 	}
-	
-	
+
 	private void on_combo_result_jumps_rj_changed(object o, EventArgs args) {
 		//combo_result_jumps_rj.Changed -= new EventHandler (on_combo_result_jumps_rj_changed);
 
@@ -3253,8 +3236,8 @@ public partial class ChronoJumpWindow
 			createTreeView_pulses(treeview_pulses);
 			createTreeView_reaction_times(treeview_reaction_times);
 			createTreeView_multi_chronopic(false, treeview_multi_chronopic);
-			
-			on_combo_result_jumps_changed(combo_result_jumps, args);
+
+			pre_fillTreeView_jumps();
 			on_combo_result_jumps_rj_changed(combo_result_jumps_rj, args);
 			on_combo_result_runs_changed(combo_result_runs, args);
 			on_combo_result_runs_interval_changed(combo_result_runs_interval, args);
@@ -6325,11 +6308,9 @@ LogB.Debug("mc finished 5");
 			}
 			myTreeViewJumps.Update(myJump);
 		}
-		else {
-			treeview_jumps_storeReset();
-			fillTreeView_jumps(UtilGtk.ComboGetActive(combo_result_jumps));
-		}
-		
+		else
+			pre_fillTreeView_jumps();
+
 		if(! configChronojump.Exhibition)
 			updateGraphJumpsSimple();
 
@@ -6916,11 +6897,8 @@ LogB.Debug("mc finished 5");
 			createComboSelectJumpsWeightFVProfile(false);
 			createComboSelectJumpsEvolution(false);
 
-			UtilGtk.ComboUpdate(combo_result_jumps, 
-					SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsNameStr(), "", true), ""); //without filter, only select name
-
+			pre_fillTreeView_jumps();
 			combo_select_jumps.Active = UtilGtk.ComboMakeActive(combo_select_jumps, jumpTypeAddWin.Name);
-			combo_result_jumps.Active = UtilGtk.ComboMakeActive(combo_result_jumps, jumpTypeAddWin.Name);
 
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added simple jump type."));
 		} else {
@@ -7021,9 +6999,7 @@ LogB.Debug("mc finished 5");
 	{
 		string translatedName = comboSelectJumps.GetNameTranslated(jumpsMoreWin.SelectedEventName);
 		combo_select_jumps = comboSelectJumps.DeleteValue(translatedName);
-
-		UtilGtk.ComboDelThisValue(combo_result_jumps, translatedName);
-		combo_result_jumps.Active = 0;
+		pre_fillTreeView_jumps();
 
 		extra_window_jumps_initialize(new JumpType("Free"));
 	}
@@ -8109,7 +8085,6 @@ LogB.Debug("mc finished 5");
 		showHideActionEventButtons(false, "ALL");
 
 		combo_select_jumps.Sensitive = true;
-		combo_result_jumps.Sensitive = true;
 		combo_select_jumps_rj.Sensitive = true;
 		combo_result_jumps_rj.Sensitive = true;
 		combo_select_runs.Sensitive = true;

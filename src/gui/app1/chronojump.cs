@@ -92,6 +92,11 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_change_modes_encoder_gravitatory;
 	[Widget] Gtk.Image image_change_modes_encoder_inertial;
 
+	[Widget] Gtk.Alignment alignment_contacts_show_graph_table;
+	[Widget] Gtk.HBox hbox_contacts_capture_show_need_one;
+	[Widget] Gtk.CheckButton check_contacts_capture_graph;
+	[Widget] Gtk.CheckButton check_contacts_capture_table;
+
 	[Widget] Gtk.EventBox eventbox_button_show_modes_contacts;
 	[Widget] Gtk.EventBox eventbox_change_modes_contacts_jumps_simple;
 	[Widget] Gtk.EventBox eventbox_change_modes_contacts_jumps_reactive;
@@ -3429,7 +3434,20 @@ public partial class ChronoJumpWindow
 		hbox_other.Visible = false;
 		sensitiveLastTestButtons(false);
 
-		vbox_contacts_capture_graph.Visible = true;
+		//show capture graph and/or table
+		if(m != Constants.Modes.POWERGRAVITATORY && m != Constants.Modes.POWERINERTIAL)
+		{
+			if(m == Constants.Modes.FORCESENSOR || m == Constants.Modes.RUNSENCODER)
+			{
+				alignment_contacts_show_graph_table.Visible = false;
+				//force sensor & race analyzer do not show graph. graphs are on right notebook: notebook_results
+				vbox_contacts_capture_graph.Visible = false;
+				notebook_results.Visible = true;
+			} else {
+				alignment_contacts_show_graph_table.Visible = true;
+				on_check_contacts_capture_show_modes_clicked (new object(), new EventArgs());
+			}
+		}
 
 		//cancel force capture process if mode is changed
 		if(capturingForce == arduinoCaptureStatus.STARTING || capturingForce == arduinoCaptureStatus.CAPTURING)
@@ -3752,9 +3770,6 @@ public partial class ChronoJumpWindow
 			check_vbox_contacts_graph_legend.Visible = false;
 			vbox_contacts_graph_legend.Visible = false;
 
-			//force sensor does not show graph. Its graph it's on right notebook: notebook_results
-			vbox_contacts_capture_graph.Visible = false;
-
 			setLabelContactsExerciseSelected(m);
 			//better use the followin so we will have the Elastic/not elastic display on mode change
 			on_combo_force_sensor_exercise_changed (new object(), new EventArgs ());
@@ -3796,9 +3811,6 @@ public partial class ChronoJumpWindow
 
 			check_vbox_contacts_graph_legend.Visible = false;
 			vbox_contacts_graph_legend.Visible = false;
-
-			//Race Analyzer does not show graph. Its graphs are on right notebook: notebook_results
-			vbox_contacts_capture_graph.Visible = false;
 
 			combo_race_analyzer_device.Active = 0;
 			forceSensorImageTestChange();
@@ -3925,6 +3937,30 @@ public partial class ChronoJumpWindow
 
 		setLabelContactsExerciseSelectedOptions();
 
+	}
+
+	private void on_check_contacts_capture_show_modes_clicked (object o, EventArgs args)
+	{
+		if(! followSignals) //TODO: check if has to be this boolean
+			return;
+
+		vbox_contacts_capture_graph.Visible = check_contacts_capture_graph.Active;
+		notebook_results.Visible = check_contacts_capture_table.Active;
+
+		hbox_contacts_capture_show_need_one.Visible =
+			! (check_contacts_capture_graph.Active || check_contacts_capture_table.Active);
+
+		/*
+		   update the preferences variable
+		   note as can be changed while capturing, it will be saved to SQL on exit
+		   to not have problems with SQL while capturing
+		   */
+		/* TODO:
+		preferences.encoderCaptureShowOnlyBars = new EncoderCaptureDisplay(
+				check_encoder_capture_signal.Active,
+				check_encoder_capture_table.Active,
+				check_encoder_capture_bars.Active);
+				*/
 	}
 
 	private void radio_mode_contacts_analyze_buttons_visible (Constants.Modes m)

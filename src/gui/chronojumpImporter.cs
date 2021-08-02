@@ -164,10 +164,8 @@ public partial class ChronoJumpWindow
 			//update GUI if events have been added
 			//1) simple jump
 			createComboSelectJumps(false);
-			UtilGtk.ComboUpdate(combo_result_jumps,
-					SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsNameStr(), "", true), ""); //without filter, only select name
 			combo_select_jumps.Active = 0;
-			combo_result_jumps.Active = 0;
+			pre_fillTreeView_jumps();
 
 			createComboSelectJumpsDjOptimalFall(false);
 			createComboSelectJumpsWeightFVProfile(false);

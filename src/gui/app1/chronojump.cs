@@ -3039,7 +3039,8 @@ public partial class ChronoJumpWindow
 		definedSession = true;
 
 		//fold menu session
-		check_menu_session.Click();
+		if(check_menu_session.Active)
+			check_menu_session.Click();
 
 		hbox_persons_bottom_photo.Sensitive = false;
 		vbox_persons_bottom_no_photo.Sensitive = false;

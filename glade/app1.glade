@@ -9862,11 +9862,6 @@ EncoderInertialCapture</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
-                                                            <widget class="GtkAlignment" id="alignment120">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="top_padding">4</property>
-                                                            <child>
                                                             <widget class="GtkVBox" id="vbox126">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -10100,8 +10095,6 @@ EncoderInertialCapture</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">0</property>
                                                             </packing>
-                                                            </child>
-                                                            </widget>
                                                             </child>
                                                             </widget>
                                                             <packing>

@@ -3758,12 +3758,12 @@ public partial class ChronoJumpWindow
 			notebook_capture_graph_table.CurrentPage = 1; //"Show table"
 			notebook_capture_graph_table.ShowTabs = false;
 
-			//setLabelContactsExerciseSelected(m);
+			setLabelContactsExerciseSelected(m);
 			//better use the followin so we will have the Elastic/not elastic display on mode change
 			on_combo_force_sensor_exercise_changed (new object(), new EventArgs ());
 			//setLabelContactsExerciseSelectedOptionsForceSensor();
 
-			label_contacts_exercise_selected_options.Visible = false;
+			label_contacts_exercise_selected_options.Visible = true;
 			image_top_laterality_contacts.Visible = true;
 			setForceSensorLateralityPixbuf();
 

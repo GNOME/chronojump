@@ -3088,11 +3088,13 @@ LogB.Information(" fs R ");
 			setStiffnessButtonLabel(stiffness);
 			frame_force_sensor_elastic.Visible = true;
 			changeTestImage("", "", "FORCESENSOR_ELASTIC");
+			label_contacts_exercise_selected_options.Text = Catalog.GetString("Elastic");
 		} else {
 			label_button_force_sensor_stiffness.Text = "0";
 			frame_force_sensor_elastic.Visible = false;
 			changeTestImage("", "", "FORCESENSOR_NOT_ELASTIC");
 			image_button_force_sensor_stiffness_problem.Visible = false;
+			label_contacts_exercise_selected_options.Text = Catalog.GetString("Not elastic");
 		}
 
 		string isElasticStr = " (" + Catalog.GetString("Elastic") + ")";

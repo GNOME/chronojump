@@ -819,7 +819,7 @@ public partial class ChronoJumpWindow
 
 			if(current_mode == Constants.Modes.JUMPSSIMPLE || current_mode == Constants.Modes.JUMPSREACTIVE ||
 					current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC ||
-					current_mode == Constants.Modes.RUNSENCODER)
+					current_mode == Constants.Modes.RUNSENCODER || current_mode == Constants.Modes.FORCESENSOR)
 				createComboSelectContactsTop (true);
 		}
 
@@ -2232,23 +2232,32 @@ public partial class ChronoJumpWindow
 				combo_select_contacts_top.Active = combo_select_runs_interval.Active;
 				combo_select_contacts_top.Sensitive = true;
 			}
-			else if(current_mode == Constants.Modes.RUNSENCODER)
+			else if(current_mode == Constants.Modes.RUNSENCODER || current_mode == Constants.Modes.FORCESENSOR)
 			{
 				if(combo_select_contacts_top == null)
 					combo_select_contacts_top = ComboBox.NewText ();
 
-				//copy the values form combo_run_encoder_exercise
-				UtilGtk.ComboUpdate(combo_select_contacts_top,
-						UtilGtk.ComboGetValues (combo_run_encoder_exercise), "");
-				combo_select_contacts_top.Active = combo_run_encoder_exercise.Active;
-				combo_select_contacts_top.Sensitive = true;
+				//copy the values form combo_run_encoder_exercise or combo_force_sensor_exercise
+				if(current_mode == Constants.Modes.RUNSENCODER)
+				{
+					UtilGtk.ComboUpdate(combo_select_contacts_top,
+							UtilGtk.ComboGetValues (combo_run_encoder_exercise), "");
+					combo_select_contacts_top.Active = combo_run_encoder_exercise.Active;
+				}
+				else //(current_mode == Constants.Modes.FORCESENSOR)
+				{
+					UtilGtk.ComboUpdate(combo_select_contacts_top,
+							UtilGtk.ComboGetValues (combo_force_sensor_exercise), "");
+					combo_select_contacts_top.Active = combo_force_sensor_exercise.Active;
+				}
 
+				combo_select_contacts_top.Sensitive = true;
 				hbox_combo_select_contacts_top.PackStart(combo_select_contacts_top, true, true, 0);
 				hbox_combo_select_contacts_top.ShowAll();
 			}
 			/*
 			TODO:
-			//else if(current_mode == Constants.Modes.FORCESENSOR)
+			//other modes
 			//{
 			//}
 			...
@@ -2320,7 +2329,7 @@ public partial class ChronoJumpWindow
 
 		if(current_mode == Constants.Modes.JUMPSSIMPLE || current_mode == Constants.Modes.JUMPSREACTIVE ||
 				current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC ||
-				current_mode == Constants.Modes.RUNSENCODER)
+				current_mode == Constants.Modes.RUNSENCODER || current_mode == Constants.Modes.FORCESENSOR)
 		{
 			button_combo_select_contacts_top_left.Sensitive = (combo.Active > 0);
 			button_combo_select_contacts_top_right.Sensitive = true;
@@ -2336,7 +2345,7 @@ public partial class ChronoJumpWindow
 
 		if(current_mode == Constants.Modes.JUMPSSIMPLE || current_mode == Constants.Modes.JUMPSREACTIVE ||
 				current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC ||
-				current_mode == Constants.Modes.RUNSENCODER)
+				current_mode == Constants.Modes.RUNSENCODER || current_mode == Constants.Modes.FORCESENSOR)
 		{
 			button_combo_select_contacts_top_left.Sensitive = true;
 			button_combo_select_contacts_top_right.Sensitive = ! isLast;
@@ -2435,6 +2444,8 @@ public partial class ChronoJumpWindow
 			on_combo_select_runs_interval_changed(o, args);
 		else if(current_mode == Constants.Modes.RUNSENCODER)
 			on_combo_run_encoder_exercise_changed(o, args);
+		else if(current_mode == Constants.Modes.FORCESENSOR)
+			on_combo_force_sensor_exercise_changed(o, args);
 	}
 
 	private void on_combo_select_jumps_changed(object o, EventArgs args)
@@ -3755,6 +3766,10 @@ public partial class ChronoJumpWindow
 			label_contacts_exercise_selected_options.Visible = false;
 			image_top_laterality_contacts.Visible = true;
 			setForceSensorLateralityPixbuf();
+
+			createComboSelectContactsTop (true);
+			label_contacts_exercise_selected_name.Visible = false;
+			hbox_combo_select_contacts_top_with_arrows.Visible = true; //this will be unneded
 
 			pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "force_sensor_icon.png");
 			pixbufModeGrid = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_force.png");

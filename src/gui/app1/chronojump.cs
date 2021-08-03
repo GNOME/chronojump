@@ -94,7 +94,6 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.Alignment alignment_contacts_show_graph_table;
 	[Widget] Gtk.HBox hbox_contacts_capture_show_need_one;
-	[Widget] Gtk.HBox hbox_contacts_graph_test;
 	[Widget] Gtk.CheckButton check_contacts_capture_graph;
 	[Widget] Gtk.CheckButton check_contacts_capture_table;
 
@@ -3957,13 +3956,9 @@ public partial class ChronoJumpWindow
 		notebook_results.Visible = check_contacts_capture_table.Active;
 
 		if ( check_contacts_capture_graph.Active || check_contacts_capture_table.Active)
-		{
 			hbox_contacts_capture_show_need_one.Visible = false;
-			hbox_contacts_graph_test.Visible = true;
-		} else {
+		else
 			hbox_contacts_capture_show_need_one.Visible = true;
-			hbox_contacts_graph_test.Visible = false;
-		}
 
 		/*
 		   update the preferences variable

@@ -1528,12 +1528,10 @@ public partial class ChronoJumpWindow
 
 	private void on_button_jumps_zoom_clicked (object o, EventArgs args) {
 		myTreeViewJumps.ExpandState = myTreeViewJumps.ZoomChange(myTreeViewJumps.ExpandState);
-		if(myTreeViewJumps.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED)
-		{
+		if(myTreeViewJumps.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) {
 			treeview_jumps.CollapseAll();
 			image_jumps_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
-		}
-		else {
+		} else {
 			treeview_jumps.ExpandAll();
 			image_jumps_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_out.png");
 		}
@@ -1633,13 +1631,17 @@ public partial class ChronoJumpWindow
 
 	private void on_button_jumps_rj_zoom_clicked (object o, EventArgs args) {
 		myTreeViewJumpsRj.ExpandState = myTreeViewJumpsRj.ZoomChange(myTreeViewJumpsRj.ExpandState);
-		if(myTreeViewJumpsRj.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED)
+		if(myTreeViewJumpsRj.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) {
 			treeview_jumps_rj.CollapseAll();
-		else if(myTreeViewJumpsRj.ExpandState == TreeViewEvent.ExpandStates.OPTIMAL) {
+			image_jumps_rj_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+		} else if(myTreeViewJumpsRj.ExpandState == TreeViewEvent.ExpandStates.OPTIMAL) {
 			treeview_jumps_rj.CollapseAll();
 			myTreeViewJumpsRj.ExpandOptimal();
-		} else
+			image_jumps_rj_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+		} else {
 			treeview_jumps_rj.ExpandAll();
+			image_jumps_rj_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_out.png");
+		}
 	}
 
 	private void treeview_jumps_rj_storeReset() {
@@ -1738,10 +1740,13 @@ public partial class ChronoJumpWindow
 	
 	private void on_button_runs_zoom_clicked (object o, EventArgs args) {
 		myTreeViewRuns.ExpandState = myTreeViewRuns.ZoomChange(myTreeViewRuns.ExpandState);
-		if(myTreeViewRuns.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED)
+		if(myTreeViewRuns.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) {
 			treeview_runs.CollapseAll();
-		else
+			image_runs_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+		} else {
 			treeview_runs.ExpandAll();
+			image_runs_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_out.png");
+		}
 	}
 	
 	private void treeview_runs_storeReset() {
@@ -1830,13 +1835,17 @@ public partial class ChronoJumpWindow
 	
 	private void on_button_runs_interval_zoom_clicked (object o, EventArgs args) {
 		myTreeViewRunsInterval.ExpandState = myTreeViewRunsInterval.ZoomChange(myTreeViewRunsInterval.ExpandState);
-		if(myTreeViewRunsInterval.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED)
+		if(myTreeViewRunsInterval.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) {
 			treeview_runs_interval.CollapseAll();
-		else if(myTreeViewRunsInterval.ExpandState == TreeViewEvent.ExpandStates.OPTIMAL) {
+			image_runs_interval_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+		} else if(myTreeViewRunsInterval.ExpandState == TreeViewEvent.ExpandStates.OPTIMAL) {
 			treeview_runs_interval.CollapseAll();
 			myTreeViewRunsInterval.ExpandOptimal();
-		} else
+			image_runs_interval_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+		} else {
 			treeview_runs_interval.ExpandAll();
+			image_runs_interval_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_out.png");
+		}
 	}
 
 	private void treeview_runs_interval_storeReset() {
@@ -1929,10 +1938,13 @@ public partial class ChronoJumpWindow
 	private void on_button_reaction_times_zoom_clicked (object o, EventArgs args) {
 		myTreeViewReactionTimes.ExpandState = myTreeViewReactionTimes.ZoomChange(
 				myTreeViewReactionTimes.ExpandState);
-		if(myTreeViewReactionTimes.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED)
+		if(myTreeViewReactionTimes.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) {
 			treeview_reaction_times.CollapseAll();
-		else
+			image_reaction_times_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+		} else {
 			treeview_reaction_times.ExpandAll();
+			image_reaction_times_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_out.png");
+		}
 	}
 	
 	private void treeview_reaction_times_storeReset() {
@@ -2014,13 +2026,17 @@ public partial class ChronoJumpWindow
 	
 	private void on_button_pulses_zoom_clicked (object o, EventArgs args) {
 		myTreeViewPulses.ExpandState = myTreeViewPulses.ZoomChange(myTreeViewPulses.ExpandState);
-		if(myTreeViewPulses.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED)
+		if(myTreeViewPulses.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) {
 			treeview_pulses.CollapseAll();
-		else if(myTreeViewPulses.ExpandState == TreeViewEvent.ExpandStates.OPTIMAL) {
+			image_pulses_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+		} else if(myTreeViewPulses.ExpandState == TreeViewEvent.ExpandStates.OPTIMAL) {
 			treeview_pulses.CollapseAll();
 			myTreeViewPulses.ExpandOptimal();
-		} else
+			image_pulses_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+		} else {
 			treeview_pulses.ExpandAll();
+			image_pulses_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_out.png");
+		}
 	}
 
 	private void treeview_pulses_storeReset() {
@@ -2114,13 +2130,17 @@ public partial class ChronoJumpWindow
 	
 	private void on_button_multi_chronopic_zoom_clicked (object o, EventArgs args) {
 		myTreeViewMultiChronopic.ExpandState = myTreeViewMultiChronopic.ZoomChange(myTreeViewMultiChronopic.ExpandState);
-		if(myTreeViewMultiChronopic.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED)
+		if(myTreeViewMultiChronopic.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) {
 			treeview_multi_chronopic.CollapseAll();
-		else if(myTreeViewMultiChronopic.ExpandState == TreeViewEvent.ExpandStates.OPTIMAL) {
+			image_multi_chronopic_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+		} else if(myTreeViewMultiChronopic.ExpandState == TreeViewEvent.ExpandStates.OPTIMAL) {
 			treeview_multi_chronopic.CollapseAll();
 			myTreeViewMultiChronopic.ExpandOptimal();
-		} else
+			image_multi_chronopic_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+		} else {
 			treeview_multi_chronopic.ExpandAll();
+			image_multi_chronopic_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_out.png");
+		}
 	}
 	
 	private void treeview_multi_chronopic_storeReset(bool dbconOpened) {

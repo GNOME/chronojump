@@ -780,7 +780,6 @@ public partial class ChronoJumpWindow
 		//and is not nice that the other are different for an user theme change
 	
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomFitIcon);
-		image_jumps_zoom.Pixbuf = pixbuf;
 		image_jumps_rj_zoom.Pixbuf = pixbuf;
 		image_runs_zoom.Pixbuf = pixbuf;
 		image_runs_interval_zoom.Pixbuf = pixbuf;
@@ -1024,7 +1023,10 @@ public partial class ChronoJumpWindow
 
 		image_force_sensor_ai_chained_link.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "link.png"); 
 		image_force_sensor_ai_chained_link_off.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "link_off.png"); 
-		image_force_sensor_ai_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+
+		pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+		image_force_sensor_ai_zoom.Pixbuf = pixbuf;
+		image_jumps_zoom.Pixbuf = pixbuf;
 		image_force_sensor_ai_zoom_out.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_out.png");
 	}
 }

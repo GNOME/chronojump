@@ -1529,9 +1529,14 @@ public partial class ChronoJumpWindow
 	private void on_button_jumps_zoom_clicked (object o, EventArgs args) {
 		myTreeViewJumps.ExpandState = myTreeViewJumps.ZoomChange(myTreeViewJumps.ExpandState);
 		if(myTreeViewJumps.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED)
+		{
 			treeview_jumps.CollapseAll();
-		else
+			image_jumps_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
+		}
+		else {
 			treeview_jumps.ExpandAll();
+			image_jumps_zoom.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_out.png");
+		}
 	}
 	
 	private void treeview_jumps_storeReset() {

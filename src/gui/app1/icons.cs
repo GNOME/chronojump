@@ -779,13 +779,7 @@ public partial class ChronoJumpWindow
 		//zoom icons, done like this because there's one zoom icon created ad-hoc, 
 		//and is not nice that the other are different for an user theme change
 	
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomFitIcon);
-		image_jumps_rj_zoom.Pixbuf = pixbuf;
-		image_runs_zoom.Pixbuf = pixbuf;
-		image_runs_interval_zoom.Pixbuf = pixbuf;
-		image_reaction_times_zoom.Pixbuf = pixbuf;
-		image_pulses_zoom.Pixbuf = pixbuf;
-		image_multi_chronopic_zoom.Pixbuf = pixbuf;
+//		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomFitIcon);
 
 		//video play icons
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "video_play.png");
@@ -1027,6 +1021,12 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_in.png");
 		image_force_sensor_ai_zoom.Pixbuf = pixbuf;
 		image_jumps_zoom.Pixbuf = pixbuf;
+		image_jumps_rj_zoom.Pixbuf = pixbuf;
+		image_runs_zoom.Pixbuf = pixbuf;
+		image_runs_interval_zoom.Pixbuf = pixbuf;
+		image_reaction_times_zoom.Pixbuf = pixbuf;
+		image_pulses_zoom.Pixbuf = pixbuf;
+		image_multi_chronopic_zoom.Pixbuf = pixbuf;
 		image_force_sensor_ai_zoom_out.Pixbuf = new Pixbuf(null, Util.GetImagePath(false) + "zoom_out.png");
 	}
 }

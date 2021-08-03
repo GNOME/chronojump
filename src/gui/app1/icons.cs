@@ -778,8 +778,6 @@ public partial class ChronoJumpWindow
 
 		//zoom icons, done like this because there's one zoom icon created ad-hoc, 
 		//and is not nice that the other are different for an user theme change
-	
-//		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomFitIcon);
 
 		//video play icons
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "video_play.png");

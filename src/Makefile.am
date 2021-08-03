@@ -612,7 +612,6 @@ RESOURCES = \
 	../images/md/ic_direct_race_encoder_yellow_24dp_1x.png,race_encoder_icon_yellow.png \
 	../images/gtk-apply.png,gtk-apply.png \
 	../images/gtk-cancel.png,gtk-cancel.png \
-	../images/gtk-zoom-fit.png,gtk-zoom-fit.png \
 	../images/gtk-zoom-in.png,gtk-zoom-in.png \
 	../images/gtk-zoom-in-with-text.png,gtk-zoom-in-with-text.png \
 	../images/gtk-new-1.png,gtk-new-1.png \

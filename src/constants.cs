@@ -612,8 +612,6 @@ public class Constants
 		"topo.colors", "heat.colors", "terrain.colors", "cm.colors"};
 
 
-	public static string FileNameZoomFitIcon = "gtk-zoom-fit.png";
-	//public static string FileNameZoomOutIcon = "gtk-zoom-out.png";
 	public static string FileNameZoomInIcon = "gtk-zoom-in.png";
 	public static string FileNameZoomInWithTextIcon = "gtk-zoom-in-with-text.png";
 	public static string FileNameNew1 = "gtk-new-1.png";

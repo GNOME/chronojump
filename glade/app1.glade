@@ -7703,7 +7703,7 @@ EncoderInertialCapture</property>
                                                             <widget class="GtkHBox" id="hbox553">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">40</property>
+                                                            <property name="spacing">30</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox_contacts_graph_test">
                                                             <property name="visible">True</property>
@@ -7860,62 +7860,22 @@ EncoderInertialCapture</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
-                                                            </widget>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkHPaned" id="hpaned1">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <child>
-                                                            <widget class="GtkVBox" id="vbox_contacts_capture_graph">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">12</property>
-                                                            <child>
-                                                            <widget class="GtkAlignment" id="event_execute_alignment">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <child>
-                                                            <widget class="GtkVBox" id="vbox26">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">2</property>
-                                                            <child>
-                                                            <widget class="GtkHBox" id="hbox15">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <child>
-                                                            <widget class="GtkVBox" id="vbox30">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <child>
-                                                            <widget class="GtkHBox" id="hbox22">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">12</property>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="event_graph_label_graph_test">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox_contacts_simple_graph_controls">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">12</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label654">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">20</property>
+                                                            <property name="label" translatable="yes">Graph options:</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox_contacts_graph_last_limit">
                                                             <property name="visible">True</property>
@@ -7955,9 +7915,9 @@ EncoderInertialCapture</property>
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -8015,7 +7975,7 @@ EncoderInertialCapture</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -8029,62 +7989,55 @@ EncoderInertialCapture</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">2</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkButton" id="button_inspect_last_test_run_intervallic">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">True</property>
-                                                            <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Inspect</property>
-                                                            <signal name="clicked" handler="on_button_inspect_last_test_clicked" swapped="no"/>
-                                                            <child>
-                                                            <widget class="GtkImage" id="image_test_inspect1">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-missing-image</property>
-                                                            </widget>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack_type">end</property>
-                                                            <property name="position">2</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkCheckButton" id="check_vbox_contacts_graph_legend">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">False</property>
-                                                            <property name="draw_indicator">False</property>
-                                                            <signal name="clicked" handler="on_check_vbox_contacts_graph_legend_clicked" swapped="no"/>
-                                                            <child>
-                                                            <widget class="GtkImage" id="image_info_sessions_info">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-info</property>
-                                                            <property name="icon-size">1</property>
-                                                            </widget>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack_type">end</property>
                                                             <property name="position">3</property>
                                                             </packing>
                                                             </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHPaned" id="hpaned1">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <child>
+                                                            <widget class="GtkVBox" id="vbox_contacts_capture_graph">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">12</property>
+                                                            <child>
+                                                            <widget class="GtkAlignment" id="event_execute_alignment">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkVBox" id="vbox26">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">2</property>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox15">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkVBox" id="vbox30">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="event_graph_label_graph_test">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -8340,6 +8293,50 @@ EncoderInertialCapture</property>
                                                             <property name="fill">False</property>
                                                             <property name="pack_type">end</property>
                                                             <property name="position">3</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkCheckButton" id="check_vbox_contacts_graph_legend">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="draw_indicator">False</property>
+                                                            <signal name="clicked" handler="on_check_vbox_contacts_graph_legend_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_info_sessions_info">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-info</property>
+                                                            <property name="icon-size">1</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">4</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_inspect_last_test_run_intervallic">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="tooltip" translatable="yes">Inspect</property>
+                                                            <signal name="clicked" handler="on_button_inspect_last_test_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_test_inspect1">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">5</property>
                                                             </packing>
                                                             </child>
                                                             </widget>

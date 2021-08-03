@@ -322,7 +322,7 @@ public partial class ChronoJumpWindow
 	private void showJumpSimpleLabels() 
 	{
 		event_graph_label_graph_test.Visible = false;
-		hbox_contacts_simple_graph_controls.Visible = true;
+		hbox_contacts_simple_graph_controls.Visible = check_contacts_capture_graph.Active;
 		check_run_simple_show_time.Visible = false;
 
 		check_vbox_contacts_graph_legend.Visible = true;
@@ -361,7 +361,7 @@ public partial class ChronoJumpWindow
 	private void showRunSimpleLabels() 
 	{
 		event_graph_label_graph_test.Visible = false;
-		hbox_contacts_simple_graph_controls.Visible = true;
+		hbox_contacts_simple_graph_controls.Visible = check_contacts_capture_graph.Active;
 		check_run_simple_show_time.Visible = true;
 
 		check_vbox_contacts_graph_legend.Visible = true;

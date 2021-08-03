@@ -110,6 +110,8 @@ void setup(void)
   //Remember to change comment/uncomment depending on the hardware version
 //  pinMode(7, INPUT_PULLUP);   //Most significant bit
 
+  //¡¡¡¡Atention!!!!, the first version of the hardware the pin7 is associated to the buzzer.
+  //Remember to change comment/uncomment depending on the hardware version
   for (int pin = 6; pin >= 3; pin--)
   {
     sample.termNum = sample.termNum * 2; //Each bit will be multiplied by 2 as much times as his significance

@@ -19,9 +19,9 @@
 
 // Set up nRF24L01 radio on SPI bus plus pins  (CE & CS)
 
-RF24 radio(A3, A4);   //Version 3.2 of photocells
-//RF24 radio(10, 9);  //Version 4.0+ of photocells
+RF24 radio(A3, A4);   //9,10 originalmente , ahora A3,A4
 
+const int intPin = 0;         //Para definir pin interrupción  0 = interrupción  por pin D2
 const int debounceTime = 1;
 bool pinState = LOW;                //estado pin 2 Alto/Bajo
 bool lastPinState = LOW;
@@ -118,10 +118,8 @@ void setup(void)
   //  printf(" Versión Emisor 1.02 \n\r");
   Serial.println("Emitter version 1.03");
   //----------------------------------------------------
-  
-  printf("----");
-  delay(1000);
-  radio.printDetails();  //imprime configuración del emisor
+
+//  radio.printDetails();  //imprime configuración del emisor
 
   //------------------------------------------------------
 
@@ -194,7 +192,6 @@ void controlint()
 }
 
 void debounce(){
-  Serial.println("interrupt");
   MsTimer2::stop();
   debounceFlag = HIGH;
   }

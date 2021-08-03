@@ -3539,7 +3539,7 @@ public partial class ChronoJumpWindow
 				on_extra_window_jumps_test_changed(new object(), new EventArgs());
 
 				event_graph_label_graph_test.Visible = false;
-				hbox_contacts_simple_graph_controls.Visible = true;
+				hbox_contacts_simple_graph_controls.Visible = check_contacts_capture_graph.Active;
 				check_run_simple_show_time.Visible = false;
 				button_jumps_simple_capture_save_image.Visible = true;
 
@@ -3600,7 +3600,7 @@ public partial class ChronoJumpWindow
 				on_extra_window_runs_test_changed(new object(), new EventArgs());
 
 				event_graph_label_graph_test.Visible = false;
-				hbox_contacts_simple_graph_controls.Visible = true;
+				hbox_contacts_simple_graph_controls.Visible = check_contacts_capture_graph.Active;
 				check_run_simple_show_time.Visible = true;
 				button_runs_simple_capture_save_image.Visible = true;
 
@@ -3959,6 +3959,8 @@ public partial class ChronoJumpWindow
 			hbox_contacts_capture_show_need_one.Visible = false;
 		else
 			hbox_contacts_capture_show_need_one.Visible = true;
+
+		hbox_contacts_simple_graph_controls.Visible = check_contacts_capture_graph.Active;
 
 		/*
 		   update the preferences variable

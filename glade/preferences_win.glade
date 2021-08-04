@@ -808,30 +808,6 @@
                                                     <property name="column_spacing">12</property>
                                                     <property name="row_spacing">8</property>
                                                     <child>
-                                                      <widget class="GtkCheckButton" id="checkbutton_power">
-                                                        <property name="label" translatable="yes">Power</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="receives_default">False</property>
-                                                        <property name="use_underline">True</property>
-                                                        <property name="draw_indicator">True</property>
-                                                      </widget>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkCheckButton" id="checkbutton_stiffness">
-                                                        <property name="label" translatable="yes">Stiffness</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="receives_default">False</property>
-                                                        <property name="use_underline">True</property>
-                                                        <property name="draw_indicator">True</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="left_attach">1</property>
-                                                        <property name="right_attach">2</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
                                                       <widget class="GtkCheckButton" id="checkbutton_show_tv_tc_index">
                                                         <property name="label" translatable="yes">Indexes between TF and TC</property>
                                                         <property name="visible">True</property>
@@ -908,6 +884,49 @@
                                                       </packing>
                                                     </child>
                                                     <child>
+                                                      <widget class="GtkHBox" id="hbox57">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="spacing">6</property>
+                                                        <child>
+                                                          <widget class="GtkCheckButton" id="checkbutton_power">
+                                                            <property name="label" translatable="yes">Power</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="use_underline">True</property>
+                                                            <property name="draw_indicator">True</property>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="GtkButton" id="button_jumps_power_help">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_button_jumps_power_help_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_jumps_power_help">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-info</property>
+                                                            <property name="icon-size">2</property>
+                                                            </widget>
+                                                            </child>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                          </packing>
+                                                        </child>
+                                                      </widget>
+                                                    </child>
+                                                    <child>
                                                       <widget class="GtkCheckButton" id="checkbutton_initial_speed">
                                                         <property name="label" translatable="yes">Initial speed</property>
                                                         <property name="visible">True</property>
@@ -915,6 +934,53 @@
                                                         <property name="receives_default">False</property>
                                                         <property name="use_underline">True</property>
                                                         <property name="draw_indicator">True</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="left_attach">1</property>
+                                                        <property name="right_attach">2</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkHBox" id="hbox62">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="spacing">6</property>
+                                                        <child>
+                                                          <widget class="GtkCheckButton" id="checkbutton_stiffness">
+                                                            <property name="label" translatable="yes">Stiffness</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="use_underline">True</property>
+                                                            <property name="draw_indicator">True</property>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="GtkButton" id="button_jumps_stiffness_help">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_button_jumps_stiffness_help_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_jumps_stiffness_help">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-info</property>
+                                                            <property name="icon-size">2</property>
+                                                            </widget>
+                                                            </child>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                          </packing>
+                                                        </child>
                                                       </widget>
                                                       <packing>
                                                         <property name="top_attach">1</property>

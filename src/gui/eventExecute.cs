@@ -2786,7 +2786,7 @@ public partial class ChronoJumpWindow
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)
 		{
 			updateGraphJumpsSimple ();
-			pre_fillTreeView_jumps();
+			pre_fillTreeView_jumps(false);
 		}
 		else if(current_mode == Constants.Modes.RUNSSIMPLE)
 			updateGraphRunsSimple ();

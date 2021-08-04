@@ -93,6 +93,8 @@ public class PreferencesWindow
 //	[Widget] Gtk.Label label_jumps;
 	[Widget] Gtk.CheckButton checkbutton_power;
 	[Widget] Gtk.CheckButton checkbutton_stiffness;
+	[Widget] Gtk.Image image_jumps_power_help;
+	[Widget] Gtk.Image image_jumps_stiffness_help;
 	[Widget] Gtk.CheckButton checkbutton_initial_speed;
 	[Widget] Gtk.CheckButton checkbutton_angle;
 	[Widget] Gtk.CheckButton checkbutton_show_tv_tc_index;
@@ -564,6 +566,8 @@ public class PreferencesWindow
 		PreferencesWindowBox.image_races_intervallic.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_info.png");
+		PreferencesWindowBox.image_jumps_power_help.Pixbuf = pixbuf;
+		PreferencesWindowBox.image_jumps_stiffness_help.Pixbuf = pixbuf;
 		PreferencesWindowBox.image_run_speed_start_help.Pixbuf = pixbuf;
 		PreferencesWindowBox.image_encoder_inactivity_help.Pixbuf = pixbuf;
 		PreferencesWindowBox.image_encoder_capture_cut_by_triggers_help.Pixbuf = pixbuf;
@@ -913,6 +917,20 @@ public class PreferencesWindow
 	{
 		hbox_encoder_capture_inactivity_time.Sensitive = check_encoder_capture_inactivity_end_time.Active;
 	}
+
+	/* ---------------------------------------------------------
+	 * ----------------  Jumps. Info on power and stiffness -----------
+	 *  --------------------------------------------------------
+	 */
+
+	//both valid for jumps and jumps_rj
+	private void on_button_jumps_power_help_clicked (object o, EventArgs args) {
+		new DialogMessage(Constants.MessageTypes.INFO, Constants.HelpPowerStr());
+	}
+	private void on_button_jumps_stiffness_help_clicked (object o, EventArgs args) {
+		new DialogMessage(Constants.MessageTypes.INFO, Constants.HelpStiffnessStr(), "hbox_stiffness_formula");
+	}
+
 
 	/*
 	 * triggers stuff

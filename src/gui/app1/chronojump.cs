@@ -261,11 +261,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image extra_windows_jumps_image_dj_fall_predefined;
 	[Widget] Gtk.HBox hbox_extra_window_jumps_fall_height;
 
-	[Widget] Gtk.Button button_jumps_result_help_power;
-	[Widget] Gtk.Button button_jumps_result_help_stiffness;
-	[Widget] Gtk.Button button_jumps_rj_result_help_power;
-	[Widget] Gtk.Button button_jumps_rj_result_help_stiffness;
-	
 	//runs
 	[Widget] Gtk.Button button_edit_selected_run;
 	[Widget] Gtk.Button button_video_play_selected_run;
@@ -1495,10 +1490,6 @@ public partial class ChronoJumpWindow
 
 		//the glade cursor_changed does not work on mono 1.2.5 windows
 		tv.CursorChanged += on_treeview_jumps_cursor_changed; 
-	
-		//show or hide help_power and help_stiffness depending on preferences
-		button_jumps_result_help_power.Visible = preferences.showPower;
-		button_jumps_result_help_stiffness.Visible = preferences.showStiffness;
 	}
 
 	private void fillTreeView_jumps (string filter) {
@@ -1599,10 +1590,6 @@ public partial class ChronoJumpWindow
 
 		//the glade cursor_changed does not work on mono 1.2.5 windows
 		tv.CursorChanged += on_treeview_jumps_rj_cursor_changed; 
-	
-		//show or hide help_power and help_stiffness depending on preferences
-		button_jumps_rj_result_help_power.Visible = preferences.showPower;
-		button_jumps_rj_result_help_stiffness.Visible = preferences.showStiffness;
 	}
 
 	private void fillTreeView_jumps_rj (string filter) {
@@ -7153,20 +7140,6 @@ LogB.Debug("mc finished 5");
 		LogB.Information("Repair selected multichronopic");
 	}
 
-	/* ---------------------------------------------------------
-	 * ----------------  Info on power and stiffness -----------
-	 *  --------------------------------------------------------
-	 */
-
-
-	private void on_button_jumps_jumpsRj_result_help_power_clicked (object o, EventArgs args) {
-		new DialogMessage(Constants.MessageTypes.INFO, Constants.HelpPowerStr());
-	}
-	private void on_button_jumps_jumpsRj_result_help_stiffness_clicked (object o, EventArgs args) {
-		new DialogMessage(Constants.MessageTypes.INFO, Constants.HelpStiffnessStr(), "hbox_stiffness_formula");
-	}
-
-	
 	/* ---------------------------------------------------------
 	 * ----------------  AUTO MODE -----------------------------
 	 *  --------------------------------------------------------

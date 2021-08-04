@@ -331,7 +331,7 @@ public partial class ChronoJumpWindow
 				sensitiveGuiYesPerson();
 			}
 
-			pre_fillTreeView_jumps();
+			pre_fillTreeView_jumps(false);
 			on_combo_result_jumps_rj_changed(combo_result_jumps_rj, args);
 			on_combo_result_runs_changed(combo_result_runs, args);
 			on_combo_result_runs_interval_changed(combo_result_runs_interval, args);

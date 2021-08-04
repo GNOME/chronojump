@@ -165,7 +165,7 @@ public partial class ChronoJumpWindow
 			//1) simple jump
 			createComboSelectJumps(false);
 			combo_select_jumps.Active = 0;
-			pre_fillTreeView_jumps();
+			pre_fillTreeView_jumps(false);
 
 			createComboSelectJumpsDjOptimalFall(false);
 			createComboSelectJumpsWeightFVProfile(false);

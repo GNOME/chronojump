@@ -1451,7 +1451,6 @@ public partial class ChronoJumpWindow
 				fillTreeView_persons();
 		}
 
-		treeview_jumps_storeReset();
 		treeview_jumps_rj_storeReset();
 		treeview_runs_storeReset();
 		treeview_runs_interval_storeReset();
@@ -1465,7 +1464,6 @@ public partial class ChronoJumpWindow
 
 		if(fillTests)
 		{
-			fillTreeView_jumps(Constants.AllJumpsNameStr(), true);
 			fillTreeView_jumps_rj(Constants.AllJumpsNameStr(), true);
 			fillTreeView_runs(Constants.AllRunsNameStr(), true);
 			fillTreeView_runs_interval(Constants.AllRunsNameStr(), true);
@@ -1473,6 +1471,11 @@ public partial class ChronoJumpWindow
 			fillTreeView_reaction_times("reactionTime", true);
 			fillTreeView_multi_chronopic(true);
 		}
+
+		if(fillTests)
+			pre_fillTreeView_jumps (true);
+		else
+			treeview_jumps_storeReset();
 
 		//close SQL opened in all this process
 		Sqlite.Close(); // ------------------------------
@@ -2493,7 +2496,7 @@ public partial class ChronoJumpWindow
 		on_extra_window_jumps_test_changed(o, args);
 
 		//update the treeview
-		pre_fillTreeView_jumps();
+		pre_fillTreeView_jumps(false);
 	}
 	
 	private void on_combo_select_jumps_rj_changed(object o, EventArgs args)
@@ -2609,14 +2612,14 @@ public partial class ChronoJumpWindow
 	
 	// -------------- combo result tests changed --------
 
-	private void pre_fillTreeView_jumps ()
+	private void pre_fillTreeView_jumps (bool dbconOpened)
 	{
 		treeview_jumps_storeReset();
 
 		if(radio_contacts_graph_allTests.Active)
-			fillTreeView_jumps(Constants.AllJumpsNameStr());
+			fillTreeView_jumps(Constants.AllJumpsNameStr(), dbconOpened);
 		else if (combo_select_jumps != null)
-			fillTreeView_jumps(UtilGtk.ComboGetActive(combo_select_jumps));
+			fillTreeView_jumps(UtilGtk.ComboGetActive(combo_select_jumps), dbconOpened);
 	}
 
 	private void on_combo_result_jumps_rj_changed(object o, EventArgs args) {
@@ -3249,7 +3252,7 @@ public partial class ChronoJumpWindow
 			createTreeView_reaction_times(treeview_reaction_times);
 			createTreeView_multi_chronopic(false, treeview_multi_chronopic);
 
-			pre_fillTreeView_jumps();
+			pre_fillTreeView_jumps(false);
 			on_combo_result_jumps_rj_changed(combo_result_jumps_rj, args);
 			on_combo_result_runs_changed(combo_result_runs, args);
 			on_combo_result_runs_interval_changed(combo_result_runs_interval, args);
@@ -6325,7 +6328,7 @@ LogB.Debug("mc finished 5");
 			myTreeViewJumps.Update(myJump);
 		}
 		else
-			pre_fillTreeView_jumps();
+			pre_fillTreeView_jumps(false);
 
 		if(! configChronojump.Exhibition)
 			updateGraphJumpsSimple();
@@ -6913,7 +6916,7 @@ LogB.Debug("mc finished 5");
 			createComboSelectJumpsWeightFVProfile(false);
 			createComboSelectJumpsEvolution(false);
 
-			pre_fillTreeView_jumps();
+			pre_fillTreeView_jumps(false);
 			combo_select_jumps.Active = UtilGtk.ComboMakeActive(combo_select_jumps, jumpTypeAddWin.Name);
 
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added simple jump type."));
@@ -7015,7 +7018,7 @@ LogB.Debug("mc finished 5");
 	{
 		string translatedName = comboSelectJumps.GetNameTranslated(jumpsMoreWin.SelectedEventName);
 		combo_select_jumps = comboSelectJumps.DeleteValue(translatedName);
-		pre_fillTreeView_jumps();
+		pre_fillTreeView_jumps(false);
 
 		extra_window_jumps_initialize(new JumpType("Free"));
 	}

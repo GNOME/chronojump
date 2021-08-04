@@ -59,6 +59,11 @@ public class PreferencesWindow
 	[Widget] Gtk.Label label_mandatory_tabs;
 	[Widget] Gtk.Label label_selectable_tabs;
 
+	//help widgets
+	[Widget] Gtk.HBox hbox_stiffness_formula;
+	[Widget] Gtk.Label label_help_message;
+	[Widget] Gtk.Image image_help_close;
+
 	//appearance tab
 	[Widget] Gtk.CheckButton check_appearance_maximized;
 	[Widget] Gtk.CheckButton check_appearance_maximized_undecorated;
@@ -284,6 +289,8 @@ public class PreferencesWindow
 	
 	ListStore langsStore;
 
+	private enum notebook_top_pages { PREFERENCES, SELECTTABS, HELP }
+
 	const int JUMPSPAGE = 2;
 	const int RUNSPAGE = 3;
 	const int ENCODERCAPTUREPAGE = 4;
@@ -320,7 +327,7 @@ public class PreferencesWindow
 			PreferencesWindowBox = new PreferencesWindow ();
 		}
 
-		PreferencesWindowBox.notebook_top.CurrentPage = 0;
+		PreferencesWindowBox.notebook_top.CurrentPage = Convert.ToInt32(notebook_top_pages.PREFERENCES);
 		PreferencesWindowBox.operatingSystem = UtilAll.GetOSEnum();
 
 		if(compujump)
@@ -779,6 +786,9 @@ public class PreferencesWindow
 		PreferencesWindowBox.label_selectable_tabs.Text = "<b>" + PreferencesWindowBox.label_selectable_tabs.Text + "</b>";
 		PreferencesWindowBox.label_selectable_tabs.UseMarkup = true;
 
+		//help
+		PreferencesWindowBox.image_help_close.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
+
 		PreferencesWindowBox.preferences_win.Show ();
 		return PreferencesWindowBox;
 	}
@@ -787,12 +797,12 @@ public class PreferencesWindow
 
 	private void on_button_view_more_tabs_clicked (object o, EventArgs args)
 	{
-		notebook_top.CurrentPage = 1;
+		PreferencesWindowBox.notebook_top.CurrentPage = Convert.ToInt32(notebook_top_pages.SELECTTABS);
 		hbox_buttons_bottom.Sensitive = false;
 	}
 	private void on_button_view_more_tabs_close_clicked (object o, EventArgs args)
 	{
-		notebook_top.CurrentPage = 0;
+		PreferencesWindowBox.notebook_top.CurrentPage = Convert.ToInt32(notebook_top_pages.PREFERENCES);
 		hbox_buttons_bottom.Sensitive = true;
 	}
 
@@ -830,6 +840,29 @@ public class PreferencesWindow
 	}
 
 	// <---- endo of view more tabs
+
+	// help ---->
+
+	private enum helpTypes { NORMAL, STIFFNESS }
+	private void showHelp (string str, helpTypes helpType)
+	{
+		PreferencesWindowBox.notebook_top.CurrentPage = Convert.ToInt32(notebook_top_pages.HELP);
+		hbox_buttons_bottom.Sensitive = false;
+
+		hbox_stiffness_formula.Visible = (helpType == helpTypes.STIFFNESS);
+
+		label_help_message.Text = str;
+		label_help_message.UseMarkup = true;
+	}
+
+	private void on_button_help_close_clicked (object o, EventArgs args)
+	{
+		PreferencesWindowBox.notebook_top.CurrentPage = Convert.ToInt32(notebook_top_pages.PREFERENCES);
+		hbox_buttons_bottom.Sensitive = true;
+	}
+
+
+	// <---- end of help
 
 
 	private void paintColorDrawingAreaAndBg (Gdk.Color color)
@@ -925,12 +958,11 @@ public class PreferencesWindow
 
 	//both valid for jumps and jumps_rj
 	private void on_button_jumps_power_help_clicked (object o, EventArgs args) {
-		new DialogMessage(Constants.MessageTypes.INFO, Constants.HelpPowerStr());
+		showHelp(Constants.HelpPowerStr(), helpTypes.NORMAL);
 	}
 	private void on_button_jumps_stiffness_help_clicked (object o, EventArgs args) {
-		new DialogMessage(Constants.MessageTypes.INFO, Constants.HelpStiffnessStr(), "hbox_stiffness_formula");
+		showHelp(Constants.HelpStiffnessStr(), helpTypes.STIFFNESS);
 	}
-
 
 	/*
 	 * triggers stuff

@@ -3530,7 +3530,7 @@ public partial class ChronoJumpWindow
 
 				event_graph_label_graph_test.Visible = false;
 				hbox_contacts_simple_graph_controls.Visible = check_contacts_capture_graph.Active;
-				check_run_simple_show_time.Visible = false;
+				alignment_check_run_simple_show_time.Visible = false;
 				button_jumps_simple_capture_save_image.Visible = true;
 
 				check_vbox_contacts_graph_legend.Visible = true;
@@ -3591,7 +3591,7 @@ public partial class ChronoJumpWindow
 
 				event_graph_label_graph_test.Visible = false;
 				hbox_contacts_simple_graph_controls.Visible = check_contacts_capture_graph.Active;
-				check_run_simple_show_time.Visible = true;
+				alignment_check_run_simple_show_time.Visible = true;
 				button_runs_simple_capture_save_image.Visible = true;
 
 				check_vbox_contacts_graph_legend.Visible = true;
@@ -3945,12 +3945,14 @@ public partial class ChronoJumpWindow
 		vbox_contacts_capture_graph.Visible = check_contacts_capture_graph.Active;
 		notebook_results.Visible = check_contacts_capture_table.Active;
 
-		if ( check_contacts_capture_graph.Active || check_contacts_capture_table.Active)
+		if (check_contacts_capture_graph.Active || check_contacts_capture_table.Active)
 			hbox_contacts_capture_show_need_one.Visible = false;
 		else
 			hbox_contacts_capture_show_need_one.Visible = true;
 
-		hbox_contacts_simple_graph_controls.Visible = check_contacts_capture_graph.Active;
+		if(current_mode == Constants.Modes.JUMPSSIMPLE || current_mode == Constants.Modes.RUNSSIMPLE)
+			hbox_contacts_simple_graph_controls.Visible = check_contacts_capture_graph.Active;
+
 
 		/*
 		   update the preferences variable

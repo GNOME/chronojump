@@ -54,6 +54,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_contacts_graph_allPersons;
 	[Widget] Gtk.Image image_radio_contacts_graph_currentPerson;
 	[Widget] Gtk.Image image_radio_contacts_graph_allPersons;
+	[Widget] Gtk.Alignment alignment_check_run_simple_show_time;
 	[Widget] Gtk.CheckButton check_run_simple_show_time;
 	
 	[Widget] Gtk.ProgressBar event_execute_progressbar_event;
@@ -323,7 +324,7 @@ public partial class ChronoJumpWindow
 	{
 		event_graph_label_graph_test.Visible = false;
 		hbox_contacts_simple_graph_controls.Visible = check_contacts_capture_graph.Active;
-		check_run_simple_show_time.Visible = false;
+		alignment_check_run_simple_show_time.Visible = false;
 
 		check_vbox_contacts_graph_legend.Visible = true;
 		//vbox_contacts_graph_legend.Visible = false;
@@ -362,7 +363,7 @@ public partial class ChronoJumpWindow
 	{
 		event_graph_label_graph_test.Visible = false;
 		hbox_contacts_simple_graph_controls.Visible = check_contacts_capture_graph.Active;
-		check_run_simple_show_time.Visible = true;
+		alignment_check_run_simple_show_time.Visible = true;
 
 		check_vbox_contacts_graph_legend.Visible = true;
 		//vbox_contacts_graph_legend.Visible = false;

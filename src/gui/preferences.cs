@@ -61,7 +61,7 @@ public class PreferencesWindow
 
 	//help widgets
 	[Widget] Gtk.HBox hbox_stiffness_formula;
-	[Widget] Gtk.Label label_help_message;
+	[Widget] Gtk.TextView textview_help_message;
 	[Widget] Gtk.Image image_help_close;
 
 	//appearance tab
@@ -845,6 +845,7 @@ public class PreferencesWindow
 	// help ---->
 
 	private enum helpTypes { NORMAL, STIFFNESS }
+	//does not use markup on textview
 	private void showHelp (string title, helpTypes helpType, string message)
 	{
 		preferences_win.Title = Catalog.GetString("Preferences") + " / " + Catalog.GetString("Help:") + " " + title;
@@ -853,8 +854,7 @@ public class PreferencesWindow
 
 		hbox_stiffness_formula.Visible = (helpType == helpTypes.STIFFNESS);
 
-		label_help_message.Text = message;
-		label_help_message.UseMarkup = true;
+		textview_help_message.Buffer.Text = message;
 	}
 
 	private void on_button_help_close_clicked (object o, EventArgs args)

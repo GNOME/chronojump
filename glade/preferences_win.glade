@@ -7453,7 +7453,7 @@ version:</property>
                             <property name="can_default">True</property>
                             <property name="receives_default">False</property>
                             <signal name="clicked" handler="on_button_view_more_tabs_close_clicked" swapped="no"/>
-			    <accelerator key="Escape" signal="clicked"/>
+                            <accelerator key="Escape" signal="clicked"/>
                             <child>
                               <widget class="GtkHBox" id="hbox66">
                                 <property name="visible">True</property>
@@ -7721,15 +7721,12 @@ version:</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <child>
-                                  <widget class="GtkLabel" id="label_help_message">
+                                  <widget class="GtkTextView" id="textview_help_message">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="xalign">0</property>
-                                    <property name="xpad">4</property>
-                                    <property name="ypad">4</property>
-                                    <property name="use_markup">True</property>
-                                    <property name="wrap">True</property>
-                                    <property name="selectable">True</property>
+                                    <property name="editable">False</property>
+                                    <property name="wrap_mode">word</property>
+                                    <property name="cursor_visible">False</property>
                                   </widget>
                                 </child>
                               </widget>
@@ -7759,7 +7756,7 @@ version:</property>
                             <property name="can_default">True</property>
                             <property name="receives_default">False</property>
                             <signal name="clicked" handler="on_button_help_close_clicked" swapped="no"/>
-			    <accelerator key="Escape" signal="clicked"/>
+                            <accelerator key="Escape" signal="clicked"/>
                             <child>
                               <widget class="GtkHBox" id="hbox63">
                                 <property name="visible">True</property>

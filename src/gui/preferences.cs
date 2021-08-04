@@ -310,6 +310,7 @@ public class PreferencesWindow
 		
 		//put an icon to window
 		UtilGtk.IconWindow(preferences_win);
+		preferences_win.Title = Catalog.GetString("Preferences");
 
 		//database and log files stuff
 		databaseURL = Util.GetDatabaseDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
@@ -844,19 +845,21 @@ public class PreferencesWindow
 	// help ---->
 
 	private enum helpTypes { NORMAL, STIFFNESS }
-	private void showHelp (string str, helpTypes helpType)
+	private void showHelp (string title, helpTypes helpType, string message)
 	{
+		preferences_win.Title = Catalog.GetString("Preferences") + " / " + Catalog.GetString("Help:") + " " + title;
 		PreferencesWindowBox.notebook_top.CurrentPage = Convert.ToInt32(notebook_top_pages.HELP);
 		hbox_buttons_bottom.Sensitive = false;
 
 		hbox_stiffness_formula.Visible = (helpType == helpTypes.STIFFNESS);
 
-		label_help_message.Text = str;
+		label_help_message.Text = message;
 		label_help_message.UseMarkup = true;
 	}
 
 	private void on_button_help_close_clicked (object o, EventArgs args)
 	{
+		preferences_win.Title = Catalog.GetString("Preferences");
 		PreferencesWindowBox.notebook_top.CurrentPage = Convert.ToInt32(notebook_top_pages.PREFERENCES);
 		hbox_buttons_bottom.Sensitive = true;
 	}
@@ -958,10 +961,10 @@ public class PreferencesWindow
 
 	//both valid for jumps and jumps_rj
 	private void on_button_jumps_power_help_clicked (object o, EventArgs args) {
-		showHelp(Constants.HelpPowerStr(), helpTypes.NORMAL);
+		showHelp(Catalog.GetString("Power"), helpTypes.NORMAL, Constants.HelpPowerStr());
 	}
 	private void on_button_jumps_stiffness_help_clicked (object o, EventArgs args) {
-		showHelp(Constants.HelpStiffnessStr(), helpTypes.STIFFNESS);
+		showHelp(Catalog.GetString("Stiffness"), helpTypes.STIFFNESS, Constants.HelpStiffnessStr());
 	}
 
 	/*

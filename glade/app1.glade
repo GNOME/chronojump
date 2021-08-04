@@ -8002,7 +8002,7 @@ EncoderInertialCapture</property>
                                                             <widget class="GtkLabel" id="label_contacts_capture_show_need_one">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Please, select at least one of the options</property>
+                                                            <property name="label" translatable="yes">Select at least one</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -32379,7 +32379,7 @@ Concentric</property>
                                                             <widget class="GtkLabel" id="label_encoder_capture_show_need_one">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Please, select at least one of the options</property>
+                                                            <property name="label" translatable="yes">Select at least one</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>

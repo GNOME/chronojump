@@ -989,9 +989,8 @@ public class PreferencesWindow
 
 	private void on_button_encoder_capture_cut_by_triggers_help_clicked (object o, EventArgs args)
 	{
-		new DialogMessage(
-				"Chronojump triggers",
-				Constants.MessageTypes.INFO,
+		showHelp("Chronojump triggers",
+				helpTypes.NORMAL,
 				Catalog.GetString("If active, repetitions will be cut from set using triggers.") + " " +
 				Catalog.GetString("Trigger signal will be produced by a button connected to the Chronopic.") + "\n\n" +
 				Catalog.GetString("This will be only used on gravitatory mode, concentric contraction.") + "\n\n" +
@@ -1542,8 +1541,7 @@ public class PreferencesWindow
 
 	private void on_button_run_speed_start_help_clicked (object o, EventArgs args)
 	{
-		new DialogMessage("Chronojump - " + Catalog.GetString("Race measurement"),
-				Constants.MessageTypes.INFO,
+		showHelp(Catalog.GetString("Race measurement"), helpTypes.NORMAL,
 				Catalog.GetString(
 					"\"Speed start\" means when athlete does not start with \"contact\" on the " +
 					"first platform or photocell.\n" +
@@ -1613,14 +1611,14 @@ public class PreferencesWindow
 			try {
 				Directory.CreateDirectory (dir);
 			} catch {
-				new DialogMessage(Constants.MessageTypes.WARNING, 
+				showHelp(Catalog.GetString("Error"), helpTypes.NORMAL,
 						Catalog.GetString("Cannot create directory.") + "\n\n" + dir);
 				return;
 			}
 		}
 
 		if(! Util.OpenURL (dir))
-			new DialogMessage(Constants.MessageTypes.WARNING, 
+			showHelp(Catalog.GetString("Error"), helpTypes.NORMAL,
 					Constants.DirectoryCannotOpenStr() + "\n\n" + dir);
 	}
 	
@@ -1635,7 +1633,7 @@ public class PreferencesWindow
 		}
 
 		if(! Util.OpenURL (dir))
-			new DialogMessage(Constants.MessageTypes.WARNING, 
+			showHelp(Catalog.GetString("Error"), helpTypes.NORMAL,
 					Constants.DirectoryCannotOpenStr() + "\n\n" + dir);
 	}
 
@@ -1666,20 +1664,21 @@ public class PreferencesWindow
 				success = true;
 			} catch {
 				LogB.Warning("Catched! Configuration cannot be imported");
-				new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Error importing data."));
+				showHelp(Catalog.GetString("Error"), helpTypes.NORMAL,
+						Catalog.GetString("Error importing data."));
 			}
 		}
 		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
 		fc.Destroy();
 
 		if(success)
-			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Successfully imported."));
+			showHelp("", helpTypes.NORMAL, Catalog.GetString("Successfully imported."));
 	}
 
 	//encoder
 	private void on_button_inactivity_help_clicked (object o, EventArgs args)
 	{
-		new DialogMessage(Constants.MessageTypes.INFO, 
+		showHelp(Catalog.GetString("End capture by inactivity"), helpTypes.NORMAL,
 				Catalog.GetString("If a repetition has been found, test will end at selected inactivity seconds.") + "\n\n" +
 				Catalog.GetString("If a repetition has not been found, test will end at selected inactivity seconds (x2).") + "\n" +
 				Catalog.GetString("This will let the person to have more time to start movement.") + "\n\n" +

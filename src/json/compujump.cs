@@ -70,8 +70,10 @@ public class JsonCompujump : Json
 		dataStream.Close ();
 		
 		HttpWebResponse response;
-		if(! getHttpWebResponse (request, out response, "Cannot get person by RFID."))
+		if(! getHttpWebResponse (request, out response, "Cannot get person by RFID.")) {
+			connected = true;
 			return person;
+		}
 
 		string responseFromServer;
 		using (var sr = new StreamReader(response.GetResponseStream()))

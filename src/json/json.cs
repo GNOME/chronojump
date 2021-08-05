@@ -567,6 +567,7 @@ public class Json
 		}
 		authToken = json_response["token"];
 //		LogB.Debug("authToken: " + authToken + "\n");
+		LogB.Debug("Authenticated Correctly!\n");
 		return true;
 	}
 
@@ -619,7 +620,24 @@ public class Json
 
 		try {
 			dataStream = req.GetRequestStream ();
-		} catch {
+
+		} catch (WebException ex) {
+			LogB.Warning("getHttpWebResponse error status code: "+ex.Status);
+			if(ex.Status == WebExceptionStatus.ProtocolError) {
+				string responseFromServer;
+				using (var sr = new StreamReader(ex.Response.GetResponseStream())) {
+					responseFromServer = sr.ReadToEnd();
+				}
+				LogB.Warning("getHttpWebResponse error status code: "+ex.Status);
+				LogB.Warning(responseFromServer);
+				this.ResultMessage = errMessage + "\n" + responseFromServer;
+			} else {
+				this.ResultMessage = errMessage;
+			}
+			return false;
+
+		} catch (Exception ex) {
+			LogB.Error(string.Format("Exception {0}", ex));
 			this.ResultMessage = errMessage + "\n" +
 				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
 				serverUrl);
@@ -635,7 +653,24 @@ public class Json
 
 		try {
 			response = req.GetResponse ();
-		} catch {
+
+		} catch (WebException ex) {
+			LogB.Warning("getHttpWebResponse error status code: "+ex.Status);
+			if(ex.Status == WebExceptionStatus.ProtocolError) {
+				string responseFromServer;
+				using (var sr = new StreamReader(ex.Response.GetResponseStream())) {
+					responseFromServer = sr.ReadToEnd();
+				}
+				LogB.Warning("getHttpWebResponse error status code: "+ex.Status);
+				LogB.Warning(responseFromServer);
+				this.ResultMessage = errMessage + "\n" + responseFromServer;
+			} else {
+				this.ResultMessage = errMessage;
+			}
+			return false;
+
+		} catch (Exception ex) {
+			LogB.Error(string.Format("Exception {0}", ex));
 			this.ResultMessage = errMessage + "\n" +
 				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
 				serverUrl);
@@ -651,7 +686,24 @@ public class Json
 
 		try {
 			response = (HttpWebResponse) req.GetResponse ();
-		} catch {
+
+		} catch (WebException ex) {
+			LogB.Warning("getHttpWebResponse error status code: "+ex.Status);
+			if(ex.Status == WebExceptionStatus.ProtocolError) {
+				string responseFromServer;
+				using (var sr = new StreamReader(ex.Response.GetResponseStream())) {
+					responseFromServer = sr.ReadToEnd();
+				}
+				LogB.Warning("getHttpWebResponse error status code: "+ex.Status);
+				LogB.Warning(responseFromServer);
+				this.ResultMessage = errMessage + "\n" + responseFromServer;
+			} else {
+				this.ResultMessage = errMessage;
+			}
+			return false;
+
+		} catch (Exception ex) {
+			LogB.Error(string.Format("Exception {0}", ex));
 			this.ResultMessage = errMessage + "\n" +
 				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."),
 				serverUrl);

@@ -175,25 +175,19 @@ public partial class ChronoJumpWindow
 
 			//2) reactive jump
 			createComboSelectJumpsRj(false);
-			UtilGtk.ComboUpdate(combo_result_jumps_rj,
-					SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsNameStr(), true), ""); //without filter, only select name
 			combo_select_jumps_rj.Active = 0;
-			combo_result_jumps_rj.Active = 0;
+			pre_fillTreeView_jumps_rj(false);
 
 			//3) simple run
 			createComboSelectRuns(false);
 			createComboSelectRunsEvolution(false);
-			UtilGtk.ComboUpdate(combo_result_runs,
-					SqliteRunType.SelectRunTypes(Constants.AllRunsNameStr(), true), ""); //without filter, only select name
 			combo_select_runs.Active = 0;
-			combo_result_runs.Active = 0;
+			pre_fillTreeView_runs(false);
 
 			//4) intervallic run
 			createComboSelectRunsInterval(false);
-			UtilGtk.ComboUpdate(combo_result_runs_interval,
-					SqliteRunIntervalType.SelectRunIntervalTypes(Constants.AllRunsNameStr(), true), ""); //without filter, only select name
 			combo_select_runs_interval.Active = 0;
-			combo_result_runs_interval.Active = 0;
+			pre_fillTreeView_runs_interval(false);
 
 			// TODO: we need this on encoder or is already done at reloadSession???
 			//createEncoderCombos();

@@ -71,7 +71,7 @@ public class TreeViewPulses : TreeViewEvent
 		Pulse newPulse = (Pulse)myObject;
 		
 		//if fixedPulse is not defined, comparate each pulse with the averave
-		string myTypeComplet = newPulse.Type;
+		string myTypeComplet = Catalog.GetString(newPulse.Type);
 		
 		if(newPulse.Simulated == Constants.Simulated)
 			myTypeComplet += Constants.SimulatedTreeviewStr() + " ";

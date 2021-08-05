@@ -9994,7 +9994,7 @@ EncoderInertialCapture</property>
                                                             <signal name="clicked" handler="on_edit_selected_jump_clicked" swapped="no"/>
                                                             <accelerator key="e" signal="clicked"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image1972">
+                                                            <widget class="GtkImage" id="image_edit_selected_jump">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-edit</property>
@@ -10139,7 +10139,7 @@ EncoderInertialCapture</property>
                                                             <signal name="clicked" handler="on_edit_selected_jump_rj_clicked" swapped="no"/>
                                                             <accelerator key="e" signal="clicked"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image1971">
+                                                            <widget class="GtkImage" id="image_edit_selected_jump_rj">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-edit</property>
@@ -10311,7 +10311,7 @@ EncoderInertialCapture</property>
                                                             <signal name="clicked" handler="on_edit_selected_run_clicked" swapped="no"/>
                                                             <accelerator key="e" signal="clicked"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image1973">
+                                                            <widget class="GtkImage" id="image_edit_selected_run">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-edit</property>
@@ -10461,7 +10461,7 @@ EncoderInertialCapture</property>
                                                             <signal name="clicked" handler="on_edit_selected_run_interval_clicked" swapped="no"/>
                                                             <accelerator key="e" signal="clicked"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image1974">
+                                                            <widget class="GtkImage" id="image_edit_selected_run_interval">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-edit</property>
@@ -10861,7 +10861,7 @@ EncoderInertialCapture</property>
                                                             <signal name="clicked" handler="on_edit_selected_reaction_time_clicked" swapped="no"/>
                                                             <accelerator key="e" signal="clicked"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image1975">
+                                                            <widget class="GtkImage" id="image_edit_selected_reaction_time">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-edit</property>
@@ -11061,7 +11061,7 @@ EncoderInertialCapture</property>
                                                             <signal name="clicked" handler="on_edit_selected_pulse_clicked" swapped="no"/>
                                                             <accelerator key="e" signal="clicked"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image1976">
+                                                            <widget class="GtkImage" id="image_edit_selected_pulse">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-edit</property>
@@ -11292,7 +11292,7 @@ EncoderInertialCapture</property>
                                                             <signal name="clicked" handler="on_edit_selected_multi_chronopic_clicked" swapped="no"/>
                                                             <accelerator key="e" signal="clicked"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image52">
+                                                            <widget class="GtkImage" id="image_edit_selected_multi_chronopic">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-edit</property>

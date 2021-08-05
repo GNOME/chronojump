@@ -115,6 +115,14 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.Image image_button_help_close;
 
+	[Widget] Gtk.Image image_edit_selected_jump;
+	[Widget] Gtk.Image image_edit_selected_jump_rj;
+	[Widget] Gtk.Image image_edit_selected_run;
+	[Widget] Gtk.Image image_edit_selected_run_interval;
+	[Widget] Gtk.Image image_edit_selected_pulse;
+	[Widget] Gtk.Image image_edit_selected_reaction_time;
+	[Widget] Gtk.Image image_edit_selected_multi_chronopic;
+
 	//jumps
 	[Widget] Gtk.Image image_button_jumps_simple_capture_save_image_chart;
 	[Widget] Gtk.Image image_button_jumps_simple_capture_save_image_disk;
@@ -519,6 +527,13 @@ public partial class ChronoJumpWindow
 		image_edit_current_person_h.Pixbuf = pixbuf;
 		image_session_edit2.Pixbuf = pixbuf;
 		app1s_image_edit.Pixbuf = pixbuf;
+		image_edit_selected_jump.Pixbuf = pixbuf;
+		image_edit_selected_jump_rj.Pixbuf = pixbuf;
+		image_edit_selected_run.Pixbuf = pixbuf;
+		image_edit_selected_run_interval.Pixbuf = pixbuf;
+		image_edit_selected_pulse.Pixbuf = pixbuf;
+		image_edit_selected_reaction_time.Pixbuf = pixbuf;
+		image_edit_selected_multi_chronopic.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
 		image_contacts_exercise_close.Pixbuf = pixbuf;

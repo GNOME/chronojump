@@ -2789,8 +2789,19 @@ public partial class ChronoJumpWindow
 			updateGraphJumpsSimple ();
 			pre_fillTreeView_jumps(false);
 		}
+		else if(current_mode == Constants.Modes.JUMPSREACTIVE)
+		{
+			pre_fillTreeView_jumps_rj(false);
+		}
 		else if(current_mode == Constants.Modes.RUNSSIMPLE)
+		{
 			updateGraphRunsSimple ();
+			pre_fillTreeView_runs(false);
+		}
+		else if(current_mode == Constants.Modes.RUNSINTERVALLIC)
+		{
+			pre_fillTreeView_runs_interval(false);
+		}
 	}
 
 	private void on_radio_contacts_graph_person_toggled (object o, EventArgs args)

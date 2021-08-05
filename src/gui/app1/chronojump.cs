@@ -198,10 +198,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_line_person_max;
 	[Widget] Gtk.Image image_line_person_max_all_sessions;
 
-	[Widget] Gtk.Box hbox_combo_result_jumps_rj;
-	[Widget] Gtk.Box hbox_combo_result_runs;
-	[Widget] Gtk.Box hbox_combo_result_runs_interval;
-	
 	[Widget] Gtk.Box hbox_combo_pulses;
 	[Widget] Gtk.VBox vbox_jumps;
 	//[Widget] Gtk.Box hbox_jumps_test;
@@ -226,9 +222,6 @@ public partial class ChronoJumpWindow
 	CjComboSelectRunsI comboSelectRunsI;
 	CjCombo comboSelectContactsTop;
 
-	[Widget] Gtk.ComboBox combo_result_jumps_rj;
-	[Widget] Gtk.ComboBox combo_result_runs;
-	[Widget] Gtk.ComboBox combo_result_runs_interval;
 	[Widget] Gtk.ComboBox combo_pulses;
 
 	//menu person
@@ -664,11 +657,6 @@ public partial class ChronoJumpWindow
 		createComboSelectRunsEvolution(true);
 		createComboSelectRunsEvolutionDistance();
 		createComboSelectRunsInterval(true);
-		
-		//createComboResultJumps();
-		createComboResultJumpsRj();
-		createComboResultRuns();
-		createComboResultRunsInterval();
 
 		//reaction_times has no combo
 		createComboPulses();
@@ -2370,44 +2358,8 @@ public partial class ChronoJumpWindow
 	}
 
 
-	// ---------------- combo_result ----------------------
+	// ---------------- combo_result TODO: delete all ----------------------
 
-	private void createComboResultJumpsRj() {
-		combo_result_jumps_rj = ComboBox.NewText();
-		UtilGtk.ComboUpdate(combo_result_jumps_rj, SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsNameStr(), true), ""); //only select name
-		
-		combo_result_jumps_rj.Active = 0;
-		combo_result_jumps_rj.Changed += new EventHandler (on_combo_result_jumps_rj_changed);
-
-		hbox_combo_result_jumps_rj.PackStart(combo_result_jumps_rj, true, true, 0);
-		hbox_combo_result_jumps_rj.ShowAll();
-		combo_result_jumps_rj.Sensitive = false;
-	}
-	
-	private void createComboResultRuns() {
-		combo_result_runs = ComboBox.NewText();
-		UtilGtk.ComboUpdate(combo_result_runs, SqliteRunType.SelectRunTypes(Constants.AllRunsNameStr(), true), ""); //without filter, only select name
-		
-		combo_result_runs.Active = 0;
-		combo_result_runs.Changed += new EventHandler (on_combo_result_runs_changed);
-
-		hbox_combo_result_runs.PackStart(combo_result_runs, true, true, 0);
-		hbox_combo_result_runs.ShowAll();
-		combo_result_runs.Sensitive = false;
-	}
-
-	private void createComboResultRunsInterval() {
-		combo_result_runs_interval = ComboBox.NewText();
-		UtilGtk.ComboUpdate(combo_result_runs_interval, SqliteRunIntervalType.SelectRunIntervalTypes(Constants.AllRunsNameStr(), true), ""); //without filter, only select name
-		
-		combo_result_runs_interval.Active = 0;
-		combo_result_runs_interval.Changed += new EventHandler (on_combo_result_runs_interval_changed);
-
-		hbox_combo_result_runs_interval.PackStart(combo_result_runs_interval, true, true, 0);
-		hbox_combo_result_runs_interval.ShowAll();
-		combo_result_runs_interval.Sensitive = false;
-	}
-	
 	//no need of reationTimes
 
 	private void createComboPulses() {
@@ -2542,6 +2494,9 @@ public partial class ChronoJumpWindow
 
 		//show extra window options
 		on_extra_window_jumps_rj_test_changed(o, args);
+
+		//update the treeview
+		pre_fillTreeView_jumps_rj(false);
 	}
 	
 	private void on_combo_select_runs_changed(object o, EventArgs args)
@@ -2575,6 +2530,9 @@ public partial class ChronoJumpWindow
 
 		//show extra window options
 		on_extra_window_runs_test_changed(o, args);
+
+		//update the treeview
+		pre_fillTreeView_runs(false);
 	}
 	
 	private void on_combo_select_runs_interval_changed(object o, EventArgs args)
@@ -2608,10 +2566,11 @@ public partial class ChronoJumpWindow
 
 		//show extra window options
 		on_extra_window_runs_interval_test_changed(o, args);
+
+		//update the treeview
+		pre_fillTreeView_runs_interval(false);
 	}
 	
-	// -------------- combo result tests changed --------
-
 	private void pre_fillTreeView_jumps (bool dbconOpened)
 	{
 		treeview_jumps_storeReset();
@@ -2622,41 +2581,37 @@ public partial class ChronoJumpWindow
 			fillTreeView_jumps(UtilGtk.ComboGetActive(combo_select_jumps), dbconOpened);
 	}
 
-	private void on_combo_result_jumps_rj_changed(object o, EventArgs args) {
-		//combo_result_jumps_rj.Changed -= new EventHandler (on_combo_result_jumps_rj_changed);
-
-		ComboBox combo = o as ComboBox;
-		if (o == null)
-			return;
-		string myText = UtilGtk.ComboGetActive(combo);
-
+	private void pre_fillTreeView_jumps_rj (bool dbconOpened)
+	{
 		treeview_jumps_rj_storeReset();
-		fillTreeView_jumps_rj(myText);
+
+		if(radio_contacts_graph_allTests.Active)
+			fillTreeView_jumps_rj(Constants.AllJumpsNameStr(), dbconOpened);
+		else if (combo_select_jumps_rj != null)
+			fillTreeView_jumps_rj(UtilGtk.ComboGetActive(combo_select_jumps_rj), dbconOpened);
 	}
 
-	private void on_combo_result_runs_changed(object o, EventArgs args) {
-		//combo_result_runs.Changed -= new EventHandler (on_combo_result_runs_changed);
-
-		ComboBox combo = o as ComboBox;
-		if (o == null)
-			return;
-		string myText = UtilGtk.ComboGetActive(combo);
-
+	private void pre_fillTreeView_runs (bool dbconOpened)
+	{
 		treeview_runs_storeReset();
-		fillTreeView_runs(myText);
+
+		if(radio_contacts_graph_allTests.Active)
+			fillTreeView_runs(Constants.AllRunsNameStr(), dbconOpened);
+		else if (combo_select_runs != null)
+			fillTreeView_runs(UtilGtk.ComboGetActive(combo_select_runs), dbconOpened);
 	}
 
-	private void on_combo_result_runs_interval_changed(object o, EventArgs args) {
-		//combo_result_runs_interval.Changed -= new EventHandler (on_combo_result_runs_interval_changed);
-
-		ComboBox combo = o as ComboBox;
-		if (o == null)
-			return;
-		string myText = UtilGtk.ComboGetActive(combo);
-
+	private void pre_fillTreeView_runs_interval (bool dbconOpened)
+	{
 		treeview_runs_interval_storeReset();
-		fillTreeView_runs_interval(myText);
+
+		if(radio_contacts_graph_allTests.Active)
+			fillTreeView_runs_interval(Constants.AllRunsNameStr(), dbconOpened);
+		else if (combo_select_runs_interval != null)
+			fillTreeView_runs_interval(UtilGtk.ComboGetActive(combo_select_runs_interval), dbconOpened);
 	}
+
+	// -------------- combo result tests changed. TODO: delete all --------
 
 	//no need of reationTimes because is done in:
 	//gui/reactionTime on_extra_window_reaction_times_test_changed()
@@ -3253,9 +3208,9 @@ public partial class ChronoJumpWindow
 			createTreeView_multi_chronopic(false, treeview_multi_chronopic);
 
 			pre_fillTreeView_jumps(false);
-			on_combo_result_jumps_rj_changed(combo_result_jumps_rj, args);
-			on_combo_result_runs_changed(combo_result_runs, args);
-			on_combo_result_runs_interval_changed(combo_result_runs_interval, args);
+			pre_fillTreeView_jumps_rj(false);
+			pre_fillTreeView_runs(false);
+			pre_fillTreeView_runs_interval(false);
 			on_combo_pulses_changed(combo_pulses, args);
 
 			//currently no combo_reaction_times
@@ -6353,10 +6308,8 @@ LogB.Debug("mc finished 5");
 			}
 			myTreeViewJumpsRj.Update(myJump);
 		}
-		else {
-			treeview_jumps_rj_storeReset();
-			fillTreeView_jumps_rj(UtilGtk.ComboGetActive(combo_result_jumps_rj));
-		}
+		else
+			pre_fillTreeView_jumps_rj(false);
 
 		if(createdStatsWin) 
 			stats_win_fillTreeView_stats(false, false);
@@ -6403,11 +6356,9 @@ LogB.Debug("mc finished 5");
 		//if person changed, fill treeview again, if not, only update it's line
 		if(eventOldPerson == myRun.PersonID)
 			myTreeViewRuns.Update(myRun);
-		else {
-			treeview_runs_storeReset();
-			fillTreeView_runs(UtilGtk.ComboGetActive(combo_result_runs));
-		}
-		
+		else
+			pre_fillTreeView_runs(false);
+
 		updateGraphRunsSimple();
 
 		if(createdStatsWin) 
@@ -6422,11 +6373,9 @@ LogB.Debug("mc finished 5");
 		//if person changed, fill treeview again, if not, only update it's line
 		if(eventOldPerson == myRun.PersonID)
 			myTreeViewRunsInterval.Update(myRun);
-		else {
-			treeview_runs_interval_storeReset();
-			fillTreeView_runs_interval(UtilGtk.ComboGetActive(combo_result_runs_interval));
-		}
-		
+		else
+			pre_fillTreeView_runs_interval(false);
+
 		if(createdStatsWin)
 			stats_win_fillTreeView_stats(false, false);
 	}
@@ -6927,11 +6876,8 @@ LogB.Debug("mc finished 5");
 			createComboSelectJumpsRjFatigue(false);
 			//createComboSelectJumpsRjFatigueNum(false); do not need because will be updated by createComboSelectJumpsRjFatigue
 			
-			UtilGtk.ComboUpdate(combo_result_jumps_rj, 
-					SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsNameStr(), true), ""); //without filter, only select name
-
+			pre_fillTreeView_jumps_rj(false);
 			combo_select_jumps_rj.Active = UtilGtk.ComboMakeActive(combo_select_jumps_rj, jumpTypeAddWin.Name);
-			combo_result_jumps_rj.Active = UtilGtk.ComboMakeActive(combo_result_jumps_rj, jumpTypeAddWin.Name);
 
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added reactive jump type."));
 		}
@@ -6958,21 +6904,16 @@ LogB.Debug("mc finished 5");
 			createComboSelectRuns(false);
 			createComboSelectRunsEvolution(false);
 
-			UtilGtk.ComboUpdate(combo_result_runs, 
-					SqliteRunType.SelectRunTypes(Constants.AllRunsNameStr(), true), ""); //without filter, only select name
-
+			pre_fillTreeView_runs(false);
 			combo_select_runs.Active = UtilGtk.ComboMakeActive(combo_select_runs, runTypeAddWin.Name);
-			combo_result_runs.Active = UtilGtk.ComboMakeActive(combo_result_runs, runTypeAddWin.Name);
 
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added simple race type."));
 		} else {
 			createComboSelectRunsInterval(false);
 			
-			UtilGtk.ComboUpdate(combo_result_runs_interval, 
-					SqliteRunIntervalType.SelectRunIntervalTypes(Constants.AllRunsNameStr(), true), ""); //without filter, only select name
+			pre_fillTreeView_runs_interval(false);
 
 			combo_select_runs_interval.Active = UtilGtk.ComboMakeActive(combo_select_runs_interval, runTypeAddWin.Name);
-			combo_result_runs_interval.Active = UtilGtk.ComboMakeActive(combo_result_runs_interval, runTypeAddWin.Name);
 
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added intervallic race type."));
 		}
@@ -7029,9 +6970,7 @@ LogB.Debug("mc finished 5");
 	{
 		string translatedName = comboSelectJumpsRj.GetNameTranslated(jumpsRjMoreWin.SelectedEventName);
 		combo_select_jumps_rj = comboSelectJumpsRj.DeleteValue(translatedName);
-
-		UtilGtk.ComboDelThisValue(combo_result_jumps_rj, translatedName);
-		combo_result_jumps_rj.Active = 0;
+		pre_fillTreeView_jumps_rj(false);
 
 		extra_window_jumps_rj_initialize(new JumpType("RJ(j)"));
 	}
@@ -7040,9 +6979,7 @@ LogB.Debug("mc finished 5");
 	{
 		string translatedName = comboSelectRuns.GetNameTranslated(runsMoreWin.SelectedEventName);
 		combo_select_runs = comboSelectRuns.DeleteValue(translatedName);
-
-		UtilGtk.ComboDelThisValue(combo_result_runs, translatedName);
-		combo_result_runs.Active = 0;
+		pre_fillTreeView_runs(false);
 
 		extra_window_runs_initialize(new RunType("Custom"));
 	}
@@ -7051,9 +6988,7 @@ LogB.Debug("mc finished 5");
 	{
 		string translatedName = comboSelectRunsI.GetNameTranslated(runsIntervalMoreWin.SelectedEventName);
 		combo_select_runs_interval = comboSelectRunsI.DeleteValue(translatedName);
-
-		UtilGtk.ComboDelThisValue(combo_result_runs_interval, translatedName);
-		combo_result_runs_interval.Active = 0;
+		pre_fillTreeView_runs_interval(false);
 
 		extra_window_runs_interval_initialize(new RunType("byLaps"));
 	}
@@ -7082,7 +7017,7 @@ LogB.Debug("mc finished 5");
 		LogB.Information("Repair selected reactive jump accepted");
 		
 		treeview_jumps_rj_storeReset();
-		fillTreeView_jumps_rj(UtilGtk.ComboGetActive(combo_result_jumps_rj));
+		fillTreeView_jumps_rj(UtilGtk.ComboGetActive(combo_select_jumps_rj));
 		
 		if(createdStatsWin) {
 			stats_win_fillTreeView_stats(false, false);
@@ -7109,7 +7044,7 @@ LogB.Debug("mc finished 5");
 		LogB.Information("repair selected run interval accepted");
 		
 		treeview_runs_interval_storeReset();
-		fillTreeView_runs_interval(UtilGtk.ComboGetActive(combo_result_runs_interval));
+		fillTreeView_runs_interval(UtilGtk.ComboGetActive(combo_select_runs_interval));
 		createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
 		
 		if(createdStatsWin) {
@@ -8093,11 +8028,8 @@ LogB.Debug("mc finished 5");
 
 		combo_select_jumps.Sensitive = true;
 		combo_select_jumps_rj.Sensitive = true;
-		combo_result_jumps_rj.Sensitive = true;
 		combo_select_runs.Sensitive = true;
-		combo_result_runs.Sensitive = true;
 		combo_select_runs_interval.Sensitive = true;
-		combo_result_runs_interval.Sensitive = true;
 		combo_pulses.Sensitive = true;
 		
 		vbox_execute_test.Sensitive = true;

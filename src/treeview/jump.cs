@@ -304,7 +304,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 	{
 		JumpRj newJumpRj = (JumpRj)myObject;
 
-		string title = newJumpRj.Type;
+		string title = Catalog.GetString(newJumpRj.Type);
 		if(newJumpRj.Simulated == Constants.Simulated)
 			title += Constants.SimulatedTreeviewStr() + " ";
 

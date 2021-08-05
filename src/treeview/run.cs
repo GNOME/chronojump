@@ -83,7 +83,7 @@ public class TreeViewRuns : TreeViewEvent
 		Run newRun = (Run)myObject;
 		LogB.Information("getLineToStore, object: " + newRun.ToString());
 
-		string title = newRun.Type;
+		string title = Catalog.GetString(newRun.Type);
 		if(newRun.Simulated == Constants.Simulated)
 			title += Constants.SimulatedTreeviewStr();
 
@@ -172,7 +172,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 	{
 		RunInterval newRunI = (RunInterval)myObject;
 		
-		string title = newRunI.Type;
+		string title = Catalog.GetString(newRunI.Type);
 		if(newRunI.Simulated == Constants.Simulated)
 			title += Constants.SimulatedTreeviewStr() + " ";
 

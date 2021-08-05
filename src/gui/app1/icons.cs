@@ -474,6 +474,10 @@ public partial class ChronoJumpWindow
 		image_force_sensor_analyze_options.Pixbuf = pixbuf;
 		image_force_sensor_analyze_options1.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_build_16.png");
+		image_jump_reactive_repair.Pixbuf = pixbuf;
+		image_run_interval_repair.Pixbuf = pixbuf;
+		image_pulse_repair.Pixbuf = pixbuf;
+		image_multi_chronopic_repair.Pixbuf = pixbuf;
 		image_encoder_analyze_mode_options.Pixbuf = pixbuf;
 
 		//assign here to have gui ok and not having chronojump logo at top right outside the screen
@@ -741,11 +745,6 @@ public partial class ChronoJumpWindow
 		image_contacts_bell.Pixbuf = pixbuf;
 		image_encoder_bell.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "preferences-system.png");
-		image_jump_reactive_repair.Pixbuf = pixbuf;
-		image_run_interval_repair.Pixbuf = pixbuf;
-		image_pulse_repair.Pixbuf = pixbuf;
-		
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
 		image_person_delete.Pixbuf = pixbuf;
 		image_person_delete_h.Pixbuf = pixbuf;

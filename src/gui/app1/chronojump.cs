@@ -344,6 +344,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_run_interval_bell;
 	[Widget] Gtk.Image image_jump_reactive_repair;
 	[Widget] Gtk.Image image_run_interval_repair;
+	[Widget] Gtk.Image image_multi_chronopic_repair;
 	[Widget] Gtk.Image image_pulse_repair;
 	[Widget] Gtk.Image image_delete_last_test;
 	[Widget] Gtk.Image image_jump_delete;

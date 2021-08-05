@@ -462,7 +462,6 @@ RESOURCES = \
 	../images/jumps-profile-pie.png,jumps-profile-pie.png \
 	../images/spreadsheet.png,spreadsheet.png \
 	../images/report_view.png,report_view.png \
-	../images/preferences-system.png,preferences-system.png \
 	../images/md/attachment_blue_24dp.png,image_attachment.png \
 	../images/md/grid_on_blue_24dp.png,image_grid_on.png \
 	../images/md/photo_camera_start_blue_24dp.png,image_photo_start_camera.png \

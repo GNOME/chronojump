@@ -335,7 +335,7 @@ public partial class ChronoJumpWindow
 			pre_fillTreeView_jumps_rj(false);
 			pre_fillTreeView_runs(false);
 			pre_fillTreeView_runs_interval(false);
-			on_combo_pulses_changed(combo_pulses, args);
+//			on_combo_pulses_changed(combo_pulses, args);
 
 			if(createdStatsWin) {
 				stats_win_fillTreeView_stats(false, true);

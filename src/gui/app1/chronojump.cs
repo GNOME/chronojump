@@ -166,6 +166,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_capture_finish;
 	[Widget] Gtk.Image image_encoder_capture_cancel;
 
+	[Widget] Gtk.HPaned hpaned_contacts_graph_table;
 	[Widget] Gtk.TreeView treeview_persons;
 	[Widget] Gtk.TreeView treeview_jumps;
 	[Widget] Gtk.TreeView treeview_jumps_rj;
@@ -198,7 +199,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_line_person_max;
 	[Widget] Gtk.Image image_line_person_max_all_sessions;
 
-	[Widget] Gtk.Box hbox_combo_pulses;
+//	[Widget] Gtk.Box hbox_combo_pulses;
 	[Widget] Gtk.VBox vbox_jumps;
 	//[Widget] Gtk.Box hbox_jumps_test;
 	[Widget] Gtk.Box hbox_jumps_rj;
@@ -222,7 +223,7 @@ public partial class ChronoJumpWindow
 	CjComboSelectRunsI comboSelectRunsI;
 	CjCombo comboSelectContactsTop;
 
-	[Widget] Gtk.ComboBox combo_pulses;
+//	[Widget] Gtk.ComboBox combo_pulses;
 
 	//menu person
 	[Widget] Gtk.Button button_persons_up;
@@ -660,7 +661,7 @@ public partial class ChronoJumpWindow
 		createComboSelectRunsInterval(true);
 
 		//reaction_times has no combo
-		createComboPulses();
+		//createComboPulses();
 		//createComboMultiChronopic();
 		createdStatsWin = false;
 
@@ -2363,6 +2364,7 @@ public partial class ChronoJumpWindow
 
 	//no need of reationTimes
 
+	/*
 	private void createComboPulses() {
 		combo_pulses = ComboBox.NewText();
 		UtilGtk.ComboUpdate(combo_pulses, SqlitePulseType.SelectPulseTypes(Constants.AllPulsesNameStr(), true), ""); //without filter, only select name
@@ -2374,6 +2376,7 @@ public partial class ChronoJumpWindow
 		hbox_combo_pulses.ShowAll();
 		combo_pulses.Sensitive = false;
 	}
+	*/
 
 	/*
 	private void createComboMultiChronopic() 
@@ -2616,7 +2619,8 @@ public partial class ChronoJumpWindow
 
 	//no need of reationTimes because is done in:
 	//gui/reactionTime on_extra_window_reaction_times_test_changed()
-	
+
+	/*
 	private void on_combo_pulses_changed(object o, EventArgs args)
 	{
 		//combo_pulses.Changed -= new EventHandler (on_combo_pulses_changed);
@@ -2632,6 +2636,7 @@ public partial class ChronoJumpWindow
 		treeview_pulses_storeReset();
 		fillTreeView_pulses(myText);
 	}
+	*/
 
 
 	/* ---------------------------------------------------------
@@ -3212,7 +3217,7 @@ public partial class ChronoJumpWindow
 			pre_fillTreeView_jumps_rj(false);
 			pre_fillTreeView_runs(false);
 			pre_fillTreeView_runs_interval(false);
-			on_combo_pulses_changed(combo_pulses, args);
+			//on_combo_pulses_changed(combo_pulses, args);
 
 			//currently no combo_reaction_times
 			treeview_reaction_times_storeReset();
@@ -3901,6 +3906,10 @@ public partial class ChronoJumpWindow
 		vbox_contacts_capture_graph.Visible = check_contacts_capture_graph.Active;
 		notebook_results.Visible = check_contacts_capture_table.Active;
 
+		//when showing both widgets, start at the middle
+		if(vbox_contacts_capture_graph.Visible && notebook_results.Visible)
+			hpaned_contacts_graph_table.Position = Convert.ToInt32(hpaned_contacts_graph_table.Allocation.Width / 2.0);
+
 		if (check_contacts_capture_graph.Active || check_contacts_capture_table.Active)
 			hbox_contacts_capture_show_need_one.Visible = false;
 		else
@@ -3908,7 +3917,6 @@ public partial class ChronoJumpWindow
 
 		if(current_mode == Constants.Modes.JUMPSSIMPLE || current_mode == Constants.Modes.RUNSSIMPLE)
 			hbox_contacts_simple_graph_controls.Visible = check_contacts_capture_graph.Active;
-
 
 		/*
 		   update the preferences variable
@@ -6430,6 +6438,7 @@ LogB.Debug("mc finished 5");
 	}
 	
 	private void on_edit_selected_pulse_accepted (object o, EventArgs args) {
+		/*
 		LogB.Information("edit selected pulse accepted");
 		
 		Pulse myPulse = SqlitePulse.SelectPulseData( myTreeViewPulses.EventSelectedID, false );
@@ -6441,6 +6450,7 @@ LogB.Debug("mc finished 5");
 			treeview_pulses_storeReset();
 			fillTreeView_pulses(UtilGtk.ComboGetActive(combo_pulses));
 		}
+		*/
 	}
 	
 	private void on_edit_selected_multi_chronopic_clicked (object o, EventArgs args) {
@@ -7070,10 +7080,12 @@ LogB.Debug("mc finished 5");
 	}
 	
 	private void on_repair_selected_pulse_accepted (object o, EventArgs args) {
+	/*
 		LogB.Information("repair selected pulse accepted");
 		
 		treeview_pulses_storeReset();
 		fillTreeView_pulses(UtilGtk.ComboGetActive(combo_pulses));
+		*/
 	}
 
 	private void on_repair_selected_multi_chronopic_clicked (object o, EventArgs args) {
@@ -8031,7 +8043,7 @@ LogB.Debug("mc finished 5");
 		combo_select_jumps_rj.Sensitive = true;
 		combo_select_runs.Sensitive = true;
 		combo_select_runs_interval.Sensitive = true;
-		combo_pulses.Sensitive = true;
+		//combo_pulses.Sensitive = true;
 		
 		vbox_execute_test.Sensitive = true;
 	}

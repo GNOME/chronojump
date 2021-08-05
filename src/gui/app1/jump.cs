@@ -181,7 +181,10 @@ public partial class ChronoJumpWindow
 	{
 		string jumpEnglishName = comboSelectJumps.GetSelectedNameEnglish();
 		currentJumpType = createJumpType(jumpEnglishName, true);
-		radio_contacts_graph_currentTest.Label = Catalog.GetString(currentJumpType.Name);
+
+		//change name of this radio but only if changed (to not have it flickering on hpaned1 displacement)
+		if(radio_contacts_graph_currentTest.Label != Catalog.GetString(currentJumpType.Name))
+			radio_contacts_graph_currentTest.Label = Catalog.GetString(currentJumpType.Name);
 	
 		extra_window_jumps_initialize(currentJumpType);
 	}
@@ -200,7 +203,10 @@ public partial class ChronoJumpWindow
 	{
 		string jumpEnglishName = comboSelectJumpsRj.GetSelectedNameEnglish();
 		currentJumpRjType = createJumpType(jumpEnglishName, false);
-		radio_contacts_graph_currentTest.Label = Catalog.GetString(currentJumpRjType.Name);
+
+		//change name of this radio but only if changed (to not have it flickering on hpaned1 displacement)
+		if(radio_contacts_graph_currentTest.Label != Catalog.GetString(currentJumpRjType.Name))
+			radio_contacts_graph_currentTest.Label = Catalog.GetString(currentJumpRjType.Name);
 
 		extra_window_jumps_rj_initialize(currentJumpRjType);
 	}

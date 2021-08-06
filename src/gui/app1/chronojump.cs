@@ -81,6 +81,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_change_modes_contacts_runs_simple;
 	[Widget] Gtk.RadioButton radio_change_modes_contacts_runs_intervallic;
 	[Widget] Gtk.RadioButton radio_change_modes_contacts_runs_encoder;
+	[Widget] Gtk.RadioButton radio_change_modes_contacts_force_sensor;
 	[Widget] Gtk.RadioButton radio_change_modes_encoder_gravitatory;
 	[Widget] Gtk.RadioButton radio_change_modes_encoder_inertial;
 	[Widget] Gtk.Image image_change_modes_contacts_jumps_simple;
@@ -88,6 +89,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_change_modes_contacts_runs_simple;
 	[Widget] Gtk.Image image_change_modes_contacts_runs_reactive;
 	[Widget] Gtk.Image image_change_modes_contacts_runs_intervallic;
+	[Widget] Gtk.Image image_change_modes_contacts_force_sensor;
 	[Widget] Gtk.Image image_change_modes_contacts_runs_encoder;
 	[Widget] Gtk.Image image_change_modes_encoder_gravitatory;
 	[Widget] Gtk.Image image_change_modes_encoder_inertial;
@@ -103,6 +105,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox eventbox_change_modes_contacts_runs_simple;
 	[Widget] Gtk.EventBox eventbox_change_modes_contacts_runs_intervallic;
 	[Widget] Gtk.EventBox eventbox_change_modes_contacts_runs_encoder;
+	[Widget] Gtk.EventBox eventbox_change_modes_contacts_force_sensor;
 	[Widget] Gtk.EventBox eventbox_change_modes_encoder_gravitatory;
 	[Widget] Gtk.EventBox eventbox_change_modes_encoder_inertial;
 	[Widget] Gtk.EventBox eventbox_button_show_modes_encoder;
@@ -631,6 +634,7 @@ public partial class ChronoJumpWindow
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_jumps_reactive, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_runs_simple, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_runs_intervallic, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
+		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_force_sensor, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_contacts_runs_encoder, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_encoder_gravitatory, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_change_modes_encoder_inertial, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
@@ -3424,6 +3428,8 @@ public partial class ChronoJumpWindow
 
 		hbox_change_modes_jumps.Visible = false;
 		hbox_change_modes_runs.Visible = false;
+		radio_change_modes_contacts_force_sensor.Visible = false;
+
 		button_contacts_bells.Sensitive = false;
 
 		radio_mode_contacts_capture.Active = true; //it is safe to change to capture, because analyze has different graphs depending on mode
@@ -3728,6 +3734,7 @@ public partial class ChronoJumpWindow
 			event_graph_label_graph_test.Visible = true;
 			vbox_contacts_simple_graph_controls.Visible = false;
 
+			radio_change_modes_contacts_force_sensor.Visible = true;
 			align_check_vbox_contacts_graph_legend.Visible = false;
 			vbox_contacts_graph_legend.Visible = false;
 

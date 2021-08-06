@@ -1138,9 +1138,9 @@ public partial class ChronoJumpWindow
 			on_extra_window_pulses_test_changed(obj, args);
 
 			event_graph_label_graph_test.Visible = true;
-			hbox_contacts_simple_graph_controls.Visible = false;
+			vbox_contacts_simple_graph_controls.Visible = false;
 
-			check_vbox_contacts_graph_legend.Visible = false;
+			align_check_vbox_contacts_graph_legend.Visible = false;
 			vbox_contacts_graph_legend.Visible = false;
 		}
 	}
@@ -1153,9 +1153,9 @@ public partial class ChronoJumpWindow
 			on_extra_window_multichronopic_test_changed(obj, args);
 
 			event_graph_label_graph_test.Visible = true;
-			hbox_contacts_simple_graph_controls.Visible = false;
+			vbox_contacts_simple_graph_controls.Visible = false;
 
-			check_vbox_contacts_graph_legend.Visible = false;
+			align_check_vbox_contacts_graph_legend.Visible = false;
 			vbox_contacts_graph_legend.Visible = false;
 		}
 	}
@@ -3491,11 +3491,11 @@ public partial class ChronoJumpWindow
 				on_extra_window_jumps_test_changed(new object(), new EventArgs());
 
 				event_graph_label_graph_test.Visible = false;
-				hbox_contacts_simple_graph_controls.Visible = check_contacts_capture_graph.Active;
-				alignment_check_run_simple_show_time.Visible = false;
+				vbox_contacts_simple_graph_controls.Visible = true;
+				check_run_simple_show_time.Visible = false;
 				button_jumps_simple_capture_save_image.Visible = true;
 
-				check_vbox_contacts_graph_legend.Visible = true;
+				align_check_vbox_contacts_graph_legend.Visible = true;
 				//vbox_contacts_graph_legend.Visible = false;
 
 				frame_jumps_automatic.Visible = true;
@@ -3509,9 +3509,9 @@ public partial class ChronoJumpWindow
 				on_extra_window_jumps_rj_test_changed(new object(), new EventArgs());
 
 				event_graph_label_graph_test.Visible = true;
-				hbox_contacts_simple_graph_controls.Visible = false;
+				vbox_contacts_simple_graph_controls.Visible = false;
 
-				check_vbox_contacts_graph_legend.Visible = false;
+				align_check_vbox_contacts_graph_legend.Visible = false;
 				vbox_contacts_graph_legend.Visible = false;
 
 				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_reactive.png");
@@ -3552,11 +3552,11 @@ public partial class ChronoJumpWindow
 				on_extra_window_runs_test_changed(new object(), new EventArgs());
 
 				event_graph_label_graph_test.Visible = false;
-				hbox_contacts_simple_graph_controls.Visible = check_contacts_capture_graph.Active;
-				alignment_check_run_simple_show_time.Visible = true;
+				vbox_contacts_simple_graph_controls.Visible = true;
+				check_run_simple_show_time.Visible = true;
 				button_runs_simple_capture_save_image.Visible = true;
 
-				check_vbox_contacts_graph_legend.Visible = true;
+				align_check_vbox_contacts_graph_legend.Visible = true;
 				//vbox_contacts_graph_legend.Visible = false;
 
 				frame_run_simple_double_contacts.Visible = true;
@@ -3570,9 +3570,9 @@ public partial class ChronoJumpWindow
 				on_extra_window_runs_interval_test_changed(new object(), new EventArgs());
 
 				event_graph_label_graph_test.Visible = true;
-				hbox_contacts_simple_graph_controls.Visible = false;
+				vbox_contacts_simple_graph_controls.Visible = false;
 
-				check_vbox_contacts_graph_legend.Visible = false;
+				align_check_vbox_contacts_graph_legend.Visible = false;
 				vbox_contacts_graph_legend.Visible = false;
 
 				createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
@@ -3725,9 +3725,9 @@ public partial class ChronoJumpWindow
 			//notebook_capture_analyze.GetNthPage(2).Hide(); //hide jumpsProfile on other tests
 
 			event_graph_label_graph_test.Visible = true;
-			hbox_contacts_simple_graph_controls.Visible = false;
+			vbox_contacts_simple_graph_controls.Visible = false;
 
-			check_vbox_contacts_graph_legend.Visible = false;
+			align_check_vbox_contacts_graph_legend.Visible = false;
 			vbox_contacts_graph_legend.Visible = false;
 
 			setLabelContactsExerciseSelected(m);
@@ -3769,7 +3769,7 @@ public partial class ChronoJumpWindow
 
 			hbox_change_modes_runs.Visible = true;
 
-			check_vbox_contacts_graph_legend.Visible = false;
+			align_check_vbox_contacts_graph_legend.Visible = false;
 			vbox_contacts_graph_legend.Visible = false;
 
 			combo_race_analyzer_device.Active = 0;
@@ -3915,9 +3915,6 @@ public partial class ChronoJumpWindow
 			hbox_contacts_capture_show_need_one.Visible = false;
 		else
 			hbox_contacts_capture_show_need_one.Visible = true;
-
-		if(current_mode == Constants.Modes.JUMPSSIMPLE || current_mode == Constants.Modes.RUNSSIMPLE)
-			hbox_contacts_simple_graph_controls.Visible = check_contacts_capture_graph.Active;
 
 		/*
 		   update the preferences variable

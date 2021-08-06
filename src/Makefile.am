@@ -580,6 +580,7 @@ RESOURCES = \
 	../images/md/keyboard_blue_24dp.png,image_keyboard.png \
 	../images/md/more_horiz_blue_24dp.png,image_more_horiz.png \
 	../images/md/about.png,image_about.png \
+	../images/md/run_time.png,image_run_time.png \
 	../images/md/folders_blue.png,image_folders.png \
 	../images/md/folders_yellow.png,image_folders_yellow.png \
 	../images/md/folders_backup_blue.png,image_db_backup.png \

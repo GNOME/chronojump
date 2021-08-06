@@ -51,7 +51,12 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.TreeView treeview_raceAnalyzer;
 	[Widget] Gtk.Button button_raceAnalyzer_table_save;
 	//[Widget] Gtk.Label label_race_analyzer_capture_speed;
-	[Widget] Gtk.DrawingArea drawingarea_race_analyzer_capture;
+	[Widget] Gtk.HBox hbox_race_analyzer_capture_tab_result_views;
+	[Widget] Gtk.RadioButton radio_race_analyzer_capture_view_simple;
+	[Widget] Gtk.Alignment alignment_drawingarea_race_analyzer_capture_velocimeter_topleft;
+	[Widget] Gtk.Alignment alignment_hbox_race_analyzer_capture_bottom;
+	[Widget] Gtk.DrawingArea drawingarea_race_analyzer_capture_velocimeter_topleft;
+	[Widget] Gtk.DrawingArea drawingarea_race_analyzer_capture_velocimeter_bottom;
 	[Widget] Gtk.DrawingArea drawingarea_race_analyzer_capture_position_time;
 	[Widget] Gtk.DrawingArea drawingarea_race_analyzer_capture_speed_time;
 	[Widget] Gtk.DrawingArea drawingarea_race_analyzer_capture_accel_time;
@@ -100,12 +105,35 @@ public partial class ChronoJumpWindow
 
 	private void initRunEncoder ()
 	{
+		manageRunEncoderCaptureViews();
+
 		createRunEncoderExerciseCombo();
 		createRunEncoderAnalyzeCombos();
 		setRunEncoderAnalyzeWidgets();
 
 		spinbutton_run_encoder_export_image_width.Value = preferences.exportGraphWidth;
 		spinbutton_run_encoder_export_image_height.Value = preferences.exportGraphHeight;
+	}
+
+	private void manageRunEncoderCaptureViews()
+	{
+		if(radio_race_analyzer_capture_view_simple.Active)
+		{
+			alignment_drawingarea_race_analyzer_capture_velocimeter_topleft.Visible = true;
+			alignment_hbox_race_analyzer_capture_bottom.Visible = false;
+			cairoRadial = null;
+			drawingarea_race_analyzer_capture_velocimeter_topleft.QueueDraw(); //will fire ExposeEvent
+		} else {
+			alignment_drawingarea_race_analyzer_capture_velocimeter_topleft.Visible = false;
+			alignment_hbox_race_analyzer_capture_bottom.Visible = true;
+			cairoRadial = null;
+			drawingarea_race_analyzer_capture_velocimeter_bottom.QueueDraw(); //will fire ExposeEvent
+		}
+	}
+
+	private void on_radio_race_analyzer_capture_view_clicked (object o, EventArgs args)
+	{
+		manageRunEncoderCaptureViews();
 	}
 
 	//no GTK here
@@ -329,7 +357,12 @@ public partial class ChronoJumpWindow
 		//draw the capture graphs empty:
 		//a) radial
 		runEncoderShouldShowCaptureGraphsWithData = false;
-		drawingarea_race_analyzer_capture.QueueDraw(); //will fire ExposeEvent
+
+		if(radio_race_analyzer_capture_view_simple.Active)
+			drawingarea_race_analyzer_capture_velocimeter_topleft.QueueDraw(); //will fire ExposeEvent
+		else
+			drawingarea_race_analyzer_capture_velocimeter_bottom.QueueDraw(); //will fire ExposeEvent
+
 		//b) scatterplots
 		cairoGraphRaceAnalyzerPoints_dt_l = new List<PointF>();
 		cairoGraphRaceAnalyzerPoints_st_l = new List<PointF>();
@@ -996,7 +1029,13 @@ public partial class ChronoJumpWindow
 		if(reCGSD.RunEncoderCaptureSpeedMax > 0)
 		{
 			if(cairoRadial == null)
-				cairoRadial = new CairoRadial(drawingarea_race_analyzer_capture, preferences.fontType.ToString());
+			{
+				if(radio_race_analyzer_capture_view_simple.Active)
+					cairoRadial = new CairoRadial(drawingarea_race_analyzer_capture_velocimeter_topleft, preferences.fontType.ToString());
+				else
+					cairoRadial = new CairoRadial(drawingarea_race_analyzer_capture_velocimeter_bottom, preferences.fontType.ToString());
+			}
+
 			cairoRadial.GraphSpeedMaxAndDistance(reCGSD.RunEncoderCaptureSpeedMax, reCGSD.RunEncoderCaptureDistance);
 
 			updateRaceAnalyzerCapturePositionTime(true);
@@ -1965,10 +2004,18 @@ public partial class ChronoJumpWindow
 	// -------------------------------- end of exercise stuff --------------------
 
 	CairoRadial cairoRadial;
-	private void on_drawingarea_race_analyzer_capture_expose_event (object o, ExposeEventArgs args)
+	private void on_drawingarea_race_analyzer_capture_velocimeter_expose_event (object o, ExposeEventArgs args)
 	{
+		Gtk.DrawingArea da;
+		if (o == (object) drawingarea_race_analyzer_capture_velocimeter_topleft)
+			da = drawingarea_race_analyzer_capture_velocimeter_topleft;
+		else if (o == (object) drawingarea_race_analyzer_capture_velocimeter_bottom)
+			da = drawingarea_race_analyzer_capture_velocimeter_bottom;
+		else
+			return;
+
 		if(cairoRadial == null)
-			cairoRadial = new CairoRadial(drawingarea_race_analyzer_capture, preferences.fontType.ToString());
+			cairoRadial = new CairoRadial(da, preferences.fontType.ToString());
 
 		//when person or session changes
 		if(! runEncoderShouldShowCaptureGraphsWithData)
@@ -2012,6 +2059,9 @@ public partial class ChronoJumpWindow
 
 	private void updateRaceAnalyzerCapturePositionTime(bool forceRedraw)
 	{
+		if(radio_race_analyzer_capture_view_simple.Active)
+			return;
+
 		if(cairoGraphRaceAnalyzer_dt == null)
 			cairoGraphRaceAnalyzer_dt = new CairoGraphRaceAnalyzer(
 					drawingarea_race_analyzer_capture_position_time, "title",
@@ -2032,6 +2082,9 @@ public partial class ChronoJumpWindow
 	}
 	private void updateRaceAnalyzerCaptureAccelTime(bool forceRedraw)
 	{
+		if(radio_race_analyzer_capture_view_simple.Active)
+			return;
+
 		if(cairoGraphRaceAnalyzer_at == null)
 			cairoGraphRaceAnalyzer_at = new CairoGraphRaceAnalyzer(
 					drawingarea_race_analyzer_capture_accel_time, "title",

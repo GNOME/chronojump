@@ -47,14 +47,13 @@ public partial class ChronoJumpWindow
 
 
 	[Widget] Gtk.SpinButton spin_contacts_graph_last_limit;
-	[Widget] Gtk.HBox hbox_contacts_simple_graph_controls;
+	[Widget] Gtk.VBox vbox_contacts_simple_graph_controls;
 	[Widget] Gtk.RadioButton radio_contacts_graph_currentTest;
 	[Widget] Gtk.RadioButton radio_contacts_graph_allTests;
 	[Widget] Gtk.RadioButton radio_contacts_graph_currentPerson;
 	[Widget] Gtk.RadioButton radio_contacts_graph_allPersons;
 	[Widget] Gtk.Image image_radio_contacts_graph_currentPerson;
 	[Widget] Gtk.Image image_radio_contacts_graph_allPersons;
-	[Widget] Gtk.Alignment alignment_check_run_simple_show_time;
 	[Widget] Gtk.CheckButton check_run_simple_show_time;
 	
 	[Widget] Gtk.ProgressBar event_execute_progressbar_event;
@@ -78,6 +77,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Table event_execute_table_run_interval_values;
 	[Widget] Gtk.Table event_execute_table_pulse_values;
 	
+	[Widget] Gtk.Alignment align_check_vbox_contacts_graph_legend;
 	[Widget] Gtk.CheckButton check_vbox_contacts_graph_legend;
 	[Widget] Gtk.VBox vbox_contacts_graph_legend;
 
@@ -320,10 +320,10 @@ public partial class ChronoJumpWindow
 	private void showJumpSimpleLabels() 
 	{
 		event_graph_label_graph_test.Visible = false;
-		hbox_contacts_simple_graph_controls.Visible = check_contacts_capture_graph.Active;
-		alignment_check_run_simple_show_time.Visible = false;
+		vbox_contacts_simple_graph_controls.Visible = check_contacts_capture_graph.Active;
+		check_run_simple_show_time.Visible = false;
 
-		check_vbox_contacts_graph_legend.Visible = true;
+		align_check_vbox_contacts_graph_legend.Visible = true;
 		//vbox_contacts_graph_legend.Visible = false;
 
 		notebook_results_data.Visible = false;
@@ -333,9 +333,9 @@ public partial class ChronoJumpWindow
 	private void showJumpReactiveLabels() 
 	{
 		event_graph_label_graph_test.Visible = true;
-		hbox_contacts_simple_graph_controls.Visible = false;
+		vbox_contacts_simple_graph_controls.Visible = false;
 
-		check_vbox_contacts_graph_legend.Visible = false;
+		align_check_vbox_contacts_graph_legend.Visible = false;
 		vbox_contacts_graph_legend.Visible = false;
 
 		//show reactive info
@@ -359,10 +359,10 @@ public partial class ChronoJumpWindow
 	private void showRunSimpleLabels() 
 	{
 		event_graph_label_graph_test.Visible = false;
-		hbox_contacts_simple_graph_controls.Visible = check_contacts_capture_graph.Active;
-		alignment_check_run_simple_show_time.Visible = true;
+		vbox_contacts_simple_graph_controls.Visible = check_contacts_capture_graph.Active;
+		check_run_simple_show_time.Visible = true;
 
-		check_vbox_contacts_graph_legend.Visible = true;
+		align_check_vbox_contacts_graph_legend.Visible = true;
 		//vbox_contacts_graph_legend.Visible = false;
 
 		notebook_results_data.Visible = false;
@@ -371,9 +371,9 @@ public partial class ChronoJumpWindow
 	private void showRunIntervalLabels() 
 	{
 		event_graph_label_graph_test.Visible = true;
-		hbox_contacts_simple_graph_controls.Visible = false;
+		vbox_contacts_simple_graph_controls.Visible = false;
 
-		check_vbox_contacts_graph_legend.Visible = false;
+		align_check_vbox_contacts_graph_legend.Visible = false;
 		vbox_contacts_graph_legend.Visible = false;
 
 		//show run interval info
@@ -394,9 +394,9 @@ public partial class ChronoJumpWindow
 	private void showReactionTimeLabels() 
 	{
 		event_graph_label_graph_test.Visible = true;
-		hbox_contacts_simple_graph_controls.Visible = false;
+		vbox_contacts_simple_graph_controls.Visible = false;
 
-		check_vbox_contacts_graph_legend.Visible = true;
+		align_check_vbox_contacts_graph_legend.Visible = true;
 		//vbox_contacts_graph_legend.Visible = false;
 
 		notebook_results_data.Visible = false;
@@ -405,9 +405,9 @@ public partial class ChronoJumpWindow
 	private void showPulseLabels() 
 	{
 		event_graph_label_graph_test.Visible = true;
-		hbox_contacts_simple_graph_controls.Visible = false;
+		vbox_contacts_simple_graph_controls.Visible = false;
 
-		check_vbox_contacts_graph_legend.Visible = false;
+		align_check_vbox_contacts_graph_legend.Visible = false;
 		vbox_contacts_graph_legend.Visible = false;
 
 		//show pulse info

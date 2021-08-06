@@ -128,6 +128,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_button_jumps_simple_capture_save_image_disk;
 
 	//run
+	[Widget] Gtk.Image image_run_simple_show_time;
 	[Widget] Gtk.Image image_button_runs_simple_capture_save_image_chart;
 	[Widget] Gtk.Image image_button_runs_simple_capture_save_image_disk;
 	[Widget] Gtk.Image image_run_execute_running;
@@ -402,6 +403,8 @@ public partial class ChronoJumpWindow
 		app1s_image_show_data_run_encoder.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "force_sensor_icon.png");
 		app1s_image_show_data_force_sensor.Pixbuf = pixbuf;
+
+		image_run_simple_show_time.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_run_time.png");
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_capture.png");
 		image_tests_capture.Pixbuf = pixbuf;

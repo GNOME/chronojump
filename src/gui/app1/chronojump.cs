@@ -166,6 +166,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_capture_finish;
 	[Widget] Gtk.Image image_encoder_capture_cancel;
 
+	[Widget] Gtk.Frame frame_contacts_graph_table;
 	[Widget] Gtk.HPaned hpaned_contacts_graph_table;
 	[Widget] Gtk.TreeView treeview_persons;
 	[Widget] Gtk.TreeView treeview_jumps;
@@ -3908,7 +3909,7 @@ public partial class ChronoJumpWindow
 
 		//when showing both widgets, start at the middle
 		if(vbox_contacts_capture_graph.Visible && notebook_results.Visible)
-			hpaned_contacts_graph_table.Position = Convert.ToInt32(hpaned_contacts_graph_table.Allocation.Width / 2.0);
+			hpaned_contacts_graph_table.Position = Convert.ToInt32(frame_contacts_graph_table.Allocation.Width / 2.0);
 
 		if (check_contacts_capture_graph.Active || check_contacts_capture_table.Active)
 			hbox_contacts_capture_show_need_one.Visible = false;

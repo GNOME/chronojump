@@ -2834,6 +2834,10 @@ public partial class ChronoJumpWindow
 			SqlitePreferences.Update("encoderCaptureShowOnlyBars",
 					preferences.encoderCaptureShowOnlyBars.GetInt.ToString(), false);
 
+		if(preferences.runEncoderCaptureDisplaySimple != preferences.runEncoderCaptureDisplaySimpleStored)
+			SqlitePreferences.Update(SqlitePreferences.RunEncoderCaptureDisplaySimple,
+					preferences.runEncoderCaptureDisplaySimple.ToString(), false);
+
 		LogB.Information("Bye3!");
 
 		//TODO: if camera is opened close it! Note that this is intended to kill a remaining ffmpeg process

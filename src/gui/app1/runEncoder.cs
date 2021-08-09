@@ -53,6 +53,7 @@ public partial class ChronoJumpWindow
 	//[Widget] Gtk.Label label_race_analyzer_capture_speed;
 	[Widget] Gtk.HBox hbox_race_analyzer_capture_tab_result_views;
 	[Widget] Gtk.RadioButton radio_race_analyzer_capture_view_simple;
+	[Widget] Gtk.RadioButton radio_race_analyzer_capture_view_complete;
 	[Widget] Gtk.Alignment alignment_drawingarea_race_analyzer_capture_velocimeter_topleft;
 	[Widget] Gtk.Alignment alignment_hbox_race_analyzer_capture_bottom;
 	[Widget] Gtk.DrawingArea drawingarea_race_analyzer_capture_velocimeter_topleft;
@@ -105,6 +106,13 @@ public partial class ChronoJumpWindow
 
 	private void initRunEncoder ()
 	{
+		followSignals = false;
+		if(preferences.runEncoderCaptureDisplaySimple)
+			radio_race_analyzer_capture_view_simple.Active = true;
+		else
+			radio_race_analyzer_capture_view_complete.Active = true;
+		followSignals = true;
+
 		manageRunEncoderCaptureViews();
 
 		createRunEncoderExerciseCombo();
@@ -129,10 +137,20 @@ public partial class ChronoJumpWindow
 			cairoRadial = null;
 			drawingarea_race_analyzer_capture_velocimeter_bottom.QueueDraw(); //will fire ExposeEvent
 		}
+
+		/*
+		   update the preferences variable
+		   note as can be changed while capturing, it will be saved to SQL on exit
+		   to not have problems with SQL while capturing
+		   */
+		preferences.runEncoderCaptureDisplaySimple = radio_race_analyzer_capture_view_simple.Active;
 	}
 
 	private void on_radio_race_analyzer_capture_view_clicked (object o, EventArgs args)
 	{
+		if(! followSignals)
+			return;
+
 		manageRunEncoderCaptureViews();
 	}
 

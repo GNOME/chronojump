@@ -900,6 +900,10 @@ public class Constants
 	{
 		return Catalog.GetString("Error. File cannot be saved.");
 	}
+	public static string GraphCannot(string test)
+	{
+		return string.Format(Catalog.GetString("Sorry, this graph cannot be done with test {0}."), test);
+	}
 
 	public static string ChronopicDefaultPortWindows = "COM?";
 	public static string ChronopicDefaultPortLinux = "/dev/ttyUSB?";

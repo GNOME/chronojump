@@ -76,6 +76,7 @@ public partial class ChronoJumpWindow
 
 	private void jumpsEvolutionDo (bool calculateData)
 	{
+		// 1) exit, if problems
 		if(currentPerson == null || currentSession == null ||
 				drawingarea_jumps_evolution == null || drawingarea_jumps_evolution.GdkWindow == null) //it happens at start on click on analyze
 		{
@@ -83,20 +84,35 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
+		// 2) create jumpsEvolution, if needed
 		if(jumpsEvolution == null) {
 			jumpsEvolution = new JumpsEvolution();
 			calculateData = true;
 		}
 
+		// 3) get jump type
 		string jumpType = comboSelectJumpsEvolution.GetSelectedNameEnglish();
 
+		// 4) exit if test incompatible (takeOff and takeOffWeight have no flight time, so this graph crashes)
+		if(jumpType == Constants.TakeOffName || jumpType == Constants.TakeOffWeightName)
+		{
+			new JumpsEvolutionGraph(drawingarea_jumps_evolution,
+					JumpsEvolutionGraph.Error.TESTINCOMPATIBLE, jumpType, preferences.fontType.ToString());
+
+			button_jumps_evolution_save_image.Sensitive = false;
+			return;
+		}
+
+		// 5) calculateData
 		if(calculateData)
 			jumpsEvolution.Calculate(currentPerson.UniqueID, jumpType, check_jumps_evolution_only_best_in_session.Active);
 
+		// 6) exit if no points, or do the graph
 		if(jumpsEvolution.Point_l.Count == 0)
 		{
 			//constructor for showing blank screen with a message
-			new JumpsEvolutionGraph(drawingarea_jumps_evolution, jumpType, preferences.fontType.ToString());
+			new JumpsEvolutionGraph(drawingarea_jumps_evolution,
+					JumpsEvolutionGraph.Error.NEEDJUMP, jumpType, preferences.fontType.ToString());
 					//currentPerson.Name, jumpType, currentSession.DateShort);
 
 			button_jumps_evolution_save_image.Sensitive = false;

@@ -532,7 +532,10 @@ class SqlitePreferences : Sqlite
 			else if(reader[0].ToString() == EncoderCaptureInfinite)
 				preferences.encoderCaptureInfinite = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "encoderCaptureShowOnlyBars")
+			{
 				preferences.encoderCaptureShowOnlyBars = new EncoderCaptureDisplay(Convert.ToInt32(reader[1].ToString()));
+				preferences.encoderCaptureShowOnlyBarsStored = preferences.encoderCaptureShowOnlyBars;
+			}
 			else if(reader[0].ToString() == "encoderCaptureShowNRepetitions")
 				preferences.encoderCaptureShowNRepetitions = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == "showPower")

@@ -2814,8 +2814,10 @@ public partial class ChronoJumpWindow
 
 		LogB.Information("Updates on SQL");
 		//as ShowOnlyBars stuff can be changed during capture, store at sql here
-		SqlitePreferences.Update("encoderCaptureShowOnlyBars",
-				preferences.encoderCaptureShowOnlyBars.GetInt.ToString(), false);
+
+		if(preferences.encoderCaptureShowOnlyBars.GetInt != preferences.encoderCaptureShowOnlyBarsStored.GetInt)
+			SqlitePreferences.Update("encoderCaptureShowOnlyBars",
+					preferences.encoderCaptureShowOnlyBars.GetInt.ToString(), false);
 
 		LogB.Information("Bye3!");
 
@@ -3924,18 +3926,6 @@ public partial class ChronoJumpWindow
 			hbox_contacts_capture_show_need_one.Visible = false;
 		else
 			hbox_contacts_capture_show_need_one.Visible = true;
-
-		/*
-		   update the preferences variable
-		   note as can be changed while capturing, it will be saved to SQL on exit
-		   to not have problems with SQL while capturing
-		   */
-		/* TODO:
-		preferences.encoderCaptureShowOnlyBars = new EncoderCaptureDisplay(
-				check_encoder_capture_signal.Active,
-				check_encoder_capture_table.Active,
-				check_encoder_capture_bars.Active);
-				*/
 	}
 
 	private void radio_mode_contacts_analyze_buttons_visible (Constants.Modes m)

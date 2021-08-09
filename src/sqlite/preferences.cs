@@ -48,6 +48,8 @@ class SqlitePreferences : Sqlite
 	public const string SocialNetworkDatetime = "socialNetworkDatetime"; //"": not answered, -1: should be sent when there's network (after a ping)
 
 	//contacts
+	public const string ContactsCaptureDisplayStr = "contactsCaptureDisplay";
+	public const string RunEncoderCaptureDisplaySimple = "runEncoderCaptureDisplaySimple";
 	public const string JumpsFVProfileOnlyBestInWeight = "jumpsFVProfileOnlyBestInWeight";
 	public const string JumpsFVProfileShowFullGraph = "jumpsFVProfileShowFullGraph";
 	public const string JumpsEvolutionOnlyBestInSession = "jumpsEvolutionOnlyBestInSession";
@@ -186,8 +188,9 @@ class SqlitePreferences : Sqlite
 				Insert (UnitsStr, Preferences.UnitsEnum.METRIC.ToString(), dbcmdTr);
 				Insert (EncoderCaptureInfinite, "False", dbcmdTr);
 
-				EncoderCaptureDisplay ecd = new EncoderCaptureDisplay(false, false, true);
-				Insert ("encoderCaptureShowOnlyBars", ecd.GetInt.ToString(), dbcmdTr);
+				Insert(ContactsCaptureDisplayStr, new ContactsCaptureDisplay(false, true).GetInt.ToString(), dbcmdTr);
+				Insert ("encoderCaptureShowOnlyBars", new EncoderCaptureDisplay(false, false, true).GetInt.ToString(), dbcmdTr);
+				Insert(RunEncoderCaptureDisplaySimple, "True", dbcmdTr);
 
 				Insert ("encoderCaptureShowNRepetitions", "-1", dbcmdTr);
 				Insert ("digitsNumber", "3", dbcmdTr);
@@ -531,6 +534,11 @@ class SqlitePreferences : Sqlite
 					Enum.Parse(typeof(Preferences.UnitsEnum), reader[1].ToString());
 			else if(reader[0].ToString() == EncoderCaptureInfinite)
 				preferences.encoderCaptureInfinite = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == ContactsCaptureDisplayStr)
+			{
+				preferences.contactsCaptureDisplay = new ContactsCaptureDisplay(Convert.ToInt32(reader[1].ToString()));
+				preferences.contactsCaptureDisplayStored = preferences.contactsCaptureDisplay;
+			}
 			else if(reader[0].ToString() == "encoderCaptureShowOnlyBars")
 			{
 				preferences.encoderCaptureShowOnlyBars = new EncoderCaptureDisplay(Convert.ToInt32(reader[1].ToString()));
@@ -806,6 +814,11 @@ class SqlitePreferences : Sqlite
 						Util.ChangeDecimalSeparator(reader[1].ToString()));
 
 			//runEncoder
+			else if(reader[0].ToString() == RunEncoderCaptureDisplaySimple)
+			{
+				preferences.runEncoderCaptureDisplaySimple = reader[1].ToString() == "True";
+				preferences.runEncoderCaptureDisplaySimpleStored = preferences.runEncoderCaptureDisplaySimple;
+			}
 			else if(reader[0].ToString() == RunEncoderMinAccel)
 				preferences.runEncoderMinAccel = Convert.ToDouble(
 						Util.ChangeDecimalSeparator(reader[1].ToString()));

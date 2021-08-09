@@ -60,6 +60,9 @@ public class Preferences
 	public enum UnitsEnum { METRIC, IMPERIAL };
 	public UnitsEnum units;
 
+	public ContactsCaptureDisplay contactsCaptureDisplay;
+	public ContactsCaptureDisplay contactsCaptureDisplayStored; //to update sql on exit if changed
+
 	public bool encoderCaptureInfinite;
 
 	public EncoderCaptureDisplay encoderCaptureShowOnlyBars;
@@ -134,6 +137,9 @@ public class Preferences
 	public int forceSensorGraphsLineWidth;
 
 	//runEncoder
+	public bool runEncoderCaptureDisplaySimple;
+	public bool runEncoderCaptureDisplaySimpleStored;
+
 	public double runEncoderMinAccel;
 	public double runEncoderPPS;
 

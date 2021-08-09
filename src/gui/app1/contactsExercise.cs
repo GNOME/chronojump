@@ -303,3 +303,39 @@ public partial class ChronoJumpWindow
 					button_combo_force_sensor_exercise_capture_right);
 	}
 }
+
+public class ContactsCaptureDisplay : BooleansInt
+{
+	//constructor when we have the 0-7 value
+	public ContactsCaptureDisplay(int selection)
+	{
+		this.i = selection;
+	}
+
+	//constructor with the 2 booleans
+	public ContactsCaptureDisplay(bool showBit1, bool showBit2)
+	{
+		this.i = 0;
+		if(showBit1)
+			i ++;
+		if(showBit2)
+			i += 2;
+	}
+
+	public bool ShowGraph
+	{
+		get { return Bit2; }
+	}
+
+	public bool ShowTable
+	{
+		get { return Bit1; }
+	}
+
+	//just to debug
+	public override string ToString()
+	{
+		return string.Format("selected: {0} (ShowGraph: {1}, ShowTable: {2})",
+				i, ShowGraph, ShowTable);
+	}
+}

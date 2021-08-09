@@ -114,16 +114,25 @@ public abstract class EvolutionGraph : CairoXY
 
 public class JumpsEvolutionGraph : EvolutionGraph
 {
+	public enum Error { NEEDJUMP, TESTINCOMPATIBLE }
+
 	//constructor when there are no points
-	public JumpsEvolutionGraph (DrawingArea area, string jumpType, string font)//, string title, string jumpType, string date)
+	public JumpsEvolutionGraph (DrawingArea area, Error error, string jumpType, string font)//, string title, string jumpType, string date)
 	{
 		this.area = area;
 
 		initGraph(font, .8);
 
 		g.SetFontSize(16);
+
+		string errorMessage = "";
+		if(error == Error.NEEDJUMP)
+			errorMessage = needToExecuteJumpsStr + " " + jumpType + ".";
+		else //(error == Error.TESTINCOMPATIBLE)
+			errorMessage = Constants.GraphCannot(jumpType);
+
 		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight,
-				needToExecuteJumpsStr + " " + jumpType + ".", g, alignTypes.CENTER);
+				errorMessage, g, alignTypes.CENTER);
 
 		endGraphDisposing(g);
 	}

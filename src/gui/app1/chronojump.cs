@@ -730,6 +730,7 @@ public partial class ChronoJumpWindow
 		//done here because in Glade we cannot use the TextBuffer.Changed
 		textview_contacts_signal_comment.Buffer.Changed += new EventHandler(on_textview_contacts_signal_comment_key_press_event);
 
+		contactsInitialize();
 		encoderInitializeStuff();	
 
 		//done before configInitRead because that will change some Tooltips
@@ -849,6 +850,16 @@ public partial class ChronoJumpWindow
 		}
 
 		LogB.Information("Chronojump window started");
+	}
+
+	private void contactsInitialize()
+	{
+		followSignals = false;
+		check_contacts_capture_graph.Active = preferences.contactsCaptureDisplay.ShowGraph;
+		check_contacts_capture_table.Active = preferences.contactsCaptureDisplay.ShowTable;
+		followSignals = true;
+		//call here to have the gui updated and preferences.encoderCaptureShowOnlyBars correctly assigned
+		on_check_contacts_capture_show_modes_clicked (new object (), new EventArgs ());
 	}
 
 	//used on this free labels that have to contrast with background
@@ -2813,7 +2824,11 @@ public partial class ChronoJumpWindow
 			portRE.Close();
 
 		LogB.Information("Updates on SQL");
-		//as ShowOnlyBars stuff can be changed during capture, store at sql here
+		//as display stuff can be changed during capture, store at SQL here
+
+		if(preferences.contactsCaptureDisplay.GetInt != preferences.contactsCaptureDisplayStored.GetInt)
+			SqlitePreferences.Update(SqlitePreferences.ContactsCaptureDisplayStr,
+					preferences.contactsCaptureDisplay.GetInt.ToString(), false);
 
 		if(preferences.encoderCaptureShowOnlyBars.GetInt != preferences.encoderCaptureShowOnlyBarsStored.GetInt)
 			SqlitePreferences.Update("encoderCaptureShowOnlyBars",
@@ -3926,6 +3941,15 @@ public partial class ChronoJumpWindow
 			hbox_contacts_capture_show_need_one.Visible = false;
 		else
 			hbox_contacts_capture_show_need_one.Visible = true;
+
+		/*
+		   update the preferences variable
+		   note as can be changed while capturing, it will be saved to SQL on exit
+		   to not have problems with SQL while capturing
+		   */
+		preferences.contactsCaptureDisplay = new ContactsCaptureDisplay(
+				check_contacts_capture_table.Active,
+				check_contacts_capture_graph.Active);
 	}
 
 	private void radio_mode_contacts_analyze_buttons_visible (Constants.Modes m)

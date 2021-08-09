@@ -61,7 +61,10 @@ public class Preferences
 	public UnitsEnum units;
 
 	public bool encoderCaptureInfinite;
+
 	public EncoderCaptureDisplay encoderCaptureShowOnlyBars;
+	public EncoderCaptureDisplay encoderCaptureShowOnlyBarsStored; //to update sql on exit if changed
+
 	public int encoderCaptureShowNRepetitions;
 
 	public bool showPower;

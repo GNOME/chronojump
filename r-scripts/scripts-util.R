@@ -21,10 +21,22 @@
 fixTitleAndOtherStrings <- function(str)
 {
 	print(c("1 fixTitle=", str))
-	#unicoded titles arrive here like this "\\", convert to "\", as this is difficult, do like this:
-	#http://stackoverflow.com/a/17787736
-	str=parse(text = paste0("'", str, "'"))
-	print(c("2 fixTitle=", str))
+
+	#this tryCatch is to fix some problems with asian characters on a windows machine (maybe caused by unupdated R)
+	#for latin accents, ... tryCatch was not needed
+	tryCatch ({
+			#this works nice with latin accents
+			#unicoded titles arrive here like this "\\", convert to "\", as this is difficult, do like this:
+			#http://stackoverflow.com/a/17787736
+			str=parse(text = paste0("'", str, "'"))
+			print(c("2 fixTitle=", str))
+		},
+		error= function(e)
+		{
+			print("error on fixTitleAndOtherStrings:")
+			print(message(e))
+			return(str)
+		})
 
 	#convert str to spaces
 	str=gsub('_',' ', str)

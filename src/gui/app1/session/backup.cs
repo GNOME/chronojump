@@ -41,6 +41,7 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
+		notebook_session_backup.Page = 0;
 		app1s_label_backup_destination.Text = "";
 		app1s_label_backup_progress.Text = "";
 		app1s_button_backup_select.Sensitive = true;

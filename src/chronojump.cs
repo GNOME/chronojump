@@ -347,6 +347,8 @@ public class ChronoJump
 			Sqlite.CreateTables(false); //not server
 			creatingDB = false;
 		} else {
+			/*
+			   automatic partial (only chronojump.db) backup at every boot disabled in favor of scheduled monthly full backups
 			LogB.SQL("doing backup");
 			//backup the database
 			Util.BackupDirCreateIfNeeded();
@@ -356,6 +358,7 @@ public class ChronoJump
 			Util.BackupDatabase();
 			LogB.SQL ("made a database backup"); //not compressed yet, it seems System.IO.Compression.DeflateStream and
 			//System.IO.Compression.GZipStream are not in mono
+			*/
 
 
 			if(! Sqlite.IsSqlite3()) {

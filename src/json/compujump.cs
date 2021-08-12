@@ -16,7 +16,7 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * Copyright (C) 2016-2017 Carles Pina
- * Copyright (C) 2016-2020 Xavier de Blas
+ * Copyright (C) 2016-2021 Xavier de Blas
  */
 
 using System;
@@ -161,13 +161,13 @@ public class JsonCompujump : Json
 		return true;
 	}
 
-	public List<Task> GetTasks(int personID, int stationID)
+	public string GetTasksResponse (int personID, int stationID)
 	{
 		connected = false;
 
 		// Create a request using a URL that can receive a post.
 		if (! createWebRequest(requestType.AUTHENTICATED, "/api/v1/client/getTasks"))
-			return new List<Task>();
+			return "";
 
 		// Set the Method property of the request to POST.
 		request.Method = "POST";
@@ -183,14 +183,14 @@ public class JsonCompujump : Json
 		// Writes the json object into the request dataStream
 		Stream dataStream;
 		if(! getWebRequestStream (request, out dataStream, "Cannot get tasks."))
-			return new List<Task>();
+			return "";
 
 		dataStream.Write (Encoding.UTF8.GetBytes(js), 0, js.Length);
 		dataStream.Close ();
 
 		HttpWebResponse response;
 		if(! getHttpWebResponse (request, out response, "Cannot get tasks."))
-			return new List<Task>();
+			return "";
 
 		string responseFromServer;
 		using (var sr = new StreamReader(response.GetResponseStream()))
@@ -205,36 +205,10 @@ public class JsonCompujump : Json
 		if(responseFromServer == "" || responseFromServer == "[]")
 		{
 			LogB.Information(" Empty ");
-			return new List<Task>();
+			return "";
 		}
 
-		return taskDeserializeFromServer (responseFromServer);
-	}
-
-	private List<Task> taskDeserializeFromServer(string responseFromServer)
-	{
-		List<Task> tasks = new List<Task>();
-
-		JsonValue jsonTasks = JsonValue.Parse (responseFromServer);
-
-		foreach (JsonValue jsonTask in jsonTasks) {
-			Int32 id = jsonTask ["id"];
-			int personId = jsonTask ["player_id"];
-			int exerciseId = jsonTask ["exercise_id"];
-			string exerciseName = jsonTask ["exercise_name"];
-
-			int sets = jsonTask ["sets"];
-			int nreps = jsonTask ["nreps"];
-			float load = jsonTask ["load"];
-			float speed = jsonTask ["speed"];
-			float percentMaxSpeed = jsonTask ["percent_max_speed"];
-			string laterality = jsonTask ["laterality"];
-			string comment = jsonTask ["comment"];
-			tasks.Add(new Task(id, personId, exerciseId, exerciseName,
-						sets, nreps, load, speed, percentMaxSpeed,
-						laterality, comment));
-		}
-		return tasks;
+		return responseFromServer;
 	}
 
 	public bool UpdateTask(int taskId, int done)

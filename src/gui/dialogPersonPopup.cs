@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2016-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2016-2021   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -131,7 +131,7 @@ public class DialogPersonPopup
 		list_buttons_start = new List<Gtk.Button>();
 		list_buttons_done = new List<Gtk.Button>();
 		list_buttons_done_id = new List<int>();
-		taskActive = new Task();
+		taskActive = null;
 		Fake_button_start_task = new Gtk.Button();
 		Fake_button_person_logout = new Gtk.Button();
 		Fake_button_person_autologout_changed = new Gtk.Button();
@@ -142,21 +142,25 @@ public class DialogPersonPopup
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_capture_big.png");
 
 		Gtk.HBox hboxRow;
-		foreach(Task t in tasks)
+		foreach(Task tAbstract in tasks)
 		{
+			//TODO: cast depending on type, not all them encoder ;)
+			//if POWERGRAVITATORY || POWERINERTIAL
+			TaskEncoder t = (TaskEncoder) tAbstract;
+
 			hboxRow = new Gtk.HBox(false, 10);
 
 			if(t.Laterality == "R,L")
 			{
 				Gtk.VBox vboxRL = new Gtk.VBox(false, 4);
 
-				Task taskCopy = new Task(t.Id, t.PersonId, t.ExerciseId, t.ExerciseName,
+				TaskEncoder taskCopy = new TaskEncoder (t.Id, t.PersonId, t.ExerciseId, t.ExerciseName,
 					t.Sets, t.Nreps, t.Load, t.Speed, t.PercentMaxSpeed,
 					"R", t.Comment);
 				Gtk.HBox hboxStartAndLabel = createHBoxStartAndLabel(taskCopy, pixbuf);
 				vboxRL.PackStart(hboxStartAndLabel, false, false, 0);
 
-				taskCopy = new Task(t.Id, t.PersonId, t.ExerciseId, t.ExerciseName,
+				taskCopy = new TaskEncoder (t.Id, t.PersonId, t.ExerciseId, t.ExerciseName,
 					t.Sets, t.Nreps, t.Load, t.Speed, t.PercentMaxSpeed,
 					"L", t.Comment);
 				hboxStartAndLabel = createHBoxStartAndLabel(taskCopy, pixbuf);

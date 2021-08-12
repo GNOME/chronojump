@@ -33,6 +33,7 @@ public class Json
 {
 	public string ResultMessage;
 
+	protected Config configChronojump;
 	protected bool connected; //know if server is connected. Do it when there's a change on RFID (pulse)
 	protected string authToken; //authentification token. If the string is empty auth call must be done.
 	protected HttpWebRequest request; //generic request (for all methods except ping)
@@ -514,7 +515,7 @@ public class Json
 		JsonObject json = new JsonObject();
 
 		// Use CompujumpStationID and machineId as unique identifiers
-		Config configChronojump = new Config();
+		configChronojump = new Config();
 		configChronojump.Read();
 		int stationID = configChronojump.CompujumpStationID;
 		if (stationID <= 0) {

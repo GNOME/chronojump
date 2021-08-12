@@ -1,11 +1,11 @@
 
 #include <SPI.h>
-#include <nRF24L01.h>
+//#include <nRF24L01.h>
 #include <RF24.h>
 #include <printf.h>
 #include <MsTimer2.h>
 
-String version = "LightChro-Controler-1.05";
+String version = "LightChro-Controler-1.10";
 //
 // Hardware configuration
 
@@ -32,19 +32,20 @@ int blinkPeriod = 75; //Time between two consecutives rising flank of the LED
 // binary commands: each bit represents RED, GREEN, BLUE, BUZZER, BLINK_RED, BLINK_GREEN, BLINK_BLUE, SENSOR
 // 1 means ON
 // 0 means OFF
-const byte red = 0b10000000;          // 128
-const byte green = 0b01000000;        // 64
-const byte blue = 0b00100000;         // 32
-const byte buzzer = 0b00010000;       // 16
-const byte blinkRed = 0b00001000;     // 8
-const byte blinkGreen = 0b00000100;   // 4
-const byte blinkBlue = 0b00000010;    // 2
-const byte sensor = 0b00000001;       // 1
-const byte deactivate = 0b00000000;   // 0
+const uint16_t sensorUnlimited = 0b100000000; //256
+const uint16_t red =              0b10000000; //128
+const uint16_t green =            0b01000000; //64
+const uint16_t blue =             0b00100000; //32
+const uint16_t buzzer =           0b00010000; // 16
+const uint16_t blinkRed =         0b00001000; //8
+const uint16_t blinkGreen =       0b00000100; //4
+const uint16_t blinkBlue =        0b00000010; //2
+const uint16_t sensorOnce =           0b00000001; //1
+const uint16_t deactivate =       0b00000000; //0
 
 struct instruction_t
 {
-  byte command;       //The command to be executed
+  uint16_t command;       //The command to be executed
   short int termNum;  //The terminal number that have to execute the command
 };
 
@@ -59,11 +60,11 @@ struct sample_t
 };
 
 struct sample_t sample = {.state = LOW, .termNum = 0, .time = 0};
-int sample_size = sizeof(sample);       //num_buttom_pins es la longitud de variables a recibir .
+int sample_size = sizeof(sample);       //sample_size es la longitud de variables a recibir .
 
 // First channel to be used. The 5xswitches control the terminal number and the number to add the baseChannel
 // The channel 125 is used to listen from the terminals. Channels 90-124 are used to send to the terminals
-uint8_t baseChannel = 90;
+uint8_t baseChannel = 90; //TODO: Select the listening channel with the switches
 
 const uint64_t pipes[2] = { 0xF0F0F0F0E1LL, 0xF0F0F0F0D2LL }; //Two radio pipes. One for emitting and the other for receiving
 
@@ -146,7 +147,7 @@ void serialEvent()
     //      Serial.println("\"");
     sendInstruction(&instruction);
   }
-  if (instruction.command & sensor) {
+  if (instruction.command & sensorOnce) {
     blinkStart(blinkPeriod);
     blinkingLED = true;
   }

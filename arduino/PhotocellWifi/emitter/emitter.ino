@@ -1,6 +1,7 @@
 //radio.setRetries(15,15); primer parametro pausa entre intentos,(en múltiplos de 250µS, por eso 0 son 250µS  y 15 son  400µS.),hará hasta 15 intentos en caso de error
 //Versión 1.04
 #include <SPI.h>
+#include <nRF24L01.h>
 #include <RF24.h>
 #include <printf.h>
 #include <MsTimer2.h>
@@ -19,7 +20,7 @@
 
 // Set up nRF24L01 radio on SPI bus plus pins  (CE & CS)
 
-RF24 radio(A3, A4);   //9,10 originalmente , ahora A3,A4
+RF24 radio(10, 9);   //9,10 originalmente , ahora A3,A4
 
 const int intPin = 0;         //Para definir pin interrupción  0 = interrupción  por pin D2
 const int debounceTime = 1;

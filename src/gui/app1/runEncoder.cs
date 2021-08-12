@@ -2083,7 +2083,7 @@ public partial class ChronoJumpWindow
 		if(cairoGraphRaceAnalyzer_dt == null)
 			cairoGraphRaceAnalyzer_dt = new CairoGraphRaceAnalyzer(
 					drawingarea_race_analyzer_capture_position_time, "title",
-					Catalog.GetString("Distance"), "m");
+					Catalog.GetString("Distance"), "m", false);
 
 		cairoGraphRaceAnalyzer_dt.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_dt_l, forceRedraw, CairoXY.PlotTypes.POINTSLINES);
@@ -2093,7 +2093,7 @@ public partial class ChronoJumpWindow
 		if(cairoGraphRaceAnalyzer_st == null)
 			cairoGraphRaceAnalyzer_st = new CairoGraphRaceAnalyzer(
 					drawingarea_race_analyzer_capture_speed_time, "title",
-					Catalog.GetString("Speed"), "m/s");
+					Catalog.GetString("Speed"), "m/s", true);
 
 		cairoGraphRaceAnalyzer_st.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_st_l, forceRedraw, CairoXY.PlotTypes.POINTSLINES);
@@ -2106,7 +2106,7 @@ public partial class ChronoJumpWindow
 		if(cairoGraphRaceAnalyzer_at == null)
 			cairoGraphRaceAnalyzer_at = new CairoGraphRaceAnalyzer(
 					drawingarea_race_analyzer_capture_accel_time, "title",
-					Catalog.GetString("Accel"), "m/s^2");
+					Catalog.GetString("Accel"), "m/s^2", false);
 
 		cairoGraphRaceAnalyzer_at.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_at_l, forceRedraw, CairoXY.PlotTypes.LINES);

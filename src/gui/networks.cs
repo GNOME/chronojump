@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -965,9 +965,21 @@ public partial class ChronoJumpWindow
 	{
 		//1) get tasks
 		JsonCompujump json = new JsonCompujump(configChronojump.CompujumpDjango);
-		List<Task> tasks = json.GetTasks(currentPerson.UniqueID, configChronojump.CompujumpStationID);
+		string tasksStr = json.GetTasksResponse (currentPerson.UniqueID, configChronojump.CompujumpStationID);
 
-		//2) get exercises and insert if needed (only on encoder)
+		List<Task> tasks = new List<Task>();
+
+		//2) deserialize tasks
+		if(tasksStr != "")
+		{
+			if(configChronojump.CompujumpStationMode == Constants.Modes.POWERGRAVITATORY ||
+					configChronojump.CompujumpStationMode == Constants.Modes.POWERINERTIAL)
+				tasks = new TaskDeserialize().DeserializeTaskEncoder(tasksStr);
+		}
+
+		/*
+		TODO: disabled temporarily
+		//3) get exercises and insert if needed (only on encoder)
 		if(configChronojump.CompujumpStationMode == Constants.Modes.POWERGRAVITATORY ||
 				configChronojump.CompujumpStationMode == Constants.Modes.POWERINERTIAL)
 		{
@@ -997,19 +1009,20 @@ public partial class ChronoJumpWindow
 				}
 			}
 		}
+		*/
 
-		//3) get other stationsCount
+		//4) get other stationsCount
 		List<StationCount> stationsCount = json.GetOtherStationsWithPendingTasks(currentPerson.UniqueID, configChronojump.CompujumpStationID);
 
-		//4) check if there are active Internet devices
+		//5) check if there are active Internet devices
 		NetworksCheckDevices ncd = new NetworksCheckDevices();
 
-		//5) If disconnected, make check_encoder_networks_upload false and insensitive
+		//6) If disconnected, make check_encoder_networks_upload false and insensitive
 		check_encoder_networks_upload.Sensitive = json.Connected;
 		if(! json.Connected)
 			check_encoder_networks_upload.Active = false;
 
-		//6) show dialog
+		//7) show dialog
 		showDialogPersonPopup(tasks, stationsCount, ncd.ToString(), json.Connected);
 	}
 
@@ -1024,6 +1037,7 @@ public partial class ChronoJumpWindow
 	}
 	*/
 	private void showDialogPersonPopup(List<Task> tasks, List<StationCount> stationsCount, string networkDevices, bool serverConnected)
+	//private void showDialogPersonPopup(TaskList taskList, List<StationCount> stationsCount, string networkDevices, bool serverConnected)
 	{
 		if(dialogPersonPopup != null)
 			dialogPersonPopup.DestroyDialog();
@@ -1049,18 +1063,21 @@ public partial class ChronoJumpWindow
 	private void compujumpTaskStart(object o, EventArgs args)
 	{
 		dialogPersonPopup.Fake_button_start_task.Clicked -= new EventHandler(compujumpTaskStart);
-		Task task = new Task();
+		Task task = null;
 		if(dialogPersonPopup != null)
 		{
 			task = dialogPersonPopup.TaskActive;
 		}
 		dialogPersonPopup.DestroyDialog();
-		LogB.Information("Selected task from gui/networks.cs:" + task.ToString());
 
+		if(task == null)
+			return;
+
+		LogB.Information("Selected task from gui/networks.cs:" + task.ToString());
 		if(configChronojump.CompujumpStationMode == Constants.Modes.RUNSINTERVALLIC)
-			compujumpTaskStartRunInterval(task);
+			compujumpTaskStartRunInterval((TaskEncoder) task); //TODO: use taskRunInertial
 		else
-			compujumpTaskStartEncoder(task);
+			compujumpTaskStartEncoder((TaskEncoder) task);
 	}
 
 	private void on_run_interval_compujump_type_toggled(object o, EventArgs args)
@@ -1079,7 +1096,7 @@ public partial class ChronoJumpWindow
 			combo_select_runs_interval.Active = 3;
 	}
 
-	private void compujumpTaskStartRunInterval(Task task)
+	private void compujumpTaskStartRunInterval(TaskEncoder task) //TODO: use taskRunInterval
 	{
 		if(task.ExerciseName == "5 m" || task.ExerciseName == "05 m")
 			radio_run_interval_compujump_5m.Active = true;
@@ -1093,7 +1110,7 @@ public partial class ChronoJumpWindow
 		on_button_execute_test_clicked(new object(), new EventArgs());
 	}
 
-	private void compujumpTaskStartEncoder(Task task)
+	private void compujumpTaskStartEncoder(TaskEncoder task)
 	{
 		combo_encoder_exercise_capture.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise_capture, task.ExerciseName);
 

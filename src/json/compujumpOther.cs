@@ -16,19 +16,37 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * Copyright (C) 2016-2017 Carles Pina
- * Copyright (C) 2016-2020 Xavier de Blas
+ * Copyright (C) 2016-2021 Xavier de Blas
  */
 
 using System;
+using System.Json;
 using System.Text;
 using System.Collections;
+using System.Collections.Generic; //List
+using System.Text.RegularExpressions; //Regex
 using Mono.Unix;
 
-
-public class Task
+public abstract class Task
 {
 	public int Id;
 	public int PersonId;
+	public string Comment;
+
+	protected void initialize ()
+	{
+		Id = -1;
+		Comment = "";
+	}
+
+	public override string ToString()
+	{
+		return "";
+	}
+}
+
+public class TaskEncoder : Task
+{
 	public int ExerciseId;
 	public string ExerciseName;
 	public int Sets;
@@ -37,15 +55,13 @@ public class Task
 	public float Speed;
 	public float PercentMaxSpeed;
 	public string Laterality;
-	public string Comment;
 
-	public Task()
+	public TaskEncoder ()
 	{
-		Id = -1;
-		Comment = "";
+		initialize ();
 	}
 
-	public Task(int id, int personId, int exerciseId, string exerciseName,
+	public TaskEncoder (int id, int personId, int exerciseId, string exerciseName,
 			int sets, int nreps, float load, float speed, float percentMaxSpeed,
 			string laterality, string comment)
 	{
@@ -60,6 +76,31 @@ public class Task
 		PercentMaxSpeed = percentMaxSpeed;
 		Laterality = laterality;
 		Comment = comment;
+	}
+
+	public TaskEncoder (JsonValue jsonTask)
+	{
+		Id = jsonTask ["id"];
+		PersonId = jsonTask ["player_id"];
+		ExerciseId = jsonTask ["exercise_id"];
+		ExerciseName = jsonTask ["exercise_name"];
+
+		string NrepsStr = jsonTask ["duration"]; //eg: "15 Repetitions"
+		Match match = Regex.Match(NrepsStr, @"(\d+) Repetitions");
+		//LogB.Information(string.Format("NrepsStr: {0}, match.Groups.Count: {1}, match.Groups[1].Value: {2}",
+		//	NrepsStr, match.Groups.Count, match.Groups[1].Value));
+		if(match.Groups.Count == 2 && Util.IsNumber(match.Groups[1].Value, false))
+			Nreps = Convert.ToInt32(match.Groups[1].Value);
+
+		Laterality = jsonTask ["laterality"];
+		Sets = jsonTask ["sets"];
+
+		//measurable_info
+		Load = jsonTask ["measurable_info"]["load"];
+		Speed = jsonTask ["measurable_info"]["speed"];
+		PercentMaxSpeed = jsonTask ["measurable_info"]["percent_max_speed"];
+
+		Comment = jsonTask ["comment"];
 	}
 
 	public override string ToString()
@@ -105,6 +146,24 @@ public class Task
 			str += "\n" + Comment;
 		}
 		return ExerciseName + ": " + str;
+	}
+}
+
+public class TaskDeserialize
+{
+	public TaskDeserialize()
+	{
+	}
+
+	public List<Task> DeserializeTaskEncoder (string responseFromServer)
+	{
+		List<Task> tasks = new List<Task>();
+
+		JsonValue jsonTasks = JsonValue.Parse (responseFromServer);
+		foreach (JsonValue jsonTask in jsonTasks) {
+			tasks.Add(new TaskEncoder(jsonTask));
+		}
+		return tasks;
 	}
 }
 

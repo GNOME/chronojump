@@ -1,11 +1,11 @@
 
 #include <SPI.h>
-#include <nRF24L01.h>
+//#include <nRF24L01.h>     //TODO: Check that it is necessary
 #include <RF24.h>
 #include <printf.h>
 #include <MsTimer2.h>
 
-String version = "LightChro-Sensor-1.05";
+String version = "LightChro-Sensor-1.10";
 //
 // Hardware configuration
 
@@ -33,22 +33,23 @@ RF24 radio(10, 9);
 
 struct instruction_t
 {
-  byte command;       //The command to be executed
+  uint16_t command;       //The command to be executed
   short int termNum;  //The terminal number that have to execute the command
 };
 
 // binary commands: each bit represents RED, GREEN, BLUE, BUZZER, BLINK_RED, BLINK_GREEN, BLINK_BLUE, SENSOR
 // 1 means ON
 // 0 means OFF
-const byte red = 0b10000000;
-const byte green = 0b01000000;
-const byte blue = 0b00100000;
-const byte buzzer = 0b00010000;
-const byte blinkRed = 0b00001000;
-const byte blinkGreen = 0b00000100;
-const byte blinkBlue = 0b00000010;
-const byte sensor = 0b00000001;
-const byte deactivate = 0b00000000;
+const uint16_t sensorUnlimited = 0b100000000; //256
+const uint16_t red =              0b10000000; //128
+const uint16_t green =            0b01000000; //64
+const uint16_t blue =             0b00100000; //32
+const uint16_t buzzer =           0b00010000; // 16
+const uint16_t blinkRed =         0b00001000; //8
+const uint16_t blinkGreen =       0b00000100; //4
+const uint16_t blinkBlue =        0b00000010; //2
+const uint16_t sensorOnce =           0b00000001; //1
+const uint16_t deactivate =       0b00000000; //0
 
 struct instruction_t instruction = {.command = deactivate, .termNum = 0};
 int size_instruction = sizeof(instruction);
@@ -70,9 +71,10 @@ bool flagint = LOW;   //Interruption flag. Activated when the sensos changes
 
 // First channel to be used. The 5xswitches control the terminal number and the number to add the baseChannel
 // The channel 125 is used to listen from the terminals. Channels 90-124 are used to send to the terminals
-uint8_t baseChannel = 90;
+uint8_t baseChannel = 90; //TODO: Select the listening channel with the switches
 
 bool waitingSensor = false; //Wether the sensor is activated or not
+bool unlimitedMode = true;
 
 //Variables to control the blinking of each Color
 bool blinkingRed = false;
@@ -91,9 +93,9 @@ void setup(void)
 
   Serial.begin(115200);
   printf_begin(); //Used by radio.printDetails()
-
-
+  
   Serial.println(version);
+
 
 
   radio.begin();
@@ -104,6 +106,7 @@ void setup(void)
   pinMode(4, INPUT_PULLUP);
   pinMode(5, INPUT_PULLUP);
   pinMode(6, INPUT_PULLUP);
+
   
   //¡¡¡¡Atention!!!!, the first version of the hardware the pin7 is associated to the buzzer.
   //Remember to change comment/uncomment depending on the hardware version
@@ -127,8 +130,10 @@ void setup(void)
   radio.setChannel(baseChannel + sample.termNum);
   Serial.println(baseChannel + sample.termNum);
 
+
   radio.openWritingPipe(pipes[1]);
   radio.openReadingPipe(1, pipes[0]);
+
   //radio.enableDynamicAck();
   radio.startListening();
   printf(" Status Radio\n\r");
@@ -141,7 +146,7 @@ void setup(void)
   attachInterrupt(digitalPinToInterrupt(2), controlint, CHANGE);
 
   pinMode(A3, OUTPUT);    //Blue
-  pinMode(A4, OUTPUT);    //Green
+  pinMode(A4, OUTPUT);    //Green    
   pinMode(A5, OUTPUT);    //Red
   pinMode(7, OUTPUT);     //Buzzer
   pinMode(2, INPUT_PULLUP); //Sensor
@@ -150,14 +155,16 @@ void setup(void)
   green_off;
   blue_off;
 
-  noInterrupts();   //Don't watch the sensor state
+//  noInterrupts();   //Don't watch the sensor state
+
+//  Serial.print("Is chip connected:");
+//  Serial.println(radio.isChipConnected());
 }
 
 
 void loop(void)
 {
-
-
+  
   if (flagint == HIGH ) //The sensor has changed
 
   {
@@ -186,7 +193,7 @@ void loop(void)
 //    Serial.println(radio.getChannel());
     beep(25);
     flagint = LOW;
-    waitingSensor = false;
+    if (! unlimitedMode) waitingSensor = false;
     radio.setChannel(baseChannel + sample.termNum);
     radio.startListening();
 //    Serial.println("startListening()");
@@ -216,7 +223,7 @@ void controlint()
   }
 }
 
-void executeCommand(byte command)
+void executeCommand(uint16_t command)
 {
   if (command == deactivate) {
 //    Serial.println("deactivating leds and sensor");
@@ -230,19 +237,19 @@ void executeCommand(byte command)
     blinkingGreen = false;
     blinkingBlue = false;
     MsTimer2::stop();
-
+    
     if ((command & red) == red) {
 //      Serial.println("activating RED");
       red_on;
     }
 
     if ((command & green) == green) {
-      Serial.println("activating GREEN");
+//      Serial.println("activating GREEN");
       green_on;
     }
 
     if ((command & blue) == blue) {
-//      Serial.println("activating BLUE");
+      Serial.println("activating BLUE");
       blue_on;
     }
 
@@ -269,8 +276,16 @@ void executeCommand(byte command)
       blinkStart(blinkPeriod);
     }
 
-    if ((command & sensor) == sensor) {
-//      Serial.println("activating sensor");
+    if ((command & sensorOnce) == sensorOnce) {
+//      Serial.println("activating sensor once");
+      time0 = millis(); //empieza a contar time
+      waitingSensor = true;  //Terminal set to waiting touch/proximity
+      unlimitedMode = false;
+      interrupts();
+    }
+
+    if ((command & sensorUnlimited) == sensorUnlimited) {
+//      Serial.println("activating sensor unlimited");
       time0 = millis(); //empieza a contar time
       waitingSensor = true;  //Terminal set to waiting touch/proximity
       interrupts();

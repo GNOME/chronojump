@@ -28,6 +28,7 @@ using Cairo;
 public class CairoGraphRaceAnalyzer : CairoXY
 {
 	int points_list_painted;
+	private bool plotHorizArrowFromMaxY;
 
 	/*
 	//constructor when there are no points
@@ -50,7 +51,8 @@ public class CairoGraphRaceAnalyzer : CairoXY
 	//regular constructor
 	public CairoGraphRaceAnalyzer (
 			DrawingArea area, string title,
-			string yVariable, string yUnits)
+			string yVariable, string yUnits,
+			bool plotHorizArrowFromMaxY)
 	{
 		this.area = area;
 		this.title = title;
@@ -60,6 +62,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		this.yVariable = yVariable;
 		xUnits = "s";
 		this.yUnits = yUnits;
+		this.plotHorizArrowFromMaxY = plotHorizArrowFromMaxY;
 		
 //		doing = false;
 		points_list_painted = 0;
@@ -103,9 +106,16 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		if( points_list != null &&
 				(maxValuesChanged || forceRedraw || points_list.Count != points_list_painted) )
 		{
-
 			plotRealPoints(plotType, points_list, points_list_painted);
 			points_list_painted = points_list.Count;
+
+			if(plotHorizArrowFromMaxY && points_list.Count > 1)
+			{
+				MovingAverage mAverage = new MovingAverage(points_list, 5);
+				mAverage.Calculate();
+				PointF pMaxY = mAverage.GetMaxY();
+				plotArrow (pMaxY.X, pMaxY.Y, points_list[points_list.Count -1].X, pMaxY.Y, true, 0);
+			}
 		}
 
 		if(initGraphDone)

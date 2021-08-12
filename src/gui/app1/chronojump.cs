@@ -1015,6 +1015,8 @@ public partial class ChronoJumpWindow
 		LogB.Information(string.Format("Backups files: {0}, total size: {1} KB.",
 					files, sizeInKB));
 		*/
+
+		//MovingAverage.TestCalculate();
 	}
 
 

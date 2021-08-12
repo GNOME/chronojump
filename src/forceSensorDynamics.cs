@@ -501,6 +501,7 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 		calculeRepetitions(position_not_smoothed_l);
 	}
 
+	//TODO: now not need to change because it works, but for future code use: UtileMath.MovingAverage
 	private int smoothFactor = 5; //use odd (impar) values like 5, 7, 9
 	/*
 	 * A smothFactor == 5, this will use 5 values: 2 previous, current value, 2 post.

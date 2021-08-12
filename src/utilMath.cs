@@ -360,6 +360,96 @@ public class LeastSquaresParabole
 	}
 }
 
+public class MovingAverage
+{
+	//passed params
+	private List<PointF> points_l;
+	private int oddSampleWindow; //if 5, two values pre, 1 current, two post
+
+	private int samplesAtEachSide;
+	private List<PointF> movingAverage_l; //calculated list
+
+	public MovingAverage (List<PointF> points_l, int oddSampleWindow)
+	{
+		this.points_l = points_l;
+		this.oddSampleWindow = oddSampleWindow;
+
+		samplesAtEachSide = (int) Math.Floor(Convert.ToDouble(oddSampleWindow / 2));
+		movingAverage_l = new List<PointF>();
+	}
+
+	//calculate movingAverage_l
+	public bool Calculate ()
+	{
+		if(oddSampleWindow > points_l.Count)
+			return false;
+
+		double yCount = 0;
+		bool firstTime = true;
+		for(int i = samplesAtEachSide; i < points_l.Count - samplesAtEachSide; i ++)
+		{
+			if(firstTime)
+			{
+				for(int j = i - samplesAtEachSide; j <= i + samplesAtEachSide; j ++)
+					yCount += points_l[j].Y;
+				firstTime = false;
+			} else {
+				yCount -= points_l[i-samplesAtEachSide-1].Y;
+				yCount += points_l[i+samplesAtEachSide].Y;
+			}
+
+			PointF movingA = new PointF(points_l[i].X, 1.0 * yCount / oddSampleWindow);
+			movingAverage_l.Add(movingA);
+		}
+		return true;
+	}
+
+	//returns the PointF (so the X and Y of max(y))
+	//if there are two with the same Y, gets the first because of:  if(p.Y > pmax.Y)
+	public PointF GetMaxY ()
+	{
+		if(movingAverage_l == null || movingAverage_l.Count == 0)
+			return new PointF(0,0);
+
+		PointF pmax = new PointF(0,0);
+		foreach(PointF p in movingAverage_l)
+			if(p.Y > pmax.Y)
+				pmax = p;
+
+		return pmax;
+	}
+
+	//to debug
+	public string GetMovingAverageList()
+	{
+		string str = "MovingAverage calculated list:\n";
+		foreach(PointF p in movingAverage_l)
+			str += p.ToString() + "\n";
+
+		return str;
+	}
+
+	public static void TestCalculate()
+	{
+		List<PointF> test_l = new List<PointF>{
+				new PointF(5.5, 8),
+				new PointF(7.5, 12),
+				new PointF(14, 13.2),
+				new PointF(17, 13.8),
+				new PointF(19, 14.15),
+				new PointF(21.1, 13.9),
+				new PointF(22.4, 11.5),
+				new PointF(27.5, 8.3)
+				};
+
+		MovingAverage ma = new MovingAverage(test_l, 5);
+		ma.Calculate();
+		LogB.Information(ma.GetMovingAverageList());
+
+		//tested with LibreOffice Calc, works as expected
+	}
+}
+
 public static class MathCJ
 {
 	public static double ToRadians(double angdeg)

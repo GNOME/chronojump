@@ -3476,6 +3476,8 @@ public partial class ChronoJumpWindow
 
 		hbox_combo_select_contacts_top_with_arrows.Visible = false; //TODO: this will be unneded
 
+		event_execute_label_message.Text = "";
+
 		//blank exercise options: useful for changing from jumps or runs to forceSensor, runEncoder, reaction time, other
 		label_contacts_exercise_selected_name.Visible = true; //will not be visible when all the contacts_top combo is implemented
 		label_contacts_exercise_selected_options.Text = "";

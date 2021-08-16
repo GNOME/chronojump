@@ -1073,7 +1073,7 @@ public partial class ChronoJumpWindow
 		button_video_play_this_test_contacts.Sensitive = (re.VideoURL != "");
 		sensitiveLastTestButtons(true);
 
-		event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(re.Filename);
+		event_execute_label_message.Text = Catalog.GetString("Loaded:") + " " + Util.GetLastPartOfPath(re.Filename);
 		image_run_encoder_graph.Visible = false;
 		button_run_encoder_analyze_analyze.Sensitive = true;
 		button_run_encoder_analyze_options_close_and_analyze.Sensitive = true;

@@ -2120,6 +2120,7 @@ LogB.Information(" fs R ");
 			forceSensorDoGraphAI(false);
 		}
 		//event_execute_label_message.Text = "Loaded: " + Util.GetLastPartOfPath(filechooser.Filename);
+		event_execute_label_message.Text = Catalog.GetString("Loaded:") + " " + lastForceSensorFile;
 
 		hbox_force_sensor_analyze_ai_sliders_and_buttons.Sensitive = true;
 

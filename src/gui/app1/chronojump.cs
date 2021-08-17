@@ -836,8 +836,13 @@ public partial class ChronoJumpWindow
 			chronopicRegisterWin.Show();
 		}
 
-		if(! showSendLog && ! showSocialNetworkPoll && notebook_sup.CurrentPage == Convert.ToInt32(notebook_sup_pages.START))
-			new ChronojumpLogo (notebook_chronojump_logo, drawingarea_chronojump_logo, viewport_chronojump_logo, preferences.logoAnimatedShow, preferences.fontType.ToString());
+		if(! showSendLog && ! showSocialNetworkPoll)
+		{
+			if (shouldAskBackupScheduled ())
+				backupScheduledAsk ();
+			else if(notebook_sup.CurrentPage == Convert.ToInt32(notebook_sup_pages.START))
+				new ChronojumpLogo (notebook_chronojump_logo, drawingarea_chronojump_logo, viewport_chronojump_logo, preferences.logoAnimatedShow, preferences.fontType.ToString());
+		}
 
 		//done at the end to ensure main window is shown
 		if(splashWin != null) {

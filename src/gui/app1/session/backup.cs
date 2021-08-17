@@ -33,6 +33,7 @@ public partial class ChronoJumpWindow
 	static UtilCopy app1s_uc;
 	private Thread app1s_threadBackup;
 
+	//user clicks on backup
 	private void on_button_db_backup_pre_clicked (object o, EventArgs args)
 	{
 		if(! app1s_getDatabaseFile())
@@ -50,6 +51,43 @@ public partial class ChronoJumpWindow
 		app1s_label_backup_cancel_close.Text = Catalog.GetString("Cancel");
 	
 		app1s_notebook.CurrentPage = app1s_PAGE_BACKUP;
+	}
+
+	private bool shouldAskBackupScheduled ()
+	{
+		/*
+			TODO: disabled until 4 buttons do something
+
+		// 1) if never scheduled, need to show widget
+		if(preferences.backupScheduledCreatedDate == DateTime.MinValue)
+			return true;
+
+		// 2) if next days is -1 (never ask agan), do not show widget
+		if(preferences.backupScheduledNextDays < 0)
+			return false;
+
+		// 3) if backup has to be done, show widget
+		// <0 means "This instance is earlier than value.". So if created date + nextDays is < than current date, need to do backup
+		if(preferences.backupScheduledCreatedDate.AddDays(preferences.backupScheduledNextDays).CompareTo(DateTime.Now) <= 0)
+			return true;
+			*/
+
+		return false;
+	}
+
+	//scheduled backup on start
+	private void backupScheduledAsk ()
+	{
+		menus_sensitive_import_not_danger(false);
+		app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
+                notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.SESSION);
+
+		notebook_session_backup.Page = 1;
+
+		app1s_notebook.CurrentPage = app1s_PAGE_BACKUP;
+
+		app1s_button_backup_cancel_close.Visible = false;
+		//TODO: remember to show again after pressing any of the buttons
 	}
 
 	private bool app1s_getDatabaseFile ()

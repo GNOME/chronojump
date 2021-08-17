@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.26";
+	static string lastChronojumpDatabaseVersion = "2.27";
 
 	public Sqlite()
 	{
@@ -3054,6 +3054,17 @@ class Sqlite
 
 				currentVersion = updateVersion("2.26");
 			}
+			if(currentVersion == "2.26")
+			{
+				LogB.SQL("Inserted lastBackupDir, lastBackupDatetime, backupScheduledCreatedDate, backupScheduledNextDays");
+
+				SqlitePreferences.Insert (SqlitePreferences.LastBackupDirStr, "");
+				SqlitePreferences.Insert (SqlitePreferences.LastBackupDatetimeStr, UtilDate.ToSql(DateTime.MinValue));
+				SqlitePreferences.Insert (SqlitePreferences.BackupScheduledCreatedDateStr, UtilDate.ToSql(DateTime.MinValue));
+				SqlitePreferences.Insert (SqlitePreferences.BackupScheduledNextDaysStr, "30");
+
+				currentVersion = updateVersion("2.27");
+			}
 
 
 			/*
@@ -3274,7 +3285,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
-
+		//2.26 - 2.27 Converted DB to 2.27 Inserted lastBackupDir, lastBackupDatetime, backupScheduledCreatedDate, backupScheduledNextDays
 		//2.25 - 2.26 Converted DB to 2.26 contactsCaptureDisplay with BooleansInt, and bool runEncoderCaptureDisplaySimple
 		//2.24 - 2.25 Converted DB to 2.25 encoderCaptureShowOnlyBars now uses BooleansInt
 		//2.23 - 2.24 Converted DB to 2.24 LogoAnimatedShow made False by default on Mac

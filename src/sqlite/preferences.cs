@@ -533,6 +533,17 @@ class SqlitePreferences : Sqlite
 				else
 					preferences.restTimeSeconds = 0;
 			}
+
+			//backup
+			else if(reader[0].ToString() == LastBackupDirStr)
+				preferences.lastBackupDir = reader[1].ToString();
+			else if(reader[0].ToString() == LastBackupDatetimeStr)
+				preferences.lastBackupDatetime = UtilDate.FromSql(reader[1].ToString());
+			else if(reader[0].ToString() == BackupScheduledCreatedDateStr)
+				preferences.backupScheduledCreatedDate = UtilDate.FromSql(reader[1].ToString());
+			else if(reader[0].ToString() == BackupScheduledNextDaysStr)
+				preferences.backupScheduledNextDays = Convert.ToInt32(reader[1].ToString());
+
 			else if(reader[0].ToString() == NewsLanguageEs )
 				preferences.newsLanguageEs = reader[1].ToString() == "True"; //bool
 			else if(reader[0].ToString() == ClientNewsDatetime )

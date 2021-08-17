@@ -209,6 +209,12 @@ public class Preferences
 	public Constants.MultimediaStorage multimediaStorage;
 	public string databaseVersion;
 
+	//backup
+	public string lastBackupDir;
+	public DateTime lastBackupDatetime; 	// merely informational
+	public DateTime backupScheduledCreatedDate;
+	public int backupScheduledNextDays;
+
 	//news
 	public bool newsLanguageEs; 		// on SQL
 	public string serverNewsDatetime;  	// NOT on SQL

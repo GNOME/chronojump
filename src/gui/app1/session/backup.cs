@@ -114,17 +114,42 @@ public partial class ChronoJumpWindow
 
 	private void on_app1s_button_backup_scheduled_remind_clicked (object o, EventArgs args)
 	{
-		//if (o == (object) button_) ..
+		int days = 1;
+		if (o == (object) app1s_button_backup_scheduled_remind_tomorrow)
+			days = 1;
+		else if (o == (object) app1s_button_backup_scheduled_remind_30d)
+			days = 30;
+		else if (o == (object) app1s_button_backup_scheduled_remind_60d)
+			days = 60;
+		else if (o == (object) app1s_button_backup_scheduled_remind_90d)
+			days = 90;
+
+		app1_backup_remind_or_never_do (days, string.Format(Catalog.GetPluralString(
+						"You will be prompted for a backup in one day.",
+						"You will be prompted for a backup in {0} days.",
+						days), days));
 	}
 
 	private void on_app1s_button_backup_scheduled_never_clicked (object o, EventArgs args)
 	{
-		SqlitePreferences.Update(SqlitePreferences.BackupScheduledNextDaysStr, "-1", false);
+		app1_backup_remind_or_never_do (-1, Catalog.GetString("You will no longer be bothered with scheduled backups, but you can continue backing up by clicking on") +
+				" " + Catalog.GetString("Session") + " / " + Catalog.GetString("More") + ".");
+	}
 
+	private void app1_backup_remind_or_never_do (int days, string message)
+	{
+		// 1) Sqlite changes
+		Sqlite.Open(); // ---->
+
+		SqlitePreferences.Update(SqlitePreferences.BackupScheduledCreatedDateStr, UtilDate.ToSql(DateTime.Now), true);
+		SqlitePreferences.Update(SqlitePreferences.BackupScheduledNextDaysStr, days.ToString(), true);
+
+		Sqlite.Close(); // <----
+
+		// 2) gui changes
 		label_backup_why.Visible = false;
 		notebook_session_backup.Page = Convert.ToInt32(notebook_session_backup_pages.SCHEDULED_FEEDBACK);
-		app1s_label_remind_feedback.Text =
-			Catalog.GetString("You will no longer be bothered with scheduled backups, but you can continue backing up by clicking on Session / More.");
+		app1s_label_remind_feedback.Text = message;
 
 		backup_cancel_close_show_more_notebook = false; //clicking on close should not show session more
 		app1s_label_backup_cancel_close.Text = Catalog.GetString("Close");

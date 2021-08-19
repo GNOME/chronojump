@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2021-08-19 11:19+0000\n"
-"PO-Revision-Date: 2021-08-19 14:23+0300\n"
+"POT-Creation-Date: 2021-08-19 16:51+0000\n"
+"PO-Revision-Date: 2021-08-19 20:48+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -28,7 +28,7 @@ msgstr "Chronojump"
 #: ../glade/app1.glade.h:2 ../glade/report_window.glade.h:9
 #: ../src/exportSession.cs:209 ../src/gui/app1/encoder.cs:5453
 #: ../src/gui/app1/forceSensor.cs:3250 ../src/gui/app1/runEncoder.cs:2007
-#: ../src/report.cs:141
+#: ../src/gui/app1/session/backup.cs:135 ../src/report.cs:141
 msgid "Session"
 msgstr "Сеанс"
 
@@ -68,7 +68,7 @@ msgstr "Створити"
 msgid "Load"
 msgstr "Завантажити"
 
-#: ../glade/app1.glade.h:11
+#: ../glade/app1.glade.h:11 ../src/gui/app1/session/backup.cs:135
 msgid "More"
 msgstr "Більше"
 
@@ -381,7 +381,7 @@ msgstr "Скасувати тест"
 #: ../glade/person_select_window.glade.h:11
 #: ../glade/preferences_win.glade.h:183 ../src/exportSession.cs:75
 #: ../src/gui/app1/encoder.cs:2287 ../src/gui/app1/encoder.cs:2532
-#: ../src/gui/app1/session/backup.cs:64 ../src/gui/app1/session/backup.cs:167
+#: ../src/gui/app1/session/backup.cs:64 ../src/gui/app1/session/backup.cs:191
 #: ../src/gui/app1/session/export.cs:64 ../src/gui/encoderConfiguration.cs:689
 #: ../src/gui/encoderConfiguration.cs:746 ../src/gui/person/addModify.cs:328
 #: ../src/gui/person/addMultiple.cs:247 ../src/gui/preferences.cs:1645
@@ -1051,7 +1051,7 @@ msgstr "Температура"
 #: ../src/gui/app1/encoder.cs:1740 ../src/gui/app1/encoder.cs:5439
 #: ../src/gui/app1/forceSensor.cs:2012 ../src/gui/app1/forceSensor.cs:3236
 #: ../src/gui/app1/runEncoder.cs:923 ../src/gui/app1/runEncoder.cs:1993
-#: ../src/gui/app1/session/backup.cs:130 ../src/gui/app1/session/backup.cs:300
+#: ../src/gui/app1/session/backup.cs:154 ../src/gui/app1/session/backup.cs:324
 #: ../src/gui/chronopicRegister.cs:400
 #: ../src/gui/encoderSelectRepetitions.cs:282 ../src/gui/executeAuto.cs:306
 #: ../src/gui/genericWindow.cs:969
@@ -3912,8 +3912,7 @@ msgstr "Екран"
 
 #: ../glade/preferences_win.glade.h:23
 msgid "Indexes between TF and TC"
-msgstr ""
-"Індекси між TF і TC"
+msgstr "Індекси між TF і TC"
 
 #: ../glade/preferences_win.glade.h:24
 msgid "QIndex"
@@ -3945,8 +3944,7 @@ msgstr "Одиниці ваги:"
 
 #: ../glade/preferences_win.glade.h:35
 msgid "Arms Use Index"
-msgstr ""
-"Індекс використання рук"
+msgstr "Індекс використання рук"
 
 #: ../glade/preferences_win.glade.h:36
 msgid "Use height"
@@ -5467,7 +5465,7 @@ msgstr "Еліта"
 msgid "Error. Cannot find database."
 msgstr "Помилка. Не вдалося знайти базу даних."
 
-#: ../src/constants.cs:885 ../src/gui/app1/session/main.cs:263
+#: ../src/constants.cs:885 ../src/gui/app1/session/main.cs:267
 #: ../src/gui/splash.cs:141
 msgid "Error. Cannot open directory."
 msgstr "Помилка. Не вдалося відкрити каталог."
@@ -5684,16 +5682,19 @@ msgstr "Потрібно принаймні три стрибки"
 #: ../src/sqlite/main.cs:1917 ../src/sqlite/main.cs:1918
 msgid "RL"
 msgstr ""
+"ПЛ"
 
 #: ../src/constants.cs:1421 ../src/gui/app1/encoder.cs:1781
 #: ../src/sqlite/main.cs:1920 ../src/sqlite/main.cs:1921
 msgid "R"
 msgstr ""
+"П"
 
 #: ../src/constants.cs:1421 ../src/sqlite/main.cs:1923
 #: ../src/sqlite/main.cs:1924
 msgid "L"
 msgstr ""
+"Л"
 
 #: ../src/constants.cs:1423
 msgid "Maximum mean power using the F-V profile"
@@ -5904,6 +5905,7 @@ msgstr "Ви ЗОВНІ, СТРИБАЙТЕ, коли будете готові!
 #: ../src/execute/jump.cs:253 ../src/execute/jump.cs:648
 msgid "You are IN, please leave the platform, and press the 'accept' button"
 msgstr ""
+"Ви ВСЕРЕДИНІ, будь ласка, зійдіть з платформи і натисніть кнопку «Прийняти»"
 
 #. define limited because it's checked in treeviewJump, and possibly it's not the initial defined time (specially when allowFinishRjAfterTime is true)
 #. leave the initial selected time into description/comments:
@@ -5961,6 +5963,8 @@ msgid ""
 "You are IN, please leave the platform, prepare for start, and press the "
 "'accept' button!"
 msgstr ""
+"Ви ВСЕРЕДИНІ, будь ласка, зійдіть з платформи, приготуйтеся до початку і "
+"натисніть кнопку «Прийняти»!"
 
 #: ../src/execute/pulse.cs:136
 msgid "You are OUT, start when prepared!"
@@ -5973,6 +5977,7 @@ msgstr "Ви ВСЕРЕДИНІ, ВІДПУСТІТЬ, коли будете г�
 #: ../src/execute/reactionTime.cs:146
 msgid "You are OUT, come inside and press the 'accept' button"
 msgstr ""
+"Ви ЗЗОВНІ, будь ласка, увійдіть всередину і натисніть кнопку «Прийняти»"
 
 #: ../src/execute/run.cs:194
 msgid "RUN when prepared!"
@@ -6035,8 +6040,8 @@ msgstr "Немає потрібних даних."
 msgid "Error doing operation."
 msgstr "Помилка під час виконання дії."
 
-#: ../src/exportFiles/exportFiles.cs:165 ../src/gui/app1/session/backup.cs:234
-#: ../src/gui/app1/session/backup.cs:328 ../src/gui/app1/session/export.cs:115
+#: ../src/exportFiles/exportFiles.cs:165 ../src/gui/app1/session/backup.cs:258
+#: ../src/gui/app1/session/backup.cs:352 ../src/gui/app1/session/export.cs:115
 #: ../src/gui/app1/session/export.cs:196
 #, csharp-format
 msgid "Cannot copy to {0} "
@@ -6675,7 +6680,7 @@ msgid "races"
 msgstr "дистанції"
 
 #: ../src/gui/app1/encoder.cs:2326 ../src/gui/app1/encoder.cs:2557
-#: ../src/gui/app1/session/backup.cs:211 ../src/gui/app1/session/export.cs:96
+#: ../src/gui/app1/session/backup.cs:235 ../src/gui/app1/session/export.cs:96
 msgid "Are you sure you want to overwrite: "
 msgstr "Ви справді хочете перезаписати:"
 
@@ -6955,7 +6960,7 @@ msgstr "Вибачте, не вдалося запустити захоплен�
 
 #. to allow hslides and table
 #: ../src/gui/app1/encoder.cs:6323 ../src/gui/app1/encoder.cs:6898
-#: ../src/gui/app1/session/backup.cs:288
+#: ../src/gui/app1/session/backup.cs:312
 msgid "Please, wait."
 msgstr "Будь ласка, зачекайте."
 
@@ -7158,26 +7163,35 @@ msgstr "Вибачте, цей запис виду спорту «{0}» вже �
 msgid "Session: '{0}' exists. Please, use another name"
 msgstr "Сеанс: «{0}» існує. Будь ласка, використайте іншу назву"
 
-#: ../src/gui/app1/session/backup.cs:70
+#: ../src/gui/app1/session/backup.cs:69
 #, csharp-format
 msgid "Estimated size: {0} MB."
 msgstr ""
 
 #: ../src/gui/app1/session/backup.cs:127
+#, csharp-format
+msgid "You will be prompted for a backup in one day."
+msgid_plural "You will be prompted for a backup in {0} days."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: ../src/gui/app1/session/backup.cs:134
 msgid ""
 "You will no longer be bothered with scheduled backups, but you can continue "
-"backing up by clicking on Session / More."
+"backing up by clicking on"
 msgstr ""
 
-#: ../src/gui/app1/session/backup.cs:164
+#: ../src/gui/app1/session/backup.cs:188
 msgid "Copy database to:"
 msgstr "Копіювати базу даних сюди:"
 
-#: ../src/gui/app1/session/backup.cs:168
+#: ../src/gui/app1/session/backup.cs:192
 msgid "Copy"
 msgstr "Копіювати"
 
-#: ../src/gui/app1/session/backup.cs:281
+#: ../src/gui/app1/session/backup.cs:305
 #, csharp-format
 msgid "Copied in {0} ms"
 msgstr "Скопійовано за {0} мс"

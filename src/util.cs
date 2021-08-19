@@ -1396,6 +1396,41 @@ public class Util
 		sizeInKB = (int) UtilAll.DivideSafe(totalSize, 1024);
 	}
 
+	//TODO: maybe this will need a thread
+	public static int GetFullDataSize (bool includingOldBackupsDir)
+	{
+		long fullDataSize = DirSizeWithSubdirs (new DirectoryInfo(GetParentDir(false)));
+		int sizeInKB = (int) UtilAll.DivideSafe(fullDataSize, 1024);
+
+		if(! includingOldBackupsDir)
+		{
+			int filesBackup, sizeInKBBackup;
+			Util.GetBackupsSize (out filesBackup, out sizeInKBBackup);
+			sizeInKB -= sizeInKBBackup;
+		}
+
+		return sizeInKB;
+	}
+
+	//https://stackoverflow.com/a/468131
+	public static long DirSizeWithSubdirs (DirectoryInfo d)
+	{
+		long size = 0;
+		// Add file sizes.
+		FileInfo[] fis = d.GetFiles();
+		foreach (FileInfo fi in fis)
+		{
+			size += fi.Length;
+		}
+		// Add subdirectory sizes.
+		DirectoryInfo[] dis = d.GetDirectories();
+		foreach (DirectoryInfo di in dis)
+		{
+			size += DirSizeWithSubdirs (di);
+		}
+		return size;
+	}
+
 	public static bool FileDelete(string fileName) 
 	{
 		LogB.Information("Checking if this filename exists: " + fileName);

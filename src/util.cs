@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -1380,6 +1380,7 @@ public class Util
 		}
 	}
 
+	//size of the "backups" dir (used for automatic backups on start < 2.1.3)
 	public static void GetBackupsSize (out int files, out int sizeInKB)
 	{
 		DirectoryInfo info = new DirectoryInfo(backupDir);

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2020-2021   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -65,8 +65,7 @@ public partial class ChronoJumpWindow
 
 		app1s_notebook.CurrentPage = app1s_PAGE_BACKUP;
 
-		int files, sizeInKB;
-		Util.GetBackupsSize (out files, out sizeInKB);
+		int sizeInKB = Util.GetFullDataSize (false);
 		app1s_label_backup_estimated_size.Text = string.Format(Catalog.GetString("Estimated size: {0} MB."),
 				UtilAll.DivideSafe(sizeInKB, 1000));
 	}

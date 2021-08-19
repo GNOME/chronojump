@@ -46529,11 +46529,12 @@ then click this button.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkButton" id="button12">
+                                                            <widget class="GtkButton" id="app1s_button_backup_scheduled_remind_tomorrow">
                                                             <property name="label" translatable="yes">Remind me tomorrow</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_app1s_button_backup_scheduled_remind_clicked" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -46563,11 +46564,12 @@ then click this button.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
-                                                            <widget class="GtkButton" id="button17">
+                                                            <widget class="GtkButton" id="app1s_button_backup_scheduled_remind_30d">
                                                             <property name="label">30</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_app1s_button_backup_scheduled_remind_clicked" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -46576,11 +46578,12 @@ then click this button.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkButton" id="button18">
+                                                            <widget class="GtkButton" id="app1s_button_backup_scheduled_remind_60d">
                                                             <property name="label">60</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_app1s_button_backup_scheduled_remind_clicked" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -46589,11 +46592,12 @@ then click this button.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkButton" id="button19">
+                                                            <widget class="GtkButton" id="app1s_button_backup_scheduled_remind_90d">
                                                             <property name="label">90</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_app1s_button_backup_scheduled_remind_clicked" swapped="no"/>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>

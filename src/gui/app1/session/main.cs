@@ -169,6 +169,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ProgressBar app1s_pulsebarBackupActivity;
 	[Widget] Gtk.ProgressBar app1s_pulsebarBackupDirs;
 	[Widget] Gtk.ProgressBar app1s_pulsebarBackupSecondDirs;
+	[Widget] Gtk.Label app1s_label_remind_feedback;
 
 	//notebook tab 8 (export)
 	[Widget] Gtk.Button app1s_button_export_select;

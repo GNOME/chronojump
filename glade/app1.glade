@@ -46733,10 +46733,32 @@ then click this button.</property>
                                                             <widget class="GtkLabel" id="label120">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label">autobackup questions</property>
+                                                            <property name="label">scheduled questions</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="position">1</property>
+                                                            <property name="tab_fill">False</property>
+                                                            <property name="type">tab</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="app1s_label_remind_feedback">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="wrap">True</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label657">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">scheduled remind feedback</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="position">2</property>
                                                             <property name="tab_fill">False</property>
                                                             <property name="type">tab</property>
                                                             </packing>
@@ -46836,17 +46858,17 @@ Since Chronojump 2.1.3, scheduled backups contain the complete data.</property>
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="position">2</property>
+                                                            <property name="position">3</property>
                                                             </packing>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label122">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label">ask deleting old</property>
+                                                            <property name="label">delete old</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="position">2</property>
+                                                            <property name="position">3</property>
                                                             <property name="tab_fill">False</property>
                                                             <property name="type">tab</property>
                                                             </packing>

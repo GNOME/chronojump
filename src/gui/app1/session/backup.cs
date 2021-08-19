@@ -49,8 +49,13 @@ public partial class ChronoJumpWindow
 		app1s_button_backup_start.Sensitive = false;
 		app1s_button_backup_cancel_close.Sensitive = true;
 		app1s_label_backup_cancel_close.Text = Catalog.GetString("Cancel");
-	
+
 		app1s_notebook.CurrentPage = app1s_PAGE_BACKUP;
+
+		int files, sizeInKB;
+		Util.GetBackupsSize (out files, out sizeInKB);
+		app1s_label_backup_estimated_size.Text = string.Format(Catalog.GetString("Estimated size: {0} MB."),
+				UtilAll.DivideSafe(sizeInKB, 1000));
 	}
 
 	private bool shouldAskBackupScheduled ()

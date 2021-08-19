@@ -33,9 +33,16 @@ public partial class ChronoJumpWindow
 	static UtilCopy app1s_uc;
 	private Thread app1s_threadBackup;
 
+	private enum notebook_session_backup_pages { BACKUP_DO, SCHEDULED_QUESTIONS, SCHEDULED_FEEDBACK, DELETE_OLD }
+
+	//if entered from more, cancel_close should go to more again
+	//but, if entered directly by scheduled, go to app1
+	private bool backup_cancel_close_show_more_notebook;
+
 	//user clicks on backup
 	private void on_button_db_backup_pre_clicked (object o, EventArgs args)
 	{
+		backup_cancel_close_show_more_notebook = true; //coming from more, so should go to more
 		label_backup_why.Visible = true; //user clicked on backup from more window. Show this label
 		db_backup_pre_2 ();
 	}
@@ -48,7 +55,7 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		notebook_session_backup.Page = 0;
+		notebook_session_backup.Page = Convert.ToInt32(notebook_session_backup_pages.BACKUP_DO);
 		app1s_label_backup_destination.Text = "";
 		app1s_label_backup_progress.Text = "";
 		app1s_button_backup_select.Sensitive = true;
@@ -66,13 +73,13 @@ public partial class ChronoJumpWindow
 
 	private bool shouldAskBackupScheduled ()
 	{
-		// 1) if never scheduled, need to show widget
-		if(preferences.backupScheduledCreatedDate == DateTime.MinValue)
-			return true;
-
-		// 2) if next days is -1 (never ask agan), do not show widget
+		// 1) if next days is -1 (never ask agan), do not show widget
 		if(preferences.backupScheduledNextDays < 0)
 			return false;
+
+		// 2) if never scheduled, need to show widget
+		if(preferences.backupScheduledCreatedDate == DateTime.MinValue)
+			return true;
 
 		// 3) if backup has to be done, show widget
 		// <0 means "This instance is earlier than value.". So if created date + nextDays is < than current date, need to do backup
@@ -89,7 +96,7 @@ public partial class ChronoJumpWindow
 		app1s_notebook_sup_entered_from = notebook_sup.CurrentPage;
                 notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.SESSION);
 
-		notebook_session_backup.Page = 1;
+		notebook_session_backup.Page = Convert.ToInt32(notebook_session_backup_pages.SCHEDULED_QUESTIONS);
 
 		app1s_notebook.CurrentPage = app1s_PAGE_BACKUP;
 
@@ -112,6 +119,16 @@ public partial class ChronoJumpWindow
 
 	private void on_app1s_button_backup_scheduled_never_clicked (object o, EventArgs args)
 	{
+		SqlitePreferences.Update(SqlitePreferences.BackupScheduledNextDaysStr, "-1", false);
+
+		label_backup_why.Visible = false;
+		notebook_session_backup.Page = Convert.ToInt32(notebook_session_backup_pages.SCHEDULED_FEEDBACK);
+		app1s_label_remind_feedback.Text =
+			Catalog.GetString("You will no longer be bothered with scheduled backups, but you can continue backing up by clicking on Session / More.");
+
+		backup_cancel_close_show_more_notebook = false; //clicking on close should not show session more
+		app1s_label_backup_cancel_close.Text = Catalog.GetString("Close");
+		app1s_button_backup_cancel_close.Visible = true;
 	}
 
 	private bool app1s_getDatabaseFile ()
@@ -383,6 +400,11 @@ public partial class ChronoJumpWindow
 
 	private void on_app1s_button_backup_cancel_or_close_clicked (object o, EventArgs args)
 	{
-		app1s_notebook.CurrentPage = app1s_PAGE_MODES;
+		if(backup_cancel_close_show_more_notebook)
+			app1s_notebook.CurrentPage = app1s_PAGE_MODES;
+		else {
+			menus_sensitive_import_not_danger(true);
+			notebook_supSetOldPage();
+		}
 	}
 }

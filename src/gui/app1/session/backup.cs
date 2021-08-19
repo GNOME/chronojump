@@ -36,6 +36,12 @@ public partial class ChronoJumpWindow
 	//user clicks on backup
 	private void on_button_db_backup_pre_clicked (object o, EventArgs args)
 	{
+		label_backup_why.Visible = true; //user clicked on backup from more window. Show this label
+		db_backup_pre_2 ();
+	}
+
+	private void db_backup_pre_2 ()
+	{
 		if(! app1s_getDatabaseFile())
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Error. Cannot find database."));
@@ -60,9 +66,6 @@ public partial class ChronoJumpWindow
 
 	private bool shouldAskBackupScheduled ()
 	{
-		/*
-			TODO: disabled until 4 buttons do something
-
 		// 1) if never scheduled, need to show widget
 		if(preferences.backupScheduledCreatedDate == DateTime.MinValue)
 			return true;
@@ -75,7 +78,6 @@ public partial class ChronoJumpWindow
 		// <0 means "This instance is earlier than value.". So if created date + nextDays is < than current date, need to do backup
 		if(preferences.backupScheduledCreatedDate.AddDays(preferences.backupScheduledNextDays).CompareTo(DateTime.Now) <= 0)
 			return true;
-			*/
 
 		return false;
 	}
@@ -93,6 +95,23 @@ public partial class ChronoJumpWindow
 
 		app1s_button_backup_cancel_close.Visible = false;
 		//TODO: remember to show again after pressing any of the buttons
+	}
+
+	private void on_app1s_button_backup_scheduled_now_clicked (object o, EventArgs args)
+	{
+		app1s_button_backup_cancel_close.Visible = true;
+		label_backup_why.Visible = false; //do not show again label_backup_why
+
+		db_backup_pre_2 ();
+	}
+
+	private void on_app1s_button_backup_scheduled_remind_clicked (object o, EventArgs args)
+	{
+		//if (o == (object) button_) ..
+	}
+
+	private void on_app1s_button_backup_scheduled_never_clicked (object o, EventArgs args)
+	{
 	}
 
 	private bool app1s_getDatabaseFile ()
@@ -207,6 +226,16 @@ public partial class ChronoJumpWindow
 			app1s_BackupPulseEnd();
 
 			LogB.ThreadEnded();
+
+			//update Sqlite backup vars (preferences not neede because will not be used until next boot)
+			Sqlite.Open(); // ---->
+
+			DateTime nowDT = DateTime.Now;
+			SqlitePreferences.Update(SqlitePreferences.LastBackupDatetimeStr, UtilDate.ToSql(nowDT), true);
+			SqlitePreferences.Update(SqlitePreferences.BackupScheduledCreatedDateStr, UtilDate.ToSql(nowDT), true);
+
+			Sqlite.Close(); // <----
+
 			return false;
 		}
 

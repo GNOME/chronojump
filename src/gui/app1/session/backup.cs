@@ -28,7 +28,9 @@ using Mono.Unix;
 public partial class ChronoJumpWindow
 {
 	string app1s_fileDB;
-	string app1s_fileCopy;
+	string app1s_fileCopy; //contains chronojump_datetime
+	string app1s_parentCopy; //is the dir selected by app1s_fc, before adding chronojump_datetime,
+				//nice to store in SQL and reuse in next backups
 	Gtk.FileChooserDialog app1s_fc;
 	static UtilCopy app1s_uc;
 	private Thread app1s_threadBackup;
@@ -192,8 +194,12 @@ public partial class ChronoJumpWindow
 				Catalog.GetString("Select"),ResponseType.Accept
 				);
 
+		app1s_fc.SetCurrentFolder(preferences.lastBackupDir);
+
 		if (app1s_fc.Run() == (int)ResponseType.Accept)
 		{
+			app1s_parentCopy = app1s_fc.Filename;
+
 			//if multimedia_and_encoder, then copy the folder. If not checked, then copy only the db file
 			//if(check_backup_multimedia_and_encoder.Active)
 				app1s_fileCopy = app1s_fc.Filename + Path.DirectorySeparatorChar + "chronojump_" + UtilDate.ToFile();
@@ -272,6 +278,7 @@ public partial class ChronoJumpWindow
 			Sqlite.Open(); // ---->
 
 			DateTime nowDT = DateTime.Now;
+			SqlitePreferences.Update(SqlitePreferences.LastBackupDirStr, app1s_parentCopy, true);
 			SqlitePreferences.Update(SqlitePreferences.LastBackupDatetimeStr, UtilDate.ToSql(nowDT), true);
 			SqlitePreferences.Update(SqlitePreferences.BackupScheduledCreatedDateStr, UtilDate.ToSql(nowDT), true);
 

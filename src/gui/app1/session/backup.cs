@@ -62,6 +62,7 @@ public partial class ChronoJumpWindow
 		app1s_label_backup_progress.Text = "";
 		app1s_button_backup_select.Sensitive = true;
 		app1s_button_backup_start.Sensitive = false;
+		app1s_button_delete_old_incomplete.Visible = false;
 		app1s_button_backup_cancel_close.Sensitive = true;
 		app1s_label_backup_cancel_close.Text = Catalog.GetString("Cancel");
 
@@ -311,6 +312,15 @@ public partial class ChronoJumpWindow
 		app1s_label_backup_progress.Text =
 			string.Format(Catalog.GetString("Copied in {0} ms"),
 					app1s_copyRecursiveElapsedMs);
+
+		// show button to delete old backups (if exists)
+		if(Directory.Exists (Util.GetBackupDirOld()))
+		{
+			int filesBackup, sizeInKBBackup;
+			Util.GetBackupsSize (out filesBackup, out sizeInKBBackup);
+			if(filesBackup > 0)
+				app1s_button_delete_old_incomplete.Visible = true;
+		}
 	}
 
 	private void app1s_backup_doing_sensitive_start_end(bool start)
@@ -358,6 +368,22 @@ public partial class ChronoJumpWindow
 			new DialogMessage(Constants.MessageTypes.WARNING,
 				string.Format(Catalog.GetString("Cannot copy to {0} "), app1s_fileCopy));
 		}
+	}
+
+	private void on_app1s_button_delete_old_incomplete_clicked (object o, EventArgs args)
+	{
+		label_backup_why.Visible = false; //do not show again label_backup_why
+		app1s_label_backup_cancel_close.Text = Catalog.GetString("Cancel");
+
+		notebook_session_backup.Page = Convert.ToInt32(notebook_session_backup_pages.DELETE_OLD);
+	}
+	private void on_app1s_button_old_backups_delete_do_clicked (object o, EventArgs args)
+	{
+		Directory.Delete(Util.GetBackupDirOld(), true);
+
+		app1s_button_old_backups_delete_do.Sensitive = false;
+		app1s_label_old_backups_delete_done.Visible = true;
+		app1s_label_backup_cancel_close.Text = Catalog.GetString("Close");
 	}
 
 	/*

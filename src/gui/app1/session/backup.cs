@@ -189,7 +189,7 @@ public partial class ChronoJumpWindow
 				app1,
 				FileChooserAction.SelectFolder,
 				Catalog.GetString("Cancel"),ResponseType.Cancel,
-				Catalog.GetString("Copy"),ResponseType.Accept
+				Catalog.GetString("Select"),ResponseType.Accept
 				);
 
 		if (app1s_fc.Run() == (int)ResponseType.Accept)

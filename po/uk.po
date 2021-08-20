@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2021-08-19 16:51+0000\n"
-"PO-Revision-Date: 2021-08-19 20:48+0300\n"
+"POT-Creation-Date: 2021-08-20 13:27+0000\n"
+"PO-Revision-Date: 2021-08-20 19:30+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -28,7 +28,7 @@ msgstr "Chronojump"
 #: ../glade/app1.glade.h:2 ../glade/report_window.glade.h:9
 #: ../src/exportSession.cs:209 ../src/gui/app1/encoder.cs:5453
 #: ../src/gui/app1/forceSensor.cs:3250 ../src/gui/app1/runEncoder.cs:2007
-#: ../src/gui/app1/session/backup.cs:135 ../src/report.cs:141
+#: ../src/gui/app1/session/backup.cs:138 ../src/report.cs:141
 msgid "Session"
 msgstr "Сеанс"
 
@@ -68,7 +68,7 @@ msgstr "Створити"
 msgid "Load"
 msgstr "Завантажити"
 
-#: ../glade/app1.glade.h:11 ../src/gui/app1/session/backup.cs:135
+#: ../glade/app1.glade.h:11 ../src/gui/app1/session/backup.cs:138
 msgid "More"
 msgstr "Більше"
 
@@ -376,13 +376,15 @@ msgstr "Завершити"
 msgid "Cancel test"
 msgstr "Скасувати тест"
 
+#. do not show again label_backup_why
 #: ../glade/app1.glade.h:75 ../glade/force_sensor_elastic_bands.glade.h:15
 #: ../glade/force_sensor_exercise.glade.h:31 ../glade/generic_window.glade.h:7
 #: ../glade/person_select_window.glade.h:11
 #: ../glade/preferences_win.glade.h:183 ../src/exportSession.cs:75
 #: ../src/gui/app1/encoder.cs:2287 ../src/gui/app1/encoder.cs:2532
-#: ../src/gui/app1/session/backup.cs:64 ../src/gui/app1/session/backup.cs:191
-#: ../src/gui/app1/session/export.cs:64 ../src/gui/encoderConfiguration.cs:689
+#: ../src/gui/app1/session/backup.cs:67 ../src/gui/app1/session/backup.cs:194
+#: ../src/gui/app1/session/backup.cs:376 ../src/gui/app1/session/export.cs:64
+#: ../src/gui/encoderConfiguration.cs:689
 #: ../src/gui/encoderConfiguration.cs:746 ../src/gui/person/addModify.cs:328
 #: ../src/gui/person/addMultiple.cs:247 ../src/gui/preferences.cs:1645
 msgid "Cancel"
@@ -891,7 +893,7 @@ msgid "Lateral"
 msgstr "Бічний"
 
 #: ../glade/app1.glade.h:175 ../glade/edit_event.glade.h:68
-#: ../src/sqlite/main.cs:1484
+#: ../src/sqlite/main.cs:1478
 msgid "Both"
 msgstr "Обидва"
 
@@ -917,12 +919,12 @@ msgid "Measure reaction time"
 msgstr "Вимірювати час реакції"
 
 #: ../glade/app1.glade.h:180 ../src/json/compujumpOther.cs:114
-#: ../src/sqlite/main.cs:1490
+#: ../src/sqlite/main.cs:1484
 msgid "Left"
 msgstr "Ліва"
 
 #: ../glade/app1.glade.h:181 ../src/json/compujumpOther.cs:112
-#: ../src/sqlite/main.cs:1487
+#: ../src/sqlite/main.cs:1481
 msgid "Right"
 msgstr "Права"
 
@@ -1051,8 +1053,8 @@ msgstr "Температура"
 #: ../src/gui/app1/encoder.cs:1740 ../src/gui/app1/encoder.cs:5439
 #: ../src/gui/app1/forceSensor.cs:2012 ../src/gui/app1/forceSensor.cs:3236
 #: ../src/gui/app1/runEncoder.cs:923 ../src/gui/app1/runEncoder.cs:1993
-#: ../src/gui/app1/session/backup.cs:154 ../src/gui/app1/session/backup.cs:324
-#: ../src/gui/chronopicRegister.cs:400
+#: ../src/gui/app1/session/backup.cs:157 ../src/gui/app1/session/backup.cs:341
+#: ../src/gui/app1/session/backup.cs:386 ../src/gui/chronopicRegister.cs:400
 #: ../src/gui/encoderSelectRepetitions.cs:282 ../src/gui/executeAuto.cs:306
 #: ../src/gui/genericWindow.cs:969
 msgid "Close"
@@ -2435,175 +2437,174 @@ msgid "Subdirectory"
 msgstr "Підкаталог"
 
 #: ../glade/app1.glade.h:516
+#| msgid "Do you want to delete old incomplete backups?"
+msgid "Delete old incomplete backups"
+msgstr "Вилучити старі неповні резервні копії"
+
+#: ../glade/app1.glade.h:517
 msgid "Do you want to do a full Chronojump data backup?"
 msgstr "Хочете створити повну резервну копіюю даних Chronojump?"
 
-#: ../glade/app1.glade.h:517
+#: ../glade/app1.glade.h:518
 msgid "Make the backup now!"
 msgstr "Зробити резервну копію зараз!"
 
-#: ../glade/app1.glade.h:518
+#: ../glade/app1.glade.h:519
 msgid "Remind me tomorrow"
 msgstr "Нагадати завтра"
 
-#: ../glade/app1.glade.h:519
+#: ../glade/app1.glade.h:520
 msgid "Remind me in … days"
 msgstr "Нагадати за … днів"
 
-#: ../glade/app1.glade.h:520
+#: ../glade/app1.glade.h:521
 msgid "Don't ask me again"
 msgstr "Більше не питати"
 
-#: ../glade/app1.glade.h:521
+#: ../glade/app1.glade.h:522
+#| msgid ""
+#| "Versions prior to Chronojump 2.1.3 performed automatic backups at each "
+#| "Chronojump boot but did not include the raw data.\n"
+#| "Since Chronojump 2.1.3, scheduled backups contain the complete data."
 msgid ""
 "Versions prior to Chronojump 2.1.3 performed automatic backups at each "
 "Chronojump boot but did not include the raw data.\n"
-"Since Chronojump 2.1.3, scheduled backups contain the complete data."
+"Since Chronojump 2.1.3, backups contain the complete data."
 msgstr ""
 "У версіях до Chronojump 2.1.3 автоматичне резервне копіювання виконувалося "
 "під час кожного завантаження Chronojump, але у копіях не містилося "
 "необроблених даних.\n"
-"Починаючи з версії Chronojump 2.1.3, у резервних копіях за розкладом "
+"Починаючи з версії Chronojump 2.1.3, у резервних копіях "
 "містяться усі дані."
 
-#: ../glade/app1.glade.h:523
+#: ../glade/app1.glade.h:524
 msgid "Do you want to delete old incomplete backups?"
 msgstr "Хочете вилучити стані неповні резервні копії?"
 
-#. aka == -1.0
-#: ../glade/app1.glade.h:524 ../glade/preferences_win.glade.h:18
-#: ../src/constants.cs:932 ../src/encoder.cs:1064 ../src/forceSensor.cs:166
-#: ../src/forceSensor.cs:176 ../src/gui/event.cs:307 ../src/gui/jump.cs:1046
-#: ../src/gui/jump.cs:1051 ../src/gui/jump.cs:1264 ../src/gui/jump.cs:1269
-#: ../src/runEncoder.cs:145
-msgid "No"
-msgstr "Ні"
-
-#: ../glade/app1.glade.h:525 ../glade/edit_event.glade.h:17
-#: ../glade/preferences_win.glade.h:17 ../src/constants.cs:936
-#: ../src/encoder.cs:1062 ../src/forceSensor.cs:164 ../src/gui/event.cs:303
-#: ../src/gui/genericWindow.cs:753 ../src/gui/jump.cs:1044
-#: ../src/gui/jump.cs:1049 ../src/gui/jump.cs:1086 ../src/gui/jump.cs:1089
-#: ../src/gui/jump.cs:1118 ../src/gui/jump.cs:1121 ../src/gui/jump.cs:1262
-#: ../src/gui/jump.cs:1267 ../src/gui/jump.cs:1346 ../src/gui/jump.cs:1349
-#: ../src/gui/jump.cs:1396 ../src/gui/jump.cs:1399 ../src/runEncoder.cs:143
-msgid "Yes"
-msgstr "Так"
+#: ../glade/app1.glade.h:525
+#| msgid "Delete test"
+msgid "Delete them"
+msgstr "Вилучити їх"
 
 #: ../glade/app1.glade.h:526
+#| msgid "Delete"
+msgid "Deleted."
+msgstr "Вилучено."
+
+#: ../glade/app1.glade.h:527
 msgid "Backup"
 msgstr "Резервна копія"
 
-#: ../glade/app1.glade.h:527
+#: ../glade/app1.glade.h:528
 msgid "Start export"
 msgstr "Почати експортування"
 
-#: ../glade/app1.glade.h:528 ../glade/encoder_configuration.glade.h:24
+#: ../glade/app1.glade.h:529 ../glade/encoder_configuration.glade.h:24
 #: ../src/exportSession.cs:76 ../src/gui/app1/session/export.cs:65
 msgid "Export"
 msgstr "Експортувати"
 
-#: ../glade/app1.glade.h:529
+#: ../glade/app1.glade.h:530
 msgid "Encoder disconnected."
 msgstr "Кодувальний від'єднано."
 
-#: ../glade/app1.glade.h:530
+#: ../glade/app1.glade.h:531
 msgid "Please, connect it and click here:"
 msgstr "Будь ласка, з'єднайте його і натисніть тут:"
 
-#: ../glade/app1.glade.h:531
+#: ../glade/app1.glade.h:532
 msgid "Check connection"
 msgstr "Перевірити з'єднання"
 
-#: ../glade/app1.glade.h:532 ../src/constants.cs:253
+#: ../glade/app1.glade.h:533 ../src/constants.cs:253
 msgid "RFID has been disconnected!"
 msgstr "RFID було від'єднано!"
 
-#: ../glade/app1.glade.h:533 ../src/constants.cs:254
+#: ../glade/app1.glade.h:534 ../src/constants.cs:254
 msgid "Please, connect it and restart Chronojump."
 msgstr "Будь ласка, відновіть з'єднання і перезапустіть Chronojump."
 
-#: ../glade/app1.glade.h:534
+#: ../glade/app1.glade.h:535
 msgid "Documents"
 msgstr "Документи"
 
-#: ../glade/app1.glade.h:535 ../glade/dialog_shortcuts.glade.h:1
+#: ../glade/app1.glade.h:536 ../glade/dialog_shortcuts.glade.h:1
 msgid "Shortcuts"
 msgstr "Скорочення"
 
-#: ../glade/app1.glade.h:536 ../glade/dialog_about.glade.h:1
+#: ../glade/app1.glade.h:537 ../glade/dialog_about.glade.h:1
 msgid "About"
 msgstr "Про програму"
 
-#: ../glade/app1.glade.h:537
+#: ../glade/app1.glade.h:538
 msgid "English"
 msgstr "англійська"
 
-#: ../glade/app1.glade.h:538
+#: ../glade/app1.glade.h:539
 msgid "Spanish"
 msgstr "іспанська"
 
-#: ../glade/app1.glade.h:539
+#: ../glade/app1.glade.h:540
 msgid "Open in browser"
 msgstr "Відкрити у переглядачі"
 
-#: ../glade/app1.glade.h:540 ../src/constants.cs:881
+#: ../glade/app1.glade.h:541 ../src/constants.cs:881
 msgid "Sorry, cannot open website."
 msgstr "Вибачте, не вдалося відкрити сайт."
 
-#: ../glade/app1.glade.h:541
+#: ../glade/app1.glade.h:542
 msgid "Your email"
 msgstr "Ваша адреса ел. пошти"
 
-#: ../glade/app1.glade.h:542
+#: ../glade/app1.glade.h:543
 msgid "Preferred response language "
 msgstr "Бажана мова відповіді "
 
-#: ../glade/app1.glade.h:543
+#: ../glade/app1.glade.h:544
 msgid "Portuguese"
 msgstr "португальська"
 
-#: ../glade/app1.glade.h:544
+#: ../glade/app1.glade.h:545
 msgid "Catalan"
 msgstr "каталонська"
 
-#: ../glade/app1.glade.h:545
+#: ../glade/app1.glade.h:546
 msgid "Add comments"
 msgstr "Додати коментарі"
 
-#: ../glade/app1.glade.h:546 ../src/chronojump.cs:738
+#: ../glade/app1.glade.h:547 ../src/chronojump.cs:723
 msgid "Send error log"
 msgstr "Надіслати журнал помилок"
 
-#: ../glade/app1.glade.h:547
+#: ../glade/app1.glade.h:548
 msgid "Check last version"
 msgstr "Виконати пошук свіжішої версії"
 
-#: ../glade/app1.glade.h:548
+#: ../glade/app1.glade.h:549
 msgid "Open Chronojump"
 msgstr "Відкрити Chronojump"
 
-#: ../glade/app1.glade.h:549
+#: ../glade/app1.glade.h:550
 msgid "Are you sure you want to exit Chronojump?"
 msgstr "Ви справді хочете вийти з Chronojump?"
 
-#: ../glade/app1.glade.h:550
+#: ../glade/app1.glade.h:551
 msgid "Please, help us to provide videos on the most suitable platforms."
 msgstr "Будь ласка, допоможіть нам із відео для найпридатніших платформ."
 
-#: ../glade/app1.glade.h:551
+#: ../glade/app1.glade.h:552
 msgid "What social network do you use to watch videos?"
 msgstr "Якими соціальними мережами ви користуєтеся для перегляду відео?"
 
-#: ../glade/app1.glade.h:552
+#: ../glade/app1.glade.h:553
 msgid "I don't use social networks or don't want to respond"
 msgstr "Я не користуюся соціальними мережами або не хочу відповідати"
 
-#: ../glade/app1.glade.h:553
+#: ../glade/app1.glade.h:554
 msgid "Other (which)"
 msgstr "Інше (яке)"
 
-#: ../glade/app1.glade.h:554
+#: ../glade/app1.glade.h:555
 msgid "Send poll"
 msgstr "Надіслати результати опитування"
 
@@ -2817,6 +2818,17 @@ msgstr "Помилки"
 #: ../glade/edit_event.glade.h:16
 msgid "Video available"
 msgstr "Доступне відео"
+
+#: ../glade/edit_event.glade.h:17 ../glade/preferences_win.glade.h:17
+#: ../src/constants.cs:936 ../src/encoder.cs:1062 ../src/forceSensor.cs:164
+#: ../src/gui/event.cs:303 ../src/gui/genericWindow.cs:753
+#: ../src/gui/jump.cs:1044 ../src/gui/jump.cs:1049 ../src/gui/jump.cs:1086
+#: ../src/gui/jump.cs:1089 ../src/gui/jump.cs:1118 ../src/gui/jump.cs:1121
+#: ../src/gui/jump.cs:1262 ../src/gui/jump.cs:1267 ../src/gui/jump.cs:1346
+#: ../src/gui/jump.cs:1349 ../src/gui/jump.cs:1396 ../src/gui/jump.cs:1399
+#: ../src/runEncoder.cs:143
+msgid "Yes"
+msgstr "Так"
 
 #: ../glade/edit_event.glade.h:22
 msgid "m"
@@ -3072,6 +3084,7 @@ msgid "Calculate IM"
 msgstr "Обчислити МІ"
 
 #: ../glade/encoder_configuration.glade.h:25
+#: ../src/gui/app1/session/backup.cs:195
 msgid "Select"
 msgstr "Вибрати"
 
@@ -3891,6 +3904,14 @@ msgstr "Показати фотографії осіб"
 #: ../glade/preferences_win.glade.h:16
 msgid "Persons on top  (manage them by clicking a button)"
 msgstr "Особи згори (керування за допомогою натискання кнопки)"
+
+#. aka == -1.0
+#: ../glade/preferences_win.glade.h:18 ../src/constants.cs:932
+#: ../src/encoder.cs:1064 ../src/forceSensor.cs:166 ../src/forceSensor.cs:176
+#: ../src/gui/event.cs:307 ../src/gui/jump.cs:1046 ../src/gui/jump.cs:1051
+#: ../src/gui/jump.cs:1264 ../src/gui/jump.cs:1269 ../src/runEncoder.cs:145
+msgid "No"
+msgstr "Ні"
 
 #: ../glade/preferences_win.glade.h:19
 msgid "Start Chronojump maximized"
@@ -4853,8 +4874,8 @@ msgstr "нічого"
 msgid "Chronojump is already running"
 msgstr "Chronojump вже запущено"
 
-#: ../src/chronojump.cs:261 ../src/chronojump.cs:526 ../src/chronojump.cs:905
-#: ../src/chronojump.cs:913
+#: ../src/chronojump.cs:261 ../src/chronojump.cs:512 ../src/chronojump.cs:889
+#: ../src/chronojump.cs:897
 msgid "Chronojump will exit now."
 msgstr "Зараз Chronojump завершить роботу."
 
@@ -4864,13 +4885,13 @@ msgstr "немає таблиць, створюємо…"
 
 #. check (spanish)
 #. http://mail.gnome.org/archives/chronojump-devel-list/2008-March/msg00011.html
-#: ../src/chronojump.cs:370
+#: ../src/chronojump.cs:356
 msgid "Failed database conversion, ensure you have libsqlite3-0 installed."
 msgstr ""
 "Не вдалося перетворити базу даних, переконайтеся, що встановлено "
 "libsqlite3-0."
 
-#: ../src/chronojump.cs:371
+#: ../src/chronojump.cs:357
 #, csharp-format
 msgid ""
 "If you have no data on your database (you just installed Chronojump), you "
@@ -4879,17 +4900,17 @@ msgstr ""
 "Якщо у вашій базі даних немає даних (ви щойно встановили Chronojump), ви "
 "можете виправити цю проблему вилученням такого файла: {0}"
 
-#: ../src/chronojump.cs:373
+#: ../src/chronojump.cs:359
 msgid "And starting Chronojump again."
 msgstr "І запускаємо Chronojump знову."
 
-#: ../src/chronojump.cs:386
+#: ../src/chronojump.cs:372
 msgid "All DJ jumps have been renamed as 'DJna' (Drop Jumps with No Arms)."
 msgstr ""
 "Усі стрибки після падіння було перейменовано на «DJna» (стрибки після "
 "падіння без рук)."
 
-#: ../src/chronojump.cs:387
+#: ../src/chronojump.cs:373
 msgid ""
 "If your Drop Jumps were executed using the arms, please rename them manually "
 "as 'DJa'."
@@ -4898,21 +4919,21 @@ msgstr ""
 "ласка, перейменуйте їх вручну на «DJa»."
 
 #. Console.Clear();
-#: ../src/chronojump.cs:397
+#: ../src/chronojump.cs:383
 #, csharp-format
 msgid "Sorry, this Chronojump version ({0}) is too old for your database."
 msgstr ""
 "Вибачте, ця версія Chronojump ({0}) є надто старою для вашої бази даних."
 
-#: ../src/chronojump.cs:398 ../src/chronojumpImporter.cs:201
+#: ../src/chronojump.cs:384 ../src/chronojumpImporter.cs:201
 msgid "Please update Chronojump"
 msgstr "Будь ласка, оновіть Chronojump"
 
-#: ../src/chronojump.cs:406
+#: ../src/chronojump.cs:392
 msgid "tables already created"
 msgstr "таблиці вже створено"
 
-#: ../src/chronojump.cs:469
+#: ../src/chronojump.cs:455
 #, csharp-format
 msgid ""
 "\n"
@@ -4923,32 +4944,32 @@ msgstr ""
 "На сайті доступна нова версія Chronojump.\n"
 "Ваша версія Chronojump: {1}"
 
-#: ../src/chronojump.cs:471
+#: ../src/chronojump.cs:457
 msgid "Please, update to new version."
 msgstr "Будь ласка, оновіть програму до нової версії."
 
-#: ../src/chronojump.cs:479
+#: ../src/chronojump.cs:465
 msgid "Chronojump crashed before."
 msgstr "Раніше Chronojump завершив роботу в аварійному режимі."
 
-#: ../src/chronojump.cs:480 ../src/gui/old/chronojumpServerOld.cs:71
+#: ../src/chronojump.cs:466 ../src/gui/old/chronojumpServerOld.cs:71
 msgid "Please, update to new version: "
 msgstr "Будь ласка, оновіть програму до нової версії: "
 
-#: ../src/chronojump.cs:591
+#: ../src/chronojump.cs:577
 msgid "Need permissions to read from device."
 msgstr "Потрібні права доступу до читання з пристрою."
 
-#: ../src/chronojump.cs:592
+#: ../src/chronojump.cs:578
 msgid "Check software page on Chronojump website"
 msgstr "Ознайомтеся із сторінкою програмного забезпечення на сайті Chronojump"
 
-#: ../src/chronojump.cs:740
+#: ../src/chronojump.cs:725
 #, csharp-format
 msgid "Chronojump {0} crashed before."
 msgstr "Раніше Chronojump {0} завершив роботу в аварійному режимі."
 
-#: ../src/chronojump.cs:741
+#: ../src/chronojump.cs:726
 #, csharp-format
 msgid ""
 "Please, fill your email and click on '{0}' in order to fix this fast and "
@@ -4957,43 +4978,43 @@ msgstr ""
 "Будь ласка, вкажіть вашу адресу електронної пошти і натисніть «{0}» для "
 "пришвидшення виправлення і зв'язку з вами, якщо у цьому виникне потреба."
 
-#: ../src/chronojump.cs:742
+#: ../src/chronojump.cs:727
 msgid "Your help is needed."
 msgstr "Потрібна ваша допомога."
 
-#: ../src/chronojump.cs:872
+#: ../src/chronojump.cs:857
 #, csharp-format
 msgid "Cannot move database directory from {0} to {1}"
 msgstr "Не вдалося пересунути каталог бази даних з {0} до {1}"
 
-#: ../src/chronojump.cs:874
+#: ../src/chronojump.cs:859
 msgid "Trying to move/copy each file now"
 msgstr "Намагаємося пересунути або скопіювати кожний файл окремо"
 
-#: ../src/chronojump.cs:903
+#: ../src/chronojump.cs:887
 #, csharp-format
 msgid "Cannot create directory {0}"
 msgstr "Не вдалося створити каталог {0}"
 
-#: ../src/chronojump.cs:904 ../src/chronojump.cs:912
+#: ../src/chronojump.cs:888 ../src/chronojump.cs:896
 msgid "Please, do it manually."
 msgstr "Будь ласка, зробіть це вручну."
 
-#: ../src/chronojump.cs:911
+#: ../src/chronojump.cs:895
 #, csharp-format
 msgid "Cannot copy {0} files from {1} to {2}"
 msgstr "Не вдалося скопіювати {0} файлів з {1} до {2}"
 
-#: ../src/chronojump.cs:919
+#: ../src/chronojump.cs:903
 #, csharp-format
 msgid "Cannot move {0} files from {1} to {2}"
 msgstr "Не вдалося пересунути {0} файлів з {1} до {2}"
 
-#: ../src/chronojump.cs:920
+#: ../src/chronojump.cs:904
 msgid "Please, do it manually"
 msgstr "Будь ласка, зробіть це вручну"
 
-#: ../src/chronojump.cs:926
+#: ../src/chronojump.cs:910
 #, csharp-format
 msgid "Database is now here: {0}"
 msgstr "Тепер база даних зберігається тут: {0}"
@@ -5460,12 +5481,12 @@ msgstr "Змагання"
 msgid "Elite"
 msgstr "Еліта"
 
-#: ../src/constants.cs:877 ../src/gui/app1/session/backup.cs:54
+#: ../src/constants.cs:877 ../src/gui/app1/session/backup.cs:56
 #: ../src/gui/app1/session/export.cs:39
 msgid "Error. Cannot find database."
 msgstr "Помилка. Не вдалося знайти базу даних."
 
-#: ../src/constants.cs:885 ../src/gui/app1/session/main.cs:267
+#: ../src/constants.cs:885 ../src/gui/app1/session/main.cs:270
 #: ../src/gui/splash.cs:141
 msgid "Error. Cannot open directory."
 msgstr "Помилка. Не вдалося відкрити каталог."
@@ -5679,22 +5700,19 @@ msgstr "Потрібно принаймні три стрибки"
 
 #. laterality is stored on English but translated on encoder sqlite select
 #: ../src/constants.cs:1421 ../src/gui/app1/encoder.cs:1779
-#: ../src/sqlite/main.cs:1917 ../src/sqlite/main.cs:1918
+#: ../src/sqlite/main.cs:1911 ../src/sqlite/main.cs:1912
 msgid "RL"
-msgstr ""
-"ПЛ"
+msgstr "ПЛ"
 
 #: ../src/constants.cs:1421 ../src/gui/app1/encoder.cs:1781
-#: ../src/sqlite/main.cs:1920 ../src/sqlite/main.cs:1921
+#: ../src/sqlite/main.cs:1914 ../src/sqlite/main.cs:1915
 msgid "R"
-msgstr ""
-"П"
+msgstr "П"
 
-#: ../src/constants.cs:1421 ../src/sqlite/main.cs:1923
-#: ../src/sqlite/main.cs:1924
+#: ../src/constants.cs:1421 ../src/sqlite/main.cs:1917
+#: ../src/sqlite/main.cs:1918
 msgid "L"
-msgstr ""
-"Л"
+msgstr "Л"
 
 #: ../src/constants.cs:1423
 msgid "Maximum mean power using the F-V profile"
@@ -6040,8 +6058,8 @@ msgstr "Немає потрібних даних."
 msgid "Error doing operation."
 msgstr "Помилка під час виконання дії."
 
-#: ../src/exportFiles/exportFiles.cs:165 ../src/gui/app1/session/backup.cs:258
-#: ../src/gui/app1/session/backup.cs:352 ../src/gui/app1/session/export.cs:115
+#: ../src/exportFiles/exportFiles.cs:165 ../src/gui/app1/session/backup.cs:265
+#: ../src/gui/app1/session/backup.cs:369 ../src/gui/app1/session/export.cs:115
 #: ../src/gui/app1/session/export.cs:196
 #, csharp-format
 msgid "Cannot copy to {0} "
@@ -6680,7 +6698,7 @@ msgid "races"
 msgstr "дистанції"
 
 #: ../src/gui/app1/encoder.cs:2326 ../src/gui/app1/encoder.cs:2557
-#: ../src/gui/app1/session/backup.cs:235 ../src/gui/app1/session/export.cs:96
+#: ../src/gui/app1/session/backup.cs:242 ../src/gui/app1/session/export.cs:96
 msgid "Are you sure you want to overwrite: "
 msgstr "Ви справді хочете перезаписати:"
 
@@ -6960,7 +6978,7 @@ msgstr "Вибачте, не вдалося запустити захоплен�
 
 #. to allow hslides and table
 #: ../src/gui/app1/encoder.cs:6323 ../src/gui/app1/encoder.cs:6898
-#: ../src/gui/app1/session/backup.cs:312
+#: ../src/gui/app1/session/backup.cs:329
 msgid "Please, wait."
 msgstr "Будь ласка, зачекайте."
 
@@ -7163,12 +7181,12 @@ msgstr "Вибачте, цей запис виду спорту «{0}» вже �
 msgid "Session: '{0}' exists. Please, use another name"
 msgstr "Сеанс: «{0}» існує. Будь ласка, використайте іншу назву"
 
-#: ../src/gui/app1/session/backup.cs:69
+#: ../src/gui/app1/session/backup.cs:72
 #, csharp-format
 msgid "Estimated size: {0} MB."
 msgstr ""
 
-#: ../src/gui/app1/session/backup.cs:127
+#: ../src/gui/app1/session/backup.cs:130
 #, csharp-format
 msgid "You will be prompted for a backup in one day."
 msgid_plural "You will be prompted for a backup in {0} days."
@@ -7177,21 +7195,17 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: ../src/gui/app1/session/backup.cs:134
+#: ../src/gui/app1/session/backup.cs:137
 msgid ""
 "You will no longer be bothered with scheduled backups, but you can continue "
 "backing up by clicking on"
 msgstr ""
 
-#: ../src/gui/app1/session/backup.cs:188
+#: ../src/gui/app1/session/backup.cs:191
 msgid "Copy database to:"
 msgstr "Копіювати базу даних сюди:"
 
-#: ../src/gui/app1/session/backup.cs:192
-msgid "Copy"
-msgstr "Копіювати"
-
-#: ../src/gui/app1/session/backup.cs:305
+#: ../src/gui/app1/session/backup.cs:313
 #, csharp-format
 msgid "Copied in {0} ms"
 msgstr "Скопійовано за {0} мс"
@@ -11182,6 +11196,9 @@ msgstr "Помилка. {0} не вдалося зберегти відео."
 #: ../src/webcam/webcamFfmpeg.cs:290
 msgid "Preview. Press any key to exit."
 msgstr "Попередній перегляд. Натисніть будь-яку клавішу, щоб вийти."
+
+#~ msgid "Copy"
+#~ msgstr "Копіювати"
 
 #~ msgid "Remind me next time I start Chronojump"
 #~ msgstr "Нагадати під час наступного запуску Chronojump"

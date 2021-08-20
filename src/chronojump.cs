@@ -347,20 +347,6 @@ public class ChronoJump
 			Sqlite.CreateTables(false); //not server
 			creatingDB = false;
 		} else {
-			/*
-			   automatic partial (only chronojump.db) backup at every boot disabled in favor of scheduled monthly full backups
-			LogB.SQL("doing backup");
-			//backup the database
-			Util.BackupDirCreateIfNeeded();
-
-			splashMessageChange(3);  //making db backup
-
-			Util.BackupDatabase();
-			LogB.SQL ("made a database backup"); //not compressed yet, it seems System.IO.Compression.DeflateStream and
-			//System.IO.Compression.GZipStream are not in mono
-			*/
-
-
 			if(! Sqlite.IsSqlite3()) {
 				bool ok = Sqlite.ConvertFromSqlite2To3();
 				if (!ok) {
@@ -726,7 +712,6 @@ public class ChronoJump
 		{
 			// if exist also a file in default db location (improbable but done for solve eventual problems
 			if(File.Exists(Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db")) {
-				Util.BackupDatabase();//copy it to backup
 				File.Delete(Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db"); //delete it
 			}
 
@@ -878,7 +863,6 @@ public class ChronoJump
 
 				try {
 					Directory.CreateDirectory(newDB);
-					Directory.CreateDirectory(newDB + Path.DirectorySeparatorChar + "backup");
 
 					string [] filesToMove = Directory.GetFiles(previous);
 					foreach (string oldFile in filesToMove) {

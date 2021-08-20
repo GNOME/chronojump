@@ -404,13 +404,7 @@ class Sqlite
 				return true;
 			}
 		} else {
-			if (File.Exists(sqlFile)){
-				//backup the database
-				Util.BackupDirCreateIfNeeded();
-				Util.BackupDatabase();
-				LogB.SQL ("made a database backup"); //not compressed yet, it seems System.IO.Compression.DeflateStream and
-				//System.IO.Compression.GZipStream are not in mono
-
+			if (File.Exists(sqlFile)) {
 				File.Move(Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db",
 					Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db");
 				return true;

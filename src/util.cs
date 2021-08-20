@@ -1359,11 +1359,18 @@ public class Util
 		return GetImagesDir();
 	}
 
-	static string backupDir = GetDatabaseDir() + Path.DirectorySeparatorChar + "backup";
+	//previous to 2.1.3
+	static string backupDirOld = GetDatabaseDir() + Path.DirectorySeparatorChar + "backup";
+	public static string GetBackupDirOld () {
+		return backupDirOld;
+	}
 
-	public static void BackupDirCreateIfNeeded () {
-		if( ! Directory.Exists(backupDir)) {
-			Directory.CreateDirectory (backupDir);
+	/*
+	   Unused since 2.1.3
+
+	public static void BackupDirOldCreateIfNeeded () {
+		if( ! Directory.Exists(backupDirOld)) {
+			Directory.CreateDirectory (backupDirOld);
 			LogB.Information ("created backup dir");
 		}
 	}
@@ -2518,7 +2525,7 @@ public class UtilCopy
 	private bool backup;
 
 	//to go faster on CopyFilesRecursively
-	static string backupDir = Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "backup";
+	static string backupDirOld = Util.GetBackupDirOld();
 
 	//-1 is the default on a backup, means all sessions (regular backup)
 	//4 will only copy files related to session 4 (for export session)
@@ -2540,7 +2547,7 @@ public class UtilCopy
 	{
 		DirectoryInfo [] diArray = source.GetDirectories();
 		foreach (DirectoryInfo dir in diArray)
-			if(dir.ToString() != backupDir) //do not copy backup files
+			if(dir.ToString() != backupDirOld) //do not copy backup files
 			{
 				if(level == 0)
 				{

@@ -1381,16 +1381,24 @@ public class Util
 
 		if(File.Exists(System.IO.Path.Combine(homeDir, "chronojump.db")))
 			File.Copy(System.IO.Path.Combine(homeDir, "chronojump.db"), 
-				System.IO.Path.Combine(backupDir, "chronojump_" + dateParsed + ".db"));
+				System.IO.Path.Combine(backupDirOld, "chronojump_" + dateParsed + ".db"));
 		else {
 			LogB.Error("Error, chronojump.db file doesn't exist!");
 		}
 	}
+	*/
 
 	//size of the "backups" dir (used for automatic backups on start < 2.1.3)
 	public static void GetBackupsSize (out int files, out int sizeInKB)
 	{
-		DirectoryInfo info = new DirectoryInfo(backupDir);
+		if(! Directory.Exists(backupDirOld))
+		{
+			files = 0;
+			sizeInKB = 0;
+			return;
+		}
+
+		DirectoryInfo info = new DirectoryInfo(backupDirOld);
 		//long totalSize = info.EnumerateFiles().Sum(file => file.Length); 	//LinQ 4.0
 		//long totalSize = info.GetFiles().Sum(file => file.Length); 		//LinQ 3.5
 

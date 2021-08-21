@@ -2175,7 +2175,7 @@ public partial class ChronoJumpWindow
 				checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES ||
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES ||
 				checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES )
-			nameString = currentSession.DateShortAsSQL;
+			nameString = currentSession.Name + "_" + currentSession.DateShortAsSQL;
 
 		//on encoder analyze save image, show analysis on filename
 		if(
@@ -2508,7 +2508,7 @@ public partial class ChronoJumpWindow
 				checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES ||
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES ||
 				checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES)
-			nameString = currentSession.DateShortAsSQL;
+			nameString = currentSession.Name + "_" + currentSession.DateShortAsSQL;
 
 		if(
 				checkFileOp == Constants.CheckFileOp.RUNS_SPRINT_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES ||

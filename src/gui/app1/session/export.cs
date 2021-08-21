@@ -128,6 +128,10 @@ public partial class ChronoJumpWindow
 			reloadSession(); //to use default db again
 			LogB.Information("called reloadSession");
 
+			//but unsensitivize left menu
+			vbox_menu_tiny_menu.Sensitive = false;
+			alignment_session_persons.Sensitive = false;
+
 			LogB.ThreadEnded();
 			return false;
 		}

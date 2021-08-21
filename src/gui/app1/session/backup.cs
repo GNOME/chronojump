@@ -275,6 +275,9 @@ public partial class ChronoJumpWindow
 
 			LogB.ThreadEnded();
 
+			if (! app1s_copyRecursiveSuccess)
+				return false;
+
 			//update Sqlite backup vars (preferences not neede because will not be used until next boot)
 			Sqlite.Open(); // ---->
 
@@ -309,9 +312,14 @@ public partial class ChronoJumpWindow
 		app1s_pulsebarBackupSecondDirs.Fraction = 1;
 		app1s_backup_doing_sensitive_start_end(false);
 		//app1s_fc.Hide ();
-		app1s_label_backup_progress.Text =
-			string.Format(Catalog.GetString("Copied in {0} ms"),
-					app1s_copyRecursiveElapsedMs);
+
+		if (app1s_copyRecursiveSuccess)
+			app1s_label_backup_progress.Text =
+				string.Format(Catalog.GetString("Copied in {0} ms."),
+						app1s_copyRecursiveElapsedMs);
+		else
+			app1s_label_backup_progress.Text =
+				Catalog.GetString("Failed, maybe the disk is full.");
 
 		// show button to delete old backups (if exists)
 		if(Directory.Exists (Util.GetBackupDirOld()))
@@ -390,6 +398,7 @@ public partial class ChronoJumpWindow
 	 * deprecated since 1.6.0. Use backup method below
 	*/
 	static long app1s_copyRecursiveElapsedMs;
+	static bool app1s_copyRecursiveSuccess;
 	static int app1s_backupMainDirsDone;
 	private void app1s_copyRecursive()
 	{
@@ -397,8 +406,8 @@ public partial class ChronoJumpWindow
 		Stopwatch sw = new Stopwatch();
 		sw.Start();
 
-		//Util.CopyFilesRecursively(new DirectoryInfo(Util.GetParentDir(false)), new DirectoryInfo(app1s_fileCopy), out app1s_backupMainDirsDone);
-		app1s_uc.CopyFilesRecursively(new DirectoryInfo(Util.GetParentDir(false)), new DirectoryInfo(app1s_fileCopy), 0);
+		app1s_copyRecursiveSuccess = app1s_uc.CopyFilesRecursively(
+				new DirectoryInfo(Util.GetParentDir(false)), new DirectoryInfo(app1s_fileCopy), 0);
 		sw.Stop();
 
 		app1s_copyRecursiveElapsedMs = sw.ElapsedMilliseconds;

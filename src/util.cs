@@ -2551,7 +2551,7 @@ public class UtilCopy
 	}
 
 	//http://stackoverflow.com/a/58779
-	public void CopyFilesRecursively(DirectoryInfo source, DirectoryInfo target, uint level)
+	public bool CopyFilesRecursively(DirectoryInfo source, DirectoryInfo target, uint level)
 	{
 		DirectoryInfo [] diArray = source.GetDirectories();
 		foreach (DirectoryInfo dir in diArray)
@@ -2591,15 +2591,34 @@ public class UtilCopy
 						continue;
 					}
 				}
-				CopyFilesRecursively(dir, target.CreateSubdirectory(dir.Name), level +1);
-			}
-		foreach (FileInfo file in source.GetFiles())
-		{
-			if(file.Name == "chronojump_running") 	//do not copy chronojump_running file
-				continue;
 
-			file.CopyTo(Path.Combine(target.FullName, file.Name));
+				//create new dir with try/catch to avoid disk problems (eg. disk full)
+				DirectoryInfo newTarget;
+				try {
+					newTarget = target.CreateSubdirectory(dir.Name);
+				} catch {
+					return false;
+				}
+
+				if(! CopyFilesRecursively(dir, newTarget, level +1))
+					return false; //exit if disk problem found in that call
+			}
+
+		//copy files with try/catch to avoid disk problems (eg. disk full)
+		try {
+			foreach (FileInfo file in source.GetFiles())
+			{
+				if(file.Name == "chronojump_running") 	//do not copy chronojump_running file
+					continue;
+
+				file.CopyTo(Path.Combine(target.FullName, file.Name));
+			}
+		} catch {
+			LogB.Warning("CopyFilesRecursively catched, maybe disk full");
+			return false;
 		}
+
+		return true;
 	}
 }
 

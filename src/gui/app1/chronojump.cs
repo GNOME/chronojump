@@ -6540,7 +6540,11 @@ LogB.Debug("mc finished 5");
 	}
 	private void delete_last_test_chronopic_clicked (object o, EventArgs args)
 	{
-		switch (currentEventType.Type) {
+		if(currentEventType == null) //precaution
+			return;
+
+		switch (currentEventType.Type)
+		{
 			case EventType.Types.JUMP:
 				if(lastJumpIsSimple) {
 					//maybe, after executing the test, user has selected other test on treeview

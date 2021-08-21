@@ -28,8 +28,8 @@ using Mono.Unix;
 public class CairoRadial : CairoGeneric
 {
 	private Cairo.Context g;
-	private int textHeight = 12;
-	private int margin = 1;
+	private int textHeight;
+	private int margin = 4;
 	private int offsetV = 6; //to move the graph vertically
 	private Gtk.DrawingArea area;
 	private string font;
@@ -64,7 +64,10 @@ public class CairoRadial : CairoGeneric
 		graphWidth = area.Allocation.Width - 2*margin;
 		graphHeight = area.Allocation.Height - 2*margin;
 
-		if(graphWidth > 1200 || graphHeight > 1000)
+		textHeight = 12;
+		if(graphWidth < 300 || graphHeight < 300)
+			textHeight = 10;
+		else if(graphWidth > 1200 || graphHeight > 1000)
 			textHeight = 16;
 
 		g.SetSourceRGB(0,0,0);

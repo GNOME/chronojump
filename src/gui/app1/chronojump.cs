@@ -3476,6 +3476,7 @@ public partial class ChronoJumpWindow
 		alignment_button_force_sensor_adjust.Visible = false;
 		button_force_sensor_sync.Visible = false;
 		vbox_contacts_load_recalculate.Visible = false;
+		button_contacts_exercise_close_and_recalculate.Visible = false;
 		vbox_contacts_signal_comment.Visible = false;
 		frame_jumps_automatic.Visible = false;
 
@@ -3745,6 +3746,7 @@ public partial class ChronoJumpWindow
 			notebooks_change(m);
 
 			vbox_contacts_load_recalculate.Visible = true;
+			button_contacts_exercise_close_and_recalculate.Visible = true;
 
 			vbox_contacts_signal_comment.Visible = true;
 			vbox_contacts_signal_comment.SetSizeRequest(
@@ -3792,6 +3794,7 @@ public partial class ChronoJumpWindow
 			notebooks_change(m);
 
 			vbox_contacts_load_recalculate.Visible = true;
+			button_contacts_exercise_close_and_recalculate.Visible = true;
 
 			vbox_contacts_signal_comment.Visible = true;
 			vbox_contacts_signal_comment.SetSizeRequest(

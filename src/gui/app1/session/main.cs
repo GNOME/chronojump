@@ -172,7 +172,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button app1s_button_delete_old_incomplete;
 	[Widget] Gtk.Button app1s_button_old_backups_delete_do;
 	[Widget] Gtk.Label app1s_label_old_backups_delete_done;
-	[Widget] Gtk.Button app1s_button_backup_scheduled_remind_tomorrow;
+	[Widget] Gtk.Button app1s_button_backup_scheduled_remind_next_time;
 	[Widget] Gtk.Button app1s_button_backup_scheduled_remind_30d;
 	[Widget] Gtk.Button app1s_button_backup_scheduled_remind_60d;
 	[Widget] Gtk.Button app1s_button_backup_scheduled_remind_90d;

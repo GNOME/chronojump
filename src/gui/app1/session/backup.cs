@@ -75,7 +75,7 @@ public partial class ChronoJumpWindow
 
 	private bool shouldAskBackupScheduled ()
 	{
-		// 1) if next days is -1 (never ask agan), do not show widget
+		// 1) if next days is -1 (never ask again), do not show widget
 		if(preferences.backupScheduledNextDays < 0)
 			return false;
 
@@ -116,9 +116,16 @@ public partial class ChronoJumpWindow
 
 	private void on_app1s_button_backup_scheduled_remind_clicked (object o, EventArgs args)
 	{
-		int days = 1;
-		if (o == (object) app1s_button_backup_scheduled_remind_tomorrow)
-			days = 1;
+		/*
+		   There is a remind_next_time and not a remind_tomorrow, because tomorrow will be days = 1.
+		   But, next day after the backup will continue being days = 1, bothering the user again (everyday).
+		   Using next_time (meaning: next Chronojump start), nothing is changed on sqlite,
+		   message will appear next time, days will be always 30 by default or 60 or 90 if last time selected one of those.
+		 */
+
+		int days = 0;
+		if (o == (object) app1s_button_backup_scheduled_remind_next_time)
+			days = 0;
 		else if (o == (object) app1s_button_backup_scheduled_remind_30d)
 			days = 30;
 		else if (o == (object) app1s_button_backup_scheduled_remind_60d)
@@ -126,10 +133,11 @@ public partial class ChronoJumpWindow
 		else if (o == (object) app1s_button_backup_scheduled_remind_90d)
 			days = 90;
 
-		app1_backup_remind_or_never_do (days, string.Format(Catalog.GetPluralString(
-						"You will be prompted for a backup in one day.",
-						"You will be prompted for a backup in {0} days.",
-						days), days));
+		string message = Catalog.GetString("You will be prompted for a backup the next time you start Chronojump.");
+		if(days > 0)
+			message = string.Format(Catalog.GetString("You will be prompted for a backup in {0} days."), days);
+
+		app1_backup_remind_or_never_do (days, message);
 	}
 
 	private void on_app1s_button_backup_scheduled_never_clicked (object o, EventArgs args)
@@ -140,13 +148,16 @@ public partial class ChronoJumpWindow
 
 	private void app1_backup_remind_or_never_do (int days, string message)
 	{
-		// 1) Sqlite changes
-		Sqlite.Open(); // ---->
+		if(days > 0)
+		{
+			// 1) Sqlite changes
+			Sqlite.Open(); // ---->
 
-		SqlitePreferences.Update(SqlitePreferences.BackupScheduledCreatedDateStr, UtilDate.ToSql(DateTime.Now), true);
-		SqlitePreferences.Update(SqlitePreferences.BackupScheduledNextDaysStr, days.ToString(), true);
+			SqlitePreferences.Update(SqlitePreferences.BackupScheduledCreatedDateStr, UtilDate.ToSql(DateTime.Now), true);
+			SqlitePreferences.Update(SqlitePreferences.BackupScheduledNextDaysStr, days.ToString(), true);
 
-		Sqlite.Close(); // <----
+			Sqlite.Close(); // <----
+		}
 
 		// 2) gui changes
 		label_backup_why.Visible = false;

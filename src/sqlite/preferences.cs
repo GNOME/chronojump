@@ -40,7 +40,7 @@ class SqlitePreferences : Sqlite
 	public const string LastBackupDirStr = "lastBackupDir";
 	public const string LastBackupDatetimeStr = "lastBackupDatetime"; //merely informational
 	public const string BackupScheduledCreatedDateStr = "backupScheduledCreatedDate"; //when was scheduled (not when is the backup)
-	public const string BackupScheduledNextDaysStr = "backupScheduledNextDays"; // days to the backup (-1 is no scheduled backup and never ask again, 1 is tomorrow, 90 is 90 days)
+	public const string BackupScheduledNextDaysStr = "backupScheduledNextDays"; // days to the backup (-1 is no scheduled backup and never ask again, 30/60/90 is 30/60/90 days)
 
 	//person (appearance)
 	public const string PersonSelectWinImages = "personSelectWinImages";

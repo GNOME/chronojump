@@ -284,6 +284,7 @@ public class RunExecute : EventExecute
 		success = false;
 		timerCount = 0;
 		lastTc = 0;
+		int photocell = -1; //-1 is valid for not inalambric and for start capture on inalambrics
 		//firstTrackDone = false;
 
 		double timestamp = 0;
@@ -303,7 +304,7 @@ public class RunExecute : EventExecute
 				checkDoubleContactMode,
 				checkDoubleContactTime
 				);
-		runEI.ChangePhase(RunExecuteInspector.Phases.START);
+		runEI.ChangePhase(photocell, RunExecuteInspector.Phases.START);
 
 		//initialize runDC
 		runDC = new RunDoubleContact(
@@ -344,7 +345,7 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 					LogB.Information("waitEvent 3");
 					PhotocellWirelessEvent pwe = photocellWirelessCapture.PhotocellWirelessCaptureReadNext();
 					LogB.Information("wait_event pwe: " + pwe.ToString());
-					//TODO: photocell = pwe.photocell;
+					photocell = pwe.photocell;
 					timestamp = pwe.timeMs - timestampAccumulated; //photocell does not send splittime, sends absolute time
 					timestampAccumulated += timestamp;
 
@@ -395,11 +396,11 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 							//run starts
 							LogB.Information("\ninitializeTimer at has_arrived");
 							initializeTimer(); //timerCount = 0
-							runEI.ChangePhase(RunExecuteInspector.Phases.IN,
+							runEI.ChangePhase(photocell, RunExecuteInspector.Phases.IN,
 								"TimerStart");
 						} else {
 							runPhase = runPhases.PLATFORM_INI_NO_TIME;
-							runEI.ChangePhase(RunExecuteInspector.Phases.IN,
+							runEI.ChangePhase(photocell, RunExecuteInspector.Phases.IN,
 								"No timer start until leave plaform");
 						}
 
@@ -430,7 +431,7 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 							needCallTrackDone = true;
 						}
 
-						runEI.ChangePhase(RunExecuteInspector.Phases.IN,
+						runEI.ChangePhase(photocell, RunExecuteInspector.Phases.IN,
 								string.Format("Arrived (preparing track) timestamp: {0}", Math.Round(timestamp, 3)));
 
 						runPTL.AddTF(timestamp);
@@ -460,7 +461,7 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 						//run starts
 						LogB.Information("\ninitializeTimer at has_lifted");
 						initializeTimer(); //timerCount = 0
-						runEI.ChangePhase(RunExecuteInspector.Phases.OUT, "Timer start");
+						runEI.ChangePhase(photocell, RunExecuteInspector.Phases.OUT, "Timer start");
 
 						/*
 						 * Stored the TC because we need it to decide
@@ -482,7 +483,7 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 						if(speedStartArrival)
 						{
 							lastTc = timestamp / 1000.0;
-							runEI.ChangePhase(RunExecuteInspector.Phases.OUT,
+							runEI.ChangePhase(photocell, RunExecuteInspector.Phases.OUT,
 								string.Format("SpeedStartArrival, tc = {0}", Math.Round(lastTc, 3)));
 							runDC.DoneTC(timestamp, true);
 							runPTL.AddTC(timestamp);
@@ -491,7 +492,7 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 						feedbackMessage = "";
 						needShowFeedbackMessage = true; 
 					} else {
-						runEI.ChangePhase(RunExecuteInspector.Phases.OUT,
+						runEI.ChangePhase(photocell, RunExecuteInspector.Phases.OUT,
 								string.Format("SpeedStartArrival, timestamp = {0}", timestamp));
 
 						if(runDC.UseDoubleContacts())
@@ -692,7 +693,8 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 		if(trackTime == 0)
 			return false; //helps to fix display of a contact time bigger than double contact time * 1.5
 
-		runEI.ChangePhase(RunExecuteInspector.Phases.IN,
+		//maybe this -1 on wireless should be an static variable: lastPhotocell, that can replace the photocell used on waitEvent 
+		runEI.ChangePhase(-1, RunExecuteInspector.Phases.IN,
 				string.Format("; timestamp: {0}; <b>trackTime: {1}</b>",
 					Math.Round(lastTf/1000.0, 3), Math.Round(trackTime, 3)));
 

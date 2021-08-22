@@ -657,14 +657,17 @@ public class PhaseTime
 	}
 }
 
+//currently only used for photocells
 public class InOut
 {
+	private int photocell; // -1 on regular photocells (all the same)
 	private bool contactIn;
 	private DateTime dt;
 	private string message;
 
-	public InOut (bool contactIn, DateTime dt, string message)
+	public InOut (int photocell, bool contactIn, DateTime dt, string message)
 	{
+		this.photocell = photocell;
 		this.contactIn = contactIn;
 		this.dt = dt;
 		this.message = message;
@@ -673,6 +676,9 @@ public class InOut
 	public override string ToString()
 	{
 		string str = "\n- ";
+		if(photocell >= 0)
+			str += string.Format("[{0}] ", photocell);
+
 		if(contactIn)
 			str += "IN / ";
 		else

@@ -62,9 +62,10 @@ struct sample_t
 struct sample_t sample = {.state = LOW, .termNum = 0, .time = 0};
 int sample_size = sizeof(sample);       //sample_size es la longitud de variables a recibir .
 
-// First channel to be used. The 5xswitches control the terminal number and the number to add the baseChannel
-// The channel 125 is used to listen from the terminals. Channels 90-124 are used to send to the terminals
-uint8_t baseChannel = 90; //TODO: Select the listening channel with the switches
+// First channel to be used. The 6xswitches control the terminal number and the number to add the baseChannel
+// The channel 125 is used to listen from the terminals.
+// Channels 116 - 64 (descending) are used to send to the terminals
+uint8_t baseChannel = 116; //TODO: Select the listening channel with the switches
 
 const uint64_t pipes[2] = { 0xF0F0F0F0E1LL, 0xF0F0F0F0D2LL }; //Two radio pipes. One for emitting and the other for receiving
 
@@ -122,20 +123,20 @@ void serialEvent()
 {
 
   String inputString = Serial.readString();
-  //  Serial.print("Instruction received from Serial: \"");
-  //  Serial.print(inputString);
-  //  Serial.println("\"");
+//    Serial.print("Instruction received from Serial: \"");
+//    Serial.print(inputString);
+//    Serial.println("\"");
   int separatorPosition = inputString.lastIndexOf(":");
 
   String commandString = inputString.substring(separatorPosition + 1, inputString.lastIndexOf(";"));
   instruction.command = commandString.toInt();
-  //  Serial.print("Command: ");
-  //  Serial.println(instruction.command);
+//    Serial.print("Command: ");
+//    Serial.println(instruction.command);
 
   String termNumString = inputString.substring(0, separatorPosition);
-  //  Serial.print("termNumString:\"");
-  //  Serial.print(termNumString);
-  //  Serial.println("\"");
+//    Serial.print("termNumString:\"");
+//    Serial.print(termNumString);
+//    Serial.println("\"");
 
   if (termNumString == "all")  //The command is sent to all the terminals
   {
@@ -156,12 +157,12 @@ void serialEvent()
 
 void sendInstruction(struct instruction_t *instruction)
 {
-  //  Serial.print("Sending command \'");
-  //  Serial.print(instruction->command);
-  //  Serial.print("\' to terminal num ");
-  //  Serial.println(instruction->termNum);
-  //  Serial.println(baseChannel + instruction->termNum);
-  radio.setChannel(baseChannel + instruction->termNum); //Setting the channel correspondig to the terminal number
+  Serial.print("Sending command \'");
+  Serial.print(instruction->command);
+  Serial.print("\' to terminal num ");
+  Serial.println(instruction->termNum);
+  Serial.println(baseChannel - instruction->termNum);
+  radio.setChannel(baseChannel - instruction->termNum); //Setting the channel correspondig to the terminal number
 
   radio.stopListening();    //To sent it is necessary to stop listening
 
@@ -171,7 +172,7 @@ void sendInstruction(struct instruction_t *instruction)
     //    Serial.println("Ok");
     radio.startListening();  //Going back to listening mode
   } else {
-    Serial.println("Error");
+    Serial.println("Error sending");
   }
   radio.setChannel(125);    //setting the the channel to the reading channel
   LED_off;
@@ -183,9 +184,9 @@ void activateAll(byte command)
   Serial.println("---------Activating All---------");
   radio.stopListening();
   for (int i = 0; i <= 31; i++) {
-    radio.setChannel(baseChannel + i);
-    //  Serial.print("getChannel = ");
-    //  Serial.println(radio.getChannel());
+    radio.setChannel(baseChannel - i);
+//    Serial.print("getChannel = ");
+//    Serial.println(radio.getChannel());
     instruction.termNum = i;
     instruction.command = command;
     sendInstruction(&instruction);

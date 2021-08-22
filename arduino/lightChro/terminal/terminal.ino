@@ -71,7 +71,7 @@ bool flagint = LOW;   //Interruption flag. Activated when the sensos changes
 
 // First channel to be used. The 5xswitches control the terminal number and the number to add the baseChannel
 // The channel 125 is used to listen from the terminals. Channels 90-124 are used to send to the terminals
-uint8_t baseChannel = 90; //TODO: Select the listening channel with the switches
+uint8_t baseChannel = 116; //TODO: Select the listening channel with the switches
 
 bool waitingSensor = false; //Wether the sensor is activated or not
 bool unlimitedMode = true;
@@ -127,8 +127,8 @@ void setup(void)
   Serial.println(sample.termNum);
 
   //maximum 125 channels. cell phone and wifi uses 2402-2472. Free from channel 73 to channel 125. Each channels is 1Mhz separated
-  radio.setChannel(baseChannel + sample.termNum);
-  Serial.println(baseChannel + sample.termNum);
+  radio.setChannel(baseChannel - sample.termNum);
+  Serial.println(baseChannel - sample.termNum);
 
 
   radio.openWritingPipe(pipes[1]);
@@ -194,7 +194,7 @@ void loop(void)
     beep(25);
     flagint = LOW;
     if (! unlimitedMode) waitingSensor = false;
-    radio.setChannel(baseChannel + sample.termNum);
+    radio.setChannel(baseChannel - sample.termNum);
     radio.startListening();
 //    Serial.println("startListening()");
 //    Serial.print("getChannel = ");

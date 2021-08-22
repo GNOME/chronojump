@@ -5,7 +5,7 @@
 #include <printf.h>
 #include <MsTimer2.h>
 
-String version = "LightChro-Controler-1.10";
+String version = "Wifi-Controler-1.11";
 //
 // Hardware configuration
 
@@ -32,6 +32,7 @@ int blinkPeriod = 75; //Time between two consecutives rising flank of the LED
 // binary commands: each bit represents RED, GREEN, BLUE, BUZZER, BLINK_RED, BLINK_GREEN, BLINK_BLUE, SENSOR
 // 1 means ON
 // 0 means OFF
+const uint16_t ping           = 0b1000000000; //512
 const uint16_t sensorUnlimited = 0b100000000; //256
 const uint16_t red =              0b10000000; //128
 const uint16_t green =            0b01000000; //64
@@ -40,7 +41,7 @@ const uint16_t buzzer =           0b00010000; // 16
 const uint16_t blinkRed =         0b00001000; //8
 const uint16_t blinkGreen =       0b00000100; //4
 const uint16_t blinkBlue =        0b00000010; //2
-const uint16_t sensorOnce =           0b00000001; //1
+const uint16_t sensorOnce =       0b00000001; //1
 const uint16_t deactivate =       0b00000000; //0
 
 struct instruction_t
@@ -62,10 +63,14 @@ struct sample_t
 struct sample_t sample = {.state = LOW, .termNum = 0, .time = 0};
 int sample_size = sizeof(sample);       //sample_size es la longitud de variables a recibir .
 
-// First channel to be used. The 6xswitches control the terminal number and the number to add the baseChannel
+// First channel to be used. The 6xswitches control the terminal number and the number to add the terminal0Channel
 // The channel 125 is used to listen from the terminals.
 // Channels 116 - 64 (descending) are used to send to the terminals
-uint8_t baseChannel = 116; //TODO: Select the listening channel with the switches
+uint8_t terminal0Channel = 116; //TODO: Select the listening channel with the switches
+
+//Channel of the controler
+uint8_t control0Channel = 125; //Channel resulting of the switch at zero state
+uint8_t controlSwitch = 0;      //State of the 3xswithes
 
 const uint64_t pipes[2] = { 0xF0F0F0F0E1LL, 0xF0F0F0F0D2LL }; //Two radio pipes. One for emitting and the other for receiving
 
@@ -74,6 +79,10 @@ void setup(void)
 
 
   Serial.begin(115200);
+
+  
+  Serial.println(version);
+  
   //When something arrives to the serial, how long to wait for being sure that the whole text is received
   //TODO: Try to minimize this parameter as it adds lag from instruction to sensor activation. 1 is too low.
   //Maybe increasing the baud rate we could set it to 1
@@ -82,16 +91,45 @@ void setup(void)
   pinMode(2, OUTPUT);   //The LED is in output mode
   LED_on;  //turn off the LED
 
+// channel of the controler
+  //************************************************************************************
+  // A0, A1, A2 connected to the 3xswith
+  
+  pinMode(A0, INPUT);       //
+  digitalWrite(A0, HIGH);   //
+  pinMode(A1, INPUT);       //
+  digitalWrite(A1, HIGH);   //
+  pinMode(A2, INPUT);       //
+  digitalWrite(A2, HIGH);   //
+
+  //   En estas entradas se pondra un microswich , de 3 botones
+  //   Se leeran en binario y se sumarán al canal por defecto 101
+  if (!digitalRead(A0)) {
+    controlSwitch = 1; //
+  }
+  if (!digitalRead(A1)) {
+    controlSwitch = controlSwitch + 2;
+  }
+  if (!digitalRead(A2)) {
+    controlSwitch = controlSwitch + 4;
+  }
+
+//  Serial.print("ControlChannel: ");
+//  Serial.print(control0Channel);
+//  Serial.print(" - ");
+//  Serial.println(controlSwitch);
+  
   radio.begin();
 
   //maximum 125 channels. cell phone and wifi uses 2402-2472. Free from channel 73 to channel 125. Each channels is 1Mhz separated
-  radio.setChannel(125);
+  radio.setChannel(control0Channel - controlSwitch);
   radio.openWritingPipe(pipes[0]);
   radio.openReadingPipe(1, pipes[1]);
   radio.stopListening();
-  Serial.println(version);
-  Serial.println(" Status Radio");
-  radio.printDetails();
+  
+//  Serial.println(" Status Radio");
+//  radio.printDetails();
+  
   Serial.println("the instructions are [termNum]:[command];");
 
   Serial.println("NumTerm\tTime\tState");
@@ -157,12 +195,14 @@ void serialEvent()
 
 void sendInstruction(struct instruction_t *instruction)
 {
-  Serial.print("Sending command \'");
-  Serial.print(instruction->command);
-  Serial.print("\' to terminal num ");
-  Serial.println(instruction->termNum);
-  Serial.println(baseChannel - instruction->termNum);
-  radio.setChannel(baseChannel - instruction->termNum); //Setting the channel correspondig to the terminal number
+  
+//  Serial.print("Sending command \'");
+//  Serial.print(instruction->command);
+//  Serial.print("\' to terminal num ");
+//  Serial.println(instruction->termNum);
+//  Serial.println(terminal0Channel - instruction->termNum);
+  
+  radio.setChannel(terminal0Channel - instruction->termNum); //Setting the channel correspondig to the terminal number
 
   radio.stopListening();    //To sent it is necessary to stop listening
 
@@ -174,17 +214,18 @@ void sendInstruction(struct instruction_t *instruction)
   } else {
     Serial.println("Error sending");
   }
-  radio.setChannel(125);    //setting the the channel to the reading channel
+  radio.setChannel(control0Channel - controlSwitch);    //setting the the channel to the reading channel
   LED_off;
   instruction->termNum = 0;
 }
 
-void activateAll(byte command)
+// Atention this function is not valid for ping all terminals as it does not wait for response.
+void activateAll(uint16_t command)
 {
   Serial.println("---------Activating All---------");
   radio.stopListening();
-  for (int i = 0; i <= 31; i++) {
-    radio.setChannel(baseChannel - i);
+  for (int i = 0; i <= 63; i++) {
+    radio.setChannel(terminal0Channel - i);
 //    Serial.print("getChannel = ");
 //    Serial.println(radio.getChannel());
     instruction.termNum = i;
@@ -192,7 +233,7 @@ void activateAll(byte command)
     sendInstruction(&instruction);
   }
   radio.startListening();
-  radio.setChannel(125);
+  radio.setChannel(control0Channel - controlSwitch);
 }
 
 void blinkStart(int period)

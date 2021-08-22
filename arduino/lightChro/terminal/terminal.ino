@@ -5,7 +5,7 @@
 #include <printf.h>
 #include <MsTimer2.h>
 
-String version = "LightChro-Sensor-1.10";
+String version = "Wifi-Sensor-1.11";
 //
 // Hardware configuration
 
@@ -40,6 +40,7 @@ struct instruction_t
 // binary commands: each bit represents RED, GREEN, BLUE, BUZZER, BLINK_RED, BLINK_GREEN, BLINK_BLUE, SENSOR
 // 1 means ON
 // 0 means OFF
+const uint16_t ping           = 0b1000000000; //512
 const uint16_t sensorUnlimited = 0b100000000; //256
 const uint16_t red =              0b10000000; //128
 const uint16_t green =            0b01000000; //64
@@ -69,9 +70,14 @@ unsigned long time0;  //Time when the command is received
 
 bool flagint = LOW;   //Interruption flag. Activated when the sensos changes
 
-// First channel to be used. The 5xswitches control the terminal number and the number to add the baseChannel
-// The channel 125 is used to listen from the terminals. Channels 90-124 are used to send to the terminals
-uint8_t baseChannel = 116; //TODO: Select the listening channel with the switches
+// First channel to be used. The 6xswitches control the terminal number and the number to add the terminal0Channel
+// The channel 125 is used to listen from the terminals.
+// Channels 116 - 64 (descending) are used to send to the terminals
+uint8_t terminal0Channel = 116; //TODO: Select the listening channel with the switches
+
+//Channel of the controler
+uint8_t control0Channel = 125; //Channel resulting of the switch at zero state
+uint8_t controlSwitch = 0;      //State of the 3xswithes
 
 bool waitingSensor = false; //Wether the sensor is activated or not
 bool unlimitedMode = true;
@@ -106,29 +112,27 @@ void setup(void)
   pinMode(4, INPUT_PULLUP);
   pinMode(5, INPUT_PULLUP);
   pinMode(6, INPUT_PULLUP);
+  pinMode(7, INPUT_PULLUP);
+  pinMode(8, INPUT_PULLUP);
 
-  
-  //¡¡¡¡Atention!!!!, the first version of the hardware the pin7 is associated to the buzzer.
+  //¡¡¡¡Atention!!!!, the first version of lightChro the pin7 is associated to the buzzer.
+  //The first versions of the Quick the microswitch was 5xSwitches. The las one associated to the buzzer
+  //In the first versions of the photocells the microswitch was 8xSwitches
   //Remember to change comment/uncomment depending on the hardware version
-//  pinMode(7, INPUT_PULLUP);   //Most significant bit
-
-  //¡¡¡¡Atention!!!!, the first version of the hardware the pin7 is associated to the buzzer.
-  //Remember to change comment/uncomment depending on the hardware version
-  for (int pin = 6; pin >= 3; pin--)
+  for (int pin = 8; pin >= 3; pin--)
   {
     sample.termNum = sample.termNum * 2; //Each bit will be multiplied by 2 as much times as his significance
-    if (!digitalRead(pin))
-    {
-      sample.termNum++;
-    }
+    if (!digitalRead(pin)) sample.termNum++;
   }
+
 
   Serial.print("termNum: ");
   Serial.println(sample.termNum);
 
   //maximum 125 channels. cell phone and wifi uses 2402-2472. Free from channel 73 to channel 125. Each channels is 1Mhz separated
-  radio.setChannel(baseChannel - sample.termNum);
-  Serial.println(baseChannel - sample.termNum);
+  radio.setChannel(terminal0Channel - sample.termNum);
+  Serial.print("Terminal Channel: ");
+  Serial.println(terminal0Channel - sample.termNum);
 
 
   radio.openWritingPipe(pipes[1]);
@@ -136,12 +140,41 @@ void setup(void)
 
   //radio.enableDynamicAck();
   radio.startListening();
-  printf(" Status Radio\n\r");
-  radio.printDetails();
-  Serial.print("Channel set to: ");
-  Serial.println(radio.getChannel());
+  
+//  printf(" Status Radio\n\r");
+//  radio.printDetails();
+  
+//  Serial.print("Channel set to: ");
+//  Serial.println(radio.getChannel());
+  
   Serial.flush(); //Flushing the buffer serial buffer to avoid spurious data.
 
+  // channel of the controler
+  //************************************************************************************
+  // A0, A1, A2 connected to the 3xswith
+  
+  pinMode(A0, INPUT);       //
+  digitalWrite(A0, HIGH);   //
+  pinMode(A1, INPUT);       //
+  digitalWrite(A1, HIGH);   //
+  pinMode(A2, INPUT);       //
+  digitalWrite(A2, HIGH);   //
+
+  //   En estas entradas se pondra un microswich , de 3 botones
+  //   Se leeran en binario y se sumarán al canal por defecto 101
+  if (!digitalRead(A0)) {
+    controlSwitch = 1; //
+  }
+  if (!digitalRead(A1)) {
+    controlSwitch = controlSwitch + 2;
+  }
+  if (!digitalRead(A2)) {
+    controlSwitch = controlSwitch + 4;
+  }
+
+  Serial.print("ControlChannel: ");
+  Serial.println(control0Channel - controlSwitch);
+  
   //Activate interruption service each time the sensor changes state
   attachInterrupt(digitalPinToInterrupt(2), controlint, CHANGE);
 
@@ -180,7 +213,7 @@ void loop(void)
     blinkingBlue = false;
 //    Serial.println(sample.state);
     radio.stopListening();
-    radio.setChannel(125);
+    radio.setChannel(control0Channel - controlSwitch);
 //    Serial.print("getChannel = ");
 //    Serial.println(radio.getChannel());
     bool en = radio.write( &sample, sample_size);
@@ -194,7 +227,7 @@ void loop(void)
     beep(25);
     flagint = LOW;
     if (! unlimitedMode) waitingSensor = false;
-    radio.setChannel(baseChannel - sample.termNum);
+    radio.setChannel(terminal0Channel - sample.termNum);
     radio.startListening();
 //    Serial.println("startListening()");
 //    Serial.print("getChannel = ");
@@ -249,7 +282,7 @@ void executeCommand(uint16_t command)
     }
 
     if ((command & blue) == blue) {
-      Serial.println("activating BLUE");
+//      Serial.println("activating BLUE");
       blue_on;
     }
 
@@ -288,7 +321,14 @@ void executeCommand(uint16_t command)
 //      Serial.println("activating sensor unlimited");
       time0 = millis(); //empieza a contar time
       waitingSensor = true;  //Terminal set to waiting touch/proximity
+      unlimitedMode = true;
       interrupts();
+    }
+    
+    if ((command & ping) == ping) {
+      Serial.println("Pong");
+      time0 = millis(); //empieza a contar time
+      flagint = HIGH;
     }
   }
 }

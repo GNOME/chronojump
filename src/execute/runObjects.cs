@@ -529,14 +529,14 @@ public class RunPhaseTimeList
 		FirstRPIs = 0;
 	}
 	
-	public void AddTC(double timestamp)
+	public void AddTC(int photocell, double timestamp)
 	{
-		listPhaseTime.Add(new PhaseTime(true, timestamp));
+		listPhaseTime.Add(new PhaseTime(photocell, true, timestamp));
 	}
 
-	public void AddTF(double timestamp)
+	public void AddTF(int photocell, double timestamp)
 	{
-		listPhaseTime.Add(new PhaseTime(false, timestamp));
+		listPhaseTime.Add(new PhaseTime(photocell, false, timestamp));
 	}
 
 	public override string ToString()

@@ -434,7 +434,7 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 						runEI.ChangePhase(photocell, RunExecuteInspector.Phases.IN,
 								string.Format("Arrived (preparing track) timestamp: {0}", Math.Round(timestamp, 3)));
 
-						runPTL.AddTF(timestamp);
+						runPTL.AddTF(photocell, timestamp);
 					}
 				}
 				else if (has_lifted()) // timestamp is tc
@@ -470,7 +470,7 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 						 * depending on biggest tc
 						 */
 						runDC.DoneTC(timestamp, false);
-						runPTL.AddTC(timestamp);
+						runPTL.AddTC(photocell, timestamp);
 
 						feedbackMessage = "";
 						needShowFeedbackMessage = true;
@@ -486,7 +486,7 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 							runEI.ChangePhase(photocell, RunExecuteInspector.Phases.OUT,
 								string.Format("SpeedStartArrival, tc = {0}", Math.Round(lastTc, 3)));
 							runDC.DoneTC(timestamp, true);
-							runPTL.AddTC(timestamp);
+							runPTL.AddTC(photocell, timestamp);
 						}
 
 						feedbackMessage = "";
@@ -500,7 +500,7 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 						else
 							lastTc = timestamp / 1000.0;
 
-						runPTL.AddTC(timestamp);
+						runPTL.AddTC(photocell, timestamp);
 
 						onlyInterval_SetRSAVariables();
 					}

@@ -626,13 +626,16 @@ public class EventExecute
 	   
 }
 
+//currently only used for photocells
 public class PhaseTime
 {
+	private int photocell; //on not inalambric is -1
 	private bool contactIn;
 	private double duration;
 
-	public PhaseTime (bool contactIn, double duration)
+	public PhaseTime (int photocell, bool contactIn, double duration)
 	{
+		this.photocell = photocell;
 		this.contactIn = contactIn;
 		this.duration = duration;
 	}
@@ -643,8 +646,12 @@ public class PhaseTime
 		if(! contactIn)
 			strMode = "OUT (TF)";
 
+		string photocellStr = "";
+		if(photocell >= 0)
+			photocellStr = string.Format(" - {0}", photocell);
+
 		//TODO: use a printf mode to have always same digits
-		return "\n" + Math.Round(UtilAll.DivideSafe(duration, 1000.0), 3) + " - " + strMode;
+		return "\n" + Math.Round(UtilAll.DivideSafe(duration, 1000.0), 3) + photocellStr + " - " + strMode;
 	}
 
 	public bool IsContact

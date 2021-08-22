@@ -766,11 +766,12 @@ public class RunExecuteInspector
 
 	//public methods
 
-	public void ChangePhase(Phases phase)
+	//photocell = -1 for not inalambric photocells
+	public void ChangePhase(int photocell, Phases phase)
 	{
-		ChangePhase(phase, "");
+		ChangePhase(photocell, phase, "");
 	}
-	public void ChangePhase(Phases phase, string message)
+	public void ChangePhase(int photocell, Phases phase, string message)
 	{
 		DateTime dt = DateTime.Now;
 
@@ -780,7 +781,7 @@ public class RunExecuteInspector
 			dtEnded = dt;
 		else // (phase == Phases.IN || phases == Phases.OUT)
 		{
-			InOut inOut = new InOut(phase == Phases.IN, dt, message);
+			InOut inOut = new InOut(photocell, phase == Phases.IN, dt, message);
 			listInOut.Add(inOut);
 			//listInOut.Add(new InOut(phase == Phases.IN, dt, message));
 		}

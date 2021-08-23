@@ -148,7 +148,7 @@ public partial class ChronoJumpWindow
 
 	private void app1_backup_remind_or_never_do (int days, string message)
 	{
-		if(days > 0)
+		if(days != 0) //aplly changes on never (-1) and on 30/60/90
 		{
 			// 1) Sqlite changes
 			Sqlite.Open(); // ---->

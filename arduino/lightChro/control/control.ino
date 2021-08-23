@@ -128,7 +128,7 @@ void setup(void)
   radio.setChannel(control0Channel - controlSwitch);
   radio.openWritingPipe(pipes[0]);
   radio.openReadingPipe(1, pipes[1]);
-  radio.stopListening();
+  radio.startListening();
   
 //  Serial.println(" Status Radio");
 //  radio.printDetails();

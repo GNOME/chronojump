@@ -49,7 +49,7 @@ const uint16_t buzzer =           0b00010000; // 16
 const uint16_t blinkRed =         0b00001000; //8
 const uint16_t blinkGreen =       0b00000100; //4
 const uint16_t blinkBlue =        0b00000010; //2
-const uint16_t sensorOnce =           0b00000001; //1
+const uint16_t sensorOnce =       0b00000001; //1
 const uint16_t deactivate =       0b00000000; //0
 
 struct instruction_t instruction = {.command = deactivate, .termNum = 0};
@@ -79,7 +79,7 @@ uint8_t terminal0Channel = 116; //TODO: Select the listening channel with the sw
 uint8_t control0Channel = 125; //Channel resulting of the switch at zero state
 uint8_t controlSwitch = 0;      //State of the 3xswithes
 
-bool waitingSensor = false; //Wether the sensor is activated or not
+bool waitingSensor = true; //Wether the sensor is activated or not
 bool unlimitedMode = true;
 
 //Variables to control the blinking of each Color
@@ -187,6 +187,7 @@ void setup(void)
   red_off;
   green_off;
   blue_off;
+
 
 //  noInterrupts();   //Don't watch the sensor state
 

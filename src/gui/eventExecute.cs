@@ -1131,7 +1131,9 @@ public partial class ChronoJumpWindow
 
 	private void paintJumpSimpleCairoTest()
 	{
-		if(eventGraphJumpsCairoStored == null || event_execute_drawingarea_cairo == null)
+		if(eventGraphJumpsCairoStored == null ||
+				event_execute_drawingarea_cairo == null ||
+				event_execute_drawingarea_cairo.GdkWindow == null) //at start program, this can fail
 			return;
 
 		if(eventGraphJumpsCairoStored.jumpsAtSQL.Count == 0)
@@ -1757,7 +1759,9 @@ public partial class ChronoJumpWindow
 
 	private void paintRunSimpleCairoTest()
 	{
-		if(eventGraphRunsCairoStored == null || event_execute_drawingarea_cairo == null)
+		if(eventGraphRunsCairoStored == null ||
+				event_execute_drawingarea_cairo == null ||
+				event_execute_drawingarea_cairo.GdkWindow == null) //at start program, this can fail
 			return;
 
 		if(eventGraphRunsCairoStored.runsAtSQL.Count == 0)

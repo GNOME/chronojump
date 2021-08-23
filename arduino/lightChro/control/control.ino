@@ -32,6 +32,7 @@ int blinkPeriod = 75; //Time between two consecutives rising flank of the LED
 // binary commands: each bit represents RED, GREEN, BLUE, BUZZER, BLINK_RED, BLINK_GREEN, BLINK_BLUE, SENSOR
 // 1 means ON
 // 0 means OFF
+
 const uint16_t ping           = 0b1000000000; //512
 const uint16_t sensorUnlimited = 0b100000000; //256
 const uint16_t red =              0b10000000; //128
@@ -73,6 +74,8 @@ uint8_t control0Channel = 125; //Channel resulting of the switch at zero state
 uint8_t controlSwitch = 0;      //State of the 3xswithes
 
 const uint64_t pipes[2] = { 0xF0F0F0F0E1LL, 0xF0F0F0F0D2LL }; //Two radio pipes. One for emitting and the other for receiving
+
+bool binaryMode = false;
 
 void setup(void)
 {
@@ -144,11 +147,15 @@ void loop(void)
     radio.read(  &sample, sample_size);
 
     blinkStop();
-    Serial.print(sample.termNum);
-    Serial.print("\t");
-    Serial.print(sample.time);
-    Serial.print("\t");
-    Serial.println(sample.state);
+    if(!binaryMode){
+      Serial.print(sample.termNum);
+      Serial.print(";");
+      Serial.print(sample.time);
+      Serial.print(";");
+      Serial.println(sample.state);
+    } else {
+      Serial.write((byte*)&sample, sample_size);
+    }
     LED_off;
     delay(50);
     LED_on;
@@ -161,26 +168,43 @@ void serialEvent()
 {
 
   String inputString = Serial.readString();
-//    Serial.print("Instruction received from Serial: \"");
-//    Serial.print(inputString);
-//    Serial.println("\"");
+//  Serial.print(inputString);
+
   int separatorPosition = inputString.lastIndexOf(":");
+  
+  String terminalString = inputString.substring(0, separatorPosition);
+//  Serial.print("terminalString: \"");
+//  Serial.print(terminalString);
+//  Serial.println("\"");
 
   String commandString = inputString.substring(separatorPosition + 1, inputString.lastIndexOf(";"));
-  instruction.command = commandString.toInt();
-//    Serial.print("Command: ");
-//    Serial.println(instruction.command);
+//  Serial.print("commandString: \"");
+//  Serial.print(commandString);
+//  Serial.println("\"");
 
-  String termNumString = inputString.substring(0, separatorPosition);
-//    Serial.print("termNumString:\"");
-//    Serial.print(termNumString);
-//    Serial.println("\"");
 
-  if (termNumString == "all")  //The command is sent to all the terminals
+  if (terminalString == "all")  //The command is sent to all the terminals
   {
     activateAll(instruction.command);
-  } else {  // if (termNumString != "all")   Command to a single terminal
-    instruction.termNum = termNumString.toInt();
+    
+  } else if(terminalString == "local"){
+    if(commandString == "get_version"){
+      Serial.println(version);
+    } else if(commandString == "set_binary_mode"){
+      Serial.println("Setting binary mode");
+      binaryMode = true;
+    } else if(commandString == "set_text_mode"){
+      Serial.println("Setting text mode");
+      binaryMode = false;
+    } else {
+      Serial.println("Wrong local command");
+    }
+    
+  } else {  // if termunString is a single remote terminal, Command to a single terminal
+    instruction.command = commandString.toInt();
+//    Serial.print("Command: ");
+//    Serial.println(instruction.command);
+    instruction.termNum = terminalString.toInt();
     //      Serial.print("instruction.termNum:\"");
     //      Serial.print(instruction.termNum);
     //      Serial.println("\"");

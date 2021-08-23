@@ -165,7 +165,9 @@ public abstract class CairoBars : CairoGeneric
 	{
                 return graphHeight - outerMargins - UtilAll.DivideSafe(
 				(realY - minY) * (graphHeight - 2*outerMargins),
-				maxY - minY);
+				//maxY - minY);
+				//have 10% extra margin on the top (highest values will be 10% far from max of the graph)
+				1.1*maxY - minY);
         }
 
 	protected void printText (double x, double y, double height, int textHeight,

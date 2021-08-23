@@ -4155,11 +4155,13 @@ public partial class ChronoJumpWindow
 	}
 	private void on_radio_change_modes_contacts_jumps_simple_toggled (object o, EventArgs args)
 	{
-		changeMode (Constants.Modes.JUMPSSIMPLE);
+		if(radio_change_modes_contacts_jumps_simple.Active)
+			changeMode (Constants.Modes.JUMPSSIMPLE);
 	}
 	private void on_radio_change_modes_contacts_jumps_reactive_toggled (object o, EventArgs args)
 	{
-		changeMode (Constants.Modes.JUMPSREACTIVE);
+		if(radio_change_modes_contacts_jumps_reactive.Active)
+			changeMode (Constants.Modes.JUMPSREACTIVE);
 	}
 	
 	private void on_button_selector_start_runs_clicked(object o, EventArgs args) 
@@ -4186,15 +4188,18 @@ public partial class ChronoJumpWindow
 	}
 	private void on_radio_change_modes_contacts_runs_simple_toggled (object o, EventArgs args)
 	{
-		changeMode (Constants.Modes.RUNSSIMPLE);
+		if(radio_change_modes_contacts_runs_simple.Active)
+			changeMode (Constants.Modes.RUNSSIMPLE);
 	}
 	private void on_radio_change_modes_contacts_runs_intervallic_toggled (object o, EventArgs args)
 	{
-		changeMode (Constants.Modes.RUNSINTERVALLIC);
+		if(radio_change_modes_contacts_runs_intervallic.Active)
+			changeMode (Constants.Modes.RUNSINTERVALLIC);
 	}
 	private void on_radio_change_modes_contacts_runs_encoder_toggled (object o, EventArgs args)
 	{
-		changeMode (Constants.Modes.RUNSENCODER);
+		if(radio_change_modes_contacts_runs_encoder.Active)
+			changeMode (Constants.Modes.RUNSENCODER);
 	}
 	
 	private void on_button_selector_start_encoder_clicked(object o, EventArgs args) 
@@ -4213,11 +4218,13 @@ public partial class ChronoJumpWindow
 	}
 	private void on_radio_change_modes_encoder_gravitatory_toggled (object o, EventArgs args)
 	{
-		changeMode (Constants.Modes.POWERGRAVITATORY);
+		if(radio_change_modes_encoder_gravitatory.Active)
+			changeMode (Constants.Modes.POWERGRAVITATORY);
 	}
 	private void on_radio_change_modes_encoder_inertial_toggled (object o, EventArgs args)
 	{
-		changeMode (Constants.Modes.POWERINERTIAL);
+		if(radio_change_modes_encoder_inertial.Active)
+			changeMode (Constants.Modes.POWERINERTIAL);
 	}
 
 	private void on_button_selector_start_force_sensor_clicked(object o, EventArgs args)

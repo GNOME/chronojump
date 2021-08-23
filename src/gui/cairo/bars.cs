@@ -208,7 +208,6 @@ public abstract class CairoBars : CairoGeneric
 
 			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -outerMargins, 4, g, colorBackground);
 
-			//print the result at the middle of the bar
 			plotResultOnBar(x + barWidth/2, y, graphHeight -outerMargins, p.Y);
 
 			//print the type at bottom
@@ -282,7 +281,8 @@ public abstract class CairoBars : CairoGeneric
 	{
 		Cairo.TextExtents te;
 		te = g.TextExtents(Util.TrimDecimals(result,2));
-			
+
+		bool textAboveBar = true;
 		/*
 		 * text and surrounding rect are in the middle of bar
 		 * if bar is so small, then text and rect will not be fully shown
@@ -290,12 +290,22 @@ public abstract class CairoBars : CairoGeneric
 		 * use 2*lHeight in order to accomodate "Simulated" message below
 		 */
 		double yStart = (y+alto)/2 - te.Height/2;
+		if(textAboveBar)
+		{
+			//print the result at top of the bar (better because there is the X grid and in the middle of the bar is confusing)
+			yStart = y - 1.5*te.Height;
+		}
+
 		LogB.Information(string.Format("y: {0}, alto: {1}, yStart: {2}", y, alto, yStart));
 
 		if( (yStart + te.Height) > alto )
 			yStart = alto - te.Height;
 
-		g.Color = yellow;
+		if(textAboveBar)
+			g.Color = white; //to just hide the horizontal grid
+		else
+			g.Color = yellow; //to have contrast with the bar
+
 		g.Rectangle(x - te.Width/2, yStart-1, te.Width, te.Height+2);
 		g.Fill();
 

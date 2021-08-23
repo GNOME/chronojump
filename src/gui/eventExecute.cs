@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -123,6 +123,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_results_data;
 	
 	[Widget] Gtk.DrawingArea event_execute_drawingarea;
+	[Widget] Gtk.DrawingArea event_execute_drawingarea_cairo;
 	[Widget] Gtk.Frame frame_run_simple_double_contacts;
 	[Widget] Gtk.DrawingArea event_execute_drawingarea_run_simple_double_contacts;
 	/*
@@ -177,7 +178,13 @@ public partial class ChronoJumpWindow
 		"100", "200", "300", "400", "500"
 	};
 	*/
-	
+
+	//Cairo stuff (migrating to GTK3)
+	//TODO: make all inherit from a generic: PrepareEventGraphContacts
+	PrepareEventGraphJumpSimple eventGraphJumpsCairoStored;
+	PrepareEventGraphRunSimple eventGraphRunsCairoStored;
+	string cairoTitleStored;
+
 
 	private void event_execute_initializeVariables (
 			bool simulated,
@@ -564,6 +571,24 @@ public partial class ChronoJumpWindow
 		//LogB.Information("EXPOSE END");
 	}
 
+	public void on_event_execute_drawingarea_cairo_expose_event(object o, ExposeEventArgs args)
+	{
+		if(current_mode == Constants.Modes.JUMPSSIMPLE)
+		{
+			if(eventGraphJumpsCairoStored == null)
+				return;
+
+			PrepareJumpSimpleGraph(eventGraphJumpsCairoStored, false);
+		}
+		else if(current_mode == Constants.Modes.RUNSSIMPLE)
+		{
+			if(eventGraphRunsCairoStored == null)
+				return;
+
+			PrepareRunSimpleGraph(eventGraphRunsCairoStored, false);
+		}
+	}
+
 	
 	int allocationXOld_run_simple;
 	int allocationYOld_run_simple;
@@ -619,8 +644,6 @@ public partial class ChronoJumpWindow
 		allocationXOld_run_simple = allocation.Width;
 		allocationYOld_run_simple = allocation.Height;
 	}
-
-
 
 	// simple and DJ jump	
 	public void PrepareJumpSimpleGraph(PrepareEventGraphJumpSimple eventGraph, bool animate)
@@ -692,13 +715,19 @@ public partial class ChronoJumpWindow
 		*/
 			minValue = eventGraphConfigureWin.Min;
 		//}
-		
-		//paint graph
+
+		// A) Paint not cairo graph
+		// 	paint graph
 		paintJumpSimple (event_execute_drawingarea, eventGraph, 
 				maxValue, minValue, topMargin, bottomMargin, animate, useHeights);
 
-		// -- refresh
+		// 	refresh
 		event_execute_drawingarea.QueueDraw();
+
+		// B) Paint cairo graph
+		eventGraphJumpsCairoStored = eventGraph;
+		cairoTitleStored = "jump title graph";
+		paintJumpSimpleCairoTest();
 	}
 
 	private void on_button_person_max_all_sessions_info_clicked(object o, EventArgs args) 
@@ -871,14 +900,20 @@ public partial class ChronoJumpWindow
 			UtilGtk.ClearDrawingArea(event_execute_drawingarea_run_simple_double_contacts,
 					event_execute_run_simple_double_contacts_pixmap);
 
+		// A) Paint not cairo graph
 			paintRunSimple (event_execute_drawingarea, eventGraph,
 					maxValue, minValue, topMargin, bottomMargin, animate,
 					check_run_simple_show_time.Active,
 					runPTL);
 		
 		
-		// -- refresh
+		// 	refresh
 		event_execute_drawingarea.QueueDraw();
+
+		// B) Paint cairo graph
+		eventGraphRunsCairoStored = eventGraph;
+		cairoTitleStored = "run title graph";
+		paintRunSimpleCairoTest();
 	}
 	
 	// run interval
@@ -1093,7 +1128,39 @@ public partial class ChronoJumpWindow
 					layoutBig);
 		}
 	}
-	
+
+	private void paintJumpSimpleCairoTest()
+	{
+		if(eventGraphJumpsCairoStored == null || event_execute_drawingarea_cairo == null)
+			return;
+
+		if(eventGraphJumpsCairoStored.jumpsAtSQL.Count == 0)
+		{
+			try {
+				new CairoBarsJustTesting (event_execute_drawingarea_cairo, preferences.fontType.ToString());
+			} catch {
+				LogB.Information("saved crash at with paintJumpSimpleCairoTest at astart");
+			}
+			return;
+		}
+
+		List<PointF> point_l = new List<PointF>();
+		List<string> names_l = new List<string>();
+
+		int countToDraw = eventGraphJumpsCairoStored.jumpsAtSQL.Count;
+		foreach(Jump jump in eventGraphJumpsCairoStored.jumpsAtSQL)
+		{
+			point_l.Add(new PointF(countToDraw --, Util.GetHeightInCentimeters(jump.Tv)));
+			names_l.Add(jump.Type);
+		}
+
+		CairoBarsJustTesting cbjt = new CairoBarsJustTesting (point_l, names_l, event_execute_drawingarea_cairo, cairoTitleStored);
+		cbjt.Do(preferences.fontType.ToString());
+
+		return;
+		// test ends ----
+	}
+
 	private void paintJumpSimple (Gtk.DrawingArea drawingarea, PrepareEventGraphJumpSimple eventGraph, 
 			double maxValue, double minValue, int topMargin, int bottomMargin, bool animate, bool useHeights)
 	{
@@ -1686,6 +1753,38 @@ public partial class ChronoJumpWindow
 		event_execute_pixmap.DrawLayout (pen_black, marginLeft + marginOut + 2 * marginIn + boxSize, marginOut + marginIn, layout);
 		layout.SetMarkup(text2);
 		event_execute_pixmap.DrawLayout (pen_black, marginLeft + marginOut + 2 * marginIn + boxSize, 2 * (marginOut + marginIn) + lHeight1, layout);
+	}
+
+	private void paintRunSimpleCairoTest()
+	{
+		if(eventGraphRunsCairoStored == null || event_execute_drawingarea_cairo == null)
+			return;
+
+		if(eventGraphRunsCairoStored.runsAtSQL.Count == 0)
+		{
+			try {
+				new CairoBarsJustTesting (event_execute_drawingarea_cairo, preferences.fontType.ToString());
+			} catch {
+				LogB.Information("saved crash at with paintRunSimpleCairoTest at astart");
+			}
+			return;
+		}
+
+		List<PointF> point_l = new List<PointF>();
+		List<string> names_l = new List<string>();
+
+		int countToDraw = eventGraphRunsCairoStored.runsAtSQL.Count;
+		foreach(Run run in eventGraphRunsCairoStored.runsAtSQL)
+		{
+			point_l.Add(new PointF(countToDraw --, run.Distance/run.Time));
+			names_l.Add(run.Type);
+		}
+
+		CairoBarsJustTesting cbjt = new CairoBarsJustTesting (point_l, names_l, event_execute_drawingarea_cairo, cairoTitleStored);
+		cbjt.Do(preferences.fontType.ToString());
+
+		return;
+		// test ends ----
 	}
 
 	private void paintRunSimple (Gtk.DrawingArea drawingarea, PrepareEventGraphRunSimple eventGraph,

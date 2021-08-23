@@ -342,7 +342,7 @@ public class CairoBarsJustTesting : CairoBars
 	{
 		this.area = area;
 
-		LogB.Information("area is null:" + (area == null).ToString());
+		LogB.Information("constructor without points, area is null:" + (area == null).ToString());
 		initGraph(font, 1); //.8 to have title at right
 
 		endGraphDisposing(g);

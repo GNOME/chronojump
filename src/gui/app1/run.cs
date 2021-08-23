@@ -204,7 +204,7 @@ public partial class ChronoJumpWindow
 				Convert.ToInt32(spin_contacts_graph_last_limit.Value),
 				Constants.RunTable, typeTemp);
 		
-		if(eventGraph.personMAXAtSQLAllSessions > 0 || eventGraph.runsAtSQL.Count > 0)
+		//if(eventGraph.personMAXAtSQLAllSessions > 0 || eventGraph.runsAtSQL.Count > 0)
 			PrepareRunSimpleGraph(eventGraph, false); //don't animate
 	}
 	private void updateGraphRunsInterval ()

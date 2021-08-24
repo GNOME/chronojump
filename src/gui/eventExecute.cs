@@ -3272,7 +3272,7 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 			pointB_l.Add(new PointF(countToDraw, valueB));
 			countToDraw --;
 
-			names_l.Add(jump.Type);
+			names_l.Add(Catalog.GetString(jump.Type));
 		}
 
 		CairoBars cbjt;
@@ -3325,7 +3325,7 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 		foreach(Run run in eventGraphRunsStored.runsAtSQL)
 		{
 			point_l.Add(new PointF(countToDraw --, run.Distance/run.Time));
-			names_l.Add(run.Type);
+			names_l.Add(Catalog.GetString(run.Type));
 		}
 
 		CairoBars1Series cbjt = new CairoBars1Series (point_l, names_l, darea, title);

@@ -153,12 +153,9 @@ void setup(void)
   //************************************************************************************
   // A0, A1, A2 connected to the 3xswith
   
-  pinMode(A0, INPUT);       //
-  digitalWrite(A0, HIGH);   //
-  pinMode(A1, INPUT);       //
-  digitalWrite(A1, HIGH);   //
-  pinMode(A2, INPUT);       //
-  digitalWrite(A2, HIGH);   //
+  pinMode(A0, INPUT);
+  pinMode(A1, INPUT);
+  pinMode(A2, INPUT);
 
   //   En estas entradas se pondra un microswich , de 3 botones
   //   Se leeran en binario y se sumarán al canal por defecto 101

@@ -205,7 +205,11 @@ public partial class ChronoJumpWindow
 				Constants.RunTable, typeTemp);
 		
 		//if(eventGraph.personMAXAtSQLAllSessions > 0 || eventGraph.runsAtSQL.Count > 0)
-			PrepareRunSimpleGraph(eventGraph, false); //don't animate
+		//	PrepareRunSimpleGraph(eventGraph, false); //don't animate
+		cairoPaintBarsPre = new CairoPaintBarsPre (
+				event_execute_drawingarea_cairo, preferences.fontType.ToString(), current_mode, "title runs");
+		cairoPaintBarsPre.StoreEventGraphRuns (eventGraph);
+		PrepareRunSimpleGraph(cairoPaintBarsPre.eventGraphRunsStored, false);
 	}
 	private void updateGraphRunsInterval ()
 	{

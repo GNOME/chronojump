@@ -181,9 +181,10 @@ public partial class ChronoJumpWindow
 
 	//Cairo stuff (migrating to GTK3)
 	//TODO: make all inherit from a generic: PrepareEventGraphContacts
-	PrepareEventGraphJumpSimple eventGraphJumpsCairoStored;
-	PrepareEventGraphRunSimple eventGraphRunsCairoStored;
-	string cairoTitleStored;
+	//PrepareEventGraphJumpSimple eventGraphJumpsCairoStored;
+	//PrepareEventGraphRunSimple eventGraphRunsCairoStored;
+	//string cairoTitleStored;
+	CairoPaintBarsPre cairoPaintBarsPre;
 
 
 	private void event_execute_initializeVariables (
@@ -544,6 +545,7 @@ public partial class ChronoJumpWindow
 				area.Width, area.Height);
 		}
 
+		//Note this does SQL calls at graph resize, eg. on_extra_window_jumps_test_changed: PrepareEventGraphJumpSimple
 		if(sizeChanged)
 		{
 			//LogB.Information("caring for resize screen and correctly update event_execute_drawingarea");
@@ -573,20 +575,19 @@ public partial class ChronoJumpWindow
 
 	public void on_event_execute_drawingarea_cairo_expose_event(object o, ExposeEventArgs args)
 	{
+		//right now only for jumps/runs simple
+		if(current_mode != Constants.Modes.JUMPSSIMPLE && current_mode != Constants.Modes.RUNSSIMPLE)
+			return;
+
+		//if object not defined or not defined fo this mode, return
+		if(cairoPaintBarsPre == null || ! cairoPaintBarsPre.ModeMatches (current_mode))
+			return;
+
+		//cairoPaintBarsPre.Prepare();
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)
-		{
-			if(eventGraphJumpsCairoStored == null)
-				return;
-
-			PrepareJumpSimpleGraph(eventGraphJumpsCairoStored, false);
-		}
-		else if(current_mode == Constants.Modes.RUNSSIMPLE)
-		{
-			if(eventGraphRunsCairoStored == null)
-				return;
-
-			PrepareRunSimpleGraph(eventGraphRunsCairoStored, false);
-		}
+			PrepareJumpSimpleGraph(cairoPaintBarsPre.eventGraphJumpsStored, false);
+		else if (current_mode == Constants.Modes.RUNSSIMPLE)
+			PrepareRunSimpleGraph(cairoPaintBarsPre.eventGraphRunsStored, false);
 	}
 
 	
@@ -725,9 +726,7 @@ public partial class ChronoJumpWindow
 		event_execute_drawingarea.QueueDraw();
 
 		// B) Paint cairo graph
-		eventGraphJumpsCairoStored = eventGraph;
-		cairoTitleStored = "jump title graph";
-		paintJumpSimpleCairoTest();
+		cairoPaintBarsPre.Paint();
 	}
 
 	private void on_button_person_max_all_sessions_info_clicked(object o, EventArgs args) 
@@ -911,9 +910,7 @@ public partial class ChronoJumpWindow
 		event_execute_drawingarea.QueueDraw();
 
 		// B) Paint cairo graph
-		eventGraphRunsCairoStored = eventGraph;
-		cairoTitleStored = "run title graph";
-		paintRunSimpleCairoTest();
+		cairoPaintBarsPre.Paint();
 	}
 	
 	// run interval
@@ -1127,40 +1124,6 @@ public partial class ChronoJumpWindow
 					Convert.ToInt32(alto/2 - lHeight/2), 
 					layoutBig);
 		}
-	}
-
-	private void paintJumpSimpleCairoTest()
-	{
-		if(eventGraphJumpsCairoStored == null ||
-				event_execute_drawingarea_cairo == null ||
-				event_execute_drawingarea_cairo.GdkWindow == null) //at start program, this can fail
-			return;
-
-		if(eventGraphJumpsCairoStored.jumpsAtSQL.Count == 0)
-		{
-			try {
-				new CairoBarsJustTesting (event_execute_drawingarea_cairo, preferences.fontType.ToString());
-			} catch {
-				LogB.Information("saved crash at with paintJumpSimpleCairoTest at astart");
-			}
-			return;
-		}
-
-		List<PointF> point_l = new List<PointF>();
-		List<string> names_l = new List<string>();
-
-		int countToDraw = eventGraphJumpsCairoStored.jumpsAtSQL.Count;
-		foreach(Jump jump in eventGraphJumpsCairoStored.jumpsAtSQL)
-		{
-			point_l.Add(new PointF(countToDraw --, Util.GetHeightInCentimeters(jump.Tv)));
-			names_l.Add(jump.Type);
-		}
-
-		CairoBarsJustTesting cbjt = new CairoBarsJustTesting (point_l, names_l, event_execute_drawingarea_cairo, cairoTitleStored);
-		cbjt.Do(preferences.fontType.ToString());
-
-		return;
-		// test ends ----
 	}
 
 	private void paintJumpSimple (Gtk.DrawingArea drawingarea, PrepareEventGraphJumpSimple eventGraph, 
@@ -1755,40 +1718,6 @@ public partial class ChronoJumpWindow
 		event_execute_pixmap.DrawLayout (pen_black, marginLeft + marginOut + 2 * marginIn + boxSize, marginOut + marginIn, layout);
 		layout.SetMarkup(text2);
 		event_execute_pixmap.DrawLayout (pen_black, marginLeft + marginOut + 2 * marginIn + boxSize, 2 * (marginOut + marginIn) + lHeight1, layout);
-	}
-
-	private void paintRunSimpleCairoTest()
-	{
-		if(eventGraphRunsCairoStored == null ||
-				event_execute_drawingarea_cairo == null ||
-				event_execute_drawingarea_cairo.GdkWindow == null) //at start program, this can fail
-			return;
-
-		if(eventGraphRunsCairoStored.runsAtSQL.Count == 0)
-		{
-			try {
-				new CairoBarsJustTesting (event_execute_drawingarea_cairo, preferences.fontType.ToString());
-			} catch {
-				LogB.Information("saved crash at with paintRunSimpleCairoTest at astart");
-			}
-			return;
-		}
-
-		List<PointF> point_l = new List<PointF>();
-		List<string> names_l = new List<string>();
-
-		int countToDraw = eventGraphRunsCairoStored.runsAtSQL.Count;
-		foreach(Run run in eventGraphRunsCairoStored.runsAtSQL)
-		{
-			point_l.Add(new PointF(countToDraw --, run.Distance/run.Time));
-			names_l.Add(run.Type);
-		}
-
-		CairoBarsJustTesting cbjt = new CairoBarsJustTesting (point_l, names_l, event_execute_drawingarea_cairo, cairoTitleStored);
-		cbjt.Do(preferences.fontType.ToString());
-
-		return;
-		// test ends ----
 	}
 
 	private void paintRunSimple (Gtk.DrawingArea drawingarea, PrepareEventGraphRunSimple eventGraph,
@@ -3209,4 +3138,119 @@ public partial class ChronoJumpWindow
 		get { return event_execute_button_update; }
 	}
 	
+}
+
+//to prepare data before calling cairo method
+//TODO: do this with inheritance (being top class abstract)
+public class CairoPaintBarsPre
+{
+	private DrawingArea darea;
+	private string fontStr;
+	private Constants.Modes mode;
+	private string title;
+
+	//TODO: tnis should be private, move prepare to this class
+	public PrepareEventGraphJumpSimple eventGraphJumpsStored;
+	public PrepareEventGraphRunSimple eventGraphRunsStored;
+
+	public CairoPaintBarsPre (DrawingArea darea, string fontStr, Constants.Modes mode, string title)
+	{
+		this.darea = darea;
+		this.fontStr = fontStr;
+		this.mode = mode;
+		this.title = title;
+	}
+
+	public bool ModeMatches (Constants.Modes mode)
+	{
+		return (this.mode == mode);
+	}
+
+	public void StoreEventGraphJumps (PrepareEventGraphJumpSimple eventGraph)
+	{
+		this.eventGraphJumpsStored = eventGraph;
+	}
+	public void StoreEventGraphRuns (PrepareEventGraphRunSimple eventGraph)
+	{
+		this.eventGraphRunsStored = eventGraph;
+	}
+
+	/*
+	public void Prepare ()
+	{
+		if(mode == Constants.Modes.JUMPSSIMPLE)
+			PrepareJumpSimpleGraph(eventGraphJumpsStored, false);
+		else if(current_mode == Constants.Modes.RUNSSIMPLE)
+			PrepareRunSimpleGraph(eventGraphRunsStored, false);
+	}
+	*/
+
+	public void Paint ()
+	{
+		if(darea == null || darea.GdkWindow == null) //at start program, this can fail
+			return;
+
+		if(mode == Constants.Modes.JUMPSSIMPLE)
+			paintJumpSimple ();
+		else if(mode == Constants.Modes.RUNSSIMPLE)
+			paintRunSimple ();
+	}
+
+	public void paintJumpSimple ()
+	{
+		if(eventGraphJumpsStored == null)
+			return;
+
+		if(eventGraphJumpsStored.jumpsAtSQL.Count == 0)
+		{
+			try {
+				new CairoBarsJustTesting (darea, fontStr);
+			} catch {
+				LogB.Information("saved crash at with paintJumpSimpleCairoTest at start");
+			}
+			return;
+		}
+
+		List<PointF> point_l = new List<PointF>();
+		List<string> names_l = new List<string>();
+
+		int countToDraw = eventGraphJumpsStored.jumpsAtSQL.Count;
+		foreach(Jump jump in eventGraphJumpsStored.jumpsAtSQL)
+		{
+			point_l.Add(new PointF(countToDraw --, Util.GetHeightInCentimeters(jump.Tv)));
+			names_l.Add(jump.Type);
+		}
+
+		CairoBarsJustTesting cbjt = new CairoBarsJustTesting (point_l, names_l, darea, title);
+		cbjt.Do(fontStr);
+	}
+
+	public void paintRunSimple ()
+	{
+		if(eventGraphRunsStored == null)
+			return;
+
+		if(eventGraphRunsStored.runsAtSQL.Count == 0)
+		{
+			try {
+				new CairoBarsJustTesting (darea, fontStr);
+			} catch {
+				LogB.Information("saved crash at with paintRunSimpleCairoTest at start");
+			}
+			return;
+		}
+
+		List<PointF> point_l = new List<PointF>();
+		List<string> names_l = new List<string>();
+
+		int countToDraw = eventGraphRunsStored.runsAtSQL.Count;
+		foreach(Run run in eventGraphRunsStored.runsAtSQL)
+		{
+			point_l.Add(new PointF(countToDraw --, run.Distance/run.Time));
+			names_l.Add(run.Type);
+		}
+
+		CairoBarsJustTesting cbjt = new CairoBarsJustTesting (point_l, names_l, darea, title);
+		cbjt.Do(fontStr);
+	}
 }

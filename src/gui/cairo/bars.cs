@@ -355,6 +355,7 @@ public class CairoBarsJustTesting : CairoBars
 		this.area = area;
 
 		LogB.Information("constructor without points, area is null:" + (area == null).ToString());
+		LogB.Information("constructor without points, area.GdkWindow is null:" + (area.GdkWindow == null).ToString());
 		initGraph(font, 1); //.8 to have title at right
 
 		endGraphDisposing(g);

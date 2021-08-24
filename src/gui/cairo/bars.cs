@@ -226,10 +226,43 @@ public abstract class CairoBars : CairoGeneric
 		return arr[minp];
 	}
 
-	protected void plotResultOnBar(double x, double y, double alto, double result)
+	//TODO: at the moment we are not lowering decs, make resultsFontHeight and decs global variables
+	protected int getBarsResultFontHeight (double maxWidth)
 	{
+		int decs = 2; //can be 1 if need more space
+		double maxLengthNumber = 9.99;
+		if(maxY >= 10)
+			maxLengthNumber = 99.99;
+		if(maxY >= 100)
+			maxLengthNumber = 999.99;
+		if(maxY >= 1000)
+			maxLengthNumber = 9999.99;
+
 		Cairo.TextExtents te;
-		te = g.TextExtents(Util.TrimDecimals(result,2));
+		te = g.TextExtents(Util.TrimDecimals(maxLengthNumber, decs));
+
+		//fix if label is wider than bar
+		int optimalFontHeight = textHeight;
+		for(int i = textHeight; te.Width >= maxWidth && i > 0; i --)
+		{
+			//if(i <= 8)
+			//	decs = 1;
+
+			g.SetFontSize(i);
+			te = g.TextExtents(Util.TrimDecimals(maxLengthNumber, decs));
+			optimalFontHeight = textHeight;
+		}
+
+		return optimalFontHeight;
+	}
+
+	protected void plotResultOnBar(double x, double y, double alto, double result, int resultFontHeight)
+	{
+		int decs = 2; //can be 1 if need more space
+
+		g.SetFontSize(resultFontHeight);
+		Cairo.TextExtents te;
+		te = g.TextExtents(Util.TrimDecimals(result,decs));
 
 		bool textAboveBar = true;
 		/*
@@ -261,7 +294,10 @@ public abstract class CairoBars : CairoGeneric
 		//write text
 		g.Color = black;
 		printText(x, yStart+te.Height/2, 0, Convert.ToInt32(te.Height),
-			Util.TrimDecimals(result, 2), g, alignTypes.CENTER);
+			Util.TrimDecimals(result, decs), g, alignTypes.CENTER);
+
+		//put font size to default value again
+		g.SetFontSize(textHeight);
 	}
 
 	protected void writeTitleAtTop()
@@ -346,6 +382,7 @@ public class CairoBars1Series : CairoBars
 
                 double barWidth = Convert.ToInt32(.5*distanceBetweenCols);
                 double barDesplLeft = Convert.ToInt32(.5*barWidth);
+		int resultFontHeight = getBarsResultFontHeight (barWidth*1.5);
 
 		for(int i = 0; i < point_l.Count; i ++)
 		{
@@ -356,7 +393,7 @@ public class CairoBars1Series : CairoBars
 
 			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -outerMargins, 4, g, colorSerie1);
 
-			plotResultOnBar(x + barWidth/2, y, graphHeight -outerMargins, p.Y);
+			plotResultOnBar(x + barWidth/2, y, graphHeight -outerMargins, p.Y, resultFontHeight);
 
 			//print the type at bottom
 			printText(x + barWidth/2, graphHeight -outerMargins + textHeight/2, 0, textHeight,
@@ -446,10 +483,11 @@ public class CairoBars2HSeries : CairoBars
                 //calculate separation between series and bar width
                 double distanceBetweenCols = (graphWidth - 2*outerMargins)/maxX;
 
-                double barWidth = .35*distanceBetweenCols;
+                double barWidth = .4*distanceBetweenCols;
                 double barDesplLeft = .5*barWidth;
 		//double valueABSep = barWidth / 4.0;
 		double valueABSep = 0;
+		int resultFontHeight = getBarsResultFontHeight (barWidth*1.5);
 
 		for(int i = 0; i < pointA_l.Count; i ++)
 		{
@@ -463,7 +501,7 @@ public class CairoBars2HSeries : CairoBars
 			double y = calculatePaintY(p.Y);
 
 			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -outerMargins, 4, g, colorSerie1);
-			plotResultOnBar(x + barWidth/2, y, graphHeight -outerMargins, p.Y);
+			plotResultOnBar(x + barWidth/2, y, graphHeight -outerMargins, p.Y, resultFontHeight);
 
 			//print the type at bottom
 			printText(x + barWidth + valueABSep/2, graphHeight -outerMargins + textHeight/2, 0, textHeight,
@@ -479,7 +517,7 @@ public class CairoBars2HSeries : CairoBars
 			y = calculatePaintY(p.Y);
 
 			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y - outerMargins, 4, g, colorSerie2);
-			plotResultOnBar(x + barWidth/2, y, graphHeight -outerMargins, p.Y);
+			plotResultOnBar(x + barWidth/2, y, graphHeight -outerMargins, p.Y, resultFontHeight);
 		}
 	}
 

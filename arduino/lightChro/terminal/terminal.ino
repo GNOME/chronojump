@@ -326,6 +326,7 @@ void executeCommand(uint16_t command)
     if ((command & ping) == ping) {
       Serial.println("Pong");
       time0 = millis(); //empieza a contar time
+      sample.state = digitalRead(2);
       flagint = HIGH;
     }
   }

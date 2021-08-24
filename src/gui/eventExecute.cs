@@ -3241,7 +3241,7 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 			names_l.Add(jump.Type);
 		}
 
-		CairoBars1Series cbjt = new CairoBars1Series (point_l, names_l, darea, title);
+		CairoBars2HSeries cbjt = new CairoBars2HSeries (point_l, point_l, names_l, darea, title);
 		cbjt.Do(fontStr);
 	}
 }

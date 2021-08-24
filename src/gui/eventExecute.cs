@@ -3141,19 +3141,17 @@ public partial class ChronoJumpWindow
 }
 
 //to prepare data before calling cairo method
-//TODO: do this with inheritance (being top class abstract)
-public class CairoPaintBarsPre
+public abstract class CairoPaintBarsPre
 {
-	private DrawingArea darea;
-	private string fontStr;
-	private Constants.Modes mode;
-	private string title;
-
-	//TODO: tnis should be private, move prepare to this class
 	public PrepareEventGraphJumpSimple eventGraphJumpsStored;
 	public PrepareEventGraphRunSimple eventGraphRunsStored;
 
-	public CairoPaintBarsPre (DrawingArea darea, string fontStr, Constants.Modes mode, string title)
+	protected DrawingArea darea;
+	protected string fontStr;
+	protected Constants.Modes mode;
+	protected string title;
+
+	protected void initialize(DrawingArea darea, string fontStr, Constants.Modes mode, string title)
 	{
 		this.darea = darea;
 		this.fontStr = fontStr;
@@ -3166,13 +3164,11 @@ public class CairoPaintBarsPre
 		return (this.mode == mode);
 	}
 
-	public void StoreEventGraphJumps (PrepareEventGraphJumpSimple eventGraph)
+	public virtual void StoreEventGraphJumps (PrepareEventGraphJumpSimple eventGraph)
 	{
-		this.eventGraphJumpsStored = eventGraph;
 	}
-	public void StoreEventGraphRuns (PrepareEventGraphRunSimple eventGraph)
+	public virtual void StoreEventGraphRuns (PrepareEventGraphRunSimple eventGraph)
 	{
-		this.eventGraphRunsStored = eventGraph;
 	}
 
 	/*
@@ -3190,27 +3186,51 @@ public class CairoPaintBarsPre
 		if(darea == null || darea.GdkWindow == null) //at start program, this can fail
 			return;
 
-		if(mode == Constants.Modes.JUMPSSIMPLE)
-			paintJumpSimple ();
-		else if(mode == Constants.Modes.RUNSSIMPLE)
-			paintRunSimple ();
-	}
-
-	public void paintJumpSimple ()
-	{
-		if(eventGraphJumpsStored == null)
+		if(! storeCreated())
 			return;
 
-		if(eventGraphJumpsStored.jumpsAtSQL.Count == 0)
+		if(! haveDataToPlot())
 		{
 			try {
 				new CairoBarsJustTesting (darea, fontStr);
 			} catch {
-				LogB.Information("saved crash at with paintJumpSimpleCairoTest at start");
+				LogB.Information("saved crash at with cairo paint");
 			}
 			return;
 		}
 
+		paintSpecific();
+	}
+
+	protected abstract bool storeCreated ();
+	protected abstract bool haveDataToPlot ();
+	protected abstract void paintSpecific();
+}
+
+public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
+{
+	public CairoPaintBarsPreJumpSimple (DrawingArea darea, string fontStr, Constants.Modes mode, string title)
+	{
+		initialize (darea, fontStr, mode, title);
+	}
+
+	public override void StoreEventGraphJumps (PrepareEventGraphJumpSimple eventGraph)
+	{
+		this.eventGraphJumpsStored = eventGraph;
+	}
+
+	protected override bool storeCreated ()
+	{
+		return (eventGraphJumpsStored != null);
+	}
+
+	protected override bool haveDataToPlot()
+	{
+		return (eventGraphJumpsStored.jumpsAtSQL.Count > 0);
+	}
+
+	protected override void paintSpecific()
+	{
 		List<PointF> point_l = new List<PointF>();
 		List<string> names_l = new List<string>();
 
@@ -3224,22 +3244,32 @@ public class CairoPaintBarsPre
 		CairoBarsJustTesting cbjt = new CairoBarsJustTesting (point_l, names_l, darea, title);
 		cbjt.Do(fontStr);
 	}
+}
 
-	public void paintRunSimple ()
+public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
+{
+	public CairoPaintBarsPreRunSimple (DrawingArea darea, string fontStr, Constants.Modes mode, string title)
 	{
-		if(eventGraphRunsStored == null)
-			return;
+		initialize (darea, fontStr, mode, title);
+	}
 
-		if(eventGraphRunsStored.runsAtSQL.Count == 0)
-		{
-			try {
-				new CairoBarsJustTesting (darea, fontStr);
-			} catch {
-				LogB.Information("saved crash at with paintRunSimpleCairoTest at start");
-			}
-			return;
-		}
+	public override void StoreEventGraphRuns (PrepareEventGraphRunSimple eventGraph)
+	{
+		this.eventGraphRunsStored = eventGraph;
+	}
 
+	protected override bool storeCreated ()
+	{
+		return (eventGraphRunsStored != null);
+	}
+
+	protected override bool haveDataToPlot()
+	{
+		return (eventGraphRunsStored.runsAtSQL.Count > 0);
+	}
+
+	protected override void paintSpecific()
+	{
 		List<PointF> point_l = new List<PointF>();
 		List<string> names_l = new List<string>();
 

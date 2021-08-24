@@ -179,6 +179,7 @@ void setup(void)
   pinMode(A4, OUTPUT);    //Green    
   pinMode(A5, OUTPUT);    //Red
   pinMode(7, OUTPUT);     //Buzzer
+  digitalWrite(7, LOW);
   pinMode(2, INPUT_PULLUP); //Sensor
 
   red_off;

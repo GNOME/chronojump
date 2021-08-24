@@ -31,7 +31,7 @@ public abstract class CairoBars : CairoGeneric
 	//protected string jumpType;
 	//protected string runType;
 	protected string date;
-	protected Cairo.Color colorSerie1;
+	protected Cairo.Color colorSerieA;
 
 	protected Cairo.Context g;
 	protected int lineWidthDefault = 2;
@@ -331,6 +331,9 @@ public abstract class CairoBars : CairoGeneric
 	//reccomended to 1st paint the grid, then the axis
 	protected void paintGrid(gridTypes gridType, bool niceAutoValues)
 	{
+		if(minY == maxY)
+			return;
+
 		g.LineWidth = 1; //to allow to be shown the red arrows on jumpsWeightFVProfile
 
 		if(niceAutoValues)
@@ -339,6 +342,12 @@ public abstract class CairoBars : CairoGeneric
 			paintGridInt (g, minX, maxX, minY, maxY, 1, gridType);
 	}
 
+	public string YVariable {
+		set { yVariable = value; }
+	}
+	public string YUnits {
+		set { yUnits = value; }
+	}
 }
 
 public class CairoBars1Series : CairoBars
@@ -366,7 +375,7 @@ public class CairoBars1Series : CairoBars
 		this.area = area;
 		this.title = title;
 
-		this.colorSerie1 = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
+		this.colorSerieA = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
 	}
 
 	protected override void findPointMaximums()
@@ -400,7 +409,7 @@ public class CairoBars1Series : CairoBars
 			double x = (graphWidth - 2*outerMargins) * (p.X-.5)/point_l.Count - barDesplLeft + outerMargins;
 			double y = calculatePaintY(p.Y);
 
-			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -outerMargins, 4, g, colorSerie1);
+			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -outerMargins, 4, g, colorSerieA);
 
 			plotResultOnBar(x + barWidth/2, y, graphHeight -outerMargins, p.Y, resultFontHeight, barWidth, -1);
 
@@ -441,7 +450,7 @@ public class CairoBars2HSeries : CairoBars
 	private List<PointF> pointB_l;
 	private List<string> names_l;
 
-	private Cairo.Color colorSerie2;
+	private Cairo.Color colorSerieB;
 
 	//constructor when there are no points
 	public CairoBars2HSeries (DrawingArea area, string font)
@@ -464,9 +473,9 @@ public class CairoBars2HSeries : CairoBars
 		this.area = area;
 		this.title = title;
 
-		this.colorSerie1 = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
-		colorSerie2 = colorFromGdk(UtilGtk.GetColorShifted(Config.ColorBackground,
+		colorSerieA = colorFromGdk(UtilGtk.GetColorShifted(Config.ColorBackground,
 					! UtilGtk.ColorIsDark(Config.ColorBackground)));
+		colorSerieB = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
 	}
 
 	protected override void findPointMaximums()
@@ -498,35 +507,41 @@ public class CairoBars2HSeries : CairoBars
 		double valueABSep = 0;
 		int resultFontHeight = getBarsResultFontHeight (barWidth*1.5);
 
+		//TODO: do the plotResultOnBar calls at the end of this for, with another for (knowing the X,Y of the bars)
 		for(int i = 0; i < pointA_l.Count; i ++)
 		{
-			PointF p = pointA_l[i];
+			PointF pA = pointA_l[i];
+			PointF pB = pointB_l[i];
+			double pAyStart = 0;
 
-			double adjustX = -barDesplLeft;
-			//if(valueB > 0)
-				adjustX = -2 * barDesplLeft -.5 * valueABSep;
+			if(pA.Y > 0)
+			{
+				double adjustX = -barDesplLeft;
+				if(pB.Y > 0)
+					adjustX = -2 * barDesplLeft -.5 * valueABSep;
 
-			double x = (graphWidth - 2*outerMargins) * p.X/maxX - barDesplLeft + adjustX + outerMargins;
-			double y = calculatePaintY(p.Y);
+				double x = (graphWidth - 2*outerMargins) * pA.X/maxX - barDesplLeft + adjustX + outerMargins;
+				double y = calculatePaintY(pA.Y);
 
-			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -outerMargins, 4, g, colorSerie1);
-			double yStartPointA = plotResultOnBar(x + barWidth/2, y, graphHeight -outerMargins, p.Y, resultFontHeight, barWidth, -1);
+				drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -outerMargins, 4, g, colorSerieA);
+				pAyStart = plotResultOnBar(x + barWidth/2, y, graphHeight -outerMargins, pA.Y, resultFontHeight, barWidth, -1);
+			}
+			if(pB.Y > 0)
+			{
+				double adjustX = -barDesplLeft;
+				if(pA.Y > 0)
+					adjustX = .5 * valueABSep;
 
-			//print the type at bottom
-			printText(x + barWidth + valueABSep/2, graphHeight -outerMargins + textHeight/2, 0, textHeight,
+				double x = (graphWidth - 2*outerMargins) * pB.X/maxX - barDesplLeft + adjustX + outerMargins;
+				double y = calculatePaintY(pB.Y);
+
+				drawRoundedRectangle (true, x, y, barWidth, graphHeight -y - outerMargins, 4, g, colorSerieB);
+				plotResultOnBar(x + barWidth/2, y, graphHeight -outerMargins, pB.Y, resultFontHeight, barWidth, pAyStart);
+			}
+
+			printText( (graphWidth - 2*outerMargins) * pA.X/maxX + -barDesplLeft + outerMargins,
+					graphHeight -outerMargins + textHeight/2, 0, textHeight,
 					names_l[i], g, alignTypes.CENTER);
-
-			p = pointB_l[i];
-
-			adjustX = -barDesplLeft;
-			//if(valueA > 0)
-				adjustX = .5 * valueABSep;
-
-			x = (graphWidth - 2*outerMargins) * p.X/maxX - barDesplLeft + adjustX + outerMargins;
-			y = calculatePaintY(p.Y);
-
-			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y - outerMargins, 4, g, colorSerie2);
-			plotResultOnBar(x + barWidth/2, y, graphHeight -outerMargins, p.Y, resultFontHeight, barWidth, yStartPointA);
 		}
 	}
 

@@ -726,6 +726,7 @@ public partial class ChronoJumpWindow
 		event_execute_drawingarea.QueueDraw();
 
 		// B) Paint cairo graph
+		cairoPaintBarsPre.UseHeights = useHeights;
 		cairoPaintBarsPre.Paint();
 	}
 
@@ -3143,7 +3144,11 @@ public partial class ChronoJumpWindow
 //to prepare data before calling cairo method
 public abstract class CairoPaintBarsPre
 {
+	//jump simple
 	public PrepareEventGraphJumpSimple eventGraphJumpsStored;
+	public bool UseHeights;
+
+	//run simple
 	public PrepareEventGraphRunSimple eventGraphRunsStored;
 
 	protected DrawingArea darea;
@@ -3231,17 +3236,60 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 
 	protected override void paintSpecific()
 	{
-		List<PointF> point_l = new List<PointF>();
+		List<PointF> pointA_l = new List<PointF>();
+		List<PointF> pointB_l = new List<PointF>();
 		List<string> names_l = new List<string>();
+
+		/*
+		 * check if one bar has to be shown or two
+		 * this is important when we are showing multitests
+		 */
+		bool showBarA = false; //tc or fall
+		bool showBarB = false; //tv or height
+		foreach(Jump jump in eventGraphJumpsStored.jumpsAtSQL)
+		{
+			if(jump.Fall > 0 || jump.Tc > 0) //jump.Tc to include takeOff, takeOffWeiht
+				showBarA = true;
+			if(jump.Tv > 0)
+				showBarB = true;
+
+			//if both found do not need to search more
+			if(showBarA && showBarB)
+				break;
+		}
 
 		int countToDraw = eventGraphJumpsStored.jumpsAtSQL.Count;
 		foreach(Jump jump in eventGraphJumpsStored.jumpsAtSQL)
 		{
-			point_l.Add(new PointF(countToDraw --, Util.GetHeightInCentimeters(jump.Tv)));
+			double valueA = jump.Fall;
+			double valueB = Util.GetHeightInCentimeters(jump.Tv); //jump height
+			if(! UseHeights) {
+				valueA = jump.Tc;
+				valueB = jump.Tv;
+			}
+
+			pointA_l.Add(new PointF(countToDraw, valueA));
+			pointB_l.Add(new PointF(countToDraw, valueB));
+			countToDraw --;
+
 			names_l.Add(jump.Type);
 		}
 
-		CairoBars2HSeries cbjt = new CairoBars2HSeries (point_l, point_l, names_l, darea, title);
+		CairoBars cbjt;
+		if(showBarA && showBarB) //Dja, Djna
+			cbjt = new CairoBars2HSeries (pointA_l, pointB_l, names_l, darea, title);
+		else if (showBarA) //takeOff, takeOffWeight
+			cbjt = new CairoBars1Series (pointA_l, names_l, darea, title);
+		else //rest of the jumps: sj, cmj, ..
+			cbjt = new CairoBars1Series (pointB_l, names_l, darea, title);
+
+		if(UseHeights) {
+			cbjt.YVariable = "Height";
+			cbjt.YUnits = "cm";
+		} else {
+			cbjt.YVariable = "Time";
+			cbjt.YUnits = "s";
+		}
 		cbjt.Do(fontStr);
 	}
 }

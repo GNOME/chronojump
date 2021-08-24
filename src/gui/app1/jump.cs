@@ -337,7 +337,11 @@ public partial class ChronoJumpWindow
 				Constants.JumpTable, typeTemp, preferences.heightPreferred);
 		
 		//if(eventGraph.personMAXAtSQLAllSessions > 0 || eventGraph.jumpsAtSQL.Count > 0)
-			PrepareJumpSimpleGraph(eventGraph, false); //don't animate
+		//	PrepareJumpSimpleGraph(eventGraph, false); //don't animate
+		cairoPaintBarsPre = new CairoPaintBarsPre (
+				event_execute_drawingarea_cairo, preferences.fontType.ToString(), current_mode, "title jumps");
+		cairoPaintBarsPre.StoreEventGraphJumps (eventGraph);
+		PrepareJumpSimpleGraph(cairoPaintBarsPre.eventGraphJumpsStored, false);
 	}
 	private void updateGraphJumpsReactive ()
 	{

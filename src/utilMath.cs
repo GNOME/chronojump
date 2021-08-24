@@ -62,6 +62,32 @@ public class PointF
 	}
 }
 
+//nice to have an X, Y and a value (Z)
+public class Point3F
+{
+	private double x;
+	private double y;
+	private double z;
+
+	public Point3F (double x, double y, double z)
+	{
+		this.x = x;
+		this.y = y;
+		this.z = z;
+	}
+
+	public double X {
+		get { return x; }
+	}
+	public double Y {
+		get { return y; }
+	}
+	public double Z {
+		get { return z; }
+	}
+}
+
+
 public class KeyDouble
 {
 	private string key;

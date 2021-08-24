@@ -250,7 +250,7 @@ public abstract class CairoBars : CairoGeneric
 
 			g.SetFontSize(i);
 			te = g.TextExtents(Util.TrimDecimals(maxLengthNumber, decs));
-			optimalFontHeight = textHeight;
+			optimalFontHeight = i;
 		}
 
 		return optimalFontHeight;
@@ -288,7 +288,7 @@ public abstract class CairoBars : CairoGeneric
 		else
 			g.Color = yellow; //to have contrast with the bar
 
-		g.Rectangle(x - te.Width/2, yStart-1, te.Width, te.Height+2);
+		g.Rectangle(x - te.Width/2 -1, yStart-1, te.Width +2, te.Height+2);
 		g.Fill();
 
 		//write text

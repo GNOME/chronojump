@@ -31,7 +31,7 @@ public abstract class CairoBars : CairoGeneric
 	//protected string jumpType;
 	//protected string runType;
 	protected string date;
-	protected Cairo.Color colorBackground;
+	protected Cairo.Color colorSerie1;
 
 	protected Cairo.Context g;
 	protected int lineWidthDefault = 2;
@@ -49,14 +49,12 @@ public abstract class CairoBars : CairoGeneric
 	protected Cairo.Color gray99;
 	Cairo.Color white;
 	protected Cairo.Color red;
-	Cairo.Color blue;
+	protected Cairo.Color blue;
 	protected Cairo.Color bluePlots;
 	protected Cairo.Color yellow;
 
 
-	public virtual void Do(string font)
-	{
-	}
+	public abstract void Do(string font);
 
 	protected void initGraph(string font, double widthPercent1)
 	{
@@ -300,8 +298,8 @@ public abstract class CairoBars : CairoGeneric
 
 public class CairoBars1Series : CairoBars
 {
-	protected List<PointF> point_l;
-	protected List<string> names_l;
+	private List<PointF> point_l;
+	private List<string> names_l;
 
 	//constructor when there are no points
 	public CairoBars1Series (DrawingArea area, string font)
@@ -323,7 +321,7 @@ public class CairoBars1Series : CairoBars
 		this.area = area;
 		this.title = title;
 
-		this.colorBackground = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
+		this.colorSerie1 = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
 	}
 
 	protected override void findPointMaximums()
@@ -343,12 +341,11 @@ public class CairoBars1Series : CairoBars
 	protected override void plotBars ()
 	{
                 //calculate separation between series and bar width
-                int distanceBetweenCols = Convert.ToInt32((graphWidth - 2*outerMargins)*(1+.5)/point_l.Count) -
+                double distanceBetweenCols = Convert.ToInt32((graphWidth - 2*outerMargins)*(1+.5)/point_l.Count) -
                         Convert.ToInt32((graphWidth - 2*outerMargins)*(0+.5)/point_l.Count);
 
-		//int tctfSep = Convert.ToInt32(.3*distanceBetweenCols);
-                int barWidth = Convert.ToInt32(.5*distanceBetweenCols);
-                int barDesplLeft = Convert.ToInt32(.5*barWidth);
+                double barWidth = Convert.ToInt32(.5*distanceBetweenCols);
+                double barDesplLeft = Convert.ToInt32(.5*barWidth);
 
 		for(int i = 0; i < point_l.Count; i ++)
 		{
@@ -357,26 +354,19 @@ public class CairoBars1Series : CairoBars
 			double x = (graphWidth - 2*outerMargins) * (p.X-.5)/point_l.Count - barDesplLeft + outerMargins;
 			double y = calculatePaintY(p.Y);
 
-			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -outerMargins, 4, g, colorBackground);
+			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -outerMargins, 4, g, colorSerie1);
 
 			plotResultOnBar(x + barWidth/2, y, graphHeight -outerMargins, p.Y);
 
 			//print the type at bottom
 			printText(x + barWidth/2, graphHeight -outerMargins + textHeight/2, 0, textHeight,
 					names_l[i], g, alignTypes.CENTER);
-
-			/*
-			x = Convert.ToInt32((graphWidth - outerMargins)*(count+.5)/point_l.Count)-barDesplLeft+tctfSep;
-			y = calculatePaintY(p.Y);
-
-			LogB.Information(string.Format("blue: {0}, {1}, {2}, {3}", Convert.ToDouble(p.Y), graphHeight, maxY, y));
-			drawRoundedRectangle (x, y, barWidth, graphHeight -y - outerMargins, 4, g, blue);
-			*/
 		}
 	}
+
 	public override void Do(string font)
 	{
-		LogB.Information("at CairoBarsJustTesting.Do");
+		LogB.Information("at CairoBars1Series.Do");
 
 		textHeight = 14;
 
@@ -391,6 +381,125 @@ public class CairoBars1Series : CairoBars
 
 		g.Color = black;
 		plotBars ();
+
+		writeTitleAtTop ();
+
+		endGraphDisposing(g);
+	}
+}
+
+//two series in horizontal, like jump Dj tc/tf
+public class CairoBars2HSeries : CairoBars
+{
+	private List<PointF> pointA_l;
+	private List<PointF> pointB_l;
+	private List<string> names_l;
+
+	private Cairo.Color colorSerie2;
+
+	//constructor when there are no points
+	public CairoBars2HSeries (DrawingArea area, string font)
+	{
+		this.area = area;
+
+		LogB.Information("constructor without points, area is null:" + (area == null).ToString());
+		LogB.Information("constructor without points, area.GdkWindow is null:" + (area.GdkWindow == null).ToString());
+		initGraph(font, 1); //.8 to have title at right
+
+		endGraphDisposing(g);
+	}
+
+	//regular constructor
+	public CairoBars2HSeries (List<PointF> pointA_l, List<PointF> pointB_l, List<string> names_l, DrawingArea area, string title)
+	{
+		this.pointA_l = pointA_l;
+		this.pointB_l = pointB_l;
+		this.names_l = names_l;
+		this.area = area;
+		this.title = title;
+
+		this.colorSerie1 = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
+		colorSerie2 = colorFromGdk(UtilGtk.GetColorShifted(Config.ColorBackground,
+					! UtilGtk.ColorIsDark(Config.ColorBackground)));
+	}
+
+	protected override void findPointMaximums()
+	{
+		foreach(PointF p in pointA_l)
+			if(p.Y > maxY)
+				maxY = p.Y;
+		foreach(PointF p in pointB_l)
+			if(p.Y > maxY)
+				maxY = p.Y;
+
+		//points X start at 1
+		minX = 0;
+		maxX = pointA_l.Count + .5; //pointA_l and pointB_l have same length
+
+		//bars Y have 0 at bottom
+		minY = 0;
+	}
+
+	//note pointA_l and pointB_l have same length
+	protected override void plotBars ()
+	{
+                //calculate separation between series and bar width
+                double distanceBetweenCols = (graphWidth - 2*outerMargins)/maxX;
+
+                double barWidth = .35*distanceBetweenCols;
+                double barDesplLeft = .5*barWidth;
+		//double valueABSep = barWidth / 4.0;
+		double valueABSep = 0;
+
+		for(int i = 0; i < pointA_l.Count; i ++)
+		{
+			PointF p = pointA_l[i];
+
+			double adjustX = -barDesplLeft;
+			//if(valueB > 0)
+				adjustX = -2 * barDesplLeft -.5 * valueABSep;
+
+			double x = (graphWidth - 2*outerMargins) * p.X/maxX - barDesplLeft + adjustX + outerMargins;
+			double y = calculatePaintY(p.Y);
+
+			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -outerMargins, 4, g, colorSerie1);
+			plotResultOnBar(x + barWidth/2, y, graphHeight -outerMargins, p.Y);
+
+			//print the type at bottom
+			printText(x + barWidth + valueABSep/2, graphHeight -outerMargins + textHeight/2, 0, textHeight,
+					names_l[i], g, alignTypes.CENTER);
+
+			p = pointB_l[i];
+
+			adjustX = -barDesplLeft;
+			//if(valueA > 0)
+				adjustX = .5 * valueABSep;
+
+			x = (graphWidth - 2*outerMargins) * p.X/maxX - barDesplLeft + adjustX + outerMargins;
+			y = calculatePaintY(p.Y);
+
+			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y - outerMargins, 4, g, colorSerie2);
+			plotResultOnBar(x + barWidth/2, y, graphHeight -outerMargins, p.Y);
+		}
+	}
+
+	public override void Do(string font)
+	{
+		LogB.Information("at CairoBars2HSeries.Do");
+
+		textHeight = 14;
+
+		initGraph(font, 1); //.8 if writeTextAtRight
+
+                findPointMaximums();
+
+		g.SetFontSize(textHeight -2);
+		paintAxis(2);
+		paintGrid(gridTypes.HORIZONTALLINES, true);
+		g.SetFontSize(textHeight);
+
+		g.Color = black;
+		plotBars();
 
 		writeTitleAtTop ();
 

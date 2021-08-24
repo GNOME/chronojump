@@ -32,7 +32,6 @@ int blinkPeriod = 75; //Time between two consecutives rising flank of the LED
 // binary commands: each bit represents RED, GREEN, BLUE, BUZZER, BLINK_RED, BLINK_GREEN, BLINK_BLUE, SENSOR
 // 1 means ON
 // 0 means OFF
-
 const uint16_t ping           = 0b1000000000; //512
 const uint16_t sensorUnlimited = 0b100000000; //256
 const uint16_t red =              0b10000000; //128
@@ -76,6 +75,9 @@ uint8_t controlSwitch = 0;      //State of the 3xswithes
 const uint64_t pipes[2] = { 0xF0F0F0F0E1LL, 0xF0F0F0F0D2LL }; //Two radio pipes. One for emitting and the other for receiving
 
 bool binaryMode = false;
+unsigned long startTime;      //local time when the reset_time function is executed
+unsigned long lastSampleTime; //local time at which some sample has been received without overflow correction
+unsigned long totalTime;      //Total elapsed time since startTime
 
 void setup(void)
 {
@@ -134,6 +136,8 @@ void setup(void)
 
   Serial.println("NumTerm\tTime\tState");
   Serial.println("------------------------");
+
+  startTime = millis();
 }
 
 
@@ -141,13 +145,13 @@ void loop(void)
 {
   while (radio.available()) //Some terminal has sent a response
   {
+    totalTime = getLocalTime();
     radio.read(  &sample, sample_size);
-
     blinkStop();
     if(!binaryMode){
       Serial.print(sample.termNum);
       Serial.print(";");
-      Serial.print(sample.time);
+      Serial.print(totalTime);
       Serial.print(";");
       Serial.println(sample.state);
     } else {
@@ -156,7 +160,6 @@ void loop(void)
     LED_off;
     delay(50);
     LED_on;
-    //      }
   }
 }
 
@@ -165,12 +168,13 @@ void serialEvent()
 {
 
   String inputString = Serial.readString();
+//  Serial.print("Instruction received from Serial: \"");
 //  Serial.print(inputString);
-
+//  Serial.println("\"");
   int separatorPosition = inputString.lastIndexOf(":");
   
   String terminalString = inputString.substring(0, separatorPosition);
-//  Serial.print("terminalString: \"");
+//  Serial.print("terminalString:\"");
 //  Serial.print(terminalString);
 //  Serial.println("\"");
 
@@ -179,11 +183,9 @@ void serialEvent()
 //  Serial.print(commandString);
 //  Serial.println("\"");
 
-
   if (terminalString == "all")  //The command is sent to all the terminals
   {
     activateAll(instruction.command);
-    
   } else if(terminalString == "local"){
     if(commandString == "get_version"){
       Serial.println(version);
@@ -193,18 +195,19 @@ void serialEvent()
     } else if(commandString == "set_text_mode"){
       Serial.println("Setting text mode");
       binaryMode = false;
+    } else if(commandString == "reset_time"){
+      startTime = millis();
     } else {
       Serial.println("Wrong local command");
     }
-    
-  } else {  // if termunString is a single remote terminal, Command to a single terminal
+  } else {  // if terminalString is a single remote terminal, Command to a single terminal
     instruction.command = commandString.toInt();
 //    Serial.print("Command: ");
 //    Serial.println(instruction.command);
     instruction.termNum = terminalString.toInt();
-    //      Serial.print("instruction.termNum:\"");
-    //      Serial.print(instruction.termNum);
-    //      Serial.println("\"");
+//      Serial.print("instruction.termNum:\"");
+//      Serial.print(instruction.termNum);
+//      Serial.println("\"");
     sendInstruction(&instruction);
   }
   if (instruction.command & sensorOnce) {
@@ -279,4 +282,21 @@ void blinkOnce(void)
   LED_off;
   MsTimer2::set(50, blinkStop);
   LED_on;
+}
+
+//This fucnction manages the time elapsed from the start of the
+unsigned long getLocalTime(void)
+{
+  //not to be confused with sample.time . This is the local time at which the sample has been received.
+  //sample.time is the elapsed time since the terminal received the activating sensor command untill actual activation.
+  unsigned long localSampleTime = millis();
+  if(localSampleTime > startTime)            //No overflow
+  {
+    totalTime = localSampleTime - startTime;
+  } else if (localSampleTime <= startTime)   //Overflow
+  {
+    //Time from the last measure to the overflow event plus the sampleTime
+    totalTime = (4294967295 -  lastSampleTime) + localSampleTime;
+  }
+  return(totalTime);
 }

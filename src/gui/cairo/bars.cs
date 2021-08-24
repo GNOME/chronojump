@@ -256,7 +256,8 @@ public abstract class CairoBars : CairoGeneric
 		return optimalFontHeight;
 	}
 
-	protected void plotResultOnBar(double x, double y, double alto, double result, int resultFontHeight)
+	protected double plotResultOnBar(double x, double y, double alto, double result,
+			int resultFontHeight, double barWidth, double yStartPointA)
 	{
 		int decs = 2; //can be 1 if need more space
 
@@ -278,6 +279,12 @@ public abstract class CairoBars : CairoGeneric
 			yStart = y - 1.5*te.Height;
 		}
 
+		//check if there's an overlap with pointA)
+		if ( yStartPointA >= 0 && te.Width >= barWidth &&
+				( yStart >= yStartPointA && yStart <= yStartPointA + te.Height ||
+				  yStart <= yStartPointA && yStart + te.Height >= yStartPointA ) )
+			yStart = yStartPointA - 1.1 * te.Height;
+
 		LogB.Information(string.Format("y: {0}, alto: {1}, yStart: {2}", y, alto, yStart));
 
 		if( (yStart + te.Height) > alto )
@@ -298,6 +305,8 @@ public abstract class CairoBars : CairoGeneric
 
 		//put font size to default value again
 		g.SetFontSize(textHeight);
+
+		return yStart;
 	}
 
 	protected void writeTitleAtTop()
@@ -393,7 +402,7 @@ public class CairoBars1Series : CairoBars
 
 			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -outerMargins, 4, g, colorSerie1);
 
-			plotResultOnBar(x + barWidth/2, y, graphHeight -outerMargins, p.Y, resultFontHeight);
+			plotResultOnBar(x + barWidth/2, y, graphHeight -outerMargins, p.Y, resultFontHeight, barWidth, -1);
 
 			//print the type at bottom
 			printText(x + barWidth/2, graphHeight -outerMargins + textHeight/2, 0, textHeight,
@@ -501,7 +510,7 @@ public class CairoBars2HSeries : CairoBars
 			double y = calculatePaintY(p.Y);
 
 			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -outerMargins, 4, g, colorSerie1);
-			plotResultOnBar(x + barWidth/2, y, graphHeight -outerMargins, p.Y, resultFontHeight);
+			double yStartPointA = plotResultOnBar(x + barWidth/2, y, graphHeight -outerMargins, p.Y, resultFontHeight, barWidth, -1);
 
 			//print the type at bottom
 			printText(x + barWidth + valueABSep/2, graphHeight -outerMargins + textHeight/2, 0, textHeight,
@@ -517,7 +526,7 @@ public class CairoBars2HSeries : CairoBars
 			y = calculatePaintY(p.Y);
 
 			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y - outerMargins, 4, g, colorSerie2);
-			plotResultOnBar(x + barWidth/2, y, graphHeight -outerMargins, p.Y, resultFontHeight);
+			plotResultOnBar(x + barWidth/2, y, graphHeight -outerMargins, p.Y, resultFontHeight, barWidth, yStartPointA);
 		}
 	}
 

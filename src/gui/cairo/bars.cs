@@ -507,12 +507,13 @@ public class CairoBars2HSeries : CairoBars
 		double valueABSep = 0;
 		int resultFontHeight = getBarsResultFontHeight (barWidth*1.5);
 
-		//TODO: do the plotResultOnBar calls at the end of this for, with another for (knowing the X,Y of the bars)
+		List<Point3F> resultOnBarA_l = new List<Point3F>();
+		List<Point3F> resultOnBarB_l = new List<Point3F>();
+
 		for(int i = 0; i < pointA_l.Count; i ++)
 		{
 			PointF pA = pointA_l[i];
 			PointF pB = pointB_l[i];
-			double pAyStart = 0;
 
 			if(pA.Y > 0)
 			{
@@ -524,8 +525,11 @@ public class CairoBars2HSeries : CairoBars
 				double y = calculatePaintY(pA.Y);
 
 				drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -outerMargins, 4, g, colorSerieA);
-				pAyStart = plotResultOnBar(x + barWidth/2, y, graphHeight -outerMargins, pA.Y, resultFontHeight, barWidth, -1);
+				resultOnBarA_l.Add(new Point3F(x + barWidth/2, y, pA.Y));
 			}
+			else
+				resultOnBarA_l.Add(new Point3F(0, 0, 0));
+
 			if(pB.Y > 0)
 			{
 				double adjustX = -barDesplLeft;
@@ -536,12 +540,29 @@ public class CairoBars2HSeries : CairoBars
 				double y = calculatePaintY(pB.Y);
 
 				drawRoundedRectangle (true, x, y, barWidth, graphHeight -y - outerMargins, 4, g, colorSerieB);
-				plotResultOnBar(x + barWidth/2, y, graphHeight -outerMargins, pB.Y, resultFontHeight, barWidth, pAyStart);
+				resultOnBarB_l.Add(new Point3F(x + barWidth/2, y, pB.Y));
 			}
+			else
+				resultOnBarB_l.Add(new Point3F(0, 0, 0));
 
 			printText( (graphWidth - 2*outerMargins) * pA.X/maxX + -barDesplLeft + outerMargins,
 					graphHeight -outerMargins + textHeight/2, 0, textHeight,
 					names_l[i], g, alignTypes.CENTER);
+		}
+
+		//result on bar painted here (after bars) to not have text overlapped by bars
+		double pAyStart;
+		for(int i = 0; i < pointA_l.Count; i ++)
+		{
+			pAyStart = -1;
+
+			if(resultOnBarA_l[i].Y > 0)
+				pAyStart = plotResultOnBar(resultOnBarA_l[i].X, resultOnBarA_l[i].Y,
+						graphHeight -outerMargins, resultOnBarA_l[i].Z, resultFontHeight, barWidth, -1);
+
+			if(resultOnBarB_l[i].Y > 0)
+				plotResultOnBar(resultOnBarB_l[i].X, resultOnBarB_l[i].Y,
+						graphHeight -outerMargins, resultOnBarB_l[i].Z, resultFontHeight, barWidth, pAyStart);
 		}
 	}
 

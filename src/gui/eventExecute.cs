@@ -3192,7 +3192,7 @@ public abstract class CairoPaintBarsPre
 		if(! haveDataToPlot())
 		{
 			try {
-				new CairoBarsJustTesting (darea, fontStr);
+				new CairoBars1Series (darea, fontStr);
 			} catch {
 				LogB.Information("saved crash at with cairo paint");
 			}
@@ -3241,7 +3241,7 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 			names_l.Add(jump.Type);
 		}
 
-		CairoBarsJustTesting cbjt = new CairoBarsJustTesting (point_l, names_l, darea, title);
+		CairoBars1Series cbjt = new CairoBars1Series (point_l, names_l, darea, title);
 		cbjt.Do(fontStr);
 	}
 }
@@ -3280,7 +3280,7 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 			names_l.Add(run.Type);
 		}
 
-		CairoBarsJustTesting cbjt = new CairoBarsJustTesting (point_l, names_l, darea, title);
+		CairoBars1Series cbjt = new CairoBars1Series (point_l, names_l, darea, title);
 		cbjt.Do(fontStr);
 	}
 }

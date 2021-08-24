@@ -26,10 +26,6 @@ using Cairo;
 
 public abstract class CairoBars : CairoGeneric
 {
-	//used on construction
-	protected List<PointF> point_l;
-	protected List<string> names_l;
-
 	protected DrawingArea area;
 	protected string title;
 	//protected string jumpType;
@@ -103,19 +99,7 @@ public abstract class CairoBars : CairoGeneric
 		yellow = colorFromRGB(255,238,102);
 	}
 
-	protected void findPointMaximums()
-	{
-		foreach(PointF p in point_l)
-			if(p.Y > maxY)
-				maxY = p.Y;
-
-		//points X start at 1
-		minX = 0;
-		maxX = point_l.Count + 1;
-
-		//bars Y have 0 at bottom
-		minY = 0;
-	}
+	protected abstract void findPointMaximums();
 
 	protected void paintAxis(int width)
 	{
@@ -189,44 +173,11 @@ public abstract class CairoBars : CairoGeneric
 		g.ShowText(text);
 	}
 
-	protected void plotBars()
-	{
-                //calculate separation between series and bar width
-                int distanceBetweenCols = Convert.ToInt32((graphWidth - 2*outerMargins)*(1+.5)/point_l.Count) -
-                        Convert.ToInt32((graphWidth - 2*outerMargins)*(0+.5)/point_l.Count);
-
-		//int tctfSep = Convert.ToInt32(.3*distanceBetweenCols);
-                int barWidth = Convert.ToInt32(.5*distanceBetweenCols);
-                int barDesplLeft = Convert.ToInt32(.5*barWidth);
-
-		for(int i = 0; i < point_l.Count; i ++)
-		{
-			PointF p = point_l[i];
-
-			double x = (graphWidth - 2*outerMargins) * (p.X-.5)/point_l.Count - barDesplLeft + outerMargins;
-			double y = calculatePaintY(p.Y);
-
-			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -outerMargins, 4, g, colorBackground);
-
-			plotResultOnBar(x + barWidth/2, y, graphHeight -outerMargins, p.Y);
-
-			//print the type at bottom
-			printText(x + barWidth/2, graphHeight -outerMargins + textHeight/2, 0, textHeight,
-					names_l[i], g, alignTypes.CENTER);
-
-			/*
-			x = Convert.ToInt32((graphWidth - outerMargins)*(count+.5)/point_l.Count)-barDesplLeft+tctfSep;
-			y = calculatePaintY(p.Y);
-
-			LogB.Information(string.Format("blue: {0}, {1}, {2}, {3}", Convert.ToDouble(p.Y), graphHeight, maxY, y));
-			drawRoundedRectangle (x, y, barWidth, graphHeight -y - outerMargins, 4, g, blue);
-			*/
-		}
-	}
+	protected abstract void plotBars ();
 
 	//adapted from http://www.mono-project.com/docs/tools+libraries/libraries/Mono.Cairo/cookbook/
 	//bottomFlat means to have rounded only on top
-	private static void drawRoundedRectangle (bool bottomFlat,
+	protected static void drawRoundedRectangle (bool bottomFlat,
 			double x, double y, double width, double height, 
 			double radius, Cairo.Context g, Cairo.Color color)
 	{
@@ -277,7 +228,7 @@ public abstract class CairoBars : CairoGeneric
 		return arr[minp];
 	}
 
-	private void plotResultOnBar(double x, double y, double alto, double result)
+	protected void plotResultOnBar(double x, double y, double alto, double result)
 	{
 		Cairo.TextExtents te;
 		te = g.TextExtents(Util.TrimDecimals(result,2));
@@ -347,10 +298,13 @@ public abstract class CairoBars : CairoGeneric
 
 }
 
-public class CairoBarsJustTesting : CairoBars
+public class CairoBars1Series : CairoBars
 {
+	protected List<PointF> point_l;
+	protected List<string> names_l;
+
 	//constructor when there are no points
-	public CairoBarsJustTesting (DrawingArea area, string font)
+	public CairoBars1Series (DrawingArea area, string font)
 	{
 		this.area = area;
 
@@ -362,7 +316,7 @@ public class CairoBarsJustTesting : CairoBars
 	}
 
 	//regular constructor
-	public CairoBarsJustTesting (List<PointF> point_l, List<string> names_l, DrawingArea area, string title)
+	public CairoBars1Series (List<PointF> point_l, List<string> names_l, DrawingArea area, string title)
 	{
 		this.point_l = point_l;
 		this.names_l = names_l;
@@ -372,6 +326,54 @@ public class CairoBarsJustTesting : CairoBars
 		this.colorBackground = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
 	}
 
+	protected override void findPointMaximums()
+	{
+		foreach(PointF p in point_l)
+			if(p.Y > maxY)
+				maxY = p.Y;
+
+		//points X start at 1
+		minX = 0;
+		maxX = point_l.Count + 1;
+
+		//bars Y have 0 at bottom
+		minY = 0;
+	}
+
+	protected override void plotBars ()
+	{
+                //calculate separation between series and bar width
+                int distanceBetweenCols = Convert.ToInt32((graphWidth - 2*outerMargins)*(1+.5)/point_l.Count) -
+                        Convert.ToInt32((graphWidth - 2*outerMargins)*(0+.5)/point_l.Count);
+
+		//int tctfSep = Convert.ToInt32(.3*distanceBetweenCols);
+                int barWidth = Convert.ToInt32(.5*distanceBetweenCols);
+                int barDesplLeft = Convert.ToInt32(.5*barWidth);
+
+		for(int i = 0; i < point_l.Count; i ++)
+		{
+			PointF p = point_l[i];
+
+			double x = (graphWidth - 2*outerMargins) * (p.X-.5)/point_l.Count - barDesplLeft + outerMargins;
+			double y = calculatePaintY(p.Y);
+
+			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -outerMargins, 4, g, colorBackground);
+
+			plotResultOnBar(x + barWidth/2, y, graphHeight -outerMargins, p.Y);
+
+			//print the type at bottom
+			printText(x + barWidth/2, graphHeight -outerMargins + textHeight/2, 0, textHeight,
+					names_l[i], g, alignTypes.CENTER);
+
+			/*
+			x = Convert.ToInt32((graphWidth - outerMargins)*(count+.5)/point_l.Count)-barDesplLeft+tctfSep;
+			y = calculatePaintY(p.Y);
+
+			LogB.Information(string.Format("blue: {0}, {1}, {2}, {3}", Convert.ToDouble(p.Y), graphHeight, maxY, y));
+			drawRoundedRectangle (x, y, barWidth, graphHeight -y - outerMargins, 4, g, blue);
+			*/
+		}
+	}
 	public override void Do(string font)
 	{
 		LogB.Information("at CairoBarsJustTesting.Do");
@@ -388,7 +390,7 @@ public class CairoBarsJustTesting : CairoBars
 		g.SetFontSize(textHeight);
 
 		g.Color = black;
-		plotBars();
+		plotBars ();
 
 		writeTitleAtTop ();
 

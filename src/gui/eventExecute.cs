@@ -3297,23 +3297,22 @@ LogB.Information("Event: " + ev.ToString());
 
 	//person name or test type, or both
 	//this can separate name with spaces on rows
-	//TODO: rows maybe are not needed, depending if cairoBars takes correctly the \n
 	protected string createTextBelowBar(
 			string secondResult, 	//time on runSimple
 			string jumpType,
 			string personName,
-			bool simulated,
+			bool thereIsASimulated, bool thisIsSimulated,
 			int longestWordSize, int maxRowsForText)
 	{
 		string str = "";
 		string vertSep = "";
-		int row = 1;
+		int rows = 0;
 
 		if(secondResult != "")
 		{
 			str += vertSep + secondResult;
 			vertSep = "\n";
-			row ++;
+			rows ++;
 		}
 
 		//if have to print jump type, print it first in one row
@@ -3321,15 +3320,17 @@ LogB.Information("Event: " + ev.ToString());
 		{
 			str += vertSep + jumpType;
 			vertSep = "\n";
-			row ++;
+			rows ++;
 		}
 
+		//method 1
 		// 2) separate person name in rows and send it to plotTextBelowBarDoRow()
 		//    packing small words if they fit in a row using wordsAccu (accumulated)
 
 		string wordsAccu = "";
 		string [] words = personName.Split(new char[] {' '});
 
+		bool newLineDone = false;
 		foreach(string word in words)
 		{
 			if(wordsAccu == "")
@@ -3339,18 +3340,95 @@ LogB.Information("Event: " + ev.ToString());
 			else {
 				str += vertSep + wordsAccu;
 				vertSep = "\n";
+				newLineDone = true;
 				wordsAccu = word;
-				row ++;
+				rows ++;
 			}
 		}
-		str += wordsAccu;
-
-		if(simulated)
+		if(wordsAccu != "")
 		{
-			//if(str != "" && wordsAccu != "")
-			//	str += "\n";
+			str += vertSep + wordsAccu;
+			vertSep = "\n";
+			rows ++;
+		}
 
-			str += vertSep + "(" + Catalog.GetString("Simulated") + ")"; //TODO: improve this to ensure it is last row
+		/* method 2, two lines for name
+		if(personName != "")
+		{
+			//separate in two lines
+			string [] words = personName.Split(new char[] {' '});
+			string firstLine;
+			string secondLine;
+			string space;
+			int minLengthOfMaxRow = 1000;
+			int bestCombination = 0;
+			for(int i = 1; i < words.Length; i ++)
+			{
+				firstLine = "";
+				space = "";
+				for(int j = 0; j < i; j ++)
+				{
+					firstLine += space + words[j];
+					space = " ";
+				}
+
+				secondLine = "";
+				space = "";
+				for(int j = i; j < words.Length; j ++)
+				{
+					secondLine += space + words[j];
+					space = " ";
+				}
+
+				LogB.Information(string.Format("i: {0}, firstLine: {1}, length: {2}, secondLine: {3}, length: {4}",
+							i, firstLine, firstLine.Length, secondLine, secondLine.Length));
+
+				int maxOfThisCombination = firstLine.Length;
+				if(secondLine.Length > maxOfThisCombination)
+					maxOfThisCombination = secondLine.Length;
+
+				if(maxOfThisCombination < minLengthOfMaxRow)
+				{
+					minLengthOfMaxRow = maxOfThisCombination;
+					bestCombination = i;
+				}
+			}
+
+			str += vertSep;
+			vertSep = "\n";
+			space = "";
+			for(int i = 0; i < bestCombination; i ++)
+			{
+				str += space + words[i];
+				space = " ";
+			}
+			str += vertSep;
+			space = "";
+			for(int i = bestCombination; i < words.Length; i ++)
+			{
+				str += space + words[i];
+				space = " ";
+			}
+		}
+		*/
+
+		if(thereIsASimulated)
+		{
+			while(rows +1 < maxRowsForText)
+			{
+				str += "\n";
+				rows ++;
+			}
+
+			str += "\n";
+			if(thisIsSimulated)
+				str += "(" + Catalog.GetString("Simulated") + ")"; //TODO: improve this to ensure it is last row
+		} else {
+			while(rows < maxRowsForText)
+			{
+				str += "\n";
+				rows ++;
+			}
 		}
 
 		return str;
@@ -3429,10 +3507,10 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 			cbjt = new CairoBars1Series (darea);
 
 		if(UseHeights) {
-			cbjt.YVariable = "Height";
+			cbjt.YVariable = Catalog.GetString("Height");
 			cbjt.YUnits = "cm";
 		} else {
-			cbjt.YVariable = "Time";
+			cbjt.YVariable = Catalog.GetString("Time");
 			cbjt.YUnits = "s";
 		}
 
@@ -3471,17 +3549,28 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 	protected override void paintSpecific()
 	{
 		CairoBars1Series cbjt = new CairoBars1Series (darea);
+
+		cbjt.YVariable = Catalog.GetString("Speed");
+		cbjt.YUnits = "m/s";
+
 		cbjt.GraphInit(fontStr);
 
 		//TODO: add in parent class?
 		List<Event> events = Run.RunListToEventList(eventGraphRunsStored.runsAtSQL);
 
-		if(! ShowPersonNames)
-			for(int i=0 ; i < eventGraphRunsStored.runsAtSQL.Count; i++)
+		bool thereIsASimulated = false;
+		for(int i=0 ; i < eventGraphRunsStored.runsAtSQL.Count; i++)
+		{
+			if(eventGraphRunsStored.runsAtSQL[i].Simulated == -1)
+				thereIsASimulated = true;
+
+			if(! ShowPersonNames)
 				eventGraphRunsStored.runsAtSQL[i].Description = ""; //to avoid showing description
+		}
 
 		int longestWordSize = findLongestWordSize (events, eventGraphRunsStored.type == "", "(" + Catalog.GetString("Simulated") + ")"); // condition for "all runs"
 		int fontHeightForBottomNames = cbjt.GetFontForBottomNames (events, longestWordSize);
+
 		int maxRowsForText = calculateMaxRowsForText (events, longestWordSize, eventGraphRunsStored.type == "", RunsShowTime); //also adds +1 if simulated
 		int bottomMargin = cbjt.GetBottomMarginForText (maxRowsForText, fontHeightForBottomNames);
 
@@ -3510,7 +3599,7 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 						timeString,
 						typeRowString,
 						run.Description,
-						(run.Simulated == -1),
+						thereIsASimulated, (run.Simulated == -1),
 						longestWordSize, maxRowsForText));
 		}
 

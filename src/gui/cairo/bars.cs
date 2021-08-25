@@ -253,6 +253,7 @@ public abstract class CairoBars : CairoGeneric
 			optimalFontHeight = i;
 		}
 
+		g.SetFontSize(textHeight); //return font to its default value
 		return optimalFontHeight;
 	}
 
@@ -400,7 +401,7 @@ public class CairoBars1Series : CairoBars
 
                 double barWidth = Convert.ToInt32(.5*distanceBetweenCols);
                 double barDesplLeft = Convert.ToInt32(.5*barWidth);
-		int resultFontHeight = getBarsResultFontHeight (barWidth*1.5);
+		int resultFontHeight = getBarsResultFontHeight (barWidth*2);
 
 		for(int i = 0; i < point_l.Count; i ++)
 		{
@@ -410,7 +411,6 @@ public class CairoBars1Series : CairoBars
 			double y = calculatePaintY(p.Y);
 
 			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -outerMargins, 4, g, colorSerieA);
-
 			plotResultOnBar(x + barWidth/2, y, graphHeight -outerMargins, p.Y, resultFontHeight, barWidth, -1);
 
 			//print the type at bottom

@@ -698,40 +698,4 @@ public abstract class CairoXY : CairoGeneric
 	}
 	*/
 
-
-	/*
-	//unused code
-	private void plotBars()
-	{
-                //calculate separation between series and bar width
-                int distanceBetweenCols = Convert.ToInt32((graphWidth - rightMargin)*(1+.5)/point_l.Count) -
-                        Convert.ToInt32((graphWidth - rightMargin)*(0+.5)/point_l.Count);
-
-                int tctfSep = Convert.ToInt32(.3*distanceBetweenCols);
-                int barWidth = Convert.ToInt32(.3*distanceBetweenCols);
-                int barDesplLeft = Convert.ToInt32(.5*barWidth);
-
-		int i = 10;
-		int count = 0;
-		//note p.X is jump fall and p.Y jump height
-		//TODO: maybe this will be for a legend, because the graph wants X,Y points
-		foreach(PointF p in point_l)
-		{
-			int x = Convert.ToInt32((graphWidth - rightMargin)*(count+.5)/point_l.Count)-barDesplLeft;
-			int y = calculatePaintY(Convert.ToDouble(p.X), graphHeight, pointsMaxValue, 0, topMargin, bottomMargin + bottomAxis);
-
-			LogB.Information(string.Format("red: {0}, {1}, {2}, {3}", Convert.ToDouble(p.X), graphHeight, pointsMaxValue, y));
-			drawRoundedRectangle (x, y, barWidth, graphHeight - y, 4, g, red);
-
-			x = Convert.ToInt32((graphWidth - rightMargin)*(count+.5)/point_l.Count)-barDesplLeft+tctfSep;
-			y = calculatePaintY(Convert.ToDouble(p.Y), graphHeight, pointsMaxValue, 0, topMargin, bottomMargin + bottomAxis);
-
-			LogB.Information(string.Format("blue: {0}, {1}, {2}, {3}", Convert.ToDouble(p.Y), graphHeight, pointsMaxValue, y));
-			drawRoundedRectangle (x, y, barWidth, graphHeight -y, 4, g, blue);
-
-			count ++;
-		}
-	}
-	*/
-
 }

@@ -76,6 +76,9 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		this.colorBackground = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
 
 		outerMargins = 50; //blank space outside the axis
+		topMargin = outerMargins/2;
+		bottomMargin = outerMargins/2;
+
 		if(showFullGraph)
 			innerMargins = 0;
 

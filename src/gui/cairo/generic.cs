@@ -32,6 +32,9 @@ public abstract class CairoGeneric
 	protected int outerMargins = 40; //blank space outside the axis.
 	protected int innerMargins = 30; //space between the axis and the real coordinates.
 
+	protected int topMargin = 20; //outerMargins/2;
+	protected int bottomMargin = 20; //outerMargins/2;
+
 	protected string font;
 	protected int textHeight = 12;
 
@@ -110,7 +113,7 @@ public abstract class CairoGeneric
 			for(double i = gridYTuple.Item1; i <= gridYTuple.Item2 ; i += gridYTuple.Item3)
 			{
 				int ytemp = Convert.ToInt32(calculatePaintY(i));
-				if(ytemp <= outerMargins || ytemp >= graphHeight - outerMargins)
+				if(ytemp <= topMargin + bottomMargin || ytemp >= graphHeight - (topMargin + bottomMargin))
 					continue;
 
 				paintHorizontalGridLine(g, ytemp, Util.TrimDecimals(i, 2));
@@ -138,7 +141,7 @@ public abstract class CairoGeneric
 			for(double i = Math.Floor(minX); i <= Math.Ceiling(maxY) ; i += by)
 			{
 				int ytemp = Convert.ToInt32(calculatePaintY(i));
-				if(ytemp <= outerMargins || ytemp >= graphHeight - outerMargins)
+				if(ytemp <= topMargin + bottomMargin || ytemp >= graphHeight - (topMargin + bottomMargin))
 					continue;
 
 				paintHorizontalGridLine(g, ytemp, Util.TrimDecimals(i, 2));
@@ -156,9 +159,9 @@ public abstract class CairoGeneric
 	//this combined with printXAxisText is different on RaceAnalyzer
 	protected virtual void paintVerticalGridLine(Cairo.Context g, int xtemp, string text)
 	{
-		g.MoveTo(xtemp, graphHeight - outerMargins);
-		g.LineTo(xtemp, outerMargins);
-		printText(xtemp, graphHeight - Convert.ToInt32(outerMargins/2), 0, textHeight, text, g, alignTypes.CENTER);
+		g.MoveTo(xtemp, graphHeight - (topMargin + bottomMargin));
+		g.LineTo(xtemp, (topMargin + bottomMargin));
+		printText(xtemp, graphHeight - bottomMargin, 0, textHeight, text, g, alignTypes.CENTER);
 	}
 
 	/*

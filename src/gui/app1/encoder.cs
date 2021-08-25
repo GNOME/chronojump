@@ -5536,7 +5536,7 @@ public partial class ChronoJumpWindow
 
 	private void encoderButtonsSensitive(encoderSensEnum option) 
 	{
-		LogB.Debug(option.ToString());
+		LogB.Debug("encoderButtonsSensitive: " + option.ToString());
 
 		//columns
 		//c0 button_encoder_capture, hbox_encoder_sup_capture_analyze_two_buttons,

@@ -8227,7 +8227,7 @@ LogB.Debug("mc finished 5");
 		} else if(current_mode == Constants.Modes.RUNSENCODER)
 		{
 			sensitiveLastTestButtons(! runEncoderProcessCancel && ! runEncoderProcessError);
-			LogB.Information(" sensitiveGuiEventDone end (forceSensor)");
+			LogB.Information(" sensitiveGuiEventDone end (runsEncoder)");
 			return;
 		}
 

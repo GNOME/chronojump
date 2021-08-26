@@ -3163,13 +3163,15 @@ public abstract class CairoPaintBarsPre
 	protected string fontStr;
 	protected Constants.Modes mode;
 	protected string title;
+	protected int pDN; //preferences.digitsNumber
 
-	protected void initialize(DrawingArea darea, string fontStr, Constants.Modes mode, string title)
+	protected void initialize(DrawingArea darea, string fontStr, Constants.Modes mode, string title, int pDN)
 	{
 		this.darea = darea;
 		this.fontStr = fontStr;
 		this.mode = mode;
 		this.title = title;
+		this.pDN = pDN;
 	}
 
 	public bool ModeMatches (Constants.Modes mode)
@@ -3460,9 +3462,9 @@ public abstract class CairoPaintBarsPre
 
 public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 {
-	public CairoPaintBarsPreJumpSimple (DrawingArea darea, string fontStr, Constants.Modes mode, string title)
+	public CairoPaintBarsPreJumpSimple (DrawingArea darea, string fontStr, Constants.Modes mode, string testName, string personName, int pDN)
 	{
-		initialize (darea, fontStr, mode, title);
+		initialize (darea, fontStr, mode, generateTitle(testName, personName), pDN);
 	}
 
 	public override void StoreEventGraphJumps (PrepareEventGraphJumpSimple eventGraph)
@@ -3549,9 +3551,9 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 
 public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 {
-	public CairoPaintBarsPreRunSimple (DrawingArea darea, string fontStr, Constants.Modes mode, string testName, string personName)
+	public CairoPaintBarsPreRunSimple (DrawingArea darea, string fontStr, Constants.Modes mode, string testName, string personName, int pDN)
 	{
-		initialize (darea, fontStr, mode, generateTitle(testName, personName));
+		initialize (darea, fontStr, mode, generateTitle(testName, personName), pDN);
 	}
 
 	public override void StoreEventGraphRuns (PrepareEventGraphRunSimple eventGraph)
@@ -3591,13 +3593,15 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 				eventGraphRunsStored.runsAtSQL[i].Description = ""; //to avoid showing description
 		}
 
-		string longestWord = findLongestWordCairo (events, eventGraphRunsStored.type == "", "(" + Catalog.GetString("Simulated") + ")"); // condition for "all runs"
+		string longestWord = findLongestWordCairo (events,
+				eventGraphRunsStored.type == "", "(" + Catalog.GetString("Simulated") + ")"); // condition for "all runs"
 		int fontHeightForBottomNames = cbjt.GetFontForBottomNames (events, longestWord);
 
-		int maxRowsForText = calculateMaxRowsForTextCairo (events, longestWord.Length, eventGraphRunsStored.type == "", RunsShowTime); //also adds +1 if simulated
+		int maxRowsForText = calculateMaxRowsForTextCairo (events, longestWord.Length,
+				eventGraphRunsStored.type == "", RunsShowTime); //also adds +1 if simulated
 		int bottomMargin = cbjt.GetBottomMarginForText (maxRowsForText, fontHeightForBottomNames);
 
-		LogB.Information(string.Format("fontHeightForBottomNames: {0}, bottomMargin: {1}", fontHeightForBottomNames, bottomMargin));
+		//LogB.Information(string.Format("fontHeightForBottomNames: {0}, bottomMargin: {1}", fontHeightForBottomNames, bottomMargin));
 
 		List<PointF> point_l = new List<PointF>();
 		List<string> names_l = new List<string>();
@@ -3615,8 +3619,7 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 
 			string timeString = "";
 			if(RunsShowTime)
-				//timeString = string.Format("{0} s", Util.TrimDecimals(run.Time, preferences.digitsNumber));
-				timeString = string.Format("{0} s", Util.TrimDecimals(run.Time, 3));
+				timeString = string.Format("{0} s", Util.TrimDecimals(run.Time, pDN));
 
 			names_l.Add(createTextBelowBar(
 						timeString,

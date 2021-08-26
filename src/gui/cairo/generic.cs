@@ -29,11 +29,13 @@ public abstract class CairoGeneric
 	protected int graphHeight;
 
 	//for all 4 sides
-	protected int outerMargins = 40; //blank space outside the axis.
-	protected int innerMargins = 30; //space between the axis and the real coordinates.
+	protected int outerMargin = 40; //blank space outside the axis.
+	protected int innerMargin = 30; //space between the axis and the real coordinates.
 
-	protected int topMargin = 20; //outerMargins/2;
-	protected int bottomMargin = 20; //outerMargins/2;
+	protected int leftMargin = 40;
+	protected int rightMargin = 40;
+	protected int topMargin = 40;
+	protected int bottomMargin = 40;
 
 	protected string font;
 	protected int textHeight = 12;
@@ -72,18 +74,18 @@ public abstract class CairoGeneric
 	}
 
 	protected enum alignTypes { LEFT, CENTER, RIGHT }
-	protected void printText (int x, int y, int height, int textHeight, string text, Cairo.Context g, alignTypes align)
+	protected virtual void printText (double x, double y, double height, int textHeight, string text, Cairo.Context g, alignTypes align)
 	{
-		int moveToLeft = 0;
+		double moveToLeft = 0;
 		if(align == alignTypes.CENTER || align == alignTypes.RIGHT)
 		{
 			Cairo.TextExtents te;
 			te = g.TextExtents(text);
 
 			if(align == alignTypes.CENTER)
-				moveToLeft = Convert.ToInt32(te.Width/2);
+				moveToLeft = te.Width/2;
 			else
-				moveToLeft = Convert.ToInt32(te.Width);
+				moveToLeft = te.Width;
 		}
 
 		g.MoveTo( x - moveToLeft, ((y+y+height)/2) + textHeight/2 );
@@ -92,7 +94,7 @@ public abstract class CairoGeneric
 
 	//TODO: fix if min == max (crashes)
 	protected enum gridTypes { BOTH, HORIZONTALLINES, VERTICALLINES }
-	protected void paintGridNiceAutoValues (Cairo.Context g, double minX, double maxX, double minY, double maxY, int seps, gridTypes gridType)
+	protected void paintGridNiceAutoValues (Cairo.Context g, double minX, double maxX, double minY, double maxY, int seps, gridTypes gridType, int fontH)
 	{
 		var gridXTuple = getGridStepAndBoundaries ((decimal) minX, (decimal) maxX, seps);
 		var gridYTuple = getGridStepAndBoundaries ((decimal) minY, (decimal) maxY, seps);
@@ -103,27 +105,27 @@ public abstract class CairoGeneric
 			for(double i = gridXTuple.Item1; i <= gridXTuple.Item2 ; i += gridXTuple.Item3)
 			{
 				int xtemp = Convert.ToInt32(calculatePaintX(i));
-				if(xtemp <= outerMargins || xtemp >= graphWidth - outerMargins)
+				if(xtemp <= leftMargin || xtemp >= graphWidth - rightMargin)
 					continue;
 
-				paintVerticalGridLine(g, xtemp, Util.TrimDecimals(i, 2));
+				paintVerticalGridLine(g, xtemp, Util.TrimDecimals(i, 2), fontH);
 			}
 
 		if(gridType != gridTypes.VERTICALLINES)
 			for(double i = gridYTuple.Item1; i <= gridYTuple.Item2 ; i += gridYTuple.Item3)
 			{
 				int ytemp = Convert.ToInt32(calculatePaintY(i));
-				if(ytemp <= topMargin + bottomMargin || ytemp >= graphHeight - (topMargin + bottomMargin))
+				if(ytemp <= topMargin || ytemp >= graphHeight -bottomMargin)
 					continue;
 
-				paintHorizontalGridLine(g, ytemp, Util.TrimDecimals(i, 2));
+				paintHorizontalGridLine(g, ytemp, Util.TrimDecimals(i, 2), fontH);
 			}
 		g.Stroke ();
 		g.Restore();
 	}
 
 	//for a grid of integers
-	protected void paintGridInt (Cairo.Context g, double minX, double maxX, double minY, double maxY, int by, gridTypes gridType)
+	protected void paintGridInt (Cairo.Context g, double minX, double maxX, double minY, double maxY, int by, gridTypes gridType, int fontH)
 	{
 		g.Save();
 		g.SetDash(new double[]{1, 2}, 0);
@@ -131,37 +133,39 @@ public abstract class CairoGeneric
 			for(double i = Math.Floor(minX); i <= Math.Ceiling(maxX) ; i += by)
 			{
 				int xtemp = Convert.ToInt32(calculatePaintX(i));
-				if(xtemp <= outerMargins || xtemp >= graphWidth - outerMargins)
+				if(xtemp <= leftMargin || xtemp >= graphWidth -rightMargin)
 					continue;
 
-				paintVerticalGridLine(g, xtemp, Util.TrimDecimals(i, 2));
+				paintVerticalGridLine(g, xtemp, Util.TrimDecimals(i, 2), fontH);
 			}
 
 		if(gridType != gridTypes.VERTICALLINES)
 			for(double i = Math.Floor(minX); i <= Math.Ceiling(maxY) ; i += by)
 			{
 				int ytemp = Convert.ToInt32(calculatePaintY(i));
-				if(ytemp <= topMargin + bottomMargin || ytemp >= graphHeight - (topMargin + bottomMargin))
+				if(ytemp <= topMargin || ytemp >= graphHeight -bottomMargin)
 					continue;
 
-				paintHorizontalGridLine(g, ytemp, Util.TrimDecimals(i, 2));
+				paintHorizontalGridLine(g, ytemp, Util.TrimDecimals(i, 2), fontH);
 			}
 		g.Stroke ();
 		g.Restore();
 	}
 
-	protected void paintHorizontalGridLine(Cairo.Context g, int ytemp, string text)
+	protected void paintHorizontalGridLine(Cairo.Context g, int ytemp, string text, int fontH)
 	{
-		g.MoveTo(outerMargins, ytemp);
-		g.LineTo(graphWidth - outerMargins, ytemp);
-		printText(Convert.ToInt32(outerMargins/2), ytemp, 0, textHeight, text, g, alignTypes.CENTER);
+		g.MoveTo(leftMargin, ytemp);
+		g.LineTo(graphWidth - rightMargin, ytemp);
+		printText(leftMargin/2, ytemp, 0, fontH, text, g, alignTypes.CENTER);
+		LogB.Information("phgl fontH: " + fontH.ToString());
 	}
 	//this combined with printXAxisText is different on RaceAnalyzer
-	protected virtual void paintVerticalGridLine(Cairo.Context g, int xtemp, string text)
+	protected virtual void paintVerticalGridLine(Cairo.Context g, int xtemp, string text, int fontH)
 	{
-		g.MoveTo(xtemp, graphHeight - (topMargin + bottomMargin));
-		g.LineTo(xtemp, (topMargin + bottomMargin));
-		printText(xtemp, graphHeight - bottomMargin, 0, textHeight, text, g, alignTypes.CENTER);
+		g.MoveTo(xtemp, topMargin);
+		g.LineTo(xtemp, graphHeight - bottomMargin);
+		printText(xtemp, graphHeight -(bottomMargin/2), 0, fontH, text, g, alignTypes.CENTER);
+		LogB.Information("pvgl fontH: " + fontH.ToString());
 	}
 
 	/*

@@ -71,9 +71,10 @@ public abstract class CairoBars : CairoGeneric
 	protected void initGraph(string font, double widthPercent1, bool clearDrawingArea)
 	{
 		this.font = font;
-		LogB.Information("Font: " + font);
+		//LogB.Information("Font: " + font);
 
-		outerMargins = 18; //blank space outside the axis. //on plotBars is used only for X
+		leftMargin = 26;
+		rightMargin = 9;
 		topMargin = 12;
 		bottomMargin = 9;
 
@@ -112,12 +113,12 @@ public abstract class CairoBars : CairoGeneric
 	protected void paintAxis(int width)
 	{
 		g.LineWidth = width;
-		g.MoveTo(outerMargins, 2*topMargin);
-		g.LineTo(outerMargins, graphHeight - bottomMargin);
-		g.LineTo(graphWidth - outerMargins, graphHeight - bottomMargin);
+		g.MoveTo(leftMargin, 3*topMargin);
+		g.LineTo(leftMargin, graphHeight - bottomMargin);
+		g.LineTo(graphWidth - rightMargin, graphHeight - bottomMargin);
 		g.Stroke ();
 
-		printText(2, topMargin, 0, textHeight, getYAxisLabel(), g, alignTypes.LEFT);
+		printText(2, 2*topMargin, 0, textHeight -2, getYAxisLabel(), g, alignTypes.LEFT);
 		printXAxisText();
 		g.Stroke ();
 
@@ -127,7 +128,7 @@ public abstract class CairoBars : CairoGeneric
 	//this combined with paintVerticalGridLine is different on RaceAnalyzer
 	protected virtual void printXAxisText()
 	{
-		printText(graphWidth - Convert.ToInt32(outerMargins/2), graphHeight - 2*bottomMargin, 0, textHeight,
+		printText(graphWidth - Convert.ToInt32(leftMargin/2), graphHeight - 2*bottomMargin, 0, textHeight -2,
 				getXAxisLabel(), g, alignTypes.LEFT);
 	}
 
@@ -149,34 +150,36 @@ public abstract class CairoBars : CairoGeneric
 	//TODO: check if for one value this is /0
 	protected override double calculatePaintX (double realX)
 	{
-		return outerMargins + (realX - minX) * UtilAll.DivideSafe(
-				graphWidth - 2*outerMargins,
+		return leftMargin + (realX - minX) * UtilAll.DivideSafe(
+				graphWidth - (leftMargin + rightMargin),
 				maxX - minX);
         }
 	protected override double calculatePaintY (double realY)
 	{
-                return graphHeight - (topMargin + bottomMargin) - UtilAll.DivideSafe(
-				(realY - minY) * (graphHeight - 2*(topMargin + bottomMargin)),
-				//maxY - minY);
-				//have 10% extra margin on the top (highest values will be 10% far from max of the graph)
-				1.1*maxY - minY);
+                return graphHeight - (topMargin + bottomMargin) //graph ata area
+			- UtilAll.DivideSafe(
+				(realY - minY) * (graphHeight - (topMargin+bottomMargin)),
+				//maxY - minY)
+				//have 20% extra margin on the top (highest values will be this % far from max of the graph, needed also because text is above)
+				1.2*maxY - minY)
+			+ topMargin;
         }
 
-	protected void printText (double x, double y, double heightUnused, int textH,
+	protected override void printText (double x, double y, double heightUnused, int textH,
 			string text, Cairo.Context g, alignTypes align)
 	{
 		g.SetFontSize(textH);
 
-		int moveToLeft = 0;
+		double moveToLeft = 0;
 		if(align == alignTypes.CENTER || align == alignTypes.RIGHT)
 		{
 			Cairo.TextExtents te;
 			te = g.TextExtents(text);
 			
 			if(align == alignTypes.CENTER)
-				moveToLeft = Convert.ToInt32(te.Width/2);
+				moveToLeft = te.Width/2;
 			else
-				moveToLeft = Convert.ToInt32(te.Width);
+				moveToLeft = te.Width;
 		}
 
 		g.MoveTo(x - moveToLeft, y + textH/2);
@@ -258,14 +261,13 @@ public abstract class CairoBars : CairoGeneric
 		return arr[minp];
 	}
 
-	public int GetFontForBottomNames (List<Event> events, int longestWordSize)
+	public int GetFontForBottomNames (List<Event> events, string longestWord)
 	{
-		// 1) set marginBetweenTexts to 1.1 character
+		// 1) set marginBetweenTexts to 1.0 character
 		Cairo.TextExtents te = g.TextExtents("A");
-		double marginBetweenTexts = 1.1 * te.Width;
+		double marginBetweenTexts = 1.0 * te.Width;
 
-		// 2) create the longestWord to find its width
-		string longestWord = new string('A', longestWordSize);
+		// 2) find longestWord width
 		te = g.TextExtents(longestWord);
 
 		// 3) if longestWord * events.Count does not fit, iterate to find correct font size
@@ -285,10 +287,10 @@ public abstract class CairoBars : CairoGeneric
 	{
 		g.SetFontSize(fontHeight);
 		Cairo.TextExtents te = g.TextExtents("A");
-		//LogB.Information(string.Format("GetBottomMarginForText, maxRows: {0}, fontHeight: {1}, result: {2}",
-		//			maxRows, fontHeight, Convert.ToInt32(1.2 * te.Height * maxRows)));
+		LogB.Information(string.Format("GetBottomMarginForText, maxRows: {0}, fontHeight: {1}, result: {2}",
+					maxRows, fontHeight, Convert.ToInt32(1.3 * te.Height * maxRows)));
 
-		return Convert.ToInt32(1.2 * te.Height * maxRows);
+		return Convert.ToInt32(1.3 * te.Height * maxRows);
 	}
 
 	//TODO: at the moment we are not lowering decs, make resultsFontHeight and decs global variables
@@ -326,10 +328,19 @@ public abstract class CairoBars : CairoGeneric
 			int resultFontHeight, double barWidth, double yStartPointA)
 	{
 		int decs = 2; //can be 1 if need more space
-
 		g.SetFontSize(resultFontHeight);
+
+		double maxLengthNumber = 9.99;
+		if(maxY >= 10)
+			maxLengthNumber = 99.99;
+		if(maxY >= 100)
+			maxLengthNumber = 999.99;
+		if(maxY >= 1000)
+			maxLengthNumber = 9999.99;
+
 		Cairo.TextExtents te;
-		te = g.TextExtents(Util.TrimDecimals(result,decs));
+		///te = g.TextExtents(Util.TrimDecimals(result,decs));
+		te = g.TextExtents(maxLengthNumber.ToString());
 
 		bool textAboveBar = true;
 		/*
@@ -377,7 +388,7 @@ public abstract class CairoBars : CairoGeneric
 
 	protected void writeTitleAtTop()
 	{
-		printText(graphWidth/2 + outerMargins, textHeight/2, 0, textHeight,
+		printText(graphWidth/2 + leftMargin, textHeight/2, 0, textHeight+2,
 				title, g, alignTypes.CENTER);
 	}
 	/*
@@ -403,9 +414,9 @@ public abstract class CairoBars : CairoGeneric
 		g.LineWidth = 1; //to allow to be shown the red arrows on jumpsWeightFVProfile
 
 		if(niceAutoValues)
-			paintGridNiceAutoValues (g, minX, maxX, minY, maxY, 5, gridType);
+			paintGridNiceAutoValues (g, minX, maxX, minY, maxY, 5, gridType, textHeight -2);
 		else
-			paintGridInt (g, minX, maxX, minY, maxY, 1, gridType);
+			paintGridInt (g, minX, maxX, minY, maxY, 1, gridType, textHeight -2);
 	}
 
 	public string YVariable {
@@ -458,21 +469,23 @@ public class CairoBars1Series : CairoBars
 	protected override void plotBars ()
 	{
                 //calculate separation between series and bar width
-                double distanceBetweenCols = Convert.ToInt32((graphWidth - 2*outerMargins)*(1+.5)/point_l.Count) -
-                        Convert.ToInt32((graphWidth - 2*outerMargins)*(0+.5)/point_l.Count);
+                double distanceBetweenCols = Convert.ToInt32((graphWidth - (leftMargin+rightMargin))*(1+.5)/point_l.Count) -
+                        Convert.ToInt32((graphWidth - (leftMargin+rightMargin))*(0+.5)/point_l.Count);
 
                 double barWidth = Convert.ToInt32(.5*distanceBetweenCols);
                 double barDesplLeft = Convert.ToInt32(.5*barWidth);
 		int resultFontHeight = getBarsResultFontHeight (barWidth*2);
+		LogB.Information("resultFontHeight: " + resultFontHeight.ToString());
 
 		for(int i = 0; i < point_l.Count; i ++)
 		{
 			PointF p = point_l[i];
 
-			double x = (graphWidth - 2*outerMargins) * (p.X-.5)/point_l.Count - barDesplLeft + outerMargins;
+			double x = (graphWidth - (leftMargin+rightMargin)) * (p.X-.5)/point_l.Count - barDesplLeft + leftMargin;
 			double y = calculatePaintY(p.Y);
 
 			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -bottomMargin, 4, g, colorSerieA);
+LogB.Information(string.Format("y: {0}, alto: {1}", y, graphHeight -y - bottomMargin));
 			plotResultOnBar(x + barWidth/2, y, graphHeight -bottomMargin, p.Y, resultFontHeight, barWidth, -1);
 
 			//print the type at bottom
@@ -499,10 +512,10 @@ public class CairoBars1Series : CairoBars
 
                 findPointMaximums();
 
-		g.SetFontSize(textHeight);// -2);
+		g.SetFontSize(textHeight);
 		paintAxis(2);
 		paintGrid(gridTypes.HORIZONTALLINES, true);
-		g.SetFontSize(textHeight);
+		//g.SetFontSize(textHeight);
 
 		g.Color = black;
 		plotBars ();
@@ -565,7 +578,7 @@ public class CairoBars2HSeries : CairoBars
 	protected override void plotBars ()
 	{
                 //calculate separation between series and bar width
-                double distanceBetweenCols = (graphWidth - 2*outerMargins)/maxX;
+                double distanceBetweenCols = (graphWidth - (leftMargin+rightMargin))/maxX;
 
                 double barWidth = .4*distanceBetweenCols;
                 double barDesplLeft = .5*barWidth;
@@ -587,7 +600,7 @@ public class CairoBars2HSeries : CairoBars
 				if(pB.Y > 0)
 					adjustX = -2 * barDesplLeft -.5 * valueABSep;
 
-				double x = (graphWidth - 2*outerMargins) * pA.X/maxX - barDesplLeft + adjustX + outerMargins;
+				double x = (graphWidth - (leftMargin+rightMargin)) * pA.X/maxX - barDesplLeft + adjustX + leftMargin;
 				double y = calculatePaintY(pA.Y);
 
 				drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -(topMargin+bottomMargin), 4, g, colorSerieA);
@@ -602,7 +615,7 @@ public class CairoBars2HSeries : CairoBars
 				if(pA.Y > 0)
 					adjustX = .5 * valueABSep;
 
-				double x = (graphWidth - 2*outerMargins) * pB.X/maxX - barDesplLeft + adjustX + outerMargins;
+				double x = (graphWidth - (leftMargin+rightMargin)) * pB.X/maxX - barDesplLeft + adjustX + leftMargin;
 				double y = calculatePaintY(pB.Y);
 
 				drawRoundedRectangle (true, x, y, barWidth, graphHeight -y - (topMargin+bottomMargin), 4, g, colorSerieB);
@@ -612,7 +625,7 @@ public class CairoBars2HSeries : CairoBars
 				resultOnBarB_l.Add(new Point3F(0, 0, 0));
 
 			//print text at bottom
-			printText( (graphWidth - 2*outerMargins) * pA.X/maxX + -barDesplLeft + outerMargins,
+			printText( (graphWidth - (leftMargin+rightMargin)) * pA.X/maxX + -barDesplLeft + leftMargin,
 					graphHeight -(topMargin+bottomMargin) + textHeight/2, 0, textHeight,
 					names_l[i], g, alignTypes.CENTER);
 		}
@@ -648,9 +661,11 @@ public class CairoBars2HSeries : CairoBars
 
                 findPointMaximums();
 
-		paintAxis(2);
-		paintGrid(gridTypes.HORIZONTALLINES, true);
 		g.SetFontSize(textHeight);
+		paintAxis(2);
+		//paintAxis(2, textHeight -2);
+		paintGrid(gridTypes.HORIZONTALLINES, true);
+		//g.SetFontSize(textHeight);
 
 		g.Color = black;
 		plotBars();

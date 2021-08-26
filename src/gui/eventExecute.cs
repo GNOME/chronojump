@@ -1473,18 +1473,13 @@ public partial class ChronoJumpWindow
 	{
 		int longestWordSize = 0;
 
-string longestWord = "";
 		foreach(Event ev in events)
 		{
 			string [] textArray = ev.Description.Split(new char[] {' '});
 			foreach(string text in textArray)
-			{
 				if(text.Length > longestWordSize)
-				{
 					longestWordSize = text.Length;
-longestWord = text;
-				}
-			}
+
 			//note jump type will be in one line
 			//if(ev.Description.Length > longestWordSize)
 			//		longestWordSize = ev.Description.Length;
@@ -1496,7 +1491,6 @@ longestWord = text;
 			if(ev.Simulated == -1 && event_execute_label_simulated.Length > longestWordSize)
 				longestWordSize = event_execute_label_simulated.Length;
 		}
-LogB.Information("longestWord: " + longestWord);
 
 		return longestWordSize;
 	}
@@ -3226,14 +3220,14 @@ public abstract class CairoPaintBarsPre
 	protected abstract void paintSpecific();
 
 	//TODO: this is repeated on this file, think also if move it to gui/cairo/bars.cs
-	protected int calculateMaxRowsForText (List<Event> events, int longestWordSize, bool allJumps, bool runsPrintTime)
+	protected int calculateMaxRowsForTextCairo (List<Event> events, int longestWordSize, bool allJumps, bool runsPrintTime)
 	{
 		int maxRows = 0;
 
-LogB.Information("calculateMaxRowsForText");
+		//LogB.Information("calculateMaxRowsForText");
 		foreach(Event ev in events)
 		{
-LogB.Information("Event: " + ev.ToString());
+			//LogB.Information("Event: " + ev.ToString());
 			int rows = 0;
 			if(allJumps) 			//to write the jump type (1st the jump type because it's only one row)
 				rows ++;
@@ -3265,14 +3259,16 @@ LogB.Information("Event: " + ev.ToString());
 			if(rows > maxRows)
 				maxRows = rows;
 		}
+		//LogB.Information("maxRows: " + maxRows.ToString());
 
 		return maxRows;
 	}
 
 	//TODO: need to add personName here
-	protected int findLongestWordSize (List<Event> events, bool allTypes, string simulatedLabel)
+	protected string findLongestWordCairo (List<Event> events, bool allTypes, string simulatedLabel)
 	{
 		int longestWordSize = 0;
+		string longestWord = ""; //debug
 
 		foreach(Event ev in events)
 		{
@@ -3280,19 +3276,30 @@ LogB.Information("Event: " + ev.ToString());
 			foreach(string text in textArray)
 			{
 				if(text.Length > longestWordSize)
+				{
 					longestWordSize = text.Length;
+					longestWord = text;
+				}
 			}
 
 			//note jump type will be in one line
 			//TODO: check it in local user language (Catalog)
 			if(allTypes && ev.Type.Length > longestWordSize)
+			{
 				longestWordSize = ev.Type.Length;
+				longestWord = ev.Type;
+			}
 
 			if(ev.Simulated == -1 && simulatedLabel.Length > longestWordSize)
+			{
 				longestWordSize = simulatedLabel.Length;
+				longestWord = simulatedLabel;
+			}
 		}
 
-		return longestWordSize;
+		LogB.Information("longestWord: " + longestWord);
+		//return longestWordSize;
+		return longestWord;
 	}
 
 	//person name or test type, or both
@@ -3568,10 +3575,10 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 				eventGraphRunsStored.runsAtSQL[i].Description = ""; //to avoid showing description
 		}
 
-		int longestWordSize = findLongestWordSize (events, eventGraphRunsStored.type == "", "(" + Catalog.GetString("Simulated") + ")"); // condition for "all runs"
-		int fontHeightForBottomNames = cbjt.GetFontForBottomNames (events, longestWordSize);
+		string longestWord = findLongestWordCairo (events, eventGraphRunsStored.type == "", "(" + Catalog.GetString("Simulated") + ")"); // condition for "all runs"
+		int fontHeightForBottomNames = cbjt.GetFontForBottomNames (events, longestWord);
 
-		int maxRowsForText = calculateMaxRowsForText (events, longestWordSize, eventGraphRunsStored.type == "", RunsShowTime); //also adds +1 if simulated
+		int maxRowsForText = calculateMaxRowsForTextCairo (events, longestWord.Length, eventGraphRunsStored.type == "", RunsShowTime); //also adds +1 if simulated
 		int bottomMargin = cbjt.GetBottomMarginForText (maxRowsForText, fontHeightForBottomNames);
 
 		LogB.Information(string.Format("fontHeightForBottomNames: {0}, bottomMargin: {1}", fontHeightForBottomNames, bottomMargin));
@@ -3582,10 +3589,10 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 		int countToDraw = eventGraphRunsStored.runsAtSQL.Count;
 		foreach(Run run in eventGraphRunsStored.runsAtSQL)
 		{
+			// 1) Add data
 			point_l.Add(new PointF(countToDraw --, run.Distance/run.Time));
 
-			//names_l.Add(Catalog.GetString(run.Type));
-
+			// 2) Add bottom names
 			string typeRowString = "";
 			if (eventGraphRunsStored.type == "") //if "all runs" show run.Type
 				typeRowString = run.Type;
@@ -3600,7 +3607,7 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 						typeRowString,
 						run.Description,
 						thereIsASimulated, (run.Simulated == -1),
-						longestWordSize, maxRowsForText));
+						longestWord.Length, maxRowsForText));
 		}
 
 		cbjt.GraphDo(point_l, new List<PointF>(), names_l, fontHeightForBottomNames, bottomMargin, title);

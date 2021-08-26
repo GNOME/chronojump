@@ -157,7 +157,7 @@ public class JumpsRjFatigueGraph : CairoXY
 		g.LineTo(xbp, yp + pointsRadius);
 
 		printText(
-				graphWidth - outerMargins,
+				graphWidth - outerMargin,
 				Convert.ToInt32(yp),
 				0, textHeight, Util.TrimDecimals(y, 2), g, alignTypes.CENTER);
 

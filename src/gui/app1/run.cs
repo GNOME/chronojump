@@ -206,8 +206,15 @@ public partial class ChronoJumpWindow
 		
 		//if(eventGraph.personMAXAtSQLAllSessions > 0 || eventGraph.runsAtSQL.Count > 0)
 		//	PrepareRunSimpleGraph(eventGraph, false); //don't animate
+
+		string personStr = "";
+		if(! radio_contacts_graph_allPersons.Active)
+			personStr = currentPerson.Name;
+
 		cairoPaintBarsPre = new CairoPaintBarsPreRunSimple (
-				event_execute_drawingarea_cairo, preferences.fontType.ToString(), current_mode, "title runs");
+				event_execute_drawingarea_cairo, preferences.fontType.ToString(), current_mode,
+				typeTemp, personStr);
+
 		cairoPaintBarsPre.StoreEventGraphRuns (eventGraph);
 		PrepareRunSimpleGraph(cairoPaintBarsPre.eventGraphRunsStored, false);
 	}

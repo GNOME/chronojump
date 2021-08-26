@@ -3219,6 +3219,22 @@ public abstract class CairoPaintBarsPre
 	protected abstract bool haveDataToPlot ();
 	protected abstract void paintSpecific();
 
+	protected string generateTitle (string testName, string personName)
+	{
+		string titleStr = "";
+		string sep = "";
+		if(testName != "")
+		{
+			titleStr = testName;
+			sep = " - ";
+		}
+		if(personName != "")
+			titleStr += sep + personName;
+
+		return titleStr;
+	}
+
+
 	//TODO: this is repeated on this file, think also if move it to gui/cairo/bars.cs
 	protected int calculateMaxRowsForTextCairo (List<Event> events, int longestWordSize, bool allJumps, bool runsPrintTime)
 	{
@@ -3533,9 +3549,9 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 
 public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 {
-	public CairoPaintBarsPreRunSimple (DrawingArea darea, string fontStr, Constants.Modes mode, string title)
+	public CairoPaintBarsPreRunSimple (DrawingArea darea, string fontStr, Constants.Modes mode, string testName, string personName)
 	{
-		initialize (darea, fontStr, mode, title);
+		initialize (darea, fontStr, mode, generateTitle(testName, personName));
 	}
 
 	public override void StoreEventGraphRuns (PrepareEventGraphRunSimple eventGraph)

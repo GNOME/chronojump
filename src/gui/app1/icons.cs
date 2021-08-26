@@ -452,11 +452,6 @@ public partial class ChronoJumpWindow
 		image_add_test5.Pixbuf = pixbuf;
 		image_run_encoder_exercise_add.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "individual.png");
-		image_radio_contacts_graph_currentPerson.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "grupal.png");
-		image_radio_contacts_graph_allPersons.Pixbuf = pixbuf;
-
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_test_inspect.png");
 		image_test_inspect.Pixbuf = pixbuf;
 		image_test_inspect1.Pixbuf = pixbuf;
@@ -569,9 +564,11 @@ public partial class ChronoJumpWindow
 		//image_persons_new_plus_2.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_outline.png");
 		image_persons_open_1.Pixbuf = pixbuf;
+		image_radio_contacts_graph_currentPerson.Pixbuf = pixbuf;
 		//dimage_persons_open_2.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_group_outline.png");
 		image_persons_open_plus.Pixbuf = pixbuf;
+		image_radio_contacts_graph_allPersons.Pixbuf = pixbuf;
 		//image_persons_open_plus_2.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_rest.png");

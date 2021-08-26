@@ -121,10 +121,10 @@ public abstract class CairoXY : CairoGeneric
 		this.font = font;
 		LogB.Information("Font: " + font);
 
-		outerMargins = 40; //blank space outside the axis.
-		innerMargins = 30; //space between the axis and the real coordinates.
+		//outerMargin = 40; //blank space outside the axis.
+		//innerMargin = 30; //space between the axis and the real coordinates.
 
-		totalMargins = outerMargins + innerMargins;
+		totalMargins = outerMargin + innerMargin;
 
 		//1 create context
 		g = Gdk.CairoHelper.Create (area.GdkWindow);
@@ -339,18 +339,18 @@ public abstract class CairoXY : CairoGeneric
 		g.LineWidth = 1; //to allow to be shown the red arrows on jumpsWeightFVProfile
 
 		if(niceAutoValues)
-			paintGridNiceAutoValues (g, minX, absoluteMaxX, minY, absoluteMaxY, 5, gridType);
+			paintGridNiceAutoValues (g, minX, absoluteMaxX, minY, absoluteMaxY, 5, gridType, textHeight);
 		else
-			paintGridInt (g, minX, absoluteMaxX, minY, absoluteMaxY, 1, gridType);
+			paintGridInt (g, minX, absoluteMaxX, minY, absoluteMaxY, 1, gridType, textHeight);
 	}
 
 	protected void paintAxis()
 	{
-		g.MoveTo(outerMargins, outerMargins);
-		g.LineTo(outerMargins, graphHeight - outerMargins);
-		g.LineTo(graphWidth - outerMargins, graphHeight - outerMargins);
+		g.MoveTo(outerMargin, outerMargin);
+		g.LineTo(outerMargin, graphHeight - outerMargin);
+		g.LineTo(graphWidth - outerMargin, graphHeight - outerMargin);
 		g.Stroke ();
-		printText(2, Convert.ToInt32(outerMargins/2), 0, textHeight, getYAxisLabel(), g, alignTypes.LEFT);
+		printText(2, Convert.ToInt32(outerMargin/2), 0, textHeight, getYAxisLabel(), g, alignTypes.LEFT);
 		printXAxisText();
 		g.Stroke ();
 		g.LineWidth = 2;
@@ -359,7 +359,7 @@ public abstract class CairoXY : CairoGeneric
 	//this combined with paintVerticalGridLine is different on RaceAnalyzer
 	protected virtual void printXAxisText()
 	{
-		printText(graphWidth - Convert.ToInt32(outerMargins/2), graphHeight - outerMargins, 0, textHeight, getXAxisLabel(), g, alignTypes.LEFT);
+		printText(graphWidth - Convert.ToInt32(outerMargin/2), graphHeight - outerMargin, 0, textHeight, getXAxisLabel(), g, alignTypes.LEFT);
 	}
 
 	protected string getXAxisLabel()
@@ -413,7 +413,7 @@ public abstract class CairoXY : CairoGeneric
 				ygraph = calculatePaintY(coefs[0] + coefs[1]*x + coefs[2]*Math.Pow(x,2));
 
 			// ---- do not plot line outer the axis ---->
-			int om = outerMargins;
+			int om = outerMargin;
 
 			// have a bit more distance
 			if(crossMarginType == predictedLineCrossMargins.CROSS)
@@ -525,9 +525,9 @@ public abstract class CairoXY : CairoGeneric
 		//at axis
 		g.Save();
 		g.SetDash(new double[]{14, 6}, 0);
-		g.MoveTo(xgraph, graphHeight - outerMargins);
+		g.MoveTo(xgraph, graphHeight - outerMargin);
 		g.LineTo(xgraph, ygraph);
-		g.LineTo(outerMargins, ygraph);
+		g.LineTo(outerMargin, ygraph);
 		g.Stroke ();
 		g.Restore();
 
@@ -595,8 +595,8 @@ public abstract class CairoXY : CairoGeneric
 		// 2) exit if out of graph area
 		LogB.Information(string.Format("graphX: {0}; graphY: {1}", graphX, graphY));
 		if(
-				graphX < outerMargins || graphX > graphWidth - outerMargins ||
-				graphY < outerMargins || graphY > graphHeight - outerMargins )
+				graphX < outerMargin || graphX > graphWidth - outerMargin ||
+				graphY < outerMargin || graphY > graphHeight - outerMargin )
 			return;
 
 		/* optional show real mouse click

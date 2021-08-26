@@ -519,7 +519,7 @@ RESOURCES = \
 	../images/md/ic_person_add_blue_24dp_1x.png,image_person_add.png \
 	../images/md/ic_group_add_blue_24dp_1x.png,image_group_add.png \
 	../images/md/ic_person_outline_blue_24dp_1x.png,image_person_outline.png \
-	../images/md/ic_people_outline_blue_24dp_1x.png,image_group_outline.png \
+	../images/md/image_group_outline.png,image_group_outline.png \
 	../images/md/ic_weekend_blue_24dp_1x.png,image_rest.png \
 	../images/md/ic_weekend_blue_inactive_24dp_1x.png,image_rest_inactive.png \
 	../images/md/ic_weekend_yellow_24dp_1x.png,image_rest_yellow.png \
@@ -643,8 +643,6 @@ RESOURCES = \
 	../images/laterality-both.png,laterality-both.png \
 	../images/laterality-right.png,laterality-right.png \
 	../images/laterality-left.png,laterality-left.png \
-	../images/individual.png,individual.png \
-	../images/grupal.png,grupal.png \
 	../images/ea-individual-current-set.png,encoder-analyze-individual-current-set.png \
 	../images/ea-individual-current-session.png,encoder-analyze-individual-current-session.png \
 	../images/ea-individual-all-sessions.png,encoder-analyze-individual-all-sessions.png \

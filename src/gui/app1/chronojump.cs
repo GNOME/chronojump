@@ -1162,8 +1162,8 @@ public partial class ChronoJumpWindow
 			event_graph_label_graph_test.Visible = true;
 			vbox_contacts_simple_graph_controls.Visible = false;
 
-			align_check_vbox_contacts_graph_legend.Visible = false;
-			vbox_contacts_graph_legend.Visible = false;
+			//align_check_vbox_contacts_graph_legend.Visible = false;
+			//vbox_contacts_graph_legend.Visible = false;
 		}
 	}
 
@@ -1177,8 +1177,8 @@ public partial class ChronoJumpWindow
 			event_graph_label_graph_test.Visible = true;
 			vbox_contacts_simple_graph_controls.Visible = false;
 
-			align_check_vbox_contacts_graph_legend.Visible = false;
-			vbox_contacts_graph_legend.Visible = false;
+			//align_check_vbox_contacts_graph_legend.Visible = false;
+			//vbox_contacts_graph_legend.Visible = false;
 		}
 	}
 
@@ -3533,7 +3533,7 @@ public partial class ChronoJumpWindow
 				check_run_simple_show_time.Visible = false;
 				button_jumps_simple_capture_save_image.Visible = true;
 
-				align_check_vbox_contacts_graph_legend.Visible = true;
+				//align_check_vbox_contacts_graph_legend.Visible = true;
 				//vbox_contacts_graph_legend.Visible = false;
 
 				frame_jumps_automatic.Visible = true;
@@ -3549,8 +3549,8 @@ public partial class ChronoJumpWindow
 				event_graph_label_graph_test.Visible = true;
 				vbox_contacts_simple_graph_controls.Visible = false;
 
-				align_check_vbox_contacts_graph_legend.Visible = false;
-				vbox_contacts_graph_legend.Visible = false;
+				//align_check_vbox_contacts_graph_legend.Visible = false;
+				//vbox_contacts_graph_legend.Visible = false;
 
 				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_reactive.png");
 			}
@@ -3594,7 +3594,7 @@ public partial class ChronoJumpWindow
 				check_run_simple_show_time.Visible = true;
 				button_runs_simple_capture_save_image.Visible = true;
 
-				align_check_vbox_contacts_graph_legend.Visible = true;
+				//align_check_vbox_contacts_graph_legend.Visible = true;
 				//vbox_contacts_graph_legend.Visible = false;
 
 				frame_run_simple_double_contacts.Visible = true;
@@ -3610,8 +3610,8 @@ public partial class ChronoJumpWindow
 				event_graph_label_graph_test.Visible = true;
 				vbox_contacts_simple_graph_controls.Visible = false;
 
-				align_check_vbox_contacts_graph_legend.Visible = false;
-				vbox_contacts_graph_legend.Visible = false;
+				//align_check_vbox_contacts_graph_legend.Visible = false;
+				//vbox_contacts_graph_legend.Visible = false;
 
 				createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
 				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_run_multiple.png");
@@ -3767,8 +3767,8 @@ public partial class ChronoJumpWindow
 			vbox_contacts_simple_graph_controls.Visible = false;
 
 			radio_change_modes_contacts_force_sensor.Visible = true;
-			align_check_vbox_contacts_graph_legend.Visible = false;
-			vbox_contacts_graph_legend.Visible = false;
+			//align_check_vbox_contacts_graph_legend.Visible = false;
+			//vbox_contacts_graph_legend.Visible = false;
 
 			setLabelContactsExerciseSelected(m);
 			//better use the followin so we will have the Elastic/not elastic display on mode change
@@ -3811,8 +3811,8 @@ public partial class ChronoJumpWindow
 			hbox_race_analyzer_capture_tab_result_views.Visible = true;
 			hbox_change_modes_runs.Visible = true;
 
-			align_check_vbox_contacts_graph_legend.Visible = false;
-			vbox_contacts_graph_legend.Visible = false;
+			//align_check_vbox_contacts_graph_legend.Visible = false;
+			//vbox_contacts_graph_legend.Visible = false;
 
 			combo_race_analyzer_device.Active = 0;
 			forceSensorImageTestChange();

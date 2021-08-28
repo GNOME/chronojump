@@ -77,9 +77,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Table event_execute_table_run_interval_values;
 	[Widget] Gtk.Table event_execute_table_pulse_values;
 	
-	[Widget] Gtk.Alignment align_check_vbox_contacts_graph_legend;
-	[Widget] Gtk.CheckButton check_vbox_contacts_graph_legend;
-	[Widget] Gtk.VBox vbox_contacts_graph_legend;
+//	[Widget] Gtk.Alignment align_check_vbox_contacts_graph_legend;
+//	[Widget] Gtk.CheckButton check_vbox_contacts_graph_legend;
+//	[Widget] Gtk.VBox vbox_contacts_graph_legend;
 
 	//for the color change in the background of the cell label
 	//[Widget] Gtk.EventBox event_execute_eventbox_jump_reactive_height;
@@ -331,7 +331,7 @@ public partial class ChronoJumpWindow
 		vbox_contacts_simple_graph_controls.Visible = true;
 		check_run_simple_show_time.Visible = false;
 
-		align_check_vbox_contacts_graph_legend.Visible = true;
+//		align_check_vbox_contacts_graph_legend.Visible = true;
 		//vbox_contacts_graph_legend.Visible = false;
 
 		notebook_results_data.Visible = false;
@@ -343,8 +343,8 @@ public partial class ChronoJumpWindow
 		event_graph_label_graph_test.Visible = true;
 		vbox_contacts_simple_graph_controls.Visible = false;
 
-		align_check_vbox_contacts_graph_legend.Visible = false;
-		vbox_contacts_graph_legend.Visible = false;
+//		align_check_vbox_contacts_graph_legend.Visible = false;
+//		vbox_contacts_graph_legend.Visible = false;
 
 		//show reactive info
 		event_execute_table_jump_reactive.Show();
@@ -370,7 +370,7 @@ public partial class ChronoJumpWindow
 		vbox_contacts_simple_graph_controls.Visible = true;
 		check_run_simple_show_time.Visible = true;
 
-		align_check_vbox_contacts_graph_legend.Visible = true;
+//		align_check_vbox_contacts_graph_legend.Visible = true;
 		//vbox_contacts_graph_legend.Visible = false;
 
 		notebook_results_data.Visible = false;
@@ -381,8 +381,8 @@ public partial class ChronoJumpWindow
 		event_graph_label_graph_test.Visible = true;
 		vbox_contacts_simple_graph_controls.Visible = false;
 
-		align_check_vbox_contacts_graph_legend.Visible = false;
-		vbox_contacts_graph_legend.Visible = false;
+//		align_check_vbox_contacts_graph_legend.Visible = false;
+//		vbox_contacts_graph_legend.Visible = false;
 
 		//show run interval info
 		event_execute_table_run_interval.Show();
@@ -404,7 +404,7 @@ public partial class ChronoJumpWindow
 		event_graph_label_graph_test.Visible = true;
 		vbox_contacts_simple_graph_controls.Visible = false;
 
-		align_check_vbox_contacts_graph_legend.Visible = true;
+//		align_check_vbox_contacts_graph_legend.Visible = true;
 		//vbox_contacts_graph_legend.Visible = false;
 
 		notebook_results_data.Visible = false;
@@ -415,8 +415,8 @@ public partial class ChronoJumpWindow
 		event_graph_label_graph_test.Visible = true;
 		vbox_contacts_simple_graph_controls.Visible = false;
 
-		align_check_vbox_contacts_graph_legend.Visible = false;
-		vbox_contacts_graph_legend.Visible = false;
+//		align_check_vbox_contacts_graph_legend.Visible = false;
+		//vbox_contacts_graph_legend.Visible = false;
 
 		//show pulse info
 		event_execute_table_pulse.Show();
@@ -763,6 +763,7 @@ public partial class ChronoJumpWindow
 
 	private void on_check_vbox_contacts_graph_legend_clicked (object o, EventArgs args)
 	{
+		/*
 		LogB.Information("on_check_vbox_contacts_graph_legend_clicked (), check active: " +
 				check_vbox_contacts_graph_legend.Active.ToString());
 
@@ -770,6 +771,7 @@ public partial class ChronoJumpWindow
 			vbox_contacts_graph_legend.Visible = true;
 		else
 			vbox_contacts_graph_legend.Visible = false;
+			*/
 	}
 
 	// Reactive jump 

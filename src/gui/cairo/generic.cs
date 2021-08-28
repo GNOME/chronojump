@@ -168,6 +168,72 @@ public abstract class CairoGeneric
 		LogB.Information("pvgl fontH: " + fontH.ToString());
 	}
 
+	//horiz or vertical to manage spacement of arrow points and tip draw
+	protected void plotArrowPassingRealPoints (Cairo.Context g, Cairo.Color color,
+			double ax, double ay, double bx, double by, bool horiz, bool doubleTip, int spacement)
+	{
+		plotArrowPassingGraphPoints (g, color,
+				calculatePaintX(ax), calculatePaintY(ay),
+				calculatePaintX(bx), calculatePaintY(by),
+				horiz, doubleTip, spacement);
+	}
+	protected void plotArrowPassingGraphPoints (Cairo.Context g, Cairo.Color color,
+			double ax, double ay, double bx, double by, bool horiz, bool doubleTip, int spacement)
+	{
+		// 1) have spacements
+		if(horiz) {
+			ax += spacement;
+			bx -= spacement;
+		} else {
+			ay -= spacement;
+			by += spacement;
+		}
+		//g.SetSourceRGB(255,0,0);
+		g.Color = color;
+
+		// 2) write line (if it fits)
+		if(horiz && bx > ax || ! horiz && ay > by)
+		{
+			g.MoveTo(ax, ay);
+			g.LineTo(bx, by);
+		} else {
+			//if it does not fit, move bx or by to have the arrow at the middle
+			if(horiz)
+				bx = Convert.ToInt32((ax + bx) / 2);
+			else
+				by = Convert.ToInt32((ay + by) / 2);
+			g.MoveTo(bx, by);
+		}
+
+		// 3) write arrow tip(s)
+		int tip = 5;
+		if(horiz) {
+			g.LineTo(bx - tip, by - tip);
+			g.MoveTo(bx, by);
+			g.LineTo(bx - tip, by + tip);
+			if(doubleTip) {
+				g.MoveTo(ax, ay);
+				g.LineTo(ax + tip, ay - tip);
+				g.MoveTo(ax, ay);
+				g.LineTo(ax + tip, ay + tip);
+			}
+		} else {
+			g.LineTo(bx - tip, by + tip);
+			g.MoveTo(bx, by);
+			g.LineTo(bx + tip, by + tip);
+			if(doubleTip) {
+				g.MoveTo(ax, ay);
+				g.LineTo(ax - tip, ay - tip);
+				g.MoveTo(ax, ay);
+				g.LineTo(ax + tip, ay - tip);
+			}
+		}
+
+		// 4) end
+		g.Stroke ();
+		g.SetSourceRGB(0,0,0);
+	}
+
 	/*
 	 * adapted to not used LinQ from:
 	 * https://stackoverflow.com/questions/237220/tickmark-algorithm-for-a-graph-axis

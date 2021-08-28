@@ -3223,17 +3223,19 @@ public abstract class CairoPaintBarsPre
 	protected abstract bool haveDataToPlot ();
 	protected abstract void paintSpecific();
 
-	protected string generateTitle (string testName, string personName)
+	protected string generateTitle (string personName, string testName)
 	{
 		string titleStr = "";
 		string sep = "";
-		if(testName != "")
+
+		if(personName != "")
 		{
-			titleStr = testName;
+			titleStr = personName;
 			sep = " - ";
 		}
-		if(personName != "")
-			titleStr += sep + personName;
+
+		if(testName != "")
+			titleStr += sep + testName;
 
 		return titleStr;
 	}
@@ -3464,9 +3466,9 @@ public abstract class CairoPaintBarsPre
 
 public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 {
-	public CairoPaintBarsPreJumpSimple (DrawingArea darea, string fontStr, Constants.Modes mode, string testName, string personName, int pDN)
+	public CairoPaintBarsPreJumpSimple (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN)
 	{
-		initialize (darea, fontStr, mode, generateTitle(testName, personName), pDN);
+		initialize (darea, fontStr, mode, generateTitle(personName, testName), pDN);
 	}
 
 	public override void StoreEventGraphJumps (PrepareEventGraphJumpSimple eventGraph)
@@ -3553,9 +3555,9 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 
 public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 {
-	public CairoPaintBarsPreRunSimple (DrawingArea darea, string fontStr, Constants.Modes mode, string testName, string personName, int pDN)
+	public CairoPaintBarsPreRunSimple (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN)
 	{
-		initialize (darea, fontStr, mode, generateTitle(testName, personName), pDN);
+		initialize (darea, fontStr, mode, generateTitle(personName, testName), pDN);
 	}
 
 	public override void StoreEventGraphRuns (PrepareEventGraphRunSimple eventGraph)

@@ -675,3 +675,151 @@ public class CairoBars2HSeries : CairoBars
 		endGraphDisposing(g);
 	}
 }
+
+// ----------------------------------------------------------------
+
+public class CairoBarsGuide
+{
+	public enum GuideEnum { SESSION_MAX, SESSION_AVG, SESSION_MIN, PERSON_MAX_ALL_S, PERSON_MAX_THIS_S, PERSON_AVG_THIS_S, PERSON_MIN_THIS_S }
+
+	private GuideEnum gEnum;
+	private double y;
+	private int width;
+	private Cairo.Color color;
+	private char c; //this will be an icon of person or group;
+	private double extraRightDist;
+	//color, linetype, icon, ...
+
+	public CairoBarsGuide (GuideEnum gEnum, double y, int width, Cairo.Color color, char c, double extraRightDist)
+	{
+		this.gEnum = gEnum;
+		this.y = y;
+		this.width = width;
+		this.color = color;
+		this.c = c;
+		this.extraRightDist = extraRightDist;
+	}
+
+	public GuideEnum Genum {
+		get { return gEnum; }
+	}
+	public double Y {
+		get { return y; }
+	}
+	public int Width {
+		get { return width; }
+	}
+	public Cairo.Color Color {
+		get { return color; }
+	}
+	public char C {
+		get { return c; }
+	}
+	public double ExtraRightDist {
+		get { return extraRightDist; }
+	}
+}
+
+//manage distances of guides do draw als the person, session indicators
+//right now used on jump/run simple
+public class CairoBarsGuideManage
+{
+	private List<CairoBarsGuide> l;
+
+	public CairoBarsGuideManage (bool usePersonGuides, double sessionMAXAtSQL, double sessionAVGAtSQL, double sessionMINAtSQL,
+			double personMAXAtSQLAllSessions, double personMAXAtSQL, double personAVGAtSQL, double personMINAtSQL)
+	{
+		l = new List<CairoBarsGuide> ();
+		//int pos = 1;
+		//int dist = 8;
+
+		l.Add(new CairoBarsGuide(CairoBarsGuide.GuideEnum.SESSION_MAX, sessionMAXAtSQL,
+					2, colorFromRGB(0,0,0), 'G', 12)); //(pos++)*dist));
+		l.Add(new CairoBarsGuide(CairoBarsGuide.GuideEnum.SESSION_AVG, sessionAVGAtSQL,
+					1, colorFromRGB(0,0,0), 'g', 12)); //(pos++)*dist));
+		l.Add(new CairoBarsGuide(CairoBarsGuide.GuideEnum.SESSION_MIN, sessionMINAtSQL,
+					1, colorFromRGB(0,0,0), 'g', 12)); //(pos++)*dist));
+
+		if(usePersonGuides)
+		{
+			//unused
+			//l.Add(new CairoBarsGuide(CairoBarsGuide.GuideEnum.PERSON_MAX_ALL_S, personMAXAtSQLAllSessions,
+			//			4, colorFromRGB(255,0,255), 'P', 12)); //(pos++)*dist));
+
+			l.Add(new CairoBarsGuide(CairoBarsGuide.GuideEnum.PERSON_MAX_THIS_S, personMAXAtSQL,
+						2, colorFromRGB(255,238,102), 'P', 12)); //(pos++)*dist));
+			l.Add(new CairoBarsGuide(CairoBarsGuide.GuideEnum.PERSON_AVG_THIS_S, personAVGAtSQL,
+						1, colorFromRGB(255,238,102), 'p', 12)); //(pos++)*dist));
+			l.Add(new CairoBarsGuide(CairoBarsGuide.GuideEnum.PERSON_MIN_THIS_S, personMINAtSQL,
+						2, colorFromRGB(255,238,102), 'P', 12)); //(pos++)*dist));
+		}
+	}
+
+	protected Cairo.Color colorFromRGB(int red, int green, int blue)
+	{
+		return new Cairo.Color(red/256.0, green/256.0, blue/256.0);
+	}
+
+	public double GetMax ()
+	{
+		double max = 0;
+		foreach(CairoBarsGuide cbg in l)
+			if(cbg.Y > max)
+				max = cbg.Y;
+
+		return max;
+	}
+
+	public double GetTipGroupMax ()
+	{
+		foreach(CairoBarsGuide cbg in l)
+			if(cbg.Genum == CairoBarsGuide.GuideEnum.SESSION_MAX)
+				return cbg.Y;
+
+		return 0;
+	}
+	public double GetTipGroupAVG ()
+	{
+		foreach(CairoBarsGuide cbg in l)
+			if(cbg.Genum == CairoBarsGuide.GuideEnum.SESSION_AVG)
+				return cbg.Y;
+
+		return 0;
+	}
+	public double GetTipGroupMin ()
+	{
+		foreach(CairoBarsGuide cbg in l)
+			if(cbg.Genum == CairoBarsGuide.GuideEnum.SESSION_MIN)
+				return cbg.Y;
+
+		return 0;
+	}
+
+	public double GetTipPersonMax ()
+	{
+		foreach(CairoBarsGuide cbg in l)
+			if(cbg.Genum == CairoBarsGuide.GuideEnum.PERSON_MAX_THIS_S)
+				return cbg.Y;
+
+		return 0;
+	}
+	public double GetTipPersonAVG ()
+	{
+		foreach(CairoBarsGuide cbg in l)
+			if(cbg.Genum == CairoBarsGuide.GuideEnum.PERSON_AVG_THIS_S)
+				return cbg.Y;
+
+		return 0;
+	}
+	public double GetTipPersonMin ()
+	{
+		foreach(CairoBarsGuide cbg in l)
+			if(cbg.Genum == CairoBarsGuide.GuideEnum.PERSON_MIN_THIS_S)
+				return cbg.Y;
+
+		return 0;
+	}
+	public List<CairoBarsGuide> L {
+		get { return l; }
+	}
+}

@@ -3541,7 +3541,7 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 			cbjt.YUnits = "s";
 		}
 
-		cbjt.GraphInit(fontStr);
+		cbjt.GraphInit(fontStr, ! ShowPersonNames); 	//usePersonGuides
 		if(showBarA && showBarB) //Dja, Djna
 			cbjt.GraphDo (pointA_l, pointB_l, names_l, 14, 0, title);
 		else if (showBarA) //takeOff, takeOffWeight
@@ -3580,7 +3580,7 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 		cbjt.YVariable = Catalog.GetString("Speed");
 		cbjt.YUnits = "m/s";
 
-		cbjt.GraphInit(fontStr);
+		cbjt.GraphInit(fontStr, ! ShowPersonNames); 	//usePersonGuides
 
 		//TODO: add in parent class?
 		List<Event> events = Run.RunListToEventList(eventGraphRunsStored.runsAtSQL);
@@ -3630,6 +3630,16 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 						thereIsASimulated, (run.Simulated == -1),
 						longestWord.Length, maxRowsForText));
 		}
+
+		cbjt.PassGuidesData (new CairoBarsGuideManage(
+					! ShowPersonNames, 	//usePersonGuides
+					eventGraphRunsStored.sessionMAXAtSQL,
+					eventGraphRunsStored.sessionAVGAtSQL,
+					eventGraphRunsStored.sessionMINAtSQL,
+					eventGraphRunsStored.personMAXAtSQLAllSessions,
+					eventGraphRunsStored.personMAXAtSQL,
+					eventGraphRunsStored.personAVGAtSQL,
+					eventGraphRunsStored.personMINAtSQL));
 
 		cbjt.GraphDo(point_l, new List<PointF>(), names_l, fontHeightForBottomNames, bottomMargin, title);
 	}

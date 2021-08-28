@@ -33,9 +33,11 @@ public abstract class CairoBars : CairoGeneric
 	//protected string runType;
 	protected string date;
 	protected Cairo.Color colorSerieA;
+	protected CairoBarsGuideManage cairoBarsGuideManage;
+	protected bool usePersonGuides;
 
 	protected Cairo.Context g;
-	protected int lineWidthDefault = 2;
+	protected int lineWidthDefault = 1; //was 2;
 	protected string xVariable = "";
 	protected string yVariable = "Height";
 	protected string xUnits = "";
@@ -55,10 +57,132 @@ public abstract class CairoBars : CairoGeneric
 	protected Cairo.Color yellow;
 
 
-	public virtual void GraphInit (string font)
+	public virtual void GraphInit (string font, bool usePersonGuides) //need to set rightMargin
 	{
+		this.usePersonGuides = usePersonGuides;
+
 		textHeight = 14;
 		initGraph(font, 1); //.8 if writeTextAtRight
+	}
+
+	public void PassGuidesData (CairoBarsGuideManage cairoBarsGuideManage)
+	{
+		this.cairoBarsGuideManage = cairoBarsGuideManage;
+	}
+
+	protected void drawGuides ()
+	{
+		//TODO: draw first the more bold, maybe create list in that order, to make the smaller be inside the bolder
+		//foreach(CairoBarsGuide cbg in cairoBarsGuideManage.L)
+		//	drawHorizontalGuide (cbg);
+
+		int xStart = 6;
+		if(usePersonGuides)
+		{
+			drawGuidesPerson(xStart);
+			xStart += (24 + 6);
+		}
+
+		drawGuidesGroup(xStart);
+	}
+	//TODO: mix both next methods, just use correct variables
+	protected void drawGuidesPerson (int xStart)
+	{
+		Cairo.ImageSurface imgSurface = new Cairo.ImageSurface(
+				"/home/xavier/informatica/progs_meus/chronojump/images/md/ic_person_outline_blue_24dp_1x.png");
+		g.SetSourceSurface (imgSurface, graphWidth -rightMargin +xStart, topMargin);//Convert.ToInt32(calculatePaintY(cbg.Y))-12);
+		g.Paint ();
+
+		double bottom = calculatePaintY(cairoBarsGuideManage.GetTipPersonMin());
+		double top = calculatePaintY(cairoBarsGuideManage.GetTipPersonMax());
+		if(top != bottom) // if only 1 value (top == bottom), do not draw the arrow
+			plotArrowPassingGraphPoints (g, black,
+					graphWidth -rightMargin +xStart +12,
+					bottom,
+					graphWidth -rightMargin +xStart +12,
+					top,
+					false, true, 0);
+
+		//draw the avg
+		g.Color = black;
+		g.MoveTo(graphWidth - rightMargin +xStart +6, calculatePaintY(cairoBarsGuideManage.GetTipPersonAVG()));
+		g.LineTo(graphWidth - rightMargin +xStart +18, calculatePaintY(cairoBarsGuideManage.GetTipPersonAVG()));
+		g.Stroke ();
+	}
+	protected void drawGuidesGroup (int xStart)
+	{
+		Cairo.ImageSurface imgSurface = new Cairo.ImageSurface(
+				"/home/xavier/informatica/progs_meus/chronojump/images/md/image_group_outline.png");
+		g.SetSourceSurface (imgSurface, graphWidth -rightMargin +xStart, topMargin);//Convert.ToInt32(calculatePaintY(cbg.Y))-12);
+		g.Paint ();
+
+		double bottom = calculatePaintY(cairoBarsGuideManage.GetTipGroupMin());
+		double top = calculatePaintY(cairoBarsGuideManage.GetTipGroupMax());
+		if(top != bottom) // if only 1 value (top == bottom), do not draw the arrow
+			plotArrowPassingGraphPoints (g, black,
+					graphWidth -rightMargin +xStart +12,
+					bottom,
+					graphWidth -rightMargin +xStart +12,
+					top,
+					false, true, 0);
+
+		//draw the avg
+		g.Color = black;
+		g.MoveTo(graphWidth - rightMargin +xStart +6, calculatePaintY(cairoBarsGuideManage.GetTipGroupAVG()));
+		g.LineTo(graphWidth - rightMargin +xStart +18, calculatePaintY(cairoBarsGuideManage.GetTipGroupAVG()));
+		g.Stroke ();
+	}
+
+	//TODO: move this to generic (if needed)
+	protected void drawHorizontalGuide (CairoBarsGuide cbg)
+	{
+		/*
+		g.LineWidth = cbg.Width;
+		g.Color = cbg.Color;
+
+		g.MoveTo(leftMargin, calculatePaintY(cbg.Y));
+		g.LineTo(graphWidth -rightMargin +cbg.ExtraRightDist, calculatePaintY(cbg.Y));
+		g.Stroke ();
+
+		g.LineWidth = lineWidthDefault;
+		g.Color = black;
+		*/
+
+		/*
+		plotArrowPassingGraphPoints (g, cbg.Color,
+				leftMargin, calculatePaintY(cbg.Y),
+				graphWidth -rightMargin,// +cbg.ExtraRightDist,
+				calculatePaintY(cbg.Y), true, 0);
+				*/
+
+		/*
+		plotArrowPassingGraphPoints (g, black, //black to not have overlapped lines with different colors
+				graphWidth -rightMargin -10,// +cbg.ExtraRightDist,
+				calculatePaintY(cbg.Y),
+				graphWidth -rightMargin +10,
+				calculatePaintY(cbg.Y),
+				true, 0);
+
+		g.Color = cbg.Color;
+		printText(graphWidth -rightMargin +cbg.ExtraRightDist, calculatePaintY(cbg.Y),
+				0, textHeight -2, cbg.C.ToString(), g, alignTypes.LEFT); //TODO: solve align of letter that has to be higher, when it is an icon this will not be a problem, just compare it with the arrow
+		g.Color = black;
+				*/
+		/*
+		Cairo.ImageSurface imgSurface;
+		if(cbg.Genum == CairoBarsGuide.GuideEnum.SESSION_MAX || cbg.Genum == CairoBarsGuide.GuideEnum.SESSION_AVG)
+		{
+			imgSurface = new Cairo.ImageSurface(
+					"/home/xavier/informatica/progs_meus/chronojump/images/md/image_group_outline.png");
+			g.SetSourceSurface (imgSurface, graphWidth -rightMargin +32, 12);//Convert.ToInt32(calculatePaintY(cbg.Y))-12);
+		} else {
+			imgSurface = new Cairo.ImageSurface(
+					"/home/xavier/informatica/progs_meus/chronojump/images/md/ic_person_outline_blue_24dp_1x.png");
+			g.SetSourceSurface (imgSurface, graphWidth -rightMargin +4, 12);//Convert.ToInt32(calculatePaintY(cbg.Y))-12);
+		}
+
+		g.Paint ();
+		*/
 	}
 
 	public abstract void GraphDo (List<PointF> pointA_l, List<PointF> pointB_l,
@@ -74,7 +198,9 @@ public abstract class CairoBars : CairoGeneric
 		//LogB.Information("Font: " + font);
 
 		leftMargin = 26;
-		rightMargin = 9;
+		rightMargin = 42; //images are 24 px, separate 6 px from grapharea, and 12 px from absoluteright
+		if(usePersonGuides)
+			rightMargin = 70;
 		topMargin = 12;
 		bottomMargin = 9;
 
@@ -108,7 +234,7 @@ public abstract class CairoBars : CairoGeneric
 		yellow = colorFromRGB(255,238,102);
 	}
 
-	protected abstract void findPointMaximums();
+	protected abstract void findMaximums(); //includes point and guides
 
 	protected void paintAxis(int width)
 	{
@@ -452,11 +578,14 @@ public class CairoBars1Series : CairoBars
 		this.colorSerieA = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
 	}
 
-	protected override void findPointMaximums()
+	protected override void findMaximums()
 	{
 		foreach(PointF p in point_l)
 			if(p.Y > maxY)
 				maxY = p.Y;
+
+		if(cairoBarsGuideManage != null  && cairoBarsGuideManage.GetMax() > maxY)
+			maxY = cairoBarsGuideManage.GetMax();
 
 		//points X start at 1
 		minX = 0;
@@ -510,12 +639,15 @@ LogB.Information(string.Format("y: {0}, alto: {1}", y, graphHeight -y - bottomMa
 		LogB.Information(string.Format("bottomMargin pre: {0}, marginForBottomNames: {1}", bottomMargin, marginForBottomNames));
 		bottomMargin += marginForBottomNames;
 
-                findPointMaximums();
+                findMaximums();
 
 		g.SetFontSize(textHeight);
 		paintAxis(2);
 		paintGrid(gridTypes.HORIZONTALLINES, true);
 		//g.SetFontSize(textHeight);
+
+		if(cairoBarsGuideManage != null)
+			drawGuides();
 
 		g.Color = black;
 		plotBars ();
@@ -557,7 +689,7 @@ public class CairoBars2HSeries : CairoBars
 		colorSerieB = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
 	}
 
-	protected override void findPointMaximums()
+	protected override void findMaximums()
 	{
 		foreach(PointF p in pointA_l)
 			if(p.Y > maxY)
@@ -659,7 +791,7 @@ public class CairoBars2HSeries : CairoBars
 
 		bottomMargin += marginForBottomNames;
 
-                findPointMaximums();
+                findMaximums();
 
 		g.SetFontSize(textHeight);
 		paintAxis(2);

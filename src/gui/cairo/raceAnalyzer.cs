@@ -114,7 +114,8 @@ public class CairoGraphRaceAnalyzer : CairoXY
 				MovingAverage mAverage = new MovingAverage(points_list, 5);
 				mAverage.Calculate();
 				PointF pMaxY = mAverage.GetMaxY();
-				plotArrow (pMaxY.X, pMaxY.Y, points_list[points_list.Count -1].X, pMaxY.Y, true, 0);
+				plotArrowPassingRealPoints (g, colorFromRGB(255,0,0),
+						pMaxY.X, pMaxY.Y, points_list[points_list.Count -1].X, pMaxY.Y, true, false, 0);
 			}
 		}
 

@@ -247,57 +247,6 @@ public abstract class CairoXY : CairoGeneric
 		g.SetSourceRGB(0,0,0);
 	}
 
-	//horiz or vertical to manage spacement of arrow points and tip draw
-	protected void plotArrow (double ax, double ay, double bx, double by, bool horiz, int spacement)
-	{
-		// 1) convert to graph coordinates
-		ax = calculatePaintX(ax);
-		ay = calculatePaintY(ay);
-		bx = calculatePaintX(bx);
-		by = calculatePaintY(by);
-
-		// 2) have spacements
-		if(horiz) {
-			ax += spacement;
-			bx -= spacement;
-		} else {
-			ay -= spacement;
-			by += spacement;
-		}
-		g.SetSourceRGB(255,0,0);
-
-		// 3) write line (if it fits)
-		if(horiz && bx > ax || ! horiz && ay > by)
-		{
-			g.MoveTo(ax, ay);
-			g.LineTo(bx, by);
-		} else {
-			//if it does not fit, move bx or by to have the arrow at the middle
-			if(horiz)
-				bx = Convert.ToInt32((ax + bx) / 2);
-			else
-				by = Convert.ToInt32((ay + by) / 2);
-			g.MoveTo(bx, by);
-		}
-
-		// 4) write arrow tip
-
-		int tip = 5;
-		if(horiz) {
-			g.LineTo(bx - tip, by - tip);
-			g.MoveTo(bx, by);
-			g.LineTo(bx - tip, by + tip);
-		} else {
-			g.LineTo(bx - tip, by + tip);
-			g.MoveTo(bx, by);
-			g.LineTo(bx + tip, by + tip);
-		}
-
-		// 5) end
-		g.Stroke ();
-		g.SetSourceRGB(0,0,0);
-	}
-
 	protected virtual void separateMinXMaxXIfNeeded()
 	{
 		if(minX == maxX)

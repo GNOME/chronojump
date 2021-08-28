@@ -155,9 +155,11 @@ public class JumpsWeightFVProfileGraph : CairoXY
 			if(showFullGraph)
 			{
 				if(f0Opt > f0Rel)
-					plotArrow (0, f0Rel, 0, f0Opt, false, 12);
+					plotArrowPassingRealPoints (g, colorFromRGB(255,0,0),
+							0, f0Rel, 0, f0Opt, false, false, 12);
 				if(v0Opt > v0)
-					plotArrow (v0, 0, v0Opt, 0, true, 12);
+					plotArrowPassingRealPoints (g, colorFromRGB(255,0,0),
+							v0, 0, v0Opt, 0, true, false, 12);
 			}
 		}
 

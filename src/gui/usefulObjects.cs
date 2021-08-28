@@ -169,7 +169,10 @@ public class PrepareEventGraphRunSimple {
 
 	public double personAVGAtSQL;
 	public double sessionAVGAtSQL;
-	
+
+	public double personMINAtSQL;
+	public double sessionMINAtSQL;
+
 	public double time;
 	public double speed;
 	public string type; //jumpType (useful to know if "all jumps" (type == "")
@@ -197,7 +200,9 @@ public class PrepareEventGraphRunSimple {
 		
 		personMAXAtSQLAllSessions = SqliteSession.SelectMAXEventsOfAType(true, -1, personID, table, type, sqlSelect);
 		personMAXAtSQL = SqliteSession.SelectMAXEventsOfAType(true, sessionID, personID, table, type, sqlSelect);
+		personMINAtSQL = SqliteSession.SelectMINEventsOfAType(true, sessionID, personID, table, type, sqlSelect);
 		sessionMAXAtSQL = SqliteSession.SelectMAXEventsOfAType(true, sessionID, -1, table, type, sqlSelect);
+		sessionMINAtSQL = SqliteSession.SelectMINEventsOfAType(true, sessionID, -1, table, type, sqlSelect);
 		
 		//distancePersonAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(true, sessionID, personID, table, type, "distance");
 		//distanceSessionAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(true, sessionID, -1, table, type, "distance");

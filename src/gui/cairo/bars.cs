@@ -20,6 +20,7 @@
 
 using System;
 using System.Collections.Generic; //List
+using Gdk;
 using Gtk;
 using Cairo;
 
@@ -88,10 +89,9 @@ public abstract class CairoBars : CairoGeneric
 	//TODO: mix both next methods, just use correct variables
 	protected void drawGuidesPerson (int xStart)
 	{
-		Cairo.ImageSurface imgSurface = new Cairo.ImageSurface(
-				"/home/xavier/informatica/progs_meus/chronojump/images/md/ic_person_outline_blue_24dp_1x.png");
-		g.SetSourceSurface (imgSurface, graphWidth -rightMargin +xStart, topMargin);//Convert.ToInt32(calculatePaintY(cbg.Y))-12);
-		g.Paint ();
+		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_outline.png");
+		Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf, graphWidth -rightMargin +xStart, topMargin);//Convert.ToInt32(calculatePaintY(cbg.Y))-12);
+		g.Paint();
 
 		double bottom = calculatePaintY(cairoBarsGuideManage.GetTipPersonMin());
 		double top = calculatePaintY(cairoBarsGuideManage.GetTipPersonMax());
@@ -111,10 +111,9 @@ public abstract class CairoBars : CairoGeneric
 	}
 	protected void drawGuidesGroup (int xStart)
 	{
-		Cairo.ImageSurface imgSurface = new Cairo.ImageSurface(
-				"/home/xavier/informatica/progs_meus/chronojump/images/md/image_group_outline.png");
-		g.SetSourceSurface (imgSurface, graphWidth -rightMargin +xStart, topMargin);//Convert.ToInt32(calculatePaintY(cbg.Y))-12);
-		g.Paint ();
+		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_group_outline.png");
+		Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf, graphWidth -rightMargin +xStart, topMargin);//Convert.ToInt32(calculatePaintY(cbg.Y))-12);
+		g.Paint();
 
 		double bottom = calculatePaintY(cairoBarsGuideManage.GetTipGroupMin());
 		double top = calculatePaintY(cairoBarsGuideManage.GetTipGroupMax());

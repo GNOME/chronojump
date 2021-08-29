@@ -832,19 +832,25 @@ class SqliteSession : Sqlite
 	//called from gui/event.cs for doing the graph
 	//we need to know the avg of events of a type (SJ, CMJ, free (pulse).. of a person, or of all persons on the session
 	//from 2.0 type can be "" so all types
-	public static double SelectAVGEventsOfAType(bool dbconOpened, int sessionID, int personID, string table, string type, string valueToSelect) 
+	public static double SelectMAXEventsOfAType(bool dbconOpened, int sessionID, int personID,
+			string table, string type, string valueToSelect)
 	{
-		return selectEventsOfAType(dbconOpened, sessionID, personID, table, type, valueToSelect, "AVG");
+		return selectEventsOfAType(dbconOpened, sessionID, personID,
+				table, type, valueToSelect, "MAX_AVG_MIN")[0];
 	}
-	public static double SelectMAXEventsOfAType(bool dbconOpened, int sessionID, int personID, string table, string type, string valueToSelect) 
+	public static double SelectAVGEventsOfAType(bool dbconOpened, int sessionID, int personID,
+			string table, string type, string valueToSelect)
 	{
-		return selectEventsOfAType(dbconOpened, sessionID, personID, table, type, valueToSelect, "MAX");
+		return selectEventsOfAType(dbconOpened, sessionID, personID,
+				table, type, valueToSelect, "MAX_AVG_MIN")[1];
 	}
-	public static double SelectMINEventsOfAType(bool dbconOpened, int sessionID, int personID, string table, string type, string valueToSelect) 
+	public static double SelectMINEventsOfAType(bool dbconOpened, int sessionID, int personID,
+			string table, string type, string valueToSelect)
 	{
-		return selectEventsOfAType(dbconOpened, sessionID, personID, table, type, valueToSelect, "MIN");
+		return selectEventsOfAType(dbconOpened, sessionID, personID,
+				table, type, valueToSelect, "MAX_AVG_MIN")[2];
 	}
-	public static double selectEventsOfAType(bool dbconOpened, int sessionID, int personID, 
+	public static List<double> selectEventsOfAType(bool dbconOpened, int sessionID, int personID,
 			string table, string type, string valueToSelect, string statistic) 
 	{
 		if(!dbconOpened)
@@ -872,8 +878,14 @@ class SqliteSession : Sqlite
 			typeString = connector + "type = \"" + type + "\"";
 			connector = " AND ";
 		}
+
+		string selectString = statistic + "(" + valueToSelect + ")";
+		if(statistic == "MAX_AVG_MIN")
+			selectString = "MAX (" + valueToSelect + "), " +
+				"AVG (" + valueToSelect + "), " +
+				"MIN (" + valueToSelect + ")";
 		
-		dbcmd.CommandText = "SELECT " + statistic + "(" + valueToSelect + ")" +
+		dbcmd.CommandText = "SELECT " + selectString +
 			" FROM " + table +				
 			sessionIDString +
 			personIDString + 
@@ -885,22 +897,24 @@ class SqliteSession : Sqlite
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
-		double myReturn = 0;
-		bool found = false;
-		if(reader.Read()) {
-			found = true;
-			myReturn = Convert.ToDouble(Util.ChangeDecimalSeparator(reader[0].ToString()));
+		List<double> return_l = new List<double>();
+		while(reader.Read()) {
+			return_l.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(reader[0].ToString())));
+			return_l.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(reader[1].ToString())));
+			return_l.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(reader[2].ToString())));
 		}
 		reader.Close();
 		
 		if(!dbconOpened)
 			Sqlite.Close();
 
-		if (found) {
-			return myReturn;
-		} else {
-			return 0;
+		if(return_l.Count == 0)
+		{
+			return_l.Add(0);
+			return_l.Add(0);
+			return_l.Add(0);
 		}
+		return return_l;
 	}
 
 	// It's used by export and receives a specific database

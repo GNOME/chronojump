@@ -850,7 +850,16 @@ class SqliteSession : Sqlite
 		return selectEventsOfAType(dbconOpened, sessionID, personID,
 				table, type, valueToSelect, "MAX_AVG_MIN")[2];
 	}
-	public static List<double> selectEventsOfAType(bool dbconOpened, int sessionID, int personID,
+
+	//to have the three in one call, much better, use this in new code
+	public static List<double> Select_MAX_AVG_MIN_EventsOfAType(bool dbconOpened, int sessionID, int personID,
+			string table, string type, string valueToSelect)
+	{
+		return selectEventsOfAType(dbconOpened, sessionID, personID,
+				table, type, valueToSelect, "MAX_AVG_MIN");
+	}
+
+	private static List<double> selectEventsOfAType(bool dbconOpened, int sessionID, int personID,
 			string table, string type, string valueToSelect, string statistic) 
 	{
 		if(!dbconOpened)

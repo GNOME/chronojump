@@ -79,11 +79,11 @@ public abstract class CairoBars : CairoGeneric
 
 		//write the X for the average values
 		g.Color = red;
-		printText(graphWidth - rightMargin, topMargin +24 +8, 0, textHeight -3,
+		printText(graphWidth - rightMargin, topMargin +24 +10, 0, textHeight -3,
 				"X", g, alignTypes.CENTER);
 		//with the above horizontal line
-		g.MoveTo(graphWidth - rightMargin -4, topMargin +24 +2);
-		g.LineTo(graphWidth - rightMargin +4, topMargin +24 +2);
+		g.MoveTo(graphWidth - rightMargin -4, topMargin +24 +4);
+		g.LineTo(graphWidth - rightMargin +4, topMargin +24 +4);
 		g.Stroke();
 
 		g.Color = black;
@@ -101,7 +101,7 @@ public abstract class CairoBars : CairoGeneric
 	protected void drawGuidesPerson (int xStart)
 	{
 		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_outline.png");
-		Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf, graphWidth -rightMargin +xStart, topMargin);//Convert.ToInt32(calculatePaintY(cbg.Y))-12);
+		Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf, graphWidth -rightMargin +xStart, topMargin+2);
 		g.Paint();
 
 		double bottom = calculatePaintY(cairoBarsGuideManage.GetTipPersonMin());
@@ -121,7 +121,7 @@ public abstract class CairoBars : CairoGeneric
 		g.Stroke ();
 
 		//write the average value
-		printText(graphWidth - rightMargin +xStart +12, topMargin +24 +8, 0, textHeight -3,
+		printText(graphWidth - rightMargin +xStart +12, topMargin +24 +10, 0, textHeight -3,
 				Util.TrimDecimals(cairoBarsGuideManage.GetTipPersonAVG(), 1),
 				g, alignTypes.CENTER);
 		g.Color = black;
@@ -129,7 +129,7 @@ public abstract class CairoBars : CairoGeneric
 	protected void drawGuidesGroup (int xStart)
 	{
 		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_group_outline.png");
-		Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf, graphWidth -rightMargin +xStart, topMargin);//Convert.ToInt32(calculatePaintY(cbg.Y))-12);
+		Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf, graphWidth -rightMargin +xStart, topMargin+2);
 		g.Paint();
 
 		double bottom = calculatePaintY(cairoBarsGuideManage.GetTipGroupMin());
@@ -149,7 +149,7 @@ public abstract class CairoBars : CairoGeneric
 		g.Stroke ();
 
 		//write the average value
-		printText(graphWidth - rightMargin +xStart +12, topMargin +24 +8, 0, textHeight -3,
+		printText(graphWidth - rightMargin +xStart +12, topMargin +24 +10, 0, textHeight -3,
 				Util.TrimDecimals(cairoBarsGuideManage.GetTipGroupAVG(), 1),
 				g, alignTypes.CENTER);
 		g.Color = black;

@@ -77,6 +77,17 @@ public abstract class CairoBars : CairoGeneric
 		//foreach(CairoBarsGuide cbg in cairoBarsGuideManage.L)
 		//	drawHorizontalGuide (cbg);
 
+		//write the X for the average values
+		g.Color = red;
+		printText(graphWidth - rightMargin, topMargin +24 +8, 0, textHeight -3,
+				"X", g, alignTypes.CENTER);
+		//with the above horizontal line
+		g.MoveTo(graphWidth - rightMargin -4, topMargin +24 +2);
+		g.LineTo(graphWidth - rightMargin +4, topMargin +24 +2);
+		g.Stroke();
+
+		g.Color = black;
+
 		int xStart = 6;
 		if(usePersonGuides)
 		{
@@ -104,10 +115,16 @@ public abstract class CairoBars : CairoGeneric
 					false, true, 0);
 
 		//draw the avg
-		g.Color = black;
+		g.Color = red;
 		g.MoveTo(graphWidth - rightMargin +xStart +6, calculatePaintY(cairoBarsGuideManage.GetTipPersonAVG()));
 		g.LineTo(graphWidth - rightMargin +xStart +18, calculatePaintY(cairoBarsGuideManage.GetTipPersonAVG()));
 		g.Stroke ();
+
+		//write the average value
+		printText(graphWidth - rightMargin +xStart +12, topMargin +24 +8, 0, textHeight -3,
+				Util.TrimDecimals(cairoBarsGuideManage.GetTipPersonAVG(), 1),
+				g, alignTypes.CENTER);
+		g.Color = black;
 	}
 	protected void drawGuidesGroup (int xStart)
 	{
@@ -126,10 +143,16 @@ public abstract class CairoBars : CairoGeneric
 					false, true, 0);
 
 		//draw the avg
-		g.Color = black;
+		g.Color = red;
 		g.MoveTo(graphWidth - rightMargin +xStart +6, calculatePaintY(cairoBarsGuideManage.GetTipGroupAVG()));
 		g.LineTo(graphWidth - rightMargin +xStart +18, calculatePaintY(cairoBarsGuideManage.GetTipGroupAVG()));
 		g.Stroke ();
+
+		//write the average value
+		printText(graphWidth - rightMargin +xStart +12, topMargin +24 +8, 0, textHeight -3,
+				Util.TrimDecimals(cairoBarsGuideManage.GetTipGroupAVG(), 1),
+				g, alignTypes.CENTER);
+		g.Color = black;
 	}
 
 	//TODO: move this to generic (if needed)

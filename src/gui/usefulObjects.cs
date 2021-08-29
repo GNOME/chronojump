@@ -197,23 +197,26 @@ public class PrepareEventGraphRunSimple {
 
 		
 		string sqlSelect = "distance/time";
-		
-		personMAXAtSQLAllSessions = SqliteSession.SelectMAXEventsOfAType(true, -1, personID, table, type, sqlSelect);
-		personMAXAtSQL = SqliteSession.SelectMAXEventsOfAType(true, sessionID, personID, table, type, sqlSelect);
-		personMINAtSQL = SqliteSession.SelectMINEventsOfAType(true, sessionID, personID, table, type, sqlSelect);
-		sessionMAXAtSQL = SqliteSession.SelectMAXEventsOfAType(true, sessionID, -1, table, type, sqlSelect);
-		sessionMINAtSQL = SqliteSession.SelectMINEventsOfAType(true, sessionID, -1, table, type, sqlSelect);
-		
-		//distancePersonAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(true, sessionID, personID, table, type, "distance");
-		//distanceSessionAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(true, sessionID, -1, table, type, "distance");
 		//better to know speed like:
 		//SELECT AVG(distance/time) from run; than 
 		//SELECT AVG(distance) / SELECT AVG(time) 
 		//first is ok, because is the speed AVG
 		//2nd is not good because it tries to do an AVG of all distances and times
-		personAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(true, sessionID, personID, table, type, sqlSelect);
-		sessionAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(true, sessionID, -1, table, type, sqlSelect);
 		
+		personMAXAtSQLAllSessions = SqliteSession.SelectMAXEventsOfAType(true, -1, personID, table, type, sqlSelect); //right now, used only on the not-cairo solution
+
+		List<double> personStats = SqliteSession.Select_MAX_AVG_MIN_EventsOfAType(
+				true, sessionID, personID, table, type, sqlSelect);
+		personMAXAtSQL = personStats[0];
+		personAVGAtSQL = personStats[1];
+		personMINAtSQL = personStats[2];
+
+		List<double> sessionStats = SqliteSession.Select_MAX_AVG_MIN_EventsOfAType(
+				true, sessionID, -1, table, type, sqlSelect);
+		sessionMAXAtSQL = sessionStats[0];
+		sessionAVGAtSQL = sessionStats[1];
+		sessionMINAtSQL = sessionStats[2];
+
 		this.time = time;
 		this.speed = speed;
 		this.type = type;

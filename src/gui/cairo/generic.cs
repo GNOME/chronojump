@@ -208,6 +208,9 @@ public abstract class CairoGeneric
 		// 3) write arrow tip(s)
 		int tip = 5;
 		if(horiz) {
+			if(Math.Abs(bx-ax) <= 2*tip)
+				tip = 3;
+
 			g.LineTo(bx - tip, by - tip);
 			g.MoveTo(bx, by);
 			g.LineTo(bx - tip, by + tip);
@@ -218,6 +221,9 @@ public abstract class CairoGeneric
 				g.LineTo(ax + tip, ay + tip);
 			}
 		} else {
+			if(Math.Abs(by-ay) <= 2*tip)
+				tip = 3;
+
 			g.LineTo(bx - tip, by + tip);
 			g.MoveTo(bx, by);
 			g.LineTo(bx + tip, by + tip);

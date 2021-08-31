@@ -3488,10 +3488,6 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 
 	protected override void paintSpecific()
 	{
-		List<PointF> pointA_l = new List<PointF>();
-		List<PointF> pointB_l = new List<PointF>();
-		List<string> names_l = new List<string>();
-
 		/*
 		 * check if one bar has to be shown or two
 		 * this is important when we are showing multitests
@@ -3508,23 +3504,6 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 			//if both found do not need to search more
 			if(showBarA && showBarB)
 				break;
-		}
-
-		int countToDraw = eventGraphJumpsStored.jumpsAtSQL.Count;
-		foreach(Jump jump in eventGraphJumpsStored.jumpsAtSQL)
-		{
-			double valueA = jump.Fall;
-			double valueB = Util.GetHeightInCentimeters(jump.Tv); //jump height
-			if(! UseHeights) {
-				valueA = jump.Tc;
-				valueB = jump.Tv;
-			}
-
-			pointA_l.Add(new PointF(countToDraw, valueA));
-			pointB_l.Add(new PointF(countToDraw, valueB));
-			countToDraw --;
-
-			names_l.Add(Catalog.GetString(jump.Type));
 		}
 
 		CairoBars cbjt;
@@ -3544,12 +3523,85 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 		}
 
 		cbjt.GraphInit(fontStr, ! ShowPersonNames); 	//usePersonGuides
+
+		List<Event> events = Jump.JumpListToEventList(eventGraphJumpsStored.jumpsAtSQL);
+
+		//find if there is a simulated
+		bool thereIsASimulated = false;
+		for(int i=0 ; i < eventGraphJumpsStored.jumpsAtSQL.Count; i++)
+		{
+			if(eventGraphJumpsStored.jumpsAtSQL[i].Simulated == -1)
+				thereIsASimulated = true;
+
+			if(! ShowPersonNames)
+				eventGraphJumpsStored.jumpsAtSQL[i].Description = ""; //to avoid showing description
+		}
+
+		//manage bottom text font/spacing of rows
+		string longestWord = findLongestWordCairo (events,
+				eventGraphJumpsStored.type == "", "(" + Catalog.GetString("Simulated") + ")"); // condition for "all runs"
+		int fontHeightForBottomNames = cbjt.GetFontForBottomNames (events, longestWord);
+
+		int maxRowsForText = calculateMaxRowsForTextCairo (events, longestWord.Length,
+				eventGraphJumpsStored.type == "", false); //also adds +1 if simulated
+		int bottomMargin = cbjt.GetBottomMarginForText (maxRowsForText, fontHeightForBottomNames);
+
+
+		List<PointF> pointA_l = new List<PointF>();
+		List<PointF> pointB_l = new List<PointF>();
+		List<string> names_l = new List<string>();
+
+		int countToDraw = eventGraphJumpsStored.jumpsAtSQL.Count;
+		foreach(Jump jump in eventGraphJumpsStored.jumpsAtSQL)
+		{
+			LogB.Information("jump: " + jump.ToString());
+			// 1) Add data
+			double valueA = jump.Fall;
+			double valueB = Util.GetHeightInCentimeters(jump.Tv); //jump height
+			if(! UseHeights) {
+				valueA = jump.Tc;
+				valueB = jump.Tv;
+			}
+
+			pointA_l.Add(new PointF(countToDraw, valueA));
+			pointB_l.Add(new PointF(countToDraw, valueB));
+			countToDraw --;
+
+			// 2) Add bottom names
+			//names_l.Add(Catalog.GetString(jump.Type));
+			string typeRowString = "";
+			if (eventGraphJumpsStored.type == "") //if "all runs" show run.Type
+				typeRowString = jump.Type;
+
+			string timeString = "";
+
+			names_l.Add(createTextBelowBar(
+						"",
+						typeRowString,
+						jump.Description,
+						thereIsASimulated, (jump.Simulated == -1),
+						longestWord.Length, maxRowsForText));
+		}
+
+		cbjt.PassGuidesData (new CairoBarsGuideManage(
+					! ShowPersonNames, 	//usePersonGuides
+					eventGraphJumpsStored.sessionMAXAtSQL,
+					eventGraphJumpsStored.sessionAVGAtSQL,
+					eventGraphJumpsStored.sessionMINAtSQL,
+					eventGraphJumpsStored.personMAXAtSQLAllSessions,
+					eventGraphJumpsStored.personMAXAtSQL,
+					eventGraphJumpsStored.personAVGAtSQL,
+					eventGraphJumpsStored.personMINAtSQL));
+
 		if(showBarA && showBarB) //Dja, Djna
-			cbjt.GraphDo (pointA_l, pointB_l, names_l, 14, 0, title);
+			cbjt.GraphDo (pointA_l, pointB_l, names_l,
+					fontHeightForBottomNames, bottomMargin, title);
 		else if (showBarA) //takeOff, takeOffWeight
-			cbjt.GraphDo (pointA_l, new List<PointF>(), names_l, 14, 0, title);
+			cbjt.GraphDo (pointA_l, new List<PointF>(), names_l,
+					fontHeightForBottomNames, bottomMargin, title);
 		else //rest of the jumps: sj, cmj, ..
-			cbjt.GraphDo (pointB_l, new List<PointF>(), names_l, 14, 0, title);
+			cbjt.GraphDo (pointB_l, new List<PointF>(), names_l,
+					fontHeightForBottomNames, bottomMargin, title);
 	}
 }
 
@@ -3584,9 +3636,9 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 
 		cbjt.GraphInit(fontStr, ! ShowPersonNames); 	//usePersonGuides
 
-		//TODO: add in parent class?
 		List<Event> events = Run.RunListToEventList(eventGraphRunsStored.runsAtSQL);
 
+		//find if there is a simulated
 		bool thereIsASimulated = false;
 		for(int i=0 ; i < eventGraphRunsStored.runsAtSQL.Count; i++)
 		{
@@ -3597,6 +3649,7 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 				eventGraphRunsStored.runsAtSQL[i].Description = ""; //to avoid showing description
 		}
 
+		//manage bottom text font/spacing of rows
 		string longestWord = findLongestWordCairo (events,
 				eventGraphRunsStored.type == "", "(" + Catalog.GetString("Simulated") + ")"); // condition for "all runs"
 		int fontHeightForBottomNames = cbjt.GetFontForBottomNames (events, longestWord);
@@ -3643,6 +3696,7 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 					eventGraphRunsStored.personAVGAtSQL,
 					eventGraphRunsStored.personMINAtSQL));
 
-		cbjt.GraphDo(point_l, new List<PointF>(), names_l, fontHeightForBottomNames, bottomMargin, title);
+		cbjt.GraphDo(point_l, new List<PointF>(), names_l,
+				fontHeightForBottomNames, bottomMargin, title);
 	}
 }

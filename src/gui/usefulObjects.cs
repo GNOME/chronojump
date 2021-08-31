@@ -70,6 +70,9 @@ public class PrepareEventGraphJumpSimple
 	public double personAVGAtSQL;
 	public double sessionAVGAtSQL;
 
+	public double personMINAtSQL;
+	public double sessionMINAtSQL;
+
 	//current data
 	public double tv;
 	public double tc;
@@ -121,11 +124,18 @@ public class PrepareEventGraphJumpSimple
 		}
 
 		personMAXAtSQLAllSessions = SqliteSession.SelectMAXEventsOfAType(true, -1, personID, table, type, sqlSelect);
-		personMAXAtSQL = SqliteSession.SelectMAXEventsOfAType(true, sessionID, personID, table, type, sqlSelect);
-		sessionMAXAtSQL = SqliteSession.SelectMAXEventsOfAType(true, sessionID, -1, table, type, sqlSelect);
 
-		personAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(true, sessionID, personID, table, type, sqlSelect);
-		sessionAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(true, sessionID, -1, table, type, sqlSelect);
+		List<double> personStats = SqliteSession.Select_MAX_AVG_MIN_EventsOfAType(
+				true, sessionID, personID, table, type, sqlSelect);
+		personMAXAtSQL = personStats[0];
+		personAVGAtSQL = personStats[1];
+		personMINAtSQL = personStats[2];
+
+		List<double> sessionStats = SqliteSession.Select_MAX_AVG_MIN_EventsOfAType(
+				true, sessionID, -1, table, type, sqlSelect);
+		sessionMAXAtSQL = sessionStats[0];
+		sessionAVGAtSQL = sessionStats[1];
+		sessionMINAtSQL = sessionStats[2];
 	
 		//end of select data from SQL to update graph	
 			

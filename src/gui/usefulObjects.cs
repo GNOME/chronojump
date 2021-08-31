@@ -79,9 +79,6 @@ public class PrepareEventGraphJumpSimple
 	public string type; //jumpType (useful to know if "all jumps" (type == "")
 	public bool djShowHeights; //if djShowHeights and is a dj, graph falling height and jump height
 
-		
-	private enum jumpVariables { HEIGHT, TVTC, TC }
-
 	public PrepareEventGraphJumpSimple() {
 	}
 

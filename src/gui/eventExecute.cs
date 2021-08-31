@@ -728,6 +728,7 @@ public partial class ChronoJumpWindow
 		// B) Paint cairo graph
 		cairoPaintBarsPre.ShowPersonNames = radio_contacts_graph_allPersons.Active;
 		cairoPaintBarsPre.UseHeights = useHeights;
+
 		cairoPaintBarsPre.Paint();
 	}
 
@@ -3505,6 +3506,9 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 			if(showBarA && showBarB)
 				break;
 		}
+		//takeOff, takeOff weights show times (Tc)
+		if(showBarA && ! showBarB)
+			UseHeights = false;
 
 		CairoBars cbjt;
 		if(showBarA && showBarB) //Dja, Djna

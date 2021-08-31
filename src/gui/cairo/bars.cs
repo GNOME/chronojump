@@ -222,58 +222,6 @@ public abstract class CairoBars : CairoGeneric
 		g.LineWidth = 1;
 	}
 
-	//TODO: move this to generic (if needed)
-	protected void drawHorizontalGuide (CairoBarsGuide cbg)
-	{
-		/*
-		g.LineWidth = cbg.Width;
-		g.Color = cbg.Color;
-
-		g.MoveTo(leftMargin, calculatePaintY(cbg.Y));
-		g.LineTo(graphWidth -rightMargin +cbg.ExtraRightDist, calculatePaintY(cbg.Y));
-		g.Stroke ();
-
-		g.LineWidth = lineWidthDefault;
-		g.Color = black;
-		*/
-
-		/*
-		plotArrowPassingGraphPoints (g, cbg.Color,
-				leftMargin, calculatePaintY(cbg.Y),
-				graphWidth -rightMargin,// +cbg.ExtraRightDist,
-				calculatePaintY(cbg.Y), true, 0);
-				*/
-
-		/*
-		plotArrowPassingGraphPoints (g, black, //black to not have overlapped lines with different colors
-				graphWidth -rightMargin -10,// +cbg.ExtraRightDist,
-				calculatePaintY(cbg.Y),
-				graphWidth -rightMargin +10,
-				calculatePaintY(cbg.Y),
-				true, 0);
-
-		g.Color = cbg.Color;
-		printText(graphWidth -rightMargin +cbg.ExtraRightDist, calculatePaintY(cbg.Y),
-				0, textHeight -2, cbg.C.ToString(), g, alignTypes.LEFT); //TODO: solve align of letter that has to be higher, when it is an icon this will not be a problem, just compare it with the arrow
-		g.Color = black;
-				*/
-		/*
-		Cairo.ImageSurface imgSurface;
-		if(cbg.Genum == CairoBarsGuide.GuideEnum.SESSION_MAX || cbg.Genum == CairoBarsGuide.GuideEnum.SESSION_AVG)
-		{
-			imgSurface = new Cairo.ImageSurface(
-					"/home/xavier/informatica/progs_meus/chronojump/images/md/image_group_outline.png");
-			g.SetSourceSurface (imgSurface, graphWidth -rightMargin +32, 12);//Convert.ToInt32(calculatePaintY(cbg.Y))-12);
-		} else {
-			imgSurface = new Cairo.ImageSurface(
-					"/home/xavier/informatica/progs_meus/chronojump/images/md/ic_person_outline_blue_24dp_1x.png");
-			g.SetSourceSurface (imgSurface, graphWidth -rightMargin +4, 12);//Convert.ToInt32(calculatePaintY(cbg.Y))-12);
-		}
-
-		g.Paint ();
-		*/
-	}
-
 	public abstract void GraphDo (List<PointF> pointA_l, List<PointF> pointB_l,
 			List<string> names_l, int fontHeightForBottomNames, int marginForBottomNames, string title);
 

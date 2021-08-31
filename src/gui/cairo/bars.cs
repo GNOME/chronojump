@@ -113,11 +113,11 @@ public abstract class CairoBars : CairoGeneric
 			if(usePersonGuides)
 				xStart += (24 + 6)/2;
 
-			printText(graphWidth - rightMargin +xStart +12, graphHeight -bottomMargin -2*textHeight, 0, textHeight -3,
+			printText(graphWidth - rightMargin +xStart +12, graphHeight -2*textHeight, 0, textHeight -3,
 					"X", g, alignTypes.CENTER);
 
-			g.MoveTo(graphWidth - rightMargin +xStart +12 -3, graphHeight -bottomMargin -2*textHeight -5);
-			g.LineTo(graphWidth - rightMargin +xStart +12 +3, graphHeight -bottomMargin -2*textHeight -5);
+			g.MoveTo(graphWidth - rightMargin +xStart +12 -3, graphHeight -2*textHeight -5);
+			g.LineTo(graphWidth - rightMargin +xStart +12 +3, graphHeight -2*textHeight -5);
 			g.Stroke ();
 		}
 	}
@@ -207,9 +207,9 @@ public abstract class CairoBars : CairoGeneric
 					Util.TrimDecimals(avg, 1),
 					g, alignTypes.CENTER);
 		}
-		else //print avg at bottom
+		else //(textTickPos.ABSOLUTEBOTTOM)
 		{
-			printText(graphWidth - rightMargin +xStart +12, graphHeight -bottomMargin -textHeight, 0, textHeight -3,
+			printText(graphWidth - rightMargin +xStart +12, graphHeight -textHeight, 0, textHeight -3,
 					Util.TrimDecimals(avg, 1),
 					g, alignTypes.CENTER);
 		}

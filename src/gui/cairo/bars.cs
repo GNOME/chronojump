@@ -73,86 +73,153 @@ public abstract class CairoBars : CairoGeneric
 
 	protected void drawGuides ()
 	{
-		//TODO: draw first the more bold, maybe create list in that order, to make the smaller be inside the bolder
-		//foreach(CairoBarsGuide cbg in cairoBarsGuideManage.L)
-		//	drawHorizontalGuide (cbg);
-
-		//write the X for the average values
-		g.Color = red;
-		printText(graphWidth - rightMargin, topMargin +24 +10, 0, textHeight -3,
-				"X", g, alignTypes.CENTER);
-		//with the above horizontal line
-		g.MoveTo(graphWidth - rightMargin -4, topMargin +24 +4);
-		g.LineTo(graphWidth - rightMargin +4, topMargin +24 +4);
-		g.Stroke();
-
 		g.Color = black;
-
 		int xStart = 6;
+
+		double personMax = cairoBarsGuideManage.GetTipPersonMax();
+		double personAvg = cairoBarsGuideManage.GetTipPersonAvg();
+		double personMin = cairoBarsGuideManage.GetTipPersonMin();
+		double personMaxG = calculatePaintY(personMax);
+		double personAvgG = calculatePaintY(personAvg);
+		double personMinG = calculatePaintY(personMin);
+
+		double groupMax = cairoBarsGuideManage.GetTipGroupMax();
+		double groupAvg = cairoBarsGuideManage.GetTipGroupAvg();
+		double groupMin = cairoBarsGuideManage.GetTipGroupMin();
+		double groupMaxG = calculatePaintY(groupMax);
+		double groupAvgG = calculatePaintY(groupAvg);
+		double groupMinG = calculatePaintY(groupMin);
+
+		textTickPos ttp = drawGuidesFindYAvg(
+			personMax, personAvg, personMin, personMaxG, personAvgG, personMinG,
+			groupMax, groupAvg, groupMin, groupMaxG, groupAvgG, groupMinG);
+
 		if(usePersonGuides)
 		{
-			drawGuidesPerson(xStart);
+			drawGuidesDo (xStart, "image_person_outline.png", ttp,
+					personMax, personAvg, personMin,
+					personMaxG, personAvgG, personMinG);
 			xStart += (24 + 6);
 		}
 
-		drawGuidesGroup(xStart);
+		drawGuidesDo (xStart, "image_group_outline.png", ttp,
+				groupMax, groupAvg, groupMin,
+				groupMaxG, groupAvgG, groupMinG);
+
+		//write the X text
+		if(ttp == textTickPos.ABSOLUTEBOTTOM)
+		{
+			xStart = 6;
+			if(usePersonGuides)
+				xStart += (24 + 6)/2;
+
+			printText(graphWidth - rightMargin +xStart +12, graphHeight -bottomMargin -2*textHeight, 0, textHeight -3,
+					"X", g, alignTypes.CENTER);
+
+			g.MoveTo(graphWidth - rightMargin +xStart +12 -3, graphHeight -bottomMargin -2*textHeight -5);
+			g.LineTo(graphWidth - rightMargin +xStart +12 +3, graphHeight -bottomMargin -2*textHeight -5);
+			g.Stroke ();
+		}
 	}
-	//TODO: mix both next methods, just use correct variables
-	protected void drawGuidesPerson (int xStart)
+
+	protected enum textTickPos { ABOVETICK, BELOWTICK, ABSOLUTEBOTTOM }
+
+	protected textTickPos drawGuidesFindYAvg (
+			double personMax, double personAvg, double personMin,
+			double personMaxG, double personAvgG, double personMinG,
+			double groupMax, double groupAvg, double groupMin,
+			double groupMaxG, double groupAvgG, double groupMinG)
 	{
-		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_outline.png");
+		if(usePersonGuides)
+		{
+			//print avg above avg tick
+			if(groupAvgG - groupMaxG > 2*textHeight && personAvgG - personMaxG > 2*textHeight)
+				return textTickPos.ABOVETICK;
+			 //print avg below avg tick
+			else if(groupMinG - groupAvgG > 2*textHeight && personMinG - personAvgG > 2*textHeight)
+				return textTickPos.BELOWTICK;
+			else
+				return textTickPos.ABSOLUTEBOTTOM;
+		}
+
+		if(groupAvgG - groupMaxG > 2*textHeight)
+			return textTickPos.ABOVETICK;
+		else if(groupMinG - groupAvgG > 2*textHeight)
+			return textTickPos.BELOWTICK;
+		else
+			return textTickPos.ABSOLUTEBOTTOM;
+	}
+
+	protected void drawGuidesDo (int xStart, string imageStr, textTickPos ttp,
+			double top, double avg, double bottom, double topG, double avgG, double bottomG)
+	{
+		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + imageStr);
 		Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf, graphWidth -rightMargin +xStart, topMargin+2);
 		g.Paint();
 
-		double bottom = calculatePaintY(cairoBarsGuideManage.GetTipPersonMin());
-		double top = calculatePaintY(cairoBarsGuideManage.GetTipPersonMax());
 		if(top != bottom) // if only 1 value (top == bottom), do not draw the arrow
+		{
+			//draw arrow
 			plotArrowPassingGraphPoints (g, black,
 					graphWidth -rightMargin +xStart +12,
-					bottom,
+					bottomG,
 					graphWidth -rightMargin +xStart +12,
-					top,
+					topG,
 					false, true, 0);
 
-		//draw the avg
+			//print max/min
+			printText(graphWidth - rightMargin +xStart +12, topG -textHeight/2, 0, textHeight -3,
+					Util.TrimDecimals(top, 1),
+					g, alignTypes.CENTER);
+			printText(graphWidth - rightMargin +xStart +12, bottomG +textHeight/2, 0, textHeight -3,
+					Util.TrimDecimals(bottom, 1),
+					g, alignTypes.CENTER);
+		}
+
+		//print avg
 		g.Color = red;
-		g.MoveTo(graphWidth - rightMargin +xStart +6, calculatePaintY(cairoBarsGuideManage.GetTipPersonAVG()));
-		g.LineTo(graphWidth - rightMargin +xStart +18, calculatePaintY(cairoBarsGuideManage.GetTipPersonAVG()));
+		Cairo.TextExtents te;
+		te = g.TextExtents(Util.TrimDecimals(avg,1));
+
+		if(ttp == textTickPos.ABOVETICK)
+		{
+			g.Color = white;
+			g.Rectangle(graphWidth - rightMargin +xStart +12 -te.Width/2 -1,
+					avgG -textHeight -1,
+					te.Width +2, te.Height+2);
+			g.Fill();
+
+			g.Color = red;
+			printText(graphWidth - rightMargin +xStart +12, avgG -textHeight/2, 0, textHeight -3,
+					Util.TrimDecimals(avg, 1),
+					g, alignTypes.CENTER);
+		}
+		else if(ttp == textTickPos.BELOWTICK)
+		{
+			g.Color = white;
+			g.Rectangle(graphWidth - rightMargin +xStart +12 -te.Width/2 -1,
+					avgG -1,
+					te.Width +2, te.Height+2);
+			g.Fill();
+
+			g.Color = red;
+			printText(graphWidth - rightMargin +xStart +12, avgG +textHeight/2, 0, textHeight -3,
+					Util.TrimDecimals(avg, 1),
+					g, alignTypes.CENTER);
+		}
+		else //print avg at bottom
+		{
+			printText(graphWidth - rightMargin +xStart +12, graphHeight -bottomMargin -textHeight, 0, textHeight -3,
+					Util.TrimDecimals(avg, 1),
+					g, alignTypes.CENTER);
+		}
+
+		//draw the avg red tick
+		g.LineWidth = 2;
+		g.MoveTo(graphWidth - rightMargin +xStart +6, avgG);
+		g.LineTo(graphWidth - rightMargin +xStart +18, avgG);
 		g.Stroke ();
-
-		//write the average value
-		printText(graphWidth - rightMargin +xStart +12, topMargin +24 +10, 0, textHeight -3,
-				Util.TrimDecimals(cairoBarsGuideManage.GetTipPersonAVG(), 1),
-				g, alignTypes.CENTER);
-		g.Color = black;
-	}
-	protected void drawGuidesGroup (int xStart)
-	{
-		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_group_outline.png");
-		Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf, graphWidth -rightMargin +xStart, topMargin+2);
-		g.Paint();
-
-		double bottom = calculatePaintY(cairoBarsGuideManage.GetTipGroupMin());
-		double top = calculatePaintY(cairoBarsGuideManage.GetTipGroupMax());
-		if(top != bottom) // if only 1 value (top == bottom), do not draw the arrow
-			plotArrowPassingGraphPoints (g, black,
-					graphWidth -rightMargin +xStart +12,
-					bottom,
-					graphWidth -rightMargin +xStart +12,
-					top,
-					false, true, 0);
-
-		//draw the avg
-		g.Color = red;
-		g.MoveTo(graphWidth - rightMargin +xStart +6, calculatePaintY(cairoBarsGuideManage.GetTipGroupAVG()));
-		g.LineTo(graphWidth - rightMargin +xStart +18, calculatePaintY(cairoBarsGuideManage.GetTipGroupAVG()));
-		g.Stroke ();
-
-		//write the average value
-		printText(graphWidth - rightMargin +xStart +12, topMargin +24 +10, 0, textHeight -3,
-				Util.TrimDecimals(cairoBarsGuideManage.GetTipGroupAVG(), 1),
-				g, alignTypes.CENTER);
-		g.Color = black;
+		g.LineWidth = 1;
 	}
 
 	//TODO: move this to generic (if needed)
@@ -932,7 +999,7 @@ public class CairoBarsGuideManage
 
 		return 0;
 	}
-	public double GetTipGroupAVG ()
+	public double GetTipGroupAvg ()
 	{
 		foreach(CairoBarsGuide cbg in l)
 			if(cbg.Genum == CairoBarsGuide.GuideEnum.SESSION_AVG)
@@ -957,7 +1024,7 @@ public class CairoBarsGuideManage
 
 		return 0;
 	}
-	public double GetTipPersonAVG ()
+	public double GetTipPersonAvg ()
 	{
 		foreach(CairoBarsGuide cbg in l)
 			if(cbg.Genum == CairoBarsGuide.GuideEnum.PERSON_AVG_THIS_S)

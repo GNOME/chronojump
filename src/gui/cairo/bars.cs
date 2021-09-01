@@ -99,7 +99,7 @@ public abstract class CairoBars : CairoGeneric
 			drawGuidesDo (xStart, "image_person_outline.png", ttp, color,
 					personMax, personAvg, personMin,
 					personMaxG, personAvgG, personMinG);
-			xStart += (24 + 6);
+			xStart += (24 + 8);
 		}
 
 		drawGuidesDo (xStart, "image_group_outline.png", ttp, color,
@@ -111,7 +111,7 @@ public abstract class CairoBars : CairoGeneric
 		{
 			xStart = 6;
 			if(usePersonGuides)
-				xStart += (24 + 6)/2;
+				xStart += (24 + 8)/2;
 
 			printText(graphWidth - rightMargin +xStart +12, graphHeight -2*textHeight, 0, textHeight -3,
 					"X", g, alignTypes.CENTER);
@@ -169,17 +169,17 @@ public abstract class CairoBars : CairoGeneric
 
 			//print max/min
 			printText(graphWidth - rightMargin +xStart +12, topG -textHeight/2, 0, textHeight -3,
-					Util.TrimDecimals(top, 1),
+					Util.TrimDecimals(top, 2),
 					g, alignTypes.CENTER);
 			printText(graphWidth - rightMargin +xStart +12, bottomG +textHeight/2, 0, textHeight -3,
-					Util.TrimDecimals(bottom, 1),
+					Util.TrimDecimals(bottom, 2),
 					g, alignTypes.CENTER);
 		}
 
 		//print avg
 		g.Color = red;
 		Cairo.TextExtents te;
-		te = g.TextExtents(Util.TrimDecimals(avg,1));
+		te = g.TextExtents(Util.TrimDecimals(avg,2));
 
 		if(ttp == textTickPos.ABOVETICK)
 		{
@@ -191,7 +191,7 @@ public abstract class CairoBars : CairoGeneric
 
 			g.Color = red;
 			printText(graphWidth - rightMargin +xStart +12, avgG -textHeight/2, 0, textHeight -3,
-					Util.TrimDecimals(avg, 1),
+					Util.TrimDecimals(avg, 2),
 					g, alignTypes.CENTER);
 		}
 		else if(ttp == textTickPos.BELOWTICK)
@@ -204,13 +204,13 @@ public abstract class CairoBars : CairoGeneric
 
 			g.Color = red;
 			printText(graphWidth - rightMargin +xStart +12, avgG +textHeight/2, 0, textHeight -3,
-					Util.TrimDecimals(avg, 1),
+					Util.TrimDecimals(avg, 2),
 					g, alignTypes.CENTER);
 		}
 		else //(textTickPos.ABSOLUTEBOTTOM)
 		{
 			printText(graphWidth - rightMargin +xStart +12, graphHeight -textHeight, 0, textHeight -3,
-					Util.TrimDecimals(avg, 1),
+					Util.TrimDecimals(avg, 2),
 					g, alignTypes.CENTER);
 		}
 

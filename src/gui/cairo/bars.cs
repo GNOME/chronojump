@@ -656,7 +656,9 @@ LogB.Information(string.Format("y: {0}, alto: {1}", y, graphHeight -y - bottomMa
 
 			//print the type at bottom
 			//printTextMultiline (x + barWidth/2, graphHeight -bottomMargin + fontHeightForBottomNames/2, 0, fontHeightForBottomNames,
-			printTextMultiline (x + barWidth/2, graphHeight - fontHeightForBottomNames * 2/3, 0, fontHeightForBottomNames,
+			printTextMultiline (x + barWidth/2,
+					graphHeight - fontHeightForBottomNames * 2/3,
+					0, fontHeightForBottomNames,
 					names_l[i], g, alignTypes.CENTER);
 			LogB.Information("names_l[i]: " + names_l[i]);
 		}
@@ -735,6 +737,9 @@ public class CairoBars2HSeries : CairoBars
 			if(p.Y > maxY)
 				maxY = p.Y;
 
+		if(cairoBarsGuideManage != null  && cairoBarsGuideManage.GetMax() > maxY)
+			maxY = cairoBarsGuideManage.GetMax();
+
 		//points X start at 1
 		minX = 0;
 		maxX = pointA_l.Count + .5; //pointA_l and pointB_l have same length
@@ -772,7 +777,7 @@ public class CairoBars2HSeries : CairoBars
 				double x = (graphWidth - (leftMargin+rightMargin)) * pA.X/maxX - barDesplLeft + adjustX + leftMargin;
 				double y = calculatePaintY(pA.Y);
 
-				drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -(topMargin+bottomMargin), 4, g, colorSerieA);
+				drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -bottomMargin, 4, g, colorSerieA);
 				resultOnBarA_l.Add(new Point3F(x + barWidth/2, y, pA.Y));
 			}
 			else
@@ -787,15 +792,17 @@ public class CairoBars2HSeries : CairoBars
 				double x = (graphWidth - (leftMargin+rightMargin)) * pB.X/maxX - barDesplLeft + adjustX + leftMargin;
 				double y = calculatePaintY(pB.Y);
 
-				drawRoundedRectangle (true, x, y, barWidth, graphHeight -y - (topMargin+bottomMargin), 4, g, colorSerieB);
+				drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -bottomMargin, 4, g, colorSerieB);
 				resultOnBarB_l.Add(new Point3F(x + barWidth/2, y, pB.Y));
 			}
 			else
 				resultOnBarB_l.Add(new Point3F(0, 0, 0));
 
 			//print text at bottom
-			printText( (graphWidth - (leftMargin+rightMargin)) * pA.X/maxX + -barDesplLeft + leftMargin,
-					graphHeight -(topMargin+bottomMargin) + textHeight/2, 0, textHeight,
+			printTextMultiline(
+					(graphWidth - (leftMargin+rightMargin)) * pA.X/maxX + -barDesplLeft + leftMargin,
+					graphHeight -fontHeightForBottomNames * 2/3,
+					0, fontHeightForBottomNames,
 					names_l[i], g, alignTypes.CENTER);
 		}
 

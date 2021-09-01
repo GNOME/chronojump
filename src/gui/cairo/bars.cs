@@ -843,6 +843,9 @@ public class CairoBars2HSeries : CairoBars
 		paintGrid(gridTypes.HORIZONTALLINES, true);
 		//g.SetFontSize(textHeight);
 
+		if(cairoBarsGuideManage != null)
+			drawGuides();
+
 		g.Color = black;
 		plotBars();
 

@@ -4830,13 +4830,6 @@ public partial class ChronoJumpWindow
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
 
-		/*
-		//when user clicks on update the eventExecute window 
-		//(for showing with his new confgured values: max, min and guides
-		event_execute_ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are done
-		event_execute_ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
-		*/
-
 		currentEventExecute = new JumpExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight,
 				cp2016.CP, preferences.digitsNumber,
@@ -5128,13 +5121,6 @@ public partial class ChronoJumpWindow
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
 
-		/*
-		//when user clicks on update the eventExecute window 
-		//(for showing with his new configured values: max, min and guides
-		event_execute_ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are done
-		event_execute_ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
-		*/
-	
 		currentEventExecute = new JumpRjExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpRjType.Name, myFall, jumpWeight, 
 				progressbarLimit, currentJumpRjType.JumpsLimited, 
@@ -5275,13 +5261,6 @@ public partial class ChronoJumpWindow
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
 
-
-		/*
-		//when user clicks on update the eventExecute window 
-		//(for showing with his new confgured values: max, min and guides
-		event_execute_ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are done
-		event_execute_ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
-		*/
 
 		if(photocellWirelessCapture == null)
 			photocellWirelessCapture = new PhotocellWirelessCapture(wirelessPort);
@@ -5424,13 +5403,6 @@ public partial class ChronoJumpWindow
 
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
-
-		/*
-		//when user clicks on update the eventExecute window 
-		//(for showing with his new confgured values: max, min and guides
-		event_execute_ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are done
-		event_execute_ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
-		*/
 
 		if(photocellWirelessCapture == null)
 			photocellWirelessCapture = new PhotocellWirelessCapture(wirelessPort);
@@ -5639,13 +5611,6 @@ public partial class ChronoJumpWindow
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
 
-		/*
-		//when user clicks on update the eventExecute window 
-		//(for showing with his new confgured values: max, min and guides
-		event_execute_ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are done
-		event_execute_ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
-		*/
-
 		string sep = "";
 		string description = "";
 		if(extra_window_radio_reaction_time_discriminative.Active) {
@@ -5821,13 +5786,6 @@ public partial class ChronoJumpWindow
 
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
-
-		/*
-		//when user clicks on update the eventExecute window 
-		//(for showing with his new confgured values: max, min and guides
-		event_execute_ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are done
-		event_execute_ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
-		*/
 
 		currentEventExecute = new PulseExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentPulseType.Name, pulseStep, totalPulses, 
@@ -6105,14 +6063,6 @@ public partial class ChronoJumpWindow
 
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_multi_clicked);
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_multi_clicked);
-
-		/*
-		//when user clicks on update the eventExecute window 
-		//(for showing with his new confgured values: max, min and guides
-		event_execute_ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are done
-		event_execute_ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
-		*/
-
 
 		//bool syncAvailable = false;
 		//if(currentMultiChronopicType.SyncAvailable && extra_window_check_multichronopic_sync.Active)
@@ -8151,8 +8101,7 @@ LogB.Debug("mc finished 5");
 		button_force_sensor_sync.Sensitive = false;
 		button_auto_start.Sensitive = false;
 		frame_contacts_exercise.Sensitive = false;
-		event_execute_button_update.Sensitive = false;
-		
+
 		//hbox_multi_chronopic_buttons.Sensitive = false;
 	}
    
@@ -8217,7 +8166,6 @@ LogB.Debug("mc finished 5");
 		button_force_sensor_sync.Sensitive = true;
 		button_auto_start.Sensitive = true;
 		frame_contacts_exercise.Sensitive = true;
-		event_execute_button_update.Sensitive = true;
 
 		//forceSensor and runEncoder does not use currentEventExecute
 		if(current_mode == Constants.Modes.FORCESENSOR)

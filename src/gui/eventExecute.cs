@@ -67,8 +67,7 @@ public partial class ChronoJumpWindow
 	
 	[Widget] Gtk.Button event_execute_button_cancel;
 	[Widget] Gtk.Button event_execute_button_finish;
-	[Widget] Gtk.Button event_execute_button_update;
-	
+
 	[Widget] Gtk.Table event_execute_table_jump_reactive;
 	[Widget] Gtk.Table event_execute_table_run_interval;
 	[Widget] Gtk.Table event_execute_table_pulse;
@@ -2949,13 +2948,6 @@ public partial class ChronoJumpWindow
 		eventGraphConfigureWin = EventGraphConfigureWindow.Show(true);
 	}
 
-	void on_event_execute_button_update_clicked (object o, EventArgs args) 
-	{
-		//event will be raised, and managed in chronojump.cs
-		//see ButtonUpdate at end of class
-	}
-	
-		
 	void on_event_execute_finish_clicked (object o, EventArgs args)
 	{
 		//event will be raised, and managed in chronojump.cs
@@ -3141,12 +3133,6 @@ public partial class ChronoJumpWindow
 	{
 		get { return event_execute_button_finish; }
 	}
-
-	public Button event_execute_ButtonUpdate 
-	{
-		get { return event_execute_button_update; }
-	}
-	
 }
 
 //to prepare data before calling cairo method

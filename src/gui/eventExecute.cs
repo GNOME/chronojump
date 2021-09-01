@@ -2941,12 +2941,6 @@ public partial class ChronoJumpWindow
 			//videoCapturePrepare(false); //if error, show message
 		}
 	}
-	
-	
-	void on_event_execute_button_properties_clicked (object o, EventArgs args) {
-		//now show the eventGraphConfigureWin
-		eventGraphConfigureWin = EventGraphConfigureWindow.Show(true);
-	}
 
 	void on_event_execute_finish_clicked (object o, EventArgs args)
 	{

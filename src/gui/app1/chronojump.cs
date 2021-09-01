@@ -4914,6 +4914,9 @@ public partial class ChronoJumpWindow
 			sensitiveGuiAutoExecuteOrWait (false);
 		}
 
+		//Cairo graph is not updated if window is not resized, so force update
+		updateGraphJumpsSimple();
+
 		//stop camera (storing value or not)
 		if(currentEventExecute.Cancel || currentJump == null)
 			webcamEnd (Constants.TestTypes.JUMP, -1);
@@ -5346,10 +5349,8 @@ public partial class ChronoJumpWindow
 		else if( currentEventExecute.ChronopicDisconnected )
 			chronopicDisconnectedWhileExecuting();
 
-		//run simple simulated values sometimes does not update the graph, just force it
-		if(currentSession.Name == Constants.SessionSimulatedName && 			//this condition is not needed, but just in case...
-				! cp2016.StoredCanCaptureContacts && ! cp2016.StoredWireless) //is simulated
-			updateGraphRunsSimple();
+		//Cairo graph is not updated if window is not resized, so force update
+		updateGraphRunsSimple();
 
 		//stop camera (storing value or not)
 		if(currentEventExecute.Cancel || currentRun == null)

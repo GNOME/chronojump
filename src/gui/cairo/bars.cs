@@ -154,7 +154,7 @@ public abstract class CairoBars : CairoGeneric
 			double top, double avg, double bottom, double topG, double avgG, double bottomG)
 	{
 		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + imageStr);
-		Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf, graphWidth -rightMargin +xStart, topMargin+2);
+		Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf, graphWidth -rightMargin +xStart, topMargin -24);
 		g.Paint();
 
 		if(top != bottom) // if only 1 value (top == bottom), do not draw the arrow
@@ -238,7 +238,7 @@ public abstract class CairoBars : CairoGeneric
 		rightMargin = 42; //images are 24 px, separate 6 px from grapharea, and 12 px from absoluteright
 		if(usePersonGuides)
 			rightMargin = 70;
-		topMargin = 12;
+		topMargin = 40;
 		bottomMargin = 9;
 
 		//1 create context
@@ -276,12 +276,12 @@ public abstract class CairoBars : CairoGeneric
 	protected void paintAxis(int width)
 	{
 		g.LineWidth = width;
-		g.MoveTo(leftMargin, 3*topMargin);
+		g.MoveTo(leftMargin, topMargin);
 		g.LineTo(leftMargin, graphHeight - bottomMargin);
 		g.LineTo(graphWidth - rightMargin, graphHeight - bottomMargin);
 		g.Stroke ();
 
-		printText(2, 2*topMargin, 0, textHeight -2, getYAxisLabel(), g, alignTypes.LEFT);
+		printText(2, topMargin -textHeight, 0, textHeight -2, getYAxisLabel(), g, alignTypes.LEFT);
 		printXAxisText();
 		g.Stroke ();
 

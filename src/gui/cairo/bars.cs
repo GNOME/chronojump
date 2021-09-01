@@ -71,9 +71,9 @@ public abstract class CairoBars : CairoGeneric
 		this.cairoBarsGuideManage = cairoBarsGuideManage;
 	}
 
-	protected void drawGuides ()
+	protected void drawGuides (Cairo.Color color)
 	{
-		g.Color = black;
+		g.Color = color;
 		int xStart = 6;
 
 		double personMax = cairoBarsGuideManage.GetTipPersonMax();
@@ -96,13 +96,13 @@ public abstract class CairoBars : CairoGeneric
 
 		if(usePersonGuides)
 		{
-			drawGuidesDo (xStart, "image_person_outline.png", ttp,
+			drawGuidesDo (xStart, "image_person_outline.png", ttp, color,
 					personMax, personAvg, personMin,
 					personMaxG, personAvgG, personMinG);
 			xStart += (24 + 6);
 		}
 
-		drawGuidesDo (xStart, "image_group_outline.png", ttp,
+		drawGuidesDo (xStart, "image_group_outline.png", ttp, color,
 				groupMax, groupAvg, groupMin,
 				groupMaxG, groupAvgG, groupMinG);
 
@@ -150,7 +150,7 @@ public abstract class CairoBars : CairoGeneric
 			return textTickPos.ABSOLUTEBOTTOM;
 	}
 
-	protected void drawGuidesDo (int xStart, string imageStr, textTickPos ttp,
+	protected void drawGuidesDo (int xStart, string imageStr, textTickPos ttp, Cairo.Color color,
 			double top, double avg, double bottom, double topG, double avgG, double bottomG)
 	{
 		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + imageStr);
@@ -160,7 +160,7 @@ public abstract class CairoBars : CairoGeneric
 		if(top != bottom) // if only 1 value (top == bottom), do not draw the arrow
 		{
 			//draw arrow
-			plotArrowPassingGraphPoints (g, black,
+			plotArrowPassingGraphPoints (g, color,
 					graphWidth -rightMargin +xStart +12,
 					bottomG,
 					graphWidth -rightMargin +xStart +12,
@@ -686,7 +686,7 @@ LogB.Information(string.Format("y: {0}, alto: {1}", y, graphHeight -y - bottomMa
 		//g.SetFontSize(textHeight);
 
 		if(cairoBarsGuideManage != null)
-			drawGuides();
+			drawGuides(colorSerieA);
 
 		g.Color = black;
 		plotBars ();
@@ -844,7 +844,7 @@ public class CairoBars2HSeries : CairoBars
 		//g.SetFontSize(textHeight);
 
 		if(cairoBarsGuideManage != null)
-			drawGuides();
+			drawGuides(colorSerieB);
 
 		g.Color = black;
 		plotBars();

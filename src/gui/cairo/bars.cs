@@ -36,6 +36,7 @@ public abstract class CairoBars : CairoGeneric
 	protected Cairo.Color colorSerieA;
 	protected CairoBarsGuideManage cairoBarsGuideManage;
 	protected bool usePersonGuides;
+	protected bool useGroupGuides;
 
 	protected Cairo.Context g;
 	protected int lineWidthDefault = 1; //was 2;
@@ -58,9 +59,10 @@ public abstract class CairoBars : CairoGeneric
 	protected Cairo.Color yellow;
 
 
-	public virtual void GraphInit (string font, bool usePersonGuides) //need to set rightMargin
+	public virtual void GraphInit (string font, bool usePersonGuides, bool useGroupGuides) //needed to set rightMargin
 	{
 		this.usePersonGuides = usePersonGuides;
+		this.useGroupGuides = useGroupGuides;
 
 		textHeight = 14;
 		initGraph(font, 1); //.8 if writeTextAtRight
@@ -74,7 +76,6 @@ public abstract class CairoBars : CairoGeneric
 	protected void drawGuides (Cairo.Color color)
 	{
 		g.Color = color;
-		int xStart = 6;
 
 		double personMax = cairoBarsGuideManage.GetTipPersonMax();
 		double personAvg = cairoBarsGuideManage.GetTipPersonAvg();
@@ -94,23 +95,25 @@ public abstract class CairoBars : CairoGeneric
 			personMax, personAvg, personMin, personMaxG, personAvgG, personMinG,
 			groupMax, groupAvg, groupMin, groupMaxG, groupAvgG, groupMinG);
 
+		int xStart = 6;
 		if(usePersonGuides)
-		{
 			drawGuidesDo (xStart, "image_person_outline.png", ttp, color,
 					personMax, personAvg, personMin,
 					personMaxG, personAvgG, personMinG);
-			xStart += (24 + 8);
-		}
 
-		drawGuidesDo (xStart, "image_group_outline.png", ttp, color,
-				groupMax, groupAvg, groupMin,
-				groupMaxG, groupAvgG, groupMinG);
+		if(usePersonGuides && useGroupGuides)
+			xStart += (24 + 8);
+
+		if(useGroupGuides)
+			drawGuidesDo (xStart, "image_group_outline.png", ttp, color,
+					groupMax, groupAvg, groupMin,
+					groupMaxG, groupAvgG, groupMinG);
 
 		//write the X text
 		if(ttp == textTickPos.ABSOLUTEBOTTOM)
 		{
 			xStart = 6;
-			if(usePersonGuides)
+			if(usePersonGuides && useGroupGuides)
 				xStart += (24 + 8)/2;
 
 			printText(graphWidth - rightMargin +xStart +12, graphHeight -2*textHeight, 0, textHeight -3,
@@ -130,7 +133,27 @@ public abstract class CairoBars : CairoGeneric
 			double groupMax, double groupAvg, double groupMin,
 			double groupMaxG, double groupAvgG, double groupMinG)
 	{
-		if(usePersonGuides)
+		if(usePersonGuides && ! useGroupGuides)
+		{
+			//print avg above avg tick
+			if(personAvgG - personMaxG > 2*textHeight)
+				return textTickPos.ABOVETICK;
+			 //print avg below avg tick
+			else if(personMinG - personAvgG > 2*textHeight)
+				return textTickPos.BELOWTICK;
+			else
+				return textTickPos.ABSOLUTEBOTTOM;
+		}
+		else if(! usePersonGuides && useGroupGuides)
+		{
+			if(groupAvgG - groupMaxG > 2*textHeight)
+				return textTickPos.ABOVETICK;
+			else if(groupMinG - groupAvgG > 2*textHeight)
+				return textTickPos.BELOWTICK;
+			else
+				return textTickPos.ABSOLUTEBOTTOM;
+		}
+		else //if(usePersonGuides && useGroupGuides)
 		{
 			//print avg above avg tick
 			if(groupAvgG - groupMaxG > 2*textHeight && personAvgG - personMaxG > 2*textHeight)
@@ -141,13 +164,6 @@ public abstract class CairoBars : CairoGeneric
 			else
 				return textTickPos.ABSOLUTEBOTTOM;
 		}
-
-		if(groupAvgG - groupMaxG > 2*textHeight)
-			return textTickPos.ABOVETICK;
-		else if(groupMinG - groupAvgG > 2*textHeight)
-			return textTickPos.BELOWTICK;
-		else
-			return textTickPos.ABSOLUTEBOTTOM;
 	}
 
 	protected void drawGuidesDo (int xStart, string imageStr, textTickPos ttp, Cairo.Color color,
@@ -236,7 +252,7 @@ public abstract class CairoBars : CairoGeneric
 
 		leftMargin = 26;
 		rightMargin = 42; //images are 24 px, separate 6 px from grapharea, and 12 px from absoluteright
-		if(usePersonGuides)
+		if(usePersonGuides && useGroupGuides)
 			rightMargin = 70;
 		topMargin = 40;
 		bottomMargin = 9;
@@ -905,19 +921,23 @@ public class CairoBarsGuideManage
 {
 	private List<CairoBarsGuide> l;
 
-	public CairoBarsGuideManage (bool usePersonGuides, double sessionMAXAtSQL, double sessionAVGAtSQL, double sessionMINAtSQL,
+	public CairoBarsGuideManage (bool usePersonGuides, bool useGroupGuides,
+			double sessionMAXAtSQL, double sessionAVGAtSQL, double sessionMINAtSQL,
 			double personMAXAtSQLAllSessions, double personMAXAtSQL, double personAVGAtSQL, double personMINAtSQL)
 	{
 		l = new List<CairoBarsGuide> ();
 		//int pos = 1;
 		//int dist = 8;
 
-		l.Add(new CairoBarsGuide(CairoBarsGuide.GuideEnum.SESSION_MAX, sessionMAXAtSQL,
-					2, colorFromRGB(0,0,0), 'G', 12)); //(pos++)*dist));
-		l.Add(new CairoBarsGuide(CairoBarsGuide.GuideEnum.SESSION_AVG, sessionAVGAtSQL,
-					1, colorFromRGB(0,0,0), 'g', 12)); //(pos++)*dist));
-		l.Add(new CairoBarsGuide(CairoBarsGuide.GuideEnum.SESSION_MIN, sessionMINAtSQL,
-					1, colorFromRGB(0,0,0), 'g', 12)); //(pos++)*dist));
+		if(useGroupGuides)
+		{
+			l.Add(new CairoBarsGuide(CairoBarsGuide.GuideEnum.SESSION_MAX, sessionMAXAtSQL,
+						2, colorFromRGB(0,0,0), 'G', 12)); //(pos++)*dist));
+			l.Add(new CairoBarsGuide(CairoBarsGuide.GuideEnum.SESSION_AVG, sessionAVGAtSQL,
+						1, colorFromRGB(0,0,0), 'g', 12)); //(pos++)*dist));
+			l.Add(new CairoBarsGuide(CairoBarsGuide.GuideEnum.SESSION_MIN, sessionMINAtSQL,
+						1, colorFromRGB(0,0,0), 'g', 12)); //(pos++)*dist));
+		}
 
 		if(usePersonGuides)
 		{

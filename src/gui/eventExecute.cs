@@ -3506,7 +3506,7 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 			cb.YUnits = "s";
 		}
 
-		cb.GraphInit(fontStr, ! ShowPersonNames); 	//usePersonGuides
+		cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
 
 		List<Event> events = Jump.JumpListToEventList(eventGraphJumpsStored.jumpsAtSQL);
 
@@ -3566,7 +3566,7 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 		}
 
 		cb.PassGuidesData (new CairoBarsGuideManage(
-					! ShowPersonNames, 	//usePersonGuides
+					! ShowPersonNames, true, //usePersonGuides, useGroupGuides
 					eventGraphJumpsStored.sessionMAXAtSQL,
 					eventGraphJumpsStored.sessionAVGAtSQL,
 					eventGraphJumpsStored.sessionMINAtSQL,
@@ -3616,7 +3616,7 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 		cb.YVariable = Catalog.GetString("Speed");
 		cb.YUnits = "m/s";
 
-		cb.GraphInit(fontStr, ! ShowPersonNames); 	//usePersonGuides
+		cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
 
 		List<Event> events = Run.RunListToEventList(eventGraphRunsStored.runsAtSQL);
 
@@ -3669,7 +3669,7 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 		}
 
 		cb.PassGuidesData (new CairoBarsGuideManage(
-					! ShowPersonNames, 	//usePersonGuides
+					! ShowPersonNames, true, //usePersonGuides, useGroupGuides
 					eventGraphRunsStored.sessionMAXAtSQL,
 					eventGraphRunsStored.sessionAVGAtSQL,
 					eventGraphRunsStored.sessionMINAtSQL,

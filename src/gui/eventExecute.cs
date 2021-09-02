@@ -575,7 +575,9 @@ public partial class ChronoJumpWindow
 	public void on_event_execute_drawingarea_cairo_expose_event(object o, ExposeEventArgs args)
 	{
 		//right now only for jumps/runs simple
-		if(current_mode != Constants.Modes.JUMPSSIMPLE && current_mode != Constants.Modes.RUNSSIMPLE)
+		if(current_mode != Constants.Modes.JUMPSSIMPLE &&
+				current_mode != Constants.Modes.JUMPSREACTIVE &&
+				current_mode != Constants.Modes.RUNSSIMPLE)
 			return;
 
 		//if object not defined or not defined fo this mode, return
@@ -585,6 +587,22 @@ public partial class ChronoJumpWindow
 		//cairoPaintBarsPre.Prepare();
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)
 			PrepareJumpSimpleGraph(cairoPaintBarsPre.eventGraphJumpsStored, false);
+		if(current_mode == Constants.Modes.JUMPSREACTIVE)
+		{
+			LogB.Information(string.Format("on_event_execute_drawingarea_cairo_expose_event, A: {0}, B: {1}",
+						currentEventExecute == null, currentEventExecute.PrepareEventGraphJumpReactiveObject == null));
+
+			if(currentEventExecute == null || currentEventExecute.PrepareEventGraphJumpReactiveObject == null)
+				return;
+
+			PrepareJumpReactiveGraph(
+					currentEventExecute.PrepareEventGraphJumpReactiveObject.lastTv,
+					currentEventExecute.PrepareEventGraphJumpReactiveObject.lastTc,
+					currentEventExecute.PrepareEventGraphJumpReactiveObject.tvString,
+					currentEventExecute.PrepareEventGraphJumpReactiveObject.tcString,
+					currentEventExecute.PrepareEventGraphJumpReactiveObject.type,
+					preferences.volumeOn, preferences.gstreamer, repetitiveConditionsWin);
+		}
 		else if (current_mode == Constants.Modes.RUNSSIMPLE)
 			PrepareRunSimpleGraph(cairoPaintBarsPre.eventGraphRunsStored, false);
 	}
@@ -775,7 +793,7 @@ public partial class ChronoJumpWindow
 	}
 
 	// Reactive jump 
-	public void PrepareJumpReactiveGraph(double lastTv, double lastTc, string tvString, string tcString, 
+	public void PrepareJumpReactiveGraph(double lastTv, double lastTc, string tvString, string tcString, string type,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer, RepetitiveConditionsWindow repetitiveConditionsWin) {
 		//check graph properties window is not null (propably user has closed it with the DeleteEvent
 		//then create it, but not show it
@@ -815,6 +833,16 @@ public partial class ChronoJumpWindow
 		
 		// -- refresh
 		event_execute_drawingarea.QueueDraw();
+
+		cairoPaintBarsPre = new CairoPaintBarsPreJumpReactiveCapture(
+				event_execute_drawingarea_cairo, preferences.fontType.ToString(), current_mode,
+				currentPerson.Name, type, preferences.digitsNumber,// preferences.heightPreferred,
+				lastTv, lastTc, tvString, tcString);
+
+		// B) Paint cairo graph
+		//cairoPaintBarsPre.UseHeights = useHeights;
+
+		cairoPaintBarsPre.Paint();
 	}
 	
 	//identify which subjump is the best or the worst in tv/tc index	
@@ -2873,6 +2901,7 @@ public partial class ChronoJumpWindow
 							currentEventExecute.PrepareEventGraphJumpReactiveObject.lastTc,
 							currentEventExecute.PrepareEventGraphJumpReactiveObject.tvString,
 							currentEventExecute.PrepareEventGraphJumpReactiveObject.tcString,
+							currentEventExecute.PrepareEventGraphJumpReactiveObject.type,
 							preferences.volumeOn, preferences.gstreamer, repetitiveConditionsWin);
 				}
 				break;
@@ -3168,6 +3197,9 @@ public abstract class CairoPaintBarsPre
 	public virtual void StoreEventGraphRuns (PrepareEventGraphRunSimple eventGraph)
 	{
 	}
+//	public virtual void StoreEventGraphJumpReactiveCapture (PrepareEventGraphJumpReactive eventGraph)
+//	{
+//	}
 
 	/*
 	public void Prepare ()
@@ -3680,5 +3712,112 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 
 		cb.GraphDo(point_l, new List<PointF>(), names_l,
 				fontHeightForBottomNames, bottomMargin, title);
+	}
+}
+
+//realtime jump reactive capture
+public class CairoPaintBarsPreJumpReactiveCapture : CairoPaintBarsPre
+{
+	private double lastTv;
+	private double lastTc;
+	private List<double> tv_l;
+	private List<double> tc_l;
+
+	public CairoPaintBarsPreJumpReactiveCapture (DrawingArea darea, string fontStr,
+			Constants.Modes mode, string personName, string testName, int pDN,// bool heightPreferred,
+			double lastTv, double lastTc, string tvString, string tcString)
+	{
+		initialize (darea, fontStr, mode, generateTitle(personName, testName), pDN);
+
+		this.lastTv = lastTv;
+		this.lastTc = lastTc;
+
+		string [] tvFull = tvString.Split(new char[] {'='});
+		string [] tcFull = tcString.Split(new char[] {'='});
+		if(tvFull.Length != tcFull.Length)
+			return;
+
+		tv_l = new List<double>();
+		tc_l = new List<double>();
+		foreach(string tv in tvFull)
+			if(Util.IsNumber(tv, true))
+				tv_l.Add(Convert.ToDouble(tv));
+		foreach(string tc in tcFull)
+			if(Util.IsNumber(tc, true))
+				tc_l.Add(Convert.ToDouble(tc));
+	}
+
+	/*
+	public override void StoreEventGraphJumpReactiveCapture (PrepareEventGraphJumpReactive eventGraph)
+	{
+		this.eventGraphJumpReactiveCapture = eventGraph;
+	}
+	*/
+
+	protected override bool storeCreated ()
+	{
+		return (tv_l.Count == tc_l.Count && tv_l.Count > 0);
+	}
+
+	protected override bool haveDataToPlot()
+	{
+		return (tv_l.Count == tc_l.Count && tv_l.Count > 0);
+	}
+
+	protected override void paintSpecific()
+	{
+		//extra check
+		if(tv_l.Count != tc_l.Count)
+			return;
+
+		CairoBars cb = new CairoBars2HSeries (darea);
+
+		cb.YVariable = Catalog.GetString("Time");
+		cb.YUnits = "s";
+
+		cb.GraphInit(fontStr, true, false); //usePersonGuides, useGroupGuides
+
+		List<PointF> pointA_l = new List<PointF>();
+		List<PointF> pointB_l = new List<PointF>();
+		List<string> names_l = new List<string>();
+
+		//statistics for tv
+		double max = 0;
+		double sum = 0; //for tv_l avg
+		double min = 1000;
+
+		for(int i = tv_l.Count -1; i >= 0; i --)
+		{
+			double tc = Convert.ToDouble(tc_l[i]);
+			double tv = Convert.ToDouble(tv_l[i]);
+
+			pointA_l.Add(new PointF(i+1, tc));
+			pointB_l.Add(new PointF(i+1, tv));
+			names_l.Add((i+1).ToString());
+
+			//get max (only of tv)
+			if(tv > max)
+				max = tv;
+
+			//get avg (only of tv)
+			sum += Convert.ToDouble(tv);
+
+			//get min (only of tv)
+			if(tv < min)
+				min = tv;
+		}
+
+		cb.PassGuidesData (new CairoBarsGuideManage(
+					true, false, //usePersonGuides, useGroupGuides
+					0,
+					0,
+					0,
+					0,
+					max,
+					sum / tv_l.Count,
+					min));
+
+		cb.GraphDo (pointA_l, pointB_l, names_l,
+				14, 8, title);
 	}
 }

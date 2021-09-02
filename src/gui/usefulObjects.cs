@@ -147,20 +147,23 @@ public class PrepareEventGraphJumpSimple
 	~PrepareEventGraphJumpSimple() {}
 }
 
-public class PrepareEventGraphJumpReactive {
+public class PrepareEventGraphJumpReactive
+{
 	public double lastTv;
 	public double lastTc;
 	public string tvString;
 	public string tcString;
+	public string type;
 
 	public PrepareEventGraphJumpReactive() {
 	}
 
-	public PrepareEventGraphJumpReactive(double lastTv, double lastTc, string tvString, string tcString) {
+	public PrepareEventGraphJumpReactive(double lastTv, double lastTc, string tvString, string tcString, string type) {
 		this.lastTv = lastTv;
 		this.lastTc = lastTc;
 		this.tvString = tvString;
 		this.tcString = tcString;
+		this.type = type;
 	}
 
 	~PrepareEventGraphJumpReactive() {}

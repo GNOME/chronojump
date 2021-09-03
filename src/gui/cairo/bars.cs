@@ -45,6 +45,10 @@ public abstract class CairoBars : CairoGeneric
 	protected string xUnits = "";
 	protected string yUnits = "cm";
 
+	//used when there are two series (for legend)
+	protected string variableSerieA = "";
+	protected string variableSerieB = "";
+
 	protected double minX = 1000000;
 	protected double maxX = 0;
 	protected double minY = 1000000;
@@ -250,13 +254,6 @@ public abstract class CairoBars : CairoGeneric
 		this.font = font;
 		//LogB.Information("Font: " + font);
 
-		leftMargin = 26;
-		rightMargin = 42; //images are 24 px, separate 6 px from grapharea, and 12 px from absoluteright
-		if(usePersonGuides && useGroupGuides)
-			rightMargin = 70;
-		topMargin = 40;
-		bottomMargin = 9;
-
 		//1 create context
 		g = Gdk.CairoHelper.Create (area.GdkWindow);
 
@@ -285,6 +282,20 @@ public abstract class CairoBars : CairoGeneric
 		blue = colorFromRGB(178, 223, 238); //lightblue
 		bluePlots = colorFromRGB(0, 0, 200);
 		yellow = colorFromRGB(255,238,102);
+
+		//margins
+		leftMargin = 26;
+		rightMargin = 42; //images are 24 px, separate 6 px from grapharea, and 12 px from absoluteright
+		if(usePersonGuides && useGroupGuides)
+			rightMargin = 70;
+		bottomMargin = 9;
+		topMarginSet ();
+	}
+
+	//will be overwritten by graphs with legend
+	protected virtual void topMarginSet ()
+	{
+		topMargin = 40;
 	}
 
 	protected abstract void findMaximums(); //includes point and guides
@@ -315,7 +326,7 @@ public abstract class CairoBars : CairoGeneric
 	{
 		return getAxisLabel(xVariable, xUnits);
 	}
-	private string getYAxisLabel()
+	protected string getYAxisLabel()
 	{
 		return getAxisLabel(yVariable, yUnits);
 	}
@@ -604,6 +615,14 @@ public abstract class CairoBars : CairoGeneric
 	public string YUnits {
 		set { yUnits = value; }
 	}
+
+	//for CairoBars2HSeries (legend)
+	public string VariableSerieA {
+		set { variableSerieA = value; }
+	}
+	public string VariableSerieB {
+		set { variableSerieB = value; }
+	}
 }
 
 public class CairoBars1Series : CairoBars
@@ -721,6 +740,9 @@ public class CairoBars2HSeries : CairoBars
 	private List<string> names_l;
 
 	private Cairo.Color colorSerieB;
+	private double oneRowLegendWidth;
+	private bool oneRowLegend;
+	private int boxWidth = 10; //px. Same as boxHeight. box - text sep is .5 boxWidth. 1st text - 2nd box sep is 2*boxWidth
 
 	//constructor when there are no points
 	public CairoBars2HSeries (DrawingArea area, string font)
@@ -742,6 +764,117 @@ public class CairoBars2HSeries : CairoBars
 		colorSerieA = colorFromGdk(UtilGtk.GetColorShifted(Config.ColorBackground,
 					! UtilGtk.ColorIsDark(Config.ColorBackground)));
 		colorSerieB = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
+	}
+
+	protected override void topMarginSet ()
+	{
+		topMargin = 50; //to accomodate legend under title
+		oneRowLegend = true;
+
+		calculateOneRowLegendWidth();
+
+		g.SetFontSize(textHeight-2);
+		Cairo.TextExtents teYLabel = g.TextExtents(getYAxisLabel());
+
+		//check oneRowLegend does not crash with left axis label or rightMargin (icons)
+		if(graphWidth/2 - oneRowLegendWidth /2 -2*boxWidth < teYLabel.Width ||
+				graphWidth/2 + oneRowLegendWidth /2 + 2*boxWidth > graphWidth - rightMargin)
+		{
+			//topMargin really does not change, what is reduced is the space below
+			//topMargin += Convert.ToInt32(.5*textHeight); //.5 because font is smaller
+			oneRowLegend = false;
+		}
+
+		g.SetFontSize(textHeight);
+	}
+	private void calculateOneRowLegendWidth ()
+	{
+		g.SetFontSize(textHeight-2);
+
+		Cairo.TextExtents te = g.TextExtents(variableSerieA);
+		double serieAWidth = te.Width;
+
+		te = g.TextExtents(variableSerieB);
+		double serieBWidth = te.Width;
+
+		oneRowLegendWidth = 1.5*boxWidth + serieAWidth + 2*boxWidth + 1.5*boxWidth + serieBWidth;
+
+		g.SetFontSize(textHeight);
+	}
+
+	private void writeLegend ()
+	{
+		g.SetFontSize(textHeight-2);
+
+		Cairo.TextExtents te = g.TextExtents(variableSerieA);
+		double serieAWidth = te.Width;
+
+		te = g.TextExtents(variableSerieB);
+		double serieBWidth = te.Width;
+
+		int boxWidth = 10; //px. Same as boxHeight. box - text sep is .5 boxWidth. 1st text - 2nd box sep is 2*boxWidth
+
+		if(oneRowLegend)
+		{
+			double legendWidth = 1.5*boxWidth + serieAWidth + 2*boxWidth + 1.5*boxWidth + serieBWidth;
+			double xStart = .5*graphWidth -.5*legendWidth;
+
+			//paint 1st box
+			g.Color = colorSerieA;
+			g.Rectangle(xStart, topMargin -1.25*textHeight, boxWidth, boxWidth);
+			g.FillPreserve();
+			g.Color = black;
+			g.Stroke();
+
+			//write 1st variable
+			xStart += 1.5*boxWidth;
+			printText(xStart, topMargin -textHeight, 0, textHeight-2, variableSerieA, g, alignTypes.LEFT);
+
+			//paint 2nd box
+			xStart += serieAWidth + 2*boxWidth;
+			g.Color = colorSerieB;
+			g.Rectangle(xStart, topMargin -1.25*textHeight, boxWidth, boxWidth);
+			g.FillPreserve();
+			g.Color = black;
+			g.Stroke();
+
+			//write 2nd variable
+			xStart += 1.5*boxWidth;
+			printText(xStart, topMargin -textHeight, 0, textHeight-2, variableSerieB, g, alignTypes.LEFT);
+		} else
+		{
+			//1st row
+			double rowWidth = 1.5*boxWidth + serieAWidth;
+			double xStart = .5*graphWidth -.5*rowWidth;
+
+			//paint 1st box
+			g.Color = colorSerieA;
+			g.Rectangle(xStart, topMargin -1.25*textHeight, boxWidth, boxWidth);
+			g.FillPreserve();
+			g.Color = black;
+			g.Stroke();
+
+			//write 1st variable
+			xStart += 1.5*boxWidth;
+			printText(xStart, topMargin -textHeight, 0, textHeight-2, variableSerieA, g, alignTypes.LEFT);
+
+			//2nd row
+			rowWidth = 1.5*boxWidth + serieBWidth;
+			xStart = .5*graphWidth -.5*rowWidth;
+
+			//paint 2nd box (1.25*textHeight below)
+			g.Color = colorSerieB;
+			g.Rectangle(xStart, topMargin -1.25*textHeight +1.25*textHeight, boxWidth, boxWidth);
+			g.FillPreserve();
+			g.Color = black;
+			g.Stroke();
+
+			//write 2nd variable
+			xStart += 1.5*boxWidth;
+			printText(xStart, topMargin -textHeight +1.25*textHeight, 0, textHeight-2, variableSerieB, g, alignTypes.LEFT);
+		}
+
+		g.SetFontSize(textHeight);
 	}
 
 	protected override void findMaximums()
@@ -866,6 +999,7 @@ public class CairoBars2HSeries : CairoBars
 		plotBars();
 
 		writeTitleAtTop ();
+		writeLegend ();
 
 		endGraphDisposing(g);
 	}

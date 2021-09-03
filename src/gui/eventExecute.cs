@@ -3533,9 +3533,19 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 		if(UseHeights) {
 			cb.YVariable = Catalog.GetString("Height");
 			cb.YUnits = "cm";
+			if(showBarA && showBarB) //Dja, Djna
+			{
+				cb.VariableSerieA = Catalog.GetString("Falling height");
+				cb.VariableSerieB = Catalog.GetString("Jump height");
+			}
 		} else {
 			cb.YVariable = Catalog.GetString("Time");
 			cb.YUnits = "s";
+			if(showBarA && showBarB) //Dja, Djna
+			{
+				cb.VariableSerieA = Catalog.GetString("Contact time");
+				cb.VariableSerieB = Catalog.GetString("Flight time");
+			}
 		}
 
 		cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
@@ -3774,6 +3784,9 @@ public class CairoPaintBarsPreJumpReactiveCapture : CairoPaintBarsPre
 
 		cb.YVariable = Catalog.GetString("Time");
 		cb.YUnits = "s";
+
+		cb.VariableSerieA = Catalog.GetString("Contact time");
+		cb.VariableSerieB = Catalog.GetString("Flight time");
 
 		cb.GraphInit(fontStr, true, false); //usePersonGuides, useGroupGuides
 

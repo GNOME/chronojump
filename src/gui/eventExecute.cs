@@ -1,6 +1,4 @@
 /*
-posar un graph de contacts capture (per jumpsRj, runsSimple, runsInterval), que estigui dalt, i separat dels resultats per un panel.
-salts Rj graph de sessió podria ser 2H (num salts, totalheight)
 curses trams graph de sessió podria ser 2H (totaltime, maxSpeed)
 */
 
@@ -167,7 +165,10 @@ public partial class ChronoJumpWindow
 	//PrepareEventGraphJumpSimple eventGraphJumpsCairoStored;
 	//PrepareEventGraphRunSimple eventGraphRunsCairoStored;
 	//string cairoTitleStored;
+
+	//we need both working to be able to correctly expose_event on jumpRj, runI
 	CairoPaintBarsPre cairoPaintBarsPre;
+	CairoPaintBarsPre cairoPaintBarsPreRealTime;
 
 
 	private void event_execute_initializeVariables (
@@ -299,7 +300,8 @@ public partial class ChronoJumpWindow
 	private void showJumpReactiveLabels() 
 	{
 		event_graph_label_graph_test.Visible = false;
-		vbox_contacts_simple_graph_controls.Visible = false;
+		vbox_contacts_simple_graph_controls.Visible = true;
+		check_run_simple_show_time.Visible = false;
 
 //		align_check_vbox_contacts_graph_legend.Visible = false;
 //		vbox_contacts_graph_legend.Visible = false;
@@ -528,7 +530,7 @@ public partial class ChronoJumpWindow
 			if(currentEventExecute == null || currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject == null)
 				return;
 
-			PrepareJumpReactiveGraph(
+			PrepareJumpReactiveRealtimeCaptureGraph (
 					currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.lastTv,
 					currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.lastTc,
 					currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.tvString,
@@ -541,21 +543,27 @@ public partial class ChronoJumpWindow
 	//barplot of tests in session
 	public void on_event_execute_drawingarea_cairo_expose_event(object o, ExposeEventArgs args)
 	{
+		LogB.Information("on_event_execute_drawingarea_cairo_expose_event A");
 		//right now only for jumps/runs simple
 		if(current_mode != Constants.Modes.JUMPSSIMPLE &&
-//				current_mode != Constants.Modes.JUMPSREACTIVE &&
+				current_mode != Constants.Modes.JUMPSREACTIVE &&
 				current_mode != Constants.Modes.RUNSSIMPLE)
 			return;
 
+		LogB.Information("on_event_execute_drawingarea_cairo_expose_event B");
 		//if object not defined or not defined fo this mode, return
 		if(cairoPaintBarsPre == null || ! cairoPaintBarsPre.ModeMatches (current_mode))
 			return;
 
+		LogB.Information("on_event_execute_drawingarea_cairo_expose_event C");
 		//cairoPaintBarsPre.Prepare();
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)
-			PrepareJumpSimpleGraph(cairoPaintBarsPre.eventGraphJumpsStored, false);
+			PrepareJumpSimpleGraph (cairoPaintBarsPre.eventGraphJumpsStored, false);
+		else if(current_mode == Constants.Modes.JUMPSREACTIVE)
+			PrepareJumpReactiveGraph (cairoPaintBarsPre.eventGraphJumpsRjStored, false);
 		else if (current_mode == Constants.Modes.RUNSSIMPLE)
-			PrepareRunSimpleGraph(cairoPaintBarsPre.eventGraphRunsStored, false);
+			PrepareRunSimpleGraph (cairoPaintBarsPre.eventGraphRunsStored, false);
+		LogB.Information("on_event_execute_drawingarea_cairo_expose_event D");
 	}
 
 	
@@ -681,19 +689,30 @@ public partial class ChronoJumpWindow
 			*/
 	}
 
+	public void PrepareJumpReactiveGraph (PrepareEventGraphJumpReactive eventGraph, bool animate)
+	{
+		// Paint cairo graph
+		cairoPaintBarsPre.ShowPersonNames = radio_contacts_graph_allPersons.Active;
+		//cairoPaintBarsPre.UseHeights = useHeights;
+
+		cairoPaintBarsPre.Paint();
+	}
+
 	// Reactive jump 
-	public void PrepareJumpReactiveGraph(double lastTv, double lastTc, string tvString, string tcString, string type,
+	public void PrepareJumpReactiveRealtimeCaptureGraph (double lastTv, double lastTc, string tvString, string tcString, string type,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer, RepetitiveConditionsWindow repetitiveConditionsWin)
 	{
-		cairoPaintBarsPre = new CairoPaintBarsPreJumpReactiveCapture(
+		LogB.Information("PrepareJumpReactiveRealtimeCaptureGraph 0");
+		cairoPaintBarsPreRealTime = new CairoPaintBarsPreJumpReactiveRealtimeCapture(
 				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString(), current_mode,
 				currentPerson.Name, type, preferences.digitsNumber,// preferences.heightPreferred,
 				lastTv, lastTc, tvString, tcString);
 
 		// B) Paint cairo graph
-		//cairoPaintBarsPre.UseHeights = useHeights;
+		//cairoPaintBarsPreRealTime.UseHeights = useHeights;
 
-		cairoPaintBarsPre.Paint();
+		cairoPaintBarsPreRealTime.Paint();
+		LogB.Information("PrepareJumpReactiveRealtimeCaptureGraph 1");
 	}
 	
 	//identify which subjump is the best or the worst in tv/tc index	
@@ -2111,6 +2130,8 @@ public partial class ChronoJumpWindow
 	{
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)
 			updateGraphJumpsSimple ();
+		else if(current_mode == Constants.Modes.JUMPSREACTIVE)
+			updateGraphJumpsReactive ();
 		else if(current_mode == Constants.Modes.RUNSSIMPLE)
 			updateGraphRunsSimple ();
 	}
@@ -2124,6 +2145,7 @@ public partial class ChronoJumpWindow
 		}
 		else if(current_mode == Constants.Modes.JUMPSREACTIVE)
 		{
+			updateGraphJumpsReactive ();
 			pre_fillTreeView_jumps_rj(false);
 		}
 		else if(current_mode == Constants.Modes.RUNSSIMPLE)
@@ -2141,6 +2163,8 @@ public partial class ChronoJumpWindow
 	{
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)
 			updateGraphJumpsSimple ();
+		else if(current_mode == Constants.Modes.JUMPSREACTIVE)
+			updateGraphJumpsReactive ();
 		else if(current_mode == Constants.Modes.RUNSSIMPLE)
 			updateGraphRunsSimple ();
 	}
@@ -2164,7 +2188,7 @@ public partial class ChronoJumpWindow
 				if(thisJumpIsSimple) 
 					PrepareJumpSimpleGraph(currentEventExecute.PrepareEventGraphJumpSimpleObject, animate);
 				else {
-					PrepareJumpReactiveGraph(
+					PrepareJumpReactiveRealtimeCaptureGraph(
 							currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.lastTv, 
 							currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.lastTc,
 							currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.tvString,
@@ -2435,6 +2459,9 @@ public abstract class CairoPaintBarsPre
 	public PrepareEventGraphJumpSimple eventGraphJumpsStored;
 	public bool UseHeights;
 
+	//jump reactive
+	public PrepareEventGraphJumpReactive eventGraphJumpsRjStored;
+
 	//run simple
 	public PrepareEventGraphRunSimple eventGraphRunsStored;
 	public bool RunsShowTime;
@@ -2460,6 +2487,9 @@ public abstract class CairoPaintBarsPre
 	}
 
 	public virtual void StoreEventGraphJumps (PrepareEventGraphJumpSimple eventGraph)
+	{
+	}
+	public virtual void StoreEventGraphJumpsRj (PrepareEventGraphJumpReactive eventGraph)
 	{
 	}
 	public virtual void StoreEventGraphRuns (PrepareEventGraphRunSimple eventGraph)
@@ -2897,6 +2927,97 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 	}
 }
 
+public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
+{
+	public CairoPaintBarsPreJumpReactive (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN)
+	{
+		initialize (darea, fontStr, mode, generateTitle(personName, testName), pDN);
+	}
+
+	public override void StoreEventGraphJumpsRj (PrepareEventGraphJumpReactive eventGraph)
+	{
+		this.eventGraphJumpsRjStored = eventGraph;
+	}
+
+	protected override bool storeCreated ()
+	{
+		return (eventGraphJumpsRjStored != null);
+	}
+
+	protected override bool haveDataToPlot()
+	{
+		return (eventGraphJumpsRjStored.jumpsAtSQL.Count > 0);
+	}
+
+	protected override void paintSpecific()
+	{
+		CairoBars cb = new CairoBars2HSeries (darea);
+
+		cb.YVariable = Catalog.GetString("Time");
+		cb.YUnits = "s";
+		cb.VariableSerieA = Catalog.GetString("Contact time") + " (" + Catalog.GetString("total") + ") ";
+		cb.VariableSerieB = Catalog.GetString("Flight time") + " (" + Catalog.GetString("total") + ") ";
+
+		cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
+
+		List<Event> events = JumpRj.JumpListToEventList(eventGraphJumpsRjStored.jumpsAtSQL);
+
+		//find if there is a simulated
+		bool thereIsASimulated = false;
+		for(int i=0 ; i < eventGraphJumpsRjStored.jumpsAtSQL.Count; i++)
+		{
+			if(eventGraphJumpsRjStored.jumpsAtSQL[i].Simulated == -1)
+				thereIsASimulated = true;
+
+			if(! ShowPersonNames)
+				eventGraphJumpsRjStored.jumpsAtSQL[i].Description = ""; //to avoid showing description
+		}
+
+		//manage bottom text font/spacing of rows
+		string longestWord = findLongestWordCairo (events,
+				eventGraphJumpsRjStored.type == "", "(" + Catalog.GetString("Simulated") + ")"); // condition for "all runs"
+		int fontHeightForBottomNames = cb.GetFontForBottomNames (events, longestWord);
+
+		int maxRowsForText = calculateMaxRowsForTextCairo (events, longestWord.Length,
+				eventGraphJumpsRjStored.type == "", false); //also adds +1 if simulated
+		int bottomMargin = cb.GetBottomMarginForText (maxRowsForText, fontHeightForBottomNames);
+
+
+		List<PointF> pointA_l = new List<PointF>();
+		List<PointF> pointB_l = new List<PointF>();
+		List<string> names_l = new List<string>();
+
+		int countToDraw = eventGraphJumpsRjStored.jumpsAtSQL.Count;
+		foreach(JumpRj jump in eventGraphJumpsRjStored.jumpsAtSQL)
+		{
+			LogB.Information("jump: " + jump.ToString());
+			// 1) Add data
+			double valueA = jump.TcSum;
+			double valueB = jump.TvSum;
+
+			pointA_l.Add(new PointF(countToDraw, valueA));
+			pointB_l.Add(new PointF(countToDraw, valueB));
+			countToDraw --;
+
+			// 2) Add bottom names
+			//names_l.Add(Catalog.GetString(jump.Type));
+			string typeRowString = "";
+			if (eventGraphJumpsRjStored.type == "") //if "all runs" show run.Type
+				typeRowString = jump.Type;
+
+			names_l.Add(createTextBelowBar(
+						"",
+						typeRowString,
+						jump.Description,
+						thereIsASimulated, (jump.Simulated == -1),
+						longestWord.Length, maxRowsForText));
+		}
+
+		cb.GraphDo (pointA_l, pointB_l, names_l,
+				fontHeightForBottomNames, bottomMargin, title);
+	}
+}
+
 public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 {
 	public CairoPaintBarsPreRunSimple (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN)
@@ -2994,18 +3115,18 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 }
 
 //realtime jump reactive capture
-public class CairoPaintBarsPreJumpReactiveCapture : CairoPaintBarsPre
+public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 {
 	private double lastTv;
 	private double lastTc;
 	private List<double> tv_l;
 	private List<double> tc_l;
 
-	public CairoPaintBarsPreJumpReactiveCapture (DrawingArea darea, string fontStr,
+	public CairoPaintBarsPreJumpReactiveRealtimeCapture (DrawingArea darea, string fontStr,
 			Constants.Modes mode, string personName, string testName, int pDN,// bool heightPreferred,
 			double lastTv, double lastTc, string tvString, string tcString)
 	{
-		initialize (darea, fontStr, mode, generateTitle(personName, testName), pDN);
+		initialize (darea, fontStr, mode, Catalog.GetString("Last test:") + " " + generateTitle(personName, testName), pDN);
 
 		this.lastTv = lastTv;
 		this.lastTc = lastTc;

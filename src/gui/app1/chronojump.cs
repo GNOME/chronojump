@@ -3550,7 +3550,8 @@ public partial class ChronoJumpWindow
 				event_execute_drawingarea_realtime_capture_cairo.Visible = true;
 
 				event_graph_label_graph_test.Visible = false;
-				vbox_contacts_simple_graph_controls.Visible = false;
+				vbox_contacts_simple_graph_controls.Visible = true;
+				check_run_simple_show_time.Visible = false;
 
 				//align_check_vbox_contacts_graph_legend.Visible = false;
 				//vbox_contacts_graph_legend.Visible = false;
@@ -5194,6 +5195,9 @@ public partial class ChronoJumpWindow
 		//delete the temp tables if exists
 		Sqlite.DeleteTempEvents("tempJumpRj");
 
+		//Cairo graph is not updated if window is not resized, so force update
+		updateGraphJumpsReactive();
+
 		//stop camera (storing value or not)
 		if(currentEventExecute.Cancel || currentJumpRj == null) {
 			//webcamEndTwoCams (Constants.TestTypes.JUMP_RJ, -1);
@@ -6238,6 +6242,8 @@ LogB.Debug("mc finished 5");
 		else
 			pre_fillTreeView_jumps_rj(false);
 
+		updateGraphJumpsReactive();
+
 		if(createdStatsWin) 
 			stats_win_fillTreeView_stats(false, false);
 	}
@@ -6574,6 +6580,8 @@ LogB.Debug("mc finished 5");
 			//there's no currentJumpRj (no one jumped), then it crashed,
 			//but don't need to update widgets
 		}
+
+		updateGraphJumpsReactive();
 	}
 	
 	private void on_delete_selected_run_clicked (object o, EventArgs args) {

@@ -304,6 +304,7 @@ public partial class ChronoJumpWindow
 	}
 	private void updateGraphJumpsSimple () 
 	{
+		LogB.Information("Called updateGraphJumpsSimple");
 		if(currentPerson == null || currentSession == null)
 			return;
 
@@ -352,6 +353,7 @@ public partial class ChronoJumpWindow
 	}
 	private void updateGraphJumpsReactive ()
 	{
+		LogB.Information("Called updateGraphJumpsReactive");
 		if(currentPerson == null || currentSession == null)
 			return;
 
@@ -370,7 +372,27 @@ public partial class ChronoJumpWindow
 			Constants.JumpRjTable, //tableName
 			currentJumpRjType.Name
 			);
-		//TODO paint graph of num of reactive jumps
+
+		string typeTemp = currentEventType.Name;
+		if(radio_contacts_graph_allTests.Active)
+			typeTemp = "";
+
+		PrepareEventGraphJumpReactive eventGraph = new PrepareEventGraphJumpReactive(
+				currentSession.UniqueID, currentPerson.UniqueID,
+				radio_contacts_graph_allPersons.Active,
+				Convert.ToInt32(spin_contacts_graph_last_limit.Value),
+				typeTemp);
+
+		string personStr = "";
+		if(! radio_contacts_graph_allPersons.Active)
+			personStr = currentPerson.Name;
+
+		cairoPaintBarsPre = new CairoPaintBarsPreJumpReactive (
+				event_execute_drawingarea_cairo, preferences.fontType.ToString(), current_mode,
+				personStr, typeTemp, preferences.digitsNumber);
+
+		cairoPaintBarsPre.StoreEventGraphJumpsRj (eventGraph);
+		PrepareJumpReactiveGraph (cairoPaintBarsPre.eventGraphJumpsRjStored, false);
 	}
 	
 	private void extra_window_jumps_rj_initialize(JumpType myJumpType) 

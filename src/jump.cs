@@ -154,8 +154,47 @@ public class JumpRj : Jump
 	string limited; //the teorically values, eleven jumps: "11=J" (time recorded in "time"), 10 seconds: "10=T" (jumps recorded in jumps)
 	bool jumpsLimited;
 	private string angleString;
-	
+
+	bool calculatedStats;
+	private double tvMax;
+	private double tcMax;
+	private double tvAvg;
+	private double tcAvg;
+
+
 	public JumpRj() {
+		calculatedStats = false;
+	}
+
+	public JumpRj(int uniqueID, int personID, int sessionID, string type,
+			double tvMax, double tcMax,
+			double fall, double weight, string description,
+			double tvAvg, double tcAvg,
+			string tvString, string tcString,
+			int jumps, double time, string limited,
+			string angleString, int simulated, string datetime)
+	{
+		this.uniqueID = uniqueID;
+		this.personID = personID;
+		this.sessionID = sessionID;
+		this.type = type;
+		this.tvMax = tvMax;
+		this.tcMax = tcMax;
+		this.fall = fall;
+		this.weight = weight;
+		this.description = description;
+		this.tvAvg = tvAvg;
+		this.tcAvg = tcAvg;
+		this.tvString = tvString;
+		this.tcString = tcString;
+		this.jumps = jumps;
+		this.time = time;
+		this.limited = limited;
+		this.angleString = angleString;
+		this.simulated = simulated;
+		this.datetime = datetime;
+
+		calculatedStats = true;
 	}
 	
 	//after inserting database (SQL)
@@ -178,6 +217,8 @@ public class JumpRj : Jump
 		this.angleString = angleString;
 		this.simulated = simulated;
 		this.datetime = datetime;
+
+		calculatedStats = false;
 	}
 	
 	//used to select a jump at SqliteJumpRj.SelectJumpData and at Sqlite.convertTables
@@ -201,6 +242,8 @@ public class JumpRj : Jump
 		this.angleString = eventString[16];
 		this.simulated = Convert.ToInt32(eventString[17]);
 		this.datetime = eventString[18];
+
+		calculatedStats = false;
 	}
 	
 
@@ -237,25 +280,45 @@ public class JumpRj : Jump
 	{
 		get { return SqliteJumpType.HasFall("jumpRjType", type); } //jumpRjType is the table name
 	}
-	
+
 	public double TvMax
 	{
-		get { return Util.GetMax (tvString); }
+		get {
+			if(! calculatedStats)
+				tvMax = Util.GetMax (tvString);
+
+			return tvMax;
+		}
 	}
-		
+
 	public double TcMax
 	{
-		get { return Util.GetMax (tcString); }
+		get {
+			if(! calculatedStats)
+				tcMax = Util.GetMax (tcString);
+
+			return tcMax;
+		}
 	}
-		
+
 	public double TvAvg
 	{
-		get { return Util.GetAverage (tvString); }
+		get {
+			if(! calculatedStats)
+				tvAvg = Util.GetAverage (tvString);
+
+			return tvAvg;
+		}
 	}
-		
+
 	public double TcAvg
 	{
-		get { return Util.GetAverage (tcString); }
+		get {
+			if(! calculatedStats)
+				tcAvg = Util.GetAverage (tcString);
+
+			return tcAvg;
+		}
 	}
 	
 		

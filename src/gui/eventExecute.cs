@@ -525,15 +525,15 @@ public partial class ChronoJumpWindow
 
 		if(current_mode == Constants.Modes.JUMPSREACTIVE)
 		{
-			if(currentEventExecute == null || currentEventExecute.PrepareEventGraphJumpReactiveObject == null)
+			if(currentEventExecute == null || currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject == null)
 				return;
 
 			PrepareJumpReactiveGraph(
-					currentEventExecute.PrepareEventGraphJumpReactiveObject.lastTv,
-					currentEventExecute.PrepareEventGraphJumpReactiveObject.lastTc,
-					currentEventExecute.PrepareEventGraphJumpReactiveObject.tvString,
-					currentEventExecute.PrepareEventGraphJumpReactiveObject.tcString,
-					currentEventExecute.PrepareEventGraphJumpReactiveObject.type,
+					currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.lastTv,
+					currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.lastTc,
+					currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.tvString,
+					currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.tcString,
+					currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.type,
 					preferences.volumeOn, preferences.gstreamer, repetitiveConditionsWin);
 		}
 	}
@@ -2165,11 +2165,11 @@ public partial class ChronoJumpWindow
 					PrepareJumpSimpleGraph(currentEventExecute.PrepareEventGraphJumpSimpleObject, animate);
 				else {
 					PrepareJumpReactiveGraph(
-							currentEventExecute.PrepareEventGraphJumpReactiveObject.lastTv, 
-							currentEventExecute.PrepareEventGraphJumpReactiveObject.lastTc,
-							currentEventExecute.PrepareEventGraphJumpReactiveObject.tvString,
-							currentEventExecute.PrepareEventGraphJumpReactiveObject.tcString,
-							currentEventExecute.PrepareEventGraphJumpReactiveObject.type,
+							currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.lastTv, 
+							currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.lastTc,
+							currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.tvString,
+							currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.tcString,
+							currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.type,
 							preferences.volumeOn, preferences.gstreamer, repetitiveConditionsWin);
 				}
 				break;
@@ -2465,7 +2465,7 @@ public abstract class CairoPaintBarsPre
 	public virtual void StoreEventGraphRuns (PrepareEventGraphRunSimple eventGraph)
 	{
 	}
-//	public virtual void StoreEventGraphJumpReactiveCapture (PrepareEventGraphJumpReactive eventGraph)
+//	public virtual void StoreEventGraphJumpReactiveCapture (PrepareEventGraphJumpReactiveRealtimeCapture eventGraph)
 //	{
 //	}
 
@@ -3026,7 +3026,7 @@ public class CairoPaintBarsPreJumpReactiveCapture : CairoPaintBarsPre
 	}
 
 	/*
-	public override void StoreEventGraphJumpReactiveCapture (PrepareEventGraphJumpReactive eventGraph)
+	public override void StoreEventGraphJumpReactiveCapture (PrepareEventGraphJumpReactiveRealtimeCapture eventGraph)
 	{
 		this.eventGraphJumpReactiveCapture = eventGraph;
 	}

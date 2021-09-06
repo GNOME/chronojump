@@ -4665,9 +4665,10 @@ public partial class ChronoJumpWindow
 	{
 		//there are some notebook_execute pages that have not notebook_results_data pages
 		//like jump simple (0), run simple (2), reaction time (4)
-		if(notebook_execute.CurrentPage == 1) //reactive jump
-			notebook_results_data.CurrentPage = 0;
-		else if(notebook_execute.CurrentPage == 3) //interval run
+		//if(notebook_execute.CurrentPage == 1) //reactive jump
+		//	notebook_results_data.CurrentPage = 0;
+		//else if(notebook_execute.CurrentPage == 3) //interval run
+		if(notebook_execute.CurrentPage == 3) //interval run
 			notebook_results_data.CurrentPage = 1;
 		else if(notebook_execute.CurrentPage == 6) //pulse
 			notebook_results_data.CurrentPage = 2;

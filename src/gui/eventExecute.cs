@@ -1,4 +1,11 @@
 /*
+posar un graph de contacts capture (per jumpsRj, runsSimple, runsInterval), que estigui dalt, i separat dels resultats per un panel.
+salts Rj graph de sessió podria ser 2H (num salts, totalheight)
+curses trams graph de sessió podria ser 2H (totaltime, maxSpeed)
+*/
+
+
+/*
  * This file is part of ChronoJump
  *
  * ChronoJump is free software; you can redistribute it and/or modify
@@ -68,11 +75,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button event_execute_button_cancel;
 	[Widget] Gtk.Button event_execute_button_finish;
 
-	[Widget] Gtk.Table event_execute_table_jump_reactive;
 	[Widget] Gtk.Table event_execute_table_run_interval;
 	[Widget] Gtk.Table event_execute_table_pulse;
-	
-	[Widget] Gtk.Table event_execute_table_jump_reactive_values;
+
 	[Widget] Gtk.Table event_execute_table_run_interval_values;
 	[Widget] Gtk.Table event_execute_table_pulse_values;
 	
@@ -81,22 +86,9 @@ public partial class ChronoJumpWindow
 //	[Widget] Gtk.VBox vbox_contacts_graph_legend;
 
 	//for the color change in the background of the cell label
-	//[Widget] Gtk.EventBox event_execute_eventbox_jump_reactive_height;
-	[Widget] Gtk.EventBox event_execute_eventbox_jump_reactive_tc;
-	[Widget] Gtk.EventBox event_execute_eventbox_jump_reactive_tf;
-	//[Widget] Gtk.EventBox event_execute_eventbox_jump_reactive_tf_tc;
 	[Widget] Gtk.EventBox event_execute_eventbox_run_interval_time;
 	[Widget] Gtk.EventBox event_execute_eventbox_run_interval_speed;
 	[Widget] Gtk.EventBox event_execute_eventbox_pulse_time;
-
-	[Widget] Gtk.Label event_execute_label_jump_reactive_height_now;
-	[Widget] Gtk.Label event_execute_label_jump_reactive_height_avg;
-	[Widget] Gtk.Label event_execute_label_jump_reactive_tf_now;
-	[Widget] Gtk.Label event_execute_label_jump_reactive_tf_avg;
-	[Widget] Gtk.Label event_execute_label_jump_reactive_tc_now;
-	[Widget] Gtk.Label event_execute_label_jump_reactive_tc_avg;
-	[Widget] Gtk.Label event_execute_label_jump_reactive_tf_tc_now;
-	[Widget] Gtk.Label event_execute_label_jump_reactive_tf_tc_avg;
 
 	[Widget] Gtk.Label event_execute_label_run_interval_time_now;
 	[Widget] Gtk.Label event_execute_label_run_interval_time_avg;
@@ -106,15 +98,6 @@ public partial class ChronoJumpWindow
 	
 	[Widget] Gtk.Label event_execute_label_pulse_now;
 	[Widget] Gtk.Label event_execute_label_pulse_avg;
-
-	[Widget] Gtk.Image event_execute_image_jump_reactive_height_good;
-	[Widget] Gtk.Image event_execute_image_jump_reactive_height_bad;
-	[Widget] Gtk.Image event_execute_image_jump_reactive_tf_good;
-	[Widget] Gtk.Image event_execute_image_jump_reactive_tf_bad;
-	[Widget] Gtk.Image event_execute_image_jump_reactive_tc_good;
-	[Widget] Gtk.Image event_execute_image_jump_reactive_tc_bad;
-	[Widget] Gtk.Image event_execute_image_jump_reactive_tf_tc_good;
-	[Widget] Gtk.Image event_execute_image_jump_reactive_tf_tc_bad;
 
 	[Widget] Gtk.Image event_execute_image_run_interval_time_good;
 	[Widget] Gtk.Image event_execute_image_run_interval_time_bad;
@@ -196,8 +179,7 @@ public partial class ChronoJumpWindow
 			) 
 	{
 		eventExecuteHideAllTables();
-		eventExecuteHideImages();
-		
+
 		if(UtilAll.IsWindows()) {
 			event_execute_rightMargin = 55;
 		}
@@ -240,11 +222,7 @@ public partial class ChronoJumpWindow
 		UtilGtk.ClearDrawingArea(event_execute_drawingarea, event_execute_pixmap);
 
 		clearProgressBars();
-
 	
-		//event_execute_eventbox_jump_reactive_height.ModifyBg(Gtk.StateType.Normal, UtilGtk.RED_PLOTS);
-		event_execute_eventbox_jump_reactive_tc.ModifyBg(Gtk.StateType.Normal, UtilGtk.RED_PLOTS);
-		event_execute_eventbox_jump_reactive_tf.ModifyBg(Gtk.StateType.Normal, UtilGtk.BLUE_PLOTS);
 		event_execute_eventbox_run_interval_time.ModifyBg(Gtk.StateType.Normal, UtilGtk.RED_PLOTS);
 		event_execute_eventbox_run_interval_speed.ModifyBg(Gtk.StateType.Normal, UtilGtk.BLUE_PLOTS);
 		event_execute_eventbox_pulse_time.ModifyBg(Gtk.StateType.Normal, UtilGtk.BLUE_PLOTS); //only one serie in pulse, leave blue
@@ -278,43 +256,23 @@ public partial class ChronoJumpWindow
 		
 		return executingGraphData;
 	}
-	
+
 	private void eventExecutePutNonStandardIcons() {
 		Pixbuf pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_green.png");
-		event_execute_image_jump_reactive_height_good.Pixbuf = pixbuf;
-		event_execute_image_jump_reactive_tf_good.Pixbuf = pixbuf;
-		event_execute_image_jump_reactive_tc_good.Pixbuf = pixbuf;
-		event_execute_image_jump_reactive_tf_tc_good.Pixbuf = pixbuf;
 		event_execute_image_run_interval_time_good.Pixbuf = pixbuf;
-		
+
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_red.png");
-		event_execute_image_jump_reactive_height_bad.Pixbuf = pixbuf;
-		event_execute_image_jump_reactive_tf_bad.Pixbuf = pixbuf;
-		event_execute_image_jump_reactive_tc_bad.Pixbuf = pixbuf;
-		event_execute_image_jump_reactive_tf_tc_bad.Pixbuf = pixbuf;
 		event_execute_image_run_interval_time_bad.Pixbuf = pixbuf;
 	}
 
 	private void eventExecuteHideImages() {
-		event_execute_image_jump_reactive_height_good.Hide();
-		event_execute_image_jump_reactive_height_bad.Hide();
-		event_execute_image_jump_reactive_tf_good.Hide();
-		event_execute_image_jump_reactive_tf_bad.Hide();
-		event_execute_image_jump_reactive_tc_good.Hide();
-		event_execute_image_jump_reactive_tc_bad.Hide();
-		event_execute_image_jump_reactive_tf_tc_good.Hide();
-		event_execute_image_jump_reactive_tf_tc_bad.Hide();
 		event_execute_image_run_interval_time_good.Hide();
 		event_execute_image_run_interval_time_bad.Hide();
 	}
 
 	private void eventExecuteHideAllTables() 
 	{
-		//hide reactive info
-		event_execute_table_jump_reactive.Hide();
-		event_execute_table_jump_reactive_values.Hide();
-		
 		//hide run interval info
 		event_execute_table_run_interval.Hide();
 		event_execute_table_run_interval_values.Hide();
@@ -345,22 +303,7 @@ public partial class ChronoJumpWindow
 //		align_check_vbox_contacts_graph_legend.Visible = false;
 //		vbox_contacts_graph_legend.Visible = false;
 
-		//show reactive info
-		event_execute_table_jump_reactive.Show();
-		event_execute_table_jump_reactive_values.Show();
-
-		//initializeLabels
-		event_execute_label_jump_reactive_height_now.Text = "";
-		event_execute_label_jump_reactive_height_avg.Text = "";
-		event_execute_label_jump_reactive_tf_now.Text = "";
-		event_execute_label_jump_reactive_tf_avg.Text = "";
-		event_execute_label_jump_reactive_tc_now.Text = "";
-		event_execute_label_jump_reactive_tc_avg.Text = "";
-		event_execute_label_jump_reactive_tf_tc_now.Text = "";
-		event_execute_label_jump_reactive_tf_tc_avg.Text = "";
-
-		notebook_results_data.Visible = true;
-		notebook_results_data.CurrentPage = 0;
+		notebook_results_data.Visible = false;
 	}
 	
 	private void showRunSimpleLabels() 
@@ -2052,14 +1995,6 @@ public partial class ChronoJumpWindow
 			plotSimulatedMessageIfNeededAtCenter(ancho, alto);
 			
 			//bells & images
-			event_execute_image_jump_reactive_height_good.Hide();
-			event_execute_image_jump_reactive_height_bad.Hide();
-			event_execute_image_jump_reactive_tf_good.Hide();
-			event_execute_image_jump_reactive_tf_bad.Hide();
-			event_execute_image_jump_reactive_tc_good.Hide();
-			event_execute_image_jump_reactive_tc_bad.Hide();
-			event_execute_image_jump_reactive_tf_tc_good.Hide();
-			event_execute_image_jump_reactive_tf_tc_bad.Hide();
 			bool showHeightGood = false;
 			bool showHeightBad = false;
 			bool showTfGood = false;
@@ -2102,56 +2037,12 @@ public partial class ChronoJumpWindow
 				Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn, preferences.gstreamer);
 			if(showHeightBad || showTfBad || showTcBad || showTfTcBad)
 				Util.PlaySound(Constants.SoundTypes.BAD, volumeOn, preferences.gstreamer);
-
-			if(showHeightGood)
-				event_execute_image_jump_reactive_height_good.Show();
-			if(showHeightBad)
-				event_execute_image_jump_reactive_height_bad.Show();
-			if(showTfGood)
-				event_execute_image_jump_reactive_tf_good.Show();
-			if(showTfBad)
-				event_execute_image_jump_reactive_tf_bad.Show();
-			if(showTcGood)
-				event_execute_image_jump_reactive_tc_good.Show();
-			if(showTcBad)
-				event_execute_image_jump_reactive_tc_bad.Show();
-			if(showTfTcGood)
-				event_execute_image_jump_reactive_tf_tc_good.Show();
-			if(showTfTcBad)
-				event_execute_image_jump_reactive_tf_tc_bad.Show();
 		}
 
 		/*
 		 * these Log.writeLines are useful to don't "get the thread dead"
 		 * without them , sometimes drawingarea is not painted
 		 */
-
-		//height
-		event_execute_label_jump_reactive_height_now.Text = "<b>" + Util.TrimDecimals(lastHeight.ToString(), preferences.digitsNumber) + "</b>";
-		event_execute_label_jump_reactive_height_now.UseMarkup = true; 
-		event_execute_label_jump_reactive_height_avg.Text = Util.TrimDecimals(
-				Util.GetHeightInCentimeters(avgTV.ToString()), preferences.digitsNumber);
-		
-		//TV
-		event_execute_label_jump_reactive_tf_now.Text = "<b>" + Util.TrimDecimals(lastTv.ToString(), preferences.digitsNumber) + "</b>";
-		event_execute_label_jump_reactive_tf_now.UseMarkup = true; 
-		event_execute_label_jump_reactive_tf_avg.Text = Util.TrimDecimals(avgTV.ToString(), preferences.digitsNumber);
-		
-		//TC
-		event_execute_label_jump_reactive_tc_now.Text = "<b>" + Util.TrimDecimals(lastTc.ToString(), preferences.digitsNumber) + "</b>";
-		event_execute_label_jump_reactive_tc_now.UseMarkup = true; 
-		event_execute_label_jump_reactive_tc_avg.Text = Util.TrimDecimals(avgTC.ToString(), preferences.digitsNumber);
-
-		//TV / TC
-		if(lastTc > 0) {
-			event_execute_label_jump_reactive_tf_tc_now.Text = "<b>" + Util.TrimDecimals((lastTv/lastTc).ToString(), preferences.digitsNumber) + "</b>";
-			event_execute_label_jump_reactive_tf_tc_now.UseMarkup = true; 
-		} else
-			event_execute_label_jump_reactive_tf_tc_now.Text = "0";
-		if(avgTC > 0)
-			event_execute_label_jump_reactive_tf_tc_avg.Text = Util.TrimDecimals((avgTV/avgTC).ToString(), preferences.digitsNumber);
-		else
-			event_execute_label_jump_reactive_tf_tc_avg.Text = "0";
 	}
 
 	double getRunSRunINegativePTLTime (List<RunPhaseTimeListObject> runPTLInListForPainting)

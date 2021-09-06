@@ -7708,6 +7708,21 @@ EncoderInertialCapture</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <widget class="GtkVPaned" id="vpaned2">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <child>
+                                                            <widget class="GtkDrawingArea" id="event_execute_drawingarea_realtime_capture_cairo">
+                                                            <property name="height_request">150</property>
+                                                            <property name="can_focus">False</property>
+                                                            <signal name="expose_event" handler="on_event_execute_drawingarea_realtime_capture_cairo_expose_event" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="resize">True</property>
+                                                            <property name="shrink">False</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkFrame" id="frame_contacts_graph_table">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -10908,6 +10923,12 @@ EncoderInertialCapture</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="type">label_item</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="resize">True</property>
+                                                            <property name="shrink">False</property>
                                                             </packing>
                                                             </child>
                                                             </widget>

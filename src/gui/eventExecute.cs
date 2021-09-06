@@ -105,6 +105,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_results_data;
 	
 	[Widget] Gtk.DrawingArea event_execute_drawingarea;
+	[Widget] Gtk.DrawingArea event_execute_drawingarea_realtime_capture_cairo;
 	[Widget] Gtk.DrawingArea event_execute_drawingarea_cairo;
 	[Widget] Gtk.Frame frame_run_simple_double_contacts;
 	[Widget] Gtk.DrawingArea event_execute_drawingarea_run_simple_double_contacts;
@@ -297,7 +298,7 @@ public partial class ChronoJumpWindow
 	
 	private void showJumpReactiveLabels() 
 	{
-		event_graph_label_graph_test.Visible = true;
+		event_graph_label_graph_test.Visible = false;
 		vbox_contacts_simple_graph_controls.Visible = false;
 
 //		align_check_vbox_contacts_graph_legend.Visible = false;
@@ -515,26 +516,15 @@ public partial class ChronoJumpWindow
 		//LogB.Information("EXPOSE END");
 	}
 
-	public void on_event_execute_drawingarea_cairo_expose_event(object o, ExposeEventArgs args)
+	//realtime capture graph for jumpRj and runInterval
+	public void on_event_execute_drawingarea_realtime_capture_cairo_expose_event (object o, ExposeEventArgs args)
 	{
-		//right now only for jumps/runs simple
-		if(current_mode != Constants.Modes.JUMPSSIMPLE &&
-				current_mode != Constants.Modes.JUMPSREACTIVE &&
-				current_mode != Constants.Modes.RUNSSIMPLE)
+		//right now only for jump reactive
+		if(current_mode != Constants.Modes.JUMPSREACTIVE)
 			return;
 
-		//if object not defined or not defined fo this mode, return
-		if(cairoPaintBarsPre == null || ! cairoPaintBarsPre.ModeMatches (current_mode))
-			return;
-
-		//cairoPaintBarsPre.Prepare();
-		if(current_mode == Constants.Modes.JUMPSSIMPLE)
-			PrepareJumpSimpleGraph(cairoPaintBarsPre.eventGraphJumpsStored, false);
 		if(current_mode == Constants.Modes.JUMPSREACTIVE)
 		{
-			LogB.Information(string.Format("on_event_execute_drawingarea_cairo_expose_event, A: {0}, B: {1}",
-						currentEventExecute == null, currentEventExecute.PrepareEventGraphJumpReactiveObject == null));
-
 			if(currentEventExecute == null || currentEventExecute.PrepareEventGraphJumpReactiveObject == null)
 				return;
 
@@ -546,6 +536,24 @@ public partial class ChronoJumpWindow
 					currentEventExecute.PrepareEventGraphJumpReactiveObject.type,
 					preferences.volumeOn, preferences.gstreamer, repetitiveConditionsWin);
 		}
+	}
+
+	//barplot of tests in session
+	public void on_event_execute_drawingarea_cairo_expose_event(object o, ExposeEventArgs args)
+	{
+		//right now only for jumps/runs simple
+		if(current_mode != Constants.Modes.JUMPSSIMPLE &&
+//				current_mode != Constants.Modes.JUMPSREACTIVE &&
+				current_mode != Constants.Modes.RUNSSIMPLE)
+			return;
+
+		//if object not defined or not defined fo this mode, return
+		if(cairoPaintBarsPre == null || ! cairoPaintBarsPre.ModeMatches (current_mode))
+			return;
+
+		//cairoPaintBarsPre.Prepare();
+		if(current_mode == Constants.Modes.JUMPSSIMPLE)
+			PrepareJumpSimpleGraph(cairoPaintBarsPre.eventGraphJumpsStored, false);
 		else if (current_mode == Constants.Modes.RUNSSIMPLE)
 			PrepareRunSimpleGraph(cairoPaintBarsPre.eventGraphRunsStored, false);
 	}
@@ -678,7 +686,7 @@ public partial class ChronoJumpWindow
 			bool volumeOn, Preferences.GstreamerTypes gstreamer, RepetitiveConditionsWindow repetitiveConditionsWin)
 	{
 		cairoPaintBarsPre = new CairoPaintBarsPreJumpReactiveCapture(
-				event_execute_drawingarea_cairo, preferences.fontType.ToString(), current_mode,
+				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString(), current_mode,
 				currentPerson.Name, type, preferences.digitsNumber,// preferences.heightPreferred,
 				lastTv, lastTc, tvString, tcString);
 

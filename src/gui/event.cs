@@ -690,7 +690,7 @@ public class EventMoreWindow
 	
 	void on_button_delete_type_clicked (object o, EventArgs args)
 	{
-		List<Session> session_l = SqliteSession.SelectAll(Sqlite.Orders_by.DEFAULT);
+		List<Session> session_l = SqliteSession.SelectAll(false, Sqlite.Orders_by.DEFAULT);
 		string [] tests = findTestTypesInSessions();
 
 		//this will be much better doing a select distinct(session) instead of using SelectJumps or Runs

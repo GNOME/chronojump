@@ -883,7 +883,7 @@ public partial class ChronoJumpWindow
 	private void on_app1s_button_import_at_new_done_do_load_clicked (object o, EventArgs args)
 	{
 		//ID has to be the last one, get the last session
-		List<Session> session_l = SqliteSession.SelectAll(Sqlite.Orders_by.ID_DESC);
+		List<Session> session_l = SqliteSession.SelectAll(false, Sqlite.Orders_by.ID_DESC);
 		if(session_l == null && session_l.Count == 0)
 			return;
 

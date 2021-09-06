@@ -204,13 +204,15 @@ class SqliteJump : Sqlite
 	 */
 	public static List<Jump> SelectJumps (int sID, int pID, string jumpType, Orders_by order, int limit, bool personNameInComment, bool onlyBestInSession)
 	{
+	  Sqlite.Open(); //  -------------------->
+
 	  //jumps previous to DB 1.82 have no datetime on jump
 	  //find session datetime for that jumps
-	  List<Session> session_l = SqliteSession.SelectAll(Sqlite.Orders_by.DEFAULT);
+	  List<Session> session_l = SqliteSession.SelectAll(true, Sqlite.Orders_by.DEFAULT);
 
 	  //for personNameInComment
 	  List<Person> person_l =
-			SqlitePersonSession.SelectCurrentSessionPersonsAsList(sID);
+			SqlitePersonSession.SelectCurrentSessionPersonsAsList(true, sID);
 
 	  string andString = "";
 	  string sessionString = "";
@@ -249,8 +251,6 @@ class SqliteJump : Sqlite
 		  limitString = " LIMIT " + limit;
 
 
-	  Sqlite.Open(); //  --------------------
-
 	  // Selecciona les dades de tots els salts
 	  dbcmd.CommandText = "SELECT * FROM jump " +
 		  whereString + sessionString + personString + jumpTypeString +
@@ -265,7 +265,7 @@ class SqliteJump : Sqlite
 	  List<Jump> jmp_l = DataReaderToJump (reader, session_l, person_l, personNameInComment);
 
 	  reader.Close();
-	  Sqlite.Close(); // --------------------
+	  Sqlite.Close(); // <--------------------
 
 	  return jmp_l;
 	}
@@ -453,7 +453,7 @@ class SqliteJump : Sqlite
 	{
 	  //jumps previous to DB 1.82 have no datetime on jump
 	  //find session datetime for that jumps
-	  List<Session> session_l = SqliteSession.SelectAll(Sqlite.Orders_by.DEFAULT);
+	  List<Session> session_l = SqliteSession.SelectAll(false, Sqlite.Orders_by.DEFAULT);
 
 	  string personID = pID.ToString();
 	  string sessionID = sID.ToString();
@@ -501,7 +501,7 @@ class SqliteJump : Sqlite
 	{
 	  //jumps previous to DB 1.82 have no datetime on jump
 	  //find session datetime for that jumps
-	  List<Session> session_l = SqliteSession.SelectAll(Sqlite.Orders_by.DEFAULT);
+	  List<Session> session_l = SqliteSession.SelectAll(false, Sqlite.Orders_by.DEFAULT);
 
 	  string personID = pID.ToString();
 	  string sessionID = sID.ToString();

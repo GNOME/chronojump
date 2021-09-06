@@ -252,7 +252,7 @@ class SqliteSession : Sqlite
 	{
 		dbcmd.CommandText = "SELECT * FROM " + Constants.SessionTable + " WHERE LOWER(name) = LOWER(\"" + name + "\")";
 
-		List<Session> session_l = selectDo(dbcmd);
+		List<Session> session_l = selectDo(false, dbcmd);
 		if(session_l.Count == 0)
 			return new Session();
 
@@ -264,34 +264,38 @@ class SqliteSession : Sqlite
 	{
 		dbcmd.CommandText = "SELECT * FROM " + Constants.SessionTable + " WHERE uniqueID == " + myUniqueID ; 
 
-		List<Session> session_l = selectDo(dbcmd);
+		List<Session> session_l = selectDo(false, dbcmd);
 		if(session_l.Count == 0)
 			return new Session();
 
 		//return (Session) selectDo(dbcmd)[0];
 		return session_l[0];
 	}
-	public static List<Session> SelectAll(Orders_by orderBy)
+	public static List<Session> SelectAll(bool dbconOpened, Orders_by orderBy)
 	{
 		string orderByStr = " ORDER BY uniqueID";
 		if(orderBy == Orders_by.ID_DESC)
 			orderByStr += " DESC";
 
 		dbcmd.CommandText = "SELECT * FROM " + Constants.SessionTable + orderByStr;
-		return selectDo(dbcmd);
+		return selectDo(dbconOpened, dbcmd);
 	}
-	private static List<Session> selectDo(SqliteCommand mydbcmd)
+	private static List<Session> selectDo(bool dbconOpened, SqliteCommand mydbcmd)
 	{
-		try {
-			Sqlite.Open();
-		} catch {
-			//done because there's an eventual problem maybe thread related on very few starts of chronojump
-			LogB.SQL("Catched dbcon problem at Session.Select");
-			Sqlite.Close();
-			Sqlite.Open();
-			LogB.SQL("reopened again");
+		if( ! dbconOpened)
+		{
+			try {
+				Sqlite.Open();
+			} catch {
+				//done because there's an eventual problem maybe thread related on very few starts of chronojump
+				LogB.SQL("Catched dbcon problem at Session.Select");
+				Sqlite.Close();
+				Sqlite.Open();
+				LogB.SQL("reopened again");
+			}
 		}
 		LogB.SQL(mydbcmd.CommandText.ToString());
+
 		
 		SqliteDataReader reader;
 		reader = mydbcmd.ExecuteReader();
@@ -315,7 +319,10 @@ class SqliteSession : Sqlite
 		}
 
 		reader.Close();
-		Sqlite.Close();
+
+		if( ! dbconOpened)
+			Sqlite.Close();
+
 		return session_l;
 	}
 	

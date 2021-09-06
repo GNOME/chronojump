@@ -3483,6 +3483,7 @@ public partial class ChronoJumpWindow
 		hbox_combo_select_contacts_top_with_arrows.Visible = false; //TODO: this will be unneded
 
 		event_execute_label_message.Text = "";
+		event_execute_drawingarea.Visible = false;
 
 		//blank exercise options: useful for changing from jumps or runs to forceSensor, runEncoder, reaction time, other
 		label_contacts_exercise_selected_name.Visible = true; //will not be visible when all the contacts_top combo is implemented
@@ -3602,6 +3603,7 @@ public partial class ChronoJumpWindow
 			}
 			else
 			{
+				event_execute_drawingarea.Visible = true;
 				button_inspect_last_test_run_intervallic.Visible = true;
 				notebooks_change(m);
 				button_contacts_bells.Sensitive = true;
@@ -3830,6 +3832,7 @@ public partial class ChronoJumpWindow
 		}
 		else if(m == Constants.Modes.RT)
 		{
+			event_execute_drawingarea.Visible = true;
 			button_execute_test_show_connect_or_execute(! cp2016.SuccededConnectContactsRealThread);
 
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
@@ -3849,6 +3852,7 @@ public partial class ChronoJumpWindow
 			pixbufModeGrid = new Pixbuf (null, Util.GetImagePath(false) + "image_modes_rt.png");
 		}
 		else {	//m == Constants.Modes.OTHER (contacts / other)
+			event_execute_drawingarea.Visible = true;
 			button_execute_test_show_connect_or_execute(! cp2016.SuccededConnectContactsRealThread);
 
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);

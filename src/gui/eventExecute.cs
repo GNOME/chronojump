@@ -491,7 +491,7 @@ public partial class ChronoJumpWindow
 		if(sizeChanged)
 		{
 			//LogB.Information("caring for resize screen and correctly update event_execute_drawingarea");
-			if(current_mode == Constants.Modes.JUMPSSIMPLE)
+			/*if(current_mode == Constants.Modes.JUMPSSIMPLE)
 				on_extra_window_jumps_test_changed(o, new EventArgs ());
 			else if(current_mode == Constants.Modes.JUMPSREACTIVE)
 				on_extra_window_jumps_rj_test_changed(o, new EventArgs());
@@ -499,7 +499,7 @@ public partial class ChronoJumpWindow
 				on_extra_window_runs_test_changed(o, new EventArgs());
 			else if(current_mode == Constants.Modes.RUNSINTERVALLIC)
 				on_extra_window_runs_interval_test_changed(o, new EventArgs());
-			else if(current_mode == Constants.Modes.RT)
+			else */if(current_mode == Constants.Modes.RT)
 				on_extra_window_reaction_times_test_changed(o, new EventArgs());
 			else if(current_mode == Constants.Modes.OTHER) {
 				if(radio_mode_pulses_small.Active)
@@ -609,17 +609,6 @@ public partial class ChronoJumpWindow
 	// simple and DJ jump	
 	public void PrepareJumpSimpleGraph(PrepareEventGraphJumpSimple eventGraph, bool animate)
 	{
-		//check graph properties window is not null (propably user has closed it with the DeleteEvent
-		//then create it, but not show it
-		if(eventGraphConfigureWin == null)
-			eventGraphConfigureWin = EventGraphConfigureWindow.Show(false);
-
-		
-		double maxValue = 0;
-		double minValue = 0;
-		int topMargin = 30;
-		int bottomMargin = 0;
-
 		/*
 		 * if not dj show heights
 		 * and it is a single jump type, and it has tc, tv (it is a dj or similar)
@@ -633,57 +622,6 @@ public partial class ChronoJumpWindow
 				eventGraph.jumpsAtSQL[0].Tv > 0
 				)
 			useHeights = false;
-
-		//if max value of graph is automatic
-		if(eventGraphConfigureWin.Max == -1) {
-			maxValue = eventGraph.sessionMAXAtSQL;
-			if(eventGraph.personMAXAtSQLAllSessions > maxValue)
-				maxValue = eventGraph.personMAXAtSQLAllSessions;
-
-			//fix if there's a max tc or falling height that's higher than max tv
-
-			foreach(Jump jump in eventGraph.jumpsAtSQL)
-			{
-				double valueToPlot = jump.Fall;
-				if(! useHeights)
-					valueToPlot = jump.Tc;
-
-				if(valueToPlot > maxValue)
-					maxValue = valueToPlot;
-			}
-		} else {
-			maxValue = eventGraphConfigureWin.Max;
-			topMargin = 0;
-		}
-		
-		//if min value of graph is automatic
-		/*
-		if(eventGraphConfigureWin.Min == -1) {
-			string myString = eventGraph.tv.ToString() + "=" + 
-				eventGraph.tvPersonAVGAtSQL.ToString() + "=" + eventGraph.tvSessionAVGAtSQL.ToString();
-			if(eventGraph.tc > 0)
-				myString = myString + "=" + eventGraph.tc.ToString() + "=" + 
-					eventGraph.tcPersonAVGAtSQL.ToString() + "=" + eventGraph.tcSessionAVGAtSQL.ToString();
-			minValue = Util.GetMin(myString);
-			foreach(string myStr in eventGraph.jumpsAtSQL) {
-				string [] jump = myStr.Split(new char[] {':'});
-				if(Convert.ToDouble(jump[5]) < minValue)
-					minValue = Convert.ToDouble(jump[5]); //tf
-				if(Convert.ToDouble(jump[6]) < minValue)
-					minValue = Convert.ToDouble(jump[6]); //tc
-			}
-		} else {
-		*/
-			minValue = eventGraphConfigureWin.Min;
-		//}
-
-		// A) Paint not cairo graph
-		// 	paint graph
-		paintJumpSimple (event_execute_drawingarea, eventGraph, 
-				maxValue, minValue, topMargin, bottomMargin, animate, useHeights);
-
-		// 	refresh
-		event_execute_drawingarea.QueueDraw();
 
 		// B) Paint cairo graph
 		cairoPaintBarsPre.ShowPersonNames = radio_contacts_graph_allPersons.Active;
@@ -737,46 +675,8 @@ public partial class ChronoJumpWindow
 
 	// Reactive jump 
 	public void PrepareJumpReactiveGraph(double lastTv, double lastTc, string tvString, string tcString, string type,
-			bool volumeOn, Preferences.GstreamerTypes gstreamer, RepetitiveConditionsWindow repetitiveConditionsWin) {
-		//check graph properties window is not null (propably user has closed it with the DeleteEvent
-		//then create it, but not show it
-		if(eventGraphConfigureWin == null)
-			eventGraphConfigureWin = EventGraphConfigureWindow.Show(false);
-
-		LogB.Debug("Preparing reactive A");
-
-		//search MAX
-		double maxValue = 0;
-		int topMargin = 10;
-		//if max value of graph is automatic
-		if(eventGraphConfigureWin.Max == -1) 
-			maxValue = Util.GetMax(tvString + "=" + tcString);
-		else {
-			maxValue = eventGraphConfigureWin.Max;
-			topMargin = 0;
-		}
-	
-		//search min
-		double minValue = 1000;
-		int bottomMargin = 0; 
-		//if min value of graph is automatic
-		if(eventGraphConfigureWin.Min == -1) 
-			minValue = Util.GetMin(tvString + "=" + tcString);
-		else {
-			minValue = eventGraphConfigureWin.Min;
-		}		
-
-		int jumps = Util.GetNumberOfJumps(tvString, true); 
-
-		//paint graph
-		paintJumpReactive (event_execute_drawingarea, lastTv, lastTc, tvString, tcString, Util.GetAverage(tvString), Util.GetAverage(tcString), 
-				maxValue, minValue, jumps, topMargin, bottomMargin, 
-				bestOrWorstTvTcIndex(true, tvString, tcString), bestOrWorstTvTcIndex(false, tvString, tcString), 
-				volumeOn, gstreamer, repetitiveConditionsWin);
-		
-		// -- refresh
-		event_execute_drawingarea.QueueDraw();
-
+			bool volumeOn, Preferences.GstreamerTypes gstreamer, RepetitiveConditionsWindow repetitiveConditionsWin)
+	{
 		cairoPaintBarsPre = new CairoPaintBarsPreJumpReactiveCapture(
 				event_execute_drawingarea_cairo, preferences.fontType.ToString(), current_mode,
 				currentPerson.Name, type, preferences.digitsNumber,// preferences.heightPreferred,
@@ -834,57 +734,10 @@ public partial class ChronoJumpWindow
 	//standard call
 	public void PrepareRunSimpleGraph(PrepareEventGraphRunSimple eventGraph, bool animate, RunPhaseTimeList runPTL)
 	{
-		//check graph properties window is not null (propably user has closed it with the DeleteEvent
-		//then create it, but not show it
-		if(eventGraphConfigureWin == null)
-			eventGraphConfigureWin = EventGraphConfigureWindow.Show(false);
+		UtilGtk.ClearDrawingArea(event_execute_drawingarea_run_simple_double_contacts,
+				event_execute_run_simple_double_contacts_pixmap);
 
-	
-		double maxValue = 0;
-		double minValue = 0;
-		int topMargin = 30;
-		int bottomMargin = 0; 
-
-		//if max value of graph is automatic
-		if(eventGraphConfigureWin.Max == -1) {
-			maxValue = eventGraph.sessionMAXAtSQL;
-			if(eventGraph.personMAXAtSQLAllSessions > maxValue)
-				maxValue = eventGraph.personMAXAtSQLAllSessions;
-		} else {
-			maxValue = eventGraphConfigureWin.Max;
-			topMargin = 0;
-		}
-			
-		//if min value of graph is automatic
-		/*
-		if(eventGraphConfigureWin.Min == -1) {
-			minValue = Util.GetMin(eventGraph.speed.ToString() + "=" + 
-					eventGraph.speedPersonAVGAtSQL.ToString() + "=" + eventGraph.speedSessionAVGAtSQL.ToString());
-			foreach(string myStr in eventGraph.runsAtSQL) {
-				string [] run = myStr.Split(new char[] {':'});
-				double mySpeed = Convert.ToDouble(Util.GetSpeed(run[5], run[6], true));
-				if(mySpeed < minValue)
-					minValue = mySpeed;
-			}
-		} else {
-		*/
-			minValue = eventGraphConfigureWin.Min;
-		//}
-
-			UtilGtk.ClearDrawingArea(event_execute_drawingarea_run_simple_double_contacts,
-					event_execute_run_simple_double_contacts_pixmap);
-
-		// A) Paint not cairo graph
-			paintRunSimple (event_execute_drawingarea, eventGraph,
-					maxValue, minValue, topMargin, bottomMargin, animate,
-					check_run_simple_show_time.Active,
-					runPTL);
-		
-		
-		// 	refresh
-		event_execute_drawingarea.QueueDraw();
-
-		// B) Paint cairo graph
+		// Paint cairo graph
 		cairoPaintBarsPre.ShowPersonNames = radio_contacts_graph_allPersons.Active;
 		cairoPaintBarsPre.RunsShowTime = check_run_simple_show_time.Active;
 		cairoPaintBarsPre.Paint();
@@ -1101,201 +954,6 @@ public partial class ChronoJumpWindow
 					Convert.ToInt32(alto/2 - lHeight/2), 
 					layoutBig);
 		}
-	}
-
-	private void paintJumpSimple (Gtk.DrawingArea drawingarea, PrepareEventGraphJumpSimple eventGraph, 
-			double maxValue, double minValue, int topMargin, int bottomMargin, bool animate, bool useHeights)
-	{
-		int ancho=drawingarea.Allocation.Width;
-		int alto=drawingarea.Allocation.Height;
-
-		//person name or test type
-		//note that this could be a problem if there is a jump with Description of several lines and current person, current test is used
-		bool showTextOnBar = true;
-
-		//fix problem on show graph at Chronojump start
-		if(event_execute_drawingarea == null || event_execute_pixmap == null)
-			return;
-
-		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
-		//writeMarginsText(eventGraph.sessionMAXAtSQL, minValue, alto);
-
-		//check now here that we will have not division by zero problems
-		if(maxValue - minValue <= 0)
-			return;
-		
-		//if currentPerson has not jumped on this session, 
-		// if has jumped on another session, magenta line: personMAXAtSQLAllSessions will be displayed
-		// if other persons have been jumped on this session, eventGraph.sessionMAXAtSQL and eventGraph.sessionAVGAtSQL will be displayed
-		// don't need the rest of the method
-		if(eventGraph.jumpsAtSQL.Count == 0)
-			return;
-
-		int countToDraw = eventGraph.jumpsAtSQL.Count;
-		int countJumps = eventGraph.jumpsAtSQL.Count;
-		int maxRowsForText = 0;
-
-		Pango.Layout layout = layoutMid;
-		if(eventGraph.tc > 0 && eventGraph.tv > 0 && countJumps > 4)
-		{
-			//small layout when tc and tv and there are more than 4 jumps
-			layout = layoutSmall;
-		}
-
-		Pango.Layout layoutText = layout;
-		int longestWordSize = 0;
-		if (showTextOnBar)
-		{
-			List<Event> events = Jump.JumpListToEventList(eventGraph.jumpsAtSQL);
-			longestWordSize = findLongestWordSize (events, eventGraph.type == ""); // condition for "all jumps"
-			layoutText = calculateLayoutFontForText (events, longestWordSize, layoutText, ancho);
-			maxRowsForText = calculateMaxRowsForText (events, longestWordSize, eventGraph.type == "", false); //also adds +1 if simulated
-			bottomMargin = calculateBottomMarginForText (maxRowsForText, layoutText);
-		}
-
-		//paint first the horizontal guides in order to be behind the bars of each jump
-		drawGuideOrAVG(pen_black_90, eventGraph.sessionMAXAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
-		drawGuideOrAVG(pen_black_discont, eventGraph.sessionAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
-		
-		drawGuideOrAVG(pen_magenta, eventGraph.personMAXAtSQLAllSessions, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
-
-		//if person max in all sessions == person max this session, this session max will be only at left,
-		//overwriting maxAllSesions that will be only at right
-		if(eventGraph.personMAXAtSQLAllSessions == eventGraph.personMAXAtSQL)
-			drawGuideOrAVG(pen_yellow, eventGraph.personMAXAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.LEFT);
-		else
-			drawGuideOrAVG(pen_yellow, eventGraph.personMAXAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
-
-		drawGuideOrAVG(pen_yellow_discont, eventGraph.personAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
-
-		if(useHeights)
-			paintSimpleAxis(ancho, alto, topMargin, bottomMargin, layout, "cm");
-		else
-			paintSimpleAxis(ancho, alto, topMargin, bottomMargin, layout, "s");
-
-		//calculate separation between series and bar width
-		int distanceBetweenCols = Convert.ToInt32((ancho-event_execute_rightMargin)*(1+.5)/countJumps) -
-			Convert.ToInt32((ancho-event_execute_rightMargin)*(0+.5)/countJumps);
-
-		/*
-		 * check if one bar has to be shown or two
-		 * this is important when we are showing multitests
-		 */
-		bool showBarA = false; //tc or fall
-		bool showBarB = false; //tv
-		foreach(Jump jump in eventGraph.jumpsAtSQL)
-		{
-			if(jump.Fall > 0)
-				showBarA = true;
-			if(jump.Tv > 0)
-				showBarB = true;
-
-			//if both found do not need to search more
-			if(showBarA && showBarB)
-				break;
-		}
-
-		int barWidth = Convert.ToInt32(.3*distanceBetweenCols);
-		int barDesplLeft = Convert.ToInt32(.5*barWidth);
-		int valueABSep = barDesplLeft; //AB bars are separated half of the with of a bar
-
-		bool animateBar = animate;
-		int x = 0;
-		int y = 0;
-
-		foreach(Jump jump in eventGraph.jumpsAtSQL)
-		{
-			if(showBarA) //if (tc or fall), maybe also tv
-			{
-				//do not animate last tc, if tv is animated because then tc is not shown
-				if(eventGraph.tv >0)
-					animateBar = false;
-
-				double valueA = jump.Fall;
-				double valueB = Util.GetHeightInCentimeters(jump.Tv); //jump height
-				if(! useHeights) {
-					valueA = jump.Tc;
-					valueB = jump.Tv;
-				}
-
-				if(valueA > 0)
-				{
-					int adjustX = -barDesplLeft;
-					if(valueB > 0)
-						adjustX = Convert.ToInt32(-2 * barDesplLeft -.5 * valueABSep);
-
-					x = Convert.ToInt32((ancho-event_execute_rightMargin)*(countToDraw-.5)/countJumps) + adjustX;
-					y = calculatePaintHeight(valueA, alto, maxValue, minValue, topMargin, bottomMargin);
-
-					drawBar(x, y, barWidth, alto, bottomMargin, pen_background_shifted, countToDraw == countJumps,
-							valueA, layout, animateBar);
-				}
-
-				if(showBarB && valueB > 0) 	//tv or height
-				{
-					int adjustX = -barDesplLeft;
-					if(valueA > 0)
-						adjustX = Convert.ToInt32(.5 * valueABSep);
-
-					x = Convert.ToInt32((ancho-event_execute_rightMargin)*(countToDraw-.5)/countJumps) + adjustX;
-					y = calculatePaintHeight(valueB, alto, maxValue, minValue, topMargin, bottomMargin);
-
-					drawBar(x, y, barWidth, alto, bottomMargin, pen_background, countToDraw == countJumps,
-							valueB, layout, animateBar);
-				}
-			} else { //Show only height
-				if(jump.Tv > 0)
-				{
-					x = Convert.ToInt32((ancho-event_execute_rightMargin)*(countToDraw-.5)/countJumps)-barDesplLeft;
-
-					double valueB = Util.GetHeightInCentimeters(jump.Tv); //jump height
-					if(! useHeights)
-						valueB = jump.Tv;
-
-					y = calculatePaintHeight(valueB,
-							alto, maxValue, minValue, topMargin, bottomMargin);
-
-					drawBar(x, y, barWidth, alto, bottomMargin, pen_background, countToDraw == countJumps,
-							valueB, layout, animateBar);
-				}
-			}
-
-			//these two methods are out of drawBar because can be related to two bars TC,TF
-			if(jump.Simulated == -1)
-				plotSimulatedMessage(
-						Convert.ToInt32((ancho-event_execute_rightMargin)*(countToDraw-.5)/countJumps),
-						alto, layout);
-
-			if (showTextOnBar && (eventGraph.type == "" || jump.Description != ""))
-			{
-				string jumpTypeRowString = "";
-				if (eventGraph.type == "") //if "all jumps" show jump.Type
-					jumpTypeRowString = jump.Type;
-
-				plotTextBelowBar(
-						Convert.ToInt32((ancho-event_execute_rightMargin)*(countToDraw-.5)/countJumps),
-						y, alto,
-						"",		//second result string (unused on jumps)
-						jumpTypeRowString,
-						jump.Description, //is the name of the person
-						layoutText, longestWordSize, maxRowsForText);
-			}
-
-			countToDraw --;
-		}
-
-		//add legend box
-		if(showBarA && showBarB)
-		{
-			if(useHeights)
-				addLegend (pen_background_shifted, Catalog.GetString("Falling height"), pen_background, Catalog.GetString("Jump height"), layoutSmallMid, ancho, topMargin, true);
-			else
-				addLegend (pen_background_shifted, Catalog.GetString("Contact time"), pen_background, Catalog.GetString("Flight time"), layoutSmallMid, ancho, topMargin, true);
-		}
-
-		//paint reference guide black and green if needed
-		//drawGuideOrAVG(pen_black_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
-		//drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 	}
 
 	MovingBar movingBar;
@@ -1699,151 +1357,6 @@ public partial class ChronoJumpWindow
 		event_execute_pixmap.DrawLayout (pen_black, marginLeft + marginOut + 2 * marginIn + boxSize, 2 * (marginOut + marginIn) + lHeight1, layout);
 	}
 
-	private void paintRunSimple (Gtk.DrawingArea drawingarea, PrepareEventGraphRunSimple eventGraph,
-			double maxValue, double minValue, int topMargin, int bottomMargin, bool animate, bool showTime,
-			RunPhaseTimeList runPTL)
-	{
-		int ancho=drawingarea.Allocation.Width;
-		int alto=drawingarea.Allocation.Height;
-
-		//person name or test type
-		//note that this could be a problem if there is a run with Description of several lines and current person, current test is used
-		bool showTextOnBar = true;
-
-		//fix problem on show graph at Chronojump start
-		if(event_execute_drawingarea == null ||
-				event_execute_pixmap == null ||
-				event_execute_drawingarea_run_simple_double_contacts == null ||
-				event_execute_run_simple_double_contacts_pixmap == null)
-			return;
-
-		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
-		UtilGtk.ErasePaint(event_execute_drawingarea_run_simple_double_contacts, event_execute_run_simple_double_contacts_pixmap);
-		//writeMarginsText(maxValue, minValue, alto);
-		
-		//check now here that we will have not division by zero problems
-		if(maxValue - minValue <= 0)
-			return;
-		
-		double timeTotal = eventGraph.time;
-		// start of contact chunks
-		if(runPTL != null && runPTL.UseDoubleContacts())
-		{
-			List<RunPhaseTimeListObject> runPTLInListForPainting = runPTL.InListForPainting();
-
-			double negativePTLTime = getRunSRunINegativePTLTime(runPTLInListForPainting);
-			double timeTotalWithExtraPTL = getRunSRunITimeTotalWithExtraPTLTime (timeTotal, runPTLInListForPainting, negativePTLTime);
-
-			LogB.Information(string.Format("timeTotal: {0}, negativePTLTime: {1}, timeTotalWithExtraPTL: {2}",
-						timeTotal, negativePTLTime, timeTotalWithExtraPTL));
-
-
-			int ancho2 = event_execute_drawingarea_run_simple_double_contacts.Allocation.Width;
-			paintRunSRunIContactChunks(event_execute_run_simple_double_contacts_pixmap, 20, ancho2, 0,
-					runPTLInListForPainting, timeTotal, timeTotalWithExtraPTL, negativePTLTime, true, true);
-		}
-		// end of contact chunks
-
-		/*
-		//paint reference guide black and green if needed
-		drawGuideOrAVG(pen_black_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
-		drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
-		*/
-
-		int countToDraw = eventGraph.runsAtSQL.Count;
-		int countRuns = eventGraph.runsAtSQL.Count;
-		int maxRowsForText = 0;
-
-		Pango.Layout layoutText = layoutMid;
-		int longestWordSize = 0;
-		if (showTextOnBar)
-		{
-			List<Event> events = Run.RunListToEventList(eventGraph.runsAtSQL);
-			longestWordSize = findLongestWordSize (events, eventGraph.type == ""); // condition for "all runs"
-			layoutText = calculateLayoutFontForText (events, longestWordSize, layoutText, ancho);
-			maxRowsForText = calculateMaxRowsForText (events, longestWordSize, eventGraph.type == "", showTime); //also adds +1 if simulated
-			bottomMargin = calculateBottomMarginForText (maxRowsForText, layoutText);
-		}
-			
-		drawGuideOrAVG(pen_black_90, eventGraph.sessionMAXAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
-		drawGuideOrAVG(pen_black_discont, eventGraph.sessionAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
-		drawGuideOrAVG(pen_magenta, eventGraph.personMAXAtSQLAllSessions, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
-
-
-
-		//if currentPerson has not run on this session, 
-		// if has run on another session, magenta line: personMAXAtSQLAllSessions will be displayed
-		// if other persons have run on this session, eventGraph.sessionMAXAtSQL and eventGraph.sessionAVGAtSQL will be displayed
-		// don't need the rest of the method
-		if(countRuns == 0)
-			return;
-		
-		//if person max in all sessions == person max this session, this session max will be only at left,
-		//overwriting maxAllSesions that will be only at right
-		if(eventGraph.personMAXAtSQLAllSessions == eventGraph.personMAXAtSQL)
-			drawGuideOrAVG(pen_yellow, eventGraph.personMAXAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.LEFT);
-		else
-			drawGuideOrAVG(pen_yellow, eventGraph.personMAXAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
-
-		drawGuideOrAVG(pen_yellow_discont, eventGraph.personAVGAtSQL, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
-
-		paintSimpleAxis(ancho, alto, topMargin, bottomMargin, layoutSmallMid, "m/s");
-
-		//calculate bar width
-		int distanceBetweenCols = Convert.ToInt32((ancho-event_execute_rightMargin)*(1+.5)/countRuns) -
-			Convert.ToInt32((ancho-event_execute_rightMargin)*(0+.5)/countRuns);
-		int barWidth = Convert.ToInt32(.3*distanceBetweenCols);
-		int barDesplLeft = Convert.ToInt32(.5*barWidth);
-
-
-		int x = 0;
-		int y = 0;
-		foreach(Run run in eventGraph.runsAtSQL)
-		{
-			//string [] run = myStr.Split(new char[] {':'});
-			if(run.Distance > 0 && run.Time > 0)
-			{
-				x = Convert.ToInt32((ancho-event_execute_rightMargin)*(countToDraw-.5)/countRuns)-barDesplLeft;
-				y = calculatePaintHeight(run.Distance/run.Time, alto, maxValue, minValue,
-						topMargin, bottomMargin);
-
-				drawBar(x, y, barWidth, alto, bottomMargin, pen_background, countToDraw == countRuns,
-						run.Distance/run.Time, layoutMid, animate);//, "", layoutMid, 0, animate);
-			}
-
-			//these two methods are out of drawBar because (on jumps) can be related to two bars TC,TF
-			if(run.Simulated == -1)
-				plotSimulatedMessage(
-						Convert.ToInt32((ancho-event_execute_rightMargin)*(countToDraw-.5)/countRuns),
-						alto, layoutText);
-
-			if (
-					( showTextOnBar && (eventGraph.type == "" || run.Description != "") ) ||
-					showTime
-					)
-			{
-				string typeRowString = "";
-				if (eventGraph.type == "") //if "all runs" show run.Type
-					typeRowString = run.Type;
-
-				string timeString = "";
-				if(showTime)
-					timeString = string.Format("{0} s", Util.TrimDecimals(run.Time, preferences.digitsNumber));
-
-				plotTextBelowBar(
-						Convert.ToInt32((ancho-event_execute_rightMargin)*(countToDraw-.5)/countRuns),
-						y, alto,
-						timeString,
-						typeRowString,
-						run.Description, //is the name of the person
-						layoutText, longestWordSize, maxRowsForText);
-			}
-
-			countToDraw --;
-		}
-	}
-
-
 	private void paintReactionTime (Gtk.DrawingArea drawingarea, PrepareEventGraphReactionTime eventGraph,
 			double maxValue, double minValue, int topMargin, int bottomMargin, bool animate)
 	{
@@ -1900,150 +1413,6 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	
-	private void paintJumpReactive (Gtk.DrawingArea drawingarea, double lastTv, double lastTc, string tvString, string tcString, 
-			double avgTV, double avgTC, double maxValue, double minValue, int jumps, 
-			int topMargin, int bottomMargin, int posMax, int posMin,
-			bool volumeOn, Preferences.GstreamerTypes gstreamer,
-			RepetitiveConditionsWindow repetitiveConditionsWin)
-	{
-		//int topMargin = 10; 
-		int ancho=drawingarea.Allocation.Width;
-		int alto=drawingarea.Allocation.Height;
-
-		double lastHeight = Convert.ToDouble(Util.GetHeightInCentimeters(lastTv.ToString()));
-		
-		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
-		
-		writeMarginsText(maxValue, minValue, alto, "");
-		
-		//check now here that we will have not division by zero problems
-		if(maxValue - minValue > 0) {
-
-			if(jumps > 1) {
-				//blue tf average discountinuos line	
-				drawGuideOrAVG(pen_azul_discont, avgTV, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
-
-				//red tc average discountinuos line	
-				drawGuideOrAVG(pen_rojo_discont, avgTC, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
-			}
-
-			//paint reference guide black and green if needed
-			drawGuideOrAVG(pen_black_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
-			drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue, guideWidthEnum.FULL);
-
-			
-			//blue tf evolution	
-			string [] myTVStringFull = tvString.Split(new char[] {'='});
-			int count = 0;
-			double oldValue = 0;
-			double myTVDouble = 0;
-
-			foreach (string myTV in myTVStringFull) {
-				myTVDouble = Convert.ToDouble(myTV);
-				if(myTVDouble < 0)
-					myTVDouble = 0;
-
-				if (count > 0) 
-					event_execute_pixmap.DrawLine(pen_azul, //blue for TF
-							Convert.ToInt32((ancho-event_execute_rightMargin)*(count-.5)/jumps), calculatePaintHeight(oldValue, alto, maxValue, minValue, topMargin, bottomMargin),
-							Convert.ToInt32((ancho-event_execute_rightMargin)*(count+.5)/jumps), calculatePaintHeight(myTVDouble, alto, maxValue, minValue, topMargin, bottomMargin));
-
-				//paint Y lines
-				if(eventGraphConfigureWin.VerticalGrid) 
-					event_execute_pixmap.DrawLine(pen_beige_discont, Convert.ToInt32((ancho - event_execute_rightMargin) *(count+.5)/jumps), topMargin, Convert.ToInt32((ancho - event_execute_rightMargin) *(count+.5)/jumps), alto-topMargin);
-
-				oldValue = myTVDouble;
-				count ++;
-			}
-			
-			writeValue(pen_azul, myTVDouble, --count, jumps, ancho, alto, maxValue, minValue, topMargin, bottomMargin);
-
-			//read tc evolution	
-			string [] myTCStringFull = tcString.Split(new char[] {'='});
-			count = 0;
-			oldValue = 0;
-			double myTCDouble = 0;
-
-			foreach (string myTC in myTCStringFull) {
-				myTCDouble = Convert.ToDouble(myTC);
-
-				//if we are at second value (or more), and first was not a "-1"
-				//-1 means here that first jump has not TC (started inside)
-				if (count > 0 && oldValue != -1)  
-					event_execute_pixmap.DrawLine(pen_rojo, //red for TC
-							Convert.ToInt32((ancho-event_execute_rightMargin)*(count-.5)/jumps), calculatePaintHeight(oldValue, alto, maxValue, minValue, topMargin, bottomMargin),
-							Convert.ToInt32((ancho-event_execute_rightMargin)*(count+.5)/jumps), calculatePaintHeight(myTCDouble, alto, maxValue, minValue, topMargin, bottomMargin));
-
-				oldValue = myTCDouble;
-				count ++;
-			}
-			
-			writeValue(pen_rojo, myTCDouble, --count, jumps, ancho, alto, maxValue, minValue, topMargin, bottomMargin);
-		
-
-			//draw best tv/tc
-			event_execute_pixmap.DrawLine(pen_brown_bold,
-					Convert.ToInt32((ancho-event_execute_rightMargin)*(posMax+.5)/jumps), calculatePaintHeight(Convert.ToDouble(myTVStringFull[posMax]), alto, maxValue, minValue, topMargin, bottomMargin),
-					Convert.ToInt32((ancho-event_execute_rightMargin)*(posMax+.5)/jumps), calculatePaintHeight(Convert.ToDouble(myTCStringFull[posMax]), alto, maxValue, minValue, topMargin, bottomMargin));
-			//draw worst tv/tc
-			event_execute_pixmap.DrawLine(pen_violet_bold,
-					Convert.ToInt32((ancho-event_execute_rightMargin)*(posMin+.5)/jumps), calculatePaintHeight(Convert.ToDouble(myTVStringFull[posMin]), alto, maxValue, minValue, topMargin, bottomMargin),
-					Convert.ToInt32((ancho-event_execute_rightMargin)*(posMin+.5)/jumps), calculatePaintHeight(Convert.ToDouble(myTCStringFull[posMin]), alto, maxValue, minValue, topMargin, bottomMargin));
-
-			
-			plotSimulatedMessageIfNeededAtCenter(ancho, alto);
-			
-			//bells & images
-			bool showHeightGood = false;
-			bool showHeightBad = false;
-			bool showTfGood = false;
-			bool showTfBad = false;
-			bool showTcGood = false;
-			bool showTcBad = false;
-			bool showTfTcGood = false;
-			bool showTfTcBad = false;
-
-			//sounds of best & worst
-			if(count > 0) {
-				if(repetitiveConditionsWin.TfTcBest && posMax == count)
-					showTfTcGood = true;
-				else if(repetitiveConditionsWin.TfTcWorst && posMin == count)
-					showTfTcBad = true;
-			}
-				
-			if(repetitiveConditionsWin.HeightGreater && lastHeight > repetitiveConditionsWin.HeightGreaterValue) 
-				showHeightGood = true;
-			if(repetitiveConditionsWin.HeightLower && lastHeight < repetitiveConditionsWin.HeightLowerValue) 
-				showHeightBad = true;
-
-			if(repetitiveConditionsWin.TfGreater && lastTv > repetitiveConditionsWin.TfGreaterValue) 
-				showTfGood = true;
-			if(repetitiveConditionsWin.TfLower && lastTv < repetitiveConditionsWin.TfLowerValue) 
-				showTfBad = true;
-
-			if(repetitiveConditionsWin.TcGreater && lastTc > repetitiveConditionsWin.TcGreaterValue) 
-				showTcBad = true;
-			if(repetitiveConditionsWin.TcLower && lastTc < repetitiveConditionsWin.TcLowerValue) 
-				showTcGood = true;
-
-			if(lastTc > 0 && repetitiveConditionsWin.TfTcGreater && lastTv/lastTc > repetitiveConditionsWin.TfTcGreaterValue) 
-				showTfTcGood = true;
-			if(lastTc > 0 && repetitiveConditionsWin.TfTcLower && lastTv/lastTc < repetitiveConditionsWin.TfTcLowerValue) 
-				showTfTcGood = true;
-
-
-			if(showHeightGood || showTfGood || showTcGood || showTfTcGood)
-				Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn, preferences.gstreamer);
-			if(showHeightBad || showTfBad || showTcBad || showTfTcBad)
-				Util.PlaySound(Constants.SoundTypes.BAD, volumeOn, preferences.gstreamer);
-		}
-
-		/*
-		 * these Log.writeLines are useful to don't "get the thread dead"
-		 * without them , sometimes drawingarea is not painted
-		 */
-	}
 
 	double getRunSRunINegativePTLTime (List<RunPhaseTimeListObject> runPTLInListForPainting)
 	{

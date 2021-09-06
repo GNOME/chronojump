@@ -783,7 +783,7 @@ public class JumpRjExecute : JumpExecute
 							needUpdateEventProgressBar = true;
 							
 							//update graph
-							PrepareEventGraphJumpReactiveObject = new PrepareEventGraphJumpReactive(lastTv, lastTc, tvString, tcString, type);
+							PrepareEventGraphJumpReactiveRealtimeCaptureObject = new PrepareEventGraphJumpReactiveRealtimeCapture(lastTv, lastTc, tvString, tcString, type);
 							needUpdateGraphType = eventType.JUMPREACTIVE;
 							needUpdateGraph = true;
 
@@ -828,7 +828,7 @@ public class JumpRjExecute : JumpExecute
 							needUpdateEventProgressBar = true;
 							
 							//update graph
-							PrepareEventGraphJumpReactiveObject = new PrepareEventGraphJumpReactive(lastTv, lastTc, tvString, tcString, type);
+							PrepareEventGraphJumpReactiveRealtimeCaptureObject = new PrepareEventGraphJumpReactiveRealtimeCapture(lastTv, lastTc, tvString, tcString, type);
 							needUpdateGraphType = eventType.JUMPREACTIVE;
 							needUpdateGraph = true;
 						}
@@ -966,7 +966,7 @@ public class JumpRjExecute : JumpExecute
 			}
 			if(deletedEvent) {
 				//update graph if a event was deleted
-				PrepareEventGraphJumpReactiveObject = new PrepareEventGraphJumpReactive(Util.GetLast(tvString), Util.GetLast(tcString), tvString, tcString, type);
+				PrepareEventGraphJumpReactiveRealtimeCaptureObject = new PrepareEventGraphJumpReactiveRealtimeCapture(Util.GetLast(tvString), Util.GetLast(tcString), tvString, tcString, type);
 				needUpdateGraphType = eventType.JUMPREACTIVE;
 				needUpdateGraph = true;
 

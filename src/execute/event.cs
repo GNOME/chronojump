@@ -68,7 +68,7 @@ public class EventExecute
 
 	//instances with the info to create
 	public PrepareEventGraphJumpSimple PrepareEventGraphJumpSimpleObject; 
-	public PrepareEventGraphJumpReactive PrepareEventGraphJumpReactiveObject;
+	public PrepareEventGraphJumpReactiveRealtimeCapture PrepareEventGraphJumpReactiveRealtimeCaptureObject;
 	public PrepareEventGraphRunSimple PrepareEventGraphRunSimpleObject;
 	public PrepareEventGraphRunInterval PrepareEventGraphRunIntervalObject;
 	public PrepareEventGraphPulse PrepareEventGraphPulseObject;

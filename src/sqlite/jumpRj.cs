@@ -97,8 +97,16 @@ class SqliteJumpRj : SqliteJump
 
 	public static List<JumpRj> SelectJumps (bool dbconOpened, int sessionID, int personID, string filterType)
 	{
-		if(!dbconOpened)
+		if(! dbconOpened)
 			Sqlite.Open();
+
+		//jumps previous to DB 1.82 have no datetime on jump
+		//find session datetime for that jumps
+		List<Session> session_l = SqliteSession.SelectAll(true, Sqlite.Orders_by.DEFAULT);
+
+		//for personNameInComment
+		List<Person> person_l =
+			SqlitePersonSession.SelectCurrentSessionPersonsAsList(true, sessionID);
 
 		string sep = " WHERE ";
 
@@ -137,10 +145,7 @@ class SqliteJumpRj : SqliteJump
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
-		List<JumpRj> jmpRj_l = new List<JumpRj>();
-
-		while(reader.Read())
-			jmpRj_l.Add (new JumpRj(DataReaderToStringArray(reader, 19)));
+		List<JumpRj> jmpRj_l = DataReaderToJumpRj(reader, session_l, person_l, personNameInComment);
 
 		reader.Close();
 
@@ -259,7 +264,66 @@ class SqliteJumpRj : SqliteJump
 			Sqlite.Close();
 		return myJump;
 	}
-	
+
+	private static List<JumpRj> DataReaderToJumpRj (SqliteDataReader reader, List<Session> session_l,
+			List<Person> person_l, bool personNameInComment)
+	{
+	  List<JumpRj> jmp_l = new List<JumpRj>();
+	  JumpRj jmp;
+
+	  LogB.Information("Imprimire JumpRjs:");
+	  while(reader.Read()) {
+		  jmp = new JumpRj (
+				  Convert.ToInt32(reader[0].ToString()),	//jumpRj.uniqueID
+				  Convert.ToInt32(reader[1].ToString()), 	//jumpRj.personID
+				  Convert.ToInt32(reader[2].ToString()), 	//jumpRj.sessionID
+				  reader[3].ToString(), 	//jumpRj.type
+				  Util.ChangeDecimalSeparator(reader[11].ToString()), 	//tvString
+				  Util.ChangeDecimalSeparator(reader[12].ToString()), 	//tcString
+				  Convert.ToDouble(Util.ChangeDecimalSeparator(reader[6].ToString())), 	//fall
+				  Convert.ToDouble(Util.ChangeDecimalSeparator(reader[7].ToString())), 	//weight
+				  reader[8].ToString(), 	//description
+				  Convert.ToInt32(reader[13].ToString()), 	//jumps
+				  Convert.ToDouble(Util.ChangeDecimalSeparator(reader[14].ToString())), //time
+				  reader[15].ToString(), 	//limited
+				  reader[16].ToString(),	//angleString
+				  Convert.ToInt32(reader[17].ToString()),	//simulated
+				  reader[18].ToString()	//datetime
+				  );
+
+		  //jumps previous to DB 1.82 have no datetime on jump
+		  //find session datetime for that jumps
+		  if(jmp.Datetime == "")
+		  {
+			  bool found = false;
+			  foreach(Session session in session_l)
+			  {
+				  if(session.UniqueID == jmp.SessionID)
+				  {
+					  jmp.Datetime = UtilDate.ToFile(session.Date);
+					  found = true;
+					  break;
+				  }
+
+			  }
+			  //on really old versions of Chronojump, deleting a session maybe does not delete the jumps
+			  //so could be to found a jump without a session, so assign here the MinValue possible of DateTime
+			  if(! found)
+				  jmp.Datetime = UtilDate.ToFile(DateTime.MinValue);
+		  }
+
+		  if(personNameInComment)
+			  foreach(Person person in person_l)
+				  if(person.UniqueID == jmp.PersonID)
+					  jmp.Description = person.Name;
+
+
+		  jmp_l.Add(jmp);
+		  LogB.Information(jmp.ToString());
+	  }
+	  return jmp_l;
+	}
+
 	public static void Update(int jumpID, int personID, string fall, double weight, string description)
 	{
 		Sqlite.Open();

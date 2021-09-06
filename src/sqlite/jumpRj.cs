@@ -283,11 +283,15 @@ class SqliteJumpRj : SqliteJump
 				  Convert.ToInt32(reader[1].ToString()), 	//jumpRj.personID
 				  Convert.ToInt32(reader[2].ToString()), 	//jumpRj.sessionID
 				  reader[3].ToString(), 	//jumpRj.type
-				  Util.ChangeDecimalSeparator(reader[11].ToString()), 	//tvString
-				  Util.ChangeDecimalSeparator(reader[12].ToString()), 	//tcString
+				  Convert.ToDouble(Util.ChangeDecimalSeparator(reader[4].ToString())), 	//tvMax
+				  Convert.ToDouble(Util.ChangeDecimalSeparator(reader[5].ToString())), 	//tcMax
 				  Convert.ToDouble(Util.ChangeDecimalSeparator(reader[6].ToString())), 	//fall
 				  Convert.ToDouble(Util.ChangeDecimalSeparator(reader[7].ToString())), 	//weight
 				  reader[8].ToString(), 	//description
+				  Convert.ToDouble(Util.ChangeDecimalSeparator(reader[9].ToString())), 	//tvAvg
+				  Convert.ToDouble(Util.ChangeDecimalSeparator(reader[10].ToString())), 	//tcAvg
+				  Util.ChangeDecimalSeparator(reader[11].ToString()), 	//tvString
+				  Util.ChangeDecimalSeparator(reader[12].ToString()), 	//tcString
 				  Convert.ToInt32(reader[13].ToString()), 	//jumps
 				  Convert.ToDouble(Util.ChangeDecimalSeparator(reader[14].ToString())), //time
 				  reader[15].ToString(), 	//limited

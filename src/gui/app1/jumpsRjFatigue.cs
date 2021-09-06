@@ -132,7 +132,7 @@ public partial class ChronoJumpWindow
 			return types;
 
 		List <JumpRj> jrj_l = SqliteJumpRj.SelectJumps (false, currentSession.UniqueID, currentPerson.UniqueID,
-				comboSelectJumpsRjFatigue.GetSelectedNameEnglish());
+				comboSelectJumpsRjFatigue.GetSelectedNameEnglish(), -1, false);
 
 		int count = 1;
 		foreach(JumpRj jrj in jrj_l)

@@ -245,8 +245,15 @@ public class JumpRj : Jump
 
 		calculatedStats = false;
 	}
-	
 
+	public static List<Event> JumpListToEventList(List<JumpRj> jumps)
+	{
+		List<Event> events = new List<Event>();
+		foreach(JumpRj jump in jumps)
+			events.Add((Event) jump);
+
+		return events;
+	}
 
 	public override int InsertAtDB (bool dbconOpened, string tableName) {
 		return SqliteJumpRj.Insert(dbconOpened, tableName, 
@@ -349,6 +356,33 @@ public class JumpRj : Jump
 		}
 	}
 
+	private List<double> tvList
+	{
+		get {
+			List<double> l = new List<double>();
+			string [] strFull = TvString.Split(new char[] {'='});
+			foreach(string str in strFull)
+			{
+				if(Util.IsNumber(Util.ChangeDecimalSeparator(str), true))
+					l.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(str)));
+			}
+			return l;
+		}
+	}
+	private List<double> tcList
+	{
+		get {
+			List<double> l = new List<double>();
+			string [] strFull = TcString.Split(new char[] {'='});
+			foreach(string str in strFull)
+			{
+				if(Util.IsNumber(Util.ChangeDecimalSeparator(str), true))
+					l.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(str)));
+			}
+			return l;
+		}
+	}
+
 	public List<double> HeightList
 	{
 		get {
@@ -362,6 +396,39 @@ public class JumpRj : Jump
 			return l;
 		}
 	}
+
+	public double HeightTotal
+	{
+		get {
+			double total = 0;
+			foreach(double h in HeightList)
+				total += h;
+
+			return total;
+		}
+	}
+
+	public double TvSum
+	{
+		get {
+			double total = 0;
+			foreach(double d in tvList)
+				total += d;
+
+			return total;
+		}
+	}
+	public double TcSum
+	{
+		get {
+			double total = 0;
+			foreach(double d in tcList)
+				total += d;
+
+			return total;
+		}
+	}
+
 
 	public List<double> RSIList
 	{

@@ -355,10 +355,10 @@ public partial class ChronoJumpWindow
 		if(currentPerson == null || currentSession == null)
 			return;
 
-		if(event_execute_drawingarea == null || event_execute_pixmap == null)
-			return;
-
-		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
+//		if(event_execute_drawingarea == null || event_execute_pixmap == null)
+//			return;
+//
+//		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
 
 		//we do not plot graph, but we want to update label event_graph_label_graph_test
 		//intializeVariables if not done before
@@ -697,13 +697,13 @@ public partial class ChronoJumpWindow
 
 	private void on_button_jumps_simple_capture_save_image_selected (string destination)
 	{
-		if(event_execute_drawingarea == null)
+		if(event_execute_drawingarea_cairo == null)
 			return;
 
-		Gdk.Pixbuf pixbuf = Gdk.Pixbuf.FromDrawable(event_execute_drawingarea.GdkWindow, Gdk.Colormap.System,
+		Gdk.Pixbuf pixbuf = Gdk.Pixbuf.FromDrawable(event_execute_drawingarea_cairo.GdkWindow, Gdk.Colormap.System,
 				0, 0, 0, 0,
-				UtilGtk.WidgetWidth(event_execute_drawingarea),
-				UtilGtk.WidgetHeight(event_execute_drawingarea) );
+				UtilGtk.WidgetWidth(event_execute_drawingarea_cairo),
+				UtilGtk.WidgetHeight(event_execute_drawingarea_cairo) );
 
 		LogB.Information("Saving");
 		pixbuf.Save(destination,"png");

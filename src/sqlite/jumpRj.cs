@@ -95,7 +95,7 @@ class SqliteJumpRj : SqliteJump
 		return myLast;
 	}
 
-	public static List<JumpRj> SelectJumps (bool dbconOpened, int sessionID, int personID, string filterType, int limit, bool personNameInComment)
+	public static List<JumpRj> SelectJumps (bool dbconOpened, int sessionID, int personID, string filterType, Orders_by order, int limit, bool personNameInComment)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -134,6 +134,10 @@ class SqliteJumpRj : SqliteJump
 				sep = " AND ";
 		}
 
+		string orderByString = " ORDER BY jumpRj.uniqueID ";
+		if(order == Orders_by.ID_DESC)
+			orderByString = " ORDER BY jumpRj.uniqueID DESC ";
+
 		string limitString = "";
 		if(limit != -1)
 			limitString = " LIMIT " + limit;
@@ -142,6 +146,7 @@ class SqliteJumpRj : SqliteJump
 			filterSessionString +
 			filterPersonString +
 			filterTypeString +
+			orderByString +
 			limitString;
 
 		LogB.SQL(dbcmd.CommandText.ToString());

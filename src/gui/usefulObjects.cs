@@ -147,6 +147,34 @@ public class PrepareEventGraphJumpSimple
 	~PrepareEventGraphJumpSimple() {}
 }
 
+public class PrepareEventGraphJumpReactive
+{
+	//sql data of previous jumps to plot graph and show stats at bottom
+	public List<JumpRj> jumpsAtSQL;
+	public string type; //jumpType (useful to know if "all jumps" (type == "")
+
+	public PrepareEventGraphJumpReactive () {
+	}
+
+	//allPersons is for searching the jumps of current of allpersons
+	//personID we need to the personsMAX/AVG sql calls
+	//type can be "" for all jumps, then write it under bar
+	public PrepareEventGraphJumpReactive (
+			int sessionID, int personID, bool allPersons, int limit, string type)
+	{
+		int personIDTemp = personID;
+		if(allPersons)
+			personIDTemp = -1;
+
+		jumpsAtSQL = SqliteJumpRj.SelectJumps (false, sessionID, personIDTemp, type,
+				Sqlite.Orders_by.ID_DESC, limit, allPersons); 	//show names on comments only if "all persons"
+
+		this.type = type;
+	}
+
+	~PrepareEventGraphJumpReactive () {}
+}
+
 public class PrepareEventGraphJumpReactiveRealtimeCapture
 {
 	public double lastTv;

@@ -95,7 +95,7 @@ class SqliteJumpRj : SqliteJump
 		return myLast;
 	}
 
-	public static List<JumpRj> SelectJumps (bool dbconOpened, int sessionID, int personID, string filterType)
+	public static List<JumpRj> SelectJumps (bool dbconOpened, int sessionID, int personID, string filterType, int limit, bool personNameInComment)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -134,10 +134,15 @@ class SqliteJumpRj : SqliteJump
 				sep = " AND ";
 		}
 
+		string limitString = "";
+		if(limit != -1)
+			limitString = " LIMIT " + limit;
+
 		dbcmd.CommandText = "SELECT * FROM jumpRj" +
 			filterSessionString +
 			filterPersonString +
-			filterTypeString;
+			filterTypeString +
+			limitString;
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

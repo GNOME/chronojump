@@ -195,23 +195,16 @@ class SqliteRun : Sqlite
 	public static List<Run> SelectRuns (bool dbconOpened, int sessionID, int personID, string runType,
 			Orders_by order, int limit, bool personNameInComment, bool onlyBestInSession)
 	{
-		//need to close DB for SqliteSession.SelectAll
-		if(dbconOpened)
-		{
-			Sqlite.Close();
-//			dbconOpened = false;
-		}
+		if(! dbconOpened)
+			Sqlite.Open();
 
 		//runs previous to DB 2.13 have no datetime on run
 		//find session datetime for that runs
-		List<Session> session_l = SqliteSession.SelectAll(Sqlite.Orders_by.DEFAULT);
+		List<Session> session_l = SqliteSession.SelectAll(true, Sqlite.Orders_by.DEFAULT);
 
 
 		dbcmd.CommandText = selectRunsCreateSelection (sessionID, personID, runType, order, limit, onlyBestInSession);
 		LogB.SQL(dbcmd.CommandText.ToString());
-
-//		if(! dbconOpened)
-			Sqlite.Open();
 
 		dbcmd.ExecuteNonQuery();
 

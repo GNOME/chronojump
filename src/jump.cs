@@ -180,7 +180,7 @@ public class JumpRj : Jump
 		this.datetime = datetime;
 	}
 	
-	//used to select a jump at SqliteJump.SelectRjJumpData and at Sqlite.convertTables
+	//used to select a jump at SqliteJumpRj.SelectJumpData and at Sqlite.convertTables
 	public JumpRj(string [] eventString)
 	{
 		//foreach(string myStr in eventString)

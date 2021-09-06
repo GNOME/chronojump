@@ -260,14 +260,16 @@ class SqlitePersonSession : Sqlite
 
 	//sessionID can be -1
 	//TODO: add the sessionID -1 code
-	public static List<Person> SelectCurrentSessionPersonsAsList (int sessionID)
+	public static List<Person> SelectCurrentSessionPersonsAsList (bool dbconOpened, int sessionID)
 	{
 		string tp = Constants.PersonTable;
 		string tps = Constants.PersonSessionTable;
 
 		string tpsString = "";
 
-		Sqlite.Open();
+		if(! dbconOpened)
+			Sqlite.Open();
+
 		dbcmd.CommandText = "SELECT " + tp + ".*" +
 			" FROM " + tp + ", " + tps +
 			" WHERE " + tps + ".sessionID == " + sessionID +
@@ -298,7 +300,9 @@ class SqlitePersonSession : Sqlite
 		}
 
 		reader.Close();
-		Sqlite.Close();
+
+		if(! dbconOpened)
+			Sqlite.Close();
 
 		return person_l;
 	}

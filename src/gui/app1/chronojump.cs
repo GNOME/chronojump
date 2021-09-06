@@ -6477,7 +6477,6 @@ LogB.Debug("mc finished 5");
 	private void deleted_last_test_update_widgets() {
 		sensitiveLastTestButtons(false);
 		UtilGtk.ClearDrawingArea(event_execute_drawingarea, event_execute_pixmap);
-		notebook_results_data.CurrentPage = 3; //shows "deleted test"
 	}
 	
 	private void on_delete_selected_jump_clicked (object o, EventArgs args) {

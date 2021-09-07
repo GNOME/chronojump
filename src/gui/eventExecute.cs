@@ -2553,7 +2553,8 @@ public abstract class CairoPaintBarsPre
 
 
 	//TODO: this is repeated on this file, think also if move it to gui/cairo/bars.cs
-	protected int calculateMaxRowsForTextCairo (List<Event> events, int longestWordSize, bool allJumps, bool runsPrintTime)
+	protected int calculateMaxRowsForTextCairo (List<Event> events, int longestWordSize,
+			bool allJumps, bool thereIsASimulated, bool runsPrintTime)
 	{
 		int maxRows = 0;
 
@@ -2583,7 +2584,8 @@ public abstract class CairoPaintBarsPre
 			if(wordsAccu != "")
 				rows ++;
 
-			if(ev.Simulated == -1) //to write simulated at bottom
+			//if(ev.Simulated == -1) //to write simulated at bottom
+			if(thereIsASimulated) //if a event has two lines but not simulated, it has to reserve a line for other events (maybe of 1 line with simulated)
 				rows ++;
 
 			if(runsPrintTime)
@@ -2867,7 +2869,7 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 		int fontHeightForBottomNames = cb.GetFontForBottomNames (events, longestWord);
 
 		int maxRowsForText = calculateMaxRowsForTextCairo (events, longestWord.Length,
-				eventGraphJumpsStored.type == "", false); //also adds +1 if simulated
+				eventGraphJumpsStored.type == "", thereIsASimulated, false);
 		int bottomMargin = cb.GetBottomMarginForText (maxRowsForText, fontHeightForBottomNames);
 
 
@@ -2979,7 +2981,7 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 		int fontHeightForBottomNames = cb.GetFontForBottomNames (events, longestWord);
 
 		int maxRowsForText = calculateMaxRowsForTextCairo (events, longestWord.Length,
-				eventGraphJumpsRjStored.type == "", false); //also adds +1 if simulated
+				eventGraphJumpsRjStored.type == "", thereIsASimulated, false);
 		int bottomMargin = cb.GetBottomMarginForText (maxRowsForText, fontHeightForBottomNames);
 
 
@@ -3068,7 +3070,7 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 		int fontHeightForBottomNames = cb.GetFontForBottomNames (events, longestWord);
 
 		int maxRowsForText = calculateMaxRowsForTextCairo (events, longestWord.Length,
-				eventGraphRunsStored.type == "", RunsShowTime); //also adds +1 if simulated
+				eventGraphRunsStored.type == "", thereIsASimulated, RunsShowTime);
 		int bottomMargin = cb.GetBottomMarginForText (maxRowsForText, fontHeightForBottomNames);
 
 		//LogB.Information(string.Format("fontHeightForBottomNames: {0}, bottomMargin: {1}", fontHeightForBottomNames, bottomMargin));

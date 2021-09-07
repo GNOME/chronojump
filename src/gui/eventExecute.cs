@@ -3015,6 +3015,17 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 						longestWord.Length, maxRowsForText));
 		}
 
+		cb.PassGuidesData (new CairoBarsGuideManage(
+					! ShowPersonNames, true, //usePersonGuides, useGroupGuides
+					eventGraphJumpsRjStored.SessionMaxTvSum,
+					eventGraphJumpsRjStored.SessionAvgTvSum,
+					eventGraphJumpsRjStored.SessionMinTvSum,
+					0,
+					eventGraphJumpsRjStored.PersonMaxTvSum,
+					eventGraphJumpsRjStored.PersonAvgTvSum,
+					eventGraphJumpsRjStored.PersonMinTvSum
+					));
+
 		cb.GraphDo (pointA_l, pointB_l, names_l,
 				fontHeightForBottomNames, bottomMargin, title);
 	}

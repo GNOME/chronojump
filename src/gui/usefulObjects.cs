@@ -153,6 +153,13 @@ public class PrepareEventGraphJumpReactive
 	public List<JumpRj> jumpsAtSQL;
 	public string type; //jumpType (useful to know if "all jumps" (type == "")
 
+	public double SessionMaxTvSum;
+	public double SessionAvgTvSum;
+	public double SessionMinTvSum;
+	public double PersonMaxTvSum;
+	public double PersonAvgTvSum;
+	public double PersonMinTvSum;
+
 	public PrepareEventGraphJumpReactive () {
 	}
 
@@ -162,14 +169,80 @@ public class PrepareEventGraphJumpReactive
 	public PrepareEventGraphJumpReactive (
 			int sessionID, int personID, bool allPersons, int limit, string type)
 	{
+		// 1) assign variables
+		this.type = type;
+
 		int personIDTemp = personID;
-		if(allPersons)
+		//if(allPersons)
 			personIDTemp = -1;
 
-		jumpsAtSQL = SqliteJumpRj.SelectJumps (false, sessionID, personIDTemp, type,
-				Sqlite.Orders_by.ID_DESC, limit, allPersons); 	//show names on comments only if "all persons"
+		// 2) select (use limit=-1 to calculate MaxTvSum, ...)
+		List<JumpRj> jAll = SqliteJumpRj.SelectJumps (false, sessionID, personIDTemp, type,
+				Sqlite.Orders_by.ID_DESC, -1, allPersons); 	//show names on comments only if "all persons"
 
-		this.type = type;
+		// 3) calulate stats
+		SessionMaxTvSum = 0;
+		SessionAvgTvSum = 0;
+		SessionMinTvSum = 100000;
+		PersonMaxTvSum = 0;
+		PersonAvgTvSum = 0;
+		PersonMinTvSum = 100000;
+
+		jumpsAtSQL = new List<JumpRj>();
+
+		if(jAll.Count == 0)
+		{
+			SessionMinTvSum = 0;
+			PersonMinTvSum = 0;
+
+			return;
+		}
+
+		int personCount = 0;
+		foreach(JumpRj j in jAll)
+		{
+			//session stuff
+			if(j.TvSum > SessionMaxTvSum)
+				SessionMaxTvSum = j.TvSum;
+
+			SessionAvgTvSum += j.TvSum;
+
+			if(j.TvSum < SessionMinTvSum)
+				SessionMinTvSum = j.TvSum;
+
+			//person stuff
+			if(j.PersonID == personID)
+			{
+				if(j.TvSum > PersonMaxTvSum)
+					PersonMaxTvSum = j.TvSum;
+
+				PersonAvgTvSum += j.TvSum;
+
+				if(j.TvSum < PersonMinTvSum)
+					PersonMinTvSum = j.TvSum;
+
+				personCount ++;
+			}
+
+			//add the jump to the list
+			if(jumpsAtSQL.Count < limit && (allPersons || j.PersonID == personID))
+				jumpsAtSQL.Add(j);
+		}
+		//calculate averages
+		SessionAvgTvSum = UtilAll.DivideSafe(SessionAvgTvSum, jAll.Count);
+		PersonAvgTvSum = UtilAll.DivideSafe(PersonAvgTvSum, personCount);
+
+		//if we have to show one person data, and there are no jumps of this person, set all variables 0 again
+		if(! allPersons && personCount == 0)
+		{
+			jumpsAtSQL = new List<JumpRj>();
+			SessionMaxTvSum = 0;
+			SessionAvgTvSum = 0;
+			SessionMinTvSum = 0;
+			PersonMaxTvSum = 0;
+			PersonAvgTvSum = 0;
+			PersonMinTvSum = 0;
+		}
 	}
 
 	~PrepareEventGraphJumpReactive () {}

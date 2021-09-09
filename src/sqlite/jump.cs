@@ -393,7 +393,7 @@ class SqliteJump : Sqlite
 	  List<Jump> jmp_l = new List<Jump>();
 	  Jump jmp;
 
-	  LogB.Information("Imprimire Jumps:");
+	  //LogB.Information("Imprimire Jumps:");
 	  while(reader.Read()) {
 		  jmp = new Jump (
 				  Convert.ToInt32(reader[0].ToString()),              //uniqueID
@@ -443,7 +443,7 @@ class SqliteJump : Sqlite
 
 
 		  jmp_l.Add(jmp);
-		  LogB.Information(jmp.ToString());
+		  //LogB.Information(jmp.ToString());
 	  }
 	  return jmp_l;
 	}

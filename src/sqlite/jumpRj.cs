@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -281,7 +281,7 @@ class SqliteJumpRj : SqliteJump
 	  List<JumpRj> jmp_l = new List<JumpRj>();
 	  JumpRj jmp;
 
-	  LogB.Information("Imprimire JumpRjs:");
+	  //LogB.Information("Imprimire JumpRjs:");
 	  while(reader.Read()) {
 		  jmp = new JumpRj (
 				  Convert.ToInt32(reader[0].ToString()),	//jumpRj.uniqueID
@@ -333,7 +333,7 @@ class SqliteJumpRj : SqliteJump
 
 
 		  jmp_l.Add(jmp);
-		  LogB.Information(jmp.ToString());
+		  //LogB.Information(jmp.ToString());
 	  }
 	  return jmp_l;
 	}

@@ -418,12 +418,17 @@ public class JumpRj : Jump
 			return total;
 		}
 	}
-	public double TcSum
+	public double TcSumCaringForStartIn //does not add to the sum the -1 on startIn
 	{
 		get {
 			double total = 0;
 			foreach(double d in tcList)
+			{
+				if(total == 0 && d < 0)
+					continue;
+
 				total += d;
+			}
 
 			return total;
 		}

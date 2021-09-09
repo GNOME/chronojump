@@ -2993,7 +2993,7 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 		{
 			LogB.Information("jump: " + jump.ToString());
 			// 1) Add data
-			double valueA = jump.TcSum;
+			double valueA = jump.TcSumCaringForStartIn;
 			double valueB = jump.TvSum;
 
 			pointA_l.Add(new PointF(countToDraw, valueA));

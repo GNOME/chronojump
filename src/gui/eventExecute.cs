@@ -543,19 +543,16 @@ public partial class ChronoJumpWindow
 	//barplot of tests in session
 	public void on_event_execute_drawingarea_cairo_expose_event(object o, ExposeEventArgs args)
 	{
-		LogB.Information("on_event_execute_drawingarea_cairo_expose_event A");
 		//right now only for jumps/runs simple
 		if(current_mode != Constants.Modes.JUMPSSIMPLE &&
 				current_mode != Constants.Modes.JUMPSREACTIVE &&
 				current_mode != Constants.Modes.RUNSSIMPLE)
 			return;
 
-		LogB.Information("on_event_execute_drawingarea_cairo_expose_event B");
 		//if object not defined or not defined fo this mode, return
 		if(cairoPaintBarsPre == null || ! cairoPaintBarsPre.ModeMatches (current_mode))
 			return;
 
-		LogB.Information("on_event_execute_drawingarea_cairo_expose_event C");
 		//cairoPaintBarsPre.Prepare();
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)
 			PrepareJumpSimpleGraph (cairoPaintBarsPre.eventGraphJumpsStored, false);
@@ -563,7 +560,6 @@ public partial class ChronoJumpWindow
 			PrepareJumpReactiveGraph (cairoPaintBarsPre.eventGraphJumpsRjStored, false);
 		else if (current_mode == Constants.Modes.RUNSSIMPLE)
 			PrepareRunSimpleGraph (cairoPaintBarsPre.eventGraphRunsStored, false);
-		LogB.Information("on_event_execute_drawingarea_cairo_expose_event D");
 	}
 
 	
@@ -702,7 +698,6 @@ public partial class ChronoJumpWindow
 	public void PrepareJumpReactiveRealtimeCaptureGraph (double lastTv, double lastTc, string tvString, string tcString, string type,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer, RepetitiveConditionsWindow repetitiveConditionsWin)
 	{
-		LogB.Information("PrepareJumpReactiveRealtimeCaptureGraph 0");
 		cairoPaintBarsPreRealTime = new CairoPaintBarsPreJumpReactiveRealtimeCapture(
 				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString(), current_mode,
 				currentPerson.Name, type, preferences.digitsNumber,// preferences.heightPreferred,
@@ -712,7 +707,6 @@ public partial class ChronoJumpWindow
 		//cairoPaintBarsPreRealTime.UseHeights = useHeights;
 
 		cairoPaintBarsPreRealTime.Paint();
-		LogB.Information("PrepareJumpReactiveRealtimeCaptureGraph 1");
 	}
 	
 	//identify which subjump is the best or the worst in tv/tc index	
@@ -3017,13 +3011,13 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 
 		cb.PassGuidesData (new CairoBarsGuideManage(
 					! ShowPersonNames, true, //usePersonGuides, useGroupGuides
-					eventGraphJumpsRjStored.SessionMaxTvSum,
-					eventGraphJumpsRjStored.SessionAvgTvSum,
-					eventGraphJumpsRjStored.SessionMinTvSum,
+					eventGraphJumpsRjStored.sessionMAXAtSQL,
+					eventGraphJumpsRjStored.sessionAVGAtSQL,
+					eventGraphJumpsRjStored.sessionMINAtSQL,
 					0,
-					eventGraphJumpsRjStored.PersonMaxTvSum,
-					eventGraphJumpsRjStored.PersonAvgTvSum,
-					eventGraphJumpsRjStored.PersonMinTvSum
+					eventGraphJumpsRjStored.personMAXAtSQL,
+					eventGraphJumpsRjStored.personAVGAtSQL,
+					eventGraphJumpsRjStored.personMINAtSQL
 					));
 
 		cb.GraphDo (pointA_l, pointB_l, names_l,

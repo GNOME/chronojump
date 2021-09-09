@@ -2594,7 +2594,7 @@ public abstract class CairoPaintBarsPre
 	}
 
 	//TODO: need to add personName here
-	protected string findLongestWordCairo (List<Event> events, bool allTypes, string simulatedLabel)
+	protected string findLongestWordCairo (List<Event> events, bool allTypes, string addToType, string simulatedLabel)
 	{
 		int longestWordSize = 0;
 		string longestWord = ""; //debug
@@ -2615,8 +2615,8 @@ public abstract class CairoPaintBarsPre
 			//TODO: check it in local user language (Catalog)
 			if(allTypes && ev.Type.Length > longestWordSize)
 			{
-				longestWordSize = ev.Type.Length;
-				longestWord = ev.Type;
+				longestWordSize = ev.Type.Length + addToType.Length;
+				longestWord = ev.Type + addToType;
 			}
 
 			if(ev.Simulated == -1 && simulatedLabel.Length > longestWordSize)
@@ -2859,7 +2859,9 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 
 		//manage bottom text font/spacing of rows
 		string longestWord = findLongestWordCairo (events,
-				eventGraphJumpsStored.type == "", "(" + Catalog.GetString("Simulated") + ")"); // condition for "all runs"
+				eventGraphJumpsStored.type == "",
+				"",
+				"(" + Catalog.GetString("Simulated") + ")"); // condition for "all runs"
 		int fontHeightForBottomNames = cb.GetFontForBottomNames (events, longestWord);
 
 		int maxRowsForText = calculateMaxRowsForTextCairo (events, longestWord.Length,
@@ -2971,7 +2973,10 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 
 		//manage bottom text font/spacing of rows
 		string longestWord = findLongestWordCairo (events,
-				eventGraphJumpsRjStored.type == "", "(" + Catalog.GetString("Simulated") + ")"); // condition for "all runs"
+				//eventGraphJumpsRjStored.type == "",
+				true,
+				" - 99", //thinking on 99 jumps
+				"(" + Catalog.GetString("Simulated") + ")"); // condition for "all runs"
 		int fontHeightForBottomNames = cb.GetFontForBottomNames (events, longestWord);
 
 		/*
@@ -3079,7 +3084,9 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 
 		//manage bottom text font/spacing of rows
 		string longestWord = findLongestWordCairo (events,
-				eventGraphRunsStored.type == "", "(" + Catalog.GetString("Simulated") + ")"); // condition for "all runs"
+				eventGraphRunsStored.type == "",
+				"",
+				"(" + Catalog.GetString("Simulated") + ")"); // condition for "all runs"
 		int fontHeightForBottomNames = cb.GetFontForBottomNames (events, longestWord);
 
 		int maxRowsForText = calculateMaxRowsForTextCairo (events, longestWord.Length,

@@ -2974,8 +2974,13 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 				eventGraphJumpsRjStored.type == "", "(" + Catalog.GetString("Simulated") + ")"); // condition for "all runs"
 		int fontHeightForBottomNames = cb.GetFontForBottomNames (events, longestWord);
 
+		/*
 		int maxRowsForText = calculateMaxRowsForTextCairo (events, longestWord.Length,
 				eventGraphJumpsRjStored.type == "", thereIsASimulated, false);
+				*/
+		//TYPE A: on jumpRj show always jump type to show at the side the number of jumps. If change here, change it below (TYPEB)
+		int maxRowsForText = calculateMaxRowsForTextCairo (events, longestWord.Length,
+				true, thereIsASimulated, false);
 		int bottomMargin = cb.GetBottomMarginForText (maxRowsForText, fontHeightForBottomNames);
 
 
@@ -2996,10 +3001,13 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 			countToDraw --;
 
 			// 2) Add bottom names
-			//names_l.Add(Catalog.GetString(jump.Type));
+			/*
 			string typeRowString = "";
 			if (eventGraphJumpsRjStored.type == "") //if "all runs" show run.Type
 				typeRowString = jump.Type;
+				*/
+			//TYPE B: on jumpRj show always jump type to show at the side the number of jumps. If change here, change it above (TYPEA)
+			string typeRowString = string.Format("{0} - {1}", jump.Type, jump.Jumps);
 
 			names_l.Add(createTextBelowBar(
 						"",

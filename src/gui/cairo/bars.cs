@@ -77,6 +77,11 @@ public abstract class CairoBars : CairoGeneric
 		this.cairoBarsGuideManage = cairoBarsGuideManage;
 	}
 
+	//TODO: better do PassData1Serie for point_l and PassDataNSeries for point_l_l
+	public virtual void PassPointSecondaryList (List<List<PointF>> pointSecondary_l)
+	{
+	}
+
 	protected void drawGuides (Cairo.Color color)
 	{
 		g.Color = color;
@@ -732,10 +737,10 @@ LogB.Information(string.Format("y: {0}, alto: {1}", y, graphHeight -y - bottomMa
 	}
 }
 
-//two series in horizontal, like jump Dj tc/tf
-public class CairoBars2HSeries : CairoBars
+//N series in horizontal, like jump Dj tc/tf, jumpRj (maybe with a "number of jumps" column)
+public class CairoBarsNHSeries : CairoBars
 {
-	private List<PointF> pointA_l;
+	private List<List<PointF>> pointSecondary_l;
 	private List<PointF> pointB_l;
 	private List<string> names_l;
 
@@ -745,7 +750,7 @@ public class CairoBars2HSeries : CairoBars
 	private int boxWidth = 10; //px. Same as boxHeight. box - text sep is .5 boxWidth. 1st text - 2nd box sep is 2*boxWidth
 
 	//constructor when there are no points
-	public CairoBars2HSeries (DrawingArea area, string font)
+	public CairoBarsNHSeries (DrawingArea area, string font)
 	{
 		this.area = area;
 
@@ -757,7 +762,7 @@ public class CairoBars2HSeries : CairoBars
 	}
 
 	//regular constructor
-	public CairoBars2HSeries (DrawingArea area)
+	public CairoBarsNHSeries (DrawingArea area)
 	{
 		this.area = area;
 
@@ -879,9 +884,11 @@ public class CairoBars2HSeries : CairoBars
 
 	protected override void findMaximums()
 	{
-		foreach(PointF p in pointA_l)
-			if(p.Y > maxY)
-				maxY = p.Y;
+		foreach(List<PointF> p_l in pointSecondary_l)
+			foreach(PointF p in p_l)
+				if(p.Y > maxY)
+					maxY = p.Y;
+
 		foreach(PointF p in pointB_l)
 			if(p.Y > maxY)
 				maxY = p.Y;
@@ -891,7 +898,8 @@ public class CairoBars2HSeries : CairoBars
 
 		//points X start at 1
 		minX = 0;
-		maxX = pointA_l.Count + .5; //pointA_l and pointB_l have same length
+		//maxX = pointB_l.Count + .5; //all point_l lists have same length
+		maxX = pointB_l.Count + 1;
 
 		//bars Y have 0 at bottom
 		minY = 0;
@@ -903,79 +911,73 @@ public class CairoBars2HSeries : CairoBars
                 //calculate separation between series and bar width
                 double distanceBetweenCols = (graphWidth - (leftMargin+rightMargin))/maxX;
 
-                double barWidth = .4*distanceBetweenCols;
+                double barWidth = .4*distanceBetweenCols; //two bars will be .8
+		if(pointSecondary_l.Count == 2) //TODO: fix this for more columns
+			barWidth = .8*distanceBetweenCols/3; //three bars will be .8
                 double barDesplLeft = .5*barWidth;
-		//double valueABSep = barWidth / 4.0;
-		double valueABSep = 0;
 		int resultFontHeight = getBarsResultFontHeight (barWidth*1.5);
+		List<Point3F> resultOnBars_l = new List<Point3F>();
 
-		List<Point3F> resultOnBarA_l = new List<Point3F>();
-		List<Point3F> resultOnBarB_l = new List<Point3F>();
-
-		for(int i = 0; i < pointA_l.Count; i ++)
+		for(int i = 0; i < pointB_l.Count; i ++)
 		{
-			PointF pA = pointA_l[i];
+			//PointF pA = pointA_l[i];
+			bool secondaryHasData = false;
 			PointF pB = pointB_l[i];
 
-			if(pA.Y > 0)
+			double x = (graphWidth - (leftMargin+rightMargin)) * pB.X/maxX + leftMargin;
+			double adjustX = -barDesplLeft * (pointSecondary_l.Count +1);
+
+			for(int j = 0; j < pointSecondary_l.Count; j ++)
 			{
-				double adjustX = -barDesplLeft;
-				if(pB.Y > 0)
-					adjustX = -2 * barDesplLeft -.5 * valueABSep;
+				PointF pS = pointSecondary_l[j][i];
+				if(pS.Y > 0)
+				{
+					double y = calculatePaintY(pS.Y);
+					drawRoundedRectangle (true, x + adjustX, y, barWidth, graphHeight -y -bottomMargin, 4, g, colorSerieA);
+					resultOnBars_l.Add(new Point3F(x + adjustX + barWidth/2, y, pS.Y));
 
-				double x = (graphWidth - (leftMargin+rightMargin)) * pA.X/maxX - barDesplLeft + adjustX + leftMargin;
-				double y = calculatePaintY(pA.Y);
+					secondaryHasData = true;
+				}
 
-				drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -bottomMargin, 4, g, colorSerieA);
-				resultOnBarA_l.Add(new Point3F(x + barWidth/2, y, pA.Y));
+				adjustX += barWidth;
 			}
-			else
-				resultOnBarA_l.Add(new Point3F(0, 0, 0));
 
 			if(pB.Y > 0)
 			{
-				double adjustX = -barDesplLeft;
-				if(pA.Y > 0)
-					adjustX = .5 * valueABSep;
+				//if there is no data on previous variables, just put pB in the middle
+				if(!secondaryHasData)
+					adjustX = -barDesplLeft;
 
-				double x = (graphWidth - (leftMargin+rightMargin)) * pB.X/maxX - barDesplLeft + adjustX + leftMargin;
 				double y = calculatePaintY(pB.Y);
-
-				drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -bottomMargin, 4, g, colorSerieB);
-				resultOnBarB_l.Add(new Point3F(x + barWidth/2, y, pB.Y));
+				drawRoundedRectangle (true, x+adjustX, y, barWidth, graphHeight -y -bottomMargin, 4, g, colorSerieB);
+				resultOnBars_l.Add(new Point3F(x + adjustX + barWidth/2, y, pB.Y));
 			}
-			else
-				resultOnBarB_l.Add(new Point3F(0, 0, 0));
 
 			//print text at bottom
 			printTextMultiline(
-					(graphWidth - (leftMargin+rightMargin)) * pA.X/maxX + -barDesplLeft + leftMargin,
+					x,
 					graphHeight -fontHeightForBottomNames * 2/3,
 					0, fontHeightForBottomNames,
 					names_l[i], g, alignTypes.CENTER);
 		}
 
 		//result on bar painted here (after bars) to not have text overlapped by bars
-		double pAyStart;
-		for(int i = 0; i < pointA_l.Count; i ++)
-		{
-			pAyStart = -1;
-
-			if(resultOnBarA_l[i].Y > 0)
-				pAyStart = plotResultOnBar(resultOnBarA_l[i].X, resultOnBarA_l[i].Y,
-						graphHeight -bottomMargin, resultOnBarA_l[i].Z, resultFontHeight, barWidth, -1);
-
-			if(resultOnBarB_l[i].Y > 0)
-				plotResultOnBar(resultOnBarB_l[i].X, resultOnBarB_l[i].Y,
-						graphHeight -bottomMargin, resultOnBarB_l[i].Z, resultFontHeight, barWidth, pAyStart);
-		}
+		double pAyStart = -1;
+		foreach(Point3F p in resultOnBars_l)
+			pAyStart = plotResultOnBar(p.X, p.Y, graphHeight -bottomMargin, p.Z, resultFontHeight, barWidth, pAyStart);
 	}
 
+	public override void PassPointSecondaryList (List<List<PointF>> pointSecondary_l)
+	{
+		this.pointSecondary_l = pointSecondary_l;
+	}
 	public override void GraphDo (List<PointF> pointA_l, List<PointF> pointB_l,
+	//public override void GraphDo (List<List<PointF>> pointSecondary_l, List<PointF> pointB_l,
 			List<string> names_l, int fontHeightForBottomNames, int marginForBottomNames, string title)
 	{
 		LogB.Information("at CairoBars2HSeries.GraphDo");
-		this.pointA_l = pointA_l;
+		//this.pointA_l = pointA_l;
+		//this.pointSecondary_l = pointSecondary_l;
 		this.pointB_l = pointB_l;
 		this.names_l = names_l;
 		this.fontHeightForBottomNames = fontHeightForBottomNames;

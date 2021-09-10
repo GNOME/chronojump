@@ -2818,7 +2818,7 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 
 		CairoBars cb;
 		if(showBarA && showBarB) //Dja, Djna
-			cb = new CairoBars2HSeries (darea);
+			cb = new CairoBarsNHSeries (darea);
 		else if (showBarA) //takeOff, takeOffWeight
 			cb = new CairoBars1Series (darea);
 		else //rest of the jumps: sj, cmj, ..
@@ -2914,9 +2914,14 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 					eventGraphJumpsStored.personMINAtSQL));
 
 		if(showBarA && showBarB) //Dja, Djna
+		{
+			List<List<PointF>> pointSecondary_l = new List<List<PointF>>();
+			pointSecondary_l.Add(pointA_l);
+			cb.PassPointSecondaryList(pointSecondary_l);
+
 			cb.GraphDo (pointA_l, pointB_l, names_l,
 					fontHeightForBottomNames, bottomMargin, title);
-		else if (showBarA) //takeOff, takeOffWeight
+		} else if (showBarA) //takeOff, takeOffWeight
 			cb.GraphDo (pointA_l, new List<PointF>(), names_l,
 					fontHeightForBottomNames, bottomMargin, title);
 		else //rest of the jumps: sj, cmj, ..
@@ -2949,7 +2954,7 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 
 	protected override void paintSpecific()
 	{
-		CairoBars cb = new CairoBars2HSeries (darea);
+		CairoBars cb = new CairoBarsNHSeries (darea);
 
 		cb.YVariable = Catalog.GetString("Time");
 		cb.YUnits = "s";
@@ -2989,7 +2994,9 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 		int bottomMargin = cb.GetBottomMarginForText (maxRowsForText, fontHeightForBottomNames);
 
 
-		List<PointF> pointA_l = new List<PointF>();
+		List<PointF> pointA0_l = new List<PointF>();
+		List<PointF> pointA1_l = new List<PointF>();
+
 		List<PointF> pointB_l = new List<PointF>();
 		List<string> names_l = new List<string>();
 
@@ -3001,7 +3008,9 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 			double valueA = jump.TcSumCaringForStartIn;
 			double valueB = jump.TvSum;
 
-			pointA_l.Add(new PointF(countToDraw, valueA));
+			pointA0_l.Add(new PointF(countToDraw, jump.Jumps));
+			pointA1_l.Add(new PointF(countToDraw, valueA));
+
 			pointB_l.Add(new PointF(countToDraw, valueB));
 			countToDraw --;
 
@@ -3033,7 +3042,12 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 					eventGraphJumpsRjStored.personMINAtSQL
 					));
 
-		cb.GraphDo (pointA_l, pointB_l, names_l,
+		List<List<PointF>> pointSecondary_l = new List<List<PointF>>();
+		pointSecondary_l.Add(pointA0_l);
+		pointSecondary_l.Add(pointA1_l);
+		cb.PassPointSecondaryList(pointSecondary_l);
+
+		cb.GraphDo (pointA0_l, pointB_l, names_l,
 				fontHeightForBottomNames, bottomMargin, title);
 	}
 }
@@ -3191,7 +3205,7 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 		if(tv_l.Count != tc_l.Count)
 			return;
 
-		CairoBars cb = new CairoBars2HSeries (darea);
+		CairoBars cb = new CairoBarsNHSeries (darea);
 
 		cb.YVariable = Catalog.GetString("Time");
 		cb.YUnits = "s";
@@ -3240,6 +3254,10 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 					max,
 					sum / tv_l.Count,
 					min));
+
+		List<List<PointF>> pointSecondary_l = new List<List<PointF>>();
+		pointSecondary_l.Add(pointA_l);
+		cb.PassPointSecondaryList(pointSecondary_l);
 
 		cb.GraphDo (pointA_l, pointB_l, names_l,
 				14, 8, title);

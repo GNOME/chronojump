@@ -20,16 +20,19 @@ String version = "Wifi-Sensor-1.11";
 
 // Set up nRF24L01 radio on SPI bus plus pins  (CE & CS)
 
-// Set up nRF24L01 radio on SPI bus plus pins  (CE & CS)
-RF24 radio(10, 9);
+
+RF24 radio(A3, A4);    //Old versions
+//RF24 radio(10, 9);       //New version 
 #define red_on digitalWrite(A4,LOW)
 #define green_on digitalWrite(A5,LOW)
 #define blue_on digitalWrite(A3,LOW)
-#define buzzer_on digitalWrite(7,HIGH)
+//#define buzzer_on digitalWrite(7,HIGH)  //Old versions
+#define buzzer_on digitalWrite(A0,HIGH) //New versions
 #define red_off digitalWrite(A4,HIGH)
 #define green_off digitalWrite(A5,HIGH)
 #define blue_off digitalWrite(A3,HIGH)
-#define buzzer_off digitalWrite(7,LOW)
+//#define buzzer_off digitalWrite(7,LOW)  //Old versions
+#define buzzer_off digitalWrite(A0,LOW) //New versions
 
 struct instruction_t
 {
@@ -69,6 +72,8 @@ int sample_size = sizeof(sample);
 unsigned long time0;  //Time when the command is received
 
 bool flagint = LOW;   //Interruption flag. Activated when the sensos changes
+volatile bool lastPinState = LOW;  //stores the state of the pin 2 before the interruption
+volatile int debounceTime = 1;
 
 // First channel to be used. The 6xswitches control the terminal number and the number to add the terminal0Channel
 // The channel 125 is used to listen from the terminals.
@@ -113,7 +118,7 @@ void setup(void)
   pinMode(5, INPUT_PULLUP);
   pinMode(6, INPUT_PULLUP);
   pinMode(7, INPUT_PULLUP);
-  pinMode(8, INPUT_PULLUP);
+  pinMode(8, INPUT_PULLUP);   //Most significant bit
 
   //¡¡¡¡Atention!!!!, the first version of lightChro the pin7 is associated to the buzzer.
   //The first versions of the Quick the microswitch was 5xSwitches. The las one associated to the buzzer
@@ -149,17 +154,18 @@ void setup(void)
   
   Serial.flush(); //Flushing the buffer serial buffer to avoid spurious data.
 
-  // channel of the controler
+  // channel of the controler. 3xmicroswith controls this channel
   //************************************************************************************
   // A0, A1, A2 connected to the 3xswith
-  
-  pinMode(A0, INPUT_PULLUP);
+
+  pinMode(A0, INPUT_PULLUP);  //Old versions
+//  pinMode(A7, INPUT_PULLUP);    //New version
   pinMode(A1, INPUT_PULLUP);
   pinMode(A2, INPUT_PULLUP);
 
-  //   En estas entradas se pondra un microswich , de 3 botones
-  //   Se leeran en binario y se sumarán al canal por defecto 101
-  if (!digitalRead(A0)) {
+  //   Se leeran en binario y se restará al canal por defecto 125
+  if( !digitalRead(A0)) {      //Old versions
+//  if (analogRead(A7)<128) {   //New versions
     controlSwitch = 1; //
   }
   if (!digitalRead(A1)) {
@@ -178,8 +184,10 @@ void setup(void)
   pinMode(A3, OUTPUT);    //Blue
   pinMode(A4, OUTPUT);    //Green    
   pinMode(A5, OUTPUT);    //Red
-  pinMode(7, OUTPUT);     //Buzzer
-  digitalWrite(7, LOW);
+  pinMode(A0, OUTPUT);     //Buzzer
+  buzzer_on;
+  delay(100);
+  buzzer_off;
   pinMode(2, INPUT_PULLUP); //Sensor
 
   red_off;
@@ -196,10 +204,9 @@ void setup(void)
 
 void loop(void)
 {
-  
-  if (flagint == HIGH ) //The sensor has changed
-
+  if (flagint == HIGH && lastPinState != sample.state) //The sensor has changed
   {
+    lastPinState = sample.state;
     sample.elapsedTime = (millis() - time0);
     flagint = LOW;
     buzzer_off;
@@ -248,10 +255,21 @@ void loop(void)
 
 void controlint()
 {
+//  Serial.println("Int");
   if (waitingSensor == true) {
-    flagint = HIGH;
+    //flagint = HIGH;
     sample.state = digitalRead(2);
-    
+    MsTimer2::set(debounceTime, debounce);
+    MsTimer2::start();   
+  }
+}
+
+void debounce(){
+  MsTimer2::stop();
+  if (sample.state != lastPinState){
+    flagint = HIGH;
+  } else {
+    if (blinkingRed | blinkingGreen | blinkingBlue) blinkStart(blinkPeriod);
   }
 }
 
@@ -271,7 +289,7 @@ void executeCommand(uint16_t command)
     MsTimer2::stop();
     
     if ((command & red) == red) {
-//      Serial.println("activating RED");
+      Serial.println("activating RED");
       red_on;
     }
 

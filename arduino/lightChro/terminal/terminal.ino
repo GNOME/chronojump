@@ -22,8 +22,8 @@ String version = "Wifi-Sensor-1.11";
 // Set up nRF24L01 radio on SPI bus plus pins  (CE & CS)
 
 
-RF24 radio(A3, A4);    //Old versions
-//RF24 radio(10, 9);       //New version 
+//RF24 radio(A3, A4);    //Old versions
+RF24 radio(10, 9);       //New version
 #define red_on digitalWrite(A4,LOW)
 #define green_on digitalWrite(A5,LOW)
 #define blue_on digitalWrite(A3,LOW)
@@ -68,13 +68,16 @@ struct sample_t
 
 struct sample_t sample = {.state = LOW, .termNum = 0, .elapsedTime = 0};
 
-int sample_size = sizeof(sample); 
+int sample_size = sizeof(sample);
 
 unsigned long time0;  //Time when the command is received
 
 bool flagint = LOW;   //Interruption flag. Activated when the sensos changes
 volatile bool lastPinState = LOW;  //stores the state of the pin 2 before the interruption
 volatile int debounceTime = 1;
+//The timer overflows inmediately after initialization.
+//We are aware only in the second overflow
+volatile int debounceCount = 0;  //Number of the timer overflows
 
 // First channel to be used. The 6xswitches control the terminal number and the number to add the terminal0Channel
 // The channel 125 is used to listen from the terminals.
@@ -105,7 +108,7 @@ void setup(void)
 
   Serial.begin(115200);
   printf_begin(); //Used by radio.printDetails()
-  
+
   Serial.println(version);
 
 
@@ -113,19 +116,21 @@ void setup(void)
   radio.begin();
 
   //Reading each pin to stablish the terminal number and the listening channel
+  
+  //¡¡¡¡Atention!!!!, the first version of lightChro the pin7 is associated to the buzzer.
+  //The first versions of the Quick the microswitch was 5xSwitches. The last one associated to the buzzer
+  //In the first versions of the photocells the microswitch was 8xSwitches
+  //Remember to change comment/uncomment depending on the hardware version
 
   pinMode(3, INPUT_PULLUP);   //Least significant bit
   pinMode(4, INPUT_PULLUP);
   pinMode(5, INPUT_PULLUP);
   pinMode(6, INPUT_PULLUP);
-  pinMode(7, INPUT_PULLUP);
+  pinMode(7, INPUT_PULLUP);   //Comment in old versions
   pinMode(8, INPUT_PULLUP);   //Most significant bit
 
-  //¡¡¡¡Atention!!!!, the first version of lightChro the pin7 is associated to the buzzer.
-  //The first versions of the Quick the microswitch was 5xSwitches. The las one associated to the buzzer
-  //In the first versions of the photocells the microswitch was 8xSwitches
-  //Remember to change comment/uncomment depending on the hardware version
-  for (int pin = 8; pin >= 3; pin--)
+  //for (int pin = 6; pin >= 3; pin--)  //Old versions
+  for (int pin = 8; pin >= 3; pin--)    //New versions
   {
     sample.termNum = sample.termNum * 2; //Each bit will be multiplied by 2 as much times as his significance
     if (!digitalRead(pin)) sample.termNum++;
@@ -146,13 +151,13 @@ void setup(void)
 
   //radio.enableDynamicAck();
   radio.startListening();
-  
-//  printf(" Status Radio\n\r");
-//  radio.printDetails();
-  
-//  Serial.print("Channel set to: ");
-//  Serial.println(radio.getChannel());
-  
+
+  //  printf(" Status Radio\n\r");
+  //  radio.printDetails();
+
+  //  Serial.print("Channel set to: ");
+  //  Serial.println(radio.getChannel());
+
   Serial.flush(); //Flushing the buffer serial buffer to avoid spurious data.
 
   // channel of the controler. 3xmicroswith controls this channel
@@ -165,8 +170,8 @@ void setup(void)
   pinMode(A2, INPUT_PULLUP);
 
   //   Se leeran en binario y se restará al canal por defecto 125
-  if( !digitalRead(A0)) {      //Old versions
-//  if (analogRead(A7)<128) {   //New versions
+  if ( !digitalRead(A0)) {     //Old versions
+    //  if (analogRead(A7)<128) {   //New versions
     controlSwitch = 1; //
   }
   if (!digitalRead(A1)) {
@@ -178,12 +183,12 @@ void setup(void)
 
   Serial.print("ControlChannel: ");
   Serial.println(control0Channel - controlSwitch);
-  
+
   //Activate interruption service each time the sensor changes state
   attachInterrupt(digitalPinToInterrupt(2), controlint, CHANGE);
 
   pinMode(A3, OUTPUT);    //Blue
-  pinMode(A4, OUTPUT);    //Green    
+  pinMode(A4, OUTPUT);    //Green
   pinMode(A5, OUTPUT);    //Red
   pinMode(A0, OUTPUT);     //Buzzer
   buzzer_on;
@@ -196,28 +201,28 @@ void setup(void)
   blue_off;
 
 
-//  noInterrupts();   //Don't watch the sensor state
+  //  noInterrupts();   //Don't watch the sensor state
 
-//  Serial.print("Is chip connected:");
-//  Serial.println(radio.isChipConnected());
+  //  Serial.print("Is chip connected:");
+  //  Serial.println(radio.isChipConnected());
 
- Timer1.initialize(1000000); //Initializing the debounce timer to 1 ms
- Timer1.detachInterrupt();
- sample.state = digitalRead(2);
- lastPinState = sample.state;
- Serial.println("Initial state");
- Serial.print(lastPinState);
- Serial.print("\t");
- Serial.println(sample.state);
+  Timer1.initialize(2000); //Initializing the debounce timer to 2 ms
+  Timer1.detachInterrupt();
+  sample.state = digitalRead(2);
+  lastPinState = sample.state;
+  Serial.println("Initial state");
+  Serial.print(lastPinState);
+  Serial.print("\t");
+  Serial.println(sample.state);
 }
 
 
 void loop(void)
 {
   //if (flagint == HIGH && lastPinState != sample.state) //The sensor has changed
-  if (flagint == HIGH && lastPinState ) //The sensor has changed
+  if (flagint == HIGH) //The sensor has changed
   {
-    //lastPinState = sample.state;
+//    lastPinState = sample.state;
     sample.elapsedTime = (millis() - time0);
     flagint = LOW;
     buzzer_off;
@@ -232,7 +237,7 @@ void loop(void)
     radio.stopListening();
     radio.setChannel(control0Channel - controlSwitch);
 //    Serial.print("getChannel = ");
-//    Serial.println(radio.getChannel());
+    //    Serial.println(radio.getChannel());
     bool en = radio.write( &sample, sample_size);
 //    if (en) {
 //      Serial.println("Sent OK");
@@ -246,9 +251,11 @@ void loop(void)
     if (! unlimitedMode) waitingSensor = false;
     radio.setChannel(terminal0Channel - sample.termNum);
     radio.startListening();
+    
 //    Serial.println("startListening()");
 //    Serial.print("getChannel = ");
 //    Serial.println(radio.getChannel());
+    Serial.println(sample.elapsedTime);
 
   }
 
@@ -266,36 +273,42 @@ void loop(void)
 
 void controlint()
 {
-  sample.state = digitalRead(2);
+  //sample.state = digitalRead(2);
   //Serial.println("Int");
   if (waitingSensor == true) {
     //flagint = HIGH;
-    //Timer1.initialize(1000000); //Initializing the debounce timer to 1 ms
+//    Timer1.initialize(1000000); //Initializing the debounce timer to 1s
     Timer1.attachInterrupt(debounce);
-    Serial.print(lastPinState);
-    Serial.print("\t");
-    Serial.println(sample.state);
+//    Serial.print(lastPinState);
+//    Serial.print("\t");
+//    Serial.println(sample.state);
+    debounceCount = 0;
   }
 }
 
-void debounce(){
-  Serial.println("in debounce");
-  sample.state = digitalRead(2);
-  Timer1.detachInterrupt();
-  Serial.print(lastPinState);
-  Serial.print("\t");
-  Serial.print(sample.state);
-  if (sample.state != lastPinState){
-    flagint = HIGH;
-    lastPinState = sample.state;
-    Serial.println("\tDebounced");
+void debounce() {
+  debounceCount++;
+//  Serial.println(debounceCount);
+  if (debounceCount >= 2) {
+    sample.state = digitalRead(2);
+    Timer1.detachInterrupt();
+//    Serial.println("in debounce");
+
+    if (sample.state != lastPinState) {
+      flagint = HIGH;
+      lastPinState = sample.state;
+      Serial.print(lastPinState);
+      Serial.print("\t");
+      Serial.println(sample.state);
+//      Serial.println(millis());
+    }
   }
 }
 
 void executeCommand(uint16_t command)
 {
   if (command == deactivate) {
-//    Serial.println("deactivating leds and sensor");
+    //    Serial.println("deactivating leds and sensor");
     deactivateAll();
   } else
   {
@@ -306,47 +319,47 @@ void executeCommand(uint16_t command)
     blinkingGreen = false;
     blinkingBlue = false;
     MsTimer2::stop();
-    
+
     if ((command & red) == red) {
       Serial.println("activating RED");
       red_on;
     }
 
     if ((command & green) == green) {
-//      Serial.println("activating GREEN");
+      //      Serial.println("activating GREEN");
       green_on;
     }
 
     if ((command & blue) == blue) {
-//      Serial.println("activating BLUE");
+      //      Serial.println("activating BLUE");
       blue_on;
     }
 
     if ((command & buzzer) == buzzer) {
-//      Serial.println("activating BUZZER");
+      //      Serial.println("activating BUZZER");
       buzzer_on;
     }
 
     if ((command & blinkRed) == blinkRed) {
-//      Serial.println("blinking RED");
+      //      Serial.println("blinking RED");
       blinkingRed = true;
       blinkStart(blinkPeriod);
     }
 
     if ((command & blinkGreen) == blinkGreen) {
-//      Serial.println("blinking GREEN");
+      //      Serial.println("blinking GREEN");
       blinkingGreen = true;
       blinkStart(blinkPeriod);
     }
 
     if ((command & blinkBlue) == blinkBlue) {
-//      Serial.println("blinking BLUE");
+      //      Serial.println("blinking BLUE");
       blinkingBlue = true;
       blinkStart(blinkPeriod);
     }
 
     if ((command & sensorOnce) == sensorOnce) {
-//      Serial.println("activating sensor once");
+      //      Serial.println("activating sensor once");
       time0 = millis(); //empieza a contar time
       waitingSensor = true;  //Terminal set to waiting touch/proximity
       unlimitedMode = false;
@@ -354,13 +367,13 @@ void executeCommand(uint16_t command)
     }
 
     if ((command & sensorUnlimited) == sensorUnlimited) {
-//      Serial.println("activating sensor unlimited");
+      //      Serial.println("activating sensor unlimited");
       time0 = millis(); //empieza a contar time
       waitingSensor = true;  //Terminal set to waiting touch/proximity
       unlimitedMode = true;
       interrupts();
     }
-    
+
     if ((command & ping) == ping) {
       Serial.println("Pong");
       time0 = millis(); //empieza a contar time
@@ -403,25 +416,25 @@ void serialEvent()
 {
   Serial.println("SerialEvent");
   String inputString = Serial.readString();
-  
+
   //Trimming all the characters after the ";" including it
   String commandString = inputString.substring(0, inputString.lastIndexOf(";"));
   if ( commandString == "get_channel") {
     Serial.println(radio.getChannel());
-  } else if (commandString == "get_version"){
+  } else if (commandString == "get_version") {
     Serial.println(version);
   }
 }
 
 void beep(int duration)
 {
-   MsTimer2::set(duration, beepStop);
-   MsTimer2::start();
-   buzzer_on;
+  MsTimer2::set(duration, beepStop);
+  MsTimer2::start();
+  buzzer_on;
 }
 
 void beepStop(void)
 {
-   MsTimer2::stop();
-   buzzer_off;
+  MsTimer2::stop();
+  buzzer_off;
 }

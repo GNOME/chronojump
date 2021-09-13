@@ -152,6 +152,7 @@ void loop(void)
       Serial.print(sample.termNum);
       Serial.print(";");
       Serial.print(totalTime);
+//      Serial.print(sample.time); //Showing the remote time of the terminal
       Serial.print(";");
       Serial.println(sample.state);
     } else {

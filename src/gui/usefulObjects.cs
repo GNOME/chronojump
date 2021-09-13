@@ -294,7 +294,9 @@ public class PrepareEventGraphRunSimple {
 	~PrepareEventGraphRunSimple() {}
 }
 
-public class PrepareEventGraphRunInterval {
+public class PrepareEventGraphRunInterval
+{
+	public string type;
 	public double distance;
 	public double lastTime;
 	public string timesString;
@@ -306,8 +308,10 @@ public class PrepareEventGraphRunInterval {
 	public PrepareEventGraphRunInterval() {
 	}
 
-	public PrepareEventGraphRunInterval(double distance, double lastTime, string timesString,
-			double distanceTotal, string distancesString, bool startIn, bool finished) {
+	public PrepareEventGraphRunInterval(string type, double distance, double lastTime, string timesString,
+			double distanceTotal, string distancesString, bool startIn, bool finished)
+	{
+		this.type = type;
 		this.distance = distance;
 		this.lastTime = lastTime;
 		this.timesString = timesString;

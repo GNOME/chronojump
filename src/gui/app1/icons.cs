@@ -682,6 +682,8 @@ public partial class ChronoJumpWindow
 		label_start_selector_races.UseMarkup = true;
 		label_start_selector_encoder.UseMarkup = true;
 
+		image_check_runI_realtime_rel_abs.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "bar_relative.png");
+
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameJumpsFallCalculate);
 		extra_windows_jumps_image_dj_fall_calculate.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameJumpsFallPredefined);

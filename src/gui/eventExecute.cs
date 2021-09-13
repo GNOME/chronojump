@@ -522,7 +522,8 @@ public partial class ChronoJumpWindow
 	public void on_event_execute_drawingarea_realtime_capture_cairo_expose_event (object o, ExposeEventArgs args)
 	{
 		//right now only for jump reactive
-		if(current_mode != Constants.Modes.JUMPSREACTIVE)
+		if(current_mode != Constants.Modes.JUMPSREACTIVE &&
+				current_mode != Constants.Modes.RUNSINTERVALLIC)
 			return;
 
 		if(current_mode == Constants.Modes.JUMPSREACTIVE)
@@ -537,6 +538,22 @@ public partial class ChronoJumpWindow
 					currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.tcString,
 					currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.type,
 					preferences.volumeOn, preferences.gstreamer, repetitiveConditionsWin);
+		} else if (current_mode != Constants.Modes.RUNSINTERVALLIC)
+		{
+			if(currentEventExecute == null || currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject == null)
+				return;
+
+			//discard RSA
+			if( currentEventExecute.PrepareEventGraphRunIntervalObject.distancesString.Contains("R") )
+				return;
+
+			PrepareRunIntervalRealtimeCaptureGraph(
+					currentEventExecute.PrepareEventGraphRunIntervalObject.distance,
+					currentEventExecute.PrepareEventGraphRunIntervalObject.lastTime,
+					currentEventExecute.PrepareEventGraphRunIntervalObject.timesString,
+					currentEventExecute.PrepareEventGraphRunIntervalObject.distanceTotal,
+					currentEventExecute.PrepareEventGraphRunIntervalObject.distancesString
+					);
 		}
 	}
 
@@ -819,6 +836,19 @@ public partial class ChronoJumpWindow
 		event_execute_drawingarea.QueueDraw();
 	}
 
+	// Reactive jump
+	public void PrepareRunIntervalRealtimeCaptureGraph (double distance, double lastTime, string timesString, double distanceTotal, string distancesString)
+	{
+		cairoPaintBarsPreRealTime = new CairoPaintBarsPreRunIntervalRealtimeCapture(
+				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString(), current_mode,
+				currentPerson.Name, "test type", preferences.digitsNumber,// preferences.heightPreferred,
+				distance, lastTime, timesString, distancesString);
+
+		// B) Paint cairo graph
+		//cairoPaintBarsPreRealTime.UseHeights = useHeights;
+
+		cairoPaintBarsPreRealTime.Paint();
+	}
 
 	// pulse 
 	public void PreparePulseGraph(double lastTime, string timesString) { 
@@ -2205,7 +2235,7 @@ public partial class ChronoJumpWindow
 					PrepareRunIntervalGraph(
 							//TODO: pass most of this as (including RunPTL)
 							//new PrepareEventGraphRunIntervalObject(distance, lastTime, ...)
-							currentEventExecute.PrepareEventGraphRunIntervalObject.distance, 
+							currentEventExecute.PrepareEventGraphRunIntervalObject.distance,
 							currentEventExecute.PrepareEventGraphRunIntervalObject.lastTime,
 							currentEventExecute.PrepareEventGraphRunIntervalObject.timesString,
 							currentEventExecute.PrepareEventGraphRunIntervalObject.distanceTotal,
@@ -2215,6 +2245,15 @@ public partial class ChronoJumpWindow
 							volumeOnHere, preferences.gstreamer, repetitiveConditionsWin,
 							currentEventExecute.RunPTL
 							);
+
+						if(! currentEventExecute.PrepareEventGraphRunIntervalObject.distancesString.Contains("R") ) 	//discard RSA
+							PrepareRunIntervalRealtimeCaptureGraph(
+									currentEventExecute.PrepareEventGraphRunIntervalObject.distance, 
+									currentEventExecute.PrepareEventGraphRunIntervalObject.lastTime,
+									currentEventExecute.PrepareEventGraphRunIntervalObject.timesString,
+									currentEventExecute.PrepareEventGraphRunIntervalObject.distanceTotal,
+									currentEventExecute.PrepareEventGraphRunIntervalObject.distancesString
+									);
 				}
 				break;
 			case EventType.Types.REACTIONTIME:
@@ -3167,13 +3206,14 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 		this.lastTv = lastTv;
 		this.lastTc = lastTc;
 
+		tv_l = new List<double>();
+		tc_l = new List<double>();
+
 		string [] tvFull = tvString.Split(new char[] {'='});
 		string [] tcFull = tcString.Split(new char[] {'='});
 		if(tvFull.Length != tcFull.Length)
 			return;
 
-		tv_l = new List<double>();
-		tc_l = new List<double>();
 		foreach(string tv in tvFull)
 			if(Util.IsNumber(tv, true))
 				tv_l.Add(Convert.ToDouble(tv));
@@ -3261,5 +3301,131 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 
 		cb.GraphDo (pointA_l, pointB_l, names_l,
 				14, 8, title);
+	}
+}
+
+//TODO: care for R (RSAs) on distancesString
+public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
+{
+	private double lastDistance;
+	private double lastTime;
+
+	private List<double> distance_l;
+	private List<double> time_l;
+	private List<double> speed_l;
+
+	public CairoPaintBarsPreRunIntervalRealtimeCapture (DrawingArea darea, string fontStr,
+			Constants.Modes mode, string personName, string testName, int pDN,// bool heightPreferred,
+			double lastDistance, double lastTime, string timesString, string distancesString)
+	{
+		initialize (darea, fontStr, mode, Catalog.GetString("Last test:") + " " + generateTitle(personName, testName), pDN);
+
+		this.lastDistance = lastDistance;
+		this.lastTime = lastTime;
+
+		distance_l = new List<double>();
+		time_l = new List<double>();
+		speed_l = new List<double>();
+
+		string [] timeFull = timesString.Split(new char[] {'='});
+		foreach(string t in timeFull)
+			if(Util.IsNumber(t, true))
+			{
+				double tDouble = Convert.ToDouble(t);
+				if(tDouble < 0)
+					time_l.Add(0);
+				else
+					time_l.Add(tDouble);
+			}
+
+		int count = 0;
+		foreach (double time in time_l)
+		{
+			double distance = lastDistance;
+			if(distancesString != "") //if distances are variable
+				distance = Util.GetRunIVariableDistancesStringRow(distancesString, count);
+
+			distance_l.Add(distance);
+			speed_l.Add(distance / time);
+			count ++;
+		}
+
+		//debug
+		LogB.Information("distances:");
+		foreach (double distance in distance_l)
+			LogB.Information(distance.ToString());
+		LogB.Information("times:");
+		foreach (double time in time_l)
+			LogB.Information(time.ToString());
+		LogB.Information("speeds:");
+		foreach (double speed in speed_l)
+			LogB.Information(speed.ToString());
+	}
+
+	/*
+	public override void StoreEventGraphJumpReactiveCapture (PrepareEventGraphJumpReactiveRealtimeCapture eventGraph)
+	{
+		this.eventGraphJumpReactiveCapture = eventGraph;
+	}
+	*/
+
+	protected override bool storeCreated ()
+	{
+		return (speed_l.Count == time_l.Count && speed_l.Count > 0);
+	}
+
+	protected override bool haveDataToPlot()
+	{
+		return (speed_l.Count == time_l.Count && speed_l.Count > 0);
+	}
+
+	protected override void paintSpecific()
+	{
+		//extra check
+		if(speed_l.Count != time_l.Count)
+			return;
+
+		CairoBars cb = new CairoBars1Series (darea);
+
+		cb.YVariable = Catalog.GetString("Speed");
+		cb.YUnits = "m/s";
+
+		cb.GraphInit(fontStr, true, false); //usePersonGuides, useGroupGuides
+
+		List<PointF> point_l = new List<PointF>();
+		List<string> names_l = new List<string>();
+
+		//statistics for speed
+		double max = 0;
+		double sum = 0; //for speed_l avg
+		double min = 1000;
+
+		for(int i = time_l.Count -1; i >= 0; i --)
+		{
+			double time = Convert.ToDouble(time_l[i]);
+			double speed = Convert.ToDouble(speed_l[i]);
+
+			point_l.Add(new PointF(i+1, speed));
+			names_l.Add(string.Format("{0} m\n{1} s",
+						distance_l[i], Util.TrimDecimals(time,2)));
+
+			if(speed > max) 	//get max
+				max = speed;
+
+			sum += speed;		//get avg
+
+			if(speed < min)		//get min
+				min = speed;
+		}
+
+		cb.PassGuidesData (new CairoBarsGuideManage(
+					true, false, //usePersonGuides, useGroupGuides
+					0, 0, 0, 0,
+					max,
+					sum / speed_l.Count,
+					min));
+
+		cb.GraphDo (point_l, new List<PointF>(), names_l,
+				14, 22, title); //22 because there are two rows
 	}
 }

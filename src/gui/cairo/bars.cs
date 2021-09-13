@@ -247,6 +247,7 @@ public abstract class CairoBars : CairoGeneric
 		g.LineWidth = 1;
 	}
 
+	//TODO: do not pass pointA_l, pointB_l here. Use above PassData
 	public abstract void GraphDo (List<PointF> pointA_l, List<PointF> pointB_l,
 			List<string> names_l, int fontHeightForBottomNames, int marginForBottomNames, string title);
 

@@ -842,7 +842,8 @@ public partial class ChronoJumpWindow
 
 		cairoPaintBarsPreRealTime = new CairoPaintBarsPreRunIntervalRealtimeCapture(
 				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString(), current_mode,
-				currentPerson.Name, "test type", preferences.digitsNumber,// preferences.heightPreferred,
+				currentPerson.Name, type, preferences.digitsNumber,// preferences.heightPreferred,
+				check_runI_realtime_rel_abs.Active,
 				distance, lastTime, timesString, distancesString);
 
 		// B) Paint cairo graph

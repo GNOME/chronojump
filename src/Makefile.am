@@ -601,6 +601,8 @@ RESOURCES = \
 	../images/reaction_time_menu.png,reaction_time_menu.png \
 	../images/pulse_menu.png,pulse_menu.png \
 	../images/multichronopic_menu.png,multichronopic_menu.png \
+	../images/bar_relative.png,bar_relative.png \
+	../images/bar_absolute.png,bar_absolute.png \
 	../images/force_sensor_menu.png,force_sensor_menu.png \
 	../images/force_sensor_icon.png,force_sensor_icon.png \
 	../images/force_sensor_icon_yellow.png,force_sensor_icon_yellow.png \

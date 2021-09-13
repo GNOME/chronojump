@@ -105,6 +105,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.DrawingArea event_execute_drawingarea;
 	[Widget] Gtk.DrawingArea event_execute_drawingarea_realtime_capture_cairo;
 	[Widget] Gtk.DrawingArea event_execute_drawingarea_cairo;
+	[Widget] Gtk.VBox vbox_event_execute_drawingarea_realtime_capture_cairo;
+	[Widget] Gtk.CheckButton check_runI_realtime_rel_abs;
+	[Widget] Gtk.Image image_check_runI_realtime_rel_abs;
 	[Widget] Gtk.Frame frame_run_simple_double_contacts;
 	[Widget] Gtk.DrawingArea event_execute_drawingarea_run_simple_double_contacts;
 	/*
@@ -706,6 +709,28 @@ public partial class ChronoJumpWindow
 		//cairoPaintBarsPre.UseHeights = useHeights;
 
 		cairoPaintBarsPre.Paint();
+	}
+
+	private void on_check_runI_realtime_rel_abs_toggled (object o, EventArgs args)
+	{
+		// 1) change icon
+		if(check_runI_realtime_rel_abs.Active)
+			image_check_runI_realtime_rel_abs.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "bar_relative.png");
+		else
+			image_check_runI_realtime_rel_abs.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "bar_absolute.png");
+
+		// 2) redo graph if possible
+		if(currentEventExecute == null || currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject == null)
+			return;
+
+		PrepareRunIntervalRealtimeCaptureGraph(
+				currentEventExecute.PrepareEventGraphRunIntervalObject.distance,
+				currentEventExecute.PrepareEventGraphRunIntervalObject.lastTime,
+				currentEventExecute.PrepareEventGraphRunIntervalObject.timesString,
+				currentEventExecute.PrepareEventGraphRunIntervalObject.distanceTotal,
+				currentEventExecute.PrepareEventGraphRunIntervalObject.distancesString,
+				currentEventExecute.PrepareEventGraphRunIntervalObject.type
+				);
 	}
 
 	// Reactive jump 
@@ -3311,6 +3336,7 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 {
 	private double lastDistance;
 	private double lastTime;
+	private bool isRelative; //related to names: distance and time
 
 	private List<double> distance_l;
 	private List<double> time_l;
@@ -3318,12 +3344,14 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 
 	public CairoPaintBarsPreRunIntervalRealtimeCapture (DrawingArea darea, string fontStr,
 			Constants.Modes mode, string personName, string testName, int pDN,// bool heightPreferred,
+			bool isRelative,
 			double lastDistance, double lastTime, string timesString, string distancesString)
 	{
 		initialize (darea, fontStr, mode, Catalog.GetString("Last test:") + " " + generateTitle(personName, testName), pDN);
 
 		this.lastDistance = lastDistance;
 		this.lastTime = lastTime;
+		this.isRelative = isRelative;
 
 		distance_l = new List<double>();
 		time_l = new List<double>();
@@ -3402,14 +3430,33 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 		double sum = 0; //for speed_l avg
 		double min = 1000;
 
+		//for absolute data. Absolute is from the beginning.
+		double distanceTotal = 0;
+		double timeTotal = 0;
+		for(int i = 0; i < time_l.Count; i ++)
+		{
+			distanceTotal += distance_l[i];
+			timeTotal += time_l[i];
+		}
+		double distanceAccumulated = distanceTotal;
+		double timeAccumulated = timeTotal;
+
 		for(int i = time_l.Count -1; i >= 0; i --)
 		{
 			double time = Convert.ToDouble(time_l[i]);
 			double speed = Convert.ToDouble(speed_l[i]);
 
 			point_l.Add(new PointF(i+1, speed));
-			names_l.Add(string.Format("{0} m\n{1} s",
-						distance_l[i], Util.TrimDecimals(time,2)));
+
+			if(isRelative)
+				names_l.Add(string.Format("{0} m\n{1} s",
+							distance_l[i], Util.TrimDecimals(time,2)));
+			else {
+				names_l.Add(string.Format("{0} m\n{1} s",
+							distanceAccumulated, Util.TrimDecimals(timeAccumulated,2)));
+				distanceAccumulated -= distance_l[i];
+				timeAccumulated -= time_l[i];
+			}
 
 			if(speed > max) 	//get max
 				max = speed;

@@ -552,7 +552,8 @@ public partial class ChronoJumpWindow
 					currentEventExecute.PrepareEventGraphRunIntervalObject.lastTime,
 					currentEventExecute.PrepareEventGraphRunIntervalObject.timesString,
 					currentEventExecute.PrepareEventGraphRunIntervalObject.distanceTotal,
-					currentEventExecute.PrepareEventGraphRunIntervalObject.distancesString
+					currentEventExecute.PrepareEventGraphRunIntervalObject.distancesString,
+					currentEventExecute.PrepareEventGraphRunIntervalObject.type
 					);
 		}
 	}
@@ -837,7 +838,7 @@ public partial class ChronoJumpWindow
 	}
 
 	// Reactive jump
-	public void PrepareRunIntervalRealtimeCaptureGraph (double distance, double lastTime, string timesString, double distanceTotal, string distancesString)
+	public void PrepareRunIntervalRealtimeCaptureGraph (double distance, double lastTime, string timesString, double distanceTotal, string distancesString, string type)
 	{
 		cairoPaintBarsPreRealTime = new CairoPaintBarsPreRunIntervalRealtimeCapture(
 				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString(), current_mode,
@@ -2246,14 +2247,14 @@ public partial class ChronoJumpWindow
 							currentEventExecute.RunPTL
 							);
 
-						if(! currentEventExecute.PrepareEventGraphRunIntervalObject.distancesString.Contains("R") ) 	//discard RSA
-							PrepareRunIntervalRealtimeCaptureGraph(
-									currentEventExecute.PrepareEventGraphRunIntervalObject.distance, 
-									currentEventExecute.PrepareEventGraphRunIntervalObject.lastTime,
-									currentEventExecute.PrepareEventGraphRunIntervalObject.timesString,
-									currentEventExecute.PrepareEventGraphRunIntervalObject.distanceTotal,
-									currentEventExecute.PrepareEventGraphRunIntervalObject.distancesString
-									);
+					PrepareRunIntervalRealtimeCaptureGraph(
+							currentEventExecute.PrepareEventGraphRunIntervalObject.distance, 
+							currentEventExecute.PrepareEventGraphRunIntervalObject.lastTime,
+							currentEventExecute.PrepareEventGraphRunIntervalObject.timesString,
+							currentEventExecute.PrepareEventGraphRunIntervalObject.distanceTotal,
+							currentEventExecute.PrepareEventGraphRunIntervalObject.distancesString,
+							currentEventExecute.PrepareEventGraphRunIntervalObject.type
+							);
 				}
 				break;
 			case EventType.Types.REACTIONTIME:

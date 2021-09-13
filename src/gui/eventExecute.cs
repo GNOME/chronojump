@@ -538,7 +538,7 @@ public partial class ChronoJumpWindow
 					currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.tcString,
 					currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.type,
 					preferences.volumeOn, preferences.gstreamer, repetitiveConditionsWin);
-		} else if (current_mode != Constants.Modes.RUNSINTERVALLIC)
+		} else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 		{
 			if(currentEventExecute == null || currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject == null)
 				return;

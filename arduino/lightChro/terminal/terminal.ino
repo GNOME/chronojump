@@ -4,6 +4,7 @@
 #include <RF24.h>
 #include <printf.h>
 #include <MsTimer2.h>
+#include <TimerOne.h>
 
 String version = "Wifi-Sensor-1.11";
 //
@@ -199,14 +200,24 @@ void setup(void)
 
 //  Serial.print("Is chip connected:");
 //  Serial.println(radio.isChipConnected());
+
+ Timer1.initialize(1000000); //Initializing the debounce timer to 1 ms
+ Timer1.detachInterrupt();
+ sample.state = digitalRead(2);
+ lastPinState = sample.state;
+ Serial.println("Initial state");
+ Serial.print(lastPinState);
+ Serial.print("\t");
+ Serial.println(sample.state);
 }
 
 
 void loop(void)
 {
-  if (flagint == HIGH && lastPinState != sample.state) //The sensor has changed
+  //if (flagint == HIGH && lastPinState != sample.state) //The sensor has changed
+  if (flagint == HIGH && lastPinState ) //The sensor has changed
   {
-    lastPinState = sample.state;
+    //lastPinState = sample.state;
     sample.elapsedTime = (millis() - time0);
     flagint = LOW;
     buzzer_off;
@@ -255,21 +266,29 @@ void loop(void)
 
 void controlint()
 {
-//  Serial.println("Int");
+  sample.state = digitalRead(2);
+  //Serial.println("Int");
   if (waitingSensor == true) {
     //flagint = HIGH;
-    sample.state = digitalRead(2);
-    MsTimer2::set(debounceTime, debounce);
-    MsTimer2::start();   
+    //Timer1.initialize(1000000); //Initializing the debounce timer to 1 ms
+    Timer1.attachInterrupt(debounce);
+    Serial.print(lastPinState);
+    Serial.print("\t");
+    Serial.println(sample.state);
   }
 }
 
 void debounce(){
-  MsTimer2::stop();
+  Serial.println("in debounce");
+  sample.state = digitalRead(2);
+  Timer1.detachInterrupt();
+  Serial.print(lastPinState);
+  Serial.print("\t");
+  Serial.print(sample.state);
   if (sample.state != lastPinState){
     flagint = HIGH;
-  } else {
-    if (blinkingRed | blinkingGreen | blinkingBlue) blinkStart(blinkPeriod);
+    lastPinState = sample.state;
+    Serial.println("\tDebounced");
   }
 }
 

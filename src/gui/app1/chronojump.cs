@@ -3611,6 +3611,7 @@ public partial class ChronoJumpWindow
 				notebooks_change(m);
 				button_contacts_bells.Sensitive = true;
 				on_extra_window_runs_interval_test_changed(new object(), new EventArgs());
+				event_execute_drawingarea_realtime_capture_cairo.Visible = true;
 
 				event_graph_label_graph_test.Visible = true;
 				vbox_contacts_simple_graph_controls.Visible = false;

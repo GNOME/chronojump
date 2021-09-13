@@ -543,10 +543,6 @@ public partial class ChronoJumpWindow
 			if(currentEventExecute == null || currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject == null)
 				return;
 
-			//discard RSA
-			if( currentEventExecute.PrepareEventGraphRunIntervalObject.distancesString.Contains("R") )
-				return;
-
 			PrepareRunIntervalRealtimeCaptureGraph(
 					currentEventExecute.PrepareEventGraphRunIntervalObject.distance,
 					currentEventExecute.PrepareEventGraphRunIntervalObject.lastTime,
@@ -840,6 +836,10 @@ public partial class ChronoJumpWindow
 	// Reactive jump
 	public void PrepareRunIntervalRealtimeCaptureGraph (double distance, double lastTime, string timesString, double distanceTotal, string distancesString, string type)
 	{
+		//discard RSA (at the moment)
+		if( currentEventExecute.PrepareEventGraphRunIntervalObject.distancesString.Contains("R") )
+			return;
+
 		cairoPaintBarsPreRealTime = new CairoPaintBarsPreRunIntervalRealtimeCapture(
 				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString(), current_mode,
 				currentPerson.Name, "test type", preferences.digitsNumber,// preferences.heightPreferred,

@@ -737,6 +737,9 @@ public partial class ChronoJumpWindow
 	public void PrepareJumpReactiveRealtimeCaptureGraph (double lastTv, double lastTc, string tvString, string tcString, string type,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer, RepetitiveConditionsWindow repetitiveConditionsWin)
 	{
+		if(currentPerson == null)
+			return;
+
 		cairoPaintBarsPreRealTime = new CairoPaintBarsPreJumpReactiveRealtimeCapture(
 				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString(), current_mode,
 				currentPerson.Name, type, preferences.digitsNumber,// preferences.heightPreferred,
@@ -861,6 +864,9 @@ public partial class ChronoJumpWindow
 	// Reactive jump
 	public void PrepareRunIntervalRealtimeCaptureGraph (double distance, double lastTime, string timesString, double distanceTotal, string distancesString, string type)
 	{
+		if(currentPerson == null)
+			return;
+
 		//discard RSA (at the moment)
 		if( currentEventExecute.PrepareEventGraphRunIntervalObject.distancesString.Contains("R") )
 			return;

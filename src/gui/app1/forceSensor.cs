@@ -3150,6 +3150,16 @@ LogB.Information(" fs R ");
 			combo_force_sensor_exercise.Active = 0;
 		else
 			combo_force_sensor_exercise.Active = UtilGtk.ComboMakeActive(combo_force_sensor_exercise, name);
+
+		//update also combo_select_contacts_top (but check do not crash on start)
+		if(combo_select_contacts_top != null)
+		{
+			comboSelectContactsTopNoFollow = true;
+			UtilGtk.ComboUpdate(combo_select_contacts_top,
+					UtilGtk.ComboGetValues (combo_force_sensor_exercise), "");
+			combo_select_contacts_top.Active = combo_force_sensor_exercise.Active;
+			comboSelectContactsTopNoFollow = false;
+		}
 	}
 
 	private void combo_force_sensor_button_sensitive_exercise(bool exerciseSelected)

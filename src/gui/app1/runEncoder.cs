@@ -1814,6 +1814,16 @@ public partial class ChronoJumpWindow
 			combo_run_encoder_exercise.Active = 0;
 		else
 			combo_run_encoder_exercise.Active = UtilGtk.ComboMakeActive(combo_run_encoder_exercise, name);
+
+		//update also combo_select_contacts_top (but check do not crash on start)
+		if(combo_select_contacts_top != null)
+		{
+			comboSelectContactsTopNoFollow = true;
+			UtilGtk.ComboUpdate(combo_select_contacts_top,
+					UtilGtk.ComboGetValues (combo_run_encoder_exercise), "");
+			combo_select_contacts_top.Active = combo_run_encoder_exercise.Active;
+			comboSelectContactsTopNoFollow = false;
+		}
 	}
 
 	//info is now info and edit (all values can be changed), and detete (there's delete button)

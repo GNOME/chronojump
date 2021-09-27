@@ -65,7 +65,8 @@ public class SprintExport : ExportFiles
 
 	protected override bool getData ()
 	{
-		ri_l = SqliteRunInterval.SelectRuns (false, sessionID, personID, "");
+		ri_l = SqliteRunInterval.SelectRuns (false, sessionID, personID, "",
+				Sqlite.Orders_by.DEFAULT, -1, false);
 		personSession_l = SqlitePersonSession.SelectCurrentSessionPersons(sessionID, true);
 		riTypes_l = SqliteRunIntervalType.SelectRunIntervalTypesNew("", false);
 

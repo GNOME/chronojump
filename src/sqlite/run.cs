@@ -89,36 +89,39 @@ class SqliteRun : Sqlite
 	}
 
 	//note this is selecting also the person.name
-	private static string selectRunsCreateSelection (int sessionID, int personID, string filterType,
+	//used on run and runI
+	protected static string selectCreateSelection (string tableName,
+			int sessionID, int personID, string filterType,
 			Orders_by order, int limit, bool onlyBestInSession)
 	{
+		string t = tableName;
 		string tp = Constants.PersonTable;
 
 		string filterSessionString = "";
 		if(sessionID != -1)
-			filterSessionString = " AND run.sessionID = " + sessionID;
+			filterSessionString = string.Format(" AND {0}.sessionID = {1}", t, sessionID);
 
 		string filterPersonString = "";
 		if(personID != -1)
-			filterPersonString = " AND " + tp + ".uniqueID = " + personID;
+			filterPersonString = string.Format(" AND {0}.uniqueID = {1}", tp, personID);
 
 		string filterTypeString = "";
 		if(filterType != "")
-			filterTypeString = " AND run.type = \"" + filterType + "\" " ;
+			filterTypeString = " AND " + t + ".type = \"" + filterType + "\" " ;
 
-		string orderByString = " ORDER BY upper(" + tp + ".name), run.uniqueID ";
+		string orderByString = string.Format(" ORDER BY upper({0}.name), {1}.uniqueID ", tp, t);
 		if(order == Orders_by.ID_DESC)
-			orderByString = " ORDER BY run.uniqueID DESC ";
+			orderByString = string.Format(" ORDER BY {0}.uniqueID DESC ", t);
 		if(onlyBestInSession)
-			orderByString = " ORDER BY run.sessionID, run.distance/run.time DESC ";
+			orderByString = string.Format(" ORDER BY {0}.sessionID, {0}.distance/{0}.time DESC ", t);
 
 		string limitString = "";
 		if(limit != -1)
 			limitString = " LIMIT " + limit;
 
-		return "SELECT " + tp + ".name, run.* " +
-			" FROM " + tp + ", run " +
-			" WHERE " + tp + ".uniqueID = run.personID" +
+		return string.Format("SELECT {0}.name, {1}.* ", tp, t) +
+			string.Format(" FROM {0}, {1} ", tp, t) +
+			string.Format(" WHERE {0}.uniqueID = {1}.personID", tp, t) +
 			filterSessionString +
 			filterPersonString +
 			filterTypeString +
@@ -138,7 +141,8 @@ class SqliteRun : Sqlite
 		if(!dbconOpened)
 			Sqlite.Open();
 
-		dbcmd.CommandText = selectRunsCreateSelection (sessionID, personID, filterType, order, limit, false);
+		dbcmd.CommandText = selectCreateSelection (Constants.RunTable,
+				sessionID, personID, filterType, order, limit, false);
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -198,12 +202,12 @@ class SqliteRun : Sqlite
 		if(! dbconOpened)
 			Sqlite.Open();
 
-		//runs previous to DB 2.13 have no datetime on run
+		//runs previous to DB 2.13 have no datetime on run, runI
 		//find session datetime for that runs
 		List<Session> session_l = SqliteSession.SelectAll(true, Sqlite.Orders_by.DEFAULT);
 
 
-		dbcmd.CommandText = selectRunsCreateSelection (sessionID, personID, runType, order, limit, onlyBestInSession);
+		dbcmd.CommandText = selectCreateSelection (Constants.RunTable, sessionID, personID, runType, order, limit, onlyBestInSession);
 		LogB.SQL(dbcmd.CommandText.ToString());
 
 		dbcmd.ExecuteNonQuery();

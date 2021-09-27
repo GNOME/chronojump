@@ -118,12 +118,18 @@ class SqliteRunInterval : SqliteRun
 	}
 
         //like SelectRunsSA below method but much better: return list of RunInterval
-	public static List<RunInterval> SelectRuns (bool dbconOpened, int sessionID, int personID, string filterType)
+	public static List<RunInterval> SelectRuns (bool dbconOpened, int sessionID, int personID, string runType,
+			Orders_by order, int limit, bool personNameInComment)
 	{
 		if(!dbconOpened)
 			Sqlite.Open();
 
-		dbcmd.CommandText = selectRunsIntervalCreateSelection (sessionID, personID, filterType);
+		//runs previous to DB 2.13 have no datetime on run, runI
+		//find session datetime for that runs
+		List<Session> session_l = SqliteSession.SelectAll(true, Sqlite.Orders_by.DEFAULT);
+
+		dbcmd.CommandText = selectCreateSelection (Constants.RunIntervalTable,
+				sessionID, personID, runType, order, limit, false);
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -134,7 +140,8 @@ class SqliteRunInterval : SqliteRun
 		List<RunInterval> ri_l = new List<RunInterval>();
 
 		while(reader.Read())
-			ri_l.Add(new RunInterval(
+		{
+			RunInterval runI = new RunInterval(
 					Convert.ToInt32(reader[1].ToString()),	//runInterval.uniqueID
 					Convert.ToInt32(reader[2].ToString()), 	//runInterval.personID
 					Convert.ToInt32(reader[3].ToString()), 	//runInterval.sessionID
@@ -149,7 +156,34 @@ class SqliteRunInterval : SqliteRun
 					Convert.ToInt32(reader[12].ToString()),	//simulated
 					Util.IntToBool(Convert.ToInt32(reader[13])), //initialSpeed
 					reader[14].ToString() 		//datetime
-					));
+					);
+
+			//runs previous to DB 2.13 have no datetime on run
+			//find session datetime for that runs
+			if(runI.Datetime == "")
+			{
+				bool found = false;
+				foreach(Session session in session_l)
+				{
+					if(session.UniqueID == runI.SessionID)
+					{
+						runI.Datetime = UtilDate.ToFile(session.Date);
+						found = true;
+						break;
+					}
+
+				}
+				//on really old versions of Chronojump, deleting a session maybe does not delete the runs
+				//so could be able to found a run without a session, so assign here the MinValue possible of DateTime
+				if(! found)
+					runI.Datetime = UtilDate.ToFile(DateTime.MinValue);
+			}
+
+			if(personNameInComment)
+				runI.Description = reader[0].ToString();
+
+			ri_l.Add(runI);
+		}
 
 		reader.Close();
 
@@ -160,12 +194,13 @@ class SqliteRunInterval : SqliteRun
 	}
 
 	//method that retruns an string array
-	public static string[] SelectRunsSA (bool dbconOpened, int sessionID, int personID, string filterType)
+	public static string[] SelectRunsSA (bool dbconOpened, int sessionID, int personID, string runType)
 	{
 		if(!dbconOpened)
 			Sqlite.Open();
 
-		dbcmd.CommandText = selectRunsIntervalCreateSelection (sessionID, personID, filterType);
+		dbcmd.CommandText = selectCreateSelection (Constants.RunIntervalTable,
+				sessionID, personID, runType, Orders_by.DEFAULT, -1, false);
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

@@ -3479,6 +3479,7 @@ public partial class ChronoJumpWindow
 		button_contacts_exercise_close_and_recalculate.Visible = false;
 		vbox_contacts_signal_comment.Visible = false;
 		frame_jumps_automatic.Visible = false;
+		check_run_show_time.Visible = false;
 
 		hbox_combo_select_contacts_top_with_arrows.Visible = false; //TODO: this will be unneded
 
@@ -3533,7 +3534,6 @@ public partial class ChronoJumpWindow
 
 				event_graph_label_graph_test.Visible = false;
 				vbox_contacts_simple_graph_controls.Visible = true;
-				check_run_simple_show_time.Visible = false;
 				button_jumps_simple_capture_save_image.Visible = true;
 
 				//align_check_vbox_contacts_graph_legend.Visible = true;
@@ -3552,7 +3552,6 @@ public partial class ChronoJumpWindow
 
 				event_graph_label_graph_test.Visible = false;
 				vbox_contacts_simple_graph_controls.Visible = true;
-				check_run_simple_show_time.Visible = false;
 
 				//align_check_vbox_contacts_graph_legend.Visible = false;
 				//vbox_contacts_graph_legend.Visible = false;
@@ -3588,6 +3587,7 @@ public partial class ChronoJumpWindow
 			image_top_laterality_contacts.Visible = false;
 
 			hbox_change_modes_runs.Visible = true;
+			check_run_show_time.Visible = true;
 
 			if(m == Constants.Modes.RUNSSIMPLE) 
 			{
@@ -3596,7 +3596,6 @@ public partial class ChronoJumpWindow
 
 				event_graph_label_graph_test.Visible = false;
 				vbox_contacts_simple_graph_controls.Visible = true;
-				check_run_simple_show_time.Visible = true;
 				button_runs_simple_capture_save_image.Visible = true;
 
 				//align_check_vbox_contacts_graph_legend.Visible = true;

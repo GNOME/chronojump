@@ -3606,12 +3606,12 @@ public partial class ChronoJumpWindow
 			}
 			else
 			{
-				button_inspect_last_test_run_intervallic.Visible = true;
 				notebooks_change(m);
 				button_contacts_bells.Sensitive = true;
 				on_extra_window_runs_interval_test_changed(new object(), new EventArgs());
 				event_execute_drawingarea_realtime_capture_cairo.Visible = true;
 				vbox_event_execute_drawingarea_realtime_capture_cairo.Visible = true;
+				button_inspect_last_test_run_intervallic.Visible = true;
 
 				event_graph_label_graph_test.Visible = false;
 				vbox_contacts_simple_graph_controls.Visible = true;

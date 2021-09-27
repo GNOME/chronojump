@@ -5511,6 +5511,11 @@ public partial class ChronoJumpWindow
 		//delete the temp tables if exists
 		Sqlite.DeleteTempEvents("tempRunInterval");
 
+		event_execute_drawingarea_realtime_capture_cairo.QueueDraw();
+
+		//Cairo graph is not updated if window is not resized, so force update
+		updateGraphRunsInterval();
+
 		if(compujumpAutologout != null)
 			compujumpAutologout.EndCapturingRunInterval();
 	}

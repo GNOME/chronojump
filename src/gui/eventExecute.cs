@@ -73,10 +73,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button event_execute_button_cancel;
 	[Widget] Gtk.Button event_execute_button_finish;
 
-	[Widget] Gtk.Table event_execute_table_run_interval;
 	[Widget] Gtk.Table event_execute_table_pulse;
-
-	[Widget] Gtk.Table event_execute_table_run_interval_values;
 	[Widget] Gtk.Table event_execute_table_pulse_values;
 	
 //	[Widget] Gtk.Alignment align_check_vbox_contacts_graph_legend;
@@ -84,24 +81,12 @@ public partial class ChronoJumpWindow
 //	[Widget] Gtk.VBox vbox_contacts_graph_legend;
 
 	//for the color change in the background of the cell label
-	[Widget] Gtk.EventBox event_execute_eventbox_run_interval_time;
-	[Widget] Gtk.EventBox event_execute_eventbox_run_interval_speed;
 	[Widget] Gtk.EventBox event_execute_eventbox_pulse_time;
-
-	[Widget] Gtk.Label event_execute_label_run_interval_time_now;
-	[Widget] Gtk.Label event_execute_label_run_interval_time_avg;
-	[Widget] Gtk.Label event_execute_label_run_interval_time_total;
-	[Widget] Gtk.Label event_execute_label_run_interval_speed_now;
-	[Widget] Gtk.Label event_execute_label_run_interval_speed_avg;
-	
 	[Widget] Gtk.Label event_execute_label_pulse_now;
 	[Widget] Gtk.Label event_execute_label_pulse_avg;
 
-	[Widget] Gtk.Image event_execute_image_run_interval_time_good;
-	[Widget] Gtk.Image event_execute_image_run_interval_time_bad;
-	
 	[Widget] Gtk.Notebook notebook_results_data;
-	
+
 	[Widget] Gtk.DrawingArea event_execute_drawingarea;
 	[Widget] Gtk.DrawingArea event_execute_drawingarea_realtime_capture_cairo;
 	[Widget] Gtk.DrawingArea event_execute_drawingarea_cairo;
@@ -228,8 +213,6 @@ public partial class ChronoJumpWindow
 
 		clearProgressBars();
 	
-		event_execute_eventbox_run_interval_time.ModifyBg(Gtk.StateType.Normal, UtilGtk.RED_PLOTS);
-		event_execute_eventbox_run_interval_speed.ModifyBg(Gtk.StateType.Normal, UtilGtk.BLUE_PLOTS);
 		event_execute_eventbox_pulse_time.ModifyBg(Gtk.StateType.Normal, UtilGtk.BLUE_PLOTS); //only one serie in pulse, leave blue
 		
 		layoutSmall = new Pango.Layout (event_execute_drawingarea.PangoContext);
@@ -263,25 +246,13 @@ public partial class ChronoJumpWindow
 	}
 
 	private void eventExecutePutNonStandardIcons() {
-		Pixbuf pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_green.png");
-		event_execute_image_run_interval_time_good.Pixbuf = pixbuf;
-
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_red.png");
-		event_execute_image_run_interval_time_bad.Pixbuf = pixbuf;
 	}
 
 	private void eventExecuteHideImages() {
-		event_execute_image_run_interval_time_good.Hide();
-		event_execute_image_run_interval_time_bad.Hide();
 	}
 
 	private void eventExecuteHideAllTables() 
 	{
-		//hide run interval info
-		event_execute_table_run_interval.Hide();
-		event_execute_table_run_interval_values.Hide();
-		
 		//hide pulse info
 		event_execute_table_pulse.Hide();
 		event_execute_table_pulse_values.Hide();
@@ -332,20 +303,6 @@ public partial class ChronoJumpWindow
 
 //		align_check_vbox_contacts_graph_legend.Visible = false;
 //		vbox_contacts_graph_legend.Visible = false;
-
-		//show run interval info
-		event_execute_table_run_interval.Show();
-		event_execute_table_run_interval_values.Show();
-		
-		//initializeLabels
-		event_execute_label_run_interval_time_now.Text = "";
-		event_execute_label_run_interval_time_avg.Text = "";
-		event_execute_label_run_interval_time_total.Text = "";
-		event_execute_label_run_interval_speed_now.Text = "";
-		event_execute_label_run_interval_speed_avg.Text = "";
-
-		notebook_results_data.Visible = true;
-		notebook_results_data.CurrentPage = 1;
 	}
 	
 	private void showReactionTimeLabels() 

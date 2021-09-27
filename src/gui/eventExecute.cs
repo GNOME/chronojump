@@ -548,12 +548,12 @@ public partial class ChronoJumpWindow
 				return;
 
 			PrepareRunIntervalRealtimeCaptureGraph(
-					currentEventExecute.PrepareEventGraphRunIntervalObject.distance,
-					currentEventExecute.PrepareEventGraphRunIntervalObject.lastTime,
-					currentEventExecute.PrepareEventGraphRunIntervalObject.timesString,
-					currentEventExecute.PrepareEventGraphRunIntervalObject.distanceTotal,
-					currentEventExecute.PrepareEventGraphRunIntervalObject.distancesString,
-					currentEventExecute.PrepareEventGraphRunIntervalObject.type
+					currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distance,
+					currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.lastTime,
+					currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.timesString,
+					currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distanceTotal,
+					currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distancesString,
+					currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.type
 					);
 		}
 	}
@@ -564,7 +564,8 @@ public partial class ChronoJumpWindow
 		//right now only for jumps/runs simple
 		if(current_mode != Constants.Modes.JUMPSSIMPLE &&
 				current_mode != Constants.Modes.JUMPSREACTIVE &&
-				current_mode != Constants.Modes.RUNSSIMPLE)
+				current_mode != Constants.Modes.RUNSSIMPLE &&
+				current_mode != Constants.Modes.RUNSINTERVALLIC)
 			return;
 
 		//if object not defined or not defined fo this mode, return
@@ -578,6 +579,8 @@ public partial class ChronoJumpWindow
 			PrepareJumpReactiveGraph (cairoPaintBarsPre.eventGraphJumpsRjStored, false);
 		else if (current_mode == Constants.Modes.RUNSSIMPLE)
 			PrepareRunSimpleGraph (cairoPaintBarsPre.eventGraphRunsStored, false);
+		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
+			PrepareRunIntervalGraph (cairoPaintBarsPre.eventGraphRunsIntervalStored, false);
 	}
 
 	
@@ -725,12 +728,12 @@ public partial class ChronoJumpWindow
 			return;
 
 		PrepareRunIntervalRealtimeCaptureGraph(
-				currentEventExecute.PrepareEventGraphRunIntervalObject.distance,
-				currentEventExecute.PrepareEventGraphRunIntervalObject.lastTime,
-				currentEventExecute.PrepareEventGraphRunIntervalObject.timesString,
-				currentEventExecute.PrepareEventGraphRunIntervalObject.distanceTotal,
-				currentEventExecute.PrepareEventGraphRunIntervalObject.distancesString,
-				currentEventExecute.PrepareEventGraphRunIntervalObject.type
+				currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distance,
+				currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.lastTime,
+				currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.timesString,
+				currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distanceTotal,
+				currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distancesString,
+				currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.type
 				);
 	}
 
@@ -806,70 +809,22 @@ public partial class ChronoJumpWindow
 		cairoPaintBarsPre.RunsShowTime = check_run_show_time.Active;
 		cairoPaintBarsPre.Paint();
 	}
-	
-	// run interval
-	// distanceTotal is passed because it can change in variable distances test
-	public void PrepareRunIntervalGraph(double distance, double lastTime, string timesString,
-			double distanceTotal, string distancesString,
-			bool startIn, bool finished,
-			bool volumeOn, Preferences.GstreamerTypes gstreamer,
-			RepetitiveConditionsWindow repetitiveConditionsWin, RunPhaseTimeList runPTL)
+
+	public void PrepareRunIntervalGraph(PrepareEventGraphRunInterval eventGraph, bool animate)
 	{
-		//check graph properties window is not null (propably user has closed it with the DeleteEvent
-		//then create it, but not show it
-		if(eventGraphConfigureWin == null)
-			eventGraphConfigureWin = EventGraphConfigureWindow.Show(false);
-
-		//search MAX 
-		double maxValue = 0;
-		int topMargin = 20;
-		//if max value of graph is automatic
-		if(eventGraphConfigureWin.Max == -1) {
-			if(distancesString == "")
-				maxValue = distance / Util.GetMin(timesString); //getMin because is on the "denominador"
-			else
-				maxValue = Util.GetRunIVariableDistancesSpeeds(distancesString, timesString, true);
-		} else {
-			maxValue = eventGraphConfigureWin.Max;
-			topMargin = 0;
-		}
-			
-		//search min
-		double minValue = 1000;
-		int bottomMargin = 20; 
-		//if min value of graph is automatic
-		if(eventGraphConfigureWin.Min == -1) { 
-			if(startIn)
-				minValue = 0;
-			else if(distancesString == "")
-				minValue = distance / Util.GetMax(timesString); //getMax because is in the "denominador"
-			else
-				minValue = Util.GetRunIVariableDistancesSpeeds(distancesString, timesString, false);
-		} else {
-			minValue = eventGraphConfigureWin.Min;
-		}
-
-		int tracks = Util.GetNumberOfJumps(timesString, true); 
-
-		//paint graph
-		paintRunInterval (event_execute_drawingarea, distance, distanceTotal, distancesString,
-				lastTime, timesString, Util.GetAverage(timesString), 
-				maxValue, minValue, tracks, topMargin, bottomMargin,
-				Util.GetPosMax(timesString), Util.GetPosMin(timesString), startIn, finished,
-				volumeOn, gstreamer, repetitiveConditionsWin, runPTL);
-		
-		// -- refresh
-		event_execute_drawingarea.QueueDraw();
+		// Paint cairo graph
+		cairoPaintBarsPre.ShowPersonNames = radio_contacts_graph_allPersons.Active;
+		cairoPaintBarsPre.RunsShowTime = check_run_show_time.Active;
+		cairoPaintBarsPre.Paint();
 	}
 
-	// Reactive jump
 	public void PrepareRunIntervalRealtimeCaptureGraph (double distance, double lastTime, string timesString, double distanceTotal, string distancesString, string type)
 	{
 		if(currentPerson == null)
 			return;
 
 		//discard RSA (at the moment)
-		if( currentEventExecute.PrepareEventGraphRunIntervalObject.distancesString.Contains("R") )
+		if( currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distancesString.Contains("R") )
 			return;
 
 		cairoPaintBarsPreRealTime = new CairoPaintBarsPreRunIntervalRealtimeCapture(
@@ -2192,6 +2147,8 @@ public partial class ChronoJumpWindow
 			updateGraphJumpsReactive ();
 		else if(current_mode == Constants.Modes.RUNSSIMPLE)
 			updateGraphRunsSimple ();
+		else if(current_mode == Constants.Modes.RUNSINTERVALLIC)
+			updateGraphRunsInterval ();
 	}
 
 	private void on_radio_contacts_graph_test_toggled (object o, EventArgs args)
@@ -2213,6 +2170,7 @@ public partial class ChronoJumpWindow
 		}
 		else if(current_mode == Constants.Modes.RUNSINTERVALLIC)
 		{
+			updateGraphRunsInterval ();
 			pre_fillTreeView_runs_interval(false);
 		}
 	}
@@ -2225,6 +2183,8 @@ public partial class ChronoJumpWindow
 			updateGraphJumpsReactive ();
 		else if(current_mode == Constants.Modes.RUNSSIMPLE)
 			updateGraphRunsSimple ();
+		else if(current_mode == Constants.Modes.RUNSINTERVALLIC)
+			updateGraphRunsInterval ();
 	}
 
 	private void on_check_run_show_time_toggled (object o, EventArgs args)
@@ -2268,27 +2228,13 @@ public partial class ChronoJumpWindow
 					if(currentRunIntervalType.IsRSA)
 						volumeOnHere = false;
 
-					PrepareRunIntervalGraph(
-							//TODO: pass most of this as (including RunPTL)
-							//new PrepareEventGraphRunIntervalObject(distance, lastTime, ...)
-							currentEventExecute.PrepareEventGraphRunIntervalObject.distance,
-							currentEventExecute.PrepareEventGraphRunIntervalObject.lastTime,
-							currentEventExecute.PrepareEventGraphRunIntervalObject.timesString,
-							currentEventExecute.PrepareEventGraphRunIntervalObject.distanceTotal,
-							currentEventExecute.PrepareEventGraphRunIntervalObject.distancesString,
-							currentEventExecute.PrepareEventGraphRunIntervalObject.startIn,
-							currentEventExecute.PrepareEventGraphRunIntervalObject.finished,
-							volumeOnHere, preferences.gstreamer, repetitiveConditionsWin,
-							currentEventExecute.RunPTL
-							);
-
 					PrepareRunIntervalRealtimeCaptureGraph(
-							currentEventExecute.PrepareEventGraphRunIntervalObject.distance, 
-							currentEventExecute.PrepareEventGraphRunIntervalObject.lastTime,
-							currentEventExecute.PrepareEventGraphRunIntervalObject.timesString,
-							currentEventExecute.PrepareEventGraphRunIntervalObject.distanceTotal,
-							currentEventExecute.PrepareEventGraphRunIntervalObject.distancesString,
-							currentEventExecute.PrepareEventGraphRunIntervalObject.type
+							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distance,
+							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.lastTime,
+							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.timesString,
+							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distanceTotal,
+							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distancesString,
+							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.type
 							);
 				}
 				break;
@@ -2535,6 +2481,9 @@ public abstract class CairoPaintBarsPre
 	public PrepareEventGraphRunSimple eventGraphRunsStored;
 	public bool RunsShowTime;
 
+	//run interval
+	public PrepareEventGraphRunInterval eventGraphRunsIntervalStored;
+
 	protected DrawingArea darea;
 	protected string fontStr;
 	protected Constants.Modes mode;
@@ -2564,9 +2513,9 @@ public abstract class CairoPaintBarsPre
 	public virtual void StoreEventGraphRuns (PrepareEventGraphRunSimple eventGraph)
 	{
 	}
-//	public virtual void StoreEventGraphJumpReactiveCapture (PrepareEventGraphJumpReactiveRealtimeCapture eventGraph)
-//	{
-//	}
+	public virtual void StoreEventGraphRunsInterval (PrepareEventGraphRunInterval eventGraph)
+	{
+	}
 
 	/*
 	public void Prepare ()
@@ -3219,6 +3168,104 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 					eventGraphRunsStored.personMAXAtSQL,
 					eventGraphRunsStored.personAVGAtSQL,
 					eventGraphRunsStored.personMINAtSQL));
+
+		cb.GraphDo(point_l, new List<PointF>(), names_l,
+				fontHeightForBottomNames, bottomMargin, title);
+	}
+}
+
+public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
+{
+	public CairoPaintBarsPreRunInterval (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN)
+	{
+		initialize (darea, fontStr, mode, generateTitle(personName, testName), pDN);
+	}
+
+	public override void StoreEventGraphRunsInterval (PrepareEventGraphRunInterval eventGraph)
+	{
+		this.eventGraphRunsIntervalStored = eventGraph;
+	}
+
+	protected override bool storeCreated ()
+	{
+		return (eventGraphRunsIntervalStored != null);
+	}
+
+	protected override bool haveDataToPlot()
+	{
+		return (eventGraphRunsIntervalStored.runsAtSQL.Count > 0);
+	}
+
+	protected override void paintSpecific()
+	{
+		CairoBars1Series cb = new CairoBars1Series (darea);
+
+		cb.YVariable = Catalog.GetString("Speed");
+		cb.YUnits = "m/s";
+
+		cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
+
+		List<Event> events = RunInterval.RunIntervalListToEventList (eventGraphRunsIntervalStored.runsAtSQL);
+
+		//find if there is a simulated
+		bool thereIsASimulated = false;
+		for(int i=0 ; i < eventGraphRunsIntervalStored.runsAtSQL.Count; i++)
+		{
+			if(eventGraphRunsIntervalStored.runsAtSQL[i].Simulated == -1)
+				thereIsASimulated = true;
+
+			if(! ShowPersonNames)
+				eventGraphRunsIntervalStored.runsAtSQL[i].Description = ""; //to avoid showing description
+		}
+
+		//manage bottom text font/spacing of rows
+		string longestWord = findLongestWordCairo (events,
+				eventGraphRunsIntervalStored.type == "",
+				"",
+				"(" + Catalog.GetString("Simulated") + ")"); // condition for "all runs"
+		int fontHeightForBottomNames = cb.GetFontForBottomNames (events, longestWord);
+
+		int maxRowsForText = calculateMaxRowsForTextCairo (events, longestWord.Length,
+				eventGraphRunsIntervalStored.type == "", thereIsASimulated, RunsShowTime);
+		int bottomMargin = cb.GetBottomMarginForText (maxRowsForText, fontHeightForBottomNames);
+
+		//LogB.Information(string.Format("fontHeightForBottomNames: {0}, bottomMargin: {1}", fontHeightForBottomNames, bottomMargin));
+
+		List<PointF> point_l = new List<PointF>();
+		List<string> names_l = new List<string>();
+
+		int countToDraw = eventGraphRunsIntervalStored.runsAtSQL.Count;
+		foreach(RunInterval runI in eventGraphRunsIntervalStored.runsAtSQL)
+		{
+			// 1) Add data
+			point_l.Add(new PointF(countToDraw --, runI.Speed));
+
+			// 2) Add bottom names
+			string typeRowString = "";
+			if (eventGraphRunsIntervalStored.type == "") //if "all runs" show run.Type
+				typeRowString = runI.Type;
+
+			string timeString = "";
+			if(RunsShowTime)
+				timeString = string.Format("{0} s", Util.TrimDecimals(runI.TimeTotal, pDN));
+
+			names_l.Add(createTextBelowBar(
+						timeString,
+						typeRowString,
+						runI.Description,
+						thereIsASimulated, (runI.Simulated == -1),
+						longestWord.Length, maxRowsForText));
+		}
+
+		cb.PassGuidesData (new CairoBarsGuideManage(
+					! ShowPersonNames, true, //usePersonGuides, useGroupGuides
+					eventGraphRunsIntervalStored.sessionMAXAtSQL,
+					eventGraphRunsIntervalStored.sessionAVGAtSQL,
+					eventGraphRunsIntervalStored.sessionMINAtSQL,
+					0,
+					eventGraphRunsIntervalStored.personMAXAtSQL,
+					eventGraphRunsIntervalStored.personAVGAtSQL,
+					eventGraphRunsIntervalStored.personMINAtSQL));
 
 		cb.GraphDo(point_l, new List<PointF>(), names_l,
 				fontHeightForBottomNames, bottomMargin, title);

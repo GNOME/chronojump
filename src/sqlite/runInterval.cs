@@ -92,31 +92,6 @@ class SqliteRunInterval : SqliteRun
 		return myLast;
 	}
 
-	private static string selectRunsIntervalCreateSelection (int sessionID, int personID, string filterType)
-	{
-		string tp = Constants.PersonTable;
-
-		string filterSessionString = "";
-		if(sessionID != -1)
-			filterSessionString = " AND runInterval.sessionID == " + sessionID;
-
-		string filterPersonString = "";
-		if(personID != -1)
-			filterPersonString = " AND " + tp + ".uniqueID == " + personID;
-
-		string filterTypeString = "";
-		if(filterType != "")
-			filterTypeString = " AND runInterval.type == \"" + filterType + "\" " ;
-
-		return "SELECT " + tp + ".name, runInterval.* " +
-			" FROM " + tp + ", runInterval " +
-			" WHERE " + tp + ".uniqueID == runInterval.personID" +
-			filterSessionString +
-			filterPersonString +
-			filterTypeString +
-			" ORDER BY upper(" + tp + ".name), runInterval.uniqueID";
-	}
-
         //like SelectRunsSA below method but much better: return list of RunInterval
 	public static List<RunInterval> SelectRuns (bool dbconOpened, int sessionID, int personID, string runType,
 			Orders_by order, int limit, bool personNameInComment)

@@ -242,7 +242,26 @@ public partial class ChronoJumpWindow
 			currentRunIntervalType.Name
 			);
 
-		//TODO paint graph of num of intervallic runs
+		string typeTemp = currentEventType.Name;
+		if(radio_contacts_graph_allTests.Active)
+			typeTemp = "";
+
+		PrepareEventGraphRunInterval eventGraph = new PrepareEventGraphRunInterval(
+				currentSession.UniqueID, currentPerson.UniqueID,
+				radio_contacts_graph_allPersons.Active,
+				Convert.ToInt32(spin_contacts_graph_last_limit.Value),
+				typeTemp);
+
+		string personStr = "";
+		if(! radio_contacts_graph_allPersons.Active)
+			personStr = currentPerson.Name;
+
+		cairoPaintBarsPre = new CairoPaintBarsPreRunInterval (
+				event_execute_drawingarea_cairo, preferences.fontType.ToString(), current_mode,
+				personStr, typeTemp, preferences.digitsNumber);
+
+		cairoPaintBarsPre.StoreEventGraphRunsInterval (eventGraph);
+		PrepareRunIntervalGraph (cairoPaintBarsPre.eventGraphRunsIntervalStored, false);
 	}
 	
 	private void extra_window_runs_interval_initialize(RunType myRunType) 

@@ -1111,10 +1111,7 @@ public class RunIntervalExecute : RunExecute
 		distanceTotal = Util.GetRunITotalDistance(distanceInterval, distancesString, tracks);
 
 		//update graph
-		PrepareEventGraphRunIntervalObject = new PrepareEventGraphRunInterval(
-				type, distanceIntervalFixed, trackTime, intervalTimesString,
-				distanceTotal, distancesString, startIn, success);
-		PrepareEventGraphRunIntervalRealtimeCaptureObject = new PrepareEventGraphRunInterval(
+		PrepareEventGraphRunIntervalRealtimeCaptureObject = new PrepareEventGraphRunIntervalRealtimeCapture (
 				type, distanceIntervalFixed, trackTime, intervalTimesString,
 				distanceTotal, distancesString, startIn, success);
 
@@ -1354,10 +1351,7 @@ public class RunIntervalExecute : RunExecute
 				feedbackMessage = "";
 			needShowFeedbackMessage = true; 
 
-			PrepareEventGraphRunIntervalObject = new PrepareEventGraphRunInterval(
-					type, distanceIntervalFixed, Util.GetLast(intervalTimesString),
-					intervalTimesString, distanceTotal, distancesString, startIn, true);
-			PrepareEventGraphRunIntervalRealtimeCaptureObject = new PrepareEventGraphRunInterval(
+			PrepareEventGraphRunIntervalRealtimeCaptureObject = new PrepareEventGraphRunIntervalRealtimeCapture (
 					type, distanceIntervalFixed, trackTime, intervalTimesString,
 					distanceTotal, distancesString, startIn, true);
 

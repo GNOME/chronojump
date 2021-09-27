@@ -198,7 +198,16 @@ public class RunInterval : Run
 		this.initialSpeed = Util.IntToBool(Convert.ToInt32(eventString[12]));
 		this.datetime = eventString[13];
 	}
-	
+
+	public static List<Event> RunIntervalListToEventList(List<RunInterval> runsI)
+	{
+		List<Event> events = new List<Event>();
+		foreach(RunInterval runI in runsI)
+			events.Add((Event) runI);
+
+		return events;
+	}
+
 
 	public override int InsertAtDB (bool dbconOpened, string tableName) {
 		return SqliteRunInterval.Insert(dbconOpened, tableName, 

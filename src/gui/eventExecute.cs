@@ -3066,7 +3066,7 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 		int bottomMargin = cb.GetBottomMarginForText (maxRowsForText, fontHeightForBottomNames);
 
 
-		List<PointF> pointA0_l = new List<PointF>();
+		//List<PointF> pointA0_l = new List<PointF>();
 		List<PointF> pointA1_l = new List<PointF>();
 
 		List<PointF> pointB_l = new List<PointF>();
@@ -3080,7 +3080,7 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 			double valueA = jump.TcSumCaringForStartIn;
 			double valueB = jump.TvSum;
 
-			pointA0_l.Add(new PointF(countToDraw, jump.Jumps));
+			//pointA0_l.Add(new PointF(countToDraw, jump.Jumps));
 			pointA1_l.Add(new PointF(countToDraw, valueA));
 
 			pointB_l.Add(new PointF(countToDraw, valueB));
@@ -3115,11 +3115,11 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 					));
 
 		List<List<PointF>> pointSecondary_l = new List<List<PointF>>();
-		pointSecondary_l.Add(pointA0_l);
+		//pointSecondary_l.Add(pointA0_l);
 		pointSecondary_l.Add(pointA1_l);
 		cb.PassPointSecondaryList(pointSecondary_l);
 
-		cb.GraphDo (pointA0_l, pointB_l, names_l,
+		cb.GraphDo (pointA1_l, pointB_l, names_l,
 				fontHeightForBottomNames, bottomMargin, title);
 	}
 }

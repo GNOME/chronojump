@@ -229,7 +229,6 @@ public partial class ChronoJumpWindow
 
 		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
 		*/
-		event_execute_table_run_interval_values.Hide();
 
 		//we do not plot graph, but we want to update label event_graph_label_graph_test
 		//intializeVariables if not done before

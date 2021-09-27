@@ -362,7 +362,7 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 			
 			if (ok && ! cancel && ! finish)
 			{
-				LogB.Information("waitEvent 7");
+//				LogB.Information("waitEvent 7");
 				if( ! firstFromChronopicReceived )
 				{
 					speedStart = has_arrived();

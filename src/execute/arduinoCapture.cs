@@ -180,9 +180,12 @@ public class PhotocellWirelessCapture: ArduinoCapture
 
 		LogB.Information(string.Format("arduinoCapture portName: {0}, bauds: {1}", portName, bauds));
 
+		/*
+		   disabled start_capture
 		if (! sendCommand("start_capture:", "Catched at start_capture:"))
 			return false;
 		waitResponse("Starting capture");
+		*/
 
 		return true;
 	}
@@ -217,10 +220,13 @@ public class PhotocellWirelessCapture: ArduinoCapture
 			LogB.Information("At Stop, readed: " + str);
 		}
 
+		/*
+		   disabled end_capture
 		if (! sendCommand("end_capture:", "Catched at end_capture:"))
 			return false;
 
 		waitResponse("Capture ended");
+		*/
 		LogB.Information("AT Capture: STOPPED");
 
 		/*

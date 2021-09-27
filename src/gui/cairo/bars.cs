@@ -921,6 +921,12 @@ public class CairoBarsNHSeries : CairoBars
 
 		for(int i = 0; i < pointB_l.Count; i ++)
 		{
+			/*
+			   need this to sort correctly, because tests are plotted from last to first (right to left),
+			   so pB.Y result should have to be written first
+			   */
+			List<Point3F> resultOnBarsThisIteration_l = new List<Point3F>();
+
 			//PointF pA = pointA_l[i];
 			bool secondaryHasData = false;
 			PointF pB = pointB_l[i];
@@ -935,7 +941,7 @@ public class CairoBarsNHSeries : CairoBars
 				{
 					double y = calculatePaintY(pS.Y);
 					drawRoundedRectangle (true, x + adjustX, y, barWidth, graphHeight -y -bottomMargin, 4, g, colorSerieA);
-					resultOnBars_l.Add(new Point3F(x + adjustX + barWidth/2, y, pS.Y));
+					resultOnBarsThisIteration_l.Add(new Point3F(x + adjustX + barWidth/2, y, pS.Y));
 
 					secondaryHasData = true;
 				}
@@ -951,8 +957,12 @@ public class CairoBarsNHSeries : CairoBars
 
 				double y = calculatePaintY(pB.Y);
 				drawRoundedRectangle (true, x+adjustX, y, barWidth, graphHeight -y -bottomMargin, 4, g, colorSerieB);
-				resultOnBars_l.Add(new Point3F(x + adjustX + barWidth/2, y, pB.Y));
+				resultOnBarsThisIteration_l.Add(new Point3F(x + adjustX + barWidth/2, y, pB.Y));
 			}
+
+			//sort result on bars correctly
+			for(int j = resultOnBarsThisIteration_l.Count -1; j >= 0; j --)
+				resultOnBars_l.Add(resultOnBarsThisIteration_l[j]);
 
 			//print text at bottom
 			printTextMultiline(

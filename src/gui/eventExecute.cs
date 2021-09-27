@@ -59,7 +59,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_contacts_graph_allPersons;
 	[Widget] Gtk.Image image_radio_contacts_graph_currentPerson;
 	[Widget] Gtk.Image image_radio_contacts_graph_allPersons;
-	[Widget] Gtk.CheckButton check_run_simple_show_time;
+	[Widget] Gtk.CheckButton check_run_show_time;
 	
 	[Widget] Gtk.ProgressBar event_execute_progressbar_event;
 	[Widget] Gtk.ProgressBar event_execute_progressbar_time;
@@ -291,7 +291,7 @@ public partial class ChronoJumpWindow
 	{
 		event_graph_label_graph_test.Visible = false;
 		vbox_contacts_simple_graph_controls.Visible = true;
-		check_run_simple_show_time.Visible = false;
+		check_run_show_time.Visible = false;
 
 //		align_check_vbox_contacts_graph_legend.Visible = true;
 		//vbox_contacts_graph_legend.Visible = false;
@@ -304,7 +304,7 @@ public partial class ChronoJumpWindow
 	{
 		event_graph_label_graph_test.Visible = false;
 		vbox_contacts_simple_graph_controls.Visible = true;
-		check_run_simple_show_time.Visible = false;
+		check_run_show_time.Visible = false;
 
 //		align_check_vbox_contacts_graph_legend.Visible = false;
 //		vbox_contacts_graph_legend.Visible = false;
@@ -316,7 +316,7 @@ public partial class ChronoJumpWindow
 	{
 		event_graph_label_graph_test.Visible = false;
 		vbox_contacts_simple_graph_controls.Visible = true;
-		check_run_simple_show_time.Visible = true;
+		check_run_show_time.Visible = true;
 
 //		align_check_vbox_contacts_graph_legend.Visible = true;
 		//vbox_contacts_graph_legend.Visible = false;
@@ -326,8 +326,9 @@ public partial class ChronoJumpWindow
 		
 	private void showRunIntervalLabels() 
 	{
-		event_graph_label_graph_test.Visible = true;
-		vbox_contacts_simple_graph_controls.Visible = false;
+		event_graph_label_graph_test.Visible = false;
+		vbox_contacts_simple_graph_controls.Visible = true;
+		check_run_show_time.Visible = true;
 
 //		align_check_vbox_contacts_graph_legend.Visible = false;
 //		vbox_contacts_graph_legend.Visible = false;
@@ -802,7 +803,7 @@ public partial class ChronoJumpWindow
 
 		// Paint cairo graph
 		cairoPaintBarsPre.ShowPersonNames = radio_contacts_graph_allPersons.Active;
-		cairoPaintBarsPre.RunsShowTime = check_run_simple_show_time.Active;
+		cairoPaintBarsPre.RunsShowTime = check_run_show_time.Active;
 		cairoPaintBarsPre.Paint();
 	}
 	

@@ -296,6 +296,63 @@ public class PrepareEventGraphRunSimple {
 
 public class PrepareEventGraphRunInterval
 {
+	//sql data of previous jumps to plot graph and show stats at bottom
+	public List<RunInterval> runsAtSQL;
+	public string type; //jumpType (useful to know if "all jumps" (type == "")
+
+	public double personMAXAtSQL;
+	public double sessionMAXAtSQL;
+
+	public double personAVGAtSQL;
+	public double sessionAVGAtSQL;
+
+	public double personMINAtSQL;
+	public double sessionMINAtSQL;
+
+	public PrepareEventGraphRunInterval () {
+	}
+
+	//allPersons is for searching the jumps of current of allpersons
+	//personID we need to the personsMAX/AVG sql calls
+	//type can be "" for all jumps, then write it under bar
+	public PrepareEventGraphRunInterval (
+			int sessionID, int personID, bool allPersons, int limit, string type)
+	{
+		// 1) assign variables
+		this.type = type;
+
+		Sqlite.Open(); // ----------------->
+
+		int personIDTemp = personID;
+		if(allPersons)
+			personIDTemp = -1;
+
+		runsAtSQL = SqliteRunInterval.SelectRuns (true, sessionID, personIDTemp, type,
+				Sqlite.Orders_by.ID_DESC, limit, allPersons); 	//show names on comments only if "all persons"
+
+		string sqlSelect = "distanceTotal/timeTotal";
+		string table = Constants.RunIntervalTable;
+
+		List<double> personStats = SqliteSession.Select_MAX_AVG_MIN_EventsOfAType(
+				true, sessionID, personID, table, type, sqlSelect);
+		personMAXAtSQL = personStats[0];
+		personAVGAtSQL = personStats[1];
+		personMINAtSQL = personStats[2];
+
+		List<double> sessionStats = SqliteSession.Select_MAX_AVG_MIN_EventsOfAType(
+				true, sessionID, -1, table, type, sqlSelect);
+		sessionMAXAtSQL = sessionStats[0];
+		sessionAVGAtSQL = sessionStats[1];
+		sessionMINAtSQL = sessionStats[2];
+
+		Sqlite.Close(); // < -----------------
+	}
+
+	~PrepareEventGraphRunInterval () {}
+}
+
+public class PrepareEventGraphRunIntervalRealtimeCapture
+{
 	public string type;
 	public double distance;
 	public double lastTime;
@@ -305,10 +362,10 @@ public class PrepareEventGraphRunInterval
 	public bool startIn;
 	public bool finished;
 
-	public PrepareEventGraphRunInterval() {
+	public PrepareEventGraphRunIntervalRealtimeCapture() {
 	}
 
-	public PrepareEventGraphRunInterval(string type, double distance, double lastTime, string timesString,
+	public PrepareEventGraphRunIntervalRealtimeCapture (string type, double distance, double lastTime, string timesString,
 			double distanceTotal, string distancesString, bool startIn, bool finished)
 	{
 		this.type = type;
@@ -321,7 +378,7 @@ public class PrepareEventGraphRunInterval
 		this.finished = finished;
 	}
 
-	~PrepareEventGraphRunInterval() {}
+	~PrepareEventGraphRunIntervalRealtimeCapture() {}
 }
 
 public class PrepareEventGraphPulse {

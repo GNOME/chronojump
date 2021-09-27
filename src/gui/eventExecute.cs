@@ -2746,6 +2746,7 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 		//TYPE A: on jumpRj show always jump type to show at the side the number of jumps. If change here, change it below (TYPEB)
 		int maxRowsForText = calculateMaxRowsForTextCairo (events, longestWord.Length,
 				true, thereIsASimulated, false);
+
 		int bottomMargin = cb.GetBottomMarginForText (maxRowsForText, fontHeightForBottomNames);
 
 
@@ -2952,12 +2953,18 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 		//manage bottom text font/spacing of rows
 		string longestWord = findLongestWordCairo (events,
 				eventGraphRunsIntervalStored.type == "",
-				"",
+				" - 99", //thinking on 99 tracks
 				"(" + Catalog.GetString("Simulated") + ")"); // condition for "all runs"
 		int fontHeightForBottomNames = cb.GetFontForBottomNames (events, longestWord);
 
+		/*
 		int maxRowsForText = calculateMaxRowsForTextCairo (events, longestWord.Length,
 				eventGraphRunsIntervalStored.type == "", thereIsASimulated, RunsShowTime);
+				*/
+		//TYPE A: on runI show always run type to show at the side the number of tracks. If change here, change it below (TYPEB)
+		int maxRowsForText = calculateMaxRowsForTextCairo (events, longestWord.Length,
+				true, thereIsASimulated, RunsShowTime);
+
 		int bottomMargin = cb.GetBottomMarginForText (maxRowsForText, fontHeightForBottomNames);
 
 		//LogB.Information(string.Format("fontHeightForBottomNames: {0}, bottomMargin: {1}", fontHeightForBottomNames, bottomMargin));
@@ -2972,9 +2979,13 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 			point_l.Add(new PointF(countToDraw --, runI.Speed));
 
 			// 2) Add bottom names
+			/*
 			string typeRowString = "";
 			if (eventGraphRunsIntervalStored.type == "") //if "all runs" show run.Type
 				typeRowString = runI.Type;
+				*/
+			//TYPE B: on runI show always run type to show at the side the number of tracks. If change here, change it above (TYPEA)
+			string typeRowString = string.Format("{0} - {1}", runI.Type, runI.Tracks);
 
 			string timeString = "";
 			if(RunsShowTime)

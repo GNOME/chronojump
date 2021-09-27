@@ -2227,10 +2227,12 @@ public partial class ChronoJumpWindow
 			updateGraphRunsSimple ();
 	}
 
-	private void on_check_run_simple_show_time_toggled (object o, EventArgs args)
+	private void on_check_run_show_time_toggled (object o, EventArgs args)
 	{
-		//only is shown on run simple
-		updateGraphRunsSimple ();
+		if(current_mode == Constants.Modes.RUNSSIMPLE)
+			updateGraphRunsSimple ();
+		else if(current_mode == Constants.Modes.RUNSINTERVALLIC)
+			updateGraphRunsInterval ();
 	}
 
 	// <---- end of test simple controls -----

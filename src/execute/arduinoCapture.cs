@@ -185,6 +185,9 @@ public class PhotocellWirelessCapture: ArduinoCapture
 
 		LogB.Information(string.Format("arduinoCapture portName: {0}, bauds: {1}", portName, bauds));
 
+		//empty the port after new capture
+		flush();
+
 		/*
 		   disabled start_capture
 		if (! sendCommand("start_capture:", "Catched at start_capture:"))
@@ -213,17 +216,22 @@ public class PhotocellWirelessCapture: ArduinoCapture
 		return true;
 	}
 
+	private void flush ()
+	{
+		string str = "";
+		if (port.BytesToRead > 0)
+			str = port.ReadExisting();
+
+		LogB.Information(string.Format("flushed: |{0}|", str));
+	}
+
 	public override bool Stop()
 	{
 		LogB.Information("AT Capture: STOPPING");
 
 		string str = "";
 		//empty any pending port read to be able to read correctly the Capture ended message
-		if (port.BytesToRead > 0)
-		{
-			str = port.ReadExisting();
-			LogB.Information("At Stop, readed: " + str);
-		}
+		flush();
 
 		/*
 		   disabled end_capture

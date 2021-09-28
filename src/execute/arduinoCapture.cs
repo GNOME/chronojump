@@ -101,7 +101,7 @@ public abstract class ArduinoCapture
 		return true;
 	}
 
-	protected void waitResponse (string response)
+	protected void waitResponse (string expected)
 	{
 		string str = "";
 		do {
@@ -111,12 +111,12 @@ public abstract class ArduinoCapture
 				try {
 					str = port.ReadLine();
 				} catch {
-					LogB.Information(string.Format("Catched waiting: |{0}|", response));
+					LogB.Information(string.Format("Catched waiting: |{0}|", expected));
 				}
+				//LogB.Information(string.Format("waiting \"{0}\", received: {1}", expected, str));
 			}
-			//LogB.Information("waiting \"Capture ended\" string: " + str);
 		}
-		while(! str.Contains(response));
+		while(! str.Contains(expected));
 		LogB.Information("waitResponse success: " + str);
 	}
 

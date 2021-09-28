@@ -82,6 +82,7 @@ public abstract class OverviewWindow
 			store.AppendValues (line);
 
 		tv.CursorChanged += on_treeview_cursor_changed;
+		tv.RowActivated += on_row_double_clicked;
 	}
 
 	protected virtual void createTreeView(Gtk.TreeView tv, treeviewType type)
@@ -102,6 +103,7 @@ public abstract class OverviewWindow
 
 	protected void on_treeview_cursor_changed (object o, EventArgs args)
 	{
+		LogB.Information("on_treeview_cursor_changed");
 		TreeIter iter = new TreeIter();
 
 		if (o == (object) treeview_sets)
@@ -127,6 +129,17 @@ public abstract class OverviewWindow
 					selectedPersonID = Convert.ToInt32(selected);
 			}
 		}
+	}
+
+	//before being called, it is called two times: on_treeview_cursor_changed
+	protected void on_row_double_clicked (object o, EventArgs args)
+	{
+		LogB.Information("on_row_double_clicked");
+
+		if(selectedPersonID == -1)
+			return;
+
+		button_select_this_person.Click();
 	}
 
 	protected void selectRowWithID ()

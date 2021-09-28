@@ -782,6 +782,13 @@ public partial class ChronoJumpWindow
 		cairoPaintBarsPre.Paint();
 	}
 
+	public void blankRunIntervalRealtimeCaptureGraph ()
+	{
+		//constructor for showing a blank graph
+		cairoPaintBarsPreRealTime = new CairoPaintBarsPreRunIntervalRealtimeCapture(
+				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString());
+	}
+
 	public void PrepareRunIntervalRealtimeCaptureGraph (double distance, double lastTime, string timesString, double distanceTotal, string distancesString, string type)
 	{
 		if(currentPerson == null)
@@ -3162,6 +3169,12 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 	private List<double> distance_l;
 	private List<double> time_l;
 	private List<double> speed_l;
+
+	//just blank the screen
+	public CairoPaintBarsPreRunIntervalRealtimeCapture (DrawingArea darea, string fontStr)
+	{
+		blankScreen(darea, fontStr);
+	}
 
 	public CairoPaintBarsPreRunIntervalRealtimeCapture (DrawingArea darea, string fontStr,
 			Constants.Modes mode, string personName, string testName, int pDN,// bool heightPreferred,

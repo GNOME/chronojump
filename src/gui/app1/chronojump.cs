@@ -1407,7 +1407,9 @@ public partial class ChronoJumpWindow
 		}
 		else if(current_mode == Constants.Modes.RUNSINTERVALLIC)
 		{
+			blankRunIntervalRealtimeCaptureGraph ();
 			updateGraphRunsInterval();
+
 			if(currentPerson != null)
 				label_sprint_person_name.Text = string.Format(Catalog.GetString("Sprints of {0}"), currentPerson.Name);
 			createTreeView_runs_interval_sprint (treeview_runs_interval_sprint);
@@ -5415,6 +5417,7 @@ public partial class ChronoJumpWindow
 		event_execute_button_cancel.Sensitive = true;
 
 		ExecutingGraphData egd = event_execute_prepareForTest ();
+		blankRunIntervalRealtimeCaptureGraph ();
 
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);

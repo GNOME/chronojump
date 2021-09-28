@@ -78,6 +78,11 @@ public abstract class ArduinoCapture
 		//just print on gui somthing like "please, wait, ..."
 		//
 		Thread.Sleep(3000); //sleep to let arduino start reading serial event
+
+		if(! sendCommand("local:get_version;", "error getting version"))
+			return false;
+		waitResponse("Wifi-Controller");
+
 		return true;
 	}
 

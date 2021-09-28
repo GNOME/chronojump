@@ -3488,8 +3488,9 @@ public partial class ChronoJumpWindow
 
 		event_execute_label_message.Text = "";
 		event_execute_drawingarea.Visible = false;
-		event_execute_drawingarea_realtime_capture_cairo.Visible = false;
-		vbox_event_execute_drawingarea_realtime_capture_cairo.Visible = false;
+
+		hbox_drawingarea_realtime_capture_cairo.Visible = false;
+		vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo.Visible = false;
 
 		//blank exercise options: useful for changing from jumps or runs to forceSensor, runEncoder, reaction time, other
 		label_contacts_exercise_selected_name.Visible = true; //will not be visible when all the contacts_top combo is implemented
@@ -3551,10 +3552,11 @@ public partial class ChronoJumpWindow
 				notebooks_change(m);
 				button_contacts_bells.Sensitive = true;
 				on_extra_window_jumps_rj_test_changed(new object(), new EventArgs());
-				event_execute_drawingarea_realtime_capture_cairo.Visible = true;
 
 				event_graph_label_graph_test.Visible = false;
 				vbox_contacts_simple_graph_controls.Visible = true;
+
+				hbox_drawingarea_realtime_capture_cairo.Visible = true;
 
 				//align_check_vbox_contacts_graph_legend.Visible = false;
 				//vbox_contacts_graph_legend.Visible = false;
@@ -3613,11 +3615,13 @@ public partial class ChronoJumpWindow
 				button_contacts_bells.Sensitive = true;
 				on_extra_window_runs_interval_test_changed(new object(), new EventArgs());
 				event_execute_drawingarea_realtime_capture_cairo.Visible = true;
-				vbox_event_execute_drawingarea_realtime_capture_cairo.Visible = true;
 				button_inspect_last_test_run_intervallic.Visible = true;
 
 				event_graph_label_graph_test.Visible = false;
 				vbox_contacts_simple_graph_controls.Visible = true;
+
+				hbox_drawingarea_realtime_capture_cairo.Visible = true;
+				vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo.Visible = true;
 
 				//align_check_vbox_contacts_graph_legend.Visible = false;
 				//vbox_contacts_graph_legend.Visible = false;

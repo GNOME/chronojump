@@ -88,9 +88,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_results_data;
 
 	[Widget] Gtk.DrawingArea event_execute_drawingarea;
+	[Widget] Gtk.HBox hbox_drawingarea_realtime_capture_cairo;
 	[Widget] Gtk.DrawingArea event_execute_drawingarea_realtime_capture_cairo;
 	[Widget] Gtk.DrawingArea event_execute_drawingarea_cairo;
-	[Widget] Gtk.VBox vbox_event_execute_drawingarea_realtime_capture_cairo;
+	[Widget] Gtk.VBox vbox_event_execute_drawingarea_run_interval_realtime_capture_cairo;
 	[Widget] Gtk.CheckButton check_runI_realtime_rel_abs;
 	[Widget] Gtk.Image image_check_runI_realtime_rel_abs;
 	[Widget] Gtk.Frame frame_run_simple_double_contacts;

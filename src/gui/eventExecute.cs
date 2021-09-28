@@ -695,6 +695,13 @@ public partial class ChronoJumpWindow
 	}
 
 	// Reactive jump 
+	public void blankJumpReactiveRealtimeCaptureGraph ()
+	{
+		//constructor for showing a blank graph
+		cairoPaintBarsPreRealTime = new CairoPaintBarsPreJumpReactiveRealtimeCapture(
+				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString());
+	}
+
 	public void PrepareJumpReactiveRealtimeCaptureGraph (double lastTv, double lastTc, string tvString, string tcString, string type,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer, RepetitiveConditionsWindow repetitiveConditionsWin)
 	{
@@ -2258,6 +2265,16 @@ public abstract class CairoPaintBarsPre
 	}
 	*/
 
+	//used at start capture on realtime tests (jumpRj, runI)
+	protected void blankScreen (DrawingArea darea, string fontStr)
+	{
+		try {
+			new CairoBars1Series (darea, fontStr);
+		} catch {
+			LogB.Information("saved crash at with cairo paint (blank screen)");
+		}
+	}
+
 	public void Paint ()
 	{
 		if(darea == null || darea.GdkWindow == null) //at start program, this can fail
@@ -3021,6 +3038,12 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 	private double lastTc;
 	private List<double> tv_l;
 	private List<double> tc_l;
+
+	//just blank the screen
+	public CairoPaintBarsPreJumpReactiveRealtimeCapture (DrawingArea darea, string fontStr)
+	{
+		blankScreen(darea, fontStr);
+	}
 
 	public CairoPaintBarsPreJumpReactiveRealtimeCapture (DrawingArea darea, string fontStr,
 			Constants.Modes mode, string personName, string testName, int pDN,// bool heightPreferred,

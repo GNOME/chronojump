@@ -2296,6 +2296,11 @@ public class ForceSensorAnalyzeInstant
 	{
 		return fscAIPoints.GetTimeAtCount(count) / 1000.0; //microseconds to milliseconds
 	}
+	public double GetTimeMicros(int count)
+	{
+		return fscAIPoints.GetTimeAtCount(count);
+	}
+
 	public double GetForceAtCount(int count)
 	{
 		return fscAIPoints.GetForceAtCount(count);
@@ -2536,7 +2541,7 @@ public class ForceSensorAnalyzeInstant
 			str = Catalog.GetString("Sample") + sep;
 
 		str += Catalog.GetString("Repetition") + sep +
-			Catalog.GetString("Time") + " (ms)" + sep +
+			Catalog.GetString("Time") + " (micros)" + sep +
 			Catalog.GetString("Force") + " (N)" + sep +
 			Catalog.GetString("RFD") + " (N/s)";
 
@@ -2551,8 +2556,8 @@ public class ForceSensorAnalyzeInstant
 
 	private string exportCSVDifference(bool elastic, string sep, string sepString, int countA, int countB)
 	{
-		double timeA = GetTimeMS(countA);
-		double timeB = GetTimeMS(countB);
+		double timeA = GetTimeMicros(countA);
+		double timeB = GetTimeMicros(countB);
 		double forceA = GetForceAtCount(countA);
 		double forceB = GetForceAtCount(countB);
 		double rfdA = CalculateRFD(countA -1, countA +1);

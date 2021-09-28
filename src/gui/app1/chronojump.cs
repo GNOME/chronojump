@@ -1389,6 +1389,7 @@ public partial class ChronoJumpWindow
 		}
 		else if(current_mode == Constants.Modes.JUMPSREACTIVE)
 		{
+			blankJumpReactiveRealtimeCaptureGraph ();
 			updateGraphJumpsReactive();
 
 			update_label_extra_window_jumps_rj_radiobutton_weight_percent_as_kg(
@@ -5127,7 +5128,8 @@ public partial class ChronoJumpWindow
 		event_execute_button_cancel.Sensitive = true;
 
 		ExecutingGraphData egd = event_execute_prepareForTest ();
-		
+		blankJumpReactiveRealtimeCaptureGraph ();
+
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
 

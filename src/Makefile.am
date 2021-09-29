@@ -500,6 +500,7 @@ RESOURCES = \
 	../images/md/ic_person_blue_24dp_1x.png,image_person.png \
 	../images/md/ic_person_yellow_24dp_1x.png,image_person_yellow.png \
 	../images/md/ic_person_logout_blue_24dp_1x.png,image_person_logout.png \
+	../images/md/persons_manage.png,persons_manage.png \
 	../images/md/ic_photo_camera_blue_24dp_2x.png,image_no_photo.png \
 	../images/md/ic_photo_camera_yellow_24dp_2x.png,image_no_photo_yellow.png \
 	../images/md/ic_select_blue_24dp_3x.png,image_selected.png \

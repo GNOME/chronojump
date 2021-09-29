@@ -98,7 +98,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_session_more;
 	[Widget] Gtk.Image image_session_edit2;
 	[Widget] Gtk.Image image_menu_preferences;
-	[Widget] Gtk.Image image_menu_preferences2;
+	[Widget] Gtk.Image image_persons_manage;
 	[Widget] Gtk.Image image_menu_help;
 	[Widget] Gtk.Image image_menu_help_documents;
 	[Widget] Gtk.Image image_menu_help_shortcuts;

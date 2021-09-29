@@ -295,9 +295,11 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_settings.png");
 		image_menu_preferences.Pixbuf = pixbuf;
 		image_menu_preferences1.Pixbuf = pixbuf;
-		image_menu_preferences2.Pixbuf = pixbuf;
 		image_contacts_exercise_settings.Pixbuf = pixbuf;
 		image_encoder_exercise_settings.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "persons_manage.png");
+		image_persons_manage.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_store_blue.png");
 		image_menu_news.Pixbuf = pixbuf;

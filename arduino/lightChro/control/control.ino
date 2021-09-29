@@ -5,7 +5,7 @@
 #include <printf.h>
 #include <MsTimer2.h>
 
-String version = "Wifi-Controler-1.11";
+String version = "Wifi-Controller-1.11"; //"Wifi-Controller-" is mandatori. Chronojump expects it
 //
 // Hardware configuration
 

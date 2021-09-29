@@ -197,6 +197,8 @@ void serialEvent()
       binaryMode = false;
     } else if(commandString == "reset_time"){
       startTime = millis();
+    } else if(commandString == "get_channel"){
+      Serial.println(controlSwitch);
     } else {
       Serial.println("Wrong local command");
     }

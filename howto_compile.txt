@@ -35,7 +35,9 @@ WINDOWS
 -------------------------------------------------------------------
 
 - to compile:
-(from remmina)(if there's any problem with the keyboard, just go outside of Linux GUI using CTRL+ALT+F1 and return)
+(from remmina)
+if there's any problem with the keyboard, just go outside of Linux GUI using CTRL+ALT+F1 and return)
+	if it doesn´t work then close mingw console and open again
 
 On the Windows machine desktop, execute "msys - Acceso directo".
 

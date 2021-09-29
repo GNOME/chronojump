@@ -92,13 +92,13 @@ public partial class ChronoJumpWindow
 
 	//menu icons
 	[Widget] Gtk.Image image_menu_folders;
+	[Widget] Gtk.Image image_menu_folders2;
 	[Widget] Gtk.Image image_session_new3;
 	[Widget] Gtk.Image image_session_load2;
 	[Widget] Gtk.Image image_session_more;
 	[Widget] Gtk.Image image_session_edit2;
 	[Widget] Gtk.Image image_menu_preferences;
 	[Widget] Gtk.Image image_menu_preferences2;
-	[Widget] Gtk.Image image_menu_preferences3;
 	[Widget] Gtk.Image image_menu_help;
 	[Widget] Gtk.Image image_menu_help_documents;
 	[Widget] Gtk.Image image_menu_help_shortcuts;

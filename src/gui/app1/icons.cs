@@ -296,7 +296,6 @@ public partial class ChronoJumpWindow
 		image_menu_preferences.Pixbuf = pixbuf;
 		image_menu_preferences1.Pixbuf = pixbuf;
 		image_menu_preferences2.Pixbuf = pixbuf;
-		image_menu_preferences3.Pixbuf = pixbuf;
 		image_contacts_exercise_settings.Pixbuf = pixbuf;
 		image_encoder_exercise_settings.Pixbuf = pixbuf;
 
@@ -319,6 +318,8 @@ public partial class ChronoJumpWindow
 		if(Config.ColorBackgroundIsDark)
 			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_folders_yellow.png");
 		image_menu_folders.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folders_manage_blue.png");
+		image_menu_folders2.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_folders.png");
 		image_menu_folders1.Pixbuf = pixbuf;

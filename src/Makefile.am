@@ -497,9 +497,9 @@ RESOURCES = \
 	../images/md/ic_fast_forward_blue_24dp_1x.png,image_sprint.png \
 	../images/md/ic_developer_board_blue_24dp_1x.png,image_chronopic_connect.png \
 	../images/md/ic_developer_board_blue_24dp_2x.png,image_chronopic_connect_big.png \
-	../images/md/ic_person_blue_24dp_1x.png,image_person.png \
-	../images/md/ic_person_yellow_24dp_1x.png,image_person_yellow.png \
-	../images/md/ic_person_logout_blue_24dp_1x.png,image_person_logout.png \
+	../images/md/p_blue_24dp_1x.png,image_person.png \
+	../images/md/p_yellow_24dp_1x.png,image_person_yellow.png \
+	../images/md/p_logout_blue_24dp_1x.png,image_person_logout.png \
 	../images/md/persons_manage.png,persons_manage.png \
 	../images/md/ic_photo_camera_blue_24dp_2x.png,image_no_photo.png \
 	../images/md/ic_photo_camera_yellow_24dp_2x.png,image_no_photo_yellow.png \
@@ -515,11 +515,11 @@ RESOURCES = \
 	../images/md/ic_folder_open_yellow_24dp_1x.png,folder_open_yellow.png \
 	../images/md/ic_folder_open_set_blue_24dp_1x.png,folder_open_set.png \
 	../images/md/ic_visibility_blue_24dp_1x.png,image_visibility.png \
-	../images/md/ic_person_pin_blue_24dp_1x.png,image_person_pin.png \
+	../images/md/p_pin_blue_24dp_1x.png,image_person_pin.png \
 	../images/md/ic_face_blue_24dp_1x.png,image_face.png \
-	../images/md/ic_person_add_blue_24dp_1x.png,image_person_add.png \
+	../images/md/p_add_blue_24dp_1x.png,image_person_add.png \
 	../images/md/ic_group_add_blue_24dp_1x.png,image_group_add.png \
-	../images/md/ic_person_outline_blue_24dp_1x.png,image_person_outline.png \
+	../images/md/p_outline_blue_24dp_1x.png,image_person_outline.png \
 	../images/md/image_group_outline.png,image_group_outline.png \
 	../images/md/ic_weekend_blue_24dp_1x.png,image_rest.png \
 	../images/md/ic_weekend_blue_inactive_24dp_1x.png,image_rest_inactive.png \

@@ -531,14 +531,14 @@ RESOURCES = \
 	../images/md/ic_jump_blue_24dp_1x.png,image_jump.png \
 	../images/md/ic_jump_simple_blue_24dp_1x.png,image_jump_simple.png \
 	../images/md/ic_jump_reactive_blue_24dp_1x.png,image_jump_reactive.png \
-	../images/md/ic_direct_run_blue_24dp_2x.png,run_2x.png \
-	../images/md/ic_direct_run_blue_24dp_1x.png,image_run.png \
-	../images/md/ic_direct_run_simple_blue_24dp_1x.png,image_run_simple.png \
-	../images/md/ic_direct_run_simple_yellow_24dp_1x.png,image_run_simple_yellow.png \
-	../images/md/ic_direct_run_multiple_blue_24dp_1x.png,image_run_multiple.png \
-	../images/md/ic_direct_run_multiple_yellow_24dp_1x.png,image_run_multiple_yellow.png \
-	../images/md/ic_direct_run_photocell_blue_24dp_2x.png,run_photocell.png \
-	../images/md/ic_direct_run_track_blue_24dp_1x.png,run_track_distance.png \
+	../images/md/run_blue_24dp_2x.png,run_2x.png \
+	../images/md/run_blue_24dp_1x.png,image_run.png \
+	../images/md/run_simple_blue_24dp_1x.png,image_run_simple.png \
+	../images/md/run_simple_yellow_24dp_1x.png,image_run_simple_yellow.png \
+	../images/md/run_multiple_blue_24dp_1x.png,image_run_multiple.png \
+	../images/md/run_multiple_yellow_24dp_1x.png,image_run_multiple_yellow.png \
+	../images/md/run_photocell_blue_24dp_2x.png,run_photocell.png \
+	../images/md/run_track_blue_24dp_1x.png,run_track_distance.png \
 	../images/md/ic_build_blue_24dp_1x.png,image_build_24.png \
 	../images/md/ic_build_blue_16dp_1x.png,image_build_16.png \
 	../images/md/ic_edit_blue_24dp_1x.png,image_edit.png \
@@ -612,8 +612,8 @@ RESOURCES = \
 	../images/reaction_time_icon_yellow.png,reaction_time_icon_yellow.png \
 	../images/other_icon.png,other_icon.png \
 	../images/other_icon_yellow.png,other_icon_yellow.png \
-	../images/md/ic_direct_race_encoder_blue_24dp_1x.png,race_encoder_icon.png \
-	../images/md/ic_direct_race_encoder_yellow_24dp_1x.png,race_encoder_icon_yellow.png \
+	../images/md/race_encoder_blue_24dp_1x.png,race_encoder_icon.png \
+	../images/md/race_encoder_yellow_24dp_1x.png,race_encoder_icon_yellow.png \
 	../images/gtk-apply.png,gtk-apply.png \
 	../images/gtk-cancel.png,gtk-cancel.png \
 	../images/gtk-zoom-in.png,gtk-zoom-in.png \

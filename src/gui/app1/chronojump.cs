@@ -804,17 +804,7 @@ public partial class ChronoJumpWindow
 			SqlitePreferences.Update(SqlitePreferences.LoadLastModeAtStart, true, false);
 		}
 
-		if(preferences.loadLastModeAtStart && preferences.lastMode != Constants.Modes.UNDEFINED)
-		{
-			//if(mode == Constants.Modes.POWERGRAVITATORY || mode == Constants.Modes.POWERINERTIAL)
-			//	createComboSelectEncoderTop (true);
-			//else
-
-			if(current_mode == Constants.Modes.JUMPSSIMPLE || current_mode == Constants.Modes.JUMPSREACTIVE ||
-					current_mode == Constants.Modes.RUNSSIMPLE || current_mode == Constants.Modes.RUNSINTERVALLIC ||
-					current_mode == Constants.Modes.RUNSENCODER || current_mode == Constants.Modes.FORCESENSOR)
-				createComboSelectContactsTop (true);
-		}
+		createComboSelectContactsTop (); //need to at least have it not null (to not crash on a import session)
 
 		initialize_menu_or_menu_tiny();
 
@@ -2224,81 +2214,84 @@ public partial class ChronoJumpWindow
 	// ---------------- combo_select ----------------------
 
 	private bool comboSelectContactsTopNoFollow;
-	private void createComboSelectContactsTop (bool create)
+	private void createComboSelectContactsTop ()
 	{
-		if(create)
+		//deactivate signal
+		if(combo_select_contacts_top != null)
+			combo_select_contacts_top.Changed -= new EventHandler (on_combo_select_contacts_top_changed);
+
+		//delete children if any
+		if(hbox_combo_select_contacts_top.Children.Length > 0)
+			hbox_combo_select_contacts_top.Remove(combo_select_contacts_top);
+
+		//code for each mode
+		if(current_mode == Constants.Modes.JUMPSSIMPLE)
 		{
-			//deactivate signal
-			if(combo_select_contacts_top != null)
-				combo_select_contacts_top.Changed -= new EventHandler (on_combo_select_contacts_top_changed);
-
-			//delete children if any
-			if(hbox_combo_select_contacts_top.Children.Length > 0)
-				hbox_combo_select_contacts_top.Remove(combo_select_contacts_top);
-
-			//code for each mode
-			if(current_mode == Constants.Modes.JUMPSSIMPLE)
-			{
-				comboSelectContactsTop = new CjComboSelectJumps (combo_select_contacts_top, hbox_combo_select_contacts_top, false);
-				combo_select_contacts_top = comboSelectContactsTop.Combo;
-				combo_select_contacts_top.Active = combo_select_jumps.Active;
-				combo_select_contacts_top.Sensitive = true;
-			}
-			else if(current_mode == Constants.Modes.JUMPSREACTIVE)
-			{
-				comboSelectContactsTop = new CjComboSelectJumpsRj (combo_select_contacts_top, hbox_combo_select_contacts_top);
-				combo_select_contacts_top = comboSelectContactsTop.Combo;
-				combo_select_contacts_top.Active = combo_select_jumps_rj.Active;
-				combo_select_contacts_top.Sensitive = true;
-			}
-			else if(current_mode == Constants.Modes.RUNSSIMPLE)
-			{
-				comboSelectContactsTop = new CjComboSelectRuns(combo_select_contacts_top, hbox_combo_select_contacts_top);
-				combo_select_contacts_top = comboSelectContactsTop.Combo;
-				combo_select_contacts_top.Active = combo_select_runs.Active;
-				combo_select_contacts_top.Sensitive = true;
-			}
-			else if(current_mode == Constants.Modes.RUNSINTERVALLIC)
-			{
-				comboSelectContactsTop = new CjComboSelectRunsI(combo_select_contacts_top, hbox_combo_select_contacts_top);
-				combo_select_contacts_top = comboSelectContactsTop.Combo;
-				combo_select_contacts_top.Active = combo_select_runs_interval.Active;
-				combo_select_contacts_top.Sensitive = true;
-			}
-			else if(current_mode == Constants.Modes.RUNSENCODER || current_mode == Constants.Modes.FORCESENSOR)
-			{
-				if(combo_select_contacts_top == null)
-					combo_select_contacts_top = ComboBox.NewText ();
-
-				//copy the values form combo_run_encoder_exercise or combo_force_sensor_exercise
-				if(current_mode == Constants.Modes.RUNSENCODER)
-				{
-					UtilGtk.ComboUpdate(combo_select_contacts_top,
-							UtilGtk.ComboGetValues (combo_run_encoder_exercise), "");
-					combo_select_contacts_top.Active = combo_run_encoder_exercise.Active;
-				}
-				else //(current_mode == Constants.Modes.FORCESENSOR)
-				{
-					UtilGtk.ComboUpdate(combo_select_contacts_top,
-							UtilGtk.ComboGetValues (combo_force_sensor_exercise), "");
-					combo_select_contacts_top.Active = combo_force_sensor_exercise.Active;
-				}
-
-				combo_select_contacts_top.Sensitive = true;
-				hbox_combo_select_contacts_top.PackStart(combo_select_contacts_top, true, true, 0);
-				hbox_combo_select_contacts_top.ShowAll();
-			}
-			/*
-			TODO:
-			//other modes
-			//{
-			//}
-			...
-			*/
-
-			//activate signal
-			combo_select_contacts_top.Changed += new EventHandler (on_combo_select_contacts_top_changed);
+			comboSelectContactsTop = new CjComboSelectJumps (combo_select_contacts_top, hbox_combo_select_contacts_top, false);
+			combo_select_contacts_top = comboSelectContactsTop.Combo;
+			combo_select_contacts_top.Active = combo_select_jumps.Active;
+			combo_select_contacts_top.Sensitive = true;
 		}
+		else if(current_mode == Constants.Modes.JUMPSREACTIVE)
+		{
+			comboSelectContactsTop = new CjComboSelectJumpsRj (combo_select_contacts_top, hbox_combo_select_contacts_top);
+			combo_select_contacts_top = comboSelectContactsTop.Combo;
+			combo_select_contacts_top.Active = combo_select_jumps_rj.Active;
+			combo_select_contacts_top.Sensitive = true;
+		}
+		else if(current_mode == Constants.Modes.RUNSSIMPLE)
+		{
+			comboSelectContactsTop = new CjComboSelectRuns(combo_select_contacts_top, hbox_combo_select_contacts_top);
+			combo_select_contacts_top = comboSelectContactsTop.Combo;
+			combo_select_contacts_top.Active = combo_select_runs.Active;
+			combo_select_contacts_top.Sensitive = true;
+		}
+		else if(current_mode == Constants.Modes.RUNSINTERVALLIC)
+		{
+			comboSelectContactsTop = new CjComboSelectRunsI(combo_select_contacts_top, hbox_combo_select_contacts_top);
+			combo_select_contacts_top = comboSelectContactsTop.Combo;
+			combo_select_contacts_top.Active = combo_select_runs_interval.Active;
+			combo_select_contacts_top.Sensitive = true;
+		}
+		else if(current_mode == Constants.Modes.RUNSENCODER || current_mode == Constants.Modes.FORCESENSOR)
+		{
+			if(combo_select_contacts_top == null)
+				combo_select_contacts_top = ComboBox.NewText ();
+
+			//copy the values form combo_run_encoder_exercise or combo_force_sensor_exercise
+			if(current_mode == Constants.Modes.RUNSENCODER)
+			{
+				UtilGtk.ComboUpdate(combo_select_contacts_top,
+						UtilGtk.ComboGetValues (combo_run_encoder_exercise), "");
+				combo_select_contacts_top.Active = combo_run_encoder_exercise.Active;
+			}
+			else //(current_mode == Constants.Modes.FORCESENSOR)
+			{
+				UtilGtk.ComboUpdate(combo_select_contacts_top,
+						UtilGtk.ComboGetValues (combo_force_sensor_exercise), "");
+				combo_select_contacts_top.Active = combo_force_sensor_exercise.Active;
+			}
+
+			combo_select_contacts_top.Sensitive = true;
+			hbox_combo_select_contacts_top.PackStart(combo_select_contacts_top, true, true, 0);
+			hbox_combo_select_contacts_top.ShowAll();
+		}
+		else { //undefined, encoder ...
+			/*
+			   need to have it created in order to not crash when open Chronojump as encoder,
+			   import a session with jumps... data and then combo_select_contacts_top
+			   wants to be refreshed but is null. so need to initialize now
+			 */
+			if(combo_select_contacts_top == null)
+				combo_select_contacts_top = ComboBox.NewText ();
+
+			combo_select_contacts_top.Sensitive = true;
+			hbox_combo_select_contacts_top.PackStart(combo_select_contacts_top, true, true, 0);
+			hbox_combo_select_contacts_top.ShowAll();
+		}
+
+		//activate signal
+		combo_select_contacts_top.Changed += new EventHandler (on_combo_select_contacts_top_changed);
 	}
 
 	private void createComboSelectJumps(bool create) 
@@ -2450,6 +2443,7 @@ public partial class ChronoJumpWindow
 		}
 
 		comboSelectContactsTopNoFollow = true;
+		//LogB.Information("combo_select_contacts_top is null: " + (combo_select_contacts_top == null).ToString());
 		if (o == combo_select_jumps)
 		{
 			LogB.Information("o is combo_select_jumps");
@@ -3564,7 +3558,7 @@ public partial class ChronoJumpWindow
 				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_jump_reactive.png");
 			}
 
-			createComboSelectContactsTop (true);
+			createComboSelectContactsTop ();
 			label_contacts_exercise_selected_name.Visible = false;
 			hbox_combo_select_contacts_top_with_arrows.Visible = true; //this will be unneded
 
@@ -3633,7 +3627,7 @@ public partial class ChronoJumpWindow
 					radio_mode_contacts_analyze_buttons_visible (m);
 			}
 
-			createComboSelectContactsTop (true);
+			createComboSelectContactsTop ();
 			label_contacts_exercise_selected_name.Visible = false;
 			hbox_combo_select_contacts_top_with_arrows.Visible = true; //this will be unneded
 
@@ -3792,7 +3786,7 @@ public partial class ChronoJumpWindow
 			image_top_laterality_contacts.Visible = true;
 			setForceSensorLateralityPixbuf();
 
-			createComboSelectContactsTop (true);
+			createComboSelectContactsTop ();
 			label_contacts_exercise_selected_name.Visible = false;
 			hbox_combo_select_contacts_top_with_arrows.Visible = true; //this will be unneded
 
@@ -3834,7 +3828,7 @@ public partial class ChronoJumpWindow
 			label_contacts_exercise_selected_options.Visible = true;
 			image_top_laterality_contacts.Visible = false;
 
-			createComboSelectContactsTop (true);
+			createComboSelectContactsTop ();
 			label_contacts_exercise_selected_name.Visible = false;
 			hbox_combo_select_contacts_top_with_arrows.Visible = true; //this will be unneded
 

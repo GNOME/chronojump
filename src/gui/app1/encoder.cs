@@ -5170,6 +5170,7 @@ public partial class ChronoJumpWindow
 		EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(
 				false, getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE),
 				false, getEncoderGIByMenuitemMode())[0];
+		//LogB.Information("exercise: " + ex.ToString());
 
 		prepare_encoder_exercise_add_edit (false);
 

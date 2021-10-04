@@ -38,12 +38,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_db_backup;
 	[Widget] Gtk.Image image_db_view;
 	[Widget] Gtk.Image image_mode_encoder_capture;
-	[Widget] Gtk.Image image_current_person_zoom;
 	[Widget] Gtk.Image image_current_person_zoom_h;
 	[Widget] Gtk.Image image_person;
 	[Widget] Gtk.Image image_person1;
 	[Widget] Gtk.Image image_person2;
-	[Widget] Gtk.Image image_edit_current_person;
 	[Widget] Gtk.Image image_edit_current_person_h;
 	//[Widget] Gtk.Image image_persons_up;
 	//[Widget] Gtk.Image image_persons_down;
@@ -53,9 +51,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_contacts_session_overview;
 	[Widget] Gtk.Image image_encoder_session_overview;
 	[Widget] Gtk.Image image_contacts_recalculate;
-	[Widget] Gtk.Image image_all_persons_events;
 	[Widget] Gtk.Image image_all_persons_events_h;
-	[Widget] Gtk.Image image_person_delete;
 	[Widget] Gtk.Image image_person_delete_h;
 	[Widget] Gtk.Image image_chronopic_connect_contacts;
 	[Widget] Gtk.Image image_chronopic_connect_encoder;
@@ -381,7 +377,6 @@ public partial class ChronoJumpWindow
 		image_force_sensor_calibrate.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "portrait_zoom.png");
-		image_current_person_zoom.Pixbuf = pixbuf;
 		image_current_person_zoom_h.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_no_photo.png");
@@ -528,7 +523,6 @@ public partial class ChronoJumpWindow
 		image_encoder_exercise_edit.Pixbuf = pixbuf;
 		image_force_sensor_exercise_edit.Pixbuf = pixbuf;
 		image_run_encoder_exercise_edit.Pixbuf = pixbuf;
-		image_edit_current_person.Pixbuf = pixbuf;
 		image_edit_current_person_h.Pixbuf = pixbuf;
 		image_session_edit2.Pixbuf = pixbuf;
 		app1s_image_edit.Pixbuf = pixbuf;
@@ -584,7 +578,6 @@ public partial class ChronoJumpWindow
 		image_contacts_rest_time_clear_yellow.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "folder_check.png");
-		image_all_persons_events.Pixbuf = pixbuf;
 		image_all_persons_events_h.Pixbuf = pixbuf;
 		image_db_view.Pixbuf = pixbuf;
 
@@ -752,7 +745,6 @@ public partial class ChronoJumpWindow
 		image_encoder_bell.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
-		image_person_delete.Pixbuf = pixbuf;
 		image_person_delete_h.Pixbuf = pixbuf;
 		image_delete_last_test.Pixbuf = pixbuf;
 		image_jump_delete.Pixbuf = pixbuf;

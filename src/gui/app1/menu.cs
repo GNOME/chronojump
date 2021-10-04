@@ -54,10 +54,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox eventbox_edit_current_person_h;
 	[Widget] Gtk.EventBox eventbox_show_all_person_events_h;
 	[Widget] Gtk.EventBox eventbox_delete_current_person_h;
-	[Widget] Gtk.EventBox eventbox_current_person_zoom;
-	[Widget] Gtk.EventBox eventbox_edit_current_person;
-	[Widget] Gtk.EventBox eventbox_show_all_person_events;
-	[Widget] Gtk.EventBox eventbox_delete_current_person;
 	[Widget] Gtk.Label label_current_session;
 	[Widget] Gtk.Label label_current_person;
 
@@ -193,7 +189,6 @@ public partial class ChronoJumpWindow
 		LogB.Information(string.Format("hbox_persons_bottom_no_photo: {0}", hbox_persons_bottom_no_photo.SizeRequest().Width));
 		LogB.Information(string.Format("hbox_persons_bottom_photo: {0}", hbox_persons_bottom_photo.SizeRequest().Width));
 		LogB.Information(string.Format("image_current_person: {0}", image_current_person.SizeRequest().Width));
-		LogB.Information(string.Format("button_image_current_person_zoom: {0}", button_image_current_person_zoom.SizeRequest().Width));
 		LogB.Information(string.Format("hbox_rest_time: {0}", hbox_rest_time.SizeRequest().Width));
 		*/
 
@@ -281,10 +276,6 @@ public partial class ChronoJumpWindow
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_edit_current_person_h, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_show_all_person_events_h, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 		UtilGtk.EventBoxColorBackgroundActive (eventbox_delete_current_person_h, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_current_person_zoom, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_edit_current_person, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_show_all_person_events, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
-		UtilGtk.EventBoxColorBackgroundActive (eventbox_delete_current_person, UtilGtk.YELLOW, UtilGtk.YELLOW_LIGHT);
 	}
 
 	private void menuShowVerticalArrow (bool selected, Gtk.Arrow a_up, Gtk.Arrow a_down)

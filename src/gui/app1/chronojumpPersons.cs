@@ -54,7 +54,6 @@ public partial class ChronoJumpWindow
 	private void showPersonPhoto (bool showPhoto)
 	{
 		hbox_persons_bottom_photo.Visible = showPhoto;
-		vbox_persons_bottom_no_photo.Visible = ! showPhoto;
 	}
 
 	private void label_person_change()
@@ -70,7 +69,6 @@ public partial class ChronoJumpWindow
 		{
 			Pixbuf pixbuf = new Pixbuf (filenameMini);
 			image_current_person.Pixbuf = pixbuf;
-			button_image_current_person_zoom.Sensitive = true;
 			button_image_current_person_zoom_h.Sensitive = true;
 		} else {
 			//image_current_person.Pixbuf = null;
@@ -79,7 +77,6 @@ public partial class ChronoJumpWindow
 				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_no_photo_yellow.png");
 			image_current_person.Pixbuf = pixbuf;
 
-			button_image_current_person_zoom.Sensitive = false;
 			button_image_current_person_zoom_h.Sensitive = false;
 		}
 	}

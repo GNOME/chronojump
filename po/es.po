@@ -4563,7 +4563,7 @@ msgstr "Condiciones"
 
 #: ../glade/repetitive_conditions.glade.h:15
 msgid "Main variable"
-msgstr "Variables principal"
+msgstr "Variable principal"
 
 #: ../glade/repetitive_conditions.glade.h:16
 msgid "Feedback relative to the maximum repetition of …"

@@ -417,7 +417,17 @@ public class EncoderGraphDoPlot
 			count ++;
 		}
 		if(maxThisSetForCalc <= 0)
-			return;	
+		{
+			if(countValid > 0 &&
+					(mainVariable != Constants.Range && mainVariable != Constants.RangeAbsolute &&
+					 mainVariable != Constants.MeanSpeed && mainVariable != Constants.MaxSpeed) )
+				ShowMessage(
+						Catalog.GetString("Main variable:") + " " + Catalog.GetString(mainVariable) + "\n\n" +
+						Catalog.GetString("Bars are not shown because the displaced mass is 0."),
+						false, false);
+
+			return;
+		}
 
 		double maxAbsoluteForCalc = maxThisSetForCalc;
 		double maxAbsoluteForGraph = maxThisSetForGraph;

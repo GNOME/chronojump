@@ -50,7 +50,6 @@ public partial class ChronoJumpWindow
 		string down = Catalog.GetString("Down");
 
 		//persons
-		button_edit_current_person.TooltipText += string.Format(" ({0}+p)", kCtrl);
 		button_edit_current_person_h.TooltipText += string.Format(" ({0}+p)", kCtrl);
 		button_persons_up.TooltipText += string.Format(" ({0}+{1})", kCtrl, up);
 		button_persons_down.TooltipText += string.Format(" ({0}+{1})", kCtrl, down);

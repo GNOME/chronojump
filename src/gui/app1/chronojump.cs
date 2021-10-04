@@ -3575,7 +3575,10 @@ public partial class ChronoJumpWindow
 		}
 		else if(m == Constants.Modes.RUNSSIMPLE || m == Constants.Modes.RUNSINTERVALLIC)
 		{
-			button_execute_test_show_connect_or_execute(! cp2016.SuccededConnectContactsRealThread);
+			if(cp2016.StoredWireless)
+				button_execute_test_show_connect_or_execute(false);
+			else
+				button_execute_test_show_connect_or_execute(! cp2016.SuccededConnectContactsRealThread);
 
 			notebook_sup.CurrentPage = Convert.ToInt32(notebook_sup_pages.CONTACTS);
 			//notebook_capture_analyze.ShowTabs = true;
@@ -4439,6 +4442,7 @@ public partial class ChronoJumpWindow
 		{
 			//cp2016.StoredCanCaptureContacts = true;
 			cp2016.StoredWireless = true;
+			button_execute_test_show_connect_or_execute(false); //to not show "connect"
 
 			on_button_execute_test_acceptedPre_start_camera(WebcamStartedTestStart.CHRONOPIC);
 			return;

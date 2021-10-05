@@ -587,6 +587,32 @@ public abstract class CairoBars : CairoGeneric
 		printText(graphWidth/2 + leftMargin, textHeight/2, 0, textHeight+2,
 				title, g, alignTypes.CENTER);
 	}
+
+	protected void writeMessageAtCenter(string message)
+	{
+		Cairo.TextExtents te;
+		int messageTextHeight = textHeight +2;
+
+		do {
+			g.SetFontSize(messageTextHeight);
+			te = g.TextExtents(message);
+			if(te.Width >= graphWidth)
+				messageTextHeight --;
+		} while (te.Width >= graphWidth && messageTextHeight >= 1);
+
+		g.Color = yellow; //to have contrast with the bar
+		g.Rectangle(graphWidth/2 -te.Width/2 -1, graphHeight/2 -messageTextHeight -1,
+				te.Width +2, te.Height+2);
+		g.Fill();
+
+		g.Color = black;
+		printText (graphWidth/2, graphHeight/2 -messageTextHeight/2,
+				0, messageTextHeight,
+				message, g, alignTypes.CENTER);
+
+		g.SetFontSize(textHeight -2);
+	}
+
 	/*
 	protected void writeTitleAtRight()
 	{
@@ -637,13 +663,16 @@ public class CairoBars1Series : CairoBars
 	private List<string> names_l;
 
 	//constructor when there are no points
-	public CairoBars1Series (DrawingArea area, string font)
+	public CairoBars1Series (DrawingArea area, string font, string testsNotFoundMessage)
 	{
 		this.area = area;
 
 		LogB.Information("constructor without points, area is null:" + (area == null).ToString());
 		LogB.Information("constructor without points, area.GdkWindow is null:" + (area.GdkWindow == null).ToString());
 		initGraph(font, 1); //.8 to have title at right
+
+		if(testsNotFoundMessage != "")
+			writeMessageAtCenter(testsNotFoundMessage);
 
 		endGraphDisposing(g);
 	}

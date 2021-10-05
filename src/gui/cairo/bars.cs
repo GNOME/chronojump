@@ -596,13 +596,13 @@ public abstract class CairoBars : CairoGeneric
 		do {
 			g.SetFontSize(messageTextHeight);
 			te = g.TextExtents(message);
-			if(te.Width >= graphWidth)
+			if(te.Width >= .9 * graphWidth)
 				messageTextHeight --;
-		} while (te.Width >= graphWidth && messageTextHeight >= 1);
+		} while (te.Width >= .9 * graphWidth && messageTextHeight >= 1);
 
 		g.Color = yellow; //to have contrast with the bar
 		g.Rectangle(graphWidth/2 -te.Width/2 -1, graphHeight/2 -messageTextHeight -1,
-				te.Width +2, te.Height+2);
+				te.Width +2, te.Height+4);
 		g.Fill();
 
 		g.Color = black;

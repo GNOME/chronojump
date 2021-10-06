@@ -259,21 +259,23 @@ class SqlitePersonSession : Sqlite
 	}
 
 	//sessionID can be -1
-	//TODO: add the sessionID -1 code
 	public static List<Person> SelectCurrentSessionPersonsAsList (bool dbconOpened, int sessionID)
 	{
-		string tp = Constants.PersonTable;
-		string tps = Constants.PersonSessionTable;
-
-		string tpsString = "";
-
 		if(! dbconOpened)
 			Sqlite.Open();
 
+		string tp = Constants.PersonTable;
+		string tps = Constants.PersonSessionTable;
+		string tpsString = "";
+
+		string sessionIDString = tps + ".sessionID = " + sessionID + " AND ";
+		if(sessionID == -1)
+			sessionIDString = "";
+
 		dbcmd.CommandText = "SELECT " + tp + ".*" +
 			" FROM " + tp + ", " + tps +
-			" WHERE " + tps + ".sessionID == " + sessionID +
-			" AND " + tp + ".uniqueID == " + tps + ".personID " +
+			" WHERE " + sessionIDString +
+			tp + ".uniqueID = " + tps + ".personID " +
 			" ORDER BY upper(" + tp + ".name)";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -308,7 +310,7 @@ class SqlitePersonSession : Sqlite
 	}
 	//the difference between this select and others, is that this returns and ArrayList of Persons
 	//this is better than return the strings that can produce bugs in the future
-	//use this in the future:
+	//sessionID can be -1
 	public static ArrayList SelectCurrentSessionPersons(int sessionID, bool returnPersonAndPSlist) 
 	{
 		string tp = Constants.PersonTable;
@@ -317,12 +319,16 @@ class SqlitePersonSession : Sqlite
 		string tpsString = "";
 		if(returnPersonAndPSlist)
 			tpsString = ", " + tps + ".* ";
+
+		string sessionIDString = tps + ".sessionID = " + sessionID + " AND ";
+		if(sessionID == -1)
+			sessionIDString = "";
 		
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT " + tp + ".*" + tpsString +
 			" FROM " + tp + ", " + tps + 
-			" WHERE " + tps + ".sessionID == " + sessionID + 
-			" AND " + tp + ".uniqueID == " + tps + ".personID " + 
+			" WHERE " + sessionIDString +
+			tp + ".uniqueID = " + tps + ".personID " +
 			" ORDER BY upper(" + tp + ".name)";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

@@ -924,6 +924,7 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeIndividualAllSessionsIcon);
 		image_encoder_analyze_individual_all_sessions.Pixbuf = pixbuf;
+		image_force_sensor_analyze_individual_all_sessions.Pixbuf = pixbuf;
 		image_tab_jumps_evolution.Pixbuf = pixbuf;
 		image_tab_runs_evolution.Pixbuf = pixbuf;
 

@@ -41,9 +41,11 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.RadioButton radio_run_encoder_analyze_individual_current_set;
 	[Widget] Gtk.RadioButton radio_run_encoder_analyze_individual_current_session;
+	[Widget] Gtk.RadioButton radio_run_encoder_analyze_individual_all_sessions;
 	[Widget] Gtk.RadioButton radio_run_encoder_analyze_groupal_current_session;
 	[Widget] Gtk.Image image_run_encoder_analyze_individual_current_set;
 	[Widget] Gtk.Image image_run_encoder_analyze_individual_current_session;
+	[Widget] Gtk.Image image_run_encoder_analyze_individual_all_sessions;
 	[Widget] Gtk.Image image_run_encoder_analyze_groupal_current_session;
 
 	[Widget] Gtk.HBox hbox_run_encoder_top;
@@ -288,7 +290,7 @@ public partial class ChronoJumpWindow
 		label_run_encoder_export_result.Text = "";
 		button_run_encoder_export_result_open.Visible = false;
 	}
-	private void on_radio_run_encoder_analyze_individual_current_session_toggled (object o, EventArgs args)
+	private void on_radio_run_encoder_analyze_individual_session_current_or_all_toggled (object o, EventArgs args)
 	{
 		button_run_encoder_analyze_load.Visible = false;
 		button_run_encoder_analyze_analyze.Visible = false;
@@ -314,8 +316,19 @@ public partial class ChronoJumpWindow
 		button_run_encoder_export_result_open.Visible = false;
 	}
 
-	private void on_button_run_encoder_export_current_session_clicked (object o, EventArgs args)
+	private void on_button_run_encoder_export_not_set_clicked (object o, EventArgs args)
 	{
+		// 1) check if all sessions
+		if(radio_run_encoder_analyze_individual_all_sessions.Active)
+		{
+			if(currentPerson == null)
+				return;
+
+			button_run_encoder_export_session (currentPerson.UniqueID, -1);
+			return;
+		}
+
+		// 2) current session (individual or groupal)
 		if(currentSession == null)
 			return;
 
@@ -324,16 +337,16 @@ public partial class ChronoJumpWindow
 			if(currentPerson == null)
 				return;
 
-			button_run_encoder_export_session (currentPerson.UniqueID);
+			button_run_encoder_export_session (currentPerson.UniqueID, currentSession.UniqueID);
 		}
 		else if (radio_run_encoder_analyze_groupal_current_session.Active)
 		{
-			button_run_encoder_export_session (-1);
+			button_run_encoder_export_session (-1, currentSession.UniqueID);
 		}
 	}
 
 	RunEncoderExport runEncoderExport;
-	private void button_run_encoder_export_session (int personID)
+	private void button_run_encoder_export_session (int personID, int sessionID)
 	{
 		label_run_encoder_export_result.Text = "";
 		button_run_encoder_export_result_open.Visible = false;
@@ -367,8 +380,7 @@ public partial class ChronoJumpWindow
 				Convert.ToInt32(spinbutton_run_encoder_export_image_height.Value),
 				check_run_encoder_export_instantaneous.Active,
 				UtilAll.IsWindows(),
-				personID,
-				currentSession.UniqueID,
+				personID, sessionID,
 				preferences.runEncoderMinAccel,
 				Preferences.RunEncoderShouldPlotVariable(Preferences.RunEncoderPlotVariables.RAWACCEL),
 				Preferences.RunEncoderShouldPlotVariable(Preferences.RunEncoderPlotVariables.FITTEDACCEL),
@@ -387,11 +399,15 @@ public partial class ChronoJumpWindow
 		{
 			if(personID == -1)
 				selectedFile = checkFolder (Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES);
+			else if (sessionID == -1)
+				selectedFile = checkFolder (Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_ALL_SESSIONS_YES_IMAGES);
 			else
 				selectedFile = checkFolder (Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES);
 		} else { 											//export file
 			if(personID == -1)
 				selectedFile = checkFile (Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES);
+			else if (sessionID == -1)
+				selectedFile = checkFile (Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_ALL_SESSIONS_NO_IMAGES);
 			else
 				selectedFile = checkFile (Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_CURRENT_SESSION_NO_IMAGES);
 		}

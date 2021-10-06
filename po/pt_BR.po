@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2021-10-04 12:46+0000\n"
-"PO-Revision-Date: 2021-10-04 13:41-0300\n"
+"POT-Creation-Date: 2021-10-05 14:42+0000\n"
+"PO-Revision-Date: 2021-10-06 14:54-0300\n"
 "Last-Translator: Enrico Nicoletto <liverig@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
@@ -416,8 +416,8 @@ msgstr "Fases"
 #: ../src/exportSession.cs:573 ../src/exportSession.cs:729
 #: ../src/exportSession.cs:790 ../src/exportSession.cs:875
 #: ../src/forceSensor.cs:2544 ../src/gui/cairo/xy.cs:94
-#: ../src/gui/eventExecute.cs:2616 ../src/gui/eventExecute.cs:2739
-#: ../src/gui/eventExecute.cs:3106 ../src/gui/old/queryServer.cs:116
+#: ../src/gui/eventExecute.cs:2640 ../src/gui/eventExecute.cs:2763
+#: ../src/gui/eventExecute.cs:3130 ../src/gui/old/queryServer.cs:116
 #: ../src/gui/old/queryServer.cs:784 ../src/gui/pulse.cs:222
 #: ../src/stats/rjPotencyBosco.cs:36 ../src/stats/runSimple.cs:53
 #: ../src/treeview/multiChronopic.cs:55 ../src/treeview/multiChronopic.cs:63
@@ -769,7 +769,7 @@ msgid "Start outside"
 msgstr "Iniciar de fora"
 
 #: ../glade/app1.glade.h:153 ../glade/edit_event.glade.h:3
-#: ../src/gui/eventExecute.cs:2612
+#: ../src/gui/eventExecute.cs:2636
 msgid "Falling height"
 msgstr "Altura da queda"
 
@@ -1182,7 +1182,7 @@ msgstr "Largura"
 #: ../glade/app1.glade.h:238 ../glade/preferences_win.glade.h:132
 #: ../glade/repetitive_conditions.glade.h:10 ../src/exportSession.cs:264
 #: ../src/exportSession.cs:325 ../src/exportSession.cs:502
-#: ../src/gui/cairo/xy.cs:88 ../src/gui/eventExecute.cs:2608
+#: ../src/gui/cairo/xy.cs:88 ../src/gui/eventExecute.cs:2632
 #: ../src/stats/djIndex.cs:33 ../src/stats/djPower.cs:33 ../src/stats/djQ.cs:33
 #: ../src/stats/potency.cs:63 ../src/stats/sjCmjAbk.cs:53
 #: ../src/stats/sjCmjAbkPlus.cs:63 ../src/treeview/jump.cs:33
@@ -1428,8 +1428,8 @@ msgid "Show"
 msgstr "Exibir"
 
 #: ../glade/app1.glade.h:297 ../glade/edit_event.glade.h:2
-#: ../src/gui/eventExecute.cs:2621 ../src/gui/eventExecute.cs:2742
-#: ../src/gui/eventExecute.cs:3110
+#: ../src/gui/eventExecute.cs:2645 ../src/gui/eventExecute.cs:2766
+#: ../src/gui/eventExecute.cs:3134
 msgid "Flight time"
 msgstr "Tempo de voo"
 
@@ -1448,8 +1448,8 @@ msgid "TF"
 msgstr "TF"
 
 #: ../glade/app1.glade.h:299 ../glade/edit_event.glade.h:9
-#: ../src/gui/eventExecute.cs:2620 ../src/gui/eventExecute.cs:2741
-#: ../src/gui/eventExecute.cs:3109
+#: ../src/gui/eventExecute.cs:2644 ../src/gui/eventExecute.cs:2765
+#: ../src/gui/eventExecute.cs:3133
 msgid "Contact time"
 msgstr "Tempo de contato"
 
@@ -1543,8 +1543,8 @@ msgstr "Diferença"
 #: ../glade/repetitive_conditions.glade.h:32 ../src/constants.cs:1392
 #: ../src/encoder.cs:2418 ../src/exportSession.cs:574
 #: ../src/forceSensor.cs:2550 ../src/gui/app1/runEncoder.cs:2106
-#: ../src/gui/cairo/xy.cs:91 ../src/gui/eventExecute.cs:2862
-#: ../src/gui/eventExecute.cs:2960 ../src/gui/eventExecute.cs:3255
+#: ../src/gui/cairo/xy.cs:91 ../src/gui/eventExecute.cs:2886
+#: ../src/gui/eventExecute.cs:2984 ../src/gui/eventExecute.cs:3279
 #: ../src/stats/runIntervallic.cs:65 ../src/stats/runIntervallic.cs:70
 #: ../src/stats/runIntervallic.cs:74 ../src/stats/runSimple.cs:52
 #: ../src/treeview/run.cs:51 ../src/treeview/run.cs:130
@@ -5449,9 +5449,9 @@ msgstr "Testes serão <b>simulados</b> até que o Chronopic esteja conectado."
 #: ../src/exportSession.cs:436 ../src/exportSession.cs:577
 #: ../src/exportSession.cs:635 ../src/exportSession.cs:731
 #: ../src/exportSession.cs:773 ../src/exportSession.cs:833
-#: ../src/gui/eventExecute.cs:182 ../src/gui/eventExecute.cs:2541
-#: ../src/gui/eventExecute.cs:2644 ../src/gui/eventExecute.cs:2764
-#: ../src/gui/eventExecute.cs:2884 ../src/gui/eventExecute.cs:2982
+#: ../src/gui/eventExecute.cs:182 ../src/gui/eventExecute.cs:2565
+#: ../src/gui/eventExecute.cs:2668 ../src/gui/eventExecute.cs:2788
+#: ../src/gui/eventExecute.cs:2908 ../src/gui/eventExecute.cs:3006
 msgid "Simulated"
 msgstr "Simulado"
 
@@ -7749,15 +7749,34 @@ msgstr "Você tem certeza de que deseja excluir esse tipo de teste?"
 msgid "Platforms"
 msgstr "Plataformas"
 
-#: ../src/gui/eventExecute.cs:2613
+#: ../src/gui/eventExecute.cs:2317
+#, csharp-format
+msgid "{0} has not run any {1} test in this session."
+msgstr "{0} não fez nenhum teste {1} nesta sessão."
+
+#: ../src/gui/eventExecute.cs:2320
+#, csharp-format
+msgid "{0} has not run any test in this session."
+msgstr "{0} não fez nenhum teste nesta sessão."
+
+#: ../src/gui/eventExecute.cs:2324
+#, csharp-format
+msgid "There are no {0} tests in this session."
+msgstr "Não há {0} testes nesta sessão."
+
+#: ../src/gui/eventExecute.cs:2327
+msgid "No tests in this session."
+msgstr "Sem testes nesta sessão."
+
+#: ../src/gui/eventExecute.cs:2637
 msgid "Jump height"
 msgstr "Altura do salto"
 
-#: ../src/gui/eventExecute.cs:2741 ../src/gui/eventExecute.cs:2742
+#: ../src/gui/eventExecute.cs:2765 ../src/gui/eventExecute.cs:2766
 msgid "total"
 msgstr "total"
 
-#: ../src/gui/eventExecute.cs:3060 ../src/gui/eventExecute.cs:3185
+#: ../src/gui/eventExecute.cs:3084 ../src/gui/eventExecute.cs:3209
 msgid "Last test:"
 msgstr "Último teste:"
 

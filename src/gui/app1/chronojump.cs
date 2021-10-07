@@ -8161,7 +8161,7 @@ LogB.Debug("mc finished 5");
 	 * sensitive GUI on executeAuto methods 
 	 */
 
-	bool showRunWirelessDevice = false;
+	bool showRunWirelessDevice = true;
 	private void chronopicRegisterUpdate(bool openWindow)
 	{
 		//on Windows need to close the port before reading with FTDI dll

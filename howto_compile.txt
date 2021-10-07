@@ -13,17 +13,23 @@ https://github.com/myspaghetti/macos-virtualbox
 It is inportant not to interact with the virtual machine and only press enter when promnpted by the script
 If something fails the script can be resumed at the desired point. See documentation
 
-install this mono version:
+#install this mono version:
 https://download.mono-project.com/archive/6.10.0/macos-10-universal/MonoFramework-MDK-6.10.0.105.macos10.xamarin.universal.pkg
 
-install brew:
+#install brew:
 https://brew.sh
 
-install these brew packages:
+#install these brew packages:
 brew install autoconf intltool automake gettext libtool glib pkg-config
-(gettext maybe is not needed)
+#(gettext maybe is not needed)
 
+#avoid ssl certificate problems on git:
+git config --global http.sslverify "false"
+
+#clone
 git clone https://gitlab.gnome.org/GNOME/chronojump.git
+
+#pull & compile
 git pull
 cd package/macos
 make

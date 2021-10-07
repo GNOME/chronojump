@@ -37,9 +37,11 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.HBox hbox_sprint_analyze_top_modes;
 	[Widget] Gtk.RadioButton radio_sprint_analyze_individual_current_session;
+	[Widget] Gtk.RadioButton radio_sprint_analyze_individual_all_sessions;
 	[Widget] Gtk.RadioButton radio_sprint_analyze_groupal_current_session;
 	[Widget] Gtk.Image image_sprint_analyze_individual_current_set;
 	[Widget] Gtk.Image image_sprint_analyze_individual_current_session;
+	[Widget] Gtk.Image image_sprint_analyze_individual_all_sessions;
 	[Widget] Gtk.Image image_sprint_analyze_groupal_current_session;
 	[Widget] Gtk.Notebook notebook_sprint_analyze_top;
 
@@ -307,7 +309,7 @@ public partial class ChronoJumpWindow
 		button_sprint_export_result_open.Visible = false;
 	}
 
-	private void on_radio_sprint_analyze_individual_current_session_toggled (object o, EventArgs args)
+	private void on_radio_sprint_analyze_individual_session_current_or_all_toggled (object o, EventArgs args)
 	{
 		notebook_sprint_analyze_top.CurrentPage = 1;
 
@@ -330,8 +332,19 @@ public partial class ChronoJumpWindow
 		button_sprint_export_result_open.Visible = false;
 	}
 
-	private void on_button_sprint_export_current_session_clicked (object o, EventArgs args)
+	private void on_button_sprint_export_not_set_clicked (object o, EventArgs args)
 	{
+		// 1) check if all sessions
+		if(radio_sprint_analyze_individual_all_sessions.Active)
+		{
+			if(currentPerson == null)
+				return;
+
+			button_sprint_export_session (currentPerson.UniqueID, -1);
+			return;
+		}
+
+		// 2) current session (individual or groupal)
 		if(currentSession == null)
 			return;
 
@@ -340,16 +353,16 @@ public partial class ChronoJumpWindow
 			if(currentPerson == null)
 				return;
 
-			button_sprint_export_session (currentPerson.UniqueID);
+			button_sprint_export_session (currentPerson.UniqueID, currentSession.UniqueID);
 		}
 		else if (radio_sprint_analyze_groupal_current_session.Active)
 		{
-			button_sprint_export_session (-1);
+			button_sprint_export_session (-1, currentSession.UniqueID);
 		}
 	}
 
 	SprintExport sprintExport;
-	private void button_sprint_export_session (int personID)
+	private void button_sprint_export_session (int personID, int sessionID)
 	{
 		//continue based on: private void button_run_encoder_export_session (int personID)
 		//TODO: sensitive stuff (false)
@@ -383,8 +396,7 @@ public partial class ChronoJumpWindow
 				Convert.ToInt32(spinbutton_sprint_export_image_width.Value),
 				Convert.ToInt32(spinbutton_sprint_export_image_height.Value),
 				UtilAll.IsWindows(),
-				personID,
-				currentSession.UniqueID,
+				personID, sessionID,
 				preferences.CSVExportDecimalSeparatorChar,      //decimalIsPointAtExport (write)
 				preferences.digitsNumber);
 
@@ -396,11 +408,15 @@ public partial class ChronoJumpWindow
 		{
 			if(personID == -1)
 				selectedFile = checkFolder (Constants.CheckFileOp.RUNS_SPRINT_EXPORT_GROUPAL_CURRENT_SESSION_YES_IMAGES);
+			else if (sessionID == -1)
+				selectedFile = checkFolder (Constants.CheckFileOp.RUNS_SPRINT_EXPORT_INDIVIDUAL_ALL_SESSIONS_YES_IMAGES);
 			else
 				selectedFile = checkFolder (Constants.CheckFileOp.RUNS_SPRINT_EXPORT_INDIVIDUAL_CURRENT_SESSION_YES_IMAGES);
 		} else {
 			if(personID == -1)
 				selectedFile = checkFile (Constants.CheckFileOp.RUNS_SPRINT_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES);
+			else if (sessionID == -1)
+				selectedFile = checkFile (Constants.CheckFileOp.RUNS_SPRINT_EXPORT_INDIVIDUAL_ALL_SESSIONS_NO_IMAGES);
 			else
 				selectedFile = checkFile (Constants.CheckFileOp.RUNS_SPRINT_EXPORT_INDIVIDUAL_CURRENT_SESSION_NO_IMAGES);
 		}

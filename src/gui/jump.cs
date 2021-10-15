@@ -108,7 +108,7 @@ public class EditJumpWindow : EditEventWindow
 		showSpeed = false;
 		showWeight = true;
 		showLimited = false;
-		showAngle = true;
+		//showAngle = true; //kneeAngle
 		showMistakes = false;
 		
 		if(weightPercentPreferred)
@@ -180,7 +180,8 @@ public class EditJumpWindow : EditEventWindow
 			entry_weight_value.Sensitive = false;
 		}
 	}
-	
+
+	/*
 	protected override void fillAngle(Event myEvent) {
 		Jump myJump = (Jump) myEvent;
 		
@@ -193,7 +194,8 @@ public class EditJumpWindow : EditEventWindow
 			entry_angle_value.Text = entryAngle;
 		}
 	}
-	
+	*/
+
 	//this disallows loops on radio actions	
 	private bool toggleRaisesSignal = true;
 
@@ -409,7 +411,8 @@ public class EditJumpWindow : EditEventWindow
 		//only for jump
 		double jumpPercentWeightForNewPerson = updateWeight(personID, sessionID);
 		
-		SqliteJump.Update(eventID, UtilGtk.ComboGetActive(combo_eventType), entryTv, entryTc, entryFall, personID, jumpPercentWeightForNewPerson, description, Convert.ToDouble(entryAngle));
+		//SqliteJump.Update(eventID, UtilGtk.ComboGetActive(combo_eventType), entryTv, entryTc, entryFall, personID, jumpPercentWeightForNewPerson, description, Convert.ToDouble(entryAngle));
+		SqliteJump.Update(eventID, UtilGtk.ComboGetActive(combo_eventType), entryTv, entryTc, entryFall, personID, jumpPercentWeightForNewPerson, description, -1.0);
 	}
 
 	

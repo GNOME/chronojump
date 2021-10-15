@@ -73,7 +73,8 @@ public class Preferences
 	public bool showPower;
 	public bool showStiffness;
 	public bool showInitialSpeed;
-	public bool showAngle;
+	public bool showJumpRSI;
+	public bool showAngle; //unused
 	public bool showQIndex;
 	public bool showDjIndex;
 	public bool weightStatsPercent;		//AKA weightPercentPreferred

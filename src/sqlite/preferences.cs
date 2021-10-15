@@ -62,6 +62,7 @@ class SqlitePreferences : Sqlite
 
 	public const string RunsEvolutionOnlyBestInSession = "runsEvolutionOnlyBestInSession";
 	public const string RunsEvolutionShowTime = "runsEvolutionShowTime";
+	public const string ShowJumpRSI = "showJumpRSI";
 
 	//encoder
 	public const string EncoderCaptureInfinite = "encoderCaptureInfinite";
@@ -209,6 +210,7 @@ class SqlitePreferences : Sqlite
 				Insert ("showPower", "True", dbcmdTr);
 				Insert ("showStiffness", "True", dbcmdTr);
 				Insert ("showInitialSpeed", "True", dbcmdTr);
+				Insert (ShowJumpRSI, "True", dbcmdTr);
 				Insert ("showAngle", "False", dbcmdTr); //for treeviewjumps
 				Insert ("showQIndex", "False", dbcmdTr); //for treeviewJumps
 				Insert ("showDjIndex", "False", dbcmdTr); //for treeviewJumps
@@ -575,6 +577,8 @@ class SqlitePreferences : Sqlite
 				preferences.showStiffness = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "showInitialSpeed")
 				preferences.showInitialSpeed = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == ShowJumpRSI)
+				preferences.showJumpRSI = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "showAngle") {
 				//preferences.showAngle = reader[1].ToString() == "True";
 				preferences.showAngle = false;

@@ -133,6 +133,10 @@ public class Jump : Event
 	public double RSI {
 		get { return UtilAll.DivideSafe(Util.GetHeightInMeters(tv), tc); }
 	}
+	public static double CalculateRSI (double mytv, double mytc)
+	{
+		return UtilAll.DivideSafe(Util.GetHeightInMeters(mytv), mytc);
+	}
 
 	public double Angle {
 		get { return angle; }

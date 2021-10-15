@@ -34,6 +34,7 @@ public class TreeViewJumps : TreeViewEvent
 	protected string powerName = Catalog.GetString("Power") + "\n(W)";
 	protected string stiffnessName = Catalog.GetString("Stiffness") + "\n(N/m)";
 	protected string initialSpeedName = Catalog.GetString("Initial Speed");
+	protected string rsiName = "RSI" + "\n(m/s)";
 	protected string angleName = Catalog.GetString("Angle");
 	protected string datetimeName = Catalog.GetString("Date");
 
@@ -95,6 +96,8 @@ public class TreeViewJumps : TreeViewEvent
 			i ++;
 		if (preferences.showInitialSpeed) 
 			i ++;
+		if (preferences.showJumpRSI)
+			i ++;
 		if (preferences.showAngle) 
 			i ++;
 		if (preferences.showQIndex || preferences.showDjIndex) 
@@ -112,6 +115,8 @@ public class TreeViewJumps : TreeViewEvent
 		if (preferences.showStiffness)  
 			i ++;
 		if (preferences.showInitialSpeed) 
+			i ++;
+		if (preferences.showJumpRSI)
 			i ++;
 		if (preferences.showAngle) 
 			i ++;
@@ -138,6 +143,8 @@ public class TreeViewJumps : TreeViewEvent
 			columnsString[i++] = stiffnessName;
 		if (preferences.showInitialSpeed) 
 			columnsString[i++] = initialSpeedName;
+		if (preferences.showJumpRSI)
+			columnsString[i++] = rsiName;
 		if (preferences.showAngle) 
 			columnsString[i++] = angleName;
 		if (preferences.showQIndex) 
@@ -223,6 +230,8 @@ public class TreeViewJumps : TreeViewEvent
 			myData[count++] = Convert.ToInt32(newJump.Stiffness(personWeight, weightInKg)).ToString();
 		if (preferences.showInitialSpeed) 
 			myData[count++] = Util.TrimDecimals(Util.GetInitialSpeed(newJump.Tv.ToString(), preferences.metersSecondsPreferred), pDN);
+		if (preferences.showJumpRSI)
+			myData[count++] = Util.TrimDecimals(newJump.RSI, pDN);
 		if (preferences.showAngle) 
 			myData[count++] = Util.TrimDecimals(newJump.Angle.ToString(), pDN);
 		if (preferences.showQIndex)

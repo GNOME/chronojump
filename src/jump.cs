@@ -130,6 +130,10 @@ public class Jump : Event
 		set { weight = value; }
 	}
 
+	public double RSI {
+		get { return UtilAll.DivideSafe(Util.GetHeightInMeters(tv), tc); }
+	}
+
 	public double Angle {
 		get { return angle; }
 		set { angle = value; }

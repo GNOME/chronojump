@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.27";
+	static string lastChronojumpDatabaseVersion = "2.28";
 
 	public Sqlite()
 	{
@@ -3059,7 +3059,12 @@ class Sqlite
 
 				currentVersion = updateVersion("2.27");
 			}
-
+			if(currentVersion == "2.27")
+			{
+				LogB.SQL("Inserted at preferences showJumpRSI");
+				SqlitePreferences.Insert (SqlitePreferences.ShowJumpRSI, "True");
+				currentVersion = updateVersion("2.28");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -3279,6 +3284,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
+		//2.27 - 2.28 Converted DB to 2.28 Inserted at preferences showJumpRSI
 		//2.26 - 2.27 Converted DB to 2.27 Inserted lastBackupDir, lastBackupDatetime, backupScheduledCreatedDate, backupScheduledNextDays
 		//2.25 - 2.26 Converted DB to 2.26 contactsCaptureDisplay with BooleansInt, and bool runEncoderCaptureDisplaySimple
 		//2.24 - 2.25 Converted DB to 2.25 encoderCaptureShowOnlyBars now uses BooleansInt

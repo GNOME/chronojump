@@ -203,6 +203,14 @@ public class Util
 		return min ; 
 	}
 	
+	public static double GetAverage (List<double> values)
+	{
+		double sum = 0;
+		foreach(double d in values)
+			sum += d;
+
+		return UtilAll.DivideSafe(sum, values.Count);
+	}
 	public static double GetAverage (string values)
 	{
 		if(values.Length == 0)

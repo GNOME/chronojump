@@ -68,9 +68,9 @@ public class EditEventWindow
 	[Widget] protected Gtk.Label label_weight_units;
 	[Widget] protected Gtk.Label label_limited_title;
 	[Widget] protected Gtk.Label label_limited_value;
-	[Widget] protected Gtk.Label label_angle_title;
-	[Widget] protected Gtk.Entry entry_angle_value;
-	[Widget] protected Gtk.Label label_angle_units;
+	//[Widget] protected Gtk.Label label_angle_title; //kneeAngle
+	//[Widget] protected Gtk.Entry entry_angle_value; //kneeAngle
+	//[Widget] protected Gtk.Label label_angle_units; //kneeAngle
 	[Widget] protected Gtk.Label label_simulated;
 	
 	[Widget] protected Gtk.Box hbox_combo_eventType;
@@ -102,7 +102,7 @@ public class EditEventWindow
 	protected string entryTime = "0";
 	protected string entrySpeed = "0";
 	protected string entryWeight = "0"; //used to record the % for old person if we change it
-	protected string entryAngle = "0";
+	//protected string entryAngle = "0"; //kneeAngle
 
 	protected Constants.TestTypes typeOfTest;
 	protected bool showType;
@@ -116,7 +116,7 @@ public class EditEventWindow
 	protected bool showSpeed;
 	protected bool showWeight;
 	protected bool showLimited;
-	protected bool showAngle;
+	//protected bool showAngle; //kneeAngle
 	protected bool showMistakes;
 
 	protected string eventBigTypeString = "a test";
@@ -166,7 +166,7 @@ public class EditEventWindow
 		showSpeed = true;
 		showWeight = true;
 		showLimited = true;
-		showAngle = true;
+		//showAngle = true; //kneeAngle
 		showMistakes = false;
 
 		label_simulated.Hide();
@@ -248,6 +248,7 @@ public class EditEventWindow
 			label_limited_value.Hide();
 		}
 
+		/*
 		if(showAngle)
 			fillAngle(myEvent);
 		else { 
@@ -255,7 +256,8 @@ public class EditEventWindow
 			entry_angle_value.Hide();
 			label_angle_units.Hide();
 		}
-		
+		*/
+
 		if(! showMistakes) {
 			label_mistakes.Hide();
 			spin_mistakes.Hide();
@@ -432,8 +434,8 @@ public class EditEventWindow
 		*/
 	}
 
-	protected virtual void fillAngle(Event myEvent) {
-	}
+	//protected virtual void fillAngle(Event myEvent) {
+	//}
 		
 	protected virtual void on_radio_single_leg_1_toggled(object o, EventArgs args) {
 	}
@@ -514,7 +516,8 @@ public class EditEventWindow
 			//entry_weight_value.Text = entryWeight;
 		}
 	}
-		
+
+	/*
 	private void on_entry_angle_changed (object o, EventArgs args) {
 		string angleString = entry_angle_value.Text.ToString();
 		if(Util.IsNumber(angleString, true)) {
@@ -526,7 +529,8 @@ public class EditEventWindow
 		} else 
 			button_accept.Sensitive = false;
 	}
-	
+	*/
+
 	protected virtual void on_spin_mistakes_changed (object o, EventArgs args) {
 	}
 		

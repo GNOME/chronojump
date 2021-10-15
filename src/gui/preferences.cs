@@ -101,6 +101,7 @@ public class PreferencesWindow
 	[Widget] Gtk.Image image_jumps_power_help;
 	[Widget] Gtk.Image image_jumps_stiffness_help;
 	[Widget] Gtk.CheckButton checkbutton_initial_speed;
+	[Widget] Gtk.CheckButton checkbutton_jump_rsi;
 //	[Widget] Gtk.CheckButton checkbutton_angle;
 	[Widget] Gtk.CheckButton checkbutton_show_tv_tc_index;
 	[Widget] Gtk.Box hbox_indexes;
@@ -513,6 +514,11 @@ public class PreferencesWindow
 			PreferencesWindowBox.checkbutton_initial_speed.Active = true; 
 		else 
 			PreferencesWindowBox.checkbutton_initial_speed.Active = false; 
+
+		if(preferences.showJumpRSI)
+			PreferencesWindowBox.checkbutton_jump_rsi.Active = true;
+		else
+			PreferencesWindowBox.checkbutton_jump_rsi.Active = false;
 
 		/*
 		if(preferences.showAngle)  
@@ -1895,6 +1901,11 @@ public class PreferencesWindow
 		if( preferences.showInitialSpeed != PreferencesWindowBox.checkbutton_initial_speed.Active ) {
 			SqlitePreferences.Update("showInitialSpeed", PreferencesWindowBox.checkbutton_initial_speed.Active.ToString(), true);
 			preferences.showInitialSpeed = PreferencesWindowBox.checkbutton_initial_speed.Active;
+		}
+
+		if( preferences.showJumpRSI != PreferencesWindowBox.checkbutton_jump_rsi.Active ) {
+			SqlitePreferences.Update(SqlitePreferences.ShowJumpRSI, PreferencesWindowBox.checkbutton_jump_rsi.Active.ToString(), true);
+			preferences.showJumpRSI = PreferencesWindowBox.checkbutton_jump_rsi.Active;
 		}
 
 		/*

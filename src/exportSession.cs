@@ -326,6 +326,7 @@ public class ExportSession
 					Catalog.GetString("Power") + ":" +
 					Catalog.GetString("Stiffness") + ":" +
 					Catalog.GetString("Initial Speed") + ":" +
+					"RSI" + ":" +
 					Catalog.GetString("Datetime") + ":" +
 					Catalog.GetString("Description") + ":" +
 					//Catalog.GetString("Angle") + ":" +
@@ -373,6 +374,7 @@ public class ExportSession
 						Util.TrimDecimals(getPower(tc, tf, personWeight, extraWeightInKg, fall), dec) + ":" +
 						Util.TrimDecimals(Util.GetStiffness(personWeight, extraWeightInKg, tf, tc), dec) + ":" +
 						Util.TrimDecimals(Util.GetInitialSpeed(myStr[5], preferences.metersSecondsPreferred), dec) + ":" +  //true: m/s
+						Util.TrimDecimals(UtilAll.DivideSafe(Util.GetHeightInMeters(tf), tc), dec) + ":" +
 						myStr[12] + ":" +	//jump.datetime
 						Util.RemoveNewLine(myStr[9], true) + ":" +	//jump.description
 						//Util.TrimDecimals(myStr[10],dec) + ":" +	//jump.angle
@@ -421,10 +423,12 @@ public class ExportSession
 						Catalog.GetString("TF Max") + ":" + 
 						Catalog.GetString("Max Height") + ":" +
 						Catalog.GetString("Max Initial Speed") + ":" +
+						"Max RSI" + ":" +
 						Catalog.GetString("TC AVG") + ":" + 
 						Catalog.GetString("TF AVG") + ":" + 
 						Catalog.GetString("AVG Height") + ":" +
 						Catalog.GetString("AVG Initial Speed") + ":" +
+						"AVG RSI" + ":" +
 						Catalog.GetString("Fall") + ":" + 
 						weightName + ":" + 
 						Catalog.GetString("Jumps") + ":" + 
@@ -460,8 +464,30 @@ public class ExportSession
 				extraWeightPrint = myStr[8];
 			else
 				extraWeightPrint = extraWeightInKg.ToString();
-				
 			//end of find weight of person and extra weight
+
+			//used for subjumps and for MAX/AVG RSI calculation
+			string [] tvString = myStr[12].Split(new char[] {'='});
+			string [] tcString = myStr[13].Split(new char[] {'='});
+
+			// calculate RSI stuff ---->
+			double maxRSI = 0;
+			double sumRSI = 0;
+			double avgRSI = 0;
+			if(tvString.Length > 0 && tvString.Length == tcString.Length) //just a precaution
+			{
+				for(int i = 0; i < tvString.Length; i ++)
+				{
+					double rsi = Jump.CalculateRSI(Convert.ToDouble(tvString[i]), Convert.ToDouble(tcString[i]));
+					if(rsi > maxRSI)
+						maxRSI = rsi;
+
+					sumRSI += rsi;
+				}
+				avgRSI = UtilAll.DivideSafe(sumRSI, tvString.Length);
+			}
+			// < ---- end of calculate RSI stuff
+
 			
 			myData.Add ( 
 					myStr[2] + ":" +    			//jumpRj.personID
@@ -473,11 +499,13 @@ public class ExportSession
 					Util.TrimDecimals(Util.GetHeightInCentimeters(myStr[5]), dec) + ":" +  	//Max height
 					Util.TrimDecimals(Util.GetInitialSpeed(
 							myStr[5], preferences.metersSecondsPreferred), dec) + ":" +  	//Max initial speed (true:m/s)
+					Util.TrimDecimals(maxRSI, dec) + ":" +
 					Util.TrimDecimals(myStr[11], dec) + ":" +  		//jumpRj.tcAvg
 					Util.TrimDecimals(myStr[10], dec) + ":" + 		//jumpRj.tvAvg
 					Util.TrimDecimals(Util.GetHeightInCentimeters(myStr[10]), dec) + ":" +  //Avg height
 					Util.TrimDecimals(Util.GetInitialSpeed(
 							myStr[10], preferences.metersSecondsPreferred), dec) + ":" +  	//Avg Initial speed (true:m/s)
+					Util.TrimDecimals(avgRSI, dec) + ":" +
 					myStr[7] + ":" + 	 	//jumpRj.Fall
 					//myStr[8] + ":" +  myStr[14] + ":" + 	//jumpRj.Weight, jumpRj.Jumps
 					Util.TrimDecimals(extraWeightPrint,dec) + ":" +  myStr[14] + ":" + 	//jumpRj.Weight, jumpRj.Jumps
@@ -493,13 +521,11 @@ public class ExportSession
 				writeData(myData);
 			
 				myData = new ArrayList(1);
-				//print tvString and tcString
-				string [] tvString = myStr[12].Split(new char[] {'='});
-				string [] tcString = myStr[13].Split(new char[] {'='});
 				int count = 0;
 				myData.Add( " " + ":" + Catalog.GetString("TC") + 
 						":" + Catalog.GetString("TF") + 
 						":" + Catalog.GetString("Height") + 
+						":" + "RSI" +
 						":" + Catalog.GetString("Power") + 
 						":" + Catalog.GetString("Stiffness") 
 						);
@@ -540,6 +566,7 @@ public class ExportSession
 							Util.TrimDecimals(tc, dec) + ":" + 
 							Util.TrimDecimals(tv, dec) + ":" +
 							Util.TrimDecimals(Util.GetHeightInCentimeters(tv.ToString()), dec) + ":" +
+							Util.TrimDecimals(Jump.CalculateRSI(tv, tc), dec) + ":" +
 							Util.TrimDecimals(getPower(tc, tv, personWeight, extraWeightInKg, fall), dec) + ":" +
 							Util.TrimDecimals(Util.GetStiffness(personWeight, extraWeightInKg, tv, tc), dec)
 						  );

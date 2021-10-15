@@ -575,8 +575,10 @@ class SqlitePreferences : Sqlite
 				preferences.showStiffness = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "showInitialSpeed")
 				preferences.showInitialSpeed = reader[1].ToString() == "True";
-			else if(reader[0].ToString() == "showAngle")
-				preferences.showAngle = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == "showAngle") {
+				//preferences.showAngle = reader[1].ToString() == "True";
+				preferences.showAngle = false;
+			}
 			else if(reader[0].ToString() == "showQIndex")
 				preferences.showQIndex = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "showDjIndex")

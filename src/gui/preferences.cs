@@ -101,7 +101,7 @@ public class PreferencesWindow
 	[Widget] Gtk.Image image_jumps_power_help;
 	[Widget] Gtk.Image image_jumps_stiffness_help;
 	[Widget] Gtk.CheckButton checkbutton_initial_speed;
-	[Widget] Gtk.CheckButton checkbutton_angle;
+//	[Widget] Gtk.CheckButton checkbutton_angle;
 	[Widget] Gtk.CheckButton checkbutton_show_tv_tc_index;
 	[Widget] Gtk.Box hbox_indexes;
 	[Widget] Gtk.RadioButton radiobutton_show_q_index;
@@ -513,12 +513,13 @@ public class PreferencesWindow
 			PreferencesWindowBox.checkbutton_initial_speed.Active = true; 
 		else 
 			PreferencesWindowBox.checkbutton_initial_speed.Active = false; 
-		
+
+		/*
 		if(preferences.showAngle)  
 			PreferencesWindowBox.checkbutton_angle.Active = true; 
 		else 
 			PreferencesWindowBox.checkbutton_angle.Active = false; 
-
+		*/
 
 		if(preferences.showQIndex || preferences.showDjIndex) { 
 			PreferencesWindowBox.checkbutton_show_tv_tc_index.Active = true; 
@@ -1896,10 +1897,12 @@ public class PreferencesWindow
 			preferences.showInitialSpeed = PreferencesWindowBox.checkbutton_initial_speed.Active;
 		}
 
+		/*
 		if( preferences.showAngle != PreferencesWindowBox.checkbutton_angle.Active ) {
 			SqlitePreferences.Update("showAngle", PreferencesWindowBox.checkbutton_angle.Active.ToString(), true);
 			preferences.showAngle = PreferencesWindowBox.checkbutton_angle.Active;
 		}
+		*/
 
 		if(PreferencesWindowBox.checkbutton_show_tv_tc_index.Active) {
 			preferences.showQIndex = Preferences.PreferencesChange(

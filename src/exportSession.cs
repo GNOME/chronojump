@@ -328,7 +328,7 @@ public class ExportSession
 					Catalog.GetString("Initial Speed") + ":" +
 					Catalog.GetString("Datetime") + ":" +
 					Catalog.GetString("Description") + ":" +
-					Catalog.GetString("Angle") + ":" +
+					//Catalog.GetString("Angle") + ":" +
 					Catalog.GetString("Simulated") 
 				  );
 
@@ -375,7 +375,7 @@ public class ExportSession
 						Util.TrimDecimals(Util.GetInitialSpeed(myStr[5], preferences.metersSecondsPreferred), dec) + ":" +  //true: m/s
 						myStr[12] + ":" +	//jump.datetime
 						Util.RemoveNewLine(myStr[9], true) + ":" +	//jump.description
-						Util.TrimDecimals(myStr[10],dec) + ":" +	//jump.angle
+						//Util.TrimDecimals(myStr[10],dec) + ":" +	//jump.angle
 						Util.SimulatedTestNoYes(Convert.ToInt32(myStr[11]))		//jump.simulated
 						
 					   );

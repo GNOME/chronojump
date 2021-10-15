@@ -342,6 +342,8 @@ public class TreeViewJumpsRj : TreeViewJumps
 			myData[count++] = "";
 		if (preferences.showInitialSpeed) 
 			myData[count++] = "";
+		if (preferences.showJumpRSI)
+			myData[count++] = "";
 		if (preferences.showQIndex)
 			myData[count++] = "";
 		if (preferences.showDjIndex)
@@ -360,8 +362,11 @@ public class TreeViewJumpsRj : TreeViewJumps
 		//find tv and tc of this lineCount
 		string [] myStringTv = newJumpRj.TvString.Split(new char[] {'='});
 		string thisTv = myStringTv[lineCount];
+		double thisTvD = Convert.ToDouble(thisTv);
+
 		string [] myStringTc = newJumpRj.TcString.Split(new char[] {'='});
 		string thisTc = myStringTc[lineCount];
+		double thisTcD = Convert.ToDouble(thisTc);
 
 		string [] myData = new String [getColsNum()];
 		int count = 0;
@@ -414,6 +419,10 @@ public class TreeViewJumpsRj : TreeViewJumps
 		if (preferences.showInitialSpeed) 
 			myData[count++] = Util.TrimDecimals(Util.GetInitialSpeed(
 						thisTv, preferences.metersSecondsPreferred), pDN);
+		if (preferences.showJumpRSI)
+			myData[count++] = Util.TrimDecimals(
+					UtilAll.DivideSafe(Util.GetHeightInMeters(thisTvD), thisTcD),
+					pDN);
 		if (preferences.showQIndex)
 			myData[count++] = Util.TrimDecimals(
 					Util.GetQIndex(Convert.ToDouble(thisTv), Convert.ToDouble(thisTc)).ToString(), 
@@ -449,6 +458,8 @@ public class TreeViewJumpsRj : TreeViewJumps
 			myData[count++] = "";
 		if (preferences.showInitialSpeed) 
 			myData[count++] = ""; 
+		if (preferences.showJumpRSI)
+			myData[count++] = "";
 		if (preferences.showQIndex || preferences.showDjIndex) 
 			myData[count++] = ""; 
 
@@ -543,6 +554,8 @@ public class TreeViewJumpsRj : TreeViewJumps
 					Util.GetInitialSpeed(
 						tvAVGDouble.ToString(), preferences.metersSecondsPreferred)
 					, pDN);
+		if (preferences.showJumpRSI)
+			myData[count++] = Util.TrimDecimals(Util.GetAverage(newJumpRj.RSIList), pDN);
 		if (preferences.showQIndex) 
 			myData[count++] = Util.TrimDecimals(
 					Util.GetQIndex(tvAVGDouble,tcAVGDouble).ToString(), pDN);
@@ -594,6 +607,8 @@ public class TreeViewJumpsRj : TreeViewJumps
 		if (preferences.showPower)
 			myData[count++] = "";
 		if (preferences.showStiffness)
+			myData[count++] = "";
+		if (preferences.showJumpRSI)
 			myData[count++] = "";
 		if (preferences.showInitialSpeed) 
 			myData[count++] = "";

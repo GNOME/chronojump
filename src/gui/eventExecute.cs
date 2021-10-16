@@ -2238,15 +2238,14 @@ public abstract class CairoPaintBarsPre
 	protected string title;
 	protected int pDN; //preferences.digitsNumber
 
-	protected void initialize(DrawingArea darea, string fontStr, Constants.Modes mode,
-			string personName, string testName, string title, int pDN)
+	protected void initialize (DrawingArea darea, string fontStr, Constants.Modes mode,
+			string personName, string testName, int pDN)
 	{
 		this.darea = darea;
 		this.fontStr = fontStr;
 		this.mode = mode;
 		this.personName = personName;
 		this.testName = testName;
-		this.title = title;
 		this.pDN = pDN;
 	}
 
@@ -2579,7 +2578,8 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 {
 	public CairoPaintBarsPreJumpSimple (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN)
 	{
-		initialize (darea, fontStr, mode, personName, testName, generateTitle(), pDN);
+		initialize (darea, fontStr, mode, personName, testName, pDN);
+		this.title = generateTitle();
 	}
 
 	public override void StoreEventGraphJumps (PrepareEventGraphJumpSimple eventGraph)
@@ -2738,7 +2738,8 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 {
 	public CairoPaintBarsPreJumpReactive (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN)
 	{
-		initialize (darea, fontStr, mode, personName, testName, generateTitle(), pDN);
+		initialize (darea, fontStr, mode, personName, testName, pDN);
+		this.title = generateTitle();
 	}
 
 	public override void StoreEventGraphJumpsRj (PrepareEventGraphJumpReactive eventGraph)
@@ -2861,7 +2862,8 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 {
 	public CairoPaintBarsPreRunSimple (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN)
 	{
-		initialize (darea, fontStr, mode, personName, testName, generateTitle(), pDN);
+		initialize (darea, fontStr, mode, personName, testName, pDN);
+		this.title = generateTitle();
 	}
 
 	public override void StoreEventGraphRuns (PrepareEventGraphRunSimple eventGraph)
@@ -2959,7 +2961,8 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 {
 	public CairoPaintBarsPreRunInterval (DrawingArea darea, string fontStr, Constants.Modes mode, string personName, string testName, int pDN)
 	{
-		initialize (darea, fontStr, mode, personName, testName, generateTitle(), pDN);
+		initialize (darea, fontStr, mode, personName, testName, pDN);
+		this.title = generateTitle();
 	}
 
 	public override void StoreEventGraphRunsInterval (PrepareEventGraphRunInterval eventGraph)
@@ -3081,7 +3084,8 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 			Constants.Modes mode, string personName, string testName, int pDN,// bool heightPreferred,
 			double lastTv, double lastTc, string tvString, string tcString)
 	{
-		initialize (darea, fontStr, mode, personName, testName, Catalog.GetString("Last test:") + " " + generateTitle(), pDN);
+		initialize (darea, fontStr, mode, personName, testName, pDN);
+		this.title = Catalog.GetString("Last test:") + " " + generateTitle();
 
 		this.lastTv = lastTv;
 		this.lastTc = lastTc;
@@ -3206,7 +3210,8 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 			bool isRelative,
 			double lastDistance, double lastTime, string timesString, string distancesString)
 	{
-		initialize (darea, fontStr, mode, personName, testName, Catalog.GetString("Last test:") + " " + generateTitle(), pDN);
+		initialize (darea, fontStr, mode, personName, testName, pDN);
+		this.title = Catalog.GetString("Last test:") + " " + generateTitle();
 
 		this.lastDistance = lastDistance;
 		this.lastTime = lastTime;

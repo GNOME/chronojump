@@ -400,17 +400,17 @@ public class TreeViewJumpsRj : TreeViewJumps
 			
 			if(Convert.ToDouble(thisTc) > 0)
 				myData[count++] = Util.TrimDecimals(
-						Util.GetDjPower(Convert.ToDouble(thisTc), Convert.ToDouble(thisTv), 
+						Util.GetDjPower(thisTcD, thisTvD,
 							(personWeight + weightInKg), myFall).ToString(), 1);
 			else
 				myData[count++] = Util.TrimDecimals(
-						Util.GetPower(Convert.ToDouble(thisTv), personWeight, weightInKg).ToString(), 1);
+						Util.GetPower(thisTvD, personWeight, weightInKg).ToString(), 1);
 		}
 		if (preferences.showStiffness) {
 			//use directly Util.GetStiffness because we want to get from this specific subjump, not all the reactive jump.
-			if(Convert.ToDouble(thisTc) > 0) {
+			if(thisTcD > 0) {
 				myData[count++] = Util.TrimDecimals(
-						Util.GetStiffness(personWeight, weightInKg, Convert.ToDouble(thisTv), Convert.ToDouble(thisTc))
+						Util.GetStiffness(personWeight, weightInKg, thisTvD, thisTcD)
 						.ToString(), 1);
 			}
 			else
@@ -425,11 +425,11 @@ public class TreeViewJumpsRj : TreeViewJumps
 					pDN);
 		if (preferences.showQIndex)
 			myData[count++] = Util.TrimDecimals(
-					Util.GetQIndex(Convert.ToDouble(thisTv), Convert.ToDouble(thisTc)).ToString(), 
+					Util.GetQIndex(thisTvD, thisTcD).ToString(),
 					pDN);
 		if (preferences.showDjIndex)
 			myData[count++] = Util.TrimDecimals(
-					Util.GetDjIndex(Convert.ToDouble(thisTv), Convert.ToDouble(thisTc)).ToString(), 
+					Util.GetDjIndex(thisTvD, thisTcD).ToString(),
 					pDN);
 		
 		

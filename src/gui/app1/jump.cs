@@ -180,6 +180,9 @@ public partial class ChronoJumpWindow
 	private void on_extra_window_jumps_test_changed(object o, EventArgs args)
 	{
 		string jumpEnglishName = comboSelectJumps.GetSelectedNameEnglish();
+		if(jumpEnglishName == "") //if there are no jump types
+			return;
+
 		currentJumpType = createJumpType(jumpEnglishName, true);
 
 		//change name of this radio but only if changed (to not have it flickering on hpaned1 displacement)

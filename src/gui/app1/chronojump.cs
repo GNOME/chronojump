@@ -7135,29 +7135,37 @@ LogB.Debug("mc finished 5");
 			notebook_execute.CurrentPage = 0;
 			notebook_options_top.CurrentPage = 0;
 			notebook_results.CurrentPage = 0;
-			changeTestImage(EventType.Types.JUMP.ToString(), 
-					currentJumpType.Name, currentJumpType.ImageFileName);
+
+			if(currentJumpType != null)
+				changeTestImage(EventType.Types.JUMP.ToString(),
+						currentJumpType.Name, currentJumpType.ImageFileName);
 		} else if(mode == Constants.Modes.JUMPSREACTIVE)
 		{
 			notebook_execute.CurrentPage = 1;
 			notebook_options_top.CurrentPage = 1;
 			notebook_results.CurrentPage = 1;
-			changeTestImage(EventType.Types.JUMP.ToString(), 
-					currentJumpRjType.Name, currentJumpRjType.ImageFileName);
+
+			if(currentJumpRjType != null)
+				changeTestImage(EventType.Types.JUMP.ToString(),
+						currentJumpRjType.Name, currentJumpRjType.ImageFileName);
 		} else if(mode == Constants.Modes.RUNSSIMPLE)
 		{
 			notebook_execute.CurrentPage = 2;
 			notebook_options_top.CurrentPage = 2;
 			notebook_results.CurrentPage = 2;
-			changeTestImage(EventType.Types.RUN.ToString(), 
-					currentRunType.Name, currentRunType.ImageFileName);
+
+			if(currentRunType != null)
+				changeTestImage(EventType.Types.RUN.ToString(),
+						currentRunType.Name, currentRunType.ImageFileName);
 		} else if(mode == Constants.Modes.RUNSINTERVALLIC)
 		{
 			notebook_execute.CurrentPage = 3;
 			notebook_options_top.CurrentPage = 3;
 			notebook_results.CurrentPage = 3;
-			changeTestImage(EventType.Types.RUN.ToString(), 
-					currentRunIntervalType.Name, currentRunIntervalType.ImageFileName);
+
+			if(currentRunIntervalType != null)
+				changeTestImage(EventType.Types.RUN.ToString(),
+						currentRunIntervalType.Name, currentRunIntervalType.ImageFileName);
 		} else if(mode == Constants.Modes.RUNSENCODER)
 		{
 			notebook_execute.CurrentPage = 8;
@@ -7182,8 +7190,10 @@ LogB.Debug("mc finished 5");
 			notebook_execute.CurrentPage = 5;
 			notebook_options_top.CurrentPage = 5;
 			notebook_results.CurrentPage = 5;
-			changeTestImage(EventType.Types.REACTIONTIME.ToString(), 
-					currentReactionTimeType.Name, currentReactionTimeType.ImageFileName);
+
+			if(currentReactionTimeType != null)
+				changeTestImage(EventType.Types.REACTIONTIME.ToString(),
+						currentReactionTimeType.Name, currentReactionTimeType.ImageFileName);
 		} else if(mode == Constants.Modes.OTHER)
 		{
 			if(radio_mode_multi_chronopic_small.Active)
@@ -7191,14 +7201,18 @@ LogB.Debug("mc finished 5");
 				notebook_execute.CurrentPage = 7;
 				notebook_options_top.CurrentPage = 7;
 				notebook_results.CurrentPage = 7;
-				changeTestImage(EventType.Types.MULTICHRONOPIC.ToString(),
-						currentMultiChronopicType.Name, currentMultiChronopicType.ImageFileName);
+
+				if(currentMultiChronopicType != null)
+					changeTestImage(EventType.Types.MULTICHRONOPIC.ToString(),
+							currentMultiChronopicType.Name, currentMultiChronopicType.ImageFileName);
 			} else { //pulses
 				notebook_execute.CurrentPage = 6;
 				notebook_options_top.CurrentPage = 6;
 				notebook_results.CurrentPage = 6;
-				changeTestImage(EventType.Types.PULSE.ToString(),
-						currentPulseType.Name, currentPulseType.ImageFileName);
+
+				if(currentPulseType != null)
+					changeTestImage(EventType.Types.PULSE.ToString(),
+							currentPulseType.Name, currentPulseType.ImageFileName);
 			}
 		}
 

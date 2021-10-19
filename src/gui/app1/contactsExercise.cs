@@ -46,7 +46,7 @@ public partial class ChronoJumpWindow
 		hbox_top_person.Sensitive = false;
 
 		button_contacts_exercise_close_and_capture.Sensitive = myTreeViewPersons.IsThereAnyRecord();
-		notebook_contacts_execute_or.CurrentPage = 1;
+		notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.INSTRUCTIONS);
 	}
 	private void on_button_contacts_exercise_close_clicked (object o, EventArgs args)
 	{
@@ -59,7 +59,7 @@ public partial class ChronoJumpWindow
 		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = true;
 		hbox_top_person.Sensitive = true;
 
-		notebook_contacts_execute_or.CurrentPage = 0;
+		notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.EXECUTE);
 	}
 	private void on_button_contacts_exercise_close_and_capture_clicked (object o, EventArgs args)
 	{

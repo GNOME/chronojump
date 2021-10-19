@@ -2919,7 +2919,7 @@ LogB.Information(" fs R ");
 		alignment_button_force_sensor_adjust.Sensitive = false; //to not be called again
 
 		notebook_contacts_capture_doing_wait.Sensitive = false;
-		notebook_contacts_execute_or.CurrentPage = 2;
+		notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.FORCESENSORADJUST);
 
 		viewport_chronopics.Sensitive = false;
 		frame_contacts_exercise.Sensitive = false;
@@ -2932,7 +2932,7 @@ LogB.Information(" fs R ");
 		alignment_button_force_sensor_adjust.Sensitive = true;
 
 		notebook_contacts_capture_doing_wait.Sensitive = true;
-		notebook_contacts_execute_or.CurrentPage = 0;
+		notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.EXECUTE);
 
 		viewport_chronopics.Sensitive = true;
 		frame_contacts_exercise.Sensitive = true;

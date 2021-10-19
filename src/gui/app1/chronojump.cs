@@ -62,7 +62,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_other;
 	[Widget] Gtk.HBox hbox_contacts_capture_top;
 	[Widget] Gtk.Notebook notebook_capture_analyze; //not encoder
-	[Widget] Gtk.Notebook notebook_contacts_execute_or; // execute (page 0), instructions (page 1), forceSensorAdjust (page 2)
+	[Widget] Gtk.Notebook notebook_contacts_execute_or;
 	[Widget] Gtk.Notebook notebook_analyze; //not encoder
 	[Widget] Gtk.VBox vbox_contacts_capture_graph;
 	[Widget] Gtk.HBox hbox_message_permissions_at_boot;
@@ -492,6 +492,7 @@ public partial class ChronoJumpWindow
 	private string progName;
 	private enum notebook_start_pages { PROGRAM, SENDLOG, EXITCONFIRM, SOCIALNETWORKPOLL }
 	private enum notebook_sup_pages { START, CONTACTS, ENCODER, SESSION, NETWORKSPROBLEMS, HELP, NEWS }
+	private enum notebook_contacts_execute_or_pages { EXECUTE, INSTRUCTIONS, FORCESENSORADJUST }
 	private enum notebook_analyze_pages { STATISTICS, JUMPSPROFILE, JUMPSDJOPTIMALFALL, JUMPSWEIGHTFVPROFILE, JUMPSEVOLUTION, JUMPSRJFATIGUE,
 		RUNSEVOLUTION, SPRINT, FORCESENSOR, RACEENCODER }
 

@@ -2103,7 +2103,7 @@
                                                     </child>
                                                     <child>
                                                       <widget class="GtkRadioButton" id="radio_encoder_relative_to_historical">
-                                                        <property name="label" translatable="yes">historical of this person on same exercise/encoder configuration</property>
+                                                        <property name="label" translatable="yes">historical of this person on same exercise and encoder configuration</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">False</property>

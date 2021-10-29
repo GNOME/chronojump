@@ -37,7 +37,7 @@ const uint16_t sensorUnlimited = 0b100000000; //256
 const uint16_t red =              0b10000000; //128
 const uint16_t green =            0b01000000; //64
 const uint16_t blue =             0b00100000; //32
-const uint16_t buzzer =           0b00010000; // 16
+const uint16_t buzzer =           0b00010000; //16
 const uint16_t blinkRed =         0b00001000; //8
 const uint16_t blinkGreen =       0b00000100; //4
 const uint16_t blinkBlue =        0b00000010; //2
@@ -138,29 +138,13 @@ void setup(void)
   Serial.println("------------------------");
 
   startTime = millis();
+//  discoverTerminals();
 }
 
 
 void loop(void)
 {
-  while (radio.available()) //Some terminal has sent a response
-  {
-    totalTime = getLocalTime();
-    radio.read(  &sample, sample_size);
-    blinkStop();
-    if(!binaryMode){
-      Serial.print(sample.termNum);
-      Serial.print(";");
-      Serial.print(totalTime);
-      Serial.print(";");
-      Serial.println(sample.state);
-    } else {
-      Serial.write((byte*)&sample, sample_size);
-    }
-    LED_off;
-    delay(50);
-    LED_on;
-  }
+  readSample();
 }
 
 
@@ -199,6 +183,8 @@ void serialEvent()
       startTime = millis();
     } else if(commandString == "get_channel"){
       Serial.println(controlSwitch);
+    } else if(commandString == "discover"){
+        discoverTerminals();
     } else {
       Serial.println("Wrong local command");
     }
@@ -301,4 +287,37 @@ unsigned long getLocalTime(void)
     totalTime = (4294967295 -  lastSampleTime) + localSampleTime;
   }
   return(totalTime);
+}
+
+void discoverTerminals(void){
+  instruction.command = ping;
+  for(int i=0; i<=63; i++){
+    Serial.print(i);
+    Serial.print("\t"); 
+    radio.flush_tx();
+    instruction.termNum = i;
+    sendInstruction(&instruction);
+    delay(5);
+    readSample();
+//    radio.flush_rx();
+  }
+}
+
+void readSample(void){
+    while (radio.available()) //Some terminal has sent a response
+  {
+    totalTime = getLocalTime();
+    radio.read(  &sample, sample_size);
+    blinkStop();
+    if(!binaryMode){
+      Serial.print(sample.termNum);
+      Serial.print(";");
+      Serial.print(totalTime);
+      Serial.print(";");
+      Serial.println(sample.state);
+    } else {
+      Serial.write((byte*)&sample, sample_size);
+    }
+    blinkOnce();
+  }
 }

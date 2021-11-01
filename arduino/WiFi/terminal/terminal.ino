@@ -22,13 +22,13 @@ String version = "Wifi-Sensor-1.11";
 // Set up nRF24L01 radio on SPI bus plus pins  (CE & CS)
 
 
-//RF24 radio(A3, A4);    //Old versions
-RF24 radio(10, 9);       //New version
+RF24 radio(A3, A4);    //Old versions
+//RF24 radio(10, 9);       //New version
 #define red_on digitalWrite(A4,LOW)
 #define green_on digitalWrite(A5,LOW)
 #define blue_on digitalWrite(A3,LOW)
-//#define buzzer_on digitalWrite(7,HIGH)  //Old versions
-#define buzzer_on digitalWrite(A0,HIGH) //New versions
+#define buzzer_on digitalWrite(7,HIGH)  //Old versions
+//#define buzzer_on digitalWrite(A0,HIGH) //New versions
 #define red_off digitalWrite(A4,HIGH)
 #define green_off digitalWrite(A5,HIGH)
 #define blue_off digitalWrite(A3,HIGH)
@@ -129,8 +129,8 @@ void setup(void)
   pinMode(7, INPUT_PULLUP);   //Comment in old versions
   pinMode(8, INPUT_PULLUP);   //Most significant bit.
 
-  //for (int pin = 6; pin >= 3; pin--)  //Old versions
-  for (int pin = 8; pin >= 3; pin--)    //New versions
+  for (int pin = 6; pin >= 3; pin--)  //Old versions
+  //for (int pin = 8; pin >= 3; pin--)    //New versions
   {
     sample.termNum = sample.termNum * 2; //Each bit will be multiplied by 2 as much times as his significance
     if (!digitalRead(pin)) sample.termNum++;
@@ -164,8 +164,8 @@ void setup(void)
   //************************************************************************************
   // A0, A1, A2 connected to the 3xswith
 
-//  pinMode(A0, INPUT_PULLUP);  //Old versions
-  pinMode(A7, INPUT_PULLUP);    //New version
+  pinMode(A0, INPUT_PULLUP);  //Old versions
+//  pinMode(A7, INPUT_PULLUP);    //New version
   pinMode(A1, INPUT_PULLUP);
   pinMode(A2, INPUT_PULLUP);
 
@@ -222,7 +222,28 @@ void loop(void)
   //if (flagint == HIGH && lastPinState != sample.state) //The sensor has changed
   if (flagint == HIGH) //The sensor has changed
   {
-//    lastPinState = sample.state;
+    sendSample();
+  }
+
+  while (radio.available())
+  {
+    radio.read(  &instruction, size_instruction);
+    radio.stopListening();
+//    delay(100);
+//    Serial.print("Command received: ");
+//    Serial.println(instruction.command);
+//    radio.flush_rx();
+//    radio.startListening();
+    
+    if (instruction.termNum == sample.termNum)
+    {
+      executeCommand(instruction.command);
+    }
+  }
+}
+
+void sendSample(void){
+  //    lastPinState = sample.state;
     sample.elapsedTime = (millis() - time0);
     flagint = LOW;
     buzzer_off;
@@ -255,20 +276,7 @@ void loop(void)
 //    Serial.println("startListening()");
 //    Serial.print("getChannel = ");
 //    Serial.println(radio.getChannel());
-    Serial.println(sample.elapsedTime);
-
-  }
-
-  while (radio.available())
-  {
-    radio.read(  &instruction, size_instruction);
-    Serial.print("Command received: ");
-    Serial.println(instruction.command);
-    if (instruction.termNum == sample.termNum)
-    {
-      executeCommand(instruction.command);
-    }
-  }
+//    Serial.println(sample.elapsedTime);
 }
 
 void controlint()
@@ -375,10 +383,12 @@ void executeCommand(uint16_t command)
     }
 
     if ((command & ping) == ping) {
-      Serial.println("Pong");
+//      Serial.println("Pong");
       time0 = millis(); //empieza a contar time
       sample.state = digitalRead(2);
-      flagint = HIGH;
+      radio.setRetries(15,15);
+      sendSample();
+      radio.setRetries(5,15);
     }
   }
 }

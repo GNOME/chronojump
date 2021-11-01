@@ -85,9 +85,9 @@ void setup(void)
 
   Serial.begin(115200);
 
-  
+
   Serial.println(version);
-  
+
   //When something arrives to the serial, how long to wait for being sure that the whole text is received
   //TODO: Try to minimize this parameter as it adds lag from instruction to sensor activation. 1 is too low.
   //Maybe increasing the baud rate we could set it to 1
@@ -96,10 +96,10 @@ void setup(void)
   pinMode(2, OUTPUT);   //The LED is in output mode
   LED_on;  //turn off the LED
 
-// channel of the controler
+  // channel of the controler
   //************************************************************************************
   // A0, A1, A2 connected to the 3xswith
-  
+
   pinMode(A0, INPUT_PULLUP);
   pinMode(A1, INPUT_PULLUP);
   pinMode(A2, INPUT_PULLUP);
@@ -116,29 +116,31 @@ void setup(void)
     controlSwitch = controlSwitch + 4;
   }
 
-//  Serial.print("ControlChannel: ");
-//  Serial.print(control0Channel);
-//  Serial.print(" - ");
-//  Serial.println(controlSwitch);
-  
+  //  Serial.print("ControlChannel: ");
+  //  Serial.print(control0Channel);
+  //  Serial.print(" - ");
+  //  Serial.println(controlSwitch);
+
   radio.begin();
+  radio.setRetries(15, 1); //this is working flawlessly, at least in short distance
+  //radio.setRetries(15, 15); //this is supposedly to fix when there's lot of distance
 
   //maximum 125 channels. cell phone and wifi uses 2402-2472. Free from channel 73 to channel 125. Each channels is 1Mhz separated
   radio.setChannel(control0Channel - controlSwitch);
   radio.openWritingPipe(pipes[0]);
   radio.openReadingPipe(1, pipes[1]);
   radio.startListening();
-  
-//  Serial.println(" Status Radio");
-//  radio.printDetails();
-  
+
+  //  Serial.println(" Status Radio");
+  //  radio.printDetails();
+
   Serial.println("the instructions are [termNum]:[command];");
 
   Serial.println("NumTerm\tTime\tState");
   Serial.println("------------------------");
 
   startTime = millis();
-//  discoverTerminals();
+  //  discoverTerminals();
 }
 
 
@@ -152,50 +154,50 @@ void serialEvent()
 {
 
   String inputString = Serial.readString();
-//  Serial.print("Instruction received from Serial: \"");
-//  Serial.print(inputString);
-//  Serial.println("\"");
+  //  Serial.print("Instruction received from Serial: \"");
+  //  Serial.print(inputString);
+  //  Serial.println("\"");
   int separatorPosition = inputString.lastIndexOf(":");
-  
+
   String terminalString = inputString.substring(0, separatorPosition);
-//  Serial.print("terminalString:\"");
-//  Serial.print(terminalString);
-//  Serial.println("\"");
+  //  Serial.print("terminalString:\"");
+  //  Serial.print(terminalString);
+  //  Serial.println("\"");
 
   String commandString = inputString.substring(separatorPosition + 1, inputString.lastIndexOf(";"));
-//  Serial.print("commandString: \"");
-//  Serial.print(commandString);
-//  Serial.println("\"");
+  //  Serial.print("commandString: \"");
+  //  Serial.print(commandString);
+  //  Serial.println("\"");
 
   if (terminalString == "all")  //The command is sent to all the terminals
   {
     activateAll(instruction.command);
-  } else if(terminalString == "local"){
-    if(commandString == "get_version"){
+  } else if (terminalString == "local") {
+    if (commandString == "get_version") {
       Serial.println(version);
-    } else if(commandString == "set_binary_mode"){
+    } else if (commandString == "set_binary_mode") {
       Serial.println("Setting binary mode");
       binaryMode = true;
-    } else if(commandString == "set_text_mode"){
+    } else if (commandString == "set_text_mode") {
       Serial.println("Setting text mode");
       binaryMode = false;
-    } else if(commandString == "reset_time"){
+    } else if (commandString == "reset_time") {
       startTime = millis();
-    } else if(commandString == "get_channel"){
+    } else if (commandString == "get_channel") {
       Serial.println(controlSwitch);
-    } else if(commandString == "discover"){
-        discoverTerminals();
+    } else if (commandString == "discover") {
+      discoverTerminals();
     } else {
       Serial.println("Wrong local command");
     }
   } else {  // if terminalString is a single remote terminal, Command to a single terminal
     instruction.command = commandString.toInt();
-//    Serial.print("Command: ");
-//    Serial.println(instruction.command);
+    //    Serial.print("Command: ");
+    //    Serial.println(instruction.command);
     instruction.termNum = terminalString.toInt();
-//      Serial.print("instruction.termNum:\"");
-//      Serial.print(instruction.termNum);
-//      Serial.println("\"");
+    //      Serial.print("instruction.termNum:\"");
+    //      Serial.print(instruction.termNum);
+    //      Serial.println("\"");
     sendInstruction(&instruction);
   }
   if (instruction.command & sensorOnce) {
@@ -205,30 +207,35 @@ void serialEvent()
   inputString = "";
 }
 
-void sendInstruction(struct instruction_t *instruction)
+bool sendInstruction(struct instruction_t *instruction)
 {
-  
-//  Serial.print("Sending command \'");
-//  Serial.print(instruction->command);
-//  Serial.print("\' to terminal num ");
-//  Serial.println(instruction->termNum);
-//  Serial.println(terminal0Channel - instruction->termNum);
-  
+
+  //  Serial.print("Sending command \'");
+  //  Serial.print(instruction->command);
+  //  Serial.print("\' to terminal num ");
+  //  Serial.println(instruction->termNum);
+  //  Serial.println(terminal0Channel - instruction->termNum);
+
   radio.setChannel(terminal0Channel - instruction->termNum); //Setting the channel correspondig to the terminal number
 
   radio.stopListening();    //To sent it is necessary to stop listening
 
   bool en = radio.write( instruction, size_instruction );
-  if (en)  //en is 1 if radio.write went OK
-  {
-    //    Serial.println("Ok");
-    radio.startListening();  //Going back to listening mode
-  } else {
-    Serial.println("Error sending");
-  }
   radio.setChannel(control0Channel - controlSwitch);    //setting the the channel to the reading channel
+  radio.startListening();  //Going back to listening mode
   LED_off;
   instruction->termNum = 0;
+
+  if (!en)  //en is 1 if radio.write went OK
+  {
+    //    Serial.println("Error sending");
+    return (false);
+  } else {
+    //    Serial.print("send instruction:");
+    //    Serial.println(instruction->command);
+    //    Serial.println(instruction->termNum);
+    return (true);
+  }
 }
 
 // Atention this function is not valid for ping all terminals as it does not wait for response.
@@ -238,8 +245,8 @@ void activateAll(uint16_t command)
   radio.stopListening();
   for (int i = 0; i <= 63; i++) {
     radio.setChannel(terminal0Channel - i);
-//    Serial.print("getChannel = ");
-//    Serial.println(radio.getChannel());
+    //    Serial.print("getChannel = ");
+    //    Serial.println(radio.getChannel());
     instruction.termNum = i;
     instruction.command = command;
     sendInstruction(&instruction);
@@ -278,7 +285,7 @@ unsigned long getLocalTime(void)
   //not to be confused with sample.time . This is the local time at which the sample has been received.
   //sample.time is the elapsed time since the terminal received the activating sensor command untill actual activation.
   unsigned long localSampleTime = millis();
-  if(localSampleTime > startTime)            //No overflow
+  if (localSampleTime > startTime)           //No overflow
   {
     totalTime = localSampleTime - startTime;
   } else if (localSampleTime <= startTime)   //Overflow
@@ -286,38 +293,60 @@ unsigned long getLocalTime(void)
     //Time from the last measure to the overflow event plus the sampleTime
     totalTime = (4294967295 -  lastSampleTime) + localSampleTime;
   }
-  return(totalTime);
+  return (totalTime);
 }
 
-void discoverTerminals(void){
+void discoverTerminals(void) {
+  String terminalsFound = "terminals:";
   instruction.command = ping;
-  for(int i=0; i<=63; i++){
-    Serial.print(i);
-    Serial.print("\t"); 
-    radio.flush_tx();
-    instruction.termNum = i;
-    sendInstruction(&instruction);
-    delay(5);
-    readSample();
-//    radio.flush_rx();
+  for (int i = 0; i <= 63; i++) {
+    //    Serial.print("TERM: ");
+    //    Serial.println(i);
+    //    Serial.println("------");
+
+
+    bool found = false;
+    for (int tries = 1; tries <= 10 && ! found; tries++) {
+      //      Serial.println(tries);
+
+      radio.flush_tx();
+      radio.flush_rx();
+      instruction.termNum = i;
+      sendInstruction(&instruction);
+
+      delay(5);
+      bool readed = readSample();
+      if (readed) { //do not do more tries
+        found = true;
+        terminalsFound = terminalsFound + i + ";";
+      }
+    }
+    //    Serial.println();
   }
+  Serial.println(terminalsFound);
 }
 
-void readSample(void){
-    while (radio.available()) //Some terminal has sent a response
+bool readSample(void) {
+  bool readed = false;
+  while (radio.available()) //Some terminal has sent a response
   {
     totalTime = getLocalTime();
     radio.read(  &sample, sample_size);
     blinkStop();
-    if(!binaryMode){
+    if (!binaryMode) {
+      //Serial.print(" READED: ");
       Serial.print(sample.termNum);
       Serial.print(";");
       Serial.print(totalTime);
       Serial.print(";");
       Serial.println(sample.state);
+      readed = true;
     } else {
       Serial.write((byte*)&sample, sample_size);
     }
     blinkOnce();
+    //Serial.print("readed will be:");
+    //Serial.println(readed);
   }
+  return (readed);
 }

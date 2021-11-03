@@ -748,20 +748,8 @@ public partial class ChronoJumpWindow
 		if(currentEventExecute == null || currentEventExecute.PrepareEventGraphRunSimpleObject == null)
 			return;
 
-		// start of contact chunks
-		double timeTotal = currentEventExecute.PrepareEventGraphRunSimpleObject.time; //TODO: check problems on deleting last test, or changing mode
-
-		List<RunPhaseTimeListObject> runPTLInListForPainting = runPTL.InListForPainting();
-
-		double negativePTLTime = getRunSRunINegativePTLTime(runPTLInListForPainting);
-		double timeTotalWithExtraPTL = getRunSRunITimeTotalWithExtraPTLTime (timeTotal, runPTLInListForPainting, negativePTLTime);
-
-		LogB.Information(string.Format("timeTotal: {0}, negativePTLTime: {1}, timeTotalWithExtraPTL: {2}",
-					timeTotal, negativePTLTime, timeTotalWithExtraPTL));
-
 		// Paint cairo graph
-		cairoManageRunDoubleContacts.Paint(runPTLInListForPainting,
-				timeTotal, timeTotalWithExtraPTL, negativePTLTime, true, true);
+		cairoManageRunDoubleContacts.Paint(currentEventExecute, runPTL);
 	}
 
 	public void PrepareRunIntervalGraph(PrepareEventGraphRunInterval eventGraph, bool animate)
@@ -1414,41 +1402,6 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-
-	double getRunSRunINegativePTLTime (List<RunPhaseTimeListObject> runPTLInListForPainting)
-	{
-		return 0;
-
-		/*
-		 * inactive because when user stays lot of time (in contact) before the test, with this code the graph will have almost this contact status
-		 * having above return 0; fixed this: https://gitlab.gnome.org/GNOME/chronojump/issues/110
-		 *
-		if(runPTLInListForPainting.Count > 0)
-		{
-			//get first TC start value
-			RunPhaseTimeListObject rptlfp = (RunPhaseTimeListObject) runPTLInListForPainting[0];
-			double firstValue = rptlfp.tcStart;
-
-			if(firstValue < 0)
-				return Math.Abs(firstValue);
-		}
-
-		return 0;
-		*/
-	}
-
-	double getRunSRunITimeTotalWithExtraPTLTime (double timeTotal, List<RunPhaseTimeListObject> runPTLInListForPainting, double negativePTLTime)
-	{
-		double timeTotalWithExtraPTL = timeTotal;
-		if(runPTLInListForPainting.Count > 0)
-		{
-			//get last TC end value
-			RunPhaseTimeListObject rptlfp = (RunPhaseTimeListObject) runPTLInListForPainting[runPTLInListForPainting.Count -1];
-			timeTotalWithExtraPTL = rptlfp.tcEnd;
-		}
-
-		return timeTotalWithExtraPTL + negativePTLTime;
-	}
 
 	private void paintPulse (Gtk.DrawingArea drawingarea, double lastTime, string timesString, double avgTime, int pulses, 
 			double maxValue, double minValue, int topMargin, int bottomMargin)
@@ -3255,7 +3208,6 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 	}
 }
 
-//TODO: here we will have the methods: getRunSRunINegativePTLTime, getRunSRunITimeTotalWithExtraPTLTime, ...
 public class CairoManageRunDoubleContacts
 {
 	private DrawingArea darea;
@@ -3267,15 +3219,60 @@ public class CairoManageRunDoubleContacts
 		this.fontStr = fontStr;
 	}
 
-	public void Paint (List<RunPhaseTimeListObject> runPTLInListForPainting,
-                        double timeTotal, double timeTotalWithEXtraPTL, double negativePTLTime,
-			bool drawStart, bool drawEnd)
+	public void Paint (EventExecute currentEventExecute, RunPhaseTimeList runPTL)
 	{
 		if(darea == null || darea.GdkWindow == null) //at start program, this can fail
 			return;
 
+		// 1) get data
+		double timeTotal = currentEventExecute.PrepareEventGraphRunSimpleObject.time; //TODO: check problems on deleting last test, or changing mode
+
+		List<RunPhaseTimeListObject> runPTLInListForPainting = runPTL.InListForPainting();
+
+		double negativePTLTime = getRunSRunINegativePTLTime(runPTLInListForPainting);
+		double timeTotalWithExtraPTL = getRunSRunITimeTotalWithExtraPTLTime (timeTotal, runPTLInListForPainting, negativePTLTime);
+
+		LogB.Information(string.Format("timeTotal: {0}, negativePTLTime: {1}, timeTotalWithExtraPTL: {2}",
+					timeTotal, negativePTLTime, timeTotalWithExtraPTL));
+
+		// 2) graph
 		CairoRunDoubleContacts crdc = new CairoRunDoubleContacts (darea, fontStr);
 		crdc.GraphDo (runPTLInListForPainting,
-				timeTotal, timeTotalWithEXtraPTL, negativePTLTime, true, true);
+				timeTotal, timeTotalWithExtraPTL, negativePTLTime, true, true);
+	}
+
+	private double getRunSRunINegativePTLTime (List<RunPhaseTimeListObject> runPTLInListForPainting)
+	{
+		return 0;
+
+		/*
+		 * inactive because when user stays lot of time (in contact) before the test, with this code the graph will have almost this contact status
+		 * having above return 0; fixed this: https://gitlab.gnome.org/GNOME/chronojump/issues/110
+		 *
+		if(runPTLInListForPainting.Count > 0)
+		{
+			//get first TC start value
+			RunPhaseTimeListObject rptlfp = (RunPhaseTimeListObject) runPTLInListForPainting[0];
+			double firstValue = rptlfp.tcStart;
+
+			if(firstValue < 0)
+				return Math.Abs(firstValue);
+		}
+
+		return 0;
+		*/
+	}
+
+	private double getRunSRunITimeTotalWithExtraPTLTime (double timeTotal, List<RunPhaseTimeListObject> runPTLInListForPainting, double negativePTLTime)
+	{
+		double timeTotalWithExtraPTL = timeTotal;
+		if(runPTLInListForPainting.Count > 0)
+		{
+			//get last TC end value
+			RunPhaseTimeListObject rptlfp = (RunPhaseTimeListObject) runPTLInListForPainting[runPTLInListForPainting.Count -1];
+			timeTotalWithExtraPTL = rptlfp.tcEnd;
+		}
+
+		return timeTotalWithExtraPTL + negativePTLTime;
 	}
 }

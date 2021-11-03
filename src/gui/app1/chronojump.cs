@@ -6496,12 +6496,6 @@ LogB.Debug("mc finished 5");
 		if(currentEventExecute == null)
 			return;
 
-		/*
-		new DialogMessage("Chronojump " + Catalog.GetString("Inspector"),
-				Constants.MessageTypes.INSPECT, currentEventExecute.GetInspectorMessages(),
-				true); //show scrolledwindow vertical bar
-		*/
-
 		//sensitivize gui
 		menus_and_mode_sensitive(false);
 		hbox_contacts_capture_top.Sensitive = false;
@@ -6509,10 +6503,8 @@ LogB.Debug("mc finished 5");
 		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = false;
 		hbox_top_person.Sensitive = false;
 
-		if(currentEventExecute == null)
-			return;
-
 		notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.RACEINSPECTOR);
+		label_run_simple_double_contacts.Text = currentEventExecute.GetInspectorMessages();
 	}
 
 	private void on_button_race_inspector_close_clicked (object o, EventArgs args)

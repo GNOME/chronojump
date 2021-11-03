@@ -95,6 +95,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.CheckButton check_runI_realtime_rel_abs;
 	[Widget] Gtk.Image image_check_runI_realtime_rel_abs;
 	[Widget] Gtk.DrawingArea event_execute_drawingarea_run_simple_double_contacts;
+	[Widget] Gtk.Label label_run_simple_double_contacts;
 	/*
 	[Widget] Gtk.Box hbox_combo_graph_results_width;
 	[Widget] Gtk.Box hbox_combo_graph_results_height;

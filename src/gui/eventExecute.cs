@@ -541,8 +541,8 @@ public partial class ChronoJumpWindow
 
 	public void on_event_execute_drawingarea_run_simple_double_contacts_expose_event (object o, ExposeEventArgs args)
 	{
-		if(current_mode != Constants.Modes.RUNSSIMPLE)// &&
-				//current_mode != Constants.Modes.RUNSINTERVALLIC)
+		if(current_mode != Constants.Modes.RUNSSIMPLE &&
+				current_mode != Constants.Modes.RUNSINTERVALLIC)
 			return;
 
 		//if object not defined or not defined fo this mode, return
@@ -550,9 +550,9 @@ public partial class ChronoJumpWindow
 			return;
 
 		if (current_mode == Constants.Modes.RUNSSIMPLE)
-			PrepareRunSimpleDoubleContactsGraph ();
-		//else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
-		//	PrepareRunIntervalDoubleContactsGraph (cairoManageRunDoubleContacts.eventGraphRunsIntervalStored, false);
+			PrepareRunDoubleContactsGraph (true);
+		else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
+			PrepareRunDoubleContactsGraph (false);
 	}
 
 	// simple and DJ jump	
@@ -733,7 +733,7 @@ public partial class ChronoJumpWindow
 		cairoPaintBarsPre.RunsShowTime = check_run_show_time.Active;
 		cairoPaintBarsPre.Paint();
 	}
-	public void PrepareRunSimpleDoubleContactsGraph()
+	public void PrepareRunDoubleContactsGraph(bool simple)
 	{
 		LogB.Information("cairoManageRunDoubleContacts == null: ", (cairoManageRunDoubleContacts == null).ToString());
 
@@ -745,11 +745,25 @@ public partial class ChronoJumpWindow
 		if(runPTL == null || ! runPTL.UseDoubleContacts())
 			return;
 
-		if(currentEventExecute == null || currentEventExecute.PrepareEventGraphRunSimpleObject == null)
+		if(currentEventExecute == null)
 			return;
 
+		double timeTotal = 0;
+		if(simple)
+		{
+			if (currentEventExecute.PrepareEventGraphRunSimpleObject == null)
+				return;
+
+			timeTotal = currentEventExecute.PrepareEventGraphRunSimpleObject.time; //TODO: check problems on deleting last test, or changing mode
+		} else {
+			if (currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject == null)
+				return;
+
+			timeTotal = Util.GetTotalTime(currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.timesString);
+		}
+
 		// Paint cairo graph
-		cairoManageRunDoubleContacts.Paint(currentEventExecute, runPTL);
+		cairoManageRunDoubleContacts.Paint(currentEventExecute, runPTL, timeTotal);
 	}
 
 	public void PrepareRunIntervalGraph(PrepareEventGraphRunInterval eventGraph, bool animate)
@@ -3219,14 +3233,12 @@ public class CairoManageRunDoubleContacts
 		this.fontStr = fontStr;
 	}
 
-	public void Paint (EventExecute currentEventExecute, RunPhaseTimeList runPTL)
+	public void Paint (EventExecute currentEventExecute, RunPhaseTimeList runPTL, double timeTotal)
 	{
 		if(darea == null || darea.GdkWindow == null) //at start program, this can fail
 			return;
 
 		// 1) get data
-		double timeTotal = currentEventExecute.PrepareEventGraphRunSimpleObject.time; //TODO: check problems on deleting last test, or changing mode
-
 		List<RunPhaseTimeListObject> runPTLInListForPainting = runPTL.InListForPainting();
 
 		double negativePTLTime = getRunSRunINegativePTLTime(runPTLInListForPainting);

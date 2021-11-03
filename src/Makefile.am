@@ -44,6 +44,7 @@ SOURCES = \
 	gui/cairo/jumpsWeightFVProfile.cs\
 	gui/cairo/raceAnalyzer.cs\
 	gui/cairo/radial.cs\
+	gui/cairo/runDoubleContacts.cs\
 	gui/cairo/util.cs\
 	gui/cairo/xy.cs\
 	gui/chronojumpImporter.cs\

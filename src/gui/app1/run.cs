@@ -211,12 +211,18 @@ public partial class ChronoJumpWindow
 		if(! radio_contacts_graph_allPersons.Active)
 			personStr = currentPerson.Name;
 
+		LogB.Information("event_execute_drawingarea_cairo == null: ",
+			(event_execute_drawingarea_cairo == null).ToString());
+
 		cairoPaintBarsPre = new CairoPaintBarsPreRunSimple (
 				event_execute_drawingarea_cairo, preferences.fontType.ToString(), current_mode,
 				personStr, typeTemp, preferences.digitsNumber);
 
 		cairoPaintBarsPre.StoreEventGraphRuns (eventGraph);
 		PrepareRunSimpleGraph(cairoPaintBarsPre.eventGraphRunsStored, false);
+
+		cairoManageRunDoubleContacts = new CairoManageRunDoubleContacts (
+				event_execute_drawingarea_run_simple_double_contacts, preferences.fontType.ToString() );
 	}
 	private void updateGraphRunsInterval ()
 	{

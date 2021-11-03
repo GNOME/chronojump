@@ -133,6 +133,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_sprint_analyze_table_save;
 	[Widget] Gtk.Image image_sprint_analyze_table_save_1;
 	[Widget] Gtk.Image image_sprint_export_cancel;
+	[Widget] Gtk.Image image_race_inspector_close;
 
 	//encoder images
 	[Widget] Gtk.Image image_top_eccon;
@@ -536,6 +537,7 @@ public partial class ChronoJumpWindow
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_close.png");
 		image_contacts_exercise_close.Pixbuf = pixbuf;
+		image_race_inspector_close.Pixbuf = pixbuf;
 		image_encoder_exercise_close.Pixbuf = pixbuf;
 		image_force_sensor_analyze_options_close.Pixbuf = pixbuf;
 		image_force_sensor_analyze_options_close1.Pixbuf = pixbuf;

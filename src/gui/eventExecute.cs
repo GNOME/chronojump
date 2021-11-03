@@ -158,6 +158,7 @@ public partial class ChronoJumpWindow
 	//we need both working to be able to correctly expose_event on jumpRj, runI
 	CairoPaintBarsPre cairoPaintBarsPre;
 	CairoPaintBarsPre cairoPaintBarsPreRealTime;
+	CairoManageRunDoubleContacts cairoManageRunDoubleContacts;
 
 
 	private void event_execute_initializeVariables (
@@ -228,9 +229,6 @@ public partial class ChronoJumpWindow
 		layoutBig = new Pango.Layout (event_execute_drawingarea.PangoContext);
 		layoutBig.FontDescription = Pango.FontDescription.FromString (preferences.GetFontTypeWithSize(14));
 		//layoutBig.Alignment = Pango.Alignment.Center; //doesn't work, see GetPixelSize below
-
-		layoutMid_run_simple = new Pango.Layout (event_execute_drawingarea_run_simple_double_contacts.PangoContext);
-		layoutMid_run_simple.FontDescription = Pango.FontDescription.FromString (preferences.GetFontTypeWithSize(9));
 	}
 	private ExecutingGraphData event_execute_prepareForTest () 
 	{
@@ -541,60 +539,20 @@ public partial class ChronoJumpWindow
 			PrepareRunIntervalGraph (cairoPaintBarsPre.eventGraphRunsIntervalStored, false);
 	}
 
-	
-	int allocationXOld_run_simple;
-	int allocationYOld_run_simple;
-	bool sizeChanged_run_simple;
-	public void on_event_execute_drawingarea_run_simple_double_contacts_expose_event(object o, ExposeEventArgs args)
+	public void on_event_execute_drawingarea_run_simple_double_contacts_expose_event (object o, ExposeEventArgs args)
 	{
-		/* in some mono installations, configure_event is not called, but expose_event yes.
-		 * Do here the initialization
-		 */
+		if(current_mode != Constants.Modes.RUNSSIMPLE)// &&
+				//current_mode != Constants.Modes.RUNSINTERVALLIC)
+			return;
 
-		Gdk.Rectangle allocation = event_execute_drawingarea_run_simple_double_contacts.Allocation;
-		if(event_execute_run_simple_double_contacts_pixmap == null || sizeChanged_run_simple ||
-				allocation.Width != allocationXOld_run_simple || allocation.Height != allocationYOld_run_simple)
-		{
-			event_execute_run_simple_double_contacts_pixmap = new Gdk.Pixmap (event_execute_drawingarea_run_simple_double_contacts.GdkWindow, allocation.Width, allocation.Height, -1);
-			UtilGtk.ErasePaint(event_execute_drawingarea_run_simple_double_contacts, event_execute_run_simple_double_contacts_pixmap);
+		//if object not defined or not defined fo this mode, return
+		if(cairoManageRunDoubleContacts == null)
+			return;
 
-			sizeChanged_run_simple = false;
-		}
-
-		Gdk.Rectangle area = args.Event.Area;
-
-		//sometimes this is called when paint is finished
-		//don't let this erase win
-		if(event_execute_run_simple_double_contacts_pixmap != null) {
-			args.Event.Window.DrawDrawable(event_execute_drawingarea_run_simple_double_contacts.Style.WhiteGC, event_execute_run_simple_double_contacts_pixmap,
-				area.X, area.Y,
-				area.X, area.Y,
-				area.Width, area.Height);
-		}
-
-		allocationXOld_run_simple = allocation.Width;
-		allocationYOld_run_simple = allocation.Height;
-	}
-
-	public void on_event_execute_drawingarea_run_simple_double_contacts_configure_event(object o, ConfigureEventArgs args)
-	{
-		Gdk.EventConfigure ev = args.Event;
-		Gdk.Window window = ev.Window;
-
-		Gdk.Rectangle allocation = event_execute_drawingarea_run_simple_double_contacts.Allocation;
-
-		if(event_execute_run_simple_double_contacts_pixmap == null || sizeChanged_run_simple ||
-				allocation.Width != allocationXOld_run_simple || allocation.Height != allocationYOld_run_simple)
-		{
-			event_execute_run_simple_double_contacts_pixmap = new Gdk.Pixmap (window, allocation.Width, allocation.Height, -1);
-
-			UtilGtk.ErasePaint(event_execute_drawingarea_run_simple_double_contacts, event_execute_run_simple_double_contacts_pixmap);
-
-			sizeChanged_run_simple = false;
-		}
-
-		allocationXOld_run_simple = allocation.Width;
-		allocationYOld_run_simple = allocation.Height;
+		if (current_mode == Constants.Modes.RUNSSIMPLE)
+			PrepareRunSimpleDoubleContactsGraph ();
+		//else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
+		//	PrepareRunIntervalDoubleContactsGraph (cairoManageRunDoubleContacts.eventGraphRunsIntervalStored, false);
 	}
 
 	// simple and DJ jump	
@@ -756,44 +714,54 @@ public partial class ChronoJumpWindow
 	}
 			
 
+	/*
 	// run simple
 	// called from srg/gui/run updateGraphRunsSimple ()
 	public void PrepareRunSimpleGraph(PrepareEventGraphRunSimple eventGraph, bool animate)
 	{
 		PrepareRunSimpleGraph(eventGraph, animate, null);
 	}
+	*/
 
 	//standard call
-	public void PrepareRunSimpleGraph(PrepareEventGraphRunSimple eventGraph, bool animate, RunPhaseTimeList runPTL)
+	public void PrepareRunSimpleGraph(PrepareEventGraphRunSimple eventGraph, bool animate)
 	{
-		double timeTotal = eventGraph.time;
-		// start of contact chunks
-		LogB.Information(string.Format("runPTL is null: {0}", (runPTL == null)));
-
-		if(runPTL != null && runPTL.UseDoubleContacts())
-		{
-			UtilGtk.ClearDrawingArea(event_execute_drawingarea_run_simple_double_contacts,
-					event_execute_run_simple_double_contacts_pixmap);
-
-			List<RunPhaseTimeListObject> runPTLInListForPainting = runPTL.InListForPainting();
-
-			double negativePTLTime = getRunSRunINegativePTLTime(runPTLInListForPainting);
-			double timeTotalWithExtraPTL = getRunSRunITimeTotalWithExtraPTLTime (timeTotal, runPTLInListForPainting, negativePTLTime);
-
-			LogB.Information(string.Format("timeTotal: {0}, negativePTLTime: {1}, timeTotalWithExtraPTL: {2}",
-						timeTotal, negativePTLTime, timeTotalWithExtraPTL));
-
-
-			int ancho2 = event_execute_drawingarea_run_simple_double_contacts.Allocation.Width;
-			paintRunSRunIContactChunks(event_execute_run_simple_double_contacts_pixmap, 20, ancho2, 0,
-					runPTLInListForPainting, timeTotal, timeTotalWithExtraPTL, negativePTLTime, true, true);
-		}
-		// end of contact chunks
+		LogB.Information("cairoPaintBarsPre == null: ", (cairoPaintBarsPre == null).ToString());
 
 		// Paint cairo graph
 		cairoPaintBarsPre.ShowPersonNames = radio_contacts_graph_allPersons.Active;
 		cairoPaintBarsPre.RunsShowTime = check_run_show_time.Active;
 		cairoPaintBarsPre.Paint();
+	}
+	public void PrepareRunSimpleDoubleContactsGraph()
+	{
+		LogB.Information("cairoManageRunDoubleContacts == null: ", (cairoManageRunDoubleContacts == null).ToString());
+
+		// prepare runPTL stuff
+
+		RunPhaseTimeList runPTL = currentEventExecute.RunPTL;
+		//LogB.Information(string.Format("runPTL is null: {0}", (runPTL == null)));
+
+		if(runPTL == null || ! runPTL.UseDoubleContacts())
+			return;
+
+		if(currentEventExecute == null || currentEventExecute.PrepareEventGraphRunSimpleObject == null)
+			return;
+
+		// start of contact chunks
+		double timeTotal = currentEventExecute.PrepareEventGraphRunSimpleObject.time; //TODO: check problems on deleting last test, or changing mode
+
+		List<RunPhaseTimeListObject> runPTLInListForPainting = runPTL.InListForPainting();
+
+		double negativePTLTime = getRunSRunINegativePTLTime(runPTLInListForPainting);
+		double timeTotalWithExtraPTL = getRunSRunITimeTotalWithExtraPTLTime (timeTotal, runPTLInListForPainting, negativePTLTime);
+
+		LogB.Information(string.Format("timeTotal: {0}, negativePTLTime: {1}, timeTotalWithExtraPTL: {2}",
+					timeTotal, negativePTLTime, timeTotalWithExtraPTL));
+
+		// Paint cairo graph
+		cairoManageRunDoubleContacts.Paint(runPTLInListForPainting,
+				timeTotal, timeTotalWithExtraPTL, negativePTLTime, true, true);
 	}
 
 	public void PrepareRunIntervalGraph(PrepareEventGraphRunInterval eventGraph, bool animate)
@@ -1482,82 +1450,6 @@ public partial class ChronoJumpWindow
 		return timeTotalWithExtraPTL + negativePTLTime;
 	}
 
-	void paintRunSRunIContactChunks(Gdk.Pixmap pixmap, int alto, int ancho, int bottomMargin,
-			List<RunPhaseTimeListObject> runPTLInListForPainting,
-			double timeTotal, double timeTotalWithExtraPTL, double negativePTLTime,
-			bool drawStart, bool drawEnd)
-	{
-		int lastChunkStart = 0;
-		int chunkMargins = 4;
-
-		LogB.Information("CONTACT CHUNKS");
-		foreach (RunPhaseTimeListObject inPTL in runPTLInListForPainting)
-		{
-			LogB.Information("inPTL: " + inPTL.ToString());
-			int xStart = event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) *
-					(inPTL.tcStart + negativePTLTime) / timeTotalWithExtraPTL);
-
-			int xEnd = event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) *
-					(inPTL.tcEnd + negativePTLTime) / timeTotalWithExtraPTL);
-
-			pixmap.DrawRectangle(pen_double_contacts, true,
-					new Rectangle (xStart, alto-bottomMargin-4, xEnd-xStart, 4));
-
-			//manage chunks indications
-			if(inPTL.phase == RunPhaseTimeListObject.Phases.START)
-			{
-				//draw the vertical start line
-				pixmap.DrawLine(pen_double_contacts,
-						xStart - chunkMargins, alto-bottomMargin -4,
-						xStart - chunkMargins, alto-bottomMargin -(4 + chunkMargins));
-				lastChunkStart = xStart;
-				LogB.Information("runPTL draw start");
-			}
-			else if(inPTL.phase == RunPhaseTimeListObject.Phases.END)
-			{
-				//draw the vertical end line
-				pixmap.DrawLine(pen_double_contacts,
-						xEnd + chunkMargins, alto-bottomMargin -4,
-						xEnd + chunkMargins, alto-bottomMargin -(4 + chunkMargins));
-
-				//draw the horizontal start-end line
-				pixmap.DrawLine(pen_double_contacts,
-						lastChunkStart - chunkMargins, alto-bottomMargin -(4 + chunkMargins),
-						xEnd + chunkMargins, alto-bottomMargin -(4 + chunkMargins));
-				LogB.Information("runPTL draw end");
-			}
-
-		}
-
-		int lWidth = 1;
-		int lHeight = 1;
-		if(drawStart)
-		{
-			//paint start vertical line
-			int xStart2 = event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) *
-					(negativePTLTime) / timeTotalWithExtraPTL) -1;
-			pixmap.DrawLine(pen_double_contacts, xStart2 +1, 10, xStart2 +1, alto-bottomMargin-4);
-
-			layoutMid_run_simple.SetMarkup("Start");
-			layoutMid_run_simple.GetPixelSize(out lWidth, out lHeight);
-			pixmap.DrawLayout (pen_double_contacts,
-					xStart2 -lWidth/2, 0, layoutMid_run_simple);
-		}
-
-		if(drawEnd)
-		{
-			//paint end vertical line
-			int xEnd2 = event_execute_rightMargin + Convert.ToInt32((ancho - 2*event_execute_rightMargin) *
-					(timeTotal + negativePTLTime) / timeTotalWithExtraPTL);
-			pixmap.DrawLine(pen_double_contacts, xEnd2, 10, xEnd2, alto-bottomMargin-4);
-
-			layoutMid_run_simple.SetMarkup("End");
-			layoutMid_run_simple.GetPixelSize(out lWidth, out lHeight);
-			pixmap.DrawLayout (pen_double_contacts,
-					xEnd2 -lWidth/2, 0, layoutMid_run_simple);
-		}
-	}
-
 	private void paintPulse (Gtk.DrawingArea drawingarea, double lastTime, string timesString, double avgTime, int pulses, 
 			double maxValue, double minValue, int topMargin, int bottomMargin)
 	{
@@ -1988,9 +1880,7 @@ public partial class ChronoJumpWindow
 				break;
 			case EventType.Types.RUN:
 				if(thisRunIsSimple)
-					PrepareRunSimpleGraph(currentEventExecute.PrepareEventGraphRunSimpleObject, animate,
-							currentEventExecute.RunPTL
-							);
+					PrepareRunSimpleGraph(currentEventExecute.PrepareEventGraphRunSimpleObject, animate);
 				else {
 					bool volumeOnHere = preferences.volumeOn;
 					//do not play good or bad sounds at RSA because we need to hear the GO sound
@@ -2063,7 +1953,6 @@ public partial class ChronoJumpWindow
 	Gdk.GC pen_rojo; //tc, also time; jump avg personTc
 	//Gdk.GC pen_azul_claro; //tf, also speed and pulse; jump avg personTv. This for bars
 	Gdk.GC pen_azul; //tf, also speed and pulse; jump avg personTv. This for lines
-	Gdk.GC pen_double_contacts;
 	Gdk.GC pen_rojo_discont; //avg tc in reactive; jump avg sessionTc 
 	//Gdk.GC pen_azul_claro_discont; //avg tf in reactive; jump avg sessionTv
 	Gdk.GC pen_azul_discont; //avg tf in reactive; jump avg sessionTv
@@ -2147,8 +2036,6 @@ public partial class ChronoJumpWindow
 		pen_background = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_background_shifted = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 
-		pen_double_contacts = new Gdk.GC(event_execute_drawingarea_run_simple_double_contacts.GdkWindow);
-		
 		pen_rojo.Foreground = UtilGtk.RED_PLOTS;
 		//pen_azul_claro.Foreground = UtilGtk.LIGHT_BLUE_PLOTS;
 		pen_azul.Foreground = UtilGtk.BLUE_PLOTS;
@@ -2190,7 +2077,6 @@ public partial class ChronoJumpWindow
 
 		pen_background.Foreground = colorBackground;
 		pen_background_shifted.Foreground = colorBackgroundShifted;
-		pen_double_contacts.Foreground = colorBackground;
 	}
 	void on_event_execute_button_cancel_clicked (object o, EventArgs args)
 	{
@@ -3366,5 +3252,30 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 
 		cb.GraphDo (point_l, new List<PointF>(), names_l,
 				14, 22, title); //22 because there are two rows
+	}
+}
+
+//TODO: here we will have the methods: getRunSRunINegativePTLTime, getRunSRunITimeTotalWithExtraPTLTime, ...
+public class CairoManageRunDoubleContacts
+{
+	private DrawingArea darea;
+	private string fontStr;
+
+	public CairoManageRunDoubleContacts (DrawingArea darea, string fontStr)
+	{
+		this.darea = darea;
+		this.fontStr = fontStr;
+	}
+
+	public void Paint (List<RunPhaseTimeListObject> runPTLInListForPainting,
+                        double timeTotal, double timeTotalWithEXtraPTL, double negativePTLTime,
+			bool drawStart, bool drawEnd)
+	{
+		if(darea == null || darea.GdkWindow == null) //at start program, this can fail
+			return;
+
+		CairoRunDoubleContacts crdc = new CairoRunDoubleContacts (darea, fontStr);
+		crdc.GraphDo (runPTLInListForPainting,
+				timeTotal, timeTotalWithEXtraPTL, negativePTLTime, true, true);
 	}
 }

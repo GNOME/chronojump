@@ -492,7 +492,7 @@ public partial class ChronoJumpWindow
 	private string progName;
 	private enum notebook_start_pages { PROGRAM, SENDLOG, EXITCONFIRM, SOCIALNETWORKPOLL }
 	private enum notebook_sup_pages { START, CONTACTS, ENCODER, SESSION, NETWORKSPROBLEMS, HELP, NEWS }
-	private enum notebook_contacts_execute_or_pages { EXECUTE, INSTRUCTIONS, FORCESENSORADJUST }
+	private enum notebook_contacts_execute_or_pages { EXECUTE, INSTRUCTIONS, FORCESENSORADJUST, RACEINSPECTOR }
 	private enum notebook_analyze_pages { STATISTICS, JUMPSPROFILE, JUMPSDJOPTIMALFALL, JUMPSWEIGHTFVPROFILE, JUMPSEVOLUTION, JUMPSRJFATIGUE,
 		RUNSEVOLUTION, SPRINT, FORCESENSOR, RACEENCODER }
 
@@ -5271,9 +5271,6 @@ public partial class ChronoJumpWindow
 			currentRunType.Name 
 			);
 
-		UtilGtk.ClearDrawingArea(event_execute_drawingarea_run_simple_double_contacts,
-				event_execute_run_simple_double_contacts_pixmap);
-
 		event_execute_button_cancel.Sensitive = true;
 
 		ExecutingGraphData egd = event_execute_prepareForTest ();
@@ -6496,10 +6493,38 @@ LogB.Debug("mc finished 5");
 
 	private void on_button_inspect_last_test_clicked (object o, EventArgs args)
 	{
-		if(currentEventExecute != null)
-			new DialogMessage("Chronojump " + Catalog.GetString("Inspector"),
-					Constants.MessageTypes.INSPECT, currentEventExecute.GetInspectorMessages(),
-					true); //show scrolledwindow vertical bar
+		if(currentEventExecute == null)
+			return;
+
+		/*
+		new DialogMessage("Chronojump " + Catalog.GetString("Inspector"),
+				Constants.MessageTypes.INSPECT, currentEventExecute.GetInspectorMessages(),
+				true); //show scrolledwindow vertical bar
+		*/
+
+		//sensitivize gui
+		menus_and_mode_sensitive(false);
+		hbox_contacts_capture_top.Sensitive = false;
+		//button_inspect_last_test.Sensitive = false; //unneeded because it will be on hbox_contacts_capture_top
+		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = false;
+		hbox_top_person.Sensitive = false;
+
+		if(currentEventExecute == null)
+			return;
+
+		notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.RACEINSPECTOR);
+	}
+
+	private void on_button_race_inspector_close_clicked (object o, EventArgs args)
+	{
+		//unsensitivize gui
+		menus_and_mode_sensitive(true);
+		hbox_contacts_capture_top.Sensitive = true;
+		//button_inspect_last_test.Sensitive = true; //unneeded because it will be on hbox_contacts_capture_top
+		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = true;
+		hbox_top_person.Sensitive = true;
+
+		notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.EXECUTE);
 	}
 
 	private void deleted_last_test_update_widgets() {

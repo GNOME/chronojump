@@ -6505,6 +6505,7 @@ LogB.Debug("mc finished 5");
 
 		notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.RACEINSPECTOR);
 		label_run_simple_double_contacts.Text = currentEventExecute.GetInspectorMessages();
+		label_run_simple_double_contacts.UseMarkup = true;
 	}
 
 	private void on_button_race_inspector_close_clicked (object o, EventArgs args)

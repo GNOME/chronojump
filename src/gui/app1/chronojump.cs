@@ -3419,7 +3419,7 @@ public partial class ChronoJumpWindow
 			photocellWirelessCapture.Disconnect();
 
 		//run simple will be the only one with its drawing are
-		frame_run_simple_double_contacts.Visible = false;
+		button_inspect_last_test_run_simple.Visible = false;
 
 		hbox_other.Visible = false;
 		sensitiveLastTestButtons(false);
@@ -3604,7 +3604,7 @@ public partial class ChronoJumpWindow
 				//align_check_vbox_contacts_graph_legend.Visible = true;
 				//vbox_contacts_graph_legend.Visible = false;
 
-				frame_run_simple_double_contacts.Visible = true;
+				button_inspect_last_test_run_simple.Visible = true;
 				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_run_simple.png");
 			}
 			else

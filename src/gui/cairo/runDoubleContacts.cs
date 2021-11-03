@@ -148,7 +148,7 @@ public class CairoRunDoubleContacts : CairoGeneric
 			g.LineTo (xEnd2, graphHeight-bottomMargin-4);
 			g.Stroke();
 
-			printText(xEnd2, 0, 4, 10, "End", g, alignTypes.CENTER);
+			printText(xEnd2, 4, 0, 10, "End", g, alignTypes.CENTER);
 		}
 		//printText(graphWidth/2, 0, 0, 10, "testing top", g, alignTypes.CENTER);
 		//printText(graphWidth/2, graphHeight-10, 0, 10, "testing bottom", g, alignTypes.CENTER);

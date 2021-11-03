@@ -29,6 +29,7 @@ public class CairoRunDoubleContacts : CairoGeneric
 	private DrawingArea area;
 	private Cairo.Context g;
 	private Cairo.Color black;
+	private Cairo.Color colorBackground;
 	private int rightMargin = 35; //TODO: on windows should be 55
 	private int bottomMargin = 0;
 
@@ -69,6 +70,8 @@ public class CairoRunDoubleContacts : CairoGeneric
 		g.SelectFontFace(font, Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
 		g.SetFontSize(textHeight);
 
+		colorBackground = colorFromGdk(Config.ColorBackground);
+
 		black = colorFromRGB(0,0,0);
 		//gray = colorFromRGB(99,99,99); //gray99
 		g.Color = black;
@@ -79,7 +82,6 @@ public class CairoRunDoubleContacts : CairoGeneric
 			bool drawStart, bool drawEnd)
 	{
 		LogB.Information("CONTACT CHUNKS at Cairo");
-		g.Color = black;
 		double lastChunkStart = 0;
 		int chunkMargins = 4;
 
@@ -96,12 +98,14 @@ public class CairoRunDoubleContacts : CairoGeneric
 			LogB.Information(string.Format("xEnd parts: {0}, {1}, {2}",
 					inPTL.tcEnd, negativePTLTime, timeTotalWithExtraPTL));
 
+			g.Color = colorBackground;
 			g.Rectangle(xStart, graphHeight-bottomMargin-4, xEnd-xStart, 4);
 			g.Fill();
 
 			LogB.Information(string.Format("xStart: {0}, yTop: {1}, width: {2}, height: {3}",
 				xStart, graphHeight-bottomMargin-4, xEnd-xStart, 4));
 
+			g.Color = black;
 			//manage chunks indications
 			if(inPTL.phase == RunPhaseTimeListObject.Phases.START)
 			{

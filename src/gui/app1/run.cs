@@ -267,6 +267,9 @@ public partial class ChronoJumpWindow
 
 		cairoPaintBarsPre.StoreEventGraphRunsInterval (eventGraph);
 		PrepareRunIntervalGraph (cairoPaintBarsPre.eventGraphRunsIntervalStored, false);
+
+		cairoManageRunDoubleContacts = new CairoManageRunDoubleContacts (
+				event_execute_drawingarea_run_simple_double_contacts, preferences.fontType.ToString() );
 	}
 	
 	private void extra_window_runs_interval_initialize(RunType myRunType) 

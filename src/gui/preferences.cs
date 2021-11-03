@@ -1552,13 +1552,14 @@ public class PreferencesWindow
 				Catalog.GetString(
 					"\"Speed start\" means when athlete does not start with \"contact\" on the " +
 					"first platform or photocell.\n" +
-					"It starts before and arrives there with some speed.") +
+					"It starts before and arrives there with some speed.") /* +
 				"\n\n" +
 				Catalog.GetString("Chronojump race reaction time device allows to record reaction time and race time.") +
 				"\n -" +
 				Catalog.GetString("Reaction time is displayed on Description column.") +
 				"\n -" +
 				Catalog.GetString("If first option is chosen, race time includes reaction time.")
+				*/
 				);
 	}
 

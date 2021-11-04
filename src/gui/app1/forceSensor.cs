@@ -1197,6 +1197,7 @@ public partial class ChronoJumpWindow
 
 		if(! forceSensorSendCommand("start_capture:", "Preparing capture...", "Catched force capturing"))
 		{
+			LogB.Information("fs Error 1");
 			forceProcessError = true;
 			return;
 		}
@@ -1208,6 +1209,7 @@ public partial class ChronoJumpWindow
 			try {
 				str = portFS.ReadLine();
 			} catch {
+				LogB.Information("fs Error 2");
 				forceProcessError = true;
 				return;
 			}
@@ -1356,6 +1358,7 @@ public partial class ChronoJumpWindow
 			if(! forceSensorSendCommand("end_capture:", "Ending capture ...", "Catched ending capture"))
 			{
 				forceProcessError = true;
+				LogB.Information("fs Error 3");
 				capturingForce = arduinoCaptureStatus.STOP;
 				Util.FileDelete(fileName);
 				return;
@@ -1442,6 +1445,11 @@ LogB.Information(" fs B ");
 		if(! forceCaptureThread.IsAlive || forceProcessFinish || forceProcessCancel || forceProcessError)
 		{
 LogB.Information(" fs C ");
+			LogB.Information(string.Format(
+						"! forceCaptureThread.IsAlive: {0}, forceProcessFinish: {1}," +
+						"forceProcessCancel: {2}, forceProcessError: {3}",
+						! forceCaptureThread.IsAlive, forceProcessFinish, forceProcessCancel, forceProcessError));
+
 			button_video_play_this_test_contacts.Sensitive = false;
 			if(forceProcessFinish)
 			{
@@ -1609,10 +1617,16 @@ LogB.Information(" fs H2 ");
 			if(usbDisconnectedLastTime == forceSensorValues.TimeLast)
 			{
 				usbDisconnectedCount ++;
-				if(usbDisconnectedCount >= 20)
+
+				/* this was 20 for some years, but some electronics are slower on start sending data
+				   and then Disconnected happens. So changed to 1000 it makes the Disconnected check
+				   do not make fail the capture, and just if disconnected, the message appears later
+				 */
+				if(usbDisconnectedCount >= 1000)
 				{
 					event_execute_label_message.Text = "Disconnected!";
 					forceProcessError = true;
+					LogB.Information("fs Error 4");
 					return true;
 				}
 			}

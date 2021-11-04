@@ -5246,7 +5246,7 @@ public partial class ChronoJumpWindow
 			
 		//hide jumping (running) buttons
 		sensitiveGuiEventDoing(false);
-	
+
 		//show the event doing window
 		
 		double progressbarLimit = 3; //same for startingIn than out (before)
@@ -5393,6 +5393,7 @@ public partial class ChronoJumpWindow
 			
 		//hide running buttons
 		sensitiveGuiEventDoing(false);
+		button_inspect_last_test_run_intervallic.Sensitive = false;
 		
 		//don't let update until test finishes
 		if(createdStatsWin)

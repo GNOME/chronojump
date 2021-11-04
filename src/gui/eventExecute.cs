@@ -3251,10 +3251,14 @@ public class CairoManageRunDoubleContacts
 					timeTotal, negativePTLTime, timeTotalWithExtraPTL));
 
 		// 2) graph
-		CairoRunDoubleContacts crdc = new CairoRunDoubleContacts (darea, fontStr);
+		CairoRunDoubleContacts crdc;
+		if(intervalTimesString == "") //runSimple
+			crdc = new CairoRunDoubleContacts (darea, fontStr);
+		else
+			crdc = new CairoRunIntervalDoubleContacts (darea, fontStr, intervalTimesString);
+
 		crdc.GraphDo (runPTLInListForPainting,
-				timeTotal, intervalTimesString,
-				timeTotalWithExtraPTL, negativePTLTime, true, true);
+				timeTotal, timeTotalWithExtraPTL, negativePTLTime, true, true);
 	}
 
 	private double getRunSRunINegativePTLTime (List<RunPhaseTimeListObject> runPTLInListForPainting)

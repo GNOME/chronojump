@@ -749,6 +749,7 @@ public partial class ChronoJumpWindow
 			return;
 
 		double timeTotal = 0;
+		string intervalTimesString = "";
 		if(simple)
 		{
 			if (currentEventExecute.PrepareEventGraphRunSimpleObject == null)
@@ -760,10 +761,11 @@ public partial class ChronoJumpWindow
 				return;
 
 			timeTotal = Util.GetTotalTime(currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.timesString);
+			intervalTimesString = currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.timesString;
 		}
 
 		// Paint cairo graph
-		cairoManageRunDoubleContacts.Paint(currentEventExecute, runPTL, timeTotal);
+		cairoManageRunDoubleContacts.Paint(currentEventExecute, runPTL, timeTotal, intervalTimesString);
 	}
 
 	public void PrepareRunIntervalGraph(PrepareEventGraphRunInterval eventGraph, bool animate)
@@ -3233,7 +3235,8 @@ public class CairoManageRunDoubleContacts
 		this.fontStr = fontStr;
 	}
 
-	public void Paint (EventExecute currentEventExecute, RunPhaseTimeList runPTL, double timeTotal)
+	public void Paint (EventExecute currentEventExecute, RunPhaseTimeList runPTL, double timeTotal,
+			string intervalTimesString) //"" on runSimple
 	{
 		if(darea == null || darea.GdkWindow == null) //at start program, this can fail
 			return;
@@ -3250,7 +3253,8 @@ public class CairoManageRunDoubleContacts
 		// 2) graph
 		CairoRunDoubleContacts crdc = new CairoRunDoubleContacts (darea, fontStr);
 		crdc.GraphDo (runPTLInListForPainting,
-				timeTotal, timeTotalWithExtraPTL, negativePTLTime, true, true);
+				timeTotal, intervalTimesString,
+				timeTotalWithExtraPTL, negativePTLTime, true, true);
 	}
 
 	private double getRunSRunINegativePTLTime (List<RunPhaseTimeListObject> runPTLInListForPainting)

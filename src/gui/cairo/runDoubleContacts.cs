@@ -78,7 +78,9 @@ public class CairoRunDoubleContacts : CairoGeneric
 	}
 
 	public void GraphDo (List<RunPhaseTimeListObject> runPTLInListForPainting,
-			double timeTotal, double timeTotalWithExtraPTL, double negativePTLTime,
+			double timeTotal,
+			string intervalTimesString, //if runSimple it will be ""
+			double timeTotalWithExtraPTL, double negativePTLTime,
 			bool drawStart, bool drawEnd)
 	{
 		LogB.Information("CONTACT CHUNKS at Cairo");
@@ -87,23 +89,23 @@ public class CairoRunDoubleContacts : CairoGeneric
 
 		foreach (RunPhaseTimeListObject inPTL in runPTLInListForPainting)
 		{
-			LogB.Information("inPTL: " + inPTL.ToString());
+			//LogB.Information("inPTL: " + inPTL.ToString());
 			double xStart = rightMargin + (graphWidth - 2*rightMargin) *
 					(inPTL.tcStart + negativePTLTime) / timeTotalWithExtraPTL;
-			LogB.Information(string.Format("xStart parts: {0}, {1}, {2}",
-					inPTL.tcStart, negativePTLTime, timeTotalWithExtraPTL));
+			//LogB.Information(string.Format("xStart parts: {0}, {1}, {2}",
+			//		inPTL.tcStart, negativePTLTime, timeTotalWithExtraPTL));
 
 			double xEnd = rightMargin + (graphWidth - 2*rightMargin) *
 					(inPTL.tcEnd + negativePTLTime) / timeTotalWithExtraPTL;
-			LogB.Information(string.Format("xEnd parts: {0}, {1}, {2}",
-					inPTL.tcEnd, negativePTLTime, timeTotalWithExtraPTL));
+			//LogB.Information(string.Format("xEnd parts: {0}, {1}, {2}",
+			//		inPTL.tcEnd, negativePTLTime, timeTotalWithExtraPTL));
 
 			g.Color = colorBackground;
 			g.Rectangle(xStart, graphHeight-bottomMargin-4, xEnd-xStart, 4);
 			g.Fill();
 
-			LogB.Information(string.Format("xStart: {0}, yTop: {1}, width: {2}, height: {3}",
-				xStart, graphHeight-bottomMargin-4, xEnd-xStart, 4));
+			//LogB.Information(string.Format("xStart: {0}, yTop: {1}, width: {2}, height: {3}",
+			//	xStart, graphHeight-bottomMargin-4, xEnd-xStart, 4));
 
 			g.Color = black;
 			//manage chunks indications
@@ -114,7 +116,7 @@ public class CairoRunDoubleContacts : CairoGeneric
 				g.LineTo (xStart - chunkMargins, graphHeight-bottomMargin -(4 + chunkMargins));
 				g.Stroke();
 				lastChunkStart = xStart;
-				LogB.Information("runPTL draw start");
+				//LogB.Information("runPTL draw start");
 			}
 			else if(inPTL.phase == RunPhaseTimeListObject.Phases.END)
 			{
@@ -127,7 +129,32 @@ public class CairoRunDoubleContacts : CairoGeneric
 				g.MoveTo(lastChunkStart - chunkMargins, graphHeight-bottomMargin -(4 + chunkMargins));
 				g.LineTo(xEnd + chunkMargins, graphHeight-bottomMargin -(4 + chunkMargins));
 				g.Stroke();
-				LogB.Information("runPTL draw end");
+				//LogB.Information("runPTL draw end");
+			}
+		}
+
+		//on runInterval draw the vertical lines of each track
+		if(intervalTimesString != "")
+		{
+			LogB.Information("intervalTimesString is: " + intervalTimesString);
+			string [] times = intervalTimesString.Split(new char[] {'='});
+			double accumulated = 0;
+			int trackCount = 0;
+			foreach(string time in times)
+			{
+				double xVert = rightMargin + (graphWidth - 2*rightMargin) *
+					(Convert.ToDouble(time) + accumulated + negativePTLTime) / timeTotalWithExtraPTL;
+
+				g.MoveTo (xVert, 10);
+				g.LineTo (xVert, graphHeight-bottomMargin-4);
+				g.Stroke();
+
+				//draw track num
+				double xTrackNum = rightMargin + (graphWidth - 2*rightMargin) *
+					(Convert.ToDouble(time)/2 + accumulated + negativePTLTime) / timeTotalWithExtraPTL;
+				printText(xTrackNum, 4, 0, 10, (++ trackCount).ToString(), g, alignTypes.CENTER);
+
+				accumulated += Convert.ToDouble(time);
 			}
 		}
 
@@ -136,6 +163,8 @@ public class CairoRunDoubleContacts : CairoGeneric
 			//paint start vertical line
 			double xStart2 = rightMargin + (graphWidth - 2*rightMargin) *
 					(negativePTLTime) / timeTotalWithExtraPTL -1;
+
+			//on runInterval, this 3 lines will be done also above
 			g.MoveTo (xStart2 +1, 10);
 			g.LineTo (xStart2 +1, graphHeight-bottomMargin-4);
 			g.Stroke();
@@ -148,14 +177,14 @@ public class CairoRunDoubleContacts : CairoGeneric
 			//paint end vertical line
 			double xEnd2 = rightMargin + (graphWidth - 2*rightMargin) *
 					(timeTotal + negativePTLTime) / timeTotalWithExtraPTL;
+
+			//on runInterval, this 3 lines will be done also above
 			g.MoveTo (xEnd2, 10);
 			g.LineTo (xEnd2, graphHeight-bottomMargin-4);
 			g.Stroke();
 
 			printText(xEnd2, 4, 0, 10, "End", g, alignTypes.CENTER);
 		}
-		//printText(graphWidth/2, 0, 0, 10, "testing top", g, alignTypes.CENTER);
-		//printText(graphWidth/2, graphHeight-10, 0, 10, "testing bottom", g, alignTypes.CENTER);
 
 		endGraphDisposing(g);
 	}

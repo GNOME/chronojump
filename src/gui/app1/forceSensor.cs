@@ -1620,13 +1620,21 @@ LogB.Information(" fs H2 ");
 
 				/* this was 20 for some years, but some electronics are slower on start sending data
 				   and then Disconnected happens. So changed to 1000 it makes the Disconnected check
-				   do not make fail the capture, and just if disconnected, the message appears later
+				   do not make fail the capture, and just if disconnected, the message appears few seconds later.
+
+				   Changed also to 1000 while we wait first point and 40 while we have data.
+				   Then if disconnected while capture error message and thread end is fast
 				 */
-				if(usbDisconnectedCount >= 1000)
+				int disconnectedThreshold = 1000;
+				if(fscPoints.NumCaptured > 0)
+					disconnectedThreshold = 40;
+
+				if(usbDisconnectedCount >= disconnectedThreshold)
 				{
 					event_execute_label_message.Text = "Disconnected!";
 					forceProcessError = true;
-					LogB.Information("fs Error 4");
+					LogB.Information("fs Error 4." +
+						string.Format(" captured {0} samples", fscPoints.NumCaptured));
 					return true;
 				}
 			}

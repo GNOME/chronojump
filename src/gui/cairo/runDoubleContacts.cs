@@ -26,12 +26,16 @@ using Cairo;
 
 public class CairoRunDoubleContacts : CairoGeneric
 {
-	private DrawingArea area;
-	private Cairo.Context g;
-	private Cairo.Color black;
-	private Cairo.Color colorBackground;
-	private int rightMargin = 35; //TODO: on windows should be 55
-	private int bottomMargin = 0;
+	protected DrawingArea area;
+	protected Cairo.Context g;
+	protected Cairo.Color black;
+	protected Cairo.Color colorBackground;
+	protected int rightMargin = 35; //TODO: on windows should be 55
+	protected int bottomMargin = 0;
+
+	public CairoRunDoubleContacts () //for inheritance
+	{
+	}
 
 	public CairoRunDoubleContacts (Gtk.DrawingArea area, string font)
 	{
@@ -42,7 +46,7 @@ public class CairoRunDoubleContacts : CairoGeneric
 	}
 
 	//from CairoRadial
-	private void initGraph()
+	protected void initGraph()
 	{
 		//1 create context
 		g = Gdk.CairoHelper.Create (area.GdkWindow);
@@ -79,7 +83,6 @@ public class CairoRunDoubleContacts : CairoGeneric
 
 	public void GraphDo (List<RunPhaseTimeListObject> runPTLInListForPainting,
 			double timeTotal,
-			string intervalTimesString, //if runSimple it will be ""
 			double timeTotalWithExtraPTL, double negativePTLTime,
 			bool drawStart, bool drawEnd)
 	{
@@ -89,23 +92,16 @@ public class CairoRunDoubleContacts : CairoGeneric
 
 		foreach (RunPhaseTimeListObject inPTL in runPTLInListForPainting)
 		{
-			//LogB.Information("inPTL: " + inPTL.ToString());
 			double xStart = rightMargin + (graphWidth - 2*rightMargin) *
 					(inPTL.tcStart + negativePTLTime) / timeTotalWithExtraPTL;
-			//LogB.Information(string.Format("xStart parts: {0}, {1}, {2}",
-			//		inPTL.tcStart, negativePTLTime, timeTotalWithExtraPTL));
 
 			double xEnd = rightMargin + (graphWidth - 2*rightMargin) *
 					(inPTL.tcEnd + negativePTLTime) / timeTotalWithExtraPTL;
-			//LogB.Information(string.Format("xEnd parts: {0}, {1}, {2}",
-			//		inPTL.tcEnd, negativePTLTime, timeTotalWithExtraPTL));
 
 			g.Color = colorBackground;
 			g.Rectangle(xStart, graphHeight-bottomMargin-4, xEnd-xStart, 4);
 			g.Fill();
 
-			//LogB.Information(string.Format("xStart: {0}, yTop: {1}, width: {2}, height: {3}",
-			//	xStart, graphHeight-bottomMargin-4, xEnd-xStart, 4));
 
 			g.Color = black;
 			//manage chunks indications
@@ -116,7 +112,6 @@ public class CairoRunDoubleContacts : CairoGeneric
 				g.LineTo (xStart - chunkMargins, graphHeight-bottomMargin -(4 + chunkMargins));
 				g.Stroke();
 				lastChunkStart = xStart;
-				//LogB.Information("runPTL draw start");
 			}
 			else if(inPTL.phase == RunPhaseTimeListObject.Phases.END)
 			{
@@ -129,34 +124,10 @@ public class CairoRunDoubleContacts : CairoGeneric
 				g.MoveTo(lastChunkStart - chunkMargins, graphHeight-bottomMargin -(4 + chunkMargins));
 				g.LineTo(xEnd + chunkMargins, graphHeight-bottomMargin -(4 + chunkMargins));
 				g.Stroke();
-				//LogB.Information("runPTL draw end");
 			}
 		}
 
-		//on runInterval draw the vertical lines of each track
-		if(intervalTimesString != "")
-		{
-			LogB.Information("intervalTimesString is: " + intervalTimesString);
-			string [] times = intervalTimesString.Split(new char[] {'='});
-			double accumulated = 0;
-			int trackCount = 0;
-			foreach(string time in times)
-			{
-				double xVert = rightMargin + (graphWidth - 2*rightMargin) *
-					(Convert.ToDouble(time) + accumulated + negativePTLTime) / timeTotalWithExtraPTL;
-
-				g.MoveTo (xVert, 10);
-				g.LineTo (xVert, graphHeight-bottomMargin-4);
-				g.Stroke();
-
-				//draw track num
-				double xTrackNum = rightMargin + (graphWidth - 2*rightMargin) *
-					(Convert.ToDouble(time)/2 + accumulated + negativePTLTime) / timeTotalWithExtraPTL;
-				printText(xTrackNum, 4, 0, 10, (++ trackCount).ToString(), g, alignTypes.CENTER);
-
-				accumulated += Convert.ToDouble(time);
-			}
-		}
+		drawTracks(timeTotalWithExtraPTL, negativePTLTime);
 
 		if(drawStart)
 		{
@@ -189,5 +160,45 @@ public class CairoRunDoubleContacts : CairoGeneric
 		endGraphDisposing(g);
 	}
 
+	protected virtual void drawTracks (double timeTotalWithExtraPTL, double negativePTLTime)
+	{
+	}
 }
 
+public class CairoRunIntervalDoubleContacts : CairoRunDoubleContacts
+{
+	private string intervalTimesString;
+
+	public CairoRunIntervalDoubleContacts (Gtk.DrawingArea area, string font, string intervalTimesString)
+	{
+		this.area = area;
+		this.font = font;
+		this.intervalTimesString = intervalTimesString;
+
+		initGraph();
+	}
+
+	protected override void drawTracks (double timeTotalWithExtraPTL, double negativePTLTime)
+	{
+		LogB.Information("intervalTimesString is: " + intervalTimesString);
+		string [] times = intervalTimesString.Split(new char[] {'='});
+		double accumulated = 0;
+		int trackCount = 0;
+		foreach(string time in times)
+		{
+			double xVert = rightMargin + (graphWidth - 2*rightMargin) *
+				(Convert.ToDouble(time) + accumulated + negativePTLTime) / timeTotalWithExtraPTL;
+
+			g.MoveTo (xVert, 10);
+			g.LineTo (xVert, graphHeight-bottomMargin-4);
+			g.Stroke();
+
+			//draw track num
+			double xTrackNum = rightMargin + (graphWidth - 2*rightMargin) *
+				(Convert.ToDouble(time)/2 + accumulated + negativePTLTime) / timeTotalWithExtraPTL;
+			printText(xTrackNum, 4, 0, 10, (++ trackCount).ToString(), g, alignTypes.CENTER);
+
+			accumulated += Convert.ToDouble(time);
+		}
+	}
+}

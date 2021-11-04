@@ -1626,7 +1626,7 @@ LogB.Information(" fs H2 ");
 				   Then if disconnected while capture error message and thread end is fast
 				 */
 				int disconnectedThreshold = 1000;
-				if(fscPoints.NumCaptured > 0)
+				if(fscPoints.NumCaptured > 20) //when a bit has been captured
 					disconnectedThreshold = 40;
 
 				if(usbDisconnectedCount >= disconnectedThreshold)

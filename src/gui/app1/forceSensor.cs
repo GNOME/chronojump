@@ -1266,6 +1266,7 @@ public partial class ChronoJumpWindow
 //		bool forceSensorBinary = forceSensorBinaryCapture();
 
 		bool readTriggers = false;
+		Trigger triggerPending = null;
 		double versionDouble = Convert.ToDouble(Util.ChangeDecimalSeparator(forceSensorFirmwareVersion));
 		if(versionDouble >= Convert.ToDouble(Util.ChangeDecimalSeparator("0.5"))) //from 0.5 versions have trigger
 			readTriggers = true;
@@ -1306,6 +1307,24 @@ public partial class ChronoJumpWindow
 			//use this to have time starting at 0
 			time -= firstTime;
 
+
+			/*
+			   Before sending trigger to realtime graph we need to check if trigger is closer to previous or next sample
+			   for this reason we wait 1 sample and compare both times
+			   */
+			if(triggerPending != null)
+			{
+				//compare triggerPending.Us with forceSensorValues.TimeLast and time
+				if(triggerPending.Us - forceSensorValues.TimeLast < time - triggerPending.Us)
+					fscPoints.AddTrigger (triggerPending, forceSensorValues.ValueLast);
+				else
+					fscPoints.AddTrigger (triggerPending,
+							ForceSensor.CalculeForceResultantIfNeeded (force, forceSensorCaptureOption,
+								currentForceSensorExercise, currentPersonSession.Weight));
+
+				triggerPending = null;
+			}
+
 			//if RCA or button at the moment just print it here (now that time has been corrected using firstTime)
 			if( readTriggers && (triggerCode == "r" || triggerCode == "R") )
 			{
@@ -1322,7 +1341,7 @@ public partial class ChronoJumpWindow
 						! triggerListForceSensor.IsSpurious(trigger, TriggerList.Type3.BOTH, 50000))
 				{
 					triggerListForceSensor.Add(trigger);
-					fscPoints.AddTrigger (trigger, forceSensorValues.ValueLast);
+					triggerPending = trigger;
 				}
 
 				continue;
@@ -1330,7 +1349,7 @@ public partial class ChronoJumpWindow
 
 			//LogB.Information(string.Format("time: {0}, force: {1}", time, force));
 			//forceCalculated have abs or inverted
-
+			//this has to be after readTriggers, because if this "sample" is a trigger we do not have force
 			double forceCalculated = ForceSensor.CalculeForceResultantIfNeeded (force, forceSensorCaptureOption,
 					currentForceSensorExercise, currentPersonSession.Weight);
 

@@ -125,7 +125,9 @@ public partial class ChronoJumpWindow
 	bool portFSOpened_B;
 
 	Gdk.GC pen_black_force_capture;
+	Gdk.GC pen_green_force_capture;
 	Gdk.GC pen_red_force_capture;
+	Gdk.GC pen_red_bold_force_capture;
 	Gdk.GC pen_white_force_capture;
 	//Gdk.GC pen_yellow_force_capture;
 	Gdk.GC pen_blue_light_force_capture;
@@ -176,6 +178,7 @@ public partial class ChronoJumpWindow
 		colormapForce = Gdk.Colormap.System;
 		colormapForce.AllocColor (ref UtilGtk.BLACK,true,true);
 		colormapForce.AllocColor (ref UtilGtk.GRAY,true,true);
+		colormapForce.AllocColor (ref UtilGtk.GREEN_PLOTS,true,true);
 		colormapForce.AllocColor (ref UtilGtk.RED_PLOTS,true,true);
 		colormapForce.AllocColor (ref UtilGtk.WHITE,true,true);
 		colormapForce.AllocColor (ref UtilGtk.YELLOW,true,true);
@@ -191,9 +194,17 @@ public partial class ChronoJumpWindow
 		//this makes the lines less spiky:
 		pen_black_force_capture.SetLineAttributes (preferences.forceSensorGraphsLineWidth, Gdk.LineStyle.Solid, Gdk.CapStyle.Round, Gdk.JoinStyle.Round);
 
+		pen_green_force_capture = new Gdk.GC(force_capture_drawingarea.GdkWindow);
+		pen_green_force_capture.Foreground = UtilGtk.GREEN_PLOTS;
+		pen_green_force_capture.SetLineAttributes (1, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
+
 		pen_red_force_capture = new Gdk.GC(force_capture_drawingarea.GdkWindow);
 		pen_red_force_capture.Foreground = UtilGtk.RED_PLOTS;
-		pen_red_force_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
+		pen_red_force_capture.SetLineAttributes (1, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
+
+		pen_red_bold_force_capture = new Gdk.GC(force_capture_drawingarea.GdkWindow);
+		pen_red_bold_force_capture.Foreground = UtilGtk.RED_PLOTS;
+		pen_red_bold_force_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
 
 		pen_white_force_capture = new Gdk.GC(force_capture_drawingarea.GdkWindow);
 		pen_white_force_capture.Foreground = UtilGtk.WHITE;
@@ -1309,7 +1320,10 @@ public partial class ChronoJumpWindow
 
 				if(! triggerListForceSensor.NewSameTypeThanBefore(trigger) &&
 						! triggerListForceSensor.IsSpurious(trigger, TriggerList.Type3.BOTH, 50000))
+				{
 					triggerListForceSensor.Add(trigger);
+					fscPoints.AddTrigger (trigger, forceSensorValues.ValueLast);
+				}
 
 				continue;
 			}
@@ -1704,9 +1718,11 @@ LogB.Information(" fs J ");
 
 				//note that scroll mode will call NOScroll method until scroll starts
 				if(preferences.forceSensorCaptureScroll && fscPoints.ScrollStartedAtCount > 0)
-					forceSensorCaptureDoRealtimeGraphScroll(numCaptured, toDraw, points);
+					forceSensorCaptureDoRealtimeGraphScroll(numCaptured, toDraw,
+							points, fscPoints.TriggerXForceList);
 				else
-					forceSensorCaptureDoRealtimeGraphNOScroll(numCaptured, numPainted, toDraw, toDrawStored, points);
+					forceSensorCaptureDoRealtimeGraphNOScroll(numCaptured, numPainted, toDraw, toDrawStored,
+							points, fscPoints.TriggerXForceList);
 
 				force_capture_drawingarea.QueueDraw(); // -- refresh
 			}
@@ -1728,7 +1744,8 @@ LogB.Information(" fs R ");
 		return true;
 	}
 
-	private void forceSensorCaptureDoRealtimeGraphNOScroll(int numCaptured, int numPainted, int toDraw, int toDrawStored, List<Gdk.Point> points)
+	private void forceSensorCaptureDoRealtimeGraphNOScroll(int numCaptured, int numPainted, int toDraw, int toDrawStored,
+			List<Gdk.Point> points, List<TriggerXForce> triggerXForceList)
 	{
 		LogB.Information("Graph NO Scroll start");
 		Gdk.Point [] paintPoints;
@@ -1777,11 +1794,44 @@ LogB.Information(" fs R ");
 		}
 
 		force_capture_pixmap.DrawLines(pen_black_force_capture, paintPoints);
+
+		foreach(TriggerXForce txf in triggerXForceList)
+		{
+			//if already painted, do not paint it again
+			if(txf.painted)
+				continue;
+
+			Gdk.GC myPen = pen_green_force_capture;
+			int row = 0;
+			if(! txf.trigger.InOut) {
+				myPen = pen_red_force_capture;
+				row = 1;
+			}
+
+			layout_force_text.SetMarkup(Util.TrimDecimals(txf.force, 1));
+			int textWidth = 1;
+			int textHeight = 1;
+			layout_force_text.GetPixelSize(out textWidth, out textHeight);
+			force_capture_pixmap.DrawLayout (myPen,
+					Convert.ToInt32(txf.x - textWidth/2), row*12, layout_force_text);
+
+			int vertLineBottom = fscPoints.GetForceInPx(txf.force);
+			//if the line is shorter than 5, then have a line of size 5
+			if(vertLineBottom - 16 <= 5)
+				vertLineBottom = 16 +5;
+			force_capture_pixmap.DrawLine (myPen,
+					Convert.ToInt32(txf.x), 16, Convert.ToInt32(txf.x), vertLineBottom);
+
+			txf.painted = true;
+		}
+
 		LogB.Information("Graph NO Scroll end");
 	}
 
-	private void forceSensorCaptureDoRealtimeGraphScroll(int numCaptured, int toDraw, List<Gdk.Point> points)
+	private void forceSensorCaptureDoRealtimeGraphScroll(int numCaptured, int toDraw,
+			List<Gdk.Point> points, List<TriggerXForce> triggerXForceList)
 	{
+		//TODO: implement triggers
 		LogB.Information(" Graph Scroll ");
 		Gdk.Point [] paintPoints = new Gdk.Point[fscPoints.ScrollStartedAtCount]; //This size is because we have done eg. 60 samples, and then scroll started, so plot always 60 samples once scroll is on
 
@@ -2591,11 +2641,11 @@ LogB.Information(" fs R ");
 
 
 		//draw rectangle in maxForce
-		//force_capture_pixmap.DrawRectangle(pen_red_force_capture, false,
+		//force_capture_pixmap.DrawRectangle(pen_red_bold_force_capture, false,
 		//		new Gdk.Rectangle(fscPoints.GetTimeInPx(maxForceTime) -5, fscPoints.GetForceInPx(maxForce) -5, 10, 10));
 
 		//draw circle in maxForce
-		force_capture_pixmap.DrawArc(pen_red_force_capture, false,
+		force_capture_pixmap.DrawArc(pen_red_bold_force_capture, false,
 				fscPoints.GetTimeInPx(forceSensorValues.TimeValueMax) -6,
 				fscPoints.GetForceInPx(forceSensorValues.Max) -6,
 				12, 12, 90 * 64, 360 * 64);

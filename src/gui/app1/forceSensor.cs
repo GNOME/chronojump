@@ -1801,31 +1801,39 @@ LogB.Information(" fs R ");
 			if(txf.painted)
 				continue;
 
-			Gdk.GC myPen = pen_green_force_capture;
-			int row = 0;
-			if(! txf.trigger.InOut) {
-				myPen = pen_red_force_capture;
-				row = 1;
-			}
-
-			layout_force_text.SetMarkup(Util.TrimDecimals(txf.force, 1));
-			int textWidth = 1;
-			int textHeight = 1;
-			layout_force_text.GetPixelSize(out textWidth, out textHeight);
-			force_capture_pixmap.DrawLayout (myPen,
-					Convert.ToInt32(txf.x - textWidth/2), row*12, layout_force_text);
-
-			int vertLineBottom = fscPoints.GetForceInPx(txf.force);
-			//if the line is shorter than 5, then have a line of size 5
-			if(vertLineBottom - 16 <= 5)
-				vertLineBottom = 16 +5;
-			force_capture_pixmap.DrawLine (myPen,
-					Convert.ToInt32(txf.x), 16, Convert.ToInt32(txf.x), vertLineBottom);
+			//note on realtime trigger is related to previous sample,
+			//but on capture/analyze, trigger is related to closest sample
+			forceSensorCaptureGraphDrawTrigger (txf.trigger, txf.x, txf.force);
 
 			txf.painted = true;
 		}
 
 		LogB.Information("Graph NO Scroll end");
+	}
+
+	private void forceSensorCaptureGraphDrawTrigger (Trigger trigger, int x, double force)
+	{
+		Gdk.GC myPen = pen_green_force_capture;
+		int row = 0;
+		if(! trigger.InOut) {
+			myPen = pen_red_force_capture;
+			row = 1;
+		}
+
+		// 1) draw the vertical line
+		int vertLineBottom = fscPoints.GetForceInPx(force);
+		//if the line is shorter than 5, then have a line of size 5
+		if(vertLineBottom - 16 <= 5)
+			vertLineBottom = 16 +5;
+		force_capture_pixmap.DrawLine (myPen, x, 16, x, vertLineBottom);
+
+		// 2) write force value
+		layout_force_text.SetMarkup(Util.TrimDecimals(force, 1));
+		int textWidth = 1;
+		int textHeight = 1;
+		layout_force_text.GetPixelSize(out textWidth, out textHeight);
+		force_capture_pixmap.DrawLayout (myPen,
+				Convert.ToInt32(x - textWidth/2), row*12, layout_force_text);
 	}
 
 	private void forceSensorCaptureDoRealtimeGraphScroll(int numCaptured, int toDraw,
@@ -2639,6 +2647,17 @@ LogB.Information(" fs R ");
 
 		force_capture_pixmap.DrawLines(pen_black_force_capture, paintPoints);
 
+		//triggers
+		int triggerSample = 0;
+		foreach(Trigger trigger in triggerListForceSensor.GetList())
+		{
+			// 1) get the sample count (we will need it to know the force at that sample)
+			triggerSample = fscPoints.GetSampleOrPreviousAtTimeUs(trigger.Us, triggerSample);
+
+			forceSensorCaptureGraphDrawTrigger (trigger,
+					Convert.ToInt32(fscPoints.GetTimeInPx(Convert.ToInt32(fscPoints.GetTimeAtCount(triggerSample)))),
+					fscPoints.GetForceAtCount(triggerSample));
+		}
 
 		//draw rectangle in maxForce
 		//force_capture_pixmap.DrawRectangle(pen_red_bold_force_capture, false,

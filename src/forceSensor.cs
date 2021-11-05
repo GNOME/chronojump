@@ -993,6 +993,22 @@ public class ForceSensorCapturePoints
 		return forces[count];
 	}
 
+	//gets which sample we have at some time in Us or if it does not match, returns previous sample
+	//startAtSample is to make algorithm more efficient
+	public int GetSampleOrPreviousAtTimeUs (int us, int startAtSample)
+	{
+		int lastPos = startAtSample;
+		for(int i = startAtSample; i < times.Count; i ++)
+		{
+			if(times[i] > us)
+				return lastPos;
+
+			lastPos ++;
+		}
+
+		return lastPos;
+	}
+
 	public void GetAverageAndMaxForce(int countA, int countB, out double avg, out double max)
 	{
 		if(countA == countB) {

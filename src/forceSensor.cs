@@ -840,6 +840,9 @@ public class ForceSensorCapturePoints
 	public const int DefaultRealHeightGDispl = 1;
 	public const int DefaultRealHeightGNegDispl = 0;
 
+	//trigger
+	private List<TriggerXForce> triggerXForceList;
+
 	private int widthG;
 	private int heightG;
 	private int marginLeft = 45; //px
@@ -858,6 +861,8 @@ public class ForceSensorCapturePoints
 		forceMax = 0;
 		forceMin = 10000;
 		scrollStartedAtCount = -1;
+
+		triggerXForceList = new List<TriggerXForce>();
 
 		InitRealWidthHeight(widthInSeconds);
 
@@ -898,6 +903,12 @@ public class ForceSensorCapturePoints
 		if(force < forceMin)
 			forceMin = force;
 	}
+
+	public void AddTrigger (Trigger trigger, double force)
+	{
+		triggerXForceList.Add(new TriggerXForce(trigger, GetTimeInPx(trigger.Us), force));
+	}
+
 
 	private bool scrollStarted()
 	{
@@ -1364,6 +1375,17 @@ public class ForceSensorCapturePoints
 	{
 		for(int i=0; i < NumCaptured; i ++)
 			Points[i] = new Gdk.Point(GetTimeInPx(times[i]), GetForceInPx(forces[i]));
+
+		for(int i=0; i < triggerXForceList.Count; i ++)
+			triggerXForceList[i] = new TriggerXForce (
+					TriggerXForceList[i].trigger,
+					GetTimeInPx(TriggerXForceList[i].trigger.Us),
+					TriggerXForceList[i].force);
+	}
+
+	public List<TriggerXForce> TriggerXForceList
+	{
+		get { return triggerXForceList; }
 	}
 
 	public int WidthG

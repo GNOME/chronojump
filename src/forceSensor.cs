@@ -1391,6 +1391,22 @@ public class ForceSensorCapturePoints
 	}
 }
 
+public class TriggerXForce
+{
+	public Trigger trigger;
+	public int x; //x on screen
+	public double force; //force at trigger
+	public bool painted;
+
+	public TriggerXForce (Trigger trigger, int x, double force)
+	{
+		this.trigger = trigger;
+		this.x = x;
+		this.force = force;
+		this.painted = false;
+	}
+}
+
 public class CalculatedForceMaxAvgInWindow
 {
 	private int countA;

@@ -29,7 +29,7 @@ public class CairoRadial : CairoGeneric
 {
 	private Cairo.Context g;
 	private int textHeight;
-	private int margin = 4;
+	private int margin = 6;
 	private int offsetV = 6; //to move the graph vertically
 	private Gtk.DrawingArea area;
 	private string font;

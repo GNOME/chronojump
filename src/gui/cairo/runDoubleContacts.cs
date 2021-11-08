@@ -83,8 +83,7 @@ public class CairoRunDoubleContacts : CairoGeneric
 
 	public void GraphDo (List<RunPhaseTimeListObject> runPTLInListForPainting,
 			double timeTotal,
-			double timeTotalWithExtraPTL, double negativePTLTime,
-			bool drawStart, bool drawEnd)
+			double timeTotalWithExtraPTL, double negativePTLTime)
 	{
 		LogB.Information("CONTACT CHUNKS at Cairo");
 		double lastChunkStart = 0;
@@ -127,41 +126,51 @@ public class CairoRunDoubleContacts : CairoGeneric
 			}
 		}
 
-		drawTracks(timeTotalWithExtraPTL, negativePTLTime);
-
-		if(drawStart)
-		{
-			//paint start vertical line
-			double xStart2 = rightMargin + (graphWidth - 2*rightMargin) *
-					(negativePTLTime) / timeTotalWithExtraPTL -1;
-
-			//on runInterval, this 3 lines will be done also above
-			g.MoveTo (xStart2 +1, 10);
-			g.LineTo (xStart2 +1, graphHeight-bottomMargin-4);
-			g.Stroke();
-
-			printText(xStart2, 4, 0, 10, "Start", g, alignTypes.CENTER);
-		}
-
-		if(drawEnd)
-		{
-			//paint end vertical line
-			double xEnd2 = rightMargin + (graphWidth - 2*rightMargin) *
-					(timeTotal + negativePTLTime) / timeTotalWithExtraPTL;
-
-			//on runInterval, this 3 lines will be done also above
-			g.MoveTo (xEnd2, 10);
-			g.LineTo (xEnd2, graphHeight-bottomMargin-4);
-			g.Stroke();
-
-			printText(xEnd2, 4, 0, 10, "End", g, alignTypes.CENTER);
-		}
-
+		drawTracks (timeTotal, timeTotalWithExtraPTL, negativePTLTime);
+		drawStartAndEnd (timeTotal, timeTotalWithExtraPTL, negativePTLTime);
 		endGraphDisposing(g);
 	}
 
-	protected virtual void drawTracks (double timeTotalWithExtraPTL, double negativePTLTime)
+	protected virtual void drawTracks (double timeTotal, double timeTotalWithExtraPTL, double negativePTLTime)
 	{
+		plotArrowPassingGraphPoints (g, colorBackground,
+				rightMargin + (graphWidth - 2*rightMargin) * (negativePTLTime) / timeTotalWithExtraPTL,
+				15,
+				rightMargin + (graphWidth - 2*rightMargin) * (timeTotal + negativePTLTime) / timeTotalWithExtraPTL,
+				15,
+				true, true, 1);
+
+		//draw track num
+		double xTrackNum = rightMargin + (graphWidth - 2*rightMargin) *
+			(timeTotal/2 + negativePTLTime) / timeTotalWithExtraPTL;
+		printText(xTrackNum, 4, 0, 10, "1", g, alignTypes.CENTER);
+	}
+
+	protected void drawStartAndEnd (double timeTotal, double timeTotalWithExtraPTL, double negativePTLTime)
+	{
+		// 1) drawStart
+		//paint start vertical line
+		double xStart2 = rightMargin + (graphWidth - 2*rightMargin) *
+			(negativePTLTime) / timeTotalWithExtraPTL -1;
+
+		//on runInterval, this 3 lines will be done also above
+		g.MoveTo (xStart2 +1, 10);
+		g.LineTo (xStart2 +1, graphHeight-bottomMargin-4);
+		g.Stroke();
+
+		printText(xStart2, 4, 0, 10, "Start", g, alignTypes.CENTER);
+
+		// 2) drawEnd
+		//paint end vertical line
+		double xEnd2 = rightMargin + (graphWidth - 2*rightMargin) *
+			(timeTotal + negativePTLTime) / timeTotalWithExtraPTL;
+
+		//on runInterval, this 3 lines will be done also above
+		g.MoveTo (xEnd2, 10);
+		g.LineTo (xEnd2, graphHeight-bottomMargin-4);
+		g.Stroke();
+
+		printText(xEnd2, 4, 0, 10, "End", g, alignTypes.CENTER);
 	}
 }
 
@@ -178,7 +187,7 @@ public class CairoRunIntervalDoubleContacts : CairoRunDoubleContacts
 		initGraph();
 	}
 
-	protected override void drawTracks (double timeTotalWithExtraPTL, double negativePTLTime)
+	protected override void drawTracks (double timeTotal, double timeTotalWithExtraPTL, double negativePTLTime)
 	{
 		LogB.Information("intervalTimesString is: " + intervalTimesString);
 		string [] times = intervalTimesString.Split(new char[] {'='});
@@ -186,12 +195,23 @@ public class CairoRunIntervalDoubleContacts : CairoRunDoubleContacts
 		int trackCount = 0;
 		foreach(string time in times)
 		{
+			/*
+			//vertical line at end of track
+
 			double xVert = rightMargin + (graphWidth - 2*rightMargin) *
 				(Convert.ToDouble(time) + accumulated + negativePTLTime) / timeTotalWithExtraPTL;
 
-			g.MoveTo (xVert, 10);
+			g.MoveTo (xVert, 5);
 			g.LineTo (xVert, graphHeight-bottomMargin-4);
 			g.Stroke();
+			*/
+
+			plotArrowPassingGraphPoints (g, colorBackground,
+				rightMargin + (graphWidth - 2*rightMargin) * (accumulated + negativePTLTime) / timeTotalWithExtraPTL,
+				15,
+				rightMargin + (graphWidth - 2*rightMargin) * (Convert.ToDouble(time) + accumulated + negativePTLTime) / timeTotalWithExtraPTL,
+				15,
+				true, true, 1);
 
 			//draw track num
 			double xTrackNum = rightMargin + (graphWidth - 2*rightMargin) *

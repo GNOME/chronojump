@@ -3258,7 +3258,7 @@ public class CairoManageRunDoubleContacts
 			crdc = new CairoRunIntervalDoubleContacts (darea, fontStr, intervalTimesString);
 
 		crdc.GraphDo (runPTLInListForPainting,
-				timeTotal, timeTotalWithExtraPTL, negativePTLTime, true, true);
+				timeTotal, timeTotalWithExtraPTL, negativePTLTime);
 	}
 
 	private double getRunSRunINegativePTLTime (List<RunPhaseTimeListObject> runPTLInListForPainting)

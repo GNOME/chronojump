@@ -88,7 +88,7 @@ float voltage;
 
 unsigned int lcdDelay = 25; //to be able to see the screen. Seconds are also printed in delay but 25 values are less than one second
 unsigned int lcdCount = 0;
-float measuredLcdDelayMax = 0; //The max in the lcdDelay period
+float measuredLcdDelayMax = 0; //The max in the lcdDelay periodca
 float measuredMax = 0; // The max since starting capture
 float measured = scale.get_units();
 
@@ -236,9 +236,9 @@ void loop()
       Serial.println(measured, 2); //scale.get_units() returns a float
 
       printOnLcd();
-      if (rcaState) {
-        end_capture();
-      }
+//      if (rcaState) {
+//        end_capture();
+//      }
     }
     if (button1State) {
       end_capture();

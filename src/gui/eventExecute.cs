@@ -2644,8 +2644,8 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 
 		cb.YVariable = Catalog.GetString("Time");
 		cb.YUnits = "s";
-		cb.VariableSerieA = Catalog.GetString("Contact time") + " (" + Catalog.GetString("total") + ") ";
-		cb.VariableSerieB = Catalog.GetString("Flight time") + " (" + Catalog.GetString("total") + ") ";
+		cb.VariableSerieA = Catalog.GetString("Contact time") + " (" + Catalog.GetString("AVG") + ") ";
+		cb.VariableSerieB = Catalog.GetString("Flight time") + " (" + Catalog.GetString("AVG") + ") ";
 
 		cb.GraphInit(fontStr, ! ShowPersonNames, true); //usePersonGuides, useGroupGuides
 
@@ -2692,8 +2692,13 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 		{
 			LogB.Information("jump: " + jump.ToString());
 			// 1) Add data
-			double valueA = jump.TcSumCaringForStartIn;
-			double valueB = jump.TvSum;
+			//sum of the subjumps
+			//double valueA = jump.TcSumCaringForStartIn;
+			//double valueB = jump.TvSum;
+
+			//avg of the subjumps
+			double valueA = jump.TcAvg; //this cares for the -1 on start in. Does not count it.
+			double valueB = jump.TvAvg;
 
 			//pointA0_l.Add(new PointF(countToDraw, jump.Jumps));
 			pointA1_l.Add(new PointF(countToDraw, valueA));

@@ -183,7 +183,11 @@ public class PrepareEventGraphJumpReactive
 		jumpsAtSQL = SqliteJumpRj.SelectJumps (true, sessionID, personIDTemp, type,
 				Sqlite.Orders_by.ID_DESC, limit, allPersons); 	//show names on comments only if "all persons"
 
-		string sqlSelect = "tvAvg*jumps";
+		// sum of each subjump
+		//string sqlSelect = "tvAvg*jumps";
+		// avg of each subjump
+		string sqlSelect = "tvAvg";
+
 		string table = Constants.JumpRjTable;
 
 		List<double> personStats = SqliteSession.Select_MAX_AVG_MIN_EventsOfAType(

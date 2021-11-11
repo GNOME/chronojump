@@ -2048,10 +2048,17 @@ paintCrossVariables <- function (paf, varX, varY, option,
                                                                       round(xmax,1), " ", massUnit, sep="")
 						#do not show pmax because it can go out of graph, just show in the legend
 						#text(xmax, pmax, label = paste("Pmax=", round(pmax,1), "W*"), pos = 3, col = "red")
-                                                legend(x = par("usr")[2], y = par("usr")[4]-(par("usr")[4] - par("usr")[3])*0.1, 
-                                                       legend = c(paste("Pmax = ", round(pmax,1), "W", sep=""),
-                                                                  paste("Load: ", round(xmax,1), massUnit, sep = "")),
-                                                       xjust = 1, text.col = c("red", "black"), cex = 1.3)
+                                                if (coef.a < 0){
+                                                        legend(x = par("usr")[2], y = par("usr")[4]-(par("usr")[4] - par("usr")[3])*0.1, 
+                                                               legend = c(paste("Pmax = ", round(pmax,1), "W", sep=""),
+                                                                          paste("Load: ", round(xmax,1), massUnit, sep = "")),
+                                                               xjust = 1, text.col = c("red", "black"), cex = 1.3)
+                                                } else {
+                                                        legend(x = par("usr")[2], y = par("usr")[4]-(par("usr")[4] - par("usr")[3])*0.1, 
+                                                               legend = c("Data not fitted to expected parabole",
+                                                                          "Middle points too low"),
+                                                               xjust = 1, text.col = c("red", "red"), cex = 1.3)
+                                                }
                                                 mtext(text = paste("*", translateToPrint("Mean power parabole using the Power-Load data"), sep=""), side = 4, line = 4)
                                         }
                                 }

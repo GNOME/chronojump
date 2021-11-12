@@ -57,10 +57,10 @@ struct sample_t
 {
   bool state;           //State of the sensor
   short int termNum;    //Terminal number. Configured with the switches.
-  unsigned long int time;
+  unsigned long int data;
 };
 
-struct sample_t sample = {.state = LOW, .termNum = 0, .time = 0};
+struct sample_t sample = {.state = LOW, .termNum = 0, .data = 0};
 int sample_size = sizeof(sample);       //sample_size es la longitud de variables a recibir .
 
 // First channel to be used. The 6xswitches control the terminal number and the number to add the terminal0Channel
@@ -78,6 +78,8 @@ bool binaryMode = false;
 unsigned long startTime;      //local time when the reset_time function is executed
 unsigned long lastSampleTime; //local time at which some sample has been received without overflow correction
 unsigned long totalTime;      //Total elapsed time since startTime
+
+bool waitingVersion = false;
 
 void setup(void)
 {
@@ -199,6 +201,7 @@ void serialEvent()
     //      Serial.print(instruction.termNum);
     //      Serial.println("\"");
     sendInstruction(&instruction);
+    if(instruction.command == ping) waitingVersion = true;
   }
   if (instruction.command & sensorOnce) {
     blinkStart(blinkPeriod);
@@ -282,8 +285,8 @@ void blinkOnce(void)
 //This fucnction manages the time elapsed from the start of the
 unsigned long getLocalTime(void)
 {
-  //not to be confused with sample.time . This is the local time at which the sample has been received.
-  //sample.time is the elapsed time since the terminal received the activating sensor command untill actual activation.
+  //not to be confused with sample.data . This is the local time at which the sample has been received.
+  //sample.data is the elapsed time since the terminal received the activating sensor command untill actual activation.
   unsigned long localSampleTime = millis();
   if (localSampleTime > startTime)           //No overflow
   {
@@ -312,6 +315,7 @@ void discoverTerminals(void) {
       radio.flush_tx();
       radio.flush_rx();
       instruction.termNum = i;
+      waitingVersion = true;
       sendInstruction(&instruction);
 
       delay(5);
@@ -339,7 +343,13 @@ bool readSample(void) {
       Serial.print(";");
       Serial.print(totalTime);
       Serial.print(";");
-      Serial.println(sample.state);
+      Serial.print(sample.state);
+      if(waitingVersion) {
+        Serial.print(";");
+        Serial.print(sample.data);
+        waitingVersion = false;
+      }
+      Serial.println();
       readed = true;
     } else {
       Serial.write((byte*)&sample, sample_size);

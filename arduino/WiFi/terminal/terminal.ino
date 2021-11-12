@@ -6,7 +6,8 @@
 #include <MsTimer2.h>
 #include <TimerOne.h>
 
-String version = "Wifi-Sensor-1.11";
+unsigned int deviceType = 1; //Photocel and LightChro sensor
+unsigned int deviceVersion = 12;
 //
 // Hardware configuration
 
@@ -49,7 +50,7 @@ const uint16_t sensorUnlimited = 0b100000000; //256
 const uint16_t red =              0b10000000; //128
 const uint16_t green =            0b01000000; //64
 const uint16_t blue =             0b00100000; //32
-const uint16_t buzzer =           0b00010000; // 16
+const uint16_t buzzer =           0b00010000; //16
 const uint16_t blinkRed =         0b00001000; //8
 const uint16_t blinkGreen =       0b00000100; //4
 const uint16_t blinkBlue =        0b00000010; //2
@@ -63,10 +64,10 @@ struct sample_t
 {
   bool state;           //State of the sensor
   short int termNum;    //Terminal number. Configured with the switches.
-  unsigned long int elapsedTime;
+  unsigned long int data;
 };
 
-struct sample_t sample = {.state = LOW, .termNum = 0, .elapsedTime = 0};
+struct sample_t sample = {.state = LOW, .termNum = 0, .data = 0};
 
 int sample_size = sizeof(sample);
 
@@ -109,14 +110,13 @@ void setup(void)
   Serial.begin(115200);
   printf_begin(); //Used by radio.printDetails()
 
-  Serial.println(version);
-
-
+  Serial.print("Wifi-Sensor-");
+  Serial.println(deviceVersion);
 
   radio.begin();
 
   //Reading each pin to stablish the terminal number and the listening channel
-  
+
   //¡¡¡¡Atention!!!!, the first version of lightChro the pin7 is associated to the buzzer.
   //The first versions of the Quick the microswitch was 5xSwitches. The last one associated to the buzzer
   //In the first versions of the photocells the microswitch was 8xSwitches
@@ -130,7 +130,7 @@ void setup(void)
   pinMode(8, INPUT_PULLUP);   //Most significant bit.
 
   for (int pin = 6; pin >= 3; pin--)  //Old versions
-  //for (int pin = 8; pin >= 3; pin--)    //New versions
+    //for (int pin = 8; pin >= 3; pin--)    //New versions
   {
     sample.termNum = sample.termNum * 2; //Each bit will be multiplied by 2 as much times as his significance
     if (!digitalRead(pin)) sample.termNum++;
@@ -165,7 +165,7 @@ void setup(void)
   // A0, A1, A2 connected to the 3xswith
 
   pinMode(A0, INPUT_PULLUP);  //Old versions
-//  pinMode(A7, INPUT_PULLUP);    //New version
+  //  pinMode(A7, INPUT_PULLUP);    //New version
   pinMode(A1, INPUT_PULLUP);
   pinMode(A2, INPUT_PULLUP);
 
@@ -234,7 +234,7 @@ void loop(void)
 //    Serial.println(instruction.command);
 //    radio.flush_rx();
 //    radio.startListening();
-    
+
     if (instruction.termNum == sample.termNum)
     {
       executeCommand(instruction.command);
@@ -242,49 +242,49 @@ void loop(void)
   }
 }
 
-void sendSample(void){
+void sendSample(void) {
   //    lastPinState = sample.state;
-    sample.elapsedTime = (millis() - time0);
-    flagint = LOW;
-    buzzer_off;
-    red_off;
-    green_off;
-    blue_off;
-    MsTimer2::stop();
-    blinkingRed = false;
-    blinkingGreen = false;
-    blinkingBlue = false;
-//    Serial.println(sample.state);
-    radio.stopListening();
-    radio.setChannel(control0Channel - controlSwitch);
-//    Serial.print("getChannel = ");
-    //    Serial.println(radio.getChannel());
-    bool en = radio.write( &sample, sample_size);
-//    if (en) {
-//      Serial.println("Sent OK");
-//    } else {
-//      Serial.println("Error sending");
-//    }
-//    Serial.print("getChannel = ");
-//    Serial.println(radio.getChannel());
-    beep(25);
-    flagint = LOW;
-    if (! unlimitedMode) waitingSensor = false;
-    radio.setChannel(terminal0Channel - sample.termNum);
-    radio.startListening();
-    
-//    Serial.println("startListening()");
-//    Serial.print("getChannel = ");
-//    Serial.println(radio.getChannel());
-//    Serial.println(sample.elapsedTime);
+  sample.data = (millis() - time0);
+  flagint = LOW;
+  buzzer_off;
+  red_off;
+  green_off;
+  blue_off;
+  MsTimer2::stop();
+  blinkingRed = false;
+  blinkingGreen = false;
+  blinkingBlue = false;
+  //    Serial.println(sample.state);
+  radio.stopListening();
+  radio.setChannel(control0Channel - controlSwitch);
+  //    Serial.print("getChannel = ");
+  //    Serial.println(radio.getChannel());
+  bool en = radio.write( &sample, sample_size);
+  //    if (en) {
+  //      Serial.println("Sent OK");
+  //    } else {
+  //      Serial.println("Error sending");
+  //    }
+  //    Serial.print("getChannel = ");
+  //    Serial.println(radio.getChannel());
+  beep(25);
+  flagint = LOW;
+  if (! unlimitedMode) waitingSensor = false;
+  radio.setChannel(terminal0Channel - sample.termNum);
+  radio.startListening();
+
+  //    Serial.println("startListening()");
+  //    Serial.print("getChannel = ");
+  //    Serial.println(radio.getChannel());
+  //    Serial.println(sample.data);
 }
 
 void controlint()
 {
-  //sample.state = digitalRead(2);
-  //Serial.println("Int");
+//  sample.state = digitalRead(2);
+//  Serial.println("Int");
   if (waitingSensor == true) {
-    //flagint = HIGH;
+//  flagint = HIGH;
 //    Timer1.initialize(1000000); //Initializing the debounce timer to 1s
     Timer1.attachInterrupt(debounce);
 //    Serial.print(lastPinState);
@@ -383,12 +383,10 @@ void executeCommand(uint16_t command)
     }
 
     if ((command & ping) == ping) {
-//      Serial.println("Pong");
-      time0 = millis(); //empieza a contar time
       sample.state = digitalRead(2);
-      radio.setRetries(15,15);
-      sendSample();
-      radio.setRetries(5,15);
+      radio.setRetries(15, 15);
+      sendPong();
+      radio.setRetries(5, 15);
     }
   }
 }
@@ -432,7 +430,8 @@ void serialEvent()
   if ( commandString == "get_channel") {
     Serial.println(radio.getChannel());
   } else if (commandString == "get_version") {
-    Serial.println(version);
+    Serial.print("Wifi-Sensor-");
+    Serial.println(deviceVersion);
   }
 }
 
@@ -447,4 +446,21 @@ void beepStop(void)
 {
   MsTimer2::stop();
   buzzer_off;
+}
+
+void sendPong(void) {
+  Serial.println("Pong");
+  sample.data = deviceType * 1000000 + deviceVersion;
+//  Serial.println(sample.data);
+  Serial.print("Wifi-Sensor-");
+  Serial.println(deviceVersion);
+  flagint = LOW;
+  MsTimer2::stop();
+  radio.stopListening();
+  radio.setChannel(control0Channel - controlSwitch);
+  bool en = radio.write( &sample, sample_size);
+  flagint = LOW;
+  if (! unlimitedMode) waitingSensor = false;
+  radio.setChannel(terminal0Channel - sample.termNum);
+  radio.startListening();
 }

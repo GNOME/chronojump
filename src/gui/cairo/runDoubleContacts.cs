@@ -81,7 +81,8 @@ public class CairoRunDoubleContacts : CairoGeneric
 		g.Color = black;
 	}
 
-	public void GraphDo (List<RunPhaseTimeListObject> runPTLInListForPainting,
+	public void GraphDo (
+			List<RunPhaseTimeListObject> runPTLInListForPainting,
 			double timeTotal,
 			double timeTotalWithExtraPTL, double negativePTLTime)
 	{
@@ -98,30 +99,34 @@ public class CairoRunDoubleContacts : CairoGeneric
 					(inPTL.tcEnd + negativePTLTime) / timeTotalWithExtraPTL;
 
 			g.Color = colorBackground;
-			g.Rectangle(xStart, graphHeight-bottomMargin-4, xEnd-xStart, 4);
+			g.Rectangle(xStart, 22, xEnd-xStart, 4);
 			g.Fill();
 
+			if(inPTL.photocellStart >= 0)
+				printText(xStart, 30, 0, 10, inPTL.photocellStart.ToString(), g, alignTypes.CENTER);
+			if(inPTL.photocellEnd >= 0)
+				printText(xEnd, 30, 0, 10, inPTL.photocellEnd.ToString(), g, alignTypes.CENTER);
 
 			g.Color = black;
 			//manage chunks indications
 			if(inPTL.phase == RunPhaseTimeListObject.Phases.START)
 			{
 				//draw the vertical start line
-				g.MoveTo (xStart - chunkMargins, graphHeight-bottomMargin -4);
-				g.LineTo (xStart - chunkMargins, graphHeight-bottomMargin -(4 + chunkMargins));
+				g.MoveTo (xStart - chunkMargins, 32);
+				g.LineTo (xStart - chunkMargins, 40);
 				g.Stroke();
 				lastChunkStart = xStart;
 			}
 			else if(inPTL.phase == RunPhaseTimeListObject.Phases.END)
 			{
 				//draw the vertical end line
-				g.MoveTo(xEnd + chunkMargins, graphHeight-bottomMargin -4);
-				g.LineTo(xEnd + chunkMargins, graphHeight-bottomMargin -(4 + chunkMargins));
+				g.MoveTo(xEnd + chunkMargins, 32);
+				g.LineTo(xEnd + chunkMargins, 40);
 				g.Stroke();
 
 				//draw the horizontal start-end line
-				g.MoveTo(lastChunkStart - chunkMargins, graphHeight-bottomMargin -(4 + chunkMargins));
-				g.LineTo(xEnd + chunkMargins, graphHeight-bottomMargin -(4 + chunkMargins));
+				g.MoveTo(lastChunkStart - chunkMargins, 40);
+				g.LineTo(xEnd + chunkMargins, 40);
 				g.Stroke();
 			}
 		}
@@ -155,10 +160,10 @@ public class CairoRunDoubleContacts : CairoGeneric
 
 		//on runInterval, this 3 lines will be done also above
 		g.MoveTo (xStart2 +1, 10);
-		g.LineTo (xStart2 +1, graphHeight-bottomMargin-4);
+		g.LineTo (xStart2 +1, 25);
 		g.Stroke();
 
-		printText(xStart2, 4, 0, 10, "Start", g, alignTypes.CENTER);
+		printText(xStart2, 4, 0, 10, "Start", g, alignTypes.RIGHT);
 
 		// 2) drawEnd
 		//paint end vertical line
@@ -167,10 +172,10 @@ public class CairoRunDoubleContacts : CairoGeneric
 
 		//on runInterval, this 3 lines will be done also above
 		g.MoveTo (xEnd2, 10);
-		g.LineTo (xEnd2, graphHeight-bottomMargin-4);
+		g.LineTo (xEnd2, 25);
 		g.Stroke();
 
-		printText(xEnd2, 4, 0, 10, "End", g, alignTypes.CENTER);
+		printText(xEnd2, 4, 0, 10, "End", g, alignTypes.LEFT);
 	}
 }
 

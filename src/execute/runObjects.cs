@@ -564,6 +564,8 @@ public class RunPhaseTimeList
 		List<RunPhaseTimeListObject> list_in = new List<RunPhaseTimeListObject>();
 		int currentMS = 0;
 		int startInMS = -1;
+		int startInPhotocell = -1;
+		int currentPhotocell = -1;
 
 		// 1) create a copy of listPhaseTime in order to do foreach without problems with other thread that adds records
 		//This is problematic (Collection was modified; enumeration operation may not execute) if other thread is changing it:
@@ -603,8 +605,10 @@ public class RunPhaseTimeList
 				LogB.Information("InListForPainting negativeValues = " + negativeValues.ToString());
 			}
 
-			if(pt.IsContact)
+			if(pt.IsContact) {
 				startInMS = currentMS;
+				startInPhotocell = pt.Photocell;
+			}
 			else if(startInMS >= 0)
 			{
 				//see if previous has ended to mark as END or STARTEND
@@ -638,10 +642,13 @@ public class RunPhaseTimeList
 				rptloToAdd = new RunPhaseTimeListObject(
 						currentPhase,
 						startInMS/1000.0,
-						currentMS/1000.0);
+						currentMS/1000.0,
+						startInPhotocell,
+						pt.Photocell);
 			}
 
 			currentMS += Convert.ToInt32(pt.Duration);
+			currentPhotocell = pt.Photocell;
 
 			LogB.Information(string.Format("End of iteration: {0}, pt.IsContact: {1}, startInMS: {2}, currentMS: {3}",
 						count, pt.IsContact, startInMS, currentMS));
@@ -667,7 +674,8 @@ public class RunPhaseTimeList
 			RunPhaseTimeListObject rptloLast = new RunPhaseTimeListObject(
 						RunPhaseTimeListObject.Phases.STARTANDEND,
 						startInMS/1000.0,
-						(startInMS + ptLast.Duration)/1000.0);
+						(startInMS + ptLast.Duration)/1000.0,
+						startInPhotocell, ptLast.Photocell);
 
 			if(rptloToAdd.phase == RunPhaseTimeListObject.Phases.START ||
 					rptloToAdd.phase == RunPhaseTimeListObject.Phases.MIDDLE)
@@ -705,6 +713,11 @@ public class RunPhaseTimeList
 		return str;
 	}
 
+	public List<PhaseTime> ListPhaseTime
+	{
+		get { return listPhaseTime; }
+	}
+
 }
 
 public class RunPhaseTimeListObject
@@ -715,23 +728,31 @@ public class RunPhaseTimeListObject
 	public Phases phase;
 	public double tcStart;
 	public double tcEnd;
+	public int photocellStart;
+	public int photocellEnd;
+
 
 	public RunPhaseTimeListObject ()
 	{
 	}
 
-	public RunPhaseTimeListObject (Phases phase, double tcStart, double tcEnd)
+	public RunPhaseTimeListObject (Phases phase,
+			double tcStart, double tcEnd, int photocellStart, int photocellEnd)
 	{
 		this.phase = phase;
 		this.tcStart = tcStart;
 		this.tcEnd = tcEnd;
+		this.photocellStart = photocellStart;
+		this.photocellEnd = photocellEnd;
 	}
 
 	public override string ToString()
 	{
 		return phase.ToString() + ":" +
 			Math.Round(tcStart, 3).ToString() + ":" +
-			Math.Round(tcEnd, 3).ToString();
+			Math.Round(tcEnd, 3).ToString() + ":" +
+			photocellStart.ToString() + ":" +
+			photocellEnd.ToString();
 	}
 }
 

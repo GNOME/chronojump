@@ -654,6 +654,10 @@ public class PhaseTime
 		return "\n" + Math.Round(UtilAll.DivideSafe(duration, 1000.0), 3) + photocellStr + " - " + strMode;
 	}
 
+	public int Photocell
+	{
+		get { return photocell; }
+	}
 	public bool IsContact
 	{
 		get { return contactIn; }

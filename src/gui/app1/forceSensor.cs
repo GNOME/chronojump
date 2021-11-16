@@ -1814,16 +1814,16 @@ LogB.Information(" fs R ");
 
 		force_capture_pixmap.DrawLines(pen_black_force_capture, paintPoints);
 
-		foreach(TriggerXForce txf in triggerXForceList)
+		//foreach(TriggerXForce txf in triggerXForceList)
+		//avoiding foreach is much better because above foreach enumeration fails when list is changed by other thread. "MoveNextRare" error.
+		for(int i=0 ; i < triggerXForceList.Count; i ++)
 		{
+			TriggerXForce txf = triggerXForceList[i];
 			//if already painted, do not paint it again
 			if(txf.painted)
 				continue;
 
-			//note on realtime trigger is related to previous sample,
-			//but on capture/analyze, trigger is related to closest sample
 			forceSensorCaptureGraphDrawTrigger (txf.trigger, txf.x, txf.force);
-
 			txf.painted = true;
 		}
 

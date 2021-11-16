@@ -1858,7 +1858,6 @@ LogB.Information(" fs R ");
 	private void forceSensorCaptureDoRealtimeGraphScroll(int numCaptured, int toDraw,
 			List<Gdk.Point> points, List<TriggerXForce> triggerXForceList)
 	{
-		//TODO: implement triggers
 		LogB.Information(" Graph Scroll ");
 		Gdk.Point [] paintPoints = new Gdk.Point[fscPoints.ScrollStartedAtCount]; //This size is because we have done eg. 60 samples, and then scroll started, so plot always 60 samples once scroll is on
 
@@ -1907,7 +1906,7 @@ LogB.Information(" fs R ");
 			if(points.Count > i && j < fscPoints.ScrollStartedAtCount) 	//extra check to avoid going outside of arrays
 			{
 				paintPoints[j] = points[i];
-				paintPoints[j].X = fscPoints.GetTimeInPx(Convert.ToInt32(fscPoints.GetTimeAtCount(j))); //TODO: fer com això per a pintar les X dels interpolated
+				paintPoints[j].X = fscPoints.GetTimeInPx(Convert.ToInt32(fscPoints.GetTimeAtCount(j)));
 
 				if(interpolate_l != null)
 				{
@@ -1921,6 +1920,22 @@ LogB.Information(" fs R ");
 						ratioInterpolatedVsSamplesCount -= interpolate_l.Count;
 				}
 			}
+		}
+
+		//triggers
+		int timeOn0Px = Convert.ToInt32(fscPoints.GetTimeAtCount(iStart));
+		//foreach(TriggerXForce txf in triggerXForceList)
+		//avoiding foreach is much better because above foreach enumeration fails when list is changed by other thread. "MoveNextRare" error.
+		for(int i=0 ; i < triggerXForceList.Count; i ++)
+		{
+			TriggerXForce txf = triggerXForceList[i];
+
+			if(fscPoints.GetTimeInPx(txf.trigger.Us - timeOn0Px) <= fscPoints.MarginLeft)
+				continue;
+
+			forceSensorCaptureGraphDrawTrigger (txf.trigger,
+					Convert.ToInt32(fscPoints.GetTimeInPx(txf.trigger.Us - timeOn0Px)),
+					txf.force);
 		}
 
 		if(interpolate_l != null)

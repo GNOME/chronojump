@@ -490,7 +490,7 @@ msgstr "Grupo"
 #: ../glade/app1.glade.h:94 ../src/encoder.cs:2441 ../src/forceSensor.cs:2584
 #: ../src/runType.cs:241
 msgid "Average"
-msgstr "Medio"
+msgstr "Promedio"
 
 #: ../glade/app1.glade.h:95
 msgid "Best"

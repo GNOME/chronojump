@@ -668,7 +668,10 @@ public partial class ChronoJumpWindow
 				force_sensor_adjust_label_message.Text = forceSensorOtherMessage + secondsStr;
 				force_sensor_adjust_label_message.UseMarkup = true;
 			} else
+			{
 				event_execute_label_message.Text = forceSensorOtherMessage + secondsStr;
+				event_execute_label_message.UseMarkup = true;
+			}
 
 			if(forceSensorOtherMode == forceSensorOtherModeEnum.STIFFNESS_DETECT &&
 					forceSensorValues != null)

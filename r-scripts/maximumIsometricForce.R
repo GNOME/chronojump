@@ -1167,7 +1167,9 @@ start <- function(op)
 			if(RFDoptions$rfdFunction != "-1")
 				exportModelVectorOnFail = c(exportModelVectorOnFail, NA)
 		}
-		exportModelVectorOnFail = c(exportModelVectorOnFail, NA) 		#impulse
+		impulseOptions = readImpulseOptions(op$drawImpulseOptions)
+		if(impulseOptions$impulseFunction != "-1")
+			exportModelVectorOnFail = c(exportModelVectorOnFail, NA) 		#impulse
 
 		#preparing header row (each set will have this in the result dataframe to be able to combine them)
 		maxAvgWindowSecondsHeader = op$maxAvgWindowSeconds
@@ -1183,7 +1185,6 @@ start <- function(op)
 						RFDoptions$start, RFDoptions$end, sep ="_"))
 		}
 
-		impulseOptions = readImpulseOptions(op$drawImpulseOptions)
 		if(impulseOptions$impulseFunction != "-1")
 			exportNames = c(exportNames, paste("Impulse", impulseOptions$impulseFunction, impulseOptions$type,
 					impulseOptions$start, impulseOptions$end, sep ="_"))

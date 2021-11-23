@@ -1227,7 +1227,9 @@ start <- function(op)
 			plotABGraph(pngFile, as.vector(dataFiles$fullURL[i]),
 					dataFiles$decimalChar[i], dataFiles$title[i], dataFiles$exercise[i], paste(dataFiles$date[i], dataFiles$time[i], sep=" "),
 					dataFiles$captureOptions[i], dataFiles$startSample[i], dataFiles$endSample[i],
-					dataFiles$maxAvgForceInWindow[i], dataFiles$maxAvgForceInWindowSampleStart[i], dataFiles$maxAvgForceInWindowSampleEnd[i]
+					dataFiles$maxAvgForceInWindow[i],
+					(dataFiles$maxAvgForceInWindowSampleStart[i] +1), # +1 because the C# count starts at 0 and R at 1
+					(dataFiles$maxAvgForceInWindowSampleEnd[i] +1)
 			)
 
 			if(! modelOk)

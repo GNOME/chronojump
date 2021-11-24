@@ -320,8 +320,13 @@ public class WebcamFfmpeg : Webcam
 		else	//mac
 			parameters.Insert (i ++, videoDevice);
 
-		parameters.Insert (i ++, "-ss");
-		parameters.Insert (i ++, "0:0:2");
+		//on Linux, at least at developer laptop, -ss is not working
+		if(os != UtilAll.OperatingSystems.LINUX)
+		{
+			parameters.Insert (i ++, "-ss");
+			parameters.Insert (i ++, "0:0:2");
+		}
+
 		parameters.Insert (i ++, "-frames");
 		parameters.Insert (i ++, "1");
 		parameters.Insert (i ++, Util.GetWebcamPhotoTempFileNamePost());

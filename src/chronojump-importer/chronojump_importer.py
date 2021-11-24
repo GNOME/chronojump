@@ -941,7 +941,7 @@ class ImportSession:
 
             # Prepares the new filename and destination_url
             filename = ""
-            destionation_url = ""
+            destination_url = ""
             if tableName == "forceSensor":
                 filename=self._forceSensor_filename(person_id, original_filename)
                 destination_url = self._forceSensor_url(session_id)

@@ -937,7 +937,7 @@ class ImportSession:
             session_id = row.get("sessionID")
 
             if(DEBUGTOFILE):
-                debugFile.write("original_filename: " + original_filename.encode('utf-8') + "\n")
+                debugFile.write("original_filename: " + original_filename + "\n")
 
             # Prepares the new filename and destination_url
             filename = ""
@@ -954,7 +954,7 @@ class ImportSession:
             row.set("url", destination_url)
 
             if(DEBUGTOFILE):
-                debugFile.write("filename: " + filename.encode('utf-8') + "\n")
+                debugFile.write("filename: " + filename + "\n")
 
             # Copies the files to the new place
             destination_directory = os.path.join(self.destination_path, "..", "..", destination_url)

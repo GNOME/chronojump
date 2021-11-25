@@ -78,11 +78,11 @@ unsigned long totalTime = 0;
 unsigned long syncTime = 0;
 unsigned int samples = 0;
 
-const int button1Pin = 6;
-bool button1State;
+const int redButtonPin = 6;
+bool redButtonState;
 
-const int button2Pin = 13;
-bool button2State;
+const int blueButtonPin = 13;
+bool blueButtonState;
 float voltage;
 
 
@@ -116,15 +116,15 @@ bool rcaState = digitalRead(rcaPin);
 bool lastRcaState = rcaState;
 
 void setup() {
-  pinMode(button1Pin, INPUT);
-  pinMode(button2Pin, INPUT);
+  pinMode(redButtonPin, INPUT);
+  pinMode(blueButtonPin, INPUT);
   analogWrite(6, 20);
   lcd.begin(16, 2);
   Serial.begin(115200);
 
   attachInterrupt(digitalPinToInterrupt(rcaPin), changingRCA, CHANGE);
 
-  if (button1State == 0) {
+  if (redButtonState == 0) {
     lcd.setCursor(2, 0);
     lcd.print("CHRONOJUMP");
     lcd.setCursor(2, 1);
@@ -158,8 +158,8 @@ void setup() {
 
 void loop()
 {
-  button2State = digitalRead(button2Pin);
-  if (button2State == 1) {
+  blueButtonState = digitalRead(blueButtonPin);
+  if (blueButtonState == 1) {
     lcd.clear();
     lcd.setCursor(3, 0);
     lcd.print("Taring...");
@@ -175,7 +175,7 @@ void loop()
     //    lcd.print("Press Start");
 
   }
-  button1State = digitalRead(button1Pin);
+  redButtonState = digitalRead(redButtonPin); //Red button
 
   if(sendSyncTime) {
     Serial.print("sync:");
@@ -240,11 +240,11 @@ void loop()
 //        end_capture();
 //      }
     }
-    if (button1State) {
+    if (redButtonState) {
       end_capture();
     }
   } else if (!capturing) {
-    if (button1State) {
+    if (redButtonState) {
       start_capture();
     }
   }

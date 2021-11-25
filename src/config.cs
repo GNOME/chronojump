@@ -20,6 +20,7 @@
 
 using System;
 using System.IO;
+using System.IO.Ports;
 
 
 public class Config
@@ -28,6 +29,8 @@ public class Config
 	public static bool UseSystemColor; //do nothing at all
 	public static Gdk.Color ColorBackground;
 	public static bool ColorBackgroundIsDark;
+
+	public static SerialPort ArduinoPort; //on Windows we cannot pass the SerialPort to another class, so use this.
 
 	public enum SessionModeEnum { STANDARD, UNIQUE, MONTHLY }
 

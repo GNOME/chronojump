@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *
- * Copyright (C) 2020  Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2021  Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -28,7 +28,7 @@ public abstract class ArduinoCapture
 {
 	protected string portName;
 	protected int bauds;
-	protected SerialPort port;
+//	protected SerialPort port;
 	protected bool portOpened;
 	protected int readedPos; //position already readed from list
 
@@ -61,10 +61,11 @@ public abstract class ArduinoCapture
 
 	protected bool portConnect()
 	{
-		port = new SerialPort(portName, bauds);
+		//port = new SerialPort(portName, bauds);
+		Config.ArduinoPort = new SerialPort(portName, bauds);
 
 		try {
-			port.Open();
+			Config.ArduinoPort.Open();
 		}
 		catch (System.IO.IOException)
 		{
@@ -90,14 +91,14 @@ public abstract class ArduinoCapture
 	{
 		try {
 			LogB.Information("arduinocapture sendCommand: |" + command + "|");
-			port.WriteLine(command);
+			Config.ArduinoPort.WriteLine(command);
 		}
 		catch (Exception ex)
 		{
 			if(ex is System.IO.IOException || ex is System.TimeoutException)
 			{
 				LogB.Information("error: " + errorMessage);
-				port.Close();
+				Config.ArduinoPort.Close();
 				portOpened = false;
 				return false;
 			}
@@ -111,10 +112,10 @@ public abstract class ArduinoCapture
 		string str = "";
 		do {
 			Thread.Sleep(25);
-			if (port.BytesToRead > 0)
+			if (Config.ArduinoPort.BytesToRead > 0)
 			{
 				try {
-					str = port.ReadLine();
+					str = Config.ArduinoPort.ReadLine();
 				} catch {
 					LogB.Information(string.Format("Catched waiting: |{0}|", expected));
 				}
@@ -129,9 +130,9 @@ public abstract class ArduinoCapture
 	{
 		str = "";
 		try {
-			if (port.BytesToRead > 0)
+			if (Config.ArduinoPort.BytesToRead > 0)
 			{
-				str = port.ReadLine();
+				str = Config.ArduinoPort.ReadLine();
 				LogB.Information(string.Format("at readLine BytesToRead>0, readed:|{0}|", str));
 			}
 		} catch (System.IO.IOException)
@@ -146,7 +147,7 @@ public abstract class ArduinoCapture
 
 	public void Disconnect()
 	{
-		port.Close();
+		Config.ArduinoPort.Close();
 		portOpened = false;
 	}
 
@@ -219,8 +220,8 @@ public class PhotocellWirelessCapture: ArduinoCapture
 	private void flush ()
 	{
 		string str = "";
-		if (port.BytesToRead > 0)
-			str = port.ReadExisting();
+		if (Config.ArduinoPort.BytesToRead > 0)
+			str = Config.ArduinoPort.ReadExisting();
 
 		LogB.Information(string.Format("flushed: |{0}|", str));
 	}
@@ -243,7 +244,7 @@ public class PhotocellWirelessCapture: ArduinoCapture
 		LogB.Information("AT Capture: STOPPED");
 
 		/*
-		port.Close();
+		Config.ArduinoPort.Close();
 		portOpened = false;
 		*/
 

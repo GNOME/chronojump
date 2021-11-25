@@ -354,7 +354,8 @@ bool readSample(void) {
     } else {
       Serial.write((byte*)&sample, sample_size);
     }
-    blinkOnce();
+    //blinkOnce();
+    digitalWrite(2, !sample.state);
     //Serial.print("readed will be:");
     //Serial.println(readed);
   }

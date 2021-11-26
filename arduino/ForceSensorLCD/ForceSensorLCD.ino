@@ -166,11 +166,8 @@ void setup() {
     scale.set_scale(calibration_factor);
   }
 
-  lcd.clear();
-  lcd.setCursor(2, 0);
-  lcd.print(menuList[menu]);
-  lcd.setCursor(2, 1);
-  lcd.print("Red to start");
+  showMenu();
+  lcd.print("Red: Start");
 }
 
 void loop()
@@ -180,27 +177,22 @@ void loop()
   if (blueButtonState) {
     menu++;
     menu = menu % 5;
-    lcd.clear();
-    lcd.setCursor(1, 0);
-    lcd.print(menu);
-    lcd.setCursor(3, 0);
-    lcd.print(menuList[menu]);
-    lcd.setCursor(2, 1);
+    showMenu();
     if (menu == 0)
     {
-      lcd.print("Red: start");
+      lcd.print("Red: Start");
     } else if (menu == 1)
     {
-      lcd.print("Red: tare+start");
+      lcd.print("Red: Start");
     } else if (menu == 2)
     {
       lcd.print("Red: tare");
     } else if (menu == 3)
     {
-      lcd.print("Red: calibrate");
+      lcd.print("Red: Calibrate");
     } else if (menu == 4)
     {
-      lcd.print("Red: system info");
+      lcd.print("Red: System Info");
     }
   }
   delay(200);
@@ -227,7 +219,7 @@ void loop()
       capture();
     } else if (menu == 2)
     {
-      lcd.print("taring");
+      tare();
     } else if (menu == 3)
     {
       lcd.print("calibrating");
@@ -236,6 +228,16 @@ void loop()
       lcd.print("system info");
     }
   }
+}
+
+void showMenu(void)
+{
+    lcd.clear();
+    lcd.setCursor(1, 0);
+    lcd.print(menu);
+    lcd.setCursor(3, 0);
+    lcd.print(menuList[menu]);
+    lcd.setCursor(2, 1);
 }
 //void loop()
 //{
@@ -584,6 +586,9 @@ void end_capture()
   Serial.println(scale.get_offset());
   lcd.setCursor(0, 0);
   lcd.write(" ");
+  menu = 0;
+  showMenu();
+  lcd.print("Red: Start");
   delay(500);
 }
 
@@ -629,10 +634,15 @@ void calibrate(String inputString)
 
 void tare()
 {
+  lcd.print("taring");
   scale.tare(50); //Reset the scale to 0 using the mean of 255 raw values
   EEPROM.put(tareAddress, scale.get_offset());
   Serial.print("Taring OK:");
   Serial.println(scale.get_offset());
+  lcd.print("Tared");
+  delay(500);
+  menu = 0;
+  showMenu();
 }
 
 void get_tare()

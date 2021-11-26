@@ -32,7 +32,7 @@
 #define CLK  4
 
 //Version number //it always need to start with: "Force_Sensor-"
-String version = "Force_Sensor-0.6";
+String version = "Force_Sensor-0.7";
 
 
 int tareAddress = 0;

@@ -639,10 +639,12 @@ void tare()
   EEPROM.put(tareAddress, scale.get_offset());
   Serial.print("Taring OK:");
   Serial.println(scale.get_offset());
+  
   lcd.print("Tared");
   delay(500);
   menu = 0;
   showMenu();
+  lcd.print("Red: Start");
 }
 
 void get_tare()

@@ -222,6 +222,9 @@ void loop()
     } else if (menu == 1)
     {
       lcd.print("tarin+starting");
+      tare();
+      start_capture();
+      capture();
     } else if (menu == 2)
     {
       lcd.print("taring");

@@ -50,6 +50,9 @@ public class PersonAddModifyWindow
 	[Widget] Gtk.Image image_photo_preview;
 	[Widget] Gtk.Image image_photo_do;
 
+	[Widget] Gtk.Button button_delete_photo_file;
+	[Widget] Gtk.Image image_photo_delete;
+
 	[Widget] Gtk.Button button_add_photo_file;
 	[Widget] Gtk.Button button_take_photo_do;
 	[Widget] Gtk.HBox hbox_camera;
@@ -192,6 +195,9 @@ public class PersonAddModifyWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_person_outline.png");
 		image_load_person.Pixbuf = pixbuf;
 
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
+		image_photo_delete.Pixbuf = pixbuf;
+
 		image_photo_from_file.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_attachment.png");
 		image_photo_preview.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_preview.png");
 		image_photo_do.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_photo_do.png");
@@ -212,7 +218,15 @@ public class PersonAddModifyWindow
 				pixbuf = new Pixbuf (tempFileName);
 				image_photo_mini.Pixbuf = pixbuf;
 			}
+
+			button_delete_photo_file.Sensitive = true;
 		}
+		else {
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_no_photo.png");
+			image_photo_mini.Pixbuf = pixbuf;
+			button_delete_photo_file.Sensitive = false;
+		}
+
 		//show zoom button only if big image exists
 		string photoBigFile = Util.UserPhotoURL(false, currentPerson.UniqueID);
 		if(photoBigFile != "")
@@ -310,6 +324,19 @@ public class PersonAddModifyWindow
 	private void deleteOldPhotosIfAny(int uniqueID)
 	{
 		LogB.Information("deleteOldPhotosIfAny: " + uniqueID.ToString());
+		string file = Util.UserPhotoURL(false, uniqueID); //default
+		if(file != "")
+			Util.FileDelete(file);
+
+		file  = Util.UserPhotoURL(true, uniqueID); //small
+		if(file != "")
+			Util.FileDelete(file);
+	}
+
+	//user wants to delete his photo
+	private void deletePhoto (int uniqueID)
+	{
+		LogB.Information("deletePhoto: " + uniqueID.ToString());
 		string file = Util.UserPhotoURL(false, uniqueID); //default
 		if(file != "")
 			Util.FileDelete(file);
@@ -429,6 +456,17 @@ public class PersonAddModifyWindow
 				showMiniPhoto(filenameMini);
 		}
 		button_delete_photo_file.Sensitive = true;
+	}
+
+	private void on_button_delete_photo_file_clicked (object o, EventArgs args)
+	{
+		deletePhoto (currentPerson.UniqueID);
+
+		button_delete_photo_file.Sensitive = false;
+
+		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_no_photo.png");
+		image_photo_mini.Pixbuf = pixbuf;
+		button_zoom.Sensitive = false;
 	}
 
 	void on_entries_required_changed (object o, EventArgs args)

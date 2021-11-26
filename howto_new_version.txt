@@ -147,7 +147,7 @@ on my local laptop:
 cp src/chronojump-importer/py2exec_chronojump_importer.py ~/informatica/virtualbox_windows_shared/
 cp src/chronojump-importer/chronojump_importer.py ~/informatica/virtualbox_windows_shared/
 there move them to python34 folder
-open python34 comandline, and there:
+open terminal CMD on python34 folder and there (from the CMD commandline)
 python py2exec_chronojump_importer.py py2exe -d chronojump-importer-pyhon3
 copy chronojump-importer-python3 dir to  ~/informatica/virtualbox_windows_shared/
 and there move to win32/deps/bin

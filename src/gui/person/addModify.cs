@@ -428,59 +428,7 @@ public class PersonAddModifyWindow
 			if(miniSuccess)
 				showMiniPhoto(filenameMini);
 		}
-
-	}
-
-	//libCesarplayer method, jpeg
-	private void on_snapshot_done(Pixbuf pixbuf)
-	{
-		deleteOldPhotosIfAny(currentPerson.UniqueID);
-		string fileName = Path.Combine(Path.GetTempPath(), Constants.PhotoTemp +
-				Util.GetMultimediaExtension(Constants.MultimediaItems.PHOTO));
-		
-		pixbuf.Save(fileName,"jpeg");
-		
-		//on windows there are problem using the fileNames that are not on temp
-		if(!adding)
-			File.Copy(fileName, Util.GetPhotoFileName(false, currentPerson.UniqueID), true); //overwrite
-
-		button_zoom.Sensitive = true;
-	}
-
-	//libCesarplayer method, jpeg
-	private void on_snapshot_mini_done(Pixbuf pixbuf)
-	{
-		deleteOldPhotosIfAny(currentPerson.UniqueID);
-		string tempSmallFileName = Path.Combine(Path.GetTempPath(), Constants.PhotoSmallTemp +
-				Util.GetMultimediaExtension(Constants.MultimediaItems.PHOTO));
-		
-		pixbuf.Save(tempSmallFileName,"jpeg");
-		
-		//on windows there are problem using the fileNames that are not on temp
-		if(!adding)
-			File.Copy(tempSmallFileName, Util.GetPhotoFileName(true, currentPerson.UniqueID), true); //overwrite
-		
-		/*
-		capturer.Close();
-		capturer.Dispose();
-		*/
-		capturerWindow.Hide();
-
-		person_win.Show();
-
-
-		string tempFileName = Path.Combine(Path.GetTempPath(), Constants.PhotoSmallTemp +
-			Util.GetMultimediaExtension(Constants.MultimediaItems.PHOTO));
-		if(!adding) {
-			//on windows there are problem using the fileNames that are not on temp
-			string fileName = Util.GetPhotoFileName(true, currentPerson.UniqueID);
-			File.Copy(fileName, tempFileName, true);
-		}
-		
-		if(File.Exists(tempFileName)) {
-			Pixbuf pixbuf2 = new Pixbuf (tempFileName); //from a file
-			image_photo_mini.Pixbuf = pixbuf2;
-		}
+		button_delete_photo_file.Sensitive = true;
 	}
 
 	void on_entries_required_changed (object o, EventArgs args)

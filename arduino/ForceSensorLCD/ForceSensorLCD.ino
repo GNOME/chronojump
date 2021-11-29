@@ -167,36 +167,20 @@ void setup() {
   }
 
   showMenu();
-  lcd.print("Red: Start");
+//  lcd.print("Red: Start");
 }
 
 void loop()
 {
   blueButtonState = digitalRead(blueButtonPin);
-  redButtonState = digitalRead(redButtonPin);
   if (blueButtonState) {
     menu++;
     menu = menu % 5;
     showMenu();
-    if (menu == 0)
-    {
-      lcd.print("Red: Start");
-    } else if (menu == 1)
-    {
-      lcd.print("Red: Start");
-    } else if (menu == 2)
-    {
-      lcd.print("Red: tare");
-    } else if (menu == 3)
-    {
-      lcd.print("Red: Calibrate");
-    } else if (menu == 4)
-    {
-      lcd.print("Red: System Info");
-    }
   }
-  delay(200);
+  delay(100);
 
+  redButtonState = digitalRead(redButtonPin);
   if (redButtonState)
   {
     lcd.clear();
@@ -213,7 +197,7 @@ void loop()
       capture();
     } else if (menu == 1)
     {
-      lcd.print("tarin+starting");
+      //lcd.print("tarin+starting");
       tare();
       start_capture();
       capture();
@@ -238,6 +222,23 @@ void showMenu(void)
     lcd.setCursor(3, 0);
     lcd.print(menuList[menu]);
     lcd.setCursor(2, 1);
+    
+    if (menu == 0)
+    {
+      lcd.print("Red: Start");
+    } else if (menu == 1)
+    {
+      lcd.print("Red: Start");
+    } else if (menu == 2)
+    {
+      lcd.print("Red: Tare");
+    } else if (menu == 3)
+    {
+      lcd.print("Red: Calibrate");
+    } else if (menu == 4)
+    {
+      lcd.print("Red: System Info");
+    }
 }
 //void loop()
 //{
@@ -585,10 +586,11 @@ void end_capture()
   Serial.print("Capture ended:");
   Serial.println(scale.get_offset());
   lcd.setCursor(0, 0);
-  lcd.write(" ");
-  menu = 0;
+//  lcd.write(" ");
+//  Serial.print("Menu =");
+//  Serial.println(menu);
   showMenu();
-  lcd.print("Red: Start");
+  //lcd.print("Red: Start");
   delay(500);
 }
 
@@ -639,12 +641,13 @@ void tare()
   EEPROM.put(tareAddress, scale.get_offset());
   Serial.print("Taring OK:");
   Serial.println(scale.get_offset());
+
   
-  lcd.print("Tared");
-  delay(500);
-  menu = 0;
+  lcd.setCursor(2, 1);
+  lcd.print("Tared ");
+  delay(300);
   showMenu();
-  lcd.print("Red: Start");
+  //lcd.print("Red: Start");
 }
 
 void get_tare()

@@ -178,6 +178,10 @@ LogB.Information("import H ");
 
 		MessageToPulsebar = "Preparing database";
 		string temporarySourceFile = Path.GetTempFileName ();
+		LogB.Information("temporarySourceFile without GetFullPath: " + temporarySourceFile);
+		temporarySourceFile = Path.GetFullPath(temporarySourceFile);
+		LogB.Information("temporarySourceFile after GetFullPath: " + temporarySourceFile);
+
 		File.Copy (sourceFile, temporarySourceFile, true);
 
 		Result sourceDatabaseVersion = getDatabaseVersionFromFile (temporarySourceFile);
@@ -210,6 +214,7 @@ LogB.Information("import I ");
 			LogB.Debug ("chronojump-importer version after update: ", versionAfterUpdate);
 		}
 
+LogB.Information("import J ");
 		MessageToPulsebar = "Starting import";
 		List<string> parameters = new List<string> ();
 		parameters.Add ("--source");
@@ -237,10 +242,12 @@ LogB.Information("import I ");
 		else
 			parameters.Add ("NONE");
 
+LogB.Information("import K ");
 		Result result = executeChronojumpImporter (parameters, pythonVersion);
 
 		MessageToPulsebar = "Done!";
 		File.Delete (temporarySourceFile);
+LogB.Information("import L ");
 
 		return result;
 	}

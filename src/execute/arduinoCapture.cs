@@ -26,10 +26,14 @@ using System.Threading;
 
 public abstract class ArduinoCapture
 {
+	public static SerialPort ArduinoPort; //on Windows we cannot pass the SerialPort to another class, so use this.
+	public static bool PortOpened;
+
+
 	protected string portName;
 	protected int bauds;
 //	protected SerialPort port;
-	protected bool portOpened;
+//	protected bool portOpened;
 	protected int readedPos; //position already readed from list
 
 	// public stuff ---->
@@ -62,10 +66,10 @@ public abstract class ArduinoCapture
 	protected bool portConnect()
 	{
 		//port = new SerialPort(portName, bauds);
-		Config.ArduinoPort = new SerialPort(portName, bauds);
+		ArduinoPort = new SerialPort(portName, bauds);
 
 		try {
-			Config.ArduinoPort.Open();
+			ArduinoPort.Open();
 		}
 		catch (System.IO.IOException)
 		{
@@ -91,15 +95,16 @@ public abstract class ArduinoCapture
 	{
 		try {
 			LogB.Information("arduinocapture sendCommand: |" + command + "|");
-			Config.ArduinoPort.WriteLine(command);
+			ArduinoPort.WriteLine(command);
 		}
 		catch (Exception ex)
 		{
 			if(ex is System.IO.IOException || ex is System.TimeoutException)
 			{
 				LogB.Information("error: " + errorMessage);
-				Config.ArduinoPort.Close();
-				portOpened = false;
+				ArduinoPort.Close();
+				//portOpened = false;
+				PortOpened = false;
 				return false;
 			}
 			//throw;
@@ -112,10 +117,10 @@ public abstract class ArduinoCapture
 		string str = "";
 		do {
 			Thread.Sleep(25);
-			if (Config.ArduinoPort.BytesToRead > 0)
+			if (ArduinoPort.BytesToRead > 0)
 			{
 				try {
-					str = Config.ArduinoPort.ReadLine();
+					str = ArduinoPort.ReadLine();
 				} catch {
 					LogB.Information(string.Format("Catched waiting: |{0}|", expected));
 				}
@@ -130,9 +135,9 @@ public abstract class ArduinoCapture
 	{
 		str = "";
 		try {
-			if (Config.ArduinoPort.BytesToRead > 0)
+			if (ArduinoPort.BytesToRead > 0)
 			{
-				str = Config.ArduinoPort.ReadLine();
+				str = ArduinoPort.ReadLine();
 				LogB.Information(string.Format("at readLine BytesToRead>0, readed:|{0}|", str));
 			}
 		} catch (System.IO.IOException)
@@ -147,14 +152,17 @@ public abstract class ArduinoCapture
 
 	public void Disconnect()
 	{
-		Config.ArduinoPort.Close();
-		portOpened = false;
+		ArduinoPort.Close();
+		//portOpened = false;
+		PortOpened = false;
 	}
 
+	/*
 	public bool PortOpened
 	{
 		get { return portOpened; }
 	}
+	*/
 }
 
 public class PhotocellWirelessCapture: ArduinoCapture
@@ -176,13 +184,13 @@ public class PhotocellWirelessCapture: ArduinoCapture
 
 	public override bool CaptureStart()
 	{
-		LogB.Information("portOpened: " + portOpened.ToString());
+		LogB.Information("portOpened: " + ArduinoCapture.PortOpened.ToString());
 		// 0 connect if needed
-		if(! portOpened)
+		if(! ArduinoCapture.PortOpened)
 			if(! portConnect())
 				return false;
 
-		portOpened = true;
+		ArduinoCapture.PortOpened = true;
 
 		LogB.Information(string.Format("arduinoCapture portName: {0}, bauds: {1}", portName, bauds));
 
@@ -220,8 +228,8 @@ public class PhotocellWirelessCapture: ArduinoCapture
 	private void flush ()
 	{
 		string str = "";
-		if (Config.ArduinoPort.BytesToRead > 0)
-			str = Config.ArduinoPort.ReadExisting();
+		if (ArduinoPort.BytesToRead > 0)
+			str = ArduinoPort.ReadExisting();
 
 		LogB.Information(string.Format("flushed: |{0}|", str));
 	}
@@ -244,8 +252,8 @@ public class PhotocellWirelessCapture: ArduinoCapture
 		LogB.Information("AT Capture: STOPPED");
 
 		/*
-		Config.ArduinoPort.Close();
-		portOpened = false;
+		ArduinoPort.Close();
+		ArduinoCapture.PortOpened = false;
 		*/
 
 		return true;

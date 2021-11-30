@@ -30,8 +30,6 @@ public class Config
 	public static Gdk.Color ColorBackground;
 	public static bool ColorBackgroundIsDark;
 
-	public static SerialPort ArduinoPort; //on Windows we cannot pass the SerialPort to another class, so use this.
-
 	public enum SessionModeEnum { STANDARD, UNIQUE, MONTHLY }
 
 	public Preferences.MaximizedTypes Maximized;

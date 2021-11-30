@@ -519,7 +519,7 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 		} while ( ! exitWaitEventBucle );
 
 		if(wireless)
-			photocellWirelessCapture.Stop();
+			photocellWirelessCapture.Stop(); //Should we do a disconnect here?
 
 		onlyInterval_FinishWaitEventWrite();
 	}

@@ -2413,6 +2413,15 @@ public partial class ChronoJumpWindow
 	private void on_combo_select_contacts_top_changed (object o, EventArgs args)
 	{
 		LogB.Information("on_combo_select_contacts_top_changed");
+
+		ComboBox combo = o as ComboBox;
+		if(combo == null || UtilGtk.ComboGetActive(combo) == "")
+		{
+			LogB.Information(" ...but is null or empty.");
+			//happens at end of import, at least on windows at innolab virtual machine
+			return;
+		}
+
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)
 			on_combo_select_jumps_changed(o, args);
 		else if(current_mode == Constants.Modes.JUMPSREACTIVE)

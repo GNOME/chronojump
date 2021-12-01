@@ -85,12 +85,16 @@ public class TaskEncoder : Task
 		ExerciseId = jsonTask ["exercise_id"];
 		ExerciseName = jsonTask ["exercise_name"];
 
-		string NrepsStr = jsonTask ["duration"]; //eg: "15 Repetitions"
-		Match match = Regex.Match(NrepsStr, @"(\d+) Repetitions");
-		//LogB.Information(string.Format("NrepsStr: {0}, match.Groups.Count: {1}, match.Groups[1].Value: {2}",
-		//	NrepsStr, match.Groups.Count, match.Groups[1].Value));
-		if(match.Groups.Count == 2 && Util.IsNumber(match.Groups[1].Value, false))
-			Nreps = Convert.ToInt32(match.Groups[1].Value);
+		if(jsonTask ["duration"] == null) //fix if duration is not defined
+			Nreps = -1;
+		else {
+			string NrepsStr = jsonTask ["duration"]; //eg: "15 Repetitions"
+			Match match = Regex.Match(NrepsStr, @"(\d+) Repetitions");
+			//LogB.Information(string.Format("NrepsStr: {0}, match.Groups.Count: {1}, match.Groups[1].Value: {2}",
+			//	NrepsStr, match.Groups.Count, match.Groups[1].Value));
+			if(match.Groups.Count == 2 && Util.IsNumber(match.Groups[1].Value, false))
+				Nreps = Convert.ToInt32(match.Groups[1].Value);
+		}
 
 		Laterality = jsonTask ["laterality"];
 		Sets = jsonTask ["sets"];

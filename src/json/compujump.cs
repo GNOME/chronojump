@@ -68,7 +68,9 @@ public class JsonCompujump : Json
 
 		dataStream.Write (Encoding.UTF8.GetBytes(js), 0, js.Length);
 		dataStream.Close ();
-		
+
+		connected = true;
+
 		HttpWebResponse response;
 		if(! getHttpWebResponse (request, out response, "Cannot get person by RFID."))
 			return person;
@@ -91,7 +93,6 @@ public class JsonCompujump : Json
 			person = personDeserialize(responseFromServer);
 		}
 
-		connected = true;
 		return person;
 	}
 

@@ -138,6 +138,13 @@ public partial class ChronoJumpWindow
 
 		}
 
+		LogB.Information(string.Format("Compujump variables: {0}, {1}, {2}, {3}, {4}",
+				configChronojump.Compujump,
+				configChronojump.CompujumpServerURL != null,
+				configChronojump.CompujumpServerURL != "",
+				configChronojump.CompujumpStationID != -1,
+				configChronojump.CompujumpStationMode != Constants.Modes.UNDEFINED));
+
 		if(
 				configChronojump.Compujump &&
 				configChronojump.CompujumpServerURL != null &&
@@ -779,7 +786,8 @@ public partial class ChronoJumpWindow
 					createMonthlySession(yearMonthStr);
 
 				//update person if name changed
-				if(pServer.Name != pLocal.Name)
+				//but only if we are connected
+				if(pServer.Name != null && pServer.Name != "" && pServer.Name != pLocal.Name)
 				{
 					pLocal.Name = pServer.Name;
 					SqlitePerson.UpdateName (pLocal.UniqueID, pLocal.Name);

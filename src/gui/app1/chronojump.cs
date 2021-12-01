@@ -2493,6 +2493,11 @@ public partial class ChronoJumpWindow
 			LogB.Information("o is null");
 			return;
 		}
+		if(UtilGtk.ComboGetActive(combo) == "")
+		{
+			LogB.Information(" ...but is null or empty.");
+			return;
+		}
 
 		//two combobox are linked ---->
 		if(comboSelectContactsTopNoFollow)
@@ -2538,6 +2543,11 @@ public partial class ChronoJumpWindow
 		ComboBox combo = o as ComboBox;
 		if (o == null)
 			return;
+		if(UtilGtk.ComboGetActive(combo) == "")
+		{
+			LogB.Information(" ...but is null or empty.");
+			return;
+		}
 
 		//two combobox are linked ---->
 		if(comboSelectContactsTopNoFollow)
@@ -2574,6 +2584,11 @@ public partial class ChronoJumpWindow
 		ComboBox combo = o as ComboBox;
 		if (o == null)
 			return;
+		if(UtilGtk.ComboGetActive(combo) == "")
+		{
+			LogB.Information(" ...but is null or empty.");
+			return;
+		}
 
 		//two combobox are linked ---->
 		if(comboSelectContactsTopNoFollow)

@@ -731,7 +731,6 @@ void showCalibrateMenu(String weight) {
 
 void showBatteryLevel() {
     float sensorValue = analogRead(A0);
-    Serial.println(sensorValue);
     lcd.setCursor(13, 0);
     if (sensorValue >= 788) {
       lcd.createChar(5, battery5);
@@ -755,7 +754,7 @@ void showBatteryLevel() {
       lcd.write(byte(1));
     } else if (sensorValue <= 701) {
       lcd.createChar(0, battery0);
-      lcd.setCursor(0, 0);
+      lcd.setCursor(15, 0);
       lcd.write(byte (0));
     }
 }

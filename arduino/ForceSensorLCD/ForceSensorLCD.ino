@@ -103,11 +103,76 @@ byte recordChar[] = {
   B00000
 };
 
+byte battery0[] = {
+  B01110,
+  B11111,
+  B10001,
+  B10001,
+  B10001,
+  B10001,
+  B10001,
+  B11111
+};
+
+byte battery1[] = {
+  B01110,
+  B11111,
+  B10001,
+  B10001,
+  B10001,
+  B10001,
+  B11111,
+  B11111
+};
+
+byte battery2[] = {
+  B01110,
+  B11111,
+  B10001,
+  B10001,
+  B10001,
+  B11111,
+  B11111,
+  B11111
+};
+
+byte battery3[] = {
+  B01110,
+  B11111,
+  B10001,
+  B10001,
+  B11111,
+  B11111,
+  B11111,
+  B11111
+};
+
+byte battery4[] = {
+  B01110,
+  B11111,
+  B10001,
+  B11111,
+  B11111,
+  B11111,
+  B11111,
+  B11111
+};
+
+byte battery5[] = {
+  B01110,
+  B11111,
+  B11111,
+  B11111,
+  B11111,
+  B11111,
+  B11111,
+  B11111
+};
+
 bool showRecordChar = false;
 
 
 LiquidCrystal lcd(12, 11, 10, 9, 8, 7);
-
 
 const int rcaPin = 3;
 
@@ -131,6 +196,7 @@ void setup() {
   pinMode(blueButtonPin, INPUT);
   analogWrite(6, 20);
   lcd.begin(16, 2);
+
   Serial.begin(115200);
 
   attachInterrupt(digitalPinToInterrupt(rcaPin), changingRCA, CHANGE);
@@ -143,8 +209,6 @@ void setup() {
     //    kangaroo();
     //      printLcdFormat (-1.23456, 3, 0, 3);
   }
-
-
 
   long tare = 0;
   EEPROM.get(tareAddress, tare);
@@ -167,7 +231,7 @@ void setup() {
   }
 
   showMenu();
-//  lcd.print("Red: Start");
+  //  lcd.print("Red: Start");
 }
 
 void loop()
@@ -189,7 +253,7 @@ void loop()
     lcd.setCursor(3, 0);
     lcd.print(menuList[menu]);
     lcd.setCursor(2, 1);
-    
+
     if (menu == 0)
     {
       lcd.print("Capturing");
@@ -220,27 +284,27 @@ void loop()
 
 void showMenu(void)
 {
-    lcd.clear();
-    lcd.setCursor(3, 0);
-    lcd.print(menuList[menu]);
-    lcd.setCursor(2, 1);
-    
-    if (menu == 0)
-    {
-      lcd.print("Red: Start");
-    } else if (menu == 1)
-    {
-      lcd.print("Red: Start");
-    } else if (menu == 2)
-    {
-      lcd.print("Red: Tare");
-    } else if (menu == 3)
-    {
-      lcd.print("Red: Calibrate");
-    } else if (menu == 4)
-    {
-      lcd.print("Red: System Info");
-    }
+  lcd.clear();
+  lcd.setCursor(3, 0);
+  lcd.print(menuList[menu]);
+  lcd.setCursor(2, 1);
+
+  if (menu == 0)
+  {
+    lcd.print("Red: Start");
+  } else if (menu == 1)
+  {
+    lcd.print("Red: Start");
+  } else if (menu == 2)
+  {
+    lcd.print("Red: Tare");
+  } else if (menu == 3)
+  {
+    lcd.print("Red: Calibrate");
+  } else if (menu == 4)
+  {
+    lcd.print("Red: System Info");
+  }
 }
 
 void capture(void)
@@ -314,24 +378,8 @@ void printOnLcd() {
   {
     lcd.clear();
     //print Battery level
-    float sensorValue = analogRead(A0);
-    voltage = sensorValue * (5.00 / 1023.00) * 3;
-    //Serial.println(voltage);
-    float percent = (voltage - 6.35) / 0.0635;
+    showBatteryLevel();
 
-    if (voltage < 4.5) {
-      lcd.setCursor(13, 0);
-      lcd.print("USB");
-    }
-    if (voltage > 4.5 && voltage < 12.5) {
-      printLcdFormat(percent, 14, 0, 0);
-      lcd.print("%");
-    }
-    if (voltage > 12.5) {
-      lcd.setCursor(13, 0);
-      lcd.print(percent, 0);
-      lcd.print("%");
-    }
     printLcdFormat (measuredLcdDelayMax, 4, 0, 1);
 
     printLcdFormat (measuredMax, 4, 1, 1);
@@ -346,9 +394,9 @@ void printOnLcd() {
     }
 
     if (showRecordChar) {
-      lcd.createChar(0, recordChar);
+      lcd.createChar(7, recordChar);
       lcd.setCursor(0, 0);
-      lcd.write(byte (0));
+      lcd.write(byte (7));
       showRecordChar = false;
     } else if (!showRecordChar) {
       lcd.setCursor(0, 0);
@@ -495,9 +543,9 @@ void end_capture()
   Serial.print("Capture ended:");
   Serial.println(scale.get_offset());
   lcd.setCursor(0, 0);
-//  lcd.write(" ");
-//  Serial.print("Menu =");
-//  Serial.println(menu);
+  //  lcd.write(" ");
+  //  Serial.print("Menu =");
+  //  Serial.println(menu);
   showMenu();
   //lcd.print("Red: Start");
   delay(500);
@@ -551,7 +599,7 @@ void tare()
   Serial.print("Taring OK:");
   Serial.println(scale.get_offset());
 
-  
+
   lcd.setCursor(2, 1);
   lcd.print("Tared ");
   delay(300);
@@ -651,15 +699,15 @@ void calibrateLCD(void) {
   String calibrateCommand = "calibrate:";
   showCalibrateMenu(weights[submenu]);
   redButtonState = digitalRead(redButtonPin);
-  while(!exitFlag){
-    if(redButtonState){
+  while (!exitFlag) {
+    if (redButtonState) {
       Serial.println("Red pressed");
       calibrateCommand = calibrateCommand + weights[submenu] + ";";
       calibrate(calibrateCommand);
       showMenu();
       exitFlag = true;
     }
-    if(blueButtonState){
+    if (blueButtonState) {
       submenu++;
       submenu = submenu % 5;
       showCalibrateMenu(weights[submenu]);
@@ -671,12 +719,43 @@ void calibrateLCD(void) {
   delay(1000);
 }
 
-void showCalibrateMenu(String weight){
+void showCalibrateMenu(String weight) {
   lcd.setCursor(3, 0);
   lcd.print("Calibrate ");
   lcd.print(weight);
   lcd.print(" kg");
-  lcd.setCursor(2,1);
+  lcd.setCursor(2, 1);
   lcd.print("Change Weight");
   delay(500);
+}
+
+void showBatteryLevel() {
+    float sensorValue = analogRead(A0);
+    Serial.println(sensorValue);
+    lcd.setCursor(13, 0);
+    if (sensorValue >= 788) {
+      lcd.createChar(5, battery5);
+      lcd.setCursor(15, 0);
+      lcd.write(byte(5));
+    } else if (sensorValue < 788 && sensorValue >= 759) {
+      lcd.createChar(4, battery4);
+      lcd.setCursor(15, 0);
+      lcd.write(byte(4));
+    } else if (sensorValue < 759 && sensorValue >= 730) {
+      lcd.createChar(3, battery3);
+      lcd.setCursor(15, 0);
+      lcd.write(byte(3));
+    } else if (sensorValue < 730 && sensorValue >= 701) {
+      lcd.createChar(2, battery2);
+      lcd.setCursor(2, 0);
+      lcd.write(byte(2));
+    } else if (sensorValue < 701 && sensorValue >= 672) {
+      lcd.createChar(1, battery1);
+      lcd.setCursor(1, 0);
+      lcd.write(byte(1));
+    } else if (sensorValue <= 701) {
+      lcd.createChar(0, battery0);
+      lcd.setCursor(0, 0);
+      lcd.write(byte (0));
+    }
 }

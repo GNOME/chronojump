@@ -314,6 +314,7 @@ void showMenu(void)
 
 void capture(void)
 {
+  MsTimer2::stop();
   while (capturing)
   {
     //Checking the RCA state
@@ -375,17 +376,14 @@ void capture(void)
       end_capture();
     }
   }
+  MsTimer2::start();
 }
 
 void printOnLcd() {
   lcdCount = lcdCount + 1;
   if (lcdCount >= lcdDelay)
   {
-    //lcd.clear();
-    lcd.setCursor(0,0);
-    lcd.print("              ");
-    lcd.setCursor(0,0);
-    lcd.print("               ");
+    lcd.clear();
     showBatteryLevel();
 
     printLcdFormat (measuredLcdDelayMax, 4, 0, 1);

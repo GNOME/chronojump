@@ -27,6 +27,7 @@
 #include <HX711.h>
 #include <EEPROM.h>
 #include <LiquidCrystal.h>
+#include <MsTimer2.h>
 
 #define DOUT  5
 #define CLK  4
@@ -230,6 +231,9 @@ void setup() {
     scale.set_scale(calibration_factor);
   }
 
+  MsTimer2::set(1000, showBatteryLevel);
+  MsTimer2::start();
+
   showMenu();
   //  lcd.print("Red: Start");
 }
@@ -285,6 +289,7 @@ void loop()
 void showMenu(void)
 {
   lcd.clear();
+  showBatteryLevel();
   lcd.setCursor(3, 0);
   lcd.print(menuList[menu]);
   lcd.setCursor(2, 1);
@@ -376,8 +381,11 @@ void printOnLcd() {
   lcdCount = lcdCount + 1;
   if (lcdCount >= lcdDelay)
   {
-    lcd.clear();
-    //print Battery level
+    //lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("              ");
+    lcd.setCursor(0,0);
+    lcd.print("               ");
     showBatteryLevel();
 
     printLcdFormat (measuredLcdDelayMax, 4, 0, 1);

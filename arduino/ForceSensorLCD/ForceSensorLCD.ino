@@ -746,11 +746,11 @@ void showBatteryLevel() {
       lcd.write(byte(3));
     } else if (sensorValue < 730 && sensorValue >= 701) {
       lcd.createChar(2, battery2);
-      lcd.setCursor(2, 0);
+      lcd.setCursor(15, 0);
       lcd.write(byte(2));
     } else if (sensorValue < 701 && sensorValue >= 672) {
       lcd.createChar(1, battery1);
-      lcd.setCursor(1, 0);
+      lcd.setCursor(15, 0);
       lcd.write(byte(1));
     } else if (sensorValue <= 701) {
       lcd.createChar(0, battery0);

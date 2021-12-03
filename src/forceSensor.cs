@@ -1003,7 +1003,9 @@ public class ForceSensorCapturePoints
 			if(times[i] > us)
 				return lastPos;
 
-			lastPos ++;
+			//increment lastPos, but never allow it to be outside of times.Count
+			if(lastPos <= times.Count -2)
+				lastPos ++;
 		}
 
 		return lastPos;

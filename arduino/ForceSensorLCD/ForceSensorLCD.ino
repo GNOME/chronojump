@@ -185,11 +185,11 @@ unsigned short menu = 0;
 unsigned short submenu = 0;
 
 const String menuList [] = {
-  "Record",
-  "Tare + Record",
-  "Tare",
-  "Calibrate",
-  "System"
+  "--- Measure --->",
+  "- Tare+Measure->",
+  "----- Tare ---->",
+  "--- Calibrate ->",
+  "---- System --->"
 };
 
 void setup() {
@@ -290,25 +290,27 @@ void showMenu(void)
 {
   lcd.clear();
   showBatteryLevel();
-  lcd.setCursor(3, 0);
+  lcd.setCursor(0, 1);
   lcd.print(menuList[menu]);
-  lcd.setCursor(2, 1);
+  lcd.createChar(7, recordChar);
+  lcd.setCursor(2, 0);
+  lcd.write(byte (7));
 
   if (menu == 0)
   {
-    lcd.print("Red: Start");
+    lcd.print(" Start");
   } else if (menu == 1)
   {
-    lcd.print("Red: Start");
+    lcd.print(" Start");
   } else if (menu == 2)
   {
-    lcd.print("Red: Tare");
+    lcd.print(" Tare");
   } else if (menu == 3)
   {
-    lcd.print("Red: Calibrate");
+    lcd.print(" Calibrate");
   } else if (menu == 4)
   {
-    lcd.print("Red: System Info");
+    lcd.print(" System Info");
   }
 }
 

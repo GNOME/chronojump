@@ -33,7 +33,8 @@
 #define CLK  4
 
 //Version number //it always need to start with: "Force_Sensor-"
-String version = "Force_Sensor-0.7";
+String device = "Force_Sensor";
+String version = "0.7";
 
 
 int tareAddress = 0;
@@ -186,9 +187,9 @@ unsigned short submenu = 0;
 
 const String menuList [] = {
   "--- Measure --->",
-  "- Tare+Measure->",
+  "- Tare+Measure >",
   "----- Tare ---->",
-  "--- Calibrate ->",
+  "-- Calibrate -->",
   "---- System --->"
 };
 
@@ -251,12 +252,12 @@ void loop()
   redButtonState = digitalRead(redButtonPin);
   if (redButtonState)
   {
-    lcd.clear();
-    lcd.setCursor(1, 0);
-    lcd.print(menu);
-    lcd.setCursor(3, 0);
-    lcd.print(menuList[menu]);
-    lcd.setCursor(2, 1);
+//    lcd.clear();
+//    lcd.setCursor(1, 0);
+//    lcd.print(menu);
+//    lcd.setCursor(3, 0);
+//    lcd.print(menuList[menu]);
+//    lcd.setCursor(2, 1);
 
     if (menu == 0)
     {
@@ -265,7 +266,6 @@ void loop()
       capture();
     } else if (menu == 1)
     {
-      //lcd.print("tarin+starting");
       tare();
       start_capture();
       capture();
@@ -281,7 +281,9 @@ void loop()
       showMenu();
     } else if (menu == 4)
     {
-      lcd.print("system info");
+      showSystemInfo();
+      menu = 0;
+      showMenu();
     }
   }
 }
@@ -312,6 +314,7 @@ void showMenu(void)
   {
     lcd.print(" System Info");
   }
+  delay(100);
 }
 
 void capture(void)
@@ -561,6 +564,7 @@ void end_capture()
 
 void get_version()
 {
+  Serial.print("device-");
   Serial.println(version);
 }
 
@@ -738,31 +742,71 @@ void showCalibrateMenu(String weight) {
 }
 
 void showBatteryLevel() {
-    float sensorValue = analogRead(A0);
-    lcd.setCursor(13, 0);
-    if (sensorValue >= 788) {
-      lcd.createChar(5, battery5);
-      lcd.setCursor(15, 0);
-      lcd.write(byte(5));
-    } else if (sensorValue < 788 && sensorValue >= 759) {
-      lcd.createChar(4, battery4);
-      lcd.setCursor(15, 0);
-      lcd.write(byte(4));
-    } else if (sensorValue < 759 && sensorValue >= 730) {
-      lcd.createChar(3, battery3);
-      lcd.setCursor(15, 0);
-      lcd.write(byte(3));
-    } else if (sensorValue < 730 && sensorValue >= 701) {
-      lcd.createChar(2, battery2);
-      lcd.setCursor(15, 0);
-      lcd.write(byte(2));
-    } else if (sensorValue < 701 && sensorValue >= 672) {
-      lcd.createChar(1, battery1);
-      lcd.setCursor(15, 0);
-      lcd.write(byte(1));
-    } else if (sensorValue <= 701) {
-      lcd.createChar(0, battery0);
-      lcd.setCursor(15, 0);
-      lcd.write(byte (0));
+  float sensorValue = analogRead(A0);
+  lcd.setCursor(13, 0);
+  if (sensorValue >= 788) {
+    lcd.createChar(5, battery5);
+    lcd.setCursor(15, 0);
+    lcd.write(byte(5));
+  } else if (sensorValue < 788 && sensorValue >= 759) {
+    lcd.createChar(4, battery4);
+    lcd.setCursor(15, 0);
+    lcd.write(byte(4));
+  } else if (sensorValue < 759 && sensorValue >= 730) {
+    lcd.createChar(3, battery3);
+    lcd.setCursor(15, 0);
+    lcd.write(byte(3));
+  } else if (sensorValue < 730 && sensorValue >= 701) {
+    lcd.createChar(2, battery2);
+    lcd.setCursor(15, 0);
+    lcd.write(byte(2));
+  } else if (sensorValue < 701 && sensorValue >= 672) {
+    lcd.createChar(1, battery1);
+    lcd.setCursor(15, 0);
+    lcd.write(byte(1));
+  } else if (sensorValue <= 701) {
+    lcd.createChar(0, battery0);
+    lcd.setCursor(15, 0);
+    lcd.write(byte (0));
+  }
+}
+
+void showSystemInfo() {
+  MsTimer2::stop();
+  lcd.clear();
+  lcd.setCursor(2, 0);
+  lcd.print("Ver: ");
+  lcd.print(version);
+  lcd.setCursor(2, 1);
+  lcd.print("Submenu: ");
+  lcd.print(submenu);
+  delay(1000);
+  redButtonState = digitalRead(redButtonPin);
+  submenu = 0;
+  while (!redButtonState) {
+    blueButtonState = digitalRead(blueButtonPin);
+    if (blueButtonState) {
+      delay(200);
+      submenu++;
+      submenu = submenu % 3;
+      if (submenu == 0) {
+        lcd.setCursor(2, 0);
+        lcd.print("Ver: ");
+        lcd.print(version);
+        lcd.setCursor(2, 1);
+        lcd.print("Submenu: ");
+        lcd.print(submenu);
+      } else if (submenu == 1) {
+        lcd.setCursor(2, 1);
+        lcd.print("Submenu: ");
+        lcd.print(submenu);
+      } else if (submenu == 2) {
+        lcd.setCursor(2, 1);
+        lcd.print("Submenu: ");
+        lcd.print(submenu);
+      }
     }
+    redButtonState = digitalRead(redButtonPin);
+  }
+  MsTimer2::start();
 }

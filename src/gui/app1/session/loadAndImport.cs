@@ -690,10 +690,14 @@ public partial class ChronoJumpWindow
 	//TODO: do not need to be public ? maybe for import
 	public void app1s_ShowLabelImportedOk()
 	{
-		if(app1s_radio_import_new_session.Active)
+		if(app1s_radio_import_new_session.Active) {
 			app1s_hbox_import_done_at_new_session.Visible = true;
-		else
+			app1s_label_import_done_at_current_session.Visible = false;
+		}
+		else {
+			app1s_hbox_import_done_at_new_session.Visible = false;
 			app1s_label_import_done_at_current_session.Visible = true;
+		}
 	}
 
 	//TODO: do not need to be public ? maybe for import

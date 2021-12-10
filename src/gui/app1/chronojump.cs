@@ -2840,7 +2840,6 @@ public partial class ChronoJumpWindow
 			forceOtherThread.Abort();
 		if(portFSOpened)
 			portFS.Close();
-		//if(photocellWirelessCapture != null && photocellWirelessCapture.PortOpened)
 		if(photocellWirelessCapture != null && ArduinoCapture.PortOpened)
 			photocellWirelessCapture.Disconnect();
 
@@ -3442,7 +3441,6 @@ public partial class ChronoJumpWindow
 		if(portREOpened)
 			runEncoderDisconnect();
 
-		//if(photocellWirelessCapture != null && photocellWirelessCapture.PortOpened)
 		if(photocellWirelessCapture != null && ArduinoCapture.PortOpened)
 			photocellWirelessCapture.Disconnect();
 
@@ -5956,6 +5954,7 @@ public partial class ChronoJumpWindow
 	private void on_chronopic_contacts_clicked (object o, EventArgs args)
 	{
 		/*
+		   1) gui changes
 		ChronopicWindow.ChronojumpMode cmode = ChronopicWindow.ChronojumpMode.JUMPORRUN;
 		if(current_mode == Constants.Modes.OTHER)
 			cmode = ChronopicWindow.ChronojumpMode.OTHER;
@@ -5965,19 +5964,27 @@ public partial class ChronoJumpWindow
 		chronopicWin.FakeWindowDone.Clicked += new EventHandler(on_chronopic_window_contacts_connected_or_done);
 		*/
 
-		//TODO: on Windows need to close the sp if it's open, and maybe the cp
+		// 2) close ports. Close Arduino capture before calling to device
+		if(photocellWirelessCapture != null && ArduinoCapture.PortOpened)
+			photocellWirelessCapture.Disconnect();
+
+		// 3) show window
 		chronopicRegisterUpdate(true);
 	}
 
-	private void on_chronopic_encoder_clicked (object o, EventArgs args) {
+	private void on_chronopic_encoder_clicked (object o, EventArgs args)
+	{
 		/*
 		chronopicWin = ChronopicWindow.View(ChronopicWindow.ChronojumpMode.ENCODER, preferences.volumeOn);
 		//chronopicWin.FakeWindowReload.Clicked += new EventHandler(chronopicWindowReload);
 		chronopicWin.FakeWindowDone.Clicked += new EventHandler(on_chronopic_window_encoder_connected_or_done);
 		*/
 
-		//TODO: on Windows need to close the sp if it's open, and maybe the cp
+		// 2) close ports. Close Arduino capture before calling to device
+		if(photocellWirelessCapture != null && ArduinoCapture.PortOpened)
+			photocellWirelessCapture.Disconnect();
 
+		// 3) show window
 		chronopicRegisterUpdate(true);
 	}
 

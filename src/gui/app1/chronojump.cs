@@ -4463,8 +4463,6 @@ public partial class ChronoJumpWindow
 		if(current_mode == Constants.Modes.RUNSINTERVALLIC && compujumpAutologout != null)
 			compujumpAutologout.StartCapturingRunInterval();
 
-		chronopicRegisterUpdate(false);
-
 		if( chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.RUN_WIRELESS) == 1 && (
 			current_mode == Constants.Modes.RUNSSIMPLE ||
 			current_mode == Constants.Modes.RUNSINTERVALLIC) )
@@ -4476,6 +4474,11 @@ public partial class ChronoJumpWindow
 			on_button_execute_test_acceptedPre_start_camera(WebcamStartedTestStart.CHRONOPIC);
 			return;
 		}
+
+		//Done before the Wichro capture.
+		//If we want to use this before Wichro capture, then we will need to call first Arduino.Disconnect.
+		chronopicRegisterUpdate(false);
+
 		cp2016.StoredWireless = false;
 
 		int numContacts = chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.CONTACTS);

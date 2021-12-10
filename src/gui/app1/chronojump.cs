@@ -3436,9 +3436,11 @@ public partial class ChronoJumpWindow
 
 		setApp1Title(tempSessionName, current_mode);
 
-		//maybe we have the force sensor port opened, close it:
+		//maybe we have the force sensor port opened or runEncoder port opened, close it:
 		if(portFSOpened)
 			forceSensorDisconnect();
+		if(portREOpened)
+			runEncoderDisconnect();
 
 		//if(photocellWirelessCapture != null && photocellWirelessCapture.PortOpened)
 		if(photocellWirelessCapture != null && ArduinoCapture.PortOpened)

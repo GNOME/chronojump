@@ -205,7 +205,8 @@ public partial class ChronoJumpWindow
 	{
 		portRE.Close();
 		portREOpened = false;
-		event_execute_label_message.Text = "Disconnected!";
+		//event_execute_label_message.Text = "Disconnected!";
+		LogB.Information("runEncoder portRE Disconnected!");
 	}
 
 	private string runEncoderCheckVersionDo()

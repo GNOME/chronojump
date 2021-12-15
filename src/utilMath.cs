@@ -113,6 +113,7 @@ public class KeyDouble
 	}
 }
 
+/*
 public class TwoListsOfInts
 {
 	private string firstIntName; //just to be able to debug
@@ -160,6 +161,7 @@ public class TwoListsOfInts
 		return second_l[pos];
 	}
 }
+*/
 
 //like Point but for having an xStart and xEnd
 public class PointStartEnd

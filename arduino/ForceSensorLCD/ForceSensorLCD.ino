@@ -565,7 +565,8 @@ void end_capture()
 
 void get_version()
 {
-  Serial.print("device-");
+  Serial.print(device);
+  Serial.print("-");
   Serial.println(version);
 }
 

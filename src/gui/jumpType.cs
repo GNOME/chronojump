@@ -60,7 +60,7 @@ public class JumpTypeAddWindow
 	[Widget] Gtk.RadioButton radiobutton_simple_startIn_yes;
 	[Widget] Gtk.RadioButton radiobutton_simple_startIn_no;
 	[Widget] Gtk.RadioButton radiobutton_multiple_startIn_yes;
-	[Widget] Gtk.RadioButton radiobutton_multiple_startIn_no;
+	//[Widget] Gtk.RadioButton radiobutton_multiple_startIn_no;
 	[Widget] Gtk.RadioButton radiobutton_extra_weight_yes;
 	[Widget] Gtk.RadioButton radiobutton_extra_weight_no;
 	[Widget] Gtk.Label label_drop_jump;

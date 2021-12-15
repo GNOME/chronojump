@@ -35,8 +35,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.CheckButton checkbutton_video_encoder;
 	//[Widget] Gtk.HBox hbox_video_contacts;
 	[Widget] Gtk.Notebook notebook_video_contacts;
-	[Widget] Gtk.HBox hbox_video_contacts_no_capturing;
-	[Widget] Gtk.HBox hbox_video_contacts_capturing;
+	//[Widget] Gtk.HBox hbox_video_contacts_no_capturing;
+	//[Widget] Gtk.HBox hbox_video_contacts_capturing;
 	[Widget] Gtk.HBox hbox_video_encoder;
 	[Widget] Gtk.HBox hbox_video_encoder_no_capturing;
 	[Widget] Gtk.HBox hbox_video_encoder_capturing;

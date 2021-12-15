@@ -37,9 +37,9 @@ public class PersonSelectWindow
 	[Widget] Gtk.Button button_edit;
 	[Widget] Gtk.Button button_show_all_events;
 	[Widget] Gtk.Button button_delete;
-	[Widget] Gtk.VBox vbox_button_delete_confirm;
+	//[Widget] Gtk.VBox vbox_button_delete_confirm;
 	[Widget] Gtk.Label label_selected_person_name;
-	[Widget] Gtk.Label label_confirm;
+	//[Widget] Gtk.Label label_confirm;
 	[Widget] Gtk.Button button_manage_persons;
 	[Widget] Gtk.Image image_manage_persons;
 	[Widget] Gtk.Image image_person_new;
@@ -74,7 +74,7 @@ public class PersonSelectWindow
 
 	private List<PersonPhotoButton> list_ppb;
 
-	private bool showImages;
+	//private bool showImages;
 	private uint columns;
 	
 	PersonSelectWindow (Gtk.Window parent, bool raspberry, bool lowHeight)
@@ -165,7 +165,7 @@ public class PersonSelectWindow
 		PersonSelectWindowBox.button_manage_persons.Sensitive = true;
 		PersonSelectWindowBox.vbox_corner_controls.Sensitive = true;
 
-		PersonSelectWindowBox.showImages = showImages;
+		//PersonSelectWindowBox.showImages = showImages;
 		if(showImages)
 		{
 			PersonSelectWindowBox.check_show_images.Active = true;

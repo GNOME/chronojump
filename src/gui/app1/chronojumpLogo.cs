@@ -40,18 +40,19 @@ public class ChronojumpLogo
 
 	private Gtk.Notebook notebook;
 	private Gtk.DrawingArea drawingarea; 	//contains the animation
-	private Gtk.Viewport viewport; 		//contains the logo and version number
-	private string font;
+	//private Gtk.Viewport viewport; 		//contains the logo and version number
+	//private string font;
 
 	//constructor
-	public ChronojumpLogo (Gtk.Notebook notebook, Gtk.DrawingArea drawingarea, Gtk.Viewport viewport, bool showAnimated, string font)
+	//public ChronojumpLogo (Gtk.Notebook notebook, Gtk.DrawingArea drawingarea, Gtk.Viewport viewport, bool showAnimated, string font)
+	public ChronojumpLogo (Gtk.Notebook notebook, Gtk.DrawingArea drawingarea, bool showAnimated)
 	{
 		LogB.Information("Chronojump logo constructor start");
 
 		this.notebook = notebook;
 		this.drawingarea = drawingarea;
-		this.viewport = viewport;
-		this.font = font;
+		//this.viewport = viewport;
+		//this.font = font;
 
 		if(! showAnimated)
 		{

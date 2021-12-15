@@ -53,8 +53,8 @@ public class PersonAddModifyWindow
 	[Widget] Gtk.Button button_delete_photo_file;
 	[Widget] Gtk.Image image_photo_delete;
 
-	[Widget] Gtk.Button button_add_photo_file;
-	[Widget] Gtk.Button button_take_photo_do;
+	//[Widget] Gtk.Button button_add_photo_file;
+	//[Widget] Gtk.Button button_take_photo_do;
 	[Widget] Gtk.HBox hbox_camera;
 	
 	[Widget] Gtk.Label label_date;
@@ -143,7 +143,7 @@ public class PersonAddModifyWindow
 	private string sex = Constants.M;
 	private double weightIniMetric;
 	int pDN;
-	Gtk.CheckButton app1_checkbutton_video_contacts;
+	//Gtk.CheckButton app1_checkbutton_video_contacts;
 	
 	private int serverUniqueID;
 
@@ -527,7 +527,7 @@ public class PersonAddModifyWindow
 	static public PersonAddModifyWindow Show (Gtk.Window parent, 
 			Session mySession, Person currentPerson, int pDN, 
 			//Gtk.CheckButton app1_checkbutton_video, bool showCapturePhoto,
-			Gtk.CheckButton app1_checkbutton_video_contacts,
+			//Gtk.CheckButton app1_checkbutton_video_contacts,
 			string videoDevice, string videoDevicePixelFormat, string videoDeviceResolution, string videoDeviceFramerate,
 			bool compujump, bool metric)
 	{
@@ -537,7 +537,7 @@ public class PersonAddModifyWindow
 		}
 
 		PersonAddModifyWindowBox.pDN = pDN;
-		PersonAddModifyWindowBox.app1_checkbutton_video_contacts = app1_checkbutton_video_contacts;
+		///PersonAddModifyWindowBox.app1_checkbutton_video_contacts = app1_checkbutton_video_contacts;
 		PersonAddModifyWindowBox.videoDevice = videoDevice;
 		PersonAddModifyWindowBox.videoDevicePixelFormat = videoDevicePixelFormat;
 		PersonAddModifyWindowBox.videoDeviceResolution = videoDeviceResolution;

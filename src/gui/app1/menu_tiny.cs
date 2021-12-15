@@ -43,13 +43,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox eventbox_button_contacts_person_change;
 	[Widget] Gtk.EventBox eventbox_button_encoder_person_change;
 	[Widget] Gtk.CheckButton check_menu_session1;
-	[Widget] Gtk.Button button_menu_help1;
 	[Widget] Gtk.Button button_menu_news1;
 	[Widget] Gtk.VBox vbox_menu_session1;
 	[Widget] Gtk.Alignment alignment_menu_session_options1;
-	[Widget] Gtk.Alignment alignment_menu_person_options1;
-	[Widget] Gtk.Button button_menu_session_more1;
-	[Widget] Gtk.Button button_menu_preferences1;
 
 	[Widget] Gtk.Image image_menu_folders1;
 	[Widget] Gtk.Image image_session_new1;
@@ -62,7 +58,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_menu_guiTest1;
 
 	[Widget] Gtk.Viewport viewport_image_logo_icon;
-	[Widget] Gtk.HBox hbox_top_contacts;
+	//[Widget] Gtk.HBox hbox_top_contacts;
 
 	private void menuTinyInitialize ()
 	{

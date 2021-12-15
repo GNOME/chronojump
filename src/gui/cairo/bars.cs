@@ -84,7 +84,7 @@ public abstract class CairoBars : CairoGeneric
 
 	protected void drawGuides (Cairo.Color color)
 	{
-		g.Color = color;
+		g.SetSourceColor(color);
 
 		double personMax = cairoBarsGuideManage.GetTipPersonMax();
 		double personAvg = cairoBarsGuideManage.GetTipPersonAvg();
@@ -202,32 +202,32 @@ public abstract class CairoBars : CairoGeneric
 		}
 
 		//print avg
-		g.Color = red;
+		g.SetSourceColor(red);
 		Cairo.TextExtents te;
 		te = g.TextExtents(Util.TrimDecimals(avg,2));
 
 		if(ttp == textTickPos.ABOVETICK)
 		{
-			g.Color = white;
+			g.SetSourceColor(white);
 			g.Rectangle(graphWidth - rightMargin +xStart +12 -te.Width/2 -1,
 					avgG -textHeight -1,
 					te.Width +2, te.Height+2);
 			g.Fill();
 
-			g.Color = red;
+			g.SetSourceColor(red);
 			printText(graphWidth - rightMargin +xStart +12, avgG -textHeight/2, 0, textHeight -3,
 					Util.TrimDecimals(avg, 2),
 					g, alignTypes.CENTER);
 		}
 		else if(ttp == textTickPos.BELOWTICK)
 		{
-			g.Color = white;
+			g.SetSourceColor(white);
 			g.Rectangle(graphWidth - rightMargin +xStart +12 -te.Width/2 -1,
 					avgG -1,
 					te.Width +2, te.Height+2);
 			g.Fill();
 
-			g.Color = red;
+			g.SetSourceColor(red);
 			printText(graphWidth - rightMargin +xStart +12, avgG +textHeight/2, 0, textHeight -3,
 					Util.TrimDecimals(avg, 2),
 					g, alignTypes.CENTER);
@@ -564,15 +564,15 @@ public abstract class CairoBars : CairoGeneric
 			yStart = alto - te.Height;
 
 		if(textAboveBar)
-			g.Color = white; //to just hide the horizontal grid
+			g.SetSourceColor(white); //to just hide the horizontal grid
 		else
-			g.Color = yellow; //to have contrast with the bar
+			g.SetSourceColor(yellow); //to have contrast with the bar
 
 		g.Rectangle(x - te.Width/2 -1, yStart-1, te.Width +2, te.Height+2);
 		g.Fill();
 
 		//write text
-		g.Color = black;
+		g.SetSourceColor(black);
 		printText(x, yStart+te.Height/2, 0, Convert.ToInt32(te.Height),
 			Util.TrimDecimals(result, decs), g, alignTypes.CENTER);
 
@@ -600,12 +600,12 @@ public abstract class CairoBars : CairoGeneric
 				messageTextHeight --;
 		} while (te.Width >= .9 * graphWidth && messageTextHeight >= 1);
 
-		g.Color = yellow; //to have contrast with the bar
+		g.SetSourceColor(yellow); //to have contrast with the bar
 		g.Rectangle(graphWidth/2 -te.Width/2 -1, graphHeight/2 -messageTextHeight -1,
 				te.Width +2, te.Height+4);
 		g.Fill();
 
-		g.Color = black;
+		g.SetSourceColor(black);
 		printText (graphWidth/2, graphHeight/2 -messageTextHeight/2,
 				0, messageTextHeight,
 				message, g, alignTypes.CENTER);
@@ -758,7 +758,7 @@ LogB.Information(string.Format("y: {0}, alto: {1}", y, graphHeight -y - bottomMa
 		if(cairoBarsGuideManage != null)
 			drawGuides(colorSerieA);
 
-		g.Color = black;
+		g.SetSourceColor(black);
 		plotBars ();
 
 		writeTitleAtTop ();
@@ -855,10 +855,10 @@ public class CairoBarsNHSeries : CairoBars
 			double xStart = .5*graphWidth -.5*legendWidth;
 
 			//paint 1st box
-			g.Color = colorSerieA;
+			g.SetSourceColor(colorSerieA);
 			g.Rectangle(xStart, topMargin -1.25*textHeight, boxWidth, boxWidth);
 			g.FillPreserve();
-			g.Color = black;
+			g.SetSourceColor(black);
 			g.Stroke();
 
 			//write 1st variable
@@ -867,10 +867,10 @@ public class CairoBarsNHSeries : CairoBars
 
 			//paint 2nd box
 			xStart += serieAWidth + 2*boxWidth;
-			g.Color = colorSerieB;
+			g.SetSourceColor(colorSerieB);
 			g.Rectangle(xStart, topMargin -1.25*textHeight, boxWidth, boxWidth);
 			g.FillPreserve();
-			g.Color = black;
+			g.SetSourceColor(black);
 			g.Stroke();
 
 			//write 2nd variable
@@ -883,10 +883,10 @@ public class CairoBarsNHSeries : CairoBars
 			double xStart = .5*graphWidth -.5*rowWidth;
 
 			//paint 1st box
-			g.Color = colorSerieA;
+			g.SetSourceColor(colorSerieA);
 			g.Rectangle(xStart, topMargin -1.25*textHeight, boxWidth, boxWidth);
 			g.FillPreserve();
-			g.Color = black;
+			g.SetSourceColor(black);
 			g.Stroke();
 
 			//write 1st variable
@@ -898,10 +898,10 @@ public class CairoBarsNHSeries : CairoBars
 			xStart = .5*graphWidth -.5*rowWidth;
 
 			//paint 2nd box (1.25*textHeight below)
-			g.Color = colorSerieB;
+			g.SetSourceColor(colorSerieB);
 			g.Rectangle(xStart, topMargin -1.25*textHeight +1.25*textHeight, boxWidth, boxWidth);
 			g.FillPreserve();
-			g.Color = black;
+			g.SetSourceColor(black);
 			g.Stroke();
 
 			//write 2nd variable
@@ -1037,7 +1037,7 @@ public class CairoBarsNHSeries : CairoBars
 		if(cairoBarsGuideManage != null)
 			drawGuides(colorSerieB);
 
-		g.Color = black;
+		g.SetSourceColor(black);
 		plotBars();
 
 		writeTitleAtTop ();

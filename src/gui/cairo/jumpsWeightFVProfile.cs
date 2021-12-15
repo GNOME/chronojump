@@ -190,7 +190,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		writeTextAtRight(ypos++, string.Format("- Profile (90º): {0} %", Math.Round(fvprofile90,0)), false);
 		writeTextAtRight(ypos++, string.Format("- Imbalance: {0} %", imbalance), false);
 
-		g.Color = red;
+		g.SetSourceColor(red);
 		if(needDevelopForce)
 			writeTextAtRight(ypos++, "- " + Catalog.GetString("Need to develop force"), false);
 		else
@@ -208,7 +208,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 			lineVertSpacing = .5;
 		}
 
-		g.Color = bluePlots;
+		g.SetSourceColor(bluePlots);
 		writeTextAtRight(line, "Selected:", false);
 		g.SetSourceRGB(0, 0, 0);
 

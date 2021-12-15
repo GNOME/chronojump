@@ -81,7 +81,7 @@ public class CairoRadial : CairoGeneric
 		gray = colorFromRGB(99,99,99); //gray99
 		colorArrow = colorFromGdk(Config.ColorBackground);
 
-		g.Color = black;
+		g.SetSourceColor(black);
 		minSide = graphWidth;
 		if(graphHeight < minSide)
 			minSide = graphHeight;
@@ -200,7 +200,7 @@ public class CairoRadial : CairoGeneric
 				margin + graphWidth/2 + (minSide/2) * .9 * Math.Cos(arc - Math.PI/2),
 				offsetV + margin + graphHeight/2 + (minSide/2) * .9 * Math.Sin(arc - Math.PI/2));
 
-		g.Color = color;
+		g.SetSourceColor(color);
 		g.Stroke();
 	}
 

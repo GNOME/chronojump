@@ -71,9 +71,9 @@ public abstract class CairoXY : CairoGeneric
 
 	protected Cairo.Color black;
 	protected Cairo.Color gray99;
-	Cairo.Color white;
+	//Cairo.Color white;
 	protected Cairo.Color red;
-	Cairo.Color blue;
+	//Cairo.Color blue;
 	protected Cairo.Color bluePlots;
 
 	private int crossMargins = 10; //cross slope line with margins will have this length
@@ -148,9 +148,9 @@ public abstract class CairoXY : CairoGeneric
 
 		black = colorFromRGB(0,0,0);
 		gray99 = colorFromRGB(99,99,99);
-		white = colorFromRGB(255,255,255);
+		//white = colorFromRGB(255,255,255);
 		red = colorFromRGB(200,0,0);
-		blue = colorFromRGB(178, 223, 238); //lightblue
+		//blue = colorFromRGB(178, 223, 238); //lightblue
 		bluePlots = colorFromRGB(0, 0, 200);
 
 		predictedPointDone = false;

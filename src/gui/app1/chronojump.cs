@@ -832,7 +832,7 @@ public partial class ChronoJumpWindow
 			if (shouldAskBackupScheduled ())
 				backupScheduledAsk ();
 			else if(notebook_sup.CurrentPage == Convert.ToInt32(notebook_sup_pages.START))
-				new ChronojumpLogo (notebook_chronojump_logo, drawingarea_chronojump_logo, viewport_chronojump_logo, preferences.logoAnimatedShow, preferences.fontType.ToString());
+				new ChronojumpLogo (notebook_chronojump_logo, drawingarea_chronojump_logo, preferences.logoAnimatedShow);
 		}
 
 		//done at the end to ensure main window is shown
@@ -3339,7 +3339,7 @@ public partial class ChronoJumpWindow
 			tempSessionName = currentSession.Name;
 
 		setApp1Title(tempSessionName, Constants.Modes.UNDEFINED);
-		new ChronojumpLogo (notebook_chronojump_logo, drawingarea_chronojump_logo, viewport_chronojump_logo, preferences.logoAnimatedShow, preferences.fontType.ToString());
+		new ChronojumpLogo (notebook_chronojump_logo, drawingarea_chronojump_logo, preferences.logoAnimatedShow);
 	}
 
 	private void on_button_start_selector_show_more_clicked (object o, EventArgs args)

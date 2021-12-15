@@ -498,7 +498,8 @@ public partial class ChronoJumpWindow
 			if(currentForceSensorExercise.TareBeforeCapture)
 			{
 				forceSensorOtherMode = forceSensorOtherModeEnum.TARE_AND_CAPTURE_PRE;
-				forceOtherThread = new Thread(new ThreadStart(forceSensorTareAndCapturePre_noGTK));
+				//forceOtherThread = new Thread(new ThreadStart(forceSensorTareAndCapturePre_noGTK)); //unused see comments on that method
+				forceOtherThread = new Thread(new ThreadStart(forceSensorCapturePre_noGTK));
 			} else {
 				forceSensorOtherMode = forceSensorOtherModeEnum.CAPTURE_PRE;
 				forceOtherThread = new Thread(new ThreadStart(forceSensorCapturePre_noGTK));
@@ -1037,12 +1038,17 @@ public partial class ChronoJumpWindow
 		return (str.Contains("binary"));
 	}
 
+	/*
 	//Attention: no GTK here!!
+	/*
+	 tare+capture will not call Arduino to tare, because it would store the tare value there
+	 and affect posterior normal captures
 	private void forceSensorTareAndCapturePre_noGTK()
 	{
 		forceSensorTare();
 		forceSensorCapturePre_noGTK();
 	}
+	*/
 	//Attention: no GTK here!!
 	private void forceSensorCapturePre_noGTK()
 	{
@@ -1231,7 +1237,6 @@ public partial class ChronoJumpWindow
 		}
 		while(! str.Contains("Starting capture"));
 
-		forceCaptureStartMark = true;
 		forceSensorTimeStart = DateTime.Now; //to have an active count of capture time
 		forceSensorTimeStartCapture = forceSensorTimeStart; //to have same DateTime on filename and on sql datetime
 		capturingForce = arduinoCaptureStatus.CAPTURING;
@@ -1265,7 +1270,6 @@ public partial class ChronoJumpWindow
 			interpolate_l = null;
 
 		str = "";
-		int firstTime = 0;
 //		bool forceSensorBinary = forceSensorBinaryCapture();
 
 		bool readTriggers = false;
@@ -1276,6 +1280,44 @@ public partial class ChronoJumpWindow
 
 		LogB.Information("forceSensor versionDouble: " + versionDouble.ToString());
 		//LogB.Information("> 0.5" + (versionDouble >= Convert.ToDouble(Util.ChangeDecimalSeparator("0.5"))).ToString());
+
+		/*
+		   tare+capture does a tare here in the software
+		   to not call tare function on Arduino and store the tare value there
+		   that will affect other normal captures
+		   */
+		double forceTared = 0;
+		if(currentForceSensorExercise.TareBeforeCapture)
+		{
+			forceSensorOtherMessage = "Taring ...";
+			int taringSample = 0;
+			int taringSamplesTotal = 50;
+			double taringSum = 0;
+			while(! forceProcessFinish && ! forceProcessCancel && ! forceProcessKill && ! forceProcessError &&
+					taringSample < taringSamplesTotal)
+			{
+				int time = 0;
+				double force = 0;
+				string triggerCode = "";
+
+				//non-binary capture. TODO: implement binary capture if needed in the future
+				str = portFS.ReadLine();
+				if(! forceSensorProcessCapturedLine(str, out time, out force,
+							false, out triggerCode)) //false: do not read triggers
+					continue;
+				else {
+					taringSum += force;
+					taringSample ++;
+				}
+			}
+
+			if(taringSum > 0)
+				forceTared = UtilAll.DivideSafe(taringSum, taringSamplesTotal);
+		}
+
+		str = "";
+		int firstTime = 0;
+		forceCaptureStartMark = true;
 
 		//LogB.Information("pre bucle");
 		//LogB.Information(string.Format("forceProcessFinish: {0}, forceProcessCancel: {1}, forceProcessError: {2}", forceProcessFinish, forceProcessCancel, forceProcessError));
@@ -1302,6 +1344,9 @@ public partial class ChronoJumpWindow
 							readTriggers, out triggerCode))
 					continue;
 			}
+
+			if(currentForceSensorExercise.TareBeforeCapture && forceTared != 0)
+				force -= forceTared;
 
 			//measurement does not start at 0 time. When we start receiving data, mark this as firstTime
 			if(firstTime == 0)

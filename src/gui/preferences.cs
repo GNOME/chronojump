@@ -213,7 +213,7 @@ public class PreferencesWindow
 	[Widget] Gtk.HBox hbox_camera_framerate_custom;
 	[Widget] Gtk.SpinButton spin_camera_framerate_custom;
 	[Widget] Gtk.Entry entry_camera_framerate_custom_decimals;
-	[Widget] Gtk.Label label_camera_pixel_format;
+	//[Widget] Gtk.Label label_camera_pixel_format;
 	[Widget] Gtk.Label label_camera_pixel_format_current;
 	[Widget] Gtk.Label label_camera_resolution_current;
 	[Widget] Gtk.Label label_camera_framerate_current;
@@ -233,7 +233,7 @@ public class PreferencesWindow
 	[Widget] Gtk.CheckButton check_camera_stop_after;
 	[Widget] Gtk.CheckButton check_camera_advanced;
 	[Widget] Gtk.Frame frame_camera_advanced;
-	[Widget] Gtk.VBox vbox_camera_stop_after_all;
+	//[Widget] Gtk.VBox vbox_camera_stop_after_all;
 	//[Widget] Gtk.VBox vbox_camera_stop_after;
 	[Widget] Gtk.HBox hbox_camera_stop_after_seconds;
 	[Widget] Gtk.SpinButton spin_camera_stop_after;
@@ -271,7 +271,7 @@ public class PreferencesWindow
 	[Widget] Gtk.RadioButton radio_python_3;
 
 	[Widget] Gtk.Button button_accept;
-	[Widget] Gtk.Button button_cancel;
+	//[Widget] Gtk.Button button_cancel;
 	[Widget] Gtk.Image image_button_accept;
 	[Widget] Gtk.Image image_button_cancel;
 	public Gtk.Button FakeButtonConfigurationImported;
@@ -285,8 +285,8 @@ public class PreferencesWindow
 	private Preferences preferences; //stored to update SQL if anything changed
 //	private Thread thread;
 
-	string databaseURL;
-	string databaseTempURL;
+	//string databaseURL;
+	//string databaseTempURL;
 	
 	ListStore langsStore;
 
@@ -314,8 +314,8 @@ public class PreferencesWindow
 		preferences_win.Title = Catalog.GetString("Preferences");
 
 		//database and log files stuff
-		databaseURL = Util.GetDatabaseDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
-		databaseTempURL = Util.GetDatabaseTempDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
+		//databaseURL = Util.GetDatabaseDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
+		//databaseTempURL = Util.GetDatabaseTempDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
 		
 		FakeButtonConfigurationImported = new Gtk.Button();
 		FakeButtonDebugModeStart = new Gtk.Button();

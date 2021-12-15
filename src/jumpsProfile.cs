@@ -72,6 +72,7 @@ public class JumpsProfileIndex
 		ErrorMessage = "";
 		Result = calculateIndex(type, higher, lower, dja);
 
+		LogB.Information("errorCode: " + errorCode.ToString());
 		if(errorCode == ErrorCodes.NEEDJUMP)
 			ErrorMessage = Catalog.GetString("Need to execute jump/s"); //TODO: write which jumps
 		else if(errorCode == ErrorCodes.NEGATIVE)

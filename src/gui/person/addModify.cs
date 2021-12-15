@@ -407,7 +407,7 @@ public class PersonAddModifyWindow
 		button_zoom.Sensitive = true;
 	}
 
-	Gtk.Window capturerWindow;
+	//Gtk.Window capturerWindow;
 	Webcam webcam;
 	//CapturerBin capturer;
 	void on_button_take_photo_preview_camera_clicked (object o, EventArgs args)

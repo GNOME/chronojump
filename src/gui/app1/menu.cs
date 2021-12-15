@@ -34,7 +34,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Viewport viewport_send_log;
 	[Widget] Gtk.Viewport viewport_exit_confirm;
 	[Widget] Gtk.Viewport viewport_social_network_poll;
-	[Widget] Gtk.Viewport viewport_start_modes;
+	//[Widget] Gtk.Viewport viewport_start_modes;
 	[Widget] Gtk.EventBox eventbox_check_menu_session;
 	[Widget] Gtk.EventBox eventbox_button_menu_session_new;
 	[Widget] Gtk.EventBox eventbox_button_menu_session_load;
@@ -62,7 +62,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_menu_help;
 	[Widget] Gtk.Button button_menu_news;
 	[Widget] Gtk.VButtonBox vbuttonbox_menu_session;
-	[Widget] Gtk.Alignment alignment_menu_person_options;
+	//[Widget] Gtk.Alignment alignment_menu_person_options;
 	[Widget] Gtk.Label label_session_at_frame_session;
 	[Widget] Gtk.Label label_persons_at_frame_persons;
 

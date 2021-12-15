@@ -38,8 +38,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox app1s_eventbox_button_close0;
 
 	//notebook tab 1
-	[Widget] Gtk.HBox hbox_session_more;
-	[Widget] Gtk.VBox vbox_session_overview;
 	[Widget] Gtk.RadioButton app1s_radio_import_new_session;
 	[Widget] Gtk.RadioButton app1s_radio_import_current_session;
 	[Widget] Gtk.Image app1s_image_open_database;
@@ -72,11 +70,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image app1s_image_show_data_jumps;
 	[Widget] Gtk.Image app1s_image_show_data_runs;
 	[Widget] Gtk.Image app1s_image_show_data_run_encoder;
-	[Widget] Gtk.Image app1s_image_show_data_rt;
 	[Widget] Gtk.Image app1s_image_show_data_force_sensor;
 	[Widget] Gtk.Image app1s_image_show_data_encoder_grav;
 	[Widget] Gtk.Image app1s_image_show_data_encoder_inertial;
-	[Widget] Gtk.Image app1s_image_show_data_other;
 
 	[Widget] Gtk.Label app1s_file_path_import;
 	[Widget] Gtk.Notebook app1s_notebook_load_button_animation;
@@ -93,7 +89,6 @@ public partial class ChronoJumpWindow
 	//notebook tab 3
 	[Widget] Gtk.Label app1s_label_import_session_name;
 	[Widget] Gtk.Label app1s_label_import_file;
-	[Widget] Gtk.Button app1s_button_import_confirm_accept;
 	[Widget] Gtk.EventBox app1s_eventbox_button_import_confirm_back;
 	[Widget] Gtk.EventBox app1s_eventbox_button_import_confirm_accept;
 

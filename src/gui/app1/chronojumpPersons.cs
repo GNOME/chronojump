@@ -167,7 +167,7 @@ public partial class ChronoJumpWindow
 		personAddModifyWin = PersonAddModifyWindow.Show(app1,
 				currentSession, new Person(-1), 
 				//preferences.digitsNumber, checkbutton_video, configChronojump.UseVideo,
-				preferences.digitsNumber, checkbutton_video_contacts,
+				preferences.digitsNumber,// checkbutton_video_contacts,
 				preferences.videoDevice, preferences.videoDevicePixelFormat, preferences.videoDeviceResolution, preferences.videoDeviceFramerate,
 				configChronojump.Compujump, preferences.units == Preferences.UnitsEnum.METRIC
 				);
@@ -300,7 +300,7 @@ public partial class ChronoJumpWindow
 
 		personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession, currentPerson, 
 				//preferences.digitsNumber, checkbutton_video, configChronojump.UseVideo,
-				preferences.digitsNumber, checkbutton_video_contacts,
+				preferences.digitsNumber,// checkbutton_video_contacts,
 				preferences.videoDevice, preferences.videoDevicePixelFormat, preferences.videoDeviceResolution, preferences.videoDeviceFramerate,
 				configChronojump.Compujump, preferences.units == Preferences.UnitsEnum.METRIC
 				); 

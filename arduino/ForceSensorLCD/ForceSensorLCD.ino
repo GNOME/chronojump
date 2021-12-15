@@ -501,6 +501,7 @@ void serialEvent() {
 
   if (commandString == "start_capture") {
     start_capture();
+    capture();
   } else if (commandString == "end_capture") {
     end_capture();
   } else if (commandString == "get_version") {

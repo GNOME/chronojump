@@ -30,7 +30,6 @@ public class LSqlEnTrans
 	private List<string> l_sql;
 	private int sqlDefault;
 	private int sqlCurrent;
-	private List<string> l_en;
 	private List<string> l_trans;
 
 	public LSqlEnTrans (string name, List<string> l_sql, int sqlDefault, int sqlCurrent, List<string> l_en)
@@ -39,7 +38,6 @@ public class LSqlEnTrans
 		this.l_sql = l_sql;
 		this.sqlDefault = sqlDefault;
 		this.sqlCurrent = sqlCurrent;
-		this.l_en = l_en;
 
 		l_trans = new List<string>();
 		foreach(string s in l_en)

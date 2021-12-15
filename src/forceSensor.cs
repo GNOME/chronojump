@@ -2832,14 +2832,11 @@ public class PathAccuracy
 	public int CountIn;
 	public int CountOut;
 
-	private int accuracy;
-
 	//constructor
 	public PathAccuracy ()
 	{
 		CountIn = 0;
 		CountOut = 0;
-		accuracy = 0;
 	}
 
 	public double Accuracy

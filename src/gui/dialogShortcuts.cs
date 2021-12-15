@@ -26,6 +26,7 @@ using Glade;
 public class DialogShortcuts
 {
 	[Widget] Gtk.Dialog dialog_shortcuts;
+	/*
 	[Widget] Gtk.Label label_ctrl;
 	[Widget] Gtk.Label label_ctrl1;
 	[Widget] Gtk.Label label_ctrl2;
@@ -33,6 +34,7 @@ public class DialogShortcuts
 	[Widget] Gtk.Label label_ctrl4;
 	[Widget] Gtk.Label label_ctrl5;
 	[Widget] Gtk.Label label_enter;
+	*/
 	[Widget] Gtk.Image image_button_close;
 
 	//images on capture tab

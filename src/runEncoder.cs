@@ -35,7 +35,7 @@ public class RunEncoder
 	private int personID;
 	private int sessionID;
 	private int exerciseID; //until runEncoderExercise table is not created, all will be 0
-	private int angle;
+	//private int angle; //unused
 	private Devices device;
 	private int distance;
 	private int temperature;

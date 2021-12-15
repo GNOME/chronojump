@@ -115,10 +115,6 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.SpinButton spinbutton_encoder_peakpower_higher;
 	[Widget] Gtk.SpinButton spinbutton_encoder_power_lower;
 	[Widget] Gtk.SpinButton spinbutton_encoder_peakpower_lower;
-	[Widget] Gtk.Button button_encoder_automatic_greater_minus_1;
-	[Widget] Gtk.Button button_encoder_automatic_greater_plus_1;
-	[Widget] Gtk.Button button_encoder_automatic_lower_minus_1;
-	[Widget] Gtk.Button button_encoder_automatic_lower_plus_1;
 
 
 	[Widget] Gtk.Button button_test_good;

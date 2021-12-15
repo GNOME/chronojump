@@ -88,12 +88,12 @@ public class JumpsRjFatigueGraph : CairoXY
 		paintGrid(gridTypes.VERTICALLINES, false);
 		paintAxis();
 
-		g.Color = red;
+		g.SetSourceColor(red);
 		plotPredictedLine(predictedLineTypes.STRAIGHT, predictedLineCrossMargins.TOUCH);
-		//g.Color = black;
-		g.Color = gray99;
+		//g.SetSourceColor(black);
+		g.SetSourceColor(gray99);
 		divideAndPlotAverage(divideIn);
-		g.Color = black;
+		g.SetSourceColor(black);
 
 		plotRealPoints(PlotTypes.LINES);
 

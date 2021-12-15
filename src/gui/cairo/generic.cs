@@ -188,8 +188,7 @@ public abstract class CairoGeneric
 			ay -= spacement;
 			by += spacement;
 		}
-		//g.SetSourceRGB(255,0,0);
-		g.Color = color;
+		g.SetSourceColor(color);
 
 		// 2) write line (if it fits)
 		if(horiz && bx > ax || ! horiz && ay > by)

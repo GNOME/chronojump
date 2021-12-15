@@ -448,7 +448,7 @@ public abstract class CairoXY : CairoGeneric
 			double xgraph = calculatePaintX(p.X);
 			double ygraph = calculatePaintY(p.Y);
 			g.Arc(xgraph, ygraph, pointsRadius, 0.0, 2.0 * Math.PI); //full circle
-			g.Color = colorBackground;
+			g.SetSourceColor(colorBackground);
 			g.FillPreserve();
 			g.SetSourceRGB(0, 0, 0);
 			g.Stroke (); 	//can this be done at the end?
@@ -483,7 +483,7 @@ public abstract class CairoXY : CairoGeneric
 
 		g.MoveTo(xgraph+8, ygraph);
 		g.Arc(xgraph, ygraph, 8.0, 0.0, 2.0 * Math.PI); //full circle
-		g.Color = red;
+		g.SetSourceColor(red);
 		g.FillPreserve();
 		g.SetSourceRGB(0, 0, 0);
 		g.Stroke ();
@@ -534,11 +534,11 @@ public abstract class CairoXY : CairoGeneric
 		 * This is not needed because graph is re-done at each mouse click
 		 *
 		//rectangle to erase previous values
-		g.Color = white;
+		g.SetSourceColor(white);
 		g.Rectangle(graphWidth + 1, Convert.ToInt32(graphHeight/2) + textHeight*2*line - textHeight,
 				area.Allocation.Width -1, textHeight*8);
 		g.Fill();
-		g.Color = black;
+		g.SetSourceColor(black);
 		*/
 
 		// 2) exit if out of graph area
@@ -565,11 +565,11 @@ public abstract class CairoXY : CairoGeneric
 		LogB.Information("painting rectangle ...");
 		// 4) write text at right
 		// 5) paint rectangle around that point
-		g.Color = bluePlots;
+		g.SetSourceColor(bluePlots);
 		g.Rectangle(calculatePaintX(pClosest.X) - 2*pointsRadius, calculatePaintY(pClosest.Y) -2*pointsRadius,
 				4*pointsRadius, 4*pointsRadius);
 		g.Stroke();
-		g.Color = black;
+		g.SetSourceColor(black);
 		LogB.Information("writeCoordinatesOfMouseClick done! disposing");
 
 		endGraphDisposing(g);
@@ -604,7 +604,7 @@ public abstract class CairoXY : CairoGeneric
 
 	protected virtual void writeSelectedValues(int line, PointF pClosest)
 	{
-		g.Color = bluePlots;
+		g.SetSourceColor(bluePlots);
 		writeTextAtRight(line, Catalog.GetString("Selected") + ":", false);
 		g.SetSourceRGB(0, 0, 0);
 

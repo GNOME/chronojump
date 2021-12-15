@@ -78,7 +78,7 @@ public class CairoRunDoubleContacts : CairoGeneric
 
 		black = colorFromRGB(0,0,0);
 		//gray = colorFromRGB(99,99,99); //gray99
-		g.Color = black;
+		g.SetSourceColor(black);
 	}
 
 	public void GraphDo (
@@ -98,7 +98,7 @@ public class CairoRunDoubleContacts : CairoGeneric
 			double xEnd = rightMargin + (graphWidth - 2*rightMargin) *
 					(inPTL.tcEnd + negativePTLTime) / timeTotalWithExtraPTL;
 
-			g.Color = colorBackground;
+			g.SetSourceColor(colorBackground);
 			g.Rectangle(xStart, 22, xEnd-xStart, 4);
 			g.Fill();
 
@@ -107,7 +107,7 @@ public class CairoRunDoubleContacts : CairoGeneric
 			if(inPTL.photocellEnd >= 0)
 				printText(xEnd, 30, 0, 10, inPTL.photocellEnd.ToString(), g, alignTypes.CENTER);
 
-			g.Color = black;
+			g.SetSourceColor(black);
 			//manage chunks indications
 			if(inPTL.phase == RunPhaseTimeListObject.Phases.START)
 			{

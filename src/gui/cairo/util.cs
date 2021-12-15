@@ -36,7 +36,7 @@ public static class CairoUtil
 	{
 		using (Cairo.Context g = Gdk.CairoHelper.Create (darea.GdkWindow))
 		{
-			g.Color = color;
+			g.SetSourceColor(color);
 			g.MoveTo(x1, y1);
 			g.LineTo(x2, y2);
 			g.Stroke();

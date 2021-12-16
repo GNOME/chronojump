@@ -80,10 +80,10 @@ unsigned long totalTime = 0;
 unsigned long syncTime = 0;
 unsigned int samples = 0;
 
-const int redButtonPin = 6;
+const int redButtonPin = 13;
 bool redButtonState;
 
-const int blueButtonPin = 13;
+const int blueButtonPin = 6;
 bool blueButtonState;
 float voltage;
 
@@ -101,6 +101,17 @@ byte recordChar[] = {
   B11111,
   B11111,
   B11111,
+  B01110,
+  B00000
+};
+
+byte menuChar[] = {
+  B00000,
+  B01110,
+  B10001,
+  B10001,
+  B10001,
+  B10001,
   B01110,
   B00000
 };
@@ -186,11 +197,11 @@ unsigned short menu = 0;
 unsigned short submenu = 0;
 
 const String menuList [] = {
-  "--- Measure --->",
-  "- Tare+Measure >",
-  "----- Tare ---->",
-  "-- Calibrate -->",
-  "---- System --->"
+  "--- Measure - ",
+  "-Tare+Measure-",
+  "---- Tare --- ",
+  "-- Calibrate -",
+  "---- System - "
 };
 
 void setup() {
@@ -292,15 +303,19 @@ void showMenu(void)
 {
   lcd.clear();
   showBatteryLevel();
-  lcd.setCursor(0, 1);
+  lcd.setCursor(1, 0);
   lcd.print(menuList[menu]);
+  lcd.createChar(6, menuChar);
+  lcd.setCursor(15,0);
+  lcd.write(byte (6));
   lcd.createChar(7, recordChar);
-  lcd.setCursor(2, 0);
+  lcd.setCursor(15, 1);
   lcd.write(byte (7));
+  lcd.setCursor(3,1);
 
   if (menu == 0)
   {
-    lcd.print(" Start");
+    lcd.print("Start ");
   } else if (menu == 1)
   {
     lcd.print(" Start");
@@ -745,30 +760,24 @@ void showCalibrateMenu(String weight) {
 
 void showBatteryLevel() {
   float sensorValue = analogRead(A0);
-  lcd.setCursor(13, 0);
+  lcd.setCursor(0, 0);
   if (sensorValue >= 788) {
     lcd.createChar(5, battery5);
-    lcd.setCursor(15, 0);
     lcd.write(byte(5));
   } else if (sensorValue < 788 && sensorValue >= 759) {
     lcd.createChar(4, battery4);
-    lcd.setCursor(15, 0);
     lcd.write(byte(4));
   } else if (sensorValue < 759 && sensorValue >= 730) {
     lcd.createChar(3, battery3);
-    lcd.setCursor(15, 0);
     lcd.write(byte(3));
   } else if (sensorValue < 730 && sensorValue >= 701) {
     lcd.createChar(2, battery2);
-    lcd.setCursor(15, 0);
     lcd.write(byte(2));
   } else if (sensorValue < 701 && sensorValue >= 672) {
     lcd.createChar(1, battery1);
-    lcd.setCursor(15, 0);
     lcd.write(byte(1));
   } else if (sensorValue <= 701) {
     lcd.createChar(0, battery0);
-    lcd.setCursor(15, 0);
     lcd.write(byte (0));
   }
 }

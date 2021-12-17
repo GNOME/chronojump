@@ -1056,7 +1056,11 @@ public partial class ChronoJumpWindow
 			if(! forceSensorConnect())
 				return;
 
-		forceSensorOtherMessage = "Please, wait ...";
+		if(currentForceSensorExercise.TareBeforeCapture)
+			forceSensorOtherMessage = "The tare will soon begin";
+		else
+			forceSensorOtherMessage = "Please, wait ...";
+
 		capturingForce = arduinoCaptureStatus.STARTING;
 	}
 
@@ -1290,6 +1294,7 @@ public partial class ChronoJumpWindow
 		if(currentForceSensorExercise.TareBeforeCapture)
 		{
 			forceSensorOtherMessage = "Taring ...";
+			LogB.Information("Taring starts");
 			int taringSample = 0;
 			int taringSamplesTotal = 50;
 			double taringSum = 0;
@@ -1311,8 +1316,14 @@ public partial class ChronoJumpWindow
 				}
 			}
 
-			if(taringSum > 0)
+			if(taringSample > 0)
+			{
+				/*
+				   In positive a 10Kg tare, will do on a 40Kg force: force = 40 -(10) = 30 Kg
+				   In negative a -10Kg tare, will do on a -40Kg force: force = -40 -(-10) = -30 Kg
+				   */
 				forceTared = UtilAll.DivideSafe(taringSum, taringSamplesTotal);
+			}
 		}
 
 		str = "";
@@ -1346,7 +1357,11 @@ public partial class ChronoJumpWindow
 			}
 
 			if(currentForceSensorExercise.TareBeforeCapture && forceTared != 0)
+			{
+				LogB.Information(string.Format("forceTared: {0}, force: {1}, forceFixed: {2}",
+							forceTared, force, force - forceTared));
 				force -= forceTared;
+			}
 
 			//measurement does not start at 0 time. When we start receiving data, mark this as firstTime
 			if(firstTime == 0)
@@ -1684,15 +1699,20 @@ LogB.Information(" fs F ");
 		if(capturingForce == arduinoCaptureStatus.CAPTURING)
 		{
 LogB.Information(" fs G ");
-			label_force_sensor_value_max.Text = string.Format("{0:0.##} N", forceSensorValues.Max);
-			label_force_sensor_value_min.Text = string.Format("{0:0.##} N", forceSensorValues.Min);
-			label_force_sensor_value.Text = string.Format("{0:0.##} N", forceSensorValues.ValueLast);
+			//do this if we are not on tare and TareBeforeCapture
+			if( ! (currentForceSensorExercise.TareBeforeCapture && ! forceCaptureStartMark) )
+			{
+
+				label_force_sensor_value_max.Text = string.Format("{0:0.##} N", forceSensorValues.Max);
+				label_force_sensor_value_min.Text = string.Format("{0:0.##} N", forceSensorValues.Min);
+				label_force_sensor_value.Text = string.Format("{0:0.##} N", forceSensorValues.ValueLast);
 
 
-LogB.Information(" fs H ");
-			//------------------- realtime graph -----------------
-			if(redoingPoints || fscPoints == null || fscPoints.Points == null || force_capture_drawingarea == null)
-				return true;
+				LogB.Information(" fs H ");
+				//------------------- realtime graph -----------------
+				if(redoingPoints || fscPoints == null || fscPoints.Points == null || force_capture_drawingarea == null)
+					return true;
+			}
 
 LogB.Information(" fs H2 ");
 			if(usbDisconnectedLastTime == forceSensorValues.TimeLast)
@@ -1723,6 +1743,14 @@ LogB.Information(" fs H2 ");
 			{
 				usbDisconnectedLastTime = forceSensorValues.TimeLast;
 				usbDisconnectedCount = 0;
+			}
+
+			//if taring at TareBeforeCapture, just show message
+			if( currentForceSensorExercise.TareBeforeCapture && ! forceCaptureStartMark)
+			{
+				event_execute_label_message.Text = forceSensorOtherMessage; //"Taring ..."
+				Thread.Sleep(25);
+				return true;
 			}
 
 LogB.Information(" fs I ");

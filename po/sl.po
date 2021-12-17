@@ -4308,7 +4308,7 @@ msgstr "Za zagotovitev celosti posnetka testa je priporočljiv čas 2 sekundi."
 
 #: ../glade/preferences_win.glade.h:146
 msgid "<b>Advanced</b>"
-msgstr "<b>Napredne možnosti<b>"
+msgstr "<b>Napredne možnosti</b>"
 
 #: ../glade/preferences_win.glade.h:148
 msgid "Multimedia"

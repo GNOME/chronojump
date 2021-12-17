@@ -3602,7 +3602,21 @@ public partial class ChronoJumpWindow
 		}
 		else if(m == Constants.Modes.RUNSSIMPLE || m == Constants.Modes.RUNSINTERVALLIC)
 		{
-			if(cp2016.StoredWireless)
+			LogB.Information("change mode is called");
+			LogB.Information(string.Format("wireless conditions A: {0}, {1}",
+				cp2016.StoredWireless, chronopicRegister != null));
+
+			if(chronopicRegister == null)
+			{
+				LogB.Information("Updating chronopicRegister to know if we have a wichro connected so we don't need 'Connected' at start");
+				chronopicRegisterUpdate(false);
+			}
+
+			LogB.Information(string.Format("wireless conditions B: {0}, {1}",
+				cp2016.StoredWireless, chronopicRegister != null));
+
+			if(cp2016.StoredWireless ||
+					(chronopicRegister != null && chronopicRegister.NumConnectedOfType(ChronopicRegisterPort.Types.RUN_WIRELESS) == 1) )
 				button_execute_test_show_connect_or_execute(false);
 			else
 				button_execute_test_show_connect_or_execute(! cp2016.SuccededConnectContactsRealThread);

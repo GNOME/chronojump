@@ -178,7 +178,8 @@ public class SprintExport : ExportFiles
 			return false;
 
 		if(includeImages && ! copyImages(getTempGraphsDir(), exportURL,
-					"chronojump_races_sprint_export_graphs"));
+					"chronojump_races_sprint_export_graphs"))
+			return false;
 
 		// copy the CSV
 		//if includeImages, exportURL is a dir, so need a filename to have File.Copy on all systems

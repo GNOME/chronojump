@@ -1244,8 +1244,8 @@ public partial class ChronoJumpWindow
 		forceSensorTimeStart = DateTime.Now; //to have an active count of capture time
 		forceSensorTimeStartCapture = forceSensorTimeStart; //to have same DateTime on filename and on sql datetime
 		capturingForce = arduinoCaptureStatus.CAPTURING;
-//		string captureComment = UtilGtk.TextViewGetCommentValidSQL(textview_force_sensor_capture_comment);
-		string captureComment = UtilGtk.TextViewGetCommentValidSQL(textview_contacts_signal_comment);
+		//string captureComment = UtilGtk.TextViewGetCommentValidSQL(textview_force_sensor_capture_comment);
+		//string captureComment = UtilGtk.TextViewGetCommentValidSQL(textview_contacts_signal_comment);
 
 		Util.CreateForceSensorSessionDirIfNeeded (currentSession.UniqueID);
 
@@ -1939,7 +1939,7 @@ LogB.Information(" fs R ");
 
 		int jStart = 0;
 		int iStart = numCaptured - fscPoints.ScrollStartedAtCount; //-toDraw
-		double toDrawRatio = toDraw / (1.0 * fscPoints.ScrollStartedAtCount);
+		//double toDrawRatio = toDraw / (1.0 * fscPoints.ScrollStartedAtCount);
 
 		// if something has been painted, connected first point with previous points
 		LogB.Information(" fs N0 ");
@@ -3248,7 +3248,7 @@ LogB.Information(" fs R ");
 
 	private void on_combo_force_sensor_exercise_changed (object o, EventArgs args)
 	{
-		ComboBox combo = o as ComboBox;
+		//ComboBox combo = o as ComboBox;
 		if (o == null)
 			return;
 

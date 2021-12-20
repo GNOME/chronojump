@@ -38,7 +38,7 @@ class SqliteTagSession : Sqlite
 	 */
 	
 	
-	protected internal static void createTable ()
+	protected internal static new void createTable ()
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE " + table + " ( " +
@@ -139,7 +139,7 @@ class SqliteSessionTagSession : Sqlite
 	 */
 	
 	
-	protected internal static void createTable ()
+	protected internal static new void createTable ()
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE " + table + " ( " +

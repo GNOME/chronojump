@@ -46,7 +46,7 @@ class SqliteNews : Sqlite
 	//INSERT INTO news VALUES (NULL, 0, 0, "something even more new spare_parts", "una cosa más y más nueva spare_parts", "https://chronojump.org/product-category/races/races_spare_parts/", "https://chronojump.org/es/categoria-producto/carreras/productos-_de_carreras_por_separado/", "Desc of spare_parts", "Descripción de spare_parts", "https://chronojump.org/wp-content/uploads/2020/10/web-selector-races-PARTS.png");
 
 
-	protected internal static void createTable ()
+	protected internal static new void createTable ()
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE " + table + " ( " +

@@ -535,7 +535,9 @@ public class JumpRjExecute : JumpExecute
 {
 	string tvString;
 	string tcString;
-	string limited; //the teorically values, eleven jumps: "11=J" (time recorded in "time"), 10 seconds: "10=T" (jumps recorded in jumps)
+
+	//commented because it was assigned but never used
+	//string limited; //the teorically values, eleven jumps: "11=J" (time recorded in "time"), 10 seconds: "10=T" (jumps recorded in jumps)
 	double limitAsDouble;	//-1 for non limited (unlimited repetitive jump until "finish" is clicked)
 	bool jumpsLimited;
 	bool firstRjValue;
@@ -576,11 +578,14 @@ public class JumpRjExecute : JumpExecute
 		this.limitAsDouble = limitAsDouble;
 
 		this.jumpsLimited = jumpsLimited;
+		/*
+		commented because it was assigned but never used
 		if(jumpsLimited) {
 			this.limited = limitAsDouble.ToString() + "J";
 		} else {
 			//this.limited = limitAsDouble.ToString() + "T"; define later, because it can be higher if allowFinishRjAfterTime is defined
 		}
+		*/
 		
 		this.cp = cp;
 
@@ -993,7 +998,9 @@ public class JumpRjExecute : JumpExecute
 				limitString = jumps.ToString() + "J";
 			} else {
 				limitString = Util.GetTotalTime(tcString, tvString) + "T";
-				limited = limitString; //define limited because it's checked in treeviewJump, and possibly it's not the initial defined time (specially when allowFinishRjAfterTime is true)
+				//commented because it was assigned but never used
+				//limited = limitString; //define limited because it's checked in treeviewJump, and possibly it's not the initial defined time (specially when allowFinishRjAfterTime is true)
+
 				//leave the initial selected time into description/comments:
 				description = string.Format(Catalog.GetString("Initially selected {0} seconds"), limitAsDouble.ToString());
 			}
@@ -1010,8 +1017,10 @@ public class JumpRjExecute : JumpExecute
 				
 				//limitString = limitAsDouble.ToString() + "T";
 				limitString = Util.GetTotalTime(tcString, tvString) + "T";
-				limited = limitString; //define limited because it's checked in treeviewJump, and possibly it's not the initial defined time (specially when allowFinishRjAfterTime is true)
-				
+
+				//commented because it was assigned but never used
+				//limited = limitString; //define limited because it's checked in treeviewJump, and possibly it's not the initial defined time (specially when allowFinishRjAfterTime is true)
+
 				//leave the initial selected time into description/comments:
 				description = string.Format(Catalog.GetString("Initially selected {0} seconds"), limitAsDouble.ToString());
 

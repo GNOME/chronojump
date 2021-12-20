@@ -25,7 +25,7 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow
 {
-	[Widget] Gtk.Button button_edit_current_person;
+	//[Widget] Gtk.Button button_edit_current_person;
 	[Widget] Gtk.Button button_edit_current_person_h;
 	[Widget] Gtk.Button button_run_encoder_analyze_load;
 	[Widget] Gtk.Button button_encoder_exercise;

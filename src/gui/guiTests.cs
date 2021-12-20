@@ -712,18 +712,18 @@ public partial class ChronoJumpWindow
 	{
 		LogB.TestStart("chronojumpWindowTestsEncoderSetSaveReps");
 
-		saveRepsLastI = -1;
-		saveRepsBucleDoing = true;
-		saveRepsBucleCount = 25;
+		//saveRepsLastI = -1;
+		//saveRepsBucleDoing = true;
+		//saveRepsBucleCount = 25;
 
 		//make interval bigger if you cannot see GUI updating
 		GLib.Timeout.Add(500, new GLib.TimeoutHandler(chronojumpWindowTestsEncoderSetSaveRepsBucleDo));
 		
 		LogB.TestEnd("chronojumpWindowTestsEncoderSetSaveReps");
 	}
-	bool saveRepsBucleDoing;
-	int saveRepsBucleCount;
-	int saveRepsLastI;
+	//bool saveRepsBucleDoing;
+	//int saveRepsBucleCount;
+	//int saveRepsLastI;
 	private bool chronojumpWindowTestsEncoderSetSaveRepsBucleDo()
 	{
 		return false;

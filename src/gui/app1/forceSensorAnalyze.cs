@@ -49,7 +49,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Viewport viewport_force_sensor_graph;
 	[Widget] Gtk.Button button_force_sensor_image_save_rfd_auto;
 	[Widget] Gtk.Button button_force_sensor_image_save_rfd_manual;
-	[Widget] Gtk.ScrolledWindow scrolledwindow_force_sensor_ai;
+	//[Widget] Gtk.ScrolledWindow scrolledwindow_force_sensor_ai;
 	[Widget] Gtk.Button button_force_sensor_analyze_AB_save;
 	[Widget] Gtk.CheckButton check_force_sensor_ai_chained;
 	[Widget] Gtk.CheckButton check_force_sensor_ai_zoom;
@@ -650,7 +650,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_force_sensor_ai_speed_a;
 	[Widget] Gtk.Label label_force_sensor_ai_accel_a;
 	[Widget] Gtk.Label label_force_sensor_ai_power_a;
-	[Widget] Gtk.HBox hbox_buttons_scale_force_sensor_ai_b;
+	//[Widget] Gtk.HBox hbox_buttons_scale_force_sensor_ai_b;
 	[Widget] Gtk.Label label_force_sensor_ai_position_b;
 	[Widget] Gtk.Label label_force_sensor_ai_position_diff;
 	[Widget] Gtk.Label label_force_sensor_ai_speed_b;

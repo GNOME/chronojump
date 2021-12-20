@@ -47,7 +47,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Alignment alignment_above_news; //to align vertically with sidebar
 	[Widget] Gtk.HBox hbox_news_languages; //to align vertically with sidebar
 
-	Pixbuf image_news_pixbuf;
+	//Pixbuf image_news_pixbuf;
 	private int currentNewsPos;
 	private bool newsDownloadCancel;
 

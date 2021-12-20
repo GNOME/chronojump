@@ -29,8 +29,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.DrawingArea drawingarea_jumps_weight_fv_profile;
 	[Widget] Gtk.Image image_tab_jumps_weight_fv_profile;
 	[Widget] Gtk.Image image_jumps_weight_fv_profile_save;
-	[Widget] Gtk.HBox hbox_combo_select_jumps_weight_fv_profile;
-	[Widget] Gtk.ComboBox combo_select_jumps_weight_fv_profile;
+	//[Widget] Gtk.HBox hbox_combo_select_jumps_weight_fv_profile;
+	//[Widget] Gtk.ComboBox combo_select_jumps_weight_fv_profile;
 	[Widget] Gtk.Button button_jumps_weight_fv_profile_save_image;
 	[Widget] Gtk.CheckButton check_jumps_weight_fv_profile_only_best_in_weight;
 	[Widget] Gtk.RadioButton radio_jumps_weight_fv_profile_show_full_graph;
@@ -38,7 +38,7 @@ public partial class ChronoJumpWindow
 
 	JumpsWeightFVProfile jumpsWeightFVProfile;
 	JumpsWeightFVProfileGraph jumpsWeightFVProfileGraph;
-	CjComboSelectJumps comboSelectJumpsWeightFVProfile;
+	//CjComboSelectJumps comboSelectJumpsWeightFVProfile;
 
 	// combo (start)
 	private void createComboSelectJumpsWeightFVProfile(bool create)

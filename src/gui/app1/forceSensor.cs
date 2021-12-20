@@ -317,7 +317,7 @@ public partial class ChronoJumpWindow
 				return false;
 		}
 
-		bool forceSensorBinaryCapture = false;
+		forceSensorBinaryCapture = false;
                 double versionDouble = Convert.ToDouble(Util.ChangeDecimalSeparator(forceSensorFirmwareVersion));
 		if(versionDouble >= Convert.ToDouble(Util.ChangeDecimalSeparator("0.3"))) //from 0.3 versions can be binary
 			forceSensorBinaryCapture = forceSensorCheckBinaryCapture();

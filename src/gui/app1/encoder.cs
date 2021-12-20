@@ -108,7 +108,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.VBox vbox_encoder_signal_comment;
 	[Widget] Gtk.Notebook notebook_encoder_signal_comment_rhythm_and_triggers;
 	[Widget] Gtk.TextView textview_encoder_signal_comment;
-	[Widget] Gtk.Frame frame_encoder_signal_comment;
+	//[Widget] Gtk.Frame frame_encoder_signal_comment;
 	[Widget] Gtk.Button button_encoder_signal_save_comment;
 	[Widget] Gtk.Button button_export_encoder_signal;
 //	[Widget] Gtk.Button button_menu_encoder_export_set;
@@ -116,7 +116,7 @@ public partial class ChronoJumpWindow
 	
 	[Widget] Gtk.VPaned vpaned_encoder_capture_video_and_set_graph;
 	[Widget] Gtk.Button button_activate_chronopics_encoder;
-	[Widget] Gtk.Button button_activate_chronopics_encoder_networks_problems;
+	//[Widget] Gtk.Button button_activate_chronopics_encoder_networks_problems;
 
 	[Widget] Gtk.Notebook notebook_encoder_sup;
 	[Widget] Gtk.Notebook notebook_encoder_capture;

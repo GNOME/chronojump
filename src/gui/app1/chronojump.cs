@@ -42,10 +42,12 @@ public partial class ChronoJumpWindow
 {
 	[Widget] Gtk.Window app1;
 
+	/*
 	[Widget] Gtk.HBox hbox_gui_tests;
 	[Widget] Gtk.SpinButton spin_gui_tests;
 	[Widget] Gtk.ComboBox combo_gui_tests;
 	[Widget] Gtk.Button button_carles;
+	*/
 	
 	[Widget] Gtk.Notebook notebook_chronojump_logo;
 	[Widget] Gtk.Viewport viewport_chronojump_logo;
@@ -68,10 +70,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_message_permissions_at_boot;
 	[Widget] Gtk.Label label_message_permissions_at_boot;
 	[Widget] Gtk.HBox hbox_message_camera_at_boot;
-	[Widget] Gtk.Notebook notebook_import;
 
 	[Widget] Gtk.Button button_show_modes_contacts;
-	[Widget] Gtk.Button button_show_modes_encoder;
 	[Widget] Gtk.HBox hbox_change_modes_contacts;
 	[Widget] Gtk.HBox hbox_change_modes_encoder;
 	[Widget] Gtk.HBox hbox_change_modes_jumps;
@@ -87,7 +87,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_change_modes_contacts_jumps_simple;
 	[Widget] Gtk.Image image_change_modes_contacts_jumps_reactive;
 	[Widget] Gtk.Image image_change_modes_contacts_runs_simple;
-	[Widget] Gtk.Image image_change_modes_contacts_runs_reactive;
+	//[Widget] Gtk.Image image_change_modes_contacts_runs_reactive;
 	[Widget] Gtk.Image image_change_modes_contacts_runs_intervallic;
 	[Widget] Gtk.Image image_change_modes_contacts_force_sensor;
 	[Widget] Gtk.Image image_change_modes_contacts_runs_encoder;
@@ -318,7 +318,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.VBox vbox_persons_bottom;
 	[Widget] Gtk.HBox hbox_persons_bottom_photo;
 	[Widget] Gtk.VBox vbox_persons_bottom_no_photo;
-	[Widget] Gtk.HBox hbox_persons_bottom_no_photo;
+	//[Widget] Gtk.HBox hbox_persons_bottom_no_photo;
 	[Widget] Gtk.Button button_recuperate_person;
 	[Widget] Gtk.Button button_recuperate_persons_from_session;
 	[Widget] Gtk.Button button_person_add_single;
@@ -345,8 +345,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_force_sensor_sync;
 
 	//non standard icons	
-	[Widget] Gtk.Image image_jump_reactive_bell;
-	[Widget] Gtk.Image image_run_interval_bell;
+	//[Widget] Gtk.Image image_jump_reactive_bell;
+	//[Widget] Gtk.Image image_run_interval_bell;
 	[Widget] Gtk.Image image_jump_reactive_repair;
 	[Widget] Gtk.Image image_run_interval_repair;
 	[Widget] Gtk.Image image_multi_chronopic_repair;

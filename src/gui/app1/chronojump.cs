@@ -5216,7 +5216,7 @@ public partial class ChronoJumpWindow
 			//if user clicked in finish earlier
 			if(currentEventExecute.Finish) {
 				currentJumpRj.Jumps = Util.GetNumberOfJumps(currentJumpRj.TvString, false);
-				if(currentJumpRj.JumpsLimited) {
+				if(currentJumpRjType.JumpsLimited) {
 					currentJumpRj.Limited = currentJumpRj.Jumps.ToString() + "J";
 				} else {
 					currentJumpRj.Limited = Util.GetTotalTime(
@@ -5513,7 +5513,7 @@ public partial class ChronoJumpWindow
 			//if user clicked in finish earlier
 			if(currentEventExecute.Finish) {
 				currentRunInterval.Tracks = Util.GetNumberOfJumps(currentRunInterval.IntervalTimesString, false);
-				if(currentRunInterval.TracksLimited) {
+				if(currentRunIntervalType.TracksLimited) {
 					currentRunInterval.Limited = currentRunInterval.Tracks.ToString() + "R";
 				} else {
 					currentRunInterval.Limited = Util.GetTotalTime(

@@ -122,7 +122,7 @@ public partial class ChronoJumpWindow
 
 		button_video_contacts_preview_visible (guiContactsEncoder, false);
 
-		string errorMessage = "";
+		//string errorMessage = "";
 		if(ncams == 1)
 		{
 			if(! webcamManage.RecordPrepare(preferences.videoDevice, preferences.videoDevicePixelFormat,
@@ -721,7 +721,8 @@ public partial class ChronoJumpWindow
 		//constructor for playpreview
 		webcamPlay = new WebcamFfmpeg (Webcam.Action.PLAYPREVIEW, UtilAll.GetOSEnum(), preferences.videoDevice,
 				preferences.videoDevicePixelFormat, preferences.videoDeviceResolution, preferences.videoDeviceFramerate);
-		Webcam.Result result = webcamPlay.PlayPreviewNoBackground ();
+		//Webcam.Result result = webcamPlay.PlayPreviewNoBackground ();
+		webcamPlay.PlayPreviewNoBackground ();
 	}
 
 	/*
@@ -742,7 +743,8 @@ public partial class ChronoJumpWindow
 	{
 		//constructor for playpreview
 		webcamPlay = new WebcamFfmpeg (Webcam.Action.PLAYFILE, UtilAll.GetOSEnum(), "", "", "", "");
-		Webcam.Result result = webcamPlay.PlayFile (fileName);
+		//Webcam.Result result = webcamPlay.PlayFile (fileName);
+		webcamPlay.PlayFile (fileName);
 
 		/*
 		 * TODO: reimplement this with ffmpeg

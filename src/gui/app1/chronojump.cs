@@ -8342,9 +8342,10 @@ LogB.Debug("mc finished 5");
 		sensitiveLastTestButtons(! execute);
 	}
 
-	private void showHideActionEventButtons(bool show, string type) {
-		bool success = false;
-		bool recordedVideo = false;
+	private void showHideActionEventButtons(bool show, string type)
+	{
+		//bool success = false;
+		//bool recordedVideo = false;
 
 		if(type == "ALL" || type == "Jump") {
 			button_edit_selected_jump.Sensitive = show;

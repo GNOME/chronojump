@@ -1426,7 +1426,7 @@ public partial class ChronoJumpWindow
 		// 2b) draw horizontal 0 line on elastic, and Y right axis
 		if(fsAI.CalculedElasticPSAP)
 		{
-			int yPx = fsAI.FscAIPoints.GetForceInPx(0);
+			//int yPx = fsAI.FscAIPoints.GetForceInPx(0);
 
 			layout_force_ai_text.SetMarkup("Displ (m)");
 			layout_force_ai_text.GetPixelSize(out textWidth, out textHeight);

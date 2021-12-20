@@ -65,7 +65,7 @@ public class ForceSensorElasticBandsWindow
 	[Widget] Gtk.TextView textview_delete;
 
 	[Widget] Gtk.Image image_close;
-	[Widget] Gtk.Button button_close;
+	//[Widget] Gtk.Button button_close;
 
 	[Widget] Gtk.Button fakeButton_stiffness_changed;
 

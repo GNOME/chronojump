@@ -39,7 +39,7 @@ public class Chronopic2016
 	//used on contacts
 	private Chronopic cp;
 	private SerialPort sp;
-	private Chronopic.Plataforma platformState;
+	private Chronopic.Plataforma platformState = Chronopic.Plataforma.OFF;
 
 	//multichronopic
 	private Chronopic cp2;

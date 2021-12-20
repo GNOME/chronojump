@@ -886,7 +886,9 @@ public class RunIntervalExecute : RunExecute
 	double distanceTotal;
 	double timeTotal;
 	double distanceInterval;
-	string limited; //the teorically values, eleven runs: "11=R" (time recorded in "time"), 10 seconds: "10=T" (tracks recorded in tracks)
+
+	//commented because it was assigned but never used
+	//string limited; //the teorically values, eleven runs: "11=R" (time recorded in "time"), 10 seconds: "10=T" (tracks recorded in tracks)
 	double limitAsDouble;	//-1 for non limited (unlimited repetitive run until "finish" is clicked)
 	bool tracksLimited;
 
@@ -900,7 +902,7 @@ public class RunIntervalExecute : RunExecute
 							
 	private bool RSABellDone;
 	private string equal;
-	private int countForSavingTempTable;
+	//private int countForSavingTempTable;
 
 	//private Chronopic cp;
 
@@ -936,9 +938,11 @@ public class RunIntervalExecute : RunExecute
 
 
 		if(tracksLimited) {
-			this.limited = limitAsDouble.ToString() + "R"; //'R'uns (don't put 'T'racks for not confusing with 'T'ime)
+			//commented because it was assigned but never used
+			//this.limited = limitAsDouble.ToString() + "R"; //'R'uns (don't put 'T'racks for not confusing with 'T'ime)
 		} else {
-			this.limited = limitAsDouble.ToString() + "T";
+			//commented because it was assigned but never used
+			//this.limited = limitAsDouble.ToString() + "T";
 			timeTotal = limitAsDouble;
 		}
 		
@@ -986,7 +990,7 @@ public class RunIntervalExecute : RunExecute
 		intervalTimesString = "";
 		distanceIntervalFixed = distanceInterval;
 		tracks = 0;
-		countForSavingTempTable = 0;
+		//countForSavingTempTable = 0;
 		finishByTimeReturnedTrueAtThisCapture = false;
 
 		//initialize eventDone as a RunInterval

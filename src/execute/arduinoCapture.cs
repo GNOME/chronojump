@@ -238,7 +238,6 @@ public class PhotocellWirelessCapture: ArduinoCapture
 	{
 		LogB.Information("AT Capture: STOPPING");
 
-		string str = "";
 		//empty any pending port read to be able to read correctly the Capture ended message
 		flush();
 

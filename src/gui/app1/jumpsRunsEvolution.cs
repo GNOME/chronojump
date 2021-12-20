@@ -58,7 +58,7 @@ public partial class ChronoJumpWindow
 	}
 	private void on_combo_select_jumps_evolution_changed(object o, EventArgs args)
 	{
-		ComboBox combo = o as ComboBox;
+		//ComboBox combo = o as ComboBox;
 		if (o == null)
 			return;
 
@@ -217,7 +217,7 @@ public partial class ChronoJumpWindow
 	}
 	private void on_combo_select_runs_evolution_changed(object o, EventArgs args)
 	{
-		ComboBox combo = o as ComboBox;
+		//ComboBox combo = o as ComboBox;
 		if (o == null)
 			return;
 
@@ -247,7 +247,7 @@ public partial class ChronoJumpWindow
 		if(! combo_select_runs_evolution_distance_follow_signals)
 			return;
 
-		ComboBox combo = o as ComboBox;
+		//ComboBox combo = o as ComboBox;
 		if (o == null)
 			return;
 

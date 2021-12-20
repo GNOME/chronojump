@@ -160,7 +160,6 @@ public class JumpRj : Jump
 	int jumps; //total number of jumps
 	double time; //time elapsed
 	string limited; //the teorically values, eleven jumps: "11=J" (time recorded in "time"), 10 seconds: "10=T" (jumps recorded in jumps)
-	bool jumpsLimited;
 	private string angleString;
 
 	bool calculatedStats;
@@ -481,12 +480,6 @@ public class JumpRj : Jump
 		get { return time; }
 		set { time = value; }
 	}
-	
-	public bool JumpsLimited
-	{
-		get { return jumpsLimited; }
-	}
-		
-		
+
 	~JumpRj() {}
 }

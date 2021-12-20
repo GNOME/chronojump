@@ -155,7 +155,6 @@ public class RunInterval : Run
 	string intervalTimesString;
 	double tracks; //double because if we limit by time (runType tracksLimited false), we do n.nn tracks
 	string limited; //the teorically values, eleven runs: "11=R" (time recorded in "time"), 10 seconds: "10=T" (tracks recorded in tracks)
-	bool tracksLimited;
 	
 
 	public RunInterval() {
@@ -304,12 +303,7 @@ public class RunInterval : Run
 		get { return limited; }
 		set { limited = value; }
 	}
-	
-	public bool TracksLimited
-	{
-		get { return tracksLimited; }
-	}
-		
+
 	public bool StartIn
 	{
 		get { return startIn; }

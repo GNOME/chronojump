@@ -330,7 +330,7 @@ class SqliteForceSensor : Sqlite
 					if(! personSessionExistsInSession)
 					{
 						LogB.Information("going to insert personSession");
-						PersonSession ps = new PersonSession(unknownPersonID, Convert.ToInt32(session.Name), 0, 75,
+						new PersonSession(unknownPersonID, Convert.ToInt32(session.Name), 0, 75,
 								Constants.SportUndefinedID, Constants.SpeciallityUndefinedID, Constants.LevelUndefinedID,
 								"", 		//comments
 								Constants.TrochanterToeUndefinedID,

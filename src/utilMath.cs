@@ -629,7 +629,7 @@ public class InterpolateSignal
 		fsp.testCosineCubicInterpolateDo(types.COSINE);
 
 		//cubic
-		List<PointF> interpolated_l = fsp.testCosineCubicInterpolateDo(types.CUBIC);
+		fsp.testCosineCubicInterpolateDo(types.CUBIC);
 		//fsp.toFile(interpolated_l, types.CUBIC);
 	}
 

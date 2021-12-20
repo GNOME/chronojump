@@ -116,7 +116,7 @@ public class ChronojumpLogo
                 //cr.SelectFontFace(font, FontSlant.Normal, FontWeight.Bold); //Courier is so ugly on logo
 		cr.SelectFontFace("Helvetica", FontSlant.Normal, FontWeight.Bold);
 
-		bool showVersion = false;
+		//bool showVersion = false;
 		if (size <= 80) {
 			//size += 0.6;
 			size = elapsedMs1 / 20.0;

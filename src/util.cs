@@ -1209,8 +1209,6 @@ public class Util
 	//Pre: filename without 0001.png
 	public static string GetWebcamPhotoTempFileNamePre()
 	{
-		string fileName = Constants.PhotoTemp;
-
 		return Path.Combine(Path.GetTempPath(), Constants.PhotoTemp + "-");
 	}
 

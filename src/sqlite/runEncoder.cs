@@ -456,7 +456,7 @@ class SqliteRunEncoderExercise : Sqlite
 			}
 		} else {
 			while(reader.Read()) {
-				int angleDefault = 0;
+				//int angleDefault = 0;
 
 				ex = new RunEncoderExercise (
 						Convert.ToInt32(reader[0].ToString()),	//uniqueID

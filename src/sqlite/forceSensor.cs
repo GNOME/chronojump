@@ -40,7 +40,7 @@ class SqliteForceSensor : Sqlite
 	 * create and initialize tables
 	 */
 
-	protected internal static void createTable()
+	protected internal static new void createTable()
 	{
 		dbcmd.CommandText =
 			"CREATE TABLE " + table + " ( " +
@@ -438,7 +438,7 @@ class SqliteForceSensorExercise : Sqlite
 	 * create and initialize tables
 	 */
 
-	protected internal static void createTable()
+	protected internal static new void createTable()
 	{
 		dbcmd.CommandText =
 			"CREATE TABLE " + table + " ( " +
@@ -706,7 +706,7 @@ class SqliteForceSensorElasticBand : Sqlite
 	 * Note AUTOINCREMENT should only be used on special situations:
 	 * https://www.sqlitetutorial.net/sqlite-autoincrement/
 	 */
-	protected internal static void createTable()
+	protected internal static new void createTable()
 	{
 		dbcmd.CommandText =
 			"CREATE TABLE " + table + " ( " +
@@ -931,7 +931,7 @@ class SqliteForceSensorRFD : Sqlite
 	 * create and initialize tables
 	 */
 
-	protected internal static void createTable()
+	protected internal static new void createTable()
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE " + table + " ( " +

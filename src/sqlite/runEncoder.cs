@@ -39,7 +39,7 @@ class SqliteRunEncoder : Sqlite
 	 * create and initialize tables
 	 */
 
-	protected internal static void createTable()
+	protected internal static new void createTable()
 	{
 		dbcmd.CommandText =
 			"CREATE TABLE " + table + " ( " +
@@ -350,7 +350,7 @@ class SqliteRunEncoderExercise : Sqlite
 	 * create and initialize tables
 	 */
 
-	protected internal static void createTable()
+	protected internal static new void createTable()
 	{
 		dbcmd.CommandText =
 			"CREATE TABLE " + table + " ( " +

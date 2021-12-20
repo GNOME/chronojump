@@ -1764,7 +1764,7 @@ public partial class ChronoJumpWindow
 
 	private void on_combo_run_encoder_exercise_changed(object o, EventArgs args)
 	{
-		ComboBox combo = o as ComboBox;
+		//ComboBox combo = o as ComboBox;
 		if (o == null)
 			return;
 

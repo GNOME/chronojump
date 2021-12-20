@@ -177,7 +177,7 @@ public partial class ChronoJumpWindow
 		l.Add(vbox_person_manage_create.SizeRequest().Width);
 		l.Add(vbox_person_manage_load.SizeRequest().Width);
 
-		int maxWidth = getMenuButtonsMaxWidth(l) + 4 + 6; //4, 6 are alignments spaces.
+		//int maxWidth = getMenuButtonsMaxWidth(l) + 4 + 6; //4, 6 are alignments spaces.
 
 		/*
 		LogB.Information(string.Format("viewport_persons: {0}", viewport_persons.SizeRequest().Width));

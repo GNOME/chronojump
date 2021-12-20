@@ -118,7 +118,7 @@ public class RepetitiveConditionsWindow
 
 
 	[Widget] Gtk.Button button_test_good;
-	[Widget] Gtk.Button button_test_bad;
+	//[Widget] Gtk.Button button_test_bad;
 	[Widget] Gtk.Label label_test_sound_result;
 	[Widget] Gtk.Button button_close;
 
@@ -139,7 +139,6 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.Image image_encoder_power_higher;
 	[Widget] Gtk.Image image_encoder_peakpower_higher;
 	[Widget] Gtk.Image image_repetitive_test_good;
-	[Widget] Gtk.Image image_repetitive_test_good1;
 	//bells bad (red)
 	[Widget] Gtk.Image image_repetitive_worst_tf_tc;
 	[Widget] Gtk.Image image_repetitive_worst_time;
@@ -157,7 +156,6 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.Image image_encoder_power_lower;
 	[Widget] Gtk.Image image_encoder_peakpower_lower;
 	[Widget] Gtk.Image image_repetitive_test_bad;
-	[Widget] Gtk.Image image_repetitive_test_bad1;
 
 	//encoder rhythm
 	[Widget] Gtk.Label label_rhythm_tab;

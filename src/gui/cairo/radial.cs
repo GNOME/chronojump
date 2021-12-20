@@ -28,13 +28,9 @@ using Mono.Unix;
 public class CairoRadial : CairoGeneric
 {
 	private Cairo.Context g;
-	private int textHeight;
 	private int margin = 6;
 	private int offsetV = 6; //to move the graph vertically
 	private Gtk.DrawingArea area;
-	private string font;
-	private int graphWidth;
-	private int graphHeight;
 	private double minSide;
 	private Cairo.Color black;
 	private Cairo.Color colorArrow;

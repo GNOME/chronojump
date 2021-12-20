@@ -1341,7 +1341,7 @@ public partial class ChronoJumpWindow
 		int marginLeft = Convert.ToInt32(.5 * ancho - .5 * maxWidth);
 
 		int totalHeight = lHeight1 + lHeight2 + 4 * marginIn;
-		int marginTop = Convert.ToInt32(.5 * topMargin - .5 * totalHeight);
+		//int marginTop = Convert.ToInt32(.5 * topMargin - .5 * totalHeight);
 		//TODO: need to implement marginTop below
 
 		//A rectangle drawn filled is 1 pixel smaller in both dimensions than a rectangle outlined.
@@ -1853,10 +1853,12 @@ public partial class ChronoJumpWindow
 				if(thisRunIsSimple)
 					PrepareRunSimpleGraph(currentEventExecute.PrepareEventGraphRunSimpleObject, animate);
 				else {
+					/*
 					bool volumeOnHere = preferences.volumeOn;
 					//do not play good or bad sounds at RSA because we need to hear the GO sound
 					if(currentRunIntervalType.IsRSA)
 						volumeOnHere = false;
+						*/
 
 					PrepareRunIntervalRealtimeCaptureGraph(
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distance,
@@ -2352,7 +2354,7 @@ public abstract class CairoPaintBarsPre
 		string wordsAccu = "";
 		string [] words = personName.Split(new char[] {' '});
 
-		bool newLineDone = false;
+		//bool newLineDone = false;
 		foreach(string word in words)
 		{
 			if(wordsAccu == "")
@@ -2362,7 +2364,7 @@ public abstract class CairoPaintBarsPre
 			else {
 				str += vertSep + wordsAccu;
 				vertSep = "\n";
-				newLineDone = true;
+				//newLineDone = true;
 				wordsAccu = word;
 				rows ++;
 			}

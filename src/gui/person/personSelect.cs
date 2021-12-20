@@ -520,7 +520,7 @@ public class PersonPhotoButton
 		Array box_elements = getButtonBoxElements(button);
 
 		//image
-		Gtk.Image image = (Gtk.Image) box_elements.GetValue(0); //the image
+		//Gtk.Image image = (Gtk.Image) box_elements.GetValue(0); //the image
 
 		Gtk.Viewport viewport = (Gtk.Viewport) box_elements.GetValue(2); //the name
 

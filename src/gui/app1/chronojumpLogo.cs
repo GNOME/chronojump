@@ -143,7 +143,7 @@ public class ChronojumpLogo
 
 		chronojumpLogo_showChronojump (cr, x, y);
 
-                ((IDisposable) cr.Target).Dispose();
+                ((IDisposable) cr.GetTarget()).Dispose();
                 ((IDisposable) cr).Dispose();
         }
 

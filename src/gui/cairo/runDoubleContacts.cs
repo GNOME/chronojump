@@ -30,8 +30,6 @@ public class CairoRunDoubleContacts : CairoGeneric
 	protected Cairo.Context g;
 	protected Cairo.Color black;
 	protected Cairo.Color colorBackground;
-	protected int rightMargin = 35; //TODO: on windows should be 55
-	protected int bottomMargin = 0;
 
 	public CairoRunDoubleContacts () //for inheritance
 	{
@@ -41,6 +39,9 @@ public class CairoRunDoubleContacts : CairoGeneric
 	{
 		this.area = area;
 		this.font = font;
+
+		rightMargin = 35; //TODO: on windows should be 55
+		bottomMargin = 0;
 
 		initGraph();
 	}
@@ -188,6 +189,9 @@ public class CairoRunIntervalDoubleContacts : CairoRunDoubleContacts
 		this.area = area;
 		this.font = font;
 		this.intervalTimesString = intervalTimesString;
+
+		rightMargin = 35; //TODO: on windows should be 55
+		bottomMargin = 0;
 
 		initGraph();
 	}

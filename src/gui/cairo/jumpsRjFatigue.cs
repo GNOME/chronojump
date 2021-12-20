@@ -27,8 +27,6 @@ using Cairo;
 
 public class JumpsRjFatigueGraph : CairoXY
 {
-	private JumpsRjFatigue.Statistic statistic;
-
 	private int divideIn;
 
 	//constructor when there are no points

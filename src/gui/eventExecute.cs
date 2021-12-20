@@ -670,7 +670,8 @@ public partial class ChronoJumpWindow
 		cairoPaintBarsPreRealTime = new CairoPaintBarsPreJumpReactiveRealtimeCapture(
 				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString(), current_mode,
 				currentPerson.Name, type, preferences.digitsNumber,// preferences.heightPreferred,
-				lastTv, lastTc, tvString, tcString);
+				//lastTv, lastTc,
+				tvString, tcString);
 
 		// B) Paint cairo graph
 		//cairoPaintBarsPreRealTime.UseHeights = useHeights;
@@ -795,8 +796,9 @@ public partial class ChronoJumpWindow
 		cairoPaintBarsPreRealTime = new CairoPaintBarsPreRunIntervalRealtimeCapture(
 				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString(), current_mode,
 				currentPerson.Name, type, preferences.digitsNumber,// preferences.heightPreferred,
-				check_runI_realtime_rel_abs.Active,
-				distance, lastTime, timesString, distancesString);
+				check_runI_realtime_rel_abs.Active, distance,
+				//lastTime,
+				timesString, distancesString);
 
 		// B) Paint cairo graph
 		//cairoPaintBarsPreRealTime.UseHeights = useHeights;
@@ -2955,8 +2957,8 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 //realtime jump reactive capture
 public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 {
-	private double lastTv;
-	private double lastTc;
+	//private double lastTv;
+	//private double lastTc;
 	private List<double> tv_l;
 	private List<double> tc_l;
 
@@ -2968,13 +2970,14 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 
 	public CairoPaintBarsPreJumpReactiveRealtimeCapture (DrawingArea darea, string fontStr,
 			Constants.Modes mode, string personName, string testName, int pDN,// bool heightPreferred,
-			double lastTv, double lastTc, string tvString, string tcString)
+			//double lastTv, double lastTc,
+			string tvString, string tcString)
 	{
 		initialize (darea, fontStr, mode, personName, testName, pDN);
 		this.title = Catalog.GetString("Last test:") + " " + generateTitle();
 
-		this.lastTv = lastTv;
-		this.lastTc = lastTc;
+		//this.lastTv = lastTv;
+		//this.lastTc = lastTc;
 
 		tv_l = new List<double>();
 		tc_l = new List<double>();
@@ -3077,8 +3080,6 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 //TODO: care for R (RSAs) on distancesString
 public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 {
-	private double lastDistance;
-	private double lastTime;
 	private bool isRelative; //related to names: distance and time
 
 	private List<double> distance_l;
@@ -3094,13 +3095,12 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 	public CairoPaintBarsPreRunIntervalRealtimeCapture (DrawingArea darea, string fontStr,
 			Constants.Modes mode, string personName, string testName, int pDN,// bool heightPreferred,
 			bool isRelative,
-			double lastDistance, double lastTime, string timesString, string distancesString)
+			double lastDistance,
+			string timesString, string distancesString)
 	{
 		initialize (darea, fontStr, mode, personName, testName, pDN);
 		this.title = Catalog.GetString("Last test:") + " " + generateTitle();
 
-		this.lastDistance = lastDistance;
-		this.lastTime = lastTime;
 		this.isRelative = isRelative;
 
 		distance_l = new List<double>();

@@ -66,7 +66,7 @@ public partial class ChronoJumpWindow
 	}
 	private void on_combo_select_jumps_rj_fatigue_changed (object o, EventArgs args)
 	{
-		ComboBox combo = o as ComboBox;
+		//ComboBox combo = o as ComboBox;
 		if (o == null)
 			return;
 
@@ -94,7 +94,7 @@ public partial class ChronoJumpWindow
 	}
 	private void on_combo_select_jumps_rj_fatigue_num_changed (object o, EventArgs args)
 	{
-		ComboBox combo = o as ComboBox;
+		//ComboBox combo = o as ComboBox;
 		if (o == null)
 			return;
 

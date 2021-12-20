@@ -53,7 +53,7 @@ public partial class ChronoJumpWindow
 	}
 	private void on_combo_select_jumps_dj_optimal_fall_changed(object o, EventArgs args)
 	{
-		ComboBox combo = o as ComboBox;
+		//ComboBox combo = o as ComboBox;
 		if (o == null)
 			return;
 

@@ -53,8 +53,6 @@ class ChronojumpImporter
 
 	Preferences.pythonVersionEnum pythonVersion;
 
-	Gtk.Window parentWindow;
-
 	// Result struct holds the output, error and success operations. It's used to pass
 	// errors from different layers (e.g. executing Python scripts) to the UI layer
 	public struct Result
@@ -73,10 +71,9 @@ class ChronojumpImporter
 
 	// ChronojumpImporter class imports a specific session from sourceFile to destinationFile.
 	// The main method is "import()" which does all the work.
-	public ChronojumpImporter(Gtk.Window parentWindow, string sourceFile, string destinationFile,
+	public ChronojumpImporter(string sourceFile, string destinationFile,
 			int sourceSession, int destinationSession, bool debugToFile, Preferences.pythonVersionEnum pythonVersion)
 	{
-		this.parentWindow = parentWindow;
 		this.sourceFile = sourceFile;
 		this.destinationFile = destinationFile;
 		this.sourceSession = sourceSession;

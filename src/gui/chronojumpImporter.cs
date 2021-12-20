@@ -62,7 +62,7 @@ public partial class ChronoJumpWindow
 		else
 			destinationSessionId = destinationSession.UniqueID;
 
-		chronojumpImporter = new ChronojumpImporter (app1, source_filename, destination_filename, sourceSession, destinationSessionId,
+		chronojumpImporter = new ChronojumpImporter (source_filename, destination_filename, sourceSession, destinationSessionId,
 				preferences.debugMode, preferences.importerPythonVersion);
 
 		if(destinationSessionId == 0)

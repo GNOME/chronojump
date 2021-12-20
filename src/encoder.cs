@@ -686,8 +686,8 @@ public class EncoderSignal
 		double lowest = 100000;
 		double highest = 0;
 		int highestPos = 0;
-		double eccValue = 0;
-		double conValue = 0;
+		//double eccValue = 0;
+		//double conValue = 0;
 		bool ecc = true;
 		int i = 0;
 		foreach (EncoderCurve curve in curves)
@@ -704,7 +704,7 @@ public class EncoderSignal
 				compareTo = curve.MeanPowerD;
 
 			bool needChangeLowest = false;
-			conValue = compareTo;
+			//conValue = compareTo;
 			if(compareTo > highest)
 			{
 				highest = compareTo;

@@ -266,7 +266,6 @@ class SqlitePersonSession : Sqlite
 
 		string tp = Constants.PersonTable;
 		string tps = Constants.PersonSessionTable;
-		string tpsString = "";
 
 		string sessionIDString = tps + ".sessionID = " + sessionID + " AND ";
 		if(sessionID == -1)

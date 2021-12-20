@@ -114,7 +114,7 @@ public abstract class ForceSensorDynamics
 		int currentSample = 1;
 
 		//The firstPhase is treated different
-		bool firstPhase = true;
+		//bool firstPhase = true;
 
 		// to find if there is a previous extreme than first one with minDisplacement
 		bool searchingFirstExtreme = true;

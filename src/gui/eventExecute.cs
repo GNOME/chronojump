@@ -55,7 +55,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.VBox vbox_contacts_simple_graph_controls;
 	[Widget] Gtk.RadioButton radio_contacts_graph_currentTest;
 	[Widget] Gtk.RadioButton radio_contacts_graph_allTests;
-	[Widget] Gtk.RadioButton radio_contacts_graph_currentPerson;
+	//[Widget] Gtk.RadioButton radio_contacts_graph_currentPerson;
 	[Widget] Gtk.RadioButton radio_contacts_graph_allPersons;
 	[Widget] Gtk.Image image_radio_contacts_graph_currentPerson;
 	[Widget] Gtk.Image image_radio_contacts_graph_allPersons;
@@ -106,7 +106,7 @@ public partial class ChronoJumpWindow
 	//[Widget] Gtk.Alignment event_execute_alignment_drawingarea;
 	//static Gdk.Pixmap event_execute_pixmap = null;
 	Gdk.Pixmap event_execute_pixmap = null;
-	Gdk.Pixmap event_execute_run_simple_double_contacts_pixmap = null;
+	//Gdk.Pixmap event_execute_run_simple_double_contacts_pixmap = null;
 	
 
 	string event_execute_label_simulated;
@@ -139,7 +139,7 @@ public partial class ChronoJumpWindow
 	Pango.Layout layoutSmallMid;
 	Pango.Layout layoutMid;
 	Pango.Layout layoutBig;
-	Pango.Layout layoutMid_run_simple;
+	//Pango.Layout layoutMid_run_simple;
 
 	static EventGraphConfigureWindow eventGraphConfigureWin;
 	

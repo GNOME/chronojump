@@ -67,7 +67,7 @@ public partial class ChronoJumpWindow
 
 	//encoder exercise stuff
 	[Widget] Gtk.Label label_encoder_exercise_encoder;
-	[Widget] Gtk.VSeparator vseparator_encoder_exercise_encoder;
+	//[Widget] Gtk.VSeparator vseparator_encoder_exercise_encoder;
 	[Widget] Gtk.HBox hbox_encoder_exercise_encoder;
 	[Widget] Gtk.Button button_encoder_exercise_edit;
 	[Widget] Gtk.Button button_encoder_exercise_add;

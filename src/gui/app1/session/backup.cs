@@ -27,7 +27,7 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow
 {
-	string app1s_fileDB;
+	//string app1s_fileDB;
 	string app1s_fileCopy; //contains chronojump_datetime
 	string app1s_parentCopy; //is the dir selected by app1s_fc, before adding chronojump_datetime,
 				//nice to store in SQL and reuse in next backups
@@ -178,7 +178,7 @@ public partial class ChronoJumpWindow
 
 		System.IO.FileInfo file1 = new System.IO.FileInfo(databaseURL);
 		System.IO.FileInfo file2 = new System.IO.FileInfo(databaseTempURL);
-		app1s_fileDB = "";
+		//app1s_fileDB = "";
 
 		long length1 = 0;
 		if(file1.Exists)
@@ -189,10 +189,12 @@ public partial class ChronoJumpWindow
 
 		if(length1 == 0 && length2 == 0)
 			return false;
+		/*
 		else if(length1 > length2)
 			app1s_fileDB = databaseURL;
 		else
 			app1s_fileDB = databaseTempURL;
+			*/
 
 		return true;
 	}
@@ -410,7 +412,7 @@ public partial class ChronoJumpWindow
 	*/
 	static long app1s_copyRecursiveElapsedMs;
 	static bool app1s_copyRecursiveSuccess;
-	static int app1s_backupMainDirsDone;
+	//static int app1s_backupMainDirsDone;
 	private void app1s_copyRecursive()
 	{
 		app1s_copyRecursiveElapsedMs = 0;

@@ -46,7 +46,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_extra_window_jumps_weight;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_kg;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_weight;
-	[Widget] Gtk.Label extra_window_jumps_label_weight;
+	//[Widget] Gtk.Label extra_window_jumps_label_weight;
 	[Widget] Gtk.CheckButton extra_window_jumps_check_dj_arms;
 	[Widget] Gtk.Button button_jumps_simple_capture_save_image;
 
@@ -77,7 +77,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton extra_window_jumps_rj_radiobutton_kg;
 	[Widget] Gtk.RadioButton extra_window_jumps_rj_radiobutton_weight;
 	[Widget] Gtk.HBox hbox_extra_window_jumps_rj_weight;
-	[Widget] Gtk.Label extra_window_jumps_rj_label_weight;
+	//[Widget] Gtk.Label extra_window_jumps_rj_label_weight;
 	[Widget] Gtk.Label extra_window_jumps_rj_label_fall;
 	[Widget] Gtk.Label extra_window_jumps_rj_label_cm;
 	[Widget] Gtk.Label extra_window_jumps_label_rj_start_inside;

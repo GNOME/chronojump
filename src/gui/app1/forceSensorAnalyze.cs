@@ -903,10 +903,11 @@ public partial class ChronoJumpWindow
 			int secondValue = Convert.ToInt32(hscale_force_sensor_ai_b.Value);
 			//LogB.Information(string.Format("firstValue: {0}, secondValue: {1}", firstValue, secondValue));
 
+			//note that is almost impossible in the ui, but just in case...
 			if(firstValue > secondValue) {
 				int temp = firstValue;
 				firstValue = secondValue;
-				secondValue = firstValue;
+				secondValue = temp;
 			}
 
 			//-1 and +1 to have the points at the edges to calcule the RFDs

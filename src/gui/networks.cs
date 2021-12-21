@@ -601,7 +601,7 @@ public partial class ChronoJumpWindow
 		}
 		else if (needManageCompujumpCapturingReset) {
 			//reset lastRFID in order to be able to use that RFID after capture (if same wristband is used again)
-			rfid.ResetLastRFID();
+			rfid.ResetLastRFID(); //maybe rfid has to be static or ensure this is done in the other thread
 			needManageCompujumpCapturingReset = false;
 		}
 
@@ -634,6 +634,7 @@ public partial class ChronoJumpWindow
 					rfidWaitingAdminGuiObjects = new RFIDWaitingAdminGuiObjects();
 					label_rfid_encoder_wait.Text = "";
 					label_rfid_encoder_wait.Visible = false;
+					rfid.WaitingAdminStop(); //maybe rfid has to be static or ensure this is done in the other thread
 				}
 				Thread.Sleep (100);
 				return true;

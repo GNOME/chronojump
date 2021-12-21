@@ -144,6 +144,11 @@ public class RFID
 		waitingAdmin = true;
 		this.adminRFID = adminRFID;
 	}
+	//used when time passed to have waitingAdmin as false. If this is not done, it will not capture other rfids.
+	public void WaitingAdminStop()
+	{
+		waitingAdmin = false;
+	}
 
 	//reset lastRFID in order to be able to use that RFID after capture (if same wristband is used again)
 	public void ResetLastRFID()

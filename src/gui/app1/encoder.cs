@@ -2449,7 +2449,7 @@ public partial class ChronoJumpWindow
 					else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB)
 						on_button_encoder_save_AB_file_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE)
-						on_button_encoder_save_table_file_selected (exportFileName);
+						on_button_encoder_save_table_file_selected (exportFileName, true);
 					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL)
 						on_button_forcesensor_save_image_signal_file_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_AUTO)
@@ -2688,7 +2688,7 @@ public partial class ChronoJumpWindow
 	}
 	private void on_overwrite_file_encoder_save_table_accepted(object o, EventArgs args)
 	{
-		on_button_encoder_save_table_file_selected (exportFileName);
+		on_button_encoder_save_table_file_selected (exportFileName, true);
 
 		string myString = string.Format(Catalog.GetString("Saved to {0}"), exportFileName);
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
@@ -4957,7 +4957,11 @@ public partial class ChronoJumpWindow
 		checkFile(Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE);
 	}
 
-	void on_button_encoder_save_table_file_selected (string destination)
+	/*
+	   if gui then can open a DialogMessage
+	   if !gui is eg when sending an email, a dialogMessage will not be opened here
+	   */
+	private bool on_button_encoder_save_table_file_selected (string destination, bool gui)
 	{
 		try {
 			//this overwrites if needed
@@ -5004,8 +5008,13 @@ public partial class ChronoJumpWindow
 		} catch {
 			string myString = string.Format(
 					Catalog.GetString("Cannot save file {0} "), destination);
-			new DialogMessage(Constants.MessageTypes.WARNING, myString);
+			if(gui)
+				new DialogMessage(Constants.MessageTypes.WARNING, myString);
+
+			return false;
 		}
+
+		return true;
 	}
 
 	void on_button_encoder_analyze_1RM_save_clicked (object o, EventArgs args)

@@ -113,7 +113,7 @@ public class NetworksSendMail
 		ErrorStr = "";
 	}
 
-	public bool Send (string title, string filename, string email)
+	public bool Send (string title, string filenameImage, string filenameCSV, string email)
 	{
 		//echo "See attached file" |mailx -s "$HOSTNAME Testing attachment" -A /home/chronojump/chronojump/images/calendar.png testing@chronojump.org
 
@@ -122,7 +122,12 @@ public class NetworksSendMail
 		//parameters.Add("\"myHostName: myTitle\"");
 		parameters.Add("ChronojumpNetworks: " + title);
 		parameters.Add("-A");
-		parameters.Add(filename);
+		parameters.Add(filenameImage);
+		if(filenameCSV != "")
+		{
+			parameters.Add("-A");
+			parameters.Add(filenameCSV);
+		}
 		parameters.Add(email);
 
 		//note redirect output and error is false because if redirect input there are problems redirecting the others

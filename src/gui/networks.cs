@@ -1206,11 +1206,22 @@ public partial class ChronoJumpWindow
 		{
 			LogB.Information("Sending Email to: " + configChronojump.CompujumpAdminEmail);
 
+			LogB.Information("Creating CSV ...");
+
+			string tableFile = "/tmp/table.csv";
+			//save the csv, but if does not work, leave tableFile empty so it will not be sent
+			if(! on_button_encoder_save_table_file_selected (tableFile, false))
+				tableFile = "";
+			//another option would be use the txt: chronojump-last-encoder-analyze-table.txt
+
+			LogB.Information("CSV created!");
+
 			NetworksSendMail nsm = new NetworksSendMail ();
-			if(nsm.Send(exportFileName, UtilEncoder.GetEncoderGraphTempFileName(), configChronojump.CompujumpAdminEmail))
+			if(nsm.Send(exportFileName, UtilEncoder.GetEncoderGraphTempFileName(),
+						tableFile, configChronojump.CompujumpAdminEmail))
 			{
 				rfidWaitingAdminGuiObjects.ShowGuiMessageSuccess = true;
-				LogB.Information("Done!");
+				LogB.Information("Sent!");
 			} else {
 				rfidWaitingAdminGuiObjects.ShowGuiMessageFailed = true;
 				//no GTK here

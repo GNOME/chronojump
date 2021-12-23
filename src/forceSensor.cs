@@ -181,7 +181,8 @@ public class ForceSensor
 
 	//static methods
 
-	//of a single point (this method will disappear)
+	//resultant force of a sample. Only used on capture.
+	//if this method changes, change also forceSensorDynamics methods
 	public static double CalculeForceResultantIfNeeded (double forceRaw, CaptureOptions fsco, ForceSensorExercise fse, double personMass)//, double stiffness)
 	{
 		if(! fse.ForceResultant)
@@ -219,12 +220,17 @@ public class ForceSensor
 		*/
 		//TODO: now we are using fse.AngleDefault, but we have to implement especific angle on capture
 
+		/*
 		double forceResultant = Math.Sqrt(
 				//Math.Pow(Math.Cos(fse.AngleDefault * Math.PI / 180.0) * (forceRaw + totalMass * accel),2) +                	//Horizontal component
 				//Math.Pow(Math.Sin(fse.AngleDefault * Math.PI / 180.0) * (forceRaw + totalMass * accel) + totalMass * 9.81,2) 	//Vertical component
 				Math.Pow(Math.Cos(fse.AngleDefault * Math.PI / 180.0) * (Math.Abs(forceRaw) + totalMass * accel),2) +                	//Horizontal component
 				Math.Pow(Math.Sin(fse.AngleDefault * Math.PI / 180.0) * (Math.Abs(forceRaw) + totalMass * accel) + totalMass * 9.81,2) 	//Vertical component
 				);
+        */
+
+        double forceResultant = Math.Abs(forceRaw)  +  totalMass*(accel + 9.81 * Math.Sin(fse.AngleDefault * Math.PI / 180.0));
+
 
 		//LogB.Information(string.Format("Abs(forceRaw): {0}, totalMass: {1}, forceResultant: {2}",
 		//			Math.Abs(forceRaw), totalMass, forceResultant));

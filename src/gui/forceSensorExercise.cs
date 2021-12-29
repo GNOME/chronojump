@@ -56,7 +56,9 @@ public class ForceSensorExerciseWindow
 	[Widget] Gtk.Label label_force;
 	[Widget] Gtk.TextView textview_force_explanation;
 	[Widget] Gtk.RadioButton radio_force_sensor_raw;
-	[Widget] Gtk.RadioButton radio_force_resultant;	
+	[Widget] Gtk.RadioButton radio_force_resultant;
+	[Widget] Gtk.Button button_force_exerted_help;
+	[Widget] Gtk.Image image_force_exerted_help;
 
 	//fixation tab
 	[Widget] Gtk.Label label_fixation;
@@ -291,6 +293,7 @@ public class ForceSensorExerciseWindow
 		image_cancel.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_cancel.png");
 		image_next.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "arrow_forward.png");
 		image_back.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "arrow_back.png");
+		image_force_exerted_help.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_info.png");
 	}
 
 	private void initializeGuiAtShow()
@@ -305,9 +308,13 @@ public class ForceSensorExerciseWindow
 		entry_name.Text = exercise.Name;
 
 		if(exercise.ForceResultant)
+		{
 			radio_force_resultant.Active = true;
-		else
+			button_force_exerted_help.Sensitive = true;
+		} else {
 			radio_force_sensor_raw.Active = true;
+			button_force_exerted_help.Sensitive = false;
+		}
 
 		if(exercise.Elastic)
 			radio_fixation_elastic.Active = true;
@@ -390,7 +397,10 @@ public class ForceSensorExerciseWindow
 		if(o == Options.FORCE_SENSOR)
 			str = Catalog.GetString("When you are interested only in the force transmitted to the force sensor. This option do NOT take into account the effect of the weight or the acceleration of a mass.");
 		else if(o == Options.FORCE_RESULTANT)
-			str = Catalog.GetString("When you want the resultant of all the forces exerted by the person. This value is the vector module of the resultant force vector. This option allows to take into account the effect of the weight or the acceleration of a mass.") + " " + Catalog.GetString("The result will always be in absolute values.");
+			str = Catalog.GetString("When you want the resultant of all the forces exerted by the person.") + " " +
+				Catalog.GetString("Chronojump needs to know the involved mass (usually person's mass) and the angle.") + " " +
+				Catalog.GetString("This option allows to take into account the effect of the weight or the acceleration of a mass.") + " " +
+				Catalog.GetString("Projection of exerted force is calculated as the sum of forces projected in the direction defined by the exercise.");
 		else if(o == Options.FIXATION_ELASTIC)
 			str = Catalog.GetString("If, exerting a force, some element is significantly elongated it means that you are using elastic elements. Knowing the characteristics of the elastic elements allows to calculate positions, velocities and accelerations during the exercise");
 		else if(o == Options.FIXATION_NOT_ELASTIC)
@@ -422,17 +432,15 @@ public class ForceSensorExerciseWindow
 			str = "1.- " + Catalog.GetString("Isometric Leg Extension.") +
 				"\n2.- " + Catalog.GetString("Upper limb movements against a rubber if the displaced mass is considered insignificant.");
 		else if(o == Options.FORCE_RESULTANT)
-			str = "1.- " + Catalog.GetString("Isometric squat with the force sensor fixed between the floor and the body.") +
-				"\n2.- " + Catalog.GetString("Movements where a significant mass is accelerated.") +
-				"\n3.- " + Catalog.GetString("Horizontal movements where the sensor don't measure the gravitational vertical forces …)");
+			str = "1.- " + Catalog.GetString("Vertical:") + " " + Catalog.GetString("Isometric squat with the force sensor fixed between the floor and the body.") +
+				"\n2.- " + Catalog.GetString("Horizontal:") + " " + Catalog.GetString("Movements where a significant mass is accelerated.") +
+				"\n3.- " + Catalog.GetString("Diagonal movement:") + " " + Catalog.GetString("Lateral squat.");
 		else if(o == Options.FIXATION_ELASTIC)
 			str =  Catalog.GetString("Rubber bands, springs, flexible material …");
 		else if(o == Options.FIXATION_NOT_ELASTIC)
-			str = "1.- " + Catalog.GetString("In an isometric squat with the force sensor fixed between the floor and the body, increasing the mass don't affect the measure of the sensor because the weight is supported by the lower limbs, not the sensor.") +
-				"\n2.- " + Catalog.GetString("Running in a threadmill against a rubber. The sensor is measuring the force that a rubber is transmitting horizontally to a subject running in a threadmill. The body weight is added to the total force exerted by the subject.");
+			str = "- " + Catalog.GetString("In an isometric squat with the force sensor fixed between the floor and the body, increasing the mass don't affect the measure of the sensor because the weight is supported by the lower limbs, not the sensor.");
 		else if(o == Options.MASS_ADD)
-			str = "1.- " + Catalog.GetString("In an isometric squat with the force sensor fixed between the floor and the body, increasing the mass don't affect the measure of the sensor because the weight is supported by the lower limbs, not the sensor.") +
-				"\n2.- " + Catalog.GetString("Running in a threadmill against a rubber. The sensor is measuring the force that a rubber is transmitting horizontally to a subject running in a threadmill. The body weight is added to the total force exerted by the subject.");
+			str = "- " + Catalog.GetString("In an isometric squat with the force sensor fixed between the floor and the body, increasing the mass don't affect the measure of the sensor because the weight is supported by the lower limbs, not the sensor.");
 		else if(o == Options.MASS_SUBTRACT)
 			str = Catalog.GetString("Hamstring test where the heel of the person is suspended in a cinch attached to the sensor. The weight of the leg is affecting the measure of the force transmitted to the sensor but this is not a force exerted by the subject.");
 		else if(o == Options.MASS_NOTHING)
@@ -455,7 +463,7 @@ public class ForceSensorExerciseWindow
 		if(o == Options.FORCE_SENSOR)
 			str = Catalog.GetString("Raw data");
 		else if(o == Options.FORCE_RESULTANT)
-			str = Catalog.GetString("Resultant force");
+			str = Catalog.GetString("Projection of exerted force");
 		else if(o == Options.FIXATION_ELASTIC)
 			str = Catalog.GetString("Elastic");
 		else if(o == Options.FIXATION_NOT_ELASTIC)
@@ -505,10 +513,12 @@ public class ForceSensorExerciseWindow
 				desc = getDescription(Options.FORCE_SENSOR);
 				ex = getExample(Options.FORCE_SENSOR);
 				set_notebook_desc_example_labels(Options.FORCE_SENSOR);
+				button_force_exerted_help.Sensitive = false;
 			} else {
 				desc = getDescription(Options.FORCE_RESULTANT);
 				ex = getExample(Options.FORCE_RESULTANT);
 				set_notebook_desc_example_labels(Options.FORCE_RESULTANT);
+				button_force_exerted_help.Sensitive = true;
 			}
 		}
 		else if(p == Pages.FIXATION)
@@ -525,7 +535,6 @@ public class ForceSensorExerciseWindow
 		}
 		else if(p == Pages.MASS)
 		{
-
 			if(radio_mass_add.Active) {
 				desc = getDescription(Options.MASS_ADD);
 				ex = getExample(Options.MASS_ADD);
@@ -690,6 +699,16 @@ public class ForceSensorExerciseWindow
 	private void on_radio_reps_show_both_toggled (object o, EventArgs args)
 	{
 		managePage(Pages.REPSSHOW);
+	}
+
+	private void on_button_force_exerted_help_clicked (object o, EventArgs args)
+	{
+		new DialogImageTest (
+				Catalog.GetString("Projection of exerted force"),
+				Util.GetImagePath(false) + "force_exerted_projected.png",
+				DialogImageTest.ArchiveType.ASSEMBLY,
+				""
+				);
 	}
 
 	private void on_entry_name_changed (object o, EventArgs args)

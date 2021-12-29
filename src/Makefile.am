@@ -675,6 +675,7 @@ RESOURCES = \
 	../images/encoder-image-pending.png,encoder-image-pending.png \
 	../images/encoder-linear.png,encoder-linear.png \
 	../images/equivalentMass.png,equivalentMass.png \
+	../images/force_exerted_projected.png,force_exerted_projected.png \
 	../images/er-fr.png,encoder-rotary-friction.png \
 	../images/er-axis.png,encoder-rotary-axis.png \
 	../images/el-blue.png,encoder-linear-blue.png \

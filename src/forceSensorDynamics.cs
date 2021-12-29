@@ -394,14 +394,14 @@ public class ForceSensorDynamicsNotElastic : ForceSensorDynamics
 	{
 		for (int i = 0 ; i < force_l.Count; i ++)
 		{
-            /*
+			/*
 			double force = Math.Sqrt(
 					Math.Pow(Math.Cos(fse.AngleDefault * Math.PI / 180.0) * (Math.Abs(force_l[i])), 2) +                  //Horizontal
 					Math.Pow(Math.Sin(fse.AngleDefault * Math.PI / 180.0) * (Math.Abs(force_l[i])) + totalMass * 9.81, 2) //Vertical
 					);
-			force_l[i] = calculeForceWithCaptureOptions(force);
 			*/
-            double force = Math.Abs(force_l[i])  +  totalMass * 9.81 * Math.Sin(fse.AngleDefault * Math.PI / 180.0);
+			double force = Math.Abs(force_l[i])  +  totalMass * 9.81 * Math.Sin(fse.AngleDefault * Math.PI / 180.0);
+			force_l[i] = calculeForceWithCaptureOptions(force);
 		}
 
 		calculeRepetitions(force_l);

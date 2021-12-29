@@ -1865,7 +1865,7 @@ public partial class ChronoJumpWindow
 		genericWin.HideOnAccept = false;
 
 		genericWin.uniqueID = ex.UniqueID;
-		genericWin.LabelSpinInt2 = "Segments size (m)";
+		genericWin.LabelSpinInt2 = Catalog.GetString("Segments size (m)");
 		genericWin.SetSpin2Range(1, 30);
 		genericWin.SetSpin2Value(ex.SegmentMeters);
 
@@ -1899,7 +1899,7 @@ public partial class ChronoJumpWindow
 		genericWin.SetButtonAcceptLabel(Catalog.GetString("Add"));
 		genericWin.HideOnAccept = false;
 
-		genericWin.LabelSpinInt2 = "Segments size (m)";
+		genericWin.LabelSpinInt2 = Catalog.GetString("Segments size (m)");
 		genericWin.SetSpin2Range(1, 30);
 		genericWin.SetSpin2Value(RunEncoderExercise.SegmentMetersDefault);
 

@@ -156,7 +156,7 @@
                         </child>
                         <child>
                           <widget class="GtkRadioButton" id="radio_force_resultant">
-                            <property name="label" translatable="yes">Resultant force</property>
+                            <property name="label" translatable="yes">Projection of exerted force</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>

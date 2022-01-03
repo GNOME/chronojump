@@ -225,7 +225,7 @@ public class ForceSensorExerciseWindow
 					Convert.ToInt32(em), Convert.ToInt32(cm));
 		}
 
-		ForceSensorExerciseWindowBox.initializeGuiAtShow();
+		ForceSensorExerciseWindowBox.initializeGuiAtShow(false);
 		ForceSensorExerciseWindowBox.force_sensor_exercise.Show ();
 
 		return ForceSensorExerciseWindowBox;
@@ -256,7 +256,7 @@ public class ForceSensorExerciseWindow
 				prefsForceSensorElasticEccMinDispl, prefsForceSensorElasticConMinDispl,
 				prefsForceSensorNotElasticEccMinForce, prefsForceSensorNotElasticConMinForce);
 
-		ForceSensorExerciseWindowBox.initializeGuiAtShow();
+		ForceSensorExerciseWindowBox.initializeGuiAtShow(true);
 		ForceSensorExerciseWindowBox.force_sensor_exercise.Show ();
 
 		return ForceSensorExerciseWindowBox;
@@ -296,11 +296,14 @@ public class ForceSensorExerciseWindow
 		image_force_exerted_help.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_info.png");
 	}
 
-	private void initializeGuiAtShow()
+	private void initializeGuiAtShow (bool adding)
 	{
 		managePage(Pages.FORCE);
 		ForceSensorExerciseWindowBox.notebook_main.CurrentPage = Convert.ToInt32(Pages.FORCE);
-		spin_body_mass_add.Value = 100;
+
+		//on edit spin_body_mass_add.Value is set at exerciseToGUI(), but on adding, set at 100
+		if(adding)
+			spin_body_mass_add.Value = 100;
 	}
 
 	private void exerciseToGUI()

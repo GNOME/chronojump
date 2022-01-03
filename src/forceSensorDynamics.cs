@@ -580,19 +580,20 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 		{
 			LogB.Information(string.Format("i pre: {0}, force_l[i]: {1}, accel_l[i]: {2}", i, force_l[i], accel_l[i]));
 			//LogB.Information(string.Format("i: {0}, force_l[i]: {1}, force_l.Count: {2}", i, force_l[i], force_l.Count));
-            /*
+			/*
 			double force = Math.Sqrt(
 					Math.Pow(Math.Cos(fse.AngleDefault * Math.PI / 180.0) * (Math.Abs(force_l[i]) + totalMass * accel_l[i]), 2) +                  //Horizontal
 					Math.Pow(Math.Sin(fse.AngleDefault * Math.PI / 180.0) * (Math.Abs(force_l[i]) + totalMass * accel_l[i]) + totalMass * 9.81, 2) //Vertical
 					);
-            */
+			 */
 
-            double force = force_l[i]  +  totalMass*(accel_l[i] + 9.81 * Math.Sin(fse.AngleDefault * Math.PI / 180.0));
+			double force = force_l[i]  +  totalMass*(accel_l[i] + 9.81 * Math.Sin(fse.AngleDefault * Math.PI / 180.0));
 
-			LogB.Information(string.Format("post force: {1}", i, force));
+			LogB.Information(string.Format("post force (but before applying captureoptions): {0}", force));
 
-			//force_l[i] = calculeForceWithCaptureOptions(force); //Elastic is always resultant. Capture otions does not apply
-			force_l[i] = force;
+			force_l[i] = calculeForceWithCaptureOptions(force); //
+
+			LogB.Information(string.Format("post force (after applying captureoptions): {0}", force_l[i]));
 		}
 	}
 	

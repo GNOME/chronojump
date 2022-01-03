@@ -410,7 +410,8 @@ public class ForceSensorExerciseWindow
 		else if(o == Options.MASS_SUBTRACT)
 			str = Catalog.GetString("In some cases the weight of the mass is supported by the sensor but it is not a force that the subject is exerting. In this case, the sensor will be tared before starting the test.");
 		else if(o == Options.MASS_NOTHING)
-			str = Catalog.GetString("In some cases the weight is transmitted to the sensor and it is also supported by the measured limb. If the effect of the mass is not significant, use this option also.");
+			str = Catalog.GetString("In some cases the weight is transmitted to the sensor and it is also supported by the measured limb. If the effect of the mass is not significant, use this option also.") +
+				" " + "This configuration is the same than raw data"; //TODO: translate last sentence
 		else if(o == Options.REPETITIONS_PREFS)
 			str = Catalog.GetString("If user changes values on preferences, these values will automatically change.");
 		else if(o == Options.REPETITIONS_NO_PREFS)

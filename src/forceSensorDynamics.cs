@@ -400,7 +400,7 @@ public class ForceSensorDynamicsNotElastic : ForceSensorDynamics
 					Math.Pow(Math.Sin(fse.AngleDefault * Math.PI / 180.0) * (Math.Abs(force_l[i])) + totalMass * 9.81, 2) //Vertical
 					);
 			*/
-			double force = Math.Abs(force_l[i])  +  totalMass * 9.81 * Math.Sin(fse.AngleDefault * Math.PI / 180.0);
+			double force = force_l[i]  +  totalMass * 9.81 * Math.Sin(fse.AngleDefault * Math.PI / 180.0);
 			force_l[i] = calculeForceWithCaptureOptions(force);
 		}
 
@@ -587,7 +587,7 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 					);
             */
 
-            double force = Math.Abs(force_l[i])  +  totalMass*(accel_l[i] + 9.81 * Math.Sin(fse.AngleDefault * Math.PI / 180.0));
+            double force = force_l[i]  +  totalMass*(accel_l[i] + 9.81 * Math.Sin(fse.AngleDefault * Math.PI / 180.0));
 
 			LogB.Information(string.Format("post force: {1}", i, force));
 

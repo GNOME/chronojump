@@ -3318,7 +3318,9 @@ LogB.Information(" fs R ");
 			   combo_force_sensor_capture_options.Sensitive = false;
 			   better to hide it instead of making it unsensitive to not force it to ABS and then have ABS by default in raw exercises
 			   */
-			combo_force_sensor_capture_options.Visible = false;
+			//combo_force_sensor_capture_options.Visible = false;
+			//2.2.0:
+			combo_force_sensor_capture_options.Visible = true;
 		} else {
 			//combo_force_sensor_capture_options.Sensitive = true;
 			combo_force_sensor_capture_options.Visible = true;

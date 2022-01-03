@@ -1026,7 +1026,7 @@ public class ForceSensorCapturePoints
 		}
 
 		double sum = 0;
-		max = 0;
+		max = -100000;
 		for(int i = countA; i <= countB; i ++) {
 			sum += forces[i];
 			if(forces[i] > max)

@@ -229,7 +229,7 @@ public class ForceSensor
 				);
         */
 
-        double forceResultant = Math.Abs(forceRaw)  +  totalMass*(accel + 9.81 * Math.Sin(fse.AngleDefault * Math.PI / 180.0));
+        double forceResultant = forceRaw  +  totalMass*(accel + 9.81 * Math.Sin(fse.AngleDefault * Math.PI / 180.0));
 
 
 		//LogB.Information(string.Format("Abs(forceRaw): {0}, totalMass: {1}, forceResultant: {2}",

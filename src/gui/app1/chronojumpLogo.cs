@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2017-2020   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2017-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using Gtk;
@@ -32,8 +32,6 @@ public class ChronojumpLogo
 	private bool timer;
 	private double alpha;
 	private double size;
-	private double xpos;
-	private double ypos;
 	private Stopwatch stopwatch1;
 	private Stopwatch stopwatch2;
 	private Stopwatch stopwatch3;
@@ -69,8 +67,6 @@ public class ChronojumpLogo
 		timer = true;
 		alpha = 1.0;
 		size = 1.0;
-		xpos = 0;
-		ypos = .5;
 		stopwatch1 = new Stopwatch();
 		stopwatch2 = new Stopwatch();
 		stopwatch3 = new Stopwatch();
@@ -103,11 +99,8 @@ public class ChronojumpLogo
 
 		double elapsedMs1 = stopwatch1.Elapsed.TotalMilliseconds;
 
-		xpos = UtilAll.DivideSafeFraction(elapsedMs1, 500);
-		ypos = Math.Pow(xpos,3);
-
-                int x = Convert.ToInt32(xpos * drawingarea.Allocation.Width / 2);
-                int y = Convert.ToInt32(ypos * drawingarea.Allocation.Height / 2);
+		int x = Convert.ToInt32(drawingarea.Allocation.Width / 2); //2022
+                int y = Convert.ToInt32(drawingarea.Allocation.Height / 2); //2022b
 
                 cr.SetSourceRGB(.055, .118, .275);
                 cr.Paint();
@@ -119,15 +112,15 @@ public class ChronojumpLogo
 		//bool showVersion = false;
 		if (size <= 80) {
 			//size += 0.6;
-			size = elapsedMs1 / 20.0;
+			size = elapsedMs1 / 12.0;
 		}
 
-		if(size > 20)
+		if(size > 30)
 		{
 			//alpha -= 0.01;
 			if(! stopwatch2.IsRunning)
 				stopwatch2.Start();
-			alpha = 1 - stopwatch2.Elapsed.TotalMilliseconds * 0.00083;
+			alpha = 1 - stopwatch2.Elapsed.TotalMilliseconds * 0.0006;
 
 			if(alpha < 0)
 			{
@@ -136,25 +129,23 @@ public class ChronojumpLogo
 			}
 		}
 
-		if (stopwatch3.Elapsed.TotalMilliseconds >= 300)
-		{
+		if (stopwatch3.Elapsed.TotalMilliseconds >= 150)
 			timer = false;
-		}
 
-		chronojumpLogo_showChronojump (cr, x, y);
+		if(stopwatch2.IsRunning && stopwatch2.Elapsed.TotalMilliseconds >= 300)
+			chronojumpLogo_showChronojump (cr, x, y, "2.2");
+		else
+			chronojumpLogo_showChronojump (cr, x, y, "CHRONOJUMP");
 
                 ((IDisposable) cr.GetTarget()).Dispose();
                 ((IDisposable) cr).Dispose();
         }
 
-	private void chronojumpLogo_showChronojump (Cairo.Context cr, int x, int y)
+	private void chronojumpLogo_showChronojump (Cairo.Context cr, int x, int y, string message)
 	{
                 cr.SetFontSize(size);
                 cr.SetSourceRGB(1, 1, 1);
-
-		string	message = "CHRONOJUMP   2.1";
                 TextExtents extents = cr.TextExtents(message);
-
                 cr.MoveTo(x - extents.Width/2, y + extents.Height/2);
                 cr.TextPath(message);
                 cr.Clip();

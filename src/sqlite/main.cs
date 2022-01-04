@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.29";
+	static string lastChronojumpDatabaseVersion = "2.30";
 
 	public Sqlite()
 	{
@@ -3072,6 +3072,20 @@ class Sqlite
 				executeSQL("ALTER TABLE " + Constants.ForceSensorTable + " ADD COLUMN maxAvgForce1s FLOAT DEFAULT -1;");
 				currentVersion = updateVersion("2.29");
 			}
+			if(currentVersion == "2.29")
+			{
+				LogB.SQL("Inserted default exercises of forceSensor and raceAnalyzer if empty");
+
+				ArrayList exercises = SqliteForceSensorExercise.Select(true, -1, true);
+				if(exercises == null || exercises.Count == 0)
+					SqliteForceSensorExercise.insertDefault();
+
+				exercises = SqliteRunEncoderExercise.Select(true, -1, true);
+				if(exercises == null || exercises.Count == 0)
+					SqliteRunEncoderExercise.insertDefault();
+
+				currentVersion = updateVersion("2.30");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -3270,6 +3284,7 @@ class Sqlite
 		//forceSensor
 		SqliteForceSensor.createTable();
 		SqliteForceSensorExercise.createTable();
+		SqliteForceSensorExercise.insertDefault();
 		SqliteForceSensorRFD.createTable();
 		SqliteForceSensorRFD.InsertDefaultValues(true);
 		SqliteForceSensorElasticBand.createTable();
@@ -3278,6 +3293,7 @@ class Sqlite
 		//runEncoder
 		SqliteRunEncoder.createTable();
 		SqliteRunEncoderExercise.createTable();
+		SqliteRunEncoderExercise.insertDefault();
 
 		creationRate ++;
 		SqlitePreferences.createTable();
@@ -3291,6 +3307,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
+		//2.29 - 2.30 Converted DB to 2.30 Inserted default exercises of forceSensor and raceAnalyzer if empty
 		//2.28 - 2.29 Converted DB to 2.29 ForceSensor ALTER TABLE added maxForceRaw, maxAvgForce1s
 		//2.27 - 2.28 Converted DB to 2.28 Inserted at preferences showJumpRSI
 		//2.26 - 2.27 Converted DB to 2.27 Inserted lastBackupDir, lastBackupDatetime, backupScheduledCreatedDate, backupScheduledNextDays

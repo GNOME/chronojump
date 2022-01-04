@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.28";
+	static string lastChronojumpDatabaseVersion = "2.29";
 
 	public Sqlite()
 	{
@@ -3065,6 +3065,13 @@ class Sqlite
 				SqlitePreferences.Insert (SqlitePreferences.ShowJumpRSI, "True");
 				currentVersion = updateVersion("2.28");
 			}
+			if(currentVersion == "2.28")
+			{
+				LogB.SQL("ForceSensor ALTER TABLE added maxForceRaw, maxAvgForce1s");
+				executeSQL("ALTER TABLE " + Constants.ForceSensorTable + " ADD COLUMN maxForceRAW FLOAT DEFAULT -1;");
+				executeSQL("ALTER TABLE " + Constants.ForceSensorTable + " ADD COLUMN maxAvgForce1s FLOAT DEFAULT -1;");
+				currentVersion = updateVersion("2.29");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -3284,6 +3291,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
+		//2.28 - 2.29 Converted DB to 2.29 ForceSensor ALTER TABLE added maxForceRaw, maxAvgForce1s
 		//2.27 - 2.28 Converted DB to 2.28 Inserted at preferences showJumpRSI
 		//2.26 - 2.27 Converted DB to 2.27 Inserted lastBackupDir, lastBackupDatetime, backupScheduledCreatedDate, backupScheduledNextDays
 		//2.25 - 2.26 Converted DB to 2.26 contactsCaptureDisplay with BooleansInt, and bool runEncoderCaptureDisplaySimple

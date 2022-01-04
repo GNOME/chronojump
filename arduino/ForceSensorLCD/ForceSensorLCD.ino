@@ -598,6 +598,7 @@ void start_capture()
   for (int i; i< 90; i++){
     forces1s[i] = measured;
   }
+  maxMeanForce1s = 0;
   
   capturing = true;
   delay(500);

@@ -204,13 +204,24 @@ const String menuList [] = {
   "---- System - "
 };
 
+//Mean force in 1s
+
 //Array where all measures in 1s are stored
 float forces1s[90];
 //The current position in the array
 int currentPosition = 0;
 //mean force during 1s
 float meanForce1s;
-float maxMeanForce1s = 0;
+float maxMeanForce1s = 0.0;
+
+//Variability
+float sumSSD = 0.0;
+float sumMeasures = 0.0;
+int samplesSSD = 0;
+float RMSSD = 0.0;
+float cvRMSSD = 0.0;
+bool calculeVariability = true;
+float lastMeasure = 0;
 
 void setup() {
   pinMode(redButtonPin, INPUT);
@@ -390,6 +401,15 @@ void capture(void)
 
       if (abs(meanForce1s) > abs(maxMeanForce1s)) maxMeanForce1s = meanForce1s;
 
+      if(calculeVariability){
+        sumSSD += (sq(measured - lastMeasure));
+        sumMeasures += measured;
+        samplesSSD++;
+        lastMeasure = measured;
+        RMSSD = sqrt(sumSSD / (samplesSSD -1));
+        cvRMSSD = 100 * RMSSD / ( sumMeasures / samplesSSD);
+      }
+
       //RFD stuff start ------>
       if (rfdDataPre2Ok) {
         float rfdValue =  (measured - rfdMeasuredPre2) / ((elapsedTime + rfdTimePre) / 1000000.0);
@@ -448,7 +468,8 @@ void printOnLcd() {
     printLcdFormat (totalTimeInSec, 10, 0, 0);
 
     if (rfdCalculed) {
-      printLcdFormat (rfdValueMax, 13, 1, 1);
+      //printLcdFormat (rfdValueMax, 13, 1, 1);
+      printLcdFormat (cvRMSSD, 13, 1, 1);
 
       measuredLcdDelayMax = 0;
       lcdCount = 0;
@@ -594,11 +615,16 @@ void start_capture()
   rfdValueMax = 0;
 
   //filling the array of forces with initial force
-  float measured = scale.get_units();
+  lastMeasure = scale.get_units();
   for (int i; i< 90; i++){
-    forces1s[i] = measured;
+    forces1s[i] = lastMeasure;
   }
   maxMeanForce1s = 0;
+
+  //Initializing variability variables
+  sumSSD = 0.0;
+  sumMeasures = lastMeasure;
+  samplesSSD = 0;
   
   capturing = true;
   delay(500);

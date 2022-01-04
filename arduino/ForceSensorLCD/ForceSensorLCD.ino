@@ -204,6 +204,14 @@ const String menuList [] = {
   "---- System - "
 };
 
+//Array where all measures in 1s are stored
+float forces1s[90];
+//The current position in the array
+int currentPosition = 0;
+//mean force during 1s
+float meanForce1s;
+float maxMeanForce1s = 0;
+
 void setup() {
   pinMode(redButtonPin, INPUT);
   pinMode(blueButtonPin, INPUT);
@@ -367,6 +375,20 @@ void capture(void)
       currentTime = micros();
       checkTimeOverflow();
       float measured = scale.get_units();
+      
+      currentPosition ++;
+      if (currentPosition >= 90) currentPosition = 0;
+      forces1s[currentPosition] = measured;
+
+      //Calculating the average during 1s
+      float sumForces = 0;
+      for (int i = 0; i<90; i++){
+        sumForces += forces1s[i];
+      }
+
+      meanForce1s = sumForces / 90;
+
+      if (abs(meanForce1s) > abs(maxMeanForce1s)) maxMeanForce1s = meanForce1s;
 
       //RFD stuff start ------>
       if (rfdDataPre2Ok) {
@@ -420,7 +442,8 @@ void printOnLcd() {
 
     printLcdFormat (measuredLcdDelayMax, 4, 0, 1);
 
-    printLcdFormat (measuredMax, 4, 1, 1);
+    //printLcdFormat (measuredMax, 4, 1, 1);
+    printLcdFormat (maxMeanForce1s, 4, 1, 1);
     int totalTimeInSec = totalTime / 1000000;
     printLcdFormat (totalTimeInSec, 10, 0, 0);
 
@@ -569,6 +592,15 @@ void start_capture()
   rfdDataPre2Ok = false;
   rfdCalculed = false;
   rfdValueMax = 0;
+
+  //filling the array of forces with initial force
+  float measured = scale.get_units();
+  for (int i; i< 90; i++){
+    forces1s[i] = measured;
+  }
+  
+  capturing = true;
+  delay(500);
   capturing = true;
 }
 

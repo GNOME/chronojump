@@ -797,7 +797,7 @@ public class ForceSensorValues
 		TimeLast = 0;
 		TimeValueMax = 0;
 		ValueLast = 0;
-		Max = 0;
+		Max = -10000;
 		Min = 10000;
 	}
 

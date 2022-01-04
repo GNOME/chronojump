@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2017-2021   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2017-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -66,6 +66,8 @@ public class ForceSensor
 	private string videoURL;
 	private double stiffness; //on not elastic capture will be -1 (just check if it is negative because it's a double and sometimes -1.0 comparisons don't work)
 	private string stiffnessString; //id0*active0;id1*active1
+	private double maxForceRaw;
+	private double maxAvgForce1s;
 
 	private string exerciseName;
 
@@ -78,7 +80,8 @@ public class ForceSensor
 	//constructor
 	public ForceSensor(int uniqueID, int personID, int sessionID, int exerciseID, CaptureOptions captureOption, int angle,
 			string laterality, string filename, string url, string dateTime, string comments, string videoURL,
-			double stiffness, string stiffnessString, string exerciseName)
+			double stiffness, string stiffnessString, double maxForceRaw, double maxAvgForce1s,
+			string exerciseName)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
@@ -94,6 +97,8 @@ public class ForceSensor
 		this.videoURL = videoURL;
 		this.stiffness = stiffness;
 		this.stiffnessString = stiffnessString;
+		this.maxForceRaw = maxForceRaw;
+		this.maxAvgForce1s = maxAvgForce1s;
 
 		this.exerciseName = exerciseName;
 	}
@@ -113,7 +118,9 @@ public class ForceSensor
 		return
 			"(" + uniqueIDStr + ", " + personID + ", " + sessionID + ", " + exerciseID + ", \"" + captureOption.ToString() + "\", " +
 			angle + ", \"" + laterality + "\", \"" + filename + "\", \"" + url + "\", \"" + dateTime + "\", \"" +
-			comments + "\", \"" + videoURL + "\", " + Util.ConvertToPoint(stiffness) + ", \"" + stiffnessString + "\")";
+			comments + "\", \"" + videoURL + "\", " + Util.ConvertToPoint(stiffness) + ", \"" + stiffnessString + "\", " +
+			Util.ConvertToPoint(maxForceRaw) + ", " + Util.ConvertToPoint(maxAvgForce1s) +
+			")";
 	}
 
 	public void UpdateSQL(bool dbconOpened)
@@ -137,7 +144,9 @@ public class ForceSensor
 			"\", videoURL = \"" + Util.MakeURLrelative(videoURL) +
 			"\", stiffness = " + Util.ConvertToPoint(stiffness) +
 			", stiffnessString = \"" + stiffnessString +
-			"\" WHERE uniqueID = " + uniqueID;
+			"\", maxForceRaw = " + Util.ConvertToPoint(maxForceRaw) +
+			", maxAvgForce1s = " + Util.ConvertToPoint(maxAvgForce1s) +
+			" WHERE uniqueID = " + uniqueID;
 	}
 
 	public void UpdateSQLJustComments(bool dbconOpened)

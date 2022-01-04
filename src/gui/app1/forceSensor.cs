@@ -2170,6 +2170,8 @@ LogB.Information(" fs R ");
 			Catalog.GetString("Elastic") + " (N/m)",
 			Catalog.GetString("Capture option"),
 			Catalog.GetString("Laterality"),
+			"Max force" + " (" + Catalog.GetString("Raw Data") + ")", //TODO: translate
+			string.Format("Max AVG Force in {0} s", 1), //TODO: translate
 			Catalog.GetString("Date"),
 			Catalog.GetString("Video"),
 			Catalog.GetString("Comment")

@@ -389,6 +389,12 @@ class SqliteRunEncoderExercise : Sqlite
 		return myLast;
 	}
 
+	//Default exercise for users without exercises (empty database creation or never used raceAnalyzer)
+	protected internal static void insertDefault ()
+	{
+		Insert (true, -1, "Sprint", "", RunEncoderExercise.SegmentMetersDefault);
+	}
+
 	public static void Update (bool dbconOpened, RunEncoderExercise ex)
 	{
 		if(! dbconOpened)

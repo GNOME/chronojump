@@ -157,7 +157,7 @@ public class ForceSensor
 	//for load window
 	public string [] ToStringArray (int count)
 	{
-		int all = 9;
+		int all = 11;
 		string [] str = new String [all];
 		int i=0;
 		str[i++] = uniqueID.ToString();
@@ -166,6 +166,14 @@ public class ForceSensor
 		str[i++] = exerciseElasticStiffnessString();
 		str[i++] = Catalog.GetString(GetCaptureOptionsString(captureOption));
 		str[i++] = Catalog.GetString(laterality);
+		if(maxForceRaw == -1)
+			str[i++] = "----";
+		else
+			str[i++] = Util.TrimDecimals(maxForceRaw, 2);
+		if(maxAvgForce1s == -1)
+			str[i++] = "----";
+		else
+			str[i++] = Util.TrimDecimals(maxAvgForce1s, 2);
 		str[i++] = dateTime;
 
 		//str[i++] = videoURL;

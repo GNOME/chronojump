@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2017-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2017-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -57,7 +57,9 @@ class SqliteForceSensor : Sqlite
 			"comments TEXT, " +
 			"videoURL TEXT, " +	//URL of video of signals. stored as relative
 			"stiffness FLOAT DEFAULT -1, " +	//this is the important, next one is needed for recalculate, but note that some bands can have changed or being deleted
-			"stiffnessString TEXT)"; //uniqueID*active of ElasticBand separated by ';' or empty if exerciseID ! elastic
+			"stiffnessString TEXT, " + //uniqueID*active of ElasticBand separated by ';' or empty if exerciseID ! elastic
+			"maxForceRaw FLOAT, " +
+			"maxAvgForce1s FLOAT)";
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}
@@ -68,7 +70,9 @@ class SqliteForceSensor : Sqlite
 
 		LogB.Information("goint to insert: " + insertString);
 		dbcmd.CommandText = "INSERT INTO " + table +
-				" (uniqueID, personID, sessionID, exerciseID, captureOption, angle, laterality, filename, url, dateTime, comments, videoURL, stiffness, stiffnessString)" +
+				" (uniqueID, personID, sessionID, exerciseID, captureOption, angle, laterality," +
+				" filename, url, dateTime, comments, videoURL, stiffness, stiffnessString," +
+				" maxForceRaw, maxAvgForce1s)" +
 				" VALUES " + insertString;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -181,7 +185,11 @@ class SqliteForceSensor : Sqlite
 					Convert.ToDouble(Util.ChangeDecimalSeparator(
 							reader[12].ToString())), //stiffness
 					reader[13].ToString(),			//stiffnessString
-					reader[14].ToString()			//exerciseName
+					Convert.ToDouble(Util.ChangeDecimalSeparator(
+							reader[14].ToString())), //maxForceRaw
+					Convert.ToDouble(Util.ChangeDecimalSeparator(
+							reader[15].ToString())), //maxAVgForce1s
+					reader[16].ToString()			//exerciseName
 					);
 			list.Add(fs);
 		}
@@ -414,6 +422,7 @@ class SqliteForceSensor : Sqlite
 						Util.MakeURLrelative(Util.GetForceSensorSessionDir(Convert.ToInt32(session.Name))),
 						parsedDate, fslt.Comment,
 						"", -1, "", //videoURL, stiffness, stiffnessString
+						-1, -1, //maxForceRaw, maxAvgForce1s
 						exerciseName);
 				forceSensor.InsertSQL(true);
 				conversionSubRate ++;

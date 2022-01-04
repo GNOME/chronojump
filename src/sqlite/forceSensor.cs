@@ -492,6 +492,31 @@ class SqliteForceSensorExercise : Sqlite
 		return myLast;
 	}
 
+	//Default exercise for users without exercises (empty database creation or never used forceSensor)
+	protected internal static void insertDefault ()
+	{
+		Insert (true, new ForceSensorExercise(-1, "Leg extension", 0, "", 0,
+					"", false, false, false,
+					ForceSensorExercise.RepetitionsShowTypes.CONCENTRIC,
+					100, 100));
+		Insert (true, new ForceSensorExercise(-1, "ABD/ADD", 0, "", 0,
+					"Abduction/Adduction", false, false, false,
+					ForceSensorExercise.RepetitionsShowTypes.BOTHSEPARATED,
+					100, 100));
+		Insert (true, new ForceSensorExercise(-1, "Mid thigh pull", 100, "", 90,
+					"", false, true, false,
+					ForceSensorExercise.RepetitionsShowTypes.CONCENTRIC,
+					200, 200));
+		Insert (true, new ForceSensorExercise(-1, "Hamstring", 0, "", 0,
+					"", true, true, false,
+					ForceSensorExercise.RepetitionsShowTypes.CONCENTRIC,
+					50, 50));
+		Insert (true, new ForceSensorExercise(-1, "Pull rubber band", 0, "", 0,
+					"", false, true, true,
+					ForceSensorExercise.RepetitionsShowTypes.CONCENTRIC,
+					-1, -1));
+	}
+
 	public static void Update (bool dbconOpened, ForceSensorExercise ex)
 	{
 		if(! dbconOpened)

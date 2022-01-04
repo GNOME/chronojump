@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2017-2021   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2017-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -1562,6 +1562,21 @@ LogB.Information(" fs C ");
 					string stiffnessString;
 					getStiffnessAndStiffnessStringFromSQL(out stiffness, out stiffnessString);
 
+					//get maxAvgForce in 1s start ---->
+					double maxAvgForce1s = -1; //default value
+					double forceMaxAvgInWindow;
+					int forceMaxAvgInWindowSampleStart;
+					int forceMaxAvgInWindowSampleEnd;
+					string forceMaxAvgInWindowError;
+					fscPoints.GetForceMaxAvgInWindow(0, fscPoints.NumCaptured -1, 1,
+							out forceMaxAvgInWindow,
+							out forceMaxAvgInWindowSampleStart,
+							out forceMaxAvgInWindowSampleEnd,
+							out forceMaxAvgInWindowError);
+					if(forceMaxAvgInWindowError == "")
+						maxAvgForce1s = forceMaxAvgInWindow;
+					//<---- get maxAvgForce in 1s end
+
 					currentForceSensor = new ForceSensor(-1, currentPerson.UniqueID, currentSession.UniqueID,
 							currentForceSensorExercise.UniqueID, getForceSensorCaptureOptions(),
 							ForceSensor.AngleUndefined, getLaterality(false),
@@ -1571,6 +1586,8 @@ LogB.Information(" fs C ");
 							"", //on capture cannot store comment (comment has to be written after),
 							"", //videoURL
 							stiffness, stiffnessString,
+							forceSensorValues.Max,
+							maxAvgForce1s,
 							currentForceSensorExercise.Name);
 
 					currentForceSensor.UniqueID = currentForceSensor.InsertSQL(false);

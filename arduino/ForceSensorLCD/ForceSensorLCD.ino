@@ -386,14 +386,14 @@ void capture(void)
       currentTime = micros();
       checkTimeOverflow();
       float measured = scale.get_units();
-      
+
       currentPosition ++;
       if (currentPosition >= 90) currentPosition = 0;
       forces1s[currentPosition] = measured;
 
       //Calculating the average during 1s
       float sumForces = 0;
-      for (int i = 0; i<90; i++){
+      for (int i = 0; i < 90; i++) {
         sumForces += forces1s[i];
       }
 
@@ -401,12 +401,12 @@ void capture(void)
 
       if (abs(meanForce1s) > abs(maxMeanForce1s)) maxMeanForce1s = meanForce1s;
 
-      if(calculeVariability){
+      if (calculeVariability) {
         sumSSD += (sq(measured - lastMeasure));
         sumMeasures += measured;
         samplesSSD++;
         lastMeasure = measured;
-        RMSSD = sqrt(sumSSD / (samplesSSD -1));
+        RMSSD = sqrt(sumSSD / (samplesSSD - 1));
         cvRMSSD = 100 * RMSSD / ( sumMeasures / samplesSSD);
       }
 
@@ -616,7 +616,7 @@ void start_capture()
 
   //filling the array of forces with initial force
   lastMeasure = scale.get_units();
-  for (int i; i< 90; i++){
+  for (int i; i < 90; i++) {
     forces1s[i] = lastMeasure;
   }
   maxMeanForce1s = 0;
@@ -625,7 +625,7 @@ void start_capture()
   sumSSD = 0.0;
   sumMeasures = lastMeasure;
   samplesSSD = 0;
-  
+
   capturing = true;
   delay(500);
   capturing = true;
@@ -789,40 +789,74 @@ void getSyncTime() {
 }
 
 void calibrateLCD(void) {
-  String weights[] = {"10", "20", "30", "40"};
-  short int submenu = 0;
+  int weight = 5;
+  submenu = 0;
   bool exitFlag = false;
   String calibrateCommand = "calibrate:";
-  showCalibrateMenu(weights[submenu]);
-  redButtonState = digitalRead(redButtonPin);
+  showCalibrateLoad(String(weight, DEC));
+  redButtonState = false;
   while (!exitFlag) {
-    if (redButtonState) {
-      Serial.println("Red pressed");
-      calibrateCommand = calibrateCommand + weights[submenu] + ";";
-      calibrate(calibrateCommand);
-      showMenu();
-      exitFlag = true;
+    if (submenu == 0) {
+
+      if (redButtonState) {
+        weight += 5;
+        Serial.println("Red pressed");
+        showCalibrateLoad(String(weight, DEC));
+        calibrateCommand = calibrateCommand + String(weight, DEC) + ";";
+        delay(200);
+      }
+      if (blueButtonState) {
+        //Change to Calibrate execution
+        lcd.clear();
+        lcd.setCursor(9, 0);
+        lcd.print("Cancel");
+        lcd.setCursor(10,1);
+        lcd.print("Start");
+        submenu = 1;
+        Serial.println(submenu);
+        blueButtonState = false;
+        delay(200);
+      }
     }
-    if (blueButtonState) {
-      submenu++;
-      submenu = submenu % 5;
-      showCalibrateMenu(weights[submenu]);
+    
+    if (submenu == 1) {
+      if (redButtonState) {
+        lcd.clear();
+        lcd.setCursor(1,0);
+        lcd.print("Calibrating...");
+        calibrate(calibrateCommand);
+        lcd.clear();
+        lcd.setCursor(2,0);
+        lcd.print("Calibrated...");
+        exitFlag = true;
+        delay(200);
+      }
+      if (blueButtonState) {
+          exitFlag = true;
+      }
     }
+    
     redButtonState = digitalRead(redButtonPin);
     blueButtonState = digitalRead(blueButtonPin);
   }
-  Serial.println("Exit bucle");
+
+//  Serial.println("Exit bucle");
   delay(1000);
+  showMenu();
 }
 
-void showCalibrateMenu(String weight) {
+void showCalibrateLoad(String weight) {
+  lcd.clear();
   lcd.setCursor(3, 0);
-  lcd.print("Calibrate ");
+  lcd.print("Set load");
+  lcd.setCursor(15, 0);
+  lcd.print(">");
+  lcd.setCursor(0,1);
+  lcd.print("Current:" );
   lcd.print(weight);
-  lcd.print(" kg");
-  lcd.setCursor(2, 1);
-  lcd.print("Change Weight");
-  delay(500);
+  lcd.setCursor(14, 1);
+  lcd.print("+5");
+  delay(200);
 }
 
 void showBatteryLevel() {

@@ -94,25 +94,47 @@ float measuredLcdDelayMax = 0; //The max in the lcdDelay periodca
 float measuredMax = 0; // The max since starting capture
 float measured = scale.get_units();
 
+//byte recordChar[] = {
+//  B00000,
+//  B01110,
+//  B11111,
+//  B11111,
+//  B11111,
+//  B11111,
+//  B11111,
+//  B01110
+//};
+
 byte recordChar[] = {
   B00000,
-  B01110,
-  B11111,
-  B11111,
-  B11111,
-  B11111,
-  B01110,
-  B00000
+  B00000,
+  B00000,
+  B10000,
+  B01001,
+  B00101,
+  B00011,
+  B01111
 };
 
+//byte menuChar[] = {
+//  B00000,
+//  B00100,
+//  B00010,
+//  B11111,
+//  B00010,
+//  B00100,
+//  B00000,
+//  B00000
+//};
+
 byte menuChar[] = {
+  B01111,
+  B00011,
+  B00101,
+  B01001,
+  B10000,
   B00000,
-  B01110,
-  B10001,
-  B10001,
-  B10001,
-  B10001,
-  B01110,
+  B00000,
   B00000
 };
 
@@ -197,11 +219,11 @@ unsigned short menu = 0;
 unsigned short submenu = 0;
 
 const String menuList [] = {
-  "--- Measure - ",
-  "-Tare+Measure-",
-  "---- Tare --- ",
-  "-- Calibrate -",
-  "---- System - "
+  "1-Measure     2",
+  "2-TareMeasure 3",
+  "3-Tare        4",
+  "4-Calibrate   5",
+  "5-System      1"
 };
 
 //Mean force in 1s
@@ -334,7 +356,7 @@ void showMenu(void)
   //  Serial.println("Menu");
   lcd.clear();
   showBatteryLevel();
-  lcd.setCursor(1, 0);
+  lcd.setCursor(0, 0);
   lcd.print(menuList[menu]);
   lcd.createChar(6, menuChar);
   lcd.setCursor(15, 0);
@@ -342,23 +364,27 @@ void showMenu(void)
   lcd.createChar(7, recordChar);
   lcd.setCursor(15, 1);
   lcd.write(byte (7));
-  lcd.setCursor(3, 1);
 
   if (menu == 0)
   {
-    lcd.print("Start ");
+    lcd.setCursor(10, 1);
+    lcd.print("Start");
   } else if (menu == 1)
   {
-    lcd.print(" Start");
+    lcd.setCursor(5, 1);
+    lcd.print("Tare&Start");
   } else if (menu == 2)
   {
-    lcd.print(" Tare");
+    lcd.setCursor(10, 1);
+    lcd.print("Start");
   } else if (menu == 3)
   {
-    lcd.print(" Calibrate");
+    lcd.setCursor(2, 1);
+    lcd.print("SetLoad&Start");
   } else if (menu == 4)
   {
-    lcd.print(" System Info");
+    lcd.setCursor(11, 1);
+    lcd.print("Show");
   }
   delay(100);
 }

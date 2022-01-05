@@ -166,7 +166,7 @@ public class EncoderRhythmExecute
 		textRest = "";
 
 		phaseStartDT = DateTime.MinValue;
-		nreps = 1; //start with 1 because it's the phase user will do before calling here
+		nreps = 0;
 	}
 
 	// Public methods ------------------

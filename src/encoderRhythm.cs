@@ -15,16 +15,17 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2018-2020   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2018-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
 using System.Data;
 using Mono.Unix;
+using System.Diagnostics;  //Stopwatch
 
 public class EncoderRhythm
 {
-	public bool Active;
+	public bool ActiveRhythm;
 	public bool RepsOrPhases; //true is by repetition, using RepSeconds. False is by phases, using EccSeconds, ConSeconds
 	public double RepSeconds;
 	public double EccSeconds;
@@ -40,7 +41,7 @@ public class EncoderRhythm
 
 	public EncoderRhythm()
 	{
-		Active = false;
+		ActiveRhythm = false;
 
 		//default values
 		RepsOrPhases = false; //it's always Phases (reps was not easy to follow the bar while doing ecc/con)
@@ -55,12 +56,12 @@ public class EncoderRhythm
 		RestClustersSeconds = 6;
 	}
 
-	public EncoderRhythm(bool active, bool repsOrPhases,
+	public EncoderRhythm(bool activeRhythm, bool repsOrPhases,
 			double repSeconds, double eccSeconds, double conSeconds,
 			double restRepsSeconds, bool restAfterEcc,
 			int repsCluster, double restClustersSeconds)
 	{
-		Active = active;
+		ActiveRhythm = activeRhythm;
 		RepsOrPhases = repsOrPhases;
 		RepSeconds = repSeconds;
 		EccSeconds = eccSeconds;
@@ -84,10 +85,10 @@ public class EncoderRhythm
 	//to show or not image_encoder_rhythm_rest
 	public bool UseRest()
 	{
-		if(! Active)
+		if(! ActiveRhythm && ! UseClusters())
 			return false;
 
-		if(RestRepsSeconds > 0)
+		if(ActiveRhythm && RestRepsSeconds > 0)
 			return true;
 
 		if(UseClusters() && RestClustersSeconds > 0)
@@ -98,7 +99,7 @@ public class EncoderRhythm
 
 	public double RestClustersForEncoderCaptureAutoEnding()
 	{
-		if(Active && UseClusters() && RestClustersSeconds > 0)
+		if(UseClusters() && RestClustersSeconds > 0)
 			return RestClustersSeconds;
 
 		return 0;
@@ -108,7 +109,7 @@ public class EncoderRhythm
 	{
 		return
 			"EncoderRhythm:" +
-			"\nActive: " + Active.ToString() +
+			"\nActiveRhythm: " + ActiveRhythm.ToString() +
 			"\nRepsOrPhases: " + RepsOrPhases.ToString() +
 			"\nRepSeconds: " + RepSeconds.ToString() +
 			"\nEccSeconds: " + EccSeconds.ToString() +
@@ -353,6 +354,41 @@ public class EncoderRhythmExecute
 		}
 		LogB.Information("currentPhase = " + currentPhase.ToString());
 	}
+
+	// ----- all this is when we only care for clusters and not for rhythm of each rep or phase
+	private bool clusterRestSecondsDoing = false;
+	private Stopwatch clusterRestSeconds;
+	public bool ClusterRestDoing ()
+	{
+		return clusterRestSecondsDoing;
+	}
+	public void ClusterRestStart ()
+	{
+		if(clusterRestSeconds == null)
+			clusterRestSeconds = new Stopwatch();
+		clusterRestSeconds.Start();
+
+		clusterRestSecondsDoing = true;
+	}
+	public void ClusterRestStop ()
+	{
+		clusterRestSeconds.Reset(); //Stops time interval measurement and resets the elapsed time to zero.
+		clusterRestSecondsDoing = false;
+	}
+	public string ClusterRestSecondsStr ()
+	{
+		double restTime = encoderRhythm.RestClustersSeconds - clusterRestSeconds.Elapsed.TotalSeconds;
+
+		//at < 0 do not show any message, user should be doing repetition again
+		if(restTime < 0)
+			return "";
+
+		//LogB.Information("encoderRhythm.RestClustersSeconds: " + encoderRhythm.RestClustersSeconds.ToString());
+		//LogB.Information("clusterRestSeconds.Elapsed.TotalSeconds: " + clusterRestSeconds.Elapsed.TotalSeconds.ToString());
+		return string.Format(Catalog.GetString("Resting {0} s"), Util.TrimDecimals(restTime, 1));
+	}
+	// <------
+
 
 	// Accessors ------------------
 

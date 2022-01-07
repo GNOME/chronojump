@@ -163,7 +163,7 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.RadioButton radio_rhythm_together;
 	[Widget] Gtk.RadioButton radio_rhythm_separated;
 	[Widget] Gtk.Notebook notebook_duration_repetition;
-	[Widget] Gtk.VBox vbox_rhythm_cluster;
+	[Widget] Gtk.Frame frame_clusters;
 	[Widget] Gtk.Frame frame_rhythm;
 	[Widget] Gtk.CheckButton check_rhythm_use_clusters;
 	[Widget] Gtk.SpinButton	spin_rhythm_rep;
@@ -885,7 +885,7 @@ public class RepetitiveConditionsWindow
 
 	private void on_check_rhythm_use_clusters_toggled (object o, EventArgs args)
 	{
-		vbox_rhythm_cluster.Visible = check_rhythm_use_clusters.Active;
+		frame_clusters.Visible = check_rhythm_use_clusters.Active;
 		should_show_vbox_rhythm_rest_after();
 	}
 
@@ -906,7 +906,7 @@ public class RepetitiveConditionsWindow
 		//have default values
 		EncoderRhythm encoderRhythm = new EncoderRhythm();
 		//But have rhythm active
-		encoderRhythm.Active = true;
+		encoderRhythm.ActiveRhythm = true;
 
 		//modify widgets
 		encoder_rhythm_set_values(encoderRhythm);
@@ -914,7 +914,7 @@ public class RepetitiveConditionsWindow
 
 	private void encoder_rhythm_set_values(EncoderRhythm encoderRhythm)
 	{
-		check_rhythm_active.Active = encoderRhythm.Active;
+		check_rhythm_active.Active = encoderRhythm.ActiveRhythm;
 
 		/*
 		if(encoderRhythm.RepsOrPhases)
@@ -944,10 +944,10 @@ public class RepetitiveConditionsWindow
 
 		if(encoderRhythm.UseClusters()) {
 			check_rhythm_use_clusters.Active = true;
-			vbox_rhythm_cluster.Visible = true;
+			frame_clusters.Visible = true;
 		} else {
 			check_rhythm_use_clusters.Active = false;
-			vbox_rhythm_cluster.Visible = false;
+			frame_clusters.Visible = false;
 		}
 
 		should_show_vbox_rhythm_rest_after();

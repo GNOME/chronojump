@@ -122,30 +122,70 @@ public class EncoderRhythm
 	}
 }
 
+//not good POO, sorry
+public abstract class EncoderRhythmExecute
+{
+	public bool FirstPhaseDone;
+	protected EncoderRhythm encoderRhythm;
+
+	protected double fraction;
+	protected string textRepetition;
+	protected string textRest;
+	//private double fractionRest;
+
+
+	public abstract void FirstPhaseDo(bool up);
+
+	// ---- just for EncoderRhythmExecuteHasRhythm --->
+	public virtual void CalculateFractionsAndText() {}
+
+	public double Fraction
+	{
+		get {
+			if(fraction < 0)
+				return 0;
+			else if(fraction > 1)
+				return 1;
+			return fraction;
+		}
+	}
+
+	public string TextRepetition
+	{
+		get { return textRepetition; }
+	}
+
+	public string TextRest
+	{
+		get { return textRest; }
+	}
+	// <---- end of just for EncoderRhythmExecuteHasRhythm ----
+
+	// ---- just for EncoderRhythmExecuteJustClusters ---->
+
+	public virtual bool ClusterRestDoing () { return false; }
+	public virtual void ClusterRestStart () {}
+	public virtual void ClusterRestStop () {}
+	public virtual string ClusterRestSecondsStr () { return ""; }
+	// <---- end of just for EncoderRhythmExecuteJustClusters ----
+}
+
 /*
  * this is fixed rhythm starting when first repetition ends
  * easy to follow. not adaptative
  */
-public class EncoderRhythmExecute
+public class EncoderRhythmExecuteHasRhythm : EncoderRhythmExecute
 {
-	public bool FirstPhaseDone;
 	private DateTime phaseStartDT;
-	private EncoderRhythm encoderRhythm;
 	private int nreps;
-
-	private double fraction;
-	private string textRepetition;
-	private string textRest;
-
-	//private double fractionRest;
 
 	//REPETITION is doing the repetition (no differentiate between ecc/con)
 	//ECC is ECC phase using phases
 	//CON is CON phase using phases
 	//RESTRESP is rest between repetitions
 	//RESTCLUSTER is rest between clusters
-	enum phases { REPETITION, ECC, CON, RESTREP, RESTCLUSTER }
-	phases currentPhase;
+	protected enum phases { REPETITION, ECC, CON, RESTREP, RESTCLUSTER }
+	protected phases currentPhase;
 
 	private	bool gravitatory = true;
 	/*
@@ -153,10 +193,9 @@ public class EncoderRhythmExecute
 	 * on gravitatory rest can be after ecc or con (see RestAfterEcc)
 	 */
 
-
 	// Constructor ---------------------
 
-	public EncoderRhythmExecute(EncoderRhythm encoderRhythm, bool gravitatory)
+	public EncoderRhythmExecuteHasRhythm (EncoderRhythm encoderRhythm, bool gravitatory)
 	{
 		this.encoderRhythm = encoderRhythm;
 		//this.eccon_ec = eccon_ec;
@@ -172,7 +211,7 @@ public class EncoderRhythmExecute
 
 	// Public methods ------------------
 
-	public void FirstPhaseDo(bool up)
+	public override void FirstPhaseDo(bool up)
 	{
 		if(FirstPhaseDone)
 			return;
@@ -188,8 +227,9 @@ public class EncoderRhythmExecute
 			currentPhase = getNextPhase(phases.ECC);
 	}
 
+
 	//useful for fraction of the repetition and the rest time
-	public void CalculateFractionsAndText()
+	public override void CalculateFractionsAndText()
 	{
 		//double fraction = 0;
 		TimeSpan span = DateTime.Now - phaseStartDT;
@@ -354,15 +394,37 @@ public class EncoderRhythmExecute
 		}
 		LogB.Information("currentPhase = " + currentPhase.ToString());
 	}
+}
 
-	// ----- all this is when we only care for clusters and not for rhythm of each rep or phase
+//this manages just the rest time between clusters
+public class EncoderRhythmExecuteJustClusters : EncoderRhythmExecute
+{
 	private bool clusterRestSecondsDoing = false;
 	private Stopwatch clusterRestSeconds;
-	public bool ClusterRestDoing ()
+
+	// Constructor ---------------------
+
+	public EncoderRhythmExecuteJustClusters (EncoderRhythm encoderRhythm, bool gravitatory)
+	{
+		this.encoderRhythm = encoderRhythm;
+	}
+
+	// Public methods ------------------
+
+	public override void FirstPhaseDo(bool up)
+	{
+		if(FirstPhaseDone)
+			return;
+
+		FirstPhaseDone = true;
+	}
+
+	public override bool ClusterRestDoing ()
 	{
 		return clusterRestSecondsDoing;
 	}
-	public void ClusterRestStart ()
+
+	public override void ClusterRestStart ()
 	{
 		if(clusterRestSeconds == null)
 			clusterRestSeconds = new Stopwatch();
@@ -370,12 +432,14 @@ public class EncoderRhythmExecute
 
 		clusterRestSecondsDoing = true;
 	}
-	public void ClusterRestStop ()
+
+	public override void ClusterRestStop ()
 	{
 		clusterRestSeconds.Reset(); //Stops time interval measurement and resets the elapsed time to zero.
 		clusterRestSecondsDoing = false;
 	}
-	public string ClusterRestSecondsStr ()
+
+	public override string ClusterRestSecondsStr ()
 	{
 		double restTime = encoderRhythm.RestClustersSeconds - clusterRestSeconds.Elapsed.TotalSeconds;
 
@@ -386,31 +450,6 @@ public class EncoderRhythmExecute
 		//LogB.Information("encoderRhythm.RestClustersSeconds: " + encoderRhythm.RestClustersSeconds.ToString());
 		//LogB.Information("clusterRestSeconds.Elapsed.TotalSeconds: " + clusterRestSeconds.Elapsed.TotalSeconds.ToString());
 		return string.Format(Catalog.GetString("Resting {0} s"), Util.TrimDecimals(restTime, 1));
-	}
-	// <------
-
-
-	// Accessors ------------------
-
-	public double Fraction
-	{
-		get {
-			if(fraction < 0)
-				return 0;
-			else if(fraction > 1)
-				return 1;
-			return fraction;
-		}
-	}
-
-	public string TextRepetition
-	{
-		get { return textRepetition; }
-	}
-
-	public string TextRest
-	{
-		get { return textRest; }
 	}
 }
 

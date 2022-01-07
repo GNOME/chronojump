@@ -2291,7 +2291,7 @@ paintCrossVariables <- function (paf, varX, varY, option,
                             legend=unique(seriesName), lty=1, lwd=2, col=uniqueColors, 
                             cex=1, bg="white", ncol=length(unique(seriesName)), bty="n",
                             plot=F)
-                legend(rng[2]-1.25*lg$rect$w,rng[4]+1.25*lg$rect$h, 
+                legend(rng[2]-1.25*lg$rect$w,rng[4]+1*lg$rect$h,
                        legend=unique(seriesName), lty=1, lwd=2, col=uniqueColors, 
                        cex=1, bg="white", ncol=6, bty="n",
                        plot=T, xpd=NA)

@@ -132,6 +132,28 @@ byte upArrow[] = {
   B00000
 };
 
+byte exitChar[] = {
+  B00100,
+  B01110,
+  B10101,
+  B00100,
+  B10101,
+  B10101,
+  B10001,
+  B11111
+};
+
+byte exitChar2[] = {
+  B11111,
+  B10001,
+  B10101,
+  B10101,
+  B00100,
+  B10101,
+  B01110,
+  B00100
+};
+
 byte battery0[] = {
   B01110,
   B11111,
@@ -257,6 +279,7 @@ void setup() {
     lcd.print("CHRONOJUMP");
     lcd.setCursor(2, 1);
     lcd.print("Boscosystem");
+    delay(1000);
   }
 
   long tare = 0;
@@ -301,12 +324,12 @@ void loop()
     redButtonState = digitalRead(redButtonPin);
     if (redButtonState)
     {
+      redButtonState = false;
       if (menu == 0)
       {
         lcd.clear();
         lcd.setCursor(0, 0);
         lcd.print("Starting capture");
-        lcd.print("Capturing");
         delay(200);
         start_capture();
       } else if (menu == 1)
@@ -329,7 +352,6 @@ void loop()
         menu = 0;
         showMenu();
       }
-      redButtonState = false;
     }
   } else
   {
@@ -393,7 +415,6 @@ void capture(void)
       lastRcaState = rcaState;
 
     } else {                             //If no RCA event, read the force as usual
-
       currentTime = micros();
       checkTimeOverflow();
       float measured = scale.get_units();
@@ -461,6 +482,7 @@ void capture(void)
     }
   }
   MsTimer2::start();
+//  showResults();
 }
 
 void printOnLcd() {
@@ -478,23 +500,30 @@ void printOnLcd() {
     printLcdFormat (totalTimeInSec, 10, 0, 0);
 
     if (rfdCalculed) {
-      //printLcdFormat (rfdValueMax, 13, 1, 1);
+      printLcdFormat (rfdValueMax, 13, 1, 1);
       printLcdFormat (cvRMSSD, 13, 1, 1);
 
       measuredLcdDelayMax = 0;
       lcdCount = 0;
     }
 
-    if (showRecordChar) {
-      lcd.createChar(7, downArrow);
-      lcd.setCursor(0, 0);
-      lcd.write(byte (7));
-      showRecordChar = false;
-    } else if (!showRecordChar) {
-      lcd.setCursor(0, 0);
-      lcd.print(" ");
-      showRecordChar = true;
+    if (calculeVariability) {
+      printLcdFormat (cvRMSSD, 13, 1, 1);
+
+      measuredLcdDelayMax = 0;
+      lcdCount = 0;
     }
+
+//    if (showRecordChar) {
+//      lcd.createChar(7, downArrow);
+//      lcd.setCursor(0, 0);
+//      lcd.write(byte (7));
+//      showRecordChar = false;
+//    } else if (!showRecordChar) {
+//      lcd.setCursor(0, 0);
+//      lcd.print(" ");
+//      showRecordChar = true;
+//    }
   }
 }
 
@@ -586,7 +615,7 @@ void start_capture()
   for (int i; i < 90; i++) {
     forces1s[i] = lastMeasure;
   }
-  maxMeanForce1s = 0;
+  maxMeanForce1s = lastMeasure;
 
   //Initializing variability variables
   sumSSD = 0.0;
@@ -600,14 +629,12 @@ void end_capture()
 {
   capturing = false;
   Serial.print("Capture ended:");
-  Serial.println(scale.get_offset());
-  lcd.setCursor(0, 0);
-  //  lcd.write(" ");
-  //  Serial.print("Menu =");
-  //  Serial.println(menu);
-  showMenu();
-  //lcd.print("Red: Start");
+//  Serial.println(scale.get_offset());
+  lcd.clear();
+  lcd.setCursor(4, 0);
+  lcd.print("Results:");
   delay(500);
+  showResults();
 }
 
 void get_version()
@@ -665,7 +692,6 @@ void tare()
   lcd.print("Tared ");
   delay(300);
   showMenu();
-  //lcd.print("Red: Start");
 }
 
 void get_tare()
@@ -881,4 +907,66 @@ void showSystemInfo() {
     redButtonState = digitalRead(redButtonPin);
   }
   MsTimer2::start();
+}
+
+void showResults(){
+  int submenu = 0;
+  redButtonState = false;
+  
+  lcd.clear();
+  lcd.setCursor(15, 0);
+  lcd.print(">");
+  lcd.createChar(6, exitChar);
+  lcd.setCursor(15, 1);
+  lcd.write(byte (6));
+  lcd.createChar(7, exitChar2);
+  lcd.setCursor(14, 1);
+  lcd.write(byte (7));
+  
+  lcd.setCursor(0,0);
+  lcd.print("Fmax ");
+  printLcdFormat(measuredMax, 9, 0, 1);
+  lcd.setCursor(0,1);
+  lcd.print("Ftrg ");
+  printLcdFormat(0.0, 9, 1, 1);
+  while(!redButtonState){    
+    blueButtonState = digitalRead(blueButtonPin);
+    redButtonState = digitalRead(redButtonPin);
+    if(blueButtonState){
+      blueButtonState = false;
+      submenu++;
+      lcd.clear();
+      if (submenu == 1) {
+        lcd.setCursor(0,0);
+        lcd.print("Fmax1s ");
+        printLcdFormat(maxMeanForce1s, 11, 0, 1);
+        lcd.setCursor(0,1);
+        lcd.print("Fmax5s ");
+        printLcdFormat(maxMeanForce1s, 11, 1, 1);
+        printLcdFormat(cvRMSSD, 11, 1, 1);
+      } else if(submenu == 2) {
+        lcd.setCursor(0,0);
+        lcd.print("RMSSD ");
+        printLcdFormat(RMSSD, 11, 0, 1);
+        lcd.setCursor(0,1);
+        lcd.print("cvRMSSD  ");
+      } else if (submenu >=3) {
+        submenu = 0;
+        lcd.setCursor(0,0);
+        lcd.print("Fmax ");
+        printLcdFormat(measuredMax, 9, 0, 1);
+        lcd.setCursor(0,1);
+        lcd.print("Ftrg ");
+        printLcdFormat(0.0, 9, 1, 1);
+      }
+      delay(200);
+      lcd.setCursor(15, 0);
+      lcd.print(">");
+      lcd.setCursor(15, 1);
+      lcd.write(byte (7));
+    }
+  }
+  redButtonState = false;
+  delay(200);
+  showMenu();
 }

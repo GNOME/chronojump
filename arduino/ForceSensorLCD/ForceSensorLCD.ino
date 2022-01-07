@@ -94,7 +94,12 @@ float measuredLcdDelayMax = 0; //The max in the lcdDelay periodca
 float measuredMax = 0; // The max since starting capture
 float measured = scale.get_units();
 
-//byte recordChar[] = {
+
+/***** Atention!!! *****
+ *  lcd.createChar() function makes a mess with the cursor position and it must be specified
+ *  again the cursos with lcd.setCursor()
+ */
+//byte olddownArrow[] = {
 //  B00000,
 //  B01110,
 //  B11111,
@@ -105,7 +110,7 @@ float measured = scale.get_units();
 //  B01110
 //};
 
-byte recordChar[] = {
+byte downArrow[] = {
   B00000,
   B00000,
   B00000,
@@ -116,18 +121,7 @@ byte recordChar[] = {
   B01111
 };
 
-//byte menuChar[] = {
-//  B00000,
-//  B00100,
-//  B00010,
-//  B11111,
-//  B00010,
-//  B00100,
-//  B00000,
-//  B00000
-//};
-
-byte menuChar[] = {
+byte upArrow[] = {
   B01111,
   B00011,
   B00101,
@@ -245,10 +239,13 @@ float cvRMSSD = 0.0;
 bool calculeVariability = true;
 float lastMeasure = 0;
 
+//Impulse
+float impulse = 0;
+
 void setup() {
   pinMode(redButtonPin, INPUT);
   pinMode(blueButtonPin, INPUT);
-  analogWrite(6, 20);
+//  analogWrite(6, 20);
   lcd.begin(16, 2);
 
   Serial.begin(115200);
@@ -260,8 +257,6 @@ void setup() {
     lcd.print("CHRONOJUMP");
     lcd.setCursor(2, 1);
     lcd.print("Boscosystem");
-    //    kangaroo();
-    //      printLcdFormat (-1.23456, 3, 0, 3);
   }
 
   long tare = 0;
@@ -286,9 +281,8 @@ void setup() {
 
   MsTimer2::set(1000, showBatteryLevel);
   MsTimer2::start();
-
+ 
   showMenu();
-  //  lcd.print("Red: Start");
 }
 
 void loop()
@@ -307,14 +301,6 @@ void loop()
     redButtonState = digitalRead(redButtonPin);
     if (redButtonState)
     {
-      //    Serial.println("redButton");
-      //    lcd.clear();
-      //    lcd.setCursor(1, 0);
-      //    lcd.print(menu);
-      //    lcd.setCursor(3, 0);
-      //    lcd.print(menuList[menu]);
-      //    lcd.setCursor(2, 1);
-
       if (menu == 0)
       {
         lcd.clear();
@@ -353,15 +339,14 @@ void loop()
 
 void showMenu(void)
 {
-  //  Serial.println("Menu");
   lcd.clear();
   showBatteryLevel();
   lcd.setCursor(0, 0);
   lcd.print(menuList[menu]);
-  lcd.createChar(6, menuChar);
+  lcd.createChar(6, upArrow);
   lcd.setCursor(15, 0);
   lcd.write(byte (6));
-  lcd.createChar(7, recordChar);
+  lcd.createChar(7, downArrow);
   lcd.setCursor(15, 1);
   lcd.write(byte (7));
 
@@ -412,7 +397,6 @@ void capture(void)
       currentTime = micros();
       checkTimeOverflow();
       float measured = scale.get_units();
-
       currentPosition ++;
       if (currentPosition >= 90) currentPosition = 0;
       forces1s[currentPosition] = measured;
@@ -502,7 +486,7 @@ void printOnLcd() {
     }
 
     if (showRecordChar) {
-      lcd.createChar(7, recordChar);
+      lcd.createChar(7, downArrow);
       lcd.setCursor(0, 0);
       lcd.write(byte (7));
       showRecordChar = false;
@@ -538,49 +522,6 @@ void printLcdFormat (float val, int xStart, int y, int decimal) {
   lcd.setCursor(xStart  , y);
   lcd.print(val, decimal);
 }
-
-//void kangaroo() {
-//  byte kangaroo1[] = {
-//    B00000,
-//    B00000,
-//    B00000,
-//    B10001,
-//    B11011,
-//    B01110,
-//    B00100,
-//    B00000
-//  };
-//  byte kangaroo2[] = {
-//    B00110,
-//    B01111,
-//    B11111,
-//    B11111,
-//    B01000,
-//    B01100,
-//    B00100,
-//    B00110
-//  };
-//  byte kangaroo3[] = {
-//    B01000,
-//    B00100,
-//    B11110,
-//    B11111,
-//    B11000,
-//    B01000,
-//    B10000,
-//    B00000
-//  };
-//  lcd.createChar(0, kangaroo1);
-//  lcd.setCursor(13, 0);
-//  lcd.write(byte (0));
-//  lcd.createChar(1, kangaroo2);
-//  lcd.setCursor(14, 0);
-//  lcd.write(byte(1));
-//  lcd.createChar(2, kangaroo3);
-//  lcd.setCursor(15, 0);
-//  lcd.write(byte(2));
-//}
-
 
 void serialEvent() {
   String inputString = Serial.readString();
@@ -652,8 +593,6 @@ void start_capture()
   sumMeasures = lastMeasure;
   samplesSSD = 0;
 
-  capturing = true;
-  delay(500);
   capturing = true;
 }
 
@@ -887,26 +826,21 @@ void showCalibrateLoad(String weight) {
 
 void showBatteryLevel() {
   float sensorValue = analogRead(A0);
-  lcd.setCursor(0, 0);
   if (sensorValue >= 788) {
-    lcd.createChar(5, battery5);
-    lcd.write(byte(5));
+    lcd.createChar(0, battery5);
   } else if (sensorValue < 788 && sensorValue >= 759) {
-    lcd.createChar(4, battery4);
-    lcd.write(byte(4));
+    lcd.createChar(0, battery4);
   } else if (sensorValue < 759 && sensorValue >= 730) {
-    lcd.createChar(3, battery3);
-    lcd.write(byte(3));
+    lcd.createChar(0, battery3);
   } else if (sensorValue < 730 && sensorValue >= 701) {
-    lcd.createChar(2, battery2);
-    lcd.write(byte(2));
+    lcd.createChar(0, battery2);
   } else if (sensorValue < 701 && sensorValue >= 672) {
-    lcd.createChar(1, battery1);
-    lcd.write(byte(1));
+    lcd.createChar(0, battery1);
   } else if (sensorValue <= 701) {
     lcd.createChar(0, battery0);
-    lcd.write(byte (0));
   }
+  lcd.setCursor(0, 1);
+  lcd.write(byte (0));
 }
 
 void showSystemInfo() {

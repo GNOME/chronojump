@@ -264,6 +264,9 @@ float lastMeasure = 0;
 //Impulse
 float impulse = 0;
 
+//Force in trigger
+float forceTrigger = 0.0;
+
 void setup() {
   pinMode(redButtonPin, INPUT);
   pinMode(blueButtonPin, INPUT);
@@ -409,6 +412,7 @@ void capture(void)
 
       if (rcaState) {
         Serial.println("R");
+        forceTrigger = measured;
       } else {
         Serial.println("r");
       }
@@ -417,7 +421,7 @@ void capture(void)
     } else {                             //If no RCA event, read the force as usual
       currentTime = micros();
       checkTimeOverflow();
-      float measured = scale.get_units();
+      measured = scale.get_units();
       currentPosition ++;
       if (currentPosition >= 90) currentPosition = 0;
       forces1s[currentPosition] = measured;
@@ -633,6 +637,8 @@ void end_capture()
   lcd.clear();
   lcd.setCursor(4, 0);
   lcd.print("Results:");
+  Serial.println(forceTrigger);
+  Serial.println(measured);
   delay(500);
   showResults();
 }
@@ -735,7 +741,7 @@ void changingRCA() {
   currentTime = micros();
 
   rcaState = digitalRead(rcaPin);
-
+  
   attachInterrupt(digitalPinToInterrupt(rcaPin), changingRCA, CHANGE);
 }
 
@@ -831,7 +837,7 @@ void calibrateLCD(void) {
     blueButtonState = digitalRead(blueButtonPin);
   }
 
-//  Serial.println("Exit bucle");
+//  Serial.println("Exit bucle");F
   delay(1000);
   showMenu();
 }
@@ -916,9 +922,6 @@ void showResults(){
   lcd.clear();
   lcd.setCursor(15, 0);
   lcd.print(">");
-  lcd.createChar(6, exitChar);
-  lcd.setCursor(15, 1);
-  lcd.write(byte (6));
   lcd.createChar(7, exitChar2);
   lcd.setCursor(14, 1);
   lcd.write(byte (7));
@@ -928,7 +931,7 @@ void showResults(){
   printLcdFormat(measuredMax, 9, 0, 1);
   lcd.setCursor(0,1);
   lcd.print("Ftrg ");
-  printLcdFormat(0.0, 9, 1, 1);
+  printLcdFormat(forceTrigger, 9, 1, 1);
   while(!redButtonState){    
     blueButtonState = digitalRead(blueButtonPin);
     redButtonState = digitalRead(redButtonPin);
@@ -943,7 +946,6 @@ void showResults(){
         lcd.setCursor(0,1);
         lcd.print("Fmax5s ");
         printLcdFormat(maxMeanForce1s, 11, 1, 1);
-        printLcdFormat(cvRMSSD, 11, 1, 1);
       } else if(submenu == 2) {
         lcd.setCursor(0,0);
         lcd.print("RMSSD ");
@@ -957,7 +959,7 @@ void showResults(){
         printLcdFormat(measuredMax, 9, 0, 1);
         lcd.setCursor(0,1);
         lcd.print("Ftrg ");
-        printLcdFormat(0.0, 9, 1, 1);
+        printLcdFormat(forceTrigger, 9, 1, 1);
       }
       delay(200);
       lcd.setCursor(15, 0);

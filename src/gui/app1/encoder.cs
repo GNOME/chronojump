@@ -105,6 +105,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ProgressBar encoder_pulsebar_rhythm_eccon;
 	[Widget] Gtk.Label label_encoder_rhythm_rest;
 	[Widget] Gtk.Image image_encoder_rhythm_alert;
+	[Widget] Gtk.Label label_rhythm;
 	[Widget] Gtk.VBox vbox_encoder_signal_comment;
 	[Widget] Gtk.Notebook notebook_encoder_signal_comment_rhythm_and_triggers;
 	[Widget] Gtk.TextView textview_encoder_signal_comment;
@@ -6222,9 +6223,11 @@ public partial class ChronoJumpWindow
 				 */
 				if(encoderRhythm.ActiveRhythm) {
 					encoderRhythmExecute = new EncoderRhythmExecuteHasRhythm (encoderRhythm, ! encoderConfigurationCurrent.has_inertia);
+					label_rhythm.Text = Catalog.GetString("Rhythm");
 					encoder_pulsebar_rhythm_eccon.Visible = true;
 				} else if(encoderRhythm.UseClusters()) {
 					encoderRhythmExecute = new EncoderRhythmExecuteJustClusters (encoderRhythm, ! encoderConfigurationCurrent.has_inertia);
+					label_rhythm.Text = "Clusters"; //TODO: translate
 					encoder_pulsebar_rhythm_eccon.Visible = false;
 				}
 

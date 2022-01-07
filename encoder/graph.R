@@ -2181,7 +2181,7 @@ paintCrossVariables <- function (paf, varX, varY, option,
                 
         } else { #more than one series
                 #colBalls = "black"
-                uniqueColors=topo.colors(length(unique(seriesName)))
+                uniqueColors=rainbow(length(unique(seriesName)))
                 
                 # #in x axis move a little every series to right in order to compare
                 # seqX = seq(0,length(unique(seriesName))-1,by=1)-(length(unique(seriesName))-1)/2

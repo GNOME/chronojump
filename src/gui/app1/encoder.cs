@@ -6220,7 +6220,14 @@ public partial class ChronoJumpWindow
 				 * initialize DateTime for rhythm
 				 * also variable eccon_ec gravitatory mode is e -> c, inertial is c -> e
 				 */
-				encoderRhythmExecute = new EncoderRhythmExecute(encoderRhythm, ! encoderConfigurationCurrent.has_inertia);
+				if(encoderRhythm.ActiveRhythm) {
+					encoderRhythmExecute = new EncoderRhythmExecuteHasRhythm (encoderRhythm, ! encoderConfigurationCurrent.has_inertia);
+					encoder_pulsebar_rhythm_eccon.Visible = true;
+				} else if(encoderRhythm.UseClusters()) {
+					encoderRhythmExecute = new EncoderRhythmExecuteJustClusters (encoderRhythm, ! encoderConfigurationCurrent.has_inertia);
+					encoder_pulsebar_rhythm_eccon.Visible = false;
+				}
+
 				image_encoder_rhythm_alert.Visible = false;
 
 				//triggers only work on gravitatory, concentric
@@ -6731,7 +6738,7 @@ public partial class ChronoJumpWindow
 
 			if(needToRefreshTreeviewCapture) 
 			{
-				if(! encoderRhythmExecute.FirstPhaseDone)
+				if(encoderRhythmExecute != null && ! encoderRhythmExecute.FirstPhaseDone)
 				{
 					bool upOrDown = true;
 					string myEccon = findEccon(false);
@@ -7045,7 +7052,7 @@ public partial class ChronoJumpWindow
 			label_encoder_rhythm_rest.Text = encoderRhythmExecute.TextRest;
 			image_encoder_rhythm_rest.Visible = encoderRhythmExecute.TextRest != "";
 		}
-		else if(encoderRhythm.UseClusters())  //hi ha bugs pq a vegades es deixa de veure el comptador!, imprimir els valors del seguent if !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		else if(encoderRhythm.UseClusters())
 		{
 			//just for show cluster rest (so on feedback gui, rhythm will be unactive but cluster rest active)
 			if(! encoderRhythmExecute.FirstPhaseDone)
@@ -7053,7 +7060,6 @@ public partial class ChronoJumpWindow
 				encoder_pulsebar_rhythm_eccon.Fraction = 0;
 				label_encoder_rhythm_rest.Text = "";
 				image_encoder_rhythm_rest.Visible = false;
-				//encoder_pulsebar_rhythm_eccon.Text = "Waiting 1st phase";
 				return;
 			}
 
@@ -7061,7 +7067,8 @@ public partial class ChronoJumpWindow
 			bool showRest = false;
 			if(radio_encoder_eccon_concentric.Active && repsDone % encoderRhythm.RepsCluster == 0)
 				showRest = true;
-			else if(repsDone > 1 && radio_encoder_eccon_eccentric_concentric.Active && repsDone % (2 * encoderRhythm.RepsCluster) == 0) //TODO: add the info if start up or down, looking at FirstPhaseDo
+			else if(repsDone > 1 && radio_encoder_eccon_eccentric_concentric.Active &&
+					repsDone % (2 * encoderRhythm.RepsCluster) == 0) //TODO: add the info if start up or down, looking at FirstPhaseDo
 				showRest = true;
 
 			if(showRest)
@@ -7086,8 +7093,6 @@ public partial class ChronoJumpWindow
 				}
 			}
 		}
-
-		//TODO: remember to stop ClusterRestSeconds at end of capture
 	}
 
 	// -------------- drawingarea_encoder_analyze_instant
@@ -7494,7 +7499,9 @@ public partial class ChronoJumpWindow
 						Catalog.GetString("Set corrected. string was not fully extended at the beginning."));
 			}
 
-			if(encoderRhythm != null && encoderRhythm.UseClusters() && encoderRhythmExecute != null)
+			if(encoderRhythm != null &&
+					! encoderRhythm.ActiveRhythm && encoderRhythm.UseClusters() &&
+					encoderRhythmExecute != null)
 				encoderRhythmExecute.ClusterRestStop ();
 
 		} else { //ANALYZE

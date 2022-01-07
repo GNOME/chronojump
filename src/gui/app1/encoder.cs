@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 using System;
 using System.IO; 
@@ -6231,7 +6231,7 @@ public partial class ChronoJumpWindow
 				{
 					reallyCutByTriggers = preferences.encoderCaptureCutByTriggers;
 					notebook_encoder_signal_comment_rhythm_and_triggers.Page = 2;
-				} else if(encoderRhythm.Active)
+				} else if(encoderRhythm.ActiveRhythm || encoderRhythm.UseClusters())
 				{
 					notebook_encoder_signal_comment_rhythm_and_triggers.Page = 1;
 					image_encoder_rhythm_rest.Visible = encoderRhythm.UseRest();
@@ -6792,7 +6792,7 @@ public partial class ChronoJumpWindow
 					label_video_encoder_feedback.Text = "Recording video.";
 				}
 
-			if(encoderRhythm.Active)
+			if(encoderRhythm.ActiveRhythm || encoderRhythm.UseClusters())
 				updatePulsebarRhythm();
 
 			//changed trying to fix crash of nuell 27/may/2016
@@ -7028,20 +7028,66 @@ public partial class ChronoJumpWindow
 
 	private void updatePulsebarRhythm()
 	{
-		if(! encoderRhythmExecute.FirstPhaseDone)
+		if(encoderRhythm.ActiveRhythm)
 		{
-			encoder_pulsebar_rhythm_eccon.Fraction = 0;
-			label_encoder_rhythm_rest.Text = "";
-			image_encoder_rhythm_rest.Visible = false;
-			encoder_pulsebar_rhythm_eccon.Text = "Waiting 1st phase";
-			return;
+			if(! encoderRhythmExecute.FirstPhaseDone)
+			{
+				encoder_pulsebar_rhythm_eccon.Fraction = 0;
+				label_encoder_rhythm_rest.Text = "";
+				image_encoder_rhythm_rest.Visible = false;
+				encoder_pulsebar_rhythm_eccon.Text = "Waiting 1st phase";
+				return;
+			}
+
+			encoderRhythmExecute.CalculateFractionsAndText();
+			encoder_pulsebar_rhythm_eccon.Fraction = encoderRhythmExecute.Fraction;
+			encoder_pulsebar_rhythm_eccon.Text = encoderRhythmExecute.TextRepetition;
+			label_encoder_rhythm_rest.Text = encoderRhythmExecute.TextRest;
+			image_encoder_rhythm_rest.Visible = encoderRhythmExecute.TextRest != "";
+		}
+		else if(encoderRhythm.UseClusters())  //hi ha bugs pq a vegades es deixa de veure el comptador!, imprimir els valors del seguent if !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		{
+			//just for show cluster rest (so on feedback gui, rhythm will be unactive but cluster rest active)
+			if(! encoderRhythmExecute.FirstPhaseDone)
+			{
+				encoder_pulsebar_rhythm_eccon.Fraction = 0;
+				label_encoder_rhythm_rest.Text = "";
+				image_encoder_rhythm_rest.Visible = false;
+				//encoder_pulsebar_rhythm_eccon.Text = "Waiting 1st phase";
+				return;
+			}
+
+			int repsDone = eCapture.Ecca.curvesAccepted;
+			bool showRest = false;
+			if(radio_encoder_eccon_concentric.Active && repsDone % encoderRhythm.RepsCluster == 0)
+				showRest = true;
+			else if(repsDone > 1 && radio_encoder_eccon_eccentric_concentric.Active && repsDone % (2 * encoderRhythm.RepsCluster) == 0) //TODO: add the info if start up or down, looking at FirstPhaseDo
+				showRest = true;
+
+			if(showRest)
+			{
+				if(! encoderRhythmExecute.ClusterRestDoing())
+				{
+					encoderRhythmExecute.ClusterRestStart();
+					image_encoder_rhythm_rest.Visible = true;
+				}
+
+				string restStr = encoderRhythmExecute.ClusterRestSecondsStr();
+				label_encoder_rhythm_rest.Text = restStr;
+				//do not show sofa when rested more than RestClusterSeconds
+				if(restStr == "")
+					image_encoder_rhythm_rest.Visible = false;
+			} else {
+				if(encoderRhythmExecute.ClusterRestDoing())
+				{
+					encoderRhythmExecute.ClusterRestStop();
+					image_encoder_rhythm_rest.Visible = false;
+					label_encoder_rhythm_rest.Text = "";
+				}
+			}
 		}
 
-		encoderRhythmExecute.CalculateFractionsAndText();
-		encoder_pulsebar_rhythm_eccon.Fraction = encoderRhythmExecute.Fraction;
-		encoder_pulsebar_rhythm_eccon.Text = encoderRhythmExecute.TextRepetition;
-		label_encoder_rhythm_rest.Text = encoderRhythmExecute.TextRest;
-		image_encoder_rhythm_rest.Visible = encoderRhythmExecute.TextRest != "";
+		//TODO: remember to stop ClusterRestSeconds at end of capture
 	}
 
 	// -------------- drawingarea_encoder_analyze_instant
@@ -7447,6 +7493,10 @@ public partial class ChronoJumpWindow
 					new DialogMessage(Constants.MessageTypes.WARNING, 
 						Catalog.GetString("Set corrected. string was not fully extended at the beginning."));
 			}
+
+			if(encoderRhythm != null && encoderRhythm.UseClusters() && encoderRhythmExecute != null)
+				encoderRhythmExecute.ClusterRestStop ();
+
 		} else { //ANALYZE
 			if(encoderProcessCancel) {
 				encoder_pulsebar_analyze.Text = Catalog.GetString("Cancelled");

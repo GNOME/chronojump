@@ -351,7 +351,7 @@ public class Preferences
 	public void UpdateEncoderRhythm(EncoderRhythm er)
 	{
 		if(
-				encoderRhythmActive != er.Active ||
+				encoderRhythmActive != er.ActiveRhythm ||
 				encoderRhythmRepsOrPhases != er.RepsOrPhases ||
 				encoderRhythmRepSeconds != er.RepSeconds ||
 				encoderRhythmEccSeconds != er.EccSeconds ||
@@ -365,11 +365,11 @@ public class Preferences
 		else
 			return;
 
-		if(encoderRhythmActive != er.Active)
+		if(encoderRhythmActive != er.ActiveRhythm)
 		{
-			encoderRhythmActive = er.Active;
+			encoderRhythmActive = er.ActiveRhythm;
 			SqlitePreferences.Update(SqlitePreferences.EncoderRhythmActiveStr,
-					er.Active.ToString(), true); //bool
+					er.ActiveRhythm.ToString(), true); //bool
 		}
 
 		if(encoderRhythmRepsOrPhases != er.RepsOrPhases)

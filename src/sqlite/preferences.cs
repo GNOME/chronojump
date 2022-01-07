@@ -313,7 +313,7 @@ class SqlitePreferences : Sqlite
 
 				//encoderRhythm
 				EncoderRhythm er = new EncoderRhythm();
-				Insert (EncoderRhythmActiveStr, er.Active.ToString(), dbcmdTr);
+				Insert (EncoderRhythmActiveStr, er.ActiveRhythm.ToString(), dbcmdTr);
 				Insert (EncoderRhythmRepsOrPhasesStr, er.RepsOrPhases.ToString(), dbcmdTr);
 				Insert (EncoderRhythmRepSecondsStr, Util.ConvertToPoint(er.RepSeconds), dbcmdTr);
 				Insert (EncoderRhythmEccSecondsStr, Util.ConvertToPoint(er.EccSeconds), dbcmdTr);

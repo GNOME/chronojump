@@ -167,6 +167,11 @@ public partial class ChronoJumpWindow
 				app1s_checkbutton_show_data_other.Active
 				);*/
 
+		//at load session (not at import) select current session
+		if (app1s_type == app1s_windowType.LOAD_SESSION &&
+				currentSession != null && currentSession.UniqueID >= 0)
+			app1s_SelectRowByID(currentSession.UniqueID);
+
 		app1s_store.SetSortColumnId(1, Gtk.SortType.Descending); //date
 		app1s_store.ChangeSortColumn();
 
@@ -433,7 +438,12 @@ public partial class ChronoJumpWindow
 				app1s_checkbutton_show_data_rt.Active,
 				app1s_checkbutton_show_data_other.Active
 				);*/
-		
+
+		//at load session (not at import) select current session
+		if (app1s_type == app1s_windowType.LOAD_SESSION &&
+				currentSession != null && currentSession.UniqueID >= 0)
+			app1s_SelectRowByID(currentSession.UniqueID);
+
 		app1s_store.SetSortColumnId(1, Gtk.SortType.Descending); //date
 		app1s_store.ChangeSortColumn();
 
@@ -576,7 +586,8 @@ public partial class ChronoJumpWindow
 		}	
 
 	}
-	
+
+	/* unused right now
 	//pass 0 for first row
 	public void app1s_SelectRowByPos(int rowNumber)
 	{
@@ -589,13 +600,17 @@ public partial class ChronoJumpWindow
 				count ++;
 			}
 			app1s_treeview_session_load.Selection.SelectIter(iter);
+
+			TreePath path = store.GetPath (iter);
+			treeview.ScrollToCell (path, null, true, 0, 0);
 		}
 	}
+	*/
 
 	public bool app1s_SelectRowByID(int searchedID)
 	{
 		return UtilGtk.TreeviewSelectRowWithID(
-				app1s_treeview_session_load, app1s_store, 0, searchedID, false);
+				app1s_treeview_session_load, app1s_store, 0, searchedID, true);
 	}
 	
 	private void app1s_onSelectionEntry (object o, EventArgs args)

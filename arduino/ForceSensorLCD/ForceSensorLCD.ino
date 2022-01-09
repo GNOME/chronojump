@@ -854,7 +854,7 @@ void calibrateLCD(void) {
   int weight = 5;
   submenu = 0;
   bool exitFlag = false;
-  String calibrateCommand = "calibrate:";
+  String calibrateCommand = calibrateCommand + String(weight, DEC) + ";";
   showCalibrateLoad(String(weight, DEC));
   redButtonState = false;
   while (!exitFlag) {

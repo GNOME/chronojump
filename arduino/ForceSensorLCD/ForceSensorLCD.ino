@@ -64,12 +64,12 @@ unsigned long lastTime = 0;
 
 //RFD variables
 //for RFD cannot used lastTime, can have overflow problems. Better use elapsedTime
-unsigned long rfdTimePre = 0;
-unsigned long rfdTimePre2 = 0;
-float rfdMeasuredPre = 0;
-float rfdMeasuredPre2 = 0;
-bool rfdDataPreOk = false;
-bool rfdDataPre2Ok = false;
+unsigned long timePre = 0;
+unsigned long timePre2 = 0;
+float measuredPre = 0;
+float measuredPre2 = 0;
+bool dataPreOk = false;
+bool dataPre2Ok = false;
 bool rfdCalculed = false;
 float rfdValueMax = 0;
 
@@ -446,23 +446,24 @@ void capture(void)
       }
 
       //RFD stuff start ------>
-      if (rfdDataPre2Ok) {
-        float rfdValue =  (measured - rfdMeasuredPre2) / ((elapsedTime - rfdTimePre2) / 1000000.0);
+      if (dataPre2Ok) {
+        float rfdValue =  (measured - measuredPre2) / ((totalTime - timePre2) / 1000000.0);
         rfdCalculed = true;
         if (rfdValue > rfdValueMax) {
           rfdValueMax = rfdValue;
         }
       }
 
-      if (rfdDataPreOk) {
-        rfdTimePre2 = rfdTimePre;
-        rfdMeasuredPre2 = rfdMeasuredPre;
-        rfdDataPre2Ok = true;
+      if (dataPreOk) {
+        impulse += ((measured + measuredPre) * (totalTime - timePre) / 1000000.0 / 2);
+        timePre2 = timePre;
+        measuredPre2 = measuredPre;
+        dataPre2Ok = true;
       }
 
-      rfdTimePre = elapsedTime;
-      rfdMeasuredPre = measured;
-      rfdDataPreOk = true;
+      timePre = totalTime;
+      measuredPre = measured;
+      dataPreOk = true;
       //<------- RFD stuff end
 
       if (abs(measured) > abs(measuredLcdDelayMax)) {
@@ -609,10 +610,11 @@ void start_capture()
   lastTime = micros();
   measuredMax = 0;
   //samples = 0;
-  rfdDataPreOk = false;
-  rfdDataPre2Ok = false;
+  dataPreOk = false;
+  dataPre2Ok = false;
   rfdCalculed = false;
   rfdValueMax = 0;
+  impulse = 0;
 
   //filling the array of forces with initial force
   lastMeasure = scale.get_units();
@@ -944,8 +946,8 @@ void showResults(){
         lcd.print("Fmax1s ");
         printLcdFormat(maxMeanForce1s, 11, 0, 1);
         lcd.setCursor(0,1);
-        lcd.print("Fmax5s ");
-        printLcdFormat(maxMeanForce1s, 11, 1, 1);
+        lcd.print("Impulse ");
+        printLcdFormat(impulse, 11, 1, 1);
       } else if(submenu == 2) {
         lcd.setCursor(0,0);
         lcd.print("RMSSD ");

@@ -545,14 +545,14 @@ void printOnLcd() {
   if (lcdCount >= lcdDelay)
   {
     lcd.clear();
-    showBatteryLevel();
+//    showBatteryLevel();
 
     printLcdFormat (measuredLcdDelayMax, 4, 0, 1);
 
     //printLcdFormat (measuredMax, 4, 1, 1);
     printLcdFormat (maxMeanForce1s, 4, 1, 1);
     int totalTimeInSec = totalTime / 1e6;
-    printLcdFormat (totalTimeInSec, 10, 0, 0);
+    printLcdFormat (totalTimeInSec, 15, 0, 0);
 
     /* Old method
     if (rfdCalculed) {
@@ -656,6 +656,8 @@ void serialEvent() {
 
 void start_capture()
 {
+  
+  MsTimer2::stop();
   Serial.println("Starting capture...");
   totalTime = 0;
   lastTime = micros();
@@ -685,7 +687,7 @@ void start_capture()
   sumSSD = 0.0;
   sumMeasures = lastMeasure;
   samplesSSD = 0;
-
+  lcd.clear();
   capturing = true;
 }
 
@@ -701,6 +703,7 @@ void end_capture()
     lcd.print("Results:");
     showResults();
   }
+  MsTimer2::start();
   showMenu();
 }
 
@@ -747,16 +750,18 @@ void calibrate(String inputString)
 
 void tare()
 {
-  lcd.print("taring");
+  lcd.clear();
+  lcd.setCursor(3,0);
+  lcd.print("Taring...");
   scale.tare(50); //Reset the scale to 0 using the mean of 255 raw values
   EEPROM.put(tareAddress, scale.get_offset());
   Serial.print("Taring OK:");
   Serial.println(scale.get_offset());
 
 
-  lcd.setCursor(2, 1);
-  lcd.print("Tared ");
-  delay(300);
+  lcd.setCursor(3,0);
+  lcd.print("  Tared  ");
+  delay(200);
   showMenu();
 }
 

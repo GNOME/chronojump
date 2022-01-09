@@ -447,7 +447,7 @@ void capture(void)
 
       //RFD stuff start ------>
       if (rfdDataPre2Ok) {
-        float rfdValue =  (measured - rfdMeasuredPre2) / ((elapsedTime + rfdTimePre) / 1000000.0);
+        float rfdValue =  (measured - rfdMeasuredPre2) / ((elapsedTime - rfdTimePre2) / 1000000.0);
         rfdCalculed = true;
         if (rfdValue > rfdValueMax) {
           rfdValueMax = rfdValue;

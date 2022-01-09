@@ -1020,9 +1020,13 @@ public class ForceSensorCapturePoints
 	//startAtSample is to make algorithm more efficient
 	public int GetSampleOrPreviousAtTimeUs (int us, int startAtSample)
 	{
+		LogB.Information(string.Format("us {0}, startAtSample {1}, times.Count {2} ",
+					us, startAtSample, times.Count));
 		int lastPos = startAtSample;
 		for(int i = startAtSample; i < times.Count; i ++)
 		{
+			LogB.Information(string.Format("i {0}, times[i] {1}, lastPos {2}",
+						i, times[i], lastPos));
 			if(times[i] > us)
 				return lastPos;
 
@@ -1031,6 +1035,7 @@ public class ForceSensorCapturePoints
 				lastPos ++;
 		}
 
+		LogB.Information(string.Format("lastPos {0}", lastPos));
 		return lastPos;
 	}
 

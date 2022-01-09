@@ -194,7 +194,7 @@ public class PhotocellWirelessCapture: ArduinoCapture
 
 		LogB.Information(string.Format("arduinoCapture portName: {0}, bauds: {1}", portName, bauds));
 
-		//empty the port after new capture
+		//empty the port before new capture
 		flush();
 
 		/*

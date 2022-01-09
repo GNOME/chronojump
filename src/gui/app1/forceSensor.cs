@@ -1498,12 +1498,13 @@ public partial class ChronoJumpWindow
 		force = 0;
 		triggerCode = "";
 
+		LogB.Information("strA: " + str);
 		//check if there is one and only one ';'
 		if( ! (str.Contains(";") && str.IndexOf(";") == str.LastIndexOf(";")) )
 			return false;
 
 		string [] strFull = str.Split(new char[] {';'});
-		//LogB.Information("str: " + str);
+		LogB.Information("strB: " + str);
 
 		//LogB.Information("time: " + strFull[0]);
 		if(! Util.IsNumber(Util.ChangeDecimalSeparator(strFull[0]), true))
@@ -2782,6 +2783,10 @@ LogB.Information(" fs R ");
 		{
 			// 1) get the sample count (we will need it to know the force at that sample)
 			triggerSample = fscPoints.GetSampleOrPreviousAtTimeUs(trigger.Us, triggerSample);
+				
+
+			LogB.Information("triggerSample: "+  triggerSample.ToString());
+			LogB.Information("fscPoints.Points.Count: "+  fscPoints.Points.Count.ToString());
 
 			forceSensorCaptureGraphDrawTrigger (trigger,
 					Convert.ToInt32(fscPoints.GetTimeInPx(Convert.ToInt32(fscPoints.GetTimeAtCount(triggerSample)))),

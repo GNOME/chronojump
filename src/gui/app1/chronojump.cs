@@ -1,8 +1,35 @@
+/*
+al win7 virtualbox provant de comentar a
+void on_button_execute_test_clicked (object o, EventArgs args) 
+la línia:
+	chronopicRegisterUpdate(false);
+però aquí no he provat de executar amb aquesta línia descomentada
+
+val, així funciona i es pot canviar de simples a múltiples sense problema
+el problema és quan cliquem a dispositiu, que precisament crida a 
+	chronopicRegisterUpdate(false);
+llavors no es veu el dispositiu i ja no va més
+potser sí que és pq aquí ho captura un altre thread
+
+sense el chronopicRegisterUpdate, quan fem captura tot va bé.
+al canviar mode hi ha chronopicRegisterUpdate i tot va bé
+al clicar device, hi ha chronopicRegisterUpdate i falla
+crec que la diferència és que al canviar de mode, abans del chronopicRegisterUpdate hi ha un Disconnect
+
+per tant posar això abans del device hauria de funcionar, provar-ho
+if(photocellWirelessCapture != null && ArduinoCapture.PortOpened)
+	photocellWirelessCapture.Disconnect();
+
+a encoder de cursa també falla al anar a mode, i és pq li cal fer el disconnect a portRE igual que el de portFS
+a changeMode
+
+
 //La camera 1 va mes rapid que la 0, provar de canviar i activatr primer la 1 a veure que tal
 
 //- Arreglar problema de no coincidencia entre imatge mini i imatge gran, per exemple session6, atleta 1
 //- modo simulado curses 4 curses no acaba la ultima
 //TODO: que es pugui seleccionar si es vol una webcam o 2
+*/
 
 
 /*

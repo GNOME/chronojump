@@ -532,7 +532,10 @@ void capture(void)
       //      }
     }
     redButtonState = digitalRead(redButtonPin);
-    if (redButtonState) {
+    blueButtonState = digitalRead(blueButtonPin);
+    if (redButtonState || blueButtonState) {
+      redButtonState = false;
+      blueButtonState = false;
       end_capture();
     }
   }

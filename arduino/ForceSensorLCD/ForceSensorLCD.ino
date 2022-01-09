@@ -33,7 +33,7 @@
 #define CLK  4
 
 //Version number //it always need to start with: "Force_Sensor-"
-String device = "Force_Sensor";
+//String device = "Force_Sensor";
 String version = "0.7";
 
 
@@ -48,14 +48,14 @@ float offsetted_data = 0;
 //Data resulting of appying the calibration_factor to the offsetted_data
 float scaled_data = 0;
 
-//The weight used to calibrate the cell
-float weight = 0.0;
+////The weight used to calibrate the cell
+//float weight = 0.0;
 
 //Wether the sensor has to capture or not
 boolean capturing = false;
 
-//Wether the sync time must be sent or not
-bool sendSyncTime = false;
+////Wether the sync time must be sent or not
+//bool sendSyncTime = false;
 
 //wether the tranmission is in binary format or not
 boolean binaryFormat = false;
@@ -64,6 +64,7 @@ unsigned long lastTime = 0;
 
 //RFD variables
 //for RFD cannot used lastTime, can have overflow problems. Better use elapsedTime
+/* Old method)
 unsigned long timePre = 0;
 unsigned long timePre2 = 0;
 float measuredPre = 0;
@@ -72,24 +73,30 @@ bool dataPreOk = false;
 bool dataPre2Ok = false;
 bool rfdCalculed = false;
 float rfdValueMax = 0;
+*/
+float RFD200 = 0.0;   //average RFD during 200 ms
+float RFD100 = 0.0;  //average RFD during 100 ms
+float maxRFD200 = 0.0;   //Maximim average RFD during 200 ms
+float maxRFD100 = 0.0;  //Maximim average RFD during 100 ms
+bool elapsed200 = false;  //Wether it has passed 200 ms from the start
+bool elapsed100 = false;  //Wether it has passed 100 ms from the start
 
 
 unsigned long currentTime = 0;
 unsigned long elapsedTime = 0;
 unsigned long totalTime = 0;
-unsigned long syncTime = 0;
-unsigned int samples = 0;
+//unsigned long syncTime = 0;
+//unsigned int samples = 0;
 
 const int redButtonPin = 13;
 bool redButtonState;
 
 const int blueButtonPin = 6;
 bool blueButtonState;
-float voltage;
 
-
-unsigned int lcdDelay = 25; //to be able to see the screen. Seconds are also printed in delay but 25 values are less than one second
-unsigned int lcdCount = 0;
+//TODO. Manage it with timer interruptions
+unsigned short lcdDelay = 25; //to be able to see the screen. Seconds are also printed in delay but 25 values are less than one second
+unsigned short lcdCount = 0;
 float measuredLcdDelayMax = 0; //The max in the lcdDelay periodca
 float measuredMax = 0; // The max since starting capture
 float measured = scale.get_units();
@@ -99,16 +106,7 @@ float measured = scale.get_units();
  *  lcd.createChar() function makes a mess with the cursor position and it must be specified
  *  again the cursos with lcd.setCursor()
  */
-//byte olddownArrow[] = {
-//  B00000,
-//  B01110,
-//  B11111,
-//  B11111,
-//  B11111,
-//  B11111,
-//  B11111,
-//  B01110
-//};
+
 
 byte downArrow[] = {
   B00000,
@@ -133,17 +131,6 @@ byte upArrow[] = {
 };
 
 byte exitChar[] = {
-  B00100,
-  B01110,
-  B10101,
-  B00100,
-  B10101,
-  B10101,
-  B10001,
-  B11111
-};
-
-byte exitChar2[] = {
   B11111,
   B10001,
   B10101,
@@ -225,7 +212,7 @@ bool showRecordChar = false;
 
 LiquidCrystal lcd(12, 11, 10, 9, 8, 7);
 
-const int rcaPin = 3;
+const short rcaPin = 3;
 
 unsigned long triggerTime = 0;
 bool rcaState = digitalRead(rcaPin);
@@ -234,20 +221,30 @@ bool lastRcaState = rcaState;
 unsigned short menu = 0;
 unsigned short submenu = 0;
 
+//TODO. Try to eliminate spaces and the number to save memory
 const String menuList [] = {
-  "1-Measure     2",
-  "2-TareMeasure 3",
-  "3-Tare        4",
-  "4-Calibrate   5",
-  "5-System      1"
+  "1-Measure",
+  "2-TareMeasure",
+  "3-Tare",
+  "4-Calibrate",
+  "5-System"
 };
 
 //Mean force in 1s
 
 //Array where all measures in 1s are stored
-float forces1s[90];
+//ADC has 84.75 ~ 85 samples/second. If we need the diference in 1 second we need 1 more sample
+unsigned short freq = 86;
+//Cirtular buffer of measures
+float forces1s[86];
+//200 ms -> 16.95 ~ 17 samples. To know the elapsed time in 200 ms we need 1 more sample
+short int samples200ms = 18;
+short int samples100ms = 9;
+//Circular buffer of times
+unsigned long totalTimes1s[18];
 //The current position in the array
-int currentPosition = 0;
+unsigned short currentFPosition = 0;
+unsigned short currentTPosition = 0;
 //mean force during 1s
 float meanForce1s;
 float maxMeanForce1s = 0.0;
@@ -255,17 +252,21 @@ float maxMeanForce1s = 0.0;
 //Variability
 float sumSSD = 0.0;
 float sumMeasures = 0.0;
-int samplesSSD = 0;
+unsigned int samplesSSD = 0;
 float RMSSD = 0.0;
 float cvRMSSD = 0.0;
-bool calculeVariability = true;
+//bool calculeVariability = true;
 float lastMeasure = 0;
 
 //Impulse
 float impulse = 0;
+bool elapsed1Sample = false;
 
 //Force in trigger
 float forceTrigger = 0.0;
+
+//If it is controled by computer don't show results
+bool PCControlled = false;
 
 void setup() {
   pinMode(redButtonPin, INPUT);
@@ -333,6 +334,7 @@ void loop()
         lcd.clear();
         lcd.setCursor(0, 0);
         lcd.print("Starting capture");
+        PCControlled = false;
         delay(200);
         start_capture();
       } else if (menu == 1)
@@ -368,6 +370,8 @@ void showMenu(void)
   showBatteryLevel();
   lcd.setCursor(0, 0);
   lcd.print(menuList[menu]);
+  lcd.setCursor(14,0);
+  lcd.print(menu + 1);
   lcd.createChar(6, upArrow);
   lcd.setCursor(15, 0);
   lcd.write(byte (6));
@@ -422,32 +426,42 @@ void capture(void)
       currentTime = micros();
       checkTimeOverflow();
       measured = scale.get_units();
-      currentPosition ++;
-      if (currentPosition >= 90) currentPosition = 0;
-      forces1s[currentPosition] = measured;
+
+      //When currentFPosition is > freq +1 it starts over to 0
+      currentFPosition = (currentFPosition + 1) % freq;
+      currentTPosition = (currentTPosition + 1) % samples200ms;
+//      Serial.print(currentTPosition); Serial.print("\t");
+      if(currentTPosition > 0) elapsed1Sample = true;
+      if(currentTPosition >= (samples200ms -1)) elapsed200 = true;
+      if(currentTPosition >= (samples100ms -1)) elapsed100 = true;
+      
+      forces1s[currentFPosition] = measured;
+      totalTimes1s[currentTPosition] = totalTime;
 
       //Calculating the average during 1s
       float sumForces = 0;
-      for (int i = 0; i < 90; i++) {
+      for (int i = 0; i < freq; i++) {
         sumForces += forces1s[i];
       }
 
-      meanForce1s = sumForces / 90;
+      meanForce1s = sumForces / freq;
 
       if (abs(meanForce1s) > abs(maxMeanForce1s)) maxMeanForce1s = meanForce1s;
 
-      if (calculeVariability) {
+//      if (calculeVariability) {
         sumSSD += (sq(measured - lastMeasure));
         sumMeasures += measured;
         samplesSSD++;
         lastMeasure = measured;
         RMSSD = sqrt(sumSSD / (samplesSSD - 1));
         cvRMSSD = 100 * RMSSD / ( sumMeasures / samplesSSD);
-      }
+//      }
 
       //RFD stuff start ------>
+      /* Old method
+       *  
       if (dataPre2Ok) {
-        float rfdValue =  (measured - measuredPre2) / ((totalTime - timePre2) / 1000000.0);
+        float rfdValue =  (measured - measuredPre2) / ((totalTime - timePre2) / 1e6.0);
         rfdCalculed = true;
         if (rfdValue > rfdValueMax) {
           rfdValueMax = rfdValue;
@@ -455,7 +469,7 @@ void capture(void)
       }
 
       if (dataPreOk) {
-        impulse += ((measured + measuredPre) * (totalTime - timePre) / 1000000.0 / 2);
+        impulse += ((measured + measuredPre) * (totalTime - timePre) / 1e6.0 / 2);
         timePre2 = timePre;
         measuredPre2 = measuredPre;
         dataPre2Ok = true;
@@ -464,6 +478,42 @@ void capture(void)
       timePre = totalTime;
       measuredPre = measured;
       dataPreOk = true;
+      */
+
+      if(elapsed1Sample){
+        impulse += (((measured + forces1s[(currentFPosition + freq - 1) % freq])  / 2) *      //Mean force between 2 samples
+          (totalTime - totalTimes1s[(currentTPosition + samples200ms - 1) % samples200ms]) / 1e6);  //Elapsed time between 2 samples
+      }
+
+      //To go backwards N position use [currentFPosition + TotalPositions - N]
+      if(elapsed200){
+        //Increment of the force in 200ms
+        RFD200 = (measured - forces1s[(currentFPosition + freq - samples200ms) % freq]) /
+          ((totalTime - totalTimes1s[(currentTPosition + 1) % samples200ms]) / 1e6);
+//          Serial.print(currentTPosition);
+//          Serial.print("\t");
+//          Serial.print((currentTPosition + 1) % samples200ms);
+//          Serial.print("\t");
+//          Serial.print(totalTime);
+//          Serial.print("\t");
+//          Serial.print((totalTimes1s[(currentTPosition + 1) % samples200ms]));
+//          Serial.print("\t");
+//          Serial.print((totalTime - totalTimes1s[(currentTPosition + 1) % samples200ms]) / 1e6);
+//          Serial.print("\t");
+//          Serial.print(totalTime); Serial.print("\t");
+//          Serial.print(totalTimes1s[(currentTPosition + samples200ms - 17) % freq]); Serial.print("\t");
+//          Serial.print(RFD200); Serial.print("\t");
+        if(abs(maxRFD200) < abs(RFD200)) maxRFD200 = RFD200;
+      }
+
+      if(elapsed100){
+        //Increment of the force in 100ms
+        RFD100 = (measured - forces1s[(currentFPosition + freq - samples100ms) % freq]) /
+          ((totalTime - totalTimes1s[(currentTPosition + samples200ms - samples100ms) % samples200ms]) / 1e6);
+//          Serial.print(RFD100); Serial.print("\t");
+        if(abs(maxRFD100) < abs(RFD100)) maxRFD100 = RFD100;
+      }
+
       //<------- RFD stuff end
 
       if (abs(measured) > abs(measuredLcdDelayMax)) {
@@ -501,9 +551,10 @@ void printOnLcd() {
 
     //printLcdFormat (measuredMax, 4, 1, 1);
     printLcdFormat (maxMeanForce1s, 4, 1, 1);
-    int totalTimeInSec = totalTime / 1000000;
+    int totalTimeInSec = totalTime / 1e6;
     printLcdFormat (totalTimeInSec, 10, 0, 0);
 
+    /* Old method
     if (rfdCalculed) {
       printLcdFormat (rfdValueMax, 13, 1, 1);
       printLcdFormat (cvRMSSD, 13, 1, 1);
@@ -511,13 +562,12 @@ void printOnLcd() {
       measuredLcdDelayMax = 0;
       lcdCount = 0;
     }
+    */
 
-    if (calculeVariability) {
-      printLcdFormat (cvRMSSD, 13, 1, 1);
+      printLcdFormat (impulse, 13, 1, 1);
 
       measuredLcdDelayMax = 0;
       lcdCount = 0;
-    }
 
 //    if (showRecordChar) {
 //      lcd.createChar(7, downArrow);
@@ -572,6 +622,7 @@ void serialEvent() {
 
 
   if (commandString == "start_capture") {
+    PCControlled = true;
     start_capture();
     //capture();
   } else if (commandString == "end_capture") {
@@ -592,10 +643,10 @@ void serialEvent() {
     tare();
   } else if (commandString == "get_transmission_format") {
     get_transmission_format();
-  } else if (commandString == "send_sync_signal") {
-    sendSyncSignal();
-  } else if (commandString == "listen_sync_signal") {
-    listenSyncSignal();
+//  } else if (commandString == "send_sync_signal") {
+//    sendSyncSignal();
+//  } else if (commandString == "listen_sync_signal") {
+//    listenSyncSignal();
   } else {
     Serial.println("Not a valid command");
   }
@@ -610,17 +661,24 @@ void start_capture()
   lastTime = micros();
   measuredMax = 0;
   //samples = 0;
+  /* old method
   dataPreOk = false;
   dataPre2Ok = false;
   rfdCalculed = false;
   rfdValueMax = 0;
+  */
   impulse = 0;
 
-  //filling the array of forces with initial force
+  //filling the array of forces ant times with initial force
   lastMeasure = scale.get_units();
-  for (int i; i < 90; i++) {
+  for (int i; i < freq; i++) {
     forces1s[i] = lastMeasure;
   }
+
+  for (short int i; i < samples200ms; i++) {
+    totalTimes1s[i] = 0;
+  }
+  
   maxMeanForce1s = lastMeasure;
 
   //Initializing variability variables
@@ -634,21 +692,21 @@ void start_capture()
 void end_capture()
 {
   capturing = false;
-  Serial.print("Capture ended:");
+  Serial.println("Capture ended:");
 //  Serial.println(scale.get_offset());
-  lcd.clear();
-  lcd.setCursor(4, 0);
-  lcd.print("Results:");
-  Serial.println(forceTrigger);
-  Serial.println(measured);
   delay(500);
-  showResults();
+  if(!PCControlled){   
+    lcd.clear();
+    lcd.setCursor(4, 0);
+    lcd.print("Results:");
+    showResults();
+  }
+  showMenu();
 }
 
 void get_version()
 {
-  Serial.print(device);
-  Serial.print("-");
+  Serial.print("Force_Sensor-");
   Serial.println(version);
 }
 
@@ -760,32 +818,32 @@ void checkTimeOverflow() {
   lastTime = currentTime;
 }
 
-void sendSyncSignal() {
-  pinMode(rcaPin, OUTPUT);
-
-  syncTime = micros();
-
-  digitalWrite(rcaPin, HIGH);
-  delay(200);
-  digitalWrite(rcaPin, LOW);
-
-  sendSyncTime = true;
-
-  pinMode(rcaPin, INPUT);
-}
-
-void listenSyncSignal() {
-  //detachInterrupt(digitalPinToInterrupt(rcaPin));
-  attachInterrupt(digitalPinToInterrupt(rcaPin), getSyncTime, FALLING);
-  Serial.println("listening sync signal");
-}
-
-void getSyncTime() {
-  syncTime = micros();
-  sendSyncTime = true;
-  //detachInterrupt(digitalPinToInterrupt(rcaPin));
-  attachInterrupt(digitalPinToInterrupt(rcaPin), changingRCA, FALLING);
-}
+//void sendSyncSignal() {
+//  pinMode(rcaPin, OUTPUT);
+//
+//  syncTime = micros();
+//
+//  digitalWrite(rcaPin, HIGH);
+//  delay(200);
+//  digitalWrite(rcaPin, LOW);
+//
+//  sendSyncTime = true;
+//
+//  pinMode(rcaPin, INPUT);
+//}
+//
+//void listenSyncSignal() {
+//  //detachInterrupt(digitalPinToInterrupt(rcaPin));
+//  attachInterrupt(digitalPinToInterrupt(rcaPin), getSyncTime, FALLING);
+//  Serial.println("listening sync signal");
+//}
+//
+//void getSyncTime() {
+//  syncTime = micros();
+//  sendSyncTime = true;
+//  //detachInterrupt(digitalPinToInterrupt(rcaPin));
+//  attachInterrupt(digitalPinToInterrupt(rcaPin), changingRCA, FALLING);
+//}
 
 void calibrateLCD(void) {
   int weight = 5;
@@ -918,50 +976,58 @@ void showSystemInfo() {
 }
 
 void showResults(){
-  int submenu = 0;
+  int submenu = 4;
   redButtonState = false;
   
   lcd.clear();
   lcd.setCursor(15, 0);
   lcd.print(">");
-  lcd.createChar(7, exitChar2);
-  lcd.setCursor(14, 1);
+  lcd.createChar(7, exitChar);
+  lcd.setCursor(15, 1);
   lcd.write(byte (7));
   
+
   lcd.setCursor(0,0);
   lcd.print("Fmax ");
-  printLcdFormat(measuredMax, 9, 0, 1);
+  printLcdFormat(measuredMax, 11, 0, 1);
   lcd.setCursor(0,1);
-  lcd.print("Ftrg ");
-  printLcdFormat(forceTrigger, 9, 1, 1);
+  lcd.print("Fmax1s ");
+  printLcdFormat(maxMeanForce1s, 11, 1, 1);
   while(!redButtonState){    
     blueButtonState = digitalRead(blueButtonPin);
     redButtonState = digitalRead(redButtonPin);
     if(blueButtonState){
       blueButtonState = false;
-      submenu++;
+      submenu = (submenu + 1) % 4;
       lcd.clear();
-      if (submenu == 1) {
+      if (submenu == 0) {
         lcd.setCursor(0,0);
+        lcd.print("Fmax ");
+        printLcdFormat(measuredMax, 11, 0, 1);
+        lcd.setCursor(0,1);
         lcd.print("Fmax1s ");
-        printLcdFormat(maxMeanForce1s, 11, 0, 1);
+        printLcdFormat(maxMeanForce1s, 11, 1, 1);
+      } else if(submenu == 1) {
+        lcd.setCursor(0,0);
+        lcd.print("Ftrg ");
+        printLcdFormat(forceTrigger, 11, 0, 1);
         lcd.setCursor(0,1);
         lcd.print("Impulse ");
         printLcdFormat(impulse, 11, 1, 1);
       } else if(submenu == 2) {
         lcd.setCursor(0,0);
+        lcd.print("RFD100 ");
+        printLcdFormat(maxRFD100, 11, 0, 1);
+        lcd.setCursor(0,1);
+        lcd.print("RFD200  ");
+        printLcdFormat(maxRFD200, 11, 1, 1);
+      } else if (submenu >=3) {
+        lcd.setCursor(0,0);
         lcd.print("RMSSD ");
         printLcdFormat(RMSSD, 11, 0, 1);
         lcd.setCursor(0,1);
         lcd.print("cvRMSSD  ");
-      } else if (submenu >=3) {
-        submenu = 0;
-        lcd.setCursor(0,0);
-        lcd.print("Fmax ");
-        printLcdFormat(measuredMax, 9, 0, 1);
-        lcd.setCursor(0,1);
-        lcd.print("Ftrg ");
-        printLcdFormat(forceTrigger, 9, 1, 1);
+        printLcdFormat(cvRMSSD, 11, 1, 1);
       }
       delay(200);
       lcd.setCursor(15, 0);
@@ -972,5 +1038,4 @@ void showResults(){
   }
   redButtonState = false;
   delay(200);
-  showMenu();
 }

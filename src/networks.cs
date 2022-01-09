@@ -131,7 +131,9 @@ public class NetworksSendMail
 		parameters.Add(email);
 
 		//note redirect output and error is false because if redirect input there are problems redirecting the others
-		ExecuteProcess.Result execute_result = ExecuteProcess.run ("mail.mailutils", parameters, getBody(title), false, false);
+		//ExecuteProcess.Result execute_result = ExecuteProcess.run ("mail.mailutils", parameters, getBody(title), false, false);
+		//TODO: decide if mail.mailutils (maybe debian) or mailutils (maybe manjaro), maybe this has to be on chronojump_config.txt
+		ExecuteProcess.Result execute_result = ExecuteProcess.run ("mailutils", parameters, getBody(title), false, false);
 		if(! execute_result.success) {
 			ErrorStr = "Need to install mail.mailutils";
 		}

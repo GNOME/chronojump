@@ -103,20 +103,25 @@ public class RunPhaseInfoManage
 		bool firstPair = true;
 		for(int i = startAt +1; i < list.Count; i +=2)
 		{
+			LogB.Information("At rpim IsStartDoubleContact B pre 1");
 			tcRPI = (RunPhaseInfo) list[i-1];
+			LogB.Information("At rpim IsStartDoubleContact B pre 2");
 			tfRPI = (RunPhaseInfo) list[i];
 
 			LogB.Information("At rpim IsStartDoubleContact B");
 			if(firstPair && ! speedStart) {
+				LogB.Information("At rpim IsStartDoubleContact B 3");
 				//if ! speedStart (started inside), don't count first contact time
 				if(tfRPI.Duration > checkTime)
 					return false;
 			}
 			else {
+				LogB.Information("At rpim IsStartDoubleContact B 4");
 				if(tcRPI.Duration + tfRPI.Duration > checkTime)
 					return false;
 			}
 			firstPair = false;
+			LogB.Information("At rpim IsStartDoubleContact B 5");
 		}
 		LogB.Information("At rpim IsStartDoubleContact C");
 
@@ -509,6 +514,7 @@ public class RunDoubleContact
 }
 
 //decide if use this or inspector
+//TODO: clarify what this class does
 public class RunPhaseTimeList
 {
 	public bool SpeedStart;
@@ -720,6 +726,7 @@ public class RunPhaseTimeList
 
 }
 
+//TODO: clarify what this class does
 public class RunPhaseTimeListObject
 {
 	//each contact can be start of a chunk, middle, end or startandend
@@ -756,7 +763,7 @@ public class RunPhaseTimeListObject
 	}
 }
 
-//currently used for simple runs
+//TODO: clarify what this class does
 public class RunExecuteInspector
 {
 	public enum Types { RUN_SIMPLE, RUN_INTERVAL }
@@ -824,6 +831,7 @@ public class RunExecuteInspector
 	}
 }
 
+//TODO: clarify what this class does
 public class RunChangeImage
 {
 	public enum Types { NONE, RUNNING, PHOTOCELL }

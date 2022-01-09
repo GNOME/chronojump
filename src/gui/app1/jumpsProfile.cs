@@ -83,7 +83,7 @@ public partial class ChronoJumpWindow
 			button_jumps_profile_save_image.Sensitive = true; //allow to save image without having all 5 indexes
 		}
 
-		JumpsProfileGraph.Do(jumpsProfile.GetIndexes(), drawingarea_jumps_profile,
+		JumpsProfileGraph.Do(jumpsProfile.JumpsDone, jumpsProfile.GetIndexes(), drawingarea_jumps_profile,
 				currentPerson.Name, currentSession.DateShort, preferences.fontType.ToString());
 	}
 	private void on_drawingarea_jumps_profile_expose_event (object o, ExposeEventArgs args) 

@@ -53,7 +53,7 @@ public static class JumpsProfileGraph
 		}
 	}
 
-	public static void Do (List<JumpsProfileIndex> l_jpi, DrawingArea area,
+	public static void Do (List<JumpsProfile.YesNo> jumpsDone, List<JumpsProfileIndex> l_jpi, DrawingArea area,
 			string title, string date, string font)
 	{
 		//LogB.Information(string.Format("is area null: {0}", (area == null)));
@@ -66,7 +66,24 @@ public static class JumpsProfileGraph
 		g.SetSourceRGB(1,1,1);
 		g.Paint();
 
-		//3 calculate sum
+		//3 prepare font
+		g.SelectFontFace(font, Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
+		int textHeight = 12;
+		g.SetFontSize(textHeight);
+
+		//4 exit if needed jumps
+		foreach(JumpsProfile.YesNo jyn in jumpsDone)
+			if(jyn == JumpsProfile.YesNo.NO)
+			{
+				g.SetSourceRGB(0,0,0);
+				g.SetFontSize(16);
+				printText(100, 100, 24, textHeight, Constants.JumpsProfileNeededJumpsStr(), g, false);
+				g.GetTarget().Dispose ();
+				g.Dispose ();
+				return;
+			}
+
+		//5 calculate sum
 		//but is not needed, because sum has to be dja
 		//so if we have sum = 1 we can plot grey areas when not all indexes are calculated
 		//so later sum will be 1, now is ok to just show an error message
@@ -75,11 +92,7 @@ public static class JumpsProfileGraph
 			if(jpi.Result >= 0)
 				sum += jpi.Result;
 
-		//4 prepare font
-		g.SelectFontFace(font, Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
-		int textHeight = 12;
-		g.SetFontSize(textHeight);
-
+		/*
 		if(sum == 0)
 		{
 			g.SetSourceRGB(0,0,0);
@@ -89,8 +102,9 @@ public static class JumpsProfileGraph
 			g.Dispose ();
 			return;
 		}
+		*/
 
-		//5 plot arcs
+		//6 plot arcs
 		if(sum > 0 )
 		{
 			double acc = 0; //accumulated
@@ -121,7 +135,7 @@ public static class JumpsProfileGraph
 			g.Stroke ();
 		}
 
-		//6 draw legend at right
+		//7 draw legend at right
 		int legendX = findLegendTextXPos(l_jpi, sum, 400);
 		int y = 40;
 		//R seq(from=50,to=(350-24),length.out=5)
@@ -144,16 +158,19 @@ public static class JumpsProfileGraph
 
 		//g.SelectFontFace(font, Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
 	
-		//7 print errors (if any)
+		//8 print errors (if any)
 		g.SetSourceRGB(0.5, 0, 0);
 		y = 70;
 		foreach(JumpsProfileIndex jpi in l_jpi) {
 			if(jpi.ErrorMessage != "")
+			{
 				printText(legendX +12,  y, 24, textHeight, jpi.ErrorMessage, g, false);
+				LogB.Information("ErrorMessage: " + jpi.ErrorMessage);
+			}
 			y += 69;
 		}
 		
-		//8 dispose
+		//9 dispose
 		g.GetTarget().Dispose ();
 		g.Dispose ();
 	}

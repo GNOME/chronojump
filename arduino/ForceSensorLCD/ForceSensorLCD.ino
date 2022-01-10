@@ -1,5 +1,3 @@
-
-
 /*
   #
   #  This file is part of ChronoJump
@@ -794,7 +792,6 @@ void calibrateLCD(void) {
 
       if (redButtonState) {
         weight += 5;
-        Serial.println("Red pressed");
         showCalibrateLoad(String(weight, DEC));
         calibrateCommand = calibrateCommand + String(weight, DEC) + ";";
         delay(200);
@@ -844,7 +841,7 @@ void showCalibrateLoad(String weight) {
   lcd.print("Set load");
   lcd.setCursor(15, 0);
   lcd.print(">");
-  lcd.setCursor(0,1);
+  lcd.setCursor(3,1);
   lcd.print("Current:" );
   lcd.print(weight);
   lcd.setCursor(14, 1);

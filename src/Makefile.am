@@ -457,8 +457,6 @@ RESOURCES = \
 	../images/line_person_avg.png,line_person_avg.png \
 	../images/audio-volume-high.png,audio-volume-high.png \
 	../images/audio-volume-muted.png,audio-volume-muted.png \
-	../images/chronopic_24.png,chronopic_24.png \
-	../images/chronopic_128.png,chronopic_128.png \
 	../images/gpm-statistics.png,gpm-statistics.png \
 	../images/jumps-profile-pie.png,jumps-profile-pie.png \
 	../images/spreadsheet.png,spreadsheet.png \
@@ -610,7 +608,6 @@ RESOURCES = \
 	../images/force_sensor_icon.png,force_sensor_icon.png \
 	../images/force_sensor_icon_yellow.png,force_sensor_icon_yellow.png \
 	../images/reaction_time_icon.png,reaction_time_icon.png \
-	../images/reaction_time_icon_yellow.png,reaction_time_icon_yellow.png \
 	../images/other_icon.png,other_icon.png \
 	../images/other_icon_yellow.png,other_icon_yellow.png \
 	../images/md/race_encoder_blue_1x.png,race_encoder_icon.png \

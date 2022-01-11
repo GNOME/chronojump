@@ -75,9 +75,9 @@ unsigned long elapsedTime = 0;  //Elapsed time between 2 consecutives measures. 
 unsigned long totalTime = 0;    //Elapsed time since start of capture. Overflow managed
 
 /* Not used in order to optimize memory
-//Used to sync 2 evices
-unsigned long syncTime = 0;
-unsigned int samples = 0;
+  //Used to sync 2 evices
+  unsigned long syncTime = 0;
+  unsigned int samples = 0;
 */
 
 const unsigned short redButtonPin = 13;
@@ -94,9 +94,9 @@ float measuredMax = 0; // The max since starting capture
 float measured = scale.get_units();
 
 /***** Atention!!! *****
- *  lcd.createChar() function makes a mess with the cursor position and it must be specified
- *  again the cursos with lcd.setCursor()
- */
+    lcd.createChar() function makes a mess with the cursor position and it must be specified
+    again the cursos with lcd.setCursor()
+*/
 //-> Start of non starndard charachters
 byte downArrow[] = {
   B00000,
@@ -208,14 +208,13 @@ bool rcaState = digitalRead(rcaPin);  //Wether the RCA is shorted or not
 bool lastRcaState = rcaState;         //The previous state of the RCA
 
 unsigned short menu = 0;              //Main menu state
-unsigned short submenu = 0;           //Submenus state
+unsigned short submenu = 0;           //submenus state
 
 const String menuList [] = {
   "1-Measure",
   "2-TareMeasure",
-  "3-Tare",
-  "4-Calibrate",
-  "5-System"
+  "3-Steadyness",
+  "4-System"
 };
 
 //Mean force in 1s
@@ -296,7 +295,7 @@ void setup() {
   //Every second the battery level is updated via interrupts
   MsTimer2::set(1000, showBatteryLevel);
   MsTimer2::start();
- 
+
   showMenu();
 }
 
@@ -309,7 +308,7 @@ void loop()
     if (blueButtonState) {
       blueButtonState = false;
       menu++;
-      menu = menu % 5;
+      menu = menu % 4;
       showMenu();
     }
     delay(100);
@@ -333,17 +332,21 @@ void loop()
         start_capture();
       } else if (menu == 2)
       {
-        tare();
-        menu = 0;
-        showMenu();
+        //        steadyness();
+
+        //      } else if (menu == 2)
+        //      {
+        //        tare();
+        //        menu = 0;
+        //        showMenu();
+        //      } else if (menu == 3)
+        //      {
+        //        calibrateLCD();
+        //        menu = 0;
+        //        showMenu();
       } else if (menu == 3)
       {
-        calibrateLCD();
-        menu = 0;
-        showMenu();
-      } else if (menu == 4)
-      {
-        showSystemInfo();
+        showSystem();
         menu = 0;
         showMenu();
       }
@@ -362,8 +365,8 @@ void showMenu(void)
   lcd.setCursor(0, 0);
   lcd.print(menuList[menu]);
   //Showing the next menu number in the upper right corner
-  lcd.setCursor(14,0);
-  lcd.print((menu + 2) % 5);
+  lcd.setCursor(14, 0);
+  lcd.print((menu + 1) % 4 + 1);
   //The up arrow is associated to the blue button
   lcd.createChar(6, upArrow);
   lcd.setCursor(15, 0);
@@ -387,12 +390,8 @@ void showMenu(void)
     lcd.print("Start");
   } else if (menu == 3)
   {
-    lcd.setCursor(2, 1);
-    lcd.print("SetLoad&Start");
-  } else if (menu == 4)
-  {
     lcd.setCursor(11, 1);
-    lcd.print("Show");
+    lcd.print("Enter");
   }
   delay(100);
 }
@@ -415,8 +414,8 @@ void capture(void)
         Serial.println("r");
       }
       lastRcaState = rcaState;
-      
-    //If no RCA event, read the force as usual
+
+      //If no RCA event, read the force as usual
     } else {
       currentTime = micros();
       checkTimeOverflow();
@@ -427,10 +426,10 @@ void capture(void)
       //wHEN current Time Slot is equal to the size of the buffer it starts over to 0
       currentTSlot = (currentTSlot + 1) % samples200ms;
 
-      if(currentTSlot > 0) elapsed1Sample = true;     //There's a previous sample
-      if(currentTSlot >= (samples200ms -1)) elapsed200 = true;
-      if(currentTSlot >= (samples100ms -1)) elapsed100 = true;
-      
+      if (currentTSlot > 0) elapsed1Sample = true;    //There's a previous sample
+      if (currentTSlot >= (samples200ms - 1)) elapsed200 = true;
+      if (currentTSlot >= (samples100ms - 1)) elapsed100 = true;
+
       forces1s[currentFSlot] = measured;
       totalTimes1s[currentTSlot] = totalTime;
 
@@ -445,31 +444,31 @@ void capture(void)
 
       if (abs(meanForce1s) > abs(maxMeanForce1s)) maxMeanForce1s = meanForce1s;
 
-        sumSSD += (sq(measured - lastMeasure));
-        sumMeasures += measured;
-        samplesSSD++;
-        lastMeasure = measured;
-        RMSSD = sqrt(sumSSD / (samplesSSD - 1));
-        cvRMSSD = 100 * RMSSD / ( sumMeasures / samplesSSD);
+      sumSSD += (sq(measured - lastMeasure));
+      sumMeasures += measured;
+      samplesSSD++;
+      lastMeasure = measured;
+      RMSSD = sqrt(sumSSD / (samplesSSD - 1));
+      cvRMSSD = 100 * RMSSD / ( sumMeasures / samplesSSD);
 
       //RFD stuff start ------>
-      
+
       //To go backwards N slots use [currentSlot + TotalPositions - N]
-      if(elapsed1Sample){
+      if (elapsed1Sample) {
         impulse += (((measured + forces1s[(currentFSlot + freq - 1) % freq])  / 2) *      //Mean force between 2 samples
-          (totalTime - totalTimes1s[(currentTSlot + samples200ms - 1) % samples200ms]) / 1e6);  //Elapsed time between 2 samples
-      }
-      
-      if(elapsed200){
-        RFD200 = (measured - forces1s[(currentFSlot + freq - samples200ms) % freq]) /     //Increment of the force in 200ms
-          ((totalTime - totalTimes1s[(currentTSlot + 1) % samples200ms]) / 1e6);          //Increment of time
-        if(abs(maxRFD200) < abs(RFD200)) maxRFD200 = RFD200;
+                    (totalTime - totalTimes1s[(currentTSlot + samples200ms - 1) % samples200ms]) / 1e6);  //Elapsed time between 2 samples
       }
 
-      if(elapsed100){
+      if (elapsed200) {
+        RFD200 = (measured - forces1s[(currentFSlot + freq - samples200ms) % freq]) /     //Increment of the force in 200ms
+                 ((totalTime - totalTimes1s[(currentTSlot + 1) % samples200ms]) / 1e6);          //Increment of time
+        if (abs(maxRFD200) < abs(RFD200)) maxRFD200 = RFD200;
+      }
+
+      if (elapsed100) {
         RFD100 = (measured - forces1s[(currentFSlot + freq - samples100ms) % freq]) /     //Increment of the force in 200ms
-          ((totalTime - totalTimes1s[(currentTSlot + samples200ms - samples100ms) % samples200ms]) / 1e6); //Increment of time
-        if(abs(maxRFD100) < abs(RFD100)) maxRFD100 = RFD100;
+                 ((totalTime - totalTimes1s[(currentTSlot + samples200ms - samples100ms) % samples200ms]) / 1e6); //Increment of time
+        if (abs(maxRFD100) < abs(RFD100)) maxRFD100 = RFD100;
       }
       //<------- RFD stuff end
 
@@ -573,11 +572,11 @@ void serialEvent() {
   } else if (commandString == "get_transmission_format") {
     get_transmission_format();
     /* Commented due to memory optimization
-//  } else if (commandString == "send_sync_signal") {
-//    sendSyncSignal();
-//  } else if (commandString == "listen_sync_signal") {
-//    listenSyncSignal();
-*/
+      //  } else if (commandString == "send_sync_signal") {
+      //    sendSyncSignal();
+      //  } else if (commandString == "listen_sync_signal") {
+      //    listenSyncSignal();
+    */
   } else {
     Serial.println("Not a valid command");
   }
@@ -604,7 +603,7 @@ void start_capture()
   for (short i; i < samples200ms; i++) {
     totalTimes1s[i] = 0;
   }
-  
+
   maxMeanForce1s = lastMeasure;
 
   //Initializing variability variables
@@ -623,7 +622,7 @@ void end_capture()
 
   //If the device is controlled by the PC the results menu is not showed
   //because during the menu navigation the Serial is not listened.
-  if(!PCControlled){   
+  if (!PCControlled) {
     lcd.clear();
     lcd.setCursor(4, 0);
     lcd.print("Results:");
@@ -679,7 +678,7 @@ void calibrate(String inputString)
 void tare()
 {
   lcd.clear();
-  lcd.setCursor(3,0);
+  lcd.setCursor(3, 0);
   lcd.print("Taring...");
   scale.tare(50); //Reset the scale to 0 using the mean of 255 raw values
   EEPROM.put(tareAddress, scale.get_offset());
@@ -687,7 +686,7 @@ void tare()
   Serial.println(scale.get_offset());
 
 
-  lcd.setCursor(3,0);
+  lcd.setCursor(3, 0);
   lcd.print("  Tared  ");
   delay(300);
 }
@@ -733,7 +732,7 @@ void changingRCA() {
   currentTime = micros();
 
   rcaState = digitalRead(rcaPin);
-  
+
   attachInterrupt(digitalPinToInterrupt(rcaPin), changingRCA, CHANGE);
 }
 
@@ -751,39 +750,39 @@ void checkTimeOverflow() {
 }
 
 /* Disabled due to memory optimization
-//void sendSyncSignal() {
-//  pinMode(rcaPin, OUTPUT);
-//
-//  syncTime = micros();
-//
-//  digitalWrite(rcaPin, HIGH);
-//  delay(200);
-//  digitalWrite(rcaPin, LOW);
-//
-//  sendSyncTime = true;
-//
-//  pinMode(rcaPin, INPUT);
-//}
-//
-//void listenSyncSignal() {
-//  //detachInterrupt(digitalPinToInterrupt(rcaPin));
-//  attachInterrupt(digitalPinToInterrupt(rcaPin), getSyncTime, FALLING);
-//  Serial.println("listening sync signal");
-//}
-//
-//void getSyncTime() {
-//  syncTime = micros();
-//  sendSyncTime = true;
-//  //detachInterrupt(digitalPinToInterrupt(rcaPin));
-//  attachInterrupt(digitalPinToInterrupt(rcaPin), changingRCA, FALLING);
-//}
+  //void sendSyncSignal() {
+  //  pinMode(rcaPin, OUTPUT);
+  //
+  //  syncTime = micros();
+  //
+  //  digitalWrite(rcaPin, HIGH);
+  //  delay(200);
+  //  digitalWrite(rcaPin, LOW);
+  //
+  //  sendSyncTime = true;
+  //
+  //  pinMode(rcaPin, INPUT);
+  //}
+  //
+  //void listenSyncSignal() {
+  //  //detachInterrupt(digitalPinToInterrupt(rcaPin));
+  //  attachInterrupt(digitalPinToInterrupt(rcaPin), getSyncTime, FALLING);
+  //  Serial.println("listening sync signal");
+  //}
+  //
+  //void getSyncTime() {
+  //  syncTime = micros();
+  //  sendSyncTime = true;
+  //  //detachInterrupt(digitalPinToInterrupt(rcaPin));
+  //  attachInterrupt(digitalPinToInterrupt(rcaPin), changingRCA, FALLING);
+  //}
 */
 
 void calibrateLCD(void) {
   MsTimer2::stop();
   lcd.clear();
-  lcd.setCursor(0,0);
-  lcd.print((menu +1) % 5);
+  lcd.setCursor(0, 0);
+  lcd.print((menu + 1) % 4 + 1);
   lcd.print("-Calibrate    >");
   int weight = 5;
   submenu = 0;
@@ -805,31 +804,31 @@ void calibrateLCD(void) {
         lcd.clear();
         lcd.setCursor(10, 0);
         lcd.print("Cancel");
-        lcd.setCursor(0,1);
+        lcd.setCursor(0, 1);
         lcd.print("StartCalibration");
         submenu = 1;
         blueButtonState = false;
         delay(200);
       }
     }
-    
+
     if (submenu == 1) {
       if (redButtonState) {
         lcd.clear();
-        lcd.setCursor(1,0);
+        lcd.setCursor(1, 0);
         lcd.print("Calibrating...");
         calibrate(calibrateCommand);
         lcd.clear();
-        lcd.setCursor(2,0);
+        lcd.setCursor(2, 0);
         lcd.print("Calibrated");
         exitFlag = true;
         delay(200);
       }
       if (blueButtonState) {
-          exitFlag = true;
+        exitFlag = true;
       }
     }
-    
+
     redButtonState = digitalRead(redButtonPin);
     blueButtonState = digitalRead(blueButtonPin);
     Serial.println(redButtonState);
@@ -841,12 +840,12 @@ void calibrateLCD(void) {
 
 //During load selection each time the load is changed it show the new load
 void showCalibrateLoad(String weight) {
-//  lcd.clear();
-//  lcd.setCursor(3, 0);
-//  lcd.print("Set load");
+  //  lcd.clear();
+  //  lcd.setCursor(3, 0);
+  //  lcd.print("Set load");
   lcd.setCursor(15, 0);
   lcd.print(">");
-  lcd.setCursor(2,1);
+  lcd.setCursor(2, 1);
   lcd.print(" Current:" );
   lcd.print(weight);
   lcd.setCursor(14, 1);
@@ -881,7 +880,7 @@ void showSystemInfo() {
   lcd.print("Ver: ");
   lcd.print(version);
   lcd.setCursor(2, 1);
-  lcd.print("Submenu: ");
+  lcd.print("submenu: ");
   lcd.print(submenu);
   delay(1000);
   redButtonState = digitalRead(redButtonPin);
@@ -897,15 +896,15 @@ void showSystemInfo() {
         lcd.print("Ver: ");
         lcd.print(version);
         lcd.setCursor(2, 1);
-        lcd.print("Submenu: ");
+        lcd.print("submenu: ");
         lcd.print(submenu);
       } else if (submenu == 1) {
         lcd.setCursor(2, 1);
-        lcd.print("Submenu: ");
+        lcd.print("submenu: ");
         lcd.print(submenu);
       } else if (submenu == 2) {
         lcd.setCursor(2, 1);
-        lcd.print("Submenu: ");
+        lcd.print("submenu: ");
         lcd.print(submenu);
       }
     }
@@ -914,7 +913,7 @@ void showSystemInfo() {
   MsTimer2::start();
 }
 
-void showResults(){
+void showResults() {
   int submenu = 4;
   redButtonState = false;
 
@@ -925,49 +924,49 @@ void showResults(){
   lcd.createChar(7, exitChar);
   lcd.setCursor(15, 1);
   lcd.write(byte (7));
-  
+
   //Showing menu 0
-  lcd.setCursor(0,0);
+  lcd.setCursor(0, 0);
   lcd.print("Fmax ");
   printLcdFormat(measuredMax, 11, 0, 1);
-  lcd.setCursor(0,1);
+  lcd.setCursor(0, 1);
   lcd.print("Fmax1s ");
   printLcdFormat(maxMeanForce1s, 11, 1, 1);
   //Red button exits results
-  while(!redButtonState){
+  while (!redButtonState) {
     blueButtonState = digitalRead(blueButtonPin);
     redButtonState = digitalRead(redButtonPin);
     //Blue button changes menu option
-    if(blueButtonState){
+    if (blueButtonState) {
       blueButtonState = false;
       submenu = (submenu + 1) % 4;
       lcd.clear();
       if (submenu == 0) {
-        lcd.setCursor(0,0);
+        lcd.setCursor(0, 0);
         lcd.print("Fmax ");
         printLcdFormat(measuredMax, 11, 0, 1);
-        lcd.setCursor(0,1);
+        lcd.setCursor(0, 1);
         lcd.print("Fmax1s ");
         printLcdFormat(maxMeanForce1s, 11, 1, 1);
-      } else if(submenu == 1) {
-        lcd.setCursor(0,0);
+      } else if (submenu == 1) {
+        lcd.setCursor(0, 0);
         lcd.print("Ftrg ");
         printLcdFormat(forceTrigger, 11, 0, 1);
-        lcd.setCursor(0,1);
+        lcd.setCursor(0, 1);
         lcd.print("Impulse ");
         printLcdFormat(impulse, 11, 1, 1);
-      } else if(submenu == 2) {
-        lcd.setCursor(0,0);
+      } else if (submenu == 2) {
+        lcd.setCursor(0, 0);
         lcd.print("RFD100 ");
         printLcdFormat(maxRFD100, 11, 0, 1);
-        lcd.setCursor(0,1);
+        lcd.setCursor(0, 1);
         lcd.print("RFD200  ");
         printLcdFormat(maxRFD200, 11, 1, 1);
-      } else if (submenu >=3) {
-        lcd.setCursor(0,0);
+      } else if (submenu >= 3) {
+        lcd.setCursor(0, 0);
         lcd.print("RMSSD ");
         printLcdFormat(RMSSD, 11, 0, 1);
-        lcd.setCursor(0,1);
+        lcd.setCursor(0, 1);
         lcd.print("cvRMSSD  ");
         printLcdFormat(cvRMSSD, 11, 1, 1);
       }
@@ -979,5 +978,92 @@ void showResults(){
     }
   }
   redButtonState = false;
+  delay(200);
+}
+
+void showSystem()
+{
+  bool exitFlag = false;
+
+  showSystemMenu();
+
+  blueButtonState = false;
+  redButtonState = false;
+
+  while (!exitFlag) {
+    while (!blueButtonState && !redButtonState)
+    {
+      redButtonState = digitalRead(redButtonPin);
+      blueButtonState = digitalRead(blueButtonPin);
+    }
+
+    //Blue button pressed. Change submenu option
+    if (blueButtonState) {
+      blueButtonState = false;
+      submenu = (submenu + 1) % 3;
+      showSystemMenu();
+
+    }
+    //Red button pressed. Execute the menu option
+    if (redButtonState) {
+      redButtonState = false;
+      exitFlag = true;
+      if (submenu == 0) {
+        tare();
+        menu = 0;
+        showMenu();
+      } else if (submenu == 1)
+      {
+        calibrateLCD();
+        menu = 0;
+        showMenu();
+      } else if (submenu == 2) {
+        showSystemInfo();
+        menu = 0;
+        showMenu();
+      }
+    }
+  }
+  delay(200);
+}
+
+void showSystemMenu() {
+  Serial.println(submenu);
+  String configOptions[] = {
+    "1-Tare",
+    "2-Calibrate",
+    "3-Info",
+  };
+
+  
+  Serial.println(configOptions[submenu]);
+
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print(configOptions[submenu]);
+ 
+  lcd.setCursor(14, 0);
+  lcd.print((submenu + 1) % 3 + 1);
+
+  //The up arrow is associated to the blue button
+  lcd.createChar(6, upArrow);
+  lcd.setCursor(15, 0);
+  lcd.write(byte (6));
+  //the down arrow is associated to the red button
+  lcd.createChar(7, downArrow);
+  lcd.setCursor(15, 1);
+  lcd.write(byte (7));
+
+  if (submenu == 0) {         //Tare option
+    lcd.setCursor(11, 1);
+    lcd.print("Start");
+  } else if (submenu == 1) {  //Calibrate option
+    lcd.setCursor(11, 1);
+    lcd.print("Start");
+  } else if (submenu == 2) {  //Info option
+    lcd.setCursor(12, 1);
+    lcd.print("Show");
+  }
+
   delay(200);
 }

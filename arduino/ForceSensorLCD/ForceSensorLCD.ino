@@ -363,7 +363,7 @@ void showMenu(void)
   lcd.print(menuList[menu]);
   //Showing the next menu number in the upper right corner
   lcd.setCursor(14,0);
-  lcd.print(menu + 1);
+  lcd.print((menu + 2) % 5);
   //The up arrow is associated to the blue button
   lcd.createChar(6, upArrow);
   lcd.setCursor(15, 0);
@@ -689,8 +689,7 @@ void tare()
 
   lcd.setCursor(3,0);
   lcd.print("  Tared  ");
-  delay(200);
-  showMenu();
+  delay(300);
 }
 
 void get_tare()
@@ -781,6 +780,11 @@ void checkTimeOverflow() {
 */
 
 void calibrateLCD(void) {
+  MsTimer2::stop();
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print((menu +1) % 5);
+  lcd.print("-Calibrate    >");
   int weight = 5;
   submenu = 0;
   bool exitFlag = false;
@@ -799,12 +803,11 @@ void calibrateLCD(void) {
       if (blueButtonState) {
         //Change to Calibrate execution
         lcd.clear();
-        lcd.setCursor(9, 0);
+        lcd.setCursor(10, 0);
         lcd.print("Cancel");
-        lcd.setCursor(10,1);
-        lcd.print("Start");
+        lcd.setCursor(0,1);
+        lcd.print("StartCalibration");
         submenu = 1;
-        Serial.println(submenu);
         blueButtonState = false;
         delay(200);
       }
@@ -818,7 +821,7 @@ void calibrateLCD(void) {
         calibrate(calibrateCommand);
         lcd.clear();
         lcd.setCursor(2,0);
-        lcd.print("Calibrated...");
+        lcd.print("Calibrated");
         exitFlag = true;
         delay(200);
       }
@@ -829,20 +832,22 @@ void calibrateLCD(void) {
     
     redButtonState = digitalRead(redButtonPin);
     blueButtonState = digitalRead(blueButtonPin);
+    Serial.println(redButtonState);
   }
   delay(1000);
+  MsTimer2::start();
   showMenu();
 }
 
 //During load selection each time the load is changed it show the new load
 void showCalibrateLoad(String weight) {
-  lcd.clear();
-  lcd.setCursor(3, 0);
-  lcd.print("Set load");
+//  lcd.clear();
+//  lcd.setCursor(3, 0);
+//  lcd.print("Set load");
   lcd.setCursor(15, 0);
   lcd.print(">");
-  lcd.setCursor(3,1);
-  lcd.print("Current:" );
+  lcd.setCursor(2,1);
+  lcd.print(" Current:" );
   lcd.print(weight);
   lcd.setCursor(14, 1);
   lcd.print("+5");

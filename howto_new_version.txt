@@ -8,7 +8,9 @@ cp ../chronojump-docs/chronojump_manual_e*.pdf manual/
 git commit manual/chronojump_manual_e*.pdf -m "Copied updated manuals from docs repo)"
 git push
 
-2) git tag (Chronojump's version depends on the tag):
+2) take care of unstaged changes, because next steps will commit and push them. So if don't want to commit them, do git stash
+
+3) git tag (Chronojump's version depends on the tag):
 VERSION=1.6.2
 git commit -a -m "Bump version $VERSION"
 

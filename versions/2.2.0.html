@@ -1,0 +1,132 @@
+	<p><span class="highlight2"><i class="fa fa-area-chart fa-2x"></i>  General Chronojump changes</span></p>
+	<ul>
+	<li><b>Left menu/sidebar converted to 1 unified session/person sidebar. Several of changes on graphical interface related to this.</b></li>
+	<li><b>On capture tab now it can be seen graph and table at the same time (for all test types).</b></li>
+	<li><b>There is a selector for current test of all that affects graph & table filtering.</b></li>
+	<li><b>Added on top of capture tab a new combo and arrows to select any test type without the need to see the options subwindow.</b> Faster and easier operation. This simplifies the number of selectors for exercise on the different parts of the program.</li>
+	<li><b>Important changes on backup of the data: Scheduled semi-automatic backups of the full database:</b></li>
+	<ul>
+		<li>Remind tomorrow/in n days implemented. Backup stimated size is shown previously.</li>
+		<li>Taken care of disk full problems during the copy.</li>
+		<li>Disabled automatic partial (only chronojump.db) backup at every boot.</li>
+	</ul>
+	<li><b>Overview window (encoder, force sensor, race analyzer) can select person double clicking.</b></li>
+	<li><b>Preferences window can show any tab now (not only the related to the current mode).</b></li>
+	<li>Load session selects current session and scrolls to its row.</li>
+	<li>Encoder, Sprint, ForceSensor, RaceAnalyzer group export add session name in file.</li>
+	<li>At person windows, user can delete the photo of current person.</li>
+	<li>After session/persons grow/shrink ensure treeview scrolls to selected person.</li>
+	<li>Better icons for cancel/back/accept on all the windows.</li>
+	<li>Extra checks to forbid edit/delete/export a missing session (fix possible strange bug after deleting current session).</li>
+	<li>Fixed possible crash on open news web.</li>
+	<li>Improvements on importer:</li>
+	<ul>
+		<li>Fixed importer bug UTF-8 on Python3 when using debug mode.</li>
+		<li>Uses fullpath on Path.GetTempFileName, fix windows ~ path problems calling to python.</li>
+		<li>Fixed crash on importing session (from encoder) where no jump types defined (really rare).</li>
+		<li>Fixed: Wrong message after importing in a loaded session.</li>
+		<li>Updated importer for windows.</li>
+	</ul>
+	<li>New animated logo for 2.2 (2022 releases).</li>
+	<li>Fixed webcam ffmpeg snapshot for some Linux machines.</li>
+	<li>Fixed rare crash on change mode when there are no test types of that mode.</li>
+	</ul>
+
+	<p><span class="highlight2"><i class="fa fa-area-chart fa-2x"></i>  Force sensor</span></p>
+	<ul>
+	<li><b>Force sensor resultant now is changed to "Exerted". The calculation is the projection of the force in the direction of the exercise. Added an explanatory graph.</b> Exerted can be normal/Absolute/Inverted.</li>
+	<li><b>Force sensor on analyze tab can export data of a person during all sessions.</b></li>
+	<li><b>ForceSensor load set shows maxForce (raw), maxAVGForce1s.</b></li>
+	<li><b>Force sensor can now read triggers while capture for our upcoming new force sensor electronics.</b> Triggers are displayed at capture time (with or without scroll), load set and analyze. Triggers can be on or off.</li>
+	<li><b>ForceSensor tare+capture do not tare in Arduino to not store the value there that will affect other captures.</b></li>
+	<li>Added some exercises as default in new installations.</li>
+	<li>Force sensor show elastic/not elastic exercise on top.</li>
+	<li>Force sensor exercise effect of the mass is included is last option and default is "Add".</li>
+	<li>Stiffness of elastic band detector now is much clearer showing A/B on bold.</li>
+	<li>Force sensor usbDisconnectedCount increased to solve "slow start" on some recent Arduino micros, specially first time.</li>
+	<li>Fixed ForceMax being 0 on negative values of forceAnalyzeInstant.</li>
+	<li>Fixed: ForceSensorExercise edit shows the correct value of added mass.</li>
+	<li>Fixed force sensor export fail when not exporting impulse.</li>
+	<li>Fixed bug on export force sensor files maxAvgForceInWindowSampleStart/End needed to sum 1 (C# -&gt; R).</li>
+	<li>ForceSensorValues when all samples ared negative do not show max=0.</li>
+	<li>Force sensor analyze export to csv time in micros in diff, and labels "micros" ok now.</li>
+	<li>Fixed rare crash on force sensor capture without scroll at MoveNextRare: list is changed by other thread.</li>
+	<li>Fixed crash loading algometer data (on try to display a trigger that is outside of captured time).</li>
+	</ul>
+
+	<p><span class="highlight2"><i class="fa fa-bar-chart fa-2x"></i>  Encoder</span></p>
+	<ul>
+	<li><b>Encoder capture tab has 4 views: bars, table, bars & table, bars table & signal managed by checkbuttons.</b></li>
+	<li>On encoder capture bars graph show a message if no bars because displaced mass is 0 (happened when main variable is force or power and no displaced mass).</li>
+	<li>Encoder capture rhythm can only show cluster rest seconds countdown.</li>
+	<li>Capture extra weight max Kg was 300, now it is 999.</li>
+	<li>Fixed not shown of the correct displaced weight on exercise edit. It was used correctly but the display of the value was not updated.</li>
+	<li>Power-Load graph advertizing in inverted parabole.</li>
+	<li>Encoder analyze session save image/table filename start whith session name, not person name.</li>
+	<li>Encoder analyze cross variables multiple persons, series with rainbow colors (better to differentiate between series).</li>
+	<li>Encoder rhythm: Fixed label on first cluster reps.</li>
+	</ul>
+
+	<p><span class="highlight2"><i class="fa fa-running fa-2x"></i>  Race analyzer</span></p>
+	<ul>
+	<li><b>Race analyzer on analyze tab can export data of a person during all sessions.</b></li>
+	<li><b>Race analyzer can show simple view or complete view on capture tab.</b></li>
+	<li>Added an exercise as default in new installations.</li>
+	<li>Race analyzer speed/time graph shows arrow from maxY to right (speed decrement).</li>
+	<li>Added a tryCatch on scripts-util.R fixTitleAndOtherStrings to not crash when displaying asian chars at Windows OS.</li>
+	<li>Race analyzer speedometer cares of text height when graphed small and also has more margin to no have the numbers on the right outside of the graph.</li>
+	<li>RaceAnalyzer pos/time speed/time as lines instead of point-lines.</li>
+	<li>Race analyzer do not get port busy on Windows after capture and then change mode.</li>
+	</ul>
+
+	<p><span class="highlight2"><i class="fa fa-clock-o fa-2x"></i>  Jumps, Races</span></p>
+	<ul>
+	<li><b>Version ready for our incoming inalambric photocells on all systems.</b></li>
+	<li><b>New graphs for jumps/races capture tab:</b></li>
+	<ul>
+		<li>Can show current test or all test.</li></li>
+		<li>Can be of current person or all in session.</li></li>
+		<li>Displayed an arrow diagram on right with the max/avg/min.</li></li>
+		<li>Can select how many test will be shown</li></li>
+		<li>In jumps with contact time of multiple jumps it will show to series.</li></li>
+		<li>Color of the serie is user selected color on preferences, and color of 2nd serie is calculated according to it.</li></li>
+		<li>Can be stored as an image.</li></li>
+		<li>If no data shows a clarifying message on test and/or person selected.</li></li>
+		<li>Font size auto-adjusted depending on content and window size.</li></li>
+	</ul>
+	<li><b>Implemented realtime capture graphs for jumps multiple and races with tracks.</b></li>
+	<ul>
+		<li>This graphs are similars to the session graphs citated above, with the arrow of max/avg/min, ...</li>
+		<li>On races with tracks it has a button to show distance and time (from the beginning or since last track).</li>
+	</ul>
+	<li><b>Photocells/sprint can export data of a person during all sessions.</b></li>
+	<li><b>Jumps simple/multiple RSI can be shown on data table (select/deselect it on preferences), also it can be exported (.csv).</b></li>
+	<li><b>Inspector of Races with tracks now is more much clear. And the full text of the inspector is displayed together. This allows to debug easily any problem/miscontact with the photocells.</b></li>
+	<li><b>Jumps profile is only shown if all neeeded jumps are executed</b> (and displays better info when some jumps are not done).</li>
+	<li>Jumps/Races treeview Fill filter matches translated names (instead of English names). Also the treeview shows the translated names of the exercises.</li>
+	<li>Photocells show which photocell made the contact on RunExecuteInspector.</li>
+	<li>Jumps power and stiffness help buttons moved to preferences.</li>
+	<li>"Close and recalculate" not shown on jumps and races with photocells.</li>
+	<li>Removed knee angle on jumps table and preferences.</li>
+	<li>Fixed crash on jumps/time graph on takeOff and takeOffWeight (no flight time).</li>
+	<li>Fixed crash on Convert.ToInt32 on very large stiffness values - TC is (or has been manipulated to be) very very low but not 0.</li>
+	</ul>
+
+	<p><span class="highlight2"><i class="fa fa-sitemap fa-2x"></i>  Chronojump-networks</span></p>
+	<ul>
+	<li><b>Wristbands can be reassigned now.</b></li>
+	<li><b>Update a person name/height/weight/image if changed on server.</b></li>
+	<li><b>Networks send mail to admin now attach CSV (Need tests).</b></li>
+	<li>Networks will not save to temp, and do not load and upload (encoder or sprint) if there is no network (since wristabands can be reassigned).</li>
+	<li>Disallow to upload if there is no connection to server.</li>
+	<li>If RFID is not found on server, show this error instead of server disconnected.</li>
+	<li>Put wristband with no network connection but already identified user, do not rename user to "" (name on "server").</li>
+	<li>Fixed not RFID capturing after end of countdown of AdminID.</li>
+	<li>Get new exercises is termporary disabled with networks 3.1 code.</li>
+	</ul>
+
+	<p><span class="highlight2"><i class="fa fa-flag-o fa-2x"></i>  Translations</span></p>
+	<ul>
+	<li><b>Updated translations: Brazilian Portuguese, Catalan, Danish, Romanian, Serbian, Slovenian, Spanish, Swedish, Ukrainian.</b></li>
+	</ul>
+

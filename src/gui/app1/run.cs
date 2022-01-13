@@ -40,7 +40,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_runs_simple_track_distance;
 	[Widget] Gtk.Label label_runs_simple_track_distance_value;
 	[Widget] Gtk.Label label_runs_simple_track_distance_units;
-	[Widget] Gtk.Button button_runs_simple_capture_save_image;
 
 	//options runs interval
 	[Widget] Gtk.Button button_combo_runs_interval_exercise_capture_left;
@@ -503,11 +502,6 @@ public partial class ChronoJumpWindow
 
 
 	// ---- save runs simple image start ---->
-
-	private void on_button_runs_simple_capture_save_image_clicked (object o, EventArgs args)
-	{
-		checkFile(Constants.CheckFileOp.RUNS_SIMPLE_CAPTURE_SAVE_IMAGE);
-	}
 
 	private void on_button_runs_simple_capture_save_image_selected (string destination)
 	{

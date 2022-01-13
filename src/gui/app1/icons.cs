@@ -119,14 +119,11 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_edit_selected_reaction_time;
 	[Widget] Gtk.Image image_edit_selected_multi_chronopic;
 
-	//jumps
-	[Widget] Gtk.Image image_button_jumps_simple_capture_save_image_chart;
-	[Widget] Gtk.Image image_button_jumps_simple_capture_save_image_disk;
+	[Widget] Gtk.Image image_button_contacts_capture_save_image_chart;
+	[Widget] Gtk.Image image_button_contacts_capture_save_image_disk;
 
 	//run
 	[Widget] Gtk.Image image_run_simple_show_time;
-	[Widget] Gtk.Image image_button_runs_simple_capture_save_image_chart;
-	[Widget] Gtk.Image image_button_runs_simple_capture_save_image_disk;
 	[Widget] Gtk.Image image_run_execute_running;
 	[Widget] Gtk.Image image_run_execute_photocell;
 	[Widget] Gtk.Image image_sprint_analyze_save;
@@ -835,8 +832,7 @@ public partial class ChronoJumpWindow
 		UtilGtk.ColorsCheckbox(viewport_chronopics, check_encoder_analyze_show_time_to_peak_power);
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_analyze.png");
-		image_button_jumps_simple_capture_save_image_chart.Pixbuf = pixbuf;
-		image_button_runs_simple_capture_save_image_chart.Pixbuf = pixbuf;
+		image_button_contacts_capture_save_image_chart.Pixbuf = pixbuf;
 		image_encoder_analyze_stats.Pixbuf = pixbuf;
 		image_encoder_capture_image_save.Pixbuf = pixbuf;
 		image_encoder_analyze_image_save.Pixbuf = pixbuf;
@@ -858,8 +854,7 @@ public partial class ChronoJumpWindow
 		image_run_encoder_analyze_image_save_graph.Pixbuf = pixbuf;
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "save.png");
-		image_button_jumps_simple_capture_save_image_disk.Pixbuf = pixbuf;
-		image_button_runs_simple_capture_save_image_disk.Pixbuf = pixbuf;
+		image_button_contacts_capture_save_image_disk.Pixbuf = pixbuf;
 		image_jumps_rj_fatigue_image_save.Pixbuf = pixbuf;
 		image_sprint_analyze_table_save_1.Pixbuf = pixbuf;
 		image_button_encoder_exercise_actions_edit_do.Pixbuf = pixbuf;

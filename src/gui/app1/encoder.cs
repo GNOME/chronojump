@@ -6258,7 +6258,7 @@ public partial class ChronoJumpWindow
 					encoder_pulsebar_rhythm_eccon.Visible = true;
 				} else if(encoderRhythm.UseClusters()) {
 					encoderRhythmExecute = new EncoderRhythmExecuteJustClusters (encoderRhythm, ! encoderConfigurationCurrent.has_inertia);
-					label_rhythm.Text = "Clusters"; //TODO: translate
+					label_rhythm.Text = Catalog.GetString("Clusters");
 					encoder_pulsebar_rhythm_eccon.Visible = false;
 				}
 

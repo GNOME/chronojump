@@ -3553,6 +3553,7 @@ public partial class ChronoJumpWindow
 			image_top_laterality_contacts.Visible = false;
 
 			hbox_change_modes_jumps.Visible = true;
+			button_contacts_capture_save_image.Visible = true;
 
 			if(m == Constants.Modes.JUMPSSIMPLE) 
 			{
@@ -3561,7 +3562,6 @@ public partial class ChronoJumpWindow
 
 				event_graph_label_graph_test.Visible = false;
 				vbox_contacts_simple_graph_controls.Visible = true;
-				button_contacts_capture_save_image.Visible = true;
 
 				//align_check_vbox_contacts_graph_legend.Visible = true;
 				//vbox_contacts_graph_legend.Visible = false;
@@ -3632,6 +3632,7 @@ public partial class ChronoJumpWindow
 			image_top_laterality_contacts.Visible = false;
 
 			hbox_change_modes_runs.Visible = true;
+			button_contacts_capture_save_image.Visible = true;
 			check_run_show_time.Visible = true;
 
 			if(m == Constants.Modes.RUNSSIMPLE) 
@@ -3641,7 +3642,6 @@ public partial class ChronoJumpWindow
 
 				event_graph_label_graph_test.Visible = false;
 				vbox_contacts_simple_graph_controls.Visible = true;
-				button_contacts_capture_save_image.Visible = true;
 
 				//align_check_vbox_contacts_graph_legend.Visible = true;
 				//vbox_contacts_graph_legend.Visible = false;
@@ -4309,8 +4309,12 @@ public partial class ChronoJumpWindow
 	{
 		if(current_mode == Constants.Modes.JUMPSSIMPLE)
 			checkFile(Constants.CheckFileOp.JUMPS_SIMPLE_CAPTURE_SAVE_IMAGE);
+		else if(current_mode == Constants.Modes.JUMPSREACTIVE)
+			checkFile(Constants.CheckFileOp.JUMPS_REACTIVE_CAPTURE_SAVE_IMAGE);
 		else if(current_mode == Constants.Modes.RUNSSIMPLE)
 			checkFile(Constants.CheckFileOp.RUNS_SIMPLE_CAPTURE_SAVE_IMAGE);
+		else if(current_mode == Constants.Modes.RUNSINTERVALLIC)
+			checkFile(Constants.CheckFileOp.RUNS_INTERVALLIC_CAPTURE_SAVE_IMAGE);
 	}
 
 	[Widget] Gtk.Label label_button_execute_connect;

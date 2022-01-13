@@ -503,7 +503,7 @@ public partial class ChronoJumpWindow
 
 	// ---- save runs simple image start ---->
 
-	private void on_button_runs_simple_capture_save_image_selected (string destination)
+	private void on_button_runs_capture_save_image_selected (string destination)
 	{
 		if(event_execute_drawingarea_cairo == null)
 			return;
@@ -516,9 +516,9 @@ public partial class ChronoJumpWindow
 		LogB.Information("Saving");
 		pixbuf.Save(destination,"png");
 	}
-	private void on_overwrite_file_runs_simple_capture_save_image_accepted (object o, EventArgs args)
+	private void on_overwrite_file_runs_capture_save_image_accepted (object o, EventArgs args)
 	{
-		on_button_runs_simple_capture_save_image_selected (exportFileName);
+		on_button_runs_capture_save_image_selected (exportFileName);
 
 		string myString = string.Format(Catalog.GetString("Saved to {0}"), exportFileName);
 		new DialogMessage(Constants.MessageTypes.INFO, myString);

@@ -48,7 +48,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_weight;
 	//[Widget] Gtk.Label extra_window_jumps_label_weight;
 	[Widget] Gtk.CheckButton extra_window_jumps_check_dj_arms;
-	[Widget] Gtk.Button button_jumps_simple_capture_save_image;
 
 	//show weight on kg when percent is selected (SJl, CMJl, ABKl)
 	[Widget] Gtk.Label label_extra_window_jumps_radiobutton_weight_percent_as_kg;
@@ -714,11 +713,6 @@ public partial class ChronoJumpWindow
 	}
 
 	// ---- save jumps simple image start ---->
-
-	private void on_button_jumps_simple_capture_save_image_clicked (object o, EventArgs args)
-	{
-		checkFile(Constants.CheckFileOp.JUMPS_SIMPLE_CAPTURE_SAVE_IMAGE);
-	}
 
 	private void on_button_jumps_simple_capture_save_image_selected (string destination)
 	{

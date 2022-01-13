@@ -100,6 +100,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_contacts_capture_show_need_one;
 	[Widget] Gtk.CheckButton check_contacts_capture_graph;
 	[Widget] Gtk.CheckButton check_contacts_capture_table;
+	[Widget] Gtk.Button button_contacts_capture_save_image;
 
 	[Widget] Gtk.EventBox eventbox_button_show_modes_contacts;
 	[Widget] Gtk.EventBox eventbox_change_modes_contacts_jumps_simple;
@@ -3489,8 +3490,7 @@ public partial class ChronoJumpWindow
 		radio_mode_contacts_capture.Active = true; //it is safe to change to capture, because analyze has different graphs depending on mode
 		radio_mode_encoder_capture_small.Active = true; //it is safe to change to capture, to ensure all widgets are ok on analyze (everything seems ok, but just to have same behaviour than in contacts)
 
-		button_jumps_simple_capture_save_image.Visible = false;
-		button_runs_simple_capture_save_image.Visible = false;
+		button_contacts_capture_save_image.Visible = false;
 		radio_mode_contacts_jumps_profile.Active = true;
 		hbox_radio_mode_contacts_analyze_buttons.Visible = false;
 		radio_mode_contacts_jumps_rj_fatigue.Visible = false;
@@ -3561,7 +3561,7 @@ public partial class ChronoJumpWindow
 
 				event_graph_label_graph_test.Visible = false;
 				vbox_contacts_simple_graph_controls.Visible = true;
-				button_jumps_simple_capture_save_image.Visible = true;
+				button_contacts_capture_save_image.Visible = true;
 
 				//align_check_vbox_contacts_graph_legend.Visible = true;
 				//vbox_contacts_graph_legend.Visible = false;
@@ -3641,7 +3641,7 @@ public partial class ChronoJumpWindow
 
 				event_graph_label_graph_test.Visible = false;
 				vbox_contacts_simple_graph_controls.Visible = true;
-				button_runs_simple_capture_save_image.Visible = true;
+				button_contacts_capture_save_image.Visible = true;
 
 				//align_check_vbox_contacts_graph_legend.Visible = true;
 				//vbox_contacts_graph_legend.Visible = false;
@@ -4303,6 +4303,14 @@ public partial class ChronoJumpWindow
 			notebook_mode_selector2.CurrentPage = 1; //runs
 		else
 			notebook_mode_selector.CurrentPage = 0; //main
+	}
+
+	private void on_button_contacts_capture_save_image_clicked (object o, EventArgs args)
+	{
+		if(current_mode == Constants.Modes.JUMPSSIMPLE)
+			checkFile(Constants.CheckFileOp.JUMPS_SIMPLE_CAPTURE_SAVE_IMAGE);
+		else if(current_mode == Constants.Modes.RUNSSIMPLE)
+			checkFile(Constants.CheckFileOp.RUNS_SIMPLE_CAPTURE_SAVE_IMAGE);
 	}
 
 	[Widget] Gtk.Label label_button_execute_connect;

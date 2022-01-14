@@ -131,6 +131,17 @@ byte exitChar[] = {
   B00100
 };
 
+byte recordChar[] = {
+  B00000,
+  B01110,
+  B11111,
+  B11111,
+  B11111,
+  B11111,
+  B01110,
+  B00000
+};
+
 byte battery0[] = {
   B01110,
   B11111,
@@ -243,6 +254,7 @@ unsigned int samplesSSD = 0;
 float RMSSD = 0.0;
 float cvRMSSD = 0.0;
 float lastMeasure = 0;
+bool capturingPreSteadiness = false;
 bool capturingSteadiness = false;
 
 //Impulse. Impulse = Sumatory of the force*time
@@ -296,6 +308,7 @@ void setup() {
   //Every second the battery level is updated via interrupts
   MsTimer2::set(1000, showBatteryLevel);
   MsTimer2::start();
+
 
   showMenu();
 }
@@ -435,12 +448,21 @@ void capture(void)
 
       if (abs(meanForce1s) > abs(maxMeanForce1s)) maxMeanForce1s = meanForce1s;
 
-      sumSSD += (sq(measured - lastMeasure));
-      sumMeasures += measured;
-      samplesSSD++;
-      lastMeasure = measured;
-      RMSSD = sqrt(sumSSD / (samplesSSD - 1));
-      cvRMSSD = 100 * RMSSD / ( sumMeasures / samplesSSD);
+      //In the final phase of steadiness measure. Actual calculation
+      if(capturingSteadiness)
+      {
+        sumSSD += (sq(measured - lastMeasure));
+        sumMeasures += measured;
+        samplesSSD++;
+        lastMeasure = measured;
+        RMSSD = sqrt(sumSSD / (samplesSSD - 1));
+        cvRMSSD = 100 * RMSSD / ( sumMeasures / samplesSSD);
+        if (samplesSSD >= 5*(freq - 1))
+        {
+          end_steadiness();
+        }
+      }
+
 
       //RFD stuff start ------>
 
@@ -483,11 +505,15 @@ void capture(void)
     if (redButtonState || blueButtonState) {
       redButtonState = false;
       blueButtonState = false;
-      if(!capturingSteadiness){
-        end_capture();
-      } else if (capturingSteadiness)
+      if(! (capturingPreSteadiness || capturingSteadiness)) //Not in any steadiness phase
       {
-        end_steadiness();
+        end_capture();
+      } else if (capturingPreSteadiness)  //In Pre steadiness. Showing force until button pressed
+      {
+//        Serial.println("BeginSteadiness");
+        capturingPreSteadiness = false;
+        capturingSteadiness = true;
+        start_capture();
       }
     }
   }
@@ -501,6 +527,11 @@ void printOnLcd() {
   {
     lcd.clear();
 
+    if (capturingSteadiness){
+      lcd.createChar(7, recordChar);
+      lcd.setCursor(0, 0);
+      lcd.write(byte (7));
+    }
     //Upper left
     printLcdFormat (measuredLcdDelayMax, 4, 0, 1);
     //Lower left
@@ -1066,34 +1097,20 @@ void showSystemMenu() {
 
 void start_steadiness()
 {
-  //Disabling the battery level indicator
-  MsTimer2::stop();
-  Serial.println("..."); //Starting steadiness capture ...
   totalTime = 0;
   lastTime = micros();
 
-  //Initializing variability variables
-  sumSSD = 0.0;
-  sumMeasures = lastMeasure;
-  samplesSSD = 0;
   lcd.clear();
   capturing = true;
-  capturingSteadiness = true;
+  capturingPreSteadiness = true;
   delay(200);
-  MsTimer2::set(1000, end_steadiness);
-  MsTimer2::start();
-
 }
 
 void end_steadiness()
 {
-//  Serial.print("end_steadiness");
-  MsTimer2::stop();
   capturing = false;
   capturingSteadiness = false;
   showSteadinessResults();
-  MsTimer2::set(1000, showBatteryLevel);
-  MsTimer2::start();
 }
 
 void showSteadinessResults()
@@ -1105,9 +1122,13 @@ void showSteadinessResults()
   lcd.setCursor(0, 1);
   lcd.print("cvRMSSD  ");
   printLcdFormat(cvRMSSD, 11, 1, 1);
+  lcd.createChar(7, exitChar);
+  lcd.setCursor(15, 1);
+  lcd.write(byte (7));
   delay(1000);
   redButtonState = false;
   blueButtonState = false;
+  //Checking buttons state every 50 ms
   while (!redButtonState && !blueButtonState)
   {
     delay(50);
@@ -1115,5 +1136,6 @@ void showSteadinessResults()
     blueButtonState = digitalRead(blueButtonPin);
   }
   delay(200);
+  MsTimer2::start();
   showMenu();
 }

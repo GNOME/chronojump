@@ -213,7 +213,7 @@ unsigned short submenu = 0;           //submenus state
 const String menuList [] = {
   "1-Measure",
   "2-TareMeasure",
-  "3-Steadyness",
+  "3-Steadiness",
   "4-System"
 };
 
@@ -243,6 +243,7 @@ unsigned int samplesSSD = 0;
 float RMSSD = 0.0;
 float cvRMSSD = 0.0;
 float lastMeasure = 0;
+bool capturingSteadiness = false;
 
 //Impulse. Impulse = Sumatory of the force*time
 float impulse = 0;
@@ -332,18 +333,8 @@ void loop()
         start_capture();
       } else if (menu == 2)
       {
-        //        steadyness();
-
-        //      } else if (menu == 2)
-        //      {
-        //        tare();
-        //        menu = 0;
-        //        showMenu();
-        //      } else if (menu == 3)
-        //      {
-        //        calibrateLCD();
-        //        menu = 0;
-        //        showMenu();
+        start_steadiness();
+        
       } else if (menu == 3)
       {
         showSystem();
@@ -492,7 +483,12 @@ void capture(void)
     if (redButtonState || blueButtonState) {
       redButtonState = false;
       blueButtonState = false;
-      end_capture();
+      if(!capturingSteadiness){
+        end_capture();
+      } else if (capturingSteadiness)
+      {
+        end_steadiness();
+      }
     }
   }
   MsTimer2::start();
@@ -1066,4 +1062,58 @@ void showSystemMenu() {
   }
 
   delay(200);
+}
+
+void start_steadiness()
+{
+  //Disabling the battery level indicator
+  MsTimer2::stop();
+  Serial.println("..."); //Starting steadiness capture ...
+  totalTime = 0;
+  lastTime = micros();
+
+  //Initializing variability variables
+  sumSSD = 0.0;
+  sumMeasures = lastMeasure;
+  samplesSSD = 0;
+  lcd.clear();
+  capturing = true;
+  capturingSteadiness = true;
+  delay(200);
+  MsTimer2::set(1000, end_steadiness);
+  MsTimer2::start();
+
+}
+
+void end_steadiness()
+{
+//  Serial.print("end_steadiness");
+  MsTimer2::stop();
+  capturing = false;
+  capturingSteadiness = false;
+  showSteadinessResults();
+  MsTimer2::set(1000, showBatteryLevel);
+  MsTimer2::start();
+}
+
+void showSteadinessResults()
+{
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("RMSSD ");
+  printLcdFormat(RMSSD, 11, 0, 1);
+  lcd.setCursor(0, 1);
+  lcd.print("cvRMSSD  ");
+  printLcdFormat(cvRMSSD, 11, 1, 1);
+  delay(1000);
+  redButtonState = false;
+  blueButtonState = false;
+  while (!redButtonState && !blueButtonState)
+  {
+    delay(50);
+    redButtonState = digitalRead(redButtonPin);
+    blueButtonState = digitalRead(blueButtonPin);
+  }
+  delay(200);
+  showMenu();
 }

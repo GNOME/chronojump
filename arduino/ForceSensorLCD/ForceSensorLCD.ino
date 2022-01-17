@@ -267,6 +267,8 @@ float forceTrigger = 0.0;       //Measured force at the moment the RCA is trigge
 //If device is controled by computer don't show results on LCD
 bool PCControlled = false;
 
+long tareValue = 0;
+
 void setup() {
   pinMode(redButtonPin, INPUT);
   pinMode(blueButtonPin, INPUT);
@@ -283,15 +285,14 @@ void setup() {
   lcd.print("Boscosystem");
   delay(1000);
 
-  long tare = 0;
-  EEPROM.get(tareAddress, tare);
+  EEPROM.get(tareAddress, tareValue);
   //If the arduino has not been tared the default value in the EEPROM is -151.
   //TODO: Check that it is stil true in the current models
   if (tare == -151) {
     scale.set_offset(10000);// Usual value  in Chronojump strength gauge
     EEPROM.put(tareAddress, 10000);
   } else {
-    scale.set_offset(tare);
+    scale.set_offset(tareValue);
   }
 
 
@@ -342,7 +343,7 @@ void loop()
         start_capture();
       } else if (menu == 1)
       {
-        tare();
+        tareTemp();
         start_capture();
       } else if (menu == 2)
       {
@@ -650,11 +651,16 @@ void end_capture()
   //If the device is controlled by the PC the results menu is not showed
   //because during the menu navigation the Serial is not listened.
   if (!PCControlled) {
+    //Restoring tare value in the EEPROM. Necessary after Tare&Capture
+    EEPROM.get(tareAddress, tareValue);
+    scale.set_offset(tareValue);
+    Serial.println(scale.get_offset());
     lcd.clear();
     lcd.setCursor(4, 0);
     lcd.print("Results:");
     showResults();
   }
+
   //Activating the Battery level indicator
   MsTimer2::start();
   showMenu();
@@ -713,6 +719,17 @@ void tare()
   Serial.println(scale.get_offset());
 
 
+  lcd.setCursor(3, 0);
+  lcd.print("  Tared  ");
+  delay(300);
+}
+
+void tareTemp()
+{
+  lcd.clear();
+  lcd.setCursor(3, 0);
+  lcd.print("Taring...");
+  scale.tare(50); //Reset the scale to 0 using the mean of 255 raw values
   lcd.setCursor(3, 0);
   lcd.print("  Tared  ");
   delay(300);

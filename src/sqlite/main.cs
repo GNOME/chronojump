@@ -2971,7 +2971,6 @@ class Sqlite
 					executeSQL("ALTER TABLE " + Constants.EncoderExerciseTable + " ADD COLUMN type TEXT DEFAULT \"ALL\";");
 				} catch {
 					LogB.SQL("Catched at Doing alter table encoderExercise ADD COLUMN type TEXT ...");
-
 				}
 				LogB.SQL("Done!");
 
@@ -3068,8 +3067,12 @@ class Sqlite
 			if(currentVersion == "2.28")
 			{
 				LogB.SQL("ForceSensor ALTER TABLE added maxForceRaw, maxAvgForce1s");
-				executeSQL("ALTER TABLE " + Constants.ForceSensorTable + " ADD COLUMN maxForceRAW FLOAT DEFAULT -1;");
-				executeSQL("ALTER TABLE " + Constants.ForceSensorTable + " ADD COLUMN maxAvgForce1s FLOAT DEFAULT -1;");
+				try {
+					executeSQL("ALTER TABLE " + Constants.ForceSensorTable + " ADD COLUMN maxForceRaw FLOAT DEFAULT -1;"); //this should be Raw
+					executeSQL("ALTER TABLE " + Constants.ForceSensorTable + " ADD COLUMN maxAvgForce1s FLOAT DEFAULT -1;");
+				} catch {
+					LogB.SQL("Catched at Doing ALTER TABLE added maxForceRaw, maxAvgForce1s. Probably forceSensorTable has been created with this columns already added.");
+				}
 				currentVersion = updateVersion("2.29");
 			}
 			if(currentVersion == "2.29")
@@ -3524,6 +3527,12 @@ class Sqlite
 
 		return exists;
 	}
+	/*
+		TODO: create a columnExists method with sqlite command:
+		SELECT * FROM sqlite_master WHERE type = 'table' AND name = 'forceSensor' AND sql LIKE '%maxForceRaw%';
+		can be implemented on the future, previous to any ALTER TABLE ADD COLUMN,
+		but at the moment we are using try{}catch{} blocks and it is working great
+		*/
 
 	public static bool Exists(bool dbconOpened, string tableName, string findName)
 	{

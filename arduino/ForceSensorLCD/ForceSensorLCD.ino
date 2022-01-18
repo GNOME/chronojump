@@ -824,22 +824,52 @@ void checkTimeOverflow() {
 
 void calibrateLCD(void) {
   MsTimer2::stop();
+  short increment = 1;
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print((menu + 1) % 4 + 1);
   lcd.print("-Calibrate    >");
-  int weight = 5;
+  int weight = 1;
   submenu = 0;
   bool exitFlag = false;
   String calibrateCommand = calibrateCommand + String(weight, DEC) + ";";
-  showCalibrateLoad(String(weight, DEC));
+//  showCalibrateLoad(String(weight, DEC));
+  lcd.setCursor(15, 0);
+  lcd.print(">");
+  lcd.setCursor(2, 1);
+  lcd.print(" Current:" );
+  lcd.print(weight);
+  lcd.setCursor(14, 1);
+  lcd.print("+");
+  lcd.print(increment);
+  delay(200);
   redButtonState = false;
   while (!exitFlag) {
     if (submenu == 0) {
 
       if (redButtonState) {
-        weight += 5;
-        showCalibrateLoad(String(weight, DEC));
+        weight += increment;
+        if (weight == 101){
+         weight = 1;
+         lcd.setCursor(12,1);
+         lcd.print("  ");
+        }
+        
+        lcd.setCursor(11,1);
+        lcd.print(weight);
+        
+        if (weight == 5){
+          increment = 5;
+          lcd.setCursor(14, 1);
+          lcd.print("+");
+          lcd.print(increment);
+        } else if (weight == 100){
+          increment = 1;
+          lcd.setCursor(14, 1);
+          lcd.print("+");
+          lcd.print(increment);
+        }
+        
         calibrateCommand = calibrateCommand + String(weight, DEC) + ";";
         delay(200);
       }
@@ -880,21 +910,6 @@ void calibrateLCD(void) {
   delay(1000);
   MsTimer2::start();
   showMenu();
-}
-
-//During load selection each time the load is changed it show the new load
-void showCalibrateLoad(String weight) {
-  //  lcd.clear();
-  //  lcd.setCursor(3, 0);
-  //  lcd.print("Set load");
-  lcd.setCursor(15, 0);
-  lcd.print(">");
-  lcd.setCursor(2, 1);
-  lcd.print(" Current:" );
-  lcd.print(weight);
-  lcd.setCursor(14, 1);
-  lcd.print("+5");
-  delay(200);
 }
 
 void showBatteryLevel() {

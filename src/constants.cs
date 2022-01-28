@@ -34,11 +34,11 @@ public class Constants
 	{
 		if(e == AuthorsEnum.SOFTWARE)
 			return new String []{
-				"Xavier de Blas Foix <info@chronojump.org>, 2004-2020\n\t" +
+				"Xavier de Blas Foix <info@chronojump.org>, 2004-2022\n\t" +
 					Catalog.GetString("Main developer."),
 					"\nAndoni Morales Alastruey <http://ylatuya.es>, 2009-2020\n\t" +
 						Catalog.GetString("Installation support: Autotools, packaging, bundle."),
-					"\nXavier Padullés <testing@chronojump.org>, 2014-2020\n\t" +
+					"\nXavier Padullés <testing@chronojump.org>, 2014-2022\n\t" +
 						Catalog.GetString("R scripts."),
 					"\nCarles Pina i Estany <http://pinux.info>, 2016-2017\n\t" +
 						Catalog.GetString("Backend developer.") + " " + Catalog.GetString("Import sessions.")
@@ -51,18 +51,18 @@ public class Constants
 					"\n\t" + Catalog.GetString("Django developer."),
 				"\nMarcos Venteo <mventeo@gmail.com>, 2017-2018" +
 					"\n\t" + Catalog.GetString("Django migration."),
-				"\nXavier de Blas Foix <info@chronojump.org>, 2016-2020" +
+				"\nXavier de Blas Foix <info@chronojump.org>, 2016-2022" +
 					"\n\t" + Catalog.GetString("Client-Server integration.") + " " + Catalog.GetString("First Flask iteration."),
 				"\nCarles Pina i Estany <http://pinux.info>, 2016-2017" +
 					"\n\t" + Catalog.GetString("Web services support.")
 			};
 		else if(e == AuthorsEnum.SCIENTIFIC)
 			return new String []{
-				"Josep Ma Padullés <jmpadulles@gmail.com>, 2005-2020" +
+				"Josep Ma Padullés <jmpadulles@gmail.com>, 2005-2022" +
 					"\n\t" + Catalog.GetString("Sports sciences") + ", " + Catalog.GetString("Engineering"),
-				"\nXavier Padullés <testing@chronojump.org>, 2012-2020",
+				"\nXavier Padullés <testing@chronojump.org>, 2012-2022",
 					"\n\t" + Catalog.GetString("Engineering"),
-				"\nJosep Granell <josegranell2005@hotmail.com>, 2018-2020",
+				"\nJosep Granell <josegranell2005@hotmail.com>, 2018-2022",
 					"\n\t" + Catalog.GetString("Electronics"),
 				"\nCarlos J. Gil Bellosta <http://www.datanalytics.com>, 2010-2012, 2018" +
 					"\n\t" + Catalog.GetString("Maths and statistics"),

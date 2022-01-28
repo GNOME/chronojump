@@ -378,6 +378,7 @@ public partial class ChronoJumpWindow
 	//encoder
 	//[Widget] Gtk.Image image_encoder_analyze_zoom;
 	[Widget] Gtk.Image image_encoder_analyze_stats;
+	[Widget] Gtk.Image image_encoder_analyze_mode_options_close_and_analyze;
 	[Widget] Gtk.Image image_encoder_analyze_image_save;
 	[Widget] Gtk.Image image_encoder_analyze_1RM_save;
 	[Widget] Gtk.Image image_encoder_analyze_table_save;

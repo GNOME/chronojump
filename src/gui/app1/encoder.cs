@@ -205,6 +205,7 @@ public partial class ChronoJumpWindow
 	
 	[Widget] Gtk.CheckButton checkbutton_crossvalidate;
 	[Widget] Gtk.Button button_encoder_analyze;
+	[Widget] Gtk.Button button_encoder_analyze_mode_options_close_and_analyze;
 	[Widget] Gtk.Box hbox_encoder_analyze_progress;
 	[Widget] Gtk.Button button_encoder_analyze_cancel;
 	[Widget] Gtk.Button button_encoder_analyze_data_select_curves;
@@ -4189,6 +4190,18 @@ public partial class ChronoJumpWindow
 	{
 		encoderAnalyzeOptionsSensitivity(true);
 	}
+	private void on_button_encoder_analyze_mode_options_close_and_analyze_clicked (object o, EventArgs args)
+	{
+		encoderAnalyzeOptionsSensitivity(true);
+
+		//timeout to let the software resize the window and graph in the correct size
+		GLib.Timeout.Add(500, new GLib.TimeoutHandler(call_button_encoder_analyze));
+	}
+	private bool call_button_encoder_analyze()
+	{
+		on_button_encoder_analyze_clicked (new object (), new EventArgs ());
+		return false;
+	}
 
 	private void encoderAnalyzeOptionsSensitivity(bool s) //s for sensitive. When show options frame is ! s
 	{
@@ -5755,6 +5768,7 @@ public partial class ChronoJumpWindow
 				analyze_sensitive = false;
 		}
 		button_encoder_analyze.Sensitive = analyze_sensitive;
+		button_encoder_analyze_mode_options_close_and_analyze.Sensitive = analyze_sensitive;
 	}
 
 	/*

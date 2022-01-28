@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2017-2021   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2017-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -834,6 +834,7 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_analyze.png");
 		image_button_contacts_capture_save_image_chart.Pixbuf = pixbuf;
 		image_encoder_analyze_stats.Pixbuf = pixbuf;
+		image_encoder_analyze_mode_options_close_and_analyze.Pixbuf = pixbuf;
 		image_encoder_capture_image_save.Pixbuf = pixbuf;
 		image_encoder_analyze_image_save.Pixbuf = pixbuf;
 		image_forcesensor_analyze_save_signal.Pixbuf = pixbuf;

@@ -82,7 +82,10 @@ public partial class ChronoJumpWindow
 	{
 		//close session if is the same that we are working on
 		if(currentSession != null && currentSession.UniqueID == tempDeletingSession.UniqueID)
+		{
 			closeSession ();
+			treeview_persons_storeReset();
+		}
 
 		SqliteSession.DeleteAllStuff(tempDeletingSession.UniqueID.ToString());
 		

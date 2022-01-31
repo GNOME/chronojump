@@ -3067,8 +3067,13 @@ class Sqlite
 			if(currentVersion == "2.28")
 			{
 				LogB.SQL("ForceSensor ALTER TABLE added maxForceRaw, maxAvgForce1s");
+				/*
+				   we need this try/catch and in the rest of the ALTER TABLEs
+				   because eg. in migration from 1.68 forceSensor table is created with all columns (including these two)
+				   lack of this try/catch was the problem of Chronojump 2.2.0 in migration from 1.9.0 or older
+				 */
 				try {
-					executeSQL("ALTER TABLE " + Constants.ForceSensorTable + " ADD COLUMN maxForceRaw FLOAT DEFAULT -1;"); //this should be Raw
+					executeSQL("ALTER TABLE " + Constants.ForceSensorTable + " ADD COLUMN maxForceRaw FLOAT DEFAULT -1;");
 					executeSQL("ALTER TABLE " + Constants.ForceSensorTable + " ADD COLUMN maxAvgForce1s FLOAT DEFAULT -1;");
 				} catch {
 					LogB.SQL("Catched at Doing ALTER TABLE added maxForceRaw, maxAvgForce1s. Probably forceSensorTable has been created with this columns already added.");

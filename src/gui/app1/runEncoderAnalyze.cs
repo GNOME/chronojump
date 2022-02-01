@@ -192,6 +192,12 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
+		if(currentRunEncoderExercise.SegmentMeters < 0)
+		{
+			new DialogMessage(Constants.MessageTypes.WARNING, "Currently cannot analyze exercises with variable segments");
+			return;
+		}
+
 		if(lastRunEncoderFullPath != null && lastRunEncoderFullPath != "")
 			raceEncoderCopyToTempAndDoRGraph();
 	}

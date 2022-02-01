@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2018-2020   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2018-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -61,6 +61,36 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.DrawingArea drawingarea_race_analyzer_capture_position_time;
 	[Widget] Gtk.DrawingArea drawingarea_race_analyzer_capture_speed_time;
 	[Widget] Gtk.DrawingArea drawingarea_race_analyzer_capture_accel_time;
+
+	[Widget] Gtk.Frame frame_run_encoder_exercise;
+	[Widget] Gtk.Entry entry_run_encoder_exercise_name;
+	[Widget] Gtk.Entry entry_run_encoder_exercise_description;
+	[Widget] Gtk.CheckButton check_run_encoder_exercise_fixed_size;
+	[Widget] Gtk.HBox hbox_run_encoder_exercise_fixed_segments_size;
+	[Widget] Gtk.HBox hbox_run_encoder_exercise_notfixed_segment_num;
+	[Widget] Gtk.SpinButton	spin_race_encoder_exercise_segment_size_m;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segments_num;
+	[Widget] Gtk.Frame frame_run_encoder_exercise_notfixed_segments;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_0;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_1;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_2;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_3;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_4;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_5;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_6;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_7;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_8;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_9;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_10;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_11;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_12;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_13;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_14;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_15;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_16;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_17;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_18;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_19;
 
 	int race_analyzer_distance;
 	int race_analyzer_temperature;
@@ -1827,7 +1857,6 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	//info is now info and edit (all values can be changed), and detete (there's delete button)
 	void on_button_run_encoder_exercise_edit_clicked (object o, EventArgs args)
 	{
 		if(UtilGtk.ComboGetActive(combo_run_encoder_exercise) == "")
@@ -1838,97 +1867,124 @@ public partial class ChronoJumpWindow
 
 		RunEncoderExercise ex = (RunEncoderExercise) SqliteRunEncoderExercise.Select (
                                 false, getExerciseIDFromAnyCombo(combo_run_encoder_exercise, runEncoderComboExercisesString, false), false)[0];
-
 		LogB.Information("selected exercise: " + ex.ToString());
 
-		ArrayList bigArray = new ArrayList();
+		show_contacts_exercise_add_edit (false);
+		entry_run_encoder_exercise_name.Text = ex.Name;
+		entry_run_encoder_exercise_description.Text = ex.Description;
 
-		ArrayList a1 = new ArrayList();
-		ArrayList a2 = new ArrayList();
-		ArrayList a3 = new ArrayList();
+		if(list_segments_size_cm == null)
+			spin_race_encoder_exercise_segment_size_cm_create_list ();
 
-		//0 is the widgget to show; 1 is the editable; 2 id default value
-		a1.Add(Constants.GenericWindowShow.ENTRY); a1.Add(true); a1.Add(ex.Name);
-		bigArray.Add(a1);
-
-		a2.Add(Constants.GenericWindowShow.ENTRY2); a2.Add(true); a2.Add(ex.Description);
-		bigArray.Add(a2);
-
-		a3.Add(Constants.GenericWindowShow.SPININT2); a3.Add(true); a3.Add("");
-		bigArray.Add(a3);
-
-		genericWin = GenericWindow.Show(Catalog.GetString("Exercise"), false,	//don't show now
-				Catalog.GetString("Race analyzer exercise:"), bigArray);
-		genericWin.LabelEntry2 = Catalog.GetString("Description");
-
-		genericWin.ShowButtonCancel(false);
-		genericWin.HideOnAccept = false;
-
-		genericWin.uniqueID = ex.UniqueID;
-		genericWin.LabelSpinInt2 = Catalog.GetString("Segments size (m)");
-		genericWin.SetSpin2Range(1, 30);
-		genericWin.SetSpin2Value(ex.SegmentMeters);
-
-		genericWin.Button_accept.Clicked -= new EventHandler(on_button_run_encoder_exercise_edit_accepted);
-		genericWin.Button_accept.Clicked += new EventHandler(on_button_run_encoder_exercise_edit_accepted);
-		genericWin.ShowNow();
-	}
-
-	private void on_button_run_encoder_exercise_add_clicked (object o, EventArgs args)
-	{
-		ArrayList bigArray = new ArrayList();
-
-		ArrayList a1 = new ArrayList();
-		ArrayList a2 = new ArrayList();
-		ArrayList a3 = new ArrayList();
-
-		//0 is the widgget to show; 1 is the editable; 2 id default value
-		a1.Add(Constants.GenericWindowShow.ENTRY); a1.Add(true); a1.Add("");
-		bigArray.Add(a1);
-
-		a2.Add(Constants.GenericWindowShow.ENTRY2); a2.Add(true); a2.Add("");
-		bigArray.Add(a2);
-
-		a3.Add(Constants.GenericWindowShow.SPININT2); a3.Add(true); a3.Add("");
-		bigArray.Add(a3);
-
-		genericWin = GenericWindow.Show(Catalog.GetString("Exercise"), false,	//don't show now
-				Catalog.GetString("Write the name of the exercise:"), bigArray);
-		genericWin.LabelEntry2 = Catalog.GetString("Description");
-
-		genericWin.SetButtonAcceptLabel(Catalog.GetString("Add"));
-		genericWin.HideOnAccept = false;
-
-		genericWin.LabelSpinInt2 = Catalog.GetString("Segments size (m)");
-		genericWin.SetSpin2Range(1, 30);
-		genericWin.SetSpin2Value(RunEncoderExercise.SegmentMetersDefault);
-
-		genericWin.Button_accept.Clicked -= new EventHandler(on_button_run_encoder_exercise_add_accepted);
-		genericWin.Button_accept.Clicked += new EventHandler(on_button_run_encoder_exercise_add_accepted);
-		genericWin.ShowNow();
-	}
-
-	void on_button_run_encoder_exercise_edit_accepted (object o, EventArgs args)
-	{
-		if(run_encoder_exercise_do_add_or_edit(false))
+		if(ex.SegmentMeters < 0)
 		{
-			genericWin.Button_accept.Clicked -= new EventHandler(on_button_run_encoder_exercise_edit_accepted);
-			genericWin.HideAndNull();
+			check_run_encoder_exercise_fixed_size.Active = false;
+			spin_race_encoder_exercise_segments_num.Value = ex.SegmentVariableCm.Count;
+
+			int i = 0;
+			foreach(int cm in ex.SegmentVariableCm)
+			{
+				( (Gtk.SpinButton) list_segments_size_cm[i]).Value = ex.SegmentVariableCm[i];
+				i ++;
+			}
+		} else {
+			check_run_encoder_exercise_fixed_size.Active = true;
+			spin_race_encoder_exercise_segment_size_m.Value = ex.SegmentMeters;
 		}
+		//force managing:
+		on_check_run_encoder_exercise_fixed_size_toggled (new object (), new EventArgs ());
 	}
-	void on_button_run_encoder_exercise_add_accepted (object o, EventArgs args)
+
+	void on_button_run_encoder_exercise_add_clicked (object o, EventArgs args)
 	{
-		if(run_encoder_exercise_do_add_or_edit(true))
+		show_contacts_exercise_add_edit (true);
+
+		entry_run_encoder_exercise_name.Text = "";
+		entry_run_encoder_exercise_description.Text = "";
+		spin_race_encoder_exercise_segment_size_m.Value = RunEncoderExercise.SegmentMetersDefault;
+		spin_race_encoder_exercise_segments_num.Value = 2;
+
+		if(list_segments_size_cm == null)
+			spin_race_encoder_exercise_segment_size_cm_create_list ();
+
+		spin_race_encoder_exercise_segment_size_cm_reset_list (); //put default values;
+
+		check_run_encoder_exercise_fixed_size.Active = true;
+		//force managing:
+		on_check_run_encoder_exercise_fixed_size_toggled (new object (), new EventArgs ());
+	}
+
+	private void on_check_run_encoder_exercise_fixed_size_toggled (object o, EventArgs args)
+	{
+		if(check_run_encoder_exercise_fixed_size.Active)
 		{
-			genericWin.Button_accept.Clicked -= new EventHandler(on_button_run_encoder_exercise_add_accepted);
-			genericWin.HideAndNull();
+			hbox_run_encoder_exercise_fixed_segments_size.Visible = true;
+			hbox_run_encoder_exercise_notfixed_segment_num.Visible = false;
+			frame_run_encoder_exercise_notfixed_segments.Visible = false;
+		} else {
+			hbox_run_encoder_exercise_fixed_segments_size.Visible = false;
+			hbox_run_encoder_exercise_notfixed_segment_num.Visible = true;
+			frame_run_encoder_exercise_notfixed_segments.Visible = true;
+
+			spin_race_encoder_exercise_segment_size_cm_show_needed ();
 		}
 	}
 
-	bool run_encoder_exercise_do_add_or_edit (bool adding)
+	private void on_spin_race_encoder_exercise_segments_num_value_changed (object o, EventArgs args)
 	{
-		string name = Util.MakeValidSQLAndFileName(Util.RemoveTildeAndColonAndDot(genericWin.EntrySelected));
+		spin_race_encoder_exercise_segment_size_cm_show_needed ();
+	}
+
+	List<Gtk.SpinButton> list_segments_size_cm;
+	private void spin_race_encoder_exercise_segment_size_cm_create_list ()
+	{
+		list_segments_size_cm = new List<Gtk.SpinButton>();
+
+		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_0);
+		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_1);
+		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_2);
+		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_3);
+		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_4);
+		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_5);
+		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_6);
+		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_7);
+		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_8);
+		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_9);
+		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_10);
+		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_11);
+		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_12);
+		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_13);
+		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_14);
+		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_15);
+		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_16);
+		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_17);
+		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_18);
+		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_19);
+	}
+
+	private void spin_race_encoder_exercise_segment_size_cm_reset_list ()
+	{
+		foreach(Gtk.SpinButton sb in list_segments_size_cm)
+			sb.Value = 100;
+	}
+
+	private void spin_race_encoder_exercise_segment_size_cm_show_needed ()
+	{
+		int toShow = Convert.ToInt32(spin_race_encoder_exercise_segments_num.Value);
+
+		int count = 0;
+		foreach(Gtk.SpinButton sb in list_segments_size_cm)
+		{
+			sb.Visible = (count < toShow);
+			count ++;
+		}
+	}
+
+	private bool run_encoder_exercise_do_add_or_edit (bool adding)
+	{
+		string name = Util.MakeValidSQLAndFileName(Util.RemoveTildeAndColonAndDot(entry_run_encoder_exercise_name.Text));
 		name = Util.RemoveChar(name, '"');
+		label_contacts_exercise_error.Text = "";
 
 		if(adding)
 			LogB.Information("run_encoder_exercise_do - Trying to insert: " + name);
@@ -1937,34 +1993,52 @@ public partial class ChronoJumpWindow
 
 		if(name == "")
 		{
-			genericWin.SetLabelError(Catalog.GetString("Error: Missing name of exercise."));
+			label_contacts_exercise_error.Text = Catalog.GetString("Error: Missing name of exercise.");
 			return false;
 		}
 		else if (adding && Sqlite.Exists(false, Constants.RunEncoderExerciseTable, name))
 		{
-			genericWin.SetLabelError(string.Format(Catalog.GetString(
-							"Error: An exercise named '{0}' already exists."), name));
+			label_contacts_exercise_error.Text = string.Format(Catalog.GetString(
+							"Error: An exercise named '{0}' already exists."), name);
 			return false;
 		}
 		else if (! adding) //if we are editing
 		{
 			//if we edit, check that this name does not exists (on other exercise, on current editing exercise is obviously fine)
 			int getIdOfThis = Sqlite.ExistsAndGetUniqueID(false, Constants.RunEncoderExerciseTable, name); //if not exists will be -1
-			if(getIdOfThis != -1 && getIdOfThis != genericWin.uniqueID)
+			if(getIdOfThis != -1 && getIdOfThis != getExerciseIDFromAnyCombo(combo_run_encoder_exercise, runEncoderComboExercisesString, false))
 			{
-				genericWin.SetLabelError(string.Format(Catalog.GetString(
-								"Error: An exercise named '{0}' already exists."), name));
+				label_contacts_exercise_error.Text = string.Format(Catalog.GetString(
+								"Error: An exercise named '{0}' already exists."), name);
 
 				return false;
 			}
 		}
 
+		int segmentMeters = Convert.ToInt32(spin_race_encoder_exercise_segment_size_m.Value);
+		List<int> segmentVariableCm = new List<int>();
+		if(! check_run_encoder_exercise_fixed_size.Active)
+		{
+			segmentMeters = -1;
+
+			int i = 0;
+			foreach(Gtk.SpinButton sb in list_segments_size_cm)
+			{
+				if(i < spin_race_encoder_exercise_segments_num.Value)
+					segmentVariableCm.Add(Convert.ToInt32(sb.Value));
+				i ++;
+			}
+		}
+
 		if(adding)
-			SqliteRunEncoderExercise.Insert(false, -1, name,
-					genericWin.Entry2Selected, genericWin.SpinInt2Selected);
-		else {
-			RunEncoderExercise ex = new RunEncoderExercise(genericWin.uniqueID, name,
-					genericWin.Entry2Selected, genericWin.SpinInt2Selected);
+		{
+			RunEncoderExercise ex = new RunEncoderExercise (
+					-1, name, entry_run_encoder_exercise_description.Text, segmentMeters, segmentVariableCm);
+			ex.InsertSQL (false);
+		} else {
+			RunEncoderExercise ex = new RunEncoderExercise(
+					getExerciseIDFromAnyCombo(combo_run_encoder_exercise, runEncoderComboExercisesString, false),
+					name, entry_run_encoder_exercise_description.Text, segmentMeters, segmentVariableCm);
 
 			SqliteRunEncoderExercise.Update(false, ex);
 		}

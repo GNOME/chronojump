@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2019   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -329,7 +329,10 @@ class SqliteRunEncoder : Sqlite
 
 		//need to create an exercise to assign to the imported files
 		if(importedSomething)
-			SqliteRunEncoderExercise.Insert(true, 0, "Sprint", "", RunEncoderExercise.SegmentMetersDefault);
+		{
+			RunEncoderExercise ex = new RunEncoderExercise(0, "Sprint", "", RunEncoderExercise.SegmentMetersDefault, new List<int>());
+			ex.InsertSQL(true);
+		}
 
 		LogB.Information("end of import_from_1_70_to_1_71()");
 		//LogB.PrintAllThreads = false; //TODO: remove this
@@ -357,25 +360,22 @@ class SqliteRunEncoderExercise : Sqlite
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"name TEXT, " +
 			"description TEXT, " +
-			"segmentMeters INT)";
+			"segmentMeters INT, " +
+			"segmentVariableCm TEXT)"; //separator is ;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}
 
 	//undefined defaultAngle will be 1000
 	//note execution can have a different angle than the default angle
-	public static int Insert (bool dbconOpened, int uniqueID, string name, string description, int segmentMeters)
+	public static int Insert (bool dbconOpened, string insertString)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
 
-		string uniqueIDStr = "NULL";
-		if(uniqueID != -1)
-			uniqueIDStr = uniqueID.ToString();
-
 		dbcmd.CommandText = "INSERT INTO " + table +
-				" (uniqueID, name, description, segmentMeters) VALUES (" +
-				uniqueIDStr + ", \"" + name + "\", \"" + description + "\", " + segmentMeters + ")";
+				" (uniqueID, name, description, segmentMeters, segmentVariableCm)" +
+				" VALUES " + insertString;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -392,7 +392,8 @@ class SqliteRunEncoderExercise : Sqlite
 	//Default exercise for users without exercises (empty database creation or never used raceAnalyzer)
 	protected internal static void insertDefault ()
 	{
-		Insert (true, -1, "Sprint", "", RunEncoderExercise.SegmentMetersDefault);
+		RunEncoderExercise re = new RunEncoderExercise (-1, "Sprint", "", RunEncoderExercise.SegmentMetersDefault, new List<int>());
+		re.InsertSQL(true);
 	}
 
 	public static void Update (bool dbconOpened, RunEncoderExercise ex)
@@ -410,7 +411,8 @@ class SqliteRunEncoderExercise : Sqlite
 			" name = \"" + ex.Name +
 			"\", description = \"" + ex.Description +
 			"\", segmentMeters = " + ex.SegmentMeters +
-			" WHERE uniqueID = " + ex.UniqueID;
+			", segmentVariableCm = \"" + ex.SegmentVariableCmToSQL +
+			"\" WHERE uniqueID = " + ex.UniqueID;
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -468,7 +470,8 @@ class SqliteRunEncoderExercise : Sqlite
 						Convert.ToInt32(reader[0].ToString()),	//uniqueID
 						reader[1].ToString(),			//name
 						reader[2].ToString(),			//description
-						Convert.ToInt32(reader[3].ToString())	//segmentMeters
+						Convert.ToInt32(reader[3].ToString()),	//segmentMeters
+						Util.SQLStringToListInt(reader[4].ToString(), ";")	//segmentVariableCm
 						);
 				array.Add(ex);
 			}

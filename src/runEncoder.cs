@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2018-2020   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2018-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -359,6 +359,7 @@ public class RunEncoderExercise
 	private string description;
 	private int segmentMeters;
 	public static int SegmentMetersDefault = 5;
+	private List<int> segmentVariableCm; //if segmentMeters == -1 then this is used
 
 	public RunEncoderExercise()
 	{
@@ -369,17 +370,34 @@ public class RunEncoderExercise
 		this.name = name;
 	}
 
-	public RunEncoderExercise(int uniqueID, string name, string description, int segmentMeters)
+	public RunEncoderExercise(int uniqueID, string name, string description, int segmentMeters, List<int> segmentVariableCm)
 	{
 		this.uniqueID = uniqueID;
 		this.name = name;
 		this.description = description;
 		this.segmentMeters = segmentMeters;
+		this.segmentVariableCm = segmentVariableCm;
 	}
 
 	public override string ToString()
 	{
 		return string.Format("{0}:{1}:{2}:{3}", uniqueID, name, description, segmentMeters);
+	}
+
+	public void InsertSQL (bool dbconOpened)
+	{
+		SqliteRunEncoderExercise.Insert(dbconOpened, toSQLInsertString());
+	}
+
+	private string toSQLInsertString()
+	{
+		string uniqueIDStr = "NULL";
+		if(uniqueID != -1)
+			uniqueIDStr = uniqueID.ToString();
+
+		return
+			"(" + uniqueIDStr + ", \"" + name + "\", \"" + description + "\", " +
+			segmentMeters + ", \"" + SegmentVariableCmToSQL + "\")";
 	}
 
 	public int UniqueID
@@ -397,6 +415,14 @@ public class RunEncoderExercise
 	public int SegmentMeters
 	{
 		get { return segmentMeters; }
+	}
+	public List<int> SegmentVariableCm
+	{
+		get { return segmentVariableCm; }
+	}
+	public string SegmentVariableCmToSQL
+	{
+		get { return Util.ListIntToSQLString (segmentVariableCm, ";"); }
 	}
 }
 

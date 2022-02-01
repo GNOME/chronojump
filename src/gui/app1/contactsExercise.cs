@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -33,6 +33,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_contacts_exercise;
 	[Widget] Gtk.Label label_contacts_exercise_selected_name;
 	[Widget] Gtk.Label label_contacts_exercise_selected_options;
+	[Widget] Gtk.Button button_contacts_exercise_actions_edit_do;
+	[Widget] Gtk.Button button_contacts_exercise_actions_add_do;
+	[Widget] Gtk.Label label_contacts_exercise_error;
 
 	private void on_button_contacts_exercise_clicked (object o, EventArgs args)
 	{
@@ -44,6 +47,8 @@ public partial class ChronoJumpWindow
 		frame_contacts_exercise.Sensitive = false;
 		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = false;
 		hbox_top_person.Sensitive = false;
+
+		frame_run_encoder_exercise.Visible = false; //TODO: implement more modes in the future
 
 		button_contacts_exercise_close_and_capture.Sensitive = myTreeViewPersons.IsThereAnyRecord();
 		notebook_contacts_execute_or.CurrentPage = Convert.ToInt32(notebook_contacts_execute_or_pages.INSTRUCTIONS);
@@ -302,6 +307,54 @@ public partial class ChronoJumpWindow
 					button_combo_force_sensor_exercise_capture_left,
 					button_combo_force_sensor_exercise_capture_right);
 	}
+
+
+	// ---- start of manage exercise edit/add from the app1.glade ---->
+
+	private void show_contacts_exercise_add_edit (bool adding)
+	{
+		notebook_execute.Sensitive = false;
+		frame_run_encoder_exercise.Visible = true; //TODO: in the future implement more modes
+		notebook_options_top.Visible = false;
+		label_contacts_exercise_error.Text = "";
+
+		if(adding) {
+			button_contacts_exercise_actions_edit_do.Visible = false;
+			button_contacts_exercise_actions_add_do.Visible = true;
+		} else {
+			button_contacts_exercise_actions_edit_do.Visible = true;
+			button_contacts_exercise_actions_add_do.Visible = false;
+		}
+	}
+
+	private void hide_contacts_exercise_add_edit ()
+	{
+		notebook_execute.Sensitive = true;
+		frame_run_encoder_exercise.Visible = false;
+		notebook_options_top.Visible = true;
+	}
+
+	private void on_button_contacts_exercise_actions_cancel_clicked (object o, EventArgs args)
+	{
+		hide_contacts_exercise_add_edit ();
+	}
+
+	private void on_button_contacts_exercise_actions_edit_do_clicked (object o, EventArgs args)
+	{
+		if(current_mode == Constants.Modes.RUNSENCODER)
+			if(run_encoder_exercise_do_add_or_edit (false))
+				hide_contacts_exercise_add_edit ();
+	}
+
+	private void on_button_contacts_exercise_actions_add_do_clicked (object o, EventArgs args)
+	{
+		if(current_mode == Constants.Modes.RUNSENCODER)
+			if(run_encoder_exercise_do_add_or_edit (true))
+				hide_contacts_exercise_add_edit ();
+	}
+
+	// <---- end of manage exercise edit/add from the app1.glade ----
+
 }
 
 public class ContactsCaptureDisplay : BooleansInt

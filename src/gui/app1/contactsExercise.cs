@@ -31,6 +31,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_combo_select_contacts_top_left;
 	[Widget] Gtk.Button button_combo_select_contacts_top_right;
 	[Widget] Gtk.Button button_contacts_exercise;
+	[Widget] Gtk.Frame frame_image_test;
 	[Widget] Gtk.Label label_contacts_exercise_selected_name;
 	[Widget] Gtk.Label label_contacts_exercise_selected_options;
 	[Widget] Gtk.Button button_contacts_exercise_actions_edit_do;
@@ -47,6 +48,9 @@ public partial class ChronoJumpWindow
 		frame_contacts_exercise.Sensitive = false;
 		hbox_contacts_sup_capture_analyze_two_buttons.Sensitive = false;
 		hbox_top_person.Sensitive = false;
+
+		//do not show the image on runEncoder
+		frame_image_test.Visible = (current_mode != Constants.Modes.RUNSENCODER);
 
 		frame_run_encoder_exercise.Visible = false; //TODO: implement more modes in the future
 

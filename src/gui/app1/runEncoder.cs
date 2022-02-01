@@ -2080,12 +2080,14 @@ public partial class ChronoJumpWindow
 			RunEncoderExercise ex = new RunEncoderExercise (
 					-1, name, entry_run_encoder_exercise_description.Text, segmentMeters, segmentVariableCm);
 			ex.InsertSQL (false);
+			currentRunEncoderExercise = ex;
 		} else {
 			RunEncoderExercise ex = new RunEncoderExercise(
 					getExerciseIDFromAnyCombo(combo_run_encoder_exercise, runEncoderComboExercisesString, false),
 					name, entry_run_encoder_exercise_description.Text, segmentMeters, segmentVariableCm);
 
 			SqliteRunEncoderExercise.Update(false, ex);
+			currentRunEncoderExercise = ex;
 		}
 
 		fillRunEncoderExerciseCombo(name);

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -119,6 +119,27 @@ public class Util
 			return ConvertToPoint(s);
 	}
 
+	public static string ListIntToSQLString (List<int> ints, string sep)
+	{
+		string str = "";
+		string sepStr = "";
+		foreach(int i in ints)
+		{
+			str += sepStr + i.ToString();
+			sepStr = sep;
+		}
+		return str;
+	}
+	public static List<int> SQLStringToListInt (string sqlString, string sep)
+	{
+		List<int> l = new List<int>();
+		string [] strFull = sqlString.Split(sep);
+		foreach(string str in strFull)
+			if(IsNumber(str, false))
+				l.Add(Convert.ToInt32(str));
+
+		return l;
+	}
 
 	//when we do a query to the server, it returns avg as "0,54" because it's latin localized
 	//if client is on english machine, need to convert this to "0.54"

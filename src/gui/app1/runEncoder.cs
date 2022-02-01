@@ -1269,8 +1269,13 @@ public partial class ChronoJumpWindow
 		assignCurrentRunEncoderExercise();
 
 		raceEncoderReadWidgets();
+
+		//recalculte should not analyze (calling to R) specially if segmentMeters is variable.
+		//also recalculate what? current set? all sets on analyze current session
+		/*
 		if(lastRunEncoderFullPath != null && lastRunEncoderFullPath != "")
 			raceEncoderCopyToTempAndDoRGraph();
+			*/
 
 		event_execute_label_message.Text = "Recalculated.";
 		radio_mode_contacts_analyze.Active = true;

@@ -23,13 +23,13 @@ unsigned int deviceVersion = 12;
 // Set up nRF24L01 radio on SPI bus plus pins  (CE & CS)
 
 
-RF24 radio(A3, A4);    //Old versions
-//RF24 radio(10, 9);       //New version
+//RF24 radio(A3, A4);    //Old versions
+RF24 radio(10, 9);       //New version
 #define red_on digitalWrite(A4,LOW)
 #define green_on digitalWrite(A5,LOW)
 #define blue_on digitalWrite(A3,LOW)
-#define buzzer_on digitalWrite(7,HIGH)  //Old versions
-//#define buzzer_on digitalWrite(A0,HIGH) //New versions
+//#define buzzer_on digitalWrite(7,HIGH)  //Old versions
+#define buzzer_on digitalWrite(A0,HIGH) //New versions
 #define red_off digitalWrite(A4,HIGH)
 #define green_off digitalWrite(A5,HIGH)
 #define blue_off digitalWrite(A3,HIGH)
@@ -129,8 +129,8 @@ void setup(void)
   pinMode(7, INPUT_PULLUP);   //Comment in old versions
   pinMode(8, INPUT_PULLUP);   //Most significant bit.
 
-  for (int pin = 6; pin >= 3; pin--)  //Old versions
-    //for (int pin = 8; pin >= 3; pin--)    //New versions
+  //for (int pin = 6; pin >= 3; pin--)  //Old versions
+  for (int pin = 8; pin >= 3; pin--)    //New versions
   {
     sample.termNum = sample.termNum * 2; //Each bit will be multiplied by 2 as much times as his significance
     if (!digitalRead(pin)) sample.termNum++;
@@ -164,14 +164,14 @@ void setup(void)
   //************************************************************************************
   // A0, A1, A2 connected to the 3xswith
 
-  pinMode(A0, INPUT_PULLUP);  //Old versions
-  //  pinMode(A7, INPUT_PULLUP);    //New version
+  //pinMode(A0, INPUT_PULLUP);  //Old versions
+  pinMode(A7, INPUT_PULLUP);    //New version
   pinMode(A1, INPUT_PULLUP);
   pinMode(A2, INPUT_PULLUP);
 
   //   Se leeran en binario y se restará al canal por defecto 125
-  if ( !digitalRead(A0)) {     //Old versions
-    //  if (analogRead(A7)<128) {   //New versions
+  //if ( !digitalRead(A0)) {     //Old versions
+    if (analogRead(A7)<128) {   //New versions
     controlSwitch = 1; //
   }
   if (!digitalRead(A1)) {

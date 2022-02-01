@@ -15504,7 +15504,7 @@ Resisted race analyzer</property>
                                                             <property name="secondary_icon_activatable">False</property>
                                                             <property name="primary_icon_sensitive">True</property>
                                                             <property name="secondary_icon_sensitive">True</property>
-                                                            <property name="adjustment">2 1 20 1 10 0</property>
+                                                            <property name="adjustment">2 1 40 1 10 0</property>
                                                             <property name="climb_rate">1</property>
                                                             <signal name="value_changed" handler="on_spin_race_encoder_exercise_segments_num_value_changed" swapped="no"/>
                                                             </widget>
@@ -15924,6 +15924,390 @@ Resisted race analyzer</property>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox84">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">2</property>
+                                                            <child>
+                                                            <widget class="GtkSpinButton" id="spin_race_encoder_exercise_segment_size_cm_20">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="invisible_char">•</property>
+                                                            <property name="primary_icon_activatable">False</property>
+                                                            <property name="secondary_icon_activatable">False</property>
+                                                            <property name="primary_icon_sensitive">True</property>
+                                                            <property name="secondary_icon_sensitive">True</property>
+                                                            <property name="adjustment">100 1 5000 1 10 0</property>
+                                                            <property name="climb_rate">1</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkSpinButton" id="spin_race_encoder_exercise_segment_size_cm_21">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="invisible_char">•</property>
+                                                            <property name="primary_icon_activatable">False</property>
+                                                            <property name="secondary_icon_activatable">False</property>
+                                                            <property name="primary_icon_sensitive">True</property>
+                                                            <property name="secondary_icon_sensitive">True</property>
+                                                            <property name="adjustment">100 1 5000 1 10 0</property>
+                                                            <property name="climb_rate">1</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkSpinButton" id="spin_race_encoder_exercise_segment_size_cm_22">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="invisible_char">•</property>
+                                                            <property name="primary_icon_activatable">False</property>
+                                                            <property name="secondary_icon_activatable">False</property>
+                                                            <property name="primary_icon_sensitive">True</property>
+                                                            <property name="secondary_icon_sensitive">True</property>
+                                                            <property name="adjustment">100 1 5000 1 10 0</property>
+                                                            <property name="climb_rate">1</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkSpinButton" id="spin_race_encoder_exercise_segment_size_cm_23">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="invisible_char">•</property>
+                                                            <property name="primary_icon_activatable">False</property>
+                                                            <property name="secondary_icon_activatable">False</property>
+                                                            <property name="primary_icon_sensitive">True</property>
+                                                            <property name="secondary_icon_sensitive">True</property>
+                                                            <property name="adjustment">100 1 5000 1 10 0</property>
+                                                            <property name="climb_rate">1</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">3</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkSpinButton" id="spin_race_encoder_exercise_segment_size_cm_24">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="invisible_char">•</property>
+                                                            <property name="primary_icon_activatable">False</property>
+                                                            <property name="secondary_icon_activatable">False</property>
+                                                            <property name="primary_icon_sensitive">True</property>
+                                                            <property name="secondary_icon_sensitive">True</property>
+                                                            <property name="adjustment">100 1 5000 1 10 0</property>
+                                                            <property name="climb_rate">1</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">4</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkSpinButton" id="spin_race_encoder_exercise_segment_size_cm_25">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="invisible_char">•</property>
+                                                            <property name="primary_icon_activatable">False</property>
+                                                            <property name="secondary_icon_activatable">False</property>
+                                                            <property name="primary_icon_sensitive">True</property>
+                                                            <property name="secondary_icon_sensitive">True</property>
+                                                            <property name="adjustment">100 1 5000 1 10 0</property>
+                                                            <property name="climb_rate">1</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">5</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkSpinButton" id="spin_race_encoder_exercise_segment_size_cm_26">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="invisible_char">•</property>
+                                                            <property name="primary_icon_activatable">False</property>
+                                                            <property name="secondary_icon_activatable">False</property>
+                                                            <property name="primary_icon_sensitive">True</property>
+                                                            <property name="secondary_icon_sensitive">True</property>
+                                                            <property name="adjustment">100 1 5000 1 10 0</property>
+                                                            <property name="climb_rate">1</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">6</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkSpinButton" id="spin_race_encoder_exercise_segment_size_cm_27">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="invisible_char">•</property>
+                                                            <property name="primary_icon_activatable">False</property>
+                                                            <property name="secondary_icon_activatable">False</property>
+                                                            <property name="primary_icon_sensitive">True</property>
+                                                            <property name="secondary_icon_sensitive">True</property>
+                                                            <property name="adjustment">100 1 5000 1 10 0</property>
+                                                            <property name="climb_rate">1</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">7</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkSpinButton" id="spin_race_encoder_exercise_segment_size_cm_28">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="invisible_char">•</property>
+                                                            <property name="primary_icon_activatable">False</property>
+                                                            <property name="secondary_icon_activatable">False</property>
+                                                            <property name="primary_icon_sensitive">True</property>
+                                                            <property name="secondary_icon_sensitive">True</property>
+                                                            <property name="adjustment">100 1 5000 1 10 0</property>
+                                                            <property name="climb_rate">1</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">8</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkSpinButton" id="spin_race_encoder_exercise_segment_size_cm_29">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="invisible_char">•</property>
+                                                            <property name="primary_icon_activatable">False</property>
+                                                            <property name="secondary_icon_activatable">False</property>
+                                                            <property name="primary_icon_sensitive">True</property>
+                                                            <property name="secondary_icon_sensitive">True</property>
+                                                            <property name="adjustment">100 1 5000 1 10 0</property>
+                                                            <property name="climb_rate">1</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">9</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox138">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">2</property>
+                                                            <child>
+                                                            <widget class="GtkSpinButton" id="spin_race_encoder_exercise_segment_size_cm_30">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="invisible_char">•</property>
+                                                            <property name="primary_icon_activatable">False</property>
+                                                            <property name="secondary_icon_activatable">False</property>
+                                                            <property name="primary_icon_sensitive">True</property>
+                                                            <property name="secondary_icon_sensitive">True</property>
+                                                            <property name="adjustment">100 1 5000 1 10 0</property>
+                                                            <property name="climb_rate">1</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkSpinButton" id="spin_race_encoder_exercise_segment_size_cm_31">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="invisible_char">•</property>
+                                                            <property name="primary_icon_activatable">False</property>
+                                                            <property name="secondary_icon_activatable">False</property>
+                                                            <property name="primary_icon_sensitive">True</property>
+                                                            <property name="secondary_icon_sensitive">True</property>
+                                                            <property name="adjustment">100 1 5000 1 10 0</property>
+                                                            <property name="climb_rate">1</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkSpinButton" id="spin_race_encoder_exercise_segment_size_cm_32">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="invisible_char">•</property>
+                                                            <property name="primary_icon_activatable">False</property>
+                                                            <property name="secondary_icon_activatable">False</property>
+                                                            <property name="primary_icon_sensitive">True</property>
+                                                            <property name="secondary_icon_sensitive">True</property>
+                                                            <property name="adjustment">100 1 5000 1 10 0</property>
+                                                            <property name="climb_rate">1</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkSpinButton" id="spin_race_encoder_exercise_segment_size_cm_33">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="invisible_char">•</property>
+                                                            <property name="primary_icon_activatable">False</property>
+                                                            <property name="secondary_icon_activatable">False</property>
+                                                            <property name="primary_icon_sensitive">True</property>
+                                                            <property name="secondary_icon_sensitive">True</property>
+                                                            <property name="adjustment">100 1 5000 1 10 0</property>
+                                                            <property name="climb_rate">1</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">3</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkSpinButton" id="spin_race_encoder_exercise_segment_size_cm_34">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="invisible_char">•</property>
+                                                            <property name="primary_icon_activatable">False</property>
+                                                            <property name="secondary_icon_activatable">False</property>
+                                                            <property name="primary_icon_sensitive">True</property>
+                                                            <property name="secondary_icon_sensitive">True</property>
+                                                            <property name="adjustment">100 1 5000 1 10 0</property>
+                                                            <property name="climb_rate">1</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">4</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkSpinButton" id="spin_race_encoder_exercise_segment_size_cm_35">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="invisible_char">•</property>
+                                                            <property name="primary_icon_activatable">False</property>
+                                                            <property name="secondary_icon_activatable">False</property>
+                                                            <property name="primary_icon_sensitive">True</property>
+                                                            <property name="secondary_icon_sensitive">True</property>
+                                                            <property name="adjustment">100 1 5000 1 10 0</property>
+                                                            <property name="climb_rate">1</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">5</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkSpinButton" id="spin_race_encoder_exercise_segment_size_cm_36">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="invisible_char">•</property>
+                                                            <property name="primary_icon_activatable">False</property>
+                                                            <property name="secondary_icon_activatable">False</property>
+                                                            <property name="primary_icon_sensitive">True</property>
+                                                            <property name="secondary_icon_sensitive">True</property>
+                                                            <property name="adjustment">100 1 5000 1 10 0</property>
+                                                            <property name="climb_rate">1</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">6</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkSpinButton" id="spin_race_encoder_exercise_segment_size_cm_37">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="invisible_char">•</property>
+                                                            <property name="primary_icon_activatable">False</property>
+                                                            <property name="secondary_icon_activatable">False</property>
+                                                            <property name="primary_icon_sensitive">True</property>
+                                                            <property name="secondary_icon_sensitive">True</property>
+                                                            <property name="adjustment">100 1 5000 1 10 0</property>
+                                                            <property name="climb_rate">1</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">7</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkSpinButton" id="spin_race_encoder_exercise_segment_size_cm_38">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="invisible_char">•</property>
+                                                            <property name="primary_icon_activatable">False</property>
+                                                            <property name="secondary_icon_activatable">False</property>
+                                                            <property name="primary_icon_sensitive">True</property>
+                                                            <property name="secondary_icon_sensitive">True</property>
+                                                            <property name="adjustment">100 1 5000 1 10 0</property>
+                                                            <property name="climb_rate">1</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">8</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkSpinButton" id="spin_race_encoder_exercise_segment_size_cm_39">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="invisible_char">•</property>
+                                                            <property name="primary_icon_activatable">False</property>
+                                                            <property name="secondary_icon_activatable">False</property>
+                                                            <property name="primary_icon_sensitive">True</property>
+                                                            <property name="secondary_icon_sensitive">True</property>
+                                                            <property name="adjustment">100 1 5000 1 10 0</property>
+                                                            <property name="climb_rate">1</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">9</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">3</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
@@ -25705,6 +26089,9 @@ Concentric</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -32062,18 +32449,6 @@ Concentric</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Tests will be filmed</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack_type">end</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <widget class="GtkHBox" id="hbox_video_encoder_capturing">
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
@@ -32101,6 +32476,18 @@ Concentric</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_video_encoder_tests_will_be_filmed">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Tests will be filmed</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -38796,6 +39183,9 @@ then click this button.</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>

@@ -140,7 +140,7 @@ public abstract class CairoGeneric
 			}
 
 		if(gridType != gridTypes.VERTICALLINES)
-			for(double i = Math.Floor(minX); i <= Math.Ceiling(maxY) ; i += by)
+			for(double i = Math.Floor(minY); i <= Math.Ceiling(maxY) ; i += by)
 			{
 				int ytemp = Convert.ToInt32(calculatePaintY(i));
 				if(ytemp <= topMargin || ytemp >= graphHeight -bottomMargin)

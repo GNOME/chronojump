@@ -1,5 +1,8 @@
 ----
-Check that on windows we can compile (for the length of the compile order on cygwin, see: how_to_compile.txt)
+Initial checks:
+1- Check that on windows we can compile (for the length of the compile order on cygwin, see: how_to_compile.txt)
+2- Check that Sqlite db is created ok from 0
+3- Check that Sqlite db is updated ok from a really old db
 ----
 
 1) copy manual PDFs from chronojump-docs repository, because in chronojump repository PDFs are not updated

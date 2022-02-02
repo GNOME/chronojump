@@ -34,6 +34,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Frame frame_image_test;
 	[Widget] Gtk.Label label_contacts_exercise_selected_name;
 	[Widget] Gtk.Label label_contacts_exercise_selected_options;
+	[Widget] Gtk.HBox hbox_contacts_exercise_actions;
 	[Widget] Gtk.Button button_contacts_exercise_actions_edit_do;
 	[Widget] Gtk.Button button_contacts_exercise_actions_add_do;
 	[Widget] Gtk.Label label_contacts_exercise_error;
@@ -319,8 +320,10 @@ public partial class ChronoJumpWindow
 	{
 		notebook_execute.Sensitive = false;
 		frame_run_encoder_exercise.Visible = true; //TODO: in the future implement more modes
+		hbox_contacts_exercise_actions.Sensitive = false;
 		notebook_options_top.Visible = false;
 		label_contacts_exercise_error.Text = "";
+
 
 		if(adding) {
 			button_contacts_exercise_actions_edit_do.Visible = false;
@@ -335,6 +338,7 @@ public partial class ChronoJumpWindow
 	{
 		notebook_execute.Sensitive = true;
 		frame_run_encoder_exercise.Visible = false;
+		hbox_contacts_exercise_actions.Sensitive = true;
 		notebook_options_top.Visible = true;
 	}
 

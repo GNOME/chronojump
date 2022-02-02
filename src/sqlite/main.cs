@@ -129,7 +129,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.31";
+	static string lastChronojumpDatabaseVersion = "2.32";
 
 	public Sqlite()
 	{
@@ -3088,7 +3088,7 @@ class Sqlite
 				if(exercises == null || exercises.Count == 0)
 					SqliteForceSensorExercise.insertDefault();
 
-				/* moved to 2.30 to do it after RunEncoderExercise added segmentVariableCm
+				/* moved to 2.31 to do it after RunEncoderExercise added segmentVariableCm
 				exercises = SqliteRunEncoderExercise.Select(true, -1, true);
 				if(exercises == null || exercises.Count == 0)
 					SqliteRunEncoderExercise.insertDefault();
@@ -3105,11 +3105,22 @@ class Sqlite
 					LogB.SQL("Catched at Doing ALTER TABLE added segmentVariableCm.");
 				}
 
+				currentVersion = updateVersion("2.31");
+			}
+			if(currentVersion == "2.31")
+			{
+				LogB.SQL("RunEncoderExercise ALTER TABLE added isSprint");
+				try {
+					executeSQL("ALTER TABLE " + Constants.RunEncoderExerciseTable + " ADD COLUMN isSprint INT NOT NULL DEFAULT 1;");
+				} catch {
+					LogB.SQL("Catched at Doing ALTER TABLE added isSprint.");
+				}
+
 				ArrayList exercises = SqliteRunEncoderExercise.Select(true, -1, true);
 				if(exercises == null || exercises.Count == 0)
 					SqliteRunEncoderExercise.insertDefault();
 
-				currentVersion = updateVersion("2.31");
+				currentVersion = updateVersion("2.32");
 			}
 
 			/*
@@ -3332,6 +3343,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
+		//2.31 - 2.32 Converted DB to 2.32 RunEncoderExercise ALTER TABLE added isSprint
 		//2.30 - 2.31 Converted DB to 2.31 RunEncoderExercise ALTER TABLE added segmentVariableCm
 		//2.29 - 2.30 Converted DB to 2.30 Inserted default exercises of forceSensor and raceAnalyzer if empty
 		//2.28 - 2.29 Converted DB to 2.29 ForceSensor ALTER TABLE added maxForceRaw, maxAvgForce1s

@@ -360,6 +360,7 @@ public class RunEncoderExercise
 	private int segmentMeters;
 	public static int SegmentMetersDefault = 5;
 	private List<int> segmentVariableCm; //if segmentMeters == -1 then this is used
+	private bool isSprint;
 
 	public RunEncoderExercise()
 	{
@@ -370,18 +371,19 @@ public class RunEncoderExercise
 		this.name = name;
 	}
 
-	public RunEncoderExercise(int uniqueID, string name, string description, int segmentMeters, List<int> segmentVariableCm)
+	public RunEncoderExercise(int uniqueID, string name, string description, int segmentMeters, List<int> segmentVariableCm, bool isSprint)
 	{
 		this.uniqueID = uniqueID;
 		this.name = name;
 		this.description = description;
 		this.segmentMeters = segmentMeters;
 		this.segmentVariableCm = segmentVariableCm;
+		this.isSprint = isSprint;
 	}
 
 	public override string ToString()
 	{
-		return string.Format("{0}:{1}:{2}:{3}", uniqueID, name, description, segmentMeters);
+		return string.Format("{0}:{1}:{2}:{3}", uniqueID, name, description, segmentMeters); //TODO: update this with new parameters
 	}
 
 	public void InsertSQL (bool dbconOpened)
@@ -397,7 +399,7 @@ public class RunEncoderExercise
 
 		return
 			"(" + uniqueIDStr + ", \"" + name + "\", \"" + description + "\", " +
-			segmentMeters + ", \"" + SegmentVariableCmToSQL + "\")";
+			segmentMeters + ", \"" + SegmentVariableCmToSQL + "\", " + Util.BoolToInt(isSprint) + ")";
 	}
 
 	public int UniqueID
@@ -423,6 +425,10 @@ public class RunEncoderExercise
 	public string SegmentVariableCmToSQL
 	{
 		get { return Util.ListIntToSQLString (segmentVariableCm, ";"); }
+	}
+	public bool IsSprint
+	{
+		get { return isSprint; }
 	}
 }
 

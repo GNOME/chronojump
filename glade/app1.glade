@@ -15416,7 +15416,7 @@ Resisted race analyzer</property>
                                                             <property name="spacing">10</property>
                                                             <child>
                                                             <widget class="GtkCheckButton" id="check_run_encoder_exercise_fixed_size">
-                                                            <property name="label" translatable="yes">Segments with fixed size</property>
+                                                            <property name="label" translatable="yes">Segments with fixed length</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
@@ -15430,10 +15430,26 @@ Resisted race analyzer</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <widget class="GtkHBox" id="hbox139">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
                                                             <widget class="GtkHBox" id="hbox_run_encoder_exercise_fixed_segments_size">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label292">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Length</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
                                                             <child>
                                                             <widget class="GtkSpinButton" id="spin_race_encoder_exercise_segment_size_m">
                                                             <property name="visible">True</property>
@@ -15450,7 +15466,7 @@ Resisted race analyzer</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">0</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -15462,31 +15478,25 @@ Resisted race analyzer</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="top_attach">1</property>
-                                                            <property name="bottom_attach">2</property>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox_run_encoder_exercise_notfixed_segment_num">
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">20</property>
+                                                            <property name="spacing">6</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="label302">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Number of segments</property>
+                                                            <property name="label" translatable="yes">Num</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -15516,11 +15526,70 @@ Resisted race analyzer</property>
                                                             </child>
                                                             </widget>
                                                             <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="left_attach">1</property>
                                                             <property name="right_attach">2</property>
                                                             <property name="top_attach">1</property>
                                                             <property name="bottom_attach">2</property>
-                                                            <property name="x_options">GTK_FILL</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox202">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">20</property>
+                                                            <child>
+                                                            <widget class="GtkCheckButton" id="check_run_encoder_exercise_is_sprint">
+                                                            <property name="label" translatable="yes">Is it an sprint?</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="draw_indicator">True</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_run_encoder_exercise_is_sprint_help">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_button_run_encoder_exercise_is_sprint_help_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_run_encoder_exercise_is_sprint_help">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-info</property>
+                                                            <property name="icon-size">2</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="top_attach">1</property>
+                                                            <property name="bottom_attach">2</property>
                                                             </packing>
                                                             </child>
                                                             </widget>

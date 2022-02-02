@@ -231,6 +231,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_run_encoder_analyze_image_save_graph;
 	[Widget] Gtk.Image image_run_encoder_analyze_image_save_disk;
 	[Widget] Gtk.Image image_run_encoder_export_cancel;
+	[Widget] Gtk.Image image_run_encoder_exercise_is_sprint_help;
 
 	//video play icons
 	[Widget] Gtk.Image image_video_play_this_test_contacts;
@@ -437,6 +438,7 @@ public partial class ChronoJumpWindow
 		image_info4.Pixbuf = pixbuf;
 		image_run_simple_with_reaction_time_help.Pixbuf = pixbuf;
 		image_run_interval_with_reaction_time_help.Pixbuf = pixbuf;
+		image_run_encoder_exercise_is_sprint_help.Pixbuf = pixbuf;
 		image_info_sessions_info.Pixbuf = pixbuf;
 		image_encoder_1RM_info.Pixbuf = pixbuf;
 		image_force_sensor_adjust_help.Pixbuf = pixbuf;

@@ -65,6 +65,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Frame frame_run_encoder_exercise;
 	[Widget] Gtk.Entry entry_run_encoder_exercise_name;
 	[Widget] Gtk.Entry entry_run_encoder_exercise_description;
+	[Widget] Gtk.CheckButton check_run_encoder_exercise_is_sprint;
 	[Widget] Gtk.CheckButton check_run_encoder_exercise_fixed_size;
 	[Widget] Gtk.HBox hbox_run_encoder_exercise_fixed_segments_size;
 	[Widget] Gtk.HBox hbox_run_encoder_exercise_notfixed_segment_num;
@@ -1896,6 +1897,7 @@ public partial class ChronoJumpWindow
 		show_contacts_exercise_add_edit (false);
 		entry_run_encoder_exercise_name.Text = ex.Name;
 		entry_run_encoder_exercise_description.Text = ex.Description;
+		check_run_encoder_exercise_is_sprint.Active = ex.IsSprint;
 
 		if(list_segments_size_cm == null)
 			spin_race_encoder_exercise_segment_size_cm_create_list ();
@@ -1925,6 +1927,7 @@ public partial class ChronoJumpWindow
 
 		entry_run_encoder_exercise_name.Text = "";
 		entry_run_encoder_exercise_description.Text = "";
+		check_run_encoder_exercise_is_sprint.Active = true;
 		spin_race_encoder_exercise_segment_size_m.Value = RunEncoderExercise.SegmentMetersDefault;
 		spin_race_encoder_exercise_segments_num.Value = 2;
 
@@ -1936,6 +1939,13 @@ public partial class ChronoJumpWindow
 		check_run_encoder_exercise_fixed_size.Active = true;
 		//force managing:
 		on_check_run_encoder_exercise_fixed_size_toggled (new object (), new EventArgs ());
+	}
+
+	private void on_button_run_encoder_exercise_is_sprint_help_clicked (object o, EventArgs args)
+	{
+		new DialogMessage(Constants.MessageTypes.INFO,
+				Catalog.GetString("In a sprint exercise, maximum acceleration is performed at the beginning and maximum sustained speed at a later time."));
+		return;
 	}
 
 	private void on_check_run_encoder_exercise_fixed_size_toggled (object o, EventArgs args)
@@ -2077,13 +2087,15 @@ public partial class ChronoJumpWindow
 		if(adding)
 		{
 			RunEncoderExercise ex = new RunEncoderExercise (
-					-1, name, entry_run_encoder_exercise_description.Text, segmentMeters, segmentVariableCm);
+					-1, name, entry_run_encoder_exercise_description.Text,
+					segmentMeters, segmentVariableCm, check_run_encoder_exercise_is_sprint.Active);
 			ex.InsertSQL (false);
 			currentRunEncoderExercise = ex;
 		} else {
 			RunEncoderExercise ex = new RunEncoderExercise(
 					getExerciseIDFromAnyCombo(combo_run_encoder_exercise, runEncoderComboExercisesString, false),
-					name, entry_run_encoder_exercise_description.Text, segmentMeters, segmentVariableCm);
+					name, entry_run_encoder_exercise_description.Text,
+					segmentMeters, segmentVariableCm, check_run_encoder_exercise_is_sprint.Active);
 
 			SqliteRunEncoderExercise.Update(false, ex);
 			currentRunEncoderExercise = ex;

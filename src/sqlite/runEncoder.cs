@@ -330,7 +330,7 @@ class SqliteRunEncoder : Sqlite
 		//need to create an exercise to assign to the imported files
 		if(importedSomething)
 		{
-			RunEncoderExercise ex = new RunEncoderExercise(0, "Sprint", "", RunEncoderExercise.SegmentMetersDefault, new List<int>());
+			RunEncoderExercise ex = new RunEncoderExercise(0, "Sprint", "", RunEncoderExercise.SegmentMetersDefault, new List<int>(), true);
 			ex.InsertSQL(true);
 		}
 
@@ -361,7 +361,8 @@ class SqliteRunEncoderExercise : Sqlite
 			"name TEXT, " +
 			"description TEXT, " +
 			"segmentMeters INT, " +
-			"segmentVariableCm TEXT)"; //separator is ;
+			"segmentVariableCm TEXT, " + //separator is ;
+			"isSprint INT NOT NULL DEFAULT 1)"; //bool
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}
@@ -374,7 +375,7 @@ class SqliteRunEncoderExercise : Sqlite
 			Sqlite.Open();
 
 		dbcmd.CommandText = "INSERT INTO " + table +
-				" (uniqueID, name, description, segmentMeters, segmentVariableCm)" +
+				" (uniqueID, name, description, segmentMeters, segmentVariableCm, isSprint)" +
 				" VALUES " + insertString;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -392,7 +393,7 @@ class SqliteRunEncoderExercise : Sqlite
 	//Default exercise for users without exercises (empty database creation or never used raceAnalyzer)
 	protected internal static void insertDefault ()
 	{
-		RunEncoderExercise re = new RunEncoderExercise (-1, "Sprint", "", RunEncoderExercise.SegmentMetersDefault, new List<int>());
+		RunEncoderExercise re = new RunEncoderExercise (-1, "Sprint", "", RunEncoderExercise.SegmentMetersDefault, new List<int>(), true);
 		re.InsertSQL(true);
 	}
 
@@ -412,7 +413,8 @@ class SqliteRunEncoderExercise : Sqlite
 			"\", description = \"" + ex.Description +
 			"\", segmentMeters = " + ex.SegmentMeters +
 			", segmentVariableCm = \"" + ex.SegmentVariableCmToSQL +
-			"\" WHERE uniqueID = " + ex.UniqueID;
+			"\", isSprint = " + ex.IsSprint +
+			" WHERE uniqueID = " + ex.UniqueID;
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -471,7 +473,8 @@ class SqliteRunEncoderExercise : Sqlite
 						reader[1].ToString(),			//name
 						reader[2].ToString(),			//description
 						Convert.ToInt32(reader[3].ToString()),	//segmentMeters
-						Util.SQLStringToListInt(reader[4].ToString(), ";")	//segmentVariableCm
+						Util.SQLStringToListInt(reader[4].ToString(), ";"),	//segmentVariableCm
+						Util.IntToBool(Convert.ToInt32(reader[5].ToString()))
 						);
 				array.Add(ex);
 			}

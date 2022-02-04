@@ -168,6 +168,48 @@ public class TwoListsOfInts
 
 }
 
+public class TwoListsOfDoubles
+{
+	private List<double> first_l;
+	private List<double> second_l;
+
+	public TwoListsOfDoubles ()
+	{
+		Reset();
+	}
+
+	public void Reset()
+	{
+		first_l = new List<double>();
+		second_l = new List<double>();
+	}
+
+	public bool HasData()
+	{
+		return (first_l != null && first_l.Count > 0);
+	}
+
+	public int Count()
+	{
+		return first_l.Count;
+	}
+
+	public void Add (double addToFirst, double addToSecond)
+	{
+		first_l.Add(addToFirst);
+		second_l.Add(addToSecond);
+	}
+
+	public double GetFromFirst(int pos)
+	{
+		return first_l[pos];
+	}
+	public double GetFromSecond(int pos)
+	{
+		return second_l[pos];
+	}
+}
+
 //like Point but for having an xStart and xEnd
 public class PointStartEnd
 {

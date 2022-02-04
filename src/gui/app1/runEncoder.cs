@@ -2229,7 +2229,7 @@ public partial class ChronoJumpWindow
 		if(currentRunEncoderExercise != null && currentRunEncoderExercise.SegmentMeters > 0) //TODO check this with variable
 			verticalGridSeps = currentRunEncoderExercise.SegmentMeters;
 
-		TwoListsOfInts verticalLinesUs_2l = new TwoListsOfInts("dist","time");
+		TwoListsOfDoubles verticalLinesUs_2l = new TwoListsOfDoubles();
 		if(currentRunEncoderExercise != null && //currentRunEncoderExercise.SegmentMeters > 0 &&
 				reCGSD.SegmentDistTime_2l != null)
 			verticalLinesUs_2l = reCGSD.SegmentDistTime_2l;
@@ -2244,7 +2244,7 @@ public partial class ChronoJumpWindow
 	}
 	private void updateRaceAnalyzerCaptureSpeedTime(bool forceRedraw)
 	{
-		TwoListsOfInts verticalLinesUs_2l = new TwoListsOfInts("dist","time");
+		TwoListsOfDoubles verticalLinesUs_2l = new TwoListsOfDoubles();
 		if(currentRunEncoderExercise != null && //currentRunEncoderExercise.SegmentMeters > 0 &&
 				reCGSD.SegmentDistTime_2l != null)
 			verticalLinesUs_2l = reCGSD.SegmentDistTime_2l;
@@ -2262,7 +2262,7 @@ public partial class ChronoJumpWindow
 		if(radio_race_analyzer_capture_view_simple.Active)
 			return;
 
-		TwoListsOfInts verticalLinesUs_2l = new TwoListsOfInts("dist","time");
+		TwoListsOfDoubles verticalLinesUs_2l = new TwoListsOfDoubles();
 		if(currentRunEncoderExercise != null && //currentRunEncoderExercise.SegmentMeters > 0 &&
 				reCGSD.SegmentDistTime_2l != null)
 			verticalLinesUs_2l = reCGSD.SegmentDistTime_2l;

@@ -274,7 +274,7 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 	private int segmentMeters; 	//note (m)
 	private List<int> segmentVariableCm; //if segmentMeters == -1 then this is used //note (cm)
 	private int segmentVariableCmDistAccumulated;
-	private TwoListsOfInts segmentDistTime_2l;
+	private TwoListsOfDoubles segmentDistTime_2l;
 
 	private int encoderDisplacement;
 	private int time;
@@ -293,7 +293,7 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 		this.segmentVariableCm = segmentVariableCm;
 		segmentVariableCmDistAccumulated = 0;
 
-		segmentDistTime_2l = new TwoListsOfInts("dist","time");
+		segmentDistTime_2l = new TwoListsOfDoubles();
 		timePre = 0;
 	}
 
@@ -360,7 +360,7 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 		if(runEncoderCaptureDistance >= distToBeat)
 		{
 			segmentVariableCmDistAccumulated += segmentVariableCm[segmentDistTime_2l.Count()];
-			segmentDistTime_2l.Add(Convert.ToInt32(distToBeat), time);
+			segmentDistTime_2l.Add(distToBeat, time);
 		}
 	}
 
@@ -387,7 +387,7 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 	public double RunEncoderCaptureDistance {
 		get { return runEncoderCaptureDistance; }
 	}
-	public TwoListsOfInts SegmentDistTime_2l {
+	public TwoListsOfDoubles SegmentDistTime_2l {
 		get { return segmentDistTime_2l; }
 	}
 }

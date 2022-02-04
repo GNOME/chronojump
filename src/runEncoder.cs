@@ -271,7 +271,9 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 {
 	//to calcule the vertical lines on pos/time, speed/time, accel/time
 	//it is calculated once and used on all
-	private int segmentMeters;
+	private int segmentMeters; 	//note (m)
+	private List<int> segmentVariableCm; //if segmentMeters == -1 then this is used //note (cm)
+	private int segmentVariableCmDistAccumulated;
 	private TwoListsOfInts segmentDistTime_2l;
 
 	private int encoderDisplacement;
@@ -283,11 +285,13 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 
 	private double runEncoderCaptureSpeed;
 	private double runEncoderCaptureSpeedMax;
-	private double runEncoderCaptureDistance;
+	private double runEncoderCaptureDistance; //m
 
-	public RunEncoderCaptureGetSpeedAndDisplacement(int segmentMeters)
+	public RunEncoderCaptureGetSpeedAndDisplacement(int segmentMeters, List<int> segmentVariableCm)
 	{
 		this.segmentMeters = segmentMeters;
+		this.segmentVariableCm = segmentVariableCm;
+		segmentVariableCmDistAccumulated = 0;
 
 		segmentDistTime_2l = new TwoListsOfInts("dist","time");
 		timePre = 0;
@@ -330,7 +334,9 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 				runEncoderCaptureDistance += runEncoderCaptureDistanceAtThisSample;
 
 				if(segmentMeters > 0)
-					updateSegmentDistTime ();
+					updateSegmentDistTimeFixed ();
+				else if(segmentVariableCm.Count > 0)
+					updateSegmentDistTimeVariable ();
 
 				hasCalculed = true;
 			}
@@ -338,10 +344,24 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 		}
 		return hasCalculed;
 	}
-	private void updateSegmentDistTime () //TODO: implement also for variable segmentMeters
+	private void updateSegmentDistTimeFixed () //m
 	{
 		if(runEncoderCaptureDistance >= segmentMeters * (segmentDistTime_2l.Count() +1))
 			segmentDistTime_2l.Add(segmentMeters * (segmentDistTime_2l.Count() +1), time);
+		//note this is not very precise because time can be a bit later than the selected dist
+	}
+	private void updateSegmentDistTimeVariable () //cm
+	{
+		//care of overflow
+		if(segmentDistTime_2l.Count() >= segmentVariableCm.Count)
+			return;
+
+		double distToBeat = (segmentVariableCm[segmentDistTime_2l.Count()] + segmentVariableCmDistAccumulated) / 100.0; //cm -> m
+		if(runEncoderCaptureDistance >= distToBeat)
+		{
+			segmentVariableCmDistAccumulated += segmentVariableCm[segmentDistTime_2l.Count()];
+			segmentDistTime_2l.Add(Convert.ToInt32(distToBeat), time);
+		}
 	}
 
 	public int EncoderDisplacement {

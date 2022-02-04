@@ -16,7 +16,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2021   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -29,6 +29,8 @@ public class CairoGraphRaceAnalyzer : CairoXY
 {
 	int points_list_painted;
 	private bool plotHorizArrowFromMaxY;
+	private int verticalGridSep;
+	private TwoListsOfInts verticalLinesUs_2l;
 
 	/*
 	//constructor when there are no points
@@ -52,7 +54,9 @@ public class CairoGraphRaceAnalyzer : CairoXY
 	public CairoGraphRaceAnalyzer (
 			DrawingArea area, string title,
 			string yVariable, string yUnits,
-			bool plotHorizArrowFromMaxY)
+			bool plotHorizArrowFromMaxY,
+			int verticalGridSep, //-1 if auto
+			TwoListsOfInts verticalLinesUs_2l)
 	{
 		this.area = area;
 		this.title = title;
@@ -63,6 +67,8 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		xUnits = "s";
 		this.yUnits = yUnits;
 		this.plotHorizArrowFromMaxY = plotHorizArrowFromMaxY;
+		this.verticalGridSep = verticalGridSep;
+		this.verticalLinesUs_2l = verticalLinesUs_2l;
 		
 //		doing = false;
 		points_list_painted = 0;
@@ -98,7 +104,37 @@ public class CairoGraphRaceAnalyzer : CairoXY
 
 		if(maxValuesChanged || forceRedraw)
 		{
-			paintGrid(gridTypes.BOTH, true);
+			if(verticalGridSep < 0 && verticalLinesUs_2l.Count() == 0)
+				paintGrid(gridTypes.BOTH, true);
+			else {
+				//horizontal
+				if(verticalGridSep <= 0)
+					paintGrid(gridTypes.HORIZONTALLINES, true);
+				else
+					paintGridInt (g, minX, absoluteMaxX, minY, absoluteMaxY, verticalGridSep, gridTypes.HORIZONTALLINES, textHeight);
+
+				//vertical
+				if(verticalLinesUs_2l.Count() == 0)
+					paintGridNiceAutoValues (g, minX, absoluteMaxX, minY, absoluteMaxY, 5, gridTypes.VERTICALLINES, textHeight);
+				else {
+					for(int i = 0 ; i < verticalLinesUs_2l.Count() ; i ++)
+					{
+						string xTextTop = verticalLinesUs_2l.GetFromFirst(i).ToString() + " m";
+						string xTextBottom = Convert.ToInt32(verticalLinesUs_2l.GetFromSecond(i)/1000000.0).ToString();
+						double xGraph = calculatePaintX(verticalLinesUs_2l.GetFromSecond(i)/1000000.0);
+
+						g.Save();
+						g.SetDash(new double[]{1, 2}, 0);
+						if(verticalGridSep > 0)
+							paintVerticalGridLine(g, Convert.ToInt32(xGraph), xTextBottom, textHeight);
+						else
+							paintVerticalGridLineTopBottom (g, Convert.ToInt32(xGraph), xTextTop, xTextBottom, textHeight);
+						g.Stroke ();
+						g.Restore();
+					}
+				}
+			}
+
 			paintAxis();
 		}
 
@@ -127,15 +163,28 @@ public class CairoGraphRaceAnalyzer : CairoXY
 
 	protected override void printXAxisText()
 	{
-		printText(graphWidth - outerMargin, graphHeight -Convert.ToInt32(.25 * outerMargin), 0, textHeight, getXAxisLabel(), g, alignTypes.CENTER);
+		printText(graphWidth - outerMargin, graphHeight -Convert.ToInt32(.25 * outerMargin),
+				0, textHeight, getXAxisLabel(), g, alignTypes.CENTER);
 	}
+
+	/*
 	protected override void paintVerticalGridLine(Cairo.Context g, int xtemp, string text, int fontH)
 	{
 		g.MoveTo(xtemp, graphHeight - outerMargin);
 		g.LineTo(xtemp, outerMargin);
 		printText(xtemp, graphHeight -Convert.ToInt32(.75 * outerMargin), 0, fontH, text, g, alignTypes.CENTER); //TODO: this only for raceAnalyzer
 	}
+	*/
 
+	private void paintVerticalGridLineTopBottom (Cairo.Context g, int xtemp, string textTop, string textBottom, int fontH)
+	{
+		g.MoveTo(xtemp, topMargin);
+		g.LineTo(xtemp, graphHeight - bottomMargin);
+
+		printText(xtemp, Convert.ToInt32(.8*topMargin), 0, fontH, textTop, g, alignTypes.CENTER);
+		printText(xtemp, graphHeight-(bottomMargin/2), 0, fontH, textBottom, g, alignTypes.CENTER);
+		//LogB.Information("pvgl fontH: " + fontH.ToString());
+	}
 	protected override void writeTitle()
 	{
 	}

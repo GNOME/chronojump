@@ -113,7 +113,6 @@ public class KeyDouble
 	}
 }
 
-/*
 public class TwoListsOfInts
 {
 	private string firstIntName; //just to be able to debug
@@ -160,8 +159,14 @@ public class TwoListsOfInts
 	{
 		return second_l[pos];
 	}
+
+	public override string ToString()
+	{
+		return (string.Format("firstIntName: {0}, secondIntName: {1}",
+					firstIntName, secondIntName)); // just to debug, add the values
+	}
+
 }
-*/
 
 //like Point but for having an xStart and xEnd
 public class PointStartEnd

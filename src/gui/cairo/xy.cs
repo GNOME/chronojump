@@ -319,7 +319,7 @@ public abstract class CairoXY : CairoGeneric
 	{
 		return getAxisLabel(yVariable, yUnits);
 	}
-	private string getAxisLabel(string variable, string units)
+	protected string getAxisLabel(string variable, string units)
 	{
 		if(units == "")
 			return variable;

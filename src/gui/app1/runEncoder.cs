@@ -571,7 +571,8 @@ public partial class ChronoJumpWindow
 		cairoGraphRaceAnalyzerPoints_at_l = new List<PointF>();
 
 		//RunEncoderCaptureGetSpeedAndDisplacement reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement();
-		reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement(currentRunEncoderExercise.SegmentMeters);
+		reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement(
+				currentRunEncoderExercise.SegmentMeters, currentRunEncoderExercise.SegmentVariableCm);
 		runEncoderShouldShowCaptureGraphsWithData = true;
 
 		runEncoderCaptureThread = new Thread(new ThreadStart(runEncoderCaptureDo));
@@ -1039,7 +1040,8 @@ public partial class ChronoJumpWindow
 		// ---- capture tab graphs start ---->
 
 		int count = 0;
-		reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement(currentRunEncoderExercise.SegmentMeters);
+		reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement(
+				currentRunEncoderExercise.SegmentMeters, currentRunEncoderExercise.SegmentVariableCm);
 		runEncoderShouldShowCaptureGraphsWithData = true;
 
 		cairoGraphRaceAnalyzer_dt = null;
@@ -2224,14 +2226,13 @@ public partial class ChronoJumpWindow
 			return;
 
 		int verticalGridSeps = -1;
-		if(currentRunEncoderExercise != null && currentRunEncoderExercise.SegmentMeters > 0)
+		if(currentRunEncoderExercise != null && currentRunEncoderExercise.SegmentMeters > 0) //TODO check this with variable
 			verticalGridSeps = currentRunEncoderExercise.SegmentMeters;
 
 		TwoListsOfInts verticalLinesUs_2l = new TwoListsOfInts("dist","time");
-		if(currentRunEncoderExercise != null && currentRunEncoderExercise.SegmentMeters > 0 &&
+		if(currentRunEncoderExercise != null && //currentRunEncoderExercise.SegmentMeters > 0 &&
 				reCGSD.SegmentDistTime_2l != null)
 			verticalLinesUs_2l = reCGSD.SegmentDistTime_2l;
-
 
 		if(cairoGraphRaceAnalyzer_dt == null)
 			cairoGraphRaceAnalyzer_dt = new CairoGraphRaceAnalyzer(
@@ -2244,7 +2245,7 @@ public partial class ChronoJumpWindow
 	private void updateRaceAnalyzerCaptureSpeedTime(bool forceRedraw)
 	{
 		TwoListsOfInts verticalLinesUs_2l = new TwoListsOfInts("dist","time");
-		if(currentRunEncoderExercise != null && currentRunEncoderExercise.SegmentMeters > 0 &&
+		if(currentRunEncoderExercise != null && //currentRunEncoderExercise.SegmentMeters > 0 &&
 				reCGSD.SegmentDistTime_2l != null)
 			verticalLinesUs_2l = reCGSD.SegmentDistTime_2l;
 
@@ -2262,7 +2263,7 @@ public partial class ChronoJumpWindow
 			return;
 
 		TwoListsOfInts verticalLinesUs_2l = new TwoListsOfInts("dist","time");
-		if(currentRunEncoderExercise != null && currentRunEncoderExercise.SegmentMeters > 0 &&
+		if(currentRunEncoderExercise != null && //currentRunEncoderExercise.SegmentMeters > 0 &&
 				reCGSD.SegmentDistTime_2l != null)
 			verticalLinesUs_2l = reCGSD.SegmentDistTime_2l;
 

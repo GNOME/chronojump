@@ -157,7 +157,7 @@ public abstract class CairoGeneric
 		g.MoveTo(leftMargin, ytemp);
 		g.LineTo(graphWidth - rightMargin, ytemp);
 		printText(leftMargin/2, ytemp, 0, fontH, text, g, alignTypes.CENTER);
-		LogB.Information("phgl fontH: " + fontH.ToString());
+		//LogB.Information("phgl fontH: " + fontH.ToString());
 	}
 	//this combined with printXAxisText is different on RaceAnalyzer
 	protected virtual void paintVerticalGridLine(Cairo.Context g, int xtemp, string text, int fontH)

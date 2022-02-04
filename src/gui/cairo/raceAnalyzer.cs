@@ -120,7 +120,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 					for(int i = 0 ; i < verticalLinesUs_2l.Count() ; i ++)
 					{
 						string xTextTop = verticalLinesUs_2l.GetFromFirst(i).ToString() + " m";
-						string xTextBottom = Convert.ToInt32(verticalLinesUs_2l.GetFromSecond(i)/1000000.0).ToString();
+						string xTextBottom = Util.TrimDecimals(verticalLinesUs_2l.GetFromSecond(i)/1000000.0, 1).ToString();
 						double xGraph = calculatePaintX(verticalLinesUs_2l.GetFromSecond(i)/1000000.0);
 
 						g.Save();

@@ -30,7 +30,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 	int points_list_painted;
 	private bool plotHorizArrowFromMaxY;
 	private int verticalGridSep;
-	private TwoListsOfInts verticalLinesUs_2l;
+	private TwoListsOfDoubles verticalLinesUs_2l;
 
 	/*
 	//constructor when there are no points
@@ -56,7 +56,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 			string yVariable, string yUnits,
 			bool plotHorizArrowFromMaxY,
 			int verticalGridSep, //-1 if auto
-			TwoListsOfInts verticalLinesUs_2l)
+			TwoListsOfDoubles verticalLinesUs_2l)
 	{
 		this.area = area;
 		this.title = title;

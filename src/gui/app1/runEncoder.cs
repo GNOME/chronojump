@@ -2229,8 +2229,8 @@ public partial class ChronoJumpWindow
 
 		TwoListsOfInts verticalLinesUs_2l = new TwoListsOfInts("dist","time");
 		if(currentRunEncoderExercise != null && currentRunEncoderExercise.SegmentMeters > 0 &&
-				reCGSD.SegmentMetersTime_2l != null)
-			verticalLinesUs_2l = reCGSD.SegmentMetersTime_2l;
+				reCGSD.SegmentDistTime_2l != null)
+			verticalLinesUs_2l = reCGSD.SegmentDistTime_2l;
 
 
 		if(cairoGraphRaceAnalyzer_dt == null)
@@ -2245,8 +2245,8 @@ public partial class ChronoJumpWindow
 	{
 		TwoListsOfInts verticalLinesUs_2l = new TwoListsOfInts("dist","time");
 		if(currentRunEncoderExercise != null && currentRunEncoderExercise.SegmentMeters > 0 &&
-				reCGSD.SegmentMetersTime_2l != null)
-			verticalLinesUs_2l = reCGSD.SegmentMetersTime_2l;
+				reCGSD.SegmentDistTime_2l != null)
+			verticalLinesUs_2l = reCGSD.SegmentDistTime_2l;
 
 		if(cairoGraphRaceAnalyzer_st == null)
 			cairoGraphRaceAnalyzer_st = new CairoGraphRaceAnalyzer(
@@ -2263,8 +2263,8 @@ public partial class ChronoJumpWindow
 
 		TwoListsOfInts verticalLinesUs_2l = new TwoListsOfInts("dist","time");
 		if(currentRunEncoderExercise != null && currentRunEncoderExercise.SegmentMeters > 0 &&
-				reCGSD.SegmentMetersTime_2l != null)
-			verticalLinesUs_2l = reCGSD.SegmentMetersTime_2l;
+				reCGSD.SegmentDistTime_2l != null)
+			verticalLinesUs_2l = reCGSD.SegmentDistTime_2l;
 
 		if(cairoGraphRaceAnalyzer_at == null)
 			cairoGraphRaceAnalyzer_at = new CairoGraphRaceAnalyzer(

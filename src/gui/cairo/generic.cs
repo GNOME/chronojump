@@ -164,8 +164,9 @@ public abstract class CairoGeneric
 	{
 		g.MoveTo(xtemp, topMargin);
 		g.LineTo(xtemp, graphHeight - bottomMargin);
+
 		printText(xtemp, graphHeight -(bottomMargin/2), 0, fontH, text, g, alignTypes.CENTER);
-		LogB.Information("pvgl fontH: " + fontH.ToString());
+		//LogB.Information("pvgl fontH: " + fontH.ToString());
 	}
 
 	//horiz or vertical to manage spacement of arrow points and tip draw

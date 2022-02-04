@@ -269,6 +269,11 @@ public class RunEncoder
 //get speed, total distance, ...
 public class RunEncoderCaptureGetSpeedAndDisplacement
 {
+	//to calcule the vertical lines on pos/time, speed/time, accel/time
+	//it is calculated once and used on all
+	private int segmentMeters;
+	private TwoListsOfInts segmentMetersTime_2l;
+
 	private int encoderDisplacement;
 	private int time;
 	private int force;
@@ -280,8 +285,11 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 	private double runEncoderCaptureSpeedMax;
 	private double runEncoderCaptureDistance;
 
-	public RunEncoderCaptureGetSpeedAndDisplacement()
+	public RunEncoderCaptureGetSpeedAndDisplacement(int segmentMeters)
 	{
+		this.segmentMeters = segmentMeters;
+
+		segmentMetersTime_2l = new TwoListsOfInts("dist","time");
 		timePre = 0;
 	}
 
@@ -320,17 +328,26 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 					runEncoderCaptureSpeedMax = runEncoderCaptureSpeed;
 
 				runEncoderCaptureDistance += runEncoderCaptureDistanceAtThisSample;
+
+				if(segmentMeters > 0)
+					updateSegmentMetersTime ();
+
 				hasCalculed = true;
 			}
 			timePre = time;
 		}
 		return hasCalculed;
 	}
+	private void updateSegmentMetersTime () //TODO: implement also for variable segmentMeters
+	{
+		if(runEncoderCaptureDistance >= segmentMeters * (segmentMetersTime_2l.Count() +1))
+			segmentMetersTime_2l.Add(segmentMeters * (segmentMetersTime_2l.Count() +1), time);
+	}
 
 	public int EncoderDisplacement {
 		get { return encoderDisplacement; }
 	}
-	public int Time {
+	public int Time { //microseconds
 		get { return time; }
 	}
 	public int Force {
@@ -349,6 +366,9 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 	}
 	public double RunEncoderCaptureDistance {
 		get { return runEncoderCaptureDistance; }
+	}
+	public TwoListsOfInts SegmentMetersTime_2l {
+		get { return segmentMetersTime_2l; }
 	}
 }
 

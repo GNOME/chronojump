@@ -81,7 +81,7 @@ public class TreeViewRuns : TreeViewEvent
 	protected override string [] getLineToStore(System.Object myObject)
 	{
 		Run newRun = (Run)myObject;
-		LogB.Information("getLineToStore, object: " + newRun.ToString());
+		//LogB.Information("getLineToStore, object: " + newRun.ToString());
 
 		string title = Catalog.GetString(newRun.Type);
 		if(newRun.Simulated == Constants.Simulated)

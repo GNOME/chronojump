@@ -133,7 +133,7 @@ public class Util
 	public static List<int> SQLStringToListInt (string sqlString, string sep)
 	{
 		List<int> l = new List<int>();
-		string [] strFull = sqlString.Split(sep);
+		string [] strFull = sqlString.Split(sep.ToCharArray());
 		foreach(string str in strFull)
 			if(IsNumber(str, false))
 				l.Add(Convert.ToInt32(str));

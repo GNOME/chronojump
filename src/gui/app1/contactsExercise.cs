@@ -39,6 +39,19 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_contacts_exercise_actions_add_do;
 	[Widget] Gtk.Label label_contacts_exercise_error;
 
+	private void update_combo_select_contacts_top_using_combo (Gtk.ComboBox cb)
+	{
+		if(combo_select_contacts_top == null)
+			return;
+
+		comboSelectContactsTopNoFollow = true;
+
+		UtilGtk.ComboUpdate(combo_select_contacts_top, UtilGtk.ComboGetValues (cb), "");
+		combo_select_contacts_top.Active = cb.Active;
+
+		comboSelectContactsTopNoFollow = false;
+	}
+
 	private void on_button_contacts_exercise_clicked (object o, EventArgs args)
 	{
 		menus_and_mode_sensitive(false);

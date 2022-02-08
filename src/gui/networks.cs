@@ -985,8 +985,6 @@ public partial class ChronoJumpWindow
 				tasks = new TaskDeserialize().DeserializeTaskEncoder(tasksStr);
 		}
 
-		/*
-		TODO: disabled temporarily
 		//3) get exercises and insert if needed (only on encoder)
 		if(configChronojump.CompujumpStationMode == Constants.Modes.POWERGRAVITATORY ||
 				configChronojump.CompujumpStationMode == Constants.Modes.POWERINERTIAL)
@@ -1012,12 +1010,11 @@ public partial class ChronoJumpWindow
 				{
 					SqliteEncoder.InsertExercise(
 							false, exRemote.uniqueID, exRemote.name, exRemote.percentBodyWeight,
-							"", "", "", type); //ressitance, description, speed1RM, type (encoderGI)
+							"", "", "", type);
 					updateEncoderExercisesGui(exRemote.name);
 				}
 			}
 		}
-		*/
 
 		//4) get other stationsCount
 		List<StationCount> stationsCount = json.GetOtherStationsWithPendingTasks(currentPerson.UniqueID, configChronojump.CompujumpStationID);

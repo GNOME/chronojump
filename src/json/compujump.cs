@@ -339,26 +339,46 @@ public class JsonCompujump : Json
 		else if(responseFromServer == "[]")
 			LogB.Information(" Empty2 "); //when rfid is not on server
 		else {
-			ex_list = stationExercisesDeserialize(responseFromServer, stationType);
+			ex_list = stationExercisesDeserialize(responseFromServer, stationId, stationType);
 		}
 
 		return ex_list;
 	}
-	private List<EncoderExercise> stationExercisesDeserialize(string str, Constants.EncoderGI stationType)
+	private List<EncoderExercise> stationExercisesDeserialize(string str, int stationId, Constants.EncoderGI stationType)
 	{
 		List<EncoderExercise> ex_list = new List<EncoderExercise>();
-
 		JsonValue jsonStationExercises = JsonValue.Parse (str);
 
 		foreach (JsonValue jsonSE in jsonStationExercises)
 		{
-			Int32 id = jsonSE ["id"];
-			string name = jsonSE ["name"];
-			//Int32 stationId = jsonSE ["station_id"];
-			int percentBodyMassDisplaced = jsonSE ["percent_body_mass_displaced"];
+			// 1) discard exercise if is not for this station
+			JsonValue jsonSEStations = JsonValue.Parse (jsonSE["stations"].ToString());
+			bool exerciseForThisStation = false;
+			foreach (JsonValue jsonSEStation in jsonSEStations)
+			{
+				Int32 stations_id = jsonSEStation ["id"];
+				if(stations_id == stationId)
+					exerciseForThisStation = true;
+			}
 
-			ex_list.Add(new EncoderExercise(id, name, percentBodyMassDisplaced,
-					"", "", 0, stationType)); //resistance, description, speed1RM, stationType
+			if(! exerciseForThisStation)
+				continue;
+
+			// 2) discard if is not for this station type
+			string type = jsonSE ["measurable"];
+			Constants.EncoderGI newExEncoderGi = Constants.EncoderGI.GRAVITATORY;
+			if(type == "I")
+				newExEncoderGi = Constants.EncoderGI.INERTIAL;
+
+			if(stationType != newExEncoderGi)
+				continue;
+
+			// 3) add exercise to the list
+			Int32 newExId = jsonSE ["id"];
+			string newExName = jsonSE ["name"];
+			int newExPercentBodyMassDisplaced = jsonSE ["measurable_info"]["percent_body_mass_displaced"];
+			ex_list.Add(new EncoderExercise(newExId, newExName, newExPercentBodyMassDisplaced,
+						"", "", 0, newExEncoderGi));
 		}
 		return ex_list;
 	}

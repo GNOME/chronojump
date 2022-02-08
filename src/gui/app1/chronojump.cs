@@ -6900,7 +6900,8 @@ LogB.Debug("mc finished 5");
 		jumpTypeAddWin.FakeButtonAccept.Clicked += new EventHandler(on_jump_type_add_accepted);
 	}
 	
-	private void on_jump_type_add_accepted (object o, EventArgs args) {
+	private void on_jump_type_add_accepted (object o, EventArgs args)
+	{
 		LogB.Information("ACCEPTED Add new jump type");
 		if(jumpTypeAddWin.InsertedSimple) {
 			createComboSelectJumps(false);
@@ -6910,6 +6911,7 @@ LogB.Debug("mc finished 5");
 
 			pre_fillTreeView_jumps(false);
 			combo_select_jumps.Active = UtilGtk.ComboMakeActive(combo_select_jumps, jumpTypeAddWin.Name);
+			update_combo_select_contacts_top_using_combo (combo_select_jumps);
 
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added simple jump type."));
 		} else {
@@ -6919,6 +6921,7 @@ LogB.Debug("mc finished 5");
 			
 			pre_fillTreeView_jumps_rj(false);
 			combo_select_jumps_rj.Active = UtilGtk.ComboMakeActive(combo_select_jumps_rj, jumpTypeAddWin.Name);
+			update_combo_select_contacts_top_using_combo (combo_select_jumps_rj);
 
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added reactive jump type."));
 		}
@@ -6938,8 +6941,9 @@ LogB.Debug("mc finished 5");
 		runTypeAddWin = RunTypeAddWindow.Show(app1, false); //is intervallic
 		runTypeAddWin.FakeButtonAccept.Clicked += new EventHandler(on_run_type_add_accepted);
 	}
-	
-	private void on_run_type_add_accepted (object o, EventArgs args) {
+
+	private void on_run_type_add_accepted (object o, EventArgs args)
+	{
 		LogB.Information("ACCEPTED Add new run type");
 		if(runTypeAddWin.InsertedSimple) {
 			createComboSelectRuns(false);
@@ -6948,6 +6952,8 @@ LogB.Debug("mc finished 5");
 			pre_fillTreeView_runs(false);
 			combo_select_runs.Active = UtilGtk.ComboMakeActive(combo_select_runs, runTypeAddWin.Name);
 
+			update_combo_select_contacts_top_using_combo (combo_select_runs);
+
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added simple race type."));
 		} else {
 			createComboSelectRunsInterval(false);
@@ -6955,6 +6961,7 @@ LogB.Debug("mc finished 5");
 			pre_fillTreeView_runs_interval(false);
 
 			combo_select_runs_interval.Active = UtilGtk.ComboMakeActive(combo_select_runs_interval, runTypeAddWin.Name);
+			update_combo_select_contacts_top_using_combo (combo_select_runs_interval);
 
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added intervallic race type."));
 		}

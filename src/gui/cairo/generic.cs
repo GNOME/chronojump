@@ -162,6 +162,9 @@ public abstract class CairoGeneric
 	//this combined with printXAxisText is different on RaceAnalyzer
 	protected virtual void paintVerticalGridLine(Cairo.Context g, int xtemp, string text, int fontH)
 	{
+		if(fontH < 1)
+			fontH = 1;
+
 		g.MoveTo(xtemp, topMargin);
 		g.LineTo(xtemp, graphHeight - bottomMargin);
 

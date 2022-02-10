@@ -119,7 +119,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 				else {
 					for(int i = 0 ; i < verticalLinesUs_2l.Count() ; i ++)
 					{
-						string xTextTop = verticalLinesUs_2l.GetFromFirst(i).ToString() + "m";
+						string xTextTop = verticalLinesUs_2l.GetFromFirst(i).ToString();
 
 						//seconds
 						string xTextBottom = Util.TrimDecimals(verticalLinesUs_2l.GetFromSecond(i)/1000000.0, 1).ToString();
@@ -128,13 +128,14 @@ public class CairoGraphRaceAnalyzer : CairoXY
 						g.Save();
 						g.SetDash(new double[]{1, 2}, 0);
 						if(verticalGridSep > 0)
-							paintVerticalGridLine(g, Convert.ToInt32(xGraph), xTextBottom, textHeight);
+							paintVerticalGridLine(g, Convert.ToInt32(xGraph), xTextBottom, textHeight-3);
 						else
-							paintVerticalGridLineTopBottom (g, Convert.ToInt32(xGraph), xTextTop, xTextBottom, textHeight);
+							paintVerticalGridLineTopBottom (g, Convert.ToInt32(xGraph), xTextTop, xTextBottom, textHeight-3);
 						g.Stroke ();
 						g.Restore();
 					}
 				}
+				printXAxisTopText();
 			}
 
 			paintAxis();
@@ -166,7 +167,12 @@ public class CairoGraphRaceAnalyzer : CairoXY
 	protected override void printXAxisText()
 	{
 		printText(graphWidth - outerMargin, graphHeight -Convert.ToInt32(.25 * outerMargin),
-				0, textHeight, getXAxisLabel(), g, alignTypes.CENTER);
+				0, textHeight, getXAxisLabel(), g, alignTypes.RIGHT);
+	}
+	private void printXAxisTopText()
+	{
+		printText(graphWidth - outerMargin, Convert.ToInt32(.5 * outerMargin),
+				0, textHeight, getAxisLabel(distanceStr, "m"), g, alignTypes.RIGHT);
 	}
 
 	/*
@@ -180,6 +186,9 @@ public class CairoGraphRaceAnalyzer : CairoXY
 
 	private void paintVerticalGridLineTopBottom (Cairo.Context g, int xtemp, string textTop, string textBottom, int fontH)
 	{
+		if(fontH < 1)
+			fontH = 1;
+
 		g.MoveTo(xtemp, topMargin);
 		g.LineTo(xtemp, graphHeight - bottomMargin);
 

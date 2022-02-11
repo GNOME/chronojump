@@ -29,8 +29,8 @@ public class CairoGraphRaceAnalyzer : CairoXY
 {
 	int points_list_painted;
 	private bool plotHorizArrowFromMaxY;
-	private int verticalGridSep;
 	private TwoListsOfDoubles verticalLinesUs_2l;
+	private bool useListOfDoublesOnY;
 
 	/*
 	//constructor when there are no points
@@ -55,8 +55,8 @@ public class CairoGraphRaceAnalyzer : CairoXY
 			DrawingArea area, string title,
 			string yVariable, string yUnits,
 			bool plotHorizArrowFromMaxY,
-			int verticalGridSep, //-1 if auto
-			TwoListsOfDoubles verticalLinesUs_2l)
+			TwoListsOfDoubles verticalLinesUs_2l,
+			bool useListOfDoublesOnY) //for pos/time graph
 	{
 		this.area = area;
 		this.title = title;
@@ -67,8 +67,8 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		xUnits = "s";
 		this.yUnits = yUnits;
 		this.plotHorizArrowFromMaxY = plotHorizArrowFromMaxY;
-		this.verticalGridSep = verticalGridSep;
 		this.verticalLinesUs_2l = verticalLinesUs_2l;
+		this.useListOfDoublesOnY = useListOfDoublesOnY;
 		
 //		doing = false;
 		points_list_painted = 0;
@@ -104,19 +104,28 @@ public class CairoGraphRaceAnalyzer : CairoXY
 
 		if(maxValuesChanged || forceRedraw)
 		{
-			if(verticalGridSep < 0 && verticalLinesUs_2l.Count() == 0)
+			if(verticalLinesUs_2l.Count() == 0)
 				paintGrid(gridTypes.BOTH, true);
 			else {
 				//horizontal
-				if(verticalGridSep <= 0)
+				if(verticalLinesUs_2l.Count() > 0 && useListOfDoublesOnY)
+				{
+					for(int i = 0 ; i < verticalLinesUs_2l.Count() ; i ++)
+					{
+						double yGraph = calculatePaintY(verticalLinesUs_2l.GetFromFirst(i));
+
+						g.Save();
+						g.SetDash(new double[]{1, 2}, 0);
+						paintHorizontalGridLine(g, Convert.ToInt32(yGraph), verticalLinesUs_2l.GetFromFirst(i).ToString(), textHeight -3);
+						g.Stroke ();
+						g.Restore();
+					}
+				} else //maybe we have not arrived to any segment
 					paintGrid(gridTypes.HORIZONTALLINES, true);
-				else
-					paintGridInt (g, minX, absoluteMaxX, minY, absoluteMaxY, verticalGridSep, gridTypes.HORIZONTALLINES, textHeight);
 
 				//vertical
-				if(verticalLinesUs_2l.Count() == 0)
-					paintGridNiceAutoValues (g, minX, absoluteMaxX, minY, absoluteMaxY, 5, gridTypes.VERTICALLINES, textHeight);
-				else {
+				if(verticalLinesUs_2l.Count() > 0)
+				{
 					for(int i = 0 ; i < verticalLinesUs_2l.Count() ; i ++)
 					{
 						string xTextTop = verticalLinesUs_2l.GetFromFirst(i).ToString();
@@ -127,15 +136,18 @@ public class CairoGraphRaceAnalyzer : CairoXY
 
 						g.Save();
 						g.SetDash(new double[]{1, 2}, 0);
-						if(verticalGridSep > 0)
+						if(useListOfDoublesOnY)
 							paintVerticalGridLine(g, Convert.ToInt32(xGraph), xTextBottom, textHeight-3);
 						else
 							paintVerticalGridLineTopBottom (g, Convert.ToInt32(xGraph), xTextTop, xTextBottom, textHeight-3);
 						g.Stroke ();
 						g.Restore();
 					}
+					if(! useListOfDoublesOnY)
+						printXAxisTopText();
 				}
-				printXAxisTopText();
+				else //maybe we have not arrived to any segment
+					paintGridNiceAutoValues (g, minX, absoluteMaxX, minY, absoluteMaxY, 5, gridTypes.VERTICALLINES, textHeight-3);
 			}
 
 			paintAxis();

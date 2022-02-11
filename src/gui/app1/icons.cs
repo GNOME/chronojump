@@ -224,6 +224,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_hscale_force_sensor_ai_b_post_1s;
 
 	//race encoder
+	[Widget] Gtk.Image image_button_contacts_run_encoder_capture_save_image_chart;
+	[Widget] Gtk.Image image_button_contacts_run_encoder_capture_save_image_disk;
 	[Widget] Gtk.Image image_run_encoder_exercise_edit;
 	[Widget] Gtk.Image image_run_encoder_exercise_add;
 	[Widget] Gtk.Image image_run_encoder_exercise_delete;
@@ -857,6 +859,7 @@ public partial class ChronoJumpWindow
 		image_runs_evolution_save.Pixbuf = pixbuf;
 		image_jumps_rj_fatigue_save.Pixbuf = pixbuf;
 		image_sprint_analyze_save.Pixbuf = pixbuf;
+		image_button_contacts_run_encoder_capture_save_image_chart.Pixbuf = pixbuf;
 		image_encoder_analyze_image_compujump_send_email_image.Pixbuf = pixbuf;
 		image_run_encoder_analyze_image_save_graph.Pixbuf = pixbuf;
 
@@ -884,6 +887,7 @@ public partial class ChronoJumpWindow
 		image_forcesensor_analyze_image_save7.Pixbuf = pixbuf;
 		image_runs_evolution_analyze_image_save.Pixbuf = pixbuf;
 		image_force_sensor_analyze_table_save_1.Pixbuf = pixbuf;
+		image_button_contacts_run_encoder_capture_save_image_disk.Pixbuf = pixbuf;
 		image_run_encoder_analyze_table_save_1.Pixbuf = pixbuf;
 		image_sprint_analyze_image_save.Pixbuf = pixbuf;
 		image_run_encoder_analyze_image_save_disk.Pixbuf = pixbuf;

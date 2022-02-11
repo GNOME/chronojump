@@ -28,7 +28,8 @@ using Cairo;
 public class CairoGraphRaceAnalyzer : CairoXY
 {
 	int points_list_painted;
-	private bool plotHorizArrowFromMaxY;
+	private bool isSprint;
+	private bool plotMaxMark;
 	private TwoListsOfDoubles verticalLinesUs_2l;
 	private bool useListOfDoublesOnY;
 
@@ -54,7 +55,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 	public CairoGraphRaceAnalyzer (
 			DrawingArea area, string title,
 			string yVariable, string yUnits,
-			bool plotHorizArrowFromMaxY,
+			bool isSprint, bool plotMaxMark,
 			TwoListsOfDoubles verticalLinesUs_2l,
 			bool useListOfDoublesOnY) //for pos/time graph
 	{
@@ -66,7 +67,8 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		this.yVariable = yVariable;
 		xUnits = "s";
 		this.yUnits = yUnits;
-		this.plotHorizArrowFromMaxY = plotHorizArrowFromMaxY;
+		this.isSprint = isSprint;
+		this.plotMaxMark = plotMaxMark;
 		this.verticalLinesUs_2l = verticalLinesUs_2l;
 		this.useListOfDoublesOnY = useListOfDoublesOnY;
 		
@@ -110,22 +112,24 @@ public class CairoGraphRaceAnalyzer : CairoXY
 				//horizontal
 				if(verticalLinesUs_2l.Count() > 0 && useListOfDoublesOnY)
 				{
+					g.LineWidth = 1;
+					g.Save();
+					g.SetDash(new double[]{1, 2}, 0);
 					for(int i = 0 ; i < verticalLinesUs_2l.Count() ; i ++)
 					{
-						double yGraph = calculatePaintY(verticalLinesUs_2l.GetFromFirst(i));
-
-						g.Save();
-						g.SetDash(new double[]{1, 2}, 0);
-						paintHorizontalGridLine(g, Convert.ToInt32(yGraph), verticalLinesUs_2l.GetFromFirst(i).ToString(), textHeight -3);
-						g.Stroke ();
-						g.Restore();
+						double yValue = verticalLinesUs_2l.GetFromFirst(i);
+						paintHorizontalGridLine(g, Convert.ToInt32(calculatePaintY(yValue)), yValue.ToString(), textHeight -3);
 					}
+					g.Stroke ();
+					g.Restore();
 				} else //maybe we have not arrived to any segment
 					paintGrid(gridTypes.HORIZONTALLINES, true);
 
 				//vertical
 				if(verticalLinesUs_2l.Count() > 0)
 				{
+					g.Save();
+					g.SetDash(new double[]{1, 2}, 0);
 					for(int i = 0 ; i < verticalLinesUs_2l.Count() ; i ++)
 					{
 						string xTextTop = verticalLinesUs_2l.GetFromFirst(i).ToString();
@@ -134,15 +138,13 @@ public class CairoGraphRaceAnalyzer : CairoXY
 						string xTextBottom = Util.TrimDecimals(verticalLinesUs_2l.GetFromSecond(i)/1000000.0, 1).ToString();
 						double xGraph = calculatePaintX(verticalLinesUs_2l.GetFromSecond(i)/1000000.0);
 
-						g.Save();
-						g.SetDash(new double[]{1, 2}, 0);
 						if(useListOfDoublesOnY)
 							paintVerticalGridLine(g, Convert.ToInt32(xGraph), xTextBottom, textHeight-3);
 						else
 							paintVerticalGridLineTopBottom (g, Convert.ToInt32(xGraph), xTextTop, xTextBottom, textHeight-3);
-						g.Stroke ();
-						g.Restore();
 					}
+					g.Stroke ();
+					g.Restore();
 					if(! useListOfDoublesOnY)
 					{
 						g.MoveTo(graphWidth - outerMargin, outerMargin);
@@ -164,13 +166,26 @@ public class CairoGraphRaceAnalyzer : CairoXY
 			plotRealPoints(plotType, points_list, points_list_painted);
 			points_list_painted = points_list.Count;
 
-			if(plotHorizArrowFromMaxY && points_list.Count > 1)
+			if(plotMaxMark && points_list.Count > 1)
 			{
 				MovingAverage mAverage = new MovingAverage(points_list, 5);
 				mAverage.Calculate();
 				PointF pMaxY = mAverage.GetMaxY();
-				plotArrowPassingRealPoints (g, colorFromRGB(255,0,0),
-						pMaxY.X, pMaxY.Y, points_list[points_list.Count -1].X, pMaxY.Y, true, false, 0);
+
+				if(isSprint) //on sprint plot an arrow from top speed (with moving average) to the right
+				{
+					plotArrowPassingRealPoints (g, colorFromRGB(255,0,0),
+							pMaxY.X, pMaxY.Y, points_list[points_list.Count -1].X, pMaxY.Y, true, false, 0);
+				}
+				else  //if no sprint just plot a circle on max value
+				{
+					double graphX = calculatePaintX(pMaxY.X);
+					double graphY = calculatePaintY(pMaxY.Y);
+					g.MoveTo(graphX +8, graphY);
+					g.Arc(graphX, graphY, 8.0, 0.0, 2.0 * Math.PI); //full circle
+					g.SetSourceColor(red);
+					g.Stroke();
+				}
 			}
 		}
 

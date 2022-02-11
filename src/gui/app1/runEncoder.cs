@@ -1462,11 +1462,6 @@ public partial class ChronoJumpWindow
 		return recsv;
 	}
 
-	private void on_button_raceAnalyzer_table_save_clicked (object o, EventArgs args)
-	{
-		checkFile(Constants.CheckFileOp.RUNENCODER_SAVE_TABLE);
-	}
-
 	private string readFromRunEncoderIfDataArrived()
 	{
 		string str = "";

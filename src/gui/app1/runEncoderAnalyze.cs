@@ -202,9 +202,14 @@ public partial class ChronoJumpWindow
 			raceEncoderCopyToTempAndDoRGraph();
 	}
 
+	private void on_button_raceAnalyzer_table_save_clicked (object o, EventArgs args)
+	{
+		checkFile(Constants.CheckFileOp.RUNENCODER_ANALYZE_SAVE_TABLE);
+	}
+
 	private void on_button_run_encoder_image_save_clicked (object o, EventArgs args)
 	{
-		checkFile(Constants.CheckFileOp.RUNENCODER_SAVE_IMAGE);
+		checkFile(Constants.CheckFileOp.RUNENCODER_ANALYZE_SAVE_IMAGE);
 	}
 
 	private void on_button_run_encoder_image_save_selected (string destination)

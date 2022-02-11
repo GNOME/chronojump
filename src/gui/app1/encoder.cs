@@ -2157,7 +2157,7 @@ public partial class ChronoJumpWindow
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL ||
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_AUTO ||
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_MANUAL ||
-				checkFileOp == Constants.CheckFileOp.RUNENCODER_SAVE_IMAGE)
+				checkFileOp == Constants.CheckFileOp.RUNENCODER_ANALYZE_SAVE_IMAGE)
 			exportString = Catalog.GetString ("Save image");
 		else if(
 				checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB ||
@@ -2173,7 +2173,7 @@ public partial class ChronoJumpWindow
 			exportString = Catalog.GetString ("Export repetition in CSV format");
 		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE ||
 				checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE_CURRENT_SESSION ||
-				checkFileOp == Constants.CheckFileOp.RUNENCODER_SAVE_TABLE)
+				checkFileOp == Constants.CheckFileOp.RUNENCODER_ANALYZE_SAVE_TABLE)
 			exportString = Catalog.GetString ("Save table");
 
 		// 2) write the name of the file: nameString
@@ -2281,7 +2281,7 @@ public partial class ChronoJumpWindow
 			nameString += "_force_sensor_rfd_auto.png";
 		else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_MANUAL)
 			nameString += "_force_sensor_general_analysis.png";
-		else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_SAVE_IMAGE)
+		else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_ANALYZE_SAVE_IMAGE)
 			nameString += "_race_analyzer.png";
 		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB)
 			nameString += "_encoder_repetition_export.csv";
@@ -2305,7 +2305,7 @@ public partial class ChronoJumpWindow
 		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE ||
 				checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE_CURRENT_SESSION)
 			nameString += "_encoder_curves_table.csv";
-		else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_SAVE_TABLE)
+		else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_ANALYZE_SAVE_TABLE)
 			nameString += "_raceAnalyzer_table.csv";
 
 		// 3) prepare and Run the dialog
@@ -2338,7 +2338,7 @@ public partial class ChronoJumpWindow
 					checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES ||
 					checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE ||
 					checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_TABLE_CURRENT_SESSION ||
-					checkFileOp == Constants.CheckFileOp.RUNENCODER_SAVE_TABLE)
+					checkFileOp == Constants.CheckFileOp.RUNENCODER_ANALYZE_SAVE_TABLE)
 				exportFileName = Util.AddCsvIfNeeded(exportFileName);
 			else {
 				//ENCODER_ANALYZE_SAVE_IMAGE, ENCODER_ANALYZE_SAVE_IMAGE_CURRENT_SESSION, FORCESENSOR_SAVE_IMAGE_SIGNAL,
@@ -2437,10 +2437,10 @@ public partial class ChronoJumpWindow
 							checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES )
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_runencoder_export_accepted);
-					else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_SAVE_IMAGE)
+					else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_ANALYZE_SAVE_IMAGE)
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_runencoder_image_save_accepted);
-					else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_SAVE_TABLE)
+					else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_ANALYZE_SAVE_TABLE)
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_raceAnalyzer_save_table_accepted);
 
@@ -2500,9 +2500,9 @@ public partial class ChronoJumpWindow
 							checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_ALL_SESSIONS_NO_IMAGES ||
 							checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES )
 						on_button_run_encoder_export_file_selected (exportFileName);
-					else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_SAVE_IMAGE)
+					else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_ANALYZE_SAVE_IMAGE)
 						on_button_run_encoder_image_save_selected (exportFileName);
-					else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_SAVE_TABLE)
+					else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_ANALYZE_SAVE_TABLE)
 						on_button_raceAnalyzer_save_table_file_selected (exportFileName);
 
 					//show message, but not in long processes managed by a thread

@@ -168,7 +168,7 @@ public abstract class CairoGeneric
 		g.MoveTo(xtemp, topMargin);
 		g.LineTo(xtemp, graphHeight - bottomMargin);
 
-		printText(xtemp, graphHeight -(bottomMargin/2), 0, fontH, text, g, alignTypes.CENTER);
+		printText(xtemp, graphHeight -bottomMargin/2, 0, fontH, text, g, alignTypes.CENTER);
 		//LogB.Information("pvgl fontH: " + fontH.ToString());
 	}
 

@@ -2157,6 +2157,7 @@ public partial class ChronoJumpWindow
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_SIGNAL ||
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_AUTO ||
 				checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_MANUAL ||
+				checkFileOp == Constants.CheckFileOp.RUNENCODER_CAPTURE_SAVE_IMAGE ||
 				checkFileOp == Constants.CheckFileOp.RUNENCODER_ANALYZE_SAVE_IMAGE)
 			exportString = Catalog.GetString ("Save image");
 		else if(
@@ -2281,8 +2282,10 @@ public partial class ChronoJumpWindow
 			nameString += "_force_sensor_rfd_auto.png";
 		else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_SAVE_IMAGE_RFD_MANUAL)
 			nameString += "_force_sensor_general_analysis.png";
+		else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_CAPTURE_SAVE_IMAGE)
+			nameString += "_race_analyzer_capture.png";
 		else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_ANALYZE_SAVE_IMAGE)
-			nameString += "_race_analyzer.png";
+			nameString += "_race_analyzer_analyze.png";
 		else if(checkFileOp == Constants.CheckFileOp.ENCODER_ANALYZE_SAVE_AB)
 			nameString += "_encoder_repetition_export.csv";
 		else if(checkFileOp == Constants.CheckFileOp.FORCESENSOR_ANALYZE_SAVE_AB)
@@ -2437,9 +2440,12 @@ public partial class ChronoJumpWindow
 							checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES )
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_runencoder_export_accepted);
+					else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_CAPTURE_SAVE_IMAGE)
+						confirmWin.Button_accept.Clicked +=
+							new EventHandler(on_overwrite_file_runencoder_capture_image_save_accepted);
 					else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_ANALYZE_SAVE_IMAGE)
 						confirmWin.Button_accept.Clicked +=
-							new EventHandler(on_overwrite_file_runencoder_image_save_accepted);
+							new EventHandler(on_overwrite_file_runencoder_analyze_image_save_accepted);
 					else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_ANALYZE_SAVE_TABLE)
 						confirmWin.Button_accept.Clicked +=
 							new EventHandler(on_overwrite_file_raceAnalyzer_save_table_accepted);
@@ -2500,8 +2506,10 @@ public partial class ChronoJumpWindow
 							checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_INDIVIDUAL_ALL_SESSIONS_NO_IMAGES ||
 							checkFileOp == Constants.CheckFileOp.RUNENCODER_EXPORT_GROUPAL_CURRENT_SESSION_NO_IMAGES )
 						on_button_run_encoder_export_file_selected (exportFileName);
+					else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_CAPTURE_SAVE_IMAGE)
+						on_button_run_encoder_capture_image_save_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_ANALYZE_SAVE_IMAGE)
-						on_button_run_encoder_image_save_selected (exportFileName);
+						on_button_run_encoder_analyze_image_save_selected (exportFileName);
 					else if(checkFileOp == Constants.CheckFileOp.RUNENCODER_ANALYZE_SAVE_TABLE)
 						on_button_raceAnalyzer_save_table_file_selected (exportFileName);
 
@@ -4920,7 +4928,7 @@ public partial class ChronoJumpWindow
 	
 		button_encoder_analyze_sensitiveness();
 	}
-	
+
 	void on_button_encoder_capture_image_save_clicked (object o, EventArgs args)
 	{
 		checkFile(Constants.CheckFileOp.ENCODER_CAPTURE_SAVE_IMAGE);

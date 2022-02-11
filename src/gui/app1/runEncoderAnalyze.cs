@@ -212,7 +212,7 @@ public partial class ChronoJumpWindow
 		checkFile(Constants.CheckFileOp.RUNENCODER_ANALYZE_SAVE_IMAGE);
 	}
 
-	private void on_button_run_encoder_image_save_selected (string destination)
+	private void on_button_run_encoder_analyze_image_save_selected (string destination)
 	{
 		try {
 			File.Copy(UtilEncoder.GetSprintEncoderImage(), destination, true);
@@ -223,9 +223,9 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	private void on_overwrite_file_runencoder_image_save_accepted(object o, EventArgs args)
+	private void on_overwrite_file_runencoder_analyze_image_save_accepted(object o, EventArgs args)
 	{
-		on_button_run_encoder_image_save_selected (exportFileName);
+		on_button_run_encoder_analyze_image_save_selected (exportFileName);
 
 		string myString = string.Format(Catalog.GetString("Saved to {0}"), exportFileName);
 		new DialogMessage(Constants.MessageTypes.INFO, myString);

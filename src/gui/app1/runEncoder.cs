@@ -61,6 +61,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.DrawingArea drawingarea_race_analyzer_capture_position_time;
 	[Widget] Gtk.DrawingArea drawingarea_race_analyzer_capture_speed_time;
 	[Widget] Gtk.DrawingArea drawingarea_race_analyzer_capture_accel_time;
+	[Widget] Gtk.VBox vbox_race_analyzer_capture_graphs;
 
 	[Widget] Gtk.Frame frame_run_encoder_exercise;
 	[Widget] Gtk.Entry entry_run_encoder_exercise_name;
@@ -2284,4 +2285,29 @@ public partial class ChronoJumpWindow
 		cairoGraphRaceAnalyzer_at.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_at_l, forceRedraw, CairoXY.PlotTypes.LINES);
 	}
+
+	private void on_button_race_analyzer_capture_save_image_clicked (object o, EventArgs args)
+	{
+		checkFile(Constants.CheckFileOp.RUNENCODER_CAPTURE_SAVE_IMAGE);
+	}
+	private void on_button_run_encoder_capture_image_save_selected (string destination)
+	{
+		try {
+			Gdk.Pixbuf pixbuf = UtilGtk.PixbufFromVBox(vbox_race_analyzer_capture_graphs);
+			LogB.Information("Saving");
+			pixbuf.Save(destination,"png");
+		} catch {
+			string myString = string.Format(
+					Catalog.GetString("Cannot save file {0} "), destination);
+			new DialogMessage(Constants.MessageTypes.WARNING, myString);
+		}
+	}
+	private void on_overwrite_file_runencoder_capture_image_save_accepted(object o, EventArgs args)
+	{
+		on_button_run_encoder_capture_image_save_selected (exportFileName);
+
+		string myString = string.Format(Catalog.GetString("Saved to {0}"), exportFileName);
+		new DialogMessage(Constants.MessageTypes.INFO, myString);
+	}
+
 }

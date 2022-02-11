@@ -3377,7 +3377,8 @@ LogB.Information(" fs R ");
 			combo_force_sensor_exercise.Active = UtilGtk.ComboMakeActive(combo_force_sensor_exercise, name);
 
 		//update also combo_select_contacts_top (but check do not crash on start)
-		if(combo_select_contacts_top != null)
+		//we need the 2nd check because without is, on import if we are on other mode, top combo could have been updated with this mode exercises
+		if(combo_select_contacts_top != null && current_mode == Constants.Modes.FORCESENSOR)
 		{
 			comboSelectContactsTopNoFollow = true;
 			UtilGtk.ComboUpdate(combo_select_contacts_top,

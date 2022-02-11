@@ -630,7 +630,8 @@ class ImportSession:
         encoder_exercise.remove_duplicates()
 
         self.destination_db.write(table=encoder_exercise,
-                                  matches_columns=self.destination_db.column_names("EncoderExercise", ["uniqueID"]))
+                                  matches_columns=self.destination_db.column_names("EncoderExercise", ["uniqueID"]),
+                                  avoids_duplicate_column="name")
 
         # Imports Encoder1RM
         encoder_1rm = self.source_db.read(table_name="Encoder1RM",

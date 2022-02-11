@@ -1278,7 +1278,6 @@ public partial class ChronoJumpWindow
 			*/
 
 		event_execute_label_message.Text = "Recalculated.";
-		radio_mode_contacts_analyze.Active = true;
 		button_contacts_exercise_close_and_recalculate.Sensitive = true;
 
 		//update SQL with exercise, device, distance, temperature, comments

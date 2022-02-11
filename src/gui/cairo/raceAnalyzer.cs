@@ -82,6 +82,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		maxX = 0;
 		minY = 1000000;
 		maxY = 0;
+		xAtMaxY = 0;
 		absoluteMaxX = 0;
 		absoluteMaxY = 0;
 
@@ -168,19 +169,32 @@ public class CairoGraphRaceAnalyzer : CairoXY
 
 			if(plotMaxMark && points_list.Count > 1)
 			{
-				MovingAverage mAverage = new MovingAverage(points_list, 5);
-				mAverage.Calculate();
-				PointF pMaxY = mAverage.GetMaxY();
-
 				if(isSprint) //on sprint plot an arrow from top speed (with moving average) to the right
 				{
+					MovingAverage mAverage = new MovingAverage(points_list, 5);
+					mAverage.Calculate();
+					PointF pMaxY = mAverage.GetMaxY();
+
 					plotArrowPassingRealPoints (g, colorFromRGB(255,0,0),
 							pMaxY.X, pMaxY.Y, points_list[points_list.Count -1].X, pMaxY.Y, true, false, 0);
 				}
 				else  //if no sprint just plot a circle on max value
 				{
-					double graphX = calculatePaintX(pMaxY.X);
-					double graphY = calculatePaintY(pMaxY.Y);
+					double graphX = xAtMaxY;
+					double graphY = maxY;
+					bool useMovingAverage = false;
+					if(useMovingAverage)
+					{
+						MovingAverage mAverage = new MovingAverage(points_list, 5);
+						mAverage.Calculate();
+						PointF pMaxY = mAverage.GetMaxY();
+
+						graphX = pMaxY.X;
+						graphY = pMaxY.Y;
+					}
+					graphX = calculatePaintX (graphX);
+					graphY = calculatePaintY (graphY);
+
 					g.MoveTo(graphX +8, graphY);
 					g.Arc(graphX, graphY, 8.0, 0.0, 2.0 * Math.PI); //full circle
 					g.SetSourceColor(red);

@@ -2227,7 +2227,7 @@ public partial class ChronoJumpWindow
 
 		TwoListsOfDoubles verticalLinesUs_2l = new TwoListsOfDoubles();
 		if(currentRunEncoderExercise != null && //currentRunEncoderExercise.SegmentMeters > 0 &&
-				reCGSD.SegmentDistTime_2l != null)
+				reCGSD != null && reCGSD.SegmentDistTime_2l != null)
 			verticalLinesUs_2l = reCGSD.SegmentDistTime_2l;
 
 		if(cairoGraphRaceAnalyzer_dt == null)
@@ -2248,7 +2248,7 @@ public partial class ChronoJumpWindow
 
 		TwoListsOfDoubles verticalLinesUs_2l = new TwoListsOfDoubles();
 		if(currentRunEncoderExercise != null && //currentRunEncoderExercise.SegmentMeters > 0 &&
-				reCGSD.SegmentDistTime_2l != null)
+				reCGSD != null && reCGSD.SegmentDistTime_2l != null)
 			verticalLinesUs_2l = reCGSD.SegmentDistTime_2l;
 
 		if(cairoGraphRaceAnalyzer_st == null)
@@ -2272,7 +2272,7 @@ public partial class ChronoJumpWindow
 
 		TwoListsOfDoubles verticalLinesUs_2l = new TwoListsOfDoubles();
 		if(currentRunEncoderExercise != null && //currentRunEncoderExercise.SegmentMeters > 0 &&
-				reCGSD.SegmentDistTime_2l != null)
+				reCGSD != null && reCGSD.SegmentDistTime_2l != null)
 			verticalLinesUs_2l = reCGSD.SegmentDistTime_2l;
 
 		if(cairoGraphRaceAnalyzer_at == null)

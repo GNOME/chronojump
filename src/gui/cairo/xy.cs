@@ -299,13 +299,16 @@ public abstract class CairoXY : CairoGeneric
 		g.LineTo(outerMargin, graphHeight - outerMargin);
 		g.LineTo(graphWidth - outerMargin, graphHeight - outerMargin);
 		g.Stroke ();
-		printText(2, Convert.ToInt32(outerMargin/2), 0, textHeight, getYAxisLabel(), g, alignTypes.LEFT);
+		printYAxisText();
 		printXAxisText();
 		g.Stroke ();
 		g.LineWidth = 2;
 	}
 
-	//this combined with paintVerticalGridLine is different on RaceAnalyzer
+	protected virtual void printYAxisText()
+	{
+		printText(2, Convert.ToInt32(outerMargin/2), 0, textHeight, getYAxisLabel(), g, alignTypes.LEFT);
+	}
 	protected virtual void printXAxisText()
 	{
 		printText(graphWidth - Convert.ToInt32(outerMargin/2), graphHeight - outerMargin, 0, textHeight, getXAxisLabel(), g, alignTypes.LEFT);
@@ -315,7 +318,7 @@ public abstract class CairoXY : CairoGeneric
 	{
 		return getAxisLabel(xVariable, xUnits);
 	}
-	private string getYAxisLabel()
+	protected string getYAxisLabel()
 	{
 		return getAxisLabel(yVariable, yUnits);
 	}

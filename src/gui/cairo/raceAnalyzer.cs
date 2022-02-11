@@ -144,7 +144,11 @@ public class CairoGraphRaceAnalyzer : CairoXY
 						g.Restore();
 					}
 					if(! useListOfDoublesOnY)
+					{
+						g.MoveTo(graphWidth - outerMargin, outerMargin);
+						g.LineTo(outerMargin, outerMargin);
 						printXAxisTopText();
+					}
 				}
 				else //maybe we have not arrived to any segment
 					paintGridNiceAutoValues (g, minX, absoluteMaxX, minY, absoluteMaxY, 5, gridTypes.VERTICALLINES, textHeight-3);
@@ -176,15 +180,19 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		//doing = false;
 	}
 
+	protected override void printYAxisText()
+	{
+		printText(2, Convert.ToInt32(outerMargin/2), 0, textHeight-3, getYAxisLabel(), g, alignTypes.LEFT);
+	}
 	protected override void printXAxisText()
 	{
-		printText(graphWidth - outerMargin, graphHeight -Convert.ToInt32(.25 * outerMargin),
-				0, textHeight, getXAxisLabel(), g, alignTypes.RIGHT);
+		printText(graphWidth, graphHeight -bottomMargin/2,
+				0, textHeight-3, getXAxisLabel() + " ", g, alignTypes.RIGHT);
 	}
 	private void printXAxisTopText()
 	{
-		printText(graphWidth - outerMargin, Convert.ToInt32(.5 * outerMargin),
-				0, textHeight, getAxisLabel(distanceStr, "m"), g, alignTypes.RIGHT);
+		printText(graphWidth, topMargin/2,
+				0, textHeight-3, getAxisLabel(distanceStr, "m") + "  ", g, alignTypes.RIGHT);
 	}
 
 	/*
@@ -204,8 +212,8 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		g.MoveTo(xtemp, topMargin);
 		g.LineTo(xtemp, graphHeight - bottomMargin);
 
-		printText(xtemp, Convert.ToInt32(.8*topMargin), 0, fontH, textTop, g, alignTypes.CENTER);
-		printText(xtemp, graphHeight-(bottomMargin/2), 0, fontH, textBottom, g, alignTypes.CENTER);
+		printText(xtemp, topMargin/2, 0, fontH, textTop, g, alignTypes.CENTER);
+		printText(xtemp, graphHeight- bottomMargin/2, 0, fontH, textBottom, g, alignTypes.CENTER);
 		//LogB.Information("pvgl fontH: " + fontH.ToString());
 	}
 	protected override void writeTitle()

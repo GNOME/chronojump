@@ -2225,6 +2225,10 @@ public partial class ChronoJumpWindow
 		if(radio_race_analyzer_capture_view_simple.Active)
 			return;
 
+		bool isSprint = false;
+		if(currentRunEncoderExercise != null && currentRunEncoderExercise.IsSprint)
+			isSprint = true;
+
 		TwoListsOfDoubles verticalLinesUs_2l = new TwoListsOfDoubles();
 		if(currentRunEncoderExercise != null && //currentRunEncoderExercise.SegmentMeters > 0 &&
 				reCGSD.SegmentDistTime_2l != null)
@@ -2233,13 +2237,19 @@ public partial class ChronoJumpWindow
 		if(cairoGraphRaceAnalyzer_dt == null)
 			cairoGraphRaceAnalyzer_dt = new CairoGraphRaceAnalyzer(
 					drawingarea_race_analyzer_capture_position_time, "title",
-					Catalog.GetString("Distance"), "m", false, verticalLinesUs_2l, true);
+					Catalog.GetString("Distance"), "m",
+					isSprint, false,
+					verticalLinesUs_2l, true);
 
 		cairoGraphRaceAnalyzer_dt.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_dt_l, forceRedraw, CairoXY.PlotTypes.LINES);
 	}
 	private void updateRaceAnalyzerCaptureSpeedTime(bool forceRedraw)
 	{
+		bool isSprint = false;
+		if(currentRunEncoderExercise != null && currentRunEncoderExercise.IsSprint)
+			isSprint = true;
+
 		TwoListsOfDoubles verticalLinesUs_2l = new TwoListsOfDoubles();
 		if(currentRunEncoderExercise != null && //currentRunEncoderExercise.SegmentMeters > 0 &&
 				reCGSD.SegmentDistTime_2l != null)
@@ -2248,7 +2258,9 @@ public partial class ChronoJumpWindow
 		if(cairoGraphRaceAnalyzer_st == null)
 			cairoGraphRaceAnalyzer_st = new CairoGraphRaceAnalyzer(
 					drawingarea_race_analyzer_capture_speed_time, "title",
-					Catalog.GetString("Speed"), "m/s", true, verticalLinesUs_2l, false);
+					Catalog.GetString("Speed"), "m/s",
+					isSprint, true,
+					verticalLinesUs_2l, false);
 
 		cairoGraphRaceAnalyzer_st.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_st_l, forceRedraw, CairoXY.PlotTypes.LINES);
@@ -2258,6 +2270,10 @@ public partial class ChronoJumpWindow
 		if(radio_race_analyzer_capture_view_simple.Active)
 			return;
 
+		bool isSprint = false;
+		if(currentRunEncoderExercise != null && currentRunEncoderExercise.IsSprint)
+			isSprint = true;
+
 		TwoListsOfDoubles verticalLinesUs_2l = new TwoListsOfDoubles();
 		if(currentRunEncoderExercise != null && //currentRunEncoderExercise.SegmentMeters > 0 &&
 				reCGSD.SegmentDistTime_2l != null)
@@ -2266,7 +2282,9 @@ public partial class ChronoJumpWindow
 		if(cairoGraphRaceAnalyzer_at == null)
 			cairoGraphRaceAnalyzer_at = new CairoGraphRaceAnalyzer(
 					drawingarea_race_analyzer_capture_accel_time, "title",
-					Catalog.GetString("Accel"), "m/s^2", false, verticalLinesUs_2l, false);
+					Catalog.GetString("Accel"), "m/s^2",
+					isSprint, false,
+					verticalLinesUs_2l, false);
 
 		cairoGraphRaceAnalyzer_at.DoSendingList (preferences.fontType.ToString(),
 				cairoGraphRaceAnalyzerPoints_at_l, forceRedraw, CairoXY.PlotTypes.LINES);

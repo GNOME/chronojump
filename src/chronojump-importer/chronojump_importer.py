@@ -707,8 +707,8 @@ class ImportSession:
 
 
         self.destination_db.write(table=forceSensor_exercise,
-                                  matches_columns=self.destination_db.column_names("ForceSensorExercise", ["uniqueID"]))
-
+                                  matches_columns=self.destination_db.column_names("ForceSensorExercise", ["uniqueID"]),
+                                  avoids_duplicate_column="name")
 
         # Imports ForceSensor
         forceSensor = self.source_db.read(table_name="ForceSensor",
@@ -752,7 +752,8 @@ class ImportSession:
 
 
         self.destination_db.write(table=runEncoder_exercise,
-                                  matches_columns=self.destination_db.column_names("RunEncoderExercise", ["uniqueID"]))
+                                  matches_columns=self.destination_db.column_names("RunEncoderExercise", ["uniqueID"]),
+                                  avoids_duplicate_column="name")
 
 
         # Imports RunEncoder

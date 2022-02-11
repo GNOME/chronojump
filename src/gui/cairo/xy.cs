@@ -65,6 +65,7 @@ public abstract class CairoXY : CairoGeneric
 	protected double maxX = 0;
 	protected double minY = 1000000;
 	protected double maxY = 0;
+	protected double xAtMaxY = 0; //raw, used on raceAnalyzer
 	double yAtMMaxY;
 	protected double absoluteMaxX;
 	protected double absoluteMaxY;
@@ -188,7 +189,10 @@ public abstract class CairoXY : CairoGeneric
 			if(p.Y < minY)
 				minY = p.Y;
 			if(p.Y > maxY)
+			{
 				maxY = p.Y;
+				xAtMaxY = p.X; //used on raceAnalyzer
+			}
 		}
 
 		if (showFullGraph)

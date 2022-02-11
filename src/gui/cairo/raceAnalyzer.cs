@@ -108,7 +108,10 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		if(maxValuesChanged || forceRedraw)
 		{
 			if(verticalLinesUs_2l.Count() == 0)
-				paintGrid(gridTypes.BOTH, true);
+			{
+				//paintGrid(gridTypes.BOTH, true);
+				// do not show grid if we do not pass any distance mark
+			}
 			else {
 				//horizontal
 				if(verticalLinesUs_2l.Count() > 0 && useListOfDoublesOnY)
@@ -153,8 +156,9 @@ public class CairoGraphRaceAnalyzer : CairoXY
 						printXAxisTopText();
 					}
 				}
-				else //maybe we have not arrived to any segment
-					paintGridNiceAutoValues (g, minX, absoluteMaxX, minY, absoluteMaxY, 5, gridTypes.VERTICALLINES, textHeight-3);
+				//else //maybe we have not arrived to any segment
+				//	paintGridNiceAutoValues (g, minX, absoluteMaxX, minY, absoluteMaxY, 5, gridTypes.VERTICALLINES, textHeight-3);
+				// 	do not show grid if we do not pass any distance mark
 			}
 
 			paintAxis();

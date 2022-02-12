@@ -423,7 +423,9 @@ public class RunEncoderExercise
 
 	public override string ToString()
 	{
-		return string.Format("{0}:{1}:{2}:{3}", uniqueID, name, description, segmentMeters); //TODO: update this with new parameters
+		return string.Format("{0}:{1}:{2}:{3}:{4}:{5}",
+				uniqueID, name, description, segmentMeters,
+				Util.ListIntToSQLString (segmentVariableCm, ";"), isSprint);
 	}
 
 	public void InsertSQL (bool dbconOpened)

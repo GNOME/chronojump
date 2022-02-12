@@ -378,6 +378,11 @@ public partial class ChronoJumpWindow
 		cairoGraphRaceAnalyzerPoints_st_l = new List<PointF>();
 		cairoGraphRaceAnalyzerPoints_at_l = new List<PointF>();
 
+		//to not show old vertical segments info on a capture that maybe cannot be done by lack of device
+		if(currentRunEncoderExercise != null)
+			reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement(
+					currentRunEncoderExercise.SegmentMeters, currentRunEncoderExercise.SegmentVariableCm);
+
 		updateRaceAnalyzerCapturePositionTime(true);
 		updateRaceAnalyzerCaptureSpeedTime(true);
 		updateRaceAnalyzerCaptureAccelTime(true);

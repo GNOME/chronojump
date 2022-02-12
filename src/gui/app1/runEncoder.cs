@@ -995,17 +995,25 @@ public partial class ChronoJumpWindow
 		genericWin.HideAndNull();
 		radio_run_encoder_analyze_individual_current_set.Active = true;
 
+		string str = run_encoder_load_set (uniqueID);
+		if(str != "")
+			event_execute_label_message.Text = Catalog.GetString("Loaded:") + " " + str;
+	}
+
+	//this is also called from recalculate
+	private string run_encoder_load_set (int uniqueID)
+	{
 		RunEncoder re = (RunEncoder) SqliteRunEncoder.Select(false, uniqueID, currentPerson.UniqueID, currentSession.UniqueID)[0];
 		if(re == null)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFoundStr());
-			return;
+			return "";
 		}
 
 		if(! Util.FileExists(re.FullURL))
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFoundStr());
-			return;
+			return "";
 		}
 
 		List<string> contents = Util.ReadFileAsStringList(re.FullURL);
@@ -1013,7 +1021,7 @@ public partial class ChronoJumpWindow
 		if(contents.Count < 3)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileEmptyStr());
-			return;
+			return "";
 		}
 
 		currentRunEncoder = re;
@@ -1128,11 +1136,12 @@ public partial class ChronoJumpWindow
 		button_video_play_this_test_contacts.Sensitive = (re.VideoURL != "");
 		sensitiveLastTestButtons(true);
 
-		event_execute_label_message.Text = Catalog.GetString("Loaded:") + " " + Util.GetLastPartOfPath(re.Filename);
 		image_run_encoder_graph.Visible = false;
 		button_run_encoder_analyze_analyze.Sensitive = true;
 		button_run_encoder_analyze_options_close_and_analyze.Sensitive = true;
 		button_run_encoder_image_save.Sensitive = true;
+
+		return (Util.GetLastPartOfPath(re.Filename));
 	}
 
 	protected void on_run_encoder_load_signal_row_play (object o, EventArgs args)
@@ -1281,7 +1290,6 @@ public partial class ChronoJumpWindow
 			raceEncoderCopyToTempAndDoRGraph();
 			*/
 
-		event_execute_label_message.Text = "Recalculated.";
 		button_contacts_exercise_close_and_recalculate.Sensitive = true;
 
 		//update SQL with exercise, device, distance, temperature, comments
@@ -1294,6 +1302,10 @@ public partial class ChronoJumpWindow
 		currentRunEncoder.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_contacts_signal_comment);
 
 		currentRunEncoder.UpdateSQL(false);
+
+		string str = run_encoder_load_set (currentRunEncoder.UniqueID);
+		if(str != "")
+			event_execute_label_message.Text = "Recalculated.";
 	}
 
 	private void raceEncoderCopyToTempAndDoRGraph()

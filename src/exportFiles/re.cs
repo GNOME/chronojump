@@ -36,7 +36,7 @@ public class RunEncoderExport : ExportFiles
 	private bool plotFittedPower;
 
 	private List<RunEncoder> re_l;
-	private ArrayList reEx_l;
+	private List<RunEncoderExercise> reEx_l;
 	private List<TriggerList> triggerListOfLists;
 
 	//constructor
@@ -92,7 +92,7 @@ public class RunEncoderExport : ExportFiles
 	{
 		re_l = SqliteRunEncoder.Select(false, -1, personID, sessionID);
 		personSession_l = SqlitePersonSession.SelectCurrentSessionPersons(sessionID, true);
-		reEx_l = SqliteRunEncoderExercise.Select (false, -1, false);
+		reEx_l = SqliteRunEncoderExercise.Select (false, -1);
 
 		//get all the triggers to not be opening and closing sqlite on processSets
 		triggerListOfLists = new List<TriggerList>();

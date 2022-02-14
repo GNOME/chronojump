@@ -99,7 +99,7 @@ getDynamicsFromSprint <- function(K, Vmax, Mass, T0 = 0, Temperature = 25, Heigh
                     p.fitted = p.fitted ))
 }
 
-exportSprintDynamicsPrepareRow <- function(sprintDynamics, splitTime, splitPosition, splitPositionAll)
+exportSprintDynamicsPrepareRow <- function(sprintDynamics, splitTime, splitPosition, splitPositionAll, decimalIsComma)
 {
 	splits = NULL
 
@@ -109,7 +109,10 @@ exportSprintDynamicsPrepareRow <- function(sprintDynamics, splitTime, splitPosit
 	if(is.null(splitPositionAll))
 	{
 		splits = as.list(splitTime)
-	        names(splits) = paste(splitPosition, "m", sep="")
+		if(decimalIsComma)
+		        names(splits) = gsub("\\.",",",paste(splitPosition, "m", sep=""))
+		else
+		        names(splits) = paste(splitPosition, "m", sep="")
 	} else
 	{
 		splitTimeVector = NULL
@@ -125,7 +128,10 @@ exportSprintDynamicsPrepareRow <- function(sprintDynamics, splitTime, splitPosit
 		}
 
 		splits = as.list(splitTimeVector)
-	        names(splits) = paste(splitPositionAll, "m", sep="")
+		if(decimalIsComma)
+		        names(splits) = gsub("\\.",",",paste(splitPositionAll, "m", sep=""))
+		else
+			names(splits) = paste(splitPositionAll, "m", sep="")
 	}
 
 	#print("exportSprintDynamicsPrepareRow names(splits):")

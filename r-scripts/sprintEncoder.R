@@ -796,7 +796,7 @@ testEncoderCJ <- function(filename, filenameInstantaneous, testLength, splitLeng
                                       plotStartDetection = TRUE)
 
 		#splitPositionAll is NULL on (op$singleOrMultiple == "TRUE")
-		exportRow = exportSprintDynamicsPrepareRow(sprintFittedDynamics, sprintRawDynamics$splitTime, sprintRawDynamics$splitPosition, splitPositionAll)
+		exportRow = exportSprintDynamicsPrepareRow(sprintFittedDynamics, sprintRawDynamics$splitTime, sprintRawDynamics$splitPosition, splitPositionAll, op$decimalCharAtExport == ",")
 
 		if(filenameInstantaneous != "")
 		{

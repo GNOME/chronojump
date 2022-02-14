@@ -264,7 +264,7 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
                            paste("pmax =", round(sprintDynamics$pmax.rel.fitted, digits = 2), "W/kg")),
                 text.col = c("black", "black", "black", "magenta", "blue", "red"))
 
-        return (exportSprintDynamicsPrepareRow(sprintDynamics, splitTimes, positions, NULL))
+        return (exportSprintDynamicsPrepareRow(sprintDynamics, splitTimes, positions, NULL, op$decimalCharAtExport == ","))
 }
 
 testPhotocellsCJ <- function(positions, splitTimes, mass, personHeight, tempC, personName)

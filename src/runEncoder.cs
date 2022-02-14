@@ -631,7 +631,7 @@ public class RunEncoderGraphExport
 			device.ToString() + ";" +
 			Util.ConvertToPoint(tempC) + ";" +
 			testLength.ToString() + ";" +
-			rex.SegmentCm.ToString() + ";" +
+			Util.ConvertToPoint(rex.SegmentCm / 100.0) + ";" + //in meters
 			title + ";" +
 			datetime + ";" +
 			printTriggers(TriggerList.Type3.ON) + ";" +
@@ -781,7 +781,7 @@ public class RunEncoderGraph
 			"#graphWidth\n" + 		graphWidth.ToString() + "\n" +
 			"#graphHeight\n" + 		graphHeight.ToString() + "\n" +
 			"#device\n" + 			device.ToString() + "\n" + //unused on multiple
-			"#segmentCm\n" + 		rex.SegmentCm + "\n" + //unused on multiple
+			"#segmentCm\n" + 		Util.ConvertToPoint(rex.SegmentCm / 100.0) + "\n" + //unused on multiple
 			"#title\n" + 			title + "\n" + 		//unused on multiple
 			"#datetime\n" + 		datetime + "\n" + 	//unused on multiple
 			"#startAccel\n" + 		Util.ConvertToPoint(startAccel) + "\n" +

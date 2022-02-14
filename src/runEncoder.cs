@@ -271,8 +271,8 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 {
 	//to calcule the vertical lines on pos/time, speed/time, accel/time
 	//it is calculated once and used on all
-	private int segmentMeters; 	//note (m)
-	private List<int> segmentVariableCm; //if segmentMeters == -1 then this is used //note (cm)
+	private int segmentCm;
+	private List<int> segmentVariableCm; //if segmentCm == -1 then this is used
 	private int segmentVariableCmDistAccumulated;
 	private TwoListsOfDoubles segmentDistTime_2l;
 
@@ -287,9 +287,9 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 	private double runEncoderCaptureSpeedMax;
 	private double runEncoderCaptureDistance; //m
 
-	public RunEncoderCaptureGetSpeedAndDisplacement(int segmentMeters, List<int> segmentVariableCm)
+	public RunEncoderCaptureGetSpeedAndDisplacement(int segmentCm, List<int> segmentVariableCm)
 	{
-		this.segmentMeters = segmentMeters;
+		this.segmentCm = segmentCm;
 		this.segmentVariableCm = segmentVariableCm;
 		segmentVariableCmDistAccumulated = 0;
 
@@ -333,7 +333,7 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 
 				runEncoderCaptureDistance += runEncoderCaptureDistanceAtThisSample;
 
-				if(segmentMeters > 0)
+				if(segmentCm > 0)
 					updateSegmentDistTimeFixed ();
 				else if(segmentVariableCm.Count > 0)
 					updateSegmentDistTimeVariable ();
@@ -346,8 +346,8 @@ public class RunEncoderCaptureGetSpeedAndDisplacement
 	}
 	private void updateSegmentDistTimeFixed () //m
 	{
-		if(runEncoderCaptureDistance >= segmentMeters * (segmentDistTime_2l.Count() +1))
-			segmentDistTime_2l.Add(segmentMeters * (segmentDistTime_2l.Count() +1), time);
+		if(runEncoderCaptureDistance >= (segmentCm/100.0) * (segmentDistTime_2l.Count() +1))
+			segmentDistTime_2l.Add((segmentCm/100.0) * (segmentDistTime_2l.Count() +1), time);
 		//note this is not very precise because time can be a bit later than the selected dist
 	}
 	private void updateSegmentDistTimeVariable () //cm
@@ -397,9 +397,9 @@ public class RunEncoderExercise
 	private int uniqueID;
 	private string name;
 	private string description;
-	private int segmentMeters;
-	public static int SegmentMetersDefault = 5;
-	private List<int> segmentVariableCm; //if segmentMeters == -1 then this is used
+	private int segmentCm;
+	public static int SegmentCmDefault = 500;
+	private List<int> segmentVariableCm; //if segmentCm == -1 then this is used
 	private bool isSprint;
 
 	public RunEncoderExercise()
@@ -411,12 +411,12 @@ public class RunEncoderExercise
 		this.name = name;
 	}
 
-	public RunEncoderExercise(int uniqueID, string name, string description, int segmentMeters, List<int> segmentVariableCm, bool isSprint)
+	public RunEncoderExercise(int uniqueID, string name, string description, int segmentCm, List<int> segmentVariableCm, bool isSprint)
 	{
 		this.uniqueID = uniqueID;
 		this.name = name;
 		this.description = description;
-		this.segmentMeters = segmentMeters;
+		this.segmentCm = segmentCm;
 		this.segmentVariableCm = segmentVariableCm;
 		this.isSprint = isSprint;
 	}
@@ -424,7 +424,7 @@ public class RunEncoderExercise
 	public override string ToString()
 	{
 		return string.Format("{0}:{1}:{2}:{3}:{4}:{5}",
-				uniqueID, name, description, segmentMeters,
+				uniqueID, name, description, segmentCm,
 				Util.ListIntToSQLString (segmentVariableCm, ";"), isSprint);
 	}
 
@@ -441,7 +441,7 @@ public class RunEncoderExercise
 
 		return
 			"(" + uniqueIDStr + ", \"" + name + "\", \"" + description + "\", " +
-			segmentMeters + ", \"" + SegmentVariableCmToSQL + "\", " + Util.BoolToInt(isSprint) + ")";
+			segmentCm + ", \"" + SegmentVariableCmToSQL + "\", " + Util.BoolToInt(isSprint) + ")";
 	}
 
 	public int UniqueID
@@ -456,9 +456,10 @@ public class RunEncoderExercise
 	{
 		get { return description; }
 	}
-	public int SegmentMeters
+	public int SegmentCm
 	{
-		get { return segmentMeters; }
+		get { return segmentCm; }
+		set { segmentCm = value; }
 	}
 	public List<int> SegmentVariableCm
 	{
@@ -630,7 +631,7 @@ public class RunEncoderGraphExport
 			device.ToString() + ";" +
 			Util.ConvertToPoint(tempC) + ";" +
 			testLength.ToString() + ";" +
-			rex.SegmentMeters.ToString() + ";" +
+			rex.SegmentCm.ToString() + ";" +
 			title + ";" +
 			datetime + ";" +
 			printTriggers(TriggerList.Type3.ON) + ";" +
@@ -646,7 +647,7 @@ public class RunEncoderGraphExport
 	public static string PrintCSVHeaderOnExport()
 	{
 		return "fullURL;mass;personHeight;device;tempC;testLength;" +
-			"splitLength;" + //segmentMeters on C#, splitLength on R
+			"splitLength;" + //segmentCm on C#, splitLength on R
 			"title;datetime;triggersOn;triggersOff;comments";
 	}
 }
@@ -780,7 +781,7 @@ public class RunEncoderGraph
 			"#graphWidth\n" + 		graphWidth.ToString() + "\n" +
 			"#graphHeight\n" + 		graphHeight.ToString() + "\n" +
 			"#device\n" + 			device.ToString() + "\n" + //unused on multiple
-			"#segmentMeters\n" + 		rex.SegmentMeters + "\n" + //unused on multiple
+			"#segmentCm\n" + 		rex.SegmentCm + "\n" + //unused on multiple
 			"#title\n" + 			title + "\n" + 		//unused on multiple
 			"#datetime\n" + 		datetime + "\n" + 	//unused on multiple
 			"#startAccel\n" + 		Util.ConvertToPoint(startAccel) + "\n" +

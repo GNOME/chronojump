@@ -1,3 +1,9 @@
+
+
+//canviar segmentM també a R, que pilli cm. en el update sql si segmentM és < 10, passar-ho a cm (multiplicar per 100) o mirar si hi ha una millor manera de resoldre-ho
+//provar també el exportFiles
+
+
 /*
 //La camera 1 va mes rapid que la 0, provar de canviar i activatr primer la 1 a veure que tal
 

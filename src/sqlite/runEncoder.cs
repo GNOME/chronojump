@@ -330,7 +330,7 @@ class SqliteRunEncoder : Sqlite
 		//need to create an exercise to assign to the imported files
 		if(importedSomething)
 		{
-			RunEncoderExercise ex = new RunEncoderExercise(0, "Sprint", "", RunEncoderExercise.SegmentMetersDefault, new List<int>(), true);
+			RunEncoderExercise ex = new RunEncoderExercise(0, "Sprint", "", RunEncoderExercise.SegmentCmDefault, new List<int>(), true);
 			ex.InsertSQL(true);
 		}
 
@@ -360,8 +360,8 @@ class SqliteRunEncoderExercise : Sqlite
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"name TEXT, " +
 			"description TEXT, " +
-			"segmentMeters INT, " +
-			"segmentVariableCm TEXT, " + //separator is ;
+			"segmentMeters INT, " + 	//changed to cm in DB 2.33
+			"segmentVariableCm TEXT, " + 	//separator is ;
 			"isSprint INT NOT NULL DEFAULT 1)"; //bool
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -393,7 +393,7 @@ class SqliteRunEncoderExercise : Sqlite
 	//Default exercise for users without exercises (empty database creation or never used raceAnalyzer)
 	protected internal static void insertDefault ()
 	{
-		RunEncoderExercise re = new RunEncoderExercise (-1, "Sprint", "", RunEncoderExercise.SegmentMetersDefault, new List<int>(), true);
+		RunEncoderExercise re = new RunEncoderExercise (-1, "Sprint", "", RunEncoderExercise.SegmentCmDefault, new List<int>(), true);
 		re.InsertSQL(true);
 	}
 
@@ -411,7 +411,7 @@ class SqliteRunEncoderExercise : Sqlite
 		dbcmd.CommandText = "UPDATE " + table + " SET " +
 			" name = \"" + ex.Name +
 			"\", description = \"" + ex.Description +
-			"\", segmentMeters = " + ex.SegmentMeters +
+			"\", segmentMeters = " + ex.SegmentCm + 	//cm since DB 2.33
 			", segmentVariableCm = \"" + ex.SegmentVariableCmToSQL +
 			"\", isSprint = " + ex.IsSprint +
 			" WHERE uniqueID = " + ex.UniqueID;

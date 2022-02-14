@@ -192,7 +192,7 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		if(! currentRunEncoderExercise.IsSprint || currentRunEncoderExercise.SegmentMeters < 0)
+		if(! currentRunEncoderExercise.IsSprint || currentRunEncoderExercise.SegmentCm < 0)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, "Currently cannot analyze exercises that are not an sprint or have variable segments.");
 			return;

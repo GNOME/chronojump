@@ -524,8 +524,8 @@ public partial class ChronoJumpWindow
 
 	private void assignCurrentRunEncoderExercise()
 	{
-		currentRunEncoderExercise = (RunEncoderExercise) SqliteRunEncoderExercise.Select (
-                                false, getExerciseIDFromAnyCombo(combo_run_encoder_exercise, runEncoderComboExercisesString, false), false)[0];
+		currentRunEncoderExercise = SqliteRunEncoderExercise.Select (
+                                false, getExerciseIDFromAnyCombo(combo_run_encoder_exercise, runEncoderComboExercisesString, false))[0];
 	}
 
 	//TODO: do all this with an "other" thread like in force sensor to allow connecting messages to be displayed
@@ -1861,8 +1861,8 @@ public partial class ChronoJumpWindow
 
 	private void fillRunEncoderExerciseCombo(string name)
 	{
-		ArrayList runEncoderExercises = SqliteRunEncoderExercise.Select (false, -1, false);
-		if(runEncoderExercises.Count == 0)
+		List<RunEncoderExercise> runEncoderExercises_l = SqliteRunEncoderExercise.Select (false, -1);
+		if(runEncoderExercises_l.Count == 0)
 		{
 			runEncoderComboExercisesString = new String [0];
 			UtilGtk.ComboUpdate(combo_run_encoder_exercise, new String[0], "");
@@ -1906,8 +1906,8 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		RunEncoderExercise ex = (RunEncoderExercise) SqliteRunEncoderExercise.Select (
-                                false, getExerciseIDFromAnyCombo(combo_run_encoder_exercise, runEncoderComboExercisesString, false), false)[0];
+		RunEncoderExercise ex = SqliteRunEncoderExercise.Select (
+                                false, getExerciseIDFromAnyCombo(combo_run_encoder_exercise, runEncoderComboExercisesString, false))[0];
 		LogB.Information("selected exercise: " + ex.ToString());
 
 		show_contacts_exercise_add_edit (false);
@@ -2132,8 +2132,8 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		RunEncoderExercise ex = (RunEncoderExercise) SqliteRunEncoderExercise.Select (
-                                false, getExerciseIDFromAnyCombo(combo_run_encoder_exercise, runEncoderComboExercisesString, false), false)[0];
+		RunEncoderExercise ex = SqliteRunEncoderExercise.Select (
+                                false, getExerciseIDFromAnyCombo(combo_run_encoder_exercise, runEncoderComboExercisesString, false))[0];
 
 		LogB.Information("selected exercise: " + ex.ToString());
 

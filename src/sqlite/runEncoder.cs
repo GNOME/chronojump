@@ -436,7 +436,7 @@ class SqliteRunEncoderExercise : Sqlite
 	}
 
 
-	public static ArrayList Select (bool dbconOpened, int uniqueID, bool onlyNames)
+	public static List<RunEncoderExercise> Select (bool dbconOpened, int uniqueID)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -445,10 +445,7 @@ class SqliteRunEncoderExercise : Sqlite
 		if(uniqueID != -1)
 			uniqueIDStr = " WHERE " + table + ".uniqueID = " + uniqueID;
 
-		if(onlyNames)
-			dbcmd.CommandText = "SELECT name FROM " + table + uniqueIDStr;
-		else
-			dbcmd.CommandText = "SELECT * FROM " + table + uniqueIDStr;
+		dbcmd.CommandText = "SELECT * FROM " + table + uniqueIDStr;
 
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -456,35 +453,26 @@ class SqliteRunEncoderExercise : Sqlite
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
-		ArrayList array = new ArrayList(1);
-		RunEncoderExercise ex = new RunEncoderExercise();
+		List<RunEncoderExercise> list = new List<RunEncoderExercise>();
+		while(reader.Read()) {
+			//int angleDefault = 0;
 
-		if(onlyNames) {
-			while(reader.Read()) {
-				ex = new RunEncoderExercise (reader[0].ToString());
-				array.Add(ex);
-			}
-		} else {
-			while(reader.Read()) {
-				//int angleDefault = 0;
-
-				ex = new RunEncoderExercise (
-						Convert.ToInt32(reader[0].ToString()),	//uniqueID
-						reader[1].ToString(),			//name
-						reader[2].ToString(),			//description
-						Convert.ToInt32(reader[3].ToString()),	//segmentMeters
-						Util.SQLStringToListInt(reader[4].ToString(), ";"),	//segmentVariableCm
-						Util.IntToBool(Convert.ToInt32(reader[5].ToString()))
-						);
-				array.Add(ex);
-			}
+			RunEncoderExercise ex = new RunEncoderExercise (
+					Convert.ToInt32(reader[0].ToString()),	//uniqueID
+					reader[1].ToString(),			//name
+					reader[2].ToString(),			//description
+					Convert.ToInt32(reader[3].ToString()),	//segmentCm (cm since DB 2.33)
+					Util.SQLStringToListInt(reader[4].ToString(), ";"),	//segmentVariableCm
+					Util.IntToBool(Convert.ToInt32(reader[5].ToString()))
+					);
+			list.Add(ex);
 		}
 
 		reader.Close();
 		if(! dbconOpened)
 			Sqlite.Close();
 
-		return array;
+		return list;
 	}
 
 }

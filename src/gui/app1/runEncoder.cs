@@ -70,49 +70,49 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.CheckButton check_run_encoder_exercise_fixed_size;
 	[Widget] Gtk.HBox hbox_run_encoder_exercise_fixed_segments_size;
 	[Widget] Gtk.HBox hbox_run_encoder_exercise_notfixed_segment_num;
-	[Widget] Gtk.SpinButton	spin_race_encoder_exercise_segment_size_m;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segments_num;
+	[Widget] Gtk.SpinButton	spin_race_encoder_exercise_f_segment_size_cm; //f: fixed
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segments_num; //v: variable
 	[Widget] Gtk.Frame frame_run_encoder_exercise_notfixed_segments;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_0;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_1;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_2;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_3;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_4;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_5;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_6;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_7;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_8;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_9;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_10;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_11;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_12;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_13;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_14;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_15;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_16;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_17;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_18;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_19;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_20;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_21;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_22;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_23;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_24;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_25;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_26;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_27;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_28;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_29;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_30;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_31;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_32;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_33;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_34;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_35;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_36;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_37;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_38;
-	[Widget] Gtk.SpinButton spin_race_encoder_exercise_segment_size_cm_39;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_0; //v: variable
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_1;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_2;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_3;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_4;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_5;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_6;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_7;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_8;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_9;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_10;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_11;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_12;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_13;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_14;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_15;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_16;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_17;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_18;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_19;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_20;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_21;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_22;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_23;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_24;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_25;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_26;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_27;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_28;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_29;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_30;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_31;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_32;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_33;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_34;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_35;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_36;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_37;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_38;
+	[Widget] Gtk.SpinButton spin_race_encoder_exercise_v_segment_size_cm_39;
 
 	int race_analyzer_distance;
 	int race_analyzer_temperature;
@@ -381,7 +381,7 @@ public partial class ChronoJumpWindow
 		//to not show old vertical segments info on a capture that maybe cannot be done by lack of device
 		if(currentRunEncoderExercise != null)
 			reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement(
-					currentRunEncoderExercise.SegmentMeters, currentRunEncoderExercise.SegmentVariableCm);
+					currentRunEncoderExercise.SegmentCm, currentRunEncoderExercise.SegmentVariableCm);
 
 		updateRaceAnalyzerCapturePositionTime(true);
 		updateRaceAnalyzerCaptureSpeedTime(true);
@@ -578,7 +578,7 @@ public partial class ChronoJumpWindow
 
 		//RunEncoderCaptureGetSpeedAndDisplacement reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement();
 		reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement(
-				currentRunEncoderExercise.SegmentMeters, currentRunEncoderExercise.SegmentVariableCm);
+				currentRunEncoderExercise.SegmentCm, currentRunEncoderExercise.SegmentVariableCm);
 		runEncoderShouldShowCaptureGraphsWithData = true;
 
 		runEncoderCaptureThread = new Thread(new ThreadStart(runEncoderCaptureDo));
@@ -1055,7 +1055,7 @@ public partial class ChronoJumpWindow
 
 		int count = 0;
 		reCGSD = new RunEncoderCaptureGetSpeedAndDisplacement(
-				currentRunEncoderExercise.SegmentMeters, currentRunEncoderExercise.SegmentVariableCm);
+				currentRunEncoderExercise.SegmentCm, currentRunEncoderExercise.SegmentVariableCm);
 		runEncoderShouldShowCaptureGraphsWithData = true;
 
 		cairoGraphRaceAnalyzer_dt = null;
@@ -1288,7 +1288,7 @@ public partial class ChronoJumpWindow
 
 		raceEncoderReadWidgets();
 
-		//recalculte should not analyze (calling to R) specially if segmentMeters is variable.
+		//recalculate should not analyze (calling to R) specially if segmentCm is variable.
 		//also recalculate what? current set? all sets on analyze current session
 		/*
 		if(lastRunEncoderFullPath != null && lastRunEncoderFullPath != "")
@@ -1870,10 +1870,10 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		runEncoderComboExercisesString = new String [runEncoderExercises.Count];
-		string [] exerciseNamesToCombo = new String [runEncoderExercises.Count];
+		runEncoderComboExercisesString = new String [runEncoderExercises_l.Count];
+		string [] exerciseNamesToCombo = new String [runEncoderExercises_l.Count];
 		int i =0;
-		foreach(RunEncoderExercise ex in runEncoderExercises)
+		foreach(RunEncoderExercise ex in runEncoderExercises_l)
 		{
 			exerciseNamesToCombo[i] = ex.Name;
 			runEncoderComboExercisesString[i] = ex.UniqueID + ":" + ex.Name;
@@ -1915,23 +1915,23 @@ public partial class ChronoJumpWindow
 		entry_run_encoder_exercise_description.Text = ex.Description;
 		check_run_encoder_exercise_is_sprint.Active = ex.IsSprint;
 
-		if(list_segments_size_cm == null)
-			spin_race_encoder_exercise_segment_size_cm_create_list ();
+		if(v_segments_size_cm_l == null)
+			spin_race_encoder_exercise_v_segment_size_cm_create_list ();
 
-		if(ex.SegmentMeters < 0)
+		if(ex.SegmentCm < 0)
 		{
 			check_run_encoder_exercise_fixed_size.Active = false;
-			spin_race_encoder_exercise_segments_num.Value = ex.SegmentVariableCm.Count;
+			spin_race_encoder_exercise_v_segments_num.Value = ex.SegmentVariableCm.Count;
 
 			int i = 0;
 			foreach(int cm in ex.SegmentVariableCm)
 			{
-				( (Gtk.SpinButton) list_segments_size_cm[i]).Value = ex.SegmentVariableCm[i];
+				( (Gtk.SpinButton) v_segments_size_cm_l[i]).Value = ex.SegmentVariableCm[i];
 				i ++;
 			}
 		} else {
 			check_run_encoder_exercise_fixed_size.Active = true;
-			spin_race_encoder_exercise_segment_size_m.Value = ex.SegmentMeters;
+			spin_race_encoder_exercise_f_segment_size_cm.Value = ex.SegmentCm;
 		}
 		//force managing:
 		on_check_run_encoder_exercise_fixed_size_toggled (new object (), new EventArgs ());
@@ -1944,13 +1944,13 @@ public partial class ChronoJumpWindow
 		entry_run_encoder_exercise_name.Text = "";
 		entry_run_encoder_exercise_description.Text = "";
 		check_run_encoder_exercise_is_sprint.Active = true;
-		spin_race_encoder_exercise_segment_size_m.Value = RunEncoderExercise.SegmentMetersDefault;
-		spin_race_encoder_exercise_segments_num.Value = 2;
+		spin_race_encoder_exercise_f_segment_size_cm.Value = RunEncoderExercise.SegmentCmDefault;
+		spin_race_encoder_exercise_v_segments_num.Value = 2;
 
-		if(list_segments_size_cm == null)
-			spin_race_encoder_exercise_segment_size_cm_create_list ();
+		if(v_segments_size_cm_l == null)
+			spin_race_encoder_exercise_v_segment_size_cm_create_list ();
 
-		spin_race_encoder_exercise_segment_size_cm_reset_list (); //put default values;
+		spin_race_encoder_exercise_v_segment_size_cm_reset_list (); //put default values;
 
 		check_run_encoder_exercise_fixed_size.Active = true;
 		//force managing:
@@ -1976,74 +1976,74 @@ public partial class ChronoJumpWindow
 			hbox_run_encoder_exercise_notfixed_segment_num.Visible = true;
 			frame_run_encoder_exercise_notfixed_segments.Visible = true;
 
-			spin_race_encoder_exercise_segment_size_cm_show_needed ();
+			spin_race_encoder_exercise_v_segment_size_cm_show_needed ();
 		}
 	}
 
-	private void on_spin_race_encoder_exercise_segments_num_value_changed (object o, EventArgs args)
+	private void on_spin_race_encoder_exercise_v_segments_num_value_changed (object o, EventArgs args)
 	{
-		spin_race_encoder_exercise_segment_size_cm_show_needed ();
+		spin_race_encoder_exercise_v_segment_size_cm_show_needed ();
 	}
 
-	List<Gtk.SpinButton> list_segments_size_cm;
-	private void spin_race_encoder_exercise_segment_size_cm_create_list ()
+	List<Gtk.SpinButton> v_segments_size_cm_l;
+	private void spin_race_encoder_exercise_v_segment_size_cm_create_list ()
 	{
-		list_segments_size_cm = new List<Gtk.SpinButton>();
+		v_segments_size_cm_l = new List<Gtk.SpinButton>();
 
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_0);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_1);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_2);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_3);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_4);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_5);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_6);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_7);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_8);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_9);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_10);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_11);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_12);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_13);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_14);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_15);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_16);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_17);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_18);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_19);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_20);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_21);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_22);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_23);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_24);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_25);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_26);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_27);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_28);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_29);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_30);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_31);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_32);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_33);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_34);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_35);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_36);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_37);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_38);
-		list_segments_size_cm.Add(spin_race_encoder_exercise_segment_size_cm_39);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_0);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_1);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_2);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_3);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_4);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_5);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_6);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_7);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_8);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_9);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_10);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_11);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_12);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_13);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_14);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_15);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_16);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_17);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_18);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_19);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_20);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_21);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_22);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_23);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_24);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_25);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_26);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_27);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_28);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_29);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_30);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_31);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_32);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_33);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_34);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_35);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_36);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_37);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_38);
+		v_segments_size_cm_l.Add(spin_race_encoder_exercise_v_segment_size_cm_39);
 	}
 
-	private void spin_race_encoder_exercise_segment_size_cm_reset_list ()
+	private void spin_race_encoder_exercise_v_segment_size_cm_reset_list ()
 	{
-		foreach(Gtk.SpinButton sb in list_segments_size_cm)
+		foreach(Gtk.SpinButton sb in v_segments_size_cm_l)
 			sb.Value = 100;
 	}
 
-	private void spin_race_encoder_exercise_segment_size_cm_show_needed ()
+	private void spin_race_encoder_exercise_v_segment_size_cm_show_needed ()
 	{
-		int toShow = Convert.ToInt32(spin_race_encoder_exercise_segments_num.Value);
+		int toShow = Convert.ToInt32(spin_race_encoder_exercise_v_segments_num.Value);
 
 		int count = 0;
-		foreach(Gtk.SpinButton sb in list_segments_size_cm)
+		foreach(Gtk.SpinButton sb in v_segments_size_cm_l)
 		{
 			sb.Visible = (count < toShow);
 			count ++;
@@ -2085,16 +2085,16 @@ public partial class ChronoJumpWindow
 			}
 		}
 
-		int segmentMeters = Convert.ToInt32(spin_race_encoder_exercise_segment_size_m.Value);
+		int segmentCm = Convert.ToInt32(spin_race_encoder_exercise_f_segment_size_cm.Value);
 		List<int> segmentVariableCm = new List<int>();
 		if(! check_run_encoder_exercise_fixed_size.Active)
 		{
-			segmentMeters = -1;
+			segmentCm = -1;
 
 			int i = 0;
-			foreach(Gtk.SpinButton sb in list_segments_size_cm)
+			foreach(Gtk.SpinButton sb in v_segments_size_cm_l)
 			{
-				if(i < spin_race_encoder_exercise_segments_num.Value)
+				if(i < spin_race_encoder_exercise_v_segments_num.Value)
 					segmentVariableCm.Add(Convert.ToInt32(sb.Value));
 				i ++;
 			}
@@ -2104,14 +2104,14 @@ public partial class ChronoJumpWindow
 		{
 			RunEncoderExercise ex = new RunEncoderExercise (
 					-1, name, entry_run_encoder_exercise_description.Text,
-					segmentMeters, segmentVariableCm, check_run_encoder_exercise_is_sprint.Active);
+					segmentCm, segmentVariableCm, check_run_encoder_exercise_is_sprint.Active);
 			ex.InsertSQL (false);
 			currentRunEncoderExercise = ex;
 		} else {
 			RunEncoderExercise ex = new RunEncoderExercise(
 					getExerciseIDFromAnyCombo(combo_run_encoder_exercise, runEncoderComboExercisesString, false),
 					name, entry_run_encoder_exercise_description.Text,
-					segmentMeters, segmentVariableCm, check_run_encoder_exercise_is_sprint.Active);
+					segmentCm, segmentVariableCm, check_run_encoder_exercise_is_sprint.Active);
 
 			SqliteRunEncoderExercise.Update(false, ex);
 			currentRunEncoderExercise = ex;
@@ -2244,7 +2244,7 @@ public partial class ChronoJumpWindow
 			isSprint = true;
 
 		TwoListsOfDoubles verticalLinesUs_2l = new TwoListsOfDoubles();
-		if(currentRunEncoderExercise != null && //currentRunEncoderExercise.SegmentMeters > 0 &&
+		if(currentRunEncoderExercise != null && //currentRunEncoderExercise.SegmentCm > 0 &&
 				reCGSD != null && reCGSD.SegmentDistTime_2l != null)
 			verticalLinesUs_2l = reCGSD.SegmentDistTime_2l;
 
@@ -2265,7 +2265,7 @@ public partial class ChronoJumpWindow
 			isSprint = true;
 
 		TwoListsOfDoubles verticalLinesUs_2l = new TwoListsOfDoubles();
-		if(currentRunEncoderExercise != null && //currentRunEncoderExercise.SegmentMeters > 0 &&
+		if(currentRunEncoderExercise != null && //currentRunEncoderExercise.SegmentCm > 0 &&
 				reCGSD != null && reCGSD.SegmentDistTime_2l != null)
 			verticalLinesUs_2l = reCGSD.SegmentDistTime_2l;
 
@@ -2289,7 +2289,7 @@ public partial class ChronoJumpWindow
 			isSprint = true;
 
 		TwoListsOfDoubles verticalLinesUs_2l = new TwoListsOfDoubles();
-		if(currentRunEncoderExercise != null && //currentRunEncoderExercise.SegmentMeters > 0 &&
+		if(currentRunEncoderExercise != null && //currentRunEncoderExercise.SegmentCm > 0 &&
 				reCGSD != null && reCGSD.SegmentDistTime_2l != null)
 			verticalLinesUs_2l = reCGSD.SegmentDistTime_2l;
 

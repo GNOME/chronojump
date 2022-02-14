@@ -22,6 +22,7 @@ using System;
 using System.Data;
 using System.IO; //"File" things. TextWriter
 using System.Collections; //ArrayList
+using System.Collections.Generic; //List
 using Mono.Data.Sqlite;
 using System.Diagnostics; 	//for launching other process
 
@@ -129,7 +130,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.32";
+	static string lastChronojumpDatabaseVersion = "2.33";
 
 	public Sqlite()
 	{
@@ -3116,11 +3117,29 @@ class Sqlite
 					LogB.SQL("Catched at Doing ALTER TABLE added isSprint.");
 				}
 
-				ArrayList exercises = SqliteRunEncoderExercise.Select(true, -1, true);
-				if(exercises == null || exercises.Count == 0)
+				currentVersion = updateVersion("2.32");
+			}
+			if(currentVersion == "2.32")
+			{
+				LogB.SQL("RunEncoderExercise segmentMeters but now is in cm");
+
+				List<RunEncoderExercise> ex_l = SqliteRunEncoderExercise.Select (true, -1);
+				foreach(RunEncoderExercise ex in ex_l)
+				{
+					if(ex.SegmentCm > 0) //do not update them if is -1 (unused)
+					{
+						RunEncoderExercise exChanged = ex;
+						exChanged.SegmentCm *= 100;
+						SqliteRunEncoderExercise.Update(true, exChanged);
+					}
+				}
+
+				//adding the insertDefault here because now it will be in cm
+				ex_l = SqliteRunEncoderExercise.Select(true, -1);
+				if(ex_l == null || ex_l.Count == 0)
 					SqliteRunEncoderExercise.insertDefault();
 
-				currentVersion = updateVersion("2.32");
+				currentVersion = updateVersion("2.33");
 			}
 
 			/*
@@ -3343,6 +3362,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
+		//2.32 - 2.33 Converted DB to 2.33 RunEncoderExercise segmentMeters but now is in cm
 		//2.31 - 2.32 Converted DB to 2.32 RunEncoderExercise ALTER TABLE added isSprint
 		//2.30 - 2.31 Converted DB to 2.31 RunEncoderExercise ALTER TABLE added segmentVariableCm
 		//2.29 - 2.30 Converted DB to 2.30 Inserted default exercises of forceSensor and raceAnalyzer if empty

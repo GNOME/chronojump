@@ -33,6 +33,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 	public double fvprofile90;
 	public bool needDevelopForce;
 	private int imbalance;
+	private double personWeight;
 
 	public enum ErrorAtStart { ALLOK, NEEDLEGPARAMS, BADLEGPARAMS, NEEDJUMPS, NEEDJUMPSX, F0ANDV0NOTPOSITIVE, F0NOTPOSITIVE, V0NOTPOSITIVE }
 	private ErrorAtStart errorMessage;
@@ -98,6 +99,7 @@ public class JumpsWeightFVProfileGraph : CairoXY
 		imbalance = jwp.Imbalance();
 		f0Opt = jwp.F0Opt;
 		v0Opt = jwp.V0Opt;
+		personWeight = jwp.PersonWeight;
 
 		LogB.Information(string.Format("pmaxRel: {0}", jwp.PmaxRel));
 		LogB.Information(string.Format("z: {0}", jwp.Z));
@@ -197,8 +199,15 @@ public class JumpsWeightFVProfileGraph : CairoXY
 			writeTextAtRight(ypos+=.5, "- " + Catalog.GetString("Need to develop speed"), false);
 		g.SetSourceRGB(0, 0, 0);
 
+		//The force developed during 1RM was approximately 11 ± 5 % lower than F0
+		double squat1RMPredict = (.89*f0)/9.81 - personWeight;
+		double squat1RMPredictDiff = (.94*f0)/9.81 - personWeight - squat1RMPredict;
 		writeTextAtRight(++ypos, "Rivière & col. 2017:", false);
-		writeTextAtRight(ypos+=.5, string.Format("- Squat 1RM prediction: {0} Kg", Util.TrimDecimals(.89*f0Rel,1)), false);
+		writeTextAtRight(ypos+=.5, "- Squat 1RM prediction:", false);
+		writeTextAtRight(ypos+=.5, string.Format("  {0} \u00B1{1} Kg",
+					Util.TrimDecimals(squat1RMPredict, 1),
+					Util.TrimDecimals(squat1RMPredictDiff, 1)
+					), false);
 	}
 
 	protected override void writeSelectedValues(int line, PointF pClosest)

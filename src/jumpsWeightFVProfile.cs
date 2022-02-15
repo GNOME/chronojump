@@ -291,4 +291,9 @@ public class JumpsWeightFVProfile
 	{
 		get { return 4 * PmaxRel / F0Opt; }
 	}
+
+	public double PersonWeight
+	{
+		get { return personWeight; }
+	}
 }

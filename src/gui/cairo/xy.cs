@@ -611,6 +611,9 @@ public abstract class CairoXY : CairoGeneric
 
 	protected virtual void writeSelectedValues(int line, PointF pClosest)
 	{
+		g.SelectFontFace(font, Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
+		g.SetFontSize(textHeight);
+
 		g.SetSourceColor(bluePlots);
 		writeTextAtRight(line, Catalog.GetString("Selected") + ":", false);
 		g.SetSourceRGB(0, 0, 0);

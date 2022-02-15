@@ -25,6 +25,7 @@ using System.Collections; //ArrayList
 using System.Collections.Generic; //List
 using Mono.Data.Sqlite;
 using System.Diagnostics; 	//for launching other process
+using System.Text.RegularExpressions; //Match
 
 using Mono.Unix;
 
@@ -130,7 +131,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.33";
+	static string lastChronojumpDatabaseVersion = "2.34";
 
 	public Sqlite()
 	{
@@ -3141,6 +3142,16 @@ class Sqlite
 
 				currentVersion = updateVersion("2.33");
 			}
+			if(currentVersion == "2.33")
+			{
+				LogB.SQL("Fixed duplicated names of exercises on modes encoder, forceSensor, raceAnalyzer caused by import bug");
+
+				fixDuplicatedExercises(Constants.EncoderExerciseTable);
+				fixDuplicatedExercises(Constants.ForceSensorExerciseTable);
+				fixDuplicatedExercises(Constants.RunEncoderExerciseTable);
+
+				currentVersion = updateVersion("2.34");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -3362,6 +3373,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
+		//2.33 - 2.34 Converted DB to 2.34 Fixed duplicated names of exercises on encoder, forceSensor, raceAnalyzer caused by import bug
 		//2.32 - 2.33 Converted DB to 2.33 RunEncoderExercise segmentMeters but now is in cm
 		//2.31 - 2.32 Converted DB to 2.32 RunEncoderExercise ALTER TABLE added isSprint
 		//2.30 - 2.31 Converted DB to 2.31 RunEncoderExercise ALTER TABLE added segmentVariableCm
@@ -3625,6 +3637,92 @@ class Sqlite
 		return id;
 	}
 
+	private static void fixDuplicatedExercises (string table)
+	{
+		// 1) find duplicates
+		dbcmd.CommandText = "SELECT name, COUNT(*) AS count FROM " + table +
+				" GROUP BY name HAVING count > 1";
+		LogB.SQL(dbcmd.CommandText.ToString());
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		List<string> namesConflicting_l = new List<string>();
+		while(reader.Read())
+			namesConflicting_l.Add(reader[0].ToString());
+
+		reader.Close();
+		if(namesConflicting_l.Count == 0)
+			return;
+
+		List<string> namesWithSimilarStart_l = new List<string>();
+		foreach(string nameConflict in namesConflicting_l)
+		{
+			// LogB.Information(string.Format("\n\nnameConflict: |{0}|\n", nameConflict));
+			// 2.a) for each duplicate, find distinct names that start similar to it
+			//      to not use them on rename namesConflicting as "name (1)","name (2)" ...
+			dbcmd.CommandText = "SELECT DISTINCT name FROM " + table +
+			" WHERE name LIKE \"" + nameConflict + "%\"";
+			LogB.SQL(dbcmd.CommandText.ToString());
+
+			reader = dbcmd.ExecuteReader();
+			while(reader.Read())
+				namesWithSimilarStart_l.Add(reader[0].ToString());
+
+			reader.Close();
+
+			// 2.b) select the ids of each of the nameConflict
+			dbcmd.CommandText = "SELECT uniqueID FROM " + table +
+				" WHERE name = \"" + nameConflict + "\"";
+			LogB.SQL(dbcmd.CommandText.ToString());
+
+			reader = dbcmd.ExecuteReader();
+			List<int> idsOfThisName_l = new List<int>();
+			while(reader.Read())
+				idsOfThisName_l.Add(Convert.ToInt32(reader[0].ToString()));
+
+			reader.Close();
+
+			// 2.c) find if there is this name with " (number)". If exists, get the number
+			//      adapted from https://stackoverflow.com/a/22373595
+			string nameWithoutNumber = nameConflict;
+			int number = 1;
+			Match regex = Regex.Match(nameWithoutNumber, @"^(.+) \((\d+)\)$");
+			if (regex.Success)
+			{
+				nameWithoutNumber = regex.Groups[1].Value;
+				number = int.Parse(regex.Groups[2].Value);
+			}
+
+			// 2.d) foreach of the ids of that nameConflict, find a new name that is available.
+			//      start in the second value (will b the first duplicated)
+			for(int i = 1; i < idsOfThisName_l.Count; i ++)
+			{
+				// 2.d.1) find a number that it does not exists on similar names
+				bool foundSimilar = false;
+				string nameFixed = nameWithoutNumber;
+				do {
+					nameFixed = string.Format("{0} ({1})", nameWithoutNumber, number);
+					foundSimilar = false;
+					foreach(string nameWithSimilarStart in namesWithSimilarStart_l)
+						if(nameFixed.ToLower() == nameWithSimilarStart.ToLower())
+							foundSimilar = true;
+
+					number ++;
+				} while (foundSimilar);
+
+				// 2.d.2) add new name to list
+				namesWithSimilarStart_l.Add(nameFixed);
+
+				LogB.Information(string.Format("nameConflict: |{0}| will change to: |{1}|\n\n",
+							nameConflict, nameFixed));
+
+				executeSQL("UPDATE " + table + " SET name = \"" + nameFixed +
+						"\" WHERE uniqueID = " + idsOfThisName_l[i]);
+			}
+		}
+	}
+
+	//OLD: used on queries to old server
 	public static string SQLBuildQueryString (string tableName, string test, string variable,
 			int sex, string ageInterval,
 			int countryID, int sportID, int speciallityID, int levelID, int evaluatorID)

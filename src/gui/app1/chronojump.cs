@@ -6281,20 +6281,15 @@ LogB.Debug("mc finished 5");
 		}
 	}
 	
-	private void on_edit_selected_jump_accepted (object o, EventArgs args) {
+	private void on_edit_selected_jump_accepted (object o, EventArgs args)
+	{
 		LogB.Information("edit selected jump accepted");
 	
 		Jump myJump = SqliteJump.SelectJumpData( myTreeViewJumps.EventSelectedID, false );
 
 		//if person changed, fill treeview again, if not, only update it's line
-		if(eventOldPerson == myJump.PersonID) {
-			if(! preferences.weightStatsPercent) {
-				double personWeight = SqlitePersonSession.SelectAttribute(
-						false, myJump.PersonID, currentSession.UniqueID, Constants.Weight);
-				myJump.Weight = Util.WeightFromPercentToKg(myJump.Weight, personWeight);
-			}
+		if(eventOldPerson == myJump.PersonID)
 			myTreeViewJumps.Update(myJump);
-		}
 		else
 			pre_fillTreeView_jumps(false);
 
@@ -6305,20 +6300,15 @@ LogB.Debug("mc finished 5");
 			stats_win_fillTreeView_stats(false, false);
 	}
 	
-	private void on_edit_selected_jump_rj_accepted (object o, EventArgs args) {
+	private void on_edit_selected_jump_rj_accepted (object o, EventArgs args)
+	{
 		LogB.Information("edit selected jump RJ accepted");
 	
 		JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID, false );
 		
 		//if person changed, fill treeview again, if not, only update it's line
-		if(eventOldPerson == myJump.PersonID) {
-			if(! preferences.weightStatsPercent) {
-				double personWeight = SqlitePersonSession.SelectAttribute(
-						false, myJump.PersonID, currentSession.UniqueID, Constants.Weight);
-				myJump.Weight = Util.WeightFromPercentToKg(myJump.Weight, personWeight);
-			}
+		if(eventOldPerson == myJump.PersonID)
 			myTreeViewJumpsRj.Update(myJump);
-		}
 		else
 			pre_fillTreeView_jumps_rj(false);
 

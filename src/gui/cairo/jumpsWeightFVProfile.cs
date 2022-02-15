@@ -175,40 +175,38 @@ public class JumpsWeightFVProfileGraph : CairoXY
 
 	protected override void writeTitle()
 	{
-		int ypos = -8;
+		double ypos = -9;
 
-		writeTextAtRight(ypos++, title, true);
-		writeTextAtRight(ypos++, "FV Profile", false);
-		writeTextAtRight(ypos++, date, false);
+		writeTextAtRight(++ypos, title, true);
+		writeTextAtRight(++ypos, "FV Profile", false);
+		writeTextAtRight(++ypos, date, false);
+		ypos ++;
 
-		ypos++;
-		writeTextAtRight(ypos++, string.Format("F0: {0} N/Kg", Math.Round(f0Rel,2)), false);
-		writeTextAtRight(ypos++, string.Format("V0: {0} m/s", Math.Round(v0,2)), false);
-		writeTextAtRight(ypos++, string.Format("Pmax: {0} W", Math.Round(pmax,1)), false);
+		writeTextAtRight(++ypos, string.Format("F0: {0} N/Kg", Math.Round(f0Rel,2)), false);
+		writeTextAtRight(++ypos, string.Format("V0: {0} m/s", Math.Round(v0,2)), false);
+		writeTextAtRight(++ypos, string.Format("Pmax: {0} W", Math.Round(pmax,1)), false);
 
-		writeTextAtRight(ypos++, "Samozino & col. 2008-13:", false);
-		writeTextAtRight(ypos++, string.Format("- Profile (90º): {0} %", Math.Round(fvprofile90,0)), false);
-		writeTextAtRight(ypos++, string.Format("- Imbalance: {0} %", imbalance), false);
+		writeTextAtRight(++ypos, "Samozino & col. 2008-13:", false);
+		writeTextAtRight(ypos+=.5, string.Format("- Profile (90º): {0} %", Math.Round(fvprofile90,0)), false);
+		writeTextAtRight(ypos+=.5, string.Format("- Imbalance: {0} %", imbalance), false);
 
 		g.SetSourceColor(red);
 		if(needDevelopForce)
-			writeTextAtRight(ypos++, "- " + Catalog.GetString("Need to develop force"), false);
+			writeTextAtRight(ypos+=.5, "- " + Catalog.GetString("Need to develop force"), false);
 		else
-			writeTextAtRight(ypos++, "- " + Catalog.GetString("Need to develop speed"), false);
+			writeTextAtRight(ypos+=.5, "- " + Catalog.GetString("Need to develop speed"), false);
 		g.SetSourceRGB(0, 0, 0);
+
+		writeTextAtRight(++ypos, "Rivière & col. 2017:", false);
+		writeTextAtRight(ypos+=.5, string.Format("- Squat 1RM prediction: {0} Kg", Util.TrimDecimals(.89*f0Rel,1)), false);
 	}
 
 	protected override void writeSelectedValues(int line, PointF pClosest)
 	{
 		g.SelectFontFace(font, Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
 		g.SetFontSize(textHeight);
-		double lineVertSpacing = 1;
 
-		// first check if it fits at right, if does not fit reduce lineVertSpacing
-		if(Convert.ToInt32(graphHeight/2) + textHeight*2*(line+4) > graphHeight - outerMargin)
-		{
-			lineVertSpacing = .5;
-		}
+		double lineVertSpacing = .5 ;
 
 		g.SetSourceColor(bluePlots);
 		writeTextAtRight(line, "Selected:", false);

@@ -6289,7 +6289,12 @@ LogB.Debug("mc finished 5");
 
 		//if person changed, fill treeview again, if not, only update it's line
 		if(eventOldPerson == myJump.PersonID)
+		{
+			double personWeight = SqlitePersonSession.SelectAttribute(
+					false, myJump.PersonID, currentSession.UniqueID, Constants.Weight);
+			myTreeViewJumps.PersonWeight = personWeight;
 			myTreeViewJumps.Update(myJump);
+		}
 		else
 			pre_fillTreeView_jumps(false);
 
@@ -6308,8 +6313,12 @@ LogB.Debug("mc finished 5");
 		
 		//if person changed, fill treeview again, if not, only update it's line
 		if(eventOldPerson == myJump.PersonID)
+		{
+			double personWeight = SqlitePersonSession.SelectAttribute(
+					false, myJump.PersonID, currentSession.UniqueID, Constants.Weight);
+			myTreeViewJumpsRj.PersonWeight = personWeight;
 			myTreeViewJumpsRj.Update(myJump);
-		else
+		} else
 			pre_fillTreeView_jumps_rj(false);
 
 		updateGraphJumpsReactive();

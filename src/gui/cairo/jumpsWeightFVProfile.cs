@@ -200,6 +200,8 @@ public class JumpsWeightFVProfileGraph : CairoXY
 
 	protected override void writeSelectedValues(int line, PointF pClosest)
 	{
+		g.SelectFontFace(font, Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
+		g.SetFontSize(textHeight);
 		double lineVertSpacing = 1;
 
 		// first check if it fits at right, if does not fit reduce lineVertSpacing

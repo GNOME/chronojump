@@ -413,7 +413,7 @@ class SqliteRunEncoderExercise : Sqlite
 			"\", description = \"" + ex.Description +
 			"\", segmentMeters = " + ex.SegmentCm + 	//cm since DB 2.33
 			", segmentVariableCm = \"" + ex.SegmentVariableCmToSQL +
-			"\", isSprint = " + ex.IsSprint +
+			"\", isSprint = " + Util.BoolToInt(ex.IsSprint) +
 			" WHERE uniqueID = " + ex.UniqueID;
 
 		LogB.SQL(dbcmd.CommandText.ToString());

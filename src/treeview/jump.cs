@@ -198,6 +198,7 @@ public class TreeViewJumps : TreeViewEvent
 		//but we do not calculate again person weight, because if it changes treeview is created again
 		//
 		//Also this is needed on Add (where personWeight is passed using PersonWeight, but not weightInKg)
+		//LogB.Information("getLineToStore personWeight: " + personWeight.ToString());
 		weightInKg = Util.WeightFromPercentToKg(
 				Convert.ToDouble(newJump.Weight.ToString()),
 				personWeight);

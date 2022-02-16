@@ -93,7 +93,7 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	private void clearRaceAnalyzerTriggers()
+	private void clearRaceAnalyzerTriggersFromTextView()
 	{
 		UtilGtk.TextViewClear(textview_run_encoder_triggers);
 	}

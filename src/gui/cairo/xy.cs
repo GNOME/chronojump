@@ -109,7 +109,7 @@ public abstract class CairoXY : CairoGeneric
 	public virtual void Do(string font)
 	{
 	}
-	public virtual void DoSendingList(string font, List<PointF> points_list, bool forceRedraw, PlotTypes plotType)
+	public virtual void DoSendingList(string font, List<PointF> points_list, TriggerList triggerList, bool forceRedraw, PlotTypes plotType)
 	{
 	}
 

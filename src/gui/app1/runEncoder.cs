@@ -455,7 +455,8 @@ public partial class ChronoJumpWindow
 
 		treeview_raceAnalyzer = UtilGtk.RemoveColumns(treeview_raceAnalyzer);
 		button_raceAnalyzer_table_save.Sensitive = false;
-		clearRaceAnalyzerTriggers();
+		triggerListRunEncoder = new TriggerList();
+		clearRaceAnalyzerTriggersFromTextView();
 
 		button_run_encoder_analyze_options_close_and_analyze.Sensitive = false;
 		button_run_encoder_analyze_analyze.Sensitive = false;
@@ -2256,7 +2257,8 @@ public partial class ChronoJumpWindow
 					verticalLinesUs_2l, true);
 
 		cairoGraphRaceAnalyzer_dt.DoSendingList (preferences.fontType.ToString(),
-				cairoGraphRaceAnalyzerPoints_dt_l, forceRedraw, CairoXY.PlotTypes.LINES);
+				cairoGraphRaceAnalyzerPoints_dt_l, triggerListRunEncoder,
+				forceRedraw, CairoXY.PlotTypes.LINES);
 	}
 	private void updateRaceAnalyzerCaptureSpeedTime(bool forceRedraw)
 	{
@@ -2277,7 +2279,8 @@ public partial class ChronoJumpWindow
 					verticalLinesUs_2l, false);
 
 		cairoGraphRaceAnalyzer_st.DoSendingList (preferences.fontType.ToString(),
-				cairoGraphRaceAnalyzerPoints_st_l, forceRedraw, CairoXY.PlotTypes.LINES);
+				cairoGraphRaceAnalyzerPoints_st_l, triggerListRunEncoder,
+				forceRedraw, CairoXY.PlotTypes.LINES);
 	}
 	private void updateRaceAnalyzerCaptureAccelTime(bool forceRedraw)
 	{
@@ -2301,7 +2304,8 @@ public partial class ChronoJumpWindow
 					verticalLinesUs_2l, false);
 
 		cairoGraphRaceAnalyzer_at.DoSendingList (preferences.fontType.ToString(),
-				cairoGraphRaceAnalyzerPoints_at_l, forceRedraw, CairoXY.PlotTypes.LINES);
+				cairoGraphRaceAnalyzerPoints_at_l, triggerListRunEncoder,
+				forceRedraw, CairoXY.PlotTypes.LINES);
 	}
 
 	private void on_button_race_analyzer_capture_save_image_clicked (object o, EventArgs args)

@@ -203,12 +203,12 @@ public class TriggerList
 		{
 			if(trigger.InOut && type3 != Type3.OFF)
 			{
-				s += sep + trigger.Ms.ToString();
+				s += sep + Util.ConvertToPoint(trigger.Ms);
 				sep = sepChar.ToString();
 			}
 			if(! trigger.InOut && type3 != Type3.ON)
 			{
-				s += sep + trigger.Ms.ToString();
+				s += sep + Util.ConvertToPoint(trigger.Ms);
 				sep = sepChar.ToString();
 			}
 		}

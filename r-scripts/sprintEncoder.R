@@ -16,7 +16,7 @@
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
 #   Copyright (C) 2018-2020   	Xavier Padullés <x.padulles@gmail.com>
-#   Copyright (C) 2020-2021   	Xavier de Blas <xaviblas@gmail.com>
+#   Copyright (C) 2020-2022   	Xavier de Blas <xaviblas@gmail.com>
 
 
 #-------------- get params -------------
@@ -585,12 +585,12 @@ plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
         print("triggersOn on plot:")
         print(triggersOn)
         #TODO: Find why the T0 have to be added twice
-        triggersOn = triggersOn + 2*sprintFittedDynamics$T0
+	triggersOn = triggersOn + 2*sprintFittedDynamics$T0.fitted
         print(triggersOn)
 	abline(v=triggersOn, col="green")
 	print("triggersOff plot:")
 	print(triggersOff)
-	triggersOff = triggersOff + 2*sprintFittedDynamics$T0
+	triggersOff = triggersOff + 2*sprintFittedDynamics$T0.fitted
 	print(triggersOff)
 	abline(v=triggersOff, col="red")
 
@@ -769,10 +769,10 @@ testEncoderCJ <- function(filename, filenameInstantaneous, testLength, splitLeng
                 print(paste("K =",sprintFittedDynamics$K.fitted, "Vmax =", sprintFittedDynamics$Vmax.fitted))
                 # print("triggersOn in testEncoderCJ:")
                 # print(triggersOn)
-                triggersOn = triggersOn/1E6 - sprintRawDynamics$startTime
+                triggersOn = triggersOn/1000 - sprintRawDynamics$startTime
                 # print("triggersOn in testEncoderCJ:")
                 # print(triggersOn)
-                triggersOff = triggersOff/1E6 - sprintRawDynamics$startTime
+                triggersOff = triggersOff/1000 - sprintRawDynamics$startTime
                 # print("triggersOff in testEncoderCJ:")
                 print(op$triggersOffList)
                 plotSprintFromEncoder(sprintRawDynamic = sprintRawDynamics, sprintFittedDynamics = sprintFittedDynamics,

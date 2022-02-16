@@ -189,7 +189,7 @@ public abstract class CairoGeneric
 
 		double triggerInSeconds = UtilAll.DivideSafe(trigger.Us, 1000000);
 		double xtemp = calculatePaintX(triggerInSeconds);
-		LogB.Information(string.Format("trigger.Us:{0}, xtemp:{1}", triggerInSeconds, xtemp));
+		//LogB.Information(string.Format("trigger.Us:{0}, xtemp:{1}", triggerInSeconds, xtemp));
 		g.MoveTo(xtemp, topMargin);
 		g.LineTo(xtemp, graphHeight - bottomMargin);
 		g.Stroke ();

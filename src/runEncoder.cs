@@ -469,6 +469,16 @@ public class RunEncoderExercise
 	{
 		get { return Util.ListIntToSQLString (segmentVariableCm, ";"); }
 	}
+	//same as above but return -1 if empty
+	public string SegmentVariableCmToR
+	{
+		get {
+			string str = SegmentVariableCmToSQL;
+			if(str == "")
+				str = "-1";
+			return str;
+		}
+	}
 	public bool IsSprint
 	{
 		get { return isSprint; }
@@ -770,6 +780,10 @@ public class RunEncoderGraph
 		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
 		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
 
+		string segmentM = "-1"; //variable segments
+		if(rex.SegmentCm > 0)
+			segmentM = Util.ConvertToPoint(rex.SegmentCm / 100.0); //fixed segment
+
 		string scriptOptions =
 			"#scriptsPath\n" + 		UtilEncoder.GetScriptsPath() + "\n" +
 			"#filename\n" + 		RunEncoder.GetCSVFileName() + "\n" +	//unused on multiple
@@ -781,7 +795,8 @@ public class RunEncoderGraph
 			"#graphWidth\n" + 		graphWidth.ToString() + "\n" +
 			"#graphHeight\n" + 		graphHeight.ToString() + "\n" +
 			"#device\n" + 			device.ToString() + "\n" + //unused on multiple
-			"#segmentCm\n" + 		Util.ConvertToPoint(rex.SegmentCm / 100.0) + "\n" + //unused on multiple
+			"#segmentM\n" + 		segmentM + "\n" + //unused on multiple
+			"#segmentVariableCm\n" + 	rex.SegmentVariableCmToR + "\n" + //unused on multiple
 			"#title\n" + 			title + "\n" + 		//unused on multiple
 			"#datetime\n" + 		datetime + "\n" + 	//unused on multiple
 			"#startAccel\n" + 		Util.ConvertToPoint(startAccel) + "\n" +

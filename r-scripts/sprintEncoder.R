@@ -46,22 +46,23 @@ assignOptions <- function(options) {
                 graphWidth 	= as.numeric(options[8]),
                 graphHeight	= as.numeric(options[9]),
                 device  	= options[10],
-		splitLength	= as.numeric(options[11]),
-                title 	 	= options[12],
-                datetime 	= options[13],
-                startAccel 	= as.numeric(options[14]),
-                plotRawAccel 	= as.logical(options[15]),
-                plotFittedAccel = as.logical(options[16]),
-                plotRawForce 	= as.logical(options[17]),
-                plotFittedForce = as.logical(options[18]),
-                plotRawPower 	= as.logical(options[19]),
-                plotFittedPower = as.logical(options[20]),
-		triggersOnList  = as.numeric(unlist(strsplit(options[21], "\\;"))),
-		triggersOffList  = as.numeric(unlist(strsplit(options[22], "\\;"))),
-		singleOrMultiple = options[23],
-		decimalCharAtExport = options[24],
-		includeImagesOnExport = options[25],
-		includeInstantaneousOnExport = options[26]
+		splitLength	= as.numeric(options[11]), #fixed in meters
+		splitVariableCm = as.numeric(unlist(strsplit(options[12], "\\;"))), #fixed in meters
+                title 	 	= options[13],
+                datetime 	= options[14],
+                startAccel 	= as.numeric(options[15]),
+                plotRawAccel 	= as.logical(options[16]),
+                plotFittedAccel = as.logical(options[17]),
+                plotRawForce 	= as.logical(options[18]),
+                plotFittedForce = as.logical(options[19]),
+                plotRawPower 	= as.logical(options[20]),
+                plotFittedPower = as.logical(options[21]),
+		triggersOnList  = as.numeric(unlist(strsplit(options[22], "\\;"))),
+		triggersOffList  = as.numeric(unlist(strsplit(options[23], "\\;"))),
+		singleOrMultiple = options[24],
+		decimalCharAtExport = options[25],
+		includeImagesOnExport = options[26],
+		includeInstantaneousOnExport = options[27]
         ))
 }
 
@@ -71,7 +72,7 @@ op <- assignOptions(options)
 op$title = fixTitleAndOtherStrings(op$title)
 op$datetime = fixDatetime(op$datetime)
 
-getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, Height , Vw = 0, device = "MANUAL", startAccel, splitLength)
+getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, Height , Vw = 0, device = "MANUAL", startAccel, splitLength, splitVariableCm)
 {
         print("#####Entering in getSprintFromEncoder###############")
         # Constants for the air friction modeling
@@ -251,7 +252,7 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         splits = getSplits(time, position + P0
                            , totalForce, power
                            , trimmingSamples$start, trimmingSamples$end
-                           , testLength, splitLength)
+                           , testLength, splitLength, splitVariableCm)
         
         splitPosition = splits$position
         splitTime = splits$time
@@ -272,7 +273,6 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
 }
 
 plotSprintFromEncoder <- function(sprintRawDynamics, sprintFittedDynamics,
-				  splitLength,
 				  title = "Test graph",
 				  subtitle = "",
 				  triggersOn = "",
@@ -668,21 +668,44 @@ getTrimmingSamples <- function(totalTime, position, speed, accel, testLength, st
 }
 
 #Getting the mean values of the dynamics in each split
-getSplits <- function(time, rawPosition, rawForce, rawPower, startSample, endSample, testLength, splitLength)
+getSplits <- function(time, rawPosition, rawForce, rawPower, startSample, endSample, testLength, splitLength, splitVariableCm)
 {
-        splitPosition = min(testLength, splitLength)
+        splitPosition = NULL
+	if(splitLength > 0) #use splitLength
+	        splitPosition = min(testLength, splitLength)
+	else
+		splitPosition = min(testLength, splitVariableCm[1]/100)
+
         splitTime = interpolateXAtY(time[startSample:endSample],
                                     rawPosition[startSample:endSample],
                                     splitPosition)
         
         meanSpeed = splitPosition / splitTime
-        meanForce =getMeanValue(time, rawForce, time[startSample], splitTime)
-        meanPower =getMeanValue(time, rawPower, time[startSample], splitTime)
+        meanForce = getMeanValue(time, rawForce, time[startSample], splitTime)
+        meanPower = getMeanValue(time, rawPower, time[startSample], splitTime)
         
         #while the next split position is within the testLength
-        while(splitPosition[length(splitPosition)] + splitLength < testLength)
+	#while(splitPosition[length(splitPosition)] + splitLength < testLength)
+	nextLength = NULL
+	continueBucle = FALSE
+	splitVariableCmIter = 2
+	if(splitLength > 0)
+	{
+		nextLength = testLength
+		continueBucle = (splitPosition[length(splitPosition)] + nextLength < testLength)
+	}
+	else {
+		continueBucle = FALSE
+		if(length(splitVariableCm) >= splitVariableCmIter)
+		{
+			nextLength = splitVariableCm[splitVariableCmIter]/100
+			continueBucle = (splitPosition[length(splitPosition)] + nextLength < testLength)
+		}
+	}
+
+	while(continueBucle)
         {
-                splitPosition = c(splitPosition, splitPosition[length(splitPosition)] + splitLength)
+                splitPosition = c(splitPosition, splitPosition[length(splitPosition)] + nextLength)
                 print(paste("Going to interpolate at:", splitPosition[length(splitPosition)]))
                 splitTime = c(splitTime, interpolateXAtY(X = time[startSample:endSample],
                                                          Y = rawPosition[startSample:endSample],
@@ -694,7 +717,22 @@ getSplits <- function(time, rawPosition, rawForce, rawPower, startSample, endSam
                                                       splitTime[length(splitTime) -1], splitTime[length(splitTime)]))
                 meanPower = c(meanPower, getMeanValue(time, rawPower,
                                                       splitTime[length(splitTime) -1], splitTime[length(splitTime)]))
-        }
+
+		if(splitLength > 0)
+		{
+			nextLength = testLength
+			continueBucle = (splitPosition[length(splitPosition)] + nextLength < testLength)
+		}
+		else {
+			continueBucle = FALSE
+			splitVariableCmIter = splitVariableCmIter +1
+			if(length(splitVariableCm) >= splitVariableCmIter)
+			{
+				nextLength = splitVariableCm[splitVariableCmIter]/100
+				continueBucle = (splitPosition[length(splitPosition)] + nextLength < testLength)
+			}
+		}
+	}
         splitPosition = c(splitPosition, testLength)
         splitTime = c(splitTime, interpolateXAtY(X = time[startSample:length(rawPosition)],
                                                  Y = rawPosition[startSample:length(rawPosition)],
@@ -748,10 +786,11 @@ tryNLS <- function(data){
         )
 }
 
-testEncoderCJ <- function(filename, filenameInstantaneous, testLength, splitLength, splitPositionAll,
+testEncoderCJ <- function(filename, filenameInstantaneous, testLength, splitLength, splitVariableCm, splitPositionAll,
 		mass, personHeight, tempC, device, title, datetime, startAccel, triggersOn, triggersOff)
 {
-        sprintRawDynamics = getSprintFromEncoder(filename, testLength, mass, tempC, personHeight, Vw = 0, device = device, startAccel, splitLength)
+        sprintRawDynamics = getSprintFromEncoder(filename, testLength, mass, tempC, personHeight, Vw = 0,
+			device = device, startAccel, splitLength, splitVariableCm)
 	#print("sprintRawDynamics:")
 	#print(sprintRawDynamics)
 	#print("sprintRawDynamics$longEnough")
@@ -776,7 +815,6 @@ testEncoderCJ <- function(filename, filenameInstantaneous, testLength, splitLeng
                 # print("triggersOff in testEncoderCJ:")
                 print(op$triggersOffList)
                 plotSprintFromEncoder(sprintRawDynamic = sprintRawDynamics, sprintFittedDynamics = sprintFittedDynamics,
-				      splitLength = splitLength,
                                       title,
                                       datetime, 	#subtitle
 				      triggersOn = triggersOn,
@@ -857,7 +895,7 @@ start <- function(op)
 	if(op$singleOrMultiple == "TRUE")
 	{
 		prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
-		exportRow = testEncoderCJ(op$filename, "", op$testLength, op$splitLength, NULL,
+		exportRow = testEncoderCJ(op$filename, "", op$testLength, op$splitLength, op$splitVariableCm, NULL,
 					  op$mass, op$personHeight, op$tempC,
 					  op$device, op$title, op$datetime, op$startAccel,
 					  op$triggersOnList, op$triggersOffList)
@@ -882,7 +920,7 @@ start <- function(op)
         splitPositionAll = NULL
 	for(i in 1:length(dataFiles[,1]))
 	{
-		splitPositionAll = c(splitPositionAll, seq(from=dataFiles$splitLength[i], to=dataFiles$testLength[i], by=dataFiles$splitLength[i]))
+		splitPositionAll = c(splitPositionAll, seq(from=dataFiles$splitLength[i], to=dataFiles$testLength[i], by=dataFiles$splitLength[i])) #TODO
 	}
 	splitPositionAll = sort(unique(splitPositionAll))
 	#print("splitPositionAll")
@@ -897,7 +935,7 @@ start <- function(op)
 		prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
 		exportRow = testEncoderCJ(
 				as.vector(dataFiles$fullURL[i]), paste(tempInstantFolder, i, ".csv", sep = ""),
-				dataFiles$testLength[i], dataFiles$splitLength[i], splitPositionAll,
+				dataFiles$testLength[i], dataFiles$splitLength[i], splitPositionAll, #TODO
 				dataFiles$mass[i], dataFiles$personHeight[i], dataFiles$tempC[i],
 				dataFiles$device[i], dataFiles$title[i], dataFiles$datetime[i],	op$startAccel,
 				as.numeric(unlist(strsplit(as.character(dataFiles$triggersOn[i]), "\\,"))), #as.character() because -1 (no triggers) is readed as a number and then the strsplit fails

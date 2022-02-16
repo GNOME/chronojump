@@ -46,8 +46,8 @@ assignOptions <- function(options) {
                 graphWidth 	= as.numeric(options[8]),
                 graphHeight	= as.numeric(options[9]),
                 device  	= options[10],
-		splitLength	= as.numeric(options[11]), #fixed in meters
-		splitVariableCm = as.numeric(unlist(strsplit(options[12], "\\;"))), #fixed in meters
+		splitLength	= as.numeric(options[11]), #fixed, in meters
+		splitVariableCm = as.numeric(unlist(strsplit(options[12], "\\;"))), #variable, in cm
                 title 	 	= options[13],
                 datetime 	= options[14],
                 startAccel 	= as.numeric(options[15]),

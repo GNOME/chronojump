@@ -89,7 +89,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		points_list_painted = 0;
 	}
 
-	public override void DoSendingList (string font, List<PointF> points_list, bool forceRedraw, PlotTypes plotType)
+	public override void DoSendingList (string font, List<PointF> points_list, TriggerList triggerList, bool forceRedraw, PlotTypes plotType)
 	{
 		LogB.Information("at RaceAnalyzerGraph.Do");
 
@@ -206,6 +206,10 @@ public class CairoGraphRaceAnalyzer : CairoXY
 				}
 			}
 		}
+
+		if(triggerList != null && triggerList.Count() > 0)
+			foreach(Trigger trigger in triggerList.GetList())
+				paintVerticalTriggerLine(g, trigger, textHeight -3);
 
 		if(initGraphDone)
 			endGraphDisposing(g);

@@ -40,6 +40,11 @@ public abstract class CairoGeneric
 	protected string font;
 	protected int textHeight = 12;
 
+	Cairo.Color green = colorFromRGB(0, 200, 0);
+	Cairo.Color red = colorFromRGB(200, 0, 0);
+	Cairo.Color black = colorFromRGB(0, 0, 0);
+
+
 	/*
 	   need to dispose because Cairo does not clean ok on win and mac:
 	   Don’t forget to manually dispose the Context and the target Surface at the end of the expose event. Automatic garbage collecting is not yet 100% working in Cairo.
@@ -54,7 +59,7 @@ public abstract class CairoGeneric
 	}
 
 	//0 - 255
-	protected Cairo.Color colorFromRGB(int red, int green, int blue)
+	protected static Cairo.Color colorFromRGB(int red, int green, int blue)
 	{
 		return new Cairo.Color(red/256.0, green/256.0, blue/256.0);
 	}
@@ -170,6 +175,28 @@ public abstract class CairoGeneric
 
 		printText(xtemp, graphHeight -bottomMargin/2, 0, fontH, text, g, alignTypes.CENTER);
 		//LogB.Information("pvgl fontH: " + fontH.ToString());
+	}
+
+	protected void paintVerticalTriggerLine (Cairo.Context g, Trigger trigger, int fontH)
+	{
+		if(fontH < 1)
+			fontH = 1;
+
+		if(trigger.InOut)
+			g.SetSourceColor(green);
+		else
+			g.SetSourceColor(red);
+
+		double triggerInSeconds = UtilAll.DivideSafe(trigger.Us, 1000000);
+		double xtemp = calculatePaintX(triggerInSeconds);
+		LogB.Information(string.Format("trigger.Us:{0}, xtemp:{1}", triggerInSeconds, xtemp));
+		g.MoveTo(xtemp, topMargin);
+		g.LineTo(xtemp, graphHeight - bottomMargin);
+		g.Stroke ();
+
+		printText(xtemp, graphHeight -.8*bottomMargin, 0, fontH, Util.TrimDecimals(triggerInSeconds,1), g, alignTypes.CENTER);
+
+		g.SetSourceColor(black);
 	}
 
 	//horiz or vertical to manage spacement of arrow points and tip draw

@@ -28,7 +28,6 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
-	[Widget] Gtk.Notebook notebook_run_encoder_analyze;
 	[Widget] Gtk.CheckButton check_run_encoder_analyze_accel;
 	[Widget] Gtk.CheckButton check_run_encoder_analyze_force;
 	[Widget] Gtk.CheckButton check_run_encoder_analyze_power;
@@ -63,7 +62,11 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_run_encoder_export_result;
 	[Widget] Gtk.Button button_run_encoder_export_result_open;
 
+	[Widget] Gtk.Notebook notebook_run_encoder_analyze;
+	[Widget] Gtk.Notebook notebook_run_encoder_analyze_current_set;
+
 	private enum notebook_run_encoder_analyze_pages { CURRENTSET, CURRENTSESSION, OPTIONS }
+	private enum notebook_run_encoder_analyze_current_set_pages { GRAPH, TABLE, TRIGGERS }
 
 	private void createRunEncoderAnalyzeCombos ()
 	{
@@ -200,6 +203,12 @@ public partial class ChronoJumpWindow
 
 		if(lastRunEncoderFullPath != null && lastRunEncoderFullPath != "")
 			raceEncoderCopyToTempAndDoRGraph();
+
+		//move from triggers tab (if we are there) to graph tab
+		if(notebook_run_encoder_analyze_current_set.CurrentPage ==
+				Convert.ToInt32(notebook_run_encoder_analyze_current_set_pages.TRIGGERS))
+			notebook_run_encoder_analyze_current_set.CurrentPage =
+				Convert.ToInt32(notebook_run_encoder_analyze_current_set_pages.GRAPH);
 	}
 
 	private void on_button_raceAnalyzer_table_save_clicked (object o, EventArgs args)

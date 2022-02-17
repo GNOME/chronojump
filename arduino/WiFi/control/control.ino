@@ -320,7 +320,7 @@ void discoverTerminals(void) {
 
       delay(5);
       bool readed = readSample();
-      if (readed) { //do not do more tries
+      if (readed && sample.termNum == i) { //do not do more tries
         found = true;
         terminalsFound = terminalsFound + i + ";";
       }

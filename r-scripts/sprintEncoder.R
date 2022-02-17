@@ -691,7 +691,7 @@ getSplits <- function(time, rawPosition, rawForce, rawPower, startSample, endSam
 	splitVariableCmIter = 2
 	if(splitLength > 0)
 	{
-		nextLength = testLength
+		nextLength = splitLength
 		continueBucle = (splitPosition[length(splitPosition)] + nextLength < testLength)
 	}
 	else {
@@ -720,7 +720,7 @@ getSplits <- function(time, rawPosition, rawForce, rawPower, startSample, endSam
 
 		if(splitLength > 0)
 		{
-			nextLength = testLength
+			nextLength = splitLength
 			continueBucle = (splitPosition[length(splitPosition)] + nextLength < testLength)
 		}
 		else {

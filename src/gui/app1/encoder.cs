@@ -7555,9 +7555,9 @@ public partial class ChronoJumpWindow
 						Catalog.GetString("Set corrected. string was not fully extended at the beginning."));
 			}
 
-			if(encoderRhythm != null &&
+			if( encoderRhythm != null &&
 					! encoderRhythm.ActiveRhythm && encoderRhythm.UseClusters() &&
-					encoderRhythmExecute != null)
+					encoderRhythmExecute != null && encoderRhythmExecute.ClusterRestDoing() )
 				encoderRhythmExecute.ClusterRestStop ();
 
 		} else { //ANALYZE

@@ -447,8 +447,6 @@ public class EncoderRhythmExecuteJustClusters : EncoderRhythmExecute
 		if(restTime < 0)
 			return "";
 
-		//LogB.Information("encoderRhythm.RestClustersSeconds: " + encoderRhythm.RestClustersSeconds.ToString());
-		//LogB.Information("clusterRestSeconds.Elapsed.TotalSeconds: " + clusterRestSeconds.Elapsed.TotalSeconds.ToString());
 		return string.Format(Catalog.GetString("Resting {0} s"), Util.TrimDecimals(restTime, 1));
 	}
 }

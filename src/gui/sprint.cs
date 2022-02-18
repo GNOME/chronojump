@@ -206,6 +206,13 @@ public partial class ChronoJumpWindow
 
 	private void on_button_sprint_clicked (object o, EventArgs args)
 	{
+		if(operatingSystem == UtilAll.OperatingSystems.MACOSX &&
+				! Util.FileExists(Constants.ROSX) )
+		{
+			showMacRInstallMessage ();
+			return;
+		}
+
 		if(! GetSelectedSprint(treeview_runs_interval_sprint))
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Error"));
@@ -334,7 +341,15 @@ public partial class ChronoJumpWindow
 
 	private void on_button_sprint_export_not_set_clicked (object o, EventArgs args)
 	{
-		// 1) check if all sessions
+		// 1) avoid exporting to R on mac if R is not installed
+		if(operatingSystem == UtilAll.OperatingSystems.MACOSX &&
+				! Util.FileExists(Constants.ROSX) )
+		{
+			showMacRInstallMessage ();
+			return;
+		}
+
+		// 2) check if all sessions
 		if(radio_sprint_analyze_individual_all_sessions.Active)
 		{
 			if(currentPerson == null)
@@ -344,7 +359,7 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
-		// 2) current session (individual or groupal)
+		// 3) current session (individual or groupal)
 		if(currentSession == null)
 			return;
 

@@ -3528,11 +3528,7 @@ public partial class ChronoJumpWindow
 				operatingSystem == UtilAll.OperatingSystems.MACOSX &&
 				! Util.FileExists(Constants.ROSX) )
 		{
-			new DialogMessage(Constants.MessageTypes.WARNING,
-					Catalog.GetString("Sorry, R software is not installed.") +
-					"\n" + Catalog.GetString("Please, install it from here:") +
-					"\n\n" + Constants.RmacDownload,
-					"button_go_r_mac");
+			showMacRInstallMessage ();
 			show_start_page();
 			return;
 		}
@@ -3995,6 +3991,15 @@ public partial class ChronoJumpWindow
 
 		setLabelContactsExerciseSelectedOptions();
 
+	}
+
+	private void showMacRInstallMessage ()
+	{
+		new DialogMessage(Constants.MessageTypes.WARNING,
+				Catalog.GetString("Sorry, R software is not installed.") +
+				"\n" + Catalog.GetString("Please, install it from here:") +
+				"\n\n" + Constants.RmacDownload,
+				"button_go_r_mac");
 	}
 
 	private void on_check_contacts_capture_show_modes_clicked (object o, EventArgs args)

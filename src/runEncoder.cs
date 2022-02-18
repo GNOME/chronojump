@@ -470,14 +470,12 @@ public class RunEncoderExercise
 		get { return Util.ListIntToSQLString (segmentVariableCm, ";"); }
 	}
 	//same as above but return -1 if empty
-	public string SegmentVariableCmToR
+	public string SegmentVariableCmToR (string sep)
 	{
-		get {
-			string str = SegmentVariableCmToSQL;
-			if(str == "")
-				str = "-1";
-			return str;
-		}
+		string str = Util.ListIntToSQLString (segmentVariableCm, sep);
+		if(str == "")
+			str = "-1";
+		return str;
 	}
 	public bool IsSprint
 	{
@@ -599,7 +597,7 @@ public class RunEncoderGraphExport
 	private RunEncoder.Devices device;
 	private double tempC;
 	private int testLength;
-	private RunEncoderExercise rex;
+	private RunEncoderExercise exercise;
 	private string title;
 	private string datetime;
 	private TriggerList triggerList;
@@ -611,7 +609,7 @@ public class RunEncoderGraphExport
 			double mass, double personHeight,
 			RunEncoder.Devices device,
 			double tempC, int testLength,
-			RunEncoderExercise rex, string title, string datetime,
+			RunEncoderExercise exercise, string title, string datetime,
 			TriggerList triggerList,
 			string comments)
 	{
@@ -622,7 +620,7 @@ public class RunEncoderGraphExport
 		this.device = device;
 		this.tempC = tempC;
 		this.testLength = testLength;
-		this.rex = rex;
+		this.exercise = exercise;
 		this.title = title;
 		this.datetime = datetime;
 		this.comments = comments;
@@ -635,13 +633,24 @@ public class RunEncoderGraphExport
 		if(isWindows)
 			url = url.Replace("\\","/");
 
+		string segmentM = "-1"; //variable segments
+		string segmentVariableCm = "-1"; //fixed segments
+		if(exercise.SegmentCm > 0)
+			segmentM = Util.ConvertToPoint(exercise.SegmentCm / 100.0); //fixed segment
+		else
+		{
+			//it is a row separated by ; so we need , here
+			segmentVariableCm = exercise.SegmentVariableCmToR(",");
+		}
+
 		return url + ";" +
 			Util.ConvertToPoint(mass) + ";" +
 			Util.ConvertToPoint(personHeight / 100.0) + ";" + //in meters
 			device.ToString() + ";" +
 			Util.ConvertToPoint(tempC) + ";" +
 			testLength.ToString() + ";" +
-			Util.ConvertToPoint(rex.SegmentCm / 100.0) + ";" + //in meters
+			segmentM + ";" + //fixed segments (m)
+			segmentVariableCm + ";" + //variable segments (cm)
 			title + ";" +
 			datetime + ";" +
 			printTriggers(TriggerList.Type3.ON) + ";" +
@@ -658,7 +667,13 @@ public class RunEncoderGraphExport
 	{
 		return "fullURL;mass;personHeight;device;tempC;testLength;" +
 			"splitLength;" + //segmentCm on C#, splitLength on R
+			"splitVariableCm;" +
 			"title;datetime;triggersOn;triggersOff;comments";
+	}
+
+	public RunEncoderExercise Exercise
+	{
+		get { return exercise; }
 	}
 }
 
@@ -781,8 +796,14 @@ public class RunEncoderGraph
 		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
 
 		string segmentM = "-1"; //variable segments
-		if(rex.SegmentCm > 0)
-			segmentM = Util.ConvertToPoint(rex.SegmentCm / 100.0); //fixed segment
+		string segmentVariableCm = "-1"; //fixed segments
+		if(singleOrMultiple) //only on single
+		{
+			if(rex.SegmentCm > 0)
+				segmentM = Util.ConvertToPoint(rex.SegmentCm / 100.0); //fixed segment
+			else
+				segmentVariableCm = rex.SegmentVariableCmToR(";");
+		}
 
 		string scriptOptions =
 			"#scriptsPath\n" + 		UtilEncoder.GetScriptsPath() + "\n" +
@@ -795,8 +816,8 @@ public class RunEncoderGraph
 			"#graphWidth\n" + 		graphWidth.ToString() + "\n" +
 			"#graphHeight\n" + 		graphHeight.ToString() + "\n" +
 			"#device\n" + 			device.ToString() + "\n" + //unused on multiple
-			"#segmentM\n" + 		segmentM + "\n" + //unused on multiple
-			"#segmentVariableCm\n" + 	rex.SegmentVariableCmToR + "\n" + //unused on multiple
+			"#segmentM\n" + 		segmentM + "\n" + 		//unused on multiple
+			"#segmentVariableCm\n" + 	segmentVariableCm + "\n" + 		//unused on multiple
 			"#title\n" + 			title + "\n" + 		//unused on multiple
 			"#datetime\n" + 		datetime + "\n" + 	//unused on multiple
 			"#startAccel\n" + 		Util.ConvertToPoint(startAccel) + "\n" +

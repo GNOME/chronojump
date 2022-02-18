@@ -920,8 +920,26 @@ start <- function(op)
         splitPositionAll = NULL
 	for(i in 1:length(dataFiles[,1]))
 	{
-		splitPositionAll = c(splitPositionAll, seq(from=dataFiles$splitLength[i], to=dataFiles$testLength[i], by=dataFiles$splitLength[i])) #TODO
+		if(dataFiles$splitLength[i] > 0)
+		{
+			splitPositionAll = c(splitPositionAll, seq(from=dataFiles$splitLength[i], to=dataFiles$testLength[i], by=dataFiles$splitLength[i]))
+		} else
+		{
+			#as.character() because -1 (no triggers) is readed as a number and then the strsplit fails
+			splitsVariable = as.numeric(unlist(strsplit(as.character(dataFiles$splitVariableCm[i]), "\\,")))
+			splitsVariableCumSum = 0
+			for(j in 1:length(splitsVariable))
+			{
+				if(splitsVariableCumSum + splitsVariable[j]/100 < dataFiles$testLength[i])
+				{
+					splitsVariableCumSum = splitsVariableCumSum + splitsVariable[j]/100
+					splitPositionAll = c(splitPositionAll, splitsVariableCumSum)
+				}
+			}
+			splitPositionAll = c(splitPositionAll, dataFiles$testLength[i])
+		}
 	}
+
 	splitPositionAll = sort(unique(splitPositionAll))
 	#print("splitPositionAll")
 	#print(splitPositionAll)
@@ -935,13 +953,17 @@ start <- function(op)
 		prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
 		exportRow = testEncoderCJ(
 				as.vector(dataFiles$fullURL[i]), paste(tempInstantFolder, i, ".csv", sep = ""),
-				dataFiles$testLength[i], dataFiles$splitLength[i], splitPositionAll, #TODO
+				dataFiles$testLength[i], dataFiles$splitLength[i],
+				as.numeric(unlist(strsplit(as.character(dataFiles$splitVariableCm[i]), "\\,"))), #as.character() because -1 (no triggers) is readed as a number and then the strsplit fails
+				splitPositionAll,
 				dataFiles$mass[i], dataFiles$personHeight[i], dataFiles$tempC[i],
 				dataFiles$device[i], dataFiles$title[i], dataFiles$datetime[i],	op$startAccel,
 				as.numeric(unlist(strsplit(as.character(dataFiles$triggersOn[i]), "\\,"))), #as.character() because -1 (no triggers) is readed as a number and then the strsplit fails
 				as.numeric(unlist(strsplit(as.character(dataFiles$triggersOff[i]), "\\,")))
 		)
 
+		#print("exportRow:")
+		#print(exportRow)
 		if(! is.null(exportRow))
 		{
 			names = names(exportRow) #exportRow is a list, get the names

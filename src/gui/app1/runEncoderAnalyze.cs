@@ -129,9 +129,12 @@ public partial class ChronoJumpWindow
 	}
 
 	private bool button_run_encoder_analyze_analyze_was_sensitive; //needed this temp variable
+	private int notebook_run_encoder_analyze_coming_page; //needed this temp variable
 	private void on_button_run_encoder_analyze_options_clicked (object o, EventArgs args)
 	{
+		notebook_run_encoder_analyze_coming_page = Convert.ToInt32(notebook_run_encoder_analyze.CurrentPage);
 		notebook_run_encoder_analyze.CurrentPage = Convert.ToInt32(notebook_run_encoder_analyze_pages.OPTIONS);
+
 		hbox_run_encoder_analyze_top_modes.Sensitive = false;
 		runEncoderButtonsSensitive(false);
 
@@ -177,7 +180,7 @@ public partial class ChronoJumpWindow
 
 		// 2 change sensitivity of widgets
 
-		notebook_run_encoder_analyze.CurrentPage = Convert.ToInt32(notebook_run_encoder_analyze_pages.CURRENTSET);
+		notebook_run_encoder_analyze.CurrentPage = notebook_run_encoder_analyze_coming_page;
 		runEncoderButtonsSensitive(true);
 		button_run_encoder_analyze_analyze.Sensitive = button_run_encoder_analyze_analyze_was_sensitive;
 	}

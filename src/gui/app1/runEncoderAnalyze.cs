@@ -59,6 +59,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spinbutton_run_encoder_export_image_height;
 	[Widget] Gtk.CheckButton check_run_encoder_export_instantaneous;
 	[Widget] Gtk.ProgressBar progressbar_run_encoder_export;
+	[Widget] Gtk.Label label_run_encoder_export_discarded;
 	[Widget] Gtk.Label label_run_encoder_export_result;
 	[Widget] Gtk.Button button_run_encoder_export_result_open;
 
@@ -297,6 +298,7 @@ public partial class ChronoJumpWindow
 		hbox_run_encoder_export_width_height.Visible = check_run_encoder_export_images.Active;
 
 		//also hide the label and the open button
+		label_run_encoder_export_discarded.Text = "";
 		label_run_encoder_export_result.Text = "";
 		button_run_encoder_export_result_open.Visible = false;
 	}
@@ -307,6 +309,7 @@ public partial class ChronoJumpWindow
 		button_run_encoder_analyze_analyze.Visible = true;
 
 		notebook_run_encoder_analyze.CurrentPage = Convert.ToInt32(notebook_run_encoder_analyze_pages.CURRENTSET);
+		label_run_encoder_export_discarded.Text = "";
 		label_run_encoder_export_result.Text = "";
 		button_run_encoder_export_result_open.Visible = false;
 	}
@@ -321,6 +324,7 @@ public partial class ChronoJumpWindow
 			label_run_encoder_export_data.Text = "";
 
 		notebook_run_encoder_analyze.CurrentPage = Convert.ToInt32(notebook_run_encoder_analyze_pages.CURRENTSESSION);
+		label_run_encoder_export_discarded.Text = "";
 		label_run_encoder_export_result.Text = "";
 		button_run_encoder_export_result_open.Visible = false;
 	}
@@ -332,6 +336,7 @@ public partial class ChronoJumpWindow
 		label_run_encoder_export_data.Text = currentSession.Name;
 
 		notebook_run_encoder_analyze.CurrentPage = Convert.ToInt32(notebook_run_encoder_analyze_pages.CURRENTSESSION);
+		label_run_encoder_export_discarded.Text = "";
 		label_run_encoder_export_result.Text = "";
 		button_run_encoder_export_result_open.Visible = false;
 	}
@@ -368,6 +373,7 @@ public partial class ChronoJumpWindow
 	RunEncoderExport runEncoderExport;
 	private void button_run_encoder_export_session (int personID, int sessionID)
 	{
+		label_run_encoder_export_discarded.Text = "";
 		label_run_encoder_export_result.Text = "";
 		button_run_encoder_export_result_open.Visible = false;
 		runEncoderButtonsSensitive(false);
@@ -394,6 +400,7 @@ public partial class ChronoJumpWindow
 		runEncoderExport = new RunEncoderExport (
 				notebook_run_encoder_export,
 				progressbar_run_encoder_export,
+				label_run_encoder_export_discarded,
 				label_run_encoder_export_result,
 				check_run_encoder_export_images.Active,
 				Convert.ToInt32(spinbutton_run_encoder_export_image_width.Value),

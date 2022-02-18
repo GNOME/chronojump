@@ -31,6 +31,7 @@ public abstract class ExportFiles
 	//passed variables
 	protected Gtk.Notebook notebook;
 	protected Gtk.ProgressBar progressbar;
+	protected Gtk.Label labelDiscarded;
 	protected Gtk.Label labelResult;
 	protected bool includeImages;
 	protected int imageWidth;
@@ -49,11 +50,13 @@ public abstract class ExportFiles
 	protected static bool noData;
 	protected static bool cannotCopy;
 	protected static bool allOk;
+	protected static int discarded;
 	protected static string messageToProgressbar;
 
 	protected void assignParams (
 			Gtk.Notebook notebook,
 			Gtk.ProgressBar progressbar,
+			Gtk.Label labelDiscarded,
 			Gtk.Label labelResult,
 			bool includeImages,
 			int imageWidth, int imageHeight,
@@ -63,6 +66,7 @@ public abstract class ExportFiles
 	{
 		this.notebook = notebook;
 		this.progressbar = progressbar;
+		this.labelDiscarded = labelDiscarded;
 		this.labelResult = labelResult;
 		this.includeImages = includeImages;
 		this.imageWidth = imageWidth;
@@ -87,6 +91,7 @@ public abstract class ExportFiles
 		progressbar.Fraction = 0;
 		messageToProgressbar = "";
 		notebook.CurrentPage = 1;
+		discarded = 0;
 	}
 		
 	protected virtual void createOrEmptyDirs()
@@ -154,6 +159,12 @@ public abstract class ExportFiles
 
 			progressbar.Fraction = 1;
 			notebook.CurrentPage = 0;
+
+			if(discarded > 0)
+				labelDiscarded.Text = string.Format(Catalog.GetPluralString(
+							"Discarded 1 set for not being an sprint.",
+							"Discarded {0} sets for not being sprints.",
+							discarded), discarded);
 
 			if(cancel)
 				labelResult.Text = Catalog.GetString("Cancelled.");
@@ -236,5 +247,7 @@ public abstract class ExportFiles
 	public string ExportURL {
 		get { return exportURL; }
 	}
-
+	public int Discarded {
+		get { return discarded; }
+	}
 }

@@ -196,6 +196,13 @@ public partial class ChronoJumpWindow
 			return;
 		}
 
+		if(operatingSystem == UtilAll.OperatingSystems.MACOSX &&
+				! Util.FileExists(Constants.ROSX) )
+		{
+			showMacRInstallMessage ();
+			return;
+		}
+
 		if(! currentRunEncoderExercise.IsSprint)
 		{
 			new DialogMessage(Constants.MessageTypes.WARNING, "Currently you can only analyze sprint exercises.");
@@ -343,6 +350,13 @@ public partial class ChronoJumpWindow
 
 	private void on_button_run_encoder_export_not_set_clicked (object o, EventArgs args)
 	{
+		if(operatingSystem == UtilAll.OperatingSystems.MACOSX &&
+				! Util.FileExists(Constants.ROSX) )
+		{
+			showMacRInstallMessage ();
+			return;
+		}
+
 		// 1) check if all sessions
 		if(radio_run_encoder_analyze_individual_all_sessions.Active)
 		{

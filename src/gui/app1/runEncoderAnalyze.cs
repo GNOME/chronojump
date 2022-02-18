@@ -132,6 +132,10 @@ public partial class ChronoJumpWindow
 	private int notebook_run_encoder_analyze_coming_page; //needed this temp variable
 	private void on_button_run_encoder_analyze_options_clicked (object o, EventArgs args)
 	{
+		//only show close_and_analyze button on current set tab
+		button_run_encoder_analyze_options_close_and_analyze.Visible =
+			(notebook_run_encoder_analyze.CurrentPage == Convert.ToInt32(notebook_run_encoder_analyze_pages.CURRENTSET));
+
 		notebook_run_encoder_analyze_coming_page = Convert.ToInt32(notebook_run_encoder_analyze.CurrentPage);
 		notebook_run_encoder_analyze.CurrentPage = Convert.ToInt32(notebook_run_encoder_analyze_pages.OPTIONS);
 

@@ -43,6 +43,7 @@ public class RunEncoderExport : ExportFiles
 	public RunEncoderExport (
 			Gtk.Notebook notebook,
 			Gtk.ProgressBar progressbar,
+			Gtk.Label labelDiscarded,
 			Gtk.Label labelResult,
 			bool includeImages,
 			int imageWidth, int imageHeight,
@@ -59,7 +60,7 @@ public class RunEncoderExport : ExportFiles
 	{
 		Button_done = new Gtk.Button();
 
-		assignParams(notebook, progressbar, labelResult, includeImages,
+		assignParams(notebook, progressbar, labelDiscarded, labelResult, includeImages,
 				imageWidth, imageHeight, isWindows, personID, sessionID, exportDecimalSeparator);
 
 		this.includeInstantaneous = includeInstantaneous;
@@ -167,6 +168,12 @@ public class RunEncoderExport : ExportFiles
 			if(! found)
 				continue;
 
+			if(! reEx.IsSprint) //currently can only export (analyze with model) sprints
+			{
+				discarded ++;
+				continue;
+			}
+
 			// 4) create the export row
 			string title = Util.ChangeSpaceAndMinusForUnderscore(p.Name) + "-" +
 				Util.ChangeSpaceAndMinusForUnderscore(reEx.Name);
@@ -190,25 +197,28 @@ public class RunEncoderExport : ExportFiles
 
 		Util.FileDelete(RunEncoder.GetCSVResultsURL());
 
+		if(rege_l.Count == 0)
+		{
+			noData = true;
+			return false;
+		}
+
 		// call the graph
 
-		if(rege_l.Count > 0)
-		{
-			RunEncoderGraph reg = new RunEncoderGraph(
-					startAccel,
-					plotRawAccel, plotFittedAccel,
-					plotRawForce, plotFittedForce,
-					plotRawPower, plotFittedPower,
-					rege_l,
-					exportDecimalSeparator,
-					includeImages, includeInstantaneous
-					);
+		RunEncoderGraph reg = new RunEncoderGraph(
+				startAccel,
+				plotRawAccel, plotFittedAccel,
+				plotRawForce, plotFittedForce,
+				plotRawPower, plotFittedPower,
+				rege_l,
+				exportDecimalSeparator,
+				includeImages, includeInstantaneous
+				);
 
-			if(! reg.CallR(imageWidth, imageHeight, false))
-			{
-				failedRprocess = true;
-				return false;
-			}
+		if(! reg.CallR(imageWidth, imageHeight, false))
+		{
+			failedRprocess = true;
+			return false;
 		}
 
 		LogB.Information("Waiting creation of file... ");

@@ -471,6 +471,7 @@ public partial class ChronoJumpWindow
 				label_run_encoder_export_data.Text = "";
 		}
 
+		label_run_encoder_export_discarded.Text = "";
 		label_run_encoder_export_result.Text = "";
 		button_run_encoder_export_result_open.Visible = false;
 	}

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/chronojump/issues\n"
-"POT-Creation-Date: 2022-02-18 10:08+0000\n"
-"PO-Revision-Date: 2022-02-18 18:54+0200\n"
+"POT-Creation-Date: 2022-02-19 19:48+0000\n"
+"PO-Revision-Date: 2022-02-19 23:18+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -145,7 +145,7 @@ msgstr "Зупинити"
 
 #: ../glade/app1.glade.h:28 ../glade/dialog_threshold.glade.h:3
 #: ../glade/preferences_win.glade.h:39 ../glade/report_window.glade.h:10
-#: ../src/exportSession.cs:434 ../src/gui/app1/chronojump.cs:5187
+#: ../src/exportSession.cs:434 ../src/gui/app1/chronojump.cs:5192
 #: ../src/gui/jump.cs:1283 ../src/gui/jump.cs:1338 ../src/gui/jump.cs:1388
 #: ../src/sqlite/speciallity.cs:174 ../src/stats/rjAVGSD.cs:36
 #: ../src/stats/rjPotencyBosco.cs:35
@@ -268,7 +268,7 @@ msgid "Analyze"
 msgstr "Проаналізувати"
 
 #: ../glade/app1.glade.h:53 ../glade/report_window.glade.h:16
-#: ../src/exportSession.cs:227 ../src/gui/app1/chronojump.cs:5861
+#: ../src/exportSession.cs:227 ../src/gui/app1/chronojump.cs:5866
 #: ../src/gui/person/showAllEvents.cs:169 ../src/report.cs:184
 msgid "Pulses"
 msgstr "Дані пульсу"
@@ -308,7 +308,7 @@ msgstr "Налаштувати вправу"
 msgid "Exercise"
 msgstr "Вправа"
 
-#: ../glade/app1.glade.h:59 ../src/gui/app1/chronojump.cs:4331
+#: ../glade/app1.glade.h:59 ../src/gui/app1/chronojump.cs:4336
 msgid "Connect"
 msgstr "З'єднатися"
 
@@ -324,7 +324,7 @@ msgstr "Відгуки"
 msgid "Delete last test."
 msgstr "Вилучити останній тест."
 
-#: ../glade/app1.glade.h:63 ../src/gui/app1/chronojump.cs:4688
+#: ../glade/app1.glade.h:63 ../src/gui/app1/chronojump.cs:4693
 #: ../src/gui/app1/encoder.cs:1332 ../src/gui/app1/encoder.cs:7397
 msgid "Save comment"
 msgstr "Зберегти коментар"
@@ -389,8 +389,8 @@ msgstr "Скасувати тест"
 msgid "Cancel"
 msgstr "Скасувати"
 
-#: ../glade/app1.glade.h:76 ../src/gui/app1/chronojump.cs:4896
-#: ../src/gui/app1/chronojump.cs:5327 ../src/gui/app1/chronojump.cs:5685
+#: ../glade/app1.glade.h:76 ../src/gui/app1/chronojump.cs:4901
+#: ../src/gui/app1/chronojump.cs:5332 ../src/gui/app1/chronojump.cs:5690
 #: ../src/gui/app1/jump.cs:327 ../src/gui/app1/jump.cs:373
 #: ../src/gui/app1/reactionTime.cs:101 ../src/gui/app1/run.cs:190
 #: ../src/gui/app1/run.cs:244
@@ -879,19 +879,19 @@ msgstr "Гнучке"
 msgid "Lights"
 msgstr "Освітлення"
 
-#: ../glade/app1.glade.h:177 ../src/gui/app1/chronojump.cs:5700
+#: ../glade/app1.glade.h:177 ../src/gui/app1/chronojump.cs:5705
 msgid "red"
 msgstr "червоний"
 
-#: ../glade/app1.glade.h:178 ../src/gui/app1/chronojump.cs:5704
+#: ../glade/app1.glade.h:178 ../src/gui/app1/chronojump.cs:5709
 msgid "yellow"
 msgstr "жовтий"
 
-#: ../glade/app1.glade.h:179 ../src/gui/app1/chronojump.cs:5708
+#: ../glade/app1.glade.h:179 ../src/gui/app1/chronojump.cs:5713
 msgid "green"
 msgstr "зелений"
 
-#: ../glade/app1.glade.h:180 ../src/gui/app1/chronojump.cs:5712
+#: ../glade/app1.glade.h:180 ../src/gui/app1/chronojump.cs:5717
 msgid "buzzer"
 msgstr "гудок"
 
@@ -1765,7 +1765,7 @@ msgid "Upload"
 msgstr "Вивантажити"
 
 #: ../glade/app1.glade.h:368 ../glade/dialog_shortcuts.glade.h:8
-#: ../src/gui/app1/chronojump.cs:4336
+#: ../src/gui/app1/chronojump.cs:4341
 msgid "Execute test"
 msgstr "Виконати тест"
 
@@ -1905,7 +1905,7 @@ msgstr "Калібрувати знову"
 
 #. notebook_encoder_capture_extra_mass.CurrentPage = 0;
 #. TODO: show also info on the top
-#: ../glade/app1.glade.h:398 ../src/gui/app1/chronojump.cs:3729
+#: ../glade/app1.glade.h:398 ../src/gui/app1/chronojump.cs:3725
 msgid "Configure gravitatory encoder"
 msgstr "Налаштувати гравітаційний кодувальник"
 
@@ -2744,7 +2744,7 @@ msgstr "Відтворити відео"
 #. kEnter = "Command";
 #. }
 #.
-#: ../glade/dialog_shortcuts.glade.h:12 ../src/gui/app1/chronojump.cs:4325
+#: ../glade/dialog_shortcuts.glade.h:12 ../src/gui/app1/chronojump.cs:4330
 #: ../src/gui/app1/shortcuts.cs:48
 msgid "Space"
 msgstr "Пробіл"
@@ -6063,7 +6063,6 @@ msgstr "Забіг не буде записано. Перевищено часо
 
 #: ../src/exportFiles/exportFiles.cs:165
 #, csharp-format
-#| msgid "This data does not seem a sprint."
 msgid "Discarded 1 set for not being an sprint."
 msgid_plural "Discarded {0} sets for not being sprints."
 msgstr[0] "Відкинуто {0} набір через те, що він не є частиною спринту."
@@ -6140,10 +6139,10 @@ msgstr "Не вдалося експортувати до файла {0} "
 #: ../src/gui/app1/jumpsRunsEvolution.cs:399
 #: ../src/gui/app1/jumpsProfile.cs:117 ../src/gui/app1/jumpsRjFatigue.cs:260
 #: ../src/gui/app1/jumpsWeightFVProfile.cs:218 ../src/gui/app1/run.cs:523
-#: ../src/gui/app1/runEncoderAnalyze.cs:240
-#: ../src/gui/app1/runEncoderAnalyze.cs:289 ../src/gui/app1/runEncoder.cs:2332
+#: ../src/gui/app1/runEncoderAnalyze.cs:254
+#: ../src/gui/app1/runEncoderAnalyze.cs:303 ../src/gui/app1/runEncoder.cs:2332
 #: ../src/gui/encoderConfiguration.cs:772
-#: ../src/gui/encoderConfiguration.cs:799 ../src/gui/sprint.cs:288
+#: ../src/gui/encoderConfiguration.cs:799 ../src/gui/sprint.cs:295
 #, csharp-format
 msgid "Saved to {0}"
 msgstr "Збережено до {0}"
@@ -6299,7 +6298,7 @@ msgstr "Середня швидкість"
 msgid "Distance interval"
 msgstr "Інтервал відстані"
 
-#: ../src/exportSession.cs:658 ../src/gui/app1/chronojump.cs:5472
+#: ../src/exportSession.cs:658 ../src/gui/app1/chronojump.cs:5477
 #: ../src/gui/run.cs:1174 ../src/gui/run.cs:1242 ../src/gui/run.cs:1294
 msgid "Laps"
 msgstr "Кола"
@@ -6510,66 +6509,66 @@ msgstr "Кодувальник (інерційний)"
 msgid "Session created, now add or load persons."
 msgstr "Створено сеанс, тепер додайте або завантажте записи осіб."
 
-#: ../src/gui/app1/chronojump.cs:3532
+#. notebook_encoder_capture_extra_mass.CurrentPage = 1;
+#. TODO: show also info on the top
+#: ../src/gui/app1/chronojump.cs:3762
+msgid "Configure inertial encoder"
+msgstr "Налаштувати інерційний кодувальник"
+
+#: ../src/gui/app1/chronojump.cs:3999
 msgid "Sorry, R software is not installed."
 msgstr "Вибачте, не встановлено пакунки R."
 
-#: ../src/gui/app1/chronojump.cs:3533 ../src/gui/app1/encoder.cs:7316
+#: ../src/gui/app1/chronojump.cs:4000 ../src/gui/app1/encoder.cs:7316
 #: ../src/stats/main.cs:1517
 msgid "Please, install it from here:"
 msgstr "Будь ласка, встановіть його звідси:"
 
-#. notebook_encoder_capture_extra_mass.CurrentPage = 1;
-#. TODO: show also info on the top
-#: ../src/gui/app1/chronojump.cs:3766
-msgid "Configure inertial encoder"
-msgstr "Налаштувати інерційний кодувальник"
-
-#: ../src/gui/app1/chronojump.cs:4625
+#: ../src/gui/app1/chronojump.cs:4630
 msgid "Sorry, RSA tests cannot be simulated."
 msgstr "Вибачте, тести RSA не можна імітувати."
 
-#: ../src/gui/app1/chronojump.cs:4704 ../src/gui/app1/encoder.cs:1345
+#: ../src/gui/app1/chronojump.cs:4709 ../src/gui/app1/encoder.cs:1345
 msgid "Saved comment."
 msgstr "Збережено коментар."
 
-#: ../src/gui/app1/chronojump.cs:6147
+#: ../src/gui/app1/chronojump.cs:6152
 msgid "Changes"
 msgstr "Зміни"
 
-#: ../src/gui/app1/chronojump.cs:6604 ../src/gui/app1/chronojump.cs:6620
+#: ../src/gui/app1/chronojump.cs:6609 ../src/gui/app1/chronojump.cs:6625
 msgid "Do you want to delete this jump?"
 msgstr "Хочете вилучити цей стрибок?"
 
-#: ../src/gui/app1/chronojump.cs:6696 ../src/gui/app1/chronojump.cs:6714
+#: ../src/gui/app1/chronojump.cs:6701 ../src/gui/app1/chronojump.cs:6719
 msgid "Do you want to delete this race?"
 msgstr "Хочете вилучити цей забіг?"
 
-#: ../src/gui/app1/chronojump.cs:6852
+#: ../src/gui/app1/chronojump.cs:6857
 msgid "Do you want to delete this test?"
 msgstr "Хочете вилучити цей тест?"
 
-#: ../src/gui/app1/chronojump.cs:6915
+#: ../src/gui/app1/chronojump.cs:6920
 msgid "Added simple jump type."
 msgstr "Додано простий тип стрибків."
 
-#: ../src/gui/app1/chronojump.cs:6925
+#: ../src/gui/app1/chronojump.cs:6930
 msgid "Added reactive jump type."
 msgstr "Додано реактивний тип стрибків."
 
-#: ../src/gui/app1/chronojump.cs:6956
+#: ../src/gui/app1/chronojump.cs:6961
 msgid "Added simple race type."
 msgstr "Додано простий тип забігів."
 
-#: ../src/gui/app1/chronojump.cs:6965
+#: ../src/gui/app1/chronojump.cs:6970
 msgid "Added intervallic race type."
 msgstr "Додано інтервальний тип забігів."
 
-#: ../src/gui/app1/chronojump.cs:7591
+#: ../src/gui/app1/chronojump.cs:7596
 msgid "translator-credits"
 msgstr "Юрій Чорноіван <yurchor@ukr.net>, 2020"
 
-#: ../src/gui/app1/chronojump.cs:8419
+#: ../src/gui/app1/chronojump.cs:8424
 msgid "Done for testing purposes. Chronojump will exit badly"
 msgstr ""
 "Створено з метою тестування. Chronojump завершить роботу у нештатному режимі"
@@ -6722,10 +6721,10 @@ msgstr "Ви справді хочете перезаписати:"
 
 #: ../src/gui/app1/encoder.cs:2539 ../src/gui/app1/encoder.cs:2676
 #: ../src/gui/app1/encoder.cs:4951 ../src/gui/app1/encoder.cs:4975
-#: ../src/gui/app1/encoder.cs:5063 ../src/gui/app1/runEncoderAnalyze.cs:231
-#: ../src/gui/app1/runEncoderAnalyze.cs:280 ../src/gui/app1/runEncoder.cs:2324
+#: ../src/gui/app1/encoder.cs:5063 ../src/gui/app1/runEncoderAnalyze.cs:245
+#: ../src/gui/app1/runEncoderAnalyze.cs:294 ../src/gui/app1/runEncoder.cs:2324
 #: ../src/gui/encoderConfiguration.cs:779 ../src/gui/person/addModify.cs:386
-#: ../src/gui/sprint.cs:279
+#: ../src/gui/sprint.cs:286
 #, csharp-format
 msgid "Cannot save file {0} "
 msgstr "Не вдалося зберегти файл {0}."
@@ -7171,7 +7170,7 @@ msgstr "Відстань у міліметрах"
 msgid "Track distance"
 msgstr "Довжина доріжки"
 
-#: ../src/gui/app1/runEncoder.cs:351 ../src/gui/sprint.cs:224
+#: ../src/gui/app1/runEncoder.cs:351 ../src/gui/sprint.cs:231
 msgid "Error, weight of the person cannot be 0"
 msgstr "Помилка, вага особи не може дорівнювати 0"
 
@@ -7378,7 +7377,7 @@ msgstr "Тип підходу:"
 #: ../src/gui/cairo/xy.cs:509 ../src/gui/cairo/xy.cs:515
 #: ../src/gui/preferences.cs:1622 ../src/gui/preferences.cs:1629
 #: ../src/gui/preferences.cs:1644 ../src/gui/preferences.cs:1675
-#: ../src/gui/sprint.cs:211
+#: ../src/gui/sprint.cs:218
 msgid "Error"
 msgstr "Помилка"
 
@@ -7771,13 +7770,15 @@ msgstr "Платформи"
 
 #: ../src/gui/eventExecute.cs:2201
 #, csharp-format
-msgid "{0} has not run any {1} test in this session."
-msgstr "{0} не виконує жодного тесту {1} протягом цього сеансу."
+#| msgid "{0} has not run any {1} test in this session."
+msgid "{0} has not made any {1} test in this session."
+msgstr "{0} не виконано жодного тесту {1} протягом цього сеансу."
 
 #: ../src/gui/eventExecute.cs:2204
 #, csharp-format
-msgid "{0} has not run any test in this session."
-msgstr "{0} не виконує жодного тесту протягом цього сеансу."
+#| msgid "{0} has not run any test in this session."
+msgid "{0} has not made any test in this session."
+msgstr "{0} не виконано жодного тесту протягом цього сеансу."
 
 #: ../src/gui/eventExecute.cs:2208
 #, csharp-format
@@ -8844,11 +8845,11 @@ msgstr "Розділені часи"
 msgid "Total time"
 msgstr "Загальний час"
 
-#: ../src/gui/sprint.cs:231
+#: ../src/gui/sprint.cs:238
 msgid "Error, height of the person cannot be 0"
 msgstr "Помилка, висота особи не може дорівнювати 0"
 
-#: ../src/gui/sprint.cs:238 ../src/gui/sprint.cs:254
+#: ../src/gui/sprint.cs:245 ../src/gui/sprint.cs:261
 msgid "This data does not seem a sprint."
 msgstr "Ці дані, здається, описують не спринт."
 

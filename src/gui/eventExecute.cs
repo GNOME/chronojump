@@ -2198,10 +2198,10 @@ public abstract class CairoPaintBarsPre
 		if(personName != "")
 		{
 			if(testName != "")
-				return string.Format(Catalog.GetString("{0} has not run any {1} test in this session."),
+				return string.Format(Catalog.GetString("{0} has not made any {1} test in this session."),
 						personName, testName);
 			else
-				return string.Format(Catalog.GetString("{0} has not run any test in this session."),
+				return string.Format(Catalog.GetString("{0} has not made any test in this session."),
 						personName);
 		} else {
 			if(testName != "")

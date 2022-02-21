@@ -221,16 +221,25 @@ getSprintFromEncoder <- function(filename, testLength, Mass, Temperature = 25, H
         if (! regression$regressionDone)
         {
                 print("NLS regression problem")
-                plot(totalTime[2:length(totalTime)], speed, type = "l",
-                     #ylim = c(min(speed), testLength)*1.05,
-                     xlab = "Time (s)", ylab = "Speed (m/s)")
-                #abline(h = testLength, lty = 2)
-                # text(x = (totalTime[length(totalTime)] + totalTime[1])/2,
-                #      y = testLength,
-                #      labels = (paste("Configured test length :", testLength, " m", sep = "")),
-                #      pos = 3)
-                text(x = (totalTime[length(totalTime)] + totalTime[1])/2, max(speed) /2,
-                     labels = "The graph doesn't seem a sprint", cex = 2, pos = 3)
+		if((length(totalTime) +1) == length(speed))
+		{
+	                plot(totalTime[2:length(totalTime)], speed, type = "l",
+				#ylim = c(min(speed), testLength)*1.05,
+				xlab = "Time (s)", ylab = "Speed (m/s)")
+			#abline(h = testLength, lty = 2)
+			# text(x = (totalTime[length(totalTime)] + totalTime[1])/2,
+			#      y = testLength,
+			#      labels = (paste("Configured test length :", testLength, " m", sep = "")),
+			#      pos = 3)
+			text(x = (totalTime[length(totalTime)] + totalTime[1])/2, max(speed) /2,
+					labels = "The graph doesn't seem a sprint", cex = 2, pos = 3)
+		}
+		else
+		{
+			plot(0,0,type="n",axes=F,xlab="",ylab="")
+			text(x=0, y=0, adj=0.5, cex=1.2, col="red", "This data does not seem a sprint.")
+		}
+
                 return(list(longEnough = longEnough, regressionDone = regression$regressionDone))
         }
         

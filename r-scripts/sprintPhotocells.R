@@ -185,7 +185,7 @@ getModelWithOptimalTimeCorrection <- function(splitTimes)
         return(list(K = summary(model)$parameters[1],  Vmax = summary(model)$parameters[2], T0 = bestT0))
 }
 
-drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, title, plotFittedSpeed = T, plotFittedAccel = T, plotFittedForce = T, plotFittedPower = T)
+drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, splitPositionAll, title, plotFittedSpeed = T, plotFittedAccel = T, plotFittedForce = T, plotFittedPower = T)
 {
         
         maxTime = splitTimes[length(splitTimes)]
@@ -264,10 +264,10 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, titl
                            paste("pmax =", round(sprintDynamics$pmax.rel.fitted, digits = 2), "W/kg")),
                 text.col = c("black", "black", "black", "magenta", "blue", "red"))
 
-        return (exportSprintDynamicsPrepareRow(sprintDynamics, splitTimes, positions, NULL, op$decimalCharAtExport == ","))
+        return (exportSprintDynamicsPrepareRow(sprintDynamics, splitTimes, positions, splitPositionAll, op$decimalCharAtExport == ","))
 }
 
-testPhotocellsCJ <- function(positions, splitTimes, mass, personHeight, tempC, personName)
+testPhotocellsCJ <- function(positions, splitTimes, splitPositionAll, mass, personHeight, tempC, personName)
 {
         sprint = getSprintFromPhotocell(position = positions, splitTimes = splitTimes)
         print(sprint)
@@ -277,8 +277,11 @@ testPhotocellsCJ <- function(positions, splitTimes, mass, personHeight, tempC, p
                                                , Height = personHeight
                                                , maxTime = max(splitTimes))
         print(paste("K =",sprintDynamics$K.fitted, "Vmax =", sprintDynamics$Vmax.fitted))
-        
-        return(drawSprintFromPhotocells(sprintDynamics = sprintDynamics, splitTimes, positions, title = personName))
+
+	if(is.null(sprintDynamics))
+		return (NULL)
+	else
+	        return(drawSprintFromPhotocells(sprintDynamics = sprintDynamics, splitTimes, positions, splitPositionAll, title = personName))
 }
 
 #----- execute code
@@ -304,6 +307,16 @@ start <- function(op)
 	tempGraphsFolder = paste(tempPath, "/chronojump_sprint_export_graphs/", sep ="")
 	exportDF = NULL
 
+	#find the colums needed for different split position values
+        splitPositionAll = NULL
+	for(i in 1:length(dataFiles[,1]))
+	{
+		splits = as.numeric(unlist(strsplit(as.character(dataFiles$positions[i]), "\\_")))
+		for(j in 1:length(splits))
+			splitPositionAll = c(splitPositionAll, splits[j])
+	}
+	splitPositionAll = sort(unique(splitPositionAll))
+
 	for(i in 1:length(dataFiles[,1]))
 	{
 		print("splitTimes at for: ")
@@ -315,6 +328,7 @@ start <- function(op)
 		exportRow = testPhotocellsCJ(
 					     as.numeric(unlist(strsplit(as.character(dataFiles$positions[i]), "\\_"))),
 					     as.numeric(unlist(strsplit(as.character(dataFiles$splitTimes[i]), "\\_"))),
+					     splitPositionAll,
 					     dataFiles$mass[i],
 					     dataFiles$personHeight[i], dataFiles$tempC[i], dataFiles$personName[i])
 

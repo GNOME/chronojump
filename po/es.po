@@ -4704,7 +4704,7 @@ msgstr "Configurar ritmo"
 
 #: ../glade/repetitive_conditions.glade.h:53
 msgid "Repetitions in cluster"
-msgstr "Número de repetición"
+msgstr "Repeticiones en la agrupación"
 
 #: ../glade/repetitive_conditions.glade.h:54
 msgid "Rest between clusters"

@@ -134,8 +134,19 @@ public class SprintExport : ExportFiles
 			if(splitTimes.Split(new char[] {';'}).Length < 3)
 				continue;
 
-			// create the export row
+			//discard sprints that are not sprint
+			SprintRGraph sprintRGraph = new SprintRGraph (
+					positions,
+					splitTimes,
+					ps.Weight, 	//TODO: can be more if extra weight
+					ps.Height,
+					"",
+					25);
 
+			 if(! sprintRGraph.IsDataOk())
+				continue;
+
+			// create the export row
 			string title = Util.ChangeSpaceAndMinusForUnderscore(p.Name) + "-" +
 				Util.ChangeSpaceAndMinusForUnderscore(ri.Type);
 

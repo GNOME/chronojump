@@ -194,10 +194,16 @@ public class SprintRGraph
 		List<double> positionsL = positionsAsDoubleL();
 		List<double> splitTimesL = splitTimesAsDoubleL();
 
-		//start with 1 because at 0 is the first contact
+		double speed = 0;
+		if(positionsL.Count > 0 && splitTimesL.Count > 0)
+		{
+			speed = positionsL[0] / (1.0 * splitTimesL[0]);
+			speedsL.Add(speed);
+		}
+
 		for(int i = 1; i < positionsL.Count ; i ++)
 		{
-			double speed = 1.0 * (positionsL[i] - positionsL[i-1]) /
+				speed = 1.0 * (positionsL[i] - positionsL[i-1]) /
 				(1.0 * (splitTimesL[i] - splitTimesL[i-1]));
 			speedsL.Add(speed);
 		}

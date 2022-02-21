@@ -152,7 +152,7 @@ exportSprintDynamicsPrepareRow <- function(sprintDynamics, splitTime, splitPosit
         raw = c(list(Mass = sprintDynamics$Mass,
                    Height = sprintDynamics$Height,
                    Temperature = sprintDynamics$Temperature,
-                   Vw = sprintDynamics$Vw,
+                   V.wind = sprintDynamics$Vw,
                    Ka = sprintDynamics$Ka,
                    K.fitted = sprintDynamics$K.fitted,
                    Vmax.fitted = sprintDynamics$Vmax,

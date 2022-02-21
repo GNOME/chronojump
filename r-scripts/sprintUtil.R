@@ -45,7 +45,10 @@ getDynamicsFromSprint <- function(K, Vmax, Mass, T0 = 0, Temperature = 25, Heigh
         sfv.rel.fitted = sfv.fitted / Mass
 
         # Getting values from the exponential model. Used for numerical calculations
-        print(paste("T0:", T0))
+	#print(paste("T0:", T0))
+	if(maxTime + T0 <= 0) #check to not fail the following seq by
+		return (NULL)
+
         time = seq(0,maxTime + T0, by = 0.01)      
         v.fitted=Vmax*(1-exp(-K*time))
         a.fitted = Vmax*K*exp(-K*time)
@@ -57,8 +60,17 @@ getDynamicsFromSprint <- function(K, Vmax, Mass, T0 = 0, Temperature = 25, Heigh
         # F(v) = a(v)*mass + Faero(v)
         # Faero(v) = Ka*(V - Va)²
         # Ka = 0.5 * ro * Af * Cd
-        
-        fvModel = lm(f.fitted ~ v.fitted)              # Linear regression of the fitted values
+
+	modelSuccess = TRUE
+	tryCatch ({
+	        fvModel = lm(f.fitted ~ v.fitted)              # Linear regression of the fitted values
+		}, error=function(cond)
+                {
+			modelSuccess <<- FALSE #need <<- global assignment operator to ensure its assigned
+                })
+	if(! modelSuccess)
+		return (NULL)
+
         F0 = fvModel$coefficients[1]                 # The same as fmax.fitted. F0 is the interception of the linear regression with the vertical axis
         F0.rel = F0 / Mass
         sfv.lm = fvModel$coefficients[2]             # Slope of the linear regression

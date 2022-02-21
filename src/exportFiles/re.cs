@@ -225,6 +225,10 @@ public class RunEncoderExport : ExportFiles
 		while ( ! ( Util.FileReadable(RunEncoder.GetCSVResultsURL()) || cancel ) )
 			;
 
+		//use this discarded because R discards also
+		List<string> setsProcessedByR = Util.ReadFileAsStringList(RunEncoder.GetCSVResultsURL());
+		discarded = re_l.Count - (setsProcessedByR.Count -1); //-1 for the csv header
+
 		if(cancel)
 			return false;
 

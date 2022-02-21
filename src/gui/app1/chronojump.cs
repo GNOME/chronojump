@@ -1414,6 +1414,7 @@ public partial class ChronoJumpWindow
 			else
 				label_sprint_export_data.Text = "";
 
+			label_sprint_export_discarded.Text = "";
 			label_sprint_export_result.Text = "";
 			button_sprint_export_result_open.Visible = false;
 		}

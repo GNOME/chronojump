@@ -53,6 +53,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spinbutton_sprint_export_image_width;
 	[Widget] Gtk.SpinButton spinbutton_sprint_export_image_height;
 	[Widget] Gtk.ProgressBar progressbar_sprint_export;
+	[Widget] Gtk.Label label_sprint_export_discarded;
 	[Widget] Gtk.Label label_sprint_export_result;
 	[Widget] Gtk.Button button_sprint_export_result_open;
 
@@ -304,6 +305,7 @@ public partial class ChronoJumpWindow
 		hbox_sprint_export_width_height.Visible = check_sprint_export_images.Active;
 
 		//also hide the label and the open button
+		label_sprint_export_discarded.Text = "";
 		label_sprint_export_result.Text = "";
 		button_sprint_export_result_open.Visible = false;
 	}
@@ -312,6 +314,7 @@ public partial class ChronoJumpWindow
 	{
 		notebook_sprint_analyze_top.CurrentPage = 0;
 
+		label_sprint_export_discarded.Text = "";
 		label_sprint_export_result.Text = "";
 		button_sprint_export_result_open.Visible = false;
 	}
@@ -325,6 +328,7 @@ public partial class ChronoJumpWindow
 		else
 			label_sprint_export_data.Text = "";
 
+		label_sprint_export_discarded.Text = "";
 		label_sprint_export_result.Text = "";
 		button_sprint_export_result_open.Visible = false;
 	}
@@ -335,6 +339,7 @@ public partial class ChronoJumpWindow
 
 		label_sprint_export_data.Text = currentSession.Name;
 
+		label_sprint_export_discarded.Text = "";
 		label_sprint_export_result.Text = "";
 		button_sprint_export_result_open.Visible = false;
 	}
@@ -382,6 +387,7 @@ public partial class ChronoJumpWindow
 		//continue based on: private void button_run_encoder_export_session (int personID)
 		//TODO: sensitive stuff (false)
 
+		label_sprint_export_discarded.Text = "";
 		label_sprint_export_result.Text = "";
 		button_sprint_export_result_open.Visible = false;
 
@@ -406,6 +412,7 @@ public partial class ChronoJumpWindow
 		sprintExport = new SprintExport(
 				notebook_sprint_export,
 				progressbar_sprint_export,
+				label_sprint_export_discarded,
 				label_sprint_export_result,
 				check_sprint_export_images.Active,
 				Convert.ToInt32(spinbutton_sprint_export_image_width.Value),

@@ -83,6 +83,7 @@ getSprintFromPhotocell <- function(positions, splitTimes, noise=0)
                 return()
         }
         
+	modelSuccess = TRUE
         if (length(positions) == 3){
                 #Asuming that the first time and position are 0s it is not necessary to use the non linear regression
                 #if there's only three positions. Substituting x1 = x(t1), and x2 = x(t2) whe have an exact solution.
@@ -91,10 +92,25 @@ getSprintFromPhotocell <- function(positions, splitTimes, noise=0)
         } else if (length(positions) >= 4){
                 positions = positions[which(positions != 0)]
                 splitTimes = splitTimes[which(splitTimes != 0)]
-                model <- getModelWithOptimalTimeCorrection(data.frame(position = positions, time = splitTimes))
+
+		tryCatch({
+			print("calling model")
+	                model <- getModelWithOptimalTimeCorrection(data.frame(position = positions, time = splitTimes))
+			print("called model")
+		}, error=function(cond)
+                {
+			print("error model")
+                        message(cond)
+			#following line does not always work, sometimes it does not return and continues with the next of the function, so better just change a variable
+			#return(list(modelSuccess = FALSE))
+			modelSuccess <<- FALSE #need <<- global assignment operator to ensure its assigned
+                })
         }
-        
-        return(list(K = model$K, Vmax = model$Vmax, T0 = model$T0))
+
+	if(modelSuccess)
+	        return(list(modelSuccess = modelSuccess, K = model$K, Vmax = model$Vmax, T0 = model$T0))
+	else
+		return(list(modelSuccess = FALSE))
 }
 
 #Given x(t) = Vmax*(t + (1/K)*exp(-K*t)) -Vmax - 1/K
@@ -187,12 +203,19 @@ getModelWithOptimalTimeCorrection <- function(splitTimes)
 
 drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, splitPositionAll, title, plotFittedSpeed = T, plotFittedAccel = T, plotFittedForce = T, plotFittedPower = T)
 {
-        
+	#return if fitted values of a or fmax are <= 0, it would make fail the seq by operator
+	#done it before start drawing to avoid png being created
+	if(max(sprintDynamics$a.fitted) <= 0)
+		return (NULL)
+	if(max(sprintDynamics$fmax.fitted) <= 0)
+		return (NULL)
+
         maxTime = splitTimes[length(splitTimes)]
         time = seq(0, maxTime, by=0.01)
         #Calculating measured average speeds
         avg.speeds = diff(positions)/diff(splitTimes)
         textXPos = splitTimes[1:length(splitTimes) - 1] + diff(splitTimes)/2
+
         xlims = c(-sprintDynamics$T0, splitTimes[length(splitTimes)])
         
         # Plotting average speed
@@ -204,6 +227,7 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, spli
                 xlab="Time[s]", ylab="Velocity[m/s]",
                 axes = FALSE, yaxs= "i", xaxs = "i")
         text(textXPos, avg.speeds, round(avg.speeds, digits = 2), pos = 3)
+
         axis(3, at = c(-sprintDynamics$T0,splitTimes), labels = c(round(-sprintDynamics$T0, digits = 3),splitTimes))
         
         # Fitted speed plotting
@@ -220,7 +244,7 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, spli
                 plot((sprintDynamics$t.fitted - sprintDynamics$T0), sprintDynamics$a.fitted, type = "l", col = "magenta", yaxs= "i", xaxs = "i", xlab="", ylab = "",
                      ylim=c(0,sprintDynamics$amax.fitted), xlim = xlims,
                      axes = FALSE )
-                axis(side = 4, col ="magenta", at = seq(0,max(sprintDynamics$a.fitted), by = 1))
+		axis(side = 4, col ="magenta", at = seq(0,max(sprintDynamics$a.fitted), by = 1))
         }
         
         #Force plotting
@@ -230,10 +254,9 @@ drawSprintFromPhotocells <- function(sprintDynamics, splitTimes, positions, spli
                 plot((sprintDynamics$t.fitted - sprintDynamics$T0), sprintDynamics$f.fitted, type="l", col="blue", yaxs= "i", xaxs = "i", xlab="", ylab="",
                      ylim=c(0,sprintDynamics$fmax.fitted), xlim = xlims,
                      axes = FALSE)
-                axis(line = 2.5, side = 4, col ="blue", at = seq(0, sprintDynamics$fmax.fitted + 100, by = 100))
-                
+		axis(line = 2.5, side = 4, col ="blue", at = seq(0, sprintDynamics$fmax.fitted + 100, by = 100))
         }
-        
+
         #Power plotting
         if(plotFittedPower)
         {
@@ -271,6 +294,12 @@ testPhotocellsCJ <- function(positions, splitTimes, splitPositionAll, mass, pers
 {
         sprint = getSprintFromPhotocell(position = positions, splitTimes = splitTimes)
         print(sprint)
+	if(! sprint$modelSuccess)
+	{
+		print("no model success")
+		return (NULL)
+	}
+
         sprintDynamics = getDynamicsFromSprint(K = sprint$K, Vmax = sprint$Vmax, T0 = sprint$T0
                                                , Mass = mass
                                                , Temperature = tempC
@@ -291,8 +320,16 @@ start <- function(op)
 	if(op$singleOrMultiple == "TRUE")
 	{
 		prepareGraph(op$os, pngFile, op$graphWidth, op$graphHeight)
-		exportRow = testPhotocellsCJ(op$positions, op$splitTimes, op$mass, op$personHeight, op$tempC, op$personName)
-		exportSprintDynamicsWriteRow (exportRow)
+		exportRow = testPhotocellsCJ(op$positions, op$splitTimes, NULL, op$mass, op$personHeight, op$tempC, op$personName)
+		if(is.null(exportRow))
+		{
+			plot(0,0,type="n",axes=F,xlab="",ylab="")
+			text(x=0, y=0, adj=0.5, cex=1.2, col="red", "This data does not seem a sprint.")
+		} else
+		{
+			exportSprintDynamicsWriteRow (exportRow)
+		}
+
 		endGraph()
 		return()
 	}
@@ -352,13 +389,12 @@ start <- function(op)
 			colnames(exportRowDF) = namesDF
 
 			exportDF <- rbind (exportDF, exportRowDF) #rbind with exportDF
-		}
 
-		endGraph()
+			endGraph() #we only call dev.off on ! is.null(exportRow)
+		}
 
 		progressFilename = paste(progressFolder, "/", i, sep="")
 		file.create(progressFilename)
-		print("done")
 	}
 
 	#write the data frame

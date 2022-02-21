@@ -35,6 +35,7 @@ public class SprintExport : ExportFiles
 	public SprintExport (
 			Gtk.Notebook notebook,
 			Gtk.ProgressBar progressbar,
+			Gtk.Label labelDiscarded,
 			Gtk.Label labelResult,
 			bool includeImages,
 			int imageWidth, int imageHeight,
@@ -47,7 +48,7 @@ public class SprintExport : ExportFiles
 	{
 		Button_done = new Gtk.Button();
 
-		assignParams(notebook, progressbar, new Gtk.Label(), labelResult, includeImages,
+		assignParams(notebook, progressbar, labelDiscarded, labelResult, includeImages,
 				imageWidth, imageHeight, isWindows, personID, sessionID, exportDecimalSeparator);
 
 		this.digitsNumber = digitsNumber;
@@ -159,6 +160,9 @@ public class SprintExport : ExportFiles
 			sprge_l.Add(sprge);
 		}
 
+		//discarded = ri_l.Count - sprge_l.Count;
+		//better use discarded below
+
 		Util.FileDelete(RunInterval.GetCSVResultsURL());
 
 		//no data, maybe because all the tests have just two tracks and cannot be processed as sprint
@@ -184,6 +188,10 @@ public class SprintExport : ExportFiles
 		LogB.Information("Waiting creation of file... ");
 		while ( ! ( Util.FileReadable(RunInterval.GetCSVResultsURL()) || cancel ) )
 			;
+
+		//use this discarded because R discards also
+		List<string> setsProcessedByR = Util.ReadFileAsStringList(RunInterval.GetCSVResultsURL());
+		discarded = ri_l.Count - (setsProcessedByR.Count -1); //-1 for the csv header
 
 		if(cancel)
 			return false;

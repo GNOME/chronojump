@@ -941,6 +941,8 @@ public class RepetitiveConditionsWindow
 
 		if(encoderRhythm.RestRepsSeconds < 0.1)
 			check_rhythm_rest_reps.Active = false;
+		else
+			check_rhythm_rest_reps.Active = true;
 
 		if(encoderRhythm.UseClusters()) {
 			check_rhythm_use_clusters.Active = true;

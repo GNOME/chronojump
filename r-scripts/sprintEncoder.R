@@ -931,7 +931,8 @@ start <- function(op)
 	{
 		if(dataFiles$splitLength[i] > 0)
 		{
-			splitPositionAll = c(splitPositionAll, seq(from=dataFiles$splitLength[i], to=dataFiles$testLength[i], by=dataFiles$splitLength[i]))
+			if(dataFiles$splitLength[i] <= dataFiles$testLength[i])
+				splitPositionAll = c(splitPositionAll, seq(from=dataFiles$splitLength[i], to=dataFiles$testLength[i], by=dataFiles$splitLength[i]))
 		} else
 		{
 			#as.character() because -1 (no triggers) is readed as a number and then the strsplit fails

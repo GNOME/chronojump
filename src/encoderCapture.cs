@@ -890,6 +890,10 @@ public abstract class EncoderCapture
 		get { return eccon; }
 	}
 
+	public int DirectionCompleted {
+		get { return directionCompleted; }
+	}
+
 	public void Cancel() {
 		cancel = true;
 	}

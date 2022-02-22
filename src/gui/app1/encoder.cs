@@ -6301,6 +6301,8 @@ public partial class ChronoJumpWindow
 				}
 
 				encoderRProcCapture.CutByTriggers = reallyCutByTriggers;
+				encoderClusterRestActive = false;
+				encoderClusterLastRestSoundWasOnRep = -1; //to know which rep we are resting, to not repeat a rest in the same rep
 
 				//to know if there are connection problems between chronopic and encoder
 				encoderCaptureStopwatch = new Stopwatch();
@@ -7089,6 +7091,9 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	bool encoderClusterRestActive;
+	int encoderClusterLastRestSoundWasOnRep; //to know which rep we are resting, to not repeat a rest in the same rep
+
 	private void updatePulsebarRhythm()
 	{
 		if(encoderRhythm.ActiveRhythm)
@@ -7120,6 +7125,7 @@ public partial class ChronoJumpWindow
 		}
 		else if(encoderRhythm.UseClusters())
 		{
+			// 1) check if first phase has been done
 			//just for show cluster rest (so on feedback gui, rhythm will be unactive but cluster rest active)
 			if(! encoderRhythmExecute.FirstPhaseDone)
 			{
@@ -7129,33 +7135,52 @@ public partial class ChronoJumpWindow
 				return;
 			}
 
+			// 2) check if showRest has to be shown
+
 			int repsDone = eCapture.Ecca.curvesAccepted;
 			bool showRest = false;
-			if(radio_encoder_eccon_concentric.Active && repsDone % encoderRhythm.RepsCluster == 0)
-				showRest = true;
-			else if(repsDone > 1 && radio_encoder_eccon_eccentric_concentric.Active &&
-					repsDone % (2 * encoderRhythm.RepsCluster) == 0) //TODO: add the info if start up or down, looking at FirstPhaseDo
-				showRest = true;
 
+			if( radio_encoder_eccon_concentric.Active && repsDone % encoderRhythm.RepsCluster == 0 &&
+					(! encoderRhythm.RestAfterEcc || eCapture.DirectionCompleted == 1) )
+				showRest = true;
+			else if(repsDone > 1 && radio_encoder_eccon_eccentric_concentric.Active)
+			{
+				if(! encoderRhythm.RestAfterEcc && repsDone % (2 * encoderRhythm.RepsCluster) == 0)
+					showRest = true;
+				else if(encoderRhythm.RestAfterEcc &&
+						repsDone >= 2 && //to avoid 0/x crash
+						(repsDone -1) % (2 * encoderRhythm.RepsCluster) == 0)
+					showRest = true;
+			}
+
+			// 3) if showRest have to be show, check that is not already shown on this rep
+			//    if all ok, play sound, start rest
 			if(showRest)
 			{
-				if(! encoderRhythmExecute.ClusterRestDoing())
+				if(! encoderRhythmExecute.ClusterRestDoing() && encoderClusterLastRestSoundWasOnRep != repsDone)
 				{
 					encoderRhythmExecute.ClusterRestStart();
 					image_encoder_rhythm_rest.Visible = true;
+					Util.PlaySound(Constants.SoundTypes.CAN_START, preferences.volumeOn, preferences.gstreamer);
+					encoderClusterLastRestSoundWasOnRep = repsDone;
+					encoderClusterRestActive = true;
 				}
+			}
 
-				string restStr = encoderRhythmExecute.ClusterRestSecondsStr();
-				label_encoder_rhythm_rest.Text = restStr;
-				//do not show sofa when rested more than RestClusterSeconds
-				if(restStr == "")
-					image_encoder_rhythm_rest.Visible = false;
-			} else {
-				if(encoderRhythmExecute.ClusterRestDoing())
+			// 4) if rest is active, see if we have to end it or not
+
+			if(encoderClusterRestActive)
+			{
+				if (encoderRhythmExecute.ClusterRestSecondsStr() == "")
 				{
+					encoderClusterRestActive = false;
+					Util.PlaySound(Constants.SoundTypes.CAN_START, preferences.volumeOn, preferences.gstreamer);
 					encoderRhythmExecute.ClusterRestStop();
 					image_encoder_rhythm_rest.Visible = false;
 					label_encoder_rhythm_rest.Text = "";
+				} else {
+					string restStr = encoderRhythmExecute.ClusterRestSecondsStr();
+					label_encoder_rhythm_rest.Text = restStr;
 				}
 			}
 		}

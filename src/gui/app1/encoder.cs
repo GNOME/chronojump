@@ -7100,6 +7100,16 @@ public partial class ChronoJumpWindow
 				image_encoder_rhythm_rest.Visible = false;
 				encoder_pulsebar_rhythm_eccon.Text = "Waiting 1st phase";
 				return;
+			} else {
+				if(encoderRhythmExecute.CurrentPhase != encoderRhythmExecute.LastPhase)// &&
+						//uncomment to avoid sound at start of rest
+						//encoderRhythmExecute.CurrentPhase != EncoderRhythmExecute.Phases.RESTREP)
+					{
+						Util.PlaySound(Constants.SoundTypes.CAN_START, preferences.volumeOn, preferences.gstreamer);
+						LogB.Information(encoderRhythmExecute.CurrentPhase.ToString());
+					}
+
+				encoderRhythmExecute.LastPhase = encoderRhythmExecute.CurrentPhase;
 			}
 
 			encoderRhythmExecute.CalculateFractionsAndText();

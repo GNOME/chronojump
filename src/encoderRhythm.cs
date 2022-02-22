@@ -126,6 +126,16 @@ public class EncoderRhythm
 public abstract class EncoderRhythmExecute
 {
 	public bool FirstPhaseDone;
+
+	//REPETITION is doing the repetition (no differentiate between ecc/con)
+	//ECC is ECC phase using phases
+	//CON is CON phase using phases
+	//RESTRESP is rest between repetitions
+	//RESTCLUSTER is rest between clusters
+	public enum Phases { REPETITION, ECC, CON, RESTREP, RESTCLUSTER }
+	public Phases LastPhase;
+	protected Phases currentPhase; //TODO: que no sigui públic aquest, que tingui un accessor públic
+
 	protected EncoderRhythm encoderRhythm;
 
 	protected double fraction;
@@ -159,6 +169,11 @@ public abstract class EncoderRhythmExecute
 	{
 		get { return textRest; }
 	}
+	public Phases CurrentPhase
+	{
+		get { return currentPhase; }
+	}
+
 	// <---- end of just for EncoderRhythmExecuteHasRhythm ----
 
 	// ---- just for EncoderRhythmExecuteJustClusters ---->
@@ -178,14 +193,6 @@ public class EncoderRhythmExecuteHasRhythm : EncoderRhythmExecute
 {
 	private DateTime phaseStartDT;
 	private int nreps;
-
-	//REPETITION is doing the repetition (no differentiate between ecc/con)
-	//ECC is ECC phase using phases
-	//CON is CON phase using phases
-	//RESTRESP is rest between repetitions
-	//RESTCLUSTER is rest between clusters
-	protected enum phases { REPETITION, ECC, CON, RESTREP, RESTCLUSTER }
-	protected phases currentPhase;
 
 	private	bool gravitatory = true;
 	/*
@@ -220,11 +227,11 @@ public class EncoderRhythmExecuteHasRhythm : EncoderRhythmExecute
 		phaseStartDT = DateTime.Now;
 
 		if(encoderRhythm.RepsOrPhases)
-			currentPhase = getNextPhase(phases.REPETITION);
+			currentPhase = getNextPhase(Phases.REPETITION);
 		else if(up)
-			currentPhase = getNextPhase(phases.CON);
+			currentPhase = getNextPhase(Phases.CON);
 		else
-			currentPhase = getNextPhase(phases.ECC);
+			currentPhase = getNextPhase(Phases.ECC);
 	}
 
 
@@ -256,15 +263,15 @@ public class EncoderRhythmExecuteHasRhythm : EncoderRhythmExecute
 
 	private bool shouldEndPhase(double phaseSeconds)
 	{
-		if(currentPhase == phases.REPETITION && phaseSeconds > encoderRhythm.RepSeconds)
+		if(currentPhase == Phases.REPETITION && phaseSeconds > encoderRhythm.RepSeconds)
 			return true;
-		if(currentPhase == phases.ECC && phaseSeconds > encoderRhythm.EccSeconds)
+		if(currentPhase == Phases.ECC && phaseSeconds > encoderRhythm.EccSeconds)
 		       return true;
-		if(currentPhase == phases.CON && phaseSeconds > encoderRhythm.ConSeconds)
+		if(currentPhase == Phases.CON && phaseSeconds > encoderRhythm.ConSeconds)
 		       return true;
-		if(currentPhase == phases.RESTREP && phaseSeconds > encoderRhythm.RestRepsSeconds)
+		if(currentPhase == Phases.RESTREP && phaseSeconds > encoderRhythm.RestRepsSeconds)
 		       return true;
-		if(currentPhase == phases.RESTCLUSTER && phaseSeconds > encoderRhythm.RestClustersSeconds)
+		if(currentPhase == Phases.RESTCLUSTER && phaseSeconds > encoderRhythm.RestClustersSeconds)
 		       return true;
 
 		return false;
@@ -272,91 +279,91 @@ public class EncoderRhythmExecuteHasRhythm : EncoderRhythmExecute
 
 	private bool endPhaseShouldEndRep()
 	{
-		if(currentPhase == phases.REPETITION)
+		if(currentPhase == Phases.REPETITION)
 			return true;
 
 		if(gravitatory)
 		{
-			if(currentPhase == phases.CON && ! encoderRhythm.RestAfterEcc) //ecc-con
+			if(currentPhase == Phases.CON && ! encoderRhythm.RestAfterEcc) //ecc-con
 				return true;
 
-			if(currentPhase == phases.ECC && encoderRhythm.RestAfterEcc) //con-ecc
+			if(currentPhase == Phases.ECC && encoderRhythm.RestAfterEcc) //con-ecc
 				return true;
 		} else {
-			if(currentPhase == phases.ECC)
+			if(currentPhase == Phases.ECC)
 				return true;
 		}
 
 		return false;
 	}
 
-	private phases getNextPhase(phases previousPhase)
+	private Phases getNextPhase(Phases previousPhase)
 	{
 		//manage what happens after cluster rest or if we should start a cluster rest
 		if(encoderRhythm.UseClusters())
 		{
 			//check what happens after cluster rest
-			if(previousPhase == phases.RESTCLUSTER)
+			if(previousPhase == Phases.RESTCLUSTER)
 			{
 				if(encoderRhythm.RepsOrPhases)
-					return phases.REPETITION;
+					return Phases.REPETITION;
 				else if(gravitatory && ! encoderRhythm.RestAfterEcc) //ecc-con
-					return phases.ECC;
+					return Phases.ECC;
 				else // ! gravitatory or gravitatory resting after ecc
-					return phases.CON;
+					return Phases.CON;
 			}
 
 			//check if we are on (REPETITION or ECC or CON) and we should start a cluster rest
 			if
 				( nreps > 0 && nreps % encoderRhythm.RepsCluster == 0 &&
-				  ( previousPhase == phases.REPETITION ||
-				    ( previousPhase == phases.CON && gravitatory && ! encoderRhythm.RestAfterEcc ) ||
-				    ( previousPhase == phases.ECC && ( ! gravitatory || encoderRhythm.RestAfterEcc ) )
+				  ( previousPhase == Phases.REPETITION ||
+				    ( previousPhase == Phases.CON && gravitatory && ! encoderRhythm.RestAfterEcc ) ||
+				    ( previousPhase == Phases.ECC && ( ! gravitatory || encoderRhythm.RestAfterEcc ) )
 				  )
 				)
-					return phases.RESTCLUSTER;
+					return Phases.RESTCLUSTER;
 		}
 
 		if(encoderRhythm.RepsOrPhases)
 		{
-			if(previousPhase == phases.REPETITION)
+			if(previousPhase == Phases.REPETITION)
 			{
 				if(encoderRhythm.RestRepsSeconds == 0)
-					return phases.REPETITION;
+					return Phases.REPETITION;
 				else
-					return phases.RESTREP;
+					return Phases.RESTREP;
 			} else //RESTREP
-					return phases.REPETITION;
+					return Phases.REPETITION;
 		}
 
 		if(gravitatory && ! encoderRhythm.RestAfterEcc) //ecc-con
 		{
-			if(previousPhase == phases.ECC)
-				return phases.CON;
-			else if(previousPhase == phases.CON)
+			if(previousPhase == Phases.ECC)
+				return Phases.CON;
+			else if(previousPhase == Phases.CON)
 			{
 				if(encoderRhythm.RestRepsSeconds == 0)
-					return phases.ECC;
+					return Phases.ECC;
 				else
-					return phases.RESTREP;
+					return Phases.RESTREP;
 			}
-			else //(previousPhase == phases.RESTREP)
-				return phases.ECC;
+			else //(previousPhase == Phases.RESTREP)
+				return Phases.ECC;
 		}
 
 		else // ! gravitatory or gravitatory resting after ecc
 		{
-			if(previousPhase == phases.CON)
-				return phases.ECC;
-			else if(previousPhase == phases.ECC)
+			if(previousPhase == Phases.CON)
+				return Phases.ECC;
+			else if(previousPhase == Phases.ECC)
 			{
 				if(encoderRhythm.RestRepsSeconds == 0)
-					return phases.CON;
+					return Phases.CON;
 				else
-					return phases.RESTREP;
+					return Phases.RESTREP;
 			}
-			else //(previousPhase == phases.RESTREP)
-				return phases.CON;
+			else //(previousPhase == Phases.RESTREP)
+				return Phases.CON;
 		}
 	}
 
@@ -364,18 +371,18 @@ public class EncoderRhythmExecuteHasRhythm : EncoderRhythmExecute
 	{
 		textRepetition = "";
 
-		if(currentPhase == phases.REPETITION || currentPhase == phases.ECC || currentPhase == phases.CON)
+		if(currentPhase == Phases.REPETITION || currentPhase == Phases.ECC || currentPhase == Phases.CON)
 		{
 			textRest = "";
 
-			if(currentPhase == phases.REPETITION)
+			if(currentPhase == Phases.REPETITION)
 				fraction = UtilAll.DivideSafeFraction(phaseSeconds, encoderRhythm.RepSeconds);
-			if(currentPhase == phases.ECC)
+			if(currentPhase == Phases.ECC)
 			{
 				fraction =  1 - UtilAll.DivideSafeFraction(phaseSeconds, encoderRhythm.EccSeconds);
 				textRepetition = "Excentric";
 			}
-			if(currentPhase == phases.CON)
+			if(currentPhase == Phases.CON)
 			{
 				fraction = UtilAll.DivideSafeFraction(phaseSeconds, encoderRhythm.ConSeconds);
 				textRepetition = "Concentric";
@@ -387,7 +394,7 @@ public class EncoderRhythmExecuteHasRhythm : EncoderRhythmExecute
 		} else {
 			//no change fraction
 			double restTime = encoderRhythm.RestRepsSeconds - phaseSeconds;
-			if(currentPhase == phases.RESTCLUSTER)
+			if(currentPhase == Phases.RESTCLUSTER)
 				restTime = encoderRhythm.RestClustersSeconds - phaseSeconds;
 
 			textRest = string.Format(Catalog.GetString("Resting {0} s"), Util.TrimDecimals(restTime, 1));
@@ -506,7 +513,7 @@ public class EncoderRhythmExecute
 		return (nreps % encoderRhythm.RepsCluster == 0);
 	}
 
-	 // if RepsOrPhases == true (by phases), then ChangePhase will be called when repetition ends
+	 // if RepsOrPhases == true (by Phases), then ChangePhase will be called when repetition ends
 	 // else will be called when ecc or con ends
 	public void ChangePhase(int nrep, bool up)
 	{

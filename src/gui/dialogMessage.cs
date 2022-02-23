@@ -121,8 +121,20 @@ public class DialogMessage
 		else
 			scrolledwindow_by_software.SetPolicy(PolicyType.Never, PolicyType.Never);
 
+
+		/*
+		label_message.Show();
+		dialog_message.Show();
+		*/
+		GLib.Timeout.Add(200, new GLib.TimeoutHandler(showLabelAndDialog));
+	}
+
+	private bool showLabelAndDialog()
+	{
 		label_message.Show();	
-		dialog_message.Show();	
+		dialog_message.Show();
+
+		return false;
 	}
 
 	public void on_button_go_clicked (object obj, EventArgs args)

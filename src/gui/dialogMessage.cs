@@ -121,23 +121,25 @@ public class DialogMessage
 		else
 			scrolledwindow_by_software.SetPolicy(PolicyType.Never, PolicyType.Never);
 
-
-		
 		label_message.Show();
 		dialog_message.Show();
-		
-		//GLib.Timeout.Add(200, new GLib.TimeoutHandler(showLabelAndDialog));
+
+		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
+			GLib.Timeout.Add(200, new GLib.TimeoutHandler(resizeDialogForMac));
 	}
 
 	/*
-	private bool showLabelAndDialog()
+	   on some macs, the label is not shown correctly, seems not a problem of frame or scrollerwin
+	   after resizing a bit (by user) is shown correctly, so resize here.
+	   */
+	private bool resizeDialogForMac ()
 	{
-		label_message.Show();	
-		dialog_message.Show();
+		dialog_message.SetSizeRequest(
+				dialog_message.SizeRequest().Width + 3,
+				dialog_message.SizeRequest().Height + 3);
 
 		return false;
 	}
-	*/
 
 	public void on_button_go_clicked (object obj, EventArgs args)
 	{

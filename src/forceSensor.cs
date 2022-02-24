@@ -1870,7 +1870,7 @@ public class ForceSensorGraphABExport: ForceSensorGraphAB
 			"\"\";\"\";" + 	// triggers unused on export
 			startSample.ToString() + ";" +
 			endSample.ToString() + ";" +
-			Util.RemoveChar(commentOfSet, ';');  //TODO: check this really removes
+			Util.RemoveNewLine(Util.RemoveChar(commentOfSet, ';'), true);
 	}
 
 	public static string PrintCSVHeaderOnExport()

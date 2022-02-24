@@ -61,8 +61,30 @@ public class ChronoJump
 	static extern bool g_setenv (String env, String val, bool overwrite);
 #endif
 
-	public static void Main(string [] args) 
-	{/*
+	public static void Main(string [] args)
+	{
+		//record GetOsEnum on variables to not call it all the time
+		operatingSystem = UtilAll.GetOSEnum();
+		Util.operatingSystem = operatingSystem;
+
+		//before the starting logs
+		if(args.Length > 0 && (args[0] == "version" || args[0] == "version2"))
+		{
+			if(args[0] == "version")
+			{
+				Console.WriteLine("Chronojump version: " + BuildInfo.chronojumpVersion);
+				if(operatingSystem == UtilAll.OperatingSystems.LINUX)
+					Console.WriteLine("Note in Linux is not reliable if ./autogen.sh was not un before make");
+			}
+			else // (args[0] == "version2")
+			{
+				Console.WriteLine(BuildInfo.chronojumpVersion.ToString());
+			}
+
+			return;
+		}
+
+		/*
 		bool timeLogPassedOk = Log.Start(args);
 		Log.WriteLine(string.Format("Time log passed: {0}", timeLogPassedOk.ToString()));
 		Log.WriteLine(string.Format("Client database option 1 in … " + Util.GetDatabaseDir()));
@@ -78,10 +100,6 @@ public class ChronoJump
 
 		var envPath = Environment.GetEnvironmentVariable ("PATH");
 		var rBinPath = "";
-
-		//record GetOsEnum on variables to not call it all the time
-		operatingSystem = UtilAll.GetOSEnum();
-		Util.operatingSystem = operatingSystem;
 
 		//we need to set Util.operatingSytem before GetPrefixDir()
 		baseDirectory = Util.GetPrefixDir();

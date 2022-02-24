@@ -67,7 +67,8 @@ public class ChronoJump
 		operatingSystem = UtilAll.GetOSEnum();
 		Util.operatingSystem = operatingSystem;
 
-		//before the starting logs
+		//show version on console and exit before the starting logs
+		//note version, version2 args are available since: 2.2.0-112-ga4eaadcbc
 		if(args.Length > 0 && (args[0] == "version" || args[0] == "version2"))
 		{
 			if(args[0] == "version")

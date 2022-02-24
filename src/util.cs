@@ -199,6 +199,7 @@ public class Util
 			return Math.Round(Convert.ToDouble(time), prefsDigitsNumber).ToString();
 	}
 
+	//for List of doubles better use MathUtil class (utilMath.cs)
 	public static double GetMax (string values)
 	{
 		string [] myStringFull = values.Split(new char[] {'='});

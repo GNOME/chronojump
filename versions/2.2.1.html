@@ -1,0 +1,77 @@
+until 24 Feb	
+
+
+
+	<p><span class="highlight2"><i class="fa fa-area-chart fa-2x"></i>  General Chronojump changes</span></p>
+	<ul>
+	<li><b>Fixed a bug: on creation of an exercise of jumps/races, sometimes this exercise is not shown on the top combo. This made crash the program on Windows if exercise is started just after creation.</b></li>
+	<li><b>Fixed a bug on mac that made some message windows to be displayed with the text at a side.</b></li>
+	<li><b>No more exercise duplicates at import on encoder, forceSensor & raceAnalyzer. Duplicates where exercises where same name but one or more different params. Now have different name (1), (2), ... Also all existing duplicated exercises names on this 3 modes now are renamed as (1), (2), ...</b></li>
+	<li>Fixed a bug: session delete does not really delete all persons on list, and this could show some glitch.</li>
+	<li>Chronojump can be called from command line as "Chronojump version" or "Chronojump version2" to know the version from the command line even with Chronojump already opened.</li>
+	</ul>
+
+	<p><span class="highlight2"><i class="fa fa-running fa-2x"></i>  Race analyzer</span></p>
+	<ul>
+	<li><b>Capture tab shows segments: distance/time on all graphs. A grid is shown according to distance/time values.</b></li>
+	<li><b>Exercises can be sprint or not. An sprint is an exercise where "maximum acceleration is performed at the beginning and maximum sustained speed at a later time.". An example of no-sprint exercises is climbing speed.</b></li>
+	<li><b>As analysis is related to a sprint model, only sprint exercises can be analyzed/exported on analysis tab.</b></li>
+	<li><b>Exercise segments can be fixed (as before) or variable (until 40 segments for each exercise). With this you can analyze with user defined distances.</b></li>
+	<li><b>Note Export to CSV can manage a bunch of different mixed exercises (segments fixed/variable) and create columns on CSV to show all the related distances.</b></li>
+	<li><b>Clicking on recalculate applies/stores changes on set, exercise and capture tab. It does executes an analysis on analyze tab.</b></li>
+	<li>Race analyzer capture tab graphs can be saved as a composed image.</li>
+	<li>If not-sprint, on capture tab a circle is shown on max speed (raw) instead of a right arrow (moving average).</li>
+	<li>Capture tab graphs show triggers (on in green, off in red).</li>
+	<li>Fixed triggers on analyze tab since recent versions.</li>
+	<li>Race analyzer export rownames of dist segments (eg. 20.5m, 30.5m) with decimal as comma when needed.</li>
+	<li>Analyze/export process is now much more robust making program not fail/hang if data is not ok and model is not possible.</li>
+	<li>On export check that R is installed on mac, if not show a message.</li>
+	<li>Discarded rows on export are shown at the end of the process.</li>
+	<li>Better behaviour for analyze options "close" button (returning to previous page) and display of "close and analyze" (only on current set tab)</li>
+	<li>Fixed "enter" on comments to avoid hang on exportFiles CSV.</li>
+	<li>Fixed update on exercise could fail on old Sqlite implementations.</li>
+	<li>Do not show exercise image as is not implemented right now.</li>
+	</ul>
+
+	<p><span class="highlight2"><i class="fa fa-clock-o fa-2x"></i>  Jumps, Races</span></p>
+	<ul>
+	<li><b>New feature: Added on Jumps/analyze/FV prediction of 1RM Squat at 89% of F0 according to Rivière & col 2017 DOI: 10.1055/s-0043-116670</b></li>
+	<li><b>JumpsProfile now uses max jump (of sj,sjl,cmj,abk,dj) to compare instead of dj.</b></li>
+	<li>Related to sprint model:</li>
+	<ul>
+		<li><b>Sprint export now shows column for the distances of each sprint and shows the times.</b></li>
+		<li>Checking if sprint data is ok, is better done now and shared between analyze and export, discarting same repetitions.</li>
+		<li>Analyze/export process is now much more robust making program not fail/hang if data is not ok and model is not possible.</li>
+		<li>On export an sprint check that R is installed on mac, if not show a message.</li>
+		<li>Discarded rows on sprint are shown at the end of export.</li>
+	</ul>
+	<li>Capture tab graphs: (jumps/time, jumps FV) have same font for showing selected values (mouse clicked by user).
+	<li>Fixed bug displaying jumps (simple/multiple) weight after edit (when weight is shown on Kg and not percentage), it was ok after session reload. Now is ok without the need of reload session.
+	</ul>
+
+	<p><span class="highlight2"><i class="fa fa-bar-chart fa-2x"></i>  Encoder</span></p>
+	<ul>
+	<li>Rhythm play sound at each change of phase, including start/end rest. Including when only clusters are used.</li>
+	<li>Fixed rest after eccentric on encoder rhythm when only clusters are used.</li>
+	<li>Fixed crash on encoder capture with clusters when no repetitions found (since version 2.2.0).</li>
+	<li>Fixed not showing rest between repetitions as active on opening window.</li>
+	<li>Improved behaviour of "close and analyze" button.</li>
+	</ul>
+
+	<p><span class="highlight2"><i class="fa fa-area-chart fa-2x"></i>  Force sensor</span></p>
+	<ul>
+	<li>Fixed a glitch on importing files making forceSensor top combo have the exercise values of runEncoder (if forceSensor mode is active).</li>
+	<li>Ensure maxForceRAW is converted to maxForceRaw (to not have problems on import when using Python3).</li>
+	<li>Fixed "enter" on comments to avoid hang on exportFiles CSV.</li>
+	</ul>
+
+	<p><span class="highlight2"><i class="fa fa-sitemap fa-2x"></i>  Chronojump-Networks</span></p>
+	<ul>
+	<li><b>Chronojump-Networks now allows to download exercises using 3.1 code.</li>
+	</ul>
+
+	<p><span class="highlight2"><i class="fa fa-flag-o fa-2x"></i>  Translations</span></p>
+	<ul>
+	<li><b>Updated translations: Brazilian portuguese, Spanish, Swedish, Urkrainian.</b></li>
+	</ul>
+

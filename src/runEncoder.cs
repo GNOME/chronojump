@@ -655,7 +655,7 @@ public class RunEncoderGraphExport
 			datetime + ";" +
 			printTriggers(TriggerList.Type3.ON) + ";" +
 			printTriggers(TriggerList.Type3.OFF) + ";" +
-			Util.RemoveChar(comments, ';');  //TODO: check this really removes
+			Util.RemoveNewLine(Util.RemoveChar(comments, ';'), true);
 	}
 
 	private string printTriggers(TriggerList.Type3 type3)

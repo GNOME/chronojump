@@ -16,7 +16,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -84,9 +84,6 @@ public static class JumpsProfileGraph
 			}
 
 		//5 calculate sum
-		//but is not needed, because sum has to be dja
-		//so if we have sum = 1 we can plot grey areas when not all indexes are calculated
-		//so later sum will be 1, now is ok to just show an error message
 		double sum = 0;
 		foreach(JumpsProfileIndex jpi in l_jpi)
 			if(jpi.Result >= 0)
@@ -105,27 +102,33 @@ public static class JumpsProfileGraph
 		*/
 
 		//6 plot arcs
+		double jpiSum = 0;
 		if(sum > 0 )
 		{
 			double acc = 0; //accumulated
-			bool someIndexNotPositive = false; //is not positive if does not exist (need jumps) or is negative
-			foreach(JumpsProfileIndex jpi in l_jpi) {
-				//double percent = 2 * jpi.Result / sum; //*2 to be in range 0*pi - 2*pi
-				double percent = 2 * jpi.Result / 1; //*2 to be in range 0*pi - 2*pi
-				//LogB.Information("percent: " + percent.ToString());
 
-				if(percent > 0)
+			//get the total of the > 0 indexes
+			bool allIndexesPositive = true;
+			foreach(JumpsProfileIndex jpi in l_jpi)
+			{
+				if(jpi.Result > 0)
+					jpiSum += jpi.Result;
+				else
+					allIndexesPositive = false;
+			}
+
+			foreach(JumpsProfileIndex jpi in l_jpi)
+			{
+				if(jpi.Result > 0)
 				{
+					double jpiResultFixed = jpi.Result;
+					if(! allIndexesPositive)
+						jpiResultFixed = jpi.Result * 1.0 / jpiSum;
+
+					double percent = 2 * jpiResultFixed / 1; //*2 to be in range 0*pi - 2*pi
 					plotArc(200, 200, 150, acc -.5, acc + percent -.5, g, jpi.Color); //-.5 to start at top of the pie
 					acc += percent;
-				} else
-					someIndexNotPositive = true;
-			}
-			if(someIndexNotPositive) //then draw in white to complete the circle
-			{
-				//Cairo.Color white90 = new Cairo.Color(233/256.0, 233/256.0, 233/256.0);
-				Cairo.Color white100 = new Cairo.Color(1,1,1);
-				plotArc(200, 200, 150, acc -.5, 2 -.5, g, white100); //-.5 to start at top of the pie
+				}
 			}
 
 			//fix last radius line, because ClosePath has been disabled
@@ -141,9 +144,12 @@ public static class JumpsProfileGraph
 		//R seq(from=50,to=(350-24),length.out=5)
 		//[1] 50 119 188 257 326 #difference is 69
 		//g.SelectFontFace(font, Cairo.FontSlant.Normal, Cairo.FontWeight.Bold);
+
+		//8 draw rectangles at right
 		foreach(JumpsProfileIndex jpi in l_jpi)
 		{
-			double percent = 100 * UtilAll.DivideSafe(jpi.Result, sum);
+			//double percent = 100 * UtilAll.DivideSafe(jpi.Result, sum);
+			double percent = 100 * UtilAll.DivideSafe(jpi.Result, jpiSum);
 			printText(legendX,  y, 24, textHeight, Util.TrimDecimals(percent, 1) + jpi.Text, g, false);
 			if(percent != 0)
 				drawRoundedRectangle (legendX,  y+30 , Convert.ToInt32(2 * percent), 20, 4, g, jpi.Color);
@@ -158,7 +164,7 @@ public static class JumpsProfileGraph
 
 		//g.SelectFontFace(font, Cairo.FontSlant.Normal, Cairo.FontWeight.Normal);
 	
-		//8 print errors (if any)
+		//9 print errors (if any)
 		g.SetSourceRGB(0.5, 0, 0);
 		y = 70;
 		foreach(JumpsProfileIndex jpi in l_jpi) {
@@ -170,7 +176,7 @@ public static class JumpsProfileGraph
 			y += 69;
 		}
 		
-		//9 dispose
+		//10 dispose
 		g.GetTarget().Dispose ();
 		g.Dispose ();
 	}

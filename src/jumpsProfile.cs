@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -38,70 +38,60 @@ public class JumpsProfileIndex
 
 	public double Result;
 
-	public JumpsProfileIndex (Types type, string jumpHigherName, string jumpLowerName, double higher, double lower, double dja) 
+	public JumpsProfileIndex (Types type, string jumpHigherName, string jumpLowerName, double higher, double lower, double max)
 	{
 		//colour palette: http://www.colourlovers.com/palette/4286628/Tabor_1
 		this.type = type;
 		switch(type) {
 			case Types.FMAX:
-				Text = "% Maximum Force  SJl100% / DJa";
+				Text = "% Maximum Force  SJl100% / max";
 				Color = colorFromRGB(101,86,67);
 				break;
 			case Types.FEXPL:
-				Text = "% Explosive Force  (SJ - SJl100%) / Dja";
+				Text = "% Explosive Force  (SJ - SJl100%) / max";
 				Color = colorFromRGB(209,63,58);
 				break;
 			case Types.CELAST:
-				Text = "% Elastic  (CMJ - SJ) / Dja";
+				Text = "% Elastic  (CMJ - SJ) / max";
 				Color = colorFromRGB(255,152,68);
 				break;
 			case Types.CARMS:
-				Text = "% Arms  (ABK - CMJ) / Dja";
+				Text = "% Arms  (ABK - CMJ) / max";
 				Color = colorFromRGB(141,237,78);
 				break;
 			case Types.FREACT:
-				Text = "% Reactive-reflex  (DJa - ABK) / Dja";
+				Text = "% Reactive-reflex  (DJa - ABK) / max";
 				Color = colorFromRGB(133,190,199);
 				break;
 			default:
-				Text = "% Maximum Force  SJl100% / DJa";
+				Text = "% Maximum Force  SJl100% / max";
 				Color = colorFromRGB(101,86,67);
 				break;
 		}
 		
 		ErrorMessage = "";
-		Result = calculateIndex(type, higher, lower, dja);
+		Result = calculateIndex(type, higher, lower, max);
 
 		LogB.Information("errorCode: " + errorCode.ToString());
 		if(errorCode == ErrorCodes.NEEDJUMP)
 			ErrorMessage = Catalog.GetString("Need to execute jump/s"); //TODO: write which jumps
 		else if(errorCode == ErrorCodes.NEGATIVE)
 			ErrorMessage = string.Format(Catalog.GetString("Negative index: {0} is higher than {1}"), jumpLowerName, jumpHigherName);
-		else if(errorCode == ErrorCodes.DJATOOLOW)
-			ErrorMessage = string.Format(Catalog.GetString("Jump {0} too low"), "Dja");
+		//else if(errorCode == ErrorCodes.DJATOOLOW)
+		//	ErrorMessage = string.Format(Catalog.GetString("Jump {0} too low"), "Dja");
 	}
 
-	private double calculateIndex (Types type, double higher, double lower, double dja) 
+	private double calculateIndex (Types type, double higher, double lower, double max)
 	{
 		errorCode = ErrorCodes.NONE_OK;
 
-		if(dja == 0 || higher == 0) {
+		if(max == 0 || higher == 0) {
 			errorCode = ErrorCodes.NEEDJUMP;
 			return 0;
 		}
 
 		if(type == Types.FMAX)	//this index only uses higher
-		{
-			if(higher > dja)
-			{
-				errorCode = ErrorCodes.DJATOOLOW;
-				return 0;
-			}
-
-			LogB.Information(string.Format("calculateIndex, type:{0}, higher:{1}, lower:{2}, dja:{3}, value:{4}",
-					type, higher, lower, dja, higher/dja));
-			return higher / dja;
-		}
+			return higher / max;
 
 		if(lower == 0) {
 			errorCode = ErrorCodes.NEEDJUMP;
@@ -113,16 +103,7 @@ public class JumpsProfileIndex
 			//return 0;
 		}
 
-		if(higher > dja) // at least a jump is higher than DJa
-		{
-			errorCode = ErrorCodes.DJATOOLOW;
-			return 0;
-		}
-
-		LogB.Information(string.Format("calculateIndex, type:{0}, higher:{1}, lower:{2}, dja:{3}, value:{4}",
-					type, higher, lower, dja, (higher-lower)/dja));
-
-		return (higher - lower) / dja;
+		return (higher - lower) / max;
 	}
 	
 	private Cairo.Color colorFromRGB(int red, int green, int blue) {
@@ -156,11 +137,13 @@ public class JumpsProfile
 		double abk = l[3];
 		double dja = l[4];
 		
-		jpi0 = new JumpsProfileIndex(JumpsProfileIndex.Types.FMAX, "SJ", "", sjl, 0, dja);
-		jpi1 = new JumpsProfileIndex(JumpsProfileIndex.Types.FEXPL, "SJ", "SJl", sj, sjl, dja);
-		jpi2 = new JumpsProfileIndex(JumpsProfileIndex.Types.CELAST, "CMJ", "SJ", cmj, sj, dja);
-		jpi3 = new JumpsProfileIndex(JumpsProfileIndex.Types.CARMS, "ABK", "CMJ", abk, cmj, dja);
-		jpi4 = new JumpsProfileIndex(JumpsProfileIndex.Types.FREACT, "DJa", "ABK", dja, abk, dja);
+		double maxJump = MathUtil.GetMax (new List<double> { sj, sjl, cmj, abk, dja});
+
+		jpi0 = new JumpsProfileIndex(JumpsProfileIndex.Types.FMAX, "SJ", "", sjl, 0, maxJump);
+		jpi1 = new JumpsProfileIndex(JumpsProfileIndex.Types.FEXPL, "SJ", "SJl", sj, sjl, maxJump);
+		jpi2 = new JumpsProfileIndex(JumpsProfileIndex.Types.CELAST, "CMJ", "SJ", cmj, sj, maxJump);
+		jpi3 = new JumpsProfileIndex(JumpsProfileIndex.Types.CARMS, "ABK", "CMJ", abk, cmj, maxJump);
+		jpi4 = new JumpsProfileIndex(JumpsProfileIndex.Types.FREACT, "DJa", "ABK", dja, abk, maxJump);
 
 		fillListJumpsDone(sj, sjl, cmj, abk, dja);
 	}

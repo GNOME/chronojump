@@ -600,6 +600,16 @@ public static class MathUtil
 		return ( Math.Abs(criteriaPassedValue - numToCompare) <= Math.Abs(previousToCriteriaValue - numToCompare) );
 	}
 
+	public static double GetMax (List<double> d_l)
+	{
+		double max = 0;
+		foreach (double d in d_l)
+			if ( d > max )
+				max = d;
+
+		return max;
+	}
+
 }
 
 public class InterpolateSignal

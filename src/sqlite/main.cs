@@ -3573,7 +3573,7 @@ class Sqlite
 		creationRate ++;
 	}
 
-	protected static bool tableExists(bool dbconOpened, string tableName)
+	protected static bool tableExists (bool dbconOpened, string tableName)
 	{
 		openIfNeeded(dbconOpened);
 
@@ -3594,12 +3594,36 @@ class Sqlite
 
 		return exists;
 	}
-	/*
-		TODO: create a columnExists method with sqlite command:
-		SELECT * FROM sqlite_master WHERE type = 'table' AND name = 'forceSensor' AND sql LIKE '%maxForceRaw%';
-		can be implemented on the future, previous to any ALTER TABLE ADD COLUMN,
-		but at the moment we are using try{}catch{} blocks and it is working great
-		*/
+
+	protected static bool columnExists (bool dbconOpened, string tableName, string columnName, bool caseSensitive)
+	{
+		openIfNeeded(dbconOpened);
+
+		if(caseSensitive)
+			executeSQL("PRAGMA case_sensitive_like=ON;");
+
+		dbcmd.CommandText = "SELECT * FROM sqlite_master WHERE type = \"table\" AND name = \"" +
+			tableName + "\" AND sql LIKE \"%" + columnName + "%\"";
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		bool exists = false;
+		if (reader.Read())
+			exists = true;
+		//LogB.SQL(string.Format("name exists = {0}", exists.ToString()));
+
+		reader.Close();
+
+		if(caseSensitive)
+			executeSQL("PRAGMA case_sensitive_like=OFF;");
+
+		closeIfNeeded(dbconOpened);
+
+		return exists;
+	}
 
 	public static bool Exists(bool dbconOpened, string tableName, string findName)
 	{

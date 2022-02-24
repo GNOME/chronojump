@@ -131,7 +131,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.34";
+	static string lastChronojumpDatabaseVersion = "2.35";
 
 	public Sqlite()
 	{
@@ -3152,6 +3152,32 @@ class Sqlite
 
 				currentVersion = updateVersion("2.34");
 			}
+			if(currentVersion == "2.34")
+			{
+				LogB.SQL("Ensure maxForceRAW is converted to maxForceRaw");
+				/*
+				   Chronojump 2.2.0 (published on 10 jun 2022) has maxForceRAW on ALTER TABLE (on git since 2 jun 2022)
+				   Chronojump 2.2.0-12 (18 jun) Changed to maxForceRaw, on C# is the same but on Python3 (importer) could lead to problems
+				   Sqlite3 RENAME COLUMN is on Sqlite since 3.25.0 15-9-2018, so no problem on using on Linux and hopefully on Mac
+				   On windows not sure if it will be available on sqlite that is installed with Chronojump
+				   if this is not solved, Chronojump importer will import all except the forceSensor data,
+				   solution will be to install on client machine sqlite3 and run there the command
+				   "ALTER TABLE forceSensor RENAME COLUMN maxForceRAW TO maxForceRaw";
+				 */
+
+				try {
+					if(columnExists(true, Constants.ForceSensorTable, "maxForceRAW", true))
+					{
+						LogB.SQL("renaming column maxForceRAW...");
+						executeSQL("ALTER TABLE " + Constants.ForceSensorTable + " RENAME COLUMN maxForceRAW TO maxForceRaw;");
+						LogB.SQL("renamed.");
+					}
+				} catch {
+					LogB.SQL("Catched checking if maxForceRAW exists of renaming to maxForceRaw");
+				}
+
+				currentVersion = updateVersion("2.35");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -3373,6 +3399,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
+		//2.34 - 2.35 Converted DB to 2.35 Ensure maxForceRAW is converted to maxForceRaw
 		//2.33 - 2.34 Converted DB to 2.34 Fixed duplicated names of exercises on encoder, forceSensor, raceAnalyzer caused by import bug
 		//2.32 - 2.33 Converted DB to 2.33 RunEncoderExercise segmentMeters but now is in cm
 		//2.31 - 2.32 Converted DB to 2.32 RunEncoderExercise ALTER TABLE added isSprint

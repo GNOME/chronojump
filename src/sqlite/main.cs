@@ -3169,7 +3169,40 @@ class Sqlite
 					if(columnExists(true, Constants.ForceSensorTable, "maxForceRAW", true))
 					{
 						LogB.SQL("renaming column maxForceRAW...");
-						executeSQL("ALTER TABLE " + Constants.ForceSensorTable + " RENAME COLUMN maxForceRAW TO maxForceRaw;");
+
+						//on Windows with cerbero compilation, sqlite implementation is very old (previous to 3.25.0)
+						//so there is no RENAME COLUMN and we need to do it in old way
+						if(! UtilAll.IsWindows())
+							renameColumnLinuxOrMac (Constants.ForceSensorTable, "maxForceRAW", "maxForceRaw");
+						else
+						{
+							using(SqliteTransaction tr = dbcon.BeginTransaction())
+							{
+								using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+								{
+									dbcmdTr.Transaction = tr;
+
+									//1. create table temp (dropping it first if exists)
+									SqliteForceSensor.createTable_windows_forceSensor_db_2_34_migration (dbcmdTr, "forceSensorTemp");
+
+									//2. copy data
+									dbcmdTr.CommandText = "INSERT INTO forceSensorTemp SELECT * from forceSensor";
+									LogB.SQL(dbcmdTr.CommandText.ToString());
+									dbcmdTr.ExecuteNonQuery();
+
+									//3. drop initial table
+									dbcmdTr.CommandText = "DROP TABLE forceSensor";
+									LogB.SQL(dbcmdTr.CommandText.ToString());
+									dbcmdTr.ExecuteNonQuery();
+
+									//4. rename table (this works on old sqlite implementations, tested on our cerbero)
+									dbcmdTr.CommandText = "ALTER TABLE forceSensorTemp RENAME TO forceSensor";
+									LogB.SQL(dbcmdTr.CommandText.ToString());
+									dbcmdTr.ExecuteNonQuery();
+								}
+								tr.Commit();
+							}
+						}
 						LogB.SQL("renamed.");
 					}
 				} catch {
@@ -3650,6 +3683,13 @@ class Sqlite
 		closeIfNeeded(dbconOpened);
 
 		return exists;
+	}
+
+	//on Windows with cerbero compilation, sqlite implementation is very old (previous to 3.25.0)
+	//so there is no RENAME COLUMN and we need to do it in old way
+	private static void renameColumnLinuxOrMac (string table, string cOld, string cNew)
+	{
+		executeSQL("ALTER TABLE " + table + " RENAME COLUMN \"" + cOld + "\" TO \"" + cNew + "\";");
 	}
 
 	public static bool Exists(bool dbconOpened, string tableName, string findName)

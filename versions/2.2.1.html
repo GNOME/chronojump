@@ -13,9 +13,9 @@ until 24 Feb
 
 	<p><span class="highlight2"><i class="fa fa-running fa-2x"></i>  Race analyzer</span></p>
 	<ul>
-	<li><b>Capture tab shows segments: distance/time on all graphs. A grid is shown according to distance/time values.</b></li>
 	<li><b>Exercises can be sprint or not. An sprint is an exercise where "maximum acceleration is performed at the beginning and maximum sustained speed at a later time.". An example of no-sprint exercises is climbing speed.</b></li>
 	<li><b>As analysis is related to a sprint model, only sprint exercises can be analyzed/exported on analysis tab.</b></li>
+	<li><b>Capture tab shows segments: distance/time on all graphs. A grid is shown according to distance/time values.</b></li>
 	<li><b>Exercise segments can be fixed (as before) or variable (until 40 segments for each exercise). With this you can analyze with user defined distances.</b></li>
 	<li><b>Note Export to CSV can manage a bunch of different mixed exercises (segments fixed/variable) and create columns on CSV to show all the related distances.</b></li>
 	<li><b>Clicking on recalculate applies/stores changes on set, exercise and capture tab. It does executes an analysis on analyze tab.</b></li>
@@ -26,7 +26,7 @@ until 24 Feb
 	<li>Race analyzer export rownames of dist segments (eg. 20.5m, 30.5m) with decimal as comma when needed.</li>
 	<li>Analyze/export process is now much more robust making program not fail/hang if data is not ok and model is not possible.</li>
 	<li>On export check that R is installed on mac, if not show a message.</li>
-	<li>Discarded rows on export are shown at the end of the process.</li>
+	<li>Discarded sets on export are shown at the end of the process.</li>
 	<li>Better behaviour for analyze options "close" button (returning to previous page) and display of "close and analyze" (only on current set tab)</li>
 	<li>Fixed "enter" on comments to avoid hang on exportFiles CSV.</li>
 	<li>Fixed update on exercise could fail on old Sqlite implementations.</li>
@@ -43,10 +43,10 @@ until 24 Feb
 		<li>Checking if sprint data is ok, is better done now and shared between analyze and export, discarting same repetitions.</li>
 		<li>Analyze/export process is now much more robust making program not fail/hang if data is not ok and model is not possible.</li>
 		<li>On export an sprint check that R is installed on mac, if not show a message.</li>
-		<li>Discarded rows on sprint are shown at the end of export.</li>
+		<li>Discarded sets on sprint are shown at the end of export.</li>
 	</ul>
-	<li>Capture tab graphs: (jumps/time, jumps FV) have same font for showing selected values (mouse clicked by user).
 	<li>Fixed bug displaying jumps (simple/multiple) weight after edit (when weight is shown on Kg and not percentage), it was ok after session reload. Now is ok without the need of reload session.
+	<li>Capture tab graphs: (jumps/time, jumps FV) have same font for showing selected values (mouse clicked by user).
 	</ul>
 
 	<p><span class="highlight2"><i class="fa fa-bar-chart fa-2x"></i>  Encoder</span></p>

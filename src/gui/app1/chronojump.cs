@@ -4626,7 +4626,7 @@ public partial class ChronoJumpWindow
 		else if(current_mode == Constants.Modes.RUNSINTERVALLIC)
 		{
 			//RSA runs cannot be simulated because it's complicated to manage the countdown event...
-			if(currentRunIntervalType.IsRSA && ! canCaptureC) {
+			if(currentRunIntervalType.IsRSA && ! canCaptureC && ! wireless) {
 				new DialogMessage(Constants.MessageTypes.WARNING, 
 						Catalog.GetString("Sorry, RSA tests cannot be simulated."));
 				return;

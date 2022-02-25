@@ -401,6 +401,14 @@ public class ForceSensor
 		get { return exerciseName; }
 		set { exerciseName = value; }
 	}
+	public double MaxForceRaw
+	{
+		set { maxForceRaw = value; }
+	}
+	public double MaxAvgForce1s
+	{
+		set { maxAvgForce1s = value; }
+	}
 }
 
 public class ForceSensorExercise

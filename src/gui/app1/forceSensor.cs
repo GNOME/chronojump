@@ -2538,6 +2538,7 @@ LogB.Information(" fs R ");
 		//currentForceSensor.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_force_sensor_capture_comment);
 		currentForceSensor.Comments = UtilGtk.TextViewGetCommentValidSQL(textview_contacts_signal_comment);
 
+
 		double stiffness;
 		string stiffnessString;
 		getStiffnessAndStiffnessStringFromSQL(out stiffness, out stiffnessString);
@@ -2556,6 +2557,26 @@ LogB.Information(" fs R ");
 			forceSensorZoomDefaultValues();
 			forceSensorDoGraphAI(false);
 		}
+
+		//to update maxAvgForce in 1s and fmax need to have fscPoints changed according to CaptureOption. So do it here
+		currentForceSensor.MaxForceRaw = forceSensorValues.Max;
+
+		//get maxAvgForce in 1s start ---->
+		double maxAvgForce1s = -1; //default value
+		double forceMaxAvgInWindow;
+		int forceMaxAvgInWindowSampleStart;
+		int forceMaxAvgInWindowSampleEnd;
+		string forceMaxAvgInWindowError;
+		fscPoints.GetForceMaxAvgInWindow(0, fscPoints.NumCaptured -1, 1,
+				out forceMaxAvgInWindow,
+				out forceMaxAvgInWindowSampleStart,
+				out forceMaxAvgInWindowSampleEnd,
+				out forceMaxAvgInWindowError);
+		if(forceMaxAvgInWindowError == "")
+			maxAvgForce1s = forceMaxAvgInWindow;
+		currentForceSensor.MaxAvgForce1s = maxAvgForce1s;
+		//<---- get maxAvgForce in 1s end
+
 
 		currentForceSensor.UpdateSQL(false);
 

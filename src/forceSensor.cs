@@ -252,8 +252,7 @@ public class ForceSensor
 		//LogB.Information(string.Format("Abs(forceRaw): {0}, totalMass: {1}, forceResultant: {2}",
 		//			Math.Abs(forceRaw), totalMass, forceResultant));
 
-		//return calculeForceWithCaptureOptions(forceResultant, fsco);
-		return forceResultant;
+		return calculeForceWithCaptureOptions(forceResultant, fsco);
 	}
 	private static double calculeForceWithCaptureOptions(double force, CaptureOptions fsco)
 	{

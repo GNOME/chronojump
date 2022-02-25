@@ -275,6 +275,33 @@ class SqliteForceSensor : Sqlite
 		return array;
 	}
 
+	//this method is here to have a createTable that does not change in future versions
+	protected internal static void createTable_windows_forceSensor_db_2_34_migration
+		(SqliteCommand mycmd, string migrateToTable) //needed for migration from 2_34 to 2.35 on windows
+	{
+		mycmd.CommandText =
+			"DROP TABLE IF EXISTS \"" + migrateToTable +
+			"\"; CREATE TABLE \"" + migrateToTable + "\" ( " +
+			"uniqueID INTEGER PRIMARY KEY, " +
+			"personID INT, " +
+			"sessionID INT, " +
+			"exerciseID INT, " +
+			"captureOption TEXT, " + //ForceSensor.CaptureOptions {NORMAL, ABS, INVERTED}
+			"angle INT, " + 	//angle can be different than the defaultAngle on exercise
+			"laterality TEXT, " +	//"Both" "Right" "Left". stored in english
+			"filename TEXT, " +
+			"url TEXT, " +		//URL of data files. stored as relative
+			"datetime TEXT, " + 	//2019-07-11_15-01-44
+			"comments TEXT, " +
+			"videoURL TEXT, " +	//URL of video of signals. stored as relative
+			"stiffness FLOAT DEFAULT -1, " +	//this is the important, next one is needed for recalculate, but note that some bands can have changed or being deleted
+			"stiffnessString TEXT, " + //uniqueID*active of ElasticBand separated by ';' or empty if exerciseID ! elastic
+			"maxForceRaw FLOAT, " +
+			"maxAvgForce1s FLOAT)";
+		LogB.SQL(mycmd.CommandText.ToString());
+		mycmd.ExecuteNonQuery();
+	}
+
 	/*
 	 * this import converts all the forceSensor files into SQL rows with a column pointing the file
 	 * persons have to be recognized/created (if is not possible to get the person then an Unknown person is created)

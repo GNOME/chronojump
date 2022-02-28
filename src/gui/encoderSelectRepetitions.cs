@@ -190,7 +190,7 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 		data = SqliteEncoder.Select(
 				false, -1, currentPerson.UniqueID, currentSession.UniqueID, encoderGI,
 				exerciseID, "curve", EncoderSQL.Eccons.ALL, "",
-				false, true);
+				false, true, true);
 	}
 
 	protected override void createBigArray() 
@@ -321,7 +321,7 @@ public class EncoderSelectRepetitionsIndividualCurrentSession : EncoderSelectRep
 		ArrayList data = SqliteEncoder.Select(
 				false, -1, currentPerson.UniqueID, currentSession.UniqueID, encoderGI,
 				exerciseID, "curve", EncoderSQL.Eccons.ALL, "",
-				false, true);
+				false, true, true);
 
 		//update on database the curves that have been selected/deselected
 		//doing it as a transaction: FAST
@@ -593,7 +593,7 @@ public class EncoderSelectRepetitionsGroupalCurrentSession : EncoderSelectRepeti
 			ArrayList eSQLarray = SqliteEncoder.Select(
 					false, -1, p.UniqueID, currentSession.UniqueID, encoderGI,
 					exerciseID, "curve", EncoderSQL.Eccons.ALL, "",
-					false, true);
+					false, true, true);
 
 			int allCurves = eSQLarray.Count;
 

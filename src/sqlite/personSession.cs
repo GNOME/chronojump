@@ -485,7 +485,7 @@ class SqlitePersonSession : Sqlite
 		ArrayList encoderArray = SqliteEncoder.Select(
 				true, -1, Convert.ToInt32(personID), Convert.ToInt32(sessionID), Constants.EncoderGI.ALL,
 				-1, "signal", EncoderSQL.Eccons.ALL, "",
-				false, true);
+				false, true, false);
 
 		foreach(EncoderSQL eSQL in encoderArray)
 		{
@@ -502,7 +502,7 @@ class SqlitePersonSession : Sqlite
 		encoderArray = SqliteEncoder.Select(
 				true, -1, Convert.ToInt32(personID), Convert.ToInt32(sessionID), Constants.EncoderGI.ALL,
 				-1, "curve", EncoderSQL.Eccons.ALL, "",
-				false, true);
+				false, true, true);
 		
 		foreach(EncoderSQL eSQL in encoderArray) {
 			Util.FileDelete(eSQL.GetFullURL(false));	//don't convertPathToR

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -187,29 +187,38 @@ class SqliteEncoder : Sqlite
 		LogB.SQL("Ended transaction");
 		return countActive;
 	}
-	
-	//pass uniqueID value and then will return one record. do like this:
-	//EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, myUniqueID, 0, 0, 0, "", EncoderSQL.Eccons.ALL, false, true)[0];
-	
-	//WARNING because SqliteEncoder.Select may not return nothing, and then cannot be assigned to eSQL
-	//see: delete_encoder_curve(bool dbconOpened, int uniqueID)
-	//and: manageCurvesOfThisSignal
-	//
-	//don't care for the 0, 0, 0  because selection will be based on the myUniqueID and only one row will be returned
-	//or
-	//pass uniqueID==-1 and personID, sessionID, signalOrCurve values, and will return some records
-	//personID can be -1 to get all on that session
-	//sessionID can be -1 to get all sessions
-	//exerciseID can be -1 to get all exercises
-	//signalOrCurve can be "all"
-	
-	//orderIDascendent is good for all the situations except when we want to convert from 1.05 to 1.06
-	//in that conversion, we want first the last ones, and later the previous
-	//	(to delete them if they are old copies)
+
+	/*
+	   SqliteEncoder.Select
+	   pass uniqueID value and then will return one record. do like this:
+	   EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, myUniqueID, 0, 0, 0, "", EncoderSQL.Eccons.ALL, false, true)[0];
+
+	   WARNING because SqliteEncoder.Select may not return nothing, and then cannot be assigned to eSQL
+	   see: delete_encoder_curve(bool dbconOpened, int uniqueID)
+		and: manageCurvesOfThisSignal
+
+	   don't care for the 0, 0, 0  because selection will be based on the myUniqueID and only one row will be returned
+	   or
+	   pass uniqueID==-1 and personID, sessionID, signalOrCurve values, and will return some records
+	   personID can be -1 to get all on that session
+	   sessionID can be -1 to get all sessions
+	   exerciseID can be -1 to get all exercises
+	   signalOrCurve can be "all"
+
+	   orderIDascendent is good for all the situations except when we want to convert from 1.05 to 1.06
+	   in that conversion, we want first the last ones, and later the previous
+	   (to delete them if they are old copies)
+
+	   orderRepsByPosInSet uses encoderSignalCurve. encoder reps uniqueIDs are not correctly ordered by set,
+	   eg if you save only the best (maybe the 4th), will have uniqueID 1, and then if you save it all,
+	   then they will be saved as 2, 3, (4 not saved becuase it is already one), 4, 5, ... So 4th in order will be 1
+	   orderRepsByPosInSet fixes this problem. this is used eg. in analyze session to sort them correctly
+	 */
 	public static ArrayList Select (
 			bool dbconOpened, int uniqueID, int personID, int sessionID, Constants.EncoderGI encoderGI, 
 			int exerciseID, string signalOrCurve, EncoderSQL.Eccons ecconSelect, string lateralityEnglish,
-			bool onlyActive, bool orderIDascendent)
+			bool onlyActive, bool orderIDascendent,
+			bool orderRepsByPosInSet)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -252,26 +261,46 @@ class SqliteEncoder : Sqlite
 				selectStr += andString + Constants.EncoderTable + ".eccon = \"" + EncoderSQL.Eccons.ecS.ToString() + "\"";
 		}
 
+		string fromString = " FROM " + Constants.EncoderTable  + ", " + Constants.EncoderExerciseTable;
+		if(orderRepsByPosInSet)
+			fromString += ", " + Constants.EncoderSignalCurveTable;
+
 		//ensure andString is defined if selectStr is != "" (bug on 2.1.2 release)
 		if(selectStr != "")
 			andString = " AND ";
 
 		string onlyActiveString = "";
 		if(onlyActive)
+		{
 			onlyActiveString = andString + Constants.EncoderTable + ".status = \"active\" ";
+			andString = " AND ";
+		}
+
+		string orderRepsByPosInSetAndStr = "";
+		if(orderRepsByPosInSet)
+		{
+			orderRepsByPosInSetAndStr = andString + Constants.EncoderTable + ".uniqueID = " +
+				Constants.EncoderSignalCurveTable + ".curveID ";
+			//andString = " AND ";
+		}
+
+		string orderRepsByPosInSetOrderStr = "";
+		if(orderRepsByPosInSet)
+			orderRepsByPosInSetOrderStr = Constants.EncoderSignalCurveTable + ".mscentral, ";
 
 		string orderIDstr = "";
 		if(! orderIDascendent)
 			orderIDstr = " DESC";
 
 		dbcmd.CommandText = "SELECT " + 
-			Constants.EncoderTable + ".*, " + Constants.EncoderExerciseTable + ".name FROM " + 
-			Constants.EncoderTable  + ", " + Constants.EncoderExerciseTable  + 
+			Constants.EncoderTable + ".*, " + Constants.EncoderExerciseTable + ".name " +
+			fromString +
 			" WHERE " + selectStr +
 			andString + Constants.EncoderTable + ".exerciseID = " + 
 				Constants.EncoderExerciseTable + ".uniqueID " +
-				onlyActiveString +
+				onlyActiveString + orderRepsByPosInSetAndStr +
 			" ORDER BY substr(filename,-23,19), " + //'filename,-23,19' has the date of capture signal
+			orderRepsByPosInSetOrderStr +
 			"uniqueID " + orderIDstr; 
 
 		LogB.SQL(dbcmd.CommandText.ToString());

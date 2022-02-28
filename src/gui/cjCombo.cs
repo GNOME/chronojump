@@ -27,6 +27,8 @@ public partial class ChronoJumpWindow
 	int getExerciseIDFromName (string [] comboArrayString, string name, bool comboWithTranslation)
 	{
 		LogB.Information("getExerciseIDFromName for: " + name);
+		if(comboArrayString == null)
+			return -1;
 
 		string idFound = "";
 
@@ -50,6 +52,9 @@ public partial class ChronoJumpWindow
 
 	int getExerciseIDFromAnyCombo(Gtk.ComboBox combo, string [] comboArrayString, bool comboWithTranslation)
 	{
+		if(combo == null)
+			return -1;
+
 		return getExerciseIDFromName(comboArrayString, UtilGtk.ComboGetActive(combo), comboWithTranslation);
 	}
 }

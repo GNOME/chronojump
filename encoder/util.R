@@ -678,7 +678,14 @@ kinematicsF <- function(displacement, repOp, smoothingOneEC, smoothingOneC, g, i
 		    ))
 }
 
-findECPhases <- function(displacement,speed) {
+findECPhases <- function(displacement,speed)
+{
+	if(length(speed) == 1)
+		return(list(
+			    eccentric=0,
+			    isometric=0,
+			    concentric=0))
+
 	speed.ext=extrema(speed)
 	
 	#In all the extrema minindex values, search which range (row) has the min values,
@@ -691,7 +698,6 @@ findECPhases <- function(displacement,speed) {
 	
 	#find the cross between both
 	crossMinRow=which(speed.ext$cross[,1] > searchMinSpeedEnd & speed.ext$cross[,1] < searchMaxSpeedIni)
-			
 	
 	eccentric = 0
 	isometric = 0

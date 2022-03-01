@@ -7599,6 +7599,19 @@ LogB.Debug("mc finished 5");
 		if(translator_credits == "translator-credits") 
 			translator_credits = "";
 
+		//DB version
+		if(File.Exists(System.IO.Path.Combine(Util.GetDatabaseDir(), "chronojump.db"))) {
+			try {
+				Sqlite.Connect();
+				progVersion += "\nDB version: " + SqlitePreferences.Select("databaseVersion", false);
+				Sqlite.DisConnect();
+			}
+			catch {
+				Console.WriteLine("Cannot check DB version, failed checking");
+				Sqlite.DisConnect();
+			}
+		}
+
 		new About(progVersion, translator_credits);
 	}
 

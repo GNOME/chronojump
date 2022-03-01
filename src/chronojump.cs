@@ -76,6 +76,20 @@ public class ChronoJump
 				Console.WriteLine("Chronojump version: " + BuildInfo.chronojumpVersion);
 				if(operatingSystem == UtilAll.OperatingSystems.LINUX)
 					Console.WriteLine("Note in Linux is not reliable if ./autogen.sh was not un before make");
+
+				if(File.Exists(System.IO.Path.Combine(Util.GetDatabaseDir(), "chronojump.db"))) {
+					try {
+						Sqlite.Connect();
+						Console.WriteLine("Chronojump DB version: " +
+								SqlitePreferences.Select("databaseVersion", false));
+						Sqlite.DisConnect();
+					}
+					catch {
+						Console.WriteLine("Cannot check DB version, failed checking");
+						Sqlite.DisConnect();
+					}
+				} else
+					Console.WriteLine("Cannot check DB version, chronojump.db not found on: " + System.IO.Path.Combine(Util.GetDatabaseDir()));
 			}
 			else // (args[0] == "version2")
 			{

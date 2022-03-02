@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -501,8 +501,6 @@ LogB.Information("going to call photocellWirelessCapture.CaptureStart ()");
 							lastTc = timestamp / 1000.0;
 
 						runPTL.AddTC(photocell, timestamp);
-
-						onlyInterval_SetRSAVariables();
 					}
 
 					runPhase = runPhases.RUNNING;
@@ -1126,10 +1124,13 @@ public class RunIntervalExecute : RunExecute
 		//put button_finish as sensitive when first jump is done (there's something recordable)
 		if(tracks == 1)
 			needSensitiveButtonFinish = true;
+
+		onlyInterval_SetRSAVariables();
 	}
 
 
-	protected override string countDownMessage() {
+	protected override string countDownMessage()
+	{
 		double waitSeconds = Util.GetRunIVariableDistancesThisRowIsRSA(distancesString, Convert.ToInt32(tracks))
 			 - (timerCount - Util.GetTotalTime(intervalTimesString) - lastTc);
 

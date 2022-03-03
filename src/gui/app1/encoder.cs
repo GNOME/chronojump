@@ -862,9 +862,9 @@ public partial class ChronoJumpWindow
 
 		//1. exercise
 		string exerciseID = "";
-		if(currentEncoderGI == Constants.EncoderGI.GRAVITATORY)
+		if(current_mode == Constants.Modes.POWERGRAVITATORY)
 			exerciseID = SqlitePreferences.Select(SqlitePreferences.EncoderExerciseIDGravitatory, true);
-		else
+		else //(current_mode == Constants.Modes.POWERINERTIAL)
 			exerciseID = SqlitePreferences.Select(SqlitePreferences.EncoderExerciseIDInertial, true);
 
 		string exerciseNameTranslated = Util.FindOnArray(':', 0, 2, exerciseID.ToString(),
@@ -882,9 +882,9 @@ public partial class ChronoJumpWindow
 
 		//2 contraction
 		string contraction = "";
-		if(currentEncoderGI == Constants.EncoderGI.GRAVITATORY)
+		if(current_mode == Constants.Modes.POWERGRAVITATORY)
 			contraction = SqlitePreferences.Select(SqlitePreferences.EncoderContractionGravitatory, true);
-		else
+		else //(current_mode == Constants.Modes.POWERINERTIAL)
 			contraction = SqlitePreferences.Select(SqlitePreferences.EncoderContractionInertial, true);
 
 		if(contraction == Constants.Concentric)
@@ -894,9 +894,9 @@ public partial class ChronoJumpWindow
 
 		//3 laterality
 		string laterality = "";
-		if(currentEncoderGI == Constants.EncoderGI.GRAVITATORY)
+		if(current_mode == Constants.Modes.POWERGRAVITATORY)
 			laterality = SqlitePreferences.Select(SqlitePreferences.EncoderLateralityGravitatory, true);
-		else
+		else //(current_mode == Constants.Modes.POWERINERTIAL)
 			laterality = SqlitePreferences.Select(SqlitePreferences.EncoderLateralityInertial, true);
 
 		if(laterality == "RL")
@@ -924,9 +924,9 @@ public partial class ChronoJumpWindow
 
 		//1 exercise
 		int exerciseID = getExerciseIDFromEncoderCombo (exerciseCombos.CAPTURE);
-		if(currentEncoderGI == Constants.EncoderGI.GRAVITATORY)
+		if(current_mode == Constants.Modes.POWERGRAVITATORY)
 			SqlitePreferences.Update (SqlitePreferences.EncoderExerciseIDGravitatory, exerciseID.ToString(), true);
-		else
+		else //(current_mode == Constants.Modes.POWERINERTIAL)
 			SqlitePreferences.Update (SqlitePreferences.EncoderExerciseIDInertial, exerciseID.ToString(), true);
 
 		//2 contraction
@@ -942,17 +942,17 @@ public partial class ChronoJumpWindow
 		//3 laterality
 		string laterality = getLateralityFromGui(true);
 
-		if(currentEncoderGI == Constants.EncoderGI.GRAVITATORY)
+		if(current_mode == Constants.Modes.POWERGRAVITATORY)
 			SqlitePreferences.Update (SqlitePreferences.EncoderLateralityGravitatory, laterality, true);
-		else
+		else //(current_mode == Constants.Modes.POWERINERTIAL)
 			SqlitePreferences.Update (SqlitePreferences.EncoderLateralityInertial, laterality, true);
 
 		//4 mass / weights
-		if(currentEncoderGI == Constants.EncoderGI.GRAVITATORY)
+		if(current_mode == Constants.Modes.POWERGRAVITATORY)
 			SqlitePreferences.Update (SqlitePreferences.EncoderMassGravitatory,
 					Util.ConvertToPoint(findMass(Constants.MassType.EXTRA)), //when save on sql, do not include person weight
 					true);
-		else
+		else //(current_mode == Constants.Modes.POWERINERTIAL)
 			SqlitePreferences.Update (SqlitePreferences.EncoderWeightsInertial,
 					spin_encoder_im_weights_n.Value.ToString(),
 					true);
@@ -1973,7 +1973,7 @@ public partial class ChronoJumpWindow
 				
 	void encoderConfigurationGUIUpdate()
 	{
-		if(encoderConfigurationCurrent.has_inertia)
+		if(current_mode == Constants.Modes.POWERINERTIAL)
 		{
 			notebook_encoder_top.Page = 1;
 			//label_button_encoder_select.Text = Catalog.GetString("Configure inertial encoder");
@@ -1997,7 +1997,7 @@ public partial class ChronoJumpWindow
 			label_encoder_im_total.Text = encoderConfigurationCurrent.inertiaTotal.ToString();
 			label_encoder_top_im.Text = Catalog.GetString("Inertia M.") + ": " + label_encoder_im_total.Text;
 		}
-		else {
+		else { //(current_mode == Constants.Modes.POWERGRAVITATORY)
 			notebook_encoder_top.Page = 0;
 			//label_button_encoder_select.Text = Catalog.GetString("Configure gravitatory encoder");
 			label_encoder_exercise_mass.Visible = true;

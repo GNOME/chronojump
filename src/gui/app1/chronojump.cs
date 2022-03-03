@@ -3725,9 +3725,9 @@ public partial class ChronoJumpWindow
 				//TODO: show also info on the top
 				label_button_encoder_select.Text = Catalog.GetString("Configure gravitatory encoder");
 				label_encoder_exercise_mass.Visible = true;
-				vbox_encoder_exercise_mass.Visible = true;
+				hbox_encoder_exercise_mass.Visible = true;
 				label_encoder_exercise_inertia.Visible = false;
-				vbox_encoder_exercise_inertia.Visible = false;
+				hbox_encoder_exercise_inertia.Visible = false;
 				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_weight.png");
 
 				if(radio_encoder_analyze_individual_current_set.Active || radio_encoder_analyze_individual_current_session.Active)
@@ -3762,9 +3762,9 @@ public partial class ChronoJumpWindow
 				//TODO: show also info on the top
 				label_button_encoder_select.Text = Catalog.GetString("Configure inertial encoder");
 				label_encoder_exercise_mass.Visible = false;
-				vbox_encoder_exercise_mass.Visible = false;
+				hbox_encoder_exercise_mass.Visible = false;
 				label_encoder_exercise_inertia.Visible = true;
-				vbox_encoder_exercise_inertia.Visible = true;
+				hbox_encoder_exercise_inertia.Visible = true;
 
 				radiobutton_encoder_analyze_1RM.Visible = false;
 				hbox_combo_encoder_analyze_1RM.Visible=false;

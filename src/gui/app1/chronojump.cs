@@ -24,7 +24,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -3728,6 +3728,8 @@ public partial class ChronoJumpWindow
 				hbox_encoder_exercise_mass.Visible = true;
 				label_encoder_exercise_inertia.Visible = false;
 				hbox_encoder_exercise_inertia.Visible = false;
+				hbox_encoder_exercise_gravitatory_min_mov.Visible = true;
+				hbox_encoder_exercise_inertial_min_mov.Visible = false;
 				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_weight.png");
 
 				if(radio_encoder_analyze_individual_current_set.Active || radio_encoder_analyze_individual_current_session.Active)
@@ -3742,7 +3744,9 @@ public partial class ChronoJumpWindow
 				label_gravitatory_vpf_propulsive.Visible = preferences.encoderPropulsive;
 
 				notebook_encoder_top.Page = 0;
-			} else {
+			}
+			else //(m == Constants.Modes.POWERINERTIAL)
+			{
 				//change encoderConfigurationCurrent if needed
 				if(! encoderConfigurationCurrent.has_inertia)
 				{
@@ -3765,6 +3769,8 @@ public partial class ChronoJumpWindow
 				hbox_encoder_exercise_mass.Visible = false;
 				label_encoder_exercise_inertia.Visible = true;
 				hbox_encoder_exercise_inertia.Visible = true;
+				hbox_encoder_exercise_gravitatory_min_mov.Visible = false;
+				hbox_encoder_exercise_inertial_min_mov.Visible = true;
 
 				radiobutton_encoder_analyze_1RM.Visible = false;
 				hbox_combo_encoder_analyze_1RM.Visible=false;
@@ -3776,6 +3782,7 @@ public partial class ChronoJumpWindow
 				notebook_encoder_top.Page = 1;
 				pixbufModeCurrent = new Pixbuf (null, Util.GetImagePath(false) + "image_inertia.png");
 			}
+			encoderConfigurationGUIUpdate();
 			encoderGuiChangesAfterEncoderConfigurationWin(true);
 			if(changed) {
 				prepareAnalyzeRepetitions ();

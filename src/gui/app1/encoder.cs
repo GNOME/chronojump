@@ -37,6 +37,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_encoder_exercise_mass;
 	[Widget] Gtk.Label label_encoder_exercise_inertia;
 	[Widget] Gtk.HBox hbox_encoder_exercise_inertia;
+	[Widget] Gtk.HBox hbox_encoder_exercise_gravitatory_min_mov;
+	[Widget] Gtk.HBox hbox_encoder_exercise_inertial_min_mov;
+	[Widget] Gtk.SpinButton spin_encoder_capture_min_height_gravitatory;
+	[Widget] Gtk.SpinButton spin_encoder_capture_min_height_inertial;
 
 	[Widget] Gtk.Button button_encoder_select;
 	[Widget] Gtk.SpinButton spin_encoder_extra_weight;
@@ -1993,6 +1997,8 @@ public partial class ChronoJumpWindow
 			hbox_encoder_exercise_mass.Visible = false;
 			label_encoder_exercise_inertia.Visible = true;
 			hbox_encoder_exercise_inertia.Visible = true;
+			hbox_encoder_exercise_gravitatory_min_mov.Visible = false;
+			hbox_encoder_exercise_inertial_min_mov.Visible = true;
 			
 			if(! encoderConfigurationCurrent.list_d.IsEmpty())
 			{
@@ -2008,6 +2014,8 @@ public partial class ChronoJumpWindow
 
 			label_encoder_im_total.Text = encoderConfigurationCurrent.inertiaTotal.ToString();
 			label_encoder_top_im.Text = Catalog.GetString("Inertia M.") + ": " + label_encoder_im_total.Text;
+
+			spin_encoder_capture_min_height_inertial.Value = preferences.EncoderCaptureMinHeight(true);
 		}
 		else { //(current_mode == Constants.Modes.POWERGRAVITATORY)
 			notebook_encoder_top.Page = 0;
@@ -2016,6 +2024,9 @@ public partial class ChronoJumpWindow
 			hbox_encoder_exercise_mass.Visible = true;
 			label_encoder_exercise_inertia.Visible = false;
 			hbox_encoder_exercise_inertia.Visible = false;
+			hbox_encoder_exercise_gravitatory_min_mov.Visible = true;
+			hbox_encoder_exercise_inertial_min_mov.Visible = false;
+			spin_encoder_capture_min_height_gravitatory.Value = preferences.EncoderCaptureMinHeight(false);
 		}
 	}
 
@@ -5231,6 +5242,7 @@ public partial class ChronoJumpWindow
 	void on_button_encoder_exercise_close_clicked (object o, EventArgs args)
 	{
 		encoder_exercise_show_hide (false);
+		checkIfEncoderMinHeightChanged ();
 	}
 	private void encoder_exercise_show_hide (bool show)
 	{
@@ -5253,14 +5265,29 @@ public partial class ChronoJumpWindow
 	void on_button_encoder_exercise_close_and_capture_clicked (object o, EventArgs args)
 	{
 		encoder_exercise_show_hide (false);
+		checkIfEncoderMinHeightChanged ();
+
 		on_button_encoder_capture_clicked (o, args);
 	}
 	void on_button_encoder_exercise_close_and_recalculate_clicked (object o, EventArgs args)
 	{
 		encoder_exercise_show_hide (false);
+		checkIfEncoderMinHeightChanged ();
+
 		on_button_encoder_recalculate_clicked (o, args);
 	}
 
+	private void checkIfEncoderMinHeightChanged ()
+	{
+		if(current_mode == Constants.Modes.POWERGRAVITATORY) {
+			preferences.EncoderChangeMinHeight(false,
+					Convert.ToInt32(spin_encoder_capture_min_height_gravitatory.Value));
+
+		} else { // (current_mode == Constants.Modes.POWERINERTIAL)
+			preferences.EncoderChangeMinHeight(true,
+					Convert.ToInt32(spin_encoder_capture_min_height_inertial.Value));
+		}
+	}
 
 	//useful when there are no exercises (have been removed from database)
 	bool selectedEncoderExerciseExists ()

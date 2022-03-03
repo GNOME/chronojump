@@ -789,10 +789,6 @@ public partial class ChronoJumpWindow
 		if(currentPerson == null)
 			return;
 
-		//discard RSA (at the moment)
-		if( currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distancesString.Contains("R") )
-			return;
-
 		cairoPaintBarsPreRealTime = new CairoPaintBarsPreRunIntervalRealtimeCapture(
 				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString(), current_mode,
 				currentPerson.Name, type, preferences.digitsNumber,// preferences.heightPreferred,
@@ -3079,10 +3075,12 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 	}
 }
 
-//TODO: care for R (RSAs) on distancesString
 public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 {
 	private bool isRelative; //related to names: distance and time
+	//private bool ifRSAstartRest; //on RSA if rest starts, this is true and graph do not need to be updated.
+					//but if it is last one then should be painted
+					//better manage it different
 
 	private List<double> distance_l;
 	private List<double> time_l;
@@ -3102,7 +3100,6 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 	{
 		initialize (darea, fontStr, mode, personName, testName, pDN);
 		this.title = Catalog.GetString("Last test:") + " " + generateTitle();
-
 		this.isRelative = isRelative;
 
 		distance_l = new List<double>();
@@ -3110,28 +3107,37 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 		speed_l = new List<double>();
 
 		string [] timeFull = timesString.Split(new char[] {'='});
-		foreach(string t in timeFull)
-			if(Util.IsNumber(t, true))
-			{
-				double tDouble = Convert.ToDouble(t);
-				if(tDouble < 0)
-					time_l.Add(0);
-				else
-					time_l.Add(tDouble);
-			}
-
 		int count = 0;
-		foreach (double time in time_l)
+		foreach(string t in timeFull)
 		{
 			double distance = lastDistance;
 			if(distancesString != "") //if distances are variable
+			{
+				//this will return a 0 on Rest period on RSA
 				distance = Util.GetRunIVariableDistancesStringRow(distancesString, count);
+			}
 
-			distance_l.Add(distance);
-			speed_l.Add(distance / time);
+			//ifRSAstartRest = true;
+			if(distance > 0  //is not RSA rest period
+					&&
+				Util.IsNumber(t, true))
+			{
+				double tDouble = Convert.ToDouble(t);
+				double time = 0;
+				if(tDouble < 0)
+					time = 0;
+				else
+					time = tDouble;
+
+				time_l.Add(time);
+				distance_l.Add(distance);
+				speed_l.Add(distance / time);
+				//ifRSAstartRest = false;
+			}
 			count ++;
 		}
 
+		/*
 		//debug
 		LogB.Information("distances:");
 		foreach (double distance in distance_l)
@@ -3142,6 +3148,7 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 		LogB.Information("speeds:");
 		foreach (double speed in speed_l)
 			LogB.Information(speed.ToString());
+		*/
 	}
 
 	/*
@@ -3166,6 +3173,9 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 		//extra check
 		if(speed_l.Count != time_l.Count)
 			return;
+
+		//if(ifRSAstartRest)
+		//	return;
 
 		CairoBars cb = new CairoBars1Series (darea);
 

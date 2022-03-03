@@ -1046,7 +1046,8 @@ public partial class ChronoJumpWindow
 	}
 
 
-	void on_combo_encoder_exercise_capture_changed (object o, EventArgs args) {
+	private void on_combo_encoder_exercise_capture_changed (object o, EventArgs args)
+	{
 		if(UtilGtk.ComboGetActive(combo_encoder_exercise_capture) != "") { //needed because encoder_exercise_edit updates this combo and can be without values in the changing process
 			array1RMUpdate(false);
 			encoder_change_displaced_weight_and_1RM ();
@@ -1055,6 +1056,16 @@ public partial class ChronoJumpWindow
 			//sensitivity of left/right buttons
 			button_combo_encoder_exercise_capture_left.Sensitive = (combo_encoder_exercise_capture.Active > 0);
 			button_combo_encoder_exercise_capture_right.Sensitive = ! UtilGtk.ComboSelectedIsLast(combo_encoder_exercise_capture);
+
+			button_encoder_exercise_edit.Sensitive = true;
+			button_encoder_exercise_delete.Sensitive = true;
+		} else {
+			label_encoder_top_exercise.Text = "";
+			button_combo_encoder_exercise_capture_left.Sensitive = false;
+			button_combo_encoder_exercise_capture_right.Sensitive = false;
+
+			button_encoder_exercise_edit.Sensitive = false;
+			button_encoder_exercise_delete.Sensitive = false;
 		}
 	}
 	
@@ -1795,6 +1806,7 @@ public partial class ChronoJumpWindow
 				spin_encoder_extra_weight.Value = Convert.ToDouble(Util.ChangeDecimalSeparator(eSQL.extraWeight));
 
 				preferences.EncoderChangeMinHeight(eSQL.encoderConfiguration.has_inertia, eSQL.minHeight);
+
 				//TODO: show info to user in a dialog,
 				//but check if more info have to be shown on this process
 
@@ -4602,14 +4614,22 @@ public partial class ChronoJumpWindow
 
 	//this is called also when an exercise is deleted to update the combo and the string []
 	//and on change mode POWERGRAVITORY <-> POWERINERTIAL, because encoderExercises can have different type (encoderGI)
-	protected void createEncoderComboExerciseAndAnalyze()
+	private void createEncoderComboExerciseAndAnalyze()
 	{
 		ArrayList encoderExercises = SqliteEncoder.SelectEncoderExercises(false, -1, false, getEncoderGIByMenuitemMode());
 		if(encoderExercises.Count == 0)
 		{
 			encoderExercisesTranslationAndBodyPWeight = new String [0];
+
+			//maybe there are no exercises because last one has been deleted, then combo has to be updated and be empty
+			UtilGtk.ComboDelAll(combo_encoder_exercise_capture);
+			UtilGtk.ComboDelAll(combo_encoder_exercise_analyze);
+
 			return;
 		}
+
+		button_encoder_exercise_edit.Sensitive = true;
+		button_encoder_exercise_delete.Sensitive = true;
 
 		encoderExercisesTranslationAndBodyPWeight = new String [encoderExercises.Count];
 		string [] exerciseNamesToCombo = new String [encoderExercises.Count];

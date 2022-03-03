@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -135,12 +135,8 @@ public class PreferencesWindow
 	[Widget] Gtk.CheckButton check_encoder_capture_inactivity_end_time;
 	[Widget] Gtk.HBox hbox_encoder_capture_inactivity_time;
 	[Widget] Gtk.SpinButton spin_encoder_capture_inactivity_end_time;
-	[Widget] Gtk.Image image_encoder_gravitatory;
 	[Widget] Gtk.Image image_encoder_inertial;
 	[Widget] Gtk.Image image_encoder_triggers;
-	[Widget] Gtk.Notebook notebook_encoder_capture_gi;
-	[Widget] Gtk.SpinButton spin_encoder_capture_min_height_gravitatory;
-	[Widget] Gtk.SpinButton spin_encoder_capture_min_height_inertial;
 	[Widget] Gtk.CheckButton checkbutton_encoder_capture_inertial_discard_first_n;
 	[Widget] Gtk.HBox hbox_encoder_capture_inertial_discard_first_n;
 	[Widget] Gtk.SpinButton spin_encoder_capture_inertial_discard_first_n;
@@ -627,20 +623,10 @@ public class PreferencesWindow
 		}
 
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_weight.png");
-		PreferencesWindowBox.image_encoder_gravitatory.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_inertia.png");
 		PreferencesWindowBox.image_encoder_inertial.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_encoder_triggers_no.png");
 		PreferencesWindowBox.image_encoder_triggers.Pixbuf = pixbuf;
-
-		if(menu_mode ==	Constants.Modes.POWERGRAVITATORY)
-			PreferencesWindowBox.notebook_encoder_capture_gi.CurrentPage = 0;
-		else if(menu_mode == Constants.Modes.POWERINERTIAL)
-			PreferencesWindowBox.notebook_encoder_capture_gi.CurrentPage = 1;
-
-		PreferencesWindowBox.spin_encoder_capture_min_height_gravitatory.Value = preferences.encoderCaptureMinHeightGravitatory;
-		PreferencesWindowBox.spin_encoder_capture_min_height_inertial.Value = preferences.encoderCaptureMinHeightInertial;
 
 		if(preferences.encoderCaptureInertialDiscardFirstN > 0) {
 			PreferencesWindowBox.checkbutton_encoder_capture_inertial_discard_first_n.Active = true;
@@ -2031,16 +2017,6 @@ public class PreferencesWindow
 					preferences.encoderCaptureInactivityEndTime,
 					(int) PreferencesWindowBox.spin_encoder_capture_inactivity_end_time.Value);
 		}
-
-		preferences.encoderCaptureMinHeightGravitatory = Preferences.PreferencesChange(
-				"encoderCaptureMinHeightGravitatory",
-				preferences.encoderCaptureMinHeightGravitatory,
-				(int) PreferencesWindowBox.spin_encoder_capture_min_height_gravitatory.Value);
-	
-		preferences.encoderCaptureMinHeightInertial = Preferences.PreferencesChange(
-				"encoderCaptureMinHeightInertial",
-				preferences.encoderCaptureMinHeightInertial,
-				(int) PreferencesWindowBox.spin_encoder_capture_min_height_inertial.Value);
 
 		int spinEncoderCaptureDiscardFirstN = Convert.ToInt32(PreferencesWindowBox.spin_encoder_capture_inertial_discard_first_n.Value);
 		if(! checkbutton_encoder_capture_inertial_discard_first_n.Active)

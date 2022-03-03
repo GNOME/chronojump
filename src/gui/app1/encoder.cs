@@ -1774,6 +1774,8 @@ public partial class ChronoJumpWindow
 
 		genericWin.HideAndNull();
 
+		sensitiveGuiEventDoing (false);
+
 		ArrayList data = SqliteEncoder.Select(
 				false, uniqueID, currentPerson.UniqueID, currentSession.UniqueID, Constants.EncoderGI.ALL,
 				-1, "signal", EncoderSQL.Eccons.ALL, "",
@@ -1876,8 +1878,6 @@ public partial class ChronoJumpWindow
 			encoderCalculeCurves(encoderActions.LOAD);
 		
 			radio_encoder_analyze_individual_current_set.Active = true;
-
-			encoderButtonsSensitive(encoderSensEnumStored);
 		}
 	}
 
@@ -7382,7 +7382,7 @@ public partial class ChronoJumpWindow
 		
 			//save video will be later at encoderSaveSignalOrCurve, because there encoderSignalUniqueID will be known
 			
-			if(action == encoderActions.CURVES || action == encoderActions.CURVES_AC)
+			if(action == encoderActions.CURVES || action == encoderActions.CURVES_AC || action == encoderActions.LOAD)
 				sensitiveGuiEventDone();
 			
 			if(encoderProcessCancel || encoderProcessProblems) {

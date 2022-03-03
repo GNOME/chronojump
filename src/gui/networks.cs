@@ -71,6 +71,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.HBox hbox_encoder_exercise_encoder;
 	[Widget] Gtk.Button button_encoder_exercise_edit;
 	[Widget] Gtk.Button button_encoder_exercise_add;
+	[Widget] Gtk.Button button_encoder_exercise_delete;
 
 	//encoder ...
 	[Widget] Gtk.Alignment alignment_check_encoder_networks_upload;
@@ -184,6 +185,7 @@ public partial class ChronoJumpWindow
 			//don't allow to edit exercises
 			button_encoder_exercise_edit.Visible = false;
 			button_encoder_exercise_add.Visible = false;
+			button_encoder_exercise_delete.Visible = false;
 
 			//on networks do not allow to change devices until preferences option is checked
 			viewport_chronopics.Sensitive = false;

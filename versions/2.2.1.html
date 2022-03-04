@@ -1,14 +1,11 @@
-until 24 Feb	
-
-
-
 	<p><span class="highlight2"><i class="fa fa-area-chart fa-2x"></i>  General Chronojump changes</span></p>
 	<ul>
 	<li><b>Fixed a bug: on creation of an exercise of jumps/races, sometimes this exercise is not shown on the top combo. This made crash the program on Windows if exercise is started just after creation.</b></li>
 	<li><b>Fixed a bug on mac that made some message windows to be displayed with the text at a side.</b></li>
 	<li><b>No more exercise duplicates at import on encoder, forceSensor & raceAnalyzer. Duplicates where exercises where same name but one or more different params. Now have different name (1), (2), ... Also all existing duplicated exercises names on this 3 modes now are renamed as (1), (2), ...</b></li>
 	<li>Fixed a bug: session delete does not really delete all persons on list, and this could show some glitch.</li>
-	<li>Chronojump can be called from command line as "Chronojump version" or "Chronojump version2" to know the version from the command line even with Chronojump already opened.</li>
+	<li>Stability improvements on some selectors when no data available or image load when file is not available.</li>
+	<li>Chronojump can be called from command line as "Chronojump version" or "Chronojump version2" to know the version of the software and the database from the command line even with Chronojump already opened. Also on About window.</li>
 	</ul>
 
 	<p><span class="highlight2"><i class="fa fa-running fa-2x"></i>  Race analyzer</span></p>
@@ -27,7 +24,7 @@ until 24 Feb
 	<li>Analyze/export process is now much more robust making program not fail/hang if data is not ok and model is not possible.</li>
 	<li>On export check that R is installed on mac, if not show a message.</li>
 	<li>Discarded sets on export are shown at the end of the process.</li>
-	<li>Better behaviour for analyze options "close" button (returning to previous page) and display of "close and analyze" (only on current set tab)</li>
+	<li>Better behaviour for analyze options "close" button (returning to previous page) and display of "close and analyze" (only on current set tab).</li>
 	<li>Fixed "enter" on comments to avoid hang on exportFiles CSV.</li>
 	<li>Fixed update on exercise could fail on old Sqlite implementations.</li>
 	<li>Do not show exercise image as is not implemented right now.</li>
@@ -45,21 +42,39 @@ until 24 Feb
 		<li>On export an sprint check that R is installed on mac, if not show a message.</li>
 		<li>Discarded sets on sprint are shown at the end of export.</li>
 	</ul>
+	<li>RSA:</li>
+	<ul>
+		<li>Fixed not showing countdown message on RSA since on double contacts management (by biggest contact).</li>
+		<li>RSA was disabled on our upcoming wireless photocells, now is enabled again.</li>
+		<li>RSA tests are also shown on realtime graph at capture.</li>
+	</ul>
 	<li>Fixed bug displaying jumps (simple/multiple) weight after edit (when weight is shown on Kg and not percentage), it was ok after session reload. Now is ok without the need of reload session.
 	<li>Capture tab graphs: (jumps/time, jumps FV) have same font for showing selected values (mouse clicked by user).
 	</ul>
 
 	<p><span class="highlight2"><i class="fa fa-bar-chart fa-2x"></i>  Encoder</span></p>
 	<ul>
-	<li>Rhythm play sound at each change of phase, including start/end rest. Including when only clusters are used.</li>
+	<li><b>Rhythm play sound at each change of phase, including start/end rest. Including when only clusters are used.</b></li>
+	<li>Minimum height on gravitatory/inertial now is in test config instead of in preferences. Much more easy to change it for any set.</li>
 	<li>Fixed rest after eccentric on encoder rhythm when only clusters are used.</li>
+	<li>Fixed: Repetition wrong sorting in encoder if repetitions where saved on some steps (on analyze currentPerson, currentSession).</li>
+	<li>Fixed hang on encoder R on eccentric/concentric when minimum height is too high.</li>
 	<li>Fixed crash on encoder capture with clusters when no repetitions found (since version 2.2.0).</li>
+	<li>Better behaviour when no encoder exercises (widgets sensitivity).</li>
 	<li>Fixed not showing rest between repetitions as active on opening window.</li>
+	<li>Do not allow to change mode, person, and other buttons while loading a set.</li>
 	<li>Improved behaviour of "close and analyze" button.</li>
 	</ul>
 
 	<p><span class="highlight2"><i class="fa fa-area-chart fa-2x"></i>  Force sensor</span></p>
 	<ul>
+	<li>Related to projected exerted force:
+	<ul>
+		<li><b>Capturing an exercise configured as projected exerted force respects now captureOptions (normal, inverted, abs).</b></li>
+		<li><b>abs, inverted are related to data coming from sensor (not after adding body mass calculations).</b></li>
+		<li><b>if exercise is elastic, after capture a recalculate is done to show force with the effect of the accelerated body mass.</b></li>
+	</ul>
+	<li><b>Recalculate changes an store on database the new maxForceRaw and maxAvgForce1s of the set.</b></li>
 	<li>Fixed a glitch on importing files making forceSensor top combo have the exercise values of runEncoder (if forceSensor mode is active).</li>
 	<li>Ensure maxForceRAW is converted to maxForceRaw (to not have problems on import when using Python3).</li>
 	<li>Fixed "enter" on comments to avoid hang on exportFiles CSV.</li>
@@ -67,11 +82,12 @@ until 24 Feb
 
 	<p><span class="highlight2"><i class="fa fa-sitemap fa-2x"></i>  Chronojump-Networks</span></p>
 	<ul>
-	<li><b>Chronojump-Networks now allows to download exercises using 3.1 code.</li>
+	<li><b>Chronojump-Networks now allows to download exercises using 3.1 code.</b></li>
+	<li>Do not allow also to delete exercises on the station.</li>
 	</ul>
 
 	<p><span class="highlight2"><i class="fa fa-flag-o fa-2x"></i>  Translations</span></p>
 	<ul>
-	<li><b>Updated translations: Brazilian portuguese, Spanish, Swedish, Urkrainian.</b></li>
+	<li><b>Updated translations: Brazilian portuguese, Catalan, Spanish, Swedish, Urkrainian.</b></li>
 	</ul>
 

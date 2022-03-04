@@ -1640,6 +1640,9 @@ LogB.Information(" fs C ");
 							  configChronojump.ExhibitionStationType == ExhibitionTest.testTypes.FORCE_SHOT ) )
 						SqliteJson.UploadExhibitionTest(getExhibitionTestFromGui(configChronojump.ExhibitionStationType, forceSensorValues.Max));
 
+					//on resultant (projected) recalculate at end (to manage correctly speed and accel smoothed that affects body mass
+					if(currentForceSensorExercise.ComputeAsElastic)
+						force_sensor_recalculate();
 				}
 			} else if(forceProcessCancel || forceProcessError)
 			{

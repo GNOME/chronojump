@@ -470,6 +470,10 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 			return;
 		}
 
+		//2.2.1 on resultant, ABS or INVERTED is done by data coming from the sensor
+		for (int i = 0 ; i < force_l.Count; i ++)
+			force_l[i] = calculeForceWithCaptureOptions(force_l[i]);
+
 		calculeResultant ();
 		CalculedElasticPSAP = true;
 	}
@@ -535,9 +539,8 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 		
 	private void calculePositions()
 	{
-		//2.2.1 on resultant, ABS or INVERTED is done by data coming from the sensor
 		for (int i = 0 ; i < force_l.Count; i ++)
-			position_not_smoothed_l.Add(calculeForceWithCaptureOptions(force_l[i]) / stiffness);
+			position_not_smoothed_l.Add(force_l[i] / stiffness);
 
 		position_l = smoothVariable(position_not_smoothed_l);
 	}
@@ -598,8 +601,8 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 			LogB.Information(string.Format("post force (but before applying captureoptions): {0}", force));
 
 			//force_l[i] = calculeForceWithCaptureOptions(force); //
-			//2.2.1 this is applied now on position
-			force_l[i] = force; //
+			//2.2.1 this is applied now at constructor
+			force_l[i] = force;
 
 			LogB.Information(string.Format("post force (after applying captureoptions): {0}", force_l[i]));
 		}

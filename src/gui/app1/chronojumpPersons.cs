@@ -65,7 +65,7 @@ public partial class ChronoJumpWindow
 		label_top_encoder_person_name.UseMarkup = true;
 
 		string filenameMini = Util.UserPhotoURL(true, currentPerson.UniqueID);
-		if(filenameMini != "")
+		if(filenameMini != "" && Util.FileExists(filenameMini))
 		{
 			Pixbuf pixbuf = new Pixbuf (filenameMini);
 			image_current_person.Pixbuf = pixbuf;

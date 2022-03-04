@@ -1642,7 +1642,10 @@ LogB.Information(" fs C ");
 
 					//on resultant (projected) recalculate at end (to manage correctly speed and accel smoothed that affects body mass
 					if(currentForceSensorExercise.ComputeAsElastic)
+					{
 						force_sensor_recalculate();
+						event_execute_label_message.Text = "Converted to exerted force.";
+					}
 				}
 			} else if(forceProcessCancel || forceProcessError)
 			{

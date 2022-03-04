@@ -211,7 +211,9 @@ public class ForceSensor
 		if(fse.PercentBodyWeight > 0 && personMass > 0)
 			totalMass = fse.PercentBodyWeight * personMass / 100.0;
 
-		//right now only code for non-elastic
+		//TODO: right now only code for non-elastic
+		//so on elastic we do a load after capture
+		//in future show with cairo a graph of raw, and another with resultant and displacement
 		double accel = 0;
 
 		/*
@@ -231,6 +233,8 @@ public class ForceSensor
 		LogB.Information("forceRaw: " + forceRaw.ToString());
 		LogB.Information("totalMass: " + totalMass.ToString());
 		LogB.Information("AngleDefault: " + fse.AngleDefault.ToString());
+		 */
+		/*
 
 		LogB.Information("horiz: " + (Math.Cos(fse.AngleDefault * Math.PI / 180.0) * (forceRaw + totalMass * accel)).ToString());
 		LogB.Information("vertical: " + (Math.Sin(fse.AngleDefault * Math.PI / 180.0) * (forceRaw + totalMass * accel) + totalMass * 9.81).ToString());
@@ -252,7 +256,6 @@ public class ForceSensor
 			forceRaw = calculeForceWithCaptureOptions(forceRaw, fsco);
 
 	        double forceResultant = forceRaw  +  totalMass*(accel + 9.81 * Math.Sin(fse.AngleDefault * Math.PI / 180.0));
-
 
 		//LogB.Information(string.Format("Abs(forceRaw): {0}, totalMass: {1}, forceResultant: {2}",
 		//			Math.Abs(forceRaw), totalMass, forceResultant));

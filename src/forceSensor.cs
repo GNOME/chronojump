@@ -246,13 +246,18 @@ public class ForceSensor
 				);
         */
 
-        double forceResultant = forceRaw  +  totalMass*(accel + 9.81 * Math.Sin(fse.AngleDefault * Math.PI / 180.0));
+		//on 2.2.1 ABS or inverted is not done on forceResultant,
+		//is done on force coming from the sensor
+		if(fsco != CaptureOptions.NORMAL)
+			forceRaw = calculeForceWithCaptureOptions(forceRaw, fsco);
+
+	        double forceResultant = forceRaw  +  totalMass*(accel + 9.81 * Math.Sin(fse.AngleDefault * Math.PI / 180.0));
 
 
 		//LogB.Information(string.Format("Abs(forceRaw): {0}, totalMass: {1}, forceResultant: {2}",
 		//			Math.Abs(forceRaw), totalMass, forceResultant));
 
-		return calculeForceWithCaptureOptions(forceResultant, fsco);
+		return forceResultant;
 	}
 	private static double calculeForceWithCaptureOptions(double force, CaptureOptions fsco)
 	{

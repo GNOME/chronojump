@@ -400,8 +400,13 @@ public class ForceSensorDynamicsNotElastic : ForceSensorDynamics
 					Math.Pow(Math.Sin(fse.AngleDefault * Math.PI / 180.0) * (Math.Abs(force_l[i])) + totalMass * 9.81, 2) //Vertical
 					);
 			*/
+
+			//on 2.2.1 ABS or inverted is not done on forceResultant,
+			//is done on force coming from the sensor
+			force_l[i] = calculeForceWithCaptureOptions(force_l[i]);
 			double force = force_l[i]  +  totalMass * 9.81 * Math.Sin(fse.AngleDefault * Math.PI / 180.0);
-			force_l[i] = calculeForceWithCaptureOptions(force);
+			//force_l[i] = calculeForceWithCaptureOptions(force);
+			force_l[i] = force;
 		}
 
 		calculeRepetitions(force_l);
@@ -530,8 +535,9 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 		
 	private void calculePositions()
 	{
+		//2.2.1 on resultant, ABS or INVERTED is done by data coming from the sensor
 		for (int i = 0 ; i < force_l.Count; i ++)
-			position_not_smoothed_l.Add(force_l[i] / stiffness);
+			position_not_smoothed_l.Add(calculeForceWithCaptureOptions(force_l[i]) / stiffness);
 
 		position_l = smoothVariable(position_not_smoothed_l);
 	}
@@ -591,7 +597,9 @@ public class ForceSensorDynamicsElastic : ForceSensorDynamics
 
 			LogB.Information(string.Format("post force (but before applying captureoptions): {0}", force));
 
-			force_l[i] = calculeForceWithCaptureOptions(force); //
+			//force_l[i] = calculeForceWithCaptureOptions(force); //
+			//2.2.1 this is applied now on position
+			force_l[i] = force; //
 
 			LogB.Information(string.Format("post force (after applying captureoptions): {0}", force_l[i]));
 		}

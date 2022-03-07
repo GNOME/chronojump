@@ -6737,7 +6737,8 @@ LogB.Debug("mc finished 5");
 		}
 	}
 
-	private void on_delete_selected_run_accepted (object o, EventArgs args) {
+	private void on_delete_selected_run_accepted (object o, EventArgs args)
+	{
 		LogB.Information("accept delete this race");
 		int id = myTreeViewRuns.EventSelectedID;
 		
@@ -6761,7 +6762,8 @@ LogB.Debug("mc finished 5");
 		updateGraphRunsSimple();
 	}
 
-	private void on_delete_selected_run_interval_accepted (object o, EventArgs args) {
+	private void on_delete_selected_run_interval_accepted (object o, EventArgs args)
+	{
 		LogB.Information("accept delete this race");
 		int id = myTreeViewRunsInterval.EventSelectedID;
 		
@@ -6781,6 +6783,11 @@ LogB.Debug("mc finished 5");
 			//there's no currentRunInterval (no one done it now), then it crashed,
 			//but don't need to update widgets
 		}
+
+		updateGraphRunsInterval();
+
+		//blank also realtime graph
+		blankRunIntervalRealtimeCaptureGraph ();
 	}
 	
 	private void on_delete_selected_reaction_time_clicked (object o, EventArgs args) {

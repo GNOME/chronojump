@@ -664,11 +664,18 @@ public partial class ChronoJumpWindow
 		if(currentPerson == null)
 			return;
 
+		bool isLastCaptured = false;
+		if(currentEventExecute != null && currentEventExecute.IsThreadRunning()) //during the capture
+			isLastCaptured = true;
+		else if(currentJumpRj != null && selectedJumpRj != null &&
+				currentJumpRj.UniqueID == selectedJumpRj.UniqueID) //selected == last captured
+			isLastCaptured = true;
+
 		cairoPaintBarsPreRealTime = new CairoPaintBarsPreJumpReactiveRealtimeCapture(
 				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString(), current_mode,
 				currentPerson.Name, type, preferences.digitsNumber,// preferences.heightPreferred,
 				//lastTv, lastTc,
-				tvString, tcString);
+				tvString, tcString, isLastCaptured);
 
 		// B) Paint cairo graph
 		//cairoPaintBarsPreRealTime.UseHeights = useHeights;
@@ -2963,13 +2970,19 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 		blankScreen(darea, fontStr);
 	}
 
+	//isLastCaptured: if what we are showing is currentJumpRj then true, if is a selection from treeview and id != currentJumpRj then is false (meaning selected)
+
 	public CairoPaintBarsPreJumpReactiveRealtimeCapture (DrawingArea darea, string fontStr,
 			Constants.Modes mode, string personName, string testName, int pDN,// bool heightPreferred,
 			//double lastTv, double lastTc,
-			string tvString, string tcString)
+			string tvString, string tcString,
+			bool isLastCaptured)
 	{
 		initialize (darea, fontStr, mode, personName, testName, pDN);
-		this.title = Catalog.GetString("Last test:") + " " + generateTitle();
+		if(isLastCaptured)
+			this.title = Catalog.GetString("Last test:") + " " + generateTitle();
+		else
+			this.title = Catalog.GetString("Selected:") + " " + generateTitle();
 
 		//this.lastTv = lastTv;
 		//this.lastTc = lastTc;

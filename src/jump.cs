@@ -390,6 +390,25 @@ public class JumpRj : Jump
 		}
 	}
 
+	public double tvLast
+	{
+		get {
+			if(tvList == null || tvList.Count == 0)
+				return 0;
+			else
+				return tvList[tvList.Count -1];
+		}
+	}
+	public double tcLast
+	{
+		get {
+			if(tcList == null || tcList.Count == 0)
+				return 0;
+			else
+				return tcList[tcList.Count -1];
+		}
+	}
+
 	public List<double> HeightList
 	{
 		get {

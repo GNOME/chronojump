@@ -488,13 +488,22 @@ public partial class ChronoJumpWindow
 
 		if(current_mode == Constants.Modes.JUMPSREACTIVE)
 		{
-			if(selectedJumpRj != null)
+			if(currentEventExecute != null && currentEventExecute.IsThreadRunning())
 			{
-				blankJumpReactiveRealtimeCaptureGraph ();
+				if(currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject != null)
+					PrepareJumpReactiveRealtimeCaptureGraph(
+							currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.lastTv,
+							currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.lastTc,
+							currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.tvString,
+							currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.tcString,
+							currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.type,
+							preferences.volumeOn, preferences.gstreamer, repetitiveConditionsWin);
+
+			}
+			else if(selectedJumpRj != null)
 				PrepareJumpReactiveRealtimeCaptureGraph (selectedJumpRj.tvLast, selectedJumpRj.tcLast,
 						selectedJumpRj.TvString, selectedJumpRj.TcString, selectedJumpRj.Type,
 						preferences.volumeOn, preferences.gstreamer, repetitiveConditionsWin);
-			}
 		} else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 		{
 			if(currentEventExecute == null || currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject == null)

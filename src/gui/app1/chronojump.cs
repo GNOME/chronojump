@@ -427,7 +427,10 @@ public partial class ChronoJumpWindow
 	private static ReactionTime currentReactionTime;
 	private static Pulse currentPulse;
 	private static MultiChronopic currentMultiChronopic;
-	
+
+	//to be able to resize cairo jumpRj graph without needing to check sql all the time
+	private static JumpRj selectedJumpRj;
+
 	private static EventExecute currentEventExecute;
 
 	//Used by Cancel and Finish
@@ -1659,12 +1662,22 @@ public partial class ChronoJumpWindow
 		if (myTreeViewJumpsRj.EventSelectedID == 0) {
 			myTreeViewJumpsRj.Unselect();
 			showHideActionEventButtons(false, "JumpRj");
-		} else if (myTreeViewJumpsRj.EventSelectedID == -1) {
-			myTreeViewJumpsRj.SelectHeaderLine();
-			showHideActionEventButtons(true, "JumpRj");
-		} else {
-			showHideActionEventButtons(true, "JumpRj");
+			return;
 		}
+
+		if (myTreeViewJumpsRj.EventSelectedID == -1)
+			myTreeViewJumpsRj.SelectHeaderLine();
+
+		showHideActionEventButtons(true, "JumpRj");
+
+		//graph the jump on realtime cairo graph. Using selectedJumpRj to avoid SQL select continuously
+		if(selectedJumpRj == null || selectedJumpRj.UniqueID != myTreeViewJumpsRj.EventSelectedID)
+			selectedJumpRj = SqliteJumpRj.SelectJumpData("jumpRj", myTreeViewJumpsRj.EventSelectedID, false);
+
+		blankJumpReactiveRealtimeCaptureGraph ();
+		PrepareJumpReactiveRealtimeCaptureGraph (selectedJumpRj.tvLast, selectedJumpRj.tcLast,
+				selectedJumpRj.TvString, selectedJumpRj.TcString, selectedJumpRj.Type,
+				preferences.volumeOn, preferences.gstreamer, repetitiveConditionsWin);
 	}
 
 	private void treeviewJumpsRjContextMenu(JumpRj myJump) {
@@ -5238,9 +5251,11 @@ public partial class ChronoJumpWindow
 		//test can be deleted if not cancelled
 		sensitiveLastTestButtons(! currentEventExecute.Cancel);
 
-		if ( ! currentEventExecute.Cancel ) {
+		if ( ! currentEventExecute.Cancel )
+		{
 			currentJumpRj = (JumpRj) currentEventExecute.EventDone;
-			
+			selectedJumpRj = currentJumpRj;
+
 			//if user clicked in finish earlier
 			if(currentEventExecute.Finish) {
 				currentJumpRj.Jumps = Util.GetNumberOfJumps(currentJumpRj.TvString, false);
@@ -6682,6 +6697,7 @@ LogB.Debug("mc finished 5");
 		Sqlite.Delete(false, Constants.JumpRjTable, id);
 		
 		myTreeViewJumpsRj.DelEvent(id);
+		selectedJumpRj = null;
 		showHideActionEventButtons(false, "JumpRj");
 
 		if(createdStatsWin) {

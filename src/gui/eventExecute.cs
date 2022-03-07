@@ -506,17 +506,23 @@ public partial class ChronoJumpWindow
 						preferences.volumeOn, preferences.gstreamer, repetitiveConditionsWin);
 		} else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 		{
-			if(currentEventExecute == null || currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject == null)
-				return;
-
-			PrepareRunIntervalRealtimeCaptureGraph(
-					currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distance,
-					currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.lastTime,
-					currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.timesString,
-					currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distanceTotal,
-					currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distancesString,
-					currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.type
-					);
+			if(currentEventExecute != null && currentEventExecute.IsThreadRunning())
+			{
+				if(currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject != null)
+					PrepareRunIntervalRealtimeCaptureGraph(
+							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distance,
+							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.lastTime,
+							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.timesString,
+							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distanceTotal,
+							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distancesString,
+							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.type);
+			}
+			else if(selectedRunInterval != null)
+				PrepareRunIntervalRealtimeCaptureGraph(
+						selectedRunInterval.DistanceTotal, //TODO: take care, maybe is not this distance (maybe use selectedRunIntervalType)
+						selectedRunInterval.TimeLast, selectedRunInterval.IntervalTimesString,
+						selectedRunInterval.DistanceTotal, selectedRunIntervalType.DistancesString,
+						selectedRunInterval.Type);
 		}
 	}
 
@@ -645,18 +651,8 @@ public partial class ChronoJumpWindow
 		else
 			image_check_runI_realtime_rel_abs.Pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "bar_absolute.png");
 
-		// 2) redo graph if possible
-		if(currentEventExecute == null || currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject == null)
-			return;
-
-		PrepareRunIntervalRealtimeCaptureGraph(
-				currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distance,
-				currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.lastTime,
-				currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.timesString,
-				currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distanceTotal,
-				currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distancesString,
-				currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.type
-				);
+		// 2) redo graph
+		on_event_execute_drawingarea_realtime_capture_cairo_expose_event (new object(), new ExposeEventArgs());
 	}
 
 	// Reactive jump 
@@ -797,17 +793,24 @@ public partial class ChronoJumpWindow
 				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString());
 	}
 
-	public void PrepareRunIntervalRealtimeCaptureGraph (double distance, double lastTime, string timesString, double distanceTotal, string distancesString, string type)
+	public void PrepareRunIntervalRealtimeCaptureGraph (double lastDistance, double lastTime, string timesString, double distanceTotal, string distancesString, string type)
 	{
 		if(currentPerson == null)
 			return;
 
+		bool isLastCaptured = false;
+		if(currentEventExecute != null && currentEventExecute.IsThreadRunning()) //during the capture
+			isLastCaptured = true;
+		else if(currentRunInterval != null && selectedRunInterval != null &&
+				currentRunInterval.UniqueID == selectedRunInterval.UniqueID) //selected == last captured
+			isLastCaptured = true;
+
 		cairoPaintBarsPreRealTime = new CairoPaintBarsPreRunIntervalRealtimeCapture(
 				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString(), current_mode,
 				currentPerson.Name, type, preferences.digitsNumber,// preferences.heightPreferred,
-				check_runI_realtime_rel_abs.Active, distance,
+				check_runI_realtime_rel_abs.Active, lastDistance,
 				//lastTime,
-				timesString, distancesString);
+				timesString, distancesString, isLastCaptured);
 
 		// B) Paint cairo graph
 		//cairoPaintBarsPreRealTime.UseHeights = useHeights;
@@ -2984,8 +2987,7 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 	public CairoPaintBarsPreJumpReactiveRealtimeCapture (DrawingArea darea, string fontStr,
 			Constants.Modes mode, string personName, string testName, int pDN,// bool heightPreferred,
 			//double lastTv, double lastTc,
-			string tvString, string tcString,
-			bool isLastCaptured)
+			string tvString, string tcString, bool isLastCaptured)
 	{
 		initialize (darea, fontStr, mode, personName, testName, pDN);
 		if(isLastCaptured)
@@ -3115,10 +3117,14 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 			Constants.Modes mode, string personName, string testName, int pDN,// bool heightPreferred,
 			bool isRelative,
 			double lastDistance,
-			string timesString, string distancesString)
+			string timesString, string distancesString, bool isLastCaptured)
 	{
 		initialize (darea, fontStr, mode, personName, testName, pDN);
-		this.title = Catalog.GetString("Last test:") + " " + generateTitle();
+		if(isLastCaptured)
+			this.title = Catalog.GetString("Last test:") + " " + generateTitle();
+		else
+			this.title = Catalog.GetString("Selected:") + " " + generateTitle();
+
 		this.isRelative = isRelative;
 
 		distance_l = new List<double>();

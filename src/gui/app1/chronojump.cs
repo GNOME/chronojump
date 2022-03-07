@@ -428,8 +428,10 @@ public partial class ChronoJumpWindow
 	private static Pulse currentPulse;
 	private static MultiChronopic currentMultiChronopic;
 
-	//to be able to resize cairo jumpRj graph without needing to check sql all the time
+	//to be able to resize cairo jumpRj, runI graphs without needing to check sql all the time
 	private static JumpRj selectedJumpRj;
+	private static RunInterval selectedRunInterval;
+	private static RunType selectedRunIntervalType; //we need this for variable distances
 
 	private static EventExecute currentEventExecute;
 
@@ -1877,12 +1879,29 @@ public partial class ChronoJumpWindow
 		if (myTreeViewRunsInterval.EventSelectedID == 0) {
 			myTreeViewRunsInterval.Unselect();
 			showHideActionEventButtons(false, "RunInterval");
-		} else if (myTreeViewRunsInterval.EventSelectedID == -1) {
-			myTreeViewRunsInterval.SelectHeaderLine();
-			showHideActionEventButtons(true, "RunInterval");
-		} else {
-			showHideActionEventButtons(true, "RunInterval");
+			return;
 		}
+
+		if (myTreeViewRunsInterval.EventSelectedID == -1)
+			myTreeViewRunsInterval.SelectHeaderLine();
+
+		showHideActionEventButtons(true, "RunInterval");
+
+		//graph the run on realtime cairo graph. Using selectedRunInterval to avoid SQL select continuously
+		if(selectedRunInterval == null || selectedRunIntervalType == null ||
+				selectedRunInterval.UniqueID != myTreeViewRunsInterval.EventSelectedID)
+		{
+			selectedRunInterval = SqliteRunInterval.SelectRunData (Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, false);
+			selectedRunIntervalType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(selectedRunInterval.Type, false);
+		}
+
+		blankRunIntervalRealtimeCaptureGraph ();
+		//PrepareRunIntervalRealtimeCaptureGraph (double distance, double lastTime, string timesString, double distanceTotal, string distancesString, string type)
+		PrepareRunIntervalRealtimeCaptureGraph (
+				selectedRunInterval.DistanceTotal, //TODO: take care, maybe is not this distance (maybe use selectedRunIntervalType)
+				selectedRunInterval.TimeLast, selectedRunInterval.IntervalTimesString,
+				selectedRunInterval.DistanceTotal, selectedRunIntervalType.DistancesString,
+				selectedRunInterval.Type);
 	}
 
 	private void treeviewRunsIntervalContextMenu(RunInterval myRun) {
@@ -5548,8 +5567,11 @@ public partial class ChronoJumpWindow
 		sensitiveLastTestButtons(! currentEventExecute.Cancel);
 		button_inspect_last_test_run_intervallic.Sensitive = ! currentEventExecute.Cancel;
 
-		if ( ! currentEventExecute.Cancel ) {
+		if ( ! currentEventExecute.Cancel )
+		{
 			currentRunInterval = (RunInterval) currentEventExecute.EventDone;
+			selectedRunInterval = currentRunInterval;
+			selectedRunIntervalType = currentRunIntervalType;
 
 			currentRunInterval.MetersSecondsPreferred = preferences.metersSecondsPreferred;
 
@@ -6761,6 +6783,8 @@ LogB.Debug("mc finished 5");
 		Sqlite.Delete(false, Constants.RunTable, id);
 		
 		myTreeViewRuns.DelEvent(id);
+		selectedRunInterval = null;
+		selectedRunIntervalType = null;
 		showHideActionEventButtons(false, "Run");
 		
 		if(createdStatsWin) {
@@ -6786,6 +6810,7 @@ LogB.Debug("mc finished 5");
 		Sqlite.Delete(false, Constants.RunIntervalTable, id);
 		
 		myTreeViewRunsInterval.DelEvent(id);
+		selectedRunInterval = null;
 		showHideActionEventButtons(false, "RunInterval");
 
 		if(createdStatsWin) {

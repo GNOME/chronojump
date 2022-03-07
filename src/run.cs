@@ -257,6 +257,29 @@ public class RunInterval : Run
 		return splitTimes;
 	}
 
+	private List<double> timeList
+	{
+		get {
+			List<double> l = new List<double>();
+			string [] strFull = intervalTimesString.Split(new char[] {'='});
+			foreach(string str in strFull)
+			{
+				if(Util.IsNumber(Util.ChangeDecimalSeparator(str), true))
+					l.Add(Convert.ToDouble(Util.ChangeDecimalSeparator(str)));
+			}
+			return l;
+		}
+	}
+	public double TimeLast
+	{
+		get {
+			if(timeList == null || timeList.Count == 0)
+				return 0;
+			else
+				return timeList[timeList.Count -1];
+		}
+	}
+
 	public static string GetCSVInputMulti() {
 		return Path.Combine(Path.GetTempPath(), "sprintInputMulti.csv");
 	}

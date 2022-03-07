@@ -6638,7 +6638,8 @@ LogB.Debug("mc finished 5");
 		}
 	}
 	
-	private void on_delete_selected_jump_accepted (object o, EventArgs args) {
+	private void on_delete_selected_jump_accepted (object o, EventArgs args)
+	{
 		LogB.Information("accept delete this jump");
 		int id = myTreeViewJumps.EventSelectedID;
 		
@@ -6673,7 +6674,8 @@ LogB.Debug("mc finished 5");
 		}
 	}
 
-	private void on_delete_selected_jump_rj_accepted (object o, EventArgs args) {
+	private void on_delete_selected_jump_rj_accepted (object o, EventArgs args)
+	{
 		LogB.Information("accept delete this jump");
 		int id = myTreeViewJumpsRj.EventSelectedID;
 		
@@ -6695,6 +6697,9 @@ LogB.Debug("mc finished 5");
 		}
 
 		updateGraphJumpsReactive();
+
+		//blank also realtime graph
+		blankJumpReactiveRealtimeCaptureGraph ();
 	}
 	
 	private void on_delete_selected_run_clicked (object o, EventArgs args) {

@@ -1,0 +1,21 @@
+V0.4
+---------------------------------------------------
+
+Connections:
+DOUT --> D3
+CLK  --> D2
+
+Using sparkfun HX711 module
+
+
+V0.5
+---------------------------------------------------
+
+Connections:
+DOUT --> D5
+CLK  --> D4
+RCA  --> D3
+
+HX711 integrated in the PCB assembly
+Added RCA trigger
+Smaller PCB

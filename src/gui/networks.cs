@@ -1012,7 +1012,7 @@ public partial class ChronoJumpWindow
 				{
 					SqliteEncoder.InsertExercise(
 							false, exRemote.uniqueID, exRemote.name, exRemote.percentBodyWeight,
-							"", "", "", type);
+							"", "", Util.ConvertToPoint(exRemote.Speed1RM), type);
 					updateEncoderExercisesGui(exRemote.name);
 				}
 			}

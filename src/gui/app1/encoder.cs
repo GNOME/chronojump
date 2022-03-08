@@ -418,6 +418,10 @@ public partial class ChronoJumpWindow
 	 */
 	EncoderSQL lastEncoderSQLSignal;
 
+	//combo_encoder_exercise_capture
+	private static int encoderComboExerciseCaptureStoredID;
+	private static string encoderComboExerciseCaptureStoredEnglishName;
+
 	/*
 	 * CAPTURE is the capture from csharp (not from external python)
 	 *
@@ -1479,7 +1483,7 @@ public partial class ChronoJumpWindow
 				"-1",
 				currentPerson.UniqueID,
 				currentSession.UniqueID,
-				getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE),
+				encoderComboExerciseCaptureStoredID,
 				findEccon(true), 	//force ecS (ecc-conc separated)
 				laterality,
 				Util.ConvertToPoint(findMass(Constants.MassType.EXTRA)), //when save on sql, do not include person weight
@@ -1492,8 +1496,7 @@ public partial class ChronoJumpWindow
 				"", videoURL,		//status, videoURL
 				encoderConfigurationCurrent,
 				"","","",	//future1, 2, 3
-				Util.FindOnArray(':', 2, 1, UtilGtk.ComboGetActive(combo_encoder_exercise_capture), 
-					encoderExercisesTranslationAndBodyPWeight)	//exerciseName (english)
+				encoderComboExerciseCaptureStoredEnglishName
 				);
 	}
 
@@ -6178,7 +6181,18 @@ public partial class ChronoJumpWindow
 	private void encoderThreadStart(encoderActions action)
 	{
 		encoderProcessCancel = false;
-					
+
+		/*
+		   stored here in order to not read the combo on non-gtk thread
+		   used on CAPTURE -> encoderDoCaptureCsharp () -> setLastEncoderSQLSignal()
+		   used on CURVES, LOAD - encoderDoCurvesGraphR_curves () -> setLastEncoderSQLSignal()
+		*/
+		encoderComboExerciseCaptureStoredID = getExerciseIDFromEncoderCombo(exerciseCombos.CAPTURE);
+		encoderComboExerciseCaptureStoredEnglishName =
+			Util.FindOnArray(':', 2, 1, UtilGtk.ComboGetActive(combo_encoder_exercise_capture),
+					encoderExercisesTranslationAndBodyPWeight);	//exerciseName (english)
+
+
 		if(action == encoderActions.CAPTURE_BG)
 		{
 			shownWaitAtInertialCapture = false;
@@ -6427,8 +6441,7 @@ public partial class ChronoJumpWindow
 
 				LogB.Information("at load");
 				prepareEncoderGraphs(true, true);
-				
-				
+
 				//_______ 2) run stuff
 				
 				//don't need because ItemToggled is deactivated during capture

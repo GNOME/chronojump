@@ -517,14 +517,15 @@ public partial class ChronoJumpWindow
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.timesString,
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distanceTotal,
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distancesString,
-							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.type);
+							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.type,
+							currentPerson.Name);
 			}
 			else if(selectedRunInterval != null)
 				PrepareRunIntervalRealtimeCaptureGraph(
 						selectedRunInterval.DistanceTotal, //TODO: take care, maybe is not this distance (maybe use selectedRunIntervalType)
 						selectedRunInterval.TimeLast, selectedRunInterval.IntervalTimesString,
 						selectedRunInterval.DistanceTotal, selectedRunIntervalType.DistancesString,
-						selectedRunInterval.Type);
+						selectedRunInterval.Type, selectedRunInterval.Description); //Description is person.Name
 		}
 	}
 
@@ -796,7 +797,8 @@ public partial class ChronoJumpWindow
 				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString());
 	}
 
-	public void PrepareRunIntervalRealtimeCaptureGraph (double lastDistance, double lastTime, string timesString, double distanceTotal, string distancesString, string type)
+	public void PrepareRunIntervalRealtimeCaptureGraph (double lastDistance, double lastTime, string timesString, double distanceTotal,
+			string distancesString, string type, string personName)
 	{
 		if(currentPerson == null)
 			return;
@@ -810,7 +812,7 @@ public partial class ChronoJumpWindow
 
 		cairoPaintBarsPreRealTime = new CairoPaintBarsPreRunIntervalRealtimeCapture(
 				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString(), current_mode,
-				currentPerson.Name, type, preferences.digitsNumber,// preferences.heightPreferred,
+				personName, type, preferences.digitsNumber,// preferences.heightPreferred,
 				check_runI_realtime_rel_abs.Active, lastDistance,
 				//lastTime,
 				timesString, distancesString, isLastCaptured);
@@ -1882,8 +1884,8 @@ public partial class ChronoJumpWindow
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.timesString,
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distanceTotal,
 							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.distancesString,
-							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.type
-							);
+							currentEventExecute.PrepareEventGraphRunIntervalRealtimeCaptureObject.type,
+							currentPerson.Name);
 				}
 				break;
 			case EventType.Types.REACTIONTIME:

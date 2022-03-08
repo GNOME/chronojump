@@ -1235,7 +1235,7 @@ public partial class ChronoJumpWindow
 				}
 			} else if(myTv == treeview_jumps_rj) {
 				if (myTreeViewJumpsRj.EventSelectedID > 0) {
-					JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID, false );
+					JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID, false, false );
 					treeviewJumpsRjContextMenu(myJump);
 				}
 			} else if(myTv == treeview_runs) {
@@ -1674,7 +1674,7 @@ public partial class ChronoJumpWindow
 
 		//graph the jump on realtime cairo graph. Using selectedJumpRj to avoid SQL select continuously
 		if(selectedJumpRj == null || selectedJumpRj.UniqueID != myTreeViewJumpsRj.EventSelectedID)
-			selectedJumpRj = SqliteJumpRj.SelectJumpData("jumpRj", myTreeViewJumpsRj.EventSelectedID, false);
+			selectedJumpRj = SqliteJumpRj.SelectJumpData("jumpRj", myTreeViewJumpsRj.EventSelectedID, true, false); //true: personNameInComment
 
 		blankJumpReactiveRealtimeCaptureGraph ();
 		PrepareJumpReactiveRealtimeCaptureGraph (selectedJumpRj.tvLast, selectedJumpRj.tcLast,
@@ -6322,7 +6322,7 @@ LogB.Debug("mc finished 5");
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewJumpsRj.EventSelectedID > 0) {
 			//3.- obtain the data of the selected jump
-			JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID, false );
+			JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID, false, false );
 			eventOldPerson = myJump.PersonID;
 		
 			//4.- edit this jump
@@ -6359,7 +6359,7 @@ LogB.Debug("mc finished 5");
 	{
 		LogB.Information("edit selected jump RJ accepted");
 	
-		JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID, false );
+		JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID, false, false );
 		
 		//if person changed, fill treeview again, if not, only update it's line
 		if(eventOldPerson == myJump.PersonID)
@@ -7118,7 +7118,7 @@ LogB.Debug("mc finished 5");
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewJumpsRj.EventSelectedID > 0) {
 			//3.- obtain the data of the selected jump
-			JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID, false );
+			JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID, false, false );
 		
 			//4.- edit this jump
 			repairJumpRjWin = RepairJumpRjWindow.Show(app1, myJump, preferences.digitsNumber);

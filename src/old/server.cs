@@ -260,7 +260,7 @@ public class Server
 				foreach(string myJump in jumps) {
 					string [] js = myJump.Split(new char[] {':'});
 					//select jump
-					Jump test = SqliteJump.SelectJumpData(Convert.ToInt32(js[1]), true); //uniqueID
+					Jump test = SqliteJump.SelectJumpData(Convert.ToInt32(js[1]), false, true); //uniqueID
 					//fix it to server person, session keys
 					test.PersonID = person.ServerUniqueID;
 					test.SessionID = currentSession.ServerUniqueID;

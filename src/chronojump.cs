@@ -779,7 +779,7 @@ public class ChronoJump
 		int existsTempData = Sqlite.TempDataExists(tableName);
 		if(existsTempData > 0)
 		{
-			JumpRj myJumpRj = SqliteJumpRj.SelectJumpData("tempJumpRj", existsTempData, false);
+			JumpRj myJumpRj = SqliteJumpRj.SelectJumpData("tempJumpRj", existsTempData, false, false);
 			try {
 				myJumpRj.InsertAtDB (true, Constants.JumpRjTable);
 			} catch {} //pitty, cannot insert

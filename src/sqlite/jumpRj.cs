@@ -251,14 +251,23 @@ class SqliteJumpRj : SqliteJump
 		return myJumps;
 	}
 
-	public static JumpRj SelectJumpData(string tableName, int uniqueID, bool dbconOpened)
+	public static JumpRj SelectJumpData(string table, int uniqueID, bool personNameInComment, bool dbconOpened)
 	{
 		//tableName is jumpRj or tempJumpRj
 
 		if(!dbconOpened)
 			Sqlite.Open();
 
-		dbcmd.CommandText = "SELECT * FROM " + tableName + " WHERE uniqueID == " + uniqueID;
+		if(personNameInComment)
+		{
+			//select jumpRj.*, person77.name from jumpRj, person77 where jumpRj.personID = person77.uniqueID order by uniqueID DESC limit 5;
+			string tp = Constants.PersonTable;
+			dbcmd.CommandText = "SELECT " + table + ".*, " + tp + ".Name" +
+				" FROM " + table + ", " + tp +
+				" WHERE " + table + ".personID = " + tp + ".uniqueID" +
+				" AND " + table + ".uniqueID = " + uniqueID;
+		} else
+			dbcmd.CommandText = "SELECT * FROM " + table + " WHERE uniqueID = " + uniqueID;
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -268,10 +277,13 @@ class SqliteJumpRj : SqliteJump
 		reader.Read();
 
 		JumpRj myJump = new JumpRj(DataReaderToStringArray(reader, 19));
+		if(personNameInComment)
+			myJump.Description = reader[19].ToString(); //person.Name
 
 		reader.Close();
 		if(!dbconOpened)
 			Sqlite.Close();
+
 		return myJump;
 	}
 

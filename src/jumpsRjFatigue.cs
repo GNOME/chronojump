@@ -37,7 +37,7 @@ public class JumpsRjFatigue
 	public void Calculate (int uniqueID, Statistic statistic)
 	{
 		//1 get data
-		JumpRj jumpRj = SqliteJumpRj.SelectJumpData (Constants.JumpRjTable, uniqueID, false);
+		JumpRj jumpRj = SqliteJumpRj.SelectJumpData (Constants.JumpRjTable, uniqueID, false, false);
 
 		//2 convert to list of PointF
 		List<double> y_l = jumpRj.HeightList; //(statistic == Statistic.HEIGHTS)

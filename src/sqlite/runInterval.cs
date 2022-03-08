@@ -223,14 +223,21 @@ class SqliteRunInterval : SqliteRun
 		return myRuns;
 	}
 
-	public static RunInterval SelectRunData(string tableName, int uniqueID, bool dbconOpened)
+	//table can be runInterval or tempRunInterval
+	public static RunInterval SelectRunData(string table, int uniqueID, bool personNameInComment, bool dbconOpened)
 	{
-		//tableName can be runInterval or tempRunInterval
-
 		if(!dbconOpened)
 			Sqlite.Open();
 
-		dbcmd.CommandText = "SELECT * FROM " + tableName + " WHERE uniqueID == " + uniqueID;
+		if(personNameInComment)
+		{
+			string tp = Constants.PersonTable;
+			dbcmd.CommandText = "SELECT " + table + ".*, " + tp + ".Name" +
+				" FROM " + table + ", " + tp +
+				" WHERE " + table + ".personID = " + tp + ".uniqueID" +
+				" AND " + table + ".uniqueID = " + uniqueID;
+		} else
+		dbcmd.CommandText = "SELECT * FROM " + table + " WHERE uniqueID == " + uniqueID;
 		
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -240,6 +247,8 @@ class SqliteRunInterval : SqliteRun
 		reader.Read();
 
 		RunInterval myRun = new RunInterval(DataReaderToStringArray(reader, 14));
+		if(personNameInComment)
+			myRun.Description = reader[14].ToString(); //person.Name
 
 		reader.Close();
 		if(!dbconOpened)

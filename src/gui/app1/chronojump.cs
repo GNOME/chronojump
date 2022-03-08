@@ -1245,7 +1245,7 @@ public partial class ChronoJumpWindow
 				}
 			} else if(myTv == treeview_runs_interval) {
 				if (myTreeViewRunsInterval.EventSelectedID > 0) {
-					RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, false );
+					RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, false, false );
 					treeviewRunsIntervalContextMenu(myRun);
 				}
 			} else if(myTv == treeview_reaction_times) {
@@ -1892,7 +1892,7 @@ public partial class ChronoJumpWindow
 		if(selectedRunInterval == null || selectedRunIntervalType == null ||
 				selectedRunInterval.UniqueID != myTreeViewRunsInterval.EventSelectedID)
 		{
-			selectedRunInterval = SqliteRunInterval.SelectRunData (Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, false);
+			selectedRunInterval = SqliteRunInterval.SelectRunData (Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, true, false);
 			selectedRunIntervalType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(selectedRunInterval.Type, false);
 		}
 
@@ -6402,7 +6402,7 @@ LogB.Debug("mc finished 5");
 		//2.- check that this line is a run and not a person (check also if it's not a individual subrun, the pass the parent run)
 		if (myTreeViewRunsInterval.EventSelectedID > 0) {
 			//3.- obtain the data of the selected run
-			RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, false );
+			RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, false, false );
 			eventOldPerson = myRun.PersonID;
 		
 			//4.- edit this run
@@ -6431,7 +6431,7 @@ LogB.Debug("mc finished 5");
 	private void on_edit_selected_run_interval_accepted (object o, EventArgs args) {
 		LogB.Information("edit selected run interval accepted");
 		
-		RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, false );
+		RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, false, false );
 
 		//if person changed, fill treeview again, if not, only update it's line
 		if(eventOldPerson == myRun.PersonID)
@@ -7146,7 +7146,7 @@ LogB.Debug("mc finished 5");
 		//(check also if it's not a individual run interval, then pass the parent run interval)
 		if (myTreeViewRunsInterval.EventSelectedID > 0) {
 			//3.- obtain the data of the selected run
-			RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, false );
+			RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, false, false );
 		
 			//4.- edit this run
 			repairRunIntervalWin = RepairRunIntervalWindow.Show(app1, myRun, preferences.digitsNumber);

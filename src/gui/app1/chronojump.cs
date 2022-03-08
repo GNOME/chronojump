@@ -1678,7 +1678,8 @@ public partial class ChronoJumpWindow
 
 		blankJumpReactiveRealtimeCaptureGraph ();
 		PrepareJumpReactiveRealtimeCaptureGraph (selectedJumpRj.tvLast, selectedJumpRj.tcLast,
-				selectedJumpRj.TvString, selectedJumpRj.TcString, selectedJumpRj.Type,
+				selectedJumpRj.TvString, selectedJumpRj.TcString,
+				selectedJumpRj.Type, selectedJumpRj.Description, //Description is personName
 				preferences.volumeOn, preferences.gstreamer, repetitiveConditionsWin);
 	}
 

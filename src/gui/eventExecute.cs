@@ -497,12 +497,14 @@ public partial class ChronoJumpWindow
 							currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.tvString,
 							currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.tcString,
 							currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.type,
+							currentPerson.Name,
 							preferences.volumeOn, preferences.gstreamer, repetitiveConditionsWin);
 
 			}
 			else if(selectedJumpRj != null)
 				PrepareJumpReactiveRealtimeCaptureGraph (selectedJumpRj.tvLast, selectedJumpRj.tcLast,
-						selectedJumpRj.TvString, selectedJumpRj.TcString, selectedJumpRj.Type,
+						selectedJumpRj.TvString, selectedJumpRj.TcString,
+						selectedJumpRj.Type, selectedJumpRj.Description, //Description is person.Name
 						preferences.volumeOn, preferences.gstreamer, repetitiveConditionsWin);
 		} else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 		{
@@ -663,7 +665,8 @@ public partial class ChronoJumpWindow
 				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString());
 	}
 
-	public void PrepareJumpReactiveRealtimeCaptureGraph (double lastTv, double lastTc, string tvString, string tcString, string type,
+	public void PrepareJumpReactiveRealtimeCaptureGraph (double lastTv, double lastTc, string tvString, string tcString,
+			string type, string personName,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer, RepetitiveConditionsWindow repetitiveConditionsWin)
 	{
 		if(currentPerson == null)
@@ -678,7 +681,7 @@ public partial class ChronoJumpWindow
 
 		cairoPaintBarsPreRealTime = new CairoPaintBarsPreJumpReactiveRealtimeCapture(
 				event_execute_drawingarea_realtime_capture_cairo, preferences.fontType.ToString(), current_mode,
-				currentPerson.Name, type, preferences.digitsNumber,// preferences.heightPreferred,
+				personName, type, preferences.digitsNumber,// preferences.heightPreferred,
 				//lastTv, lastTc,
 				tvString, tcString, isLastCaptured);
 
@@ -1858,6 +1861,7 @@ public partial class ChronoJumpWindow
 							currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.tvString,
 							currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.tcString,
 							currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.type,
+							currentPerson.Name,
 							preferences.volumeOn, preferences.gstreamer, repetitiveConditionsWin);
 				}
 				break;

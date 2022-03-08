@@ -1902,7 +1902,7 @@ public partial class ChronoJumpWindow
 				selectedRunInterval.DistanceTotal, //TODO: take care, maybe is not this distance (maybe use selectedRunIntervalType)
 				selectedRunInterval.TimeLast, selectedRunInterval.IntervalTimesString,
 				selectedRunInterval.DistanceTotal, selectedRunIntervalType.DistancesString,
-				selectedRunInterval.Type);
+				selectedRunInterval.Type, selectedRunInterval.Description); //Description is personName
 	}
 
 	private void treeviewRunsIntervalContextMenu(RunInterval myRun) {

@@ -376,9 +376,18 @@ public class JsonCompujump : Json
 			// 3) add exercise to the list
 			Int32 newExId = jsonSE ["id"];
 			string newExName = jsonSE ["name"];
-			int newExPercentBodyMassDisplaced = jsonSE ["measurable_info"]["percent_body_mass_displaced"];
+
+			int newExPercentBodyMassDisplaced = 0;
+			if(jsonSE ["measurable_info"]["percent_body_mass_displaced"] != null)
+				newExPercentBodyMassDisplaced = jsonSE ["measurable_info"]["percent_body_mass_displaced"];
+
+			double newExSpeedAt1RM = 0;
+			if(jsonSE ["measurable_info"]["speed_at_one_rm"] != null)
+				newExSpeedAt1RM = Convert.ToDouble(Util.ChangeDecimalSeparator(
+							jsonSE ["measurable_info"]["speed_at_one_rm"].ToString() )); //ToString is mandatory
+
 			ex_list.Add(new EncoderExercise(newExId, newExName, newExPercentBodyMassDisplaced,
-						"", "", 0, newExEncoderGi));
+						"", "", newExSpeedAt1RM, newExEncoderGi));
 		}
 		return ex_list;
 	}

@@ -792,7 +792,7 @@ public class ChronoJump
 		existsTempData = Sqlite.TempDataExists(tableName);
 		if(existsTempData > 0)
 		{
-			RunInterval myRun = SqliteRunInterval.SelectRunData("tempRunInterval", existsTempData, false);
+			RunInterval myRun = SqliteRunInterval.SelectRunData("tempRunInterval", existsTempData, false, false);
 			try {
 				myRun.InsertAtDB (true, Constants.RunIntervalTable);
 			} catch {} //pitty, cannot insert

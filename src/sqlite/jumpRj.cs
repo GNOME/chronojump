@@ -251,16 +251,14 @@ class SqliteJumpRj : SqliteJump
 		return myJumps;
 	}
 
+	//table is jumpRj or tempJumpRj
 	public static JumpRj SelectJumpData(string table, int uniqueID, bool personNameInComment, bool dbconOpened)
 	{
-		//tableName is jumpRj or tempJumpRj
-
 		if(!dbconOpened)
 			Sqlite.Open();
 
 		if(personNameInComment)
 		{
-			//select jumpRj.*, person77.name from jumpRj, person77 where jumpRj.personID = person77.uniqueID order by uniqueID DESC limit 5;
 			string tp = Constants.PersonTable;
 			dbcmd.CommandText = "SELECT " + table + ".*, " + tp + ".Name" +
 				" FROM " + table + ", " + tp +

@@ -260,7 +260,7 @@ public class Server
 				foreach(string myJump in jumps) {
 					string [] js = myJump.Split(new char[] {':'});
 					//select jump
-					Jump test = SqliteJump.SelectJumpData(Convert.ToInt32(js[1]), false, true); //uniqueID
+					Jump test = SqliteJump.SelectJumpData(Convert.ToInt32(js[1]), true); //uniqueID
 					//fix it to server person, session keys
 					test.PersonID = person.ServerUniqueID;
 					test.SessionID = currentSession.ServerUniqueID;
@@ -329,7 +329,7 @@ public class Server
 				foreach(string myJump in jumpsRj) {
 					string [] js = myJump.Split(new char[] {':'});
 					//select jump
-					JumpRj test = SqliteJumpRj.SelectJumpData(Constants.JumpRjTable, Convert.ToInt32(js[1]), true); //uniqueID
+					JumpRj test = SqliteJumpRj.SelectJumpData(Constants.JumpRjTable, Convert.ToInt32(js[1]), false, true); //uniqueID
 					//fix it to server person, session keys
 					test.PersonID = person.ServerUniqueID;
 					test.SessionID = currentSession.ServerUniqueID;
@@ -419,7 +419,7 @@ public class Server
 				foreach(string myRun in runsI) {
 					string [] js = myRun.Split(new char[] {':'});
 					//select run
-					RunInterval test = SqliteRunInterval.SelectRunData(Constants.RunIntervalTable, Convert.ToInt32(js[1]), true); //uniqueID
+					RunInterval test = SqliteRunInterval.SelectRunData(Constants.RunIntervalTable, Convert.ToInt32(js[1]), false, true); //uniqueID
 					//fix it to server person, session keys
 					test.PersonID = person.ServerUniqueID;
 					test.SessionID = currentSession.ServerUniqueID;

@@ -15,7 +15,7 @@
 #   along with this program; if not, write to the Free Software
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
-#   Copyright (C) 2004-2020  	Xavier de Blas <xaviblas@gmail.com> 
+#   Copyright (C) 2004-2022  	Xavier de Blas <xaviblas@gmail.com>
 #   Copyright (C) 2014-2020   	Xavier Padullés <x.padulles@gmail.com>
 # 
 
@@ -2166,17 +2166,19 @@ paintCrossVariables <- function (paf, varX, varY, option,
                         #	       translateToPrint("L"),
                         #	       translateToPrint("R")
                         #	       )
-                        legendText = c(translateToPrint("concentric"), translateToPrint("eccentric"), paste(translateToPrint("eccentric"),translateToPrint("concentric"),sep="-"), "L", "R")
-                        
-                        rng=par("usr")
-                        lg = legend(rng[1],rng[4], 
-                                    legend=legendText, pch=c(24,25,21,3,4), col="black", pt.bg="white",
-                                    cex=1, ncol=2, bty="n",
-                                    plot=F)
-                        legend(rng[1],rng[4]+1*lg$rect$h, 
-                               legend=legendText, pch=c(24,25,21,3,4),  col="black",  pt.bg="white",
-                               cex=1, bg=bgBalls, ncol=2, bty="n",
-                               plot=T, xpd=NA)
+			if(do1RM == FALSE) #do not show this legend on 1RM
+			{
+				legendText = c(translateToPrint("concentric"), translateToPrint("eccentric"), paste(translateToPrint("eccentric"),translateToPrint("concentric"),sep="-"), "L", "R")
+				rng=par("usr")
+				lg = legend(rng[1],rng[4],
+						legend=legendText, pch=c(24,25,21,3,4), col="black", pt.bg="white",
+						cex=1, ncol=2, bty="n",
+						plot=F)
+				legend(rng[1],rng[4]+1*lg$rect$h,
+						legend=legendText, pch=c(24,25,21,3,4), col="black",  pt.bg="white",
+						cex=1, bg=bgBalls, ncol=2, bty="n",
+						plot=T, xpd=NA)
+			}
                 }
                 
         } else { #more than one series

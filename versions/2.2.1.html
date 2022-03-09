@@ -33,6 +33,7 @@
 	<p><span class="highlight2"><i class="fa fa-clock-o fa-2x"></i>  Jumps, Races</span></p>
 	<ul>
 	<li><b>New feature: Added on Jumps/analyze/FV prediction of 1RM Squat at 89% of F0 according to Rivière & col 2017 DOI: 10.1055/s-0043-116670</b></li>
+	<li><b>New feature: Selecting a reactive jump or race with tracks it shows its graph on top realtime graph.</b></li>
 	<li><b>JumpsProfile now uses max jump (of sj,sjl,cmj,abk,dj) to compare instead of dj.</b></li>
 	<li>Related to sprint model:</li>
 	<ul>
@@ -48,6 +49,8 @@
 		<li>RSA was disabled on our upcoming wireless photocells, now is enabled again.</li>
 		<li>RSA tests are also shown on realtime graph at capture.</li>
 	</ul>
+	<li>On delete a jump reactive, realtime graph is cleared.</li>
+	<li>On delete a race with tracks, realtime graph and races graph are cleared.</li>
 	<li>Fixed bug displaying jumps (simple/multiple) weight after edit (when weight is shown on Kg and not percentage), it was ok after session reload. Now is ok without the need of reload session.
 	<li>Capture tab graphs: (jumps/time, jumps FV) have same font for showing selected values (mouse clicked by user).
 	</ul>
@@ -63,7 +66,9 @@
 	<li>Better behaviour when no encoder exercises (widgets sensitivity).</li>
 	<li>Fixed not showing rest between repetitions as active on opening window.</li>
 	<li>Do not allow to change mode, person, and other buttons while loading a set.</li>
+	<li>Stability fixes on load and capture related to exercise combo.</li>
 	<li>Improved behaviour of "close and analyze" button.</li>
+	<li>1RM analysis do not show legend (con, ecc, con-ecc, RL).</li>
 	</ul>
 
 	<p><span class="highlight2"><i class="fa fa-area-chart fa-2x"></i>  Force sensor</span></p>
@@ -82,7 +87,7 @@
 
 	<p><span class="highlight2"><i class="fa fa-sitemap fa-2x"></i>  Chronojump-Networks</span></p>
 	<ul>
-	<li><b>Chronojump-Networks now allows to download exercises using 3.1 code.</b></li>
+	<li><b>Chronojump-Networks now allows to download exercises using 3.1 code (even if so params like percent_body_mass_displaced and speed_at_one_rm are null).</b></li>
 	<li>Do not allow also to delete exercises on the station.</li>
 	</ul>
 

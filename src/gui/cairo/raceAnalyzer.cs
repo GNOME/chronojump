@@ -109,8 +109,8 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		{
 			if(verticalLinesUs_2l.Count() == 0)
 			{
-				//paintGrid(gridTypes.BOTH, true);
-				// do not show grid if we do not pass any distance mark
+				// do not show vertical grid lines if we do not pass any distance mark. Show only horizontal.
+				paintGrid(gridTypes.HORIZONTALLINES, true);
 			}
 			else {
 				//horizontal

@@ -14,3 +14,10 @@ SELECT COUNT(*) FROM ping WHERE cjVersion LIKE "%2.0.2%" AND osVersion LIKE "%Wi
 
 
 SELECT count(*) AS conta, socialNetwork FROM socialNetwork GROUP BY socialNetwork ORDER BY conta DESC;
+
+#R code
+png(filename="chronojump-use.png", width=1080, height=1080)
+years=2017:2022
+pings=c(31998,48838,60656,27754,60715,84402)
+barplot(pings, names.arg=years, col=rev(heat.colors(length(years))), main="Chronojump use by year", sub="2022 forecast at March 9.")
+dev.off()

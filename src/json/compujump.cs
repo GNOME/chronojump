@@ -351,6 +351,10 @@ public class JsonCompujump : Json
 
 		foreach (JsonValue jsonSE in jsonStationExercises)
 		{
+			/*
+			   not needed, as exercises on the json are the related to our station
+			   and this code uses machineID, but the list jsonSEStation ["id"] contains logical instead of physical.
+			   so no need to check anything
 			// 1) discard exercise if is not for this station
 			JsonValue jsonSEStations = JsonValue.Parse (jsonSE["stations"].ToString());
 			bool exerciseForThisStation = false;
@@ -363,6 +367,7 @@ public class JsonCompujump : Json
 
 			if(! exerciseForThisStation)
 				continue;
+			*/
 
 			// 2) discard if is not for this station type
 			string type = jsonSE ["measurable"];

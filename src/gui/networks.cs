@@ -64,6 +64,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_current_person;
 	[Widget] Gtk.Button button_contacts_person_change;
 	[Widget] Gtk.Button button_encoder_person_change;
+	[Widget] Gtk.Button button_networks_encoder_guest;
 
 	//encoder exercise stuff
 	[Widget] Gtk.Label label_encoder_exercise_encoder;
@@ -203,6 +204,9 @@ public partial class ChronoJumpWindow
 			preferences.personWinHide = true;
 			configChronojump.PersonWinHide = true;
 			showPersonsOnTop(true);
+
+			button_networks_encoder_guest.Visible = true;
+			button_encoder_person_change.Visible = false;
 
 			if(configChronojump.CompujumpStationMode != Constants.Modes.UNDEFINED)
 			{
@@ -854,6 +858,9 @@ public partial class ChronoJumpWindow
 		{
 			compujumpAutologout = new CompujumpAutologout();
 
+			button_networks_encoder_guest.Visible = false;
+			button_encoder_person_change.Visible = true;
+
 			/*TODO:
 			int rowToSelect = myTreeViewPersons.FindRow(currentPerson.UniqueID);
 			if(rowToSelect != -1)
@@ -1178,6 +1185,8 @@ public partial class ChronoJumpWindow
 		currentPerson = null;
 		currentPersonSession = null;
 		sensitiveGuiNoPerson ();
+		button_networks_encoder_guest.Visible = true;
+		button_encoder_person_change.Visible = false;
 
 		//not allow to change devices if person changed. If you want to change again, go to preferences/advanced networksAllowChangeDevices
 		preferences.networksAllowChangeDevices = false;

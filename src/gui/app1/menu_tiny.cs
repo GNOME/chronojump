@@ -44,6 +44,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.EventBox eventbox_button_encoder_person_change;
 	[Widget] Gtk.EventBox eventbox_button_networks_encoder_guest;
 	[Widget] Gtk.CheckButton check_menu_session1;
+	[Widget] Gtk.Button button_menu_preferences1;
 	[Widget] Gtk.Button button_menu_news1;
 	[Widget] Gtk.VBox vbox_menu_session1;
 	[Widget] Gtk.Alignment alignment_menu_session_options1;

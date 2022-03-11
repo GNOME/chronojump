@@ -366,6 +366,68 @@ public partial class ChronoJumpWindow
 		rfidProcessCancel = true;
 	}
 
+	private void on_button_networks_encoder_guest_clicked (object sender, EventArgs e)
+	{
+		// 1) do not allow to click again the button
+		button_networks_encoder_guest.Visible = false;
+
+		// 2) reset logout counter
+		compujumpAutologout = new CompujumpAutologout();
+
+		// 3) create/load person. guest is id: -2, check if it exists. If it exists will return -2, if not: -1
+		currentPerson = SqlitePerson.Select(false, -2);
+		if(currentPerson.UniqueID == -1) //do not exists, create it
+			currentPerson = new Person (true, -2, Catalog.GetString("Guest"), "-1", ""); //this true means insertPerson
+
+		// 4) personSession insert if needed and assign
+		currentPersonSession = SqlitePersonSession.Select(false, currentPerson.UniqueID, currentSession.UniqueID);
+		if(currentPersonSession.UniqueID == -1)
+			currentPersonSession = new PersonSession (
+					currentPerson.UniqueID, currentSession.UniqueID,
+					0, 0, //width, height
+					Constants.SportUndefinedID,
+					Constants.SpeciallityUndefinedID,
+					Constants.LevelUndefinedID,
+					"", 	//comments
+					Constants.TrochanterToeUndefinedID,
+					Constants.TrochanterFloorOnFlexionUndefinedID,
+					false); //dbconOpened
+
+		// 5) person active gui changes
+		sensitiveGuiYesPerson();
+		personChanged(); //GTK
+		label_person_change();
+
+		// 6) specific guest setup
+		configNetworsEncoderAsGuest (true);
+	}
+	private void configNetworsEncoderAsGuest(bool guest)
+	{
+		//on guest widgets are invisible, cleaner and easier than unsensitive because during capture/curves sensitivity changes on some buttons
+		check_encoder_networks_upload.Active = ! guest;
+		check_encoder_networks_upload.Visible = ! guest;
+
+		radio_mode_encoder_analyze_small.Visible = ! guest;
+		button_menu_preferences1.Visible = ! guest;
+		button_encoder_load_signal.Visible = ! guest;
+		button_encoder_capture_session_overview.Visible = ! guest;
+		button_encoder_delete_signal.Visible = ! guest;
+
+		button_encoder_bells.Visible = ! guest;
+		if(guest)
+		{
+			preferences.encoderCaptureMainVariable = Constants.EncoderVariablesCapture.MeanSpeed;
+			preferences.encoderCaptureSecondaryVariable = Constants.EncoderVariablesCapture.RangeAbsolute;
+		} else {
+			preferences.encoderCaptureMainVariable = (Constants.EncoderVariablesCapture)
+				Enum.Parse(typeof(Constants.EncoderVariablesCapture),
+						SqlitePreferences.Select("encoderCaptureMainVariable", false));
+			preferences.encoderCaptureSecondaryVariable = (Constants.EncoderVariablesCapture)
+				Enum.Parse(typeof(Constants.EncoderVariablesCapture),
+						SqlitePreferences.Select("encoderCaptureSecondaryVariable", false));
+		}
+	}
+
 	private void configInitFromPreferences()
 	{
 		if(configChronojump == null)
@@ -853,6 +915,9 @@ public partial class ChronoJumpWindow
 
 		if(currentPerson != null && currentPersonWasNull)
 			sensitiveGuiYesPerson();
+
+		//it is not a guest remove guest changes
+		configNetworsEncoderAsGuest (false);
 
 		if(pChangedShowTasks)
 		{

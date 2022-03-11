@@ -101,6 +101,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_capture_finish_cont;
 	[Widget] Gtk.Button button_encoder_exercise_close_and_recalculate;
 	[Widget] Gtk.Button button_encoder_capture_session_overview;
+	[Widget] Gtk.Button button_encoder_bells;
 	[Widget] Gtk.Button button_encoder_load_signal;
 	[Widget] Gtk.Button button_encoder_load_signal_at_analyze;
 	[Widget] Gtk.Viewport viewport_image_encoder_capture;

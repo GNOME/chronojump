@@ -31065,6 +31065,7 @@ Concentric</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
                                                         <property name="tooltip" translatable="yes">Person</property>
+                                                        <signal name="clicked" handler="on_button_networks_encoder_guest_clicked" swapped="no"/>
                                                         <child>
                                                           <widget class="GtkEventBox" id="eventbox_button_networks_encoder_guest">
                                                             <property name="visible">True</property>

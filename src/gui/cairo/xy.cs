@@ -170,14 +170,8 @@ public abstract class CairoXY : CairoGeneric
 	//true if changed
 	protected bool findPointMaximums(bool showFullGraph, List<PointF> points_list)
 	{
-		//foreach(PointF p in points_list)
-		/*
-		int start = lastPointPainted;
-		if(lastPointPainted < 0)
-			start = 0;
-
-		//for(int i = start; i < points_list.Count; i ++)
-		*/
+		maxX = 0;
+		maxY = 0;
 		for(int i = 0; i < points_list.Count; i ++)
 		{
 			PointF p = points_list[i];

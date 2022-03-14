@@ -48,6 +48,7 @@ public abstract class CairoXY : CairoGeneric
 	protected double pointsMaxValue;
 
 	protected DrawingArea area;
+	protected ImageSurface surface;
 	protected string title;
 	protected string jumpType;
 	protected string runType;
@@ -127,12 +128,20 @@ public abstract class CairoXY : CairoGeneric
 
 		totalMargins = outerMargin + innerMargin;
 
-		//1 create context
-		g = Gdk.CairoHelper.Create (area.GdkWindow);
+		// 1 create context
+		/* using drawingarea (slow)
+		   g = Gdk.CairoHelper.Create (area.GdkWindow);
+
+		   //from area->surface (see xy.cs)
+		   //draw on surface: create surface, context related to this surface, draw on this contex
+		   //copy later to drawingarea before disposing, this is much faster
+		 */
+		surface = new ImageSurface(Format.RGB24, area.Allocation.Width, area.Allocation.Height);
+		g = new Context (surface);
 
 		if(clearDrawingArea)
 		{
-			//2 clear DrawingArea (white)
+			//2 clear DrawingArea (context) (paint in white)
 			g.SetSourceRGB(1,1,1);
 			g.Paint();
 		}
@@ -527,8 +536,7 @@ public abstract class CairoXY : CairoGeneric
 		// 1) need to do this because context has been disposed
 		LogB.Information(string.Format("g == null: {0}", (g = null)));
 		if(g == null)
-			g = Gdk.CairoHelper.Create (area.GdkWindow);
-
+			g = Gdk.CairoHelper.Create (area.GdkWindow); //area->surface does not work
 
 		int line = 4;
 		/*

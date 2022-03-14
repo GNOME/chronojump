@@ -27,6 +27,7 @@ using Cairo;
 public class CairoRunDoubleContacts : CairoGeneric
 {
 	protected DrawingArea area;
+	protected ImageSurface surface;
 	protected Cairo.Context g;
 	protected Cairo.Color black;
 	protected Cairo.Color colorBackground;
@@ -49,8 +50,9 @@ public class CairoRunDoubleContacts : CairoGeneric
 	//from CairoRadial
 	protected void initGraph()
 	{
-		//1 create context
-		g = Gdk.CairoHelper.Create (area.GdkWindow);
+		//1 create context from area->surface (see xy.cs)
+                surface = new ImageSurface(Format.RGB24, area.Allocation.Width, area.Allocation.Height);
+                g = new Context (surface);
 		
 		//2 clear DrawingArea (white)
 		g.SetSourceRGB(1,1,1);
@@ -134,7 +136,8 @@ public class CairoRunDoubleContacts : CairoGeneric
 
 		drawTracks (timeTotal, timeTotalWithExtraPTL, negativePTLTime);
 		drawStartAndEnd (timeTotal, timeTotalWithExtraPTL, negativePTLTime);
-		endGraphDisposing(g);
+
+		endGraphDisposing(g, surface, area.GdkWindow);
 	}
 
 	protected virtual void drawTracks (double timeTotal, double timeTotalWithExtraPTL, double negativePTLTime)

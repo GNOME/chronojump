@@ -31,6 +31,7 @@ public class CairoRadial : CairoGeneric
 	private int margin = 6;
 	private int offsetV = 6; //to move the graph vertically
 	private Gtk.DrawingArea area;
+	protected ImageSurface surface;
 	private double minSide;
 	private Cairo.Color black;
 	private Cairo.Color colorArrow;
@@ -45,13 +46,14 @@ public class CairoRadial : CairoGeneric
 	public void GraphBlank()
 	{
 		initGraph();
-		endGraphDisposing(g);
+		endGraphDisposing(g, surface, area.GdkWindow);
 	}
 
 	private void initGraph()
 	{
-		//1 create context
-		g = Gdk.CairoHelper.Create (area.GdkWindow);
+		//1 create context from area->surface (see xy.cs)
+                surface = new ImageSurface(Format.RGB24, area.Allocation.Width, area.Allocation.Height);
+                g = new Context (surface);
 		
 		//2 clear DrawingArea (white)
 		g.SetSourceRGB(1,1,1);
@@ -154,7 +156,7 @@ public class CairoRadial : CairoGeneric
 		if(speedMax > speed)
 			graphLineFromCenter(speedMax, gray);
 
-		endGraphDisposing(g);
+		endGraphDisposing(g, surface, area.GdkWindow);
 	}
 
 	//used at end or capture or at load
@@ -180,7 +182,7 @@ public class CairoRadial : CairoGeneric
 
 		graphLineFromCenter(speedMax, gray);
 
-		endGraphDisposing(g);
+		endGraphDisposing(g, surface, area.GdkWindow);
 	}
 
 	private void graphLineFromCenter(double toValue, Cairo.Color color)

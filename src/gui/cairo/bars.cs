@@ -27,6 +27,7 @@ using Cairo;
 public abstract class CairoBars : CairoGeneric
 {
 	protected DrawingArea area;
+	protected ImageSurface surface;
 	protected int fontHeightForBottomNames;
 	protected int marginForBottomNames;
 	protected string title;
@@ -260,8 +261,9 @@ public abstract class CairoBars : CairoGeneric
 		this.font = font;
 		//LogB.Information("Font: " + font);
 
-		//1 create context
-		g = Gdk.CairoHelper.Create (area.GdkWindow);
+		//1 create context from area->surface (see xy.cs)
+                surface = new ImageSurface(Format.RGB24, area.Allocation.Width, area.Allocation.Height);
+                g = new Context (surface);
 
 		if(clearDrawingArea)
 		{
@@ -674,7 +676,7 @@ public class CairoBars1Series : CairoBars
 		if(testsNotFoundMessage != "")
 			writeMessageAtCenter(testsNotFoundMessage);
 
-		endGraphDisposing(g);
+		endGraphDisposing(g, surface, area.GdkWindow);
 	}
 
 	//regular constructor
@@ -763,7 +765,7 @@ LogB.Information(string.Format("y: {0}, alto: {1}", y, graphHeight -y - bottomMa
 
 		writeTitleAtTop ();
 
-		endGraphDisposing(g);
+		endGraphDisposing(g, surface, area.GdkWindow);
 	}
 }
 
@@ -788,7 +790,7 @@ public class CairoBarsNHSeries : CairoBars
 		LogB.Information("constructor without points, area.GdkWindow is null:" + (area.GdkWindow == null).ToString());
 		initGraph(font, 1); //.8 to have title at right
 
-		endGraphDisposing(g);
+		endGraphDisposing(g, surface, area.GdkWindow);
 	}
 
 	//regular constructor
@@ -1043,7 +1045,7 @@ public class CairoBarsNHSeries : CairoBars
 		writeTitleAtTop ();
 		writeLegend ();
 
-		endGraphDisposing(g);
+		endGraphDisposing(g, surface, area.GdkWindow);
 	}
 }
 

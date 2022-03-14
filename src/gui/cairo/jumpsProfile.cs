@@ -59,7 +59,7 @@ public static class JumpsProfileGraph
 		//LogB.Information(string.Format("is area null: {0}", (area == null)));
 		//LogB.Information(string.Format("is area.GdkWindow null: {0}", (area.GdkWindow == null)));
 
-		//1 create context
+		//1 create context (TODO: future do it converting to a surface like xy, generic, ...)
 		Cairo.Context g = Gdk.CairoHelper.Create (area.GdkWindow);
 		
 		//2 clear DrawingArea (white)
@@ -176,7 +176,7 @@ public static class JumpsProfileGraph
 			y += 69;
 		}
 		
-		//10 dispose
+		//10 dispose  (TODO: future do it converting to a surface like xy, generic, ...)
 		g.GetTarget().Dispose ();
 		g.Dispose ();
 	}

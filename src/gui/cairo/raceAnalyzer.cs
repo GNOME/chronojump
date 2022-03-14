@@ -33,22 +33,6 @@ public class CairoGraphRaceAnalyzer : CairoXY
 	private TwoListsOfDoubles verticalLinesUs_2l;
 	private bool useListOfDoublesOnY;
 
-	/*
-	//constructor when there are no points
-	public CairoGraphRaceAnalyzer (DrawingArea area, string jumpType, string font)//, string title, string jumpType, string date)
-	{
-		this.area = area;
-
-		initGraph(font);
-
-		g.SetFontSize(16);
-		printText(area.Allocation.Width /2, area.Allocation.Height /2, 24, textHeight,
-				needToExecuteJumpsStr + " " + jumpType + ".", g, alignTypes.CENTER);
-
-		endGraphDisposing(g);
-	}
-	*/
-
 	//to avoid to have new data on PassData while the for is working on plotRealPoints
 //	static bool doing;
 	//regular constructor
@@ -212,7 +196,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 				paintVerticalTriggerLine(g, trigger, textHeight -3);
 
 		if(initGraphDone)
-			endGraphDisposing(g);
+			endGraphDisposing(g, surface, area.GdkWindow);
 
 		//doing = false;
 	}

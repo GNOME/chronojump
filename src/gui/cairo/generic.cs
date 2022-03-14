@@ -52,6 +52,23 @@ public abstract class CairoGeneric
 		eg. on Linux can do the writeCoordinatesOfMouseClick() without disposing, but on win and mac does not work, so dispose always.
 	 */
 
+	protected void endGraphDisposing(Cairo.Context g, ImageSurface surface, Gdk.Window window)
+	{
+		if(surface != null)
+		{
+			//using (Context gArea = Gdk.CairoHelper.Create (area.GdkWindow))
+			using (Context gArea = Gdk.CairoHelper.Create (window))
+			{
+				gArea.SetSource (surface);
+				gArea.Paint ();
+			}
+
+			surface.Dispose();
+		}
+
+		g.GetTarget().Dispose ();
+		g.Dispose ();
+	}
 	protected void endGraphDisposing(Cairo.Context g)
 	{
 		g.GetTarget().Dispose ();

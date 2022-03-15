@@ -61,9 +61,11 @@ public abstract class CairoGeneric
 			{
 				gArea.SetSource (surface);
 				gArea.Paint ();
-			}
 
-			surface.Dispose();
+				surface.Dispose();
+				gArea.GetTarget().Dispose ();
+				gArea.Dispose ();
+			}
 		}
 
 		g.GetTarget().Dispose ();

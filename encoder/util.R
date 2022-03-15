@@ -1181,7 +1181,7 @@ getDisplacementInertialBody <- function(positionStart, displacement, draw, title
 		     xlim=c(1,length(position))/1000,		#ms -> s
 		     ylim=c(min(positionPerson)/10,max(position/10)),
 		     xlab="",ylab="",axes=T,
-		     lty=2,col=col) 
+		     lty=1,col=col)
 
 		abline(h=0, lty=2, col="gray")
 	

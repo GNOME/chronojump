@@ -90,8 +90,12 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		if(maxValuesChanged || forceRedraw || points_list.Count != points_list_painted)
 		{
 			initGraph( font, 1, (maxValuesChanged || forceRedraw) );
-			initGraphDone = true;
 			points_list_painted = 0;
+		}
+		if(points_list == null || points_list.Count == 0)
+		{
+			paintAxis();
+			return;
 		}
 
 		if(maxValuesChanged || forceRedraw)

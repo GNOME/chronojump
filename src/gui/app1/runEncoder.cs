@@ -1076,7 +1076,7 @@ public partial class ChronoJumpWindow
 
 		foreach(string row in contents)
 		{
-			LogB.Information("row: " + row);
+			//LogB.Information("row: " + row);
 			if(count < 3)
 			{
 				count ++;
@@ -1102,9 +1102,9 @@ public partial class ChronoJumpWindow
 
 			if(timePre2 > 0)
 			{
-				LogB.Information(string.Format("accel at load is: {0} m/s",
-							UtilAll.DivideSafe(reCGSD.RunEncoderCaptureSpeed - speedPre2,
-								UtilAll.DivideSafe(reCGSD.Time, 1000000) - timePre2)));
+				//LogB.Information(string.Format("accel at load is: {0} m/s",
+				//			UtilAll.DivideSafe(reCGSD.RunEncoderCaptureSpeed - speedPre2,
+				//				UtilAll.DivideSafe(reCGSD.Time, 1000000) - timePre2)));
 
 				//accel/time
 				cairoGraphRaceAnalyzerPoints_at_l.Add(new PointF(

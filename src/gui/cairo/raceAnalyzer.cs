@@ -76,12 +76,12 @@ public class CairoGraphRaceAnalyzer : CairoXY
 	//separated in two methods to ensure endGraphDisposing on any return of the other method
 	public override void DoSendingList (string font, List<PointF> points_list, TriggerList triggerList, bool forceRedraw, PlotTypes plotType)
 	{
-		doSendingList (font, points_list, triggerList, forceRedraw, plotType);
-
-		endGraphDisposing(g, surface, area.GdkWindow);
+		if(doSendingList (font, points_list, triggerList, forceRedraw, plotType))
+			endGraphDisposing(g, surface, area.GdkWindow);
 	}
 
-	private void doSendingList (string font, List<PointF> points_list, TriggerList triggerList, bool forceRedraw, PlotTypes plotType)
+	//return true if graph is inited (to dispose it)
+	private bool doSendingList (string font, List<PointF> points_list, TriggerList triggerList, bool forceRedraw, PlotTypes plotType)
 	{
 		bool maxValuesChanged = false;
 		if(points_list != null)
@@ -95,7 +95,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		if(points_list == null || points_list.Count == 0)
 		{
 			paintAxis();
-			return;
+			return true;
 		}
 
 		if(maxValuesChanged || forceRedraw)
@@ -205,6 +205,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 				paintVerticalTriggerLine(g, trigger, textHeight -3);
 
 		//doing = false;
+		return true;
 	}
 
 	protected override void printYAxisText()

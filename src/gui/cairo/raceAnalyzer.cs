@@ -73,11 +73,16 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		points_list_painted = 0;
 	}
 
+	//separated in two methods to ensure endGraphDisposing on any return of the other method
 	public override void DoSendingList (string font, List<PointF> points_list, TriggerList triggerList, bool forceRedraw, PlotTypes plotType)
 	{
-		LogB.Information("at RaceAnalyzerGraph.Do");
+		doSendingList (font, points_list, triggerList, forceRedraw, plotType);
 
-		bool initGraphDone = false;
+		endGraphDisposing(g, surface, area.GdkWindow);
+	}
+
+	private void doSendingList (string font, List<PointF> points_list, TriggerList triggerList, bool forceRedraw, PlotTypes plotType)
+	{
 		bool maxValuesChanged = false;
 		if(points_list != null)
 			maxValuesChanged = findPointMaximums(false, points_list);
@@ -194,9 +199,6 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		if(triggerList != null && triggerList.Count() > 0)
 			foreach(Trigger trigger in triggerList.GetList())
 				paintVerticalTriggerLine(g, trigger, textHeight -3);
-
-		if(initGraphDone)
-			endGraphDisposing(g, surface, area.GdkWindow);
 
 		//doing = false;
 	}

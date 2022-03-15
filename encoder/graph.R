@@ -3153,7 +3153,7 @@ doProcess <- function(options)
                                 
                                 #mtext(at=((curves[i,1]+curves[i,2])/2/1000),	#/1000 ms -> s
                                 #     side=1,text=myLabel, cex=.8, col="blue")
-                                abline(v=c(curves[i,1],curves[i,2])/1000, lty=3, col="gray")
+                                abline(v=c(curves[i,1],curves[i,2])/1000, lty=3, col="grey30")
 
 				# if(! cutByTriggers(op) && op$TriggersOnList != "" && op$TriggersOnList != -1)
 				# {
@@ -3161,23 +3161,23 @@ doProcess <- function(options)
 				# }
                         }
 
-                        #plot speed
-                        par(new=T)	
-                        
-                        smoothingAll= 0.1
-                        speed <- getSpeed(displacement, smoothingAll)
-                        plot((1:length(displacement))/1000, speed$y, col="green2",
-                             type="l", 
-                             xlim=c(1,length(displacement))/1000,	#ms -> s
-                             #ylim=c(-.25,.25),		#to test speed at small changes
-                             xlab="",ylab="",axes=F)
-                        
-                        if(isInertial(op$EncoderConfigurationName))
-                                mtext(translateToPrint("body speed"),side=4,adj=1,line=-1,col="green2",cex=.8)
-                        else
-                                mtext(translateToPrint("speed"),side=4,adj=1,line=-1,col="green2")
-                        
-                        abline(h=0,lty=2,col="gray")
+			##plot speed
+			#par(new=T)
+			#
+			#smoothingAll= 0.1
+			#speed <- getSpeed(displacement, smoothingAll)
+			#plot((1:length(displacement))/1000, speed$y, col="green2",
+				#type="l",
+				#xlim=c(1,length(displacement))/1000,	#ms -> s
+				##ylim=c(-.25,.25),		#to test speed at small changes
+				#xlab="",ylab="",axes=F)
+			#
+			#if(isInertial(op$EncoderConfigurationName))
+				#mtext(translateToPrint("body speed"),side=4,adj=1,line=-1,col="green2",cex=.8)
+			#else
+				#mtext(translateToPrint("speed"),side=4,adj=1,line=-1,col="green2")
+			#
+			#abline(h=0,lty=2,col="gray")
                 }
         }
         

@@ -110,6 +110,15 @@ public abstract class CairoXY : CairoGeneric
 	public virtual void Do(string font)
 	{
 	}
+
+	//encoderSignal (with inertial stuff & ! triggers at the moment)
+	public virtual void DoSendingList(string font, bool isInertial,
+			List<PointF> points_list, List<PointF> points_list_inertial,
+			bool forceRedraw, PlotTypes plotType)
+	{
+	}
+
+	//raceAnalyzer XY graphs (triggers)
 	public virtual void DoSendingList(string font, List<PointF> points_list, TriggerList triggerList, bool forceRedraw, PlotTypes plotType)
 	{
 	}

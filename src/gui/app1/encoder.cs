@@ -341,10 +341,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.TreeView treeview_encoder_capture_curves;
 	[Widget] Gtk.TreeView treeview_encoder_analyze_curves;
 
-	[Widget] Gtk.DrawingArea encoder_capture_signal_drawingarea;
 	[Widget] Gtk.DrawingArea encoder_capture_signal_drawingarea_cairo;
 	[Widget] Gtk.DrawingArea encoder_capture_curves_bars_drawingarea;
-	Gdk.Pixmap encoder_capture_signal_pixmap = null;
 	Gdk.Pixmap encoder_capture_curves_bars_pixmap = null;
 
 	ArrayList encoderCaptureCurves;
@@ -373,12 +371,6 @@ public partial class ChronoJumpWindow
 
 	private ArrayList array1RM;
 
-	//private static double [] encoderReaded;		//data coming from encoder and converted (can be double)
-	//private static int [] encoderReaded;		//data coming from encoder and converted
-	//private static int encoderCaptureCountdown;
-	//private static Gdk.Point [] encoderCapturePoints;		//stored to be realtime displayed
-	//private static int encoderCapturePointsCaptured;		//stored to be realtime displayed
-	//private static int encoderCapturePointsPainted;			//stored to be realtime displayed
 	EncoderCapture eCapture;
 	
 	//Contains curves captured to be analyzed by R
@@ -458,14 +450,6 @@ public partial class ChronoJumpWindow
 		NOSESSION, NOPERSON, YESPERSON, PROCESSINGCAPTURE, PROCESSINGR, DONENOSIGNAL, DONEYESSIGNAL }
 	encoderSensEnum encoderSensEnumStored; //tracks how was sensitive before PROCESSINGCAPTURE or PROCESSINGR
 	
-	//for writing text
-	Pango.Layout layout_encoder_capture_signal;
-
-	Gdk.GC pen_black_encoder_signal;
-	Gdk.GC pen_blue_encoder_signal;
-	Gdk.GC pen_gray_encoder_signal;
-	
-
 	//TODO:put zoom,unzoom (at side of delete curve)  in capture curves (for every curve)
 	//
 	//TODO: capture also with webcam an attach it to signal or curve
@@ -5679,9 +5663,6 @@ public partial class ChronoJumpWindow
 		if(encoder_capture_curves_bars_pixmap != null)
 			UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 
-		if(encoder_capture_signal_pixmap != null)
-			UtilGtk.ErasePaint(encoder_capture_signal_drawingarea, encoder_capture_signal_pixmap);
-
 		image_encoder_capture.Sensitive = false;
 		image_encoder_analyze.Sensitive = false;
 		vbox_encoder_analyze_instant.Visible = false; //play with Visible instead of Sensitive because with Sensitive the pixmap is fully shown
@@ -5852,138 +5833,35 @@ public partial class ChronoJumpWindow
 		hpaned_encoder.Sensitive = s;
 	}
 
-
 	/* end of sensitivity stuff */	
-	
-	/*
-	 * update encoder capture graph stuff
-	 */
 
 	enum UpdateEncoderPaintModes { GRAVITATORY, INERTIAL, CALCULE_IM }
-	private void updateEncoderCaptureGraphPaint(UpdateEncoderPaintModes mode)
+	private void updateEncoderCaptureGraphPaintData (UpdateEncoderPaintModes mode)
 	{
-		if(eCapture.EncoderCapturePoints == null)
+		if(eCapture.PointsCaptured == 0 ||
+				eCapture.PointsCaptured - eCapture.PointsPainted <= 0)
 			return;
 
 		if(mode == UpdateEncoderPaintModes.CALCULE_IM)
-			encoder_configuration_win.EncoderReaded(eCapture.Sum, eCapture.IMCalcOscillations);
-
-		//this happens when EncoderCaptureShowOnlyBars=TRUE
-		if(encoder_capture_signal_drawingarea == null || encoder_capture_signal_pixmap == null)
-			return;
-
-		bool refreshAreaOnly = false;
-		
-		//mark meaning screen should be erased
-		if(eCapture.EncoderCapturePointsPainted == -1) {
-			UtilGtk.ErasePaint(encoder_capture_signal_drawingarea, encoder_capture_signal_pixmap);
-			eCapture.EncoderCapturePointsPainted = 0;
-		}
-
-		//also can be optimized to do not erase window every time and only add points since last time
-		int last = eCapture.EncoderCapturePointsCaptured;
-		int toDraw = eCapture.EncoderCapturePointsCaptured - eCapture.EncoderCapturePointsPainted;
-
-		//LogB.Information("last - toDraw:" + last + " - " + toDraw);	
-
-		//fixes crash at the end
-		if(toDraw == 0)
-			return;
-
-		int maxY=-1;
-		int minY=10000;
-
-		Gdk.Point [] paintPoints = new Gdk.Point[toDraw];
-		Gdk.Point [] paintPointsInertial = new Gdk.Point[toDraw];
-
-		for(int j=0, i = eCapture.EncoderCapturePointsPainted +1 ; i <= last ; i ++, j++)
 		{
-			paintPoints[j] = eCapture.EncoderCapturePoints[i];
-			cairoGraphEncoderSignalPoints_l.Add(eCapture.EncoderCapturePointsCairo[i]);
-
-			if(refreshAreaOnly) {
-				if(eCapture.EncoderCapturePoints[i].Y > maxY)
-					maxY = eCapture.EncoderCapturePoints[i].Y;
-				if(eCapture.EncoderCapturePoints[i].Y < minY)
-					minY = eCapture.EncoderCapturePoints[i].Y;
-			}
+			encoder_configuration_win.EncoderReaded (eCapture.Sum, eCapture.IMCalcOscillations);
+			return;
 		}
 
-		if(mode == UpdateEncoderPaintModes.INERTIAL) {
-			for(int j=0, i = eCapture.EncoderCapturePointsPainted +1 ; i <= last ; i ++, j ++)
-			{
-				//only assign the points if they are different than paintPoints
-				if(eCapture.EncoderCapturePointsInertialDisc[i] != eCapture.EncoderCapturePoints[i] &&
-						(i % 800) <= 520 //dashed accepting 520 points and discarding 280
-				  ) {
-					paintPointsInertial[j] = eCapture.EncoderCapturePointsInertialDisc[i];
+		if(mode == UpdateEncoderPaintModes.GRAVITATORY || mode == UpdateEncoderPaintModes.INERTIAL)
+		{
+			//this applies to both
+			for(int j=0, i = eCapture.PointsPainted +1 ; i <= eCapture.PointsCaptured ; i ++, j++)
+				cairoGraphEncoderSignalPoints_l.Add(eCapture.EncoderCapturePointsCairo[i]);
 
-					if(refreshAreaOnly) {
-						if(eCapture.EncoderCapturePointsInertialDisc[i].Y > maxY)
-							maxY = eCapture.EncoderCapturePointsInertialDisc[i].Y;
-						if(eCapture.EncoderCapturePointsInertialDisc[i].Y < minY)
-							minY = eCapture.EncoderCapturePointsInertialDisc[i].Y;
-					}
-				}
-				//only assign the points if they are different than paintPoints
-//				if(eCapture.EncoderCapturePointsInertialDiscCairo[i] != eCapture.EncoderCapturePointsCairo[i]) //do not avoid this step on cairo
+			if(mode == UpdateEncoderPaintModes.INERTIAL)
+				for(int j=0, i = eCapture.PointsPainted +1 ; i <= eCapture.PointsCaptured ; i ++, j ++)
 					cairoGraphEncoderSignalInertialPoints_l.Add(eCapture.EncoderCapturePointsInertialDiscCairo[i]);
-			}
-			encoder_capture_signal_pixmap.DrawPoints(pen_gray_encoder_signal, paintPointsInertial);
+
+			eCapture.PointsPainted = eCapture.PointsCaptured;
 		}
-		//paint this after the inertial because this should mask the other
-		encoder_capture_signal_pixmap.DrawPoints(pen_black_encoder_signal, paintPoints);
-		
-
-		//write title
-		string title = "";
-		if(mode == UpdateEncoderPaintModes.CALCULE_IM)
-			title = Catalog.GetString("Inertia M.");
-		else {
-			title = currentPerson.Name + " (";
-			if(encoderConfigurationCurrent.has_inertia)
-				title += encoderConfigurationCurrent.inertiaTotal.ToString() + " " + Catalog.GetString("Inertia M.") + ")";
-			else	
-				title += findMass(Constants.MassType.EXTRA).ToString() + "Kg)";
-		}
-		layout_encoder_capture_signal.SetMarkup(title);
-		
-
-		encoder_capture_signal_pixmap.DrawLayout(pen_blue_encoder_signal, 5, 5, layout_encoder_capture_signal);
-
-		if(refreshAreaOnly) {
-			/*
-						LogB.Information("pp X-TD-W: " + 
-						paintPoints[0].X.ToString() + " - " + 
-						paintPoints[toDraw-1].X.ToString() + " - " + 
-						(paintPoints[toDraw-1].X-paintPoints[0].X).ToString());
-						*/
-
-			int startX = paintPoints[0].X;
-			/*
-			 * this helps to ensure that no white points are drawed
-			 * caused by this int when eCapture.EncoderCapturePoints are assigned:
-			 * Convert.ToInt32(width*i/recordingTime)
-			 */
-			int exposeMargin = 4;
-			if(startX -exposeMargin > 0)
-				startX -= exposeMargin;	
-
-
-			encoder_capture_signal_drawingarea.QueueDrawArea( 			// -- refresh
-					startX,
-					minY,
-					(paintPoints[toDraw-1].X-paintPoints[0].X ) + exposeMargin,
-					maxY-minY
-					);
-			//if refreshAreaOnly is true, then repeat above instruction for paintPointsInertial
-			
-			LogB.Information("minY - maxY " + minY + " - " + maxY);
-		} else
-			encoder_capture_signal_drawingarea.QueueDraw(); 			// -- refresh
-
-		eCapture.EncoderCapturePointsPainted = eCapture.EncoderCapturePointsCaptured;
 	}
+
 
 	static List<string> encoderCaptureStringR;
 	static ArrayList captureCurvesBarsData;
@@ -6099,66 +5977,6 @@ public partial class ChronoJumpWindow
 		}
 	}
 	
-	int encoder_capture_signal_allocationXOld;
-	bool encoder_capture_signal_sizeChanged;
-	public void on_encoder_capture_signal_drawingarea_configure_event(object o, ConfigureEventArgs args)
-	{
-		Gdk.EventConfigure ev = args.Event;
-		Gdk.Window window = ev.Window;
-
-		Gdk.Rectangle allocation = encoder_capture_signal_drawingarea.Allocation;
-		
-		if(encoder_capture_signal_pixmap == null || encoder_capture_signal_sizeChanged || 
-				allocation.Width != encoder_capture_signal_allocationXOld) 
-		{
-			encoder_capture_signal_pixmap = new Gdk.Pixmap (window, allocation.Width, allocation.Height, -1);
-		
-			if(eCapture != null && capturingCsharp == encoderCaptureProcess.CAPTURING)
-				eCapture.EncoderCapturePointsPainted = -1; //mark meaning screen should be erased and start painting from the beginning
-			else
-				UtilGtk.ErasePaint(encoder_capture_signal_drawingarea, encoder_capture_signal_pixmap);
-			
-			encoder_capture_signal_sizeChanged = false;
-		}
-
-		encoder_capture_signal_allocationXOld = allocation.Width;
-	}
-	
-	public void on_encoder_capture_signal_drawingarea_expose_event(object o, ExposeEventArgs args)
-	{
-		/* in some mono installations, configure_event is not called, but expose_event yes. 
-		 * Do here the initialization
-		 */
-		//LogB.Debug("EXPOSE");
-		
-		Gdk.Rectangle allocation = encoder_capture_signal_drawingarea.Allocation;
-		if(encoder_capture_signal_pixmap == null || encoder_capture_signal_sizeChanged || 
-				allocation.Width != encoder_capture_signal_allocationXOld) {
-			encoder_capture_signal_pixmap = new Gdk.Pixmap (encoder_capture_signal_drawingarea.GdkWindow, 
-					allocation.Width, allocation.Height, -1);
-			
-			if(eCapture != null && capturingCsharp == encoderCaptureProcess.CAPTURING)
-				eCapture.EncoderCapturePointsPainted = -1; //mark meaning screen should be erased and start painting from the beginning
-			else
-				UtilGtk.ErasePaint(encoder_capture_signal_drawingarea, encoder_capture_signal_pixmap);
-
-			encoder_capture_signal_sizeChanged = false;
-		}
-
-		Gdk.Rectangle area = args.Event.Area;
-
-		//sometimes this is called when pait is finished
-		//don't let this erase win
-		if(encoder_capture_signal_pixmap != null) {
-			args.Event.Window.DrawDrawable(encoder_capture_signal_drawingarea.Style.WhiteGC, encoder_capture_signal_pixmap,
-				area.X, area.Y,
-				area.X, area.Y,
-				area.Width, area.Height);
-		}
-		
-		encoder_capture_signal_allocationXOld = allocation.Width;
-	}
-
 	public void on_encoder_capture_signal_drawingarea_cairo_expose_event (object o, ExposeEventArgs args)
 	{
 		updateEncoderCaptureSignalCairo (current_mode == Constants.Modes.POWERINERTIAL, true);
@@ -6266,11 +6084,9 @@ public partial class ChronoJumpWindow
 
 			//on continuous mode do not erase bars at beginning of capture in order to see last bars
 			if(action == encoderActions.CAPTURE && preferences.encoderCaptureInfinite) {
-				prepareEncoderGraphs(false, true); //bars, signal
 				if(encoderGraphDoPlot != null)
 					encoderGraphDoPlot.ShowMessage("Previous set", true, false);
-			} else
-				prepareEncoderGraphs(true, true);
+			}
 
 			//eccaCreated = false;
 
@@ -6332,8 +6148,6 @@ public partial class ChronoJumpWindow
 					portName = chronopicRegister.ConnectedOfType(ChronopicRegisterPort.Types.ENCODER).Port;
 
 				bool success = eCapture.InitGlobal(
-						encoder_capture_signal_drawingarea.Allocation.Width,
-						encoder_capture_signal_drawingarea.Allocation.Height,
 						recordingTime,
 						preferences.encoderCaptureInactivityEndTime,
 						preferences.encoderCaptureInfinite,
@@ -6404,8 +6218,6 @@ public partial class ChronoJumpWindow
 
 				eCapture = new EncoderCaptureIMCalc();
 				bool success = eCapture.InitGlobal(
-						encoder_capture_signal_drawingarea.Allocation.Width,
-						encoder_capture_signal_drawingarea.Allocation.Height,
 						preferences.encoderCaptureTimeIM, //two minutes max capture
 						EncoderCaptureIMCalc.InactivityEndTime, //3 seconds
 						false,
@@ -6468,7 +6280,6 @@ public partial class ChronoJumpWindow
 					image_encoder_height = 100; //Not crash R with a png height of -1 or "figure margins too large"
 
 				LogB.Information("at load");
-				prepareEncoderGraphs(true, true);
 
 				//_______ 2) run stuff
 				
@@ -6503,7 +6314,7 @@ public partial class ChronoJumpWindow
 				//______ 1) prepareEncoderGraphs
 				//don't call directly to prepareEncoderGraphs() here because it's called from a Non-GTK thread
 				needToCallPrepareEncoderGraphs = true; //needToCallPrepareEncoderGraphs will not erase them
-				
+
 				//_______ 2) run stuff
 				//this does not run a pulseGTK
 				encoderDoCurvesGraphR_curvesAC();
@@ -6553,37 +6364,6 @@ public partial class ChronoJumpWindow
 		button_encoder_capture_finish.Visible = ! preferences.encoderCaptureInfinite;
 		button_encoder_capture_finish_cont.Visible = preferences.encoderCaptureInfinite;
 	}
-
-	//TODO: this has to be done every capture or just the first?
-	Gdk.Colormap colormap;
-	void prepareEncoderGraphs(bool eraseBars, bool eraseSignal) 
-	{
-		LogB.Debug("prepareEncoderGraphs() start (should be on first thread: GTK)");
-		
-		if(eraseSignal && encoder_capture_signal_pixmap != null)
-			UtilGtk.ErasePaint(encoder_capture_signal_drawingarea, encoder_capture_signal_pixmap);
-
-		//TODO maybe delete cairo signal here
-
-		layout_encoder_capture_signal = new Pango.Layout (encoder_capture_signal_drawingarea.PangoContext);
-		layout_encoder_capture_signal.FontDescription = Pango.FontDescription.FromString (preferences.GetFontTypeWithSize(10));
-
-		pen_black_encoder_signal = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
-		pen_blue_encoder_signal = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
-		pen_gray_encoder_signal = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
-
-		pen_black_encoder_signal.Foreground = UtilGtk.BLACK;
-		pen_blue_encoder_signal.Foreground = UtilGtk.BLUE_PLOTS;
-		pen_gray_encoder_signal.Foreground = UtilGtk.GRAY;
-
-		pen_black_encoder_signal.SetLineAttributes (
-				2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
-
-		colormap = Gdk.Colormap.System;
-		colormap.AllocColor (ref UtilGtk.BLACK,true,true);
-		colormap.AllocColor (ref UtilGtk.GRAY,true,true);
-	}
-
 
 	private void runEncoderCaptureNoRDotNetInitialize() 
 	{
@@ -6822,7 +6602,7 @@ public partial class ChronoJumpWindow
 
 		return true;
 	}
-				
+
 	static bool needToCallPrepareEncoderGraphs; //this will not erase them
 	private bool pulseGTKEncoderCaptureAndCurves ()
 	{
@@ -6836,7 +6616,6 @@ public partial class ChronoJumpWindow
 			if(image_encoder_height < 100)
 				image_encoder_height = 100; //Not crash R with a png height of -1 or "figure margins too large"
 
-			prepareEncoderGraphs(false, false); //do not erase them
 			needToCallPrepareEncoderGraphs = false;
 		}
 
@@ -6880,10 +6659,10 @@ public partial class ChronoJumpWindow
 			readingCurveFromR();
 
 			if(encoderConfigurationCurrent.has_inertia) {
-				updateEncoderCaptureGraphPaint(UpdateEncoderPaintModes.INERTIAL);
+				updateEncoderCaptureGraphPaintData (UpdateEncoderPaintModes.INERTIAL);
 				updateEncoderCaptureSignalCairo (true, false); //inertial, forceRedraw
 			} else {
-				updateEncoderCaptureGraphPaint(UpdateEncoderPaintModes.GRAVITATORY);
+				updateEncoderCaptureGraphPaintData (UpdateEncoderPaintModes.GRAVITATORY);
 				updateEncoderCaptureSignalCairo (false, false);
 			}
 
@@ -6995,7 +6774,7 @@ public partial class ChronoJumpWindow
 			return false;
 		}
 		updatePulsebar(encoderActions.CAPTURE_IM); //activity on pulsebar
-		updateEncoderCaptureGraphPaint(UpdateEncoderPaintModes.CALCULE_IM);
+		updateEncoderCaptureGraphPaintData (UpdateEncoderPaintModes.CALCULE_IM);
 
 		Thread.Sleep (25);
 		//LogB.Debug(" CapIM:", encoderThread.ThreadState.ToString());

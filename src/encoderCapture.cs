@@ -35,20 +35,15 @@ public abstract class EncoderCapture
 	
 	//stored to be realtime displayed
 	//this is unused if showOnlyBars (configChronojump.EncoderCaptureShowOnlyBars)
-	public List<Gdk.Point> EncoderCapturePoints;
-	public List<Gdk.Point> EncoderCapturePointsInertialDisc;
 	public List<PointF> EncoderCapturePointsCairo;
 	public List<PointF> EncoderCapturePointsInertialDiscCairo;
-	public int EncoderCapturePointsCaptured;
-	public int EncoderCapturePointsPainted;
+	public int PointsCaptured;
+	public int PointsPainted;
 
 	// ---- protected stuff ----
-	protected int widthG;
-	protected int heightG;
 	protected bool cont;
 	protected string eccon;
 
-	protected double realHeightG;
 	protected int recordingTime;		//on !cont, capture time is defined previously
 	protected int recordedTimeCont;	//on cont, capture time is not defined, and this value has the actual recorded time
 	protected int byteReaded;
@@ -117,12 +112,10 @@ public abstract class EncoderCapture
 
 
 	//if cont (continuous mode), then will not end when too much time passed before start
-	public bool InitGlobal (int widthG, int heightG, int time, int timeEnd,
+	public bool InitGlobal (int time, int timeEnd,
 			bool cont, string eccon, string port, bool capturingInertialBG, bool showOnlyBars,
 			bool simulated)
 	{
-		this.widthG = widthG;
-		this.heightG = heightG;
 		this.cont = cont;
 		this.eccon = eccon;
 		this.capturingInertialBG = capturingInertialBG;
@@ -166,12 +159,10 @@ public abstract class EncoderCapture
 
 		if(! showOnlyBars)
 		{
-			EncoderCapturePoints = new List<Gdk.Point>();
-			EncoderCapturePointsInertialDisc = new List<Gdk.Point>();
 			EncoderCapturePointsCairo = new List<PointF>();
 			EncoderCapturePointsInertialDiscCairo = new List<PointF>();
-			EncoderCapturePointsCaptured = 0;
-			EncoderCapturePointsPainted = 0; 	//-1 means delete screen
+			PointsCaptured = 0;
+			PointsPainted = 0;
 		}
 
 		sum = 0;
@@ -442,11 +433,8 @@ public abstract class EncoderCapture
 				if(! showOnlyBars)
 				{
 					assignEncoderCapturePoints();
-					EncoderCapturePointsCaptured = i;
+					PointsCaptured = i;
 				}
-
-				if(! showOnlyBars)
-					encoderCapturePointsAdaptativeDisplay();
 
 				// ---- prepare to send to R ----
 
@@ -678,12 +666,10 @@ public abstract class EncoderCapture
 
 		if(! showOnlyBars)
 		{
-			EncoderCapturePoints = new List<Gdk.Point>();
-			EncoderCapturePointsInertialDisc = new List<Gdk.Point>();
 			EncoderCapturePointsCairo = new List<PointF>();
 			EncoderCapturePointsInertialDiscCairo = new List<PointF>();
-			EncoderCapturePointsCaptured = 0;
-			EncoderCapturePointsPainted = -1; 	//-1 means delete screen
+			PointsCaptured = 0;
+			PointsPainted = 0;
 		}
 	}
 
@@ -758,50 +744,9 @@ public abstract class EncoderCapture
 	//on inertial also assigns to EncoderCapturePointsInertialDisc
 	protected virtual void assignEncoderCapturePoints() 
 	{
-		int xWidth = recordingTime;
-
-		EncoderCapturePoints.Add(new Gdk.Point(
-				Convert.ToInt32(widthG * i / xWidth),
-				Convert.ToInt32( (heightG/2) - ( sum * heightG / realHeightG) )
-				));
-
 		EncoderCapturePointsCairo.Add(new PointF(i, sum));
 	}
 				
-	//on inertial also uses to EncoderCapturePointsInertialDisc
-	protected virtual void encoderCapturePointsAdaptativeDisplay()
-	{
-		//adaptative displayed height
-		//if points go outside the graph, duplicate size of graph
-		bool needToChangeGraph = false;
-		if(EncoderCapturePoints[i].Y > heightG || EncoderCapturePoints[i].Y < 0)
-		{
-			realHeightG *= 2;
-			needToChangeGraph = true;
-		}
-		if(cont && i >= recordingTime)
-		{
-			recordingTime *= 2;
-			needToChangeGraph = true;
-		}
-
-		if(! needToChangeGraph)
-			return;
-
-		int xWidth = recordingTime;
-
-		double sum2=0;
-		for(int j=0; j <= i; j ++) {
-			sum2 += encoderReaded[j];
-			EncoderCapturePoints[j] = new Gdk.Point(
-					Convert.ToInt32(widthG * j / xWidth),
-					Convert.ToInt32( (heightG/2) - ( sum2 * heightG / realHeightG) )
-					);
-		}
-		EncoderCapturePointsCaptured = i;
-		EncoderCapturePointsPainted = -1; //mark meaning screen should be erased
-	}
-
 	/*
 	 * TODO: 
 	 * que el -25 no sigui un -25 sino que depengui del que l' usuari tingui seleccionat i la config del encoder. caldria posar lo de espai de les encoderConfigs de util.R aqui
@@ -931,8 +876,6 @@ public class EncoderCaptureGravitatory : EncoderCapture
 
 	protected override void initSpecific()
 	{
-		realHeightG = 2 * 1000 ; //1 meter up / 1 meter down
-		
 		//useful to don't send to R the first phase of the set in these situations: 
 		//going up in ec, ecs
 		capturingFirstPhase = true; 
@@ -951,7 +894,6 @@ public class EncoderCaptureInertial : EncoderCapture
 
 	protected override void initSpecific()
 	{
-		realHeightG = 2 * 5000 ; //5 meters up / 5 meters down
 	}
 
 	public override void InitCalibrated(int angleNow)
@@ -966,70 +908,10 @@ public class EncoderCaptureInertial : EncoderCapture
 
 	protected override void assignEncoderCapturePoints() 
 	{
-		int xWidth = recordingTime;
-//		if(cont)
-//			xWidth = recordedTimeCont;
-
-		EncoderCapturePoints.Add(new Gdk.Point(
-				Convert.ToInt32(widthG * i / xWidth),
-				Convert.ToInt32( (heightG/2) - ( sum * heightG / realHeightG) )
-				));
-		EncoderCapturePointsInertialDisc.Add(new Gdk.Point(
-				Convert.ToInt32(widthG * i / xWidth),
-				Convert.ToInt32( (heightG/2) - ( sumInertialDisc * heightG / realHeightG) )
-				));
-
 		EncoderCapturePointsCairo.Add(new PointF(i, sum));
 		EncoderCapturePointsInertialDiscCairo.Add(new PointF(i, sumInertialDisc));
 	}
 	
-	protected override void encoderCapturePointsAdaptativeDisplay()
-	{
-		//adaptative displayed height
-		//if points go outside the graph, duplicate size of graph
-		bool needToChangeGraph = false;
-		if(
-				EncoderCapturePoints[i].Y > heightG ||
-				EncoderCapturePoints[i].Y < 0 ||
-				EncoderCapturePointsInertialDisc[i].Y > heightG ||
-				EncoderCapturePointsInertialDisc[i].Y < 0)
-		{
-			realHeightG *= 2;
-			needToChangeGraph = true;
-		}
-		if(cont && i >= recordingTime)
-		{
-			recordingTime *= 2;
-			needToChangeGraph = true;
-		}
-
-		if(! needToChangeGraph)
-			return;
-
-		int xWidth = recordingTime;
-		//if(cont)
-		//	xWidth = recordedTimeCont;
-
-		double sum2 = 0;
-		double sum2InertialDisc = 0;
-		for(int j=0; j <= i; j ++)
-		{
-			sum2 += encoderReaded[j];
-			sum2InertialDisc += encoderReadedInertialDisc[j];
-			EncoderCapturePoints[j] = new Gdk.Point(
-					Convert.ToInt32(widthG * j / xWidth),
-					Convert.ToInt32( (heightG/2) - ( sum2 * heightG / realHeightG) )
-					);
-			EncoderCapturePointsInertialDisc[j] = new Gdk.Point(
-					Convert.ToInt32(widthG * j / xWidth),
-					Convert.ToInt32( (heightG/2) - ( sum2InertialDisc * heightG / realHeightG) )
-					);
-		}
-		EncoderCapturePointsCaptured = i;
-		EncoderCapturePointsPainted = -1; //mark meaning screen should be erased and start painting from the beginning
-	}
-	
-
 	protected override void markDirectionChanged() 
 	{
 		directionChangeCount = 0;
@@ -1073,7 +955,6 @@ public class EncoderCaptureIMCalc : EncoderCapture
 
 	protected override void initSpecific()
 	{
-		realHeightG = 2 * 500 ; //.5 meter up / .5 meter down
 		IMCalcOscillations = 0;
 	}
 	

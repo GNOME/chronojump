@@ -43,16 +43,24 @@ public class CairoGraphEncoderSignal : CairoXY
 		points_list_inertial_painted = 0;
 	}
 
-	//TODO: remove most of the null comparisons, see if we can do at start and delete graph or whatever, but not continue all the time making comparisons
+	//separated in two methods to ensure endGraphDisposing on any return of the other method
 	public override void DoSendingList (string font, bool isInertial,
 			List<PointF> points_list, List<PointF> points_list_inertial,
 			bool forceRedraw, PlotTypes plotType)
 	{
+		if(doSendingList (font, isInertial, points_list, points_list_inertial, forceRedraw, plotType))
+			endGraphDisposing(g, surface, area.GdkWindow);
+	}
+
+	//return true if graph is inited (to dispose it)
+	private bool doSendingList (string font, bool isInertial,
+			List<PointF> points_list, List<PointF> points_list_inertial,
+			bool forceRedraw, PlotTypes plotType)
+	{
 //		if(doing)
-//			return;
+//			return false;
 
 		//doing = true;
-		bool initGraphDone = false;
 		bool maxValuesChanged = false;
 
 		if(points_list != null)
@@ -79,7 +87,6 @@ public class CairoGraphEncoderSignal : CairoXY
 				)
 		{
 			initGraph( font, 1, (maxValuesChanged || forceRedraw) );
-			initGraphDone = true;
 			points_list_painted = 0;
 			points_list_inertial_painted = 0;
 		}
@@ -90,7 +97,7 @@ public class CairoGraphEncoderSignal : CairoXY
 
 		if( points_list == null || points_list.Count == 0 ||
 				(isInertial && (points_list_inertial == null || points_list_inertial.Count == 0)) )
-			return;
+			return true;
 
 		g.LineWidth = 1;
 		pointsRadius = 1;
@@ -125,10 +132,8 @@ public class CairoGraphEncoderSignal : CairoXY
 			points_list_inertial_painted = points_list_inertial.Count;
 		}
 
-		if(initGraphDone)
-			endGraphDisposing(g, surface, area.GdkWindow);
-
 		//doing = false;
+		return true;
 	}
 
 	//based on XY findPointMaximums

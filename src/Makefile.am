@@ -36,6 +36,7 @@ SOURCES = \
 	gui/app1/runEncoderAnalyze.cs\
 	gui/app1/shortcuts.cs\
 	gui/cairo/bars.cs\
+	gui/cairo/encoder.cs\
 	gui/cairo/generic.cs\
 	gui/cairo/jumpsDjOptimalFall.cs\
 	gui/cairo/jumpsRunsEvolution.cs\

@@ -342,6 +342,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.TreeView treeview_encoder_analyze_curves;
 
 	[Widget] Gtk.DrawingArea encoder_capture_signal_drawingarea;
+	[Widget] Gtk.DrawingArea encoder_capture_signal_drawingarea_cairo;
 	[Widget] Gtk.DrawingArea encoder_capture_curves_bars_drawingarea;
 	Gdk.Pixmap encoder_capture_signal_pixmap = null;
 	Gdk.Pixmap encoder_capture_curves_bars_pixmap = null;
@@ -448,6 +449,10 @@ public partial class ChronoJumpWindow
 	 * encoder-threads.dia
 	 *
 	 */
+
+	CairoGraphEncoderSignal cairoGraphEncoderSignal;
+	static List<PointF> cairoGraphEncoderSignalPoints_l;
+	static List<PointF> cairoGraphEncoderSignalInertialPoints_l;
 
 	enum encoderSensEnum { 
 		NOSESSION, NOPERSON, YESPERSON, PROCESSINGCAPTURE, PROCESSINGR, DONENOSIGNAL, DONEYESSIGNAL }
@@ -1020,6 +1025,10 @@ public partial class ChronoJumpWindow
 			notebook_encoder_capture.PrevPage();
 
 		sensitiveGuiEventDoing(preferences.encoderCaptureInfinite);
+
+		cairoGraphEncoderSignal = null;
+		cairoGraphEncoderSignalPoints_l = new List<PointF>();
+		cairoGraphEncoderSignalInertialPoints_l = new List<PointF>();
 
 		LogB.Debug("Calling encoderThreadStart for capture");
 
@@ -5890,6 +5899,7 @@ public partial class ChronoJumpWindow
 		for(int j=0, i = eCapture.EncoderCapturePointsPainted +1 ; i <= last ; i ++, j++)
 		{
 			paintPoints[j] = eCapture.EncoderCapturePoints[i];
+			cairoGraphEncoderSignalPoints_l.Add(eCapture.EncoderCapturePointsCairo[i]);
 
 			if(refreshAreaOnly) {
 				if(eCapture.EncoderCapturePoints[i].Y > maxY)
@@ -5897,7 +5907,6 @@ public partial class ChronoJumpWindow
 				if(eCapture.EncoderCapturePoints[i].Y < minY)
 					minY = eCapture.EncoderCapturePoints[i].Y;
 			}
-
 		}
 
 		if(mode == UpdateEncoderPaintModes.INERTIAL) {
@@ -5916,6 +5925,9 @@ public partial class ChronoJumpWindow
 							minY = eCapture.EncoderCapturePointsInertialDisc[i].Y;
 					}
 				}
+				//only assign the points if they are different than paintPoints
+//				if(eCapture.EncoderCapturePointsInertialDiscCairo[i] != eCapture.EncoderCapturePointsCairo[i]) //do not avoid this step on cairo
+					cairoGraphEncoderSignalInertialPoints_l.Add(eCapture.EncoderCapturePointsInertialDiscCairo[i]);
 			}
 			encoder_capture_signal_pixmap.DrawPoints(pen_gray_encoder_signal, paintPointsInertial);
 		}
@@ -6145,6 +6157,21 @@ public partial class ChronoJumpWindow
 		}
 		
 		encoder_capture_signal_allocationXOld = allocation.Width;
+	}
+
+	public void on_encoder_capture_signal_drawingarea_cairo_expose_event (object o, ExposeEventArgs args)
+	{
+		updateEncoderCaptureSignalCairo (current_mode == Constants.Modes.POWERINERTIAL, true);
+	}
+	private void updateEncoderCaptureSignalCairo (bool inertial, bool forceRedraw)
+	{
+		if(cairoGraphEncoderSignal == null)
+			cairoGraphEncoderSignal = new CairoGraphEncoderSignal (
+				encoder_capture_signal_drawingarea_cairo, "title");
+
+		cairoGraphEncoderSignal.DoSendingList (preferences.fontType.ToString(), inertial,
+				cairoGraphEncoderSignalPoints_l, cairoGraphEncoderSignalInertialPoints_l,
+				forceRedraw, CairoXY.PlotTypes.LINES);
 	}
 
 	private double sendMaxPowerSpeedForceIntersession(Constants.EncoderVariablesCapture evc)
@@ -6536,6 +6563,8 @@ public partial class ChronoJumpWindow
 		if(eraseSignal && encoder_capture_signal_pixmap != null)
 			UtilGtk.ErasePaint(encoder_capture_signal_drawingarea, encoder_capture_signal_pixmap);
 
+		//TODO maybe delete cairo signal here
+
 		layout_encoder_capture_signal = new Pango.Layout (encoder_capture_signal_drawingarea.PangoContext);
 		layout_encoder_capture_signal.FontDescription = Pango.FontDescription.FromString (preferences.GetFontTypeWithSize(10));
 
@@ -6850,10 +6879,13 @@ public partial class ChronoJumpWindow
 			//capturingSendCurveToR(); //unused, done while capturing
 			readingCurveFromR();
 
-			if(encoderConfigurationCurrent.has_inertia)
+			if(encoderConfigurationCurrent.has_inertia) {
 				updateEncoderCaptureGraphPaint(UpdateEncoderPaintModes.INERTIAL);
-			else
+				updateEncoderCaptureSignalCairo (true, false); //inertial, forceRedraw
+			} else {
 				updateEncoderCaptureGraphPaint(UpdateEncoderPaintModes.GRAVITATORY);
+				updateEncoderCaptureSignalCairo (false, false);
+			}
 
 			if(needToRefreshTreeviewCapture) 
 			{

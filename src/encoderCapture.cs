@@ -37,6 +37,8 @@ public abstract class EncoderCapture
 	//this is unused if showOnlyBars (configChronojump.EncoderCaptureShowOnlyBars)
 	public List<Gdk.Point> EncoderCapturePoints;
 	public List<Gdk.Point> EncoderCapturePointsInertialDisc;
+	public List<PointF> EncoderCapturePointsCairo;
+	public List<PointF> EncoderCapturePointsInertialDiscCairo;
 	public int EncoderCapturePointsCaptured;
 	public int EncoderCapturePointsPainted;
 
@@ -166,6 +168,8 @@ public abstract class EncoderCapture
 		{
 			EncoderCapturePoints = new List<Gdk.Point>();
 			EncoderCapturePointsInertialDisc = new List<Gdk.Point>();
+			EncoderCapturePointsCairo = new List<PointF>();
+			EncoderCapturePointsInertialDiscCairo = new List<PointF>();
 			EncoderCapturePointsCaptured = 0;
 			EncoderCapturePointsPainted = 0; 	//-1 means delete screen
 		}
@@ -676,6 +680,8 @@ public abstract class EncoderCapture
 		{
 			EncoderCapturePoints = new List<Gdk.Point>();
 			EncoderCapturePointsInertialDisc = new List<Gdk.Point>();
+			EncoderCapturePointsCairo = new List<PointF>();
+			EncoderCapturePointsInertialDiscCairo = new List<PointF>();
 			EncoderCapturePointsCaptured = 0;
 			EncoderCapturePointsPainted = -1; 	//-1 means delete screen
 		}
@@ -758,6 +764,8 @@ public abstract class EncoderCapture
 				Convert.ToInt32(widthG * i / xWidth),
 				Convert.ToInt32( (heightG/2) - ( sum * heightG / realHeightG) )
 				));
+
+		EncoderCapturePointsCairo.Add(new PointF(i, sum));
 	}
 				
 	//on inertial also uses to EncoderCapturePointsInertialDisc
@@ -970,6 +978,9 @@ public class EncoderCaptureInertial : EncoderCapture
 				Convert.ToInt32(widthG * i / xWidth),
 				Convert.ToInt32( (heightG/2) - ( sumInertialDisc * heightG / realHeightG) )
 				));
+
+		EncoderCapturePointsCairo.Add(new PointF(i, sum));
+		EncoderCapturePointsInertialDiscCairo.Add(new PointF(i, sumInertialDisc));
 	}
 	
 	protected override void encoderCapturePointsAdaptativeDisplay()

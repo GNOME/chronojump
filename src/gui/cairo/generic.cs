@@ -51,18 +51,19 @@ public abstract class CairoGeneric
 		https://www.mono-project.com/docs/tools+libraries/libraries/Mono.Cairo/
 		eg. on Linux can do the writeCoordinatesOfMouseClick() without disposing, but on win and mac does not work, so dispose always.
 	 */
-
+	/*
+	   debug cairo disposing problems calling Chronojump like this:
+	   MONO_CAIRO_DEBUG_DISPOSE=1 chronojump
+	   */
 	protected void endGraphDisposing(Cairo.Context g, ImageSurface surface, Gdk.Window window)
 	{
 		if(surface != null)
 		{
-			//using (Context gArea = Gdk.CairoHelper.Create (area.GdkWindow))
 			using (Context gArea = Gdk.CairoHelper.Create (window))
 			{
 				gArea.SetSource (surface);
 				gArea.Paint ();
 
-				surface.Dispose();
 				gArea.GetTarget().Dispose ();
 				gArea.Dispose ();
 			}
@@ -70,12 +71,45 @@ public abstract class CairoGeneric
 
 		g.GetTarget().Dispose ();
 		g.Dispose ();
+
+		if(surface != null)
+		{
+			surface.Dispose(); //dispose surface here when all the attached stuff has been disposed
+			//hardDisposeSurface(surface); //aixo diu 1
+		}
 	}
 	protected void endGraphDisposing(Cairo.Context g)
 	{
 		g.GetTarget().Dispose ();
 		g.Dispose ();
 	}
+
+	/*
+	   https://www.debugcn.com/en/article/59607062.html
+	   but unused, the problem was finishing the DoSendingList with a return without a previous endGraphDisposing
+	   fixed forcing it: see raceAnalyzer and encoder
+	private static void hardDisposeSurface (Surface surface)
+	{
+		var handle = surface.Handle;
+		long refCount = surface.ReferenceCount;
+		LogB.Information("hardDisposeSurface refCount pre: " + refCount.ToString());
+		surface.Dispose ();
+		refCount--;
+		if (refCount <= 0)
+			return;
+
+		var asm = typeof (Surface).Assembly;
+		var nativeMethods = asm.GetType ("Cairo.NativeMethods");
+		var surfaceDestroy = nativeMethods.GetMethod ("cairo_surface_destroy",
+				System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
+		try {
+			for (long i = refCount; i > 0; i--)
+				surfaceDestroy.Invoke (null, new object [] { handle });
+		} catch {
+			LogB.Information("catched on hardDisposeSurface");
+		}
+	}
+	*/
 
 	//0 - 255
 	protected static Cairo.Color colorFromRGB(int red, int green, int blue)

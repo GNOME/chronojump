@@ -634,15 +634,20 @@ public abstract class CairoXY : CairoGeneric
 	}
 
 
-	//TODO: check if for one value this is /0
 	protected override double calculatePaintX (double realX)
 	{
-                return totalMargins + (realX - minX) * (graphWidth - totalMargins - totalMargins) / (absoluteMaxX - minX);
+                //return totalMargins + (realX - minX) * (graphWidth - totalMargins - totalMargins) / (absoluteMaxX - minX);
+                return totalMargins + (realX - minX) * UtilAll.DivideSafe(
+				graphWidth - totalMargins - totalMargins,
+				absoluteMaxX - minX);
         }
-	//TODO: check if for one value this is /0
 	protected override double calculatePaintY (double realY)
 	{
-                return graphHeight - totalMargins - ((realY - minY) * (graphHeight - totalMargins - totalMargins) / (absoluteMaxY - minY));
+                //return graphHeight - totalMargins - ((realY - minY) * (graphHeight - totalMargins - totalMargins) / (absoluteMaxY - minY));
+		//to avoid /0 problems (eg raceAnalyzer change person: absoluteMaxY-minY = 0
+                return graphHeight - totalMargins - ((realY - minY) * UtilAll.DivideSafe (
+				graphHeight - totalMargins - totalMargins,
+				absoluteMaxY - minY));
         }
 
 	private double calculateRealX (double graphX)

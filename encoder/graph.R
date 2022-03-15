@@ -3108,22 +3108,21 @@ doProcess <- function(options)
                 #print(curves)
                 
                 #find SmoothingsEC
-                if(CROSSVALIDATESMOOTH) {
-                        for(i in 1:n)
-                                SmoothingsEC[i] = 0
-                }
-                else {
-                        singleCurveNum <- -1
-                        if(op$Analysis == "single" && op$Jump > 0)
-                                singleCurveNum <- op$Jump
-                        SmoothingsEC <- findSmoothingsEC(
-                                singleFile, displacement, curves, singleCurveNum, op$Eccon, op$SmoothingOneC,
-                                op$EncoderConfigurationName, op$diameter, op$inertiaMomentum, op$gearedDown 
-                        ) #second row is needed for singleFile (signal)
-                }
-                
-                print(c("SmoothingsEC:",SmoothingsEC))
-                
+		#if(CROSSVALIDATESMOOTH) {
+			#for(i in 1:n)
+				#SmoothingsEC[i] = 0
+		#}
+		#else {
+			#singleCurveNum <- -1
+			#if(op$Analysis == "single" && op$Jump > 0)
+				#singleCurveNum <- op$Jump
+			#SmoothingsEC <- findSmoothingsEC(
+				#singleFile, displacement, curves, singleCurveNum, op$Eccon, op$SmoothingOneC,
+				#op$EncoderConfigurationName, op$diameter, op$inertiaMomentum, op$gearedDown
+			#) #second row is needed for singleFile (signal)
+		#}
+		#print(c("SmoothingsEC:",SmoothingsEC))
+
                 if(curvesPlot) {
                         #/10 mm -> cm
                         for(i in 1:length(curves[,1])) { 

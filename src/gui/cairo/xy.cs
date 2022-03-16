@@ -417,22 +417,40 @@ public abstract class CairoXY : CairoGeneric
 	//called from almost all methods
 	protected void plotRealPoints (PlotTypes plotType)
 	{
-		plotRealPoints (plotType, point_l, 0);
+		plotRealPoints (plotType, point_l, 0, false);
 	}
 
-	//called from raceAnalyzer (sending it own list of points)
-	protected void plotRealPoints (PlotTypes plotType, List<PointF> points_list, int startAt)
+	//called from raceAnalyzer and encoder (sending it own list of points)
+	//fast: calculated first calculatePaintX/Y for most of the formula. foreach value does short operation.
+	protected void plotRealPoints (PlotTypes plotType, List<PointF> points_list, int startAt, bool fast)
 	{
 		if(plotType == PlotTypes.LINES || plotType == PlotTypes.POINTSLINES) //draw line first to not overlap the points
 		{
 			bool firstDone = false;
-			//foreach(PointF p in points_list)
+			double xgraph;
+			double ygraph;
+			double paintXfastA = 0;
+			double paintXfastB = 0;
+			double paintYfastA = 0;
+			double paintYfastB = 0;
+
+			if(fast)
+			{
+				calculatePaintXFastPre (out paintXfastA, out paintXfastB);
+				calculatePaintYFastPre (out paintYfastA, out paintYfastB);
+			}
 			for(int i = startAt; i < points_list.Count; i ++)
 			{
 				PointF p = points_list[i];
 
-				double xgraph = calculatePaintX(p.X);
-				double ygraph = calculatePaintY(p.Y);
+				if(fast)
+				{
+					xgraph = calculatePaintXFastDo (p.X, paintXfastA, paintXfastB);
+					ygraph = calculatePaintYFastDo (p.Y, paintYfastA, paintYfastB);
+				} else {
+					xgraph = calculatePaintX(p.X);
+					ygraph = calculatePaintY(p.Y);
+				}
 
 				if(! firstDone)
 				{
@@ -441,7 +459,7 @@ public abstract class CairoXY : CairoGeneric
 				} else
 					g.LineTo(xgraph, ygraph);
 			}
-			g.Stroke ();
+			//g.Stroke (); TODO: reactivate after benchmark
 		}
 
 //		lock (point_l) {
@@ -649,6 +667,59 @@ public abstract class CairoXY : CairoGeneric
 				graphHeight - totalMargins - totalMargins,
 				absoluteMaxY - minY));
         }
+
+	// Fast calculatePaintX/Y, sadly for 10000 points the difference between fast and slow is very low
+
+	/*
+	   paintX = totalMargins + (realX - minX) * (graphWidth - totalMargins - totalMargins) / (absoluteMaxX - minX);
+	   take out realX:
+	     paintX = A + realX * B
+	     A = totalMargins - minX  *  (graphWidth - totalMargins - totalMargins) / (absoluteMaxX - minX)
+	     B = (graphWidth - totalMargins - totalMargins) / (absoluteMaxX - minX)
+	   */
+	protected void calculatePaintXFastPre (out double A, out double B)
+	{
+		//A = totalMargins - minX  *  (graphWidth - totalMargins - totalMargins) / (absoluteMaxX - minX);
+		A = totalMargins - minX  *  UtilAll.DivideSafe (
+				graphWidth - totalMargins - totalMargins,
+				absoluteMaxX - minX);
+
+		//B = (graphWidth - totalMargins - totalMargins) / (absoluteMaxX - minX);
+		B = UtilAll.DivideSafe(graphWidth - totalMargins - totalMargins, absoluteMaxX - minX);
+
+		return;
+	}
+	protected double calculatePaintXFastDo (double realX, double A, double B)
+	{
+                return A + realX * B;
+        }
+
+	/*
+	   paintY = graphHeight - totalMargins - ((realY - minY) * (graphHeight - totalMargins - totalMargins) / (absoluteMaxY - minY))
+                //x = g - t - ((r - m) * (g - 2*t) / (a - m));
+
+	   take out realY:
+	     paintY = A + realY * B
+	     By = - (graphHeight - 2*totalMargins) / (absoluteMaxY - minY))
+	     Ay = graphHeight - totalMargins - minY * B
+	   */
+	protected void calculatePaintYFastPre (out double A, out double B)
+	{
+		B = UtilAll.DivideSafe(
+				- (graphHeight - 2*totalMargins),
+				absoluteMaxY - minY);
+
+		A = graphHeight - totalMargins - minY * B;
+
+		return;
+	}
+	protected double calculatePaintYFastDo (double realY, double A, double B)
+	{
+                return A + realY * B;
+        }
+
+
+	//calculate real (from graph coordinates)
 
 	private double calculateRealX (double graphX)
 	{

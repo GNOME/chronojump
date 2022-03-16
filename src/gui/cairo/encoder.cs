@@ -120,7 +120,20 @@ public class CairoGraphEncoderSignal : CairoXY
 			if(isInertial)
 				g.LineWidth = 2;
 
-			plotRealPoints(plotType, points_list, startAt);
+			/*
+			ChronoDebug cDebug = new ChronoDebug("ChronoDebug plotRealPoints for n points: " + (points_list.Count - startAt).ToString());
+			cDebug.Start();
+			cDebug.Add("calling fast op");
+			*/
+
+			plotRealPoints(plotType, points_list, startAt, true); //fast (but the difference is very low)
+
+			/*
+			cDebug.Add("calling slow op");
+			plotRealPoints(plotType, points_list, startAt, false); //slow?
+			cDebug.StopAndPrint();
+			*/
+
 			points_list_painted = points_list.Count;
 		}
 
@@ -128,7 +141,7 @@ public class CairoGraphEncoderSignal : CairoXY
 				(maxValuesChanged || forceRedraw || points_list_inertial.Count != points_list_inertial_painted) )
 		{
 			g.LineWidth = 1;
-			plotRealPoints(plotType, points_list_inertial, startAt);
+			plotRealPoints(plotType, points_list_inertial, startAt, true); //fast
 			points_list_inertial_painted = points_list_inertial.Count;
 		}
 

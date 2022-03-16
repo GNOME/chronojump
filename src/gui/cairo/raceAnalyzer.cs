@@ -161,7 +161,7 @@ public class CairoGraphRaceAnalyzer : CairoXY
 		if( points_list != null &&
 				(maxValuesChanged || forceRedraw || points_list.Count != points_list_painted) )
 		{
-			plotRealPoints(plotType, points_list, points_list_painted);
+			plotRealPoints(plotType, points_list, points_list_painted, false); //not fast. TODO: maybe use fast if is really faster
 			points_list_painted = points_list.Count;
 
 			if(plotMaxMark && points_list.Count > 1)

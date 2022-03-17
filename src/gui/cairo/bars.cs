@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -80,11 +80,6 @@ public abstract class CairoBars : CairoGeneric
 	public void PassGuidesData (CairoBarsGuideManage cairoBarsGuideManage)
 	{
 		this.cairoBarsGuideManage = cairoBarsGuideManage;
-	}
-
-	//TODO: better do PassData1Serie for point_l and PassDataNSeries for point_l_l
-	public virtual void PassPointSecondaryList (List<List<PointF>> pointSecondary_l)
-	{
 	}
 
 	protected void drawGuides (Cairo.Color color)
@@ -252,8 +247,7 @@ public abstract class CairoBars : CairoGeneric
 		g.LineWidth = 1;
 	}
 
-	//TODO: do not pass pointA_l, pointB_l here. Use above PassData
-	public abstract void GraphDo (List<PointF> pointA_l, List<PointF> pointB_l,
+	public abstract void GraphDo (List<PointF> pointMain_l, List<List<PointF>> pointSecondary_ll, bool mainAtLeft,
 			List<string> names_l, int fontHeightForBottomNames, int marginForBottomNames, string title);
 
 	protected void initGraph(string font, double widthPercent1)
@@ -742,11 +736,11 @@ LogB.Information(string.Format("y: {0}, alto: {1}", y, graphHeight -y - bottomMa
 		}
 	}
 
-	public override void GraphDo (List<PointF> pointA_l, List<PointF> pointB_l,
+	public override void GraphDo (List<PointF> pointMain_l, List<List<PointF>> pointSecondary_ll, bool mainAtLeft,
 			List<string> names_l, int fontHeightForBottomNames, int marginForBottomNames, string title)
 	{
 		LogB.Information("at CairoBars1Series.Do");
-		this.point_l = pointA_l;
+		this.point_l = pointMain_l;
 		//this.pointB_l = pointB_l; unused here
 		this.names_l = names_l;
 		this.fontHeightForBottomNames = fontHeightForBottomNames;
@@ -778,8 +772,8 @@ LogB.Information(string.Format("y: {0}, alto: {1}", y, graphHeight -y - bottomMa
 //N series in horizontal, like jump Dj tc/tf, jumpRj (maybe with a "number of jumps" column)
 public class CairoBarsNHSeries : CairoBars
 {
-	private List<List<PointF>> pointSecondary_l;
-	private List<PointF> pointB_l;
+	private List<List<PointF>> pointSecondary_ll;
+	private List<PointF> pointMain_l;
 	private List<string> names_l;
 
 	private Cairo.Color colorSerieB;
@@ -922,12 +916,12 @@ public class CairoBarsNHSeries : CairoBars
 
 	protected override void findMaximums()
 	{
-		foreach(List<PointF> p_l in pointSecondary_l)
+		foreach(List<PointF> p_l in pointSecondary_ll)
 			foreach(PointF p in p_l)
 				if(p.Y > maxY)
 					maxY = p.Y;
 
-		foreach(PointF p in pointB_l)
+		foreach(PointF p in pointMain_l)
 			if(p.Y > maxY)
 				maxY = p.Y;
 
@@ -936,8 +930,8 @@ public class CairoBarsNHSeries : CairoBars
 
 		//points X start at 1
 		minX = 0;
-		//maxX = pointB_l.Count + .5; //all point_l lists have same length
-		maxX = pointB_l.Count + 1;
+		//maxX = pointMain_l.Count + .5; //all point_l lists have same length
+		maxX = pointMain_l.Count + 1;
 
 		//bars Y have 0 at bottom
 		minY = 0;
@@ -947,9 +941,9 @@ public class CairoBarsNHSeries : CairoBars
 	protected override void plotBars ()
 	{
 		/* debug stuff
-		LogB.Information("plotBars NH pointB_l.Count: " + pointB_l.Count.ToString());
-		LogB.Information("plotBars NH pointSecondary_l.Count: " + pointSecondary_l.Count.ToString());
-		LogB.Information("plotBars NH pointSecondary_l[0].Count: " + pointSecondary_l[0].Count.ToString());
+		LogB.Information("plotBars NH pointMain_l.Count: " + pointMain_l.Count.ToString());
+		LogB.Information("plotBars NH pointSecondary_ll.Count: " + pointSecondary_ll.Count.ToString());
+		LogB.Information("plotBars NH pointSecondary_ll[0].Count: " + pointSecondary_ll[0].Count.ToString());
 		LogB.Information("plotBars NH names_l.Count: " + names_l.Count.ToString());
 		*/
 
@@ -957,13 +951,13 @@ public class CairoBarsNHSeries : CairoBars
                 double distanceBetweenCols = (graphWidth - (leftMargin+rightMargin))/maxX;
 
                 double barWidth = .4*distanceBetweenCols; //two bars will be .8
-		if(pointSecondary_l.Count == 2) //TODO: fix this for more columns
+		if(pointSecondary_ll.Count == 2) //TODO: fix this for more columns
 			barWidth = .8*distanceBetweenCols/3; //three bars will be .8
                 double barDesplLeft = .5*barWidth;
 		int resultFontHeight = getBarsResultFontHeight (barWidth*1.5);
 		List<Point3F> resultOnBars_l = new List<Point3F>();
 
-		for(int i = 0; i < pointB_l.Count; i ++)
+		for(int i = 0; i < pointMain_l.Count; i ++)
 		{
 			/*
 			   need this to sort correctly, because tests are plotted from last to first (right to left),
@@ -973,14 +967,14 @@ public class CairoBarsNHSeries : CairoBars
 
 			//PointF pA = pointA_l[i];
 			bool secondaryHasData = false;
-			PointF pB = pointB_l[i];
+			PointF pB = pointMain_l[i];
 
 			double x = (graphWidth - (leftMargin+rightMargin)) * pB.X/maxX + leftMargin;
-			double adjustX = -barDesplLeft * (pointSecondary_l.Count +1);
+			double adjustX = -barDesplLeft * (pointSecondary_ll.Count +1);
 
-			for(int j = 0; j < pointSecondary_l.Count; j ++)
+			for(int j = 0; j < pointSecondary_ll.Count; j ++)
 			{
-				PointF pS = pointSecondary_l[j][i];
+				PointF pS = pointSecondary_ll[j][i];
 				if(pS.Y > 0)
 				{
 					double y = calculatePaintY(pS.Y);
@@ -1022,18 +1016,11 @@ public class CairoBarsNHSeries : CairoBars
 			pAyStart = plotResultOnBar(p.X, p.Y, graphHeight -bottomMargin, p.Z, resultFontHeight, barWidth, pAyStart);
 	}
 
-	public override void PassPointSecondaryList (List<List<PointF>> pointSecondary_l)
-	{
-		this.pointSecondary_l = pointSecondary_l;
-	}
-	public override void GraphDo (List<PointF> pointA_l, List<PointF> pointB_l,
-	//public override void GraphDo (List<List<PointF>> pointSecondary_l, List<PointF> pointB_l,
+	public override void GraphDo (List<PointF> pointMain_l, List<List<PointF>> pointSecondary_ll, bool mainAtLeft,
 			List<string> names_l, int fontHeightForBottomNames, int marginForBottomNames, string title)
 	{
-		//LogB.Information("at CairoBarsNHSeries.GraphDo");
-		//this.pointA_l = pointA_l;
-		//this.pointSecondary_l = pointSecondary_l;
-		this.pointB_l = pointB_l;
+		this.pointSecondary_ll = pointSecondary_ll;
+		this.pointMain_l = pointMain_l;
 		this.names_l = names_l;
 		this.fontHeightForBottomNames = fontHeightForBottomNames;
 		this.marginForBottomNames = marginForBottomNames;

@@ -459,7 +459,7 @@ public abstract class CairoXY : CairoGeneric
 				} else
 					g.LineTo(xgraph, ygraph);
 			}
-			//g.Stroke (); TODO: reactivate after benchmark
+			g.Stroke ();
 		}
 
 //		lock (point_l) {

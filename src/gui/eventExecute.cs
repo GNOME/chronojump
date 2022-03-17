@@ -3412,21 +3412,6 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		bool lastIsEcc = false;
 		//int count = 0;
 
-		string units = "";
-		int decimals;
-
-		if(pegbe.mainVariable == Constants.MeanSpeed || pegbe.mainVariable == Constants.MaxSpeed) {
-			units = "m/s";
-			decimals = 2;
-		} else if(pegbe.mainVariable == Constants.MeanForce || pegbe.mainVariable == Constants.MaxForce) {
-			units = "N";
-			decimals = 1;
-		}
-		else { //powers
-			units =  "W";
-			decimals = 1;
-		}
-
 		names_l = new List<string>();
 
 		//discard repetitions according to showNRepetitions
@@ -3468,6 +3453,21 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		//LogB.Information("data_l.Count: " + data_l.Count.ToString());
 		//cb.GraphInit(fontStr, true, false); //usePersonGuides, useGroupGuides
 		cb.GraphInit(fontStr, false, false); //usePersonGuides, useGroupGuides
+
+		string units = "";
+		int decs;
+		if(pegbe.mainVariable == Constants.MeanSpeed || pegbe.mainVariable == Constants.MaxSpeed) {
+			units = "m/s";
+			decs = 2;
+		} else if(pegbe.mainVariable == Constants.MeanForce || pegbe.mainVariable == Constants.MaxForce) {
+			units = "N";
+			decs = 0;
+		}
+		else { //powers
+			units =  "W";
+			decs = 0;
+		}
+		cb.Decs = decs;
 
 		if(pegbe.eccon == "c")
 			cb.GraphDo (dataA_l, new List<PointF>(), names_l,

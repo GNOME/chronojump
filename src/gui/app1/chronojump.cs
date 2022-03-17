@@ -7821,7 +7821,10 @@ LogB.Debug("mc finished 5");
 								encoderCaptureListStore,
 								preferences.encoderCaptureMainVariableThisSetOrHistorical,
 								sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
-								sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable));
+								sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable),
+								preferences.encoderCaptureInertialDiscardFirstN,
+								preferences.volumeOn,
+								preferences.gstreamer);
 						prepareEncoderBarplotCairo ();
 					}
 				} else

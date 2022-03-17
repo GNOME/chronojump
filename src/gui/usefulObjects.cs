@@ -402,6 +402,9 @@ public class PrepareEventGraphBarplotEncoder
 	public bool relativeToSet;
 	public double maxPowerSpeedForceIntersession; //it will be one of these 3
 	public string maxPowerSpeedForceIntersessionDate;
+	public int discardFirstN;
+	public bool volumeOn;
+	public Preferences.GstreamerTypes gstreamer;
 
 	public PrepareEventGraphBarplotEncoder () {
 	}
@@ -414,7 +417,9 @@ public class PrepareEventGraphBarplotEncoder
 			bool hasInertia, bool playSoundsFromFile,
 			ArrayList data9Variables, Gtk.ListStore encoderCaptureListStore,
 			bool relativeToSet,
-			double maxPowerSpeedForceIntersession, string maxPowerSpeedForceIntersessionDate)
+			double maxPowerSpeedForceIntersession, string maxPowerSpeedForceIntersessionDate,
+			int discardFirstN, bool volumeOn, Preferences.GstreamerTypes gstreamer)
+
 	{
 		this.mainVariable = mainVariable;
 		this.mainVariableHigher = mainVariableHigher;
@@ -431,6 +436,9 @@ public class PrepareEventGraphBarplotEncoder
 		this.relativeToSet = relativeToSet;
 		this.maxPowerSpeedForceIntersession = maxPowerSpeedForceIntersession;
 		this.maxPowerSpeedForceIntersessionDate = maxPowerSpeedForceIntersessionDate;
+		this.discardFirstN = discardFirstN;
+		this.volumeOn = volumeOn;
+		this.gstreamer = gstreamer;
 	}
 
 	~PrepareEventGraphBarplotEncoder () {}

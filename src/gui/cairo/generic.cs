@@ -116,7 +116,8 @@ public abstract class CairoGeneric
 	{
 		return new Cairo.Color(red/256.0, green/256.0, blue/256.0);
 	}
-	protected Cairo.Color colorFromGdk(Gdk.Color color)
+	//protected Cairo.Color colorFromGdk(Gdk.Color color)
+	public static Cairo.Color colorFromGdk(Gdk.Color color)
 	{
 		return new Cairo.Color(color.Red/65536.0, color.Green/65536.0, color.Blue/65536.0);
 	}

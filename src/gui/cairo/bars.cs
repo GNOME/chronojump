@@ -248,7 +248,8 @@ public abstract class CairoBars : CairoGeneric
 	}
 
 	public abstract void GraphDo (List<PointF> pointMain_l, List<List<PointF>> pointSecondary_ll, bool mainAtLeft,
-			List<string> names_l, int fontHeightForBottomNames, int marginForBottomNames, string title);
+			List<Cairo.Color> colorMain_l, List<Cairo.Color> colorSecondary, List<string> names_l,
+			int fontHeightForBottomNames, int marginForBottomNames, string title);
 
 	protected void initGraph(string font, double widthPercent1)
 	{
@@ -662,6 +663,7 @@ public abstract class CairoBars : CairoGeneric
 public class CairoBars1Series : CairoBars
 {
 	private List<PointF> pointMain_l;
+	private List<Cairo.Color> colorMain_l;
 	private List<string> names_l;
 
 	//constructor when there are no points
@@ -722,8 +724,11 @@ public class CairoBars1Series : CairoBars
 			double x = (graphWidth - (leftMargin+rightMargin)) * (p.X-.5)/pointMain_l.Count - barDesplLeft + leftMargin;
 			double y = calculatePaintY(p.Y);
 
-			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -bottomMargin, 4, g, colorSerieA);
-LogB.Information(string.Format("y: {0}, alto: {1}", y, graphHeight -y - bottomMargin));
+			Cairo.Color barColor = colorSerieA;
+			if(colorMain_l != null && colorMain_l.Count == pointMain_l.Count)
+				barColor = colorMain_l[i];
+
+			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor);
 			plotResultOnBar(x + barWidth/2, y, graphHeight -bottomMargin, p.Y, resultFontHeight, barWidth, -1);
 
 			//print the type at bottom
@@ -737,11 +742,14 @@ LogB.Information(string.Format("y: {0}, alto: {1}", y, graphHeight -y - bottomMa
 	}
 
 	public override void GraphDo (List<PointF> pointMain_l, List<List<PointF>> pointSecondary_ll, bool mainAtLeft,
-			List<string> names_l, int fontHeightForBottomNames, int marginForBottomNames, string title)
+			List<Cairo.Color> colorMain_l, List<Cairo.Color> colorSecondary, List<string> names_l,
+			int fontHeightForBottomNames, int marginForBottomNames, string title)
 	{
 		LogB.Information("at CairoBars1Series.Do");
 		this.pointMain_l = pointMain_l;
-		//this.pointB_l = pointB_l; unused here
+		//this.pointSecondary_l = pointSecondary_l; //unused in this class
+		this.colorMain_l = colorMain_l;
+		//this.colorSecondary_l = colorSecondary_l; //unused in this class
 		this.names_l = names_l;
 		this.fontHeightForBottomNames = fontHeightForBottomNames;
 		this.marginForBottomNames = marginForBottomNames;
@@ -774,6 +782,8 @@ public class CairoBarsNHSeries : CairoBars
 {
 	private List<List<PointF>> pointSecondary_ll;
 	private List<PointF> pointMain_l;
+	private List<Cairo.Color> colorMain_l;
+	private List<Cairo.Color> colorSecondary_l;
 	private List<string> names_l;
 
 	private Cairo.Color colorSerieB;
@@ -978,7 +988,18 @@ public class CairoBarsNHSeries : CairoBars
 				if(pS.Y > 0)
 				{
 					double y = calculatePaintY(pS.Y);
-					drawRoundedRectangle (true, x + adjustX, y, barWidth, graphHeight -y -bottomMargin, 4, g, colorSerieA);
+
+					Cairo.Color barColor = colorSerieA;
+					/*
+					LogB.Information("colorSecondary_l is null: " + (colorSecondary_l == null).ToString());
+					LogB.Information("colorSecondary_l.Count: " + colorSecondary_l.Count.ToString());
+					LogB.Information("pointSecondary_ll[j].Count: " + pointSecondary_ll[j].Count.ToString());
+					*/
+					//only implemented for 1 secondary_l right now
+					if(colorSecondary_l != null && colorSecondary_l.Count == pointSecondary_ll[j].Count)
+						barColor = colorSecondary_l[i];
+
+					drawRoundedRectangle (true, x + adjustX, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor);
 					resultOnBarsThisIteration_l.Add(new Point3F(x + adjustX + barWidth/2, y, pS.Y));
 
 					secondaryHasData = true;
@@ -994,7 +1015,14 @@ public class CairoBarsNHSeries : CairoBars
 					adjustX = -barDesplLeft;
 
 				double y = calculatePaintY(pB.Y);
-				drawRoundedRectangle (true, x+adjustX, y, barWidth, graphHeight -y -bottomMargin, 4, g, colorSerieB);
+
+				Cairo.Color barColor = colorSerieB;
+				//LogB.Information("colorMain_l.Count: " + colorMain_l.Count.ToString());
+				//LogB.Information("pointMain_l.Count: " + pointMain_l.Count.ToString());
+				if(colorMain_l != null && colorMain_l.Count == pointMain_l.Count)
+					barColor = colorMain_l[i];
+
+				drawRoundedRectangle (true, x+adjustX, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor);
 				resultOnBarsThisIteration_l.Add(new Point3F(x + adjustX + barWidth/2, y, pB.Y));
 			}
 
@@ -1017,10 +1045,13 @@ public class CairoBarsNHSeries : CairoBars
 	}
 
 	public override void GraphDo (List<PointF> pointMain_l, List<List<PointF>> pointSecondary_ll, bool mainAtLeft,
-			List<string> names_l, int fontHeightForBottomNames, int marginForBottomNames, string title)
+			List<Cairo.Color> colorMain_l, List<Cairo.Color> colorSecondary_l, List<string> names_l,
+			int fontHeightForBottomNames, int marginForBottomNames, string title)
 	{
 		this.pointSecondary_ll = pointSecondary_ll;
 		this.pointMain_l = pointMain_l;
+		this.colorMain_l = colorMain_l;
+		this.colorSecondary_l = colorSecondary_l;
 		this.names_l = names_l;
 		this.fontHeightForBottomNames = fontHeightForBottomNames;
 		this.marginForBottomNames = marginForBottomNames;

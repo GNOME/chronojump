@@ -100,6 +100,7 @@ public class PreferencesWindow
 	[Widget] Gtk.CheckButton checkbutton_stiffness;
 	[Widget] Gtk.Image image_jumps_power_help;
 	[Widget] Gtk.Image image_jumps_stiffness_help;
+	[Widget] Gtk.Image image_button_jumps_dj_heights_times_help;
 	[Widget] Gtk.CheckButton checkbutton_initial_speed;
 	[Widget] Gtk.CheckButton checkbutton_jump_rsi;
 //	[Widget] Gtk.CheckButton checkbutton_angle;
@@ -579,6 +580,7 @@ public class PreferencesWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "image_info.png");
 		PreferencesWindowBox.image_jumps_power_help.Pixbuf = pixbuf;
 		PreferencesWindowBox.image_jumps_stiffness_help.Pixbuf = pixbuf;
+		PreferencesWindowBox.image_button_jumps_dj_heights_times_help.Pixbuf = pixbuf;
 		PreferencesWindowBox.image_run_speed_start_help.Pixbuf = pixbuf;
 		PreferencesWindowBox.image_encoder_inactivity_help.Pixbuf = pixbuf;
 		PreferencesWindowBox.image_encoder_capture_cut_by_triggers_help.Pixbuf = pixbuf;
@@ -959,6 +961,12 @@ public class PreferencesWindow
 	private void on_button_jumps_stiffness_help_clicked (object o, EventArgs args) {
 		showHelp(Catalog.GetString("Stiffness"), helpTypes.STIFFNESS, Constants.HelpStiffnessStr());
 	}
+	private void on_button_jumps_dj_heights_times_help_clicked (object o, EventArgs args) {
+		showHelp(Catalog.GetString("Variables to show at reactive jumps:"), helpTypes.NORMAL,
+				Catalog.GetString("In jumps like Dj, Dja you can select to show the heights of the jumps or the times.") + "\n\n" +
+				Catalog.GetString("But keep in mind that if you display reactive jumps with other jumps (like CMJ, ABK), then heights will be shown."));
+	}
+
 
 	/*
 	 * triggers stuff

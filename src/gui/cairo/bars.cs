@@ -650,7 +650,7 @@ public abstract class CairoBars : CairoGeneric
 		set { yUnits = value; }
 	}
 
-	//for CairoBars2HSeries (legend)
+	//for CairoBarsNHSeries (legend)
 	public string VariableSerieA {
 		set { variableSerieA = value; }
 	}
@@ -940,6 +940,13 @@ public class CairoBarsNHSeries : CairoBars
 	//note pointA_l and pointB_l have same length
 	protected override void plotBars ()
 	{
+		/* debug stuff
+		LogB.Information("plotBars NH pointB_l.Count: " + pointB_l.Count.ToString());
+		LogB.Information("plotBars NH pointSecondary_l.Count: " + pointSecondary_l.Count.ToString());
+		LogB.Information("plotBars NH pointSecondary_l[0].Count: " + pointSecondary_l[0].Count.ToString());
+		LogB.Information("plotBars NH names_l.Count: " + names_l.Count.ToString());
+		*/
+
                 //calculate separation between series and bar width
                 double distanceBetweenCols = (graphWidth - (leftMargin+rightMargin))/maxX;
 
@@ -1017,7 +1024,7 @@ public class CairoBarsNHSeries : CairoBars
 	//public override void GraphDo (List<List<PointF>> pointSecondary_l, List<PointF> pointB_l,
 			List<string> names_l, int fontHeightForBottomNames, int marginForBottomNames, string title)
 	{
-		LogB.Information("at CairoBars2HSeries.GraphDo");
+		//LogB.Information("at CairoBarsNHSeries.GraphDo");
 		//this.pointA_l = pointA_l;
 		//this.pointSecondary_l = pointSecondary_l;
 		this.pointB_l = pointB_l;
@@ -1028,6 +1035,7 @@ public class CairoBarsNHSeries : CairoBars
 
 		bottomMargin += marginForBottomNames;
 
+		//LogB.Information(string.Format("NH GraphDo: pointA_l.Count: {0}, pointB_l.Count: {1}", pointA_l.Count, pointB_l.Count));
                 findMaximums();
 
 		g.SetFontSize(textHeight);

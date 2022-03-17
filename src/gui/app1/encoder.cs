@@ -343,6 +343,7 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.DrawingArea encoder_capture_signal_drawingarea_cairo;
 	[Widget] Gtk.DrawingArea encoder_capture_curves_bars_drawingarea;
+	[Widget] Gtk.DrawingArea encoder_capture_curves_bars_drawingarea_cairo;
 	Gdk.Pixmap encoder_capture_curves_bars_pixmap = null;
 
 	ArrayList encoderCaptureCurves;
@@ -445,6 +446,8 @@ public partial class ChronoJumpWindow
 	CairoGraphEncoderSignal cairoGraphEncoderSignal;
 	static List<PointF> cairoGraphEncoderSignalPoints_l;
 	static List<PointF> cairoGraphEncoderSignalInertialPoints_l;
+
+	PrepareEventGraphBarplotEncoder prepareEventGraphBarplotEncoder;
 
 	enum encoderSensEnum { 
 		NOSESSION, NOPERSON, YESPERSON, PROCESSINGCAPTURE, PROCESSINGR, DONENOSIGNAL, DONEYESSIGNAL }
@@ -5891,6 +5894,22 @@ public partial class ChronoJumpWindow
 						preferences.encoderCaptureMainVariableThisSetOrHistorical,
 						sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
 						sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable));
+
+			//Cairo
+			prepareEventGraphBarplotEncoder = new PrepareEventGraphBarplotEncoder (
+						mainVariable, mainVariableHigher, mainVariableLower,
+						secondaryVariable, preferences.encoderCaptureShowLoss,
+						false, //not capturing
+						findEccon(true),
+						repetitiveConditionsWin,
+						encoderConfigurationCurrent.has_inertia,
+						configChronojump.PlaySoundsFromFile,
+						captureCurvesBarsData,
+						encoderCaptureListStore,
+						preferences.encoderCaptureMainVariableThisSetOrHistorical,
+						sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
+						sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable));
+			prepareEncoderBarplotCairo ();
 		}
 	}
 
@@ -5976,7 +5995,34 @@ public partial class ChronoJumpWindow
 			}
 		}
 	}
-	
+
+	public void on_encoder_capture_curves_bars_drawingarea_cairo_expose_event (object o, ExposeEventArgs args)
+	{
+		LogB.Information("on_encoder_capture_curves_bars_drawingarea_cairo_expose_event A");
+		//if object not defined or not defined fo this mode, return
+//TODO: is fist check really needed?
+//		if(cairoPaintBarsPre == null || ! cairoPaintBarsPre.ModeMatches (current_mode))
+//			return;
+
+		LogB.Information("on_encoder_capture_curves_bars_drawingarea_cairo_expose_event B");
+		if(prepareEventGraphBarplotEncoder != null)
+			prepareEncoderBarplotCairo ();
+	}
+
+	private void prepareEncoderBarplotCairo ()
+	{
+		LogB.Information("prepareEncoderBarplotCairo");
+		if(currentPerson == null)
+			return;
+
+		cairoPaintBarsPre = new CairoPaintBarplotPreEncoder (
+				encoder_capture_curves_bars_drawingarea_cairo, preferences.fontType.ToString(),
+				currentPerson.Name, "", 3,
+				prepareEventGraphBarplotEncoder);
+
+		cairoPaintBarsPre.Paint();
+	}
+
 	public void on_encoder_capture_signal_drawingarea_cairo_expose_event (object o, ExposeEventArgs args)
 	{
 		updateEncoderCaptureSignalCairo (current_mode == Constants.Modes.POWERINERTIAL, true);
@@ -6716,6 +6762,22 @@ public partial class ChronoJumpWindow
 							preferences.encoderCaptureMainVariableThisSetOrHistorical,
 							sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
 							sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable));
+
+					//Cairo
+					prepareEventGraphBarplotEncoder = new PrepareEventGraphBarplotEncoder (
+							mainVariable, mainVariableHigher, mainVariableLower,
+							secondaryVariable, preferences.encoderCaptureShowLoss,
+							true, //capturing
+							findEccon(true),
+							repetitiveConditionsWin,
+							encoderConfigurationCurrent.has_inertia,
+							configChronojump.PlaySoundsFromFile,
+							captureCurvesBarsData,
+							encoderCaptureListStore,
+							preferences.encoderCaptureMainVariableThisSetOrHistorical,
+							sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
+							sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable));
+					prepareEncoderBarplotCairo ();
 				}
 				//}
 
@@ -7299,6 +7361,22 @@ public partial class ChronoJumpWindow
 							preferences.encoderCaptureMainVariableThisSetOrHistorical,
 							sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
 							sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable));
+
+					//Cairo
+					prepareEventGraphBarplotEncoder = new PrepareEventGraphBarplotEncoder (
+							mainVariable, mainVariableHigher, mainVariableLower,
+							secondaryVariable, preferences.encoderCaptureShowLoss,
+							false, //not capturing
+							findEccon(true),
+							repetitiveConditionsWin,
+							encoderConfigurationCurrent.has_inertia,
+							configChronojump.PlaySoundsFromFile,
+							captureCurvesBarsData,
+							encoderCaptureListStore,
+							preferences.encoderCaptureMainVariableThisSetOrHistorical,
+							sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
+							sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable));
+					prepareEncoderBarplotCairo ();
 				}
 
 				button_encoder_signal_save_comment.Label = Catalog.GetString("Save comment");

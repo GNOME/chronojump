@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -384,6 +384,58 @@ public class PrepareEventGraphRunIntervalRealtimeCapture
 
 	~PrepareEventGraphRunIntervalRealtimeCapture() {}
 }
+
+public class PrepareEventGraphBarplotEncoder
+{
+	public string mainVariable;
+	public double mainVariableHigher;
+	public double mainVariableLower;
+	public string secondaryVariable;
+	public bool showLoss;
+	public bool capturing;
+	public string eccon;
+	public RepetitiveConditionsWindow repetitiveConditionsWin;
+	public bool hasInertia;
+	public bool playSoundsFromFile;
+	public ArrayList data9Variables;
+	public Gtk.ListStore encoderCaptureListStore;
+	public bool relativeToSet;
+	public double maxPowerSpeedForceIntersession; //it will be one of these 3
+	public string maxPowerSpeedForceIntersessionDate;
+
+	public PrepareEventGraphBarplotEncoder () {
+	}
+
+	public PrepareEventGraphBarplotEncoder (
+			string mainVariable, double mainVariableHigher, double mainVariableLower,
+			string secondaryVariable, bool showLoss,
+			bool capturing, string eccon,
+			RepetitiveConditionsWindow repetitiveConditionsWin,
+			bool hasInertia, bool playSoundsFromFile,
+			ArrayList data9Variables, Gtk.ListStore encoderCaptureListStore,
+			bool relativeToSet,
+			double maxPowerSpeedForceIntersession, string maxPowerSpeedForceIntersessionDate)
+	{
+		this.mainVariable = mainVariable;
+		this.mainVariableHigher = mainVariableHigher;
+		this.mainVariableLower = mainVariableLower;
+		this.secondaryVariable = secondaryVariable;
+		this.showLoss = showLoss;
+		this.capturing = capturing;
+		this.eccon = eccon;
+		this.repetitiveConditionsWin = repetitiveConditionsWin;
+		this.hasInertia = hasInertia;
+		this.playSoundsFromFile = playSoundsFromFile;
+		this.data9Variables = data9Variables;
+		this.encoderCaptureListStore = encoderCaptureListStore;
+		this.relativeToSet = relativeToSet;
+		this.maxPowerSpeedForceIntersession = maxPowerSpeedForceIntersession;
+		this.maxPowerSpeedForceIntersessionDate = maxPowerSpeedForceIntersessionDate;
+	}
+
+	~PrepareEventGraphBarplotEncoder () {}
+}
+
 
 public class PrepareEventGraphPulse {
 	public double lastTime;

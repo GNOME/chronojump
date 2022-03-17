@@ -20,7 +20,7 @@ curses trams graph de sessió podria ser 2H (totaltime, maxSpeed)
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -156,8 +156,8 @@ public partial class ChronoJumpWindow
 	//string cairoTitleStored;
 
 	//we need both working to be able to correctly expose_event on jumpRj, runI
-	CairoPaintBarsPre cairoPaintBarsPre;
-	CairoPaintBarsPre cairoPaintBarsPreRealTime;
+	CairoPaintBarsPre cairoPaintBarsPre;  //used for contacts test (no realtime), and also encoder
+	CairoPaintBarsPre cairoPaintBarsPreRealTime; //contacts time realtime: jumpRj/runI capture
 	CairoManageRunDoubleContacts cairoManageRunDoubleContacts;
 
 
@@ -419,6 +419,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("CONFIGURE END");
 	}
 
+	//this will disappear (non cairo) right now is only used for reaction time, pulses, multichronopic
 	public void on_event_execute_drawingarea_expose_event(object o, ExposeEventArgs args)
 	{
 		//LogB.Information("EXPOSE START");
@@ -2133,6 +2134,9 @@ public abstract class CairoPaintBarsPre
 	//run interval
 	public PrepareEventGraphRunInterval eventGraphRunsIntervalStored;
 
+	//encoder
+	public PrepareEventGraphBarplotEncoder eventGraphEncoderBarplotStored;
+
 	protected DrawingArea darea;
 	protected string fontStr;
 	protected Constants.Modes mode;
@@ -2167,6 +2171,9 @@ public abstract class CairoPaintBarsPre
 	{
 	}
 	public virtual void StoreEventGraphRunsInterval (PrepareEventGraphRunInterval eventGraph)
+	{
+	}
+	public virtual void StoreEventGraphBarplotEncoder (PrepareEventGraphBarplotEncoder eventGraph)
 	{
 	}
 
@@ -3344,3 +3351,137 @@ public class CairoManageRunDoubleContacts
 		return timeTotalWithExtraPTL + negativePTLTime;
 	}
 }
+
+public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
+{
+	private PrepareEventGraphBarplotEncoder pegbe;
+
+	//private ArrayList data; //data is related to mainVariable (barplot)
+	private List<PointF> dataA_l; //data is related to mainVariable (barplot)
+	private List<PointF> dataB_l; //data is related to mainVariable (barplot)
+	private ArrayList dataSecondary; //dataSecondary is related to secondary variable (by default range)
+	private ArrayList dataRangeOfMovement; //ROM, need it to discard last rep for loss. Is not the same as dataSecondary because maybe user selected another variable as secondary. only checks con.
+	private ArrayList dataWorkJ;
+	private ArrayList dataImpulse;
+
+	private List<string> names_l;
+
+	//just blank the screen
+	public CairoPaintBarplotPreEncoder (DrawingArea darea, string fontStr)
+	{
+		blankScreen(darea, fontStr);
+	}
+
+	//isLastCaptured: if what we are showing is currentJumpRj then true, if is a selection from treeview and id != currentJumpRj then is false (meaning selected)
+
+	public CairoPaintBarplotPreEncoder (DrawingArea darea, string fontStr,
+			string personName, string testName, int pDN,
+			PrepareEventGraphBarplotEncoder pegbe)
+	{
+		this.pegbe = pegbe;
+
+		initialize (darea, fontStr, mode, personName, testName, pDN);
+	}
+
+	protected override bool storeCreated ()
+	{
+		//return (eventGraphEncoderBarplotStored != null);
+		return (pegbe.data9Variables.Count > 0);
+	}
+
+	protected override bool haveDataToPlot()
+	{
+		return (pegbe.data9Variables.Count > 0);
+	}
+
+	protected override void paintSpecific()
+	{
+		fillDataVariables ();
+		paintSpecificDo ();
+	}
+
+	private void fillDataVariables ()
+	{
+		//data = new ArrayList (pegbe.data9Variables.Count); //data is related to mainVariable (barplot)
+		dataA_l = new List<PointF>(); //data is related to mainVariable (barplot)
+		dataB_l = new List<PointF>(); //data is related to mainVariable (barplot)
+		dataSecondary = new ArrayList (pegbe.data9Variables.Count); //dataSecondary is related to secondary variable (by default range)
+		dataRangeOfMovement = new ArrayList (pegbe.data9Variables.Count);
+		dataWorkJ = new ArrayList (pegbe.data9Variables.Count);
+		dataImpulse = new ArrayList (pegbe.data9Variables.Count);
+		bool lastIsEcc = false;
+		//int count = 0;
+
+		string units = "";
+		int decimals;
+
+		if(pegbe.mainVariable == Constants.MeanSpeed || pegbe.mainVariable == Constants.MaxSpeed) {
+			units = "m/s";
+			decimals = 2;
+		} else if(pegbe.mainVariable == Constants.MeanForce || pegbe.mainVariable == Constants.MaxForce) {
+			units = "N";
+			decimals = 1;
+		}
+		else { //powers
+			units =  "W";
+			decimals = 1;
+		}
+
+		names_l = new List<string>();
+
+		//discard repetitions according to showNRepetitions
+		//int countToDraw = pegbe.data9Variables.Count;
+		//foreach(EncoderBarsData ebd in pegbe.data9Variables)
+		//for (int count = 0; count < pegbe.data9Variables.Count; count ++)
+//		int countNames = 0;
+		for (int count = (pegbe.data9Variables.Count -1); count >= 0; count --)
+		{
+			EncoderBarsData ebd = (EncoderBarsData) pegbe.data9Variables[count];
+
+			if(pegbe.eccon == "c")
+			{
+				dataA_l.Add(new PointF(count +1, ebd.GetValue(pegbe.mainVariable)));
+				names_l.Add((count +1).ToString());
+			} else
+			{
+				if(! Util.IsEven(count +1))  	//if it is "impar"
+				{
+					dataA_l.Add(new PointF(UtilAll.DivideSafe(count+1,2), ebd.GetValue(pegbe.mainVariable)));
+					names_l.Add((UtilAll.DivideSafe(count,2) +1).ToString());
+				} else 	// "par"
+					dataB_l.Add(new PointF(UtilAll.DivideSafe(count+1,2), ebd.GetValue(pegbe.mainVariable)));
+			}
+
+			//TODO: copy stuff from /gui/encoderGraphObjects fillDataVariables() 
+		}
+	}
+
+	private void paintSpecificDo ()
+	{
+		CairoBars cb;
+
+		if(pegbe.eccon == "c")
+			cb = new CairoBars1Series (darea);
+		else
+			cb = new CairoBarsNHSeries (darea);
+
+		//LogB.Information("data_l.Count: " + data_l.Count.ToString());
+		//cb.GraphInit(fontStr, true, false); //usePersonGuides, useGroupGuides
+		cb.GraphInit(fontStr, false, false); //usePersonGuides, useGroupGuides
+
+		if(pegbe.eccon == "c")
+			cb.GraphDo (dataA_l, new List<PointF>(), names_l,
+					14, 8, "my title");
+		else
+		{
+			//TODO: why we need secondary? seems a list of many points
+			List<List<PointF>> pointSecondary_l = new List<List<PointF>>();
+			pointSecondary_l.Add(dataA_l);
+			cb.PassPointSecondaryList(pointSecondary_l);
+
+			cb.GraphDo (dataA_l, dataB_l, names_l,
+					14, 8, "my title");
+		}
+	}
+}
+

@@ -2632,13 +2632,16 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 			List<List<PointF>> pointSecondary_ll = new List<List<PointF>>();
 			pointSecondary_ll.Add(pointA_l);
 
-			cb.GraphDo (pointB_l, pointSecondary_ll, false, names_l,
+			cb.GraphDo (pointB_l, pointSecondary_ll, false,
+					new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
 					fontHeightForBottomNames, bottomMargin, title);
 		} else if (showBarA) //takeOff, takeOffWeight
-			cb.GraphDo (pointA_l, new List<List<PointF>>(), false, names_l,
+			cb.GraphDo (pointA_l, new List<List<PointF>>(), false,
+					new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
 					fontHeightForBottomNames, bottomMargin, title);
 		else //rest of the jumps: sj, cmj, ..
-			cb.GraphDo (pointB_l, new List<List<PointF>>(), false, names_l,
+			cb.GraphDo (pointB_l, new List<List<PointF>>(), false,
+					new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
 					fontHeightForBottomNames, bottomMargin, title);
 	}
 }
@@ -2765,7 +2768,8 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 		List<List<PointF>> pointSecondary_ll = new List<List<PointF>>();
 		pointSecondary_ll.Add(pointA1_l);
 
-		cb.GraphDo (pointB_l, pointSecondary_ll, false, names_l,
+		cb.GraphDo (pointB_l, pointSecondary_ll, false,
+				new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
 				fontHeightForBottomNames, bottomMargin, title);
 	}
 }
@@ -2864,7 +2868,8 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 					eventGraphRunsStored.personAVGAtSQL,
 					eventGraphRunsStored.personMINAtSQL));
 
-		cb.GraphDo (point_l, new List<List<PointF>>(), false, names_l,
+		cb.GraphDo (point_l, new List<List<PointF>>(), false,
+				new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
 				fontHeightForBottomNames, bottomMargin, title);
 	}
 }
@@ -2973,7 +2978,8 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 					eventGraphRunsIntervalStored.personAVGAtSQL,
 					eventGraphRunsIntervalStored.personMINAtSQL));
 
-		cb.GraphDo (point_l, new List<List<PointF>>(), false, names_l,
+		cb.GraphDo (point_l, new List<List<PointF>>(), false,
+				new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
 				fontHeightForBottomNames, bottomMargin, title);
 	}
 }
@@ -3100,7 +3106,8 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 		List<List<PointF>> pointSecondary_ll = new List<List<PointF>>();
 		pointSecondary_ll.Add(pointA_l);
 
-		cb.GraphDo (pointB_l, pointSecondary_ll, false, names_l,
+		cb.GraphDo (pointB_l, pointSecondary_ll, false,
+				new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
 				14, 8, title);
 	}
 }
@@ -3270,7 +3277,8 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 					sum / speed_l.Count,
 					min));
 
-		cb.GraphDo (point_l, new List<List<PointF>>(), false, names_l,
+		cb.GraphDo (point_l, new List<List<PointF>>(), false,
+				new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
 				14, 22, title); //22 because there are two rows
 	}
 }
@@ -3360,6 +3368,8 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 	private ArrayList dataWorkJ;
 	private ArrayList dataImpulse;
 
+	private List<Cairo.Color> colorMain_l;
+	private List<Cairo.Color> colorSecondary_l;
 	private List<string> names_l;
 
 	//just blank the screen
@@ -3408,7 +3418,17 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		bool lastIsEcc = false;
 		//int count = 0;
 
+		colorMain_l = new List<Cairo.Color>();
+		colorSecondary_l = new List<Cairo.Color>();
 		names_l = new List<string>();
+
+		//Gdk colors from (soon deleted) encoderGraphDoPlot()
+		Gdk.Color color_ecc_con_e = new Gdk.Color();
+		Gdk.Color color_ecc_con_c = new Gdk.Color();
+		Gdk.Color color_con = new Gdk.Color();
+
+		//final color of the bar
+		Cairo.Color colorBar = new Cairo.Color();
 
 		//discard repetitions according to showNRepetitions
 		//int countToDraw = pegbe.data9Variables.Count;
@@ -3419,21 +3439,106 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		{
 			EncoderBarsData ebd = (EncoderBarsData) pegbe.data9Variables[count];
 
+			//get phase (for color)
+			Preferences.EncoderPhasesEnum phaseEnum = Preferences.EncoderPhasesEnum.BOTH; // (eccon == "c")
+			if (pegbe.eccon == "ec" || pegbe.eccon == "ecS") {
+				bool isEven = Util.IsEven(count +1); //TODO: check this (as for is reversed)
+				if(isEven)
+					phaseEnum = Preferences.EncoderPhasesEnum.CON;
+				else
+					phaseEnum = Preferences.EncoderPhasesEnum.ECC;
+			}
+
+			//select pen color for bars and sounds
+			string myColor = pegbe.repetitiveConditionsWin.AssignColorAutomatic(
+					RepetitiveConditionsWindow.BestSetValueEnum.CAPTURE_MAIN_VARIABLE, ebd.GetValue(pegbe.mainVariable), phaseEnum);
+
+			bool discarded = false;
+			if(pegbe.hasInertia) {
+				if(pegbe.eccon == "c" && pegbe.discardFirstN > 0 && count < pegbe.discardFirstN)
+					discarded = true;
+				else if(pegbe.eccon != "c" && pegbe.discardFirstN > 0 && count < pegbe.discardFirstN * 2)
+					discarded = true;
+			}
+
+			if( ! discarded && ( myColor == UtilGtk.ColorGood || (pegbe.mainVariableHigher != -1 && ebd.GetValue(pegbe.mainVariable) >= pegbe.mainVariableHigher) ) )
+			{
+				color_ecc_con_e = UtilGtk.GREEN_DARK;
+				color_ecc_con_c = UtilGtk.GREEN_LIGHT;
+				color_con = UtilGtk.GREEN_PLOTS;
+				//play sound if value is high, volumeOn == true, is last value, capturing
+//TODO implement later, check how we pass this variables, as cairo should not play again n times the same while capturing
+//				if(preferences.volumeOn && count == data.Count -1 && capturing)
+//					Util.PlaySound(Constants.SoundTypes.GOOD, preferences.volumeOn, preferences.gstreamer);
+			}
+			else if( ! discarded && ( myColor == UtilGtk.ColorBad || (pegbe.mainVariableLower != -1 && ebd.GetValue(pegbe.mainVariable) <= pegbe.mainVariableLower) ) )
+			{
+				color_ecc_con_e = UtilGtk.RED_DARK;
+				color_ecc_con_c = UtilGtk.RED_LIGHT;
+				color_con = UtilGtk.RED_PLOTS;
+				//play sound if value is low, volumeOn == true, is last value, capturing
+				if(pegbe.volumeOn && count == 0 -1 && pegbe.capturing)
+					Util.PlaySound(Constants.SoundTypes.BAD, pegbe.volumeOn, pegbe.gstreamer);
+			}
+			else if(myColor == UtilGtk.ColorGray)
+			{
+				/*
+				 * on ecS when feedback is only in the opposite phase,
+				 * AssignColorAutomatic will return ColorGray
+				 * this helps to distinguins the phase that we want
+				 */
+				color_ecc_con_e = UtilGtk.GRAY;
+				color_ecc_con_c = UtilGtk.GRAY;
+				color_con = UtilGtk.GRAY;
+			}
+			else {
+				color_ecc_con_e = UtilGtk.BLUE_DARK;
+				color_ecc_con_c = UtilGtk.BLUE_LIGHT;
+				color_con = UtilGtk.BLUE_PLOTS;
+			}
+
+			//know if ecc or con to paint with dark or light pen
+			if (pegbe.eccon == "ec" || pegbe.eccon == "ecS") {
+				bool isEven = Util.IsEven(count +1);
+
+				//on inertial if discardFirstN , they have to be gray
+				if( pegbe.hasInertia && pegbe.discardFirstN > 0 &&
+						((pegbe.eccon == "c" && count < pegbe.discardFirstN) || (pegbe.eccon != "c" && count < pegbe.discardFirstN * 2)) )
+					colorBar = CairoGeneric.colorFromGdk(UtilGtk.GRAY);
+				else {
+					if(isEven) //par, concentric
+						colorBar = CairoGeneric.colorFromGdk(color_ecc_con_c);
+					else
+						colorBar = CairoGeneric.colorFromGdk(color_ecc_con_e);
+				}
+			} else {
+				if( pegbe.hasInertia && pegbe.discardFirstN > 0 &&
+						((pegbe.eccon == "c" && count < pegbe.discardFirstN) || (pegbe.eccon != "c" && count < pegbe.discardFirstN * 2)) )
+					colorBar = CairoGeneric.colorFromGdk(UtilGtk.GRAY);
+				else
+					colorBar = CairoGeneric.colorFromGdk(color_con);
+			}
+
+
 			if(pegbe.eccon == "c")
 			{
 				dataA_l.Add(new PointF(count +1, ebd.GetValue(pegbe.mainVariable)));
+				colorMain_l.Add(colorBar);
 				names_l.Add((count +1).ToString());
 			} else
 			{
 				if(! Util.IsEven(count +1))  	//if it is "impar"
 				{
 					dataA_l.Add(new PointF(UtilAll.DivideSafe(count+1,2), ebd.GetValue(pegbe.mainVariable)));
+					colorSecondary_l.Add(colorBar);
 					names_l.Add((UtilAll.DivideSafe(count,2) +1).ToString());
-				} else 	// "par"
+				} else {// "par"
 					dataB_l.Add(new PointF(UtilAll.DivideSafe(count+1,2), ebd.GetValue(pegbe.mainVariable)));
+					colorMain_l.Add(colorBar);
+				}
 			}
 
-			//TODO: copy stuff from /gui/encoderGraphObjects fillDataVariables() 
+			//TODO: copy more stuff from /gui/encoderGraphObjects fillDataVariables()
 		}
 	}
 
@@ -3466,13 +3571,15 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		cb.Decs = decs;
 
 		if(pegbe.eccon == "c")
-			cb.GraphDo (dataA_l, new List<List<PointF>>(), false, names_l,
+			cb.GraphDo (dataA_l, new List<List<PointF>>(), false,
+					colorMain_l, new List<Cairo.Color>(), names_l,
 					14, 8, "my title");
 		else {
 			List<List<PointF>> pointSecondary_ll = new List<List<PointF>>();
 			pointSecondary_ll.Add(dataA_l);
 
-			cb.GraphDo (dataB_l, pointSecondary_ll, false, names_l,
+			cb.GraphDo (dataB_l, pointSecondary_ll, false,
+					colorMain_l, colorSecondary_l, names_l,
 					14, 8, "my title");
 		}
 	}

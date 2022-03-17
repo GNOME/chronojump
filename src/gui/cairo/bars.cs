@@ -41,14 +41,6 @@ public abstract class CairoBars : CairoGeneric
 
 	protected Cairo.Context g;
 	protected int lineWidthDefault = 1; //was 2;
-	protected string xVariable = "";
-	protected string yVariable = "Height";
-	protected string xUnits = "";
-	protected string yUnits = "cm";
-
-	//used when there are two series (for legend)
-	protected string variableSerieA = "";
-	protected string variableSerieB = "";
 
 	protected double minX = 1000000;
 	protected double maxX = 0;
@@ -63,6 +55,17 @@ public abstract class CairoBars : CairoGeneric
 	protected Cairo.Color bluePlots;
 	protected Cairo.Color yellow;
 
+	// ---- values can be passed from outside via accessors ---->
+	protected string xVariable = "";
+	protected string yVariable = "Height";
+	protected string xUnits = "";
+	protected string yUnits = "cm";
+
+	//used when there are two series (for legend)
+	protected string variableSerieA = "";
+	protected string variableSerieB = "";
+	protected int decs;
+	// <---- end of passed variables
 
 	public virtual void GraphInit (string font, bool usePersonGuides, bool useGroupGuides) //needed to set rightMargin
 	{
@@ -70,6 +73,7 @@ public abstract class CairoBars : CairoGeneric
 		this.useGroupGuides = useGroupGuides;
 
 		textHeight = 14;
+		decs = 2;
 		initGraph(font, 1); //.8 if writeTextAtRight
 	}
 
@@ -494,7 +498,6 @@ public abstract class CairoBars : CairoGeneric
 	//TODO: at the moment we are not lowering decs, make resultsFontHeight and decs global variables
 	protected int getBarsResultFontHeight (double maxWidth)
 	{
-		int decs = 2; //can be 1 if need more space
 		double maxLengthNumber = 9.99;
 		if(maxY >= 10)
 			maxLengthNumber = 99.99;
@@ -525,7 +528,6 @@ public abstract class CairoBars : CairoGeneric
 	protected double plotResultOnBar(double x, double y, double alto, double result,
 			int resultFontHeight, double barWidth, double yStartPointA)
 	{
-		int decs = 2; //can be 1 if need more space
 		g.SetFontSize(resultFontHeight);
 
 		double maxLengthNumber = 9.99;
@@ -656,6 +658,10 @@ public abstract class CairoBars : CairoGeneric
 	}
 	public string VariableSerieB {
 		set { variableSerieB = value; }
+	}
+
+	public int Decs {
+		set { decs = value; }
 	}
 }
 

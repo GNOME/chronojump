@@ -661,7 +661,7 @@ public abstract class CairoBars : CairoGeneric
 
 public class CairoBars1Series : CairoBars
 {
-	private List<PointF> point_l;
+	private List<PointF> pointMain_l;
 	private List<string> names_l;
 
 	//constructor when there are no points
@@ -689,7 +689,7 @@ public class CairoBars1Series : CairoBars
 
 	protected override void findMaximums()
 	{
-		foreach(PointF p in point_l)
+		foreach(PointF p in pointMain_l)
 			if(p.Y > maxY)
 				maxY = p.Y;
 
@@ -698,7 +698,7 @@ public class CairoBars1Series : CairoBars
 
 		//points X start at 1
 		minX = 0;
-		maxX = point_l.Count + 1;
+		maxX = pointMain_l.Count + 1;
 
 		//bars Y have 0 at bottom
 		minY = 0;
@@ -707,19 +707,19 @@ public class CairoBars1Series : CairoBars
 	protected override void plotBars ()
 	{
                 //calculate separation between series and bar width
-                double distanceBetweenCols = Convert.ToInt32((graphWidth - (leftMargin+rightMargin))*(1+.5)/point_l.Count) -
-                        Convert.ToInt32((graphWidth - (leftMargin+rightMargin))*(0+.5)/point_l.Count);
+                double distanceBetweenCols = Convert.ToInt32((graphWidth - (leftMargin+rightMargin))*(1+.5)/pointMain_l.Count) -
+                        Convert.ToInt32((graphWidth - (leftMargin+rightMargin))*(0+.5)/pointMain_l.Count);
 
                 double barWidth = Convert.ToInt32(.5*distanceBetweenCols);
                 double barDesplLeft = Convert.ToInt32(.5*barWidth);
 		int resultFontHeight = getBarsResultFontHeight (barWidth*2);
 		LogB.Information("resultFontHeight: " + resultFontHeight.ToString());
 
-		for(int i = 0; i < point_l.Count; i ++)
+		for(int i = 0; i < pointMain_l.Count; i ++)
 		{
-			PointF p = point_l[i];
+			PointF p = pointMain_l[i];
 
-			double x = (graphWidth - (leftMargin+rightMargin)) * (p.X-.5)/point_l.Count - barDesplLeft + leftMargin;
+			double x = (graphWidth - (leftMargin+rightMargin)) * (p.X-.5)/pointMain_l.Count - barDesplLeft + leftMargin;
 			double y = calculatePaintY(p.Y);
 
 			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -bottomMargin, 4, g, colorSerieA);
@@ -740,7 +740,7 @@ LogB.Information(string.Format("y: {0}, alto: {1}", y, graphHeight -y - bottomMa
 			List<string> names_l, int fontHeightForBottomNames, int marginForBottomNames, string title)
 	{
 		LogB.Information("at CairoBars1Series.Do");
-		this.point_l = pointMain_l;
+		this.pointMain_l = pointMain_l;
 		//this.pointB_l = pointB_l; unused here
 		this.names_l = names_l;
 		this.fontHeightForBottomNames = fontHeightForBottomNames;
@@ -930,7 +930,7 @@ public class CairoBarsNHSeries : CairoBars
 
 		//points X start at 1
 		minX = 0;
-		//maxX = pointMain_l.Count + .5; //all point_l lists have same length
+		//maxX = pointMain_l.Count + .5; //all pointMain_l lists have same length
 		maxX = pointMain_l.Count + 1;
 
 		//bars Y have 0 at bottom

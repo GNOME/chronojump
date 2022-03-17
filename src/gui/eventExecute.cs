@@ -2629,17 +2629,16 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 
 		if(showBarA && showBarB) //Dja, Djna
 		{
-			List<List<PointF>> pointSecondary_l = new List<List<PointF>>();
-			pointSecondary_l.Add(pointA_l);
-			cb.PassPointSecondaryList(pointSecondary_l);
+			List<List<PointF>> pointSecondary_ll = new List<List<PointF>>();
+			pointSecondary_ll.Add(pointA_l);
 
-			cb.GraphDo (pointA_l, pointB_l, names_l,
+			cb.GraphDo (pointB_l, pointSecondary_ll, false, names_l,
 					fontHeightForBottomNames, bottomMargin, title);
 		} else if (showBarA) //takeOff, takeOffWeight
-			cb.GraphDo (pointA_l, new List<PointF>(), names_l,
+			cb.GraphDo (pointA_l, new List<List<PointF>>(), false, names_l,
 					fontHeightForBottomNames, bottomMargin, title);
 		else //rest of the jumps: sj, cmj, ..
-			cb.GraphDo (pointB_l, new List<PointF>(), names_l,
+			cb.GraphDo (pointB_l, new List<List<PointF>>(), false, names_l,
 					fontHeightForBottomNames, bottomMargin, title);
 	}
 }
@@ -2763,12 +2762,10 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 					eventGraphJumpsRjStored.personMINAtSQL
 					));
 
-		List<List<PointF>> pointSecondary_l = new List<List<PointF>>();
-		//pointSecondary_l.Add(pointA0_l);
-		pointSecondary_l.Add(pointA1_l);
-		cb.PassPointSecondaryList(pointSecondary_l);
+		List<List<PointF>> pointSecondary_ll = new List<List<PointF>>();
+		pointSecondary_ll.Add(pointA1_l);
 
-		cb.GraphDo (pointA1_l, pointB_l, names_l,
+		cb.GraphDo (pointB_l, pointSecondary_ll, false, names_l,
 				fontHeightForBottomNames, bottomMargin, title);
 	}
 }
@@ -2867,7 +2864,7 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 					eventGraphRunsStored.personAVGAtSQL,
 					eventGraphRunsStored.personMINAtSQL));
 
-		cb.GraphDo(point_l, new List<PointF>(), names_l,
+		cb.GraphDo (point_l, new List<List<PointF>>(), false, names_l,
 				fontHeightForBottomNames, bottomMargin, title);
 	}
 }
@@ -2976,7 +2973,7 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 					eventGraphRunsIntervalStored.personAVGAtSQL,
 					eventGraphRunsIntervalStored.personMINAtSQL));
 
-		cb.GraphDo(point_l, new List<PointF>(), names_l,
+		cb.GraphDo (point_l, new List<List<PointF>>(), false, names_l,
 				fontHeightForBottomNames, bottomMargin, title);
 	}
 }
@@ -3100,11 +3097,10 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 					sum / tv_l.Count,
 					min));
 
-		List<List<PointF>> pointSecondary_l = new List<List<PointF>>();
-		pointSecondary_l.Add(pointA_l);
-		cb.PassPointSecondaryList(pointSecondary_l);
+		List<List<PointF>> pointSecondary_ll = new List<List<PointF>>();
+		pointSecondary_ll.Add(pointA_l);
 
-		cb.GraphDo (pointA_l, pointB_l, names_l,
+		cb.GraphDo (pointB_l, pointSecondary_ll, false, names_l,
 				14, 8, title);
 	}
 }
@@ -3274,7 +3270,7 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 					sum / speed_l.Count,
 					min));
 
-		cb.GraphDo (point_l, new List<PointF>(), names_l,
+		cb.GraphDo (point_l, new List<List<PointF>>(), false, names_l,
 				14, 22, title); //22 because there are two rows
 	}
 }
@@ -3470,16 +3466,13 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		cb.Decs = decs;
 
 		if(pegbe.eccon == "c")
-			cb.GraphDo (dataA_l, new List<PointF>(), names_l,
+			cb.GraphDo (dataA_l, new List<List<PointF>>(), false, names_l,
 					14, 8, "my title");
-		else
-		{
-			//TODO: why we need secondary? seems a list of many points
-			List<List<PointF>> pointSecondary_l = new List<List<PointF>>();
-			pointSecondary_l.Add(dataA_l);
-			cb.PassPointSecondaryList(pointSecondary_l);
+		else {
+			List<List<PointF>> pointSecondary_ll = new List<List<PointF>>();
+			pointSecondary_ll.Add(dataA_l);
 
-			cb.GraphDo (dataA_l, dataB_l, names_l,
+			cb.GraphDo (dataB_l, pointSecondary_ll, false, names_l,
 					14, 8, "my title");
 		}
 	}

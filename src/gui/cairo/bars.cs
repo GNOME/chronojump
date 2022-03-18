@@ -55,6 +55,8 @@ public abstract class CairoBars : CairoGeneric
 	protected Cairo.Color bluePlots;
 	protected Cairo.Color yellow;
 
+	protected RepetitionMouseLimits mouseLimits;
+
 	// ---- values can be passed from outside via accessors ---->
 	protected string xVariable = "";
 	protected string yVariable = "Height";
@@ -298,6 +300,8 @@ public abstract class CairoBars : CairoGeneric
 			rightMargin = 70;
 		bottomMargin = 9;
 		topMarginSet ();
+
+		mouseLimits = new RepetitionMouseLimits();
 	}
 
 	//will be overwritten by graphs with legend
@@ -674,6 +678,16 @@ public abstract class CairoBars : CairoGeneric
 			paintGridInt (g, minX, maxX, minY, maxY, 1, gridType, textHeight -2);
 	}
 
+	public int FindBarInPixel (double pixel)
+	{
+		LogB.Information("cairo bars FindBarInPixel 0");
+		if(mouseLimits == null)
+			return -1;
+
+		LogB.Information("cairo bars FindBarInPixel 1");
+		return mouseLimits.FindBarInPixel(pixel);
+	}
+
 	public string YVariable {
 		set { yVariable = value; }
 	}
@@ -764,6 +778,7 @@ public class CairoBars1Series : CairoBars
 
 			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor);
 			plotResultOnBar(x + barWidth/2, y, graphHeight -bottomMargin, p.Y, resultFontHeight, barWidth, -1);
+			mouseLimits.AddInPos (pointMain_l.Count -1 -i, x, x+barWidth);
 
 			//print the type at bottom
 			//printTextMultiline (x + barWidth/2, graphHeight -bottomMargin + fontHeightForBottomNames/2, 0, fontHeightForBottomNames,
@@ -1005,6 +1020,15 @@ public class CairoBarsNHSeries : CairoBars
 		int resultFontHeight = getBarsResultFontHeight (barWidth*1.5);
 		List<Point3F> resultOnBars_l = new List<Point3F>();
 
+
+		/* mouseLimits
+		   if there are 6 bars, 6+6 bars should be 0..11,
+		   one bar will go from 11 to 1 and the other from 10 to 0
+		   note that this can be reversed according to mainAtLeft
+		   */
+		int mouseLimitsPos1stBar = pointMain_l.Count *2 -2;
+		int mouseLimitsPos2ndBar = pointMain_l.Count *2 -1;
+
 		for(int i = 0; i < pointMain_l.Count; i ++)
 		{
 			/*
@@ -1034,6 +1058,9 @@ public class CairoBarsNHSeries : CairoBars
 
 					drawRoundedRectangle (true, x + adjustX, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor);
 					resultOnBarsThisIteration_l.Add(new Point3F(x + adjustX + barWidth/2, y-4, pS.Y));
+					//add for the secondary and for the main bar, no problem both will work
+					mouseLimits.AddInPos (mouseLimitsPos1stBar, x+adjustX, x+adjustX+barWidth);
+					mouseLimitsPos1stBar -= 2;
 
 					if(labelBarMain != "")
 					{
@@ -1072,6 +1099,9 @@ public class CairoBarsNHSeries : CairoBars
 
 				drawRoundedRectangle (true, x+adjustX, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor);
 				resultOnBarsThisIteration_l.Add(new Point3F(x + adjustX + barWidth/2, y, pB.Y));
+				//add for the secondary and for the main bar, no problem both will work
+				mouseLimits.AddInPos (mouseLimitsPos2ndBar, x+adjustX, x+adjustX+barWidth);
+				mouseLimitsPos2ndBar -= 2;
 
 				if(labelBarMain != "")
 				{

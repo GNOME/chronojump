@@ -2137,6 +2137,7 @@ public abstract class CairoPaintBarsPre
 	//encoder
 	public PrepareEventGraphBarplotEncoder eventGraphEncoderBarplotStored;
 
+	protected CairoBars cb;
 	protected DrawingArea darea;
 	protected string fontStr;
 	protected Constants.Modes mode;
@@ -2482,6 +2483,11 @@ public abstract class CairoPaintBarsPre
 
 		return str;
 	}
+
+	public int FindBarInPixel (double pixel)
+	{
+		return cb.FindBarInPixel(pixel);
+	}
 }
 
 public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
@@ -2530,7 +2536,6 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 		if(showBarA && ! showBarB)
 			UseHeights = false;
 
-		CairoBars cb;
 		if(showBarA && showBarB) //Dja, Djna
 			cb = new CairoBarsNHSeries (darea);
 		else if (showBarA) //takeOff, takeOffWeight
@@ -2674,7 +2679,7 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 
 	protected override void paintSpecific()
 	{
-		CairoBars cb = new CairoBarsNHSeries (darea);
+		cb = new CairoBarsNHSeries (darea);
 
 		cb.YVariable = Catalog.GetString("Time");
 		cb.YUnits = "s";
@@ -3059,7 +3064,7 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 		if(tv_l.Count != tc_l.Count)
 			return;
 
-		CairoBars cb = new CairoBarsNHSeries (darea);
+		cb = new CairoBarsNHSeries (darea);
 
 		cb.YVariable = Catalog.GetString("Time");
 		cb.YUnits = "s";
@@ -3225,7 +3230,7 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 		//if(ifRSAstartRest)
 		//	return;
 
-		CairoBars cb = new CairoBars1Series (darea);
+		cb = new CairoBars1Series (darea);
 
 		cb.YVariable = Catalog.GetString("Speed");
 		cb.YUnits = "m/s";
@@ -3552,8 +3557,6 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 	private void paintSpecificDo ()
 	{
-		CairoBars cb;
-
 		if(pegbe.eccon == "c")
 			cb = new CairoBars1Series (darea);
 		else

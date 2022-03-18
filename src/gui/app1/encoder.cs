@@ -5936,6 +5936,7 @@ public partial class ChronoJumpWindow
 		//needed to have mouse clicks button_press_event ()
 //		encoder_capture_curves_bars_drawingarea.AddEvents((int) (Gdk.EventMask.ButtonPressMask | Gdk.EventMask.ButtonReleaseMask));
 		encoder_capture_curves_bars_drawingarea.AddEvents((int) Gdk.EventMask.ButtonPressMask);
+		encoder_capture_curves_bars_drawingarea_cairo.AddEvents((int) Gdk.EventMask.ButtonPressMask);
 
 		Gdk.Rectangle allocation = encoder_capture_curves_bars_drawingarea.Allocation;
 		if(encoder_capture_curves_bars_pixmap == null || encoder_capture_curves_sizeChanged || 
@@ -5996,6 +5997,24 @@ public partial class ChronoJumpWindow
 				EncoderCaptureItemToggled(new object (), new ToggledArgs());
 				encoderCaptureItemToggledArgsPath = "";
 			}
+		}
+	}
+	public void on_encoder_capture_curves_bars_drawingarea_cairo_button_press_event (object o, ButtonPressEventArgs args)
+	{
+		LogB.Information("on_encoder_capture_curves_bars_drawingarea_cairo_button_press_event 0");
+		if(cairoPaintBarsPre == null) //TODO: check also that is the encoder graph and not jumps or whatever
+			return;
+
+		LogB.Information("on_encoder_capture_curves_bars_drawingarea_cairo_button_press_event 1");
+		int repetition = cairoPaintBarsPre.FindBarInPixel(args.Event.X);
+		//LogB.Information("Repetition: " + repetition.ToString());
+		if(repetition >= 0)
+		{
+		LogB.Information("on_encoder_capture_curves_bars_drawingarea_cairo_button_press_event 2");
+			//this will be managed by: EncoderCaptureItemToggled()
+			encoderCaptureItemToggledArgsPath = repetition.ToString();
+			EncoderCaptureItemToggled(new object (), new ToggledArgs());
+			encoderCaptureItemToggledArgsPath = "";
 		}
 	}
 

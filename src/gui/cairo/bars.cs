@@ -49,7 +49,7 @@ public abstract class CairoBars : CairoGeneric
 
 	protected Cairo.Color black;
 	protected Cairo.Color gray99;
-	Cairo.Color white;
+	protected Cairo.Color white;
 	protected Cairo.Color red;
 	protected Cairo.Color blue;
 	protected Cairo.Color bluePlots;
@@ -249,6 +249,7 @@ public abstract class CairoBars : CairoGeneric
 
 	public abstract void GraphDo (List<PointF> pointMain_l, List<List<PointF>> pointSecondary_ll, bool mainAtLeft,
 			List<Cairo.Color> colorMain_l, List<Cairo.Color> colorSecondary, List<string> names_l,
+			string labelBarMain, string labelBarSecondary, bool labelRotateInFirstBar,
 			int fontHeightForBottomNames, int marginForBottomNames, string title);
 
 	protected void initGraph(string font, double widthPercent1)
@@ -384,6 +385,39 @@ public abstract class CairoBars : CairoGeneric
 
 		//restore text size
 		g.SetFontSize(textHeight);
+	}
+
+	protected void printTextInBar (double x, double y, double heightUnused, int textH,
+			string text, Cairo.Context g, bool bold)
+	{
+		g.Save();
+		g.SetSourceColor(white);
+		g.SetFontSize(textHeight+4);
+		if(bold)
+			g.SelectFontFace(font, Cairo.FontSlant.Normal, Cairo.FontWeight.Bold);
+
+		printText (x, y, heightUnused, textH, text, g, alignTypes.CENTER);
+		g.Restore();
+	}
+
+	protected void printTextRotated (double x, double y, double heightUnused, int textH,
+			string text, Cairo.Context g, bool bold)
+	{
+		g.Save();
+
+		g.SetFontSize(textH+4);
+		if(bold)
+			g.SelectFontFace(font, Cairo.FontSlant.Normal, Cairo.FontWeight.Bold);
+
+		g.MoveTo(x, y);
+		g.Rotate(MathCJ.ToRadians(-90));
+
+		g.ShowText(text);
+
+		g.Restore();
+
+		//restore text size
+		//g.SetFontSize(textHeight);
 	}
 
 	//text could have one or more \n
@@ -743,6 +777,7 @@ public class CairoBars1Series : CairoBars
 
 	public override void GraphDo (List<PointF> pointMain_l, List<List<PointF>> pointSecondary_ll, bool mainAtLeft,
 			List<Cairo.Color> colorMain_l, List<Cairo.Color> colorSecondary, List<string> names_l,
+			string labelBarMain, string labelBarSecondary, bool labelRotateInFirstBar,
 			int fontHeightForBottomNames, int marginForBottomNames, string title)
 	{
 		LogB.Information("at CairoBars1Series.Do");
@@ -785,6 +820,9 @@ public class CairoBarsNHSeries : CairoBars
 	private List<Cairo.Color> colorMain_l;
 	private List<Cairo.Color> colorSecondary_l;
 	private List<string> names_l;
+	private string labelBarMain;
+	private string labelBarSecondary;
+	private bool labelRotateInFirstBar;
 
 	private Cairo.Color colorSerieB;
 	private double oneRowLegendWidth;
@@ -975,7 +1013,6 @@ public class CairoBarsNHSeries : CairoBars
 			   */
 			List<Point3F> resultOnBarsThisIteration_l = new List<Point3F>();
 
-			//PointF pA = pointA_l[i];
 			bool secondaryHasData = false;
 			PointF pB = pointMain_l[i];
 
@@ -990,17 +1027,30 @@ public class CairoBarsNHSeries : CairoBars
 					double y = calculatePaintY(pS.Y);
 
 					Cairo.Color barColor = colorSerieA;
-					/*
-					LogB.Information("colorSecondary_l is null: " + (colorSecondary_l == null).ToString());
-					LogB.Information("colorSecondary_l.Count: " + colorSecondary_l.Count.ToString());
-					LogB.Information("pointSecondary_ll[j].Count: " + pointSecondary_ll[j].Count.ToString());
-					*/
+
 					//only implemented for 1 secondary_l right now
 					if(colorSecondary_l != null && colorSecondary_l.Count == pointSecondary_ll[j].Count)
 						barColor = colorSecondary_l[i];
 
 					drawRoundedRectangle (true, x + adjustX, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor);
-					resultOnBarsThisIteration_l.Add(new Point3F(x + adjustX + barWidth/2, y, pS.Y));
+					resultOnBarsThisIteration_l.Add(new Point3F(x + adjustX + barWidth/2, y-4, pS.Y));
+
+					if(labelBarMain != "")
+					{
+						if(labelRotateInFirstBar)
+						{
+							if(i == pointSecondary_ll[j].Count -1)
+							{
+								g.SetSourceColor(white);
+								int sep = 4;
+								printTextRotated (x +adjustX +barWidth -sep, graphHeight -bottomMargin -sep, 0, textHeight, "Ecc", g, true);
+								g.SetSourceColor(black);
+							}
+						}
+						else
+							printTextInBar(x +adjustX +barWidth/2, graphHeight -bottomMargin -10,
+									0, textHeight+2, "E", g, true);
+					}
 
 					secondaryHasData = true;
 				}
@@ -1017,13 +1067,28 @@ public class CairoBarsNHSeries : CairoBars
 				double y = calculatePaintY(pB.Y);
 
 				Cairo.Color barColor = colorSerieB;
-				//LogB.Information("colorMain_l.Count: " + colorMain_l.Count.ToString());
-				//LogB.Information("pointMain_l.Count: " + pointMain_l.Count.ToString());
 				if(colorMain_l != null && colorMain_l.Count == pointMain_l.Count)
 					barColor = colorMain_l[i];
 
 				drawRoundedRectangle (true, x+adjustX, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor);
 				resultOnBarsThisIteration_l.Add(new Point3F(x + adjustX + barWidth/2, y, pB.Y));
+
+				if(labelBarMain != "")
+				{
+					if(labelRotateInFirstBar)
+					{
+						if(i == pointMain_l.Count -1)
+						{
+							g.SetSourceColor(white);
+							int sep = 4;
+							printTextRotated (x +adjustX +barWidth -sep, graphHeight -bottomMargin -sep, 0, textHeight, "Con", g, true);
+							g.SetSourceColor(black);
+						}
+					}
+					else
+						printTextInBar(x +adjustX +barWidth/2, graphHeight -bottomMargin -10,
+								0, textHeight+2, "C", g, true);
+				}
 			}
 
 			//sort result on bars correctly
@@ -1046,6 +1111,7 @@ public class CairoBarsNHSeries : CairoBars
 
 	public override void GraphDo (List<PointF> pointMain_l, List<List<PointF>> pointSecondary_ll, bool mainAtLeft,
 			List<Cairo.Color> colorMain_l, List<Cairo.Color> colorSecondary_l, List<string> names_l,
+			string labelBarMain, string labelBarSecondary, bool labelRotateInFirstBar,
 			int fontHeightForBottomNames, int marginForBottomNames, string title)
 	{
 		this.pointSecondary_ll = pointSecondary_ll;
@@ -1053,6 +1119,9 @@ public class CairoBarsNHSeries : CairoBars
 		this.colorMain_l = colorMain_l;
 		this.colorSecondary_l = colorSecondary_l;
 		this.names_l = names_l;
+		this.labelBarMain = labelBarMain;
+		this.labelBarSecondary = labelBarSecondary;
+		this.labelRotateInFirstBar = labelRotateInFirstBar;
 		this.fontHeightForBottomNames = fontHeightForBottomNames;
 		this.marginForBottomNames = marginForBottomNames;
 		this.title = title;

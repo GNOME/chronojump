@@ -2634,14 +2634,17 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 
 			cb.GraphDo (pointB_l, pointSecondary_ll, false,
 					new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
+					"", "", false,
 					fontHeightForBottomNames, bottomMargin, title);
 		} else if (showBarA) //takeOff, takeOffWeight
 			cb.GraphDo (pointA_l, new List<List<PointF>>(), false,
 					new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
+					"", "", false,
 					fontHeightForBottomNames, bottomMargin, title);
 		else //rest of the jumps: sj, cmj, ..
 			cb.GraphDo (pointB_l, new List<List<PointF>>(), false,
 					new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
+					"", "", false,
 					fontHeightForBottomNames, bottomMargin, title);
 	}
 }
@@ -2770,6 +2773,7 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 
 		cb.GraphDo (pointB_l, pointSecondary_ll, false,
 				new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
+				"", "", false,
 				fontHeightForBottomNames, bottomMargin, title);
 	}
 }
@@ -2870,6 +2874,7 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 
 		cb.GraphDo (point_l, new List<List<PointF>>(), false,
 				new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
+				"", "", false,
 				fontHeightForBottomNames, bottomMargin, title);
 	}
 }
@@ -2980,6 +2985,7 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 
 		cb.GraphDo (point_l, new List<List<PointF>>(), false,
 				new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
+				"", "", false,
 				fontHeightForBottomNames, bottomMargin, title);
 	}
 }
@@ -3108,6 +3114,7 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 
 		cb.GraphDo (pointB_l, pointSecondary_ll, false,
 				new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
+				"", "", false,
 				14, 8, title);
 	}
 }
@@ -3279,6 +3286,7 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 
 		cb.GraphDo (point_l, new List<List<PointF>>(), false,
 				new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
+				"", "", false,
 				14, 22, title); //22 because there are two rows
 	}
 }
@@ -3573,6 +3581,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		if(pegbe.eccon == "c")
 			cb.GraphDo (dataA_l, new List<List<PointF>>(), false,
 					colorMain_l, new List<Cairo.Color>(), names_l,
+					"", "", false,
 					14, 8, "my title");
 		else {
 			List<List<PointF>> pointSecondary_ll = new List<List<PointF>>();
@@ -3580,6 +3589,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 			cb.GraphDo (dataB_l, pointSecondary_ll, false,
 					colorMain_l, colorSecondary_l, names_l,
+					"Ecc", "Con", true,
 					14, 8, "my title");
 		}
 	}

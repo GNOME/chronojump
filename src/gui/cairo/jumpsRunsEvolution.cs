@@ -16,7 +16,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com>
+ *  Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -42,6 +42,7 @@ public abstract class EvolutionGraph : CairoXY
 		plotRealPoints(PlotTypes.POINTS);
 
 		writeTitle();
+		addClickableMark(g);
 
 		endGraphDisposing(g, surface, area.GdkWindow);
 	}

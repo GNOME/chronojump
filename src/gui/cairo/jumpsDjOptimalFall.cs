@@ -16,7 +16,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  *  Copyright (C) 2004-2020   Jordi Rodeiro <jordirodeiro@gmail.com> 
  */
 
@@ -102,6 +102,7 @@ public class JumpsDjOptimalFallGraph : CairoXY
 			writeTextNeed3PointsWithDifferentFall();
 		}
 		writeTitle();
+		addClickableMark(g);
 
 		endGraphDisposing(g, surface, area.GdkWindow);
 	}

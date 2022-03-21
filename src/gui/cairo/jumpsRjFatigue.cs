@@ -98,6 +98,7 @@ public class JumpsRjFatigueGraph : CairoXY
 		plotRealPoints(PlotTypes.POINTSLINES);
 
 		writeTitle();
+		addClickableMark(g);
 
 		endGraphDisposing(g, surface, area.GdkWindow);
 	}

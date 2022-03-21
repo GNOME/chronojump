@@ -119,7 +119,7 @@ public partial class ChronoJumpWindow
 	private void on_drawingarea_jumps_dj_optimal_fall_button_press_event (object o, ButtonPressEventArgs args)
 	{
 		//if there is no data and nothing to show, nothing to press, and also this is null
-		if(jumpsDjOptimalFallGraph == null)
+		if(jumpsDjOptimalFallGraph == null || jumpsDjOptimalFall.Point_l.Count == 0)
 			return;
 
 		LogB.Information("Button press done!");

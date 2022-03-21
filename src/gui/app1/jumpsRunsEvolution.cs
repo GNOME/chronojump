@@ -143,7 +143,8 @@ public partial class ChronoJumpWindow
 	private void on_drawingarea_jumps_evolution_button_press_event (object o, ButtonPressEventArgs args)
 	{
 		//if there is no data and nothing to show, nothing to press, and also this is null
-		if(jumpsEvolutionGraph == null)
+		// without jumpsEvolution.Point_l.Count == 0 condition, it will show graph/data on mouse (with data of previous person/graph)
+		if(jumpsEvolutionGraph == null || jumpsEvolution.Point_l.Count == 0)
 			return;
 
 		LogB.Information("Button press done!");
@@ -363,7 +364,8 @@ public partial class ChronoJumpWindow
 	private void on_drawingarea_runs_evolution_button_press_event (object o, ButtonPressEventArgs args)
 	{
 		//if there is no data and nothing to show, nothing to press, and also this is null
-		if(runsEvolutionGraph == null)
+		// without runsEvolution.Point_l.Count == 0 condition, it will show graph/data on mouse (with data of previous person/graph)
+		if(runsEvolutionGraph == null | runsEvolution.Point_l.Count == 0)
 			return;
 
 		LogB.Information("Button press done!");

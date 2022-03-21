@@ -521,6 +521,7 @@ RESOURCES = \
 	../images/md/ic_group_add_blue_1x.png,image_group_add.png \
 	../images/md/p_outline_blue_1x.png,image_person_outline.png \
 	../images/md/image_group_outline.png,image_group_outline.png \
+	../images/md/outline_mouse_black_18dp.png,mouse.png \
 	../images/md/ic_weekend_blue_1x.png,image_rest.png \
 	../images/md/ic_weekend_blue_inactive_1x.png,image_rest_inactive.png \
 	../images/md/ic_weekend_yellow_1x.png,image_rest_yellow.png \

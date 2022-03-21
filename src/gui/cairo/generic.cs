@@ -16,7 +16,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -322,6 +322,15 @@ public abstract class CairoGeneric
 		// 4) end
 		g.Stroke ();
 		g.SetSourceRGB(0,0,0);
+	}
+
+	protected void addClickableMark (Cairo.Context g)
+	{
+		Gdk.Pixbuf pixbuf = new Gdk.Pixbuf (null, Util.GetImagePath(false) + "mouse.png"); //18px
+		Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf,
+				graphWidth -rightMargin -18,// -4,
+				graphHeight - bottomMargin -18 -4);
+		g.Paint();
 	}
 
 	/*

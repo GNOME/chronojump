@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2017   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -106,7 +106,7 @@ public class TreeViewRuns : TreeViewEvent
 		myData[count++]	= Util.TrimDecimals(newRun.Distance.ToString(), pDN) + distanceUnits;
 
 		myData[count++] = Util.TrimDecimals(newRun.Time.ToString(), pDN);
-		myData[count++] = newRun.Datetime;
+		myData[count++] = UtilDate.GetDatetimePrint(UtilDate.FromFile(newRun.Datetime));
 		myData[count++] = newRun.Description;
 		myData[count++] = newRun.UniqueID.ToString();
 		return myData;
@@ -184,7 +184,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 		myData[count++] = "";		//speed
 		myData[count++] = "";		//lapTime 
 		myData[count++] = "";		//splitTime
-		myData[count++] = newRunI.Datetime;		//datetime
+		myData[count++] = UtilDate.GetDatetimePrint(UtilDate.FromFile(newRunI.Datetime));
 		myData[count++] = newRunI.Description;
 		myData[count++] = newRunI.UniqueID.ToString();
 		return myData;

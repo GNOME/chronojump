@@ -24,9 +24,9 @@ using Gdk;
 using Glade;
 using Mono.Unix;
 
-public class RepetitiveConditionsWindow 
+public class FeedbackWindow 
 {
-	[Widget] Gtk.Window repetitive_conditions;
+	[Widget] Gtk.Window feedback;
 	[Widget] Gtk.Notebook notebook_main;
 	//[Widget] Gtk.ScrolledWindow scrolled_conditions;
 
@@ -213,19 +213,19 @@ public class RepetitiveConditionsWindow
 	private double bestSetValueAutomaticFeedback;
 	private bool update_checkbuttons_encoder_automatic;
 	
-	static RepetitiveConditionsWindow RepetitiveConditionsWindowBox;
+	static FeedbackWindow FeedbackWindowBox;
 		
-	RepetitiveConditionsWindow ()
+	FeedbackWindow ()
 	{
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "repetitive_conditions.glade", "repetitive_conditions", "chronojump");
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "feedback.glade", "feedback", "chronojump");
 		gladeXML.Autoconnect(this);
 		
 		//don't show until View is called
-		repetitive_conditions.Hide ();
+		feedback.Hide ();
 
 		//put an icon to window
-		UtilGtk.IconWindow(repetitive_conditions);
+		UtilGtk.IconWindow(feedback);
 		
 		FakeButtonClose = new Gtk.Button();
 		
@@ -241,26 +241,26 @@ public class RepetitiveConditionsWindow
 		label_rhythm_tab.Text = Catalog.GetString("Rhythm") + " / " + Catalog.GetString("Protocol");
 	}
 
-	static public RepetitiveConditionsWindow Create ()
+	static public FeedbackWindow Create ()
 	{
-		if (RepetitiveConditionsWindowBox == null) {
-			RepetitiveConditionsWindowBox = new RepetitiveConditionsWindow (); 
+		if (FeedbackWindowBox == null) {
+			FeedbackWindowBox = new FeedbackWindow (); 
 		}
 	
 		//don't show until View is called
-		//RepetitiveConditionsWindowBox.repetitive_conditions.Hide ();
+		//FeedbackWindowBox.feedback.Hide ();
 		
-		return RepetitiveConditionsWindowBox;
+		return FeedbackWindowBox;
 	}
 
 	public void View (Constants.BellModes bellMode, Preferences preferences, EncoderRhythm encoderRhythm, bool viewWindow)
 	{
 		//when user "deleted_event" the window
-		if (RepetitiveConditionsWindowBox == null) {
-			RepetitiveConditionsWindowBox = new RepetitiveConditionsWindow (); 
+		if (FeedbackWindowBox == null) {
+			FeedbackWindowBox = new FeedbackWindow (); 
 		}
-		RepetitiveConditionsWindowBox.update_checkbuttons_encoder_automatic = true;
-		RepetitiveConditionsWindowBox.showWidgets(bellMode,
+		FeedbackWindowBox.update_checkbuttons_encoder_automatic = true;
+		FeedbackWindowBox.showWidgets(bellMode,
 				preferences.encoderCaptureMainVariable, preferences.encoderCaptureSecondaryVariable,
 				preferences.encoderCaptureSecondaryVariableShow,
 				preferences.encoderCaptureInertialEccOverloadMode,
@@ -286,13 +286,13 @@ public class RepetitiveConditionsWindow
 		{
 			//manage window color
 			if(! Config.UseSystemColor)
-				UtilGtk.WindowColor(RepetitiveConditionsWindowBox.repetitive_conditions, Config.ColorBackground);
+				UtilGtk.WindowColor(FeedbackWindowBox.feedback, Config.ColorBackground);
 
-			RepetitiveConditionsWindowBox.repetitive_conditions.Show ();
+			FeedbackWindowBox.feedback.Show ();
 		}
 
-		RepetitiveConditionsWindowBox.volumeOn = preferences.volumeOn;
-		RepetitiveConditionsWindowBox.gstreamer = preferences.gstreamer;
+		FeedbackWindowBox.volumeOn = preferences.volumeOn;
+		FeedbackWindowBox.gstreamer = preferences.gstreamer;
 	}
 
 	void showWidgets(Constants.BellModes bellMode,
@@ -575,15 +575,15 @@ public class RepetitiveConditionsWindow
 
 	void on_button_close_clicked (object o, EventArgs args)
 	{
-		RepetitiveConditionsWindowBox.repetitive_conditions.Hide();
+		FeedbackWindowBox.feedback.Hide();
 		FakeButtonClose.Click();
-		//RepetitiveConditionsWindowBox = null;
+		//FeedbackWindowBox = null;
 	}
 
 	void on_delete_event (object o, DeleteEventArgs args)
 	{
-		//RepetitiveConditionsWindowBox.repetitive_conditions.Hide();
-		//RepetitiveConditionsWindowBox = null;
+		//FeedbackWindowBox.feedback.Hide();
+		//FeedbackWindowBox = null;
 		
 		button_close.Click();
 		args.RetVal = true;

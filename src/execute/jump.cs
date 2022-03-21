@@ -565,7 +565,7 @@ public class JumpRjExecute : JumpExecute
 			double limitAsDouble, bool jumpsLimited, 
 			Chronopic cp, int pDN, bool allowFinishAfterTime,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
-			RepetitiveConditionsWindow repetitiveConditionsWin,
+			FeedbackWindow feedbackWin,
 			double progressbarLimit, ExecutingGraphData egd
 			)
 	{
@@ -593,7 +593,7 @@ public class JumpRjExecute : JumpExecute
 		this.allowFinishAfterTime = allowFinishAfterTime;
 		this.volumeOn = volumeOn;
 		this.gstreamer = gstreamer;
-		this.repetitiveConditionsWin = repetitiveConditionsWin;
+		this.feedbackWin = feedbackWin;
 		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
 	

@@ -93,7 +93,7 @@ SOURCES = \
 	gui/dialogPersonPopup.cs\
 	gui/dialogShortcuts.cs\
 	gui/dialogThreshold.cs\
-	gui/repetitiveConditions.cs\
+	gui/feedback.cs\
 	gui/convertWeight.cs\
 	gui/genericWindow.cs\
 	gui/server.cs\
@@ -320,7 +320,7 @@ RESOURCES = \
 	../glade/preferences_win.glade \
 	../glade/query_server_window.glade \
 	../glade/repair_sub_event.glade \
-	../glade/repetitive_conditions.glade \
+	../glade/feedback.glade \
 	../glade/report_window.glade \
 	../glade/run_type_add.glade \
 	../glade/session_upload.glade \

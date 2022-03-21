@@ -41,7 +41,7 @@ public class EncoderGraphDoPlot
 	private bool showLoss;
 	private bool capturing;
 	private string eccon;
-	private RepetitiveConditionsWindow repetitiveConditionsWin;
+	private FeedbackWindow feedbackWin;
 	private bool hasInertia;
 	private bool playSoundsFromFile;
 	private ArrayList data9Variables;
@@ -147,7 +147,7 @@ public class EncoderGraphDoPlot
 			string mainVariable, double mainVariableHigher, double mainVariableLower,
 			string secondaryVariable, bool showLoss,
 			bool capturing, string eccon,
-			RepetitiveConditionsWindow repetitiveConditionsWin,
+			FeedbackWindow feedbackWin,
 			bool hasInertia, bool playSoundsFromFile,
 			ArrayList data9Variables, Gtk.ListStore encoderCaptureListStore,
 			bool relativeToSet,
@@ -160,7 +160,7 @@ public class EncoderGraphDoPlot
 		this.showLoss = showLoss;
 		this.capturing = capturing;
 		this.eccon = eccon;
-		this.repetitiveConditionsWin = repetitiveConditionsWin;
+		this.feedbackWin = feedbackWin;
 		this.hasInertia = hasInertia;
 		this.playSoundsFromFile = playSoundsFromFile;
 		this.data9Variables = data9Variables;
@@ -457,9 +457,9 @@ public class EncoderGraphDoPlot
 			if(d > maxAbsoluteSecondary)
 				maxAbsoluteSecondary = d;
 
-		repetitiveConditionsWin.ResetBestSetValue(RepetitiveConditionsWindow.BestSetValueEnum.CAPTURE_MAIN_VARIABLE);
-		repetitiveConditionsWin.UpdateBestSetValue(
-				RepetitiveConditionsWindow.BestSetValueEnum.CAPTURE_MAIN_VARIABLE, maxAbsoluteForCalc);
+		feedbackWin.ResetBestSetValue(FeedbackWindow.BestSetValueEnum.CAPTURE_MAIN_VARIABLE);
+		feedbackWin.UpdateBestSetValue(
+				FeedbackWindow.BestSetValueEnum.CAPTURE_MAIN_VARIABLE, maxAbsoluteForCalc);
 
 		int textWidth = 1;
 		int textHeight = 1;
@@ -643,8 +643,8 @@ public class EncoderGraphDoPlot
 			}
 
 			//select pen color for bars and sounds
-			string myColor = repetitiveConditionsWin.AssignColorAutomatic(
-					RepetitiveConditionsWindow.BestSetValueEnum.CAPTURE_MAIN_VARIABLE, d, phaseEnum);
+			string myColor = feedbackWin.AssignColorAutomatic(
+					FeedbackWindow.BestSetValueEnum.CAPTURE_MAIN_VARIABLE, d, phaseEnum);
 
 			bool discarded = false;
 			if(hasInertia) {
@@ -822,7 +822,7 @@ public class EncoderGraphDoPlot
 
 
 			//paint secondary variable circle and lines
-			//but do not do it if user do not want to show it from repetitiveConditionsWindow
+			//but do not do it if user do not want to show it from feedbackWindow
 			if(dataSecondary.Count > 0)
 			{
 				double dSecondary = Convert.ToDouble(dataSecondary[count]);

@@ -679,7 +679,7 @@ public partial class ChronoJumpWindow
 	
 	private void on_button_encoder_bells_clicked(object o, EventArgs args)
 	{
-		repetitiveConditionsWin.View(getBellMode(current_mode), preferences, encoderRhythm, true);
+		feedbackWin.View(getBellMode(current_mode), preferences, encoderRhythm, true);
 	}
 
 	/*
@@ -1806,7 +1806,7 @@ public partial class ChronoJumpWindow
 				 * maxPowerIntersession it's defined (Sqlite select) on capture and after capture
 				 * if we have not captured yet, just Sqlite select now
 				 */
-				if(! repetitiveConditionsWin.EncoderRelativeToSet)
+				if(! feedbackWin.EncoderRelativeToSet)
 					findMaxPowerSpeedForceIntersession();
 
 				spin_encoder_extra_weight.Value = Convert.ToDouble(Util.ChangeDecimalSeparator(eSQL.extraWeight));
@@ -5877,8 +5877,8 @@ public partial class ChronoJumpWindow
 			string secondaryVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureSecondaryVariable);
 			if(! preferences.encoderCaptureSecondaryVariableShow)
 				secondaryVariable = "";
-			double mainVariableHigher = repetitiveConditionsWin.GetMainVariableHigher(mainVariable);
-			double mainVariableLower = repetitiveConditionsWin.GetMainVariableLower(mainVariable);
+			double mainVariableHigher = feedbackWin.GetMainVariableHigher(mainVariable);
+			double mainVariableLower = feedbackWin.GetMainVariableLower(mainVariable);
 
 			if(encoderGraphDoPlot != null)
 				encoderGraphDoPlot.Start(
@@ -5886,7 +5886,7 @@ public partial class ChronoJumpWindow
 						secondaryVariable, preferences.encoderCaptureShowLoss,
 						false, //not capturing
 						findEccon(true),
-						repetitiveConditionsWin,
+						feedbackWin,
 						encoderConfigurationCurrent.has_inertia,
 						configChronojump.PlaySoundsFromFile,
 						captureCurvesBarsData,
@@ -5901,7 +5901,7 @@ public partial class ChronoJumpWindow
 						secondaryVariable, preferences.encoderCaptureShowLoss,
 						false, //not capturing
 						findEccon(true),
-						repetitiveConditionsWin,
+						feedbackWin,
 						encoderConfigurationCurrent.has_inertia,
 						configChronojump.PlaySoundsFromFile,
 						captureCurvesBarsData,
@@ -6759,8 +6759,8 @@ public partial class ChronoJumpWindow
 
 				//if(plotCurvesBars) {
 				string mainVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable);
-				double mainVariableHigher = repetitiveConditionsWin.GetMainVariableHigher(mainVariable);
-				double mainVariableLower = repetitiveConditionsWin.GetMainVariableLower(mainVariable);
+				double mainVariableHigher = feedbackWin.GetMainVariableHigher(mainVariable);
+				double mainVariableLower = feedbackWin.GetMainVariableLower(mainVariable);
 				string secondaryVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureSecondaryVariable);
 				if(! preferences.encoderCaptureSecondaryVariableShow)
 					secondaryVariable = "";
@@ -6776,7 +6776,7 @@ public partial class ChronoJumpWindow
 							secondaryVariable, preferences.encoderCaptureShowLoss,
 							true, //capturing
 							findEccon(true),
-							repetitiveConditionsWin,
+							feedbackWin,
 							encoderConfigurationCurrent.has_inertia,
 							configChronojump.PlaySoundsFromFile,
 							captureCurvesBarsData,
@@ -6791,7 +6791,7 @@ public partial class ChronoJumpWindow
 							secondaryVariable, preferences.encoderCaptureShowLoss,
 							true, //capturing
 							findEccon(true),
-							repetitiveConditionsWin,
+							feedbackWin,
 							encoderConfigurationCurrent.has_inertia,
 							configChronojump.PlaySoundsFromFile,
 							captureCurvesBarsData,
@@ -7330,8 +7330,8 @@ public partial class ChronoJumpWindow
 
 				//variables for plotting curves bars graph
 				string mainVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureMainVariable);
-				double mainVariableHigher = repetitiveConditionsWin.GetMainVariableHigher(mainVariable);
-				double mainVariableLower = repetitiveConditionsWin.GetMainVariableLower(mainVariable);
+				double mainVariableHigher = feedbackWin.GetMainVariableHigher(mainVariable);
+				double mainVariableLower = feedbackWin.GetMainVariableLower(mainVariable);
 				string secondaryVariable = Constants.GetEncoderVariablesCapture(preferences.encoderCaptureSecondaryVariable);
 				if(! preferences.encoderCaptureSecondaryVariableShow)
 					secondaryVariable = "";
@@ -7378,7 +7378,7 @@ public partial class ChronoJumpWindow
 							secondaryVariable, preferences.encoderCaptureShowLoss,
 							false, //not capturing
 							findEccon(true),
-							repetitiveConditionsWin,
+							feedbackWin,
 							encoderConfigurationCurrent.has_inertia,
 							configChronojump.PlaySoundsFromFile,
 							captureCurvesBarsData,
@@ -7393,7 +7393,7 @@ public partial class ChronoJumpWindow
 							secondaryVariable, preferences.encoderCaptureShowLoss,
 							false, //not capturing
 							findEccon(true),
-							repetitiveConditionsWin,
+							feedbackWin,
 							encoderConfigurationCurrent.has_inertia,
 							configChronojump.PlaySoundsFromFile,
 							captureCurvesBarsData,
@@ -7825,7 +7825,7 @@ public partial class ChronoJumpWindow
 	 * mark their rows (meaning saved)
 	 * also if updateSQLRecords, then update SQL meanPower of the curve
 	 *
-	 * This method is called by on_repetitive_conditions_closed, and finishPulsebar
+	 * This method is called by on_feedback_closed, and finishPulsebar
 	 */
 	private void findAndMarkSavedCurves(bool dbconOpened, bool updateSQLRecords) 
 	{

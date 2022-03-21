@@ -83,7 +83,7 @@ public class EventExecute
 	protected bool graphAllTypes;
 	protected bool graphAllPersons;
 	protected double progressbarLimit;
-	protected RepetitiveConditionsWindow repetitiveConditionsWin;
+	protected FeedbackWindow feedbackWin;
 
 	protected ExecutingGraphData egd;
 	protected Gdk.Color colorBackground;

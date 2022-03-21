@@ -155,7 +155,7 @@ public partial class ChronoJumpWindow
 
 		encoderCaptureListStore = new Gtk.ListStore (typeof (EncoderCurve));
 		
-		repetitiveConditionsWin.ResetBestSetValue(RepetitiveConditionsWindow.BestSetValueEnum.AUTOMATIC_FEEDBACK);
+		feedbackWin.ResetBestSetValue(FeedbackWindow.BestSetValueEnum.AUTOMATIC_FEEDBACK);
 		bool eccPhase = true;
 		foreach (EncoderCurve curve in encoderCaptureCurves)
 		{
@@ -165,7 +165,7 @@ public partial class ChronoJumpWindow
 					preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.BOTH ||
 					preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.ECC && eccPhase ||
 					preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.CON && ! eccPhase )
-				repetitiveConditionsWin.UpdateBestSetValue(curve);
+				feedbackWin.UpdateBestSetValue(curve);
 
 			eccPhase = ! eccPhase;
 		}
@@ -750,7 +750,7 @@ public partial class ChronoJumpWindow
 
 		encoderAnalyzeListStore = new Gtk.ListStore (typeof (EncoderCurve));
 	
-		repetitiveConditionsWin.ResetBestSetValue(RepetitiveConditionsWindow.BestSetValueEnum.AUTOMATIC_FEEDBACK);
+		feedbackWin.ResetBestSetValue(FeedbackWindow.BestSetValueEnum.AUTOMATIC_FEEDBACK);
 		bool eccPhase = true;
 		foreach (EncoderCurve curve in encoderAnalyzeCurves)
 		{
@@ -760,7 +760,7 @@ public partial class ChronoJumpWindow
 					preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.BOTH ||
 					preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.ECC && eccPhase ||
 					preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.CON && ! eccPhase )
-				repetitiveConditionsWin.UpdateBestSetValue(curve);
+				feedbackWin.UpdateBestSetValue(curve);
 
 			eccPhase = ! eccPhase;
 		}
@@ -1242,10 +1242,10 @@ public partial class ChronoJumpWindow
 		else {
 			string myColor = assignColor(
 					Convert.ToDouble(heightToCm),
-					repetitiveConditionsWin.EncoderHeightHigher,
-					repetitiveConditionsWin.EncoderHeightLower,
-					repetitiveConditionsWin.EncoderHeightHigherValue,
-					repetitiveConditionsWin.EncoderHeightLowerValue);
+					feedbackWin.EncoderHeightHigher,
+					feedbackWin.EncoderHeightLower,
+					feedbackWin.EncoderHeightHigherValue,
+					feedbackWin.EncoderHeightLowerValue);
 			if(myColor != "")
 				(cell as Gtk.CellRendererText).Foreground = myColor;
 			else
@@ -1264,17 +1264,17 @@ public partial class ChronoJumpWindow
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
 		else {
 			Preferences.EncoderPhasesEnum phaseEnum = getEncoderCurvePhaseEnum(curve);
-			string myColor = repetitiveConditionsWin.AssignColorAutomatic(
-					RepetitiveConditionsWindow.BestSetValueEnum.AUTOMATIC_FEEDBACK,
+			string myColor = feedbackWin.AssignColorAutomatic(
+					FeedbackWindow.BestSetValueEnum.AUTOMATIC_FEEDBACK,
 					curve, Constants.MeanSpeed, phaseEnum);
 
 			if(myColor == "")
 				myColor = assignColor(
 						curve.MeanSpeedD,
-						repetitiveConditionsWin.EncoderMeanSpeedHigher,
-						repetitiveConditionsWin.EncoderMeanSpeedLower,
-						repetitiveConditionsWin.EncoderMeanSpeedHigherValue,
-						repetitiveConditionsWin.EncoderMeanSpeedLowerValue);
+						feedbackWin.EncoderMeanSpeedHigher,
+						feedbackWin.EncoderMeanSpeedLower,
+						feedbackWin.EncoderMeanSpeedHigherValue,
+						feedbackWin.EncoderMeanSpeedLowerValue);
 			if(myColor != "")
 				(cell as Gtk.CellRendererText).Foreground = myColor;
 			else
@@ -1294,17 +1294,17 @@ public partial class ChronoJumpWindow
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
 		else {
 			Preferences.EncoderPhasesEnum phaseEnum = getEncoderCurvePhaseEnum(curve);
-			string myColor = repetitiveConditionsWin.AssignColorAutomatic(
-					RepetitiveConditionsWindow.BestSetValueEnum.AUTOMATIC_FEEDBACK,
+			string myColor = feedbackWin.AssignColorAutomatic(
+					FeedbackWindow.BestSetValueEnum.AUTOMATIC_FEEDBACK,
 					curve, Constants.MaxSpeed, phaseEnum);
 
 			if(myColor == "")
 				myColor = assignColor(
 						curve.MaxSpeedD,
-						repetitiveConditionsWin.EncoderMaxSpeedHigher,
-						repetitiveConditionsWin.EncoderMaxSpeedLower,
-						repetitiveConditionsWin.EncoderMaxSpeedHigherValue,
-						repetitiveConditionsWin.EncoderMaxSpeedLowerValue);
+						feedbackWin.EncoderMaxSpeedHigher,
+						feedbackWin.EncoderMaxSpeedLower,
+						feedbackWin.EncoderMaxSpeedHigherValue,
+						feedbackWin.EncoderMaxSpeedLowerValue);
 			if(myColor != "")
 				(cell as Gtk.CellRendererText).Foreground = myColor;
 			else
@@ -1332,17 +1332,17 @@ public partial class ChronoJumpWindow
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
 		else {
 			Preferences.EncoderPhasesEnum phaseEnum = getEncoderCurvePhaseEnum(curve);
-			string myColor = repetitiveConditionsWin.AssignColorAutomatic(
-					RepetitiveConditionsWindow.BestSetValueEnum.AUTOMATIC_FEEDBACK,
+			string myColor = feedbackWin.AssignColorAutomatic(
+					FeedbackWindow.BestSetValueEnum.AUTOMATIC_FEEDBACK,
 					curve, Constants.MeanPower, phaseEnum);
 
 			if(myColor == "")
 				myColor = assignColor(
 						curve.MeanPowerD,
-						repetitiveConditionsWin.EncoderPowerHigher,
-						repetitiveConditionsWin.EncoderPowerLower,
-						repetitiveConditionsWin.EncoderPowerHigherValue,
-						repetitiveConditionsWin.EncoderPowerLowerValue);
+						feedbackWin.EncoderPowerHigher,
+						feedbackWin.EncoderPowerLower,
+						feedbackWin.EncoderPowerHigherValue,
+						feedbackWin.EncoderPowerLowerValue);
 			if(myColor != "")
 				(cell as Gtk.CellRendererText).Foreground = myColor;
 			else
@@ -1361,17 +1361,17 @@ public partial class ChronoJumpWindow
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
 		else {
 			Preferences.EncoderPhasesEnum phaseEnum = getEncoderCurvePhaseEnum(curve);
-			string myColor = repetitiveConditionsWin.AssignColorAutomatic(
-					RepetitiveConditionsWindow.BestSetValueEnum.AUTOMATIC_FEEDBACK,
+			string myColor = feedbackWin.AssignColorAutomatic(
+					FeedbackWindow.BestSetValueEnum.AUTOMATIC_FEEDBACK,
 					curve, Constants.PeakPower, phaseEnum);
 
 			if(myColor == "")
 				myColor = assignColor(
 						curve.PeakPowerD,
-						repetitiveConditionsWin.EncoderPeakPowerHigher,
-						repetitiveConditionsWin.EncoderPeakPowerLower,
-						repetitiveConditionsWin.EncoderPeakPowerHigherValue,
-						repetitiveConditionsWin.EncoderPeakPowerLowerValue);
+						feedbackWin.EncoderPeakPowerHigher,
+						feedbackWin.EncoderPeakPowerLower,
+						feedbackWin.EncoderPeakPowerHigherValue,
+						feedbackWin.EncoderPeakPowerLowerValue);
 			if(myColor != "")
 				(cell as Gtk.CellRendererText).Foreground = myColor;
 			else
@@ -1407,17 +1407,17 @@ public partial class ChronoJumpWindow
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
 		else {
 			Preferences.EncoderPhasesEnum phaseEnum = getEncoderCurvePhaseEnum(curve);
-			string myColor = repetitiveConditionsWin.AssignColorAutomatic(
-					RepetitiveConditionsWindow.BestSetValueEnum.AUTOMATIC_FEEDBACK,
+			string myColor = feedbackWin.AssignColorAutomatic(
+					FeedbackWindow.BestSetValueEnum.AUTOMATIC_FEEDBACK,
 					curve, Constants.MeanForce, phaseEnum);
 
 			if(myColor == "")
 				myColor = assignColor(
 						curve.MeanForceD,
-						repetitiveConditionsWin.EncoderMeanForceHigher,
-						repetitiveConditionsWin.EncoderMeanForceLower,
-						repetitiveConditionsWin.EncoderMeanForceHigherValue,
-						repetitiveConditionsWin.EncoderMeanForceLowerValue);
+						feedbackWin.EncoderMeanForceHigher,
+						feedbackWin.EncoderMeanForceLower,
+						feedbackWin.EncoderMeanForceHigherValue,
+						feedbackWin.EncoderMeanForceLowerValue);
 			if(myColor != "")
 				(cell as Gtk.CellRendererText).Foreground = myColor;
 			else
@@ -1436,17 +1436,17 @@ public partial class ChronoJumpWindow
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
 		else {
 			Preferences.EncoderPhasesEnum phaseEnum = getEncoderCurvePhaseEnum(curve);
-			string myColor = repetitiveConditionsWin.AssignColorAutomatic(
-					RepetitiveConditionsWindow.BestSetValueEnum.AUTOMATIC_FEEDBACK,
+			string myColor = feedbackWin.AssignColorAutomatic(
+					FeedbackWindow.BestSetValueEnum.AUTOMATIC_FEEDBACK,
 					curve, Constants.MaxForce, phaseEnum);
 
 			if(myColor == "")
 				myColor = assignColor(
 						curve.MaxForceD,
-						repetitiveConditionsWin.EncoderMaxForceHigher,
-						repetitiveConditionsWin.EncoderMaxForceLower,
-						repetitiveConditionsWin.EncoderMaxForceHigherValue,
-						repetitiveConditionsWin.EncoderMaxForceLowerValue);
+						feedbackWin.EncoderMaxForceHigher,
+						feedbackWin.EncoderMaxForceLower,
+						feedbackWin.EncoderMaxForceHigherValue,
+						feedbackWin.EncoderMaxForceLowerValue);
 			if(myColor != "")
 				(cell as Gtk.CellRendererText).Foreground = myColor;
 			else

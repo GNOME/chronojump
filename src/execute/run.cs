@@ -913,7 +913,7 @@ public class RunIntervalExecute : RunExecute
 			string wirelessPort, int wirelessBauds,
 			int pDN, bool metersSecondsPreferred,
 			bool volumeOn, Preferences.GstreamerTypes gstreamer,
-			RepetitiveConditionsWindow repetitiveConditionsWin,
+			FeedbackWindow feedbackWin,
 			double progressbarLimit, ExecutingGraphData egd ,
 			Constants.DoubleContact checkDoubleContactMode, int checkDoubleContactTime, 
 			bool speedStartArrival, bool measureReactionTime,
@@ -956,7 +956,7 @@ public class RunIntervalExecute : RunExecute
 		this.pDN = pDN;
 		this.volumeOn = volumeOn;
 		this.gstreamer = gstreamer;
-		this.repetitiveConditionsWin = repetitiveConditionsWin;
+		this.feedbackWin = feedbackWin;
 		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
 		this.checkDoubleContactMode = checkDoubleContactMode;

@@ -499,14 +499,14 @@ public partial class ChronoJumpWindow
 							currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.tcString,
 							currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.type,
 							currentPerson.Name,
-							preferences.volumeOn, preferences.gstreamer, repetitiveConditionsWin);
+							preferences.volumeOn, preferences.gstreamer, feedbackWin);
 
 			}
 			else if(selectedJumpRj != null)
 				PrepareJumpReactiveRealtimeCaptureGraph (selectedJumpRj.tvLast, selectedJumpRj.tcLast,
 						selectedJumpRj.TvString, selectedJumpRj.TcString,
 						selectedJumpRj.Type, selectedJumpRj.Description, //Description is person.Name
-						preferences.volumeOn, preferences.gstreamer, repetitiveConditionsWin);
+						preferences.volumeOn, preferences.gstreamer, feedbackWin);
 		} else if (current_mode == Constants.Modes.RUNSINTERVALLIC)
 		{
 			if(currentEventExecute != null && currentEventExecute.IsThreadRunning())
@@ -669,7 +669,7 @@ public partial class ChronoJumpWindow
 
 	public void PrepareJumpReactiveRealtimeCaptureGraph (double lastTv, double lastTc, string tvString, string tcString,
 			string type, string personName,
-			bool volumeOn, Preferences.GstreamerTypes gstreamer, RepetitiveConditionsWindow repetitiveConditionsWin)
+			bool volumeOn, Preferences.GstreamerTypes gstreamer, FeedbackWindow feedbackWin)
 	{
 		if(currentPerson == null)
 			return;
@@ -1865,7 +1865,7 @@ public partial class ChronoJumpWindow
 							currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.tcString,
 							currentEventExecute.PrepareEventGraphJumpReactiveRealtimeCaptureObject.type,
 							currentPerson.Name,
-							preferences.volumeOn, preferences.gstreamer, repetitiveConditionsWin);
+							preferences.volumeOn, preferences.gstreamer, feedbackWin);
 				}
 				break;
 			case EventType.Types.RUN:
@@ -3463,8 +3463,8 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 			}
 
 			//select pen color for bars and sounds
-			string myColor = pegbe.repetitiveConditionsWin.AssignColorAutomatic(
-					RepetitiveConditionsWindow.BestSetValueEnum.CAPTURE_MAIN_VARIABLE, ebd.GetValue(pegbe.mainVariable), phaseEnum);
+			string myColor = pegbe.feedbackWin.AssignColorAutomatic(
+					FeedbackWindow.BestSetValueEnum.CAPTURE_MAIN_VARIABLE, ebd.GetValue(pegbe.mainVariable), phaseEnum);
 
 			bool discarded = false;
 			if(pegbe.hasInertia) {

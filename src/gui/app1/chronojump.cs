@@ -487,7 +487,7 @@ public partial class ChronoJumpWindow
 	
 	ConfirmWindowJumpRun confirmWinJumpRun;	//for deleting jumps and RJ jumps (and runs)
 	ReportWindow reportWin;
-	RepetitiveConditionsWindow repetitiveConditionsWin;
+	FeedbackWindow feedbackWin;
 	GenericWindow genericWin;
 		
 	ExecuteAutoWindow executeAutoWin;
@@ -682,11 +682,11 @@ public partial class ChronoJumpWindow
 
 		createComboSessionLoadTags(true);
 
-		repetitiveConditionsWin = RepetitiveConditionsWindow.Create();
-		//to have objects ok to be able to be readed before viewing the repetitiveConditionsWin
-		repetitiveConditionsWin.View(Constants.BellModes.ENCODERGRAVITATORY, preferences, encoderRhythm, false); //not viewWindow
-		repetitiveConditionsWin.View(Constants.BellModes.FORCESENSOR, preferences, encoderRhythm, false); //not viewWindow
-		repetitiveConditionsWin.FakeButtonClose.Clicked += new EventHandler(on_repetitive_conditions_closed);
+		feedbackWin = FeedbackWindow.Create();
+		//to have objects ok to be able to be readed before viewing the feedbackWin
+		feedbackWin.View(Constants.BellModes.ENCODERGRAVITATORY, preferences, encoderRhythm, false); //not viewWindow
+		feedbackWin.View(Constants.BellModes.FORCESENSOR, preferences, encoderRhythm, false); //not viewWindow
+		feedbackWin.FakeButtonClose.Clicked += new EventHandler(on_feedback_closed);
 
 		on_extra_window_multichronopic_test_changed(new object(), new EventArgs());
 		on_extra_window_pulses_test_changed(new object(), new EventArgs());
@@ -1680,7 +1680,7 @@ public partial class ChronoJumpWindow
 		PrepareJumpReactiveRealtimeCaptureGraph (selectedJumpRj.tvLast, selectedJumpRj.tcLast,
 				selectedJumpRj.TvString, selectedJumpRj.TcString,
 				selectedJumpRj.Type, selectedJumpRj.Description, //Description is personName
-				preferences.volumeOn, preferences.gstreamer, repetitiveConditionsWin);
+				preferences.volumeOn, preferences.gstreamer, feedbackWin);
 	}
 
 	private void treeviewJumpsRjContextMenu(JumpRj myJump) {
@@ -3278,10 +3278,10 @@ public partial class ChronoJumpWindow
 
 		configInitFromPreferences();
 
-		if(repetitiveConditionsWin != null)
+		if(feedbackWin != null)
 		{
-			repetitiveConditionsWin.VolumeOn = preferences.volumeOn;
-			repetitiveConditionsWin.Gstreamer = preferences.gstreamer;
+			feedbackWin.VolumeOn = preferences.volumeOn;
+			feedbackWin.Gstreamer = preferences.gstreamer;
 		}
 
 		try {
@@ -3975,17 +3975,17 @@ public partial class ChronoJumpWindow
 		Pixbuf pixbufBellInactive = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_none.png");
 		if(
 				( (m == Constants.Modes.JUMPSSIMPLE || m == Constants.Modes.JUMPSREACTIVE) &&
-				  repetitiveConditionsWin.FeedbackActive(Constants.BellModes.JUMPS)) ||
+				  feedbackWin.FeedbackActive(Constants.BellModes.JUMPS)) ||
 				( (m == Constants.Modes.RUNSSIMPLE || m == Constants.Modes.RUNSINTERVALLIC) &&
-				  repetitiveConditionsWin.FeedbackActive(Constants.BellModes.RUNS)) ||
+				  feedbackWin.FeedbackActive(Constants.BellModes.RUNS)) ||
 				( m == Constants.Modes.FORCESENSOR &&
-				  repetitiveConditionsWin.FeedbackActive(Constants.BellModes.FORCESENSOR)) )
+				  feedbackWin.FeedbackActive(Constants.BellModes.FORCESENSOR)) )
 			image_contacts_bell.Pixbuf = pixbufBellActive;
 		else
 			image_contacts_bell.Pixbuf = pixbufBellInactive;
 
 		if( (m == Constants.Modes.POWERGRAVITATORY || m == Constants.Modes.POWERINERTIAL)
-				&&  repetitiveConditionsWin.FeedbackActive(Constants.BellModes.ENCODERGRAVITATORY) )
+				&&  feedbackWin.FeedbackActive(Constants.BellModes.ENCODERGRAVITATORY) )
 			image_encoder_bell.Pixbuf = pixbufBellActive;
 		else
 			image_encoder_bell.Pixbuf = pixbufBellInactive;
@@ -4775,7 +4775,7 @@ public partial class ChronoJumpWindow
 				m != Constants.Modes.FORCESENSOR)
 			return;
 
-		repetitiveConditionsWin.View(getBellMode(m), preferences, encoderRhythm, true);
+		feedbackWin.View(getBellMode(m), preferences, encoderRhythm, true);
 	}
 
 	private void change_notebook_results_data()
@@ -5247,7 +5247,7 @@ public partial class ChronoJumpWindow
 				cp2016.CP, preferences.digitsNumber,
 				checkbutton_allow_finish_rj_after_time.Active,
 				preferences.volumeOn, preferences.gstreamer,
-				repetitiveConditionsWin, progressbarLimit, egd);
+				feedbackWin, progressbarLimit, egd);
 		
 		//suitable for limited by jump and time
 		//simulated always simulate limited by jumps
@@ -5537,7 +5537,7 @@ public partial class ChronoJumpWindow
 				cp2016.CP, photocellWirelessCapture, wirelessPort, wirelessBauds,
 				preferences.digitsNumber, preferences.metersSecondsPreferred,
 				preferences.volumeOn, preferences.gstreamer,
-				repetitiveConditionsWin,
+				feedbackWin,
 				progressbarLimit, egd,
 				preferences.runIDoubleContactsMode,
 				preferences.runIDoubleContactsMS,
@@ -7675,7 +7675,7 @@ LogB.Debug("mc finished 5");
 		new About(progVersion, translator_credits);
 	}
 
-	private void on_repetitive_conditions_closed(object o, EventArgs args)
+	private void on_feedback_closed(object o, EventArgs args)
 	{
 		//update bell color if feedback exists
 		Constants.Modes m = current_mode;
@@ -7684,7 +7684,8 @@ LogB.Debug("mc finished 5");
 		Constants.BellModes bellMode = getBellMode(m);
 		if(m == Constants.Modes.JUMPSREACTIVE || m == Constants.Modes.RUNSINTERVALLIC)
 		{
-			if(repetitiveConditionsWin.FeedbackActive(bellMode))
+			// Update bell
+			if(feedbackWin.FeedbackActive(bellMode))
 				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_active.png");
 			else
 				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_none.png");
@@ -7693,18 +7694,20 @@ LogB.Debug("mc finished 5");
 		}
 		else if(m == Constants.Modes.POWERGRAVITATORY || m == Constants.Modes.POWERINERTIAL)
 		{
-			if(repetitiveConditionsWin.FeedbackActive(bellMode))
+			// 1) Update bell
+			if(feedbackWin.FeedbackActive(bellMode))
 				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_active.png");
 			else
 				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_none.png");
 
 			image_encoder_bell.Pixbuf = pixbuf;
 
+			// 2) Update SQL and preferences object
 			Sqlite.Open();
 
 			//mainVariable
 			Constants.EncoderVariablesCapture mainVariable = Constants.SetEncoderVariablesCapture(
-					repetitiveConditionsWin.GetMainVariable);
+					feedbackWin.GetMainVariable);
 			if( preferences.encoderCaptureMainVariable != mainVariable ) {
 				SqlitePreferences.Update("encoderCaptureMainVariable", mainVariable.ToString(), true);
 				preferences.encoderCaptureMainVariable = mainVariable;
@@ -7713,7 +7716,7 @@ LogB.Debug("mc finished 5");
 
 			//secondaryVariable
 			Constants.EncoderVariablesCapture secondaryVariable = Constants.SetEncoderVariablesCapture(
-					repetitiveConditionsWin.GetSecondaryVariable);
+					feedbackWin.GetSecondaryVariable);
 			if( preferences.encoderCaptureSecondaryVariable != secondaryVariable ) {
 				SqlitePreferences.Update("encoderCaptureSecondaryVariable", secondaryVariable.ToString(), true);
 				preferences.encoderCaptureSecondaryVariable = secondaryVariable;
@@ -7721,7 +7724,7 @@ LogB.Debug("mc finished 5");
 			string secondaryVariableStr = Constants.GetEncoderVariablesCapture(secondaryVariable);
 
 			//secondaryVariableShow
-			bool secondaryVariableShow = repetitiveConditionsWin.GetSecondaryVariableShow;
+			bool secondaryVariableShow = feedbackWin.GetSecondaryVariableShow;
 			if( preferences.encoderCaptureSecondaryVariableShow != secondaryVariableShow ) {
 				SqlitePreferences.Update("encoderCaptureSecondaryVariableShow", secondaryVariableShow.ToString(), true);
 				preferences.encoderCaptureSecondaryVariableShow = secondaryVariableShow;
@@ -7729,50 +7732,51 @@ LogB.Debug("mc finished 5");
 			if(! secondaryVariableShow)
 				secondaryVariableStr = "";
 
-			if(preferences.encoderCaptureFeedbackEccon != repetitiveConditionsWin.GetEncoderCaptureFeedbackEccon) {
+			if(preferences.encoderCaptureFeedbackEccon != feedbackWin.GetEncoderCaptureFeedbackEccon) {
 				SqlitePreferences.Update(SqlitePreferences.EncoderCaptureFeedbackEccon,
-						repetitiveConditionsWin.GetEncoderCaptureFeedbackEccon.ToString(), true);
-				preferences.encoderCaptureFeedbackEccon = repetitiveConditionsWin.GetEncoderCaptureFeedbackEccon;
+						feedbackWin.GetEncoderCaptureFeedbackEccon.ToString(), true);
+				preferences.encoderCaptureFeedbackEccon = feedbackWin.GetEncoderCaptureFeedbackEccon;
 			}
 
-			if(preferences.encoderCaptureInertialEccOverloadMode != repetitiveConditionsWin.GetEncoderCaptureEccOverloadMode) {
+			if(preferences.encoderCaptureInertialEccOverloadMode != feedbackWin.GetEncoderCaptureEccOverloadMode) {
 				SqlitePreferences.Update(SqlitePreferences.EncoderCaptureInertialEccOverloadMode,
-						repetitiveConditionsWin.GetEncoderCaptureEccOverloadMode.ToString(), true);
-				preferences.encoderCaptureInertialEccOverloadMode = repetitiveConditionsWin.GetEncoderCaptureEccOverloadMode;
+						feedbackWin.GetEncoderCaptureEccOverloadMode.ToString(), true);
+				preferences.encoderCaptureInertialEccOverloadMode = feedbackWin.GetEncoderCaptureEccOverloadMode;
 			}
 
 			preferences.encoderCaptureMainVariableThisSetOrHistorical = Preferences.PreferencesChange(
 				SqlitePreferences.EncoderCaptureMainVariableThisSetOrHistorical,
 				preferences.encoderCaptureMainVariableThisSetOrHistorical,
-				repetitiveConditionsWin.EncoderRelativeToSet);
+				feedbackWin.EncoderRelativeToSet);
 
 			preferences.encoderCaptureMainVariableGreaterActive = Preferences.PreferencesChange(
 				SqlitePreferences.EncoderCaptureMainVariableGreaterActive,
 				preferences.encoderCaptureMainVariableGreaterActive,
-				repetitiveConditionsWin.EncoderAutomaticHigherActive);
+				feedbackWin.EncoderAutomaticHigherActive);
 
 			preferences.encoderCaptureMainVariableGreaterValue = Preferences.PreferencesChange(
 				SqlitePreferences.EncoderCaptureMainVariableGreaterValue,
 				preferences.encoderCaptureMainVariableGreaterValue,
-				repetitiveConditionsWin.EncoderAutomaticHigherValue);
+				feedbackWin.EncoderAutomaticHigherValue);
 
 			preferences.encoderCaptureMainVariableLowerActive = Preferences.PreferencesChange(
 				SqlitePreferences.EncoderCaptureMainVariableLowerActive,
 				preferences.encoderCaptureMainVariableLowerActive,
-				repetitiveConditionsWin.EncoderAutomaticLowerActive);
+				feedbackWin.EncoderAutomaticLowerActive);
 
 			preferences.encoderCaptureMainVariableLowerValue = Preferences.PreferencesChange(
 				SqlitePreferences.EncoderCaptureMainVariableLowerValue,
 				preferences.encoderCaptureMainVariableLowerValue,
-				repetitiveConditionsWin.EncoderAutomaticLowerValue);
+				feedbackWin.EncoderAutomaticLowerValue);
 
 			preferences.encoderCaptureShowLoss = Preferences.PreferencesChange(
 				SqlitePreferences.EncoderCaptureShowLoss,
 				preferences.encoderCaptureShowLoss,
-				repetitiveConditionsWin.EncoderCaptureShowLoss);
+				feedbackWin.EncoderCaptureShowLoss);
 
 			Sqlite.Close();
 
+			// 3) Update treeview and graphs
 
 			//treeview_encoder should be updated (to colorize some cells)
 			//only if there was data
@@ -7786,8 +7790,8 @@ LogB.Debug("mc finished 5");
 
 				//also update the bars plot (to show colors depending on bells changes)
 				if(captureCurvesBarsData.Count > 0) {
-					double mainVariableHigher = repetitiveConditionsWin.GetMainVariableHigher(mainVariableStr);
-					double mainVariableLower = repetitiveConditionsWin.GetMainVariableLower(mainVariableStr);
+					double mainVariableHigher = feedbackWin.GetMainVariableHigher(mainVariableStr);
+					double mainVariableLower = feedbackWin.GetMainVariableLower(mainVariableStr);
 					//plotCurvesGraphDoPlot(mainVariableStr, mainVariableHigher, mainVariableLower,
 
 					if(encoderGraphDoPlot != null)
@@ -7798,7 +7802,7 @@ LogB.Debug("mc finished 5");
 								secondaryVariableStr, preferences.encoderCaptureShowLoss,
 								false,
 								findEccon(true),
-								repetitiveConditionsWin,
+								feedbackWin,
 								encoderConfigurationCurrent.has_inertia,
 								configChronojump.PlaySoundsFromFile,
 								captureCurvesBarsData,
@@ -7813,7 +7817,7 @@ LogB.Debug("mc finished 5");
 								secondaryVariableStr, preferences.encoderCaptureShowLoss,
 								false, //not capturing
 								findEccon(true),
-								repetitiveConditionsWin,
+								feedbackWin,
 								encoderConfigurationCurrent.has_inertia,
 								configChronojump.PlaySoundsFromFile,
 								captureCurvesBarsData,
@@ -7831,20 +7835,23 @@ LogB.Debug("mc finished 5");
 			}
 
 			//rhythm
-			encoderRhythm = repetitiveConditionsWin.Encoder_rhythm_get_values();
+			encoderRhythm = feedbackWin.Encoder_rhythm_get_values();
 			//updates preferences object and Sqlite preferences
 			preferences.UpdateEncoderRhythm(encoderRhythm);
 		}
 		else if(m == Constants.Modes.FORCESENSOR)
 		{
-			if(repetitiveConditionsWin.FeedbackActive(bellMode))
+			// 1) Update bell
+			if(feedbackWin.FeedbackActive(bellMode))
 				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_active.png");
 			else
 				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_none.png");
 
 			image_contacts_bell.Pixbuf = pixbuf;
 
-			Preferences.ForceSensorCaptureFeedbackActiveEnum feedbackActive = repetitiveConditionsWin.GetForceSensorFeedback;
+			// 2) Update SQL and preferences object
+
+			Preferences.ForceSensorCaptureFeedbackActiveEnum feedbackActive = feedbackWin.GetForceSensorFeedback;
 			if(preferences.forceSensorCaptureFeedbackActive != feedbackActive)
 			{
 				SqlitePreferences.Update(SqlitePreferences.ForceSensorCaptureFeedbackActive, feedbackActive.ToString(), false);
@@ -7854,14 +7861,14 @@ LogB.Debug("mc finished 5");
 			//change the rest of values only if feedback is active
 			if(feedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.RECTANGLE)
 			{
-				int feedbackAt = repetitiveConditionsWin.GetForceSensorFeedbackRectangleAt;
+				int feedbackAt = feedbackWin.GetForceSensorFeedbackRectangleAt;
 				if(preferences.forceSensorCaptureFeedbackAt != feedbackAt)
 				{
 					SqlitePreferences.Update(SqlitePreferences.ForceSensorCaptureFeedbackAt, feedbackAt.ToString(), false);
 					preferences.forceSensorCaptureFeedbackAt = feedbackAt;
 				}
 
-				int feedbackRange = repetitiveConditionsWin.GetForceSensorFeedbackRectangleRange;
+				int feedbackRange = feedbackWin.GetForceSensorFeedbackRectangleRange;
 				if(preferences.forceSensorCaptureFeedbackRange != feedbackRange)
 				{
 					SqlitePreferences.Update(SqlitePreferences.ForceSensorCaptureFeedbackRange, feedbackRange.ToString(), false);
@@ -7870,35 +7877,35 @@ LogB.Debug("mc finished 5");
 			}
 			else if(feedbackActive == Preferences.ForceSensorCaptureFeedbackActiveEnum.PATH)
 			{
-				int feedbackPathMax = repetitiveConditionsWin.GetForceSensorFeedbackPathMax;
+				int feedbackPathMax = feedbackWin.GetForceSensorFeedbackPathMax;
 				if(preferences.forceSensorFeedbackPathMax != feedbackPathMax)
 				{
 					SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackPathMax, feedbackPathMax.ToString(), false);
 					preferences.forceSensorFeedbackPathMax = feedbackPathMax;
 				}
 
-				int feedbackPathMin = repetitiveConditionsWin.GetForceSensorFeedbackPathMin;
+				int feedbackPathMin = feedbackWin.GetForceSensorFeedbackPathMin;
 				if(preferences.forceSensorFeedbackPathMin != feedbackPathMin)
 				{
 					SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackPathMin, feedbackPathMin.ToString(), false);
 					preferences.forceSensorFeedbackPathMin = feedbackPathMin;
 				}
 
-				int feedbackPathMasters = repetitiveConditionsWin.GetForceSensorFeedbackPathMasters;
+				int feedbackPathMasters = feedbackWin.GetForceSensorFeedbackPathMasters;
 				if(preferences.forceSensorFeedbackPathMasters != feedbackPathMasters)
 				{
 					SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackPathMasters, feedbackPathMasters.ToString(), false);
 					preferences.forceSensorFeedbackPathMasters = feedbackPathMasters;
 				}
 
-				int feedbackPathMasterSeconds = repetitiveConditionsWin.GetForceSensorFeedbackPathMasterSeconds;
+				int feedbackPathMasterSeconds = feedbackWin.GetForceSensorFeedbackPathMasterSeconds;
 				if(preferences.forceSensorFeedbackPathMasterSeconds != feedbackPathMasterSeconds)
 				{
 					SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackPathMasterSeconds, feedbackPathMasterSeconds.ToString(), false);
 					preferences.forceSensorFeedbackPathMasterSeconds = feedbackPathMasterSeconds;
 				}
 
-				int feedbackPathLineWidth = repetitiveConditionsWin.GetForceSensorFeedbackPathLineWidth;
+				int feedbackPathLineWidth = feedbackWin.GetForceSensorFeedbackPathLineWidth;
 				if(preferences.forceSensorFeedbackPathLineWidth != feedbackPathLineWidth)
 				{
 					SqlitePreferences.Update(SqlitePreferences.ForceSensorFeedbackPathLineWidth, feedbackPathLineWidth.ToString(), false);

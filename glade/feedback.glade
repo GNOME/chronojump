@@ -2,7 +2,7 @@
 <glade-interface>
   <!-- interface-requires gtk+ 3.0 -->
   <!-- interface-naming-policy toplevel-contextual -->
-  <widget class="GtkWindow" id="repetitive_conditions">
+  <widget class="GtkWindow" id="feedback">
     <property name="can_focus">False</property>
     <property name="border_width">10</property>
     <property name="title" translatable="yes">Configure feedback</property>

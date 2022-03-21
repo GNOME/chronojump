@@ -394,7 +394,7 @@ public class PrepareEventGraphBarplotEncoder
 	public bool showLoss;
 	public bool capturing;
 	public string eccon;
-	public RepetitiveConditionsWindow repetitiveConditionsWin;
+	public FeedbackWindow feedbackWin;
 	public bool hasInertia;
 	public bool playSoundsFromFile;
 	public ArrayList data9Variables;
@@ -413,7 +413,7 @@ public class PrepareEventGraphBarplotEncoder
 			string mainVariable, double mainVariableHigher, double mainVariableLower,
 			string secondaryVariable, bool showLoss,
 			bool capturing, string eccon,
-			RepetitiveConditionsWindow repetitiveConditionsWin,
+			FeedbackWindow feedbackWin,
 			bool hasInertia, bool playSoundsFromFile,
 			ArrayList data9Variables, Gtk.ListStore encoderCaptureListStore,
 			bool relativeToSet,
@@ -428,7 +428,7 @@ public class PrepareEventGraphBarplotEncoder
 		this.showLoss = showLoss;
 		this.capturing = capturing;
 		this.eccon = eccon;
-		this.repetitiveConditionsWin = repetitiveConditionsWin;
+		this.feedbackWin = feedbackWin;
 		this.hasInertia = hasInertia;
 		this.playSoundsFromFile = playSoundsFromFile;
 		this.data9Variables = data9Variables;

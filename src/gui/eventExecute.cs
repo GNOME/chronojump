@@ -3585,7 +3585,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 			cb.GraphDo (dataA_l, new List<List<PointF>>(), false,
 					colorMain_l, new List<Cairo.Color>(), names_l,
 					"", "", false,
-					14, 8, "my title", true);
+					14, 8, "my title", ! pegbe.capturing);
 		else {
 			List<List<PointF>> pointSecondary_ll = new List<List<PointF>>();
 			pointSecondary_ll.Add(dataA_l);
@@ -3593,7 +3593,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 			cb.GraphDo (dataB_l, pointSecondary_ll, false,
 					colorMain_l, colorSecondary_l, names_l,
 					"Ecc", "Con", true,
-					14, 8, "my title", true);
+					14, 8, "my title", ! pegbe.capturing);
 		}
 	}
 }

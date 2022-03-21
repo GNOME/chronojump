@@ -251,7 +251,7 @@ public abstract class CairoBars : CairoGeneric
 
 	public abstract void GraphDo (List<PointF> pointMain_l, List<List<PointF>> pointSecondary_ll, bool mainAtLeft,
 			List<Cairo.Color> colorMain_l, List<Cairo.Color> colorSecondary, List<string> names_l,
-			bool showLegend, string labelBarMain, string labelBarSecondary, bool labelRotateInFirstBar,
+			string labelBarMain, string labelBarSecondary, bool labelRotateInFirstBar,
 			int fontHeightForBottomNames, int marginForBottomNames, string title, bool clickable);
 
 	protected void initGraph(string font, double widthPercent1)
@@ -792,7 +792,7 @@ public class CairoBars1Series : CairoBars
 
 	public override void GraphDo (List<PointF> pointMain_l, List<List<PointF>> pointSecondary_ll, bool mainAtLeft,
 			List<Cairo.Color> colorMain_l, List<Cairo.Color> colorSecondary, List<string> names_l,
-			bool showLegend, string labelBarMain, string labelBarSecondary, bool labelRotateInFirstBar,
+			string labelBarMain, string labelBarSecondary, bool labelRotateInFirstBar,
 			int fontHeightForBottomNames, int marginForBottomNames, string title, bool clickable)
 	{
 		LogB.Information("at CairoBars1Series.Do");
@@ -801,7 +801,6 @@ public class CairoBars1Series : CairoBars
 		this.colorMain_l = colorMain_l;
 		//this.colorSecondary_l = colorSecondary_l; //unused in this class
 		this.names_l = names_l;
-		//this.showLegend = showLegend; //unused on this class
 		this.fontHeightForBottomNames = fontHeightForBottomNames;
 		this.marginForBottomNames = marginForBottomNames;
 		this.title = title;
@@ -862,9 +861,10 @@ public class CairoBarsNHSeries : CairoBars
 	}
 
 	//regular constructor
-	public CairoBarsNHSeries (DrawingArea area)
+	public CairoBarsNHSeries (DrawingArea area, bool showLegend)
 	{
 		this.area = area;
+		this.showLegend = showLegend;
 
 		colorSerieA = colorFromGdk(UtilGtk.GetColorShifted(Config.ColorBackground,
 					! UtilGtk.ColorIsDark(Config.ColorBackground)));
@@ -1149,7 +1149,7 @@ public class CairoBarsNHSeries : CairoBars
 
 	public override void GraphDo (List<PointF> pointMain_l, List<List<PointF>> pointSecondary_ll, bool mainAtLeft,
 			List<Cairo.Color> colorMain_l, List<Cairo.Color> colorSecondary_l, List<string> names_l,
-			bool showLegend, string labelBarMain, string labelBarSecondary, bool labelRotateInFirstBar,
+			string labelBarMain, string labelBarSecondary, bool labelRotateInFirstBar,
 			int fontHeightForBottomNames, int marginForBottomNames, string title, bool clickable)
 	{
 		this.pointSecondary_ll = pointSecondary_ll;
@@ -1157,7 +1157,6 @@ public class CairoBarsNHSeries : CairoBars
 		this.colorMain_l = colorMain_l;
 		this.colorSecondary_l = colorSecondary_l;
 		this.names_l = names_l;
-		this.showLegend = showLegend;
 		this.labelBarMain = labelBarMain;
 		this.labelBarSecondary = labelBarSecondary;
 		this.labelRotateInFirstBar = labelRotateInFirstBar;

@@ -252,7 +252,7 @@ public abstract class CairoBars : CairoGeneric
 	public abstract void GraphDo (List<PointF> pointMain_l, List<List<PointF>> pointSecondary_ll, bool mainAtLeft,
 			List<Cairo.Color> colorMain_l, List<Cairo.Color> colorSecondary, List<string> names_l,
 			string labelBarMain, string labelBarSecondary, bool labelRotateInFirstBar,
-			int fontHeightForBottomNames, int marginForBottomNames, string title);
+			int fontHeightForBottomNames, int marginForBottomNames, string title, bool clickable);
 
 	protected void initGraph(string font, double widthPercent1)
 	{
@@ -793,7 +793,7 @@ public class CairoBars1Series : CairoBars
 	public override void GraphDo (List<PointF> pointMain_l, List<List<PointF>> pointSecondary_ll, bool mainAtLeft,
 			List<Cairo.Color> colorMain_l, List<Cairo.Color> colorSecondary, List<string> names_l,
 			string labelBarMain, string labelBarSecondary, bool labelRotateInFirstBar,
-			int fontHeightForBottomNames, int marginForBottomNames, string title)
+			int fontHeightForBottomNames, int marginForBottomNames, string title, bool clickable)
 	{
 		LogB.Information("at CairoBars1Series.Do");
 		this.pointMain_l = pointMain_l;
@@ -822,6 +822,9 @@ public class CairoBars1Series : CairoBars
 		plotBars ();
 
 		writeTitleAtTop ();
+
+		if(clickable)
+			addClickableMark (g);
 
 		endGraphDisposing(g, surface, area.GdkWindow);
 	}
@@ -1142,7 +1145,7 @@ public class CairoBarsNHSeries : CairoBars
 	public override void GraphDo (List<PointF> pointMain_l, List<List<PointF>> pointSecondary_ll, bool mainAtLeft,
 			List<Cairo.Color> colorMain_l, List<Cairo.Color> colorSecondary_l, List<string> names_l,
 			string labelBarMain, string labelBarSecondary, bool labelRotateInFirstBar,
-			int fontHeightForBottomNames, int marginForBottomNames, string title)
+			int fontHeightForBottomNames, int marginForBottomNames, string title, bool clickable)
 	{
 		this.pointSecondary_ll = pointSecondary_ll;
 		this.pointMain_l = pointMain_l;
@@ -1175,6 +1178,8 @@ public class CairoBarsNHSeries : CairoBars
 
 		writeTitleAtTop ();
 		writeLegend ();
+		if(clickable)
+			addClickableMark (g);
 
 		endGraphDisposing(g, surface, area.GdkWindow);
 	}

@@ -394,7 +394,7 @@ public class PrepareEventGraphBarplotEncoder
 	public bool showLoss;
 	public bool capturing;
 	public string eccon;
-	public FeedbackWindow feedbackWin;
+	public FeedbackEncoder feedback;
 	public bool hasInertia;
 	public bool playSoundsFromFile;
 	public ArrayList data9Variables;
@@ -403,6 +403,7 @@ public class PrepareEventGraphBarplotEncoder
 	public double maxPowerSpeedForceIntersession; //it will be one of these 3
 	public string maxPowerSpeedForceIntersessionDate;
 	public int discardFirstN;
+	public int showNRepetitions;
 	public bool volumeOn;
 	public Preferences.GstreamerTypes gstreamer;
 
@@ -413,12 +414,12 @@ public class PrepareEventGraphBarplotEncoder
 			string mainVariable, double mainVariableHigher, double mainVariableLower,
 			string secondaryVariable, bool showLoss,
 			bool capturing, string eccon,
-			FeedbackWindow feedbackWin,
+			FeedbackEncoder feedback,
 			bool hasInertia, bool playSoundsFromFile,
 			ArrayList data9Variables, Gtk.ListStore encoderCaptureListStore,
 			bool relativeToSet,
 			double maxPowerSpeedForceIntersession, string maxPowerSpeedForceIntersessionDate,
-			int discardFirstN, bool volumeOn, Preferences.GstreamerTypes gstreamer)
+			int discardFirstN, int showNRepetitions, bool volumeOn, Preferences.GstreamerTypes gstreamer)
 
 	{
 		this.mainVariable = mainVariable;
@@ -428,7 +429,7 @@ public class PrepareEventGraphBarplotEncoder
 		this.showLoss = showLoss;
 		this.capturing = capturing;
 		this.eccon = eccon;
-		this.feedbackWin = feedbackWin;
+		this.feedback = feedback;
 		this.hasInertia = hasInertia;
 		this.playSoundsFromFile = playSoundsFromFile;
 		this.data9Variables = data9Variables;
@@ -437,6 +438,7 @@ public class PrepareEventGraphBarplotEncoder
 		this.maxPowerSpeedForceIntersession = maxPowerSpeedForceIntersession;
 		this.maxPowerSpeedForceIntersessionDate = maxPowerSpeedForceIntersessionDate;
 		this.discardFirstN = discardFirstN;
+		this.showNRepetitions = showNRepetitions;
 		this.volumeOn = volumeOn;
 		this.gstreamer = gstreamer;
 	}

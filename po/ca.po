@@ -2189,7 +2189,7 @@ msgstr "Exporta la repetició des d'A fins a B"
 
 #: ../glade/app1.glade.h:463
 msgid "Edit session"
-msgstr "Edita ls sessió"
+msgstr "Edita la sessió"
 
 #: ../glade/app1.glade.h:464
 msgid "Delete session"

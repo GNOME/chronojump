@@ -487,6 +487,7 @@ public partial class ChronoJumpWindow
 	
 	ConfirmWindowJumpRun confirmWinJumpRun;	//for deleting jumps and RJ jumps (and runs)
 	ReportWindow reportWin;
+	FeedbackEncoder feedback;
 	FeedbackWindow feedbackWin;
 	GenericWindow genericWin;
 		
@@ -682,6 +683,7 @@ public partial class ChronoJumpWindow
 
 		createComboSessionLoadTags(true);
 
+		feedback = new FeedbackEncoder (preferences);
 		feedbackWin = FeedbackWindow.Create();
 		//to have objects ok to be able to be readed before viewing the feedbackWin
 		feedbackWin.View(Constants.BellModes.ENCODERGRAVITATORY, preferences, encoderRhythm, false); //not viewWindow
@@ -7817,7 +7819,7 @@ LogB.Debug("mc finished 5");
 								secondaryVariableStr, preferences.encoderCaptureShowLoss,
 								false, //not capturing
 								findEccon(true),
-								feedbackWin,
+								feedback,
 								encoderConfigurationCurrent.has_inertia,
 								configChronojump.PlaySoundsFromFile,
 								captureCurvesBarsData,
@@ -7826,6 +7828,7 @@ LogB.Debug("mc finished 5");
 								sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
 								sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable),
 								preferences.encoderCaptureInertialDiscardFirstN,
+								preferences.encoderCaptureShowNRepetitions,
 								preferences.volumeOn,
 								preferences.gstreamer);
 						prepareEncoderBarplotCairo ();

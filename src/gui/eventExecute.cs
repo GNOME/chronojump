@@ -3372,15 +3372,17 @@ public class CairoManageRunDoubleContacts
 public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 {
 	private PrepareEventGraphBarplotEncoder pegbe;
+	private Preferences preferences;
 
-	//private ArrayList data; //data is related to mainVariable (barplot)
-	private List<PointF> dataA_l; //data is related to mainVariable (barplot)
-	private List<PointF> dataB_l; //data is related to mainVariable (barplot)
+	//copied from gui/encoderGraphObjects (using ArrayList)
+	private ArrayList data; //data is related to mainVariable (barplot)
 	private ArrayList dataSecondary; //dataSecondary is related to secondary variable (by default range)
 	private ArrayList dataRangeOfMovement; //ROM, need it to discard last rep for loss. Is not the same as dataSecondary because maybe user selected another variable as secondary. only checks con.
 	private ArrayList dataWorkJ;
 	private ArrayList dataImpulse;
 
+	private List<PointF> dataA_l; //data is related to mainVariable (barplot)
+	private List<PointF> dataB_l; //data is related to mainVariable (barplot)
 	private List<Cairo.Color> colorMain_l;
 	private List<Cairo.Color> colorSecondary_l;
 	private List<string> names_l;
@@ -3393,11 +3395,12 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 	//isLastCaptured: if what we are showing is currentJumpRj then true, if is a selection from treeview and id != currentJumpRj then is false (meaning selected)
 
-	public CairoPaintBarplotPreEncoder (DrawingArea darea, string fontStr,
+	public CairoPaintBarplotPreEncoder (Preferences preferences, DrawingArea darea, string fontStr,
 			string personName, string testName, int pDN,
 			PrepareEventGraphBarplotEncoder pegbe)
 	{
 		this.pegbe = pegbe;
+		NewPreferences (preferences);
 
 		initialize (darea, fontStr, mode, personName, testName, pDN);
 	}
@@ -3415,21 +3418,106 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 	protected override void paintSpecific()
 	{
-		fillDataVariables ();
+		//TODO: reorg/rename this
+		fillDataVariables1 ();
+		fillDataVariables2 ();
+
 		paintSpecificDo ();
 	}
 
-	private void fillDataVariables ()
+	//preferences can change
+	public void NewPreferences (Preferences preferences)
 	{
-		//data = new ArrayList (pegbe.data9Variables.Count); //data is related to mainVariable (barplot)
-		dataA_l = new List<PointF>(); //data is related to mainVariable (barplot)
-		dataB_l = new List<PointF>(); //data is related to mainVariable (barplot)
+		this.preferences = preferences;
+
+		pegbe.discardFirstN = preferences.encoderCaptureInertialDiscardFirstN;
+		pegbe.showNRepetitions = preferences.encoderCaptureShowNRepetitions;
+
+		/*
+		if(layout_encoder_capture_curves_bars != null)
+			layout_encoder_capture_curves_bars.FontDescription =
+				Pango.FontDescription.FromString (preferences.GetFontTypeWithSize(preferences.encoderCaptureBarplotFontSize));
+		*/
+	}
+
+	public void ShowMessage(string message, bool showLine, bool big)
+	{
+		//TODO
+	}
+
+	private void fillDataVariables1 () //copied from gui/encoderGraphObjects fillDataVariables()
+	{
+		data = new ArrayList (pegbe.data9Variables.Count); //data is related to mainVariable (barplot)
 		dataSecondary = new ArrayList (pegbe.data9Variables.Count); //dataSecondary is related to secondary variable (by default range)
 		dataRangeOfMovement = new ArrayList (pegbe.data9Variables.Count);
 		dataWorkJ = new ArrayList (pegbe.data9Variables.Count);
 		dataImpulse = new ArrayList (pegbe.data9Variables.Count);
 		bool lastIsEcc = false;
-		//int count = 0;
+		int count = 0;
+
+		//discard repetitions according to pegbe.showNRepetitions
+		foreach(EncoderBarsData ebd in pegbe.data9Variables)
+		{
+			//LogB.Information(string.Format("count: {0}, value: {1}", count, ebd.GetValue(pegbe.mainVariable)));
+			//when capture ended, show all repetitions
+			if(pegbe.showNRepetitions == -1 || ! pegbe.capturing)
+			{
+				data.Add(ebd.GetValue(pegbe.mainVariable));
+				if(pegbe.secondaryVariable != "")
+					dataSecondary.Add(ebd.GetValue(pegbe.secondaryVariable));
+				dataRangeOfMovement.Add(ebd.GetValue(Constants.RangeAbsolute));
+				dataWorkJ.Add(ebd.GetValue(Constants.WorkJ));
+				dataImpulse.Add(ebd.GetValue(Constants.Impulse));
+			}
+			else {
+				if(pegbe.eccon == "c" && ( pegbe.data9Variables.Count <= pegbe.showNRepetitions || 	//total repetitions are less than show repetitions threshold ||
+						count >= pegbe.data9Variables.Count - pegbe.showNRepetitions ) ) 	//count is from the last group of reps (reps that have to be shown)
+				{
+					data.Add(ebd.GetValue(pegbe.mainVariable));
+					if(pegbe.secondaryVariable != "")
+						dataSecondary.Add(ebd.GetValue(pegbe.secondaryVariable));
+					dataRangeOfMovement.Add(ebd.GetValue(Constants.RangeAbsolute));
+					dataWorkJ.Add(ebd.GetValue(Constants.WorkJ));
+					dataImpulse.Add(ebd.GetValue(Constants.Impulse));
+				}
+				else if(pegbe.eccon != "c" && (
+						pegbe.data9Variables.Count <= 2 * pegbe.showNRepetitions ||
+						count >= pegbe.data9Variables.Count - 2 * pegbe.showNRepetitions) )
+				{
+					if(! Util.IsEven(count +1))  	//if it is "impar"
+					{
+						LogB.Information("added ecc");
+						data.Add(ebd.GetValue(pegbe.mainVariable));
+						if(pegbe.secondaryVariable != "")
+							dataSecondary.Add(ebd.GetValue(pegbe.secondaryVariable));
+						dataRangeOfMovement.Add(ebd.GetValue(Constants.RangeAbsolute));
+						dataWorkJ.Add(ebd.GetValue(Constants.WorkJ));
+						dataImpulse.Add(ebd.GetValue(Constants.Impulse));
+						lastIsEcc = true;
+					} else {  			//it is "par"
+						if(lastIsEcc)
+						{
+							data.Add(ebd.GetValue(pegbe.mainVariable));
+							if(pegbe.secondaryVariable != "")
+								dataSecondary.Add(ebd.GetValue(pegbe.secondaryVariable));
+							dataRangeOfMovement.Add(ebd.GetValue(Constants.RangeAbsolute));
+							dataWorkJ.Add(ebd.GetValue(Constants.WorkJ));
+							dataImpulse.Add(ebd.GetValue(Constants.Impulse));
+							LogB.Information("added con");
+							lastIsEcc = false;
+						}
+					}
+				}
+			}
+			//LogB.Information("data workJ: " + dataWorkJ[count].ToString());
+			count ++;
+		}
+	}
+
+	private void fillDataVariables2 ()
+	{
+		dataA_l = new List<PointF>(); //data is related to mainVariable (barplot)
+		dataB_l = new List<PointF>(); //data is related to mainVariable (barplot)
 
 		colorMain_l = new List<Cairo.Color>();
 		colorSecondary_l = new List<Cairo.Color>();
@@ -3443,12 +3531,129 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		//final color of the bar
 		Cairo.Color colorBar = new Cairo.Color();
 
-		//discard repetitions according to showNRepetitions
+		int count = 0;
+
+		//Get max min avg values of this set
+		double maxThisSetForGraph = -100000;
+		double maxThisSetForCalc = -100000;
+		double minThisSet = 100000;
+		/*
+		 * if ! Preferences.EncoderPhasesEnum.BOTH, eg: ECC, we can graph max CON (that maybe is the highest value) , but for calculations we want only the max ECC value, so:
+		 * maxThisSetForGraph will be to plot the margins,
+		 * maxThisSetForCalc will be to calculate feedback (% of max)
+		 */
+
+		//only used for loss. For loss only con phase is used
+		double maxThisSetValidAndCon = maxThisSetForCalc;
+		double minThisSetValidAndCon = minThisSet;
+		//we need the position to draw the loss line and maybe to manage that the min should be after the max (for being real loss)
+		int maxThisSetValidAndConPos = 0;
+		int minThisSetValidAndConPos = 0;
+
+		//know not-discarded phases
+		double countValid = 0;
+		double sumValid = 0;
+		double workTotal = 0; //can be J or Kcal (shown in cal)
+		double impulseTotal = 0;
+
+		foreach(double d in data)
+		{
+			if(d > maxThisSetForGraph)
+				maxThisSetForGraph = d;
+
+			if(pegbe.eccon == "c" ||
+					preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.BOTH ||
+					preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.ECC && ! Util.IsEven(count +1) || //odd (impar)
+					preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.CON && Util.IsEven(count +1) ) //even (par)
+			{
+				if(d > maxThisSetForCalc)
+					maxThisSetForCalc = d;
+			}
+
+			if(d < minThisSet)
+				minThisSet = d;
+
+			if( pegbe.hasInertia && pegbe.discardFirstN > 0 &&
+					  ((pegbe.eccon == "c" && count < pegbe.discardFirstN) || (pegbe.eccon != "c" && count < pegbe.discardFirstN * 2)) )
+				LogB.Information("Discarded phase");
+			else if(pegbe.eccon == "c" ||
+					preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.BOTH ||
+					preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.ECC && ! Util.IsEven(count +1) || //odd (impar)
+					preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.CON && Util.IsEven(count +1) )	//even (par)
+			{
+				countValid ++;
+				sumValid += d;
+				bool needChangeMin = false;
+
+				if(pegbe.eccon == "c" || Util.IsEven(count +1)) //par
+				{
+					if(d > maxThisSetValidAndCon) {
+						maxThisSetValidAndCon = d;
+						maxThisSetValidAndConPos = count;
+
+						//min rep has to be after max
+						needChangeMin = true;
+					}
+					if(needChangeMin || (d < minThisSetValidAndCon &&
+								Convert.ToDouble(dataRangeOfMovement[count]) >= .7 * Convert.ToDouble(dataRangeOfMovement[maxThisSetValidAndConPos])
+								//ROM of this rep cannot be lower than 70% of ROM of best rep (helps to filter when you leave the weight on the bar...)
+							    ) ) {
+						minThisSetValidAndCon = d;
+						minThisSetValidAndConPos = count;
+					}
+				}
+			}
+
+			count ++;
+		}
+		if(maxThisSetForCalc <= 0)
+		{
+			if(countValid > 0 &&
+					(pegbe.mainVariable != Constants.Range && pegbe.mainVariable != Constants.RangeAbsolute &&
+					 pegbe.mainVariable != Constants.MeanSpeed && pegbe.mainVariable != Constants.MaxSpeed) )
+				//TODO:
+				/*
+				ShowMessage(
+						Catalog.GetString("Main variable:") + " " + Catalog.GetString(pegbe.mainVariable) + "\n\n" +
+						Catalog.GetString("Bars are not shown because the displaced mass is 0."),
+						false, false);
+						*/
+
+			return;
+		}
+
+		double maxAbsoluteForCalc = maxThisSetForCalc;
+		//can be on meanPower, meanSpeed, meanForce
+		if(! pegbe.relativeToSet)
+		{
+			//relative to historical of this person
+
+			/*
+			 *
+			 * if there's a set captured but without repetitions saved, maxPowerSpeedForceIntersession will be 0
+			 * and current set (loaded or captured) will have a power that will be out of the graph
+			 * for this reason use maxAbsolute or maxThisSet, whatever is higher
+			 *
+			 * if ! relativeToSet, then Preferences.EncoderPhasesEnum.BOTH, so maxAbsoluteForCalc == maxAbsoluteForGraph
+			 */
+			if(pegbe.maxPowerSpeedForceIntersession > maxAbsoluteForCalc)
+			{
+				maxAbsoluteForCalc = pegbe.maxPowerSpeedForceIntersession;
+				//maxAbsoluteForGraph = maxPowerSpeedForceIntersession;
+			}
+		}
+
+		LogB.Information("maxAbsoluteForCalc = " + maxAbsoluteForCalc.ToString());
+		pegbe.feedback.ResetBestSetValue(FeedbackEncoder.BestSetValueEnum.CAPTURE_MAIN_VARIABLE);
+		pegbe.feedback.UpdateBestSetValue(
+				FeedbackEncoder.BestSetValueEnum.CAPTURE_MAIN_VARIABLE, maxAbsoluteForCalc);
+
+		//discard repetitions according to pegbe.showNRepetitions
 		//int countToDraw = pegbe.data9Variables.Count;
 		//foreach(EncoderBarsData ebd in pegbe.data9Variables)
 		//for (int count = 0; count < pegbe.data9Variables.Count; count ++)
 //		int countNames = 0;
-		for (int count = (pegbe.data9Variables.Count -1); count >= 0; count --)
+		for (count = (pegbe.data9Variables.Count -1); count >= 0; count --)
 		{
 			EncoderBarsData ebd = (EncoderBarsData) pegbe.data9Variables[count];
 
@@ -3463,8 +3668,8 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 			}
 
 			//select pen color for bars and sounds
-			string myColor = pegbe.feedbackWin.AssignColorAutomatic(
-					FeedbackWindow.BestSetValueEnum.CAPTURE_MAIN_VARIABLE, ebd.GetValue(pegbe.mainVariable), phaseEnum);
+			string myColor = pegbe.feedback.AssignColorAutomatic(
+					FeedbackEncoder.BestSetValueEnum.CAPTURE_MAIN_VARIABLE, ebd.GetValue(pegbe.mainVariable), phaseEnum);
 
 			bool discarded = false;
 			if(pegbe.hasInertia) {

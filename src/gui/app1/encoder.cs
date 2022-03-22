@@ -5901,7 +5901,7 @@ public partial class ChronoJumpWindow
 						secondaryVariable, preferences.encoderCaptureShowLoss,
 						false, //not capturing
 						findEccon(true),
-						feedbackWin,
+						feedback,
 						encoderConfigurationCurrent.has_inertia,
 						configChronojump.PlaySoundsFromFile,
 						captureCurvesBarsData,
@@ -5910,6 +5910,7 @@ public partial class ChronoJumpWindow
 						sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
 						sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable),
 						preferences.encoderCaptureInertialDiscardFirstN,
+						preferences.encoderCaptureShowNRepetitions,
 						preferences.volumeOn,
 						preferences.gstreamer);
 			prepareEncoderBarplotCairo ();
@@ -6038,6 +6039,7 @@ public partial class ChronoJumpWindow
 			return;
 
 		cairoPaintBarsPre = new CairoPaintBarplotPreEncoder (
+				preferences,
 				encoder_capture_curves_bars_drawingarea_cairo, preferences.fontType.ToString(),
 				currentPerson.Name, "", 3,
 				prepareEventGraphBarplotEncoder);
@@ -6791,7 +6793,7 @@ public partial class ChronoJumpWindow
 							secondaryVariable, preferences.encoderCaptureShowLoss,
 							true, //capturing
 							findEccon(true),
-							feedbackWin,
+							feedback,
 							encoderConfigurationCurrent.has_inertia,
 							configChronojump.PlaySoundsFromFile,
 							captureCurvesBarsData,
@@ -6800,6 +6802,7 @@ public partial class ChronoJumpWindow
 							sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
 							sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable),
 							preferences.encoderCaptureInertialDiscardFirstN,
+							preferences.encoderCaptureShowNRepetitions,
 							preferences.volumeOn,
 							preferences.gstreamer);
 					prepareEncoderBarplotCairo ();
@@ -7393,7 +7396,7 @@ public partial class ChronoJumpWindow
 							secondaryVariable, preferences.encoderCaptureShowLoss,
 							false, //not capturing
 							findEccon(true),
-							feedbackWin,
+							feedback,
 							encoderConfigurationCurrent.has_inertia,
 							configChronojump.PlaySoundsFromFile,
 							captureCurvesBarsData,
@@ -7402,6 +7405,7 @@ public partial class ChronoJumpWindow
 							sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
 							sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable),
 							preferences.encoderCaptureInertialDiscardFirstN,
+							preferences.encoderCaptureShowNRepetitions,
 							preferences.volumeOn,
 							preferences.gstreamer);
 					prepareEncoderBarplotCairo ();

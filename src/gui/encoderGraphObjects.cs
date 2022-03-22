@@ -130,7 +130,7 @@ public class EncoderGraphDoPlot
 		graphHeight = drawingarea.Allocation.Height;
 	}
 
-	//preferences can change	
+	//preferences can change
 	public void NewPreferences (Preferences preferences)
 	{
 		this.preferences = preferences;

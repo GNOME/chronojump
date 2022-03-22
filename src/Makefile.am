@@ -202,6 +202,7 @@ SOURCES = \
 	executeAuto.cs\
 	event.cs\
 	eventType.cs\
+	feedback.cs\
 	FTD2XX_NET.cs\
 	forcePlatform.cs\
 	forceSensor.cs\

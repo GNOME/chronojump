@@ -485,7 +485,6 @@ public abstract class CairoBars : CairoGeneric
 	protected abstract void plotBars ();
 
 	/*TODO: note line should not hide the numbers in bars */
-	/*TODO: falta el punt (no només línia)*/
 	protected void plotAlternativeLine (List<double> dataSecondary_l)
 	{
 		//be safe
@@ -493,7 +492,8 @@ public abstract class CairoBars : CairoGeneric
 			return;
 
 		g.SetSourceColor(yellow); //to have contrast with the bar
-		g.LineWidth = 2;
+
+		// 1) lines
 		bool firstDone = false;
 		for (int i = 0 ; i < barsXCenter_l.Count; i ++)
 		{
@@ -509,8 +509,21 @@ public abstract class CairoBars : CairoGeneric
 				g.LineTo(barsXCenter_l[i], y);
 		}
 		g.Stroke();
+
+		// 2) points
+		int pointsRadius = 4;
+		for (int i = 0 ; i < barsXCenter_l.Count; i ++)
+		{
+			double y = calculatePaintY (dataSecondary_l[dataSecondary_l.Count -1 -i],
+					MathUtil.GetMax (dataSecondary_l),
+					0);//MathUtil.GetMin (dataSecondary_l));
+
+			g.Arc(barsXCenter_l[i], y, pointsRadius, 0.0, 2.0 * Math.PI); //full circle
+			g.FillPreserve();
+			g.Stroke();
+		}
+
 		g.SetSourceColor(black);
-		g.LineWidth = 1;
 	}
 
 	//adapted from http://www.mono-project.com/docs/tools+libraries/libraries/Mono.Cairo/cookbook/

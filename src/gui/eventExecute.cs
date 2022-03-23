@@ -2537,11 +2537,11 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 			UseHeights = false;
 
 		if(showBarA && showBarB) //Dja, Djna
-			cb = new CairoBarsNHSeries (darea, true, false);
+			cb = new CairoBarsNHSeries (darea, true, false, true, true);
 		else if (showBarA) //takeOff, takeOffWeight
-			cb = new CairoBars1Series (darea, false);
+			cb = new CairoBars1Series (darea, false, true, true);
 		else //rest of the jumps: sj, cmj, ..
-			cb = new CairoBars1Series (darea, false);
+			cb = new CairoBars1Series (darea, false, true, true);
 
 		if(UseHeights) {
 			cb.YVariable = Catalog.GetString("Height");
@@ -2679,7 +2679,7 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 
 	protected override void paintSpecific()
 	{
-		cb = new CairoBarsNHSeries (darea, true, false);
+		cb = new CairoBarsNHSeries (darea, true, false, true, true);
 
 		cb.YVariable = Catalog.GetString("Time");
 		cb.YUnits = "s";
@@ -2809,7 +2809,7 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 
 	protected override void paintSpecific()
 	{
-		CairoBars1Series cb = new CairoBars1Series (darea, false);
+		CairoBars1Series cb = new CairoBars1Series (darea, false, true, true);
 
 		cb.YVariable = Catalog.GetString("Speed");
 		cb.YUnits = "m/s";
@@ -2910,7 +2910,7 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 
 	protected override void paintSpecific()
 	{
-		CairoBars1Series cb = new CairoBars1Series (darea, false);
+		CairoBars1Series cb = new CairoBars1Series (darea, false, true, true);
 
 		cb.YVariable = Catalog.GetString("Speed");
 		cb.YUnits = "m/s";
@@ -3065,7 +3065,7 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 		if(tv_l.Count != tc_l.Count)
 			return;
 
-		cb = new CairoBarsNHSeries (darea, true, false);
+		cb = new CairoBarsNHSeries (darea, true, false, true, true);
 
 		cb.YVariable = Catalog.GetString("Time");
 		cb.YUnits = "s";
@@ -3232,7 +3232,7 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 		//if(ifRSAstartRest)
 		//	return;
 
-		cb = new CairoBars1Series (darea, false);
+		cb = new CairoBars1Series (darea, false, true, true);
 
 		cb.YVariable = Catalog.GetString("Speed");
 		cb.YUnits = "m/s";
@@ -3765,9 +3765,9 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 	private void paintSpecificDo ()
 	{
 		if(pegbe.eccon == "c")
-			cb = new CairoBars1Series (darea, ! pegbe.capturing);
+			cb = new CairoBars1Series (darea, ! pegbe.capturing, false, false);
 		else
-			cb = new CairoBarsNHSeries (darea, false, ! pegbe.capturing);
+			cb = new CairoBarsNHSeries (darea, false, ! pegbe.capturing, false, false);
 
 		//LogB.Information("data_l.Count: " + data_l.Count.ToString());
 		//cb.GraphInit(fontStr, true, false); //usePersonGuides, useGroupGuides

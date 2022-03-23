@@ -28,6 +28,8 @@ public abstract class CairoBars : CairoGeneric
 {
 	protected DrawingArea area;
 	protected ImageSurface surface;
+
+	protected int fontHeightAboveBar; //will be reduced if does not fit. On encoder is bigger than other places, pass -1 if don't want to define
 	protected int fontHeightForBottomNames;
 	protected int marginForBottomNames;
 	protected string title;
@@ -252,7 +254,8 @@ public abstract class CairoBars : CairoGeneric
 
 	public virtual void PassData1Serie (List<PointF> pointMain_l,
 			List<Cairo.Color> colorMain_l, List<string> names_l,
-			int fontHeightForBottomNames, int marginForBottomNames, string title, bool clickable)
+			int fontHeightAboveBar, int fontHeightForBottomNames, int marginForBottomNames,
+			string title, bool clickable)
 	{
 		//defined in CairoBars1Series
 	}
@@ -260,7 +263,8 @@ public abstract class CairoBars : CairoGeneric
 	public virtual void PassData2Series (List<PointF> pointMain_l, List<List<PointF>> pointSecondary_ll, bool mainAtLeft,
 			List<Cairo.Color> colorMain_l, List<Cairo.Color> colorSecondary_l, List<string> names_l,
 			string labelBarMain, string labelBarSecondary, bool labelRotateInFirstBar,
-			int fontHeightForBottomNames, int marginForBottomNames, string title, bool clickable)
+			int fontHeightAboveBar, int fontHeightForBottomNames, int marginForBottomNames,
+			string title, bool clickable)
 	{
 		//defined in CairoBarsNHSeries
 	}
@@ -544,7 +548,6 @@ public abstract class CairoBars : CairoGeneric
 		return Convert.ToInt32(1.3 * te.Height * maxRows);
 	}
 
-	//TODO: at the moment we are not lowering decs, make resultsFontHeight and decs global variables
 	protected int getBarsResultFontHeight (double maxWidth)
 	{
 		double maxLengthNumber = 9.99;
@@ -560,6 +563,9 @@ public abstract class CairoBars : CairoGeneric
 
 		//fix if label is wider than bar
 		int optimalFontHeight = textHeight;
+		if(fontHeightAboveBar >= 0)
+			optimalFontHeight = fontHeightAboveBar;
+
 		for(int i = textHeight; te.Width >= maxWidth && i > 0; i --)
 		{
 			//if(i <= 8)
@@ -588,8 +594,8 @@ public abstract class CairoBars : CairoGeneric
 			maxLengthNumber = 9999.99;
 
 		Cairo.TextExtents te;
-		///te = g.TextExtents(Util.TrimDecimals(result,decs));
-		te = g.TextExtents(maxLengthNumber.ToString());
+		te = g.TextExtents(Util.TrimDecimals(result,decs));
+		//te = g.TextExtents(maxLengthNumber.ToString());
 
 		bool textAboveBar = true;
 		/*
@@ -605,6 +611,8 @@ public abstract class CairoBars : CairoGeneric
 			yStart = y - 1.5*te.Height;
 		}
 
+		/*
+		   Do not move the bar above to fix overlappings as it's very ugly
 		//check if there's an overlap with pointA)
 		if ( yStartPointA >= 0 && te.Width >= barWidth &&
 				( yStart >= yStartPointA && yStart <= yStartPointA + te.Height ||
@@ -615,13 +623,15 @@ public abstract class CairoBars : CairoGeneric
 
 		if( (yStart + te.Height) > alto )
 			yStart = alto - te.Height;
+		*/
 
 		if(textAboveBar)
 			g.SetSourceColor(white); //to just hide the horizontal grid
 		else
 			g.SetSourceColor(yellow); //to have contrast with the bar
 
-		g.Rectangle(x - te.Width/2 -1, yStart-1, te.Width +2, te.Height+2);
+		//g.Rectangle(x - te.Width/2 -1, yStart-1, te.Width +2, te.Height+2);
+		g.Rectangle(x - te.Width/2, yStart, te.Width, te.Height);
 		g.Fill();
 
 		//write text
@@ -778,7 +788,7 @@ public class CairoBars1Series : CairoBars
 
                 double barWidth = Convert.ToInt32(.5*distanceBetweenCols);
                 double barDesplLeft = Convert.ToInt32(.5*barWidth);
-		int resultFontHeight = getBarsResultFontHeight (barWidth*2);
+		int resultFontHeight = getBarsResultFontHeight (barWidth*1.5); //*1.5 because there is space at left and right
 		LogB.Information("resultFontHeight: " + resultFontHeight.ToString());
 
 		for(int i = 0; i < pointMain_l.Count; i ++)
@@ -809,11 +819,13 @@ public class CairoBars1Series : CairoBars
 	//done here and not in the constructor because most of this variables are known after construction
 	public override void PassData1Serie (List<PointF> pointMain_l,
 			List<Cairo.Color> colorMain_l, List<string> names_l,
-			int fontHeightForBottomNames, int marginForBottomNames, string title, bool clickable)
+			int fontHeightAboveBar, int fontHeightForBottomNames, int marginForBottomNames,
+			string title, bool clickable)
 	{
 		this.pointMain_l = pointMain_l;
 		this.colorMain_l = colorMain_l;
 		this.names_l = names_l;
+		this.fontHeightAboveBar = fontHeightAboveBar;
 		this.fontHeightForBottomNames = fontHeightForBottomNames;
 		this.marginForBottomNames = marginForBottomNames;
 		this.title = title;
@@ -1043,7 +1055,7 @@ public class CairoBarsNHSeries : CairoBars
 		if(pointSecondary_ll.Count == 2) //TODO: fix this for more columns
 			barWidth = .8*distanceBetweenCols/3; //three bars will be .8
                 double barDesplLeft = .5*barWidth;
-		int resultFontHeight = getBarsResultFontHeight (barWidth*1.5);
+		int resultFontHeight = getBarsResultFontHeight (barWidth*1.1);
 		List<Point3F> resultOnBars_l = new List<Point3F>();
 
 
@@ -1169,7 +1181,8 @@ public class CairoBarsNHSeries : CairoBars
 	public override void PassData2Series (List<PointF> pointMain_l, List<List<PointF>> pointSecondary_ll, bool mainAtLeft,
 			List<Cairo.Color> colorMain_l, List<Cairo.Color> colorSecondary_l, List<string> names_l,
 			string labelBarMain, string labelBarSecondary, bool labelRotateInFirstBar,
-			int fontHeightForBottomNames, int marginForBottomNames, string title, bool clickable)
+			int fontHeightAboveBar, int fontHeightForBottomNames, int marginForBottomNames,
+			string title, bool clickable)
 	{
 		this.pointSecondary_ll = pointSecondary_ll;
 		this.pointMain_l = pointMain_l;
@@ -1179,6 +1192,7 @@ public class CairoBarsNHSeries : CairoBars
 		this.labelBarMain = labelBarMain;
 		this.labelBarSecondary = labelBarSecondary;
 		this.labelRotateInFirstBar = labelRotateInFirstBar;
+		this.fontHeightAboveBar = fontHeightAboveBar;
 		this.fontHeightForBottomNames = fontHeightForBottomNames;
 		this.marginForBottomNames = marginForBottomNames;
 		this.title = title;

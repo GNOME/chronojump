@@ -2637,20 +2637,20 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 			List<List<PointF>> pointSecondary_ll = new List<List<PointF>>();
 			pointSecondary_ll.Add(pointA_l);
 
-			cb.GraphDo (pointB_l, pointSecondary_ll, false,
+			cb.PassData2Series (pointB_l, pointSecondary_ll, false,
 					new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
 					"", "", false,
 					fontHeightForBottomNames, bottomMargin, title, false);
 		} else if (showBarA) //takeOff, takeOffWeight
-			cb.GraphDo (pointA_l, new List<List<PointF>>(), false,
-					new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
-					"", "", false,
+			cb.PassData1Serie (pointA_l,
+					new List<Cairo.Color>(), names_l,
 					fontHeightForBottomNames, bottomMargin, title, false);
 		else //rest of the jumps: sj, cmj, ..
-			cb.GraphDo (pointB_l, new List<List<PointF>>(), false,
-					new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
-					"", "", false,
+			cb.PassData1Serie (pointB_l,
+					new List<Cairo.Color>(), names_l,
 					fontHeightForBottomNames, bottomMargin, title, false);
+
+		cb.GraphDo();
 	}
 }
 
@@ -2776,10 +2776,11 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 		List<List<PointF>> pointSecondary_ll = new List<List<PointF>>();
 		pointSecondary_ll.Add(pointA1_l);
 
-		cb.GraphDo (pointB_l, pointSecondary_ll, false,
+		cb.PassData2Series (pointB_l, pointSecondary_ll, false,
 				new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
 				"", "", false,
 				fontHeightForBottomNames, bottomMargin, title, false);
+		cb.GraphDo();
 	}
 }
 
@@ -2877,10 +2878,10 @@ public class CairoPaintBarsPreRunSimple : CairoPaintBarsPre
 					eventGraphRunsStored.personAVGAtSQL,
 					eventGraphRunsStored.personMINAtSQL));
 
-		cb.GraphDo (point_l, new List<List<PointF>>(), false,
-				new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
-				"", "", false,
+		cb.PassData1Serie (point_l,
+				new List<Cairo.Color>(), names_l,
 				fontHeightForBottomNames, bottomMargin, title, false);
+		cb.GraphDo();
 	}
 }
 
@@ -2988,10 +2989,10 @@ public class CairoPaintBarsPreRunInterval : CairoPaintBarsPre
 					eventGraphRunsIntervalStored.personAVGAtSQL,
 					eventGraphRunsIntervalStored.personMINAtSQL));
 
-		cb.GraphDo (point_l, new List<List<PointF>>(), false,
-				new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
-				"", "", false,
+		cb.PassData1Serie (point_l,
+				new List<Cairo.Color>(), names_l,
 				fontHeightForBottomNames, bottomMargin, title, false);
+		cb.GraphDo();
 	}
 }
 
@@ -3117,10 +3118,11 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 		List<List<PointF>> pointSecondary_ll = new List<List<PointF>>();
 		pointSecondary_ll.Add(pointA_l);
 
-		cb.GraphDo (pointB_l, pointSecondary_ll, false,
+		cb.PassData2Series (pointB_l, pointSecondary_ll, false,
 				new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
 				"", "", false,
 				14, 8, title, false);
+		cb.GraphDo();
 	}
 }
 
@@ -3289,10 +3291,10 @@ public class CairoPaintBarsPreRunIntervalRealtimeCapture : CairoPaintBarsPre
 					sum / speed_l.Count,
 					min));
 
-		cb.GraphDo (point_l, new List<List<PointF>>(), false,
-				new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
-				"", "", false,
+		cb.PassData1Serie (point_l,
+				new List<Cairo.Color>(), names_l,
 				14, 22, title, false); //22 because there are two rows
+		cb.GraphDo();
 	}
 }
 
@@ -3787,19 +3789,20 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		cb.Decs = decs;
 
 		if(pegbe.eccon == "c")
-			cb.GraphDo (dataA_l, new List<List<PointF>>(), false,
-					colorMain_l, new List<Cairo.Color>(), names_l,
-					"", "", false,
+			cb.PassData1Serie (dataA_l,
+					colorMain_l, names_l,
 					14, 8, "my title", ! pegbe.capturing);
 		else {
 			List<List<PointF>> pointSecondary_ll = new List<List<PointF>>();
 			pointSecondary_ll.Add(dataA_l);
 
-			cb.GraphDo (dataB_l, pointSecondary_ll, false,
+			cb.PassData2Series (dataB_l, pointSecondary_ll, false,
 					colorMain_l, colorSecondary_l, names_l,
 					"Ecc", "Con", true,
 					14, 8, "my title", ! pegbe.capturing);
 		}
+
+		cb.GraphDo();
 	}
 }
 

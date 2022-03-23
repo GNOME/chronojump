@@ -45,6 +45,9 @@ public abstract class CairoBars : CairoGeneric
 	protected Cairo.Context g;
 	protected int lineWidthDefault = 1; //was 2;
 	protected List<double> barsXCenter_l; //store center of the bars to draw range pointline on encoder
+	protected List<Point3F> resultOnBars_l;
+	protected int resultFontHeight;
+	protected double barWidth;
 
 	protected double minX = 1000000;
 	protected double maxX = 0;
@@ -83,6 +86,7 @@ public abstract class CairoBars : CairoGeneric
 		decs = 2;
 		initGraph(font, 1); //.8 if writeTextAtRight
 		barsXCenter_l = new List<double>();
+		resultOnBars_l = new List<Point3F>();
 	}
 
 	public void PassGuidesData (CairoBarsGuideManage cairoBarsGuideManage)
@@ -484,7 +488,6 @@ public abstract class CairoBars : CairoGeneric
 
 	protected abstract void plotBars ();
 
-	/*TODO: note line should not hide the numbers in bars */
 	protected void plotAlternativeLine (List<double> dataSecondary_l)
 	{
 		//be safe
@@ -643,8 +646,15 @@ public abstract class CairoBars : CairoGeneric
 		return optimalFontHeight;
 	}
 
-	protected double plotResultOnBar(double x, double y, double alto, double result,
-			int resultFontHeight, double barWidth, double yStartPointA)
+	protected void plotResultsOnBar ()
+	{
+		//result on bar painted here (after bars) to not have text overlapped by bars
+		double pAyStart = -1;
+		foreach(Point3F p in resultOnBars_l)
+			pAyStart = plotResultOnBarDo (p.X, p.Y, graphHeight -bottomMargin, p.Z, pAyStart);
+	}
+	protected double plotResultOnBarDo (double x, double y, double alto,
+			double result, double yStartPointA)
 	{
 		g.SetFontSize(resultFontHeight);
 
@@ -849,9 +859,9 @@ public class CairoBars1Series : CairoBars
                 double distanceBetweenCols = Convert.ToInt32((graphWidth - (leftMargin+rightMargin))*(1+.5)/pointMain_l.Count) -
                         Convert.ToInt32((graphWidth - (leftMargin+rightMargin))*(0+.5)/pointMain_l.Count);
 
-                double barWidth = Convert.ToInt32(.5*distanceBetweenCols);
+                barWidth = Convert.ToInt32(.5*distanceBetweenCols);
                 double barDesplLeft = Convert.ToInt32(.5*barWidth);
-		int resultFontHeight = getBarsResultFontHeight (barWidth*1.5); //*1.5 because there is space at left and right
+		resultFontHeight = getBarsResultFontHeight (barWidth*1.5); //*1.5 because there is space at left and right
 		LogB.Information("resultFontHeight: " + resultFontHeight.ToString());
 
 		for(int i = 0; i < pointMain_l.Count; i ++)
@@ -866,7 +876,7 @@ public class CairoBars1Series : CairoBars
 				barColor = colorMain_l[i];
 
 			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor);
-			plotResultOnBar(x + barWidth/2, y, graphHeight -bottomMargin, p.Y, resultFontHeight, barWidth, -1);
+			resultOnBars_l.Add(new Point3F(x + barWidth/2, y, p.Y));
 			mouseLimits.AddInPos (pointMain_l.Count -1 -i, x, x+barWidth);
 
 			//print the type at bottom
@@ -918,6 +928,8 @@ public class CairoBars1Series : CairoBars
 
 		if(dataSecondary_l != null && dataSecondary_l.Count > 0)
 			plotAlternativeLine(dataSecondary_l);
+
+		plotResultsOnBar();
 
 		writeTitleAtTop ();
 
@@ -1119,13 +1131,11 @@ public class CairoBarsNHSeries : CairoBars
                 //calculate separation between series and bar width
                 double distanceBetweenCols = (graphWidth - (leftMargin+rightMargin))/maxX;
 
-                double barWidth = .4*distanceBetweenCols; //two bars will be .8
+                barWidth = .4*distanceBetweenCols; //two bars will be .8
 		if(pointSecondary_ll.Count == 2) //TODO: fix this for more columns
 			barWidth = .8*distanceBetweenCols/3; //three bars will be .8
                 double barDesplLeft = .5*barWidth;
-		int resultFontHeight = getBarsResultFontHeight (barWidth*1.1);
-		List<Point3F> resultOnBars_l = new List<Point3F>();
-
+		resultFontHeight = getBarsResultFontHeight (barWidth*1.1);
 
 		/* mouseLimits
 		   if there are 6 bars, 6+6 bars should be 0..11,
@@ -1247,11 +1257,6 @@ public class CairoBarsNHSeries : CairoBars
 					0, fontHeightForBottomNames,
 					names_l[i], g, alignTypes.CENTER);
 		}
-
-		//result on bar painted here (after bars) to not have text overlapped by bars
-		double pAyStart = -1;
-		foreach(Point3F p in resultOnBars_l)
-			pAyStart = plotResultOnBar(p.X, p.Y, graphHeight -bottomMargin, p.Z, resultFontHeight, barWidth, pAyStart);
 	}
 
 	//done here and not in the constructor because most of this variables are known after construction
@@ -1296,6 +1301,8 @@ public class CairoBarsNHSeries : CairoBars
 
 		if(dataSecondary_l != null && dataSecondary_l.Count > 0)
 			plotAlternativeLine(dataSecondary_l);
+
+		plotResultsOnBar();
 
 		writeTitleAtTop ();
 

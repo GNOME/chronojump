@@ -34,6 +34,9 @@ public abstract class CairoBars : CairoGeneric
 	protected int marginForBottomNames;
 	protected string title;
 	protected bool clickable;
+	protected bool paintAxis;
+	protected bool paintGrid; //if paint grid, then paint a rectangle below resultOnBar (on encoder: false)
+
 	//protected string jumpType;
 	//protected string runType;
 	protected string date;
@@ -342,7 +345,7 @@ public abstract class CairoBars : CairoGeneric
 
 	protected abstract void findMaximums(); //includes point and guides
 
-	protected void paintAxis(int width)
+	protected void paintAxisDo (int width)
 	{
 		g.LineWidth = width;
 		g.MoveTo(leftMargin, topMargin);
@@ -697,14 +700,17 @@ public abstract class CairoBars : CairoGeneric
 			yStart = alto - te.Height;
 		*/
 
-		if(textAboveBar)
-			g.SetSourceColor(white); //to just hide the horizontal grid
-		else
-			g.SetSourceColor(yellow); //to have contrast with the bar
+		if(paintGrid)
+		{
+			if(textAboveBar)
+				g.SetSourceColor(white); //to just hide the horizontal grid
+			else
+				g.SetSourceColor(yellow); //to have contrast with the bar
 
-		//g.Rectangle(x - te.Width/2 -1, yStart-1, te.Width +2, te.Height+2);
-		g.Rectangle(x - te.Width/2, yStart, te.Width, te.Height);
-		g.Fill();
+			//g.Rectangle(x - te.Width/2 -1, yStart-1, te.Width +2, te.Height+2);
+			g.Rectangle(x - te.Width/2, yStart, te.Width, te.Height);
+			g.Fill();
+		}
 
 		//write text
 		g.SetSourceColor(black);
@@ -763,7 +769,7 @@ public abstract class CairoBars : CairoGeneric
 	*/
 
 	//reccomended to 1st paint the grid, then the axis
-	protected void paintGrid(gridTypes gridType, bool niceAutoValues)
+	protected void paintGridDo (gridTypes gridType, bool niceAutoValues)
 	{
 		if(minY == maxY)
 			return;
@@ -828,10 +834,12 @@ public class CairoBars1Series : CairoBars
 	}
 
 	//regular constructor
-	public CairoBars1Series (DrawingArea area, bool clickable)
+	public CairoBars1Series (DrawingArea area, bool clickable, bool paintAxis, bool paintGrid)
 	{
 		this.area = area;
 		this.clickable = clickable;
+		this.paintAxis = paintAxis;
+		this.paintGrid = paintGrid;
 
 		this.colorSerieA = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
 	}
@@ -915,8 +923,12 @@ public class CairoBars1Series : CairoBars
                 findMaximums();
 
 		g.SetFontSize(textHeight);
-		paintAxis(2);
-		paintGrid(gridTypes.HORIZONTALLINES, true);
+
+		if(paintAxis)
+			paintAxisDo (2);
+
+		if(paintGrid)
+			paintGridDo (gridTypes.HORIZONTALLINES, true);
 		//g.SetFontSize(textHeight);
 
 		if(cairoBarsGuideManage != null)
@@ -970,11 +982,13 @@ public class CairoBarsNHSeries : CairoBars
 	}
 
 	//regular constructor
-	public CairoBarsNHSeries (DrawingArea area, bool showLegend, bool clickable)
+	public CairoBarsNHSeries (DrawingArea area, bool showLegend, bool clickable, bool paintAxis, bool paintGrid)
 	{
 		this.area = area;
 		this.showLegend = showLegend;
 		this.clickable = clickable;
+		this.paintAxis = paintAxis;
+		this.paintGrid = paintGrid;
 
 		colorSerieA = colorFromGdk(UtilGtk.GetColorShifted(Config.ColorBackground,
 					! UtilGtk.ColorIsDark(Config.ColorBackground)));
@@ -1288,9 +1302,12 @@ public class CairoBarsNHSeries : CairoBars
                 findMaximums();
 
 		g.SetFontSize(textHeight);
-		paintAxis(2);
-		//paintAxis(2, textHeight -2);
-		paintGrid(gridTypes.HORIZONTALLINES, true);
+
+		if(paintAxis)
+			paintAxisDo (2);
+
+		if(paintGrid)
+			paintGridDo (gridTypes.HORIZONTALLINES, true);
 		//g.SetFontSize(textHeight);
 
 		if(cairoBarsGuideManage != null)

@@ -609,6 +609,15 @@ public static class MathUtil
 
 		return max;
 	}
+	public static double GetMin (List<double> d_l)
+	{
+		double min = 1000000;
+		foreach (double d in d_l)
+			if ( d < min )
+				min = d;
+
+		return min;
+	}
 
 }
 

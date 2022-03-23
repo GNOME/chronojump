@@ -3378,8 +3378,8 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 	//copied from gui/encoderGraphObjects (using ArrayList)
 	private ArrayList data; //data is related to mainVariable (barplot)
-	private ArrayList dataSecondary; //dataSecondary is related to secondary variable (by default range)
-	private ArrayList dataRangeOfMovement; //ROM, need it to discard last rep for loss. Is not the same as dataSecondary because maybe user selected another variable as secondary. only checks con.
+	private List<double> dataSecondary_l; //dataSecondary is related to secondary variable (by default range)
+	private ArrayList dataRangeOfMovement; //ROM, need it to discard last rep for loss. Is not the same as dataSecondary_l because maybe user selected another variable as secondary. only checks con.
 	private ArrayList dataWorkJ;
 	private ArrayList dataImpulse;
 
@@ -3450,7 +3450,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 	private void fillDataVariables1 () //copied from gui/encoderGraphObjects fillDataVariables()
 	{
 		data = new ArrayList (pegbe.data9Variables.Count); //data is related to mainVariable (barplot)
-		dataSecondary = new ArrayList (pegbe.data9Variables.Count); //dataSecondary is related to secondary variable (by default range)
+		dataSecondary_l = new List<double>(); //dataSecondary_l is related to secondary variable (by default range)
 		dataRangeOfMovement = new ArrayList (pegbe.data9Variables.Count);
 		dataWorkJ = new ArrayList (pegbe.data9Variables.Count);
 		dataImpulse = new ArrayList (pegbe.data9Variables.Count);
@@ -3466,7 +3466,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 			{
 				data.Add(ebd.GetValue(pegbe.mainVariable));
 				if(pegbe.secondaryVariable != "")
-					dataSecondary.Add(ebd.GetValue(pegbe.secondaryVariable));
+					dataSecondary_l.Add(ebd.GetValue(pegbe.secondaryVariable));
 				dataRangeOfMovement.Add(ebd.GetValue(Constants.RangeAbsolute));
 				dataWorkJ.Add(ebd.GetValue(Constants.WorkJ));
 				dataImpulse.Add(ebd.GetValue(Constants.Impulse));
@@ -3477,7 +3477,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 				{
 					data.Add(ebd.GetValue(pegbe.mainVariable));
 					if(pegbe.secondaryVariable != "")
-						dataSecondary.Add(ebd.GetValue(pegbe.secondaryVariable));
+						dataSecondary_l.Add(ebd.GetValue(pegbe.secondaryVariable));
 					dataRangeOfMovement.Add(ebd.GetValue(Constants.RangeAbsolute));
 					dataWorkJ.Add(ebd.GetValue(Constants.WorkJ));
 					dataImpulse.Add(ebd.GetValue(Constants.Impulse));
@@ -3491,7 +3491,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 						LogB.Information("added ecc");
 						data.Add(ebd.GetValue(pegbe.mainVariable));
 						if(pegbe.secondaryVariable != "")
-							dataSecondary.Add(ebd.GetValue(pegbe.secondaryVariable));
+							dataSecondary_l.Add(ebd.GetValue(pegbe.secondaryVariable));
 						dataRangeOfMovement.Add(ebd.GetValue(Constants.RangeAbsolute));
 						dataWorkJ.Add(ebd.GetValue(Constants.WorkJ));
 						dataImpulse.Add(ebd.GetValue(Constants.Impulse));
@@ -3501,7 +3501,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 						{
 							data.Add(ebd.GetValue(pegbe.mainVariable));
 							if(pegbe.secondaryVariable != "")
-								dataSecondary.Add(ebd.GetValue(pegbe.secondaryVariable));
+								dataSecondary_l.Add(ebd.GetValue(pegbe.secondaryVariable));
 							dataRangeOfMovement.Add(ebd.GetValue(Constants.RangeAbsolute));
 							dataWorkJ.Add(ebd.GetValue(Constants.WorkJ));
 							dataImpulse.Add(ebd.GetValue(Constants.Impulse));
@@ -3787,6 +3787,9 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 			decs = 0;
 		}
 		cb.Decs = decs;
+
+		if(dataSecondary_l.Count > 0)
+			cb.PassDataSecondary (dataSecondary_l);
 
 		if(pegbe.eccon == "c")
 			cb.PassData1Serie (dataA_l,

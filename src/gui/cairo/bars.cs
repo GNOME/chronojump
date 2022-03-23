@@ -31,6 +31,7 @@ public abstract class CairoBars : CairoGeneric
 	protected int fontHeightForBottomNames;
 	protected int marginForBottomNames;
 	protected string title;
+	protected bool clickable;
 	//protected string jumpType;
 	//protected string runType;
 	protected string date;
@@ -249,10 +250,25 @@ public abstract class CairoBars : CairoGeneric
 		g.LineWidth = 1;
 	}
 
-	public abstract void GraphDo (List<PointF> pointMain_l, List<List<PointF>> pointSecondary_ll, bool mainAtLeft,
+	public virtual void PassData1Serie (List<PointF> pointMain_l,
+			List<Cairo.Color> colorMain_l, List<string> names_l,
+			int fontHeightForBottomNames, int marginForBottomNames, string title, bool clickable)
+	{
+		//defined in CairoBars1Series
+	}
+
+	public virtual void PassData2Series (List<PointF> pointMain_l, List<List<PointF>> pointSecondary_ll, bool mainAtLeft,
+			List<Cairo.Color> colorMain_l, List<Cairo.Color> colorSecondary_l, List<string> names_l,
+			string labelBarMain, string labelBarSecondary, bool labelRotateInFirstBar,
+			int fontHeightForBottomNames, int marginForBottomNames, string title, bool clickable)
+	{
+		//defined in CairoBarsNHSeries
+	}
+
+	public abstract void GraphDo();/* (List<PointF> pointMain_l, List<List<PointF>> pointSecondary_ll, bool mainAtLeft,
 			List<Cairo.Color> colorMain_l, List<Cairo.Color> colorSecondary, List<string> names_l,
 			string labelBarMain, string labelBarSecondary, bool labelRotateInFirstBar,
-			int fontHeightForBottomNames, int marginForBottomNames, string title, bool clickable);
+			int fontHeightForBottomNames, int marginForBottomNames, string title, bool clickable);*/
 
 	protected void initGraph(string font, double widthPercent1)
 	{
@@ -790,21 +806,23 @@ public class CairoBars1Series : CairoBars
 		}
 	}
 
-	public override void GraphDo (List<PointF> pointMain_l, List<List<PointF>> pointSecondary_ll, bool mainAtLeft,
-			List<Cairo.Color> colorMain_l, List<Cairo.Color> colorSecondary, List<string> names_l,
-			string labelBarMain, string labelBarSecondary, bool labelRotateInFirstBar,
+	//done here and not in the constructor because most of this variables are known after construction
+	public override void PassData1Serie (List<PointF> pointMain_l,
+			List<Cairo.Color> colorMain_l, List<string> names_l,
 			int fontHeightForBottomNames, int marginForBottomNames, string title, bool clickable)
 	{
-		LogB.Information("at CairoBars1Series.Do");
 		this.pointMain_l = pointMain_l;
-		//this.pointSecondary_l = pointSecondary_l; //unused in this class
 		this.colorMain_l = colorMain_l;
-		//this.colorSecondary_l = colorSecondary_l; //unused in this class
 		this.names_l = names_l;
 		this.fontHeightForBottomNames = fontHeightForBottomNames;
 		this.marginForBottomNames = marginForBottomNames;
 		this.title = title;
+		this.clickable = clickable;
+	}
 
+	public override void GraphDo ()
+	{
+		LogB.Information("at CairoBars1Series.Do");
 		LogB.Information(string.Format("bottomMargin pre: {0}, marginForBottomNames: {1}", bottomMargin, marginForBottomNames));
 		bottomMargin += marginForBottomNames;
 
@@ -1147,7 +1165,8 @@ public class CairoBarsNHSeries : CairoBars
 			pAyStart = plotResultOnBar(p.X, p.Y, graphHeight -bottomMargin, p.Z, resultFontHeight, barWidth, pAyStart);
 	}
 
-	public override void GraphDo (List<PointF> pointMain_l, List<List<PointF>> pointSecondary_ll, bool mainAtLeft,
+	//done here and not in the constructor because most of this variables are known after construction
+	public override void PassData2Series (List<PointF> pointMain_l, List<List<PointF>> pointSecondary_ll, bool mainAtLeft,
 			List<Cairo.Color> colorMain_l, List<Cairo.Color> colorSecondary_l, List<string> names_l,
 			string labelBarMain, string labelBarSecondary, bool labelRotateInFirstBar,
 			int fontHeightForBottomNames, int marginForBottomNames, string title, bool clickable)
@@ -1163,7 +1182,10 @@ public class CairoBarsNHSeries : CairoBars
 		this.fontHeightForBottomNames = fontHeightForBottomNames;
 		this.marginForBottomNames = marginForBottomNames;
 		this.title = title;
+	}
 
+	public override void GraphDo ()
+	{
 		bottomMargin += marginForBottomNames;
 
 		//LogB.Information(string.Format("NH GraphDo: pointA_l.Count: {0}, pointB_l.Count: {1}", pointA_l.Count, pointB_l.Count));

@@ -44,6 +44,7 @@ public abstract class CairoBars : CairoGeneric
 
 	protected Cairo.Context g;
 	protected int lineWidthDefault = 1; //was 2;
+	protected List<double> barsXCenter_l; //store center of the bars to draw range pointline on encoder
 
 	protected double minX = 1000000;
 	protected double maxX = 0;
@@ -59,6 +60,7 @@ public abstract class CairoBars : CairoGeneric
 	protected Cairo.Color yellow;
 
 	protected RepetitionMouseLimits mouseLimits;
+	protected List<double> dataSecondary_l; //related to secondary variable (by default range)
 
 	// ---- values can be passed from outside via accessors ---->
 	protected string xVariable = "";
@@ -80,6 +82,7 @@ public abstract class CairoBars : CairoGeneric
 		textHeight = 14;
 		decs = 2;
 		initGraph(font, 1); //.8 if writeTextAtRight
+		barsXCenter_l = new List<double>();
 	}
 
 	public void PassGuidesData (CairoBarsGuideManage cairoBarsGuideManage)
@@ -252,6 +255,12 @@ public abstract class CairoBars : CairoGeneric
 		g.LineWidth = 1;
 	}
 
+	//related to secondary variable (by default range)
+	public void PassDataSecondary (List<double> dataSecondary_l)
+	{
+		this.dataSecondary_l = dataSecondary_l;
+	}
+
 	public virtual void PassData1Serie (List<PointF> pointMain_l,
 			List<Cairo.Color> colorMain_l, List<string> names_l,
 			int fontHeightAboveBar, int fontHeightForBottomNames, int marginForBottomNames,
@@ -311,7 +320,7 @@ public abstract class CairoBars : CairoGeneric
 		red = colorFromRGB(200,0,0);
 		blue = colorFromRGB(178, 223, 238); //lightblue
 		bluePlots = colorFromRGB(0, 0, 200);
-		yellow = colorFromRGB(255,238,102);
+		yellow = colorFromRGB(255,204,1);
 
 		//margins
 		leftMargin = 26;
@@ -386,6 +395,18 @@ public abstract class CairoBars : CairoGeneric
 				1.2*maxY - minY)
 			+ topMargin;
         }
+
+	//used for plotAlternative (that uses another series, so pass maxY and minY
+	protected double calculatePaintY (double realY, double maxY, double minY)
+	{
+                return graphHeight - (topMargin + bottomMargin) //graph ata area
+			- UtilAll.DivideSafe(
+				(realY - minY) * (graphHeight - (topMargin+bottomMargin)),
+				//maxY - minY)
+				//have 20% extra margin on the top (highest values will be this % far from max of the graph, needed also because text is above)
+				1.2*maxY - minY)
+			+ topMargin;
+	}
 
 	protected override void printText (double x, double y, double heightUnused, int textH,
 			string text, Cairo.Context g, alignTypes align)
@@ -462,6 +483,35 @@ public abstract class CairoBars : CairoGeneric
 	}
 
 	protected abstract void plotBars ();
+
+	/*TODO: note line should not hide the numbers in bars */
+	/*TODO: falta el punt (no només línia)*/
+	protected void plotAlternativeLine (List<double> dataSecondary_l)
+	{
+		//be safe
+		if(barsXCenter_l.Count != dataSecondary_l.Count)
+			return;
+
+		g.SetSourceColor(yellow); //to have contrast with the bar
+		g.LineWidth = 2;
+		bool firstDone = false;
+		for (int i = 0 ; i < barsXCenter_l.Count; i ++)
+		{
+			double y = calculatePaintY (dataSecondary_l[dataSecondary_l.Count -1 -i],
+					MathUtil.GetMax (dataSecondary_l),
+					0);//MathUtil.GetMin (dataSecondary_l));
+
+			if(! firstDone)
+			{
+				g.MoveTo(barsXCenter_l[i], y);
+				firstDone = true;
+			} else
+				g.LineTo(barsXCenter_l[i], y);
+		}
+		g.Stroke();
+		g.SetSourceColor(black);
+		g.LineWidth = 1;
+	}
 
 	//adapted from http://www.mono-project.com/docs/tools+libraries/libraries/Mono.Cairo/cookbook/
 	//bottomFlat means to have rounded only on top
@@ -813,6 +863,8 @@ public class CairoBars1Series : CairoBars
 					0, fontHeightForBottomNames,
 					names_l[i], g, alignTypes.CENTER);
 			LogB.Information("names_l[i]: " + names_l[i]);
+
+			barsXCenter_l.Add(x + barWidth/2);
 		}
 	}
 
@@ -851,6 +903,9 @@ public class CairoBars1Series : CairoBars
 		g.SetSourceColor(black);
 		plotBars ();
 
+		if(dataSecondary_l != null && dataSecondary_l.Count > 0)
+			plotAlternativeLine(dataSecondary_l);
+
 		writeTitleAtTop ();
 
 		if(clickable)
@@ -863,7 +918,7 @@ public class CairoBars1Series : CairoBars
 //N series in horizontal, like jump Dj tc/tf, jumpRj (maybe with a "number of jumps" column)
 public class CairoBarsNHSeries : CairoBars
 {
-	private List<List<PointF>> pointSecondary_ll;
+	private List<List<PointF>> pointSecondary_ll; //other/s bar/s to display at the side of Main
 	private List<PointF> pointMain_l;
 	private List<Cairo.Color> colorMain_l;
 	private List<Cairo.Color> colorSecondary_l;
@@ -1100,6 +1155,9 @@ public class CairoBarsNHSeries : CairoBars
 					mouseLimits.AddInPos (mouseLimitsPos1stBar, x+adjustX, x+adjustX+barWidth);
 					mouseLimitsPos1stBar -= 2;
 
+					//to print line variable if needed
+					//barsXCenter_l.Add(x + adjustX + barWidth/2);
+
 					if(labelBarMain != "")
 					{
 						if(labelRotateInFirstBar)
@@ -1141,6 +1199,9 @@ public class CairoBarsNHSeries : CairoBars
 				mouseLimits.AddInPos (mouseLimitsPos2ndBar, x+adjustX, x+adjustX+barWidth);
 				mouseLimitsPos2ndBar -= 2;
 
+				//to print line variable if needed
+				//barsXCenter_l.Add(x + adjustX + barWidth/2);
+
 				if(labelBarMain != "")
 				{
 					if(labelRotateInFirstBar)
@@ -1161,7 +1222,10 @@ public class CairoBarsNHSeries : CairoBars
 
 			//sort result on bars correctly
 			for(int j = resultOnBarsThisIteration_l.Count -1; j >= 0; j --)
+			{
 				resultOnBars_l.Add(resultOnBarsThisIteration_l[j]);
+				barsXCenter_l.Add(resultOnBarsThisIteration_l[j].X);
+			}
 
 			//print text at bottom
 			printTextMultiline(
@@ -1216,6 +1280,9 @@ public class CairoBarsNHSeries : CairoBars
 
 		g.SetSourceColor(black);
 		plotBars();
+
+		if(dataSecondary_l != null && dataSecondary_l.Count > 0)
+			plotAlternativeLine(dataSecondary_l);
 
 		writeTitleAtTop ();
 

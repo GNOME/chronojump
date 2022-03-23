@@ -268,7 +268,7 @@ public abstract class CairoBars : CairoGeneric
 	public virtual void PassData1Serie (List<PointF> pointMain_l,
 			List<Cairo.Color> colorMain_l, List<string> names_l,
 			int fontHeightAboveBar, int fontHeightForBottomNames, int marginForBottomNames,
-			string title, bool clickable)
+			string title)
 	{
 		//defined in CairoBars1Series
 	}
@@ -277,15 +277,12 @@ public abstract class CairoBars : CairoGeneric
 			List<Cairo.Color> colorMain_l, List<Cairo.Color> colorSecondary_l, List<string> names_l,
 			string labelBarMain, string labelBarSecondary, bool labelRotateInFirstBar,
 			int fontHeightAboveBar, int fontHeightForBottomNames, int marginForBottomNames,
-			string title, bool clickable)
+			string title)
 	{
 		//defined in CairoBarsNHSeries
 	}
 
-	public abstract void GraphDo();/* (List<PointF> pointMain_l, List<List<PointF>> pointSecondary_ll, bool mainAtLeft,
-			List<Cairo.Color> colorMain_l, List<Cairo.Color> colorSecondary, List<string> names_l,
-			string labelBarMain, string labelBarSecondary, bool labelRotateInFirstBar,
-			int fontHeightForBottomNames, int marginForBottomNames, string title, bool clickable);*/
+	public abstract void GraphDo();
 
 	protected void initGraph(string font, double widthPercent1)
 	{
@@ -658,6 +655,7 @@ public abstract class CairoBars : CairoGeneric
 	{
 		g.SetFontSize(resultFontHeight);
 
+		/*
 		double maxLengthNumber = 9.99;
 		if(maxY >= 10)
 			maxLengthNumber = 99.99;
@@ -665,6 +663,7 @@ public abstract class CairoBars : CairoGeneric
 			maxLengthNumber = 999.99;
 		if(maxY >= 1000)
 			maxLengthNumber = 9999.99;
+		*/
 
 		Cairo.TextExtents te;
 		te = g.TextExtents(Util.TrimDecimals(result,decs));
@@ -829,9 +828,10 @@ public class CairoBars1Series : CairoBars
 	}
 
 	//regular constructor
-	public CairoBars1Series (DrawingArea area)
+	public CairoBars1Series (DrawingArea area, bool clickable)
 	{
 		this.area = area;
+		this.clickable = clickable;
 
 		this.colorSerieA = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
 	}
@@ -895,7 +895,7 @@ public class CairoBars1Series : CairoBars
 	public override void PassData1Serie (List<PointF> pointMain_l,
 			List<Cairo.Color> colorMain_l, List<string> names_l,
 			int fontHeightAboveBar, int fontHeightForBottomNames, int marginForBottomNames,
-			string title, bool clickable)
+			string title)
 	{
 		this.pointMain_l = pointMain_l;
 		this.colorMain_l = colorMain_l;
@@ -904,7 +904,6 @@ public class CairoBars1Series : CairoBars
 		this.fontHeightForBottomNames = fontHeightForBottomNames;
 		this.marginForBottomNames = marginForBottomNames;
 		this.title = title;
-		this.clickable = clickable;
 	}
 
 	public override void GraphDo ()
@@ -971,10 +970,11 @@ public class CairoBarsNHSeries : CairoBars
 	}
 
 	//regular constructor
-	public CairoBarsNHSeries (DrawingArea area, bool showLegend)
+	public CairoBarsNHSeries (DrawingArea area, bool showLegend, bool clickable)
 	{
 		this.area = area;
 		this.showLegend = showLegend;
+		this.clickable = clickable;
 
 		colorSerieA = colorFromGdk(UtilGtk.GetColorShifted(Config.ColorBackground,
 					! UtilGtk.ColorIsDark(Config.ColorBackground)));
@@ -1264,7 +1264,7 @@ public class CairoBarsNHSeries : CairoBars
 			List<Cairo.Color> colorMain_l, List<Cairo.Color> colorSecondary_l, List<string> names_l,
 			string labelBarMain, string labelBarSecondary, bool labelRotateInFirstBar,
 			int fontHeightAboveBar, int fontHeightForBottomNames, int marginForBottomNames,
-			string title, bool clickable)
+			string title)
 	{
 		this.pointSecondary_ll = pointSecondary_ll;
 		this.pointMain_l = pointMain_l;

@@ -907,12 +907,15 @@ public partial class ChronoJumpWindow
 		else //if(laterality == "L")
 			radio_encoder_laterality_l.Active = true;
 
+		/*
+		   Do not use this SqlitePreferences rows because this fields are on encoderConfiguration table (Active)
 		//4 mass / weights
 		string mass = SqlitePreferences.Select(SqlitePreferences.EncoderMassGravitatory, true);
 		spin_encoder_extra_weight.Value = Convert.ToDouble(Util.ChangeDecimalSeparator(mass));
 
 		string weights = SqlitePreferences.Select(SqlitePreferences.EncoderWeightsInertial, true);
 		entry_encoder_im_weights_n.Text = weights;
+		*/
 
 
 		Sqlite.Close();
@@ -948,6 +951,8 @@ public partial class ChronoJumpWindow
 		else //(current_mode == Constants.Modes.POWERINERTIAL)
 			SqlitePreferences.Update (SqlitePreferences.EncoderLateralityInertial, laterality, true);
 
+		/*
+		   Do not use this SqlitePreferences rows because this fields are on encoderConfiguration table (Active)
 		//4 mass / weights
 		if(current_mode == Constants.Modes.POWERGRAVITATORY)
 			SqlitePreferences.Update (SqlitePreferences.EncoderMassGravitatory,
@@ -957,6 +962,7 @@ public partial class ChronoJumpWindow
 			SqlitePreferences.Update (SqlitePreferences.EncoderWeightsInertial,
 					spin_encoder_im_weights_n.Value.ToString(),
 					true);
+		*/
 
 		Sqlite.Close();
 

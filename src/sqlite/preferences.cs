@@ -72,8 +72,8 @@ class SqlitePreferences : Sqlite
 	public const string EncoderContractionInertial = "encoderContractionInertial";
 	public const string EncoderLateralityGravitatory = "encoderLateralityGravitatory";
 	public const string EncoderLateralityInertial = "encoderLateralityInertial";
-	public const string EncoderMassGravitatory = "encoderMassGravitatory";
-	public const string EncoderWeightsInertial = "encoderWeightsInertial";
+	public const string EncoderMassGravitatory = "encoderMassGravitatory"; //unused on 2.2.2. Just use encoderConfiguration table
+	public const string EncoderWeightsInertial = "encoderWeightsInertial"; //unused on 2.2.2. Just use encoderConfiguration table
 
 	public const string EncoderAutoSaveCurveBestNValue = "encoderAutoSaveCurveBestNValue";
 	public const string EncoderWorkKcal = "encoderWorkKcal";

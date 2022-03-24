@@ -2015,8 +2015,10 @@ public partial class ChronoJumpWindow
 						);
 			}
 
-			//this will update also spin_encoder_im_weights_n
+			//this will update also spin_encoder_im_weights_n ...
 			entry_encoder_im_weights_n.Text = encoderConfigurationCurrent.extraWeightN.ToString();
+			// ... but we found not updated on some computers, so we force update it
+			spin_encoder_im_weights_n.Value = encoderConfigurationCurrent.extraWeightN;
 
 			label_encoder_im_total.Text = encoderConfigurationCurrent.inertiaTotal.ToString();
 			label_encoder_top_im.Text = Catalog.GetString("Inertia M.") + ": " + label_encoder_im_total.Text;

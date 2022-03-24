@@ -18,6 +18,7 @@ glade/error_window.glade
 glade/evaluator_window.glade
 glade/event_graph_configure.glade
 glade/execute_auto.glade
+glade/feedback.glade
 glade/force_sensor_elastic_bands.glade
 glade/force_sensor_exercise.glade
 glade/generic_window.glade
@@ -33,7 +34,6 @@ glade/person_win.glade
 glade/preferences_win.glade
 glade/query_server_window.glade
 glade/repair_sub_event.glade
-glade/repetitive_conditions.glade
 glade/report_window.glade
 glade/run_type_add.glade
 glade/session_upload.glade
@@ -97,6 +97,7 @@ src/gui/evaluator.cs
 src/gui/event.cs
 src/gui/eventExecute.cs
 src/gui/executeAuto.cs
+src/gui/feedback.cs
 src/gui/forceSensorElasticBands.cs
 src/gui/forceSensorExercise.cs
 src/gui/genericWindow.cs
@@ -115,7 +116,6 @@ src/gui/person/showAllEvents.cs
 src/gui/preferences.cs
 src/gui/pulse.cs
 src/gui/reactionTime.cs
-src/gui/repetitiveConditions.cs
 src/gui/report.cs
 src/gui/run.cs
 src/gui/runType.cs

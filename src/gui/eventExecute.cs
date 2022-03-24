@@ -2486,6 +2486,9 @@ public abstract class CairoPaintBarsPre
 
 	public int FindBarInPixel (double pixel)
 	{
+		if(cb == null)
+			return -1;
+
 		return cb.FindBarInPixel(pixel);
 	}
 }

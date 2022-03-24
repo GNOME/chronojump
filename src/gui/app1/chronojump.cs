@@ -3753,6 +3753,7 @@ public partial class ChronoJumpWindow
 				}
 				
 				currentEncoderGI = Constants.EncoderGI.GRAVITATORY;
+				encoder_change_displaced_weight_and_1RM ();
 				hbox_capture_1RM.Visible = true;
 
 				//notebook_encoder_capture_extra_mass.CurrentPage = 0;

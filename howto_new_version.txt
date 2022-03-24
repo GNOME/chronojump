@@ -157,6 +157,8 @@ python py2exec_chronojump_importer.py py2exe -d chronojump-importer-pyhon3
 copy chronojump-importer-python3 dir to  ~/informatica/virtualbox_windows_shared/
 and there move to win32/deps/bin
 git commit / push
+
+note if an user cannot get version on chronojump-importer execution, try running the python file from the commandline and if it fails, maybe it will say that msvcr100.dll is missing, just copy it there
 --
 
 2) See: howto_compile.txt

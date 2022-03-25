@@ -1484,3 +1484,32 @@ public class CairoBarsGuideManage
 		get { return l; }
 	}
 }
+
+// ----
+//note x0pos, x1pos are the pos (meaning the bar)
+public class CairoBarsArrow
+{
+	public int x0pos;
+	public double y0;
+	public int x1pos;
+	public double y1;
+
+	public CairoBarsArrow (int x0pos, double y0, int x1pos, double y1)
+	{
+		this.x0pos = x0pos;
+		this.y0 = y0;
+		this.x1pos = x1pos;
+		this.y1 = y1;
+		//LogB.Information(string.Format("x0pos: {0}, x1pos: {1}", x0pos, x1pos));
+	}
+
+	public double GetX0Graph (List<double> barsXCenter_l)
+	{
+		return barsXCenter_l[barsXCenter_l.Count -1 -x0pos];
+	}
+
+	public double GetX1Graph (List<double> barsXCenter_l)
+	{
+		return barsXCenter_l[barsXCenter_l.Count -1 -x1pos];
+	}
+}

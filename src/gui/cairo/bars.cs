@@ -44,6 +44,7 @@ public abstract class CairoBars : CairoGeneric
 	protected CairoBarsGuideManage cairoBarsGuideManage;
 	protected bool usePersonGuides;
 	protected bool useGroupGuides;
+	protected CairoBarsArrow cairoBarsArrow;
 
 	protected Cairo.Context g;
 	protected int lineWidthDefault = 1; //was 2;
@@ -59,6 +60,7 @@ public abstract class CairoBars : CairoGeneric
 
 	protected Cairo.Color black;
 	protected Cairo.Color gray99;
+	protected Cairo.Color gray153; //light
 	protected Cairo.Color white;
 	protected Cairo.Color red;
 	protected Cairo.Color blue;
@@ -147,6 +149,11 @@ public abstract class CairoBars : CairoGeneric
 			g.LineTo(graphWidth - rightMargin +xStart +12 +3, graphHeight -2*textHeight -5);
 			g.Stroke ();
 		}
+	}
+
+	public void PassArrowData (CairoBarsArrow cairoBarsArrow)
+	{
+		this.cairoBarsArrow = cairoBarsArrow;
 	}
 
 	protected enum textTickPos { ABOVETICK, BELOWTICK, ABSOLUTEBOTTOM }
@@ -320,6 +327,7 @@ public abstract class CairoBars : CairoGeneric
 
 		black = colorFromRGB(0,0,0);
 		gray99 = colorFromRGB(99,99,99);
+		gray153 = colorFromRGB(153,153,153);
 		white = colorFromRGB(255,255,255);
 		red = colorFromRGB(200,0,0);
 		blue = colorFromRGB(178, 223, 238); //lightblue
@@ -487,6 +495,21 @@ public abstract class CairoBars : CairoGeneric
 	}
 
 	protected abstract void plotBars ();
+
+	protected void plotArrow ()
+	{
+		//caution
+		if(cairoBarsArrow == null || barsXCenter_l == null ||
+				cairoBarsArrow.x0pos >= barsXCenter_l.Count ||
+				cairoBarsArrow.x1pos >= barsXCenter_l.Count)
+			return;
+
+		plotArrowFree (g, gray153, 5, 20,
+				cairoBarsArrow.GetX0Graph (barsXCenter_l),
+				calculatePaintY(cairoBarsArrow.y0),
+				cairoBarsArrow.GetX1Graph (barsXCenter_l),
+				calculatePaintY(cairoBarsArrow.y1));
+	}
 
 	protected void plotAlternativeLine (List<double> dataSecondary_l)
 	{
@@ -937,6 +960,9 @@ public class CairoBars1Series : CairoBars
 		g.SetSourceColor(black);
 		plotBars ();
 
+		if(cairoBarsArrow != null)
+			plotArrow();
+
 		if(dataSecondary_l != null && dataSecondary_l.Count > 0)
 			plotAlternativeLine(dataSecondary_l);
 
@@ -1315,6 +1341,9 @@ public class CairoBarsNHSeries : CairoBars
 
 		g.SetSourceColor(black);
 		plotBars();
+
+		if(cairoBarsArrow != null)
+			plotArrow();
 
 		if(dataSecondary_l != null && dataSecondary_l.Count > 0)
 			plotAlternativeLine(dataSecondary_l);

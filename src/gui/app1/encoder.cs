@@ -5889,6 +5889,7 @@ public partial class ChronoJumpWindow
 			double mainVariableLower = feedbackWin.GetMainVariableLower(mainVariable);
 
 			if(encoderGraphDoPlot != null)
+			{
 				encoderGraphDoPlot.Start(
 						mainVariable, mainVariableHigher, mainVariableLower,
 						secondaryVariable, preferences.encoderCaptureShowLoss,
@@ -5903,8 +5904,8 @@ public partial class ChronoJumpWindow
 						sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
 						sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable));
 
-			//Cairo
-			prepareEventGraphBarplotEncoder = new PrepareEventGraphBarplotEncoder (
+				//Cairo
+				prepareEventGraphBarplotEncoder = new PrepareEventGraphBarplotEncoder (
 						mainVariable, mainVariableHigher, mainVariableLower,
 						secondaryVariable, preferences.encoderCaptureShowLoss,
 						false, //not capturing
@@ -5921,7 +5922,8 @@ public partial class ChronoJumpWindow
 						preferences.encoderCaptureShowNRepetitions,
 						preferences.volumeOn,
 						preferences.gstreamer);
-			prepareEncoderBarplotCairo ();
+				prepareEncoderBarplotCairo ();
+			}
 		}
 	}
 
@@ -6796,6 +6798,7 @@ public partial class ChronoJumpWindow
 							sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable));
 
 					//Cairo
+					//TODO: send also the NewPreferences
 					prepareEventGraphBarplotEncoder = new PrepareEventGraphBarplotEncoder (
 							mainVariable, mainVariableHigher, mainVariableLower,
 							secondaryVariable, preferences.encoderCaptureShowLoss,
@@ -6815,7 +6818,6 @@ public partial class ChronoJumpWindow
 							preferences.gstreamer);
 					prepareEncoderBarplotCairo ();
 				}
-				//}
 
 				needToRefreshTreeviewCapture = false;
 			}
@@ -7399,6 +7401,7 @@ public partial class ChronoJumpWindow
 							sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable));
 
 					//Cairo
+					//TODO: send also the NewPreferences
 					prepareEventGraphBarplotEncoder = new PrepareEventGraphBarplotEncoder (
 							mainVariable, mainVariableHigher, mainVariableLower,
 							secondaryVariable, preferences.encoderCaptureShowLoss,

@@ -7815,6 +7815,7 @@ LogB.Debug("mc finished 5");
 								sendMaxPowerSpeedForceIntersessionDate(mainVariable));
 
 						//Cairo
+						//TODO: send also the NewPreferences
 						prepareEventGraphBarplotEncoder = new PrepareEventGraphBarplotEncoder (
 								mainVariableStr, mainVariableHigher, mainVariableLower,
 								secondaryVariableStr, preferences.encoderCaptureShowLoss,

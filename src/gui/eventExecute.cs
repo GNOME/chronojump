@@ -3387,6 +3387,18 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 	private ArrayList dataImpulse;
 	private CairoBarsArrow cairoBarsArrow;
 
+	private double countValid;
+	private double sumValid;
+	private double sumSaved;
+	private int countSaved;
+	private double maxThisSetValidAndCon;
+	private double minThisSetValidAndCon;
+	//we need the position to draw the loss line and maybe to manage that the min should be after the max (for being real loss)
+	private int maxThisSetValidAndConPos;
+	private int minThisSetValidAndConPos;
+	double workTotal; //can be J or Kcal (shown in cal)
+	double impulseTotal;
+
 	private List<PointF> dataA_l; //data is related to mainVariable (barplot)
 	private List<PointF> dataB_l; //data is related to mainVariable (barplot)
 	private List<Cairo.Color> colorMain_l;
@@ -3427,6 +3439,8 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		//TODO: reorg/rename this
 		fillDataVariables1 ();
 		fillDataVariables2 ();
+		prepareTitle ();
+		prepareLossArrow ();
 
 		paintSpecificDo ();
 	}
@@ -3550,17 +3564,19 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		 */
 
 		//only used for loss. For loss only con phase is used
-		double maxThisSetValidAndCon = maxThisSetForCalc;
-		double minThisSetValidAndCon = minThisSet;
+		maxThisSetValidAndCon = maxThisSetForCalc;
+		minThisSetValidAndCon = minThisSet;
 		//we need the position to draw the loss line and maybe to manage that the min should be after the max (for being real loss)
-		int maxThisSetValidAndConPos = 0;
-		int minThisSetValidAndConPos = 0;
+		maxThisSetValidAndConPos = 0;
+		minThisSetValidAndConPos = 0;
 
 		//know not-discarded phases
-		double countValid = 0;
-		double sumValid = 0;
-		double workTotal = 0; //can be J or Kcal (shown in cal)
-		double impulseTotal = 0;
+		countValid = 0;
+		sumValid = 0;
+		sumSaved = 0;
+		countSaved = 0;
+		workTotal = 0; //can be J or Kcal (shown in cal)
+		impulseTotal = 0;
 
 		foreach(double d in data)
 		{
@@ -3653,6 +3669,11 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		pegbe.feedback.ResetBestSetValue(FeedbackEncoder.BestSetValueEnum.CAPTURE_MAIN_VARIABLE);
 		pegbe.feedback.UpdateBestSetValue(
 				FeedbackEncoder.BestSetValueEnum.CAPTURE_MAIN_VARIABLE, maxAbsoluteForCalc);
+
+
+		//to show saved curves on DoPlot
+		TreeIter iter;
+		bool iterOk = pegbe.encoderCaptureListStore.GetIterFirst(out iter);
 
 		//discard repetitions according to pegbe.showNRepetitions
 		//int countToDraw = pegbe.data9Variables.Count;
@@ -3762,9 +3783,110 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 				}
 			}
 
-			//TODO: copy more stuff from /gui/encoderGraphObjects fillDataVariables()
+			bool curveSaved = false;
+			if( iterOk && ((EncoderCurve) pegbe.encoderCaptureListStore.GetValue (iter, 0)).Record )
+			{
+				curveSaved = true;
+
+				if(pegbe.eccon == "c" ||
+						preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.BOTH ||
+						preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.ECC && ! Util.IsEven(count +1) || //odd (impar)
+						preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.CON && Util.IsEven(count +1) ) //even (par)
+				{
+					sumSaved += ebd.GetValue(pegbe.mainVariable);
+					countSaved ++;
+				}
+			}
+
+			//work and impulse
+			if(dataWorkJ.Count > 0)
+			{
+				if(preferences.encoderWorkKcal)
+					workTotal += Convert.ToDouble(dataWorkJ[count]) * 0.000239006;
+				else
+					workTotal += Convert.ToDouble(dataWorkJ[count]);
+			}
+
+			if(dataImpulse.Count > 0)
+				impulseTotal += Convert.ToDouble(dataImpulse[count]);
+
+			//add text on the bottom
+			//TODO?
+
+			iterOk = pegbe.encoderCaptureListStore.IterNext (ref iter);
+		}
+	}
+
+	private void prepareTitle ()
+	{
+		string units = "";
+		int decimals;
+		if(pegbe.mainVariable == Constants.MeanSpeed || pegbe.mainVariable == Constants.MaxSpeed) {
+			units = "m/s";
+			decimals = 2;
+		} else if(pegbe.mainVariable == Constants.MeanForce || pegbe.mainVariable == Constants.MaxForce) {
+			units = "N";
+			decimals = 1;
+		}
+		else { //powers
+			units =  "W";
+			decimals = 1;
 		}
 
+		//LogB.Information(string.Format("sumValid: {0}, countValid: {1}, div: {2}", sumValid, countValid, sumValid / countValid));
+		//LogB.Information(string.Format("sumSaved: {0}, countSaved: {1}, div: {2}", sumSaved, countSaved, sumSaved / countSaved));
+
+		//add avg and avg of saved values
+		string title = pegbe.mainVariable + " [X: " +
+			Util.TrimDecimals( (sumValid / countValid), decimals) +
+			" " + units + "; ";
+
+		if(countSaved > 0)
+			title += "X" + Catalog.GetString("saved") + ": " +
+				Util.TrimDecimals( (sumSaved / countSaved), decimals) +
+				" " + units;
+
+		string lossString = "";
+
+		//do not show lossString on Preferences.EncoderPhasesEnum.ECC
+		if( pegbe.showLoss && (pegbe.eccon == "c" || preferences.encoderCaptureFeedbackEccon != Preferences.EncoderPhasesEnum.ECC) )
+		{
+			title += "; ";
+			lossString = "Loss: ";
+			if(pegbe.eccon != "c")
+				lossString = "Loss (con): "; //on ecc/con use only con for loss calculation
+
+			if(maxThisSetValidAndCon > 0)
+			{
+				lossString += Util.TrimDecimals(
+						100.0 * (maxThisSetValidAndCon - minThisSetValidAndCon) / maxThisSetValidAndCon, decimals) + "%";
+				//LogB.Information(string.Format("Loss at plot: {0}", 100.0 * (maxThisSetValidAndCon - minThisSetValidAndCon) / maxThisSetValidAndCon));
+			}
+		}
+
+		//work and impulse are in separate string variables because maybe we will select to show one or the other
+		//work
+		string workString = "]    " + Catalog.GetString("Work") + ": " + Util.TrimDecimals(workTotal, decimals);
+		if(preferences.encoderWorkKcal)
+			workString += " Kcal";
+		else
+			workString += " J";
+
+		//impulse
+		string impulseString = "    " + Catalog.GetString("Impulse") + ": " + Util.TrimDecimals(impulseTotal, decimals) + " N*s";
+
+		//have title and titleFull to be able to position all perfectly but having two pens (colors)
+		string titleFull = title + lossString + workString + impulseString;
+
+
+		/*
+		// 1) get the width of titleFull, title, lossString
+			... do it on barplot
+		*/
+	}
+
+	private void prepareLossArrow ()
+	{
 		cairoBarsArrow = null;
 		if(pegbe.showLoss && (pegbe.eccon == "c" || preferences.encoderCaptureFeedbackEccon != Preferences.EncoderPhasesEnum.ECC) )
 		{

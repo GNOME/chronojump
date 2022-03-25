@@ -20,6 +20,7 @@
  */
 
 using System;
+using System.Collections.Generic; //List
 using Gtk;
 using Cairo;
 
@@ -251,6 +252,51 @@ public abstract class CairoGeneric
 		printText(xtemp, graphHeight -.8*bottomMargin, 0, fontH, Util.TrimDecimals(triggerInSeconds,1), g, alignTypes.CENTER);
 
 		g.SetSourceColor(black);
+	}
+
+	/*
+	   not horizontal, not vertical. Adapted from UtilGtk.DrawArrow()
+	   tip is the point where the arrow will be drawn
+	   */
+	protected void plotArrowFree (Cairo.Context g, Cairo.Color color, int lineWidth, int arrowLength,
+			double tailX, double tailY, double tipX, double tipY)
+	{
+		g.Save();
+		g.LineWidth = lineWidth;
+		g.SetSourceColor(color);
+
+		// 1) draw the line
+		g.MoveTo (tailX, tailY);
+		g.LineTo (tipX, tipY);
+		g.Stroke ();
+
+		// 2) draw the tip
+		g.LineWidth = 1;
+		double dx = tipX - tailX;
+		double dy = tipY - tailY;
+
+		double theta = Math.Atan2(dy, dx);
+
+		double rad = MathCJ.ToRadians(35); //35 angle, can be adjusted
+		double x = tipX - arrowLength * Math.Cos(theta + rad);
+		double y = tipY - arrowLength * Math.Sin(theta + rad);
+
+		double phi2 = MathCJ.ToRadians(-35);//-35 angle, can be adjusted
+		double x2 = tipX - arrowLength * Math.Cos(theta + phi2);
+		double y2 = tipY - arrowLength * Math.Sin(theta + phi2);
+
+		List<PointF> points_l = new List<PointF>();
+		points_l.Add(new PointF(x, y));
+		points_l.Add(new PointF(tipX, tipY));
+		points_l.Add(new PointF(x2, y2));
+
+		g.MoveTo(points_l[0].X, points_l[0].Y);
+		g.LineTo(points_l[1].X, points_l[1].Y);
+		g.LineTo(points_l[2].X, points_l[2].Y);
+		g.FillPreserve ();
+		g.Stroke();
+
+		g.Restore();
 	}
 
 	//horiz or vertical to manage spacement of arrow points and tip draw

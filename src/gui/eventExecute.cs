@@ -3385,6 +3385,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 	private ArrayList dataRangeOfMovement; //ROM, need it to discard last rep for loss. Is not the same as dataSecondary_l because maybe user selected another variable as secondary. only checks con.
 	private ArrayList dataWorkJ;
 	private ArrayList dataImpulse;
+	private CairoBarsArrow cairoBarsArrow;
 
 	private List<PointF> dataA_l; //data is related to mainVariable (barplot)
 	private List<PointF> dataB_l; //data is related to mainVariable (barplot)
@@ -3763,6 +3764,14 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 			//TODO: copy more stuff from /gui/encoderGraphObjects fillDataVariables()
 		}
+
+		cairoBarsArrow = null;
+		if(pegbe.showLoss && (pegbe.eccon == "c" || preferences.encoderCaptureFeedbackEccon != Preferences.EncoderPhasesEnum.ECC) )
+		{
+			if(maxThisSetValidAndCon > 0 && maxThisSetValidAndConPos < minThisSetValidAndConPos)
+				cairoBarsArrow = new CairoBarsArrow(maxThisSetValidAndConPos, maxThisSetValidAndCon,
+						minThisSetValidAndConPos, minThisSetValidAndCon);
+		}
 	}
 
 	private void paintSpecificDo ()
@@ -3790,6 +3799,9 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 			decs = 0;
 		}
 		cb.Decs = decs;
+
+		if(cairoBarsArrow != null)
+			cb.PassArrowData (cairoBarsArrow);
 
 		if(dataSecondary_l.Count > 0)
 			cb.PassDataSecondary (dataSecondary_l);

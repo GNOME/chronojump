@@ -27,8 +27,10 @@
 #include <LiquidCrystal.h>
 #include <MsTimer2.h>
 #include "SPI.h"
-#include "ILI9341_t3.h"
-#include "font_Arial.h"
+//#include "ILI9341_t3.h"
+#include "Adafruit_ILI9341.h"
+#include "Adafruit_GFX.h"
+//#include "font_Arial.h"
 #include "HX711.h"
 #include <Bounce.h>
 #include <Encoder.h>
@@ -229,16 +231,16 @@ unsigned short menu = 0;              //Main menu state
 unsigned short submenu = 0;           //submenus state
 
 const String menuList [] = {
-  "1-Measure",
-  "2-TareMeasure",
-  "3-Steadiness",
-  "4-System"
+  "  Measure",
+  "TareMeasure",
+  "Steadiness",
+  "  System"
 };
 
 //Mean force in 1s
 //Circular buffer where all measures in 1s are stored
 //ADC has 84.75 ~ 85 samples/second. If we need the diference in 1 second we need 1 more sample
-unsigned short freq = 86;
+unsigned int freq = 86;
 //Cirtular buffer of force measures
 float forces1s[86];
 //200 ms -> 16.95 ~ 17 samples. To know the elapsed time in 200 ms we need 1 more sample
@@ -284,8 +286,9 @@ const int chipSelect = 6;
 #define TFT_MOSI     7
 #define TFT_SCLK    14
 #define TFT_MISO    12
-ILI9341_t3 tft = ILI9341_t3(TFT_CS, TFT_DC, TFT_RST, TFT_MOSI, TFT_SCLK, TFT_MISO);
 
+//ILI9341_t3 tft = ILI9341_t3(TFT_CS, TFT_DC, TFT_RST, TFT_MOSI, TFT_SCLK, TFT_MISO);
+Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST, TFT_MISO);
 // Display 16-bit color values:
 #define BLUE      0x001F
 #define TEAL      0x0438
@@ -931,7 +934,7 @@ void setup() {
   EEPROM.get(tareAddress, tareValue);
   //If the arduino has not been tared the default value in the EEPROM is -151.
   //TODO: Check that it is stil true in the current models
-  if (tare == -151) {
+  if (tareValue == -151) {
     scale.set_offset(10000);// Usual value  in Chronojump strength gauge
     EEPROM.put(tareAddress, 10000);
   } else {
@@ -954,23 +957,30 @@ void setup() {
   MsTimer2::start();
 
 
-  showMenu();
+  //showMenu();
 
-  //Start LCD
+  //Start TFT
   tft.begin();
   tft.setRotation(1);
-  tft.fillScreen(BLACK);
-  tft.setCursor(10, 10);
-  tft.setTextColor(WHITE);  
-  tft.setTextSize(1);
+  tft.fillScreen(CJCOLOR);
+//  tft.fillRect(0, 0, 160, 120, BLACK);
+//  tft.fillRect(160, 0, 160, 120, WHITE);
+
+  tft.fillRect(0,0,320,50, BLACK);
+  tft.fillRoundRect(0,0,30,50, 10, WHITE);
+  tft.fillRoundRect(290,0,30,50, 10, WHITE);
+  tft.setTextSize(3);
+  tft.setCursor(30,20);
+  showMenu();
 
   // Draw the bitmap:
   // drawBitmap(x position, y position, bitmap data, bitmap width, bitmap height, color)
-  tft.drawBitmap(0, 0, logo, 320, 240, WHITE);
-  delay(2000);
-  tft.fillScreen(CJCOLOR);
+  //tft.drawBitmap(0, 0, logo, 320, 240, WHITE);
+  //delay(2000);
   tft.setCursor(110, 120);
   tft.println("Card initialized");  
+
+  Serial.println("showMenu");
 }
 
 void loop()
@@ -1024,6 +1034,7 @@ void loop()
   if (Serial.available()) serialEvent();
 }
 
+/*
 void showMenu(void)
 {
   lcd.clear();
@@ -1061,6 +1072,14 @@ void showMenu(void)
     lcd.print("Enter");
   }
   delay(100);
+}
+*/
+
+void showMenu(void)
+{
+  tft.fillRect(30,0,260,50, BLACK);
+  tft.setCursor(60,20);
+  tft.println(menuList[menu]);
 }
 
 void capture(void)
@@ -1100,7 +1119,7 @@ void capture(void)
 
       //Calculating the average during 1s
       float sumForces = 0;
-      for (int i = 0; i < freq; i++) {
+      for (unsigned short i = 0; i < freq; i++) {
         sumForces += forces1s[i];
       }
 
@@ -1285,11 +1304,11 @@ void start_capture()
 
   //filling the array of forces ant times with initial force
   lastMeasure = scale.get_units();
-  for (short i; i < freq; i++) {
+  for (unsigned short i=0; i < freq; i++) {
     forces1s[i] = lastMeasure;
   }
 
-  for (short i; i < samples200ms; i++) {
+  for (short i=0; i < samples200ms; i++) {
     totalTimes1s[i] = 0;
   }
 

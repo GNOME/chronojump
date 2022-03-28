@@ -214,6 +214,10 @@ void setup(void)
   Serial.print(lastPinState);
   Serial.print("\t");
   Serial.println(sample.state);
+  
+  //radio.printPrettyDetails();
+  Serial.print("Power: ");
+  Serial.println(radio.getPALevel());
 }
 
 
@@ -231,14 +235,16 @@ void loop(void)
     radio.stopListening();
 //    delay(100);
 //    Serial.print("Command received: ");
-//    Serial.println(instruction.command);
+    Serial.print("termNum received: ");
+    Serial.println(instruction.termNum);
 //    radio.flush_rx();
-//    radio.startListening();
 
+    //Some times the terminal receives instructions of other terminals
     if (instruction.termNum == sample.termNum)
     {
       executeCommand(instruction.command);
     }
+    radio.startListening();
   }
 }
 
@@ -315,6 +321,7 @@ void debounce() {
 
 void executeCommand(uint16_t command)
 {
+  Serial.println(instruction.command);
   if (command == deactivate) {
     //    Serial.println("deactivating leds and sensor");
     deactivateAll();
@@ -384,9 +391,9 @@ void executeCommand(uint16_t command)
 
     if ((command & ping) == ping) {
       sample.state = digitalRead(2);
-      radio.setRetries(15, 15);
+      //radio.setRetries(15, 15);
       sendPong();
-      radio.setRetries(5, 15);
+      //radio.setRetries(5, 15);
     }
   }
 }
@@ -449,18 +456,22 @@ void beepStop(void)
 }
 
 void sendPong(void) {
-  Serial.println("Pong");
   sample.data = deviceType * 1000000 + deviceVersion;
 //  Serial.println(sample.data);
-  Serial.print("Wifi-Sensor-");
-  Serial.println(deviceVersion);
+//  Serial.print("Wifi-Sensor-");
+//  Serial.println(deviceVersion);
   flagint = LOW;
   MsTimer2::stop();
   radio.stopListening();
+  delay(10);
   radio.setChannel(control0Channel - controlSwitch);
+  //delay(10);
   bool en = radio.write( &sample, sample_size);
   flagint = LOW;
   if (! unlimitedMode) waitingSensor = false;
+  //delay(10);
   radio.setChannel(terminal0Channel - sample.termNum);
-  radio.startListening();
+  //delay(10);
+  //radio.startListening();
+  //delay(10);
 }

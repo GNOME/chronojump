@@ -233,12 +233,13 @@ void loop(void)
 //    Serial.print("Command received: ");
 //    Serial.println(instruction.command);
 //    radio.flush_rx();
-//    radio.startListening();
 
     if (instruction.termNum == sample.termNum)
     {
       executeCommand(instruction.command);
     }
+    
+    radio.startListening();
   }
 }
 
@@ -384,9 +385,9 @@ void executeCommand(uint16_t command)
 
     if ((command & ping) == ping) {
       sample.state = digitalRead(2);
-      radio.setRetries(15, 15);
+      //radio.setRetries(15, 15);
       sendPong();
-      radio.setRetries(5, 15);
+      //radio.setRetries(5, 15);
     }
   }
 }
@@ -462,5 +463,5 @@ void sendPong(void) {
   flagint = LOW;
   if (! unlimitedMode) waitingSensor = false;
   radio.setChannel(terminal0Channel - sample.termNum);
-  radio.startListening();
+  //radio.startListening();
 }

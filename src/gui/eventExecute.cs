@@ -3405,6 +3405,11 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 	private List<Cairo.Color> colorSecondary_l;
 	private List<string> names_l;
 
+	private string titleStr;
+	private string lossStr;
+	private string workStr;
+	private string impulseStr;
+
 	//just blank the screen
 	public CairoPaintBarplotPreEncoder (DrawingArea darea, string fontStr)
 	{
@@ -3837,28 +3842,28 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		//LogB.Information(string.Format("sumSaved: {0}, countSaved: {1}, div: {2}", sumSaved, countSaved, sumSaved / countSaved));
 
 		//add avg and avg of saved values
-		string title = pegbe.mainVariable + " [X: " +
+		titleStr = pegbe.mainVariable + " [X: " +
 			Util.TrimDecimals( (sumValid / countValid), decimals) +
 			" " + units + "; ";
 
 		if(countSaved > 0)
-			title += "X" + Catalog.GetString("saved") + ": " +
+			titleStr += "X" + Catalog.GetString("saved") + ": " +
 				Util.TrimDecimals( (sumSaved / countSaved), decimals) +
 				" " + units;
 
-		string lossString = "";
+		lossStr = "";
 
-		//do not show lossString on Preferences.EncoderPhasesEnum.ECC
+		//do not show lossStr on Preferences.EncoderPhasesEnum.ECC
 		if( pegbe.showLoss && (pegbe.eccon == "c" || preferences.encoderCaptureFeedbackEccon != Preferences.EncoderPhasesEnum.ECC) )
 		{
-			title += "; ";
-			lossString = "Loss: ";
+			titleStr += "; ";
+			lossStr = "Loss: ";
 			if(pegbe.eccon != "c")
-				lossString = "Loss (con): "; //on ecc/con use only con for loss calculation
+				lossStr = "Loss (con): "; //on ecc/con use only con for loss calculation
 
 			if(maxThisSetValidAndCon > 0)
 			{
-				lossString += Util.TrimDecimals(
+				lossStr += Util.TrimDecimals(
 						100.0 * (maxThisSetValidAndCon - minThisSetValidAndCon) / maxThisSetValidAndCon, decimals) + "%";
 				//LogB.Information(string.Format("Loss at plot: {0}", 100.0 * (maxThisSetValidAndCon - minThisSetValidAndCon) / maxThisSetValidAndCon));
 			}
@@ -3866,23 +3871,14 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 		//work and impulse are in separate string variables because maybe we will select to show one or the other
 		//work
-		string workString = "]    " + Catalog.GetString("Work") + ": " + Util.TrimDecimals(workTotal, decimals);
+		workStr = "]    " + Catalog.GetString("Work") + ": " + Util.TrimDecimals(workTotal, decimals);
 		if(preferences.encoderWorkKcal)
-			workString += " Kcal";
+			workStr += " Kcal";
 		else
-			workString += " J";
+			workStr += " J";
 
 		//impulse
-		string impulseString = "    " + Catalog.GetString("Impulse") + ": " + Util.TrimDecimals(impulseTotal, decimals) + " N*s";
-
-		//have title and titleFull to be able to position all perfectly but having two pens (colors)
-		string titleFull = title + lossString + workString + impulseString;
-
-
-		/*
-		// 1) get the width of titleFull, title, lossString
-			... do it on barplot
-		*/
+		impulseStr = "    " + Catalog.GetString("Impulse") + ": " + Util.TrimDecimals(impulseTotal, decimals) + " N*s";
 	}
 
 	private void prepareLossArrow ()
@@ -3928,10 +3924,13 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		if(dataSecondary_l.Count > 0)
 			cb.PassDataSecondary (dataSecondary_l);
 
+		//this should be passed before PassData1Serie && PassData2Series
+		cb.SetEncoderTitle (titleStr, lossStr, workStr, impulseStr);
+
 		if(pegbe.eccon == "c")
 			cb.PassData1Serie (dataA_l,
 					colorMain_l, names_l,
-					20, 14, 8, "my title");
+					20, 14, 8, "");
 		else {
 			List<List<PointF>> pointSecondary_ll = new List<List<PointF>>();
 			pointSecondary_ll.Add(dataA_l);
@@ -3939,7 +3938,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 			cb.PassData2Series (dataB_l, pointSecondary_ll, false,
 					colorMain_l, colorSecondary_l, names_l,
 					"Ecc", "Con", true,
-					20, 14, 8, "my title");
+					20, 14, 8, "");
 		}
 
 		cb.GraphDo();

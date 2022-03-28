@@ -32,10 +32,16 @@ public abstract class CairoBars : CairoGeneric
 	protected int fontHeightAboveBar; //will be reduced if does not fit. On encoder is bigger than other places, pass -1 if don't want to define
 	protected int fontHeightForBottomNames;
 	protected int marginForBottomNames;
-	protected string title;
 	protected bool clickable;
 	protected bool paintAxis;
 	protected bool paintGrid; //if paint grid, then paint a rectangle below resultOnBar (on encoder: false)
+
+	protected string titleStr;
+	//3 encoder title variales
+	protected string lossStr; //loss in grey
+	protected string workStr;
+	protected string impulseStr;
+	protected bool encoderTitle; //boolean meaning previous variables are used, SetEncoderTitle() has been called
 
 	//protected string jumpType;
 	//protected string runType;
@@ -92,6 +98,7 @@ public abstract class CairoBars : CairoGeneric
 		initGraph(font, 1); //.8 if writeTextAtRight
 		barsXCenter_l = new List<double>();
 		resultOnBars_l = new List<Point3F>();
+		encoderTitle = false;
 	}
 
 	public void PassGuidesData (CairoBarsGuideManage cairoBarsGuideManage)
@@ -278,7 +285,7 @@ public abstract class CairoBars : CairoGeneric
 	public virtual void PassData1Serie (List<PointF> pointMain_l,
 			List<Cairo.Color> colorMain_l, List<string> names_l,
 			int fontHeightAboveBar, int fontHeightForBottomNames, int marginForBottomNames,
-			string title)
+			string titleStr)
 	{
 		//defined in CairoBars1Series
 	}
@@ -287,7 +294,7 @@ public abstract class CairoBars : CairoGeneric
 			List<Cairo.Color> colorMain_l, List<Cairo.Color> colorSecondary_l, List<string> names_l,
 			string labelBarMain, string labelBarSecondary, bool labelRotateInFirstBar,
 			int fontHeightAboveBar, int fontHeightForBottomNames, int marginForBottomNames,
-			string title)
+			string titleStr)
 	{
 		//defined in CairoBarsNHSeries
 	}
@@ -748,8 +755,73 @@ public abstract class CairoBars : CairoGeneric
 
 	protected void writeTitleAtTop()
 	{
+		if(encoderTitle)
+		{
+			writeTitleAtTopEncoder ();
+			return;
+		}
+
 		printText(graphWidth/2 + leftMargin, textHeight/2, 0, textHeight+2,
-				title, g, alignTypes.CENTER);
+				titleStr, g, alignTypes.CENTER);
+	}
+
+	protected void writeTitleAtTopEncoder()
+	{
+		g.Save();
+
+		//have title and titleFull to be able to position all perfectly but having two pens (colors)
+		string titleFull = titleStr + lossStr + workStr + impulseStr;
+
+		// 1) get the titleTextHeight for titleFull
+		int titleTextHeight = textHeight +2;
+		g.SetFontSize(titleTextHeight);
+		Cairo.TextExtents te = g.TextExtents(titleFull);
+
+		if (te.Width > graphWidth) //margins?
+		{
+			do {
+				titleTextHeight --;
+				if(titleTextHeight <= 1)
+				{
+					titleTextHeight = 1;
+					g.SetFontSize(titleTextHeight);
+					te = g.TextExtents(titleFull);
+					break;
+				}
+				g.SetFontSize(titleTextHeight);
+				te = g.TextExtents(titleFull);
+			} while (te.Width > graphWidth); //margins?
+		}
+		double titleFullWidth = te.Width;
+		//g.SetFontSize(titleTextHeight);
+
+		// 2) get the width to paint each string at its position
+		//double titleWidth = (g.TextExtents(titleStr)).Width;
+		double titleWidth = (g.TextExtents(titleStr)).XAdvance; //used this becuase the ending whitespace is not used on Width calculation
+		double lossWidth = (g.TextExtents(lossStr)).Width;
+		double workWidth = (g.TextExtents(workStr)).Width;
+		//double impulseWidth = (g.TextExtents(impulseStr)).Width;
+
+		// 3) paint title, loss, work, impulse
+		g.SetSourceColor(black);
+		printText(graphWidth/2 -titleFullWidth/2, textHeight/2, 0, titleTextHeight,
+				titleStr, g, alignTypes.LEFT);
+
+		if(lossStr != "")
+		{
+			g.SetSourceColor(gray99); //darker than the arrow line
+			printText(graphWidth/2 -titleFullWidth/2 + titleWidth, textHeight/2, 0, titleTextHeight,
+					lossStr, g, alignTypes.LEFT);
+			g.SetSourceColor(black);
+		}
+
+		printText(graphWidth/2 -titleFullWidth/2 + titleWidth +lossWidth, textHeight/2, 0, titleTextHeight,
+				workStr, g, alignTypes.LEFT);
+
+		printText(graphWidth/2 -titleFullWidth/2 + titleWidth +lossWidth +workWidth, textHeight/2, 0, titleTextHeight,
+				impulseStr, g, alignTypes.LEFT);
+
+		g.Restore();
 	}
 
 	protected void writeMessageAtCenter(string message)
@@ -782,12 +854,12 @@ public abstract class CairoBars : CairoGeneric
 	{
 		int ypos = -6;
 
-		//writeTextAtRight(ypos++, title, true);
+		//writeTextAtRight(ypos++, titleStr, true);
 		//writeTextAtRight(ypos++, jumpTypeStr + " " + jumpType, false);
 		//writeTextAtRight(ypos++, date, false);
 		
 		printText(graphWidth, Convert.ToInt32(graphHeight/2 + textHeight*2), 0, textHeight,
-				title, g, alignTypes.LEFT);
+				titleStr, g, alignTypes.LEFT);
 	}
 	*/
 
@@ -813,6 +885,20 @@ public abstract class CairoBars : CairoGeneric
 
 		LogB.Information("cairo bars FindBarInPixel 1");
 		return mouseLimits.FindBarInPixel(pixel);
+	}
+
+	/*
+	   encoder title has different strings, one of them in grey, more or less on the center
+	   we need to pass the strings here to create the title
+	   */
+	public void SetEncoderTitle (string titleStr, string lossStr, string workStr, string impulseStr)
+	{
+		this.titleStr = titleStr;
+		this.lossStr = lossStr;
+		this.workStr = workStr;
+		this.impulseStr = impulseStr;
+
+		encoderTitle = true;
 	}
 
 	public string YVariable {
@@ -926,7 +1012,7 @@ public class CairoBars1Series : CairoBars
 	public override void PassData1Serie (List<PointF> pointMain_l,
 			List<Cairo.Color> colorMain_l, List<string> names_l,
 			int fontHeightAboveBar, int fontHeightForBottomNames, int marginForBottomNames,
-			string title)
+			string titleStr)
 	{
 		this.pointMain_l = pointMain_l;
 		this.colorMain_l = colorMain_l;
@@ -934,7 +1020,9 @@ public class CairoBars1Series : CairoBars
 		this.fontHeightAboveBar = fontHeightAboveBar;
 		this.fontHeightForBottomNames = fontHeightForBottomNames;
 		this.marginForBottomNames = marginForBottomNames;
-		this.title = title;
+
+		if(! encoderTitle)
+			this.titleStr = titleStr;
 	}
 
 	public override void GraphDo ()
@@ -1304,7 +1392,7 @@ public class CairoBarsNHSeries : CairoBars
 			List<Cairo.Color> colorMain_l, List<Cairo.Color> colorSecondary_l, List<string> names_l,
 			string labelBarMain, string labelBarSecondary, bool labelRotateInFirstBar,
 			int fontHeightAboveBar, int fontHeightForBottomNames, int marginForBottomNames,
-			string title)
+			string titleStr)
 	{
 		this.pointSecondary_ll = pointSecondary_ll;
 		this.pointMain_l = pointMain_l;
@@ -1317,7 +1405,9 @@ public class CairoBarsNHSeries : CairoBars
 		this.fontHeightAboveBar = fontHeightAboveBar;
 		this.fontHeightForBottomNames = fontHeightForBottomNames;
 		this.marginForBottomNames = marginForBottomNames;
-		this.title = title;
+
+		if(! encoderTitle)
+			this.titleStr = titleStr;
 	}
 
 	public override void GraphDo ()

@@ -3942,7 +3942,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 			cb.PassData2Series (barB_l, barsSecondary_ll, false,
 					colorMain_l, colorSecondary_l, names_l,
-					"Ecc", "Con", true,
+					"Ecc", "Con", false,
 					20, 14, 8, "");
 		}
 

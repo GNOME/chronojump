@@ -6063,6 +6063,9 @@ public partial class ChronoJumpWindow
 	}
 	private void updateEncoderCaptureSignalCairo (bool inertial, bool forceRedraw)
 	{
+		if(preferences.encoderCaptureShowOnlyBars == null || ! preferences.encoderCaptureShowOnlyBars.ShowSignal)
+			return;
+
 		if(cairoGraphEncoderSignal == null)
 			cairoGraphEncoderSignal = new CairoGraphEncoderSignal (
 				encoder_capture_signal_drawingarea_cairo, "title");

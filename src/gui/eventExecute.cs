@@ -2637,10 +2637,10 @@ public class CairoPaintBarsPreJumpSimple : CairoPaintBarsPre
 
 		if(showBarA && showBarB) //Dja, Djna
 		{
-			List<List<PointF>> pointSecondary_ll = new List<List<PointF>>();
-			pointSecondary_ll.Add(pointA_l);
+			List<List<PointF>> barsSecondary_ll = new List<List<PointF>>();
+			barsSecondary_ll.Add(pointA_l);
 
-			cb.PassData2Series (pointB_l, pointSecondary_ll, false,
+			cb.PassData2Series (pointB_l, barsSecondary_ll, false,
 					new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
 					"", "", false,
 					-1, fontHeightForBottomNames, bottomMargin, title);
@@ -2776,10 +2776,10 @@ public class CairoPaintBarsPreJumpReactive : CairoPaintBarsPre
 					eventGraphJumpsRjStored.personMINAtSQL
 					));
 
-		List<List<PointF>> pointSecondary_ll = new List<List<PointF>>();
-		pointSecondary_ll.Add(pointA1_l);
+		List<List<PointF>> barsSecondary_ll = new List<List<PointF>>();
+		barsSecondary_ll.Add(pointA1_l);
 
-		cb.PassData2Series (pointB_l, pointSecondary_ll, false,
+		cb.PassData2Series (pointB_l, barsSecondary_ll, false,
 				new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
 				"", "", false,
 				-1, fontHeightForBottomNames, bottomMargin, title);
@@ -3118,10 +3118,10 @@ public class CairoPaintBarsPreJumpReactiveRealtimeCapture : CairoPaintBarsPre
 					sum / tv_l.Count,
 					min));
 
-		List<List<PointF>> pointSecondary_ll = new List<List<PointF>>();
-		pointSecondary_ll.Add(pointA_l);
+		List<List<PointF>> barsSecondary_ll = new List<List<PointF>>();
+		barsSecondary_ll.Add(pointA_l);
 
-		cb.PassData2Series (pointB_l, pointSecondary_ll, false,
+		cb.PassData2Series (pointB_l, barsSecondary_ll, false,
 				new List<Cairo.Color>(), new List<Cairo.Color>(), names_l,
 				"", "", false,
 				-1, 14, 8, title);
@@ -3381,8 +3381,8 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 	//copied from gui/encoderGraphObjects (using ArrayList)
 	private ArrayList data; //data is related to mainVariable (barplot)
-	private List<double> dataSecondary_l; //dataSecondary is related to secondary variable (by default range)
-	private ArrayList dataRangeOfMovement; //ROM, need it to discard last rep for loss. Is not the same as dataSecondary_l because maybe user selected another variable as secondary. only checks con.
+	private List<double> lineData_l; //related to secondary variable (by default range)
+	private ArrayList dataRangeOfMovement; //ROM, need it to discard last rep for loss. Is not the same as lineData_l because maybe user selected another variable as secondary. only checks con.
 	private ArrayList dataWorkJ;
 	private ArrayList dataImpulse;
 	private CairoBarsArrow cairoBarsArrow;
@@ -3399,8 +3399,8 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 	double workTotal; //can be J or Kcal (shown in cal)
 	double impulseTotal;
 
-	private List<PointF> dataA_l; //data is related to mainVariable (barplot)
-	private List<PointF> dataB_l; //data is related to mainVariable (barplot)
+	private List<PointF> barA_l; //data is related to mainVariable (barplot)
+	private List<PointF> barB_l; //data is related to mainVariable (barplot)
 	private List<Cairo.Color> colorMain_l;
 	private List<Cairo.Color> colorSecondary_l;
 	private List<string> names_l;
@@ -3473,7 +3473,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 	private void fillDataVariables1 () //copied from gui/encoderGraphObjects fillDataVariables()
 	{
 		data = new ArrayList (pegbe.data9Variables.Count); //data is related to mainVariable (barplot)
-		dataSecondary_l = new List<double>(); //dataSecondary_l is related to secondary variable (by default range)
+		lineData_l = new List<double>(); //lineData_l is related to secondary variable (by default range)
 		dataRangeOfMovement = new ArrayList (pegbe.data9Variables.Count);
 		dataWorkJ = new ArrayList (pegbe.data9Variables.Count);
 		dataImpulse = new ArrayList (pegbe.data9Variables.Count);
@@ -3489,7 +3489,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 			{
 				data.Add(ebd.GetValue(pegbe.mainVariable));
 				if(pegbe.secondaryVariable != "")
-					dataSecondary_l.Add(ebd.GetValue(pegbe.secondaryVariable));
+					lineData_l.Add(ebd.GetValue(pegbe.secondaryVariable));
 				dataRangeOfMovement.Add(ebd.GetValue(Constants.RangeAbsolute));
 				dataWorkJ.Add(ebd.GetValue(Constants.WorkJ));
 				dataImpulse.Add(ebd.GetValue(Constants.Impulse));
@@ -3500,7 +3500,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 				{
 					data.Add(ebd.GetValue(pegbe.mainVariable));
 					if(pegbe.secondaryVariable != "")
-						dataSecondary_l.Add(ebd.GetValue(pegbe.secondaryVariable));
+						lineData_l.Add(ebd.GetValue(pegbe.secondaryVariable));
 					dataRangeOfMovement.Add(ebd.GetValue(Constants.RangeAbsolute));
 					dataWorkJ.Add(ebd.GetValue(Constants.WorkJ));
 					dataImpulse.Add(ebd.GetValue(Constants.Impulse));
@@ -3514,7 +3514,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 						LogB.Information("added ecc");
 						data.Add(ebd.GetValue(pegbe.mainVariable));
 						if(pegbe.secondaryVariable != "")
-							dataSecondary_l.Add(ebd.GetValue(pegbe.secondaryVariable));
+							lineData_l.Add(ebd.GetValue(pegbe.secondaryVariable));
 						dataRangeOfMovement.Add(ebd.GetValue(Constants.RangeAbsolute));
 						dataWorkJ.Add(ebd.GetValue(Constants.WorkJ));
 						dataImpulse.Add(ebd.GetValue(Constants.Impulse));
@@ -3524,7 +3524,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 						{
 							data.Add(ebd.GetValue(pegbe.mainVariable));
 							if(pegbe.secondaryVariable != "")
-								dataSecondary_l.Add(ebd.GetValue(pegbe.secondaryVariable));
+								lineData_l.Add(ebd.GetValue(pegbe.secondaryVariable));
 							dataRangeOfMovement.Add(ebd.GetValue(Constants.RangeAbsolute));
 							dataWorkJ.Add(ebd.GetValue(Constants.WorkJ));
 							dataImpulse.Add(ebd.GetValue(Constants.Impulse));
@@ -3541,8 +3541,8 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 	private void fillDataVariables2 ()
 	{
-		dataA_l = new List<PointF>(); //data is related to mainVariable (barplot)
-		dataB_l = new List<PointF>(); //data is related to mainVariable (barplot)
+		barA_l = new List<PointF>(); //data is related to mainVariable (barplot)
+		barB_l = new List<PointF>(); //data is related to mainVariable (barplot)
 
 		colorMain_l = new List<Cairo.Color>();
 		colorSecondary_l = new List<Cairo.Color>();
@@ -3772,18 +3772,18 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 			if(pegbe.eccon == "c")
 			{
-				dataA_l.Add(new PointF(count +1, ebd.GetValue(pegbe.mainVariable)));
+				barA_l.Add(new PointF(count +1, ebd.GetValue(pegbe.mainVariable)));
 				colorMain_l.Add(colorBar);
 				names_l.Add((count +1).ToString());
 			} else
 			{
 				if(! Util.IsEven(count +1))  	//if it is "impar"
 				{
-					dataA_l.Add(new PointF(UtilAll.DivideSafe(count+1,2), ebd.GetValue(pegbe.mainVariable)));
+					barA_l.Add(new PointF(UtilAll.DivideSafe(count+1,2), ebd.GetValue(pegbe.mainVariable)));
 					colorSecondary_l.Add(colorBar);
 					names_l.Add((UtilAll.DivideSafe(count,2) +1).ToString());
 				} else {// "par"
-					dataB_l.Add(new PointF(UtilAll.DivideSafe(count+1,2), ebd.GetValue(pegbe.mainVariable)));
+					barB_l.Add(new PointF(UtilAll.DivideSafe(count+1,2), ebd.GetValue(pegbe.mainVariable)));
 					colorMain_l.Add(colorBar);
 				}
 			}
@@ -3814,9 +3814,6 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 			if(dataImpulse.Count > 0)
 				impulseTotal += Convert.ToDouble(dataImpulse[count]);
-
-			//add text on the bottom
-			//TODO?
 
 			iterOk = pegbe.encoderCaptureListStore.IterNext (ref iter);
 		}
@@ -3921,21 +3918,21 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		if(cairoBarsArrow != null)
 			cb.PassArrowData (cairoBarsArrow);
 
-		if(dataSecondary_l.Count > 0)
-			cb.PassDataSecondary (dataSecondary_l);
+		if(lineData_l.Count > 0)
+			cb.PassLineData (lineData_l); //range
 
 		//this should be passed before PassData1Serie && PassData2Series
 		cb.SetEncoderTitle (titleStr, lossStr, workStr, impulseStr);
 
 		if(pegbe.eccon == "c")
-			cb.PassData1Serie (dataA_l,
+			cb.PassData1Serie (barA_l,
 					colorMain_l, names_l,
 					20, 14, 8, "");
 		else {
-			List<List<PointF>> pointSecondary_ll = new List<List<PointF>>();
-			pointSecondary_ll.Add(dataA_l);
+			List<List<PointF>> barsSecondary_ll = new List<List<PointF>>();
+			barsSecondary_ll.Add(barA_l);
 
-			cb.PassData2Series (dataB_l, pointSecondary_ll, false,
+			cb.PassData2Series (barB_l, barsSecondary_ll, false,
 					colorMain_l, colorSecondary_l, names_l,
 					"Ecc", "Con", true,
 					20, 14, 8, "");

@@ -1231,7 +1231,7 @@ public class CairoBarsNHSeries : CairoBars
 					maxY = p.Y;
 
 		foreach(PointF p in barMain_l)
-			if(p.Y > maxY)
+			if(p != null && p.Y > maxY) //on ec at capturing if last is ecc, a con is send as null
 				maxY = p.Y;
 
 		if(cairoBarsGuideManage != null  && cairoBarsGuideManage.GetMax() > maxY)
@@ -1241,6 +1241,10 @@ public class CairoBarsNHSeries : CairoBars
 		minX = 0;
 		//maxX = barMain_l.Count + .5; //all barMain_l lists have same length
 		maxX = barMain_l.Count + 1;
+
+		//while capturing ecc-con, if last rep don is an ecc, it have to be drawn
+		if(barSecondary_ll.Count == 1 && barSecondary_ll[0].Count > barMain_l.Count)
+			maxX ++;
 
 		//bars Y have 0 at bottom
 		minY = 0;
@@ -1273,6 +1277,18 @@ public class CairoBarsNHSeries : CairoBars
 		int mouseLimitsPos1stBar = barMain_l.Count *2 -2;
 		int mouseLimitsPos2ndBar = barMain_l.Count *2 -1;
 
+		//debug
+		LogB.Information("barMain_l:");
+		for(int j = 0; j < barMain_l.Count; j ++)
+			if(barMain_l[j] != null) //at ec capture, if last is ecc, a con is send as null
+				LogB.Information(barMain_l[j].ToString());
+		if(barSecondary_ll.Count == 1)
+		{
+			LogB.Information("barSecondary_ll[0]:");
+			for(int j = 0; j < barSecondary_ll[0].Count; j ++)
+				LogB.Information(barSecondary_ll[0][j].ToString());
+		}
+
 		for(int i = 0; i < barMain_l.Count; i ++)
 		{
 			/*
@@ -1282,7 +1298,15 @@ public class CairoBarsNHSeries : CairoBars
 			List<Point3F> resultOnBarsThisIteration_l = new List<Point3F>();
 
 			bool secondaryHasData = false;
-			PointF pB = barMain_l[i];
+
+			PointF pB = new PointF(0,0);
+			if(barMain_l[i] == null) //on ec if we send a final ecc, con will be null
+			{
+				if(i < barSecondary_ll[0].Count && barSecondary_ll[0][i] != null)
+					pB = new PointF(barSecondary_ll[0][i].X + .5, 0);
+			}
+			else
+				pB = barMain_l[i];
 
 			double x = (graphWidth - (leftMargin+rightMargin)) * pB.X/maxX + leftMargin;
 			double adjustX = -barDesplLeft * (barSecondary_ll.Count +1);

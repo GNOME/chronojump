@@ -3685,6 +3685,14 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		//foreach(EncoderBarsData ebd in pegbe.data9Variables)
 		//for (int count = 0; count < pegbe.data9Variables.Count; count ++)
 //		int countNames = 0;
+
+		//if !c && is "impar" (uneven), add a null to B
+		if (pegbe.eccon != "c" && ! Util.IsEven(pegbe.data9Variables.Count))
+		{
+			barB_l.Add(null);
+			colorMain_l.Add(CairoGeneric.colorFromGdk(UtilGtk.GRAY)); //this color will not be shown is just to match barB_l with colorMain_l
+		}
+
 		for (count = (pegbe.data9Variables.Count -1); count >= 0; count --)
 		{
 			EncoderBarsData ebd = (EncoderBarsData) pegbe.data9Variables[count];

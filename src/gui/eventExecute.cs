@@ -3549,9 +3549,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		names_l = new List<string>();
 
 		//Gdk colors from (soon deleted) encoderGraphDoPlot()
-		Gdk.Color color_ecc_con_e = new Gdk.Color();
-		Gdk.Color color_ecc_con_c = new Gdk.Color();
-		Gdk.Color color_con = new Gdk.Color();
+		Gdk.Color colorPhase = new Gdk.Color();
 
 		//final color of the bar
 		Cairo.Color colorBar = new Cairo.Color();
@@ -3721,9 +3719,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 			if( ! discarded && ( myColor == UtilGtk.ColorGood || (pegbe.mainVariableHigher != -1 && ebd.GetValue(pegbe.mainVariable) >= pegbe.mainVariableHigher) ) )
 			{
-				color_ecc_con_e = UtilGtk.GREEN_DARK;
-				color_ecc_con_c = UtilGtk.GREEN_LIGHT;
-				color_con = UtilGtk.GREEN_PLOTS;
+				colorPhase = UtilGtk.GREEN_PLOTS;
 				//play sound if value is high, volumeOn == true, is last value, capturing
 //TODO implement later, check how we pass this variables, as cairo should not play again n times the same while capturing
 //				if(preferences.volumeOn && count == data.Count -1 && capturing)
@@ -3731,9 +3727,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 			}
 			else if( ! discarded && ( myColor == UtilGtk.ColorBad || (pegbe.mainVariableLower != -1 && ebd.GetValue(pegbe.mainVariable) <= pegbe.mainVariableLower) ) )
 			{
-				color_ecc_con_e = UtilGtk.RED_DARK;
-				color_ecc_con_c = UtilGtk.RED_LIGHT;
-				color_con = UtilGtk.RED_PLOTS;
+				colorPhase = UtilGtk.RED_PLOTS;
 				//play sound if value is low, volumeOn == true, is last value, capturing
 				if(pegbe.volumeOn && count == 0 -1 && pegbe.capturing)
 					Util.PlaySound(Constants.SoundTypes.BAD, pegbe.volumeOn, pegbe.gstreamer);
@@ -3745,14 +3739,12 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 				 * AssignColorAutomatic will return ColorGray
 				 * this helps to distinguins the phase that we want
 				 */
-				color_ecc_con_e = UtilGtk.GRAY;
-				color_ecc_con_c = UtilGtk.GRAY;
-				color_con = UtilGtk.GRAY;
+				colorPhase = UtilGtk.GRAY;
 			}
 			else {
-				color_ecc_con_e = UtilGtk.BLUE_DARK;
-				color_ecc_con_c = UtilGtk.BLUE_LIGHT;
-				color_con = UtilGtk.BLUE_PLOTS;
+//				colorPhase = UtilGtk.BLUE_PLOTS;
+//				colorPhase = UtilGtk.BLUE_CHRONOJUMP;
+				colorPhase = UtilGtk.BLUE_LIGHT;
 			}
 
 			//know if ecc or con to paint with dark or light pen
@@ -3764,17 +3756,14 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 						((pegbe.eccon == "c" && count < pegbe.discardFirstN) || (pegbe.eccon != "c" && count < pegbe.discardFirstN * 2)) )
 					colorBar = CairoGeneric.colorFromGdk(UtilGtk.GRAY);
 				else {
-					if(isEven) //par, concentric
-						colorBar = CairoGeneric.colorFromGdk(color_ecc_con_c);
-					else
-						colorBar = CairoGeneric.colorFromGdk(color_ecc_con_e);
+					colorBar = CairoGeneric.colorFromGdk(colorPhase);
 				}
 			} else {
 				if( pegbe.hasInertia && pegbe.discardFirstN > 0 &&
 						((pegbe.eccon == "c" && count < pegbe.discardFirstN) || (pegbe.eccon != "c" && count < pegbe.discardFirstN * 2)) )
 					colorBar = CairoGeneric.colorFromGdk(UtilGtk.GRAY);
 				else
-					colorBar = CairoGeneric.colorFromGdk(color_con);
+					colorBar = CairoGeneric.colorFromGdk(colorPhase);
 			}
 
 

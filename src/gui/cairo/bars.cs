@@ -26,6 +26,9 @@ using Cairo;
 
 public abstract class CairoBars : CairoGeneric
 {
+	public enum Type { NORMAL, ENCODER };
+	protected Type type;
+
 	protected DrawingArea area;
 	protected ImageSurface surface;
 
@@ -352,12 +355,7 @@ public abstract class CairoBars : CairoGeneric
 		mouseLimits = new RepetitionMouseLimits();
 	}
 
-	//will be overwritten by graphs with legend
-	protected virtual void topMarginSet ()
-	{
-		topMargin = 40;
-	}
-
+	protected abstract void topMarginSet ();
 	protected abstract void findMaximums(); //includes point and guides
 
 	protected void paintAxisDo (int width)
@@ -929,9 +927,10 @@ public class CairoBars1Series : CairoBars
 	private List<string> names_l;
 
 	//constructor when there are no points
-	public CairoBars1Series (DrawingArea area, string font, string testsNotFoundMessage)
+	public CairoBars1Series (DrawingArea area, Type type, string font, string testsNotFoundMessage)
 	{
 		this.area = area;
+		this.type = type;
 
 		LogB.Information("constructor without points, area is null:" + (area == null).ToString());
 		LogB.Information("constructor without points, area.GdkWindow is null:" + (area.GdkWindow == null).ToString());
@@ -944,14 +943,23 @@ public class CairoBars1Series : CairoBars
 	}
 
 	//regular constructor
-	public CairoBars1Series (DrawingArea area, bool clickable, bool paintAxis, bool paintGrid)
+	public CairoBars1Series (DrawingArea area, Type type, bool clickable, bool paintAxis, bool paintGrid)
 	{
 		this.area = area;
+		this.type = type;
 		this.clickable = clickable;
 		this.paintAxis = paintAxis;
 		this.paintGrid = paintGrid;
 
 		this.colorSerieA = colorFromGdk(Config.ColorBackground); //but note if we are using system colors, this will not match
+	}
+
+	protected override void topMarginSet ()
+	{
+		if(type == Type.ENCODER)
+			topMargin = 20;
+		else
+			topMargin = 40;
 	}
 
 	protected override void findMaximums()
@@ -1085,9 +1093,10 @@ public class CairoBarsNHSeries : CairoBars
 	private int boxWidth = 10; //px. Same as boxHeight. box - text sep is .5 boxWidth. 1st text - 2nd box sep is 2*boxWidth
 
 	//constructor when there are no points
-	public CairoBarsNHSeries (DrawingArea area, string font)
+	public CairoBarsNHSeries (DrawingArea area, Type type, string font)
 	{
 		this.area = area;
+		this.type = type;
 
 		LogB.Information("constructor without points, area is null:" + (area == null).ToString());
 		LogB.Information("constructor without points, area.GdkWindow is null:" + (area.GdkWindow == null).ToString());
@@ -1097,9 +1106,10 @@ public class CairoBarsNHSeries : CairoBars
 	}
 
 	//regular constructor
-	public CairoBarsNHSeries (DrawingArea area, bool showLegend, bool clickable, bool paintAxis, bool paintGrid)
+	public CairoBarsNHSeries (DrawingArea area, Type type, bool showLegend, bool clickable, bool paintAxis, bool paintGrid)
 	{
 		this.area = area;
+		this.type = type;
 		this.showLegend = showLegend;
 		this.clickable = clickable;
 		this.paintAxis = paintAxis;
@@ -1112,11 +1122,16 @@ public class CairoBarsNHSeries : CairoBars
 
 	protected override void topMarginSet ()
 	{
-		topMargin = 50; //to accomodate legend under title
+		if(type == Type.ENCODER)
+		{
+			topMargin = 20;
+			return;
+		}
 
 		if(! showLegend)
 			return;
 
+		topMargin = 50; //to accomodate legend under title
 		oneRowLegend = true;
 		calculateOneRowLegendWidth();
 

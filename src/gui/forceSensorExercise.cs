@@ -186,7 +186,7 @@ public class ForceSensorExerciseWindow
 
 		//on edit, if elastic, pass elastic params from exercise, and not elastic from preferences. Opposite on not elastic
 		bool repsFromPrefs = false;
-		if(exercise.Elastic)
+		if(exercise.ComputeAsElastic)
 		{
 			//to avoid put -1 (in fact is 1, minimum value) on spinbuttons
 			double em = exercise.EccMin;

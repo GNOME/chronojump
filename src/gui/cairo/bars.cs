@@ -73,11 +73,13 @@ public abstract class CairoBars : CairoGeneric
 	protected Cairo.Color white;
 	protected Cairo.Color red;
 	protected Cairo.Color blue;
-	protected Cairo.Color bluePlots;
+	//protected Cairo.Color blueChronojump;
+	//protected Cairo.Color bluePlots;
 	protected Cairo.Color yellow;
 
 	protected RepetitionMouseLimits mouseLimits;
 	protected List<double> lineData_l; //related to secondary variable (by default range)
+	protected List<int> saved_l;
 
 	// ---- values can be passed from outside via accessors ---->
 	protected string xVariable = "";
@@ -279,12 +281,6 @@ public abstract class CairoBars : CairoGeneric
 		g.LineWidth = 1;
 	}
 
-	//related to secondary variable (by default range)
-	public void PassLineData (List<double> lineData_l)
-	{
-		this.lineData_l = lineData_l;
-	}
-
 	public virtual void PassData1Serie (List<PointF> barMain_l,
 			List<Cairo.Color> colorMain_l, List<string> names_l,
 			int fontHeightAboveBar, int fontHeightForBottomNames, int marginForBottomNames,
@@ -341,7 +337,8 @@ public abstract class CairoBars : CairoGeneric
 		white = colorFromRGB(255,255,255);
 		red = colorFromRGB(200,0,0);
 		blue = colorFromRGB(178, 223, 238); //lightblue
-		bluePlots = colorFromRGB(0, 0, 200);
+		//blueChronojump = colorFromRGB(14, 30, 70);
+		//bluePlots = colorFromRGB(0, 0, 200);
 		yellow = colorFromRGB(255,204,1);
 
 		//margins
@@ -353,6 +350,8 @@ public abstract class CairoBars : CairoGeneric
 		topMarginSet ();
 
 		mouseLimits = new RepetitionMouseLimits();
+		lineData_l = new List<double>();
+		saved_l = new List<int>();
 	}
 
 	protected abstract void topMarginSet ();
@@ -433,8 +432,7 @@ public abstract class CairoBars : CairoGeneric
 		double moveToLeft = 0;
 		if(align == alignTypes.CENTER || align == alignTypes.RIGHT)
 		{
-			Cairo.TextExtents te;
-			te = g.TextExtents(text);
+			Cairo.TextExtents te = g.TextExtents(text);
 			
 			if(align == alignTypes.CENTER)
 				moveToLeft = te.Width/2;
@@ -484,10 +482,14 @@ public abstract class CairoBars : CairoGeneric
 
 	//text could have one or more \n
 	protected void printTextMultiline (double x, double y, double heightUnused, int textH,
-			string text, Cairo.Context g, alignTypes align)
+			string text, Cairo.Context g, alignTypes align, bool inRectangle) //inRectangle is used on encoder to indicate it is a saved repetition
 	{
 		if(text == "")
 			return;
+
+		//draw rectangle first as it will be in the back
+		if(inRectangle)
+			drawRectangleAroundText (x, y, textH, text, g);
 
 		string [] strFull = text.Split(new char[] {'\n'});
 
@@ -496,6 +498,45 @@ public abstract class CairoBars : CairoGeneric
 		{
 			printText (x, y, heightUnused, textH, strFull[i], g, align);
 			y -= 1.1 * textH;
+		}
+	}
+
+	private void drawRectangleAroundText (double x, double y, int textH, string text, Cairo.Context g)
+	{
+		//for inRectangle (now only working on centered text (encoder))
+		double rectLeft = 100000;
+		double rectRight = 0;
+		double rectTop = 100000;
+		double rectBottom = 0;
+
+		string [] strFull = text.Split(new char[] {'\n'});
+
+		//reversed to ensure last line is in the bottom
+		for (int i = strFull.Length -1; i >= 0; i --)
+		{
+			g.SetFontSize(textH);
+			Cairo.TextExtents te = g.TextExtents(text);
+			double left = x -te.Width/2;
+			double right = x +te.Width/2;
+			double top = y +te.YBearing + textH/2; //+textH/2 because printText will do this move
+			double bottom = y +te.YAdvance + textH/2; //+textH/2 (same as above)
+
+			if(left < rectLeft)
+				rectLeft = left;
+			if(right > rectRight)
+				rectRight = right;
+			if(top < rectTop)
+				rectTop = top;
+			if(bottom > rectBottom)
+				rectBottom = bottom;
+		}
+
+		if (rectLeft < 100000 && rectTop < 100000)
+		{
+			g.SetSourceColor(yellow);
+			g.Rectangle(rectLeft -1, rectTop -1, rectRight-rectLeft +2, rectBottom-rectTop +2);
+			g.Fill();
+			g.SetSourceColor(black);
 		}
 	}
 
@@ -915,6 +956,15 @@ public abstract class CairoBars : CairoGeneric
 		set { variableSerieB = value; }
 	}
 
+	//related to secondary variable (by default range)
+	public List<double> LineData_l {
+		set { lineData_l = value; }
+	}
+
+	public List<int> Saved_l {
+		set { saved_l = value; }
+	}
+
 	public int Decs {
 		set { decs = value; }
 	}
@@ -1010,7 +1060,8 @@ public class CairoBars1Series : CairoBars
 			printTextMultiline (x + barWidth/2,
 					graphHeight - fontHeightForBottomNames * 2/3,
 					0, fontHeightForBottomNames,
-					names_l[i], g, alignTypes.CENTER);
+					names_l[i], g, alignTypes.CENTER,
+					Util.FoundInListInt(saved_l, i));
 			LogB.Information("names_l[i]: " + names_l[i]);
 
 			barsXCenter_l.Add(x + barWidth/2);
@@ -1060,7 +1111,7 @@ public class CairoBars1Series : CairoBars
 		if(cairoBarsArrow != null)
 			plotArrow();
 
-		if(lineData_l != null && lineData_l.Count > 0)
+		if(lineData_l.Count > 0)
 			plotAlternativeLine(lineData_l);
 
 		plotResultsOnBar();
@@ -1304,6 +1355,9 @@ public class CairoBarsNHSeries : CairoBars
 			for(int j = 0; j < barSecondary_ll[0].Count; j ++)
 				LogB.Information(barSecondary_ll[0][j].ToString());
 		}
+		LogB.Information("saved_l:");
+		for(int j=0; j < saved_l.Count; j ++)
+			LogB.Information(saved_l[j].ToString());
 
 		for(int i = 0; i < barMain_l.Count; i ++)
 		{
@@ -1423,7 +1477,8 @@ public class CairoBarsNHSeries : CairoBars
 					x,
 					graphHeight -fontHeightForBottomNames * 2/3,
 					0, fontHeightForBottomNames,
-					names_l[i], g, alignTypes.CENTER);
+					names_l[i], g, alignTypes.CENTER,
+					Util.FoundInListInt(saved_l, i));
 		}
 	}
 
@@ -1475,7 +1530,7 @@ public class CairoBarsNHSeries : CairoBars
 		if(cairoBarsArrow != null)
 			plotArrow();
 
-		if(lineData_l != null && lineData_l.Count > 0)
+		if(lineData_l.Count > 0)
 			plotAlternativeLine(lineData_l);
 
 		plotResultsOnBar();

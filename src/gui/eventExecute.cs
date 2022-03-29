@@ -3404,6 +3404,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 	private List<Cairo.Color> colorMain_l;
 	private List<Cairo.Color> colorSecondary_l;
 	private List<string> names_l;
+	private List<int> saved_l; //saved repetitions
 
 	private string titleStr;
 	private string lossStr;
@@ -3547,6 +3548,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		colorMain_l = new List<Cairo.Color>();
 		colorSecondary_l = new List<Cairo.Color>();
 		names_l = new List<string>();
+		saved_l = new List<int>();
 
 		//Gdk colors from (soon deleted) encoderGraphDoPlot()
 		Gdk.Color colorPhase = new Gdk.Color();
@@ -3785,11 +3787,8 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 				}
 			}
 
-			bool curveSaved = false;
 			if( iterOk && ((EncoderCurve) pegbe.encoderCaptureListStore.GetValue (iter, 0)).Record )
 			{
-				curveSaved = true;
-
 				if(pegbe.eccon == "c" ||
 						preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.BOTH ||
 						preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.ECC && ! Util.IsEven(count +1) || //odd (impar)
@@ -3798,6 +3797,11 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 					sumSaved += ebd.GetValue(pegbe.mainVariable);
 					countSaved ++;
 				}
+
+				if(pegbe.eccon == "c")
+					saved_l.Add(count);
+				else if(phaseEnum == Preferences.EncoderPhasesEnum.CON)
+					saved_l.Add(Convert.ToInt32(Math.Floor(UtilAll.DivideSafe(count, 2))));
 			}
 
 			//work and impulse
@@ -3916,7 +3920,10 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 			cb.PassArrowData (cairoBarsArrow);
 
 		if(lineData_l.Count > 0)
-			cb.PassLineData (lineData_l); //range
+			cb.LineData_l = lineData_l; //range
+
+		if(saved_l.Count > 0)
+			cb.Saved_l = saved_l;
 
 		//this should be passed before PassData1Serie && PassData2Series
 		cb.SetEncoderTitle (titleStr, lossStr, workStr, impulseStr);

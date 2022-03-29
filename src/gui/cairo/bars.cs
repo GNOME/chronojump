@@ -775,6 +775,7 @@ public abstract class CairoBars : CairoGeneric
 		// 1) get the titleTextHeight for titleFull
 		int titleTextHeight = textHeight +2;
 		g.SetFontSize(titleTextHeight);
+		g.SelectFontFace(font, Cairo.FontSlant.Normal, Cairo.FontWeight.Bold);
 		Cairo.TextExtents te = g.TextExtents(titleFull);
 
 		if (te.Width > graphWidth) //margins?
@@ -804,21 +805,21 @@ public abstract class CairoBars : CairoGeneric
 
 		// 3) paint title, loss, work, impulse
 		g.SetSourceColor(black);
-		printText(graphWidth/2 -titleFullWidth/2, textHeight/2, 0, titleTextHeight,
+		printText(graphWidth/2 -titleFullWidth/2, textHeight/3, 0, titleTextHeight,
 				titleStr, g, alignTypes.LEFT);
 
 		if(lossStr != "")
 		{
 			g.SetSourceColor(gray99); //darker than the arrow line
-			printText(graphWidth/2 -titleFullWidth/2 + titleWidth, textHeight/2, 0, titleTextHeight,
+			printText(graphWidth/2 -titleFullWidth/2 + titleWidth, textHeight/3, 0, titleTextHeight,
 					lossStr, g, alignTypes.LEFT);
 			g.SetSourceColor(black);
 		}
 
-		printText(graphWidth/2 -titleFullWidth/2 + titleWidth +lossWidth, textHeight/2, 0, titleTextHeight,
+		printText(graphWidth/2 -titleFullWidth/2 + titleWidth +lossWidth, textHeight/3, 0, titleTextHeight,
 				workStr, g, alignTypes.LEFT);
 
-		printText(graphWidth/2 -titleFullWidth/2 + titleWidth +lossWidth +workWidth, textHeight/2, 0, titleTextHeight,
+		printText(graphWidth/2 -titleFullWidth/2 + titleWidth +lossWidth +workWidth, textHeight/3, 0, titleTextHeight,
 				impulseStr, g, alignTypes.LEFT);
 
 		g.Restore();

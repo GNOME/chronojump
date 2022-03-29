@@ -1347,7 +1347,7 @@ public class CairoBarsNHSeries : CairoBars
 						}
 						else
 							printTextInBar(x +adjustX +barWidth/2, graphHeight -bottomMargin -10,
-									0, textHeight+2, "E", g, true);
+									0, textHeight+2, "e", g, true);
 					}
 
 					secondaryHasData = true;
@@ -1391,7 +1391,7 @@ public class CairoBarsNHSeries : CairoBars
 					}
 					else
 						printTextInBar(x +adjustX +barWidth/2, graphHeight -bottomMargin -10,
-								0, textHeight+2, "C", g, true);
+								0, textHeight+2, "c", g, true);
 				}
 			}
 

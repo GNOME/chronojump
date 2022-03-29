@@ -74,7 +74,7 @@ public abstract class CairoBars : CairoGeneric
 	protected Cairo.Color yellow;
 
 	protected RepetitionMouseLimits mouseLimits;
-	protected List<double> dataSecondary_l; //related to secondary variable (by default range)
+	protected List<double> lineData_l; //related to secondary variable (by default range)
 
 	// ---- values can be passed from outside via accessors ---->
 	protected string xVariable = "";
@@ -277,12 +277,12 @@ public abstract class CairoBars : CairoGeneric
 	}
 
 	//related to secondary variable (by default range)
-	public void PassDataSecondary (List<double> dataSecondary_l)
+	public void PassLineData (List<double> lineData_l)
 	{
-		this.dataSecondary_l = dataSecondary_l;
+		this.lineData_l = lineData_l;
 	}
 
-	public virtual void PassData1Serie (List<PointF> pointMain_l,
+	public virtual void PassData1Serie (List<PointF> barMain_l,
 			List<Cairo.Color> colorMain_l, List<string> names_l,
 			int fontHeightAboveBar, int fontHeightForBottomNames, int marginForBottomNames,
 			string titleStr)
@@ -290,7 +290,7 @@ public abstract class CairoBars : CairoGeneric
 		//defined in CairoBars1Series
 	}
 
-	public virtual void PassData2Series (List<PointF> pointMain_l, List<List<PointF>> pointSecondary_ll, bool mainAtLeft,
+	public virtual void PassData2Series (List<PointF> barMain_l, List<List<PointF>> barSecondary_ll, bool mainAtLeft,
 			List<Cairo.Color> colorMain_l, List<Cairo.Color> colorSecondary_l, List<string> names_l,
 			string labelBarMain, string labelBarSecondary, bool labelRotateInFirstBar,
 			int fontHeightAboveBar, int fontHeightForBottomNames, int marginForBottomNames,
@@ -518,10 +518,10 @@ public abstract class CairoBars : CairoGeneric
 				calculatePaintY(cairoBarsArrow.y1));
 	}
 
-	protected void plotAlternativeLine (List<double> dataSecondary_l)
+	protected void plotAlternativeLine (List<double> lineData_l)
 	{
 		//be safe
-		if(barsXCenter_l.Count != dataSecondary_l.Count)
+		if(barsXCenter_l.Count != lineData_l.Count)
 			return;
 
 		g.SetSourceColor(yellow); //to have contrast with the bar
@@ -530,9 +530,9 @@ public abstract class CairoBars : CairoGeneric
 		bool firstDone = false;
 		for (int i = 0 ; i < barsXCenter_l.Count; i ++)
 		{
-			double y = calculatePaintY (dataSecondary_l[dataSecondary_l.Count -1 -i],
-					MathUtil.GetMax (dataSecondary_l),
-					0);//MathUtil.GetMin (dataSecondary_l));
+			double y = calculatePaintY (lineData_l[lineData_l.Count -1 -i],
+					MathUtil.GetMax (lineData_l),
+					0);//MathUtil.GetMin (lineData_l));
 
 			if(! firstDone)
 			{
@@ -547,9 +547,9 @@ public abstract class CairoBars : CairoGeneric
 		int pointsRadius = 4;
 		for (int i = 0 ; i < barsXCenter_l.Count; i ++)
 		{
-			double y = calculatePaintY (dataSecondary_l[dataSecondary_l.Count -1 -i],
-					MathUtil.GetMax (dataSecondary_l),
-					0);//MathUtil.GetMin (dataSecondary_l));
+			double y = calculatePaintY (lineData_l[lineData_l.Count -1 -i],
+					MathUtil.GetMax (lineData_l),
+					0);//MathUtil.GetMin (lineData_l));
 
 			g.Arc(barsXCenter_l[i], y, pointsRadius, 0.0, 2.0 * Math.PI); //full circle
 			g.FillPreserve();
@@ -923,7 +923,7 @@ public abstract class CairoBars : CairoGeneric
 
 public class CairoBars1Series : CairoBars
 {
-	private List<PointF> pointMain_l;
+	private List<PointF> barMain_l;
 	private List<Cairo.Color> colorMain_l;
 	private List<string> names_l;
 
@@ -955,7 +955,7 @@ public class CairoBars1Series : CairoBars
 
 	protected override void findMaximums()
 	{
-		foreach(PointF p in pointMain_l)
+		foreach(PointF p in barMain_l)
 			if(p.Y > maxY)
 				maxY = p.Y;
 
@@ -964,7 +964,7 @@ public class CairoBars1Series : CairoBars
 
 		//points X start at 1
 		minX = 0;
-		maxX = pointMain_l.Count + 1;
+		maxX = barMain_l.Count + 1;
 
 		//bars Y have 0 at bottom
 		minY = 0;
@@ -973,28 +973,28 @@ public class CairoBars1Series : CairoBars
 	protected override void plotBars ()
 	{
                 //calculate separation between series and bar width
-                double distanceBetweenCols = Convert.ToInt32((graphWidth - (leftMargin+rightMargin))*(1+.5)/pointMain_l.Count) -
-                        Convert.ToInt32((graphWidth - (leftMargin+rightMargin))*(0+.5)/pointMain_l.Count);
+                double distanceBetweenCols = Convert.ToInt32((graphWidth - (leftMargin+rightMargin))*(1+.5)/barMain_l.Count) -
+                        Convert.ToInt32((graphWidth - (leftMargin+rightMargin))*(0+.5)/barMain_l.Count);
 
                 barWidth = Convert.ToInt32(.5*distanceBetweenCols);
                 double barDesplLeft = Convert.ToInt32(.5*barWidth);
 		resultFontHeight = getBarsResultFontHeight (barWidth*1.5); //*1.5 because there is space at left and right
 		LogB.Information("resultFontHeight: " + resultFontHeight.ToString());
 
-		for(int i = 0; i < pointMain_l.Count; i ++)
+		for(int i = 0; i < barMain_l.Count; i ++)
 		{
-			PointF p = pointMain_l[i];
+			PointF p = barMain_l[i];
 
-			double x = (graphWidth - (leftMargin+rightMargin)) * (p.X-.5)/pointMain_l.Count - barDesplLeft + leftMargin;
+			double x = (graphWidth - (leftMargin+rightMargin)) * (p.X-.5)/barMain_l.Count - barDesplLeft + leftMargin;
 			double y = calculatePaintY(p.Y);
 
 			Cairo.Color barColor = colorSerieA;
-			if(colorMain_l != null && colorMain_l.Count == pointMain_l.Count)
+			if(colorMain_l != null && colorMain_l.Count == barMain_l.Count)
 				barColor = colorMain_l[i];
 
 			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor);
 			resultOnBars_l.Add(new Point3F(x + barWidth/2, y, p.Y));
-			mouseLimits.AddInPos (pointMain_l.Count -1 -i, x, x+barWidth);
+			mouseLimits.AddInPos (barMain_l.Count -1 -i, x, x+barWidth);
 
 			//print the type at bottom
 			//printTextMultiline (x + barWidth/2, graphHeight -bottomMargin + fontHeightForBottomNames/2, 0, fontHeightForBottomNames,
@@ -1009,12 +1009,12 @@ public class CairoBars1Series : CairoBars
 	}
 
 	//done here and not in the constructor because most of this variables are known after construction
-	public override void PassData1Serie (List<PointF> pointMain_l,
+	public override void PassData1Serie (List<PointF> barMain_l,
 			List<Cairo.Color> colorMain_l, List<string> names_l,
 			int fontHeightAboveBar, int fontHeightForBottomNames, int marginForBottomNames,
 			string titleStr)
 	{
-		this.pointMain_l = pointMain_l;
+		this.barMain_l = barMain_l;
 		this.colorMain_l = colorMain_l;
 		this.names_l = names_l;
 		this.fontHeightAboveBar = fontHeightAboveBar;
@@ -1051,8 +1051,8 @@ public class CairoBars1Series : CairoBars
 		if(cairoBarsArrow != null)
 			plotArrow();
 
-		if(dataSecondary_l != null && dataSecondary_l.Count > 0)
-			plotAlternativeLine(dataSecondary_l);
+		if(lineData_l != null && lineData_l.Count > 0)
+			plotAlternativeLine(lineData_l);
 
 		plotResultsOnBar();
 
@@ -1068,8 +1068,8 @@ public class CairoBars1Series : CairoBars
 //N series in horizontal, like jump Dj tc/tf, jumpRj (maybe with a "number of jumps" column)
 public class CairoBarsNHSeries : CairoBars
 {
-	private List<List<PointF>> pointSecondary_ll; //other/s bar/s to display at the side of Main
-	private List<PointF> pointMain_l;
+	private List<List<PointF>> barSecondary_ll; //other/s bar/s to display at the side of Main
+	private List<PointF> barMain_l;
 	private List<Cairo.Color> colorMain_l;
 	private List<Cairo.Color> colorSecondary_l;
 	private List<string> names_l;
@@ -1225,12 +1225,12 @@ public class CairoBarsNHSeries : CairoBars
 
 	protected override void findMaximums()
 	{
-		foreach(List<PointF> p_l in pointSecondary_ll)
+		foreach(List<PointF> p_l in barSecondary_ll)
 			foreach(PointF p in p_l)
 				if(p.Y > maxY)
 					maxY = p.Y;
 
-		foreach(PointF p in pointMain_l)
+		foreach(PointF p in barMain_l)
 			if(p.Y > maxY)
 				maxY = p.Y;
 
@@ -1239,8 +1239,8 @@ public class CairoBarsNHSeries : CairoBars
 
 		//points X start at 1
 		minX = 0;
-		//maxX = pointMain_l.Count + .5; //all pointMain_l lists have same length
-		maxX = pointMain_l.Count + 1;
+		//maxX = barMain_l.Count + .5; //all barMain_l lists have same length
+		maxX = barMain_l.Count + 1;
 
 		//bars Y have 0 at bottom
 		minY = 0;
@@ -1250,9 +1250,9 @@ public class CairoBarsNHSeries : CairoBars
 	protected override void plotBars ()
 	{
 		/* debug stuff
-		LogB.Information("plotBars NH pointMain_l.Count: " + pointMain_l.Count.ToString());
-		LogB.Information("plotBars NH pointSecondary_ll.Count: " + pointSecondary_ll.Count.ToString());
-		LogB.Information("plotBars NH pointSecondary_ll[0].Count: " + pointSecondary_ll[0].Count.ToString());
+		LogB.Information("plotBars NH barMain_l.Count: " + barMain_l.Count.ToString());
+		LogB.Information("plotBars NH barSecondary_ll.Count: " + barSecondary_ll.Count.ToString());
+		LogB.Information("plotBars NH barSecondary_ll[0].Count: " + barSecondary_ll[0].Count.ToString());
 		LogB.Information("plotBars NH names_l.Count: " + names_l.Count.ToString());
 		*/
 
@@ -1260,7 +1260,7 @@ public class CairoBarsNHSeries : CairoBars
                 double distanceBetweenCols = (graphWidth - (leftMargin+rightMargin))/maxX;
 
                 barWidth = .4*distanceBetweenCols; //two bars will be .8
-		if(pointSecondary_ll.Count == 2) //TODO: fix this for more columns
+		if(barSecondary_ll.Count == 2) //TODO: fix this for more columns
 			barWidth = .8*distanceBetweenCols/3; //three bars will be .8
                 double barDesplLeft = .5*barWidth;
 		resultFontHeight = getBarsResultFontHeight (barWidth*1.1);
@@ -1270,10 +1270,10 @@ public class CairoBarsNHSeries : CairoBars
 		   one bar will go from 11 to 1 and the other from 10 to 0
 		   note that this can be reversed according to mainAtLeft
 		   */
-		int mouseLimitsPos1stBar = pointMain_l.Count *2 -2;
-		int mouseLimitsPos2ndBar = pointMain_l.Count *2 -1;
+		int mouseLimitsPos1stBar = barMain_l.Count *2 -2;
+		int mouseLimitsPos2ndBar = barMain_l.Count *2 -1;
 
-		for(int i = 0; i < pointMain_l.Count; i ++)
+		for(int i = 0; i < barMain_l.Count; i ++)
 		{
 			/*
 			   need this to sort correctly, because tests are plotted from last to first (right to left),
@@ -1282,14 +1282,14 @@ public class CairoBarsNHSeries : CairoBars
 			List<Point3F> resultOnBarsThisIteration_l = new List<Point3F>();
 
 			bool secondaryHasData = false;
-			PointF pB = pointMain_l[i];
+			PointF pB = barMain_l[i];
 
 			double x = (graphWidth - (leftMargin+rightMargin)) * pB.X/maxX + leftMargin;
-			double adjustX = -barDesplLeft * (pointSecondary_ll.Count +1);
+			double adjustX = -barDesplLeft * (barSecondary_ll.Count +1);
 
-			for(int j = 0; j < pointSecondary_ll.Count; j ++)
+			for(int j = 0; j < barSecondary_ll.Count; j ++)
 			{
-				PointF pS = pointSecondary_ll[j][i];
+				PointF pS = barSecondary_ll[j][i];
 				if(pS.Y > 0)
 				{
 					double y = calculatePaintY(pS.Y);
@@ -1297,7 +1297,7 @@ public class CairoBarsNHSeries : CairoBars
 					Cairo.Color barColor = colorSerieA;
 
 					//only implemented for 1 secondary_l right now
-					if(colorSecondary_l != null && colorSecondary_l.Count == pointSecondary_ll[j].Count)
+					if(colorSecondary_l != null && colorSecondary_l.Count == barSecondary_ll[j].Count)
 						barColor = colorSecondary_l[i];
 
 					drawRoundedRectangle (true, x + adjustX, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor);
@@ -1313,7 +1313,7 @@ public class CairoBarsNHSeries : CairoBars
 					{
 						if(labelRotateInFirstBar)
 						{
-							if(i == pointSecondary_ll[j].Count -1)
+							if(i == barSecondary_ll[j].Count -1)
 							{
 								g.SetSourceColor(white);
 								int sep = 4;
@@ -1341,7 +1341,7 @@ public class CairoBarsNHSeries : CairoBars
 				double y = calculatePaintY(pB.Y);
 
 				Cairo.Color barColor = colorSerieB;
-				if(colorMain_l != null && colorMain_l.Count == pointMain_l.Count)
+				if(colorMain_l != null && colorMain_l.Count == barMain_l.Count)
 					barColor = colorMain_l[i];
 
 				drawRoundedRectangle (true, x+adjustX, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor);
@@ -1357,7 +1357,7 @@ public class CairoBarsNHSeries : CairoBars
 				{
 					if(labelRotateInFirstBar)
 					{
-						if(i == pointMain_l.Count -1)
+						if(i == barMain_l.Count -1)
 						{
 							g.SetSourceColor(white);
 							int sep = 4;
@@ -1388,14 +1388,14 @@ public class CairoBarsNHSeries : CairoBars
 	}
 
 	//done here and not in the constructor because most of this variables are known after construction
-	public override void PassData2Series (List<PointF> pointMain_l, List<List<PointF>> pointSecondary_ll, bool mainAtLeft,
+	public override void PassData2Series (List<PointF> barMain_l, List<List<PointF>> barSecondary_ll, bool mainAtLeft,
 			List<Cairo.Color> colorMain_l, List<Cairo.Color> colorSecondary_l, List<string> names_l,
 			string labelBarMain, string labelBarSecondary, bool labelRotateInFirstBar,
 			int fontHeightAboveBar, int fontHeightForBottomNames, int marginForBottomNames,
 			string titleStr)
 	{
-		this.pointSecondary_ll = pointSecondary_ll;
-		this.pointMain_l = pointMain_l;
+		this.barSecondary_ll = barSecondary_ll;
+		this.barMain_l = barMain_l;
 		this.colorMain_l = colorMain_l;
 		this.colorSecondary_l = colorSecondary_l;
 		this.names_l = names_l;
@@ -1435,8 +1435,8 @@ public class CairoBarsNHSeries : CairoBars
 		if(cairoBarsArrow != null)
 			plotArrow();
 
-		if(dataSecondary_l != null && dataSecondary_l.Count > 0)
-			plotAlternativeLine(dataSecondary_l);
+		if(lineData_l != null && lineData_l.Count > 0)
+			plotAlternativeLine(lineData_l);
 
 		plotResultsOnBar();
 

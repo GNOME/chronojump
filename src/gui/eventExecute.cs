@@ -3686,13 +3686,6 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		//for (int count = 0; count < pegbe.data9Variables.Count; count ++)
 //		int countNames = 0;
 
-		//if !c && is "impar" (uneven), add a null to B
-		if (pegbe.eccon != "c" && ! Util.IsEven(pegbe.data9Variables.Count))
-		{
-			barB_l.Add(null);
-			colorMain_l.Add(CairoGeneric.colorFromGdk(UtilGtk.GRAY)); //this color will not be shown is just to match barB_l with colorMain_l
-		}
-
 		//we used data because this array has only the reps not discarded by showNRepetitions
 		for (count = 0; count < data.Count ; count ++)
 		{
@@ -3817,6 +3810,13 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 				impulseTotal += Convert.ToDouble(dataImpulse[count]);
 
 			iterOk = pegbe.encoderCaptureListStore.IterNext (ref iter);
+		}
+
+		//if !c && is "impar" (uneven), add a null to B
+		if (pegbe.eccon != "c" && ! Util.IsEven(pegbe.data9Variables.Count))
+		{
+			barB_l.Add(null);
+			colorMain_l.Add(CairoGeneric.colorFromGdk(UtilGtk.GRAY)); //this color will not be shown is just to match barB_l with colorMain_l
 		}
 	}
 

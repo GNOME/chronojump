@@ -569,7 +569,7 @@ public abstract class CairoBars : CairoGeneric
 		bool firstDone = false;
 		for (int i = 0 ; i < barsXCenter_l.Count; i ++)
 		{
-			double y = calculatePaintY (lineData_l[lineData_l.Count -1 -i],
+			double y = calculatePaintY (lineData_l[i],
 					MathUtil.GetMax (lineData_l),
 					0);//MathUtil.GetMin (lineData_l));
 
@@ -586,7 +586,7 @@ public abstract class CairoBars : CairoGeneric
 		int pointsRadius = 4;
 		for (int i = 0 ; i < barsXCenter_l.Count; i ++)
 		{
-			double y = calculatePaintY (lineData_l[lineData_l.Count -1 -i],
+			double y = calculatePaintY (lineData_l[i],
 					MathUtil.GetMax (lineData_l),
 					0);//MathUtil.GetMin (lineData_l));
 
@@ -1719,11 +1719,11 @@ public class CairoBarsArrow
 
 	public double GetX0Graph (List<double> barsXCenter_l)
 	{
-		return barsXCenter_l[barsXCenter_l.Count -1 -x0pos];
+		return barsXCenter_l[x0pos];
 	}
 
 	public double GetX1Graph (List<double> barsXCenter_l)
 	{
-		return barsXCenter_l[barsXCenter_l.Count -1 -x1pos];
+		return barsXCenter_l[x1pos];
 	}
 }

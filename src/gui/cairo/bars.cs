@@ -57,7 +57,7 @@ public abstract class CairoBars : CairoGeneric
 
 	protected Cairo.Context g;
 	protected int lineWidthDefault = 1; //was 2;
-	protected List<double> barsXCenter_l; //store center of the bars to draw range pointline on encoder
+	protected List<double> barsXCenter_l; //store center of the bars to draw range pointline and lossArrow on encoder
 	protected List<Point3F> resultOnBars_l;
 	protected int resultFontHeight;
 	protected double barWidth;
@@ -1382,11 +1382,11 @@ public class CairoBarsNHSeries : CairoBars
 
 		/* mouseLimits
 		   if there are 6 bars, 6+6 bars should be 0..11,
-		   one bar will go from 11 to 1 and the other from 10 to 0
-		   note that this can be reversed according to mainAtLeft
+		   one bar will go from 0 to 10 and the other from 1 to 11
+		   note that this can be reversed according to mainAtLeft.
 		   */
-		int mouseLimitsPos1stBar = barMain_l.Count *2 -2;
-		int mouseLimitsPos2ndBar = barMain_l.Count *2 -1;
+		int mouseLimitsPos1stBar = 0;
+		int mouseLimitsPos2ndBar = 1;
 
 		//debug
 		LogB.Information("barMain_l:");
@@ -1442,7 +1442,7 @@ public class CairoBarsNHSeries : CairoBars
 					resultOnBarsThisIteration_l.Add(new Point3F(x + adjustX + barWidth/2, y-4, pS.Y));
 					//add for the secondary and for the main bar, no problem both will work
 					mouseLimits.AddInPos (mouseLimitsPos1stBar, x+adjustX, x+adjustX+barWidth);
-					mouseLimitsPos1stBar -= 2;
+					mouseLimitsPos1stBar += 2;
 
 					//to print line variable if needed
 					//barsXCenter_l.Add(x + adjustX + barWidth/2);
@@ -1486,7 +1486,7 @@ public class CairoBarsNHSeries : CairoBars
 				resultOnBarsThisIteration_l.Add(new Point3F(x + adjustX + barWidth/2, y, pB.Y));
 				//add for the secondary and for the main bar, no problem both will work
 				mouseLimits.AddInPos (mouseLimitsPos2ndBar, x+adjustX, x+adjustX+barWidth);
-				mouseLimitsPos2ndBar -= 2;
+				mouseLimitsPos2ndBar += 2;
 
 				//to print line variable if needed
 				//barsXCenter_l.Add(x + adjustX + barWidth/2);
@@ -1509,8 +1509,8 @@ public class CairoBarsNHSeries : CairoBars
 				}
 			}
 
-			//sort result on bars correctly
-			for(int j = resultOnBarsThisIteration_l.Count -1; j >= 0; j --)
+			//sort result on bars correctly (this could be useful if mainAtLeft changes)
+			for(int j = 0 ; j < resultOnBarsThisIteration_l.Count; j ++)
 			{
 				resultOnBars_l.Add(resultOnBarsThisIteration_l[j]);
 				barsXCenter_l.Add(resultOnBarsThisIteration_l[j].X);

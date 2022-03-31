@@ -3693,9 +3693,10 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 			colorMain_l.Add(CairoGeneric.colorFromGdk(UtilGtk.GRAY)); //this color will not be shown is just to match barB_l with colorMain_l
 		}
 
-		for (count = (pegbe.data9Variables.Count -1); count >= 0; count --)
+		//we used data because this array has only the reps not discarded by showNRepetitions
+		for (count = (data.Count -1); count >= 0; count --)
 		{
-			EncoderBarsData ebd = (EncoderBarsData) pegbe.data9Variables[count];
+			double mainVariableValue = Convert.ToDouble(data[count]);
 
 			//get phase (for color)
 			Preferences.EncoderPhasesEnum phaseEnum = Preferences.EncoderPhasesEnum.BOTH; // (eccon == "c")
@@ -3709,7 +3710,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 			//select pen color for bars and sounds
 			string myColor = pegbe.feedback.AssignColorAutomatic(
-					FeedbackEncoder.BestSetValueEnum.CAPTURE_MAIN_VARIABLE, ebd.GetValue(pegbe.mainVariable), phaseEnum);
+					FeedbackEncoder.BestSetValueEnum.CAPTURE_MAIN_VARIABLE, mainVariableValue, phaseEnum);
 
 			bool discarded = false;
 			if(pegbe.hasInertia) {
@@ -3719,7 +3720,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 					discarded = true;
 			}
 
-			if( ! discarded && ( myColor == UtilGtk.ColorGood || (pegbe.mainVariableHigher != -1 && ebd.GetValue(pegbe.mainVariable) >= pegbe.mainVariableHigher) ) )
+			if( ! discarded && ( myColor == UtilGtk.ColorGood || (pegbe.mainVariableHigher != -1 && mainVariableValue >= pegbe.mainVariableHigher) ) )
 			{
 				colorPhase = UtilGtk.GREEN_PLOTS;
 				//play sound if value is high, volumeOn == true, is last value, capturing
@@ -3727,7 +3728,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 //				if(preferences.volumeOn && count == data.Count -1 && capturing)
 //					Util.PlaySound(Constants.SoundTypes.GOOD, preferences.volumeOn, preferences.gstreamer);
 			}
-			else if( ! discarded && ( myColor == UtilGtk.ColorBad || (pegbe.mainVariableLower != -1 && ebd.GetValue(pegbe.mainVariable) <= pegbe.mainVariableLower) ) )
+			else if( ! discarded && ( myColor == UtilGtk.ColorBad || (pegbe.mainVariableLower != -1 && mainVariableValue <= pegbe.mainVariableLower) ) )
 			{
 				colorPhase = UtilGtk.RED_PLOTS;
 				//play sound if value is low, volumeOn == true, is last value, capturing
@@ -3771,18 +3772,18 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 			if(pegbe.eccon == "c")
 			{
-				barA_l.Add(new PointF(count +1, ebd.GetValue(pegbe.mainVariable)));
+				barA_l.Add(new PointF(count +1, mainVariableValue));
 				colorMain_l.Add(colorBar);
 				names_l.Add((count +1).ToString());
 			} else
 			{
 				if(! Util.IsEven(count +1))  	//if it is "impar"
 				{
-					barA_l.Add(new PointF(UtilAll.DivideSafe(count+1,2), ebd.GetValue(pegbe.mainVariable)));
+					barA_l.Add(new PointF(UtilAll.DivideSafe(count+1,2), mainVariableValue));
 					colorSecondary_l.Add(colorBar);
 					names_l.Add((UtilAll.DivideSafe(count,2) +1).ToString());
 				} else {// "par"
-					barB_l.Add(new PointF(UtilAll.DivideSafe(count+1,2), ebd.GetValue(pegbe.mainVariable)));
+					barB_l.Add(new PointF(UtilAll.DivideSafe(count+1,2), mainVariableValue));
 					colorMain_l.Add(colorBar);
 				}
 			}
@@ -3794,7 +3795,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 						preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.ECC && ! Util.IsEven(count +1) || //odd (impar)
 						preferences.encoderCaptureFeedbackEccon == Preferences.EncoderPhasesEnum.CON && Util.IsEven(count +1) ) //even (par)
 				{
-					sumSaved += ebd.GetValue(pegbe.mainVariable);
+					sumSaved += mainVariableValue;
 					countSaved ++;
 				}
 
@@ -3803,7 +3804,6 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 				else if(phaseEnum == Preferences.EncoderPhasesEnum.CON)
 					saved_l.Add(Convert.ToInt32(Math.Floor(UtilAll.DivideSafe(count, 2))));
 			}
-
 			//work and impulse
 			if(dataWorkJ.Count > 0)
 			{

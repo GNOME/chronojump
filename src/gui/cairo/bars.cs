@@ -1092,7 +1092,7 @@ public class CairoBars1Series : CairoBars
 
 			drawRoundedRectangle (true, x, y, barWidth, graphHeight -y -bottomMargin, 4, g, barColor);
 			resultOnBars_l.Add(new Point3F(x + barWidth/2, y, p.Y));
-			mouseLimits.AddInPos (barMain_l.Count -1 -i, x, x+barWidth);
+			mouseLimits.AddInPos (i, x, x+barWidth);
 
 			//print the type at bottom
 			//printTextMultiline (x + barWidth/2, graphHeight -bottomMargin + fontHeightForBottomNames/2, 0, fontHeightForBottomNames,

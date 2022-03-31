@@ -372,9 +372,14 @@ public abstract class CairoGeneric
 
 	protected void addClickableMark (Cairo.Context g)
 	{
+		addClickableMark (g, 1); //default
+	}
+	//double mousesFromRight is how many mouses width should be at right of the graph
+	protected void addClickableMark (Cairo.Context g, double mousesFromRight)
+	{
 		Gdk.Pixbuf pixbuf = new Gdk.Pixbuf (null, Util.GetImagePath(false) + "mouse.png"); //18px
 		Gdk.CairoHelper.SetSourcePixbuf (g, pixbuf,
-				graphWidth -rightMargin -18,// -4,
+				graphWidth -rightMargin -mousesFromRight*18,// -4,
 				graphHeight - bottomMargin -18 -4);
 		g.Paint();
 	}

@@ -3694,7 +3694,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		}
 
 		//we used data because this array has only the reps not discarded by showNRepetitions
-		for (count = (data.Count -1); count >= 0; count --)
+		for (count = 0; count < data.Count ; count ++)
 		{
 			double mainVariableValue = Convert.ToDouble(data[count]);
 

@@ -717,9 +717,6 @@ public abstract class CairoBars : CairoGeneric
 
 		for(int i = textHeight; te.Width >= maxWidth && i > 0; i --)
 		{
-			//if(i <= 8)
-			//	decs = 1;
-
 			g.SetFontSize(i);
 			te = g.TextExtents(Util.TrimDecimals(maxLengthNumber, decs));
 			optimalFontHeight = i;
@@ -1054,6 +1051,7 @@ public class CairoBars1Series : CairoBars
 		   | LM |s|  |b|  |b|  |s| RM |
 
 		   LM, RM: Left Margin, Right margin
+		   barWidthRatio (here 1)
 		   s: sideWidthRatio (here .5)
 		   b: spaceBetweenBarsRatio (here .5)
 		 */
@@ -1371,13 +1369,35 @@ public class CairoBarsNHSeries : CairoBars
 		LogB.Information("plotBars NH names_l.Count: " + names_l.Count.ToString());
 		*/
 
-                //calculate separation between series and bar width
-                double distanceBetweenCols = (graphWidth - (leftMargin+rightMargin))/maxX;
+		//calculate separation between series and bar width
+		/*
+		   | LM |     graphWidthUsable    | RM |
+		   | LM |     __   __ __   __     | RM |
+		   | LM |  __|  | |  |  | |  |    | RM |
+		   | LM | |  |  | |  |  | |  |__  | RM |
+		   | LM |s|  |  |b|  |  |b|  |  |s| RM |
 
-                barWidth = .4*distanceBetweenCols; //two bars will be .8
-		if(barSecondary_ll.Count == 2) //TODO: fix this for more columns
-			barWidth = .8*distanceBetweenCols/3; //three bars will be .8
-                double barDesplLeft = .5*barWidth;
+		   LM, RM: Left Margin, Right margin
+		   barWidthRatio (here 1)
+		   s: sideWidthRatio (here .5)
+		   b: spaceBetweenBarsRatio (here .5)
+		 */
+		double graphWidthUsable = graphWidth -(leftMargin+rightMargin);
+		double barWidthRatio = 1; //barWidth will be 1 respect the following two objects:
+		double sideWidthRatio = .5; //at left of the bars have the space of .5 barWidth, same for the right
+		if(type == Type.ENCODER && barMain_l.Count > 1) //on encoder margins are shown to draw the mice, and just a bit more
+			sideWidthRatio = 0.25;
+		double spaceBetweenBarsRatio = .5;
+		/*
+		   divide graphWidhtUsable by total objects (bars, leftrightspace, spacesbetweenbars)
+		   for 3 (double) bars on ratios 1, .5, .5, this will be 8
+		   */
+		int series = 2;
+		double barWidth = UtilAll.DivideSafe(graphWidthUsable,
+			series * barMain_l.Count * barWidthRatio +
+			2*sideWidthRatio + (barMain_l.Count-1) * spaceBetweenBarsRatio);
+		double distanceBetweenCols = barWidth * spaceBetweenBarsRatio;
+
 		resultFontHeight = getBarsResultFontHeight (barWidth*1.1);
 
 		/* mouseLimits
@@ -1422,8 +1442,12 @@ public class CairoBarsNHSeries : CairoBars
 			else
 				pB = barMain_l[i];
 
-			double x = (graphWidth - (leftMargin+rightMargin)) * pB.X/maxX + leftMargin;
-			double adjustX = -barDesplLeft * (barSecondary_ll.Count +1);
+			double spacesBetweenBarGroups = 0;
+			if(i >= 1)
+				spacesBetweenBarGroups = i*distanceBetweenCols;
+
+			double x = leftMargin + sideWidthRatio*barWidth + i*2*barWidth + spacesBetweenBarGroups;
+			double adjustX = 0; //this is used on second bar (at right), can be used on first if mainAtLeft
 
 			for(int j = 0; j < barSecondary_ll.Count; j ++)
 			{
@@ -1474,7 +1498,7 @@ public class CairoBarsNHSeries : CairoBars
 			{
 				//if there is no data on previous variables, just put pB in the middle
 				if(!secondaryHasData)
-					adjustX = -barDesplLeft;
+					adjustX = -barWidth/2;
 
 				double y = calculatePaintY(pB.Y);
 
@@ -1518,7 +1542,7 @@ public class CairoBarsNHSeries : CairoBars
 
 			//print text at bottom
 			printTextMultiline(
-					x,
+					x+adjustX,
 					graphHeight -fontHeightForBottomNames * 2/3,
 					0, fontHeightForBottomNames,
 					names_l[i], g, alignTypes.CENTER,

@@ -3767,14 +3767,14 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 			{
 				barA_l.Add(new PointF(count +1, mainVariableValue));
 				colorMain_l.Add(colorBar);
-				names_l.Add((count +1).ToString());
+				names_l.Add((pegbe.data9Variables.Count -data.Count +(count+1)).ToString());
 			} else
 			{
 				if(! Util.IsEven(count +1))  	//if it is "impar"
 				{
 					barA_l.Add(new PointF(UtilAll.DivideSafe(count+1,2), mainVariableValue));
 					colorSecondary_l.Add(colorBar);
-					names_l.Add((UtilAll.DivideSafe(count,2) +1).ToString());
+					names_l.Add((UtilAll.DivideSafe(pegbe.data9Variables.Count -data.Count +count,2)+1).ToString());
 				} else {// "par"
 					barB_l.Add(new PointF(UtilAll.DivideSafe(count+1,2), mainVariableValue));
 					colorMain_l.Add(colorBar);

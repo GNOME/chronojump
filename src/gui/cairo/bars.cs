@@ -1158,7 +1158,12 @@ public class CairoBars1Series : CairoBars
 		writeTitleAtTop ();
 
 		if(clickable)
-			addClickableMark (g);
+		{
+			if(type == Type.ENCODER)
+				addClickableMark (g, 0);
+			else
+				addClickableMark (g, 1); //default
+		}
 
 		endGraphDisposing(g, surface, area.GdkWindow);
 	}
@@ -1580,7 +1585,12 @@ public class CairoBarsNHSeries : CairoBars
 			writeLegend ();
 
 		if(clickable)
-			addClickableMark (g);
+		{
+			if(type == Type.ENCODER)
+				addClickableMark (g, 0);
+			else
+				addClickableMark (g, 1); //default
+		}
 
 		endGraphDisposing(g, surface, area.GdkWindow);
 	}

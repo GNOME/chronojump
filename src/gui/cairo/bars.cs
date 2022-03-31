@@ -1046,11 +1046,32 @@ public class CairoBars1Series : CairoBars
 	protected override void plotBars ()
 	{
                 //calculate separation between series and bar width
-                double distanceBetweenCols = Convert.ToInt32((graphWidth - (leftMargin+rightMargin))*(1+.5)/barMain_l.Count) -
-                        Convert.ToInt32((graphWidth - (leftMargin+rightMargin))*(0+.5)/barMain_l.Count);
+		/*
+		   | LM |graphWidthUsable| RM |
+		   | LM |  __   __   __  | RM |
+		   | LM | |  | |  | |  | | RM |
+		   | LM | |  | |  | |  | | RM |
+		   | LM |s|  |b|  |b|  |s| RM |
 
-                barWidth = Convert.ToInt32(.5*distanceBetweenCols);
-                double barDesplLeft = Convert.ToInt32(.5*barWidth);
+		   LM, RM: Left Margin, Right margin
+		   s: sideWidthRatio (here .5)
+		   b: spaceBetweenBarsRatio (here .5)
+		 */
+		double graphWidthUsable = graphWidth -(leftMargin+rightMargin);
+		double barWidthRatio = 1; //barWidth will be 1 respect the following two objects:
+		double sideWidthRatio = .5; //at left of the bars have the space of .5 barWidth, same for the right
+		if(type == Type.ENCODER && barMain_l.Count > 1) //on encoder margins are shown to draw the mice, and just a bit more
+			sideWidthRatio = 0.25;
+
+		double spaceBetweenBarsRatio = .7;
+		/*
+		   divide graphWidhtUsable by total objects (bars, leftrightspace, spacesbetweenbars)
+		   for 3 bars on ratios 1, .5, .5, this will be 5
+		   */
+		double barWidth = UtilAll.DivideSafe(graphWidthUsable,
+			barMain_l.Count * barWidthRatio + 2*sideWidthRatio + (barMain_l.Count-1) * spaceBetweenBarsRatio);
+		double distanceBetweenCols = barWidth * spaceBetweenBarsRatio;
+
 		resultFontHeight = getBarsResultFontHeight (barWidth*1.5); //*1.5 because there is space at left and right
 		LogB.Information("resultFontHeight: " + resultFontHeight.ToString());
 
@@ -1058,7 +1079,11 @@ public class CairoBars1Series : CairoBars
 		{
 			PointF p = barMain_l[i];
 
-			double x = (graphWidth - (leftMargin+rightMargin)) * (p.X-.5)/barMain_l.Count - barDesplLeft + leftMargin;
+			double spacesBetweenBars = 0;
+			if(i >= 1)
+				spacesBetweenBars = i*distanceBetweenCols;
+
+			double x = leftMargin + sideWidthRatio*barWidth + i*barWidth + spacesBetweenBars;
 			double y = calculatePaintY(p.Y);
 
 			Cairo.Color barColor = colorSerieA;

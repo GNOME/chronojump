@@ -342,16 +342,30 @@ public abstract class CairoBars : CairoGeneric
 		yellow = colorFromRGB(255,204,1);
 
 		//margins
-		leftMargin = 26;
-		rightMargin = 42; //images are 24 px, separate 6 px from grapharea, and 12 px from absoluteright
-		if(usePersonGuides && useGroupGuides)
-			rightMargin = 70;
+		leftRightMarginsSet();
 		bottomMargin = 9;
 		topMarginSet ();
 
 		mouseLimits = new RepetitionMouseLimits();
 		lineData_l = new List<double>();
 		saved_l = new List<int>();
+	}
+
+	private void leftRightMarginsSet ()
+	{
+		if(type == Type.ENCODER)
+		{
+			//to just show the mice icon
+			leftMargin = 18;
+			rightMargin = 18;
+		}
+		else {
+			leftMargin = 26;
+			rightMargin = 42; //images are 24 px, separate 6 px from grapharea, and 12 px from absoluteright
+		}
+
+		if(usePersonGuides && useGroupGuides)
+			rightMargin = 70;
 	}
 
 	protected abstract void topMarginSet ();

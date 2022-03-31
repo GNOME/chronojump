@@ -99,6 +99,10 @@ public class CairoGraphEncoderSignal : CairoXY
 				(isInertial && (points_list_inertial == null || points_list_inertial.Count == 0)) )
 			return true;
 
+		//fix an eventual crash on g.LineWidth below
+		if(g == null)
+			return false;
+
 		g.LineWidth = 1;
 		pointsRadius = 1;
 

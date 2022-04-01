@@ -5889,7 +5889,6 @@ public partial class ChronoJumpWindow
 			double mainVariableLower = feedbackWin.GetMainVariableLower(mainVariable);
 
 			if(encoderGraphDoPlot != null)
-			{
 				encoderGraphDoPlot.Start(
 						mainVariable, mainVariableHigher, mainVariableLower,
 						secondaryVariable, preferences.encoderCaptureShowLoss,
@@ -5904,26 +5903,25 @@ public partial class ChronoJumpWindow
 						sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
 						sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable));
 
-				//Cairo
-				prepareEventGraphBarplotEncoder = new PrepareEventGraphBarplotEncoder (
-						mainVariable, mainVariableHigher, mainVariableLower,
-						secondaryVariable, preferences.encoderCaptureShowLoss,
-						false, //not capturing
-						findEccon(true),
-						feedback,
-						encoderConfigurationCurrent.has_inertia,
-						configChronojump.PlaySoundsFromFile,
-						captureCurvesBarsData,
-						encoderCaptureListStore,
-						preferences.encoderCaptureMainVariableThisSetOrHistorical,
-						sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
-						sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable),
-						preferences.encoderCaptureInertialDiscardFirstN,
-						preferences.encoderCaptureShowNRepetitions,
-						preferences.volumeOn,
-						preferences.gstreamer);
-				prepareEncoderBarplotCairo ();
-			}
+			//Cairo
+			prepareEventGraphBarplotEncoder = new PrepareEventGraphBarplotEncoder (
+					mainVariable, mainVariableHigher, mainVariableLower,
+					secondaryVariable, preferences.encoderCaptureShowLoss,
+					false, //not capturing
+					findEccon(true),
+					feedback,
+					encoderConfigurationCurrent.has_inertia,
+					configChronojump.PlaySoundsFromFile,
+					captureCurvesBarsData,
+					encoderCaptureListStore,
+					preferences.encoderCaptureMainVariableThisSetOrHistorical,
+					sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
+					sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable),
+					preferences.encoderCaptureInertialDiscardFirstN,
+					preferences.encoderCaptureShowNRepetitions,
+					preferences.volumeOn,
+					preferences.gstreamer);
+			prepareEncoderBarplotCairo ();
 		}
 	}
 
@@ -6799,28 +6797,27 @@ public partial class ChronoJumpWindow
 							preferences.encoderCaptureMainVariableThisSetOrHistorical,
 							sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
 							sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable));
-
-					//Cairo
-					//TODO: send also the NewPreferences
-					prepareEventGraphBarplotEncoder = new PrepareEventGraphBarplotEncoder (
-							mainVariable, mainVariableHigher, mainVariableLower,
-							secondaryVariable, preferences.encoderCaptureShowLoss,
-							true, //capturing
-							findEccon(true),
-							feedback,
-							encoderConfigurationCurrent.has_inertia,
-							configChronojump.PlaySoundsFromFile,
-							captureCurvesBarsData,
-							encoderCaptureListStore,
-							preferences.encoderCaptureMainVariableThisSetOrHistorical,
-							sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
-							sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable),
-							preferences.encoderCaptureInertialDiscardFirstN,
-							preferences.encoderCaptureShowNRepetitions,
-							preferences.volumeOn,
-							preferences.gstreamer);
-					prepareEncoderBarplotCairo ();
 				}
+
+				//Cairo
+				prepareEventGraphBarplotEncoder = new PrepareEventGraphBarplotEncoder (
+						mainVariable, mainVariableHigher, mainVariableLower,
+						secondaryVariable, preferences.encoderCaptureShowLoss,
+						true, //capturing
+						findEccon(true),
+						feedback,
+						encoderConfigurationCurrent.has_inertia,
+						configChronojump.PlaySoundsFromFile,
+						captureCurvesBarsData,
+						encoderCaptureListStore,
+						preferences.encoderCaptureMainVariableThisSetOrHistorical,
+						sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
+						sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable),
+						preferences.encoderCaptureInertialDiscardFirstN,
+						preferences.encoderCaptureShowNRepetitions,
+						preferences.volumeOn,
+						preferences.gstreamer);
+				prepareEncoderBarplotCairo ();
 
 				needToRefreshTreeviewCapture = false;
 			}
@@ -7402,28 +7399,27 @@ public partial class ChronoJumpWindow
 							preferences.encoderCaptureMainVariableThisSetOrHistorical,
 							sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
 							sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable));
-
-					//Cairo
-					//TODO: send also the NewPreferences
-					prepareEventGraphBarplotEncoder = new PrepareEventGraphBarplotEncoder (
-							mainVariable, mainVariableHigher, mainVariableLower,
-							secondaryVariable, preferences.encoderCaptureShowLoss,
-							false, //not capturing
-							findEccon(true),
-							feedback,
-							encoderConfigurationCurrent.has_inertia,
-							configChronojump.PlaySoundsFromFile,
-							captureCurvesBarsData,
-							encoderCaptureListStore,
-							preferences.encoderCaptureMainVariableThisSetOrHistorical,
-							sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
-							sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable),
-							preferences.encoderCaptureInertialDiscardFirstN,
-							preferences.encoderCaptureShowNRepetitions,
-							preferences.volumeOn,
-							preferences.gstreamer);
-					prepareEncoderBarplotCairo ();
 				}
+
+				//Cairo
+				prepareEventGraphBarplotEncoder = new PrepareEventGraphBarplotEncoder (
+						mainVariable, mainVariableHigher, mainVariableLower,
+						secondaryVariable, preferences.encoderCaptureShowLoss,
+						false, //not capturing
+						findEccon(true),
+						feedback,
+						encoderConfigurationCurrent.has_inertia,
+						configChronojump.PlaySoundsFromFile,
+						captureCurvesBarsData,
+						encoderCaptureListStore,
+						preferences.encoderCaptureMainVariableThisSetOrHistorical,
+						sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
+						sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable),
+						preferences.encoderCaptureInertialDiscardFirstN,
+						preferences.encoderCaptureShowNRepetitions,
+						preferences.volumeOn,
+						preferences.gstreamer);
+				prepareEncoderBarplotCairo ();
 
 				button_encoder_signal_save_comment.Label = Catalog.GetString("Save comment");
 				button_encoder_signal_save_comment.Sensitive = false;

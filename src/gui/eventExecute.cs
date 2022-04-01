@@ -2145,6 +2145,7 @@ public abstract class CairoPaintBarsPre
 	protected string testName;
 	protected string title;
 	protected int pDN; //preferences.digitsNumber
+	//protected string messageNoStoreCreated;
 
 	protected void initialize (DrawingArea darea, string fontStr, Constants.Modes mode,
 			string personName, string testName, int pDN)
@@ -2178,6 +2179,10 @@ public abstract class CairoPaintBarsPre
 	{
 	}
 
+	public virtual void ShowMessage (DrawingArea darea, string fontTypeStr, string message)
+	{
+	}
+
 	/*
 	public void Prepare ()
 	{
@@ -2194,7 +2199,7 @@ public abstract class CairoPaintBarsPre
 		try {
 			new CairoBars1Series (darea, CairoBars.Type.NORMAL, fontStr, "");
 		} catch {
-			LogB.Information("saved crash at with cairo paint (blank screen)");
+			LogB.Information("Saved crash at with cairo paint (blank screen)");
 		}
 	}
 
@@ -2204,14 +2209,21 @@ public abstract class CairoPaintBarsPre
 			return;
 
 		if(! storeCreated())
+		{
+			try {
+				new CairoBars1Series (darea, CairoBars.Type.NORMAL, fontStr, ""); //messageNoStoreCreated);
+			} catch {
+				LogB.Information("saved crash at with cairo paint at !storeCreated");
+			}
 			return;
+		}
 
 		if(! haveDataToPlot())
 		{
 			try {
 				new CairoBars1Series (darea, CairoBars.Type.NORMAL, fontStr, testsNotFound());
 			} catch {
-				LogB.Information("saved crash at with cairo paint");
+				LogB.Information("saved crash at with cairo paint at !haveDataToPlot");
 			}
 			return;
 		}
@@ -3425,8 +3437,18 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 	{
 		this.pegbe = pegbe;
 		NewPreferences (preferences);
+		//messageNoStoreCreated = " no criteria ";
 
 		initialize (darea, fontStr, mode, personName, testName, pDN);
+	}
+
+	public override void ShowMessage (DrawingArea darea, string fontTypeStr, string message)
+	{
+		if(darea == null)
+			return;
+
+		this.darea = darea;
+		cb = new CairoBars1Series (darea, CairoBars.Type.ENCODER, fontTypeStr, message);
 	}
 
 	protected override bool storeCreated ()
@@ -3464,11 +3486,6 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 			layout_encoder_capture_curves_bars.FontDescription =
 				Pango.FontDescription.FromString (preferences.GetFontTypeWithSize(preferences.encoderCaptureBarplotFontSize));
 		*/
-	}
-
-	public void ShowMessage(string message, bool showLine, bool big)
-	{
-		//TODO
 	}
 
 	private void fillDataVariables1 () //copied from gui/encoderGraphObjects fillDataVariables()

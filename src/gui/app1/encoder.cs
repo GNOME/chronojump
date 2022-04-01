@@ -5674,6 +5674,11 @@ public partial class ChronoJumpWindow
 		if(encoder_capture_curves_bars_pixmap != null)
 			UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 
+		//erase cairo barplot
+		cairoPaintBarsPre = new CairoPaintBarplotPreEncoder (
+			encoder_capture_curves_bars_drawingarea_cairo,
+			preferences.fontType.ToString());
+
 		image_encoder_capture.Sensitive = false;
 		image_encoder_analyze.Sensitive = false;
 		vbox_encoder_analyze_instant.Visible = false; //play with Visible instead of Sensitive because with Sensitive the pixmap is fully shown

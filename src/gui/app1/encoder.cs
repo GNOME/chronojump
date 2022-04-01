@@ -6191,8 +6191,17 @@ public partial class ChronoJumpWindow
 				if(encoder_capture_curves_bars_pixmap != null)
 					UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 
+				cairoPaintBarsPre = new CairoPaintBarplotPreEncoder (
+						encoder_capture_curves_bars_drawingarea_cairo,
+						preferences.fontType.ToString());//, "--capturing--");
+
 				if(encoderGraphDoPlot != null)
 					encoderGraphDoPlot.ShowMessage(Catalog.GetString("Capturing") + " …", false, true);
+
+				cairoPaintBarsPre.ShowMessage (
+						encoder_capture_curves_bars_drawingarea_cairo,
+						preferences.fontType.ToString(),
+						Catalog.GetString("Capturing") + " …");
 
 				encoderCaptureStringR = new List<string>();
 				encoderCaptureStringR.Add(

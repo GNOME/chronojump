@@ -7379,7 +7379,7 @@ public partial class ChronoJumpWindow
 					image_encoder_capture.Sensitive = true;
 
 					captureCurvesBarsData = new ArrayList();
-					foreach (EncoderCurve curve in encoderCaptureCurves) {
+					foreach (EncoderCurve curve in encoderCaptureCurves)
 						captureCurvesBarsData.Add(new EncoderBarsData(
 									Convert.ToDouble(curve.Height),
 									Convert.ToDouble(curve.MeanSpeed),
@@ -7391,7 +7391,6 @@ public partial class ChronoJumpWindow
 									Convert.ToDouble(curve.WorkJ),
 									Convert.ToDouble(curve.Impulse)
 									));
-					}
 				}
 
 

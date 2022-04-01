@@ -3931,7 +3931,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		if(pegbe.eccon == "c")
 			cb.PassData1Serie (barA_l,
 					colorMain_l, names_l,
-					20, 14, 8, "");
+					preferences.encoderCaptureBarplotFontSize, 14, 8, "");
 		else {
 			List<List<PointF>> barsSecondary_ll = new List<List<PointF>>();
 			barsSecondary_ll.Add(barA_l);
@@ -3939,7 +3939,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 			cb.PassData2Series (barB_l, barsSecondary_ll, false,
 					colorMain_l, colorSecondary_l, names_l,
 					"Ecc", "Con", false,
-					20, 14, 8, "");
+					preferences.encoderCaptureBarplotFontSize, 14, 8, "");
 		}
 
 		cb.GraphDo();

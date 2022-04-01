@@ -715,15 +715,15 @@ public abstract class CairoBars : CairoGeneric
 		if(fontHeightAboveBar >= 0)
 			optimalFontHeight = fontHeightAboveBar;
 
-		for(int i = textHeight; te.Width >= maxWidth && i > 0; i --)
+		int i = optimalFontHeight;
+		for(i = optimalFontHeight; te.Width >= maxWidth && i > 0; i --)
 		{
 			g.SetFontSize(i);
 			te = g.TextExtents(Util.TrimDecimals(maxLengthNumber, decs));
-			optimalFontHeight = i;
 		}
 
 		g.SetFontSize(textHeight); //return font to its default value
-		return optimalFontHeight;
+		return i;
 	}
 
 	protected void plotResultsOnBar ()
@@ -794,7 +794,7 @@ public abstract class CairoBars : CairoGeneric
 
 		//write text
 		g.SetSourceColor(black);
-		printText(x, yStart+te.Height/2, 0, Convert.ToInt32(te.Height),
+		printText(x, yStart+te.Height/2, 0, resultFontHeight,
 			Util.TrimDecimals(result, decs), g, alignTypes.CENTER);
 
 		//put font size to default value again
@@ -1070,7 +1070,7 @@ public class CairoBars1Series : CairoBars
 			barMain_l.Count * barWidthRatio + 2*sideWidthRatio + (barMain_l.Count-1) * spaceBetweenBarsRatio);
 		double distanceBetweenCols = barWidth * spaceBetweenBarsRatio;
 
-		resultFontHeight = getBarsResultFontHeight (barWidth*1.5); //*1.5 because there is space at left and right
+		resultFontHeight = getBarsResultFontHeight (barWidth*1.20); //*1.2 because there is space at left and right
 		LogB.Information("resultFontHeight: " + resultFontHeight.ToString());
 
 		for(int i = 0; i < barMain_l.Count; i ++)
@@ -1398,7 +1398,7 @@ public class CairoBarsNHSeries : CairoBars
 			2*sideWidthRatio + (barMain_l.Count-1) * spaceBetweenBarsRatio);
 		double distanceBetweenCols = barWidth * spaceBetweenBarsRatio;
 
-		resultFontHeight = getBarsResultFontHeight (barWidth*1.1);
+		resultFontHeight = getBarsResultFontHeight (barWidth);
 
 		/* mouseLimits
 		   if there are 6 bars, 6+6 bars should be 0..11,

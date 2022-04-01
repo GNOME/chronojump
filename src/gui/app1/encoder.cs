@@ -6168,11 +6168,16 @@ public partial class ChronoJumpWindow
 			//don't need to be false because ItemToggled is deactivated during capture
 			treeview_encoder_capture_curves.Sensitive = true;
 
+			/*
 			//on continuous mode do not erase bars at beginning of capture in order to see last bars
 			if(action == encoderActions.CAPTURE && preferences.encoderCaptureInfinite) {
 				if(encoderGraphDoPlot != null)
 					encoderGraphDoPlot.ShowMessage("Previous set", true, false);
+
+				cairoPaintBarsPre.ShowMessage (Catalog.GetString("Previous set"), true, false);
 			}
+			if want to show this, then need to not call the ErasePaint, encoderGraphDoPlot.ShowMessage, cairoPaintBarsPre stuff below
+			*/
 
 			//eccaCreated = false;
 

@@ -988,7 +988,7 @@ public class CairoBars1Series : CairoBars
 	private List<string> names_l;
 
 	//constructor when there are no points
-	public CairoBars1Series (DrawingArea area, Type type, string font, string testsNotFoundMessage)
+	public CairoBars1Series (DrawingArea area, Type type, string font, string message)
 	{
 		this.area = area;
 		this.type = type;
@@ -997,8 +997,8 @@ public class CairoBars1Series : CairoBars
 		LogB.Information("constructor without points, area.GdkWindow is null:" + (area.GdkWindow == null).ToString());
 		initGraph(font, 1); //.8 to have title at right
 
-		if(testsNotFoundMessage != "")
-			writeMessageAtCenter(testsNotFoundMessage);
+		if(message != "")
+			writeMessageAtCenter(message);
 
 		endGraphDisposing(g, surface, area.GdkWindow);
 	}

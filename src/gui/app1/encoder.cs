@@ -4975,13 +4975,13 @@ public partial class ChronoJumpWindow
 	void on_button_encoder_capture_save_image_file_selected (string destination)
 	{
 		try {
-			if(encoder_capture_curves_bars_drawingarea == null)
+			if(encoder_capture_curves_bars_drawingarea_cairo == null)
 				return;
 
-			Gdk.Pixbuf pixbuf = Gdk.Pixbuf.FromDrawable(encoder_capture_curves_bars_drawingarea.GdkWindow, Gdk.Colormap.System,
+			Gdk.Pixbuf pixbuf = Gdk.Pixbuf.FromDrawable(encoder_capture_curves_bars_drawingarea_cairo.GdkWindow, Gdk.Colormap.System,
 					0, 0, 0, 0,
-					UtilGtk.WidgetWidth(encoder_capture_curves_bars_drawingarea),
-					UtilGtk.WidgetHeight(encoder_capture_curves_bars_drawingarea) );
+					UtilGtk.WidgetWidth(encoder_capture_curves_bars_drawingarea_cairo),
+					UtilGtk.WidgetHeight(encoder_capture_curves_bars_drawingarea_cairo) );
 
 			LogB.Information("Saving");
 			pixbuf.Save(destination,"png");

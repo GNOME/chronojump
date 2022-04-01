@@ -7813,28 +7813,27 @@ LogB.Debug("mc finished 5");
 								preferences.encoderCaptureMainVariableThisSetOrHistorical,
 								sendMaxPowerSpeedForceIntersession(mainVariable),
 								sendMaxPowerSpeedForceIntersessionDate(mainVariable));
-
-						//Cairo
-						//TODO: send also the NewPreferences
-						prepareEventGraphBarplotEncoder = new PrepareEventGraphBarplotEncoder (
-								mainVariableStr, mainVariableHigher, mainVariableLower,
-								secondaryVariableStr, preferences.encoderCaptureShowLoss,
-								false, //not capturing
-								findEccon(true),
-								feedback,
-								encoderConfigurationCurrent.has_inertia,
-								configChronojump.PlaySoundsFromFile,
-								captureCurvesBarsData,
-								encoderCaptureListStore,
-								preferences.encoderCaptureMainVariableThisSetOrHistorical,
-								sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
-								sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable),
-								preferences.encoderCaptureInertialDiscardFirstN,
-								preferences.encoderCaptureShowNRepetitions,
-								preferences.volumeOn,
-								preferences.gstreamer);
-						prepareEncoderBarplotCairo ();
 					}
+
+					//Cairo
+					prepareEventGraphBarplotEncoder = new PrepareEventGraphBarplotEncoder (
+							mainVariableStr, mainVariableHigher, mainVariableLower,
+							secondaryVariableStr, preferences.encoderCaptureShowLoss,
+							false, //not capturing
+							findEccon(true),
+							feedback,
+							encoderConfigurationCurrent.has_inertia,
+							configChronojump.PlaySoundsFromFile,
+							captureCurvesBarsData,
+							encoderCaptureListStore,
+							preferences.encoderCaptureMainVariableThisSetOrHistorical,
+							sendMaxPowerSpeedForceIntersession(preferences.encoderCaptureMainVariable),
+							sendMaxPowerSpeedForceIntersessionDate(preferences.encoderCaptureMainVariable),
+							preferences.encoderCaptureInertialDiscardFirstN,
+							preferences.encoderCaptureShowNRepetitions,
+							preferences.volumeOn,
+							preferences.gstreamer);
+					prepareEncoderBarplotCairo ();
 				} else
 					UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 			}

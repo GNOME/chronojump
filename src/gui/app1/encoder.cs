@@ -5926,7 +5926,7 @@ public partial class ChronoJumpWindow
 					preferences.encoderCaptureShowNRepetitions,
 					preferences.volumeOn,
 					preferences.gstreamer);
-			prepareEncoderBarplotCairo ();
+			prepareEncoderBarplotCairo (true);
 		}
 	}
 
@@ -6042,20 +6042,21 @@ public partial class ChronoJumpWindow
 
 		LogB.Information("on_encoder_capture_curves_bars_drawingarea_cairo_expose_event B");
 		if(prepareEventGraphBarplotEncoder != null)
-			prepareEncoderBarplotCairo ();
+			prepareEncoderBarplotCairo (false); //just redraw the graph
 	}
 
-	private void prepareEncoderBarplotCairo ()
+	private void prepareEncoderBarplotCairo (bool calculateAll)
 	{
 		LogB.Information("prepareEncoderBarplotCairo");
 		if(currentPerson == null)
 			return;
 
-		cairoPaintBarsPre = new CairoPaintBarplotPreEncoder (
-				preferences,
-				encoder_capture_curves_bars_drawingarea_cairo, preferences.fontType.ToString(),
-				currentPerson.Name, "", 3,
-				prepareEventGraphBarplotEncoder);
+		if(cairoPaintBarsPre == null || calculateAll)
+			cairoPaintBarsPre = new CairoPaintBarplotPreEncoder (
+					preferences,
+					encoder_capture_curves_bars_drawingarea_cairo, preferences.fontType.ToString(),
+					currentPerson.Name, "", 3,
+					prepareEventGraphBarplotEncoder);
 
 		cairoPaintBarsPre.Paint();
 	}
@@ -6836,7 +6837,7 @@ public partial class ChronoJumpWindow
 						preferences.encoderCaptureShowNRepetitions,
 						preferences.volumeOn,
 						preferences.gstreamer);
-				prepareEncoderBarplotCairo ();
+				prepareEncoderBarplotCairo (true);
 
 				needToRefreshTreeviewCapture = false;
 			}
@@ -7437,7 +7438,7 @@ public partial class ChronoJumpWindow
 						preferences.encoderCaptureShowNRepetitions,
 						preferences.volumeOn,
 						preferences.gstreamer);
-				prepareEncoderBarplotCairo ();
+				prepareEncoderBarplotCairo (true);
 
 				button_encoder_signal_save_comment.Label = Catalog.GetString("Save comment");
 				button_encoder_signal_save_comment.Sensitive = false;

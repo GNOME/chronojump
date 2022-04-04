@@ -3441,6 +3441,12 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		//messageNoStoreCreated = " no criteria ";
 
 		initialize (darea, fontStr, mode, personName, testName, pDN);
+
+		//calcule all graph stuff
+		fillDataVariables1 ();
+		fillDataVariables2 ();
+		prepareTitle ();
+		prepareLossArrow ();
 	}
 
 	public override void ShowMessage (DrawingArea darea, string fontTypeStr, string message)
@@ -3454,7 +3460,6 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 	protected override bool storeCreated ()
 	{
-		//return (eventGraphEncoderBarplotStored != null);
 		return (pegbe.data9Variables.Count > 0);
 	}
 
@@ -3465,12 +3470,6 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 	protected override void paintSpecific()
 	{
-		//TODO: reorg/rename this
-		fillDataVariables1 ();
-		fillDataVariables2 ();
-		prepareTitle ();
-		prepareLossArrow ();
-
 		paintSpecificDo ();
 	}
 
@@ -3481,12 +3480,6 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 		pegbe.discardFirstN = preferences.encoderCaptureInertialDiscardFirstN;
 		pegbe.showNRepetitions = preferences.encoderCaptureShowNRepetitions;
-
-		/*
-		if(layout_encoder_capture_curves_bars != null)
-			layout_encoder_capture_curves_bars.FontDescription =
-				Pango.FontDescription.FromString (preferences.GetFontTypeWithSize(preferences.encoderCaptureBarplotFontSize));
-		*/
 	}
 
 	private void fillDataVariables1 () //copied from gui/encoderGraphObjects fillDataVariables()

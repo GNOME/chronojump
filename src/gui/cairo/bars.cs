@@ -72,6 +72,8 @@ public abstract class CairoBars : CairoGeneric
 	protected Cairo.Color gray153; //light
 	protected Cairo.Color white;
 	protected Cairo.Color red;
+	protected Cairo.Color green;
+	protected Cairo.Color greenDark;
 	protected Cairo.Color blue;
 	//protected Cairo.Color blueChronojump;
 	//protected Cairo.Color bluePlots;
@@ -79,6 +81,8 @@ public abstract class CairoBars : CairoGeneric
 
 	protected RepetitionMouseLimits mouseLimits;
 	protected List<double> lineData_l; //related to secondary variable (by default range)
+	protected List<CairoBarsArrow> eccOverload_l;
+	protected bool eccOverloadWriteValue;
 	protected List<int> saved_l;
 
 	// ---- values can be passed from outside via accessors ---->
@@ -336,6 +340,8 @@ public abstract class CairoBars : CairoGeneric
 		gray153 = colorFromRGB(153,153,153);
 		white = colorFromRGB(255,255,255);
 		red = colorFromRGB(200,0,0);
+		green = colorFromRGB(0,200,0);
+		greenDark = colorFromRGB(0,140,0);
 		blue = colorFromRGB(178, 223, 238); //lightblue
 		//blueChronojump = colorFromRGB(14, 30, 70);
 		//bluePlots = colorFromRGB(0, 0, 200);
@@ -348,6 +354,8 @@ public abstract class CairoBars : CairoGeneric
 
 		mouseLimits = new RepetitionMouseLimits();
 		lineData_l = new List<double>();
+		eccOverload_l = new List<CairoBarsArrow>();
+		eccOverloadWriteValue = false;
 		saved_l = new List<int>();
 	}
 
@@ -569,6 +577,43 @@ public abstract class CairoBars : CairoGeneric
 				calculatePaintY(cairoBarsArrow.y0),
 				cairoBarsArrow.GetX1Graph (barsXCenter_l),
 				calculatePaintY(cairoBarsArrow.y1));
+	}
+
+	//same as above but as a list
+	protected virtual void plotEccOverload ()
+	{
+		//caution
+		if(eccOverload_l == null || barsXCenter_l == null)
+			return;
+
+		g.SetSourceColor (greenDark);
+		double yValues = UtilAll.DivideSafe(calculatePaintY(maxY), 2);
+		foreach(CairoBarsArrow cba in eccOverload_l)
+		{
+			LogB.Information("eccOverload: " + cba.ToString());
+
+			if(cba.x0pos >= barsXCenter_l.Count ||
+					cba.x1pos >= barsXCenter_l.Count)
+				continue;
+
+			plotArrowFree (g, greenDark, 3, 14,
+					cba.GetX0Graph (barsXCenter_l),
+					calculatePaintY(cba.y0),
+					cba.GetX1Graph (barsXCenter_l),
+					calculatePaintY(cba.y1));
+
+			if(eccOverloadWriteValue)
+				printText((cba.GetX0Graph (barsXCenter_l) + cba.GetX1Graph(barsXCenter_l))/2,
+						//same height aprox than values (non clear if overload has 3 digits)
+						//calculatePaintY(cba.y1) -1.5*resultFontHeight + resultFontHeight/2,
+						//up the bar values, ok, but maybe better all on same Y
+						//calculatePaintY(cba.y1) -2*resultFontHeight,
+						yValues,
+						0, resultFontHeight,
+						Util.TrimDecimals(100.0 * UtilAll.DivideSafe(cba.y1 - cba.y0, cba.y0), 0) + "%",
+						g, alignTypes.CENTER);
+		}
+		g.SetSourceColor (black);
 	}
 
 	protected void plotAlternativeLine (List<double> lineData_l)
@@ -970,6 +1015,13 @@ public abstract class CairoBars : CairoGeneric
 	//related to secondary variable (by default range)
 	public List<double> LineData_l {
 		set { lineData_l = value; }
+	}
+
+	public List<CairoBarsArrow> EccOverload_l {
+		set { eccOverload_l = value; }
+	}
+	public bool EccOverloadWriteValue {
+		set { eccOverloadWriteValue = value; }
 	}
 
 	public List<int> Saved_l {
@@ -1601,6 +1653,9 @@ public class CairoBarsNHSeries : CairoBars
 		if(lineData_l.Count > 0)
 			plotAlternativeLine(lineData_l);
 
+		if(eccOverload_l.Count > 0)
+			plotEccOverload();
+
 		plotResultsOnBar();
 
 		writeTitleAtTop ();
@@ -1774,6 +1829,7 @@ public class CairoBarsGuideManage
 
 // ----
 //note x0pos, x1pos are the pos (meaning the bar)
+//used also for the eccentric overload
 public class CairoBarsArrow
 {
 	public int x0pos;
@@ -1798,5 +1854,11 @@ public class CairoBarsArrow
 	public double GetX1Graph (List<double> barsXCenter_l)
 	{
 		return barsXCenter_l[x1pos];
+	}
+
+	public override string ToString()
+	{
+		return string.Format("x0pos: {0}, y0: {1}, x1pos: {2}, y1: {3}",
+				x0pos, y0, x1pos, y1);
 	}
 }

@@ -3417,6 +3417,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 	private List<Cairo.Color> colorSecondary_l;
 	private List<string> names_l;
 	private List<int> saved_l; //saved repetitions
+	private List<CairoBarsArrow> eccOverload_l;
 
 	private string titleStr;
 	private string lossStr;
@@ -3697,6 +3698,10 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		TreeIter iter;
 		bool iterOk = pegbe.encoderCaptureListStore.GetIterFirst(out iter);
 
+		//for eccentricOverload
+		eccOverload_l = new List<CairoBarsArrow>();
+		double concentricPreValue = -1;
+
 		//discard repetitions according to pegbe.showNRepetitions
 		//int countToDraw = pegbe.data9Variables.Count;
 		//foreach(EncoderBarsData ebd in pegbe.data9Variables)
@@ -3708,7 +3713,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 		{
 			double mainVariableValue = Convert.ToDouble(data[count]);
 
-			//get phase (for color)
+			// 1) get phase (for color)
 			Preferences.EncoderPhasesEnum phaseEnum = Preferences.EncoderPhasesEnum.BOTH; // (eccon == "c")
 			if (pegbe.eccon == "ec" || pegbe.eccon == "ecS") {
 				bool isEven = Util.IsEven(count +1); //TODO: check this (as for is reversed)
@@ -3718,7 +3723,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 					phaseEnum = Preferences.EncoderPhasesEnum.ECC;
 			}
 
-			//select pen color for bars and sounds
+			// 2) manage colors for bars. select pen color for bars and sounds
 			string myColor = pegbe.feedback.AssignColorAutomatic(
 					FeedbackEncoder.BestSetValueEnum.CAPTURE_MAIN_VARIABLE, mainVariableValue, phaseEnum);
 
@@ -3754,11 +3759,8 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 				 */
 				colorPhase = UtilGtk.GRAY;
 			}
-			else {
-//				colorPhase = UtilGtk.BLUE_PLOTS;
-//				colorPhase = UtilGtk.BLUE_CHRONOJUMP;
+			else
 				colorPhase = UtilGtk.BLUE_LIGHT;
-			}
 
 			//know if ecc or con to paint with dark or light pen
 			if (pegbe.eccon == "ec" || pegbe.eccon == "ecS") {
@@ -3779,7 +3781,7 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 					colorBar = CairoGeneric.colorFromGdk(colorPhase);
 			}
 
-
+			// 3) add data in barA_l, barB_l, names_l and color lists
 			if(pegbe.eccon == "c")
 			{
 				barA_l.Add(new PointF(count +1, mainVariableValue));
@@ -3798,6 +3800,20 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 				}
 			}
 
+			// 4) eccentric overload
+			//draw green arrow eccentric overload on inertial only if ecc > con
+			if (pegbe.hasInertia && preferences.encoderCaptureInertialEccOverloadMode !=
+					Preferences.encoderCaptureEccOverloadModes.NOT_SHOW &&
+					(pegbe.eccon == "ec" || pegbe.eccon == "ecS"))
+			{
+				bool isEven = Util.IsEven(count +1);
+				if(isEven)
+					concentricPreValue = mainVariableValue;
+				else if(concentricPreValue >= 0 && mainVariableValue > concentricPreValue)
+					eccOverload_l.Add (new CairoBarsArrow(count-1, concentricPreValue, count, mainVariableValue));
+			}
+
+			// 5) create saved list: saved_l and add to sumSaved and countSaved for title generation
 			if( iterOk && ((EncoderCurve) pegbe.encoderCaptureListStore.GetValue (iter, 0)).Record )
 			{
 				if(pegbe.eccon == "c" ||
@@ -3814,7 +3830,8 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 				else if(phaseEnum == Preferences.EncoderPhasesEnum.CON)
 					saved_l.Add(Convert.ToInt32(Math.Floor(UtilAll.DivideSafe(count, 2))));
 			}
-			//work and impulse
+
+			// 6) work and impulse
 			if(dataWorkJ.Count > 0)
 			{
 				if(preferences.encoderWorkKcal)
@@ -3938,6 +3955,14 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 		if(lineData_l.Count > 0)
 			cb.LineData_l = lineData_l; //range
+
+		if(eccOverload_l.Count > 0)
+		{
+			cb.EccOverload_l = eccOverload_l;
+			if (preferences.encoderCaptureInertialEccOverloadMode ==
+					Preferences.encoderCaptureEccOverloadModes.SHOW_LINE_AND_PERCENT)
+				cb.EccOverloadWriteValue = true;
+		}
 
 		if(saved_l.Count > 0)
 			cb.Saved_l = saved_l;

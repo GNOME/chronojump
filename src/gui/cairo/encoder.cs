@@ -188,4 +188,3 @@ public class CairoGraphEncoderSignal : CairoXY
 	{
 	}
 }
-

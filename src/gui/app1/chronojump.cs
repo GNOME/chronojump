@@ -7833,7 +7833,7 @@ LogB.Debug("mc finished 5");
 							preferences.encoderCaptureShowNRepetitions,
 							preferences.volumeOn,
 							preferences.gstreamer);
-					prepareEncoderBarplotCairo ();
+					prepareEncoderBarplotCairo (true);
 				} else
 					UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 			}

@@ -3460,12 +3460,12 @@ public class CairoPaintBarplotPreEncoder : CairoPaintBarsPre
 
 	protected override bool storeCreated ()
 	{
-		return (pegbe.data9Variables.Count > 0);
+		return (pegbe != null && pegbe.data9Variables.Count > 0);
 	}
 
 	protected override bool haveDataToPlot()
 	{
-		return (pegbe.data9Variables.Count > 0);
+		return (pegbe != null && pegbe.data9Variables.Count > 0);
 	}
 
 	protected override void paintSpecific()

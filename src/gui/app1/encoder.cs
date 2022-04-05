@@ -759,11 +759,18 @@ public partial class ChronoJumpWindow
 				if(encoderConfigurationCurrent.Equals(es.encoderConfiguration))
 				{
 					if(Convert.ToDouble(es.future1) > maxPowerIntersession)
+					{
 						maxPowerIntersession = Convert.ToDouble(es.future1);
-					if(Convert.ToDouble(es.future2) > maxSpeedIntersession)
+						maxPowerIntersessionDate = es.GetDateStr();
+					} if(Convert.ToDouble(es.future2) > maxSpeedIntersession)
+					{
 						maxSpeedIntersession = Convert.ToDouble(es.future2);
-					if(Convert.ToDouble(es.future3) > maxForceIntersession)
+						maxSpeedIntersessionDate = es.GetDateStr();
+					} if(Convert.ToDouble(es.future3) > maxForceIntersession)
+					{
 						maxForceIntersession = Convert.ToDouble(es.future3);
+						maxForceIntersessionDate = es.GetDateStr();
+					}
 				}
 			}
 		}

@@ -16,7 +16,7 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * Copyright (C) 2016-2017 Carles Pina
- * Copyright (C) 2016-2020 Xavier de Blas
+ * Copyright (C) 2016-2022 Xavier de Blas
  */
 
 using System;
@@ -129,12 +129,12 @@ public class UploadEncoderDataObject
 		return true;
 	}
 
-	public void Calcule()
+	public void Calcule (Preferences.EncoderRepetitionCriteria repCriteria)
 	{
 		if(eccon == "c")
 			calculeObjectCon (curves);
 		else
-			calculeObjectEccCon (curves);
+			calculeObjectEccCon (curves, repCriteria);
 	}
 
 
@@ -171,14 +171,14 @@ public class UploadEncoderDataObject
 		lossByPower = getConLoss(curves, byTypes.POWER);
 	}
 
-	private void calculeObjectEccCon (ArrayList curves)
+	private void calculeObjectEccCon (ArrayList curves, Preferences.EncoderRepetitionCriteria repCriteria)
 	{
 		repetitions = curves.Count / 2;
 		EncoderSignal eSignal = new EncoderSignal(curves);
 
 		//this n is the n of the ecc curve
-		int nSpeed = eSignal.FindPosOfBestEccCon(0, Constants.MeanSpeed);
-		int nPower = eSignal.FindPosOfBestEccCon(0, Constants.MeanPower);
+		int nSpeed = eSignal.FindPosOfBestEccCon(0, Constants.MeanSpeed, repCriteria);
+		int nPower = eSignal.FindPosOfBestEccCon(0, Constants.MeanPower, repCriteria);
 
 		rangeBySpeed = Util.ConvertToPoint( eSignal.GetEccConMax(nSpeed, Constants.Range) );
 		rangeByPower = Util.ConvertToPoint( eSignal.GetEccConMax(nPower, Constants.Range) );

@@ -157,6 +157,12 @@ public class PreferencesWindow
 	[Widget] Gtk.Image image_encoder_capture_cut_by_triggers_help;
 	[Widget] Gtk.CheckButton check_encoder_capture_infinite;
 	[Widget] Gtk.Image image_encoder_capture_infinite;
+	[Widget] Gtk.RadioButton radio_encoder_rep_criteria_gravitatory_ecc_con;
+	[Widget] Gtk.RadioButton radio_encoder_rep_criteria_gravitatory_ecc;
+	[Widget] Gtk.RadioButton radio_encoder_rep_criteria_gravitatory_con;
+	[Widget] Gtk.RadioButton radio_encoder_rep_criteria_inertial_ecc_con;
+	[Widget] Gtk.RadioButton radio_encoder_rep_criteria_inertial_ecc;
+	[Widget] Gtk.RadioButton radio_encoder_rep_criteria_inertial_con;
 
 	//encoder other tab
 	[Widget] Gtk.CheckButton checkbutton_encoder_propulsive;
@@ -675,6 +681,19 @@ public class PreferencesWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "cont.png");
 		PreferencesWindowBox.image_encoder_capture_infinite.Pixbuf = pixbuf;
 
+		if(preferences.encoderRepetitionCriteriaGravitatory == Preferences.EncoderRepetitionCriteria.ECC_CON)
+			PreferencesWindowBox.radio_encoder_rep_criteria_gravitatory_ecc_con.Active = true;
+		else if(preferences.encoderRepetitionCriteriaGravitatory == Preferences.EncoderRepetitionCriteria.ECC)
+			PreferencesWindowBox.radio_encoder_rep_criteria_gravitatory_ecc.Active = true;
+		else // if(preferences.encoderRepetitionCriteriaGravitatory == Preferences.EncoderRepetitionCriteria.CON)
+			PreferencesWindowBox.radio_encoder_rep_criteria_gravitatory_con.Active = true;
+
+		if(preferences.encoderRepetitionCriteriaInertial == Preferences.EncoderRepetitionCriteria.ECC_CON)
+			PreferencesWindowBox.radio_encoder_rep_criteria_inertial_ecc_con.Active = true;
+		else if(preferences.encoderRepetitionCriteriaInertial == Preferences.EncoderRepetitionCriteria.ECC)
+			PreferencesWindowBox.radio_encoder_rep_criteria_inertial_ecc.Active = true;
+		else // if(preferences.encoderRepetitionCriteriaInertial == Preferences.EncoderRepetitionCriteria.CON)
+			PreferencesWindowBox.radio_encoder_rep_criteria_inertial_con.Active = true;
 
 		//encoder other -->
 		PreferencesWindowBox.checkbutton_encoder_propulsive.Active = preferences.encoderPropulsive;
@@ -2086,6 +2105,52 @@ public class PreferencesWindow
 		preferences.encoderCaptureInfinite = Preferences.PreferencesChange(
 				SqlitePreferences.EncoderCaptureInfinite, preferences.encoderCaptureInfinite,
 				PreferencesWindowBox.check_encoder_capture_infinite.Active);
+
+		//radio_encoder_rep_criteria_gravitatory_*
+		if(PreferencesWindowBox.radio_encoder_rep_criteria_gravitatory_ecc_con.Active &&
+				preferences.encoderRepetitionCriteriaGravitatory != Preferences.EncoderRepetitionCriteria.ECC_CON)
+		{
+			SqlitePreferences.Update(SqlitePreferences.EncoderRepetitionCriteriaGravitatoryStr,
+					Preferences.EncoderRepetitionCriteria.ECC_CON.ToString(), true);
+			preferences.encoderRepetitionCriteriaGravitatory = Preferences.EncoderRepetitionCriteria.ECC_CON;
+		}
+		else if(PreferencesWindowBox.radio_encoder_rep_criteria_gravitatory_ecc.Active &&
+				preferences.encoderRepetitionCriteriaGravitatory != Preferences.EncoderRepetitionCriteria.ECC)
+		{
+			SqlitePreferences.Update(SqlitePreferences.EncoderRepetitionCriteriaGravitatoryStr,
+					Preferences.EncoderRepetitionCriteria.ECC.ToString(), true);
+			preferences.encoderRepetitionCriteriaGravitatory = Preferences.EncoderRepetitionCriteria.ECC;
+		}
+		else if(PreferencesWindowBox.radio_encoder_rep_criteria_gravitatory_con.Active &&
+				preferences.encoderRepetitionCriteriaGravitatory != Preferences.EncoderRepetitionCriteria.CON)
+		{
+			SqlitePreferences.Update(SqlitePreferences.EncoderRepetitionCriteriaGravitatoryStr,
+					Preferences.EncoderRepetitionCriteria.CON.ToString(), true);
+			preferences.encoderRepetitionCriteriaGravitatory = Preferences.EncoderRepetitionCriteria.CON;
+		}
+
+		//radio_encoder_rep_criteria_inertial_*
+		if(PreferencesWindowBox.radio_encoder_rep_criteria_inertial_ecc_con.Active &&
+				preferences.encoderRepetitionCriteriaInertial != Preferences.EncoderRepetitionCriteria.ECC_CON)
+		{
+			SqlitePreferences.Update(SqlitePreferences.EncoderRepetitionCriteriaInertialStr,
+					Preferences.EncoderRepetitionCriteria.ECC_CON.ToString(), true);
+			preferences.encoderRepetitionCriteriaInertial = Preferences.EncoderRepetitionCriteria.ECC_CON;
+		}
+		else if(PreferencesWindowBox.radio_encoder_rep_criteria_inertial_ecc.Active &&
+				preferences.encoderRepetitionCriteriaInertial != Preferences.EncoderRepetitionCriteria.ECC)
+		{
+			SqlitePreferences.Update(SqlitePreferences.EncoderRepetitionCriteriaInertialStr,
+					Preferences.EncoderRepetitionCriteria.ECC.ToString(), true);
+			preferences.encoderRepetitionCriteriaInertial = Preferences.EncoderRepetitionCriteria.ECC;
+		}
+		else if(PreferencesWindowBox.radio_encoder_rep_criteria_inertial_con.Active &&
+				preferences.encoderRepetitionCriteriaInertial != Preferences.EncoderRepetitionCriteria.CON)
+		{
+			SqlitePreferences.Update(SqlitePreferences.EncoderRepetitionCriteriaInertialStr,
+					Preferences.EncoderRepetitionCriteria.CON.ToString(), true);
+			preferences.encoderRepetitionCriteriaInertial = Preferences.EncoderRepetitionCriteria.CON;
+		}
 
 		//---- end of encoder capture
 		

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2021   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -96,6 +96,8 @@ class SqlitePreferences : Sqlite
 	public const string EncoderCaptureFeedbackEccon = "encoderCaptureFeedbackEccon";
 	public const string EncoderCaptureInertialEccOverloadMode = "encoderCaptureInertialEccOverloadMode";
 	public const string EncoderCaptureShowLoss = "encoderCaptureShowLoss";
+	public const string EncoderRepetitionCriteriaGravitatoryStr = "encoderRepetitionCriteriaGravitatory";
+	public const string EncoderRepetitionCriteriaInertialStr = "encoderRepetitionCriteriaInertial";
 
 	//forceSensor
 	public const string ForceSensorCaptureWidthSeconds = "forceSensorCaptureWidthSeconds";
@@ -290,6 +292,8 @@ class SqlitePreferences : Sqlite
 				Insert ("encoderSmoothEccCon", "0.6", dbcmdTr);
 				Insert ("encoderSmoothCon", "0.7", dbcmdTr);
 				Insert ("encoder1RMMethod", Constants.Encoder1RMMethod.WEIGHTED2.ToString(), dbcmdTr);
+				Insert (EncoderRepetitionCriteriaGravitatoryStr, Preferences.EncoderRepetitionCriteria.CON.ToString(), dbcmdTr);
+				Insert (EncoderRepetitionCriteriaInertialStr, Preferences.EncoderRepetitionCriteria.CON.ToString(), dbcmdTr);
 
 				ArrayList encoderExercises =
 					SqliteEncoder.SelectEncoderExercises(true, -1, true, Constants.EncoderGI.ALL);
@@ -657,6 +661,13 @@ class SqlitePreferences : Sqlite
 			else if(reader[0].ToString() == "encoderCaptureCutByTriggers")
 				preferences.encoderCaptureCutByTriggers = (Preferences.TriggerTypes)
 					Enum.Parse(typeof(Preferences.TriggerTypes), reader[1].ToString());
+			else if(reader[0].ToString() == EncoderRepetitionCriteriaGravitatoryStr)
+				preferences.encoderRepetitionCriteriaGravitatory = (Preferences.EncoderRepetitionCriteria)
+					Enum.Parse(typeof(Preferences.EncoderRepetitionCriteria), reader[1].ToString());
+			else if(reader[0].ToString() == EncoderRepetitionCriteriaInertialStr)
+				preferences.encoderRepetitionCriteriaInertial = (Preferences.EncoderRepetitionCriteria)
+					Enum.Parse(typeof(Preferences.EncoderRepetitionCriteria), reader[1].ToString());
+
 			//encoder other
 			else if(reader[0].ToString() == "encoderPropulsive")
 				preferences.encoderPropulsive = reader[1].ToString() == "True";

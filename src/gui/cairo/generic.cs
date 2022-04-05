@@ -58,7 +58,7 @@ public abstract class CairoGeneric
 	   */
 	protected void endGraphDisposing(Cairo.Context g, ImageSurface surface, Gdk.Window window)
 	{
-		if(surface != null)
+		if(surface != null && window != null)
 		{
 			using (Context gArea = Gdk.CairoHelper.Create (window))
 			{

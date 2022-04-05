@@ -7746,7 +7746,11 @@ public partial class ChronoJumpWindow
 				return;
 		}
 
-		uo.Calcule();
+		Preferences.EncoderRepetitionCriteria repCriteria = preferences.encoderRepetitionCriteriaGravitatory;
+		if(current_mode == Constants.Modes.POWERINERTIAL)
+			repCriteria = preferences.encoderRepetitionCriteriaInertial;
+
+		uo.Calcule(repCriteria);
 
 		/*
 		 * Problems on Json by accents like "Pressió sobre banc"

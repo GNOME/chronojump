@@ -131,7 +131,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "2.35";
+	static string lastChronojumpDatabaseVersion = "2.36";
 
 	public Sqlite()
 	{
@@ -3211,6 +3211,19 @@ class Sqlite
 
 				currentVersion = updateVersion("2.35");
 			}
+			if(currentVersion == "2.35")
+			{
+				LogB.SQL("Inserted into preferences: encoderRepetitionCriteriaGravitatory, encoderRepetitionCriteriaInertial");
+
+				SqlitePreferences.Insert (
+						SqlitePreferences.EncoderRepetitionCriteriaGravitatoryStr,
+						Preferences.EncoderRepetitionCriteria.CON.ToString());
+				SqlitePreferences.Insert (
+						SqlitePreferences.EncoderRepetitionCriteriaInertialStr,
+						Preferences.EncoderRepetitionCriteria.CON.ToString());
+
+				currentVersion = updateVersion("2.36");
+			}
 
 			/*
 			if(currentVersion == "1.79")
@@ -3432,6 +3445,7 @@ class Sqlite
 		//changes [from - to - desc]
 //just testing: 1.79 - 1.80 Converted DB to 1.80 Created table ForceSensorElasticBandGlue and moved stiffnessString records there
 
+		//2.35 - 2.36 Converted DB to 2.36 Inserted into preferences: encoderRepetitionCriteriaGravitatory, encoderRepetitionCriteriaInertial
 		//2.34 - 2.35 Converted DB to 2.35 Ensure maxForceRAW is converted to maxForceRaw
 		//2.33 - 2.34 Converted DB to 2.34 Fixed duplicated names of exercises on encoder, forceSensor, raceAnalyzer caused by import bug
 		//2.32 - 2.33 Converted DB to 2.33 RunEncoderExercise segmentMeters but now is in cm

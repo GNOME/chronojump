@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -420,22 +420,28 @@ public partial class ChronoJumpWindow
 					numRows = encoderSignal.CurvesNum();
 				else if(saveOption == Constants.EncoderAutoSaveCurve.BESTN)
 					list_bestN = encoderSignal.FindPosOfBestN(inertialStart, mainVariable,
-							bestN, EncoderSignal.Contraction.C);
+							bestN, EncoderSignal.Contraction.C,
+							Preferences.EncoderRepetitionCriteria.CON); //but not used
 				else if(saveOption == Constants.EncoderAutoSaveCurve.BESTNCONSECUTIVE)
 					bestRow = encoderSignal.FindPosOfBestNConsecutive(inertialStart, mainVariable,
 							bestN);
 			} else {
+				//decide if best is by ecc_con average, ecc or con
+				Preferences.EncoderRepetitionCriteria repCriteria = preferences.encoderRepetitionCriteriaGravitatory;
+				if( current_mode == Constants.Modes.POWERINERTIAL)
+					repCriteria = preferences.encoderRepetitionCriteriaInertial;
+
 				EncoderSignal encoderSignal = new EncoderSignal(treeviewEncoderCaptureCurvesGetCurves(AllEccCon.ALL));
 				if(saveOption == Constants.EncoderAutoSaveCurve.BEST)
-					bestRow = encoderSignal.FindPosOfBestEccCon(inertialStart, mainVariable); //will be pos of the ecc
+					bestRow = encoderSignal.FindPosOfBestEccCon(inertialStart, mainVariable, repCriteria); //will be pos of the ecc
 				else if(saveOption == Constants.EncoderAutoSaveCurve.FROM4TOPENULTIMATE)
 					numRows = encoderSignal.CurvesNum();
 				else if(saveOption == Constants.EncoderAutoSaveCurve.BESTN)
 					list_bestN = encoderSignal.FindPosOfBestN(inertialStart, mainVariable,
-							bestN, EncoderSignal.Contraction.EC);
+							bestN, EncoderSignal.Contraction.EC, repCriteria);
 				else if(saveOption == Constants.EncoderAutoSaveCurve.BESTNCONSECUTIVE)
 					bestRow = encoderSignal.FindPosOfBestNConsecutiveEccCon(inertialStart, mainVariable,
-							bestN);
+							bestN, repCriteria);
 			}
 		}
 
@@ -1072,7 +1078,7 @@ public partial class ChronoJumpWindow
 			(cell as Gtk.CellRendererText).Text = 
 				decimal.Truncate((Convert.ToInt32(curve.N) +1) /2).ToString() + phase;
 		} else 
-		{	//(ecconLast=="ce" || ecconLast =="ceS") {
+		{	//(ecconLast=="ce" || ecconLast =="ceS")
 			string phase = "c";
 			bool isEven = Util.IsEven(Convert.ToInt32(curve.N));
 			if(isEven)

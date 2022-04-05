@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2020   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2022   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -530,25 +530,48 @@ public class EncoderSignal
 	
 	//this is an ecc-con curve
 	//start is a counter of phases not of repetitions
-	public int FindPosOfBestEccCon(int start, string variable)
+	public int FindPosOfBestEccCon(int start, string variable, Preferences.EncoderRepetitionCriteria repCriteria)
 	{
 		double eccValue = 0;
 		double conValue = 0;
 
-		double bestValue = 0; //will be ecc-con average
-		int bestValuePos = start; //will be the position of the ecc
+		double bestValue = 0; //will be ecc-con average, ecc or con depending on repCriteria
+		int bestValuePos = start; //will always be the position of the ecc
 		int i = 0;
 		
 		bool ecc = true;
 		foreach(EncoderCurve curve in curves) 
 		{
-			if(ecc) {
-				eccValue = curve.GetParameter(variable);
-			} else {
-				conValue = curve.GetParameter(variable);
-				if( i >= start && ( (eccValue + conValue) / 2 ) > bestValue) {
-					bestValue = (eccValue + conValue) / 2;
-					bestValuePos = i -1;
+			if(repCriteria == Preferences.EncoderRepetitionCriteria.ECC_CON)
+			{
+				if(ecc) {
+					eccValue = curve.GetParameter(variable);
+				} else {
+					conValue = curve.GetParameter(variable);
+					if( i >= start && ( (eccValue + conValue) / 2 ) > bestValue) {
+						bestValue = (eccValue + conValue) / 2;
+						bestValuePos = i -1; //the ecc
+					}
+				}
+			}
+			else if(repCriteria == Preferences.EncoderRepetitionCriteria.ECC)
+			{
+				if(ecc) {
+					eccValue = curve.GetParameter(variable);
+					if(i >= start && eccValue > bestValue) {
+						bestValue = eccValue;
+						bestValuePos = i; //the ecc
+					}
+				}
+			}
+			else// if(repCriteria == Preferences.EncoderRepetitionCriteria.CON)
+			{
+				if(! ecc) {
+					conValue = curve.GetParameter(variable);
+					if(i >= start && conValue > bestValue) {
+						bestValue = conValue;
+						bestValuePos = i-1; //the ecc
+					}
 				}
 			}
 
@@ -559,7 +582,7 @@ public class EncoderSignal
 	}
 
 	public enum Contraction { EC, C };
-	public List<int> FindPosOfBestN(int start, string variable, int n, Contraction eccon)
+	public List<int> FindPosOfBestN(int start, string variable, int n, Contraction eccon, Preferences.EncoderRepetitionCriteria repCriteria)
 	{
 		//1) find how many values to return
 		//size of list will be n or the related curves if it is smaller
@@ -593,7 +616,7 @@ public class EncoderSignal
 			if(eccon == Contraction.C)
 				posOfBest = es.FindPosOfBest(start, variable);
 			else //(eccon == Contraction.EC)
-				posOfBest = es.FindPosOfBestEccCon(start, variable);
+				posOfBest = es.FindPosOfBestEccCon(start, variable, repCriteria);
 
 			listOfPos.Add(posOfBest);
 			count ++;
@@ -629,7 +652,7 @@ public class EncoderSignal
 		}
 		return bestValuePos;
 	}
-	public int FindPosOfBestNConsecutiveEccCon(int start, string variable, int n)
+	public int FindPosOfBestNConsecutiveEccCon(int start, string variable, int n, Preferences.EncoderRepetitionCriteria repCriteria)
 	{
 		//2) find the best values and fill listOfPos
 		double bestValue = 0;
@@ -640,19 +663,34 @@ public class EncoderSignal
 		while(count <= curves.Count - n)
 		{
 			double sum = 0;
+			double eccSum = 0; //used on EncoderRepetitionCriteria.ECC
+			double conSum = 0; //used on EncoderRepetitionCriteria.CON
+
 			for(int i = count; i < count + n; i += 2)
 			{
 				double eccValue = ((EncoderCurve) curves[i]).GetParameter(variable);
 				double conValue = ((EncoderCurve) curves[i+1]).GetParameter(variable);
 				sum += (eccValue + conValue) / 2;
-				LogB.Information(string.Format("eccValue: {0}, conValue: {1}, accumulated sum: {2}", eccValue, conValue, sum));
+				eccSum += eccValue;
+				conSum += conValue;
+				//LogB.Information(string.Format("eccValue: {0}, conValue: {1}, accumulated sum: {2}", eccValue, conValue, sum));
 			}
-			LogB.Information("total sum: " + sum.ToString());
-			if (sum > bestValue)
+			//LogB.Information("total sum: " + sum.ToString());
+			if(repCriteria == Preferences.EncoderRepetitionCriteria.ECC_CON && sum > bestValue)
 			{
 				bestValue = sum;
 				bestValuePos = count;
-				LogB.Information(string.Format("bestValue: {0}, bestValuePos: {1}", bestValue, bestValuePos));
+				//LogB.Information(string.Format("bestValue: {0}, bestValuePos: {1}", bestValue, bestValuePos));
+			}
+			else if (repCriteria == Preferences.EncoderRepetitionCriteria.ECC && eccSum > bestValue)
+			{
+				bestValue = eccSum;
+				bestValuePos = count;
+			}
+			else if (repCriteria == Preferences.EncoderRepetitionCriteria.CON && conSum > bestValue)
+			{
+				bestValue = conSum;
+				bestValuePos = count;
 			}
 
 			count += 2;

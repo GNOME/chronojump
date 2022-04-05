@@ -103,6 +103,9 @@ public class Preferences
 	public bool encoderShowStartAndDuration;
 	public enum TriggerTypes { NO_TRIGGERS, START_AT_CAPTURE, START_AT_FIRST_ON};
 	public TriggerTypes encoderCaptureCutByTriggers;
+	public enum EncoderRepetitionCriteria { ECC_CON, ECC, CON };
+	public EncoderRepetitionCriteria encoderRepetitionCriteriaGravitatory;
+	public EncoderRepetitionCriteria encoderRepetitionCriteriaInertial;
 	
 	//encoder other
 	public bool encoderPropulsive;
